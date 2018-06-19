@@ -1,8 +1,4 @@
 //
-//  OfficeUIFabricTests.swift
-//  OfficeUIFabricTests
-//
-//  Created by Vladislav Filyakov on 6/19/18.
 //  Copyright © 2018 Microsoft Corporation. All rights reserved.
 //
 
