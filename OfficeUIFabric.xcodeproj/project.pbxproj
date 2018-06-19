@@ -10,6 +10,8 @@
 		A5CEC15B20D980B30016922A /* OfficeUIFabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5CEC15120D980B20016922A /* OfficeUIFabric.framework */; };
 		A5CEC16020D980B30016922A /* OfficeUIFabricTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC15F20D980B30016922A /* OfficeUIFabricTests.swift */; };
 		A5CEC16220D980B30016922A /* OfficeUIFabric.h in Headers */ = {isa = PBXBuildFile; fileRef = A5CEC15420D980B20016922A /* OfficeUIFabric.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A5CEC16D20D98EE70016922A /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC16C20D98EE70016922A /* Colors.swift */; };
+		A5CEC16F20D98F340016922A /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC16E20D98F340016922A /* Fonts.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +31,8 @@
 		A5CEC15A20D980B30016922A /* OfficeUIFabricTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OfficeUIFabricTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5CEC15F20D980B30016922A /* OfficeUIFabricTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficeUIFabricTests.swift; sourceTree = "<group>"; };
 		A5CEC16120D980B30016922A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A5CEC16C20D98EE70016922A /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		A5CEC16E20D98F340016922A /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +75,7 @@
 		A5CEC15320D980B20016922A /* OfficeUIFabric */ = {
 			isa = PBXGroup;
 			children = (
+				A5CEC16B20D98EBF0016922A /* Core */,
 				A5CEC15420D980B20016922A /* OfficeUIFabric.h */,
 				A5CEC15520D980B20016922A /* Info.plist */,
 			);
@@ -84,6 +89,15 @@
 				A5CEC16120D980B30016922A /* Info.plist */,
 			);
 			path = OfficeUIFabric.Tests;
+			sourceTree = "<group>";
+		};
+		A5CEC16B20D98EBF0016922A /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				A5CEC16C20D98EE70016922A /* Colors.swift */,
+				A5CEC16E20D98F340016922A /* Fonts.swift */,
+			);
+			path = Core;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,6 +162,7 @@
 				TargetAttributes = {
 					A5CEC15020D980B20016922A = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 0940;
 					};
 					A5CEC15920D980B30016922A = {
 						CreatedOnToolsVersion = 9.4.1;
@@ -194,6 +209,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5CEC16F20D98F340016922A /* Fonts.swift in Sources */,
+				A5CEC16D20D98EE70016922A /* Colors.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,6 +356,7 @@
 		A5CEC16620D980B30016922A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -356,6 +374,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.OfficeUIFabric;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -364,6 +383,7 @@
 		A5CEC16720D980B30016922A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -389,6 +409,7 @@
 		A5CEC16920D980B30016922A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = OfficeUIFabricTests/Info.plist;
@@ -407,6 +428,7 @@
 		A5CEC16A20D980B30016922A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = OfficeUIFabricTests/Info.plist;
