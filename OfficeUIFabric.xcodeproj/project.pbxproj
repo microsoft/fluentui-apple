@@ -54,7 +54,7 @@
 			isa = PBXGroup;
 			children = (
 				A5CEC15320D980B20016922A /* OfficeUIFabric */,
-				A5CEC15E20D980B30016922A /* OfficeUIFabricTests */,
+				A5CEC15E20D980B30016922A /* OfficeUIFabric.Tests */,
 				A5CEC15220D980B20016922A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -77,13 +77,13 @@
 			path = OfficeUIFabric;
 			sourceTree = "<group>";
 		};
-		A5CEC15E20D980B30016922A /* OfficeUIFabricTests */ = {
+		A5CEC15E20D980B30016922A /* OfficeUIFabric.Tests */ = {
 			isa = PBXGroup;
 			children = (
 				A5CEC15F20D980B30016922A /* OfficeUIFabricTests.swift */,
 				A5CEC16120D980B30016922A /* Info.plist */,
 			);
-			path = OfficeUIFabricTests;
+			path = OfficeUIFabric.Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -268,7 +268,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -325,7 +325,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
