@@ -4,4 +4,7 @@
    <FileRef
       location = "group:OfficeUIFabric.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:OfficeUIFabric.Demo/OfficeUIFabric.Demo.xcodeproj">
+   </FileRef>
 </Workspace>
