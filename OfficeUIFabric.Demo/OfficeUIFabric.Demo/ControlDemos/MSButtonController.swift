@@ -5,7 +5,7 @@
 import OfficeUIFabric
 import UIKit
 
-class MSButtonController : UIViewController {
+class MSButtonController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .orange

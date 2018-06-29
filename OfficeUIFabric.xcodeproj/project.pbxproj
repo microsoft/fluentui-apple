@@ -15,6 +15,7 @@
 		A5CEC17220D9963D0016922A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5CEC17120D9963D0016922A /* Assets.xcassets */; };
 		A5CEC17520D997EC0016922A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5CEC17420D997EC0016922A /* Localizable.strings */; };
 		A5CEC23120E451D00016922A /* MSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC23020E451D00016922A /* MSButton.swift */; };
+		A5CEC25620E6A0CD0016922A /* MSButtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC25520E6A0CD0016922A /* MSButtonTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +40,7 @@
 		A5CEC17120D9963D0016922A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A5CEC17420D997EC0016922A /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		A5CEC23020E451D00016922A /* MSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSButton.swift; sourceTree = "<group>"; };
+		A5CEC25520E6A0CD0016922A /* MSButtonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSButtonTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,8 +86,7 @@
 				A5CEC22F20E451990016922A /* Controls */,
 				A5CEC16B20D98EBF0016922A /* Core */,
 				A5CEC17020D996120016922A /* Resources */,
-				A5CEC15420D980B20016922A /* OfficeUIFabric.h */,
-				A5CEC15520D980B20016922A /* Info.plist */,
+				A5CEC25720E6A64E0016922A /* Supporting Files */,
 			);
 			path = OfficeUIFabric;
 			sourceTree = "<group>";
@@ -93,6 +94,7 @@
 		A5CEC15E20D980B30016922A /* OfficeUIFabric.Tests */ = {
 			isa = PBXGroup;
 			children = (
+				A5CEC25520E6A0CD0016922A /* MSButtonTests.swift */,
 				A5CEC15F20D980B30016922A /* OfficeUIFabricTests.swift */,
 				A5CEC16120D980B30016922A /* Info.plist */,
 			);
@@ -131,6 +133,15 @@
 				A5CEC23020E451D00016922A /* MSButton.swift */,
 			);
 			path = Controls;
+			sourceTree = "<group>";
+		};
+		A5CEC25720E6A64E0016922A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A5CEC15520D980B20016922A /* Info.plist */,
+				A5CEC15420D980B20016922A /* OfficeUIFabric.h */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -256,6 +267,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A5CEC16020D980B30016922A /* OfficeUIFabricTests.swift in Sources */,
+				A5CEC25620E6A0CD0016922A /* MSButtonTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -2,7 +2,7 @@
 //  Copyright © 2018 Microsoft Corporation. All rights reserved.
 //
 
-open class MSButton : UIButton {
+open class MSButton: UIButton {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         initialize()
