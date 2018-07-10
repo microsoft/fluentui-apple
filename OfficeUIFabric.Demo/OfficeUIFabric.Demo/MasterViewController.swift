@@ -5,11 +5,6 @@
 import UIKit
 
 class MasterViewController: UITableViewController {
-    // Register your control demos here
-    let demos: [(title: String, controllerClass: UIViewController.Type)] = [
-        ("MSButton", MSButtonController.self)
-    ]
-
     override func viewWillAppear(_ animated: Bool) {
         clearsSelectionOnViewWillAppear = splitViewController!.isCollapsed
         super.viewWillAppear(animated)
