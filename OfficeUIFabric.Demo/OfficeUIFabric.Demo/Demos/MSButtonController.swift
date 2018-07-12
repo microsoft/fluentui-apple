@@ -13,6 +13,7 @@ class MSButtonController: UIViewController {
         let button = MSButton()
         button.setTitle("Button", for: .normal)
         button.frame = CGRect(x: 20, y: 100, width: 100, height: 30)
+        button.showsBorder = false
         view.addSubview(button)
     }
 }
