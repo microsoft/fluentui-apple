@@ -29,8 +29,8 @@ public struct Colors {
     
     /// #FFFFFF
     public static let white: UIColor = .white
-    /// #212121 ???
-    public static let black: UIColor = .black
+    /// #212121
+    public static let black: UIColor = #colorLiteral(red: 0.1294117647, green: 0.1294117647, blue: 0.1294117647, alpha: 1)
     
     // MARK: Semantic
     
