@@ -85,15 +85,6 @@ extension MSTextStyle {
         }
     }
     var detailedDescription: String {
-        return "\(description) is \(font.fontDescriptor.isSemibold ? "Semibold" : "Regular") \(Int(font.pointSize))pt"
-    }
-}
-
-extension UIFontDescriptor {
-    var isSemibold: Bool {
-        if let traits = object(forKey: .traits) as? [UIFontDescriptor.TraitKey : Any], let weight = traits[.weight] as? NSNumber {
-            return CGFloat(weight.floatValue) == UIFont.Weight.semibold.rawValue
-        }
-        return false
+        return "\(description) is \(font.fontDescriptor.weight == .semibold ? "Semibold" : "Regular") \(Int(font.pointSize))pt"
     }
 }

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		A589F854211BA03200471C23 /* MSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A589F853211BA03200471C23 /* MSLabel.swift */; };
+		A5B87AEF211BCA710038C37C /* UIFontDescriptor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AEE211BCA710038C37C /* UIFontDescriptor+Extension.swift */; };
+		A5B87AF1211BD4380038C37C /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF0211BD4380038C37C /* UIFont+Extension.swift */; };
 		A5CEC15B20D980B30016922A /* OfficeUIFabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5CEC15120D980B20016922A /* OfficeUIFabric.framework */; };
 		A5CEC16020D980B30016922A /* OfficeUIFabricTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC15F20D980B30016922A /* OfficeUIFabricTests.swift */; };
 		A5CEC16220D980B30016922A /* OfficeUIFabric.h in Headers */ = {isa = PBXBuildFile; fileRef = A5CEC15420D980B20016922A /* OfficeUIFabric.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -31,6 +33,8 @@
 
 /* Begin PBXFileReference section */
 		A589F853211BA03200471C23 /* MSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSLabel.swift; sourceTree = "<group>"; };
+		A5B87AEE211BCA710038C37C /* UIFontDescriptor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFontDescriptor+Extension.swift"; sourceTree = "<group>"; };
+		A5B87AF0211BD4380038C37C /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		A5CEC15120D980B20016922A /* OfficeUIFabric.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OfficeUIFabric.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5CEC15420D980B20016922A /* OfficeUIFabric.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OfficeUIFabric.h; sourceTree = "<group>"; };
 		A5CEC15520D980B20016922A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -64,6 +68,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A5B87AED211BCA4A0038C37C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A5B87AF0211BD4380038C37C /* UIFont+Extension.swift */,
+				A5B87AEE211BCA710038C37C /* UIFontDescriptor+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		A5CEC14720D980B20016922A = {
 			isa = PBXGroup;
 			children = (
@@ -87,6 +100,7 @@
 			children = (
 				A5CEC22F20E451990016922A /* Controls */,
 				A5CEC16B20D98EBF0016922A /* Core */,
+				A5B87AED211BCA4A0038C37C /* Extensions */,
 				A5CEC17020D996120016922A /* Resources */,
 				A5CEC25720E6A64E0016922A /* Supporting Files */,
 			);
@@ -259,6 +273,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5B87AF1211BD4380038C37C /* UIFont+Extension.swift in Sources */,
+				A5B87AEF211BCA710038C37C /* UIFontDescriptor+Extension.swift in Sources */,
 				A589F854211BA03200471C23 /* MSLabel.swift in Sources */,
 				A5CEC16F20D98F340016922A /* Fonts.swift in Sources */,
 				A5CEC23120E451D00016922A /* MSButton.swift in Sources */,

@@ -3,10 +3,10 @@
 //
 
 public struct MSFonts {
-    /// Regular 28pt
-    public static let title1: UIFont = .preferredFont(forTextStyle: .title1)    //!!! should be semibold
-    /// Regular 22pt
-    public static let title2: UIFont = .preferredFont(forTextStyle: .title2)    //!!! should be semibold
+    /// Semibold 28pt
+    public static let title1: UIFont = UIFont.preferredFont(forTextStyle: .title1).withWeight(.semibold)
+    /// Semibold 22pt
+    public static let title2: UIFont = UIFont.preferredFont(forTextStyle: .title2).withWeight(.semibold)
     /// Semibold 17pt
     public static let headline: UIFont = .preferredFont(forTextStyle: .headline)
     /// Regular 17pt
