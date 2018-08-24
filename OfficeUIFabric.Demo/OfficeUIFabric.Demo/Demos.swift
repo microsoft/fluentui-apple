@@ -6,6 +6,7 @@ import UIKit
 
 // Register your control demos here
 let demos: [(title: String, controllerClass: UIViewController.Type)] = [
-    ("MSButton", MSButtonController.self),
-    ("MSLabel", MSLabelController.self)
+    ("MSButton", MSButtonDemoController.self),
+    ("MSDrawerController", MSDrawerDemoController.self),
+    ("MSLabel", MSLabelDemoController.self)
 ]

@@ -5,19 +5,36 @@
 import UIKit
 
 class MasterViewController: UITableViewController {
+    private(set) var demoController: UIViewController?
+    var demoControllerClass: UIViewController.Type? {
+        didSet {
+            if demoControllerClass != oldValue {
+                demoController = demoControllerClass?.init()
+            }
+        }
+    }
+    var demoPlaceholder: UIViewController?
+
     override func viewWillAppear(_ animated: Bool) {
         clearsSelectionOnViewWillAppear = splitViewController!.isCollapsed
         super.viewWillAppear(animated)
+        if tableView.indexPathForSelectedRow == nil, let demoContainer = demoController?.navigationController {
+            demoContainer.viewControllers = demoPlaceholder != nil ? [demoPlaceholder!] : []
+            demoControllerClass = nil
+        }
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showDetail" {
-            if let indexPath = tableView.indexPathForSelectedRow {
-                let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
-                controller.title = demos[indexPath.row].title
-                controller.demoControllerClass = demos[indexPath.row].controllerClass
-                controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
-                controller.navigationItem.leftItemsSupplementBackButton = true
+        if segue.identifier == "showDetail", let indexPath = tableView.indexPathForSelectedRow {
+            let detailContainer = segue.destination as! UINavigationController
+
+            demoControllerClass = demos[indexPath.row].controllerClass
+            if let demoController = demoController {
+                demoController.title = demos[indexPath.row].title
+                demoController.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
+                demoController.navigationItem.leftItemsSupplementBackButton = true
+
+                detailContainer.viewControllers = [demoController]
             }
         }
     }

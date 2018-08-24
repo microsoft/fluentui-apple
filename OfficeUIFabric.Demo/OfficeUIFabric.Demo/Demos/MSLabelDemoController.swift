@@ -5,16 +5,7 @@
 import OfficeUIFabric
 import UIKit
 
-class MSLabelController: UIViewController {
-    let container: UIStackView = {
-        let container = UIStackView(frame: .zero)
-        container.axis = .vertical
-        container.distribution = .equalSpacing
-        container.layoutMargins = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
-        container.isLayoutMarginsRelativeArrangement = true
-        return container
-    }()
-
+class MSLabelDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -23,15 +14,14 @@ class MSLabelController: UIViewController {
             addLabel(text: style.detailedDescription, style: style, colorStyle: .regular)
         }
 
-        container.addArrangedSubview(UIView(frame: .zero))  // spacer
+        container.addArrangedSubview(UIView())  // spacer
+
         addLabel(text: "Text Color Styles", style: .headline, colorStyle: .regular).textAlignment = .center
         for colorStyle in MSTextColorStyle.allCases {
             addLabel(text: colorStyle.description, style: .body, colorStyle: colorStyle)
         }
 
-        container.frame = view.bounds
-        container.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.addSubview(container)
+        container.addArrangedSubview(UIView())  // spacer
     }
 
     @discardableResult

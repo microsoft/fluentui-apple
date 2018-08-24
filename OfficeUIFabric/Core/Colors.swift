@@ -42,6 +42,9 @@ public struct MSColors {
     // MARK: Semantic
     
     // TODO: Add semantic colors describing colors used for particular control elements (must reference physical colors)
+
+    public static let background: UIColor = white
+    public static let separatorColor: UIColor = borderLightGray
 }
 
 public enum MSTextColorStyle: Int {

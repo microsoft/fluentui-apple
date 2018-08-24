@@ -5,15 +5,15 @@
 import OfficeUIFabric
 import UIKit
 
-class MSButtonController: UIViewController {
+class MSButtonDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .orange
-        
+
         let button = MSButton()
         button.setTitle("Button", for: .normal)
-        button.frame = CGRect(x: 20, y: 100, width: 100, height: 30)
         button.showsBorder = false
-        view.addSubview(button)
+        container.addArrangedSubview(button)
+
+        container.addArrangedSubview(UIView())  // spacer
     }
 }

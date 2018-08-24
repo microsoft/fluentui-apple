@@ -1,0 +1,8 @@
+//
+//  Copyright © 2018 Microsoft Corporation. All rights reserved.
+//
+
+// Accessibility
+"Accessibility.Alert" = "Alert";
+"Accessibility.Dismiss.Label" = "Dismiss";
+"Accessibility.Dismiss.Hint" = "Double tap to dismiss";
