@@ -1,0 +1,10 @@
+platform :ios, '10.0'
+
+target 'OfficeUIFabric.Demo' do
+  use_frameworks!
+
+pod 'AppCenter'
+pod 'AppCenter/Distribute'
+pod 'AppCenter/Push'
+
+end

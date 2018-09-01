@@ -7,4 +7,7 @@
    <FileRef
       location = "group:OfficeUIFabric.Demo/OfficeUIFabric.Demo.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:OfficeUIFabric.Demo/Pods/Pods.xcodeproj">
+   </FileRef>
 </Workspace>
