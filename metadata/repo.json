@@ -1,4 +1,8 @@
-{ 
-  "DeployedToProduction": false, 
-  "Contacts": ["vladf@microsoft.com"]
+{
+    "deployedToProduction": false,
+    "contacts": ["vladf@microsoft.com"],
+    "schema": {
+        "sharepoint": "1.0.0"
+    },
+    "complianceTypes": [ ]
 }
