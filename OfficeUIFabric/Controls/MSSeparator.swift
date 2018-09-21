@@ -9,7 +9,7 @@
     fileprivate var color: UIColor {
         switch self {
         case .default:
-            return MSColors.separatorColor
+            return MSColors.separator
         case .shadow:
             // Matches shadow used in UINavigationBar
             return UIColor.black.withAlphaComponent(0.3)
