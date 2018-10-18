@@ -33,6 +33,9 @@
 		B4266140214852B400E25423 /* NSString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B426613F214852B400E25423 /* NSString+Extension.swift */; };
 		B42661422148568800E25423 /* MSAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42661412148568800E25423 /* MSAvatarView.swift */; };
 		B46D3F91215056940029772C /* CharacterSet+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46D3F90215056940029772C /* CharacterSet+Extension.swift */; };
+		B46D3F932151D95F0029772C /* MSPersonaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46D3F922151D95F0029772C /* MSPersonaCell.swift */; };
+		B46D3F9D215985AC0029772C /* MSPersonaListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46D3F9C215985AC0029772C /* MSPersonaListView.swift */; };
+		B4EF53C3215AF1AB00573E8F /* MSPersona.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF53C2215AF1AB00573E8F /* MSPersona.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +78,9 @@
 		B426613F214852B400E25423 /* NSString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSString+Extension.swift"; sourceTree = "<group>"; };
 		B42661412148568800E25423 /* MSAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAvatarView.swift; sourceTree = "<group>"; };
 		B46D3F90215056940029772C /* CharacterSet+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CharacterSet+Extension.swift"; sourceTree = "<group>"; };
+		B46D3F922151D95F0029772C /* MSPersonaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPersonaCell.swift; sourceTree = "<group>"; };
+		B46D3F9C215985AC0029772C /* MSPersonaListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPersonaListView.swift; sourceTree = "<group>"; };
+		B4EF53C2215AF1AB00573E8F /* MSPersona.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPersona.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -215,6 +221,9 @@
 			children = (
 				B42661412148568800E25423 /* MSAvatarView.swift */,
 				B426613D214731D100E25423 /* MSInitialsView.swift */,
+				B46D3F922151D95F0029772C /* MSPersonaCell.swift */,
+				B46D3F9C215985AC0029772C /* MSPersonaListView.swift */,
+				B4EF53C2215AF1AB00573E8F /* MSPersona.swift */,
 			);
 			path = "People Picker";
 			sourceTree = "<group>";
@@ -339,17 +348,20 @@
 				B426613E214731D100E25423 /* MSInitialsView.swift in Sources */,
 				A5B87B02211E20B50038C37C /* UIScreen+Extension.swift in Sources */,
 				A5B87AEF211BCA710038C37C /* UIFontDescriptor+Extension.swift in Sources */,
+				B4EF53C3215AF1AB00573E8F /* MSPersona.swift in Sources */,
 				A5B87B06211E23650038C37C /* UIView+Extensions.swift in Sources */,
 				B42661422148568800E25423 /* MSAvatarView.swift in Sources */,
 				A589F854211BA03200471C23 /* MSLabel.swift in Sources */,
 				B4266140214852B400E25423 /* NSString+Extension.swift in Sources */,
 				A5B87AF7211E16370038C37C /* MSDrawerTransitionAnimator.swift in Sources */,
+				B46D3F932151D95F0029772C /* MSPersonaCell.swift in Sources */,
 				A5CEC16F20D98F340016922A /* Fonts.swift in Sources */,
 				A5B87B04211E22B70038C37C /* MSDimmingView.swift in Sources */,
 				A5CEC23120E451D00016922A /* MSButton.swift in Sources */,
 				A5B87AF6211E16370038C37C /* MSDrawerController.swift in Sources */,
 				A5CEC16D20D98EE70016922A /* Colors.swift in Sources */,
 				A559BB7E212B6D100055E107 /* String+Extension.swift in Sources */,
+				B46D3F9D215985AC0029772C /* MSPersonaListView.swift in Sources */,
 				A5DCA76421224026005F4CB7 /* MSSeparator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

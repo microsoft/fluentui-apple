@@ -9,7 +9,7 @@ class MSAvatarViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let image = UIImage(named: "Avatar")
+        let image = UIImage(named: "avatar_kat_larsson")
         addTitle(text: "Avatar with Image")
         for size in MSAvatarSize.allCases {
             addAvatar(size: size, image: image)

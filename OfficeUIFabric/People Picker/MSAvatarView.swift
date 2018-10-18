@@ -84,6 +84,11 @@ open class MSAvatarView: UIView {
             initialsView.avatarSize = avatarSize
         }
     }
+    open var avatarBackgroundColor: UIColor {
+        didSet {
+            initialsView.backgroundColor = avatarBackgroundColor
+        }
+    }
     private var name: String?
     private var email: String?
     private var initialsView: MSInitialsView
@@ -98,6 +103,7 @@ open class MSAvatarView: UIView {
     ///   - hasBorder: Boolean describing whether or not to show a border around the avatarView
     @objc public init(avatarSize: MSAvatarSize, withBorder hasBorder: Bool = false) {
         self.avatarSize = avatarSize
+        avatarBackgroundColor = UIColor.clear
 
         initialsView = MSInitialsView(avatarSize: avatarSize)
         initialsView.isHidden = true
@@ -177,6 +183,9 @@ open class MSAvatarView: UIView {
         initialsView.setup(withName: name, email: email)
         initialsView.isHidden = false
         imageView.isHidden = true
+        if let initialsViewBackgroundColor = initialsView.backgroundColor {
+            avatarBackgroundColor = initialsViewBackgroundColor
+        }
     }
 
     private func setupWithImage(_ image: UIImage, animated: Bool = false) {

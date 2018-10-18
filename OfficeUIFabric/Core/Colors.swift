@@ -71,6 +71,10 @@ public struct MSColors {
 
     public static let avatarText: UIColor = white
     public static let background: UIColor = white
+    public static let personaName: UIColor = black
+    public static let personaSubtitle: UIColor = gray
+    public static let personaBackground: UIColor = white
+    public static let personaSelectedBackground: UIColor = backgroundGray
     public static let separator: UIColor = borderLightGray
 }
 

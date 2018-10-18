@@ -9,5 +9,6 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("MSAvatarView", MSAvatarViewDemoController.self),
     ("MSButton", MSButtonDemoController.self),
     ("MSDrawerController", MSDrawerDemoController.self),
-    ("MSLabel", MSLabelDemoController.self)
+    ("MSLabel", MSLabelDemoController.self),
+    ("MSPersonaListView", MSPersonaListViewDemoController.self)
 ]
