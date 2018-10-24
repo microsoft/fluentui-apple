@@ -69,7 +69,7 @@ class MSDrawerPresentationController: UIPresentationController {
         dimmingView.frame = frameForDimmingView(in: backgroundView.bounds)
 
         accessibilityContainer.addSubview(contentView)
-        contentView.frame = frameForContentView(in: dimmingView.frame)
+        contentView.frame = frameForContentView()
         // In non-animated presentations presented view will be force-placed into containerView by UIKit
         // For animated presentations presented view must be inside contentView to not slide over navigation bar/toolbar
         if presentingViewController.transitionCoordinator?.isAnimated == true {
@@ -152,6 +152,26 @@ class MSDrawerPresentationController: UIPresentationController {
         setPresentedViewMask()
     }
 
+    func updateContentViewFrame() {
+        let newFrame = frameForContentView()
+
+        guard let presentedView = presentedView else {
+            contentView.frame = newFrame
+            setPresentedViewMask()
+            return
+        }
+
+        let animationDuration = MSDrawerTransitionAnimator.animationDuration(forSizeChange: newFrame.height - contentView.height)
+        UIView.animate(withDuration: animationDuration) {
+            self.contentView.frame = newFrame
+            if presentedView.superview == self.containerView {
+                presentedView.frame = self.frameOfPresentedViewInContainerView
+            }
+
+            self.animatePresentedViewMask(withDuration: animationDuration)
+        }
+    }
+
     private func frameForDimmingView(in bounds: CGRect) -> CGRect {
         var margins: UIEdgeInsets = .zero
         switch presentationDirection {
@@ -161,6 +181,11 @@ class MSDrawerPresentationController: UIPresentationController {
             margins.bottom = bounds.height - actualPresentationOrigin
         }
         return UIEdgeInsetsInsetRect(bounds, margins)
+    }
+
+    private func frameForContentView() -> CGRect {
+        // Positioning content view relative to dimming view
+        return frameForContentView(in: dimmingView.frame)
     }
 
     private func frameForContentView(in bounds: CGRect) -> CGRect {
@@ -212,7 +237,8 @@ class MSDrawerPresentationController: UIPresentationController {
     }
 
     private func setPresentedViewMask() {
-        guard let presentedView = presentedView else {
+        // No change of mask when it's being animated
+        guard let presentedView = presentedView, !(presentedView.layer.mask?.isAnimating ?? false) else {
             return
         }
         let roundedCorners: UIRectCorner = presentationDirection == .down ? [.bottomLeft, .bottomRight] : [.topLeft, .topRight]
@@ -221,6 +247,27 @@ class MSDrawerPresentationController: UIPresentationController {
 
     private func removePresentedViewMask() {
         presentedView?.layer.mask = nil
+    }
+
+    private func animatePresentedViewMask(withDuration duration: TimeInterval) {
+        guard let presentedView = presentedView else {
+            return
+        }
+
+        let oldMaskPath = (presentedView.layer.mask as? CAShapeLayer)?.path
+        setPresentedViewMask()
+
+        guard let presentedViewMask = presentedView.layer.mask as? CAShapeLayer else {
+            return
+        }
+
+        let animation = CABasicAnimation(keyPath: #keyPath(CAShapeLayer.path))
+        animation.fromValue = oldMaskPath
+        animation.duration = duration
+        // To match default timing function used in UIView.animate
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+
+        presentedViewMask.add(animation, forKey: animation.keyPath)
     }
 
     // MARK: Actions

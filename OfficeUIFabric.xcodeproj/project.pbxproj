@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A54D97DA217A5FC10072681A /* CALayer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54D97D9217A5FC10072681A /* CALayer+Extensions.swift */; };
+		A54D97DC217E5CED0072681A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A54D97DB217E5CED0072681A /* Assets.xcassets */; };
 		A559BB7E212B6D100055E107 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A559BB7D212B6D100055E107 /* String+Extension.swift */; };
 		A559BB7F212B6FA40055E107 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A559BB81212B6FA40055E107 /* Localizable.strings */; };
 		A559BB83212B7D870055E107 /* OfficeUIFabric.swift in Sources */ = {isa = PBXBuildFile; fileRef = A559BB82212B7D870055E107 /* OfficeUIFabric.swift */; };
@@ -25,7 +27,6 @@
 		A5CEC16220D980B30016922A /* OfficeUIFabric.h in Headers */ = {isa = PBXBuildFile; fileRef = A5CEC15420D980B20016922A /* OfficeUIFabric.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A5CEC16D20D98EE70016922A /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC16C20D98EE70016922A /* Colors.swift */; };
 		A5CEC16F20D98F340016922A /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC16E20D98F340016922A /* Fonts.swift */; };
-		A5CEC17220D9963D0016922A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5CEC17120D9963D0016922A /* Assets.xcassets */; };
 		A5CEC23120E451D00016922A /* MSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC23020E451D00016922A /* MSButton.swift */; };
 		A5CEC25620E6A0CD0016922A /* MSButtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC25520E6A0CD0016922A /* MSButtonTests.swift */; };
 		A5DCA76421224026005F4CB7 /* MSSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DCA76321224026005F4CB7 /* MSSeparator.swift */; };
@@ -49,6 +50,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A54D97D9217A5FC10072681A /* CALayer+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extensions.swift"; sourceTree = "<group>"; };
+		A54D97DB217E5CED0072681A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A559BB7D212B6D100055E107 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		A559BB80212B6FA40055E107 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A559BB82212B7D870055E107 /* OfficeUIFabric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficeUIFabric.swift; sourceTree = "<group>"; };
@@ -70,7 +73,6 @@
 		A5CEC16120D980B30016922A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A5CEC16C20D98EE70016922A /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		A5CEC16E20D98F340016922A /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
-		A5CEC17120D9963D0016922A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A5CEC23020E451D00016922A /* MSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSButton.swift; sourceTree = "<group>"; };
 		A5CEC25520E6A0CD0016922A /* MSButtonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSButtonTests.swift; sourceTree = "<group>"; };
 		A5DCA76321224026005F4CB7 /* MSSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSSeparator.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 		A5B87AED211BCA4A0038C37C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				A54D97D9217A5FC10072681A /* CALayer+Extensions.swift */,
 				B46D3F90215056940029772C /* CharacterSet+Extension.swift */,
 				B426613F214852B400E25423 /* NSString+Extension.swift */,
 				A559BB7D212B6D100055E107 /* String+Extension.swift */,
@@ -182,7 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				A5CEC17320D997CF0016922A /* Localization */,
-				A5CEC17120D9963D0016922A /* Assets.xcassets */,
+				A54D97DB217E5CED0072681A /* Assets.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -321,7 +324,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A5CEC17220D9963D0016922A /* Assets.xcassets in Resources */,
+				A54D97DC217E5CED0072681A /* Assets.xcassets in Resources */,
 				A559BB7F212B6FA40055E107 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -355,6 +358,7 @@
 				B4266140214852B400E25423 /* NSString+Extension.swift in Sources */,
 				A5B87AF7211E16370038C37C /* MSDrawerTransitionAnimator.swift in Sources */,
 				B46D3F932151D95F0029772C /* MSPersonaCell.swift in Sources */,
+				A54D97DA217A5FC10072681A /* CALayer+Extensions.swift in Sources */,
 				A5CEC16F20D98F340016922A /* Fonts.swift in Sources */,
 				A5B87B04211E22B70038C37C /* MSDimmingView.swift in Sources */,
 				A5CEC23120E451D00016922A /* MSButton.swift in Sources */,

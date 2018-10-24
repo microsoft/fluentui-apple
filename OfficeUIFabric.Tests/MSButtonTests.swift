@@ -9,6 +9,6 @@ class MSButtonTests: XCTestCase {
     func testSimpleButton() {
         let button = MSButton()
         XCTAssert(button.layer.borderWidth == 1)
-        XCTAssert(button.layer.cornerRadius == 5)
+        XCTAssert(button.layer.cornerRadius == 8)
     }
 }

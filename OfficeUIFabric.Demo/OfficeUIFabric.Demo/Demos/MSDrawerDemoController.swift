@@ -33,9 +33,8 @@ class MSDrawerDemoController: DemoController {
 
         // View container
         let viewContainer = DemoController.createVerticalContainer()
-        viewContainer.frame = controller.view.bounds
-        viewContainer.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         controller.view.addSubview(viewContainer)
+        viewContainer.fitIntoSuperview()
 
         // Views
         for view in views {
@@ -84,8 +83,12 @@ class MSDrawerDemoController: DemoController {
         presentDrawer(sourceView: sender, presentationOrigin: rect.minY, presentationDirection: .up, views: actionViews())
     }
 
-    @objc private func expandButtonTapped() {
-        // TODO
+    @objc private func expandButtonTapped(sender: UIButton) {
+        guard let drawer = presentedViewController as? MSDrawerController else {
+            return
+        }
+        drawer.isExpanded = !drawer.isExpanded
+        sender.setTitle(drawer.isExpanded ? "Return to normal" : "Expand", for: .normal)
     }
 
     @objc private func dismissButtonTapped() {

@@ -27,7 +27,8 @@ open class MSButton: UIButton {
     }
     
     open func initialize() {
-        layer.cornerRadius = 5
+        contentEdgeInsets = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
+        layer.cornerRadius = 8
         layer.borderWidth = showsBorder ? 1 : 0
     }
 }

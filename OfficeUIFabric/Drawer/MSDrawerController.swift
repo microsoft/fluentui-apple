@@ -30,6 +30,27 @@ open class MSDrawerController: UIViewController {
         case popover
     }
 
+    /**
+     Set `isExpanded` to `true` to maximize the drawer's height to fill the device screen vertically minus the safe areas. Set to `false` to restore it to the normal size.
+
+     Transition is always animated when drawer is visible.
+     */
+    open var isExpanded: Bool = false {
+        didSet {
+            if isExpanded == oldValue {
+                return
+            }
+            isExpandedBeingChanged = true
+            if isExpanded {
+                normalPreferredContentHeight = preferredContentSize.height
+                preferredContentSize.height = UIScreen.main.bounds.height
+            } else {
+                preferredContentSize.height = normalPreferredContentHeight
+            }
+            isExpandedBeingChanged = false
+        }
+    }
+
     /// Use `permittedArrowDirections` to specify the direction of the popover arrow for popover presentation on iPad.
     @objc open var permittedArrowDirections: UIPopoverArrowDirection = .any
     ///  Override `preferredWidth` to provide a custom preferred width for presentation on iPad or landscape iPhone.
@@ -42,12 +63,34 @@ open class MSDrawerController: UIViewController {
         }
     }
 
+    open override var preferredContentSize: CGSize {
+        get { return super.preferredContentSize }
+        set {
+            var newValue = newValue
+            if isExpanded && !isExpandedBeingChanged {
+                normalPreferredContentHeight = newValue.height
+                newValue.height = preferredContentSize.height
+            }
+
+            let hasChanges = preferredContentSize != newValue
+
+            super.preferredContentSize = newValue
+
+            if hasChanges && presentingViewController != nil {
+                (presentationController as? MSDrawerPresentationController)?.updateContentViewFrame()
+            }
+        }
+    }
+
     private let sourceView: UIView?
     private let sourceRect: CGRect?
     private let barButtonItem: UIBarButtonItem?
     /// The `y` position the slideover should slide from
     private let presentationOrigin: CGFloat?
     private let presentationDirection: MSDrawerPresentationDirection
+
+    private var isExpandedBeingChanged: Bool = false
+    private var normalPreferredContentHeight: CGFloat = -1
 
     /**
      Initializes `MSDrawerController` to be presented as a popover from `sourceRect` in `sourceView` on iPad and as a slideover on iPhone.
@@ -105,7 +148,7 @@ open class MSDrawerController: UIViewController {
 
     open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        if !isBeingPresented {
+        if !isBeingPresented && presentationController is MSDrawerPresentationController {
             // The top offset is no longer accurate, and we cannot recalculate
             presentingViewController?.dismiss(animated: false)
         }
