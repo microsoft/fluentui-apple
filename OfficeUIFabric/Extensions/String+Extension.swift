@@ -31,6 +31,10 @@ public extension String {
         return NSLocalizedString(self, bundle: OfficeUIFabricFramework.bundle, comment: "")
     }
 
+    func formatted(with args: CVarArg...) -> String {
+        return String(format: self, locale: Locale.current, arguments: args)
+    }
+
     func trimmed() -> String {
         return trimmingCharacters(in: CharacterSet.whitespaceNewlineAndZeroWidthSpace)
     }

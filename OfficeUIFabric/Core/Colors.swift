@@ -69,12 +69,24 @@ public struct MSColors {
     
     // TODO: Add semantic colors describing colors used for particular control elements (must reference physical colors)
 
-    public static let avatarText: UIColor = white
+    public struct Action {
+        public static let text: UIColor = primary
+        public static let textHighlighted: UIColor = primary.withAlphaComponent(0.4)
+        public static let textDestructive: UIColor = warning
+        public static let textDestructiveHighlighted: UIColor = warning.withAlphaComponent(0.4)
+    }
+    public struct Avatar {
+        public static let text: UIColor = white
+    }
+    public struct Persona {
+        public static let name: UIColor = black
+        public static let subtitle: UIColor = gray
+        public static let background: UIColor = white
+        public static let backgroundSelected: UIColor = backgroundGray
+    }
+    public static let activityIndicator: UIColor = gray
     public static let background: UIColor = white
-    public static let personaName: UIColor = black
-    public static let personaSubtitle: UIColor = gray
-    public static let personaBackground: UIColor = white
-    public static let personaSelectedBackground: UIColor = backgroundGray
+    public static let centeredLabelText: UIColor = primary
     public static let separator: UIColor = borderLightGray
 }
 

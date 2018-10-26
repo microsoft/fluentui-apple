@@ -17,29 +17,53 @@
     }
 }
 
+@objc public enum MSSeparatorOrientation: Int {
+    case horizontal
+    case vertical
+}
+
 open class MSSeparator: UIView {
-    public init(style: MSSeparatorStyle = .default) {
+    private var orientation: MSSeparatorOrientation = .horizontal
+
+    public init(style: MSSeparatorStyle = .default, orientation: MSSeparatorOrientation = .horizontal) {
         super.init(frame: .zero)
-        initialize(style: style)
+        initialize(style: style, orientation: orientation)
     }
 
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func initialize(style: MSSeparatorStyle) {
+    private func initialize(style: MSSeparatorStyle, orientation: MSSeparatorOrientation) {
         backgroundColor = style.color
-        height = UIScreen.main.devicePixel
-        autoresizingMask = .flexibleWidth
+        self.orientation = orientation
+        switch orientation {
+        case .horizontal:
+            height = UIScreen.main.devicePixel
+            autoresizingMask = .flexibleWidth
+        case .vertical:
+            width = UIScreen.main.devicePixel
+            autoresizingMask = .flexibleHeight
+        }
         isAccessibilityElement = false
         isUserInteractionEnabled = false
     }
 
     open override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIViewNoIntrinsicMetric, height: height)
+        switch orientation {
+        case .horizontal:
+            return CGSize(width: UIViewNoIntrinsicMetric, height: height)
+        case .vertical:
+            return CGSize(width: width, height: UIViewNoIntrinsicMetric)
+        }
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        return CGSize(width: size.width, height: height)
+        switch orientation {
+        case .horizontal:
+            return CGSize(width: size.width, height: height)
+        case .vertical:
+            return CGSize(width: width, height: size.height)
+        }
     }
 }

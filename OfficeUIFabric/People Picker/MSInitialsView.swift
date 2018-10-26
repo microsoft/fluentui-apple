@@ -64,7 +64,7 @@ class MSInitialsView: UIView {
         initialsLabel = UILabel()
         initialsLabel.font = avatarSize.font
         initialsLabel.backgroundColor = UIColor.clear
-        initialsLabel.textColor = MSColors.avatarText
+        initialsLabel.textColor = MSColors.Avatar.text
         initialsLabel.textAlignment = .center
         initialsLabel.isAccessibilityElement = false
         addSubview(initialsLabel)

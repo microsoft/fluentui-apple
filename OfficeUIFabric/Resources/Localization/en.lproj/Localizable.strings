@@ -6,3 +6,8 @@
 "Accessibility.Alert" = "Alert";
 "Accessibility.Dismiss.Label" = "Dismiss";
 "Accessibility.Dismiss.Hint" = "Double tap to dismiss";
+
+// MSPersonaListView
+"MSPersonaListView.SearchDirectory" = "Search Directory";
+"MSPersonaListView.SingleResult" = "result found from directory";
+"MSPersonaListView.MultipleResults" = "results found from directory";

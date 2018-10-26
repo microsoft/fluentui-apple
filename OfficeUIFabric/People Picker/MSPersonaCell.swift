@@ -25,13 +25,13 @@ open class MSPersonaCell: UITableViewCell {
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = MSFonts.body
-        label.textColor = MSColors.personaName
+        label.textColor = MSColors.Persona.name
         return label
     }()
     private let subtitleLabel: UILabel = {
         let label = UILabel()
         label.font = MSFonts.footnote
-        label.textColor = MSColors.personaSubtitle
+        label.textColor = MSColors.Persona.subtitle
         label.isHidden = true
         return label
     }()
@@ -119,10 +119,10 @@ open class MSPersonaCell: UITableViewCell {
     }
 
     private func setupCellBackgroundColors() {
-        backgroundColor = MSColors.personaBackground
+        backgroundColor = MSColors.Persona.background
 
         let selectedStateBackgroundView = UIView()
-        selectedStateBackgroundView.backgroundColor = MSColors.personaSelectedBackground
+        selectedStateBackgroundView.backgroundColor = MSColors.Persona.backgroundSelected
         selectedBackgroundView = selectedStateBackgroundView
     }
 }

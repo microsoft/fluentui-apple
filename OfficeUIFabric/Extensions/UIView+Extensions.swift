@@ -71,4 +71,19 @@ public extension UIView {
         ).cgPath
         return layer
     }
+
+    func centerInSuperview(horizontally: Bool = true, vertically: Bool = true) {
+        guard let superview = superview else {
+            assertionFailure("View must have a superview")
+            return
+        }
+
+        if horizontally {
+            left = UIScreen.main.roundDownToDevicePixels(0.5 * (superview.width - width))
+        }
+
+        if vertically {
+            top = UIScreen.main.roundDownToDevicePixels(0.5 * (superview.height - height))
+        }
+    }
 }

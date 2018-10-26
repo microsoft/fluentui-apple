@@ -13,4 +13,8 @@ public extension UIScreen {
     func roundToDevicePixels(_ value: CGFloat) -> CGFloat {
         return ceil(value * scale) / scale
     }
+
+    func roundDownToDevicePixels(_ value: CGFloat) -> CGFloat {
+        return floor(value * scale) / scale
+    }
 }

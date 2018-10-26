@@ -11,9 +11,26 @@ import UIKit
     case prev = -1
 }
 
+// MARK: - MSPersonaListViewSearchDirectoryDelegate
+
+@objc public protocol MSPersonaListViewSearchDirectoryDelegate {
+    func personaListSearchDirectory(_ personaListView: MSPersonaListView, completion: @escaping ((_ success: Bool) -> ()))
+}
+
 // MARK: - MSPersonaListView
 
 open class MSPersonaListView: UITableView {
+    private enum Section: Int {
+        case personas
+        case searchDirectory
+    }
+
+    private enum SearchDirectoryState {
+        case idle
+        case searching
+        case displayingSearchResults
+    }
+
     /// The personas to display in the list view
     open var personaList: [MSPersona] = [] {
         didSet {
@@ -21,8 +38,29 @@ open class MSPersonaListView: UITableView {
         }
     }
 
+    /// Bool indicating whether the 'Search Directory' button should be shown
+    open var showsSearchDirectoryButton: Bool = false {
+        didSet {
+            reloadData()
+        }
+    }
+
+    open weak var searchDirectoryDelegate: MSPersonaListViewSearchDirectoryDelegate?
+
     /// Callback with the selected MSPersona
     @objc open var onPersonaSelected: ((MSPersona) -> Void)?
+
+    private var searchResultText: String = "" {
+        didSet {
+            searchDirectoryState = .displayingSearchResults
+        }
+    }
+
+    private var searchDirectoryState: SearchDirectoryState = .idle {
+        didSet {
+            reloadRows(at: [IndexPath(row: 0, section: 1)], with: .none)
+        }
+    }
     
     @objc override init(frame: CGRect, style: UITableViewStyle) {
         super.init(frame: frame, style: style)
@@ -33,6 +71,9 @@ open class MSPersonaListView: UITableView {
         tableFooterView = UIView(frame: .zero)
 
         register(MSPersonaCell.self, forCellReuseIdentifier: MSPersonaCell.identifier)
+        register(MSActionsCell.self, forCellReuseIdentifier: MSActionsCell.identifier)
+        register(MSActivityIndicatorCell.self, forCellReuseIdentifier: MSActivityIndicatorCell.identifier)
+        register(MSCenteredLabelCell.self, forCellReuseIdentifier: MSCenteredLabelCell.identifier)
 
         // Keep the cell layout margins fixed
         cellLayoutMarginsFollowReadableWidth = false
@@ -86,21 +127,71 @@ open class MSPersonaListView: UITableView {
         }
         return IndexPath(row: newRow, section: indexPath.section)
     }
+
+    @objc private func searchDirectoryButtonTapped() {
+        searchDirectoryState = .searching
+
+        // Call searchDirectoryDelegate and show result text on completion
+        searchDirectoryDelegate?.personaListSearchDirectory(self, completion: { success in
+            if success {
+                self.searchResultText = "%d results found from directory".localized.formatted(with: self.personaList.count)
+            }
+        })
+    }
 }
 
 // MARK: - UITableViewDataSource
 
 extension MSPersonaListView: UITableViewDataSource {
+    public func numberOfSections(in tableView: UITableView) -> Int {
+        return showsSearchDirectoryButton ? 2 : 1
+    }
+
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return personaList.count
+        guard let section = Section(rawValue: section) else {
+            fatalError("numberOfRowsInSection: too many sections")
+        }
+
+        switch section {
+        case .personas:
+            return personaList.count
+        case .searchDirectory:
+            return 1
+        }
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = dequeueReusableCell(withIdentifier: MSPersonaCell.identifier, for: indexPath) as! MSPersonaCell
-        let persona = personaList[indexPath.row]
-        cell.setup(persona: persona)
-        cell.accessibilityTraits = UIAccessibilityTraitButton
-        return cell
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("cellForRowAtIndexPath: too many sections")
+        }
+
+        switch section {
+        case .personas:
+            let cell = dequeueReusableCell(withIdentifier: MSPersonaCell.identifier, for: indexPath) as! MSPersonaCell
+            let persona = personaList[indexPath.row]
+            cell.setup(persona: persona)
+            cell.accessibilityTraits = UIAccessibilityTraitButton
+            return cell
+        case .searchDirectory:
+            switch searchDirectoryState {
+            case .searching:
+                let cell = dequeueReusableCell(withIdentifier: MSActivityIndicatorCell.identifier, for: indexPath) as! MSActivityIndicatorCell
+                cell.hideSeparator()
+                return cell
+            case .displayingSearchResults:
+                let cell = dequeueReusableCell(withIdentifier: MSCenteredLabelCell.identifier, for: indexPath) as! MSCenteredLabelCell
+                cell.setup(text: searchResultText)
+                cell.hideSeparator()
+                return cell
+            case .idle:
+                let cell = dequeueReusableCell(withIdentifier: MSActionsCell.identifier, for: indexPath) as! MSActionsCell
+                cell.setup(action1Title: "MSPersonaListView.SearchDirectory".localized)
+                cell.action1Button.addTarget(self, action: #selector(searchDirectoryButtonTapped), for: .touchUpInside)
+                cell.accessibilityTraits = UIAccessibilityTraitButton
+                cell.hideSeparator()
+                return cell
+            }
+        }
     }
 }
 
@@ -108,12 +199,38 @@ extension MSPersonaListView: UITableViewDataSource {
 
 extension MSPersonaListView: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return MSPersonaCell.defaultHeight
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("heightForRowAtIndexPath: too many sections")
+        }
+
+        switch section {
+        case .personas:
+            return MSPersonaCell.defaultHeight
+        case .searchDirectory:
+            switch searchDirectoryState {
+            case .searching:
+                return MSActivityIndicatorCell.defaultHeight
+            case .displayingSearchResults:
+                return MSCenteredLabelCell.defaultHeight
+            case .idle:
+                return MSActionsCell.defaultHeight
+            }
+        }
     }
 
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Deselecting row affects voice over focus, calling `deselectRowAtIndexPath` before `onPersonaSelected` would help.
         tableView.deselectRow(at: indexPath, animated: false)
-        onPersonaSelected?(personaList[indexPath.row])
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            return
+        }
+
+        switch section {
+        case .personas:
+            onPersonaSelected?(personaList[indexPath.row])
+        case .searchDirectory:
+            break
+        }
     }
 }
