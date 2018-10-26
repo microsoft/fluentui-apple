@@ -7,6 +7,20 @@
 "Accessibility.Dismiss.Label" = "Dismiss";
 "Accessibility.Dismiss.Hint" = "Double tap to dismiss";
 
+/* Accessibility label for the upper calendar date picker view. */
+"Accessibility.Calendar.Label" = "Calendar";
+
+/* Accessibility hint for the upper calendar date picker view */
+"Accessibility.Calendar.Hint" = "Select a date";
+
+// TODO: Change to a stringsdict format
+// TODO: Reassess for generic indicator
+/* Accessibility: Number of events on the given day (%d is the number) */
+"Accessibility.Calendar.Events.Number" = "%d events";
+
+/* Accessibility: There's no events on the given day */
+"Accessibility.Calendar.Events.None" = "no events";
+
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Search Directory";
 "MSPersonaListView.SingleResult" = "result found from directory";

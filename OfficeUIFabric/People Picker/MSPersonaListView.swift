@@ -140,7 +140,7 @@ open class MSPersonaListView: UITableView {
     }
 }
 
-// MARK: - UITableViewDataSource
+// MARK: - MSPersonaListView: UITableViewDataSource
 
 extension MSPersonaListView: UITableViewDataSource {
     public func numberOfSections(in tableView: UITableView) -> Int {
@@ -195,7 +195,7 @@ extension MSPersonaListView: UITableViewDataSource {
     }
 }
 
-// MARK: - UITableViewDelegate
+// MARK: - MSPersonaListView: UITableViewDelegate
 
 extension MSPersonaListView: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

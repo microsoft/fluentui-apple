@@ -8,6 +8,7 @@ import UIKit
 let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("MSAvatarView", MSAvatarViewDemoController.self),
     ("MSButton", MSButtonDemoController.self),
+    ("MSDatePicker", MSDatePickerDemoController.self),
     ("MSDrawerController", MSDrawerDemoController.self),
     ("MSLabel", MSLabelDemoController.self),
     ("MSPersonaListView", MSPersonaListViewDemoController.self)

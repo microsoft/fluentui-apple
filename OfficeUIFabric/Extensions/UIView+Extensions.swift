@@ -31,8 +31,7 @@ public extension UIView {
     var safeAreaInsetsIfAvailable: UIEdgeInsets {
         if #available(iOS 11, *) {
             return safeAreaInsets
-        }
-        else {
+        } else {
             return .zero
         }
     }

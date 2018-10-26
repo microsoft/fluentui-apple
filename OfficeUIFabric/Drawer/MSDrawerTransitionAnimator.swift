@@ -73,8 +73,7 @@ extension MSDrawerTransitionAnimator: UIViewControllerAnimatedTransitioning {
             presentWithTransitionContext(transitionContext) { finished in
                 transitionContext.completeTransition(finished)
             }
-        }
-        else {
+        } else {
             dismissWithTransitionContext(transitionContext) { finished in
                 transitionContext.completeTransition(finished)
             }

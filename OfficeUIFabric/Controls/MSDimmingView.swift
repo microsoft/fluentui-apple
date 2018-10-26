@@ -2,11 +2,15 @@
 //  Copyright © 2018 Microsoft Corporation. All rights reserved.
 //
 
+// MARK: MSDimmingViewType
+
 public enum MSDimmingViewType: Int {
     case white = 1
     case black
     case none
 }
+
+// MARK: - MSDimmingView
 
 open class MSDimmingView: UIView {
     public struct Constants {
@@ -14,8 +18,19 @@ open class MSDimmingView: UIView {
         public static let whiteAlpha: CGFloat = 0.5
     }
 
+    private var type: MSDimmingViewType
+
     public init(type: MSDimmingViewType) {
+        self.type = type
         super.init(frame: .zero)
+        setBackground(type: type)
+    }
+
+    public required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setBackground(type: MSDimmingViewType) {
         switch type {
         case .white:
             backgroundColor = UIColor(white: 1, alpha: Constants.whiteAlpha)
@@ -25,8 +40,18 @@ open class MSDimmingView: UIView {
             backgroundColor = .clear
         }
     }
+}
 
-    public required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+// MARK: - MSDimmingView: Obscurable
+
+extension MSDimmingView: Obscurable {
+    var view: UIView { return self }
+    var isObscuring: Bool {
+        get {
+            return backgroundColor != .clear
+        }
+        set {
+            setBackground(type: newValue ? type : .none)
+        }
     }
 }

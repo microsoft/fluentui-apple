@@ -55,7 +55,7 @@ class MSPersonaListViewDemoController: DemoController {
     }
 }
 
-// MARK: - MSPersonaListViewSearchDirectoryDelegate
+// MARK: - MSPersonaListViewDemoController: MSPersonaListViewSearchDirectoryDelegate
 
 extension MSPersonaListViewDemoController: MSPersonaListViewSearchDirectoryDelegate {
     func personaListSearchDirectory(_ personaListView: MSPersonaListView, completion: @escaping ((_ success: Bool) -> ())) {
