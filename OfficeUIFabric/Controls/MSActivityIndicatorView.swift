@@ -70,10 +70,10 @@ open class MSActivityIndicatorView: UIView {
 
     private struct Constants {
         static let rotationAnimationDuration: TimeInterval = 0.7
-        static let rotationAnimationKey = "rotationAnimation"
+        static let rotationAnimationKey: String = "rotationAnimation"
     }
 
-    open var hidesWhenStopped = true
+    open var hidesWhenStopped: Bool = true
     open var color: UIColor = MSColors.activityIndicator {
         didSet {
             setupLoaderLayer()
@@ -85,7 +85,7 @@ open class MSActivityIndicatorView: UIView {
         }
     }
     // Don't modify this directly. Instead, call `startAnimating` and `stopAnimating`
-    @objc(isAnimating) public private(set) var isAnimating = false
+    @objc(isAnimating) public private(set) var isAnimating: Bool = false
 
     private var loaderLayer: CAShapeLayer = {
         let shapeLayer = CAShapeLayer()

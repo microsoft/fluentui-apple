@@ -123,17 +123,19 @@ open class MSAvatarView: UIView {
         addSubview(imageView)
     }
 
-    @objc public required init(coder aDecoder: NSCoder) { fatalError() }
+    @objc public required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
-    override open var intrinsicContentSize: CGSize {
+    open override var intrinsicContentSize: CGSize {
         return avatarSize.size
     }
 
-    override open func sizeThatFits(_ size: CGSize) -> CGSize {
+    open override func sizeThatFits(_ size: CGSize) -> CGSize {
         return avatarSize.size
     }
 
-    override open func layoutSubviews() {
+    open override func layoutSubviews() {
         super.layoutSubviews()
 
         imageView.frame = bounds
@@ -221,6 +223,6 @@ open class MSAvatarView: UIView {
 
     // MARK: Accessibility
 
-    override open var accessibilityLabel: String? { get { return name ?? email } set {} }
-    override open var accessibilityTraits: UIAccessibilityTraits { get { return UIAccessibilityTraitImage } set {} }
+    open override var accessibilityLabel: String? { get { return name ?? email } set {} }
+    open override var accessibilityTraits: UIAccessibilityTraits { get { return UIAccessibilityTraitImage } set {} }
 }

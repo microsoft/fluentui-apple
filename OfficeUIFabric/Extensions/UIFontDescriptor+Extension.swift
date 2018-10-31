@@ -3,8 +3,8 @@
 //
 
 public extension UIFontDescriptor {
-    var traits: [UIFontDescriptor.TraitKey : Any]? {
-        return object(forKey: .traits) as? [UIFontDescriptor.TraitKey : Any]
+    var traits: [UIFontDescriptor.TraitKey: Any]? {
+        return object(forKey: .traits) as? [UIFontDescriptor.TraitKey: Any]
     }
     var weight: UIFont.Weight {
         if let weight = traits?[.weight] as? NSNumber {

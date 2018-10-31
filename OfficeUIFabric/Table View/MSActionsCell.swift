@@ -13,7 +13,7 @@ import UIKit
  */
 open class MSActionsCell: UITableViewCell {
     public static let defaultHeight: CGFloat = 45
-    public static let identifier = "MSActionsCell"
+    public static let identifier: String = "MSActionsCell"
 
     private struct Constants {
         static let actionTitleFont: UIFont = MSFonts.body
@@ -62,7 +62,7 @@ open class MSActionsCell: UITableViewCell {
         separator.isHidden = !hasAction
     }
 
-    override open func layoutSubviews() {
+    open override func layoutSubviews() {
         super.layoutSubviews()
 
         let actionCount: CGFloat = action2Button.isHidden ? 1 : 2
@@ -78,15 +78,15 @@ open class MSActionsCell: UITableViewCell {
         }
     }
 
-    override open func prepareForReuse() {
+    open override func prepareForReuse() {
         super.prepareForReuse()
         action1Button.removeTarget(nil, action: nil, for: .allEvents)
         action2Button.removeTarget(nil, action: nil, for: .allEvents)
     }
 
-    override open func setHighlighted(_ highlighted: Bool, animated: Bool) { }
+    open override func setHighlighted(_ highlighted: Bool, animated: Bool) { }
 
-    override open func setSelected(_ selected: Bool, animated: Bool) { }
+    open override func setSelected(_ selected: Bool, animated: Bool) { }
 
     private func actionTitleColor(isDestructive: Bool, isHighlighted: Bool) -> UIColor {
         if isDestructive {

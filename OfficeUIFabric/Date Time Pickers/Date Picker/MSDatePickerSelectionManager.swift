@@ -55,8 +55,10 @@ class MSDatePickerSelectionManager {
 
     private var selectedIndexPaths: (startIndexPath: IndexPath, endIndexPath: IndexPath) {
         switch selectionState {
-        case let .single(selectedIndexPath): return (selectedIndexPath, selectedIndexPath)
-        case let .range(startIndexPath, endIndexPath): return (startIndexPath, endIndexPath)
+        case let .single(selectedIndexPath):
+            return (selectedIndexPath, selectedIndexPath)
+        case let .range(startIndexPath, endIndexPath):
+            return (startIndexPath, endIndexPath)
         }
     }
 

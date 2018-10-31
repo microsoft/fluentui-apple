@@ -7,7 +7,7 @@ import UIKit
 // MARK: MSActivityIndicatorCell
 
 open class MSActivityIndicatorCell: UITableViewCell {
-    public static let identifier = "MSActivityIndicatorCell"
+    public static let identifier: String = "MSActivityIndicatorCell"
     public static let defaultHeight: CGFloat = 45
 
     private let activityIndicatorView: MSActivityIndicatorView = {

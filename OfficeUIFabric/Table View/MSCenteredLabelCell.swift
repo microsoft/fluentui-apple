@@ -7,11 +7,11 @@ import UIKit
 // MARK: MSCenteredLabelCell
 
 open class MSCenteredLabelCell: UITableViewCell {
-    public static let identifier = "MSCenteredLabelCell"
+    public static let identifier: String = "MSCenteredLabelCell"
     public static let defaultHeight: CGFloat = 45
 
     private struct Constants {
-        static let labelFont = MSFonts.body
+        static let labelFont: UIFont = MSFonts.body
         static let paddingVerticalSmall: CGFloat = 5
     }
 
@@ -24,7 +24,7 @@ open class MSCenteredLabelCell: UITableViewCell {
         return label
     }()
 
-    override public init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(label)
     }
@@ -41,14 +41,14 @@ open class MSCenteredLabelCell: UITableViewCell {
         setNeedsLayout()
     }
 
-    override open func layoutSubviews() {
+    open override func layoutSubviews() {
         super.layoutSubviews()
         let labelFittingSize = label.sizeThatFits(CGSize(width: contentView.width - layoutMargins.left - layoutMargins.right, height: CGFloat.greatestFiniteMagnitude))
         label.frame.size = labelFittingSize
         label.centerInSuperview()
     }
 
-    override open func setHighlighted(_ highlighted: Bool, animated: Bool) { }
+    open override func setHighlighted(_ highlighted: Bool, animated: Bool) { }
 
-    override open func setSelected(_ selected: Bool, animated: Bool) { }
+    open override func setSelected(_ selected: Bool, animated: Bool) { }
 }

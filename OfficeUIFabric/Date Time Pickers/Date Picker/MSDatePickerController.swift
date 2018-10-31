@@ -58,7 +58,7 @@ class MSDatePickerController: UIViewController {
         )
     }
 
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -79,7 +79,7 @@ class MSDatePickerController: UIViewController {
         }
     }
 
-    override public func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         calendarView.weekdayHeadingView.setup(horizontalSizeClass: traitCollection.horizontalSizeClass, firstWeekday: firstWeekday)
@@ -101,13 +101,13 @@ class MSDatePickerController: UIViewController {
         view.addSubview(calendarView)
     }
 
-    override public func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         scrollToStartDate(animated: false)
     }
 
-    override public func viewWillLayoutSubviews() {
+    public override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
         calendarView.frame = view.bounds

@@ -1,0 +1,189 @@
+whitelist_rules:
+  # Delegate protocols should be class-only so they can be weakly referenced.
+  - class_delegate_protocol
+
+  # Closing brace with closing parenthesis should not have any whitespaces in the middle.
+  - closing_brace
+
+  # Closure end should have the same indentation as the line that started it.
+  - closure_end_indentation
+
+  # Colons should be next to the identifier when specifying a type and next to the key in dictionary literals.
+  - colon
+
+  # There should be no space before and one after any comma.
+  - comma
+
+  # Conditional statements should always return on the next line.
+  - conditional_returns_on_newline
+
+  # Prefer contains over first(where:) != nil
+  - contains_over_first_not_nil
+
+  # if, for, guard, switch, while, and catch statements shouldn't unnecessarily wrap their conditionals or arguments in parentheses.
+  - control_statement
+
+  # Discouraged direct initialization of types that can be harmful (UIDevice, Bundle, etc)
+  - discouraged_direct_init
+
+  # Prefer () -> over Void ->.
+  - empty_parameters
+
+  # When using trailing closures, empty parentheses should be avoided after the method call.
+  - empty_parentheses_with_trailing_closure
+
+  # Properties should have a type interface
+  - explicit_type_interface
+
+  # Prefer to use extension access modifiers.
+  - extension_access_modifier
+
+  # A fatalError call should have a message.
+  - fatal_error_message
+
+  # Header comments should be consistent with project patterns.
+  - file_header
+
+  # Identifier names should only contain alphanumeric characters and start with a lowercase character or should only contain capital letters.
+  - identifier_name
+
+  # Computed read-only properties and subscripts should avoid using the get keyword.
+  - implicit_getter
+
+  # If defer is at the end of its parent scope, it will be executed right where it is anyway.
+  - inert_defer
+
+  # Files should not contain leading whitespace.
+  - leading_whitespace
+
+  # Struct-scoped constants are preferred over legacy global constants.
+  - legacy_constant
+
+  # Swift constructors are preferred over legacy convenience functions.
+  - legacy_constructor
+
+  # MARK comment should be in valid format. e.g. '// MARK: ...' or '// MARK: - ...'
+  - mark
+
+  # Modifier order should be consistent.
+  - modifier_order
+
+  # Functions and methods parameters should be either on the same line, or one per line.
+  - multiline_parameters
+
+  # Trailing closure syntax should not be used when passing more than one closure argument.
+  - multiple_closures_with_trailing_closure
+
+  # Opening braces should be preceded by a single space and on the same line as the declaration.
+  - opening_brace
+
+  # Operators should be surrounded by a single whitespace when they are being used.
+  - operator_usage_whitespace
+
+  # Some overridden methods should always call super
+  - overridden_super_call
+
+  # Prefer private over fileprivate declarations.
+  - private_over_fileprivate
+
+  # When declaring properties in protocols, the order of accessors should be get set.
+  - protocol_property_accessors_order
+
+  # Prefer _ = foo() over let _ = foo() when discarding a result from a function.
+  - redundant_discardable_let
+
+  # Initializing an optional variable with nil is redundant.
+  - redundant_optional_initialization
+
+  # Property setter access level shouldn't be explicit if it's the same as the variable access level.
+  - redundant_set_access_control
+
+  # String enum values can be omitted when they are equal to the enumcase name.
+  - redundant_string_enum_value
+
+  # Properties, variables, and constants should not have redundant type annotation
+  - redundant_type_annotation
+
+  # Returning Void in a function declaration is redundant.
+  - redundant_void_return
+
+  # Return arrow and return type should be separated by a single space or on a separate line.
+  - return_arrow_whitespace
+
+  # Prefer shorthand operators (+=, -=, *=, /=) over doing the operation and assigning.
+  - shorthand_operator
+
+  # Else and catch should be on the same line, one space after the previous declaration.
+  - statement_position
+
+  # SwiftLint 'disable' commands are superfluous when the disabled rule would not have triggered a violation in the disabled region.
+  - superfluous_disable_command
+
+  # Case statements should vertically align with their enclosing switch statement, or indented if configured otherwise.
+  - switch_case_alignment
+
+  # Cases inside a switch should always be on a newline.
+  - switch_case_on_newline
+
+  # Shorthand syntactic sugar should be used, i.e. [Int] instead of Array.
+  - syntactic_sugar
+
+  # Trailing commas in arrays and dictionaries should be avoided/enforced.
+  - trailing_comma
+
+  # Files should have a single trailing newline.
+  - trailing_newline
+
+  # Lines should not have trailing semicolons.
+  - trailing_semicolon
+
+  # Lines should not have trailing whitespace.
+  - trailing_whitespace
+
+  # Type name should only contain alphanumeric characters, start with an uppercase character, and span between 3 and 40 characters in length.
+  - type_name
+
+  # Avoid using unneeded break statements.
+  - unneeded_break_in_switch
+
+  # Unused parameter in a closure should be replaced with _.
+  - unused_closure_parameter
+
+  # When the index or the item is not used, .enumerated() can be removed.
+  - unused_enumerated
+
+  # Prefer != nil over let _ =.
+  - unused_optional_binding
+
+  # Function parameters should be aligned vertically if they're in multiple lines in a declaration.
+  - vertical_parameter_alignment
+
+  # Limit vertical whitespace to a single empty line.
+  - vertical_whitespace
+
+  # Prefer -> Void over -> ().
+  - void_return
+
+  # Delegates should be weak to avoid reference cycles.
+  - weak_delegate
+
+excluded: # paths to ignore during linting. Takes precedence over `included`.
+  - Pods
+explicit_type_interface: # requires type annotation on everything but local variables and constants
+  excluded:
+    - local
+  allow_redundancy: true # Ignores rule if it would result in redundancy
+file_header:
+  required_pattern: |
+                    \/\/
+                    \/\/  Copyright © \d{4} Microsoft Corporation\. All rights reserved\.
+                    \/\/
+identifier_name:
+  min_length: 1
+  max_length: 60
+modifier_order:
+  preferred_modifier_order:
+    - acl
+    - setterACL
+    - override
+    - typeMethods

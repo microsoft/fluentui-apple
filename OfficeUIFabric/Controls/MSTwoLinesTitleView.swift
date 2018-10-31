@@ -105,7 +105,7 @@ open class MSTwoLinesTitleView: UIView {
         return titleLabel
     }()
 
-    private var titleButtonImageView: UIImageView = UIImageView()
+    private var titleButtonImageView = UIImageView()
     private var titleButtonStyle: MSTwoLinesTitleViewButtonStyle?
 
     private let subtitleButton = MSEasyTapButton()
@@ -127,7 +127,7 @@ open class MSTwoLinesTitleView: UIView {
         applyStyle(style: style)
     }
 
-    override public init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
 
         applyStyle(style: .dark)
@@ -220,7 +220,7 @@ open class MSTwoLinesTitleView: UIView {
 
     // MARK: Layout
 
-    override open func sizeThatFits(_ size: CGSize) -> CGSize {
+    open override func sizeThatFits(_ size: CGSize) -> CGSize {
         var titleSize = titleButtonLabel.sizeThatFits(size)
         if let titleButtonStyle = titleButtonStyle {
             titleSize.width += 2 * (titleButtonStyle.width + titleButtonStyle.horizontalPadding)
@@ -234,7 +234,7 @@ open class MSTwoLinesTitleView: UIView {
         return CGSize(width: max(titleSize.width, subtitleSize.width), height: titleSize.height + subtitleSize.height)
     }
 
-    override open func layoutSubviews() {
+    open override func layoutSubviews() {
         super.layoutSubviews()
 
         let isCompact = traitCollection.verticalSizeClass == .compact
@@ -324,13 +324,13 @@ open class MSTwoLinesTitleView: UIView {
 
     // MARK: Accessibility
 
-    override open var isAccessibilityElement: Bool { get { return false } set { } }
+    open override var isAccessibilityElement: Bool { get { return false } set { } }
 
-    override open func accessibilityElementCount() -> Int {
+    open override func accessibilityElementCount() -> Int {
         return 2
     }
 
-    override open func accessibilityElement(at index: Int) -> Any? {
+    open override func accessibilityElement(at index: Int) -> Any? {
         if index == 0 {
             return titleButton
         } else if index == 1 {
@@ -339,7 +339,7 @@ open class MSTwoLinesTitleView: UIView {
         return nil
     }
 
-    override open func index(ofAccessibilityElement element: Any) -> Int {
+    open override func index(ofAccessibilityElement element: Any) -> Int {
         if let view = element as? UIView {
             return view == titleButton ? 0 : 1
         }

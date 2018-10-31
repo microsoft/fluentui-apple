@@ -16,7 +16,7 @@ class DemoController: UIViewController {
     }
 
     let container: UIStackView = createVerticalContainer()
-    let scrollingContainer: UIScrollView = UIScrollView(frame: .zero)
+    let scrollingContainer = UIScrollView(frame: .zero)
 
     func createButton(title: String, action: Selector) -> MSButton {
         let button = MSButton()

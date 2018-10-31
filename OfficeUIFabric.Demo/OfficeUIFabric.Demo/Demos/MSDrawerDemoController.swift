@@ -27,7 +27,7 @@ class MSDrawerDemoController: DemoController {
         } else if let barButtonItem = barButtonItem {
             controller = MSDrawerController(barButtonItem: barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection)
         } else {
-            fatalError()
+            fatalError("Presenting a drawer requires either a sourceView or a barButtonItem")
         }
         controller.preferredContentSize = CGSize(width: controller.preferredWidth, height: 200)
 

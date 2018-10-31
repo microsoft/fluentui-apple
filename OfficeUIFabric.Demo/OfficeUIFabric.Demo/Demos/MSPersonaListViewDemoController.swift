@@ -58,7 +58,7 @@ class MSPersonaListViewDemoController: DemoController {
 // MARK: - MSPersonaListViewDemoController: MSPersonaListViewSearchDirectoryDelegate
 
 extension MSPersonaListViewDemoController: MSPersonaListViewSearchDirectoryDelegate {
-    func personaListSearchDirectory(_ personaListView: MSPersonaListView, completion: @escaping ((_ success: Bool) -> ())) {
+    func personaListSearchDirectory(_ personaListView: MSPersonaListView, completion: @escaping ((_ success: Bool) -> Void)) {
         // Delay added for 2 seconds to demo activity indicator
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             let personas: [MSPersona] = [

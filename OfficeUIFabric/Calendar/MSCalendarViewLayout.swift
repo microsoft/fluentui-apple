@@ -23,12 +23,12 @@ class MSCalendarViewLayout: UICollectionViewLayout {
         // Higher Z indexes appear on top
     }
 
-    static let preferredItemHeight = Constants.itemHeight
+    static let preferredItemHeight: CGFloat = Constants.itemHeight
 
     weak var delegate: MSCalendarViewLayoutDelegate?
 
     private var numberOfSections: Int = 0
-    private var itemSize = CGSize.zero
+    private var itemSize: CGSize = .zero
 
     override func prepare() {
         super.prepare()

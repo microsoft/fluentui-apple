@@ -41,7 +41,7 @@ public struct MSColors {
 
     // MARK: Avatar background colors
 
-    public static let avatarBackgroundColors = [
+    public static let avatarBackgroundColors: [UIColor] = [
         #colorLiteral(red: 0, green: 0.4705882353, blue: 0.831372549, alpha: 1), // #0078D4
         #colorLiteral(red: 0.8196078431, green: 0.2039215686, blue: 0.2196078431, alpha: 1), // #D13438
         #colorLiteral(red: 0.5333333333, green: 0.09019607843, blue: 0.5960784314, alpha: 1), // #881798
@@ -62,7 +62,7 @@ public struct MSColors {
         #colorLiteral(red: 0.3607843137, green: 0.1803921569, blue: 0.568627451, alpha: 1), // #5C2E91
         #colorLiteral(red: 0.4117647059, green: 0.4745098039, blue: 0.4941176471, alpha: 1), // #69797E
         #colorLiteral(red: 0, green: 0.3568627451, blue: 0.4392156863, alpha: 1), // #005B70
-        #colorLiteral(red: 0.5568627451, green: 0.337254902, blue: 0.1803921569, alpha: 1), // #8E562E
+        #colorLiteral(red: 0.5568627451, green: 0.337254902, blue: 0.1803921569, alpha: 1) // #8E562E
     ]
 
     // MARK: Semantic

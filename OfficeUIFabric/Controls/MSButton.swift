@@ -25,7 +25,7 @@ open class MSButton: UIButton {
         super.init(coder: aDecoder)
         initialize()
     }
-    
+
     open func initialize() {
         contentEdgeInsets = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
         layer.cornerRadius = 8

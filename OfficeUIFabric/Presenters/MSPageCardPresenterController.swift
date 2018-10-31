@@ -21,8 +21,8 @@ open class MSPageCardPresenterController: UIViewController {
         static let pageControlVerticalMarginCompact: CGFloat = 5
     }
 
-    override open var modalPresentationStyle: UIModalPresentationStyle { get { return .custom } set { } }
-    override open var transitioningDelegate: UIViewControllerTransitioningDelegate? { get { return self } set { } }
+    open override var modalPresentationStyle: UIModalPresentationStyle { get { return .custom } set { } }
+    open override var transitioningDelegate: UIViewControllerTransitioningDelegate? { get { return self } set { } }
 
     var onDismiss: (() -> Void)?
     var onSwitchToNewViewController: ((UIViewController, Int) -> Void)?
@@ -65,11 +65,11 @@ open class MSPageCardPresenterController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
 
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override open func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
 
         scrollView.delegate = self
@@ -96,7 +96,7 @@ open class MSPageCardPresenterController: UIViewController {
         updateViewAccessibilityElements()
     }
 
-    override open func viewWillAppear(_ animated: Bool) {
+    open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         if startingIndex > 0 {
@@ -105,7 +105,7 @@ open class MSPageCardPresenterController: UIViewController {
         }
     }
 
-    override open func viewWillLayoutSubviews() {
+    open override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
         let positionRatio = scrollView.contentOffset.x / max(1, scrollView.contentSize.width)

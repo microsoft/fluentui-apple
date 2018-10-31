@@ -25,7 +25,7 @@ open class MSDatePicker: UIViewController {
     private struct Constants {
         // TODO: Make title button width dynamic
         static let titleButtonWidth: CGFloat = 160
-        static let preloadAvailabilityDaysOffset = 30
+        static let preloadAvailabilityDaysOffset: Int = 30
     }
 
     /// The currently selected whole date. Automatically changes to start of day when set.
@@ -63,7 +63,7 @@ open class MSDatePicker: UIViewController {
         initTitleView()
     }
 
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -81,14 +81,14 @@ open class MSDatePicker: UIViewController {
         presentingViewController.present(pageCardPresenterVC, animated: true)
     }
 
-    override open func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
 
         addChildController(contentController)
         initNavigationBar()
     }
 
-    override open func viewDidLayoutSubviews() {
+    open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
         updateTitleFrame()
@@ -96,7 +96,7 @@ open class MSDatePicker: UIViewController {
         contentController.view.frame = view.bounds
     }
 
-    override open func viewWillAppear(_ animated: Bool) {
+    open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         // Hide default bottom border of navigation bar

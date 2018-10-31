@@ -33,7 +33,7 @@ class MSCalendarViewDayTodayCell: MSCalendarViewDayCell {
 
     private func configureBackgroundColor() {
         if isHighlighted || isSelected {
-            switch backgroundStyle { 
+            switch backgroundStyle {
             case .primary:
                 contentView.backgroundColor = MSColors.CalendarView.DayCell.backgroundColorPrimary
             case .secondary:

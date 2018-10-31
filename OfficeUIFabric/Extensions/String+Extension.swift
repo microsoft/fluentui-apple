@@ -20,7 +20,7 @@ public extension String {
             // Discard name if first char is not a letter
             let isInitialLetter: Bool = initialLetter.count > 0 && CharacterSet.letters.contains(initialUnicodeScalar)
             if isInitialLetter && initials.count < 2 {
-                initials = initials + initialLetter
+                initials += initialLetter
             }
         }
 
@@ -97,9 +97,9 @@ public extension String {
 }
 
 @objc private enum MSDurationUnitInSeconds: Int {
-    case minute   = 60
-    case hour     = 3600
-    case day      = 86400 // 24h, when using this, keep in mind that a day is not necessarily 24h long.
+    case minute = 60
+    case hour = 3600
+    case day = 86400 // 24h, when using this, keep in mind that a day is not necessarily 24h long.
 }
 
 struct DateFormatterCache {
@@ -239,5 +239,3 @@ public extension String {
         return dateFormatter.string(from: date)
     }
 }
-
-

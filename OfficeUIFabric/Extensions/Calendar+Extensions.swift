@@ -5,7 +5,9 @@
 import Foundation
 
 public extension Calendar {
-    private static let sharedAutoUpdatingCalendar = Calendar.autoupdatingCurrent
+    private static let sharedAutoUpdatingCalendar: Calendar = .autoupdatingCurrent
+    // TODO: Remove this exception when SwiftLint rule false positive is fixed
+    // swiftlint:disable:next explicit_type_interface
     private static var sharedTimeZoneCalendars = [Calendar]()
 
     static func sharedCalendarWithTimeZone(_ timeZone: TimeZone?) -> Calendar {

@@ -14,7 +14,7 @@ import UIKit
 // MARK: - MSPersonaListViewSearchDirectoryDelegate
 
 @objc public protocol MSPersonaListViewSearchDirectoryDelegate {
-    func personaListSearchDirectory(_ personaListView: MSPersonaListView, completion: @escaping ((_ success: Bool) -> ()))
+    func personaListSearchDirectory(_ personaListView: MSPersonaListView, completion: @escaping ((_ success: Bool) -> Void))
 }
 
 // MARK: - MSPersonaListView
@@ -61,7 +61,7 @@ open class MSPersonaListView: UITableView {
             reloadRows(at: [IndexPath(row: 0, section: 1)], with: .none)
         }
     }
-    
+
     @objc override init(frame: CGRect, style: UITableViewStyle) {
         super.init(frame: frame, style: style)
 

@@ -16,7 +16,7 @@ open class MSPersonaCell: UITableViewCell {
     }
 
     public static let defaultHeight: CGFloat = 60
-    public static let identifier = "MSPersonaCell"
+    public static let identifier: String = "MSPersonaCell"
     public static var separatorLeftInset: CGFloat {
         return Constants.avatarMarginLeft + Constants.avatarSize.size.width + Constants.avatarMarginRight
     }
@@ -36,7 +36,7 @@ open class MSPersonaCell: UITableViewCell {
         return label
     }()
 
-    @objc override public init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    @objc public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
 
         contentView.addSubview(avatarView)
@@ -65,14 +65,14 @@ open class MSPersonaCell: UITableViewCell {
         setNeedsLayout()
     }
 
-    override open func prepareForReuse() {
+    open override func prepareForReuse() {
         super.prepareForReuse()
         nameLabel.text = nil
         subtitleLabel.text = nil
         subtitleLabel.isHidden = true
     }
 
-    override open func layoutSubviews() {
+    open override func layoutSubviews() {
         super.layoutSubviews()
 
         avatarView.left = Constants.avatarMarginLeft
@@ -106,13 +106,13 @@ open class MSPersonaCell: UITableViewCell {
 
     // setHighlighted and setSelected maintain the correct background color of avatar when the cell is highlighted or selected.
     // Without this avatar's background color will change to the cell's background color.
-    override open func setHighlighted(_ highlighted: Bool, animated: Bool) {
+    open override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         let avatarBackgroundColor = avatarView.avatarBackgroundColor
         super.setHighlighted(highlighted, animated: animated)
         avatarView.avatarBackgroundColor = avatarBackgroundColor
     }
 
-    override open func setSelected(_ selected: Bool, animated: Bool) {
+    open override func setSelected(_ selected: Bool, animated: Bool) {
         let avatarBackgroundColor = avatarView.avatarBackgroundColor
         super.setSelected(selected, animated: animated)
         avatarView.avatarBackgroundColor = avatarBackgroundColor
