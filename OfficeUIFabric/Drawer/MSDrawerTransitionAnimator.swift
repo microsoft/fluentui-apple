@@ -6,12 +6,14 @@
 
 class MSDrawerTransitionAnimator: NSObject {
     private struct Constants {
+        static let animationDurationMin: TimeInterval = 0.15
         static let animationDurationMax: TimeInterval = 0.25
         static let animationSpeed: CGFloat = 1300   // pixels per second
     }
 
     static func animationDuration(forSizeChange change: CGFloat) -> TimeInterval {
-        return min(TimeInterval(abs(change) / Constants.animationSpeed), Constants.animationDurationMax)
+        let duration = TimeInterval(abs(change) / Constants.animationSpeed)
+        return max(Constants.animationDurationMin, min(duration, Constants.animationDurationMax))
     }
 
     let presenting: Bool

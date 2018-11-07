@@ -2,6 +2,8 @@
 //  Copyright © 2018 Microsoft Corporation. All rights reserved.
 //
 
+// MARK: MSColors
+
 public struct MSColors {
     // MARK: Primary
 
@@ -69,25 +71,22 @@ public struct MSColors {
 
     // TODO: Add semantic colors describing colors used for particular control elements (must reference physical colors)
 
+    public static let activityIndicator: UIColor = gray
+    public static let background: UIColor = white
+    public static let centeredLabelText: UIColor = primary
+    public static let separator: UIColor = borderLightGray
+
     public struct Action {
         public static let text: UIColor = primary
         public static let textHighlighted: UIColor = primary.withAlphaComponent(0.4)
         public static let textDestructive: UIColor = warning
         public static let textDestructiveHighlighted: UIColor = warning.withAlphaComponent(0.4)
     }
+
     public struct Avatar {
         public static let text: UIColor = white
     }
-    public struct Persona {
-        public static let name: UIColor = black
-        public static let subtitle: UIColor = gray
-        public static let background: UIColor = white
-        public static let backgroundSelected: UIColor = backgroundGray
-    }
-    public static let activityIndicator: UIColor = gray
-    public static let background: UIColor = white
-    public static let centeredLabelText: UIColor = primary
-    public static let separator: UIColor = borderLightGray
+
     public struct CalendarView {
         public struct TodayCell {
             public static let background: UIColor = white
@@ -105,11 +104,34 @@ public struct MSColors {
             public static let selectedCircleNormalColor: UIColor = primary
         }
     }
+
     public struct PageCardPresenter {
         public static let currentPageIndicatorTintColor: UIColor = white
         public static let pageIndicatorTintColor: UIColor = white.withAlphaComponent(0.5)
     }
+
+    public struct Persona {
+        public static let name: UIColor = black
+        public static let subtitle: UIColor = gray
+        public static let background: UIColor = white
+        public static let backgroundSelected: UIColor = backgroundGray
+    }
+
+    public struct PopupMenu {
+        public struct Item {
+            public static let imageSelected: UIColor = primary
+            public static let title: UIColor = black
+            public static let titleSelected: UIColor = primary
+            public static let titleDisabled: UIColor = borderLightGray
+            public static let subtitle: UIColor = gray
+            public static let subtitleSelected: UIColor = primary
+            public static let subtitleDisabled: UIColor = borderLightGray
+        }
+        public static let sectionHeader: UIColor = darkGray
+    }
 }
+
+// MARK: - MSTextColorStyle
 
 public enum MSTextColorStyle: Int {
     case regular

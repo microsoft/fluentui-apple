@@ -35,7 +35,7 @@ open class MSDrawerController: UIViewController {
 
      Transition is always animated when drawer is visible.
      */
-    open var isExpanded: Bool = false {
+    @objc open var isExpanded: Bool = false {
         didSet {
             if isExpanded == oldValue {
                 return
@@ -81,6 +81,11 @@ open class MSDrawerController: UIViewController {
             }
         }
     }
+
+    /// `onDismiss` is called when popup menu is being dismissed.
+    @objc open var onDismiss: (() -> Void)?
+    /// `onDismissCompleted` is called after popup menu was dismissed.
+    @objc open var onDismissCompleted: (() -> Void)?
 
     private let sourceView: UIView?
     private let sourceRect: CGRect?
@@ -135,7 +140,7 @@ open class MSDrawerController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func initialize() {
+    open func initialize() {
         modalPresentationStyle = .custom
         transitioningDelegate = self
     }
@@ -144,6 +149,20 @@ open class MSDrawerController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = MSColors.background
         view.isAccessibilityElement = false
+    }
+
+    open override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if isBeingDismissed {
+            onDismiss?()
+        }
+    }
+
+    open override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        if isBeingDismissed {
+            onDismissCompleted?()
+        }
     }
 
     open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -161,13 +180,13 @@ open class MSDrawerController: UIViewController {
 
     private func presentationStyle(for sourceViewController: UIViewController) -> PresentationStyle {
         guard let window = sourceViewController.view?.window else {
-            // No window, use the device type as last resort. It will be only a problem in splitView on iPad
+            // No window, use the device type as last resort.
+            // It will be a problem:
+            //   - on iPhone Plus/X in landscape orientation
+            //   - on iPad in split view 
             return UIDevice.isPhone ? .slideover : .popover
         }
-        if window.traitCollection.horizontalSizeClass == .compact || UIDevice.isPhonePlus {
-            return .slideover
-        }
-        return .popover
+        return window.traitCollection.horizontalSizeClass == .compact ? .slideover : .popover
     }
 }
 
@@ -175,7 +194,7 @@ open class MSDrawerController: UIViewController {
 
 extension MSDrawerController: UIViewControllerTransitioningDelegate {
     public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if presented.presentationController is MSDrawerPresentationController {
+        if presentationStyle(for: source) == .slideover {
             return MSDrawerTransitionAnimator(presenting: true, presentationDirection: presentationDirection)
         }
         return nil
@@ -196,6 +215,7 @@ extension MSDrawerController: UIViewControllerTransitioningDelegate {
             let presentationController = UIPopoverPresentationController(presentedViewController: presented, presenting: presenting)
             presentationController.backgroundColor = MSColors.background
             presentationController.permittedArrowDirections = permittedArrowDirections
+            presentationController.delegate = self
 
             if let sourceView = sourceView {
                 presentationController.sourceView = sourceView
@@ -210,5 +230,13 @@ extension MSDrawerController: UIViewControllerTransitioningDelegate {
 
             return presentationController
         }
+    }
+}
+
+// MARK: - MSDrawerController: UIPopoverPresentationControllerDelegate
+
+extension MSDrawerController: UIPopoverPresentationControllerDelegate {
+    public func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return .none
     }
 }
