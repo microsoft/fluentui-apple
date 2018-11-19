@@ -6,13 +6,14 @@ public extension UIImage {
     /// Full replacement for `UIImage(named:)` which attempts to recolor image assets with a color from the high contrast
     /// color palette when `Darken Colors` is enabled. The method is called `static` because the images are outputted with
     /// the rendering mode `AlwaysOriginal` with the intention of preventing further recoloring by `tintColor`.
-    @objc class func staticImageNamed(_ name: String, in bundle: Bundle? = nil, withPrimaryColorForDarkerSystemColors primaryColor: UIColor? = nil) -> UIImage? {
+    @objc class func staticImageNamed(_ name: String, in bundle: Bundle? = nil, withPrimaryColorForDarkerSystemColors darkerPrimaryColor: UIColor? = nil) -> UIImage? {
         guard var image = UIImage(named: name, in: bundle, compatibleWith: nil) else {
             NSLog("Missing image asset with name: \(name)")
             return nil
         }
 
-        if UIAccessibilityDarkerSystemColorsEnabled(), let primaryColor = primaryColor {
+        if UIAccessibilityDarkerSystemColorsEnabled(),
+            let primaryColor = darkerPrimaryColor ?? self.darkerPrimaryColor(forImageNamed: name, in: bundle) {
             // Recolor image with high contrast version of `primaryColor`
             image = recolorImage(image, withPrimaryColor: primaryColor)
         }
@@ -21,12 +22,12 @@ public extension UIImage {
         return image.withRenderingMode(.alwaysOriginal)
     }
 
-    internal class func staticImageNamed(_ name: String) -> UIImage? {
+    internal static func staticImageNamed(_ name: String) -> UIImage? {
         // TODO: Provide primary color for known images
         return staticImageNamed(name, in: OfficeUIFabricFramework.bundle)
     }
 
-    private class func recolorImage(_ originalImage: UIImage, withPrimaryColor primaryColor: UIColor) -> UIImage {
+    private static func recolorImage(_ originalImage: UIImage, withPrimaryColor primaryColor: UIColor) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(originalImage.size, false, originalImage.scale)
 
         // Fill canvas with `primaryColor`
@@ -44,8 +45,34 @@ public extension UIImage {
         return image
     }
 
-    @objc public func image(withPrimaryColor primaryColor: UIColor) -> UIImage {
+    @objc func image(withPrimaryColor primaryColor: UIColor) -> UIImage {
         // Force image to be `AlwaysOriginal` regardless of the setting in `.xcassets` to prevent recoloring caused by `tintColor`
         return UIImage.recolorImage(self, withPrimaryColor: primaryColor).withRenderingMode(.alwaysOriginal)
     }
 }
+
+// MARK: - Primary colors for Darker System Colors mode
+
+public extension UIImage {
+    private static var darkerPrimaryColorByImageNameByBundle: [Bundle: [String: UIColor]] = [
+        OfficeUIFabricFramework.bundle: darkerPrimaryColorByImageName
+    ]
+
+    static func addDarkerPrimaryColors(_ colors: [String: UIColor], forImagesIn bundle: Bundle) {
+        darkerPrimaryColorByImageNameByBundle[bundle] = colors
+    }
+
+    private static func darkerPrimaryColor(forImageNamed imageName: String, in bundle: Bundle?) -> UIColor? {
+        return darkerPrimaryColorByImageNameByBundle[bundle ?? .main]?[imageName]
+    }
+}
+
+/// Add definitions to this list to support recoloring an image asset with a color from the high contrast color palette
+/// when `Darken Colors` is enabled. Missing entries will use the original color set in the image asset `PDF` because
+/// the image is loaded with the rendering mode `AlwaysOriginal`.
+private let darkerPrimaryColorByImageName: [String: UIColor] = [
+    "back-25x25": #colorLiteral(red: 0.3019607843, green: 0.3019607843, blue: 0.3019607843, alpha: 1),                 // #4D4D4D
+    "checkmark-blue-20x20": #colorLiteral(red: 0, green: 0.3882352941, blue: 0.6784313725, alpha: 1),       // #0063AD
+    "checkmark-blue-25x25": #colorLiteral(red: 0, green: 0.3882352941, blue: 0.6784313725, alpha: 1),       // #0063AD
+    "checkmark-blue-thin-20x20": #colorLiteral(red: 0, green: 0.3882352941, blue: 0.6784313725, alpha: 1)   // #0063AD
+]
