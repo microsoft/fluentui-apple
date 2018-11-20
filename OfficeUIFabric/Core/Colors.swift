@@ -37,9 +37,14 @@ public struct MSColors {
     public static let black: UIColor = #colorLiteral(red: 0.1333333333, green: 0.1333333333, blue: 0.1333333333, alpha: 1)
 
     /// #E8484C
-    public static let warning: UIColor = #colorLiteral(red: 0.9098039216, green: 0.2823529412, blue: 0.2980392157, alpha: 1)
+    public static let error: UIColor = #colorLiteral(red: 0.9098039216, green: 0.2823529412, blue: 0.2980392157, alpha: 1)
     /// #FFF3F4
-    public static let lightWarning: UIColor = #colorLiteral(red: 1, green: 0.9529411765, blue: 0.9568627451, alpha: 1)
+    public static let lightError: UIColor = #colorLiteral(red: 1, green: 0.9529411765, blue: 0.9568627451, alpha: 1)
+
+    /// #574305
+    public static let warning: UIColor = #colorLiteral(red: 0.3411764706, green: 0.262745098, blue: 0.01960784314, alpha: 1)
+    /// #E2DDCC
+    public static let lightWarning: UIColor = #colorLiteral(red: 0.8862745098, green: 0.8666666667, blue: 0.8, alpha: 1)
 
     // MARK: Avatar background colors
 
@@ -79,12 +84,29 @@ public struct MSColors {
     public struct Action {
         public static let text: UIColor = primary
         public static let textHighlighted: UIColor = primary.withAlphaComponent(0.4)
-        public static let textDestructive: UIColor = warning
-        public static let textDestructiveHighlighted: UIColor = warning.withAlphaComponent(0.4)
+        public static let textDestructive: UIColor = error
+        public static let textDestructiveHighlighted: UIColor = error.withAlphaComponent(0.4)
     }
 
     public struct Avatar {
         public static let text: UIColor = white
+    }
+
+    public struct Badge {
+        public static let background: UIColor = primary.withAlphaComponent(0.24)
+        public static let backgroundDisabled: UIColor = backgroundLightGray
+        public static let backgroundError: UIColor = lightError
+        public static let backgroundErrorSelected: UIColor = error
+        public static let backgroundSelected: UIColor = primary
+        public static let backgroundWarning: UIColor = lightWarning
+        public static let backgroundWarningSelected: UIColor = warning
+        public static let text: UIColor = primary
+        public static let textDisabled: UIColor = darkGray
+        public static let textError: UIColor = error
+        public static let textErrorSelected: UIColor = lightError
+        public static let textSelected: UIColor = white
+        public static let textWarning: UIColor = warning
+        public static let textWarningSelected: UIColor = lightWarning
     }
 
     public struct CalendarView {
@@ -138,6 +160,7 @@ public enum MSTextColorStyle: Int {
     case secondary
     case white
     case primary
+    case error
     case warning
 
     // TODO: Replace with conformance to CaseIterable after switch to Swift 4.2
@@ -153,6 +176,8 @@ public enum MSTextColorStyle: Int {
             return MSColors.white
         case .primary:
             return MSColors.primary
+        case .error:
+            return MSColors.error
         case .warning:
             return MSColors.warning
         }

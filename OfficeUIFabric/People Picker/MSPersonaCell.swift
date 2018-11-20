@@ -45,6 +45,7 @@ open class MSPersonaCell: UITableViewCell {
         setupCellBackgroundColors()
         nameLabel.lineBreakMode = .byTruncatingTail
         subtitleLabel.lineBreakMode = .byTruncatingTail
+        avatarView.accessibilityElementsHidden = true
     }
 
     public required init(coder aDecoder: NSCoder) {

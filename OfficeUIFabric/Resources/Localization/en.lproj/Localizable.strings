@@ -6,6 +6,9 @@
 "Accessibility.Alert" = "Alert";
 "Accessibility.Dismiss.Label" = "Dismiss";
 "Accessibility.Dismiss.Hint" = "Double tap to dismiss";
+"Accessibility.Select.Hint" = "Double tap to select";
+"Accessibility.Selected.Hint" = "Double tap to see details";
+"Accessibility.Selected.Value" = "Selected";
 
 /* Accessibility label for the upper calendar date picker view. */
 "Accessibility.Calendar.Label" = "Calendar";
@@ -23,5 +26,3 @@
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Search Directory";
-"MSPersonaListView.SingleResult" = "result found from directory";
-"MSPersonaListView.MultipleResults" = "results found from directory";
