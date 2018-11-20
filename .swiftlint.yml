@@ -140,7 +140,7 @@ whitelist_rules:
   # Lines should not have trailing whitespace.
   - trailing_whitespace
 
-  # Type name should only contain alphanumeric characters, start with an uppercase character, and span between 3 and 40 characters in length.
+  # Type name should only contain alphanumeric characters, start with an uppercase character, and span between 3 and 50 characters in length.
   - type_name
 
   # Avoid using unneeded break statements.
@@ -187,3 +187,6 @@ modifier_order:
     - setterACL
     - override
     - typeMethods
+type_name:
+  min_length: 3
+  max_length: 50

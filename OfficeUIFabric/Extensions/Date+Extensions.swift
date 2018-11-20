@@ -7,6 +7,23 @@ import Foundation
 // MARK: Calculations
 
 public extension Date {
+    private static var _has24HourFormat: Bool?
+
+    static func has24HourFormat() -> Bool {
+        if _has24HourFormat == nil {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .none
+            dateFormatter.timeStyle = .short
+
+            let timeString = dateFormatter.string(from: Date())
+            let amRange = timeString.range(of: dateFormatter.amSymbol)
+            let pmRange = timeString.range(of: dateFormatter.pmSymbol)
+            _has24HourFormat = amRange?.lowerBound == nil && pmRange?.lowerBound == nil
+        }
+
+        return _has24HourFormat!
+    }
+
     /**
      * Derive a new date from `self` by going back in time until the first moment of that day
      *
@@ -40,6 +57,20 @@ public extension Date {
         let firstMidnightDate = calendar.startOfDay(for: self)
         let secondMidnightDate = calendar.startOfDay(for: date)
         return calendar.dateComponents([.day], from: firstMidnightDate, to: secondMidnightDate).day ?? 0
+    }
+
+    func rounded(toCalendarUnits units: Set<Calendar.Component>, timeZone: TimeZone? = nil) -> Date {
+        let calendar = Calendar.sharedCalendarWithTimeZone(timeZone)
+        let components = calendar.dateComponents(units, from: self)
+
+        if let date = calendar.date(from: components) {
+            return date
+        }
+
+        assertionFailure("dateRoundedToCalendarUnits > couldn't build date from components")
+
+        // Return the original date in case of error
+        return self
     }
 }
 

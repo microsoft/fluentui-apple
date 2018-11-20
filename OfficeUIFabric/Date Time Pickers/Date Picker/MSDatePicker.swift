@@ -31,7 +31,7 @@ open class MSDatePicker: UIViewController {
     /// The currently selected whole date. Automatically changes to start of day when set.
     open var date: Date {
         get {
-            return contentController.startDate as Date
+            return contentController.startDate
         }
         set {
             let startDate = newValue.startOfDay
@@ -69,8 +69,14 @@ open class MSDatePicker: UIViewController {
 
     /// Presents this date picker over the selected view controller, using a card modal style.
     ///
-    /// - Parameter parentViewController: The view controller the date picker will be presented on top of
+    /// - Parameter presentingViewController: The view controller the date picker will be presented on top of
     public func present(from presentingViewController: UIViewController) {
+        if UIAccessibilityIsVoiceOverRunning() {
+            let dateTimePicker = MSDateTimePicker(date: date, showsTime: false)
+            dateTimePicker.delegate = self
+            dateTimePicker.present(from: presentingViewController)
+        }
+
         let navController = MSCardPresenterNavigationController(rootViewController: self)
         let pageCardPresenterVC = MSPageCardPresenterController(viewControllers: [navController], startingIndex: 0)
 
@@ -125,14 +131,13 @@ open class MSDatePicker: UIViewController {
     // MARK: Add components to hierarchy
 
     private func initNavigationBar() {
-        let bundle = Bundle(for: MSDatePicker.self)
-        if let image = UIImage(named: "checkmark-blue-25x25", in: bundle, compatibleWith: nil),
-            let landscapeImage = UIImage(named: "checkmark-blue-thin-20x20", in: bundle, compatibleWith: nil) {
+        if let image = UIImage.staticImageNamed("checkmark-blue-25x25"),
+            let landscapeImage = UIImage.staticImageNamed("checkmark-blue-thin-20x20") {
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, landscapeImagePhone: landscapeImage, style: .plain, target: self, action: #selector(handleDidTapDone))
         }
-        if let image = UIImage(named: "back-25x25", in: bundle, compatibleWith: nil) {
+        if let image = UIImage.staticImageNamed("back-25x25") {
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(handleDidTapBack))
-            navigationItem.leftBarButtonItem?.tintColor = MSColors.gray
+            navigationItem.leftBarButtonItem?.tintColor = MSColors.buttonImage
         }
         navigationItem.titleView = titleView
     }
@@ -178,6 +183,14 @@ extension MSDatePicker: MSDatePickerControllerDelegate {
     func datePickerController(_ datePickerController: MSDatePickerController, didSelectDate: Date) {
         updateNavigationBar()
         // TODO: Add delegate call for notifying date did change
+    }
+}
+
+// MARK: - MSDatePicker: MSDateTimePickerDelegate
+
+extension MSDatePicker: MSDateTimePickerDelegate {
+    func dateTimePicker(_ dateTimePicker: MSDateTimePicker, didPickDate date: Date) {
+        delegate?.datePicker(self, didPickDate: date)
     }
 }
 

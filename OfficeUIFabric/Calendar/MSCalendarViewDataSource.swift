@@ -48,7 +48,7 @@ class MSCalendarViewDataSource: NSObject {
     private var startOfDayCache: [Int: Date]!
     private var indicatorLevelForDayCache: [Date: Int]!
 
-    init(styleDataSource: MSCalendarViewStyleDataSource, indicatorDataSource: MSCalendarViewIndicatorDataSource? = nil, calendarConfiguration: MSCalendarConfiguration = MSCalendarConfiguration.defaultConfiguration) {
+    init(styleDataSource: MSCalendarViewStyleDataSource, indicatorDataSource: MSCalendarViewIndicatorDataSource? = nil, calendarConfiguration: MSCalendarConfiguration = MSCalendarConfiguration.default) {
         self.styleDataSource = styleDataSource
         self.calendarConfiguration = calendarConfiguration
         self.indicatorDataSource = indicatorDataSource
@@ -73,8 +73,8 @@ class MSCalendarViewDataSource: NSObject {
         shortStandaloneMonthSymbols = calendar.shortStandaloneMonthSymbols
 
         // Reload first date and last date in case week start changed or time zone changed
-        firstDate = calendar.startOfWeek(for: calendarConfiguration.referenceStartDate(), firstWeekday: firstWeekday)
-        lastDate = calendar.endOfWeek(for: calendarConfiguration.referenceEndDate(), firstWeekday: firstWeekday)
+        firstDate = calendar.startOfWeek(for: calendarConfiguration.referenceStartDate, firstWeekday: firstWeekday)
+        lastDate = calendar.endOfWeek(for: calendarConfiguration.referenceEndDate, firstWeekday: firstWeekday)
 
         // Reload today date, today date components, and today index path in case midnight passed or time zone changed
         todayDate = calendar.startOfDay(for: Date())
@@ -171,7 +171,7 @@ extension MSCalendarViewDataSource: UICollectionViewDataSource {
         let indicatorLevel = self.indicatorLevel(forDayWithStart: dayStartDate, end: dayEndDate)
 
         // Setup cell
-        if dayStartDate.compare(calendar.startOfDay(for: calendarConfiguration.referenceStartDate())) == .orderedAscending {
+        if dayStartDate.compare(calendar.startOfDay(for: calendarConfiguration.referenceStartDate)) == .orderedAscending {
             // Before reference start date
             let dayCell = collectionView.dequeueReusableCell(withReuseIdentifier: MSCalendarViewDayCell.identifier, for: indexPath) as! MSCalendarViewDayCell
             dayCell.setup(textStyle: textStyle, backgroundStyle: backgroundStyle, selectionStyle: selectionStyle, dateLabelText: "", indicatorLevel: 0)

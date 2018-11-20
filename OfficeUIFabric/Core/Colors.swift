@@ -78,6 +78,7 @@ public struct MSColors {
 
     public static let activityIndicator: UIColor = gray
     public static let background: UIColor = white
+    public static let buttonImage: UIColor = gray
     public static let centeredLabelText: UIColor = primary
     public static let separator: UIColor = borderLightGray
 
@@ -125,6 +126,11 @@ public struct MSColors {
             public static let highlightedCircleColor: UIColor = gray
             public static let selectedCircleNormalColor: UIColor = primary
         }
+    }
+
+    public struct DateTimePicker {
+        public static let text: UIColor = gray
+        public static let textEmphasized: UIColor = primary
     }
 
     public struct PageCardPresenter {

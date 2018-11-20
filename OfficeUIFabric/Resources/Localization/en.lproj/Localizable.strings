@@ -24,5 +24,47 @@
 /* Accessibility: There's no events on the given day */
 "Accessibility.Calendar.Events.None" = "no events";
 
+/* Accessibility label for month in date time picker */
+"Accessibility.DateTime.Month.Label" = "Month";
+
+/* Accessibility label for day in date time picker */
+"Accessibility.DateTime.Day.Label" = "Day";
+
+/* Accessibility label for year in date time picker */
+"Accessibility.DateTime.Year.Label" = "Year";
+
+/* Accessibility label for date in date time picker */
+"Accessibility.DateTime.Date.Label" = "Date";
+
+/* Accessibility label for hour in date time picker */
+"Accessibility.DateTime.Hour.Label" = "Hour";
+
+/* Accessibility label for minute in date time picker */
+"Accessibility.DateTime.Minute.Label" = "Minute";
+
+/* Accessibility label for AM/PM in date time picker */
+"Accessibility.DateTime.AMPM.Label" = "AM/PM";
+
+/* Accessibility label for week of month in date time picker */
+"Accessibility.DateTime.WeekOfMonth.Label" = "Week of month";
+
+/* Accessibility label for day of week in date time picker */
+"Accessibility.DateTime.DayOfWeek.Label" = "Day of week";
+
+/* Accessibility label for first week of the month */
+"Accessibility.DateTime.Week.First" = "First";
+
+/* Accessibility label for second week of the month */
+"Accessibility.DateTime.Week.Second" = "Second";
+
+/* Accessibility label for third week of the month */
+"Accessibility.DateTime.Week.Third" = "Third";
+
+/* Accessibility label for fourth week of the month */
+"Accessibility.DateTime.Week.Fourth" = "Fourth";
+
+/* Accessibility label for last week of the month */
+"Accessibility.DateTime.Week.Last" = "Last";
+
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Search Directory";
