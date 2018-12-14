@@ -4,28 +4,28 @@
 
 import Foundation
 
-// MARK: MSDateTimePickerDelegate
+// MARK: MSDateTimePickerController
 
-@objc protocol MSDateTimePickerDelegate: class {
-    @objc func dateTimePicker(_ dateTimePicker: MSDateTimePicker, didPickDate date: Date)
-    @objc optional func dateTimePicker(_ dateTimePicker: MSDateTimePicker, didSelectDate date: Date)
-}
-
-// MARK: - MSDateTimePicker
-
-class MSDateTimePicker: UIViewController {
+class MSDateTimePickerController: UIViewController, DateTimePicker {
     private struct Constants {
         static let idealRowCount: Int = 7
         static let idealWidth: CGFloat = 320
+        static let titleButtonWidth: CGFloat = 160
     }
 
     var mode: MSDateTimePickerViewMode { return dateTimePickerView.mode }
 
-    weak var delegate: MSDateTimePickerDelegate?
+    var date: Date {
+        didSet {
+            dateTimePickerView.setDate(date, animated: false)
+            updateNavigationBar()
+        }
+    }
 
-    private var date: Date
+    weak var delegate: DateTimePickerDelegate?
 
     private let dateTimePickerView: MSDateTimePickerView
+    private let titleView = MSTwoLinesTitleView()
 
     // TODO: Add availability back in? - contactAvailabilitySummaryDataSource: ContactAvailabilitySummaryDataSource?,
     init(date: Date, showsTime: Bool = true) {
@@ -38,25 +38,11 @@ class MSDateTimePicker: UIViewController {
 
         dateTimePickerView.addTarget(self, action: #selector(handleDidSelectDate(_:)), for: .valueChanged)
 
-        initNavigationBar()
+        updateNavigationBar()
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    /// Presents this date time picker over the selected view controller, using a card modal style.
-    ///
-    /// - Parameter presentingViewController: The view controller the date picker will be presented on top of
-    func present(from presentingViewController: UIViewController) {
-        let navController = MSCardPresenterNavigationController(rootViewController: self)
-        let pageCardPresenterVC = MSPageCardPresenterController(viewControllers: [navController], startingIndex: 0)
-
-        pageCardPresenterVC.onDismiss = {
-            self.dismiss(accept: false)
-        }
-
-        presentingViewController.present(pageCardPresenterVC, animated: true)
     }
 
     override func viewDidLoad() {
@@ -64,6 +50,7 @@ class MSDateTimePicker: UIViewController {
         view.backgroundColor = MSColors.background
 
         view.addSubview(dateTimePickerView)
+        initNavigationBar()
     }
 
     override func viewDidLayoutSubviews() {
@@ -83,9 +70,23 @@ class MSDateTimePicker: UIViewController {
             let landscapeImage = UIImage.staticImageNamed("checkmark-blue-thin-20x20") {
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, landscapeImagePhone: landscapeImage, style: .plain, target: self, action: #selector(handleDidTapDone))
         }
-        if let image = UIImage.staticImageNamed("back-25x25") {
-            navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(handleDidTapBack))
-            navigationItem.leftBarButtonItem?.tintColor = MSColors.buttonImage
+        navigationItem.titleView = titleView
+    }
+
+    private func updateNavigationBar() {
+        let title = String.dateString(from: date, compactness: .shortDaynameShortMonthnameDay)
+        titleView.setup(title: title)
+        updateTitleFrame()
+    }
+
+    private func updateTitleFrame() {
+        if let navigationController = navigationController {
+            titleView.frame = CGRect(
+                x: 0.0,
+                y: 0.0,
+                width: Constants.titleButtonWidth,
+                height: navigationController.navigationBar.height
+            )
         }
     }
 
@@ -98,21 +99,17 @@ class MSDateTimePicker: UIViewController {
 
     @objc private func handleDidSelectDate(_ datePicker: MSDateTimePickerView) {
         date = datePicker.date
-        delegate?.dateTimePicker?(self, didSelectDate: date)
+        delegate?.dateTimePicker(self, didSelectDate: date)
     }
 
     @objc private func handleDidTapDone(_ item: UIBarButtonItem) {
         dismiss(accept: true)
     }
-
-    @objc private func handleDidTapBack(_ item: UIBarButtonItem) {
-        dismiss(accept: false)
-    }
 }
 
-// MARK: - MSDateTimePicker: MSCardPresentable
+// MARK: - MSDateTimePickerController: MSCardPresentable
 
-extension MSDateTimePicker: MSCardPresentable {
+extension MSDateTimePickerController: MSCardPresentable {
     func idealSize() -> CGSize {
         let height = MSDateTimePickerViewLayout.height(forRowCount: Constants.idealRowCount)
         return CGSize(width: Constants.idealWidth, height: height)

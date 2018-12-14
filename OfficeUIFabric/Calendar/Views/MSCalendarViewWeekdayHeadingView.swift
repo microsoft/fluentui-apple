@@ -28,8 +28,6 @@ class MSCalendarViewWeekdayHeadingView: UIView {
     private var firstWeekday: Int?
     private let headerStyle: MSDatePickerHeaderStyle
 
-    // TODO: Remove this exception when SwiftLint rule false positive is fixed
-    // swiftlint:disable:next explicit_type_interface
     private var headingLabels = [UILabel]()
 
     init(headerStyle: MSDatePickerHeaderStyle) {

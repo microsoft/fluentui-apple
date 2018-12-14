@@ -4,10 +4,11 @@
 
 import Foundation
 
-// MARK: MSDatePickerControllerDelegate
+// MARK: MSDatePickerHeaderStyle
 
-protocol MSDatePickerControllerDelegate: class {
-    func datePickerController(_ datePickerController: MSDatePickerController, didSelectDate date: Date)
+@objc enum MSDatePickerHeaderStyle: Int {
+    case light
+    case dark
 }
 
 // MARK: - MSDatePickerController
@@ -16,18 +17,31 @@ protocol MSDatePickerControllerDelegate: class {
  * Represents a date picker, that enables the user to scroll through years vertically week by week.
  * The user can select a date or a range of dates.
  */
-
-class MSDatePickerController: UIViewController {
+class MSDatePickerController: UIViewController, DateTimePicker {
     private struct Constants {
         static let idealWidth: CGFloat = 343
+        // TODO: Make title button width dynamic
+        static let titleButtonWidth: CGFloat = 160
+        static let preloadAvailabilityDaysOffset: Int = 30
+    }
+
+    // Temporary date property for single date selection and DateTimePicker conformance. Will remove when MSDateSelectable is refactored to include start and end date.
+    /// The currently selected whole date. Automatically changes to start of day when set.
+    var date: Date {
+        get {
+            return startDate
+        }
+        set {
+            let startDate = newValue.startOfDay
+            setup(startDate: startDate, endDate: startDate.adding(hours: 23, minutes: 59))
+            updateNavigationBar()
+        }
     }
 
     var firstWeekday: Int = Calendar.current.firstWeekday
 
     var startDate: Date { return selectionManager.selectedDates.startDate }
     var endDate: Date { return selectionManager.selectedDates.endDate }
-
-    weak var delegate: MSDatePickerControllerDelegate?
 
     var visibleDates: (startDate: Date, endDate: Date)? {
         let contentOffset = calendarView.collectionView.contentOffset
@@ -38,6 +52,11 @@ class MSDatePickerController: UIViewController {
         return selectionManager.selectionMode == .start ? startDate : endDate
     }
 
+    weak var delegate: DateTimePickerDelegate?
+
+    private var titleView: MSTwoLinesTitleView!
+    private let subtitle: String?
+
     private var monthOverlayIsShown: Bool = false
     private var reloadDataAfterOverlayIsNeeded: Bool = false
 
@@ -45,20 +64,33 @@ class MSDatePickerController: UIViewController {
     private let calendarView = MSCalendarView()
     private var calendarViewDataSource: MSCalendarViewDataSource!
 
-    // TODO: Add availability back in? availabilityDataSource: MeetingCalendarDatePickerAvailabilityDataSource?
-    init(startDate: Date, endDate: Date, selectionMode: MSDatePickerSelectionManager.SelectionMode) {
+    // TODO: Add availability back in? - contactAvailabilitySummaryDataSource: ContactAvailabilitySummaryDataSource?,
+
+    /// Creates and sets up a calendar-style date picker, with a specified date shown first.
+    ///
+    /// - Parameters:
+    ///   - startDate: A date object for the start day or day/time to be initially selected. Until range implemented, changes to start of day.
+    ///   - endDate: An optional date object for an end day or day/time to be initially selected. Until range implemented, ignored.
+    ///   - selectionMode: The side (start or end) of the current range to be selected on this picker.
+    ///   - subtitle: An optional string describing an optional subtitle for this date picker.
+    init(startDate: Date, endDate: Date? = nil, selectionMode: MSDatePickerSelectionManager.SelectionMode = .start, subtitle: String? = nil) {
+        self.subtitle = subtitle
         super.init(nibName: nil, bundle: nil)
 
         calendarViewDataSource = MSCalendarViewDataSource(styleDataSource: self)
+
+        let startDate = startDate.startOfDay
         selectionManager = MSDatePickerSelectionManager(
             dataSource: calendarViewDataSource,
             startDate: startDate,
-            endDate: endDate,
+            endDate: startDate.adding(hours: 23, minutes: 59),
             selectionMode: selectionMode
         )
+
+        initTitleView()
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -79,7 +111,7 @@ class MSDatePickerController: UIViewController {
         }
     }
 
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         calendarView.weekdayHeadingView.setup(horizontalSizeClass: traitCollection.horizontalSizeClass, firstWeekday: firstWeekday)
@@ -99,27 +131,65 @@ class MSDatePickerController: UIViewController {
         calendarView.collectionViewLayout.delegate = self
 
         view.addSubview(calendarView)
+
+        initNavigationBar()
     }
 
-    public override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         scrollToStartDate(animated: false)
+
+        // Hide default bottom border of navigation bar
+        navigationController?.navigationBar.hideBottomBorder()
     }
 
-    public override func viewWillLayoutSubviews() {
+    override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
         calendarView.frame = view.bounds
     }
 
-    func scrollToStartDate(animated: Bool) {
+    private func initTitleView() {
+        titleView = MSTwoLinesTitleView()
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTitleButtonTapped))
+        titleView.addGestureRecognizer(tapRecognizer)
+
+        updateNavigationBar()
+    }
+
+    private func initNavigationBar() {
+        if let image = UIImage.staticImageNamed("checkmark-blue-25x25"),
+            let landscapeImage = UIImage.staticImageNamed("checkmark-blue-thin-20x20") {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, landscapeImagePhone: landscapeImage, style: .plain, target: self, action: #selector(handleDidTapDone))
+        }
+        navigationItem.titleView = titleView
+    }
+
+    private func updateNavigationBar() {
+        let title = String.dateString(from: focusDate, compactness: .shortDaynameShortMonthnameDay)
+        titleView.setup(title: title, subtitle: subtitle)
+        updateTitleFrame()
+    }
+
+    private func updateTitleFrame() {
+        if let navigationController = navigationController {
+            titleView.frame = CGRect(
+                x: 0.0,
+                y: 0.0,
+                width: Constants.titleButtonWidth,
+                height: navigationController.navigationBar.height
+            )
+        }
+    }
+
+    private func scrollToStartDate(animated: Bool) {
         let targetIndexPath = IndexPath(item: 0, section: max(selectionManager.startDateIndexPath.section - 1, 0))
         calendarView.collectionView.scrollToItem(at: targetIndexPath, at: [.top], animated: animated)
         // TODO: Notify of visible date?
     }
 
-    func setNeedsReloadAvailability() {
+    private func setNeedsReloadAvailability() {
         reloadDataAfterOverlayIsNeeded = true
         reloadDataAfterOverlayHiddenIfNeeded()
     }
@@ -151,12 +221,22 @@ class MSDatePickerController: UIViewController {
         let endDate = calendarViewDataSource.dayEnd(forDayAt: endIndexPath)
         return (startDate: startDate, endDate: endDate)
     }
+
+    // MARK: Handlers
+
+    @objc private func handleTitleButtonTapped() {
+        scrollToStartDate(animated: true)
+    }
+
+    @objc private func handleDidTapDone() {
+        delegate?.dateTimePicker(self, didPickDate: date)
+    }
 }
 
 // MARK: - MSDatePickerController: UICollectionViewDelegate
 
 extension MSDatePickerController: UICollectionViewDelegate {
-    public func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         guard let monthBannerView = view as? MSCalendarViewMonthBannerView else {
             return
         }
@@ -164,7 +244,7 @@ extension MSDatePickerController: UICollectionViewDelegate {
         monthBannerView.setVisible(monthOverlayIsShown, animated: false)
     }
 
-    public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let dayCell = cell as? MSCalendarViewDayCell else {
             return
         }
@@ -174,11 +254,11 @@ extension MSDatePickerController: UICollectionViewDelegate {
         updateSelectionOfVisibleCells()
     }
 
-    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         didTapItem(at: indexPath)
     }
 
-    public func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         didTapItem(at: indexPath)
     }
 
@@ -188,7 +268,9 @@ extension MSDatePickerController: UICollectionViewDelegate {
         updateSelectionOfVisibleCells()
 
         let (startDate, _) = selectionManager.selectedDates
-        delegate?.datePickerController(self, didSelectDate: startDate)
+        delegate?.dateTimePicker(self, didSelectDate: startDate)
+
+        updateNavigationBar()
     }
 
     private func updateSelectionOfVisibleCells() {
@@ -248,7 +330,7 @@ extension MSDatePickerController: UIScrollViewDelegate {
         }
     }
 
-    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         changeMonthOverlayVisibility(false)
     }
 }

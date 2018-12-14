@@ -50,9 +50,6 @@ whitelist_rules:
   # Computed read-only properties and subscripts should avoid using the get keyword.
   - implicit_getter
 
-  # If defer is at the end of its parent scope, it will be executed right where it is anyway.
-  - inert_defer
-
   # Files should not contain leading whitespace.
   - leading_whitespace
 
