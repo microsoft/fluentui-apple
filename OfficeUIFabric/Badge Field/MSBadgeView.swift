@@ -32,7 +32,7 @@ open class MSBadgeViewDataSource: MSBadgeBaseViewDataSource {
  */
 open class MSBadgeView: MSBadgeBaseView {
     private struct Constants {
-        static let labelFont: UIFont = MSFonts.body
+        static let labelFont: UIFont = MSFonts.subhead
         static let paddingHorizontal: CGFloat = 5
         static let paddingVertical: CGFloat = 4
     }

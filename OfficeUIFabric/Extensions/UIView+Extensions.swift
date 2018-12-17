@@ -85,4 +85,16 @@ public extension UIView {
             top = UIScreen.main.roundDownToDevicePixels(0.5 * (superview.height - height))
         }
     }
+
+    func findSuperview(of aClass: AnyClass) -> UIView? {
+        guard let superview = superview else {
+            return nil
+        }
+
+        if superview.isKind(of: aClass) {
+            return superview
+        }
+
+        return superview.findSuperview(of: aClass)
+    }
 }

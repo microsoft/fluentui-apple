@@ -42,10 +42,12 @@
 		B444D6AD218126C90002B4D4 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = B444D6AC218126C90002B4D4 /* Localizable.stringsdict */; };
 		B444D6B12181403C0002B4D4 /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444D6B02181403C0002B4D4 /* UITableViewCell+Extension.swift */; };
 		B444D6B62183A9740002B4D4 /* MSBadgeBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444D6B52183A9740002B4D4 /* MSBadgeBaseView.swift */; };
+		B45EB790219E310F008646A2 /* MSBadgeField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45EB78F219E310F008646A2 /* MSBadgeField.swift */; };
 		B46D3F91215056940029772C /* CharacterSet+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46D3F90215056940029772C /* CharacterSet+Extension.swift */; };
 		B46D3F932151D95F0029772C /* MSPersonaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46D3F922151D95F0029772C /* MSPersonaCell.swift */; };
 		B46D3F9D215985AC0029772C /* MSPersonaListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46D3F9C215985AC0029772C /* MSPersonaListView.swift */; };
 		B487EA7321911FD4005E90B3 /* MSBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B487EA7221911FD4005E90B3 /* MSBadgeView.swift */; };
+		B4A8BBCD21BF6D6900D5E3ED /* MSBadgeStringExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A8BBCC21BF6D6900D5E3ED /* MSBadgeStringExtractor.swift */; };
 		B4E782C12176AD5E00A7DFCE /* MSActionsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E782C02176AD5E00A7DFCE /* MSActionsCell.swift */; };
 		B4E782C321793AB200A7DFCE /* MSActivityIndicatorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E782C221793AB200A7DFCE /* MSActivityIndicatorCell.swift */; };
 		B4E782C521793BB900A7DFCE /* MSActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E782C421793BB900A7DFCE /* MSActivityIndicatorView.swift */; };
@@ -140,10 +142,12 @@
 		B444D6AC218126C90002B4D4 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		B444D6B02181403C0002B4D4 /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
 		B444D6B52183A9740002B4D4 /* MSBadgeBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSBadgeBaseView.swift; sourceTree = "<group>"; };
+		B45EB78F219E310F008646A2 /* MSBadgeField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSBadgeField.swift; sourceTree = "<group>"; };
 		B46D3F90215056940029772C /* CharacterSet+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CharacterSet+Extension.swift"; sourceTree = "<group>"; };
 		B46D3F922151D95F0029772C /* MSPersonaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPersonaCell.swift; sourceTree = "<group>"; };
 		B46D3F9C215985AC0029772C /* MSPersonaListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPersonaListView.swift; sourceTree = "<group>"; };
 		B487EA7221911FD4005E90B3 /* MSBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSBadgeView.swift; sourceTree = "<group>"; };
+		B4A8BBCC21BF6D6900D5E3ED /* MSBadgeStringExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSBadgeStringExtractor.swift; sourceTree = "<group>"; };
 		B4E782C02176AD5E00A7DFCE /* MSActionsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSActionsCell.swift; sourceTree = "<group>"; };
 		B4E782C221793AB200A7DFCE /* MSActivityIndicatorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSActivityIndicatorCell.swift; sourceTree = "<group>"; };
 		B4E782C421793BB900A7DFCE /* MSActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSActivityIndicatorView.swift; sourceTree = "<group>"; };
@@ -275,6 +279,7 @@
 		A5CEC15320D980B20016922A /* OfficeUIFabric */ = {
 			isa = PBXGroup;
 			children = (
+				B4F118EA21C8270F00855942 /* Badge Field */,
 				FDFB8AE921361C860046850A /* Calendar */,
 				A5CEC22F20E451990016922A /* Controls */,
 				A5CEC16B20D98EBF0016922A /* Core */,
@@ -337,8 +342,6 @@
 			isa = PBXGroup;
 			children = (
 				B4E782C421793BB900A7DFCE /* MSActivityIndicatorView.swift */,
-				B444D6B52183A9740002B4D4 /* MSBadgeBaseView.swift */,
-				B487EA7221911FD4005E90B3 /* MSBadgeView.swift */,
 				FDA1AF8B21484625001AE720 /* MSBlurringView.swift */,
 				A5CEC23020E451D00016922A /* MSButton.swift */,
 				A5B87B03211E22B70038C37C /* MSDimmingView.swift */,
@@ -381,6 +384,17 @@
 				B4E782C62179509A00A7DFCE /* MSCenteredLabelCell.swift */,
 			);
 			path = "Table View";
+			sourceTree = "<group>";
+		};
+		B4F118EA21C8270F00855942 /* Badge Field */ = {
+			isa = PBXGroup;
+			children = (
+				B444D6B52183A9740002B4D4 /* MSBadgeBaseView.swift */,
+				B487EA7221911FD4005E90B3 /* MSBadgeView.swift */,
+				B45EB78F219E310F008646A2 /* MSBadgeField.swift */,
+				B4A8BBCC21BF6D6900D5E3ED /* MSBadgeStringExtractor.swift */,
+			);
+			path = "Badge Field";
 			sourceTree = "<group>";
 		};
 		FD256C5C2183D77900EC9588 /* Views */ = {
@@ -615,6 +629,7 @@
 				FDFB8AF121361C9D0046850A /* MSCalendarViewDayMonthCell.swift in Sources */,
 				FD4F2A20214AE20400C437D6 /* MSDatePickerController.swift in Sources */,
 				B4EF53C3215AF1AB00573E8F /* MSPersona.swift in Sources */,
+				B45EB790219E310F008646A2 /* MSBadgeField.swift in Sources */,
 				FDFB8AEB21361C950046850A /* MSCalendarViewMonthBannerView.swift in Sources */,
 				A5B87B06211E23650038C37C /* UIView+Extensions.swift in Sources */,
 				A5961FA7218A2E4500E2A506 /* UIImage+Extensions.swift in Sources */,
@@ -640,6 +655,7 @@
 				A5B87B04211E22B70038C37C /* MSDimmingView.swift in Sources */,
 				A5961F9F218A256B00E2A506 /* MSPopupMenuItem.swift in Sources */,
 				B4E782C321793AB200A7DFCE /* MSActivityIndicatorCell.swift in Sources */,
+				B4A8BBCD21BF6D6900D5E3ED /* MSBadgeStringExtractor.swift in Sources */,
 				FD599D0A2134AB15008845EE /* MSCalendarViewLayout.swift in Sources */,
 				FDD454EE21405B390006E84E /* MSDotView.swift in Sources */,
 				FD256C5B2183B90B00EC9588 /* MSDatePickerSelectionManager.swift in Sources */,

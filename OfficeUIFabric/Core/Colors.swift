@@ -110,6 +110,11 @@ public struct MSColors {
         public static let textWarningSelected: UIColor = lightWarning
     }
 
+    public struct BadgeField {
+        public static let label: UIColor = gray
+        public static let placeholder: UIColor = lightGray
+    }
+
     public struct CalendarView {
         public struct TodayCell {
             public static let background: UIColor = white
