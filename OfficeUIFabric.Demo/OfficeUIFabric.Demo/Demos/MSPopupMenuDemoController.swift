@@ -25,6 +25,8 @@ class MSPopupMenuDemoController: DemoController {
         toolbarItems = [
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
             UIBarButtonItem(title: "Show with selection", style: .plain, target: self, action: #selector(bottomBarButtonTapped)),
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(title: "Show with header", style: .plain, target: self, action: #selector(bottomBarButtonTapped)),
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         ]
         navigationController?.isToolbarHidden = false
@@ -60,6 +62,10 @@ class MSPopupMenuDemoController: DemoController {
 
         let controller = MSPopupMenuController(barButtonItem: sender, presentationOrigin: origin, presentationDirection: .up)
 
+        if sender.title == "Show with header" {
+            controller.showsFirstItemAsHeader = true
+            controller.addItems([MSPopupMenuItem(title: "Calendar layout", subtitle: "Some options might not be available")])
+        }
         controller.addItems([
             MSPopupMenuItem(imageName: "agenda-25x25", title: "Agenda", isSelected: calendarLayout == .agenda, onSelected: { self.calendarLayout = .agenda }),
             MSPopupMenuItem(imageName: "day-view-25x25", title: "Day", isSelected: calendarLayout == .day, onSelected: { self.calendarLayout = .day }),
@@ -67,12 +73,6 @@ class MSPopupMenuDemoController: DemoController {
             MSPopupMenuItem(title: "Week (no icon)", isSelected: calendarLayout == .week, onSelected: { self.calendarLayout = .week }),
             MSPopupMenuItem(imageName: "month-view-25x25", title: "Month", isSelected: calendarLayout == .month, onSelected: { self.calendarLayout = .month })
         ])
-
-        let originalTitle = sender.title
-        sender.title = "Shown with selection"
-        controller.onDismiss = {
-            sender.title = originalTitle
-        }
 
         present(controller, animated: true)
     }

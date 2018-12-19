@@ -48,6 +48,12 @@ class MSPopupMenuItemCell: UITableViewCell {
     }
 
     var feedbackGenerator: UISelectionFeedbackGenerator?
+    var isHeader: Bool = false {
+        didSet {
+            isUserInteractionEnabled = !isHeader
+            updateAccessibilityTraits()
+        }
+    }
     var preservesSpaceForImage: Bool = false
     var showsSeparator: Bool = true {
         didSet {
@@ -100,7 +106,6 @@ class MSPopupMenuItemCell: UITableViewCell {
         addSubview(separator)
 
         isAccessibilityElement = true
-        accessibilityTraits = UIAccessibilityTraitButton
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -124,40 +129,39 @@ class MSPopupMenuItemCell: UITableViewCell {
             accessibilityString.append(", \(subtitle)")
         }
         accessibilityLabel = accessibilityString
-        if item.isEnabled {
-            accessibilityTraits &= ~UIAccessibilityTraitNotEnabled
-        } else {
-            accessibilityTraits |= UIAccessibilityTraitNotEnabled
-        }
+        updateAccessibilityTraits()
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        var leftOffset: CGFloat = safeAreaInsetsIfAvailable.left + Constants.horizontalSpacing
+        let leftOffset = safeAreaInsetsIfAvailable.left
+        var leftContentOffset = leftOffset + Constants.horizontalSpacing
         let rightOffset = bounds.width - safeAreaInsetsIfAvailable.right
+        let rightContentOffset = rightOffset - Constants.horizontalSpacing
 
         if !_imageView.isHidden || preservesSpaceForImage {
             _imageView.frame = CGRect(
-                x: leftOffset,
+                x: leftContentOffset,
                 y: UIScreen.main.middleOrigin(bounds.height, containedSizeValue: Constants.imageViewSize),
                 width: Constants.imageViewSize,
                 height: Constants.imageViewSize
             )
 
-            leftOffset += _imageView.width + Constants.horizontalSpacing
+            leftContentOffset += _imageView.width + Constants.horizontalSpacing
         }
 
         selectedImageView.frame = CGRect(
-            x: rightOffset - Constants.horizontalSpacing - Constants.selectedImageViewSize,
+            x: rightContentOffset - Constants.selectedImageViewSize,
             y: UIScreen.main.middleOrigin(height, containedSizeValue: Constants.selectedImageViewSize),
             width: Constants.selectedImageViewSize,
             height: Constants.selectedImageViewSize
         )
 
-        separator.frame = CGRect(x: leftOffset, y: bounds.height - separator.height, width: rightOffset - leftOffset, height: separator.height)
+        let separatorLeftOffset = isHeader ? leftOffset : leftContentOffset
+        separator.frame = CGRect(x: separatorLeftOffset, y: bounds.height - separator.height, width: rightOffset - separatorLeftOffset, height: separator.height)
 
-        var labelWidth = rightOffset - Constants.horizontalSpacing - leftOffset
+        var labelWidth = rightContentOffset - leftContentOffset
         if !selectedImageView.isHidden {
             labelWidth -= Constants.horizontalSpacing + selectedImageView.width
         }
@@ -170,10 +174,10 @@ class MSPopupMenuItemCell: UITableViewCell {
         }
         var labelTop = UIScreen.main.middleOrigin(bounds.height, containedSizeValue: labelAreaHeight)
 
-        titleLabel.frame = CGRect(x: leftOffset, y: labelTop, width: labelWidth, height: titleLabelHeight)
+        titleLabel.frame = CGRect(x: leftContentOffset, y: labelTop, width: labelWidth, height: titleLabelHeight)
         if isSubtitleVisible {
             labelTop += titleLabel.height + Constants.verticalSpacing
-            subtitleLabel.frame = CGRect(x: leftOffset, y: labelTop, width: labelWidth, height: subtitleLabelHeight)
+            subtitleLabel.frame = CGRect(x: leftContentOffset, y: labelTop, width: labelWidth, height: subtitleLabelHeight)
         }
     }
 
@@ -218,6 +222,22 @@ class MSPopupMenuItemCell: UITableViewCell {
             }
         } else {
             updateViews()
+        }
+    }
+
+    private func updateAccessibilityTraits() {
+        if item?.isEnabled == false {
+            accessibilityTraits |= UIAccessibilityTraitNotEnabled
+        } else {
+            accessibilityTraits &= ~UIAccessibilityTraitNotEnabled
+        }
+
+        if isHeader {
+            accessibilityTraits &= ~UIAccessibilityTraitButton
+            accessibilityTraits |= UIAccessibilityTraitHeader
+        } else {
+            accessibilityTraits |= UIAccessibilityTraitButton
+            accessibilityTraits &= ~UIAccessibilityTraitHeader
         }
     }
 

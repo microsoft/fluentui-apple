@@ -60,6 +60,8 @@ open class MSPopupMenuController: MSDrawerController {
             }
         }
     }
+    /// Set `showsFirstItemAsHeader` to `true` to make the first menu item look & feel like a header. This menu item will not be interactable.
+    @objc open var showsFirstItemAsHeader: Bool = false
 
     private var sections: [MSPopupMenuSection] = []
 
@@ -190,6 +192,7 @@ extension MSPopupMenuController: UITableViewDataSource {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: MSPopupMenuItemCell.identifier) as! MSPopupMenuItemCell
         cell.setup(item: item)
+        cell.isHeader = showsFirstItemAsHeader && section == 0 && row == 0
         cell.preservesSpaceForImage = itemsHaveImages
         cell.showsSeparator = section != tableView.numberOfSections - 1 || row != tableView.numberOfRows(inSection: section) - 1
 
