@@ -58,23 +58,11 @@ class MSBadgeFieldDemoController: DemoController {
 }
 
 extension MSBadgeFieldDemoController: MSBadgeFieldDelegate {
-    func badgeField(_ badgeField: MSBadgeField, badgeDataSourceForText text: String) -> MSBadgeBaseViewDataSource {
+    func badgeField(_ badgeField: MSBadgeField, badgeDataSourceForText text: String) -> MSBadgeViewDataSource {
         return MSBadgeViewDataSource(text: text, style: .default)
     }
 
-    func badgeField(_ badgeField: MSBadgeField, shouldAddBadgeForBadgeDataSource badgeDataSource: MSBadgeBaseViewDataSource) -> Bool {
+    func badgeField(_ badgeField: MSBadgeField, shouldAddBadgeForBadgeDataSource badgeDataSource: MSBadgeViewDataSource) -> Bool {
         return !badgeField.badgeDataSources.contains(where: { $0.text == badgeDataSource.text })
-    }
-
-    func badgeField(_ badgeField: MSBadgeField, newBadgeForBadgeDataSource badgeDataSource: MSBadgeBaseViewDataSource) -> MSBadgeBaseView {
-        let badgeView = MSBadgeView()
-        badgeView.dataSource = badgeDataSource
-        return badgeView
-    }
-
-    func badgeField(_ badgeField: MSBadgeField, newMoreBadgeForBadgeDataSources badgeDataSources: [MSBadgeBaseViewDataSource]) -> MSBadgeBaseView {
-        let badge = MSBadgeView()
-        badge.dataSource = MSBadgeViewDataSource(text: "+\(badgeDataSources.count)", style: .default)
-        return badge
     }
 }

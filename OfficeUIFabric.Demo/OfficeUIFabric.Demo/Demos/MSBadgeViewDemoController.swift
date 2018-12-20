@@ -43,10 +43,10 @@ class MSBadgeViewDemoController: DemoController {
     }
 }
 
-extension MSBadgeViewDemoController: MSBadgeBaseViewDelegate {
-    func didSelectBadge(_ badge: MSBadgeBaseView) { }
+extension MSBadgeViewDemoController: MSBadgeViewDelegate {
+    func didSelectBadge(_ badge: MSBadgeView) { }
 
-    func didTapSelectedBadge(_ badge: MSBadgeBaseView) {
+    func didTapSelectedBadge(_ badge: MSBadgeView) {
         badge.isSelected = false
         let alert = UIAlertController(title: "A selected badge was tapped", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)

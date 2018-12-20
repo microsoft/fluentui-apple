@@ -41,12 +41,11 @@
 		B42661422148568800E25423 /* MSAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42661412148568800E25423 /* MSAvatarView.swift */; };
 		B444D6AD218126C90002B4D4 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = B444D6AC218126C90002B4D4 /* Localizable.stringsdict */; };
 		B444D6B12181403C0002B4D4 /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444D6B02181403C0002B4D4 /* UITableViewCell+Extension.swift */; };
-		B444D6B62183A9740002B4D4 /* MSBadgeBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444D6B52183A9740002B4D4 /* MSBadgeBaseView.swift */; };
+		B444D6B62183A9740002B4D4 /* MSBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444D6B52183A9740002B4D4 /* MSBadgeView.swift */; };
 		B45EB790219E310F008646A2 /* MSBadgeField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45EB78F219E310F008646A2 /* MSBadgeField.swift */; };
 		B46D3F91215056940029772C /* CharacterSet+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46D3F90215056940029772C /* CharacterSet+Extension.swift */; };
 		B46D3F932151D95F0029772C /* MSPersonaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46D3F922151D95F0029772C /* MSPersonaCell.swift */; };
 		B46D3F9D215985AC0029772C /* MSPersonaListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46D3F9C215985AC0029772C /* MSPersonaListView.swift */; };
-		B487EA7321911FD4005E90B3 /* MSBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B487EA7221911FD4005E90B3 /* MSBadgeView.swift */; };
 		B4A8BBCD21BF6D6900D5E3ED /* MSBadgeStringExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A8BBCC21BF6D6900D5E3ED /* MSBadgeStringExtractor.swift */; };
 		B4E782C12176AD5E00A7DFCE /* MSActionsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E782C02176AD5E00A7DFCE /* MSActionsCell.swift */; };
 		B4E782C321793AB200A7DFCE /* MSActivityIndicatorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E782C221793AB200A7DFCE /* MSActivityIndicatorCell.swift */; };
@@ -141,12 +140,11 @@
 		B42661412148568800E25423 /* MSAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAvatarView.swift; sourceTree = "<group>"; };
 		B444D6AC218126C90002B4D4 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		B444D6B02181403C0002B4D4 /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
-		B444D6B52183A9740002B4D4 /* MSBadgeBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSBadgeBaseView.swift; sourceTree = "<group>"; };
+		B444D6B52183A9740002B4D4 /* MSBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSBadgeView.swift; sourceTree = "<group>"; };
 		B45EB78F219E310F008646A2 /* MSBadgeField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSBadgeField.swift; sourceTree = "<group>"; };
 		B46D3F90215056940029772C /* CharacterSet+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CharacterSet+Extension.swift"; sourceTree = "<group>"; };
 		B46D3F922151D95F0029772C /* MSPersonaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPersonaCell.swift; sourceTree = "<group>"; };
 		B46D3F9C215985AC0029772C /* MSPersonaListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPersonaListView.swift; sourceTree = "<group>"; };
-		B487EA7221911FD4005E90B3 /* MSBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSBadgeView.swift; sourceTree = "<group>"; };
 		B4A8BBCC21BF6D6900D5E3ED /* MSBadgeStringExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSBadgeStringExtractor.swift; sourceTree = "<group>"; };
 		B4E782C02176AD5E00A7DFCE /* MSActionsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSActionsCell.swift; sourceTree = "<group>"; };
 		B4E782C221793AB200A7DFCE /* MSActivityIndicatorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSActivityIndicatorCell.swift; sourceTree = "<group>"; };
@@ -389,10 +387,9 @@
 		B4F118EA21C8270F00855942 /* Badge Field */ = {
 			isa = PBXGroup;
 			children = (
-				B444D6B52183A9740002B4D4 /* MSBadgeBaseView.swift */,
-				B487EA7221911FD4005E90B3 /* MSBadgeView.swift */,
 				B45EB78F219E310F008646A2 /* MSBadgeField.swift */,
 				B4A8BBCC21BF6D6900D5E3ED /* MSBadgeStringExtractor.swift */,
+				B444D6B52183A9740002B4D4 /* MSBadgeView.swift */,
 			);
 			path = "Badge Field";
 			sourceTree = "<group>";
@@ -635,7 +632,7 @@
 				A5961FA7218A2E4500E2A506 /* UIImage+Extensions.swift in Sources */,
 				FD56FD94219128BF0023C7EA /* MSDateTimePickerViewDataSource.swift in Sources */,
 				B42661422148568800E25423 /* MSAvatarView.swift in Sources */,
-				B444D6B62183A9740002B4D4 /* MSBadgeBaseView.swift in Sources */,
+				B444D6B62183A9740002B4D4 /* MSBadgeView.swift in Sources */,
 				FD7254E72146E946002F4069 /* MSCalendarViewDayCell.swift in Sources */,
 				A589F854211BA03200471C23 /* MSLabel.swift in Sources */,
 				B4266140214852B400E25423 /* NSString+Extension.swift in Sources */,
@@ -650,7 +647,6 @@
 				FDA1AF8F21484A26001AE720 /* Obscurable.swift in Sources */,
 				FDA1AF91214871B5001AE720 /* MSCardTransitionAnimator.swift in Sources */,
 				A5CEC16F20D98F340016922A /* Fonts.swift in Sources */,
-				B487EA7321911FD4005E90B3 /* MSBadgeView.swift in Sources */,
 				FD599D0C2134AB1E008845EE /* MSCalendarViewDataSource.swift in Sources */,
 				A5B87B04211E22B70038C37C /* MSDimmingView.swift in Sources */,
 				A5961F9F218A256B00E2A506 /* MSPopupMenuItem.swift in Sources */,

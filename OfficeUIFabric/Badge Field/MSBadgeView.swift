@@ -4,7 +4,20 @@
 
 import UIKit
 
-// MARK: MSBadgeViewStyle
+// MARK: MSBadgeViewDataSource
+
+open class MSBadgeViewDataSource: NSObject {
+    @objc open private(set) var text: String
+    public var style: MSBadgeViewStyle
+
+    @objc public init(text: String, style: MSBadgeViewStyle) {
+        self.text = text
+        self.style = style
+        super.init()
+    }
+}
+
+// MARK: - MSBadgeViewStyle
 
 @objc public enum MSBadgeViewStyle: Int {
     case `default`
@@ -12,32 +25,30 @@ import UIKit
     case error
 }
 
-// MARK: - MSBadgeViewDataSource
+// MARK: - MSBadgeViewDelegate
 
-open class MSBadgeViewDataSource: MSBadgeBaseViewDataSource {
-    public var style: MSBadgeViewStyle
-
-    @objc public init(text: String, style: MSBadgeViewStyle) {
-        self.style = style
-        super.init(text: text)
-    }
+@objc public protocol MSBadgeViewDelegate {
+    func didSelectBadge(_ badge: MSBadgeView)
+    func didTapSelectedBadge(_ badge: MSBadgeView)
 }
 
 // MARK: - MSBadgeView
 
 /**
- `MSBadgeView` is used to present text with a colored background supplied by `MSBadgeBaseView` in the form of a "badge". It is used in `MSBadgeListField` to represent a selected item from `MSPersonaListView`.
+ `MSBadgeView` is used to present text with a colored background in the form of a "badge". It is used in `MSBadgeField` to represent a selected item.
 
  `MSBadgeView` can be selected with a tap gesture and tapped again after entering a selected state for the purpose of displaying more details about the entity represented by the selected badge.
  */
-open class MSBadgeView: MSBadgeBaseView {
+open class MSBadgeView: UIView {
     private struct Constants {
+        static let defaultMinWidth: CGFloat = 25
+        static let backgroundViewCornerRadius: CGFloat = 2
         static let labelFont: UIFont = MSFonts.subhead
         static let paddingHorizontal: CGFloat = 5
         static let paddingVertical: CGFloat = 4
     }
 
-    open override class var defaultHeight: CGFloat {
+    open class var defaultHeight: CGFloat {
         return Constants.paddingVertical + Constants.labelFont.deviceLineHeight + Constants.paddingVertical
     }
 
@@ -91,17 +102,54 @@ open class MSBadgeView: MSBadgeBaseView {
         }
     }
 
-    open var badgeViewDataSource: MSBadgeViewDataSource? { return dataSource as? MSBadgeViewDataSource }
-
-    open override var isEnabled: Bool {
+    @objc open var dataSource: MSBadgeViewDataSource? {
         didSet {
-            updateLabelTextColor()
+            reload()
         }
     }
 
-    open override var isSelected: Bool {
+    open weak var delegate: MSBadgeViewDelegate?
+
+    open var isEnabled: Bool = true {
         didSet {
+            updateBackgroundColor()
             updateLabelTextColor()
+            accessibilityHint = nil
+            isUserInteractionEnabled = isEnabled
+        }
+    }
+
+    open var isSelected: Bool = false {
+        didSet {
+            updateBackgroundColor()
+            updateLabelTextColor()
+            updateAccessibility()
+        }
+    }
+
+    open var minWidth: CGFloat = Constants.defaultMinWidth {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+
+    open override var intrinsicContentSize: CGSize {
+        return sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+    }
+
+    private var badgeBackgroundColor: UIColor = MSColors.Badge.background {
+        didSet {
+            updateBackgroundColor()
+        }
+    }
+    private var badgeSelectedBackgroundColor: UIColor = MSColors.Badge.backgroundSelected {
+        didSet {
+            updateBackgroundColor()
+        }
+    }
+    private var badgeDisabledBackgroundColor: UIColor = MSColors.Badge.backgroundDisabled {
+        didSet {
+            updateBackgroundColor()
         }
     }
 
@@ -133,33 +181,40 @@ open class MSBadgeView: MSBadgeBaseView {
         }
     }
 
+    private let backgroundView = UIView()
+
     private let label = UILabel()
 
-    public override init() {
-        super.init()
+    public init() {
+        super.init(frame: .zero)
+
+        backgroundView.layer.cornerRadius = Constants.backgroundViewCornerRadius
+        addSubview(backgroundView)
+        updateBackgroundColor()
 
         label.font = Constants.labelFont
         label.lineBreakMode = .byTruncatingMiddle
         label.textAlignment = .center
         label.backgroundColor = .clear
         addSubview(label)
-
         updateLabelTextColor()
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(badgeTapped))
+        addGestureRecognizer(tapGesture)
+        isUserInteractionEnabled = true
+
         isAccessibilityElement = true
+        accessibilityTraits = UIAccessibilityTraitButton
+        updateAccessibility()
     }
 
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    open override func reload() {
-        label.text = dataSource?.text
-        style = badgeViewDataSource?.style ?? .default
-        setNeedsLayout()
-    }
-
     open override func layoutSubviews() {
         super.layoutSubviews()
+        backgroundView.frame = bounds
 
         let labelHeight = label.font.deviceLineHeight
         let labelSize = label.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
@@ -170,12 +225,36 @@ open class MSBadgeView: MSBadgeBaseView {
         label.frame = CGRect(x: Constants.paddingHorizontal, y: Constants.paddingVertical, width: labelWidth, height: labelHeight)
     }
 
+    open func reload() {
+        label.text = dataSource?.text
+        style = dataSource?.style ?? .default
+        setNeedsLayout()
+    }
+
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
         let labelSize = label.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
         let fittingLabelWidth = UIScreen.main.roundToDevicePixels(labelSize.width)
         let horizontalPadding = 2 * Constants.paddingHorizontal
         let labelWidth = max(min(fittingLabelWidth, size.width), minWidth - horizontalPadding)
         return CGSize(width: labelWidth + horizontalPadding, height: MSBadgeView.defaultHeight)
+    }
+
+    private func updateAccessibility() {
+        if isSelected {
+            accessibilityValue = "Accessibility.Selected.Value".localized
+            accessibilityHint = "Accessibility.Selected.Hint".localized
+        } else {
+            accessibilityValue = nil
+            accessibilityHint = "Accessibility.Select.Hint".localized
+        }
+    }
+
+    private func updateBackgroundColor() {
+        if !isEnabled {
+            backgroundView.backgroundColor = badgeDisabledBackgroundColor
+            return
+        }
+        backgroundView.backgroundColor = isSelected ? badgeSelectedBackgroundColor : badgeBackgroundColor
     }
 
     private func updateLabelTextColor() {
@@ -185,6 +264,15 @@ open class MSBadgeView: MSBadgeBaseView {
         }
 
         label.textColor = isSelected ? selectedTextColor : textColor
+    }
+
+    @objc private func badgeTapped() {
+        if isSelected {
+            delegate?.didTapSelectedBadge(self)
+        } else {
+            isSelected = true
+            delegate?.didSelectBadge(self)
+        }
     }
 
     // MARK: Accessibility
