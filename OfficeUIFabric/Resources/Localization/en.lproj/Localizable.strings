@@ -66,5 +66,8 @@
 /* Accessibility label for last week of the month */
 "Accessibility.DateTime.Week.Last" = "Last";
 
+/* Accessibility hint for a segmented control button */
+"Accessibility.Segmented.Button.Hint" = "Tap to go to %@";
+
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Search Directory";

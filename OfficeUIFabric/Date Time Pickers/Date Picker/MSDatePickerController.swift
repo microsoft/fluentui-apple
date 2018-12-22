@@ -25,7 +25,7 @@ class MSDatePickerController: UIViewController, DateTimePicker {
         static let preloadAvailabilityDaysOffset: Int = 30
     }
 
-    // Temporary date property for single date selection and DateTimePicker conformance. Will remove when MSDateSelectable is refactored to include start and end date.
+    // Temporary date property for single date selection and DateTimePicker conformance. Will remove when DateTimePicker is refactored to include start and end date.
     /// The currently selected whole date. Automatically changes to start of day when set.
     var date: Date {
         get {

@@ -162,6 +162,13 @@ public struct MSColors {
         }
         public static let sectionHeader: UIColor = darkGray
     }
+
+    public struct SegmentedControl {
+        public static let buttonTextNormal: UIColor = black
+        public static let buttonTextSelected: UIColor = primary
+        public static let selectionBarNormal: UIColor = primary
+        public static let selectionBarDisabled: UIColor = gray
+    }
 }
 
 // MARK: - MSTextColorStyle

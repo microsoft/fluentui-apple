@@ -83,6 +83,8 @@
 		FDA1AF8C21484625001AE720 /* MSBlurringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA1AF8B21484625001AE720 /* MSBlurringView.swift */; };
 		FDA1AF8F21484A26001AE720 /* Obscurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA1AF8E21484A26001AE720 /* Obscurable.swift */; };
 		FDA1AF91214871B5001AE720 /* MSCardTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA1AF90214871B5001AE720 /* MSCardTransitionAnimator.swift */; };
+		FDCF7C7F21BB56740058E9E6 /* MSSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCF7C7E21BB56740058E9E6 /* MSSegmentedControl.swift */; };
+		FDCF7C8121BF24C70058E9E6 /* CGSize+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCF7C8021BF24C70058E9E6 /* CGSize+Extensions.swift */; };
 		FDD454EE21405B390006E84E /* MSDotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD454ED21405B390006E84E /* MSDotView.swift */; };
 		FDF41ED92141A02200EC527C /* MSCalendarConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF41ED82141A02200EC527C /* MSCalendarConfiguration.swift */; };
 		FDF41EDB2141A23B00EC527C /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF41EDA2141A23B00EC527C /* UIViewController+Extensions.swift */; };
@@ -181,6 +183,8 @@
 		FDA1AF8E21484A26001AE720 /* Obscurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Obscurable.swift; sourceTree = "<group>"; };
 		FDA1AF90214871B5001AE720 /* MSCardTransitionAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSCardTransitionAnimator.swift; sourceTree = "<group>"; };
 		FDA1AF9221487225001AE720 /* MSCardPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSCardPresentationController.swift; sourceTree = "<group>"; };
+		FDCF7C7E21BB56740058E9E6 /* MSSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSSegmentedControl.swift; sourceTree = "<group>"; };
+		FDCF7C8021BF24C70058E9E6 /* CGSize+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize+Extensions.swift"; sourceTree = "<group>"; };
 		FDD454ED21405B390006E84E /* MSDotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDotView.swift; sourceTree = "<group>"; };
 		FDF41ED82141A02200EC527C /* MSCalendarConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSCalendarConfiguration.swift; sourceTree = "<group>"; };
 		FDF41EDA2141A23B00EC527C /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
@@ -227,6 +231,7 @@
 			children = (
 				A54D97D9217A5FC10072681A /* CALayer+Extensions.swift */,
 				FD7254E82147059D002F4069 /* Calendar+Extensions.swift */,
+				FDCF7C8021BF24C70058E9E6 /* CGSize+Extensions.swift */,
 				B46D3F90215056940029772C /* CharacterSet+Extension.swift */,
 				FD5BBE3A214B2F44008964B4 /* Date+Extensions.swift */,
 				FD9A5C862179464F00D224D9 /* DateComponents+Extensions.swift */,
@@ -346,6 +351,7 @@
 				FDD454ED21405B390006E84E /* MSDotView.swift */,
 				FD5BBE42214C73CE008964B4 /* MSEasyTapButton.swift */,
 				A589F853211BA03200471C23 /* MSLabel.swift */,
+				FDCF7C7E21BB56740058E9E6 /* MSSegmentedControl.swift */,
 				A5DCA76321224026005F4CB7 /* MSSeparator.swift */,
 				FD5BBE40214C6AF3008964B4 /* MSTwoLinesTitleView.swift */,
 			);
@@ -419,9 +425,9 @@
 		FD599D0021347FA0008845EE /* Date Time Pickers */ = {
 			isa = PBXGroup;
 			children = (
+				FD77752F21A490BA00033D58 /* MSDateTimePicker.swift */,
 				FD4F2A1C214ADBBF00C437D6 /* Date Picker */,
 				FD5C8C2A2190C3470063562C /* Date Time Picker */,
-				FD77752F21A490BA00033D58 /* MSDateTimePicker.swift */,
 			);
 			path = "Date Time Pickers";
 			sourceTree = "<group>";
@@ -629,6 +635,7 @@
 				B45EB790219E310F008646A2 /* MSBadgeField.swift in Sources */,
 				FDFB8AEB21361C950046850A /* MSCalendarViewMonthBannerView.swift in Sources */,
 				A5B87B06211E23650038C37C /* UIView+Extensions.swift in Sources */,
+				FDCF7C7F21BB56740058E9E6 /* MSSegmentedControl.swift in Sources */,
 				A5961FA7218A2E4500E2A506 /* UIImage+Extensions.swift in Sources */,
 				FD56FD94219128BF0023C7EA /* MSDateTimePickerViewDataSource.swift in Sources */,
 				B42661422148568800E25423 /* MSAvatarView.swift in Sources */,
@@ -637,6 +644,7 @@
 				A589F854211BA03200471C23 /* MSLabel.swift in Sources */,
 				B4266140214852B400E25423 /* NSString+Extension.swift in Sources */,
 				B4E782C72179509A00A7DFCE /* MSCenteredLabelCell.swift in Sources */,
+				FDCF7C8121BF24C70058E9E6 /* CGSize+Extensions.swift in Sources */,
 				FD9A5C872179464F00D224D9 /* DateComponents+Extensions.swift in Sources */,
 				A5B87AF7211E16370038C37C /* MSDrawerTransitionAnimator.swift in Sources */,
 				B46D3F932151D95F0029772C /* MSPersonaCell.swift in Sources */,
