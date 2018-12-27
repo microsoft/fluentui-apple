@@ -14,13 +14,17 @@ class MSDrawerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show top drawer", action: #selector(showTopDrawerButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show top drawer (no animation)", action: #selector(showTopDrawerNotAnimatedButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show top drawer (custom base)", action: #selector(showTopDrawerCustomOffsetButtonTapped)))
+
         container.addArrangedSubview(createButton(title: "Show bottom drawer", action: #selector(showBottomDrawerButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show bottom drawer (no animation)", action: #selector(showBottomDrawerNotAnimatedButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show bottom drawer (custom base)", action: #selector(showBottomDrawerCustomOffsetButtonTapped)))
+
+        container.addArrangedSubview(createButton(title: "Show bottom drawer (custom content)", action: #selector(showBottomDrawerCustomContentControllerButtonTapped)))
+
         container.addArrangedSubview(UIView())
     }
 
-    private func presentDrawer(sourceView: UIView? = nil, barButtonItem: UIBarButtonItem? = nil, presentationOrigin: CGFloat = -1, presentationDirection: MSDrawerPresentationDirection, views: [UIView], animated: Bool = true) {
+    private func presentDrawer(sourceView: UIView? = nil, barButtonItem: UIBarButtonItem? = nil, presentationOrigin: CGFloat = -1, presentationDirection: MSDrawerPresentationDirection, contentController: UIViewController? = nil, contentView: UIView? = nil, animated: Bool = true) {
         let controller: MSDrawerController
         if let sourceView = sourceView {
             controller = MSDrawerController(sourceView: sourceView, sourceRect: sourceView.bounds, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection)
@@ -29,16 +33,12 @@ class MSDrawerDemoController: DemoController {
         } else {
             fatalError("Presenting a drawer requires either a sourceView or a barButtonItem")
         }
-        controller.preferredContentSize = CGSize(width: controller.preferredWidth, height: 200)
 
-        // View container
-        let viewContainer = DemoController.createVerticalContainer()
-        controller.view.addSubview(viewContainer)
-        viewContainer.fitIntoSuperview()
-
-        // Views
-        for view in views {
-            viewContainer.addArrangedSubview(view)
+        if let contentView = contentView {
+            controller.preferredContentSize.height = 200
+            controller.contentView = contentView
+        } else {
+            controller.contentController = contentController
         }
 
         present(controller, animated: animated)
@@ -53,34 +53,57 @@ class MSDrawerDemoController: DemoController {
         ]
     }
 
+    private func containerForActionViews() -> UIView {
+        let container = DemoController.createVerticalContainer()
+        for view in actionViews() {
+            container.addArrangedSubview(view)
+        }
+        return container
+    }
+
     @objc private func barButtonTapped(sender: UIBarButtonItem) {
-        presentDrawer(barButtonItem: sender, presentationDirection: .down, views: actionViews())
+        presentDrawer(barButtonItem: sender, presentationDirection: .down, contentView: containerForActionViews())
     }
 
     @objc private func showTopDrawerButtonTapped(sender: UIButton) {
-        presentDrawer(sourceView: sender, presentationDirection: .down, views: actionViews())
+        presentDrawer(sourceView: sender, presentationDirection: .down, contentView: containerForActionViews())
     }
 
     @objc private func showTopDrawerNotAnimatedButtonTapped(sender: UIButton) {
-        presentDrawer(sourceView: sender, presentationDirection: .down, views: actionViews(), animated: false)
+        presentDrawer(sourceView: sender, presentationDirection: .down, contentView: containerForActionViews(), animated: false)
     }
 
     @objc private func showTopDrawerCustomOffsetButtonTapped(sender: UIButton) {
         let rect = sender.superview!.convert(sender.frame, to: nil)
-        presentDrawer(sourceView: sender, presentationOrigin: rect.maxY, presentationDirection: .down, views: actionViews())
+        presentDrawer(sourceView: sender, presentationOrigin: rect.maxY, presentationDirection: .down, contentView: containerForActionViews())
     }
 
     @objc private func showBottomDrawerButtonTapped(sender: UIButton) {
-        presentDrawer(sourceView: sender, presentationDirection: .up, views: actionViews())
+        presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews())
     }
 
     @objc private func showBottomDrawerNotAnimatedButtonTapped(sender: UIButton) {
-        presentDrawer(sourceView: sender, presentationDirection: .up, views: actionViews(), animated: false)
+        presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews(), animated: false)
     }
 
     @objc private func showBottomDrawerCustomOffsetButtonTapped(sender: UIButton) {
         let rect = sender.superview!.convert(sender.frame, to: nil)
-        presentDrawer(sourceView: sender, presentationOrigin: rect.minY, presentationDirection: .up, views: actionViews())
+        presentDrawer(sourceView: sender, presentationOrigin: rect.minY, presentationDirection: .up, contentView: containerForActionViews())
+    }
+
+    @objc private func showBottomDrawerCustomContentControllerButtonTapped(sender: UIButton) {
+        let controller = UIViewController()
+        controller.title = "Drawer with custom content controller"
+        controller.preferredContentSize = CGSize(width: 450, height: 500)
+
+        let personaListView = MSPersonaListView()
+        personaListView.personaList = samplePersonas
+        controller.view.addSubview(personaListView)
+        personaListView.fitIntoSuperview()
+
+        let contentController = UINavigationController(rootViewController: controller)
+
+        presentDrawer(sourceView: sender, presentationDirection: .up, contentController: contentController)
     }
 
     @objc private func expandButtonTapped(sender: UIButton) {

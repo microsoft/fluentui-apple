@@ -12,6 +12,8 @@ open class MSPopupMenuController: MSDrawerController {
         static let minimumWidthForPopover: CGFloat = 250
     }
 
+    open override var contentView: UIView? { get { return super.contentView } set { } }
+
     open override var preferredContentSize: CGSize {
         get { return CGSize(width: preferredWidth, height: preferredHeight) }
         set { }
@@ -65,7 +67,7 @@ open class MSPopupMenuController: MSDrawerController {
 
     private var sections: [MSPopupMenuSection] = []
 
-    private var tableView = UITableView()
+    private let tableView = UITableView()
 
     private var itemsHaveImages: Bool {
         return sections.contains(where: { $0.items.contains(where: { $0.image != nil }) })
@@ -97,7 +99,20 @@ open class MSPopupMenuController: MSDrawerController {
 
     open override func initialize() {
         super.initialize()
+        initTableView()
+    }
 
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+        super.contentView = tableView
+    }
+
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.selectRow(at: selectedItemIndexPath, animated: false, scrollPosition: .none)
+    }
+
+    private func initTableView() {
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
         // Prevent automatic insetting of this non-scrollable content
@@ -111,23 +126,11 @@ open class MSPopupMenuController: MSDrawerController {
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture))
         panGestureRecognizer.delegate = self
         tableView.addGestureRecognizer(panGestureRecognizer)
-    }
-
-    open override func viewDidLoad() {
-        super.viewDidLoad()
-
-        view.addSubview(tableView)
-        tableView.fitIntoSuperview()
 
         tableView.register(MSPopupMenuItemCell.self, forCellReuseIdentifier: MSPopupMenuItemCell.identifier)
         tableView.register(MSPopupMenuSectionHeaderView.self, forHeaderFooterViewReuseIdentifier: MSPopupMenuSectionHeaderView.identifier)
         tableView.delegate = self
         tableView.dataSource = self
-    }
-
-    open override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tableView.selectRow(at: selectedItemIndexPath, animated: false, scrollPosition: .none)
     }
 
     @objc private func handlePanGesture(gestureRecognizer: UIGestureRecognizer) {

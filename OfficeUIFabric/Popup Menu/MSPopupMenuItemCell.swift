@@ -25,16 +25,12 @@ class MSPopupMenuItemCell: UITableViewCell {
     static let identifier: String = "MSPopupMenuItemCell"
 
     static func preferredWidth(for item: MSPopupMenuItem, preservingSpaceForImage preserveSpaceForImage: Bool) -> CGFloat {
-        let labelFont = Constants.titleFontStyle.font
-        let labelSize = item.title.boundingRect(
-            with: CGSize(width: .greatestFiniteMagnitude, height: labelFont.deviceLineHeight),
-            options: [.usesLineFragmentOrigin, .usesFontLeading],
-            attributes: [.font: labelFont],
-            context: nil
-        )
-
+        let titleSize = item.title.preferredSize(for: Constants.titleFontStyle.font)
+        let subtitleSize = item.subtitle?.preferredSize(for: Constants.subtitleFontStyle.font) ?? .zero
+        let labelAreaWidth = max(titleSize.width, subtitleSize.width)
         let spacing = Constants.horizontalSpacing
-        var width = spacing + labelSize.width + spacing + Constants.selectedImageViewSize + spacing
+
+        var width = spacing + labelAreaWidth + spacing + Constants.selectedImageViewSize + spacing
 
         if item.image != nil || preserveSpaceForImage {
             width += Constants.imageViewSize + spacing

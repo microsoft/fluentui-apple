@@ -7,7 +7,7 @@
 class MSDrawerPresentationController: UIPresentationController {
     private struct Constants {
         static let cornerRadius: CGFloat = 8
-        static let verticalMargin: CGFloat = 20
+        static let minVerticalMargin: CGFloat = 20
     }
 
     let sourceViewController: UIViewController
@@ -196,9 +196,9 @@ class MSDrawerPresentationController: UIPresentationController {
         var contentMargins: UIEdgeInsets = .zero
         switch presentationDirection {
         case .down:
-            contentMargins.bottom = containerView.safeAreaInsetsIfAvailable.bottom + Constants.verticalMargin
+            contentMargins.bottom = max(Constants.minVerticalMargin, containerView.safeAreaInsetsIfAvailable.bottom)
         case .up:
-            contentMargins.top = containerView.safeAreaInsetsIfAvailable.top + Constants.verticalMargin
+            contentMargins.top = max(Constants.minVerticalMargin, containerView.safeAreaInsetsIfAvailable.top)
         }
         var contentFrame = UIEdgeInsetsInsetRect(bounds, contentMargins)
 

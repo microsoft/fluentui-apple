@@ -61,6 +61,15 @@ public extension String {
             self = defaultValue ?? String(describing: optional)
         }
     }
+
+    func preferredSize(for font: UIFont) -> CGSize {
+        return self.boundingRect(
+            with: CGSize(width: .greatestFiniteMagnitude, height: font.deviceLineHeight),
+            options: [.usesLineFragmentOrigin, .usesFontLeading],
+            attributes: [.font: font],
+            context: nil
+        ).size
+    }
 }
 
 // MARK: - Date
@@ -102,7 +111,7 @@ public extension String {
     case day = 86400 // 24h, when using this, keep in mind that a day is not necessarily 24h long.
 }
 
-struct DateFormatterCache {
+private struct DateFormatterCache {
     static let shared = DateFormatterCache()
     static let currentLocaleObserver = NotificationCenter.default.addObserver(forName: NSLocale.currentLocaleDidChangeNotification, object: nil, queue: nil) { _ in
         shared.removeAll()

@@ -18,16 +18,8 @@ class MSPopupMenuSectionHeaderView: UITableViewHeaderFooterView {
         guard isHeaderVisible(for: section), let title = section.title else {
             return 0
         }
-
-        let labelFont = Constants.titleFontStyle.font
-        let labelSize = title.boundingRect(
-            with: CGSize(width: .greatestFiniteMagnitude, height: labelFont.deviceLineHeight),
-            options: [.usesLineFragmentOrigin, .usesFontLeading],
-            attributes: [.font: labelFont],
-            context: nil
-        )
-
-        return Constants.padding.left + labelSize.width + Constants.padding.right
+        let titleSize = title.preferredSize(for: Constants.titleFontStyle.font)
+        return Constants.padding.left + titleSize.width + Constants.padding.right
     }
 
     static func preferredHeight(for section: MSPopupMenuSection) -> CGFloat {
