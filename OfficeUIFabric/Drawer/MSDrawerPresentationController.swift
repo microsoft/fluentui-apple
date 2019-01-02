@@ -8,18 +8,23 @@ class MSDrawerPresentationController: UIPresentationController {
     private struct Constants {
         static let cornerRadius: CGFloat = 8
         static let minVerticalMargin: CGFloat = 20
+        static let minVerticalMarginWhenInteractive: CGFloat = 44
+        static let minBackgroundHeight: CGFloat = 0
+        static let minBackgroundHeightWhenInteractive: CGFloat = 20
     }
 
     let sourceViewController: UIViewController
     let sourceObject: Any?
     let presentationOrigin: CGFloat?
     let presentationDirection: MSDrawerPresentationDirection
+    let presentationIsInteractive: Bool
 
-    init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?, source: UIViewController, sourceObject: Any?, presentationOrigin: CGFloat? = nil, presentationDirection: MSDrawerPresentationDirection) {
+    init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?, source: UIViewController, sourceObject: Any?, presentationOrigin: CGFloat?, presentationDirection: MSDrawerPresentationDirection, presentationIsInteractive: Bool) {
         sourceViewController = source
         self.sourceObject = sourceObject
         self.presentationOrigin = presentationOrigin
         self.presentationDirection = presentationDirection
+        self.presentationIsInteractive = presentationIsInteractive
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
         backgroundView.gestureRecognizers = [UITapGestureRecognizer(target: self, action: #selector(handleBackgroundViewTapped(_:)))]
     }
@@ -140,6 +145,7 @@ class MSDrawerPresentationController: UIPresentationController {
             return UIScreen.main.bounds.maxY
         }
     }()
+    private var extraContentHeight: CGFloat = 0
 
     override func containerViewWillLayoutSubviews() {
         super.containerViewWillLayoutSubviews()
@@ -152,23 +158,34 @@ class MSDrawerPresentationController: UIPresentationController {
         setPresentedViewMask()
     }
 
-    func updateContentViewFrame() {
-        let newFrame = frameForContentView()
-
-        guard let presentedView = presentedView else {
-            contentView.frame = newFrame
-            setPresentedViewMask()
+    func setExtraContentHeight(_ extraContentHeight: CGFloat, updatingLayout updateLayout: Bool = true, animated: Bool = false) {
+        if self.extraContentHeight == extraContentHeight {
             return
         }
+        self.extraContentHeight = extraContentHeight
+        if updateLayout {
+            updateContentViewFrame(animated: animated)
+        }
+    }
 
-        let animationDuration = MSDrawerTransitionAnimator.animationDuration(forSizeChange: newFrame.height - contentView.height)
-        UIView.animate(withDuration: animationDuration) {
-            self.contentView.frame = newFrame
-            if presentedView.superview == self.containerView {
-                presentedView.frame = self.frameOfPresentedViewInContainerView
+    func updateContentViewFrame(animated: Bool) {
+        let newFrame = frameForContentView()
+        if animated {
+            let animationDuration = MSDrawerTransitionAnimator.animationDuration(forSizeChange: newFrame.height - contentView.height)
+            UIView.animate(withDuration: animationDuration) {
+                self.setContentViewFrame(newFrame)
+                self.animatePresentedViewMask(withDuration: animationDuration)
             }
+        } else {
+            setContentViewFrame(newFrame)
+            setPresentedViewMask()
+        }
+    }
 
-            self.animatePresentedViewMask(withDuration: animationDuration)
+    private func setContentViewFrame(_ frame: CGRect) {
+        contentView.frame = frame
+        if let presentedView = presentedView, presentedView.superview == containerView {
+            presentedView.frame = frameOfPresentedViewInContainerView
         }
     }
 
@@ -193,12 +210,14 @@ class MSDrawerPresentationController: UIPresentationController {
             return .zero
         }
 
+        let minVerticalMargin = presentationIsInteractive ? Constants.minVerticalMarginWhenInteractive : Constants.minVerticalMargin
+        let minBackgroundHeight = presentationIsInteractive ? Constants.minBackgroundHeightWhenInteractive : Constants.minBackgroundHeight
         var contentMargins: UIEdgeInsets = .zero
         switch presentationDirection {
         case .down:
-            contentMargins.bottom = max(Constants.minVerticalMargin, containerView.safeAreaInsetsIfAvailable.bottom)
+            contentMargins.bottom = max(minVerticalMargin, containerView.safeAreaInsetsIfAvailable.bottom + minBackgroundHeight)
         case .up:
-            contentMargins.top = max(Constants.minVerticalMargin, containerView.safeAreaInsetsIfAvailable.top)
+            contentMargins.top = max(minVerticalMargin, containerView.safeAreaInsetsIfAvailable.top + minBackgroundHeight)
         }
         var contentFrame = UIEdgeInsetsInsetRect(bounds, contentMargins)
 
@@ -217,6 +236,7 @@ class MSDrawerPresentationController: UIPresentationController {
             width: min(contentSize.width, contentFrame.width),
             height: min(contentSize.height, contentFrame.height)
         )
+        contentSize.height = min(contentSize.height + extraContentHeight, contentFrame.height)
 
         contentFrame.origin.x += (contentFrame.width - contentSize.width) / 2
         if presentationDirection == .up {
@@ -235,6 +255,8 @@ class MSDrawerPresentationController: UIPresentationController {
             height: thickness
         )
     }
+
+    // MARK: Presented View Mask
 
     private func setPresentedViewMask() {
         // No change of mask when it's being animated

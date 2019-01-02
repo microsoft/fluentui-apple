@@ -19,12 +19,12 @@ class MSDrawerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show bottom drawer (no animation)", action: #selector(showBottomDrawerNotAnimatedButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show bottom drawer (custom base)", action: #selector(showBottomDrawerCustomOffsetButtonTapped)))
 
-        container.addArrangedSubview(createButton(title: "Show bottom drawer (custom content)", action: #selector(showBottomDrawerCustomContentControllerButtonTapped)))
+        container.addArrangedSubview(createButton(title: "Show resizable drawer (custom content)", action: #selector(showBottomDrawerCustomContentControllerButtonTapped)))
 
         container.addArrangedSubview(UIView())
     }
 
-    private func presentDrawer(sourceView: UIView? = nil, barButtonItem: UIBarButtonItem? = nil, presentationOrigin: CGFloat = -1, presentationDirection: MSDrawerPresentationDirection, contentController: UIViewController? = nil, contentView: UIView? = nil, animated: Bool = true) {
+    private func presentDrawer(sourceView: UIView? = nil, barButtonItem: UIBarButtonItem? = nil, presentationOrigin: CGFloat = -1, presentationDirection: MSDrawerPresentationDirection, contentController: UIViewController? = nil, contentView: UIView? = nil, resizable: Bool = false, animated: Bool = true) {
         let controller: MSDrawerController
         if let sourceView = sourceView {
             controller = MSDrawerController(sourceView: sourceView, sourceRect: sourceView.bounds, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection)
@@ -33,6 +33,8 @@ class MSDrawerDemoController: DemoController {
         } else {
             fatalError("Presenting a drawer requires either a sourceView or a barButtonItem")
         }
+
+        controller.allowsResizing = resizable
 
         if let contentView = contentView {
             controller.preferredContentSize.height = 200
@@ -93,8 +95,8 @@ class MSDrawerDemoController: DemoController {
 
     @objc private func showBottomDrawerCustomContentControllerButtonTapped(sender: UIButton) {
         let controller = UIViewController()
-        controller.title = "Drawer with custom content controller"
-        controller.preferredContentSize = CGSize(width: 450, height: 500)
+        controller.title = "Resizable drawer"
+        controller.preferredContentSize = CGSize(width: 400, height: 400)
 
         let personaListView = MSPersonaListView()
         personaListView.personaList = samplePersonas
@@ -103,7 +105,7 @@ class MSDrawerDemoController: DemoController {
 
         let contentController = UINavigationController(rootViewController: controller)
 
-        presentDrawer(sourceView: sender, presentationDirection: .up, contentController: contentController)
+        presentDrawer(sourceView: sender, presentationDirection: .up, contentController: contentController, resizable: true)
     }
 
     @objc private func expandButtonTapped(sender: UIButton) {

@@ -9,7 +9,25 @@
     case up     // drawer animated up from a bottom base
 }
 
+// MARK: - MSDrawerControllerDelegate
+
+@objc public protocol MSDrawerControllerDelegate: class {
+    /**
+     Called when a user resizes the drawer enough to change its expanded state. Use `isExpanded` property to get the current state.
+
+     Use this method to turn on/off specific UI features of your drawer's content that depend on expanded state. Method is called after expanded state has been changed but before animation is completed.
+    */
+    @objc optional func drawerControllerDidChangeExpandedState(_ controller: MSDrawerController)
+
+    /// Called when drawer is being dismissed.
+    @objc optional func drawerControllerWillDismiss(_ controller: MSDrawerController)
+    /// Called after drawer has been dismissed.
+    @objc optional func drawerControllerDidDismiss(_ controller: MSDrawerController)
+}
+
 // MARK: - MSDrawerController
+
+// TODO: Visual "handle" for resizing
 
 /**
  `MSDrawerController` is used to present a portion of UI in a slider frame that shows up or down on iPhone and in a popover on iPad.
@@ -26,6 +44,7 @@ open class MSDrawerController: UIViewController {
     private struct Constants {
         static let preferredWidthForLandscapePhone: CGFloat = 400
         static let preferredWidthForPad: CGFloat = 300
+        static let resizingThreshold: CGFloat = 30
     }
 
     private enum PresentationStyle {
@@ -81,6 +100,19 @@ open class MSDrawerController: UIViewController {
         }
     }
 
+    /**
+     When `allowsResizing` is `true` a user can resize the drawer by tapping and dragging any area that does not handle this geature itself. For example, if `contentController` constains a `UINavigationController`, a user can tap and drag navigation bar to resize the drawer.
+
+     By resizing a drawer a user can switch between several predefined states:
+     - a drawer can be expanded (see `isExpanded` property);
+     - returned to normal state from expanded state;
+     - or dismissed.
+
+     The corresponding `delegate` methods will be called for these state changes: see `drawerControllerDidChangeExpandedState` and `drawerControllerWillDismiss`/`drawerControllerDidDismiss`.
+
+     Resizing is supported only on iPhone in compact environment (when drawer is presented as a slideover).
+     */
+    @objc open var allowsResizing: Bool = false
     /**
      Set `isExpanded` to `true` to maximize the drawer's height to fill the device screen vertically minus the safe areas. Set to `false` to restore it to the normal size.
 
@@ -146,15 +178,17 @@ open class MSDrawerController: UIViewController {
             super.preferredContentSize = newValue
 
             if hasChanges && presentingViewController != nil {
-                (presentationController as? MSDrawerPresentationController)?.updateContentViewFrame()
+                (presentationController as? MSDrawerPresentationController)?.updateContentViewFrame(animated: true)
             }
         }
     }
 
-    /// `onDismiss` is called when popup menu is being dismissed.
+    /// `onDismiss` is called when drawer is being dismissed.
     @objc open var onDismiss: (() -> Void)?
-    /// `onDismissCompleted` is called after popup menu was dismissed.
+    /// `onDismissCompleted` is called after drawer has been dismissed.
     @objc open var onDismissCompleted: (() -> Void)?
+
+    @objc public weak var delegate: MSDrawerControllerDelegate?
 
     private let sourceView: UIView?
     private let sourceRect: CGRect?
@@ -220,10 +254,22 @@ open class MSDrawerController: UIViewController {
         view.isAccessibilityElement = false
     }
 
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if presentationController is MSDrawerPresentationController && allowsResizing {
+            if resizingGestureRecognizer == nil {
+                resizingGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handleResizingGesture))
+            }
+        } else {
+            resizingGestureRecognizer = nil
+        }
+    }
+
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if isBeingDismissed {
             onDismiss?()
+            delegate?.drawerControllerWillDismiss?(self)
         }
     }
 
@@ -231,6 +277,7 @@ open class MSDrawerController: UIViewController {
         super.viewDidDisappear(animated)
         if isBeingDismissed {
             onDismissCompleted?()
+            delegate?.drawerControllerDidDismiss?(self)
         }
     }
 
@@ -262,6 +309,63 @@ open class MSDrawerController: UIViewController {
         }
         return window.traitCollection.horizontalSizeClass == .compact ? .slideover : .popover
     }
+
+    // MARK: Resizing
+
+    private var resizingGestureRecognizer: UIPanGestureRecognizer? {
+        didSet {
+            if let oldRecognizer = oldValue {
+                view.removeGestureRecognizer(oldRecognizer)
+            }
+            if let newRecognizer = resizingGestureRecognizer {
+                view.addGestureRecognizer(newRecognizer)
+            }
+        }
+    }
+
+    @objc private func handleResizingGesture(gesture: UIPanGestureRecognizer) {
+        guard let presentationController = presentationController as? MSDrawerPresentationController else {
+            fatalError("MSDrawerController cannot handle resizing without MSDrawerPresentationController")
+        }
+
+        let translation = gesture.translation(in: nil)
+        let offset: CGFloat
+        switch presentationDirection {
+        case .down:
+            offset = translation.y
+        case .up:
+            offset = -translation.y
+        }
+
+        switch gesture.state {
+        case .changed:
+            presentationController.setExtraContentHeight(offset)
+        case .ended:
+            if offset >= Constants.resizingThreshold {
+                if isExpanded {
+                    presentationController.setExtraContentHeight(0, animated: true)
+                } else {
+                    presentationController.setExtraContentHeight(0, updatingLayout: false)
+                    isExpanded = true
+                    delegate?.drawerControllerDidChangeExpandedState?(self)
+                }
+            } else if offset <= -Constants.resizingThreshold {
+                if isExpanded {
+                    presentationController.setExtraContentHeight(0, updatingLayout: false)
+                    isExpanded = false
+                    delegate?.drawerControllerDidChangeExpandedState?(self)
+                } else {
+                    presentingViewController?.dismiss(animated: true)
+                }
+            } else {
+                presentationController.setExtraContentHeight(0, animated: true)
+            }
+        case .cancelled:
+            presentationController.setExtraContentHeight(0, animated: true)
+        default:
+            break
+        }
+    }
 }
 
 // MARK: - MSDrawerController: UIViewControllerTransitioningDelegate
@@ -284,7 +388,7 @@ extension MSDrawerController: UIViewControllerTransitioningDelegate {
     public func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         switch presentationStyle(for: source) {
         case .slideover:
-            return MSDrawerPresentationController(presentedViewController: presented, presenting: presenting, source: source, sourceObject: sourceView ?? barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection)
+            return MSDrawerPresentationController(presentedViewController: presented, presenting: presenting, source: source, sourceObject: sourceView ?? barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection, presentationIsInteractive: allowsResizing)
         case .popover:
             let presentationController = UIPopoverPresentationController(presentedViewController: presented, presenting: presenting)
             presentationController.backgroundColor = MSColors.background
