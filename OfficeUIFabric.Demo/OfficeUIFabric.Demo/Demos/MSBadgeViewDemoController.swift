@@ -27,12 +27,6 @@ class MSBadgeViewDemoController: DemoController {
         addBadge(text: "Mauricio August", style: .default, isEnabled: false)
     }
 
-    func addTitle(text: String) {
-        let titleLabel = MSLabel(style: .subhead, colorStyle: .regular)
-        titleLabel.text = text
-        container.addArrangedSubview(titleLabel)
-    }
-
     func addBadge(text: String, style: MSBadgeViewStyle, isEnabled: Bool = true) {
         let data = MSBadgeViewDataSource(text: text, style: style)
         let badge = MSBadgeView()

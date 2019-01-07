@@ -138,6 +138,12 @@ public struct MSColors {
         public static let textEmphasized: UIColor = primary
     }
 
+    public struct HUD {
+        public static let activityIndicatorView: UIColor = white
+        public static let background: UIColor = black.withAlphaComponent(0.9)
+        public static let text: UIColor = white
+    }
+
     public struct PageCardPresenter {
         public static let currentPageIndicatorTintColor: UIColor = white
         public static let pageIndicatorTintColor: UIColor = white.withAlphaComponent(0.5)

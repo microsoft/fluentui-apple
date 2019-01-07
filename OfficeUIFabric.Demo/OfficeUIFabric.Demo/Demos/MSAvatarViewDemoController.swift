@@ -23,13 +23,6 @@ class MSAvatarViewDemoController: DemoController {
         container.addArrangedSubview(UIView())
     }
 
-    func addTitle(text: String) {
-        let titleLabel = MSLabel(style: .headline, colorStyle: .regular)
-        titleLabel.text = text
-        titleLabel.textAlignment = .center
-        container.addArrangedSubview(titleLabel)
-    }
-
     func addAvatar(size: MSAvatarSize, image: UIImage?) {
         let avatarContainerView = UIStackView()
         avatarContainerView.axis = .vertical

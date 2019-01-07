@@ -66,6 +66,15 @@
 /* Accessibility label for last week of the month */
 "Accessibility.DateTime.Week.Last" = "Last";
 
+/* Accessibility label for when a task under progress has finished */
+"Accessibility.HUD.Done" = "Done";
+
+/* Accessibility label for when a task under progress has failed */
+"Accessibility.HUD.Failed" = "Failed";
+
+/* Accessibility label for when a task is in progress */
+"Accessibility.HUD.Loading" = "Loading";
+
 /* Accessibility hint for a segmented control button */
 "Accessibility.Segmented.Button.Hint" = "Tap to go to %@";
 

@@ -11,6 +11,7 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("MSBadgeView", MSBadgeViewDemoController.self),
     ("MSDateTimePicker", MSDateTimePickerDemoController.self),
     ("MSDrawerController", MSDrawerDemoController.self),
+    ("MSHUD", MSHUDDemoController.self),
     ("MSLabel", MSLabelDemoController.self),
     ("MSPersonaListView", MSPersonaListViewDemoController.self),
     ("MSPopupMenuController", MSPopupMenuDemoController.self),

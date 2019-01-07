@@ -25,6 +25,13 @@ class DemoController: UIViewController {
         return button
     }
 
+    func addTitle(text: String) {
+        let titleLabel = MSLabel(style: .headline)
+        titleLabel.text = text
+        titleLabel.textAlignment = .center
+        container.addArrangedSubview(titleLabel)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = MSColors.background
