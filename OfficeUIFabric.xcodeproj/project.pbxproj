@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A5237ACB21DED7030040BF27 /* MSResizingHandleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5237ACA21DED7030040BF27 /* MSResizingHandleView.swift */; };
 		A54D97DA217A5FC10072681A /* CALayer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54D97D9217A5FC10072681A /* CALayer+Extensions.swift */; };
 		A54D97DC217E5CED0072681A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A54D97DB217E5CED0072681A /* Assets.xcassets */; };
 		A559BB7E212B6D100055E107 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A559BB7D212B6D100055E107 /* String+Extension.swift */; };
@@ -108,6 +109,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A5237ACA21DED7030040BF27 /* MSResizingHandleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSResizingHandleView.swift; sourceTree = "<group>"; };
 		A54D97D9217A5FC10072681A /* CALayer+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extensions.swift"; sourceTree = "<group>"; };
 		A54D97DB217E5CED0072681A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A559BB7D212B6D100055E107 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
@@ -358,6 +360,7 @@
 				FDD454ED21405B390006E84E /* MSDotView.swift */,
 				FD5BBE42214C73CE008964B4 /* MSEasyTapButton.swift */,
 				A589F853211BA03200471C23 /* MSLabel.swift */,
+				A5237ACA21DED7030040BF27 /* MSResizingHandleView.swift */,
 				FDCF7C7E21BB56740058E9E6 /* MSSegmentedControl.swift */,
 				A5DCA76321224026005F4CB7 /* MSSeparator.swift */,
 				B483323621DEB5A00022B4CC /* MSTouchForwardingView.swift */,
@@ -662,6 +665,7 @@
 				FD7254E72146E946002F4069 /* MSCalendarViewDayCell.swift in Sources */,
 				A589F854211BA03200471C23 /* MSLabel.swift in Sources */,
 				B4266140214852B400E25423 /* NSString+Extension.swift in Sources */,
+				A5237ACB21DED7030040BF27 /* MSResizingHandleView.swift in Sources */,
 				B4E782C72179509A00A7DFCE /* MSCenteredLabelCell.swift in Sources */,
 				FDCF7C8121BF24C70058E9E6 /* CGSize+Extensions.swift in Sources */,
 				FD9A5C872179464F00D224D9 /* DateComponents+Extensions.swift in Sources */,

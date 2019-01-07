@@ -169,6 +169,11 @@ public struct MSColors {
         public static let sectionHeader: UIColor = darkGray
     }
 
+    public struct ResizingHandle {
+        public static let background: UIColor = white
+        public static let mark: UIColor = borderLightGray
+    }
+
     public struct SegmentedControl {
         public static let buttonTextNormal: UIColor = black
         public static let buttonTextSelected: UIColor = primary

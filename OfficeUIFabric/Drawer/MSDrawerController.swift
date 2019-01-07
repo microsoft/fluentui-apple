@@ -157,6 +157,9 @@ open class MSDrawerController: UIViewController {
                 }
                 if preferredContentSize.height == 0 {
                     preferredContentSize.height = contentSize.height
+                    if canResize {
+                        preferredContentSize.height += MSResizingHandleView.height
+                    }
                 }
             }
 
@@ -256,11 +259,15 @@ open class MSDrawerController: UIViewController {
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if presentationController is MSDrawerPresentationController && allowsResizing {
+        if canResize {
+            if resizingHandleView == nil {
+                resizingHandleView = MSResizingHandleView()
+            }
             if resizingGestureRecognizer == nil {
                 resizingGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handleResizingGesture))
             }
         } else {
+            resizingHandleView = nil
             resizingGestureRecognizer = nil
         }
     }
@@ -291,7 +298,19 @@ open class MSDrawerController: UIViewController {
 
     open override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        contentView?.frame = view.bounds
+
+        var frame = view.bounds
+
+        if let resizingHandleView = resizingHandleView {
+            let frames = frame.divided(
+                atDistance: resizingHandleView.height,
+                from: presentationDirection == .down ? .maxYEdge : .minYEdge
+            )
+            resizingHandleView.frame = frames.slice
+            frame = frames.remainder
+        }
+
+        contentView?.frame = frame
     }
 
     open override func accessibilityPerformEscape() -> Bool {
@@ -312,6 +331,18 @@ open class MSDrawerController: UIViewController {
 
     // MARK: Resizing
 
+    private var canResize: Bool {
+        return presentationController is MSDrawerPresentationController && allowsResizing
+    }
+
+    private var resizingHandleView: MSResizingHandleView? {
+        didSet {
+            oldValue?.removeFromSuperview()
+            if let newView = resizingHandleView {
+                view.addSubview(newView)
+            }
+        }
+    }
     private var resizingGestureRecognizer: UIPanGestureRecognizer? {
         didSet {
             if let oldRecognizer = oldValue {

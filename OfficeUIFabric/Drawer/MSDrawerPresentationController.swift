@@ -172,10 +172,10 @@ class MSDrawerPresentationController: UIPresentationController {
         let newFrame = frameForContentView()
         if animated {
             let animationDuration = MSDrawerTransitionAnimator.animationDuration(forSizeChange: newFrame.height - contentView.height)
-            UIView.animate(withDuration: animationDuration) {
+            UIView.animate(withDuration: animationDuration, delay: 0, options: [.layoutSubviews], animations: {
                 self.setContentViewFrame(newFrame)
                 self.animatePresentedViewMask(withDuration: animationDuration)
-            }
+            })
         } else {
             setContentViewFrame(newFrame)
             setPresentedViewMask()

@@ -96,7 +96,7 @@ class MSDrawerDemoController: DemoController {
     @objc private func showBottomDrawerCustomContentControllerButtonTapped(sender: UIButton) {
         let controller = UIViewController()
         controller.title = "Resizable drawer"
-        controller.preferredContentSize = CGSize(width: 400, height: 400)
+        controller.preferredContentSize.height = 400
 
         let personaListView = MSPersonaListView()
         personaListView.personaList = samplePersonas
@@ -104,6 +104,7 @@ class MSDrawerDemoController: DemoController {
         personaListView.fitIntoSuperview()
 
         let contentController = UINavigationController(rootViewController: controller)
+        contentController.navigationBar.isTranslucent = false
 
         presentDrawer(sourceView: sender, presentationDirection: .up, contentController: contentController, resizable: true)
     }
