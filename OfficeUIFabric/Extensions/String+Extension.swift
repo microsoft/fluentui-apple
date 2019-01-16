@@ -2,7 +2,7 @@
 //  Copyright © 2018 Microsoft Corporation. All rights reserved.
 //
 
-public extension String {
+extension String {
     var initials: String {
         var initials = ""
 

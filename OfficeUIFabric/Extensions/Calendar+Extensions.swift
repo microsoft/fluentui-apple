@@ -4,7 +4,7 @@
 
 import Foundation
 
-public extension Calendar {
+extension Calendar {
     private static let sharedAutoUpdatingCalendar: Calendar = .autoupdatingCurrent
     private static var sharedTimeZoneCalendars = [Calendar]()
 

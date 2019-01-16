@@ -16,7 +16,7 @@ open class MSBlurringView: UIView {
     private let blurVisualEffectView: UIVisualEffectView
     private let backgroundView: UIView
 
-    public init(style: UIBlurEffectStyle, backgroundColor: UIColor = Constants.defaultBackgroundColor, backgroundAlpha: CGFloat = Constants.defaultBackgroundAlpha) {
+    public init(style: UIBlurEffect.Style, backgroundColor: UIColor = Constants.defaultBackgroundColor, backgroundAlpha: CGFloat = Constants.defaultBackgroundAlpha) {
         blurEffect = UIBlurEffect(style: style)
         blurVisualEffectView = UIVisualEffectView(effect: blurEffect)
 

@@ -50,7 +50,7 @@ public class MSDateTimePicker: NSObject {
     ///   - date: The initial date selected on the presented pickers
     @objc public func present(from presentingController: UIViewController, with mode: MSDateTimePickerMode, for date: Date = Date()) {
         self.presentingController = presentingController
-        if UIAccessibilityIsVoiceOverRunning() {
+        if UIAccessibility.isVoiceOverRunning {
             presentDateTimePickerForAccessibility(initialDate: date, showsTime: mode == .dateTime)
             return
         }

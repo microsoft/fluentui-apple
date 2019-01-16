@@ -204,7 +204,7 @@ open class MSBadgeView: UIView {
         isUserInteractionEnabled = true
 
         isAccessibilityElement = true
-        accessibilityTraits = UIAccessibilityTraitButton
+        accessibilityTraits = .button
         updateAccessibility()
     }
 

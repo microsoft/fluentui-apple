@@ -286,7 +286,7 @@ extension MSDatePickerController: UICollectionViewDelegate {
             let cell = collectionView.cellForItem(at: indexPath) as? MSCalendarViewDayCell {
             cell.setSelectionType(selectionType)
 
-            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionViewScrollPosition())
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionView.ScrollPosition())
         } else {
             collectionView.deselectItem(at: indexPath, animated: false)
         }

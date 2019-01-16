@@ -74,11 +74,11 @@ public class MSHUD: NSObject {
 
         // Orientation
         // `UIWindow` propagates rotation handling (eg. call to `layoutSubviews`) only to the subviews at the index 0. Because we add the MSHUD container as a sibling of such a view, we must handle rotation events ourselves.
-        NotificationCenter.default.addObserver(self, selector: #selector(handleOrientationDidChange(_:)), name: .UIApplicationDidChangeStatusBarOrientation, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleOrientationDidChange(_:)), name: UIApplication.didChangeStatusBarOrientationNotification, object: nil)
 
         // Keyboard observation
-        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     @objc public func show(in view: UIView, with params: MSHUDParams) {
@@ -103,7 +103,7 @@ public class MSHUD: NSObject {
             presentedHUDView.alpha = 1.0
             presentedHUDView.transform = .identity
         }, completion: { _ in
-            UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil)
+            UIAccessibility.post(notification: .screenChanged, argument: nil)
         })
 
         // Dismiss after delay if needed
@@ -157,7 +157,7 @@ public class MSHUD: NSObject {
                 return
             }
             self.resetIfNeeded()
-            UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, presentedHUDView.accessibilityMessageForHide)
+            UIAccessibility.post(notification: .screenChanged, argument: presentedHUDView.accessibilityMessageForHide)
         }
 
         if animated {
@@ -200,8 +200,8 @@ public class MSHUD: NSObject {
 
     @objc private func handleKeyboardWillShow(_ notification: Notification) {
         guard let userInfo = notification.userInfo,
-            let keyboardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
-            let keyboardAnimationDuration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue else {
+            let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
+            let keyboardAnimationDuration = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue else {
                 // Invalid keyboard notification
                 return
         }
@@ -213,7 +213,7 @@ public class MSHUD: NSObject {
 
     @objc private func handleKeyboardWillHide(_ notification: Notification) {
         guard let userInfo = notification.userInfo,
-            let keyboardAnimationDuration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue else {
+            let keyboardAnimationDuration = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue else {
                 // Invalid keyboard notification
                 return
         }

@@ -311,7 +311,7 @@ private class MSSelectionOverlayView: UIView {
             addSubview(view)
         }
 
-        bringSubview(toFront: view)
+        bringSubviewToFront(view)
         view.isHidden = !(selected || highlighted)
     }
 }

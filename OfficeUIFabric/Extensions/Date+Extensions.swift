@@ -6,7 +6,7 @@ import Foundation
 
 // MARK: Calculations
 
-public extension Date {
+extension Date {
     private static var _has24HourFormat: Bool?
 
     static func has24HourFormat() -> Bool {
@@ -76,7 +76,7 @@ public extension Date {
 
 // MARK: - Components
 
-public extension Date {
+extension Date {
     /// The `year` date component of `self`. The time zone used is equal to the `Calendar.current.timeZone`.
     var year: Int {
         return Calendar.current.component(.year, from: self)

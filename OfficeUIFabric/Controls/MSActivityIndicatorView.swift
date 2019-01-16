@@ -91,7 +91,7 @@ open class MSActivityIndicatorView: UIView {
         let shapeLayer = CAShapeLayer()
         shapeLayer.contentsScale = UIScreen.main.scale
         shapeLayer.fillColor = UIColor.clear.cgColor
-        shapeLayer.lineJoin = kCALineJoinBevel
+        shapeLayer.lineJoin = .bevel
         return shapeLayer
     }()
     private let loaderRotationAnimation: CABasicAnimation = {
@@ -101,11 +101,11 @@ open class MSActivityIndicatorView: UIView {
         loaderRotationAnimation.toValue = NSNumber(value: 2 * Double.pi)
 
         loaderRotationAnimation.duration = Constants.rotationAnimationDuration
-        loaderRotationAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        loaderRotationAnimation.timingFunction = CAMediaTimingFunction(name: .linear)
 
         loaderRotationAnimation.isRemovedOnCompletion = false
-        loaderRotationAnimation.repeatCount = Float.infinity
-        loaderRotationAnimation.fillMode = kCAFillModeForwards
+        loaderRotationAnimation.repeatCount = .infinity
+        loaderRotationAnimation.fillMode = .forwards
         loaderRotationAnimation.autoreverses = false
 
         return loaderRotationAnimation
@@ -185,7 +185,7 @@ open class MSActivityIndicatorView: UIView {
         loaderLayer.frame = CGRect(x: 0.0, y: 0.0, width: sideSize, height: sideSize)
         loaderLayer.strokeColor = color.cgColor
         loaderLayer.lineWidth = strokeThickness
-        loaderLayer.lineCap = kCALineCapRound
+        loaderLayer.lineCap = .round
         loaderLayer.path = loaderPath.cgPath
 
         setNeedsLayout()

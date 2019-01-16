@@ -43,7 +43,7 @@ class MSDrawerPresentationController: UIPresentationController {
         view.isAccessibilityElement = true
         view.accessibilityLabel = "Accessibility.Dismiss.Label".localized
         view.accessibilityHint = "Accessibility.Dismiss.Hint".localized
-        view.accessibilityTraits = UIAccessibilityTraitButton
+        view.accessibilityTraits = .button
         return view
     }()
     private lazy var dimmingView: MSDimmingView = {
@@ -92,8 +92,8 @@ class MSDrawerPresentationController: UIPresentationController {
 
     override func presentationTransitionDidEnd(_ completed: Bool) {
         if completed {
-            UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, contentView)
-            UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, "Accessibility.Alert".localized)
+            UIAccessibility.post(notification: .screenChanged, argument: contentView)
+            UIAccessibility.post(notification: .announcement, argument: "Accessibility.Alert".localized)
         } else {
             accessibilityContainer.removeFromSuperview()
             separator.removeFromSuperview()
@@ -118,7 +118,7 @@ class MSDrawerPresentationController: UIPresentationController {
             accessibilityContainer.removeFromSuperview()
             separator.removeFromSuperview()
             removePresentedViewMask()
-            UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, sourceObject)
+            UIAccessibility.post(notification: .screenChanged, argument: sourceObject)
         }
     }
 
@@ -150,7 +150,7 @@ class MSDrawerPresentationController: UIPresentationController {
     override func containerViewWillLayoutSubviews() {
         super.containerViewWillLayoutSubviews()
         // In non-animated presentations presented view will be force-placed into containerView by UIKit after separator thus hiding it
-        containerView?.bringSubview(toFront: separator)
+        containerView?.bringSubviewToFront(separator)
     }
 
     override func containerViewDidLayoutSubviews() {
@@ -197,7 +197,7 @@ class MSDrawerPresentationController: UIPresentationController {
         case .up:
             margins.bottom = bounds.height - actualPresentationOrigin
         }
-        return UIEdgeInsetsInsetRect(bounds, margins)
+        return bounds.inset(by: margins)
     }
 
     private func frameForContentView() -> CGRect {
@@ -219,7 +219,7 @@ class MSDrawerPresentationController: UIPresentationController {
         case .up:
             contentMargins.top = max(minVerticalMargin, containerView.safeAreaInsetsIfAvailable.top + minBackgroundHeight)
         }
-        var contentFrame = UIEdgeInsetsInsetRect(bounds, contentMargins)
+        var contentFrame = bounds.inset(by: contentMargins)
 
         var contentSize = presentedViewController.preferredContentSize
         switch presentationDirection {
@@ -287,7 +287,7 @@ class MSDrawerPresentationController: UIPresentationController {
         animation.fromValue = oldMaskPath
         animation.duration = duration
         // To match default timing function used in UIView.animate
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
 
         presentedViewMask.add(animation, forKey: animation.keyPath)
     }

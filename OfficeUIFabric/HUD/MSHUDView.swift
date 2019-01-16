@@ -130,7 +130,7 @@ class MSHUDView: UIView {
     }
 
     open override var accessibilityTraits: UIAccessibilityTraits {
-        get { return super.accessibilityTraits | UIAccessibilityTraitStaticText }
+        get { return super.accessibilityTraits.union(.staticText) }
         set { }
     }
 }

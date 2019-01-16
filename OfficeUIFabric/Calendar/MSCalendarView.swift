@@ -133,7 +133,7 @@ class MSCalendarView: UIView {
 
     override var accessibilityHint: String? { get { return "Accessibility.Calendar.Hint".localized } set { } }
 
-    override var accessibilityTraits: UIAccessibilityTraits { get { return UIAccessibilityTraitAdjustable | super.accessibilityTraits } set { } }
+    override var accessibilityTraits: UIAccessibilityTraits { get { return super.accessibilityTraits.union(.adjustable) } set { } }
 
     override var accessibilityValue: String? {
         get { return accessibleViewDelegate?.accessibilityValueForAccessibleView?(self) ?? super.accessibilityValue }

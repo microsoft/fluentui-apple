@@ -35,7 +35,7 @@ class MSCardPresentationController: UIPresentationController {
 
     override func presentationTransitionDidEnd(_ completed: Bool) {
         if completed {
-            UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, presentedViewController.view)
+            UIAccessibility.post(notification: .screenChanged, argument: presentedViewController.view)
         } else {
             backgroundObscurable.view.removeFromSuperview()
         }
@@ -52,7 +52,7 @@ class MSCardPresentationController: UIPresentationController {
     override func dismissalTransitionDidEnd(_ completed: Bool) {
         if completed {
             backgroundObscurable.view.removeFromSuperview()
-            UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, presentingViewController.view)
+            UIAccessibility.post(notification: .screenChanged, argument: presentingViewController.view)
         }
     }
 

@@ -25,7 +25,7 @@ open class MSActionsCell: UITableViewCell {
 
     private let separator = MSSeparator(style: .default, orientation: .vertical)
 
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         contentView.addSubview(action1Button)

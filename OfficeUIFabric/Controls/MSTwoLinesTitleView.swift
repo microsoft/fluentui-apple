@@ -76,7 +76,7 @@ open class MSTwoLinesTitleView: UIView {
             titleButton.accessibilityHint = titleAccessibilityHint
         }
     }
-    open var titleAccessibilityTrait: UIAccessibilityTraits = UIAccessibilityTraitStaticText | UIAccessibilityTraitHeader {
+    open var titleAccessibilityTrait: UIAccessibilityTraits = [.staticText, .header] {
         didSet {
             titleButton.accessibilityTraits = titleAccessibilityTrait
         }
@@ -87,7 +87,7 @@ open class MSTwoLinesTitleView: UIView {
             subtitleButton.accessibilityHint = subtitleAccessibilityHint
         }
     }
-    open var subtitleAccessibilityTrait: UIAccessibilityTraits = UIAccessibilityTraitStaticText | UIAccessibilityTraitHeader {
+    open var subtitleAccessibilityTrait: UIAccessibilityTraits = [.staticText, .header] {
         didSet {
             subtitleButton.accessibilityTraits = subtitleAccessibilityTrait
         }

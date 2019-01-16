@@ -62,7 +62,7 @@ open class MSPersonaListView: UITableView {
         }
     }
 
-    @objc override init(frame: CGRect, style: UITableViewStyle) {
+    @objc override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
 
         backgroundColor = MSColors.background
@@ -170,7 +170,7 @@ extension MSPersonaListView: UITableViewDataSource {
             let cell = dequeueReusableCell(withIdentifier: MSPersonaCell.identifier, for: indexPath) as! MSPersonaCell
             let persona = personaList[indexPath.row]
             cell.setup(persona: persona)
-            cell.accessibilityTraits = UIAccessibilityTraitButton
+            cell.accessibilityTraits = .button
             return cell
         case .searchDirectory:
             switch searchDirectoryState {
@@ -187,7 +187,7 @@ extension MSPersonaListView: UITableViewDataSource {
                 let cell = dequeueReusableCell(withIdentifier: MSActionsCell.identifier, for: indexPath) as! MSActionsCell
                 cell.setup(action1Title: "MSPersonaListView.SearchDirectory".localized)
                 cell.action1Button.addTarget(self, action: #selector(searchDirectoryButtonTapped), for: .touchUpInside)
-                cell.accessibilityTraits = UIAccessibilityTraitButton
+                cell.accessibilityTraits = .button
                 cell.hideSeparator()
                 return cell
             }

@@ -56,7 +56,7 @@ public extension UIView {
             }
         } else {
             translatesAutoresizingMaskIntoConstraints = true
-            frame = UIEdgeInsetsInsetRect(superview.bounds, margins)
+            frame = superview.bounds.inset(by: margins)
             autoresizingMask = [.flexibleWidth, .flexibleHeight]
         }
     }

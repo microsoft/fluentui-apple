@@ -183,7 +183,7 @@ open class MSBadgeField: UIView {
 
         textField.addTarget(self, action: #selector(handleTextFieldTextChanged), for: .editingChanged)
         textField.addObserver(self, forKeyPath: #keyPath(UITextField.selectedTextRange), options: .new, context: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleOrientationChanged), name: .UIDeviceOrientationDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleOrientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
 
         // An accessible container must set isAccessibilityElement to false
         isAccessibilityElement = false
@@ -231,7 +231,7 @@ open class MSBadgeField: UIView {
 
     private func setupDraggingWindow() {
         // The dragging window must be on top of any other window (keyboard, status bar etc.)
-        draggingWindow.windowLevel = CGFloat.greatestFiniteMagnitude
+        draggingWindow.windowLevel = UIWindow.Level(rawValue: .greatestFiniteMagnitude)
         draggingWindow.backgroundColor = .clear
         draggingWindow.isHidden = true
     }
@@ -285,7 +285,7 @@ open class MSBadgeField: UIView {
     }
 
     open override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIViewNoIntrinsicMetric, height: contentHeight(forBoundingWidth: width))
+        return CGSize(width: UIView.noIntrinsicMetric, height: contentHeight(forBoundingWidth: width))
     }
 
     private func updateConstrainedBadges() {
@@ -830,14 +830,14 @@ open class MSBadgeField: UIView {
 
     @objc public func voiceOverFocusOnTextFieldAndAnnounce(_ announcement: String?) {
         guard let announcement = announcement, !announcement.isEmpty else {
-            UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, textField)
+            UIAccessibility.post(notification: .screenChanged, argument: textField)
             return
         }
 
         let previousAccessibilityLabel = textField.accessibilityLabel
         // Update the accessibilityLabel to include the desired announcement
         textField.accessibilityLabel = "\(announcement). \(previousAccessibilityLabel ?? "")"
-        UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, textField)
+        UIAccessibility.post(notification: .screenChanged, argument: textField)
         // Reset the accessibility to the proper label
         // Allow the label to get reset on a delay so the notification has time to fire before it changes
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in

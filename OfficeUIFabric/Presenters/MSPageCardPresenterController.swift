@@ -49,7 +49,7 @@ open class MSPageCardPresenterController: UIViewController {
         view.isAccessibilityElement = true
         view.accessibilityLabel = "Accessibility.Dismiss.Label".localized
         view.accessibilityHint = "Accessibility.Dismiss.Hint".localized
-        view.accessibilityTraits = UIAccessibilityTraitButton
+        view.accessibilityTraits = .button
         return view
     }()
 
@@ -87,10 +87,10 @@ open class MSPageCardPresenterController: UIViewController {
         view.addSubview(pageControl)
 
         for viewController in viewControllers {
-            addChildViewController(viewController)
+            addChild(viewController)
             scrollView.addSubview(viewController.view)
             styleCardView(viewController.view)
-            viewController.didMove(toParentViewController: self)
+            viewController.didMove(toParent: self)
         }
 
         updateViewAccessibilityElements()

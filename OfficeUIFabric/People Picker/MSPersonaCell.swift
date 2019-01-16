@@ -36,7 +36,7 @@ open class MSPersonaCell: UITableViewCell {
         return label
     }()
 
-    @objc public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    @objc public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
 
         contentView.addSubview(avatarView)

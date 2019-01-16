@@ -21,7 +21,7 @@ class MSAccessibilityContainerView: UIView {
 
     override var isAccessibilityElement: Bool { get { return true } set { } }
 
-    override var accessibilityTraits: UIAccessibilityTraits { get { return UIAccessibilityTraitAdjustable } set { } }
+    override var accessibilityTraits: UIAccessibilityTraits { get { return .adjustable } set { } }
 
     override var accessibilityLabel: String? { get { return delegate?.accessibilityLabelForAccessibleView?(self) } set { } }
 

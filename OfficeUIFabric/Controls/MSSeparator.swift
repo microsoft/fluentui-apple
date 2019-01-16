@@ -52,9 +52,9 @@ open class MSSeparator: UIView {
     open override var intrinsicContentSize: CGSize {
         switch orientation {
         case .horizontal:
-            return CGSize(width: UIViewNoIntrinsicMetric, height: height)
+            return CGSize(width: UIView.noIntrinsicMetric, height: height)
         case .vertical:
-            return CGSize(width: width, height: UIViewNoIntrinsicMetric)
+            return CGSize(width: width, height: UIView.noIntrinsicMetric)
         }
     }
 

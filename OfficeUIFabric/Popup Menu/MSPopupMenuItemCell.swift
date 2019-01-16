@@ -89,7 +89,7 @@ class MSPopupMenuItemCell: UITableViewCell {
 
     private let separator = MSSeparator()
 
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         backgroundColor = .clear
@@ -223,17 +223,17 @@ class MSPopupMenuItemCell: UITableViewCell {
 
     private func updateAccessibilityTraits() {
         if item?.isEnabled == false {
-            accessibilityTraits |= UIAccessibilityTraitNotEnabled
+            accessibilityTraits.insert(.notEnabled)
         } else {
-            accessibilityTraits &= ~UIAccessibilityTraitNotEnabled
+            accessibilityTraits.remove(.notEnabled)
         }
 
         if isHeader {
-            accessibilityTraits &= ~UIAccessibilityTraitButton
-            accessibilityTraits |= UIAccessibilityTraitHeader
+            accessibilityTraits.remove(.button)
+            accessibilityTraits.insert(.header)
         } else {
-            accessibilityTraits |= UIAccessibilityTraitButton
-            accessibilityTraits &= ~UIAccessibilityTraitHeader
+            accessibilityTraits.insert(.button)
+            accessibilityTraits.remove(.header)
         }
     }
 

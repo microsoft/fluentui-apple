@@ -33,7 +33,7 @@ open class MSResizingHandleView: UIView {
     }
 
     open override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIViewNoIntrinsicMetric, height: MSResizingHandleView.height)
+        return CGSize(width: UIView.noIntrinsicMetric, height: MSResizingHandleView.height)
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {

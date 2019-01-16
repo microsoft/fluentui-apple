@@ -12,7 +12,7 @@ public extension UIImage {
             return nil
         }
 
-        if UIAccessibilityDarkerSystemColorsEnabled(),
+        if UIAccessibility.isDarkerSystemColorsEnabled,
             let primaryColor = darkerPrimaryColor ?? self.darkerPrimaryColor(forImageNamed: name, in: bundle) {
             // Recolor image with high contrast version of `primaryColor`
             image = recolorImage(image, withPrimaryColor: primaryColor)
@@ -45,7 +45,7 @@ public extension UIImage {
         return image
     }
 
-    @objc func image(withPrimaryColor primaryColor: UIColor) -> UIImage {
+    internal func image(withPrimaryColor primaryColor: UIColor) -> UIImage {
         // Force image to be `AlwaysOriginal` regardless of the setting in `.xcassets` to prevent recoloring caused by `tintColor`
         return UIImage.recolorImage(self, withPrimaryColor: primaryColor).withRenderingMode(.alwaysOriginal)
     }

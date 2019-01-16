@@ -225,5 +225,5 @@ open class MSAvatarView: UIView {
 
     open override var isAccessibilityElement: Bool { get { return true } set { } }
     open override var accessibilityLabel: String? { get { return name ?? email } set { } }
-    open override var accessibilityTraits: UIAccessibilityTraits { get { return UIAccessibilityTraitImage } set { } }
+    open override var accessibilityTraits: UIAccessibilityTraits { get { return .image } set { } }
 }
