@@ -6,11 +6,8 @@
 
 class MSDrawerPresentationController: UIPresentationController {
     private struct Constants {
-        static let cornerRadius: CGFloat = 8
+        static let cornerRadius: CGFloat = 14
         static let minVerticalMargin: CGFloat = 20
-        static let minVerticalMarginWhenInteractive: CGFloat = 44
-        static let minBackgroundHeight: CGFloat = 0
-        static let minBackgroundHeightWhenInteractive: CGFloat = 20
     }
 
     let sourceViewController: UIViewController
@@ -30,10 +27,13 @@ class MSDrawerPresentationController: UIPresentationController {
     }
 
     // Workaround to get Voiceover to ignore the view behind the drawer.
-    // Setting accessibilityViewIsModal directly on the container does not work
+    // Setting accessibilityViewIsModal directly on the container does not work.
+    // Presented view requires a mask on its container to prevent sliding over the navigation bar or exposing shadow over it.
     private lazy var accessibilityContainer: UIView = {
         let view = UIView()
         view.accessibilityViewIsModal = true
+        view.layer.mask = CALayer()
+        view.layer.mask?.backgroundColor = UIColor.white.cgColor
         return view
     }()
     // A transparent view, which if tapped will dismiss the dropdown
@@ -52,13 +52,13 @@ class MSDrawerPresentationController: UIPresentationController {
         view.isUserInteractionEnabled = false
         return view
     }()
-    // Presented view requires this wrapper view to prevent sliding over the navigation bar
     private lazy var contentView: UIView = {
         let view = UIView()
-        view.clipsToBounds = true
         view.isAccessibilityElement = false
         return view
     }()
+    // Shadow behind presented view (cannot be done on presented view itself because it's masked)
+    private lazy var shadowView = DrawerShadowView(shadowDirection: presentationDirection)
     // Imitates the bottom shadow of navigation bar or top shadow of toolbar because original ones are hidden by presented view
     private lazy var separator = MSSeparator(style: .shadow)
 
@@ -72,9 +72,12 @@ class MSDrawerPresentationController: UIPresentationController {
         backgroundView.fitIntoSuperview()
         backgroundView.addSubview(dimmingView)
         dimmingView.frame = frameForDimmingView(in: backgroundView.bounds)
+        accessibilityContainer.layer.mask?.frame = dimmingView.frame
 
         accessibilityContainer.addSubview(contentView)
         contentView.frame = frameForContentView()
+        contentView.addSubview(shadowView)
+        shadowView.owner = presentedViewController.view
         // In non-animated presentations presented view will be force-placed into containerView by UIKit
         // For animated presentations presented view must be inside contentView to not slide over navigation bar/toolbar
         if presentingViewController.transitionCoordinator?.isAnimated == true {
@@ -98,6 +101,7 @@ class MSDrawerPresentationController: UIPresentationController {
             accessibilityContainer.removeFromSuperview()
             separator.removeFromSuperview()
             removePresentedViewMask()
+            shadowView.owner = nil
         }
     }
 
@@ -118,6 +122,7 @@ class MSDrawerPresentationController: UIPresentationController {
             accessibilityContainer.removeFromSuperview()
             separator.removeFromSuperview()
             removePresentedViewMask()
+            shadowView.owner = nil
             UIAccessibility.post(notification: .screenChanged, argument: sourceObject)
         }
     }
@@ -210,14 +215,12 @@ class MSDrawerPresentationController: UIPresentationController {
             return .zero
         }
 
-        let minVerticalMargin = presentationIsInteractive ? Constants.minVerticalMarginWhenInteractive : Constants.minVerticalMargin
-        let minBackgroundHeight = presentationIsInteractive ? Constants.minBackgroundHeightWhenInteractive : Constants.minBackgroundHeight
         var contentMargins: UIEdgeInsets = .zero
         switch presentationDirection {
         case .down:
-            contentMargins.bottom = max(minVerticalMargin, containerView.safeAreaInsetsIfAvailable.bottom + minBackgroundHeight)
+            contentMargins.bottom = max(Constants.minVerticalMargin, containerView.safeAreaInsetsIfAvailable.bottom)
         case .up:
-            contentMargins.top = max(minVerticalMargin, containerView.safeAreaInsetsIfAvailable.top + minBackgroundHeight)
+            contentMargins.top = max(Constants.minVerticalMargin, containerView.safeAreaInsetsIfAvailable.top)
         }
         var contentFrame = bounds.inset(by: contentMargins)
 
@@ -277,7 +280,9 @@ class MSDrawerPresentationController: UIPresentationController {
         }
 
         let oldMaskPath = (presentedView.layer.mask as? CAShapeLayer)?.path
-        setPresentedViewMask()
+        shadowView.animate(withDuration: duration) {
+            setPresentedViewMask()
+        }
 
         guard let presentedViewMask = presentedView.layer.mask as? CAShapeLayer else {
             return
