@@ -5,24 +5,22 @@
 /**
  `MSPopupMenuController` is used to present a popup menu that slides from top or bottom depending on `presentationDirection`. Use `presentationOrigin` to specify the vertical offset (in screen coordinates) from which to show popup menu. If not provided it will be calculated automatically: bottom of navigation bar for `.down` presentation and bottom of the screen for `.up` presentation.
 
+ When presented as a slide over, `MSPopupMenuController` will have a resizing handle that provides a user an alternative way to dismiss it.
+
  `MSPopupMenuController` will be presented as a popover on iPad and so requires either `sourceView`/`sourceRect` or `barButtonItem` to be provided via available initializers. Use `permittedArrowDirections` to specify the direction of the popover arrow.
  */
 open class MSPopupMenuController: MSDrawerController {
     private struct Constants {
-        static let minimumWidthForPopover: CGFloat = 250
+        static let minimumContentWidth: CGFloat = 250
     }
 
     open override var contentView: UIView? { get { return super.contentView } set { } }
 
-    open override var preferredContentSize: CGSize {
-        get { return CGSize(width: preferredWidth, height: preferredHeight) }
-        set { }
-    }
-    open override var preferredWidth: CGFloat {
-        guard presentationController is UIPopoverPresentationController else {
-            return super.preferredWidth
-        }
-        var width = Constants.minimumWidthForPopover
+    open override var resizingBehavior: MSDrawerResizingBehavior { get { return .dismiss } set { } }
+
+    open override var preferredContentSize: CGSize { get { return super.preferredContentSize } set { } }
+    override var preferredContentWidth: CGFloat {
+        var width = Constants.minimumContentWidth
         for section in sections {
             width = max(width, MSPopupMenuSectionHeaderView.preferredWidth(for: section))
             for item in section.items {
@@ -31,7 +29,7 @@ open class MSPopupMenuController: MSDrawerController {
         }
         return width
     }
-    open var preferredHeight: CGFloat {
+    override var preferredContentHeight: CGFloat {
         var height: CGFloat = 0
         for section in sections {
             height += MSPopupMenuSectionHeaderView.preferredHeight(for: section)
@@ -119,6 +117,7 @@ open class MSPopupMenuController: MSDrawerController {
         if #available(iOS 11.0, *) {
             tableView.contentInsetAdjustmentBehavior = .never
         }
+        tableView.alwaysBounceVertical = false
         tableView.isAccessibilityElement = true
 
         // Prevent tap delay when selecting a menu item
@@ -141,15 +140,21 @@ open class MSPopupMenuController: MSDrawerController {
             // Warm up all the visible cell feedback generators
             // Each cell has its own generator to allow each to fire perfectly on time when highlight changes
             for case let cell as MSPopupMenuItemCell in tableView.visibleCells {
+                if cell.isHeader {
+                    continue
+                }
                 if cell.feedbackGenerator == nil {
                     cell.feedbackGenerator = UISelectionFeedbackGenerator()
                 }
                 cell.feedbackGenerator?.prepare()
             }
 
-            var cell: UITableViewCell?
+            var cell: MSPopupMenuItemCell?
             if let indexPath = tableView.indexPathForRow(at: point) {
-                cell = tableView.cellForRow(at: indexPath)
+                cell = tableView.cellForRow(at: indexPath) as? MSPopupMenuItemCell
+                if cell?.isHeader == true {
+                    cell = nil
+                }
             }
 
             for visibleCell in tableView.visibleCells {
@@ -163,6 +168,9 @@ open class MSPopupMenuController: MSDrawerController {
                 return
             }
 
+            if let cell = tableView.cellForRow(at: indexPath) as? MSPopupMenuItemCell, cell.isHeader {
+                return
+            }
             let item = sections[indexPath.section].items[indexPath.row]
             if !item.isEnabled {
                 return
@@ -243,6 +251,11 @@ extension MSPopupMenuController: UITableViewDelegate {
 
 extension MSPopupMenuController: UIGestureRecognizerDelegate {
     public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        let point = gestureRecognizer.location(in: tableView)
+        if let indexPath = tableView.indexPathForRow(at: point), let cell = tableView.cellForRow(at: indexPath) as? MSPopupMenuItemCell, cell.isHeader {
+            return false
+        }
+
         return !needsScrolling
     }
 }

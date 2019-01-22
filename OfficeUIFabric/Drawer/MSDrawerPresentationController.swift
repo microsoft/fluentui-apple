@@ -129,7 +129,14 @@ class MSDrawerPresentationController: UIPresentationController {
 
     // MARK: Layout
 
+    enum ExtraContentHeightEffect {
+        case move
+        case resize
+    }
+
     override var frameOfPresentedViewInContainerView: CGRect { return contentView.frame }
+
+    var extraContentHeightEffectWhenCollapsing: ExtraContentHeightEffect = .move
 
     private lazy var actualPresentationOrigin: CGFloat = {
         if let presentationOrigin = presentationOrigin {
@@ -225,6 +232,7 @@ class MSDrawerPresentationController: UIPresentationController {
         var contentFrame = bounds.inset(by: contentMargins)
 
         var contentSize = presentedViewController.preferredContentSize
+        contentSize.width = contentFrame.width
         switch presentationDirection {
         case .down:
             if actualPresentationOrigin == containerView.bounds.minY {
@@ -235,15 +243,17 @@ class MSDrawerPresentationController: UIPresentationController {
                 contentSize.height += containerView.safeAreaInsetsIfAvailable.bottom
             }
         }
-        contentSize = CGSize(
-            width: min(contentSize.width, contentFrame.width),
-            height: min(contentSize.height, contentFrame.height)
-        )
-        contentSize.height = min(contentSize.height + extraContentHeight, contentFrame.height)
+        contentSize.height = min(contentSize.height, contentFrame.height)
+        if extraContentHeight >= 0 || extraContentHeightEffectWhenCollapsing == .resize {
+            contentSize.height = min(contentSize.height + extraContentHeight, contentFrame.height)
+        }
 
         contentFrame.origin.x += (contentFrame.width - contentSize.width) / 2
         if presentationDirection == .up {
             contentFrame.origin.y = contentFrame.maxY - contentSize.height
+        }
+        if extraContentHeight < 0 && extraContentHeightEffectWhenCollapsing == .move {
+            contentFrame.origin.y += presentationDirection == .down ? extraContentHeight : -extraContentHeight
         }
         contentFrame.size = contentSize
 

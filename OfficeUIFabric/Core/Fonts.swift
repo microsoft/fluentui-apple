@@ -21,7 +21,7 @@ public struct MSFonts {
     public static let caption2: UIFont = .preferredFont(forTextStyle: .caption2)
 }
 
-public enum MSTextStyle: Int {
+public enum MSTextStyle: Int, CaseIterable {
     case title1
     case title2
     case headline
@@ -30,9 +30,6 @@ public enum MSTextStyle: Int {
     case footnote
     case caption1
     case caption2
-
-    // TODO: Replace with conformance to CaseIterable after switch to Swift 4.2
-    public static var allCases: [MSTextStyle] = [.title1, .title2, .headline, .body, .subhead, .footnote, .caption1, .caption2]
 
     public var font: UIFont {
         switch self {

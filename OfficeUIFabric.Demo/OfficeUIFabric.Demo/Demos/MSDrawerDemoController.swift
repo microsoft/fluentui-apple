@@ -24,7 +24,7 @@ class MSDrawerDemoController: DemoController {
         container.addArrangedSubview(UIView())
     }
 
-    private func presentDrawer(sourceView: UIView? = nil, barButtonItem: UIBarButtonItem? = nil, presentationOrigin: CGFloat = -1, presentationDirection: MSDrawerPresentationDirection, contentController: UIViewController? = nil, contentView: UIView? = nil, resizable: Bool = false, animated: Bool = true) {
+    private func presentDrawer(sourceView: UIView? = nil, barButtonItem: UIBarButtonItem? = nil, presentationOrigin: CGFloat = -1, presentationDirection: MSDrawerPresentationDirection, contentController: UIViewController? = nil, contentView: UIView? = nil, resizingBehavior: MSDrawerResizingBehavior = .none, animated: Bool = true) {
         let controller: MSDrawerController
         if let sourceView = sourceView {
             controller = MSDrawerController(sourceView: sourceView, sourceRect: sourceView.bounds, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection)
@@ -34,10 +34,10 @@ class MSDrawerDemoController: DemoController {
             fatalError("Presenting a drawer requires either a sourceView or a barButtonItem")
         }
 
-        controller.allowsResizing = resizable
+        controller.resizingBehavior = resizingBehavior
 
         if let contentView = contentView {
-            controller.preferredContentSize.height = 200
+            controller.preferredContentSize.height = 220
             controller.contentView = contentView
         } else {
             controller.contentController = contentController
@@ -47,11 +47,15 @@ class MSDrawerDemoController: DemoController {
     }
 
     private func actionViews() -> [UIView] {
+        let spacer = UIView()
+        spacer.backgroundColor = .orange
+        spacer.layer.borderWidth = 1
+
         return [
             createButton(title: "Expand", action: #selector(expandButtonTapped)),
             createButton(title: "Dismiss", action: #selector(dismissButtonTapped)),
             createButton(title: "Dismiss (no animation)", action: #selector(dismissNotAnimatedButtonTapped)),
-            UIView()    // spacer
+            spacer
         ]
     }
 
@@ -68,7 +72,7 @@ class MSDrawerDemoController: DemoController {
     }
 
     @objc private func showTopDrawerButtonTapped(sender: UIButton) {
-        presentDrawer(sourceView: sender, presentationDirection: .down, contentView: containerForActionViews())
+        presentDrawer(sourceView: sender, presentationDirection: .down, contentView: containerForActionViews(), resizingBehavior: .dismissOrExpand)
     }
 
     @objc private func showTopDrawerNotAnimatedButtonTapped(sender: UIButton) {
@@ -81,7 +85,7 @@ class MSDrawerDemoController: DemoController {
     }
 
     @objc private func showBottomDrawerButtonTapped(sender: UIButton) {
-        presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews())
+        presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews(), resizingBehavior: .dismissOrExpand)
     }
 
     @objc private func showBottomDrawerNotAnimatedButtonTapped(sender: UIButton) {
@@ -96,7 +100,7 @@ class MSDrawerDemoController: DemoController {
     @objc private func showBottomDrawerCustomContentControllerButtonTapped(sender: UIButton) {
         let controller = UIViewController()
         controller.title = "Resizable drawer"
-        controller.preferredContentSize.height = 400
+        controller.preferredContentSize = CGSize(width: 350, height: 400)
 
         let personaListView = MSPersonaListView()
         personaListView.personaList = samplePersonas
@@ -106,7 +110,7 @@ class MSDrawerDemoController: DemoController {
         let contentController = UINavigationController(rootViewController: controller)
         contentController.navigationBar.isTranslucent = false
 
-        presentDrawer(sourceView: sender, presentationDirection: .up, contentController: contentController, resizable: true)
+        presentDrawer(sourceView: sender, presentationDirection: .up, contentController: contentController, resizingBehavior: .dismissOrExpand)
     }
 
     @objc private func expandButtonTapped(sender: UIButton) {

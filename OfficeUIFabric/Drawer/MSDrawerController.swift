@@ -2,7 +2,15 @@
 //  Copyright © 2018 Microsoft Corporation. All rights reserved.
 //
 
-// MARK: MSDrawerPresentationDirection
+// MARK: MSDrawerResizingBehavior
+
+@objc public enum MSDrawerResizingBehavior: Int {
+    case none
+    case dismiss
+    case dismissOrExpand
+}
+
+// MARK: - MSDrawerPresentationDirection
 
 @objc public enum MSDrawerPresentationDirection: Int {
     case down   // drawer animated down from a top base
@@ -27,8 +35,6 @@
 
 // MARK: - MSDrawerController
 
-// TODO: Visual "handle" for resizing
-
 /**
  `MSDrawerController` is used to present a portion of UI in a slider frame that shows up or down on iPhone and in a popover on iPad.
 
@@ -36,14 +42,12 @@
 
  `MSDrawerController` will be presented as a popover on iPad and so requires either `sourceView`/`sourceRect` or `barButtonItem` to be provided via available initializers. Use `permittedArrowDirections` to specify the direction of the popover arrow.
 
- Override `preferredWidth` to provide a custom preferred width for presentation on iPad or landscape iPhone.
-
  Set either `contentController` or `contentView` to provide content for the drawer. Desired content size can be specified by using either drawer's or content controller's `preferredContentSize`.
+
+ Use `resizingBehavior` to allow a user to resize or dismiss the drawer by tapping and dragging any area that does not handle this gesture itself.
  */
 open class MSDrawerController: UIViewController {
     private struct Constants {
-        static let preferredWidthForLandscapePhone: CGFloat = 400
-        static let preferredWidthForPad: CGFloat = 300
         static let resizingThreshold: CGFloat = 30
     }
 
@@ -101,18 +105,20 @@ open class MSDrawerController: UIViewController {
     }
 
     /**
-     When `allowsResizing` is `true` a user can resize the drawer by tapping and dragging any area that does not handle this geature itself. For example, if `contentController` constains a `UINavigationController`, a user can tap and drag navigation bar to resize the drawer.
+     When `resizingBehavior` is not `.none` a user can resize the drawer by tapping and dragging any area that does not handle this gesture itself. For example, if `contentController` constains a `UINavigationController`, a user can tap and drag navigation bar to resize the drawer.
 
      By resizing a drawer a user can switch between several predefined states:
      - a drawer can be expanded (see `isExpanded` property);
      - returned to normal state from expanded state;
      - or dismissed.
 
+     When `resizingBehavior` is `.dismiss` the expanding behavior is not available - drawer can only be dismissed.
+
      The corresponding `delegate` methods will be called for these state changes: see `drawerControllerDidChangeExpandedState` and `drawerControllerWillDismiss`/`drawerControllerDidDismiss`.
 
      Resizing is supported only on iPhone in compact environment (when drawer is presented as a slideover).
      */
-    @objc open var allowsResizing: Bool = false
+    @objc open var resizingBehavior: MSDrawerResizingBehavior = .none
     /**
      Set `isExpanded` to `true` to maximize the drawer's height to fill the device screen vertically minus the safe areas. Set to `false` to restore it to the normal size.
 
@@ -136,35 +142,27 @@ open class MSDrawerController: UIViewController {
 
     /// Use `permittedArrowDirections` to specify the direction of the popover arrow for popover presentation on iPad.
     @objc open var permittedArrowDirections: UIPopoverArrowDirection = .any
-    ///  Override `preferredWidth` to provide a custom preferred width for presentation on iPad or landscape iPhone.
-    open var preferredWidth: CGFloat {
-        if UIDevice.isPhone {
-            let maxWidth = presentingViewController?.view?.window?.bounds.width ?? .infinity
-            return min(UIScreen.isPortrait ? UIScreen.main.bounds.width : Constants.preferredWidthForLandscapePhone, maxWidth)
-        } else {
-            return Constants.preferredWidthForPad
-        }
-    }
 
     open override var preferredContentSize: CGSize {
         get {
             var preferredContentSize = super.preferredContentSize
 
-            if let contentController = contentController {
-                let contentSize = contentController.preferredContentSize
+            let updatePreferredContentSize = { (getWidth: @autoclosure () -> CGFloat, getHeight: @autoclosure () -> CGFloat) in
                 if preferredContentSize.width == 0 {
-                    preferredContentSize.width = contentSize.width
+                    preferredContentSize.width = getWidth()
                 }
                 if preferredContentSize.height == 0 {
-                    preferredContentSize.height = contentSize.height
-                    if canResize {
+                    preferredContentSize.height = getHeight()
+                    if preferredContentSize.height != 0 && self.canResize {
                         preferredContentSize.height += MSResizingHandleView.height
                     }
                 }
             }
 
-            if preferredContentSize.width == 0 {
-                preferredContentSize.width = preferredWidth
+            updatePreferredContentSize(preferredContentWidth, preferredContentHeight)
+            if let contentController = contentController {
+                let contentSize = contentController.preferredContentSize
+                updatePreferredContentSize(contentSize.width, contentSize.height)
             }
 
             return preferredContentSize
@@ -185,6 +183,9 @@ open class MSDrawerController: UIViewController {
             }
         }
     }
+    // Override to provide the preferred size based on specifics of the concrete drawer subclass (see popup menu, for example)
+    var preferredContentWidth: CGFloat { return 0 }
+    var preferredContentHeight: CGFloat { return 0 }
 
     /// `onDismiss` is called when drawer is being dismissed.
     @objc open var onDismiss: (() -> Void)?
@@ -332,7 +333,7 @@ open class MSDrawerController: UIViewController {
     // MARK: Resizing
 
     private var canResize: Bool {
-        return presentationController is MSDrawerPresentationController && allowsResizing
+        return presentationController is MSDrawerPresentationController && resizingBehavior != .none
     }
 
     private var resizingHandleView: MSResizingHandleView? {
@@ -360,15 +361,14 @@ open class MSDrawerController: UIViewController {
         }
 
         let translation = gesture.translation(in: nil)
-        let offset: CGFloat
-        switch presentationDirection {
-        case .down:
-            offset = translation.y
-        case .up:
-            offset = -translation.y
+        var offset = presentationDirection == .down ? translation.y : -translation.y
+        if resizingBehavior == .dismiss {
+            offset = min(offset, 0)
         }
 
         switch gesture.state {
+        case .began:
+            presentationController.extraContentHeightEffectWhenCollapsing = isExpanded ? .resize : .move
         case .changed:
             presentationController.setExtraContentHeight(offset)
         case .ended:
@@ -419,7 +419,7 @@ extension MSDrawerController: UIViewControllerTransitioningDelegate {
     public func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         switch presentationStyle(for: source) {
         case .slideover:
-            return MSDrawerPresentationController(presentedViewController: presented, presenting: presenting, source: source, sourceObject: sourceView ?? barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection, presentationIsInteractive: allowsResizing)
+            return MSDrawerPresentationController(presentedViewController: presented, presenting: presenting, source: source, sourceObject: sourceView ?? barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection, presentationIsInteractive: resizingBehavior != .none)
         case .popover:
             let presentationController = UIPopoverPresentationController(presentedViewController: presented, presenting: presenting)
             presentationController.backgroundColor = MSColors.background

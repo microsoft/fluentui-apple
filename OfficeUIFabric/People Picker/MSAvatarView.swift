@@ -6,16 +6,13 @@ import UIKit
 
 // MARK: MSAvatarSize
 
-@objc public enum MSAvatarSize: Int {
+@objc public enum MSAvatarSize: Int, CaseIterable {
     case xSmall
     case small
     case medium
     case large
     case xLarge
     case xxLarge
-
-    // TODO: Replace with conformance to CaseIterable after switch to Swift 4.2
-    public static var allCases: [MSAvatarSize] = [.xSmall, .small, .medium, .large, .xLarge, .xxLarge]
 
     var font: UIFont {
         switch self {

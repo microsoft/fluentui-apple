@@ -18,11 +18,8 @@ public struct MSDayOfMonth {
 
 // MARK: - MSWeekOfMonth
 
-public enum MSWeekOfMonth: Int {
+public enum MSWeekOfMonth: Int, CaseIterable {
     case first = 1, second, third, fourth, last
-
-    // TODO: Replace with conformance to CaseIterable after switch to Swift 4.2
-    static var allCases: [MSWeekOfMonth] { return [.first, .second, .third, .fourth, .last] }
 
     public init?(weekdayOrdinal: Int) {
         self.init(rawValue: weekdayOrdinal)
@@ -51,7 +48,6 @@ public enum MSWeekOfMonth: Int {
 public enum MSDayOfWeek: Int {
     case sunday, monday, tuesday, wednesday, thursday, friday, saturday
 
-    // TODO: Replace with conformance to CaseIterable after switch to Swift 4.2
     static var allCases: [MSDayOfWeek] {
         var daysOfWeek: [MSDayOfWeek] = [.sunday, .monday, .tuesday, .wednesday, .thursday, .friday, .saturday]
         for _ in 0..<Calendar.current.firstWeekday - 1 {

@@ -184,16 +184,13 @@ public struct MSColors {
 
 // MARK: - MSTextColorStyle
 
-public enum MSTextColorStyle: Int {
+public enum MSTextColorStyle: Int, CaseIterable {
     case regular
     case secondary
     case white
     case primary
     case error
     case warning
-
-    // TODO: Replace with conformance to CaseIterable after switch to Swift 4.2
-    public static var allCases: [MSTextColorStyle] = [.regular, .secondary, .white, .primary, .warning]
 
     public var color: UIColor {
         switch self {
