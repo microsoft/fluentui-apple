@@ -11,15 +11,15 @@ class MSDrawerDemoController: DemoController {
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Show", style: .plain, target: self, action: #selector(barButtonTapped))
 
-        container.addArrangedSubview(createButton(title: "Show top drawer", action: #selector(showTopDrawerButtonTapped)))
+        container.addArrangedSubview(createButton(title: "Show top drawer (resizable)", action: #selector(showTopDrawerButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show top drawer (no animation)", action: #selector(showTopDrawerNotAnimatedButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show top drawer (custom base)", action: #selector(showTopDrawerCustomOffsetButtonTapped)))
 
-        container.addArrangedSubview(createButton(title: "Show bottom drawer", action: #selector(showBottomDrawerButtonTapped)))
+        container.addArrangedSubview(createButton(title: "Show bottom drawer (resizable)", action: #selector(showBottomDrawerButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show bottom drawer (no animation)", action: #selector(showBottomDrawerNotAnimatedButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show bottom drawer (custom base)", action: #selector(showBottomDrawerCustomOffsetButtonTapped)))
 
-        container.addArrangedSubview(createButton(title: "Show resizable drawer (custom content)", action: #selector(showBottomDrawerCustomContentControllerButtonTapped)))
+        container.addArrangedSubview(createButton(title: "Show drawer (resizable, custom content)", action: #selector(showBottomDrawerCustomContentControllerButtonTapped)))
 
         container.addArrangedSubview(UIView())
     }
