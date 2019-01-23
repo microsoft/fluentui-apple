@@ -180,6 +180,11 @@ public struct MSColors {
         public static let selectionBarNormal: UIColor = primary
         public static let selectionBarDisabled: UIColor = gray
     }
+
+    public struct TableViewCell {
+        public static let background: UIColor = white
+        public static let backgroundSelected: UIColor = backgroundGray
+    }
 }
 
 // MARK: - MSTextColorStyle

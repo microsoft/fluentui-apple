@@ -51,6 +51,7 @@
         B483323321CC71940022B4CC /* MSHUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B483323221CC71940022B4CC /* MSHUDView.swift */; };
         B483323521DEA8D70022B4CC /* MSHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = B483323421DEA8D70022B4CC /* MSHUD.swift */; };
         B483323721DEB5A00022B4CC /* MSTouchForwardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B483323621DEB5A00022B4CC /* MSTouchForwardingView.swift */; };
+        B498141421E424920077B48D /* MSTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B498141321E424920077B48D /* MSTableViewCell.swift */; };
         B4A8BBCD21BF6D6900D5E3ED /* MSBadgeStringExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A8BBCC21BF6D6900D5E3ED /* MSBadgeStringExtractor.swift */; };
         B4E782C12176AD5E00A7DFCE /* MSActionsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E782C02176AD5E00A7DFCE /* MSActionsCell.swift */; };
         B4E782C321793AB200A7DFCE /* MSActivityIndicatorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E782C221793AB200A7DFCE /* MSActivityIndicatorCell.swift */; };
@@ -157,6 +158,7 @@
         B483323221CC71940022B4CC /* MSHUDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSHUDView.swift; sourceTree = "<group>"; };
         B483323421DEA8D70022B4CC /* MSHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSHUD.swift; sourceTree = "<group>"; };
         B483323621DEB5A00022B4CC /* MSTouchForwardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTouchForwardingView.swift; sourceTree = "<group>"; };
+        B498141321E424920077B48D /* MSTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTableViewCell.swift; sourceTree = "<group>"; };
         B4A8BBCC21BF6D6900D5E3ED /* MSBadgeStringExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSBadgeStringExtractor.swift; sourceTree = "<group>"; };
         B4E782C02176AD5E00A7DFCE /* MSActionsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSActionsCell.swift; sourceTree = "<group>"; };
         B4E782C221793AB200A7DFCE /* MSActivityIndicatorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSActivityIndicatorCell.swift; sourceTree = "<group>"; };
@@ -400,6 +402,7 @@
                 B4E782C02176AD5E00A7DFCE /* MSActionsCell.swift */,
                 B4E782C221793AB200A7DFCE /* MSActivityIndicatorCell.swift */,
                 B4E782C62179509A00A7DFCE /* MSCenteredLabelCell.swift */,
+                B498141321E424920077B48D /* MSTableViewCell.swift */,
             );
             path = "Table View";
             sourceTree = "<group>";
@@ -703,6 +706,7 @@
                 FD4F2A1B2148937100C437D6 /* MSPageCardPresenterController.swift in Sources */,
                 FD5BBE3B214B2F44008964B4 /* Date+Extensions.swift in Sources */,
                 FD5BBE43214C73CE008964B4 /* MSEasyTapButton.swift in Sources */,
+                B498141421E424920077B48D /* MSTableViewCell.swift in Sources */,
                 FD77752B219E455A00033D58 /* MSAccessibilityContainerView.swift in Sources */,
                 FDF41ED92141A02200EC527C /* MSCalendarConfiguration.swift in Sources */,
                 FD77753021A490BA00033D58 /* MSDateTimePicker.swift in Sources */,

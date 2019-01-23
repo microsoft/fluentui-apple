@@ -15,5 +15,6 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("MSLabel", MSLabelDemoController.self),
     ("MSPersonaListView", MSPersonaListViewDemoController.self),
     ("MSPopupMenuController", MSPopupMenuDemoController.self),
-    ("MSSegmentedControl", MSSegmentedControlDemoController.self)
+    ("MSSegmentedControl", MSSegmentedControlDemoController.self),
+    ("MSTableViewCell", MSTableViewCellDemoController.self)
 ]
