@@ -38,25 +38,24 @@ class MSDrawerPresentationController: UIPresentationController {
     }()
     // A transparent view, which if tapped will dismiss the dropdown
     private lazy var backgroundView: UIView = {
-        let view = UIView()
+        let view = BackgroundView()
         view.backgroundColor = .clear
         view.isAccessibilityElement = true
         view.accessibilityLabel = "Accessibility.Dismiss.Label".localized
         view.accessibilityHint = "Accessibility.Dismiss.Hint".localized
         view.accessibilityTraits = .button
+        // Workaround for a bug in iOS: if the resizing handle happens to be in the middle of the backgroundView, VoiceOver will send touch event to it (according to the backgroundView's accessibilityActivationPoint) even though it's not parented in backgroundView or even interactable - this will prevent backgroundView from receiving touch and dismissing controller
+        view.onAccessibilityActivate = { [unowned self] in
+            self.presentingViewController.dismiss(animated: true)
+        }
         return view
     }()
     private lazy var dimmingView: MSDimmingView = {
         let view = MSDimmingView(type: .black)
-        view.isAccessibilityElement = false
         view.isUserInteractionEnabled = false
         return view
     }()
-    private lazy var contentView: UIView = {
-        let view = UIView()
-        view.isAccessibilityElement = false
-        return view
-    }()
+    private lazy var contentView = UIView()
     // Shadow behind presented view (cannot be done on presented view itself because it's masked)
     private lazy var shadowView = DrawerShadowView(shadowDirection: presentationDirection)
     // Imitates the bottom shadow of navigation bar or top shadow of toolbar because original ones are hidden by presented view
@@ -311,5 +310,17 @@ class MSDrawerPresentationController: UIPresentationController {
 
     @objc private func handleBackgroundViewTapped(_ recognizer: UITapGestureRecognizer) {
         presentingViewController.dismiss(animated: true)
+    }
+}
+
+// MARK: - BackgroundView
+
+// Used for workaround for a bug in iOS: if the resizing handle happens to be in the middle of the backgroundView, VoiceOver will send touch event to it (according to the backgroundView's accessibilityActivationPoint) even though it's not parented in backgroundView or even interactable - this will prevent backgroundView from receiving touch and dismissing controller. This view overrides the default behavior of sending touch event to a view at the activation point and provides a way for custom handling.
+private class BackgroundView: UIView {
+    var onAccessibilityActivate: (() -> Void)?
+
+    override func accessibilityActivate() -> Bool {
+        onAccessibilityActivate?()
+        return true
     }
 }

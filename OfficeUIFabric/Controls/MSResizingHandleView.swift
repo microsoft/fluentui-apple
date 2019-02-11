@@ -23,7 +23,6 @@ open class MSResizingHandleView: UIView {
         backgroundColor = MSColors.ResizingHandle.background
         height = MSResizingHandleView.height
         autoresizingMask = .flexibleWidth
-        isAccessibilityElement = false
         isUserInteractionEnabled = false
         layer.addSublayer(markLayer)
     }

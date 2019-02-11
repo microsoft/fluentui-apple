@@ -41,7 +41,7 @@ class MSPopupMenuSectionHeaderView: UITableViewHeaderFooterView {
         super.init(reuseIdentifier: reuseIdentifier)
 
         let view = UIView(frame: .zero)
-        view.backgroundColor = .clear
+        view.backgroundColor = MSColors.background
         backgroundView = view
 
         contentView.addSubview(label)

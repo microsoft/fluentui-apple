@@ -21,6 +21,9 @@ open class MSPopupMenuController: MSDrawerController {
     open override var preferredContentSize: CGSize { get { return super.preferredContentSize } set { } }
     override var preferredContentWidth: CGFloat {
         var width = Constants.minimumContentWidth
+        if let headerItem = headerItem {
+            width = max(width, MSPopupMenuItemCell.preferredWidth(for: headerItem, preservingSpaceForImage: false))
+        }
         for section in sections {
             width = max(width, MSPopupMenuSectionHeaderView.preferredWidth(for: section))
             for item in section.items {
@@ -31,6 +34,9 @@ open class MSPopupMenuController: MSDrawerController {
     }
     override var preferredContentHeight: CGFloat {
         var height: CGFloat = 0
+        if let headerItem = headerItem {
+            height += MSPopupMenuItemCell.preferredHeight(for: headerItem)
+        }
         for section in sections {
             height += MSPopupMenuSectionHeaderView.preferredHeight(for: section)
             for item in section.items {
@@ -40,6 +46,16 @@ open class MSPopupMenuController: MSDrawerController {
         return height
     }
 
+    /// Set `headerItem` to show a menu header. Header is not interactable and does not scroll.
+    @objc open var headerItem: MSPopupMenuItem? {
+        didSet {
+            if let headerItem = headerItem {
+                headerView.setup(item: headerItem)
+                headerView.height = MSPopupMenuItemCell.preferredHeight(for: headerItem)
+            }
+            headerView.isHidden = headerItem == nil
+        }
+    }
     /// Use `selectedItemIndexPath` to get or set the selected menu item instead of doing this via `MSPopupMenuItem` directly
     @objc open var selectedItemIndexPath: IndexPath? {
         get {
@@ -60,11 +76,21 @@ open class MSPopupMenuController: MSDrawerController {
             }
         }
     }
-    /// Set `showsFirstItemAsHeader` to `true` to make the first menu item look & feel like a header. This menu item will not be interactable.
-    @objc open var showsFirstItemAsHeader: Bool = false
 
     private var sections: [MSPopupMenuSection] = []
 
+    private lazy var containerView: UIView = {
+        let view = UIView()
+        view.addSubview(headerView)
+        view.addSubview(tableView)
+        return view
+    }()
+    private let headerView: MSPopupMenuItemCell = {
+        let view = MSPopupMenuItemCell(frame: .zero)
+        view.isHeader = true
+        view.isHidden = true
+        return view
+    }()
     private let tableView = UITableView()
 
     private var itemsHaveImages: Bool {
@@ -102,12 +128,34 @@ open class MSPopupMenuController: MSDrawerController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-        super.contentView = tableView
+        super.contentView = containerView
     }
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.selectRow(at: selectedItemIndexPath, animated: false, scrollPosition: .none)
+    }
+
+    open override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+
+        var frame = containerView.bounds
+
+        if !headerView.isHidden {
+            var headerFrame = frame
+            headerFrame.size.height = headerView.height
+            headerView.frame = headerFrame
+
+            frame = frame.inset(by: UIEdgeInsets(top: headerView.height, left: 0, bottom: 0, right: 0))
+        }
+
+        tableView.frame = frame
+    }
+
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        tableView.layoutIfNeeded()
+        tableView.scrollToNearestSelectedRow(at: .none, animated: false)
     }
 
     private func initTableView() {
@@ -140,9 +188,6 @@ open class MSPopupMenuController: MSDrawerController {
             // Warm up all the visible cell feedback generators
             // Each cell has its own generator to allow each to fire perfectly on time when highlight changes
             for case let cell as MSPopupMenuItemCell in tableView.visibleCells {
-                if cell.isHeader {
-                    continue
-                }
                 if cell.feedbackGenerator == nil {
                     cell.feedbackGenerator = UISelectionFeedbackGenerator()
                 }
@@ -152,9 +197,6 @@ open class MSPopupMenuController: MSDrawerController {
             var cell: MSPopupMenuItemCell?
             if let indexPath = tableView.indexPathForRow(at: point) {
                 cell = tableView.cellForRow(at: indexPath) as? MSPopupMenuItemCell
-                if cell?.isHeader == true {
-                    cell = nil
-                }
             }
 
             for visibleCell in tableView.visibleCells {
@@ -168,9 +210,6 @@ open class MSPopupMenuController: MSDrawerController {
                 return
             }
 
-            if let cell = tableView.cellForRow(at: indexPath) as? MSPopupMenuItemCell, cell.isHeader {
-                return
-            }
             let item = sections[indexPath.section].items[indexPath.row]
             if !item.isEnabled {
                 return
@@ -203,7 +242,6 @@ extension MSPopupMenuController: UITableViewDataSource {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: MSPopupMenuItemCell.identifier) as! MSPopupMenuItemCell
         cell.setup(item: item)
-        cell.isHeader = showsFirstItemAsHeader && section == 0 && row == 0
         cell.preservesSpaceForImage = itemsHaveImages
         cell.showsSeparator = section != tableView.numberOfSections - 1 || row != tableView.numberOfRows(inSection: section) - 1
 
@@ -251,11 +289,6 @@ extension MSPopupMenuController: UITableViewDelegate {
 
 extension MSPopupMenuController: UIGestureRecognizerDelegate {
     public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        let point = gestureRecognizer.location(in: tableView)
-        if let indexPath = tableView.indexPathForRow(at: point), let cell = tableView.cellForRow(at: indexPath) as? MSPopupMenuItemCell, cell.isHeader {
-            return false
-        }
-
         return !needsScrolling
     }
 }

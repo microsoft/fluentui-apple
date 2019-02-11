@@ -63,8 +63,7 @@ class MSPopupMenuDemoController: DemoController {
         let controller = MSPopupMenuController(barButtonItem: sender, presentationOrigin: origin, presentationDirection: .up)
 
         if sender.title == "Show with header" {
-            controller.showsFirstItemAsHeader = true
-            controller.addItems([MSPopupMenuItem(title: "Calendar layout", subtitle: "Some options might not be available")])
+            controller.headerItem = MSPopupMenuItem(title: "Calendar layout", subtitle: "Some options might not be available")
         }
         controller.addItems([
             MSPopupMenuItem(imageName: "agenda-25x25", title: "Agenda", isSelected: calendarLayout == .agenda, onSelected: { self.calendarLayout = .agenda }),
