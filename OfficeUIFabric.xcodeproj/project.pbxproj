@@ -38,10 +38,10 @@
 		A5CEC23120E451D00016922A /* MSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC23020E451D00016922A /* MSButton.swift */; };
 		A5CEC25620E6A0CD0016922A /* MSButtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC25520E6A0CD0016922A /* MSButtonTests.swift */; };
 		A5DCA76421224026005F4CB7 /* MSSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DCA76321224026005F4CB7 /* MSSeparator.swift */; };
+		A5DF1EAB2213B26900CC741A /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = A5DF1EAD2213B26900CC741A /* Localizable.stringsdict */; };
 		B426613E214731D100E25423 /* MSInitialsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B426613D214731D100E25423 /* MSInitialsView.swift */; };
 		B4266140214852B400E25423 /* NSString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B426613F214852B400E25423 /* NSString+Extension.swift */; };
 		B42661422148568800E25423 /* MSAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42661412148568800E25423 /* MSAvatarView.swift */; };
-		B444D6AD218126C90002B4D4 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = B444D6AC218126C90002B4D4 /* Localizable.stringsdict */; };
 		B444D6B12181403C0002B4D4 /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444D6B02181403C0002B4D4 /* UITableViewCell+Extension.swift */; };
 		B444D6B62183A9740002B4D4 /* MSBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444D6B52183A9740002B4D4 /* MSBadgeView.swift */; };
 		B45EB790219E310F008646A2 /* MSBadgeField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45EB78F219E310F008646A2 /* MSBadgeField.swift */; };
@@ -145,10 +145,10 @@
 		A5CEC23020E451D00016922A /* MSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSButton.swift; sourceTree = "<group>"; };
 		A5CEC25520E6A0CD0016922A /* MSButtonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSButtonTests.swift; sourceTree = "<group>"; };
 		A5DCA76321224026005F4CB7 /* MSSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSSeparator.swift; sourceTree = "<group>"; };
+		A5DF1EAC2213B26900CC741A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		B426613D214731D100E25423 /* MSInitialsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSInitialsView.swift; sourceTree = "<group>"; };
 		B426613F214852B400E25423 /* NSString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSString+Extension.swift"; sourceTree = "<group>"; };
 		B42661412148568800E25423 /* MSAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAvatarView.swift; sourceTree = "<group>"; };
-		B444D6AC218126C90002B4D4 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		B444D6B02181403C0002B4D4 /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
 		B444D6B52183A9740002B4D4 /* MSBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSBadgeView.swift; sourceTree = "<group>"; };
 		B45EB78F219E310F008646A2 /* MSBadgeField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSBadgeField.swift; sourceTree = "<group>"; };
@@ -350,7 +350,7 @@
 			isa = PBXGroup;
 			children = (
 				A559BB81212B6FA40055E107 /* Localizable.strings */,
-				B444D6AC218126C90002B4D4 /* Localizable.stringsdict */,
+				A5DF1EAD2213B26900CC741A /* Localizable.stringsdict */,
 			);
 			path = Localization;
 			sourceTree = "<group>";
@@ -599,7 +599,7 @@
 			files = (
 				A54D97DC217E5CED0072681A /* Assets.xcassets in Resources */,
 				A559BB7F212B6FA40055E107 /* Localizable.strings in Resources */,
-				B444D6AD218126C90002B4D4 /* Localizable.stringsdict in Resources */,
+				A5DF1EAB2213B26900CC741A /* Localizable.stringsdict in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -746,6 +746,14 @@
 				A559BB80212B6FA40055E107 /* en */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		A5DF1EAD2213B26900CC741A /* Localizable.stringsdict */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A5DF1EAC2213B26900CC741A /* en */,
+			);
+			name = Localizable.stringsdict;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
