@@ -56,7 +56,7 @@ open class MSPersonaCell: UITableViewCell {
     ///
     /// - Parameter persona: The MSPersona to set up the cell with
     open func setup(persona: MSPersona) {
-        avatarView.setup(withName: persona.name, email: persona.email, image: persona.avatarImage)
+        avatarView.setup(primaryText: persona.name, secondaryText: persona.email, image: persona.avatarImage)
         // Attempt to use email if name is empty
         nameLabel.text = !persona.name.isEmpty ? persona.name : persona.email
         if persona.subtitle != "" {

@@ -5,18 +5,17 @@
 // MARK: MSInitialsView
 
 /**
-    `MSInitialsView` is used to present the initials of an entity such as a person within an avatar view.
-    The initials are generated from a provided name or email address and placed as a label above a colored background.
+ `MSInitialsView` is used to present the initials of an entity such as a person within an avatar view.
+ The initials are generated from a provided primary text (e.g. a name) or secondary text (e.g. an email address) and placed as a label above a colored background.
  */
-
 class MSInitialsView: UIView {
-    private static func initialsBackgroundColor(fromName name: String?, email: String?) -> UIColor {
-        // Set the color based on the person name and email address
+    private static func initialsBackgroundColor(fromPrimaryText primaryText: String?, secondaryText: String?) -> UIColor {
+        // Set the color based on the primary text and secondary text
         var combined: String
-        if let email = email, let name = name, email.count > 0 {
-            combined = name + email
-        } else if let name = name {
-            combined = name
+        if let secondaryText = secondaryText, let primaryText = primaryText, secondaryText.count > 0 {
+            combined = primaryText + secondaryText
+        } else if let primaryText = primaryText {
+            combined = primaryText
         } else {
             combined = ""
         }
@@ -27,14 +26,14 @@ class MSInitialsView: UIView {
         return colors[hashCode % colors.count]
     }
 
-    private static func initialsText(fromName name: String?, email: String?) -> String {
+    private static func initialsText(fromPrimaryText primaryText: String?, secondaryText: String?) -> String {
         var initials = ""
 
-        if let name = name, name.count > 0 {
-            initials = name.initials
-        } else if let email = email, email.count > 0 {
-            // Use first letter of the email address
-            initials = (email as NSString?)?.substring(to: 1) ?? ""
+        if let primaryText = primaryText, primaryText.count > 0 {
+            initials = primaryText.initials
+        } else if let secondaryText = secondaryText, secondaryText.count > 0 {
+            // Use first letter of the secondary text
+            initials = String(secondaryText.prefix(1))
         }
 
         // Fallback to `#` otherwise
@@ -76,15 +75,15 @@ class MSInitialsView: UIView {
 
     // MARK: Setup
 
-    /// Sets up in the initialsView by displaying initials from a provided name or email
+    /// Sets up in the initialsView by displaying initials from a provided primary text or secondary text
     ///
     /// - Parameters:
-    ///   - name: The name to use to display the initials from
-    ///   - email: The email to use to display the initials if name isn't provided
-    public func setup(withName name: String?, email: String?) {
-        initialsLabel.text = MSInitialsView.initialsText(fromName: name, email: email)
+    ///   - primaryText: The primary text to use to display the initials from (e.g. a name)
+    ///   - secondaryText: The secondary text to use to display the initials if name isn't provided (e.g. an email address)
+    public func setup(primaryText: String?, secondaryText: String?) {
+        initialsLabel.text = MSInitialsView.initialsText(fromPrimaryText: primaryText, secondaryText: secondaryText)
         // Need to set the background color on super, see next comment
-        super.backgroundColor = MSInitialsView.initialsBackgroundColor(fromName: name, email: email)
+        super.backgroundColor = MSInitialsView.initialsBackgroundColor(fromPrimaryText: primaryText, secondaryText: secondaryText)
     }
 
     override func layoutSubviews() {
