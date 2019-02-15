@@ -48,9 +48,9 @@ public class MSHUD: NSObject {
         static let keyboardMarginTop: CGFloat = 50.0
     }
 
-    public static let shared = MSHUD()
+    @objc public static let shared = MSHUD()
 
-    public weak var delegate: MSHUDDelegate?
+    @objc public weak var delegate: MSHUDDelegate?
 
     private var presentedHUDView: MSHUDView? {
         didSet {
@@ -61,31 +61,33 @@ public class MSHUD: NSObject {
         }
     }
 
-    private let containerView: MSTouchForwardingView = {
+    private lazy var containerView: MSTouchForwardingView = {
         let view = MSTouchForwardingView()
+        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.backgroundColor = .clear
+        containerViewFrameObservation = view.observe(\MSTouchForwardingView.frame) { [unowned self] (_, _) in
+            self.layout()
+        }
         return view
     }()
+    private var containerViewFrameObservation: NSKeyValueObservation?
 
     private var keyboardHeight: CGFloat = 0
 
     private override init() {
         super.init()
 
-        // Orientation
-        // `UIWindow` propagates rotation handling (eg. call to `layoutSubviews`) only to the subviews at the index 0. Because we add the MSHUD container as a sibling of such a view, we must handle rotation events ourselves.
-        NotificationCenter.default.addObserver(self, selector: #selector(handleOrientationDidChange(_:)), name: UIApplication.didChangeStatusBarOrientationNotification, object: nil)
-
         // Keyboard observation
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
+    deinit {
+        containerViewFrameObservation = nil
+    }
+
     @objc public func show(in view: UIView, with params: MSHUDParams) {
         resetIfNeeded()
-
-        containerView.forwardTouches = !params.isBlocking
-        view.addSubview(containerView)
 
         presentedHUDView = MSHUDView(label: params.caption, type: params.hudType)
 
@@ -93,8 +95,11 @@ public class MSHUD: NSObject {
             fatalError("MSHUD could not create MSHUDView")
         }
 
+        containerView.forwardTouches = !params.isBlocking
+        view.addSubview(containerView)
+        containerView.frame = view.bounds
+
         // Setup MSHUD view start state
-        layout()
         presentedHUDView.alpha = 0.0
         presentedHUDView.transform = CGAffineTransform(scaleX: Constants.showAnimationScale, y: Constants.showAnimationScale)
 
@@ -178,8 +183,6 @@ public class MSHUD: NSObject {
     }
 
     private func layout() {
-        containerView.frame = containerView.superview?.bounds ?? .zero
-
         guard let presentedHUDView = self.presentedHUDView else {
             return
         }
@@ -221,9 +224,5 @@ public class MSHUD: NSObject {
         // Animate position of MSHUD view
         keyboardHeight = 0
         UIView.animate(withDuration: keyboardAnimationDuration, animations: layout)
-    }
-
-    @objc private func handleOrientationDidChange(_ notification: Notification) {
-        layout()
     }
 }
