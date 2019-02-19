@@ -32,20 +32,23 @@ open class MSPersonaListView: UITableView {
     }
 
     /// The personas to display in the list view
-    open var personaList: [MSPersona] = [] {
+    @objc open var personaList: [MSPersona] = [] {
         didSet {
             reloadData()
         }
     }
+
+    /// The type of accessory that appears on the trailing edge: a disclosure indicator or a details button with an ellipsis icon
+    @objc public var accessoryType: MSTableViewCellAccessoryType = .none
 
     /// Bool indicating whether the 'Search Directory' button should be shown
-    open var showsSearchDirectoryButton: Bool = false {
+    @objc open var showsSearchDirectoryButton: Bool = false {
         didSet {
             reloadData()
         }
     }
 
-    open weak var searchDirectoryDelegate: MSPersonaListViewSearchDirectoryDelegate?
+    @objc open weak var searchDirectoryDelegate: MSPersonaListViewSearchDirectoryDelegate?
 
     /// Callback with the selected MSPersona
     @objc open var onPersonaSelected: ((MSPersona) -> Void)?
@@ -67,7 +70,6 @@ open class MSPersonaListView: UITableView {
 
         backgroundColor = MSColors.background
         separatorColor = MSColors.separator
-        separatorInset = UIEdgeInsets(top: 0, left: MSPersonaCell.separatorLeftInset, bottom: 0, right: 0)
         tableFooterView = UIView(frame: .zero)
 
         register(MSPersonaCell.self, forCellReuseIdentifier: MSPersonaCell.identifier)
@@ -169,7 +171,7 @@ extension MSPersonaListView: UITableViewDataSource {
         case .personas:
             let cell = dequeueReusableCell(withIdentifier: MSPersonaCell.identifier, for: indexPath) as! MSPersonaCell
             let persona = personaList[indexPath.row]
-            cell.setup(persona: persona)
+            cell.setup(persona: persona, accessoryType: accessoryType)
             cell.accessibilityTraits = .button
             return cell
         case .searchDirectory:

@@ -41,6 +41,7 @@ class MSPersonaListViewDemoController: DemoController {
         personaListView.personaList = samplePersonas
         personaListView.showsSearchDirectoryButton = true
         personaListView.searchDirectoryDelegate = self
+        personaListView.accessoryType = .disclosureIndicator
         personaListView.onPersonaSelected = { [unowned self] persona in
             let name = !persona.name.isEmpty ? persona.name : persona.email
             let alert = UIAlertController(title: "\(name) selected", message: nil, preferredStyle: .alert)

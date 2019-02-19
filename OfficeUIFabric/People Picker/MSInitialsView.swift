@@ -50,6 +50,9 @@ class MSInitialsView: UIView {
             initialsLabel.font = avatarSize.font
         }
     }
+
+    override var backgroundColor: UIColor? { get { return super.backgroundColor } set { } }
+
     private var initialsLabel: UILabel!
 
     /// Initializes the initials view and sizes it with MSAvatarSize
@@ -82,17 +85,11 @@ class MSInitialsView: UIView {
     ///   - secondaryText: The secondary text to use to display the initials if name isn't provided (e.g. an email address)
     public func setup(primaryText: String?, secondaryText: String?) {
         initialsLabel.text = MSInitialsView.initialsText(fromPrimaryText: primaryText, secondaryText: secondaryText)
-        // Need to set the background color on super, see next comment
         super.backgroundColor = MSInitialsView.initialsBackgroundColor(fromPrimaryText: primaryText, secondaryText: secondaryText)
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
         initialsLabel.frame = bounds
-    }
-
-    func setBackgroundColor(backgroundColor: UIColor) {
-        // Don't allow Apple to override the backgroundColor when this view is
-        // embedded in a UITableViewCell and the cell is highlighted or selected.
     }
 }

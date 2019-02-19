@@ -13,7 +13,7 @@ class MSAvatarViewDemoController: DemoController {
         let siteImage = UIImage(named: "site")
         addTitle(text: "Avatar with Image")
         for size in MSAvatarSize.allCases {
-            setupAvatarDetails(size: size, circleImage: personaImage, squareImage: siteImage)
+            setupAvatarDetails(size: size, circleImage: personaImage, squareImage: siteImage, circleName: "Kat Larrson", squareName: "NorthWind Traders")
         }
         container.addArrangedSubview(UIView())
 

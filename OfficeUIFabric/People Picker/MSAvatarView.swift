@@ -178,6 +178,8 @@ open class MSAvatarView: UIView {
         } else {
             setupWithInitials()
         }
+
+        accessibilityLabel = primaryText ?? secondaryText
     }
 
     /// Sets up the avatarView with an image

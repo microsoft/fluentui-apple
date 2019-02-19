@@ -25,11 +25,25 @@ import UIKit
 
  If a `footer` is provided the cell will display three lines of text and will leave space for the `subtitle` and `title` if they are not provided. Use `largeHeight` for the height of the cell in this case.
 
- If a `customView` is provided when the cell has either two or three lines of text use `separatorLeftInsetForDefaultCustomView` for the cell's separator left inset. If a `customView` is not provided the `customView` will be hidden and the displayed text will take up the empty space left by the hidden `customView`. Use `separatorLeftInsetForNoCustomView` as the separator left inset to align the separator correctly to the displayed text.
+ If a `customView` is provided when the cell has either two or three lines of text use `separatorLeftInsetForMediumCustomView` for the cell's separator left inset. If a `customView` is not provided the `customView` will be hidden and the displayed text will take up the empty space left by the hidden `customView`. Use `separatorLeftInsetForNoCustomView` as the separator left inset to align the separator correctly to the displayed text.
 
- Specify `accessoryType` on setup to show either a disclosure indicator or a `detailButton`. The `detailButton` will display a button with an ellipsis icon which can be configured by passing in a closure to the cell's `accessoryTapped` property or by implementing UITableViewDelegate's `accessoryButtonTappedForRowWith` method.
+ Specify `accessoryType` on setup to show either a disclosure indicator or a `detailButton`. The `detailButton` will display a button with an ellipsis icon which can be configured by passing in a closure to the cell's `onAccessoryTapped` property or by implementing UITableViewDelegate's `accessoryButtonTappedForRowWith` method.
  */
 open class MSTableViewCell: UITableViewCell {
+    @objc public enum CustomViewSize: Int {
+        case small
+        case medium
+
+        var size: CGSize {
+            switch self {
+            case .small:
+                return CGSize(width: 25, height: 25)
+            case .medium:
+                return CGSize(width: 40, height: 40)
+            }
+        }
+    }
+
     private enum LayoutType {
         case oneLine
         case twoLines
@@ -38,11 +52,9 @@ open class MSTableViewCell: UITableViewCell {
 
     private struct Constants {
         static let accessoryViewSize = CGSize(width: 44, height: 44)
-        static let accessoryViewAreaWidthReduction: CGFloat = 12
+        static let accessoryViewOffset: CGFloat = 3
         static let customViewMarginLeft: CGFloat = 16
         static let customViewMarginRight: CGFloat = 12
-        static let customViewSmallSize = CGSize(width: 25, height: 25)
-        static let customViewDefaultSize = CGSize(width: 40, height: 40)
         static let detailButtonSize = CGSize(width: 44, height: 44)
         static let labelVerticalSpacing: CGFloat = 2
         static let labelMarginRight: CGFloat = 16
@@ -60,39 +72,63 @@ open class MSTableViewCell: UITableViewCell {
     @objc public static let mediumHeight: CGFloat = 60
     @objc public static let largeHeight: CGFloat = 82
 
-    @objc public static let identifier: String = "MSTableViewCell"
+    @objc public static var identifier: String { return String(describing: self) }
 
     /**
      Use the appropriate left inset for the cell separator based on the size of the `customView` provided.
 
      `separatorLeftInsetForSmallCustomView` - For use when displaying one line of text in a cell with a custom view.
-     `separatorLeftInsetForDefaultCustomView` - For use when displaying two or three lines of text with a custom view.
+     `separatorLeftInsetForMediumCustomView` - For use when displaying two or three lines of text with a custom view.
      `separatorLeftInsetForNoCustomView` - For use when no custom view is provided.
      */
     @objc public static var separatorLeftInsetForSmallCustomView: CGFloat {
-        return Constants.customViewMarginLeft + Constants.customViewSmallSize.width + Constants.customViewMarginRight
+        return Constants.customViewMarginLeft + CustomViewSize.small.size.width + Constants.customViewMarginRight
     }
-    @objc public static var separatorLeftInsetForDefaultCustomView: CGFloat {
-        return Constants.customViewMarginLeft + Constants.customViewDefaultSize.width + Constants.customViewMarginRight
+    @objc public static var separatorLeftInsetForMediumCustomView: CGFloat {
+        return Constants.customViewMarginLeft + CustomViewSize.medium.size.width + Constants.customViewMarginRight
     }
     @objc public static var separatorLeftInsetForNoCustomView: CGFloat {
         return Constants.customViewMarginLeft
     }
 
-    /// `accessoryTapped` is called when `detailButton` accessory view is tapped
-    @objc open var accessoryTapped: (() -> Void)?
+    @objc open var customViewSize: CustomViewSize {
+        return layoutType == .oneLine ? .small : .medium
+    }
+
+    /// `onAccessoryTapped` is called when `detailButton` accessory view is tapped
+    @objc open var onAccessoryTapped: (() -> Void)?
+    /// `onSelected` is called when the cell is selected during `touchesEnded` event
+    @objc open var onSelected: (() -> Void)?
+
+    open override var separatorInset: UIEdgeInsets {
+        get {
+            var value = super.separatorInset
+            // Enforce the left inset (required when cell is used outside of UITableView)
+            value.left = separatorLeftInset
+            return value
+        }
+        set { super.separatorInset = newValue }
+    }
+
+    private var separatorLeftInset: CGFloat {
+        if customView == nil {
+            return MSTableViewCell.separatorLeftInsetForNoCustomView
+        }
+
+        switch customViewSize {
+        case .small:
+            return MSTableViewCell.separatorLeftInsetForSmallCustomView
+        case .medium:
+            return MSTableViewCell.separatorLeftInsetForMediumCustomView
+        }
+    }
 
     private var layoutType: LayoutType = .oneLine
-
-    private var customViewSize: CGSize = Constants.customViewDefaultSize
 
     private var customView: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
             if let customView = customView {
-                if layoutType == .oneLine {
-                    customViewSize = Constants.customViewSmallSize
-                }
                 contentView.addSubview(customView)
                 customView.accessibilityElementsHidden = true
             }
@@ -119,6 +155,19 @@ open class MSTableViewCell: UITableViewCell {
         label.isHidden = true
         return label
     }()
+
+    private var accessory: MSTableViewCellAccessoryView? {
+        didSet {
+            oldValue?.removeFromSuperview()
+            if let accessory = accessory {
+                addSubview(accessory)
+            }
+        }
+    }
+
+    private var superTableView: UITableView? {
+        return findSuperview(of: UITableView.self) as? UITableView
+    }
 
     @objc public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
@@ -151,20 +200,13 @@ open class MSTableViewCell: UITableViewCell {
         self.customView = customView
 
         switch accessoryType {
-        case .disclosureIndicator:
-            self.accessoryType = .disclosureIndicator
-        case .detailButton:
-            let button = UIButton(type: .custom)
-            button.frame.size = Constants.detailButtonSize
-            button.setImage(UIImage.staticImageNamed("details"), for: .normal)
-            button.contentMode = .center
-            button.addTarget(self, action: #selector(handleDetailButtonTapped), for: .touchUpInside)
-            button.accessibilityLabel = "Accessibility.TableViewCell.MoreActions.Label".localized
-            button.accessibilityHint = "Accessibility.TableViewCell.MoreActions.Hint".localized
-            accessoryView = button
         case .none:
-            self.accessoryType = .none
-            accessoryView = nil
+            accessory = nil
+        case .disclosureIndicator:
+            accessory = MSTableViewCellAccessoryView(type: accessoryType)
+        case .detailButton:
+            accessory = MSTableViewCellAccessoryView(type: accessoryType)
+            accessory?.onTapped = handleDetailButtonTapped
         }
 
         if layoutType == .twoLines {
@@ -175,6 +217,8 @@ open class MSTableViewCell: UITableViewCell {
             subtitleLabel.style = .subhead
         }
 
+        separatorInset.left = separatorLeftInset
+
         setNeedsLayout()
     }
 
@@ -182,30 +226,24 @@ open class MSTableViewCell: UITableViewCell {
         super.prepareForReuse()
 
         customView = nil
-        customViewSize = Constants.customViewDefaultSize
         titleLabel.text = nil
         subtitleLabel.text = nil
         subtitleLabel.isHidden = true
         subtitleLabel.style = .footnote
         footerLabel.text = nil
         footerLabel.isHidden = true
-        accessoryType = .none
-        accessoryView = nil
+        accessory = nil
     }
 
     open override func layoutSubviews() {
         super.layoutSubviews()
 
-        if accessoryView != nil {
-            contentView.width += Constants.accessoryViewAreaWidthReduction
-        }
-
         var horizontalOffset = Constants.customViewMarginLeft
         if let customView = customView {
-            let customViewYOffset = UIScreen.main.roundToDevicePixels((contentView.height - customViewSize.height) / 2)
+            let customViewYOffset = UIScreen.main.roundToDevicePixels((contentView.height - customViewSize.size.height) / 2)
             customView.frame = CGRect(
                 origin: CGPoint(x: horizontalOffset, y: customViewYOffset),
-                size: customViewSize
+                size: customViewSize.size
             )
             horizontalOffset += customView.width + Constants.customViewMarginRight
         }
@@ -222,7 +260,7 @@ open class MSTableViewCell: UITableViewCell {
             }
         }
 
-        let labelMarginRight = accessoryView != nil || accessoryType != .none ? 0 : Constants.labelMarginRight
+        let labelMarginRight = accessory != nil ? MSTableViewCellAccessoryView.size.width + Constants.accessoryViewOffset : Constants.labelMarginRight
         let titleYOffset = UIScreen.main.roundToDevicePixels((contentView.height - textAreaHeight) / 2)
         titleLabel.frame = CGRect(
             x: horizontalOffset,
@@ -249,15 +287,43 @@ open class MSTableViewCell: UITableViewCell {
             }
         }
 
-        if let accessoryView = accessoryView {
-            let accessoryViewYOffset = UIScreen.main.roundToDevicePixels((contentView.height - accessoryView.height) / 2)
-            accessoryView.frame.origin = CGPoint(x: contentView.frame.maxX, y: accessoryViewYOffset)
+        if let accessory = accessory {
+            let xOffset = contentView.width - MSTableViewCellAccessoryView.size.width - Constants.accessoryViewOffset
+            let yOffset = UIScreen.main.roundToDevicePixels((contentView.height - MSTableViewCellAccessoryView.size.height) / 2)
+            accessory.frame = CGRect(origin: CGPoint(x: xOffset, y: yOffset), size: MSTableViewCellAccessoryView.size)
+        }
+    }
+
+    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        // If using cell within a superview other than UITableView override setSelected()
+        if superTableView == nil {
+            setSelected(true, animated: false)
+        }
+    }
+
+    open override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
+        // If using cell within a superview other than UITableView override setSelected()
+        if superTableView == nil {
+            setSelected(false, animated: true)
+        }
+    }
+
+    open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        if isSelected {
+            onSelected?()
+        }
+        // If using cell within a superview other than UITableView override setSelected()
+        if superTableView == nil {
+            setSelected(false, animated: true)
         }
     }
 
     @objc private func handleDetailButtonTapped() {
-        accessoryTapped?()
-        if let tableView = findSuperview(of: UITableView.self) as? UITableView, let indexPath = tableView.indexPath(for: self) {
+        onAccessoryTapped?()
+        if let tableView = superTableView, let indexPath = tableView.indexPath(for: self) {
             tableView.delegate?.tableView?(tableView, accessoryButtonTappedForRowWith: indexPath)
         }
     }
@@ -268,5 +334,57 @@ open class MSTableViewCell: UITableViewCell {
         let selectedStateBackgroundView = UIView()
         selectedStateBackgroundView.backgroundColor = MSColors.TableViewCell.backgroundSelected
         selectedBackgroundView = selectedStateBackgroundView
+    }
+}
+
+// MARK: - MSTableViewCellAccessoryView
+
+private class MSTableViewCellAccessoryView: UIView {
+    private struct Constants {
+        static let disclosureLeftOffset: CGFloat = 12
+    }
+
+    public static let size = CGSize(width: 44, height: 44)
+
+    open override var intrinsicContentSize: CGSize { return MSTableViewCellAccessoryView.size }
+
+    /// `onTapped` is called when `detailButton` is tapped
+    @objc open var onTapped: (() -> Void)?
+
+    public init(type: MSTableViewCellAccessoryType) {
+        super.init(frame: .zero)
+
+        switch type {
+        case .none:
+            break
+        case .disclosureIndicator:
+            let iconView = UIImageView(image: UIImage.staticImageNamed("disclosure"))
+            iconView.frame.size = MSTableViewCellAccessoryView.size
+            iconView.contentMode = .center
+            addSubview(iconView)
+            iconView.fitIntoSuperview(margins: UIEdgeInsets(top: 0, left: Constants.disclosureLeftOffset, bottom: 0, right: 0))
+        case .detailButton:
+            let button = UIButton(type: .custom)
+            button.frame.size = MSTableViewCellAccessoryView.size
+            button.setImage(UIImage.staticImageNamed("details"), for: .normal)
+            button.contentMode = .center
+            button.addTarget(self, action: #selector(handleonAccessoryTapped), for: .touchUpInside)
+            button.accessibilityLabel = "Accessibility.TableViewCell.MoreActions.Label".localized
+            button.accessibilityHint = "Accessibility.TableViewCell.MoreActions.Hint".localized
+            addSubview(button)
+            button.fitIntoSuperview()
+        }
+    }
+
+    public required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    open override func sizeThatFits(_ size: CGSize) -> CGSize {
+        return MSTableViewCellAccessoryView.size
+    }
+
+    @objc private func handleonAccessoryTapped() {
+        onTapped?()
     }
 }

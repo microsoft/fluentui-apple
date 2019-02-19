@@ -5,15 +5,15 @@
 import Foundation
 import OfficeUIFabric
 
-// MARK: MSTableViewCellDemoController
+// MARK: MSTableViewSampleData
 
-class MSTableViewCellDemoController: DemoController {
-    private struct Section {
+class MSTableViewSampleData {
+    struct Section {
         let title: String
         let item: Item
     }
 
-    private struct Item {
+    struct Item {
         let title: String
         let subtitle: String
         let footer: String
@@ -27,15 +27,21 @@ class MSTableViewCellDemoController: DemoController {
         }
     }
 
-    private let sections: [Section] = [
+    static let sections: [Section] = [
         Section(title: "Single line cell", item: Item(title: "Contoso Survey", image: "excelIcon")),
         Section(title: "Double line cell", item: Item(title: "Contoso Survey", subtitle: "Research Notes", image: "excelIcon")),
         Section(title: "Triple line cell", item: Item(title: "Contoso Survey", subtitle: "Research Notes", footer: "22 views", image: "excelIcon")),
         Section(title: "Cell without custom view", item: Item(title: "Contoso Survey", subtitle: "Research Notes")),
         Section(title: "Cell with long text", item: Item(title: "This is a cell with a long title as an example of how this label will render", subtitle: "This is a cell with a long subtitle as an example of how this label will render", image: "excelIcon"))
     ]
+}
 
+// MARK: - MSTableViewCellDemoController
+
+class MSTableViewCellDemoController: DemoController {
     private let headerViewHeight: CGFloat = 50
+
+    private let sections: [MSTableViewSampleData.Section] = MSTableViewSampleData.sections
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,26 +53,8 @@ class MSTableViewCellDemoController: DemoController {
         tableView.delegate = self
         tableView.backgroundColor = MSColors.background
         tableView.separatorColor = MSColors.separator
-        tableView.separatorInset.left = MSTableViewCell.separatorLeftInsetForDefaultCustomView
         tableView.tableFooterView = UIView(frame: .zero)
         view.addSubview(tableView)
-    }
-
-    private func createCustomView(image: String) -> UIImageView? {
-        if image == "" {
-            return nil
-        }
-
-        let customView = UIImageView(image: UIImage(named: image))
-        customView.contentMode = .scaleAspectFit
-        return customView
-    }
-
-    private func showAlertForDetailButtonTapped(title: String) {
-        let alert = UIAlertController(title: "\(title) detail button was tapped", message: nil, preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default)
-        alert.addAction(action)
-        present(alert, animated: true)
     }
 }
 
@@ -89,7 +77,7 @@ extension MSTableViewCellDemoController: UITableViewDataSource {
         let subtitle = item.subtitle
         let footer = item.footer
         let image = item.image
-        let customView = createCustomView(image: image)
+        let customView = createCustomView(imageName: image)
 
         // Demo accessory types based on indexPath row
         var accessoryType: MSTableViewCellAccessoryType
@@ -102,17 +90,18 @@ extension MSTableViewCellDemoController: UITableViewDataSource {
             accessoryType = .detailButton
         }
 
-        // Adjust cell separator based on position of customView
-        if customView == nil {
-            cell.separatorInset.left = MSTableViewCell.separatorLeftInsetForNoCustomView
-        } else if subtitle == "" {
-            cell.separatorInset.left = MSTableViewCell.separatorLeftInsetForSmallCustomView
-        } else {
-            cell.separatorInset.left = MSTableViewCell.separatorLeftInsetForDefaultCustomView
-        }
-
         cell.setup(title: title, subtitle: subtitle, footer: footer, customView: customView, accessoryType: accessoryType)
         return cell
+    }
+
+    private func createCustomView(imageName: String) -> UIImageView? {
+        if imageName == "" {
+            return nil
+        }
+
+        let customView = UIImageView(image: UIImage(named: imageName))
+        customView.contentMode = .scaleAspectFit
+        return customView
     }
 }
 
@@ -169,5 +158,12 @@ extension MSTableViewCellDemoController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+
+    private func showAlertForDetailButtonTapped(title: String) {
+        let alert = UIAlertController(title: "\(title) detail button was tapped", message: nil, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(action)
+        present(alert, animated: true)
     }
 }
