@@ -4,24 +4,24 @@
 
 public struct MSFonts {
     /// Semibold 28pt
-    public static let title1 = UIFont.preferredFont(forTextStyle: .title1).withWeight(.semibold)
+    public static var title1: UIFont { return UIFont.preferredFont(forTextStyle: .title1).withWeight(.semibold) }
     /// Semibold 22pt
-    public static let title2 = UIFont.preferredFont(forTextStyle: .title2).withWeight(.semibold)
+    public static var title2: UIFont { return UIFont.preferredFont(forTextStyle: .title2).withWeight(.semibold) }
     /// Semibold 17pt
-    public static let headline: UIFont = .preferredFont(forTextStyle: .headline)
+    public static var headline: UIFont { return .preferredFont(forTextStyle: .headline) }
     /// Regular 17pt
-    public static let body: UIFont = .preferredFont(forTextStyle: .body)
+    public static var body: UIFont { return .preferredFont(forTextStyle: .body) }
     /// Regular 15pt
-    public static let subhead: UIFont = .preferredFont(forTextStyle: .subheadline)
+    public static var subhead: UIFont { return .preferredFont(forTextStyle: .subheadline) }
     /// Regular 13pt
-    public static let footnote: UIFont = .preferredFont(forTextStyle: .footnote)
+    public static var footnote: UIFont { return .preferredFont(forTextStyle: .footnote) }
     /// Regular 12pt
-    public static let caption1: UIFont = .preferredFont(forTextStyle: .caption1)
+    public static var caption1: UIFont { return .preferredFont(forTextStyle: .caption1) }
     /// Regular 11pt
-    public static let caption2: UIFont = .preferredFont(forTextStyle: .caption2)
+    public static var caption2: UIFont { return .preferredFont(forTextStyle: .caption2) }
 }
 
-public enum MSTextStyle: Int, CaseIterable {
+@objc public enum MSTextStyle: Int, CaseIterable {
     case title1
     case title2
     case headline

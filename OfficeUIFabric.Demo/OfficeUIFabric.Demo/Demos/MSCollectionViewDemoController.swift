@@ -76,6 +76,10 @@ class MSCollectionViewDemoController: DemoController {
         collectionView.delegate = self
         collectionView.backgroundColor = MSColors.background
         view.addSubview(collectionView)
+
+        NotificationCenter.default.addObserver(forName: UIContentSizeCategory.didChangeNotification, object: nil, queue: nil) { _ in
+            collectionView.collectionViewLayout.invalidateLayout()
+        }
     }
 }
 
@@ -111,17 +115,18 @@ extension MSCollectionViewDemoController: UICollectionViewDataSource {
         tableViewCell.setup(title: item.title, subtitle: item.subtitle, footer: item.footer, customView: createCustomView(imageName: item.image), accessoryType: accessoryType)
         cell.contentView.addSubview(tableViewCell)
         tableViewCell.fitIntoSuperview()
-        tableViewCell.onAccessoryTapped = { self.showAlertForDetailButtonTapped(title: item.title) }
+        tableViewCell.onAccessoryTapped = { [unowned self] in self.showAlertForDetailButtonTapped(title: item.title) }
         tableViewCell.onSelected = { collectionView.delegate?.collectionView?(collectionView, didSelectItemAt: indexPath) }
 
         // Add and adjust cell separator based on position of customView
         let separator = MSSeparator(style: .default, orientation: .horizontal)
         separator.frame = CGRect(
             x: tableViewCell.separatorInset.left,
-            y: cell.height - separator.height,
-            width: tableViewCell.width - tableViewCell.separatorInset.left,
+            y: cell.contentView.height - separator.height,
+            width: cell.contentView.width - tableViewCell.separatorInset.left,
             height: separator.height
         )
+        separator.autoresizingMask = [.flexibleTopMargin, .flexibleWidth]
         cell.contentView.addSubview(separator)
 
         return cell
@@ -172,19 +177,10 @@ extension MSCollectionViewDemoController: UICollectionViewDelegate {
 
 extension MSCollectionViewDemoController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let subtitle = sections[indexPath.section].item.subtitle
-        let footer = sections[indexPath.section].item.footer
-        let height: CGFloat
-        if footer == "" {
-            if subtitle == "" {
-                height = MSTableViewCell.smallHeight
-            } else {
-                height = MSTableViewCell.mediumHeight
-            }
-        } else {
-            height = MSTableViewCell.largeHeight
-        }
-
-        return CGSize(width: collectionView.width, height: height)
+        let item = sections[indexPath.section].item
+        return CGSize(
+            width: collectionView.width,
+            height: MSTableViewCell.height(title: item.title, subtitle: item.subtitle, footer: item.footer)
+        )
     }
 }

@@ -11,7 +11,11 @@ open class MSPersonaCell: MSTableViewCell {
         static let avatarSize: MSAvatarSize = .xLarge
     }
 
-    public static let defaultHeight: CGFloat = MSTableViewCell.mediumHeight
+    public static var defaultHeight: CGFloat { return MSTableViewCell.mediumHeight }
+
+    open override class func height(title: String, subtitle: String, footer: String) -> CGFloat {
+        return defaultHeight
+    }
 
     open override var customViewSize: MSTableViewCell.CustomViewSize { return .medium }
 

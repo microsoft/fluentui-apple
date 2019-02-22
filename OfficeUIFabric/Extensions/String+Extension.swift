@@ -62,13 +62,17 @@ extension String {
         }
     }
 
-    func preferredSize(for font: UIFont) -> CGSize {
-        return self.boundingRect(
-            with: CGSize(width: .greatestFiniteMagnitude, height: font.deviceLineHeight),
+    func preferredSize(for font: UIFont, width: CGFloat = .greatestFiniteMagnitude) -> CGSize {
+        let rect = self.boundingRect(
+            with: CGSize(width: width, height: .greatestFiniteMagnitude),
             options: [.usesLineFragmentOrigin, .usesFontLeading],
             attributes: [.font: font],
             context: nil
-        ).size
+        )
+        return CGSize(
+            width: UIScreen.main.roundToDevicePixels(rect.width),
+            height: UIScreen.main.roundToDevicePixels(rect.height)
+        )
     }
 }
 

@@ -56,7 +56,9 @@ open class MSTableViewCell: UITableViewCell {
         static let customViewMarginLeft: CGFloat = 16
         static let customViewMarginRight: CGFloat = 12
         static let detailButtonSize = CGSize(width: 44, height: 44)
-        static let labelVerticalSpacing: CGFloat = 2
+        static let labelVerticalMargin: CGFloat = 10
+        static let labelVerticalMarginForSmallHeight: CGFloat = 11
+        static let labelVerticalSpacing: CGFloat = 0
         static let labelMarginRight: CGFloat = 16
     }
 
@@ -68,9 +70,33 @@ open class MSTableViewCell: UITableViewCell {
      `mediumHeight` - Height for the cell when only the `title` and `subtitle` are provided in 2 lines of text.
      `largeHeight` - Height for the cell when the `title`, `subtitle`, and `footer` are provided in 3 lines of text.
      */
-    @objc public static let smallHeight: CGFloat = 44
-    @objc public static let mediumHeight: CGFloat = 60
-    @objc public static let largeHeight: CGFloat = 82
+    @objc public static var smallHeight: CGFloat {
+        // 44
+        return
+            Constants.labelVerticalMarginForSmallHeight +
+            MSFonts.body.deviceLineHeightWithLeading +
+            Constants.labelVerticalMarginForSmallHeight
+    }
+    @objc public static var mediumHeight: CGFloat {
+        // 60
+        return
+            Constants.labelVerticalMargin +
+            MSFonts.body.deviceLineHeightWithLeading +
+            Constants.labelVerticalSpacing +
+            MSFonts.footnote.deviceLineHeightWithLeading +
+            Constants.labelVerticalMargin
+    }
+    @objc public static var largeHeight: CGFloat {
+        // 80
+        return
+            Constants.labelVerticalMargin +
+            MSFonts.body.deviceLineHeightWithLeading +
+            Constants.labelVerticalSpacing +
+            MSFonts.subhead.deviceLineHeightWithLeading +
+            Constants.labelVerticalSpacing +
+            MSFonts.footnote.deviceLineHeightWithLeading +
+            Constants.labelVerticalMargin
+    }
 
     @objc public static var identifier: String { return String(describing: self) }
 
@@ -91,6 +117,18 @@ open class MSTableViewCell: UITableViewCell {
         return Constants.customViewMarginLeft
     }
 
+    @objc open class func height(title: String, subtitle: String, footer: String) -> CGFloat {
+        if footer.isEmpty {
+            if subtitle.isEmpty {
+                return smallHeight
+            } else {
+                return mediumHeight
+            }
+        } else {
+            return largeHeight
+        }
+    }
+
     @objc open var customViewSize: CustomViewSize {
         return layoutType == .oneLine ? .small : .medium
     }
@@ -99,6 +137,13 @@ open class MSTableViewCell: UITableViewCell {
     @objc open var onAccessoryTapped: (() -> Void)?
     /// `onSelected` is called when the cell is selected during `touchesEnded` event
     @objc open var onSelected: (() -> Void)?
+
+    open override var intrinsicContentSize: CGSize {
+        return CGSize(
+            width: UIView.noIntrinsicMetric,
+            height: type(of: self).height(title: titleLabel.text ?? "", subtitle: subtitleLabel.text ?? "", footer: footerLabel.text ?? "")
+        )
+    }
 
     open override var separatorInset: UIEdgeInsets {
         get {
@@ -248,9 +293,9 @@ open class MSTableViewCell: UITableViewCell {
             horizontalOffset += customView.width + Constants.customViewMarginRight
         }
 
-        let titleHeight = titleLabel.font.deviceLineHeight
-        let subtitleHeight = subtitleLabel.font.deviceLineHeight
-        let footerHeight = footerLabel.font.deviceLineHeight
+        let titleHeight = titleLabel.font.deviceLineHeightWithLeading
+        let subtitleHeight = subtitleLabel.font.deviceLineHeightWithLeading
+        let footerHeight = footerLabel.font.deviceLineHeightWithLeading
 
         var textAreaHeight = titleHeight
         if layoutType == .twoLines || layoutType == .threeLines {
@@ -292,6 +337,13 @@ open class MSTableViewCell: UITableViewCell {
             let yOffset = UIScreen.main.roundToDevicePixels((contentView.height - MSTableViewCellAccessoryView.size.height) / 2)
             accessory.frame = CGRect(origin: CGPoint(x: xOffset, y: yOffset), size: MSTableViewCellAccessoryView.size)
         }
+    }
+
+    open override func sizeThatFits(_ size: CGSize) -> CGSize {
+        return CGSize(
+            width: size.width,
+            height: type(of: self).height(title: titleLabel.text ?? "", subtitle: subtitleLabel.text ?? "", footer: footerLabel.text ?? "")
+        )
     }
 
     open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

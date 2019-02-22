@@ -3,22 +3,40 @@
 //
 
 open class MSLabel: UILabel {
-    open var colorStyle: MSTextColorStyle = .regular {
+    @objc open var colorStyle: MSTextColorStyle = .regular {
         didSet {
-            textColor = colorStyle.color
+            update()
         }
     }
-    open var style: MSTextStyle = .body {
+    @objc open var style: MSTextStyle = .body {
         didSet {
-            font = style.font
+            update()
         }
     }
 
-    public convenience init(style: MSTextStyle = .body, colorStyle: MSTextColorStyle = .regular) {
-        self.init(frame: .zero)
-        defer {
-            self.style = style
-            self.colorStyle = colorStyle
-        }
+    @objc public init(style: MSTextStyle = .body, colorStyle: MSTextColorStyle = .regular) {
+        self.style = style
+        self.colorStyle = colorStyle
+        super.init(frame: .zero)
+        initialize()
+    }
+
+    @objc public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        initialize()
+    }
+
+    private func initialize() {
+        update()
+        NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
+    }
+
+    private func update() {
+        font = style.font
+        textColor = colorStyle.color
+    }
+
+    @objc private func handleContentSizeCategoryDidChange() {
+        update()
     }
 }

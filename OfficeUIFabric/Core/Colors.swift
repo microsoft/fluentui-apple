@@ -189,7 +189,7 @@ public struct MSColors {
 
 // MARK: - MSTextColorStyle
 
-public enum MSTextColorStyle: Int, CaseIterable {
+@objc public enum MSTextColorStyle: Int, CaseIterable {
     case regular
     case secondary
     case white

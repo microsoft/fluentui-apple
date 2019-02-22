@@ -108,20 +108,6 @@ extension MSTableViewCellDemoController: UITableViewDataSource {
 // MARK: - MSTableViewCellDemoController: UITableViewDelegate
 
 extension MSTableViewCellDemoController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let subtitle = sections[indexPath.section].item.subtitle
-        let footer = sections[indexPath.section].item.footer
-        if footer == "" {
-            if subtitle == "" {
-                return MSTableViewCell.smallHeight
-            } else {
-                return MSTableViewCell.mediumHeight
-            }
-        } else {
-            return MSTableViewCell.largeHeight
-        }
-    }
-
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return headerViewHeight
     }
