@@ -86,6 +86,11 @@ public class MSHUD: NSObject {
         containerViewFrameObservation = nil
     }
 
+    // Using a separate overload method for Objective-C instead of default parameters
+    @objc public func show(in view: UIView) {
+        show(in: view, with: MSHUDParams())
+    }
+
     @objc public func show(in view: UIView, with params: MSHUDParams) {
         resetIfNeeded()
 
@@ -119,6 +124,11 @@ public class MSHUD: NSObject {
         }
     }
 
+    // Using a separate overload method for Objective-C instead of default parameters
+    @objc public func show(from controller: UIViewController) {
+        show(from: controller, with: MSHUDParams())
+    }
+
     @objc public func show(from controller: UIViewController, with params: MSHUDParams) {
         guard let hostWindow = hostWindow(for: controller) else {
             // No valid window found to host the MSHUD, don't present it
@@ -128,13 +138,21 @@ public class MSHUD: NSObject {
         show(in: hostWindow, with: params)
     }
 
+    @objc public func showSuccess(in view: UIView, with caption: String = "") {
+        show(in: view, with: MSHUDParams(caption: caption, hudType: .success, isPersistent: false, isBlocking: true))
+    }
+
     @objc public func showSuccess(from controller: UIViewController, with caption: String = "") {
         guard let hostWindow = hostWindow(for: controller) else {
             // No valid window found to host the MSHUD, don't present it
             return
         }
 
-        show(in: hostWindow, with: MSHUDParams(caption: caption, hudType: .success, isPersistent: false, isBlocking: true))
+        showSuccess(in: hostWindow, with: caption)
+    }
+
+    @objc public func showFailure(in view: UIView, with caption: String = "") {
+        show(in: view, with: MSHUDParams(caption: caption, hudType: .failure, isPersistent: false, isBlocking: true))
     }
 
     @objc public func showFailure(from controller: UIViewController, with caption: String = "") {
@@ -143,10 +161,11 @@ public class MSHUD: NSObject {
             return
         }
 
-        show(in: hostWindow, with: MSHUDParams(caption: caption, hudType: .failure, isPersistent: false, isBlocking: true))
+        showFailure(in: hostWindow, with: caption)
     }
 
-    @objc public func hide(animated: Bool = true) {
+    @objc(hideAnimated:)
+    public func hide(animated: Bool = true) {
         guard let presentedHUDView = presentedHUDView else {
             return
         }

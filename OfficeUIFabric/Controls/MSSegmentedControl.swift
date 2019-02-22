@@ -6,7 +6,7 @@ import Foundation
 
 // MARK: MSSegmentedControl
 
-/// A styled segmented control that should be used instead of UISegmentedControl. It is designed to flex the button width proportionally to the control's width. Limited to four segments.
+/// A styled segmented control that should be used instead of UISegmentedControl. It is designed to flex the button width proportionally to the control's width.
 open class MSSegmentedControl: UIControl {
     private struct Constants {
         static let selectionBarHeight: CGFloat = 1.5
@@ -44,9 +44,9 @@ open class MSSegmentedControl: UIControl {
         self.init(items: [])
     }
 
-    /// Initializes a segmented control with the specified titles, up to a limit of 4 segments.
+    /// Initializes a segmented control with the specified titles.
     ///
-    /// - Parameter titles: An array of title strings representing the segments for this control. Only uses up to the first 4 titles, ignoring any extras.
+    /// - Parameter items: An array of title strings representing the segments for this control.
     @objc public init(items: [String]) {
         super.init(frame: .zero)
 
@@ -60,16 +60,12 @@ open class MSSegmentedControl: UIControl {
         fatalError("init(coder:) has not been implemented")
     }
 
-    /// Insert new segment at index with the specified title. If a segment exists at that index, it will be inserted before and will therefore take its index. If there are already 4 segments in the control, this method is ignored
+    /// Insert new segment at index with the specified title. If a segment exists at that index, it will be inserted before and will therefore take its index.
     ///
     /// - Parameters:
     ///   - title: The title of the newly created segment
     ///   - index: The index at which to insert the newly created segment
     @objc open func insertSegment(withTitle title: String, at index: Int) {
-        guard numberOfSegments < 4 else {
-            return
-        }
-
         items.insert(title, at: index)
 
         let button = createButton(withTitle: title)
@@ -189,10 +185,6 @@ open class MSSegmentedControl: UIControl {
     private func setupButtons(titles: [String]) {
         // Create buttons
         for (index, title) in titles.enumerated() {
-            // Only use the first 4 button titles.
-            guard index < 4 else {
-                break
-            }
             insertSegment(withTitle: title, at: index)
         }
 

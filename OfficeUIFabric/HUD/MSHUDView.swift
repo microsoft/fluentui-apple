@@ -6,7 +6,7 @@ import UIKit
 
 // MARK: MSHUDType
 
-public enum MSHUDType {
+enum MSHUDType {
     case activity
     case success
     case failure

@@ -44,7 +44,7 @@ class MSHUDDemoController: DemoController {
     }
 
     @objc private func showNoLabelHUD(sender: UIButton) {
-        MSHUD.shared.show(in: view, with: MSHUDParams())
+        MSHUD.shared.show(in: view)
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             MSHUD.shared.hide()
         }
