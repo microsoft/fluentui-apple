@@ -62,13 +62,15 @@ class MSCollectionViewDemoController: DemoController {
 
     private let sections: [MSTableViewSampleData.Section] = MSTableViewSampleData.sections
 
+    private var collectionView: UICollectionView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumInteritemSpacing = 0
         flowLayout.minimumLineSpacing = 0
-        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: flowLayout)
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: flowLayout)
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: MSCollectionViewDemoController.cellIdentifier)
         collectionView.register(MSCollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MSCollectionViewHeader.identifier)
@@ -77,9 +79,11 @@ class MSCollectionViewDemoController: DemoController {
         collectionView.backgroundColor = MSColors.background
         view.addSubview(collectionView)
 
-        NotificationCenter.default.addObserver(forName: UIContentSizeCategory.didChangeNotification, object: nil, queue: nil) { _ in
-            collectionView.collectionViewLayout.invalidateLayout()
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
+    }
+
+    @objc private func handleContentSizeCategoryDidChange() {
+        collectionView.collectionViewLayout.invalidateLayout()
     }
 }
 

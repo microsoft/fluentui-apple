@@ -222,6 +222,8 @@ open class MSTableViewCell: UITableViewCell {
         contentView.addSubview(footerLabel)
 
         setupBackgroundColors()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(invalidateIntrinsicContentSize), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
     public required init(coder aDecoder: NSCoder) {
