@@ -13,10 +13,32 @@ import UIKit
 // MARK: - MSHUDParams
 
 public class MSHUDParams: NSObject {
-    fileprivate let caption: String
+    @objc open var caption: String
+    @objc open var image: UIImage? {
+        get {
+            if case let .custom(image) = hudType {
+                return image
+            } else {
+                return nil
+            }
+        }
+        set {
+            if let image = newValue {
+                hudType = .custom(image: image)
+            } else {
+                hudType = .activity
+            }
+        }
+    }
+    @objc open var isBlocking: Bool
+    @objc open var isPersistent: Bool
+
     fileprivate var hudType: MSHUDType
-    fileprivate let isBlocking: Bool
-    fileprivate let isPersistent: Bool
+
+    // For Objective-C
+    @objc public override convenience init() {
+        self.init(caption: "", image: nil, isPersistent: true, isBlocking: true)
+    }
 
     @objc public convenience init(caption: String = "", image: UIImage? = nil, isPersistent: Bool = true, isBlocking: Bool = true) {
         if let image = image {
