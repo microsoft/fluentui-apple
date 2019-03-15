@@ -11,6 +11,7 @@ class MSTableViewSampleData {
     struct Section {
         let title: String
         let item: Item
+        let numberOfLines: Int
     }
 
     struct Item {
@@ -28,12 +29,35 @@ class MSTableViewSampleData {
     }
 
     static let sections: [Section] = [
-        Section(title: "Single line cell", item: Item(title: "Contoso Survey", image: "excelIcon")),
-        Section(title: "Double line cell", item: Item(title: "Contoso Survey", subtitle: "Research Notes", image: "excelIcon")),
-        Section(title: "Triple line cell", item: Item(title: "Contoso Survey", subtitle: "Research Notes", footer: "22 views", image: "excelIcon")),
-        Section(title: "Cell without custom view", item: Item(title: "Contoso Survey", subtitle: "Research Notes")),
-        Section(title: "Cell with long text", item: Item(title: "This is a cell with a long title as an example of how this label will render", subtitle: "This is a cell with a long subtitle as an example of how this label will render", image: "excelIcon"))
+        Section(title: "Single line cell", item: Item(title: "Contoso Survey", image: "excelIcon"), numberOfLines: 1),
+        Section(title: "Double line cell", item: Item(title: "Contoso Survey", subtitle: "Research Notes", image: "excelIcon"), numberOfLines: 1),
+        Section(title: "Triple line cell", item: Item(title: "Contoso Survey", subtitle: "Research Notes", footer: "22 views", image: "excelIcon"), numberOfLines: 1),
+        Section(title: "Cell without custom view", item: Item(title: "Contoso Survey", subtitle: "Research Notes"), numberOfLines: 1),
+        Section(title: "Cell with text truncation", item: Item(title: "This is a cell with a long title as an example of how this label will render", subtitle: "This is a cell with a long subtitle as an example of how this label will render", footer: "This is a cell with a long footer as an example of how this label will render", image: "excelIcon"), numberOfLines: 1),
+        Section(title: "Cell with text wrapping", item: Item(title: "This is a cell with a long title as an example of how this label will render", subtitle: "This is a cell with a long subtitle as an example of how this label will render", footer: "This is a cell with a long footer as an example of how this label will render", image: "excelIcon"), numberOfLines: 0)
     ]
+
+    static func accessoryType(for indexPath: IndexPath) -> MSTableViewCellAccessoryType {
+        // Demo accessory types based on indexPath row
+        switch indexPath.row {
+        case 0:
+            return .none
+        case 1:
+            return .disclosureIndicator
+        default:
+            return .detailButton
+        }
+    }
+
+    static func createCustomView(imageName: String) -> UIImageView? {
+        if imageName == "" {
+            return nil
+        }
+
+        let customView = UIImageView(image: UIImage(named: imageName))
+        customView.contentMode = .scaleAspectFit
+        return customView
+    }
 }
 
 // MARK: - MSTableViewCellDemoController
@@ -71,37 +95,17 @@ extension MSTableViewCellDemoController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MSTableViewCell.identifier) as! MSTableViewCell
+        let section = sections[indexPath.section]
+        let item = section.item
+        let customView = MSTableViewSampleData.createCustomView(imageName: item.image)
+        let accessoryType = MSTableViewSampleData.accessoryType(for: indexPath)
 
-        let item = sections[indexPath.section].item
-        let title = item.title
-        let subtitle = item.subtitle
-        let footer = item.footer
-        let image = item.image
-        let customView = createCustomView(imageName: image)
-
-        // Demo accessory types based on indexPath row
-        var accessoryType: MSTableViewCellAccessoryType
-        switch indexPath.row {
-        case 0:
-            accessoryType = .none
-        case 1:
-            accessoryType = .disclosureIndicator
-        default:
-            accessoryType = .detailButton
-        }
-
-        cell.setup(title: title, subtitle: subtitle, footer: footer, customView: customView, accessoryType: accessoryType)
+        cell.setup(title: item.title, subtitle: item.subtitle, footer: item.footer, customView: customView, accessoryType: accessoryType)
+        cell.titleNumberOfLines = section.numberOfLines
+        cell.subtitleNumberOfLines = section.numberOfLines
+        cell.footerNumberOfLines = section.numberOfLines
+        cell.titleLineBreakMode = .byTruncatingMiddle
         return cell
-    }
-
-    private func createCustomView(imageName: String) -> UIImageView? {
-        if imageName == "" {
-            return nil
-        }
-
-        let customView = UIImageView(image: UIImage(named: imageName))
-        customView.contentMode = .scaleAspectFit
-        return customView
     }
 }
 

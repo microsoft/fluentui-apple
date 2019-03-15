@@ -19,26 +19,30 @@ import UIKit
 
  The `title` is displayed as the first line of text with the `subtitle` as the second line and the `footer` the third line.
 
- If a `subtitle` and `footer` are not provided the cell will be configured as a "small" size cell showing only the `title` line of text and a smaller custom view. This cell should be configured with `smallHeight` for the height of the cell and `separatorLeftInsetForSmallCustomView` for the cell's separator left inset.
+ If a `subtitle` and `footer` are not provided the cell will be configured as a "small" size cell showing only the `title` line of text and a smaller custom view.
 
- If a `subtitle` is provided and a `footer` is not provided the cell will display two lines of text and will leave space for the `title` if it is not provided. Use `mediumHeight` for the height of the cell in this case.
+ If a `subtitle` is provided and a `footer` is not provided the cell will display two lines of text and will leave space for the `title` if it is not provided.
 
- If a `footer` is provided the cell will display three lines of text and will leave space for the `subtitle` and `title` if they are not provided. Use `largeHeight` for the height of the cell in this case.
+ If a `footer` is provided the cell will display three lines of text and will leave space for the `subtitle` and `title` if they are not provided.
 
- If a `customView` is provided when the cell has either two or three lines of text use `separatorLeftInsetForMediumCustomView` for the cell's separator left inset. If a `customView` is not provided the `customView` will be hidden and the displayed text will take up the empty space left by the hidden `customView`. Use `separatorLeftInsetForNoCustomView` as the separator left inset to align the separator correctly to the displayed text.
+ If a `customView` is not provided the `customView` will be hidden and the displayed text will take up the empty space left by the hidden `customView`.
 
  Specify `accessoryType` on setup to show either a disclosure indicator or a `detailButton`. The `detailButton` will display a button with an ellipsis icon which can be configured by passing in a closure to the cell's `onAccessoryTapped` property or by implementing UITableViewDelegate's `accessoryButtonTappedForRowWith` method.
  */
 open class MSTableViewCell: UITableViewCell {
     @objc public enum CustomViewSize: Int {
+        case `default`
+        case zero
         case small
         case medium
 
         var size: CGSize {
             switch self {
+            case .zero:
+                return .zero
             case .small:
                 return CGSize(width: 25, height: 25)
-            case .medium:
+            case .medium, .default:
                 return CGSize(width: 40, height: 40)
             }
         }
@@ -48,63 +52,62 @@ open class MSTableViewCell: UITableViewCell {
         case oneLine
         case twoLines
         case threeLines
+
+        var customViewSize: CustomViewSize { return self == .oneLine ? .small : .medium }
+
+        var subtitleTextStyle: MSTextStyle {
+            switch self {
+            case .oneLine, .twoLines:
+                return Constants.subtitleTwoLineTextStyle
+            case .threeLines:
+                return Constants.subtitleThreeLineTextStyle
+            }
+        }
+
+        var labelVerticalMargin: CGFloat {
+            switch self {
+            case .oneLine, .threeLines:
+                return Constants.labelVerticalMarginForOneAndThreeLines
+            case .twoLines:
+                return Constants.labelVerticalMarginForTwoLines
+            }
+        }
     }
 
     private struct Constants {
-        static let accessoryViewSize = CGSize(width: 44, height: 44)
         static let accessoryViewOffset: CGFloat = 3
         static let customViewMarginLeft: CGFloat = 16
         static let customViewMarginRight: CGFloat = 12
         static let detailButtonSize = CGSize(width: 44, height: 44)
-        static let labelVerticalMargin: CGFloat = 10
-        static let labelVerticalMarginForSmallHeight: CGFloat = 11
+        static let labelVerticalMarginForTwoLines: CGFloat = 10
+        static let labelVerticalMarginForOneAndThreeLines: CGFloat = 11
         static let labelVerticalSpacing: CGFloat = 0
         static let labelMarginRight: CGFloat = 16
+        static let titleTextStyle: MSTextStyle = .body
+        static let subtitleTwoLineTextStyle: MSTextStyle = .footnote
+        static let subtitleThreeLineTextStyle: MSTextStyle = .subhead
+        static let footerTextStyle: MSTextStyle = .footnote
+        static let minHeight: CGFloat = 44
     }
 
-    // TODO: Make into static func that calculates height based on content and system settings to support multiline labels and large type for accessibility
     /**
-     The height for the cell based on the text provided.
+     The height for the cell based on the text provided. Useful when `numberOfLines` of `title`, `subtitle`, `footer` is 1.
 
      `smallHeight` - Height for the cell when only the `title` is provided in a single line of text.
      `mediumHeight` - Height for the cell when only the `title` and `subtitle` are provided in 2 lines of text.
      `largeHeight` - Height for the cell when the `title`, `subtitle`, and `footer` are provided in 3 lines of text.
      */
-    @objc public static var smallHeight: CGFloat {
-        // 44
-        return
-            Constants.labelVerticalMarginForSmallHeight +
-            MSFonts.body.deviceLineHeightWithLeading +
-            Constants.labelVerticalMarginForSmallHeight
-    }
-    @objc public static var mediumHeight: CGFloat {
-        // 60
-        return
-            Constants.labelVerticalMargin +
-            MSFonts.body.deviceLineHeightWithLeading +
-            Constants.labelVerticalSpacing +
-            MSFonts.footnote.deviceLineHeightWithLeading +
-            Constants.labelVerticalMargin
-    }
-    @objc public static var largeHeight: CGFloat {
-        // 80
-        return
-            Constants.labelVerticalMargin +
-            MSFonts.body.deviceLineHeightWithLeading +
-            Constants.labelVerticalSpacing +
-            MSFonts.subhead.deviceLineHeightWithLeading +
-            Constants.labelVerticalSpacing +
-            MSFonts.footnote.deviceLineHeightWithLeading +
-            Constants.labelVerticalMargin
-    }
+    @objc public static var smallHeight: CGFloat { return height(title: "", customViewSize: .small) }
+    @objc public static var mediumHeight: CGFloat { return height(title: "", subtitle: " ") }
+    @objc public static var largeHeight: CGFloat { return height(title: "", subtitle: " ", footer: " ") }
 
     @objc public static var identifier: String { return String(describing: self) }
 
     /**
      Use the appropriate left inset for the cell separator based on the size of the `customView` provided.
 
-     `separatorLeftInsetForSmallCustomView` - For use when displaying one line of text in a cell with a custom view.
-     `separatorLeftInsetForMediumCustomView` - For use when displaying two or three lines of text with a custom view.
+     `separatorLeftInsetForSmallCustomView` - For use when displaying a cell with a small size custom view.
+     `separatorLeftInsetForMediumCustomView` - For use when displaying a cell with a medium size custom view.
      `separatorLeftInsetForNoCustomView` - For use when no custom view is provided.
      */
     @objc public static var separatorLeftInsetForSmallCustomView: CGFloat {
@@ -117,20 +120,100 @@ open class MSTableViewCell: UITableViewCell {
         return Constants.customViewMarginLeft
     }
 
-    @objc open class func height(title: String, subtitle: String, footer: String) -> CGFloat {
-        if footer.isEmpty {
-            if subtitle.isEmpty {
-                return smallHeight
-            } else {
-                return mediumHeight
+    /// The height of the cell based on the height of its content.
+    ///
+    /// - Parameters:
+    ///   - title: The title string
+    ///   - subtitle: The subtitle string
+    ///   - footer: The footer string
+    ///   - customViewSize: The custom view size for the cell based on `MSTableViewCell.CustomViewSize`.
+    ///   - accessoryType: The `MSTableViewCellAccessoryType` that the cell should display
+    ///   - titleNumberOfLines: The number of lines that the title should display
+    ///   - subtitleNumberOfLines: The number of lines that the subtitle should display
+    ///   - footerNumberOfLines: The number of lines that the footer should display
+    ///   - containerWidth: The width of the cell's super view (e.g. the table view's width)
+    /// - Returns: a value representing the calculated height of the cell
+    @objc public class func height(title: String, subtitle: String = "", footer: String = "", customViewSize: CustomViewSize = .default, accessoryType: MSTableViewCellAccessoryType = .none, titleNumberOfLines: Int = 1, subtitleNumberOfLines: Int = 1, footerNumberOfLines: Int = 1, containerWidth: CGFloat = .greatestFiniteMagnitude) -> CGFloat {
+        let layoutType: LayoutType = footer == "" ? (subtitle == "" ? .oneLine : .twoLines) : .threeLines
+        let customViewSize = customViewSize == .default ? layoutType.customViewSize : customViewSize
+
+        let textAreaLeftOffset = self.textAreaLeftOffset(customViewSize: customViewSize)
+        let textAreaRightOffset = self.textAreaRightOffset(accessoryType: accessoryType)
+        let textAreaWidth = containerWidth - (textAreaLeftOffset + textAreaRightOffset)
+
+        var textAreaHeight = title.preferredSize(for: Constants.titleTextStyle.font, width: textAreaWidth, numberOfLines: titleNumberOfLines).height
+        if layoutType == .twoLines || layoutType == .threeLines {
+            textAreaHeight += subtitle.preferredSize(for: layoutType.subtitleTextStyle.font, width: textAreaWidth, numberOfLines: subtitleNumberOfLines).height
+            textAreaHeight += Constants.labelVerticalSpacing
+
+            if layoutType == .threeLines {
+                textAreaHeight += footer.preferredSize(for: Constants.footerTextStyle.font, width: textAreaWidth, numberOfLines: footerNumberOfLines).height
+                textAreaHeight += Constants.labelVerticalSpacing
             }
-        } else {
-            return largeHeight
+        }
+
+        return max(layoutType.labelVerticalMargin * 2 + textAreaHeight, Constants.minHeight)
+    }
+
+    private static func textAreaLeftOffset(customViewSize: CustomViewSize) -> CGFloat {
+        var textAreaLeftOffset = Constants.customViewMarginLeft
+        if customViewSize != .zero {
+            textAreaLeftOffset += customViewSize.size.width + Constants.customViewMarginRight
+        }
+        return textAreaLeftOffset
+    }
+
+    private static func textAreaRightOffset(accessoryType: MSTableViewCellAccessoryType) -> CGFloat {
+        return accessoryType != .none ? MSTableViewCellAccessoryView.size.width + Constants.accessoryViewOffset : Constants.labelMarginRight
+    }
+
+    /// The maximum number of lines to be shown for `title`
+    @objc open var titleNumberOfLines: Int = 1 {
+        didSet {
+            titleLabel.numberOfLines = titleNumberOfLines
+            setNeedsLayout()
+            invalidateIntrinsicContentSize()
+        }
+    }
+    /// The maximum number of lines to be shown for `subtitle`
+    @objc open var subtitleNumberOfLines: Int = 1 {
+        didSet {
+            subtitleLabel.numberOfLines = subtitleNumberOfLines
+            setNeedsLayout()
+            invalidateIntrinsicContentSize()
+        }
+    }
+    /// The maximum number of lines to be shown for `footer`
+    @objc open var footerNumberOfLines: Int = 1 {
+        didSet {
+            footerLabel.numberOfLines = footerNumberOfLines
+            setNeedsLayout()
+            invalidateIntrinsicContentSize()
         }
     }
 
+    /// Updates the lineBreakMode of the `title`
+    @objc open var titleLineBreakMode: NSLineBreakMode = .byTruncatingTail {
+        didSet {
+            titleLabel.lineBreakMode = titleLineBreakMode
+        }
+    }
+    /// Updates the lineBreakMode of the `subtitle`
+    @objc open var subtitleLineBreakMode: NSLineBreakMode = .byTruncatingTail {
+        didSet {
+            subtitleLabel.lineBreakMode = subtitleLineBreakMode
+        }
+    }
+    /// Updates the lineBreakMode of the `footer`
+    @objc open var footerLineBreakMode: NSLineBreakMode = .byTruncatingTail {
+        didSet {
+            footerLabel.lineBreakMode = footerLineBreakMode
+        }
+    }
+
+    /// Override to set a specific `CustomViewSize` on the `customView`
     @objc open var customViewSize: CustomViewSize {
-        return layoutType == .oneLine ? .small : .medium
+        return customView != nil ? layoutType.customViewSize : .zero
     }
 
     /// `onAccessoryTapped` is called when `detailButton` accessory view is tapped
@@ -141,8 +224,33 @@ open class MSTableViewCell: UITableViewCell {
     open override var intrinsicContentSize: CGSize {
         return CGSize(
             width: UIView.noIntrinsicMetric,
-            height: type(of: self).height(title: titleLabel.text ?? "", subtitle: subtitleLabel.text ?? "", footer: footerLabel.text ?? "")
+            height: MSTableViewCell.height(
+                title: titleLabel.text ?? "",
+                subtitle: subtitleLabel.text ?? "",
+                footer: footerLabel.text ?? "",
+                customViewSize: customViewSize,
+                accessoryType: customAccessoryType,
+                titleNumberOfLines: titleNumberOfLines,
+                subtitleNumberOfLines: subtitleNumberOfLines,
+                footerNumberOfLines: footerNumberOfLines,
+                containerWidth: width > 0 ? width : .infinity
+            )
         )
+    }
+
+    open override var bounds: CGRect {
+        didSet {
+            if bounds.width != oldValue.width {
+                invalidateIntrinsicContentSize()
+            }
+        }
+    }
+    open override var frame: CGRect {
+        didSet {
+            if frame.width != oldValue.width {
+                invalidateIntrinsicContentSize()
+            }
+        }
     }
 
     open override var separatorInset: UIEdgeInsets {
@@ -156,19 +264,32 @@ open class MSTableViewCell: UITableViewCell {
     }
 
     private var separatorLeftInset: CGFloat {
-        if customView == nil {
-            return MSTableViewCell.separatorLeftInsetForNoCustomView
-        }
-
+        let separatorLeftOffset = safeAreaInsetsIfAvailable.left
         switch customViewSize {
+        case .zero:
+            return separatorLeftOffset + MSTableViewCell.separatorLeftInsetForNoCustomView
         case .small:
-            return MSTableViewCell.separatorLeftInsetForSmallCustomView
-        case .medium:
-            return MSTableViewCell.separatorLeftInsetForMediumCustomView
+            return separatorLeftOffset + MSTableViewCell.separatorLeftInsetForSmallCustomView
+        case .medium, .default:
+            return separatorLeftOffset + MSTableViewCell.separatorLeftInsetForMediumCustomView
         }
     }
 
     private var layoutType: LayoutType = .oneLine
+
+    private var customAccessoryType: MSTableViewCellAccessoryType = .none {
+        didSet {
+            switch customAccessoryType {
+            case .none:
+                accessory = nil
+            case .disclosureIndicator:
+                accessory = MSTableViewCellAccessoryView(type: customAccessoryType)
+            case .detailButton:
+                accessory = MSTableViewCellAccessoryView(type: customAccessoryType)
+                accessory?.onTapped = handleDetailButtonTapped
+            }
+        }
+    }
 
     private var customView: UIView? {
         didSet {
@@ -180,22 +301,21 @@ open class MSTableViewCell: UITableViewCell {
         }
     }
 
-    // TODO: Add multiline text support to title, subtitle, footer labels
     private let titleLabel: MSLabel = {
-        let label = MSLabel(style: .body)
+        let label = MSLabel(style: Constants.titleTextStyle)
         label.lineBreakMode = .byTruncatingTail
         return label
     }()
 
     private let subtitleLabel: MSLabel = {
-        let label = MSLabel(style: .footnote, colorStyle: .secondary)
+        let label = MSLabel(style: Constants.subtitleTwoLineTextStyle, colorStyle: .secondary)
         label.lineBreakMode = .byTruncatingTail
         label.isHidden = true
         return label
     }()
 
     private let footerLabel: MSLabel = {
-        let label = MSLabel(style: .footnote, colorStyle: .secondary)
+        let label = MSLabel(style: Constants.footerTextStyle, colorStyle: .secondary)
         label.lineBreakMode = .byTruncatingTail
         label.isHidden = true
         return label
@@ -238,97 +358,81 @@ open class MSTableViewCell: UITableViewCell {
     ///   - footer: Text that appears as the third line of text
     ///   - customView: The custom view that appears near the leading edge next to the text
     ///   - accessoryType: The type of accessory that appears on the trailing edge: a disclosure indicator or a details button with an ellipsis icon
-    @objc open func setup(title: String = "", subtitle: String = "", footer: String = "", customView: UIView? = nil, accessoryType: MSTableViewCellAccessoryType = .none) {
+    @objc open func setup(title: String, subtitle: String = "", footer: String = "", customView: UIView? = nil, accessoryType: MSTableViewCellAccessoryType = .none) {
         layoutType = footer == "" ? (subtitle == "" ? .oneLine : .twoLines) : .threeLines
 
         titleLabel.text = title
         subtitleLabel.text = subtitle
         footerLabel.text = footer
         self.customView = customView
+        customAccessoryType = accessoryType
 
-        switch accessoryType {
-        case .none:
-            accessory = nil
-        case .disclosureIndicator:
-            accessory = MSTableViewCellAccessoryView(type: accessoryType)
-        case .detailButton:
-            accessory = MSTableViewCellAccessoryView(type: accessoryType)
-            accessory?.onTapped = handleDetailButtonTapped
-        }
-
-        if layoutType == .twoLines {
+        switch layoutType {
+        case .oneLine:
+            subtitleLabel.isHidden = true
+            footerLabel.isHidden = true
+        case .twoLines:
             subtitleLabel.isHidden = false
-        } else if layoutType == .threeLines {
+            footerLabel.isHidden = true
+        case .threeLines:
             footerLabel.isHidden = false
             subtitleLabel.isHidden = false
-            subtitleLabel.style = .subhead
         }
 
-        separatorInset.left = separatorLeftInset
+        subtitleLabel.style = layoutType.subtitleTextStyle
 
         setNeedsLayout()
-    }
-
-    open override func prepareForReuse() {
-        super.prepareForReuse()
-
-        customView = nil
-        titleLabel.text = nil
-        subtitleLabel.text = nil
-        subtitleLabel.isHidden = true
-        subtitleLabel.style = .footnote
-        footerLabel.text = nil
-        footerLabel.isHidden = true
-        accessory = nil
+        invalidateIntrinsicContentSize()
     }
 
     open override func layoutSubviews() {
         super.layoutSubviews()
 
-        var horizontalOffset = Constants.customViewMarginLeft
         if let customView = customView {
             let customViewYOffset = UIScreen.main.roundToDevicePixels((contentView.height - customViewSize.size.height) / 2)
             customView.frame = CGRect(
-                origin: CGPoint(x: horizontalOffset, y: customViewYOffset),
+                origin: CGPoint(x: Constants.customViewMarginLeft, y: customViewYOffset),
                 size: customViewSize.size
             )
-            horizontalOffset += customView.width + Constants.customViewMarginRight
         }
 
-        let titleHeight = titleLabel.font.deviceLineHeightWithLeading
-        let subtitleHeight = subtitleLabel.font.deviceLineHeightWithLeading
-        let footerHeight = footerLabel.font.deviceLineHeightWithLeading
-
-        var textAreaHeight = titleHeight
-        if layoutType == .twoLines || layoutType == .threeLines {
-            textAreaHeight += subtitleHeight + Constants.labelVerticalSpacing
-            if layoutType == .threeLines {
-                textAreaHeight += footerHeight + Constants.labelVerticalSpacing
-            }
+        let titleLeftOffset = MSTableViewCell.textAreaLeftOffset(customViewSize: customViewSize)
+        let titleRightOffset = MSTableViewCell.textAreaRightOffset(accessoryType: customAccessoryType)
+        let titleWidth = contentView.width - (titleLeftOffset + titleRightOffset)
+        let titleLineHeight = titleLabel.font.deviceLineHeightWithLeading
+        let titleText = titleLabel.text ?? ""
+        let titleHeight = titleText.preferredSize(for: titleLabel.font, width: titleWidth, numberOfLines: titleNumberOfLines).height
+        let titleCenteredTopMargin = UIScreen.main.roundToDevicePixels((contentView.height - titleLineHeight) / 2)
+        let titleTopOffset: CGFloat
+        if layoutType != .oneLine || titleHeight > titleLineHeight {
+            titleTopOffset = layoutType.labelVerticalMargin
+        } else {
+            titleTopOffset = titleCenteredTopMargin
         }
-
-        let labelMarginRight = accessory != nil ? MSTableViewCellAccessoryView.size.width + Constants.accessoryViewOffset : Constants.labelMarginRight
-        let titleYOffset = UIScreen.main.roundToDevicePixels((contentView.height - textAreaHeight) / 2)
         titleLabel.frame = CGRect(
-            x: horizontalOffset,
-            y: titleYOffset,
-            width: contentView.width - (horizontalOffset + labelMarginRight),
+            x: titleLeftOffset,
+            y: titleTopOffset,
+            width: titleWidth,
             height: titleHeight
         )
 
         if layoutType == .twoLines || layoutType == .threeLines {
+            let subtitleText = subtitleLabel.text ?? ""
+            let subtitleHeight = subtitleText.preferredSize(for: subtitleLabel.font, width: titleWidth, numberOfLines: subtitleNumberOfLines).height
             subtitleLabel.frame = CGRect(
-                x: titleLabel.left,
+                x: titleLeftOffset,
                 y: titleLabel.bottom + Constants.labelVerticalSpacing,
-                width: titleLabel.width,
+                width: titleWidth,
                 height: subtitleHeight
             )
 
             if layoutType == .threeLines {
+                let footerText = footerLabel.text ?? ""
+                let footerHeight = footerText.preferredSize(for: footerLabel.font, width: titleWidth, numberOfLines: footerNumberOfLines).height
                 footerLabel.frame = CGRect(
-                    x: subtitleLabel.left,
+                    x: titleLeftOffset,
                     y: subtitleLabel.bottom + Constants.labelVerticalSpacing,
-                    width: titleLabel.width,
+                    width: titleWidth,
                     height: footerHeight
                 )
             }
@@ -339,13 +443,31 @@ open class MSTableViewCell: UITableViewCell {
             let yOffset = UIScreen.main.roundToDevicePixels((contentView.height - MSTableViewCellAccessoryView.size.height) / 2)
             accessory.frame = CGRect(origin: CGPoint(x: xOffset, y: yOffset), size: MSTableViewCellAccessoryView.size)
         }
+
+        updateSeparatorInset()
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
         return CGSize(
             width: size.width,
-            height: type(of: self).height(title: titleLabel.text ?? "", subtitle: subtitleLabel.text ?? "", footer: footerLabel.text ?? "")
+            height: MSTableViewCell.height(
+                title: titleLabel.text ?? "",
+                subtitle: subtitleLabel.text ?? "",
+                footer: footerLabel.text ?? "",
+                customViewSize: customViewSize,
+                accessoryType: customAccessoryType,
+                titleNumberOfLines: titleNumberOfLines,
+                subtitleNumberOfLines: subtitleNumberOfLines,
+                footerNumberOfLines: footerNumberOfLines,
+                containerWidth: size.width
+            )
         )
+    }
+
+    @available(iOS 11, *)
+    open override func safeAreaInsetsDidChange() {
+        super.safeAreaInsetsDidChange()
+        updateSeparatorInset()
     }
 
     open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -380,6 +502,10 @@ open class MSTableViewCell: UITableViewCell {
         if let tableView = superTableView, let indexPath = tableView.indexPath(for: self) {
             tableView.delegate?.tableView?(tableView, accessoryButtonTappedForRowWith: indexPath)
         }
+    }
+
+    private func updateSeparatorInset() {
+        separatorInset.left = separatorLeftInset
     }
 
     private func setupBackgroundColors() {
