@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.summary      = "Office UI Fabric is a set of reusable UI controls and tools"
   s.homepage     = "https://onedrive.visualstudio.com/Design/The%20Studio/_git/fabric-ios"
   s.license      = { :type => "MIT", :file => "LICENSE" }
-  s.author       = { "Vlad Filyakov" => "vladf@microsoft.com" }
+  s.author       = { "Microsoft" => "vladf@microsoft.com" }
 
   s.platform     = :ios
   s.ios.deployment_target = "11.0"
