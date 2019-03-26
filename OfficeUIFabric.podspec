@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = "11.0"
   s.swift_version = "4.2"
 
-  s.source       = { :git => "https://github.com/OfficeDev/ui-fabric-ios", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/OfficeDev/ui-fabric-ios.git", :tag => "#{s.version}" }
   s.source_files = "OfficeUIFabric/**/*.{swift,h}"
   s.resources    = "OfficeUIFabric/**/*.{storyboard,xib,ttf,xcassets,strings,stringsdict,json}"
 end
