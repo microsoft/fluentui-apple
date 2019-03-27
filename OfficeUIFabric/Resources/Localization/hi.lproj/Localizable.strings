@@ -1,0 +1,88 @@
+//
+//  Copyright © 2018 Microsoft Corporation. All rights reserved.
+//
+
+// Accessibility
+"Accessibility.Alert" = "चेतावनी";
+"Accessibility.Dismiss.Label" = "ख़ारिज करें";
+"Accessibility.Dismiss.Hint" = "ख़ारिज करने के लिए डबल-टैप करें";
+"Accessibility.Select.Hint" = "Double tap to select";
+"Accessibility.Selected.Hint" = "Double tap to see details";
+"Accessibility.Selected.Value" = "चयनित";
+
+/* Accessibility label for the upper calendar date picker view. */
+"Accessibility.Calendar.Label" = "कैलेंडर";
+
+/* Accessibility hint for the upper calendar date picker view */
+"Accessibility.Calendar.Hint" = "किसी दिनांक का चयन करें";
+
+// TODO: Change to a stringsdict format
+// TODO: Reassess for generic indicator
+/* Accessibility: Number of events on the given day (%d is the number) */
+"Accessibility.Calendar.Events.Number" = "%d इवेंट";
+
+/* Accessibility: There's no events on the given day */
+"Accessibility.Calendar.Events.None" = "कोई ईवेंट नहीं";
+
+/* Accessibility label for month in date time picker */
+"Accessibility.DateTime.Month.Label" = "माह";
+
+/* Accessibility label for day in date time picker */
+"Accessibility.DateTime.Day.Label" = "दिन";
+
+/* Accessibility label for year in date time picker */
+"Accessibility.DateTime.Year.Label" = "वर्ष";
+
+/* Accessibility label for date in date time picker */
+"Accessibility.DateTime.Date.Label" = "दिनांक";
+
+/* Accessibility label for hour in date time picker */
+"Accessibility.DateTime.Hour.Label" = "घंटा";
+
+/* Accessibility label for minute in date time picker */
+"Accessibility.DateTime.Minute.Label" = "मिनट";
+
+/* Accessibility label for AM/PM in date time picker */
+"Accessibility.DateTime.AMPM.Label" = "AM/PM";
+
+/* Accessibility label for week of month in date time picker */
+"Accessibility.DateTime.WeekOfMonth.Label" = "माह का सप्ताह";
+
+/* Accessibility label for day of week in date time picker */
+"Accessibility.DateTime.DayOfWeek.Label" = "सप्ताह का दिन";
+
+/* Accessibility label for first week of the month */
+"Accessibility.DateTime.Week.First" = "पहला";
+
+/* Accessibility label for second week of the month */
+"Accessibility.DateTime.Week.Second" = "Second";
+
+/* Accessibility label for third week of the month */
+"Accessibility.DateTime.Week.Third" = "तीसरा";
+
+/* Accessibility label for fourth week of the month */
+"Accessibility.DateTime.Week.Fourth" = "चौथा";
+
+/* Accessibility label for last week of the month */
+"Accessibility.DateTime.Week.Last" = "अंतिम";
+
+/* Accessibility label for when a task under progress has finished */
+"Accessibility.HUD.Done" = "पूर्ण";
+
+/* Accessibility label for when a task under progress has failed */
+"Accessibility.HUD.Failed" = "विफल";
+
+/* Accessibility label for when a task is in progress */
+"Accessibility.HUD.Loading" = "लोड हो रहा है";
+
+/* Accessibility hint for a segmented control button */
+"Accessibility.Segmented.Button.Hint" = "Tap to go to %@";
+
+/* Accessibility hint for more actions button */
+"Accessibility.TableViewCell.MoreActions.Hint" = "Double tap to view more actions";
+
+/* Accessibility label for more actions button */
+"Accessibility.TableViewCell.MoreActions.Label" = "More actions";
+
+// MSPersonaListView
+"MSPersonaListView.SearchDirectory" = "डायरेक्टरी खोजें";

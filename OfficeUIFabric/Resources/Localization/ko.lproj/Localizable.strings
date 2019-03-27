@@ -1,0 +1,88 @@
+//
+//  Copyright © 2018 Microsoft Corporation. All rights reserved.
+//
+
+// Accessibility
+"Accessibility.Alert" = "알림";
+"Accessibility.Dismiss.Label" = "해제";
+"Accessibility.Dismiss.Hint" = "해제하려면 두 번 탭하세요.";
+"Accessibility.Select.Hint" = "선택하려면 두 번 탭하세요.";
+"Accessibility.Selected.Hint" = "세부 정보를 보려면 두 번 탭하세요.";
+"Accessibility.Selected.Value" = "선택됨";
+
+/* Accessibility label for the upper calendar date picker view. */
+"Accessibility.Calendar.Label" = "일정";
+
+/* Accessibility hint for the upper calendar date picker view */
+"Accessibility.Calendar.Hint" = "날짜 선택";
+
+// TODO: Change to a stringsdict format
+// TODO: Reassess for generic indicator
+/* Accessibility: Number of events on the given day (%d is the number) */
+"Accessibility.Calendar.Events.Number" = "이벤트 %d개";
+
+/* Accessibility: There's no events on the given day */
+"Accessibility.Calendar.Events.None" = "이벤트 없음";
+
+/* Accessibility label for month in date time picker */
+"Accessibility.DateTime.Month.Label" = "월";
+
+/* Accessibility label for day in date time picker */
+"Accessibility.DateTime.Day.Label" = "일";
+
+/* Accessibility label for year in date time picker */
+"Accessibility.DateTime.Year.Label" = "연도";
+
+/* Accessibility label for date in date time picker */
+"Accessibility.DateTime.Date.Label" = "날짜";
+
+/* Accessibility label for hour in date time picker */
+"Accessibility.DateTime.Hour.Label" = "시간";
+
+/* Accessibility label for minute in date time picker */
+"Accessibility.DateTime.Minute.Label" = "분";
+
+/* Accessibility label for AM/PM in date time picker */
+"Accessibility.DateTime.AMPM.Label" = "오전/오후";
+
+/* Accessibility label for week of month in date time picker */
+"Accessibility.DateTime.WeekOfMonth.Label" = "주";
+
+/* Accessibility label for day of week in date time picker */
+"Accessibility.DateTime.DayOfWeek.Label" = "요일";
+
+/* Accessibility label for first week of the month */
+"Accessibility.DateTime.Week.First" = "첫째 주";
+
+/* Accessibility label for second week of the month */
+"Accessibility.DateTime.Week.Second" = "둘째 주";
+
+/* Accessibility label for third week of the month */
+"Accessibility.DateTime.Week.Third" = "셋째 주";
+
+/* Accessibility label for fourth week of the month */
+"Accessibility.DateTime.Week.Fourth" = "넷째 주";
+
+/* Accessibility label for last week of the month */
+"Accessibility.DateTime.Week.Last" = "마지막 주";
+
+/* Accessibility label for when a task under progress has finished */
+"Accessibility.HUD.Done" = "완료";
+
+/* Accessibility label for when a task under progress has failed */
+"Accessibility.HUD.Failed" = "실패";
+
+/* Accessibility label for when a task is in progress */
+"Accessibility.HUD.Loading" = "로드 중";
+
+/* Accessibility hint for a segmented control button */
+"Accessibility.Segmented.Button.Hint" = "%@(으)로 이동하려면 탭하세요.";
+
+/* Accessibility hint for more actions button */
+"Accessibility.TableViewCell.MoreActions.Hint" = "더 많은 작업을 보려면 두 번 탭하세요.";
+
+/* Accessibility label for more actions button */
+"Accessibility.TableViewCell.MoreActions.Label" = "추가 작업";
+
+// MSPersonaListView
+"MSPersonaListView.SearchDirectory" = "디렉터리 검색";

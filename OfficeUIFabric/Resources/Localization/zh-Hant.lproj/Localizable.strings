@@ -1,0 +1,88 @@
+//
+//  Copyright © 2018 Microsoft Corporation. All rights reserved.
+//
+
+// Accessibility
+"Accessibility.Alert" = "通知";
+"Accessibility.Dismiss.Label" = "關閉";
+"Accessibility.Dismiss.Hint" = "點兩下以關閉";
+"Accessibility.Select.Hint" = "點兩下以選取";
+"Accessibility.Selected.Hint" = "點兩下以檢視詳細資料";
+"Accessibility.Selected.Value" = "已選取";
+
+/* Accessibility label for the upper calendar date picker view. */
+"Accessibility.Calendar.Label" = "行事曆";
+
+/* Accessibility hint for the upper calendar date picker view */
+"Accessibility.Calendar.Hint" = "選取日期";
+
+// TODO: Change to a stringsdict format
+// TODO: Reassess for generic indicator
+/* Accessibility: Number of events on the given day (%d is the number) */
+"Accessibility.Calendar.Events.Number" = "%d 個活動";
+
+/* Accessibility: There's no events on the given day */
+"Accessibility.Calendar.Events.None" = "沒有活動";
+
+/* Accessibility label for month in date time picker */
+"Accessibility.DateTime.Month.Label" = "月";
+
+/* Accessibility label for day in date time picker */
+"Accessibility.DateTime.Day.Label" = "日";
+
+/* Accessibility label for year in date time picker */
+"Accessibility.DateTime.Year.Label" = "年";
+
+/* Accessibility label for date in date time picker */
+"Accessibility.DateTime.Date.Label" = "日期";
+
+/* Accessibility label for hour in date time picker */
+"Accessibility.DateTime.Hour.Label" = "小時";
+
+/* Accessibility label for minute in date time picker */
+"Accessibility.DateTime.Minute.Label" = "分鐘";
+
+/* Accessibility label for AM/PM in date time picker */
+"Accessibility.DateTime.AMPM.Label" = "上午/下午";
+
+/* Accessibility label for week of month in date time picker */
+"Accessibility.DateTime.WeekOfMonth.Label" = "當月週次";
+
+/* Accessibility label for day of week in date time picker */
+"Accessibility.DateTime.DayOfWeek.Label" = "當週日次";
+
+/* Accessibility label for first week of the month */
+"Accessibility.DateTime.Week.First" = "第一個";
+
+/* Accessibility label for second week of the month */
+"Accessibility.DateTime.Week.Second" = "第二個";
+
+/* Accessibility label for third week of the month */
+"Accessibility.DateTime.Week.Third" = "第三個";
+
+/* Accessibility label for fourth week of the month */
+"Accessibility.DateTime.Week.Fourth" = "第四個";
+
+/* Accessibility label for last week of the month */
+"Accessibility.DateTime.Week.Last" = "最後一個";
+
+/* Accessibility label for when a task under progress has finished */
+"Accessibility.HUD.Done" = "完成";
+
+/* Accessibility label for when a task under progress has failed */
+"Accessibility.HUD.Failed" = "失敗";
+
+/* Accessibility label for when a task is in progress */
+"Accessibility.HUD.Loading" = "正在載入";
+
+/* Accessibility hint for a segmented control button */
+"Accessibility.Segmented.Button.Hint" = "點選以移至 %@";
+
+/* Accessibility hint for more actions button */
+"Accessibility.TableViewCell.MoreActions.Hint" = "點兩下以檢視更多動作";
+
+/* Accessibility label for more actions button */
+"Accessibility.TableViewCell.MoreActions.Label" = "更多動作";
+
+// MSPersonaListView
+"MSPersonaListView.SearchDirectory" = "搜尋目錄";

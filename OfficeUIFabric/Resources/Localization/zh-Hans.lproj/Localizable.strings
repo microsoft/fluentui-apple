@@ -1,0 +1,88 @@
+//
+//  Copyright © 2018 Microsoft Corporation. All rights reserved.
+//
+
+// Accessibility
+"Accessibility.Alert" = "警报";
+"Accessibility.Dismiss.Label" = "关闭";
+"Accessibility.Dismiss.Hint" = "双击以关闭";
+"Accessibility.Select.Hint" = "双击进行选择";
+"Accessibility.Selected.Hint" = "双击以查看详细信息";
+"Accessibility.Selected.Value" = "已选择";
+
+/* Accessibility label for the upper calendar date picker view. */
+"Accessibility.Calendar.Label" = "日历";
+
+/* Accessibility hint for the upper calendar date picker view */
+"Accessibility.Calendar.Hint" = "选择日期";
+
+// TODO: Change to a stringsdict format
+// TODO: Reassess for generic indicator
+/* Accessibility: Number of events on the given day (%d is the number) */
+"Accessibility.Calendar.Events.Number" = "%d 个事件";
+
+/* Accessibility: There's no events on the given day */
+"Accessibility.Calendar.Events.None" = "无事件";
+
+/* Accessibility label for month in date time picker */
+"Accessibility.DateTime.Month.Label" = "月";
+
+/* Accessibility label for day in date time picker */
+"Accessibility.DateTime.Day.Label" = "日";
+
+/* Accessibility label for year in date time picker */
+"Accessibility.DateTime.Year.Label" = "年";
+
+/* Accessibility label for date in date time picker */
+"Accessibility.DateTime.Date.Label" = "日期";
+
+/* Accessibility label for hour in date time picker */
+"Accessibility.DateTime.Hour.Label" = "小时";
+
+/* Accessibility label for minute in date time picker */
+"Accessibility.DateTime.Minute.Label" = "分钟";
+
+/* Accessibility label for AM/PM in date time picker */
+"Accessibility.DateTime.AMPM.Label" = "上午/下午";
+
+/* Accessibility label for week of month in date time picker */
+"Accessibility.DateTime.WeekOfMonth.Label" = "月的第几周";
+
+/* Accessibility label for day of week in date time picker */
+"Accessibility.DateTime.DayOfWeek.Label" = "星期几";
+
+/* Accessibility label for first week of the month */
+"Accessibility.DateTime.Week.First" = "第一个";
+
+/* Accessibility label for second week of the month */
+"Accessibility.DateTime.Week.Second" = "秒";
+
+/* Accessibility label for third week of the month */
+"Accessibility.DateTime.Week.Third" = "第三个";
+
+/* Accessibility label for fourth week of the month */
+"Accessibility.DateTime.Week.Fourth" = "第四个";
+
+/* Accessibility label for last week of the month */
+"Accessibility.DateTime.Week.Last" = "最后一个";
+
+/* Accessibility label for when a task under progress has finished */
+"Accessibility.HUD.Done" = "完成";
+
+/* Accessibility label for when a task under progress has failed */
+"Accessibility.HUD.Failed" = "失败";
+
+/* Accessibility label for when a task is in progress */
+"Accessibility.HUD.Loading" = "正在加载";
+
+/* Accessibility hint for a segmented control button */
+"Accessibility.Segmented.Button.Hint" = "点击以转到 %@";
+
+/* Accessibility hint for more actions button */
+"Accessibility.TableViewCell.MoreActions.Hint" = "双击以查看更多操作";
+
+/* Accessibility label for more actions button */
+"Accessibility.TableViewCell.MoreActions.Label" = "更多操作";
+
+// MSPersonaListView
+"MSPersonaListView.SearchDirectory" = "搜索目录";

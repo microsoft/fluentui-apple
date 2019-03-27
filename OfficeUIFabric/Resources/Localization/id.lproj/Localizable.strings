@@ -1,0 +1,88 @@
+//
+//  Copyright © 2018 Microsoft Corporation. All rights reserved.
+//
+
+// Accessibility
+"Accessibility.Alert" = "Peringatan";
+"Accessibility.Dismiss.Label" = "Tutup";
+"Accessibility.Dismiss.Hint" = "Ketuk dua kali untuk menutup";
+"Accessibility.Select.Hint" = "Ketuk dua kali untuk memilih";
+"Accessibility.Selected.Hint" = "Ketuk dua kali untuk melihat detail";
+"Accessibility.Selected.Value" = "Dipilih";
+
+/* Accessibility label for the upper calendar date picker view. */
+"Accessibility.Calendar.Label" = "Kalender";
+
+/* Accessibility hint for the upper calendar date picker view */
+"Accessibility.Calendar.Hint" = "Pilih tanggal";
+
+// TODO: Change to a stringsdict format
+// TODO: Reassess for generic indicator
+/* Accessibility: Number of events on the given day (%d is the number) */
+"Accessibility.Calendar.Events.Number" = "%d acara";
+
+/* Accessibility: There's no events on the given day */
+"Accessibility.Calendar.Events.None" = "tidak ada acara";
+
+/* Accessibility label for month in date time picker */
+"Accessibility.DateTime.Month.Label" = "Bulan";
+
+/* Accessibility label for day in date time picker */
+"Accessibility.DateTime.Day.Label" = "Hari";
+
+/* Accessibility label for year in date time picker */
+"Accessibility.DateTime.Year.Label" = "Tahun";
+
+/* Accessibility label for date in date time picker */
+"Accessibility.DateTime.Date.Label" = "Tanggal";
+
+/* Accessibility label for hour in date time picker */
+"Accessibility.DateTime.Hour.Label" = "Jam";
+
+/* Accessibility label for minute in date time picker */
+"Accessibility.DateTime.Minute.Label" = "Menit";
+
+/* Accessibility label for AM/PM in date time picker */
+"Accessibility.DateTime.AMPM.Label" = "AM/PM";
+
+/* Accessibility label for week of month in date time picker */
+"Accessibility.DateTime.WeekOfMonth.Label" = "Minggu dalam sebulan";
+
+/* Accessibility label for day of week in date time picker */
+"Accessibility.DateTime.DayOfWeek.Label" = "Hari dalam seminggu";
+
+/* Accessibility label for first week of the month */
+"Accessibility.DateTime.Week.First" = "Pertama";
+
+/* Accessibility label for second week of the month */
+"Accessibility.DateTime.Week.Second" = "Kedua";
+
+/* Accessibility label for third week of the month */
+"Accessibility.DateTime.Week.Third" = "Ketiga";
+
+/* Accessibility label for fourth week of the month */
+"Accessibility.DateTime.Week.Fourth" = "Keempat";
+
+/* Accessibility label for last week of the month */
+"Accessibility.DateTime.Week.Last" = "Terakhir";
+
+/* Accessibility label for when a task under progress has finished */
+"Accessibility.HUD.Done" = "Selesai";
+
+/* Accessibility label for when a task under progress has failed */
+"Accessibility.HUD.Failed" = "Gagal";
+
+/* Accessibility label for when a task is in progress */
+"Accessibility.HUD.Loading" = "Memuat";
+
+/* Accessibility hint for a segmented control button */
+"Accessibility.Segmented.Button.Hint" = "Ketuk untuk membuka %@";
+
+/* Accessibility hint for more actions button */
+"Accessibility.TableViewCell.MoreActions.Hint" = "Ketuk dua kali untuk melihat tindakan lainnya";
+
+/* Accessibility label for more actions button */
+"Accessibility.TableViewCell.MoreActions.Label" = "Tindakan lainnya";
+
+// MSPersonaListView
+"MSPersonaListView.SearchDirectory" = "Cari Direktori";
