@@ -1,4 +1,5 @@
 ![Build status](https://onedrive.visualstudio.com/Design/_apis/build/status/fabric-mobile/fabric-ios-CI-github?branchName=master)
+[![GitHub release](https://img.shields.io/github/release/officedev/ui-fabric-ios.svg)](https://github.com/OfficeDev/ui-fabric-ios/releases/latest)
 
 # [Office UI Fabric for iOS](http://dev.office.com/fabric)
 
