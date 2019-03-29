@@ -1,3 +1,5 @@
+[![Build status](https://onedrive.visualstudio.com/Design/_apis/build/status/fabric-mobile/fabric-ios-CI-github)](https://onedrive.visualstudio.com/Design/_build/latest?definitionId=2930)
+
 # [Office UI Fabric for iOS](http://dev.office.com/fabric)
 
 ##### The iOS UI framework for building experiences for Office and Office 365.
