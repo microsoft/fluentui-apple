@@ -1,43 +1,44 @@
 //
-//  Copyright © 2018 Microsoft Corporation. All rights reserved.
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
 //
 
 // Accessibility
-"Accessibility.Alert" = "Alert";
-"Accessibility.Dismiss.Label" = "Dismiss";
-"Accessibility.Dismiss.Hint" = "Double tap to dismiss";
-"Accessibility.Select.Hint" = "Double tap to select";
-"Accessibility.Selected.Hint" = "Double tap to see details";
-"Accessibility.Selected.Value" = "Selected";
+"Accessibility.Alert" = "Warnung";
+"Accessibility.Dismiss.Label" = "Schließen";
+"Accessibility.Dismiss.Hint" = "Zum Schließen doppeltippen.";
+"Accessibility.Select.Hint" = "Zum Auswählen doppeltippen";
+"Accessibility.Selected.Hint" = "Zum Anzeigen von Details doppeltippen.";
+"Accessibility.Selected.Value" = "Ausgewählt";
 
 /* Accessibility label for the upper calendar date picker view. */
-"Accessibility.Calendar.Label" = "Calendar";
+"Accessibility.Calendar.Label" = "Kalender";
 
 /* Accessibility hint for the upper calendar date picker view */
-"Accessibility.Calendar.Hint" = "Select a date";
+"Accessibility.Calendar.Hint" = "Datum auswählen";
 
 // TODO: Change to a stringsdict format
 // TODO: Reassess for generic indicator
 /* Accessibility: Number of events on the given day (%d is the number) */
-"Accessibility.Calendar.Events.Number" = "%d events";
+"Accessibility.Calendar.Events.Number" = "%d Ereignisse";
 
 /* Accessibility: There's no events on the given day */
-"Accessibility.Calendar.Events.None" = "no events";
+"Accessibility.Calendar.Events.None" = "Keine Ereignisse";
 
 /* Accessibility label for month in date time picker */
-"Accessibility.DateTime.Month.Label" = "Month";
+"Accessibility.DateTime.Month.Label" = "Monat";
 
 /* Accessibility label for day in date time picker */
-"Accessibility.DateTime.Day.Label" = "Day";
+"Accessibility.DateTime.Day.Label" = "Tag";
 
 /* Accessibility label for year in date time picker */
-"Accessibility.DateTime.Year.Label" = "Year";
+"Accessibility.DateTime.Year.Label" = "Jahr";
 
 /* Accessibility label for date in date time picker */
-"Accessibility.DateTime.Date.Label" = "Date";
+"Accessibility.DateTime.Date.Label" = "Datum";
 
 /* Accessibility label for hour in date time picker */
-"Accessibility.DateTime.Hour.Label" = "Hour";
+"Accessibility.DateTime.Hour.Label" = "Stunde";
 
 /* Accessibility label for minute in date time picker */
 "Accessibility.DateTime.Minute.Label" = "Minute";
@@ -46,43 +47,43 @@
 "Accessibility.DateTime.AMPM.Label" = "AM/PM";
 
 /* Accessibility label for week of month in date time picker */
-"Accessibility.DateTime.WeekOfMonth.Label" = "Week of month";
+"Accessibility.DateTime.WeekOfMonth.Label" = "Woche im Monat";
 
 /* Accessibility label for day of week in date time picker */
-"Accessibility.DateTime.DayOfWeek.Label" = "Day of week";
+"Accessibility.DateTime.DayOfWeek.Label" = "Tag der Woche";
 
 /* Accessibility label for first week of the month */
-"Accessibility.DateTime.Week.First" = "First";
+"Accessibility.DateTime.Week.First" = "Erste";
 
 /* Accessibility label for second week of the month */
-"Accessibility.DateTime.Week.Second" = "Second";
+"Accessibility.DateTime.Week.Second" = "Zweite";
 
 /* Accessibility label for third week of the month */
-"Accessibility.DateTime.Week.Third" = "Third";
+"Accessibility.DateTime.Week.Third" = "Dritte";
 
 /* Accessibility label for fourth week of the month */
-"Accessibility.DateTime.Week.Fourth" = "Fourth";
+"Accessibility.DateTime.Week.Fourth" = "Vierte";
 
 /* Accessibility label for last week of the month */
-"Accessibility.DateTime.Week.Last" = "Last";
+"Accessibility.DateTime.Week.Last" = "Letzte";
 
 /* Accessibility label for when a task under progress has finished */
-"Accessibility.HUD.Done" = "Done";
+"Accessibility.HUD.Done" = "Fertig";
 
 /* Accessibility label for when a task under progress has failed */
-"Accessibility.HUD.Failed" = "Failed";
+"Accessibility.HUD.Failed" = "Fehler";
 
 /* Accessibility label for when a task is in progress */
-"Accessibility.HUD.Loading" = "Loading";
+"Accessibility.HUD.Loading" = "Wird geladen";
 
 /* Accessibility hint for a segmented control button */
-"Accessibility.Segmented.Button.Hint" = "Tap to go to %@";
+"Accessibility.Segmented.Button.Hint" = "Tippen Sie, um zu \"%@\" zu wechseln.";
 
 /* Accessibility hint for more actions button */
-"Accessibility.TableViewCell.MoreActions.Hint" = "Double tap to view more actions";
+"Accessibility.TableViewCell.MoreActions.Hint" = "Doppeltippen Sie, um weitere Aktionen anzuzeigen.";
 
 /* Accessibility label for more actions button */
-"Accessibility.TableViewCell.MoreActions.Label" = "More actions";
+"Accessibility.TableViewCell.MoreActions.Label" = "Weitere Aktionen";
 
 // MSPersonaListView
-"MSPersonaListView.SearchDirectory" = "Search Directory";
+"MSPersonaListView.SearchDirectory" = "Verzeichnis durchsuchen";

@@ -1,5 +1,6 @@
 //
-//  Copyright © 2018 Microsoft Corporation. All rights reserved.
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
 //
 
 // Accessibility
@@ -7,7 +8,7 @@
 "Accessibility.Dismiss.Label" = "Odbaci";
 "Accessibility.Dismiss.Hint" = "Dvaput dodirnite da biste odbacili";
 "Accessibility.Select.Hint" = "Dvaput dodirnite da biste odabrali";
-"Accessibility.Selected.Hint" = "Double tap to see details";
+"Accessibility.Selected.Hint" = "Dvaput dodirnite da biste pogledali pojedinosti";
 "Accessibility.Selected.Value" = "Odabrano";
 
 /* Accessibility label for the upper calendar date picker view. */
@@ -64,7 +65,7 @@
 "Accessibility.DateTime.Week.Fourth" = "4.";
 
 /* Accessibility label for last week of the month */
-"Accessibility.DateTime.Week.Last" = "Last";
+"Accessibility.DateTime.Week.Last" = "Zadnji";
 
 /* Accessibility label for when a task under progress has finished */
 "Accessibility.HUD.Done" = "Gotovo";
@@ -76,13 +77,13 @@
 "Accessibility.HUD.Loading" = "Učitavanje";
 
 /* Accessibility hint for a segmented control button */
-"Accessibility.Segmented.Button.Hint" = "Tap to go to %@";
+"Accessibility.Segmented.Button.Hint" = "Dodirnite da biste otvorili %@";
 
 /* Accessibility hint for more actions button */
-"Accessibility.TableViewCell.MoreActions.Hint" = "Double tap to view more actions";
+"Accessibility.TableViewCell.MoreActions.Hint" = "Dvaput dodirnite da biste pogledali dodatne akcije";
 
 /* Accessibility label for more actions button */
 "Accessibility.TableViewCell.MoreActions.Label" = "Dodatne akcije";
 
 // MSPersonaListView
-"MSPersonaListView.SearchDirectory" = "Search Directory";
+"MSPersonaListView.SearchDirectory" = "Pretraživanje direktorija";

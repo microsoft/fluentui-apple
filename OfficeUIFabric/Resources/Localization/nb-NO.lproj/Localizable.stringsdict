@@ -5,6 +5,7 @@
     <key>Accessibility.DateTime.Hour.Value</key>
     <dict>
       <key>NSStringLocalizedFormatKey</key>
+      <!--{Locked}-->
       <string>%#@hours@</string>
       <key>Variable</key>
       <dict>
@@ -13,12 +14,13 @@
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
         <key>other</key>
-        <string>%d o'clock</string>
+        <string>klokken %d</string>
       </dict>
     </dict>
     <key>Accessibility.DateTime.Minute.Value</key>
     <dict>
       <key>NSStringLocalizedFormatKey</key>
+      <!--{Locked}-->
       <string>%#@minutes@</string>
       <key>minutes</key>
       <dict>
@@ -27,14 +29,15 @@
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
         <key>one</key>
-        <string>%d minute</string>
+        <string>%d minutt</string>
         <key>other</key>
-        <string>%d minutes</string>
+        <string>%d minutter</string>
       </dict>
     </dict>
     <key>%d results found from directory</key>
     <dict>
       <key>NSStringLocalizedFormatKey</key>
+      <!--{Locked}-->
       <string>%#@results@</string>
       <key>results</key>
       <dict>
@@ -43,9 +46,9 @@
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
         <key>one</key>
-        <string>%d result found from directory</string>
+        <string>Fant %d resultat fra katalogen</string>
         <key>other</key>
-        <string>%d results found from directory</string>
+        <string>Fant %d resultater fra katalogen</string>
       </dict>
     </dict>
   </dict>

@@ -5,6 +5,7 @@
     <key>Accessibility.DateTime.Hour.Value</key>
     <dict>
       <key>NSStringLocalizedFormatKey</key>
+      <!--{Locked}-->
       <string>%#@hours@</string>
       <key>Variable</key>
       <dict>
@@ -19,6 +20,7 @@
     <key>Accessibility.DateTime.Minute.Value</key>
     <dict>
       <key>NSStringLocalizedFormatKey</key>
+      <!--{Locked}-->
       <string>%#@minutes@</string>
       <key>minutes</key>
       <dict>
@@ -35,6 +37,7 @@
     <key>%d results found from directory</key>
     <dict>
       <key>NSStringLocalizedFormatKey</key>
+      <!--{Locked}-->
       <string>%#@results@</string>
       <key>results</key>
       <dict>

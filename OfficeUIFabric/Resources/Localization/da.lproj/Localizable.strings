@@ -1,88 +1,89 @@
 //
-//  Copyright © 2018 Microsoft Corporation. All rights reserved.
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
 //
 
 // Accessibility
-"Accessibility.Alert" = "Alert";
-"Accessibility.Dismiss.Label" = "Dismiss";
-"Accessibility.Dismiss.Hint" = "Double tap to dismiss";
-"Accessibility.Select.Hint" = "Double tap to select";
-"Accessibility.Selected.Hint" = "Double tap to see details";
-"Accessibility.Selected.Value" = "Selected";
+"Accessibility.Alert" = "Underretning";
+"Accessibility.Dismiss.Label" = "Afvis";
+"Accessibility.Dismiss.Hint" = "Dobbelttryk for at afvise";
+"Accessibility.Select.Hint" = "Dobbelttryk for at vælge";
+"Accessibility.Selected.Hint" = "Dobbelttryk for at se detaljerne";
+"Accessibility.Selected.Value" = "Markeret";
 
 /* Accessibility label for the upper calendar date picker view. */
-"Accessibility.Calendar.Label" = "Calendar";
+"Accessibility.Calendar.Label" = "Kalender";
 
 /* Accessibility hint for the upper calendar date picker view */
-"Accessibility.Calendar.Hint" = "Select a date";
+"Accessibility.Calendar.Hint" = "Vælg en dato";
 
 // TODO: Change to a stringsdict format
 // TODO: Reassess for generic indicator
 /* Accessibility: Number of events on the given day (%d is the number) */
-"Accessibility.Calendar.Events.Number" = "%d events";
+"Accessibility.Calendar.Events.Number" = "%d begivenheder";
 
 /* Accessibility: There's no events on the given day */
-"Accessibility.Calendar.Events.None" = "no events";
+"Accessibility.Calendar.Events.None" = "ingen begivenheder";
 
 /* Accessibility label for month in date time picker */
-"Accessibility.DateTime.Month.Label" = "Month";
+"Accessibility.DateTime.Month.Label" = "Måned";
 
 /* Accessibility label for day in date time picker */
-"Accessibility.DateTime.Day.Label" = "Day";
+"Accessibility.DateTime.Day.Label" = "Dag";
 
 /* Accessibility label for year in date time picker */
-"Accessibility.DateTime.Year.Label" = "Year";
+"Accessibility.DateTime.Year.Label" = "År";
 
 /* Accessibility label for date in date time picker */
-"Accessibility.DateTime.Date.Label" = "Date";
+"Accessibility.DateTime.Date.Label" = "Dato";
 
 /* Accessibility label for hour in date time picker */
-"Accessibility.DateTime.Hour.Label" = "Hour";
+"Accessibility.DateTime.Hour.Label" = "Time";
 
 /* Accessibility label for minute in date time picker */
-"Accessibility.DateTime.Minute.Label" = "Minute";
+"Accessibility.DateTime.Minute.Label" = "Minut";
 
 /* Accessibility label for AM/PM in date time picker */
 "Accessibility.DateTime.AMPM.Label" = "AM/PM";
 
 /* Accessibility label for week of month in date time picker */
-"Accessibility.DateTime.WeekOfMonth.Label" = "Week of month";
+"Accessibility.DateTime.WeekOfMonth.Label" = "Uge i måneden";
 
 /* Accessibility label for day of week in date time picker */
-"Accessibility.DateTime.DayOfWeek.Label" = "Day of week";
+"Accessibility.DateTime.DayOfWeek.Label" = "Dag i ugen";
 
 /* Accessibility label for first week of the month */
-"Accessibility.DateTime.Week.First" = "First";
+"Accessibility.DateTime.Week.First" = "Første";
 
 /* Accessibility label for second week of the month */
-"Accessibility.DateTime.Week.Second" = "Second";
+"Accessibility.DateTime.Week.Second" = "Anden";
 
 /* Accessibility label for third week of the month */
-"Accessibility.DateTime.Week.Third" = "Third";
+"Accessibility.DateTime.Week.Third" = "Tredje";
 
 /* Accessibility label for fourth week of the month */
-"Accessibility.DateTime.Week.Fourth" = "Fourth";
+"Accessibility.DateTime.Week.Fourth" = "Fjerde";
 
 /* Accessibility label for last week of the month */
-"Accessibility.DateTime.Week.Last" = "Last";
+"Accessibility.DateTime.Week.Last" = "Sidste";
 
 /* Accessibility label for when a task under progress has finished */
-"Accessibility.HUD.Done" = "Done";
+"Accessibility.HUD.Done" = "Udført";
 
 /* Accessibility label for when a task under progress has failed */
-"Accessibility.HUD.Failed" = "Failed";
+"Accessibility.HUD.Failed" = "Mislykkedes";
 
 /* Accessibility label for when a task is in progress */
-"Accessibility.HUD.Loading" = "Loading";
+"Accessibility.HUD.Loading" = "Indlæser";
 
 /* Accessibility hint for a segmented control button */
-"Accessibility.Segmented.Button.Hint" = "Tap to go to %@";
+"Accessibility.Segmented.Button.Hint" = "Tryk for at gå til %@";
 
 /* Accessibility hint for more actions button */
-"Accessibility.TableViewCell.MoreActions.Hint" = "Double tap to view more actions";
+"Accessibility.TableViewCell.MoreActions.Hint" = "Dobbelttryk for at se flere handlinger";
 
 /* Accessibility label for more actions button */
-"Accessibility.TableViewCell.MoreActions.Label" = "More actions";
+"Accessibility.TableViewCell.MoreActions.Label" = "Flere handlinger";
 
 // MSPersonaListView
-"MSPersonaListView.SearchDirectory" = "Search Directory";
+"MSPersonaListView.SearchDirectory" = "Søg i mappen";

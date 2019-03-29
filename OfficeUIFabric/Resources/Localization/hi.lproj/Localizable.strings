@@ -1,13 +1,14 @@
 //
-//  Copyright © 2018 Microsoft Corporation. All rights reserved.
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
 //
 
 // Accessibility
 "Accessibility.Alert" = "चेतावनी";
 "Accessibility.Dismiss.Label" = "ख़ारिज करें";
 "Accessibility.Dismiss.Hint" = "ख़ारिज करने के लिए डबल-टैप करें";
-"Accessibility.Select.Hint" = "Double tap to select";
-"Accessibility.Selected.Hint" = "Double tap to see details";
+"Accessibility.Select.Hint" = "चयन के लिए डबल टैप";
+"Accessibility.Selected.Hint" = "विवरण देखने के लिए डबल टैप करें";
 "Accessibility.Selected.Value" = "चयनित";
 
 /* Accessibility label for the upper calendar date picker view. */
@@ -55,7 +56,7 @@
 "Accessibility.DateTime.Week.First" = "पहला";
 
 /* Accessibility label for second week of the month */
-"Accessibility.DateTime.Week.Second" = "Second";
+"Accessibility.DateTime.Week.Second" = "दूसरा";
 
 /* Accessibility label for third week of the month */
 "Accessibility.DateTime.Week.Third" = "तीसरा";
@@ -76,13 +77,13 @@
 "Accessibility.HUD.Loading" = "लोड हो रहा है";
 
 /* Accessibility hint for a segmented control button */
-"Accessibility.Segmented.Button.Hint" = "Tap to go to %@";
+"Accessibility.Segmented.Button.Hint" = "%@ पर जाने के लिए टैप करें";
 
 /* Accessibility hint for more actions button */
-"Accessibility.TableViewCell.MoreActions.Hint" = "Double tap to view more actions";
+"Accessibility.TableViewCell.MoreActions.Hint" = "अधिक गतिविधियाँ देखने के लिए डबल टैप करें";
 
 /* Accessibility label for more actions button */
-"Accessibility.TableViewCell.MoreActions.Label" = "More actions";
+"Accessibility.TableViewCell.MoreActions.Label" = "अधिक गतिविधियाँ";
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "डायरेक्टरी खोजें";
