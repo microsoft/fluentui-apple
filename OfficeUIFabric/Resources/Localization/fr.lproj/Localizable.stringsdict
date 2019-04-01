@@ -48,7 +48,7 @@
         <key>one</key>
         <string>Nous avons trouvé %d résultat dans l’annuaire</string>
         <key>other</key>
-        <string>%d résultats trouvés dans l’annuaire</string>
+        <string>Nous avons trouvé %d résultats dans l’annuaire</string>
       </dict>
     </dict>
   </dict>
