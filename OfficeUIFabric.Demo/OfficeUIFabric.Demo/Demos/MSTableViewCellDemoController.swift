@@ -13,6 +13,14 @@ class MSTableViewSampleData {
         let title: String
         let item: Item
         let numberOfLines: Int
+        let hasAccessoryView: Bool
+
+        init(title: String, item: Item, numberOfLines: Int = 1, hasAccessoryView: Bool = false) {
+            self.title = title
+            self.item = item
+            self.numberOfLines = numberOfLines
+            self.hasAccessoryView = hasAccessoryView
+        }
     }
 
     struct Item {
@@ -30,13 +38,21 @@ class MSTableViewSampleData {
     }
 
     static let sections: [Section] = [
-        Section(title: "Single line cell", item: Item(title: "Contoso Survey", image: "excelIcon"), numberOfLines: 1),
-        Section(title: "Double line cell", item: Item(title: "Contoso Survey", subtitle: "Research Notes", image: "excelIcon"), numberOfLines: 1),
-        Section(title: "Triple line cell", item: Item(title: "Contoso Survey", subtitle: "Research Notes", footer: "22 views", image: "excelIcon"), numberOfLines: 1),
-        Section(title: "Cell without custom view", item: Item(title: "Contoso Survey", subtitle: "Research Notes"), numberOfLines: 1),
-        Section(title: "Cell with text truncation", item: Item(title: "This is a cell with a long title as an example of how this label will render", subtitle: "This is a cell with a long subtitle as an example of how this label will render", footer: "This is a cell with a long footer as an example of how this label will render", image: "excelIcon"), numberOfLines: 1),
-        Section(title: "Cell with text wrapping", item: Item(title: "This is a cell with a long title as an example of how this label will render", subtitle: "This is a cell with a long subtitle as an example of how this label will render", footer: "This is a cell with a long footer as an example of how this label will render", image: "excelIcon"), numberOfLines: 0)
+        Section(title: "Single line cell", item: Item(title: "Contoso Survey", image: "excelIcon")),
+        Section(title: "Double line cell", item: Item(title: "Contoso Survey", subtitle: "Research Notes", image: "excelIcon")),
+        Section(title: "Triple line cell", item: Item(title: "Contoso Survey", subtitle: "Research Notes", footer: "22 views", image: "excelIcon")),
+        Section(title: "Cell without custom view", item: Item(title: "Contoso Survey", subtitle: "Research Notes")),
+        Section(title: "Cell with text truncation", item: Item(title: "This is a cell with a long title as an example of how this label will render", subtitle: "This is a cell with a long subtitle as an example of how this label will render", footer: "This is a cell with a long footer as an example of how this label will render", image: "excelIcon")),
+        Section(title: "Cell with text wrapping", item: Item(title: "This is a cell with a long title as an example of how this label will render", subtitle: "This is a cell with a long subtitle as an example of how this label will render", footer: "This is a cell with a long footer as an example of how this label will render", image: "excelIcon"), numberOfLines: 0),
+        Section(title: "Cell with custom accessory view", item: Item(title: "This is a cell with a long title as an example of how this label will render", subtitle: "This is a cell with a long subtitle as an example of how this label will render", image: "excelIcon"), hasAccessoryView: true)
     ]
+
+    static var customAccessoryView: UIView {
+        let label = MSLabel(style: .body, colorStyle: .secondary)
+        label.text = "Value"
+        label.sizeToFit()
+        return label
+    }
 
     static func accessoryType(for indexPath: IndexPath) -> MSTableViewCellAccessoryType {
         // Demo accessory types based on indexPath row
@@ -95,13 +111,18 @@ extension MSTableViewCellDemoController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: MSTableViewCell.identifier) as! MSTableViewCell
         let section = sections[indexPath.section]
         let item = section.item
-        let customView = MSTableViewSampleData.createCustomView(imageName: item.image)
-        let accessoryType = MSTableViewSampleData.accessoryType(for: indexPath)
 
-        cell.setup(title: item.title, subtitle: item.subtitle, footer: item.footer, customView: customView, accessoryType: accessoryType)
+        let cell = tableView.dequeueReusableCell(withIdentifier: MSTableViewCell.identifier) as! MSTableViewCell
+        cell.setup(
+            title: item.title,
+            subtitle: item.subtitle,
+            footer: item.footer,
+            customView: MSTableViewSampleData.createCustomView(imageName: item.image),
+            customAccessoryView: section.hasAccessoryView ? MSTableViewSampleData.customAccessoryView : nil,
+            accessoryType: MSTableViewSampleData.accessoryType(for: indexPath)
+        )
         cell.titleNumberOfLines = section.numberOfLines
         cell.subtitleNumberOfLines = section.numberOfLines
         cell.footerNumberOfLines = section.numberOfLines

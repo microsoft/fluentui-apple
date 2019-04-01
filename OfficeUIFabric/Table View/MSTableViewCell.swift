@@ -11,6 +11,34 @@ import UIKit
     case none
     case disclosureIndicator
     case detailButton
+
+    private struct Constants {
+        static let horizontalSpacing: CGFloat = 16
+        static let height: CGFloat = 44
+    }
+
+    var icon: UIImage? {
+        switch self {
+        case .none:
+            return nil
+        case .disclosureIndicator:
+            return UIImage.staticImageNamed("disclosure")
+        case .detailButton:
+            return UIImage.staticImageNamed("details")
+        }
+    }
+
+    var size: CGSize {
+        switch self {
+        case .none:
+            return .zero
+        case .disclosureIndicator, .detailButton:
+            // Horizontal spacing includes 16pt spacing from content to icon and 16pt spacing from icon to trailing edge of cell
+            let horizontalSpacing: CGFloat = Constants.horizontalSpacing * 2
+            let iconWidth: CGFloat = icon?.size.width ?? 0
+            return CGSize(width: horizontalSpacing + iconWidth, height: Constants.height)
+        }
+    }
 }
 
 // MARK: - MSTableViewCell
@@ -76,10 +104,9 @@ open class MSTableViewCell: UITableViewCell {
     }
 
     private struct Constants {
-        static let accessoryViewOffset: CGFloat = 3
         static let customViewMarginLeft: CGFloat = 16
         static let customViewMarginRight: CGFloat = 12
-        static let detailButtonSize = CGSize(width: 44, height: 44)
+        static let customAccessoryViewMarginLeft: CGFloat = 8
         static let labelVerticalMarginForTwoLines: CGFloat = 10
         static let labelVerticalMarginForOneAndThreeLines: CGFloat = 11
         static let labelVerticalSpacing: CGFloat = 0
@@ -127,19 +154,20 @@ open class MSTableViewCell: UITableViewCell {
     ///   - title: The title string
     ///   - subtitle: The subtitle string
     ///   - footer: The footer string
-    ///   - customViewSize: The custom view size for the cell based on `MSTableViewCell.CustomViewSize`.
+    ///   - customViewSize: The custom view size for the cell based on `MSTableViewCell.CustomViewSize`
+    ///   - customAccessoryView: The custom accessory view that appears near the trailing edge of the cell
     ///   - accessoryType: The `MSTableViewCellAccessoryType` that the cell should display
     ///   - titleNumberOfLines: The number of lines that the title should display
     ///   - subtitleNumberOfLines: The number of lines that the subtitle should display
     ///   - footerNumberOfLines: The number of lines that the footer should display
     ///   - containerWidth: The width of the cell's super view (e.g. the table view's width)
     /// - Returns: a value representing the calculated height of the cell
-    @objc public class func height(title: String, subtitle: String = "", footer: String = "", customViewSize: CustomViewSize = .default, accessoryType: MSTableViewCellAccessoryType = .none, titleNumberOfLines: Int = 1, subtitleNumberOfLines: Int = 1, footerNumberOfLines: Int = 1, containerWidth: CGFloat = .greatestFiniteMagnitude) -> CGFloat {
+    @objc public class func height(title: String, subtitle: String = "", footer: String = "", customViewSize: CustomViewSize = .default, customAccessoryView: UIView? = nil, accessoryType: MSTableViewCellAccessoryType = .none, titleNumberOfLines: Int = 1, subtitleNumberOfLines: Int = 1, footerNumberOfLines: Int = 1, containerWidth: CGFloat = .greatestFiniteMagnitude) -> CGFloat {
         let layoutType: LayoutType = footer == "" ? (subtitle == "" ? .oneLine : .twoLines) : .threeLines
         let customViewSize = customViewSize == .default ? layoutType.customViewSize : customViewSize
 
         let textAreaLeftOffset = self.textAreaLeftOffset(customViewSize: customViewSize)
-        let textAreaRightOffset = self.textAreaRightOffset(accessoryType: accessoryType)
+        let textAreaRightOffset = self.textAreaRightOffset(customAccessoryView: customAccessoryView, accessoryType: accessoryType)
         let textAreaWidth = containerWidth - (textAreaLeftOffset + textAreaRightOffset)
 
         var textAreaHeight = title.preferredSize(for: Constants.titleTextStyle.font, width: textAreaWidth, numberOfLines: titleNumberOfLines).height
@@ -164,8 +192,18 @@ open class MSTableViewCell: UITableViewCell {
         return textAreaLeftOffset
     }
 
-    private static func textAreaRightOffset(accessoryType: MSTableViewCellAccessoryType) -> CGFloat {
-        return accessoryType != .none ? MSTableViewCellAccessoryView.size.width + Constants.accessoryViewOffset : Constants.labelMarginRight
+    private static func textAreaRightOffset(customAccessoryView: UIView?, accessoryType: MSTableViewCellAccessoryType) -> CGFloat {
+        let customAccessoryViewSpacing: CGFloat
+        if let customAccessoryView = customAccessoryView {
+            customAccessoryViewSpacing = customAccessoryView.width + Constants.customAccessoryViewMarginLeft
+        } else {
+            customAccessoryViewSpacing = 0
+        }
+        return customAccessoryViewSpacing + MSTableViewCell.customAccessoryViewRightOffset(accessoryType: accessoryType)
+    }
+
+    private static func customAccessoryViewRightOffset(accessoryType: MSTableViewCellAccessoryType) -> CGFloat {
+        return accessoryType != .none ? accessoryType.size.width : Constants.labelMarginRight
     }
 
     /// The maximum number of lines to be shown for `title`
@@ -230,7 +268,8 @@ open class MSTableViewCell: UITableViewCell {
                 subtitle: subtitleLabel.text ?? "",
                 footer: footerLabel.text ?? "",
                 customViewSize: customViewSize,
-                accessoryType: customAccessoryType,
+                customAccessoryView: customAccessoryView,
+                accessoryType: _accessoryType,
                 titleNumberOfLines: titleNumberOfLines,
                 subtitleNumberOfLines: subtitleNumberOfLines,
                 footerNumberOfLines: footerNumberOfLines,
@@ -278,16 +317,16 @@ open class MSTableViewCell: UITableViewCell {
 
     private var layoutType: LayoutType = .oneLine
 
-    private var customAccessoryType: MSTableViewCellAccessoryType = .none {
+    private var _accessoryType: MSTableViewCellAccessoryType = .none {
         didSet {
-            switch customAccessoryType {
+            switch _accessoryType {
             case .none:
-                accessory = nil
+                _accessoryView = nil
             case .disclosureIndicator:
-                accessory = MSTableViewCellAccessoryView(type: customAccessoryType)
+                _accessoryView = MSTableViewCellAccessoryView(type: _accessoryType)
             case .detailButton:
-                accessory = MSTableViewCellAccessoryView(type: customAccessoryType)
-                accessory?.onTapped = handleDetailButtonTapped
+                _accessoryView = MSTableViewCellAccessoryView(type: _accessoryType)
+                _accessoryView?.onTapped = handleDetailButtonTapped
             }
         }
     }
@@ -322,11 +361,20 @@ open class MSTableViewCell: UITableViewCell {
         return label
     }()
 
-    private var accessory: MSTableViewCellAccessoryView? {
+    private var customAccessoryView: UIView? = nil {
         didSet {
             oldValue?.removeFromSuperview()
-            if let accessory = accessory {
-                addSubview(accessory)
+            if let customAccessoryView = customAccessoryView {
+                contentView.addSubview(customAccessoryView)
+            }
+        }
+    }
+
+    private var _accessoryView: MSTableViewCellAccessoryView? {
+        didSet {
+            oldValue?.removeFromSuperview()
+            if let accessoryView = _accessoryView {
+                addSubview(accessoryView)
             }
         }
     }
@@ -358,15 +406,17 @@ open class MSTableViewCell: UITableViewCell {
     ///   - subtitle: Text that appears as the second line of text
     ///   - footer: Text that appears as the third line of text
     ///   - customView: The custom view that appears near the leading edge next to the text
+    ///   - customAccessoryView: The view acting as an accessory view that appears on the trailing edge, next to the accessory type if provided
     ///   - accessoryType: The type of accessory that appears on the trailing edge: a disclosure indicator or a details button with an ellipsis icon
-    @objc open func setup(title: String, subtitle: String = "", footer: String = "", customView: UIView? = nil, accessoryType: MSTableViewCellAccessoryType = .none) {
+    @objc open func setup(title: String, subtitle: String = "", footer: String = "", customView: UIView? = nil, customAccessoryView: UIView? = nil, accessoryType: MSTableViewCellAccessoryType = .none) {
         layoutType = footer == "" ? (subtitle == "" ? .oneLine : .twoLines) : .threeLines
 
         titleLabel.text = title
         subtitleLabel.text = subtitle
         footerLabel.text = footer
         self.customView = customView
-        customAccessoryType = accessoryType
+        self.customAccessoryView = customAccessoryView
+        _accessoryType = accessoryType
 
         switch layoutType {
         case .oneLine:
@@ -398,7 +448,7 @@ open class MSTableViewCell: UITableViewCell {
         }
 
         let titleLeftOffset = MSTableViewCell.textAreaLeftOffset(customViewSize: customViewSize)
-        let titleRightOffset = MSTableViewCell.textAreaRightOffset(accessoryType: customAccessoryType)
+        let titleRightOffset = MSTableViewCell.textAreaRightOffset(customAccessoryView: customAccessoryView, accessoryType: _accessoryType)
         let titleWidth = contentView.width - (titleLeftOffset + titleRightOffset)
         let titleLineHeight = titleLabel.font.deviceLineHeightWithLeading
         let titleText = titleLabel.text ?? ""
@@ -439,10 +489,16 @@ open class MSTableViewCell: UITableViewCell {
             }
         }
 
-        if let accessory = accessory {
-            let xOffset = contentView.width - MSTableViewCellAccessoryView.size.width - Constants.accessoryViewOffset
-            let yOffset = UIScreen.main.roundToDevicePixels((contentView.height - MSTableViewCellAccessoryView.size.height) / 2)
-            accessory.frame = CGRect(origin: CGPoint(x: xOffset, y: yOffset), size: MSTableViewCellAccessoryView.size)
+        if let customAccessoryView = customAccessoryView {
+            let xOffset = contentView.width - MSTableViewCell.textAreaRightOffset(customAccessoryView: customAccessoryView, accessoryType: _accessoryType) + Constants.customAccessoryViewMarginLeft
+            let yOffset = UIScreen.main.roundToDevicePixels((contentView.height - customAccessoryView.height) / 2)
+            customAccessoryView.frame = CGRect(origin: CGPoint(x: xOffset, y: yOffset), size: customAccessoryView.frame.size)
+        }
+
+        if let accessoryView = _accessoryView {
+            let xOffset = contentView.width - MSTableViewCell.customAccessoryViewRightOffset(accessoryType: _accessoryType)
+            let yOffset = UIScreen.main.roundToDevicePixels((contentView.height - _accessoryType.size.height) / 2)
+            accessoryView.frame = CGRect(origin: CGPoint(x: xOffset, y: yOffset), size: _accessoryType.size)
         }
 
         updateSeparatorInset()
@@ -456,7 +512,8 @@ open class MSTableViewCell: UITableViewCell {
                 subtitle: subtitleLabel.text ?? "",
                 footer: footerLabel.text ?? "",
                 customViewSize: customViewSize,
-                accessoryType: customAccessoryType,
+                customAccessoryView: customAccessoryView,
+                accessoryType: _accessoryType,
                 titleNumberOfLines: titleNumberOfLines,
                 subtitleNumberOfLines: subtitleNumberOfLines,
                 footerNumberOfLines: footerNumberOfLines,
@@ -521,35 +578,32 @@ open class MSTableViewCell: UITableViewCell {
 // MARK: - MSTableViewCellAccessoryView
 
 private class MSTableViewCellAccessoryView: UIView {
-    private struct Constants {
-        static let disclosureLeftOffset: CGFloat = 12
-    }
-
-    public static let size = CGSize(width: 44, height: 44)
-
-    open override var intrinsicContentSize: CGSize { return MSTableViewCellAccessoryView.size }
+    open override var intrinsicContentSize: CGSize { return type.size }
 
     /// `onTapped` is called when `detailButton` is tapped
     @objc open var onTapped: (() -> Void)?
 
+    private let type: MSTableViewCellAccessoryType
+
     public init(type: MSTableViewCellAccessoryType) {
+        self.type = type
         super.init(frame: .zero)
 
         switch type {
         case .none:
             break
         case .disclosureIndicator:
-            let iconView = UIImageView(image: UIImage.staticImageNamed("disclosure"))
-            iconView.frame.size = MSTableViewCellAccessoryView.size
+            let iconView = UIImageView(image: type.icon)
+            iconView.frame.size = type.size
             iconView.contentMode = .center
             addSubview(iconView)
-            iconView.fitIntoSuperview(margins: UIEdgeInsets(top: 0, left: Constants.disclosureLeftOffset, bottom: 0, right: 0))
+            iconView.fitIntoSuperview()
         case .detailButton:
             let button = UIButton(type: .custom)
-            button.frame.size = MSTableViewCellAccessoryView.size
-            button.setImage(UIImage.staticImageNamed("details"), for: .normal)
+            button.frame.size = type.size
+            button.setImage(type.icon, for: .normal)
             button.contentMode = .center
-            button.addTarget(self, action: #selector(handleonAccessoryTapped), for: .touchUpInside)
+            button.addTarget(self, action: #selector(handleOnAccessoryTapped), for: .touchUpInside)
             button.accessibilityLabel = "Accessibility.TableViewCell.MoreActions.Label".localized
             button.accessibilityHint = "Accessibility.TableViewCell.MoreActions.Hint".localized
             addSubview(button)
@@ -562,10 +616,10 @@ private class MSTableViewCellAccessoryView: UIView {
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        return MSTableViewCellAccessoryView.size
+        return type.size
     }
 
-    @objc private func handleonAccessoryTapped() {
+    @objc private func handleOnAccessoryTapped() {
         onTapped?()
     }
 }

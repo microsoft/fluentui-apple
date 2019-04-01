@@ -27,8 +27,8 @@ class MSCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setup(title: String, subtitle: String = "", footer: String = "", customView: UIView? = nil, accessoryType: MSTableViewCellAccessoryType = .none, numberOfLines: Int = 1, onAccessoryTapped: (() -> Void)? = nil, onSelected: (() -> Void)? = nil) {
-        tableViewCell.setup(title: title, subtitle: subtitle, footer: footer, customView: customView, accessoryType: accessoryType)
+    func setup(title: String, subtitle: String = "", footer: String = "", customView: UIView? = nil, customAccessoryView: UIView? = nil, accessoryType: MSTableViewCellAccessoryType = .none, numberOfLines: Int = 1, onAccessoryTapped: (() -> Void)? = nil, onSelected: (() -> Void)? = nil) {
+        tableViewCell.setup(title: title, subtitle: subtitle, footer: footer, customView: customView, customAccessoryView: customAccessoryView, accessoryType: accessoryType)
         tableViewCell.titleNumberOfLines = numberOfLines
         tableViewCell.subtitleNumberOfLines = numberOfLines
         tableViewCell.footerNumberOfLines = numberOfLines
@@ -153,7 +153,6 @@ extension MSCollectionViewDemoController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let section = sections[indexPath.section]
         let item = section.item
-        let accessoryType = MSTableViewSampleData.accessoryType(for: indexPath)
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MSCollectionViewCell.identifier, for: indexPath) as! MSCollectionViewCell
         cell.setup(
@@ -161,7 +160,8 @@ extension MSCollectionViewDemoController: UICollectionViewDataSource {
             subtitle: item.subtitle,
             footer: item.footer,
             customView: MSTableViewSampleData.createCustomView(imageName: item.image),
-            accessoryType: accessoryType,
+            customAccessoryView: section.hasAccessoryView ? MSTableViewSampleData.customAccessoryView : nil,
+            accessoryType: MSTableViewSampleData.accessoryType(for: indexPath),
             numberOfLines: section.numberOfLines,
             onAccessoryTapped: { [unowned self] in self.showAlertForDetailButtonTapped(title: item.title) },
             onSelected: { collectionView.delegate?.collectionView?(collectionView, didSelectItemAt: indexPath) }
