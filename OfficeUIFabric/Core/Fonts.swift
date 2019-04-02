@@ -3,7 +3,8 @@
 //  Licensed under the MIT License.
 //
 
-public struct MSFonts {
+@objcMembers
+public final class MSFonts: NSObject {
     /// Semibold 28pt
     public static var title1: UIFont { return UIFont.preferredFont(forTextStyle: .title1).withWeight(.semibold) }
     /// Semibold 22pt
@@ -20,6 +21,10 @@ public struct MSFonts {
     public static var caption1: UIFont { return .preferredFont(forTextStyle: .caption1) }
     /// Regular 11pt
     public static var caption2: UIFont { return .preferredFont(forTextStyle: .caption2) }
+
+    private override init() {
+        super.init()
+    }
 }
 
 @objc public enum MSTextStyle: Int, CaseIterable {

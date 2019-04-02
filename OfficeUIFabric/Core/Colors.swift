@@ -5,7 +5,8 @@
 
 // MARK: MSColors
 
-public struct MSColors {
+@objcMembers
+public final class MSColors: NSObject {
     // MARK: Primary
 
     /// #0078D4
@@ -185,6 +186,10 @@ public struct MSColors {
     public struct TableViewCell {
         public static let background: UIColor = white
         public static let backgroundSelected: UIColor = backgroundGray
+    }
+
+    private override init() {
+        super.init()
     }
 }
 
