@@ -6,8 +6,8 @@
 // Accessibility
 "Accessibility.Alert" = "Upozornění";
 "Accessibility.Dismiss.Label" = "Zavřít";
-"Accessibility.Dismiss.Hint" = "Poklepáním můžete zavřít.";
-"Accessibility.Select.Hint" = "Poklepáním provedete výběr.";
+"Accessibility.Dismiss.Hint" = "Poklepáním zavřete.";
+"Accessibility.Select.Hint" = "Poklepáním vyberete.";
 "Accessibility.Selected.Hint" = "Poklepání zobrazíte podrobnosti.";
 "Accessibility.Selected.Value" = "Vybráno";
 
@@ -20,7 +20,7 @@
 // TODO: Change to a stringsdict format
 // TODO: Reassess for generic indicator
 /* Accessibility: Number of events on the given day (%d is the number) */
-"Accessibility.Calendar.Events.Number" = "Počet událostí: %d";
+"Accessibility.Calendar.Events.Number" = "počet událostí: %d";
 
 /* Accessibility: There's no events on the given day */
 "Accessibility.Calendar.Events.None" = "žádné události";
@@ -44,7 +44,7 @@
 "Accessibility.DateTime.Minute.Label" = "Minuta";
 
 /* Accessibility label for AM/PM in date time picker */
-"Accessibility.DateTime.AMPM.Label" = "DOP./ODP.";
+"Accessibility.DateTime.AMPM.Label" = "dop./odp.";
 
 /* Accessibility label for week of month in date time picker */
 "Accessibility.DateTime.WeekOfMonth.Label" = "Týden v měsíci";

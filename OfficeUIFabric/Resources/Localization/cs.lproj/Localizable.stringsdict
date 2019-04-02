@@ -14,7 +14,7 @@
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
         <key>other</key>
-        <string>%d h.</string>
+        <string>%d h</string>
       </dict>
     </dict>
     <key>Accessibility.DateTime.Minute.Value</key>
