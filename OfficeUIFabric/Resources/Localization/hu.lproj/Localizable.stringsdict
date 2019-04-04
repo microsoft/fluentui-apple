@@ -13,6 +13,16 @@
         <string>NSStringPluralRuleType</string>
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
+        <key>zero</key>
+        <string>%d o'clock</string>
+        <key>one</key>
+        <string>%d o'clock</string>
+        <key>two</key>
+        <string>%d o'clock</string>
+        <key>few</key>
+        <string>%d o'clock</string>
+        <key>many</key>
+        <string>%d o'clock</string>
         <key>other</key>
         <string>%d óra</string>
       </dict>
@@ -28,8 +38,16 @@
         <string>NSStringPluralRuleType</string>
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
+        <key>zero</key>
+        <string>%d minutes</string>
         <key>one</key>
         <string>%d perc</string>
+        <key>two</key>
+        <string>%d minutes</string>
+        <key>few</key>
+        <string>%d minutes</string>
+        <key>many</key>
+        <string>%d minutes</string>
         <key>other</key>
         <string>%d perc</string>
       </dict>
@@ -45,8 +63,16 @@
         <string>NSStringPluralRuleType</string>
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
+        <key>zero</key>
+        <string>%d results found from directory</string>
         <key>one</key>
         <string>%d találat a címtárban</string>
+        <key>two</key>
+        <string>%d results found from directory</string>
+        <key>few</key>
+        <string>%d results found from directory</string>
+        <key>many</key>
+        <string>%d results found from directory</string>
         <key>other</key>
         <string>%d találat a címtárban</string>
       </dict>

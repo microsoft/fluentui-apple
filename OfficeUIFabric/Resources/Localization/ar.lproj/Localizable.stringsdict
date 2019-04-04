@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
   <dict>
@@ -13,6 +13,16 @@
         <string>NSStringPluralRuleType</string>
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
+        <key>zero</key>
+        <string>%d o'clock</string>
+        <key>one</key>
+        <string>%d o'clock</string>
+        <key>two</key>
+        <string>%d o'clock</string>
+        <key>few</key>
+        <string>%d o'clock</string>
+        <key>many</key>
+        <string>%d o'clock</string>
         <key>other</key>
         <string>الساعة %d</string>
       </dict>
@@ -28,8 +38,16 @@
         <string>NSStringPluralRuleType</string>
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
+        <key>zero</key>
+        <string>%d minutes</string>
         <key>one</key>
         <string>%d من الدقائق</string>
+        <key>two</key>
+        <string>%d minutes</string>
+        <key>few</key>
+        <string>%d minutes</string>
+        <key>many</key>
+        <string>%d minutes</string>
         <key>other</key>
         <string>%d من الدقائق</string>
       </dict>
@@ -45,11 +63,19 @@
         <string>NSStringPluralRuleType</string>
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
+        <key>zero</key>
+        <string>%d results found from directory</string>
         <key>one</key>
         <string>%d من النتائج تم العثور عليها من الدليل</string>
+        <key>two</key>
+        <string>%d results found from directory</string>
+        <key>few</key>
+        <string>%d results found from directory</string>
+        <key>many</key>
+        <string>%d results found from directory</string>
         <key>other</key>
         <string>%d من النتائج التي تم العثور عليها من الدليل</string>
       </dict>
     </dict>
   </dict>
-</plist>
+</plist>
