@@ -14,15 +14,15 @@
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
         <key>zero</key>
-        <string>%d o'clock</string>
+        <string>الساعة %d</string>
         <key>one</key>
-        <string>%d o'clock</string>
+        <string>الساعة %d</string>
         <key>two</key>
-        <string>%d o'clock</string>
+        <string>الساعة %d</string>
         <key>few</key>
-        <string>%d o'clock</string>
+        <string>الساعة %d</string>
         <key>many</key>
-        <string>%d o'clock</string>
+        <string>الساعة %d</string>
         <key>other</key>
         <string>الساعة %d</string>
       </dict>
@@ -39,15 +39,15 @@
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
         <key>zero</key>
-        <string>%d minutes</string>
+        <string>%d من الدقائق</string>
         <key>one</key>
         <string>%d من الدقائق</string>
         <key>two</key>
-        <string>%d minutes</string>
+        <string>دقيقتان %d</string>
         <key>few</key>
-        <string>%d minutes</string>
+        <string>%d دقائق</string>
         <key>many</key>
-        <string>%d minutes</string>
+        <string>%d دقيقة</string>
         <key>other</key>
         <string>%d من الدقائق</string>
       </dict>
@@ -64,15 +64,15 @@
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
         <key>zero</key>
-        <string>%d results found from directory</string>
+        <string>%d من النتائج التي تم العثور عليها من الدليل</string>
         <key>one</key>
         <string>%d من النتائج تم العثور عليها من الدليل</string>
         <key>two</key>
-        <string>%d results found from directory</string>
+        <string>نتيجتان %d من النتائج التي تم العثور عليها من الدليل</string>
         <key>few</key>
-        <string>%d results found from directory</string>
+        <string>%d نتائج من النتائج التي تم العثور عليها من الدليل</string>
         <key>many</key>
-        <string>%d results found from directory</string>
+        <string>%d نتيجة من النتائج التي تم العثور عليها من الدليل</string>
         <key>other</key>
         <string>%d من النتائج التي تم العثور عليها من الدليل</string>
       </dict>

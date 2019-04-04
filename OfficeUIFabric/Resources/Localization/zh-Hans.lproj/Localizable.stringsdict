@@ -14,15 +14,15 @@
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
         <key>zero</key>
-        <string>%d o'clock</string>
+        <string>%d 点钟</string>
         <key>one</key>
-        <string>%d o'clock</string>
+        <string>%d 点钟</string>
         <key>two</key>
-        <string>%d o'clock</string>
+        <string>%d 点钟</string>
         <key>few</key>
-        <string>%d o'clock</string>
+        <string>%d 点钟</string>
         <key>many</key>
-        <string>%d o'clock</string>
+        <string>%d 点钟</string>
         <key>other</key>
         <string>%d 点钟</string>
       </dict>
@@ -39,15 +39,15 @@
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
         <key>zero</key>
-        <string>%d minutes</string>
+        <string>%d 分钟</string>
         <key>one</key>
         <string>%d 分钟</string>
         <key>two</key>
-        <string>%d minutes</string>
+        <string>%d 分钟</string>
         <key>few</key>
-        <string>%d minutes</string>
+        <string>%d 分钟</string>
         <key>many</key>
-        <string>%d minutes</string>
+        <string>%d 分钟</string>
         <key>other</key>
         <string>%d 分钟</string>
       </dict>
@@ -64,15 +64,15 @@
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
         <key>zero</key>
-        <string>%d results found from directory</string>
+        <string>从目录中找到 %d 个结果</string>
         <key>one</key>
         <string>从目录中找到 %d 个结果</string>
         <key>two</key>
-        <string>%d results found from directory</string>
+        <string>从目录中找到 %d 个结果</string>
         <key>few</key>
-        <string>%d results found from directory</string>
+        <string>从目录中找到 %d 个结果</string>
         <key>many</key>
-        <string>%d results found from directory</string>
+        <string>从目录中找到 %d 个结果</string>
         <key>other</key>
         <string>从目录中找到 %d 个结果</string>
       </dict>

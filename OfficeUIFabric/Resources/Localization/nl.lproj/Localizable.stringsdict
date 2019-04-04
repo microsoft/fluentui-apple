@@ -14,15 +14,15 @@
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
         <key>zero</key>
-        <string>%d o'clock</string>
+        <string>%d uur</string>
         <key>one</key>
-        <string>%d o'clock</string>
+        <string>%d uur</string>
         <key>two</key>
-        <string>%d o'clock</string>
+        <string>%d uur</string>
         <key>few</key>
-        <string>%d o'clock</string>
+        <string>%d uur</string>
         <key>many</key>
-        <string>%d o'clock</string>
+        <string>%d uur</string>
         <key>other</key>
         <string>%d uur</string>
       </dict>
@@ -39,15 +39,15 @@
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
         <key>zero</key>
-        <string>%d minutes</string>
+        <string>%d minuten</string>
         <key>one</key>
         <string>%d minuut</string>
         <key>two</key>
-        <string>%d minutes</string>
+        <string>%d minuten</string>
         <key>few</key>
-        <string>%d minutes</string>
+        <string>%d minuten</string>
         <key>many</key>
-        <string>%d minutes</string>
+        <string>%d minuten</string>
         <key>other</key>
         <string>%d minuten</string>
       </dict>
@@ -64,15 +64,15 @@
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
         <key>zero</key>
-        <string>%d results found from directory</string>
+        <string>%d resultaten gevonden in adreslijst</string>
         <key>one</key>
         <string>%d resultaat gevonden in adreslijst</string>
         <key>two</key>
-        <string>%d results found from directory</string>
+        <string>%d resultaten gevonden in adreslijst</string>
         <key>few</key>
-        <string>%d results found from directory</string>
+        <string>%d resultaten gevonden in adreslijst</string>
         <key>many</key>
-        <string>%d results found from directory</string>
+        <string>%d resultaten gevonden in adreslijst</string>
         <key>other</key>
         <string>%d resultaten gevonden in adreslijst</string>
       </dict>

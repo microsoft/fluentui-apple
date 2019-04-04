@@ -14,15 +14,15 @@
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
         <key>zero</key>
-        <string>%d o'clock</string>
+        <string>Kello %d</string>
         <key>one</key>
-        <string>%d o'clock</string>
+        <string>Kello %d</string>
         <key>two</key>
-        <string>%d o'clock</string>
+        <string>Kello %d</string>
         <key>few</key>
-        <string>%d o'clock</string>
+        <string>Kello %d</string>
         <key>many</key>
-        <string>%d o'clock</string>
+        <string>Kello %d</string>
         <key>other</key>
         <string>Kello %d</string>
       </dict>
@@ -39,15 +39,15 @@
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
         <key>zero</key>
-        <string>%d minutes</string>
+        <string>%d minuuttia</string>
         <key>one</key>
         <string>%d minuutti</string>
         <key>two</key>
-        <string>%d minutes</string>
+        <string>%d minuuttia</string>
         <key>few</key>
-        <string>%d minutes</string>
+        <string>%d minuuttia</string>
         <key>many</key>
-        <string>%d minutes</string>
+        <string>%d minuuttia</string>
         <key>other</key>
         <string>%d minuuttia</string>
       </dict>
@@ -64,15 +64,15 @@
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
         <key>zero</key>
-        <string>%d results found from directory</string>
+        <string>%d tulosta löytyi hakemistosta</string>
         <key>one</key>
         <string>%d tulos löytyi hakemistosta</string>
         <key>two</key>
-        <string>%d results found from directory</string>
+        <string>%d tulosta löytyi hakemistosta</string>
         <key>few</key>
-        <string>%d results found from directory</string>
+        <string>%d tulosta löytyi hakemistosta</string>
         <key>many</key>
-        <string>%d results found from directory</string>
+        <string>%d tulosta löytyi hakemistosta</string>
         <key>other</key>
         <string>%d tulosta löytyi hakemistosta</string>
       </dict>

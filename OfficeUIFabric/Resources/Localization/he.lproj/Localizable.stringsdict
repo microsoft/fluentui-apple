@@ -14,15 +14,15 @@
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
         <key>zero</key>
-        <string>%d o'clock</string>
+        <string>השעה %d</string>
         <key>one</key>
-        <string>%d o'clock</string>
+        <string>השעה %d</string>
         <key>two</key>
-        <string>%d o'clock</string>
+        <string>השעה %d</string>
         <key>few</key>
-        <string>%d o'clock</string>
+        <string>השעה %d</string>
         <key>many</key>
-        <string>%d o'clock</string>
+        <string>השעה %d</string>
         <key>other</key>
         <string>השעה %d</string>
       </dict>
@@ -39,15 +39,15 @@
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
         <key>zero</key>
-        <string>%d minutes</string>
+        <string>%d דקות</string>
         <key>one</key>
         <string>דקה %d</string>
         <key>two</key>
-        <string>%d minutes</string>
+        <string>%d דקות</string>
         <key>few</key>
-        <string>%d minutes</string>
+        <string>%d דקות</string>
         <key>many</key>
-        <string>%d minutes</string>
+        <string>%d דקות</string>
         <key>other</key>
         <string>%d דקות</string>
       </dict>
@@ -64,15 +64,15 @@
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
         <key>zero</key>
-        <string>%d results found from directory</string>
+        <string>נמצאו %d תוצאות במדריך הכתובות</string>
         <key>one</key>
         <string>נמצאה תוצאה %d במדריך הכתובות</string>
         <key>two</key>
-        <string>%d results found from directory</string>
+        <string>נמצאו %d תוצאות במדריך הכתובות</string>
         <key>few</key>
-        <string>%d results found from directory</string>
+        <string>נמצאו %d תוצאות במדריך הכתובות</string>
         <key>many</key>
-        <string>%d results found from directory</string>
+        <string>נמצאו %d תוצאות במדריך הכתובות</string>
         <key>other</key>
         <string>נמצאו %d תוצאות במדריך הכתובות</string>
       </dict>

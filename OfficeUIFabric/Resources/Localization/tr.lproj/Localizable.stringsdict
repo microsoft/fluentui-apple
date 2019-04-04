@@ -14,15 +14,15 @@
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
         <key>zero</key>
-        <string>%d o'clock</string>
+        <string>Saat %d</string>
         <key>one</key>
-        <string>%d o'clock</string>
+        <string>Saat %d</string>
         <key>two</key>
-        <string>%d o'clock</string>
+        <string>Saat %d</string>
         <key>few</key>
-        <string>%d o'clock</string>
+        <string>Saat %d</string>
         <key>many</key>
-        <string>%d o'clock</string>
+        <string>Saat %d</string>
         <key>other</key>
         <string>Saat %d</string>
       </dict>
@@ -39,15 +39,15 @@
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
         <key>zero</key>
-        <string>%d minutes</string>
+        <string>%d dakika</string>
         <key>one</key>
         <string>%d dakika</string>
         <key>two</key>
-        <string>%d minutes</string>
+        <string>%d dakika</string>
         <key>few</key>
-        <string>%d minutes</string>
+        <string>%d dakika</string>
         <key>many</key>
-        <string>%d minutes</string>
+        <string>%d dakika</string>
         <key>other</key>
         <string>%d dakika</string>
       </dict>
@@ -64,15 +64,15 @@
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
         <key>zero</key>
-        <string>%d results found from directory</string>
+        <string>Dizinde %d sonuç bulundu</string>
         <key>one</key>
         <string>Dizinde %d sonuç bulundu</string>
         <key>two</key>
-        <string>%d results found from directory</string>
+        <string>Dizinde %d sonuç bulundu</string>
         <key>few</key>
-        <string>%d results found from directory</string>
+        <string>Dizinde %d sonuç bulundu</string>
         <key>many</key>
-        <string>%d results found from directory</string>
+        <string>Dizinde %d sonuç bulundu</string>
         <key>other</key>
         <string>Dizinde %d sonuç bulundu</string>
       </dict>
