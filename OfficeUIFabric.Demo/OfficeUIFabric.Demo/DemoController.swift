@@ -40,6 +40,7 @@ class DemoController: UIViewController {
         view.addSubview(scrollingContainer)
         scrollingContainer.fitIntoSuperview()
         scrollingContainer.addSubview(container)
-        container.fitIntoSuperview(usingConstraints: true, autoHeight: true)
+        // UIScrollView in RTL mode still have leading on the left side, so we cannot rely on leading/trailing-based constraints
+        container.fitIntoSuperview(usingConstraints: true, usingLeadingTrailing: false, autoHeight: true)
     }
 }

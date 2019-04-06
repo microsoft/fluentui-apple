@@ -49,6 +49,7 @@ class MasterViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         cell.textLabel!.text = demos[indexPath.row].title
+        cell.accessoryType = .disclosureIndicator
         return cell
     }
 }

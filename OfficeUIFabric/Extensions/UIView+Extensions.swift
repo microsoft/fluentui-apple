@@ -37,15 +37,23 @@ public extension UIView {
         }
     }
 
-    func fitIntoSuperview(usingConstraints: Bool = false, margins: UIEdgeInsets = .zero, autoWidth: Bool = false, autoHeight: Bool = false) {
+    func fitIntoSuperview(usingConstraints: Bool = false, usingLeadingTrailing: Bool = true, margins: UIEdgeInsets = .zero, autoWidth: Bool = false, autoHeight: Bool = false) {
         guard let superview = superview else {
             return
         }
         if usingConstraints {
             translatesAutoresizingMaskIntoConstraints = false
-            leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: margins.left).isActive = true
+            if usingLeadingTrailing {
+                leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: margins.left).isActive = true
+            } else {
+                leftAnchor.constraint(equalTo: superview.leftAnchor, constant: margins.left).isActive = true
+            }
             if autoWidth {
-                trailingAnchor.constraint(equalTo: superview.trailingAnchor, constant: -margins.right).isActive = true
+                if usingLeadingTrailing {
+                    trailingAnchor.constraint(equalTo: superview.trailingAnchor, constant: -margins.right).isActive = true
+                } else {
+                    rightAnchor.constraint(equalTo: superview.rightAnchor, constant: -margins.right).isActive = true
+                }
             } else {
                 widthAnchor.constraint(equalTo: superview.widthAnchor, constant: -(margins.left + margins.right)).isActive = true
             }
