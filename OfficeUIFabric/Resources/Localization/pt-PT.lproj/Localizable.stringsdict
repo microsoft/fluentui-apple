@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
   <dict>
@@ -16,7 +16,7 @@
         <key>zero</key>
         <string>%d horas</string>
         <key>one</key>
-        <string>%d o'clock</string>
+        <string>%d hora</string>
         <key>two</key>
         <string>%d horas</string>
         <key>few</key>

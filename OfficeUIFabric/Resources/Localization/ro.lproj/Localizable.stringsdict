@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
   <dict>
@@ -47,7 +47,7 @@
         <key>few</key>
         <string>%d minute</string>
         <key>many</key>
-        <string>%d minute</string>
+        <string>%d de minute</string>
         <key>other</key>
         <string>%d minute</string>
       </dict>
@@ -72,7 +72,7 @@
         <key>few</key>
         <string>%d rezultate găsite în director</string>
         <key>many</key>
-        <string>%d rezultate găsite în director</string>
+        <string>%d de rezultate găsite în director</string>
         <key>other</key>
         <string>%d rezultate găsite în director</string>
       </dict>
