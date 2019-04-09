@@ -78,7 +78,7 @@ public final class MSColors: NSObject {
 
     // TODO: Add semantic colors describing colors used for particular control elements (must reference physical colors)
 
-    public static let activityIndicator: UIColor = gray
+    public static let activityIndicator: UIColor = lightGray
     public static let background: UIColor = white
     public static let buttonImage: UIColor = gray
     public static let centeredLabelText: UIColor = primary

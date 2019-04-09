@@ -12,7 +12,7 @@ open class MSActivityIndicatorCell: UITableViewCell {
     public static let defaultHeight: CGFloat = 45
 
     private let activityIndicatorView: MSActivityIndicatorView = {
-        let activityIndicatorView = MSActivityIndicatorView(size: .regular)
+        let activityIndicatorView = MSActivityIndicatorView(size: .small)
         activityIndicatorView.startAnimating()
         return activityIndicatorView
     }()

@@ -7,6 +7,7 @@ import UIKit
 
 // Register your control demos here
 let demos: [(title: String, controllerClass: UIViewController.Type)] = [
+    ("MSActivityIndicatorView", MSActivityIndicatorViewDemoController.self),
     ("MSAvatarView", MSAvatarViewDemoController.self),
     ("MSBadgeField", MSBadgeFieldDemoController.self),
     ("MSBadgeView", MSBadgeViewDemoController.self),

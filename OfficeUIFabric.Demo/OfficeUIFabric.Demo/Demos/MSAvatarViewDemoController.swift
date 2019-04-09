@@ -14,42 +14,22 @@ class MSAvatarViewDemoController: DemoController {
         let siteImage = UIImage(named: "site")
         addTitle(text: "Avatar with Image")
         for size in MSAvatarSize.allCases {
-            setupAvatarDetails(size: size, circleImage: personaImage, squareImage: siteImage, circleName: "Kat Larrson", squareName: "NorthWind Traders")
+            let circleAvatar = createAvatarView(size: size, name: "Kat Larrson", image: personaImage)
+            let squareAvatar = createAvatarView(size: size, name: "NorthWind Traders", image: siteImage, style: .square)
+            addRow(text: size.description, items: [circleAvatar, squareAvatar])
         }
         container.addArrangedSubview(UIView())
 
         addTitle(text: "Avatar with Initials")
         for size in MSAvatarSize.allCases {
-            setupAvatarDetails(size: size, circleName: "Kat Larrson", squareName: "NorthWind Traders")
+            let circleAvatar = createAvatarView(size: size, name: "Kat Larrson")
+            let squareAvatar = createAvatarView(size: size, name: "NorthWind Traders", style: .square)
+            addRow(text: size.description, items: [circleAvatar, squareAvatar])
         }
         container.addArrangedSubview(UIView())
     }
 
-    func setupAvatarDetails(size: MSAvatarSize, circleImage: UIImage? = nil, squareImage: UIImage? = nil, circleName: String = "", squareName: String = "") {
-        let avatarContainerView = UIStackView()
-        avatarContainerView.axis = .vertical
-        avatarContainerView.alignment = .leading
-
-        let avatarHorizontalDescriptionView = UIStackView()
-        avatarHorizontalDescriptionView.axis = .horizontal
-        avatarHorizontalDescriptionView.alignment = .center
-        avatarHorizontalDescriptionView.spacing = 40
-
-        let label = MSLabel(style: .subhead, colorStyle: .regular)
-        label.text = size.description
-        label.widthAnchor.constraint(equalToConstant: 65).isActive = true
-
-        let circleAvatar = createAvatarView(size: size, name: circleName, image: circleImage)
-        let squareAvatar = createAvatarView(size: size, name: squareName, image: squareImage, style: .square)
-
-        avatarHorizontalDescriptionView.addArrangedSubview(label)
-        avatarHorizontalDescriptionView.addArrangedSubview(circleAvatar)
-        avatarHorizontalDescriptionView.addArrangedSubview(squareAvatar)
-        avatarContainerView.addArrangedSubview(avatarHorizontalDescriptionView)
-        container.addArrangedSubview(avatarContainerView)
-    }
-
-    private func createAvatarView(size: MSAvatarSize, name: String, image: UIImage?, style: MSAvatarStyle = .circle) -> UIView {
+    private func createAvatarView(size: MSAvatarSize, name: String, image: UIImage? = nil, style: MSAvatarStyle = .circle) -> UIView {
         let avatarView = MSAvatarView(avatarSize: size, withBorder: true, style: style)
         avatarView.setup(primaryText: name, secondaryText: "", image: image)
 

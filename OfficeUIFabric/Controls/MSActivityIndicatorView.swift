@@ -10,41 +10,40 @@ import UIKit
 /**
  * `MSActivityIndicatorViewSize` defines the side size of the loader and the thickness of the loader stroke.
  */
-
-@objc public enum MSActivityIndicatorViewSize: Int {
+@objc public enum MSActivityIndicatorViewSize: Int, CaseIterable {
+    case xSmall
     case small
-    case regular
     case medium
     case large
     case xLarge
 
     public var sideSize: CGFloat {
         switch self {
+        case .xSmall:
+            return 12
         case .small:
-            return 14.0
-        case .regular:
-            return 18.0
+            return 17
         case .medium:
-            return 22.0
+            return 26
         case .large:
-            return 32.0
+            return 35
         case .xLarge:
-            return 40.0
+            return 40
         }
     }
 
     public var strokeThickness: MSActivityIndicatorStrokeThickness {
         switch self {
+        case .xSmall:
+            return .small
         case .small:
-            return .fine
-        case .regular:
-            return .fine
+            return .small
         case .medium:
-            return .regular
+            return .medium
         case .large:
-            return .fine
+            return .large
         case .xLarge:
-            return .xThick
+            return .xLarge
         }
     }
 }
@@ -52,11 +51,10 @@ import UIKit
 // MARK: - MSActivityIndicatorStrokeThickness
 
 public enum MSActivityIndicatorStrokeThickness: CGFloat {
-    case xFine = 1
-    case fine = 2
-    case regular = 2.5
-    case thick = 3
-    case xThick = 3.6
+    case small = 1
+    case medium = 2
+    case large = 3
+    case xLarge = 4
 }
 
 // MARK: - MSActivityIndicatorView
@@ -115,14 +113,10 @@ open class MSActivityIndicatorView: UIView {
     private var strokeThickness: CGFloat
 
     @objc public convenience init(size: MSActivityIndicatorViewSize) {
-        self.init(size: size, strokeThickness: size.strokeThickness)
+        self.init(sideSize: size.sideSize, strokeThickness: size.strokeThickness.rawValue)
     }
 
-    public convenience init(size: MSActivityIndicatorViewSize, strokeThickness: MSActivityIndicatorStrokeThickness) {
-        self.init(sideSize: size.sideSize, strokeThickness: strokeThickness.rawValue)
-    }
-
-    public init(sideSize: CGFloat, strokeThickness: CGFloat) {
+    @objc public init(sideSize: CGFloat, strokeThickness: CGFloat) {
         self.sideSize = sideSize
         self.strokeThickness = strokeThickness
 
