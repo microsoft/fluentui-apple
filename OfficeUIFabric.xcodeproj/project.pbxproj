@@ -36,7 +36,6 @@
 		A5CEC16D20D98EE70016922A /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC16C20D98EE70016922A /* Colors.swift */; };
 		A5CEC16F20D98F340016922A /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC16E20D98F340016922A /* Fonts.swift */; };
 		A5CEC23120E451D00016922A /* MSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC23020E451D00016922A /* MSButton.swift */; };
-		A5CEC25620E6A0CD0016922A /* MSButtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC25520E6A0CD0016922A /* MSButtonTests.swift */; };
 		A5DCA76421224026005F4CB7 /* MSSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DCA76321224026005F4CB7 /* MSSeparator.swift */; };
 		A5DF1EAB2213B26900CC741A /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = A5DF1EAD2213B26900CC741A /* Localizable.stringsdict */; };
 		B426613E214731D100E25423 /* MSInitialsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B426613D214731D100E25423 /* MSInitialsView.swift */; };
@@ -143,7 +142,6 @@
 		A5CEC16C20D98EE70016922A /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		A5CEC16E20D98F340016922A /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		A5CEC23020E451D00016922A /* MSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSButton.swift; sourceTree = "<group>"; };
-		A5CEC25520E6A0CD0016922A /* MSButtonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSButtonTests.swift; sourceTree = "<group>"; };
 		A5DCA76321224026005F4CB7 /* MSSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSSeparator.swift; sourceTree = "<group>"; };
 		A5DF1EAC2213B26900CC741A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		B426613D214731D100E25423 /* MSInitialsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSInitialsView.swift; sourceTree = "<group>"; };
@@ -386,7 +384,6 @@
 		A5CEC15E20D980B30016922A /* OfficeUIFabric.Tests */ = {
 			isa = PBXGroup;
 			children = (
-				A5CEC25520E6A0CD0016922A /* MSButtonTests.swift */,
 				A5CEC15F20D980B30016922A /* OfficeUIFabricTests.swift */,
 				A5CEC16120D980B30016922A /* Info.plist */,
 			);
@@ -830,7 +827,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A5CEC16020D980B30016922A /* OfficeUIFabricTests.swift in Sources */,
-				A5CEC25620E6A0CD0016922A /* MSButtonTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
