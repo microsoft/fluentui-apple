@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import OfficeUIFabric
 
 class MasterViewController: UITableViewController {
     private(set) var demoController: UIViewController?
@@ -47,9 +48,8 @@ class MasterViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.textLabel!.text = demos[indexPath.row].title
-        cell.accessoryType = .disclosureIndicator
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MSTableViewCell
+        cell.setup(title: demos[indexPath.row].title, accessoryType: .disclosureIndicator)
         return cell
     }
 }

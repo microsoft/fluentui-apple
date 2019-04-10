@@ -385,6 +385,16 @@ open class MSTableViewCell: UITableViewCell {
 
     @objc public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
+        initialize()
+    }
+
+    public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        initialize()
+    }
+
+    open func initialize() {
+        textLabel?.text = ""
 
         contentView.addSubview(titleLabel)
         contentView.addSubview(subtitleLabel)
@@ -393,10 +403,6 @@ open class MSTableViewCell: UITableViewCell {
         setupBackgroundColors()
 
         NotificationCenter.default.addObserver(self, selector: #selector(invalidateIntrinsicContentSize), name: UIContentSizeCategory.didChangeNotification, object: nil)
-    }
-
-    public required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 
     /// Sets up the cell with text, a custom view, and an accessory type
