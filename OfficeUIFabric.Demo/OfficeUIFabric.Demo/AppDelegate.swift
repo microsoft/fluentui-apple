@@ -14,7 +14,8 @@ import OfficeUIFabric
 import UIKit
 
 #if DOGFOOD
-private let appCenterSecret = to_be_supplied_before_compilation
+// Provide App Center secret here and in the target settings: APPCENTER_SECRET user-defined setting
+private let appCenterSecret = app_center_secret_to_be_supplied_before_building
 #endif
 
 @UIApplicationMain
