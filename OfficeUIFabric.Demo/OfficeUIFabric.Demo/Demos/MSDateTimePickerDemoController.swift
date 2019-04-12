@@ -7,7 +7,7 @@ import OfficeUIFabric
 import UIKit
 
 class MSDateTimePickerDemoController: DemoController {
-    private let dateLabel = MSLabel(style: .headline, colorStyle: .primary)
+    private let dateLabel = MSLabel(style: .headline)
     private let dateTimePicker = MSDateTimePicker()
 
     override func viewDidLoad() {
