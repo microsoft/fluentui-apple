@@ -88,9 +88,18 @@ open class MSAvatarView: UIView {
             initialsView.avatarSize = avatarSize
         }
     }
+
     open var avatarBackgroundColor: UIColor {
         didSet {
             initialsView.backgroundColor = avatarBackgroundColor
+        }
+    }
+
+    open var style: MSAvatarStyle {
+        didSet {
+            if style != oldValue {
+                setNeedsLayout()
+            }
         }
     }
 
@@ -101,8 +110,6 @@ open class MSAvatarView: UIView {
     private let imageView: UIImageView
     // Use a view as a border to avoid leaking pixels on corner radius
     private let borderView: UIView
-
-    private let style: MSAvatarStyle
 
     /// Initializes the avatar view with a size and an optional border
     ///
