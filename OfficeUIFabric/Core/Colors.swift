@@ -114,6 +114,20 @@ public final class MSColors: NSObject {
         public static let placeholder: UIColor = lightGray
     }
 
+    public struct Button {
+        public static let background: UIColor = .clear
+        public static let backgroundFilled: UIColor = primary
+        public static let backgroundFilledDisabled: UIColor = borderLightGray
+        public static let backgroundFilledHighlighted: UIColor = primary.withAlphaComponent(0.5)
+        public static let border: UIColor = primary.withAlphaComponent(0.2)
+        public static let borderDisabled: UIColor = borderLightGray
+        public static let borderHighlighted: UIColor = primary.withAlphaComponent(0.08)
+        public static let title: UIColor = primary
+        public static let titleDisabled: UIColor = borderGray
+        public static let titleHighlighted: UIColor = primary.withAlphaComponent(0.4)
+        public static let titleWithFilledBackground: UIColor = white
+    }
+
     public struct CalendarView {
         public struct TodayCell {
             public static let background: UIColor = white
