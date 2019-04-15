@@ -82,20 +82,20 @@ open class MSAvatarView: UIView {
         }
     }
 
-    open var avatarSize: MSAvatarSize {
+    @objc open var avatarSize: MSAvatarSize {
         didSet {
             frame.size = avatarSize.size
             initialsView.avatarSize = avatarSize
         }
     }
 
-    open var avatarBackgroundColor: UIColor {
+    @objc open var avatarBackgroundColor: UIColor {
         didSet {
             initialsView.backgroundColor = avatarBackgroundColor
         }
     }
 
-    open var style: MSAvatarStyle {
+    @objc open var style: MSAvatarStyle {
         didSet {
             if style != oldValue {
                 setNeedsLayout()
@@ -177,7 +177,7 @@ open class MSAvatarView: UIView {
     ///   - primaryText: The primary text to create initials with (e.g. a name)
     ///   - secondaryText: The secondary text to create initials with if primary text is not provided (e.g. an email address)
     ///   - image: The image to be displayed
-    public func setup(primaryText: String?, secondaryText: String?, image: UIImage?) {
+    @objc public func setup(primaryText: String?, secondaryText: String?, image: UIImage?) {
         self.primaryText = primaryText
         self.secondaryText = secondaryText
 
@@ -194,7 +194,7 @@ open class MSAvatarView: UIView {
     ///
     /// - Parameters:
     ///   - image: The image to be displayed
-    public func setup(image: UIImage) {
+    @objc public func setup(image: UIImage) {
         primaryText = nil
         secondaryText = nil
 
