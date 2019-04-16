@@ -78,7 +78,6 @@ class MSCalendarViewDayCell: UICollectionViewCell {
 
     private var visibleDotViewAlpha: CGFloat = 1.0
 
-    private let separatorView: MSSeparator
     private let selectionOverlayView: MSSelectionOverlayView
     let dateLabel: UILabel
     let dotView: MSDotView
@@ -89,9 +88,6 @@ class MSCalendarViewDayCell: UICollectionViewCell {
         // Disable user interaction to allow gestures to fall through to the collection view
         // and collection view cell especially during animation. This is protect against
         // subviews that default `userInteractionEnabled` to true (UIView).
-
-        separatorView = MSSeparator()
-        separatorView.isUserInteractionEnabled = false
 
         selectionOverlayView = MSSelectionOverlayView()
         selectionOverlayView.isUserInteractionEnabled = false
@@ -108,7 +104,6 @@ class MSCalendarViewDayCell: UICollectionViewCell {
 
         super.init(frame: frame)
 
-        contentView.addSubview(separatorView)
         contentView.addSubview(selectionOverlayView)
         contentView.addSubview(dateLabel)
         contentView.addSubview(dotView)
@@ -138,21 +133,18 @@ class MSCalendarViewDayCell: UICollectionViewCell {
             switch visualState {
             case .normal:
                 contentView.alpha = 1.0
-                separatorView.alpha = 1.0
                 dateLabel.alpha = 1.0
                 dotView.alpha = 0.0
                 selectionOverlayView.alpha = 1.0
 
             case .normalWithDots:
                 contentView.alpha = 1.0
-                separatorView.alpha = 1.0
                 dateLabel.alpha = 1.0
                 dotView.alpha = visibleDotViewAlpha
                 selectionOverlayView.alpha = 1.0
 
             case .fadedWithDots:
                 contentView.alpha = Constants.fadedVisualStateAlphaMultiplier
-                separatorView.alpha = Constants.fadedVisualStateAlphaMultiplier
                 dateLabel.alpha = 1.0
                 dotView.alpha = visibleDotViewAlpha
                 selectionOverlayView.alpha = 1.0
@@ -177,9 +169,6 @@ class MSCalendarViewDayCell: UICollectionViewCell {
 
         let maxWidth = contentView.bounds.size.width
         let maxHeight = contentView.bounds.size.height
-
-        // Separator view
-        separatorView.frame = CGRect(x: 0.0, y: maxHeight - Constants.borderWidth, width: maxWidth, height: Constants.borderWidth)
 
         // Date label
         dateLabel.frame = contentView.bounds
