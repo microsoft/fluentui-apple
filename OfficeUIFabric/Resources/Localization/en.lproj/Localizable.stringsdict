@@ -5,6 +5,7 @@
 	<key>Accessibility.DateTime.Hour.Value</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
+        <!--{Locked}-->
 		<string>%#@hours@</string>
 		<key>Variable</key>
 		<dict>
