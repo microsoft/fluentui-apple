@@ -29,7 +29,7 @@ class MSLabelDemoController: DemoController {
     func addLabel(text: String, style: MSTextStyle, colorStyle: MSTextColorStyle) -> MSLabel {
         let label = MSLabel(style: style, colorStyle: colorStyle)
         label.text = text
-        if label.textColor == MSColors.white {
+        if colorStyle == .white {
             label.backgroundColor = .black
         }
         container.addArrangedSubview(label)
