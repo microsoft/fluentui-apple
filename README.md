@@ -11,7 +11,7 @@ Office UI Fabric for iOS is a native library that provides the Office UI experie
 
 - [Colors and typography](#colors-and-typography)
 - [Controls](#controls)
-- [Installing Office UI Fabric for iOS](#installing-office-ui-fabric-for-ios)
+- [Install and use Office UI Fabric](#install-and-use-office-ui-fabric)
 - [Demo app](#demo-app)
 - [Contributing](#contributing)
 - [Changelog](#changelog)
@@ -39,9 +39,9 @@ Some of the controls available include:
 - MSSegmentedControl
 - MSTableViewCell
 
-A full list of currently supported controls can be found here: [OfficeUIFabric](OfficeUIFabric/).
+A full list of currently supported controls can be found here: [OfficeUIFabric](OfficeUIFabric).
 
-## Installing Office UI Fabric for iOS
+## Install and use Office UI Fabric
 
 ### Requirements
 
@@ -64,6 +64,8 @@ pod 'OfficeUIFabric', '~> 0.1.15'
 - Move the `OfficeUIFabric` folder into your project folder.
 - Move the `OfficeUIFabric.xcodeproj` into your Xcode project.
 - In Xcode select your project -> your target -> General -> Embedded Binaries -> add `OfficeUIFabric.framework`.
+
+### Import and use the library
 
 After the framework has been added you can import the library to use it:
 ```swift
