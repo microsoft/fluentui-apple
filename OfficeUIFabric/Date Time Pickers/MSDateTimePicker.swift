@@ -10,33 +10,44 @@ import Foundation
 @objc public enum MSDateTimePickerMode: Int {
     case date
     case dateTime
+    case dateRange
+    case dateTimeRange
+
+    public var includesTime: Bool { return self == .dateTime || self == .dateTimeRange }
+    public var singleSelection: Bool { return self == .date || self == .dateTime }
 }
 
 // MARK: - MSDateTimePickerDelegate
 
 @objc public protocol MSDateTimePickerDelegate: class {
     /// Allows a class to be notified when a user confirms their selected date
-    func dateTimePicker(_ dateTimePicker: MSDateTimePicker, didPickDate date: Date)
+    func dateTimePicker(_ dateTimePicker: MSDateTimePicker, didPickStartDate startDate: Date, endDate: Date)
 }
 
 // MARK: - DateTimePicker
 
 protocol DateTimePicker: class {
-    var date: Date { get set }
+    var startDate: Date { get set }
+    var endDate: Date { get set }
     var delegate: DateTimePickerDelegate? { get set }
 }
 
 // MARK: - DateTimePickerDelegate
 
 protocol DateTimePickerDelegate: class {
-    func dateTimePicker(_ dateTimePicker: DateTimePicker, didPickDate date: Date)
-    func dateTimePicker(_ dateTimePicker: DateTimePicker, didSelectDate date: Date)
+    func dateTimePicker(_ dateTimePicker: DateTimePicker, didPickStartDate startDate: Date, endDate: Date)
+    func dateTimePicker(_ dateTimePicker: DateTimePicker, didSelectStartDate startDate: Date, endDate: Date)
 }
 
 // MARK: - MSDateTimePicker
 
 /// Manages the presentation and coordination of different date and time pickers
 public class MSDateTimePicker: NSObject {
+    private struct Constants {
+        static let defaultDateDaysRange: Int = 1
+        static let defaultDateTimeHoursRange: Int = 1
+    }
+
     public private(set) var mode: MSDateTimePickerMode?
     @objc public weak var delegate: MSDateTimePickerDelegate?
 
@@ -48,19 +59,24 @@ public class MSDateTimePicker: NSObject {
     /// - Parameters:
     ///   - presentingController: The view controller that is presenting these pickers
     ///   - mode: Enum describing which mode of pickers should be presented
-    ///   - date: The initial date selected on the presented pickers
-    @objc public func present(from presentingController: UIViewController, with mode: MSDateTimePickerMode, for date: Date = Date()) {
+    ///   - startDate: The initial date selected on the presented pickers
+    ///   - endDate: An optional end date to pick a range of dates. Ignored if mode is `.date` or `.dateTime`. If the mode selected is either `.dateRange` or `.dateTimeRange`, and this is omitted, it will be set to a default 1 day or 1 hour range, respectively.
+    @objc public func present(from presentingController: UIViewController, with mode: MSDateTimePickerMode, startDate: Date = Date(), endDate: Date? = nil) {
         self.presentingController = presentingController
+        self.mode = mode
         if UIAccessibility.isVoiceOverRunning {
-            presentDateTimePickerForAccessibility(initialDate: date, showsTime: mode == .dateTime)
+            presentDateTimePickerForAccessibility(startDate: startDate, endDate: endDate ?? startDate)
             return
         }
-        self.mode = mode
         switch mode {
         case .date:
-            presentDatePicker(initialDate: date)
+            presentDatePicker(startDate: startDate, endDate: startDate)
         case .dateTime:
-            presentDateTimePicker(initialDate: date)
+            presentDateTimePicker(startDate: startDate, endDate: startDate)
+        case .dateRange:
+            presentDatePicker(startDate: startDate, endDate: endDate ?? startDate.adding(days: Constants.defaultDateDaysRange))
+        case .dateTimeRange:
+            presentDateTimePicker(startDate: startDate, endDate: endDate ?? startDate.adding(hours: Constants.defaultDateTimeHoursRange))
         }
     }
 
@@ -71,19 +87,43 @@ public class MSDateTimePicker: NSObject {
         presentingController = nil
     }
 
-    private func presentDatePicker(initialDate: Date) {
-        let datePicker = MSDatePickerController(startDate: initialDate)
-        present([datePicker])
+    private func presentDatePicker(startDate: Date, endDate: Date) {
+        guard let mode = mode else {
+            fatalError("Mode not set when presenting date picker")
+        }
+        let startDate = startDate.startOfDay
+        let endDate = endDate.startOfDay
+        if mode == .dateRange {
+            let startDatePicker = MSDatePickerController(startDate: startDate, endDate: endDate, mode: mode, selectionMode: .start, subtitle: "MSDateTimePicker.StartDate".localized)
+            let endDatePicker = MSDatePickerController(startDate: startDate, endDate: endDate, mode: mode, selectionMode: .end, subtitle: "MSDateTimePicker.EndDate".localized)
+            present([startDatePicker, endDatePicker])
+        } else {
+            let datePicker = MSDatePickerController(startDate: startDate, endDate: startDate, mode: mode)
+            present([datePicker])
+        }
     }
 
-    private func presentDateTimePicker(initialDate: Date) {
-        let datePicker = MSDatePickerController(startDate: initialDate)
-        let dateTimePicker = MSDateTimePickerController(date: initialDate, showsTime: true)
-        present([datePicker, dateTimePicker])
+    private func presentDateTimePicker(startDate: Date, endDate: Date) {
+        guard let mode = mode else {
+            fatalError("Mode not set when presenting date time picker")
+        }
+        // If we are not presenting a range, or if we have a range, but it is within the same calendar day, present both dateTimePicker and datePicker. Otherwise, present just a dateTimePicker
+        if mode == .dateTime || Calendar.current.isDate(startDate, inSameDayAs: endDate) {
+            let dateTimePicker = MSDateTimePickerController(startDate: startDate, endDate: endDate, mode: mode)
+            // Create datePicker second to pick up the time that dateTimePicker rounded to the nearest minute interval
+            let datePicker = MSDatePickerController(startDate: dateTimePicker.startDate, endDate: dateTimePicker.endDate, mode: mode)
+            present([datePicker, dateTimePicker])
+        } else {
+            let dateTimePicker = MSDateTimePickerController(startDate: startDate, endDate: endDate, mode: mode)
+            present([dateTimePicker])
+        }
     }
 
-    private func presentDateTimePickerForAccessibility(initialDate: Date, showsTime: Bool) {
-        let dateTimePicker = MSDateTimePickerController(date: initialDate, showsTime: showsTime)
+    private func presentDateTimePickerForAccessibility(startDate: Date, endDate: Date) {
+        guard let mode = mode else {
+            fatalError("Mode not set when presenting date time picker for accessibility")
+        }
+        let dateTimePicker = MSDateTimePickerController(startDate: startDate, endDate: endDate, mode: mode)
         present([dateTimePicker])
     }
 
@@ -103,16 +143,17 @@ public class MSDateTimePicker: NSObject {
 // MARK: - MSDateTimePicker: DateTimePickerDelegate
 
 extension MSDateTimePicker: DateTimePickerDelegate {
-    func dateTimePicker(_ dateTimePicker: DateTimePicker, didPickDate date: Date) {
-        delegate?.dateTimePicker(self, didPickDate: date)
+    func dateTimePicker(_ dateTimePicker: DateTimePicker, didPickStartDate startDate: Date, endDate: Date) {
+        delegate?.dateTimePicker(self, didPickStartDate: startDate, endDate: endDate)
     }
 
-    func dateTimePicker(_ dateTimePicker: DateTimePicker, didSelectDate date: Date) {
+    func dateTimePicker(_ dateTimePicker: DateTimePicker, didSelectStartDate startDate: Date, endDate: Date) {
         guard let presentedPickers = presentedPickers else {
             return
         }
         for picker in presentedPickers where picker !== dateTimePicker {
-            picker.date = date
+            picker.startDate = startDate
+            picker.endDate = endDate
         }
     }
 }

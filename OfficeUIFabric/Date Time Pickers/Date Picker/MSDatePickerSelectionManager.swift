@@ -19,7 +19,7 @@ class MSDatePickerSelectionManager {
         case range(IndexPath, IndexPath)
     }
 
-    var selectionState: SelectionState
+    private(set) var selectionState: SelectionState
     let selectionMode: SelectionMode
 
     var startDateIndexPath: IndexPath {
@@ -31,7 +31,33 @@ class MSDatePickerSelectionManager {
         }
     }
 
+    var startDate: Date {
+        get {
+            return dataSource.dayStart(forDayAt: selectedIndexPaths.startIndexPath)
+        }
+        set {
+            setSelectedIndexPath(dataSource.indexPath(forDayWithStart: newValue), mode: .start)
+        }
+    }
+    var endDate: Date {
+        get {
+            return dataSource.dayStart(forDayAt: selectedIndexPaths.endIndexPath)
+        }
+        set {
+            setSelectedIndexPath(dataSource.indexPath(forDayWithStart: newValue), mode: .end)
+        }
+    }
+
     private let dataSource: MSCalendarViewDataSource
+
+    private var selectedIndexPaths: (startIndexPath: IndexPath, endIndexPath: IndexPath) {
+        switch selectionState {
+        case let .single(selectedIndexPath):
+            return (selectedIndexPath, selectedIndexPath)
+        case let .range(startIndexPath, endIndexPath):
+            return (startIndexPath, endIndexPath)
+        }
+    }
 
     init(dataSource: MSCalendarViewDataSource, startDate: Date, endDate: Date, selectionMode: SelectionMode) {
         self.dataSource = dataSource
@@ -47,28 +73,13 @@ class MSDatePickerSelectionManager {
         }
     }
 
-    var selectedDates: (startDate: Date, endDate: Date) {
-        let startDate = dataSource.dayStart(forDayAt: selectedIndexPaths.startIndexPath)
-        let endDate = dataSource.dayStart(forDayAt: selectedIndexPaths.endIndexPath)
-
-        return (startDate, endDate)
+    func setSelectedIndexPath(_ indexPath: IndexPath, mode: SelectionMode? = nil) {
+        selectionState = selectionState(for: indexPath, mode: mode)
     }
 
-    private var selectedIndexPaths: (startIndexPath: IndexPath, endIndexPath: IndexPath) {
-        switch selectionState {
-        case let .single(selectedIndexPath):
-            return (selectedIndexPath, selectedIndexPath)
-        case let .range(startIndexPath, endIndexPath):
-            return (startIndexPath, endIndexPath)
-        }
-    }
-
-    func setSelectedIndexPath(_ indexPath: IndexPath) {
-        selectionState = selectionState(for: indexPath)
-    }
-
-    func selectionState(for indexPath: IndexPath) -> SelectionState {
-        if selectionMode == .start {
+    func selectionState(for indexPath: IndexPath, mode: SelectionMode? = nil) -> SelectionState {
+        let mode = mode ?? selectionMode
+        if mode == .start {
             switch selectionState {
             case .single:
                 return .single(indexPath)

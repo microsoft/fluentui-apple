@@ -25,6 +25,19 @@ extension Date {
         return _has24HourFormat!
     }
 
+    func combine(withTime time: Date) -> Date? {
+        let calendar = Calendar.current
+
+        var dateComponents = calendar.dateComponents([.year, .month, .day], from: self)
+        let timeComponents = calendar.dateComponents([.hour, .minute, .second], from: time)
+
+        dateComponents.hour = timeComponents.hour
+        dateComponents.minute = timeComponents.minute
+        dateComponents.second = timeComponents.second
+
+        return calendar.date(from: dateComponents)
+    }
+
     /**
      * Derive a new date from `self` by going back in time until the first moment of that day
      *
@@ -72,6 +85,17 @@ extension Date {
 
         // Return the original date in case of error
         return self
+    }
+
+    func rounded(toNearestMinutes nearestMinutes: Int) -> Date? {
+        let calendar = Calendar.current
+        var dateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: self)
+        guard let minutes = dateComponents.minute else {
+            return nil
+        }
+        let nearestMinutes = Double(nearestMinutes)
+        dateComponents.minute = Int(ceil(Double(minutes) / nearestMinutes) * nearestMinutes)
+        return calendar.date(from: dateComponents)
     }
 }
 

@@ -7,24 +7,36 @@ import Foundation
 
 // MARK: MSCalendarConfiguration
 
+@objcMembers
 open class MSCalendarConfiguration: NSObject {
+    private struct Constants {
+        static let baseReferenceStartTimestamp: TimeInterval = 1420416000 // January 3 2015
+        static let baseReferenceEndTimestamp: TimeInterval = 1736035200 // January 5 2025
+        static let startYearsAgo: Int = -3
+        static let endYearsInterval: Int = 10
+    }
+
     // swiftlint:disable:next explicit_type_interface
-    @objc public static let `default` = MSCalendarConfiguration()
+    public static let `default` = MSCalendarConfiguration()
 
-    private struct DateConstants {
-        static let referenceStartTimestamp: TimeInterval = 1262476800 // January 3 2010
-        static let referenceEndTimestamp: TimeInterval = 1578182400 // January 5 2020
-    }
+    open var firstWeekday: Int = Calendar.current.firstWeekday
 
-    @objc open var referenceStartDate: Date {
-        return Date(timeIntervalSince1970: DateConstants.referenceStartTimestamp)
-    }
+    let referenceStartDate: Date
+    let referenceEndDate: Date
 
-    @objc open var referenceEndDate: Date {
-        return Date(timeIntervalSince1970: DateConstants.referenceEndTimestamp)
-    }
+    init(calendar: Calendar = .current) {
+        // Compute a start date (January 1st on a year a default number of years ago)
+        let yearsAgo = calendar.dateByAdding(years: Constants.startYearsAgo, to: Date())
+        var components = calendar.dateComponents([.year, .month, .day], from: yearsAgo)
+        components.month = 1
+        components.day = 1
 
-    @objc open var accessibilityShouldAnnounceIndicatorLevel: Bool {
-        return true
+        guard let slidingStartDate = calendar.date(from: components) else {
+            fatalError("Cannot construct date from years ago components")
+        }
+
+        referenceStartDate = slidingStartDate
+        referenceEndDate = calendar.dateByAdding(years: Constants.endYearsInterval, to: slidingStartDate)
+        super.init()
     }
 }

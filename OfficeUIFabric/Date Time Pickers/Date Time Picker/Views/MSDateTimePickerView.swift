@@ -59,8 +59,6 @@ class MSDateTimePickerView: UIControl {
         return gradientLayer
     }()
 
-    private var amPMValue: MSDateTimePickerViewAMPM?
-
     init(mode: MSDateTimePickerViewMode) {
         self.mode = mode
 
@@ -112,8 +110,6 @@ class MSDateTimePickerView: UIControl {
         componentsByType[.timeAMPM]?.select(item: amPM, animated: animated, userInitiated: false)
         componentsByType[.timeHour]?.select(item: dateComponents.hour, animated: animated, userInitiated: false)
         componentsByType[.timeMinute]?.select(item: dateComponents.minute, animated: animated, userInitiated: false)
-
-        updateAMPM(forHour: dateComponents.hour!)
     }
 
     func setDayOfMonth(_ dayOfMonth: MSDayOfMonth, animated: Bool) {
@@ -240,22 +236,21 @@ class MSDateTimePickerView: UIControl {
         sendActions(for: .valueChanged)
     }
 
-    private func updateAMPM(forHour hour: Int) {
-        // When we scroll through the hours in 12 hour format. Each time we go to a next cycle, we switch to Am/Pm
-        // This makes sure we switch to the right one and we do not switch if the user changed Am/Pm themselve
-
-        guard let component = componentsByType[.timeAMPM], let selectedIndexPath = component.selectedIndexPath else {
-            amPMValue = nil
+    private func updateHourForAMPM() {
+        guard let amPM = componentsByType[.timeAMPM]?.selectedItem as? MSDateTimePickerViewAMPM else {
             return
         }
-
-        guard let amPMValue = component.dataSource.item(forRowAtIndex: selectedIndexPath.row) as? MSDateTimePickerViewAMPM else {
-            assertionFailure("updateAMPM > amPM value not found")
-            return
+        guard var hour = componentsByType[.timeHour]?.selectedItem as? Int else {
+            fatalError("updateHourForAMPM > hour value not found")
+        }
+        switch amPM {
+        case .am:
+            hour = hour >= 12 ? hour - 12 : hour
+        case .pm:
+            hour = hour >= 12 ? hour : hour + 12
         }
 
-        let moduloIsEven = ((hour - 1) / 12) % 2 == 0
-        self.amPMValue = moduloIsEven ? amPMValue : (amPMValue == .am ? .pm : .am)
+        componentsByType[.timeHour]?.select(item: hour, animated: false, userInitiated: false)
     }
 }
 
@@ -269,25 +264,26 @@ extension MSDateTimePickerView: MSDateTimePickerViewComponentDelegate {
         }
 
         // Scrolling through hours in 12 hours format
-        guard type == .timeHour, userInitiated, let indexPath = component.tableView.middleIndexPath, componentTypes.contains(.timeAMPM) else {
-            return
-        }
-        guard let amPMComponent = componentsByType[.timeAMPM], let amPMValue = amPMValue else {
-            assertionFailure("dateTimePickerComponent > amPM value not found")
-            return
-        }
+        if type == .timeHour {
+            guard userInitiated, let indexPath = component.tableView.middleIndexPath, componentTypes.contains(.timeAMPM) else {
+                return
+            }
+            guard let amPMComponent = componentsByType[.timeAMPM] else {
+                fatalError("dateTimePickerComponent > amPM value not found")
+            }
 
-        // Switch between am and pm every cycle
-        let moduloIsEven = (indexPath.row / 12) % 2 == 0
-        let newValue = moduloIsEven ? amPMValue : (amPMValue == .am ? .pm : .am)
+            // Switch between am and pm every cycle
+            let moduloIsEven = (indexPath.row / 12) % 2 == 0
+            let newValue: MSDateTimePickerViewAMPM = moduloIsEven ? .am : .pm
 
-        amPMComponent.select(item: newValue, animated: true, userInitiated: false)
+            amPMComponent.select(item: newValue, animated: true, userInitiated: false)
+        }
     }
 
     func dateTimePickerComponent(_ component: MSDateTimePickerViewComponent, didSelectItemAtIndexPath indexPath: IndexPath, userInitiated: Bool) {
         if userInitiated {
-            if type(of: component) == .timeAMPM, let hour = componentsByType[.timeHour]?.selectedItem as? Int {
-                updateAMPM(forHour: hour)
+            if type(of: component) == .timeAMPM {
+                updateHourForAMPM()
             }
             updateDate()
         }

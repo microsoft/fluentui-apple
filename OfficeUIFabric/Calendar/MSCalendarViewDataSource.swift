@@ -216,9 +216,9 @@ extension MSCalendarViewDataSource: UICollectionViewDataSource {
 
             if index >= 0 && index < standaloneMonthSymbols.count {
                 monthLabelText = standaloneMonthSymbols[index]
+            } else {
+                monthLabelText = ""
             }
-
-            monthLabelText = ""
         } else {
             monthLabelText = String.dateString(from: firstDayStartDateOfWeek, compactness: .longMonthNameFullYear)
         }

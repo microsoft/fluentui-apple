@@ -57,6 +57,7 @@
 		B4E782C521793BB900A7DFCE /* MSActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E782C421793BB900A7DFCE /* MSActivityIndicatorView.swift */; };
 		B4E782C72179509A00A7DFCE /* MSCenteredLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E782C62179509A00A7DFCE /* MSCenteredLabelCell.swift */; };
 		B4EF53C3215AF1AB00573E8F /* MSPersona.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF53C2215AF1AB00573E8F /* MSPersona.swift */; };
+		FD053A352224CA33009B6378 /* MSDatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD053A342224CA33009B6378 /* MSDatePickerControllerTests.swift */; };
 		FD0D29D62151A3D700E8655E /* MSCardPresenterNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0D29D52151A3D700E8655E /* MSCardPresenterNavigationController.swift */; };
 		FD256C5B2183B90B00EC9588 /* MSDatePickerSelectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD256C5A2183B90B00EC9588 /* MSDatePickerSelectionManager.swift */; };
 		FD36F1A9216C0A6900CECBC6 /* MSCardPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA1AF9221487225001AE720 /* MSCardPresentationController.swift */; };
@@ -163,6 +164,7 @@
 		B4E782C421793BB900A7DFCE /* MSActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSActivityIndicatorView.swift; sourceTree = "<group>"; };
 		B4E782C62179509A00A7DFCE /* MSCenteredLabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSCenteredLabelCell.swift; sourceTree = "<group>"; };
 		B4EF53C2215AF1AB00573E8F /* MSPersona.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPersona.swift; sourceTree = "<group>"; };
+		FD053A342224CA33009B6378 /* MSDatePickerControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDatePickerControllerTests.swift; sourceTree = "<group>"; };
 		FD0D29D52151A3D700E8655E /* MSCardPresenterNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSCardPresenterNavigationController.swift; sourceTree = "<group>"; };
 		FD256C5A2183B90B00EC9588 /* MSDatePickerSelectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDatePickerSelectionManager.swift; sourceTree = "<group>"; };
 		FD4F2A1A2148937100C437D6 /* MSPageCardPresenterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPageCardPresenterController.swift; sourceTree = "<group>"; };
@@ -384,6 +386,7 @@
 		A5CEC15E20D980B30016922A /* OfficeUIFabric.Tests */ = {
 			isa = PBXGroup;
 			children = (
+				FD053A342224CA33009B6378 /* MSDatePickerControllerTests.swift */,
 				A5CEC15F20D980B30016922A /* OfficeUIFabricTests.swift */,
 				A5CEC16120D980B30016922A /* Info.plist */,
 			);
@@ -827,6 +830,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A5CEC16020D980B30016922A /* OfficeUIFabricTests.swift in Sources */,
+				FD053A352224CA33009B6378 /* MSDatePickerControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -145,13 +145,13 @@ extension MSDateTimePickerViewComponent: UIScrollViewDelegate {
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         // Snap to the nearest cell
         var targetOffset = targetContentOffset.pointee
-        let offsetY = targetOffset.y
+        let offsetY = targetOffset.y + scrollView.contentInset.top
         let cellHeight = MSDateTimePickerViewComponentCell.idealHeight
 
-        let prevY = floor(offsetY / cellHeight) * cellHeight
-        let nextY = (floor(offsetY / cellHeight) + 1) * cellHeight
+        let prevY = floor(offsetY / cellHeight) * cellHeight - scrollView.contentInset.top
+        let nextY = (floor(offsetY / cellHeight) + 1) * cellHeight - scrollView.contentInset.top
 
-        if offsetY < prevY + cellHeight / 2 {
+        if targetOffset.y < prevY + cellHeight / 2 {
             // Snap Up
             targetOffset = CGPoint(x: 0, y: prevY)
         } else {

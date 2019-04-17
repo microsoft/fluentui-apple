@@ -354,13 +354,9 @@ private class MSDateTimePickerViewHourDataSource: MSDateTimePickerViewDataSource
     }
 
     func indexPath(forItem item: Any) -> IndexPath? {
-        guard var hour = item as? Int, hour >= 0 && hour < 24 else {
+        guard let hour = item as? Int, hour >= 0 && hour < 24 else {
             assertionFailure("indexPathForItem > invalid argument")
             return nil
-        }
-
-        if !Date.has24HourFormat() && hour > 12 {
-            hour -= 12
         }
 
         return IndexPath(row: MSDateTimePickerViewDataSourceConstants.infiniteRowCount / 2 + hour, section: 0)
