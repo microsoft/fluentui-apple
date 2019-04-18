@@ -55,7 +55,7 @@ To get set up with CocoaPods visit their [getting started guide](https://guides.
 
 To integrate Office UI Fabric for iOS into your Xcode project using CocoaPods, specify it in your Podfile:
 ```ruby
-pod 'OfficeUIFabric', '~> 0.1.15'
+pod 'OfficeUIFabric', '~> 0.2.0'
 ```
 
 ### 2. Manual installation
