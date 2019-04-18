@@ -7,6 +7,7 @@
 "Accessibility.Alert" = "Warnung";
 "Accessibility.Dismiss.Label" = "Schließen";
 "Accessibility.Dismiss.Hint" = "Zum Schließen doppeltippen.";
+"Accessibility.Done.Label" = "Fertig";
 "Accessibility.Select.Hint" = "Zum Auswählen doppeltippen";
 "Accessibility.Selected.Hint" = "Zum Anzeigen von Details doppeltippen.";
 "Accessibility.Selected.Value" = "Ausgewählt";
@@ -87,3 +88,15 @@
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Verzeichnis durchsuchen";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "Startzeit";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "Endzeit";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "Startdatum";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "Enddatum";

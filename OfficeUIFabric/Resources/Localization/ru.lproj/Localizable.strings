@@ -7,6 +7,7 @@
 "Accessibility.Alert" = "Оповещение";
 "Accessibility.Dismiss.Label" = "Закрыть";
 "Accessibility.Dismiss.Hint" = "Дважды коснитесь, чтобы закрыть";
+"Accessibility.Done.Label" = "Готово";
 "Accessibility.Select.Hint" = "Дважды коснитесь, чтобы выбрать";
 "Accessibility.Selected.Hint" = "Дважды коснитесь, чтобы просмотреть сведения";
 "Accessibility.Selected.Value" = "Выбрано";
@@ -87,3 +88,15 @@
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Поиск в каталоге";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "Время начала";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "Время окончания";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "Дата начала";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "Дата окончания";

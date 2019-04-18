@@ -7,6 +7,7 @@
 "Accessibility.Alert" = "Alerta";
 "Accessibility.Dismiss.Label" = "Descartar";
 "Accessibility.Dismiss.Hint" = "Pulsa dos veces para descartar";
+"Accessibility.Done.Label" = "Listo";
 "Accessibility.Select.Hint" = "Pulsa dos veces para seleccionar";
 "Accessibility.Selected.Hint" = "Pulsa dos veces para agregar detalles";
 "Accessibility.Selected.Value" = "Seleccionado";
@@ -87,3 +88,15 @@
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Buscar en el directorio";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "Hora de inicio";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "Hora de finalización";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "Fecha de inicio";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "Fecha de finalización";

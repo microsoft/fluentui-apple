@@ -7,6 +7,7 @@
 "Accessibility.Alert" = "Alerta";
 "Accessibility.Dismiss.Label" = "Descarta";
 "Accessibility.Dismiss.Hint" = "Toqueu dues vegades per descartar-ho.";
+"Accessibility.Done.Label" = "Fet";
 "Accessibility.Select.Hint" = "Toqueu dues vegades per seleccionar-ho.";
 "Accessibility.Selected.Hint" = "Toqueu dues vegades per veure'n els detalls.";
 "Accessibility.Selected.Value" = "Seleccionat";
@@ -87,3 +88,15 @@
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Cerca al directori";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "Hora d'inici";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "Hora de finalització";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "Data d'inici";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "Data de finalització";

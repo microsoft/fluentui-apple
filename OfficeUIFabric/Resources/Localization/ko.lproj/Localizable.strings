@@ -7,6 +7,7 @@
 "Accessibility.Alert" = "알림";
 "Accessibility.Dismiss.Label" = "해제";
 "Accessibility.Dismiss.Hint" = "해제하려면 두 번 탭하세요.";
+"Accessibility.Done.Label" = "완료";
 "Accessibility.Select.Hint" = "선택하려면 두 번 탭하세요.";
 "Accessibility.Selected.Hint" = "세부 정보를 보려면 두 번 탭하세요.";
 "Accessibility.Selected.Value" = "선택됨";
@@ -87,3 +88,15 @@
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "디렉터리 검색";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "시작 시간";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "종료 시간";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "시작 날짜";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "종료 날짜";

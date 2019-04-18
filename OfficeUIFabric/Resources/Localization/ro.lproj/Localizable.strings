@@ -7,6 +7,7 @@
 "Accessibility.Alert" = "Avertizare";
 "Accessibility.Dismiss.Label" = "Îndepărtare";
 "Accessibility.Dismiss.Hint" = "Atingeți de două ori pentru a îndepărta";
+"Accessibility.Done.Label" = "Gata";
 "Accessibility.Select.Hint" = "Atingeți de două ori pentru a selecta";
 "Accessibility.Selected.Hint" = "Atingeți de două ori pentru a vedea detaliile";
 "Accessibility.Selected.Value" = "Selectat";
@@ -87,3 +88,15 @@
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Căutați în director";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "Ora de început";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "Ora de sfârșit";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "Data de început";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "Data de sfârșit";

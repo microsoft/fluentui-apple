@@ -7,6 +7,7 @@
 "Accessibility.Alert" = "Hälytys";
 "Accessibility.Dismiss.Label" = "Hylkää";
 "Accessibility.Dismiss.Hint" = "Hylkää kaksoisnapauttamalla";
+"Accessibility.Done.Label" = "Valmis";
 "Accessibility.Select.Hint" = "Valitse kaksoisnapauttamalla";
 "Accessibility.Selected.Hint" = "Näytä tiedot kaksoisnapauttamalla";
 "Accessibility.Selected.Value" = "Valittu";
@@ -87,3 +88,15 @@
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Hae hakemistosta";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "Alkamisaika";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "Päättymisaika";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "Alkamispäivä";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "Päättymispäivä";

@@ -7,6 +7,7 @@
 "Accessibility.Alert" = "การแจ้งเตือน";
 "Accessibility.Dismiss.Label" = "ยกเลิก";
 "Accessibility.Dismiss.Hint" = "แตะสองครั้งเพื่อยกเลิก";
+"Accessibility.Done.Label" = "เสร็จสิ้น";
 "Accessibility.Select.Hint" = "แตะสองครั้งเพื่อเลือก";
 "Accessibility.Selected.Hint" = "แตะสองครั้งเพื่อดูรายละเอียด";
 "Accessibility.Selected.Value" = "เลือกแล้ว";
@@ -87,3 +88,15 @@
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "ค้นหาในไดเรกทอรี";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "เวลาเริ่มต้น";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "เวลาสิ้นสุด";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "วันที่เริ่มต้น";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "วันที่สิ้นสุด";

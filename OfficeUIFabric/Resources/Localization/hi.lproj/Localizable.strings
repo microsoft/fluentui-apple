@@ -7,6 +7,7 @@
 "Accessibility.Alert" = "चेतावनी";
 "Accessibility.Dismiss.Label" = "ख़ारिज करें";
 "Accessibility.Dismiss.Hint" = "ख़ारिज करने के लिए डबल-टैप करें";
+"Accessibility.Done.Label" = "पूर्ण";
 "Accessibility.Select.Hint" = "चयन के लिए डबल टैप";
 "Accessibility.Selected.Hint" = "विवरण देखने के लिए डबल टैप करें";
 "Accessibility.Selected.Value" = "चयनित";
@@ -87,3 +88,15 @@
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "डायरेक्टरी खोजें";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "प्रारंभ समय";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "समाप्ति समय";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "प्रारंभ दिनांक";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "समाप्ति दिनांक";

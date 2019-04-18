@@ -7,6 +7,7 @@
 "Accessibility.Alert" = "Upozornění";
 "Accessibility.Dismiss.Label" = "Zavřít";
 "Accessibility.Dismiss.Hint" = "Poklepáním zavřete.";
+"Accessibility.Done.Label" = "Hotovo";
 "Accessibility.Select.Hint" = "Poklepáním vyberete.";
 "Accessibility.Selected.Hint" = "Poklepání zobrazíte podrobnosti.";
 "Accessibility.Selected.Value" = "Vybráno";
@@ -87,3 +88,15 @@
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Prohledat adresář";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "Počáteční čas";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "Koncový čas";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "Počáteční datum";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "Koncové datum";

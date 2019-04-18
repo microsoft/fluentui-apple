@@ -7,6 +7,7 @@
 "Accessibility.Alert" = "Upozorenje";
 "Accessibility.Dismiss.Label" = "Odbaci";
 "Accessibility.Dismiss.Hint" = "Dvaput dodirnite da biste odbacili";
+"Accessibility.Done.Label" = "Gotovo";
 "Accessibility.Select.Hint" = "Dvaput dodirnite da biste odabrali";
 "Accessibility.Selected.Hint" = "Dvaput dodirnite da biste pogledali pojedinosti";
 "Accessibility.Selected.Value" = "Odabrano";
@@ -87,3 +88,15 @@
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Pretraživanje direktorija";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "Vrijeme početka";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "Vrijeme završetka";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "Datum početka";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "Datum završetka";

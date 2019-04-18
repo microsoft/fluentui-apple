@@ -7,6 +7,7 @@
 "Accessibility.Alert" = "Ειδοποίηση";
 "Accessibility.Dismiss.Label" = "Κλείσιμο";
 "Accessibility.Dismiss.Hint" = "Πατήστε δύο φορές για κλείσιμο";
+"Accessibility.Done.Label" = "Τέλος";
 "Accessibility.Select.Hint" = "Πατήστε δύο φορές για επιλογή";
 "Accessibility.Selected.Hint" = "Πατήστε δύο φορές για εμφάνιση λεπτομερειών";
 "Accessibility.Selected.Value" = "Επιλεγμένο";
@@ -87,3 +88,15 @@
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Αναζήτηση στον κατάλογο";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "Ώρα έναρξης";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "Ώρα λήξης";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "Ημερομηνία έναρξης";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "Ημερομηνία λήξης";

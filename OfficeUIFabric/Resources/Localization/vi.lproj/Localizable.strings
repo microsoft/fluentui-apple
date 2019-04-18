@@ -7,6 +7,7 @@
 "Accessibility.Alert" = "Cảnh báo";
 "Accessibility.Dismiss.Label" = "Bỏ";
 "Accessibility.Dismiss.Hint" = "Nhấn đúp để bỏ";
+"Accessibility.Done.Label" = "Đã xong";
 "Accessibility.Select.Hint" = "Nhấn đúp để chọn";
 "Accessibility.Selected.Hint" = "Nhấn đúp để xem chi tiết";
 "Accessibility.Selected.Value" = "Đã chọn";
@@ -87,3 +88,15 @@
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Tìm kiếm trong thư mục";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "Thời gian bắt đầu";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "Thời gian kết thúc";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "Ngày bắt đầu";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "Ngày kết thúc";

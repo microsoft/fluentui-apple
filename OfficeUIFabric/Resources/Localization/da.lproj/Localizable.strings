@@ -7,6 +7,7 @@
 "Accessibility.Alert" = "Underretning";
 "Accessibility.Dismiss.Label" = "Afvis";
 "Accessibility.Dismiss.Hint" = "Dobbelttryk for at afvise";
+"Accessibility.Done.Label" = "Udført";
 "Accessibility.Select.Hint" = "Dobbelttryk for at vælge";
 "Accessibility.Selected.Hint" = "Dobbelttryk for at se detaljerne";
 "Accessibility.Selected.Value" = "Markeret";
@@ -87,3 +88,15 @@
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Søg i mappen";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "Starttidspunkt";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "Sluttidspunkt";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "Startdato";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "Slutdato";

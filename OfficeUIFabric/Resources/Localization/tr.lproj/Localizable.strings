@@ -7,6 +7,7 @@
 "Accessibility.Alert" = "Uyarı";
 "Accessibility.Dismiss.Label" = "Kapat";
 "Accessibility.Dismiss.Hint" = "Kapatmak için iki kez dokunun";
+"Accessibility.Done.Label" = "Bitti";
 "Accessibility.Select.Hint" = "Seçmek için iki kez dokunun";
 "Accessibility.Selected.Hint" = "Ayrıntıları görmek için iki kez dokunun";
 "Accessibility.Selected.Value" = "Seçili";
@@ -87,3 +88,15 @@
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Dizinde Ara";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "Başlangıç Saati";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "Bitiş Saati";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "Başlangıç Tarihi";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "Bitiş Tarihi";

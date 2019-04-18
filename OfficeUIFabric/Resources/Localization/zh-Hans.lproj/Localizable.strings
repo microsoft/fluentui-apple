@@ -7,6 +7,7 @@
 "Accessibility.Alert" = "警报";
 "Accessibility.Dismiss.Label" = "关闭";
 "Accessibility.Dismiss.Hint" = "双击以关闭";
+"Accessibility.Done.Label" = "完成";
 "Accessibility.Select.Hint" = "双击进行选择";
 "Accessibility.Selected.Hint" = "双击以查看详细信息";
 "Accessibility.Selected.Value" = "已选择";
@@ -87,3 +88,15 @@
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "搜索目录";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "开始时间";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "结束时间";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "开始日期";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "结束日期";

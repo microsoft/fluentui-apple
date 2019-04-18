@@ -7,6 +7,7 @@
 "Accessibility.Alert" = "Оповіщення";
 "Accessibility.Dismiss.Label" = "Закрити";
 "Accessibility.Dismiss.Hint" = "Торкніться двічі, щоб закрити";
+"Accessibility.Done.Label" = "Готово";
 "Accessibility.Select.Hint" = "Торкніться двічі, щоб вибрати";
 "Accessibility.Selected.Hint" = "Торкніться двічі, щоб переглянути відомості";
 "Accessibility.Selected.Value" = "Вибрано";
@@ -87,3 +88,15 @@
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Пошук у каталозі";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "Час початку";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "Час завершення";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "Дата початку";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "Дата завершення";

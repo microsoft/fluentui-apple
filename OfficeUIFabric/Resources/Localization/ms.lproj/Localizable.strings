@@ -7,6 +7,7 @@
 "Accessibility.Alert" = "Isyarat";
 "Accessibility.Dismiss.Label" = "Tolak";
 "Accessibility.Dismiss.Hint" = "Dwiketik untuk menolak";
+"Accessibility.Done.Label" = "Selesai";
 "Accessibility.Select.Hint" = "Dwiketik untuk memilih";
 "Accessibility.Selected.Hint" = "Dwiketik untuk melihat butiran";
 "Accessibility.Selected.Value" = "Dipilih";
@@ -87,3 +88,15 @@
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Cari dalam Direktori";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "Masa Mula";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "Waktu Tamat";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "Tarikh Mula";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "Tarikh Tamat";

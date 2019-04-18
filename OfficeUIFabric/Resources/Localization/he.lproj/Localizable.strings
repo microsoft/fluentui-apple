@@ -7,6 +7,7 @@
 "Accessibility.Alert" = "התראה";
 "Accessibility.Dismiss.Label" = "בטל";
 "Accessibility.Dismiss.Hint" = "הקש פעמיים כדי לבטל";
+"Accessibility.Done.Label" = "בוצע";
 "Accessibility.Select.Hint" = "הקש פעמיים כדי לבחור";
 "Accessibility.Selected.Hint" = "הקש פעמיים כדי להציג פרטים";
 "Accessibility.Selected.Value" = "נבחר";
@@ -87,3 +88,15 @@
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "חפש במדריך הכתובות";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "שעת התחלה";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "שעת סיום";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "תאריך התחלה";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "תאריך סיום";

@@ -7,6 +7,7 @@
 "Accessibility.Alert" = "تنبيه";
 "Accessibility.Dismiss.Label" = "تجاهل";
 "Accessibility.Dismiss.Hint" = "اضغط ضغطاً مزدوجاً للتجاهل";
+"Accessibility.Done.Label" = "تم";
 "Accessibility.Select.Hint" = "اضغط ضغطاً مزدوجاً للتحديد";
 "Accessibility.Selected.Hint" = "اضغط ضغطاً مزدوجاً لمشاهدة التفاصيل.";
 "Accessibility.Selected.Value" = "محددة";
@@ -87,3 +88,15 @@
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "البحث في الدليل";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "وقت البدء";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "وقت الانتهاء";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "تاريخ البدء";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "تاريخ الانتهاء";

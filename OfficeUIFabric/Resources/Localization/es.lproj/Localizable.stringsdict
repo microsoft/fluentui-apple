@@ -14,15 +14,15 @@
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
         <key>zero</key>
-        <string>%d o'clock</string>
+        <string>%d en punto</string>
         <key>one</key>
-        <string>%d o'clock</string>
+        <string>%d en punto</string>
         <key>two</key>
-        <string>%d o'clock</string>
+        <string>%d en punto</string>
         <key>few</key>
-        <string>%d o'clock</string>
+        <string>%d en punto</string>
         <key>many</key>
-        <string>%d o'clock</string>
+        <string>%d en punto</string>
         <key>other</key>
         <string>%d en punto</string>
       </dict>
@@ -39,15 +39,15 @@
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
         <key>zero</key>
-        <string>%d minutes</string>
+        <string>%d minutos</string>
         <key>one</key>
         <string>%d minuto</string>
         <key>two</key>
-        <string>%d minutes</string>
+        <string>%d minutos</string>
         <key>few</key>
-        <string>%d minutes</string>
+        <string>%d minutos</string>
         <key>many</key>
-        <string>%d minutes</string>
+        <string>%d minutos</string>
         <key>other</key>
         <string>%d minutos</string>
       </dict>
@@ -64,15 +64,15 @@
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
         <key>zero</key>
-        <string>%d results found from directory</string>
+        <string>Se han encontrado %d resultados en el directorio</string>
         <key>one</key>
         <string>%d resultado encontrado en el directorio</string>
         <key>two</key>
-        <string>%d results found from directory</string>
+        <string>Se han encontrado %d resultados en el directorio</string>
         <key>few</key>
-        <string>%d results found from directory</string>
+        <string>Se han encontrado %d resultados en el directorio</string>
         <key>many</key>
-        <string>%d results found from directory</string>
+        <string>Se han encontrado %d resultados en el directorio</string>
         <key>other</key>
         <string>Se han encontrado %d resultados en el directorio</string>
       </dict>

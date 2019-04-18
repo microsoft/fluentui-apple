@@ -7,6 +7,7 @@
 "Accessibility.Alert" = "Varsel";
 "Accessibility.Dismiss.Label" = "Lukk";
 "Accessibility.Dismiss.Hint" = "Dobbelttrykk for å lukke";
+"Accessibility.Done.Label" = "Fullført";
 "Accessibility.Select.Hint" = "Dobbelttrykk for å velge";
 "Accessibility.Selected.Hint" = "Dobbelttrykk for å se detaljene";
 "Accessibility.Selected.Value" = "Merket";
@@ -87,3 +88,15 @@
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Søk i katalogen";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "Starttidspunkt";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "Sluttidspunkt";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "Startdato";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "Sluttdato";

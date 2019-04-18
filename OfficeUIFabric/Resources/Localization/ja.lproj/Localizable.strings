@@ -7,6 +7,7 @@
 "Accessibility.Alert" = "アラート";
 "Accessibility.Dismiss.Label" = "閉じる";
 "Accessibility.Dismiss.Hint" = "ダブルタップして閉じます";
+"Accessibility.Done.Label" = "完了";
 "Accessibility.Select.Hint" = "ダブルタップして選択します";
 "Accessibility.Selected.Hint" = "ダブルタップして詳細情報を表示します";
 "Accessibility.Selected.Value" = "選択済み";
@@ -87,3 +88,15 @@
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "ディレクトリの検索";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "開始時刻";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "終了時刻";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "開始日";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "終了日";

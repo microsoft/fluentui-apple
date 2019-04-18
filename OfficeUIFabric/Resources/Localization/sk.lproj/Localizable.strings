@@ -7,6 +7,7 @@
 "Accessibility.Alert" = "Upozornenie";
 "Accessibility.Dismiss.Label" = "Zrušiť";
 "Accessibility.Dismiss.Hint" = "Zrušíte dvojitým ťuknutím";
+"Accessibility.Done.Label" = "Hotovo";
 "Accessibility.Select.Hint" = "Vyberte dvojitým ťuknutím";
 "Accessibility.Selected.Hint" = "Dvojitým ťuknutím zobrazíte podrobnosti.";
 "Accessibility.Selected.Value" = "Vybraté";
@@ -87,3 +88,15 @@
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Prehľadať adresár";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "Čas začatia";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "Čas ukončenia";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "Dátum začatia";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "Dátum ukončenia";

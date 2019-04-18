@@ -7,6 +7,7 @@
 "Accessibility.Alert" = "通知";
 "Accessibility.Dismiss.Label" = "關閉";
 "Accessibility.Dismiss.Hint" = "點兩下以關閉";
+"Accessibility.Done.Label" = "完成";
 "Accessibility.Select.Hint" = "點兩下以選取";
 "Accessibility.Selected.Hint" = "點兩下以檢視詳細資料";
 "Accessibility.Selected.Value" = "已選取";
@@ -87,3 +88,15 @@
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "搜尋目錄";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "開始時間";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "結束時間";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "開始日期";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "結束日期";
