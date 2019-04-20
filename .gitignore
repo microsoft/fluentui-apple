@@ -6,6 +6,8 @@
 # Build generated
 build/
 DerivedData/
+node_modules/
+*-publish.nuspec
 
 # Various settings
 *.pbxuser

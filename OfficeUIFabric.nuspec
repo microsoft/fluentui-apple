@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.Office.UIFabric.iOS</id>
+    <version>__BuildBuildNumber__</version>
+    <description>Contains implementations of Office UI Fabric for iOS</description>
+    <authors>Microsoft</authors>
+    <projectUrl>https://onedrive.visualstudio.com/Design/_git/fabric-ios</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+  </metadata>
+  <files>
+    <!-- iOS device debug -->
+    <file src="DerivedData\OfficeUIFabric\Build\Products\Debug-iphoneos\*.framework\**" target="Debug-iphoneos"/>
+    <file src="DerivedData\OfficeUIFabric\Build\Products\Debug-iphoneos\*.swiftmodule\**" target="Debug-iphoneos"/>
+    <!-- iOS device ship -->
+    <file src="DerivedData\OfficeUIFabric\Build\Products\Release-iphoneos\*.framework\**" target="Ship-iphoneos"/>
+    <file src="DerivedData\OfficeUIFabric\Build\Products\Release-iphoneos\*.swiftmodule\**" target="Ship-iphoneos"/>
+    <!-- iOS simulator debug -->
+    <file src="DerivedData\OfficeUIFabric\Build\Products\Debug-iphonesimulator\*.framework\**" target="Debug-iphonesimulator"/>
+    <file src="DerivedData\OfficeUIFabric\Build\Products\Debug-iphonesimulator\*.swiftmodule\**" target="Debug-iphonesimulator"/>
+    <!-- iOS simulator ship -->
+    <file src="DerivedData\OfficeUIFabric\Build\Products\Release-iphonesimulator\*.framework\**" target="Ship-iphonesimulator"/>
+    <file src="DerivedData\OfficeUIFabric\Build\Products\Release-iphonesimulator\*.swiftmodule\**" target="Ship-iphonesimulator"/>
+  </files>
+</package>

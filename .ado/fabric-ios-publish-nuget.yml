@@ -1,0 +1,87 @@
+# This file defines the Apple publish build steps
+name: 1.$(Date:yyyy).$(Date:MMdd)-v$(Rev:r)
+
+trigger: none # will disable CI builds entirely
+
+pr: none # disable on PRs until stable
+
+jobs:
+  - job: fabric_ios_nuget_publish
+    displayName: Fabric iOS NuGet Publish
+    timeoutInMinutes: 120 # how long to run the job before automatically cancelling
+    cancelTimeoutInMinutes: 5 # how much time to give 'run always even if cancelled tasks' before killing them
+    steps:
+      - task: Npm@1
+        displayName: 'npm install'
+        inputs:
+          verbose: false
+
+      - task: Xcode@5
+        displayName: 'Xcode build Framework, Debug, iphonesimulator'
+        inputs:
+          actions: 'build'
+          xcWorkspacePath: OfficeUIFabric.xcworkspace
+          scheme: OfficeUIFabric
+          sdk: 'iphonesimulator'
+          configuration: 'Debug'
+          xcodeVersion: 'specifyPath'
+          xcodeDeveloperDir: '/Applications/Xcode_10.1.app/Contents/Developer'
+          useXcpretty: false
+
+      - task: Xcode@5
+        displayName: 'Xcode build Framework, Release, iphonesimulator'
+        inputs:
+          actions: 'build'
+          xcWorkspacePath: OfficeUIFabric.xcworkspace
+          scheme: OfficeUIFabric
+          sdk: 'iphonesimulator'
+          configuration: 'Release'
+          xcodeVersion: 'specifyPath'
+          xcodeDeveloperDir: '/Applications/Xcode_10.1.app/Contents/Developer'
+          useXcpretty: false
+
+      - task: Xcode@5
+        displayName: 'Xcode build Framework, Debug, iphoneos'
+        inputs:
+          actions: 'build'
+          xcWorkspacePath: OfficeUIFabric.xcworkspace
+          scheme: OfficeUIFabric
+          sdk: 'iphoneos'
+          configuration: 'Debug'
+          xcodeVersion: 'specifyPath'
+          xcodeDeveloperDir: '/Applications/Xcode_10.1.app/Contents/Developer'
+          useXcpretty: false
+
+      - task: Xcode@5
+        displayName: 'Xcode build Framework, Release, iphoneos'
+        inputs:
+          actions: 'build'
+          xcWorkspacePath: OfficeUIFabric.xcworkspace
+          scheme: OfficeUIFabric
+          sdk: 'iphoneos'
+          configuration: 'Release'
+          xcodeVersion: 'specifyPath'
+          xcodeDeveloperDir: '/Applications/Xcode_10.1.app/Contents/Developer'
+          useXcpretty: false
+
+      # Replace all nuspec files __BuildBuildNumber__ and __OUTPUTDIR__ fields
+
+      - script: 'node scripts/vsto-collect-nuspec.js apple'
+        displayName: 'Generate versioned nuspec files'
+
+      # pack all the nuspecs
+
+      - task: NuGetCommand@2
+        displayName: 'NuGet pack'
+        inputs:
+          command: pack
+          packagesToPack: '$(nuspecsToPack)'
+        continueOnError: true
+
+      # push packages
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: OfficeUIFabriciOSNuPkg'
+        inputs:
+          ArtifactName: OfficeUIFabriciOSNuPkg
+        condition: succeededOrFailed()
