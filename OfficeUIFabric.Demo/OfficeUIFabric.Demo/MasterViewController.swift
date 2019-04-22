@@ -17,6 +17,16 @@ class MasterViewController: UITableViewController {
     }
     var demoPlaceholder: UIViewController?
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let titleView = MSTwoLinesTitleView()
+        titleView.setup(
+            title: navigationItem.title ?? "",
+            subtitle: OfficeUIFabricFramework.bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+        )
+        navigationItem.titleView = titleView
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         clearsSelectionOnViewWillAppear = splitViewController!.isCollapsed
         super.viewWillAppear(animated)
