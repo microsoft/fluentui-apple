@@ -4,6 +4,6 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@office-iss/sdx-build-tools": "0.5.122"
+    "@office-iss/sdx-build-tools": "0.5.124"
   }
 }
