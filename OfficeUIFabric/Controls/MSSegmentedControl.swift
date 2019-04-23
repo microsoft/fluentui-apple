@@ -178,7 +178,7 @@ open class MSSegmentedControl: UIControl {
             maxButtonWidth = max(maxButtonWidth, UIScreen.main.roundToDevicePixels(size.width))
         }
 
-        let fittingSize = CGSize(width: maxButtonWidth * CGFloat(buttons.count), height: maxButtonHeight + Constants.selectionBarHeight)
+        let fittingSize = CGSize(width: maxButtonWidth * CGFloat(buttons.count), height: maxButtonHeight)
 
         return CGSize(width: min(fittingSize.width, size.width), height: min(fittingSize.height, size.height))
     }

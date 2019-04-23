@@ -194,7 +194,7 @@ class MSDateTimePickerController: UIViewController, DateTimePicker {
 
 extension MSDateTimePickerController: MSCardPresentable {
     func idealSize() -> CGSize {
-        let height = MSDateTimePickerViewLayout.height(forRowCount: Constants.idealRowCount)
+        let height = MSDateTimePickerViewLayout.height(forRowCount: Constants.idealRowCount) + (segmentedControl?.height ?? 0)
         return CGSize(width: Constants.idealWidth, height: height)
     }
 }
