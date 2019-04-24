@@ -29,7 +29,7 @@ extension String {
     }
 
     internal var localized: String {
-        return NSLocalizedString(self, bundle: OfficeUIFabricFramework.bundle, comment: "")
+        return NSLocalizedString(self, bundle: OfficeUIFabricFramework.resourceBundle, comment: "")
     }
 
     func formatted(with args: CVarArg...) -> String {

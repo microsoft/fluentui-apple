@@ -12,5 +12,5 @@ Pod::Spec.new do |s|
 
   s.source       = { :git => "https://github.com/OfficeDev/ui-fabric-ios.git", :tag => "#{s.version}" }
   s.source_files = "OfficeUIFabric/**/*.{swift,h}"
-  s.resources    = "OfficeUIFabric/**/*.{storyboard,xib,ttf,xcassets,strings,stringsdict,json}"
+  s.resource_bundle = { 'OfficeUIFabricResources' => "OfficeUIFabric/**/*.{storyboard,xib,xcassets,strings,stringsdict}" }
 end

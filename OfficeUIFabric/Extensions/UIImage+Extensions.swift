@@ -25,7 +25,7 @@ public extension UIImage {
 
     internal static func staticImageNamed(_ name: String) -> UIImage? {
         // TODO: Provide primary color for known images
-        return staticImageNamed(name, in: OfficeUIFabricFramework.bundle)
+        return staticImageNamed(name, in: OfficeUIFabricFramework.resourceBundle)
     }
 
     private static func recolorImage(_ originalImage: UIImage, withPrimaryColor primaryColor: UIColor) -> UIImage {
