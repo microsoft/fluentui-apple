@@ -15,7 +15,7 @@ import UIKit
     case xLarge
     case xxLarge
 
-    var font: UIFont {
+    public var font: UIFont {
         switch self {
         case .xSmall:
             return UIFont.systemFont(ofSize: 9)
@@ -32,7 +32,7 @@ import UIKit
         }
     }
 
-    var size: CGSize {
+    public var size: CGSize {
         switch self {
         case .xSmall:
             return CGSize(width: 18, height: 18)
