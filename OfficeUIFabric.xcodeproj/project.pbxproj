@@ -60,6 +60,7 @@
 		B4EF53C3215AF1AB00573E8F /* MSPersona.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF53C2215AF1AB00573E8F /* MSPersona.swift */; };
 		FD053A352224CA33009B6378 /* MSDatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD053A342224CA33009B6378 /* MSDatePickerControllerTests.swift */; };
 		FD0D29D62151A3D700E8655E /* MSCardPresenterNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0D29D52151A3D700E8655E /* MSCardPresenterNavigationController.swift */; };
+		FD1FAE1B2272464B00A5DBA4 /* DateTimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1FAE1A2272464B00A5DBA4 /* DateTimePicker.swift */; };
 		FD256C5B2183B90B00EC9588 /* MSDatePickerSelectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD256C5A2183B90B00EC9588 /* MSDatePickerSelectionManager.swift */; };
 		FD36F1A9216C0A6900CECBC6 /* MSCardPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA1AF9221487225001AE720 /* MSCardPresentationController.swift */; };
 		FD4F2A1B2148937100C437D6 /* MSPageCardPresenterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4F2A1A2148937100C437D6 /* MSPageCardPresenterController.swift */; };
@@ -176,6 +177,7 @@
 		B4EF53C2215AF1AB00573E8F /* MSPersona.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPersona.swift; sourceTree = "<group>"; };
 		FD053A342224CA33009B6378 /* MSDatePickerControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDatePickerControllerTests.swift; sourceTree = "<group>"; };
 		FD0D29D52151A3D700E8655E /* MSCardPresenterNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSCardPresenterNavigationController.swift; sourceTree = "<group>"; };
+		FD1FAE1A2272464B00A5DBA4 /* DateTimePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimePicker.swift; sourceTree = "<group>"; };
 		FD256C5A2183B90B00EC9588 /* MSDatePickerSelectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDatePickerSelectionManager.swift; sourceTree = "<group>"; };
 		FD4F2A1A2148937100C437D6 /* MSPageCardPresenterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPageCardPresenterController.swift; sourceTree = "<group>"; };
 		FD4F2A1F214AE20400C437D6 /* MSDatePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDatePickerController.swift; sourceTree = "<group>"; };
@@ -542,6 +544,7 @@
 			isa = PBXGroup;
 			children = (
 				FD77752F21A490BA00033D58 /* MSDateTimePicker.swift */,
+				FD1FAE1A2272464B00A5DBA4 /* DateTimePicker.swift */,
 				FD4F2A1C214ADBBF00C437D6 /* Date Picker */,
 				FD5C8C2A2190C3470063562C /* Date Time Picker */,
 			);
@@ -833,6 +836,7 @@
 				B46D3F932151D95F0029772C /* MSPersonaCell.swift in Sources */,
 				B444D6B12181403C0002B4D4 /* UITableViewCell+Extension.swift in Sources */,
 				FD777529219E3F6C00033D58 /* MSDayOfMonth.swift in Sources */,
+				FD1FAE1B2272464B00A5DBA4 /* DateTimePicker.swift in Sources */,
 				A54D97DA217A5FC10072681A /* CALayer+Extensions.swift in Sources */,
 				FD777527219E305F00033D58 /* Locale+Extensions.swift in Sources */,
 				B483323721DEB5A00022B4CC /* MSTouchForwardingView.swift in Sources */,

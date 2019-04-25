@@ -227,7 +227,7 @@ class MSDatePickerController: UIViewController, DateTimePicker {
     }
 
     @objc private func handleDidTapDone() {
-        delegate?.dateTimePicker(self, didPickStartDate: startDate, endDate: endDate)
+        dismiss()
     }
 }
 

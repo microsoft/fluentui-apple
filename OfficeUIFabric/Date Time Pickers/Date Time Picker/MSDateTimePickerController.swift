@@ -161,11 +161,6 @@ class MSDateTimePickerController: UIViewController, DateTimePicker {
         }
     }
 
-    private func dismiss() {
-        delegate?.dateTimePicker(self, didPickStartDate: startDate, endDate: endDate)
-        presentingViewController?.dismiss(animated: true)
-    }
-
     @objc private func handleDidSelectDate(_ datePicker: MSDateTimePickerView) {
         switch mode {
         case .single:

@@ -22,21 +22,8 @@ import Foundation
 @objc public protocol MSDateTimePickerDelegate: class {
     /// Allows a class to be notified when a user confirms their selected date
     func dateTimePicker(_ dateTimePicker: MSDateTimePicker, didPickStartDate startDate: Date, endDate: Date)
-}
-
-// MARK: - DateTimePicker
-
-protocol DateTimePicker: class {
-    var startDate: Date { get set }
-    var endDate: Date { get set }
-    var delegate: DateTimePickerDelegate? { get set }
-}
-
-// MARK: - DateTimePickerDelegate
-
-protocol DateTimePickerDelegate: class {
-    func dateTimePicker(_ dateTimePicker: DateTimePicker, didPickStartDate startDate: Date, endDate: Date)
-    func dateTimePicker(_ dateTimePicker: DateTimePicker, didSelectStartDate startDate: Date, endDate: Date)
+    /// Allows for some validation and cancellation of picking behavior, including the dismissal of DateTimePicker classes when Done is pressed. If false is returned, the dismissal and `didPickStartDate` delegate calls will not occur. This is not called when dismissing the modal without selection, such as when tapping outside to dismiss.
+    @objc optional func dateTimePicker(_ dateTimePicker: MSDateTimePicker, shouldEndPickingStartDate startDate: Date, endDate: Date) -> Bool
 }
 
 // MARK: - MSDateTimePicker
@@ -155,5 +142,9 @@ extension MSDateTimePicker: DateTimePickerDelegate {
             picker.startDate = startDate
             picker.endDate = endDate
         }
+    }
+
+    func dateTimePicker(_ dateTimePicker: DateTimePicker, shouldEndPickingStartDate startDate: Date, endDate: Date) -> Bool {
+        return delegate?.dateTimePicker?(self, shouldEndPickingStartDate: startDate, endDate: endDate) ?? true
     }
 }
