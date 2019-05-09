@@ -78,6 +78,7 @@ public final class MSColors: NSObject {
     public static var disabled: UIColor = borderLightGray
     public static var foregroundRegular: UIColor = black
     public static var foregroundSecondary: UIColor = gray
+    public static var selected: UIColor = primary
 
     // Add semantic colors describing colors used for particular control elements
 
@@ -101,7 +102,7 @@ public final class MSColors: NSObject {
         public static var backgroundDisabled: UIColor = backgroundLightGray
         public static var backgroundError: UIColor = lightError
         public static var backgroundErrorSelected: UIColor = error
-        public static var backgroundSelected: UIColor = primary
+        public static var backgroundSelected: UIColor = selected
         public static var backgroundWarning: UIColor = lightWarning
         public static var backgroundWarningSelected: UIColor = warning
         public static var text: UIColor = primary
@@ -142,17 +143,17 @@ public final class MSColors: NSObject {
             public static var textColorSecondary: UIColor = black
             public static var backgroundColorPrimary: UIColor = background
             public static var backgroundColorSecondary: UIColor = backgroundLightGray
-            public static var todayTextColorNormal: UIColor = primary
+            public static var todayTextColorNormal: UIColor = selected
             public static var todayTextColorEmphasized: UIColor = black
             public static var normalTextColor: UIColor = gray
             public static var highlightedCircleColor: UIColor = gray
-            public static var selectedCircleNormalColor: UIColor = primary
+            public static var selectedCircleNormalColor: UIColor = selected
         }
     }
 
     public struct DateTimePicker {
         public static var text: UIColor = gray
-        public static var textEmphasized: UIColor = primary
+        public static var textEmphasized: UIColor = selected
     }
 
     public struct HUD {
@@ -168,13 +169,14 @@ public final class MSColors: NSObject {
 
     public struct PopupMenu {
         public struct Item {
-            public static var imageSelected: UIColor = primary
+            public static var imageSelected: UIColor = selected
             public static var title: UIColor = foregroundRegular
-            public static var titleSelected: UIColor = primary
+            public static var titleSelected: UIColor = selected
             public static var titleDisabled: UIColor = disabled
             public static var subtitle: UIColor = foregroundSecondary
-            public static var subtitleSelected: UIColor = primary
+            public static var subtitleSelected: UIColor = selected
             public static var subtitleDisabled: UIColor = disabled
+            public static var checkmark: UIColor = selected
         }
         public static var sectionHeader: UIColor = darkGray
     }
@@ -185,9 +187,9 @@ public final class MSColors: NSObject {
     }
 
     public struct SegmentedControl {
-        public static var buttonTextNormal: UIColor = black
-        public static var buttonTextSelected: UIColor = primary
-        public static var selectionBarNormal: UIColor = primary
+        public static var buttonTextNormal: UIColor = foregroundRegular
+        public static var buttonTextSelected: UIColor = selected
+        public static var selectionBarNormal: UIColor = selected
         public static var selectionBarDisabled: UIColor = gray
     }
 

@@ -83,7 +83,8 @@ class MSPopupMenuItemCell: UITableViewCell {
 
     private let selectedImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage.staticImageNamed("checkmark-blue-20x20")
+        imageView.image = UIImage.staticImageNamed("checkmark-blue-20x20")?.withRenderingMode(.alwaysTemplate)
+        imageView.tintColor = MSColors.PopupMenu.Item.checkmark
         imageView.contentMode = .center
         return imageView
     }()
