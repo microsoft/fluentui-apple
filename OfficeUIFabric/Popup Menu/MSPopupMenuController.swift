@@ -181,6 +181,20 @@ open class MSPopupMenuController: MSDrawerController {
         tableView.dataSource = self
     }
 
+    private func didSelectItem(_ item: MSPopupMenuItem) {
+        switch item.executionMode {
+        case .onSelection:
+            item.onSelected?()
+            if !isBeingDismissed {
+                presentingViewController?.dismiss(animated: true)
+            }
+        case .afterPopupMenuDismissal:
+            presentingViewController?.dismiss(animated: true) {
+                item.onSelected?()
+            }
+        }
+    }
+
     @objc private func handlePanGesture(gestureRecognizer: UIGestureRecognizer) {
         let point = gestureRecognizer.location(in: tableView)
 
@@ -279,10 +293,7 @@ extension MSPopupMenuController: UITableViewDelegate {
 
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedItemIndexPath = indexPath
-        sections[indexPath.section].items[indexPath.row].onSelected?()
-        if !isBeingDismissed {
-            presentingViewController?.dismiss(animated: true)
-        }
+        didSelectItem(sections[indexPath.section].items[indexPath.row])
     }
 }
 
