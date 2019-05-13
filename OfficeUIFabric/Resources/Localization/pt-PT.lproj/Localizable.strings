@@ -8,6 +8,7 @@
 "Accessibility.Dismiss.Label" = "Dispensar";
 "Accessibility.Dismiss.Hint" = "Faça duplo toque para dispensar";
 "Accessibility.Done.Label" = "Concluído";
+"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
 "Accessibility.Select.Hint" = "Faça duplo toque para selecionar";
 "Accessibility.Selected.Hint" = "Faça duplo toque para ver os detalhes";
 "Accessibility.Selected.Value" = "Selecionado";

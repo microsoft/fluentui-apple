@@ -8,6 +8,7 @@
 "Accessibility.Dismiss.Label" = "关闭";
 "Accessibility.Dismiss.Hint" = "双击以关闭";
 "Accessibility.Done.Label" = "完成";
+"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
 "Accessibility.Select.Hint" = "双击进行选择";
 "Accessibility.Selected.Hint" = "双击以查看详细信息";
 "Accessibility.Selected.Value" = "已选择";

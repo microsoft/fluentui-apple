@@ -24,6 +24,8 @@
 }
 
 open class MSSeparator: UIView {
+    open override var backgroundColor: UIColor? { get { return super.backgroundColor } set { } }
+
     private var orientation: MSSeparatorOrientation = .horizontal
 
     public init(style: MSSeparatorStyle = .default, orientation: MSSeparatorOrientation = .horizontal) {
@@ -36,7 +38,7 @@ open class MSSeparator: UIView {
     }
 
     private func initialize(style: MSSeparatorStyle, orientation: MSSeparatorOrientation) {
-        backgroundColor = style.color
+        super.backgroundColor = style.color
         self.orientation = orientation
         switch orientation {
         case .horizontal:

@@ -8,6 +8,7 @@
 "Accessibility.Dismiss.Label" = "Tutup";
 "Accessibility.Dismiss.Hint" = "Ketuk dua kali untuk menutup";
 "Accessibility.Done.Label" = "Selesai";
+"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
 "Accessibility.Select.Hint" = "Ketuk dua kali untuk memilih";
 "Accessibility.Selected.Hint" = "Ketuk dua kali untuk melihat detail";
 "Accessibility.Selected.Value" = "Dipilih";

@@ -8,6 +8,7 @@
 "Accessibility.Dismiss.Label" = "Lukk";
 "Accessibility.Dismiss.Hint" = "Dobbelttrykk for å lukke";
 "Accessibility.Done.Label" = "Fullført";
+"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
 "Accessibility.Select.Hint" = "Dobbelttrykk for å velge";
 "Accessibility.Selected.Hint" = "Dobbelttrykk for å se detaljene";
 "Accessibility.Selected.Value" = "Merket";

@@ -25,6 +25,9 @@ class MasterViewController: UITableViewController {
             subtitle: OfficeUIFabricFramework.bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
         )
         navigationItem.titleView = titleView
+
+        tableView.tableFooterView = UIView()
+        tableView.separatorStyle = .none
     }
 
     override func viewWillAppear(_ animated: Bool) {

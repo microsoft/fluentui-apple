@@ -57,6 +57,8 @@ import UIKit
  If a `customView` is not provided the `customView` will be hidden and the displayed text will take up the empty space left by the hidden `customView`.
 
  Specify `accessoryType` on setup to show either a disclosure indicator or a `detailButton`. The `detailButton` will display a button with an ellipsis icon which can be configured by passing in a closure to the cell's `onAccessoryTapped` property or by implementing UITableViewDelegate's `accessoryButtonTappedForRowWith` method.
+
+ NOTE: This cell implements its own custom separator. Make sure to remove the UITableViewCell built-in separator by setting "separatorStyle = .none" on your table view. To remove the cell's custom separator set `showsSeparator` to false.
  */
 open class MSTableViewCell: UITableViewCell {
     @objc public enum CustomViewSize: Int {
@@ -116,6 +118,12 @@ open class MSTableViewCell: UITableViewCell {
         static let subtitleThreeLineTextStyle: MSTextStyle = .subhead
         static let footerTextStyle: MSTextStyle = .footnote
         static let minHeight: CGFloat = 44
+        static let selectionImageMarginLeft: CGFloat = 16
+        static let selectionImageOff = UIImage.staticImageNamed("selection-off")
+        static let selectionImageOn = UIImage.staticImageNamed("selection-on")
+        static let selectionImageSize = CGSize(width: 25, height: 25)
+        static let selectionModeSpacing: CGFloat = selectionImageMarginLeft + selectionImageSize.width
+        static let selectionModeAnimationDuration: TimeInterval = 0.2
     }
 
     /**
@@ -162,11 +170,11 @@ open class MSTableViewCell: UITableViewCell {
     ///   - footerNumberOfLines: The number of lines that the footer should display
     ///   - containerWidth: The width of the cell's super view (e.g. the table view's width)
     /// - Returns: a value representing the calculated height of the cell
-    @objc public class func height(title: String, subtitle: String = "", footer: String = "", customViewSize: CustomViewSize = .default, customAccessoryView: UIView? = nil, accessoryType: MSTableViewCellAccessoryType = .none, titleNumberOfLines: Int = 1, subtitleNumberOfLines: Int = 1, footerNumberOfLines: Int = 1, containerWidth: CGFloat = .greatestFiniteMagnitude) -> CGFloat {
+    @objc public class func height(title: String, subtitle: String = "", footer: String = "", customViewSize: CustomViewSize = .default, customAccessoryView: UIView? = nil, accessoryType: MSTableViewCellAccessoryType = .none, titleNumberOfLines: Int = 1, subtitleNumberOfLines: Int = 1, footerNumberOfLines: Int = 1, containerWidth: CGFloat = .greatestFiniteMagnitude, isInSelectionMode: Bool = false) -> CGFloat {
         let layoutType: LayoutType = footer == "" ? (subtitle == "" ? .oneLine : .twoLines) : .threeLines
         let customViewSize = customViewSize == .default ? layoutType.customViewSize : customViewSize
 
-        let textAreaLeftOffset = self.textAreaLeftOffset(customViewSize: customViewSize)
+        let textAreaLeftOffset = self.textAreaLeftOffset(customViewSize: customViewSize, isInSelectionMode: isInSelectionMode)
         let textAreaRightOffset = self.textAreaRightOffset(customAccessoryView: customAccessoryView, accessoryType: accessoryType)
         let textAreaWidth = containerWidth - (textAreaLeftOffset + textAreaRightOffset)
 
@@ -184,8 +192,16 @@ open class MSTableViewCell: UITableViewCell {
         return max(layoutType.labelVerticalMargin * 2 + textAreaHeight, Constants.minHeight)
     }
 
-    private static func textAreaLeftOffset(customViewSize: CustomViewSize) -> CGFloat {
-        var textAreaLeftOffset = Constants.customViewMarginLeft
+    private static func selectionModeLeftOffset(isInSelectionMode: Bool) -> CGFloat {
+        return isInSelectionMode ? Constants.selectionModeSpacing : 0
+    }
+
+    private static func customViewLeftOffset(isInSelectionMode: Bool) -> CGFloat {
+        return selectionModeLeftOffset(isInSelectionMode: isInSelectionMode) + Constants.customViewMarginLeft
+    }
+
+    private static func textAreaLeftOffset(customViewSize: CustomViewSize, isInSelectionMode: Bool) -> CGFloat {
+        var textAreaLeftOffset = customViewLeftOffset(isInSelectionMode: isInSelectionMode)
         if customViewSize != .zero {
             textAreaLeftOffset += customViewSize.size.width + Constants.customViewMarginRight
         }
@@ -255,10 +271,27 @@ open class MSTableViewCell: UITableViewCell {
         return customView != nil ? layoutType.customViewSize : .zero
     }
 
+    private var _isInSelectionMode: Bool = false
+
+    /// Enables / disables multi-selection mode by showing / hiding a checkmark selection indicator on the leading edge
+    @objc open var isInSelectionMode: Bool {
+        get { return _isInSelectionMode }
+        set { setIsInSelectionMode(newValue, animated: false) }
+    }
+
+    /// Boolean describing whether or not the cell's separator should be visible
+    @objc open var showsSeparator: Bool = true {
+        didSet {
+            separator.isHidden = !showsSeparator
+        }
+    }
+
     /// `onAccessoryTapped` is called when `detailButton` accessory view is tapped
     @objc open var onAccessoryTapped: (() -> Void)?
     /// `onSelected` is called when the cell is selected during `touchesEnded` event
     @objc open var onSelected: (() -> Void)?
+    /// `onUnselected` is called when the cell is unselected and when `isInSelectionMode` is true during `touchesEnded` event
+    @objc open var onUnselected: (() -> Void)?
 
     open override var intrinsicContentSize: CGSize {
         return CGSize(
@@ -273,7 +306,8 @@ open class MSTableViewCell: UITableViewCell {
                 titleNumberOfLines: titleNumberOfLines,
                 subtitleNumberOfLines: subtitleNumberOfLines,
                 footerNumberOfLines: footerNumberOfLines,
-                containerWidth: width > 0 ? width : .infinity
+                containerWidth: width > 0 ? width : .infinity,
+                isInSelectionMode: isInSelectionMode
             )
         )
     }
@@ -293,18 +327,8 @@ open class MSTableViewCell: UITableViewCell {
         }
     }
 
-    open override var separatorInset: UIEdgeInsets {
-        get {
-            var value = super.separatorInset
-            // Enforce the left inset (required when cell is used outside of UITableView)
-            value.left = separatorLeftInset
-            return value
-        }
-        set { super.separatorInset = newValue }
-    }
-
     private var separatorLeftInset: CGFloat {
-        let separatorLeftOffset = safeAreaInsetsIfAvailable.left
+        let separatorLeftOffset = safeAreaInsets.left + MSTableViewCell.selectionModeLeftOffset(isInSelectionMode: isInSelectionMode)
         switch customViewSize {
         case .zero:
             return separatorLeftOffset + MSTableViewCell.separatorLeftInsetForNoCustomView
@@ -326,7 +350,6 @@ open class MSTableViewCell: UITableViewCell {
                 _accessoryView = MSTableViewCellAccessoryView(type: _accessoryType)
             case .detailButton:
                 _accessoryView = MSTableViewCellAccessoryView(type: _accessoryType)
-                _accessoryView?.onTapped = handleDetailButtonTapped
             }
         }
     }
@@ -374,10 +397,20 @@ open class MSTableViewCell: UITableViewCell {
         didSet {
             oldValue?.removeFromSuperview()
             if let accessoryView = _accessoryView {
-                addSubview(accessoryView)
+                contentView.addSubview(accessoryView)
+                initAccessoryView()
             }
         }
     }
+
+    private var selectionImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = Constants.selectionImageOff
+        imageView.isHidden = true
+        return imageView
+    }()
+
+    private let separator = MSSeparator(style: .default, orientation: .horizontal)
 
     private var superTableView: UITableView? {
         return findSuperview(of: UITableView.self) as? UITableView
@@ -399,13 +432,19 @@ open class MSTableViewCell: UITableViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(footerLabel)
+        contentView.addSubview(selectionImageView)
+        addSubview(separator)
 
         setupBackgroundColors()
+
+        hideSystemSeparator()
+
+        updateAccessibility()
 
         NotificationCenter.default.addObserver(self, selector: #selector(invalidateIntrinsicContentSize), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
-    /// Sets up the cell with text, a custom view, and an accessory type
+    /// Sets up the cell with text, a custom view, a custom accessory view, and an accessory type
     ///
     /// - Parameters:
     ///   - title: Text that appears as the first line of text
@@ -442,18 +481,66 @@ open class MSTableViewCell: UITableViewCell {
         invalidateIntrinsicContentSize()
     }
 
+    /// Sets the multi-selection state of the cell, optionally animating the transition between states.
+    ///
+    /// - Parameters:
+    ///   - isInSelectionMode: true to set the cell as in selection mode, false to set it as not in selection mode. The default is false.
+    ///   - animated: true to animate the transition in / out of selection mode, false to make the transition immediate.
+    @objc open func setIsInSelectionMode(_ isInSelectionMode: Bool, animated: Bool) {
+        if _isInSelectionMode == isInSelectionMode {
+            return
+        }
+
+        _isInSelectionMode = isInSelectionMode
+
+        if !isInSelectionMode {
+            selectionImageView.isHidden = true
+            isSelected = false
+        }
+
+        let completion = { (_: Bool) in
+            if self.isInSelectionMode {
+                self.selectionImageView.isHidden = false
+            }
+        }
+
+        setNeedsLayout()
+        invalidateIntrinsicContentSize()
+
+        if animated {
+            UIView.animate(withDuration: Constants.selectionModeAnimationDuration, delay: 0, options: [.layoutSubviews], animations: layoutIfNeeded, completion: completion)
+        } else {
+            completion(true)
+        }
+
+        initAccessoryView()
+
+        updateAccessibility()
+
+        selectionStyle = isInSelectionMode ? .none : .default
+    }
+
     open override func layoutSubviews() {
         super.layoutSubviews()
 
+        if isInSelectionMode {
+            let selectionImageViewYOffset = UIScreen.main.roundToDevicePixels((contentView.height - Constants.selectionImageSize.height) / 2)
+            selectionImageView.frame = CGRect(
+                origin: CGPoint(x: Constants.selectionImageMarginLeft, y: selectionImageViewYOffset),
+                size: Constants.selectionImageSize
+            )
+        }
+
         if let customView = customView {
             let customViewYOffset = UIScreen.main.roundToDevicePixels((contentView.height - customViewSize.size.height) / 2)
+            let customViewXOffset = MSTableViewCell.customViewLeftOffset(isInSelectionMode: isInSelectionMode)
             customView.frame = CGRect(
-                origin: CGPoint(x: Constants.customViewMarginLeft, y: customViewYOffset),
+                origin: CGPoint(x: customViewXOffset, y: customViewYOffset),
                 size: customViewSize.size
             )
         }
 
-        let titleLeftOffset = MSTableViewCell.textAreaLeftOffset(customViewSize: customViewSize)
+        let titleLeftOffset = MSTableViewCell.textAreaLeftOffset(customViewSize: customViewSize, isInSelectionMode: isInSelectionMode)
         let titleRightOffset = MSTableViewCell.textAreaRightOffset(customAccessoryView: customAccessoryView, accessoryType: _accessoryType)
         let titleWidth = contentView.width - (titleLeftOffset + titleRightOffset)
         let titleLineHeight = titleLabel.font.deviceLineHeightWithLeading
@@ -507,7 +594,12 @@ open class MSTableViewCell: UITableViewCell {
             accessoryView.frame = CGRect(origin: CGPoint(x: xOffset, y: yOffset), size: _accessoryType.size)
         }
 
-        updateSeparatorInset()
+        separator.frame = CGRect(
+            x: separatorLeftInset,
+            y: height - separator.height,
+            width: width - separatorLeftInset,
+            height: separator.height
+        )
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -523,41 +615,59 @@ open class MSTableViewCell: UITableViewCell {
                 titleNumberOfLines: titleNumberOfLines,
                 subtitleNumberOfLines: subtitleNumberOfLines,
                 footerNumberOfLines: footerNumberOfLines,
-                containerWidth: size.width
+                containerWidth: size.width,
+                isInSelectionMode: isInSelectionMode
             )
         )
-    }
-
-    @available(iOS 11, *)
-    open override func safeAreaInsetsDidChange() {
-        super.safeAreaInsetsDidChange()
-        updateSeparatorInset()
     }
 
     open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         // If using cell within a superview other than UITableView override setSelected()
-        if superTableView == nil {
+        if superTableView == nil && !isInSelectionMode {
             setSelected(true, animated: false)
         }
     }
 
     open override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let oldIsSelected = isSelected
         super.touchesCancelled(touches, with: event)
         // If using cell within a superview other than UITableView override setSelected()
         if superTableView == nil {
-            setSelected(false, animated: true)
+            if isInSelectionMode {
+                // Cell unselects itself in super.touchesCancelled which is not what we want in multi-selection mode - restore selection back
+                setSelected(oldIsSelected, animated: false)
+            } else {
+                setSelected(false, animated: true)
+            }
         }
     }
 
     open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
+
+        if superTableView == nil && _isInSelectionMode {
+            setSelected(!isSelected, animated: true)
+        }
+
+        selectionDidChange()
+
+        // If using cell within a superview other than UITableView override setSelected()
+        if superTableView == nil && !isInSelectionMode {
+            setSelected(false, animated: true)
+        }
+    }
+
+    open override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        selectionImageView.image = selected ? Constants.selectionImageOn : Constants.selectionImageOff
+    }
+
+    open func selectionDidChange() {
         if isSelected {
             onSelected?()
-        }
-        // If using cell within a superview other than UITableView override setSelected()
-        if superTableView == nil {
-            setSelected(false, animated: true)
+        } else if isInSelectionMode {
+            onUnselected?()
         }
     }
 
@@ -568,8 +678,15 @@ open class MSTableViewCell: UITableViewCell {
         }
     }
 
-    private func updateSeparatorInset() {
-        separatorInset.left = separatorLeftInset
+    private func initAccessoryView() {
+        guard let accessoryView = _accessoryView else {
+            return
+        }
+
+        if accessoryView.type == .detailButton {
+            accessoryView.isUserInteractionEnabled = !isInSelectionMode
+            accessoryView.onTapped = handleDetailButtonTapped
+        }
     }
 
     private func setupBackgroundColors() {
@@ -579,6 +696,10 @@ open class MSTableViewCell: UITableViewCell {
         selectedStateBackgroundView.backgroundColor = MSColors.TableViewCell.backgroundSelected
         selectedBackgroundView = selectedStateBackgroundView
     }
+
+    private func updateAccessibility() {
+        accessibilityHint = isInSelectionMode ? "Accessibility.MultiSelect.Hint".localized : "Accessibility.Select.Hint".localized
+    }
 }
 
 // MARK: - MSTableViewCellAccessoryView
@@ -586,10 +707,10 @@ open class MSTableViewCell: UITableViewCell {
 private class MSTableViewCellAccessoryView: UIView {
     open override var intrinsicContentSize: CGSize { return type.size }
 
+    public let type: MSTableViewCellAccessoryType
+
     /// `onTapped` is called when `detailButton` is tapped
     @objc open var onTapped: (() -> Void)?
-
-    private let type: MSTableViewCellAccessoryType
 
     public init(type: MSTableViewCellAccessoryType) {
         self.type = type

@@ -8,6 +8,7 @@
 "Accessibility.Dismiss.Label" = "ख़ारिज करें";
 "Accessibility.Dismiss.Hint" = "ख़ारिज करने के लिए डबल-टैप करें";
 "Accessibility.Done.Label" = "पूर्ण";
+"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
 "Accessibility.Select.Hint" = "चयन के लिए डबल टैप";
 "Accessibility.Selected.Hint" = "विवरण देखने के लिए डबल टैप करें";
 "Accessibility.Selected.Value" = "चयनित";

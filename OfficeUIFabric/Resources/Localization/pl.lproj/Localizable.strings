@@ -8,6 +8,7 @@
 "Accessibility.Dismiss.Label" = "Odrzuć";
 "Accessibility.Dismiss.Hint" = "Naciśnij dwukrotnie, aby odrzucić";
 "Accessibility.Done.Label" = "Gotowe";
+"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
 "Accessibility.Select.Hint" = "Naciśnij dwukrotnie, aby zaznaczyć";
 "Accessibility.Selected.Hint" = "Naciśnij dwukrotnie, aby wyświetlić szczegóły";
 "Accessibility.Selected.Value" = "Zaznaczono";

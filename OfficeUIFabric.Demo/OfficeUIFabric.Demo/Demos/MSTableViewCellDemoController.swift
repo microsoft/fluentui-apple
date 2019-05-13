@@ -6,96 +6,63 @@
 import Foundation
 import OfficeUIFabric
 
-// MARK: MSTableViewSampleData
-
-class MSTableViewSampleData {
-    struct Section {
-        let title: String
-        let item: Item
-        let numberOfLines: Int
-        let hasAccessoryView: Bool
-
-        init(title: String, item: Item, numberOfLines: Int = 1, hasAccessoryView: Bool = false) {
-            self.title = title
-            self.item = item
-            self.numberOfLines = numberOfLines
-            self.hasAccessoryView = hasAccessoryView
-        }
-    }
-
-    struct Item {
-        let title: String
-        let subtitle: String
-        let footer: String
-        let image: String
-
-        init(title: String = "", subtitle: String = "", footer: String = "", image: String = "") {
-            self.title = title
-            self.subtitle = subtitle
-            self.footer = footer
-            self.image = image
-        }
-    }
-
-    static let sections: [Section] = [
-        Section(title: "Single line cell", item: Item(title: "Contoso Survey", image: "excelIcon")),
-        Section(title: "Double line cell", item: Item(title: "Contoso Survey", subtitle: "Research Notes", image: "excelIcon")),
-        Section(title: "Triple line cell", item: Item(title: "Contoso Survey", subtitle: "Research Notes", footer: "22 views", image: "excelIcon")),
-        Section(title: "Cell without custom view", item: Item(title: "Contoso Survey", subtitle: "Research Notes")),
-        Section(title: "Cell with text truncation", item: Item(title: "This is a cell with a long title as an example of how this label will render", subtitle: "This is a cell with a long subtitle as an example of how this label will render", footer: "This is a cell with a long footer as an example of how this label will render", image: "excelIcon")),
-        Section(title: "Cell with text wrapping", item: Item(title: "This is a cell with a long title as an example of how this label will render", subtitle: "This is a cell with a long subtitle as an example of how this label will render", footer: "This is a cell with a long footer as an example of how this label will render", image: "excelIcon"), numberOfLines: 0),
-        Section(title: "Cell with custom accessory view", item: Item(title: "This is a cell with a long title as an example of how this label will render", subtitle: "This is a cell with a long subtitle as an example of how this label will render", image: "excelIcon"), hasAccessoryView: true)
-    ]
-
-    static var customAccessoryView: UIView {
-        let label = MSLabel(style: .body, colorStyle: .secondary)
-        label.text = "Value"
-        label.sizeToFit()
-        return label
-    }
-
-    static func accessoryType(for indexPath: IndexPath) -> MSTableViewCellAccessoryType {
-        // Demo accessory types based on indexPath row
-        switch indexPath.row {
-        case 0:
-            return .none
-        case 1:
-            return .disclosureIndicator
-        default:
-            return .detailButton
-        }
-    }
-
-    static func createCustomView(imageName: String) -> UIImageView? {
-        if imageName == "" {
-            return nil
-        }
-
-        let customView = UIImageView(image: UIImage(named: imageName))
-        customView.contentMode = .scaleAspectFit
-        return customView
-    }
-}
-
-// MARK: - MSTableViewCellDemoController
+// MARK: MSTableViewCellDemoController
 
 class MSTableViewCellDemoController: DemoController {
-    private let headerViewHeight: CGFloat = 50
+    private let sections: [TableViewSampleData.Section] = TableViewSampleData.sections
 
-    private let sections: [MSTableViewSampleData.Section] = MSTableViewSampleData.sections
+    private var isInSelectionMode: Bool = false {
+        didSet {
+            tableView.allowsMultipleSelection = isInSelectionMode
+
+            for indexPath in tableView?.indexPathsForVisibleRows ?? [] {
+                if !sections[indexPath.section].allowsMultipleSelection {
+                    continue
+                }
+
+                let cell = tableView.cellForRow(at: indexPath) as! MSTableViewCell
+                cell.setIsInSelectionMode(isInSelectionMode, animated: true)
+            }
+
+            tableView.indexPathsForSelectedRows?.forEach {
+                tableView.deselectRow(at: $0, animated: false)
+            }
+
+            updateNavigationTitle()
+            navigationItem.rightBarButtonItem?.title = isInSelectionMode ? "Done" : "Select"
+        }
+    }
+
+    private var tableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let tableView = UITableView(frame: view.bounds)
+        tableView = UITableView(frame: view.bounds)
         tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         tableView.register(MSTableViewCell.self, forCellReuseIdentifier: MSTableViewCell.identifier)
+        tableView.register(TableViewSectionHeader.self, forHeaderFooterViewReuseIdentifier: TableViewSectionHeader.identifier)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = MSColors.background
-        tableView.separatorColor = MSColors.separator
         tableView.tableFooterView = UIView(frame: .zero)
+        tableView.separatorStyle = .none
         view.addSubview(tableView)
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(barButtonTapped))
+    }
+
+    @objc private func barButtonTapped(sender: UIBarButtonItem) {
+        isInSelectionMode = !isInSelectionMode
+    }
+
+    private func updateNavigationTitle() {
+        if isInSelectionMode {
+            let selectedCount = tableView.indexPathsForSelectedRows?.count ?? 0
+            navigationItem.title = selectedCount == 1 ? "1 item selected" : "\(selectedCount) items selected"
+        } else {
+            navigationItem.title = title
+        }
     }
 }
 
@@ -107,7 +74,7 @@ extension MSTableViewCellDemoController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return TableViewSampleData.Section.itemCount
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -119,14 +86,15 @@ extension MSTableViewCellDemoController: UITableViewDataSource {
             title: item.title,
             subtitle: item.subtitle,
             footer: item.footer,
-            customView: MSTableViewSampleData.createCustomView(imageName: item.image),
-            customAccessoryView: section.hasAccessoryView ? MSTableViewSampleData.customAccessoryView : nil,
-            accessoryType: MSTableViewSampleData.accessoryType(for: indexPath)
+            customView: TableViewSampleData.createCustomView(imageName: item.image),
+            customAccessoryView: section.hasAccessoryView ? TableViewSampleData.customAccessoryView : nil,
+            accessoryType: TableViewSampleData.accessoryType(for: indexPath)
         )
         cell.titleNumberOfLines = section.numberOfLines
         cell.subtitleNumberOfLines = section.numberOfLines
         cell.footerNumberOfLines = section.numberOfLines
         cell.titleLineBreakMode = .byTruncatingMiddle
+        cell.isInSelectionMode = section.allowsMultipleSelection ? isInSelectionMode : false
         return cell
     }
 }
@@ -135,32 +103,13 @@ extension MSTableViewCellDemoController: UITableViewDataSource {
 
 extension MSTableViewCellDemoController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return headerViewHeight
+        return TableViewSectionHeader.height
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UITableViewHeaderFooterView()
-        view.backgroundView = UIView()
-        view.backgroundView?.backgroundColor = MSColors.background
-
-        let label = MSLabel(style: .footnote)
-        label.text = sections[section].title
-        label.textColor = MSColors.darkGray
-        label.autoresizingMask = .flexibleWidth
-
-        let horizontalOffset: CGFloat = 16
-        let verticalOffset: CGFloat = 8
-        let labelHeight = label.font.deviceLineHeight
-        label.frame = CGRect(
-            x: horizontalOffset,
-            y: headerViewHeight - labelHeight - verticalOffset,
-            width: tableView.width - horizontalOffset,
-            height: labelHeight
-        )
-
-        view.contentView.addSubview(label)
-
-        return view
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewSectionHeader.identifier) as! TableViewSectionHeader
+        header.title = sections[section].title
+        return header
     }
 
     func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
@@ -169,7 +118,17 @@ extension MSTableViewCellDemoController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+        if isInSelectionMode {
+            updateNavigationTitle()
+        } else {
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
+    }
+
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        if isInSelectionMode {
+            updateNavigationTitle()
+        }
     }
 
     private func showAlertForDetailButtonTapped(title: String) {

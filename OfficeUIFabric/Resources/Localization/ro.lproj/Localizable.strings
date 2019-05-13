@@ -8,6 +8,7 @@
 "Accessibility.Dismiss.Label" = "Îndepărtare";
 "Accessibility.Dismiss.Hint" = "Atingeți de două ori pentru a îndepărta";
 "Accessibility.Done.Label" = "Gata";
+"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
 "Accessibility.Select.Hint" = "Atingeți de două ori pentru a selecta";
 "Accessibility.Selected.Hint" = "Atingeți de două ori pentru a vedea detaliile";
 "Accessibility.Selected.Value" = "Selectat";

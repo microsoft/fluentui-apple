@@ -70,7 +70,7 @@ open class MSPersonaListView: UITableView {
         super.init(frame: frame, style: style)
 
         backgroundColor = MSColors.background
-        separatorColor = MSColors.separator
+        separatorStyle = .none
         tableFooterView = UIView(frame: .zero)
 
         register(MSPersonaCell.self, forCellReuseIdentifier: MSPersonaCell.identifier)
@@ -179,19 +179,19 @@ extension MSPersonaListView: UITableViewDataSource {
             switch searchDirectoryState {
             case .searching:
                 let cell = dequeueReusableCell(withIdentifier: MSActivityIndicatorCell.identifier, for: indexPath) as! MSActivityIndicatorCell
-                cell.hideSeparator()
+                cell.hideSystemSeparator()
                 return cell
             case .displayingSearchResults:
                 let cell = dequeueReusableCell(withIdentifier: MSCenteredLabelCell.identifier, for: indexPath) as! MSCenteredLabelCell
                 cell.setup(text: searchResultText)
-                cell.hideSeparator()
+                cell.hideSystemSeparator()
                 return cell
             case .idle:
                 let cell = dequeueReusableCell(withIdentifier: MSActionsCell.identifier, for: indexPath) as! MSActionsCell
                 cell.setup(action1Title: "MSPersonaListView.SearchDirectory".localized)
                 cell.action1Button.addTarget(self, action: #selector(searchDirectoryButtonTapped), for: .touchUpInside)
                 cell.accessibilityTraits = .button
-                cell.hideSeparator()
+                cell.hideSystemSeparator()
                 return cell
             }
         }

@@ -8,6 +8,7 @@
 "Accessibility.Dismiss.Label" = "Hylkää";
 "Accessibility.Dismiss.Hint" = "Hylkää kaksoisnapauttamalla";
 "Accessibility.Done.Label" = "Valmis";
+"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
 "Accessibility.Select.Hint" = "Valitse kaksoisnapauttamalla";
 "Accessibility.Selected.Hint" = "Näytä tiedot kaksoisnapauttamalla";
 "Accessibility.Selected.Value" = "Valittu";

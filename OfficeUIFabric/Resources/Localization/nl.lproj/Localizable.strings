@@ -8,6 +8,7 @@
 "Accessibility.Dismiss.Label" = "Verwijderen";
 "Accessibility.Dismiss.Hint" = "Dubbeltikken om te sluiten";
 "Accessibility.Done.Label" = "Gereed";
+"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
 "Accessibility.Select.Hint" = "Dubbeltikken om te selecteren";
 "Accessibility.Selected.Hint" = "Dubbeltikken om details te zien";
 "Accessibility.Selected.Value" = "Geselecteerd";

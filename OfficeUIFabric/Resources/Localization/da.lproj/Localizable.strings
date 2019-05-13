@@ -8,6 +8,7 @@
 "Accessibility.Dismiss.Label" = "Afvis";
 "Accessibility.Dismiss.Hint" = "Dobbelttryk for at afvise";
 "Accessibility.Done.Label" = "Udført";
+"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
 "Accessibility.Select.Hint" = "Dobbelttryk for at vælge";
 "Accessibility.Selected.Hint" = "Dobbelttryk for at se detaljerne";
 "Accessibility.Selected.Value" = "Markeret";

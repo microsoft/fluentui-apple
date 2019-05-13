@@ -8,6 +8,7 @@
 "Accessibility.Dismiss.Label" = "Ignora";
 "Accessibility.Dismiss.Hint" = "Effettua un doppio tocco per ignorare l'elemento";
 "Accessibility.Done.Label" = "Fine";
+"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
 "Accessibility.Select.Hint" = "Effettua un doppio tocco per selezionare";
 "Accessibility.Selected.Hint" = "Effettua un doppio tocco per vedere i dettagli";
 "Accessibility.Selected.Value" = "Selezionato";

@@ -44,6 +44,7 @@
 		B42661422148568800E25423 /* MSAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42661412148568800E25423 /* MSAvatarView.swift */; };
 		B444D6B12181403C0002B4D4 /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444D6B02181403C0002B4D4 /* UITableViewCell+Extension.swift */; };
 		B444D6B62183A9740002B4D4 /* MSBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444D6B52183A9740002B4D4 /* MSBadgeView.swift */; };
+		B44ACC1C22669B7B005A1BBF /* MSCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44ACC1B22669B7B005A1BBF /* MSCollectionViewCell.swift */; };
 		B45EB790219E310F008646A2 /* MSBadgeField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45EB78F219E310F008646A2 /* MSBadgeField.swift */; };
 		B46D3F91215056940029772C /* CharacterSet+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46D3F90215056940029772C /* CharacterSet+Extension.swift */; };
 		B46D3F932151D95F0029772C /* MSPersonaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46D3F922151D95F0029772C /* MSPersonaCell.swift */; };
@@ -161,6 +162,7 @@
 		B42661412148568800E25423 /* MSAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAvatarView.swift; sourceTree = "<group>"; };
 		B444D6B02181403C0002B4D4 /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
 		B444D6B52183A9740002B4D4 /* MSBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSBadgeView.swift; sourceTree = "<group>"; };
+		B44ACC1B22669B7B005A1BBF /* MSCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSCollectionViewCell.swift; sourceTree = "<group>"; };
 		B45EB78F219E310F008646A2 /* MSBadgeField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSBadgeField.swift; sourceTree = "<group>"; };
 		B46D3F90215056940029772C /* CharacterSet+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CharacterSet+Extension.swift"; sourceTree = "<group>"; };
 		B46D3F922151D95F0029772C /* MSPersonaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPersonaCell.swift; sourceTree = "<group>"; };
@@ -381,6 +383,7 @@
 			children = (
 				B4F118EA21C8270F00855942 /* Badge Field */,
 				FDFB8AE921361C860046850A /* Calendar */,
+				B44ACC1A22669B4E005A1BBF /* Collection View */,
 				A5CEC22F20E451990016922A /* Controls */,
 				A5CEC16B20D98EBF0016922A /* Core */,
 				FD599D0021347FA0008845EE /* Date Time Pickers */,
@@ -497,6 +500,14 @@
 				B498141321E424920077B48D /* MSTableViewCell.swift */,
 			);
 			path = "Table View";
+			sourceTree = "<group>";
+		};
+		B44ACC1A22669B4E005A1BBF /* Collection View */ = {
+			isa = PBXGroup;
+			children = (
+				B44ACC1B22669B7B005A1BBF /* MSCollectionViewCell.swift */,
+			);
+			path = "Collection View";
 			sourceTree = "<group>";
 		};
 		B483323121CC71700022B4CC /* HUD */ = {
@@ -800,6 +811,7 @@
 				FD56FD92219123FE0023C7EA /* MSDateTimePickerViewComponentTableView.swift in Sources */,
 				B4E782C521793BB900A7DFCE /* MSActivityIndicatorView.swift in Sources */,
 				FD5BBE41214C6AF3008964B4 /* MSTwoLinesTitleView.swift in Sources */,
+				B44ACC1C22669B7B005A1BBF /* MSCollectionViewCell.swift in Sources */,
 				A5B87AF1211BD4380038C37C /* UIFont+Extension.swift in Sources */,
 				A5B87AF8211E16370038C37C /* MSDrawerPresentationController.swift in Sources */,
 				FD36F1A9216C0A6900CECBC6 /* MSCardPresentationController.swift in Sources */,

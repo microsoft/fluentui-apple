@@ -8,6 +8,7 @@
 "Accessibility.Dismiss.Label" = "해제";
 "Accessibility.Dismiss.Hint" = "해제하려면 두 번 탭하세요.";
 "Accessibility.Done.Label" = "완료";
+"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
 "Accessibility.Select.Hint" = "선택하려면 두 번 탭하세요.";
 "Accessibility.Selected.Hint" = "세부 정보를 보려면 두 번 탭하세요.";
 "Accessibility.Selected.Value" = "선택됨";

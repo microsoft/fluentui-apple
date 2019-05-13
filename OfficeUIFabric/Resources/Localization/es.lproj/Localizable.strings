@@ -8,6 +8,7 @@
 "Accessibility.Dismiss.Label" = "Descartar";
 "Accessibility.Dismiss.Hint" = "Pulsa dos veces para descartar";
 "Accessibility.Done.Label" = "Listo";
+"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
 "Accessibility.Select.Hint" = "Pulsa dos veces para seleccionar";
 "Accessibility.Selected.Hint" = "Pulsa dos veces para agregar detalles";
 "Accessibility.Selected.Value" = "Seleccionado";

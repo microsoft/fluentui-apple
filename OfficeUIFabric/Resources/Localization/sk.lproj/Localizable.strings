@@ -8,6 +8,7 @@
 "Accessibility.Dismiss.Label" = "Zrušiť";
 "Accessibility.Dismiss.Hint" = "Zrušíte dvojitým ťuknutím";
 "Accessibility.Done.Label" = "Hotovo";
+"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
 "Accessibility.Select.Hint" = "Vyberte dvojitým ťuknutím";
 "Accessibility.Selected.Hint" = "Dvojitým ťuknutím zobrazíte podrobnosti.";
 "Accessibility.Selected.Value" = "Vybraté";

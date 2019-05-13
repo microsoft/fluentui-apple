@@ -8,6 +8,7 @@
 "Accessibility.Dismiss.Label" = "Κλείσιμο";
 "Accessibility.Dismiss.Hint" = "Πατήστε δύο φορές για κλείσιμο";
 "Accessibility.Done.Label" = "Τέλος";
+"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
 "Accessibility.Select.Hint" = "Πατήστε δύο φορές για επιλογή";
 "Accessibility.Selected.Hint" = "Πατήστε δύο φορές για εμφάνιση λεπτομερειών";
 "Accessibility.Selected.Value" = "Επιλεγμένο";

@@ -8,6 +8,7 @@
 "Accessibility.Dismiss.Label" = "Закрыть";
 "Accessibility.Dismiss.Hint" = "Дважды коснитесь, чтобы закрыть";
 "Accessibility.Done.Label" = "Готово";
+"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
 "Accessibility.Select.Hint" = "Дважды коснитесь, чтобы выбрать";
 "Accessibility.Selected.Hint" = "Дважды коснитесь, чтобы просмотреть сведения";
 "Accessibility.Selected.Value" = "Выбрано";
