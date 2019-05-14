@@ -44,7 +44,6 @@ class MSPopupMenuItemCell: UITableViewCell {
         return item.subtitle == nil ? Constants.oneLineHeight : Constants.twoLineHeight
     }
 
-    var feedbackGenerator: UISelectionFeedbackGenerator?
     var isHeader: Bool = false {
         didSet {
             isUserInteractionEnabled = !isHeader
@@ -188,12 +187,6 @@ class MSPopupMenuItemCell: UITableViewCell {
 
         // Override default background color change
         backgroundColor = .clear
-
-        // Give feedback if needed
-        if highlighted {
-            feedbackGenerator?.selectionChanged()
-            feedbackGenerator?.prepare()
-        }
 
         if animated {
             UIView.animate(withDuration: Constants.animationDuration) {

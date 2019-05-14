@@ -97,9 +97,6 @@ open class MSPopupMenuController: MSDrawerController {
     private var itemsHaveImages: Bool {
         return sections.contains(where: { $0.items.contains(where: { $0.image != nil }) })
     }
-    private var needsScrolling: Bool {
-        return tableView.contentSize.height > tableView.bounds.height
-    }
 
     /// Append new items to the last section of the menu
     /// - note: If there is no section in the menu, create a new one without header and append the items to it
@@ -169,12 +166,6 @@ open class MSPopupMenuController: MSDrawerController {
         tableView.alwaysBounceVertical = false
         tableView.isAccessibilityElement = true
 
-        // Prevent tap delay when selecting a menu item
-        tableView.delaysContentTouches = false
-        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture))
-        panGestureRecognizer.delegate = self
-        tableView.addGestureRecognizer(panGestureRecognizer)
-
         tableView.register(MSPopupMenuItemCell.self, forCellReuseIdentifier: MSPopupMenuItemCell.identifier)
         tableView.register(MSPopupMenuSectionHeaderView.self, forHeaderFooterViewReuseIdentifier: MSPopupMenuSectionHeaderView.identifier)
         tableView.delegate = self
@@ -192,49 +183,6 @@ open class MSPopupMenuController: MSDrawerController {
             presentingViewController?.dismiss(animated: true) {
                 item.onSelected?()
             }
-        }
-    }
-
-    @objc private func handlePanGesture(gestureRecognizer: UIGestureRecognizer) {
-        let point = gestureRecognizer.location(in: tableView)
-
-        switch gestureRecognizer.state {
-        case .began, .changed:
-            // Warm up all the visible cell feedback generators
-            // Each cell has its own generator to allow each to fire perfectly on time when highlight changes
-            for case let cell as MSPopupMenuItemCell in tableView.visibleCells {
-                if cell.feedbackGenerator == nil {
-                    cell.feedbackGenerator = UISelectionFeedbackGenerator()
-                }
-                cell.feedbackGenerator?.prepare()
-            }
-
-            var cell: MSPopupMenuItemCell?
-            if let indexPath = tableView.indexPathForRow(at: point) {
-                cell = tableView.cellForRow(at: indexPath) as? MSPopupMenuItemCell
-            }
-
-            for visibleCell in tableView.visibleCells {
-                visibleCell.isHighlighted = visibleCell == cell
-            }
-
-        case .ended, .cancelled, .failed:
-            guard let indexPath = tableView.indexPathForRow(at: point) else {
-                // Gesture did not finish on a highlighted cell, dismiss the dropdown
-                presentingViewController?.dismiss(animated: true)
-                return
-            }
-
-            let item = sections[indexPath.section].items[indexPath.row]
-            if !item.isEnabled {
-                return
-            }
-
-            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
-            tableView(tableView, didSelectRowAt: indexPath)
-
-        default:
-            return
         }
     }
 }
@@ -294,13 +242,5 @@ extension MSPopupMenuController: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedItemIndexPath = indexPath
         didSelectItem(sections[indexPath.section].items[indexPath.row])
-    }
-}
-
-// MARK: - MSPopupMenuController: UIGestureRecognizerDelegate
-
-extension MSPopupMenuController: UIGestureRecognizerDelegate {
-    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        return !needsScrolling
     }
 }
