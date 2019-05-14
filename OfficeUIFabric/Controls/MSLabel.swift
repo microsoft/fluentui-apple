@@ -14,6 +14,16 @@ open class MSLabel: UILabel {
             update()
         }
     }
+    /**
+     The maximum allowed size point for the receiver's font. This property can be used
+     to restrict the largest size of the label when scaling due to Dynamic Type. The
+     default value is 0, indicating there is no maximum size.
+     */
+    @objc open var maxFontSize: CGFloat = 0 {
+        didSet {
+            update()
+        }
+    }
 
     @objc public init(style: MSTextStyle = .body, colorStyle: MSTextColorStyle = .regular) {
         self.style = style
@@ -33,8 +43,14 @@ open class MSLabel: UILabel {
     }
 
     private func update() {
-        font = style.font
         textColor = colorStyle.color
+
+        let defaultFont = style.font
+        if maxFontSize > 0 && defaultFont.pointSize > maxFontSize {
+            font = defaultFont.withSize(maxFontSize)
+        } else {
+            font = defaultFont
+        }
     }
 
     @objc private func handleContentSizeCategoryDidChange() {
