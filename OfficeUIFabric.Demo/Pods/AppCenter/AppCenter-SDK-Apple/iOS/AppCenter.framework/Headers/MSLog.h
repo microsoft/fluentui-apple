@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import <Foundation/Foundation.h>
 
 @class MSDevice;
@@ -15,9 +18,8 @@
 @property(nonatomic) NSDate *timestamp;
 
 /**
- * A session identifier is used to correlate logs together. A session is an
- * abstract concept in the API and is not necessarily an analytics session, it
- * can be used to only track crashes.
+ * A session identifier is used to correlate logs together. A session is an abstract concept in the API and is not necessarily an analytics
+ * session, it can be used to only track crashes.
  */
 @property(nonatomic, copy) NSString *sid;
 
@@ -27,9 +29,20 @@
 @property(nonatomic, copy) NSString *distributionGroupId;
 
 /**
+ * Optional user identifier.
+ */
+@property(nonatomic, copy) NSString *userId;
+
+/**
  * Device properties associated to this log.
  */
 @property(nonatomic) MSDevice *device;
+
+/**
+ * Transient object tag. For example, a log can be tagged with a transmission target. We do this currently to prevent properties being
+ * applied retroactively to previous logs by comparing their tags.
+ */
+@property(nonatomic) NSObject *tag;
 
 /**
  * Checks if the object's values are valid.
@@ -48,8 +61,7 @@
 /**
  * Gets all transmission target tokens that this log should be sent to.
  *
- * @returns Collection of transmission target tokens that this log should be
- * sent to.
+ * @returns Collection of transmission target tokens that this log should be sent to.
  */
 - (NSSet *)transmissionTargetTokens;
 

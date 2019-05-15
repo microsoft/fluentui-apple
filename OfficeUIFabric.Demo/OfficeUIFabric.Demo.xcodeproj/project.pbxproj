@@ -380,7 +380,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-OfficeUIFabric.Demo/Pods-OfficeUIFabric.Demo-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-OfficeUIFabric.Demo/Pods-OfficeUIFabric.Demo-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/AppCenter/AppCenterDistributeResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -389,7 +389,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-OfficeUIFabric.Demo/Pods-OfficeUIFabric.Demo-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OfficeUIFabric.Demo/Pods-OfficeUIFabric.Demo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

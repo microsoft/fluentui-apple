@@ -1,15 +1,17 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSErrorReport.h"
 #import "MSServiceAbstract.h"
 
 @class MSCrashesDelegate;
 
 /**
- * Custom block that handles the alert that prompts the user whether crash
- * reports need to be processed or not.
+ * Custom block that handles the alert that prompts the user whether crash reports need to be processed or not.
+ *
  * @return Returns YES to discard crash reports, otherwise NO.
  */
-typedef BOOL (^MSUserConfirmationHandler)(
-    NSArray<MSErrorReport *> *_Nonnull errorReports);
+typedef BOOL (^MSUserConfirmationHandler)(NSArray<MSErrorReport *> *_Nonnull errorReports);
 
 /**
  * Error Logging status.
@@ -66,15 +68,13 @@ typedef NS_ENUM(NSUInteger, MSUserConfirmation) {
  *
  * The best way to use this is to trigger the crash with a button action.
  *
- * Make sure not to let the app crash in `applicationDidFinishLaunching` or any
- * other startup method! Since otherwise the app would crash before the SDK
- * could process it.
+ * Make sure not to let the app crash in `applicationDidFinishLaunching` or any other startup method! Since otherwise the app would crash
+ * before the SDK could process it.
  *
- * Note that our SDK provides support for handling crashes that happen early on
- * startup. Check the documentation for more information on how to use this.
+ * Note that our SDK provides support for handling crashes that happen early on startup. Check the documentation for more information on how
+ * to use this.
  *
- * If the SDK detects an App Store environment, it will _NOT_ cause the app to
- * crash!
+ * If the SDK detects an App Store environment, it will _NOT_ cause the app to crash!
  */
 + (void)generateTestCrash;
 
@@ -102,10 +102,9 @@ typedef NS_ENUM(NSUInteger, MSUserConfirmation) {
 /**
  * Disable the Mach exception server.
  *
- * By default, the SDK uses the Mach exception handler to catch fatal signals,
- * e.g. stack overflows, via a Mach exception server. If you want to disable the
- * Mach exception handler, you should call this method _BEFORE_ starting the
- * SDK. Your typical setup code would look like this:
+ * By default, the SDK uses the Mach exception handler to catch fatal signals, e.g. stack overflows, via a Mach exception server. If you
+ * want to disable the Mach exception handler, you should call this method _BEFORE_ starting the SDK. Your typical setup code would look
+ * like this:
  *
  * `[MSCrashes disableMachExceptionHandler]`;
  * `[MSAppCenter start:@"YOUR_APP_ID" withServices:@[[MSCrashes class]]];`
@@ -113,23 +112,19 @@ typedef NS_ENUM(NSUInteger, MSUserConfirmation) {
  * or if you are using Swift:
  *
  * `MSCrashes.disableMachExceptionHandler()`
- * `MSAppCenter.start("YOUR_APP_ID", withServices: [MSAnalytics.self,
- * MSCrashes.self])`
+ * `MSAppCenter.start("YOUR_APP_ID", withServices: [MSAnalytics.self, MSCrashes.self])`
  *
- * tvOS does not support the Mach exception handler, thus crashes that are
- * caused by stack overflows cannot be detected. As a result, disabling the Mach
- * exception server is not available in the tvOS SDK.
+ * tvOS does not support the Mach exception handler, thus crashes that are caused by stack overflows cannot be detected. As a result,
+ * disabling the Mach exception server is not available in the tvOS SDK.
  *
- * @discussion It can be useful to disable the Mach exception handler when you
- * are debugging the Crashes service while developing, especially when you
- * attach the debugger to your application after launch.
+ * @discussion It can be useful to disable the Mach exception handler when you are debugging the Crashes service while developing,
+ * especially when you attach the debugger to your application after launch.
  */
 + (void)disableMachExceptionHandler;
 #endif
 
 /**
  * Set the delegate
- *
  * Defines the class that implements the optional protocol `MSCrashesDelegate`.
  *
  * @see MSCrashesDelegate
@@ -137,19 +132,19 @@ typedef NS_ENUM(NSUInteger, MSUserConfirmation) {
 + (void)setDelegate:(_Nullable id<MSCrashesDelegate>)delegate;
 
 /**
- * Set a user confirmation handler that is invoked right before processing crash
- * reports to determine whether sending crash reports or not.
+ * Set a user confirmation handler that is invoked right before processing crash reports to determine whether sending crash reports or not.
  *
  * @param userConfirmationHandler A handler for user confirmation.
+ *
  * @see MSUserConfirmationHandler
  */
-+ (void)setUserConfirmationHandler:
-    (_Nullable MSUserConfirmationHandler)userConfirmationHandler;
++ (void)setUserConfirmationHandler:(_Nullable MSUserConfirmationHandler)userConfirmationHandler;
 
 /**
  * Notify SDK with a confirmation to handle the crash report.
  *
  * @param userConfirmation A user confirmation.
+ *
  * @see MSUserConfirmation.
  */
 + (void)notifyWithUserConfirmation:(MSUserConfirmation)userConfirmation;

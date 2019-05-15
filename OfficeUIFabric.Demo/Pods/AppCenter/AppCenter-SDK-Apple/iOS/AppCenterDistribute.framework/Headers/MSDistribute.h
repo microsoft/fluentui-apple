@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSDistributeDelegate.h"
 #import "MSServiceAbstract.h"
 
@@ -13,9 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param delegate A Distribute delegate.
  *
- * @discussion If Distribute delegate is set and releaseAvailableWithDetails is
- * returning <code>YES</code>, you must call notifyUpdateAction: with one of
- * update actions to handle a release properly.
+ * @discussion If Distribute delegate is set and releaseAvailableWithDetails is returning <code>YES</code>, you must call
+ * notifyUpdateAction: with one of update actions to handle a release properly.
  *
  * @see releaseAvailableWithDetails:
  * @see notifyUpdateAction:
@@ -46,8 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param url  The url with parameters.
  *
- * @return `YES` if the URL is intended for App Center Distribute and your
- * application, `NO` otherwise.
+ * @return `YES` if the URL is intended for App Center Distribute and your application, `NO` otherwise.
  *
  * @discussion Place this method call into your app delegate's openURL method.
  */
