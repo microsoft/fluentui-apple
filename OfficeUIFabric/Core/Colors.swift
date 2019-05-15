@@ -196,6 +196,7 @@ public final class MSColors: NSObject {
     public struct TableViewCell {
         public static var background: UIColor = MSColors.background
         public static var backgroundSelected: UIColor = backgroundGray
+        public static var checkmark: UIColor = selected
     }
 
     private override init() {

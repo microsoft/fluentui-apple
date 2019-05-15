@@ -11,6 +11,7 @@ import UIKit
     case none
     case disclosureIndicator
     case detailButton
+    case checkmark
 
     private struct Constants {
         static let horizontalSpacing: CGFloat = 16
@@ -25,19 +26,19 @@ import UIKit
             return UIImage.staticImageNamed("disclosure")?.imageFlippedForRightToLeftLayoutDirection()
         case .detailButton:
             return UIImage.staticImageNamed("details")
+        case .checkmark:
+            return UIImage.staticImageNamed("checkmark-blue-20x20")?.withRenderingMode(.alwaysTemplate)
         }
     }
 
     var size: CGSize {
-        switch self {
-        case .none:
+        if self == .none {
             return .zero
-        case .disclosureIndicator, .detailButton:
-            // Horizontal spacing includes 16pt spacing from content to icon and 16pt spacing from icon to trailing edge of cell
-            let horizontalSpacing: CGFloat = Constants.horizontalSpacing * 2
-            let iconWidth: CGFloat = icon?.size.width ?? 0
-            return CGSize(width: horizontalSpacing + iconWidth, height: Constants.height)
         }
+        // Horizontal spacing includes 16pt spacing from content to icon and 16pt spacing from icon to trailing edge of cell
+        let horizontalSpacing: CGFloat = Constants.horizontalSpacing * 2
+        let iconWidth: CGFloat = icon?.size.width ?? 0
+        return CGSize(width: horizontalSpacing + iconWidth, height: Constants.height)
     }
 }
 
@@ -343,14 +344,7 @@ open class MSTableViewCell: UITableViewCell {
 
     private var _accessoryType: MSTableViewCellAccessoryType = .none {
         didSet {
-            switch _accessoryType {
-            case .none:
-                _accessoryView = nil
-            case .disclosureIndicator:
-                _accessoryView = MSTableViewCellAccessoryView(type: _accessoryType)
-            case .detailButton:
-                _accessoryView = MSTableViewCellAccessoryView(type: _accessoryType)
-            }
+            _accessoryView = _accessoryType == .none ? nil : MSTableViewCellAccessoryView(type: _accessoryType)
         }
     }
 
@@ -722,12 +716,8 @@ private class MSTableViewCellAccessoryView: UIView {
         switch type {
         case .none:
             break
-        case .disclosureIndicator:
-            let iconView = UIImageView(image: type.icon)
-            iconView.frame.size = type.size
-            iconView.contentMode = .center
-            addSubview(iconView)
-            iconView.fitIntoSuperview()
+        case .disclosureIndicator, .checkmark:
+            addIconView(type: type)
         case .detailButton:
             let button = UIButton(type: .custom)
             button.frame.size = type.size
@@ -747,6 +737,17 @@ private class MSTableViewCellAccessoryView: UIView {
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
         return type.size
+    }
+
+    private func addIconView(type: MSTableViewCellAccessoryType) {
+        let iconView = UIImageView(image: type.icon)
+        iconView.frame.size = type.size
+        iconView.contentMode = .center
+        if type == .checkmark {
+            iconView.tintColor = MSColors.TableViewCell.checkmark
+        }
+        addSubview(iconView)
+        iconView.fitIntoSuperview()
     }
 
     @objc private func handleOnAccessoryTapped() {

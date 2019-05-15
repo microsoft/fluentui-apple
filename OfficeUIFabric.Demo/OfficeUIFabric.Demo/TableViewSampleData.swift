@@ -10,7 +10,7 @@ import OfficeUIFabric
 
 class TableViewSampleData {
     struct Section {
-        static let itemCount: Int = 3
+        static let itemCount: Int = 4
 
         let title: String
         let item: Item
@@ -65,8 +65,10 @@ class TableViewSampleData {
             return .none
         case 1:
             return .disclosureIndicator
-        default:
+        case 2:
             return .detailButton
+        default:
+            return .checkmark
         }
     }
 
