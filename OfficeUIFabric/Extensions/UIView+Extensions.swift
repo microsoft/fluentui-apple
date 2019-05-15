@@ -106,4 +106,16 @@ public extension UIView {
 
         return superview.findSuperview(of: aClass)
     }
+
+    func flipSubviewsForRTL() {
+        if effectiveUserInterfaceLayoutDirection == .rightToLeft {
+            subviews.forEach { $0.flipForRTL() }
+        }
+    }
+
+    func flipForRTL() {
+        if effectiveUserInterfaceLayoutDirection == .rightToLeft, let superview = superview {
+            left = superview.bounds.width - left - width
+        }
+    }
 }

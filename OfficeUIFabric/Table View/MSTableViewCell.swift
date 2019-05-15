@@ -22,7 +22,7 @@ import UIKit
         case .none:
             return nil
         case .disclosureIndicator:
-            return UIImage.staticImageNamed("disclosure")
+            return UIImage.staticImageNamed("disclosure")?.imageFlippedForRightToLeftLayoutDirection()
         case .detailButton:
             return UIImage.staticImageNamed("details")
         }
@@ -543,12 +543,12 @@ open class MSTableViewCell: UITableViewCell {
         let titleLeftOffset = MSTableViewCell.textAreaLeftOffset(customViewSize: customViewSize, isInSelectionMode: isInSelectionMode)
         let titleRightOffset = MSTableViewCell.textAreaRightOffset(customAccessoryView: customAccessoryView, accessoryType: _accessoryType)
         let titleWidth = contentView.width - (titleLeftOffset + titleRightOffset)
-        let titleLineHeight = titleLabel.font.deviceLineHeightWithLeading
         let titleText = titleLabel.text ?? ""
-        let titleHeight = titleText.preferredSize(for: titleLabel.font, width: titleWidth, numberOfLines: titleNumberOfLines).height
+        let titleSize = titleText.preferredSize(for: titleLabel.font, width: titleWidth, numberOfLines: titleNumberOfLines)
+        let titleLineHeight = titleLabel.font.deviceLineHeightWithLeading
         let titleCenteredTopMargin = UIScreen.main.roundToDevicePixels((contentView.height - titleLineHeight) / 2)
         let titleTopOffset: CGFloat
-        if layoutType != .oneLine || titleHeight > titleLineHeight {
+        if layoutType != .oneLine || titleSize.height > titleLineHeight {
             titleTopOffset = layoutType.labelVerticalMargin
         } else {
             titleTopOffset = titleCenteredTopMargin
@@ -556,28 +556,28 @@ open class MSTableViewCell: UITableViewCell {
         titleLabel.frame = CGRect(
             x: titleLeftOffset,
             y: titleTopOffset,
-            width: titleWidth,
-            height: titleHeight
+            width: titleSize.width,
+            height: titleSize.height
         )
 
         if layoutType == .twoLines || layoutType == .threeLines {
             let subtitleText = subtitleLabel.text ?? ""
-            let subtitleHeight = subtitleText.preferredSize(for: subtitleLabel.font, width: titleWidth, numberOfLines: subtitleNumberOfLines).height
+            let subtitleSize = subtitleText.preferredSize(for: subtitleLabel.font, width: titleWidth, numberOfLines: subtitleNumberOfLines)
             subtitleLabel.frame = CGRect(
                 x: titleLeftOffset,
                 y: titleLabel.bottom + Constants.labelVerticalSpacing,
-                width: titleWidth,
-                height: subtitleHeight
+                width: subtitleSize.width,
+                height: subtitleSize.height
             )
 
             if layoutType == .threeLines {
                 let footerText = footerLabel.text ?? ""
-                let footerHeight = footerText.preferredSize(for: footerLabel.font, width: titleWidth, numberOfLines: footerNumberOfLines).height
+                let footerSize = footerText.preferredSize(for: footerLabel.font, width: titleWidth, numberOfLines: footerNumberOfLines)
                 footerLabel.frame = CGRect(
                     x: titleLeftOffset,
                     y: subtitleLabel.bottom + Constants.labelVerticalSpacing,
-                    width: titleWidth,
-                    height: footerHeight
+                    width: footerSize.width,
+                    height: footerSize.height
                 )
             }
         }
@@ -594,12 +594,15 @@ open class MSTableViewCell: UITableViewCell {
             accessoryView.frame = CGRect(origin: CGPoint(x: xOffset, y: yOffset), size: _accessoryType.size)
         }
 
+        contentView.flipSubviewsForRTL()
+
         separator.frame = CGRect(
             x: separatorLeftInset,
             y: height - separator.height,
             width: width - separatorLeftInset,
             height: separator.height
         )
+        separator.flipForRTL()
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {

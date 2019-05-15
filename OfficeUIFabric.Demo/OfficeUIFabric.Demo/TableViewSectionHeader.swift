@@ -49,5 +49,7 @@ class TableViewSectionHeader: UITableViewHeaderFooterView {
             width: bounds.width - horizontalOffset,
             height: labelHeight
         )
+
+        contentView.flipSubviewsForRTL()
     }
 }

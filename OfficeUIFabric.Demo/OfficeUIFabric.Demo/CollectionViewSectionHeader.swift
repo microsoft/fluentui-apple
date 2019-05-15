@@ -47,5 +47,7 @@ class CollectionViewSectionHeader: UICollectionReusableView {
             width: bounds.width - horizontalOffset - safeAreaInsetsIfAvailable.left,
             height: labelHeight
         )
+
+        flipSubviewsForRTL()
     }
 }

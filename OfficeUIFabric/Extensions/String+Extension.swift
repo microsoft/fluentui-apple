@@ -65,7 +65,10 @@ extension String {
 
     func preferredSize(for font: UIFont, width: CGFloat = .greatestFiniteMagnitude, numberOfLines: Int = 0) -> CGSize {
         if numberOfLines == 1 {
-            return CGSize(width: UIScreen.main.roundToDevicePixels(width), height: font.deviceLineHeightWithLeading)
+            return CGSize(
+                width: UIScreen.main.roundToDevicePixels(min(self.size(withAttributes: [.font: font]).width, width)),
+                height: font.deviceLineHeightWithLeading
+            )
         }
         let maxHeight = numberOfLines > 1 ? font.deviceLineHeightWithLeading * CGFloat(numberOfLines) : .greatestFiniteMagnitude
         let rect = self.boundingRect(
