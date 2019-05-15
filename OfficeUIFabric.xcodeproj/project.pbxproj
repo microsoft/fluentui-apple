@@ -214,7 +214,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8FD01166228A820600D25925 /* libOfficeUIFabric.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOfficeUIFabric.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8FD01166228A820600D25925 /* libOfficeUIFabricLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOfficeUIFabricLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5237ACA21DED7030040BF27 /* MSResizingHandleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSResizingHandleView.swift; sourceTree = "<group>"; };
 		A5237ACC21ED6CA70040BF27 /* DrawerShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerShadowView.swift; sourceTree = "<group>"; };
 		A54D97D9217A5FC10072681A /* CALayer+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extensions.swift"; sourceTree = "<group>"; };
@@ -468,7 +468,7 @@
 				A5CEC15120D980B20016922A /* OfficeUIFabric.framework */,
 				A5CEC15A20D980B30016922A /* OfficeUIFabricTests.xctest */,
 				A5DA88FC226FAA01000A8EA8 /* OfficeUIFabricResources.bundle */,
-				8FD01166228A820600D25925 /* libOfficeUIFabric.a */,
+				8FD01166228A820600D25925 /* libOfficeUIFabricLib.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -715,9 +715,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8FD01165228A820600D25925 /* OfficeUIFabricStaticLib */ = {
+		8FD01165228A820600D25925 /* OfficeUIFabricLib */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8FD0116A228A820600D25925 /* Build configuration list for PBXNativeTarget "OfficeUIFabricStaticLib" */;
+			buildConfigurationList = 8FD0116A228A820600D25925 /* Build configuration list for PBXNativeTarget "OfficeUIFabricLib" */;
 			buildPhases = (
 				8FD01162228A820600D25925 /* Sources */,
 			);
@@ -726,9 +726,9 @@
 			dependencies = (
 				8FD011C8228A831700D25925 /* PBXTargetDependency */,
 			);
-			name = OfficeUIFabricStaticLib;
+			name = OfficeUIFabricLib;
 			productName = OfficeUIFabricStaticLib;
-			productReference = 8FD01166228A820600D25925 /* libOfficeUIFabric.a */;
+			productReference = 8FD01166228A820600D25925 /* libOfficeUIFabricLib.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		A5CEC15020D980B20016922A /* OfficeUIFabric */ = {
@@ -860,7 +860,7 @@
 			targets = (
 				A5CEC15020D980B20016922A /* OfficeUIFabric */,
 				A5DA88FB226FAA01000A8EA8 /* OfficeUIFabricResources */,
-				8FD01165228A820600D25925 /* OfficeUIFabricStaticLib */,
+				8FD01165228A820600D25925 /* OfficeUIFabricLib */,
 				A5CEC15920D980B30016922A /* OfficeUIFabricTests */,
 			);
 		};
@@ -1223,7 +1223,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = OfficeUIFabric;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
 			};
@@ -1235,7 +1235,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = OfficeUIFabric;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
 			};
@@ -1247,7 +1247,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = OfficeUIFabric;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
 			};
@@ -1611,7 +1611,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8FD0116A228A820600D25925 /* Build configuration list for PBXNativeTarget "OfficeUIFabricStaticLib" */ = {
+		8FD0116A228A820600D25925 /* Build configuration list for PBXNativeTarget "OfficeUIFabricLib" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8FD0116B228A820600D25925 /* Debug */,

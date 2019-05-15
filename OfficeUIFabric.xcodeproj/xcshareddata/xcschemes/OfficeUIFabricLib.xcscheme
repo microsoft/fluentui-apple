@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8FD01165228A820600D25925"
-               BuildableName = "libOfficeUIFabric.a"
-               BlueprintName = "OfficeUIFabricStaticLib"
+               BuildableName = "libOfficeUIFabricLib.a"
+               BlueprintName = "OfficeUIFabricLib"
                ReferencedContainer = "container:OfficeUIFabric.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,8 +46,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8FD01165228A820600D25925"
-            BuildableName = "libOfficeUIFabric.a"
-            BlueprintName = "OfficeUIFabricStaticLib"
+            BuildableName = "libOfficeUIFabricLib.a"
+            BlueprintName = "OfficeUIFabricLib"
             ReferencedContainer = "container:OfficeUIFabric.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -64,8 +64,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8FD01165228A820600D25925"
-            BuildableName = "libOfficeUIFabric.a"
-            BlueprintName = "OfficeUIFabricStaticLib"
+            BuildableName = "libOfficeUIFabricLib.a"
+            BlueprintName = "OfficeUIFabricLib"
             ReferencedContainer = "container:OfficeUIFabric.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
