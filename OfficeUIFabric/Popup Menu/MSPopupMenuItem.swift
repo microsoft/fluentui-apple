@@ -11,6 +11,7 @@ import UIKit
 @objcMembers
 open class MSPopupMenuItem: NSObject {
     /// Defines the timing for the call of the onSelected closure/block
+    @objc(MSPopupMenuItemExecutionMode)
     public enum ExecutionMode: Int {
         case onSelection
         case afterPopupMenuDismissal
