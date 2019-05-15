@@ -3,6 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+import UIKit
+
 public extension UIScreen {
     var devicePixel: CGFloat { return 1 / scale }
 

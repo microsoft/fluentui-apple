@@ -3,6 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+import UIKit
+
 @objc public enum MSSeparatorStyle: Int {
     case `default`
     case shadow

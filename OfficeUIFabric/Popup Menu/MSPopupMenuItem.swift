@@ -3,6 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+import UIKit
+
 /**
  `MSPopupMenuItem` represents a menu item inside `MSPopupMenuController`.
  */

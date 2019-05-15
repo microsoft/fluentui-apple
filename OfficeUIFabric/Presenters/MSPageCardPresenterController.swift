@@ -3,7 +3,7 @@
 //  Licensed under the MIT License.
 //
 
-import Foundation
+import UIKit
 
 @objc protocol MSCardPresentable: class {
     func idealSize() -> CGSize

@@ -3,6 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+import QuartzCore
+
 public extension CALayer {
     var isAnimating: Bool { return animationKeys()?.isEmpty == false }
 }

@@ -3,6 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+import UIKit
+
 extension String {
     var initials: String {
         var initials = ""

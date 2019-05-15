@@ -3,6 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+import UIKit
+
 public extension UIDevice {
     class var isPad: Bool {
         return current.userInterfaceIdiom == .pad

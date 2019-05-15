@@ -3,6 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+import UIKit
+
 open class MSResizingHandleView: UIView {
     private struct Constants {
         static let markSize = CGSize(width: 36, height: 4)

@@ -3,6 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+import UIKit
+
 public class OfficeUIFabricFramework: NSObject {
     public static var bundle: Bundle { return Bundle(for: self) }
     public static var resourceBundle: Bundle {

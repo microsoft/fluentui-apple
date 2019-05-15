@@ -3,6 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+import UIKit
+
 class MSPopupMenuItemCell: UITableViewCell {
     private struct Constants {
         static let oneLineHeight: CGFloat = 50.0

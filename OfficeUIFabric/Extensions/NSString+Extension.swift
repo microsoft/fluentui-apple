@@ -3,6 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+import Foundation
+
 public extension NSString {
     /**
      To ensure iOS and Android achieve the same result when

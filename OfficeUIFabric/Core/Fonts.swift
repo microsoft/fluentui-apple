@@ -3,6 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+import UIKit
+
 @objcMembers
 public final class MSFonts: NSObject {
     /// Semibold 28pt

@@ -3,6 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+import UIKit
+
 class MSPopupMenuSectionHeaderView: UITableViewHeaderFooterView {
     private struct Constants {
         static let padding = UIEdgeInsets(top: 14, left: 16, bottom: 0, right: 16)

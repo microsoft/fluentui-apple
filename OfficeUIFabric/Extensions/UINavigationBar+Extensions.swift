@@ -3,7 +3,7 @@
 //  Licensed under the MIT License.
 //
 
-import Foundation
+import UIKit
 
 @objc public extension UINavigationBar {
     @objc func hideBottomBorder() {

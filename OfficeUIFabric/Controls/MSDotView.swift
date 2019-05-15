@@ -3,7 +3,7 @@
 //  Licensed under the MIT License.
 //
 
-import Foundation
+import UIKit
 
 open class MSDotView: UIView {
     @objc open var color: UIColor? = MSColors.black {

@@ -3,6 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+import UIKit
+
 public extension UIImage {
     /// Full replacement for `UIImage(named:)` which attempts to recolor image assets with a color from the high contrast
     /// color palette when `Darken Colors` is enabled. The method is called `static` because the images are outputted with

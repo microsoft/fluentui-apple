@@ -3,6 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+import UIKit
+
 public extension UIView {
     var left: CGFloat {
         get { return frame.minX }

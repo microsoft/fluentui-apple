@@ -3,6 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+import UIKit
+
 // MARK: MSButtonStyle
 
 @objc public enum MSButtonStyle: Int, CaseIterable {

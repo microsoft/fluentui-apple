@@ -3,6 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+import UIKit
+
 // MARK: MSDrawerResizingBehavior
 
 @objc public enum MSDrawerResizingBehavior: Int {

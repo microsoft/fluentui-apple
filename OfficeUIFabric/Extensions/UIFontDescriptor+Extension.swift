@@ -3,6 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+import UIKit
+
 public extension UIFontDescriptor {
     var traits: [UIFontDescriptor.TraitKey: Any]? {
         return object(forKey: .traits) as? [UIFontDescriptor.TraitKey: Any]

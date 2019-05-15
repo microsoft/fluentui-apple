@@ -3,6 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+import UIKit
+
 class DrawerShadowView: UIView {
     private struct Constants {
         static let shadowRadius: CGFloat = 4

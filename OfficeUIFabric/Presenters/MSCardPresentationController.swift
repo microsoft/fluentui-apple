@@ -3,7 +3,7 @@
 //  Licensed under the MIT License.
 //
 
-import Foundation
+import UIKit
 
 class MSCardPresentationController: UIPresentationController {
     // Workaround to get Voiceover to ignore the view behind the action sheet.

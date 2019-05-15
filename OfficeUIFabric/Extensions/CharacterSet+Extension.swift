@@ -3,6 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+import Foundation
+
 public extension CharacterSet {
     internal static var whitespaceNewlineAndZeroWidthSpace: CharacterSet {
         var whitespace = CharacterSet(charactersIn: "\u{200B}") // Zero-width space

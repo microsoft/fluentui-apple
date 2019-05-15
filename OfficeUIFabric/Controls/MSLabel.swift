@@ -3,6 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+import UIKit
+
 open class MSLabel: UILabel {
     @objc open var colorStyle: MSTextColorStyle = .regular {
         didSet {

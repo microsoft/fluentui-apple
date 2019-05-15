@@ -3,7 +3,7 @@
 //  Licensed under the MIT License.
 //
 
-import Foundation
+import CoreGraphics
 
 extension CGSize {
     static var max: CGSize {
