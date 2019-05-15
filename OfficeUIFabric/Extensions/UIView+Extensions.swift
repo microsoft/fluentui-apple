@@ -37,6 +37,10 @@ public extension UIView {
         }
     }
 
+    private var contentWidth: CGFloat {
+        return (self as? UIScrollView)?.contentSize.width ?? bounds.width
+    }
+
     func fitIntoSuperview(usingConstraints: Bool = false, usingLeadingTrailing: Bool = true, margins: UIEdgeInsets = .zero, autoWidth: Bool = false, autoHeight: Bool = false) {
         guard let superview = superview else {
             return
@@ -114,8 +118,14 @@ public extension UIView {
     }
 
     func flipForRTL() {
-        if effectiveUserInterfaceLayoutDirection == .rightToLeft, let superview = superview {
-            left = superview.bounds.width - left - width
+        frame = superview?.flipRectForRTL(frame) ?? frame
+    }
+
+    func flipRectForRTL(_ rect: CGRect) -> CGRect {
+        var newRect = rect
+        if effectiveUserInterfaceLayoutDirection == .rightToLeft {
+            newRect.origin.x = contentWidth - rect.origin.x - rect.width
         }
+        return newRect
     }
 }

@@ -166,6 +166,8 @@ class MSDateTimePickerView: UIControl {
 
         setDate(date, animated: false)
         setDayOfMonth(dayOfMonth, animated: false)
+
+        flipSubviewsForRTL()
     }
 
     private func type(of component: MSDateTimePickerViewComponent) -> MSDateTimePickerViewComponentType? {

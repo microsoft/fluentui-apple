@@ -279,6 +279,8 @@ open class MSBadgeField: UIView {
         )
 
         placeholderView.frame = CGRect(x: 0, y: topMargin, width: width, height: Constants.badgeHeight)
+
+        flipSubviewsForRTL()
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {

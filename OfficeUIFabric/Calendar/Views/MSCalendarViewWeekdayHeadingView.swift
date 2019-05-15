@@ -72,6 +72,8 @@ class MSCalendarViewWeekdayHeadingView: UIView {
             label.frame = CGRect(x: left, y: paddingTop, width: labelWidth, height: labelHeight)
             left += labelWidth
         }
+
+        flipSubviewsForRTL()
     }
 
     func setup(horizontalSizeClass: UIUserInterfaceSizeClass, firstWeekday: Int) {

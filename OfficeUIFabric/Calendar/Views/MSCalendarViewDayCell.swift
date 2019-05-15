@@ -260,6 +260,8 @@ private class MSSelectionOverlayView: UIView {
         case .singleSelection:
             break
         }
+
+        flipSubviewsForRTL()
     }
 
     private func setupActiveViews() {

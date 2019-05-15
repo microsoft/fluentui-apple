@@ -58,7 +58,10 @@ class MSPopupMenuSectionHeaderView: UITableViewHeaderFooterView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
+
         let labelSize = label.sizeThatFits(bounds.size)
         label.frame = CGRect(origin: CGPoint(x: Constants.padding.left, y: Constants.padding.top), size: labelSize)
+
+        contentView.flipSubviewsForRTL()
     }
 }

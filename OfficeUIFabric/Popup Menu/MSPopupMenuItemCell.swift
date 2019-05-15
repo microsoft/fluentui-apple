@@ -176,6 +176,8 @@ class MSPopupMenuItemCell: UITableViewCell {
             labelTop += titleLabel.height + Constants.verticalSpacing
             subtitleLabel.frame = CGRect(x: leftContentOffset, y: labelTop, width: labelWidth, height: subtitleLabelHeight)
         }
+
+        flipSubviewsForRTL()
     }
 
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {

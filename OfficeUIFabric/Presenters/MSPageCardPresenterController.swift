@@ -100,10 +100,8 @@ open class MSPageCardPresenterController: UIViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        if startingIndex > 0 {
-            pageControl.currentPage = startingIndex
-            handlePageControlChanged()
-        }
+        pageControl.currentPage = startingIndex
+        handlePageControlChanged()
     }
 
     open override func viewWillLayoutSubviews() {
@@ -151,6 +149,8 @@ open class MSPageCardPresenterController: UIViewController {
                 cardView.top = round((view.height - cardView.height) / 2)
             }
         }
+
+        scrollView.flipSubviewsForRTL()
     }
 
     private func styleCardView(_ view: UIView) {
@@ -178,12 +178,22 @@ open class MSPageCardPresenterController: UIViewController {
     }
 
     @objc private func handlePageControlChanged() {
-        scrollView.contentOffset = CGPoint(x: CGFloat(pageControl.currentPage) * scrollView.bounds.width, y: 0)
+        let pageIndex = flipPageIndexForRTL(pageControl.currentPage)
+        view.layoutIfNeeded()
+        scrollView.contentOffset = CGPoint(x: CGFloat(pageIndex) * scrollView.bounds.width, y: 0)
         updateViewAccessibilityElements()
     }
 
     @objc private func handleDismissViewTapped() {
         onDismiss?()
+    }
+
+    private func flipPageIndexForRTL(_ pageIndex: Int) -> Int {
+        if scrollView.effectiveUserInterfaceLayoutDirection == .rightToLeft {
+            return pageControl.numberOfPages - 1 - pageIndex
+        } else {
+            return pageIndex
+        }
     }
 
     private func updateViewAccessibilityElements() {
@@ -209,8 +219,7 @@ extension MSPageCardPresenterController: UIScrollViewDelegate {
     public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let pageWidth = scrollView.width
         let targetIndex = Int(targetContentOffset.pointee.x / pageWidth)
-
-        pageControl.currentPage = targetIndex
+        pageControl.currentPage = flipPageIndexForRTL(targetIndex)
     }
 
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {

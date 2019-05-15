@@ -94,6 +94,9 @@ class MSCalendarViewLayout: UICollectionViewLayout {
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
         attributes.frame = CGRect(x: CGFloat(indexPath.item) * itemSize.width, y: CGFloat(indexPath.section) * itemSize.height, width: itemSize.width, height: itemSize.height)
+        if let collectionView = collectionView {
+            attributes.frame = collectionView.flipRectForRTL(attributes.frame)
+        }
         attributes.zIndex = LayoutZIndex.item.rawValue
         return attributes
     }

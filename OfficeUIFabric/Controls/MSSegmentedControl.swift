@@ -161,6 +161,8 @@ open class MSSegmentedControl: UIControl {
         bottomSeparator.frame = CGRect(x: 0, y: height - bottomSeparator.height, width: width, height: bottomSeparator.height)
 
         layoutSelectionBarView()
+
+        flipSubviewsForRTL()
     }
 
     open override var intrinsicContentSize: CGSize {
