@@ -81,6 +81,10 @@ open class MSPopupMenuController: MSDrawerController {
     }
 
     private var sections: [MSPopupMenuSection] = []
+    private var itemForExecutionAfterPopupMenuDismissal: MSPopupMenuItem?
+    private var itemsHaveImages: Bool {
+        return sections.contains(where: { $0.items.contains(where: { $0.image != nil }) })
+    }
 
     private lazy var containerView: UIView = {
         let view = UIView()
@@ -95,10 +99,6 @@ open class MSPopupMenuController: MSDrawerController {
         return view
     }()
     private let tableView = UITableView()
-
-    private var itemsHaveImages: Bool {
-        return sections.contains(where: { $0.items.contains(where: { $0.image != nil }) })
-    }
 
     /// Append new items to the last section of the menu
     /// - note: If there is no section in the menu, create a new one without header and append the items to it
@@ -124,6 +124,12 @@ open class MSPopupMenuController: MSDrawerController {
     open override func initialize() {
         super.initialize()
         initTableView()
+    }
+
+    open override func didDismiss() {
+        itemForExecutionAfterPopupMenuDismissal?.onSelected?()
+        itemForExecutionAfterPopupMenuDismissal = nil
+        super.didDismiss()
     }
 
     open override func viewDidLoad() {
@@ -178,14 +184,16 @@ open class MSPopupMenuController: MSDrawerController {
         switch item.executionMode {
         case .onSelection:
             item.onSelected?()
-            if !isBeingDismissed {
-                presentingViewController?.dismiss(animated: true)
-            }
         case .afterPopupMenuDismissal:
-            presentingViewController?.dismiss(animated: true) {
-                item.onSelected?()
-            }
+            itemForExecutionAfterPopupMenuDismissal = item
         }
+        if !isBeingDismissed {
+            presentingViewController?.dismiss(animated: true)
+        }
+    }
+
+    private func item(at indexPath: IndexPath) -> MSPopupMenuItem {
+        return sections[indexPath.section].items[indexPath.item]
     }
 }
 
@@ -222,8 +230,7 @@ extension MSPopupMenuController: UITableViewDelegate {
     }
 
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let item = sections[indexPath.section].items[indexPath.row]
-        return MSPopupMenuItemCell.preferredHeight(for: item)
+        return MSPopupMenuItemCell.preferredHeight(for: item(at: indexPath))
     }
 
     public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -237,12 +244,11 @@ extension MSPopupMenuController: UITableViewDelegate {
     }
 
     public func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        let item = sections[indexPath.section].items[indexPath.row]
-        return item.isEnabled ? indexPath : nil
+        return item(at: indexPath).isEnabled ? indexPath : nil
     }
 
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedItemIndexPath = indexPath
-        didSelectItem(sections[indexPath.section].items[indexPath.row])
+        didSelectItem(item(at: indexPath))
     }
 }

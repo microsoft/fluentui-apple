@@ -30,8 +30,8 @@ open class MSPopupMenuItem: NSObject {
     public let onSelected: (() -> Void)?
 
     public init(image: UIImage? = nil, selectedImage: UIImage? = nil, title: String, subtitle: String? = nil, isEnabled: Bool = true, isSelected: Bool = false, executes executionMode: ExecutionMode = .onSelection, onSelected: (() -> Void)? = nil) {
-        self.image = image
-        self.selectedImage = selectedImage ?? image
+        self.image = image?.renderingMode == .automatic ? image?.withRenderingMode(.alwaysTemplate) : image
+        self.selectedImage = selectedImage ?? image?.image(withPrimaryColor: MSColors.PopupMenu.Item.imageSelected)
         self.title = title
         self.subtitle = subtitle
         self.isEnabled = isEnabled
@@ -43,7 +43,7 @@ open class MSPopupMenuItem: NSObject {
 
     public convenience init(imageName: String, generateSelectedImage: Bool = true, title: String, subtitle: String? = nil, isEnabled: Bool = true, isSelected: Bool = false, executes executionMode: ExecutionMode = .onSelection, onSelected: (() -> Void)? = nil) {
         let image = UIImage.staticImageNamed(imageName, in: nil)
-        let selectedImage = generateSelectedImage ? image?.image(withPrimaryColor: MSColors.PopupMenu.Item.imageSelected) : nil
+        let selectedImage = generateSelectedImage ? nil : image
         self.init(image: image, selectedImage: selectedImage, title: title, subtitle: subtitle, isEnabled: isEnabled, isSelected: isSelected, executes: executionMode, onSelected: onSelected)
     }
 }

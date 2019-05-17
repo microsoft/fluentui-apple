@@ -255,6 +255,16 @@ open class MSDrawerController: UIViewController {
         transitioningDelegate = self
     }
 
+    open func willDismiss() {
+        onDismiss?()
+        delegate?.drawerControllerWillDismiss?(self)
+    }
+
+    open func didDismiss() {
+        onDismissCompleted?()
+        delegate?.drawerControllerDidDismiss?(self)
+    }
+
     open override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = MSColors.background
@@ -279,16 +289,14 @@ open class MSDrawerController: UIViewController {
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if isBeingDismissed {
-            onDismiss?()
-            delegate?.drawerControllerWillDismiss?(self)
+            willDismiss()
         }
     }
 
     open override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         if isBeingDismissed {
-            onDismissCompleted?()
-            delegate?.drawerControllerDidDismiss?(self)
+            didDismiss()
         }
     }
 

@@ -76,7 +76,6 @@ public final class MSColors: NSObject {
     // MARK: Semantic
 
     public static var background: UIColor = white
-    public static var buttonImage: UIColor = foregroundSecondary
     public static var disabled: UIColor = borderLightGray
     public static var foregroundRegular: UIColor = black
     public static var foregroundSecondary: UIColor = gray
@@ -171,6 +170,7 @@ public final class MSColors: NSObject {
 
     public struct PopupMenu {
         public struct Item {
+            public static var image: UIColor = foregroundSecondary
             public static var imageSelected: UIColor = selected
             public static var title: UIColor = foregroundRegular
             public static var titleSelected: UIColor = selected

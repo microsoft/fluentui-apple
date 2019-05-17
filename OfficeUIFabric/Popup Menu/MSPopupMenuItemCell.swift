@@ -64,7 +64,8 @@ class MSPopupMenuItemCell: UITableViewCell {
     // Cannot use imageView since it exists in superclass
     private let _imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .center
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = MSColors.PopupMenu.Item.image
         return imageView
     }()
 
