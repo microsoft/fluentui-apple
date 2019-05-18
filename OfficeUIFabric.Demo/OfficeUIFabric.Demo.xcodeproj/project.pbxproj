@@ -24,6 +24,9 @@
 		B4147FAC2286347A00B52CB9 /* TableViewSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4147FAB2286347A00B52CB9 /* TableViewSectionHeader.swift */; };
 		B4147FAE2286379900B52CB9 /* CollectionViewSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4147FAD2286379900B52CB9 /* CollectionViewSectionHeader.swift */; };
 		B42760DD21488FFA0021A4F7 /* MSAvatarViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42760DC21488FFA0021A4F7 /* MSAvatarViewDemoController.swift */; };
+		B441478F228E02540040E88E /* OtherCellsDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B441478E228E02540040E88E /* OtherCellsDemoController.swift */; };
+		B4414792228F6F740040E88E /* MSTableViewCellSampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4414791228F6F740040E88E /* MSTableViewCellSampleData.swift */; };
+		B4414794228F6FDF0040E88E /* OtherCellsSampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4414793228F6FDF0040E88E /* OtherCellsSampleData.swift */; };
 		B444D6B82183BA4B0002B4D4 /* MSBadgeViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444D6B72183BA4B0002B4D4 /* MSBadgeViewDemoController.swift */; };
 		B45EB79221A4D047008646A2 /* MSBadgeFieldDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45EB79121A4D047008646A2 /* MSBadgeFieldDemoController.swift */; };
 		B4946764220A4DF10059045E /* MSCollectionViewCellDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4946763220A4DF10059045E /* MSCollectionViewCellDemoController.swift */; };
@@ -72,6 +75,9 @@
 		B4147FAB2286347A00B52CB9 /* TableViewSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewSectionHeader.swift; sourceTree = "<group>"; };
 		B4147FAD2286379900B52CB9 /* CollectionViewSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewSectionHeader.swift; sourceTree = "<group>"; };
 		B42760DC21488FFA0021A4F7 /* MSAvatarViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAvatarViewDemoController.swift; sourceTree = "<group>"; };
+		B441478E228E02540040E88E /* OtherCellsDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherCellsDemoController.swift; sourceTree = "<group>"; };
+		B4414791228F6F740040E88E /* MSTableViewCellSampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTableViewCellSampleData.swift; sourceTree = "<group>"; };
+		B4414793228F6FDF0040E88E /* OtherCellsSampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherCellsSampleData.swift; sourceTree = "<group>"; };
 		B444D6B72183BA4B0002B4D4 /* MSBadgeViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSBadgeViewDemoController.swift; sourceTree = "<group>"; };
 		B45EB79121A4D047008646A2 /* MSBadgeFieldDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSBadgeFieldDemoController.swift; sourceTree = "<group>"; };
 		B4946763220A4DF10059045E /* MSCollectionViewCellDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSCollectionViewCellDemoController.swift; sourceTree = "<group>"; };
@@ -231,6 +237,7 @@
 				A5961FA8218A61BB00E2A506 /* MSPopupMenuDemoController.swift */,
 				FDCF7C8221BF35680058E9E6 /* MSSegmentedControlDemoController.swift */,
 				B498141521E42C140077B48D /* MSTableViewCellDemoController.swift */,
+				B441478E228E02540040E88E /* OtherCellsDemoController.swift */,
 			);
 			path = Demos;
 			sourceTree = "<group>";
@@ -239,6 +246,8 @@
 			isa = PBXGroup;
 			children = (
 				B4147FAD2286379900B52CB9 /* CollectionViewSectionHeader.swift */,
+				B4414791228F6F740040E88E /* MSTableViewCellSampleData.swift */,
+				B4414793228F6FDF0040E88E /* OtherCellsSampleData.swift */,
 				B4C39551227A4AC800539EC2 /* TableViewSampleData.swift */,
 				B4147FAB2286347A00B52CB9 /* TableViewSectionHeader.swift */,
 			);
@@ -403,6 +412,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B441478F228E02540040E88E /* OtherCellsDemoController.swift in Sources */,
 				A5961FA9218A61BB00E2A506 /* MSPopupMenuDemoController.swift in Sources */,
 				B42760DD21488FFA0021A4F7 /* MSAvatarViewDemoController.swift in Sources */,
 				A5DCA760211E3B4C005F4CB7 /* DemoController.swift in Sources */,
@@ -411,6 +421,7 @@
 				B4EF53C5215C45C400573E8F /* MSPersonaListViewDemoController.swift in Sources */,
 				A5DCA75E211E3A92005F4CB7 /* MSDrawerDemoController.swift in Sources */,
 				B4147FAC2286347A00B52CB9 /* TableViewSectionHeader.swift in Sources */,
+				B4414792228F6F740040E88E /* MSTableViewCellSampleData.swift in Sources */,
 				A5CEC21420E436F10016922A /* DetailViewController.swift in Sources */,
 				B4E8F65221CD9579008A1598 /* MSHUDDemoController.swift in Sources */,
 				FD7254ED21471A3F002F4069 /* MSDateTimePickerDemoController.swift in Sources */,
@@ -421,6 +432,7 @@
 				A589F856211BA71000471C23 /* MSLabelDemoController.swift in Sources */,
 				B4D852D922580661004B1B29 /* MSActivityIndicatorViewDemoController.swift in Sources */,
 				A5CEC21020E436F10016922A /* AppDelegate.swift in Sources */,
+				B4414794228F6FDF0040E88E /* OtherCellsSampleData.swift in Sources */,
 				B444D6B82183BA4B0002B4D4 /* MSBadgeViewDemoController.swift in Sources */,
 				A591A3F420F429EB001ED23B /* Demos.swift in Sources */,
 				B4147FAE2286379900B52CB9 /* CollectionViewSectionHeader.swift in Sources */,

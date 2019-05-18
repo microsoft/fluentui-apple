@@ -9,7 +9,7 @@ import OfficeUIFabric
 // MARK: MSCollectionViewCellDemoController
 
 class MSCollectionViewCellDemoController: DemoController {
-    private let sections: [TableViewSampleData.Section] = TableViewSampleData.sections
+    private let sections: [TableViewSampleData.Section] = MSTableViewCellSampleData.sections
 
     private var isInSelectionMode: Bool = false {
         didSet {
@@ -94,7 +94,7 @@ extension MSCollectionViewCellDemoController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return TableViewSampleData.Section.itemCount
+        return MSTableViewCellSampleData.numberOfItemsInSection
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -103,18 +103,18 @@ extension MSCollectionViewCellDemoController: UICollectionViewDataSource {
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MSCollectionViewCell.identifier, for: indexPath) as! MSCollectionViewCell
         cell.cellView.setup(
-            title: item.title,
-            subtitle: item.subtitle,
-            footer: item.footer,
+            title: item.text1,
+            subtitle: item.text2,
+            footer: item.text3,
             customView: TableViewSampleData.createCustomView(imageName: item.image),
-            customAccessoryView: section.hasAccessoryView ? TableViewSampleData.customAccessoryView : nil,
-            accessoryType: TableViewSampleData.accessoryType(for: indexPath)
+            customAccessoryView: section.hasAccessoryView ? MSTableViewCellSampleData.customAccessoryView : nil,
+            accessoryType: MSTableViewCellSampleData.accessoryType(for: indexPath)
         )
         cell.cellView.titleNumberOfLines = section.numberOfLines
         cell.cellView.subtitleNumberOfLines = section.numberOfLines
         cell.cellView.footerNumberOfLines = section.numberOfLines
         cell.cellView.isInSelectionMode = section.allowsMultipleSelection ? isInSelectionMode : false
-        cell.cellView.onAccessoryTapped = { [unowned self] in self.showAlertForDetailButtonTapped(title: item.title) }
+        cell.cellView.onAccessoryTapped = { [unowned self] in self.showAlertForDetailButtonTapped(title: item.text1) }
         return cell
     }
 

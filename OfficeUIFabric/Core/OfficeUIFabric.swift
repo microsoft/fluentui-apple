@@ -41,8 +41,10 @@ public class OfficeUIFabricFramework: NSObject {
         titleAttributes[.font] = MSFonts.body
         barButtonItem.setTitleTextAttributes(titleAttributes, for: .normal)
 
-        // UISwitch
-        let `switch` = UISwitch.appearance()
-        `switch`.onTintColor = MSColors.primary
+        initializeUISwitchAppearance(UISwitch.appearance())
+    }
+
+    static func initializeUISwitchAppearance(_ `switch`: UISwitch) {
+        `switch`.onTintColor = MSColors.switchOnTint
     }
 }

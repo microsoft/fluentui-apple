@@ -128,6 +128,8 @@
 		B426613E214731D100E25423 /* MSInitialsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B426613D214731D100E25423 /* MSInitialsView.swift */; };
 		B4266140214852B400E25423 /* NSString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B426613F214852B400E25423 /* NSString+Extension.swift */; };
 		B42661422148568800E25423 /* MSAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42661412148568800E25423 /* MSAvatarView.swift */; };
+		B441478D228CDA130040E88E /* MSBooleanCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B441478C228CDA130040E88E /* MSBooleanCell.swift */; };
+		B4414790228F4D920040E88E /* MSBooleanCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B441478C228CDA130040E88E /* MSBooleanCell.swift */; };
 		B444D6B12181403C0002B4D4 /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444D6B02181403C0002B4D4 /* UITableViewCell+Extension.swift */; };
 		B444D6B62183A9740002B4D4 /* MSBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444D6B52183A9740002B4D4 /* MSBadgeView.swift */; };
 		B44ACC1C22669B7B005A1BBF /* MSCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44ACC1B22669B7B005A1BBF /* MSCollectionViewCell.swift */; };
@@ -254,6 +256,7 @@
 		B426613D214731D100E25423 /* MSInitialsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSInitialsView.swift; sourceTree = "<group>"; };
 		B426613F214852B400E25423 /* NSString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSString+Extension.swift"; sourceTree = "<group>"; };
 		B42661412148568800E25423 /* MSAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAvatarView.swift; sourceTree = "<group>"; };
+		B441478C228CDA130040E88E /* MSBooleanCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSBooleanCell.swift; sourceTree = "<group>"; };
 		B444D6B02181403C0002B4D4 /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
 		B444D6B52183A9740002B4D4 /* MSBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSBadgeView.swift; sourceTree = "<group>"; };
 		B44ACC1B22669B7B005A1BBF /* MSCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -591,6 +594,7 @@
 			children = (
 				B4E782C02176AD5E00A7DFCE /* MSActionsCell.swift */,
 				B4E782C221793AB200A7DFCE /* MSActivityIndicatorCell.swift */,
+				B441478C228CDA130040E88E /* MSBooleanCell.swift */,
 				B4E782C62179509A00A7DFCE /* MSCenteredLabelCell.swift */,
 				B498141321E424920077B48D /* MSTableViewCell.swift */,
 			);
@@ -992,6 +996,7 @@
 				8FD011B8228A82A600D25925 /* MSPopupMenuItem.swift in Sources */,
 				8FD011B9228A82A600D25925 /* MSPopupMenuSection.swift in Sources */,
 				8FD011BA228A82A600D25925 /* MSPopupMenuItemCell.swift in Sources */,
+				B4414790228F4D920040E88E /* MSBooleanCell.swift in Sources */,
 				8FD011BB228A82A600D25925 /* MSPopupMenuSectionHeaderView.swift in Sources */,
 				8FD011BC228A82A600D25925 /* MSCardPresentationController.swift in Sources */,
 				8FD011BD228A82A600D25925 /* MSCardPresenterNavigationController.swift in Sources */,
@@ -1085,6 +1090,7 @@
 				FD5BBE43214C73CE008964B4 /* MSEasyTapButton.swift in Sources */,
 				B498141421E424920077B48D /* MSTableViewCell.swift in Sources */,
 				FD77752B219E455A00033D58 /* MSAccessibilityContainerView.swift in Sources */,
+				B441478D228CDA130040E88E /* MSBooleanCell.swift in Sources */,
 				FDF41ED92141A02200EC527C /* MSCalendarConfiguration.swift in Sources */,
 				FD77753021A490BA00033D58 /* MSDateTimePicker.swift in Sources */,
 				FD7254E92147059D002F4069 /* Calendar+Extensions.swift in Sources */,

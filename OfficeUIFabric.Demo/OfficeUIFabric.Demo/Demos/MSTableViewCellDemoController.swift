@@ -9,7 +9,7 @@ import OfficeUIFabric
 // MARK: MSTableViewCellDemoController
 
 class MSTableViewCellDemoController: DemoController {
-    private let sections: [TableViewSampleData.Section] = TableViewSampleData.sections
+    private let sections: [TableViewSampleData.Section] = MSTableViewCellSampleData.sections
 
     private var isInSelectionMode: Bool = false {
         didSet {
@@ -74,7 +74,7 @@ extension MSTableViewCellDemoController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return TableViewSampleData.Section.itemCount
+        return MSTableViewCellSampleData.numberOfItemsInSection
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -83,12 +83,12 @@ extension MSTableViewCellDemoController: UITableViewDataSource {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: MSTableViewCell.identifier) as! MSTableViewCell
         cell.setup(
-            title: item.title,
-            subtitle: item.subtitle,
-            footer: item.footer,
+            title: item.text1,
+            subtitle: item.text2,
+            footer: item.text3,
             customView: TableViewSampleData.createCustomView(imageName: item.image),
-            customAccessoryView: section.hasAccessoryView ? TableViewSampleData.customAccessoryView : nil,
-            accessoryType: TableViewSampleData.accessoryType(for: indexPath)
+            customAccessoryView: section.hasAccessoryView ? MSTableViewCellSampleData.customAccessoryView : nil,
+            accessoryType: MSTableViewCellSampleData.accessoryType(for: indexPath)
         )
         cell.titleNumberOfLines = section.numberOfLines
         cell.subtitleNumberOfLines = section.numberOfLines
@@ -113,7 +113,7 @@ extension MSTableViewCellDemoController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        let title = sections[indexPath.section].item.title
+        let title = sections[indexPath.section].item.text1
         showAlertForDetailButtonTapped(title: title)
     }
 

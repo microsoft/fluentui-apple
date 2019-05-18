@@ -86,6 +86,7 @@ public final class MSColors: NSObject {
     public static var activityIndicator: UIColor = lightGray
     public static var centeredLabelText: UIColor = primary
     public static var separator: UIColor = borderLightGray
+    public static var switchOnTint: UIColor = primary
 
     public struct Action {
         public static var text: UIColor = primary
