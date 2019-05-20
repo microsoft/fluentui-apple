@@ -10,21 +10,21 @@ class MSAvatarViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        addTitle(text: "Circle style")
         let personaImage = UIImage(named: "avatar_kat_larsson")
-        let siteImage = UIImage(named: "site")
-        addTitle(text: "Avatar with Image")
-        for size in MSAvatarSize.allCases {
-            let circleAvatar = createAvatarView(size: size, name: "Kat Larrson", image: personaImage)
-            let squareAvatar = createAvatarView(size: size, name: "NorthWind Traders", image: siteImage, style: .square)
-            addRow(text: size.description, items: [circleAvatar, squareAvatar])
+        for size in MSAvatarSize.allCases.reversed() {
+            let imageAvatar = createAvatarView(size: size, name: "Kat Larrson", image: personaImage)
+            let initialsAvatar = createAvatarView(size: size, name: "Kat Larrson")
+            addRow(text: size.description, items: [imageAvatar, initialsAvatar])
         }
         container.addArrangedSubview(UIView())
 
-        addTitle(text: "Avatar with Initials")
-        for size in MSAvatarSize.allCases {
-            let circleAvatar = createAvatarView(size: size, name: "Kat Larrson")
-            let squareAvatar = createAvatarView(size: size, name: "NorthWind Traders", style: .square)
-            addRow(text: size.description, items: [circleAvatar, squareAvatar])
+        addTitle(text: "Square style")
+        let siteImage = UIImage(named: "site")
+        for size in MSAvatarSize.allCases.reversed() {
+            let imageAvatar = createAvatarView(size: size, name: "NorthWind Traders", image: siteImage, style: .square)
+            let initialsAvatar = createAvatarView(size: size, name: "NorthWind Traders", style: .square)
+            addRow(text: size.description, items: [imageAvatar, initialsAvatar])
         }
         container.addArrangedSubview(UIView())
     }
