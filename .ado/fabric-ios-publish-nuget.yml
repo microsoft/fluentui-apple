@@ -17,11 +17,11 @@ jobs:
           verbose: false
 
       - task: Xcode@5
-        displayName: 'Xcode build Framework, Debug, iphonesimulator'
+        displayName: 'Xcode build Static Library, Debug, iphonesimulator'
         inputs:
           actions: 'build'
           xcWorkspacePath: OfficeUIFabric.xcworkspace
-          scheme: OfficeUIFabric
+          scheme: OfficeUIFabricLib
           sdk: 'iphonesimulator'
           configuration: 'Debug'
           xcodeVersion: 'specifyPath'
@@ -29,11 +29,11 @@ jobs:
           useXcpretty: false
 
       - task: Xcode@5
-        displayName: 'Xcode build Framework, Release, iphonesimulator'
+        displayName: 'Xcode build Static Library, Release, iphonesimulator'
         inputs:
           actions: 'build'
           xcWorkspacePath: OfficeUIFabric.xcworkspace
-          scheme: OfficeUIFabric
+          scheme: OfficeUIFabricLib
           sdk: 'iphonesimulator'
           configuration: 'Release'
           xcodeVersion: 'specifyPath'
@@ -41,11 +41,11 @@ jobs:
           useXcpretty: false
 
       - task: Xcode@5
-        displayName: 'Xcode build Framework, Debug, iphoneos'
+        displayName: 'Xcode build Static Library, Debug, iphoneos'
         inputs:
           actions: 'build'
           xcWorkspacePath: OfficeUIFabric.xcworkspace
-          scheme: OfficeUIFabric
+          scheme: OfficeUIFabricLib
           sdk: 'iphoneos'
           configuration: 'Debug'
           xcodeVersion: 'specifyPath'
@@ -53,11 +53,11 @@ jobs:
           useXcpretty: false
 
       - task: Xcode@5
-        displayName: 'Xcode build Framework, Release, iphoneos'
+        displayName: 'Xcode build Static Library, Release, iphoneos'
         inputs:
           actions: 'build'
           xcWorkspacePath: OfficeUIFabric.xcworkspace
-          scheme: OfficeUIFabric
+          scheme: OfficeUIFabricLib
           sdk: 'iphoneos'
           configuration: 'Release'
           xcodeVersion: 'specifyPath'
