@@ -25,8 +25,9 @@ jobs:
           sdk: 'iphonesimulator'
           configuration: 'Debug'
           xcodeVersion: 'specifyPath'
-          xcodeDeveloperDir: '/Applications/Xcode_10.1.app/Contents/Developer'
+          xcodeDeveloperDir: '/Applications/Xcode_10.2.1.app/Contents/Developer'
           useXcpretty: false
+          args: 'GCC_GENERATE_DEBUGGING_SYMBOLS=NO'
 
       - task: Xcode@5
         displayName: 'Xcode build Static Library, Release, iphonesimulator'
@@ -37,8 +38,9 @@ jobs:
           sdk: 'iphonesimulator'
           configuration: 'Release'
           xcodeVersion: 'specifyPath'
-          xcodeDeveloperDir: '/Applications/Xcode_10.1.app/Contents/Developer'
+          xcodeDeveloperDir: '/Applications/Xcode_10.2.1.app/Contents/Developer'
           useXcpretty: false
+          args: 'GCC_GENERATE_DEBUGGING_SYMBOLS=NO'
 
       - task: Xcode@5
         displayName: 'Xcode build Static Library, Debug, iphoneos'
@@ -49,8 +51,9 @@ jobs:
           sdk: 'iphoneos'
           configuration: 'Debug'
           xcodeVersion: 'specifyPath'
-          xcodeDeveloperDir: '/Applications/Xcode_10.1.app/Contents/Developer'
+          xcodeDeveloperDir: '/Applications/Xcode_10.2.1.app/Contents/Developer'
           useXcpretty: false
+          args: 'GCC_GENERATE_DEBUGGING_SYMBOLS=NO'
 
       - task: Xcode@5
         displayName: 'Xcode build Static Library, Release, iphoneos'
@@ -61,8 +64,9 @@ jobs:
           sdk: 'iphoneos'
           configuration: 'Release'
           xcodeVersion: 'specifyPath'
-          xcodeDeveloperDir: '/Applications/Xcode_10.1.app/Contents/Developer'
+          xcodeDeveloperDir: '/Applications/Xcode_10.2.1.app/Contents/Developer'
           useXcpretty: false
+          args: 'GCC_GENERATE_DEBUGGING_SYMBOLS=NO'
 
       # Replace all nuspec files __BuildBuildNumber__ and __OUTPUTDIR__ fields
 
