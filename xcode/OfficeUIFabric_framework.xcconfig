@@ -1,0 +1,4 @@
+#include "OfficeUIFabric_common.xcconfig"
+
+PRODUCT_NAME = OfficeUIFabric
+SWIFT_MODULE_NAME = OfficeUIFabric

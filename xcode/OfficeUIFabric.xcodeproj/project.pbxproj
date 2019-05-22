@@ -1,0 +1,310 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E61C96BC2295E8D60006561F /* OfficeUIFabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C96B22295E8D60006561F /* OfficeUIFabric.framework */; };
+		E61C96C12295E8D60006561F /* OfficeUIFabricTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61C96C02295E8D60006561F /* OfficeUIFabricTests.swift */; };
+		E61C96CC2295EAC50006561F /* OfficeUIFabric.h in Headers */ = {isa = PBXBuildFile; fileRef = E61C96B52295E8D60006561F /* OfficeUIFabric.h */; settings = {ATTRIBUTES = (Public, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E61C96BD2295E8D60006561F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E61C96A92295E8D60006561F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E61C96B12295E8D60006561F;
+			remoteInfo = OfficeUIFabric;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		E61C96B22295E8D60006561F /* OfficeUIFabric.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OfficeUIFabric.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E61C96B52295E8D60006561F /* OfficeUIFabric.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OfficeUIFabric.h; sourceTree = "<group>"; };
+		E61C96B62295E8D60006561F /* OfficeUIFabric-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OfficeUIFabric-Info.plist"; sourceTree = "<group>"; };
+		E61C96BB2295E8D60006561F /* .xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = .xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E61C96C02295E8D60006561F /* OfficeUIFabricTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OfficeUIFabricTests.swift; path = ../OfficeUIFabricUnitTest/OfficeUIFabricTests.swift; sourceTree = "<group>"; };
+		E61C96C22295E8D60006561F /* OfficeUIFabricUnitTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "OfficeUIFabricUnitTest-Info.plist"; path = "../OfficeUIFabricUnitTest/OfficeUIFabricUnitTest-Info.plist"; sourceTree = "<group>"; };
+		E61C96CE2295ED8A0006561F /* OfficeUIFabric_framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = OfficeUIFabric_framework.xcconfig; sourceTree = "<group>"; };
+		E61C96CF2295F6FE0006561F /* OfficeUIFabric_common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = OfficeUIFabric_common.xcconfig; sourceTree = "<group>"; };
+		E61C96D02295FA360006561F /* OfficeUIFabric_debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = OfficeUIFabric_debug.xcconfig; sourceTree = "<group>"; };
+		E61C96D12295FA4E0006561F /* OfficeUIFabric_release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = OfficeUIFabric_release.xcconfig; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E61C96AF2295E8D60006561F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E61C96B82295E8D60006561F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E61C96BC2295E8D60006561F /* OfficeUIFabric.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E61C96A82295E8D60006561F = {
+			isa = PBXGroup;
+			children = (
+				E61C96B42295E8D60006561F /* OfficeUIFabric */,
+				E61C96BF2295E8D60006561F /* OfficeUIFabricUnitTest */,
+				E61C96CD2295ED530006561F /* xcode */,
+				E61C96B32295E8D60006561F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E61C96B32295E8D60006561F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E61C96B22295E8D60006561F /* OfficeUIFabric.framework */,
+				E61C96BB2295E8D60006561F /* .xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E61C96B42295E8D60006561F /* OfficeUIFabric */ = {
+			isa = PBXGroup;
+			children = (
+				E61C96B52295E8D60006561F /* OfficeUIFabric.h */,
+				E61C96B62295E8D60006561F /* OfficeUIFabric-Info.plist */,
+			);
+			name = OfficeUIFabric;
+			path = ../OfficeUIFabric;
+			sourceTree = "<group>";
+		};
+		E61C96BF2295E8D60006561F /* OfficeUIFabricUnitTest */ = {
+			isa = PBXGroup;
+			children = (
+				E61C96C02295E8D60006561F /* OfficeUIFabricTests.swift */,
+				E61C96C22295E8D60006561F /* OfficeUIFabricUnitTest-Info.plist */,
+			);
+			name = OfficeUIFabricUnitTest;
+			path = ../OfficeUIFabricUnitTest;
+			sourceTree = "<group>";
+		};
+		E61C96CD2295ED530006561F /* xcode */ = {
+			isa = PBXGroup;
+			children = (
+				E61C96CF2295F6FE0006561F /* OfficeUIFabric_common.xcconfig */,
+				E61C96D02295FA360006561F /* OfficeUIFabric_debug.xcconfig */,
+				E61C96CE2295ED8A0006561F /* OfficeUIFabric_framework.xcconfig */,
+				E61C96D12295FA4E0006561F /* OfficeUIFabric_release.xcconfig */,
+			);
+			name = xcode;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		E61C96AD2295E8D60006561F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E61C96CC2295EAC50006561F /* OfficeUIFabric.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		E61C96B12295E8D60006561F /* OfficeUIFabric */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E61C96C62295E8D60006561F /* Build configuration list for PBXNativeTarget "OfficeUIFabric" */;
+			buildPhases = (
+				E61C96AD2295E8D60006561F /* Headers */,
+				E61C96AE2295E8D60006561F /* Sources */,
+				E61C96AF2295E8D60006561F /* Frameworks */,
+				E61C96B02295E8D60006561F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OfficeUIFabric;
+			productName = OfficeUIFabric;
+			productReference = E61C96B22295E8D60006561F /* OfficeUIFabric.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		E61C96BA2295E8D60006561F /* OfficeUIFabricTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E61C96C92295E8D60006561F /* Build configuration list for PBXNativeTarget "OfficeUIFabricTests" */;
+			buildPhases = (
+				E61C96B72295E8D60006561F /* Sources */,
+				E61C96B82295E8D60006561F /* Frameworks */,
+				E61C96B92295E8D60006561F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E61C96BE2295E8D60006561F /* PBXTargetDependency */,
+			);
+			name = OfficeUIFabricTests;
+			productName = OfficeUIFabricTests;
+			productReference = E61C96BB2295E8D60006561F /* .xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E61C96A92295E8D60006561F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1020;
+				LastUpgradeCheck = 1020;
+				ORGANIZATIONNAME = "Microsoft Corporation";
+				TargetAttributes = {
+					E61C96B12295E8D60006561F = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
+					E61C96BA2295E8D60006561F = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
+				};
+			};
+			buildConfigurationList = E61C96AC2295E8D60006561F /* Build configuration list for PBXProject "OfficeUIFabric" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E61C96A82295E8D60006561F;
+			productRefGroup = E61C96B32295E8D60006561F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E61C96B12295E8D60006561F /* OfficeUIFabric */,
+				E61C96BA2295E8D60006561F /* OfficeUIFabricTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E61C96B02295E8D60006561F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E61C96B92295E8D60006561F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E61C96AE2295E8D60006561F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E61C96B72295E8D60006561F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E61C96C12295E8D60006561F /* OfficeUIFabricTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E61C96BE2295E8D60006561F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E61C96B12295E8D60006561F /* OfficeUIFabric */;
+			targetProxy = E61C96BD2295E8D60006561F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E61C96C42295E8D60006561F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E61C96D02295FA360006561F /* OfficeUIFabric_debug.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		E61C96C52295E8D60006561F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E61C96D12295FA4E0006561F /* OfficeUIFabric_release.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		E61C96C72295E8D60006561F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E61C96CE2295ED8A0006561F /* OfficeUIFabric_framework.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		E61C96C82295E8D60006561F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E61C96CE2295ED8A0006561F /* OfficeUIFabric_framework.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		E61C96CA2295E8D60006561F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		E61C96CB2295E8D60006561F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E61C96AC2295E8D60006561F /* Build configuration list for PBXProject "OfficeUIFabric" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E61C96C42295E8D60006561F /* Debug */,
+				E61C96C52295E8D60006561F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E61C96C62295E8D60006561F /* Build configuration list for PBXNativeTarget "OfficeUIFabric" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E61C96C72295E8D60006561F /* Debug */,
+				E61C96C82295E8D60006561F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E61C96C92295E8D60006561F /* Build configuration list for PBXNativeTarget "OfficeUIFabricTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E61C96CA2295E8D60006561F /* Debug */,
+				E61C96CB2295E8D60006561F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E61C96A92295E8D60006561F /* Project object */;
+}
