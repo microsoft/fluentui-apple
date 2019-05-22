@@ -227,9 +227,9 @@ class MSDrawerPresentationController: UIPresentationController {
         var contentMargins: UIEdgeInsets = .zero
         switch presentationDirection {
         case .down:
-            contentMargins.bottom = max(Constants.minVerticalMargin, containerView.safeAreaInsetsIfAvailable.bottom)
+            contentMargins.bottom = max(Constants.minVerticalMargin, containerView.safeAreaInsets.bottom)
         case .up:
-            contentMargins.top = max(Constants.minVerticalMargin, containerView.safeAreaInsetsIfAvailable.top)
+            contentMargins.top = max(Constants.minVerticalMargin, containerView.safeAreaInsets.top)
         }
         var contentFrame = bounds.inset(by: contentMargins)
 
@@ -238,11 +238,11 @@ class MSDrawerPresentationController: UIPresentationController {
         switch presentationDirection {
         case .down:
             if actualPresentationOrigin == containerView.bounds.minY {
-                contentSize.height += containerView.safeAreaInsetsIfAvailable.top
+                contentSize.height += containerView.safeAreaInsets.top
             }
         case .up:
             if actualPresentationOrigin == containerView.bounds.maxY {
-                contentSize.height += containerView.safeAreaInsetsIfAvailable.bottom
+                contentSize.height += containerView.safeAreaInsets.bottom
             }
         }
         contentSize.height = min(contentSize.height, contentFrame.height)

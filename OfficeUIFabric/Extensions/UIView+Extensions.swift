@@ -31,14 +31,6 @@ public extension UIView {
         set { frame.size.height = newValue }
     }
 
-    var safeAreaInsetsIfAvailable: UIEdgeInsets {
-        if #available(iOS 11, *) {
-            return safeAreaInsets
-        } else {
-            return .zero
-        }
-    }
-
     private var contentWidth: CGFloat {
         return (self as? UIScrollView)?.contentSize.width ?? bounds.width
     }

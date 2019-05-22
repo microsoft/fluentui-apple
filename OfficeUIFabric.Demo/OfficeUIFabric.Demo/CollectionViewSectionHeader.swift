@@ -42,9 +42,9 @@ class CollectionViewSectionHeader: UICollectionReusableView {
         let bottomOffset: CGFloat = 8
         let labelHeight = label.font.deviceLineHeight
         label.frame = CGRect(
-            x: horizontalOffset + safeAreaInsetsIfAvailable.left,
+            x: horizontalOffset + safeAreaInsets.left,
             y: CollectionViewSectionHeader.height - labelHeight - bottomOffset,
-            width: bounds.width - horizontalOffset - safeAreaInsetsIfAvailable.left,
+            width: bounds.width - horizontalOffset - safeAreaInsets.left,
             height: labelHeight
         )
 

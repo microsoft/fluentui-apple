@@ -135,9 +135,9 @@ class MSPopupMenuItemCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        let leftOffset = safeAreaInsetsIfAvailable.left
+        let leftOffset = safeAreaInsets.left
         var leftContentOffset = leftOffset + Constants.horizontalSpacing
-        let rightOffset = bounds.width - safeAreaInsetsIfAvailable.right
+        let rightOffset = bounds.width - safeAreaInsets.right
         let rightContentOffset = rightOffset - Constants.horizontalSpacing
 
         if !_imageView.isHidden || preservesSpaceForImage {
