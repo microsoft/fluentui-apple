@@ -8,7 +8,7 @@
 "Accessibility.Dismiss.Label" = "Bezárás";
 "Accessibility.Dismiss.Hint" = "Koppintson duplán a bezáráshoz";
 "Accessibility.Done.Label" = "Kész";
-"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
+"Accessibility.MultiSelect.Hint" = "Koppintson duplán a kijelölés váltásához";
 "Accessibility.Select.Hint" = "Koppintson duplán a kijelöléshez";
 "Accessibility.Selected.Hint" = "Koppintson duplán a részletek megtekintéséhez";
 "Accessibility.Selected.Value" = "Kijelölve";

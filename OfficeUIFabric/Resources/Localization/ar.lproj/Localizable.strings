@@ -8,7 +8,7 @@
 "Accessibility.Dismiss.Label" = "تجاهل";
 "Accessibility.Dismiss.Hint" = "اضغط ضغطاً مزدوجاً للتجاهل";
 "Accessibility.Done.Label" = "تم";
-"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
+"Accessibility.MultiSelect.Hint" = "اضغط ضغطاً مزدوجاً برفق لتبديل التحديد";
 "Accessibility.Select.Hint" = "اضغط ضغطاً مزدوجاً للتحديد";
 "Accessibility.Selected.Hint" = "اضغط ضغطاً مزدوجاً لمشاهدة التفاصيل.";
 "Accessibility.Selected.Value" = "محددة";

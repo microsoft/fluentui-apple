@@ -8,7 +8,7 @@
 "Accessibility.Dismiss.Label" = "Tolak";
 "Accessibility.Dismiss.Hint" = "Dwiketik untuk menolak";
 "Accessibility.Done.Label" = "Selesai";
-"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
+"Accessibility.MultiSelect.Hint" = "Dwiketik untuk togol pilihan";
 "Accessibility.Select.Hint" = "Dwiketik untuk memilih";
 "Accessibility.Selected.Hint" = "Dwiketik untuk melihat butiran";
 "Accessibility.Selected.Value" = "Dipilih";

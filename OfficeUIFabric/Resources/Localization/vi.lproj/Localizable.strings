@@ -8,7 +8,7 @@
 "Accessibility.Dismiss.Label" = "Bỏ";
 "Accessibility.Dismiss.Hint" = "Nhấn đúp để bỏ";
 "Accessibility.Done.Label" = "Đã xong";
-"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
+"Accessibility.MultiSelect.Hint" = "Nhấn đúp để chuyển đổi lựa chọn";
 "Accessibility.Select.Hint" = "Nhấn đúp để chọn";
 "Accessibility.Selected.Hint" = "Nhấn đúp để xem chi tiết";
 "Accessibility.Selected.Value" = "Đã chọn";
