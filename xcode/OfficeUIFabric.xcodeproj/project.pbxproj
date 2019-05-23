@@ -7,12 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F5368052295F4BF0098AC8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5368042295F4BF0098AC8F /* AppDelegate.swift */; };
+		8F5368072295F4C10098AC8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368062295F4C10098AC8F /* Assets.xcassets */; };
+		8F53680A2295F4C10098AC8F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368082295F4C10098AC8F /* MainMenu.xib */; };
 		E61C96BC2295E8D60006561F /* OfficeUIFabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C96B22295E8D60006561F /* OfficeUIFabric.framework */; };
 		E61C96C12295E8D60006561F /* OfficeUIFabricTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61C96C02295E8D60006561F /* OfficeUIFabricTests.swift */; };
 		E61C96CC2295EAC50006561F /* OfficeUIFabric.h in Headers */ = {isa = PBXBuildFile; fileRef = E61C96B52295E8D60006561F /* OfficeUIFabric.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		8F69C7B3229604A8009F69C0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E61C96A92295E8D60006561F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E61C96B12295E8D60006561F;
+			remoteInfo = OfficeUIFabric;
+		};
 		E61C96BD2295E8D60006561F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E61C96A92295E8D60006561F /* Project object */;
@@ -23,6 +33,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8F5368022295F4BF0098AC8F /* OfficeUIFabricTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OfficeUIFabricTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F5368042295F4BF0098AC8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		8F5368062295F4C10098AC8F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8F5368092295F4C10098AC8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		8F53680B2295F4C10098AC8F /* OfficeUIFabricTestApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OfficeUIFabricTestApp-Info.plist"; sourceTree = "<group>"; };
+		8F53680C2295F4C10098AC8F /* OfficeUIFabricTestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OfficeUIFabricTestApp.entitlements; sourceTree = "<group>"; };
+		8F69C7B22295FABD009F69C0 /* OfficeUIFabric_testapp.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = OfficeUIFabric_testapp.xcconfig; sourceTree = "<group>"; };
 		E61C96B22295E8D60006561F /* OfficeUIFabric.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OfficeUIFabric.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E61C96B52295E8D60006561F /* OfficeUIFabric.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OfficeUIFabric.h; sourceTree = "<group>"; };
 		E61C96B62295E8D60006561F /* OfficeUIFabric-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OfficeUIFabric-Info.plist"; sourceTree = "<group>"; };
@@ -36,6 +53,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8F5367FF2295F4BF0098AC8F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E61C96AF2295E8D60006561F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -54,11 +78,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8F5368032295F4BF0098AC8F /* OfficeUIFabricTestApp */ = {
+			isa = PBXGroup;
+			children = (
+				8F5368042295F4BF0098AC8F /* AppDelegate.swift */,
+				8F5368062295F4C10098AC8F /* Assets.xcassets */,
+				8F5368082295F4C10098AC8F /* MainMenu.xib */,
+				8F53680B2295F4C10098AC8F /* OfficeUIFabricTestApp-Info.plist */,
+				8F53680C2295F4C10098AC8F /* OfficeUIFabricTestApp.entitlements */,
+			);
+			name = OfficeUIFabricTestApp;
+			path = ../OfficeUIFabricTestApp;
+			sourceTree = "<group>";
+		};
 		E61C96A82295E8D60006561F = {
 			isa = PBXGroup;
 			children = (
 				E61C96B42295E8D60006561F /* OfficeUIFabric */,
 				E61C96BF2295E8D60006561F /* OfficeUIFabricUnitTest */,
+				8F5368032295F4BF0098AC8F /* OfficeUIFabricTestApp */,
 				E61C96CD2295ED530006561F /* xcode */,
 				E61C96B32295E8D60006561F /* Products */,
 			);
@@ -69,6 +107,7 @@
 			children = (
 				E61C96B22295E8D60006561F /* OfficeUIFabric.framework */,
 				E61C96BB2295E8D60006561F /* .xctest */,
+				8F5368022295F4BF0098AC8F /* OfficeUIFabricTestApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -100,6 +139,7 @@
 				E61C96D02295FA360006561F /* OfficeUIFabric_debug.xcconfig */,
 				E61C96CE2295ED8A0006561F /* OfficeUIFabric_framework.xcconfig */,
 				E61C96D12295FA4E0006561F /* OfficeUIFabric_release.xcconfig */,
+				8F69C7B22295FABD009F69C0 /* OfficeUIFabric_testapp.xcconfig */,
 			);
 			name = xcode;
 			sourceTree = "<group>";
@@ -118,6 +158,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		8F5368012295F4BF0098AC8F /* OfficeUIFabricTestApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8F53680F2295F4C10098AC8F /* Build configuration list for PBXNativeTarget "OfficeUIFabricTestApp" */;
+			buildPhases = (
+				8F5367FE2295F4BF0098AC8F /* Sources */,
+				8F5367FF2295F4BF0098AC8F /* Frameworks */,
+				8F5368002295F4BF0098AC8F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8F69C7B4229604A8009F69C0 /* PBXTargetDependency */,
+			);
+			name = OfficeUIFabricTestApp;
+			productName = OfficeUIFabricTestApp;
+			productReference = 8F5368022295F4BF0098AC8F /* OfficeUIFabricTestApp.app */;
+			productType = "com.apple.product-type.application";
+		};
 		E61C96B12295E8D60006561F /* OfficeUIFabric */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E61C96C62295E8D60006561F /* Build configuration list for PBXNativeTarget "OfficeUIFabric" */;
@@ -164,6 +222,9 @@
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Microsoft Corporation";
 				TargetAttributes = {
+					8F5368012295F4BF0098AC8F = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
 					E61C96B12295E8D60006561F = {
 						CreatedOnToolsVersion = 10.2.1;
 					};
@@ -178,6 +239,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = E61C96A82295E8D60006561F;
 			productRefGroup = E61C96B32295E8D60006561F /* Products */;
@@ -186,11 +248,21 @@
 			targets = (
 				E61C96B12295E8D60006561F /* OfficeUIFabric */,
 				E61C96BA2295E8D60006561F /* OfficeUIFabricTests */,
+				8F5368012295F4BF0098AC8F /* OfficeUIFabricTestApp */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		8F5368002295F4BF0098AC8F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F5368072295F4C10098AC8F /* Assets.xcassets in Resources */,
+				8F53680A2295F4C10098AC8F /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E61C96B02295E8D60006561F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -208,6 +280,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8F5367FE2295F4BF0098AC8F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F5368052295F4BF0098AC8F /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E61C96AE2295E8D60006561F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -226,6 +306,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		8F69C7B4229604A8009F69C0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E61C96B12295E8D60006561F /* OfficeUIFabric */;
+			targetProxy = 8F69C7B3229604A8009F69C0 /* PBXContainerItemProxy */;
+		};
 		E61C96BE2295E8D60006561F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = E61C96B12295E8D60006561F /* OfficeUIFabric */;
@@ -233,7 +318,32 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		8F5368082295F4C10098AC8F /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8F5368092295F4C10098AC8F /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		8F53680D2295F4C10098AC8F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F69C7B22295FABD009F69C0 /* OfficeUIFabric_testapp.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		8F53680E2295F4C10098AC8F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F69C7B22295FABD009F69C0 /* OfficeUIFabric_testapp.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
 		E61C96C42295E8D60006561F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E61C96D02295FA360006561F /* OfficeUIFabric_debug.xcconfig */;
@@ -277,6 +387,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8F53680F2295F4C10098AC8F /* Build configuration list for PBXNativeTarget "OfficeUIFabricTestApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8F53680D2295F4C10098AC8F /* Debug */,
+				8F53680E2295F4C10098AC8F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		E61C96AC2295E8D60006561F /* Build configuration list for PBXProject "OfficeUIFabric" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
