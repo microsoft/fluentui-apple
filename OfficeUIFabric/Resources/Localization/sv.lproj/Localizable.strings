@@ -8,7 +8,7 @@
 "Accessibility.Dismiss.Label" = "Stäng";
 "Accessibility.Dismiss.Hint" = "Dubbeltryck för att stänga";
 "Accessibility.Done.Label" = "Klart";
-"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
+"Accessibility.MultiSelect.Hint" = "Dubbelklicka för att växla markeringen";
 "Accessibility.Select.Hint" = "Dubbeltryck för att markera";
 "Accessibility.Selected.Hint" = "Dubbeltryck för att visa information";
 "Accessibility.Selected.Value" = "Markerad";

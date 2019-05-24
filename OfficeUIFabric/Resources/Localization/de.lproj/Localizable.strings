@@ -8,7 +8,7 @@
 "Accessibility.Dismiss.Label" = "Schließen";
 "Accessibility.Dismiss.Hint" = "Zum Schließen doppeltippen.";
 "Accessibility.Done.Label" = "Fertig";
-"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
+"Accessibility.MultiSelect.Hint" = "Zum Umschalten der Auswahl doppelt tippen";
 "Accessibility.Select.Hint" = "Zum Auswählen doppeltippen";
 "Accessibility.Selected.Hint" = "Zum Anzeigen von Details doppeltippen.";
 "Accessibility.Selected.Value" = "Ausgewählt";

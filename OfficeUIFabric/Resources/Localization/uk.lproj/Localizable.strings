@@ -8,7 +8,7 @@
 "Accessibility.Dismiss.Label" = "Закрити";
 "Accessibility.Dismiss.Hint" = "Торкніться двічі, щоб закрити";
 "Accessibility.Done.Label" = "Готово";
-"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
+"Accessibility.MultiSelect.Hint" = "Торкніться двічі, щоб перемкнути виділення ";
 "Accessibility.Select.Hint" = "Торкніться двічі, щоб вибрати";
 "Accessibility.Selected.Hint" = "Торкніться двічі, щоб переглянути відомості";
 "Accessibility.Selected.Value" = "Вибрано";
