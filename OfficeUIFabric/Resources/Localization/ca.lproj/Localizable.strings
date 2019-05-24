@@ -8,7 +8,7 @@
 "Accessibility.Dismiss.Label" = "Descarta";
 "Accessibility.Dismiss.Hint" = "Toqueu dues vegades per descartar-ho.";
 "Accessibility.Done.Label" = "Fet";
-"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
+"Accessibility.MultiSelect.Hint" = "Toca dues vegades per commutar la selecció";
 "Accessibility.Select.Hint" = "Toqueu dues vegades per seleccionar-ho.";
 "Accessibility.Selected.Hint" = "Toqueu dues vegades per veure'n els detalls.";
 "Accessibility.Selected.Value" = "Seleccionat";

@@ -8,7 +8,7 @@
 "Accessibility.Dismiss.Label" = "Kapat";
 "Accessibility.Dismiss.Hint" = "Kapatmak için iki kez dokunun";
 "Accessibility.Done.Label" = "Bitti";
-"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
+"Accessibility.MultiSelect.Hint" = "Seçimi değiştirmek için iki kez dokunun ";
 "Accessibility.Select.Hint" = "Seçmek için iki kez dokunun";
 "Accessibility.Selected.Hint" = "Ayrıntıları görmek için iki kez dokunun";
 "Accessibility.Selected.Value" = "Seçili";
