@@ -8,7 +8,7 @@
 "Accessibility.Dismiss.Label" = "閉じる";
 "Accessibility.Dismiss.Hint" = "ダブルタップして閉じます";
 "Accessibility.Done.Label" = "完了";
-"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
+"Accessibility.MultiSelect.Hint" = "ダブルタップして、選択を切り替えます ";
 "Accessibility.Select.Hint" = "ダブルタップして選択します";
 "Accessibility.Selected.Hint" = "ダブルタップして詳細情報を表示します";
 "Accessibility.Selected.Value" = "選択済み";

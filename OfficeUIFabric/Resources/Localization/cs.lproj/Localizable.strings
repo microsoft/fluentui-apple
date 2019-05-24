@@ -8,7 +8,7 @@
 "Accessibility.Dismiss.Label" = "Zavřít";
 "Accessibility.Dismiss.Hint" = "Poklepáním zavřete.";
 "Accessibility.Done.Label" = "Hotovo";
-"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
+"Accessibility.MultiSelect.Hint" = "Výběr přepnete dvojitým poklepáním";
 "Accessibility.Select.Hint" = "Poklepáním vyberete.";
 "Accessibility.Selected.Hint" = "Poklepání zobrazíte podrobnosti.";
 "Accessibility.Selected.Value" = "Vybráno";

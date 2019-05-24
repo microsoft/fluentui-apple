@@ -8,7 +8,7 @@
 "Accessibility.Dismiss.Label" = "Ignorer";
 "Accessibility.Dismiss.Hint" = "Appuyez deux fois pour masquer";
 "Accessibility.Done.Label" = "Terminé";
-"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
+"Accessibility.MultiSelect.Hint" = "Appuyez deux fois pour activer la sélection";
 "Accessibility.Select.Hint" = "Appuyez deux fois pour sélectionner";
 "Accessibility.Selected.Hint" = "Appuyez deux fois pour afficher les détails";
 "Accessibility.Selected.Value" = "Sélectionné";

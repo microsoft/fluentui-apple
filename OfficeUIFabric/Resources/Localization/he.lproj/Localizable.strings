@@ -8,7 +8,7 @@
 "Accessibility.Dismiss.Label" = "בטל";
 "Accessibility.Dismiss.Hint" = "הקש פעמיים כדי לבטל";
 "Accessibility.Done.Label" = "בוצע";
-"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
+"Accessibility.MultiSelect.Hint" = "הקש פעמיים כדי להחליף מצב בחירה";
 "Accessibility.Select.Hint" = "הקש פעמיים כדי לבחור";
 "Accessibility.Selected.Hint" = "הקש פעמיים כדי להציג פרטים";
 "Accessibility.Selected.Value" = "נבחר";
