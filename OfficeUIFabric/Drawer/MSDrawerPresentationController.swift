@@ -234,7 +234,9 @@ class MSDrawerPresentationController: UIPresentationController {
         var contentFrame = bounds.inset(by: contentMargins)
 
         var contentSize = presentedViewController.preferredContentSize
-        contentSize.width = contentFrame.width
+        if contentSize.width == 0 || traitCollection.horizontalSizeClass == .compact {
+            contentSize.width = contentFrame.width
+        }
         switch presentationDirection {
         case .down:
             if actualPresentationOrigin == containerView.bounds.minY {

@@ -21,6 +21,7 @@ class DemoController: UIViewController {
 
     func createButton(title: String, action: Selector) -> MSButton {
         let button = MSButton()
+        button.titleLabel?.lineBreakMode = .byTruncatingTail
         button.setTitle(title, for: .normal)
         button.addTarget(self, action: action, for: .touchUpInside)
         return button

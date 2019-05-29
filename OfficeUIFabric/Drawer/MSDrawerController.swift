@@ -20,6 +20,15 @@ import UIKit
     case up     // drawer animated up from a bottom base
 }
 
+// MARK: - MSDrawerPresentationStyle
+
+@objc public enum MSDrawerPresentationStyle: Int {
+    /// Results in `.slideover` for horizontally compact environments, `.popover` otherwise
+    case automatic = -1
+    case slideover
+    case popover
+}
+
 // MARK: - MSDrawerControllerDelegate
 
 @objc public protocol MSDrawerControllerDelegate: class {
@@ -54,7 +63,7 @@ open class MSDrawerController: UIViewController {
         static let resizingThreshold: CGFloat = 30
     }
 
-    private enum PresentationStyle {
+    private enum PresentationStyle: Int {
         case slideover
         case popover
     }
@@ -106,6 +115,9 @@ open class MSDrawerController: UIViewController {
             }
         }
     }
+
+    /// When `presentationStyle` is `.automatic` (the default value) drawer is presented as a slideover in horizontally compact environments and as a popover otherwise. Set this property to a specific presentation style to enforce it in all environments.
+    @objc open var presentationStyle: MSDrawerPresentationStyle = .automatic
 
     /**
      When `resizingBehavior` is not `.none` a user can resize the drawer by tapping and dragging any area that does not handle this gesture itself. For example, if `contentController` constains a `UINavigationController`, a user can tap and drag navigation bar to resize the drawer.
@@ -331,6 +343,10 @@ open class MSDrawerController: UIViewController {
     }
 
     private func presentationStyle(for sourceViewController: UIViewController) -> PresentationStyle {
+        if presentationStyle != .automatic {
+            return PresentationStyle(rawValue: presentationStyle.rawValue)!
+        }
+
         guard let window = sourceViewController.view?.window else {
             // No window, use the device type as last resort.
             // It will be a problem:
