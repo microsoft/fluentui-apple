@@ -25,7 +25,7 @@ class MSDrawerDemoController: DemoController {
         container.addArrangedSubview(UIView())
     }
 
-    private func presentDrawer(sourceView: UIView? = nil, barButtonItem: UIBarButtonItem? = nil, presentationOrigin: CGFloat = -1, presentationDirection: MSDrawerPresentationDirection, contentController: UIViewController? = nil, contentView: UIView? = nil, presentationStyle: MSDrawerPresentationStyle = .automatic, resizingBehavior: MSDrawerResizingBehavior = .none, animated: Bool = true) {
+    private func presentDrawer(sourceView: UIView? = nil, barButtonItem: UIBarButtonItem? = nil, presentationOrigin: CGFloat = -1, presentationDirection: MSDrawerPresentationDirection, presentationStyle: MSDrawerPresentationStyle = .automatic, presentationOffset: CGFloat = 0, presentationBackground: MSDrawerPresentationBackground = .black, contentController: UIViewController? = nil, contentView: UIView? = nil, resizingBehavior: MSDrawerResizingBehavior = .none, animated: Bool = true) {
         let controller: MSDrawerController
         if let sourceView = sourceView {
             controller = MSDrawerController(sourceView: sourceView, sourceRect: sourceView.bounds, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection)
@@ -36,6 +36,8 @@ class MSDrawerDemoController: DemoController {
         }
 
         controller.presentationStyle = presentationStyle
+        controller.presentationOffset = presentationOffset
+        controller.presentationBackground = presentationBackground
         controller.resizingBehavior = resizingBehavior
 
         if let contentView = contentView {
@@ -111,7 +113,7 @@ class MSDrawerDemoController: DemoController {
 
         let contentController = UINavigationController(rootViewController: controller)
 
-        presentDrawer(sourceView: sender, presentationDirection: .up, contentController: contentController, presentationStyle: .slideover, resizingBehavior: .dismissOrExpand)
+        presentDrawer(sourceView: sender, presentationDirection: .up, presentationStyle: .slideover, presentationOffset: 20, presentationBackground: traitCollection.horizontalSizeClass == .regular ? .none : .black, contentController: contentController, resizingBehavior: .dismissOrExpand)
     }
 
     @objc private func expandButtonTapped(sender: UIButton) {

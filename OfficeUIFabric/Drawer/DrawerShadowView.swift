@@ -31,10 +31,14 @@ class DrawerShadowView: UIView {
 
     private var animationDuration: TimeInterval = 0
 
-    init(shadowDirection: MSDrawerPresentationDirection) {
+    init(shadowDirection: MSDrawerPresentationDirection?) {
         super.init(frame: .zero)
         layer.shadowRadius = Constants.shadowRadius
-        layer.shadowOffset = CGSize(width: 0, height: Constants.shadowOffset * (shadowDirection == .down ? 1 : -1))
+        if let shadowDirection = shadowDirection {
+            layer.shadowOffset.height = Constants.shadowOffset * (shadowDirection == .down ? 1 : -1)
+        } else {
+            layer.shadowOffset.height = 0
+        }
         layer.shadowOpacity = Constants.shadowOpacity
         isAccessibilityElement = false
         isUserInteractionEnabled = false

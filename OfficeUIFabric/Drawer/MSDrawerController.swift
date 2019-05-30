@@ -29,6 +29,24 @@ import UIKit
     case popover
 }
 
+// MARK: - MSDrawerPresentationBackground
+
+@objc public enum MSDrawerPresentationBackground: Int {
+    /// Clear background
+    case none
+    /// Black semi-transparent background
+    case black
+
+    var dimmingViewType: MSDimmingViewType {
+        switch self {
+        case .none:
+            return .none
+        case .black:
+            return .black
+        }
+    }
+}
+
 // MARK: - MSDrawerControllerDelegate
 
 @objc public protocol MSDrawerControllerDelegate: class {
@@ -118,6 +136,13 @@ open class MSDrawerController: UIViewController {
 
     /// When `presentationStyle` is `.automatic` (the default value) drawer is presented as a slideover in horizontally compact environments and as a popover otherwise. Set this property to a specific presentation style to enforce it in all environments.
     @objc open var presentationStyle: MSDrawerPresentationStyle = .automatic
+    /// Use `presentationOffset` to offset drawer from the presentation base in the direction of presentation. Only supported in horizontally regular environments.
+    @objc open var presentationOffset: CGFloat = 0 {
+        didSet {
+            presentationOffset = max(0, presentationOffset)
+        }
+    }
+    @objc open var presentationBackground: MSDrawerPresentationBackground = .black
 
     /**
      When `resizingBehavior` is not `.none` a user can resize the drawer by tapping and dragging any area that does not handle this gesture itself. For example, if `contentController` constains a `UINavigationController`, a user can tap and drag navigation bar to resize the drawer.
@@ -446,7 +471,7 @@ extension MSDrawerController: UIViewControllerTransitioningDelegate {
     public func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         switch presentationStyle(for: source) {
         case .slideover:
-            return MSDrawerPresentationController(presentedViewController: presented, presenting: presenting, source: source, sourceObject: sourceView ?? barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection, presentationIsInteractive: resizingBehavior != .none)
+            return MSDrawerPresentationController(presentedViewController: presented, presenting: presenting, source: source, sourceObject: sourceView ?? barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection, presentationOffset: presentationOffset, presentationBackground: presentationBackground, presentationIsInteractive: resizingBehavior != .none)
         case .popover:
             let presentationController = UIPopoverPresentationController(presentedViewController: presented, presenting: presenting)
             presentationController.backgroundColor = MSColors.background

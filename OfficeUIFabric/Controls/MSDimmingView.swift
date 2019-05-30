@@ -7,7 +7,7 @@ import UIKit
 
 // MARK: MSDimmingViewType
 
-public enum MSDimmingViewType: Int {
+@objc public enum MSDimmingViewType: Int {
     case white = 1
     case black
     case none
@@ -23,7 +23,7 @@ open class MSDimmingView: UIView {
 
     private var type: MSDimmingViewType
 
-    public init(type: MSDimmingViewType) {
+    @objc public init(type: MSDimmingViewType) {
         self.type = type
         super.init(frame: .zero)
         setBackground(type: type)

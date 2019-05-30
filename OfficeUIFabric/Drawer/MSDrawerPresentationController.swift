@@ -17,13 +17,17 @@ class MSDrawerPresentationController: UIPresentationController {
     let sourceObject: Any?
     let presentationOrigin: CGFloat?
     let presentationDirection: MSDrawerPresentationDirection
+    let presentationOffset: CGFloat
+    let presentationBackground: MSDrawerPresentationBackground
     let presentationIsInteractive: Bool
 
-    init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?, source: UIViewController, sourceObject: Any?, presentationOrigin: CGFloat?, presentationDirection: MSDrawerPresentationDirection, presentationIsInteractive: Bool) {
+    init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?, source: UIViewController, sourceObject: Any?, presentationOrigin: CGFloat?, presentationDirection: MSDrawerPresentationDirection, presentationOffset: CGFloat, presentationBackground: MSDrawerPresentationBackground, presentationIsInteractive: Bool) {
         sourceViewController = source
         self.sourceObject = sourceObject
         self.presentationOrigin = presentationOrigin
         self.presentationDirection = presentationDirection
+        self.presentationOffset = presentationOffset
+        self.presentationBackground = presentationBackground
         self.presentationIsInteractive = presentationIsInteractive
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
         backgroundView.gestureRecognizers = [UITapGestureRecognizer(target: self, action: #selector(handleBackgroundViewTapped(_:)))]
@@ -54,13 +58,13 @@ class MSDrawerPresentationController: UIPresentationController {
         return view
     }()
     private lazy var dimmingView: MSDimmingView = {
-        let view = MSDimmingView(type: .black)
+        let view = MSDimmingView(type: presentationBackground.dimmingViewType)
         view.isUserInteractionEnabled = false
         return view
     }()
     private lazy var contentView = UIView()
     // Shadow behind presented view (cannot be done on presented view itself because it's masked)
-    private lazy var shadowView = DrawerShadowView(shadowDirection: presentationDirection)
+    private lazy var shadowView = DrawerShadowView(shadowDirection: actualPresentationOffset == 0 ? presentationDirection : nil)
     // Imitates the bottom shadow of navigation bar or top shadow of toolbar because original ones are hidden by presented view
     private lazy var separator = MSSeparator(style: .shadow)
 
@@ -86,8 +90,10 @@ class MSDrawerPresentationController: UIPresentationController {
             contentView.addSubview(presentedViewController.view)
         }
 
-        containerView?.addSubview(separator)
-        separator.frame = frameForSeparator(in: contentView.frame, withThickness: separator.height)
+        if actualPresentationOffset == 0 {
+            containerView?.addSubview(separator)
+            separator.frame = frameForSeparator(in: contentView.frame, withThickness: separator.height)
+        }
 
         backgroundView.alpha = 0.0
         presentingViewController.transitionCoordinator?.animate(alongsideTransition: { _ in
@@ -140,6 +146,9 @@ class MSDrawerPresentationController: UIPresentationController {
 
     var extraContentHeightEffectWhenCollapsing: ExtraContentHeightEffect = .move
 
+    private var actualPresentationOffset: CGFloat {
+        return traitCollection.horizontalSizeClass == .regular ? presentationOffset : 0
+    }
     private lazy var actualPresentationOrigin: CGFloat = {
         if let presentationOrigin = presentationOrigin {
             return presentationOrigin
@@ -160,6 +169,22 @@ class MSDrawerPresentationController: UIPresentationController {
         }
     }()
     private var extraContentHeight: CGFloat = 0
+    private var safeAreaPresentationOffset: CGFloat {
+        guard let containerView = containerView else {
+            return 0
+        }
+        switch presentationDirection {
+        case .down:
+            if actualPresentationOrigin == containerView.bounds.minY {
+                return containerView.safeAreaInsets.top
+            }
+        case .up:
+            if actualPresentationOrigin == containerView.bounds.maxY {
+                return containerView.safeAreaInsets.bottom
+            }
+        }
+        return 0
+    }
 
     override func containerViewWillLayoutSubviews() {
         super.containerViewWillLayoutSubviews()
@@ -227,9 +252,15 @@ class MSDrawerPresentationController: UIPresentationController {
         var contentMargins: UIEdgeInsets = .zero
         switch presentationDirection {
         case .down:
+            if actualPresentationOffset != 0 {
+                contentMargins.top = safeAreaPresentationOffset + actualPresentationOffset
+            }
             contentMargins.bottom = max(Constants.minVerticalMargin, containerView.safeAreaInsets.bottom)
         case .up:
             contentMargins.top = max(Constants.minVerticalMargin, containerView.safeAreaInsets.top)
+            if actualPresentationOffset != 0 {
+                contentMargins.bottom = safeAreaPresentationOffset + actualPresentationOffset
+            }
         }
         var contentFrame = bounds.inset(by: contentMargins)
 
@@ -237,15 +268,8 @@ class MSDrawerPresentationController: UIPresentationController {
         if contentSize.width == 0 || traitCollection.horizontalSizeClass == .compact {
             contentSize.width = contentFrame.width
         }
-        switch presentationDirection {
-        case .down:
-            if actualPresentationOrigin == containerView.bounds.minY {
-                contentSize.height += containerView.safeAreaInsets.top
-            }
-        case .up:
-            if actualPresentationOrigin == containerView.bounds.maxY {
-                contentSize.height += containerView.safeAreaInsets.bottom
-            }
+        if actualPresentationOffset == 0 {
+            contentSize.height += safeAreaPresentationOffset
         }
         contentSize.height = min(contentSize.height, contentFrame.height)
         if extraContentHeight >= 0 || extraContentHeightEffectWhenCollapsing == .resize {
@@ -280,7 +304,12 @@ class MSDrawerPresentationController: UIPresentationController {
         guard let presentedView = presentedView, !(presentedView.layer.mask?.isAnimating ?? false) else {
             return
         }
-        let roundedCorners: UIRectCorner = presentationDirection == .down ? [.bottomLeft, .bottomRight] : [.topLeft, .topRight]
+        let roundedCorners: UIRectCorner
+        if actualPresentationOffset == 0 {
+            roundedCorners = presentationDirection == .down ? [.bottomLeft, .bottomRight] : [.topLeft, .topRight]
+        } else {
+            roundedCorners = .allCorners
+        }
         presentedView.layer.mask = presentedView.layer(withRoundedCorners: roundedCorners, radius: Constants.cornerRadius)
     }
 
