@@ -1,0 +1,34 @@
+# This file defines the Apple publish build steps
+name: 1.$(Date:yyyy).$(Date:MMdd)-v$(Rev:r)
+
+jobs:
+  - job: fabric_macos_pr
+    pool:
+      name: Hosted Mac Internal Mojave
+    displayName: Fabric macOS PR
+    timeoutInMinutes: 120 # how long to run the job before automatically cancelling
+    cancelTimeoutInMinutes: 5 # how much time to give 'run always even if cancelled tasks' before killing them
+    steps:
+      - template: templates/xcode-build.yml
+        parameters:
+          xcode_actions: 'build'
+          xcode_scheme: 'OfficeUIFabric'
+          xcode_configuration: 'Debug'
+      
+      - template: templates/xcode-build.yml
+        parameters:
+          xcode_actions: 'build'
+          xcode_scheme: 'OfficeUIFabric'
+          xcode_configuration: 'Release'
+        
+      - template: templates/xcode-build.yml
+        parameters:
+          xcode_actions: 'build'
+          xcode_scheme: 'OfficeUIFabricTestApp'
+          xcode_configuration: 'Debug'
+
+      - template: templates/xcode-build.yml
+        parameters:
+          xcode_actions: 'build'
+          xcode_scheme: 'OfficeUIFabricTestApp'
+          xcode_configuration: 'Release'
