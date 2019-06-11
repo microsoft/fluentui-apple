@@ -13,8 +13,12 @@ open class MSPopupMenuItem: NSObject {
     /// Defines the timing for the call of the onSelected closure/block
     @objc(MSPopupMenuItemExecutionMode)
     public enum ExecutionMode: Int {
+        /// `onSelected` is called right after item is tapped, before popup menu dismissal
         case onSelection
+        /// `onSelected` is called after popup menu is dismissed, but before its `onDismissCompleted` is called
         case afterPopupMenuDismissal
+        /// `onSelected` is called after popup menu is dismissed and its `onDismissCompleted` is called
+        case afterPopupMenuDismissalCompleted
     }
 
     public let image: UIImage?

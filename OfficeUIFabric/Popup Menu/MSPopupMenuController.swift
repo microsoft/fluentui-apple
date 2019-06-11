@@ -128,9 +128,15 @@ open class MSPopupMenuController: MSDrawerController {
     }
 
     open override func didDismiss() {
-        itemForExecutionAfterPopupMenuDismissal?.onSelected?()
-        itemForExecutionAfterPopupMenuDismissal = nil
+        if itemForExecutionAfterPopupMenuDismissal?.executionMode == .afterPopupMenuDismissal {
+            itemForExecutionAfterPopupMenuDismissal?.onSelected?()
+            itemForExecutionAfterPopupMenuDismissal = nil
+        }
         super.didDismiss()
+        if itemForExecutionAfterPopupMenuDismissal?.executionMode == .afterPopupMenuDismissalCompleted {
+            itemForExecutionAfterPopupMenuDismissal?.onSelected?()
+            itemForExecutionAfterPopupMenuDismissal = nil
+        }
     }
 
     open override func viewDidLoad() {
@@ -187,7 +193,7 @@ open class MSPopupMenuController: MSDrawerController {
         switch item.executionMode {
         case .onSelection:
             item.onSelected?()
-        case .afterPopupMenuDismissal:
+        case .afterPopupMenuDismissal, .afterPopupMenuDismissalCompleted:
             itemForExecutionAfterPopupMenuDismissal = item
         }
         if !isBeingDismissed {
