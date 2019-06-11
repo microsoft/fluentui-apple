@@ -6,9 +6,13 @@
 import UIKit
 
 open class MSTouchForwardingView: UIView {
-    var forwardTouches: Bool = true
+    var forwardsTouches: Bool = true
+    var onTouches: ((_ event: UIEvent?) -> Void)?
 
     open override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        return forwardTouches ? false : super.point(inside: point, with: event)
+        if event?.type == .touches {
+            onTouches?(event)
+        }
+        return forwardsTouches ? false : super.point(inside: point, with: event)
     }
 }

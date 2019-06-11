@@ -202,6 +202,12 @@ public final class MSColors: NSObject {
         public static var checkmark: UIColor = selected
     }
 
+    public struct Tooltip {
+        public static var background: UIColor = black.withAlphaComponent(0.95)
+        public static var text: UIColor = white
+        public static var shadow = UIColor.black.withAlphaComponent(0.24)
+    }
+
     private override init() {
         super.init()
     }

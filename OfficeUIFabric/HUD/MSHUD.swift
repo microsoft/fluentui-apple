@@ -123,7 +123,7 @@ public class MSHUD: NSObject {
             fatalError("MSHUD could not create MSHUDView")
         }
 
-        containerView.forwardTouches = !params.isBlocking
+        containerView.forwardsTouches = !params.isBlocking
         view.addSubview(containerView)
         containerView.frame = view.bounds
 
