@@ -4,6 +4,13 @@
 
 import AppKit
 
+fileprivate struct Constants {
+	static let previousSelectionIndexUserDefaultsKey = "OfficeUIFabricTestApp.previousSelectionIndexUserDefaultsKey"
+	static let rowHeight: CGFloat = 44.0
+	static let textFieldLeadingPadding: CGFloat = 5.0
+	private init() {}
+}
+
 /// Master-detail view controller to implement a playground for testing various controls.
 /// To add a control, add it and the type of its NSViewController to "controls"
 class TestControlsViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
@@ -18,13 +25,25 @@ class TestControlsViewController: NSViewController, NSTableViewDelegate, NSTable
 		controlListView.delegate = self
 		controlListView.addTableColumn(NSTableColumn(identifier: NSUserInterfaceItemIdentifier("Column")))
 		controlListView.translatesAutoresizingMaskIntoConstraints = false
-		controlListView.rowHeight = 44.0
-		
+		controlListView.rowHeight = Constants.rowHeight
+
 		view = masterView
 
 		controlDetailViewController = TestPlaceholderViewController(nibName: nil, bundle: nil)
 		
 		NSLayoutConstraint.activate([controlListView.widthAnchor.constraint(equalToConstant: 200)])
+	}
+
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		let standardUserDefaults = UserDefaults.standard
+		let previouslySelectedRowIndex = standardUserDefaults.integer(forKey: Constants.previousSelectionIndexUserDefaultsKey)
+		if controlListView.numberOfRows > previouslySelectedRowIndex {
+			controlListView.selectRowIndexes(IndexSet(integer: previouslySelectedRowIndex), byExtendingSelection: false)
+		} else {
+			// Selected row index information is invalid, remove it
+			standardUserDefaults.removeObject(forKey: Constants.previousSelectionIndexUserDefaultsKey)
+		}
 	}
 
 	func numberOfRows(in tableView: NSTableView) -> Int {
@@ -36,7 +55,7 @@ class TestControlsViewController: NSViewController, NSTableViewDelegate, NSTable
 		textField.translatesAutoresizingMaskIntoConstraints = false
 		let view = NSView(frame: .zero)
 		view.addSubview(textField)
-		NSLayoutConstraint.activate([textField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5.0),
+		NSLayoutConstraint.activate([textField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.textFieldLeadingPadding),
 									 textField.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 									 textField.centerYAnchor.constraint(equalTo: view.centerYAnchor)])
 		
@@ -45,6 +64,7 @@ class TestControlsViewController: NSViewController, NSTableViewDelegate, NSTable
 	
 	func tableViewSelectionDidChange(_ notification: Notification) {
 		controlDetailViewController = controls[controlListView.selectedRow].type.init(nibName: nil, bundle: nil)
+		UserDefaults.standard.set(controlListView.selectedRow, forKey: Constants.previousSelectionIndexUserDefaultsKey)
 	}
 
 	private var controlDetailViewController: NSViewController? {
