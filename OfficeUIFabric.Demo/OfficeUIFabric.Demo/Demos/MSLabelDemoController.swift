@@ -59,6 +59,8 @@ extension MSTextColorStyle {
 extension MSTextStyle {
     var description: String {
         switch self {
+        case .largeTitle:
+            return "Large Title"
         case .title1:
             return "Title 1"
         case .title2:
@@ -71,6 +73,12 @@ extension MSTextStyle {
             return "Subhead"
         case .footnote:
             return "Footnote"
+        case .button1:
+            return "Button 1"
+        case .button2:
+            return "Button 2"
+        case .button3:
+            return "Button 3"
         case .caption1:
             return "Caption 1"
         case .caption2:
@@ -78,6 +86,17 @@ extension MSTextStyle {
         }
     }
     var detailedDescription: String {
-        return "\(description) is \(font.fontDescriptor.weight == .semibold ? "Semibold" : "Regular") \(Int(font.pointSize))pt"
+        let weight: String
+        switch font.fontDescriptor.weight {
+        case .bold:
+            weight = "Bold"
+        case .semibold:
+            weight = "Semibold"
+        case .medium:
+            weight = "Medium"
+        default:
+            weight = "Regular"
+        }
+        return "\(description) is \(weight) \(Int(font.pointSize))pt"
     }
 }

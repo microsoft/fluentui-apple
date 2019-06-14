@@ -44,7 +44,7 @@ class MSCollectionViewCellDemoController: DemoController {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: flowLayout)
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.register(MSCollectionViewCell.self, forCellWithReuseIdentifier: MSCollectionViewCell.identifier)
-        collectionView.register(CollectionViewSectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CollectionViewSectionHeader.identifier)
+        collectionView.register(MSCollectionViewHeaderFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MSCollectionViewHeaderFooterView.identifier)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = MSColors.background
@@ -63,7 +63,6 @@ class MSCollectionViewCellDemoController: DemoController {
                 // Higher value of 100 needed for proper layout on iOS 11
                 flowLayout.estimatedItemSize = CGSize(width: view.width, height: 100)
             }
-            flowLayout.headerReferenceSize = CGSize(width: view.width, height: CollectionViewSectionHeader.height)
         }
         super.viewWillLayoutSubviews()
     }
@@ -132,8 +131,9 @@ extension MSCollectionViewCellDemoController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionView.elementKindSectionHeader:
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CollectionViewSectionHeader.identifier, for: indexPath) as! CollectionViewSectionHeader
-            header.title = sections[indexPath.section].title
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MSCollectionViewHeaderFooterView.identifier, for: indexPath) as! MSCollectionViewHeaderFooterView
+            let section = sections[indexPath.section]
+            header.headerFooterView.setup(style: section.headerStyle, title: section.title)
             return header
         default:
             return UICollectionReusableView()
@@ -152,5 +152,13 @@ extension MSCollectionViewCellDemoController: UICollectionViewDelegate {
         } else {
             collectionView.deselectItem(at: indexPath, animated: true)
         }
+    }
+}
+
+// MARK: - MSCollectionViewCellDemoController: UICollectionViewDelegateFlowLayout
+
+extension MSCollectionViewCellDemoController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: view.width, height: MSTableViewHeaderFooterView.height(style: .header, title: ""))
     }
 }

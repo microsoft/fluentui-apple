@@ -62,7 +62,8 @@ import UIKit
  NOTE: This cell implements its own custom separator. Make sure to remove the UITableViewCell built-in separator by setting "separatorStyle = .none" on your table view. To remove the cell's custom separator set `showsSeparator` to false.
  */
 open class MSTableViewCell: UITableViewCell {
-    @objc public enum CustomViewSize: Int {
+    @objc(MSTableViewCellCustomViewSize)
+    public enum CustomViewSize: Int {
         case `default`
         case zero
         case small

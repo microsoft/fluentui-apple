@@ -38,10 +38,10 @@ class MSTableViewCellDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView = UITableView(frame: view.bounds)
+        tableView = UITableView(frame: view.bounds, style: .grouped)
         tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         tableView.register(MSTableViewCell.self, forCellReuseIdentifier: MSTableViewCell.identifier)
-        tableView.register(TableViewSectionHeader.self, forHeaderFooterViewReuseIdentifier: TableViewSectionHeader.identifier)
+        tableView.register(MSTableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: MSTableViewHeaderFooterView.identifier)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = MSColors.background
@@ -102,13 +102,10 @@ extension MSTableViewCellDemoController: UITableViewDataSource {
 // MARK: - MSTableViewCellDemoController: UITableViewDelegate
 
 extension MSTableViewCellDemoController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return TableViewSectionHeader.height
-    }
-
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewSectionHeader.identifier) as! TableViewSectionHeader
-        header.title = sections[section].title
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: MSTableViewHeaderFooterView.identifier) as! MSTableViewHeaderFooterView
+        let section = sections[section]
+        header.setup(style: section.headerStyle, title: section.title)
         return header
     }
 

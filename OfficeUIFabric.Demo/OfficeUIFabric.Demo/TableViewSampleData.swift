@@ -16,13 +16,19 @@ class TableViewSampleData {
         let numberOfLines: Int
         let hasAccessoryView: Bool
         let allowsMultipleSelection: Bool
+        let headerStyle: MSTableViewHeaderFooterView.Style
+        let hasFooter: Bool
+        let footerText: String
 
-        init(title: String, items: [Item], numberOfLines: Int = 1, hasAccessoryView: Bool = false, allowsMultipleSelection: Bool = true) {
+        init(title: String, items: [Item] = [], numberOfLines: Int = 1, hasAccessoryView: Bool = false, allowsMultipleSelection: Bool = true, headerStyle: MSTableViewHeaderFooterView.Style = .header, hasFooter: Bool = false, footerText: String = "") {
             self.title = title
             self.items = items
             self.numberOfLines = numberOfLines
             self.hasAccessoryView = hasAccessoryView
             self.allowsMultipleSelection = allowsMultipleSelection
+            self.headerStyle = headerStyle
+            self.hasFooter = hasFooter
+            self.footerText = footerText
         }
     }
 

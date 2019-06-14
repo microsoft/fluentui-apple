@@ -15,6 +15,8 @@ public final class MSColors: NSObject {
     public static var primary: UIColor = #colorLiteral(red: 0, green: 0.4705882353, blue: 0.831372549, alpha: 1)
     /// #E1EFFA
     public static var lightPrimary: UIColor = #colorLiteral(red: 0.8823529412, green: 0.937254902, blue: 0.9803921569, alpha: 1)
+    /// #F5FAFD - Primary with 4% opacity
+    public static var extraLightPrimary: UIColor = #colorLiteral(red: 0.9607843137, green: 0.9803921569, blue: 0.9921568627, alpha: 1)
 
     // MARK: Physical
 
@@ -200,6 +202,14 @@ public final class MSColors: NSObject {
         public static var background: UIColor = MSColors.background
         public static var backgroundSelected: UIColor = backgroundGray
         public static var checkmark: UIColor = selected
+    }
+
+    public struct TableViewHeaderFooterView {
+        public static var background: UIColor = MSColors.background
+        public static var backgroundDivider: UIColor = backgroundLightGray
+        public static var backgroundDividerHighlighted: UIColor = extraLightPrimary
+        public static var text: UIColor = foregroundSecondary
+        public static var textHighlighted: UIColor = primary
     }
 
     public struct Tooltip {

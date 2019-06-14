@@ -30,7 +30,7 @@ open class MSButton: UIButton {
     private struct Constants {
         static let borderWidth: CGFloat = 1
         static let cornerRadius: CGFloat = 8
-        static var titleFont: UIFont { return MSFonts.subhead }
+        static var titleFont: UIFont { return MSFonts.button1 }
     }
 
     @objc open var style: MSButtonStyle = .secondaryOutline {

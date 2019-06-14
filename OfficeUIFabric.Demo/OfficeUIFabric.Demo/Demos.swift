@@ -13,6 +13,7 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("MSBadgeView", MSBadgeViewDemoController.self),
     ("MSButton", MSButtonDemoController.self),
     ("MSCollectionViewCell", MSCollectionViewCellDemoController.self),
+    ("MSCollectionViewHeaderFooterView", MSCollectionViewHeaderFooterViewDemoController.self),
     ("MSDateTimePicker", MSDateTimePickerDemoController.self),
     ("MSDrawerController", MSDrawerDemoController.self),
     ("MSHUD", MSHUDDemoController.self),
@@ -21,6 +22,7 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("MSPopupMenuController", MSPopupMenuDemoController.self),
     ("MSSegmentedControl", MSSegmentedControlDemoController.self),
     ("MSTableViewCell", MSTableViewCellDemoController.self),
+    ("MSTableViewHeaderFooterView", MSTableViewHeaderFooterViewDemoController.self),
     ("MSTooltip", MSTooltipDemoController.self),
     ("Other cells", OtherCellsDemoController.self)
 ]

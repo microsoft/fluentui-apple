@@ -8,12 +8,12 @@ import UIKit
 open class MSLabel: UILabel {
     @objc open var colorStyle: MSTextColorStyle = .regular {
         didSet {
-            update()
+            updateTextColor()
         }
     }
     @objc open var style: MSTextStyle = .body {
         didSet {
-            update()
+            updateFont()
         }
     }
     /**
@@ -23,7 +23,7 @@ open class MSLabel: UILabel {
      */
     @objc open var maxFontSize: CGFloat = 0 {
         didSet {
-            update()
+            updateFont()
         }
     }
 
@@ -40,13 +40,12 @@ open class MSLabel: UILabel {
     }
 
     private func initialize() {
-        update()
+        updateFont()
+        updateTextColor()
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
-    private func update() {
-        textColor = colorStyle.color
-
+    private func updateFont() {
         let defaultFont = style.font
         if maxFontSize > 0 && defaultFont.pointSize > maxFontSize {
             font = defaultFont.withSize(maxFontSize)
@@ -55,7 +54,11 @@ open class MSLabel: UILabel {
         }
     }
 
+    private func updateTextColor() {
+        textColor = colorStyle.color
+    }
+
     @objc private func handleContentSizeCategoryDidChange() {
-        update()
+        updateFont()
     }
 }

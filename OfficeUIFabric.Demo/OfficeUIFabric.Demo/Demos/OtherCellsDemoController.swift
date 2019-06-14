@@ -22,7 +22,7 @@ class OtherCellsDemoController: DemoController {
         tableView.register(MSActivityIndicatorCell.self, forCellReuseIdentifier: MSActivityIndicatorCell.identifier)
         tableView.register(MSBooleanCell.self, forCellReuseIdentifier: MSBooleanCell.identifier)
         tableView.register(MSCenteredLabelCell.self, forCellReuseIdentifier: MSCenteredLabelCell.identifier)
-        tableView.register(TableViewSectionHeader.self, forHeaderFooterViewReuseIdentifier: TableViewSectionHeader.identifier)
+        tableView.register(MSTableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: MSTableViewHeaderFooterView.identifier)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = MSColors.background
@@ -87,13 +87,10 @@ extension OtherCellsDemoController: UITableViewDataSource {
 // MARK: - OtherCellsDemoController: UITableViewDelegate
 
 extension OtherCellsDemoController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return TableViewSectionHeader.height
-    }
-
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewSectionHeader.identifier) as! TableViewSectionHeader
-        header.title = sections[section].title
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: MSTableViewHeaderFooterView.identifier) as! MSTableViewHeaderFooterView
+        let section = sections[section]
+        header.setup(style: section.headerStyle, title: section.title)
         return header
     }
 
