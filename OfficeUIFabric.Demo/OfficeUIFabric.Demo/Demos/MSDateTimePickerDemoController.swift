@@ -27,6 +27,7 @@ class MSDateTimePickerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show date time picker", action: #selector(presentDateTimePicker)))
         container.addArrangedSubview(createButton(title: "Show date range picker", action: #selector(presentDateRangePicker)))
         container.addArrangedSubview(createButton(title: "Show date time range picker", action: #selector(presentDateTimeRangePicker)))
+        container.addArrangedSubview(createButton(title: "Show picker with custom subtitles", action: #selector(presentCustomSubtitlePicker)))
         container.addArrangedSubview(UIView())
         container.addArrangedSubview(createValidationUI())
         container.addArrangedSubview(createButton(title: "Reset selected dates", action: #selector(resetDates)))
@@ -64,6 +65,12 @@ class MSDateTimePickerDemoController: DemoController {
         let startDate = self.startDate ?? Date()
         let endDate = self.endDate ?? Calendar.current.date(byAdding: .hour, value: 1, to: startDate) ?? startDate
         dateTimePicker.present(from: self, with: .dateTimeRange, startDate: startDate, endDate: endDate)
+    }
+
+    @objc func presentCustomSubtitlePicker() {
+        let startDate = self.startDate ?? Date()
+        let endDate = self.endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
+        dateTimePicker.present(from: self, with: .dateRange, startDate: startDate, endDate: endDate, titles: .with(startSubtitle: "Assignment date", endSubtitle: "Due Date"))
     }
 
     @objc func resetDates() {

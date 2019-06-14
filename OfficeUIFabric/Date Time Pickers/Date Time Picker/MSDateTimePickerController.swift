@@ -72,12 +72,16 @@ class MSDateTimePickerController: UIViewController, DateTimePicker {
 
     weak var delegate: DateTimePickerDelegate?
 
+    private let customTitle: String?
+    private let customSubtitle: String?
+    private let customStartTabTitle: String?
+    private let customEndTabTitle: String?
     private let dateTimePickerView: MSDateTimePickerView
     private let titleView = MSTwoLinesTitleView()
     private var segmentedControl: MSSegmentedControl?
 
     // TODO: Add availability back in? - contactAvailabilitySummaryDataSource: ContactAvailabilitySummaryDataSource?,
-    init(startDate: Date, endDate: Date, mode: MSDateTimePickerMode) {
+    init(startDate: Date, endDate: Date, mode: MSDateTimePickerMode, titles: MSDateTimePicker.Titles?) {
         self.mode = mode.singleSelection ? .single : .start
         self.startDate = startDate.rounded(toNearestMinutes: MSDateTimePickerViewDataSourceConstants.minuteInterval) ?? startDate
         self.endDate = self.mode == .single ? self.startDate : (endDate.rounded(toNearestMinutes: MSDateTimePickerViewDataSourceConstants.minuteInterval) ?? endDate)
@@ -85,6 +89,11 @@ class MSDateTimePickerController: UIViewController, DateTimePicker {
         let datePickerMode: MSDateTimePickerViewMode = mode.includesTime ? .dateTime : .date(startYear: MSDateTimePickerViewMode.defaultStartYear, endYear: MSDateTimePickerViewMode.defaultEndYear)
         dateTimePickerView = MSDateTimePickerView(mode: datePickerMode)
         dateTimePickerView.setDate(self.startDate, animated: false)
+
+        customTitle = titles?.dateTimeTitle
+        customSubtitle = titles?.dateTimeSubtitle
+        customStartTabTitle = titles?.startTab
+        customEndTabTitle = titles?.endTab
 
         super.init(nibName: nil, bundle: nil)
 
@@ -127,7 +136,14 @@ class MSDateTimePickerController: UIViewController, DateTimePicker {
     }
 
     private func initSegmentedControl(includesTime: Bool) {
-        let titles = includesTime ? ["MSDateTimePicker.StartTime".localized, "MSDateTimePicker.EndTime".localized] : ["MSDateTimePicker.StartDate".localized, "MSDateTimePicker.EndDate"]
+        let titles: [String]
+        if includesTime {
+            titles = [customStartTabTitle ?? "MSDateTimePicker.StartTime".localized,
+                      customEndTabTitle ?? "MSDateTimePicker.EndTime".localized]
+        } else {
+            titles = [customStartTabTitle ?? "MSDateTimePicker.StartDate".localized,
+                      customEndTabTitle ?? "MSDateTimePicker.EndDate"]
+        }
         segmentedControl = MSSegmentedControl(items: titles)
         segmentedControl?.addTarget(self, action: #selector(handleDidSelectStartEnd(_:)), for: .valueChanged)
     }
@@ -145,8 +161,8 @@ class MSDateTimePickerController: UIViewController, DateTimePicker {
 
     private func updateNavigationBar() {
         let titleDate = mode == .end ? endDate : startDate
-        let title = String.dateString(from: titleDate, compactness: .shortDaynameShortMonthnameDay)
-        titleView.setup(title: title)
+        let title = customTitle ?? String.dateString(from: titleDate, compactness: .shortDaynameShortMonthnameDay)
+        titleView.setup(title: title, subtitle: customSubtitle)
         updateTitleFrame()
     }
 

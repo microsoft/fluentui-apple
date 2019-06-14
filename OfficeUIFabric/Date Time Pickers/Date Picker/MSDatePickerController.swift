@@ -62,6 +62,7 @@ class MSDatePickerController: UIViewController, DateTimePicker {
     private let mode: MSDateTimePickerMode
 
     private var titleView: MSTwoLinesTitleView!
+    private let customTitle: String?
     private let subtitle: String?
 
     private var monthOverlayIsShown: Bool = false
@@ -79,8 +80,10 @@ class MSDatePickerController: UIViewController, DateTimePicker {
     ///   - endDate: A date object for an end day or day/time to be initially selected.
     ///   - datePickerMode: The MSDateTimePicker mode this is presented in.
     ///   - selectionMode: The side (start or end) of the current range to be selected on this picker.
+    ///   - title: An optional string describing a title to override the default date label in the titleView
     ///   - subtitle: An optional string describing an optional subtitle for this date picker.
-    init(startDate: Date, endDate: Date, mode: MSDateTimePickerMode, selectionMode: MSDatePickerSelectionManager.SelectionMode = .start, subtitle: String? = nil) {
+    init(startDate: Date, endDate: Date, mode: MSDateTimePickerMode, selectionMode: MSDatePickerSelectionManager.SelectionMode = .start, title: String? = nil, subtitle: String? = nil) {
+        self.customTitle = title
         self.subtitle = subtitle
         self.mode = mode
         super.init(nibName: nil, bundle: nil)
@@ -165,7 +168,7 @@ class MSDatePickerController: UIViewController, DateTimePicker {
     }
 
     private func updateNavigationBar() {
-        let title = String.dateString(from: focusDate, compactness: .shortDaynameShortMonthnameDay)
+        let title = customTitle ?? String.dateString(from: focusDate, compactness: .shortDaynameShortMonthnameDay)
         titleView.setup(title: title, subtitle: subtitle)
         updateTitleFrame()
     }
