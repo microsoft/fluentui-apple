@@ -12,8 +12,10 @@ class MSPopupMenuItemCell: UITableViewCell {
 
         static let horizontalSpacing: CGFloat = 16.0
         static let verticalSpacing: CGFloat = 2.0
+        static let accessoryImageViewOffset: CGFloat = 5.0
 
         static let imageViewSize: CGFloat = 25.0
+        static let accessoryImageViewSize: CGFloat = 8.0
         static let selectedImageViewSize: CGFloat = 20.0
 
         static let titleFontStyle: MSTextStyle = .body
@@ -69,6 +71,13 @@ class MSPopupMenuItemCell: UITableViewCell {
         return imageView
     }()
 
+    private let accessoryImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = MSColors.PopupMenu.Item.image
+        return imageView
+    }()
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = Constants.titleFontStyle.font
@@ -100,6 +109,7 @@ class MSPopupMenuItemCell: UITableViewCell {
         selectionStyle = .none
 
         addSubview(_imageView)
+        addSubview(accessoryImageView)
         addSubview(titleLabel)
         addSubview(subtitleLabel)
         addSubview(selectedImageView)
@@ -118,6 +128,8 @@ class MSPopupMenuItemCell: UITableViewCell {
         _imageView.image = item.image
         _imageView.highlightedImage = item.selectedImage
         _imageView.isHidden = _imageView.image == nil
+        accessoryImageView.image = item.accessoryImage
+        accessoryImageView.isHidden = _imageView.isHidden || accessoryImageView.image == nil
 
         titleLabel.text = item.title
         subtitleLabel.text = item.subtitle
@@ -149,6 +161,15 @@ class MSPopupMenuItemCell: UITableViewCell {
             )
 
             leftContentOffset += _imageView.width + Constants.horizontalSpacing
+        }
+
+        if !accessoryImageView.isHidden {
+            accessoryImageView.frame = CGRect(
+                x: _imageView.frame.maxX - Constants.accessoryImageViewOffset,
+                y: _imageView.frame.minY + Constants.accessoryImageViewOffset - Constants.accessoryImageViewSize,
+                width: Constants.accessoryImageViewSize,
+                height: Constants.accessoryImageViewSize
+            )
         }
 
         selectedImageView.frame = CGRect(
@@ -245,6 +266,7 @@ class MSPopupMenuItemCell: UITableViewCell {
             // Highlight
             let alpha = isHighlighted ? Constants.highlightedAlpha : Constants.defaultAlpha
             _imageView.alpha = alpha
+            accessoryImageView.alpha = alpha
             titleLabel.alpha = alpha
             subtitleLabel.alpha = alpha
 

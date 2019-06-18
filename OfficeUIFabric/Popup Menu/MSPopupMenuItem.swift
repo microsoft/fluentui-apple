@@ -23,6 +23,7 @@ open class MSPopupMenuItem: NSObject {
 
     public let image: UIImage?
     public let selectedImage: UIImage?
+    public let accessoryImage: UIImage?
     public let title: String
     public let subtitle: String?
 
@@ -33,9 +34,10 @@ open class MSPopupMenuItem: NSObject {
 
     public let onSelected: (() -> Void)?
 
-    public init(image: UIImage? = nil, selectedImage: UIImage? = nil, title: String, subtitle: String? = nil, isEnabled: Bool = true, isSelected: Bool = false, executes executionMode: ExecutionMode = .onSelection, onSelected: (() -> Void)? = nil) {
+    public init(image: UIImage? = nil, selectedImage: UIImage? = nil, accessoryImage: UIImage? = nil, title: String, subtitle: String? = nil, isEnabled: Bool = true, isSelected: Bool = false, executes executionMode: ExecutionMode = .onSelection, onSelected: (() -> Void)? = nil) {
         self.image = image?.renderingMode == .automatic ? image?.withRenderingMode(.alwaysTemplate) : image
         self.selectedImage = selectedImage ?? image?.image(withPrimaryColor: MSColors.PopupMenu.Item.imageSelected)
+        self.accessoryImage = accessoryImage
         self.title = title
         self.subtitle = subtitle
         self.isEnabled = isEnabled
