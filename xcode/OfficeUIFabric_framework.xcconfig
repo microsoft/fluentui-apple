@@ -2,3 +2,8 @@
 
 PRODUCT_NAME = OfficeUIFabric
 SWIFT_MODULE_NAME = OfficeUIFabric
+
+CLANG_ENABLE_MODULES = YES
+DEFINES_MODULE = YES
+LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/../Frameworks @loader_path/Frameworks
+ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES

@@ -17,7 +17,8 @@ class TestControlsViewController: NSViewController, NSTableViewDelegate, NSTable
 	private let controls: [(title: String, type: NSViewController.Type)] = [
 							("fabric-macos (placeholder)", TestPlaceholderViewController.self),
 							("Hover Button", TestHoverButtonViewController.self),
-							]
+							("Avatar View", TestAvatarViewController.self),
+	]
 	
 	override func loadView() {
 		controlListView.usesAlternatingRowBackgroundColors = true
