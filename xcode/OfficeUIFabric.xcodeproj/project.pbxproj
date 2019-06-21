@@ -45,7 +45,6 @@
 		8F5368062295F4C10098AC8F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8F5368092295F4C10098AC8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		8F53680B2295F4C10098AC8F /* OfficeUIFabricTestApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OfficeUIFabricTestApp-Info.plist"; sourceTree = "<group>"; };
-		8F53680C2295F4C10098AC8F /* OfficeUIFabricTestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OfficeUIFabricTestApp.entitlements; sourceTree = "<group>"; };
 		8F69C7B22295FABD009F69C0 /* OfficeUIFabric_testapp.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = OfficeUIFabric_testapp.xcconfig; sourceTree = "<group>"; };
 		E61C96B22295E8D60006561F /* OfficeUIFabric.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OfficeUIFabric.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E61C96B52295E8D60006561F /* OfficeUIFabric.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OfficeUIFabric.h; sourceTree = "<group>"; };
@@ -99,7 +98,6 @@
 				8F5368062295F4C10098AC8F /* Assets.xcassets */,
 				8F5368082295F4C10098AC8F /* MainMenu.xib */,
 				8F53680B2295F4C10098AC8F /* OfficeUIFabricTestApp-Info.plist */,
-				8F53680C2295F4C10098AC8F /* OfficeUIFabricTestApp.entitlements */,
 			);
 			name = OfficeUIFabricTestApp;
 			path = ../OfficeUIFabricTestApp;

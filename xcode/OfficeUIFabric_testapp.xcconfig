@@ -6,8 +6,6 @@ PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.${PRODUCT_NAME:rfc1034identifier}
 INFOPLIST_FILE = ../OfficeUIFabricTestApp/OfficeUIFabricTestApp-Info.plist
 INFOPLIST_EXPAND_BUILD_SETTINGS = YES
 
-CODE_SIGN_ENTITLEMENTS = ../OfficeUIFabricTestApp/OfficeUIFabricTestApp.entitlements
-
 ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon
 COMBINE_HIDPI_IMAGES = YES
 
