@@ -21,16 +21,15 @@ class MSDatePickerController: UIViewController, DateTimePicker {
         static let idealWidth: CGFloat = 343
         // TODO: Make title button width dynamic
         static let titleButtonWidth: CGFloat = 160
+        static let calendarHeightStyle: MSCalendarViewHeightStyle = .extraTall
     }
 
     var startDate = Date() {
         didSet {
             startDate = mode.includesTime ? startDate : startDate.startOfDay
             selectionManager.startDate = startDate
-            // If endDate goes past the visible dates, scroll the startDate up
-            if let visibleDates = visibleDates,
-                selectionManager.endDate > visibleDates.endDate {
-                scrollToStartDate(animated: true)
+            if !entireRangeIsVisible {
+                scrollToFocusDate(animated: true)
             }
             updateSelectionOfVisibleCells()
             updateNavigationBar()
@@ -41,6 +40,9 @@ class MSDatePickerController: UIViewController, DateTimePicker {
         didSet {
             endDate = mode.includesTime ? endDate : endDate.startOfDay
             selectionManager.endDate = endDate
+            if !entireRangeIsVisible {
+                scrollToFocusDate(animated: true)
+            }
             updateSelectionOfVisibleCells()
             updateNavigationBar()
         }
@@ -63,13 +65,23 @@ class MSDatePickerController: UIViewController, DateTimePicker {
 
     private var titleView: MSTwoLinesTitleView!
     private let customTitle: String?
-    private let subtitle: String?
+    private let customSubtitle: String?
+    private let customStartTabTitle: String?
+    private let customEndTabTitle: String?
 
     private var monthOverlayIsShown: Bool = false
     private var reloadDataAfterOverlayIsNeeded: Bool = false
 
     private let calendarView = MSCalendarView()
     private var calendarViewDataSource: MSCalendarViewDataSource!
+    private var segmentedControl: MSSegmentedControl?
+
+    private var entireRangeIsVisible: Bool {
+        guard let visibleDates = visibleDates else {
+            return false
+        }
+        return selectionManager.endDate <= visibleDates.endDate && selectionManager.startDate >= visibleDates.startDate
+    }
 
     // TODO: Add availability back in? - contactAvailabilitySummaryDataSource: ContactAvailabilitySummaryDataSource?,
 
@@ -80,12 +92,22 @@ class MSDatePickerController: UIViewController, DateTimePicker {
     ///   - endDate: A date object for an end day or day/time to be initially selected.
     ///   - datePickerMode: The MSDateTimePicker mode this is presented in.
     ///   - selectionMode: The side (start or end) of the current range to be selected on this picker.
-    ///   - title: An optional string describing a title to override the default date label in the titleView
-    ///   - subtitle: An optional string describing an optional subtitle for this date picker.
-    init(startDate: Date, endDate: Date, mode: MSDateTimePickerMode, selectionMode: MSDatePickerSelectionManager.SelectionMode = .start, title: String? = nil, subtitle: String? = nil) {
-        self.customTitle = title
-        self.subtitle = subtitle
+    ///   - rangePresentation: The `DateRangePresentation` in which this controller is being presented if `mode` is `.dateRange` or `.dateTimeRange`.
+    ///   - titles: A `Titles` object that holds strings for use in overriding the default picker title, subtitle, and tab titles. If title is not provided, titleview will show currently selected date. If tab titles are not provided, they will default to "Start Date" and "End Date".
+    init(startDate: Date, endDate: Date, mode: MSDateTimePickerMode, selectionMode: MSDatePickerSelectionManager.SelectionMode = .start, rangePresentation: MSDateTimePicker.DateRangePresentation, titles: MSDateTimePicker.Titles?) {
+        if !mode.singleSelection && rangePresentation == .paged {
+            customTitle = selectionMode == .start ? titles?.startTitle : titles?.endTitle
+            customSubtitle = selectionMode == .start ?
+                titles?.startSubtitle ?? "MSDateTimePicker.StartDate".localized :
+                titles?.endSubtitle ?? "MSDateTimePicker.EndDate".localized
+        } else {
+            customTitle = titles?.dateTitle
+            customSubtitle = titles?.dateSubtitle
+        }
+        customStartTabTitle = titles?.startTab
+        customEndTabTitle = titles?.endTab
         self.mode = mode
+
         super.init(nibName: nil, bundle: nil)
 
         defer {
@@ -104,6 +126,10 @@ class MSDatePickerController: UIViewController, DateTimePicker {
         )
 
         initTitleView()
+
+        if !mode.singleSelection && rangePresentation == .tabbed {
+            initSegmentedControl()
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -129,6 +155,10 @@ class MSDatePickerController: UIViewController, DateTimePicker {
 
         calendarView.collectionViewLayout.delegate = self
 
+        view.backgroundColor = MSColors.background
+        if let segmentedControl = segmentedControl {
+            view.addSubview(segmentedControl)
+        }
         view.addSubview(calendarView)
 
         initNavigationBar()
@@ -137,16 +167,26 @@ class MSDatePickerController: UIViewController, DateTimePicker {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        scrollToStartDate(animated: false)
+        scrollToFocusDate(animated: false)
 
-        // Hide default bottom border of navigation bar
-        navigationController?.navigationBar.hideBottomBorder()
+        if segmentedControl == nil {
+            // Hide default bottom border of navigation bar
+            navigationController?.navigationBar.hideBottomBorder()
+        }
     }
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
-        calendarView.frame = view.bounds
+        var calendarFrame = view.bounds
+        if let segmentedControl = segmentedControl {
+            var frame = calendarFrame
+            frame.size.height = segmentedControl.intrinsicContentSize.height
+            calendarFrame = calendarFrame.inset(by: UIEdgeInsets(top: frame.height, left: 0, bottom: 0, right: 0))
+
+            segmentedControl.frame = frame
+        }
+        calendarView.frame = calendarFrame
     }
 
     private func initTitleView() {
@@ -167,9 +207,16 @@ class MSDatePickerController: UIViewController, DateTimePicker {
         navigationItem.titleView = titleView
     }
 
+    private func initSegmentedControl() {
+        let titles = [customStartTabTitle ?? "MSDateTimePicker.StartDate".localized,
+                      customEndTabTitle ?? "MSDateTimePicker.EndDate".localized]
+        segmentedControl = MSSegmentedControl(items: titles)
+        segmentedControl?.addTarget(self, action: #selector(handleDidSelectStartEnd(_:)), for: .valueChanged)
+    }
+
     private func updateNavigationBar() {
         let title = customTitle ?? String.dateString(from: focusDate, compactness: .shortDaynameShortMonthnameDay)
-        titleView.setup(title: title, subtitle: subtitle)
+        titleView.setup(title: title, subtitle: customSubtitle)
         updateTitleFrame()
     }
 
@@ -184,8 +231,22 @@ class MSDatePickerController: UIViewController, DateTimePicker {
         }
     }
 
-    private func scrollToStartDate(animated: Bool) {
-        let targetIndexPath = IndexPath(item: 0, section: max(selectionManager.startDateIndexPath.section - 1, 0))
+    private func scrollToFocusDate(animated: Bool) {
+        let numberOfRows = Int(calendarView.rows(for: Constants.calendarHeightStyle))
+        let selectionFitsInCalendar = selectionManager.endDateIndexPath.section - selectionManager.startDateIndexPath.section <= numberOfRows - 1
+        let focusDateRow: Int
+        let rowOffset: Int
+        if selectionManager.selectionMode == .start || selectionFitsInCalendar {
+            focusDateRow = selectionManager.startDateIndexPath.section
+            rowOffset = 1
+        } else {
+            focusDateRow = selectionManager.endDateIndexPath.section
+            rowOffset = max(numberOfRows - 2, 1)
+        }
+        guard focusDateRow < calendarView.collectionView.numberOfSections else {
+            return
+        }
+        let targetIndexPath = IndexPath(item: 0, section: max(focusDateRow - rowOffset, 0))
         calendarView.collectionView.scrollToItem(at: targetIndexPath, at: [.top], animated: animated)
         // TODO: Notify of visible date?
     }
@@ -226,11 +287,19 @@ class MSDatePickerController: UIViewController, DateTimePicker {
     // MARK: Handlers
 
     @objc private func handleTitleButtonTapped() {
-        scrollToStartDate(animated: true)
+        scrollToFocusDate(animated: true)
     }
 
     @objc private func handleDidTapDone() {
         dismiss()
+    }
+
+    @objc private func handleDidSelectStartEnd(_ segmentedControl: MSSegmentedControl) {
+        selectionManager.selectionMode = segmentedControl.selectedSegmentIndex == 0 ? .start : .end
+        updateNavigationBar()
+        if let visibleDates = visibleDates, focusDate > visibleDates.endDate || focusDate < visibleDates.startDate {
+            scrollToFocusDate(animated: false)
+        }
     }
 }
 
@@ -252,7 +321,7 @@ extension MSDatePickerController: UICollectionViewDelegate {
 
         dayCell.setVisualState((monthOverlayIsShown ? .fadedWithDots : .normal), animated: false)
 
-        updateSelectionOfVisibleCells()
+        updateSelectionOfCell(dayCell, at: indexPath)
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -267,7 +336,6 @@ extension MSDatePickerController: UICollectionViewDelegate {
         // Update selection of visible cells
         selectionManager.setSelectedIndexPath(indexPath)
         updateDates()
-        updateSelectionOfVisibleCells()
 
         delegate?.dateTimePicker(self, didSelectStartDate: startDate, endDate: endDate)
 
@@ -299,13 +367,27 @@ extension MSDatePickerController: UICollectionViewDelegate {
     private func updateSelectionOfCell(at indexPath: IndexPath) {
         let collectionView = calendarView.collectionView
 
-        if let selectionType = selectionManager.selectionType(for: indexPath),
-            let cell = collectionView.cellForItem(at: indexPath) as? MSCalendarViewDayCell {
-            cell.setSelectionType(selectionType)
+        guard let cell = collectionView.cellForItem(at: indexPath) as? MSCalendarViewDayCell else {
+            return
+        }
 
-            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionView.ScrollPosition())
+        updateSelectionOfCell(cell, at: indexPath)
+    }
+
+    private func updateSelectionOfCell(_ cell: MSCalendarViewDayCell, at indexPath: IndexPath) {
+        let collectionView = calendarView.collectionView
+
+        if let selectionType = selectionManager.selectionType(for: indexPath) {
+            cell.setSelectionType(selectionType)
+            if !cell.isSelected {
+                cell.isSelected = true
+                collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
+            }
         } else {
-            collectionView.deselectItem(at: indexPath, animated: false)
+            if cell.isSelected {
+                cell.isSelected = false
+                collectionView.deselectItem(at: indexPath, animated: false)
+            }
         }
     }
 }
@@ -393,6 +475,9 @@ extension MSDatePickerController: MSCalendarViewStyleDataSource {
 
 extension MSDatePickerController: MSCardPresentable {
     func idealSize() -> CGSize {
-        return CGSize(width: Constants.idealWidth, height: calendarView.height(for: .extraTall, in: view.bounds))
+        return CGSize(
+            width: Constants.idealWidth,
+            height: calendarView.height(for: Constants.calendarHeightStyle, in: view.bounds) + (segmentedControl?.height ?? 0)
+        )
     }
 }

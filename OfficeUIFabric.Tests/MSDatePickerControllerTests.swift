@@ -13,13 +13,13 @@ class MSDatePickerControllerTests: XCTestCase {
     let endDate = Date(timeIntervalSince1970: MSDatePickerControllerTests.testDateInterval).adding(days: 1)
 
     func testDateRangeInit() {
-        let datePicker = MSDatePickerController(startDate: startDate, endDate: endDate, mode: .dateRange)
+        let datePicker = MSDatePickerController(startDate: startDate, endDate: endDate, mode: .dateRange, rangePresentation: .paged, titles: nil)
         XCTAssertEqual(datePicker.startDate, startDate.startOfDay)
         XCTAssertEqual(datePicker.endDate, endDate.startOfDay)
     }
 
     func testDateRangeStart() {
-        let datePicker = MSDatePickerController(startDate: startDate, endDate: endDate, mode: .dateRange)
+        let datePicker = MSDatePickerController(startDate: startDate, endDate: endDate, mode: .dateRange, rangePresentation: .paged, titles: nil)
         guard case .range(let startIndex, _) = datePicker.selectionManager.selectionState else {
             XCTFail()
             return
@@ -31,7 +31,7 @@ class MSDatePickerControllerTests: XCTestCase {
     }
 
     func testDateRangeEnd() {
-        let datePicker = MSDatePickerController(startDate: startDate, endDate: endDate, mode: .dateRange, selectionMode: .end)
+        let datePicker = MSDatePickerController(startDate: startDate, endDate: endDate, mode: .dateRange, selectionMode: .end, rangePresentation: .paged, titles: nil)
         guard case .range(_, let endIndex) = datePicker.selectionManager.selectionState else {
             XCTFail()
             return

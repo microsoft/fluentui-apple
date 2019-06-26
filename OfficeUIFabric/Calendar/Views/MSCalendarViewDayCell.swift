@@ -214,7 +214,12 @@ private class MSSelectionOverlayView: UIView {
     struct Constants {
         static let highlightedOrSelectedCircleMargin: CGFloat = 5.0
     }
-    var selectionType: MSCalendarViewDayCellSelectionType = .singleSelection
+
+    var selectionType: MSCalendarViewDayCellSelectionType = .singleSelection {
+        didSet {
+            setupActiveViews()
+        }
+    }
     var selectionStyle: MSCalendarViewDayCellSelectionStyle = .normal
 
     // TODO: Add different colors for availability?

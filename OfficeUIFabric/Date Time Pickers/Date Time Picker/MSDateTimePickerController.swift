@@ -121,8 +121,8 @@ class MSDateTimePickerController: UIViewController, DateTimePicker {
         initNavigationBar()
     }
 
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
         if let segmentedControl = segmentedControl {
             segmentedControl.frame = CGRect(x: 0, y: 0, width: view.width, height: segmentedControl.intrinsicContentSize.height)
         }
@@ -187,6 +187,9 @@ class MSDateTimePickerController: UIViewController, DateTimePicker {
             startDate = datePicker.date
         case .end:
             endDate = datePicker.date
+            if endDate < startDate {
+                startDate = endDate
+            }
         }
         delegate?.dateTimePicker(self, didSelectStartDate: startDate, endDate: endDate)
     }
@@ -205,7 +208,9 @@ class MSDateTimePickerController: UIViewController, DateTimePicker {
 
 extension MSDateTimePickerController: MSCardPresentable {
     func idealSize() -> CGSize {
-        let height = MSDateTimePickerViewLayout.height(forRowCount: Constants.idealRowCount) + (segmentedControl?.height ?? 0)
-        return CGSize(width: Constants.idealWidth, height: height)
+        return CGSize(
+            width: Constants.idealWidth,
+            height: MSDateTimePickerViewLayout.height(forRowCount: Constants.idealRowCount) + (segmentedControl?.height ?? 0)
+        )
     }
 }

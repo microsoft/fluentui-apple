@@ -20,7 +20,7 @@ class MSDatePickerSelectionManager {
     }
 
     private(set) var selectionState: SelectionState
-    let selectionMode: SelectionMode
+    var selectionMode: SelectionMode
 
     var startDateIndexPath: IndexPath {
         switch selectionState {
@@ -28,6 +28,15 @@ class MSDatePickerSelectionManager {
             return selectedIndexPath
         case let .range(startIndexPath, _):
             return startIndexPath
+        }
+    }
+
+    var endDateIndexPath: IndexPath {
+        switch selectionState {
+        case let .single(selectedIndexPath):
+            return selectedIndexPath
+        case let .range(_, endIndexPath):
+            return endIndexPath
         }
     }
 

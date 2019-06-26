@@ -25,7 +25,8 @@ class MSDateTimePickerDemoController: DemoController {
         container.addArrangedSubview(dateLabel)
         container.addArrangedSubview(createButton(title: "Show date picker", action: #selector(presentDatePicker)))
         container.addArrangedSubview(createButton(title: "Show date time picker", action: #selector(presentDateTimePicker)))
-        container.addArrangedSubview(createButton(title: "Show date range picker", action: #selector(presentDateRangePicker)))
+        container.addArrangedSubview(createButton(title: "Show date range picker (paged)", action: #selector(presentDateRangePicker)))
+        container.addArrangedSubview(createButton(title: "Show date range picker (tabbed)", action: #selector(presentTabbedDateRangePicker)))
         container.addArrangedSubview(createButton(title: "Show date time range picker", action: #selector(presentDateTimeRangePicker)))
         container.addArrangedSubview(createButton(title: "Show picker with custom subtitles", action: #selector(presentCustomSubtitlePicker)))
         container.addArrangedSubview(UIView())
@@ -59,6 +60,12 @@ class MSDateTimePickerDemoController: DemoController {
         let startDate = self.startDate ?? Date()
         let endDate = self.endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
         dateTimePicker.present(from: self, with: .dateRange, startDate: startDate, endDate: endDate)
+    }
+
+    @objc func presentTabbedDateRangePicker() {
+        let startDate = self.startDate ?? Date()
+        let endDate = self.endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
+        dateTimePicker.present(from: self, with: .dateRange, startDate: startDate, endDate: endDate, dateRangePresentation: .tabbed)
     }
 
     @objc func presentDateTimeRangePicker() {
