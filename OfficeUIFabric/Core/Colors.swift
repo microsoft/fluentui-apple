@@ -175,13 +175,10 @@ public final class MSColors: NSObject {
         public struct Item {
             public static var image: UIColor = foregroundSecondary
             public static var imageSelected: UIColor = selected
-            public static var title: UIColor = foregroundRegular
             public static var titleSelected: UIColor = selected
             public static var titleDisabled: UIColor = disabled
-            public static var subtitle: UIColor = foregroundSecondary
             public static var subtitleSelected: UIColor = selected
             public static var subtitleDisabled: UIColor = disabled
-            public static var checkmark: UIColor = selected
         }
         public static var sectionHeader: UIColor = darkGray
     }
@@ -202,6 +199,9 @@ public final class MSColors: NSObject {
         public static var background: UIColor = MSColors.background
         public static var backgroundSelected: UIColor = backgroundGray
         public static var checkmark: UIColor = selected
+        public static var title: UIColor = foregroundRegular
+        public static var subtitle: UIColor = foregroundSecondary
+        public static var footer: UIColor = foregroundSecondary
     }
 
     public struct TableViewHeaderFooterView {
@@ -232,6 +232,7 @@ public final class MSColors: NSObject {
     case primary
     case error
     case warning
+    case disabled
 
     public var color: UIColor {
         switch self {
@@ -247,6 +248,8 @@ public final class MSColors: NSObject {
             return MSColors.error
         case .warning:
             return MSColors.warning
+        case .disabled:
+            return MSColors.disabled
         }
     }
 }

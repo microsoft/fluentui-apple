@@ -5,21 +5,13 @@
 
 import UIKit
 
-class MSPopupMenuItemCell: UITableViewCell {
+class MSPopupMenuItemCell: MSTableViewCell {
     private struct Constants {
-        static let oneLineHeight: CGFloat = 50.0
-        static let twoLineHeight: CGFloat = 62.0
+        static let labelVerticalMarginForOneLine: CGFloat = 14
+        static let accessoryImageViewOffset: CGFloat = 5
 
-        static let horizontalSpacing: CGFloat = 16.0
-        static let verticalSpacing: CGFloat = 2.0
-        static let accessoryImageViewOffset: CGFloat = 5.0
-
-        static let imageViewSize: CGFloat = 25.0
-        static let accessoryImageViewSize: CGFloat = 8.0
-        static let selectedImageViewSize: CGFloat = 20.0
-
-        static let titleFontStyle: MSTextStyle = .body
-        static let subtitleFontStyle: MSTextStyle = .footnote
+        static let imageViewSize: CustomViewSize = .small
+        static let accessoryImageViewSize: CGFloat = 8
 
         static let defaultAlpha: CGFloat = 1.0
         static let highlightedAlpha: CGFloat = 0.4
@@ -27,25 +19,15 @@ class MSPopupMenuItemCell: UITableViewCell {
         static let animationDuration: TimeInterval = 0.15
     }
 
-    static let identifier: String = "MSPopupMenuItemCell"
+    override class var labelVerticalMarginForOneAndThreeLines: CGFloat { return Constants.labelVerticalMarginForOneLine }
 
     static func preferredWidth(for item: MSPopupMenuItem, preservingSpaceForImage preserveSpaceForImage: Bool) -> CGFloat {
-        let titleSize = item.title.preferredSize(for: Constants.titleFontStyle.font)
-        let subtitleSize = item.subtitle?.preferredSize(for: Constants.subtitleFontStyle.font) ?? .zero
-        let labelAreaWidth = max(titleSize.width, subtitleSize.width)
-        let spacing = Constants.horizontalSpacing
-
-        var width = spacing + labelAreaWidth + spacing + Constants.selectedImageViewSize + spacing
-
-        if item.image != nil || preserveSpaceForImage {
-            width += Constants.imageViewSize + spacing
-        }
-
-        return width
+        let imageViewSize: CustomViewSize = item.image != nil || preserveSpaceForImage ? Constants.imageViewSize : .zero
+        return preferredWidth(title: item.title, subtitle: item.subtitle ?? "", customViewSize: imageViewSize, accessoryType: .checkmark)
     }
 
     static func preferredHeight(for item: MSPopupMenuItem) -> CGFloat {
-        return item.subtitle == nil ? Constants.oneLineHeight : Constants.twoLineHeight
+        return height(title: item.title, subtitle: item.subtitle ?? "", customViewSize: Constants.imageViewSize, accessoryType: .checkmark)
     }
 
     var isHeader: Bool = false {
@@ -55,11 +37,8 @@ class MSPopupMenuItemCell: UITableViewCell {
         }
     }
     var preservesSpaceForImage: Bool = false
-    var showsSeparator: Bool = true {
-        didSet {
-            separator.isHidden = !showsSeparator
-        }
-    }
+
+    override var customViewSize: CustomViewSize { return preservesSpaceForImage ? Constants.imageViewSize : super.customViewSize }
 
     private var item: MSPopupMenuItem?
 
@@ -78,48 +57,14 @@ class MSPopupMenuItemCell: UITableViewCell {
         return imageView
     }()
 
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = Constants.titleFontStyle.font
-        label.lineBreakMode = .byTruncatingTail
-        return label
-    }()
+    override func initialize() {
+        super.initialize()
 
-    private let subtitleLabel: UILabel = {
-        let label = UILabel()
-        label.font = Constants.subtitleFontStyle.font
-        label.lineBreakMode = .byTruncatingTail
-        return label
-    }()
-
-    private let selectedImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage.staticImageNamed("checkmark-blue-20x20")?.withRenderingMode(.alwaysTemplate)
-        imageView.tintColor = MSColors.PopupMenu.Item.checkmark
-        imageView.contentMode = .center
-        return imageView
-    }()
-
-    private let separator = MSSeparator()
-
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-
-        backgroundColor = .clear
         selectionStyle = .none
 
-        addSubview(_imageView)
-        addSubview(accessoryImageView)
-        addSubview(titleLabel)
-        addSubview(subtitleLabel)
-        addSubview(selectedImageView)
-        addSubview(separator)
+        contentView.addSubview(accessoryImageView)
 
         isAccessibilityElement = true
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 
     func setup(item: MSPopupMenuItem) {
@@ -127,12 +72,10 @@ class MSPopupMenuItemCell: UITableViewCell {
 
         _imageView.image = item.image
         _imageView.highlightedImage = item.selectedImage
-        _imageView.isHidden = _imageView.image == nil
         accessoryImageView.image = item.accessoryImage
-        accessoryImageView.isHidden = _imageView.isHidden || accessoryImageView.image == nil
+        accessoryImageView.isHidden = _imageView.image == nil || accessoryImageView.image == nil
 
-        titleLabel.text = item.title
-        subtitleLabel.text = item.subtitle
+        setup(title: item.title, subtitle: item.subtitle ?? "", customView: _imageView.image != nil ? _imageView : nil)
 
         updateViews()
 
@@ -144,24 +87,8 @@ class MSPopupMenuItemCell: UITableViewCell {
         updateAccessibilityTraits()
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        let leftOffset = safeAreaInsets.left
-        var leftContentOffset = leftOffset + Constants.horizontalSpacing
-        let rightOffset = bounds.width - safeAreaInsets.right
-        let rightContentOffset = rightOffset - Constants.horizontalSpacing
-
-        if !_imageView.isHidden || preservesSpaceForImage {
-            _imageView.frame = CGRect(
-                x: leftContentOffset,
-                y: UIScreen.main.middleOrigin(bounds.height, containedSizeValue: Constants.imageViewSize),
-                width: Constants.imageViewSize,
-                height: Constants.imageViewSize
-            )
-
-            leftContentOffset += _imageView.width + Constants.horizontalSpacing
-        }
+    override func layoutContentSubviews() {
+        super.layoutContentSubviews()
 
         if !accessoryImageView.isHidden {
             accessoryImageView.frame = CGRect(
@@ -171,37 +98,6 @@ class MSPopupMenuItemCell: UITableViewCell {
                 height: Constants.accessoryImageViewSize
             )
         }
-
-        selectedImageView.frame = CGRect(
-            x: rightContentOffset - Constants.selectedImageViewSize,
-            y: UIScreen.main.middleOrigin(height, containedSizeValue: Constants.selectedImageViewSize),
-            width: Constants.selectedImageViewSize,
-            height: Constants.selectedImageViewSize
-        )
-
-        let separatorLeftOffset = isHeader ? leftOffset : leftContentOffset
-        separator.frame = CGRect(x: separatorLeftOffset, y: bounds.height - separator.height, width: rightOffset - separatorLeftOffset, height: separator.height)
-
-        var labelWidth = rightContentOffset - leftContentOffset
-        if !selectedImageView.isHidden {
-            labelWidth -= Constants.horizontalSpacing + selectedImageView.width
-        }
-        let titleLabelHeight = titleLabel.font.deviceLineHeight
-        let subtitleLabelHeight = subtitleLabel.font.deviceLineHeight
-        let isSubtitleVisible = subtitleLabel.text != nil
-        var labelAreaHeight = titleLabelHeight
-        if isSubtitleVisible {
-            labelAreaHeight += Constants.verticalSpacing + subtitleLabelHeight
-        }
-        var labelTop = UIScreen.main.middleOrigin(bounds.height, containedSizeValue: labelAreaHeight)
-
-        titleLabel.frame = CGRect(x: leftContentOffset, y: labelTop, width: labelWidth, height: titleLabelHeight)
-        if isSubtitleVisible {
-            labelTop += titleLabel.height + Constants.verticalSpacing
-            subtitleLabel.frame = CGRect(x: leftContentOffset, y: labelTop, width: labelWidth, height: subtitleLabelHeight)
-        }
-
-        flipSubviewsForRTL()
     }
 
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
@@ -272,9 +168,9 @@ class MSPopupMenuItemCell: UITableViewCell {
 
             // Selection
             _imageView.isHighlighted = isSelected
-            titleLabel.textColor = isSelected ? MSColors.PopupMenu.Item.titleSelected : MSColors.PopupMenu.Item.title
-            subtitleLabel.textColor = isSelected ? MSColors.PopupMenu.Item.subtitleSelected : MSColors.PopupMenu.Item.subtitle
+            titleLabel.textColor = isSelected ? MSColors.PopupMenu.Item.titleSelected : MSColors.TableViewCell.title
+            subtitleLabel.textColor = isSelected ? MSColors.PopupMenu.Item.subtitleSelected : MSColors.TableViewCell.subtitle
         }
-        selectedImageView.isHidden = !isSelected
+        _accessoryType = isSelected ? .checkmark : .none
     }
 }

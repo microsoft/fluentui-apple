@@ -238,10 +238,6 @@ extension MSPopupMenuController: UITableViewDelegate {
         return MSPopupMenuSectionHeaderView.preferredHeight(for: sections[section])
     }
 
-    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return MSPopupMenuItemCell.preferredHeight(for: item(at: indexPath))
-    }
-
     public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let section = sections[section]
         if !MSPopupMenuSectionHeaderView.isHeaderVisible(for: section) {

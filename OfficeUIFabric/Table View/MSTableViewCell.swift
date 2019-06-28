@@ -91,40 +91,48 @@ open class MSTableViewCell: UITableViewCell {
         var subtitleTextStyle: MSTextStyle {
             switch self {
             case .oneLine, .twoLines:
-                return Constants.subtitleTwoLineTextStyle
+                return TextStyles.subtitleTwoLines
             case .threeLines:
-                return Constants.subtitleThreeLineTextStyle
+                return TextStyles.subtitleThreeLines
             }
         }
 
         var labelVerticalMargin: CGFloat {
             switch self {
             case .oneLine, .threeLines:
-                return Constants.labelVerticalMarginForOneAndThreeLines
+                return labelVerticalMarginForOneAndThreeLines
             case .twoLines:
-                return Constants.labelVerticalMarginForTwoLines
+                return labelVerticalMarginForTwoLines
             }
         }
     }
 
+    private struct TextStyles {
+        static let title: MSTextStyle = .body
+        static let subtitleTwoLines: MSTextStyle = .footnote
+        static let subtitleThreeLines: MSTextStyle = .subhead
+        static let footer: MSTextStyle = .footnote
+    }
+
     private struct Constants {
-        static let customViewMarginLeft: CGFloat = 16
+        static let horizontalSpacing: CGFloat = 16
+
+        static let paddingLeft: CGFloat = horizontalSpacing
+        static let paddingRight: CGFloat = horizontalSpacing
+
         static let customViewMarginRight: CGFloat = 12
         static let customAccessoryViewMarginLeft: CGFloat = 8
-        static let labelVerticalMarginForTwoLines: CGFloat = 10
+
         static let labelVerticalMarginForOneAndThreeLines: CGFloat = 11
+        static let labelVerticalMarginForTwoLines: CGFloat = 10
         static let labelVerticalSpacing: CGFloat = 0
-        static let labelMarginRight: CGFloat = 16
-        static let titleTextStyle: MSTextStyle = .body
-        static let subtitleTwoLineTextStyle: MSTextStyle = .footnote
-        static let subtitleThreeLineTextStyle: MSTextStyle = .subhead
-        static let footerTextStyle: MSTextStyle = .footnote
+
         static let minHeight: CGFloat = 44
-        static let selectionImageMarginLeft: CGFloat = 16
+
+        static let selectionImageMarginRight: CGFloat = horizontalSpacing
         static let selectionImageOff = UIImage.staticImageNamed("selection-off")
         static let selectionImageOn = UIImage.staticImageNamed("selection-on")
         static let selectionImageSize = CGSize(width: 25, height: 25)
-        static let selectionModeSpacing: CGFloat = selectionImageMarginLeft + selectionImageSize.width
         static let selectionModeAnimationDuration: TimeInterval = 0.2
     }
 
@@ -141,21 +149,19 @@ open class MSTableViewCell: UITableViewCell {
 
     @objc public static var identifier: String { return String(describing: self) }
 
-    /**
-     Use the appropriate left inset for the cell separator based on the size of the `customView` provided.
+    /// The vertical margins for cells with one or three lines of text
+    class var labelVerticalMarginForOneAndThreeLines: CGFloat { return Constants.labelVerticalMarginForOneAndThreeLines }
+    /// The vertical margins for cells with two lines of text
+    class var labelVerticalMarginForTwoLines: CGFloat { return Constants.labelVerticalMarginForTwoLines }
 
-     `separatorLeftInsetForSmallCustomView` - For use when displaying a cell with a small size custom view.
-     `separatorLeftInsetForMediumCustomView` - For use when displaying a cell with a medium size custom view.
-     `separatorLeftInsetForNoCustomView` - For use when no custom view is provided.
-     */
-    @objc public static var separatorLeftInsetForSmallCustomView: CGFloat {
-        return Constants.customViewMarginLeft + CustomViewSize.small.size.width + Constants.customViewMarginRight
+    private static var separatorLeftInsetForSmallCustomView: CGFloat {
+        return Constants.paddingLeft + CustomViewSize.small.size.width + Constants.customViewMarginRight
     }
-    @objc public static var separatorLeftInsetForMediumCustomView: CGFloat {
-        return Constants.customViewMarginLeft + CustomViewSize.medium.size.width + Constants.customViewMarginRight
+    private static var separatorLeftInsetForMediumCustomView: CGFloat {
+        return Constants.paddingLeft + CustomViewSize.medium.size.width + Constants.customViewMarginRight
     }
-    @objc public static var separatorLeftInsetForNoCustomView: CGFloat {
-        return Constants.customViewMarginLeft
+    private static var separatorLeftInsetForNoCustomView: CGFloat {
+        return Constants.paddingLeft
     }
 
     /// The height of the cell based on the height of its content.
@@ -171,35 +177,91 @@ open class MSTableViewCell: UITableViewCell {
     ///   - subtitleNumberOfLines: The number of lines that the subtitle should display
     ///   - footerNumberOfLines: The number of lines that the footer should display
     ///   - containerWidth: The width of the cell's super view (e.g. the table view's width)
+    ///   - isInSelectionMode: Boolean describing if the cell is in multi-selection mode which shows/hides a checkmark image on the leading edge
     /// - Returns: a value representing the calculated height of the cell
     @objc public class func height(title: String, subtitle: String = "", footer: String = "", customViewSize: CustomViewSize = .default, customAccessoryView: UIView? = nil, accessoryType: MSTableViewCellAccessoryType = .none, titleNumberOfLines: Int = 1, subtitleNumberOfLines: Int = 1, footerNumberOfLines: Int = 1, containerWidth: CGFloat = .greatestFiniteMagnitude, isInSelectionMode: Bool = false) -> CGFloat {
-        let layoutType: LayoutType = footer == "" ? (subtitle == "" ? .oneLine : .twoLines) : .threeLines
-        let customViewSize = customViewSize == .default ? layoutType.customViewSize : customViewSize
+        let layoutType = self.layoutType(subtitle: subtitle, footer: footer)
+        let customViewSize = self.customViewSize(from: customViewSize, layoutType: layoutType)
 
         let textAreaLeftOffset = self.textAreaLeftOffset(customViewSize: customViewSize, isInSelectionMode: isInSelectionMode)
         let textAreaRightOffset = self.textAreaRightOffset(customAccessoryView: customAccessoryView, accessoryType: accessoryType)
         let textAreaWidth = containerWidth - (textAreaLeftOffset + textAreaRightOffset)
 
-        var textAreaHeight = title.preferredSize(for: Constants.titleTextStyle.font, width: textAreaWidth, numberOfLines: titleNumberOfLines).height
+        var textAreaHeight = title.preferredSize(for: TextStyles.title.font, width: textAreaWidth, numberOfLines: titleNumberOfLines).height
         if layoutType == .twoLines || layoutType == .threeLines {
             textAreaHeight += subtitle.preferredSize(for: layoutType.subtitleTextStyle.font, width: textAreaWidth, numberOfLines: subtitleNumberOfLines).height
             textAreaHeight += Constants.labelVerticalSpacing
 
             if layoutType == .threeLines {
-                textAreaHeight += footer.preferredSize(for: Constants.footerTextStyle.font, width: textAreaWidth, numberOfLines: footerNumberOfLines).height
+                textAreaHeight += footer.preferredSize(for: TextStyles.footer.font, width: textAreaWidth, numberOfLines: footerNumberOfLines).height
                 textAreaHeight += Constants.labelVerticalSpacing
             }
         }
 
-        return max(layoutType.labelVerticalMargin * 2 + textAreaHeight, Constants.minHeight)
+        let labelVerticalMargin = layoutType == .twoLines ? labelVerticalMarginForTwoLines : labelVerticalMarginForOneAndThreeLines
+
+        return max(labelVerticalMargin * 2 + textAreaHeight, Constants.minHeight)
     }
 
-    private static func selectionModeLeftOffset(isInSelectionMode: Bool) -> CGFloat {
-        return isInSelectionMode ? Constants.selectionModeSpacing : 0
+    /// The preferred width of the cell based on the width of its content.
+    ///
+    /// - Parameters:
+    ///   - title: The title string
+    ///   - subtitle: The subtitle string
+    ///   - footer: The footer string
+    ///   - customViewSize: The custom view size for the cell based on `MSTableViewCell.CustomViewSize`
+    ///   - customAccessoryView: The custom accessory view that appears near the trailing edge of the cell
+    ///   - accessoryType: The `MSTableViewCellAccessoryType` that the cell should display
+    ///   - isInSelectionMode: Boolean describing if the cell is in multi-selection mode which shows/hides a checkmark image on the leading edge
+    /// - Returns: a value representing the preferred width of the cell
+    @objc public class func preferredWidth(title: String, subtitle: String = "", footer: String = "", customViewSize: CustomViewSize = .default, customAccessoryView: UIView? = nil, accessoryType: MSTableViewCellAccessoryType = .none, isInSelectionMode: Bool = false) -> CGFloat {
+        let layoutType = self.layoutType(subtitle: subtitle, footer: footer)
+        let customViewSize = self.customViewSize(from: customViewSize, layoutType: layoutType)
+
+        let titleSize = title.preferredSize(for: TextStyles.title.font)
+        let labelAreaWidth: CGFloat
+        switch layoutType {
+        case .oneLine:
+            labelAreaWidth = titleSize.width
+        case .twoLines:
+            let subtitleSize = subtitle.preferredSize(for: TextStyles.subtitleTwoLines.font)
+            labelAreaWidth = max(titleSize.width, subtitleSize.width)
+        case .threeLines:
+            let subtitleSize = subtitle.preferredSize(for: TextStyles.subtitleThreeLines.font)
+            let footerSize = footer.preferredSize(for: TextStyles.footer.font)
+            labelAreaWidth = max(titleSize.width, subtitleSize.width, footerSize.width)
+        }
+
+        var width = Constants.paddingLeft + labelAreaWidth
+        width += accessoryType != .none ? accessoryType.size.width : Constants.paddingRight
+
+        if isInSelectionMode {
+            width += Constants.selectionImageSize.width + Constants.selectionImageMarginRight
+        }
+        if customViewSize != .zero {
+            width += customViewSize.size.width + Constants.customViewMarginRight
+        }
+        if let customAccessoryView = customAccessoryView {
+            width += Constants.customAccessoryViewMarginLeft + customAccessoryView.width
+        }
+
+        return width
+    }
+
+    private static func layoutType(subtitle: String, footer: String) -> LayoutType {
+        return footer == "" ? (subtitle == "" ? .oneLine : .twoLines) : .threeLines
+    }
+
+    private static func customViewSize(from size: CustomViewSize, layoutType: LayoutType) -> CustomViewSize {
+        return size == .default ? layoutType.customViewSize : size
+    }
+
+    private static func selectionModeAreaWidth(isInSelectionMode: Bool) -> CGFloat {
+        return isInSelectionMode ? Constants.selectionImageSize.width + Constants.selectionImageMarginRight : 0
     }
 
     private static func customViewLeftOffset(isInSelectionMode: Bool) -> CGFloat {
-        return selectionModeLeftOffset(isInSelectionMode: isInSelectionMode) + Constants.customViewMarginLeft
+        return Constants.paddingLeft + selectionModeAreaWidth(isInSelectionMode: isInSelectionMode)
     }
 
     private static func textAreaLeftOffset(customViewSize: CustomViewSize, isInSelectionMode: Bool) -> CGFloat {
@@ -221,7 +283,7 @@ open class MSTableViewCell: UITableViewCell {
     }
 
     private static func customAccessoryViewRightOffset(accessoryType: MSTableViewCellAccessoryType) -> CGFloat {
-        return accessoryType != .none ? accessoryType.size.width : Constants.labelMarginRight
+        return accessoryType != .none ? accessoryType.size.width : Constants.paddingRight
     }
 
     /// The maximum number of lines to be shown for `title`
@@ -297,8 +359,16 @@ open class MSTableViewCell: UITableViewCell {
 
     open override var intrinsicContentSize: CGSize {
         return CGSize(
-            width: UIView.noIntrinsicMetric,
-            height: MSTableViewCell.height(
+            width: type(of: self).preferredWidth(
+                title: titleLabel.text ?? "",
+                subtitle: subtitleLabel.text ?? "",
+                footer: footerLabel.text ?? "",
+                customViewSize: customViewSize,
+                customAccessoryView: customAccessoryView,
+                accessoryType: _accessoryType,
+                isInSelectionMode: isInSelectionMode
+            ),
+            height: type(of: self).height(
                 title: titleLabel.text ?? "",
                 subtitle: subtitleLabel.text ?? "",
                 footer: footerLabel.text ?? "",
@@ -329,8 +399,19 @@ open class MSTableViewCell: UITableViewCell {
         }
     }
 
+    // swiftlint:disable identifier_name
+    var _accessoryType: MSTableViewCellAccessoryType = .none {
+        didSet {
+            if oldValue != _accessoryType {
+                _accessoryView = _accessoryType == .none ? nil : MSTableViewCellAccessoryView(type: _accessoryType)
+                setNeedsLayout()
+            }
+        }
+    }
+    // swiftlint:enable identifier_name
+
     private var separatorLeftInset: CGFloat {
-        let separatorLeftOffset = safeAreaInsets.left + MSTableViewCell.selectionModeLeftOffset(isInSelectionMode: isInSelectionMode)
+        let separatorLeftOffset = safeAreaInsets.left + MSTableViewCell.selectionModeAreaWidth(isInSelectionMode: isInSelectionMode)
         switch customViewSize {
         case .zero:
             return separatorLeftOffset + MSTableViewCell.separatorLeftInsetForNoCustomView
@@ -343,12 +424,6 @@ open class MSTableViewCell: UITableViewCell {
 
     private var layoutType: LayoutType = .oneLine
 
-    private var _accessoryType: MSTableViewCellAccessoryType = .none {
-        didSet {
-            _accessoryView = _accessoryType == .none ? nil : MSTableViewCellAccessoryView(type: _accessoryType)
-        }
-    }
-
     private var customView: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
@@ -359,21 +434,21 @@ open class MSTableViewCell: UITableViewCell {
         }
     }
 
-    private let titleLabel: MSLabel = {
-        let label = MSLabel(style: Constants.titleTextStyle)
+    let titleLabel: MSLabel = {
+        let label = MSLabel(style: TextStyles.title)
         label.lineBreakMode = .byTruncatingTail
         return label
     }()
 
-    private let subtitleLabel: MSLabel = {
-        let label = MSLabel(style: Constants.subtitleTwoLineTextStyle, colorStyle: .secondary)
+    let subtitleLabel: MSLabel = {
+        let label = MSLabel(style: TextStyles.subtitleTwoLines, colorStyle: .secondary)
         label.lineBreakMode = .byTruncatingTail
         label.isHidden = true
         return label
     }()
 
-    private let footerLabel: MSLabel = {
-        let label = MSLabel(style: Constants.footerTextStyle, colorStyle: .secondary)
+    let footerLabel: MSLabel = {
+        let label = MSLabel(style: TextStyles.footer, colorStyle: .secondary)
         label.lineBreakMode = .byTruncatingTail
         label.isHidden = true
         return label
@@ -449,7 +524,7 @@ open class MSTableViewCell: UITableViewCell {
     ///   - customAccessoryView: The view acting as an accessory view that appears on the trailing edge, next to the accessory type if provided
     ///   - accessoryType: The type of accessory that appears on the trailing edge: a disclosure indicator or a details button with an ellipsis icon
     @objc open func setup(title: String, subtitle: String = "", footer: String = "", customView: UIView? = nil, customAccessoryView: UIView? = nil, accessoryType: MSTableViewCellAccessoryType = .none) {
-        layoutType = footer == "" ? (subtitle == "" ? .oneLine : .twoLines) : .threeLines
+        layoutType = MSTableViewCell.layoutType(subtitle: subtitle, footer: footer)
 
         titleLabel.text = title
         subtitleLabel.text = subtitle
@@ -515,13 +590,11 @@ open class MSTableViewCell: UITableViewCell {
         selectionStyle = isInSelectionMode ? .none : .default
     }
 
-    open override func layoutSubviews() {
-        super.layoutSubviews()
-
+    @objc open func layoutContentSubviews() {
         if isInSelectionMode {
             let selectionImageViewYOffset = UIScreen.main.roundToDevicePixels((contentView.height - Constants.selectionImageSize.height) / 2)
             selectionImageView.frame = CGRect(
-                origin: CGPoint(x: Constants.selectionImageMarginLeft, y: selectionImageViewYOffset),
+                origin: CGPoint(x: Constants.paddingLeft, y: selectionImageViewYOffset),
                 size: Constants.selectionImageSize
             )
         }
@@ -588,7 +661,12 @@ open class MSTableViewCell: UITableViewCell {
             let yOffset = UIScreen.main.roundToDevicePixels((contentView.height - _accessoryType.size.height) / 2)
             accessoryView.frame = CGRect(origin: CGPoint(x: xOffset, y: yOffset), size: _accessoryType.size)
         }
+    }
 
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+
+        layoutContentSubviews()
         contentView.flipSubviewsForRTL()
 
         separator.frame = CGRect(
@@ -602,8 +680,16 @@ open class MSTableViewCell: UITableViewCell {
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
         return CGSize(
-            width: size.width,
-            height: MSTableViewCell.height(
+            width: type(of: self).preferredWidth(
+                title: titleLabel.text ?? "",
+                subtitle: subtitleLabel.text ?? "",
+                footer: footerLabel.text ?? "",
+                customViewSize: customViewSize,
+                customAccessoryView: customAccessoryView,
+                accessoryType: _accessoryType,
+                isInSelectionMode: isInSelectionMode
+            ),
+            height: type(of: self).height(
                 title: titleLabel.text ?? "",
                 subtitle: subtitleLabel.text ?? "",
                 footer: footerLabel.text ?? "",
@@ -613,7 +699,7 @@ open class MSTableViewCell: UITableViewCell {
                 titleNumberOfLines: titleNumberOfLines,
                 subtitleNumberOfLines: subtitleNumberOfLines,
                 footerNumberOfLines: footerNumberOfLines,
-                containerWidth: size.width,
+                containerWidth: width > 0 ? width : .infinity,
                 isInSelectionMode: isInSelectionMode
             )
         )
@@ -696,7 +782,9 @@ open class MSTableViewCell: UITableViewCell {
     }
 
     private func updateAccessibility() {
-        accessibilityHint = isInSelectionMode ? "Accessibility.MultiSelect.Hint".localized : "Accessibility.Select.Hint".localized
+        if accessibilityTraits.contains(.button) && !accessibilityTraits.contains(.notEnabled) {
+            accessibilityHint = isInSelectionMode ? "Accessibility.MultiSelect.Hint".localized : "Accessibility.Select.Hint".localized
+        }
     }
 }
 

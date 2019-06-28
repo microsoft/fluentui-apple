@@ -14,7 +14,14 @@ public extension UIScreen {
     class var isLandscape: Bool { return !isPortrait }
 
     func roundToDevicePixels(_ value: CGFloat) -> CGFloat {
-        return ceil(value * scale) / scale
+        /*
+         Round to 3 digits after floating point to better match the device rounding on 3x devices.
+         Avoids a situation where calculated size is smaller than screen size by a difference in 4th+ position after floaing point.
+         For example:
+           calculated = 52.666666666666671
+               actual = 52.666667938232422
+        */
+        return ceil(ceil(value * scale) / scale * 1000) / 1000
     }
 
     func roundDownToDevicePixels(_ value: CGFloat) -> CGFloat {

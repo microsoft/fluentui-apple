@@ -52,6 +52,8 @@ extension MSTextColorStyle {
             return "Error"
         case .warning:
             return "Warning"
+        case .disabled:
+            return "Disabled"
         }
     }
 }
