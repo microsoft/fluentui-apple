@@ -20,6 +20,20 @@
                ReferencedContainer = "container:OfficeUIFabric.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E61C96BA2295E8D60006561F"
+               BuildableName = "OfficeUIFabricUnitTests.xctest"
+               BlueprintName = "OfficeUIFabricTests"
+               ReferencedContainer = "container:OfficeUIFabric.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -28,6 +42,16 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E61C96BA2295E8D60006561F"
+               BuildableName = "OfficeUIFabricUnitTests.xctest"
+               BlueprintName = "OfficeUIFabricTests"
+               ReferencedContainer = "container:OfficeUIFabric.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

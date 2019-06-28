@@ -32,3 +32,15 @@ jobs:
           xcode_actions: 'build'
           xcode_scheme: 'OfficeUIFabricTestApp'
           xcode_configuration: 'Release'
+
+      - template: templates/xcode-build.yml
+        parameters:
+          xcode_actions: 'test'
+          xcode_scheme: 'OfficeUIFabricTestApp'
+          xcode_configuration: 'Debug'
+
+      - template: templates/xcode-build.yml
+        parameters:
+          xcode_actions: 'test'
+          xcode_scheme: 'OfficeUIFabricTestApp'
+          xcode_configuration: 'Release'

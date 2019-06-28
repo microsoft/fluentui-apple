@@ -13,7 +13,7 @@
 		8F5368072295F4C10098AC8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368062295F4C10098AC8F /* Assets.xcassets */; };
 		8F53680A2295F4C10098AC8F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368082295F4C10098AC8F /* MainMenu.xib */; };
 		E61C96BC2295E8D60006561F /* OfficeUIFabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C96B22295E8D60006561F /* OfficeUIFabric.framework */; };
-		E61C96C12295E8D60006561F /* OfficeUIFabricTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61C96C02295E8D60006561F /* OfficeUIFabricTests.swift */; };
+		E61C96C12295E8D60006561F /* AvatarViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61C96C02295E8D60006561F /* AvatarViewTests.swift */; };
 		E61C96CC2295EAC50006561F /* OfficeUIFabric.h in Headers */ = {isa = PBXBuildFile; fileRef = E61C96B52295E8D60006561F /* OfficeUIFabric.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E61C96D322962BC20006561F /* TestControlsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61C96D222962BC20006561F /* TestControlsViewController.swift */; };
 		E61C96D52298665F0006561F /* TestPlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61C96D42298665F0006561F /* TestPlaceholderViewController.swift */; };
@@ -46,11 +46,12 @@
 		8F5368092295F4C10098AC8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		8F53680B2295F4C10098AC8F /* OfficeUIFabricTestApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OfficeUIFabricTestApp-Info.plist"; sourceTree = "<group>"; };
 		8F69C7B22295FABD009F69C0 /* OfficeUIFabric_testapp.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = OfficeUIFabric_testapp.xcconfig; sourceTree = "<group>"; };
+		8F931A6C22BD593300311764 /* OfficeUIFabric_unittest.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = OfficeUIFabric_unittest.xcconfig; sourceTree = "<group>"; };
 		E61C96B22295E8D60006561F /* OfficeUIFabric.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OfficeUIFabric.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E61C96B52295E8D60006561F /* OfficeUIFabric.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OfficeUIFabric.h; sourceTree = "<group>"; };
 		E61C96B62295E8D60006561F /* OfficeUIFabric-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OfficeUIFabric-Info.plist"; sourceTree = "<group>"; };
-		E61C96BB2295E8D60006561F /* .xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = .xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		E61C96C02295E8D60006561F /* OfficeUIFabricTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OfficeUIFabricTests.swift; path = ../OfficeUIFabricUnitTest/OfficeUIFabricTests.swift; sourceTree = "<group>"; };
+		E61C96BB2295E8D60006561F /* OfficeUIFabricUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OfficeUIFabricUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E61C96C02295E8D60006561F /* AvatarViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarViewTests.swift; sourceTree = "<group>"; };
 		E61C96C22295E8D60006561F /* OfficeUIFabricUnitTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "OfficeUIFabricUnitTest-Info.plist"; path = "../OfficeUIFabricUnitTest/OfficeUIFabricUnitTest-Info.plist"; sourceTree = "<group>"; };
 		E61C96CE2295ED8A0006561F /* OfficeUIFabric_framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = OfficeUIFabric_framework.xcconfig; sourceTree = "<group>"; };
 		E61C96CF2295F6FE0006561F /* OfficeUIFabric_common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = OfficeUIFabric_common.xcconfig; sourceTree = "<group>"; };
@@ -118,7 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				E61C96B22295E8D60006561F /* OfficeUIFabric.framework */,
-				E61C96BB2295E8D60006561F /* .xctest */,
+				E61C96BB2295E8D60006561F /* OfficeUIFabricUnitTests.xctest */,
 				8F5368022295F4BF0098AC8F /* OfficeUIFabricTestApp.app */,
 			);
 			name = Products;
@@ -138,7 +139,7 @@
 		E61C96BF2295E8D60006561F /* OfficeUIFabricUnitTest */ = {
 			isa = PBXGroup;
 			children = (
-				E61C96C02295E8D60006561F /* OfficeUIFabricTests.swift */,
+				E61C96C02295E8D60006561F /* AvatarViewTests.swift */,
 				E61C96C22295E8D60006561F /* OfficeUIFabricUnitTest-Info.plist */,
 			);
 			name = OfficeUIFabricUnitTest;
@@ -153,6 +154,7 @@
 				E61C96CE2295ED8A0006561F /* OfficeUIFabric_framework.xcconfig */,
 				E61C96D12295FA4E0006561F /* OfficeUIFabric_release.xcconfig */,
 				8F69C7B22295FABD009F69C0 /* OfficeUIFabric_testapp.xcconfig */,
+				8F931A6C22BD593300311764 /* OfficeUIFabric_unittest.xcconfig */,
 			);
 			name = xcode;
 			sourceTree = "<group>";
@@ -222,7 +224,7 @@
 			);
 			name = OfficeUIFabricTests;
 			productName = OfficeUIFabricTests;
-			productReference = E61C96BB2295E8D60006561F /* .xctest */;
+			productReference = E61C96BB2295E8D60006561F /* OfficeUIFabricUnitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -318,7 +320,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E61C96C12295E8D60006561F /* OfficeUIFabricTests.swift in Sources */,
+				E61C96C12295E8D60006561F /* AvatarViewTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,12 +395,14 @@
 		};
 		E61C96CA2295E8D60006561F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F931A6C22BD593300311764 /* OfficeUIFabric_unittest.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		E61C96CB2295E8D60006561F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F931A6C22BD593300311764 /* OfficeUIFabric_unittest.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;

@@ -11,6 +11,10 @@ fileprivate struct Constants {
 	static let initialsViewTextColor = NSColor.white
 	// fall back to this text in the initials view when no usable name or email is provided
 	static let fallbackInitial = "#"
+	// the maximum number of initials to be displayed when we don't have an image
+	static let maximumNumberOfInitials = 2
+	// the unicode representation of the zero-width space character
+	static let zeroWidthSpaceUnicodeCharacter = "\u{200B}"
 	private init() {}
 }
 
@@ -190,19 +194,34 @@ open class AvatarView : NSView {
 /// param contactEmail the name of the contact with the format “<person>@<service>.<domain>"
 ///
 /// @return if a name is passed in, return the first character of the first two names separated
-/// by a space if the string only contians roman characters. If no usable name is passed in
-/// return the first character of the email address passed in. If no usabl email address is passed
+/// by a space if the first character is a letter. If no usable name is passed in
+/// return the first character of the email address passed in. If no usable email address is passed
 /// in, return the character `#`.
-fileprivate func initials(name: String?, email: String?) -> String {
+func initials(name: String?, email: String?) -> String {
 	var initials: String? = nil
-	// If the text is something other than Mac Roman, all bets are off that we'll get the semantics correct
-	// This is particularly interesting in the case of east asian names, where there is no easy semantic to display the correct monogram.
-	if let name = name?.trimmingCharacters(in: .whitespacesAndNewlines), name.canBeConverted(to: .macOSRoman) {
-		// only split once so we get 2 initials
-		let components = name.split(separator: " ", maxSplits: 1)
-		initials = String(components.map { $0[$0.startIndex] })
-	} else if let email = email?.trimmingCharacters(in: .whitespacesAndNewlines) {
-		initials = String(email[email.startIndex])
+	
+	// Add the zero width space character to the standard whitespace and new lines character set
+	let whitespaceNewlineAndZeroWidthSpace = CharacterSet.whitespacesAndNewlines.union(CharacterSet(charactersIn: Constants.zeroWidthSpaceUnicodeCharacter))
+	
+	if let name = name {
+		let components = name.split(separator: " ")
+		let nameComponentsWithUnicodeLetterFirstCharacters = components.filter {
+			let trimmedString = $0.trimmingCharacters(in: whitespaceNewlineAndZeroWidthSpace)
+			let unicodeScalars = trimmedString[trimmedString.startIndex].unicodeScalars
+			let initialUnicodeScalar = unicodeScalars[unicodeScalars.startIndex]
+			return CharacterSet.letters.contains(initialUnicodeScalar)
+		}
+		if nameComponentsWithUnicodeLetterFirstCharacters.count > 0 {
+			initials = String(nameComponentsWithUnicodeLetterFirstCharacters.prefix(Constants.maximumNumberOfInitials).map { $0[$0.startIndex] })
+		}
+	}
+	
+	if initials == nil, let email = email?.trimmingCharacters(in: whitespaceNewlineAndZeroWidthSpace) {
+		let unicodeScalars = email[email.startIndex].unicodeScalars
+		let initialUnicodeScalar = unicodeScalars[unicodeScalars.startIndex]
+		if CharacterSet.letters.contains(initialUnicodeScalar) {
+			initials = String(initialUnicodeScalar)
+		}
 	}
 
 	// default to # when we have nothing to base our initials off of

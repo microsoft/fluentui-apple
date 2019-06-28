@@ -1,0 +1,3 @@
+#include "OfficeUIFabric_common.xcconfig"
+
+PRODUCT_NAME = OfficeUIFabricUnitTests
