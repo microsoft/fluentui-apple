@@ -4,25 +4,40 @@
 
 import AppKit
 
+/// Constants to be used in this file
 fileprivate struct Constants {
-	// the font size in the initials view will be scaled to this fraction of the avatarSize passed in
+	/// the font size in the initials view will be scaled to this fraction of the avatarSize passed in
 	static let fontSizeScalingDefault: CGFloat = 0.4
-	// the text color of the note: doesn't change for dark mode
+
+	/// the text color of the text in the initials view
+	///
+	/// - note: this value doesn't change for dark mode by design as our default background color table
+	/// only provides colors designed to be used with white text, even on dark mode
 	static let initialsViewTextColor = NSColor.white
-	// fall back to this text in the initials view when no usable name or email is provided
+
+	/// fall back to this text in the initials view when no usable name or email is provided
 	static let fallbackInitial = "#"
-	// the maximum number of initials to be displayed when we don't have an image
+
+	/// the maximum number of initials to be displayed when we don't have an image
 	static let maximumNumberOfInitials = 2
-	// the unicode representation of the zero-width space character
+
+	/// the unicode representation of the zero-width space character
 	static let zeroWidthSpaceUnicodeCharacter = "\u{200B}"
+
+	/// make the init method private so clients don't unintentionally instantiate this struct
 	private init() {}
 }
 
+/// The various display styles of the Avatar View
 fileprivate enum DisplayStyle {
+	/// Display the initials extracted via `initials(name: String?, email: String?)` inside a colorful circular background
 	case initials
+	/// Display the user's image cropped to a circular shape
 	case image
 }
 
+/// A visual Avatar icon for a user, cropped to a circle that either displays the user's
+/// image if available or the user's initials if an image is not available
 open class AvatarView : NSView {
 
 	/// Initializes the avatar view with a name, email, image, and size. If
@@ -232,6 +247,6 @@ func initials(name: String?, email: String?) -> String {
 		}
 	}
 
-	// default to # when we have nothing to base our initials off of
+	// default to `Constants.fallbackInitial` when we have nothing to base our initials off of
 	return initials?.localizedUppercase ?? Constants.fallbackInitial
 }
