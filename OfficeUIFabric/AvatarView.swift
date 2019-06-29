@@ -67,6 +67,14 @@ open class AvatarView : NSView {
 		NSLayoutConstraint.activate(constraints)
 
 		updateViewStyle()
+		
+		// Set up accessibility values if we have any information to return
+		if let bestDescription = contactName ?? contactEmail {
+			toolTip = bestDescription
+			setAccessibilityElement(true)
+			setAccessibilityLabel(bestDescription)
+			setAccessibilityRole(.image)
+		}
 	}
 	
 	@available(*, unavailable) required public init?(coder decoder: NSCoder) {
