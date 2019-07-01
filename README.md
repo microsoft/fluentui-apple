@@ -58,7 +58,17 @@ To integrate Office UI Fabric for iOS into your Xcode project using CocoaPods, s
 pod 'OfficeUIFabric', '~> 0.2.0'
 ```
 
-### 2. Manual installation
+### 2. Using Carthage
+
+To integrate Office UI Fabric using Carthage, specify it in your Cartfile:
+
+```ruby
+github "OfficeDev/ui-fabric-ios" ~> 0.2.0
+```
+
+then follow the Carthage [itegration steps](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add the `OfficeUIFabric.framework` into your XCode project
+
+### 3. Manual installation
 
 - Download the latest changes from the [Office UI Fabric for iOS](https://github.com/OfficeDev/UI-Fabric-iOS) repository.
 - Move the `OfficeUIFabric` folder into your project folder.
