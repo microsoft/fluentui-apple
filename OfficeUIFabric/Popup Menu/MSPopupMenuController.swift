@@ -99,7 +99,7 @@ open class MSPopupMenuController: MSDrawerController {
         view.isHidden = true
         return view
     }()
-    private let tableView = UITableView()
+    private let tableView = UITableView(frame: .zero, style: .grouped)
 
     /// Append new items to the last section of the menu
     /// - note: If there is no section in the menu, create a new one without header and append the items to it
@@ -238,6 +238,10 @@ extension MSPopupMenuController: UITableViewDelegate {
         return MSPopupMenuSectionHeaderView.preferredHeight(for: sections[section])
     }
 
+    public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0
+    }
+
     public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let section = sections[section]
         if !MSPopupMenuSectionHeaderView.isHeaderVisible(for: section) {
@@ -246,6 +250,10 @@ extension MSPopupMenuController: UITableViewDelegate {
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: MSPopupMenuSectionHeaderView.identifier) as! MSPopupMenuSectionHeaderView
         headerView.setup(section: section)
         return headerView
+    }
+
+    public func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return nil
     }
 
     public func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {

@@ -84,6 +84,25 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
         return verticalMargin + titleHeight
     }
 
+     /// The preferred width of the view based on the width of its content.
+     ///
+     /// - Parameters:
+     ///   - style: The `MSTableViewHeaderFooterView.Style` used to set up the view.
+     ///   - title: The title string.
+     ///   - accessoryButton: An optional accessory button that appears near the trailing edge of the view.
+     /// - Returns: a value representing the calculated preferred width of the view.
+     @objc public class func preferredWidth(style: Style, title: String, accessoryButton: UIButton? = nil) -> CGFloat {
+        let titleSize = title.preferredSize(for: Constants.titleTextStyle.font)
+
+        var width = Constants.horizontalMargin + titleSize.width + Constants.horizontalMargin
+
+        if let accessoryButton = accessoryButton {
+            width += Constants.accessoryButtonMarginLeft + accessoryButton.width
+        }
+
+        return width
+    }
+
     private static func titleRightOffset(accessoryButton: UIButton? = nil) -> CGFloat {
         let accessoryButtonSpacing: CGFloat
         if let accessoryButton = accessoryButton {
@@ -108,8 +127,12 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
 
     open override var intrinsicContentSize: CGSize {
         return CGSize(
-            width: UIView.noIntrinsicMetric,
-            height: MSTableViewHeaderFooterView.height(
+            width: type(of: self).preferredWidth(
+                style: style,
+                title: titleLabel.text ?? "",
+                accessoryButton: accessoryButton
+            ),
+            height: type(of: self).height(
                 style: style,
                 title: titleLabel.text ?? "",
                 titleNumberOfLines: titleNumberOfLines,
@@ -220,8 +243,12 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
         return CGSize(
-            width: size.width,
-            height: MSTableViewHeaderFooterView.height(
+            width: type(of: self).preferredWidth(
+                style: style,
+                title: titleLabel.text ?? "",
+                accessoryButton: accessoryButton
+            ),
+            height: type(of: self).height(
                 style: style,
                 title: titleLabel.text ?? "",
                 titleNumberOfLines: titleNumberOfLines,
