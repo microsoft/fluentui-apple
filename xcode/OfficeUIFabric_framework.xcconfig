@@ -3,6 +3,9 @@
 PRODUCT_NAME = OfficeUIFabric
 SWIFT_MODULE_NAME = OfficeUIFabric
 
+INFOPLIST_FILE = ../OfficeUIFabric/OfficeUIFabric-Info.plist
+INFOPLIST_EXPAND_BUILD_SETTINGS = YES
+
 CLANG_ENABLE_MODULES = YES
 DEFINES_MODULE = YES
 LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/../Frameworks @loader_path/Frameworks
