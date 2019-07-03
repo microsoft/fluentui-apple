@@ -11,7 +11,7 @@ open class MSResizingHandleView: UIView {
         static let markCornerRadius: CGFloat = 2
     }
 
-    public static let height: CGFloat = 20
+    @objc public static let height: CGFloat = 20
 
     private let markLayer: CALayer = {
         let markLayer = CALayer()
