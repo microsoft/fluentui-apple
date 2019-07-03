@@ -15,12 +15,15 @@ public final class MSFonts: NSObject {
     public static var title2: UIFont { return UIFont.preferredFont(forTextStyle: .title2).withWeight(.semibold) }
     /// Semibold 17pt
     public static var headline: UIFont { return .preferredFont(forTextStyle: .headline) }
+    public static var headlineUnscaled: UIFont { return .preferredFont(forTextStyle: .headline, compatibleWith: UITraitCollection(preferredContentSizeCategory: .large)) }
     /// Regular 17pt
     public static var body: UIFont { return .preferredFont(forTextStyle: .body) }
+    public static var bodyUnscaled: UIFont { return .preferredFont(forTextStyle: .body, compatibleWith: UITraitCollection(preferredContentSizeCategory: .large)) }
     /// Regular 15pt
     public static var subhead: UIFont { return .preferredFont(forTextStyle: .subheadline) }
     /// Regular 13pt
     public static var footnote: UIFont { return .preferredFont(forTextStyle: .footnote) }
+    public static var footnoteUnscaled: UIFont { return .preferredFont(forTextStyle: .footnote, compatibleWith: UITraitCollection(preferredContentSizeCategory: .large)) }
     /// Medium 15pt
     public static var button1: UIFont { return UIFont.preferredFont(forTextStyle: .subheadline).withWeight(.medium) }
     /// Medium 13pt

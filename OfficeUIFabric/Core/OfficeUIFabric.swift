@@ -22,7 +22,7 @@ public class OfficeUIFabricFramework: NSObject {
         navigationBar.tintColor = MSColors.primary
 
         var titleAttributes = navigationBar.titleTextAttributes ?? [:]
-        titleAttributes[.font] = MSFonts.headline
+        titleAttributes[.font] = MSFonts.headlineUnscaled
         titleAttributes[.foregroundColor] = MSColors.primary
         navigationBar.titleTextAttributes = titleAttributes
 
@@ -38,7 +38,7 @@ public class OfficeUIFabricFramework: NSObject {
         // UIBarButtonItem
         let barButtonItem = UIBarButtonItem.appearance()
         titleAttributes = barButtonItem.titleTextAttributes(for: .normal) ?? [:]
-        titleAttributes[.font] = MSFonts.body
+        titleAttributes[.font] = MSFonts.bodyUnscaled
         barButtonItem.setTitleTextAttributes(titleAttributes, for: .normal)
 
         initializeUISwitchAppearance(UISwitch.appearance())
