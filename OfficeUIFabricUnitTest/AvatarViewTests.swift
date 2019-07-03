@@ -45,6 +45,22 @@ class AvatarViewTests: XCTestCase {
 		XCTAssertNil(anonymousAvatar.accessibilityLabel())
 		XCTAssertEqual(anonymousAvatar.accessibilityRole(), NSAccessibility.Role.unknown)
 		XCTAssertNil(anonymousAvatar.toolTip)
-		
+	}
+
+	func testColorTable () {
+		// Cherry pick a few known values and test them
+		XCTAssertEqual(backgroundColor(for: 0), #colorLiteral(red: 0.6, green: 0.71, blue: 0.2, alpha: 1))
+		XCTAssertEqual(backgroundColor(for: 1887), #colorLiteral(red: 0.85, green: 0.32, blue: 0.17, alpha: 1))
+		XCTAssertEqual(backgroundColor(for: 2268), #colorLiteral(red: 0.6, green: 0.71, blue: 0.2, alpha: 1))
+		XCTAssertEqual(backgroundColor(for: 3986), #colorLiteral(red: 0.17, green: 0.34, blue: 0.59, alpha: 1))
+	}
+
+	func testHashAlgorithm () {
+		XCTAssertEqual(colorIndex(for: "satya@microsoft.com"), 8387)
+		XCTAssertEqual(colorIndex(for: "maverick@miramar.edu"), 3986)
+		XCTAssertEqual(colorIndex(for: "goose@miramar.edu"), 2268)
+		XCTAssertEqual(colorIndex(for: "cblackwood@civiliancontractor.com"), 1886)
+		XCTAssertEqual(colorIndex(for: "Tom Kazansky"), 9318)
+		XCTAssertEqual(colorIndex(for: ""), 0)
 	}
 }
