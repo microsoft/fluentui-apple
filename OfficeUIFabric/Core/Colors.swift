@@ -218,6 +218,13 @@ public final class MSColors: NSObject {
         public static var shadow = UIColor.black.withAlphaComponent(0.24)
     }
 
+    public struct TwoLineTitleView {
+        public static var titleDark: UIColor = primary
+        public static var titleLight: UIColor = white
+        public static var subtitleDark: UIColor = gray
+        public static var subtitleLight: UIColor = white.withAlphaComponent(0.8)
+    }
+
     private override init() {
         super.init()
     }

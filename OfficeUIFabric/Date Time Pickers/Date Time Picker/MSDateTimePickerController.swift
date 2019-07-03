@@ -77,7 +77,7 @@ class MSDateTimePickerController: UIViewController, DateTimePicker {
     private let customStartTabTitle: String?
     private let customEndTabTitle: String?
     private let dateTimePickerView: MSDateTimePickerView
-    private let titleView = MSTwoLinesTitleView()
+    private let titleView = MSTwoLineTitleView()
     private var segmentedControl: MSSegmentedControl?
 
     // TODO: Add availability back in? - contactAvailabilitySummaryDataSource: ContactAvailabilitySummaryDataSource?,

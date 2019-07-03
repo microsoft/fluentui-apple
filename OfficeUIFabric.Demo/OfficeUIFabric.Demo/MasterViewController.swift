@@ -19,7 +19,7 @@ class MasterViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let titleView = MSTwoLinesTitleView()
+        let titleView = MSTwoLineTitleView()
         titleView.setup(
             title: navigationItem.title ?? "",
             subtitle: OfficeUIFabricFramework.bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
