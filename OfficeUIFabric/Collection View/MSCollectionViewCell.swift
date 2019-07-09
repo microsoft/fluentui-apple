@@ -59,6 +59,12 @@ open class MSCollectionViewCell: UICollectionViewCell {
         return cellView.sizeThatFits(size)
     }
 
+    open override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+        let attributes = super.preferredLayoutAttributesFitting(layoutAttributes)
+        attributes.size.width = layoutAttributes.size.width
+        return attributes
+    }
+
     open func selectionDidChange() {
         guard let collectionView = superCollectionView, let indexPath = collectionView.indexPath(for: self) else {
             return

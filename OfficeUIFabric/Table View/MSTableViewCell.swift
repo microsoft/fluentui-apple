@@ -378,7 +378,7 @@ open class MSTableViewCell: UITableViewCell {
                 titleNumberOfLines: titleNumberOfLines,
                 subtitleNumberOfLines: subtitleNumberOfLines,
                 footerNumberOfLines: footerNumberOfLines,
-                containerWidth: width > 0 ? width : .infinity,
+                containerWidth: .infinity,
                 isInSelectionMode: isInSelectionMode
             )
         )
@@ -679,15 +679,19 @@ open class MSTableViewCell: UITableViewCell {
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
+        let maxWidth = size.width != 0 ? size.width : .infinity
         return CGSize(
-            width: type(of: self).preferredWidth(
-                title: titleLabel.text ?? "",
-                subtitle: subtitleLabel.text ?? "",
-                footer: footerLabel.text ?? "",
-                customViewSize: customViewSize,
-                customAccessoryView: customAccessoryView,
-                accessoryType: _accessoryType,
-                isInSelectionMode: isInSelectionMode
+            width: min(
+                type(of: self).preferredWidth(
+                    title: titleLabel.text ?? "",
+                    subtitle: subtitleLabel.text ?? "",
+                    footer: footerLabel.text ?? "",
+                    customViewSize: customViewSize,
+                    customAccessoryView: customAccessoryView,
+                    accessoryType: _accessoryType,
+                    isInSelectionMode: isInSelectionMode
+                ),
+                maxWidth
             ),
             height: type(of: self).height(
                 title: titleLabel.text ?? "",
@@ -699,7 +703,7 @@ open class MSTableViewCell: UITableViewCell {
                 titleNumberOfLines: titleNumberOfLines,
                 subtitleNumberOfLines: subtitleNumberOfLines,
                 footerNumberOfLines: footerNumberOfLines,
-                containerWidth: width > 0 ? width : .infinity,
+                containerWidth: maxWidth,
                 isInSelectionMode: isInSelectionMode
             )
         )
