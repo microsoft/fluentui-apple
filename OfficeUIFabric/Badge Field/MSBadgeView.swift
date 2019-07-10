@@ -8,22 +8,16 @@ import UIKit
 // MARK: MSBadgeViewDataSource
 
 open class MSBadgeViewDataSource: NSObject {
-    @objc open private(set) var text: String
-    public var style: MSBadgeViewStyle
+    @objc open var text: String
+    @objc open var style: MSBadgeView.Style
+    @objc open var size: MSBadgeView.Size
 
-    @objc public init(text: String, style: MSBadgeViewStyle) {
+    @objc public init(text: String, style: MSBadgeView.Style = .default, size: MSBadgeView.Size = .medium) {
         self.text = text
         self.style = style
+        self.size = size
         super.init()
     }
-}
-
-// MARK: - MSBadgeViewStyle
-
-@objc public enum MSBadgeViewStyle: Int {
-    case `default`
-    case warning
-    case error
 }
 
 // MARK: - MSBadgeViewDelegate
@@ -41,19 +35,56 @@ open class MSBadgeViewDataSource: NSObject {
  `MSBadgeView` can be selected with a tap gesture and tapped again after entering a selected state for the purpose of displaying more details about the entity represented by the selected badge.
  */
 open class MSBadgeView: UIView {
+    @objc(MSBadgeViewStyle)
+    public enum Style: Int {
+        case `default`
+        case warning
+        case error
+    }
+
+    @objc(MSBadgeViewSize)
+    public enum Size: Int, CaseIterable {
+        case small
+        case medium
+
+        var labelTextStyle: MSTextStyle {
+            switch self {
+            case .small:
+                return .footnote
+            case .medium:
+                return .subhead
+            }
+        }
+
+        var horizontalPadding: CGFloat {
+            switch self {
+            case .small:
+                return 4
+            case .medium:
+                return 5
+            }
+        }
+
+        var verticalPadding: CGFloat {
+            switch self {
+            case .small:
+                return 1.5
+            case .medium:
+                return 4
+            }
+        }
+
+        var height: CGFloat {
+            return verticalPadding + labelTextStyle.font.deviceLineHeight + verticalPadding
+        }
+    }
+
     private struct Constants {
         static let defaultMinWidth: CGFloat = 25
-        static let backgroundViewCornerRadius: CGFloat = 2
-        static let labelFont: UIFont = MSFonts.subhead
-        static let paddingHorizontal: CGFloat = 5
-        static let paddingVertical: CGFloat = 4
+        static let backgroundCornerRadius: CGFloat = 3
     }
 
-    open class var defaultHeight: CGFloat {
-        return Constants.paddingVertical + Constants.labelFont.deviceLineHeight + Constants.paddingVertical
-    }
-
-    private static func backgroundColor(for style: MSBadgeViewStyle, selected: Bool, enabled: Bool) -> UIColor {
+    private static func backgroundColor(for style: Style, selected: Bool, enabled: Bool) -> UIColor {
         switch style {
         case .default:
             if !enabled {
@@ -78,7 +109,7 @@ open class MSBadgeView: UIView {
         }
     }
 
-    private static func textColor(for style: MSBadgeViewStyle, selected: Bool, enabled: Bool) -> UIColor {
+    private static func textColor(for style: Style, selected: Bool, enabled: Bool) -> UIColor {
         switch style {
         case .default:
             if !enabled {
@@ -109,9 +140,9 @@ open class MSBadgeView: UIView {
         }
     }
 
-    open weak var delegate: MSBadgeViewDelegate?
+    @objc open weak var delegate: MSBadgeViewDelegate?
 
-    open var isEnabled: Bool = true {
+    @objc open var isEnabled: Bool = true {
         didSet {
             updateBackgroundColor()
             updateLabelTextColor()
@@ -120,7 +151,7 @@ open class MSBadgeView: UIView {
         }
     }
 
-    open var isSelected: Bool = false {
+    @objc open var isSelected: Bool = false {
         didSet {
             updateBackgroundColor()
             updateLabelTextColor()
@@ -128,14 +159,14 @@ open class MSBadgeView: UIView {
         }
     }
 
-    open var minWidth: CGFloat = Constants.defaultMinWidth {
+    @objc open var minWidth: CGFloat = Constants.defaultMinWidth {
         didSet {
             setNeedsLayout()
         }
     }
 
     open override var intrinsicContentSize: CGSize {
-        return sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+        return sizeThatFits(CGSize(width: CGFloat.infinity, height: CGFloat.infinity))
     }
 
     private var badgeBackgroundColor: UIColor = MSColors.Badge.background {
@@ -154,7 +185,7 @@ open class MSBadgeView: UIView {
         }
     }
 
-    private var style: MSBadgeViewStyle = .default {
+    private var style: Style = .default {
         didSet {
             badgeBackgroundColor = MSBadgeView.backgroundColor(for: style, selected: false, enabled: true)
             badgeSelectedBackgroundColor = MSBadgeView.backgroundColor(for: style, selected: true, enabled: true)
@@ -163,6 +194,13 @@ open class MSBadgeView: UIView {
             textColor = MSBadgeView.textColor(for: style, selected: false, enabled: true)
             selectedTextColor = MSBadgeView.textColor(for: style, selected: true, enabled: true)
             disabledTextColor = MSBadgeView.textColor(for: style, selected: false, enabled: false)
+        }
+    }
+
+    private var size: Size = .medium {
+        didSet {
+            label.style = size.labelTextStyle
+            invalidateIntrinsicContentSize()
         }
     }
 
@@ -184,16 +222,15 @@ open class MSBadgeView: UIView {
 
     private let backgroundView = UIView()
 
-    private let label = UILabel()
+    private let label = MSLabel()
 
-    public init() {
+    public init(dataSource: MSBadgeViewDataSource) {
         super.init(frame: .zero)
 
-        backgroundView.layer.cornerRadius = Constants.backgroundViewCornerRadius
+        backgroundView.layer.cornerRadius = Constants.backgroundCornerRadius
         addSubview(backgroundView)
         updateBackgroundColor()
 
-        label.font = Constants.labelFont
         label.lineBreakMode = .byTruncatingMiddle
         label.textAlignment = .center
         label.backgroundColor = .clear
@@ -207,6 +244,12 @@ open class MSBadgeView: UIView {
         isAccessibilityElement = true
         accessibilityTraits = .button
         updateAccessibility()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(invalidateIntrinsicContentSize), name: UIContentSizeCategory.didChangeNotification, object: nil)
+
+        defer {
+            self.dataSource = dataSource
+        }
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -218,26 +261,27 @@ open class MSBadgeView: UIView {
         backgroundView.frame = bounds
 
         let labelHeight = label.font.deviceLineHeight
-        let labelSize = label.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+        let labelSize = label.sizeThatFits(CGSize(width: CGFloat.infinity, height: CGFloat.infinity))
         let fittingLabelWidth = UIScreen.main.roundToDevicePixels(labelSize.width)
-        let minLabelWidth = minWidth - 2 * Constants.paddingHorizontal
-        let maxLabelWidth = width - 2 * Constants.paddingHorizontal
+
+        let minLabelWidth = minWidth - size.horizontalPadding * 2
+        let maxLabelWidth = width - size.horizontalPadding * 2
         let labelWidth = max(minLabelWidth, min(maxLabelWidth, fittingLabelWidth))
-        label.frame = CGRect(x: Constants.paddingHorizontal, y: Constants.paddingVertical, width: labelWidth, height: labelHeight)
+        label.frame = CGRect(x: size.horizontalPadding, y: size.verticalPadding, width: labelWidth, height: labelHeight)
     }
 
     open func reload() {
         label.text = dataSource?.text
         style = dataSource?.style ?? .default
+        size = dataSource?.size ?? .medium
         setNeedsLayout()
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        let labelSize = label.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-        let fittingLabelWidth = UIScreen.main.roundToDevicePixels(labelSize.width)
-        let horizontalPadding = 2 * Constants.paddingHorizontal
-        let labelWidth = max(min(fittingLabelWidth, size.width), minWidth - horizontalPadding)
-        return CGSize(width: labelWidth + horizontalPadding, height: MSBadgeView.defaultHeight)
+        let labelSize = label.sizeThatFits(CGSize(width: CGFloat.infinity, height: CGFloat.infinity))
+        let width = UIScreen.main.roundToDevicePixels(labelSize.width) + self.size.horizontalPadding * 2
+        let maxWidth = size.width > 0 ? size.width : .infinity
+        return CGSize(width: max(minWidth, min(width, maxWidth)), height: self.size.height)
     }
 
     private func updateAccessibility() {

@@ -10,31 +10,26 @@ class MSBadgeViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        container.alignment = .leading
-
-        addTitle(text: "Default badge")
-        addBadge(text: "Kat Larrson", style: .default)
-        container.addArrangedSubview(UIView())
-
-        addTitle(text: "Error badge")
-        addBadge(text: "Allan Munger", style: .error)
-        container.addArrangedSubview(UIView())
-
-        addTitle(text: "Warning badge")
-        addBadge(text: "Mona Kane", style: .warning)
-        container.addArrangedSubview(UIView())
-
-        addTitle(text: "Disabled badge")
-        addBadge(text: "Mauricio August", style: .default, isEnabled: false)
+        addBadgeSection(title: "Default badge", style: .default)
+        addBadgeSection(title: "Error badge", style: .error)
+        addBadgeSection(title: "Warning badge", style: .warning)
+        addBadgeSection(title: "Disabled badge", style: .default, isEnabled: false)
     }
 
-    func addBadge(text: String, style: MSBadgeViewStyle, isEnabled: Bool = true) {
-        let data = MSBadgeViewDataSource(text: text, style: style)
-        let badge = MSBadgeView()
-        badge.dataSource = data
+    func createBadge(text: String, style: MSBadgeView.Style, size: MSBadgeView.Size, isEnabled: Bool) -> MSBadgeView {
+        let badge = MSBadgeView(dataSource: MSBadgeViewDataSource(text: text, style: style, size: size))
         badge.delegate = self
         badge.isEnabled = isEnabled
-        container.addArrangedSubview(badge)
+        return badge
+    }
+
+    func addBadgeSection(title: String, style: MSBadgeView.Style, isEnabled: Bool = true) {
+        addTitle(text: title)
+        for size in MSBadgeView.Size.allCases.reversed() {
+            let badge = createBadge(text: "Kat Larrson", style: style, size: size, isEnabled: isEnabled)
+            addRow(text: size.description, items: [badge])
+        }
+        container.addArrangedSubview(UIView())
     }
 }
 
@@ -47,5 +42,16 @@ extension MSBadgeViewDemoController: MSBadgeViewDelegate {
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
         present(alert, animated: true)
+    }
+}
+
+extension MSBadgeView.Size {
+    var description: String {
+        switch self {
+        case .small:
+            return "Small"
+        case .medium:
+            return "Medium"
+        }
     }
 }

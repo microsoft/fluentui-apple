@@ -618,8 +618,7 @@ open class MSBadgeField: UIView {
         if let badgeFromDelegate = delegate?.badgeField?(self, newBadgeForBadgeDataSource: dataSource) {
             badge = badgeFromDelegate
         } else {
-            badge = MSBadgeView()
-            badge.dataSource = dataSource
+            badge = MSBadgeView(dataSource: dataSource)
         }
 
         return badge
@@ -631,8 +630,7 @@ open class MSBadgeField: UIView {
         if let moreBadgeFromDelegate = delegate?.badgeField?(self, newMoreBadgeForBadgeDataSources: dataSources) {
             moreBadge = moreBadgeFromDelegate
         } else {
-            moreBadge = MSBadgeView()
-            moreBadge.dataSource = MSBadgeViewDataSource(text: "+\(dataSources.count)", style: .default)
+            moreBadge = MSBadgeView(dataSource: MSBadgeViewDataSource(text: "+\(dataSources.count)", style: .default))
         }
 
         return moreBadge

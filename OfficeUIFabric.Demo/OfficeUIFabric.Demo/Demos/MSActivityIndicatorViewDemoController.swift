@@ -10,7 +10,7 @@ class MSActivityIndicatorViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        for size in MSActivityIndicatorViewSize.allCases {
+        for size in MSActivityIndicatorViewSize.allCases.reversed() {
             let activityIndicatorView = MSActivityIndicatorView(size: size)
             activityIndicatorView.startAnimating()
             addRow(text: size.description, items: [activityIndicatorView])
