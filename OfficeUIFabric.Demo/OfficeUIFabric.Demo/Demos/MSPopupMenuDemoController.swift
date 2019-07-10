@@ -37,13 +37,20 @@ class MSPopupMenuDemoController: DemoController {
         container.addArrangedSubview(UIView())
     }
 
+    private func createAccessoryView(text: String) -> UIView {
+        let accessoryView = MSBadgeView(dataSource: MSBadgeViewDataSource(text: text, style: .default, size: .small))
+        accessoryView.isUserInteractionEnabled = false
+        accessoryView.sizeToFit()
+        return accessoryView
+    }
+
     @objc private func topBarButtonTapped(sender: UIBarButtonItem) {
         let controller = MSPopupMenuController(barButtonItem: sender, presentationDirection: .down)
 
         controller.addItems([
-            MSPopupMenuItem(imageName: "mail-unread-25x25", title: "Unread"),
-            MSPopupMenuItem(imageName: "flag-25x25", title: "Flagged"),
-            MSPopupMenuItem(imageName: "attach-25x25", title: "Attachments")
+            MSPopupMenuItem(image: UIImage(named: "mail-unread-25x25"), title: "Unread"),
+            MSPopupMenuItem(image: UIImage(named: "flag-25x25"), title: "Flagged", accessoryView: createAccessoryView(text: "New")),
+            MSPopupMenuItem(image: UIImage(named: "attach-25x25"), accessoryImage: UIImage(named: "gleam"), title: "Attachments")
         ])
 
         let originalTitle = sender.title

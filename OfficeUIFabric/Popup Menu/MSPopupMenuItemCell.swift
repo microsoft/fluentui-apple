@@ -23,11 +23,11 @@ class MSPopupMenuItemCell: MSTableViewCell {
 
     static func preferredWidth(for item: MSPopupMenuItem, preservingSpaceForImage preserveSpaceForImage: Bool) -> CGFloat {
         let imageViewSize: CustomViewSize = item.image != nil || preserveSpaceForImage ? Constants.imageViewSize : .zero
-        return preferredWidth(title: item.title, subtitle: item.subtitle ?? "", customViewSize: imageViewSize, accessoryType: .checkmark)
+        return preferredWidth(title: item.title, subtitle: item.subtitle ?? "", customViewSize: imageViewSize, customAccessoryView: item.accessoryView, accessoryType: .checkmark)
     }
 
     static func preferredHeight(for item: MSPopupMenuItem) -> CGFloat {
-        return height(title: item.title, subtitle: item.subtitle ?? "", customViewSize: Constants.imageViewSize, accessoryType: .checkmark)
+        return height(title: item.title, subtitle: item.subtitle ?? "", customViewSize: Constants.imageViewSize, customAccessoryView: item.accessoryView, accessoryType: .checkmark)
     }
 
     var isHeader: Bool = false {
@@ -75,7 +75,7 @@ class MSPopupMenuItemCell: MSTableViewCell {
         accessoryImageView.image = item.accessoryImage
         accessoryImageView.isHidden = _imageView.image == nil || accessoryImageView.image == nil
 
-        setup(title: item.title, subtitle: item.subtitle ?? "", customView: _imageView.image != nil ? _imageView : nil)
+        setup(title: item.title, subtitle: item.subtitle ?? "", customView: _imageView.image != nil ? _imageView : nil, customAccessoryView: item.accessoryView)
 
         updateViews()
 
@@ -165,6 +165,7 @@ class MSPopupMenuItemCell: MSTableViewCell {
             accessoryImageView.alpha = alpha
             titleLabel.alpha = alpha
             subtitleLabel.alpha = alpha
+            customAccessoryView?.alpha = alpha
 
             // Selection
             _imageView.isHighlighted = isSelected
