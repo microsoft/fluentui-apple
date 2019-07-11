@@ -647,7 +647,7 @@ open class MSBadgeField: UIView {
 
     private func deleteBadge(_ badge: MSBadgeView, fromUserAction: Bool, updateConstrainedBadges: Bool) {
         badge.removeFromSuperview()
-        badges.remove(at: badges.index(of: badge)!)
+        badges.remove(at: badges.firstIndex(of: badge)!)
 
         if updateConstrainedBadges {
             self.updateConstrainedBadges()
@@ -811,7 +811,7 @@ open class MSBadgeField: UIView {
         if element as? UILabel == labelView {
             return 0
         }
-        if let badge = element as? MSBadgeView, let index = badges.index(of: badge) {
+        if let badge = element as? MSBadgeView, let index = badges.firstIndex(of: badge) {
              return isIntroductionLabelAccessible() ? index + 1 : index
         }
         return accessibilityElementCount() - 1

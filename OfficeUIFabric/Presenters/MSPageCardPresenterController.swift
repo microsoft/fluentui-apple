@@ -198,7 +198,7 @@ open class MSPageCardPresenterController: UIViewController {
 
     private func updateViewAccessibilityElements() {
         let currentViewController = viewControllers[pageControl.currentPage]
-        view.accessibilityElements = [currentViewController.view, dismissView]
+        view.accessibilityElements = [currentViewController.view!, dismissView]
     }
 
     private func switchToNewViewControllerIfNeeded() {

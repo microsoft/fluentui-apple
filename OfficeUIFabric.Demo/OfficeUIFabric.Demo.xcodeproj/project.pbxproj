@@ -593,7 +593,7 @@
 				PROVISIONING_PROFILE = "4596e7d8-5232-4b9f-82bf-63883e38cd5c";
 				PROVISIONING_PROFILE_SPECIFIER = "Office Fabric Demo Dogfood Distribution";
 				SWIFT_OBJC_BRIDGING_HEADER = "OfficeUIFabric.Demo/OfficeUIFabric.Demo-Bridging-Header.h";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Dogfood;
@@ -735,7 +735,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "Office UI Fabric Demo Development";
 				SWIFT_OBJC_BRIDGING_HEADER = "OfficeUIFabric.Demo/OfficeUIFabric.Demo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -760,7 +760,7 @@
 				PROVISIONING_PROFILE = "63d62159-2691-4b44-9553-b668cc1746c1";
 				PROVISIONING_PROFILE_SPECIFIER = "Office UI Fabric Demo Development";
 				SWIFT_OBJC_BRIDGING_HEADER = "OfficeUIFabric.Demo/OfficeUIFabric.Demo-Bridging-Header.h";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

@@ -534,7 +534,7 @@ private class MSDateTimePickerViewWeekOfMonthDataSource: MSDateTimePickerViewDat
     }
 
     func indexPath(forItem item: Any) -> IndexPath? {
-        guard let weekOfMonth = item as? MSWeekOfMonth, let weekOfMonthIndex = weeksOfMonth.index(of: weekOfMonth) else {
+        guard let weekOfMonth = item as? MSWeekOfMonth, let weekOfMonthIndex = weeksOfMonth.firstIndex(of: weekOfMonth) else {
             return nil
         }
 
@@ -578,7 +578,7 @@ private class MSDateTimePickerViewDayOfWeekDataSource: MSDateTimePickerViewDataS
     }
 
     func indexPath(forItem item: Any) -> IndexPath? {
-        guard let item = item as? MSDayOfWeek, let index = weekdays.index(of: item) else {
+        guard let item = item as? MSDayOfWeek, let index = weekdays.firstIndex(of: item) else {
             return nil
         }
 

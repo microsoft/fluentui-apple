@@ -207,7 +207,7 @@ open class MSSegmentedControl: UIControl {
     }
 
     @objc private func handleButtonTap(_ sender: MSSegmentedControlButton) {
-        if let index = buttons.index(of: sender), selectedSegmentIndex != index {
+        if let index = buttons.firstIndex(of: sender), selectedSegmentIndex != index {
             selectSegment(at: index, animated: isAnimated)
             sendActions(for: .valueChanged)
         }
