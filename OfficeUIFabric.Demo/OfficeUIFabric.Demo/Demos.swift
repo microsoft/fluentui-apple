@@ -24,5 +24,6 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("MSTableViewCell", MSTableViewCellDemoController.self),
     ("MSTableViewHeaderFooterView", MSTableViewHeaderFooterViewDemoController.self),
     ("MSTooltip", MSTooltipDemoController.self),
-    ("Other cells", OtherCellsDemoController.self)
+    ("Other cells", OtherCellsDemoController.self),
+    ("DEBUG: Objective-C Demos", ObjectiveCDemoController.self)
 ]

@@ -35,7 +35,7 @@ public extension UIView {
         return (self as? UIScrollView)?.contentSize.width ?? bounds.width
     }
 
-    func fitIntoSuperview(usingConstraints: Bool = false, usingLeadingTrailing: Bool = true, margins: UIEdgeInsets = .zero, autoWidth: Bool = false, autoHeight: Bool = false) {
+    @objc func fitIntoSuperview(usingConstraints: Bool = false, usingLeadingTrailing: Bool = true, margins: UIEdgeInsets = .zero, autoWidth: Bool = false, autoHeight: Bool = false) {
         guard let superview = superview else {
             return
         }
@@ -66,6 +66,10 @@ public extension UIView {
             frame = superview.bounds.inset(by: margins)
             autoresizingMask = [.flexibleWidth, .flexibleHeight]
         }
+    }
+
+    @objc func fitIntoSuperview() {
+        fitIntoSuperview(usingConstraints: false, usingLeadingTrailing: true, margins: .zero, autoWidth: false, autoHeight: false)
     }
 
     func layer(withRoundedCorners corners: UIRectCorner, radius: CGFloat) -> CALayer {

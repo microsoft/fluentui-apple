@@ -40,6 +40,7 @@
 		FD7254ED21471A3F002F4069 /* MSDateTimePickerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7254EC21471A3F002F4069 /* MSDateTimePickerDemoController.swift */; };
 		FD7DF06221FB941500857267 /* MSTooltipDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF06121FB941400857267 /* MSTooltipDemoController.swift */; };
 		FDCF7C8321BF35680058E9E6 /* MSSegmentedControlDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCF7C8221BF35680058E9E6 /* MSSegmentedControlDemoController.swift */; };
+		FDDD73FD22C6D86B00A9D995 /* ObjectiveCDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDDD73FB22C6D86B00A9D995 /* ObjectiveCDemoController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -130,6 +131,9 @@
 		FD7254EC21471A3F002F4069 /* MSDateTimePickerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDateTimePickerDemoController.swift; sourceTree = "<group>"; };
 		FD7DF06121FB941400857267 /* MSTooltipDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTooltipDemoController.swift; sourceTree = "<group>"; };
 		FDCF7C8221BF35680058E9E6 /* MSSegmentedControlDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSSegmentedControlDemoController.swift; sourceTree = "<group>"; };
+		FDDD73FA22C6D86A00A9D995 /* OfficeUIFabric.Demo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OfficeUIFabric.Demo-Bridging-Header.h"; sourceTree = "<group>"; };
+		FDDD73FB22C6D86B00A9D995 /* ObjectiveCDemoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectiveCDemoController.m; sourceTree = "<group>"; };
+		FDDD73FC22C6D86B00A9D995 /* ObjectiveCDemoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectiveCDemoController.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +163,7 @@
 			isa = PBXGroup;
 			children = (
 				A5CEC21D20E436F20016922A /* Info.plist */,
+				FDDD73FA22C6D86A00A9D995 /* OfficeUIFabric.Demo-Bridging-Header.h */,
 			);
 			name = Configuration;
 			sourceTree = "<group>";
@@ -244,6 +249,8 @@
 				B498141521E42C140077B48D /* MSTableViewCellDemoController.swift */,
 				B4EF66532295F1A8007FEAB0 /* MSTableViewHeaderFooterViewDemoController.swift */,
 				FD7DF06121FB941400857267 /* MSTooltipDemoController.swift */,
+				FDDD73FC22C6D86B00A9D995 /* ObjectiveCDemoController.h */,
+				FDDD73FB22C6D86B00A9D995 /* ObjectiveCDemoController.m */,
 				B441478E228E02540040E88E /* OtherCellsDemoController.swift */,
 			);
 			path = Demos;
@@ -295,7 +302,7 @@
 				TargetAttributes = {
 					A5CEC20B20E436F10016922A = {
 						CreatedOnToolsVersion = 9.4.1;
-						LastSwiftMigration = 1010;
+						LastSwiftMigration = 1020;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 0;
@@ -428,6 +435,7 @@
 				B4D852DB225C010A004B1B29 /* MSButtonDemoController.swift in Sources */,
 				B4EF53C5215C45C400573E8F /* MSPersonaListViewDemoController.swift in Sources */,
 				A5DCA75E211E3A92005F4CB7 /* MSDrawerDemoController.swift in Sources */,
+				FDDD73FD22C6D86B00A9D995 /* ObjectiveCDemoController.m in Sources */,
 				B4414792228F6F740040E88E /* MSTableViewCellSampleData.swift in Sources */,
 				A5CEC21420E436F10016922A /* DetailViewController.swift in Sources */,
 				B4E8F65221CD9579008A1598 /* MSHUDDemoController.swift in Sources */,
@@ -571,6 +579,7 @@
 				APPCENTER_URL_SCHEME = "appcenter-$(APPCENTER_SECRET)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUNDLE_NAME = "UI Fabric";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 9KBH5RKYEW;
@@ -583,6 +592,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4596e7d8-5232-4b9f-82bf-63883e38cd5c";
 				PROVISIONING_PROFILE_SPECIFIER = "Office Fabric Demo Dogfood Distribution";
+				SWIFT_OBJC_BRIDGING_HEADER = "OfficeUIFabric.Demo/OfficeUIFabric.Demo-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -710,6 +720,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUNDLE_NAME = "UI Fabric DEV";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = UBF8T346G9;
@@ -722,6 +733,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "63d62159-2691-4b44-9553-b668cc1746c1";
 				PROVISIONING_PROFILE_SPECIFIER = "Office UI Fabric Demo Development";
+				SWIFT_OBJC_BRIDGING_HEADER = "OfficeUIFabric.Demo/OfficeUIFabric.Demo-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -733,6 +746,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUNDLE_NAME = "UI Fabric";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = UBF8T346G9;
@@ -745,6 +759,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "63d62159-2691-4b44-9553-b668cc1746c1";
 				PROVISIONING_PROFILE_SPECIFIER = "Office UI Fabric Demo Development";
+				SWIFT_OBJC_BRIDGING_HEADER = "OfficeUIFabric.Demo/OfficeUIFabric.Demo-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

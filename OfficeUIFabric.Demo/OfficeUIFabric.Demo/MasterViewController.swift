@@ -17,6 +17,14 @@ class MasterViewController: UITableViewController {
     }
     var demoPlaceholder: UIViewController?
 
+    let demos: [(title: String, controllerClass: UIViewController.Type)] = OfficeUIFabric_Demo.demos.filter { demo in
+        #if DEBUG
+        return true
+        #else
+        return !demo.title.hasPrefix("DEBUG")
+        #endif
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         let titleView = MSTwoLineTitleView()
