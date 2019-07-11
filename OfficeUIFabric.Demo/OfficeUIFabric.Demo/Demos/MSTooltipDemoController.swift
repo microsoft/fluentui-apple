@@ -14,15 +14,15 @@ class MSTooltipDemoController: DemoController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        titleView.setup(title: title ?? "")
+        titleView.setup(title: title ?? "", interactivePart: .title)
+        titleView.delegate = self
         navigationItem.titleView = titleView
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Show on title", style: .plain, target: self, action: #selector(showTitleTooltip))
 
         container.addArrangedSubview(createButton(title: "Show single-line tooltip below", action: #selector(showSingleTooltipBelow)))
-        container.addArrangedSubview(createButton(title: "Show single-line tooltip above", action: #selector(showSingleTooltipAbove)))
-        container.addArrangedSubview(createButton(title: "Show double-line tooltip below", action: #selector(showDoubleTooltipBelow)))
         container.addArrangedSubview(createButton(title: "Show double-line tooltip above", action: #selector(showDoubleTooltipAbove)))
-        container.addArrangedSubview(createButton(title: "Show with tap on tooltip dismiss mode", action: #selector(showTapOnToDismissTooltip)))
+        container.addArrangedSubview(createButton(title: "Show with tap on tooltip dismissal", action: #selector(showTooltipWithTapOnTooltipDismissal)))
+        container.addArrangedSubview(createButton(title: "Show with tap on tooltip or anchor dismissal", action: #selector(showTooltipWithTapOnTooltipOrAnchorDismissal)))
         container.addArrangedSubview(createLeftRightButtons())
 
         edgeCaseStackView = createEdgeCaseButtons()
@@ -99,20 +99,16 @@ class MSTooltipDemoController: DemoController {
         MSTooltip.shared.show(with: "This is pointing up.", for: sender, preferredArrowDirection: .up)
     }
 
-    @objc func showSingleTooltipAbove(sender: MSButton) {
-        MSTooltip.shared.show(with: "This is pointing down.", for: sender)
-    }
-
-    @objc func showDoubleTooltipBelow(sender: MSButton) {
-        MSTooltip.shared.show(with: "This is a very long message, and this is also pointing up.", for: sender, preferredArrowDirection: .up)
-    }
-
     @objc func showDoubleTooltipAbove(sender: MSButton) {
         MSTooltip.shared.show(with: "This is a very long message, and this is also pointing down.", for: sender)
     }
 
-    @objc func showTapOnToDismissTooltip(sender: MSButton) {
+    @objc func showTooltipWithTapOnTooltipDismissal(sender: MSButton) {
         MSTooltip.shared.show(with: "Tap on this tooltip to dismiss.", for: sender, preferredArrowDirection: .up, dismissOn: .tapOnTooltip)
+    }
+
+    @objc func showTooltipWithTapOnTooltipOrAnchorDismissal(sender: MSButton) {
+        MSTooltip.shared.show(with: "Tap on this tooltip or this title button to dismiss.", for: titleView, dismissOn: .tapOnTooltipOrAnchor)
     }
 
     @objc func showTooltipLeftArrow(sender: MSButton) {
@@ -148,5 +144,15 @@ class MSTooltipDemoController: DemoController {
 
     @objc func showBottomRightOffsetTooltip(sender: MSButton) {
         MSTooltip.shared.show(with: "This is an offset tooltip.", for: sender)
+    }
+}
+
+// MARK: - MSTooltipDemoController: MSTwoLineTitleViewDelegate
+
+extension MSTooltipDemoController: MSTwoLineTitleViewDelegate {
+    func twoLineTitleViewDidTapOnTitle(_ twoLineTitleView: MSTwoLineTitleView) {
+        let alert = UIAlertController(title: nil, message: "The title button was pressed", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
 }

@@ -45,6 +45,7 @@ open class MSTooltip: NSObject {
     @objc public enum DismissMode: Int {
         case tapAnywhere
         case tapOnTooltip
+        case tapOnTooltipOrAnchor
     }
 
     @objc public static let shared = MSTooltip()
@@ -99,11 +100,17 @@ open class MSTooltip: NSObject {
             gestureView.onTouches = { _ in
                 self.handleTapGesture()
             }
-        case .tapOnTooltip:
+        case .tapOnTooltip, .tapOnTooltipOrAnchor:
             window.addSubview(gestureView)
             window.addSubview(tooltipView)
             gestureView.forwardsTouches = false
             tooltipView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGesture)))
+            if self.dismissMode == .tapOnTooltipOrAnchor {
+                gestureView.passthroughView = anchorView
+                gestureView.onPassthroughViewTouches = { _ in
+                    self.handleTapGesture()
+                }
+            }
         }
 
         // Layout tooltip
