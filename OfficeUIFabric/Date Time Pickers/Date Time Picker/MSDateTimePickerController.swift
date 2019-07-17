@@ -142,7 +142,7 @@ class MSDateTimePickerController: UIViewController, DateTimePicker {
                       customEndTabTitle ?? "MSDateTimePicker.EndTime".localized]
         } else {
             titles = [customStartTabTitle ?? "MSDateTimePicker.StartDate".localized,
-                      customEndTabTitle ?? "MSDateTimePicker.EndDate"]
+                      customEndTabTitle ?? "MSDateTimePicker.EndDate".localized]
         }
         segmentedControl = MSSegmentedControl(items: titles)
         segmentedControl?.addTarget(self, action: #selector(handleDidSelectStartEnd(_:)), for: .valueChanged)
