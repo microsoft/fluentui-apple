@@ -9,14 +9,8 @@ import UIKit
 
 /// A styled tooltip that is presented anchored to a view.
 open class MSTooltip: NSObject {
-    private struct Constants {
-        static let animationDuration: TimeInterval = 0.1
-        static let defaultMargin: CGFloat = 16.0
-    }
-
-    @objc public static let defaultScreenMargins = UIEdgeInsets(top: Constants.defaultMargin, left: Constants.defaultMargin, bottom: Constants.defaultMargin, right: Constants.defaultMargin)
-
-    @objc public enum ArrowDirection: Int {
+    @objc(MSTooltipArrowDirection)
+    public enum ArrowDirection: Int {
         case up, down, left, right
 
         var isVertical: Bool {
@@ -42,11 +36,19 @@ open class MSTooltip: NSObject {
         }
     }
 
-    @objc public enum DismissMode: Int {
+    @objc(MSTooltipDismissMode)
+    public enum DismissMode: Int {
         case tapAnywhere
         case tapOnTooltip
         case tapOnTooltipOrAnchor
     }
+
+    private struct Constants {
+        static let animationDuration: TimeInterval = 0.1
+        static let defaultMargin: CGFloat = 16.0
+    }
+
+    @objc public static let defaultScreenMargins = UIEdgeInsets(top: Constants.defaultMargin, left: Constants.defaultMargin, bottom: Constants.defaultMargin, right: Constants.defaultMargin)
 
     @objc public static let shared = MSTooltip()
 

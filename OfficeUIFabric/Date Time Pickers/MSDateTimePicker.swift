@@ -30,11 +30,6 @@ import UIKit
 
 /// Manages the presentation and coordination of different date and time pickers
 public class MSDateTimePicker: NSObject {
-    private struct Constants {
-        static let defaultDateDaysRange: Int = 1
-        static let defaultDateTimeHoursRange: Int = 1
-    }
-
     @objc(MSDateTimePickerDateRangePresentation)
     public enum DateRangePresentation: Int {
         case paged
@@ -70,6 +65,11 @@ public class MSDateTimePicker: NSObject {
         public var dateSubtitle: String?
         public var dateTimeTitle: String?
         public var dateTimeSubtitle: String?
+    }
+
+    private struct Constants {
+        static let defaultDateDaysRange: Int = 1
+        static let defaultDateTimeHoursRange: Int = 1
     }
 
     public private(set) var mode: MSDateTimePickerMode?
