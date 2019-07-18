@@ -90,8 +90,7 @@ class MSTooltipView: UIView {
         addSubview(messageLabel)
 
         // Shadow
-        layer.shadowColor = MSColors.Tooltip.shadow.cgColor
-        layer.shadowOpacity = 1.0 // Using opacity from color
+        layer.shadowOpacity = Constants.shadowOpacity
         layer.shadowRadius = Constants.shadowRadius
         layer.shadowOffset = CGSize(width: 0.0, height: Constants.shadowOffset)
     }

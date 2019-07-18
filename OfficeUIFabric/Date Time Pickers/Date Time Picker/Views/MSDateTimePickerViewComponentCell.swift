@@ -34,6 +34,8 @@ class MSDateTimePickerViewComponentCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
 
+        backgroundColor = nil
+
         textLabel?.textAlignment = .center
         textLabel?.font = Constants.normalFont
         textLabel?.textColor = Constants.normalTextColor

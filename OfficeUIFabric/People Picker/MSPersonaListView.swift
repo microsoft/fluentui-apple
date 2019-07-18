@@ -69,7 +69,7 @@ open class MSPersonaListView: UITableView {
     @objc override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
 
-        backgroundColor = MSColors.background
+        backgroundColor = MSColors.Table.background
         separatorStyle = .none
         tableFooterView = UIView(frame: .zero)
 

@@ -38,6 +38,7 @@ class MSDateTimePickerViewComponentTableView: UITableView {
     init() {
         super.init(frame: .zero, style: .plain)
 
+        backgroundColor = nil
         separatorInset = UIEdgeInsets.zero
         separatorStyle = .none
         showsVerticalScrollIndicator = false

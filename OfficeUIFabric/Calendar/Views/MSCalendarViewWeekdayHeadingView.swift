@@ -10,16 +10,10 @@ import UIKit
 class MSCalendarViewWeekdayHeadingView: UIView {
     private struct Constants {
         struct Light {
-            static let regularTextColor: UIColor = MSColors.gray
-            static let weekendTextColor: UIColor = MSColors.lightGray
-            static let backgroundColor: UIColor = MSColors.background
             static let regularHeight: CGFloat = 26.0
         }
 
         struct Dark {
-            static let regularTextColor: UIColor = MSColors.white
-            static let weekendTextColor: UIColor = MSColors.white.withAlphaComponent(0.7)
-            static let backgroundColor: UIColor = MSColors.primary
             static let paddingTop: CGFloat = 12.0
             static let compactHeight: CGFloat = 26.0
             static let regularHeight: CGFloat = 48.0
@@ -36,7 +30,7 @@ class MSCalendarViewWeekdayHeadingView: UIView {
 
         super.init(frame: .zero)
 
-        backgroundColor = headerStyle == .dark ? Constants.Dark.backgroundColor : Constants.Light.backgroundColor
+        backgroundColor = headerStyle == .dark ? MSColors.Calendar.WeekdayHeading.Dark.background : MSColors.Calendar.WeekdayHeading.Light.background
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -99,10 +93,10 @@ class MSCalendarViewWeekdayHeadingView: UIView {
 
             switch headerStyle {
             case .light:
-                label.textColor = (index == 0 || index == 6) ? Constants.Light.weekendTextColor : Constants.Light.regularTextColor
+                label.textColor = (index == 0 || index == 6) ? MSColors.Calendar.WeekdayHeading.Light.textWeekend : MSColors.Calendar.WeekdayHeading.Light.textRegular
 
             case .dark:
-                label.textColor = (index == 0 || index == 6) ? Constants.Dark.weekendTextColor : Constants.Dark.regularTextColor
+                label.textColor = (index == 0 || index == 6) ? MSColors.Calendar.WeekdayHeading.Dark.textWeekend : MSColors.Calendar.WeekdayHeading.Dark.textRegular
             }
 
             headingLabels.append(label)

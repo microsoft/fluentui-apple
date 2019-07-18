@@ -8,21 +8,16 @@ import UIKit
 // MARK: MSBlurringView
 
 open class MSBlurringView: UIView {
-    public struct Constants {
-        public static let defaultBackgroundColor: UIColor = MSColors.white
-        public static let defaultBackgroundAlpha: CGFloat = 0.9
-    }
-
     private let blurEffect: UIBlurEffect
     private let blurVisualEffectView: UIVisualEffectView
     private let backgroundView: UIView
 
-    public init(style: UIBlurEffect.Style, backgroundColor: UIColor = Constants.defaultBackgroundColor, backgroundAlpha: CGFloat = Constants.defaultBackgroundAlpha) {
+    @objc public init(style: UIBlurEffect.Style, backgroundColor: UIColor? = nil) {
         blurEffect = UIBlurEffect(style: style)
         blurVisualEffectView = UIVisualEffectView(effect: blurEffect)
 
         backgroundView = UIView()
-        backgroundView.backgroundColor = backgroundColor.withAlphaComponent(backgroundAlpha)
+        backgroundView.backgroundColor = backgroundColor
 
         super.init(frame: .zero)
 
@@ -43,10 +38,9 @@ open class MSBlurringView: UIView {
         backgroundView.frame = bounds
     }
 
-    public func updateBackground(backgroundColor: UIColor, backgroundAlpha: CGFloat) {
-        backgroundView.backgroundColor = backgroundColor.withAlphaComponent(backgroundAlpha)
+    @objc public func updateBackground(backgroundColor: UIColor?) {
+        backgroundView.backgroundColor = backgroundColor
     }
-
 }
 
 // MARK: - MSBlurringView: Obscurable

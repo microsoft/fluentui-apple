@@ -18,12 +18,12 @@ public class OfficeUIFabricFramework: NSObject {
         // UINavigationBar
         let navigationBar = UINavigationBar.appearance()
         navigationBar.isTranslucent = false
-        navigationBar.barTintColor = MSColors.background
-        navigationBar.tintColor = MSColors.primary
+        navigationBar.barTintColor = MSColors.NavigationBar.background
+        navigationBar.tintColor = MSColors.NavigationBar.tint
 
         var titleAttributes = navigationBar.titleTextAttributes ?? [:]
         titleAttributes[.font] = MSFonts.headlineUnscaled
-        titleAttributes[.foregroundColor] = MSColors.primary
+        titleAttributes[.foregroundColor] = MSColors.NavigationBar.title
         navigationBar.titleTextAttributes = titleAttributes
 
         navigationBar.backIndicatorImage = UIImage.staticImageNamed("back-25x25")
@@ -32,8 +32,8 @@ public class OfficeUIFabricFramework: NSObject {
         // UIToolbar
         let toolbar = UIToolbar.appearance()
         toolbar.isTranslucent = false
-        toolbar.barTintColor = MSColors.background
-        toolbar.tintColor = MSColors.primary
+        toolbar.barTintColor = MSColors.Toolbar.background
+        toolbar.tintColor = MSColors.Toolbar.tint
 
         // UIBarButtonItem
         let barButtonItem = UIBarButtonItem.appearance()
@@ -45,6 +45,6 @@ public class OfficeUIFabricFramework: NSObject {
     }
 
     static func initializeUISwitchAppearance(_ `switch`: UISwitch) {
-        `switch`.onTintColor = MSColors.switchOnTint
+        `switch`.onTintColor = MSColors.Switch.onTint
     }
 }

@@ -155,7 +155,6 @@ class MSDatePickerController: UIViewController, DateTimePicker {
 
         calendarView.collectionViewLayout.delegate = self
 
-        view.backgroundColor = MSColors.background
         if let segmentedControl = segmentedControl {
             view.addSubview(segmentedControl)
         }

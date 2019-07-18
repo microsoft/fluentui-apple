@@ -149,7 +149,7 @@ private class MSHUDIndicatorView: UIView {
         switch type {
         case .activity:
             let activityIndicatorView = MSActivityIndicatorView(size: .xLarge)
-            activityIndicatorView.color = MSColors.HUD.activityIndicatorView
+            activityIndicatorView.color = MSColors.HUD.activityIndicator
             activityIndicatorView.startAnimating()
             return activityIndicatorView
         case .success:

@@ -21,7 +21,7 @@ open class MSCenteredLabelCell: UITableViewCell {
         let label = UILabel()
         label.backgroundColor = .clear
         label.font = Constants.labelFont
-        label.textColor = MSColors.centeredLabelText
+        label.textColor = MSColors.Table.CenteredLabelCell.text
         return label
     }()
 

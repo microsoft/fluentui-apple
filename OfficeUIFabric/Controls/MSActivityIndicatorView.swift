@@ -73,7 +73,7 @@ open class MSActivityIndicatorView: UIView {
     }
 
     open var hidesWhenStopped: Bool = true
-    open var color: UIColor = MSColors.activityIndicator {
+    open var color: UIColor = MSColors.ActivityIndicator.foreground {
         didSet {
             setupLoaderLayer()
         }

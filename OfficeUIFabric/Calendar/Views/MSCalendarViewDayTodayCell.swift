@@ -36,28 +36,28 @@ class MSCalendarViewDayTodayCell: MSCalendarViewDayCell {
         if isHighlighted || isSelected {
             switch backgroundStyle {
             case .primary:
-                contentView.backgroundColor = MSColors.CalendarView.DayCell.backgroundColorPrimary
+                contentView.backgroundColor = MSColors.Calendar.Day.backgroundPrimary
             case .secondary:
-                contentView.backgroundColor = MSColors.CalendarView.DayCell.backgroundColorSecondary
+                contentView.backgroundColor = MSColors.Calendar.Day.backgroundSecondary
             }
         } else {
-            contentView.backgroundColor = MSColors.CalendarView.TodayCell.background
+            contentView.backgroundColor = MSColors.Calendar.Today.background
         }
     }
 
     private func configureFontColor() {
         if isHighlighted || isSelected {
             dateLabel.font = MSFonts.body
-            dateLabel.textColor = MSColors.background
+            dateLabel.textColor = MSColors.Calendar.Day.textSelected
         } else {
             dateLabel.font = MSFonts.headline
             switch textStyle {
             case .primary:
-                dateLabel.textColor = MSColors.CalendarView.DayCell.textColorPrimary
-                dotView.color = MSColors.CalendarView.DayCell.textColorPrimary
+                dateLabel.textColor = MSColors.Calendar.Day.textPrimary
+                dotView.color = MSColors.Calendar.Day.textPrimary
             case .secondary:
-                dateLabel.textColor = MSColors.CalendarView.DayCell.textColorSecondary
-                dotView.color = MSColors.CalendarView.DayCell.textColorSecondary
+                dateLabel.textColor = MSColors.Calendar.Day.textSecondary
+                dotView.color = MSColors.Calendar.Day.textSecondary
             }
         }
     }

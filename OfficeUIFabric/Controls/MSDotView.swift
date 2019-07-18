@@ -6,7 +6,7 @@
 import UIKit
 
 open class MSDotView: UIView {
-    @objc open var color: UIColor? = MSColors.black {
+    @objc open var color: UIColor? {
         didSet {
             if oldValue != color {
                 setNeedsDisplay()
@@ -16,7 +16,6 @@ open class MSDotView: UIView {
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
-
         backgroundColor = .clear
     }
 
@@ -25,12 +24,10 @@ open class MSDotView: UIView {
     }
 
     open override func draw(_ rect: CGRect) {
-
         guard let context = UIGraphicsGetCurrentContext() else {
             return
         }
-
-        (color ?? UIColor.clear).set()
+        (color ?? .clear).set()
         context.addEllipse(in: bounds)
         context.fillPath()
     }

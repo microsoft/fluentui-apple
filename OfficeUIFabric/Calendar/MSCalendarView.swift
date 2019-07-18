@@ -34,7 +34,7 @@ class MSCalendarView: UIView {
         collectionViewLayout = MSCalendarViewLayout()
 
         collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: collectionViewLayout)
-        collectionView.backgroundColor = MSColors.background
+        collectionView.backgroundColor = MSColors.Calendar.background
         collectionView.showsVerticalScrollIndicator = false
         collectionView.scrollsToTop = false
         // Enable multiple selection to allow for one cell to be selected and another cell to be highlighted simultaneously

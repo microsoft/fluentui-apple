@@ -169,8 +169,8 @@ class MSPopupMenuItemCell: MSTableViewCell {
 
             // Selection
             _imageView.isHighlighted = isSelected
-            titleLabel.textColor = isSelected ? MSColors.PopupMenu.Item.titleSelected : MSColors.TableViewCell.title
-            subtitleLabel.textColor = isSelected ? MSColors.PopupMenu.Item.subtitleSelected : MSColors.TableViewCell.subtitle
+            titleLabel.textColor = isSelected ? MSColors.PopupMenu.Item.titleSelected : MSColors.Table.Cell.title
+            subtitleLabel.textColor = isSelected ? MSColors.PopupMenu.Item.subtitleSelected : MSColors.Table.Cell.subtitle
         }
         _accessoryType = isSelected ? .checkmark : .none
     }

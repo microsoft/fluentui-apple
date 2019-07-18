@@ -112,7 +112,6 @@ class MSDateTimePickerController: UIViewController, DateTimePicker {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = MSColors.background
 
         if let segmentedControl = segmentedControl {
             view.addSubview(segmentedControl)

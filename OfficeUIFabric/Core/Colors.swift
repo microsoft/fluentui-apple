@@ -13,6 +13,7 @@ public final class MSColors: NSObject {
 
     /// #0078D4
     public static var primary: UIColor = #colorLiteral(red: 0, green: 0.4705882353, blue: 0.831372549, alpha: 1)
+    public static var foregroundOnPrimary: UIColor = white
     /// #E1EFFA
     public static var lightPrimary: UIColor = #colorLiteral(red: 0.8823529412, green: 0.937254902, blue: 0.9803921569, alpha: 1)
     /// #F5FAFD - Primary with 4% opacity
@@ -42,6 +43,8 @@ public final class MSColors: NSObject {
     /// #222222
     public static var black: UIColor = #colorLiteral(red: 0.1333333333, green: 0.1333333333, blue: 0.1333333333, alpha: 1)
 
+    // TODO: decide if error and warning colors need to be split into semantic/physical sets
+
     /// #E8484C
     public static var error: UIColor = #colorLiteral(red: 0.9098039216, green: 0.2823529412, blue: 0.2980392157, alpha: 1)
     /// #FFF3F4
@@ -51,8 +54,6 @@ public final class MSColors: NSObject {
     public static var warning: UIColor = #colorLiteral(red: 0.3411764706, green: 0.262745098, blue: 0.01960784314, alpha: 1)
     /// #E2DDCC
     public static var lightWarning: UIColor = #colorLiteral(red: 0.8862745098, green: 0.8666666667, blue: 0.8, alpha: 1)
-
-    // MARK: Avatar background colors
 
     public static var avatarBackgroundColors: [UIColor] = [
         #colorLiteral(red: 0.4588235294, green: 0.0431372549, blue: 0.1098039216, alpha: 1), // #750B1C
@@ -75,20 +76,26 @@ public final class MSColors: NSObject {
         #colorLiteral(red: 0.4117647059, green: 0.4745098039, blue: 0.4941176471, alpha: 1)  // #69797E
     ]
 
-    // MARK: Semantic
+    // MARK: Base semantic
 
-    public static var background: UIColor = white
+    public static var background1: UIColor = white
+    public static var background2: UIColor = backgroundLightGray
+    public static var background3: UIColor = backgroundGray
+    public static var background4: UIColor = gray
+    public static var background5: UIColor = black
     public static var disabled: UIColor = borderLightGray
-    public static var foregroundRegular: UIColor = black
-    public static var foregroundSecondary: UIColor = gray
+    public static var foreground1: UIColor = black
+    public static var foreground2: UIColor = darkGray
+    public static var foreground3: UIColor = gray
+    public static var foreground4: UIColor = lightGray
+    public static var foreground5: UIColor = borderLightGray
+    public static var foreground6: UIColor = white
     public static var selected: UIColor = primary
+    public static var foregroundOnSelected: UIColor = foregroundOnPrimary
+
+    // MARK: Final semantic
 
     // Add semantic colors describing colors used for particular control elements
-
-    public static var activityIndicator: UIColor = lightGray
-    public static var centeredLabelText: UIColor = primary
-    public static var separator: UIColor = borderLightGray
-    public static var switchOnTint: UIColor = primary
 
     public struct Action {
         public static var text: UIColor = primary
@@ -97,30 +104,36 @@ public final class MSColors: NSObject {
         public static var textDestructiveHighlighted: UIColor = error.withAlphaComponent(0.4)
     }
 
+    public struct ActivityIndicator {
+        public static var foreground: UIColor = foreground4
+    }
+
     public struct Avatar {
+        // Should use physical color because this text is shown on physical avatar background
         public static var text: UIColor = white
     }
 
     public struct Badge {
         public static var background: UIColor = primary.withAlphaComponent(0.24)
-        public static var backgroundDisabled: UIColor = backgroundLightGray
+        public static var backgroundDisabled: UIColor = background2
         public static var backgroundError: UIColor = lightError
         public static var backgroundErrorSelected: UIColor = error
         public static var backgroundSelected: UIColor = selected
         public static var backgroundWarning: UIColor = lightWarning
         public static var backgroundWarningSelected: UIColor = warning
         public static var text: UIColor = primary
-        public static var textDisabled: UIColor = darkGray
+        public static var textDisabled: UIColor = foreground2
         public static var textError: UIColor = error
         public static var textErrorSelected: UIColor = lightError
-        public static var textSelected: UIColor = white
+        public static var textSelected: UIColor = foregroundOnSelected
         public static var textWarning: UIColor = warning
         public static var textWarningSelected: UIColor = lightWarning
     }
 
     public struct BadgeField {
-        public static var label: UIColor = gray
-        public static var placeholder: UIColor = lightGray
+        public static var background: UIColor = background1
+        public static var label: UIColor = foreground3
+        public static var placeholder: UIColor = foreground4
     }
 
     public struct Button {
@@ -132,97 +145,141 @@ public final class MSColors: NSObject {
         public static var borderDisabled: UIColor = disabled
         public static var borderHighlighted: UIColor = primary.withAlphaComponent(0.08)
         public static var title: UIColor = primary
-        public static var titleDisabled: UIColor = borderGray
+        public static var titleDisabled: UIColor = foreground4
         public static var titleHighlighted: UIColor = primary.withAlphaComponent(0.4)
-        public static var titleWithFilledBackground: UIColor = white
+        public static var titleWithFilledBackground: UIColor = foregroundOnPrimary
     }
 
-    public struct CalendarView {
-        public struct TodayCell {
-            public static var background: UIColor = MSColors.background
-        }
-        public struct DayCell {
+    public struct Calendar {
+        public struct Day {
             // TODO: Readd availability colors?
-            public static var textColorPrimary: UIColor = darkGray
-            public static var textColorSecondary: UIColor = black
-            public static var backgroundColorPrimary: UIColor = background
-            public static var backgroundColorSecondary: UIColor = backgroundLightGray
-            public static var todayTextColorNormal: UIColor = selected
-            public static var todayTextColorEmphasized: UIColor = black
-            public static var normalTextColor: UIColor = gray
-            public static var highlightedCircleColor: UIColor = gray
-            public static var selectedCircleNormalColor: UIColor = selected
+            public static var textPrimary: UIColor = foreground2
+            public static var textSecondary: UIColor = foreground1
+            public static var textSelected: UIColor = foregroundOnSelected
+            public static var backgroundPrimary: UIColor = background1
+            public static var backgroundSecondary: UIColor = background2
+            public static var circleHighlighted: UIColor = background4
+            public static var circleSelected: UIColor = selected
         }
+        public struct Today {
+            public static var background: UIColor = background1
+        }
+        public struct WeekdayHeading {
+            public struct Light {
+                public static var textRegular: UIColor = foreground3
+                public static var textWeekend: UIColor = foreground4
+                public static var background: UIColor = background1
+            }
+            public struct Dark {
+                public static var textRegular: UIColor = foregroundOnPrimary
+                public static var textWeekend: UIColor = foregroundOnPrimary.withAlphaComponent(0.7)
+                public static var background: UIColor = primary
+            }
+        }
+        public static var background: UIColor = background1
     }
 
     public struct DateTimePicker {
-        public static var text: UIColor = gray
+        public static var background: UIColor = background1
+        public static var text: UIColor = foreground3
         public static var textEmphasized: UIColor = selected
     }
 
+    public struct Drawer {
+        public static var background: UIColor = background1
+    }
+
     public struct HUD {
-        public static var activityIndicatorView: UIColor = white
-        public static var background: UIColor = black.withAlphaComponent(0.9)
-        public static var text: UIColor = white
+        public static var activityIndicator: UIColor = foreground6
+        public static var background: UIColor = background5.withAlphaComponent(0.9)
+        public static var text: UIColor = foreground6
+    }
+
+    public struct NavigationBar {
+        public static var background: UIColor = background1
+        public static var tint: UIColor = primary
+        public static var title: UIColor = primary
     }
 
     public struct PageCardPresenter {
-        public static var currentPageIndicatorTintColor: UIColor = white
-        public static var pageIndicatorTintColor: UIColor = white.withAlphaComponent(0.5)
+        // Should use physical color because page indicators are shown on physical blurred dark background
+        public static var currentPageIndicator: UIColor = white
+        public static var pageIndicator: UIColor = white.withAlphaComponent(0.5)
     }
 
     public struct PopupMenu {
         public struct Item {
-            public static var image: UIColor = foregroundSecondary
+            public static var image: UIColor = foreground3
             public static var imageSelected: UIColor = selected
             public static var titleSelected: UIColor = selected
             public static var titleDisabled: UIColor = disabled
             public static var subtitleSelected: UIColor = selected
             public static var subtitleDisabled: UIColor = disabled
         }
-        public static var sectionHeader: UIColor = darkGray
     }
 
     public struct ResizingHandle {
-        public static var background: UIColor = MSColors.background
-        public static var mark: UIColor = borderLightGray
+        public static var background: UIColor = background1
+        public static var mark: UIColor = foreground5
     }
 
     public struct SegmentedControl {
-        public static var buttonTextNormal: UIColor = foregroundRegular
+        public static var background: UIColor = background1
+        public static var buttonTextNormal: UIColor = foreground1
         public static var buttonTextSelected: UIColor = selected
+        public static var buttonTextDisabled: UIColor = foreground4
+        public static var buttonTextSelectedAndDisabled: UIColor = foreground2
         public static var selectionBarNormal: UIColor = selected
-        public static var selectionBarDisabled: UIColor = gray
+        public static var selectionBarDisabled: UIColor = background4
     }
 
-    public struct TableViewCell {
-        public static var background: UIColor = MSColors.background
-        public static var backgroundSelected: UIColor = backgroundGray
-        public static var checkmark: UIColor = selected
-        public static var title: UIColor = foregroundRegular
-        public static var subtitle: UIColor = foregroundSecondary
-        public static var footer: UIColor = foregroundSecondary
+    public struct Separator {
+        public static var `default`: UIColor = foreground5
+        // Matches shadow used in UINavigationBar
+        public static var shadow = UIColor.black.withAlphaComponent(0.3)
     }
 
-    public struct TableViewHeaderFooterView {
-        public static var background: UIColor = MSColors.background
-        public static var backgroundDivider: UIColor = backgroundLightGray
-        public static var backgroundDividerHighlighted: UIColor = extraLightPrimary
-        public static var text: UIColor = foregroundSecondary
-        public static var textHighlighted: UIColor = primary
+    public struct Switch {
+        public static var onTint: UIColor = primary
+    }
+
+    public struct Table {
+        public struct Cell {
+            public static var background: UIColor = background1
+            public static var backgroundSelected: UIColor = background3
+            public static var checkmark: UIColor = selected
+            public static var title: UIColor = foreground1
+            public static var subtitle: UIColor = foreground3
+            public static var footer: UIColor = foreground3
+        }
+        public struct CenteredLabelCell {
+            public static var text: UIColor = primary
+        }
+        public struct HeaderFooter {
+            public static var background: UIColor = background1
+            public static var backgroundDivider: UIColor = background2
+            public static var backgroundDividerHighlighted: UIColor = extraLightPrimary
+            public static var text: UIColor = foreground3
+            public static var textHighlighted: UIColor = primary
+        }
+        public static var background: UIColor = background1
+    }
+
+    public struct Toolbar {
+        public static var background: UIColor = background1
+        public static var tint: UIColor = primary
     }
 
     public struct Tooltip {
-        public static var background: UIColor = black.withAlphaComponent(0.95)
-        public static var text: UIColor = white
-        public static var shadow = UIColor.black.withAlphaComponent(0.24)
+        public static var background: UIColor = background5.withAlphaComponent(0.95)
+        public static var text: UIColor = foreground6
     }
 
-    public struct TwoLineTitleView {
+    public struct TwoLineTitle {
         public static var titleDark: UIColor = primary
-        public static var titleLight: UIColor = white
-        public static var subtitleDark: UIColor = gray
-        public static var subtitleLight: UIColor = white.withAlphaComponent(0.8)
+        public static var titleLight: UIColor = foreground6
+        public static var subtitleDark: UIColor = foreground3
+        public static var subtitleLight: UIColor = foreground6.withAlphaComponent(0.8)
     }
 
     private override init() {
@@ -244,9 +301,9 @@ public final class MSColors: NSObject {
     public var color: UIColor {
         switch self {
         case .regular:
-            return MSColors.foregroundRegular
+            return MSColors.foreground1
         case .secondary:
-            return MSColors.foregroundSecondary
+            return MSColors.foreground3
         case .white:
             return MSColors.white
         case .primary:

@@ -28,7 +28,7 @@ class MSCalendarViewDayMonthYearCell: MSCalendarViewDayMonthCell {
         yearLabel = UILabel(frame: .zero)
         yearLabel.font = MSFonts.caption1
         yearLabel.textAlignment = .center
-        yearLabel.textColor = MSColors.CalendarView.DayCell.textColorPrimary
+        yearLabel.textColor = MSColors.Calendar.Day.textPrimary
 
         super.init(frame: frame)
 
@@ -53,9 +53,9 @@ class MSCalendarViewDayMonthYearCell: MSCalendarViewDayMonthCell {
 
         switch textStyle {
         case .primary:
-            yearLabel.textColor = MSColors.CalendarView.DayCell.textColorPrimary
+            yearLabel.textColor = MSColors.Calendar.Day.textPrimary
         case .secondary:
-            yearLabel.textColor = MSColors.CalendarView.DayCell.textColorSecondary
+            yearLabel.textColor = MSColors.Calendar.Day.textSecondary
         }
 
         yearLabel.text = yearLabelText

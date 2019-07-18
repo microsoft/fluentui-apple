@@ -14,7 +14,7 @@ class MSTableViewHeaderFooterViewDemoController: DemoController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = MSColors.backgroundLightGray
+        view.backgroundColor = MSColors.background2
 
         let groupedTitle = TableViewHeaderFooterSampleData.groupedTitle
         let plainTitle = TableViewHeaderFooterSampleData.plainTitle
@@ -41,7 +41,7 @@ class MSTableViewHeaderFooterViewDemoController: DemoController {
         tableView.register(MSTableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: MSTableViewHeaderFooterView.identifier)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = MSColors.background
+        tableView.backgroundColor = MSColors.Table.background
         tableView.separatorStyle = .none
         return tableView
     }

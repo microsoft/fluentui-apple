@@ -17,7 +17,7 @@ class MSCollectionViewHeaderFooterViewDemoController: DemoController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = MSColors.backgroundLightGray
+        view.backgroundColor = MSColors.background2
 
         let groupedTitle = TableViewHeaderFooterSampleData.groupedTitle
         let plainTitle = TableViewHeaderFooterSampleData.plainTitle
@@ -63,7 +63,7 @@ class MSCollectionViewHeaderFooterViewDemoController: DemoController {
         collectionView.register(MSCollectionViewHeaderFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: MSCollectionViewHeaderFooterView.identifier)
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.backgroundColor = MSColors.background
+        collectionView.backgroundColor = MSColors.Table.background
         return collectionView
     }
 

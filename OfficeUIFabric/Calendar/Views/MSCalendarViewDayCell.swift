@@ -95,10 +95,10 @@ class MSCalendarViewDayCell: UICollectionViewCell {
         dateLabel = UILabel(frame: .zero)
         dateLabel.font = MSFonts.body
         dateLabel.textAlignment = .center
-        dateLabel.textColor = MSColors.CalendarView.DayCell.textColorPrimary
+        dateLabel.textColor = MSColors.Calendar.Day.textPrimary
 
         dotView = MSDotView()
-        dotView.color = MSColors.CalendarView.DayCell.textColorPrimary
+        dotView.color = MSColors.Calendar.Day.textPrimary
         dotView.alpha = 0.0  // Initial `visualState` is `.Normal` without dots
         dotView.isUserInteractionEnabled = false
 
@@ -185,21 +185,21 @@ class MSCalendarViewDayCell: UICollectionViewCell {
     private func updateViews() {
         switch textStyle {
         case .primary:
-            dateLabel.textColor = MSColors.CalendarView.DayCell.textColorPrimary
+            dateLabel.textColor = MSColors.Calendar.Day.textPrimary
         case .secondary:
-            dateLabel.textColor = MSColors.CalendarView.DayCell.textColorSecondary
+            dateLabel.textColor = MSColors.Calendar.Day.textSecondary
         }
 
         switch backgroundStyle {
         case .primary:
-            contentView.backgroundColor = MSColors.CalendarView.DayCell.backgroundColorPrimary
+            contentView.backgroundColor = MSColors.Calendar.Day.backgroundPrimary
         case .secondary:
-            contentView.backgroundColor = MSColors.CalendarView.DayCell.backgroundColorSecondary
+            contentView.backgroundColor = MSColors.Calendar.Day.backgroundSecondary
         }
 
         if isHighlighted || isSelected {
             dotView.isHidden = true
-            dateLabel.textColor = MSColors.white
+            dateLabel.textColor = MSColors.Calendar.Day.textSelected
         } else {
             dotView.isHidden = false
         }
@@ -225,18 +225,18 @@ private class MSSelectionOverlayView: UIView {
     // TODO: Add different colors for availability?
     var selected: Bool = false {
         didSet {
-            activeColor = MSColors.CalendarView.DayCell.selectedCircleNormalColor
+            activeColor = MSColors.Calendar.Day.circleSelected
             setupActiveViews()
         }
     }
     var highlighted: Bool = false {
         didSet {
-            activeColor = MSColors.CalendarView.DayCell.highlightedCircleColor
+            activeColor = MSColors.Calendar.Day.circleHighlighted
             setupActiveViews()
         }
     }
 
-    private var activeColor: UIColor = MSColors.CalendarView.DayCell.highlightedCircleColor
+    private var activeColor: UIColor = MSColors.Calendar.Day.circleHighlighted
 
     // Lazy load views as every additional subview impacts the "Calendar"
     // tab loading time because the MSDatePicker needs

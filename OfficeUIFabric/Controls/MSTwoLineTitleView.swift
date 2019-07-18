@@ -188,11 +188,11 @@ open class MSTwoLineTitleView: UIView {
     private func applyStyle(style: Style) {
         switch style {
         case .dark:
-            titleButtonLabel.textColor = MSColors.TwoLineTitleView.titleDark
-            subtitleButtonLabel.textColor = MSColors.TwoLineTitleView.subtitleDark
+            titleButtonLabel.textColor = MSColors.TwoLineTitle.titleDark
+            subtitleButtonLabel.textColor = MSColors.TwoLineTitle.subtitleDark
         case .light:
-            titleButtonLabel.textColor = MSColors.TwoLineTitleView.titleLight
-            subtitleButtonLabel.textColor = MSColors.TwoLineTitleView.subtitleLight
+            titleButtonLabel.textColor = MSColors.TwoLineTitle.titleLight
+            subtitleButtonLabel.textColor = MSColors.TwoLineTitle.subtitleLight
         }
     }
 

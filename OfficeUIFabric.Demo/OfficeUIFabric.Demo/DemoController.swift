@@ -58,7 +58,7 @@ class DemoController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = MSColors.background
+        view.backgroundColor = MSColors.background1
 
         view.addSubview(scrollingContainer)
         scrollingContainer.fitIntoSuperview()

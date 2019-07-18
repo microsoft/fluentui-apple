@@ -304,7 +304,7 @@ open class MSDrawerController: UIViewController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = MSColors.background
+        view.backgroundColor = MSColors.Drawer.background
         view.isAccessibilityElement = false
     }
 
@@ -474,7 +474,7 @@ extension MSDrawerController: UIViewControllerTransitioningDelegate {
             return MSDrawerPresentationController(presentedViewController: presented, presenting: presenting, source: source, sourceObject: sourceView ?? barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection, presentationOffset: presentationOffset, presentationBackground: presentationBackground, presentationIsInteractive: resizingBehavior != .none)
         case .popover:
             let presentationController = UIPopoverPresentationController(presentedViewController: presented, presenting: presenting)
-            presentationController.backgroundColor = MSColors.background
+            presentationController.backgroundColor = MSColors.Drawer.background
             presentationController.permittedArrowDirections = permittedArrowDirections
             presentationController.delegate = self
 

@@ -155,7 +155,7 @@ open class MSBadgeField: UIView {
 
     public init() {
         super.init(frame: .zero)
-        backgroundColor = MSColors.background
+        backgroundColor = MSColors.BadgeField.background
 
         labelView.font = Constants.textStyleFont
         labelView.textColor = MSColors.BadgeField.label

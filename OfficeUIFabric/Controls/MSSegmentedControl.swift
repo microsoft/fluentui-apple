@@ -12,8 +12,6 @@ open class MSSegmentedControl: UIControl {
     private struct Constants {
         static let selectionBarHeight: CGFloat = 1.5
         static let selectionBarAnimationDuration: TimeInterval = 0.12
-        static let enabledAlpha: CGFloat = 1.0
-        static let disabledAlpha: CGFloat = 0.4
     }
 
     open override var isEnabled: Bool {
@@ -22,7 +20,6 @@ open class MSSegmentedControl: UIControl {
                 button.isEnabled = isEnabled
             }
             updateSelectionBarViewColor()
-            alpha = isEnabled ? Constants.enabledAlpha : Constants.disabledAlpha
         }
     }
 
@@ -51,6 +48,7 @@ open class MSSegmentedControl: UIControl {
     @objc public init(items: [String]) {
         super.init(frame: .zero)
 
+        backgroundColor = MSColors.SegmentedControl.background
         setupButtons(titles: items)
         updateSelectionBarViewColor()
         addSubview(bottomSeparator)
@@ -245,17 +243,19 @@ open class MSSegmentedControl: UIControl {
 private class MSSegmentedControlButton: UIButton {
     struct Constants {
         static let contentEdgeInsets = UIEdgeInsets(top: 11, left: 12, bottom: 13, right: 12)
-        static let titleFont: UIFont = MSFonts.subhead
+        static let titleFontStyle: MSTextStyle = .subhead
     }
 
     init() {
         super.init(frame: .zero)
 
         contentEdgeInsets = Constants.contentEdgeInsets
-        titleLabel?.font = Constants.titleFont
+        titleLabel?.font = Constants.titleFontStyle.font
         titleLabel?.lineBreakMode = .byTruncatingTail
         setTitleColor(MSColors.SegmentedControl.buttonTextNormal, for: .normal)
         setTitleColor(MSColors.SegmentedControl.buttonTextSelected, for: .selected)
+        setTitleColor(MSColors.SegmentedControl.buttonTextDisabled, for: .disabled)
+        setTitleColor(MSColors.SegmentedControl.buttonTextSelectedAndDisabled, for: [.selected, .disabled])
     }
 
     required init?(coder aDecoder: NSCoder) {

@@ -44,7 +44,7 @@ class MSTableViewCellDemoController: DemoController {
         tableView.register(MSTableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: MSTableViewHeaderFooterView.identifier)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = MSColors.background
+        tableView.backgroundColor = MSColors.Table.background
         tableView.tableFooterView = UIView(frame: .zero)
         tableView.separatorStyle = .none
         view.addSubview(tableView)

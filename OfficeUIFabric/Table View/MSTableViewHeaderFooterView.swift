@@ -28,20 +28,20 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
         var backgroundColor: UIColor {
             switch self {
             case .header, .footer:
-                return MSColors.TableViewHeaderFooterView.background
+                return MSColors.Table.HeaderFooter.background
             case .divider:
-                return MSColors.TableViewHeaderFooterView.backgroundDivider
+                return MSColors.Table.HeaderFooter.backgroundDivider
             case .dividerHighlighted:
-                return MSColors.TableViewHeaderFooterView.backgroundDividerHighlighted
+                return MSColors.Table.HeaderFooter.backgroundDividerHighlighted
             }
         }
 
         var textColor: UIColor {
             switch self {
             case .header, .footer, .divider:
-                return MSColors.TableViewHeaderFooterView.text
+                return MSColors.Table.HeaderFooter.text
             case .dividerHighlighted:
-                return MSColors.TableViewHeaderFooterView.textHighlighted
+                return MSColors.Table.HeaderFooter.textHighlighted
             }
         }
     }
@@ -191,8 +191,6 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
     }
 
     open func initialize() {
-        backgroundView = UIView()
-        backgroundView?.backgroundColor = MSColors.background
         contentView.addSubview(titleLabel)
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
@@ -259,7 +257,7 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
 
     private func updateAccessoryButtonTitleStyle() {
         accessoryButton?.titleLabel?.font = Constants.accessoryButtonTextStyle.font
-        accessoryButton?.setTitleColor(MSColors.TableViewHeaderFooterView.text, for: .normal)
+        accessoryButton?.setTitleColor(MSColors.Table.HeaderFooter.text, for: .normal)
     }
 
     private func createAccessoryButton(withTitle title: String) -> UIButton {

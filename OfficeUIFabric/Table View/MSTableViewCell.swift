@@ -436,19 +436,22 @@ open class MSTableViewCell: UITableViewCell {
 
     let titleLabel: MSLabel = {
         let label = MSLabel(style: TextStyles.title)
+        label.textColor = MSColors.Table.Cell.title
         label.lineBreakMode = .byTruncatingTail
         return label
     }()
 
     let subtitleLabel: MSLabel = {
-        let label = MSLabel(style: TextStyles.subtitleTwoLines, colorStyle: .secondary)
+        let label = MSLabel(style: TextStyles.subtitleTwoLines)
+        label.textColor = MSColors.Table.Cell.subtitle
         label.lineBreakMode = .byTruncatingTail
         label.isHidden = true
         return label
     }()
 
     let footerLabel: MSLabel = {
-        let label = MSLabel(style: TextStyles.footer, colorStyle: .secondary)
+        let label = MSLabel(style: TextStyles.footer)
+        label.textColor = MSColors.Table.Cell.footer
         label.lineBreakMode = .byTruncatingTail
         label.isHidden = true
         return label
@@ -778,10 +781,10 @@ open class MSTableViewCell: UITableViewCell {
     }
 
     private func setupBackgroundColors() {
-        backgroundColor = MSColors.TableViewCell.background
+        backgroundColor = MSColors.Table.Cell.background
 
         let selectedStateBackgroundView = UIView()
-        selectedStateBackgroundView.backgroundColor = MSColors.TableViewCell.backgroundSelected
+        selectedStateBackgroundView.backgroundColor = MSColors.Table.Cell.backgroundSelected
         selectedBackgroundView = selectedStateBackgroundView
     }
 
@@ -837,7 +840,7 @@ private class MSTableViewCellAccessoryView: UIView {
         iconView.frame.size = type.size
         iconView.contentMode = .center
         if type == .checkmark {
-            iconView.tintColor = MSColors.TableViewCell.checkmark
+            iconView.tintColor = MSColors.Table.Cell.checkmark
         }
         addSubview(iconView)
         iconView.fitIntoSuperview()
