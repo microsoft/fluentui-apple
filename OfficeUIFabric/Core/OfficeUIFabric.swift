@@ -15,8 +15,24 @@ public class OfficeUIFabricFramework: NSObject {
   }
 
     public static func initializeAppearance() {
-        // UINavigationBar
-        let navigationBar = UINavigationBar.appearance()
+        initializeUINavigationBarAppearance(UINavigationBar.appearance())
+
+        // UIToolbar
+        let toolbar = UIToolbar.appearance()
+        toolbar.isTranslucent = false
+        toolbar.barTintColor = MSColors.Toolbar.background
+        toolbar.tintColor = MSColors.Toolbar.tint
+
+        // UIBarButtonItem
+        let barButtonItem = UIBarButtonItem.appearance()
+        var titleAttributes = barButtonItem.titleTextAttributes(for: .normal) ?? [:]
+        titleAttributes[.font] = MSFonts.bodyUnscaled
+        barButtonItem.setTitleTextAttributes(titleAttributes, for: .normal)
+
+        initializeUISwitchAppearance(UISwitch.appearance())
+    }
+
+    static func initializeUINavigationBarAppearance(_ navigationBar: UINavigationBar) {
         navigationBar.isTranslucent = false
         navigationBar.barTintColor = MSColors.NavigationBar.background
         navigationBar.tintColor = MSColors.NavigationBar.tint
@@ -28,20 +44,6 @@ public class OfficeUIFabricFramework: NSObject {
 
         navigationBar.backIndicatorImage = UIImage.staticImageNamed("back-25x25")
         navigationBar.backIndicatorTransitionMaskImage = navigationBar.backIndicatorImage
-
-        // UIToolbar
-        let toolbar = UIToolbar.appearance()
-        toolbar.isTranslucent = false
-        toolbar.barTintColor = MSColors.Toolbar.background
-        toolbar.tintColor = MSColors.Toolbar.tint
-
-        // UIBarButtonItem
-        let barButtonItem = UIBarButtonItem.appearance()
-        titleAttributes = barButtonItem.titleTextAttributes(for: .normal) ?? [:]
-        titleAttributes[.font] = MSFonts.bodyUnscaled
-        barButtonItem.setTitleTextAttributes(titleAttributes, for: .normal)
-
-        initializeUISwitchAppearance(UISwitch.appearance())
     }
 
     static func initializeUISwitchAppearance(_ `switch`: UISwitch) {
