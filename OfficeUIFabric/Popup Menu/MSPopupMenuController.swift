@@ -172,7 +172,7 @@ open class MSPopupMenuController: MSDrawerController {
     }
 
     private func initTableView() {
-        tableView.backgroundColor = .clear
+        tableView.backgroundColor = MSColors.Table.background
         tableView.separatorStyle = .none
         // Prevent automatic insetting of this non-scrollable content
         tableView.contentInsetAdjustmentBehavior = .never
