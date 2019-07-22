@@ -108,7 +108,7 @@ class MSPopupMenuItemCell: MSTableViewCell {
         }
 
         // Override default background color change
-        backgroundColor = .clear
+        backgroundColor = MSColors.Table.Cell.background
 
         if animated {
             UIView.animate(withDuration: Constants.animationDuration) {
@@ -127,7 +127,7 @@ class MSPopupMenuItemCell: MSTableViewCell {
         }
 
         // Override default background color change
-        backgroundColor = .clear
+        backgroundColor = MSColors.Table.Cell.background
 
         if animated {
             UIView.animate(withDuration: Constants.animationDuration) {
