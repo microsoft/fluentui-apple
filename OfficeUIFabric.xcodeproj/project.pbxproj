@@ -102,6 +102,8 @@
 		A54D97DA217A5FC10072681A /* CALayer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54D97D9217A5FC10072681A /* CALayer+Extensions.swift */; };
 		A559BB7E212B6D100055E107 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A559BB7D212B6D100055E107 /* String+Extension.swift */; };
 		A559BB83212B7D870055E107 /* OfficeUIFabric.swift in Sources */ = {isa = PBXBuildFile; fileRef = A559BB82212B7D870055E107 /* OfficeUIFabric.swift */; };
+		A56CE7B622E68A7800AA77EE /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56CE7B522E68A7800AA77EE /* UIColor+Extensions.swift */; };
+		A56CE7B722E68A7800AA77EE /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56CE7B522E68A7800AA77EE /* UIColor+Extensions.swift */; };
 		A589F854211BA03200471C23 /* MSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A589F853211BA03200471C23 /* MSLabel.swift */; };
 		A5961F9D218A254D00E2A506 /* MSPopupMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961F9C218A254D00E2A506 /* MSPopupMenuController.swift */; };
 		A5961F9F218A256B00E2A506 /* MSPopupMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961F9E218A256B00E2A506 /* MSPopupMenuItem.swift */; };
@@ -234,6 +236,7 @@
 		A559BB7D212B6D100055E107 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		A559BB80212B6FA40055E107 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A559BB82212B7D870055E107 /* OfficeUIFabric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficeUIFabric.swift; sourceTree = "<group>"; };
+		A56CE7B522E68A7800AA77EE /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		A589F853211BA03200471C23 /* MSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSLabel.swift; sourceTree = "<group>"; };
 		A5961F9C218A254D00E2A506 /* MSPopupMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPopupMenuController.swift; sourceTree = "<group>"; };
 		A5961F9E218A256B00E2A506 /* MSPopupMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPopupMenuItem.swift; sourceTree = "<group>"; };
@@ -446,6 +449,7 @@
 				FD777526219E305F00033D58 /* Locale+Extensions.swift */,
 				B426613F214852B400E25423 /* NSString+Extension.swift */,
 				A559BB7D212B6D100055E107 /* String+Extension.swift */,
+				A56CE7B522E68A7800AA77EE /* UIColor+Extensions.swift */,
 				A5B87AFF211E1B700038C37C /* UIDevice+Extension.swift */,
 				A5B87AF0211BD4380038C37C /* UIFont+Extension.swift */,
 				A5B87AEE211BCA710038C37C /* UIFontDescriptor+Extension.swift */,
@@ -991,6 +995,7 @@
 				8FD01192228A82A600D25925 /* MSDatePickerSelectionManager.swift in Sources */,
 				8FD01193228A82A600D25925 /* MSDateTimePickerController.swift in Sources */,
 				8FD01194228A82A600D25925 /* MSDateTimePickerView.swift in Sources */,
+				A56CE7B722E68A7800AA77EE /* UIColor+Extensions.swift in Sources */,
 				8FD01195228A82A600D25925 /* MSDateTimePickerViewComponent.swift in Sources */,
 				8FD01196228A82A600D25925 /* MSDateTimePickerViewComponentCell.swift in Sources */,
 				8FD01197228A82A600D25925 /* MSDateTimePickerViewComponentTableView.swift in Sources */,
@@ -1090,6 +1095,7 @@
 				FD7254E72146E946002F4069 /* MSCalendarViewDayCell.swift in Sources */,
 				A589F854211BA03200471C23 /* MSLabel.swift in Sources */,
 				B4266140214852B400E25423 /* NSString+Extension.swift in Sources */,
+				A56CE7B622E68A7800AA77EE /* UIColor+Extensions.swift in Sources */,
 				A5237ACB21DED7030040BF27 /* MSResizingHandleView.swift in Sources */,
 				B4E782C72179509A00A7DFCE /* MSCenteredLabelCell.swift in Sources */,
 				FDCF7C8121BF24C70058E9E6 /* CGSize+Extensions.swift in Sources */,

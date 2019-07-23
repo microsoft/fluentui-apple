@@ -78,20 +78,20 @@ public final class MSColors: NSObject {
 
     // MARK: Base semantic
 
-    public static var background1: UIColor = white
-    public static var background2: UIColor = backgroundLightGray
-    public static var background3: UIColor = backgroundGray
-    public static var background4: UIColor = gray
-    public static var background5: UIColor = black
-    public static var disabled: UIColor = borderLightGray
-    public static var foreground1: UIColor = black
-    public static var foreground2: UIColor = darkGray
-    public static var foreground3: UIColor = gray
-    public static var foreground4: UIColor = lightGray
-    public static var foreground5: UIColor = borderLightGray
-    public static var foreground6: UIColor = white
-    public static var selected: UIColor = primary
-    public static var foregroundOnSelected: UIColor = foregroundOnPrimary
+    public static var background1 = UIColor(light: white)
+    public static var background2 = UIColor(light: backgroundLightGray)
+    public static var background3 = UIColor(light: backgroundGray)
+    public static var background4 = UIColor(light: gray)
+    public static var background5 = UIColor(light: black)
+    public static var disabled = UIColor(light: borderLightGray)
+    public static var foreground1 = UIColor(light: black)
+    public static var foreground2 = UIColor(light: darkGray)
+    public static var foreground3 = UIColor(light: gray)
+    public static var foreground4 = UIColor(light: lightGray)
+    public static var foreground5 = UIColor(light: borderLightGray)
+    public static var foreground6 = UIColor(light: white)
+    public static var selected = UIColor(light: primary)
+    public static var foregroundOnSelected = UIColor(light: foregroundOnPrimary)
 
     // MARK: Final semantic
 

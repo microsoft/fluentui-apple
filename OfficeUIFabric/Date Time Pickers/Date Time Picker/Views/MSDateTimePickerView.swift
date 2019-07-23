@@ -133,7 +133,7 @@ class MSDateTimePickerView: UIControl {
         let widthRatio = (width - 2 * MSDateTimePickerViewLayout.horizontalPadding) / (idealWidth - 2 * MSDateTimePickerViewLayout.horizontalPadding)
 
         // Compute components width based on the ratio of this width to ideal width
-        var componentWidths: [CGFloat] = componentTypes.map {
+        let componentWidths: [CGFloat] = componentTypes.map {
             let componentIdealWidth = MSDateTimePickerViewLayout.componentWidths[$0] ?? 0
             return floor(componentIdealWidth * widthRatio)
         }
