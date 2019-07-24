@@ -35,8 +35,8 @@ public final class MSColors: NSObject {
     public static let gray5: UIColor = #colorLiteral(red: 0.2509803922, green: 0.2509803922, blue: 0.2509803922, alpha: 1)
     /// #767676
     public static let gray6: UIColor = #colorLiteral(red: 0.462745098, green: 0.462745098, blue: 0.462745098, alpha: 1)
-    /// #939393
-    public static let gray7: UIColor = #colorLiteral(red: 0.5764705882, green: 0.5764705882, blue: 0.5764705882, alpha: 1)
+    /// #8E8E8E
+    public static let gray7: UIColor = #colorLiteral(red: 0.5568627451, green: 0.5568627451, blue: 0.5568627451, alpha: 1)
     /// #ACACAC
     public static let gray8: UIColor = #colorLiteral(red: 0.6745098039, green: 0.6745098039, blue: 0.6745098039, alpha: 1)
     /// #C8C8C8
