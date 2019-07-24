@@ -20,6 +20,7 @@ open class MSActivityIndicatorCell: UITableViewCell {
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(activityIndicatorView)
+        backgroundColor = MSColors.Table.Cell.background
     }
 
     @objc public required init(coder aDecoder: NSCoder) {

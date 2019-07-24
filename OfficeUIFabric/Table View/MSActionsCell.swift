@@ -16,10 +16,6 @@ open class MSActionsCell: UITableViewCell {
     public static let defaultHeight: CGFloat = 45
     public static let identifier: String = "MSActionsCell"
 
-    private struct Constants {
-        static let actionTitleFont: UIFont = MSFonts.body
-    }
-
     // By design, an actions cell has 2 actions at most
     @objc public let action1Button = UIButton()
     @objc public let action2Button = UIButton()
@@ -33,8 +29,9 @@ open class MSActionsCell: UITableViewCell {
         contentView.addSubview(action2Button)
         contentView.addSubview(separator)
 
-        action1Button.titleLabel?.font = Constants.actionTitleFont
-        action2Button.titleLabel?.font = Constants.actionTitleFont
+        backgroundColor = MSColors.Table.Cell.background
+        action1Button.titleLabel?.font = MSTableViewCell.TextStyles.title.font
+        action2Button.titleLabel?.font = MSTableViewCell.TextStyles.title.font
     }
 
     @objc public required init(coder aDecoder: NSCoder) {
@@ -91,9 +88,9 @@ open class MSActionsCell: UITableViewCell {
 
     private func actionTitleColor(isDestructive: Bool, isHighlighted: Bool) -> UIColor {
         if isDestructive {
-            return isHighlighted ? MSColors.Action.textDestructiveHighlighted : MSColors.Action.textDestructive
+            return isHighlighted ? MSColors.Table.ActionCell.textDestructiveHighlighted : MSColors.Table.ActionCell.textDestructive
         } else {
-            return isHighlighted ? MSColors.Action.textHighlighted : MSColors.Action.text
+            return isHighlighted ? MSColors.Table.ActionCell.textHighlighted : MSColors.Table.ActionCell.text
         }
     }
 }

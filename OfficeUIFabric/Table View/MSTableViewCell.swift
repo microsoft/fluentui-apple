@@ -107,7 +107,7 @@ open class MSTableViewCell: UITableViewCell {
         }
     }
 
-    private struct TextStyles {
+    struct TextStyles {
         static let title: MSTextStyle = .body
         static let subtitleTwoLines: MSTextStyle = .footnote
         static let subtitleThreeLines: MSTextStyle = .subhead

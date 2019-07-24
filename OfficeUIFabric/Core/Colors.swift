@@ -19,29 +19,53 @@ public final class MSColors: NSObject {
     /// #F5FAFD - Primary with 4% opacity
     public static var extraLightPrimary: UIColor = #colorLiteral(red: 0.9607843137, green: 0.9803921569, blue: 0.9921568627, alpha: 1)
 
-    // MARK: Physical
+    // MARK: Physical - Base grays
 
-    /// #A8A8AC
-    public static var lightGray: UIColor = #colorLiteral(red: 0.6588235294, green: 0.6588235294, blue: 0.6745098039, alpha: 1)
-    /// #8E8E93
-    public static var gray: UIColor = #colorLiteral(red: 0.5568627451, green: 0.5568627451, blue: 0.5764705882, alpha: 1)
-    /// #777777
-    public static var darkGray: UIColor = #colorLiteral(red: 0.4666666667, green: 0.4666666667, blue: 0.4666666667, alpha: 1)
-
-    /// #F8F8F8
-    public static var backgroundLightGray: UIColor = #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1)
-    /// #F1F1F1
-    public static var backgroundGray: UIColor = #colorLiteral(red: 0.9450980392, green: 0.9450980392, blue: 0.9450980392, alpha: 1)
-
-    /// #E1E1E1
-    public static var borderLightGray: UIColor = #colorLiteral(red: 0.8823529412, green: 0.8823529412, blue: 0.8823529412, alpha: 1)
+    /// #000000
+    public static let black: UIColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+    /// #141414
+    public static let gray1: UIColor = #colorLiteral(red: 0.07843137255, green: 0.07843137255, blue: 0.07843137255, alpha: 1)
+    /// #212121
+    public static let gray2: UIColor = #colorLiteral(red: 0.1294117647, green: 0.1294117647, blue: 0.1294117647, alpha: 1)
+    /// #292929
+    public static let gray3: UIColor = #colorLiteral(red: 0.1607843137, green: 0.1607843137, blue: 0.1607843137, alpha: 1)
+    /// #303030
+    public static let gray4: UIColor = #colorLiteral(red: 0.1882352941, green: 0.1882352941, blue: 0.1882352941, alpha: 1)
+    /// #404040
+    public static let gray5: UIColor = #colorLiteral(red: 0.2509803922, green: 0.2509803922, blue: 0.2509803922, alpha: 1)
+    /// #767676
+    public static let gray6: UIColor = #colorLiteral(red: 0.462745098, green: 0.462745098, blue: 0.462745098, alpha: 1)
+    /// #939393
+    public static let gray7: UIColor = #colorLiteral(red: 0.5764705882, green: 0.5764705882, blue: 0.5764705882, alpha: 1)
+    /// #ACACAC
+    public static let gray8: UIColor = #colorLiteral(red: 0.6745098039, green: 0.6745098039, blue: 0.6745098039, alpha: 1)
     /// #C8C8C8
-    public static var borderGray: UIColor = #colorLiteral(red: 0.7843137255, green: 0.7843137255, blue: 0.7843137255, alpha: 1)
-
+    public static let gray9: UIColor = #colorLiteral(red: 0.7843137255, green: 0.7843137255, blue: 0.7843137255, alpha: 1)
+    /// #E1E1E1
+    public static let gray10: UIColor = #colorLiteral(red: 0.8823529412, green: 0.8823529412, blue: 0.8823529412, alpha: 1)
+    /// #F1F1F1
+    public static let gray11: UIColor = #colorLiteral(red: 0.9450980392, green: 0.9450980392, blue: 0.9450980392, alpha: 1)
+    /// #F8F8F8
+    public static let gray12: UIColor = #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1)
     /// #FFFFFF
-    public static var white: UIColor = .white
-    /// #222222
-    public static var black: UIColor = #colorLiteral(red: 0.1333333333, green: 0.1333333333, blue: 0.1333333333, alpha: 1)
+    public static let white: UIColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+
+    // MARK: Physical - Dynamic grays
+
+    public static let gray950 = UIColor(light: gray1, lightHighContrast: black, darkHighContrast: gray3)
+    public static let gray900 = UIColor(light: gray2, lightHighContrast: black, darkHighContrast: gray4)
+    public static let gray800 = UIColor(light: gray3, lightHighContrast: gray1, darkHighContrast: gray5)
+    public static let gray700 = UIColor(light: gray4, lightHighContrast: gray2, darkHighContrast: gray6)
+    public static let gray600 = UIColor(light: gray5, lightHighContrast: gray3, darkHighContrast: gray7)
+    public static let gray500 = UIColor(light: gray6, lightHighContrast: gray4, darkHighContrast: gray8)
+    public static let gray400 = UIColor(light: gray7, lightHighContrast: gray5, darkHighContrast: gray9)
+    public static let gray300 = UIColor(light: gray8, lightHighContrast: gray6, darkHighContrast: gray10)
+    public static let gray200 = UIColor(light: gray9, lightHighContrast: gray7, darkHighContrast: gray11)
+    public static let gray100 = UIColor(light: gray10, lightHighContrast: gray8, darkHighContrast: gray12)
+    public static let gray50 = UIColor(light: gray11, lightHighContrast: gray9, darkHighContrast: white)
+    public static let gray25 = UIColor(light: gray12, lightHighContrast: gray10, darkHighContrast: white)
+
+    // MARK: Physical - Non-grays
 
     // TODO: decide if error and warning colors need to be split into semantic/physical sets
 
@@ -79,16 +103,16 @@ public final class MSColors: NSObject {
     // MARK: Base semantic
 
     public static var background1 = UIColor(light: white)
-    public static var background2 = UIColor(light: backgroundLightGray)
-    public static var background3 = UIColor(light: backgroundGray)
-    public static var background4 = UIColor(light: gray)
-    public static var background5 = UIColor(light: black)
-    public static var disabled = UIColor(light: borderLightGray)
-    public static var foreground1 = UIColor(light: black)
-    public static var foreground2 = UIColor(light: darkGray)
-    public static var foreground3 = UIColor(light: gray)
-    public static var foreground4 = UIColor(light: lightGray)
-    public static var foreground5 = UIColor(light: borderLightGray)
+    public static var background2 = UIColor(light: gray25)
+    public static var background3 = UIColor(light: gray50)
+    public static var background4 = UIColor(light: gray400)
+    public static var background5 = UIColor(light: gray900)
+    public static var disabled = UIColor(light: gray100)
+    public static var foreground1 = UIColor(light: gray900)
+    public static var foreground2 = UIColor(light: gray500)
+    public static var foreground3 = UIColor(light: gray400)
+    public static var foreground4 = UIColor(light: gray300)
+    public static var foreground5 = UIColor(light: gray100)
     public static var foreground6 = UIColor(light: white)
     public static var selected = UIColor(light: primary)
     public static var foregroundOnSelected = UIColor(light: foregroundOnPrimary)
@@ -96,13 +120,6 @@ public final class MSColors: NSObject {
     // MARK: Final semantic
 
     // Add semantic colors describing colors used for particular control elements
-
-    public struct Action {
-        public static var text: UIColor = primary
-        public static var textHighlighted: UIColor = primary.withAlphaComponent(0.4)
-        public static var textDestructive: UIColor = error
-        public static var textDestructiveHighlighted: UIColor = error.withAlphaComponent(0.4)
-    }
 
     public struct ActivityIndicator {
         public static var foreground: UIColor = foreground4
@@ -251,6 +268,12 @@ public final class MSColors: NSObject {
             public static var title: UIColor = foreground1
             public static var subtitle: UIColor = foreground3
             public static var footer: UIColor = foreground3
+        }
+        public struct ActionCell {
+            public static var text: UIColor = primary
+            public static var textHighlighted: UIColor = primary.withAlphaComponent(0.4)
+            public static var textDestructive: UIColor = error
+            public static var textDestructiveHighlighted: UIColor = error.withAlphaComponent(0.4)
         }
         public struct CenteredLabelCell {
             public static var text: UIColor = primary

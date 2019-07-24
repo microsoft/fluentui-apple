@@ -28,6 +28,7 @@ open class MSCenteredLabelCell: UITableViewCell {
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(label)
+        backgroundColor = MSColors.Table.Cell.background
     }
 
     @objc public required init(coder aDecoder: NSCoder) {
