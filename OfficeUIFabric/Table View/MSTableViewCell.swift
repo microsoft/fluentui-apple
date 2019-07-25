@@ -79,6 +79,16 @@ open class MSTableViewCell: UITableViewCell {
                 return CGSize(width: 40, height: 40)
             }
         }
+        var rightMargin: CGFloat {
+            switch self {
+            case .zero:
+                return 0
+            case .small:
+                return 16
+            case .medium, .default:
+                return 12
+            }
+        }
     }
 
     private enum LayoutType {
@@ -120,7 +130,6 @@ open class MSTableViewCell: UITableViewCell {
         static let paddingLeft: CGFloat = horizontalSpacing
         static let paddingRight: CGFloat = horizontalSpacing
 
-        static let customViewMarginRight: CGFloat = 12
         static let customAccessoryViewMarginLeft: CGFloat = 8
 
         static let labelVerticalMarginForOneAndThreeLines: CGFloat = 11
@@ -155,10 +164,10 @@ open class MSTableViewCell: UITableViewCell {
     class var labelVerticalMarginForTwoLines: CGFloat { return Constants.labelVerticalMarginForTwoLines }
 
     private static var separatorLeftInsetForSmallCustomView: CGFloat {
-        return Constants.paddingLeft + CustomViewSize.small.size.width + Constants.customViewMarginRight
+        return Constants.paddingLeft + CustomViewSize.small.size.width + CustomViewSize.small.rightMargin
     }
     private static var separatorLeftInsetForMediumCustomView: CGFloat {
-        return Constants.paddingLeft + CustomViewSize.medium.size.width + Constants.customViewMarginRight
+        return Constants.paddingLeft + CustomViewSize.medium.size.width + CustomViewSize.medium.rightMargin
     }
     private static var separatorLeftInsetForNoCustomView: CGFloat {
         return Constants.paddingLeft
@@ -239,7 +248,7 @@ open class MSTableViewCell: UITableViewCell {
             width += Constants.selectionImageSize.width + Constants.selectionImageMarginRight
         }
         if customViewSize != .zero {
-            width += customViewSize.size.width + Constants.customViewMarginRight
+            width += customViewSize.size.width + customViewSize.rightMargin
         }
         if let customAccessoryView = customAccessoryView {
             width += Constants.customAccessoryViewMarginLeft + customAccessoryView.width
@@ -267,7 +276,7 @@ open class MSTableViewCell: UITableViewCell {
     private static func textAreaLeftOffset(customViewSize: CustomViewSize, isInSelectionMode: Bool) -> CGFloat {
         var textAreaLeftOffset = customViewLeftOffset(isInSelectionMode: isInSelectionMode)
         if customViewSize != .zero {
-            textAreaLeftOffset += customViewSize.size.width + Constants.customViewMarginRight
+            textAreaLeftOffset += customViewSize.size.width + customViewSize.rightMargin
         }
         return textAreaLeftOffset
     }
