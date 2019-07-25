@@ -410,7 +410,7 @@ open class MSTableViewCell: UITableViewCell {
     }
     // swiftlint:enable identifier_name
 
-    private var separatorLeftInset: CGFloat {
+    var separatorLeftInset: CGFloat {
         let separatorLeftOffset = safeAreaInsets.left + MSTableViewCell.selectionModeAreaWidth(isInSelectionMode: isInSelectionMode)
         switch customViewSize {
         case .zero:

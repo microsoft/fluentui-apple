@@ -39,6 +39,7 @@ class MSPopupMenuItemCell: MSTableViewCell {
     var preservesSpaceForImage: Bool = false
 
     override var customViewSize: CustomViewSize { return preservesSpaceForImage ? Constants.imageViewSize : super.customViewSize }
+    override var separatorLeftInset: CGFloat { return isHeader ? 0 : super.separatorLeftInset }
 
     private var item: MSPopupMenuItem?
 
