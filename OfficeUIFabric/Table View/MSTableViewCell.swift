@@ -424,7 +424,7 @@ open class MSTableViewCell: UITableViewCell {
 
     private var layoutType: LayoutType = .oneLine
 
-    private var customView: UIView? {
+    private(set) var customView: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
             if let customView = customView {
