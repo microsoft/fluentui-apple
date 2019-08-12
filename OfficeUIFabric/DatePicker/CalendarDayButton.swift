@@ -8,8 +8,25 @@ fileprivate struct Constants {
     /// Font size of the label will be scaled to this fraction of the radius passed in
     static let fontSizeScalingDefault: CGFloat = 0.45
     
-    /// Default label font color
-    static let fontColorDefault: NSColor = NSColor.labelColor
+    /// Color used for the current month CalendarDayButtons in dark mode
+    static var primaryFontColorDarkMode: NSColor {
+        return NSColor.white.withAlphaComponent(0.9)
+    }
+    
+    /// Color used for the current month CalendarDayButtons in light mode
+    static var primaryFontColorLightMode: NSColor {
+        return NSColor.black.withAlphaComponent(0.9)
+    }
+    
+    /// Color used for the previous/next month CalendarDayButtons in dark mode
+    static var secondaryFontColorDarkMode: NSColor {
+        return NSColor.white.withAlphaComponent(0.5)
+    }
+    
+    /// Color used for the previous/next month CalendarDayButtons in light mode
+    static var secondaryFontColorLightMode: NSColor {
+        return NSColor.black.withAlphaComponent(0.5)
+    }
     
     /// make the init method private so clients don't unintentionally instantiate this struct
     private init() {}
@@ -23,18 +40,21 @@ class CalendarDayButton: NSView {
         case off
     }
     
+    enum ButtonType {
+        case primary
+        case secondary
+    }
+    
     /// Initializes a calendar day button with a size, date, font size, and font color.
     ///
     /// - Parameters:
     ///   - size: Diameter of the circular button
     ///   - date: Date of which the day should be displayed. Defaults to current date.
     ///   - fontSize: Font size of the day label. Defaults to fraction of the radius as defined in the Constants.
-    ///   - fontColor: Font color of the day label. Defaults to NSColor.labelColor
-    init(size: CGFloat, date : Date?, fontSize: CGFloat?, fontColor: NSColor?) {
+    init(size: CGFloat, date: Date?, fontSize: CGFloat?) {
         self.size = size
         self.date = date ?? Date()
         self.fontSize = fontSize ?? Constants.fontSizeScalingDefault * size
-        self.fontColor = fontColor ?? Constants.fontColorDefault
         
         let frame = NSRect.init(x: 0, y: 0, width: size, height: size)
         super.init(frame: frame)
@@ -58,7 +78,6 @@ class CalendarDayButton: NSView {
         textLayer.string = dateFormatter.string(from: self.date)
         textLayer.font = NSFont.systemFont(ofSize: self.fontSize)
         textLayer.fontSize = self.fontSize
-        textLayer.foregroundColor = self.fontColor.cgColor
         textLayer.alignmentMode = .center
         textLayer.contentsScale = window?.backingScaleFactor ?? 1.0
         layer?.addSublayer(textLayer)
@@ -91,10 +110,17 @@ class CalendarDayButton: NSView {
             }
             textLayer.font = NSFont.systemFont(ofSize: fontSize)
         }
+        
+        switch type {
+        case .primary:
+            textLayer.foregroundColor = isDarkMode ? Constants.primaryFontColorDarkMode.cgColor : Constants.primaryFontColorLightMode.cgColor
+        case .secondary:
+            textLayer.foregroundColor = isDarkMode ? Constants.secondaryFontColorDarkMode.cgColor : Constants.secondaryFontColorLightMode.cgColor
+        }
     }
     
     override func mouseDown(with event: NSEvent) {
-        delegate?.calendarDayButton(self, wasClicked: event)
+        delegate?.calendarDayButton(self, wasPressed: event)
     }
     
     override func viewDidChangeBackingProperties() {
@@ -125,54 +151,78 @@ class CalendarDayButton: NSView {
         }
     }
     
-    weak var delegate : CalendarDayButtonDelegate?
+    weak var delegate: CalendarDayButtonDelegate?
     
-    var date : Date {
+    var date: Date {
         didSet {
             textLayer.string = dateFormatter.string(from: date)
         }
     }
     
-    var fontColor : NSColor {
-        didSet {
-            textLayer.foregroundColor = fontColor.cgColor
-        }
-    }
-    
-    var fontSize : CGFloat {
+    var fontSize: CGFloat {
         didSet {
             textLayer.fontSize = fontSize
         }
     }
     
-    var state : State = .off {
+    var state: State = .off {
         didSet {
             // Ensures that updateLayer is called after state change
             if state != oldValue {
-                self.needsDisplay = true
+                needsDisplay = true
             }
         }
     }
     
-    private let size : CGFloat
+    var type: ButtonType = .primary {
+        didSet {
+            // Ensures that updateLayer is called after button type change
+            if type != oldValue {
+                needsDisplay = true
+            }
+        }
+    }
+    
+    private let size: CGFloat
     
     private let textLayer = CenteredTextLayer()
     private let highlightLayer = CALayer()
     private let maskLayer = CAShapeLayer()
     
     /// Date formatter used to convert the given date to a string
-    private let dateFormatter : DateFormatter = {
+    private let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.timeStyle = .none
         dateFormatter.dateFormat = "d"
         
         return dateFormatter
     }()
+    
+    private var isDarkMode: Bool {
+        var isInDarkAppearance = false
+        if #available(OSX 10.14, *) {
+            if effectiveAppearance.bestMatch(from: [.darkAqua]) == .darkAqua {
+                isInDarkAppearance  = true
+            }
+        }
+        return isInDarkAppearance
+    }
 }
 
-protocol CalendarDayButtonDelegate : class {
-    // Called when a mouseDown event occurs on the button
-    func calendarDayButton(_ calendarDayButton : CalendarDayButton, wasClicked event : NSEvent)
+protocol CalendarDayButtonDelegate: class {
+    
+    /// Tells the delegate that the button was pressed.
+    ///
+    /// - Parameters:
+    ///   - calendarDayButton: The button that was pressed.
+    ///   - event: The event.
+    func calendarDayButton(_ calendarDayButton: CalendarDayButton, wasPressed event: NSEvent)
+}
+
+/// Default delegate implementation
+extension CalendarDayButtonDelegate {
+    
+    func calendarDayButton(_ calendarDayButton: CalendarDayButton, wasPressed event: NSEvent) {}
 }
 
 private extension NSBezierPath {
@@ -181,8 +231,8 @@ private extension NSBezierPath {
         let path = CGMutablePath()
         var points = [CGPoint](repeating: .zero, count: 3)
         
-        for i in 0 ..< self.elementCount {
-            let type = self.element(at: i, associatedPoints: &points)
+        for i in 0 ..< elementCount {
+            let type = element(at: i, associatedPoints: &points)
             switch type {
             case .moveTo:
                 path.move(to: points[0])

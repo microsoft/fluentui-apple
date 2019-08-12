@@ -18,6 +18,7 @@ class TestControlsViewController: NSViewController, NSTableViewDelegate, NSTable
 							("fabric-macos (placeholder)", TestPlaceholderViewController.self),
 							("Hover Button", TestHoverButtonViewController.self),
 							("Avatar View", TestAvatarViewController.self),
+							("Date Picker", TestDatePickerController.self),
 	]
 	
 	override func loadView() {

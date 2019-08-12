@@ -137,7 +137,25 @@ class CalendarHeaderView: NSView {
 
 protocol CalendarHeaderViewDelegate: class {
     
+    /// Tells the delegate that the leading arrow button was pressed.
+    ///
+    /// - Parameters:
+    ///   - calendarHeader: The calendar header.
+    ///   - button: The button that was pressed.
     func calendarHeaderView(_ calendarHeader: CalendarHeaderView, didPressLeading button: NSButton)
     
+    /// Tells the delegate that the trailing arrow button was pressed.
+    ///
+    /// - Parameters:
+    ///   - calendarHeader: The calendar header.
+    ///   - button: The button that was pressed.
     func calendarHeaderView(_ calendarHeader: CalendarHeaderView, didPressTrailing button: NSButton)
+}
+
+/// Default delegate implementation
+extension CalendarHeaderViewDelegate {
+    
+    func calendarHeaderView(_ calendarHeader: CalendarHeaderView, didPressLeading button: NSButton) {}
+    
+    func calendarHeaderView(_ calendarHeader: CalendarHeaderView, didPressTrailing button: NSButton) {}
 }

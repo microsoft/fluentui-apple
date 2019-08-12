@@ -14,13 +14,7 @@ fileprivate struct Constants {
     
     /// Size of the underlying CalendarDayButton views
     static let calendarDayButtonSize: CGFloat = 32.0
-    
-    /// Color used for the current month CalendarDayButtons
-    static let primaryFontColor: NSColor = NSColor.labelColor
-    
-    /// Color used for the previous/next month CalendarDayButtons
-    static let secondaryFontColor: NSColor = NSColor.secondaryLabelColor
-    
+        
     /// Spacing between the calendar rows
     static let rowSpacing: CGFloat = 5.0
     
@@ -35,10 +29,10 @@ class CalendarView: NSView {
     
     init() {
         super.init(frame: .zero)
-
+        
         wantsLayer = true
         translatesAutoresizingMaskIntoConstraints = false
-
+        
         // Main vertical stack view that holds the rows
         let calendarStackView = NSStackView()
         calendarStackView.wantsLayer = true
@@ -65,14 +59,16 @@ class CalendarView: NSView {
             }
             
             calendarStackView.addView(weekStackView, in: .center)
-            constraints.append(weekStackView.leadingAnchor.constraint(equalTo: calendarStackView.leadingAnchor, constant: 0))
-            constraints.append(weekStackView.trailingAnchor.constraint(equalTo: calendarStackView.trailingAnchor, constant: 0))
+            constraints.append(weekStackView.leadingAnchor.constraint(equalTo: calendarStackView.leadingAnchor))
+            constraints.append(weekStackView.trailingAnchor.constraint(equalTo: calendarStackView.trailingAnchor))
         }
         
-        constraints += NSLayoutConstraint.constraints(
-            withVisualFormat: "H:|[calendarStackView]|", options: [], metrics: nil, views: ["calendarStackView": calendarStackView])
-        constraints += NSLayoutConstraint.constraints(
-            withVisualFormat: "V:|[calendarStackView]|", options: [], metrics: nil, views: ["calendarStackView": calendarStackView])
+        constraints += [
+            calendarStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            calendarStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            calendarStackView.topAnchor.constraint(equalTo: self.topAnchor),
+            calendarStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        ]
         
         NSLayoutConstraint.activate(constraints)
     }
@@ -88,8 +84,8 @@ class CalendarView: NSView {
         var buttonIndex = 0
         for date in paddedDates.previousMonthDates {
             buttonViews[buttonIndex].date = date
-            buttonViews[buttonIndex].fontColor = Constants.secondaryFontColor
             buttonViews[buttonIndex].state = .off
+            buttonViews[buttonIndex].type = .secondary
             buttonIndex += 1
             
             if buttonIndex >= buttonViews.count {
@@ -99,8 +95,8 @@ class CalendarView: NSView {
         
         for date in paddedDates.currentMonthDates {
             buttonViews[buttonIndex].date = date
-            buttonViews[buttonIndex].fontColor = Constants.primaryFontColor
             buttonViews[buttonIndex].state = .off
+            buttonViews[buttonIndex].type = .primary
             
             buttonIndex += 1
             
@@ -111,8 +107,8 @@ class CalendarView: NSView {
         
         for date in paddedDates.nextMonthDates {
             buttonViews[buttonIndex].date = date
-            buttonViews[buttonIndex].fontColor = Constants.secondaryFontColor
             buttonViews[buttonIndex].state = .off
+            buttonViews[buttonIndex].type = .secondary
             
             buttonIndex += 1
             
@@ -125,7 +121,7 @@ class CalendarView: NSView {
     let buttonViews: [CalendarDayButton] = {
         var buttonViews: [CalendarDayButton] = []
         for _ in 0..<Constants.rows * Constants.columns {
-            buttonViews.append(CalendarDayButton(size: Constants.calendarDayButtonSize, date: nil, fontSize: nil, fontColor: nil))
+            buttonViews.append(CalendarDayButton(size: Constants.calendarDayButtonSize, date: nil, fontSize: nil))
         }
         
         return buttonViews

@@ -21,8 +21,10 @@ class DatePickerScrollView: NSScrollView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // Disables mouse scrolling
-    override func scrollWheel(with event: NSEvent) {}
+    // Disables mouse scrolling and unwanted clipView offset changes in RTL
+    override func scroll(_ clipView: NSClipView, to point: NSPoint) {
+        super.scroll(clipView, to: .zero)
+    }
     
     func animateScroll(to point: NSPoint, duration: Double) {
         isAnimating = true
@@ -36,22 +38,13 @@ class DatePickerScrollView: NSScrollView {
         })
     }
     
-    weak var delegate : DatePickerScrollViewDelegate?
-    
-    var isEnabled = false {
-        didSet {
-            if isEnabled, !oldValue {
-                // Reset to default starting position - RTL layout sets this to non-zero origin
-                contentView.bounds.origin = .zero
-            }
-        }
-    }
+    weak var delegate: DatePickerScrollViewDelegate?
     
     private(set) var isAnimating = false
     
     /// Checks distance of the documentVisibleRect to both edges and recenters the clip view if needed
     private func recenterIfNeeded() {
-        guard isEnabled, let documentView = documentView, contentView.bounds.origin != .zero else {
+        guard let documentView = documentView, contentView.bounds.origin != .zero else {
             return
         }
         
@@ -68,9 +61,23 @@ class DatePickerScrollView: NSScrollView {
     }
 }
 
-protocol DatePickerScrollViewDelegate : class {
+protocol DatePickerScrollViewDelegate: class {
     
-    func datePickerScrollViewDidRecenterFromRight(_ scrollView : DatePickerScrollView)
+    /// Tells the delegate that the scroll view recentered from the right.
+    ///
+    /// - Parameter scrollView: The scroll view.
+    func datePickerScrollViewDidRecenterFromRight(_ scrollView: DatePickerScrollView)
     
-    func datePickerScrollViewDidRecenterFromLeft(_ scrollView : DatePickerScrollView)
+    /// Tells the delegate that the scroll view recentered from the left.
+    ///
+    /// - Parameter scrollView: The scroll view.
+    func datePickerScrollViewDidRecenterFromLeft(_ scrollView: DatePickerScrollView)
+}
+
+/// Default delegate implementation
+extension DatePickerScrollViewDelegate {
+    
+    func datePickerScrollViewDidRecenterFromRight(_ scrollView: DatePickerScrollView) {}
+    
+    func datePickerScrollViewDidRecenterFromLeft(_ scrollView: DatePickerScrollView) {}
 }
