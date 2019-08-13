@@ -33,7 +33,7 @@ fileprivate struct Constants {
     static let textDatePickerCornerRadius: CGFloat = 2.0
     
     /// Date formatter template for the header month-year label
-    static let headerDateFormatterTemplate = "LLLLYYYY"
+    static let headerDateFormatterTemplate = "MMMM yyyy"
     
     private init() {}
 }
@@ -182,6 +182,7 @@ class DatePickerView: NSView {
     weak var dataSource: DatePickerViewDataSource? {
         didSet {
             if let dataSource = dataSource {
+                dateFormatter.calendar = dataSource.calendar
                 dateFormatter.locale = dataSource.calendar.locale
                 dateFormatter.setLocalizedDateFormatFromTemplate(Constants.headerDateFormatterTemplate)
             }
