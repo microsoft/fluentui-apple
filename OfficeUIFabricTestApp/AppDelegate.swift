@@ -15,6 +15,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 	func applicationWillFinishLaunching(_ notification: Notification) {
 		let window = NSWindow(contentViewController: TestControlsViewController(nibName: nil, bundle: nil))
+		window.autorecalculatesKeyViewLoop = true
 		window.title = "Fabric macOS"
 		window.setFrame(.init(origin: .zero, size: .init(width: Constants.initialWindowWidth, height: Constants.initialWindowHeight)), display: true)
 		window.center()
