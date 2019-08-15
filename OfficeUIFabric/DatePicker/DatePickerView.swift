@@ -75,6 +75,7 @@ class DatePickerView: NSView {
         documentView.translatesAutoresizingMaskIntoConstraints = false
         
         calendarStackView.translatesAutoresizingMaskIntoConstraints = false
+        calendarStackView.detachesHiddenViews = false
         calendarStackView.orientation = .horizontal
         calendarStackView.distribution = .fillEqually
         calendarStackView.spacing = 0
@@ -121,9 +122,12 @@ class DatePickerView: NSView {
         headerView.delegate = self
         datePickerScrollView.delegate = self
         
-        calendarViews.leading.calendarDayButtonDelegate = self
-        calendarViews.center.calendarDayButtonDelegate = self
-        calendarViews.trailing.calendarDayButtonDelegate = self
+        calendarViews.leading.delegate = self
+        calendarViews.center.delegate = self
+        calendarViews.trailing.delegate = self
+        
+        calendarViews.leading.isHidden = true
+        calendarViews.trailing.isHidden = true
 
         textDatePicker.target = self
         textDatePicker.action = #selector(onTextDatePickerChange)
@@ -141,6 +145,8 @@ class DatePickerView: NSView {
     
     /// Animates a scroll to the leading calendar view
     func scrollToLeading() {
+        calendarViews.leading.isHidden = false
+        
         if userInterfaceLayoutDirection == .leftToRight {
             scrollLeft()
         } else {
@@ -150,6 +156,8 @@ class DatePickerView: NSView {
     
     /// Animates a scroll to the trailing calendar view
     func scrollToTrailing() {
+        calendarViews.trailing.isHidden = false
+        
         if userInterfaceLayoutDirection == .leftToRight {
             scrollRight()
         } else {
@@ -220,6 +228,8 @@ class DatePickerView: NSView {
     /// Internal storage of the calendarViews
     private var calendarViews = CalendarViewBuffer(leading: CalendarView(), center: CalendarView(), trailing: CalendarView()) {
         didSet {
+            calendarViews.leading.isHidden = true
+            calendarViews.trailing.isHidden = true
             calendarStackView.setViews([calendarViews.leading, calendarViews.center, calendarViews.trailing], in: .center)
         }
     }
@@ -360,6 +370,22 @@ class DatePickerView: NSView {
     }
 }
 
+extension DatePickerView: CalendarViewDelegate {
+    
+    /// Propagates date selection to the delegate if the view isn't animating.
+    ///
+    /// - Parameters:
+    ///   - calendarView: The calendar on which a date was selected.
+    ///   - date: The date that was selected.
+    func calendarView(_ calendarView: CalendarView, didSelectDate date: Date) {
+        guard !isAnimating else {
+            return
+        }
+        
+        delegate?.datePicker(self, didSelectDate: date)
+    }
+}
+
 extension DatePickerView: DatePickerScrollViewDelegate {
     
     /// Rearranges the calendar views after a recentering, taking RTL into account
@@ -411,22 +437,6 @@ extension DatePickerView: CalendarHeaderViewDelegate {
         }
         
         delegate?.datePicker(self, didPressNext: button)
-    }
-}
-
-extension DatePickerView: CalendarDayButtonDelegate {
-    
-    /// Passes a day selection event down to the delegate if the view is not animating
-    ///
-    /// - Parameters:
-    ///   - calendarDayButton: The calendar day button that was pressed.
-    ///   - event: The press NSEvent.
-    func calendarDayButton(_ calendarDayButton: CalendarDayButton, wasPressed event: NSEvent) {
-        guard !isAnimating else {
-            return
-        }
-        
-        delegate?.datePicker(self, didSelectDate: calendarDayButton.date)
     }
 }
 

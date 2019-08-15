@@ -11,7 +11,11 @@ class CenteredTextLayer: CATextLayer {
     override func draw(in ctx: CGContext) {
         let height = self.bounds.size.height
         let fontHeight = (font?.ascender ?? fontSize) - (font?.descender ?? 0.0)
-        let yDiff = (height - fontHeight) / 2
+        var yDiff = (height - fontHeight) / 2
+        
+        if contentsAreFlipped() {
+            yDiff *= -1
+        }
         
         ctx.saveGState()
         ctx.translateBy(x: 0.0, y: -yDiff)

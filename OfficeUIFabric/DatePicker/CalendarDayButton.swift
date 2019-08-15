@@ -33,14 +33,9 @@ fileprivate struct Constants {
 }
 
 /// A circular button with a day label centered inside of it. This is meant to be used in a grid-like calendar view.
-class CalendarDayButton: NSView {
+class CalendarDayButton: NSButton {
     
-    enum State {
-        case on
-        case off
-    }
-    
-    enum ButtonType {
+    enum LabelType {
         case primary
         case secondary
     }
@@ -109,6 +104,8 @@ class CalendarDayButton: NSView {
                 highlightLayer.removeFromSuperlayer()
             }
             textLayer.font = NSFont.systemFont(ofSize: fontSize)
+        default:
+            break
         }
         
         switch type {
@@ -117,10 +114,6 @@ class CalendarDayButton: NSView {
         case .secondary:
             textLayer.foregroundColor = isDarkMode ? Constants.secondaryFontColorDarkMode.cgColor : Constants.secondaryFontColorLightMode.cgColor
         }
-    }
-    
-    override func mouseDown(with event: NSEvent) {
-        delegate?.calendarDayButton(self, wasPressed: event)
     }
     
     override func viewDidChangeBackingProperties() {
@@ -145,13 +138,20 @@ class CalendarDayButton: NSView {
         }
     }
     
+    // Draws circular focus ring
+    override func drawFocusRingMask() {
+        let rect = bounds;
+        let circlePath = NSBezierPath()
+        circlePath.appendOval(in: rect)
+        
+        circlePath.fill()
+    }
+    
     override var wantsUpdateLayer: Bool {
         get {
             return true
         }
     }
-    
-    weak var delegate: CalendarDayButtonDelegate?
     
     var date: Date {
         didSet {
@@ -165,16 +165,7 @@ class CalendarDayButton: NSView {
         }
     }
     
-    var state: State = .off {
-        didSet {
-            // Ensures that updateLayer is called after state change
-            if state != oldValue {
-                needsDisplay = true
-            }
-        }
-    }
-    
-    var type: ButtonType = .primary {
+    var type: LabelType = .primary {
         didSet {
             // Ensures that updateLayer is called after button type change
             if type != oldValue {
@@ -207,22 +198,6 @@ class CalendarDayButton: NSView {
         }
         return isInDarkAppearance
     }
-}
-
-protocol CalendarDayButtonDelegate: class {
-    
-    /// Tells the delegate that the button was pressed.
-    ///
-    /// - Parameters:
-    ///   - calendarDayButton: The button that was pressed.
-    ///   - event: The event.
-    func calendarDayButton(_ calendarDayButton: CalendarDayButton, wasPressed event: NSEvent)
-}
-
-/// Default delegate implementation
-extension CalendarDayButtonDelegate {
-    
-    func calendarDayButton(_ calendarDayButton: CalendarDayButton, wasPressed event: NSEvent) {}
 }
 
 private extension NSBezierPath {

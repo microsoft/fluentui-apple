@@ -71,6 +71,11 @@ class CalendarView: NSView {
         ]
         
         NSLayoutConstraint.activate(constraints)
+        
+        buttonViews.forEach {
+            $0.target = self
+            $0.action = #selector(dayButtonWasPressed)
+        }
     }
     
     required init?(coder decoder: NSCoder) {
@@ -118,6 +123,8 @@ class CalendarView: NSView {
         }
     }
     
+    weak var delegate: CalendarViewDelegate?
+    
     let buttonViews: [CalendarDayButton] = {
         var buttonViews: [CalendarDayButton] = []
         for _ in 0..<Constants.rows * Constants.columns {
@@ -127,15 +134,24 @@ class CalendarView: NSView {
         return buttonViews
     }()
     
-    weak var calendarDayButtonDelegate: CalendarDayButtonDelegate? {
-        didSet {
-            if let delegate = calendarDayButtonDelegate {
-                for button in buttonViews {
-                    button.delegate = delegate
-                }
-            }
-        }
+    @objc private func dayButtonWasPressed(_ sender: CalendarDayButton) {
+        delegate?.calendarView(self, didSelectDate: sender.date)
     }
+}
+
+protocol CalendarViewDelegate: class {
+    
+    /// Tells the delegate that a date was selected.
+    ///
+    /// - Parameters:
+    ///   - calendarView: The calendar on which a date was selected.
+    ///   - date: The date that was selected.
+    func calendarView(_ calendarView: CalendarView, didSelectDate date: Date)
+}
+
+/// Default delegate implementation
+extension CalendarViewDelegate {
+    func calendarView(_ calendarView: CalendarView, didSelectDate date: Date) {}
 }
 
 /// All dates belonging to a single month, padded by days from previous and next month
