@@ -1,0 +1,51 @@
+# This file defines the Apple publish build steps
+name: 1.$(Date:yyyy).$(Date:MMdd)-v$(Rev:r)
+
+jobs:
+  - job: fabric_macos_publish_nuget
+    pool:
+      name: Hosted Mac Internal Mojave
+    displayName: Fabric macOS Publish NuGet
+    timeoutInMinutes: 120 # how long to run the job before automatically cancelling
+    cancelTimeoutInMinutes: 5 # how much time to give 'run always even if cancelled tasks' before killing them
+    steps:
+      - task: Npm@1
+        displayName: 'npm install'
+        inputs:
+          verbose: false
+
+      - template: templates/xcode-build.yml
+        parameters:
+          xcode_actions: 'build'
+          xcode_scheme: 'OfficeUIFabric'
+          xcode_configuration: 'Debug'
+          xcode_extraArgs: 'OTHER_SWIFT_FLAGS=-gline-tables-only CLANG_DEBUG_INFORMATION_LEVEL=line-tables-only'
+      
+      - template: templates/xcode-build.yml
+        parameters:
+          xcode_actions: 'build'
+          xcode_scheme: 'OfficeUIFabric'
+          xcode_configuration: 'Release'
+          xcode_extraArgs: 'OTHER_SWIFT_FLAGS=-gline-tables-only CLANG_DEBUG_INFORMATION_LEVEL=line-tables-only'
+
+      # Replace all nuspec files __BuildBuildNumber__ and __OUTPUTDIR__ fields
+
+      - script: 'node scripts/vsto-collect-nuspec.js apple'
+        displayName: 'Generate versioned nuspec files'
+
+      # pack all the nuspecs
+
+      - task: NuGetCommand@2
+        displayName: 'NuGet pack'
+        inputs:
+          command: pack
+          packagesToPack: '$(nuspecsToPack)'
+        continueOnError: true
+
+      # push packages
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: OfficeUIFabricmacOSNuPkg'
+        inputs:
+          ArtifactName: OfficeUIFabricmacOSNuPkg
+        condition: succeededOrFailed()

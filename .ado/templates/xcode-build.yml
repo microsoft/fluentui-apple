@@ -20,5 +20,6 @@ steps:
       xcodeVersion: 'specifyPath'
       xcodeDeveloperDir: '/Applications/Xcode_10.2.1.app/Contents/Developer'
       useXcpretty: ${{ parameters.xcode_useXcpretty }}
+      args: ${{ parameters.xcode_extraArgs }}
 
 
