@@ -12,15 +12,27 @@ class MSDrawerDemoController: DemoController {
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Show", style: .plain, target: self, action: #selector(barButtonTapped))
 
-        container.addArrangedSubview(createButton(title: "Show top drawer (resizable)", action: #selector(showTopDrawerButtonTapped)))
-        container.addArrangedSubview(createButton(title: "Show top drawer (no animation)", action: #selector(showTopDrawerNotAnimatedButtonTapped)))
-        container.addArrangedSubview(createButton(title: "Show top drawer (custom base)", action: #selector(showTopDrawerCustomOffsetButtonTapped)))
+        addTitle(text: "Top Drawer")
+        container.addArrangedSubview(createButton(title: "Show resizable", action: #selector(showTopDrawerButtonTapped)))
+        container.addArrangedSubview(createButton(title: "Show with no animation", action: #selector(showTopDrawerNotAnimatedButtonTapped)))
+        container.addArrangedSubview(createButton(title: "Show from custom base", action: #selector(showTopDrawerCustomOffsetButtonTapped)))
 
-        container.addArrangedSubview(createButton(title: "Show bottom drawer (resizable)", action: #selector(showBottomDrawerButtonTapped)))
-        container.addArrangedSubview(createButton(title: "Show bottom drawer (no animation)", action: #selector(showBottomDrawerNotAnimatedButtonTapped)))
-        container.addArrangedSubview(createButton(title: "Show bottom drawer (custom base)", action: #selector(showBottomDrawerCustomOffsetButtonTapped)))
+        addTitle(text: "Left/Right Drawer")
+        addRow(
+            items: [
+                createButton(title: "Show from leading", action: #selector(showLeftDrawerButtonTapped)),
+                createButton(title: "Show from trailing", action: #selector(showRightDrawerButtonTapped))
+            ],
+            itemSpacing: DemoController.verticalSpacing,
+            stretchItems: true
+        )
 
-        container.addArrangedSubview(createButton(title: "Show drawer (always as slideover, resizable)", action: #selector(showBottomDrawerCustomContentControllerButtonTapped)))
+        addTitle(text: "Bottom Drawer")
+        container.addArrangedSubview(createButton(title: "Show resizable", action: #selector(showBottomDrawerButtonTapped)))
+        container.addArrangedSubview(createButton(title: "Show with no animation", action: #selector(showBottomDrawerNotAnimatedButtonTapped)))
+        container.addArrangedSubview(createButton(title: "Show from custom base", action: #selector(showBottomDrawerCustomOffsetButtonTapped)))
+
+        container.addArrangedSubview(createButton(title: "Show always as slideover, resizable", action: #selector(showBottomDrawerCustomContentControllerButtonTapped)))
 
         container.addArrangedSubview(UIView())
     }
@@ -41,7 +53,10 @@ class MSDrawerDemoController: DemoController {
         controller.resizingBehavior = resizingBehavior
 
         if let contentView = contentView {
-            controller.preferredContentSize.height = 230
+            // `preferredContentSize` can be used to specify the preferred size of a drawer,
+            // but here we just define the width and allow it to calculate height automatically
+            controller.preferredContentSize.width = 360
+            //controller.preferredContentSize.height = 230
             controller.contentView = contentView
         } else {
             controller.contentController = contentController
@@ -50,22 +65,25 @@ class MSDrawerDemoController: DemoController {
         present(controller, animated: animated)
     }
 
-    private func actionViews() -> [UIView] {
+    private func actionViews(drawerCanExpand: Bool) -> [UIView] {
         let spacer = UIView()
         spacer.backgroundColor = .orange
         spacer.layer.borderWidth = 1
+        spacer.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
 
-        return [
-            createButton(title: "Expand", action: #selector(expandButtonTapped)),
-            createButton(title: "Dismiss", action: #selector(dismissButtonTapped)),
-            createButton(title: "Dismiss (no animation)", action: #selector(dismissNotAnimatedButtonTapped)),
-            spacer
-        ]
+        var views = [UIView]()
+        if drawerCanExpand {
+            views.append(createButton(title: "Expand", action: #selector(expandButtonTapped)))
+        }
+        views.append(createButton(title: "Dismiss", action: #selector(dismissButtonTapped)))
+        views.append(createButton(title: "Dismiss (no animation)", action: #selector(dismissNotAnimatedButtonTapped)))
+        views.append(spacer)
+        return views
     }
 
-    private func containerForActionViews() -> UIView {
+    private func containerForActionViews(drawerCanExpand: Bool = true) -> UIView {
         let container = DemoController.createVerticalContainer()
-        for view in actionViews() {
+        for view in actionViews(drawerCanExpand: drawerCanExpand) {
             container.addArrangedSubview(view)
         }
         return container
@@ -86,6 +104,14 @@ class MSDrawerDemoController: DemoController {
     @objc private func showTopDrawerCustomOffsetButtonTapped(sender: UIButton) {
         let rect = sender.superview!.convert(sender.frame, to: nil)
         presentDrawer(sourceView: sender, presentationOrigin: rect.maxY, presentationDirection: .down, contentView: containerForActionViews())
+    }
+
+    @objc private func showLeftDrawerButtonTapped(sender: UIButton) {
+        presentDrawer(sourceView: sender, presentationDirection: .fromLeading, contentView: containerForActionViews(drawerCanExpand: false), resizingBehavior: .dismiss)
+    }
+
+    @objc private func showRightDrawerButtonTapped(sender: UIButton) {
+        presentDrawer(sourceView: sender, presentationDirection: .fromTrailing, contentView: containerForActionViews(drawerCanExpand: false), resizingBehavior: .dismiss)
     }
 
     @objc private func showBottomDrawerButtonTapped(sender: UIButton) {

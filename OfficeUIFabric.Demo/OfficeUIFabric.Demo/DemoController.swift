@@ -7,12 +7,17 @@ import OfficeUIFabric
 import UIKit
 
 class DemoController: UIViewController {
+    static let margin: CGFloat = 16
+    static let horizontalSpacing: CGFloat = 40
+    static let verticalSpacing: CGFloat = 16
+    static let rowTextWidth: CGFloat = 75
+
     class func createVerticalContainer() -> UIStackView {
         let container = UIStackView(frame: .zero)
         container.axis = .vertical
-        container.layoutMargins = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        container.layoutMargins = UIEdgeInsets(top: margin, left: margin, bottom: margin, right: margin)
         container.isLayoutMarginsRelativeArrangement = true
-        container.spacing = 16
+        container.spacing = verticalSpacing
         return container
     }
 
@@ -34,20 +39,21 @@ class DemoController: UIViewController {
         container.addArrangedSubview(titleLabel)
     }
 
-    func addRow(text: String = "", items: [UIView], itemSpacing: CGFloat = 40) {
+    func addRow(text: String = "", items: [UIView], itemSpacing: CGFloat = horizontalSpacing, stretchItems: Bool = false) {
         let itemsContainer = UIStackView()
         itemsContainer.axis = .vertical
-        itemsContainer.alignment = .leading
+        itemsContainer.alignment = stretchItems ? .fill : .leading
 
         let itemRow = UIStackView()
         itemRow.axis = .horizontal
+        itemRow.distribution = stretchItems ? .fillEqually : .fill
         itemRow.alignment = .center
         itemRow.spacing = itemSpacing
 
         if text != "" {
             let label = MSLabel(style: .subhead, colorStyle: .regular)
             label.text = text
-            label.widthAnchor.constraint(equalToConstant: 75).isActive = true
+            label.widthAnchor.constraint(equalToConstant: DemoController.rowTextWidth).isActive = true
             itemRow.addArrangedSubview(label)
         }
 

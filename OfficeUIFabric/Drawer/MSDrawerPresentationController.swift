@@ -10,6 +10,7 @@ import UIKit
 class MSDrawerPresentationController: UIPresentationController {
     private struct Constants {
         static let cornerRadius: CGFloat = 14
+        static let minHorizontalMargin: CGFloat = 44
         static let minVerticalMargin: CGFloat = 20
     }
 
@@ -93,7 +94,7 @@ class MSDrawerPresentationController: UIPresentationController {
             contentView.addSubview(presentedViewController.view)
         }
 
-        if actualPresentationOffset == 0 {
+        if presentationDirection.isVertical && actualPresentationOffset == 0 {
             containerView?.addSubview(separator)
             separator.frame = frameForSeparator(in: contentView.frame, withThickness: separator.height)
         }
@@ -140,17 +141,20 @@ class MSDrawerPresentationController: UIPresentationController {
 
     // MARK: Layout
 
-    enum ExtraContentHeightEffect {
+    enum ExtraContentSizeEffect {
         case move
         case resize
     }
 
     override var frameOfPresentedViewInContainerView: CGRect { return contentView.frame }
 
-    var extraContentHeightEffectWhenCollapsing: ExtraContentHeightEffect = .move
+    var extraContentSizeEffectWhenCollapsing: ExtraContentSizeEffect = .move
 
     private var actualPresentationOffset: CGFloat {
-        return traitCollection.horizontalSizeClass == .regular ? presentationOffset : 0
+        if presentationDirection.isVertical && traitCollection.horizontalSizeClass == .regular {
+            return presentationOffset
+        }
+        return 0
     }
     private lazy var actualPresentationOrigin: CGFloat = {
         if let presentationOrigin = presentationOrigin {
@@ -169,9 +173,13 @@ class MSDrawerPresentationController: UIPresentationController {
             return UIScreen.main.bounds.minY
         case .up:
             return UIScreen.main.bounds.maxY
+        case .fromLeading:
+            return UIScreen.main.bounds.minX
+        case .fromTrailing:
+            return UIScreen.main.bounds.maxX
         }
     }()
-    private var extraContentHeight: CGFloat = 0
+    private var extraContentSize: CGFloat = 0
     private var safeAreaPresentationOffset: CGFloat {
         guard let containerView = containerView else {
             return 0
@@ -184,6 +192,14 @@ class MSDrawerPresentationController: UIPresentationController {
         case .up:
             if actualPresentationOrigin == containerView.bounds.maxY {
                 return containerView.safeAreaInsets.bottom
+            }
+        case .fromLeading:
+            if actualPresentationOrigin == containerView.bounds.minX {
+                return containerView.safeAreaInsets.left
+            }
+        case .fromTrailing:
+            if actualPresentationOrigin == containerView.bounds.maxX {
+                return containerView.safeAreaInsets.right
             }
         }
         return 0
@@ -200,11 +216,11 @@ class MSDrawerPresentationController: UIPresentationController {
         setPresentedViewMask()
     }
 
-    func setExtraContentHeight(_ extraContentHeight: CGFloat, updatingLayout updateLayout: Bool = true, animated: Bool = false) {
-        if self.extraContentHeight == extraContentHeight {
+    func setExtraContentSize(_ extraContentSize: CGFloat, updatingLayout updateLayout: Bool = true, animated: Bool = false) {
+        if self.extraContentSize == extraContentSize {
             return
         }
-        self.extraContentHeight = extraContentHeight
+        self.extraContentSize = extraContentSize
         if updateLayout {
             updateContentViewFrame(animated: animated)
         }
@@ -213,7 +229,8 @@ class MSDrawerPresentationController: UIPresentationController {
     func updateContentViewFrame(animated: Bool) {
         let newFrame = frameForContentView()
         if animated {
-            let animationDuration = MSDrawerTransitionAnimator.animationDuration(forSizeChange: newFrame.height - contentView.height)
+            let sizeChange = presentationDirection.isVertical ? newFrame.height - contentView.height : newFrame.width - contentView.width
+            let animationDuration = MSDrawerTransitionAnimator.animationDuration(forSizeChange: sizeChange)
             UIView.animate(withDuration: animationDuration, delay: 0, options: [.layoutSubviews], animations: {
                 self.setContentViewFrame(newFrame)
                 self.animatePresentedViewMask(withDuration: animationDuration)
@@ -238,6 +255,10 @@ class MSDrawerPresentationController: UIPresentationController {
             margins.top = actualPresentationOrigin
         case .up:
             margins.bottom = bounds.height - actualPresentationOrigin
+        case .fromLeading:
+            margins.left = actualPresentationOrigin
+        case .fromTrailing:
+            margins.right = bounds.width - actualPresentationOrigin
         }
         return bounds.inset(by: margins)
     }
@@ -248,47 +269,69 @@ class MSDrawerPresentationController: UIPresentationController {
     }
 
     private func frameForContentView(in bounds: CGRect) -> CGRect {
-        guard let containerView = containerView else {
-            return .zero
-        }
-
-        var contentMargins: UIEdgeInsets = .zero
-        switch presentationDirection {
-        case .down:
-            if actualPresentationOffset != 0 {
-                contentMargins.top = safeAreaPresentationOffset + actualPresentationOffset
-            }
-            contentMargins.bottom = max(Constants.minVerticalMargin, containerView.safeAreaInsets.bottom)
-        case .up:
-            contentMargins.top = max(Constants.minVerticalMargin, containerView.safeAreaInsets.top)
-            if actualPresentationOffset != 0 {
-                contentMargins.bottom = safeAreaPresentationOffset + actualPresentationOffset
-            }
-        }
-        var contentFrame = bounds.inset(by: contentMargins)
+        var contentFrame = bounds.inset(by: marginsForContentView())
 
         var contentSize = presentedViewController.preferredContentSize
-        if contentSize.width == 0 || traitCollection.horizontalSizeClass == .compact {
-            contentSize.width = contentFrame.width
-        }
-        if actualPresentationOffset == 0 {
-            contentSize.height += safeAreaPresentationOffset
-        }
-        contentSize.height = min(contentSize.height, contentFrame.height)
-        if extraContentHeight >= 0 || extraContentHeightEffectWhenCollapsing == .resize {
-            contentSize.height = min(contentSize.height + extraContentHeight, contentFrame.height)
-        }
+        if presentationDirection.isVertical {
+            if contentSize.width == 0 || traitCollection.horizontalSizeClass == .compact {
+                contentSize.width = contentFrame.width
+            }
+            if actualPresentationOffset == 0 {
+                contentSize.height += safeAreaPresentationOffset
+            }
+            contentSize.height = min(contentSize.height, contentFrame.height)
+            if extraContentSize >= 0 || extraContentSizeEffectWhenCollapsing == .resize {
+                contentSize.height = min(contentSize.height + extraContentSize, contentFrame.height)
+            }
 
-        contentFrame.origin.x += (contentFrame.width - contentSize.width) / 2
-        if presentationDirection == .up {
-            contentFrame.origin.y = contentFrame.maxY - contentSize.height
-        }
-        if extraContentHeight < 0 && extraContentHeightEffectWhenCollapsing == .move {
-            contentFrame.origin.y += presentationDirection == .down ? extraContentHeight : -extraContentHeight
+            contentFrame.origin.x += (contentFrame.width - contentSize.width) / 2
+            if presentationDirection == .up {
+                contentFrame.origin.y = contentFrame.maxY - contentSize.height
+            }
+            if extraContentSize < 0 && extraContentSizeEffectWhenCollapsing == .move {
+                contentFrame.origin.y += presentationDirection == .down ? extraContentSize : -extraContentSize
+            }
+        } else {
+            if actualPresentationOffset == 0 {
+                contentSize.width += safeAreaPresentationOffset
+            }
+            contentSize.width = min(contentSize.width, contentFrame.width)
+            contentSize.height = contentFrame.height
+
+            if presentationDirection == .fromTrailing {
+                contentFrame.origin.x = contentFrame.maxX - contentSize.width
+            }
+            if extraContentSize < 0 && extraContentSizeEffectWhenCollapsing == .move {
+                contentFrame.origin.x += presentationDirection == .fromLeading ? extraContentSize : -extraContentSize
+            }
         }
         contentFrame.size = contentSize
 
         return contentFrame
+    }
+
+    private func marginsForContentView() -> UIEdgeInsets {
+        guard let containerView = containerView else {
+            return .zero
+        }
+
+        let presentationOffsetMargin = actualPresentationOffset > 0 ? safeAreaPresentationOffset + actualPresentationOffset : 0
+        var margins: UIEdgeInsets = .zero
+        switch presentationDirection {
+        case .down:
+            margins.top = presentationOffsetMargin
+            margins.bottom = max(Constants.minVerticalMargin, containerView.safeAreaInsets.bottom)
+        case .up:
+            margins.top = max(Constants.minVerticalMargin, containerView.safeAreaInsets.top)
+            margins.bottom = presentationOffsetMargin
+        case .fromLeading:
+            margins.left = presentationOffsetMargin
+            margins.right = max(Constants.minHorizontalMargin, containerView.safeAreaInsets.right)
+        case .fromTrailing:
+            margins.left = max(Constants.minHorizontalMargin, containerView.safeAreaInsets.left)
+            margins.right = presentationOffsetMargin
+        }
+        return margins
     }
 
     private func frameForSeparator(in bounds: CGRect, withThickness thickness: CGFloat) -> CGRect {
@@ -307,9 +350,17 @@ class MSDrawerPresentationController: UIPresentationController {
         guard let presentedView = presentedView, !(presentedView.layer.mask?.isAnimating ?? false) else {
             return
         }
+        // TODO: use layer.maskedCorners
         let roundedCorners: UIRectCorner
         if actualPresentationOffset == 0 {
-            roundedCorners = presentationDirection == .down ? [.bottomLeft, .bottomRight] : [.topLeft, .topRight]
+            switch presentationDirection {
+            case .down:
+                roundedCorners = [.bottomLeft, .bottomRight]
+            case .up:
+                roundedCorners = [.topLeft, .topRight]
+            case .fromLeading, .fromTrailing:
+                roundedCorners = []
+            }
         } else {
             roundedCorners = .allCorners
         }

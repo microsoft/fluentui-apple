@@ -16,14 +16,23 @@ import UIKit
 // MARK: - MSDrawerPresentationDirection
 
 @objc public enum MSDrawerPresentationDirection: Int {
-    case down   // drawer animated down from a top base
-    case up     // drawer animated up from a bottom base
+    /// Drawer animated down from a top base
+    case down
+    /// Drawer animated up from a bottom base
+    case up
+    /// Drawer animated right from a left base (flipped for RTL)
+    case fromLeading
+    /// Drawer animated left from a right base (flipped for RTL)
+    case fromTrailing
+
+    var isVertical: Bool { return self == .down || self == .up }
+    var isHorizontal: Bool { return !isVertical }
 }
 
 // MARK: - MSDrawerPresentationStyle
 
 @objc public enum MSDrawerPresentationStyle: Int {
-    /// Results in `.slideover` for horizontally compact environments, `.popover` otherwise
+    /// Always `.slideover` for horizontal presentation. For vertical presentation results in `.slideover` in horizontally compact environments, `.popover` otherwise.
     case automatic = -1
     case slideover
     case popover
@@ -66,13 +75,13 @@ import UIKit
 // MARK: - MSDrawerController
 
 /**
- `MSDrawerController` is used to present a portion of UI in a slider frame that shows up or down on iPhone and in a popover on iPad.
+ `MSDrawerController` is used to present a portion of UI in a slider frame that shows from a side on iPhone/iPad and in a popover on iPad.
 
- Use `presentationDirection` to pick the direction of presentation and `presentationOrigin` to specify the vertical offset (in screen coordinates) from which to show drawer. If not provided it will be calculated automatically: bottom of navigation bar for `.down` presentation and bottom of the screen for `.up` presentation.
+ Use `presentationDirection` to pick the direction of presentation and `presentationOrigin` to specify the offset (in screen coordinates) from which to show drawer. If not provided it will be calculated automatically: bottom of navigation bar for `.down` presentation and edge of the screen for other presentations.
 
- `MSDrawerController` will be presented as a popover on iPad and so requires either `sourceView`/`sourceRect` or `barButtonItem` to be provided via available initializers. Use `permittedArrowDirections` to specify the direction of the popover arrow.
+ `MSDrawerController` will be presented as a popover on iPad (for vertical presentation) and so requires either `sourceView`/`sourceRect` or `barButtonItem` to be provided via available initializers. Use `permittedArrowDirections` to specify the direction of the popover arrow.
 
- Set either `contentController` or `contentView` to provide content for the drawer. Desired content size can be specified by using either drawer's or content controller's `preferredContentSize`.
+ Set either `contentController` or `contentView` to provide content for the drawer. Desired content size can be specified by using either drawer's or content controller's `preferredContentSize`. If the size is not specified by these means, it will be auto-calculated from the fitting size of the content view.
 
  Use `resizingBehavior` to allow a user to resize or dismiss the drawer by tapping and dragging any area that does not handle this gesture itself.
  */
@@ -112,7 +121,7 @@ open class MSDrawerController: UIViewController {
     /**
      Set `contentView` to provide a view that will represent drawer's content. It will be hosted in the root view of the drawer and will be sized and positioned to accommodate any shell UI of the drawer.
 
-     If you want to specify the size of the content inside the drawer then you can do this through drawer's `preferredContentSize` which will be used to calculate the size of the drawer on screen.
+     If you want to specify the size of the content inside the drawer then you can do this through drawer's `preferredContentSize` which will be used to calculate the size of the drawer on screen. Otherwise the fitting size of the content view will be used.
      */
     @objc open var contentView: UIView? {
         get {
@@ -134,12 +143,16 @@ open class MSDrawerController: UIViewController {
         }
     }
 
-    /// When `presentationStyle` is `.automatic` (the default value) drawer is presented as a slideover in horizontally compact environments and as a popover otherwise. Set this property to a specific presentation style to enforce it in all environments.
+    /// When `presentationStyle` is `.automatic` (the default value) drawer is presented as a slideover in horizontally compact environments and as a popover otherwise. For horizontal presentation a slideover is always used. Set this property to a specific presentation style to enforce it in all environments.
     @objc open var presentationStyle: MSDrawerPresentationStyle = .automatic
-    /// Use `presentationOffset` to offset drawer from the presentation base in the direction of presentation. Only supported in horizontally regular environments.
+    /// Use `presentationOffset` to offset drawer from the presentation base in the direction of presentation. Only supported in horizontally regular environments for vertical presentation.
     @objc open var presentationOffset: CGFloat = 0 {
         didSet {
-            presentationOffset = max(0, presentationOffset)
+            if presentationDirection.isVertical {
+                presentationOffset = max(0, presentationOffset)
+            } else {
+                presentationOffset = 0
+            }
         }
     }
     @objc open var presentationBackground: MSDrawerPresentationBackground = .black
@@ -148,7 +161,7 @@ open class MSDrawerController: UIViewController {
      When `resizingBehavior` is not `.none` a user can resize the drawer by tapping and dragging any area that does not handle this gesture itself. For example, if `contentController` constains a `UINavigationController`, a user can tap and drag navigation bar to resize the drawer.
 
      By resizing a drawer a user can switch between several predefined states:
-     - a drawer can be expanded (see `isExpanded` property);
+     - a drawer can be expanded (see `isExpanded` property, only for vertical presentation);
      - returned to normal state from expanded state;
      - or dismissed.
 
@@ -156,17 +169,23 @@ open class MSDrawerController: UIViewController {
 
      The corresponding `delegate` methods will be called for these state changes: see `drawerControllerDidChangeExpandedState` and `drawerControllerWillDismiss`/`drawerControllerDidDismiss`.
 
-     Resizing is supported only on iPhone in compact environment (when drawer is presented as a slideover).
+     Resizing is supported only when drawer is presented as a slideover. `.dismissOrExpand` is not supported for horizontal presentation.
      */
-    @objc open var resizingBehavior: MSDrawerResizingBehavior = .none
+    @objc open var resizingBehavior: MSDrawerResizingBehavior = .none {
+        didSet {
+            if presentationDirection.isHorizontal && resizingBehavior == .dismissOrExpand {
+                resizingBehavior = .dismiss
+            }
+        }
+    }
     /**
      Set `isExpanded` to `true` to maximize the drawer's height to fill the device screen vertically minus the safe areas. Set to `false` to restore it to the normal size.
 
-     Transition is always animated when drawer is visible.
+     Not supported for horizontal presentation. Transition is always animated when drawer is visible.
      */
     @objc open var isExpanded: Bool = false {
         didSet {
-            if isExpanded == oldValue {
+            if presentationDirection.isHorizontal || isExpanded == oldValue {
                 return
             }
             isExpandedBeingChanged = true
@@ -193,7 +212,7 @@ open class MSDrawerController: UIViewController {
                 }
                 if preferredContentSize.height == 0 {
                     preferredContentSize.height = getHeight()
-                    if preferredContentSize.height != 0 && self.canResize {
+                    if preferredContentSize.height != 0 && self.showsResizingHandle {
                         preferredContentSize.height += MSResizingHandleView.height
                     }
                 }
@@ -202,6 +221,11 @@ open class MSDrawerController: UIViewController {
             updatePreferredContentSize(preferredContentWidth, preferredContentHeight)
             if let contentController = contentController {
                 let contentSize = contentController.preferredContentSize
+                updatePreferredContentSize(contentSize.width, contentSize.height)
+            }
+
+            if let contentView = contentView, preferredContentSize.width == 0 || preferredContentSize.height == 0 {
+                let contentSize = contentView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
                 updatePreferredContentSize(contentSize.width, contentSize.height)
             }
 
@@ -237,7 +261,6 @@ open class MSDrawerController: UIViewController {
     private let sourceView: UIView?
     private let sourceRect: CGRect?
     private let barButtonItem: UIBarButtonItem?
-    /// The `y` position the slideover should slide from
     private let presentationOrigin: CGFloat?
     private let presentationDirection: MSDrawerPresentationDirection
 
@@ -245,12 +268,12 @@ open class MSDrawerController: UIViewController {
     private var normalPreferredContentHeight: CGFloat = -1
 
     /**
-     Initializes `MSDrawerController` to be presented as a popover from `sourceRect` in `sourceView` on iPad and as a slideover on iPhone.
+     Initializes `MSDrawerController` to be presented as a popover from `sourceRect` in `sourceView` on iPad and as a slideover on iPhone/iPad.
 
      - Parameter sourceView: The view containing the anchor rectangle for the popover.
      - Parameter sourceRect: The rectangle in the specified view in which to anchor the popover.
-     - Parameter presentationOrigin: The vertical offset (in screen coordinates) from which to show a slideover. If not provided it will be calculated automatically: bottom of navigation bar for `.down` presentation and bottom of the screen for `.up` presentation.
-     - Parameter presentationDirection: The direction of slideover presentation (`.down` or `.up`).
+     - Parameter presentationOrigin: The offset (in screen coordinates) from which to show a slideover. If not provided it will be calculated automatically: bottom of navigation bar for `.down` presentation and edge of the screen for other presentations.
+     - Parameter presentationDirection: The direction of slideover presentation.
      */
     @objc public init(sourceView: UIView, sourceRect: CGRect, presentationOrigin: CGFloat = -1, presentationDirection: MSDrawerPresentationDirection) {
         self.sourceView = sourceView
@@ -265,11 +288,11 @@ open class MSDrawerController: UIViewController {
     }
 
     /**
-     Initializes `MSDrawerController` to be presented as a popover from `barButtonItem` on iPad and as a slideover on iPhone.
+     Initializes `MSDrawerController` to be presented as a popover from `barButtonItem` on iPad and as a slideover on iPhone/iPad.
 
      - Parameter barButtonItem: The bar button item on which to anchor the popover.
-     - Parameter presentationOrigin: The vertical offset (in screen coordinates) from which to show a slideover. If not provided it will be calculated automatically: bottom of navigation bar for `.down` presentation and bottom of the screen for `.up` presentation.
-     - Parameter presentationDirection: The direction of slideover presentation (`.down` or `.up`).
+     - Parameter presentationOrigin: The offset (in screen coordinates) from which to show a slideover. If not provided it will be calculated automatically: bottom of navigation bar for `.down` presentation and edge of the screen for other presentations.
+     - Parameter presentationDirection: The direction of slideover presentation.
      */
     @objc public init(barButtonItem: UIBarButtonItem, presentationOrigin: CGFloat = -1, presentationDirection: MSDrawerPresentationDirection) {
         self.sourceView = nil
@@ -311,8 +334,12 @@ open class MSDrawerController: UIViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if canResize {
-            if resizingHandleView == nil {
-                resizingHandleView = MSResizingHandleView()
+            if showsResizingHandle {
+                if resizingHandleView == nil {
+                    resizingHandleView = MSResizingHandleView()
+                }
+            } else {
+                resizingHandleView = nil
             }
             if resizingGestureRecognizer == nil {
                 resizingGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handleResizingGesture))
@@ -353,7 +380,7 @@ open class MSDrawerController: UIViewController {
         if let resizingHandleView = resizingHandleView {
             let frames = frame.divided(
                 atDistance: resizingHandleView.height,
-                from: presentationDirection == .down ? .maxYEdge : .minYEdge
+                from: presentationDirection(for: view) == .down ? .maxYEdge : .minYEdge
             )
             resizingHandleView.frame = frames.slice
             frame = frames.remainder
@@ -365,6 +392,14 @@ open class MSDrawerController: UIViewController {
     open override func accessibilityPerformEscape() -> Bool {
         presentingViewController?.dismiss(animated: true)
         return true
+    }
+
+    // Change of presentation direction's orientation is not supported
+    private func presentationDirection(for view: UIView) -> MSDrawerPresentationDirection {
+        if presentationDirection.isHorizontal && view.effectiveUserInterfaceLayoutDirection == .rightToLeft {
+            return presentationDirection == .fromLeading ? .fromTrailing : .fromLeading
+        }
+        return presentationDirection
     }
 
     private func presentationStyle(for sourceViewController: UIViewController) -> PresentationStyle {
@@ -379,13 +414,21 @@ open class MSDrawerController: UIViewController {
             //   - on iPad in split view 
             return UIDevice.isPhone ? .slideover : .popover
         }
-        return window.traitCollection.horizontalSizeClass == .compact ? .slideover : .popover
+
+        if presentationDirection.isVertical {
+            return window.traitCollection.horizontalSizeClass == .compact ? .slideover : .popover
+        } else {
+            return .slideover
+        }
     }
 
     // MARK: Resizing
 
     private var canResize: Bool {
         return presentationController is MSDrawerPresentationController && resizingBehavior != .none
+    }
+    private var showsResizingHandle: Bool {
+        return canResize && presentationDirection.isVertical
     }
 
     private var resizingHandleView: MSResizingHandleView? {
@@ -407,44 +450,59 @@ open class MSDrawerController: UIViewController {
         }
     }
 
+    private func offset(forResizingGesture gesture: UIPanGestureRecognizer) -> CGFloat {
+        let translation = gesture.translation(in: nil)
+        var offset: CGFloat
+        switch presentationDirection(for: view) {
+        case .down:
+            offset = translation.y
+        case .up:
+            offset = -translation.y
+        case .fromLeading:
+            offset = translation.x
+        case .fromTrailing:
+            offset = -translation.x
+        }
+        if resizingBehavior == .dismiss {
+            offset = min(offset, 0)
+        }
+        return offset
+    }
+
     @objc private func handleResizingGesture(gesture: UIPanGestureRecognizer) {
         guard let presentationController = presentationController as? MSDrawerPresentationController else {
             fatalError("MSDrawerController cannot handle resizing without MSDrawerPresentationController")
         }
 
-        let translation = gesture.translation(in: nil)
-        var offset = presentationDirection == .down ? translation.y : -translation.y
-        if resizingBehavior == .dismiss {
-            offset = min(offset, 0)
-        }
+        let offset = self.offset(forResizingGesture: gesture)
 
         switch gesture.state {
         case .began:
-            presentationController.extraContentHeightEffectWhenCollapsing = isExpanded ? .resize : .move
+            presentationController.extraContentSizeEffectWhenCollapsing = isExpanded ? .resize : .move
         case .changed:
-            presentationController.setExtraContentHeight(offset)
+            presentationController.setExtraContentSize(offset)
         case .ended:
             if offset >= Constants.resizingThreshold {
                 if isExpanded {
-                    presentationController.setExtraContentHeight(0, animated: true)
+                    presentationController.setExtraContentSize(0, animated: true)
                 } else {
-                    presentationController.setExtraContentHeight(0, updatingLayout: false)
+                    presentationController.setExtraContentSize(0, updatingLayout: false)
                     isExpanded = true
                     delegate?.drawerControllerDidChangeExpandedState?(self)
                 }
             } else if offset <= -Constants.resizingThreshold {
                 if isExpanded {
-                    presentationController.setExtraContentHeight(0, updatingLayout: false)
+                    presentationController.setExtraContentSize(0, updatingLayout: false)
                     isExpanded = false
                     delegate?.drawerControllerDidChangeExpandedState?(self)
                 } else {
                     presentingViewController?.dismiss(animated: true)
                 }
             } else {
-                presentationController.setExtraContentHeight(0, animated: true)
+                presentationController.setExtraContentSize(0, animated: true)
             }
         case .cancelled:
-            presentationController.setExtraContentHeight(0, animated: true)
+            presentationController.setExtraContentSize(0, animated: true)
         default:
             break
         }
@@ -456,14 +514,14 @@ open class MSDrawerController: UIViewController {
 extension MSDrawerController: UIViewControllerTransitioningDelegate {
     public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if presentationStyle(for: source) == .slideover {
-            return MSDrawerTransitionAnimator(presenting: true, presentationDirection: presentationDirection)
+            return MSDrawerTransitionAnimator(presenting: true, presentationDirection: presentationDirection(for: source.view))
         }
         return nil
     }
 
     public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if dismissed.presentationController is MSDrawerPresentationController {
-            return MSDrawerTransitionAnimator(presenting: false, presentationDirection: presentationDirection)
+        if let controller = dismissed.presentationController as? MSDrawerPresentationController {
+            return MSDrawerTransitionAnimator(presenting: false, presentationDirection: controller.presentationDirection)
         }
         return nil
     }
@@ -471,7 +529,7 @@ extension MSDrawerController: UIViewControllerTransitioningDelegate {
     public func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         switch presentationStyle(for: source) {
         case .slideover:
-            return MSDrawerPresentationController(presentedViewController: presented, presenting: presenting, source: source, sourceObject: sourceView ?? barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection, presentationOffset: presentationOffset, presentationBackground: presentationBackground, presentationIsInteractive: resizingBehavior != .none)
+            return MSDrawerPresentationController(presentedViewController: presented, presenting: presenting, source: source, sourceObject: sourceView ?? barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection(for: source.view), presentationOffset: presentationOffset, presentationBackground: presentationBackground, presentationIsInteractive: resizingBehavior != .none)
         case .popover:
             let presentationController = UIPopoverPresentationController(presentedViewController: presented, presenting: presenting)
             presentationController.backgroundColor = MSColors.Drawer.background
