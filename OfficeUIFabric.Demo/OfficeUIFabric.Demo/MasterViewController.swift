@@ -34,6 +34,7 @@ class MasterViewController: UITableViewController {
         )
         navigationItem.titleView = titleView
 
+        tableView.backgroundColor = MSColors.Table.background
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
     }

@@ -43,14 +43,16 @@ class MSSegmentedControlDemoController: DemoController {
         }
 
         container.addArrangedSubview(disabledSegmentedControl)
+        container.addArrangedSubview(createLabel(text: "Disabled"))
     }
 
     @objc func updateLabel(forControl control: MSSegmentedControl) {
         controlLabels[control]?.text = segmentTitles[control.selectedSegmentIndex]
     }
 
-    func createLabel() -> MSLabel {
+    func createLabel(text: String = "") -> MSLabel {
         let label = MSLabel(style: .headline, colorStyle: .regular)
+        label.text = text
         label.textAlignment = .center
         return label
     }

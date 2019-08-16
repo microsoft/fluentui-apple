@@ -174,8 +174,6 @@ open class MSPopupMenuController: MSDrawerController {
     private func initTableView() {
         tableView.backgroundColor = MSColors.Table.background
         tableView.separatorStyle = .none
-        // Prevent automatic insetting of this non-scrollable content
-        tableView.contentInsetAdjustmentBehavior = .never
         // Helps reduce the delay between touch and action due to a bug in iOS 11
         if #available(iOS 12.0, *) { } else {
             tableView.delaysContentTouches = false

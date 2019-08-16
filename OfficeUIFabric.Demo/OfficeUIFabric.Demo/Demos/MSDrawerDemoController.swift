@@ -138,6 +138,7 @@ class MSDrawerDemoController: DemoController {
         personaListView.fitIntoSuperview()
 
         let contentController = UINavigationController(rootViewController: controller)
+        contentController.navigationBar.barTintColor = MSColors.background1
 
         presentDrawer(sourceView: sender, presentationDirection: .up, presentationStyle: .slideover, presentationOffset: 20, presentationBackground: traitCollection.horizontalSizeClass == .regular ? .none : .black, contentController: contentController, resizingBehavior: .dismissOrExpand)
     }

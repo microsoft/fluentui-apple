@@ -16,6 +16,12 @@ public class OfficeUIFabricFramework: NSObject {
 
     public static func initializeAppearance() {
         initializeUINavigationBarAppearance(UINavigationBar.appearance())
+        if #available(iOS 12, *) {
+            let light = UITraitCollection(userInterfaceStyle: .light)
+            let dark = UITraitCollection(userInterfaceStyle: .dark)
+            initializeUINavigationBarAppearance(UINavigationBar.appearance(for: light), traits: light)
+            initializeUINavigationBarAppearance(UINavigationBar.appearance(for: dark), traits: dark)
+        }
 
         // UIToolbar
         let toolbar = UIToolbar.appearance()
@@ -32,10 +38,15 @@ public class OfficeUIFabricFramework: NSObject {
         initializeUISwitchAppearance(UISwitch.appearance())
     }
 
-    static func initializeUINavigationBarAppearance(_ navigationBar: UINavigationBar) {
+    static func initializeUINavigationBarAppearance(_ navigationBar: UINavigationBar, traits: UITraitCollection? = nil) {
         navigationBar.isTranslucent = false
         navigationBar.barTintColor = MSColors.NavigationBar.background
         navigationBar.tintColor = MSColors.NavigationBar.tint
+        if #available(iOS 12, *) {
+            let traits = traits ?? navigationBar.traitCollection
+            // Removing built-in shadow for Dark Mode
+            navigationBar.shadowImage = traits.userInterfaceStyle == .dark ? UIImage() : nil
+        }
 
         var titleAttributes = navigationBar.titleTextAttributes ?? [:]
         titleAttributes[.font] = MSFonts.headlineUnscaled

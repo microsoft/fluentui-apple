@@ -74,11 +74,11 @@ class MSPopupMenuDemoController: DemoController {
             controller.headerItem = MSPopupMenuItem(title: "Calendar layout", subtitle: "Some options might not be available")
         }
         controller.addItems([
-            MSPopupMenuItem(imageName: "agenda-25x25", title: "Agenda", isSelected: calendarLayout == .agenda, onSelected: { self.calendarLayout = .agenda }),
-            MSPopupMenuItem(imageName: "day-view-25x25", title: "Day", isSelected: calendarLayout == .day, onSelected: { self.calendarLayout = .day }),
-            MSPopupMenuItem(imageName: "week-view-25x25", title: "3-Day", isEnabled: false, isSelected: calendarLayout == .threeDay, onSelected: { self.calendarLayout = .threeDay }),
+            MSPopupMenuItem(image: UIImage(named: "agenda-25x25"), title: "Agenda", isSelected: calendarLayout == .agenda, onSelected: { self.calendarLayout = .agenda }),
+            MSPopupMenuItem(image: UIImage(named: "day-view-25x25"), title: "Day", isSelected: calendarLayout == .day, onSelected: { self.calendarLayout = .day }),
+            MSPopupMenuItem(image: UIImage(named: "week-view-25x25"), title: "3-Day", isEnabled: false, isSelected: calendarLayout == .threeDay, onSelected: { self.calendarLayout = .threeDay }),
             MSPopupMenuItem(title: "Week (no icon)", isSelected: calendarLayout == .week, onSelected: { self.calendarLayout = .week }),
-            MSPopupMenuItem(imageName: "month-view-25x25", title: "Month", isSelected: calendarLayout == .month, onSelected: { self.calendarLayout = .month })
+            MSPopupMenuItem(image: UIImage(named: "month-view-25x25"), title: "Month", isSelected: calendarLayout == .month, onSelected: { self.calendarLayout = .month })
         ])
 
         present(controller, animated: true)
