@@ -225,7 +225,8 @@ open class MSDrawerController: UIViewController {
             }
 
             if let contentView = contentView, preferredContentSize.width == 0 || preferredContentSize.height == 0 {
-                let contentSize = contentView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+                var contentSize = contentView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+                contentSize = CGRect(origin: .zero, size: contentSize).inset(by: contentView.safeAreaInsets).size
                 updatePreferredContentSize(contentSize.width, contentSize.height)
             }
 
@@ -466,7 +467,8 @@ open class MSDrawerController: UIViewController {
         if resizingBehavior == .dismiss {
             offset = min(offset, 0)
         }
-        return offset
+        // Rounding to precision used for layout
+        return UIScreen.main.roundToDevicePixels(offset)
     }
 
     @objc private func handleResizingGesture(gesture: UIPanGestureRecognizer) {
