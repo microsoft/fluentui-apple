@@ -92,22 +92,15 @@ open class AvatarView : NSView {
 		layer?.cornerRadius = avatarSize / 2.0
 		layer?.borderWidth = 1
 
-		let constraints = [
-			self.widthAnchor.constraint(equalToConstant: avatarSize),
-			self.heightAnchor.constraint(equalToConstant: avatarSize),
-		]
+		let widthConstraint = widthAnchor.constraint(equalToConstant: avatarSize)
+		let heightConstraint = heightAnchor.constraint(equalToConstant: avatarSize)
+		NSLayoutConstraint.activate([widthConstraint, heightConstraint])
 		
-		NSLayoutConstraint.activate(constraints)
+		self.widthConstraint = widthConstraint
+		self.heightConstraint = heightConstraint
 
 		updateViewStyle()
-		
-		// Set up accessibility values if we have any information to return
-		if let bestDescription = contactName ?? contactEmail {
-			toolTip = bestDescription
-			setAccessibilityElement(true)
-			setAccessibilityLabel(bestDescription)
-			setAccessibilityRole(.image)
-		}
+		updateAvatarViewContents()
 	}
 	
 	@available(*, unavailable) required public init?(coder decoder: NSCoder) {
@@ -147,14 +140,45 @@ open class AvatarView : NSView {
 		}
 	}
 
-	/// Internal storage of the contact's name
-	private let contactName: String?
+	/// The contact's name
+	@objc open var contactName: String? {
+		didSet {
+			guard oldValue != contactName else {
+				return
+			}
+			updateAvatarViewContents()
+		}
+	}
 
-	/// Internal storage of the contact's email
-	private let contactEmail: String?
+	/// The contact's email
+	@objc open var contactEmail: String? {
+		didSet {
+			guard oldValue != contactEmail else {
+				return
+			}
+			updateAvatarViewContents()
+		}
+	}
 
-	/// Internal storage of the size of this avatar view in points
-	private let avatarSize: CGFloat
+	/// Storage of the size of this avatar view in points
+	@objc open var avatarSize: CGFloat {
+		didSet {
+			if let widthConstraint = widthConstraint, let heightConstraint = heightConstraint {
+				widthConstraint.constant = avatarSize
+				heightConstraint.constant = avatarSize
+			} else {
+				assertionFailure()
+			}
+			layer?.cornerRadius = avatarSize / 2.0
+			initialsTextField.font = NSFont.systemFont(ofSize: avatarSize * Constants.fontSizeScalingDefault)
+		}
+	}
+	
+	/// The width constraint giving this view its size
+	private var widthConstraint: NSLayoutConstraint?
+	
+	/// The height constraint giving this view its size
+	private var heightConstraint: NSLayoutConstraint?
 
 	/// A property for the display style based on whether an image exists or not.
 	private var displayStyle: DisplayStyle {
@@ -182,10 +206,7 @@ open class AvatarView : NSView {
 		initialsView.translatesAutoresizingMaskIntoConstraints = false
 		initialsView.layer?.backgroundColor = avatarBackgroundColor.cgColor
 
-		let textView = NSTextField(labelWithString: initials(name: contactName, email: contactEmail))
-		textView.translatesAutoresizingMaskIntoConstraints = false
-		textView.font = NSFont.systemFont(ofSize: avatarSize * Constants.fontSizeScalingDefault)
-		textView.textColor = Constants.initialsViewTextColor
+		let textView = initialsTextField
 		initialsView.addSubview(textView)
 
 		let constraints = [
@@ -196,6 +217,15 @@ open class AvatarView : NSView {
 		NSLayoutConstraint.activate(constraints)
 
 		return initialsView
+	}()
+	
+	/// The text field used for displaying the initials within the initialsView
+	private lazy var initialsTextField: NSTextField = {
+		let textView = NSTextField(labelWithString: initials(name: contactName, email: contactEmail))
+		textView.translatesAutoresizingMaskIntoConstraints = false
+		textView.font = NSFont.systemFont(ofSize: avatarSize * Constants.fontSizeScalingDefault)
+		textView.textColor = Constants.initialsViewTextColor
+		return textView
 	}()
 	
 	/// Update this view to use the proper style when switching from Image to Initials or vice-versa
@@ -226,6 +256,25 @@ open class AvatarView : NSView {
 		case .image:
 			return contactImageView
 		}
+	}
+	
+	/// Update avatar view contents based on the latest values in properties
+	private func updateAvatarViewContents() {
+		// Set up accessibility values if we have any information to return
+		if let bestDescription = contactName ?? contactEmail {
+			toolTip = bestDescription
+			setAccessibilityElement(true)
+			setAccessibilityLabel(bestDescription)
+			setAccessibilityRole(.image)
+		} else {
+			toolTip = nil
+			setAccessibilityElement(false)
+			setAccessibilityLabel(nil)
+			setAccessibilityRole(.unknown)
+		}
+		
+		initialsTextField.stringValue = initials(name: contactName, email: contactEmail)
+		avatarBackgroundColor = backgroundColor(for: colorIndex(for: contactEmail ?? contactName ?? ""))
 	}
 }
 

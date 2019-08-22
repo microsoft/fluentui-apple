@@ -8,6 +8,7 @@ import OfficeUIFabric
 fileprivate struct Constants {
 	static let testDataIndexForImages = 1
 	static let testDataIndexForBackroundColor = 2
+	static let testDataIndexForReuse = 3
 	static let satyaImageName = "satya"
 	static let maverickImageName = "maverick"
 	private init() {}
@@ -64,7 +65,8 @@ class TestAvatarViewController: NSViewController {
 		let containerView = NSStackView(views: [
 			avatarViewsContentView,
 			NSButton(title: "Update Avatar Images", target: self, action: #selector(updateAvatarImages)),
-			NSButton(title: "Update Avatar Background Colors", target: self, action: #selector(updateAvatarBackgroundColors))
+			NSButton(title: "Update Avatar Background Colors", target: self, action: #selector(updateAvatarBackgroundColors)),
+			NSButton(title: "Repurpose Avatar View", target: self, action: #selector(reuseAvatarView)),
 			])
 		
 		containerView.orientation = .vertical
@@ -96,5 +98,14 @@ class TestAvatarViewController: NSViewController {
 	// test setting custom avatar background color
 	@objc private func updateAvatarBackgroundColors() {
 		displayedAvatarViews[Constants.testDataIndexForBackroundColor].forEach { $0.avatarBackgroundColor = .systemBlue }
+	}
+	
+	// test repurposing an avatar view
+	@objc private func reuseAvatarView() {
+		displayedAvatarViews[Constants.testDataIndexForReuse].forEach {
+			$0.contactName = "Charlotte Blackwood"
+			$0.contactEmail = "cb@aol.com"
+			$0.avatarSize = 25
+		}
 	}
 }
