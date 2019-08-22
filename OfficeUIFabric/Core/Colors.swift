@@ -303,8 +303,8 @@ public final class MSColors: NSObject {
     }
 
     public struct Tooltip {
-        public static var background: UIColor = background5.withAlphaComponent(0.95)
-        public static var text: UIColor = foreground6
+        public static var background = UIColor(light: background5.withAlphaComponent(0.95), dark: primary)
+        public static var text = UIColor(light: foreground6, dark: foregroundOnPrimary)
     }
 
     public struct TwoLineTitle {
