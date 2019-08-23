@@ -76,6 +76,15 @@ class CalendarView: NSView {
             $0.target = self
             $0.action = #selector(dayButtonWasPressed)
         }
+        
+        // Accessibility
+        setAccessibilityElement(true)
+        setAccessibilityLabel(NSLocalizedString(
+            "DATEPICKER_ACCESSIBILITY_CALENDAR_VIEW_LABEL",
+            tableName: "OfficeUIFabric",
+            bundle: Bundle(for: CalendarView.self),
+            comment: ""
+        ))
     }
     
     required init?(coder decoder: NSCoder) {

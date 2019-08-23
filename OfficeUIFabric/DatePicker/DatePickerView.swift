@@ -68,7 +68,8 @@ class DatePickerView: NSView {
         clipView.wantsLayer = true
         
         datePickerScrollView.contentView = clipView
-        datePickerScrollView.drawsBackground = false
+        datePickerScrollView.drawsBackground = false        
+        datePickerScrollView.setAccessibilityElement(false)
         
         let documentView = NSView()
         documentView.wantsLayer = true
@@ -131,6 +132,16 @@ class DatePickerView: NSView {
 
         textDatePicker.target = self
         textDatePicker.action = #selector(onTextDatePickerChange)
+        
+        // Accessibility
+        setAccessibilityElement(true)
+        setAccessibilityRole(.group)
+        setAccessibilityLabel(NSLocalizedString(
+            "DATEPICKER_ACCESSIBILITY_DATEPICKER_LABEL",
+            tableName: "OfficeUIFabric",
+            bundle: Bundle(for: DatePickerView.self),
+            comment: ""
+        ))
         
         updateTextDatePicker()
     }
@@ -280,7 +291,7 @@ class DatePickerView: NSView {
             return
         }
     
-        headerView.weekdayLabelStrings = dataSource.weekdays
+        headerView.weekdayStrings = Array(zip(dataSource.shortWeekdays, dataSource.longWeekdays))
         headerView.monthYearLabel.stringValue = dateFormatter.string(from: dataSource.selectedDate)
     }
     
@@ -506,8 +517,11 @@ protocol DatePickerViewDataSource: class {
     /// Calendar that's currently being used
     var calendar: Calendar { get }
     
-    /// List of weekday labels in the order to be displayed
-    var weekdays: [String] { get }
+    /// List of short weekday labels in the order to be displayed
+    var shortWeekdays: [String] { get }
+    
+    /// List of long weekday labels in the order to be displayed
+    var longWeekdays: [String] { get }
     
     /// Asks the data source for the padded dates given a month
     ///

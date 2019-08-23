@@ -266,17 +266,34 @@ extension DatePickerController: DatePickerViewDataSource {
         return calendar.date(byAdding: .month, value: 1, to: date)
     }
     
-    /// List of weekday labels, correctly ordered and localized.
-    var weekdays: [String] {
+    /// List of short weekday labels, correctly ordered and localized.
+    var shortWeekdays: [String] {
         get {
             let weekdaySymbols = calendar.shortWeekdaySymbols
-            let firstWeekday = calendar.firstWeekday
-            
-            // We don't always start at index 0, first weekday depends on the locale
-            return (0..<weekdaySymbols.count).map { day -> String in
-                let dayIndex = (firstWeekday - 1 + day) % weekdaySymbols.count
-                return weekdaySymbols[dayIndex]
-            }
+            return rotateWeekdays(weekdaySymbols)
+        }
+    }
+    
+    /// List of long weekday labels, correctly ordered and localized.
+    var longWeekdays: [String] {
+        get {
+            let weekdaySymbols = calendar.standaloneWeekdaySymbols
+            return rotateWeekdays(weekdaySymbols)
+        }
+    }
+    
+    /// Rotates the given ordered array of weekdays that starts on a Sunday to
+    /// start on the correct first weekday according to the calendar.
+    ///
+    /// - Parameter weekdays: The given weekday array.
+    /// - Returns: The rotated weekday array.
+    private func rotateWeekdays(_ weekdays: [String]) -> [String] {
+        let firstWeekday = calendar.firstWeekday
+        
+        // We don't always start at index 0, first weekday depends on the locale
+        return (0..<weekdays.count).map { day -> String in
+            let dayIndex = (firstWeekday - 1 + day) % weekdays.count
+            return weekdays[dayIndex]
         }
     }
 }

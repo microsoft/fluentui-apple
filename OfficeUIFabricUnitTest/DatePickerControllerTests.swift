@@ -124,17 +124,21 @@ class DatePickerControllerTests: XCTestCase {
         
         var controller = DatePickerController(calendar: calendar, style: .dateTime)
         
-        var expectedWeekdays = ["po", "ut", "st", "št", "pi", "so", "ne"]
+        var expectedShortWeekdays = ["po", "ut", "st", "št", "pi", "so", "ne"]
+        var expectedLongWeekdays = ["pondelok", "utorok", "streda", "štvrtok", "piatok", "sobota", "nedeľa"]
         
-        XCTAssertEqual(controller.weekdays, expectedWeekdays)
+        XCTAssertEqual(controller.shortWeekdays, expectedShortWeekdays)
+        XCTAssertEqual(controller.longWeekdays, expectedLongWeekdays)
         
         // US English locale, weekdays should be localized and start on a sunday
         calendar.locale = Locale(identifier: "en_US")
         controller = DatePickerController(calendar: calendar, style: .dateTime)
         
-        expectedWeekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+        expectedShortWeekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+        expectedLongWeekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
         
-        XCTAssertEqual(controller.weekdays, expectedWeekdays)
+        XCTAssertEqual(controller.shortWeekdays, expectedShortWeekdays)
+        XCTAssertEqual(controller.longWeekdays, expectedLongWeekdays)
     }
     
     func testPaddedDates () {

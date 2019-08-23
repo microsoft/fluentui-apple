@@ -55,6 +55,7 @@ class CalendarDayButton: NSButton {
         super.init(frame: frame)
         
         wantsLayer = true
+        setButtonType(.onOff)
         
         // Needed to support .compositingFilter on the highlightLayer
         layerUsesCoreImageFilters = true
@@ -88,6 +89,8 @@ class CalendarDayButton: NSButton {
             NSLayoutConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: size),
         ]
         NSLayoutConstraint.activate(constraints)
+        
+        setAccessibilityLabel(accessibilityFormatter.string(from: self.date))
     }
     
     required init?(coder decoder: NSCoder) {
@@ -156,6 +159,7 @@ class CalendarDayButton: NSButton {
     var date: Date {
         didSet {
             textLayer.string = dateFormatter.string(from: date)
+            setAccessibilityLabel(accessibilityFormatter.string(from: date))
         }
     }
     
@@ -185,6 +189,15 @@ class CalendarDayButton: NSButton {
         let dateFormatter = DateFormatter()
         dateFormatter.timeStyle = .none
         dateFormatter.dateFormat = "d"
+        
+        return dateFormatter
+    }()
+    
+    /// Date formatter used for the accessibility label
+    private let accessibilityFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
         
         return dateFormatter
     }()

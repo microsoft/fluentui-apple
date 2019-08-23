@@ -16,6 +16,7 @@
 		8061BF7F22EF936800F2D245 /* DatePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8061BF7D22EF936700F2D245 /* DatePickerController.swift */; };
 		8061BF8322EF957200F2D245 /* TestDatePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8061BF8222EF957200F2D245 /* TestDatePickerController.swift */; };
 		807EA70822DCEE940064FD47 /* DatePickerScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807EA70722DCEE940064FD47 /* DatePickerScrollView.swift */; };
+		80FEB30F230DE91D00F9FF3E /* OfficeUIFabric.strings in Resources */ = {isa = PBXBuildFile; fileRef = 80FEB2F8230DE53F00F9FF3E /* OfficeUIFabric.strings */; };
 		8F250B8B22B3045100142B0E /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F250B8A22B3045100142B0E /* AvatarView.swift */; };
 		8F250B8D22B3062A00142B0E /* TestAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F250B8C22B3062A00142B0E /* TestAvatarViewController.swift */; };
 		8F5368052295F4BF0098AC8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5368042295F4BF0098AC8F /* AppDelegate.swift */; };
@@ -56,6 +57,7 @@
 		8061BF7D22EF936700F2D245 /* DatePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerController.swift; sourceTree = "<group>"; };
 		8061BF8222EF957200F2D245 /* TestDatePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestDatePickerController.swift; sourceTree = "<group>"; };
 		807EA70722DCEE940064FD47 /* DatePickerScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerScrollView.swift; sourceTree = "<group>"; };
+		80FEB2F7230DE53F00F9FF3E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/OfficeUIFabric.strings; sourceTree = "<group>"; };
 		8F250B8A22B3045100142B0E /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		8F250B8C22B3062A00142B0E /* TestAvatarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAvatarViewController.swift; sourceTree = "<group>"; };
 		8F38AE402303537800F5D7B0 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/MainMenu.strings; sourceTree = "<group>"; };
@@ -150,6 +152,14 @@
 			path = DatePicker;
 			sourceTree = "<group>";
 		};
+		80FEB2E4230DB91100F9FF3E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				80FEB2F8230DE53F00F9FF3E /* OfficeUIFabric.strings */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		8F5368032295F4BF0098AC8F /* OfficeUIFabricTestApp */ = {
 			isa = PBXGroup;
 			children = (
@@ -191,6 +201,7 @@
 		E61C96B42295E8D60006561F /* OfficeUIFabric */ = {
 			isa = PBXGroup;
 			children = (
+				80FEB2E4230DB91100F9FF3E /* Resources */,
 				804626C722D7909200AFA48C /* DatePicker */,
 				8F250B8A22B3045100142B0E /* AvatarView.swift */,
 				E61C96B52295E8D60006561F /* OfficeUIFabric.h */,
@@ -377,6 +388,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80FEB30F230DE91D00F9FF3E /* OfficeUIFabric.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -443,6 +455,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		80FEB2F8230DE53F00F9FF3E /* OfficeUIFabric.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				80FEB2F7230DE53F00F9FF3E /* en */,
+			);
+			name = OfficeUIFabric.strings;
+			sourceTree = "<group>";
+		};
 		8F5368082295F4C10098AC8F /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (

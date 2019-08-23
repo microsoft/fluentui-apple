@@ -57,6 +57,20 @@ class CalendarHeaderView: NSView {
         leadingButton.isBordered = false
         trailingButton.isBordered = false
         
+        leadingButton.setAccessibilityLabel(NSLocalizedString(
+            "DATEPICKER_ACCESSIBILITY_PREVIOUS_MONTH_LABEL",
+            tableName: "OfficeUIFabric",
+            bundle: Bundle(for: CalendarHeaderView.self),
+            comment: ""
+        ))
+        
+        trailingButton.setAccessibilityLabel(NSLocalizedString(
+            "DATEPICKER_ACCESSIBILITY_NEXT_MONTH_LABEL",
+            tableName: "OfficeUIFabric",
+            bundle: Bundle(for: CalendarHeaderView.self),
+            comment: ""
+        ))
+        
         headerStackView.addView(monthYearLabel, in: .center)
         headerStackView.addView(leadingButton, in: .leading)
         headerStackView.addView(trailingButton, in: .trailing)
@@ -105,13 +119,16 @@ class CalendarHeaderView: NSView {
         return textField
     }()
     
-    var weekdayLabelStrings: [String] = [] {
+    var weekdayStrings: [(short: String, long: String)] = [] {
         didSet {
-            guard weekdayLabelStrings.count == weekdayLabels.count else {
+            guard weekdayStrings.count == weekdayLabels.count else {
                 return
             }
             
-            zip(weekdayLabelStrings, weekdayLabels).forEach { $1.stringValue = $0 }
+            for (weekdayString, weekdayLabel) in zip(weekdayStrings, weekdayLabels) {
+                weekdayLabel.stringValue = weekdayString.short
+                weekdayLabel.setAccessibilityLabel(weekdayString.long)
+            }
         }
     }
     
@@ -120,6 +137,7 @@ class CalendarHeaderView: NSView {
         for _ in 0..<Constants.weekdayCount {
             let label = NSTextField(labelWithString: "")
             label.alignment = .center
+            label.setAccessibilityRole(.staticText)
             label.widthAnchor.constraint(equalToConstant: Constants.weekdayLabelWidth).isActive = true
             labels.append(label)
         }
