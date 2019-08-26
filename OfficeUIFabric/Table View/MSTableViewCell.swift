@@ -466,7 +466,7 @@ open class MSTableViewCell: UITableViewCell {
         return label
     }()
 
-    private(set) var customAccessoryView: UIView? = nil {
+    @objc open private(set) var customAccessoryView: UIView? = nil {
         didSet {
             oldValue?.removeFromSuperview()
             if let customAccessoryView = customAccessoryView {
