@@ -10,9 +10,9 @@
   </metadata>
   <files>
     <!-- macOS debug -->
-    <file src="DerivedData\OfficeUIFabric\Build\Products\Debug\OfficeUIFabric.framework\**" target="Debug-macosx"/>
+    <file src="DerivedData\OfficeUIFabric\Build\Products\Debug\OfficeUIFabric.framework\**" target="Debug-macosx\OfficeUIFabric.framework"/>
 
     <!-- macOS release -->
-    <file src="DerivedData\OfficeUIFabric\Build\Products\Release\OfficeUIFabric.framework\**" target="Ship-macosx"/>
+    <file src="DerivedData\OfficeUIFabric\Build\Products\Release\OfficeUIFabric.framework\**" target="Ship-macosx\OfficeUIFabric.framework"/>
   </files>
 </package>
