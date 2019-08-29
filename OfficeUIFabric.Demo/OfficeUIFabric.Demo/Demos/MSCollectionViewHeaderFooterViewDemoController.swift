@@ -12,30 +12,26 @@ class MSCollectionViewHeaderFooterViewDemoController: DemoController {
     private let groupedSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.groupedSections
     private let plainSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.plainSections
 
-    private var groupedCollectionView: UICollectionView!
-    private var plainCollectionView: UICollectionView!
+    private let segmentedControl: MSSegmentedControl = {
+        let segmentedControl = MSSegmentedControl(items: TableViewHeaderFooterSampleData.tabTitles)
+        segmentedControl.addTarget(self, action: #selector(updateActiveTabContent), for: .valueChanged)
+        return segmentedControl
+    }()
+    private lazy var groupedCollectionView: UICollectionView = createCollectionView(isPlainStyle: false)
+    private lazy var plainCollectionView: UICollectionView = createCollectionView(isPlainStyle: true)
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = MSColors.background2
-
-        let groupedTitle = TableViewHeaderFooterSampleData.groupedTitle
-        let plainTitle = TableViewHeaderFooterSampleData.plainTitle
-
-        groupedCollectionView = createCollectionView(isPlainStyle: false)
-        plainCollectionView = createCollectionView(isPlainStyle: true)
-
-        container.addArrangedSubview(groupedTitle)
-        container.addArrangedSubview(groupedCollectionView)
-        container.addArrangedSubview(plainTitle)
-        container.addArrangedSubview(plainCollectionView)
-
-        groupedCollectionView.heightAnchor.constraint(equalTo: plainCollectionView.heightAnchor).isActive = true
 
         container.heightAnchor.constraint(equalTo: scrollingContainer.heightAnchor).isActive = true
-        container.layoutMargins.left = 0
-        container.layoutMargins.right = 0
-        container.layoutMargins.bottom = 0
+        container.layoutMargins = .zero
+        container.spacing = 0
+
+        container.addArrangedSubview(segmentedControl)
+        container.addArrangedSubview(groupedCollectionView)
+        container.addArrangedSubview(plainCollectionView)
+
+        updateActiveTabContent()
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
@@ -43,12 +39,9 @@ class MSCollectionViewHeaderFooterViewDemoController: DemoController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
-        let collectionViews = [groupedCollectionView, plainCollectionView]
         let itemSize = CGSize(width: view.width, height: MSTableViewCell.height(title: TableViewHeaderFooterSampleData.itemTitle))
-        collectionViews.forEach {
-            if let flowLayout = $0?.collectionViewLayout as? UICollectionViewFlowLayout {
-                flowLayout.itemSize = itemSize
-            }
+        [groupedCollectionView, plainCollectionView].forEach {
+            ($0.collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize = itemSize
         }
     }
 
@@ -65,6 +58,11 @@ class MSCollectionViewHeaderFooterViewDemoController: DemoController {
         collectionView.delegate = self
         collectionView.backgroundColor = MSColors.Table.background
         return collectionView
+    }
+
+    @objc private func updateActiveTabContent() {
+        groupedCollectionView.isHidden = segmentedControl.selectedSegmentIndex == 1
+        plainCollectionView.isHidden = !groupedCollectionView.isHidden
     }
 
     @objc private func handleContentSizeCategoryDidChange() {

@@ -19,15 +19,30 @@ import UIKit
     }
 
     var icon: UIImage? {
+        let icon: UIImage?
+        switch self {
+        case .none:
+            icon = nil
+        case .disclosureIndicator:
+            icon = UIImage.staticImageNamed("disclosure")?.imageFlippedForRightToLeftLayoutDirection()
+        case .detailButton:
+            icon = UIImage.staticImageNamed("details")
+        case .checkmark:
+            icon = UIImage.staticImageNamed("checkmark-blue-20x20")
+        }
+        return icon?.withRenderingMode(.alwaysTemplate)
+    }
+
+    var iconColor: UIColor? {
         switch self {
         case .none:
             return nil
         case .disclosureIndicator:
-            return UIImage.staticImageNamed("disclosure")?.imageFlippedForRightToLeftLayoutDirection()
+            return MSColors.Table.Cell.accessoryDisclosureIndicator
         case .detailButton:
-            return UIImage.staticImageNamed("details")
+            return MSColors.Table.Cell.accessoryDetailButton
         case .checkmark:
-            return UIImage.staticImageNamed("checkmark-blue-20x20")?.withRenderingMode(.alwaysTemplate)
+            return MSColors.Table.Cell.accessoryCheckmark
         }
     }
 
@@ -133,14 +148,14 @@ open class MSTableViewCell: UITableViewCell {
         static let customAccessoryViewMarginLeft: CGFloat = 8
 
         static let labelVerticalMarginForOneAndThreeLines: CGFloat = 11
-        static let labelVerticalMarginForTwoLines: CGFloat = 10
+        static let labelVerticalMarginForTwoLines: CGFloat = 12
         static let labelVerticalSpacing: CGFloat = 0
 
         static let minHeight: CGFloat = 44
 
         static let selectionImageMarginRight: CGFloat = horizontalSpacing
-        static let selectionImageOff = UIImage.staticImageNamed("selection-off")
-        static let selectionImageOn = UIImage.staticImageNamed("selection-on")
+        static let selectionImageOff = UIImage.staticImageNamed("selection-off")?.withRenderingMode(.alwaysTemplate)
+        static let selectionImageOn = UIImage.staticImageNamed("selection-on")?.withRenderingMode(.alwaysTemplate)
         static let selectionImageSize = CGSize(width: 25, height: 25)
         static let selectionModeAnimationDuration: TimeInterval = 0.2
     }
@@ -487,7 +502,6 @@ open class MSTableViewCell: UITableViewCell {
 
     private var selectionImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = Constants.selectionImageOff
         imageView.isHidden = true
         return imageView
     }()
@@ -582,6 +596,7 @@ open class MSTableViewCell: UITableViewCell {
 
         let completion = { (_: Bool) in
             if self.isInSelectionMode {
+                self.updateSelectionImageView()
                 self.selectionImageView.isHidden = false
             }
         }
@@ -760,7 +775,7 @@ open class MSTableViewCell: UITableViewCell {
 
     open override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        selectionImageView.image = selected ? Constants.selectionImageOn : Constants.selectionImageOff
+        updateSelectionImageView()
     }
 
     open func selectionDidChange() {
@@ -802,6 +817,11 @@ open class MSTableViewCell: UITableViewCell {
             accessibilityHint = isInSelectionMode ? "Accessibility.MultiSelect.Hint".localized : "Accessibility.Select.Hint".localized
         }
     }
+
+    private func updateSelectionImageView() {
+        selectionImageView.image = isSelected ? Constants.selectionImageOn : Constants.selectionImageOff
+        selectionImageView.tintColor = isSelected ? MSColors.Table.Cell.selectionIndicatorOn : MSColors.Table.Cell.selectionIndicatorOff
+    }
 }
 
 // MARK: - MSTableViewCellAccessoryView
@@ -825,12 +845,14 @@ private class MSTableViewCellAccessoryView: UIView {
             addIconView(type: type)
         case .detailButton:
             let button = UIButton(type: .custom)
-            button.frame.size = type.size
             button.setImage(type.icon, for: .normal)
+            button.frame.size = type.size
             button.contentMode = .center
-            button.addTarget(self, action: #selector(handleOnAccessoryTapped), for: .touchUpInside)
+            button.tintColor = type.iconColor
             button.accessibilityLabel = "Accessibility.TableViewCell.MoreActions.Label".localized
             button.accessibilityHint = "Accessibility.TableViewCell.MoreActions.Hint".localized
+            button.addTarget(self, action: #selector(handleOnAccessoryTapped), for: .touchUpInside)
+
             addSubview(button)
             button.fitIntoSuperview()
         }
@@ -848,9 +870,7 @@ private class MSTableViewCellAccessoryView: UIView {
         let iconView = UIImageView(image: type.icon)
         iconView.frame.size = type.size
         iconView.contentMode = .center
-        if type == .checkmark {
-            iconView.tintColor = MSColors.Table.Cell.checkmark
-        }
+        iconView.tintColor = type.iconColor
         addSubview(iconView)
         iconView.fitIntoSuperview()
     }

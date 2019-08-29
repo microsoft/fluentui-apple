@@ -20,8 +20,9 @@ class MSTableViewCellDemoController: DemoController {
                     continue
                 }
 
-                let cell = tableView.cellForRow(at: indexPath) as! MSTableViewCell
-                cell.setIsInSelectionMode(isInSelectionMode, animated: true)
+                if let cell = tableView.cellForRow(at: indexPath) as? MSTableViewCell {
+                    cell.setIsInSelectionMode(isInSelectionMode, animated: true)
+                }
             }
 
             tableView.indexPathsForSelectedRows?.forEach {
@@ -45,8 +46,8 @@ class MSTableViewCellDemoController: DemoController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = MSColors.Table.background
-        tableView.tableFooterView = UIView(frame: .zero)
         tableView.separatorStyle = .none
+        tableView.sectionFooterHeight = 0
         view.addSubview(tableView)
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(barButtonTapped))

@@ -20,8 +20,9 @@ class MSCollectionViewCellDemoController: DemoController {
                     continue
                 }
 
-                let cell = collectionView.cellForItem(at: indexPath) as! MSCollectionViewCell
-                cell.cellView.setIsInSelectionMode(isInSelectionMode, animated: true)
+                if let cell = collectionView.cellForItem(at: indexPath) as? MSCollectionViewCell {
+                    cell.cellView.setIsInSelectionMode(isInSelectionMode, animated: true)
+                }
             }
 
             collectionView.indexPathsForSelectedItems?.forEach {

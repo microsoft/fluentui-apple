@@ -6,8 +6,6 @@
 import Foundation
 import OfficeUIFabric
 
-// MARK: TableViewSampleData
-
 class TableViewSampleData {
     struct Section {
         let title: String

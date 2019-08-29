@@ -72,15 +72,20 @@ public final class MSColors: NSObject {
 
     // TODO: decide if error and warning colors need to be split into semantic/physical sets
 
-    /// #E8484C
-    public static var error: UIColor = #colorLiteral(red: 0.9098039216, green: 0.2823529412, blue: 0.2980392157, alpha: 1)
-    /// #FFF3F4
-    public static var lightError: UIColor = #colorLiteral(red: 1, green: 0.9529411765, blue: 0.9568627451, alpha: 1)
+    public static var error = UIColor(light: errorLight, dark: errorDark)
+    /// #E63237
+    public static var errorLight: UIColor = #colorLiteral(red: 0.9019607843, green: 0.1960784314, blue: 0.2156862745, alpha: 1)
+    /// #FF474C
+    public static var errorDark: UIColor = #colorLiteral(red: 1, green: 0.2784313725, blue: 0.2980392157, alpha: 1)
+    /// #FFE8E9
+    public static var lightError: UIColor = #colorLiteral(red: 1, green: 0.9098039216, blue: 0.9137254902, alpha: 1)
 
-    /// #574305
-    public static var warning: UIColor = #colorLiteral(red: 0.3411764706, green: 0.262745098, blue: 0.01960784314, alpha: 1)
-    /// #E2DDCC
-    public static var lightWarning: UIColor = #colorLiteral(red: 0.8862745098, green: 0.8666666667, blue: 0.8, alpha: 1)
+    /// #997302
+    public static var warning: UIColor = #colorLiteral(red: 0.6, green: 0.4509803922, blue: 0.007843137255, alpha: 1)
+    /// #EBB510
+    public static var lightWarning: UIColor = #colorLiteral(red: 0.9215686275, green: 0.7098039216, blue: 0.06274509804, alpha: 1)
+    /// #F3BF20
+    public static var yellow: UIColor = #colorLiteral(red: 0.9529411765, green: 0.7490196078, blue: 0.1254901961, alpha: 1)
 
     public static var avatarBackgroundColors: [UIColor] = [
         #colorLiteral(red: 0.4588235294, green: 0.0431372549, blue: 0.1098039216, alpha: 1), // #750B1C
@@ -109,6 +114,7 @@ public final class MSColors: NSObject {
     public static var background1b = UIColor(light: white, dark: gray950, darkElevated: gray900)
     public static var background1c = UIColor(light: white, dark: gray900, darkElevated: gray800)
     public static var background2 = UIColor(light: gray25, dark: gray950, darkElevated: gray700)
+    public static var background2b = UIColor(light: gray25, dark: gray700)
     public static var background3 = UIColor(light: gray50, dark: gray900, darkElevated: gray800)
     public static var background4 = UIColor(light: gray400)
     public static var background5 = UIColor(light: gray900)
@@ -116,8 +122,11 @@ public final class MSColors: NSObject {
     public static var foreground1 = UIColor(light: gray900, dark: gray100)
     public static var foreground1b = UIColor(light: gray900, dark: gray400)
     public static var foreground2 = UIColor(light: gray500, dark: gray400)
+    public static var foreground2b = UIColor(light: gray500, dark: gray300)
     public static var foreground3 = UIColor(light: gray400, dark: gray400)
+    public static var foreground3b = UIColor(light: gray400, dark: gray100)
     public static var foreground4 = UIColor(light: gray300, dark: gray600)
+    public static var foreground4b = UIColor(light: gray300, dark: gray500)
     public static var foreground5 = UIColor(light: gray100, dark: gray700)
     public static var foreground5b = UIColor(light: gray100, dark: gray500)
     public static var foreground6 = UIColor(light: white)
@@ -131,7 +140,7 @@ public final class MSColors: NSObject {
     // Add semantic colors describing colors used for particular control elements
 
     public struct ActivityIndicator {
-        public static var foreground: UIColor = foreground4
+        public static var foreground: UIColor = foreground4b
     }
 
     public struct Avatar {
@@ -140,26 +149,31 @@ public final class MSColors: NSObject {
     }
 
     public struct Badge {
-        public static var background: UIColor = primary.withAlphaComponent(0.24)
-        public static var backgroundDisabled: UIColor = background2
-        public static var backgroundError: UIColor = lightError
-        public static var backgroundErrorSelected: UIColor = error
+        public static var background = UIColor(light: primary.withAlphaComponent(0.12), dark: primary.withAlphaComponent(0.3))
         public static var backgroundSelected: UIColor = selected
-        public static var backgroundWarning: UIColor = lightWarning
+        public static var backgroundDisabled: UIColor = background2b
+        public static var backgroundError = UIColor(light: lightError, dark: errorLight.withAlphaComponent(0.3))
+        public static var backgroundErrorSelected: UIColor = error
+        public static var backgroundWarning = UIColor(light: lightWarning.withAlphaComponent(0.08), dark: yellow.withAlphaComponent(0.25))
         public static var backgroundWarningSelected: UIColor = warning
         public static var text: UIColor = primary
-        public static var textDisabled: UIColor = foreground2
-        public static var textError: UIColor = error
-        public static var textErrorSelected: UIColor = lightError
         public static var textSelected: UIColor = foregroundOnSelected
-        public static var textWarning: UIColor = warning
-        public static var textWarningSelected: UIColor = lightWarning
+        public static var textDisabled: UIColor = foreground2b
+        public static var textError: UIColor = error
+        public static var textErrorSelected: UIColor = foregroundOnSelected
+        public static var textWarning = UIColor(light: warning, dark: lightWarning)
+        public static var textWarningSelected: UIColor = foregroundOnSelected
     }
 
     public struct BadgeField {
         public static var background: UIColor = background1
         public static var label: UIColor = foreground3
         public static var placeholder: UIColor = foreground4
+    }
+
+    public struct BarButtonItem {
+        public static var primary: UIColor = foreground7
+        public static var secondary: UIColor = foreground3b
     }
 
     public struct Button {
@@ -223,7 +237,7 @@ public final class MSColors: NSObject {
 
     public struct NavigationBar {
         public static var background: UIColor = background1c
-        public static var tint: UIColor = primary
+        public static var tint: UIColor = BarButtonItem.secondary
         public static var title: UIColor = foreground7
     }
 
@@ -273,10 +287,14 @@ public final class MSColors: NSObject {
         public struct Cell {
             public static var background: UIColor = background1
             public static var backgroundSelected: UIColor = background3
-            public static var checkmark: UIColor = selected
             public static var title: UIColor = foreground1
             public static var subtitle: UIColor = foreground3
             public static var footer: UIColor = foreground3
+            public static var accessoryDisclosureIndicator = UIColor(light: gray200, dark: gray400)
+            public static var accessoryDetailButton: UIColor = foreground3
+            public static var accessoryCheckmark: UIColor = selected
+            public static var selectionIndicatorOn: UIColor = primary
+            public static var selectionIndicatorOff = UIColor(light: gray200, dark: gray500)
         }
         public struct ActionCell {
             public static var text: UIColor = primary
@@ -290,21 +308,22 @@ public final class MSColors: NSObject {
         public struct HeaderFooter {
             public static var background: UIColor = background1
             public static var backgroundDivider: UIColor = background2
-            public static var backgroundDividerHighlighted: UIColor = extraLightPrimary
+            public static var backgroundDividerHighlighted = UIColor(light: extraLightPrimary, dark: gray950)
             public static var text: UIColor = foreground3
-            public static var textHighlighted: UIColor = primary
+            public static var textDivider: UIColor = foreground3b
+            public static var textDividerHighlighted: UIColor = primary
         }
         public static var background: UIColor = background1
     }
 
     public struct Toolbar {
         public static var background: UIColor = background1c
-        public static var tint: UIColor = primary
+        public static var tint: UIColor = BarButtonItem.secondary
     }
 
     public struct Tooltip {
         public static var background = UIColor(light: background5.withAlphaComponent(0.95), dark: primary)
-        public static var text = UIColor(light: foreground6, dark: foregroundOnPrimary)
+        public static var text: UIColor = foregroundOnPrimary
     }
 
     public struct TwoLineTitle {

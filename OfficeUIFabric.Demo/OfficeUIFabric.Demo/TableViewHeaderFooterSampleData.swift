@@ -6,17 +6,8 @@
 import Foundation
 import OfficeUIFabric
 
-// MARK: TableViewHeaderFooterConstants
-
-struct TableViewHeaderFooterConstants {
-    static let titleVerticalMargin: CGFloat = 16
-    static let titleSpacing: CGFloat = MSTextStyle.headline.font.deviceLineHeightWithLeading + titleVerticalMargin * 2
-}
-
-// MARK: - TableViewHeaderFooterSampleData
-
 class TableViewHeaderFooterSampleData: TableViewSampleData {
-    static let numberOfItemsInSection: Int = 2
+    static let numberOfItemsInSection: Int = 5
     static let itemTitle: String = "Contoso Survey"
 
     static let groupedSections: [Section] = [
@@ -32,13 +23,5 @@ class TableViewHeaderFooterSampleData: TableViewSampleData {
         Section(title: "Divider • Label", headerStyle: .divider)
     ]
 
-    static let groupedTitle: MSLabel = titleLabel(text: "Grouped with default styles")
-    static let plainTitle: MSLabel = titleLabel(text: "Plain with divider styles")
-
-    static func titleLabel(text: String) -> MSLabel {
-        let label = MSLabel(style: .headline)
-        label.text = text
-        label.textAlignment = .center
-        return label
-    }
+    static let tabTitles: [String] = ["Default styles", "Divider styles"]
 }

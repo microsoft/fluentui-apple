@@ -12,27 +12,26 @@ class MSTableViewHeaderFooterViewDemoController: DemoController {
     private let groupedSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.groupedSections
     private let plainSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.plainSections
 
+    private let segmentedControl: MSSegmentedControl = {
+        let segmentedControl = MSSegmentedControl(items: TableViewHeaderFooterSampleData.tabTitles)
+        segmentedControl.addTarget(self, action: #selector(updateActiveTabContent), for: .valueChanged)
+        return segmentedControl
+    }()
+    private lazy var groupedTableView: UITableView = createTableView(style: .grouped)
+    private lazy var plainTableView: UITableView = createTableView(style: .plain)
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = MSColors.background2
-
-        let groupedTitle = TableViewHeaderFooterSampleData.groupedTitle
-        let plainTitle = TableViewHeaderFooterSampleData.plainTitle
-
-        let groupedTableView = createTableView(style: .grouped)
-        let plainTableView = createTableView(style: .plain)
-
-        container.addArrangedSubview(groupedTitle)
-        container.addArrangedSubview(groupedTableView)
-        container.addArrangedSubview(plainTitle)
-        container.addArrangedSubview(plainTableView)
-
-        groupedTableView.heightAnchor.constraint(equalTo: plainTableView.heightAnchor).isActive = true
 
         container.heightAnchor.constraint(equalTo: scrollingContainer.heightAnchor).isActive = true
-        container.layoutMargins.left = 0
-        container.layoutMargins.right = 0
-        container.layoutMargins.bottom = 0
+        container.layoutMargins = .zero
+        container.spacing = 0
+
+        container.addArrangedSubview(segmentedControl)
+        container.addArrangedSubview(groupedTableView)
+        container.addArrangedSubview(plainTableView)
+
+        updateActiveTabContent()
     }
 
     func createTableView(style: UITableView.Style) -> UITableView {
@@ -44,6 +43,11 @@ class MSTableViewHeaderFooterViewDemoController: DemoController {
         tableView.backgroundColor = MSColors.Table.background
         tableView.separatorStyle = .none
         return tableView
+    }
+
+    @objc private func updateActiveTabContent() {
+        groupedTableView.isHidden = segmentedControl.selectedSegmentIndex == 1
+        plainTableView.isHidden = !groupedTableView.isHidden
     }
 }
 

@@ -38,10 +38,12 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
 
         var textColor: UIColor {
             switch self {
-            case .header, .footer, .divider:
+            case .header, .footer:
                 return MSColors.Table.HeaderFooter.text
+            case .divider:
+                return MSColors.Table.HeaderFooter.textDivider
             case .dividerHighlighted:
-                return MSColors.Table.HeaderFooter.textHighlighted
+                return MSColors.Table.HeaderFooter.textDividerHighlighted
             }
         }
     }

@@ -147,14 +147,8 @@ class MSDateTimePickerController: UIViewController, DateTimePicker {
         segmentedControl?.addTarget(self, action: #selector(handleDidSelectStartEnd(_:)), for: .valueChanged)
     }
 
-    // TODO: Refactor this to reuse for any modal that needs a confirm
     private func initNavigationBar() {
-        if let image = UIImage.staticImageNamed("checkmark-blue-25x25"),
-            let landscapeImage = UIImage.staticImageNamed("checkmark-blue-thin-20x20") {
-            let doneButton = UIBarButtonItem(image: image, landscapeImagePhone: landscapeImage, style: .plain, target: self, action: #selector(handleDidTapDone))
-            doneButton.accessibilityLabel = "Accessibility.Done.Label".localized
-            navigationItem.rightBarButtonItem = doneButton
-        }
+        navigationItem.rightBarButtonItem = MSBarButtonItems.confirm(target: self, action: #selector(handleDidTapDone))
         navigationItem.titleView = titleView
     }
 
