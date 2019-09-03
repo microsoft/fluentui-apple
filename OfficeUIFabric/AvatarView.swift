@@ -89,8 +89,8 @@ open class AvatarView : NSView {
 		super.init(frame: .zero)
 
 		wantsLayer = true
-		layer?.cornerRadius = avatarSize / 2.0
-		layer?.borderWidth = 1
+		circleMask.path = circularPath(withCircleDiameter: avatarSize)
+		layer?.mask = circleMask
 
 		let widthConstraint = widthAnchor.constraint(equalToConstant: avatarSize)
 		let heightConstraint = heightAnchor.constraint(equalToConstant: avatarSize)
@@ -108,9 +108,14 @@ open class AvatarView : NSView {
 	}
 
 	override open func updateLayer() {
-		layer?.borderColor = NSColor.systemGray.cgColor
+		CATransaction.begin()
+		defer {
+			CATransaction.commit()
+		}
+		// Disable animations for this change
+		CATransaction.setDisableActions(true)
 		if displayStyle == .initials {
-			initialsView.layer?.backgroundColor = avatarBackgroundColor.cgColor
+			circleLayer.fillColor = avatarBackgroundColor.cgColor
 		}
 	}
 
@@ -122,6 +127,7 @@ open class AvatarView : NSView {
 				return
 			}
 			needsDisplay = true
+			initialsTextField.backgroundColor = avatarBackgroundColor
 		}
 	}
 
@@ -169,8 +175,11 @@ open class AvatarView : NSView {
 			} else {
 				assertionFailure()
 			}
-			layer?.cornerRadius = avatarSize / 2.0
-			initialsTextField.font = NSFont.systemFont(ofSize: avatarSize * Constants.fontSizeScalingDefault)
+			let path = circularPath(withCircleDiameter: avatarSize)
+			circleMask.path = path
+			circleLayer.path = path
+
+			initialsTextField.font = NSFont.systemFont(ofSize:fontSize(forCircleDiameter: avatarSize))
 		}
 	}
 	
@@ -179,6 +188,12 @@ open class AvatarView : NSView {
 	
 	/// The height constraint giving this view its size
 	private var heightConstraint: NSLayoutConstraint?
+
+	/// The layer used to draw the colorful circle underneath the initials in the initials view
+	private let circleLayer = CAShapeLayer()
+
+	/// The layer used to mask the overall AvatarView to a circle
+	private let circleMask = CAShapeLayer()
 
 	/// A property for the display style based on whether an image exists or not.
 	private var displayStyle: DisplayStyle {
@@ -204,7 +219,10 @@ open class AvatarView : NSView {
 		let initialsView = NSView()
 		initialsView.wantsLayer = true
 		initialsView.translatesAutoresizingMaskIntoConstraints = false
-		initialsView.layer?.backgroundColor = avatarBackgroundColor.cgColor
+
+		circleLayer.path = circularPath(withCircleDiameter: avatarSize)
+		circleLayer.fillColor = avatarBackgroundColor.cgColor
+		initialsView.layer?.addSublayer(circleLayer)
 
 		let textView = initialsTextField
 		initialsView.addSubview(textView)
@@ -223,8 +241,10 @@ open class AvatarView : NSView {
 	private lazy var initialsTextField: NSTextField = {
 		let textView = NSTextField(labelWithString: initials(name: contactName, email: contactEmail))
 		textView.translatesAutoresizingMaskIntoConstraints = false
-		textView.font = NSFont.systemFont(ofSize: avatarSize * Constants.fontSizeScalingDefault)
+		textView.font = NSFont.systemFont(ofSize:fontSize(forCircleDiameter: avatarSize))
 		textView.textColor = Constants.initialsViewTextColor
+		textView.drawsBackground = true
+		textView.backgroundColor = avatarBackgroundColor
 		return textView
 	}()
 	
@@ -342,4 +362,23 @@ func colorIndex(for identifyingString: String) -> Int {
 func backgroundColor(for index: Int) -> NSColor {
 	let avatarBackgroundColors = Constants.avatarBackgroundColors
 	return avatarBackgroundColors[index % avatarBackgroundColors.count]
+}
+
+/// Return a CGPath containing a circle of a given size, inset by a given inset
+///
+/// - Parameters:
+///   - diameter: the diameter of the circle to return a path of
+///   - inset: the amount the circle should be inset by inside the
+/// - Returns: a path centered within the given size inset by the given amount
+fileprivate func circularPath(withCircleDiameter diameter: CGFloat) -> CGPath {
+	return CGPath(ellipseIn: NSRect(x: 0, y: 0, width: diameter, height: diameter), transform: nil)
+}
+
+/// Return a font size to fit the maximumNumberOfInitials inside a cirlce of the given size
+///
+/// - Parameter diameter: the diameter of the circle for which to determine a font size
+/// - Returns: the appropriate font size to fit within a circle of the given size
+/// - note: font sizes will be rounded to the nearest 0.5 point for rendering fidelity
+fileprivate func fontSize(forCircleDiameter diameter: CGFloat) -> CGFloat {
+	return floor(diameter * Constants.fontSizeScalingDefault * 2) / 2
 }
