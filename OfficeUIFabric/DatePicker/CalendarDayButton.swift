@@ -63,9 +63,8 @@ class CalendarDayButton: NSButton {
         // Mask used to create the circular shape.
         // layer?.cornerRadius could replace this, but it is causing visual artifacts
         //  when layerUsesCoreImageFilters = true (10.14.4)
-        let maskPath = NSBezierPath(roundedRect: frame, xRadius: size / 2.0, yRadius: size / 2.0)
         maskLayer.frame = frame
-        maskLayer.path = maskPath.cgPath
+        maskLayer.path = CGPath(ellipseIn: frame, transform: nil)
         maskLayer.contentsScale = window?.backingScaleFactor ?? 1.0
         layer?.mask = maskLayer
         
@@ -210,30 +209,5 @@ class CalendarDayButton: NSButton {
             }
         }
         return isInDarkAppearance
-    }
-}
-
-private extension NSBezierPath {
-    // Converts the NSBezierPath to a CGPath
-    var cgPath: CGPath {
-        let path = CGMutablePath()
-        var points = [CGPoint](repeating: .zero, count: 3)
-        
-        for i in 0 ..< elementCount {
-            let type = element(at: i, associatedPoints: &points)
-            switch type {
-            case .moveTo:
-                path.move(to: points[0])
-            case .lineTo:
-                path.addLine(to: points[0])
-            case .curveTo:
-                path.addCurve(to: points[2], control1: points[0], control2: points[1])
-            case .closePath:
-                path.closeSubpath()
-            default:
-                ()
-            }
-        }
-        return path
     }
 }
