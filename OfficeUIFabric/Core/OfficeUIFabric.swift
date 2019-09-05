@@ -53,7 +53,7 @@ public class OfficeUIFabricFramework: NSObject {
         titleAttributes[.foregroundColor] = MSColors.NavigationBar.title
         navigationBar.titleTextAttributes = titleAttributes
 
-        navigationBar.backIndicatorImage = UIImage.staticImageNamed("back-25x25")
+        navigationBar.backIndicatorImage = UIImage.staticImageNamed("back-25x25")?.withRenderingMode(.alwaysTemplate)
         navigationBar.backIndicatorTransitionMaskImage = navigationBar.backIndicatorImage
     }
 
