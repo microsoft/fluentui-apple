@@ -7,6 +7,8 @@ pr: none # disable on PRs until stable
 
 jobs:
   - job: fabric_ios_nuget_publish
+    pool:
+      name: Hosted Mac Internal Mojave
     displayName: Fabric iOS NuGet Publish
     timeoutInMinutes: 120 # how long to run the job before automatically cancelling
     cancelTimeoutInMinutes: 5 # how much time to give 'run always even if cancelled tasks' before killing them
@@ -24,8 +26,7 @@ jobs:
           scheme: OfficeUIFabricLib
           sdk: 'iphonesimulator'
           configuration: 'Debug'
-          xcodeVersion: 'specifyPath'
-          xcodeDeveloperDir: '/Applications/Xcode_10.2.1.app/Contents/Developer'
+          xcodeVersion: 11
           useXcpretty: false
           args: 'CLANG_DEBUG_INFORMATION_LEVEL=line-tables-only OTHER_SWIFT_FLAGS=-gline-tables-only SWIFT_OPTIMIZATION_LEVEL=-Osize SWIFT_REFLECTION_METADATA_LEVEL=none'
 
@@ -37,8 +38,7 @@ jobs:
           scheme: OfficeUIFabricLib
           sdk: 'iphonesimulator'
           configuration: 'Release'
-          xcodeVersion: 'specifyPath'
-          xcodeDeveloperDir: '/Applications/Xcode_10.2.1.app/Contents/Developer'
+          xcodeVersion: 11
           useXcpretty: false
           args: 'CLANG_DEBUG_INFORMATION_LEVEL=line-tables-only OTHER_SWIFT_FLAGS=-gline-tables-only SWIFT_OPTIMIZATION_LEVEL=-Osize SWIFT_REFLECTION_METADATA_LEVEL=none'
 
@@ -50,8 +50,7 @@ jobs:
           scheme: OfficeUIFabricLib
           sdk: 'iphoneos'
           configuration: 'Debug'
-          xcodeVersion: 'specifyPath'
-          xcodeDeveloperDir: '/Applications/Xcode_10.2.1.app/Contents/Developer'
+          xcodeVersion: 11
           useXcpretty: false
           args: 'CLANG_DEBUG_INFORMATION_LEVEL=line-tables-only OTHER_SWIFT_FLAGS=-gline-tables-only SWIFT_OPTIMIZATION_LEVEL=-Osize SWIFT_REFLECTION_METADATA_LEVEL=none'
 
@@ -63,8 +62,7 @@ jobs:
           scheme: OfficeUIFabricLib
           sdk: 'iphoneos'
           configuration: 'Release'
-          xcodeVersion: 'specifyPath'
-          xcodeDeveloperDir: '/Applications/Xcode_10.2.1.app/Contents/Developer'
+          xcodeVersion: 11
           useXcpretty: false
           args: 'CLANG_DEBUG_INFORMATION_LEVEL=line-tables-only OTHER_SWIFT_FLAGS=-gline-tables-only SWIFT_OPTIMIZATION_LEVEL=-Osize SWIFT_REFLECTION_METADATA_LEVEL=none'
 
