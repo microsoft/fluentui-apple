@@ -17,8 +17,7 @@ steps:
       scheme: ${{ parameters.xcode_scheme }}
       sdk: ${{ parameters.xcode_sdk }}
       configuration: ${{ parameters.xcode_configuration }}
-      xcodeVersion: 'specifyPath'
-      xcodeDeveloperDir: '/Applications/Xcode_10.2.1.app/Contents/Developer'
+      xcodeVersion: 11
       useXcpretty: ${{ parameters.xcode_useXcpretty }}
       args: ${{ parameters.xcode_extraArgs }}
 

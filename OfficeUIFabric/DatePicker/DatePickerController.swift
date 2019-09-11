@@ -46,7 +46,7 @@ open class DatePickerController: NSViewController {
             return selectedDateTime
         }
         set {
-            handleDateTimeSelection(of: date)
+            handleDateTimeSelection(of: newValue)
         }
     }
     
