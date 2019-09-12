@@ -6,6 +6,19 @@ import XCTest
 @testable import OfficeUIFabric
 
 class AvatarViewTests: XCTestCase {
+	func testValidInitialsCharacter () {
+		XCTAssertTrue(isValidInitialsCharacter("A"))
+		XCTAssertTrue(isValidInitialsCharacter("Æ"))
+		XCTAssertTrue(isValidInitialsCharacter("È"))
+		XCTAssertTrue(isValidInitialsCharacter("Å"))
+		XCTAssertTrue(isValidInitialsCharacter("Ü"))
+		XCTAssertFalse(isValidInitialsCharacter("😂"))
+		XCTAssertFalse(isValidInitialsCharacter("👑"))
+		XCTAssertFalse(isValidInitialsCharacter("王"))
+		XCTAssertFalse(isValidInitialsCharacter("肖"))
+		XCTAssertFalse(isValidInitialsCharacter("보"))
+	}
+
 	func testInitialsExtraction () {
 		// Basic cases
 		XCTAssertEqual(initials(name: nil, email: nil), "#")
@@ -22,6 +35,21 @@ class AvatarViewTests: XCTestCase {
 		XCTAssertEqual(initials(name: "Satya Nadella 👑", email: "satya@microsoft.com"), "SN")
 		XCTAssertEqual(initials(name: "Satya Nadella👑", email: "satya@microsoft.com"), "SN")
 		XCTAssertEqual(initials(name: "Satya 👑 Nadella", email: "satya@microsoft.com"), "SN")
+
+		// Complex characters
+		XCTAssertEqual(initials(name: "王小博", email: "email@host.com"), "E")
+		XCTAssertEqual(initials(name: "王小博", email: nil), "#")
+		XCTAssertEqual(initials(name: "肖赞", email: ""), "#")
+		XCTAssertEqual(initials(name: "보라", email: nil), "#")
+		XCTAssertEqual(initials(name: "אָדָם", email: nil), "#")
+		XCTAssertEqual(initials(name: "حسن", email: nil), "#")
+		XCTAssertEqual(initials(name: nil, email: "用户@例子.广告"), "#")
+
+		// Complex roman characters
+		XCTAssertEqual(initials(name: "Êmïlÿ Çœłb", email: nil), "ÊÇ")
+
+		// Mixed characters
+		XCTAssertEqual(initials(name: "Sean 肖", email: nil), "S")
 	}
 	
 	func testAccessibility () {

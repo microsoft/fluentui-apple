@@ -298,6 +298,15 @@ open class AvatarView : NSView {
 	}
 }
 
+/// Determines whether a given character
+/// - parameter character: the character to validate
+///
+/// - returns: `true` if the character is valid for use as an initial, `false` otherwise
+func isValidInitialsCharacter(_ character: Unicode.Scalar) -> Bool {
+	return CharacterSet.letters.contains(character)
+		&& String(character).canBeConverted(to: .macOSRoman)
+}
+
 /// Extract the initials to display from a name and email combo
 ///
 /// param contactName the name of the contact with the format “<First Name> <Last Name>”
@@ -313,23 +322,25 @@ func initials(name: String?, email: String?) -> String {
 	// Add the zero width space character to the standard whitespace and new lines character set
 	let whitespaceNewlineAndZeroWidthSpace = CharacterSet.whitespacesAndNewlines.union(CharacterSet(charactersIn: Constants.zeroWidthSpaceUnicodeCharacter))
 	
-	if let name = name {
+	if let name = name, name.count > 0 {
 		let components = name.split(separator: " ")
 		let nameComponentsWithUnicodeLetterFirstCharacters = components.filter {
 			let trimmedString = $0.trimmingCharacters(in: whitespaceNewlineAndZeroWidthSpace)
 			let unicodeScalars = trimmedString[trimmedString.startIndex].unicodeScalars
 			let initialUnicodeScalar = unicodeScalars[unicodeScalars.startIndex]
-			return CharacterSet.letters.contains(initialUnicodeScalar)
+			return isValidInitialsCharacter(initialUnicodeScalar)
 		}
 		if nameComponentsWithUnicodeLetterFirstCharacters.count > 0 {
 			initials = String(nameComponentsWithUnicodeLetterFirstCharacters.prefix(Constants.maximumNumberOfInitials).map { $0[$0.startIndex] })
 		}
 	}
 	
-	if initials == nil, let email = email?.trimmingCharacters(in: whitespaceNewlineAndZeroWidthSpace) {
+	if initials == nil,
+		let email = email?.trimmingCharacters(in: whitespaceNewlineAndZeroWidthSpace),
+		email.count > 0 {
 		let unicodeScalars = email[email.startIndex].unicodeScalars
 		let initialUnicodeScalar = unicodeScalars[unicodeScalars.startIndex]
-		if CharacterSet.letters.contains(initialUnicodeScalar) {
+		if isValidInitialsCharacter(initialUnicodeScalar) {
 			initials = String(initialUnicodeScalar)
 		}
 	}
