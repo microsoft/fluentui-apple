@@ -129,6 +129,10 @@
 		A5CEC16F20D98F340016922A /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC16E20D98F340016922A /* Fonts.swift */; };
 		A5CEC23120E451D00016922A /* MSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC23020E451D00016922A /* MSButton.swift */; };
 		A5DCA76421224026005F4CB7 /* MSSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DCA76321224026005F4CB7 /* MSSeparator.swift */; };
+		A5F3B146232B1E3700007A4F /* MSScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F3B145232B1E3700007A4F /* MSScrollView.swift */; };
+		A5F3B147232B1E3700007A4F /* MSScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F3B145232B1E3700007A4F /* MSScrollView.swift */; };
+		A5F3B149232B1F9700007A4F /* UIResponder+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F3B148232B1F9700007A4F /* UIResponder+Extensions.swift */; };
+		A5F3B14A232B1F9700007A4F /* UIResponder+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F3B148232B1F9700007A4F /* UIResponder+Extensions.swift */; };
 		B426613E214731D100E25423 /* MSInitialsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B426613D214731D100E25423 /* MSInitialsView.swift */; };
 		B4266140214852B400E25423 /* NSString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B426613F214852B400E25423 /* NSString+Extension.swift */; };
 		B42661422148568800E25423 /* MSAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42661412148568800E25423 /* MSAvatarView.swift */; };
@@ -269,6 +273,8 @@
 		A5DA88FE226FAA01000A8EA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A5DCA76321224026005F4CB7 /* MSSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSSeparator.swift; sourceTree = "<group>"; };
 		A5DF1EAC2213B26900CC741A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		A5F3B145232B1E3700007A4F /* MSScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSScrollView.swift; sourceTree = "<group>"; };
+		A5F3B148232B1F9700007A4F /* UIResponder+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+Extensions.swift"; sourceTree = "<group>"; };
 		B426613D214731D100E25423 /* MSInitialsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSInitialsView.swift; sourceTree = "<group>"; };
 		B426613F214852B400E25423 /* NSString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSString+Extension.swift"; sourceTree = "<group>"; };
 		B42661412148568800E25423 /* MSAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAvatarView.swift; sourceTree = "<group>"; };
@@ -458,6 +464,7 @@
 				A5B87AEE211BCA710038C37C /* UIFontDescriptor+Extension.swift */,
 				A5961FA6218A2E4500E2A506 /* UIImage+Extensions.swift */,
 				FD5BBE3E214C68F8008964B4 /* UINavigationBar+Extensions.swift */,
+				A5F3B148232B1F9700007A4F /* UIResponder+Extensions.swift */,
 				A5B87B01211E20B50038C37C /* UIScreen+Extension.swift */,
 				B444D6B02181403C0002B4D4 /* UITableViewCell+Extension.swift */,
 				A5B87B05211E23650038C37C /* UIView+Extensions.swift */,
@@ -576,6 +583,7 @@
 				FD5BBE42214C73CE008964B4 /* MSEasyTapButton.swift */,
 				A589F853211BA03200471C23 /* MSLabel.swift */,
 				A5237ACA21DED7030040BF27 /* MSResizingHandleView.swift */,
+				A5F3B145232B1E3700007A4F /* MSScrollView.swift */,
 				FDCF7C7E21BB56740058E9E6 /* MSSegmentedControl.swift */,
 				A5DCA76321224026005F4CB7 /* MSSeparator.swift */,
 				B483323621DEB5A00022B4CC /* MSTouchForwardingView.swift */,
@@ -990,6 +998,7 @@
 				8FD01189228A82A600D25925 /* Fonts.swift in Sources */,
 				8FD0118A228A82A600D25925 /* MSAccessibilityContainerView.swift in Sources */,
 				B4EF66522294A665007FEAB0 /* MSTableViewHeaderFooterView.swift in Sources */,
+				A5F3B14A232B1F9700007A4F /* UIResponder+Extensions.swift in Sources */,
 				8FD0118B228A82A600D25925 /* MSCalendarConfiguration.swift in Sources */,
 				8FD0118C228A82A600D25925 /* MSDayOfMonth.swift in Sources */,
 				8FD0118D228A82A600D25925 /* Obscurable.swift in Sources */,
@@ -1032,6 +1041,7 @@
 				8FD011B0228A82A600D25925 /* MSHUD.swift in Sources */,
 				8FD011B1228A82A600D25925 /* MSHUDView.swift in Sources */,
 				8FD011B2228A82A600D25925 /* MSAvatarView.swift in Sources */,
+				A5F3B147232B1E3700007A4F /* MSScrollView.swift in Sources */,
 				8FD011B3228A82A600D25925 /* MSInitialsView.swift in Sources */,
 				8FD011B4228A82A600D25925 /* MSPersonaCell.swift in Sources */,
 				8FD011B5228A82A600D25925 /* MSPersonaListView.swift in Sources */,
@@ -1127,6 +1137,7 @@
 				B4A8BBCD21BF6D6900D5E3ED /* MSBadgeStringExtractor.swift in Sources */,
 				FD599D0A2134AB15008845EE /* MSCalendarViewLayout.swift in Sources */,
 				FDD454EE21405B390006E84E /* MSDotView.swift in Sources */,
+				A5F3B149232B1F9700007A4F /* UIResponder+Extensions.swift in Sources */,
 				FD256C5B2183B90B00EC9588 /* MSDatePickerSelectionManager.swift in Sources */,
 				A5CEC23120E451D00016922A /* MSButton.swift in Sources */,
 				FDF41EDB2141A23B00EC527C /* UIViewController+Extensions.swift in Sources */,
@@ -1148,6 +1159,7 @@
 				A559BB7E212B6D100055E107 /* String+Extension.swift in Sources */,
 				A5961FA5218A260500E2A506 /* MSPopupMenuSectionHeaderView.swift in Sources */,
 				FD56FD9A2194E50D0023C7EA /* MSDateTimePickerController.swift in Sources */,
+				A5F3B146232B1E3700007A4F /* MSScrollView.swift in Sources */,
 				B46D3F9D215985AC0029772C /* MSPersonaListView.swift in Sources */,
 				A5DCA76421224026005F4CB7 /* MSSeparator.swift in Sources */,
 				FD599D062134A682008845EE /* AccessibleViewDelegate.swift in Sources */,
