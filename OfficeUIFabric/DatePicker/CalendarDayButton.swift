@@ -80,7 +80,6 @@ class CalendarDayButton: NSButton {
         // Layer with a compositing filter used to 'subtract' the text from the highlight circle
         highlightLayer.frame = frame
         highlightLayer.compositingFilter = CIFilter(name: "CISourceOutCompositing")
-        highlightLayer.backgroundColor = NSColor.systemBlue.cgColor
         highlightLayer.contentsScale = window?.backingScaleFactor ?? 1.0
         
         let constraints = [
@@ -101,6 +100,11 @@ class CalendarDayButton: NSButton {
         case .on:
             textLayer.addSublayer(highlightLayer)
             textLayer.font = NSFont.boldSystemFont(ofSize: fontSize)
+            if #available(OSX 10.14, *) {
+                highlightLayer.backgroundColor = NSColor.controlAccentColor.cgColor
+            } else {
+                highlightLayer.backgroundColor = NSColor.systemBlue.cgColor
+            }
         case .off:
             if highlightLayer.superlayer != nil {
                 highlightLayer.removeFromSuperlayer()
@@ -116,6 +120,7 @@ class CalendarDayButton: NSButton {
         case .secondary:
             textLayer.foregroundColor = isDarkMode ? Constants.secondaryFontColorDarkMode.cgColor : Constants.secondaryFontColorLightMode.cgColor
         }
+		
     }
     
     override func viewDidChangeBackingProperties() {
