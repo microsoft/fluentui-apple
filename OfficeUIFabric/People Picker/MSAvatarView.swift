@@ -86,6 +86,7 @@ open class MSAvatarView: UIView {
         didSet {
             frame.size = avatarSize.size
             initialsView.avatarSize = avatarSize
+            invalidateIntrinsicContentSize()
         }
     }
 
@@ -199,6 +200,12 @@ open class MSAvatarView: UIView {
         secondaryText = nil
 
         setupWithImage(image)
+    }
+
+    /// Sets up the avatar view with a data from the avatar object.
+    /// - Parameter avatar: The avatar object to get content from
+    @objc public func setup(avatar: MSAvatar?) {
+        setup(primaryText: avatar?.primaryText, secondaryText: avatar?.secondaryText, image: avatar?.image)
     }
 
     private func setupWithInitials() {

@@ -126,4 +126,97 @@ public extension UIView {
         }
         return newRect
     }
+
+    /// Removes all subviews from the caller
+    func removeAllSubviews() {
+        subviews.forEach { (subview) in
+            subview.removeFromSuperview()
+        }
+    }
+}
+
+// MARK: - Show/Hide safety methods
+
+// UIView.isHidden has a bug where a series of repeated calls with the same parameter can "glitch" the view into a permanent shown/hidden state
+// i.e. repeatedly trying to hide a UIView that is already in the hidden state
+// by adding a check to the isHidden property prior to setting, we avoid such problematic scenarios
+extension UIView {
+    /// Sets the isHidden property to false, if the UIView is already hidden
+    func safelyShow() {
+        guard self.isHidden == true else {
+            return
+        }
+        self.isHidden = false
+    }
+
+    /// Sets the isHidden property to true, if the UIView is already showing
+    func safelyHide() {
+        guard self.isHidden == false else {
+            return
+        }
+        self.isHidden = true
+    }
+}
+
+// MARK: - Animatable Show/Hide
+
+extension UIView {
+    /// isHidden is not an animatable property
+    /// this method uses the alpha property, which is animatable
+    ///
+    /// - Parameter duration: duration of the show animation
+    func animatedShow(duration: Double) {
+        self.animatedShow(duration: duration, completion: nil)
+    }
+
+    /// isHidden is not an animatable property
+    /// this method uses the alpha property, which is animatable
+    ///
+    /// - Parameter duration: duration of the hide animation
+    func animatedHide(duration: Double) {
+        animatedHide(duration: duration, completion: nil)
+    }
+
+    func animatedShow(duration: Double, completion: (() -> Void)?) {
+        self.alpha = 0.0
+        self.safelyShow()
+        UIView.animate(withDuration: duration, animations: {
+            self.alpha = 1.0
+        }, completion: { (_) in
+            completion?()
+        })
+    }
+
+    func animatedHide(duration: Double, completion: (() -> Void)?) {
+        UIView.animate(withDuration: duration, animations: {
+            self.alpha = 0.0
+        }, completion: { (_) in
+            self.safelyHide()
+            completion?()
+        })
+    }
+}
+
+// MARK: - NSLayoutConstraint and Autolayout Convenience Methods
+
+extension UIView {
+    //Uses autolayout to constrain the provided view as a matching subview of the receiver
+    func contain(view: UIView) {
+        NSLayoutConstraint.contain(view: view, in: self, withInsets: .zero, respectingSafeAreaInsets: false)
+    }
+
+    //Uses autolayout to constrain the provided view as a matching subview of the receiver, with insets
+    func contain(view: UIView, withInsets insets: UIEdgeInsets) {
+        NSLayoutConstraint.contain(view: view, in: self, withInsets: insets, respectingSafeAreaInsets: false)
+    }
+
+    //Uses autolayout to constrain the provided view as a matching subview of the receiver, with insets and optionally respecting the safe area insets on iOS 11.0+
+    func contain(view: UIView, withInsets insets: UIEdgeInsets, respectingSafeAreaInsets respectsSafeAreaInsets: Bool) {
+        NSLayoutConstraint.contain(view: view, in: self, withInsets: insets, respectingSafeAreaInsets: respectsSafeAreaInsets)
+    }
+
+    //Uses autolayout to constrain the provided view at the center of the receiver
+    func center(view: UIView) {
+        NSLayoutConstraint.center(view: view, in: self)
+    }
 }

@@ -18,6 +18,7 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("MSDrawerController", MSDrawerDemoController.self),
     ("MSHUD", MSHUDDemoController.self),
     ("MSLabel", MSLabelDemoController.self),
+    ("MSNavigationController", MSNavigationControllerDemoController.self),
     ("MSPersonaListView", MSPersonaListViewDemoController.self),
     ("MSPopupMenuController", MSPopupMenuDemoController.self),
     ("MSSegmentedControl", MSSegmentedControlDemoController.self),

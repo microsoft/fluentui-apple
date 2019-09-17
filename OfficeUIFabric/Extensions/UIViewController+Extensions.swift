@@ -5,13 +5,11 @@
 
 import UIKit
 
-// MARK: Add/Remove Child View Controller
-
 public extension UIViewController {
     /// Convenience method that adds a child view controller to the receiver and also establish the parent-children relationship between their corresponding views
-    @objc func addChildController(_ childController: UIViewController) {
+    @objc func addChildController(_ childController: UIViewController, containingViewIn viewContainer: UIView? = nil) {
         addChild(childController)
-        view.addSubview(childController.view)
+        (viewContainer ?? view).addSubview(childController.view)
         childController.didMove(toParent: self)
     }
 
@@ -20,5 +18,17 @@ public extension UIViewController {
         childController.willMove(toParent: nil)
         childController.view.removeFromSuperview()
         childController.removeFromParent()
+    }
+
+    @objc func isAncestor(ofViewController viewController: UIViewController) -> Bool {
+        for child in children {
+            if child == viewController {
+                return true
+            }
+            if child.isAncestor(ofViewController: viewController) {
+                return true
+            }
+        }
+        return false
     }
 }

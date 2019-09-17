@@ -235,10 +235,23 @@ public final class MSColors: NSObject {
         public static var text: UIColor = foreground6
     }
 
+    public struct Navigation {
+        public struct System {
+            public static var background: UIColor = NavigationBar.background
+            public static var tint: UIColor = NavigationBar.tint
+            public static var title: UIColor = NavigationBar.title
+        }
+        public struct Primary {
+            public static var background = UIColor(light: primary, dark: System.background)
+            public static var tint = UIColor(light: foreground6, dark: System.tint)
+            public static var title = UIColor(light: foreground6, dark: System.title)
+        }
+    }
+
     public struct NavigationBar {
         public static var background: UIColor = background1c
         public static var tint: UIColor = BarButtonItem.secondary
-        public static var title: UIColor = foreground7
+        public static var title = UIColor(light: gray900, dark: white)
     }
 
     public struct PageCardPresenter {
@@ -261,6 +274,27 @@ public final class MSColors: NSObject {
     public struct ResizingHandle {
         public static var background: UIColor = background1
         public static var mark: UIColor = foreground5b
+    }
+
+    public struct SearchBar {
+        public struct DarkContent {
+            public static var background = UIColor(light: background3, dark: LightContent.background)
+            public static var cancelButton = UIColor(light: foreground3, dark: LightContent.cancelButton)
+            public static var clearIcon = UIColor(light: foreground3, dark: LightContent.clearIcon)
+            public static var placeholderText = UIColor(light: foreground3, dark: LightContent.placeholderText)
+            public static var searchIcon = UIColor(light: foreground3, dark: LightContent.searchIcon)
+            public static var text = UIColor(light: foreground1, dark: LightContent.text)
+            public static var tint = UIColor(light: foreground3, dark: LightContent.tint)
+        }
+        public struct LightContent {
+            public static var background = UIColor(light: black.withAlphaComponent(0.2), dark: white.withAlphaComponent(0.1))
+            public static var cancelButton = UIColor(light: foreground6, dark: gray100)
+            public static var clearIcon = UIColor(light: white.withAlphaComponent(0.6), dark: gray400)
+            public static var placeholderText = UIColor(light: foreground6.withAlphaComponent(0.7), dark: gray300)
+            public static var searchIcon = UIColor(light: white, dark: gray400)
+            public static var text = UIColor(light: foreground6, dark: gray100)
+            public static var tint = UIColor(light: white.withAlphaComponent(0.8), dark: gray100)
+        }
     }
 
     public struct SegmentedControl {
@@ -327,7 +361,7 @@ public final class MSColors: NSObject {
     }
 
     public struct TwoLineTitle {
-        public static var titleDark: UIColor = foreground7
+        public static var titleDark: UIColor = NavigationBar.title
         public static var titleLight: UIColor = foreground6
         public static var subtitleDark: UIColor = foreground3
         public static var subtitleLight: UIColor = foreground6.withAlphaComponent(0.8)

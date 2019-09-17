@@ -28,7 +28,7 @@ open class MSPersonaCell: MSTableViewCell {
     ///   - persona: The MSPersona to set up the cell with
     ///   - accessoryType: The type of accessory that appears on the trailing edge: a disclosure indicator or a details button with an ellipsis icon
     open func setup(persona: MSPersona, accessoryType: MSTableViewCellAccessoryType = .none) {
-        avatarView.setup(primaryText: persona.name, secondaryText: persona.email, image: persona.avatarImage)
+        avatarView.setup(avatar: persona)
         // Attempt to use email if name is empty
         let title = !persona.name.isEmpty ? persona.name : persona.email
         setup(title: title, subtitle: persona.subtitle, customView: avatarView, accessoryType: accessoryType)
