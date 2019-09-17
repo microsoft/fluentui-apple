@@ -78,6 +78,9 @@
 /* Accessibility label for when a task is in progress */
 "Accessibility.HUD.Loading" = "लोड हो रहा है";
 
+/* Accessibility label for the avatar (or profile) view in */
+"Accessibility.LargeTitle.ProfileView" = "Account Profile";
+
 /* Accessibility hint for a segmented control button */
 "Accessibility.Segmented.Button.Hint" = "%@ पर जाने के लिए टैप करें";
 
