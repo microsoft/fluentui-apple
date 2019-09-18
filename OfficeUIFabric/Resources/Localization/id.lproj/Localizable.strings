@@ -79,7 +79,7 @@
 "Accessibility.HUD.Loading" = "Memuat";
 
 /* Accessibility label for the avatar (or profile) view in */
-"Accessibility.LargeTitle.ProfileView" = "Account Profile";
+"Accessibility.LargeTitle.ProfileView" = "Profil Akun";
 
 /* Accessibility hint for a segmented control button */
 "Accessibility.Segmented.Button.Hint" = "Ketuk untuk membuka %@";

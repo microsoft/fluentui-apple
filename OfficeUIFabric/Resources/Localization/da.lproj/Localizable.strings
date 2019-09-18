@@ -79,7 +79,7 @@
 "Accessibility.HUD.Loading" = "Indlæser";
 
 /* Accessibility label for the avatar (or profile) view in */
-"Accessibility.LargeTitle.ProfileView" = "Account Profile";
+"Accessibility.LargeTitle.ProfileView" = "Opret kontoprofil";
 
 /* Accessibility hint for a segmented control button */
 "Accessibility.Segmented.Button.Hint" = "Tryk for at gå til %@";
