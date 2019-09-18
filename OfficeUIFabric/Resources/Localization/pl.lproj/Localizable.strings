@@ -79,7 +79,7 @@
 "Accessibility.HUD.Loading" = "Ładowanie";
 
 /* Accessibility label for the avatar (or profile) view in */
-"Accessibility.LargeTitle.ProfileView" = "Account Profile";
+"Accessibility.LargeTitle.ProfileView" = "Profil konta";
 
 /* Accessibility hint for a segmented control button */
 "Accessibility.Segmented.Button.Hint" = "Naciśnij, aby przejść do: %@";

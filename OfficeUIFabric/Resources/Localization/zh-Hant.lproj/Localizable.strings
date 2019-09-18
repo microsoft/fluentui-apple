@@ -79,7 +79,7 @@
 "Accessibility.HUD.Loading" = "正在載入";
 
 /* Accessibility label for the avatar (or profile) view in */
-"Accessibility.LargeTitle.ProfileView" = "Account Profile";
+"Accessibility.LargeTitle.ProfileView" = "帳戶設定檔";
 
 /* Accessibility hint for a segmented control button */
 "Accessibility.Segmented.Button.Hint" = "點選以移至 %@";
