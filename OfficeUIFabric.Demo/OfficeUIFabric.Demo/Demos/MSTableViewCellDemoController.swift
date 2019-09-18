@@ -11,6 +11,12 @@ import OfficeUIFabric
 class MSTableViewCellDemoController: DemoController {
     private let sections: [TableViewSampleData.Section] = MSTableViewCellSampleData.sections
 
+    private var isGrouped: Bool = false {
+        didSet {
+            updateTableView()
+        }
+    }
+
     private var isInSelectionMode: Bool = false {
         didSet {
             tableView.allowsMultipleSelection = isInSelectionMode
@@ -36,6 +42,10 @@ class MSTableViewCellDemoController: DemoController {
 
     private var tableView: UITableView!
 
+    private var styleButtonTitle: String {
+        return isGrouped ? "Switch to Plain style" : "Switch to Grouped style"
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -45,16 +55,32 @@ class MSTableViewCellDemoController: DemoController {
         tableView.register(MSTableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: MSTableViewHeaderFooterView.identifier)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = MSColors.Table.background
         tableView.separatorStyle = .none
         tableView.sectionFooterHeight = 0
+        updateTableView()
         view.addSubview(tableView)
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(barButtonTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(selectionBarButtonTapped))
+
+        toolbarItems = [
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(title: styleButtonTitle, style: .plain, target: self, action: #selector(styleBarButtonTapped)),
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        ]
     }
 
-    @objc private func barButtonTapped(sender: UIBarButtonItem) {
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.isToolbarHidden = false
+    }
+
+    @objc private func selectionBarButtonTapped(sender: UIBarButtonItem) {
         isInSelectionMode = !isInSelectionMode
+    }
+
+    @objc private func styleBarButtonTapped(sender: UIBarButtonItem) {
+        isGrouped = !isGrouped
+        sender.title = styleButtonTitle
     }
 
     private func updateNavigationTitle() {
@@ -64,6 +90,11 @@ class MSTableViewCellDemoController: DemoController {
         } else {
             navigationItem.title = title
         }
+    }
+
+    private func updateTableView() {
+        tableView.backgroundColor = isGrouped ? MSColors.Table.backgroundGrouped : MSColors.Table.background
+        tableView.reloadData()
     }
 }
 
@@ -95,6 +126,9 @@ extension MSTableViewCellDemoController: UITableViewDataSource {
         cell.subtitleNumberOfLines = section.numberOfLines
         cell.footerNumberOfLines = section.numberOfLines
         cell.titleLineBreakMode = .byTruncatingMiddle
+        cell.topSeparatorType = isGrouped && indexPath.row == 0 ? .full : .none
+        let isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
+        cell.bottomSeparatorType = isLastInSection ? .full : .inset
         cell.isInSelectionMode = section.allowsMultipleSelection ? isInSelectionMode : false
         return cell
     }

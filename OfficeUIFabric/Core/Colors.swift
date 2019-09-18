@@ -340,7 +340,7 @@ public final class MSColors: NSObject {
             public static var text: UIColor = primary
         }
         public struct HeaderFooter {
-            public static var background: UIColor = background1
+            public static var background: UIColor = .clear
             public static var backgroundDivider: UIColor = background2
             public static var backgroundDividerHighlighted = UIColor(light: extraLightPrimary, dark: gray950)
             public static var text: UIColor = foreground3
@@ -348,6 +348,7 @@ public final class MSColors: NSObject {
             public static var textDividerHighlighted: UIColor = primary
         }
         public static var background: UIColor = background1
+        public static var backgroundGrouped = UIColor(light: background2, dark: background1)
     }
 
     public struct Toolbar {

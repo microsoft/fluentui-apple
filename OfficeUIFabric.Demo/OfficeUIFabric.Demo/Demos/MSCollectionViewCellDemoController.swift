@@ -11,6 +11,12 @@ import OfficeUIFabric
 class MSCollectionViewCellDemoController: DemoController {
     private let sections: [TableViewSampleData.Section] = MSTableViewCellSampleData.sections
 
+    private var isGrouped: Bool = false {
+        didSet {
+            updateCollectionView()
+        }
+    }
+
     private var isInSelectionMode: Bool = false {
         didSet {
             collectionView.allowsMultipleSelection = isInSelectionMode
@@ -36,6 +42,10 @@ class MSCollectionViewCellDemoController: DemoController {
 
     private var collectionView: UICollectionView!
 
+    private var styleButtonTitle: String {
+        return isGrouped ? "Switch to Plain style" : "Switch to Grouped style"
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -48,12 +58,23 @@ class MSCollectionViewCellDemoController: DemoController {
         collectionView.register(MSCollectionViewHeaderFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MSCollectionViewHeaderFooterView.identifier)
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.backgroundColor = MSColors.Table.background
+        updateCollectionView()
         view.addSubview(collectionView)
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(barButtonTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(selectionBarButtonTapped))
+
+        toolbarItems = [
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(title: styleButtonTitle, style: .plain, target: self, action: #selector(styleBarButtonTapped)),
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        ]
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.isToolbarHidden = false
     }
 
     override func viewWillLayoutSubviews() {
@@ -68,8 +89,13 @@ class MSCollectionViewCellDemoController: DemoController {
         super.viewWillLayoutSubviews()
     }
 
-    @objc private func barButtonTapped(sender: UIBarButtonItem) {
+    @objc private func selectionBarButtonTapped(sender: UIBarButtonItem) {
         isInSelectionMode = !isInSelectionMode
+    }
+
+    @objc private func styleBarButtonTapped(sender: UIBarButtonItem) {
+        isGrouped = !isGrouped
+        sender.title = styleButtonTitle
     }
 
     @objc private func handleContentSizeCategoryDidChange() {
@@ -83,6 +109,11 @@ class MSCollectionViewCellDemoController: DemoController {
         } else {
             navigationItem.title = title
         }
+    }
+
+    private func updateCollectionView() {
+        collectionView.backgroundColor = isGrouped ? MSColors.Table.backgroundGrouped : MSColors.Table.background
+        collectionView.reloadData()
     }
 }
 
@@ -113,6 +144,9 @@ extension MSCollectionViewCellDemoController: UICollectionViewDataSource {
         cell.cellView.titleNumberOfLines = section.numberOfLines
         cell.cellView.subtitleNumberOfLines = section.numberOfLines
         cell.cellView.footerNumberOfLines = section.numberOfLines
+        cell.cellView.topSeparatorType = isGrouped && indexPath.item == 0 ? .full : .none
+        let isLastInSection = indexPath.item == collectionView.numberOfItems(inSection: indexPath.section) - 1
+        cell.cellView.bottomSeparatorType = isLastInSection ? .full : .inset
         cell.cellView.isInSelectionMode = section.allowsMultipleSelection ? isInSelectionMode : false
         cell.cellView.onAccessoryTapped = { [unowned self] in self.showAlertForDetailButtonTapped(title: item.text1) }
         return cell

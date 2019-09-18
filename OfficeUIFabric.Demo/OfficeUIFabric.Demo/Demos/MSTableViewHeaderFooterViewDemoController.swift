@@ -65,6 +65,15 @@ extension MSTableViewHeaderFooterViewDemoController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MSTableViewCell.identifier) as! MSTableViewCell
         cell.setup(title: TableViewHeaderFooterSampleData.itemTitle)
+        var isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
+        if tableView.style == .grouped {
+            if groupedSections[indexPath.section].hasFooter {
+                isLastInSection = false
+            }
+            cell.bottomSeparatorType = isLastInSection ? .full : .inset
+        } else {
+            cell.bottomSeparatorType = isLastInSection ? .none : .inset
+        }
         return cell
     }
 }

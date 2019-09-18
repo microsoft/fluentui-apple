@@ -32,6 +32,7 @@ class MSPopupMenuItemCell: MSTableViewCell {
 
     var isHeader: Bool = false {
         didSet {
+            bottomSeparatorType = isHeader ? .full : .inset
             isUserInteractionEnabled = !isHeader
             updateAccessibilityTraits()
         }
@@ -39,7 +40,6 @@ class MSPopupMenuItemCell: MSTableViewCell {
     var preservesSpaceForImage: Bool = false
 
     override var customViewSize: CustomViewSize { return customView != nil || preservesSpaceForImage ? Constants.imageViewSize : .zero }
-    override var separatorLeftInset: CGFloat { return isHeader ? 0 : super.separatorLeftInset }
 
     private var item: MSPopupMenuItem?
 

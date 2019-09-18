@@ -223,7 +223,9 @@ extension MSPopupMenuController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: MSPopupMenuItemCell.identifier) as! MSPopupMenuItemCell
         cell.setup(item: item)
         cell.preservesSpaceForImage = itemsHaveImages
-        cell.showsSeparator = section != tableView.numberOfSections - 1 || row != tableView.numberOfRows(inSection: section) - 1
+        let isLastInSection = row == tableView.numberOfRows(inSection: section) - 1
+        let isLast = section == tableView.numberOfSections - 1 && isLastInSection
+        cell.bottomSeparatorType = isLast ? .none : (isLastInSection ? .full : .inset)
 
         return cell
     }

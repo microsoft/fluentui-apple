@@ -85,6 +85,15 @@ extension MSCollectionViewHeaderFooterViewDemoController: UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MSCollectionViewCell.identifier, for: indexPath) as! MSCollectionViewCell
         cell.cellView.setup(title: TableViewHeaderFooterSampleData.itemTitle)
+        var isLastInSection = indexPath.item == collectionView.numberOfItems(inSection: indexPath.section) - 1
+        if collectionView == groupedCollectionView {
+            if groupedSections[indexPath.section].hasFooter {
+                isLastInSection = false
+            }
+            cell.cellView.bottomSeparatorType = isLastInSection ? .full : .inset
+        } else {
+            cell.cellView.bottomSeparatorType = isLastInSection ? .none : .inset
+        }
         return cell
     }
 

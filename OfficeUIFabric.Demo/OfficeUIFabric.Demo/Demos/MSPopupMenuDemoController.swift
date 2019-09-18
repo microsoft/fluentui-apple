@@ -30,11 +30,15 @@ class MSPopupMenuDemoController: DemoController {
             UIBarButtonItem(title: "Show with header", style: .plain, target: self, action: #selector(bottomBarButtonTapped)),
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         ]
-        navigationController?.isToolbarHidden = false
 
         container.addArrangedSubview(createButton(title: "Show with sections", action: #selector(showTopMenuWithSectionsButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show with scrollable items and no icons", action: #selector(showTopMenuWithScrollableItemsButtonTapped)))
         container.addArrangedSubview(UIView())
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.isToolbarHidden = false
     }
 
     private func createAccessoryView(text: String) -> UIView {

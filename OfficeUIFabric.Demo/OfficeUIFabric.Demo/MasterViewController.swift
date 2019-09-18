@@ -10,9 +10,7 @@ class MasterViewController: UITableViewController {
     private(set) var demoController: UIViewController?
     var demoControllerClass: UIViewController.Type? {
         didSet {
-            if demoControllerClass != oldValue {
-                demoController = demoControllerClass?.init()
-            }
+            demoController = demoControllerClass?.init()
         }
     }
     var demoPlaceholder: UIViewController?

@@ -74,7 +74,7 @@ import UIKit
 
  Specify `accessoryType` on setup to show either a disclosure indicator or a `detailButton`. The `detailButton` will display a button with an ellipsis icon which can be configured by passing in a closure to the cell's `onAccessoryTapped` property or by implementing UITableViewDelegate's `accessoryButtonTappedForRowWith` method.
 
- NOTE: This cell implements its own custom separator. Make sure to remove the UITableViewCell built-in separator by setting "separatorStyle = .none" on your table view. To remove the cell's custom separator set `showsSeparator` to false.
+ NOTE: This cell implements its own custom separator. Make sure to remove the UITableViewCell built-in separator by setting `separatorStyle = .none` on your table view. To remove the cell's custom separator set `bottomSeparatorType` to `.none`.
  */
 open class MSTableViewCell: UITableViewCell {
     @objc(MSTableViewCellCustomViewSize)
@@ -104,6 +104,13 @@ open class MSTableViewCell: UITableViewCell {
                 return 12
             }
         }
+    }
+
+    @objc(MSTableViewCellSeparatorType)
+    public enum SeparatorType: Int {
+        case none
+        case inset
+        case full
     }
 
     private enum LayoutType {
@@ -367,10 +374,20 @@ open class MSTableViewCell: UITableViewCell {
         set { setIsInSelectionMode(newValue, animated: false) }
     }
 
-    /// Boolean describing whether or not the cell's separator should be visible
-    @objc open var showsSeparator: Bool = true {
+    /// Style describing whether or not the cell's top separator should be visible and how wide it should extend
+    @objc open var topSeparatorType: SeparatorType = .none {
         didSet {
-            separator.isHidden = !showsSeparator
+            if topSeparatorType != oldValue {
+                updateSeparator(topSeparator, with: topSeparatorType)
+            }
+        }
+    }
+    /// Style describing whether or not the cell's bottom separator should be visible and how wide it should extend
+    @objc open var bottomSeparatorType: SeparatorType = .inset {
+        didSet {
+            if bottomSeparatorType != oldValue {
+                updateSeparator(bottomSeparator, with: bottomSeparatorType)
+            }
         }
     }
 
@@ -434,18 +451,6 @@ open class MSTableViewCell: UITableViewCell {
     }
     // swiftlint:enable identifier_name
 
-    var separatorLeftInset: CGFloat {
-        let separatorLeftOffset = safeAreaInsets.left + MSTableViewCell.selectionModeAreaWidth(isInSelectionMode: isInSelectionMode)
-        switch customViewSize {
-        case .zero:
-            return separatorLeftOffset + MSTableViewCell.separatorLeftInsetForNoCustomView
-        case .small:
-            return separatorLeftOffset + MSTableViewCell.separatorLeftInsetForSmallCustomView
-        case .medium, .default:
-            return separatorLeftOffset + MSTableViewCell.separatorLeftInsetForMediumCustomView
-        }
-    }
-
     private var layoutType: LayoutType = .oneLine
 
     private(set) var customView: UIView? {
@@ -506,7 +511,8 @@ open class MSTableViewCell: UITableViewCell {
         return imageView
     }()
 
-    private let separator = MSSeparator(style: .default, orientation: .horizontal)
+    private let topSeparator = MSSeparator(style: .default, orientation: .horizontal)
+    private let bottomSeparator = MSSeparator(style: .default, orientation: .horizontal)
 
     private var superTableView: UITableView? {
         return findSuperview(of: UITableView.self) as? UITableView
@@ -529,11 +535,14 @@ open class MSTableViewCell: UITableViewCell {
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(footerLabel)
         contentView.addSubview(selectionImageView)
-        addSubview(separator)
+        addSubview(topSeparator)
+        addSubview(bottomSeparator)
 
         setupBackgroundColors()
 
         hideSystemSeparator()
+        updateSeparator(topSeparator, with: topSeparatorType)
+        updateSeparator(bottomSeparator, with: bottomSeparatorType)
 
         updateAccessibility()
 
@@ -617,7 +626,7 @@ open class MSTableViewCell: UITableViewCell {
         selectionStyle = isInSelectionMode ? .none : .default
     }
 
-    @objc open func layoutContentSubviews() {
+    open func layoutContentSubviews() {
         if isInSelectionMode {
             let selectionImageViewYOffset = UIScreen.main.roundToDevicePixels((contentView.height - Constants.selectionImageSize.height) / 2)
             selectionImageView.frame = CGRect(
@@ -696,13 +705,33 @@ open class MSTableViewCell: UITableViewCell {
         layoutContentSubviews()
         contentView.flipSubviewsForRTL()
 
+        layoutSeparator(topSeparator, with: topSeparatorType, at: 0)
+        layoutSeparator(bottomSeparator, with: bottomSeparatorType, at: height - bottomSeparator.height)
+    }
+
+    private func layoutSeparator(_ separator: MSSeparator, with type: SeparatorType, at verticalOffset: CGFloat) {
         separator.frame = CGRect(
-            x: separatorLeftInset,
-            y: height - separator.height,
-            width: width - separatorLeftInset,
+            x: separatorLeftInset(for: type),
+            y: verticalOffset,
+            width: width - separatorLeftInset(for: type),
             height: separator.height
         )
         separator.flipForRTL()
+    }
+
+    func separatorLeftInset(for type: SeparatorType) -> CGFloat {
+        guard type == .inset else {
+            return 0
+        }
+        let baseOffset = safeAreaInsets.left + MSTableViewCell.selectionModeAreaWidth(isInSelectionMode: isInSelectionMode)
+        switch customViewSize {
+        case .zero:
+            return baseOffset + MSTableViewCell.separatorLeftInsetForNoCustomView
+        case .small:
+            return baseOffset + MSTableViewCell.separatorLeftInsetForSmallCustomView
+        case .medium, .default:
+            return baseOffset + MSTableViewCell.separatorLeftInsetForMediumCustomView
+        }
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -821,6 +850,11 @@ open class MSTableViewCell: UITableViewCell {
     private func updateSelectionImageView() {
         selectionImageView.image = isSelected ? Constants.selectionImageOn : Constants.selectionImageOff
         selectionImageView.tintColor = isSelected ? MSColors.Table.Cell.selectionIndicatorOn : MSColors.Table.Cell.selectionIndicatorOff
+    }
+
+    private func updateSeparator(_ separator: MSSeparator, with type: SeparatorType) {
+        separator.isHidden = type == .none
+        setNeedsLayout()
     }
 }
 
