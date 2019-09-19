@@ -79,7 +79,7 @@
 "Accessibility.HUD.Loading" = "Učitavanje";
 
 /* Accessibility label for the avatar (or profile) view in */
-"Accessibility.LargeTitle.ProfileView" = "Account Profile";
+"Accessibility.LargeTitle.ProfileView" = "Profil računa";
 
 /* Accessibility hint for a segmented control button */
 "Accessibility.Segmented.Button.Hint" = "Dodirnite da biste otvorili %@";

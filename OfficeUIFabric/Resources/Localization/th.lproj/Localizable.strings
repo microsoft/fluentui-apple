@@ -79,7 +79,7 @@
 "Accessibility.HUD.Loading" = "กำลังโหลด";
 
 /* Accessibility label for the avatar (or profile) view in */
-"Accessibility.LargeTitle.ProfileView" = "Account Profile";
+"Accessibility.LargeTitle.ProfileView" = "โปรไฟล์บัญชี";
 
 /* Accessibility hint for a segmented control button */
 "Accessibility.Segmented.Button.Hint" = "แตะเพื่อไปที่ %@";
