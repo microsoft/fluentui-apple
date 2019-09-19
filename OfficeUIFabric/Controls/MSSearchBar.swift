@@ -149,6 +149,7 @@ open class MSSearchBar: UIView {
         textField.delegate = self
         textField.returnKeyType = .search
         textField.accessibilityTraits = .searchField
+        textField.addTarget(self, action: #selector(searchTextFieldValueDidChange(_:)), for: .editingChanged)
         return textField
     }()
 
@@ -288,7 +289,8 @@ open class MSSearchBar: UIView {
     // Cancels search mode
     @objc private func cancelButtonTapped(sender: UIButton) {
         searchTextField.resignFirstResponder()
-        setSearchText(toString: nil, updateDelegate: false)
+        searchTextField.text = nil
+        searchTextDidChange(shouldUpdateDelegate: false)
         self.delegate?.searchBarDidCancel(self)
         hideCancelButton()
     }
@@ -296,7 +298,8 @@ open class MSSearchBar: UIView {
     // Target for the clearing "X" button within the search text field
     // Clears all text by setting searchText to nil
     @objc private func clearButtonTapped(sender: UIButton) {
-        setSearchText(toString: nil, updateDelegate: true)
+        searchTextField.text = nil
+        searchTextDidChange(shouldUpdateDelegate: true)
         _ = searchTextField.becomeFirstResponder()
     }
 
@@ -305,27 +308,27 @@ open class MSSearchBar: UIView {
     /// The string value of the search text field
     open var searchText: String? {
         get { return searchTextField.text }
-        set { setSearchText(toString: newValue, updateDelegate: false) }
+        set { self.searchTextField.text = newValue }
     }
 
-    /// Applies the provided optional string to the Search Text Field
+    @objc private func searchTextFieldValueDidChange(_ textField: UITextField) {
+        searchTextDidChange(shouldUpdateDelegate: true)
+    }
+
+    /// Called after a change in the searchTextField
     /// Optionally updates the searchBarDelegate
     /// Also manipulates various UI properties based on the provided string
     ///
     /// - Parameters:
-    ///   - newSearchText: the new string, or nil
-    ///   - updateDelegate: to update the SearchBarDelegate with the event (avoided, for instance, if the cancel button is tapped)
-    private func setSearchText(toString newSearchText: String?, updateDelegate: Bool) {
-        searchTextField.text = newSearchText
+    ///   - shouldUpdateDelegate: whether to update the SearchBarDelegate with the event (avoided, for instance, if the cancel button is tapped)
+    private func searchTextDidChange(shouldUpdateDelegate: Bool) {
+        let newSearchText = searchTextField.text
 
-        if updateDelegate {
+        if shouldUpdateDelegate {
             delegate?.searchBar(self, didUpdateSearchText: newSearchText)
         }
 
-        var hasContent = false
-        if let newSearchText = newSearchText {
-            hasContent = newSearchText.isEmpty == false
-        }
+        let hasContent = newSearchText?.isEmpty == false
 
         UIView.animate(withDuration: 0.1) {
             self.attributePlaceholderText()
@@ -410,20 +413,6 @@ extension MSSearchBar: UITextFieldDelegate {
     /// - Returns: false, as the returnKey of the searchTextField is "search" and not "return"
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         delegate?.searchBarDidRequestSearch?(self)
-        return false
-    }
-
-    //treats all incoming text as valid
-    //passes new text to delegate
-    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let newText: String
-        if let oldText = textField.text,
-            let range = Range(range, in: oldText) {
-            newText = oldText.replacingCharacters(in: range, with: string)
-        } else {
-            newText = string
-        }
-        setSearchText(toString: newText, updateDelegate: true)
         return false
     }
 }
