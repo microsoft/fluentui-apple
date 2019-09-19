@@ -79,7 +79,7 @@
 "Accessibility.HUD.Loading" = "Se încarcă";
 
 /* Accessibility label for the avatar (or profile) view in */
-"Accessibility.LargeTitle.ProfileView" = "Account Profile";
+"Accessibility.LargeTitle.ProfileView" = "Profil cont";
 
 /* Accessibility hint for a segmented control button */
 "Accessibility.Segmented.Button.Hint" = "Atingeți pentru a accesa %@";
