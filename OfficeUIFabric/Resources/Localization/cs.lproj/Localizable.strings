@@ -79,7 +79,7 @@
 "Accessibility.HUD.Loading" = "Načítání";
 
 /* Accessibility label for the avatar (or profile) view in */
-"Accessibility.LargeTitle.ProfileView" = "Account Profile";
+"Accessibility.LargeTitle.ProfileView" = "Profil účtu";
 
 /* Accessibility hint for a segmented control button */
 "Accessibility.Segmented.Button.Hint" = "Klepnutím přejdete na %@";
