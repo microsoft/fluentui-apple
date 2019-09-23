@@ -8,6 +8,7 @@ import UIKit
 open class MSLabel: UILabel {
     @objc open var colorStyle: MSTextColorStyle = .regular {
         didSet {
+            _textColor = nil
             updateTextColor()
         }
     }
@@ -27,6 +28,15 @@ open class MSLabel: UILabel {
         }
     }
 
+    open override var textColor: UIColor! {
+        didSet {
+            _textColor = textColor
+            updateTextColor()
+        }
+    }
+    private var _textColor: UIColor?
+    private var currentTextColor: UIColor { return _textColor ?? colorStyle.color }
+
     @objc public init(style: MSTextStyle = .body, colorStyle: MSTextColorStyle = .regular) {
         self.style = style
         self.colorStyle = colorStyle
@@ -40,9 +50,16 @@ open class MSLabel: UILabel {
     }
 
     private func initialize() {
+        // textColor is assigned in super.init to a default value and so we need to reset our cache afterwards
+        _textColor = nil
+
         updateFont()
         updateTextColor()
+
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
+        if #available(iOS 13, *) { } else {
+            NotificationCenter.default.addObserver(self, selector: #selector(handleDarkerSystemColorsStatusDidChange), name: UIAccessibility.darkerSystemColorsStatusDidChangeNotification, object: nil)
+        }
     }
 
     private func updateFont() {
@@ -55,10 +72,14 @@ open class MSLabel: UILabel {
     }
 
     private func updateTextColor() {
-        textColor = colorStyle.color
+        super.textColor = currentTextColor.current
     }
 
     @objc private func handleContentSizeCategoryDidChange() {
         updateFont()
+    }
+
+    @objc private func handleDarkerSystemColorsStatusDidChange() {
+        updateTextColor()
     }
 }
