@@ -70,6 +70,7 @@ class MasterViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MSTableViewCell
         cell.setup(title: demos[indexPath.row].title, accessoryType: .disclosureIndicator)
+        cell.titleNumberOfLinesForLargerDynamicType = 2
         return cell
     }
 }

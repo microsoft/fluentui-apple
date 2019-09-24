@@ -130,6 +130,9 @@ extension MSTableViewCellDemoController: UITableViewDataSource {
         let isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
         cell.bottomSeparatorType = isLastInSection ? .full : .inset
         cell.isInSelectionMode = section.allowsMultipleSelection ? isInSelectionMode : false
+        cell.titleNumberOfLinesForLargerDynamicType = 3
+        cell.subtitleNumberOfLinesForLargerDynamicType = 2
+        cell.footerNumberOfLinesForLargerDynamicType = 2
         return cell
     }
 }

@@ -180,6 +180,9 @@ open class MSTableViewCell: UITableViewCell {
 
     @objc public static var identifier: String { return String(describing: self) }
 
+    /// A constant representing the number of lines for a label in which no change will be made when the `preferredContentSizeCategory` returns a size greater than `.large`.
+    @objc public static let defaultNumberOfLinesForLargerDynamicType: Int = -1
+
     /// The vertical margins for cells with one or three lines of text
     class var labelVerticalMarginForOneAndThreeLines: CGFloat { return Constants.labelVerticalMarginForOneAndThreeLines }
     /// The vertical margins for cells with two lines of text
@@ -318,27 +321,69 @@ open class MSTableViewCell: UITableViewCell {
     }
 
     /// The maximum number of lines to be shown for `title`
-    @objc open var titleNumberOfLines: Int = 1 {
-        didSet {
-            titleLabel.numberOfLines = titleNumberOfLines
-            setNeedsLayout()
-            invalidateIntrinsicContentSize()
+    @objc open var titleNumberOfLines: Int {
+        get {
+            if titleNumberOfLinesForLargerDynamicType != MSTableViewCell.defaultNumberOfLinesForLargerDynamicType && preferredContentSizeIsLargerThanDefault {
+                return titleNumberOfLinesForLargerDynamicType
+            }
+            return _titleNumberOfLines
+        }
+        set {
+            _titleNumberOfLines = newValue
+            updateTitleNumberOfLines()
         }
     }
+
+    private var _titleNumberOfLines: Int = 1
+
     /// The maximum number of lines to be shown for `subtitle`
-    @objc open var subtitleNumberOfLines: Int = 1 {
-        didSet {
-            subtitleLabel.numberOfLines = subtitleNumberOfLines
-            setNeedsLayout()
-            invalidateIntrinsicContentSize()
+    @objc open var subtitleNumberOfLines: Int {
+        get {
+            if subtitleNumberOfLinesForLargerDynamicType != MSTableViewCell.defaultNumberOfLinesForLargerDynamicType && preferredContentSizeIsLargerThanDefault {
+                return subtitleNumberOfLinesForLargerDynamicType
+            }
+            return _subtitleNumberOfLines
+        }
+        set {
+            _subtitleNumberOfLines = newValue
+            updateSubtitleNumberOfLines()
         }
     }
+
+    private var _subtitleNumberOfLines: Int = 1
+
     /// The maximum number of lines to be shown for `footer`
-    @objc open var footerNumberOfLines: Int = 1 {
+    @objc open var footerNumberOfLines: Int {
+        get {
+            if footerNumberOfLinesForLargerDynamicType != MSTableViewCell.defaultNumberOfLinesForLargerDynamicType && preferredContentSizeIsLargerThanDefault {
+                return footerNumberOfLinesForLargerDynamicType
+            }
+            return _footerNumberOfLines
+        }
+        set {
+            _footerNumberOfLines = newValue
+            updateFooterNumberOfLines()
+        }
+    }
+
+    private var _footerNumberOfLines: Int = 1
+
+    /// The number of lines to show for the `title` if `preferredContentSizeCategory` is set to a size greater than `.large`. The default value indicates that no change will be made to the `title` and `titleNumberOfLines` will be used for all content sizes.
+    @objc open var titleNumberOfLinesForLargerDynamicType: Int = defaultNumberOfLinesForLargerDynamicType {
         didSet {
-            footerLabel.numberOfLines = footerNumberOfLines
-            setNeedsLayout()
-            invalidateIntrinsicContentSize()
+            updateTitleNumberOfLines()
+        }
+    }
+    /// The number of lines to show for the `subtitle` if `preferredContentSizeCategory` is set to a size greater than `.large`. The default value indicates that no change will be made to the `subtitle` and `subtitleNumberOfLines` will be used for all content sizes.
+    @objc open var subtitleNumberOfLinesForLargerDynamicType: Int = defaultNumberOfLinesForLargerDynamicType {
+        didSet {
+            updateSubtitleNumberOfLines()
+        }
+    }
+    /// The number of lines to show for the `footer` if `preferredContentSizeCategory` is set to a size greater than `.large`. The default value indicates that no change will be made to the `footer` and `footerNumberOfLines` will be used for all content sizes.
+    @objc open var footerNumberOfLinesForLargerDynamicType: Int = defaultNumberOfLinesForLargerDynamicType {
+        didSet {
+            updateFooterNumberOfLines()
         }
     }
 
@@ -453,6 +498,15 @@ open class MSTableViewCell: UITableViewCell {
 
     private var layoutType: LayoutType = .oneLine
 
+    private var preferredContentSizeIsLargerThanDefault: Bool {
+        switch UIApplication.shared.preferredContentSizeCategory {
+        case .unspecified, .extraSmall, .small, .medium, .large:
+            return false
+        default:
+            return true
+        }
+    }
+
     private(set) var customView: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
@@ -546,7 +600,7 @@ open class MSTableViewCell: UITableViewCell {
 
         updateAccessibility()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(invalidateIntrinsicContentSize), name: UIContentSizeCategory.didChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
     /// Sets up the cell with text, a custom view, a custom accessory view, and an accessory type
@@ -815,6 +869,24 @@ open class MSTableViewCell: UITableViewCell {
         }
     }
 
+    private func updateTitleNumberOfLines() {
+        titleLabel.numberOfLines = titleNumberOfLines
+        setNeedsLayout()
+        invalidateIntrinsicContentSize()
+    }
+
+    private func updateSubtitleNumberOfLines() {
+        subtitleLabel.numberOfLines = subtitleNumberOfLines
+        setNeedsLayout()
+        invalidateIntrinsicContentSize()
+    }
+
+    private func updateFooterNumberOfLines() {
+        footerLabel.numberOfLines = footerNumberOfLines
+        setNeedsLayout()
+        invalidateIntrinsicContentSize()
+    }
+
     @objc private func handleDetailButtonTapped() {
         onAccessoryTapped?()
         if let tableView = superTableView, let indexPath = tableView.indexPath(for: self) {
@@ -855,6 +927,12 @@ open class MSTableViewCell: UITableViewCell {
     private func updateSeparator(_ separator: MSSeparator, with type: SeparatorType) {
         separator.isHidden = type == .none
         setNeedsLayout()
+    }
+
+    @objc private func handleContentSizeCategoryDidChange() {
+        updateTitleNumberOfLines()
+        updateSubtitleNumberOfLines()
+        updateFooterNumberOfLines()
     }
 }
 
