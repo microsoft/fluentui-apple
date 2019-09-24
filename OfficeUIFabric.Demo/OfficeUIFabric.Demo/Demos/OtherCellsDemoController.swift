@@ -16,7 +16,7 @@ class OtherCellsDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView = UITableView(frame: view.bounds)
+        tableView = UITableView(frame: view.bounds, style: .grouped)
         tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         tableView.register(MSActionsCell.self, forCellReuseIdentifier: MSActionsCell.identifier)
         tableView.register(MSActivityIndicatorCell.self, forCellReuseIdentifier: MSActivityIndicatorCell.identifier)
@@ -25,9 +25,9 @@ class OtherCellsDemoController: DemoController {
         tableView.register(MSTableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: MSTableViewHeaderFooterView.identifier)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = MSColors.Table.background
+        tableView.backgroundColor = MSColors.Table.backgroundGrouped
+        tableView.separatorColor = MSColors.Separator.default
         tableView.tableFooterView = UIView(frame: .zero)
-        tableView.separatorStyle = .none
         view.addSubview(tableView)
     }
 }
@@ -92,6 +92,10 @@ extension OtherCellsDemoController: UITableViewDelegate {
         let section = sections[section]
         header.setup(style: section.headerStyle, title: section.title)
         return header
+    }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = MSColors.Table.Cell.backgroundGrouped
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

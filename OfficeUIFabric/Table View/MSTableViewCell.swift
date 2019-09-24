@@ -333,7 +333,6 @@ open class MSTableViewCell: UITableViewCell {
             updateTitleNumberOfLines()
         }
     }
-
     private var _titleNumberOfLines: Int = 1
 
     /// The maximum number of lines to be shown for `subtitle`
@@ -349,7 +348,6 @@ open class MSTableViewCell: UITableViewCell {
             updateSubtitleNumberOfLines()
         }
     }
-
     private var _subtitleNumberOfLines: Int = 1
 
     /// The maximum number of lines to be shown for `footer`
@@ -365,7 +363,6 @@ open class MSTableViewCell: UITableViewCell {
             updateFooterNumberOfLines()
         }
     }
-
     private var _footerNumberOfLines: Int = 1
 
     /// The number of lines to show for the `title` if `preferredContentSizeCategory` is set to a size greater than `.large`. The default value indicates that no change will be made to the `title` and `titleNumberOfLines` will be used for all content sizes.

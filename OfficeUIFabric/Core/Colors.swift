@@ -320,6 +320,7 @@ public final class MSColors: NSObject {
     public struct Table {
         public struct Cell {
             public static var background: UIColor = background1
+            public static var backgroundGrouped: UIColor = background1b
             public static var backgroundSelected: UIColor = background3
             public static var title: UIColor = foreground1
             public static var subtitle: UIColor = foreground3

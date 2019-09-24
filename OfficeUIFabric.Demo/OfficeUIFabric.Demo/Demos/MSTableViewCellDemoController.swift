@@ -114,6 +114,7 @@ extension MSTableViewCellDemoController: UITableViewDataSource {
         let item = section.item
 
         let cell = tableView.dequeueReusableCell(withIdentifier: MSTableViewCell.identifier) as! MSTableViewCell
+
         cell.setup(
             title: item.text1,
             subtitle: item.text2,
@@ -126,13 +127,17 @@ extension MSTableViewCellDemoController: UITableViewDataSource {
         cell.subtitleNumberOfLines = section.numberOfLines
         cell.footerNumberOfLines = section.numberOfLines
         cell.titleLineBreakMode = .byTruncatingMiddle
-        cell.topSeparatorType = isGrouped && indexPath.row == 0 ? .full : .none
-        let isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
-        cell.bottomSeparatorType = isLastInSection ? .full : .inset
-        cell.isInSelectionMode = section.allowsMultipleSelection ? isInSelectionMode : false
         cell.titleNumberOfLinesForLargerDynamicType = 3
         cell.subtitleNumberOfLinesForLargerDynamicType = 2
         cell.footerNumberOfLinesForLargerDynamicType = 2
+
+        cell.backgroundColor = isGrouped ? MSColors.Table.Cell.backgroundGrouped : MSColors.Table.Cell.background
+        cell.topSeparatorType = isGrouped && indexPath.row == 0 ? .full : .none
+        let isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
+        cell.bottomSeparatorType = isLastInSection ? .full : .inset
+
+        cell.isInSelectionMode = section.allowsMultipleSelection ? isInSelectionMode : false
+
         return cell
     }
 }

@@ -32,7 +32,7 @@ import UIKit
         }
     }
 
-    public var strokeThickness: MSActivityIndicatorStrokeThickness {
+    var strokeThickness: MSActivityIndicatorStrokeThickness {
         switch self {
         case .xSmall:
             return .small
@@ -50,7 +50,7 @@ import UIKit
 
 // MARK: - MSActivityIndicatorStrokeThickness
 
-public enum MSActivityIndicatorStrokeThickness: CGFloat {
+enum MSActivityIndicatorStrokeThickness: CGFloat {
     case small = 1
     case medium = 2
     case large = 3
@@ -62,6 +62,7 @@ public enum MSActivityIndicatorStrokeThickness: CGFloat {
 /**
  * `MSActivityIndicatorView` is meant to be used as a drop-in replacement of `UIActivityIndicatorView`. Its API strictly matches `UIActivityIndicatorView` API. The only exception is the replacement of `UIActivityIndicatorViewStyle` with `MSActivityIndicatorViewSize` that doesn't include any color definition.
  */
+@objcMembers
 open class MSActivityIndicatorView: UIView {
     public static func sizeThatFits(size: MSActivityIndicatorViewSize) -> CGSize {
         return CGSize(width: size.sideSize, height: size.sideSize)
@@ -72,13 +73,23 @@ open class MSActivityIndicatorView: UIView {
         static let rotationAnimationKey: String = "rotationAnimation"
     }
 
+    open var size: MSActivityIndicatorViewSize {
+        get {
+            return MSActivityIndicatorViewSize.allCases.first { $0.sideSize == self.sideSize } ?? .medium
+        }
+        set {
+            if size != newValue {
+                updateView(sideSize: newValue.sideSize, strokeThickness: newValue.strokeThickness.rawValue)
+            }
+        }
+    }
     open var hidesWhenStopped: Bool = true
     open var color: UIColor = MSColors.ActivityIndicator.foreground {
         didSet {
             setupLoaderLayer()
         }
     }
-    open var angles: (startAngle: CGFloat, endAngle: CGFloat) = (CGFloat(3.0 * CGFloat.pi / 2.0), CGFloat.pi) {
+    var angles: (startAngle: CGFloat, endAngle: CGFloat) = (CGFloat(3.0 * CGFloat.pi / 2.0), CGFloat.pi) {
         didSet {
             setupLoaderLayer()
         }
@@ -90,6 +101,7 @@ open class MSActivityIndicatorView: UIView {
         let shapeLayer = CAShapeLayer()
         shapeLayer.contentsScale = UIScreen.main.scale
         shapeLayer.fillColor = UIColor.clear.cgColor
+        shapeLayer.lineCap = .round
         shapeLayer.lineJoin = .bevel
         return shapeLayer
     }()
@@ -109,31 +121,25 @@ open class MSActivityIndicatorView: UIView {
 
         return loaderRotationAnimation
     }()
-    private var sideSize: CGFloat
-    private var strokeThickness: CGFloat
+    private var sideSize: CGFloat = 0
+    private var strokeThickness: CGFloat = 0
 
-    @objc public convenience init(size: MSActivityIndicatorViewSize) {
+    public convenience init(size: MSActivityIndicatorViewSize) {
         self.init(sideSize: size.sideSize, strokeThickness: size.strokeThickness.rawValue)
     }
 
-    @objc public init(sideSize: CGFloat, strokeThickness: CGFloat) {
-        self.sideSize = sideSize
-        self.strokeThickness = strokeThickness
-
+    public init(sideSize: CGFloat, strokeThickness: CGFloat) {
         super.init(frame: .zero)
-
-        setupLoaderLayer()
         layer.addSublayer(loaderLayer)
-
         isHidden = true
-        sizeToFit()
+        updateView(sideSize: sideSize, strokeThickness: strokeThickness)
     }
 
-    @objc public required init(coder aDecoder: NSCoder) {
+    public required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    @objc open func startAnimating() {
+    open func startAnimating() {
         if isAnimating {
             return
         }
@@ -180,9 +186,16 @@ open class MSActivityIndicatorView: UIView {
         loaderLayer.frame = CGRect(x: 0.0, y: 0.0, width: sideSize, height: sideSize)
         loaderLayer.strokeColor = color.cgColor
         loaderLayer.lineWidth = strokeThickness
-        loaderLayer.lineCap = .round
         loaderLayer.path = loaderPath.cgPath
 
         setNeedsLayout()
+    }
+
+    private func updateView(sideSize: CGFloat, strokeThickness: CGFloat) {
+        self.sideSize = sideSize
+        self.strokeThickness = strokeThickness
+        setupLoaderLayer()
+        sizeToFit()
+        invalidateIntrinsicContentSize()
     }
 }
