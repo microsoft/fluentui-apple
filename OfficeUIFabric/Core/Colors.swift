@@ -130,6 +130,7 @@ public final class MSColors: NSObject {
     public static var foreground5 = UIColor(light: gray100, dark: gray700)
     public static var foreground5b = UIColor(light: gray100, dark: gray500)
     public static var foreground6 = UIColor(light: white)
+    public static var foreground6b = UIColor(light: white, dark: gray100)
     public static var foreground7 = UIColor(light: primary, dark: white)
     public static var selected: UIColor = primary
     public static var selected2: UIColor = foreground7
@@ -232,7 +233,7 @@ public final class MSColors: NSObject {
     public struct HUD {
         public static var activityIndicator: UIColor = foreground6
         public static var background = UIColor(light: background5.withAlphaComponent(0.9), dark: gray700)
-        public static var text: UIColor = foreground6
+        public static var text: UIColor = foreground6b
     }
 
     public struct Navigation {
@@ -288,11 +289,11 @@ public final class MSColors: NSObject {
         }
         public struct LightContent {
             public static var background = UIColor(light: black.withAlphaComponent(0.2), dark: white.withAlphaComponent(0.1))
-            public static var cancelButton = UIColor(light: foreground6, dark: gray100)
+            public static var cancelButton: UIColor = foreground6b
             public static var clearIcon = UIColor(light: white.withAlphaComponent(0.6), dark: gray400)
             public static var placeholderText = UIColor(light: foreground6.withAlphaComponent(0.7), dark: gray300)
             public static var searchIcon = UIColor(light: white, dark: gray400)
-            public static var text = UIColor(light: foreground6, dark: gray100)
+            public static var text: UIColor = foreground6b
             public static var tint = UIColor(light: white.withAlphaComponent(0.8), dark: gray100)
         }
     }
