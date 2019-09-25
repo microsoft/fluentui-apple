@@ -69,7 +69,6 @@ class MSNavigationControllerDemoController: DemoController {
         controller.msNavigationBar.onAvatarTapped = handleAvatarTapped
         controller.modalPresentationStyle = .fullScreen
         present(controller, animated: false)
-        controller.expandNavigationBar(animated: false)
     }
 
     private func createAccessoryView(with style: MSSearchBar.Style = .lightContent) -> UIView {

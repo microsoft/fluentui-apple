@@ -16,30 +16,10 @@ class MSShyHeaderController: UIViewController {
         static let shyHeaderShowHideDecisionProgressThreshold: CGFloat = 0.4 // the threshold for which an incomplete expansion will move towards completion/contraction on a no-velocity release of a scrollView pan gesture
     }
 
-    // The contained ViewController
-    // Setting this property will remove the previous content VC, and add the new VC's view
-    // Setting will also update the current layout as necessary, in accordance with the protocol conformer's return values
-    var contentVC: UIViewController? {
-        willSet {
-            contentVC?.view.removeFromSuperview()
-        }
-        didSet {
-            loadViewIfNeeded()
-            didSetContentViewController()
-        }
-    }
+    let contentVC: UIViewController
 
-    // We have no interest in this container view's navigation item, so we pass the contentVC's navigation item, if available
-    //since the contentVC's nav item is optional, we provide a default value if necessary
-    override var navigationItem: UINavigationItem {
-        get {
-            return contentVC?.navigationItem ?? _navigationItem
-        }
-        set {
-            _navigationItem = newValue
-        }
-    }
-    private var _navigationItem = UINavigationItem(title: "container") //default navigation item, defined as a psuedo-ivar to avoid property conflict
+    // We have no interest in this container view's navigation item, so we pass the contentVC's navigation item
+    override var navigationItem: UINavigationItem { get { return contentVC.navigationItem } set { } }
 
     override var childForStatusBarStyle: UIViewController? {
         return contentVC
@@ -53,14 +33,41 @@ class MSShyHeaderController: UIViewController {
     private let shyHeaderView = MSShyHeaderView() //header view, displayed above the content view
     private var shyViewTopConstraint: NSLayoutConstraint? //animatable constraint used to show/hide the header
 
+    private var contentScrollView: UIScrollView? {
+        didSet {
+            oldValue?.panGestureRecognizer.removeTarget(self, action: nil)
+
+            if let scrollView = contentScrollView {
+                scrollView.panGestureRecognizer.addTarget(self, action: #selector(contentScrollViewPanGestureRecognizerRecognized(gesture:)))
+            } else {
+                updateHeader(with: 1.0, expanding: true)
+            }
+            previousContentScrollViewTraits = MSContentScrollViewTraits(yOffset: contentScrollView?.contentOffset.y ?? 0)
+        }
+    }
+    private var contentScrollViewObservation: NSKeyValueObservation?
     private var previousContentScrollViewTraits = MSContentScrollViewTraits() //properties of the scroll view at the last scrollDidOccurIn: update. Used with current traits to understand user action
 
     init(contentVC: UIViewController) {
-        defer {
-            self.contentVC = contentVC
-        }
+        self.contentVC = contentVC
         shyHeaderView.accessoryView = contentVC.navigationItem.accessoryView
+
         super.init(nibName: nil, bundle: nil)
+
+        loadViewIfNeeded()
+        addChildController(contentVC, containingViewIn: contentContainerView)
+        contentVC.view.fitIntoSuperview(usingConstraints: true)
+
+        contentScrollViewObservation = contentVC.navigationItem.observe(\.contentScrollView, options: [.new]) { [unowned self] (_, change) in
+            if let newValue = change.newValue {
+                self.contentScrollView = newValue
+            } else {
+                self.contentScrollView = nil
+            }
+        }
+        defer {
+            contentScrollView = contentVC.navigationItem.contentScrollView
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -173,8 +180,7 @@ class MSShyHeaderController: UIViewController {
         }
 
         // if the originator is a VC, make sure it belongs to this heirarchy
-        if let originatorVC = expansionRequestOriginator as? UIViewController,
-            let contentVC = contentVC {
+        if let originatorVC = expansionRequestOriginator as? UIViewController {
             guard originatorVC == contentVC || contentVC.isAncestor(ofViewController: originatorVC) else {
                 return false
             }
@@ -190,39 +196,7 @@ class MSShyHeaderController: UIViewController {
         return true
     }
 
-    // MARK: - GestureBased Configuration Handling
-
-    /// Adds the contentVC to the view hierarchy and constructs objects as required for Gesture-based shy behaviors
-    /// Differentiated from the scroll-inset based setup
-    private func didSetContentViewController() {
-        if let contentVC = contentVC,
-            let contentView = contentVC.view {
-
-            contentVC.willMove(toParent: self)
-            self.addChild(contentVC)
-
-            contentContainerView.contain(view: contentView)
-
-            if let scrollView = navigationItem.contentScrollView {
-                scrollView.panGestureRecognizer.addTarget(self, action: #selector(contentScrollViewPanGestureRecognizerRecognized(gesture:)))
-            } else {
-                // We wont be scrolling, adjust the accessory container and title as needed
-                updateHeader(with: 1.0, expanding: true)
-                msNavigationController?.msNavigationBar.expand(true)
-            }
-            contentVC.didMove(toParent: self)
-        }
-    }
-
     // MARK: - Gesture-Based Shy Behavior Methods
-
-    /// Adds self as a target for the pan gesture in the provided scrollview
-    /// add target does nothing if the gesture is already targeting self
-    ///
-    /// - Parameter scrollView: the new shy-behavior driving scrollview
-    private func shyBehaviorDrivingScrollViewChanged(toScrollView scrollView: UIScrollView) {
-        scrollView.panGestureRecognizer.addTarget(self, action: #selector(contentScrollViewPanGestureRecognizerRecognized(gesture:)))
-    }
 
     /// Directs the gesture to the relevant shy-driving layout methods, depending on the state
     /// Ignores beginning, cancelled, and failed gestures
@@ -245,7 +219,7 @@ class MSShyHeaderController: UIViewController {
     ///
     /// - Parameter gesture: the changing pan gesture
     private func processMovingPanGesture(gesture: UIPanGestureRecognizer) {
-        guard let scrollView = navigationItem.contentScrollView else {
+        guard let scrollView = contentScrollView else {
             return
         }
 
@@ -352,7 +326,7 @@ class MSShyHeaderController: UIViewController {
     ///
     /// - Parameter gesture: the ending gesture
     private func processEndingPanGesture(gesture: UIPanGestureRecognizer) {
-        guard let scrollView = navigationItem.contentScrollView else {
+        guard let scrollView = contentScrollView else {
             return
         }
 
