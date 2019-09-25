@@ -190,6 +190,14 @@ open class MSSearchBar: UIView {
         baseInit()
     }
 
+    open func cancelSearch() {
+        searchTextField.resignFirstResponder()
+        searchTextField.text = nil
+        searchTextDidChange(shouldUpdateDelegate: false)
+        self.delegate?.searchBarDidCancel(self)
+        hideCancelButton()
+    }
+
     private func baseInit() {
         updateColorsForStyle()
         setupLayout()
@@ -286,13 +294,8 @@ open class MSSearchBar: UIView {
     // MARK: - UIActions
 
     // Target for the search "cancel" button, outside the search text field
-    // Cancels search mode
     @objc private func cancelButtonTapped(sender: UIButton) {
-        searchTextField.resignFirstResponder()
-        searchTextField.text = nil
-        searchTextDidChange(shouldUpdateDelegate: false)
-        self.delegate?.searchBarDidCancel(self)
-        hideCancelButton()
+        cancelSearch()
     }
 
     // Target for the clearing "X" button within the search text field
