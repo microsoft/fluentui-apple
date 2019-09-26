@@ -349,6 +349,12 @@ open class MSDrawerController: UIViewController {
             resizingHandleView = nil
             resizingGestureRecognizer = nil
         }
+        resizingGestureRecognizer?.isEnabled = false
+    }
+
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        resizingGestureRecognizer?.isEnabled = true
     }
 
     open override func viewWillDisappear(_ animated: Bool) {
