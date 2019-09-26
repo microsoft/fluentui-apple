@@ -62,6 +62,18 @@ open class MSNavigationController: UINavigationController {
         view.subviews.forEach { $0.clipsToBounds = false }
     }
 
+    open override func viewWillLayoutSubviews() {
+        // Seems like the only way to intercept loading of root view controller from storyboard
+        if viewControllers.count == 1, let viewController = viewControllers.first {
+            viewController.loadViewIfNeeded()
+            let newViewController = wrapViewControllerIfNeeded(viewController)
+            if newViewController != viewController {
+                viewControllers = [newViewController]
+            }
+        }
+        super.viewWillLayoutSubviews()
+    }
+
     open override func pushViewController(_ viewController: UIViewController, animated: Bool) {
         super.pushViewController(wrapViewControllerIfNeeded(viewController), animated: animated)
     }
