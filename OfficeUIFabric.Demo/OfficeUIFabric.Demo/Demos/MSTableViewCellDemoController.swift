@@ -127,9 +127,15 @@ extension MSTableViewCellDemoController: UITableViewDataSource {
         cell.subtitleNumberOfLines = section.numberOfLines
         cell.footerNumberOfLines = section.numberOfLines
         cell.titleLineBreakMode = .byTruncatingMiddle
-        cell.titleNumberOfLinesForLargerDynamicType = 3
-        cell.subtitleNumberOfLinesForLargerDynamicType = 2
-        cell.footerNumberOfLinesForLargerDynamicType = 2
+        if section.numberOfLines == 1 {
+            cell.titleNumberOfLinesForLargerDynamicType = 3
+            cell.subtitleNumberOfLinesForLargerDynamicType = 2
+            cell.footerNumberOfLinesForLargerDynamicType = 2
+        } else {
+            cell.titleNumberOfLinesForLargerDynamicType = MSTableViewCell.defaultNumberOfLinesForLargerDynamicType
+            cell.subtitleNumberOfLinesForLargerDynamicType = MSTableViewCell.defaultNumberOfLinesForLargerDynamicType
+            cell.footerNumberOfLinesForLargerDynamicType = MSTableViewCell.defaultNumberOfLinesForLargerDynamicType
+        }
 
         cell.backgroundColor = isGrouped ? MSColors.Table.Cell.backgroundGrouped : MSColors.Table.Cell.background
         cell.topSeparatorType = isGrouped && indexPath.row == 0 ? .full : .none
