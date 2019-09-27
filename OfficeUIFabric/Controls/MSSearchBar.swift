@@ -174,7 +174,7 @@ open class MSSearchBar: UIView {
     //hidden when the textfield is not active
     private lazy var cancelButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Cancel", for: .normal)
+        button.setTitle("Common.Cancel".localized, for: .normal)
         button.addTarget(self, action: #selector(MSSearchBar.cancelButtonTapped(sender:)), for: .touchUpInside)
         button.alpha = 0.0
         return button
