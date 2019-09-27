@@ -90,6 +90,9 @@
 /* Accessibility label for more actions button */
 "Accessibility.TableViewCell.MoreActions.Label" = "Más acciones";
 
+/* Generic label for cancel action */
+"Common.Cancel" = "Cancel";
+
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Buscar en el directorio";
 
