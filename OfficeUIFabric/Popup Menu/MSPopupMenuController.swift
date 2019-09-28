@@ -256,10 +256,6 @@ extension MSPopupMenuController: UITableViewDelegate {
         return nil
     }
 
-    public func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        return item(at: indexPath).isEnabled ? indexPath : nil
-    }
-
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedItemIndexPath = indexPath
         didSelectItem(item(at: indexPath))

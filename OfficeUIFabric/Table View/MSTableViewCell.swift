@@ -165,6 +165,9 @@ open class MSTableViewCell: UITableViewCell {
         static let selectionImageOn = UIImage.staticImageNamed("selection-on")?.withRenderingMode(.alwaysTemplate)
         static let selectionImageSize = CGSize(width: 25, height: 25)
         static let selectionModeAnimationDuration: TimeInterval = 0.2
+
+        static let enabledAlpha: CGFloat = 1
+        static let disabledAlpha: CGFloat = 0.35
     }
 
     /**
@@ -408,14 +411,6 @@ open class MSTableViewCell: UITableViewCell {
         return customView != nil ? layoutType.customViewSize : .zero
     }
 
-    private var _isInSelectionMode: Bool = false
-
-    /// Enables / disables multi-selection mode by showing / hiding a checkmark selection indicator on the leading edge
-    @objc open var isInSelectionMode: Bool {
-        get { return _isInSelectionMode }
-        set { setIsInSelectionMode(newValue, animated: false) }
-    }
-
     /// Style describing whether or not the cell's top separator should be visible and how wide it should extend
     @objc open var topSeparatorType: SeparatorType = .none {
         didSet {
@@ -432,6 +427,23 @@ open class MSTableViewCell: UITableViewCell {
             }
         }
     }
+
+    /// When `isEnabled` is `false`, disables ability for a user to interact with a cell and dims cell's contents
+    @objc open var isEnabled: Bool = true {
+        didSet {
+            contentView.alpha = isEnabled ? Constants.enabledAlpha : Constants.disabledAlpha
+            isUserInteractionEnabled = isEnabled
+            initAccessoryView()
+            updateAccessibility()
+        }
+    }
+
+    /// Enables / disables multi-selection mode by showing / hiding a checkmark selection indicator on the leading edge
+    @objc open var isInSelectionMode: Bool {
+        get { return _isInSelectionMode }
+        set { setIsInSelectionMode(newValue, animated: false) }
+    }
+    private var _isInSelectionMode: Bool = false
 
     /// `onAccessoryTapped` is called when `detailButton` accessory view is tapped
     @objc open var onAccessoryTapped: (() -> Void)?
@@ -479,6 +491,18 @@ open class MSTableViewCell: UITableViewCell {
             if frame.width != oldValue.width {
                 invalidateIntrinsicContentSize()
             }
+        }
+    }
+
+    open override var accessibilityHint: String? {
+        get {
+            if isInSelectionMode && isEnabled {
+                return "Accessibility.MultiSelect.Hint".localized
+            }
+            return super.accessibilityHint
+        }
+        set {
+            super.accessibilityHint = newValue
         }
     }
 
@@ -671,8 +695,6 @@ open class MSTableViewCell: UITableViewCell {
         }
 
         initAccessoryView()
-
-        updateAccessibility()
 
         selectionStyle = isInSelectionMode ? .none : .default
     }
@@ -897,7 +919,7 @@ open class MSTableViewCell: UITableViewCell {
         }
 
         if accessoryView.type == .detailButton {
-            accessoryView.isUserInteractionEnabled = !isInSelectionMode
+            accessoryView.isUserInteractionEnabled = isEnabled && !isInSelectionMode
             accessoryView.onTapped = handleDetailButtonTapped
         }
     }
@@ -911,8 +933,10 @@ open class MSTableViewCell: UITableViewCell {
     }
 
     private func updateAccessibility() {
-        if accessibilityTraits.contains(.button) && !accessibilityTraits.contains(.notEnabled) {
-            accessibilityHint = isInSelectionMode ? "Accessibility.MultiSelect.Hint".localized : "Accessibility.Select.Hint".localized
+        if isEnabled {
+            accessibilityTraits.remove(.notEnabled)
+        } else {
+            accessibilityTraits.insert(.notEnabled)
         }
     }
 
@@ -936,14 +960,15 @@ open class MSTableViewCell: UITableViewCell {
 // MARK: - MSTableViewCellAccessoryView
 
 private class MSTableViewCellAccessoryView: UIView {
-    open override var intrinsicContentSize: CGSize { return type.size }
+    override var accessibilityElementsHidden: Bool { get { return !isUserInteractionEnabled } set { } }
+    override var intrinsicContentSize: CGSize { return type.size }
 
-    public let type: MSTableViewCellAccessoryType
+    let type: MSTableViewCellAccessoryType
 
     /// `onTapped` is called when `detailButton` is tapped
-    @objc open var onTapped: (() -> Void)?
+    var onTapped: (() -> Void)?
 
-    public init(type: MSTableViewCellAccessoryType) {
+    init(type: MSTableViewCellAccessoryType) {
         self.type = type
         super.init(frame: .zero)
 
@@ -967,11 +992,11 @@ private class MSTableViewCellAccessoryView: UIView {
         }
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    open override func sizeThatFits(_ size: CGSize) -> CGSize {
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
         return type.size
     }
 

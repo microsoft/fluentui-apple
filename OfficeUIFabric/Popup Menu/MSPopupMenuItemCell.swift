@@ -77,14 +77,9 @@ class MSPopupMenuItemCell: MSTableViewCell {
         accessoryImageView.isHidden = _imageView.image == nil || accessoryImageView.image == nil
 
         setup(title: item.title, subtitle: item.subtitle ?? "", customView: _imageView.image != nil ? _imageView : nil, customAccessoryView: item.accessoryView)
+        isEnabled = item.isEnabled
 
         updateViews()
-
-        var accessibilityString = "\(item.title)"
-        if let subtitle = item.subtitle {
-            accessibilityString.append(", \(subtitle)")
-        }
-        accessibilityLabel = accessibilityString
         updateAccessibilityTraits()
     }
 
@@ -140,12 +135,6 @@ class MSPopupMenuItemCell: MSTableViewCell {
     }
 
     private func updateAccessibilityTraits() {
-        if item?.isEnabled == false {
-            accessibilityTraits.insert(.notEnabled)
-        } else {
-            accessibilityTraits.remove(.notEnabled)
-        }
-
         if isHeader {
             accessibilityTraits.remove(.button)
             accessibilityTraits.insert(.header)
@@ -156,23 +145,19 @@ class MSPopupMenuItemCell: MSTableViewCell {
     }
 
     private func updateViews() {
-        if item?.isEnabled == false {
-            titleLabel.textColor = MSColors.PopupMenu.Item.titleDisabled
-            subtitleLabel.textColor = MSColors.PopupMenu.Item.subtitleDisabled
-        } else {
-            // Highlight
-            let alpha = isHighlighted ? Constants.highlightedAlpha : Constants.defaultAlpha
-            _imageView.alpha = alpha
-            accessoryImageView.alpha = alpha
-            titleLabel.alpha = alpha
-            subtitleLabel.alpha = alpha
-            customAccessoryView?.alpha = alpha
+        // Highlight
+        let alpha = isHighlighted ? Constants.highlightedAlpha : Constants.defaultAlpha
+        _imageView.alpha = alpha
+        accessoryImageView.alpha = alpha
+        titleLabel.alpha = alpha
+        subtitleLabel.alpha = alpha
+        customAccessoryView?.alpha = alpha
 
-            // Selection
-            _imageView.isHighlighted = isSelected
-            titleLabel.textColor = isSelected ? MSColors.PopupMenu.Item.titleSelected : MSColors.Table.Cell.title
-            subtitleLabel.textColor = isSelected ? MSColors.PopupMenu.Item.subtitleSelected : MSColors.Table.Cell.subtitle
-        }
+        // Selection
+        _imageView.isHighlighted = isSelected
+        titleLabel.textColor = isSelected ? MSColors.PopupMenu.Item.titleSelected : MSColors.Table.Cell.title
+        subtitleLabel.textColor = isSelected ? MSColors.PopupMenu.Item.subtitleSelected : MSColors.Table.Cell.subtitle
+
         _accessoryType = isSelected ? .checkmark : .none
     }
 }

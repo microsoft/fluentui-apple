@@ -266,9 +266,7 @@ public final class MSColors: NSObject {
             public static var image: UIColor = foreground3
             public static var imageSelected: UIColor = selected
             public static var titleSelected: UIColor = selected
-            public static var titleDisabled: UIColor = disabled
             public static var subtitleSelected: UIColor = selected
-            public static var subtitleDisabled: UIColor = disabled
         }
     }
 
