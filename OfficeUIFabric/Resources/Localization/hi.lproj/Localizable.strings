@@ -91,7 +91,7 @@
 "Accessibility.TableViewCell.MoreActions.Label" = "अधिक गतिविधियाँ";
 
 /* Generic label for cancel action */
-"Common.Cancel" = "Cancel";
+"Common.Cancel" = "रद्द करें";
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "डायरेक्टरी खोजें";

@@ -79,7 +79,7 @@
 "Accessibility.HUD.Loading" = "Φόρτωση";
 
 /* Accessibility label for the avatar (or profile) view in */
-"Accessibility.LargeTitle.ProfileView" = "Account Profile";
+"Accessibility.LargeTitle.ProfileView" = "Δημιουργία προφίλ λογαριασμού";
 
 /* Accessibility hint for a segmented control button */
 "Accessibility.Segmented.Button.Hint" = "Πατήστε για να μεταβείτε στο %@";
@@ -91,7 +91,7 @@
 "Accessibility.TableViewCell.MoreActions.Label" = "Περισσότερες ενέργειες";
 
 /* Generic label for cancel action */
-"Common.Cancel" = "Cancel";
+"Common.Cancel" = "Άκυρο";
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Αναζήτηση στον κατάλογο";

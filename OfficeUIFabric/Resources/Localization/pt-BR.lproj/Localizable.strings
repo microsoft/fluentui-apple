@@ -79,7 +79,7 @@
 "Accessibility.HUD.Loading" = "Carregando";
 
 /* Accessibility label for the avatar (or profile) view in */
-"Accessibility.LargeTitle.ProfileView" = "Account Profile";
+"Accessibility.LargeTitle.ProfileView" = "Perfil da Conta";
 
 /* Accessibility hint for a segmented control button */
 "Accessibility.Segmented.Button.Hint" = "Toque para ir para %@";
@@ -91,7 +91,7 @@
 "Accessibility.TableViewCell.MoreActions.Label" = "Mais ações";
 
 /* Generic label for cancel action */
-"Common.Cancel" = "Cancel";
+"Common.Cancel" = "Cancelar";
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Diretório de Pesquisa";
