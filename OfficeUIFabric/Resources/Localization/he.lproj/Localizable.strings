@@ -79,7 +79,7 @@
 "Accessibility.HUD.Loading" = "טוען";
 
 /* Accessibility label for the avatar (or profile) view in */
-"Accessibility.LargeTitle.ProfileView" = "Account Profile";
+"Accessibility.LargeTitle.ProfileView" = "פרופיל חשבון";
 
 /* Accessibility hint for a segmented control button */
 "Accessibility.Segmented.Button.Hint" = "הקש כדי לעבור אל %@";
@@ -91,7 +91,7 @@
 "Accessibility.TableViewCell.MoreActions.Label" = "פעולות נוספות";
 
 /* Generic label for cancel action */
-"Common.Cancel" = "Cancel";
+"Common.Cancel" = "ביטול";
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "חפש במדריך הכתובות";
