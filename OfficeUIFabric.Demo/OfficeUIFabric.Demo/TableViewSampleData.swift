@@ -12,17 +12,19 @@ class TableViewSampleData {
         var item: Item { return items[0] }
         let items: [Item]
         let numberOfLines: Int
-        let hasAccessoryView: Bool
+        let hasAccessory: Bool
+        let accessoryButtonStyle: MSTableViewHeaderFooterView.AccessoryButtonStyle
         let allowsMultipleSelection: Bool
         let headerStyle: MSTableViewHeaderFooterView.Style
         let hasFooter: Bool
         let footerText: String
 
-        init(title: String, items: [Item] = [], numberOfLines: Int = 1, hasAccessoryView: Bool = false, allowsMultipleSelection: Bool = true, headerStyle: MSTableViewHeaderFooterView.Style = .header, hasFooter: Bool = false, footerText: String = "") {
+        init(title: String, items: [Item] = [], numberOfLines: Int = 1, hasAccessory: Bool = false, accessoryButtonStyle: MSTableViewHeaderFooterView.AccessoryButtonStyle = .regular, allowsMultipleSelection: Bool = true, headerStyle: MSTableViewHeaderFooterView.Style = .header, hasFooter: Bool = false, footerText: String = "") {
             self.title = title
             self.items = items
             self.numberOfLines = numberOfLines
-            self.hasAccessoryView = hasAccessoryView
+            self.hasAccessory = hasAccessory
+            self.accessoryButtonStyle = accessoryButtonStyle
             self.allowsMultipleSelection = allowsMultipleSelection
             self.headerStyle = headerStyle
             self.hasFooter = hasFooter

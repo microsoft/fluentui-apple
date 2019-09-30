@@ -138,7 +138,7 @@ extension MSCollectionViewCellDemoController: UICollectionViewDataSource {
             subtitle: item.text2,
             footer: item.text3,
             customView: TableViewSampleData.createCustomView(imageName: item.image),
-            customAccessoryView: section.hasAccessoryView ? MSTableViewCellSampleData.customAccessoryView : nil,
+            customAccessoryView: section.hasAccessory ? MSTableViewCellSampleData.customAccessoryView : nil,
             accessoryType: MSTableViewCellSampleData.accessoryType(for: indexPath)
         )
         cell.cellView.titleNumberOfLines = section.numberOfLines

@@ -12,7 +12,8 @@ class TableViewHeaderFooterSampleData: TableViewSampleData {
 
     static let groupedSections: [Section] = [
         Section(title: "Default"),
-        Section(title: "Default with accessory button", hasAccessoryView: true),
+        Section(title: "Default with accessory button", hasAccessory: true),
+        Section(title: "Default with primary accessory button", hasAccessory: true, accessoryButtonStyle: .primary),
         Section(title: "Default with multi-line text - A description that starts at the bottom and provides three to two lines of info.", numberOfLines: 0, hasFooter: true, footerText: "Footer - A description that starts at the top and provides three to two lines of info.")
     ]
 

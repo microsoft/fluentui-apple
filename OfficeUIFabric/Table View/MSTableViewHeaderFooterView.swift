@@ -17,6 +17,21 @@ import UIKit
  Use `titleNumberOfLines` to configure the number of lines for the `title`. Headers generally use the default number of lines of 1 while footers may use a multiple number of lines.
  */
 open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
+    @objc(MSTableViewHeaderFooterViewAccessoryButtonStyle)
+    public enum AccessoryButtonStyle: Int {
+        case regular
+        case primary
+
+        var textColor: UIColor {
+            switch self {
+            case .regular:
+                return MSColors.Table.HeaderFooter.accessoryButtonText
+            case .primary:
+                return MSColors.Table.HeaderFooter.accessoryButtonTextPrimary
+            }
+        }
+    }
+
     /// Defines the visual style of the view
     @objc(MSTableViewHeaderFooterViewStyle)
     public enum Style: Int {
@@ -113,6 +128,12 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
             accessoryButtonSpacing = 0
         }
         return accessoryButtonSpacing + Constants.horizontalMargin
+    }
+
+    @objc open var accessoryButtonStyle: AccessoryButtonStyle = .regular {
+        didSet {
+            updateAccessoryButtonTitleStyle()
+        }
     }
 
     /// The maximum number of lines to be shown for `title`
@@ -259,7 +280,7 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
 
     private func updateAccessoryButtonTitleStyle() {
         accessoryButton?.titleLabel?.font = Constants.accessoryButtonTextStyle.font
-        accessoryButton?.setTitleColor(MSColors.Table.HeaderFooter.text, for: .normal)
+        accessoryButton?.setTitleColor(accessoryButtonStyle.textColor, for: .normal)
     }
 
     private func createAccessoryButton(withTitle title: String) -> UIButton {

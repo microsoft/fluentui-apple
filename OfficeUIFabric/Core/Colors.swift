@@ -341,6 +341,8 @@ public final class MSColors: NSObject {
             public static var text: UIColor = primary
         }
         public struct HeaderFooter {
+            public static var accessoryButtonText: UIColor = text
+            public static var accessoryButtonTextPrimary: UIColor = primary
             public static var background: UIColor = .clear
             public static var backgroundDivider: UIColor = background2
             public static var backgroundDividerHighlighted = UIColor(light: extraLightPrimary, dark: gray950)

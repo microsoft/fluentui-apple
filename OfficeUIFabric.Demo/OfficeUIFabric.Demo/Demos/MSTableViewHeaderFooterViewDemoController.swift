@@ -89,8 +89,9 @@ extension MSTableViewHeaderFooterViewDemoController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: MSTableViewHeaderFooterView.identifier) as! MSTableViewHeaderFooterView
         let section = tableView.style == .grouped ? groupedSections[section] : plainSections[section]
-        header.setup(style: section.headerStyle, title: section.title, accessoryButtonTitle: section.hasAccessoryView ? "See More" : "")
+        header.setup(style: section.headerStyle, title: section.title, accessoryButtonTitle: section.hasAccessory ? "See More" : "")
         header.titleNumberOfLines = section.numberOfLines
+        header.accessoryButtonStyle = section.accessoryButtonStyle
         header.onAccessoryButtonTapped = { [unowned self] in self.showAlertForAccessoryTapped(title: section.title) }
         return header
     }

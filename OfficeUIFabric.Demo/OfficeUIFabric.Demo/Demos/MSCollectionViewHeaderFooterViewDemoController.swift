@@ -103,7 +103,8 @@ extension MSCollectionViewHeaderFooterViewDemoController: UICollectionViewDataSo
         headerFooterView.headerFooterView.titleNumberOfLines = section.numberOfLines
         switch kind {
         case UICollectionView.elementKindSectionHeader:
-            headerFooterView.headerFooterView.setup(style: section.headerStyle, title: section.title, accessoryButtonTitle: section.hasAccessoryView ? "See More" : "")
+            headerFooterView.headerFooterView.setup(style: section.headerStyle, title: section.title, accessoryButtonTitle: section.hasAccessory ? "See More" : "")
+            headerFooterView.headerFooterView.accessoryButtonStyle = section.accessoryButtonStyle
             headerFooterView.headerFooterView.onAccessoryButtonTapped = { [unowned self] in self.showAlertForAccessoryTapped(title: section.title) }
             return headerFooterView
         case UICollectionView.elementKindSectionFooter:
