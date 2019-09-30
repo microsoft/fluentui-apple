@@ -9,7 +9,7 @@ import UIKit
 
 open class MSPersonaCell: MSTableViewCell {
     private struct Constants {
-        static let avatarSize: MSAvatarSize = .xLarge
+        static let avatarSize: MSAvatarSize = .large
     }
 
     public static var defaultHeight: CGFloat { return MSTableViewCell.mediumHeight }

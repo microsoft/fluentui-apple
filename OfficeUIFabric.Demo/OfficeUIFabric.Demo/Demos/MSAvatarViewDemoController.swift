@@ -10,26 +10,21 @@ class MSAvatarViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        addTitle(text: "Circle style")
-        let personaImage = UIImage(named: "avatar_kat_larsson")
-        for size in MSAvatarSize.allCases.reversed() {
-            let imageAvatar = createAvatarView(size: size, name: "Kat Larrson", image: personaImage)
-            let initialsAvatar = createAvatarView(size: size, name: "Kat Larrson")
-            addRow(text: size.description, items: [imageAvatar, initialsAvatar])
-        }
-        container.addArrangedSubview(UIView())
+        createSection(withTitle: "Circle style", name: "Kat Larrson", image: UIImage(named: "avatar_kat_larsson")!, style: .circle)
+        createSection(withTitle: "Square style", name: "NorthWind Traders", image: UIImage(named: "site")!, style: .square)
+    }
 
-        addTitle(text: "Square style")
-        let siteImage = UIImage(named: "site")
+    private func createSection(withTitle title: String, name: String, image: UIImage, style: MSAvatarStyle) {
+        addTitle(text: title)
         for size in MSAvatarSize.allCases.reversed() {
-            let imageAvatar = createAvatarView(size: size, name: "NorthWind Traders", image: siteImage, style: .square)
-            let initialsAvatar = createAvatarView(size: size, name: "NorthWind Traders", style: .square)
-            addRow(text: size.description, items: [imageAvatar, initialsAvatar])
+            let imageAvatar = createAvatarView(size: size, name: name, image: image, style: style)
+            let initialsAvatar = createAvatarView(size: size, name: name, style: style)
+            addRow(text: size.description, items: [imageAvatar, initialsAvatar], textStyle: .footnote, textWidth: 100)
         }
         container.addArrangedSubview(UIView())
     }
 
-    private func createAvatarView(size: MSAvatarSize, name: String, image: UIImage? = nil, style: MSAvatarStyle = .circle) -> UIView {
+    private func createAvatarView(size: MSAvatarSize, name: String, image: UIImage? = nil, style: MSAvatarStyle) -> UIView {
         let avatarView = MSAvatarView(avatarSize: size, withBorder: true, style: style)
         avatarView.setup(primaryText: name, secondaryText: "", image: image)
 
@@ -45,18 +40,18 @@ class MSAvatarViewDemoController: DemoController {
 extension MSAvatarSize {
     var description: String {
         switch self {
-        case .xSmall:
-            return "XSmall"
+        case .extraSmall:
+            return "ExtraSmall"
         case .small:
             return "Small"
         case .medium:
             return "Medium"
         case .large:
             return "Large"
-        case .xLarge:
-            return "XLarge"
-        case .xxLarge:
-            return "XXLarge"
+        case .extraLarge:
+            return "ExtraLarge"
+        case .extraExtraLarge:
+            return "ExtraExtraLarge"
         }
     }
 }

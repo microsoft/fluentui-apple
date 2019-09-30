@@ -39,7 +39,7 @@ class DemoController: UIViewController {
         container.addArrangedSubview(titleLabel)
     }
 
-    func addRow(text: String = "", items: [UIView], itemSpacing: CGFloat = horizontalSpacing, stretchItems: Bool = false) {
+    func addRow(text: String = "", items: [UIView], textStyle: MSTextStyle = .subhead, textWidth: CGFloat = rowTextWidth, itemSpacing: CGFloat = horizontalSpacing, stretchItems: Bool = false) {
         let itemsContainer = UIStackView()
         itemsContainer.axis = .vertical
         itemsContainer.alignment = stretchItems ? .fill : .leading
@@ -51,9 +51,9 @@ class DemoController: UIViewController {
         itemRow.spacing = itemSpacing
 
         if text != "" {
-            let label = MSLabel(style: .subhead, colorStyle: .regular)
+            let label = MSLabel(style: textStyle, colorStyle: .regular)
             label.text = text
-            label.widthAnchor.constraint(equalToConstant: DemoController.rowTextWidth).isActive = true
+            label.widthAnchor.constraint(equalToConstant: textWidth).isActive = true
             itemRow.addArrangedSubview(label)
         }
 

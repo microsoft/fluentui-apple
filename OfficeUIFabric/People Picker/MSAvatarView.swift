@@ -8,16 +8,16 @@ import UIKit
 // MARK: MSAvatarSize
 
 @objc public enum MSAvatarSize: Int, CaseIterable {
-    case xSmall
+    case extraSmall
     case small
     case medium
     case large
-    case xLarge
-    case xxLarge
+    case extraLarge
+    case extraExtraLarge
 
     public var font: UIFont {
         switch self {
-        case .xSmall:
+        case .extraSmall:
             return UIFont.systemFont(ofSize: 9)
         case .small:
             return UIFont.systemFont(ofSize: 12)
@@ -25,26 +25,26 @@ import UIKit
             return UIFont.systemFont(ofSize: 13)
         case .large:
             return UIFont.systemFont(ofSize: 15)
-        case .xLarge:
-            return UIFont.systemFont(ofSize: 15)
-        case .xxLarge:
-            return UIFont.systemFont(ofSize: 28)
+        case .extraLarge:
+            return UIFont.systemFont(ofSize: 20, weight: .medium)
+        case .extraExtraLarge:
+            return UIFont.systemFont(ofSize: 28, weight: .medium)
         }
     }
 
     public var size: CGSize {
         switch self {
-        case .xSmall:
+        case .extraSmall:
             return CGSize(width: 18, height: 18)
         case .small:
-            return CGSize(width: 25, height: 25)
+            return CGSize(width: 24, height: 24)
         case .medium:
             return CGSize(width: 30, height: 30)
         case .large:
-            return CGSize(width: 35, height: 35)
-        case .xLarge:
             return CGSize(width: 40, height: 40)
-        case .xxLarge:
+        case .extraLarge:
+            return CGSize(width: 52, height: 52)
+        case .extraExtraLarge:
             return CGSize(width: 70, height: 70)
         }
     }
@@ -67,7 +67,7 @@ import UIKit
 open class MSAvatarView: UIView {
     private struct Constants {
         static let borderWidth: CGFloat = 2
-        static let xxLargeBorderWidth: CGFloat = 4
+        static let extraExtraLargeBorderWidth: CGFloat = 4
         static let animationDuration: TimeInterval = 0.2
         static let squareAvatarCornerRadius: CGFloat = 2
     }
@@ -132,7 +132,7 @@ open class MSAvatarView: UIView {
         imageView.contentMode = .scaleAspectFill
 
         borderView = UIView(frame: .zero)
-        borderView.backgroundColor = .white
+        borderView.backgroundColor = MSColors.Avatar.border
         borderView.isHidden = !hasBorder
 
         super.init(frame: CGRect(origin: .zero, size: avatarSize.size))
@@ -160,14 +160,18 @@ open class MSAvatarView: UIView {
         imageView.frame = bounds
         initialsView.frame = imageView.frame
 
-        imageView.layer.cornerRadius = style == .circle ? imageView.width / 2 : Constants.squareAvatarCornerRadius
+        imageView.layer.cornerRadius = cornerRadius(for: imageView.width)
         initialsView.layer.cornerRadius = imageView.layer.cornerRadius
 
         if !borderView.isHidden {
-            let borderWidth = avatarSize == .xxLarge ? Constants.xxLargeBorderWidth : Constants.borderWidth
+            let borderWidth = avatarSize == .extraExtraLarge ? Constants.extraExtraLargeBorderWidth : Constants.borderWidth
             borderView.frame = bounds.insetBy(dx: -borderWidth, dy: -borderWidth)
-            borderView.layer.cornerRadius = imageView.layer.cornerRadius
+            borderView.layer.cornerRadius = cornerRadius(for: borderView.width)
         }
+    }
+
+    private func cornerRadius(for width: CGFloat) -> CGFloat {
+        return style == .circle ? width / 2 : Constants.squareAvatarCornerRadius
     }
 
     // MARK: Setup
