@@ -91,7 +91,7 @@
 "Accessibility.TableViewCell.MoreActions.Label" = "Xem thêm hành động";
 
 /* Generic label for cancel action */
-"Common.Cancel" = "Cancel";
+"Common.Cancel" = "Hủy bỏ";
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Tìm kiếm trong thư mục";
