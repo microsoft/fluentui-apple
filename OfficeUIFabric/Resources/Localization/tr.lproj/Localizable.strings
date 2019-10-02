@@ -79,7 +79,7 @@
 "Accessibility.HUD.Loading" = "Yükleniyor";
 
 /* Accessibility label for the avatar (or profile) view in */
-"Accessibility.LargeTitle.ProfileView" = "Account Profile";
+"Accessibility.LargeTitle.ProfileView" = "Hesap Profili";
 
 /* Accessibility hint for a segmented control button */
 "Accessibility.Segmented.Button.Hint" = "%@ bölümüne gitmek için dokunun";
@@ -91,7 +91,7 @@
 "Accessibility.TableViewCell.MoreActions.Label" = "Diğer eylemler";
 
 /* Generic label for cancel action */
-"Common.Cancel" = "Cancel";
+"Common.Cancel" = "İptal";
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Dizinde Ara";
