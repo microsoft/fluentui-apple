@@ -47,14 +47,14 @@ class MSPopupMenuItemCell: MSTableViewCell {
     private let _imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = MSColors.PopupMenu.Item.image
+        imageView.tintColor = MSColors.Table.Cell.image
         return imageView
     }()
 
     private let accessoryImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = MSColors.PopupMenu.Item.image
+        imageView.tintColor = MSColors.Table.Cell.image
         return imageView
     }()
 

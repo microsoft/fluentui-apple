@@ -12,10 +12,8 @@ public final class MSColors: NSObject {
     // MARK: Primary
 
     public static var primary = UIColor(light: primaryLight, dark: primaryDark)
-    /// #0078D4
-    public static var primaryLight: UIColor = #colorLiteral(red: 0, green: 0.4705882353, blue: 0.831372549, alpha: 1)
-    /// #0086F0
-    public static var primaryDark: UIColor = #colorLiteral(red: 0, green: 0.5254901961, blue: 0.9411764706, alpha: 1)
+    public static var primaryLight: UIColor = communicationBlueLight
+    public static var primaryDark: UIColor = communicationBlueDark
     public static var foregroundOnPrimary = UIColor(light: white, dark: black)
     /// #E1EFFA
     public static var lightPrimary: UIColor = #colorLiteral(red: 0.8823529412, green: 0.937254902, blue: 0.9803921569, alpha: 1)
@@ -107,6 +105,13 @@ public final class MSColors: NSObject {
         #colorLiteral(red: 0.337254902, green: 0.4862745098, blue: 0.4509803922, alpha: 1), // #567C73
         #colorLiteral(red: 0.4117647059, green: 0.4745098039, blue: 0.4941176471, alpha: 1)  // #69797E
     ]
+
+    /// Used for hyperlinks
+    public static let communicationBlue = UIColor(light: communicationBlueLight, dark: communicationBlueDark)
+    /// #0078D4
+    public static let communicationBlueLight: UIColor = #colorLiteral(red: 0, green: 0.4705882353, blue: 0.831372549, alpha: 1)
+    /// #0086F0
+    public static let communicationBlueDark: UIColor = #colorLiteral(red: 0, green: 0.5254901961, blue: 0.9411764706, alpha: 1)
 
     // MARK: Base semantic
 
@@ -264,7 +269,6 @@ public final class MSColors: NSObject {
 
     public struct PopupMenu {
         public struct Item {
-            public static var image: UIColor = foreground3
             public static var imageSelected: UIColor = selected
             public static var titleSelected: UIColor = selected
             public static var subtitleSelected: UIColor = selected
@@ -312,6 +316,8 @@ public final class MSColors: NSObject {
         // Matches shadow used in UINavigationBar
         public static var shadow = UIColor(light: UIColor.black.withAlphaComponent(0.3), dark: gray700)
     }
+    // Objective-C support
+    public static var separatorDefault: UIColor { return Separator.default }
 
     public struct Switch {
         public static var onTint: UIColor = primary
@@ -322,6 +328,7 @@ public final class MSColors: NSObject {
             public static var background: UIColor = background1
             public static var backgroundGrouped: UIColor = background1b
             public static var backgroundSelected: UIColor = background3
+            public static var image: UIColor = foreground3
             public static var title: UIColor = foreground1
             public static var subtitle: UIColor = foreground3
             public static var footer: UIColor = foreground3
@@ -353,6 +360,12 @@ public final class MSColors: NSObject {
         public static var background: UIColor = background1
         public static var backgroundGrouped = UIColor(light: background2, dark: background1)
     }
+    // Objective-C support
+    public static var tableBackground: UIColor { return Table.background }
+    public static var tableBackgroundGrouped: UIColor { return Table.backgroundGrouped }
+    public static var tableCellBackground: UIColor { return Table.Cell.background }
+    public static var tableCellBackgroundGrouped: UIColor { return Table.Cell.backgroundGrouped }
+    public static var tableCellImage: UIColor { return Table.Cell.image }
 
     public struct Toolbar {
         public static var background: UIColor = background1c
