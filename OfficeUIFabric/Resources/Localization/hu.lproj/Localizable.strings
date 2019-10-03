@@ -91,7 +91,7 @@
 "Accessibility.TableViewCell.MoreActions.Label" = "További műveletek";
 
 /* Generic label for cancel action */
-"Common.Cancel" = "Cancel";
+"Common.Cancel" = "Mégse";
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Keresés a címtárban";
