@@ -509,10 +509,12 @@ open class MSTableViewCell: UITableViewCell {
     // swiftlint:disable identifier_name
     var _accessoryType: MSTableViewCellAccessoryType = .none {
         didSet {
-            if oldValue != _accessoryType {
-                _accessoryView = _accessoryType == .none ? nil : MSTableViewCellAccessoryView(type: _accessoryType)
-                setNeedsLayout()
+            if _accessoryType == oldValue {
+                return
             }
+            _accessoryView = _accessoryType == .none ? nil : MSTableViewCellAccessoryView(type: _accessoryType)
+            setNeedsLayout()
+            invalidateIntrinsicContentSize()
         }
     }
     // swiftlint:enable identifier_name
@@ -659,6 +661,11 @@ open class MSTableViewCell: UITableViewCell {
 
         setNeedsLayout()
         invalidateIntrinsicContentSize()
+    }
+
+    /// Allows to change the accessory type without doing a full `setup`.
+    @objc open func changeAccessoryType(to accessoryType: MSTableViewCellAccessoryType) {
+        _accessoryType = accessoryType
     }
 
     /// Sets the multi-selection state of the cell, optionally animating the transition between states.
