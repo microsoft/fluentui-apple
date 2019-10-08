@@ -54,21 +54,21 @@ class AvatarViewTests: XCTestCase {
 	
 	func testAccessibility () {
 		// Avatar with name and email should be an accessibility element with the ax label and tooltip set to the contactName with an image role
-		let satya = AvatarView(avatarSize: 0, contactName: "Satya Nadella", contactEmail: "satya@microsoft.com", contactImage: nil)
+		let satya = AvatarView(avatarSize: 0, contactName: "Satya Nadella", contactEmail: "satya@microsoft.com")
 		XCTAssertTrue(satya.isAccessibilityElement())
 		XCTAssertEqual(satya.accessibilityLabel(), "Satya Nadella")
 		XCTAssertEqual(satya.accessibilityRole(), NSAccessibility.Role.image)
 		XCTAssertEqual(satya.toolTip, "Satya Nadella")
 		
 		// When no name is provided, the ax label and tooltip should fallback to the contactEmail
-		let noNameSatya = AvatarView(avatarSize: 0, contactName: nil, contactEmail: "satya@microsoft.com", contactImage: nil)
+		let noNameSatya = AvatarView(avatarSize: 0, contactEmail: "satya@microsoft.com")
 		XCTAssertTrue(noNameSatya.isAccessibilityElement())
 		XCTAssertEqual(noNameSatya.accessibilityLabel(), "satya@microsoft.com")
 		XCTAssertEqual(noNameSatya.accessibilityRole(), NSAccessibility.Role.image)
 		XCTAssertEqual(noNameSatya.toolTip, "satya@microsoft.com")
 		
 		// When no name or email is provided, there isn't any valuable information to provide, so don't be an accessibility element
-		let anonymousAvatar = AvatarView(avatarSize: 0, contactName: nil, contactEmail: nil, contactImage: nil)
+		let anonymousAvatar = AvatarView(avatarSize: 0)
 		XCTAssertFalse(anonymousAvatar.isAccessibilityElement())
 		XCTAssertNil(anonymousAvatar.accessibilityLabel())
 		XCTAssertEqual(anonymousAvatar.accessibilityRole(), NSAccessibility.Role.unknown)

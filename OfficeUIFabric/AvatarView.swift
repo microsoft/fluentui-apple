@@ -73,9 +73,9 @@ open class AvatarView : NSView {
 	///				format “<person>@<service>.<domain>”
 	/// @param contactImage: the image of the contact
 	@objc public init(avatarSize: CGFloat,
-					  contactName: String?,
-					  contactEmail: String?,
-					  contactImage: NSImage?) {
+					  contactName: String? = nil,
+					  contactEmail: String? = nil,
+					  contactImage: NSImage? = nil) {
 
 		// Prefer contactEmail to contactName for uniqueness
 		avatarBackgroundColor = backgroundColor(for: colorIndex(for: contactEmail ?? contactName ?? ""))
