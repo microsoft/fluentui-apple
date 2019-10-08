@@ -49,7 +49,9 @@ extension OtherCellsDemoController: UITableViewDataSource {
 
         if section.title == "MSActionsCell" {
             let cell = tableView.dequeueReusableCell(withIdentifier: MSActionsCell.identifier) as! MSActionsCell
-            cell.setup(action1Title: item.text1, action2Title: item.text2, action2IsDestructive: true)
+            cell.setup(action1Title: item.text1, action2Title: item.text2, action2Type: .destructive)
+            let isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
+            cell.bottomSeparatorType = isLastInSection ? .full : .inset
             return cell
         }
 

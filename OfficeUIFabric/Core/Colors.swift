@@ -343,6 +343,8 @@ public final class MSColors: NSObject {
             public static var textHighlighted: UIColor = primary.withAlphaComponent(0.4)
             public static var textDestructive: UIColor = error
             public static var textDestructiveHighlighted: UIColor = error.withAlphaComponent(0.4)
+            public static var textCommunication: UIColor = communicationBlue
+            public static var textCommunicationHighlighted: UIColor = communicationBlue.withAlphaComponent(0.4)
         }
         public struct CenteredLabelCell {
             public static var text: UIColor = primary
