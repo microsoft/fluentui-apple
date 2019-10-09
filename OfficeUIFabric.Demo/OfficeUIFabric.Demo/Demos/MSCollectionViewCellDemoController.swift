@@ -144,11 +144,16 @@ extension MSCollectionViewCellDemoController: UICollectionViewDataSource {
         cell.cellView.titleNumberOfLines = section.numberOfLines
         cell.cellView.subtitleNumberOfLines = section.numberOfLines
         cell.cellView.footerNumberOfLines = section.numberOfLines
+
+        cell.cellView.backgroundColor = isGrouped ? MSColors.Table.Cell.backgroundGrouped : MSColors.Table.Cell.background
         cell.cellView.topSeparatorType = isGrouped && indexPath.item == 0 ? .full : .none
         let isLastInSection = indexPath.item == collectionView.numberOfItems(inSection: indexPath.section) - 1
         cell.cellView.bottomSeparatorType = isLastInSection ? .full : .inset
+
         cell.cellView.isInSelectionMode = section.allowsMultipleSelection ? isInSelectionMode : false
+
         cell.cellView.onAccessoryTapped = { [unowned self] in self.showAlertForDetailButtonTapped(title: item.text1) }
+
         return cell
     }
 
