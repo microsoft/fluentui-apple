@@ -213,15 +213,16 @@ open class MSTableViewCell: UITableViewCell {
     ///   - titleNumberOfLines: The number of lines that the title should display
     ///   - subtitleNumberOfLines: The number of lines that the subtitle should display
     ///   - footerNumberOfLines: The number of lines that the footer should display
+    ///   - customAccessoryViewExtendsToEdge: Boolean defining whether custom accessory view is extended to the trailing edge of the cell or not (ignored when accessory type is not `.none`)
     ///   - containerWidth: The width of the cell's super view (e.g. the table view's width)
     ///   - isInSelectionMode: Boolean describing if the cell is in multi-selection mode which shows/hides a checkmark image on the leading edge
     /// - Returns: a value representing the calculated height of the cell
-    @objc public class func height(title: String, subtitle: String = "", footer: String = "", customViewSize: CustomViewSize = .default, customAccessoryView: UIView? = nil, accessoryType: MSTableViewCellAccessoryType = .none, titleNumberOfLines: Int = 1, subtitleNumberOfLines: Int = 1, footerNumberOfLines: Int = 1, containerWidth: CGFloat = .greatestFiniteMagnitude, isInSelectionMode: Bool = false) -> CGFloat {
+    @objc public class func height(title: String, subtitle: String = "", footer: String = "", customViewSize: CustomViewSize = .default, customAccessoryView: UIView? = nil, accessoryType: MSTableViewCellAccessoryType = .none, titleNumberOfLines: Int = 1, subtitleNumberOfLines: Int = 1, footerNumberOfLines: Int = 1, customAccessoryViewExtendsToEdge: Bool = false, containerWidth: CGFloat = .greatestFiniteMagnitude, isInSelectionMode: Bool = false) -> CGFloat {
         let layoutType = self.layoutType(subtitle: subtitle, footer: footer)
         let customViewSize = self.customViewSize(from: customViewSize, layoutType: layoutType)
 
         let textAreaLeftOffset = self.textAreaLeftOffset(customViewSize: customViewSize, isInSelectionMode: isInSelectionMode)
-        let textAreaRightOffset = self.textAreaRightOffset(customAccessoryView: customAccessoryView, accessoryType: accessoryType)
+        let textAreaRightOffset = self.textAreaRightOffset(customAccessoryView: customAccessoryView, customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge, accessoryType: accessoryType)
         let textAreaWidth = containerWidth - (textAreaLeftOffset + textAreaRightOffset)
 
         var textAreaHeight = title.preferredSize(for: TextStyles.title.font, width: textAreaWidth, numberOfLines: titleNumberOfLines).height
@@ -249,9 +250,10 @@ open class MSTableViewCell: UITableViewCell {
     ///   - customViewSize: The custom view size for the cell based on `MSTableViewCell.CustomViewSize`
     ///   - customAccessoryView: The custom accessory view that appears near the trailing edge of the cell
     ///   - accessoryType: The `MSTableViewCellAccessoryType` that the cell should display
+    ///   - customAccessoryViewExtendsToEdge: Boolean defining whether custom accessory view is extended to the trailing edge of the cell or not (ignored when accessory type is not `.none`)
     ///   - isInSelectionMode: Boolean describing if the cell is in multi-selection mode which shows/hides a checkmark image on the leading edge
     /// - Returns: a value representing the preferred width of the cell
-    @objc public class func preferredWidth(title: String, subtitle: String = "", footer: String = "", customViewSize: CustomViewSize = .default, customAccessoryView: UIView? = nil, accessoryType: MSTableViewCellAccessoryType = .none, isInSelectionMode: Bool = false) -> CGFloat {
+    @objc public class func preferredWidth(title: String, subtitle: String = "", footer: String = "", customViewSize: CustomViewSize = .default, customAccessoryView: UIView? = nil, accessoryType: MSTableViewCellAccessoryType = .none, customAccessoryViewExtendsToEdge: Bool = false, isInSelectionMode: Bool = false) -> CGFloat {
         let layoutType = self.layoutType(subtitle: subtitle, footer: footer)
         let customViewSize = self.customViewSize(from: customViewSize, layoutType: layoutType)
 
@@ -269,20 +271,9 @@ open class MSTableViewCell: UITableViewCell {
             labelAreaWidth = max(titleSize.width, subtitleSize.width, footerSize.width)
         }
 
-        var width = Constants.paddingLeft + labelAreaWidth
-        width += accessoryType != .none ? accessoryType.size.width : Constants.paddingRight
-
-        if isInSelectionMode {
-            width += Constants.selectionImageSize.width + Constants.selectionImageMarginRight
-        }
-        if customViewSize != .zero {
-            width += customViewSize.size.width + customViewSize.rightMargin
-        }
-        if let customAccessoryView = customAccessoryView {
-            width += Constants.customAccessoryViewMarginLeft + customAccessoryView.width
-        }
-
-        return width
+        return textAreaLeftOffset(customViewSize: customViewSize, isInSelectionMode: isInSelectionMode) +
+            labelAreaWidth +
+            textAreaRightOffset(customAccessoryView: customAccessoryView, customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge, accessoryType: accessoryType)
     }
 
     private static func layoutType(subtitle: String, footer: String) -> LayoutType {
@@ -309,19 +300,32 @@ open class MSTableViewCell: UITableViewCell {
         return textAreaLeftOffset
     }
 
-    private static func textAreaRightOffset(customAccessoryView: UIView?, accessoryType: MSTableViewCellAccessoryType) -> CGFloat {
+    private static func textAreaRightOffset(customAccessoryView: UIView?, customAccessoryViewExtendsToEdge: Bool, accessoryType: MSTableViewCellAccessoryType) -> CGFloat {
         let customAccessoryViewSpacing: CGFloat
         if let customAccessoryView = customAccessoryView {
             customAccessoryViewSpacing = customAccessoryView.width + Constants.customAccessoryViewMarginLeft
         } else {
             customAccessoryViewSpacing = 0
         }
-        return customAccessoryViewSpacing + MSTableViewCell.customAccessoryViewRightOffset(accessoryType: accessoryType)
+        return customAccessoryViewSpacing + MSTableViewCell.customAccessoryViewRightOffset(customAccessoryView: customAccessoryView, customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge, accessoryType: accessoryType)
     }
 
-    private static func customAccessoryViewRightOffset(accessoryType: MSTableViewCellAccessoryType) -> CGFloat {
-        return accessoryType != .none ? accessoryType.size.width : Constants.paddingRight
+    private static func customAccessoryViewRightOffset(customAccessoryView: UIView?, customAccessoryViewExtendsToEdge: Bool, accessoryType: MSTableViewCellAccessoryType) -> CGFloat {
+        if accessoryType != .none {
+            return accessoryType.size.width
+        }
+        if customAccessoryView != nil && customAccessoryViewExtendsToEdge {
+            return 0
+        }
+        return Constants.paddingRight
     }
+
+    /// Text that appears as the first line of text
+    @objc public var title: String { return titleLabel.text ?? "" }
+    /// Text that appears as the second line of text
+    @objc public var subtitle: String { return subtitleLabel.text ?? "" }
+    /// Text that appears as the third line of text
+    @objc public var footer: String { return footerLabel.text ?? "" }
 
     /// The maximum number of lines to be shown for `title`
     @objc open var titleNumberOfLines: Int {
@@ -411,6 +415,17 @@ open class MSTableViewCell: UITableViewCell {
         return customView != nil ? layoutType.customViewSize : .zero
     }
 
+    /// Extends custom accessory view to the trailing edge of the cell. Ignored when accessory type is not `.none` since in this case the built-in accessory is placed at the edge of the cell preventing custom accessory view from extending.
+    @objc open var customAccessoryViewExtendsToEdge: Bool = false {
+        didSet {
+            if customAccessoryViewExtendsToEdge == oldValue {
+                return
+            }
+            setNeedsLayout()
+            invalidateIntrinsicContentSize()
+        }
+    }
+
     /// Style describing whether or not the cell's top separator should be visible and how wide it should extend
     @objc open var topSeparatorType: SeparatorType = .none {
         didSet {
@@ -461,6 +476,7 @@ open class MSTableViewCell: UITableViewCell {
                 customViewSize: customViewSize,
                 customAccessoryView: customAccessoryView,
                 accessoryType: _accessoryType,
+                customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge,
                 isInSelectionMode: isInSelectionMode
             ),
             height: type(of: self).height(
@@ -473,6 +489,7 @@ open class MSTableViewCell: UITableViewCell {
                 titleNumberOfLines: titleNumberOfLines,
                 subtitleNumberOfLines: subtitleNumberOfLines,
                 footerNumberOfLines: footerNumberOfLines,
+                customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge,
                 containerWidth: .infinity,
                 isInSelectionMode: isInSelectionMode
             )
@@ -725,7 +742,7 @@ open class MSTableViewCell: UITableViewCell {
         }
 
         let titleLeftOffset = MSTableViewCell.textAreaLeftOffset(customViewSize: customViewSize, isInSelectionMode: isInSelectionMode)
-        let titleRightOffset = MSTableViewCell.textAreaRightOffset(customAccessoryView: customAccessoryView, accessoryType: _accessoryType)
+        let titleRightOffset = MSTableViewCell.textAreaRightOffset(customAccessoryView: customAccessoryView, customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge, accessoryType: _accessoryType)
         let titleWidth = contentView.width - (titleLeftOffset + titleRightOffset)
         let titleText = titleLabel.text ?? ""
         let titleSize = titleText.preferredSize(for: titleLabel.font, width: titleWidth, numberOfLines: titleNumberOfLines)
@@ -767,13 +784,13 @@ open class MSTableViewCell: UITableViewCell {
         }
 
         if let customAccessoryView = customAccessoryView {
-            let xOffset = contentView.width - MSTableViewCell.textAreaRightOffset(customAccessoryView: customAccessoryView, accessoryType: _accessoryType) + Constants.customAccessoryViewMarginLeft
+            let xOffset = contentView.width - titleRightOffset + Constants.customAccessoryViewMarginLeft
             let yOffset = UIScreen.main.roundToDevicePixels((contentView.height - customAccessoryView.height) / 2)
             customAccessoryView.frame = CGRect(origin: CGPoint(x: xOffset, y: yOffset), size: customAccessoryView.frame.size)
         }
 
         if let accessoryView = _accessoryView {
-            let xOffset = contentView.width - MSTableViewCell.customAccessoryViewRightOffset(accessoryType: _accessoryType)
+            let xOffset = contentView.width - MSTableViewCell.customAccessoryViewRightOffset(customAccessoryView: customAccessoryView, customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge, accessoryType: _accessoryType)
             let yOffset = UIScreen.main.roundToDevicePixels((contentView.height - _accessoryType.size.height) / 2)
             accessoryView.frame = CGRect(origin: CGPoint(x: xOffset, y: yOffset), size: _accessoryType.size)
         }
@@ -825,6 +842,7 @@ open class MSTableViewCell: UITableViewCell {
                     customViewSize: customViewSize,
                     customAccessoryView: customAccessoryView,
                     accessoryType: _accessoryType,
+                    customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge,
                     isInSelectionMode: isInSelectionMode
                 ),
                 maxWidth
@@ -839,6 +857,7 @@ open class MSTableViewCell: UITableViewCell {
                 titleNumberOfLines: titleNumberOfLines,
                 subtitleNumberOfLines: subtitleNumberOfLines,
                 footerNumberOfLines: footerNumberOfLines,
+                customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge,
                 containerWidth: maxWidth,
                 isInSelectionMode: isInSelectionMode
             )
