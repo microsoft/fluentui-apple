@@ -7,7 +7,7 @@ import UIKit
 
 // MARK: MSNavigationController
 
-/// UINavigationController subclass that supports Large Title presentation and accessory view.
+/// `UINavigationController` subclass that supports Large Title presentation and accessory view by wrapping each view controller that needs this functionality into a controller that provides the required behavior. The original view controller can be accessed by using `topContentViewController` or `contentViewController(for:)`.
 @objcMembers
 open class MSNavigationController: UINavigationController {
     static let showsShyHeaderByDefault: Bool = true //will display/hide the shy container header at startup depending on value
@@ -19,8 +19,15 @@ open class MSNavigationController: UINavigationController {
         return msNavBar
     }
 
+    open var topContentViewController: UIViewController? {
+        guard let controller = topViewController else {
+            return nil
+        }
+        return contentViewController(for: controller)
+    }
+
     open override var preferredStatusBarStyle: UIStatusBarStyle {
-        return statusBarStyleFromNavBar()
+        return msNavigationBar.style == .system ? .default : .lightContent
     }
 
     private let transitionAnimator = MSNavigationAnimator()
@@ -93,11 +100,15 @@ open class MSNavigationController: UINavigationController {
         (topViewController as? MSShyHeaderController)?.contractAccessory()
     }
 
+    public func contentViewController(for controller: UIViewController) -> UIViewController {
+        return (controller as? MSShyHeaderController)?.contentViewController ?? controller
+    }
+
     private func wrapViewControllerIfNeeded(_ viewController: UIViewController) -> UIViewController {
         if !viewControllerNeedsWrapping(viewController) {
             return viewController
         }
-        return MSShyHeaderController(contentVC: viewController)
+        return MSShyHeaderController(contentViewController: viewController)
     }
 
     private func viewControllerNeedsWrapping(_ viewController: UIViewController) -> Bool {
@@ -162,11 +173,6 @@ open class MSNavigationController: UINavigationController {
         default:
             return
         }
-    }
-
-    /// Call this function from an override of `UIViewController`'s `preferredStatusBarStyle` to set the status bar style dynamically based on the nav bar.
-    private func statusBarStyleFromNavBar() -> UIStatusBarStyle {
-        return msNavigationBar.style == .system ? .default : .lightContent
     }
 }
 

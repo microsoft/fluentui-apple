@@ -86,6 +86,7 @@ class MSNavigationControllerDemoController: DemoController {
         let controller = MSDrawerController(sourceView: view, sourceRect: .zero, presentationOrigin: .zero, presentationDirection: .fromLeading)
         controller.contentView = meControl
         controller.preferredContentSize.width = 360
+        controller.resizingBehavior = .dismiss
         presentedViewController?.present(controller, animated: true)
     }
 }

@@ -7,7 +7,7 @@ import UIKit
 
 // MARK: MSShyHeaderController
 
-/// Container VC defining a content area beneath a custom header container for a ShyHeader and a ContentVC, enabling "scroll to hide header" behavior
+/// Container VC defining a content area beneath a custom header container for a ShyHeader and a content VC, enabling "scroll to hide header" behavior
 /// Manages logic around contained scroll views, using the offset to animate the exposure of the header view
 class MSShyHeaderController: UIViewController {
     private struct Constants {
@@ -16,16 +16,14 @@ class MSShyHeaderController: UIViewController {
         static let shyHeaderShowHideDecisionProgressThreshold: CGFloat = 0.4 // the threshold for which an incomplete expansion will move towards completion/contraction on a no-velocity release of a scrollView pan gesture
     }
 
-    let contentVC: UIViewController
+    let contentViewController: UIViewController
 
-    // We have no interest in this container view's navigation item, so we pass the contentVC's navigation item
-    override var navigationItem: UINavigationItem { get { return contentVC.navigationItem } set { } }
+    // We have no interest in this container view's navigation item, so we pass the contentViewController's navigation item
+    override var navigationItem: UINavigationItem { get { return contentViewController.navigationItem } set { } }
 
-    override var childForStatusBarStyle: UIViewController? {
-        return contentVC
-    }
+    override var childForStatusBarStyle: UIViewController? { return contentViewController }
 
-    private let contentContainerView: UIView = { // within the gesture-based configuration, houses the contentVC.view
+    private let contentContainerView: UIView = { // within the gesture-based configuration, houses the contentViewController.view
         let contentContainerView = UIView()
         contentContainerView.backgroundColor = UIColor(red: 0.20, green: 0.20, blue: 0.20, alpha: 1.00)
         return contentContainerView
@@ -48,17 +46,17 @@ class MSShyHeaderController: UIViewController {
     private var contentScrollViewObservation: NSKeyValueObservation?
     private var previousContentScrollViewTraits = MSContentScrollViewTraits() //properties of the scroll view at the last scrollDidOccurIn: update. Used with current traits to understand user action
 
-    init(contentVC: UIViewController) {
-        self.contentVC = contentVC
-        shyHeaderView.accessoryView = contentVC.navigationItem.accessoryView
+    init(contentViewController: UIViewController) {
+        self.contentViewController = contentViewController
+        shyHeaderView.accessoryView = contentViewController.navigationItem.accessoryView
 
         super.init(nibName: nil, bundle: nil)
 
         loadViewIfNeeded()
-        addChildController(contentVC, containingViewIn: contentContainerView)
-        contentVC.view.fitIntoSuperview(usingConstraints: true)
+        addChildController(contentViewController, containingViewIn: contentContainerView)
+        contentViewController.view.fitIntoSuperview(usingConstraints: true)
 
-        contentScrollViewObservation = contentVC.navigationItem.observe(\.contentScrollView, options: [.new]) { [unowned self] (_, change) in
+        contentScrollViewObservation = contentViewController.navigationItem.observe(\.contentScrollView, options: [.new]) { [unowned self] (_, change) in
             if let newValue = change.newValue {
                 self.contentScrollView = newValue
             } else {
@@ -66,7 +64,7 @@ class MSShyHeaderController: UIViewController {
             }
         }
         defer {
-            contentScrollView = contentVC.navigationItem.contentScrollView
+            contentScrollView = contentViewController.navigationItem.contentScrollView
         }
     }
 
@@ -94,7 +92,7 @@ class MSShyHeaderController: UIViewController {
     // MARK: - Base Construction
 
     /// Constructs the UI for the gesture-based configuration
-    /// Uses autolayout and a container view to layout the shy header in relation to the contentVC view
+    /// Uses autolayout and a container view to layout the shy header in relation to the contentViewController view
     private func setupBaseLayout() {
         var constraints = [NSLayoutConstraint]()
 
@@ -181,7 +179,7 @@ class MSShyHeaderController: UIViewController {
 
         // if the originator is a VC, make sure it belongs to this heirarchy
         if let originatorVC = expansionRequestOriginator as? UIViewController {
-            guard originatorVC == contentVC || contentVC.isAncestor(ofViewController: originatorVC) else {
+            guard originatorVC == contentViewController || contentViewController.isAncestor(ofViewController: originatorVC) else {
                 return false
             }
         }
@@ -444,18 +442,6 @@ class MSShyHeaderController: UIViewController {
         }
     }
 
-    /// Evaluates if the provided parameters should drive the shy behavior (opening/closing the Large Header accessory)
-    ///
-    /// Decision making:
-    /// 1. if the gesture is in the expected state
-    /// 2. if we have a contentVC
-    /// 3. if the contentVC wants shy behavior at all (some don't)
-    /// 4. if the scrollView has enough content to warrant shy behavior (size < frame == no shy)
-    ///
-    /// - Parameter scrollView: the scrollView in which the gesture is occurring
-    /// - Parameter gesture: the current user-interacted gesture, which may need to power a shy behavior
-    /// - Parameter expectedState: the state in which the gesture should be, given the caller of the method
-    /// - Returns: true if the parameters provided should drive shy behavior
     private func shyBehaviorCalculationsShouldProceed(inScrollView scrollView: UIScrollView) -> Bool {
         // unchanged offset, no action needed
         guard scrollView.contentOffset.y != previousContentScrollViewTraits.yOffset else {
@@ -471,18 +457,6 @@ class MSShyHeaderController: UIViewController {
         return true
     }
 
-    /// Evaluates if the provided parameters should drive the shy behavior (opening/closing the Large Header accessory)
-    ///
-    /// Decision making:
-    /// 1. if the gesture is in the expected state
-    /// 2. if we have a contentVC
-    /// 3. if the contentVC wants shy behavior at all (some don't)
-    /// 4. if the scrollView has enough content to warrant shy behavior (size < frame == no shy)
-    ///
-    /// - Parameter scrollView: the scrollView in which the gesture is occurring
-    /// - Parameter gesture: the current user-interacted gesture, which may need to power a shy behavior
-    /// - Parameter expectedState: the state in which the gesture should be, given the caller of the method
-    /// - Returns: true if the parameters provided should drive shy behavior
     private func shyBehaviorCalculationsShouldProceed(inScrollView scrollView: UIScrollView, forGestureRecognizer gesture: UIGestureRecognizer, withExpectedState expectedState: UIGestureRecognizer.State) -> Bool {
         guard gesture.state == expectedState else {
             return false
