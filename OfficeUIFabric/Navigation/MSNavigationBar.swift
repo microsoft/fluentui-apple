@@ -269,8 +269,6 @@ open class MSNavigationBar: UINavigationBar {
     // MARK: - Obscurant Handling & Show/Hide Animation Methods
 
     /// Animates the showing of the obscuring view
-    ///
-    /// - Parameter duration: duration of obscuring animation
     func obscureContent() {
         if obscurantView.isHidden {
             obscurantView.animatedShow(duration: Constants.obscuringAnimationDuration)

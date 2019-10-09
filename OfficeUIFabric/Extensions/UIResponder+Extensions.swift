@@ -8,7 +8,10 @@ import UIKit
 extension UIResponder {
     // From http://stackoverflow.com/a/27140764
     // See documentation for sendAction (https://developer.apple.com/reference/uikit/uiapplication/1622946-sendaction)
+
     private static weak var _firstResponder: UIResponder?
+
+    @available(iOSApplicationExtension, unavailable)
     static var firstResponder: UIResponder? {
         _firstResponder = nil
         UIApplication.shared.sendAction(#selector(findFirstResponder), to: nil, from: nil, for: nil)

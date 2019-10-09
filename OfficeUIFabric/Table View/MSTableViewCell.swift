@@ -539,7 +539,7 @@ open class MSTableViewCell: UITableViewCell {
     private var layoutType: LayoutType = .oneLine
 
     private var preferredContentSizeIsLargerThanDefault: Bool {
-        switch UIApplication.shared.preferredContentSizeCategory {
+        switch traitCollection.preferredContentSizeCategory {
         case .unspecified, .extraSmall, .small, .medium, .large:
             return false
         default:
