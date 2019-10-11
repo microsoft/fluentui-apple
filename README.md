@@ -46,7 +46,7 @@ A full list of currently supported controls can be found here: [OfficeUIFabric](
 ### Requirements
 
 - iOS 11+
-- Xcode 10.2+
+- Xcode 11+
 - Swift 4.2+
 
 ### 1. Using CocoaPods
