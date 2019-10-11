@@ -88,11 +88,15 @@ class MSInitialsView: UIView {
     ///   - secondaryText: The secondary text to use to display the initials if name isn't provided (e.g. an email address)
     public func setup(primaryText: String?, secondaryText: String?) {
         initialsLabel.text = MSInitialsView.initialsText(fromPrimaryText: primaryText, secondaryText: secondaryText)
-        super.backgroundColor = MSInitialsView.initialsBackgroundColor(fromPrimaryText: primaryText, secondaryText: secondaryText)
+        setBackgroundColor(MSInitialsView.initialsBackgroundColor(fromPrimaryText: primaryText, secondaryText: secondaryText))
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
         initialsLabel.frame = bounds
+    }
+
+    func setBackgroundColor(_ color: UIColor) {
+        super.backgroundColor = color
     }
 }

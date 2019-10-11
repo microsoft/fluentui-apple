@@ -92,7 +92,7 @@ open class MSAvatarView: UIView {
 
     @objc open var avatarBackgroundColor: UIColor {
         didSet {
-            initialsView.backgroundColor = avatarBackgroundColor
+            initialsView.setBackgroundColor(avatarBackgroundColor)
         }
     }
 
