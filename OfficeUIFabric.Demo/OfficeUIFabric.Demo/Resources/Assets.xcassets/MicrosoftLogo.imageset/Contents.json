@@ -3,6 +3,16 @@
     {
       "idiom" : "universal",
       "filename" : "msLogo.pdf"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "msLogoDarkMode.pdf",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ]
     }
   ],
   "info" : {
