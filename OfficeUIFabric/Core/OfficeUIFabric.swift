@@ -5,6 +5,7 @@
 
 import UIKit
 
+@objcMembers
 public class OfficeUIFabricFramework: NSObject {
     public static var bundle: Bundle { return Bundle(for: self) }
     public static var resourceBundle: Bundle {
@@ -12,7 +13,7 @@ public class OfficeUIFabricFramework: NSObject {
             fatalError("OfficeUIFabric: resource bundle is not found")
         }
         return bundle
-  }
+    }
 
     public static func initializeAppearance() {
         initializeUINavigationBarAppearance(UINavigationBar.appearance())
