@@ -11,6 +11,7 @@ fileprivate struct Constants {
     private init() {}
 }
 
+@objc(MSFDatePickerController)
 open class DatePickerController: NSViewController {
     
     /// Initializes the date picker controller with starting date, calendar, and style.
@@ -372,7 +373,8 @@ extension Calendar {
     }
 }
 
-@objc public protocol DatePickerControllerDelegate : class {
+@objc(MSFDatePickerControllerDelegate)
+public protocol DatePickerControllerDelegate : class {
     
     /// Tells the delegate that a new date was selected.
     ///
@@ -382,7 +384,8 @@ extension Calendar {
     @objc optional func datePickerController(_ controller : DatePickerController, didSelectDate : Date)
 }
 
-@objc public enum DatePickerStyle: Int {
+@objc(MSFDatePickerStyle)
+public enum DatePickerStyle: Int {
     case date
     case dateTime
 }

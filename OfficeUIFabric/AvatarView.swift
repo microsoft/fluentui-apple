@@ -56,6 +56,7 @@ fileprivate enum DisplayStyle {
 
 /// A visual Avatar icon for a user, cropped to a circle that either displays the user's
 /// image if available or the user's initials if an image is not available
+@objc(MSFAvatarView)
 open class AvatarView : NSView {
 
 	/// Initializes the avatar view with a name, email, image, and size. If
