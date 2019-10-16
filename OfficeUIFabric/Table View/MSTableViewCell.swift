@@ -24,11 +24,11 @@ import UIKit
         case .none:
             icon = nil
         case .disclosureIndicator:
-            icon = UIImage.staticImageNamed("disclosure")?.imageFlippedForRightToLeftLayoutDirection()
+            icon = UIImage.staticImageNamed(OfficeUIFabricFramework.usesFluentIcons ? "chevron-right-20x20" : "disclosure")?.imageFlippedForRightToLeftLayoutDirection()
         case .detailButton:
-            icon = UIImage.staticImageNamed("details")
+            icon = UIImage.staticImageNamed(OfficeUIFabricFramework.usesFluentIcons ? "more-24x24" : "details")
         case .checkmark:
-            icon = UIImage.staticImageNamed("checkmark-blue-20x20")
+            icon = UIImage.staticImageNamed(OfficeUIFabricFramework.usesFluentIcons ? "checkmark-24x24" : "checkmark-blue-20x20")
         }
         return icon?.withRenderingMode(.alwaysTemplate)
     }
@@ -89,7 +89,7 @@ open class MSTableViewCell: UITableViewCell {
             case .zero:
                 return .zero
             case .small:
-                return CGSize(width: 25, height: 25)
+                return OfficeUIFabricFramework.usesFluentIcons ? CGSize(width: 24, height: 24) : CGSize(width: 25, height: 25)
             case .medium, .default:
                 return CGSize(width: 40, height: 40)
             }
@@ -163,7 +163,7 @@ open class MSTableViewCell: UITableViewCell {
         static let selectionImageMarginRight: CGFloat = horizontalSpacing
         static let selectionImageOff = UIImage.staticImageNamed("selection-off")?.withRenderingMode(.alwaysTemplate)
         static let selectionImageOn = UIImage.staticImageNamed("selection-on")?.withRenderingMode(.alwaysTemplate)
-        static let selectionImageSize = CGSize(width: 25, height: 25)
+        static let selectionImageSize = CGSize(width: 24, height: 24)
         static let selectionModeAnimationDuration: TimeInterval = 0.2
 
         static let enabledAlpha: CGFloat = 1

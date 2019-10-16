@@ -46,13 +46,17 @@ class TableViewSampleData {
         }
     }
 
-    static func createCustomView(imageName: String) -> UIImageView? {
+    static func createCustomView(imageName: String, useImageAsTemplate: Bool = false) -> UIImageView? {
         if imageName == "" {
             return nil
         }
-
-        let customView = UIImageView(image: UIImage(named: imageName))
+        var image = UIImage(named: imageName)
+        if useImageAsTemplate {
+            image = image?.withRenderingMode(.alwaysTemplate)
+        }
+        let customView = UIImageView(image: image)
         customView.contentMode = .scaleAspectFit
+        customView.tintColor = MSColors.Table.Cell.image
         return customView
     }
 }

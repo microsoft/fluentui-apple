@@ -17,7 +17,7 @@ class OtherCellsSampleData: TableViewSampleData {
         Section(title: "MSActivityIndicatorCell", items: [Item()]),
         Section(title: "MSBooleanCell", items: [
             Item(text1: "Allow notifications"),
-            Item(text1: "Allow notifications", image: "mail-unread-25x25")
+            Item(text1: "Allow notifications", image: "mail-unread-24x24")
         ]),
         Section(title: "MSCenteredLabelCell", items: [Item(text1: "3 results found from directory")])
     ]

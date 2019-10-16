@@ -73,9 +73,4 @@ public extension UIImage {
 /// Add definitions to this list to support recoloring an image asset with a color from the high contrast color palette
 /// when `Darken Colors` is enabled. Missing entries will use the original color set in the image asset `PDF` because
 /// the image is loaded with the rendering mode `AlwaysOriginal`.
-private let darkerPrimaryColorByImageName: [String: UIColor] = [
-    "back-25x25": #colorLiteral(red: 0.3019607843, green: 0.3019607843, blue: 0.3019607843, alpha: 1),                 // #4D4D4D
-    "checkmark-blue-20x20": #colorLiteral(red: 0, green: 0.3882352941, blue: 0.6784313725, alpha: 1),       // #0063AD
-    "checkmark-blue-25x25": #colorLiteral(red: 0, green: 0.3882352941, blue: 0.6784313725, alpha: 1),       // #0063AD
-    "checkmark-blue-thin-20x20": #colorLiteral(red: 0, green: 0.3882352941, blue: 0.6784313725, alpha: 1)   // #0063AD
-]
+private let darkerPrimaryColorByImageName: [String: UIColor] = [:]

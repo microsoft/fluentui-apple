@@ -22,8 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        OfficeUIFabricFramework.usesFluentIcons = true
         OfficeUIFabricFramework.initializeAppearance()
-        UIImage.addDarkerPrimaryColors(darkerPrimaryColorByImageName, forImagesIn: .main)
 
         let splitViewController = window!.rootViewController as! UISplitViewController
         let masterContainer = splitViewController.viewControllers.first as! UINavigationController
@@ -53,15 +53,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         return (secondaryViewController as? UINavigationController)?.topViewController is DetailViewController
     }
 }
-
-// MARK: - Image primary colors for Darker System Colors mode
-
-private let darkerPrimaryColorByImageName: [String: UIColor] = [
-    "agenda-25x25": #colorLiteral(red: 0.3019607843, green: 0.3019607843, blue: 0.3019607843, alpha: 1),                 // #4D4D4D
-    "attach-25x25": #colorLiteral(red: 0.3019607843, green: 0.3019607843, blue: 0.3019607843, alpha: 1),                 // #4D4D4D
-    "day-view-25x25": #colorLiteral(red: 0.3019607843, green: 0.3019607843, blue: 0.3019607843, alpha: 1),               // #4D4D4D
-    "flag-25x25": #colorLiteral(red: 0.3019607843, green: 0.3019607843, blue: 0.3019607843, alpha: 1),                   // #4D4D4D
-    "mail-unread-25x25": #colorLiteral(red: 0.3019607843, green: 0.3019607843, blue: 0.3019607843, alpha: 1),            // #4D4D4D
-    "month-view-25x25": #colorLiteral(red: 0.3019607843, green: 0.3019607843, blue: 0.3019607843, alpha: 1),             // #4D4D4D
-    "week-view-25x25": #colorLiteral(red: 0.3019607843, green: 0.3019607843, blue: 0.3019607843, alpha: 1)               // #4D4D4D
-]

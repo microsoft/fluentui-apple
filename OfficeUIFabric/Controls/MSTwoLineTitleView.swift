@@ -42,14 +42,16 @@ open class MSTwoLineTitleView: UIView {
         case downArrow
 
         var image: UIImage? {
+            let image: UIImage?
             switch self {
             case .disclosure:
-                return UIImage.staticImageNamed("disclosure")?.imageFlippedForRightToLeftLayoutDirection()
+                image = UIImage.staticImageNamed(OfficeUIFabricFramework.usesFluentIcons ? "chevron-right-20x20" : "disclosure")?.imageFlippedForRightToLeftLayoutDirection()
             case .downArrow:
-                return UIImage.staticImageNamed("down-arrow-20x20")
+                image = UIImage.staticImageNamed(OfficeUIFabricFramework.usesFluentIcons ? "chevron-down-20x20" : "down-arrow-20x20")
             case .none:
-                return nil
+                image = nil
             }
+            return image?.withRenderingMode(.alwaysTemplate)
         }
 
         var size: CGSize { return image?.size ?? .zero }
@@ -57,9 +59,9 @@ open class MSTwoLineTitleView: UIView {
         var horizontalPadding: CGFloat {
             switch self {
             case .disclosure:
-                return 6
+                return OfficeUIFabricFramework.usesFluentIcons ? 0 : 6
             case .downArrow:
-                return 2
+                return OfficeUIFabricFramework.usesFluentIcons ? -1 : 2
             case .none:
                 return 0
             }
@@ -194,6 +196,8 @@ open class MSTwoLineTitleView: UIView {
             titleButtonLabel.textColor = MSColors.TwoLineTitle.titleLight
             subtitleButtonLabel.textColor = MSColors.TwoLineTitle.subtitleLight
         }
+        titleButtonImageView.tintColor = MSColors.TwoLineTitle.accessory
+        subtitleButtonImageView.tintColor = MSColors.TwoLineTitle.accessory
     }
 
     private func setupTitleButtonColor(highlighted: Bool, animated: Bool) {

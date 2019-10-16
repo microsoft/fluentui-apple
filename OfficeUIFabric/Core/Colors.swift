@@ -386,6 +386,7 @@ public final class MSColors: NSObject {
         public static var titleLight: UIColor = foreground7
         public static var subtitleDark: UIColor = foreground3
         public static var subtitleLight: UIColor = foreground7.withAlphaComponent(0.8)
+        public static var accessory: UIColor = foreground3
     }
 
     private override init() {

@@ -15,6 +15,8 @@ public class OfficeUIFabricFramework: NSObject {
         return bundle
     }
 
+    public static var usesFluentIcons: Bool = false
+
     public static func initializeAppearance() {
         initializeUINavigationBarAppearance(UINavigationBar.appearance())
         if #available(iOS 12, *) {
@@ -54,7 +56,7 @@ public class OfficeUIFabricFramework: NSObject {
         titleAttributes[.foregroundColor] = MSColors.NavigationBar.title
         navigationBar.titleTextAttributes = titleAttributes
 
-        navigationBar.backIndicatorImage = UIImage.staticImageNamed("back-25x25")?.withRenderingMode(.alwaysTemplate)
+        navigationBar.backIndicatorImage = UIImage.staticImageNamed(usesFluentIcons ? "back-24x24" : "back-25x25")?.withRenderingMode(.alwaysTemplate)
         navigationBar.backIndicatorTransitionMaskImage = navigationBar.backIndicatorImage
     }
 

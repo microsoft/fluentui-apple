@@ -100,7 +100,7 @@ class RootViewController: UITableViewController {
         navigationItem.title = navigationItem.usesLargeTitle ? "Large Title" : "Regular Title"
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(title: "Dismiss", style: .plain, target: self, action: #selector(dismissSelf)),
-            UIBarButtonItem(image: UIImage(named: "agenda-25x25"), style: .plain, target: nil, action: nil)
+            UIBarButtonItem(image: UIImage(named: "3-day-view-28x28"), style: .plain, target: nil, action: nil)
         ]
     }
 

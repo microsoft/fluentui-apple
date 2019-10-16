@@ -93,8 +93,8 @@ open class MSSearchBar: UIView {
         static let searchTextFieldCornerRadius: CGFloat = 10.0
         static let contentStackViewWidthInset: CGFloat = 0.0
         static let searchTextFieldBackgroundHeight: CGFloat = 36.0
-        static let searchIconImageViewContainerInset: CGFloat = 3.0 //applied to top/bottom/left/right for total of 6 in each dimension
-        static let searchIconImageViewDimension: CGFloat = 14.0
+        static let searchIconImageViewContainerInset: CGFloat = 0
+        static let searchIconImageViewDimension: CGFloat = 20
 
         static let searchIconInset: CGFloat = 10.0
         static let searchTextFieldLeadingInset: CGFloat = 10.0
@@ -138,7 +138,7 @@ open class MSSearchBar: UIView {
     //Leading-edge aligned Icon
     private lazy var searchIconImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage.staticImageNamed("search-bar")?.withRenderingMode(.alwaysTemplate)
+        imageView.image = UIImage.staticImageNamed("search-20x20")?.withRenderingMode(.alwaysTemplate)
         imageView.contentMode = .scaleToFill
         return imageView
     }()
