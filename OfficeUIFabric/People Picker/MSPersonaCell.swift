@@ -12,9 +12,7 @@ open class MSPersonaCell: MSTableViewCell {
         static let avatarSize: MSAvatarSize = .large
     }
 
-    public static var defaultHeight: CGFloat { return MSTableViewCell.mediumHeight }
-
-    open override var customViewSize: MSTableViewCell.CustomViewSize { return .medium }
+    open override var customViewSize: MSTableViewCell.CustomViewSize { get { return .medium } set { } }
 
     private let avatarView: MSAvatarView = {
         let avatarView = MSAvatarView(avatarSize: Constants.avatarSize)

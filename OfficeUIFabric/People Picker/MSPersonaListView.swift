@@ -208,7 +208,7 @@ extension MSPersonaListView: UITableViewDelegate {
 
         switch section {
         case .personas:
-            return MSPersonaCell.defaultHeight
+            return UITableView.automaticDimension
         case .searchDirectory:
             switch searchDirectoryState {
             case .searching:

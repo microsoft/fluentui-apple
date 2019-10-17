@@ -104,6 +104,12 @@ open class MSTableViewCell: UITableViewCell {
                 return 12
             }
         }
+
+        fileprivate func validateLayoutTypeForHeightCalculation(_ layoutType: inout LayoutType) {
+            if self == .medium && layoutType == .oneLine {
+                layoutType = .twoLines
+            }
+        }
     }
 
     @objc(MSTableViewCellSeparatorType)
@@ -113,7 +119,7 @@ open class MSTableViewCell: UITableViewCell {
         case full
     }
 
-    private enum LayoutType {
+    fileprivate enum LayoutType {
         case oneLine
         case twoLines
         case threeLines
@@ -218,7 +224,8 @@ open class MSTableViewCell: UITableViewCell {
     ///   - isInSelectionMode: Boolean describing if the cell is in multi-selection mode which shows/hides a checkmark image on the leading edge
     /// - Returns: a value representing the calculated height of the cell
     @objc public class func height(title: String, subtitle: String = "", footer: String = "", customViewSize: CustomViewSize = .default, customAccessoryView: UIView? = nil, accessoryType: MSTableViewCellAccessoryType = .none, titleNumberOfLines: Int = 1, subtitleNumberOfLines: Int = 1, footerNumberOfLines: Int = 1, customAccessoryViewExtendsToEdge: Bool = false, containerWidth: CGFloat = .greatestFiniteMagnitude, isInSelectionMode: Bool = false) -> CGFloat {
-        let layoutType = self.layoutType(subtitle: subtitle, footer: footer)
+        var layoutType = self.layoutType(subtitle: subtitle, footer: footer)
+        customViewSize.validateLayoutTypeForHeightCalculation(&layoutType)
         let customViewSize = self.customViewSize(from: customViewSize, layoutType: layoutType)
 
         let textAreaLeftOffset = self.textAreaLeftOffset(customViewSize: customViewSize, isInSelectionMode: isInSelectionMode)
@@ -412,8 +419,22 @@ open class MSTableViewCell: UITableViewCell {
 
     /// Override to set a specific `CustomViewSize` on the `customView`
     @objc open var customViewSize: CustomViewSize {
-        return customView != nil ? layoutType.customViewSize : .zero
+        get {
+            if customView == nil {
+                return .zero
+            }
+            return _customViewSize == .default ? layoutType.customViewSize : _customViewSize
+        }
+        set {
+            if _customViewSize == newValue {
+                return
+            }
+            _customViewSize = newValue
+            setNeedsLayout()
+            invalidateIntrinsicContentSize()
+        }
     }
+    private var _customViewSize: CustomViewSize = .default
 
     /// Extends custom accessory view to the trailing edge of the cell. Ignored when accessory type is not `.none` since in this case the built-in accessory is placed at the edge of the cell preventing custom accessory view from extending.
     @objc open var customAccessoryViewExtendsToEdge: Bool = false {

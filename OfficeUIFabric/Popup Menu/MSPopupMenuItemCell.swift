@@ -39,7 +39,10 @@ class MSPopupMenuItemCell: MSTableViewCell {
     }
     var preservesSpaceForImage: Bool = false
 
-    override var customViewSize: CustomViewSize { return customView != nil || preservesSpaceForImage ? Constants.imageViewSize : .zero }
+    override var customViewSize: CustomViewSize {
+        get { return customView != nil || preservesSpaceForImage ? Constants.imageViewSize : .zero }
+        set { }
+    }
 
     private var item: MSPopupMenuItem?
 
