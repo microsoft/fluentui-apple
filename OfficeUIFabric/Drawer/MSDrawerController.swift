@@ -239,11 +239,11 @@ open class MSDrawerController: UIViewController {
                 newValue.height = preferredContentSize.height
             }
 
-            let hasChanges = preferredContentSize != newValue
+            let needsContentViewFrameUpdate = presentingViewController != nil && preferredContentSize != newValue
 
             super.preferredContentSize = newValue
 
-            if hasChanges && presentingViewController != nil {
+            if needsContentViewFrameUpdate {
                 (presentationController as? MSDrawerPresentationController)?.updateContentViewFrame(animated: true)
             }
         }
@@ -422,16 +422,16 @@ open class MSDrawerController: UIViewController {
             return PresentationStyle(rawValue: presentationStyle.rawValue)!
         }
 
-        guard let window = sourceViewController.view?.window else {
-            // No window, use the device type as last resort.
-            // It will be a problem:
-            //   - on iPhone Plus/X in landscape orientation
-            //   - on iPad in split view 
-            return UIDevice.isPhone ? .slideover : .popover
-        }
-
         if presentationDirection.isVertical {
-            return window.traitCollection.horizontalSizeClass == .compact ? .slideover : .popover
+            if let window = sourceViewController.view?.window {
+                return window.traitCollection.horizontalSizeClass == .compact ? .slideover : .popover
+            } else {
+                // No window, use the device type as last resort.
+                // It will be a problem:
+                //   - on iPhone Plus/X in landscape orientation
+                //   - on iPad in split view
+                return UIDevice.isPhone ? .slideover : .popover
+            }
         } else {
             return .slideover
         }
