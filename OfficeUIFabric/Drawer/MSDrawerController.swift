@@ -252,6 +252,14 @@ open class MSDrawerController: UIViewController {
     var preferredContentWidth: CGFloat { return 0 }
     var preferredContentHeight: CGFloat { return 0 }
 
+    open override var shouldAutorotate: Bool {
+        return presentingViewController?.shouldAutorotate ?? super.shouldAutorotate
+    }
+
+    open override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return presentingViewController?.supportedInterfaceOrientations ?? super.supportedInterfaceOrientations
+    }
+
     /// `onDismiss` is called when drawer is being dismissed.
     @objc open var onDismiss: (() -> Void)?
     /// `onDismissCompleted` is called after drawer has been dismissed.
