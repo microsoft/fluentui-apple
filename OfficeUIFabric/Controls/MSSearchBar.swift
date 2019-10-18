@@ -367,32 +367,21 @@ open class MSSearchBar: UIView {
 
     // MARK: - Keyboard Handling
 
-    /// MSSearchBar's First Responder status is based on the status of the searchTextField
-    ///
-    /// - Returns: the return value of searchTextField.becomeFirstResponder
     open override func becomeFirstResponder() -> Bool {
         super.becomeFirstResponder()
-        return self.searchTextField.becomeFirstResponder()
+        return searchTextField.becomeFirstResponder()
     }
 
-    /// MSSearchBar's firstResponder status is dependent on the searchTextField
-    /// Redirects the resignation to the textField
-    ///
-    /// - Returns: the returned value of the searchTextField's resignFirstResponder method
     open override func resignFirstResponder() -> Bool {
         super.resignFirstResponder()
         return searchTextField.resignFirstResponder()
     }
 
-    /// MSSearchBar's First Responder status is based on the status of the searchTextField
-    ///
-    /// - Returns: the return value of searchTextField.isFirstResponder
     open override var isFirstResponder: Bool {
         return searchTextField.isFirstResponder
     }
 
-    /// Removes the keyboard via resignation of the searchTextField's FirstResponder status
-    func dismissKeyboard() {
+    private func dismissKeyboard() {
         searchTextField.resignFirstResponder()
     }
 }
@@ -400,22 +389,15 @@ open class MSSearchBar: UIView {
 // MARK: - MSSearchBar: UITextFieldDelegate
 
 extension MSSearchBar: UITextFieldDelegate {
-    /// Indicates that search has begun
-    /// Updates the delegate, placeholder text, and UI
-    ///
-    /// - Parameter textField: the searchTextField
     public func textFieldDidBeginEditing(_ textField: UITextField) {
         self.delegate?.searchBarDidBeginEditing(self)
         attributePlaceholderText()
         showCancelButton()
     }
 
-    /// Passes the return to the delegate indicating that the Search button was tapped
-    ///
-    /// - Parameter textField: the searchTextField
-    /// - Returns: false, as the returnKey of the searchTextField is "search" and not "return"
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         delegate?.searchBarDidRequestSearch?(self)
+        dismissKeyboard()
         return false
     }
 }
