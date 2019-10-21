@@ -113,6 +113,7 @@ open class MSNavigationBar: UINavigationBar {
 
     private var leftBarButtonItemsObserver: NSKeyValueObservation?
     private var rightBarButtonItemsObserver: NSKeyValueObservation?
+    private var titleObserver: NSKeyValueObservation?
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -235,10 +236,13 @@ open class MSNavigationBar: UINavigationBar {
         layoutIfNeeded()
 
         leftBarButtonItemsObserver = navigationItem.observe(\UINavigationItem.leftBarButtonItems) { [unowned self] item, _ in
-            self.navigationItemDidUpdateBarButtonItems(item)
+            self.navigationItemDidUpdate(item)
         }
         rightBarButtonItemsObserver = navigationItem.observe(\UINavigationItem.rightBarButtonItems) { [unowned self] item, _ in
-            self.navigationItemDidUpdateBarButtonItems(item)
+            self.navigationItemDidUpdate(item)
+        }
+        titleObserver = navigationItem.observe(\UINavigationItem.title) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
         }
     }
 
@@ -260,7 +264,7 @@ open class MSNavigationBar: UINavigationBar {
         }
     }
 
-    private func navigationItemDidUpdateBarButtonItems(_ navigationItem: UINavigationItem) {
+    private func navigationItemDidUpdate(_ navigationItem: UINavigationItem) {
         if navigationItem == topItem {
             update(with: navigationItem)
         }
