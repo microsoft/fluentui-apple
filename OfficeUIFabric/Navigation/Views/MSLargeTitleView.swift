@@ -152,6 +152,7 @@ class MSLargeTitleView: UIView {
         titleButton.contentHorizontalAlignment = .left
         titleButton.titleLabel?.adjustsFontSizeToFitWidth = true
         titleButton.addTarget(self, action: #selector(MSLargeTitleView.titleButtonTapped(sender:)), for: .touchUpInside)
+        titleButton.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
         // tap gesture for entire titleView
         tapGesture.addTarget(self, action: #selector(MSLargeTitleView.tapGestureRecognizerRecognized(sender:)))

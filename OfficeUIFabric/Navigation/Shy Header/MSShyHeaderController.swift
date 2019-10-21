@@ -265,7 +265,6 @@ class MSShyHeaderController: UIViewController {
         // if we're excessively scrolling *down* beyond the content, expanding isn't allowed
         let intendedExpansionShouldNotOccur = wouldExpandHeader
             && scrollView.scrollLocationDescriptor == .excessivelyBeyondContent
-            && newScrollDirection != .up
 
         // if the header exposure and the directionality of the swipe should cause no change in layout, we fall out
         let redundantSwipeAction = (wouldExpandHeader && shyHeaderView.exposure.progress == 1.0

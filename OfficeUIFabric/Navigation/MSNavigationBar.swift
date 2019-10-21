@@ -132,7 +132,7 @@ open class MSNavigationBar: UINavigationBar {
 
         contain(view: backgroundView)
 
-        contain(view: contentStackView, withInsets: .zero, respectingSafeAreaInsets: true)
+        setupContentStackView()
         contentStackView.isLayoutMarginsRelativeArrangement = true
         contentStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(
             top: 0,
@@ -148,8 +148,6 @@ open class MSNavigationBar: UINavigationBar {
 
         //leftBarButtonItemsStackView (ignored for now, TASK: 729995)
 //        contentStackView.addArrangedSubview(leftBarButtonItemsStackView)
-        leftBarButtonItemsStackView.setContentHuggingPriority(.medium, for: .horizontal)
-        leftBarButtonItemsStackView.setContentCompressionResistancePriority(.medium, for: .horizontal)
 
         //spacerView
         contentStackView.addArrangedSubview(spacerView)
@@ -174,6 +172,29 @@ open class MSNavigationBar: UINavigationBar {
         isTranslucent = false
 
         updateAccessibilityElements()
+    }
+
+    // Manually contains the content stack view with lower priority constraints in order to avoid invalid simultaneous constraints when nav bar is hidden.
+    private func setupContentStackView() {
+        contentStackView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(contentStackView)
+        let identifierHeader = String(describing: type(of: contentStackView))
+
+        let leading = contentStackView.leadingAnchor.constraint(equalTo: leadingAnchor)
+        leading.identifier = identifierHeader + "_containmentLeading"
+
+        let trailing = contentStackView.trailingAnchor.constraint(equalTo: trailingAnchor)
+        trailing.identifier = identifierHeader + "_containmentTrailing"
+        trailing.priority = .defaultHigh
+
+        let top = contentStackView.topAnchor.constraint(equalTo: topAnchor)
+        top.identifier = identifierHeader + "_containmentTop"
+
+        let bottom = contentStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        bottom.identifier = identifierHeader + "_containmentBottom"
+        bottom.priority = .defaultHigh
+
+        NSLayoutConstraint.activate([leading, trailing, top, bottom])
     }
 
     /// Guarantees that the custom UI remains on top of the subview stack
