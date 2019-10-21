@@ -66,6 +66,12 @@ open class MSNavigationBar: UINavigationBar {
         }
     }
 
+    open var avatarCustomAccessibilityLabel: String? {
+        didSet {
+            titleView.avatarCustomAccessibilityLabel = avatarCustomAccessibilityLabel
+        }
+    }
+
     open var onAvatarTapped: (() -> Void)? {
         didSet {
             titleView.avatarTapHandler = onAvatarTapped

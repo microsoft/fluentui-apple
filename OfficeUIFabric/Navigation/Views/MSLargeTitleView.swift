@@ -51,6 +51,12 @@ class MSLargeTitleView: UIView {
         }
     }
 
+    var avatarCustomAccessibilityLabel: String? {
+        didSet {
+            [avatarView, smallMorphingAvatarView].forEach { $0?.customAccessibilityLabel = avatarCustomAccessibilityLabel }
+        }
+    }
+
     var style: Style = .light {
         didSet {
             titleButton.setTitleColor(colorForStyle, for: .normal)
@@ -68,12 +74,12 @@ class MSLargeTitleView: UIView {
         }
     }
 
-    private var avatarView: MSAvatarView? // circular view displaying the profile information
+    private var avatarView: ProfileView? // circular view displaying the profile information
     // an AvatarView instance that is permanently constrained to the smaller size
     // this view will have its transform property animated to match the normal avatar view
     // this is done to allow for simulate animation of the non-animatable UILabel within MSAvatarView
     // see documentation at MSLargeTitleView.morphSmallAvatarView(expanding:) for more information
-    private var smallMorphingAvatarView: MSAvatarView?
+    private var smallMorphingAvatarView: ProfileView?
     private var smallMorphingAvatarViewAnimator: UIViewPropertyAnimator? // responsible for animating the transform of smallMorphingAvatarView
     private var smallAnimatorRunningObserver: NSKeyValueObservation? // observes the running property, done to accomplish a "completion" for a pausesOnCompletion = YES animator
 
@@ -323,6 +329,12 @@ extension NSNotification.Name {
 // MARK: - ProfileView
 
 private class ProfileView: MSAvatarView {
-    override var accessibilityLabel: String? { get { return "Accessibility.LargeTitle.ProfileView".localized } set { } }
+    var customAccessibilityLabel: String?
+    override var accessibilityLabel: String? {
+        get {
+            return customAccessibilityLabel ?? "Accessibility.LargeTitle.ProfileView".localized
+        }
+        set { }
+    }
     override var accessibilityTraits: UIAccessibilityTraits { get { return .button } set { } }
 }
