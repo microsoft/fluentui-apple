@@ -483,10 +483,6 @@ open class MSTableViewCell: UITableViewCell {
 
     /// `onAccessoryTapped` is called when `detailButton` accessory view is tapped
     @objc open var onAccessoryTapped: (() -> Void)?
-    /// `onSelected` is called when the cell is selected during `touchesEnded` event
-    @objc open var onSelected: (() -> Void)?
-    /// `onUnselected` is called when the cell is unselected and when `isInSelectionMode` is true during `touchesEnded` event
-    @objc open var onUnselected: (() -> Void)?
 
     open override var intrinsicContentSize: CGSize {
         return CGSize(
@@ -922,17 +918,11 @@ open class MSTableViewCell: UITableViewCell {
         }
     }
 
+    open func selectionDidChange() { }
+
     open override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         updateSelectionImageView()
-    }
-
-    open func selectionDidChange() {
-        if isSelected {
-            onSelected?()
-        } else if isInSelectionMode {
-            onUnselected?()
-        }
     }
 
     private func updateTitleNumberOfLines() {
