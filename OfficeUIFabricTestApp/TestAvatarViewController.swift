@@ -35,7 +35,7 @@ fileprivate struct TestData {
 class TestAvatarViewController: NSViewController {
 
 	// Create various sizes of avatar views from our testa data
-	let displayedAvatarViews: [[AvatarView]] = avatarViews(sizes: [15,20,25,50],
+	let displayedAvatarViews: [[AvatarView]] = avatarViews(sizes: [20,25,35,50,70],
 														   identities: [
 															TestData.satya,
 															TestData.maverick,

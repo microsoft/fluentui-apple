@@ -176,11 +176,16 @@ open class AvatarView : NSView {
 			} else {
 				assertionFailure()
 			}
+
 			let path = circularPath(withCircleDiameter: avatarSize)
 			circleMask.path = path
 			circleLayer.path = path
 
-			initialsTextField.font = NSFont.systemFont(ofSize:fontSize(forCircleDiameter: avatarSize))
+			let font = NSFont.systemFont(ofSize:fontSize(forCircleDiameter: avatarSize))
+			initialsTextField.font = font
+			
+			// This constraint will only exist if we're using the sizing view approach to center our initials
+			initialsSizingViewHeightConstraint?.constant = ceil(font.capHeight)
 		}
 	}
 	
@@ -189,6 +194,9 @@ open class AvatarView : NSView {
 	
 	/// The height constraint giving this view its size
 	private var heightConstraint: NSLayoutConstraint?
+	
+	/// The height constraint for the initials sizing view which should update on font size changes
+	private var initialsSizingViewHeightConstraint: NSLayoutConstraint?
 
 	/// The layer used to draw the colorful circle underneath the initials in the initials view
 	private let circleLayer = CAShapeLayer()
@@ -227,11 +235,34 @@ open class AvatarView : NSView {
 
 		let textView = initialsTextField
 		initialsView.addSubview(textView)
+		
+		var constraints = [
+			textView.leadingAnchor.constraint(equalTo: initialsView.leadingAnchor),
+			textView.trailingAnchor.constraint(equalTo: initialsView.trailingAnchor),
+		]
+		
+		// If we have a font, use that to accurately center the initials, not letting diacritics and descenders/ascenders
+		// impact the centering
+		if let capHeight = textView.font?.capHeight {
+			// Create an empty view that gives reasonable sizing information on the actual text of our text view
+			let initialsTextSizingView = NSView(frame: .zero)
+			initialsView.addSubview(initialsTextSizingView)
+			initialsTextSizingView.translatesAutoresizingMaskIntoConstraints = false
 
-		let constraints = [
-			textView.centerXAnchor.constraint(equalTo: initialsView.centerXAnchor),
-			textView.centerYAnchor.constraint(equalTo: initialsView.centerYAnchor),
-			]
+			let initialsSizingViewHeightConstraint = initialsTextSizingView.heightAnchor.constraint(equalToConstant: ceil(capHeight))
+			self.initialsSizingViewHeightConstraint = initialsSizingViewHeightConstraint
+			constraints.append(contentsOf: [
+				initialsTextSizingView.leadingAnchor.constraint(equalTo: textView.leadingAnchor),
+				initialsTextSizingView.trailingAnchor.constraint(equalTo: textView.trailingAnchor),
+				initialsTextSizingView.centerYAnchor.constraint(equalTo: initialsView.centerYAnchor),
+				initialsTextSizingView.bottomAnchor.constraint(equalTo: textView.firstBaselineAnchor),
+				initialsSizingViewHeightConstraint,
+			])
+		} else {
+			// If we don't have a font for any reason, fall back to less centered but still reasonable centering
+			constraints.append(textView.centerYAnchor.constraint(equalTo: initialsView.centerYAnchor))
+			assertionFailure()
+		}
 
 		NSLayoutConstraint.activate(constraints)
 
@@ -241,6 +272,7 @@ open class AvatarView : NSView {
 	/// The text field used for displaying the initials within the initialsView
 	private lazy var initialsTextField: NSTextField = {
 		let textView = NSTextField(labelWithString: initials(name: contactName, email: contactEmail))
+		textView.alignment = .center
 		textView.translatesAutoresizingMaskIntoConstraints = false
 		textView.font = NSFont.systemFont(ofSize:fontSize(forCircleDiameter: avatarSize))
 		textView.textColor = Constants.initialsViewTextColor

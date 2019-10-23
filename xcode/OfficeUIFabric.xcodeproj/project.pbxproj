@@ -141,10 +141,10 @@
 		804626C722D7909200AFA48C /* DatePicker */ = {
 			isa = PBXGroup;
 			children = (
-				804626C122D7905200AFA48C /* CenteredTextLayer.swift */,
 				804626C522D7908100AFA48C /* CalendarDayButton.swift */,
 				80117A8222E0E63E00813D59 /* CalendarHeaderView.swift */,
 				80117A7E22DCDF6F00813D59 /* CalendarView.swift */,
+				804626C122D7905200AFA48C /* CenteredTextLayer.swift */,
 				807EA70722DCEE940064FD47 /* DatePickerScrollView.swift */,
 				8061BF7C22EF936700F2D245 /* DatePickerView.swift */,
 				8061BF7D22EF936700F2D245 /* DatePickerController.swift */,
