@@ -19,14 +19,14 @@ jobs:
           xcode_actions: 'build'
           xcode_scheme: 'OfficeUIFabric'
           xcode_configuration: 'Debug'
-          xcode_extraArgs: 'OTHER_SWIFT_FLAGS=-gline-tables-only CLANG_DEBUG_INFORMATION_LEVEL=line-tables-only'
+          xcode_extraArgs: 'OTHER_SWIFT_FLAGS=-gline-tables-only CLANG_DEBUG_INFORMATION_LEVEL=line-tables-only BUILD_LIBRARY_FOR_DISTRIBUTION=YES'
       
       - template: templates/xcode-build.yml
         parameters:
           xcode_actions: 'build'
           xcode_scheme: 'OfficeUIFabric'
           xcode_configuration: 'Release'
-          xcode_extraArgs: 'OTHER_SWIFT_FLAGS=-gline-tables-only CLANG_DEBUG_INFORMATION_LEVEL=line-tables-only'
+          xcode_extraArgs: 'OTHER_SWIFT_FLAGS=-gline-tables-only CLANG_DEBUG_INFORMATION_LEVEL=line-tables-only BUILD_LIBRARY_FOR_DISTRIBUTION=YES'
 
       # Replace all nuspec files __BuildBuildNumber__ and __OUTPUTDIR__ fields
 
