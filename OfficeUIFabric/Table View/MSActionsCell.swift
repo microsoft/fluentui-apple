@@ -46,10 +46,31 @@ open class MSActionsCell: UITableViewCell {
 
     private struct Constants {
         static let horizontalSpacing: CGFloat = 16
+        static let verticalMargin: CGFloat = 12
     }
 
     public static let defaultHeight: CGFloat = 45
     public static let identifier: String = "MSActionsCell"
+
+    @objc public class func height(action1Title: String, action2Title: String = "", containerWidth: CGFloat) -> CGFloat {
+        let actionCount: CGFloat = action2Title == "" ? 1 : 2
+        let width = UIScreen.main.roundToDevicePixels(containerWidth / actionCount)
+
+        let actionTitleFont = MSTableViewCell.TextStyles.title.font
+        let action1TitleHeight = action1Title.preferredSize(for: actionTitleFont, width: width).height
+        let action2TitleHeight = action2Title.preferredSize(for: actionTitleFont, width: width).height
+
+        return max(Constants.verticalMargin * 2 + max(action1TitleHeight, action2TitleHeight), defaultHeight)
+    }
+
+    @objc public class func preferredWidth(action1Title: String, action2Title: String = "") -> CGFloat {
+        let actionTitleFont = MSTableViewCell.TextStyles.title.font
+        let action1TitleWidth = action1Title.preferredSize(for: actionTitleFont).width
+        let action2TitleWidth = action2Title.preferredSize(for: actionTitleFont).width
+
+        let actionCount: CGFloat = action2Title == "" ? 1 : 2
+        return actionCount * max(action1TitleWidth, action2TitleWidth)
+    }
 
     /// Style describing whether or not the cell's custom top separator should be visible and how wide it should extend
     @objc open var topSeparatorType: MSTableViewCell.SeparatorType = .none {
@@ -66,6 +87,10 @@ open class MSActionsCell: UITableViewCell {
                 updateHorizontalSeparator(bottomSeparator, with: bottomSeparatorType)
             }
         }
+    }
+
+    open override var intrinsicContentSize: CGSize {
+        return sizeThatFits(CGSize(width: CGFloat.infinity, height: .infinity))
     }
 
     // By design, an actions cell has 2 actions at most
@@ -90,8 +115,9 @@ open class MSActionsCell: UITableViewCell {
         updateHorizontalSeparator(bottomSeparator, with: bottomSeparatorType)
 
         backgroundColor = MSColors.Table.Cell.background
-        action1Button.titleLabel?.font = MSTableViewCell.TextStyles.title.font
-        action2Button.titleLabel?.font = MSTableViewCell.TextStyles.title.font
+
+        setupAction(action1Button)
+        setupAction(action2Button)
     }
 
     public required init(coder aDecoder: NSCoder) {
@@ -144,6 +170,24 @@ open class MSActionsCell: UITableViewCell {
         layoutHorizontalSeparator(bottomSeparator, with: bottomSeparatorType, at: height - bottomSeparator.height)
     }
 
+    open override func sizeThatFits(_ size: CGSize) -> CGSize {
+        let maxWidth = size.width != 0 ? size.width : .infinity
+        return CGSize(
+            width: max(
+                type(of: self).preferredWidth(
+                    action1Title: action1Button.currentTitle ?? "",
+                    action2Title: action2Button.currentTitle ?? ""
+                ),
+                maxWidth
+            ),
+            height: type(of: self).height(
+                action1Title: action1Button.currentTitle ?? "",
+                action2Title: action2Button.currentTitle ?? "",
+                containerWidth: maxWidth
+            )
+        )
+    }
+
     open override func prepareForReuse() {
         super.prepareForReuse()
         action1Button.removeTarget(nil, action: nil, for: .allEvents)
@@ -153,6 +197,12 @@ open class MSActionsCell: UITableViewCell {
     open override func setHighlighted(_ highlighted: Bool, animated: Bool) { }
 
     open override func setSelected(_ selected: Bool, animated: Bool) { }
+
+    private func setupAction(_ button: UIButton) {
+        button.titleLabel?.font = MSTableViewCell.TextStyles.title.font
+        button.titleLabel?.numberOfLines = 0
+        button.titleLabel?.textAlignment = .center
+    }
 
     private func layoutHorizontalSeparator(_ separator: MSSeparator, with type: MSTableViewCell.SeparatorType, at verticalOffset: CGFloat) {
         let horizontalOffset = type == .inset ? safeAreaInsets.left + Constants.horizontalSpacing : 0
