@@ -110,8 +110,7 @@ class RootViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MSTableViewCell.identifier, for: indexPath) as! MSTableViewCell
-        cell.setup(title: "Cell #\(1 + indexPath.row)")
-        cell.accessoryType = .disclosureIndicator
+        cell.setup(title: "Cell #\(1 + indexPath.row)", accessoryType: .disclosureIndicator)
         return cell
     }
 

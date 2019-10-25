@@ -30,6 +30,12 @@ open class MSNavigationController: UINavigationController {
         return msNavigationBar.style == .system ? .default : .lightContent
     }
 
+    open override var delegate: UINavigationControllerDelegate? {
+        get { return super.delegate }
+        set { _delegate = newValue }
+    }
+    private weak var _delegate: UINavigationControllerDelegate?
+
     private let transitionAnimator = MSNavigationAnimator()
 
     public convenience init() {
@@ -63,7 +69,7 @@ open class MSNavigationController: UINavigationController {
             popGesture.addTarget(self, action: #selector(navigationPopScreenPanGestureRecognizerRecognized))
         }
 
-        delegate = self
+        super.delegate = self
 
         // Allow subviews to display a custom background view
         view.subviews.forEach { $0.clipsToBounds = false }
@@ -178,17 +184,26 @@ open class MSNavigationController: UINavigationController {
 
 // MARK: - MSNavigationController: UINavigationControllerDelegate
 
+// `navigationControllerPreferredInterfaceOrientationForPresentation` is not supported due to inability to provide a return value when developer's delegate does not implement this method
 extension MSNavigationController: UINavigationControllerDelegate {
     public func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         updateNavigationBar(using: viewController)
+
+        _delegate?.navigationController?(navigationController, willShow: viewController, animated: animated)
+    }
+
+    public func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+        _delegate?.navigationController?(navigationController, didShow: viewController, animated: animated)
+    }
+
+    public func navigationControllerSupportedInterfaceOrientations(_ navigationController: UINavigationController) -> UIInterfaceOrientationMask {
+        // Default value is based on Apple documentation for UIViewController.supportedInterfaceOrientations
+        let defaultValue: UIInterfaceOrientationMask = traitCollection.userInterfaceIdiom == .phone ? .allButUpsideDown : .all
+        return _delegate?.navigationControllerSupportedInterfaceOrientations?(navigationController) ?? defaultValue
     }
 
     public func navigationController(_ navigationController: UINavigationController, interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        if transitionAnimator.isInteractiveTransition {
-            return transitionAnimator
-        }
-
-        return nil
+        return transitionAnimator.isInteractiveTransition ? transitionAnimator : nil
     }
 
     public func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
