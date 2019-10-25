@@ -60,6 +60,7 @@
 		80FEB2F7230DE53F00F9FF3E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/OfficeUIFabric.strings; sourceTree = "<group>"; };
 		8F250B8A22B3045100142B0E /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		8F250B8C22B3062A00142B0E /* TestAvatarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAvatarViewController.swift; sourceTree = "<group>"; };
+		8F3572322361143B0076FBBE /* OfficeUIFabricTestApp.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = OfficeUIFabricTestApp.xctestplan; sourceTree = "<group>"; };
 		8F38AE402303537800F5D7B0 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		8F38AE412303538800F5D7B0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		8F38AE42230353BA00F5D7B0 /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/MainMenu.strings"; sourceTree = "<group>"; };
@@ -231,6 +232,7 @@
 				E61C96D12295FA4E0006561F /* OfficeUIFabric_release.xcconfig */,
 				8F69C7B22295FABD009F69C0 /* OfficeUIFabric_testapp.xcconfig */,
 				8F931A6C22BD593300311764 /* OfficeUIFabric_unittest.xcconfig */,
+				8F3572322361143B0076FBBE /* OfficeUIFabricTestApp.xctestplan */,
 			);
 			name = xcode;
 			sourceTree = "<group>";
