@@ -161,6 +161,12 @@
 		B4EF66522294A665007FEAB0 /* MSTableViewHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF66502294A664007FEAB0 /* MSTableViewHeaderFooterView.swift */; };
 		B4EF66582297488B007FEAB0 /* MSCollectionViewHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF66572297488B007FEAB0 /* MSCollectionViewHeaderFooterView.swift */; };
 		B4EF66592297488B007FEAB0 /* MSCollectionViewHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF66572297488B007FEAB0 /* MSCollectionViewHeaderFooterView.swift */; };
+		C0938E44235E8ED500256251 /* MSAnimationSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0938E43235E8ED500256251 /* MSAnimationSynchronizer.swift */; };
+		C0938E46235F66E300256251 /* MSShimmerViewAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0938E45235F66E300256251 /* MSShimmerViewAppearance.swift */; };
+		C0A0D76D233AEF6C00F432FD /* MSShimmerAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A0D76A233AEF6C00F432FD /* MSShimmerAppearance.swift */; };
+		C0A0D76E233AEF6C00F432FD /* MSShimmerLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A0D76B233AEF6C00F432FD /* MSShimmerLinesView.swift */; };
+		C0A0D76F233AEF6C00F432FD /* MSShimmerLinesViewAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A0D76C233AEF6C00F432FD /* MSShimmerLinesViewAppearance.swift */; };
+		C0EAAEAD2347E1DF00C7244E /* MSShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EAAEAC2347E1DF00C7244E /* MSShimmerView.swift */; };
 		FD053A352224CA33009B6378 /* MSDatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD053A342224CA33009B6378 /* MSDatePickerControllerTests.swift */; };
 		FD0D29D62151A3D700E8655E /* MSCardPresenterNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0D29D52151A3D700E8655E /* MSCardPresenterNavigationController.swift */; };
 		FD1FAE1B2272464B00A5DBA4 /* DateTimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1FAE1A2272464B00A5DBA4 /* DateTimePicker.swift */; };
@@ -331,6 +337,12 @@
 		B4EF53C2215AF1AB00573E8F /* MSPersona.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPersona.swift; sourceTree = "<group>"; };
 		B4EF66502294A664007FEAB0 /* MSTableViewHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTableViewHeaderFooterView.swift; sourceTree = "<group>"; };
 		B4EF66572297488B007FEAB0 /* MSCollectionViewHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSCollectionViewHeaderFooterView.swift; sourceTree = "<group>"; };
+		C0938E43235E8ED500256251 /* MSAnimationSynchronizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAnimationSynchronizer.swift; sourceTree = "<group>"; };
+		C0938E45235F66E300256251 /* MSShimmerViewAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSShimmerViewAppearance.swift; sourceTree = "<group>"; };
+		C0A0D76A233AEF6C00F432FD /* MSShimmerAppearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSShimmerAppearance.swift; sourceTree = "<group>"; };
+		C0A0D76B233AEF6C00F432FD /* MSShimmerLinesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSShimmerLinesView.swift; sourceTree = "<group>"; };
+		C0A0D76C233AEF6C00F432FD /* MSShimmerLinesViewAppearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSShimmerLinesViewAppearance.swift; sourceTree = "<group>"; };
+		C0EAAEAC2347E1DF00C7244E /* MSShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSShimmerView.swift; sourceTree = "<group>"; };
 		FD053A342224CA33009B6378 /* MSDatePickerControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDatePickerControllerTests.swift; sourceTree = "<group>"; };
 		FD0D29D52151A3D700E8655E /* MSCardPresenterNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSCardPresenterNavigationController.swift; sourceTree = "<group>"; };
 		FD1FAE1A2272464B00A5DBA4 /* DateTimePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimePicker.swift; sourceTree = "<group>"; };
@@ -573,8 +585,10 @@
 				B426613C214731AC00E25423 /* People Picker */,
 				A5961F9B218A251E00E2A506 /* Popup Menu */,
 				FD7254EE2147382D002F4069 /* Presenters */,
+				C0A0D75D233AEA9900F432FD /* Shimmer */,
 				B444D6B421825B510002B4D4 /* Table View */,
 				FD7DF05A21FA7F3200857267 /* Tooltip */,
+				C0938E42235E8EAF00256251 /* Utilities */,
 				A5CEC17020D996120016922A /* Resources */,
 				A5CEC25720E6A64E0016922A /* Configuration */,
 			);
@@ -716,6 +730,26 @@
 				B444D6B52183A9740002B4D4 /* MSBadgeView.swift */,
 			);
 			path = "Badge Field";
+			sourceTree = "<group>";
+		};
+		C0938E42235E8EAF00256251 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				C0938E43235E8ED500256251 /* MSAnimationSynchronizer.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		C0A0D75D233AEA9900F432FD /* Shimmer */ = {
+			isa = PBXGroup;
+			children = (
+				C0EAAEAC2347E1DF00C7244E /* MSShimmerView.swift */,
+				C0A0D76B233AEF6C00F432FD /* MSShimmerLinesView.swift */,
+				C0938E45235F66E300256251 /* MSShimmerViewAppearance.swift */,
+				C0A0D76C233AEF6C00F432FD /* MSShimmerLinesViewAppearance.swift */,
+				C0A0D76A233AEF6C00F432FD /* MSShimmerAppearance.swift */,
+			);
+			path = Shimmer;
 			sourceTree = "<group>";
 		};
 		FD256C5C2183D77900EC9588 /* Views */ = {
@@ -1220,6 +1254,7 @@
 				FD41C8B222DD3BB70086F899 /* UIScrollView+Extensions.swift in Sources */,
 				B483323321CC71940022B4CC /* MSHUDView.swift in Sources */,
 				FD41C89422DD13230086F899 /* MSLargeTitleView.swift in Sources */,
+				C0938E44235E8ED500256251 /* MSAnimationSynchronizer.swift in Sources */,
 				B483323521DEA8D70022B4CC /* MSHUD.swift in Sources */,
 				A5B87B06211E23650038C37C /* UIView+Extensions.swift in Sources */,
 				FDCF7C7F21BB56740058E9E6 /* MSSegmentedControl.swift in Sources */,
@@ -1227,6 +1262,7 @@
 				FD7DF06021FA83C900857267 /* MSTooltipPositionController.swift in Sources */,
 				FD56FD94219128BF0023C7EA /* MSDateTimePickerViewDataSource.swift in Sources */,
 				FD41C88822DD13230086F899 /* MSShyHeaderView.swift in Sources */,
+				C0A0D76E233AEF6C00F432FD /* MSShimmerLinesView.swift in Sources */,
 				B42661422148568800E25423 /* MSAvatarView.swift in Sources */,
 				A578C4A22321CFD6002D5C40 /* MSAvatar.swift in Sources */,
 				B444D6B62183A9740002B4D4 /* MSBadgeView.swift in Sources */,
@@ -1239,6 +1275,7 @@
 				FDCF7C8121BF24C70058E9E6 /* CGSize+Extensions.swift in Sources */,
 				FD9A5C872179464F00D224D9 /* DateComponents+Extensions.swift in Sources */,
 				A5B87AF7211E16370038C37C /* MSDrawerTransitionAnimator.swift in Sources */,
+				C0A0D76D233AEF6C00F432FD /* MSShimmerAppearance.swift in Sources */,
 				FD41C8C122DD48E60086F899 /* Operators.swift in Sources */,
 				B46D3F932151D95F0029772C /* MSPersonaCell.swift in Sources */,
 				B444D6B12181403C0002B4D4 /* UITableViewCell+Extension.swift in Sources */,
@@ -1263,6 +1300,9 @@
 				FD599D0A2134AB15008845EE /* MSCalendarViewLayout.swift in Sources */,
 				FDD454EE21405B390006E84E /* MSDotView.swift in Sources */,
 				A5F3B149232B1F9700007A4F /* UIResponder+Extensions.swift in Sources */,
+				C0EAAEAD2347E1DF00C7244E /* MSShimmerView.swift in Sources */,
+				C0938E46235F66E300256251 /* MSShimmerViewAppearance.swift in Sources */,
+				C0A0D76F233AEF6C00F432FD /* MSShimmerLinesViewAppearance.swift in Sources */,
 				FD256C5B2183B90B00EC9588 /* MSDatePickerSelectionManager.swift in Sources */,
 				A5CEC23120E451D00016922A /* MSButton.swift in Sources */,
 				FDF41EDB2141A23B00EC527C /* UIViewController+Extensions.swift in Sources */,

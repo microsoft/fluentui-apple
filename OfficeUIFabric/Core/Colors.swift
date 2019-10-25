@@ -121,6 +121,7 @@ public final class MSColors: NSObject {
     public static var background2 = UIColor(light: gray25, dark: gray950, darkElevated: gray700)
     public static var background2b = UIColor(light: gray25, dark: gray700)
     public static var background3 = UIColor(light: gray50, dark: gray900, darkElevated: gray800)
+    public static var background3b = UIColor(light: gray50, dark: gray600)
     public static var background4 = UIColor(light: gray400)
     public static var background5 = UIColor(light: gray900)
     public static var disabled = UIColor(light: gray100, dark: gray600)
@@ -323,6 +324,10 @@ public final class MSColors: NSObject {
 
     public struct Switch {
         public static var onTint: UIColor = primary
+    }
+
+    public struct Shimmer {
+        public static var tint: UIColor = background3b
     }
 
     public struct Table {

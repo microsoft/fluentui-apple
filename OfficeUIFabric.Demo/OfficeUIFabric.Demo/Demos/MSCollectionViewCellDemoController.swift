@@ -9,7 +9,7 @@ import OfficeUIFabric
 // MARK: MSCollectionViewCellDemoController
 
 class MSCollectionViewCellDemoController: DemoController {
-    private let sections: [TableViewSampleData.Section] = MSTableViewCellSampleData.sections
+    let sections: [TableViewSampleData.Section] = MSTableViewCellSampleData.sections
 
     private var isGrouped: Bool = false {
         didSet {
@@ -40,7 +40,7 @@ class MSCollectionViewCellDemoController: DemoController {
         }
     }
 
-    private var collectionView: UICollectionView!
+    private(set) var collectionView: UICollectionView!
 
     private var styleButtonTitle: String {
         return isGrouped ? "Switch to Plain style" : "Switch to Grouped style"

@@ -37,6 +37,8 @@
 		B4EF66542295F1A8007FEAB0 /* MSTableViewHeaderFooterViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF66532295F1A8007FEAB0 /* MSTableViewHeaderFooterViewDemoController.swift */; };
 		B4EF66562295F729007FEAB0 /* TableViewHeaderFooterSampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF66552295F729007FEAB0 /* TableViewHeaderFooterSampleData.swift */; };
 		B4EF665B22974BF0007FEAB0 /* MSCollectionViewHeaderFooterViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF665A22974BF0007FEAB0 /* MSCollectionViewHeaderFooterViewDemoController.swift */; };
+		C038992E2359307D00265026 /* MSCollectionViewCellShimmerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C038992D2359307D00265026 /* MSCollectionViewCellShimmerDemoController.swift */; };
+		C0938E4A235F733100256251 /* MSShimmerLinesViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0938E49235F733100256251 /* MSShimmerLinesViewDemoController.swift */; };
 		FD41C8F422E28EEB0086F899 /* MSNavigationControllerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C8F322E28EEB0086F899 /* MSNavigationControllerDemoController.swift */; };
 		FD7254ED21471A3F002F4069 /* MSDateTimePickerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7254EC21471A3F002F4069 /* MSDateTimePickerDemoController.swift */; };
 		FD7DF06221FB941500857267 /* MSTooltipDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF06121FB941400857267 /* MSTooltipDemoController.swift */; };
@@ -92,6 +94,8 @@
 		B4EF66532295F1A8007FEAB0 /* MSTableViewHeaderFooterViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTableViewHeaderFooterViewDemoController.swift; sourceTree = "<group>"; };
 		B4EF66552295F729007FEAB0 /* TableViewHeaderFooterSampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewHeaderFooterSampleData.swift; sourceTree = "<group>"; };
 		B4EF665A22974BF0007FEAB0 /* MSCollectionViewHeaderFooterViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSCollectionViewHeaderFooterViewDemoController.swift; sourceTree = "<group>"; };
+		C038992D2359307D00265026 /* MSCollectionViewCellShimmerDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCollectionViewCellShimmerDemoController.swift; sourceTree = "<group>"; };
+		C0938E49235F733100256251 /* MSShimmerLinesViewDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSShimmerLinesViewDemoController.swift; sourceTree = "<group>"; };
 		CC45042B8AC98E3E251FC7E9 /* Pods-OfficeUIFabric.Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OfficeUIFabric.Demo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OfficeUIFabric.Demo/Pods-OfficeUIFabric.Demo.debug.xcconfig"; sourceTree = "<group>"; };
 		FD41C8F322E28EEB0086F899 /* MSNavigationControllerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSNavigationControllerDemoController.swift; sourceTree = "<group>"; };
 		FD6AE76C225679A4002CFDFE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -240,6 +244,7 @@
 				B444D6B72183BA4B0002B4D4 /* MSBadgeViewDemoController.swift */,
 				B4D852DA225C010A004B1B29 /* MSButtonDemoController.swift */,
 				B4946763220A4DF10059045E /* MSCollectionViewCellDemoController.swift */,
+				C038992D2359307D00265026 /* MSCollectionViewCellShimmerDemoController.swift */,
 				B4EF665A22974BF0007FEAB0 /* MSCollectionViewHeaderFooterViewDemoController.swift */,
 				FD7254EC21471A3F002F4069 /* MSDateTimePickerDemoController.swift */,
 				A5DCA75D211E3A92005F4CB7 /* MSDrawerDemoController.swift */,
@@ -249,6 +254,7 @@
 				B4EF53C4215C45C400573E8F /* MSPersonaListViewDemoController.swift */,
 				A5961FA8218A61BB00E2A506 /* MSPopupMenuDemoController.swift */,
 				FDCF7C8221BF35680058E9E6 /* MSSegmentedControlDemoController.swift */,
+				C0938E49235F733100256251 /* MSShimmerLinesViewDemoController.swift */,
 				B498141521E42C140077B48D /* MSTableViewCellDemoController.swift */,
 				B4EF66532295F1A8007FEAB0 /* MSTableViewHeaderFooterViewDemoController.swift */,
 				FD7DF06121FB941400857267 /* MSTooltipDemoController.swift */,
@@ -449,6 +455,8 @@
 				A5CEC21220E436F10016922A /* MasterViewController.swift in Sources */,
 				B498141621E42C140077B48D /* MSTableViewCellDemoController.swift in Sources */,
 				FDCF7C8321BF35680058E9E6 /* MSSegmentedControlDemoController.swift in Sources */,
+				C0938E4A235F733100256251 /* MSShimmerLinesViewDemoController.swift in Sources */,
+				C038992E2359307D00265026 /* MSCollectionViewCellShimmerDemoController.swift in Sources */,
 				A589F856211BA71000471C23 /* MSLabelDemoController.swift in Sources */,
 				FD41C8F422E28EEB0086F899 /* MSNavigationControllerDemoController.swift in Sources */,
 				B4D852D922580661004B1B29 /* MSActivityIndicatorViewDemoController.swift in Sources */,
