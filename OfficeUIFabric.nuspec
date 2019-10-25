@@ -5,7 +5,7 @@
     <version>__BuildBuildNumber__</version>
     <description>Contains implementations of Office UI Fabric for macOS</description>
     <authors>Microsoft</authors>
-    <projectUrl>https://github.com/OfficeDev/ui-fabric-macos</projectUrl>
+    <projectUrl>https://dev.azure.com/office/ISS/_git/fabric-macos</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
   </metadata>
   <files>
