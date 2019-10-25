@@ -7,16 +7,16 @@ import XCTest
 
 class AvatarViewTests: XCTestCase {
 	func testValidInitialsCharacter () {
-		XCTAssertTrue(isValidInitialsCharacter("A"))
-		XCTAssertTrue(isValidInitialsCharacter("Æ"))
-		XCTAssertTrue(isValidInitialsCharacter("È"))
-		XCTAssertTrue(isValidInitialsCharacter("Å"))
-		XCTAssertTrue(isValidInitialsCharacter("Ü"))
-		XCTAssertFalse(isValidInitialsCharacter("😂"))
-		XCTAssertFalse(isValidInitialsCharacter("👑"))
-		XCTAssertFalse(isValidInitialsCharacter("王"))
-		XCTAssertFalse(isValidInitialsCharacter("肖"))
-		XCTAssertFalse(isValidInitialsCharacter("보"))
+		XCTAssertTrue(Unicode.Scalar("A").isValidInitialsCharacter)
+		XCTAssertTrue(Unicode.Scalar("Æ").isValidInitialsCharacter)
+		XCTAssertTrue(Unicode.Scalar("È").isValidInitialsCharacter)
+		XCTAssertTrue(Unicode.Scalar("Å").isValidInitialsCharacter)
+		XCTAssertTrue(Unicode.Scalar("Ü").isValidInitialsCharacter)
+		XCTAssertFalse(Unicode.Scalar("😂").isValidInitialsCharacter)
+		XCTAssertFalse(Unicode.Scalar("👑").isValidInitialsCharacter)
+		XCTAssertFalse(Unicode.Scalar("王").isValidInitialsCharacter)
+		XCTAssertFalse(Unicode.Scalar("肖").isValidInitialsCharacter)
+		XCTAssertFalse(Unicode.Scalar("보").isValidInitialsCharacter)
 	}
 
 	func testInitialsExtraction () {
@@ -77,10 +77,10 @@ class AvatarViewTests: XCTestCase {
 
 	func testColorTable () {
 		// Cherry pick a few known values and test them
-		XCTAssertEqual(backgroundColor(for: 0), #colorLiteral(red: 0.6, green: 0.71, blue: 0.2, alpha: 1))
-		XCTAssertEqual(backgroundColor(for: 1887), #colorLiteral(red: 0.85, green: 0.32, blue: 0.17, alpha: 1))
-		XCTAssertEqual(backgroundColor(for: 2268), #colorLiteral(red: 0.6, green: 0.71, blue: 0.2, alpha: 1))
-		XCTAssertEqual(backgroundColor(for: 3986), #colorLiteral(red: 0.17, green: 0.34, blue: 0.59, alpha: 1))
+		XCTAssertEqual(AvatarView.backgroundColor(for: 0), #colorLiteral(red: 0.6, green: 0.71, blue: 0.2, alpha: 1))
+		XCTAssertEqual(AvatarView.backgroundColor(for: 1887), #colorLiteral(red: 0.85, green: 0.32, blue: 0.17, alpha: 1))
+		XCTAssertEqual(AvatarView.backgroundColor(for: 2268), #colorLiteral(red: 0.6, green: 0.71, blue: 0.2, alpha: 1))
+		XCTAssertEqual(AvatarView.backgroundColor(for: 3986), #colorLiteral(red: 0.17, green: 0.34, blue: 0.59, alpha: 1))
 	}
 
 	func testHashAlgorithm () {
