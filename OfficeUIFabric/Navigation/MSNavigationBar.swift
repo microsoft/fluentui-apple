@@ -343,8 +343,12 @@ open class MSNavigationBar: UINavigationBar {
     ///
     /// - Parameter animated: to animate the expansion or not
     func expand(_ animated: Bool) {
+        guard traitCollection.verticalSizeClass != .compact else {
+            return
+        }
+
         let updateLayout = {
-            self.contentStackView.directionalLayoutMargins.bottom = -Constants.expandedContentHeightDifference
+                self.contentStackView.directionalLayoutMargins.bottom = -Constants.expandedContentHeightDifference
         }
         if animated {
             UIView.animate(withDuration: MSNavigationBar.expansionContractionAnimationDuration) {
@@ -362,6 +366,10 @@ open class MSNavigationBar: UINavigationBar {
     ///
     /// - Parameter animated: to animate the contraction or not
     func contract(_ animated: Bool) {
+        guard traitCollection.verticalSizeClass != .compact else {
+            return
+        }
+
         let updateLayout = {
             self.contentStackView.directionalLayoutMargins.bottom = 0
         }
@@ -384,6 +392,15 @@ open class MSNavigationBar: UINavigationBar {
             accessibilityElements = contentStackView.arrangedSubviews
         } else {
             accessibilityElements = nil
+        }
+    }
+
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        // Temporary fix until locked header sizes are implemented
+        if traitCollection.verticalSizeClass == .compact {
+            titleView.titleSizeLock = .lockedSmall
+        } else {
+            titleView.titleSizeLock = .unlocked
         }
     }
 }
