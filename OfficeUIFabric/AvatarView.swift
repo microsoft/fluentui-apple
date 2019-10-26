@@ -327,13 +327,11 @@ func initials(name: String?, email: String?) -> String {
 	whitespaceNewlineAndZeroWidthSpace.update(with: .zeroWidthSpace)
 
 	if let name = name, name.count > 0 {
-		let components = name.split(separator: " ")
+		let components = name.split(separator: " ").map { $0.trimmingCharacters(in: whitespaceNewlineAndZeroWidthSpace) }
 		let nameComponentsWithUnicodeLetterFirstCharacters = components.filter {
-			let trimmedString = $0.trimmingCharacters(in: whitespaceNewlineAndZeroWidthSpace)
-			let unicodeScalars = trimmedString[trimmedString.startIndex].unicodeScalars
-			let initialUnicodeScalar = unicodeScalars[unicodeScalars.startIndex]
-			return initialUnicodeScalar.isValidInitialsCharacter
+			$0[$0.startIndex].isValidInitialsCharacter
 		}
+		
 		if nameComponentsWithUnicodeLetterFirstCharacters.count > 0 {
 			initials = String(nameComponentsWithUnicodeLetterFirstCharacters.prefix(AvatarView.maximumNumberOfInitials).map { $0[$0.startIndex] })
 		}
@@ -342,10 +340,9 @@ func initials(name: String?, email: String?) -> String {
 	if initials == nil,
 		let email = email?.trimmingCharacters(in: whitespaceNewlineAndZeroWidthSpace),
 		email.count > 0 {
-		let unicodeScalars = email[email.startIndex].unicodeScalars
-		let initialUnicodeScalar = unicodeScalars[unicodeScalars.startIndex]
-		if initialUnicodeScalar.isValidInitialsCharacter {
-			initials = String(initialUnicodeScalar)
+		let initialCharacter = email[email.startIndex]
+		if initialCharacter.isValidInitialsCharacter {
+			initials = String(initialCharacter)
 		}
 	}
 
@@ -380,15 +377,18 @@ fileprivate func fontSize(forCircleDiameter diameter: CGFloat) -> CGFloat {
 }
 
 // Internal visibility only for unit testing
-extension Unicode.Scalar {
-	/// Determines whether this unicode scalar is valid for use as an initial
+extension Character {
+	/// Determines whether this `Character` is valid for use as an initial
 	var isValidInitialsCharacter: Bool {
-		return CharacterSet.letters.contains(self)
-			&& String(self).canBeConverted(to: .macOSRoman)
+		let isMacOSRoman = String(self).canBeConverted(to: .macOSRoman)
+		let letters = CharacterSet.letters
+		return isMacOSRoman && unicodeScalars.reduce(true) { $0 && letters.contains($1) }
 	}
+}
 
+fileprivate extension Unicode.Scalar {
 	/// Unicode representation of a  zero width space
-	fileprivate static let zeroWidthSpace = Unicode.Scalar(0x200B)!
+	static let zeroWidthSpace = Unicode.Scalar(0x200B)!
 }
 
 fileprivate extension NSColor {

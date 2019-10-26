@@ -7,16 +7,22 @@ import XCTest
 
 class AvatarViewTests: XCTestCase {
 	func testValidInitialsCharacter () {
-		XCTAssertTrue(Unicode.Scalar("A").isValidInitialsCharacter)
-		XCTAssertTrue(Unicode.Scalar("Æ").isValidInitialsCharacter)
-		XCTAssertTrue(Unicode.Scalar("È").isValidInitialsCharacter)
-		XCTAssertTrue(Unicode.Scalar("Å").isValidInitialsCharacter)
-		XCTAssertTrue(Unicode.Scalar("Ü").isValidInitialsCharacter)
-		XCTAssertFalse(Unicode.Scalar("😂").isValidInitialsCharacter)
-		XCTAssertFalse(Unicode.Scalar("👑").isValidInitialsCharacter)
-		XCTAssertFalse(Unicode.Scalar("王").isValidInitialsCharacter)
-		XCTAssertFalse(Unicode.Scalar("肖").isValidInitialsCharacter)
-		XCTAssertFalse(Unicode.Scalar("보").isValidInitialsCharacter)
+		XCTAssertTrue(Character("A").isValidInitialsCharacter)
+		XCTAssertTrue(Character("Æ").isValidInitialsCharacter)
+		XCTAssertTrue(Character("È").isValidInitialsCharacter)
+		// same as above but with separate unicode scalars for the base character and the diacritic
+		XCTAssertTrue(Character("E\u{0300}").isValidInitialsCharacter) // È
+		XCTAssertTrue(Character("Å").isValidInitialsCharacter)
+		XCTAssertTrue(Character("Ü").isValidInitialsCharacter)
+		XCTAssertFalse(Character("😂").isValidInitialsCharacter)
+		XCTAssertFalse(Character("👑").isValidInitialsCharacter)
+		XCTAssertFalse(Character("王").isValidInitialsCharacter)
+		XCTAssertFalse(Character("肖").isValidInitialsCharacter)
+		XCTAssertFalse(Character("보").isValidInitialsCharacter)
+		XCTAssertFalse(Character("").isValidInitialsCharacter)
+		
+		// Character with diacritic not available in Mac OS Roman
+		XCTAssertFalse(Character("U\u{0304}").isValidInitialsCharacter) // Ū
 	}
 
 	func testInitialsExtraction () {
@@ -47,9 +53,23 @@ class AvatarViewTests: XCTestCase {
 
 		// Complex roman characters
 		XCTAssertEqual(initials(name: "Êmïlÿ Çœłb", email: nil), "ÊÇ")
+		
+		// Complex roman characters with alternate unicode representation
+		XCTAssertEqual("E\u{0300}", "È")
+		XCTAssertEqual(initials(name: "E\u{0300}mïlÿ Çœłb", email: nil), "ÈÇ")
 
 		// Mixed characters
 		XCTAssertEqual(initials(name: "Sean 肖", email: nil), "S")
+		
+		// Whitespace
+		XCTAssertEqual(initials(name: " Satya Nadella ", email: nil), "SN")
+		XCTAssertEqual(initials(name: "\nSatya Nadella\n", email: nil), "SN")
+		XCTAssertEqual(initials(name: "\tSatya Nadella ", email: nil), "SN")
+		XCTAssertEqual(initials(name: "Satya Nadella\n", email: nil), "SN")
+		
+		// Zero Width Space
+		XCTAssertEqual(initials(name: "Jane\u{200B}Doe", email: nil), "J")
+		XCTAssertEqual(initials(name: "\u{200B}Jane\u{200B} \u{200B}Doe\u{200B}", email: nil), "JD")
 	}
 	
 	func testAccessibility () {
