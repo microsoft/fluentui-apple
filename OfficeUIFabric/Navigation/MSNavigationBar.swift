@@ -348,7 +348,7 @@ open class MSNavigationBar: UINavigationBar {
         }
 
         let updateLayout = {
-                self.contentStackView.directionalLayoutMargins.bottom = -Constants.expandedContentHeightDifference
+            self.contentStackView.directionalLayoutMargins.bottom = -Constants.expandedContentHeightDifference
         }
         if animated {
             UIView.animate(withDuration: MSNavigationBar.expansionContractionAnimationDuration) {
@@ -396,6 +396,7 @@ open class MSNavigationBar: UINavigationBar {
     }
 
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
         // Temporary fix until locked header sizes are implemented
         if traitCollection.verticalSizeClass == .compact {
             titleView.titleSizeLock = .lockedSmall
