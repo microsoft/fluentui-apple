@@ -140,12 +140,7 @@ open class MSNavigationBar: UINavigationBar {
 
         setupContentStackView()
         contentStackView.isLayoutMarginsRelativeArrangement = true
-        contentStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(
-            top: 0,
-            leading: Constants.contentLeadingMargin,
-            bottom: -Constants.expandedContentHeightDifference,
-            trailing: Constants.contentTrailingMargin
-        )
+        updateContentStackViewMargins(forExpandedContent: true)
 
         //titleView
         contentStackView.addArrangedSubview(titleView)
@@ -201,6 +196,15 @@ open class MSNavigationBar: UINavigationBar {
         bottom.priority = .defaultHigh
 
         NSLayoutConstraint.activate([leading, trailing, top, bottom])
+    }
+
+    private func updateContentStackViewMargins(forExpandedContent contentIsExpanded: Bool) {
+        contentStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(
+            top: 0,
+            leading: Constants.contentLeadingMargin,
+            bottom: contentIsExpanded ? -Constants.expandedContentHeightDifference : 0,
+            trailing: Constants.contentTrailingMargin
+        )
     }
 
     /// Guarantees that the custom UI remains on top of the subview stack
@@ -343,12 +347,8 @@ open class MSNavigationBar: UINavigationBar {
     ///
     /// - Parameter animated: to animate the expansion or not
     func expand(_ animated: Bool) {
-        guard traitCollection.verticalSizeClass != .compact else {
-            return
-        }
-
         let updateLayout = {
-            self.contentStackView.directionalLayoutMargins.bottom = -Constants.expandedContentHeightDifference
+            self.updateContentStackViewMargins(forExpandedContent: true)
         }
         if animated {
             UIView.animate(withDuration: MSNavigationBar.expansionContractionAnimationDuration) {
@@ -366,12 +366,8 @@ open class MSNavigationBar: UINavigationBar {
     ///
     /// - Parameter animated: to animate the contraction or not
     func contract(_ animated: Bool) {
-        guard traitCollection.verticalSizeClass != .compact else {
-            return
-        }
-
         let updateLayout = {
-            self.contentStackView.directionalLayoutMargins.bottom = 0
+            self.updateContentStackViewMargins(forExpandedContent: false)
         }
         if animated {
             UIView.animate(withDuration: MSNavigationBar.expansionContractionAnimationDuration) {
@@ -392,16 +388,6 @@ open class MSNavigationBar: UINavigationBar {
             accessibilityElements = contentStackView.arrangedSubviews
         } else {
             accessibilityElements = nil
-        }
-    }
-
-    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        // Temporary fix until locked header sizes are implemented
-        if traitCollection.verticalSizeClass == .compact {
-            titleView.titleSizeLock = .lockedSmall
-        } else {
-            titleView.titleSizeLock = .unlocked
         }
     }
 }
