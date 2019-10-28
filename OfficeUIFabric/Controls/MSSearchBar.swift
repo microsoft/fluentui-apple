@@ -148,6 +148,7 @@ open class MSSearchBar: UIView {
         let textField = UITextField()
         textField.delegate = self
         textField.returnKeyType = .search
+        textField.enablesReturnKeyAutomatically = true
         textField.accessibilityTraits = .searchField
         textField.addTarget(self, action: #selector(searchTextFieldValueDidChange(_:)), for: .editingChanged)
         return textField
