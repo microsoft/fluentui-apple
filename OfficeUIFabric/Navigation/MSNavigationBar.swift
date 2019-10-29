@@ -304,16 +304,26 @@ open class MSNavigationBar: UINavigationBar {
     // MARK: - Obscurant Handling & Show/Hide Animation Methods
 
     /// Animates the showing of the obscuring view
-    func obscureContent() {
+    func obscureContent(animated: Bool) {
         if obscurantView.isHidden {
-            obscurantView.animatedShow(duration: Constants.obscuringAnimationDuration)
+            if animated {
+                obscurantView.animatedShow(duration: Constants.obscuringAnimationDuration)
+            } else {
+                obscurantView.alpha = 1.0
+                obscurantView.safelyShow()
+            }
         }
     }
 
     /// Animates the revealing of the obscuring view
-    func revealContent() {
+    func revealContent(animated: Bool) {
         if !obscurantView.isHidden {
-            obscurantView.animatedHide(duration: Constants.revealingAnimationDuration)
+            if animated {
+                obscurantView.animatedHide(duration: Constants.revealingAnimationDuration)
+            } else {
+                obscurantView.alpha = 0.0
+                obscurantView.safelyHide()
+            }
         }
     }
 

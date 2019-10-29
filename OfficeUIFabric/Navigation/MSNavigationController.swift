@@ -137,12 +137,10 @@ open class MSNavigationController: UINavigationController {
     }
 
     open override func setNavigationBarHidden(_ hidden: Bool, animated: Bool) {
-        if animated {
-            if hidden {
-                msNavigationBar.obscureContent()
-            } else {
-                msNavigationBar.revealContent()
-            }
+        if hidden {
+            msNavigationBar.obscureContent(animated: animated)
+        } else {
+            msNavigationBar.revealContent(animated: animated)
         }
 
         super.setNavigationBarHidden(hidden, animated: animated)
