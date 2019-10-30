@@ -337,6 +337,11 @@ public final class MSColors: NSObject {
         public static var tint: UIColor = background3b
     }
 
+    public struct TabBar {
+        public static var unselected: UIColor = foreground3
+        public static var selected: UIColor = primary
+    }
+
     public struct Table {
         public struct Cell {
             public static var background: UIColor = background1

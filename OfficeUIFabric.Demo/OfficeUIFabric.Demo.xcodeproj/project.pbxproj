@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11047D2622932DB1001F0F59 /* MSTabBarViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11047D2522932DB1001F0F59 /* MSTabBarViewDemoController.swift */; };
 		693773C40AE2B690393E36D2 /* Pods_OfficeUIFabric_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67438D47B2FE8A0087C02A1C /* Pods_OfficeUIFabric_Demo.framework */; };
 		A589F856211BA71000471C23 /* MSLabelDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A589F855211BA71000471C23 /* MSLabelDemoController.swift */; };
 		A591A3F420F429EB001ED23B /* Demos.swift in Sources */ = {isa = PBXBuildFile; fileRef = A591A3F320F429EB001ED23B /* Demos.swift */; };
@@ -62,6 +63,7 @@
 
 /* Begin PBXFileReference section */
 		076DB4FE89F675C1A3A7A5C3 /* Pods-OfficeUIFabric.Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OfficeUIFabric.Demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-OfficeUIFabric.Demo/Pods-OfficeUIFabric.Demo.release.xcconfig"; sourceTree = "<group>"; };
+		11047D2522932DB1001F0F59 /* MSTabBarViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTabBarViewDemoController.swift; sourceTree = "<group>"; };
 		67438D47B2FE8A0087C02A1C /* Pods_OfficeUIFabric_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OfficeUIFabric_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A52B637A2137834A009F7ADF /* Pods-OfficeUIFabric.Demo.dogfood.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Pods-OfficeUIFabric.Demo.dogfood.xcconfig"; path = "Pods/Target Support Files/Pods-OfficeUIFabric.Demo/Pods-OfficeUIFabric.Demo.dogfood.xcconfig"; sourceTree = "<group>"; };
 		A589F855211BA71000471C23 /* MSLabelDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSLabelDemoController.swift; sourceTree = "<group>"; };
@@ -255,6 +257,7 @@
 				A5961FA8218A61BB00E2A506 /* MSPopupMenuDemoController.swift */,
 				FDCF7C8221BF35680058E9E6 /* MSSegmentedControlDemoController.swift */,
 				C0938E49235F733100256251 /* MSShimmerLinesViewDemoController.swift */,
+				11047D2522932DB1001F0F59 /* MSTabBarViewDemoController.swift */,
 				B498141521E42C140077B48D /* MSTableViewCellDemoController.swift */,
 				B4EF66532295F1A8007FEAB0 /* MSTableViewHeaderFooterViewDemoController.swift */,
 				FD7DF06121FB941400857267 /* MSTooltipDemoController.swift */,
@@ -464,6 +467,7 @@
 				B4414794228F6FDF0040E88E /* OtherCellsSampleData.swift in Sources */,
 				B444D6B82183BA4B0002B4D4 /* MSBadgeViewDemoController.swift in Sources */,
 				A591A3F420F429EB001ED23B /* Demos.swift in Sources */,
+				11047D2622932DB1001F0F59 /* MSTabBarViewDemoController.swift in Sources */,
 				B4C39552227A4AC800539EC2 /* TableViewSampleData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

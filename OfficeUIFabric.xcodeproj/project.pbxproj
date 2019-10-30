@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11104BCE233ACA9500CCB232 /* MSTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D9847230BBA2300BC0B72 /* MSTabBarItem.swift */; };
+		1168630422E131CF0088B302 /* MSTabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630222E131CF0088B302 /* MSTabBarItemView.swift */; };
+		1168630522E131CF0088B302 /* MSTabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630222E131CF0088B302 /* MSTabBarItemView.swift */; };
+		1168630622E131CF0088B302 /* MSTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630322E131CF0088B302 /* MSTabBarView.swift */; };
+		1168630722E131CF0088B302 /* MSTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630322E131CF0088B302 /* MSTabBarView.swift */; };
+		118D9848230BBA2300BC0B72 /* MSTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D9847230BBA2300BC0B72 /* MSTabBarItem.swift */; };
 		8FD0116E228A82A600D25925 /* MSBadgeField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45EB78F219E310F008646A2 /* MSBadgeField.swift */; };
 		8FD0116F228A82A600D25925 /* MSBadgeStringExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A8BBCC21BF6D6900D5E3ED /* MSBadgeStringExtractor.swift */; };
 		8FD01170228A82A600D25925 /* MSBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444D6B52183A9740002B4D4 /* MSBadgeView.swift */; };
@@ -272,6 +278,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1168630222E131CF0088B302 /* MSTabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSTabBarItemView.swift; sourceTree = "<group>"; };
+		1168630322E131CF0088B302 /* MSTabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSTabBarView.swift; sourceTree = "<group>"; };
+		118D9847230BBA2300BC0B72 /* MSTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTabBarItem.swift; sourceTree = "<group>"; };
 		8FD01166228A820600D25925 /* libOfficeUIFabricLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOfficeUIFabricLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5237ACA21DED7030040BF27 /* MSResizingHandleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSResizingHandleView.swift; sourceTree = "<group>"; };
 		A5237ACC21ED6CA70040BF27 /* DrawerShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerShadowView.swift; sourceTree = "<group>"; };
@@ -494,6 +503,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1168630122E131A20088B302 /* Tab Bar */ = {
+			isa = PBXGroup;
+			children = (
+				118D9847230BBA2300BC0B72 /* MSTabBarItem.swift */,
+				1168630222E131CF0088B302 /* MSTabBarItemView.swift */,
+				1168630322E131CF0088B302 /* MSTabBarView.swift */,
+			);
+			path = "Tab Bar";
+			sourceTree = "<group>";
+		};
 		A5961F9B218A251E00E2A506 /* Popup Menu */ = {
 			isa = PBXGroup;
 			children = (
@@ -586,6 +605,7 @@
 				A5961F9B218A251E00E2A506 /* Popup Menu */,
 				FD7254EE2147382D002F4069 /* Presenters */,
 				C0A0D75D233AEA9900F432FD /* Shimmer */,
+				1168630122E131A20088B302 /* Tab Bar */,
 				B444D6B421825B510002B4D4 /* Table View */,
 				FD7DF05A21FA7F3200857267 /* Tooltip */,
 				C0938E42235E8EAF00256251 /* Utilities */,
@@ -1098,6 +1118,7 @@
 				8FD0116F228A82A600D25925 /* MSBadgeStringExtractor.swift in Sources */,
 				8FD01170228A82A600D25925 /* MSBadgeView.swift in Sources */,
 				8FD01171228A82A600D25925 /* MSCalendarView.swift in Sources */,
+				1168630722E131CF0088B302 /* MSTabBarView.swift in Sources */,
 				8FD01172228A82A600D25925 /* MSCalendarViewDataSource.swift in Sources */,
 				8FD01173228A82A600D25925 /* MSCalendarViewLayout.swift in Sources */,
 				8FD01174228A82A600D25925 /* MSCalendarViewDayCell.swift in Sources */,
@@ -1144,6 +1165,7 @@
 				8FD0118F228A82A600D25925 /* MSDateTimePicker.swift in Sources */,
 				FD41C88922DD13230086F899 /* MSShyHeaderView.swift in Sources */,
 				8FD01190228A82A600D25925 /* DateTimePicker.swift in Sources */,
+				1168630522E131CF0088B302 /* MSTabBarItemView.swift in Sources */,
 				A578C4A32321CFD6002D5C40 /* MSAvatar.swift in Sources */,
 				8FD01191228A82A600D25925 /* MSDatePickerController.swift in Sources */,
 				8FD01192228A82A600D25925 /* MSDatePickerSelectionManager.swift in Sources */,
@@ -1191,6 +1213,7 @@
 				8FD011B4228A82A600D25925 /* MSPersonaCell.swift in Sources */,
 				8FD011B5228A82A600D25925 /* MSPersonaListView.swift in Sources */,
 				8FD011B6228A82A600D25925 /* MSPersona.swift in Sources */,
+				11104BCE233ACA9500CCB232 /* MSTabBarItem.swift in Sources */,
 				8FD011B7228A82A600D25925 /* MSPopupMenuController.swift in Sources */,
 				8FD011B8228A82A600D25925 /* MSPopupMenuItem.swift in Sources */,
 				8FD011B9228A82A600D25925 /* MSPopupMenuSection.swift in Sources */,
@@ -1217,6 +1240,7 @@
 				A5961FA3218A25D100E2A506 /* MSPopupMenuItemCell.swift in Sources */,
 				FD599D0221348439008845EE /* MSCalendarView.swift in Sources */,
 				A559BB83212B7D870055E107 /* OfficeUIFabric.swift in Sources */,
+				1168630622E131CF0088B302 /* MSTabBarView.swift in Sources */,
 				FD599D082134AB0E008845EE /* MSCalendarViewWeekdayHeadingView.swift in Sources */,
 				FDFB8AF321361C9D0046850A /* MSCalendarViewDayMonthYearCell.swift in Sources */,
 				A5961F9D218A254D00E2A506 /* MSPopupMenuController.swift in Sources */,
@@ -1264,6 +1288,8 @@
 				FD41C88822DD13230086F899 /* MSShyHeaderView.swift in Sources */,
 				C0A0D76E233AEF6C00F432FD /* MSShimmerLinesView.swift in Sources */,
 				B42661422148568800E25423 /* MSAvatarView.swift in Sources */,
+				118D9848230BBA2300BC0B72 /* MSTabBarItem.swift in Sources */,
+				1168630422E131CF0088B302 /* MSTabBarItemView.swift in Sources */,
 				A578C4A22321CFD6002D5C40 /* MSAvatar.swift in Sources */,
 				B444D6B62183A9740002B4D4 /* MSBadgeView.swift in Sources */,
 				FD7254E72146E946002F4069 /* MSCalendarViewDayCell.swift in Sources */,

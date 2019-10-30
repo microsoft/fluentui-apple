@@ -45,9 +45,12 @@ public final class MSFonts: NSObject {
     case title1
     case title2
     case headline
+    case headlineUnscaled
     case body
+    case bodyUnscaled
     case subhead
     case footnote
+    case footnoteUnscaled
     case button1
     case button2
     case button3
@@ -64,12 +67,18 @@ public final class MSFonts: NSObject {
             return MSFonts.title2
         case .headline:
             return MSFonts.headline
+        case .headlineUnscaled:
+            return MSFonts.headlineUnscaled
         case .body:
             return MSFonts.body
+        case .bodyUnscaled:
+            return MSFonts.bodyUnscaled
         case .subhead:
             return MSFonts.subhead
         case .footnote:
             return MSFonts.footnote
+        case .footnoteUnscaled:
+            return MSFonts.footnoteUnscaled
         case .button1:
             return MSFonts.button1
         case .button2:

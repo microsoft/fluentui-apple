@@ -69,12 +69,18 @@ extension MSTextStyle {
             return "Title 2"
         case .headline:
             return "Headline"
+        case .headlineUnscaled:
+            return "Headline Unscaled"
         case .body:
             return "Body"
+        case .bodyUnscaled:
+            return "Body Unscaled"
         case .subhead:
             return "Subhead"
         case .footnote:
             return "Footnote"
+        case .footnoteUnscaled:
+            return "Footnote Unscaled"
         case .button1:
             return "Button 1"
         case .button2:
