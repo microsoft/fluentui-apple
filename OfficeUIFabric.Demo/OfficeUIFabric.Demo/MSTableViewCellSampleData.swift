@@ -10,6 +10,7 @@ import OfficeUIFabric
 
 class MSTableViewCellSampleData: TableViewSampleData {
     static let numberOfItemsInSection: Int = 5
+    static let numberOfItemsInSectionForShimmer: Int = 3
 
     static let sections: [Section] = [
         Section(

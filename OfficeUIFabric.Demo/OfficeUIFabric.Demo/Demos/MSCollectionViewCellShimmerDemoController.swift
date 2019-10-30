@@ -19,6 +19,10 @@ class MSCollectionViewCellShimmerDemoController: MSCollectionViewCellDemoControl
         navigationItem.rightBarButtonItem = nil
     }
 
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return MSTableViewCellSampleData.numberOfItemsInSectionForShimmer
+    }
+
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let section = sections[indexPath.section]
         let item = section.item
