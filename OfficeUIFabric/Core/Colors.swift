@@ -137,6 +137,7 @@ public final class MSColors: NSObject {
     public static var foreground5 = UIColor(light: gray200, dark: gray500)
     public static var foreground6 = UIColor(light: gray100, dark: gray700, darkElevated: gray600)
     public static var foreground6b = UIColor(light: gray100, dark: gray500)
+    public static var foreground6c = UIColor(light: gray100, dark: .clear)
     public static var foreground7 = UIColor(light: white)
     public static var foreground7b = UIColor(light: white, dark: gray100)
     public static var foreground8 = UIColor(light: primary, dark: white)
@@ -276,6 +277,12 @@ public final class MSColors: NSObject {
             public static var titleSelected: UIColor = selected
             public static var subtitleSelected: UIColor = selected
         }
+    }
+
+    public struct Progress {
+        public static var progressTint: UIColor = primary
+        public static var trackTint: UIColor = foreground6
+        public static var trackTintForFullWidth: UIColor = foreground6c
     }
 
     public struct ResizingHandle {

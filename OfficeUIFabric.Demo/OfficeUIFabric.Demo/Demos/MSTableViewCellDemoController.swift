@@ -112,30 +112,33 @@ extension MSTableViewCellDemoController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = sections[indexPath.section]
         let item = section.item
-
         let cell = tableView.dequeueReusableCell(withIdentifier: MSTableViewCell.identifier) as! MSTableViewCell
-
         cell.setup(
             title: item.text1,
             subtitle: item.text2,
-            footer: item.text3,
+            footer: MSTableViewCellSampleData.hasFullLengthLabelAccessoryView(at: indexPath) ? "" : item.text3,
             customView: TableViewSampleData.createCustomView(imageName: item.image),
             customAccessoryView: section.hasAccessory ? MSTableViewCellSampleData.customAccessoryView : nil,
             accessoryType: MSTableViewCellSampleData.accessoryType(for: indexPath)
         )
+
+        let showsLabelAccessoryView = MSTableViewCellSampleData.hasLabelAccessoryViews(at: indexPath)
+        cell.titleLeadingAccessoryView = showsLabelAccessoryView ? item.text1LeadingAccessoryView() : nil
+        cell.titleTrailingAccessoryView = showsLabelAccessoryView ? item.text1TrailingAccessoryView() : nil
+        cell.subtitleLeadingAccessoryView = showsLabelAccessoryView ? item.text2LeadingAccessoryView() : nil
+        cell.subtitleTrailingAccessoryView = showsLabelAccessoryView ? item.text2TrailingAccessoryView() : nil
+        cell.footerLeadingAccessoryView = showsLabelAccessoryView ? item.text3LeadingAccessoryView() : nil
+        cell.footerTrailingAccessoryView = showsLabelAccessoryView ? item.text3TrailingAccessoryView() : nil
+
         cell.titleNumberOfLines = section.numberOfLines
         cell.subtitleNumberOfLines = section.numberOfLines
         cell.footerNumberOfLines = section.numberOfLines
+
         cell.titleLineBreakMode = .byTruncatingMiddle
-        if section.numberOfLines == 1 {
-            cell.titleNumberOfLinesForLargerDynamicType = 3
-            cell.subtitleNumberOfLinesForLargerDynamicType = 2
-            cell.footerNumberOfLinesForLargerDynamicType = 2
-        } else {
-            cell.titleNumberOfLinesForLargerDynamicType = MSTableViewCell.defaultNumberOfLinesForLargerDynamicType
-            cell.subtitleNumberOfLinesForLargerDynamicType = MSTableViewCell.defaultNumberOfLinesForLargerDynamicType
-            cell.footerNumberOfLinesForLargerDynamicType = MSTableViewCell.defaultNumberOfLinesForLargerDynamicType
-        }
+
+        cell.titleNumberOfLinesForLargerDynamicType = section.numberOfLines == 1 ? 3 : MSTableViewCell.defaultNumberOfLinesForLargerDynamicType
+        cell.subtitleNumberOfLinesForLargerDynamicType = section.numberOfLines == 1 ? 2 : MSTableViewCell.defaultNumberOfLinesForLargerDynamicType
+        cell.footerNumberOfLinesForLargerDynamicType = section.numberOfLines == 1 ? 2 : MSTableViewCell.defaultNumberOfLinesForLargerDynamicType
 
         cell.backgroundColor = isGrouped ? MSColors.Table.Cell.backgroundGrouped : MSColors.Table.Cell.background
         cell.topSeparatorType = isGrouped && indexPath.row == 0 ? .full : .none

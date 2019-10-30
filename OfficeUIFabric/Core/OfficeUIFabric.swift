@@ -39,6 +39,8 @@ public class OfficeUIFabricFramework: NSObject {
         barButtonItem.setTitleTextAttributes(titleAttributes, for: .normal)
 
         initializeUISwitchAppearance(UISwitch.appearance())
+
+        initializeUIProgressViewAppearance(UIProgressView.appearance())
     }
 
     static func initializeUINavigationBarAppearance(_ navigationBar: UINavigationBar, traits: UITraitCollection? = nil) {
@@ -62,5 +64,10 @@ public class OfficeUIFabricFramework: NSObject {
 
     static func initializeUISwitchAppearance(_ `switch`: UISwitch) {
         `switch`.onTintColor = MSColors.Switch.onTint
+    }
+
+    static func initializeUIProgressViewAppearance(_ progressView: UIProgressView) {
+        progressView.progressTintColor = MSColors.Progress.progressTint
+        progressView.trackTintColor = MSColors.Progress.trackTint
     }
 }
