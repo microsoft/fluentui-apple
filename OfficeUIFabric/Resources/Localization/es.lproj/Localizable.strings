@@ -85,7 +85,7 @@
 "Accessibility.Segmented.Button.Hint" = "Pulsa para ir a %@";
 
 /* Accessibility hint for TabBarItemView to indicate its index relative to total number of items */
-"Accessibility.TabBarItemView.Hint" = "%d of %d";
+"Accessibility.TabBarItemView.Hint" = "%d de %d";
 
 /* Accessibility hint for more actions button */
 "Accessibility.TableViewCell.MoreActions.Hint" = "Pulsa dos veces para ver más acciones";
