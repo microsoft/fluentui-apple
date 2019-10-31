@@ -84,6 +84,9 @@
 /* Accessibility hint for a segmented control button */
 "Accessibility.Segmented.Button.Hint" = "Appuyez pour accéder à %@";
 
+/* Accessibility hint for TabBarItemView to indicate its index relative to total number of items */
+"Accessibility.TabBarItemView.Hint" = "%d of %d";
+
 /* Accessibility hint for more actions button */
 "Accessibility.TableViewCell.MoreActions.Hint" = "Appuyez deux fois pour afficher d’autres actions";
 
