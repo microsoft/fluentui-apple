@@ -85,7 +85,7 @@
 "Accessibility.Segmented.Button.Hint" = "Ketuk untuk membuka %@";
 
 /* Accessibility hint for TabBarItemView to indicate its index relative to total number of items */
-"Accessibility.TabBarItemView.Hint" = "%d of %d";
+"Accessibility.TabBarItemView.Hint" = "%d dari %d";
 
 /* Accessibility hint for more actions button */
 "Accessibility.TableViewCell.MoreActions.Hint" = "Ketuk dua kali untuk melihat tindakan lainnya";
