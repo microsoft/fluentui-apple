@@ -85,7 +85,7 @@
 "Accessibility.Segmented.Button.Hint" = "Нажмите здесь, чтобы перейти на %@";
 
 /* Accessibility hint for TabBarItemView to indicate its index relative to total number of items */
-"Accessibility.TabBarItemView.Hint" = "%d of %d";
+"Accessibility.TabBarItemView.Hint" = "%d из %d";
 
 /* Accessibility hint for more actions button */
 "Accessibility.TableViewCell.MoreActions.Hint" = "Дважды коснитесь, чтобы просмотреть другие действия";
