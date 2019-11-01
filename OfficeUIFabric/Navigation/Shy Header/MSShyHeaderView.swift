@@ -62,11 +62,13 @@ class MSShyHeaderView: UIView {
         didSet {
             switch exposure {
             case .concealed:
+                contentStackView.accessibilityElementsHidden = true
                 guard cancelsContentFirstRespondingOnHide else {
                     return
                 }
                 accessoryView?.resignFirstResponder()
             default:
+                contentStackView.accessibilityElementsHidden = false
                 return
             }
         }
