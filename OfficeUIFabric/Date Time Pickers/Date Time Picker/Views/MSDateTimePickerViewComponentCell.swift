@@ -11,22 +11,22 @@ import UIKit
 class MSDateTimePickerViewComponentCell: UITableViewCell {
     private struct Constants {
         static let baseHeight: CGFloat = 45
-        static let normalFont: UIFont = MSFonts.body
-        static let emphasizedFont: UIFont = MSFonts.headline
+        static let verticalPadding: CGFloat = 12
+        static let normalTextStyle: MSTextStyle = .body
+        static let emphasizedTextStyle: MSTextStyle = .headline
         static let normalTextColor: UIColor = MSColors.DateTimePicker.text
         static let emphasizedTextColor: UIColor = MSColors.DateTimePicker.textEmphasized
-        static let verticalPadding: CGFloat = (baseHeight - Constants.normalFont.deviceLineHeight) / 2
     }
 
     static let identifier: String = "MSDateTimePickerViewComponentCell"
 
     class var idealHeight: CGFloat {
-        return max(Constants.verticalPadding * 2 + Constants.normalFont.deviceLineHeight, Constants.baseHeight)
+        return max(Constants.verticalPadding * 2 + Constants.normalTextStyle.font.deviceLineHeight, Constants.baseHeight)
     }
 
     var emphasized: Bool = false {
         didSet {
-            textLabel?.font = emphasized ? Constants.emphasizedFont: Constants.normalFont
+            textLabel?.font = (emphasized ? Constants.emphasizedTextStyle: Constants.normalTextStyle).font
             textLabel?.textColor = emphasized ? Constants.emphasizedTextColor : Constants.normalTextColor
         }
     }
@@ -37,7 +37,7 @@ class MSDateTimePickerViewComponentCell: UITableViewCell {
         backgroundColor = nil
 
         textLabel?.textAlignment = .center
-        textLabel?.font = Constants.normalFont
+        textLabel?.font = Constants.normalTextStyle.font
         textLabel?.textColor = Constants.normalTextColor
     }
 

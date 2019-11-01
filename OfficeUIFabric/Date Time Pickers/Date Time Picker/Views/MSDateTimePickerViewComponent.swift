@@ -75,6 +75,8 @@ class MSDateTimePickerViewComponent: UIViewController {
         // Prevent iOS 11 from adjusting the row heights
         tableView.estimatedRowHeight = 0
         view.addSubview(tableView)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
     override func viewDidLayoutSubviews() {
@@ -98,6 +100,11 @@ class MSDateTimePickerViewComponent: UIViewController {
             cell.emphasized = true
             previousSelectedIndexPath = indexPath
         }
+    }
+
+    @objc private func handleContentSizeCategoryDidChange() {
+        tableView.rowHeight = MSDateTimePickerViewComponentCell.idealHeight
+        tableView.reloadData()
     }
 }
 

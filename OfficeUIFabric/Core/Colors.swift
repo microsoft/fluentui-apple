@@ -34,10 +34,10 @@ public final class MSColors: NSObject {
     public static let gray4: UIColor = #colorLiteral(red: 0.1882352941, green: 0.1882352941, blue: 0.1882352941, alpha: 1)
     /// #404040
     public static let gray5: UIColor = #colorLiteral(red: 0.2509803922, green: 0.2509803922, blue: 0.2509803922, alpha: 1)
-    /// #767676
-    public static let gray6: UIColor = #colorLiteral(red: 0.462745098, green: 0.462745098, blue: 0.462745098, alpha: 1)
-    /// #8E8E8E
-    public static let gray7: UIColor = #colorLiteral(red: 0.5568627451, green: 0.5568627451, blue: 0.5568627451, alpha: 1)
+    /// #6E6E6E
+    public static let gray6: UIColor = #colorLiteral(red: 0.431372549, green: 0.431372549, blue: 0.431372549, alpha: 1)
+    /// #919191
+    public static let gray7: UIColor = #colorLiteral(red: 0.568627451, green: 0.568627451, blue: 0.568627451, alpha: 1)
     /// #ACACAC
     public static let gray8: UIColor = #colorLiteral(red: 0.6745098039, green: 0.6745098039, blue: 0.6745098039, alpha: 1)
     /// #C8C8C8
@@ -129,9 +129,11 @@ public final class MSColors: NSObject {
     public static var foreground1b = UIColor(light: gray900, dark: gray400)
     public static var foreground2 = UIColor(light: gray500, dark: gray400)
     public static var foreground2b = UIColor(light: gray500, dark: gray300)
+    public static var foreground2c = UIColor(light: gray500, dark: gray500)
+    public static var foreground2d = UIColor(light: gray500, dark: gray100)
     public static var foreground3 = UIColor(light: gray400, dark: gray400)
-    public static var foreground3b = UIColor(light: gray400, dark: gray100)
-    public static var foreground3c = UIColor(light: gray400, dark: gray500)
+    public static var foreground3b = UIColor(light: gray400, dark: gray500)
+    public static var foreground3c = UIColor(light: gray400, dark: gray600)
     public static var foreground4 = UIColor(light: gray300, dark: gray600)
     public static var foreground4b = UIColor(light: gray300, dark: gray500)
     public static var foreground5 = UIColor(light: gray200, dark: gray500)
@@ -178,13 +180,13 @@ public final class MSColors: NSObject {
 
     public struct BadgeField {
         public static var background: UIColor = background1
-        public static var label: UIColor = foreground3
-        public static var placeholder: UIColor = foreground4
+        public static var label: UIColor = foreground2
+        public static var placeholder: UIColor = foreground2b
     }
 
     public struct BarButtonItem {
         public static var primary: UIColor = foreground8
-        public static var secondary: UIColor = foreground3b
+        public static var secondary: UIColor = foreground2d
     }
 
     public struct Button {
@@ -217,8 +219,8 @@ public final class MSColors: NSObject {
         }
         public struct WeekdayHeading {
             public struct Light {
-                public static var textRegular: UIColor = foreground3
-                public static var textWeekend: UIColor = foreground4
+                public static var textRegular: UIColor = foreground2
+                public static var textWeekend: UIColor = foreground3c
                 public static var background: UIColor = background1
             }
             public struct Dark {
@@ -232,7 +234,7 @@ public final class MSColors: NSObject {
 
     public struct DateTimePicker {
         public static var background: UIColor = background1
-        public static var text: UIColor = foreground3
+        public static var text: UIColor = foreground2b
         public static var textEmphasized: UIColor = selected
     }
 
@@ -293,10 +295,10 @@ public final class MSColors: NSObject {
     public struct SearchBar {
         public struct DarkContent {
             public static var background = UIColor(light: background3, dark: LightContent.background)
-            public static var cancelButton = UIColor(light: foreground3, dark: LightContent.cancelButton)
+            public static var cancelButton = UIColor(light: foreground2, dark: LightContent.cancelButton)
             public static var clearIcon = UIColor(light: foreground3, dark: LightContent.clearIcon)
-            public static var placeholderText = UIColor(light: foreground3, dark: LightContent.placeholderText)
-            public static var searchIcon = UIColor(light: foreground3, dark: LightContent.searchIcon)
+            public static var placeholderText = UIColor(light: foreground2, dark: LightContent.placeholderText)
+            public static var searchIcon = UIColor(light: foreground2, dark: LightContent.searchIcon)
             public static var text = UIColor(light: foreground1, dark: LightContent.text)
             public static var tint = UIColor(light: foreground3, dark: LightContent.tint)
         }
@@ -338,7 +340,7 @@ public final class MSColors: NSObject {
     }
 
     public struct TabBar {
-        public static var unselected: UIColor = foreground3
+        public static var unselected: UIColor = foreground2c
         public static var selected: UIColor = primary
     }
 
@@ -347,15 +349,15 @@ public final class MSColors: NSObject {
             public static var background: UIColor = background1
             public static var backgroundGrouped: UIColor = background1b
             public static var backgroundSelected: UIColor = background3
-            public static var image: UIColor = foreground3c
+            public static var image: UIColor = foreground3b
             public static var title: UIColor = foreground1
-            public static var subtitle: UIColor = foreground3
-            public static var footer: UIColor = foreground3
-            public static var accessoryDisclosureIndicator: UIColor = foreground5
-            public static var accessoryDetailButton: UIColor = foreground3c
+            public static var subtitle: UIColor = foreground2
+            public static var footer: UIColor = foreground2
+            public static var accessoryDisclosureIndicator: UIColor = foreground3b
+            public static var accessoryDetailButton: UIColor = foreground3b
             public static var accessoryCheckmark: UIColor = selected
             public static var selectionIndicatorOn: UIColor = primary
-            public static var selectionIndicatorOff: UIColor = foreground5
+            public static var selectionIndicatorOff: UIColor = foreground3b
         }
         public struct ActionCell {
             public static var text: UIColor = primary
@@ -369,13 +371,13 @@ public final class MSColors: NSObject {
             public static var text: UIColor = primary
         }
         public struct HeaderFooter {
-            public static var accessoryButtonText: UIColor = text
+            public static var accessoryButtonText = UIColor(light: text, dark: gray300)
             public static var accessoryButtonTextPrimary: UIColor = primary
             public static var background: UIColor = .clear
             public static var backgroundDivider: UIColor = background2
             public static var backgroundDividerHighlighted = UIColor(light: extraLightPrimary, dark: gray950)
-            public static var text: UIColor = foreground3
-            public static var textDivider: UIColor = foreground3b
+            public static var text: UIColor = foreground2
+            public static var textDivider: UIColor = foreground2d
             public static var textDividerHighlighted: UIColor = primary
         }
         public static var background: UIColor = background1
@@ -401,7 +403,7 @@ public final class MSColors: NSObject {
     public struct TwoLineTitle {
         public static var titleDark: UIColor = NavigationBar.title
         public static var titleLight: UIColor = foreground7
-        public static var subtitleDark: UIColor = foreground3
+        public static var subtitleDark: UIColor = foreground2d
         public static var subtitleLight: UIColor = foreground7.withAlphaComponent(0.8)
         public static var accessory: UIColor = foreground3
     }
@@ -427,7 +429,7 @@ public final class MSColors: NSObject {
         case .regular:
             return MSColors.foreground1
         case .secondary:
-            return MSColors.foreground3
+            return MSColors.foreground2
         case .white:
             return MSColors.white
         case .primary:

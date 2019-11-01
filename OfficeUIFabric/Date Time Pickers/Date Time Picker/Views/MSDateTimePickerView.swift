@@ -163,7 +163,8 @@ class MSDateTimePickerView: UIControl {
             height: selectionBottomSeparator.height
         )
 
-        gradientLayer.locations = [0, NSNumber(value: Float(lineOffset / height)), NSNumber(value: Float((height - lineOffset) / height)), 1]
+        let gradientOffset = lineOffset - MSDateTimePickerViewComponentCell.idealHeight
+        gradientLayer.locations = [0, NSNumber(value: Float(gradientOffset / height)), NSNumber(value: Float((height - gradientOffset) / height)), 1]
         gradientLayer.frame = bounds
 
         setDate(date, animated: false)
