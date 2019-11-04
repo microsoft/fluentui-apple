@@ -33,7 +33,6 @@ class MSPopupMenuItemCell: MSTableViewCell {
     var isHeader: Bool = false {
         didSet {
             bottomSeparatorType = isHeader ? .full : .inset
-            isUserInteractionEnabled = !isHeader
             updateAccessibilityTraits()
         }
     }
@@ -42,6 +41,11 @@ class MSPopupMenuItemCell: MSTableViewCell {
     override var customViewSize: CustomViewSize {
         get { return customView != nil || preservesSpaceForImage ? Constants.imageViewSize : .zero }
         set { }
+    }
+
+    override var isUserInteractionEnabled: Bool {
+        get { return !isHeader && super.isUserInteractionEnabled }
+        set { super.isUserInteractionEnabled = newValue }
     }
 
     private var item: MSPopupMenuItem?
