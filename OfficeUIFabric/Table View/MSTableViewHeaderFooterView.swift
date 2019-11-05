@@ -221,6 +221,14 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
 
     @objc open func setup(style: Style, title: String, accessoryButtonTitle: String = "") {
         titleLabel.text = title
+
+        switch style {
+        case .header, .divider, .dividerHighlighted:
+            titleLabel.accessibilityTraits.insert(.header)
+        case .footer:
+            titleLabel.accessibilityTraits.remove(.header)
+        }
+
         accessoryButton = accessoryButtonTitle != "" ? createAccessoryButton(withTitle: accessoryButtonTitle) : nil
         self.style = style
 
