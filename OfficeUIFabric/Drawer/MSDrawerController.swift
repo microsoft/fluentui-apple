@@ -87,6 +87,7 @@ import UIKit
  */
 open class MSDrawerController: UIViewController {
     private struct Constants {
+        static let resistanceCoefficient: CGFloat = 0.1
         static let resizingThreshold: CGFloat = 30
     }
 
@@ -230,7 +231,7 @@ open class MSDrawerController: UIViewController {
                 updatePreferredContentSize(contentSize.width, contentSize.height)
             }
 
-            return preferredContentSize
+            return preferredContentSize.roundedToDevicePixels
         }
         set {
             var newValue = newValue
@@ -466,9 +467,10 @@ open class MSDrawerController: UIViewController {
     }
 
     private func offset(forResizingGesture gesture: UIPanGestureRecognizer) -> CGFloat {
+        let presentationDirection = self.presentationDirection(for: view)
         let translation = gesture.translation(in: nil)
         var offset: CGFloat
-        switch presentationDirection(for: view) {
+        switch presentationDirection {
         case .down:
             offset = translation.y
         case .up:
@@ -479,10 +481,18 @@ open class MSDrawerController: UIViewController {
             offset = -translation.x
         }
         if resizingBehavior == .dismiss {
-            offset = min(offset, 0)
+            if presentationDirection == .up && gesture.state == .changed {
+                offset = offsetWithResistance(for: offset)
+            } else {
+                offset = min(offset, 0)
+            }
         }
         // Rounding to precision used for layout
         return UIScreen.main.roundToDevicePixels(offset)
+    }
+
+    private func offsetWithResistance(for offset: CGFloat) -> CGFloat {
+        return offset > 0 ? Constants.resistanceCoefficient * offset : offset
     }
 
     @objc private func handleResizingGesture(gesture: UIPanGestureRecognizer) {
