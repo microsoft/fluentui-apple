@@ -534,6 +534,10 @@ open class MSTableViewCell: UITableViewCell {
         didSet {
             oldValue?.removeFromSuperview()
             if let customAccessoryView = customAccessoryView {
+                if customAccessoryView is UISwitch {
+                    customAccessoryView.isAccessibilityElement = false
+                    customAccessoryView.accessibilityElementsHidden = true
+                }
                 contentView.addSubview(customAccessoryView)
             }
         }
@@ -648,11 +652,32 @@ open class MSTableViewCell: UITableViewCell {
             if isInSelectionMode && isEnabled {
                 return "Accessibility.MultiSelect.Hint".localized
             }
+            if customAccessoryView is UISwitch {
+                return "Accessibility.TableViewCell.Switch.Hint".localized
+            }
             return super.accessibilityHint
         }
-        set {
-            super.accessibilityHint = newValue
+        set { super.accessibilityHint = newValue }
+    }
+
+    open override var accessibilityValue: String? {
+        get {
+            if let customAccessoryView = customAccessoryView as? UISwitch {
+                return (customAccessoryView.isOn ? "Accessibility.TableViewCell.Switch.On" : "Accessibility.TableViewCell.Switch.Off").localized
+            }
+            return super.accessibilityValue
         }
+        set { super.accessibilityValue = newValue }
+    }
+
+    open override var accessibilityActivationPoint: CGPoint {
+        get {
+            if let customAccessoryView = customAccessoryView as? UISwitch {
+                return contentView.convert(customAccessoryView.center, to: nil)
+            }
+            return super.accessibilityActivationPoint
+        }
+        set { super.accessibilityActivationPoint = newValue }
     }
 
     // swiftlint:disable identifier_name
