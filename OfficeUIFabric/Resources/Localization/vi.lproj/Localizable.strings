@@ -93,6 +93,15 @@
 /* Accessibility label for more actions button */
 "Accessibility.TableViewCell.MoreActions.Label" = "Xem thêm hành động";
 
+/* Accessibility hint for cell when accessory view is a UISwitch */
+"Accessibility.TableViewCell.Switch.Hint" = "Double tap to toggle setting";
+
+/* Accessibility value for when a UISwitch is on */
+"Accessibility.TableViewCell.Switch.On" = "On";
+
+/* Accessibility value for when a UISwitch is off */
+"Accessibility.TableViewCell.Switch.Off" = "Off";
+
 /* Generic label for cancel action */
 "Common.Cancel" = "Hủy bỏ";
 
