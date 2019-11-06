@@ -2,6 +2,7 @@
 
 PRODUCT_NAME = OfficeUIFabric
 SWIFT_MODULE_NAME = OfficeUIFabric
+PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.OfficeUIFabric
 
 INFOPLIST_FILE = ../OfficeUIFabric/OfficeUIFabric-Info.plist
 INFOPLIST_EXPAND_BUILD_SETTINGS = YES
