@@ -572,7 +572,7 @@ open class MSTableViewCell: UITableViewCell {
         didSet {
             contentView.alpha = isEnabled ? Constants.enabledAlpha : Constants.disabledAlpha
             isUserInteractionEnabled = isEnabled
-            initAccessoryView()
+            initAccessoryTypeView()
             updateAccessibility()
         }
     }
@@ -661,7 +661,7 @@ open class MSTableViewCell: UITableViewCell {
             if _accessoryType == oldValue {
                 return
             }
-            _accessoryView = _accessoryType == .none ? nil : MSTableViewCellAccessoryView(type: _accessoryType)
+            accessoryTypeView = _accessoryType == .none ? nil : MSTableViewCellAccessoryView(type: _accessoryType)
             setNeedsLayout()
             invalidateIntrinsicContentSize()
         }
@@ -747,12 +747,12 @@ open class MSTableViewCell: UITableViewCell {
     private var footerLeadingAccessoryViewSize: CGSize = .zero
     private var footerTrailingAccessoryViewSize: CGSize = .zero
 
-    private var _accessoryView: MSTableViewCellAccessoryView? {
+    private var accessoryTypeView: MSTableViewCellAccessoryView? {
         didSet {
             oldValue?.removeFromSuperview()
-            if let accessoryView = _accessoryView {
-                contentView.addSubview(accessoryView)
-                initAccessoryView()
+            if let accessoryTypeView = accessoryTypeView {
+                contentView.addSubview(accessoryTypeView)
+                initAccessoryTypeView()
             }
         }
     }
@@ -862,7 +862,7 @@ open class MSTableViewCell: UITableViewCell {
             completion(true)
         }
 
-        initAccessoryView()
+        initAccessoryTypeView()
 
         selectionStyle = isInSelectionMode ? .none : .default
     }
@@ -941,10 +941,10 @@ open class MSTableViewCell: UITableViewCell {
             customAccessoryView.frame = CGRect(origin: CGPoint(x: xOffset, y: yOffset), size: customAccessoryView.frame.size)
         }
 
-        if let accessoryView = _accessoryView {
+        if let accessoryTypeView = accessoryTypeView {
             let xOffset = contentView.width - MSTableViewCell.customAccessoryViewTrailingOffset(customAccessoryView: customAccessoryView, customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge, accessoryType: _accessoryType)
             let yOffset = UIScreen.main.roundToDevicePixels((contentView.height - _accessoryType.size.height) / 2)
-            accessoryView.frame = CGRect(origin: CGPoint(x: xOffset, y: yOffset), size: _accessoryType.size)
+            accessoryTypeView.frame = CGRect(origin: CGPoint(x: xOffset, y: yOffset), size: _accessoryType.size)
         }
     }
 
@@ -1136,14 +1136,14 @@ open class MSTableViewCell: UITableViewCell {
         }
     }
 
-    private func initAccessoryView() {
-        guard let accessoryView = _accessoryView else {
+    private func initAccessoryTypeView() {
+        guard let accessoryTypeView = accessoryTypeView else {
             return
         }
 
-        if accessoryView.type == .detailButton {
-            accessoryView.isUserInteractionEnabled = isEnabled && !isInSelectionMode
-            accessoryView.onTapped = handleDetailButtonTapped
+        if accessoryTypeView.type == .detailButton {
+            accessoryTypeView.isUserInteractionEnabled = isEnabled && !isInSelectionMode
+            accessoryTypeView.onTapped = handleDetailButtonTapped
         }
     }
 
