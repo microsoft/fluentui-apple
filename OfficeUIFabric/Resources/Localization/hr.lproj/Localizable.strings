@@ -94,13 +94,13 @@
 "Accessibility.TableViewCell.MoreActions.Label" = "Dodatne akcije";
 
 /* Accessibility hint for cell when accessory view is a UISwitch */
-"Accessibility.TableViewCell.Switch.Hint" = "Double tap to toggle setting";
+"Accessibility.TableViewCell.Switch.Hint" = "Dvaput dodirnite da biste uključili ili isključili postavku";
 
 /* Accessibility value for when a UISwitch is on */
-"Accessibility.TableViewCell.Switch.On" = "On";
+"Accessibility.TableViewCell.Switch.On" = "Uključeno";
 
 /* Accessibility value for when a UISwitch is off */
-"Accessibility.TableViewCell.Switch.Off" = "Off";
+"Accessibility.TableViewCell.Switch.Off" = "Isključeno";
 
 /* Generic label for cancel action */
 "Common.Cancel" = "Odustani";

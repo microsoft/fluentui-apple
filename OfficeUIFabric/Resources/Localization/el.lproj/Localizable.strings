@@ -94,13 +94,13 @@
 "Accessibility.TableViewCell.MoreActions.Label" = "Περισσότερες ενέργειες";
 
 /* Accessibility hint for cell when accessory view is a UISwitch */
-"Accessibility.TableViewCell.Switch.Hint" = "Double tap to toggle setting";
+"Accessibility.TableViewCell.Switch.Hint" = "Πατήστε δύο φορές για εναλλαγή της ρύθμισης";
 
 /* Accessibility value for when a UISwitch is on */
-"Accessibility.TableViewCell.Switch.On" = "On";
+"Accessibility.TableViewCell.Switch.On" = "Ενεργό";
 
 /* Accessibility value for when a UISwitch is off */
-"Accessibility.TableViewCell.Switch.Off" = "Off";
+"Accessibility.TableViewCell.Switch.Off" = "Ανενεργό";
 
 /* Generic label for cancel action */
 "Common.Cancel" = "Άκυρο";

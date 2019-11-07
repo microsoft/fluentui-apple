@@ -85,7 +85,7 @@
 "Accessibility.Segmented.Button.Hint" = "Ide koppintva erre a szegmensre léphet: %@";
 
 /* Accessibility hint for TabBarItemView to indicate its index relative to total number of items */
-"Accessibility.TabBarItemView.Hint" = "%d of %d";
+"Accessibility.TabBarItemView.Hint" = "%d/%d";
 
 /* Accessibility hint for more actions button */
 "Accessibility.TableViewCell.MoreActions.Hint" = "Koppintson ide duplán a további műveletek megtekintéséhez";
