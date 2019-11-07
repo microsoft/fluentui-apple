@@ -94,13 +94,13 @@
 "Accessibility.TableViewCell.MoreActions.Label" = "更多動作";
 
 /* Accessibility hint for cell when accessory view is a UISwitch */
-"Accessibility.TableViewCell.Switch.Hint" = "Double tap to toggle setting";
+"Accessibility.TableViewCell.Switch.Hint" = "點兩下以切換設定";
 
 /* Accessibility value for when a UISwitch is on */
-"Accessibility.TableViewCell.Switch.On" = "On";
+"Accessibility.TableViewCell.Switch.On" = "開啟";
 
 /* Accessibility value for when a UISwitch is off */
-"Accessibility.TableViewCell.Switch.Off" = "Off";
+"Accessibility.TableViewCell.Switch.Off" = "關閉";
 
 /* Generic label for cancel action */
 "Common.Cancel" = "取消";
