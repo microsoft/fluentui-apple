@@ -94,13 +94,13 @@
 "Accessibility.TableViewCell.MoreActions.Label" = "การดำเนินการเพิ่มเติม";
 
 /* Accessibility hint for cell when accessory view is a UISwitch */
-"Accessibility.TableViewCell.Switch.Hint" = "Double tap to toggle setting";
+"Accessibility.TableViewCell.Switch.Hint" = "แตะสองครั้งเพื่อสลับการตั้งค่า";
 
 /* Accessibility value for when a UISwitch is on */
-"Accessibility.TableViewCell.Switch.On" = "On";
+"Accessibility.TableViewCell.Switch.On" = "เปิด";
 
 /* Accessibility value for when a UISwitch is off */
-"Accessibility.TableViewCell.Switch.Off" = "Off";
+"Accessibility.TableViewCell.Switch.Off" = "ปิด";
 
 /* Generic label for cancel action */
 "Common.Cancel" = "ยกเลิก";
