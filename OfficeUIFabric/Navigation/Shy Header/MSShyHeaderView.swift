@@ -99,16 +99,26 @@ class MSShyHeaderView: UIView {
             updateShadowVisibility()
         }
     }
+    var navigationBarShadow: MSNavigationBar.Shadow = .automatic {
+        didSet {
+            updateShadowVisibility()
+        }
+    }
 
     private let contentStackView = UIStackView()
     private let shadow = MSSeparator(style: .shadow)
 
     private var needsShadow: Bool {
-        var needsShadow = navigationBarStyle == .system
-        if #available(iOS 13, *) {
-            needsShadow = needsShadow && traitCollection.userInterfaceStyle != .dark
+        switch navigationBarShadow {
+        case .automatic:
+            var needsShadow = navigationBarStyle == .system
+            if #available(iOS 13, *) {
+                needsShadow = needsShadow && traitCollection.userInterfaceStyle != .dark
+            }
+            return needsShadow
+        case .alwaysHidden:
+            return false
         }
-        return needsShadow
     }
     private var showsShadow: Bool = false {
         didSet {

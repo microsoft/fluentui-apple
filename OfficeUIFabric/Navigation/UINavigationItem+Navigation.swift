@@ -10,6 +10,7 @@ import UIKit
         static var accessoryView: String = "accessoryView"
         static var contentScrollView: String = "contentScrollView"
         static var navigationBarStyle: String = "navigationBarStyle"
+        static var navigationBarShadow: String = "navigationBarShadow"
         static var usesLargeTitle: String = "usesLargeTitle"
     }
 
@@ -37,6 +38,15 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.navigationBarStyle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
+    var navigationBarShadow: MSNavigationBar.Shadow {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.navigationBarShadow) as? MSNavigationBar.Shadow ?? .automatic
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.navigationBarShadow, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 

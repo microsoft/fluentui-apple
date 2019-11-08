@@ -49,6 +49,7 @@ class MSShyHeaderController: UIViewController {
     init(contentViewController: UIViewController) {
         self.contentViewController = contentViewController
         shyHeaderView.accessoryView = contentViewController.navigationItem.accessoryView
+        shyHeaderView.navigationBarShadow = contentViewController.navigationItem.navigationBarShadow
 
         super.init(nibName: nil, bundle: nil)
 

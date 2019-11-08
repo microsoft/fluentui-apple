@@ -14,7 +14,9 @@ import UIKit
 open class MSNavigationBar: UINavigationBar {
     @objc(MSNavigationBarStyle)
     public enum Style: Int {
-        case `default`, primary, system
+        case `default`
+        case primary
+        case system
 
         var backgroundColor: UIColor {
             switch self {
@@ -42,6 +44,12 @@ open class MSNavigationBar: UINavigationBar {
                 return MSColors.Navigation.System.title
             }
         }
+    }
+
+    @objc(MSNavigationBarShadow)
+    public enum Shadow: Int {
+        case automatic
+        case alwaysHidden
     }
 
     static let expansionContractionAnimationDuration: TimeInterval = 0.1 // the interval over which the expansion/contraction animations occur
@@ -350,7 +358,12 @@ open class MSNavigationBar: UINavigationBar {
     }
 
     private func needsShadow(for navigationItem: UINavigationItem?) -> Bool {
-        return !showsLargeTitle && style == .system && navigationItem?.accessoryView == nil
+        switch navigationItem?.navigationBarShadow ?? .automatic {
+        case .automatic:
+            return !showsLargeTitle && style == .system && navigationItem?.accessoryView == nil
+        case .alwaysHidden:
+            return false
+        }
     }
 
     /// Coordinates expansions between the MSShyHeaderController, the navBar's TitleView, and the nav bar itself

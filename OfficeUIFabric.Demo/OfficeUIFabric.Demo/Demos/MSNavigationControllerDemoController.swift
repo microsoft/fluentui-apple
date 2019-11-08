@@ -17,6 +17,7 @@ class MSNavigationControllerDemoController: DemoController {
 
         addTitle(text: "Large Title with System style")
         container.addArrangedSubview(createButton(title: "Show without accessory", action: #selector(showLargeTitleWithSystemStyle)))
+        container.addArrangedSubview(createButton(title: "Show without accessory and shadow", action: #selector(showLargeTitleWithSystemStyleAndNoShadow)))
         container.addArrangedSubview(createButton(title: "Show with collapsible search bar", action: #selector(showLargeTitleWithSystemStyleAndShyAccessory)))
         container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: #selector(showLargeTitleWithSystemStyleAndFixedAccessory)))
 
@@ -26,43 +27,49 @@ class MSNavigationControllerDemoController: DemoController {
     }
 
     @objc func showLargeTitle() {
-        presentTitleController(withLargeTitle: true)
+        presentController(withLargeTitle: true)
     }
 
     @objc func showLargeTitleWithShyAccessory() {
-        presentTitleController(withLargeTitle: true, accessoryView: createAccessoryView(), hideAccessoryOnScroll: true)
+        presentController(withLargeTitle: true, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: true)
     }
 
     @objc func showLargeTitleWithFixedAccessory() {
-        presentTitleController(withLargeTitle: true, accessoryView: createAccessoryView(), hideAccessoryOnScroll: false)
+        presentController(withLargeTitle: true, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
     }
 
     @objc func showLargeTitleWithSystemStyle() {
-        presentTitleController(withLargeTitle: true, style: .system)
+        presentController(withLargeTitle: true, style: .system)
+    }
+
+    @objc func showLargeTitleWithSystemStyleAndNoShadow() {
+        presentController(withLargeTitle: true, style: .system, contractNavigationBarOnScroll: false, showShadow: false)
     }
 
     @objc func showLargeTitleWithSystemStyleAndShyAccessory() {
-        presentTitleController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), hideAccessoryOnScroll: true)
+        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
     }
 
     @objc func showLargeTitleWithSystemStyleAndFixedAccessory() {
-        presentTitleController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), hideAccessoryOnScroll: false)
+        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: false)
     }
 
     @objc func showRegularTitleWithShyAccessory() {
-        presentTitleController(withLargeTitle: false, style: .system, accessoryView: createAccessoryView(with: .darkContent), hideAccessoryOnScroll: true)
+        presentController(withLargeTitle: false, style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
     }
 
     @objc func showRegularTitleWithFixedAccessory() {
-        presentTitleController(withLargeTitle: false, accessoryView: createAccessoryView(), hideAccessoryOnScroll: false)
+        presentController(withLargeTitle: false, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
     }
 
-    private func presentTitleController(withLargeTitle useLargeTitle: Bool, style: MSNavigationBar.Style = .primary, accessoryView: UIView? = nil, hideAccessoryOnScroll: Bool = true) {
+    private func presentController(withLargeTitle useLargeTitle: Bool, style: MSNavigationBar.Style = .primary, accessoryView: UIView? = nil, contractNavigationBarOnScroll: Bool = true, showShadow: Bool = true) {
         let content = RootViewController()
         content.navigationItem.usesLargeTitle = useLargeTitle
         content.navigationItem.navigationBarStyle = style
+        content.navigationItem.navigationBarShadow = showShadow ? .automatic : .alwaysHidden
         content.navigationItem.accessoryView = accessoryView
-        content.navigationItem.contentScrollView = hideAccessoryOnScroll ? content.tableView : nil
+        content.navigationItem.contentScrollView = contractNavigationBarOnScroll ? content.tableView : nil
+        content.showsTabs = !showShadow
 
         let controller = MSNavigationController(rootViewController: content)
         controller.msNavigationBar.avatar = MSPersonaData(name: "Kat Larrson", avatarImage: UIImage(named: "avatar_kat_larsson"))
@@ -93,10 +100,42 @@ class MSNavigationControllerDemoController: DemoController {
 
 // MARK: - RootViewController
 
-class RootViewController: UITableViewController {
+class RootViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    var container: UIStackView { return view as! UIStackView }
+    private(set) lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(MSTableViewCell.self, forCellReuseIdentifier: MSTableViewCell.identifier)
+        return tableView
+    }()
+
+    var showsTabs: Bool = false {
+        didSet {
+            if showsTabs != oldValue {
+                segmentedControl = showsTabs ? MSSegmentedControl(items: ["Unread", "All"]) : nil
+            }
+        }
+    }
+
+    private var segmentedControl: MSSegmentedControl? {
+        didSet {
+            oldValue?.removeFromSuperview()
+            if let segmentedControl = segmentedControl {
+                container.insertArrangedSubview(segmentedControl, at: 0)
+            }
+        }
+    }
+
+    override func loadView() {
+        let container = UIStackView()
+        container.axis = .vertical
+        view = container
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(MSTableViewCell.self, forCellReuseIdentifier: MSTableViewCell.identifier)
+        container.addArrangedSubview(tableView)
         navigationItem.title = navigationItem.usesLargeTitle ? "Large Title" : "Regular Title"
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(title: "Dismiss", style: .plain, target: self, action: #selector(dismissSelf)),
@@ -104,17 +143,17 @@ class RootViewController: UITableViewController {
         ]
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 100
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MSTableViewCell.identifier, for: indexPath) as! MSTableViewCell
         cell.setup(title: "Cell #\(1 + indexPath.row)", accessoryType: .disclosureIndicator)
         return cell
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let controller = ChildViewController()
         if navigationItem.accessoryView == nil {
             controller.navigationItem.navigationBarStyle = .system
