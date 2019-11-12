@@ -38,9 +38,11 @@ jobs:
           xcode_actions: 'test'
           xcode_scheme: 'OfficeUIFabricTestApp'
           xcode_configuration: 'Debug'
+          xcode_displayNameTags: '[test] [security-analysis]'
 
       - template: templates/xcode-build.yml
         parameters:
           xcode_actions: 'test'
           xcode_scheme: 'OfficeUIFabricTestApp'
           xcode_configuration: 'Release'
+          xcode_displayNameTags: '[test] [security-analysis]'
