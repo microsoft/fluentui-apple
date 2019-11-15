@@ -162,6 +162,7 @@ open class MSTableViewCell: UITableViewCell {
         static let labelAccessoryViewMarginTrailing: CGFloat = 8
 
         static let customAccessoryViewMarginLeading: CGFloat = 8
+        static let customAccessoryViewMinVerticalMargin: CGFloat = 6
 
         static let labelVerticalMarginForOneAndThreeLines: CGFloat = 11
         static let labelVerticalMarginForTwoLines: CGFloat = 12
@@ -174,6 +175,8 @@ open class MSTableViewCell: UITableViewCell {
         static let selectionImageOn = UIImage.staticImageNamed("selection-on")?.withRenderingMode(.alwaysTemplate)
         static let selectionImageSize = CGSize(width: 24, height: 24)
         static let selectionModeAnimationDuration: TimeInterval = 0.2
+
+        static let textAreaMinWidth: CGFloat = 100
 
         static let enabledAlpha: CGFloat = 1
         static let disabledAlpha: CGFloat = 0.35
@@ -239,22 +242,28 @@ open class MSTableViewCell: UITableViewCell {
 
         let textAreaLeadingOffset = self.textAreaLeadingOffset(customViewSize: customViewSize, isInSelectionMode: isInSelectionMode)
         let textAreaTrailingOffset = self.textAreaTrailingOffset(customAccessoryView: customAccessoryView, customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge, accessoryType: accessoryType)
-        let textAreaWidth = containerWidth - (textAreaLeadingOffset + textAreaTrailingOffset)
-
-        var textAreaHeight = labelSize(text: title, font: TextStyles.title.font, numberOfLines: titleNumberOfLines, textAreaWidth: textAreaWidth, leadingAccessoryView: titleLeadingAccessoryView, trailingAccessoryView: titleTrailingAccessoryView).height
-        if layoutType == .twoLines || layoutType == .threeLines {
-            textAreaHeight += labelSize(text: subtitle, font: layoutType.subtitleTextStyle.font, numberOfLines: subtitleNumberOfLines, textAreaWidth: textAreaWidth, leadingAccessoryView: subtitleLeadingAccessoryView, trailingAccessoryView: subtitleTrailingAccessoryView).height
-            textAreaHeight += Constants.labelVerticalSpacing
-
-            if layoutType == .threeLines {
-                textAreaHeight += labelSize(text: footer, font: TextStyles.footer.font, numberOfLines: footerNumberOfLines, textAreaWidth: textAreaWidth, leadingAccessoryView: footerLeadingAccessoryView, trailingAccessoryView: footerTrailingAccessoryView).height
-                textAreaHeight += Constants.labelVerticalSpacing
-            }
+        var textAreaWidth = containerWidth - (textAreaLeadingOffset + textAreaTrailingOffset)
+        if textAreaWidth < Constants.textAreaMinWidth, let customAccessoryView = customAccessoryView {
+            let oldAccessoryViewWidth = customAccessoryView.width
+            let availableWidth = oldAccessoryViewWidth - (Constants.textAreaMinWidth - textAreaWidth)
+            customAccessoryView.frame.size = customAccessoryView.systemLayoutSizeFitting(CGSize(width: availableWidth, height: .infinity))
+            textAreaWidth += oldAccessoryViewWidth - customAccessoryView.width
         }
+
+        let textAreaHeight = self.textAreaHeight(
+            layoutType: layoutType,
+            titleHeight: labelSize(text: title, font: TextStyles.title.font, numberOfLines: titleNumberOfLines, textAreaWidth: textAreaWidth, leadingAccessoryView: titleLeadingAccessoryView, trailingAccessoryView: titleTrailingAccessoryView).height,
+            subtitleHeight: labelSize(text: subtitle, font: layoutType.subtitleTextStyle.font, numberOfLines: subtitleNumberOfLines, textAreaWidth: textAreaWidth, leadingAccessoryView: subtitleLeadingAccessoryView, trailingAccessoryView: subtitleTrailingAccessoryView).height,
+            footerHeight: labelSize(text: footer, font: TextStyles.footer.font, numberOfLines: footerNumberOfLines, textAreaWidth: textAreaWidth, leadingAccessoryView: footerLeadingAccessoryView, trailingAccessoryView: footerTrailingAccessoryView).height
+        )
 
         let labelVerticalMargin = layoutType == .twoLines ? labelVerticalMarginForTwoLines : labelVerticalMarginForOneAndThreeLines
 
-        return max(labelVerticalMargin * 2 + textAreaHeight, Constants.minHeight)
+        var minHeight = Constants.minHeight
+        if let customAccessoryView = customAccessoryView {
+            minHeight = max(minHeight, customAccessoryView.height + 2 * Constants.customAccessoryViewMinVerticalMargin)
+        }
+        return max(labelVerticalMargin * 2 + textAreaHeight, minHeight)
     }
 
     /// The preferred width of the cell based on the width of its content.
@@ -283,7 +292,6 @@ open class MSTableViewCell: UITableViewCell {
         if layoutType == .twoLines || layoutType == .threeLines {
             let subtitleWidth = labelPreferredWidth(text: subtitle, font: layoutType.subtitleTextStyle.font, leadingAccessoryView: subtitleLeadingAccessoryView, trailingAccessoryView: subtitleTrailingAccessoryView)
             textAreaWidth = max(textAreaWidth, subtitleWidth)
-
             if layoutType == .threeLines {
                 let footerWidth = labelPreferredWidth(text: footer, font: TextStyles.footer.font, leadingAccessoryView: footerLeadingAccessoryView, trailingAccessoryView: footerTrailingAccessoryView)
                 textAreaWidth = max(textAreaWidth, footerWidth)
@@ -353,8 +361,20 @@ open class MSTableViewCell: UITableViewCell {
         return customAccessoryViewAreaWidth + MSTableViewCell.customAccessoryViewTrailingOffset(customAccessoryView: customAccessoryView, customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge, accessoryType: accessoryType)
     }
 
+    private static func textAreaHeight(layoutType: MSTableViewCell.LayoutType, titleHeight: @autoclosure () -> CGFloat, subtitleHeight: @autoclosure () -> CGFloat, footerHeight: @autoclosure () -> CGFloat) -> CGFloat {
+        var textAreaHeight = titleHeight()
+        if layoutType == .twoLines || layoutType == .threeLines {
+            textAreaHeight += Constants.labelVerticalSpacing + subtitleHeight()
+
+            if layoutType == .threeLines {
+                textAreaHeight += Constants.labelVerticalSpacing + footerHeight()
+            }
+        }
+        return textAreaHeight
+    }
+
     private static func customAccessoryViewTrailingOffset(customAccessoryView: UIView?, customAccessoryViewExtendsToEdge: Bool, accessoryType: MSTableViewCellAccessoryType) -> CGFloat {
-         if accessoryType != .none {
+        if accessoryType != .none {
             return accessoryType.size.width
         }
         if customAccessoryView != nil && customAccessoryViewExtendsToEdge {
@@ -920,48 +940,25 @@ open class MSTableViewCell: UITableViewCell {
             )
         }
 
-        let titleText = titleLabel.text ?? ""
-        let titleSize = titleText.preferredSize(for: titleLabel.font, width: textAreaWidth, numberOfLines: titleNumberOfLines)
-        let titleLineHeight = titleLabel.font.deviceLineHeightWithLeading
-        let titleCenteredTopMargin = UIScreen.main.roundToDevicePixels((contentView.height - titleLineHeight) / 2)
-        let titleTopOffset = layoutType != .oneLine || titleSize.height > titleLineHeight ? layoutType.labelVerticalMargin : titleCenteredTopMargin
-        layoutLabelViews(
-            label: titleLabel,
-            numberOfLines: titleNumberOfLines,
-            topOffset: titleTopOffset,
-            leadingAccessoryView: titleLeadingAccessoryView,
-            leadingAccessoryViewSize: titleLeadingAccessoryViewSize,
-            trailingAccessoryView: titleTrailingAccessoryView,
-            trailingAccessoryViewSize: titleTrailingAccessoryViewSize
-        )
+        layoutLabelViews(label: titleLabel, numberOfLines: titleNumberOfLines, topOffset: 0, leadingAccessoryView: titleLeadingAccessoryView, leadingAccessoryViewSize: titleLeadingAccessoryViewSize, trailingAccessoryView: titleTrailingAccessoryView, trailingAccessoryViewSize: titleTrailingAccessoryViewSize)
 
         if layoutType == .twoLines || layoutType == .threeLines {
-            layoutLabelViews(
-                label: subtitleLabel,
-                numberOfLines: subtitleNumberOfLines,
-                topOffset: titleLabel.bottom + Constants.labelVerticalSpacing,
-                leadingAccessoryView: subtitleLeadingAccessoryView,
-                leadingAccessoryViewSize: subtitleLeadingAccessoryViewSize,
-                trailingAccessoryView: subtitleTrailingAccessoryView,
-                trailingAccessoryViewSize: subtitleTrailingAccessoryViewSize
-            )
+            layoutLabelViews(label: subtitleLabel, numberOfLines: subtitleNumberOfLines, topOffset: titleLabel.bottom + Constants.labelVerticalSpacing, leadingAccessoryView: subtitleLeadingAccessoryView, leadingAccessoryViewSize: subtitleLeadingAccessoryViewSize, trailingAccessoryView: subtitleTrailingAccessoryView, trailingAccessoryViewSize: subtitleTrailingAccessoryViewSize)
 
             if layoutType == .threeLines {
-                layoutLabelViews(
-                    label: footerLabel,
-                    numberOfLines: footerNumberOfLines,
-                    topOffset: subtitleLabel.bottom + Constants.labelVerticalSpacing,
-                    leadingAccessoryView: footerLeadingAccessoryView,
-                    leadingAccessoryViewSize: footerLeadingAccessoryViewSize,
-                    trailingAccessoryView: footerTrailingAccessoryView,
-                    trailingAccessoryViewSize: footerTrailingAccessoryViewSize
-                )
+                layoutLabelViews(label: footerLabel, numberOfLines: footerNumberOfLines, topOffset: subtitleLabel.bottom + Constants.labelVerticalSpacing, leadingAccessoryView: footerLeadingAccessoryView, leadingAccessoryViewSize: footerLeadingAccessoryViewSize, trailingAccessoryView: footerTrailingAccessoryView, trailingAccessoryViewSize: footerTrailingAccessoryViewSize)
             }
         }
 
+        let textAreaHeight = MSTableViewCell.textAreaHeight(layoutType: layoutType, titleHeight: titleLabel.height, subtitleHeight: subtitleLabel.height, footerHeight: footerLabel.height)
+        let textAreaTopOffset = UIScreen.main.roundToDevicePixels((contentView.height - textAreaHeight) / 2)
+        adjustLabelViewsTop(by: textAreaTopOffset, label: titleLabel, leadingAccessoryView: titleLeadingAccessoryView, trailingAccessoryView: titleTrailingAccessoryView)
+        adjustLabelViewsTop(by: textAreaTopOffset, label: subtitleLabel, leadingAccessoryView: subtitleLeadingAccessoryView, trailingAccessoryView: subtitleTrailingAccessoryView)
+        adjustLabelViewsTop(by: textAreaTopOffset, label: footerLabel, leadingAccessoryView: footerLeadingAccessoryView, trailingAccessoryView: footerTrailingAccessoryView)
+
         if let customAccessoryView = customAccessoryView {
-            let textAreaTrailingOffset = MSTableViewCell.textAreaTrailingOffset(customAccessoryView: customAccessoryView, customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge, accessoryType: _accessoryType)
-            let xOffset = contentView.width - textAreaTrailingOffset + Constants.customAccessoryViewMarginLeading
+            let trailingOffset = MSTableViewCell.customAccessoryViewTrailingOffset(customAccessoryView: customAccessoryView, customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge, accessoryType: _accessoryType)
+            let xOffset = contentView.width - customAccessoryView.width - trailingOffset
             let yOffset = UIScreen.main.roundToDevicePixels((contentView.height - customAccessoryView.height) / 2)
             customAccessoryView.frame = CGRect(origin: CGPoint(x: xOffset, y: yOffset), size: customAccessoryView.frame.size)
         }
@@ -1009,6 +1006,12 @@ open class MSTableViewCell: UITableViewCell {
                 height: trailingAccessoryViewSize.height
             )
         }
+    }
+
+    private func adjustLabelViewsTop(by offset: CGFloat, label: UILabel, leadingAccessoryView: UIView?, trailingAccessoryView: UIView?) {
+        label.top += offset
+        leadingAccessoryView?.top += offset
+        trailingAccessoryView?.top += offset
     }
 
     private func layoutSeparator(_ separator: MSSeparator, with type: SeparatorType, at verticalOffset: CGFloat) {

@@ -55,10 +55,7 @@ class MSTableViewCellSampleData: TableViewSampleData {
         Section(
             title: "Cell with custom accessory view",
             items: [
-                Item(text1: "This is a cell with a long text1 as an example of how this label will render",
-                     text2: "This is a cell with a long text2 as an example of how this label will render",
-                     image: "excelIcon",
-                     text2LeadingAccessoryView: { createIconsAccessoryView(images: ["success-12x12"]) })
+                Item(text1: "Format")
             ],
             hasAccessory: true
         ),
@@ -80,7 +77,8 @@ class MSTableViewCellSampleData: TableViewSampleData {
                 Item(text1: "This is a cell with a long text1 as an example of how this label will render",
                      text2: "This is a cell with a long text2 as an example of how this label will render",
                      text3: "This is a cell with a long text3 as an example of how this label will render",
-                     image: "excelIcon", text1TrailingAccessoryView: { createTextAccessoryView(text: "10:21 AM") },
+                     image: "excelIcon",
+                     text1TrailingAccessoryView: { createTextAccessoryView(text: "10:21 AM") },
                      text2TrailingAccessoryView: { createIconsAccessoryView(images: ["at-12x12"], rightAligned: true) },
                      text3TrailingAccessoryView: { createTextAccessoryView(text: "2", withBorder: true) })
             ],
@@ -91,8 +89,9 @@ class MSTableViewCellSampleData: TableViewSampleData {
 
     static var customAccessoryView: UIView {
         let label = MSLabel(style: .body, colorStyle: .secondary)
-        label.text = "Value"
+        label.text = "PowerPoint Presentation"
         label.sizeToFit()
+        label.numberOfLines = 0
         return label
     }
 
