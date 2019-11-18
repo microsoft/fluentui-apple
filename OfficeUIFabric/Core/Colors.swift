@@ -157,7 +157,7 @@ public final class MSColors: NSObject {
 
     public struct Avatar {
         // Should use physical color because this text is shown on physical avatar background
-        public static var text: UIColor = white
+        public static var text = UIColor(light: white, dark: black)
         public static var border: UIColor = background1c
     }
 
