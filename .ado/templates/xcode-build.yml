@@ -21,5 +21,3 @@ steps:
       xcodeVersion: 11
       useXcpretty: ${{ parameters.xcode_useXcpretty }}
       args: ${{ parameters.xcode_extraArgs }}
-
-
