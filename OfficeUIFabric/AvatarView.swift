@@ -220,7 +220,7 @@ open class AvatarView : NSView {
 	
 	/// The text field used for displaying the initials within the initialsView
 	private lazy var initialsTextField: NSTextField = {
-		let textView = NSTextField(labelWithString: initials(name: contactName, email: contactEmail))
+		let textView = NSTextField(labelWithString: AvatarView.initials(name: contactName, email: contactEmail))
 		textView.alignment = .center
 		textView.translatesAutoresizingMaskIntoConstraints = false
 		textView.font = NSFont.systemFont(ofSize:fontSize(forCircleDiameter: avatarSize))
@@ -275,7 +275,7 @@ open class AvatarView : NSView {
 			setAccessibilityRole(.unknown)
 		}
 		
-		initialsTextField.stringValue = initials(name: contactName, email: contactEmail)
+		initialsTextField.stringValue = AvatarView.initials(name: contactName, email: contactEmail)
 		avatarBackgroundColor = AvatarView.backgroundColor(for: colorIndex(for: contactEmail ?? contactName ?? ""))
 	}
 
@@ -285,7 +285,7 @@ open class AvatarView : NSView {
 	/// - returns: the color table entry for the given index
 	///
 	/// - note: Internal visibility exists only for unit testing
-	static func backgroundColor(for index: Int) -> NSColor {
+	@objc public static func backgroundColor(for index: Int) -> NSColor {
 		let avatarBackgroundColors = NSColor.avatarBackgroundColors
 		return avatarBackgroundColors[index % avatarBackgroundColors.count]
 	}
@@ -299,6 +299,47 @@ open class AvatarView : NSView {
 	/// the maximum number of initials to be displayed when we don't have an image
 	static let maximumNumberOfInitials = 2
 
+	/// Extract the initials to display from a name and email combo
+	///
+	/// - Parameters:
+	/// 	- contactName: the name of the contact with the format “<First Name> <Last Name>”
+	/// 	- contactEmail: the name of the contact with the format “<person>@<service>.<domain>"
+	///
+	/// - Returns: if a name is passed in, return the first character of the first two names separated
+	/// by a space if the first character is a letter. If no usable name is passed in
+	/// return the first character of the email address passed in. If no usable email address is passed
+	/// in, return the character `#`.
+	@objc static public func initials(name: String?, email: String?) -> String {
+		var initials: String? = nil
+
+		// Create a character set that includes standard whitespace and newlines as well as the zero width space
+		var whitespaceNewlineAndZeroWidthSpace = CharacterSet.whitespacesAndNewlines
+		whitespaceNewlineAndZeroWidthSpace.update(with: .zeroWidthSpace)
+
+		if let name = name, name.count > 0 {
+			let components = name.split(separator: " ").map { $0.trimmingCharacters(in: whitespaceNewlineAndZeroWidthSpace) }
+			let nameComponentsWithUnicodeLetterFirstCharacters = components.filter {
+				$0[$0.startIndex].isValidInitialsCharacter
+			}
+
+			if nameComponentsWithUnicodeLetterFirstCharacters.count > 0 {
+				initials = String(nameComponentsWithUnicodeLetterFirstCharacters.prefix(AvatarView.maximumNumberOfInitials).map { $0[$0.startIndex] })
+			}
+		}
+
+		if initials == nil,
+			let email = email?.trimmingCharacters(in: whitespaceNewlineAndZeroWidthSpace),
+			email.count > 0 {
+			let initialCharacter = email[email.startIndex]
+			if initialCharacter.isValidInitialsCharacter {
+				initials = String(initialCharacter)
+			}
+		}
+
+		// default to `Constants.fallbackInitial` when we have nothing to base our initials off of
+		return initials?.localizedUppercase ?? AvatarView.fallbackInitial
+	}
+
 }
 
 /// The various display styles of the Avatar View
@@ -307,47 +348,6 @@ fileprivate enum DisplayStyle {
 	case initials
 	/// Display the user's image cropped to a circular shape
 	case image
-}
-
-/// Extract the initials to display from a name and email combo
-///
-/// - Parameters:
-/// 	- contactName: the name of the contact with the format “<First Name> <Last Name>”
-/// 	- contactEmail: the name of the contact with the format “<person>@<service>.<domain>"
-///
-/// - Returns: if a name is passed in, return the first character of the first two names separated
-/// by a space if the first character is a letter. If no usable name is passed in
-/// return the first character of the email address passed in. If no usable email address is passed
-/// in, return the character `#`.
-func initials(name: String?, email: String?) -> String {
-	var initials: String? = nil
-
-	// Create a character set that includes standard whitespace and newlines as well as the zero width space
-	var whitespaceNewlineAndZeroWidthSpace = CharacterSet.whitespacesAndNewlines
-	whitespaceNewlineAndZeroWidthSpace.update(with: .zeroWidthSpace)
-
-	if let name = name, name.count > 0 {
-		let components = name.split(separator: " ").map { $0.trimmingCharacters(in: whitespaceNewlineAndZeroWidthSpace) }
-		let nameComponentsWithUnicodeLetterFirstCharacters = components.filter {
-			$0[$0.startIndex].isValidInitialsCharacter
-		}
-		
-		if nameComponentsWithUnicodeLetterFirstCharacters.count > 0 {
-			initials = String(nameComponentsWithUnicodeLetterFirstCharacters.prefix(AvatarView.maximumNumberOfInitials).map { $0[$0.startIndex] })
-		}
-	}
-	
-	if initials == nil,
-		let email = email?.trimmingCharacters(in: whitespaceNewlineAndZeroWidthSpace),
-		email.count > 0 {
-		let initialCharacter = email[email.startIndex]
-		if initialCharacter.isValidInitialsCharacter {
-			initials = String(initialCharacter)
-		}
-	}
-
-	// default to `Constants.fallbackInitial` when we have nothing to base our initials off of
-	return initials?.localizedUppercase ?? AvatarView.fallbackInitial
 }
 
 /// Returns a color table index for a given display name
