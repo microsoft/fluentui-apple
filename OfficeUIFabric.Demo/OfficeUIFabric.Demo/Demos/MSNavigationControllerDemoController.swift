@@ -24,6 +24,9 @@ class MSNavigationControllerDemoController: DemoController {
         addTitle(text: "Regular Title")
         container.addArrangedSubview(createButton(title: "Show \"system\" with collapsible search bar", action: #selector(showRegularTitleWithShyAccessory)))
         container.addArrangedSubview(createButton(title: "Show \"primary\" with fixed search bar", action: #selector(showRegularTitleWithFixedAccessory)))
+
+        addTitle(text: "Size Customization")
+        container.addArrangedSubview(createButton(title: "Show with expanded avatar, contracted title", action: #selector(showLargeTitleWithCustomizedElementSizes)))
     }
 
     @objc func showLargeTitle() {
@@ -62,7 +65,14 @@ class MSNavigationControllerDemoController: DemoController {
         presentController(withLargeTitle: false, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
     }
 
-    private func presentController(withLargeTitle useLargeTitle: Bool, style: MSNavigationBar.Style = .primary, accessoryView: UIView? = nil, contractNavigationBarOnScroll: Bool = true, showShadow: Bool = true) {
+    @objc func showLargeTitleWithCustomizedElementSizes() {
+        let controller = presentController(withLargeTitle: true, accessoryView: createAccessoryView())
+        controller.msNavigationBar.avatarSize = .expanded
+        controller.msNavigationBar.titleSize = .contracted
+    }
+
+    @discardableResult
+    private func presentController(withLargeTitle useLargeTitle: Bool, style: MSNavigationBar.Style = .primary, accessoryView: UIView? = nil, contractNavigationBarOnScroll: Bool = true, showShadow: Bool = true) -> MSNavigationController {
         let content = RootViewController()
         content.navigationItem.usesLargeTitle = useLargeTitle
         content.navigationItem.navigationBarStyle = style
@@ -76,6 +86,7 @@ class MSNavigationControllerDemoController: DemoController {
         controller.msNavigationBar.onAvatarTapped = handleAvatarTapped
         controller.modalPresentationStyle = .fullScreen
         present(controller, animated: false)
+        return controller
     }
 
     private func createAccessoryView(with style: MSSearchBar.Style = .lightContent) -> UIView {

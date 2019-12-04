@@ -46,6 +46,12 @@ open class MSNavigationBar: UINavigationBar {
         }
     }
 
+    /// Describes the sizing behavior of navigation bar elements (title, avatar, bar height)
+    @objc(MSNavigationBarElementSize)
+    public enum ElementSize: Int {
+        case automatic, contracted, expanded
+    }
+
     @objc(MSNavigationBarShadow)
     public enum Shadow: Int {
         case automatic
@@ -68,31 +74,57 @@ open class MSNavigationBar: UINavigationBar {
         static let revealingAnimationDuration: TimeInterval = 0.25 //duration of the animation fading out the Obscurant
     }
 
+    /// An object that conforms to the `MSAvatar` protocol and provides text and an optional image for display as an `MSAvatarView` next to the large title. Only displayed if `showsLargeTitle` is true on the current navigation item.
     open var avatar: MSAvatar? {
         didSet {
             titleView.avatar = avatar
         }
     }
 
+    /// A string to optionally customize the accessibility label of the large title's avatar
     open var avatarCustomAccessibilityLabel: String? {
         didSet {
             titleView.avatarCustomAccessibilityLabel = avatarCustomAccessibilityLabel
         }
     }
 
-    open var onAvatarTapped: (() -> Void)? {
+    /// An element size to describe the behavior of large title's avatar. If `.automatic`, avatar will resize when `expand(animated:)` and `contract(animated:)` are called.
+    open var avatarSize: ElementSize = .automatic {
         didSet {
-            titleView.avatarTapHandler = onAvatarTapped
+            titleView.avatarSize = avatarSize
+            updateBarHeight()
         }
     }
 
-    private var showsLargeTitle: Bool = true {
+    /// An element size to describe the behavior of the navigation bar's expanded height. Set automatically when the values of `avatarSize` and `titleSize` are changed. The bar will lock to expanded size if either element is set to `.expanded`, lock to contracted if both elements are `.contracted`, and stay automatic in any other case.
+    open private(set) var barHeight: ElementSize = .automatic {
         didSet {
-            if showsLargeTitle == oldValue {
+            guard barHeight != oldValue else {
                 return
             }
-            updateAccessibilityElements()
-            updateViewsForLargeTitlePresentation(for: topItem)
+            switch barHeight {
+            case .automatic:
+                return
+            case .contracted:
+                contract(true)
+            case .expanded:
+                expand(true)
+            }
+        }
+    }
+
+    /// An element size to describe the behavior of the navigation bar's large title. If `.automatic`, the title label will resize when `expand(animated:)` and `contract(animated:)` are called.
+    open var titleSize: ElementSize = .automatic {
+        didSet {
+            titleView.titleSize = titleSize
+            updateBarHeight()
+        }
+    }
+
+    /// An optional closure to be called when the avatar view is tapped, if it is present.
+    open var onAvatarTapped: (() -> Void)? {
+        didSet {
+            titleView.onAvatarTapped = onAvatarTapped
         }
     }
 
@@ -116,11 +148,20 @@ open class MSNavigationBar: UINavigationBar {
     let backgroundView = UIView() //used for coloration
     //used to cover the navigationbar during animated transitions between VCs
     private let obscurantView = UIView()
-
     private let contentStackView = ContentStackView() //used to contain the various custom UI Elements
     private let rightBarButtonItemsStackView = UIStackView()
     private let leftBarButtonItemsStackView = UIStackView()
     private let spacerView = UIView() //defines the space between the left and right barbuttonitems stack
+
+    private var showsLargeTitle: Bool = true {
+        didSet {
+            if showsLargeTitle == oldValue {
+                return
+            }
+            updateAccessibilityElements()
+            updateViewsForLargeTitlePresentation(for: topItem)
+        }
+    }
 
     //whether all bar button items are grouped on the right side
     private var allBarButtonItemsRightAligned: Bool = true
@@ -172,7 +213,7 @@ open class MSNavigationBar: UINavigationBar {
         updateViewsForLargeTitlePresentation(for: topItem)
 
         //obscurant
-        obscurantView.backgroundColor = self.backgroundView.backgroundColor
+        obscurantView.backgroundColor = backgroundView.backgroundColor
         contain(view: obscurantView)
         obscurantView.safelyHide() //starts in the default, hidden state
 
@@ -213,6 +254,16 @@ open class MSNavigationBar: UINavigationBar {
             bottom: contentIsExpanded ? -Constants.expandedContentHeightDifference : 0,
             trailing: Constants.contentTrailingMargin
         )
+    }
+
+    private func updateBarHeight() {
+        if avatarSize == .expanded || titleSize == .expanded {
+            barHeight = .expanded
+        } else if avatarSize == .contracted && titleSize == .contracted {
+            barHeight = .contracted
+        } else {
+            barHeight = .automatic
+        }
     }
 
     /// Guarantees that the custom UI remains on top of the subview stack
@@ -370,6 +421,11 @@ open class MSNavigationBar: UINavigationBar {
     ///
     /// - Parameter animated: to animate the expansion or not
     func expand(_ animated: Bool) {
+        titleView.expand(animated: animated)
+
+        guard barHeight != .contracted else {
+            return
+        }
         let updateLayout = {
             self.updateContentStackViewMargins(forExpandedContent: true)
         }
@@ -381,14 +437,21 @@ open class MSNavigationBar: UINavigationBar {
         } else {
             updateLayout()
         }
-
-        titleView.expand(animated: animated)
     }
 
     /// Coordinates contractions between the MSShyHeaderController, the navBar's TitleView, and the nav bar itself
     ///
     /// - Parameter animated: to animate the contraction or not
     func contract(_ animated: Bool) {
+        guard traitCollection.verticalSizeClass != .compact else {
+            return
+        }
+
+        titleView.contract(animated: animated)
+
+        guard barHeight != .expanded else {
+            return
+        }
         let updateLayout = {
             self.updateContentStackViewMargins(forExpandedContent: false)
         }
@@ -400,8 +463,6 @@ open class MSNavigationBar: UINavigationBar {
         } else {
             updateLayout()
         }
-
-        titleView.contract(animated: animated)
     }
 
     // MARK: - Accessibility Overrides

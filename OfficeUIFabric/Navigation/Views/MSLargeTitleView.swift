@@ -13,13 +13,6 @@ class MSLargeTitleView: UIView {
         case light, dark
     }
 
-    // used to control expand/contract behavior, if desired
-    enum LargeTitleSizeLock: Int {
-        case unlocked = 0
-        case lockedSmall = 1
-        case lockedLarge = 2
-    }
-
     private struct Constants {
         static let horizontalSpacing: CGFloat = 10
 
@@ -30,24 +23,22 @@ class MSLargeTitleView: UIView {
         static let titleFont: UIFont = MSFonts.largeTitle
     }
 
-    // defaults to unlocked to allow expansion/contraction
-    // on set, will update the UI to match, without animation
-    var titleSizeLock: LargeTitleSizeLock = .unlocked {
-        didSet {
-            switch titleSizeLock {
-            case .unlocked:
-                return
-            case .lockedSmall:
-                self.contract(animated: false)
-            case .lockedLarge:
-                self.expand(animated: false)
-            }
-        }
-    }
-
     var avatar: MSAvatar? {
         didSet {
             [avatarView, smallMorphingAvatarView].forEach { $0?.setup(avatar: avatar) }
+        }
+    }
+
+    var avatarSize: MSNavigationBar.ElementSize = .automatic {
+        didSet {
+            switch avatarSize {
+            case .automatic:
+                return
+            case .contracted:
+                avatarView?.avatarSize = Constants.compactAvatarSize
+            case .expanded:
+                avatarView?.avatarSize = Constants.avatarSize
+            }
         }
     }
 
@@ -63,7 +54,20 @@ class MSLargeTitleView: UIView {
         }
     }
 
-    var avatarTapHandler: (() -> Void)? // called in response to a tap on the MSAvatarView
+    var titleSize: MSNavigationBar.ElementSize = .automatic {
+        didSet {
+            switch titleSize {
+            case .automatic:
+                return
+            case .contracted:
+                titleButton.titleLabel?.font = Constants.compactTitleFont
+            case .expanded:
+                titleButton.titleLabel?.font = Constants.titleFont
+            }
+        }
+    }
+
+    var onAvatarTapped: (() -> Void)? // called in response to a tap on the MSAvatarView
 
     private var colorForStyle: UIColor {
         switch style {
@@ -88,9 +92,6 @@ class MSLargeTitleView: UIView {
     private let contentStackView = UIStackView() // containing stack view
 
     private let tapGesture = UITapGestureRecognizer() // tap used to trigger expansion. Applied to entire navigation bar
-
-    private var expansionAnimation: (() -> Void)? // block changing various UI properties to the "expanded" state
-    private var contractionAnimation: (() -> Void)? // block changing various UI properties to the "contracted" state
 
     private var showsProfileButton: Bool = true { // whether to display the customizable profile button
         didSet {
@@ -131,7 +132,7 @@ class MSLargeTitleView: UIView {
         // default avatar view setup
         let avatarView = ProfileView(avatarSize: Constants.avatarSize)
         avatarView.setup(avatar: avatar)
-        avatarView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(avatarViewTapGestureRecognizerRecognized)))
+        avatarView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleAvatarViewTapped)))
         self.avatarView = avatarView
         contentStackView.addArrangedSubview(avatarView)
 
@@ -152,7 +153,7 @@ class MSLargeTitleView: UIView {
         // title button setup
         contentStackView.addArrangedSubview(titleButton)
         titleButton.setTitle(nil, for: .normal)
-        titleButton.titleLabel?.font = MSNavigationController.showsShyHeaderByDefault ? Constants.titleFont : Constants.compactTitleFont
+        titleButton.titleLabel?.font = Constants.titleFont
         titleButton.setTitleColor(colorForStyle, for: .normal)
         titleButton.titleLabel?.textAlignment = .left
         titleButton.contentHorizontalAlignment = .left
@@ -161,36 +162,12 @@ class MSLargeTitleView: UIView {
         titleButton.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
         // tap gesture for entire titleView
-        tapGesture.addTarget(self, action: #selector(MSLargeTitleView.tapGestureRecognizerRecognized(sender:)))
+        tapGesture.addTarget(self, action: #selector(MSLargeTitleView.handleTitleViewTapped(sender:)))
         addGestureRecognizer(tapGesture)
     }
 
     // Declares animation closures used for title expansion/contraction
     private func setupAnimations() {
-        // expansion animation declaration
-        self.expansionAnimation = {
-            self.titleButton.titleLabel?.font = Constants.titleFont
-
-            self.avatarView?.avatarSize = Constants.avatarSize
-
-            self.contentStackView.spacing = Constants.horizontalSpacing - 1 //!!! need this otherwise animation gets broken
-            self.contentStackView.spacing = Constants.horizontalSpacing
-
-            self.layoutIfNeeded()
-        }
-
-        // contraction animation declaration
-        self.contractionAnimation = {
-            self.titleButton.titleLabel?.font = Constants.compactTitleFont
-
-            self.avatarView?.avatarSize = Constants.compactAvatarSize
-
-            self.contentStackView.spacing = Constants.horizontalSpacing - 1 //!!! need this otherwise animation gets broken
-            self.contentStackView.spacing = Constants.horizontalSpacing
-
-            self.layoutIfNeeded()
-        }
-
         /// construct an animator for the avatarView's transform property
         let smallMorphingAvatarViewAnimator = UIViewPropertyAnimator(duration: MSNavigationBar.expansionContractionAnimationDuration, curve: .linear) {
             self.smallMorphingAvatarView?.transform = CGAffineTransform.identity
@@ -208,13 +185,43 @@ class MSLargeTitleView: UIView {
         })
     }
 
+    private func expansionAnimation() {
+        if titleSize == .automatic {
+            titleButton.titleLabel?.font = Constants.titleFont
+        }
+
+        if avatarSize == .automatic {
+            avatarView?.avatarSize = Constants.avatarSize
+        }
+
+        contentStackView.spacing = Constants.horizontalSpacing - 1 //!!! need this otherwise animation gets broken
+        contentStackView.spacing = Constants.horizontalSpacing
+
+        layoutIfNeeded()
+    }
+
+    private func contractionAnimation() {
+        if titleSize == .automatic {
+            titleButton.titleLabel?.font = Constants.compactTitleFont
+        }
+
+        if avatarSize == .automatic {
+            avatarView?.avatarSize = Constants.compactAvatarSize
+        }
+
+        contentStackView.spacing = Constants.horizontalSpacing - 1 //!!! need this otherwise animation gets broken
+        contentStackView.spacing = Constants.horizontalSpacing
+
+        layoutIfNeeded()
+    }
+
     // MARK: - UIActions
 
     /// Target for the tap gesture on the avatar view, as it is not a button
     ///
     /// - Parameter gesture: tap gesture on the MSAvatarView
-    @objc private func avatarViewTapGestureRecognizerRecognized(gesture: UITapGestureRecognizer) {
-        avatarTapHandler?()
+    @objc private func handleAvatarViewTapped(gesture: UITapGestureRecognizer) {
+        onAvatarTapped?()
     }
 
     /// Target for the Title Button's touchUpInside
@@ -230,7 +237,7 @@ class MSLargeTitleView: UIView {
     /// Target for the NavigationBar tap gesture
     ///
     /// - Parameter sender: the tap gesture
-    @objc private func tapGestureRecognizerRecognized(sender: UITapGestureRecognizer) {
+    @objc private func handleTitleViewTapped(sender: UITapGestureRecognizer) {
         guard respondsToTaps else {
             return
         }
@@ -239,7 +246,7 @@ class MSLargeTitleView: UIView {
 
     /// Posts a notification requesting that the navigation bar be animated into its larger state
     private func requestExpansion() {
-        NotificationCenter.default.post(name: NSNotification.Name.accessoryContentViewExpansionRequested, object: self)
+        NotificationCenter.default.post(name: .accessoryExpansionRequested, object: self)
     }
 
     // MARK: - Content Update Methods
@@ -257,18 +264,15 @@ class MSLargeTitleView: UIView {
     ///
     /// - Parameter animated: to animate the block or not
     func expand(animated: Bool) {
-        // Exit early if we're not allowed to expand
-        guard self.titleSizeLock != .lockedSmall else {
-            return
-        }
-        guard let expansion = self.expansionAnimation else {
+        // Exit early if neither element's size is automatic
+        guard titleSize == .automatic || avatarSize == .automatic else {
             return
         }
         if animated {
-            UIView.animate(withDuration: MSNavigationBar.expansionContractionAnimationDuration, animations: expansion)
+            UIView.animate(withDuration: MSNavigationBar.expansionContractionAnimationDuration, animations: expansionAnimation)
             morphSmallAvatarView(expanding: true)
         } else {
-            expansion()
+            expansionAnimation()
         }
     }
 
@@ -276,18 +280,15 @@ class MSLargeTitleView: UIView {
     ///
     /// - Parameter animated: to animate the block or not
     func contract(animated: Bool) {
-        // Exit early if we're not allowed to contract
-        guard self.titleSizeLock != .lockedLarge else {
-            return
-        }
-        guard let contraction = self.contractionAnimation else {
+        // Exit early if neither element's size is automatic
+        guard titleSize == .automatic || avatarSize == .automatic else {
             return
         }
         if animated {
-            UIView.animate(withDuration: MSNavigationBar.expansionContractionAnimationDuration, animations: contraction)
+            UIView.animate(withDuration: MSNavigationBar.expansionContractionAnimationDuration, animations: contractionAnimation)
             morphSmallAvatarView(expanding: false)
         } else {
-            contraction()
+            contractionAnimation()
         }
     }
 
@@ -307,6 +308,10 @@ class MSLargeTitleView: UIView {
     ///
     /// - Parameter expanding: used to decide reversal of the animator
     private func morphSmallAvatarView(expanding: Bool) {
+        guard avatarSize == .automatic else {
+            return
+        }
+
         smallMorphingAvatarView?.alpha = 1.0
         smallMorphingAvatarViewAnimator?.isReversed = expanding
         smallMorphingAvatarViewAnimator?.startAnimation()
@@ -323,7 +328,7 @@ class MSLargeTitleView: UIView {
 // MARK: - Notification.Name Declarations
 
 extension NSNotification.Name {
-    static let accessoryContentViewExpansionRequested = Notification.Name("microsoft.officeUIFabric.accessoryContentViewExpansionRequestedNotification")
+    static let accessoryExpansionRequested = Notification.Name("microsoft.officeUIFabric.accessoryExpansionRequested")
 }
 
 // MARK: - ProfileView

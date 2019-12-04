@@ -51,10 +51,11 @@ class MSShyHeaderView: UIView {
         }
     }
 
+    static let shyContainerContentInsets = UIEdgeInsets(top: 6, left: 16, bottom: 10, right: 16) //content insets of the stack inside the header view
+
     private struct Constants {
-        static let maxHeightNoAccessory: CGFloat = 12
+        static let paddingHeight: CGFloat = 12
         static let maxHeightWithAccessory: CGFloat = 52
-        static let shyContainerContentInsets = UIEdgeInsets(top: 6, left: 16, bottom: 10, right: 16) //content insets of the stack inside the header view
     }
 
     /// Header's current state
@@ -91,7 +92,15 @@ class MSShyHeaderView: UIView {
         }
     }
 
-    var maxHeight: CGFloat { return accessoryView == nil ? Constants.maxHeightNoAccessory : Constants.maxHeightWithAccessory }
+    var maxHeight: CGFloat {
+        return accessoryView == nil ? maxHeightNoAccessory : Constants.maxHeightWithAccessory
+    }
+
+    var lockedInContractedState: Bool = false
+
+    private var maxHeightNoAccessory: CGFloat {
+        return lockedInContractedState ? 0.0 : Constants.paddingHeight
+    }
 
     var navigationBarStyle: MSNavigationBar.Style = .primary {
         didSet {
@@ -146,10 +155,10 @@ class MSShyHeaderView: UIView {
         contentStackView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentStackView)
         NSLayoutConstraint.activate([
-            contentStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: Constants.shyContainerContentInsets.left),
-            contentStackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -1 * Constants.shyContainerContentInsets.right),
-            contentStackView.topAnchor.constraint(equalTo: topAnchor, constant: Constants.shyContainerContentInsets.top),
-            contentStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1 * Constants.shyContainerContentInsets.bottom)
+            contentStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: Self.shyContainerContentInsets.left),
+            contentStackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -1 * Self.shyContainerContentInsets.right),
+            contentStackView.topAnchor.constraint(equalTo: topAnchor, constant: Self.shyContainerContentInsets.top),
+            contentStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1 * Self.shyContainerContentInsets.bottom)
         ])
     }
 

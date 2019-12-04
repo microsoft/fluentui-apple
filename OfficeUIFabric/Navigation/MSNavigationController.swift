@@ -10,8 +10,6 @@ import UIKit
 /// `UINavigationController` subclass that supports Large Title presentation and accessory view by wrapping each view controller that needs this functionality into a controller that provides the required behavior. The original view controller can be accessed by using `topContentViewController` or `contentViewController(for:)`.
 @objcMembers
 open class MSNavigationController: UINavigationController {
-    static let showsShyHeaderByDefault: Bool = true //will display/hide the shy container header at startup depending on value
-
     open var msNavigationBar: MSNavigationBar {
         guard let msNavBar = navigationBar as? MSNavigationBar else {
             fatalError("The navigation bar is either not present or not the correct class")

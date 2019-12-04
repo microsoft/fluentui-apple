@@ -11,6 +11,8 @@ import UIKit
 /// Manages logic around contained scroll views, using the offset to animate the exposure of the header view
 class MSShyHeaderController: UIViewController {
     private struct Constants {
+        static let paddingHeightTotal: CGFloat = 12.0
+        static let paddingViewHeight: CGFloat = paddingHeightTotal - MSShyHeaderView.shyContainerContentInsets.bottom
         static let headerShowHideAnimationDuration: TimeInterval = 0.2 //how long a full expansion should take, when not defined by a gesture interaction
         static let swipeThresholdVelocity: CGFloat = 10.0 //swipes under this threshold will not expose the header view. Above (faster than) this threshold will begin expansion
         static let shyHeaderShowHideDecisionProgressThreshold: CGFloat = 0.4 // the threshold for which an incomplete expansion will move towards completion/contraction on a no-velocity release of a scrollView pan gesture
@@ -28,15 +30,28 @@ class MSShyHeaderController: UIViewController {
         contentContainerView.backgroundColor = UIColor(red: 0.20, green: 0.20, blue: 0.20, alpha: 1.00)
         return contentContainerView
     }()
+
+    private let paddingView = UIView()
+    private var paddingHeightConstraint: NSLayoutConstraint?
     private let shyHeaderView = MSShyHeaderView() //header view, displayed above the content view
     private var shyViewTopConstraint: NSLayoutConstraint? //animatable constraint used to show/hide the header
+    private var shyViewHeightConstraint: NSLayoutConstraint?
+    private var shyViewMaxScrollHeight: CGFloat {
+        var maxHeight = shyHeaderView.maxHeight
+        if paddingIsStatic {
+            maxHeight -= Constants.paddingHeightTotal
+        }
+        return maxHeight
+    }
+
+    private var contentHeightObserver: NSKeyValueObservation?
 
     private var contentScrollView: UIScrollView? {
         didSet {
             oldValue?.panGestureRecognizer.removeTarget(self, action: nil)
 
             if let scrollView = contentScrollView {
-                scrollView.panGestureRecognizer.addTarget(self, action: #selector(contentScrollViewPanGestureRecognizerRecognized(gesture:)))
+                scrollView.panGestureRecognizer.addTarget(self, action: #selector(handleContentScrollViewPanned(gesture:)))
             } else {
                 updateHeader(with: 1.0, expanding: true)
             }
@@ -87,7 +102,10 @@ class MSShyHeaderController: UIViewController {
         super.viewWillAppear(animated)
         if let navBarStyle = msNavigationController?.msNavigationBar.actualStyle(for: navigationItem) {
             shyHeaderView.navigationBarStyle = navBarStyle
+            view.backgroundColor = navBarStyle.backgroundColor
+            paddingView.backgroundColor = navBarStyle.backgroundColor
         }
+        updatePadding()
     }
 
     // MARK: - Base Construction
@@ -97,6 +115,28 @@ class MSShyHeaderController: UIViewController {
     private func setupBaseLayout() {
         var constraints = [NSLayoutConstraint]()
 
+        // PaddingView
+
+        paddingView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(paddingView)
+
+        let paddingHeight = paddingView.heightAnchor.constraint(equalToConstant: paddingIsStatic ? Constants.paddingViewHeight : 0)
+        paddingHeight.identifier = "paddingView_height"
+        constraints.append(paddingHeight)
+        paddingHeightConstraint = paddingHeight
+
+        let paddingLeading = paddingView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+        paddingHeight.identifier = "paddingView_leading"
+        constraints.append(paddingLeading)
+
+        let paddingTrailing = paddingView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        paddingTrailing.identifier = "paddingView_trailing"
+        constraints.append(paddingTrailing)
+
+        let paddingTop = paddingView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+        paddingTop.identifier = "shyView_top"
+        constraints.append(paddingTop)
+
         // ShyHeaderView
 
         shyHeaderView.translatesAutoresizingMaskIntoConstraints = false
@@ -105,6 +145,7 @@ class MSShyHeaderController: UIViewController {
         let shyHeight = shyHeaderView.heightAnchor.constraint(equalToConstant: shyHeaderView.maxHeight)
         shyHeight.identifier = "shyView_height"
         constraints.append(shyHeight)
+        shyViewHeightConstraint = shyHeight
 
         let shyLeading = shyHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         shyLeading.identifier = "shyView_leading"
@@ -114,10 +155,10 @@ class MSShyHeaderController: UIViewController {
         shyTrailing.identifier = "shyView_trailing"
         constraints.append(shyTrailing)
 
-        let shyTop = shyHeaderView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: MSNavigationController.showsShyHeaderByDefault ? 0.0 : -shyHeaderView.maxHeight)
+        let shyTop = shyHeaderView.topAnchor.constraint(equalTo: paddingView.topAnchor)
         shyTop.identifier = "shyView_top"
         constraints.append(shyTop)
-        self.shyViewTopConstraint = shyTop
+        shyViewTopConstraint = shyTop
 
         // ContentContainerView
 
@@ -144,26 +185,25 @@ class MSShyHeaderController: UIViewController {
 
         // Make sure shy header is always on top so it can show a shadow which is positioned outside of its bounds
         view.bringSubviewToFront(shyHeaderView)
+        view.bringSubviewToFront(paddingView)
     }
 
-    /// Observed Notifications:
-    ///  1. accessoryContentViewExpansionRequestedNotification
-    ///  2. accessoryContentViewContractionRequestedNotification
     private func setupNotificationObservers() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(MSShyHeaderController.accessoryContentViewExpansionRequestedNotificationReceived(notification:)),
-                                               name: NSNotification.Name.accessoryContentViewExpansionRequested,
-                                               object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleAccessoryExpansionRequested), name: .accessoryExpansionRequested, object: nil)
+        contentHeightObserver = msNavigationController?.msNavigationBar.observe(\.barHeight) { [unowned self] _, _ in
+            self.handleNavigationBarContentHeightChanged()
+        }
     }
 
-    /// Shows the accessoryContent, if the content provider has given us one
-    ///
-    /// - Parameter notification: accessoryContentViewExpansionRequestedNotificationReceived
-    @objc private func accessoryContentViewExpansionRequestedNotificationReceived(notification: NSNotification) {
+    @objc private func handleAccessoryExpansionRequested(notification: NSNotification) {
         guard shouldAcceptRequest(from: notification.object) else {
             return
         }
         expandAccessory()
+    }
+
+    @objc private func handleNavigationBarContentHeightChanged() {
+        updatePadding()
     }
 
     /// Determines if the provided expansion RequestOriginator should be allowed to act on this ShyContainer
@@ -195,13 +235,27 @@ class MSShyHeaderController: UIViewController {
         return true
     }
 
+    private func updatePadding() {
+        shyHeaderView.lockedInContractedState = msNavigationController?.msNavigationBar.barHeight == .contracted
+        paddingHeightConstraint?.constant = paddingIsStatic ? Constants.paddingViewHeight : 0
+        shyViewHeightConstraint?.constant = shyHeaderView.maxHeight
+        if shyHeaderView.exposure == .concealed {
+            shyViewTopConstraint?.constant = -1 * shyViewMaxScrollHeight
+        }
+    }
+
+    private var paddingIsStatic: Bool {
+        let isLandscape = traitCollection.verticalSizeClass == .compact
+        return isLandscape || msNavigationController?.msNavigationBar.barHeight == .expanded
+    }
+
     // MARK: - Gesture-Based Shy Behavior Methods
 
     /// Directs the gesture to the relevant shy-driving layout methods, depending on the state
     /// Ignores beginning, cancelled, and failed gestures
     ///
     /// - Parameter gesture: the pan gesture that fired
-    @objc private func contentScrollViewPanGestureRecognizerRecognized(gesture: UIPanGestureRecognizer) {
+    @objc private func handleContentScrollViewPanned(gesture: UIPanGestureRecognizer) {
         switch gesture.state {
         case .changed:
             processMovingPanGesture(gesture: gesture)
@@ -281,7 +335,7 @@ class MSShyHeaderController: UIViewController {
                 if abs(previousContentScrollViewTraits.yVelocity) > MSShyHeaderController.Constants.swipeThresholdVelocity { //hot release (exceeds threshold, a "toss")
 
                     let newProgress: CGFloat = swipeDirection == .up ? 0.0 : 1.0
-                    self.updateHeader(with: newProgress, expanding: wouldExpandHeader)
+                    updateHeader(with: newProgress, expanding: wouldExpandHeader)
                 }
             }
             logUpdatedTraits()
@@ -292,32 +346,45 @@ class MSShyHeaderController: UIViewController {
             fatalError("Proper shyView autolayout was not constructed")
         }
 
-        let currentHeight: CGFloat = shyHeaderView.maxHeight - abs(topConstraint.constant) // current height of the header, calculated using the negative autolayout constraint constant
+        let maxHeight = shyViewMaxScrollHeight
+        let currentHeight: CGFloat = maxHeight - abs(topConstraint.constant) // current height of the header, calculated using the negative autolayout constraint constant
         let newOffset = yOffset - previousContentScrollViewTraits.yOffset
         let offsetDiff = abs(newOffset) // calculate the change in offset since the last update
 
-        scrollView.contentOffset = CGPoint(x: scrollView.contentOffset.x, y: previousContentScrollViewTraits.yOffset)
+        // Reset contentOffset.y only when there is contractable height
+        if currentHeight > 0 {
+            scrollView.contentOffset = CGPoint(x: scrollView.contentOffset.x, y: previousContentScrollViewTraits.yOffset)
+        }
+
+        if maxHeight <= 0.0 {
+            if swipeDirection == .down && scrollView.scrollLocationDescriptor != .excessivelyPrecedingContent {
+                updateHeader(with: 1.0, expanding: true)
+            } else if swipeDirection == .up {
+                updateHeader(with: 0.0, expanding: false)
+            }
+            logUpdatedTraits()
+            return
+        }
 
         var newHeight: CGFloat?
 
         if swipeDirection == .down && scrollView.scrollLocationDescriptor != .excessivelyPrecedingContent { //if the user is swiping down, but not past the content origin
-            newHeight = min(shyHeaderView.maxHeight, currentHeight + offsetDiff) //the new height, no greater than the max height
+            newHeight = min(maxHeight, currentHeight + offsetDiff) //the new height, no greater than the max height
         } else if swipeDirection == .up { //else if the user is swiping up
             newHeight = max(-1.0, currentHeight - offsetDiff) //the new height, no lesser than 0
         }
 
         if let newHeight = newHeight {
-            let newProgress = newHeight / shyHeaderView.maxHeight //progress, based on 0.0 being concealed and 1.0 being exposed
-            self.updateHeader(with: newProgress, expanding: wouldExpandHeader)
+            let newProgress = newHeight / maxHeight //progress, based on 0.0 being concealed and 1.0 being exposed
+            updateHeader(with: newProgress, expanding: wouldExpandHeader)
         }
 
-        self.previousContentScrollViewTraits = MSContentScrollViewTraits(yVelocity: velocity,
-                                                                         userScrolling: scrollView.userIsScrolling,
-                                                                         scrollDirection: newScrollDirection,
-                                                                         switchedDirection: switchedDirection,
-                                                                         yOffset: previousContentScrollViewTraits.yOffset,
-                                                                         scrollLocationDescriptor: scrollView.scrollLocationDescriptor)
-
+        previousContentScrollViewTraits = MSContentScrollViewTraits(yVelocity: velocity,
+                                                                    userScrolling: scrollView.userIsScrolling,
+                                                                    scrollDirection: newScrollDirection,
+                                                                    switchedDirection: switchedDirection,
+                                                                    yOffset: scrollView.contentOffset.y,
+                                                                    scrollLocationDescriptor: scrollView.scrollLocationDescriptor)
     }
 
     /// Converts the properties of a UIPanGesture with a .ended state into the proper shy behaviors
@@ -409,9 +476,10 @@ class MSShyHeaderController: UIViewController {
     ///
     /// - Parameter progress: fraction of exposure, used to calculate the top constraint's constant
     private func calculateAndSetNewShyContainerTopConstraint(withProgress progress: CGFloat) {
-        let prospectiveHeight = shyHeaderView.maxHeight * progress //fraction of the height value
-        let newHeight = prospectiveHeight > 0.0 ? prospectiveHeight : 0.0 //guarantee its above a min value (0.0)
-        let constant = (-1.0 * shyHeaderView.maxHeight) + newHeight //the layout is acheived by raising the top of the shyHeader, so layout constants are negative
+        let maxHeight = shyViewMaxScrollHeight
+        let prospectiveHeight = maxHeight * progress //fraction of the height value
+        let newHeight = prospectiveHeight > 0 ? prospectiveHeight : 0 //guarantee its above a min value (0.0)
+        let constant = -1.0 * maxHeight + newHeight //the layout is acheived by raising the top of the shyHeader, so layout constants are negative
 
         shyViewTopConstraint?.constant = constant
         shyHeaderView.setNeedsLayout()
@@ -483,8 +551,18 @@ class MSShyHeaderController: UIViewController {
         // you can end up with a scenario where the contraction occurs but the subsequent expansion cannot
         let totalContentHeight = scrollView.contentSize.height + scrollView.contentInset.top + scrollView.contentInset.bottom
         let progress = shyHeaderView.exposure.progress
-        let availableScrollHeight = scrollView.frame.size.height - scrollView.safeAreaInsets.bottom - (shyHeaderView.frame.size.height * (1.0 - progress))
+        let availableScrollHeight = scrollView.frame.size.height - scrollView.safeAreaInsets.bottom - (shyViewMaxScrollHeight * (1.0 - progress))
 
         return totalContentHeight > availableScrollHeight
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        updatePadding()
+        calculateAndSetNewShyContainerTopConstraint(withProgress: shyHeaderView.exposure.progress)
+        if traitCollection.verticalSizeClass == .compact {
+            msNavigationController?.msNavigationBar.expand(false)
+        } else if shyHeaderView.exposure == .concealed {
+            msNavigationController?.msNavigationBar.contract(false)
+        }
     }
 }
