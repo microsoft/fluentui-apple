@@ -132,7 +132,17 @@ class CalendarView: NSView {
         }
     }
     
-    weak var delegate: CalendarViewDelegate?
+	weak var delegate: CalendarViewDelegate?
+
+	/// The custom color of the CalendarDayButtons when selected
+	/// - note: Setting this to nil results in using a default color
+	var customSelectionColor: NSColor? {
+		didSet {
+			buttonViews.forEach {
+				$0.customSelectionColor = customSelectionColor
+			}
+		}
+	}
     
     let buttonViews: [CalendarDayButton] = {
         var buttonViews: [CalendarDayButton] = []

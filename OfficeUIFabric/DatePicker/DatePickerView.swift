@@ -244,6 +244,16 @@ class DatePickerView: NSView {
             calendarStackView.setViews([calendarViews.leading, calendarViews.center, calendarViews.trailing], in: .center)
         }
     }
+
+	/// The custom color of the selected buttons of the CalendarView
+	/// - note: Setting this to nil results in using a default color
+	var customSelectionColor: NSColor? {
+		didSet {
+			[calendarViews.leading, calendarViews.center, calendarViews.trailing].forEach {
+				$0.customSelectionColor = customSelectionColor
+			}
+		}
+	}
     
     /// Internal storage of the stack view that holds the calendar views
     private let calendarStackView = NSStackView()

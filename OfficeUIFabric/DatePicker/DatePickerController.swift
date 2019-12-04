@@ -53,7 +53,15 @@ open class DatePickerController: NSViewController {
     
     /// The date picker controller's delegate
     @objc public weak var delegate: DatePickerControllerDelegate?
-    
+
+	/// A custom color override for the selected date of this date picker
+	/// - note: Setting this to nil results in using a default color
+	@objc public var customSelectionColor: NSColor? {
+		didSet {
+			datePicker.customSelectionColor = customSelectionColor
+		}
+	}
+
     /// Currently selected date
     var selectedDate: Date {
         return calendar.startOfDay(for: selectedDateTime)

@@ -62,9 +62,32 @@ class TestDatePickerController: NSViewController {
         
         menu.addItem(menuItem)
         menuButton.menu = menu
-        
-        containerView.addView(menuButton, in: .center)
-        
+
+		// Buttons for setting and clearing a custom color
+		let colorPickerButton = NSButton(title: "Launch Color Picker", target: self, action: #selector(launchColorPicker))
+		let clearCustomColorButton = NSButton(title: "Clear custom color", target: self, action: #selector(clearCustomColor))
+
+		[menuButton, colorPickerButton, clearCustomColorButton].forEach {
+			containerView.addView($0, in: .center)
+		}
+
         view = containerView
     }
+
+	@objc func clearCustomColor() {
+		datePickerController?.customSelectionColor = nil
+		menuDatePickerController?.customSelectionColor = nil
+	}
+
+	@objc func launchColorPicker() {
+		let panel = NSColorPanel.shared
+		panel.setTarget(self)
+		panel.setAction(#selector(changeColor(_:)))
+		panel.makeKeyAndOrderFront(nil)
+	}
+
+	@objc func changeColor(_ sender: NSColorPanel?) {
+		datePickerController?.customSelectionColor = sender?.color
+		menuDatePickerController?.customSelectionColor = sender?.color
+	}
 }

@@ -101,9 +101,9 @@ class CalendarDayButton: NSButton {
             textLayer.addSublayer(highlightLayer)
             textLayer.font = NSFont.boldSystemFont(ofSize: fontSize)
             if #available(OSX 10.14, *) {
-                highlightLayer.backgroundColor = NSColor.controlAccentColor.cgColor
+				highlightLayer.backgroundColor = customSelectionColor?.cgColor ?? NSColor.controlAccentColor.cgColor
             } else {
-                highlightLayer.backgroundColor = NSColor.systemBlue.cgColor
+				highlightLayer.backgroundColor = customSelectionColor?.cgColor ?? NSColor.systemBlue.cgColor
             }
         case .off:
             if highlightLayer.superlayer != nil {
@@ -183,6 +183,14 @@ class CalendarDayButton: NSButton {
     }
     
     private let size: CGFloat
+
+	/// A custom color for this CalendarDayButton
+	/// - note: Setting this to nil results in using a default color
+	var customSelectionColor: NSColor? {
+		didSet {
+			setNeedsDisplay()
+		}
+	}
     
     private let textLayer = CenteredTextLayer()
     private let highlightLayer = CALayer()
