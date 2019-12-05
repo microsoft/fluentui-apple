@@ -222,6 +222,16 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
     @objc open func setup(style: Style, title: String, accessoryButtonTitle: String = "") {
         titleLabel.text = title
 
+        setup(style: style, accessoryButtonTitle: accessoryButtonTitle)
+    }
+
+    @objc open func setup(style: Style, attributedTitle: NSAttributedString, accessoryButtonTitle: String = "") {
+        titleLabel.attributedText = attributedTitle
+
+        setup(style: style, accessoryButtonTitle: accessoryButtonTitle)
+    }
+
+    private func setup(style: Style, accessoryButtonTitle: String) {
         switch style {
         case .header, .divider, .dividerHighlighted:
             titleLabel.accessibilityTraits.insert(.header)
