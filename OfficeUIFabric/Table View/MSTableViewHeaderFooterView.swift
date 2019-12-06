@@ -280,6 +280,15 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
         contentView.flipSubviewsForRTL()
     }
 
+    open override func prepareForReuse() {
+        super.prepareForReuse()
+
+        accessoryButtonStyle = .regular
+        titleNumberOfLines = 1
+
+        onAccessoryButtonTapped = nil
+    }
+
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
         return CGSize(
             width: type(of: self).preferredWidth(

@@ -1039,6 +1039,40 @@ open class MSTableViewCell: UITableViewCell {
         }
     }
 
+    open override func prepareForReuse() {
+        super.prepareForReuse()
+
+        titleNumberOfLines = 1
+        subtitleNumberOfLines = 1
+        footerNumberOfLines = 1
+
+        titleNumberOfLinesForLargerDynamicType = Self.defaultNumberOfLinesForLargerDynamicType
+        subtitleNumberOfLinesForLargerDynamicType = Self.defaultNumberOfLinesForLargerDynamicType
+        footerNumberOfLinesForLargerDynamicType = Self.defaultNumberOfLinesForLargerDynamicType
+
+        titleLineBreakMode = .byTruncatingTail
+        subtitleLineBreakMode = .byTruncatingTail
+        footerLineBreakMode = .byTruncatingTail
+
+        titleLeadingAccessoryView = nil
+        titleTrailingAccessoryView = nil
+        subtitleLeadingAccessoryView = nil
+        subtitleTrailingAccessoryView = nil
+        footerLeadingAccessoryView = nil
+        footerTrailingAccessoryView = nil
+
+        customViewSize = .default
+        customAccessoryViewExtendsToEdge = false
+
+        topSeparatorType = .none
+        bottomSeparatorType = .inset
+
+        isEnabled = true
+        isInSelectionMode = false
+
+        onAccessoryTapped = nil
+    }
+
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
         let maxWidth = size.width != 0 ? size.width : .infinity
         return CGSize(
