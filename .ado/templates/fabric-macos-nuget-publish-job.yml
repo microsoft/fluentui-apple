@@ -7,6 +7,12 @@ jobs:
   timeoutInMinutes: 60 # how long to run the job before automatically cancelling
   cancelTimeoutInMinutes: 5 # how much time to give 'run always even if cancelled tasks' before killing them
   steps:
+
+  # Install NuGet v4.6.4+
+  - task: NuGetToolInstaller@1
+    inputs:
+      versionSpec: '>=4.6.4'
+
   - task: Npm@1
     displayName: 'npm install'
     inputs:
@@ -26,7 +32,7 @@ jobs:
       xcode_configuration: 'Release'
       xcode_extraArgs: 'OTHER_SWIFT_FLAGS=-gline-tables-only CLANG_DEBUG_INFORMATION_LEVEL=line-tables-only BUILD_LIBRARY_FOR_DISTRIBUTION=YES'
 
-  # Replace all nuspec files __BuildBuildNumber__ and __OUTPUTDIR__ fields
+  # generate the nuspecsToPack and sanitizedBuildNumber environment variables
 
   - script: 'node scripts/vsto-collect-nuspec.js apple'
     displayName: 'Generate versioned nuspec files'
@@ -38,7 +44,7 @@ jobs:
     inputs:
       command: pack
       packagesToPack: '$(nuspecsToPack)'
-    continueOnError: true
+      buildProperties: buildNumber=$(sanitizedBuildNumber);commitId=$(Build.SourceVersion);repoUri=$(Build.Repository.Uri)
 
   # push packages
 

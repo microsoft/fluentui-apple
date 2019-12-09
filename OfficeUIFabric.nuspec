@@ -2,10 +2,11 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Microsoft.Office.UIFabric.macOS</id>
-    <version>__BuildBuildNumber__</version>
+    <version>$buildNumber$</version>
     <description>Contains implementations of Office UI Fabric for macOS</description>
     <authors>Microsoft</authors>
     <projectUrl>https://dev.azure.com/office/ISS/_git/fabric-macos</projectUrl>
+    <repository type="git" url="$repoUri$" commit="$commitId$" />
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
   </metadata>
   <files>
