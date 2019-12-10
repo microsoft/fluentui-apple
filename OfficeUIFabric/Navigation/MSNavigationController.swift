@@ -24,6 +24,10 @@ open class MSNavigationController: UINavigationController {
         return contentViewController(for: controller)
     }
 
+    open override var childForStatusBarStyle: UIViewController? {
+        // MSNavigationController will always determine status bar style
+        return nil
+    }
     open override var preferredStatusBarStyle: UIStatusBarStyle {
         return msNavigationBar.style == .system ? .default : .lightContent
     }
@@ -125,22 +129,26 @@ open class MSNavigationController: UINavigationController {
         return false
     }
 
-    /// Uses the navigationItem property of UIViewController to update the NavigationBar
-    ///
-    /// - Parameter viewController: the UIViewController instance to be presented
-    func updateNavigationBar(using viewController: UIViewController) {
+    func updateNavigationBar(for viewController: UIViewController) {
         msNavigationBar.update(with: viewController.navigationItem)
+        viewController.navigationItem.accessorySearchBar?.navigationController = self
         setNeedsStatusBarAppearanceUpdate()
         transitionAnimator.tintColor = msNavigationBar.backgroundView.backgroundColor!
     }
 
-    open override func setNavigationBarHidden(_ hidden: Bool, animated: Bool) {
-        if hidden {
-            msNavigationBar.obscureContent(animated: animated)
-        } else {
-            msNavigationBar.revealContent(animated: animated)
-        }
+    private func updateNavigationBarVisibility(for viewController: UIViewController, animated: Bool) {
+        let isSearchActive = viewController.navigationItem.accessorySearchBar?.isActive == true
+        setNavigationBarHidden(isSearchActive, animated: animated)
+    }
 
+    open override func setNavigationBarHidden(_ hidden: Bool, animated: Bool) {
+        if isNavigationBarHidden != hidden {
+            if hidden {
+                msNavigationBar.obscureContent(animated: animated)
+            } else {
+                msNavigationBar.revealContent(animated: animated)
+            }
+        }
         super.setNavigationBarHidden(hidden, animated: animated)
     }
 
@@ -183,7 +191,8 @@ open class MSNavigationController: UINavigationController {
 // `navigationControllerPreferredInterfaceOrientationForPresentation` is not supported due to inability to provide a return value when developer's delegate does not implement this method
 extension MSNavigationController: UINavigationControllerDelegate {
     public func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        updateNavigationBar(using: viewController)
+        updateNavigationBarVisibility(for: viewController, animated: animated)
+        updateNavigationBar(for: viewController)
 
         _delegate?.navigationController?(navigationController, willShow: viewController, animated: animated)
     }

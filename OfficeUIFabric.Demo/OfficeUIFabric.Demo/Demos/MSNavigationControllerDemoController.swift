@@ -182,6 +182,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 class ChildViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.contentInsetAdjustmentBehavior = .never
         tableView.register(MSTableViewCell.self, forCellReuseIdentifier: MSTableViewCell.identifier)
         navigationItem.title = "Regular Title"
     }

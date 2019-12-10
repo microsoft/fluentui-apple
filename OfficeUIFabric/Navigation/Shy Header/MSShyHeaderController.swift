@@ -23,8 +23,6 @@ class MSShyHeaderController: UIViewController {
     // We have no interest in this container view's navigation item, so we pass the contentViewController's navigation item
     override var navigationItem: UINavigationItem { get { return contentViewController.navigationItem } set { } }
 
-    override var childForStatusBarStyle: UIViewController? { return contentViewController }
-
     private let contentContainerView: UIView = { // within the gesture-based configuration, houses the contentViewController.view
         let contentContainerView = UIView()
         contentContainerView.backgroundColor = UIColor(red: 0.20, green: 0.20, blue: 0.20, alpha: 1.00)
@@ -256,6 +254,9 @@ class MSShyHeaderController: UIViewController {
     ///
     /// - Parameter gesture: the pan gesture that fired
     @objc private func handleContentScrollViewPanned(gesture: UIPanGestureRecognizer) {
+        if navigationItem.accessorySearchBar?.isActive == true {
+            return
+        }
         switch gesture.state {
         case .changed:
             processMovingPanGesture(gesture: gesture)

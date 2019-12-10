@@ -70,8 +70,8 @@ open class MSNavigationBar: UINavigationBar {
         static let contentLeadingMargin: CGFloat = 8
         static let contentTrailingMargin: CGFloat = 6
 
-        static let obscuringAnimationDuration: TimeInterval = 0.12 //duration of animation fading in the Obscurant UIView instance
-        static let revealingAnimationDuration: TimeInterval = 0.25 //duration of the animation fading out the Obscurant
+        static let obscuringAnimationDuration: TimeInterval = 0.12
+        static let revealingAnimationDuration: TimeInterval = 0.25
     }
 
     /// An object that conforms to the `MSAvatar` protocol and provides text and an optional image for display as an `MSAvatarView` next to the large title. Only displayed if `showsLargeTitle` is true on the current navigation item.
@@ -147,7 +147,6 @@ open class MSNavigationBar: UINavigationBar {
 
     let backgroundView = UIView() //used for coloration
     //used to cover the navigationbar during animated transitions between VCs
-    private let obscurantView = UIView()
     private let contentStackView = ContentStackView() //used to contain the various custom UI Elements
     private let rightBarButtonItemsStackView = UIStackView()
     private let leftBarButtonItemsStackView = UIStackView()
@@ -212,11 +211,6 @@ open class MSNavigationBar: UINavigationBar {
 
         updateViewsForLargeTitlePresentation(for: topItem)
 
-        //obscurant
-        obscurantView.backgroundColor = backgroundView.backgroundColor
-        contain(view: obscurantView)
-        obscurantView.safelyHide() //starts in the default, hidden state
-
         setColorsForStyle()
 
         isTranslucent = false
@@ -272,7 +266,6 @@ open class MSNavigationBar: UINavigationBar {
         super.layoutSubviews()
         bringSubviewToFront(backgroundView)
         bringSubviewToFront(contentStackView)
-        bringSubviewToFront(obscurantView)
         updateAccessibilityElements()
     }
 
@@ -291,7 +284,6 @@ open class MSNavigationBar: UINavigationBar {
             titleView.style = .dark
         }
         backgroundView.backgroundColor = backgroundColor
-        obscurantView.backgroundColor = backgroundColor
         barTintColor = backgroundColor
         tintColor = style.tintColor
         if var titleTextAttributes = titleTextAttributes {
@@ -362,26 +354,26 @@ open class MSNavigationBar: UINavigationBar {
 
     // MARK: - Obscurant Handling & Show/Hide Animation Methods
 
-    /// Animates the showing of the obscuring view
     func obscureContent(animated: Bool) {
-        if obscurantView.isHidden {
+        if contentStackView.alpha == 1 {
             if animated {
-                obscurantView.animatedShow(duration: Constants.obscuringAnimationDuration)
+                UIView.animate(withDuration: Constants.obscuringAnimationDuration) {
+                    self.contentStackView.alpha = 0
+                }
             } else {
-                obscurantView.alpha = 1.0
-                obscurantView.safelyShow()
+                contentStackView.alpha = 0
             }
         }
     }
 
-    /// Animates the revealing of the obscuring view
     func revealContent(animated: Bool) {
-        if !obscurantView.isHidden {
+        if contentStackView.alpha == 0 {
             if animated {
-                obscurantView.animatedHide(duration: Constants.revealingAnimationDuration)
+                UIView.animate(withDuration: Constants.revealingAnimationDuration) {
+                    self.contentStackView.alpha = 1
+                }
             } else {
-                obscurantView.alpha = 0.0
-                obscurantView.safelyHide()
+                contentStackView.alpha = 1
             }
         }
     }

@@ -104,7 +104,11 @@ open class MSSearchBar: UIView {
 
         static let cancelButtonLeadingInset: CGFloat = 8.0
 
+        static let searchTextFieldTextStyle: MSTextStyle = .bodyUnscaled
+        static let cancelButtonTextStyle: MSTextStyle = .bodyUnscaled
+
         static let cancelButtonShowHideAnimationDuration: TimeInterval = 0.25
+        static let navigationBarTransitionHidingDelay: TimeInterval = 0.5
 
         static let defaultStyle: Style = .lightContent
     }
@@ -127,7 +131,12 @@ open class MSSearchBar: UIView {
         }
     }
 
+    /// Indicates when search bar either has focus or contains a search text.
+    open private(set) var isActive: Bool = false
+
     open weak var delegate: MSSearchBarDelegate?
+
+    weak var navigationController: MSNavigationController?
 
     //used to hide the cancelButton in non-active states
     private var searchTextfieldBackgroundViewTrailingToSearchBarTrailing: NSLayoutConstraint?
@@ -146,6 +155,7 @@ open class MSSearchBar: UIView {
     //user interaction point
     private lazy var searchTextField: UITextField = {
         let textField = UITextField()
+        textField.font = Constants.searchTextFieldTextStyle.font
         textField.delegate = self
         textField.returnKeyType = .search
         textField.enablesReturnKeyAutomatically = true
@@ -174,34 +184,57 @@ open class MSSearchBar: UIView {
 
     //hidden when the textfield is not active
     private lazy var cancelButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .system)
+        button.titleLabel?.font = Constants.cancelButtonTextStyle.font
         button.setTitle("Common.Cancel".localized, for: .normal)
         button.addTarget(self, action: #selector(MSSearchBar.cancelButtonTapped(sender:)), for: .touchUpInside)
         button.alpha = 0.0
         return button
     }()
 
+    private var originalIsNavigationBarHidden: Bool = false
+
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        baseInit()
+        initialize()
     }
 
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        baseInit()
+        initialize()
+    }
+
+    private func initialize() {
+        updateColorsForStyle()
+        setupLayout()
+    }
+
+    private func startSearch() {
+        if isActive {
+            return
+        }
+        attributePlaceholderText()
+        showCancelButton()
+        originalIsNavigationBarHidden = navigationController?.isNavigationBarHidden ?? false
+        // Using delayed async to work around a bug on iOS when it restores responder status for the text field when controller appears (due to navigation controller's pop action) even though text field resigned responder status before a detail controller was pushed
+        let isTransitioning = navigationController?.transitionCoordinator != nil
+        DispatchQueue.main.asyncAfter(deadline: .now() + (isTransitioning ? Constants.navigationBarTransitionHidingDelay : 0)) {
+            self.navigationController?.setNavigationBarHidden(true, animated: true)
+        }
+        isActive = true
     }
 
     open func cancelSearch() {
+        if !isActive {
+            return
+        }
+        isActive = false
         searchTextField.resignFirstResponder()
         searchTextField.text = nil
         searchTextDidChange(shouldUpdateDelegate: false)
-        self.delegate?.searchBarDidCancel(self)
+        delegate?.searchBarDidCancel(self)
         hideCancelButton()
-    }
-
-    private func baseInit() {
-        updateColorsForStyle()
-        setupLayout()
+        navigationController?.setNavigationBarHidden(originalIsNavigationBarHidden, animated: true)
     }
 
     private func attributePlaceholderText() {
@@ -369,12 +402,10 @@ open class MSSearchBar: UIView {
     // MARK: - Keyboard Handling
 
     open override func becomeFirstResponder() -> Bool {
-        super.becomeFirstResponder()
         return searchTextField.becomeFirstResponder()
     }
 
     open override func resignFirstResponder() -> Bool {
-        super.resignFirstResponder()
         return searchTextField.resignFirstResponder()
     }
 
@@ -391,9 +422,8 @@ open class MSSearchBar: UIView {
 
 extension MSSearchBar: UITextFieldDelegate {
     public func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.delegate?.searchBarDidBeginEditing(self)
-        attributePlaceholderText()
-        showCancelButton()
+        startSearch()
+        delegate?.searchBarDidBeginEditing(self)
     }
 
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -401,4 +431,10 @@ extension MSSearchBar: UITextFieldDelegate {
         dismissKeyboard()
         return false
     }
+}
+
+// MARK: - UINavigationItem extension
+
+extension UINavigationItem {
+    var accessorySearchBar: MSSearchBar? { return accessoryView as? MSSearchBar }
 }

@@ -123,7 +123,7 @@ class MSNavigationAnimator: UIPercentDrivenInteractiveTransition, UIViewControll
                     }
                 }
                 if transitionContext.transitionWasCancelled, let fromVC = transitionContext.viewController(forKey: .from) {
-                    (self.navigationController as? MSNavigationController)?.updateNavigationBar(using: fromVC)
+                    (self.navigationController as? MSNavigationController)?.updateNavigationBar(for: fromVC)
                 }
             }
         )
@@ -192,7 +192,7 @@ class MSNavigationAnimator: UIPercentDrivenInteractiveTransition, UIViewControll
         let finalFrame = navigationController.view.convert(navigationController.view.bounds, to: transitionContext.containerView)
         createTransition(view: oldView, frame: finalFrame, isTemporaryView: true, isToView: false, frameTransitions: &frameTransitions)
 
-        navigationController.updateNavigationBar(using: toVC)
+        navigationController.updateNavigationBar(for: toVC)
 
         for subview in navigationController.view.subviews {
             guard subview != transitionContext.containerView, !transitionContext.containerView.isDescendant(of: subview) else {
