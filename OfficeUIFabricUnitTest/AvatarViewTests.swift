@@ -104,11 +104,11 @@ class AvatarViewTests: XCTestCase {
 	}
 
 	func testHashAlgorithm () {
-		XCTAssertEqual(colorIndex(for: "satya@microsoft.com"), 8387)
-		XCTAssertEqual(colorIndex(for: "maverick@miramar.edu"), 3986)
-		XCTAssertEqual(colorIndex(for: "goose@miramar.edu"), 2268)
-		XCTAssertEqual(colorIndex(for: "cblackwood@civiliancontractor.com"), 1886)
-		XCTAssertEqual(colorIndex(for: "Tom Kazansky"), 9318)
-		XCTAssertEqual(colorIndex(for: ""), 0)
+		XCTAssertEqual(AvatarView.colorIndex(for: "satya@microsoft.com"), 8387)
+		XCTAssertEqual(AvatarView.colorIndex(for: "maverick@miramar.edu"), 3986)
+		XCTAssertEqual(AvatarView.colorIndex(for: "goose@miramar.edu"), 2268)
+		XCTAssertEqual(AvatarView.colorIndex(for: "cblackwood@civiliancontractor.com"), 1886)
+		XCTAssertEqual(AvatarView.colorIndex(for: "Tom Kazansky"), 9318)
+		XCTAssertEqual(AvatarView.colorIndex(for: ""), 0)
 	}
 }
