@@ -128,6 +128,16 @@ open class MSNavigationBar: UINavigationBar {
         }
     }
 
+    open override var center: CGPoint {
+        get { return super.center }
+        set {
+            var newValue = newValue
+            // Workaround for iOS bug: when nav bar is hidden and device is rotated, the hidden nav bar get pushed up by additional 20px (status bar height) and when nav bar gets shown it animates from too far position leaving a 20px gap that shows window background (black by default) - this will then also affect nav bar hiding animation.
+            newValue.y = max(-height / 2, newValue.y)
+            super.center = newValue
+        }
+    }
+
     var style: Style = defaultStyle {
         didSet {
             setColorsForStyle()
