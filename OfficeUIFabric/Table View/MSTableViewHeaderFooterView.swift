@@ -139,7 +139,7 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
     /// The maximum number of lines to be shown for `title`
     @objc open var titleNumberOfLines: Int = 1 {
         didSet {
-            titleLabel.numberOfLines = titleNumberOfLines
+            titleView.textContainer.maximumNumberOfLines = titleNumberOfLines
             setNeedsLayout()
             invalidateIntrinsicContentSize()
         }
@@ -152,12 +152,12 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
         return CGSize(
             width: type(of: self).preferredWidth(
                 style: style,
-                title: titleLabel.text ?? "",
+                title: titleView.text ?? "",
                 accessoryButton: accessoryButton
             ),
             height: type(of: self).height(
                 style: style,
-                title: titleLabel.text ?? "",
+                title: titleView.text ?? "",
                 titleNumberOfLines: titleNumberOfLines,
                 containerWidth: width > 0 ? width : .infinity
             )
@@ -185,13 +185,26 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
             view.backgroundColor = style.backgroundColor
             backgroundView = view
 
-            titleLabel.textColor = style.textColor
+            titleView.textColor = style.textColor
 
             invalidateIntrinsicContentSize()
         }
     }
 
-    private let titleLabel = MSLabel(style: Constants.titleTextStyle)
+    private let titleView: UITextView = {
+        let titleView = UITextView()
+        titleView.backgroundColor = nil
+        titleView.isEditable = false
+        titleView.isScrollEnabled = false
+        titleView.clipsToBounds = false    // to avoid clipping of "deep-touch" UI for links
+        titleView.isAccessibilityElement = true
+        titleView.textContainer.lineBreakMode = .byTruncatingTail
+        titleView.textContainer.lineFragmentPadding = 0
+        titleView.textContainerInset = .zero
+        titleView.layoutManager.usesFontLeading = false
+        titleView.linkTextAttributes = [.foregroundColor: MSColors.Table.HeaderFooter.textLink]
+        return titleView
+    }()
 
     private var accessoryButton: UIButton? = nil {
         didSet {
@@ -214,29 +227,36 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
     }
 
     open func initialize() {
-        contentView.addSubview(titleLabel)
+        contentView.addSubview(titleView)
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
     @objc open func setup(style: Style, title: String, accessoryButtonTitle: String = "") {
-        titleLabel.text = title
+        titleView.attributedText = nil // to clear attributes
+        titleView.text = title
+        titleView.isSelectable = false
 
         setup(style: style, accessoryButtonTitle: accessoryButtonTitle)
     }
 
     @objc open func setup(style: Style, attributedTitle: NSAttributedString, accessoryButtonTitle: String = "") {
-        titleLabel.attributedText = attributedTitle
+        titleView.attributedText = attributedTitle
+        titleView.isSelectable = true
 
         setup(style: style, accessoryButtonTitle: accessoryButtonTitle)
     }
 
     private func setup(style: Style, accessoryButtonTitle: String) {
+        updateTitleViewFont()
         switch style {
         case .header, .divider, .dividerHighlighted:
-            titleLabel.accessibilityTraits.insert(.header)
+            titleView.accessibilityTraits.insert(.header)
         case .footer:
-            titleLabel.accessibilityTraits.remove(.header)
+            titleView.accessibilityTraits.remove(.header)
+            // Bug in iOS - need to manually refresh VoiceOver text for accessibilityTraits
+            titleView.isAccessibilityElement = false
+            titleView.isAccessibilityElement = true
         }
 
         accessoryButton = accessoryButtonTitle != "" ? createAccessoryButton(withTitle: accessoryButtonTitle) : nil
@@ -261,7 +281,7 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
             titleYOffset = Constants.titleDividerVerticalMargin
             titleHeight = contentView.height - (Constants.titleDividerVerticalMargin * 2)
         }
-        titleLabel.frame = CGRect(
+        titleView.frame = CGRect(
             x: Constants.horizontalMargin,
             y: titleYOffset,
             width: titleWidth,
@@ -269,7 +289,7 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
         )
 
         if let accessoryButton = accessoryButton {
-            let xOffset = titleLabel.frame.maxX + Constants.accessoryButtonMarginLeft
+            let xOffset = titleView.frame.maxX + Constants.accessoryButtonMarginLeft
             let yOffset = contentView.height - accessoryButton.height - Constants.accessoryButtonBottomMargin
             accessoryButton.frame = CGRect(
                 origin: CGPoint(x: xOffset, y: yOffset),
@@ -293,16 +313,25 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
         return CGSize(
             width: type(of: self).preferredWidth(
                 style: style,
-                title: titleLabel.text ?? "",
+                title: titleView.text ?? "",
                 accessoryButton: accessoryButton
             ),
             height: type(of: self).height(
                 style: style,
-                title: titleLabel.text ?? "",
+                title: titleView.text ?? "",
                 titleNumberOfLines: titleNumberOfLines,
                 containerWidth: size.width
             )
         )
+    }
+
+    private func updateTitleViewFont() {
+        let font = Constants.titleTextStyle.font
+        titleView.font = font
+        // offset text container to center its content
+        let offset = UIScreen.main.roundDownToDevicePixels(abs(font.leading) / 2)
+        titleView.textContainerInset.top = offset
+        titleView.textContainerInset.bottom = -offset
     }
 
     private func updateAccessoryButtonTitleStyle() {
@@ -318,6 +347,7 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
     }
 
     @objc private func handleContentSizeCategoryDidChange() {
+        updateTitleViewFont()
         updateAccessoryButtonTitleStyle()
     }
 

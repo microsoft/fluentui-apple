@@ -100,7 +100,16 @@ extension MSTableViewHeaderFooterViewDemoController: UITableViewDelegate {
         if tableView.style == .grouped && groupedSections[section].hasFooter {
             let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: MSTableViewHeaderFooterView.identifier) as! MSTableViewHeaderFooterView
             let section = groupedSections[section]
-            footer.setup(style: .footer, title: section.footerText)
+            if section.footerLinkText.isEmpty {
+                footer.setup(style: .footer, title: section.footerText)
+            } else {
+                let title = NSMutableAttributedString(string: section.footerText)
+                let range = (title.string as NSString).range(of: section.footerLinkText)
+                if range.location != -1 {
+                    title.addAttribute(.link, value: "https://github.com/OfficeDev/ui-fabric-ios", range: range)
+                }
+                footer.setup(style: .footer, attributedTitle: title)
+            }
             footer.titleNumberOfLines = section.numberOfLines
             return footer
         }

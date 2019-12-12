@@ -108,8 +108,17 @@ extension MSCollectionViewHeaderFooterViewDemoController: UICollectionViewDataSo
             headerFooterView.headerFooterView.onAccessoryButtonTapped = { [unowned self] in self.showAlertForAccessoryTapped(title: section.title) }
             return headerFooterView
         case UICollectionView.elementKindSectionFooter:
-            if groupedSections[indexPath.section].hasFooter {
-                headerFooterView.headerFooterView.setup(style: .footer, title: section.footerText)
+            if section.hasFooter {
+                if section.footerLinkText.isEmpty {
+                    headerFooterView.headerFooterView.setup(style: .footer, title: section.footerText)
+                } else {
+                    let title = NSMutableAttributedString(string: section.footerText)
+                    let range = (title.string as NSString).range(of: section.footerLinkText)
+                    if range.location != -1 {
+                        title.addAttribute(.link, value: "https://github.com/OfficeDev/ui-fabric-ios", range: range)
+                    }
+                    headerFooterView.headerFooterView.setup(style: .footer, attributedTitle: title)
+                }
                 return headerFooterView
             }
             return UICollectionReusableView()

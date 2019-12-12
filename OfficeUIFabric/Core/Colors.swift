@@ -379,6 +379,7 @@ public final class MSColors: NSObject {
             public static var text: UIColor = foreground2
             public static var textDivider: UIColor = foreground2d
             public static var textDividerHighlighted: UIColor = primary
+            public static var textLink: UIColor = primary
         }
         public static var background: UIColor = background1
         public static var backgroundGrouped = UIColor(light: background2, dark: background1)
