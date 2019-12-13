@@ -27,49 +27,61 @@ class AvatarViewTests: XCTestCase {
 
 	func testInitialsExtraction () {
 		// Basic cases
-		XCTAssertEqual(AvatarView.initials(name: nil, email: nil), "#")
-		XCTAssertEqual(AvatarView.initials(name: "Satya Nadella", email: nil), "SN")
-		XCTAssertEqual(AvatarView.initials(name: "Satya Nadella", email: "satya@microsoft.com"), "SN")
-		XCTAssertEqual(AvatarView.initials(name: nil, email: "satya@microsoft.com"), "S")
-		XCTAssertEqual(AvatarView.initials(name: "Nick Goose Bradshaw", email: nil), "NG")
-		XCTAssertEqual(AvatarView.initials(name: "Mike \"Viper\" Metcalf", email: nil), "MM")
+		XCTAssertNil(AvatarView.initials(name: nil, email: nil))
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: nil, email: nil), "#")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "Satya Nadella", email: nil), "SN")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "Satya Nadella", email: "satya@microsoft.com"), "SN")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: nil, email: "satya@microsoft.com"), "S")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "Nick Goose Bradshaw", email: nil), "NG")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "Mike \"Viper\" Metcalf", email: nil), "MM")
 		
 		// Non-standard characters
-		XCTAssertEqual(AvatarView.initials(name: "😂", email: "happy@sevendwarves.net"), "H")
-		XCTAssertEqual(AvatarView.initials(name: "🧐", email: "😀@😬.😂"), "#")
-		XCTAssertEqual(AvatarView.initials(name: "☮︎", email: nil), "#")
-		XCTAssertEqual(AvatarView.initials(name: "Satya Nadella 👑", email: "satya@microsoft.com"), "SN")
-		XCTAssertEqual(AvatarView.initials(name: "Satya Nadella👑", email: "satya@microsoft.com"), "SN")
-		XCTAssertEqual(AvatarView.initials(name: "Satya 👑 Nadella", email: "satya@microsoft.com"), "SN")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "😂", email: "happy@sevendwarves.net"), "H")
+		XCTAssertNil(AvatarView.initials(name: "🧐", email: "😀@😬.😂"))
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "🧐", email: "😀@😬.😂"), "#")
+		XCTAssertNil(AvatarView.initials(name: "☮︎", email: nil))
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "☮︎", email: nil), "#")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "Satya Nadella 👑", email: "satya@microsoft.com"), "SN")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "Satya Nadella👑", email: "satya@microsoft.com"), "SN")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "Satya 👑 Nadella", email: "satya@microsoft.com"), "SN")
 
 		// Complex characters
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "王小博", email: "email@host.com"), "E")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "王小博", email: nil), "#")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "肖赞", email: ""), "#")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "보라", email: nil), "#")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "אָדָם", email: nil), "#")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "حسن", email: nil), "#")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: nil, email: "用户@例子.广告"), "#")
+
 		XCTAssertEqual(AvatarView.initials(name: "王小博", email: "email@host.com"), "E")
-		XCTAssertEqual(AvatarView.initials(name: "王小博", email: nil), "#")
-		XCTAssertEqual(AvatarView.initials(name: "肖赞", email: ""), "#")
-		XCTAssertEqual(AvatarView.initials(name: "보라", email: nil), "#")
-		XCTAssertEqual(AvatarView.initials(name: "אָדָם", email: nil), "#")
-		XCTAssertEqual(AvatarView.initials(name: "حسن", email: nil), "#")
-		XCTAssertEqual(AvatarView.initials(name: nil, email: "用户@例子.广告"), "#")
+		XCTAssertNil(AvatarView.initials(name: "王小博", email: nil))
+		XCTAssertNil(AvatarView.initials(name: "肖赞", email: ""))
+		XCTAssertNil(AvatarView.initials(name: "보라", email: nil))
+		XCTAssertNil(AvatarView.initials(name: "אָדָם", email: nil))
+		XCTAssertNil(AvatarView.initials(name: "حسن", email: nil))
+		XCTAssertNil(AvatarView.initials(name: nil, email: "用户@例子.广告"))
+
 
 		// Complex roman characters
-		XCTAssertEqual(AvatarView.initials(name: "Êmïlÿ Çœłb", email: nil), "ÊÇ")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "Êmïlÿ Çœłb", email: nil), "ÊÇ")
 		
 		// Complex roman characters with alternate unicode representation
 		XCTAssertEqual("E\u{0300}", "È")
-		XCTAssertEqual(AvatarView.initials(name: "E\u{0300}mïlÿ Çœłb", email: nil), "ÈÇ")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "E\u{0300}mïlÿ Çœłb", email: nil), "ÈÇ")
 
 		// Mixed characters
-		XCTAssertEqual(AvatarView.initials(name: "Sean 肖", email: nil), "S")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "Sean 肖", email: nil), "S")
 		
 		// Whitespace
-		XCTAssertEqual(AvatarView.initials(name: " Satya Nadella ", email: nil), "SN")
-		XCTAssertEqual(AvatarView.initials(name: "\nSatya Nadella\n", email: nil), "SN")
-		XCTAssertEqual(AvatarView.initials(name: "\tSatya Nadella ", email: nil), "SN")
-		XCTAssertEqual(AvatarView.initials(name: "Satya Nadella\n", email: nil), "SN")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: " Satya Nadella ", email: nil), "SN")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "\nSatya Nadella\n", email: nil), "SN")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "\tSatya Nadella ", email: nil), "SN")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "Satya Nadella\n", email: nil), "SN")
 		
 		// Zero Width Space
-		XCTAssertEqual(AvatarView.initials(name: "Jane\u{200B}Doe", email: nil), "J")
-		XCTAssertEqual(AvatarView.initials(name: "\u{200B}Jane\u{200B} \u{200B}Doe\u{200B}", email: nil), "JD")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "Jane\u{200B}Doe", email: nil), "J")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "\u{200B}Jane\u{200B} \u{200B}Doe\u{200B}", email: nil), "JD")
 	}
 	
 	func testAccessibility () {

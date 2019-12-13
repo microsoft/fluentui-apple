@@ -220,7 +220,7 @@ open class AvatarView : NSView {
 	
 	/// The text field used for displaying the initials within the initialsView
 	private lazy var initialsTextField: NSTextField = {
-		let textView = NSTextField(labelWithString: AvatarView.initials(name: contactName, email: contactEmail))
+		let textView = NSTextField(labelWithString: AvatarView.initialsWithFallback(name: contactName, email: contactEmail))
 		textView.alignment = .center
 		textView.translatesAutoresizingMaskIntoConstraints = false
 		textView.font = NSFont.systemFont(ofSize:fontSize(forCircleDiameter: avatarSize))
@@ -275,7 +275,7 @@ open class AvatarView : NSView {
 			setAccessibilityRole(.unknown)
 		}
 		
-		initialsTextField.stringValue = AvatarView.initials(name: contactName, email: contactEmail)
+		initialsTextField.stringValue = AvatarView.initialsWithFallback(name: contactName, email: contactEmail)
 		avatarBackgroundColor = AvatarView.backgroundColor(for: AvatarView.colorIndex(for: contactEmail ?? contactName ?? ""))
 	}
 
@@ -299,7 +299,7 @@ open class AvatarView : NSView {
 	/// the maximum number of initials to be displayed when we don't have an image
 	static let maximumNumberOfInitials = 2
 
-	/// Extract the initials to display from a name and email combo
+	/// Extract the initials to display from a name and email combo, providing a fallback otherwise
 	///
 	/// - Parameters:
 	/// 	- contactName: the name of the contact with the format “<First Name> <Last Name>”
@@ -309,7 +309,21 @@ open class AvatarView : NSView {
 	/// by a space if the first character is a letter. If no usable name is passed in
 	/// return the first character of the email address passed in. If no usable email address is passed
 	/// in, return the character `#`.
-	@objc static public func initials(name: String?, email: String?) -> String {
+	static func initialsWithFallback(name: String?, email: String?) -> String {
+		return initials(name: name, email: email) ?? fallbackInitial
+	}
+
+	/// Extract the initials to display from a name and email combo
+	///
+	/// - Parameters:
+	/// 	- contactName: the name of the contact with the format “<First Name> <Last Name>”
+	/// 	- contactEmail: the name of the contact with the format “<person>@<service>.<domain>"
+	///
+	/// - Returns: if a name is passed in, return the first character of the first two names separated
+	/// by a space if the first character is a letter. If no usable name is passed in
+	/// return the first character of the email address passed in. If no usable email address is passed
+	/// in, return nil.
+	@objc static public func initials(name: String?, email: String?) -> String? {
 		var initials: String? = nil
 
 		// Create a character set that includes standard whitespace and newlines as well as the zero width space
@@ -336,8 +350,7 @@ open class AvatarView : NSView {
 			}
 		}
 
-		// default to `Constants.fallbackInitial` when we have nothing to base our initials off of
-		return initials?.localizedUppercase ?? AvatarView.fallbackInitial
+		return initials?.localizedUppercase
 	}
 
 	/// Returns a color table index for a given display name
