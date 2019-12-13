@@ -32,6 +32,9 @@ jobs:
       xcode_configuration: 'Release'
       xcode_extraArgs: 'OTHER_SWIFT_FLAGS=-gline-tables-only CLANG_DEBUG_INFORMATION_LEVEL=line-tables-only BUILD_LIBRARY_FOR_DISTRIBUTION=YES'
 
+  - bash: 'scripts/prepare_for_nuget_pack.sh'
+    displayName: 'Zip frameworks to preserve symlinks'
+
   # generate the nuspecsToPack and sanitizedBuildNumber environment variables
 
   - script: 'node scripts/vsto-collect-nuspec.js apple'

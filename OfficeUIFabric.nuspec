@@ -10,10 +10,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
   </metadata>
   <files>
-    <!-- macOS debug -->
-    <file src="DerivedData\OfficeUIFabric\Build\Products\Debug\OfficeUIFabric.framework\**" target="Debug-macosx\OfficeUIFabric.framework"/>
-
-    <!-- macOS release -->
-    <file src="DerivedData\OfficeUIFabric\Build\Products\Release\OfficeUIFabric.framework\**" target="Ship-macosx\OfficeUIFabric.framework"/>
+    <!-- macOS zipped frameworks -->
+    <file src="DerivedData\OfficeUIFabric\Build\Products\BuildOutput.zip" target="Archives/BuildOutput.zip"/>
   </files>
 </package>
