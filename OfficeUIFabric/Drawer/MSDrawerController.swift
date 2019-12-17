@@ -144,6 +144,14 @@ open class MSDrawerController: UIViewController {
         }
     }
 
+    /// Set `contentScrollView` to allow drawer to resize as the result of scrolling in this view (scrolling will be blocked until drawer cannot resize anymore).
+    @objc open var contentScrollView: UIScrollView? {
+        didSet {
+            oldValue?.panGestureRecognizer.removeTarget(self, action: #selector(handleContentPanGesture))
+            contentScrollView?.panGestureRecognizer.addTarget(self, action: #selector(handleContentPanGesture))
+        }
+    }
+
     /// When `presentationStyle` is `.automatic` (the default value) drawer is presented as a slideover in horizontally compact environments and as a popover otherwise. For horizontal presentation a slideover is always used. Set this property to a specific presentation style to enforce it in all environments.
     @objc open var presentationStyle: MSDrawerPresentationStyle = .automatic
     /// Use `presentationOffset` to offset drawer from the presentation base in the direction of presentation. Only supported in horizontally regular environments for vertical presentation.
@@ -447,6 +455,10 @@ open class MSDrawerController: UIViewController {
         return canResize && presentationDirection.isVertical
     }
 
+    private var canResizeViaContentScrolling: Bool {
+        return canResize && presentationDirection == .up
+    }
+
     private var resizingHandleView: MSResizingHandleView? {
         didSet {
             oldValue?.removeFromSuperview()
@@ -461,10 +473,15 @@ open class MSDrawerController: UIViewController {
                 view.removeGestureRecognizer(oldRecognizer)
             }
             if let newRecognizer = resizingGestureRecognizer {
+                newRecognizer.delegate = self
                 view.addGestureRecognizer(newRecognizer)
             }
         }
     }
+
+    private var originalContentOffsetY: CGFloat?
+    private var originalDrawerOffsetY: CGFloat = 0
+    private var originalShowsContentScrollIndicator: Bool = true
 
     private func offset(forResizingGesture gesture: UIPanGestureRecognizer) -> CGFloat {
         let presentationDirection = self.presentationDirection(for: view)
@@ -480,19 +497,34 @@ open class MSDrawerController: UIViewController {
         case .fromTrailing:
             offset = -translation.x
         }
+
+        let mayResizeViaContentScrolling = canResizeViaContentScrolling && contentScrollView?.isDragging == true
         if resizingBehavior == .dismiss {
-            if presentationDirection == .up && gesture.state == .changed {
+            if presentationDirection == .up && gesture.state == .changed && offset > 0 && !mayResizeViaContentScrolling {
                 offset = offsetWithResistance(for: offset)
             } else {
                 offset = min(offset, 0)
             }
         }
+        if mayResizeViaContentScrolling && offset < 0, let originalContentOffsetY = originalContentOffsetY {
+            offset = min(offset + originalContentOffsetY, 0)
+        }
+
         // Rounding to precision used for layout
         return UIScreen.main.roundToDevicePixels(offset)
     }
 
     private func offsetWithResistance(for offset: CGFloat) -> CGFloat {
-        return offset > 0 ? Constants.resistanceCoefficient * offset : offset
+        return Constants.resistanceCoefficient * offset
+    }
+
+    private func initOriginalContentOffsetYIfNeeded() {
+        guard originalContentOffsetY == nil, let contentScrollView = contentScrollView else {
+            return
+        }
+        // Remove over-scroll at the top so that scroll view does not get stuck in a weird state during drawer resizing
+        contentScrollView.contentOffset.y = max(-contentScrollView.contentInset.top, contentScrollView.contentOffset.y)
+        originalContentOffsetY = contentScrollView.contentOffset.y
     }
 
     @objc private func handleResizingGesture(gesture: UIPanGestureRecognizer) {
@@ -503,9 +535,12 @@ open class MSDrawerController: UIViewController {
         let offset = self.offset(forResizingGesture: gesture)
 
         switch gesture.state {
-        case .began:
-            presentationController.extraContentSizeEffectWhenCollapsing = isExpanded ? .resize : .move
-        case .changed:
+        case .began, .changed:
+            if gesture.state == .began {
+                presentationController.extraContentSizeEffectWhenCollapsing = isExpanded ? .resize : .move
+                originalDrawerOffsetY = view.convert(view.bounds.origin, to: nil).y
+                initOriginalContentOffsetYIfNeeded()
+            }
             presentationController.setExtraContentSize(offset)
         case .ended:
             if offset >= Constants.resizingThreshold {
@@ -529,6 +564,42 @@ open class MSDrawerController: UIViewController {
             }
         case .cancelled:
             presentationController.setExtraContentSize(0, animated: true)
+        default:
+            break
+        }
+    }
+
+    @objc private func handleContentPanGesture(gesture: UIPanGestureRecognizer) {
+        guard let contentScrollView = contentScrollView else {
+            fatalError("MSDrawerController cannot handle content panning without contentScrollView")
+        }
+        if !canResizeViaContentScrolling {
+            return
+        }
+        switch gesture.state {
+        case .began, .changed:
+            if gesture.state == .began {
+                if let originalContentOffsetY = originalContentOffsetY {
+                    // Reset offset to the initial value before UIScrollView's gesture processing
+                    contentScrollView.contentOffset.y = originalContentOffsetY
+                } else {
+                    initOriginalContentOffsetYIfNeeded()
+                }
+                originalShowsContentScrollIndicator = contentScrollView.showsVerticalScrollIndicator
+            }
+
+            if contentScrollView.scrollLocationDescriptor != .excessivelyBeyondContent, let originalContentOffsetY = originalContentOffsetY {
+                let drawerOffsetY = view.convert(view.bounds.origin, to: nil).y
+                let drawerOffsetChange = drawerOffsetY - originalDrawerOffsetY
+                let contentOffsetChange = -(gesture.translation(in: contentScrollView).y - drawerOffsetChange)
+                contentScrollView.contentOffset.y = originalContentOffsetY + contentOffsetChange
+            }
+
+            let offsetFromZero = contentScrollView.contentOffset.y + contentScrollView.contentInset.top
+            contentScrollView.showsVerticalScrollIndicator = originalShowsContentScrollIndicator && offsetFromZero != 0
+        case .ended, .cancelled:
+            contentScrollView.showsVerticalScrollIndicator = originalShowsContentScrollIndicator
+            originalContentOffsetY = nil
         default:
             break
         }
@@ -583,5 +654,13 @@ extension MSDrawerController: UIViewControllerTransitioningDelegate {
 extension MSDrawerController: UIPopoverPresentationControllerDelegate {
     public func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         return .none
+    }
+}
+
+// MARK: - MSDrawerController: UIGestureRecognizerDelegate
+
+extension MSDrawerController: UIGestureRecognizerDelegate {
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return gestureRecognizer == resizingGestureRecognizer && otherGestureRecognizer == contentScrollView?.panGestureRecognizer
     }
 }
