@@ -146,7 +146,6 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
     /// The maximum number of lines to be shown for `title`
     @objc open var titleNumberOfLines: Int = 1 {
         didSet {
-            titleView.textContainer.maximumNumberOfLines = titleNumberOfLines
             setNeedsLayout()
             invalidateIntrinsicContentSize()
         }
