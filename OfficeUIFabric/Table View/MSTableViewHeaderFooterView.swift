@@ -8,10 +8,11 @@ import UIKit
 // MARK: MSTableViewHeaderFooterViewDelegate
 
 @objc public protocol MSTableViewHeaderFooterViewDelegate: class {
-    @objc optional func headerFooterView(_ headerFooterView: MSTableViewHeaderFooterView, didInteractWithURL url: URL)
+    /// Returns: true if the interaction with the header view should be allowed; false if the interaction should not be allowed.
+    @objc optional func headerFooterView(_ headerFooterView: MSTableViewHeaderFooterView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool
 }
 
-// MARK: MSTableViewHeaderFooterView
+// MARK: - MSTableViewHeaderFooterView
 
 /**
  `MSTableViewHeaderFooterView` is used to present a section header or footer with a `title` and an optional accessory button.
@@ -368,17 +369,11 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
     }
 }
 
-// MARK: MSTableViewHeaderFooterView: UITextViewDelegate
+// MARK: - MSTableViewHeaderFooterView: UITextViewDelegate
 
 extension MSTableViewHeaderFooterView: UITextViewDelegate {
     public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-        if let delegate = delegate, delegate.headerFooterView != nil {
-            delegate.headerFooterView?(self, didInteractWithURL: URL)
-            return false
-        }
-        else {
-            // Let the default interaction handle this
-            return true
-        }
+        // If the delegate function is not set, return `true` to let the default interaction handle this
+        return delegate?.headerFooterView?(self, shouldInteractWith: URL, in: characterRange, interaction: interaction) ?? true
     }
 }

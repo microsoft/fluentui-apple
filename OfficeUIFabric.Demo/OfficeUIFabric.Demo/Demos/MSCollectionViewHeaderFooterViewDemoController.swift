@@ -179,9 +179,10 @@ extension MSCollectionViewHeaderFooterViewDemoController: UICollectionViewDelega
 // MARK: - MSCollectionViewHeaderFooterViewDemoController: MSTableViewHeaderFooterViewDelegate
 
 extension MSCollectionViewHeaderFooterViewDemoController: MSTableViewHeaderFooterViewDelegate {
-    func headerFooterView(_ headerFooterView: MSTableViewHeaderFooterView, didInteractWithURL url: URL) {
+    func headerFooterView(_ headerFooterView: MSTableViewHeaderFooterView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         let alertController = UIAlertController(title: "Link tapped", message: nil, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alertController, animated: true, completion: nil)
+        return false
     }
 }
