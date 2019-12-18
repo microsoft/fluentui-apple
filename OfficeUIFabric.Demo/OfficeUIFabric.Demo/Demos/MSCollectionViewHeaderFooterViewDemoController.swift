@@ -118,6 +118,10 @@ extension MSCollectionViewHeaderFooterViewDemoController: UICollectionViewDataSo
                         title.addAttribute(.link, value: "https://github.com/OfficeDev/ui-fabric-ios", range: range)
                     }
                     headerFooterView.headerFooterView.setup(style: .footer, attributedTitle: title)
+
+                    if section.hasCustomLinkHandler {
+                        headerFooterView.headerFooterView.delegate = self
+                    }
                 }
                 return headerFooterView
             }
@@ -169,5 +173,15 @@ extension MSCollectionViewHeaderFooterViewDemoController: UICollectionViewDelega
             return CGSize(width: view.width, height: height)
         }
         return .zero
+    }
+}
+
+// MARK: - MSCollectionViewHeaderFooterViewDemoController: MSTableViewHeaderFooterViewDelegate
+
+extension MSCollectionViewHeaderFooterViewDemoController: MSTableViewHeaderFooterViewDelegate {
+    func headerFooterView(_ headerFooterView: MSTableViewHeaderFooterView, didInteractWithURL url: URL) {
+        let alertController = UIAlertController(title: "Link tapped", message: nil, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alertController, animated: true, completion: nil)
     }
 }

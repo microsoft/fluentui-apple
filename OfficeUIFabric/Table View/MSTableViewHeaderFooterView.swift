@@ -5,6 +5,12 @@
 
 import UIKit
 
+// MARK: MSTableViewHeaderFooterViewDelegate
+
+@objc public protocol MSTableViewHeaderFooterViewDelegate: class {
+    @objc optional func headerFooterView(_ headerFooterView: MSTableViewHeaderFooterView, didInteractWithURL url: URL)
+}
+
 // MARK: MSTableViewHeaderFooterView
 
 /**
@@ -148,6 +154,8 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
     /// `onAccessoryButtonTapped` is called when `accessoryButton` is tapped
     @objc open var onAccessoryButtonTapped: (() -> Void)?
 
+    @objc public weak var delegate: MSTableViewHeaderFooterViewDelegate?
+
     open override var intrinsicContentSize: CGSize {
         return CGSize(
             width: type(of: self).preferredWidth(
@@ -227,6 +235,8 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
     }
 
     open func initialize() {
+        titleView.delegate = self
+
         contentView.addSubview(titleView)
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
@@ -303,6 +313,8 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
     open override func prepareForReuse() {
         super.prepareForReuse()
 
+        delegate = nil
+
         accessoryButtonStyle = .regular
         titleNumberOfLines = 1
 
@@ -353,5 +365,20 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
 
     @objc private func handleAccessoryButtonTapped() {
         onAccessoryButtonTapped?()
+    }
+}
+
+// MARK: MSTableViewHeaderFooterView: UITextViewDelegate
+
+extension MSTableViewHeaderFooterView: UITextViewDelegate {
+    public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        if let delegate = delegate, delegate.headerFooterView != nil {
+            delegate.headerFooterView?(self, didInteractWithURL: URL)
+            return false
+        }
+        else {
+            // Let the default interaction handle this
+            return true
+        }
     }
 }

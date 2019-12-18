@@ -109,6 +109,10 @@ extension MSTableViewHeaderFooterViewDemoController: UITableViewDelegate {
                     title.addAttribute(.link, value: "https://github.com/OfficeDev/ui-fabric-ios", range: range)
                 }
                 footer.setup(style: .footer, attributedTitle: title)
+
+                if section.hasCustomLinkHandler {
+                    footer.delegate = self
+                }
             }
             footer.titleNumberOfLines = section.numberOfLines
             return footer
@@ -125,5 +129,15 @@ extension MSTableViewHeaderFooterViewDemoController: UITableViewDelegate {
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
         present(alert, animated: true)
+    }
+}
+
+// MARK: - MSTableViewHeaderFooterViewDemoController: MSTableViewHeaderFooterViewDelegate
+
+extension MSTableViewHeaderFooterViewDemoController: MSTableViewHeaderFooterViewDelegate {
+    func headerFooterView(_ headerFooterView: MSTableViewHeaderFooterView, didInteractWithURL url: URL) {
+        let alertController = UIAlertController(title: "Link tapped", message: nil, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alertController, animated: true, completion: nil)
     }
 }
