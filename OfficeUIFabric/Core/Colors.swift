@@ -261,6 +261,25 @@ public final class MSColors: NSObject {
         }
     }
 
+    public struct Notification {
+        public struct PrimaryToast {
+            public static var background = UIColor(light: primary.withAlphaComponent(0.2), dark: primary)
+            public static var foreground = UIColor(light: primary, dark: black)
+        }
+        public struct NeutralToast {
+            public static var background = UIColor(light: gray100, dark: gray600).withAlphaComponent(0.6)
+            public static var foreground: UIColor = foreground1
+        }
+        public struct PrimaryBar {
+            public static var background = UIColor(light: white, dark: gray600).withAlphaComponent(0.6)
+            public static var foreground = UIColor(light: primary, dark: gray100)
+        }
+        public struct NeutralBar {
+            public static var background: UIColor = NeutralToast.background
+            public static var foreground: UIColor = NeutralToast.foreground
+        }
+    }
+
     public struct NavigationBar {
         public static var background: UIColor = background1c
         public static var tint: UIColor = BarButtonItem.secondary

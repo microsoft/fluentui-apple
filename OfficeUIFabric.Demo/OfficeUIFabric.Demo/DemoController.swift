@@ -62,6 +62,14 @@ class DemoController: UIViewController {
         container.addArrangedSubview(itemsContainer)
     }
 
+    func showMessage(_ message: String) {
+        let alert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
+        present(alert, animated: true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.dismiss(animated: true)
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = MSColors.background1
