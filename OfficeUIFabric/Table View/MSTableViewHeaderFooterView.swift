@@ -243,7 +243,7 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
     }
 
     @objc open func setup(style: Style, title: String, accessoryButtonTitle: String = "") {
-        titleView.attributedText = nil // to clear attributes
+        titleView.attributedText = NSAttributedString(string: " ") // to clear attributes
         titleView.text = title
         titleView.isSelectable = false
 
