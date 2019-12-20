@@ -6,11 +6,11 @@
 // Accessibility
 "Accessibility.Alert" = "Alert";
 "Accessibility.Dismiss.Label" = "Dismiss";
-"Accessibility.Dismiss.Hint" = "Double tap to dismiss";
+"Accessibility.Dismiss.Hint" = "Double-tap to dismiss";
 "Accessibility.Done.Label" = "Done";
-"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
-"Accessibility.Select.Hint" = "Double tap to select";
-"Accessibility.Selected.Hint" = "Double tap to see details";
+"Accessibility.MultiSelect.Hint" = "Double-tap to toggle selection";
+"Accessibility.Select.Hint" = "Double-tap to select";
+"Accessibility.Selected.Hint" = "Double-tap to see details";
 "Accessibility.Selected.Value" = "Selected";
 
 /* Accessibility label for the upper calendar date picker view. */
@@ -88,13 +88,13 @@
 "Accessibility.TabBarItemView.Hint" = "%d of %d";
 
 /* Accessibility hint for more actions button */
-"Accessibility.TableViewCell.MoreActions.Hint" = "Double tap to view more actions";
+"Accessibility.TableViewCell.MoreActions.Hint" = "Double-tap to view more actions";
 
 /* Accessibility label for more actions button */
 "Accessibility.TableViewCell.MoreActions.Label" = "More actions";
 
 /* Accessibility hint for cell when accessory view is a UISwitch */
-"Accessibility.TableViewCell.Switch.Hint" = "Double tap to toggle setting";
+"Accessibility.TableViewCell.Switch.Hint" = "Double-tap to toggle setting";
 
 /* Accessibility value for when a UISwitch is on */
 "Accessibility.TableViewCell.Switch.On" = "On";
