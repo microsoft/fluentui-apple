@@ -91,13 +91,13 @@ class CalendarView: NSView {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	/// Updates the underlying button views with given dates using the correct font colors
+	/// Updates the underlying button views with given days using the correct font colors
 	///
-	/// - Parameter paddedDates: dates to be displayed in the calendar view
-	func update(with paddedDates : PaddedCalendarDates) {
+	/// - Parameter paddedDays: day to be displayed in the calendar view
+	func update(with paddedDays : PaddedCalendarDays) {
 		var buttonIndex = 0
-		for date in paddedDates.previousMonthDates {
-			buttonViews[buttonIndex].date = date
+		for day in paddedDays.previousMonthDays {
+			buttonViews[buttonIndex].day = day
 			buttonViews[buttonIndex].state = .off
 			buttonViews[buttonIndex].type = .secondary
 			buttonIndex += 1
@@ -107,8 +107,8 @@ class CalendarView: NSView {
 			}
 		}
 		
-		for date in paddedDates.currentMonthDates {
-			buttonViews[buttonIndex].date = date
+		for day in paddedDays.currentMonthDays {
+			buttonViews[buttonIndex].day = day
 			buttonViews[buttonIndex].state = .off
 			buttonViews[buttonIndex].type = .primary
 			
@@ -119,8 +119,8 @@ class CalendarView: NSView {
 			}
 		}
 		
-		for date in paddedDates.nextMonthDates {
-			buttonViews[buttonIndex].date = date
+		for day in paddedDays.nextMonthDays {
+			buttonViews[buttonIndex].day = day
 			buttonViews[buttonIndex].state = .off
 			buttonViews[buttonIndex].type = .secondary
 			
@@ -147,14 +147,14 @@ class CalendarView: NSView {
 	let buttonViews: [CalendarDayButton] = {
 		var buttonViews: [CalendarDayButton] = []
 		for _ in 0..<Constants.rows * Constants.columns {
-			buttonViews.append(CalendarDayButton(size: Constants.calendarDayButtonSize, date: nil, fontSize: nil))
+			buttonViews.append(CalendarDayButton(size: Constants.calendarDayButtonSize, day: nil, fontSize: nil))
 		}
 		
 		return buttonViews
 	}()
 	
 	@objc private func dayButtonWasPressed(_ sender: CalendarDayButton) {
-		delegate?.calendarView(self, didSelectDate: sender.date)
+		delegate?.calendarView(self, didSelectDate: sender.day.date)
 	}
 }
 
@@ -173,10 +173,25 @@ extension CalendarViewDelegate {
 	func calendarView(_ calendarView: CalendarView, didSelectDate date: Date) {}
 }
 
-/// All dates belonging to a single month, padded by days from previous and next month
+/// All days belonging to a single month, padded by days from previous and next month
 /// to correctly line up with the weekday columns
-struct PaddedCalendarDates {
-	var previousMonthDates : [Date] = []
-	var currentMonthDates : [Date] = []
-	var nextMonthDates : [Date] = []
+struct PaddedCalendarDays {
+	var previousMonthDays : [CalendarDay] = []
+	var currentMonthDays : [CalendarDay] = []
+	var nextMonthDays : [CalendarDay] = []
+}
+
+struct CalendarDay {
+	
+	/// Date of the calendar day
+	let date: Date
+	
+	/// Primary String representation of the day
+	let primaryLabel: String
+	
+	/// String used for accessibility scenarios, like VoiceOver
+	let accessibilityLabel: String
+	
+	/// Secondary String representation of the day
+	let secondaryLabel: String?
 }

@@ -86,7 +86,15 @@ open class DatePickerController: NSViewController {
 	}
 	
 	/// Internal storage of the current calendar
-	private(set) var calendar: Calendar
+	let calendar: Calendar
+	
+	/// Storage of the secondary calendar
+	public var secondaryCalendar: Calendar? {
+		didSet {
+			secondaryDayFormatter = secondaryCalendar.map { dayFormatter(for: $0) }
+			datePicker.refresh()
+		}
+	}
 	
 	/// Checks if the given date is in the currently visible range
 	private func isInVisibleRange(date: Date) -> Bool {
@@ -152,6 +160,41 @@ open class DatePickerController: NSViewController {
 			datePicker.refresh()
 		}
 	}
+	
+	/// Generates a DateFormatter for day labels.
+	/// - Parameter calendar: The calendar that the DateFormatter should use
+	private func dayFormatter(for calendar: Calendar) -> DateFormatter {
+		let formatter = DateFormatter()
+		formatter.calendar = calendar
+		formatter.locale = calendar.locale
+		
+		// In this case, we want to use Chinese numerals instead of western
+		// Setting dateStyle to .long before setting the dateFormat will achieve this
+		if calendar.identifier == .chinese && calendar.locale?.languageCode == "zh" {
+			formatter.dateStyle = .long
+		}
+		
+		formatter.dateFormat = "d"
+		
+		return formatter
+	}
+	
+	/// Formatter used to generate primary calendar day strings
+	private lazy var primaryDayFormatter = self.dayFormatter(for: calendar)
+	
+	/// Formatter used to generate day strings used in accessibility scenarios like VoiceOver
+	private lazy var accessibilityDayFormatter: DateFormatter = {
+		let dateFormatter = DateFormatter()
+		dateFormatter.calendar = calendar
+		dateFormatter.locale = calendar.locale
+		dateFormatter.dateStyle = .medium
+		dateFormatter.timeStyle = .none
+		
+		return dateFormatter
+	}()
+	
+	/// Formatter used to generate secondary calendar day strings
+	private var secondaryDayFormatter: DateFormatter?
 }
 
 extension DatePickerController: DatePickerViewDelegate {
@@ -163,7 +206,7 @@ extension DatePickerController: DatePickerViewDelegate {
 	///   - button: The calendar day button.
 	/// - Returns: True if the button should highlight.
 	func datePicker(_ datePicker: DatePickerView, shouldHighlightButton button: CalendarDayButton) -> Bool {
-		return button.date == selectedDate
+		return button.day.date == selectedDate
 	}
 	
 	/// Handles date only selection coming from the date picker view.
@@ -220,7 +263,7 @@ extension DatePickerController: DatePickerViewDataSource {
 	///   - datePicker: The date picker view.
 	///   - date: The given date, only month and year are considered.
 	/// - Returns: All dates in the month of the given date, padded by days from previous and next month.
-	func datePicker(_ datePicker : DatePickerView, paddedDatesFor date : Date) -> PaddedCalendarDates {
+	func datePicker(_ datePicker : DatePickerView, paddedDaysFor date : Date) -> PaddedCalendarDays {
 		var dateComponents = calendar.dateComponents([.month, .year], from: date)
 		dateComponents.weekday = calendar.firstWeekday
 		dateComponents.weekdayOrdinal = 1
@@ -248,11 +291,11 @@ extension DatePickerController: DatePickerViewDataSource {
 			calendar.component(.month, from: $0) == nextMonthComponent
 			} ?? allDates.endIndex
 		
-		let prevMonthDates = Array(allDates[allDates.startIndex..<firstIndexOfCurrentMonth])
-		let currentMonthDates = Array(allDates[firstIndexOfCurrentMonth..<firstIndexOfNextMonth])
-		let nextMonthDates = Array(allDates[firstIndexOfNextMonth..<allDates.endIndex])
+		let prevMonthDays = allDates[allDates.startIndex..<firstIndexOfCurrentMonth].map { calendarDay(for: $0) }
+		let currentMonthDays = allDates[firstIndexOfCurrentMonth..<firstIndexOfNextMonth].map { calendarDay(for: $0) }
+		let nextMonthDays = allDates[firstIndexOfNextMonth..<allDates.endIndex].map { calendarDay(for: $0) }
 		
-		return PaddedCalendarDates(previousMonthDates: prevMonthDates, currentMonthDates: currentMonthDates, nextMonthDates: nextMonthDates)
+		return PaddedCalendarDays(previousMonthDays: prevMonthDays, currentMonthDays: currentMonthDays, nextMonthDays: nextMonthDays)
 	}
 	
 	/// Returns a date that is one month in the past from the given date.
@@ -304,6 +347,16 @@ extension DatePickerController: DatePickerViewDataSource {
 			let dayIndex = (firstWeekday - 1 + day) % weekdays.count
 			return weekdays[dayIndex]
 		}
+	}
+	
+	/// Creates a CalendarDay given a date. Identifiers are generated using the available calendars.
+	/// - Parameter date: The given date.
+	private func calendarDay(for date: Date) -> CalendarDay {
+		return CalendarDay(
+			date: date,
+			primaryLabel: primaryDayFormatter.string(from: date),
+			accessibilityLabel: accessibilityDayFormatter.string(from: date),
+			secondaryLabel: secondaryDayFormatter?.string(from: date))
 	}
 }
 

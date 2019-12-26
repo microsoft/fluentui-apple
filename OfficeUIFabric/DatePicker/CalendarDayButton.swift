@@ -46,9 +46,9 @@ class CalendarDayButton: NSButton {
 	///   - size: Diameter of the circular button
 	///   - date: Date of which the day should be displayed. Defaults to current date.
 	///   - fontSize: Font size of the day label. Defaults to fraction of the radius as defined in the Constants.
-	init(size: CGFloat, date: Date?, fontSize: CGFloat?) {
+	init(size: CGFloat, day: CalendarDay?, fontSize: CGFloat?) {
 		self.size = size
-		self.date = date ?? Date()
+		self.day = day ?? CalendarDay(date: Date(), primaryLabel: "", accessibilityLabel: "", secondaryLabel: nil)
 		self.fontSize = fontSize ?? Constants.fontSizeScalingDefault * size
 		
 		let frame = NSRect.init(x: 0, y: 0, width: size, height: size)
@@ -70,7 +70,7 @@ class CalendarDayButton: NSButton {
 		
 		// Text layer used for the label
 		textLayer.frame = frame
-		textLayer.string = dateFormatter.string(from: self.date)
+		textLayer.string = day?.primaryLabel
 		textLayer.font = NSFont.systemFont(ofSize: self.fontSize)
 		textLayer.fontSize = self.fontSize
 		textLayer.alignmentMode = .center
@@ -88,7 +88,7 @@ class CalendarDayButton: NSButton {
 		]
 		NSLayoutConstraint.activate(constraints)
 		
-		setAccessibilityLabel(accessibilityFormatter.string(from: self.date))
+		setAccessibilityLabel(day?.accessibilityLabel)
 	}
 	
 	required init?(coder decoder: NSCoder) {
@@ -159,11 +159,12 @@ class CalendarDayButton: NSButton {
 			return true
 		}
 	}
-	
-	var date: Date {
+	/// The day that is being displayed
+	var day: CalendarDay {
 		didSet {
-			textLayer.string = dateFormatter.string(from: date)
-			setAccessibilityLabel(accessibilityFormatter.string(from: date))
+			textLayer.string = day.primaryLabel
+			setAccessibilityLabel(day.accessibilityLabel)
+			needsDisplay = true
 		}
 	}
 	
@@ -195,24 +196,6 @@ class CalendarDayButton: NSButton {
 	private let textLayer = CenteredTextLayer()
 	private let highlightLayer = CALayer()
 	private let maskLayer = CAShapeLayer()
-	
-	/// Date formatter used to convert the given date to a string
-	private let dateFormatter: DateFormatter = {
-		let dateFormatter = DateFormatter()
-		dateFormatter.timeStyle = .none
-		dateFormatter.dateFormat = "d"
-		
-		return dateFormatter
-	}()
-	
-	/// Date formatter used for the accessibility label
-	private let accessibilityFormatter: DateFormatter = {
-		let dateFormatter = DateFormatter()
-		dateFormatter.dateStyle = .medium
-		dateFormatter.timeStyle = .none
-		
-		return dateFormatter
-	}()
 	
 	private var isDarkMode: Bool {
 		var isInDarkAppearance = false

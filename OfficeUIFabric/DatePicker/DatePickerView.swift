@@ -315,13 +315,13 @@ class DatePickerView: NSView {
 				return
 		}
 		
-		let prevMonthPaddedDates = dataSource.datePicker(self, paddedDatesFor: previousMonthDate)
+		let prevMonthPaddedDates = dataSource.datePicker(self, paddedDaysFor: previousMonthDate)
 		calendarViews.leading.update(with: prevMonthPaddedDates)
 		
-		let currentMonthDayPaddedDates = dataSource.datePicker(self, paddedDatesFor: dataSource.selectedDate)
+		let currentMonthDayPaddedDates = dataSource.datePicker(self, paddedDaysFor: dataSource.selectedDate)
 		calendarViews.center.update(with: currentMonthDayPaddedDates)
 		
-		let nextMonthPaddedDates = dataSource.datePicker(self, paddedDatesFor: nextMonthDate)
+		let nextMonthPaddedDates = dataSource.datePicker(self, paddedDaysFor: nextMonthDate)
 		calendarViews.trailing.update(with: nextMonthPaddedDates)
 	}
 	
@@ -362,7 +362,7 @@ class DatePickerView: NSView {
 		calendarViews = CalendarViewBuffer(leading: calendarViews.center, center: calendarViews.trailing, trailing: calendarViews.leading)
 		
 		let nextMonth = dataSource.datePicker(self, nextMonthFor: dataSource.selectedDate) ?? dataSource.selectedDate
-		let paddedDates = dataSource.datePicker(self, paddedDatesFor: nextMonth)
+		let paddedDates = dataSource.datePicker(self, paddedDaysFor: nextMonth)
 		
 		calendarViews.trailing.update(with: paddedDates)
 		updateSelection()
@@ -378,7 +378,7 @@ class DatePickerView: NSView {
 		calendarViews = CalendarViewBuffer(leading: calendarViews.trailing, center: calendarViews.leading, trailing: calendarViews.center)
 		
 		let prevMonth = dataSource.datePicker(self, previousMonthFor: dataSource.selectedDate) ?? dataSource.selectedDate
-		let paddedDates = dataSource.datePicker(self, paddedDatesFor: prevMonth)
+		let paddedDates = dataSource.datePicker(self, paddedDaysFor: prevMonth)
 		
 		calendarViews.leading.update(with: paddedDates)
 		updateSelection()
@@ -539,7 +539,7 @@ protocol DatePickerViewDataSource: class {
 	///   - datePicker: The date picker that sent the message.
 	///   - month: The month.
 	/// - Returns: Padded dates for the given month
-	func datePicker(_ datePicker: DatePickerView, paddedDatesFor month: Date) -> PaddedCalendarDates
+	func datePicker(_ datePicker: DatePickerView, paddedDaysFor month: Date) -> PaddedCalendarDays
 	
 	/// Asks the data source for a date that is one month in the past from the given date
 	///
