@@ -62,7 +62,6 @@ class AvatarViewTests: XCTestCase {
 		XCTAssertNil(AvatarView.initials(name: "حسن", email: nil))
 		XCTAssertNil(AvatarView.initials(name: nil, email: "用户@例子.广告"))
 
-
 		// Complex roman characters
 		XCTAssertEqual(AvatarView.initialsWithFallback(name: "Êmïlÿ Çœłb", email: nil), "ÊÇ")
 		
@@ -77,11 +76,19 @@ class AvatarViewTests: XCTestCase {
 		XCTAssertEqual(AvatarView.initialsWithFallback(name: " Satya Nadella ", email: nil), "SN")
 		XCTAssertEqual(AvatarView.initialsWithFallback(name: "\nSatya Nadella\n", email: nil), "SN")
 		XCTAssertEqual(AvatarView.initialsWithFallback(name: "\tSatya Nadella ", email: nil), "SN")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "\t Satya Nadella ", email: nil), "SN")
 		XCTAssertEqual(AvatarView.initialsWithFallback(name: "Satya Nadella\n", email: nil), "SN")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "Satya Nadella \n", email: nil), "SN")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "Satya Nadella \t", email: nil), "SN")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "Satya \n Nadella", email: nil), "SN")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "Satya \t Nadella", email: nil), "SN")
 		
 		// Zero Width Space
 		XCTAssertEqual(AvatarView.initialsWithFallback(name: "Jane\u{200B}Doe", email: nil), "J")
 		XCTAssertEqual(AvatarView.initialsWithFallback(name: "\u{200B}Jane\u{200B} \u{200B}Doe\u{200B}", email: nil), "JD")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "Jane \u{200B} \u{200B}Doe\u{200B}", email: nil), "JD")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "\u{200B} Jane\u{200B} \u{200B}Doe\u{200B}", email: nil), "JD")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "Jane\u{200B} \u{200B}Doe \u{200B}", email: nil), "JD")
 	}
 	
 	func testAccessibility () {

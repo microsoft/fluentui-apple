@@ -330,20 +330,20 @@ open class AvatarView : NSView {
 		var whitespaceNewlineAndZeroWidthSpace = CharacterSet.whitespacesAndNewlines
 		whitespaceNewlineAndZeroWidthSpace.update(with: .zeroWidthSpace)
 
-		if let name = name, name.count > 0 {
+		if let name = name, !name.isEmpty {
 			let components = name.split(separator: " ").map { $0.trimmingCharacters(in: whitespaceNewlineAndZeroWidthSpace) }
 			let nameComponentsWithUnicodeLetterFirstCharacters = components.filter {
-				$0[$0.startIndex].isValidInitialsCharacter
+				!$0.isEmpty && $0[$0.startIndex].isValidInitialsCharacter
 			}
 
-			if nameComponentsWithUnicodeLetterFirstCharacters.count > 0 {
+			if !nameComponentsWithUnicodeLetterFirstCharacters.isEmpty {
 				initials = String(nameComponentsWithUnicodeLetterFirstCharacters.prefix(AvatarView.maximumNumberOfInitials).map { $0[$0.startIndex] })
 			}
 		}
 
 		if initials == nil,
 			let email = email?.trimmingCharacters(in: whitespaceNewlineAndZeroWidthSpace),
-			email.count > 0 {
+			!email.isEmpty {
 			let initialCharacter = email[email.startIndex]
 			if initialCharacter.isValidInitialsCharacter {
 				initials = String(initialCharacter)
