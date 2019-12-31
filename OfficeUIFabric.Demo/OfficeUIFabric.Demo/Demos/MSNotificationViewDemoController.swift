@@ -6,25 +6,76 @@
 import UIKit
 
 class MSNotificationViewDemoController: DemoController {
+    enum Variant: Int, CaseIterable {
+        case primaryToast
+        case primaryToastWithImageAndTitle
+        case neutralToast
+        case primaryBar
+        case neutralBar
+
+        var displayText: String {
+            switch self {
+            case .primaryToast:
+                return "Primary Toast with auto-hide"
+            case .primaryToastWithImageAndTitle:
+                return "Primary Toast with image and title"
+            case .neutralToast:
+                return "Neutral Toast"
+            case .primaryBar:
+                return "Primary Bar"
+            case .neutralBar:
+                return "Neutral Bar"
+            }
+        }
+
+        var delayForHiding: TimeInterval {
+            switch self {
+            case .primaryToast, .primaryBar, .neutralBar:
+                return 2
+            default:
+                return .infinity
+            }
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = MSColors.background2
 
-        addTitle(text: "Primary Toast")
-        container.addArrangedSubview(createNotificationView(style: .primaryToast, message: "Mail Archived", actionTitle: "Undo", action: { [unowned self] in self.showMessage("`Undo` tapped") }))
-        addTitle(text: "Primary Toast with image and title")
-        container.addArrangedSubview(createNotificationView(style: .primaryToast, title: "Kat's iPhoneX", message: "Listen to Emails • 7 mins", image: UIImage(named: "play-in-circle-24x24"), messageAction: { [unowned self] in self.showMessage("`Listen to emails` tapped") }))
-        addTitle(text: "Neutral Toast")
-        container.addArrangedSubview(createNotificationView(style: .neutralToast, message: "Some items require you to sign in to view them", actionTitle: "Sign in", action: { [unowned self] in self.showMessage("`Sign in` tapped") }))
-        addTitle(text: "Primary Bar")
-        container.addArrangedSubview(createNotificationView(style: .primaryBar, message: "Updating..."))
-        addTitle(text: "Neutral Bar")
-        container.addArrangedSubview(createNotificationView(style: .neutralBar, message: "No internet connection"))
+        for (index, variant) in Variant.allCases.enumerated() {
+            if index > 0 {
+                // spacers
+                container.addArrangedSubview(UIView())
+                container.addArrangedSubview(UIView())
+            }
+            addTitle(text: variant.displayText)
+            container.addArrangedSubview(createNotificationView(forVariant: variant))
+            container.addArrangedSubview(createButton(title: "Show", action: #selector(showNotificationView)))
+        }
     }
 
-    private func createNotificationView(style: MSNotificationView.Style, title: String = "", message: String, image: UIImage? = nil, actionTitle: String = "", action: (() -> Void)? = nil, messageAction: (() -> Void)? = nil) -> MSNotificationView {
+    private func createNotificationView(forVariant variant: Variant) -> MSNotificationView {
         let view = MSNotificationView()
-        view.setup(style: style, title: title, message: message, image: image, actionTitle: actionTitle, action: action ?? { [unowned self] in self.showMessage("`Dismiss` tapped") }, messageAction: messageAction)
+        switch variant {
+        case .primaryToast:
+            view.setup(style: .primaryToast, message: "Mail Archived", actionTitle: "Undo", action: { [unowned self] in self.showMessage("`Undo` tapped") })
+        case .primaryToastWithImageAndTitle:
+            view.setup(style: .primaryToast, title: "Kat's iPhoneX", message: "Listen to Emails • 7 mins", image: UIImage(named: "play-in-circle-24x24"), action: { [unowned self] in self.showMessage("`Dismiss` tapped") }, messageAction: { [unowned self] in self.showMessage("`Listen to emails` tapped") })
+        case .neutralToast:
+            view.setup(style: .neutralToast, message: "Some items require you to sign in to view them", actionTitle: "Sign in", action: { [unowned self] in self.showMessage("`Sign in` tapped") })
+        case .primaryBar:
+            view.setup(style: .primaryBar, message: "Updating...")
+        case .neutralBar:
+            view.setup(style: .neutralBar, message: "No internet connection")
+        }
         return view
+    }
+
+    @objc private func showNotificationView(sender: UIButton) {
+        guard let index = container.arrangedSubviews.filter({ $0 is UIButton }).firstIndex(of: sender), let variant = Variant(rawValue: index) else {
+            fatalError("showNotificationView is used for a button in the wrong container")
+        }
+
+        createNotificationView(forVariant: variant).show(in: view) { $0.hide(after: variant.delayForHiding) }
     }
 }

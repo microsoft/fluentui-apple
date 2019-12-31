@@ -31,6 +31,17 @@ public extension UIView {
         set { frame.size.height = newValue }
     }
 
+    var directionalSafeAreaInsets: NSDirectionalEdgeInsets {
+        let insets = safeAreaInsets
+        let isRTL = effectiveUserInterfaceLayoutDirection == .rightToLeft
+        return NSDirectionalEdgeInsets(
+            top: insets.top,
+            leading: isRTL ? insets.right : insets.left,
+            bottom: insets.bottom,
+            trailing: isRTL ? insets.left : insets.right
+        )
+    }
+
     private var contentWidth: CGFloat {
         return (self as? UIScrollView)?.contentSize.width ?? bounds.width
     }
