@@ -10,7 +10,6 @@
 		8005007722FB361200CA6343 /* DatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8005007622FB361200CA6343 /* DatePickerControllerTests.swift */; };
 		80117A7F22DCDF6F00813D59 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80117A7E22DCDF6F00813D59 /* CalendarView.swift */; };
 		80117A8322E0E63E00813D59 /* CalendarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80117A8222E0E63E00813D59 /* CalendarHeaderView.swift */; };
-		804626C222D7905200AFA48C /* CenteredTextLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804626C122D7905200AFA48C /* CenteredTextLayer.swift */; };
 		804626C622D7908100AFA48C /* CalendarDayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804626C522D7908100AFA48C /* CalendarDayButton.swift */; };
 		8061BF7E22EF936800F2D245 /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8061BF7C22EF936700F2D245 /* DatePickerView.swift */; };
 		8061BF7F22EF936800F2D245 /* DatePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8061BF7D22EF936700F2D245 /* DatePickerController.swift */; };
@@ -51,7 +50,6 @@
 		8005007622FB361200CA6343 /* DatePickerControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerControllerTests.swift; sourceTree = "<group>"; };
 		80117A7E22DCDF6F00813D59 /* CalendarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		80117A8222E0E63E00813D59 /* CalendarHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarHeaderView.swift; sourceTree = "<group>"; };
-		804626C122D7905200AFA48C /* CenteredTextLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CenteredTextLayer.swift; sourceTree = "<group>"; };
 		804626C522D7908100AFA48C /* CalendarDayButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarDayButton.swift; sourceTree = "<group>"; };
 		8061BF7C22EF936700F2D245 /* DatePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
 		8061BF7D22EF936700F2D245 /* DatePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerController.swift; sourceTree = "<group>"; };
@@ -145,7 +143,6 @@
 				804626C522D7908100AFA48C /* CalendarDayButton.swift */,
 				80117A8222E0E63E00813D59 /* CalendarHeaderView.swift */,
 				80117A7E22DCDF6F00813D59 /* CalendarView.swift */,
-				804626C122D7905200AFA48C /* CenteredTextLayer.swift */,
 				807EA70722DCEE940064FD47 /* DatePickerScrollView.swift */,
 				8061BF7C22EF936700F2D245 /* DatePickerView.swift */,
 				8061BF7D22EF936700F2D245 /* DatePickerController.swift */,
@@ -426,7 +423,6 @@
 			files = (
 				804626C622D7908100AFA48C /* CalendarDayButton.swift in Sources */,
 				80117A8322E0E63E00813D59 /* CalendarHeaderView.swift in Sources */,
-				804626C222D7905200AFA48C /* CenteredTextLayer.swift in Sources */,
 				80117A7F22DCDF6F00813D59 /* CalendarView.swift in Sources */,
 				8061BF7E22EF936800F2D245 /* DatePickerView.swift in Sources */,
 				8061BF7F22EF936800F2D245 /* DatePickerController.swift in Sources */,

@@ -4,52 +4,22 @@
 
 import AppKit
 
-fileprivate struct Constants {
-	/// Font size of the label will be scaled to this fraction of the radius passed in
-	static let fontSizeScalingDefault: CGFloat = 0.45
-	
-	/// Color used for the current month CalendarDayButtons in dark mode
-	static var primaryFontColorDarkMode: NSColor {
-		return NSColor.white.withAlphaComponent(0.9)
-	}
-	
-	/// Color used for the current month CalendarDayButtons in light mode
-	static var primaryFontColorLightMode: NSColor {
-		return NSColor.black.withAlphaComponent(0.9)
-	}
-	
-	/// Color used for the previous/next month CalendarDayButtons in dark mode
-	static var secondaryFontColorDarkMode: NSColor {
-		return NSColor.white.withAlphaComponent(0.5)
-	}
-	
-	/// Color used for the previous/next month CalendarDayButtons in light mode
-	static var secondaryFontColorLightMode: NSColor {
-		return NSColor.black.withAlphaComponent(0.5)
-	}
-	
-	/// make the init method private so clients don't unintentionally instantiate this struct
-	private init() {}
-}
-
 /// A circular button with a day label centered inside of it. This is meant to be used in a grid-like calendar view.
 class CalendarDayButton: NSButton {
 	
-	enum LabelType {
+	enum DayButtonType {
 		case primary
 		case secondary
 	}
 	
-	/// Initializes a calendar day button with a size, date, font size, and font color.
+	/// Initializes a calendar day button with size and a CalendarDay
 	///
 	/// - Parameters:
 	///   - size: Diameter of the circular button
-	///   - date: Date of which the day should be displayed. Defaults to current date.
-	///   - fontSize: Font size of the day label. Defaults to fraction of the radius as defined in the Constants.
-	init(size: CGFloat, day: CalendarDay?, fontSize: CGFloat?) {
+	///   - day: Day that should be displayed
+	init(size: CGFloat, day: CalendarDay?) {
 		self.size = size
 		self.day = day ?? CalendarDay(date: Date(), primaryLabel: "", accessibilityLabel: "", secondaryLabel: nil)
-		self.fontSize = fontSize ?? Constants.fontSizeScalingDefault * size
 		
 		let frame = NSRect.init(x: 0, y: 0, width: size, height: size)
 		super.init(frame: frame)
@@ -67,24 +37,48 @@ class CalendarDayButton: NSButton {
 		maskLayer.path = CGPath(ellipseIn: frame, transform: nil)
 		maskLayer.contentsScale = window?.backingScaleFactor ?? 1.0
 		layer?.mask = maskLayer
-		
-		// Text layer used for the label
-		textLayer.frame = frame
-		textLayer.string = day?.primaryLabel
-		textLayer.font = NSFont.systemFont(ofSize: self.fontSize)
-		textLayer.fontSize = self.fontSize
-		textLayer.alignmentMode = .center
-		textLayer.contentsScale = window?.backingScaleFactor ?? 1.0
-		layer?.addSublayer(textLayer)
-		
+
 		// Layer with a compositing filter used to 'subtract' the text from the highlight circle
 		highlightLayer.frame = frame
 		highlightLayer.compositingFilter = CIFilter(name: "CISourceOutCompositing")
 		highlightLayer.contentsScale = window?.backingScaleFactor ?? 1.0
 		
+		// Ensures that the highlight layer is always on top, so the compositingFilter works properly
+		// Using Float.greatestFiniteMagnitude instead of CGFloat so CoreAnimation doesn't complain
+		// This only seems to be necessary when presented in an NSMenu
+		highlightLayer.zPosition = CGFloat(Float.greatestFiniteMagnitude)
+		
+		let upperLabelContainer = NSView()
+		let lowerLabelContainer = NSView()
+		
+		upperLabelContainer.translatesAutoresizingMaskIntoConstraints = false
+		lowerLabelContainer.translatesAutoresizingMaskIntoConstraints = false
+		
+		addSubview(centeredLabel)
+		upperLabelContainer.addSubview(upperLabel)
+		lowerLabelContainer.addSubview(lowerLabel)
+		
+		addSubview(upperLabelContainer)
+		addSubview(lowerLabelContainer)
+		
 		let constraints = [
-			NSLayoutConstraint(item: self, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: size),
-			NSLayoutConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: size),
+			widthAnchor.constraint(equalToConstant: size),
+			heightAnchor.constraint(equalToConstant: size),
+			centeredLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+			centeredLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+			
+			upperLabelContainer.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.5),
+			upperLabelContainer.widthAnchor.constraint(equalTo: widthAnchor),
+			upperLabelContainer.topAnchor.constraint(equalTo: topAnchor, constant: CalendarDayButton.dualModeMargin),
+			
+			lowerLabelContainer.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.5),
+			lowerLabelContainer.widthAnchor.constraint(equalTo: widthAnchor),
+			lowerLabelContainer.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -CalendarDayButton.dualModeMargin),
+			
+			upperLabel.centerXAnchor.constraint(equalTo: upperLabelContainer.centerXAnchor),
+			upperLabel.centerYAnchor.constraint(equalTo: upperLabelContainer.centerYAnchor),
+			lowerLabel.centerXAnchor.constraint(equalTo: lowerLabelContainer.centerXAnchor),
+			lowerLabel.centerYAnchor.constraint(equalTo: lowerLabelContainer.centerYAnchor)
 		]
 		NSLayoutConstraint.activate(constraints)
 		
@@ -98,8 +92,11 @@ class CalendarDayButton: NSButton {
 	override func updateLayer() {
 		switch state {
 		case .on:
-			textLayer.addSublayer(highlightLayer)
-			textLayer.font = NSFont.boldSystemFont(ofSize: fontSize)
+			NSAnimationContext.runAnimationGroup({ context in
+				context.allowsImplicitAnimation = true
+				layer?.addSublayer(highlightLayer)
+			})
+			
 			if #available(OSX 10.14, *) {
 				highlightLayer.backgroundColor = customSelectionColor?.cgColor ?? NSColor.controlAccentColor.cgColor
 			} else {
@@ -109,39 +106,35 @@ class CalendarDayButton: NSButton {
 			if highlightLayer.superlayer != nil {
 				highlightLayer.removeFromSuperlayer()
 			}
-			textLayer.font = NSFont.systemFont(ofSize: fontSize)
 		default:
 			break
 		}
 		
-		switch type {
-		case .primary:
-			textLayer.foregroundColor = isDarkMode ? Constants.primaryFontColorDarkMode.cgColor : Constants.primaryFontColorLightMode.cgColor
-		case .secondary:
-			textLayer.foregroundColor = isDarkMode ? Constants.secondaryFontColorDarkMode.cgColor : Constants.secondaryFontColorLightMode.cgColor
-		}
-		
+		centeredLabel.font = upperLabelFont
+		upperLabel.font = upperLabelFont
+		lowerLabel.font = lowerLabelFont
+
+		centeredLabel.textColor = upperLabelFontColor
+		upperLabel.textColor = upperLabelFontColor
+		lowerLabel.textColor = lowerLabelFontColor
+
+		centeredLabel.isHidden = dualMode
+		upperLabel.isHidden = !dualMode
+		lowerLabel.isHidden = !dualMode
 	}
 	
 	override func viewDidChangeBackingProperties() {
 		super.viewDidChangeBackingProperties()
-		
+
 		// Update the layer content scales to the current window backingScaleFactor
 		guard let scale = window?.backingScaleFactor else {
 			return
 		}
-		
-		if layer?.contentsScale != scale {
-			layer?.contentsScale = scale
-		}
-		if textLayer.contentsScale != scale {
-			textLayer.contentsScale = scale
-		}
-		if highlightLayer.contentsScale != scale {
-			highlightLayer.contentsScale = scale
-		}
-		if maskLayer.contentsScale != scale {
-			maskLayer.contentsScale = scale
+
+		[highlightLayer, maskLayer].forEach {
+			if $0.contentsScale != scale {
+				$0.contentsScale = scale
+			}
 		}
 	}
 	
@@ -149,8 +142,8 @@ class CalendarDayButton: NSButton {
 	override func drawFocusRingMask() {
 		let rect = bounds;
 		let circlePath = NSBezierPath()
-		circlePath.appendOval(in: rect)
 		
+		circlePath.appendOval(in: rect)
 		circlePath.fill()
 	}
 	
@@ -159,33 +152,31 @@ class CalendarDayButton: NSButton {
 			return true
 		}
 	}
+	
 	/// The day that is being displayed
 	var day: CalendarDay {
 		didSet {
-			textLayer.string = day.primaryLabel
+			centeredLabel.stringValue = day.primaryLabel
+			upperLabel.stringValue = day.primaryLabel
+			
+			if let label = day.secondaryLabel {
+				lowerLabel.stringValue = label
+			}
 			setAccessibilityLabel(day.accessibilityLabel)
 			needsDisplay = true
 		}
 	}
 	
-	var fontSize: CGFloat {
+	/// Type of the button
+	var type: DayButtonType = .primary {
 		didSet {
-			textLayer.fontSize = fontSize
-		}
-	}
-	
-	var type: LabelType = .primary {
-		didSet {
-			// Ensures that updateLayer is called after button type change
 			if type != oldValue {
 				needsDisplay = true
 			}
 		}
 	}
 	
-	private let size: CGFloat
-	
-	/// A custom color for this CalendarDayButton
+	/// A custom color for this CalendarDayButton highlight
 	/// - note: Setting this to nil results in using a default color
 	var customSelectionColor: NSColor? {
 		didSet {
@@ -193,9 +184,89 @@ class CalendarDayButton: NSButton {
 		}
 	}
 	
-	private let textLayer = CenteredTextLayer()
-	private let highlightLayer = CALayer()
-	private let maskLayer = CAShapeLayer()
+	/// Diameter of the button
+	private let size: CGFloat
+	
+	/// Indicates whether the button should display two labels
+	private var dualMode: Bool {
+		return day.secondaryLabel != nil
+	}
+	
+	/// Primary font size calculated relative to the button size
+	private var primaryFontSize: CGFloat {
+		return CalendarDayButton.primaryFontSizeScalingDefault * size
+	}
+	
+	/// Secondary font size calculated relative to the button size
+	private var secondaryFontSize: CGFloat {
+		return CalendarDayButton.secondaryFontSizeScalingDefault * size
+	}
+	
+	/// Font used in the upper label
+	private var upperLabelFont: NSFont {
+		if state == .on {
+			return .boldSystemFont(ofSize: primaryFontSize)
+		} else {
+			return .systemFont(ofSize: primaryFontSize)
+		}
+	}
+	
+	/// Font used in the lower label
+	private var lowerLabelFont: NSFont {
+		if state == .on {
+			return .boldSystemFont(ofSize: secondaryFontSize)
+		} else {
+			return .systemFont(ofSize: secondaryFontSize)
+		}
+	}
+	
+	/// Font color of the upper label
+	private var upperLabelFontColor: NSColor {
+		switch type {
+		case .primary:
+			return isDarkMode ? .primaryLabelColorDarkMode : .primaryLabelColorLightMode
+		case .secondary:
+			return isDarkMode ? .secondaryLabelColorDarkMode : .secondaryLabelColorLightMode
+		}
+	}
+	
+	/// Font color of the lower label
+	private var lowerLabelFontColor: NSColor {
+		switch type {
+		case .primary:
+			if state == .on {
+				return isDarkMode ? .primaryLabelColorDarkMode : .primaryLabelColorLightMode
+			} else {
+				return isDarkMode ? .secondaryLabelColorDarkMode : .secondaryLabelColorLightMode
+			}
+		case .secondary:
+			return isDarkMode ? .tertiaryLabelColorDarkMode : .tertiaryLabelColorLightMode
+		}
+	}
+	
+	/// Text field used to display the day label in single mode
+	private lazy var centeredLabel: NSTextField = {
+		var textField = NSTextField(labelWithString: "")
+		textField.wantsLayer = true
+		textField.translatesAutoresizingMaskIntoConstraints = false
+		return textField
+	}()
+	
+	/// Text field used to display the primary day label in dual mode
+	private lazy var upperLabel: NSTextField = {
+		var textField = NSTextField(labelWithString: "")
+		textField.wantsLayer = true
+		textField.translatesAutoresizingMaskIntoConstraints = false
+		return textField
+	}()
+	
+	/// Text field used to display the secondary day label in dual mode
+	private lazy var lowerLabel: NSTextField = {
+		var textField = NSTextField(labelWithString: "")
+		textField.wantsLayer = true
+		textField.translatesAutoresizingMaskIntoConstraints = false
+		return textField
+	}()
 	
 	private var isDarkMode: Bool {
 		var isInDarkAppearance = false
@@ -206,4 +277,40 @@ class CalendarDayButton: NSButton {
 		}
 		return isInDarkAppearance
 	}
+	
+	/// Layer used to draw the selected day highlight
+	private let highlightLayer = CALayer()
+	
+	/// Layer used as a mask to the backing layer to create the circular shape
+	private let maskLayer = CAShapeLayer()
+	
+	/// Font size of the primary label will be scaled to this fraction of the diameter
+	static let primaryFontSizeScalingDefault: CGFloat = 0.45
+	
+	/// Font size of the secondary label will be scaled to this fraction of the diameter
+	static let secondaryFontSizeScalingDefault: CGFloat = 0.29
+	
+	/// Top/Bottom margin for visual balance in dual mode
+	static let dualModeMargin: CGFloat = 1.75
+}
+
+fileprivate extension NSColor {
+	
+	/// Primary label font color in dark mode
+	static let primaryLabelColorDarkMode = NSColor.white.withAlphaComponent(0.9)
+	
+	/// Primary label font color in light mode
+	static let primaryLabelColorLightMode = NSColor.black.withAlphaComponent(0.9)
+	
+	/// Secondary label font color in dark mode
+	static let secondaryLabelColorDarkMode = NSColor.white.withAlphaComponent(0.5)
+	
+	/// Secondary label font color in light mode
+	static let secondaryLabelColorLightMode = NSColor.black.withAlphaComponent(0.5)
+	
+	/// Tertiary label font color in dark mode
+	static let tertiaryLabelColorDarkMode = NSColor.white.withAlphaComponent(0.25)
+	
+	/// Tertiary label font color in light mode
+	static let tertiaryLabelColorLightMode = NSColor.black.withAlphaComponent(0.25)
 }

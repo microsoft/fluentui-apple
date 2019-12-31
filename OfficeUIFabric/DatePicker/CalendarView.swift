@@ -147,7 +147,7 @@ class CalendarView: NSView {
 	let buttonViews: [CalendarDayButton] = {
 		var buttonViews: [CalendarDayButton] = []
 		for _ in 0..<Constants.rows * Constants.columns {
-			buttonViews.append(CalendarDayButton(size: Constants.calendarDayButtonSize, day: nil, fontSize: nil))
+			buttonViews.append(CalendarDayButton(size: Constants.calendarDayButtonSize, day: nil))
 		}
 		
 		return buttonViews
