@@ -14,7 +14,6 @@
 		8061BF7E22EF936800F2D245 /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8061BF7C22EF936700F2D245 /* DatePickerView.swift */; };
 		8061BF7F22EF936800F2D245 /* DatePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8061BF7D22EF936700F2D245 /* DatePickerController.swift */; };
 		8061BF8322EF957200F2D245 /* TestDatePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8061BF8222EF957200F2D245 /* TestDatePickerController.swift */; };
-		807EA70822DCEE940064FD47 /* DatePickerScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807EA70722DCEE940064FD47 /* DatePickerScrollView.swift */; };
 		80FEB30F230DE91D00F9FF3E /* OfficeUIFabric.strings in Resources */ = {isa = PBXBuildFile; fileRef = 80FEB2F8230DE53F00F9FF3E /* OfficeUIFabric.strings */; };
 		8F250B8B22B3045100142B0E /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F250B8A22B3045100142B0E /* AvatarView.swift */; };
 		8F250B8D22B3062A00142B0E /* TestAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F250B8C22B3062A00142B0E /* TestAvatarViewController.swift */; };
@@ -54,7 +53,6 @@
 		8061BF7C22EF936700F2D245 /* DatePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
 		8061BF7D22EF936700F2D245 /* DatePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerController.swift; sourceTree = "<group>"; };
 		8061BF8222EF957200F2D245 /* TestDatePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestDatePickerController.swift; sourceTree = "<group>"; };
-		807EA70722DCEE940064FD47 /* DatePickerScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerScrollView.swift; sourceTree = "<group>"; };
 		80FEB2F7230DE53F00F9FF3E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/OfficeUIFabric.strings; sourceTree = "<group>"; };
 		8F250B8A22B3045100142B0E /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		8F250B8C22B3062A00142B0E /* TestAvatarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAvatarViewController.swift; sourceTree = "<group>"; };
@@ -143,7 +141,6 @@
 				804626C522D7908100AFA48C /* CalendarDayButton.swift */,
 				80117A8222E0E63E00813D59 /* CalendarHeaderView.swift */,
 				80117A7E22DCDF6F00813D59 /* CalendarView.swift */,
-				807EA70722DCEE940064FD47 /* DatePickerScrollView.swift */,
 				8061BF7C22EF936700F2D245 /* DatePickerView.swift */,
 				8061BF7D22EF936700F2D245 /* DatePickerController.swift */,
 			);
@@ -427,7 +424,6 @@
 				8061BF7E22EF936800F2D245 /* DatePickerView.swift in Sources */,
 				8061BF7F22EF936800F2D245 /* DatePickerController.swift in Sources */,
 				8F250B8B22B3045100142B0E /* AvatarView.swift in Sources */,
-				807EA70822DCEE940064FD47 /* DatePickerScrollView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

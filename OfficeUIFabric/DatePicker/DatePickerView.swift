@@ -60,20 +60,8 @@ class DatePickerView: NSView {
 		
 		self.addSubview(containerStackView)
 		containerStackView.addView(headerView, in: .top)
-		containerStackView.addView(datePickerScrollView, in: .top)
+		containerStackView.addView(monthClipView, in: .top)
 		containerStackView.addView(textDatePicker, in: .center)
-		
-		let clipView = NSClipView()
-		clipView.translatesAutoresizingMaskIntoConstraints = false
-		clipView.wantsLayer = true
-		
-		datePickerScrollView.contentView = clipView
-		datePickerScrollView.drawsBackground = false
-		datePickerScrollView.setAccessibilityElement(false)
-		
-		let documentView = NSView()
-		documentView.wantsLayer = true
-		documentView.translatesAutoresizingMaskIntoConstraints = false
 		
 		calendarStackView.translatesAutoresizingMaskIntoConstraints = false
 		calendarStackView.detachesHiddenViews = false
@@ -83,9 +71,8 @@ class DatePickerView: NSView {
 		calendarStackView.wantsLayer = true
 		calendarStackView.setViews([calendarViews.leading, calendarViews.center, calendarViews.trailing], in: .center)
 		
-		datePickerScrollView.documentView = documentView
-		
-		documentView.addSubview(calendarStackView)
+		monthClipView.translatesAutoresizingMaskIntoConstraints = false
+		monthClipView.addSubview(calendarStackView)
 		
 		NSLayoutConstraint.activate([
 			self.widthAnchor.constraint(equalToConstant: Constants.width),
@@ -99,29 +86,22 @@ class DatePickerView: NSView {
 			headerView.topAnchor.constraint(equalTo: containerStackView.topAnchor),
 			headerView.leadingAnchor.constraint(equalTo: containerStackView.leadingAnchor),
 			headerView.trailingAnchor.constraint(equalTo: containerStackView.trailingAnchor),
-			headerView.bottomAnchor.constraint(equalTo: datePickerScrollView.topAnchor, constant: -Constants.headerBottomMargin),
+			headerView.bottomAnchor.constraint(equalTo: monthClipView.topAnchor, constant: -Constants.headerBottomMargin),
 			
-			datePickerScrollView.leadingAnchor.constraint(equalTo: containerStackView.leadingAnchor),
-			datePickerScrollView.trailingAnchor.constraint(equalTo: containerStackView.trailingAnchor),
-			datePickerScrollView.bottomAnchor.constraint(equalTo: textDatePicker.topAnchor, constant: -Constants.calendarBottomMargin),
+			monthClipView.leadingAnchor.constraint(equalTo: containerStackView.leadingAnchor),
+			monthClipView.trailingAnchor.constraint(equalTo: containerStackView.trailingAnchor),
+			monthClipView.bottomAnchor.constraint(equalTo: textDatePicker.topAnchor, constant: -Constants.calendarBottomMargin),
 			
-			clipView.bottomAnchor.constraint(equalTo: documentView.bottomAnchor),
-			clipView.topAnchor.constraint(equalTo: documentView.topAnchor),
-			
-			calendarStackView.leadingAnchor.constraint(equalTo: documentView.leadingAnchor),
-			calendarStackView.trailingAnchor.constraint(equalTo: documentView.trailingAnchor),
-			calendarStackView.topAnchor.constraint(equalTo: documentView.topAnchor),
-			calendarStackView.bottomAnchor.constraint(equalTo: documentView.bottomAnchor),
+			calendarStackView.bottomAnchor.constraint(equalTo: monthClipView.bottomAnchor),
+			calendarStackView.topAnchor.constraint(equalTo: monthClipView.topAnchor),
+			calendarStackView.leadingAnchor.constraint(equalTo: containerStackView.leadingAnchor, constant: -Constants.width),
 			
 			calendarViews.leading.widthAnchor.constraint(equalTo: containerStackView.widthAnchor),
 			calendarViews.center.widthAnchor.constraint(equalTo: containerStackView.widthAnchor),
-			calendarViews.trailing.widthAnchor.constraint(equalTo: containerStackView.widthAnchor),
-			
-			documentView.leadingAnchor.constraint(equalTo: containerStackView.leadingAnchor, constant: -Constants.width)
+			calendarViews.trailing.widthAnchor.constraint(equalTo: containerStackView.widthAnchor)
 		])
 		
 		headerView.delegate = self
-		datePickerScrollView.delegate = self
 		
 		calendarViews.leading.delegate = self
 		calendarViews.center.delegate = self
@@ -216,9 +196,17 @@ class DatePickerView: NSView {
 		}
 	}
 	
-	/// True if the underlying scrollView is currently animating
-	var isAnimating: Bool {
-		return datePickerScrollView.isAnimating
+	/// True if currently animating to a new month
+	var isAnimating: Bool = false
+	
+	/// The custom color of the selected buttons of the CalendarView
+	/// - note: Setting this to nil results in using a default color
+	var customSelectionColor: NSColor? {
+		didSet {
+			[calendarViews.leading, calendarViews.center, calendarViews.trailing].forEach {
+				$0.customSelectionColor = customSelectionColor
+			}
+		}
 	}
 	
 	/// DateFormatter used to generate strings for the header label
@@ -233,8 +221,8 @@ class DatePickerView: NSView {
 	/// Internal storage of the CalendarHeaderView
 	private let headerView: CalendarHeaderView = CalendarHeaderView()
 	
-	/// Internal storage of the DatePickerScrollView
-	private let datePickerScrollView  = DatePickerScrollView()
+	/// Internal storage of the view that clips calendarStackView to only show one month
+	private let monthClipView = NSView()
 	
 	/// Internal storage of the calendarViews
 	private var calendarViews = CalendarViewBuffer(leading: CalendarView(), center: CalendarView(), trailing: CalendarView()) {
@@ -242,16 +230,6 @@ class DatePickerView: NSView {
 			calendarViews.leading.isHidden = true
 			calendarViews.trailing.isHidden = true
 			calendarStackView.setViews([calendarViews.leading, calendarViews.center, calendarViews.trailing], in: .center)
-		}
-	}
-	
-	/// The custom color of the selected buttons of the CalendarView
-	/// - note: Setting this to nil results in using a default color
-	var customSelectionColor: NSColor? {
-		didSet {
-			[calendarViews.leading, calendarViews.center, calendarViews.trailing].forEach {
-				$0.customSelectionColor = customSelectionColor
-			}
 		}
 	}
 	
@@ -281,18 +259,6 @@ class DatePickerView: NSView {
 		case .dateTime:
 			delegate?.datePicker(self, didSelectDateTime: sender.dateValue)
 		}
-	}
-	
-	/// Animates a scroll to the calendar view on the right
-	private func scrollRight() {
-		let newOrigin = NSPoint(x: datePickerScrollView.contentView.bounds.minX + calendarViews.center.frame.width, y: 0)
-		datePickerScrollView.animateScroll(to: newOrigin, duration: Constants.pageScrollAnimationDuration)
-	}
-	
-	/// Animates a scroll to the calendar view on the left
-	private func scrollLeft() {
-		let newOrigin = NSPoint(x: datePickerScrollView.contentView.bounds.minX - calendarViews.center.frame.width, y: 0)
-		datePickerScrollView.animateScroll(to: newOrigin, duration: Constants.pageScrollAnimationDuration)
 	}
 	
 	/// Updates the header view using the data source
@@ -352,6 +318,35 @@ class DatePickerView: NSView {
 		textDatePicker.dateValue = dataSource.selectedDateTime
 	}
 	
+	/// Animates a scroll to the calendar view on the right
+	private func scrollRight() {
+		let newOrigin = NSPoint(x: monthClipView.bounds.minX + monthClipView.bounds.width, y: 0)
+		scrollToPointAndRecenter(point: newOrigin, completionHandler: userInterfaceLayoutDirection == .leftToRight ? shiftToNextMonth : shiftToPreviousMonth)
+	}
+	
+	/// Animates a scroll to the calendar view on the left
+	private func scrollLeft() {
+		let newOrigin = NSPoint(x: monthClipView.bounds.minX - monthClipView.bounds.width, y: 0)
+		scrollToPointAndRecenter(point: newOrigin, completionHandler: userInterfaceLayoutDirection == .leftToRight ? shiftToPreviousMonth : shiftToNextMonth)
+	}
+	
+	/// Scrolls the monthClipView bounds rectangle to the given point, resets its origin to .zero immediately afterwards, and calls the completion handler
+	/// - Parameters:
+	///   - point: The point that the clip view will animate to.
+	///   - completionHandler: The handler that is called after the clip view recenters.
+	private func scrollToPointAndRecenter(point: NSPoint, completionHandler: @escaping () -> ()) {
+		isAnimating = true
+		
+		NSAnimationContext.runAnimationGroup({ context in
+			context.duration = Constants.pageScrollAnimationDuration
+			monthClipView.animator().setBoundsOrigin(point)
+		}, completionHandler: {
+			self.isAnimating = false
+			self.monthClipView.bounds.origin = .zero
+			completionHandler()
+		})
+	}
+	
 	/// Rearranges the calendar views and reinitializes one of them to display the next month
 	private func shiftToNextMonth() {
 		guard let dataSource = dataSource else {
@@ -404,31 +399,6 @@ extension DatePickerView: CalendarViewDelegate {
 		}
 		
 		delegate?.datePicker(self, didSelectDate: date)
-	}
-}
-
-extension DatePickerView: DatePickerScrollViewDelegate {
-	
-	/// Rearranges the calendar views after a recentering, taking RTL into account
-	///
-	/// - Parameter scrollView: The scroll view that recentered.
-	func datePickerScrollViewDidRecenterFromRight(_ scrollView: DatePickerScrollView) {
-		if userInterfaceLayoutDirection == .leftToRight {
-			shiftToNextMonth()
-		} else {
-			shiftToPreviousMonth()
-		}
-	}
-	
-	/// Rearranges the calendar views after a recentering, taking RTL into account
-	///
-	/// - Parameter scrollView: The scroll view that recentered.
-	func datePickerScrollViewDidRecenterFromLeft(_ scrollView: DatePickerScrollView) {
-		if userInterfaceLayoutDirection == .leftToRight {
-			shiftToPreviousMonth()
-		} else {
-			shiftToNextMonth()
-		}
 	}
 }
 
