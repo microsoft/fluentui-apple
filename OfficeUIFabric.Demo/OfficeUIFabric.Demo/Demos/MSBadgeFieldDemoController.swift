@@ -31,20 +31,11 @@ class MSBadgeFieldDemoController: DemoController {
         badgeField1.numberOfLines = 1
         let badgeField2 = setupBadgeField(label: "Cc:", dataSources: badgeDataSources2)
 
-        let title1 = setupTitle(text: "Badge field with limited number of lines")
-        let title2 = setupTitle(text: "Badge field with unlimited number of lines")
-
-        container.addArrangedSubview(title1)
+        addDescription(text: "Badge field with limited number of lines")
         container.addArrangedSubview(badgeField1)
         container.addArrangedSubview(UIView())
-        container.addArrangedSubview(title2)
+        addDescription(text: "Badge field with unlimited number of lines")
         container.addArrangedSubview(badgeField2)
-    }
-
-    func setupTitle(text: String) -> MSLabel {
-        let titleLabel = MSLabel(style: .subhead, colorStyle: .regular)
-        titleLabel.text = text
-        return titleLabel
     }
 
     private func setupBadgeField(label: String, dataSources: [MSBadgeViewDataSource]) -> MSBadgeField {
@@ -52,7 +43,7 @@ class MSBadgeFieldDemoController: DemoController {
         badgeField.translatesAutoresizingMaskIntoConstraints = false
         badgeField.hardBadgingCharacters = ",;"
         badgeField.label = label
-        badgeField.delegate = self
+        badgeField.badgeFieldDelegate = self
         badgeField.addBadges(withDataSources: dataSources)
         return badgeField
     }
@@ -65,5 +56,10 @@ extension MSBadgeFieldDemoController: MSBadgeFieldDelegate {
 
     func badgeField(_ badgeField: MSBadgeField, shouldAddBadgeForBadgeDataSource badgeDataSource: MSBadgeViewDataSource) -> Bool {
         return !badgeField.badgeDataSources.contains(where: { $0.text == badgeDataSource.text })
+    }
+
+    func badgeField(_ badgeField: MSBadgeField, didTapSelectedBadge badge: MSBadgeView) {
+        badge.isSelected = false
+        showMessage("\(badge.dataSource?.text ?? "A selected badge") was tapped")
     }
 }

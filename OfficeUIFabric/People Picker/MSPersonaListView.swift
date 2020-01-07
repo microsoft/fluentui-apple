@@ -26,7 +26,7 @@ open class MSPersonaListView: UITableView {
         case searchDirectory
     }
 
-    private enum SearchDirectoryState {
+    enum SearchDirectoryState {
         case idle
         case searching
         case displayingSearchResults
@@ -60,9 +60,13 @@ open class MSPersonaListView: UITableView {
         }
     }
 
-    private var searchDirectoryState: SearchDirectoryState = .idle {
+    var searchDirectoryState: SearchDirectoryState = .idle {
         didSet {
-            reloadRows(at: [IndexPath(row: 0, section: 1)], with: .none)
+            if searchDirectoryState != oldValue {
+                UIView.performWithoutAnimation {
+                    reloadRows(at: [IndexPath(row: 0, section: 1)], with: .none)
+                }
+            }
         }
     }
 

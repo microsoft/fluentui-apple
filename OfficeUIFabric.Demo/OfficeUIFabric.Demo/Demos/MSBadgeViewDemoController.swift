@@ -19,7 +19,7 @@ class MSBadgeViewDemoController: DemoController {
     func createBadge(text: String, style: MSBadgeView.Style, size: MSBadgeView.Size, isEnabled: Bool) -> MSBadgeView {
         let badge = MSBadgeView(dataSource: MSBadgeViewDataSource(text: text, style: style, size: size))
         badge.delegate = self
-        badge.isEnabled = isEnabled
+        badge.isActive = isEnabled
         return badge
     }
 

@@ -32,6 +32,13 @@ class DemoController: UIViewController {
         return button
     }
 
+    func addDescription(text: String) {
+        let description = MSLabel(style: .subhead, colorStyle: .regular)
+        description.numberOfLines = 0
+        description.text = text
+        container.addArrangedSubview(description)
+    }
+
     func addTitle(text: String) {
         let titleLabel = MSLabel(style: .headline)
         titleLabel.text = text

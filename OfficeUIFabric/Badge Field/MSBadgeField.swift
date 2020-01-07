@@ -8,7 +8,7 @@ import UIKit
 // MARK: MSBadgeFieldDelegate
 
 @objc public protocol MSBadgeFieldDelegate: class {
-    @objc func badgeField(_ badgeField: MSBadgeField, badgeDataSourceForText text: String) -> MSBadgeViewDataSource
+    @objc optional func badgeField(_ badgeField: MSBadgeField, badgeDataSourceForText text: String) -> MSBadgeViewDataSource
 
     @objc optional func badgeField(_ badgeField: MSBadgeField, willChangeTextFieldContentWithText newText: String)
     @objc optional func badgeFieldDidChangeTextFieldContent(_ badgeField: MSBadgeField, isPaste: Bool)
@@ -54,6 +54,7 @@ import UIKit
  * max number of lines, with custom "+XX" badge to indicate badges that are not displayed
  * voiceover and dynamic text sizing
  */
+@objcMembers
 open class MSBadgeField: UIView {
     private struct Constants {
         static let badgeHeight: CGFloat = 26
@@ -90,11 +91,11 @@ open class MSBadgeField: UIView {
 
     /**
      The max number of lines on which the badges should be laid out. If badges can't fit in the available number of lines, the textfield will add a `moreBadge` at the end of the last displayed line.
-     Set numberOfLines to 0 to remove any limit for the number of lines.
+     Set `numberOfLines` to 0 to remove any limit for the number of lines.
      The default value is 0.
-     Note: you should not use drag and drop with text fields that have a numberOfLines != 0. The resulting behavior is unknown.
+     Note:  Drag and drop should not be used with text fields that have a `numberOfLines` != 0. The resulting behavior is unknown.
      */
-    @objc open var numberOfLines: Int = 0 {
+    open var numberOfLines: Int = 0 {
         didSet {
             updateConstrainedBadges()
             updateBadgesVisibility()
@@ -102,10 +103,8 @@ open class MSBadgeField: UIView {
         }
     }
 
-    /**
-     Note: in non-editable mode, the user CAN select badges but CAN'T add, delete or drag badge views
-     */
-    @objc open var isEditable: Bool = true {
+    /// Indicates whether or not the badge field is "editable". Note: if `isEditable` is false and in "non-editable" mode, the user CAN select badges but CAN'T add, delete or drag badge views.
+    open var isEditable: Bool = true {
         didSet {
             if !isEditable {
                 resignFirstResponder()
@@ -115,15 +114,16 @@ open class MSBadgeField: UIView {
         }
     }
 
-    /**
-     isEnabled is a proxy property that is transmitted to all the badge views. Badge views should have their style altered if this is true. But this is the decision of whoever implement a new badge view abstract class. Note that this does not change the touch handling behavior in any way.
-     */
-    @objc open var isEnabled: Bool = true {
+    /// `isActive` is a proxy property that is transmitted to all the badge views. Badge views should have their style altered if this is true. But this is the decision of whoever implement a new badge view abstract class. Note that this does not change the touch handling behavior in any way.
+    open var isActive: Bool = false {
         didSet {
-            badges.forEach { $0.isEnabled = isEnabled }
-            moreBadge?.isEnabled = isEnabled
+            badges.forEach { $0.isActive = isActive }
+            moreBadge?.isActive = isActive
         }
     }
+
+    /// Set `allowsDragAndDrop`to determine whether or not the dragging and dropping of badges between badge fields is allowed.
+    open var allowsDragAndDrop: Bool = true
 
     /**
      "Soft" means that the `badgeField` badges the text only under certain conditions.
@@ -139,12 +139,18 @@ open class MSBadgeField: UIView {
 
     @objc public var badgeDataSources: [MSBadgeViewDataSource] { return badges.map { $0.dataSource! } }
 
-    @objc public weak var delegate: MSBadgeFieldDelegate?
+    @objc public weak var badgeFieldDelegate: MSBadgeFieldDelegate?
+
+    var deviceOrientationIsChanging: Bool {
+        originalDeviceOrientation != UIDevice.current.orientation
+    }
+
+    private var originalDeviceOrientation: UIDeviceOrientation = UIDevice.current.orientation
 
     private var cachedContentHeight: CGFloat = 0 {
         didSet {
             if cachedContentHeight != oldValue {
-                delegate?.badgeFieldContentHeightDidChange?(self)
+                badgeFieldDelegate?.badgeFieldContentHeightDidChange?(self)
                 invalidateIntrinsicContentSize()
             }
         }
@@ -182,8 +188,10 @@ open class MSBadgeField: UIView {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleBadgeFieldTapped(_:)))
         addGestureRecognizer(tapGesture)
 
-        textField.addTarget(self, action: #selector(handleTextFieldTextChanged), for: .editingChanged)
+        textField.addTarget(self, action: #selector(textFieldTextChanged), for: .editingChanged)
         textField.addObserver(self, forKeyPath: #keyPath(UITextField.selectedTextRange), options: .new, context: nil)
+
+        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
         NotificationCenter.default.addObserver(self, selector: #selector(handleOrientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
 
         // An accessible container must set isAccessibilityElement to false
@@ -196,6 +204,8 @@ open class MSBadgeField: UIView {
 
     deinit {
         textField.removeObserver(self, forKeyPath: #keyPath(UITextField.selectedTextRange), context: nil)
+
+        UIDevice.current.endGeneratingDeviceOrientationNotifications()
     }
 
     /**
@@ -289,6 +299,13 @@ open class MSBadgeField: UIView {
 
     open override var intrinsicContentSize: CGSize {
         return CGSize(width: UIView.noIntrinsicMetric, height: contentHeight(forBoundingWidth: width))
+    }
+
+    private func shouldDragBadge(_ badge: MSBadgeView) -> Bool {
+        if allowsDragAndDrop {
+            return badgeFieldDelegate?.badgeField?(self, shouldDragBadge: badge) ?? true
+        }
+        return false
     }
 
     private func updateConstrainedBadges() {
@@ -477,7 +494,7 @@ open class MSBadgeField: UIView {
         didSet {
             if let moreBadge = moreBadge {
                 moreBadge.delegate = self
-                moreBadge.isEnabled = isEnabled
+                moreBadge.isActive = isActive
                 moreBadge.isUserInteractionEnabled = false
             }
         }
@@ -493,7 +510,7 @@ open class MSBadgeField: UIView {
         }
     }
 
-    private var draggedBadge: MSBadgeView?
+    var draggedBadge: MSBadgeView?
     private var draggedBadgeTouchCenterOffset: CGPoint?
     private var draggingWindow = UIWindow()
 
@@ -521,11 +538,6 @@ open class MSBadgeField: UIView {
     }
 
     @objc open func addBadge(withDataSource dataSource: MSBadgeViewDataSource, fromUserAction: Bool = false, updateConstrainedBadges: Bool = true) {
-        guard let delegate = delegate else {
-            assertionFailure("Missing delegate in addBadge:withDataSource")
-            return
-        }
-
         let badge = createBadge(withDataSource: dataSource)
 
         addBadge(badge)
@@ -539,7 +551,7 @@ open class MSBadgeField: UIView {
         setNeedsLayout()
 
         if fromUserAction {
-            delegate.badgeField?(self, didAddBadge: badge)
+            badgeFieldDelegate?.badgeField?(self, didAddBadge: badge)
         }
     }
 
@@ -565,9 +577,9 @@ open class MSBadgeField: UIView {
         selectedBadgeTextField.becomeFirstResponder()
     }
 
-    private func addBadge(_ badge: MSBadgeView) {
+    func addBadge(_ badge: MSBadgeView) {
         badge.delegate = self
-        badge.isEnabled = isEnabled
+        badge.isActive = isActive
         badges.append(badge)
         addSubview(badge)
         // Configure drag gesture
@@ -578,17 +590,12 @@ open class MSBadgeField: UIView {
 
     @discardableResult
     private func badgeText(_ text: String, force forceBadge: Bool) -> Bool {
-        guard let delegate = delegate else {
-            assertionFailure("Missing delegate in badgeText:withText")
-            return false
-        }
-
         if text.isEmpty {
             return false
         }
 
         let badgeStrings = extractBadgeStrings(from: text, badgingCharacters: badgingCharacters, hardBadgingCharacters: hardBadgingCharacters, forceBadge: forceBadge, shouldBadge: { (badgeString, softBadgingString) -> Bool in
-            return delegate.badgeField?(self, shouldBadgeText: badgeString, forSoftBadgingString: softBadgingString) ?? true
+            return badgeFieldDelegate?.badgeField?(self, shouldBadgeText: badgeString, forSoftBadgingString: softBadgingString) ?? true
         })
 
         var didBadge = false
@@ -596,12 +603,13 @@ open class MSBadgeField: UIView {
         // Add badges
         for badgeString in badgeStrings {
             // Append badge if needed
-            let badgeDataSource = delegate.badgeField(self, badgeDataSourceForText: badgeString)
-            if shouldAddBadge(forBadgeDataSource: badgeDataSource) {
-                addBadge(withDataSource: badgeDataSource, fromUserAction: true, updateConstrainedBadges: true)
+            if let badgeDataSource = badgeFieldDelegate?.badgeField?(self, badgeDataSourceForText: badgeString) {
+                if shouldAddBadge(forBadgeDataSource: badgeDataSource) {
+                    addBadge(withDataSource: badgeDataSource, fromUserAction: true, updateConstrainedBadges: true)
+                }
+                // Consider that we badge even if the delegate prevented via `shouldAddBadgeForBadgeDataSource`
+                didBadge = true
             }
-            // Consider that we badge even if the delegate prevented via `shouldAddBadgeForBadgeDataSource`
-            didBadge = true
         }
 
         if didBadge {
@@ -615,7 +623,7 @@ open class MSBadgeField: UIView {
 
     private func createBadge(withDataSource dataSource: MSBadgeViewDataSource) -> MSBadgeView {
         var badge: MSBadgeView
-        if let badgeFromDelegate = delegate?.badgeField?(self, newBadgeForBadgeDataSource: dataSource) {
+        if let badgeFromDelegate = badgeFieldDelegate?.badgeField?(self, newBadgeForBadgeDataSource: dataSource) {
             badge = badgeFromDelegate
         } else {
             badge = MSBadgeView(dataSource: dataSource)
@@ -627,7 +635,7 @@ open class MSBadgeField: UIView {
     private func createMoreBadge(withDataSources dataSources: [MSBadgeViewDataSource]) -> MSBadgeView {
         // If no delegate, fallback to default "+X" moreBadge
         var moreBadge: MSBadgeView
-        if let moreBadgeFromDelegate = delegate?.badgeField?(self, newMoreBadgeForBadgeDataSources: dataSources) {
+        if let moreBadgeFromDelegate = badgeFieldDelegate?.badgeField?(self, newMoreBadgeForBadgeDataSources: dataSources) {
             moreBadge = moreBadgeFromDelegate
         } else {
             moreBadge = MSBadgeView(dataSource: MSBadgeViewDataSource(text: "+\(dataSources.count)", style: .default))
@@ -645,7 +653,7 @@ open class MSBadgeField: UIView {
         selectedBadge = nil
     }
 
-    private func deleteBadge(_ badge: MSBadgeView, fromUserAction: Bool, updateConstrainedBadges: Bool) {
+    func deleteBadge(_ badge: MSBadgeView, fromUserAction: Bool, updateConstrainedBadges: Bool) {
         badge.removeFromSuperview()
         badges.remove(at: badges.firstIndex(of: badge)!)
 
@@ -656,7 +664,7 @@ open class MSBadgeField: UIView {
         updateLabelsVisibility()
 
         if fromUserAction {
-            delegate?.badgeField?(self, didDeleteBadge: badge)
+            badgeFieldDelegate?.badgeField?(self, didDeleteBadge: badge)
         }
     }
 
@@ -667,12 +675,8 @@ open class MSBadgeField: UIView {
         }
     }
 
-    private func badgeWithEqualDataSource(_ dataSource: MSBadgeViewDataSource) -> MSBadgeView? {
-        return badges.first(where: { $0.dataSource?.isEqual(dataSource) == true })
-    }
-
     private func shouldAddBadge(forBadgeDataSource dataSource: MSBadgeViewDataSource) -> Bool {
-        return delegate?.badgeField?(self, shouldAddBadgeForBadgeDataSource: dataSource) ?? true
+        return badgeFieldDelegate?.badgeField?(self, shouldAddBadgeForBadgeDataSource: dataSource) ?? true
     }
 
     private func updateBadgesVisibility() {
@@ -774,14 +778,15 @@ open class MSBadgeField: UIView {
         }
     }
 
-    @objc private func handleTextFieldTextChanged() {
-        delegate?.badgeFieldDidChangeTextFieldContent?(self, isPaste: textField.isPaste)
+    @objc func textFieldTextChanged() {
+        badgeFieldDelegate?.badgeFieldDidChangeTextFieldContent?(self, isPaste: textField.isPaste)
         textField.isPaste = false
     }
 
     @objc private func handleOrientationChanged() {
         // Hack: to avoid properly handling rotations for the dragging window (which is annoying and overkill for this feature), let's just reset the dragging window
         resetDraggingWindow()
+        originalDeviceOrientation = UIDevice.current.orientation
     }
 
     // MARK: Accessibility
@@ -855,7 +860,7 @@ open class MSBadgeField: UIView {
         }
 
         // Was not first responder, check if we should begin editing
-        if !isFirstResponder && delegate?.badgeFieldShouldBeginEditing?(self) == false {
+        if !isFirstResponder && badgeFieldDelegate?.badgeFieldShouldBeginEditing?(self) == false {
             cancelRunningGesture(gesture)
             return
         }
@@ -876,8 +881,7 @@ open class MSBadgeField: UIView {
                 return
             }
             // Drag and drop disabled: cancel running gesture
-            let shouldDragBadge = delegate?.badgeField?(self, shouldDragBadge: draggedBadge) ?? true
-            if !shouldDragBadge {
+            if !shouldDragBadge(draggedBadge) {
                 cancelRunningGesture(gesture)
                 return
             }
@@ -937,7 +941,7 @@ open class MSBadgeField: UIView {
             return
         }
         // "Cache" dragged badge (because we reset it below but we still need pointer to it)
-        guard let draggedBadge = self.draggedBadge else {
+        guard let draggedBadge = draggedBadge else {
             return
         }
         // Compute original position
@@ -962,24 +966,24 @@ open class MSBadgeField: UIView {
                 moveBadgeToOriginalTextField()
                 // Reset dragging window: need to execute this after a delay to avoid blinking
                 self.perform(#selector(self.hideDraggingWindow), with: nil, afterDelay: 0.1)
-                self.delegate?.badgeField?(self, didEndDraggingOriginBadge: draggedBadge, toBadgeField: self, withNewBadge: nil)
+                self.badgeFieldDelegate?.badgeField?(self, didEndDraggingOriginBadge: draggedBadge, toBadgeField: self, withNewBadge: nil)
             })
         } else {
             moveBadgeToOriginalPosition()
             moveBadgeToOriginalTextField()
             hideDraggingWindow()
-            delegate?.badgeField?(self, didEndDraggingOriginBadge: draggedBadge, toBadgeField: self, withNewBadge: nil)
+            badgeFieldDelegate?.badgeField?(self, didEndDraggingOriginBadge: draggedBadge, toBadgeField: self, withNewBadge: nil)
         }
     }
 
-    private func animateDraggedBadgeToBadgeField(_ destinationBadgeField: MSBadgeField) {
+    func animateDraggedBadgeToBadgeField(_ destinationBadgeField: MSBadgeField) {
         guard let containingWindow = window else {
             cancelBadgeDraggingIfNeeded()
             return
         }
 
         // "Cache" dragged badge (because we reset it below but we still need pointer to it)
-        guard let draggedBadge = self.draggedBadge else {
+        guard let draggedBadge = draggedBadge else {
             cancelBadgeDraggingIfNeeded()
             return
         }
@@ -999,8 +1003,9 @@ open class MSBadgeField: UIView {
                     return nil
                 }
                 destinationBadgeField.addBadge(withDataSource: dataSource, fromUserAction: true, updateConstrainedBadges: true)
-                destinationBadgeField.selectBadge(destinationBadgeField.badges.last!)
-                return destinationBadgeField.badgeWithEqualDataSource(dataSource)!
+                let lastBadge = destinationBadgeField.badges.last!
+                destinationBadgeField.selectBadge(lastBadge)
+                return lastBadge
             }()
             // Update origin field
             self.deleteBadge(draggedBadge, fromUserAction: true, updateConstrainedBadges: true)
@@ -1013,7 +1018,7 @@ open class MSBadgeField: UIView {
 
             // Reset dragging window: need to execute this after a delay to avoid blinking
             self.perform(#selector(self.hideDraggingWindow), with: nil, afterDelay: 0.1)
-            self.delegate?.badgeField?(self, didEndDraggingOriginBadge: draggedBadge, toBadgeField: destinationBadgeField, withNewBadge: newlyCreatedBadge)
+            self.badgeFieldDelegate?.badgeField?(self, didEndDraggingOriginBadge: draggedBadge, toBadgeField: destinationBadgeField, withNewBadge: newlyCreatedBadge)
         })
     }
 
@@ -1027,7 +1032,7 @@ open class MSBadgeField: UIView {
         gesture.isEnabled = true
     }
 
-    private func cancelBadgeDraggingIfNeeded() {
+    func cancelBadgeDraggingIfNeeded() {
         if draggedBadge == nil {
             return
         }
@@ -1055,7 +1060,7 @@ extension MSBadgeField: MSBadgeViewDelegate {
     }
 
     public func didTapSelectedBadge(_ badge: MSBadgeView) {
-        delegate?.badgeField?(self, didTapSelectedBadge: badge)
+        badgeFieldDelegate?.badgeField?(self, didTapSelectedBadge: badge)
     }
 }
 
@@ -1073,7 +1078,7 @@ extension MSBadgeField: UITextFieldDelegate {
         // No text field was selected before, check if we should begin editing
         if textField == selectedBadgeTextField && !self.textField.isFirstResponder ||
             textField == self.textField && !selectedBadgeTextField.isFirstResponder {
-            if delegate?.badgeFieldShouldBeginEditing?(self) == false {
+            if badgeFieldDelegate?.badgeFieldShouldBeginEditing?(self) == false {
                 // Deselect in case this was triggered by a select
                 selectedBadge = nil
                 return false
@@ -1086,7 +1091,13 @@ extension MSBadgeField: UITextFieldDelegate {
     public func textFieldDidBeginEditing(_ textField: UITextField) {
         showAllBadgesForEditing = true
         switchingTextFieldResponders = false
-        delegate?.badgeFieldDidBeginEditing?(self)
+        badgeFieldDelegate?.badgeFieldDidBeginEditing?(self)
+        isActive = true
+    }
+
+    public func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        // Don't end editing on orientation change
+        return !deviceOrientationIsChanging
     }
 
     public func textFieldDidEndEditing(_ textField: UITextField) {
@@ -1096,15 +1107,16 @@ extension MSBadgeField: UITextFieldDelegate {
         if !switchingTextFieldResponders {
             badgeText()
             updateLabelsVisibility()
-            delegate?.badgeFieldDidEndEditing?(self)
+            badgeFieldDelegate?.badgeFieldDidEndEditing?(self)
         }
         showAllBadgesForEditing = false
+        isActive = false
     }
 
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == self.textField {
             if let text = textField.text, text.trimmed().isEmpty {
-                let shouldReturn = delegate?.badgeFieldShouldReturn?(self) ?? true
+                let shouldReturn = badgeFieldDelegate?.badgeFieldShouldReturn?(self) ?? true
                 if shouldReturn {
                     resignFirstResponder()
                 }
@@ -1129,7 +1141,7 @@ extension MSBadgeField: UITextFieldDelegate {
                 let newTextFieldText = NSMutableString(string: formerTextFieldText)
                 newTextFieldText.insert(string, at: 1)
                 self.textField.text = newTextFieldText as String
-                delegate?.badgeField?(self, willChangeTextFieldContentWithText: self.textField.text!.trimmed())
+                badgeFieldDelegate?.badgeField?(self, willChangeTextFieldContentWithText: self.textField.text!.trimmed())
             }
             updateLabelsVisibility()
             self.textField.becomeFirstResponder()
@@ -1149,7 +1161,7 @@ extension MSBadgeField: UITextFieldDelegate {
                 if !didBadge {
                     // Placeholder
                     updateLabelsVisibility(textFieldContent: newString.trimmed())
-                    delegate?.badgeField?(self, willChangeTextFieldContentWithText: newString.trimmed())
+                    badgeFieldDelegate?.badgeField?(self, willChangeTextFieldContentWithText: newString.trimmed())
                 }
                 return !didBadge
             }
@@ -1160,13 +1172,13 @@ extension MSBadgeField: UITextFieldDelegate {
             if string.isEmpty {
                 // Delete on selected text: delete selection
                 if textField.selectedTextRange?.isEmpty == false {
-                    delegate?.badgeField?(self, willChangeTextFieldContentWithText: newString.trimmed())
+                    badgeFieldDelegate?.badgeField?(self, willChangeTextFieldContentWithText: newString.trimmed())
                     return true
                 }
                 // Delete backward on visible character: delete character
                 let textPositionValue = textField.offset(from: textField.beginningOfDocument, to: textField.selectedTextRange!.start)
                 if textPositionValue != Constants.emptyTextFieldString.count {
-                    delegate?.badgeField?(self, willChangeTextFieldContentWithText: newString.trimmed())
+                    badgeFieldDelegate?.badgeField?(self, willChangeTextFieldContentWithText: newString.trimmed())
                     return true
                 }
                 // Delete backward on zero width space
@@ -1177,7 +1189,7 @@ extension MSBadgeField: UITextFieldDelegate {
                 return false
             }
 
-            delegate?.badgeField?(self, willChangeTextFieldContentWithText: newString.trimmed())
+            badgeFieldDelegate?.badgeField?(self, willChangeTextFieldContentWithText: newString.trimmed())
         }
         return true
     }
@@ -1187,7 +1199,7 @@ extension MSBadgeField: UITextFieldDelegate {
 
 private class PasteControlTextField: UITextField {
     /**
-     Note: This is a signal that indicates that this is under a paste context. This pasteSignal is reset in 'handleTextFieldTextChanged' method of 'MSBadgeField' right after the delegate method is called
+     Note: This is a signal that indicates that this is under a paste context. This pasteSignal is reset in 'textFieldTextChanged' method of 'MSBadgeField' right after the delegate method is called
      */
     fileprivate var isPaste: Bool = false
 

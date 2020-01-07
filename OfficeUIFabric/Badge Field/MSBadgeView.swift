@@ -142,12 +142,12 @@ open class MSBadgeView: UIView {
 
     @objc open weak var delegate: MSBadgeViewDelegate?
 
-    @objc open var isEnabled: Bool = true {
+    @objc open var isActive: Bool = true {
         didSet {
             updateBackgroundColor()
             updateLabelTextColor()
             accessibilityHint = nil
-            isUserInteractionEnabled = isEnabled
+            isUserInteractionEnabled = isActive
         }
     }
 
@@ -295,7 +295,7 @@ open class MSBadgeView: UIView {
     }
 
     private func updateBackgroundColor() {
-        if !isEnabled {
+        if !isActive {
             backgroundView.backgroundColor = badgeDisabledBackgroundColor
             return
         }
@@ -303,7 +303,7 @@ open class MSBadgeView: UIView {
     }
 
     private func updateLabelTextColor() {
-        if !isEnabled {
+        if !isActive {
             label.textColor = disabledTextColor
             return
         }

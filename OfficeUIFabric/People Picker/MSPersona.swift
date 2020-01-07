@@ -14,6 +14,13 @@ import UIKit
     var subtitle: String { get }
 }
 
+extension MSPersona {
+    func isEqual(to persona: MSPersona) -> Bool {
+        // Preferred method is to check name and email
+        return name == persona.name && email == persona.email
+    }
+}
+
 // MARK: - MSPersonaData
 
 open class MSPersonaData: NSObject, MSPersona {

@@ -154,7 +154,8 @@ open class MSTooltip: NSObject {
         onTap = nil
 
         isShowing = false
-        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
+
+        UIDevice.current.endGeneratingDeviceOrientationNotifications()
     }
 
     @objc private func handleTapGesture() {

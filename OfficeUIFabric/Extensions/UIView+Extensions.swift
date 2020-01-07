@@ -120,6 +120,18 @@ public extension UIView {
         return superview.findSuperview(of: aClass)
     }
 
+    func findContainingViewController() -> UIViewController? {
+        if let nextResponder = next as? UIViewController {
+            return nextResponder
+        }
+
+        if let nextResponder = next as? UIView {
+            return nextResponder.findContainingViewController()
+        }
+
+        return nil
+    }
+
     func flipSubviewsForRTL() {
         if effectiveUserInterfaceLayoutDirection == .rightToLeft {
             subviews.forEach { $0.flipForRTL() }

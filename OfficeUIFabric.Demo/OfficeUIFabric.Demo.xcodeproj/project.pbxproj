@@ -28,6 +28,7 @@
 		B4414792228F6F740040E88E /* MSTableViewCellSampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4414791228F6F740040E88E /* MSTableViewCellSampleData.swift */; };
 		B4414794228F6FDF0040E88E /* OtherCellsSampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4414793228F6FDF0040E88E /* OtherCellsSampleData.swift */; };
 		B444D6B82183BA4B0002B4D4 /* MSBadgeViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444D6B72183BA4B0002B4D4 /* MSBadgeViewDemoController.swift */; };
+		B4575C5122FB8B6900EBD0EB /* MSPeoplePickerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4575C5022FB8B6900EBD0EB /* MSPeoplePickerDemoController.swift */; };
 		B45EB79221A4D047008646A2 /* MSBadgeFieldDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45EB79121A4D047008646A2 /* MSBadgeFieldDemoController.swift */; };
 		B4946764220A4DF10059045E /* MSCollectionViewCellDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4946763220A4DF10059045E /* MSCollectionViewCellDemoController.swift */; };
 		B498141621E42C140077B48D /* MSTableViewCellDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B498141521E42C140077B48D /* MSTableViewCellDemoController.swift */; };
@@ -87,6 +88,7 @@
 		B4414791228F6F740040E88E /* MSTableViewCellSampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTableViewCellSampleData.swift; sourceTree = "<group>"; };
 		B4414793228F6FDF0040E88E /* OtherCellsSampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherCellsSampleData.swift; sourceTree = "<group>"; };
 		B444D6B72183BA4B0002B4D4 /* MSBadgeViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSBadgeViewDemoController.swift; sourceTree = "<group>"; };
+		B4575C5022FB8B6900EBD0EB /* MSPeoplePickerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPeoplePickerDemoController.swift; sourceTree = "<group>"; };
 		B45EB79121A4D047008646A2 /* MSBadgeFieldDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSBadgeFieldDemoController.swift; sourceTree = "<group>"; };
 		B4946763220A4DF10059045E /* MSCollectionViewCellDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSCollectionViewCellDemoController.swift; sourceTree = "<group>"; };
 		B498141521E42C140077B48D /* MSTableViewCellDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTableViewCellDemoController.swift; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 				A5DCA75D211E3A92005F4CB7 /* MSDrawerDemoController.swift */,
 				B4E8F65121CD9579008A1598 /* MSHUDDemoController.swift */,
 				A589F855211BA71000471C23 /* MSLabelDemoController.swift */,
+				B4575C5022FB8B6900EBD0EB /* MSPeoplePickerDemoController.swift */,
 				FD41C8F322E28EEB0086F899 /* MSNavigationControllerDemoController.swift */,
 				A5B6617523A4227300E801DD /* MSNotificationViewDemoController.swift */,
 				B4EF53C4215C45C400573E8F /* MSPersonaListViewDemoController.swift */,
@@ -458,6 +461,7 @@
 				FD7254ED21471A3F002F4069 /* MSDateTimePickerDemoController.swift in Sources */,
 				B4EF665B22974BF0007FEAB0 /* MSCollectionViewHeaderFooterViewDemoController.swift in Sources */,
 				B4EF66542295F1A8007FEAB0 /* MSTableViewHeaderFooterViewDemoController.swift in Sources */,
+				B4575C5122FB8B6900EBD0EB /* MSPeoplePickerDemoController.swift in Sources */,
 				B4946764220A4DF10059045E /* MSCollectionViewCellDemoController.swift in Sources */,
 				A5CEC21220E436F10016922A /* MasterViewController.swift in Sources */,
 				B498141621E42C140077B48D /* MSTableViewCellDemoController.swift in Sources */,

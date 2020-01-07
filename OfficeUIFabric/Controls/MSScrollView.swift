@@ -69,7 +69,6 @@ open class MSScrollView: UIScrollView, ScrollableContainerView {
         let container = containerForView(view)
         let rect = convert(container.frame, from: container.superview)
         let contentBounds = bounds.inset(by: contentInset)
-
         contentOffset.y -= max(0, contentBounds.minY - rect.minY)
         contentOffset.y += max(0, rect.maxY - contentBounds.maxY)
     }
@@ -104,7 +103,9 @@ open class MSScrollView: UIScrollView, ScrollableContainerView {
             scrollIndicatorInsets.bottom = bottomInset
 
             if bottomInset != 0 {
-                makeFirstResponderVisible()
+                UIView.performWithoutAnimation {
+                    makeFirstResponderVisible()
+                }
             }
         }
     }

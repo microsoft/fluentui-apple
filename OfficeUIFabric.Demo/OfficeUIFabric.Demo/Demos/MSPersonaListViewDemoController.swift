@@ -34,6 +34,12 @@ let samplePersonas: [MSPersonaData] = [
     MSPersonaData(name: "Cecil Folk", subtitle: "Program Manager", avatarImage: UIImage(named: "avatar_cecil_folk"))
 ]
 
+let searchDirectoryPersonas: [MSPersonaData] = [
+    MSPersonaData(name: "Celeste Burton", email: "celeste.burton@contoso.com", subtitle: "Program Manager", avatarImage: UIImage(named: "avatar_celeste_burton")),
+    MSPersonaData(name: "Erik Nason", email: "erik.nason@contoso.com", subtitle: "Designer"),
+    MSPersonaData(name: "Miguel Garcia", email: "miguel.garcia@contoso.com", subtitle: "Software Engineer", avatarImage: UIImage(named: "avatar_miguel_garcia"))
+]
+
 class MSPersonaListViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,12 +67,7 @@ extension MSPersonaListViewDemoController: MSPersonaListViewSearchDirectoryDeleg
     func personaListSearchDirectory(_ personaListView: MSPersonaListView, completion: @escaping ((_ success: Bool) -> Void)) {
         // Delay added for 2 seconds to demo activity indicator
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            let personas: [MSPersona] = [
-                MSPersonaData(name: "Celeste Burton", email: "celeste.burton@contoso.com", subtitle: "Program Manager", avatarImage: UIImage(named: "avatar_celeste_burton")),
-                MSPersonaData(name: "Erik Nason", email: "erik.nason@contoso.com", subtitle: "Designer"),
-                MSPersonaData(name: "Miguel Garcia", email: "miguel.garcia@contoso.com", subtitle: "Software Engineer", avatarImage: UIImage(named: "avatar_miguel_garcia"))
-            ]
-            personaListView.personaList = personas
+            personaListView.personaList = searchDirectoryPersonas
             completion(true)
         }
     }
