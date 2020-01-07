@@ -5,15 +5,6 @@
 import AppKit
 import OfficeUIFabric
 
-fileprivate struct Constants {
-	static let testDataIndexForImages = 1
-	static let testDataIndexForBackroundColor = 2
-	static let testDataIndexForReuse = 3
-	static let satyaImageName = "satya"
-	static let maverickImageName = "maverick"
-	private init() {}
-}
-
 /// A test identity to facilitate creating avatar views
 fileprivate struct TestIdentity {
 	let name: String?
@@ -23,11 +14,11 @@ fileprivate struct TestIdentity {
 
 /// Some sample identities
 fileprivate struct TestData {
-	static let satya = TestIdentity(name: "Satya Nadella", email: "satya@microsoft.com", image: NSImage(named: Constants.satyaImageName))
-	static let maverick = TestIdentity(name: "Pete Mitchell", email: "maverick@miramar.edu", image: nil)
-	static let goose = TestIdentity(name: "Nick O'Grady Bradshaw", email: "goose@miramar.edu", image: nil)
-	static let charlie = TestIdentity(name: nil, email: "cblackwood@civiliancontractor.com", image: nil)
-	static let bogey = TestIdentity(name: nil, email: nil, image: nil)
+	static let annie = TestIdentity(name: "Annie Lindqvist", email: "Annie.Lindqvist@example.com", image: NSImage(named: TestAvatarViewController.personaFemale))
+	static let maor = TestIdentity(name: "Maor Sharett", email: "Maor.Sharett@example.com", image: nil)
+	static let annieBoyl = TestIdentity(name: "Annie Boyl Lind", email: "annie.boyl@example.com", image: nil)
+	static let kat = TestIdentity(name: nil, email: "Kat.Larrson@example.com", image: nil)
+	static let anonymous = TestIdentity(name: nil, email: nil, image: nil)
 	private init() {}
 }
 
@@ -37,11 +28,11 @@ class TestAvatarViewController: NSViewController {
 	// Create various sizes of avatar views from our testa data
 	let displayedAvatarViews: [[AvatarView]] = avatarViews(sizes: [20,25,35,50,70],
 														   identities: [
-															TestData.satya,
-															TestData.maverick,
-															TestData.goose,
-															TestData.charlie,
-															TestData.bogey,
+															TestData.annie,
+															TestData.maor,
+															TestData.annieBoyl,
+															TestData.kat,
+															TestData.anonymous,
 		])
 	
 	override func loadView() {
@@ -91,21 +82,27 @@ class TestAvatarViewController: NSViewController {
 	
 	// test setting an image on an existing avatar view
 	@objc private func updateAvatarImages() {
-		let maverickImage = NSImage(named: Constants.maverickImageName)
-		displayedAvatarViews[Constants.testDataIndexForImages].forEach { $0.contactImage = maverickImage }
+		let maleImage = NSImage(named: TestAvatarViewController.personaMale)
+		displayedAvatarViews[TestAvatarViewController.testDataIndexForImages].forEach { $0.contactImage = maleImage }
 	}
 	
 	// test setting custom avatar background color
 	@objc private func updateAvatarBackgroundColors() {
-		displayedAvatarViews[Constants.testDataIndexForBackroundColor].forEach { $0.avatarBackgroundColor = .systemBlue }
+		displayedAvatarViews[TestAvatarViewController.testDataIndexForBackroundColor].forEach { $0.avatarBackgroundColor = .systemBlue }
 	}
 	
 	// test repurposing an avatar view
 	@objc private func reuseAvatarView() {
-		displayedAvatarViews[Constants.testDataIndexForReuse].forEach {
-			$0.contactName = "Charlotte Blackwood"
-			$0.contactEmail = "cb@aol.com"
+		displayedAvatarViews[TestAvatarViewController.testDataIndexForReuse].forEach {
+			$0.contactName = "Ted Randall"
+			$0.contactEmail = "ted.randall@example.com"
 			$0.avatarSize = 25
 		}
 	}
+	
+	static let testDataIndexForImages = 1
+	static let testDataIndexForBackroundColor = 2
+	static let testDataIndexForReuse = 3
+	static let personaMale = "persona-male"
+	static let personaFemale = "persona-female"
 }
