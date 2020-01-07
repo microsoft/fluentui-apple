@@ -38,7 +38,8 @@ open class MSNavigationController: UINavigationController {
     }
     private weak var _delegate: UINavigationControllerDelegate?
 
-    private let transitionAnimator = MSNavigationAnimator()
+    // Using "lazy var" instead of "let" to avoid memory leak issue in iOS 12
+    private lazy var transitionAnimator = MSNavigationAnimator()
 
     public convenience init() {
         self.init(navigationBarClass: nil, toolbarClass: nil)
