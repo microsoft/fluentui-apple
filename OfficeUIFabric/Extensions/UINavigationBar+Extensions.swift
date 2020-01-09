@@ -5,8 +5,21 @@
 
 import UIKit
 
-@objc public extension UINavigationBar {
-    @objc func hideBottomBorder() {
+extension UINavigationBar {
+    private struct Constants {
+        static let compactHeight: CGFloat = 32
+        static let normalHeight: CGFloat = 44
+    }
+
+    var systemHeight: CGFloat {
+        if traitCollection.verticalSizeClass == .compact && traitCollection.horizontalSizeClass == .compact {
+            return Constants.compactHeight
+        } else {
+            return Constants.normalHeight
+        }
+    }
+
+    func hideBottomBorder() {
         shadowImage = UIImage()
     }
 }

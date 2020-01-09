@@ -12,7 +12,6 @@ import UIKit
 class MSShyHeaderController: UIViewController {
     private struct Constants {
         static let paddingHeightTotal: CGFloat = 12.0
-        static let paddingViewHeight: CGFloat = paddingHeightTotal - MSShyHeaderView.shyContainerContentInsets.bottom
         static let headerShowHideAnimationDuration: TimeInterval = 0.2 //how long a full expansion should take, when not defined by a gesture interaction
         static let swipeThresholdVelocity: CGFloat = 10.0 //swipes under this threshold will not expose the header view. Above (faster than) this threshold will begin expansion
         static let shyHeaderShowHideDecisionProgressThreshold: CGFloat = 0.4 // the threshold for which an incomplete expansion will move towards completion/contraction on a no-velocity release of a scrollView pan gesture
@@ -30,6 +29,9 @@ class MSShyHeaderController: UIViewController {
     }()
 
     private let paddingView = UIView()
+    private var paddingViewHeight: CGFloat {
+        return Constants.paddingHeightTotal - shyHeaderView.contentBottomInset
+    }
     private var paddingHeightConstraint: NSLayoutConstraint?
     private let shyHeaderView = MSShyHeaderView() //header view, displayed above the content view
     private var shyViewTopConstraint: NSLayoutConstraint? //animatable constraint used to show/hide the header
@@ -42,7 +44,8 @@ class MSShyHeaderController: UIViewController {
         return maxHeight
     }
 
-    private var contentHeightObserver: NSKeyValueObservation?
+    private var navigationBarCenterObservation: NSKeyValueObservation?
+    private var navigationBarHeightObservation: NSKeyValueObservation?
 
     private var contentScrollView: UIScrollView? {
         didSet {
@@ -65,6 +68,10 @@ class MSShyHeaderController: UIViewController {
         shyHeaderView.navigationBarShadow = contentViewController.navigationItem.navigationBarShadow
 
         super.init(nibName: nil, bundle: nil)
+
+        shyHeaderView.maxHeightChanged = { [unowned self] in
+            self.updatePadding()
+        }
 
         loadViewIfNeeded()
         addChildController(contentViewController, containingViewIn: contentContainerView)
@@ -93,7 +100,6 @@ class MSShyHeaderController: UIViewController {
         view.clipsToBounds = true
 
         setupBaseLayout()
-        setupNotificationObservers()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -104,6 +110,7 @@ class MSShyHeaderController: UIViewController {
             paddingView.backgroundColor = navBarStyle.backgroundColor
         }
         updatePadding()
+        setupNotificationObservers()
     }
 
     // MARK: - Base Construction
@@ -118,7 +125,7 @@ class MSShyHeaderController: UIViewController {
         paddingView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(paddingView)
 
-        let paddingHeight = paddingView.heightAnchor.constraint(equalToConstant: paddingIsStatic ? Constants.paddingViewHeight : 0)
+        let paddingHeight = paddingView.heightAnchor.constraint(equalToConstant: paddingIsStatic ? paddingViewHeight : 0)
         paddingHeight.identifier = "paddingView_height"
         constraints.append(paddingHeight)
         paddingHeightConstraint = paddingHeight
@@ -188,8 +195,12 @@ class MSShyHeaderController: UIViewController {
 
     private func setupNotificationObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleAccessoryExpansionRequested), name: .accessoryExpansionRequested, object: nil)
-        contentHeightObserver = msNavigationController?.msNavigationBar.observe(\.barHeight) { [unowned self] _, _ in
-            self.handleNavigationBarContentHeightChanged()
+        // Observing `center` instead of `isHidden` allows us to do our changes along the system animation
+        navigationBarCenterObservation = navigationController?.navigationBar.observe(\.center) { [unowned self] navigationBar, _ in
+            self.shyHeaderView.navigationBarIsHidden = navigationBar.frame.maxY == 0
+        }
+        navigationBarHeightObservation = msNavigationController?.msNavigationBar.observe(\.barHeight) { [unowned self] _, _ in
+            self.updatePadding()
         }
     }
 
@@ -198,10 +209,6 @@ class MSShyHeaderController: UIViewController {
             return
         }
         expandAccessory()
-    }
-
-    @objc private func handleNavigationBarContentHeightChanged() {
-        updatePadding()
     }
 
     /// Determines if the provided expansion RequestOriginator should be allowed to act on this ShyContainer
@@ -235,7 +242,7 @@ class MSShyHeaderController: UIViewController {
 
     private func updatePadding() {
         shyHeaderView.lockedInContractedState = msNavigationController?.msNavigationBar.barHeight == .contracted
-        paddingHeightConstraint?.constant = paddingIsStatic ? Constants.paddingViewHeight : 0
+        paddingHeightConstraint?.constant = paddingIsStatic ? paddingViewHeight : 0
         shyViewHeightConstraint?.constant = shyHeaderView.maxHeight
         if shyHeaderView.exposure == .concealed {
             shyViewTopConstraint?.constant = -1 * shyViewMaxScrollHeight
@@ -243,7 +250,7 @@ class MSShyHeaderController: UIViewController {
     }
 
     private var paddingIsStatic: Bool {
-        let isLandscape = traitCollection.verticalSizeClass == .compact
+        let isLandscape = traitCollection.verticalSizeClass == .compact && traitCollection.horizontalSizeClass == .compact
         return isLandscape || msNavigationController?.msNavigationBar.barHeight == .expanded
     }
 
@@ -470,7 +477,7 @@ class MSShyHeaderController: UIViewController {
             msNavigationController?.msNavigationBar.contract(true)
         }
 
-        shyHeaderView.exposure = MSShyHeaderView.ShyViewExposure(withProgress: progress)
+        shyHeaderView.exposure = MSShyHeaderView.Exposure(withProgress: progress)
     }
 
     /// Calculates and sets the shy container's top constraint's constant value, moving the header
@@ -499,7 +506,7 @@ class MSShyHeaderController: UIViewController {
         let yOffset = offset.y
         let scrollDirection: UIScrollView.VerticalScrollDirection = previousContentScrollViewTraits.yOffset > yOffset ? .up : .down
 
-        if shyHeaderView.exposure == MSShyHeaderView.ShyViewExposure.concealed
+        if shyHeaderView.exposure == .concealed
             && scrollDirection == .up
             && yOffset < 0 { // if we encounter a scenario where we're concealed, but the content doesn't support shy behavior, we want to guarantee we've expanded if the user scrolls down the list
             UIView.animate(withDuration: MSShyHeaderController.Constants.headerShowHideAnimationDuration,
@@ -560,10 +567,5 @@ class MSShyHeaderController: UIViewController {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         updatePadding()
         calculateAndSetNewShyContainerTopConstraint(withProgress: shyHeaderView.exposure.progress)
-        if traitCollection.verticalSizeClass == .compact {
-            msNavigationController?.msNavigationBar.expand(false)
-        } else if shyHeaderView.exposure == .concealed {
-            msNavigationController?.msNavigationBar.contract(false)
-        }
     }
 }

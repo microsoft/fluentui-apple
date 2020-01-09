@@ -65,7 +65,6 @@ open class MSNavigationBar: UINavigationBar {
     private struct Constants {
         static let normalContentHeight: CGFloat = 44
         static let expandedContentHeight: CGFloat = 50
-        static let expandedContentHeightDifference: CGFloat = expandedContentHeight - normalContentHeight
 
         static let contentLeadingMargin: CGFloat = 8
         static let contentTrailingMargin: CGFloat = 6
@@ -91,33 +90,40 @@ open class MSNavigationBar: UINavigationBar {
     /// An element size to describe the behavior of large title's avatar. If `.automatic`, avatar will resize when `expand(animated:)` and `contract(animated:)` are called.
     open var avatarSize: ElementSize = .automatic {
         didSet {
-            titleView.avatarSize = avatarSize
-            updateBarHeight()
+            updateElementSizes()
         }
     }
 
     /// An element size to describe the behavior of the navigation bar's expanded height. Set automatically when the values of `avatarSize` and `titleSize` are changed. The bar will lock to expanded size if either element is set to `.expanded`, lock to contracted if both elements are `.contracted`, and stay automatic in any other case.
-    open private(set) var barHeight: ElementSize = .automatic {
+    open private(set) dynamic var barHeight: ElementSize = .automatic {
         didSet {
             guard barHeight != oldValue else {
                 return
             }
+
+            let originalIsExpanded = isExpanded
+
             switch barHeight {
             case .automatic:
-                return
+                if isExpanded {
+                    expand(true)
+                } else {
+                    contract(true)
+                }
             case .contracted:
                 contract(true)
             case .expanded:
                 expand(true)
             }
+
+            isExpanded = originalIsExpanded
         }
     }
 
     /// An element size to describe the behavior of the navigation bar's large title. If `.automatic`, the title label will resize when `expand(animated:)` and `contract(animated:)` are called.
     open var titleSize: ElementSize = .automatic {
         didSet {
-            titleView.titleSize = titleSize
-            updateBarHeight()
+            updateElementSizes()
         }
     }
 
@@ -252,22 +258,13 @@ open class MSNavigationBar: UINavigationBar {
     }
 
     private func updateContentStackViewMargins(forExpandedContent contentIsExpanded: Bool) {
+        let contentHeight = contentIsExpanded ? Constants.expandedContentHeight : Constants.normalContentHeight
         contentStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(
             top: 0,
             leading: Constants.contentLeadingMargin,
-            bottom: contentIsExpanded ? -Constants.expandedContentHeightDifference : 0,
+            bottom: -(contentHeight - systemHeight),
             trailing: Constants.contentTrailingMargin
         )
-    }
-
-    private func updateBarHeight() {
-        if avatarSize == .expanded || titleSize == .expanded {
-            barHeight = .expanded
-        } else if avatarSize == .contracted && titleSize == .contracted {
-            barHeight = .contracted
-        } else {
-            barHeight = .automatic
-        }
     }
 
     /// Guarantees that the custom UI remains on top of the subview stack
@@ -283,6 +280,14 @@ open class MSNavigationBar: UINavigationBar {
         // contentStackView's content extends its bounds outside of navigation bar bounds
         return super.point(inside: point, with: event) ||
             contentStackView.point(inside: convert(point, to: contentStackView), with: event)
+    }
+
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if traitCollection.verticalSizeClass != previousTraitCollection?.verticalSizeClass {
+            updateElementSizes()
+            updateContentStackViewMargins(forExpandedContent: contentIsExpanded)
+        }
     }
 
     private func setColorsForStyle() {
@@ -304,7 +309,41 @@ open class MSNavigationBar: UINavigationBar {
         }
     }
 
-    // MARK: - UINavigationItem & UIBarButtonItem Handling Methods
+    // MARK: Element size handling
+
+    private var currentAvatarSize: ElementSize {
+        if traitCollection.verticalSizeClass == .compact {
+            return .contracted
+        }
+        return avatarSize
+    }
+    private var currentTitleSize: ElementSize {
+        if traitCollection.verticalSizeClass == .compact {
+            return .contracted
+        }
+        return titleSize
+    }
+    private var currentBarHeight: ElementSize {
+        if currentAvatarSize == .expanded || currentTitleSize == .expanded {
+            return .expanded
+        } else if currentAvatarSize == .contracted && currentTitleSize == .contracted {
+            return .contracted
+        } else {
+            return .automatic
+        }
+    }
+
+    private var contentIsExpanded: Bool {
+        return barHeight == .automatic ? isExpanded : barHeight == .expanded
+    }
+
+    private func updateElementSizes() {
+        titleView.avatarSize = currentAvatarSize
+        titleView.titleSize = currentTitleSize
+        barHeight = currentBarHeight
+    }
+
+    // MARK: UINavigationItem & UIBarButtonItem handling
 
     func update(with navigationItem: UINavigationItem) {
         style = actualStyle(for: navigationItem)
@@ -362,7 +401,7 @@ open class MSNavigationBar: UINavigationBar {
         }
     }
 
-    // MARK: - Obscurant Handling & Show/Hide Animation Methods
+    // MARK: Obscurant handling
 
     func obscureContent(animated: Bool) {
         if contentStackView.alpha == 1 {
@@ -387,6 +426,8 @@ open class MSNavigationBar: UINavigationBar {
             }
         }
     }
+
+    // MARK: Large/Normal Title handling
 
     private func updateViewsForLargeTitlePresentation(for navigationItem: UINavigationItem?) {
         if showsLargeTitle {
@@ -419,10 +460,13 @@ open class MSNavigationBar: UINavigationBar {
         }
     }
 
-    /// Coordinates expansions between the MSShyHeaderController, the navBar's TitleView, and the nav bar itself
-    ///
-    /// - Parameter animated: to animate the expansion or not
+    // MARK: Content expansion/contraction
+
+    private var isExpanded: Bool = true
+
     func expand(_ animated: Bool) {
+        isExpanded = true
+
         titleView.expand(animated: animated)
 
         guard barHeight != .contracted else {
@@ -441,13 +485,8 @@ open class MSNavigationBar: UINavigationBar {
         }
     }
 
-    /// Coordinates contractions between the MSShyHeaderController, the navBar's TitleView, and the nav bar itself
-    ///
-    /// - Parameter animated: to animate the contraction or not
     func contract(_ animated: Bool) {
-        guard traitCollection.verticalSizeClass != .compact else {
-            return
-        }
+        isExpanded = false
 
         titleView.contract(animated: animated)
 
@@ -467,7 +506,7 @@ open class MSNavigationBar: UINavigationBar {
         }
     }
 
-    // MARK: - Accessibility Overrides
+    // MARK: Accessibility
 
     private func updateAccessibilityElements() {
         if showsLargeTitle {

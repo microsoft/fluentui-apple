@@ -17,7 +17,7 @@ class MSShyHeaderView: UIView {
     /// - exposed: Fully showing header
     /// - exposing: partially showing header (defined by a progress fraction, 0.0 - 1.0)
     /// - concealed: fully concealed (hidden)
-    enum ShyViewExposure: Equatable {
+    enum Exposure: Equatable {
         case concealed
         case exposing(CGFloat)
         case exposed
@@ -51,15 +51,39 @@ class MSShyHeaderView: UIView {
         }
     }
 
-    static let shyContainerContentInsets = UIEdgeInsets(top: 6, left: 16, bottom: 10, right: 16) //content insets of the stack inside the header view
-
     private struct Constants {
-        static let paddingHeight: CGFloat = 12
-        static let maxHeightWithAccessory: CGFloat = 52
+        static let contentHorizontalPadding: CGFloat = 16
+        static let contentTopPadding: CGFloat = 6
+        static let contentTopPaddingCompact: CGFloat = 10
+        static let contentTopPaddingCompactForLargePhone: CGFloat = 0
+        static let contentBottomPadding: CGFloat = 10
+        static let contentBottomPaddingCompact: CGFloat = 6
+        static let accessoryHeight: CGFloat = 36
+        static let maxHeightNoAccessory: CGFloat = 56 - 44  // navigation bar - design: 56, system: 44
+        static let maxHeightNoAccessoryCompact: CGFloat = 44 - 32   // navigation bar - design: 44, system: 32
+        static let maxHeightNoAccessoryCompactForLargePhone: CGFloat = 44 - 44   // navigation bar - design: 44, system: 44
+    }
+
+    private var contentInsets: UIEdgeInsets {
+        return UIEdgeInsets(top: contentTopInset, left: Constants.contentHorizontalPadding, bottom: contentBottomInset, right: Constants.contentHorizontalPadding)
+    }
+    private var contentTopInset: CGFloat {
+        if traitCollection.verticalSizeClass == .compact {
+            if navigationBarIsHidden {
+                return contentBottomInset
+            } else {
+                return traitCollection.horizontalSizeClass == .compact ? Constants.contentTopPaddingCompact : Constants.contentTopPaddingCompactForLargePhone
+            }
+        } else {
+            return Constants.contentTopPadding
+        }
+    }
+    var contentBottomInset: CGFloat {
+        return traitCollection.verticalSizeClass == .compact ? Constants.contentBottomPaddingCompact : Constants.contentBottomPadding
     }
 
     /// Header's current state
-    var exposure: ShyViewExposure = .exposed {
+    var exposure: Exposure = .exposed {
         didSet {
             switch exposure {
             case .concealed:
@@ -89,19 +113,34 @@ class MSShyHeaderView: UIView {
                 initContentStackView()
                 contentStackView.addArrangedSubview(newContentView)
             }
+            maxHeightChanged?()
         }
     }
 
     var maxHeight: CGFloat {
-        return accessoryView == nil ? maxHeightNoAccessory : Constants.maxHeightWithAccessory
+        if accessoryView == nil {
+            return maxHeightNoAccessory
+        } else {
+            return contentTopInset + Constants.accessoryHeight + contentBottomInset
+        }
     }
+    private var maxHeightNoAccessory: CGFloat {
+        if traitCollection.verticalSizeClass == .compact {
+            return traitCollection.horizontalSizeClass == .compact ? Constants.maxHeightNoAccessoryCompact : Constants.maxHeightNoAccessoryCompactForLargePhone
+        }
+        return lockedInContractedState ? 0.0 : Constants.maxHeightNoAccessory
+    }
+    var maxHeightChanged: (() -> Void)?
 
     var lockedInContractedState: Bool = false
 
-    private var maxHeightNoAccessory: CGFloat {
-        return lockedInContractedState ? 0.0 : Constants.paddingHeight
+    var navigationBarIsHidden: Bool = false {
+        didSet {
+            if navigationBarIsHidden != oldValue {
+                updateContentInsets()
+            }
+        }
     }
-
     var navigationBarStyle: MSNavigationBar.Style = .primary {
         didSet {
             backgroundColor = navigationBarStyle.backgroundColor
@@ -148,18 +187,15 @@ class MSShyHeaderView: UIView {
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
+        updateContentInsets()
         updateShadowVisibility()
     }
 
     private func initContentStackView() {
-        contentStackView.translatesAutoresizingMaskIntoConstraints = false
+        contentStackView.isLayoutMarginsRelativeArrangement = true
         addSubview(contentStackView)
-        NSLayoutConstraint.activate([
-            contentStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: Self.shyContainerContentInsets.left),
-            contentStackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -1 * Self.shyContainerContentInsets.right),
-            contentStackView.topAnchor.constraint(equalTo: topAnchor, constant: Self.shyContainerContentInsets.top),
-            contentStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1 * Self.shyContainerContentInsets.bottom)
-        ])
+        contentStackView.fitIntoSuperview()
+        updateContentInsets()
     }
 
     private func initShadow() {
@@ -170,6 +206,11 @@ class MSShyHeaderView: UIView {
             shadow.rightAnchor.constraint(equalTo: rightAnchor),
             shadow.topAnchor.constraint(equalTo: bottomAnchor)
         ])
+    }
+
+    private func updateContentInsets() {
+        contentStackView.layoutMargins = contentInsets
+        maxHeightChanged?()
     }
 
     private func updateShadowVisibility() {
