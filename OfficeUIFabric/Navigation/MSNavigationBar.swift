@@ -95,7 +95,7 @@ open class MSNavigationBar: UINavigationBar {
     }
 
     /// An element size to describe the behavior of the navigation bar's expanded height. Set automatically when the values of `avatarSize` and `titleSize` are changed. The bar will lock to expanded size if either element is set to `.expanded`, lock to contracted if both elements are `.contracted`, and stay automatic in any other case.
-    open private(set) dynamic var barHeight: ElementSize = .automatic {
+    @objc open private(set) dynamic var barHeight: ElementSize = .automatic {
         didSet {
             guard barHeight != oldValue else {
                 return
