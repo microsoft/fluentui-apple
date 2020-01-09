@@ -91,17 +91,14 @@ open class MSSearchBar: UIView {
 
     private struct Constants {
         static let searchTextFieldCornerRadius: CGFloat = 10.0
-        static let contentStackViewWidthInset: CGFloat = 0.0
         static let searchTextFieldBackgroundHeight: CGFloat = 36.0
-        static let searchIconImageViewContainerInset: CGFloat = 0
         static let searchIconImageViewDimension: CGFloat = 20
-
         static let searchIconInset: CGFloat = 10.0
         static let searchTextFieldLeadingInset: CGFloat = 10.0
-        static let clearButtonLeadingInset: CGFloat = 9.5
-        static let clearButtonWidth: CGFloat = 19.0
-        static let clearButtonTrailingInset: CGFloat = 5.5
-
+        static let searchTextFieldVerticalInset: CGFloat = 2
+        static let clearButtonLeadingInset: CGFloat = 10
+        static let clearButtonWidth: CGFloat = 8 + 16 + 8   // padding + image + padding
+        static let clearButtonTrailingInset: CGFloat = 0
         static let cancelButtonLeadingInset: CGFloat = 8.0
 
         static let searchTextFieldTextStyle: MSTextStyle = .bodyUnscaled
@@ -139,8 +136,8 @@ open class MSSearchBar: UIView {
     weak var navigationController: MSNavigationController?
 
     //used to hide the cancelButton in non-active states
-    private var searchTextfieldBackgroundViewTrailingToSearchBarTrailing: NSLayoutConstraint?
-    private var cancelButtonTrailingToSearchBarTrailingConstraint: NSLayoutConstraint?
+    private var searchTextFieldBackgroundViewTrailingConstraint: NSLayoutConstraint?
+    private var cancelButtonTrailingConstraint: NSLayoutConstraint?
 
     private lazy var searchIconImageViewContainerView = UIView()
 
@@ -262,7 +259,7 @@ open class MSSearchBar: UIView {
         constraints.append(searchTextFieldBackgroundView.centerYAnchor.constraint(equalTo: centerYAnchor))
         constraints.append(searchTextFieldBackgroundView.heightAnchor.constraint(equalToConstant: Constants.searchTextFieldBackgroundHeight))
         let searchTextFieldBackgroundViewTrailing = searchTextFieldBackgroundView.trailingAnchor.constraint(equalTo: trailingAnchor)
-        searchTextfieldBackgroundViewTrailingToSearchBarTrailing = searchTextFieldBackgroundViewTrailing
+        searchTextFieldBackgroundViewTrailingConstraint = searchTextFieldBackgroundViewTrailing
         constraints.append(searchTextFieldBackgroundViewTrailing)
 
         //search icon container
@@ -270,7 +267,7 @@ open class MSSearchBar: UIView {
         searchIconImageViewContainerView.translatesAutoresizingMaskIntoConstraints = false
 
         constraints.append(searchIconImageViewContainerView.leadingAnchor.constraint(equalTo: searchTextFieldBackgroundView.leadingAnchor, constant: Constants.searchIconInset))
-        constraints.append(searchIconImageViewContainerView.widthAnchor.constraint(equalToConstant: Constants.searchIconImageViewDimension + Constants.searchIconImageViewContainerInset + Constants.searchIconImageViewContainerInset))
+        constraints.append(searchIconImageViewContainerView.widthAnchor.constraint(equalToConstant: Constants.searchIconImageViewDimension))
         constraints.append(searchIconImageViewContainerView.heightAnchor.constraint(equalTo: searchIconImageViewContainerView.widthAnchor))
         constraints.append(searchIconImageViewContainerView.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor))
 
@@ -289,7 +286,7 @@ open class MSSearchBar: UIView {
 
         constraints.append(searchTextField.leadingAnchor.constraint(equalTo: searchIconImageViewContainerView.trailingAnchor, constant: Constants.searchTextFieldLeadingInset))
         constraints.append(searchTextField.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor))
-        constraints.append(searchTextField.heightAnchor.constraint(equalTo: searchTextFieldBackgroundView.heightAnchor, constant: -4.0))
+        constraints.append(searchTextField.heightAnchor.constraint(equalTo: searchTextFieldBackgroundView.heightAnchor, constant: -2 * Constants.searchTextFieldVerticalInset))
 
         //clearButton
         searchTextFieldBackgroundView.addSubview(clearButton)
@@ -310,7 +307,7 @@ open class MSSearchBar: UIView {
         constraints.append(cancelButton.leadingAnchor.constraint(equalTo: searchTextFieldBackgroundView.trailingAnchor, constant: Constants.cancelButtonLeadingInset))
         constraints.append(cancelButton.centerYAnchor.constraint(equalTo: centerYAnchor))
         let cancelButtonTrailing = cancelButton.trailingAnchor.constraint(equalTo: trailingAnchor)
-        cancelButtonTrailingToSearchBarTrailingConstraint = cancelButtonTrailing
+        cancelButtonTrailingConstraint = cancelButtonTrailing
 
         NSLayoutConstraint.activate(constraints)
     }
@@ -380,8 +377,8 @@ open class MSSearchBar: UIView {
     private func showCancelButton() {
         UIView.animate(withDuration: Constants.cancelButtonShowHideAnimationDuration, animations: {
             self.cancelButton.alpha = 1.0
-            self.searchTextfieldBackgroundViewTrailingToSearchBarTrailing?.isActive = false
-            self.cancelButtonTrailingToSearchBarTrailingConstraint?.isActive = true
+            self.searchTextFieldBackgroundViewTrailingConstraint?.isActive = false
+            self.cancelButtonTrailingConstraint?.isActive = true
             self.cancelButton.setNeedsLayout()
             self.layoutIfNeeded()
         })
@@ -392,8 +389,8 @@ open class MSSearchBar: UIView {
     private func hideCancelButton() {
         UIView.animate(withDuration: Constants.cancelButtonShowHideAnimationDuration, animations: {
             self.cancelButton.alpha = 0.0
-            self.searchTextfieldBackgroundViewTrailingToSearchBarTrailing?.isActive = true
-            self.cancelButtonTrailingToSearchBarTrailingConstraint?.isActive = false
+            self.cancelButtonTrailingConstraint?.isActive = false
+            self.searchTextFieldBackgroundViewTrailingConstraint?.isActive = true
             self.cancelButton.setNeedsLayout()
             self.layoutIfNeeded()
         })

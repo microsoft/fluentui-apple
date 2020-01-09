@@ -88,10 +88,9 @@ class MSShyHeaderView: UIView {
             switch exposure {
             case .concealed:
                 contentStackView.accessibilityElementsHidden = true
-                guard cancelsContentFirstRespondingOnHide else {
-                    return
+                if cancelsContentFirstRespondingOnHide {
+                    accessoryView?.resignFirstResponder()
                 }
-                accessoryView?.resignFirstResponder()
             default:
                 contentStackView.accessibilityElementsHidden = false
                 return
@@ -194,7 +193,7 @@ class MSShyHeaderView: UIView {
     private func initContentStackView() {
         contentStackView.isLayoutMarginsRelativeArrangement = true
         addSubview(contentStackView)
-        contentStackView.fitIntoSuperview()
+        contentStackView.fitIntoSuperview(usingConstraints: true)
         updateContentInsets()
     }
 
