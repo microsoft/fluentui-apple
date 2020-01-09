@@ -26,7 +26,7 @@ jobs:
           scheme: OfficeUIFabricLib
           sdk: 'iphonesimulator'
           configuration: 'Debug'
-          xcodeVersion: 11
+          xcodeVersion: default
           useXcpretty: false
           args: 'CLANG_DEBUG_INFORMATION_LEVEL=line-tables-only OTHER_SWIFT_FLAGS=-gline-tables-only SWIFT_OPTIMIZATION_LEVEL=-Osize SWIFT_REFLECTION_METADATA_LEVEL=none BUILD_LIBRARY_FOR_DISTRIBUTION=YES'
 
@@ -38,7 +38,7 @@ jobs:
           scheme: OfficeUIFabricLib
           sdk: 'iphonesimulator'
           configuration: 'Release'
-          xcodeVersion: 11
+          xcodeVersion: default
           useXcpretty: false
           args: 'CLANG_DEBUG_INFORMATION_LEVEL=line-tables-only OTHER_SWIFT_FLAGS=-gline-tables-only SWIFT_OPTIMIZATION_LEVEL=-Osize SWIFT_REFLECTION_METADATA_LEVEL=none BUILD_LIBRARY_FOR_DISTRIBUTION=YES'
 
@@ -50,7 +50,7 @@ jobs:
           scheme: OfficeUIFabricLib
           sdk: 'iphoneos'
           configuration: 'Debug'
-          xcodeVersion: 11
+          xcodeVersion: default
           useXcpretty: false
           args: 'CLANG_DEBUG_INFORMATION_LEVEL=line-tables-only OTHER_SWIFT_FLAGS=-gline-tables-only SWIFT_OPTIMIZATION_LEVEL=-Osize SWIFT_REFLECTION_METADATA_LEVEL=none BUILD_LIBRARY_FOR_DISTRIBUTION=YES'
 
@@ -62,7 +62,7 @@ jobs:
           scheme: OfficeUIFabricLib
           sdk: 'iphoneos'
           configuration: 'Release'
-          xcodeVersion: 11
+          xcodeVersion: default
           useXcpretty: false
           args: 'CLANG_DEBUG_INFORMATION_LEVEL=line-tables-only OTHER_SWIFT_FLAGS=-gline-tables-only SWIFT_OPTIMIZATION_LEVEL=-Osize SWIFT_REFLECTION_METADATA_LEVEL=none BUILD_LIBRARY_FOR_DISTRIBUTION=YES'
 
