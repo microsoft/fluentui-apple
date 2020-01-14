@@ -15,6 +15,7 @@
 		8061BF7F22EF936800F2D245 /* DatePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8061BF7D22EF936700F2D245 /* DatePickerController.swift */; };
 		8061BF8322EF957200F2D245 /* TestDatePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8061BF8222EF957200F2D245 /* TestDatePickerController.swift */; };
 		80FEB30F230DE91D00F9FF3E /* OfficeUIFabric.strings in Resources */ = {isa = PBXBuildFile; fileRef = 80FEB2F8230DE53F00F9FF3E /* OfficeUIFabric.strings */; };
+		8F16282123CCD17900F81956 /* OfficeUIFabric.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F16282023CCD17900F81956 /* OfficeUIFabric.xcassets */; };
 		8F250B8B22B3045100142B0E /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F250B8A22B3045100142B0E /* AvatarView.swift */; };
 		8F250B8D22B3062A00142B0E /* TestAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F250B8C22B3062A00142B0E /* TestAvatarViewController.swift */; };
 		8F5368052295F4BF0098AC8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5368042295F4BF0098AC8F /* AppDelegate.swift */; };
@@ -54,6 +55,7 @@
 		8061BF7D22EF936700F2D245 /* DatePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerController.swift; sourceTree = "<group>"; };
 		8061BF8222EF957200F2D245 /* TestDatePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestDatePickerController.swift; sourceTree = "<group>"; };
 		80FEB2F7230DE53F00F9FF3E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/OfficeUIFabric.strings; sourceTree = "<group>"; };
+		8F16282023CCD17900F81956 /* OfficeUIFabric.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = OfficeUIFabric.xcassets; sourceTree = "<group>"; };
 		8F250B8A22B3045100142B0E /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		8F250B8C22B3062A00142B0E /* TestAvatarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAvatarViewController.swift; sourceTree = "<group>"; };
 		8F3572322361143B0076FBBE /* OfficeUIFabricTestApp.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = OfficeUIFabricTestApp.xctestplan; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				80FEB2F8230DE53F00F9FF3E /* OfficeUIFabric.strings */,
+				8F16282023CCD17900F81956 /* OfficeUIFabric.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -387,6 +390,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F16282123CCD17900F81956 /* OfficeUIFabric.xcassets in Resources */,
 				80FEB30F230DE91D00F9FF3E /* OfficeUIFabric.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

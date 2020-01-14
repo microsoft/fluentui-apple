@@ -39,7 +39,12 @@ open class AvatarView : NSView {
 		super.init(frame: .zero)
 
 		wantsLayer = true
-		circleMask.path = .circularPath(withCircleDiameter: avatarSize)
+		let circularPath = CGPath.circularPath(withCircleDiameter: avatarSize)
+		circleMask.path = circularPath
+		outlineLayer.path = circularPath
+		outlineLayer.lineWidth = 1.0
+		outlineLayer.strokeColor = AvatarView.outlineColor.cgColor
+		outlineLayer.fillColor = nil
 		layer?.mask = circleMask
 
 		let widthConstraint = widthAnchor.constraint(equalToConstant: avatarSize)
@@ -64,8 +69,9 @@ open class AvatarView : NSView {
 		}
 		// Disable animations for this change
 		CATransaction.setDisableActions(true)
+		outlineLayer.strokeColor = AvatarView.outlineColor.cgColor
 		if displayStyle == .initials {
-			circleLayer.fillColor = avatarBackgroundColor.cgColor
+			initialsView.layer?.backgroundColor = avatarBackgroundColor.cgColor
 		}
 	}
 
@@ -128,13 +134,13 @@ open class AvatarView : NSView {
 
 			let path = CGPath.circularPath(withCircleDiameter: avatarSize)
 			circleMask.path = path
-			circleLayer.path = path
+			outlineLayer.path = path
 
-			let font = NSFont.systemFont(ofSize:fontSize(forCircleDiameter: avatarSize))
-			initialsTextField.font = font
+			let textFieldFont = font(forCircleDiameter: avatarSize)
+			initialsTextField.font = textFieldFont
 			
 			// This constraint will only exist if we're using the sizing view approach to center our initials
-			initialsSizingViewHeightConstraint?.constant = ceil(font.capHeight)
+			initialsSizingViewHeightConstraint?.constant = ceil(textFieldFont.capHeight)
 		}
 	}
 	
@@ -148,7 +154,7 @@ open class AvatarView : NSView {
 	private var initialsSizingViewHeightConstraint: NSLayoutConstraint?
 
 	/// The layer used to draw the colorful circle underneath the initials in the initials view
-	private let circleLayer = CAShapeLayer()
+	private let outlineLayer = CAShapeLayer()
 
 	/// The layer used to mask the overall AvatarView to a circle
 	private let circleMask = CAShapeLayer()
@@ -177,10 +183,7 @@ open class AvatarView : NSView {
 		let initialsView = NSView()
 		initialsView.wantsLayer = true
 		initialsView.translatesAutoresizingMaskIntoConstraints = false
-
-		circleLayer.path = .circularPath(withCircleDiameter: avatarSize)
-		circleLayer.fillColor = avatarBackgroundColor.cgColor
-		initialsView.layer?.addSublayer(circleLayer)
+		initialsView.layer?.backgroundColor = avatarBackgroundColor.cgColor
 
 		let textView = initialsTextField
 		initialsView.addSubview(textView)
@@ -192,26 +195,21 @@ open class AvatarView : NSView {
 		
 		// If we have a font, use that to accurately center the initials, not letting diacritics and descenders/ascenders
 		// impact the centering
-		if let capHeight = textView.font?.capHeight {
-			// Create an empty view that gives reasonable sizing information on the actual text of our text view
-			let initialsTextSizingView = NSView(frame: .zero)
-			initialsView.addSubview(initialsTextSizingView)
-			initialsTextSizingView.translatesAutoresizingMaskIntoConstraints = false
+		let capHeight = font(forCircleDiameter: avatarSize).capHeight
+		// Create an empty view that gives reasonable sizing information on the actual text of our text view
+		let initialsTextSizingView = NSView(frame: .zero)
+		initialsView.addSubview(initialsTextSizingView)
+		initialsTextSizingView.translatesAutoresizingMaskIntoConstraints = false
 
-			let initialsSizingViewHeightConstraint = initialsTextSizingView.heightAnchor.constraint(equalToConstant: ceil(capHeight))
-			self.initialsSizingViewHeightConstraint = initialsSizingViewHeightConstraint
-			constraints.append(contentsOf: [
-				initialsTextSizingView.leadingAnchor.constraint(equalTo: textView.leadingAnchor),
-				initialsTextSizingView.trailingAnchor.constraint(equalTo: textView.trailingAnchor),
-				initialsTextSizingView.centerYAnchor.constraint(equalTo: initialsView.centerYAnchor),
-				initialsTextSizingView.bottomAnchor.constraint(equalTo: textView.firstBaselineAnchor),
-				initialsSizingViewHeightConstraint,
-			])
-		} else {
-			// If we don't have a font for any reason, fall back to less centered but still reasonable centering
-			constraints.append(textView.centerYAnchor.constraint(equalTo: initialsView.centerYAnchor))
-			assertionFailure()
-		}
+		let initialsSizingViewHeightConstraint = initialsTextSizingView.heightAnchor.constraint(equalToConstant: ceil(capHeight))
+		self.initialsSizingViewHeightConstraint = initialsSizingViewHeightConstraint
+		constraints.append(contentsOf: [
+			initialsTextSizingView.leadingAnchor.constraint(equalTo: textView.leadingAnchor),
+			initialsTextSizingView.trailingAnchor.constraint(equalTo: textView.trailingAnchor),
+			initialsTextSizingView.centerYAnchor.constraint(equalTo: initialsView.centerYAnchor),
+			initialsTextSizingView.bottomAnchor.constraint(equalTo: textView.firstBaselineAnchor),
+			initialsSizingViewHeightConstraint,
+		])
 
 		NSLayoutConstraint.activate(constraints)
 
@@ -223,26 +221,42 @@ open class AvatarView : NSView {
 		let textView = NSTextField(labelWithString: AvatarView.initialsWithFallback(name: contactName, email: contactEmail))
 		textView.alignment = .center
 		textView.translatesAutoresizingMaskIntoConstraints = false
-		textView.font = NSFont.systemFont(ofSize:fontSize(forCircleDiameter: avatarSize))
+		textView.font = font(forCircleDiameter: avatarSize)
 		textView.textColor = .initialsViewTextColor
 		textView.drawsBackground = true
 		textView.backgroundColor = avatarBackgroundColor
 		return textView
 	}()
 	
+	/// The view that draws the outline stroke around the edge of the AvatarView
+	private lazy var outlineView: NSView = {
+		let outlineView = NSView()
+		outlineView.translatesAutoresizingMaskIntoConstraints = false
+		outlineView.wantsLayer = true
+		outlineView.layer?.addSublayer(outlineLayer)
+		return outlineView
+	}()
+	
 	/// Update this view to use the proper style when switching from Image to Initials or vice-versa
 	private func updateViewStyle() {
-		// Remove all subviews as we will re-add the proper one below
-		subviews = []
-		
 		let currentView = self.currentView()
+		let accessibilityRingView = self.outlineView
 		
-		addSubview(currentView)
+		// Replace all existing subviews with the proper ones, ensuring the correct z-ordering
+		subviews = [
+			currentView,
+			accessibilityRingView,
+		]
+		
 		let constraints = [
 			currentView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
 			currentView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
 			currentView.topAnchor.constraint(equalTo: self.topAnchor),
 			currentView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+			accessibilityRingView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+			accessibilityRingView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+			accessibilityRingView.topAnchor.constraint(equalTo: self.topAnchor),
+			accessibilityRingView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
 		]
 		
 		NSLayoutConstraint.activate(constraints)
@@ -298,6 +312,9 @@ open class AvatarView : NSView {
 
 	/// the maximum number of initials to be displayed when we don't have an image
 	static let maximumNumberOfInitials = 2
+	
+	/// the color used for the outline view
+	static let outlineColor = NSColor(named: "AvatarView/outlineColor", bundle: Bundle(for: AvatarView.self))!
 
 	/// Extract the initials to display from a name and email combo, providing a fallback otherwise
 	///
@@ -388,6 +405,16 @@ fileprivate enum DisplayStyle {
 /// - note: font sizes will be rounded to the nearest 0.5 point for rendering fidelity
 fileprivate func fontSize(forCircleDiameter diameter: CGFloat) -> CGFloat {
 	return floor(diameter * AvatarView.fontSizeScalingDefault * 2) / 2
+}
+
+/// Return a font for an AvatarView of a given size
+///
+/// - Parameters:
+///   - diameter: the diameter of the circle for which to return a font
+/// - Returns: the appropriate font
+/// - note: the font size is handled by `fontSize`
+fileprivate func font(forCircleDiameter diameter: CGFloat) -> NSFont {
+	return NSFont.systemFont(ofSize: fontSize(forCircleDiameter: diameter))
 }
 
 // Internal visibility only for unit testing
