@@ -24,7 +24,7 @@ import UIKit
         case .none:
             icon = nil
         case .disclosureIndicator:
-            icon = UIImage.staticImageNamed(OfficeUIFabricFramework.usesFluentIcons ? "chevron-right-20x20" : "disclosure")?.imageFlippedForRightToLeftLayoutDirection()
+            icon = UIImage.staticImageNamed(OfficeUIFabricFramework.usesFluentIcons ? "iOS-chevron-right-20x20" : "disclosure")?.imageFlippedForRightToLeftLayoutDirection()
         case .detailButton:
             icon = UIImage.staticImageNamed(OfficeUIFabricFramework.usesFluentIcons ? "more-24x24" : "details")
         case .checkmark:
