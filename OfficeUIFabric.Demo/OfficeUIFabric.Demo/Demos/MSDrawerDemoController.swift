@@ -68,14 +68,15 @@ class MSDrawerDemoController: DemoController {
         return controller
     }
 
-    private func actionViews(drawerCanExpand: Bool) -> [UIView] {
+    private func actionViews(drawerHasFlexibleHeight: Bool) -> [UIView] {
         let spacer = UIView()
         spacer.backgroundColor = .orange
         spacer.layer.borderWidth = 1
         spacer.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
 
         var views = [UIView]()
-        if drawerCanExpand {
+        if drawerHasFlexibleHeight {
+            views.append(createButton(title: "Change content height", action: #selector(changeContentHeightButtonTapped)))
             views.append(createButton(title: "Expand", action: #selector(expandButtonTapped)))
         }
         views.append(createButton(title: "Dismiss", action: #selector(dismissButtonTapped)))
@@ -84,9 +85,9 @@ class MSDrawerDemoController: DemoController {
         return views
     }
 
-    private func containerForActionViews(drawerCanExpand: Bool = true) -> UIView {
+    private func containerForActionViews(drawerHasFlexibleHeight: Bool = true) -> UIView {
         let container = DemoController.createVerticalContainer()
-        for view in actionViews(drawerCanExpand: drawerCanExpand) {
+        for view in actionViews(drawerHasFlexibleHeight: drawerHasFlexibleHeight) {
             container.addArrangedSubview(view)
         }
         return container
@@ -110,11 +111,11 @@ class MSDrawerDemoController: DemoController {
     }
 
     @objc private func showLeftDrawerButtonTapped(sender: UIButton) {
-        presentDrawer(sourceView: sender, presentationDirection: .fromLeading, contentView: containerForActionViews(drawerCanExpand: false), resizingBehavior: .dismiss)
+        presentDrawer(sourceView: sender, presentationDirection: .fromLeading, contentView: containerForActionViews(drawerHasFlexibleHeight: false), resizingBehavior: .dismiss)
     }
 
     @objc private func showRightDrawerButtonTapped(sender: UIButton) {
-        presentDrawer(sourceView: sender, presentationDirection: .fromTrailing, contentView: containerForActionViews(drawerCanExpand: false), resizingBehavior: .dismiss)
+        presentDrawer(sourceView: sender, presentationDirection: .fromTrailing, contentView: containerForActionViews(drawerHasFlexibleHeight: false), resizingBehavior: .dismiss)
     }
 
     @objc private func showBottomDrawerButtonTapped(sender: UIButton) {
@@ -146,6 +147,13 @@ class MSDrawerDemoController: DemoController {
         let drawer = presentDrawer(sourceView: sender, presentationDirection: .up, presentationStyle: .slideover, presentationOffset: 20, presentationBackground: traitCollection.horizontalSizeClass == .regular ? .none : .black, contentController: contentController, resizingBehavior: .dismissOrExpand)
 
         drawer.contentScrollView = personaListView
+    }
+
+    @objc private func changeContentHeightButtonTapped(sender: UIButton) {
+        if let spacer = (sender.superview as? UIStackView)?.arrangedSubviews.last,
+            let heightConstraint = spacer.constraints.first {
+            heightConstraint.constant = heightConstraint.constant == 20 ? 100 : 20
+        }
     }
 
     @objc private func expandButtonTapped(sender: UIButton) {

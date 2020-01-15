@@ -205,6 +205,8 @@ class MSDrawerPresentationController: UIPresentationController {
         return 0
     }
 
+    private var isUpdatingContentViewFrame: Bool = false
+
     override func containerViewWillLayoutSubviews() {
         super.containerViewWillLayoutSubviews()
         // In non-animated presentations presented view will be force-placed into containerView by UIKit after separator thus hiding it
@@ -227,6 +229,11 @@ class MSDrawerPresentationController: UIPresentationController {
     }
 
     func updateContentViewFrame(animated: Bool) {
+        if isUpdatingContentViewFrame {
+            return
+        }
+        isUpdatingContentViewFrame = true
+
         let newFrame = frameForContentView()
         if animated {
             let sizeChange = presentationDirection.isVertical ? newFrame.height - contentView.height : newFrame.width - contentView.width
@@ -234,10 +241,14 @@ class MSDrawerPresentationController: UIPresentationController {
             UIView.animate(withDuration: animationDuration, delay: 0, options: [.layoutSubviews], animations: {
                 self.setContentViewFrame(newFrame)
                 self.animatePresentedViewMask(withDuration: animationDuration)
+
+                self.isUpdatingContentViewFrame = false
             })
         } else {
             setContentViewFrame(newFrame)
             setPresentedViewMask()
+
+            isUpdatingContentViewFrame = false
         }
     }
 

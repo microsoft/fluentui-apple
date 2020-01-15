@@ -49,13 +49,13 @@ open class MSPopupMenuController: MSDrawerController {
         }
         return height
     }
+    override var tracksContentHeight: Bool { return false }
 
     /// Set `headerItem` to show a menu header. Header is not interactable and does not scroll.
     @objc open var headerItem: MSPopupMenuItem? {
         didSet {
             if let headerItem = headerItem {
                 headerView.setup(item: headerItem)
-                headerView.height = MSPopupMenuItemCell.preferredHeight(for: headerItem)
             }
             headerView.isHidden = headerItem == nil
         }
@@ -88,9 +88,10 @@ open class MSPopupMenuController: MSDrawerController {
     }
 
     private lazy var containerView: UIView = {
-        let view = UIView()
-        view.addSubview(headerView)
-        view.addSubview(tableView)
+        let view = UIStackView()
+        view.axis = .vertical
+        view.addArrangedSubview(headerView)
+        view.addArrangedSubview(tableView)
         return view
     }()
     private let headerView: MSPopupMenuItemCell = {
@@ -147,22 +148,6 @@ open class MSPopupMenuController: MSDrawerController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.selectRow(at: selectedItemIndexPath, animated: false, scrollPosition: .none)
-    }
-
-    open override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-
-        var frame = containerView.bounds
-
-        if !headerView.isHidden {
-            var headerFrame = frame
-            headerFrame.size.height = headerView.height
-            headerView.frame = headerFrame
-
-            frame = frame.inset(by: UIEdgeInsets(top: headerView.height, left: 0, bottom: 0, right: 0))
-        }
-
-        tableView.frame = frame
     }
 
     open override func viewDidLayoutSubviews() {

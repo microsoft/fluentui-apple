@@ -139,7 +139,7 @@ open class MSDrawerController: UIViewController {
             _contentView?.removeFromSuperview()
             _contentView = newValue
             if let contentView = _contentView {
-                view.addSubview(contentView)
+                containerView.addArrangedSubview(contentView)
             }
         }
     }
@@ -199,7 +199,7 @@ open class MSDrawerController: UIViewController {
             }
             isExpandedBeingChanged = true
             if isExpanded {
-                normalPreferredContentHeight = preferredContentSize.height
+                normalPreferredContentHeight = super.preferredContentSize.height
                 preferredContentSize.height = UIScreen.main.bounds.height
             } else {
                 preferredContentSize.height = normalPreferredContentHeight
@@ -251,6 +251,7 @@ open class MSDrawerController: UIViewController {
             let needsContentViewFrameUpdate = presentingViewController != nil && preferredContentSize != newValue
 
             super.preferredContentSize = newValue
+            updateContainerViewBottomConstraint()
 
             if needsContentViewFrameUpdate {
                 (presentationController as? MSDrawerPresentationController)?.updateContentViewFrame(animated: true)
@@ -260,6 +261,15 @@ open class MSDrawerController: UIViewController {
     // Override to provide the preferred size based on specifics of the concrete drawer subclass (see popup menu, for example)
     var preferredContentWidth: CGFloat { return 0 }
     var preferredContentHeight: CGFloat { return 0 }
+    var tracksContentHeight: Bool {
+        guard presentationController is UIPopoverPresentationController || presentationDirection.isVertical else {
+            return false
+        }
+        if isResizing {
+            return false
+        }
+        return super.preferredContentSize.height == 0 && preferredContentHeight == 0 && (contentController?.preferredContentSize.height ?? 0) == 0
+    }
 
     open override var shouldAutorotate: Bool {
         return presentingViewController?.shouldAutorotate ?? super.shouldAutorotate
@@ -284,6 +294,18 @@ open class MSDrawerController: UIViewController {
 
     private var isExpandedBeingChanged: Bool = false
     private var normalPreferredContentHeight: CGFloat = -1
+
+    private let containerView: UIStackView = {
+        let view = UIStackView()
+        view.axis = .vertical
+        return view
+    }()
+    private var containerViewBottomConstraint: NSLayoutConstraint? {
+        didSet {
+            updateContainerViewBottomConstraint()
+        }
+    }
+    private var containerViewCenterObservation: NSKeyValueObservation?
 
     /**
      Initializes `MSDrawerController` to be presented as a popover from `sourceRect` in `sourceView` on iPad and as a slideover on iPhone/iPad.
@@ -347,6 +369,23 @@ open class MSDrawerController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = MSColors.Drawer.background
         view.isAccessibilityElement = false
+
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(containerView)
+        NSLayoutConstraint.activate([
+            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            containerView.topAnchor.constraint(equalTo: view.topAnchor)
+        ])
+        containerViewBottomConstraint = containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+
+        // Tracking container size by monitoring its center instead of bounds due to ordering of calls
+        containerViewCenterObservation = containerView.observe(\.center) { [unowned self] _, _ in
+            if self.tracksContentHeight {
+                (self.presentationController as? MSDrawerPresentationController)?.updateContentViewFrame(animated: true)
+                (self.presentationController as? UIPopoverPresentationController)?.preferredContentSizeDidChange(forChildContentContainer: self)
+            }
+        }
     }
 
     open override func viewWillAppear(_ animated: Bool) {
@@ -396,23 +435,6 @@ open class MSDrawerController: UIViewController {
         }
     }
 
-    open override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-
-        var frame = view.bounds
-
-        if let resizingHandleView = resizingHandleView {
-            let frames = frame.divided(
-                atDistance: resizingHandleView.height,
-                from: presentationDirection(for: view) == .down ? .maxYEdge : .minYEdge
-            )
-            resizingHandleView.frame = frames.slice
-            frame = frames.remainder
-        }
-
-        contentView?.frame = frame
-    }
-
     open override func accessibilityPerformEscape() -> Bool {
         presentingViewController?.dismiss(animated: true)
         return true
@@ -446,6 +468,10 @@ open class MSDrawerController: UIViewController {
         }
     }
 
+    private func updateContainerViewBottomConstraint() {
+        containerViewBottomConstraint?.isActive = !tracksContentHeight
+    }
+
     // MARK: Resizing
 
     private var canResize: Bool {
@@ -463,7 +489,11 @@ open class MSDrawerController: UIViewController {
         didSet {
             oldValue?.removeFromSuperview()
             if let newView = resizingHandleView {
-                view.addSubview(newView)
+                if presentationDirection == .down {
+                    containerView.addArrangedSubview(newView)
+                } else {
+                    containerView.insertArrangedSubview(newView, at: 0)
+                }
             }
         }
     }
@@ -476,6 +506,12 @@ open class MSDrawerController: UIViewController {
                 newRecognizer.delegate = self
                 view.addGestureRecognizer(newRecognizer)
             }
+        }
+    }
+
+    private var isResizing: Bool = false {
+        didSet {
+            updateContainerViewBottomConstraint()
         }
     }
 
@@ -537,6 +573,7 @@ open class MSDrawerController: UIViewController {
         switch gesture.state {
         case .began, .changed:
             if gesture.state == .began {
+                isResizing = true
                 presentationController.extraContentSizeEffectWhenCollapsing = isExpanded ? .resize : .move
                 originalDrawerOffsetY = view.convert(view.bounds.origin, to: nil).y
                 initOriginalContentOffsetYIfNeeded()
@@ -562,8 +599,10 @@ open class MSDrawerController: UIViewController {
             } else {
                 presentationController.setExtraContentSize(0, animated: true)
             }
+            isResizing = false
         case .cancelled:
             presentationController.setExtraContentSize(0, animated: true)
+            isResizing = false
         default:
             break
         }
