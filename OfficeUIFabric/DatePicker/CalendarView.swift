@@ -78,7 +78,7 @@ class CalendarView: NSView {
 		}
 		
 		// Accessibility
-		setAccessibilityElement(true)
+		setAccessibilityElement(!DatePickerView.accessibilityTemporarilyRestricted)
 		setAccessibilityLabel(NSLocalizedString(
 			"DATEPICKER_ACCESSIBILITY_CALENDAR_VIEW_LABEL",
 			tableName: "OfficeUIFabric",

@@ -82,6 +82,9 @@ class CalendarDayButton: NSButton {
 		]
 		NSLayoutConstraint.activate(constraints)
 		
+		if DatePickerView.accessibilityTemporarilyRestricted {
+			cell?.setAccessibilityElement(false)
+		}
 		setAccessibilityLabel(day?.accessibilityLabel)
 	}
 	

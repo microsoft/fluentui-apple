@@ -114,7 +114,7 @@ class DatePickerView: NSView {
 		textDatePicker.action = #selector(onTextDatePickerChange)
 		
 		// Accessibility
-		setAccessibilityElement(true)
+		setAccessibilityElement(!DatePickerView.accessibilityTemporarilyRestricted)
 		setAccessibilityRole(.group)
 		setAccessibilityLabel(NSLocalizedString(
 			"DATEPICKER_ACCESSIBILITY_DATEPICKER_LABEL",
@@ -384,6 +384,9 @@ class DatePickerView: NSView {
 		var center: CalendarView
 		var trailing: CalendarView
 	}
+	
+	// Undo this restriction after localization pipeline is set up.
+	static let accessibilityTemporarilyRestricted = true
 }
 
 extension DatePickerView: CalendarViewDelegate {
