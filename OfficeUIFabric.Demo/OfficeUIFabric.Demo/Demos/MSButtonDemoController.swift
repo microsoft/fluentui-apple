@@ -25,6 +25,12 @@ class MSButtonDemoController: DemoController {
             addRow(items: [button, disabledButton], itemSpacing: 20)
         }
 
+        addTitle(text: "With multi-line title")
+        let button = MSButton(style: .primaryFilled)
+        button.setTitle("Longer Text Button", for: .normal)
+        button.titleLabel?.numberOfLines = 0
+        addRow(items: [button])
+
         container.addArrangedSubview(UIView())
     }
 }

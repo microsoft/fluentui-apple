@@ -57,6 +57,22 @@ open class MSButton: UIButton {
         }
     }
 
+    open override var intrinsicContentSize: CGSize {
+        var size = titleLabel?.systemLayoutSizeFitting(CGSize(width: proposedTitleLabelWidth == 0 ? .greatestFiniteMagnitude : proposedTitleLabelWidth, height: .greatestFiniteMagnitude)) ?? .zero
+        size.width += contentEdgeInsets.left + contentEdgeInsets.right
+        size.height += contentEdgeInsets.top + contentEdgeInsets.bottom
+        return size
+    }
+
+    /// if value is 0.0, CGFloat.greatestFiniteMagnitude is used to calculate the width of the `titleLabel` in `intrinsicContentSize`
+    private var proposedTitleLabelWidth: CGFloat = 0.0 {
+        didSet {
+            if proposedTitleLabelWidth != oldValue {
+                invalidateIntrinsicContentSize()
+            }
+        }
+    }
+
     @objc public init(style: MSButtonStyle = .secondaryOutline) {
         self.style = style
         super.init(frame: .zero)
@@ -78,6 +94,11 @@ open class MSButton: UIButton {
         update()
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
+    }
+
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        proposedTitleLabelWidth = bounds.width - (contentEdgeInsets.left + contentEdgeInsets.right)
     }
 
     private func update() {
