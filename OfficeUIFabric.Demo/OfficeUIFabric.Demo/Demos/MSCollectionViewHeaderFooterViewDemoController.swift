@@ -23,14 +23,11 @@ class MSCollectionViewHeaderFooterViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        container.heightAnchor.constraint(equalTo: scrollingContainer.heightAnchor).isActive = true
-        container.layoutMargins = .zero
-        container.spacing = 0
-
-        container.addArrangedSubview(segmentedControl)
-        container.addArrangedSubview(groupedCollectionView)
-        container.addArrangedSubview(plainCollectionView)
-
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(segmentedControl)
+        NSLayoutConstraint.activate([segmentedControl.topAnchor.constraint(equalTo: view.topAnchor),
+                                     segmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                                     segmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor)])
         updateActiveTabContent()
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
@@ -41,7 +38,7 @@ class MSCollectionViewHeaderFooterViewDemoController: DemoController {
 
         let itemSize = CGSize(width: view.width, height: MSTableViewCell.height(title: TableViewHeaderFooterSampleData.itemTitle))
         [groupedCollectionView, plainCollectionView].forEach {
-            ($0.collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize = itemSize
+            ($0.collectionViewLayout as? UICollectionViewFlowLayout)?.estimatedItemSize = itemSize
         }
     }
 
@@ -61,8 +58,25 @@ class MSCollectionViewHeaderFooterViewDemoController: DemoController {
     }
 
     @objc private func updateActiveTabContent() {
-        groupedCollectionView.isHidden = segmentedControl.selectedSegmentIndex == 1
-        plainCollectionView.isHidden = !groupedCollectionView.isHidden
+        let viewToHide: UIView
+        let viewToShow: UIView
+        if segmentedControl.selectedSegmentIndex == 1 {
+            viewToHide = groupedCollectionView
+            viewToShow = plainCollectionView
+        } else {
+            viewToHide = plainCollectionView
+            viewToShow = groupedCollectionView
+        }
+
+        viewToHide.removeFromSuperview()
+
+        viewToShow.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(viewToShow)
+
+        NSLayoutConstraint.activate([viewToShow.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor),
+                                     viewToShow.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                                     viewToShow.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                                     viewToShow.bottomAnchor.constraint(equalTo: view.bottomAnchor)])
     }
 
     @objc private func handleContentSizeCategoryDidChange() {
