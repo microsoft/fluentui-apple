@@ -62,6 +62,20 @@ open class DatePickerController: NSViewController {
 		}
 	}
 	
+	/// When enabled, a day is automatically selected every time the user pages to a new month.
+	///	The day number will be the same as the previously selected day.
+	/// In case the day does not exist in the visible month, the last day of the visible month is selected instead.
+	@objc public var autoSelectWhenPaging: Bool = true {
+		didSet {
+			guard autoSelectWhenPaging && !isInVisibleRange(date: selectedDate) else {
+				return
+			}
+			
+			let newDate = generateDateInVisibleRange(from: selectedDate)
+			handleDateOnlySelection(of: newDate)
+		}
+	}
+	
 	/// Currently selected date
 	var selectedDate: Date {
 		return calendar.startOfDay(for: selectedDateTime)
@@ -70,11 +84,8 @@ open class DatePickerController: NSViewController {
 	/// Internal storage of the currently selected date and time
 	private(set) var selectedDateTime: Date
 	
-	/// Internal storage of the date picker view.
-	private let datePicker: DatePickerView
-	
-	/// First and last day of the month that the currently selected date is in.
-	private var visibleRange = (first: Date(), last: Date()) {
+	/// First and last day of the month that is currently visible.
+	private(set) var visibleRange = (first: Date(), last: Date()) {
 		didSet {
 			assert(
 				visibleRange.first == calendar.startOfMonth(for: visibleRange.first),
@@ -84,6 +95,9 @@ open class DatePickerController: NSViewController {
 				"Last date of visible range is not set to end of month")
 		}
 	}
+	
+	/// Internal storage of the date picker view.
+	private let datePicker: DatePickerView
 	
 	/// Internal storage of the current calendar
 	let calendar: Calendar
@@ -134,6 +148,8 @@ open class DatePickerController: NSViewController {
 		} else {
 			handleOutOfRangeSelection(of : date)
 		}
+		
+		delegate?.datePickerController?(self, didSelectDate: selectedDateTime)
 	}
 	
 	/// Handles selection of date that is out of the visible range.
@@ -159,6 +175,22 @@ open class DatePickerController: NSViewController {
 		} else {
 			datePicker.refresh()
 		}
+	}
+	
+	/// Generates a new date in currently visible range from the given date
+	/// Tries to find a date with the same day number as the given date. If this is
+	/// not available, it will find the closest one.
+	/// - Parameter date: The date that the desired day is taken from.
+	private func generateDateInVisibleRange(from date: Date) -> Date {
+		let day = calendar.component(.day, from: date)
+		var returnDate = calendar.date(bySetting: .day, value: day, of: visibleRange.first) ?? date
+		
+		if calendar.component(.day, from: returnDate) != day || calendar.component(.month, from: returnDate) != calendar.component(.month, from: visibleRange.first) {
+			// It must be the case that the desired day exceeds the currently visible range.
+			returnDate = visibleRange.last
+		}
+		
+		return returnDate
 	}
 	
 	/// Generates a DateFormatter for day labels.
@@ -216,7 +248,6 @@ extension DatePickerController: DatePickerViewDelegate {
 	///   - date: The selected date. The time components will be discarded.
 	func datePicker(_ datePicker: DatePickerView, didSelectDate date: Date) {
 		handleDateOnlySelection(of: date)
-		delegate?.datePickerController?(self, didSelectDate: selectedDateTime)
 	}
 	
 	/// Handles date + time selection coming from the date picker view.
@@ -226,31 +257,46 @@ extension DatePickerController: DatePickerViewDelegate {
 	///   - date: The selected date.
 	func datePicker(_ datePicker: DatePickerView, didSelectDateTime date: Date) {
 		handleDateTimeSelection(of: date)
-		delegate?.datePickerController?(self, didSelectDate: selectedDateTime)
 	}
 	
-	/// Selects date that is one month from the currently selected date.
+	/// Advances the displayed month by 1.
 	///
 	/// - Parameters:
 	///   - datePicker: The date picker view.
 	///   - button: The button that was pressed.
 	func datePicker(_ datePicker: DatePickerView, didPressNext button: NSButton) {
-		let nextMonth = calendar.date(byAdding: .month, value: 1, to: selectedDate) ?? selectedDate
-		
-		handleDateOnlySelection(of: nextMonth)
-		delegate?.datePickerController?(self, didSelectDate: selectedDateTime)
+		advanceMonth(by: 1)
 	}
 	
-	/// Selects date that is one month in the past from the currently selected date.
+	/// Advances the displayed month by -1.
 	///
 	/// - Parameters:
 	///   - datePicker: The date picker view.
 	///   - button: The button that was pressed.
 	func datePicker(_ datePicker: DatePickerView, didPressPrevious button: NSButton) {
-		let previousMonth = calendar.date(byAdding: .month, value: -1, to: selectedDate) ?? selectedDate
+		advanceMonth(by: -1)
+	}
+	
+	/// Advances the date picker by the given number of months.
+	/// - Parameter months: The number of months.
+	private func advanceMonth(by months: Int) {
+		let newDate = calendar.date(byAdding: .month, value: months, to: visibleRange.first) ?? visibleRange.first
 		
-		handleDateOnlySelection(of: previousMonth)
-		delegate?.datePickerController?(self, didSelectDate: selectedDateTime)
+		updateVisibleRange(with: newDate)
+		
+		switch months {
+		case 1:
+			datePicker.scrollToTrailing()
+		case -1:
+			datePicker.scrollToLeading()
+		default:
+			datePicker.refresh()
+		}
+		
+		if autoSelectWhenPaging && !isInVisibleRange(date: selectedDate) {
+			let newDate = generateDateInVisibleRange(from: selectedDate)
+			handleDateOnlySelection(of: newDate)
+		}
 	}
 }
 

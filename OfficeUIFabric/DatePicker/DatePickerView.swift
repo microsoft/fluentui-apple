@@ -166,7 +166,6 @@ class DatePickerView: NSView {
 	
 	/// Updates the displayed selection without doing a full refresh
 	func updateSelection() {
-		updateHeader()
 		updateHighlights()
 		
 		if let dataSource = dataSource {
@@ -268,15 +267,15 @@ class DatePickerView: NSView {
 		}
 		
 		headerView.weekdayStrings = Array(zip(dataSource.shortWeekdays, dataSource.longWeekdays))
-		headerView.monthYearLabel.stringValue = dateFormatter.string(from: dataSource.selectedDate)
+		headerView.monthYearLabel.stringValue = dateFormatter.string(from: dataSource.visibleRange.first)
 	}
 	
 	/// Uses the data source to retrieve all the dates for the calendar views and displays them
 	private func updateCalendarViews() {
 		guard
 			let dataSource = dataSource,
-			let previousMonthDate = dataSource.datePicker(self, previousMonthFor: dataSource.selectedDate),
-			let nextMonthDate = dataSource.datePicker(self, nextMonthFor: dataSource.selectedDate)
+			let previousMonthDate = dataSource.datePicker(self, previousMonthFor: dataSource.visibleRange.first),
+			let nextMonthDate = dataSource.datePicker(self, nextMonthFor: dataSource.visibleRange.first)
 			else {
 				return
 		}
@@ -284,7 +283,7 @@ class DatePickerView: NSView {
 		let prevMonthPaddedDates = dataSource.datePicker(self, paddedDaysFor: previousMonthDate)
 		calendarViews.leading.update(with: prevMonthPaddedDates)
 		
-		let currentMonthDayPaddedDates = dataSource.datePicker(self, paddedDaysFor: dataSource.selectedDate)
+		let currentMonthDayPaddedDates = dataSource.datePicker(self, paddedDaysFor: dataSource.visibleRange.first)
 		calendarViews.center.update(with: currentMonthDayPaddedDates)
 		
 		let nextMonthPaddedDates = dataSource.datePicker(self, paddedDaysFor: nextMonthDate)
@@ -356,10 +355,11 @@ class DatePickerView: NSView {
 		// Shift center view to leading, trailing to center, and reuse the leading as the new trailing
 		calendarViews = CalendarViewBuffer(leading: calendarViews.center, center: calendarViews.trailing, trailing: calendarViews.leading)
 		
-		let nextMonth = dataSource.datePicker(self, nextMonthFor: dataSource.selectedDate) ?? dataSource.selectedDate
+		let nextMonth = dataSource.datePicker(self, nextMonthFor: dataSource.visibleRange.first) ?? dataSource.visibleRange.first
 		let paddedDates = dataSource.datePicker(self, paddedDaysFor: nextMonth)
 		
 		calendarViews.trailing.update(with: paddedDates)
+		updateHeader()
 		updateSelection()
 	}
 	
@@ -372,10 +372,11 @@ class DatePickerView: NSView {
 		// Shift leading calendar view to center, center to trailing, and reuse the trailing as the new leading
 		calendarViews = CalendarViewBuffer(leading: calendarViews.trailing, center: calendarViews.leading, trailing: calendarViews.center)
 		
-		let prevMonth = dataSource.datePicker(self, previousMonthFor: dataSource.selectedDate) ?? dataSource.selectedDate
+		let prevMonth = dataSource.datePicker(self, previousMonthFor: dataSource.visibleRange.first) ?? dataSource.visibleRange.first
 		let paddedDates = dataSource.datePicker(self, paddedDaysFor: prevMonth)
 		
 		calendarViews.leading.update(with: paddedDates)
+		updateHeader()
 		updateSelection()
 	}
 	
@@ -496,6 +497,9 @@ protocol DatePickerViewDataSource: class {
 	
 	/// Currently selected date and time
 	var selectedDateTime: Date { get }
+	
+	/// Currently visible date range
+	var visibleRange: (first: Date, last: Date) { get }
 	
 	/// Calendar that's currently being used
 	var calendar: Calendar { get }
