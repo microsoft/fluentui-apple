@@ -120,7 +120,7 @@ public final class MSColors: NSObject {
     public static var background1c = UIColor(light: white, dark: gray900, darkElevated: gray800)
     public static var background2 = UIColor(light: gray25, dark: gray950, darkElevated: gray700)
     public static var background2b = UIColor(light: gray25, dark: gray700)
-    public static var background3 = UIColor(light: gray50, dark: gray900, darkElevated: gray800)
+    public static var background3 = UIColor(light: gray50, dark: gray900, darkElevated: gray700)
     public static var background3b = UIColor(light: gray50, dark: gray600)
     public static var background4 = UIColor(light: gray400)
     public static var background5 = UIColor(light: gray900)
