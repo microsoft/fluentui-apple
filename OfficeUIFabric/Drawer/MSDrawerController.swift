@@ -114,7 +114,7 @@ open class MSDrawerController: UIViewController {
                 removeChildController(oldContentController)
             }
             if let contentController = contentController {
-                addChildController(contentController)
+                addChildController(contentController, containingViewIn: containerView)
             }
         }
     }

@@ -6,10 +6,14 @@
 import UIKit
 
 public extension UIViewController {
-    /// Convenience method that adds a child view controller to the receiver and also establish the parent-children relationship between their corresponding views
+    /// Convenience method that adds a child view controller to the receiver and also establish the parent-child relationship between their corresponding views. If `viewContainer` is of type `UIStackView` then child controller's view is added as an arranged subview.
     @objc func addChildController(_ childController: UIViewController, containingViewIn viewContainer: UIView? = nil) {
         addChild(childController)
-        (viewContainer ?? view).addSubview(childController.view)
+        if let stackView = viewContainer as? UIStackView {
+            stackView.addArrangedSubview(childController.view)
+        } else {
+            (viewContainer ?? view).addSubview(childController.view)
+        }
         childController.didMove(toParent: self)
     }
 
