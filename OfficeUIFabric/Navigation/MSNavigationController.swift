@@ -41,6 +41,8 @@ open class MSNavigationController: UINavigationController {
     // Using "lazy var" instead of "let" to avoid memory leak issue in iOS 12
     private lazy var transitionAnimator = MSNavigationAnimator()
 
+    private var navigationBarWasHiddenBySearchBar: Bool = false
+
     public convenience init() {
         self.init(navigationBarClass: nil, toolbarClass: nil)
     }
@@ -138,19 +140,29 @@ open class MSNavigationController: UINavigationController {
     }
 
     private func updateNavigationBarVisibility(for viewController: UIViewController, animated: Bool) {
-        let isSearchActive = viewController.navigationItem.accessorySearchBar?.isActive == true
-        setNavigationBarHidden(isSearchActive, animated: animated)
+        let isSearchActive = searchIsActive(in: viewController)
+        if isNavigationBarHidden != isSearchActive && (isSearchActive || navigationBarWasHiddenBySearchBar) {
+            setNavigationBarHidden(isSearchActive, animated: animated)
+        }
     }
 
     open override func setNavigationBarHidden(_ hidden: Bool, animated: Bool) {
         if isNavigationBarHidden != hidden {
             if hidden {
                 msNavigationBar.obscureContent(animated: animated)
+                if searchIsActive(in: topViewController) {
+                    navigationBarWasHiddenBySearchBar = true
+                }
             } else {
                 msNavigationBar.revealContent(animated: animated)
+                navigationBarWasHiddenBySearchBar = false
             }
         }
         super.setNavigationBarHidden(hidden, animated: animated)
+    }
+
+    private func searchIsActive(in viewController: UIViewController?) -> Bool {
+        return viewController?.navigationItem.accessorySearchBar?.isActive == true
     }
 
     /// Secondary target for the default InteractivePopGestureRecognizer
