@@ -24,13 +24,11 @@ open class DatePickerController: NSViewController {
 		self.calendar = calendar ?? Calendar.current
 		selectedDateTime = date ?? Date()
 		datePicker = DatePickerView(style: style)
-		
+		visibleRange = (first: self.calendar.startOfMonth(for: selectedDateTime), last: self.calendar.endOfMonth(for: selectedDateTime))
 		super.init(nibName: nil, bundle: nil)
 		
 		datePicker.delegate = self
 		datePicker.dataSource = self
-		
-		updateVisibleRange(with: selectedDate)
 	}
 	
 	required public init?(coder: NSCoder) {
@@ -85,7 +83,7 @@ open class DatePickerController: NSViewController {
 	private(set) var selectedDateTime: Date
 	
 	/// First and last day of the month that is currently visible.
-	private(set) var visibleRange = (first: Date(), last: Date()) {
+	private(set) var visibleRange: (first: Date, last: Date) {
 		didSet {
 			assert(
 				visibleRange.first == calendar.startOfMonth(for: visibleRange.first),

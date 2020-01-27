@@ -26,9 +26,10 @@ class TestDatePickerController: NSViewController {
 		super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 		
 		let calendar = Calendar.current
+		let date = calendar.date(from: DateComponents(year: 2019, month: 12, day: 9))
 		
-		datePickerController = DatePickerController(date: Date(), calendar: calendar, style: .dateTime)
-		menuDatePickerController = DatePickerController(date: Date(), calendar: calendar, style: .dateTime)
+		datePickerController = DatePickerController(date: date, calendar: calendar, style: .dateTime)
+		menuDatePickerController = DatePickerController(date: date, calendar: calendar, style: .dateTime)
 		
 		datePickerController?.delegate = self
 		menuDatePickerController?.delegate = self
