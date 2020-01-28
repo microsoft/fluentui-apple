@@ -1,0 +1,4 @@
+#include "OfficeUIFabric_common.xcconfig"
+
+PRODUCT_NAME = OfficeUIFabricUnitTests
+INFOPLIST_FILE = ../OfficeUIFabricUnitTest/OfficeUIFabricUnitTest-Info.plist
