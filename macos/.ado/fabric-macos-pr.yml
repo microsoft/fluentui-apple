@@ -1,0 +1,5 @@
+# This file defines the Apple publish build steps
+name: 1.$(Date:yyyy).$(Date:MMdd)-v$(Rev:r)
+
+jobs:
+- template: templates/fabric-macos-build-test-pr-job.yml
