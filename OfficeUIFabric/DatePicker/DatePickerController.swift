@@ -45,7 +45,7 @@ open class DatePickerController: NSViewController {
 			return selectedDateTime
 		}
 		set {
-			handleDateTimeSelection(of: newValue)
+			handleDateTimeSelection(of: newValue, shouldNotifyDelegate: false)
 		}
 	}
 	
@@ -132,13 +132,14 @@ open class DatePickerController: NSViewController {
 		let startOfDate = calendar.startOfDay(for: date)
 		let combinedDate = startOfDate.combine(withTime: selectedDateTime, using: calendar) ?? startOfDate
 		
-		handleDateTimeSelection(of: combinedDate)
+		handleDateTimeSelection(of: combinedDate, shouldNotifyDelegate: true)
 	}
 	
 	/// Handles date and time selection.
 	///
 	/// - Parameter date: The selected date.
-	private func handleDateTimeSelection(of date: Date) {
+	/// - Parameter shouldNotifyDelegate: Indicates whether the delegate should be notified of this change.
+	private func handleDateTimeSelection(of date: Date, shouldNotifyDelegate: Bool) {
 		selectedDateTime = date
 		
 		if (isInVisibleRange(date: date)) {
@@ -147,7 +148,9 @@ open class DatePickerController: NSViewController {
 			handleOutOfRangeSelection(of : date)
 		}
 		
-		delegate?.datePickerController?(self, didSelectDate: selectedDateTime)
+		if shouldNotifyDelegate {
+			delegate?.datePickerController?(self, didSelectDate: selectedDateTime)
+		}
 	}
 	
 	/// Handles selection of date that is out of the visible range.
@@ -254,7 +257,7 @@ extension DatePickerController: DatePickerViewDelegate {
 	///   - datePicker: The date picker view.
 	///   - date: The selected date.
 	func datePicker(_ datePicker: DatePickerView, didSelectDateTime date: Date) {
-		handleDateTimeSelection(of: date)
+		handleDateTimeSelection(of: date, shouldNotifyDelegate: true)
 	}
 	
 	/// Advances the displayed month by 1.
