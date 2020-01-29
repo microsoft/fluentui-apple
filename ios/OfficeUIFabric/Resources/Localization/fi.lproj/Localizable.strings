@@ -1,0 +1,121 @@
+//
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
+//
+
+// Accessibility
+"Accessibility.Alert" = "Hälytys";
+"Accessibility.Dismiss.Label" = "Hylkää";
+"Accessibility.Dismiss.Hint" = "Hylkää kaksoisnapauttamalla";
+"Accessibility.Done.Label" = "Valmis";
+"Accessibility.MultiSelect.Hint" = "Vaihda valintaa kaksoisnapauttamalla ";
+"Accessibility.Select.Hint" = "Valitse kaksoisnapauttamalla";
+"Accessibility.Selected.Hint" = "Näytä tiedot kaksoisnapauttamalla";
+"Accessibility.Selected.Value" = "Valittu";
+
+/* Accessibility label for the upper calendar date picker view. */
+"Accessibility.Calendar.Label" = "Kalenteri";
+
+/* Accessibility hint for the upper calendar date picker view */
+"Accessibility.Calendar.Hint" = "Valitse päivämäärä";
+
+// TODO: Change to a stringsdict format
+// TODO: Reassess for generic indicator
+/* Accessibility: Number of events on the given day (%d is the number) */
+"Accessibility.Calendar.Events.Number" = "%d tapahtumaa";
+
+/* Accessibility: There's no events on the given day */
+"Accessibility.Calendar.Events.None" = "ei tapahtumia";
+
+/* Accessibility label for month in date time picker */
+"Accessibility.DateTime.Month.Label" = "Kuukausi";
+
+/* Accessibility label for day in date time picker */
+"Accessibility.DateTime.Day.Label" = "Päivä";
+
+/* Accessibility label for year in date time picker */
+"Accessibility.DateTime.Year.Label" = "Vuosi";
+
+/* Accessibility label for date in date time picker */
+"Accessibility.DateTime.Date.Label" = "Päivämäärä";
+
+/* Accessibility label for hour in date time picker */
+"Accessibility.DateTime.Hour.Label" = "Tunti";
+
+/* Accessibility label for minute in date time picker */
+"Accessibility.DateTime.Minute.Label" = "Minuutti";
+
+/* Accessibility label for AM/PM in date time picker */
+"Accessibility.DateTime.AMPM.Label" = "AP/IP";
+
+/* Accessibility label for week of month in date time picker */
+"Accessibility.DateTime.WeekOfMonth.Label" = "Kuukauden viikko";
+
+/* Accessibility label for day of week in date time picker */
+"Accessibility.DateTime.DayOfWeek.Label" = "Viikonpäivä";
+
+/* Accessibility label for first week of the month */
+"Accessibility.DateTime.Week.First" = "Ensimmäinen";
+
+/* Accessibility label for second week of the month */
+"Accessibility.DateTime.Week.Second" = "Toinen";
+
+/* Accessibility label for third week of the month */
+"Accessibility.DateTime.Week.Third" = "Kolmas";
+
+/* Accessibility label for fourth week of the month */
+"Accessibility.DateTime.Week.Fourth" = "Neljäs";
+
+/* Accessibility label for last week of the month */
+"Accessibility.DateTime.Week.Last" = "Viimeinen";
+
+/* Accessibility label for when a task under progress has finished */
+"Accessibility.HUD.Done" = "Valmis";
+
+/* Accessibility label for when a task under progress has failed */
+"Accessibility.HUD.Failed" = "Epäonnistunut";
+
+/* Accessibility label for when a task is in progress */
+"Accessibility.HUD.Loading" = "Ladataan";
+
+/* Accessibility label for the avatar (or profile) view in */
+"Accessibility.LargeTitle.ProfileView" = "Tiliprofiili";
+
+/* Accessibility hint for a segmented control button */
+"Accessibility.Segmented.Button.Hint" = "Siirry kohteeseen %@ napauttamalla";
+
+/* Accessibility hint for TabBarItemView to indicate its index relative to total number of items */
+"Accessibility.TabBarItemView.Hint" = "%d/%d";
+
+/* Accessibility hint for more actions button */
+"Accessibility.TableViewCell.MoreActions.Hint" = "Näytä lisää toimintoja kaksoisnapauttamalla";
+
+/* Accessibility label for more actions button */
+"Accessibility.TableViewCell.MoreActions.Label" = "Lisää toimintoja";
+
+/* Accessibility hint for cell when accessory view is a UISwitch */
+"Accessibility.TableViewCell.Switch.Hint" = "Vaihda asetus kaksoisnapauttamalla";
+
+/* Accessibility value for when a UISwitch is on */
+"Accessibility.TableViewCell.Switch.On" = "Käytössä";
+
+/* Accessibility value for when a UISwitch is off */
+"Accessibility.TableViewCell.Switch.Off" = "Ei käytössä";
+
+/* Generic label for cancel action */
+"Common.Cancel" = ".Peruuta";
+
+// MSPersonaListView
+"MSPersonaListView.SearchDirectory" = "Hae hakemistosta";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "Alkamisaika";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "Päättymisaika";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "Alkamispäivä";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "Päättymispäivä";

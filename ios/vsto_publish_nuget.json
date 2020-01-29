@@ -1,0 +1,7 @@
+[
+  {
+    "name": "Microsoft.Office.UIFabric.iOS",
+    "nuspec": "OfficeUIFabric.nuspec",
+    "platform": "apple"
+  }
+]

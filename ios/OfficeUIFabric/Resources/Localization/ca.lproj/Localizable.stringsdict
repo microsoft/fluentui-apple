@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Accessibility.DateTime.Hour.Value</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@hours@</string>
+      <key>Variable</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d en punt</string>
+        <key>one</key>
+        <string>%d en punt</string>
+        <key>two</key>
+        <string>%d en punt</string>
+        <key>few</key>
+        <string>%d en punt</string>
+        <key>many</key>
+        <string>%d en punt</string>
+        <key>other</key>
+        <string>%d en punt</string>
+      </dict>
+    </dict>
+    <key>Accessibility.DateTime.Minute.Value</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@minutes@</string>
+      <key>minutes</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d minuts</string>
+        <key>one</key>
+        <string>%d minut</string>
+        <key>two</key>
+        <string>%d minuts</string>
+        <key>few</key>
+        <string>%d minuts</string>
+        <key>many</key>
+        <string>%d minuts</string>
+        <key>other</key>
+        <string>%d minuts</string>
+      </dict>
+    </dict>
+    <key>%d results found from directory</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@results@</string>
+      <key>results</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d resultats al directori</string>
+        <key>one</key>
+        <string>%d resultat trobat al directori</string>
+        <key>two</key>
+        <string>%d resultats al directori</string>
+        <key>few</key>
+        <string>%d resultats al directori</string>
+        <key>many</key>
+        <string>%d resultats al directori</string>
+        <key>other</key>
+        <string>%d resultats al directori</string>
+      </dict>
+    </dict>
+  </dict>
+</plist>

@@ -1,0 +1,121 @@
+//
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
+//
+
+// Accessibility
+"Accessibility.Alert" = "Alerta";
+"Accessibility.Dismiss.Label" = "Dispensar";
+"Accessibility.Dismiss.Hint" = "Faça duplo toque para dispensar";
+"Accessibility.Done.Label" = "Concluído";
+"Accessibility.MultiSelect.Hint" = "Toque duas vezes para ativar ou desativar a seleção";
+"Accessibility.Select.Hint" = "Faça duplo toque para selecionar";
+"Accessibility.Selected.Hint" = "Faça duplo toque para ver os detalhes";
+"Accessibility.Selected.Value" = "Selecionado";
+
+/* Accessibility label for the upper calendar date picker view. */
+"Accessibility.Calendar.Label" = "Calendário";
+
+/* Accessibility hint for the upper calendar date picker view */
+"Accessibility.Calendar.Hint" = "Selecionar uma data";
+
+// TODO: Change to a stringsdict format
+// TODO: Reassess for generic indicator
+/* Accessibility: Number of events on the given day (%d is the number) */
+"Accessibility.Calendar.Events.Number" = "%d eventos";
+
+/* Accessibility: There's no events on the given day */
+"Accessibility.Calendar.Events.None" = "não existem eventos";
+
+/* Accessibility label for month in date time picker */
+"Accessibility.DateTime.Month.Label" = "Mês";
+
+/* Accessibility label for day in date time picker */
+"Accessibility.DateTime.Day.Label" = "Dia";
+
+/* Accessibility label for year in date time picker */
+"Accessibility.DateTime.Year.Label" = "Ano";
+
+/* Accessibility label for date in date time picker */
+"Accessibility.DateTime.Date.Label" = "Data";
+
+/* Accessibility label for hour in date time picker */
+"Accessibility.DateTime.Hour.Label" = "Hora";
+
+/* Accessibility label for minute in date time picker */
+"Accessibility.DateTime.Minute.Label" = "Minuto";
+
+/* Accessibility label for AM/PM in date time picker */
+"Accessibility.DateTime.AMPM.Label" = "A.M./P.M.";
+
+/* Accessibility label for week of month in date time picker */
+"Accessibility.DateTime.WeekOfMonth.Label" = "Semana do mês";
+
+/* Accessibility label for day of week in date time picker */
+"Accessibility.DateTime.DayOfWeek.Label" = "Dia da semana";
+
+/* Accessibility label for first week of the month */
+"Accessibility.DateTime.Week.First" = "Primeira(o)";
+
+/* Accessibility label for second week of the month */
+"Accessibility.DateTime.Week.Second" = "Segunda(o)";
+
+/* Accessibility label for third week of the month */
+"Accessibility.DateTime.Week.Third" = "Terceira(o)";
+
+/* Accessibility label for fourth week of the month */
+"Accessibility.DateTime.Week.Fourth" = "Quarta(o)";
+
+/* Accessibility label for last week of the month */
+"Accessibility.DateTime.Week.Last" = "Última(o)";
+
+/* Accessibility label for when a task under progress has finished */
+"Accessibility.HUD.Done" = "Concluída";
+
+/* Accessibility label for when a task under progress has failed */
+"Accessibility.HUD.Failed" = "Falhou";
+
+/* Accessibility label for when a task is in progress */
+"Accessibility.HUD.Loading" = "A carregar";
+
+/* Accessibility label for the avatar (or profile) view in */
+"Accessibility.LargeTitle.ProfileView" = "Perfil da Conta";
+
+/* Accessibility hint for a segmented control button */
+"Accessibility.Segmented.Button.Hint" = "Toque para ir para %@";
+
+/* Accessibility hint for TabBarItemView to indicate its index relative to total number of items */
+"Accessibility.TabBarItemView.Hint" = "%d de %d";
+
+/* Accessibility hint for more actions button */
+"Accessibility.TableViewCell.MoreActions.Hint" = "Faça duplo toque para ver mais ações";
+
+/* Accessibility label for more actions button */
+"Accessibility.TableViewCell.MoreActions.Label" = "Mais ações";
+
+/* Accessibility hint for cell when accessory view is a UISwitch */
+"Accessibility.TableViewCell.Switch.Hint" = "Faça duplo toque para ativar ou desativar a definição";
+
+/* Accessibility value for when a UISwitch is on */
+"Accessibility.TableViewCell.Switch.On" = "Ativado";
+
+/* Accessibility value for when a UISwitch is off */
+"Accessibility.TableViewCell.Switch.Off" = "Desativado";
+
+/* Generic label for cancel action */
+"Common.Cancel" = "Cancelar";
+
+// MSPersonaListView
+"MSPersonaListView.SearchDirectory" = "Procurar no Diretório";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "Hora de Início";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "Hora de Fim";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "Data de Início";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "Data de Fim";

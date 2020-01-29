@@ -1,0 +1,121 @@
+//
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
+//
+
+// Accessibility
+"Accessibility.Alert" = "Varsel";
+"Accessibility.Dismiss.Label" = "Lukk";
+"Accessibility.Dismiss.Hint" = "Dobbelttrykk for å lukke";
+"Accessibility.Done.Label" = "Fullført";
+"Accessibility.MultiSelect.Hint" = "Dobbelttrykk for å vise/skjule utvalg";
+"Accessibility.Select.Hint" = "Dobbelttrykk for å velge";
+"Accessibility.Selected.Hint" = "Dobbelttrykk for å se detaljene";
+"Accessibility.Selected.Value" = "Merket";
+
+/* Accessibility label for the upper calendar date picker view. */
+"Accessibility.Calendar.Label" = "Kalender";
+
+/* Accessibility hint for the upper calendar date picker view */
+"Accessibility.Calendar.Hint" = "Velg en dato";
+
+// TODO: Change to a stringsdict format
+// TODO: Reassess for generic indicator
+/* Accessibility: Number of events on the given day (%d is the number) */
+"Accessibility.Calendar.Events.Number" = "%d hendelser";
+
+/* Accessibility: There's no events on the given day */
+"Accessibility.Calendar.Events.None" = "ingen hendelser";
+
+/* Accessibility label for month in date time picker */
+"Accessibility.DateTime.Month.Label" = "Måned";
+
+/* Accessibility label for day in date time picker */
+"Accessibility.DateTime.Day.Label" = "Dag";
+
+/* Accessibility label for year in date time picker */
+"Accessibility.DateTime.Year.Label" = "År";
+
+/* Accessibility label for date in date time picker */
+"Accessibility.DateTime.Date.Label" = "Dato";
+
+/* Accessibility label for hour in date time picker */
+"Accessibility.DateTime.Hour.Label" = "Time";
+
+/* Accessibility label for minute in date time picker */
+"Accessibility.DateTime.Minute.Label" = "Minutt";
+
+/* Accessibility label for AM/PM in date time picker */
+"Accessibility.DateTime.AMPM.Label" = "AM/PM";
+
+/* Accessibility label for week of month in date time picker */
+"Accessibility.DateTime.WeekOfMonth.Label" = "Uke i måneden";
+
+/* Accessibility label for day of week in date time picker */
+"Accessibility.DateTime.DayOfWeek.Label" = "Ukedag";
+
+/* Accessibility label for first week of the month */
+"Accessibility.DateTime.Week.First" = "Første";
+
+/* Accessibility label for second week of the month */
+"Accessibility.DateTime.Week.Second" = "Andre";
+
+/* Accessibility label for third week of the month */
+"Accessibility.DateTime.Week.Third" = "Tredje";
+
+/* Accessibility label for fourth week of the month */
+"Accessibility.DateTime.Week.Fourth" = "Fjerde";
+
+/* Accessibility label for last week of the month */
+"Accessibility.DateTime.Week.Last" = "Siste";
+
+/* Accessibility label for when a task under progress has finished */
+"Accessibility.HUD.Done" = "Fullført";
+
+/* Accessibility label for when a task under progress has failed */
+"Accessibility.HUD.Failed" = "Mislyktes";
+
+/* Accessibility label for when a task is in progress */
+"Accessibility.HUD.Loading" = "Laster inn";
+
+/* Accessibility label for the avatar (or profile) view in */
+"Accessibility.LargeTitle.ProfileView" = "Kontoprofil";
+
+/* Accessibility hint for a segmented control button */
+"Accessibility.Segmented.Button.Hint" = "Trykk for å gå til %@";
+
+/* Accessibility hint for TabBarItemView to indicate its index relative to total number of items */
+"Accessibility.TabBarItemView.Hint" = "%d av %d";
+
+/* Accessibility hint for more actions button */
+"Accessibility.TableViewCell.MoreActions.Hint" = "Dobbelttrykk for å vise flere handlinger";
+
+/* Accessibility label for more actions button */
+"Accessibility.TableViewCell.MoreActions.Label" = "Flere handlinger";
+
+/* Accessibility hint for cell when accessory view is a UISwitch */
+"Accessibility.TableViewCell.Switch.Hint" = "Dobbelttrykk for å veksle innstilling";
+
+/* Accessibility value for when a UISwitch is on */
+"Accessibility.TableViewCell.Switch.On" = "På";
+
+/* Accessibility value for when a UISwitch is off */
+"Accessibility.TableViewCell.Switch.Off" = "Av";
+
+/* Generic label for cancel action */
+"Common.Cancel" = "Avbryt";
+
+// MSPersonaListView
+"MSPersonaListView.SearchDirectory" = "Søk i katalogen";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "Starttidspunkt";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "Sluttidspunkt";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "Startdato";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "Sluttdato";

@@ -1,0 +1,121 @@
+//
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
+//
+
+// Accessibility
+"Accessibility.Alert" = "Upozornenie";
+"Accessibility.Dismiss.Label" = "Zrušiť";
+"Accessibility.Dismiss.Hint" = "Zrušíte dvojitým ťuknutím";
+"Accessibility.Done.Label" = "Hotovo";
+"Accessibility.MultiSelect.Hint" = "Výber prepnite dvojitým ťuknutím";
+"Accessibility.Select.Hint" = "Vyberte dvojitým ťuknutím";
+"Accessibility.Selected.Hint" = "Dvojitým ťuknutím zobrazíte podrobnosti.";
+"Accessibility.Selected.Value" = "Vybraté";
+
+/* Accessibility label for the upper calendar date picker view. */
+"Accessibility.Calendar.Label" = "Kalendár";
+
+/* Accessibility hint for the upper calendar date picker view */
+"Accessibility.Calendar.Hint" = "Vyberte dátum";
+
+// TODO: Change to a stringsdict format
+// TODO: Reassess for generic indicator
+/* Accessibility: Number of events on the given day (%d is the number) */
+"Accessibility.Calendar.Events.Number" = "Udalosti: %d";
+
+/* Accessibility: There's no events on the given day */
+"Accessibility.Calendar.Events.None" = "žiadne udalosti";
+
+/* Accessibility label for month in date time picker */
+"Accessibility.DateTime.Month.Label" = "Mesiac";
+
+/* Accessibility label for day in date time picker */
+"Accessibility.DateTime.Day.Label" = "Deň";
+
+/* Accessibility label for year in date time picker */
+"Accessibility.DateTime.Year.Label" = "Rok";
+
+/* Accessibility label for date in date time picker */
+"Accessibility.DateTime.Date.Label" = "Dátum";
+
+/* Accessibility label for hour in date time picker */
+"Accessibility.DateTime.Hour.Label" = "Hodina";
+
+/* Accessibility label for minute in date time picker */
+"Accessibility.DateTime.Minute.Label" = "Minúta";
+
+/* Accessibility label for AM/PM in date time picker */
+"Accessibility.DateTime.AMPM.Label" = "AM/PM";
+
+/* Accessibility label for week of month in date time picker */
+"Accessibility.DateTime.WeekOfMonth.Label" = "Týždeň v mesiaci";
+
+/* Accessibility label for day of week in date time picker */
+"Accessibility.DateTime.DayOfWeek.Label" = "Deň v týždni";
+
+/* Accessibility label for first week of the month */
+"Accessibility.DateTime.Week.First" = "1.";
+
+/* Accessibility label for second week of the month */
+"Accessibility.DateTime.Week.Second" = "2.";
+
+/* Accessibility label for third week of the month */
+"Accessibility.DateTime.Week.Third" = "3.";
+
+/* Accessibility label for fourth week of the month */
+"Accessibility.DateTime.Week.Fourth" = "4.";
+
+/* Accessibility label for last week of the month */
+"Accessibility.DateTime.Week.Last" = "Posled.";
+
+/* Accessibility label for when a task under progress has finished */
+"Accessibility.HUD.Done" = "Hotovo";
+
+/* Accessibility label for when a task under progress has failed */
+"Accessibility.HUD.Failed" = "Zlyhanie";
+
+/* Accessibility label for when a task is in progress */
+"Accessibility.HUD.Loading" = "Načítava sa";
+
+/* Accessibility label for the avatar (or profile) view in */
+"Accessibility.LargeTitle.ProfileView" = "Profil konta";
+
+/* Accessibility hint for a segmented control button */
+"Accessibility.Segmented.Button.Hint" = "Ťuknutím prejdete na %@";
+
+/* Accessibility hint for TabBarItemView to indicate its index relative to total number of items */
+"Accessibility.TabBarItemView.Hint" = "%d zo %d";
+
+/* Accessibility hint for more actions button */
+"Accessibility.TableViewCell.MoreActions.Hint" = "Dvojitým ťuknutím zobrazíte ďalšie akcie";
+
+/* Accessibility label for more actions button */
+"Accessibility.TableViewCell.MoreActions.Label" = "Ďalšie akcie";
+
+/* Accessibility hint for cell when accessory view is a UISwitch */
+"Accessibility.TableViewCell.Switch.Hint" = "Dvojitým ťuknutím prepnete nastavenie";
+
+/* Accessibility value for when a UISwitch is on */
+"Accessibility.TableViewCell.Switch.On" = "Zapnuté";
+
+/* Accessibility value for when a UISwitch is off */
+"Accessibility.TableViewCell.Switch.Off" = "Vypnuté";
+
+/* Generic label for cancel action */
+"Common.Cancel" = "Zrušte ";
+
+// MSPersonaListView
+"MSPersonaListView.SearchDirectory" = "Prehľadať adresár";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "Čas začatia";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "Čas ukončenia";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "Dátum začatia";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "Dátum ukončenia";

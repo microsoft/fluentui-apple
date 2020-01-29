@@ -1,0 +1,121 @@
+//
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
+//
+
+// Accessibility
+"Accessibility.Alert" = "تنبيه";
+"Accessibility.Dismiss.Label" = "تجاهل";
+"Accessibility.Dismiss.Hint" = "اضغط ضغطاً مزدوجاً للتجاهل";
+"Accessibility.Done.Label" = "تم";
+"Accessibility.MultiSelect.Hint" = "اضغط ضغطاً مزدوجاً برفق لتبديل التحديد";
+"Accessibility.Select.Hint" = "اضغط ضغطاً مزدوجاً للتحديد";
+"Accessibility.Selected.Hint" = "اضغط ضغطاً مزدوجاً لمشاهدة التفاصيل.";
+"Accessibility.Selected.Value" = "محددة";
+
+/* Accessibility label for the upper calendar date picker view. */
+"Accessibility.Calendar.Label" = "التقويم";
+
+/* Accessibility hint for the upper calendar date picker view */
+"Accessibility.Calendar.Hint" = "تحديد تاريخ";
+
+// TODO: Change to a stringsdict format
+// TODO: Reassess for generic indicator
+/* Accessibility: Number of events on the given day (%d is the number) */
+"Accessibility.Calendar.Events.Number" = "%d من الأحداث";
+
+/* Accessibility: There's no events on the given day */
+"Accessibility.Calendar.Events.None" = "لا توجد أحداث";
+
+/* Accessibility label for month in date time picker */
+"Accessibility.DateTime.Month.Label" = "الشهر";
+
+/* Accessibility label for day in date time picker */
+"Accessibility.DateTime.Day.Label" = "اليوم";
+
+/* Accessibility label for year in date time picker */
+"Accessibility.DateTime.Year.Label" = "السنة";
+
+/* Accessibility label for date in date time picker */
+"Accessibility.DateTime.Date.Label" = "التاريخ";
+
+/* Accessibility label for hour in date time picker */
+"Accessibility.DateTime.Hour.Label" = "ساعة";
+
+/* Accessibility label for minute in date time picker */
+"Accessibility.DateTime.Minute.Label" = "دقيقة";
+
+/* Accessibility label for AM/PM in date time picker */
+"Accessibility.DateTime.AMPM.Label" = "ص/م";
+
+/* Accessibility label for week of month in date time picker */
+"Accessibility.DateTime.WeekOfMonth.Label" = "أسبوع الشهر";
+
+/* Accessibility label for day of week in date time picker */
+"Accessibility.DateTime.DayOfWeek.Label" = "اليوم من الأسبوع";
+
+/* Accessibility label for first week of the month */
+"Accessibility.DateTime.Week.First" = "الأول";
+
+/* Accessibility label for second week of the month */
+"Accessibility.DateTime.Week.Second" = "الثاني";
+
+/* Accessibility label for third week of the month */
+"Accessibility.DateTime.Week.Third" = "الثالث";
+
+/* Accessibility label for fourth week of the month */
+"Accessibility.DateTime.Week.Fourth" = "الرابع";
+
+/* Accessibility label for last week of the month */
+"Accessibility.DateTime.Week.Last" = "الأخير";
+
+/* Accessibility label for when a task under progress has finished */
+"Accessibility.HUD.Done" = "تم";
+
+/* Accessibility label for when a task under progress has failed */
+"Accessibility.HUD.Failed" = "فشل";
+
+/* Accessibility label for when a task is in progress */
+"Accessibility.HUD.Loading" = "يتم الآن التحميل";
+
+/* Accessibility label for the avatar (or profile) view in */
+"Accessibility.LargeTitle.ProfileView" = "ملف تعريف الحساب";
+
+/* Accessibility hint for a segmented control button */
+"Accessibility.Segmented.Button.Hint" = "انقر للانتقال إلى %@";
+
+/* Accessibility hint for TabBarItemView to indicate its index relative to total number of items */
+"Accessibility.TabBarItemView.Hint" = "%d من %d";
+
+/* Accessibility hint for more actions button */
+"Accessibility.TableViewCell.MoreActions.Hint" = "اضغط ضغطاً مزدوجاً لعرض مزيد من الإجراءات";
+
+/* Accessibility label for more actions button */
+"Accessibility.TableViewCell.MoreActions.Label" = "مزيد من الإجراءات";
+
+/* Accessibility hint for cell when accessory view is a UISwitch */
+"Accessibility.TableViewCell.Switch.Hint" = "اضغط ضغطاً مزدوجاً برفق لتبديل الإعداد";
+
+/* Accessibility value for when a UISwitch is on */
+"Accessibility.TableViewCell.Switch.On" = "تشغيل";
+
+/* Accessibility value for when a UISwitch is off */
+"Accessibility.TableViewCell.Switch.Off" = "إيقاف التشغيل";
+
+/* Generic label for cancel action */
+"Common.Cancel" = "إلغاء";
+
+// MSPersonaListView
+"MSPersonaListView.SearchDirectory" = "البحث في الدليل";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "وقت البدء";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "وقت الانتهاء";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "تاريخ البدء";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "تاريخ الانتهاء";
