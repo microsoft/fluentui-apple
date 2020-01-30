@@ -1,0 +1,121 @@
+//
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
+//
+
+// Accessibility
+"Accessibility.Alert" = "התראה";
+"Accessibility.Dismiss.Label" = "בטל";
+"Accessibility.Dismiss.Hint" = "הקש פעמיים כדי לבטל";
+"Accessibility.Done.Label" = "בוצע";
+"Accessibility.MultiSelect.Hint" = "הקש פעמיים כדי להחליף מצב בחירה";
+"Accessibility.Select.Hint" = "הקש פעמיים כדי לבחור";
+"Accessibility.Selected.Hint" = "הקש פעמיים כדי להציג פרטים";
+"Accessibility.Selected.Value" = "נבחר";
+
+/* Accessibility label for the upper calendar date picker view. */
+"Accessibility.Calendar.Label" = "לוח שנה";
+
+/* Accessibility hint for the upper calendar date picker view */
+"Accessibility.Calendar.Hint" = "בחר תאריך";
+
+// TODO: Change to a stringsdict format
+// TODO: Reassess for generic indicator
+/* Accessibility: Number of events on the given day (%d is the number) */
+"Accessibility.Calendar.Events.Number" = "%d אירועים";
+
+/* Accessibility: There's no events on the given day */
+"Accessibility.Calendar.Events.None" = "אין אירועים";
+
+/* Accessibility label for month in date time picker */
+"Accessibility.DateTime.Month.Label" = "חודש";
+
+/* Accessibility label for day in date time picker */
+"Accessibility.DateTime.Day.Label" = "יום";
+
+/* Accessibility label for year in date time picker */
+"Accessibility.DateTime.Year.Label" = "שנה";
+
+/* Accessibility label for date in date time picker */
+"Accessibility.DateTime.Date.Label" = "תאריך";
+
+/* Accessibility label for hour in date time picker */
+"Accessibility.DateTime.Hour.Label" = "שעה";
+
+/* Accessibility label for minute in date time picker */
+"Accessibility.DateTime.Minute.Label" = "דקה";
+
+/* Accessibility label for AM/PM in date time picker */
+"Accessibility.DateTime.AMPM.Label" = "לפנה\"צ/אחה\"צ";
+
+/* Accessibility label for week of month in date time picker */
+"Accessibility.DateTime.WeekOfMonth.Label" = "שבוע בחודש";
+
+/* Accessibility label for day of week in date time picker */
+"Accessibility.DateTime.DayOfWeek.Label" = "יום בשבוע";
+
+/* Accessibility label for first week of the month */
+"Accessibility.DateTime.Week.First" = "ראשון";
+
+/* Accessibility label for second week of the month */
+"Accessibility.DateTime.Week.Second" = "שני";
+
+/* Accessibility label for third week of the month */
+"Accessibility.DateTime.Week.Third" = "שלישי";
+
+/* Accessibility label for fourth week of the month */
+"Accessibility.DateTime.Week.Fourth" = "רביעי";
+
+/* Accessibility label for last week of the month */
+"Accessibility.DateTime.Week.Last" = "אחרון";
+
+/* Accessibility label for when a task under progress has finished */
+"Accessibility.HUD.Done" = "בוצע";
+
+/* Accessibility label for when a task under progress has failed */
+"Accessibility.HUD.Failed" = "נכשל";
+
+/* Accessibility label for when a task is in progress */
+"Accessibility.HUD.Loading" = "טוען";
+
+/* Accessibility label for the avatar (or profile) view in */
+"Accessibility.LargeTitle.ProfileView" = "פרופיל חשבון";
+
+/* Accessibility hint for a segmented control button */
+"Accessibility.Segmented.Button.Hint" = "הקש כדי לעבור אל %@";
+
+/* Accessibility hint for TabBarItemView to indicate its index relative to total number of items */
+"Accessibility.TabBarItemView.Hint" = "%d מתוך %d";
+
+/* Accessibility hint for more actions button */
+"Accessibility.TableViewCell.MoreActions.Hint" = "הקש פעמיים כדי להציג פעולות נוספות";
+
+/* Accessibility label for more actions button */
+"Accessibility.TableViewCell.MoreActions.Label" = "פעולות נוספות";
+
+/* Accessibility hint for cell when accessory view is a UISwitch */
+"Accessibility.TableViewCell.Switch.Hint" = "הקש פעמיים כדי להחליף הגדרה";
+
+/* Accessibility value for when a UISwitch is on */
+"Accessibility.TableViewCell.Switch.On" = "פועל";
+
+/* Accessibility value for when a UISwitch is off */
+"Accessibility.TableViewCell.Switch.Off" = "כבוי";
+
+/* Generic label for cancel action */
+"Common.Cancel" = "ביטול";
+
+// MSPersonaListView
+"MSPersonaListView.SearchDirectory" = "חפש במדריך הכתובות";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "שעת התחלה";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "שעת סיום";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "תאריך התחלה";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "תאריך סיום";

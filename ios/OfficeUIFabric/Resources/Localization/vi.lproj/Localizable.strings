@@ -1,0 +1,121 @@
+//
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
+//
+
+// Accessibility
+"Accessibility.Alert" = "Cảnh báo";
+"Accessibility.Dismiss.Label" = "Bỏ";
+"Accessibility.Dismiss.Hint" = "Nhấn đúp để bỏ";
+"Accessibility.Done.Label" = "Đã xong";
+"Accessibility.MultiSelect.Hint" = "Nhấn đúp để chuyển đổi lựa chọn";
+"Accessibility.Select.Hint" = "Nhấn đúp để chọn";
+"Accessibility.Selected.Hint" = "Nhấn đúp để xem chi tiết";
+"Accessibility.Selected.Value" = "Đã chọn";
+
+/* Accessibility label for the upper calendar date picker view. */
+"Accessibility.Calendar.Label" = "Lịch";
+
+/* Accessibility hint for the upper calendar date picker view */
+"Accessibility.Calendar.Hint" = "Chọn ngày";
+
+// TODO: Change to a stringsdict format
+// TODO: Reassess for generic indicator
+/* Accessibility: Number of events on the given day (%d is the number) */
+"Accessibility.Calendar.Events.Number" = "%d sự kiện";
+
+/* Accessibility: There's no events on the given day */
+"Accessibility.Calendar.Events.None" = "không có sự kiện";
+
+/* Accessibility label for month in date time picker */
+"Accessibility.DateTime.Month.Label" = "Tháng";
+
+/* Accessibility label for day in date time picker */
+"Accessibility.DateTime.Day.Label" = "Ngày";
+
+/* Accessibility label for year in date time picker */
+"Accessibility.DateTime.Year.Label" = "Năm";
+
+/* Accessibility label for date in date time picker */
+"Accessibility.DateTime.Date.Label" = "Ngày";
+
+/* Accessibility label for hour in date time picker */
+"Accessibility.DateTime.Hour.Label" = "Giờ";
+
+/* Accessibility label for minute in date time picker */
+"Accessibility.DateTime.Minute.Label" = "Phút";
+
+/* Accessibility label for AM/PM in date time picker */
+"Accessibility.DateTime.AMPM.Label" = "SA/CH";
+
+/* Accessibility label for week of month in date time picker */
+"Accessibility.DateTime.WeekOfMonth.Label" = "Tuần trong tháng";
+
+/* Accessibility label for day of week in date time picker */
+"Accessibility.DateTime.DayOfWeek.Label" = "Ngày trong tuần";
+
+/* Accessibility label for first week of the month */
+"Accessibility.DateTime.Week.First" = "Đầu tiên";
+
+/* Accessibility label for second week of the month */
+"Accessibility.DateTime.Week.Second" = "Thứ hai";
+
+/* Accessibility label for third week of the month */
+"Accessibility.DateTime.Week.Third" = "Thứ ba";
+
+/* Accessibility label for fourth week of the month */
+"Accessibility.DateTime.Week.Fourth" = "Thứ tư";
+
+/* Accessibility label for last week of the month */
+"Accessibility.DateTime.Week.Last" = "Cuối cùng";
+
+/* Accessibility label for when a task under progress has finished */
+"Accessibility.HUD.Done" = "Đã xong";
+
+/* Accessibility label for when a task under progress has failed */
+"Accessibility.HUD.Failed" = "Không thành công";
+
+/* Accessibility label for when a task is in progress */
+"Accessibility.HUD.Loading" = "Đang tải";
+
+/* Accessibility label for the avatar (or profile) view in */
+"Accessibility.LargeTitle.ProfileView" = "Hồ sơ tài khoản";
+
+/* Accessibility hint for a segmented control button */
+"Accessibility.Segmented.Button.Hint" = "Nhấn để đi tới %@";
+
+/* Accessibility hint for TabBarItemView to indicate its index relative to total number of items */
+"Accessibility.TabBarItemView.Hint" = "%d/%d";
+
+/* Accessibility hint for more actions button */
+"Accessibility.TableViewCell.MoreActions.Hint" = "Nhấn đúp để xem thêm hành động";
+
+/* Accessibility label for more actions button */
+"Accessibility.TableViewCell.MoreActions.Label" = "Xem thêm hành động";
+
+/* Accessibility hint for cell when accessory view is a UISwitch */
+"Accessibility.TableViewCell.Switch.Hint" = "Nhấn đúp để bật/tắt cài đặt";
+
+/* Accessibility value for when a UISwitch is on */
+"Accessibility.TableViewCell.Switch.On" = "Bật";
+
+/* Accessibility value for when a UISwitch is off */
+"Accessibility.TableViewCell.Switch.Off" = "Tắt";
+
+/* Generic label for cancel action */
+"Common.Cancel" = "Hủy bỏ";
+
+// MSPersonaListView
+"MSPersonaListView.SearchDirectory" = "Tìm kiếm trong thư mục";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "Thời gian bắt đầu";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "Thời gian kết thúc";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "Ngày bắt đầu";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "Ngày kết thúc";
