@@ -74,6 +74,17 @@ open class DatePickerController: NSViewController {
 		}
 	}
 	
+	/// When enabled, padding will be added to the edges of the date picker view.
+	/// Should be used when the date picker is presented in a way that doesn't allow for modification of insets, like in NSPopover.
+	@objc public var hasEdgePadding: Bool {
+		get {
+			return datePicker.hasEdgePadding
+		}
+		set {
+			datePicker.hasEdgePadding = newValue
+		}
+	}
+	
 	/// Currently selected date
 	var selectedDate: Date {
 		return calendar.startOfDay(for: selectedDateTime)

@@ -6,12 +6,6 @@ import AppKit
 
 fileprivate struct Constants {
 	
-	/// Width of the view
-	static let width: CGFloat = 250
-	
-	/// Height of the view
-	static let height: CGFloat = 310
-	
 	/// Bottom margin of the header view
 	static let headerBottomMargin: CGFloat = 5.0
 	
@@ -35,6 +29,9 @@ fileprivate struct Constants {
 	/// Date formatter template for the header month-year label
 	static let headerDateFormatterTemplate = "MMMM yyyy"
 	
+	/// The padding that's used when hasEdgePadding is true
+	static let edgePadding: CGFloat = 10.0
+	
 	private init() {}
 }
 
@@ -48,19 +45,20 @@ class DatePickerView: NSView {
 		
 		super.init(frame: .zero)
 		
-		wantsLayer = true
 		translatesAutoresizingMaskIntoConstraints = false
 		
-		let containerStackView = NSStackView()
 		containerStackView.translatesAutoresizingMaskIntoConstraints = false
 		containerStackView.orientation = .vertical
 		containerStackView.distribution = .gravityAreas
 		containerStackView.spacing = 0
-		containerStackView.wantsLayer = true
+		containerStackView.setHuggingPriority(.required, for: .vertical)
+		
+		// lower than .required to ensure that the text date picker does not get stretched
+		containerStackView.setHuggingPriority(.defaultHigh, for: .horizontal)
 		
 		self.addSubview(containerStackView)
-		containerStackView.addView(headerView, in: .top)
-		containerStackView.addView(monthClipView, in: .top)
+		containerStackView.addView(headerView, in: .center)
+		containerStackView.addView(monthClipView, in: .center)
 		containerStackView.addView(textDatePicker, in: .center)
 		
 		calendarStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -72,33 +70,28 @@ class DatePickerView: NSView {
 		calendarStackView.setViews([calendarViews.leading, calendarViews.center, calendarViews.trailing], in: .center)
 		
 		monthClipView.translatesAutoresizingMaskIntoConstraints = false
+		monthClipView.wantsLayer = true
 		monthClipView.addSubview(calendarStackView)
 		
+		let padding = hasEdgePadding ? Constants.edgePadding : 0.0
+		containerStackView.edgeInsets = NSEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
+		
+		containerStackView.setCustomSpacing(Constants.headerBottomMargin, after: headerView)
+		containerStackView.setCustomSpacing(Constants.calendarBottomMargin, after: monthClipView)
+		
 		NSLayoutConstraint.activate([
-			self.widthAnchor.constraint(equalToConstant: Constants.width),
-			self.heightAnchor.constraint(equalToConstant: Constants.height),
-			
 			containerStackView.topAnchor.constraint(equalTo: self.topAnchor),
-			containerStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-			containerStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
 			containerStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+			containerStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+			containerStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
 			
-			headerView.topAnchor.constraint(equalTo: containerStackView.topAnchor),
-			headerView.leadingAnchor.constraint(equalTo: containerStackView.leadingAnchor),
-			headerView.trailingAnchor.constraint(equalTo: containerStackView.trailingAnchor),
-			headerView.bottomAnchor.constraint(equalTo: monthClipView.topAnchor, constant: -Constants.headerBottomMargin),
-			
-			monthClipView.leadingAnchor.constraint(equalTo: containerStackView.leadingAnchor),
-			monthClipView.trailingAnchor.constraint(equalTo: containerStackView.trailingAnchor),
-			monthClipView.bottomAnchor.constraint(equalTo: textDatePicker.topAnchor, constant: -Constants.calendarBottomMargin),
+			headerView.widthAnchor.constraint(equalTo: calendarViews.center.widthAnchor),
+			monthClipView.widthAnchor.constraint(equalTo: calendarViews.center.widthAnchor),
+			monthClipView.heightAnchor.constraint(equalTo: calendarViews.center.heightAnchor),
 			
 			calendarStackView.bottomAnchor.constraint(equalTo: monthClipView.bottomAnchor),
 			calendarStackView.topAnchor.constraint(equalTo: monthClipView.topAnchor),
-			calendarStackView.leadingAnchor.constraint(equalTo: containerStackView.leadingAnchor, constant: -Constants.width),
-			
-			calendarViews.leading.widthAnchor.constraint(equalTo: containerStackView.widthAnchor),
-			calendarViews.center.widthAnchor.constraint(equalTo: containerStackView.widthAnchor),
-			calendarViews.trailing.widthAnchor.constraint(equalTo: containerStackView.widthAnchor)
+			calendarStackView.centerXAnchor.constraint(equalTo: monthClipView.centerXAnchor)
 		])
 		
 		headerView.delegate = self
@@ -112,6 +105,7 @@ class DatePickerView: NSView {
 		
 		textDatePicker.target = self
 		textDatePicker.action = #selector(onTextDatePickerChange)
+		textDatePicker.setContentHuggingPriority(.required, for: .horizontal)
 		
 		// Accessibility
 		setAccessibilityElement(!DatePickerView.accessibilityTemporarilyRestricted)
@@ -128,10 +122,6 @@ class DatePickerView: NSView {
 	
 	required init?(coder decoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
-	}
-	
-	override var intrinsicContentSize: NSSize {
-		return NSSize(width: Constants.width, height: Constants.height)
 	}
 	
 	/// Animates a scroll to the leading calendar view
@@ -208,6 +198,17 @@ class DatePickerView: NSView {
 		}
 	}
 	
+	/// Enables padding around the date picker view.
+	var hasEdgePadding: Bool = false {
+		didSet {
+			guard oldValue != hasEdgePadding else {
+				return
+			}
+			let padding = hasEdgePadding ? Constants.edgePadding : 0.0
+			containerStackView.edgeInsets = NSEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
+		}
+	}
+	
 	/// DateFormatter used to generate strings for the header label
 	private let dateFormatter: DateFormatter = {
 		let dateFormatter = DateFormatter()
@@ -246,6 +247,9 @@ class DatePickerView: NSView {
 		textDatePicker.layer?.cornerRadius = Constants.textDatePickerCornerRadius
 		return textDatePicker
 	}()
+	
+	/// Internal storage of the main container stack view
+	private let containerStackView = NSStackView()
 	
 	/// Notifies the delegate of the new date/dateTime selection
 	/// Called on any change to the textual date picker
