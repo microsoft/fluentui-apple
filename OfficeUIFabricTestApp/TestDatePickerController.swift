@@ -95,6 +95,11 @@ class TestDatePickerController: NSViewController {
 		paddingButton.state = .on
 		paddingButton.setButtonType(.switch)
 		
+		// Checkbox to toggle text date picker
+		let textPickerButton = NSButton(title: "hasTextField", target: self, action: #selector(toggleTextDatePicker))
+		textPickerButton.state = .on
+		textPickerButton.setButtonType(.switch)
+		
 		let emptyCell = NSGridCell.emptyContentView
 		let gridView = NSGridView(views: [
 			[menuLabel, menuButton],
@@ -104,7 +109,8 @@ class TestDatePickerController: NSViewController {
 			[flagsLabel, emptyCell],
 			[emptyCell, secondaryCalendarButton],
 			[emptyCell, autoSelectButton],
-			[emptyCell, paddingButton]
+			[emptyCell, paddingButton],
+			[emptyCell, textPickerButton]
 		])
 		gridView.column(at: 0).xPlacement = .trailing
 		gridView.setContentHuggingPriority(.defaultHigh, for: .vertical)
@@ -170,6 +176,13 @@ class TestDatePickerController: NSViewController {
 		let enabled = sender.state == .on
 		datePickerController?.hasEdgePadding = enabled
 		menuDatePickerController?.hasEdgePadding = enabled
+		datePickerMenuItem?.view?.frame.size = menuDatePickerController?.view.fittingSize ?? .zero
+	}
+	
+	@objc func toggleTextDatePicker(_ sender: NSButton) {
+		let enabled = sender.state == .on
+		datePickerController?.hasTextField = enabled
+		menuDatePickerController?.hasTextField = enabled
 		datePickerMenuItem?.view?.frame.size = menuDatePickerController?.view.fittingSize ?? .zero
 	}
 	

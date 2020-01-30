@@ -344,6 +344,23 @@ class DatePickerControllerTests: XCTestCase {
 		XCTAssertEqual(days2.currentMonthDays[30].secondaryLabel, "27")
 		XCTAssertEqual(days2.currentMonthDays[29].secondaryLabel, "26")
 	}
+	
+	func testTextFieldFlag() {
+		let controller = DatePickerController(calendar: calendar, style: .dateTime)
+
+		// Text date picker should be present by default
+		XCTAssertTrue(controller.hasTextField)
+		
+		let sizeWithTextPicker = controller.view.fittingSize
+		
+		controller.hasTextField = false
+		let sizeWithoutTextPicker = controller.view.fittingSize
+		
+		XCTAssertFalse(controller.hasTextField)
+		// Height with the text date picker should be higher than without and width should stay the same
+		XCTAssertTrue(sizeWithTextPicker.height > sizeWithoutTextPicker.height)
+		XCTAssertTrue(sizeWithoutTextPicker.width == sizeWithTextPicker.width)
+	}
 }
 
 extension DatePickerControllerTests: DatePickerControllerDelegate {

@@ -85,6 +85,16 @@ open class DatePickerController: NSViewController {
 		}
 	}
 	
+	/// Indicates whether the text input field is displayed
+	@objc public var hasTextField: Bool {
+		get {
+			return datePicker.hasTextField
+		}
+		set {
+			datePicker.hasTextField = newValue
+		}
+	}
+	
 	/// Currently selected date
 	var selectedDate: Date {
 		return calendar.startOfDay(for: selectedDateTime)

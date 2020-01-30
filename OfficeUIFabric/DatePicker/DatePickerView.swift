@@ -209,6 +209,19 @@ class DatePickerView: NSView {
 		}
 	}
 	
+	/// Indicates whether the text date picker is displayed
+	var hasTextField: Bool {
+		get {
+			return !textDatePicker.isHidden
+		}
+		set {
+			guard newValue != hasTextField else {
+				return
+			}
+			textDatePicker.isHidden = !newValue
+		}
+	}
+	
 	/// DateFormatter used to generate strings for the header label
 	private let dateFormatter: DateFormatter = {
 		let dateFormatter = DateFormatter()
