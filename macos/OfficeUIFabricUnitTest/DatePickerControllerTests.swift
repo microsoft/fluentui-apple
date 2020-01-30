@@ -9,6 +9,8 @@ class DatePickerControllerTests: XCTestCase {
 	
 	var calendar: Calendar!
 	
+	var delegateCalled = false
+	
 	override func setUp() {
 		super.setUp()
 		
@@ -341,5 +343,44 @@ class DatePickerControllerTests: XCTestCase {
 		XCTAssertEqual(days2.currentMonthDays[4].secondaryLabel, "1")
 		XCTAssertEqual(days2.currentMonthDays[30].secondaryLabel, "27")
 		XCTAssertEqual(days2.currentMonthDays[29].secondaryLabel, "26")
+	}
+	
+	func testTextFieldFlag() {
+		let controller = DatePickerController(calendar: calendar, style: .dateTime)
+
+		// Text date picker should be present by default
+		XCTAssertTrue(controller.hasTextField)
+		
+		let sizeWithTextPicker = controller.view.fittingSize
+		
+		controller.hasTextField = false
+		let sizeWithoutTextPicker = controller.view.fittingSize
+		
+		XCTAssertFalse(controller.hasTextField)
+		// Height with the text date picker should be higher than without and width should stay the same
+		XCTAssertTrue(sizeWithTextPicker.height > sizeWithoutTextPicker.height)
+		XCTAssertTrue(sizeWithoutTextPicker.width == sizeWithTextPicker.width)
+	}
+}
+
+extension DatePickerControllerTests: DatePickerControllerDelegate {
+	
+	func testSetDate () {
+		let controller = DatePickerController(calendar: calendar, style: .dateTime)
+		
+		controller.delegate = self
+		
+		let components = DateComponents(year: 2019, month: 5, day: 11, hour: 20, minute: 10, second: 9)
+		let date = calendar.date(from: components)!
+		
+		controller.date = date
+		
+		// We should have nothing from the delegate, but the correct date should be set.
+		XCTAssertFalse(delegateCalled)
+		XCTAssertEqual(controller.date, date)
+	}
+	
+	func datePickerController(_ controller: DatePickerController, didSelectDate date: Date) {
+		delegateCalled = true
 	}
 }
