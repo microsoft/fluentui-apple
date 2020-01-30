@@ -45,7 +45,7 @@ open class DatePickerController: NSViewController {
 			return selectedDateTime
 		}
 		set {
-			handleDateTimeSelection(of: newValue)
+			handleDateTimeSelection(of: newValue, shouldNotifyDelegate: false)
 		}
 	}
 	
@@ -71,6 +71,27 @@ open class DatePickerController: NSViewController {
 			
 			let newDate = generateDateInVisibleRange(from: selectedDate)
 			handleDateOnlySelection(of: newDate)
+		}
+	}
+	
+	/// When enabled, padding will be added to the edges of the date picker view.
+	/// Should be used when the date picker is presented in a way that doesn't allow for modification of insets, like in NSPopover.
+	@objc public var hasEdgePadding: Bool {
+		get {
+			return datePicker.hasEdgePadding
+		}
+		set {
+			datePicker.hasEdgePadding = newValue
+		}
+	}
+	
+	/// Indicates whether the text input field is displayed
+	@objc public var hasTextField: Bool {
+		get {
+			return datePicker.hasTextField
+		}
+		set {
+			datePicker.hasTextField = newValue
 		}
 	}
 	
@@ -132,13 +153,14 @@ open class DatePickerController: NSViewController {
 		let startOfDate = calendar.startOfDay(for: date)
 		let combinedDate = startOfDate.combine(withTime: selectedDateTime, using: calendar) ?? startOfDate
 		
-		handleDateTimeSelection(of: combinedDate)
+		handleDateTimeSelection(of: combinedDate, shouldNotifyDelegate: true)
 	}
 	
 	/// Handles date and time selection.
 	///
 	/// - Parameter date: The selected date.
-	private func handleDateTimeSelection(of date: Date) {
+	/// - Parameter shouldNotifyDelegate: Indicates whether the delegate should be notified of this change.
+	private func handleDateTimeSelection(of date: Date, shouldNotifyDelegate: Bool) {
 		selectedDateTime = date
 		
 		if (isInVisibleRange(date: date)) {
@@ -147,7 +169,9 @@ open class DatePickerController: NSViewController {
 			handleOutOfRangeSelection(of : date)
 		}
 		
-		delegate?.datePickerController?(self, didSelectDate: selectedDateTime)
+		if shouldNotifyDelegate {
+			delegate?.datePickerController?(self, didSelectDate: selectedDateTime)
+		}
 	}
 	
 	/// Handles selection of date that is out of the visible range.
@@ -254,7 +278,7 @@ extension DatePickerController: DatePickerViewDelegate {
 	///   - datePicker: The date picker view.
 	///   - date: The selected date.
 	func datePicker(_ datePicker: DatePickerView, didSelectDateTime date: Date) {
-		handleDateTimeSelection(of: date)
+		handleDateTimeSelection(of: date, shouldNotifyDelegate: true)
 	}
 	
 	/// Advances the displayed month by 1.
