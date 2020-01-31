@@ -19,7 +19,7 @@ fileprivate struct Constants {
 	static let rowSpacing: CGFloat = 5.0
 	
 	/// Spacing between the calendar columns
-	static let columnSpacing: CGFloat = 0.0
+	static let columnSpacing: CGFloat = 5.0
 	
 	private init() {}
 }
@@ -71,6 +71,11 @@ class CalendarView: NSView {
 		]
 		
 		NSLayoutConstraint.activate(constraints)
+		
+		setContentHuggingPriority(.required, for: .vertical)
+		setContentHuggingPriority(.required, for: .horizontal)
+		setContentCompressionResistancePriority(.required, for: .vertical)
+		setContentCompressionResistancePriority(.required, for: .horizontal)
 		
 		buttonViews.forEach {
 			$0.target = self
