@@ -6,6 +6,8 @@
 import OfficeUIFabric
 import UIKit
 
+// MARK: MSDrawerDemoController
+
 class MSDrawerDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,11 +36,13 @@ class MSDrawerDemoController: DemoController {
 
         container.addArrangedSubview(createButton(title: "Show always as slideover, resizable", action: #selector(showBottomDrawerCustomContentControllerButtonTapped)))
 
+        container.addArrangedSubview(createButton(title: "Show with focusable content", action: #selector(showBottomDrawerFocusableContentButtonTapped)))
+
         container.addArrangedSubview(UIView())
     }
 
     @discardableResult
-    private func presentDrawer(sourceView: UIView? = nil, barButtonItem: UIBarButtonItem? = nil, presentationOrigin: CGFloat = -1, presentationDirection: MSDrawerPresentationDirection, presentationStyle: MSDrawerPresentationStyle = .automatic, presentationOffset: CGFloat = 0, presentationBackground: MSDrawerPresentationBackground = .black, contentController: UIViewController? = nil, contentView: UIView? = nil, resizingBehavior: MSDrawerResizingBehavior = .none, animated: Bool = true) -> MSDrawerController {
+    private func presentDrawer(sourceView: UIView? = nil, barButtonItem: UIBarButtonItem? = nil, presentationOrigin: CGFloat = -1, presentationDirection: MSDrawerPresentationDirection, presentationStyle: MSDrawerPresentationStyle = .automatic, presentationOffset: CGFloat = 0, presentationBackground: MSDrawerPresentationBackground = .black, contentController: UIViewController? = nil, contentView: UIView? = nil, resizingBehavior: MSDrawerResizingBehavior = .none, adjustHeightForKeyboard: Bool = false, animated: Bool = true) -> MSDrawerController {
         let controller: MSDrawerController
         if let sourceView = sourceView {
             controller = MSDrawerController(sourceView: sourceView, sourceRect: sourceView.bounds, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection)
@@ -52,6 +56,7 @@ class MSDrawerDemoController: DemoController {
         controller.presentationOffset = presentationOffset
         controller.presentationBackground = presentationBackground
         controller.resizingBehavior = resizingBehavior
+        controller.adjustsHeightForKeyboard = adjustHeightForKeyboard
 
         if let contentView = contentView {
             // `preferredContentSize` can be used to specify the preferred size of a drawer,
@@ -149,6 +154,34 @@ class MSDrawerDemoController: DemoController {
         drawer.contentScrollView = personaListView
     }
 
+    @objc private func showBottomDrawerFocusableContentButtonTapped(sender: UIButton) {
+        let contentController = UIViewController()
+
+        let container = UIStackView()
+        container.axis = .vertical
+        container.isLayoutMarginsRelativeArrangement = true
+        container.layoutMargins = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        container.spacing = 10
+        contentController.view.addSubview(container)
+        container.fitIntoSuperview(usingConstraints: true)
+
+        let textField = UITextField()
+        textField.text = "Some focusable content"
+        textField.delegate = self
+        container.addArrangedSubview(textField)
+
+        let button = MSButton(style: .primaryFilled)
+        button.setTitle("Hide keyboard", for: .normal)
+        button.setContentCompressionResistancePriority(.required, for: .vertical)
+        button.setContentHuggingPriority(.required, for: .vertical)
+        button.addTarget(self, action: #selector(hideKeyboardButtonTapped), for: .touchUpInside)
+        container.addArrangedSubview(button)
+
+        presentDrawer(sourceView: sender, presentationDirection: .up, contentController: contentController, resizingBehavior: .dismissOrExpand, adjustHeightForKeyboard: true)
+
+        textField.becomeFirstResponder()
+    }
+
     @objc private func changeContentHeightButtonTapped(sender: UIButton) {
         if let spacer = (sender.superview as? UIStackView)?.arrangedSubviews.last,
             let heightConstraint = spacer.constraints.first {
@@ -170,5 +203,21 @@ class MSDrawerDemoController: DemoController {
 
     @objc private func dismissNotAnimatedButtonTapped() {
         dismiss(animated: false)
+    }
+
+    @objc private func hideKeyboardButtonTapped(sender: UIButton) {
+        if let stackView = sender.superview as? UIStackView {
+            let textField = stackView.arrangedSubviews.first(where: { $0 is UITextField })
+            textField?.resignFirstResponder()
+        }
+    }
+}
+
+// MARK: - MSDrawerDemoController: UITextFieldDelegate
+
+extension MSDrawerDemoController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return false
     }
 }

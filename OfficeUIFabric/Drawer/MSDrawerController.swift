@@ -207,6 +207,12 @@ open class MSDrawerController: UIViewController {
             isExpandedBeingChanged = false
         }
     }
+    /**
+     Set `adjustsHeightForKeyboard` to `true` to allow drawer to adjust its height when keyboard is shown or hidden, so that drawer's content is always visible.
+
+     Supported only when drawer is presented as a slideover with the `.up` presentation direction.
+     */
+    @objc open var adjustsHeightForKeyboard: Bool = false
 
     /// Use `permittedArrowDirections` to specify the direction of the popover arrow for popover presentation on iPad.
     @objc open var permittedArrowDirections: UIPopoverArrowDirection = .any
@@ -665,7 +671,7 @@ extension MSDrawerController: UIViewControllerTransitioningDelegate {
     public func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         switch presentationStyle(for: source) {
         case .slideover:
-            return MSDrawerPresentationController(presentedViewController: presented, presenting: presenting, source: source, sourceObject: sourceView ?? barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection(for: source.view), presentationOffset: presentationOffset, presentationBackground: presentationBackground, presentationIsInteractive: resizingBehavior != .none)
+            return MSDrawerPresentationController(presentedViewController: presented, presenting: presenting, source: source, sourceObject: sourceView ?? barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection(for: source.view), presentationOffset: presentationOffset, presentationBackground: presentationBackground, adjustHeightForKeyboard: adjustsHeightForKeyboard)
         case .popover:
             let presentationController = UIPopoverPresentationController(presentedViewController: presented, presenting: presenting)
             presentationController.backgroundColor = MSColors.Drawer.background
