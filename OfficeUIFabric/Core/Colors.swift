@@ -281,7 +281,7 @@ public final class MSColors: NSObject {
     }
 
     public struct NavigationBar {
-        public static var background: UIColor = background1c
+        public static var background = UIColor(light: white, dark: gray900)
         public static var tint: UIColor = BarButtonItem.secondary
         public static var title = UIColor(light: gray900, dark: white)
     }
@@ -411,7 +411,7 @@ public final class MSColors: NSObject {
     public static var tableCellImage: UIColor { return Table.Cell.image }
 
     public struct Toolbar {
-        public static var background: UIColor = background1c
+        public static var background: UIColor = NavigationBar.background
         public static var tint: UIColor = BarButtonItem.secondary
     }
 

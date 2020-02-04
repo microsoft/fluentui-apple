@@ -150,7 +150,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         navigationItem.title = navigationItem.usesLargeTitle ? "Large Title" : "Regular Title"
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(title: "Dismiss", style: .plain, target: self, action: #selector(dismissSelf)),
-            UIBarButtonItem(image: UIImage(named: "3-day-view-28x28"), style: .plain, target: nil, action: nil)
+            UIBarButtonItem(image: UIImage(named: "3-day-view-28x28"), style: .plain, target: self, action: #selector(showModalView))
         ]
     }
 
@@ -174,6 +174,11 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     @objc private func dismissSelf() {
         dismiss(animated: false)
+    }
+
+    @objc private func showModalView() {
+        let modalNavigationController = UINavigationController(rootViewController: ModalViewController(style: .grouped))
+        present(modalNavigationController, animated: true)
     }
 }
 
@@ -199,5 +204,72 @@ class ChildViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+// MARK: - ModalViewController
+
+class ModalViewController: UITableViewController {
+    private var isGrouped: Bool = false {
+        didSet {
+            updateTableView()
+        }
+    }
+
+    private var styleButtonTitle: String {
+        return isGrouped ? "Switch to Plain style" : "Switch to Grouped style"
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tableView.register(MSTableViewCell.self, forCellReuseIdentifier: MSTableViewCell.identifier)
+        tableView.register(MSTableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: MSTableViewHeaderFooterView.identifier)
+        updateTableView()
+
+        navigationItem.title = "Modal View"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(dismissSelf))
+
+        navigationController?.isToolbarHidden = false
+        toolbarItems = [
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(title: styleButtonTitle, style: .plain, target: self, action: #selector(styleBarButtonTapped)),
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        ]
+    }
+
+    @objc private func dismissSelf() {
+        dismiss(animated: true)
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 20
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: MSTableViewCell.identifier, for: indexPath) as! MSTableViewCell
+        cell.setup(title: "Child Cell #\(1 + indexPath.row)")
+        cell.backgroundColor = isGrouped ? MSColors.Table.Cell.backgroundGrouped : MSColors.Table.Cell.background
+        cell.topSeparatorType = isGrouped && indexPath.row == 0 ? .full : .none
+        return cell
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: MSTableViewHeaderFooterView.identifier) as! MSTableViewHeaderFooterView
+        header.setup(style: .header, title: "Section Header")
+        return header
+    }
+
+    @objc private func styleBarButtonTapped(sender: UIBarButtonItem) {
+        isGrouped = !isGrouped
+        sender.title = styleButtonTitle
+    }
+
+    private func updateTableView() {
+        tableView.backgroundColor = isGrouped ? MSColors.Table.backgroundGrouped : MSColors.Table.background
+        tableView.reloadData()
     }
 }
