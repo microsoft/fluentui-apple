@@ -70,11 +70,11 @@
 "Accessibility.DateTime.Week.Last" = "สุดท้าย";
 
 /* Accessibility label for drawer's resizing handle when it has expand action */
-"Accessibility.Drawer.ResizingHandle.Label.Expand" = "Expand";
+"Accessibility.Drawer.ResizingHandle.Label.Expand" = "ขยาย";
 /* Accessibility hint for drawer's resizing handle when it has expand action */
-"Accessibility.Drawer.ResizingHandle.Hint.Expand" = "Double tap to expand";
+"Accessibility.Drawer.ResizingHandle.Hint.Expand" = "แตะสองครั้งเพื่อขยาย";
 /* Accessibility label for drawer's resizing handle when it has collapse action */
-"Accessibility.Drawer.ResizingHandle.Label.Collapse" = "Collapse";
+"Accessibility.Drawer.ResizingHandle.Label.Collapse" = "ยุบ";
 /* Accessibility hint for drawer's resizing handle when it has collapse action */
 "Accessibility.Drawer.ResizingHandle.Hint.Collapse" = "Double tap to collapse";
 
