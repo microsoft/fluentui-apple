@@ -205,6 +205,9 @@ open class MSDrawerController: UIViewController {
                 preferredContentSize.height = normalPreferredContentHeight
             }
             isExpandedBeingChanged = false
+
+            updateResizingHandleViewAccessibility()
+            UIAccessibility.post(notification: .layoutChanged, argument: nil)
         }
     }
     /**
@@ -486,6 +489,9 @@ open class MSDrawerController: UIViewController {
     private var showsResizingHandle: Bool {
         return canResize && presentationDirection.isVertical
     }
+    private var resizingHandleIsInteractive: Bool {
+        return resizingBehavior == .dismissOrExpand
+    }
 
     private var canResizeViaContentScrolling: Bool {
         return canResize && presentationDirection == .up
@@ -495,6 +501,7 @@ open class MSDrawerController: UIViewController {
         didSet {
             oldValue?.removeFromSuperview()
             if let newView = resizingHandleView {
+                initResizingHandleView()
                 if presentationDirection == .down {
                     containerView.addArrangedSubview(newView)
                 } else {
@@ -524,6 +531,26 @@ open class MSDrawerController: UIViewController {
     private var originalContentOffsetY: CGFloat?
     private var originalDrawerOffsetY: CGFloat = 0
     private var originalShowsContentScrollIndicator: Bool = true
+
+    private func initResizingHandleView() {
+        if resizingHandleIsInteractive {
+            resizingHandleView?.isUserInteractionEnabled = true
+            resizingHandleView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleResizingHandleViewTap)))
+        }
+        updateResizingHandleViewAccessibility()
+    }
+
+    private func updateResizingHandleViewAccessibility() {
+        resizingHandleView?.isAccessibilityElement = resizingHandleIsInteractive
+        resizingHandleView?.accessibilityTraits = .button
+        if isExpanded {
+            resizingHandleView?.accessibilityLabel = "Accessibility.Drawer.ResizingHandle.Label.Collapse".localized
+            resizingHandleView?.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Collapse".localized
+        } else {
+            resizingHandleView?.accessibilityLabel = "Accessibility.Drawer.ResizingHandle.Label.Expand".localized
+            resizingHandleView?.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Expand".localized
+        }
+    }
 
     private func offset(forResizingGesture gesture: UIPanGestureRecognizer) -> CGFloat {
         let presentationDirection = self.presentationDirection(for: view)
@@ -648,6 +675,10 @@ open class MSDrawerController: UIViewController {
         default:
             break
         }
+    }
+
+    @objc private func handleResizingHandleViewTap() {
+        isExpanded = !isExpanded
     }
 }
 
