@@ -70,13 +70,13 @@
 "Accessibility.DateTime.Week.Last" = "Τελευταία";
 
 /* Accessibility label for drawer's resizing handle when it has expand action */
-"Accessibility.Drawer.ResizingHandle.Label.Expand" = "Expand";
+"Accessibility.Drawer.ResizingHandle.Label.Expand" = "Ανάπτυξη";
 /* Accessibility hint for drawer's resizing handle when it has expand action */
-"Accessibility.Drawer.ResizingHandle.Hint.Expand" = "Double tap to expand";
+"Accessibility.Drawer.ResizingHandle.Hint.Expand" = "Πατήστε δύο φορές για ανάπτυξη";
 /* Accessibility label for drawer's resizing handle when it has collapse action */
-"Accessibility.Drawer.ResizingHandle.Label.Collapse" = "Collapse";
+"Accessibility.Drawer.ResizingHandle.Label.Collapse" = "Σύμπτυξη";
 /* Accessibility hint for drawer's resizing handle when it has collapse action */
-"Accessibility.Drawer.ResizingHandle.Hint.Collapse" = "Double tap to collapse";
+"Accessibility.Drawer.ResizingHandle.Hint.Collapse" = "Πατήστε δύο φορές για σύμπτυξη";
 
 /* Accessibility label for when a task under progress has finished */
 "Accessibility.HUD.Done" = "Τέλος";
