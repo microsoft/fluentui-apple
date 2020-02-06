@@ -707,6 +707,7 @@ open class MSTableViewCell: UITableViewCell {
                 return
             }
             accessoryTypeView = _accessoryType == .none ? nil : MSTableViewCellAccessoryView(type: _accessoryType)
+            initAccessibilityForAccessoryType()
             setNeedsLayout()
             invalidateIntrinsicContentSize()
         }
@@ -1215,6 +1216,19 @@ open class MSTableViewCell: UITableViewCell {
         let selectedStateBackgroundView = UIView()
         selectedStateBackgroundView.backgroundColor = MSColors.Table.Cell.backgroundSelected
         selectedBackgroundView = selectedStateBackgroundView
+    }
+
+    private func initAccessibilityForAccessoryType() {
+        if _accessoryType == .disclosureIndicator || _accessoryType == .detailButton {
+            accessibilityTraits.insert(.button)
+        } else {
+            accessibilityTraits.remove(.button)
+        }
+        if _accessoryType == .checkmark || isSelected {
+            accessibilityTraits.insert(.selected)
+        } else {
+            accessibilityTraits.remove(.selected)
+        }
     }
 
     private func updateAccessibility() {
