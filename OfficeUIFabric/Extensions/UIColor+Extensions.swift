@@ -40,8 +40,6 @@ import UIKit
     }
 
     convenience init(light: UIColor, lightHighContrast: UIColor? = nil, lightElevated: UIColor? = nil, lightElevatedHighContrast: UIColor? = nil, dark: UIColor? = nil, darkHighContrast: UIColor? = nil, darkElevated: UIColor? = nil, darkElevatedHighContrast: UIColor? = nil) {
-        // The following code requires Xcode 11, but there is no explicit condition for that, so using implicit check for Swift version
-        #if swift(>=5.1)
         if #available(iOS 13, *) {
             self.init { traits -> UIColor in
                 let getColorForContrast = { (default: UIColor?, highContrast: UIColor?) -> UIColor? in
@@ -67,7 +65,6 @@ import UIKit
             }
             return
         }
-        #endif
 
         self.init(cgColor: light.cgColor)
         self.light = light

@@ -195,6 +195,9 @@ class MSShyHeaderView: UIView {
         addSubview(contentStackView)
         contentStackView.fitIntoSuperview(usingConstraints: true)
         updateContentInsets()
+        if #available(iOS 13, *) {
+            contentStackView.addInteraction(UILargeContentViewerInteraction())
+        }
     }
 
     private func initShadow() {

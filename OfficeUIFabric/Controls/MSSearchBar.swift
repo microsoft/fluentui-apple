@@ -158,6 +158,9 @@ open class MSSearchBar: UIView {
         textField.enablesReturnKeyAutomatically = true
         textField.accessibilityTraits = .searchField
         textField.addTarget(self, action: #selector(searchTextFieldValueDidChange(_:)), for: .editingChanged)
+        if #available(iOS 13, *) {
+            textField.showsLargeContentViewer = true
+        }
         return textField
     }()
 
@@ -186,6 +189,9 @@ open class MSSearchBar: UIView {
         button.setTitle("Common.Cancel".localized, for: .normal)
         button.addTarget(self, action: #selector(MSSearchBar.cancelButtonTapped(sender:)), for: .touchUpInside)
         button.alpha = 0.0
+        if #available(iOS 13, *) {
+            button.showsLargeContentViewer = true
+        }
         return button
     }()
 
@@ -247,6 +253,10 @@ open class MSSearchBar: UIView {
     // MARK: - Layout Construction
 
     private func setupLayout() {
+        if #available(iOS 13, *) {
+            addInteraction(UILargeContentViewerInteraction())
+        }
+
         //Autolayout is more efficent if all constraints are activated simultaneously
         var constraints = [NSLayoutConstraint]()
 
