@@ -70,13 +70,13 @@
 "Accessibility.DateTime.Week.Last" = "Última";
 
 /* Accessibility label for drawer's resizing handle when it has expand action */
-"Accessibility.Drawer.ResizingHandle.Label.Expand" = "Expand";
+"Accessibility.Drawer.ResizingHandle.Label.Expand" = "Expandir";
 /* Accessibility hint for drawer's resizing handle when it has expand action */
-"Accessibility.Drawer.ResizingHandle.Hint.Expand" = "Double tap to expand";
+"Accessibility.Drawer.ResizingHandle.Hint.Expand" = "Pulsa dos veces para expandir";
 /* Accessibility label for drawer's resizing handle when it has collapse action */
-"Accessibility.Drawer.ResizingHandle.Label.Collapse" = "Collapse";
+"Accessibility.Drawer.ResizingHandle.Label.Collapse" = "Contraer";
 /* Accessibility hint for drawer's resizing handle when it has collapse action */
-"Accessibility.Drawer.ResizingHandle.Hint.Collapse" = "Double tap to collapse";
+"Accessibility.Drawer.ResizingHandle.Hint.Collapse" = "Pulsa dos veces para contraer";
 
 /* Accessibility label for when a task under progress has finished */
 "Accessibility.HUD.Done" = "Listo";
