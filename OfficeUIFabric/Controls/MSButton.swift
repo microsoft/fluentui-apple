@@ -101,13 +101,17 @@ open class MSButton: UIButton {
         proposedTitleLabelWidth = bounds.width - (contentEdgeInsets.left + contentEdgeInsets.right)
     }
 
-    private func update() {
+    public func updateTitleColors() {
         let titleColor = style == .primaryFilled ? MSColors.Button.titleWithFilledBackground : MSColors.Button.title
         let titleColorHighlighted = style == .primaryFilled ? titleColor : MSColors.Button.titleHighlighted
         let titleColorDisabled = style == .primaryFilled ? titleColor : MSColors.Button.titleDisabled
         setTitleColor(titleColor, for: .normal)
         setTitleColor(titleColorHighlighted, for: .highlighted)
         setTitleColor(titleColorDisabled, for: .disabled)
+    }
+
+    private func update() {
+        updateTitleColors()
 
         let backgroundColor: UIColor
         let borderColor: UIColor

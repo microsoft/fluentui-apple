@@ -753,14 +753,12 @@ open class MSTableViewCell: UITableViewCell {
 
     let titleLabel: MSLabel = {
         let label = MSLabel(style: TextStyles.title)
-        label.textColor = MSColors.Table.Cell.title
         label.lineBreakMode = .byTruncatingTail
         return label
     }()
 
     let subtitleLabel: MSLabel = {
         let label = MSLabel(style: TextStyles.subtitleTwoLines)
-        label.textColor = MSColors.Table.Cell.subtitle
         label.lineBreakMode = .byTruncatingTail
         label.isHidden = true
         return label
@@ -768,7 +766,6 @@ open class MSTableViewCell: UITableViewCell {
 
     let footerLabel: MSLabel = {
         let label = MSLabel(style: TextStyles.footer)
-        label.textColor = MSColors.Table.Cell.footer
         label.lineBreakMode = .byTruncatingTail
         label.isHidden = true
         return label
@@ -828,6 +825,8 @@ open class MSTableViewCell: UITableViewCell {
 
     open func initialize() {
         textLabel?.text = ""
+
+        updateTextColors()
 
         contentView.addSubview(titleLabel)
         contentView.addSubview(subtitleLabel)
@@ -911,6 +910,12 @@ open class MSTableViewCell: UITableViewCell {
         initAccessoryTypeView()
 
         selectionStyle = isInSelectionMode ? .none : .default
+    }
+
+    public func updateTextColors() {
+        titleLabel.textColor = MSColors.Table.Cell.title
+        subtitleLabel.textColor = MSColors.Table.Cell.subtitle
+        footerLabel.textColor = MSColors.Table.Cell.footer
     }
 
     open override func layoutSubviews() {
