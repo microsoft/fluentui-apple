@@ -199,20 +199,7 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
         }
     }
 
-    private let titleView: UITextView = {
-        let titleView = UITextView()
-        titleView.backgroundColor = nil
-        titleView.isEditable = false
-        titleView.isScrollEnabled = false
-        titleView.clipsToBounds = false    // to avoid clipping of "deep-touch" UI for links
-        titleView.isAccessibilityElement = true
-        titleView.textContainer.lineBreakMode = .byTruncatingTail
-        titleView.textContainer.lineFragmentPadding = 0
-        titleView.textContainerInset = .zero
-        titleView.layoutManager.usesFontLeading = false
-        titleView.linkTextAttributes = [.foregroundColor: MSColors.Table.HeaderFooter.textLink]
-        return titleView
-    }()
+    private let titleView = MSTableViewHeaderFooterTitleView()
 
     private var accessoryButton: UIButton? = nil {
         didSet {
@@ -374,5 +361,36 @@ extension MSTableViewHeaderFooterView: UITextViewDelegate {
     public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         // If the delegate function is not set, return `true` to let the default interaction handle this
         return delegate?.headerFooterView?(self, shouldInteractWith: URL, in: characterRange, interaction: interaction) ?? true
+    }
+}
+
+// MARK: - MSTableViewHeaderFooterTitleView
+
+private class MSTableViewHeaderFooterTitleView: UITextView {
+    override init(frame: CGRect, textContainer: NSTextContainer?) {
+        super.init(frame: frame, textContainer: textContainer)
+        backgroundColor = nil
+        isEditable = false
+        isScrollEnabled = false
+        clipsToBounds = false    // to avoid clipping of "deep-touch" UI for links
+        isAccessibilityElement = true
+        self.textContainer.lineBreakMode = .byTruncatingTail
+        self.textContainer.lineFragmentPadding = 0
+        textContainerInset = .zero
+        layoutManager.usesFontLeading = false
+        linkTextAttributes = [.foregroundColor: MSColors.Table.HeaderFooter.textLink]
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override var selectedTextRange: UITextRange? {
+        didSet {
+            // No need for selection, but we need to keep it selectable in order for links to work
+            if selectedTextRange != nil {
+                selectedTextRange = nil
+            }
+        }
     }
 }
