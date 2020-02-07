@@ -438,8 +438,8 @@ open class MSDrawerController: UIViewController {
 
     open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        if !isBeingPresented && presentationController is MSDrawerPresentationController {
-            // The top offset is no longer accurate, and we cannot recalculate
+        if !isBeingPresented && presentationController is MSDrawerPresentationController &&
+            (presentationDirection.isVertical || presentationOrigin != nil) {
             presentingViewController?.dismiss(animated: false)
         }
     }

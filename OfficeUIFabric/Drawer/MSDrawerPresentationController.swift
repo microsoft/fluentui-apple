@@ -84,22 +84,24 @@ class MSDrawerPresentationController: UIPresentationController {
         accessibilityContainer.addSubview(backgroundView)
         backgroundView.fitIntoSuperview()
         backgroundView.addSubview(dimmingView)
-        dimmingView.frame = frameForDimmingView(in: backgroundView.bounds)
-        accessibilityContainer.layer.mask?.frame = dimmingView.frame
 
         accessibilityContainer.addSubview(contentView)
-        contentView.frame = frameForContentView()
 
         if presentationDirection.isVertical && actualPresentationOffset == 0 {
             containerView?.addSubview(separator)
-            separator.frame = frameForSeparator(in: contentView.frame, withThickness: separator.height)
         }
+
+        updateLayout()
 
         contentView.addSubview(shadowView)
         shadowView.owner = presentedViewController.view
         // In non-animated presentations presented view will be force-placed into containerView by UIKit
         // For animated presentations presented view must be inside contentView to not slide over navigation bar/toolbar
         if presentingViewController.transitionCoordinator?.isAnimated == true {
+            // Avoiding content animation due to showing of the keyboard (when presented view contains the first responder)
+            presentedViewController.view.frame = contentView.bounds
+            presentedViewController.view.layoutIfNeeded()
+
             contentView.addSubview(presentedViewController.view)
         }
         setPresentedViewMask()
@@ -161,7 +163,7 @@ class MSDrawerPresentationController: UIPresentationController {
         }
         return 0
     }
-    private lazy var actualPresentationOrigin: CGFloat = {
+    private var actualPresentationOrigin: CGFloat {
         if let presentationOrigin = presentationOrigin {
             return presentationOrigin
         }
@@ -183,7 +185,7 @@ class MSDrawerPresentationController: UIPresentationController {
         case .fromTrailing:
             return UIScreen.main.bounds.maxX
         }
-    }()
+    }
     private var extraContentSize: CGFloat = 0
     private var safeAreaPresentationOffset: CGFloat {
         guard let containerView = containerView else {
@@ -213,6 +215,7 @@ class MSDrawerPresentationController: UIPresentationController {
         didSet {
             if keyboardHeight != oldValue {
                 updateContentViewFrame(animated: true, animationDuration: keyboardAnimationDuration)
+                separator.isHidden = keyboardHeight != 0
             }
         }
     }
@@ -222,6 +225,7 @@ class MSDrawerPresentationController: UIPresentationController {
 
     override func containerViewWillLayoutSubviews() {
         super.containerViewWillLayoutSubviews()
+        updateLayout()
         // In non-animated presentations presented view will be force-placed into containerView by UIKit after separator thus hiding it
         containerView?.bringSubviewToFront(separator)
     }
@@ -261,6 +265,16 @@ class MSDrawerPresentationController: UIPresentationController {
         if let presentedView = presentedView, presentedView.superview == containerView {
             presentedView.frame = frameOfPresentedViewInContainerView
         }
+        if separator.superview != nil {
+            separator.frame = frameForSeparator(in: contentView.frame, withThickness: separator.height)
+        }
+    }
+
+    private func updateLayout() {
+        dimmingView.frame = frameForDimmingView(in: backgroundView.bounds)
+        accessibilityContainer.layer.mask?.frame = dimmingView.frame
+
+        setContentViewFrame(frameForContentView())
     }
 
     private func frameForDimmingView(in bounds: CGRect) -> CGRect {
