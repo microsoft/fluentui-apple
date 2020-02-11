@@ -60,12 +60,14 @@ class TestDatePickerController: NSViewController {
 		}
 		
 		// Menu datepicker
-		let menuLabel = NSTextField(labelWithString: "Date Picker in a menu:")
+		let menuLabel = NSTextField(labelWithString: "Different presentations:")
 		let menuButton = NSPopUpButton(title: "TEST", target: nil, action: nil)
+		
+		let popoverButton = NSButton(title: "NSPopover", target: self, action: #selector(showPopover))
 		
 		menuButton.pullsDown = true
 		let menu = NSMenu()
-		datePickerMenuItem = NSMenuItem(title: "Show", action: nil, keyEquivalent: "")
+		datePickerMenuItem = NSMenuItem(title: "NSMenu", action: nil, keyEquivalent: "")
 		
 		if let controller = menuDatePickerController, let menuItem = datePickerMenuItem {
 			menuItem.view = NSView(frame: NSRect(origin: .zero, size: controller.view.fittingSize))
@@ -103,6 +105,7 @@ class TestDatePickerController: NSViewController {
 		let emptyCell = NSGridCell.emptyContentView
 		let gridView = NSGridView(views: [
 			[menuLabel, menuButton],
+			[emptyCell, popoverButton],
 			[customColorLabel, emptyCell],
 			[emptyCell, colorPickerButton],
 			[emptyCell, clearCustomColorButton],
@@ -184,6 +187,18 @@ class TestDatePickerController: NSViewController {
 		datePickerController?.hasTextField = enabled
 		menuDatePickerController?.hasTextField = enabled
 		datePickerMenuItem?.view?.frame.size = menuDatePickerController?.view.fittingSize ?? .zero
+	}
+	
+	@objc func showPopover(_ sender: NSButton) {
+		let popover = NSPopover()
+		popover.behavior = .transient
+		
+		let controller = DatePickerController(date: nil, calendar: nil, style: .dateTime)
+		controller.hasTextField = false
+		controller.hasEdgePadding = true
+
+		popover.contentViewController = controller
+		popover.show(relativeTo: sender.bounds, of: sender, preferredEdge: .maxY)
 	}
 	
 	@objc func changeColor(_ sender: NSColorPanel?) {
