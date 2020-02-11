@@ -100,6 +100,42 @@ open class DatePickerController: NSViewController {
 		return calendar.startOfDay(for: selectedDateTime)
 	}
 	
+	/// All current month days, possibly padded by days from the previous and next month to align with the calendar grid
+	var paddedDays: PaddedCalendarDays {
+		var dateComponents = calendar.dateComponents([.month, .year], from: visibleRange.first)
+		dateComponents.weekday = calendar.firstWeekday
+		dateComponents.weekdayOrdinal = 1
+		
+		// First day displayed in the calendar. This could be in the previous month and depends on the locale (first weekday)
+		var firstDay = calendar.startOfDay(for: calendar.date(from: dateComponents)!)
+		
+		// Make sure first displayed week contains the first day of the current month
+		if (calendar.component(.day, from: firstDay) > 1) {
+			firstDay = calendar.date(byAdding: .weekOfMonth, value: -1, to: firstDay) ?? firstDay
+		}
+		
+		let allDates = (0..<Constants.calendarGridDayCount).map {
+			calendar.date(byAdding: .day, value: $0, to: firstDay)!
+		}
+		
+		let currentMonthComponent = calendar.component(.month, from: visibleRange.first)
+		let nextMonthComponent = calendar.component(.month, from: calendar.date(byAdding: .month, value:1, to: visibleRange.first)!)
+		
+		let firstIndexOfCurrentMonth = allDates.firstIndex {
+			calendar.component(.month, from: $0) == currentMonthComponent
+			} ?? allDates.startIndex
+		
+		let firstIndexOfNextMonth = allDates.firstIndex {
+			calendar.component(.month, from: $0) == nextMonthComponent
+			} ?? allDates.endIndex
+		
+		let prevMonthDays = allDates[allDates.startIndex..<firstIndexOfCurrentMonth].map { calendarDay(for: $0) }
+		let currentMonthDays = allDates[firstIndexOfCurrentMonth..<firstIndexOfNextMonth].map { calendarDay(for: $0) }
+		let nextMonthDays = allDates[firstIndexOfNextMonth..<allDates.endIndex].map { calendarDay(for: $0) }
+		
+		return PaddedCalendarDays(previousMonthDays: prevMonthDays, currentMonthDays: currentMonthDays, nextMonthDays: nextMonthDays)
+	}
+	
 	/// Internal storage of the currently selected date and time
 	private(set) var selectedDateTime: Date
 	
@@ -323,68 +359,6 @@ extension DatePickerController: DatePickerViewDelegate {
 }
 
 extension DatePickerController: DatePickerViewDataSource {
-	
-	/// Returns all dates that should be displayed in a calendar view for a single month.
-	/// This includes some days from the previous and next month to ensure that the days
-	/// are correctly aligned with the weekday columns.
-	/// - Parameters:
-	///   - datePicker: The date picker view.
-	///   - date: The given date, only month and year are considered.
-	/// - Returns: All dates in the month of the given date, padded by days from previous and next month.
-	func datePicker(_ datePicker : DatePickerView, paddedDaysFor date : Date) -> PaddedCalendarDays {
-		var dateComponents = calendar.dateComponents([.month, .year], from: date)
-		dateComponents.weekday = calendar.firstWeekday
-		dateComponents.weekdayOrdinal = 1
-		
-		// First day displayed in the calendar. This could be in the previous month and depends on the locale (first weekday)
-		var firstDay = calendar.startOfDay(for: calendar.date(from: dateComponents)!)
-		
-		// Make sure first displayed week contains the first day of the current month
-		if (calendar.component(.day, from: firstDay) > 1) {
-			firstDay = calendar.date(byAdding: .weekOfMonth, value: -1, to: firstDay) ?? firstDay
-		}
-		
-		let allDates = (0..<Constants.calendarGridDayCount).map {
-			calendar.date(byAdding: .day, value: $0, to: firstDay)!
-		}
-		
-		let currentMonthComponent = calendar.component(.month, from: date)
-		let nextMonthComponent = calendar.component(.month, from: calendar.date(byAdding: .month, value:1, to: date)!)
-		
-		let firstIndexOfCurrentMonth = allDates.firstIndex {
-			calendar.component(.month, from: $0) == currentMonthComponent
-			} ?? allDates.startIndex
-		
-		let firstIndexOfNextMonth = allDates.firstIndex {
-			calendar.component(.month, from: $0) == nextMonthComponent
-			} ?? allDates.endIndex
-		
-		let prevMonthDays = allDates[allDates.startIndex..<firstIndexOfCurrentMonth].map { calendarDay(for: $0) }
-		let currentMonthDays = allDates[firstIndexOfCurrentMonth..<firstIndexOfNextMonth].map { calendarDay(for: $0) }
-		let nextMonthDays = allDates[firstIndexOfNextMonth..<allDates.endIndex].map { calendarDay(for: $0) }
-		
-		return PaddedCalendarDays(previousMonthDays: prevMonthDays, currentMonthDays: currentMonthDays, nextMonthDays: nextMonthDays)
-	}
-	
-	/// Returns a date that is one month in the past from the given date.
-	///
-	/// - Parameters:
-	///   - datePicker: The date picker view.
-	///   - date: The given date.
-	/// - Returns: A date one month in the past from the given date.
-	func datePicker(_ datePicker: DatePickerView, previousMonthFor date: Date) -> Date? {
-		return calendar.date(byAdding: .month, value: -1, to: date)
-	}
-	
-	/// Returns a date that is one month in the future from the given date.
-	///
-	/// - Parameters:
-	///   - datePicker: The date picker view.
-	///   - date: The given date.
-	/// - Returns: A date one month in the future from the given date.
-	func datePicker(_ datePicker: DatePickerView, nextMonthFor date: Date) -> Date? {
-		return calendar.date(byAdding: .month, value: 1, to: date)
-	}
 	
 	/// List of short weekday labels, correctly ordered and localized.
 	var shortWeekdays: [String] {
