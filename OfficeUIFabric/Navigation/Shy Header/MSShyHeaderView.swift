@@ -142,7 +142,6 @@ class MSShyHeaderView: UIView {
     }
     var navigationBarStyle: MSNavigationBar.Style = .primary {
         didSet {
-            backgroundColor = navigationBarStyle.backgroundColor
             updateShadowVisibility()
         }
     }

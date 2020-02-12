@@ -46,6 +46,7 @@ class MSShyHeaderController: UIViewController {
 
     private var navigationBarCenterObservation: NSKeyValueObservation?
     private var navigationBarHeightObservation: NSKeyValueObservation?
+    private var navigationBarColorObservation: NSKeyValueObservation?
 
     private var contentScrollView: UIScrollView? {
         didSet {
@@ -104,11 +105,11 @@ class MSShyHeaderController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if let navBarStyle = msNavigationController?.msNavigationBar.actualStyle(for: navigationItem) {
-            shyHeaderView.navigationBarStyle = navBarStyle
-            view.backgroundColor = navBarStyle.backgroundColor
-            paddingView.backgroundColor = navBarStyle.backgroundColor
+        if let (actualStyle, actualItem) = msNavigationController?.msNavigationBar.actualStyleAndItem(for: navigationItem) {
+            shyHeaderView.navigationBarStyle = actualStyle
+            updateBackgroundColor(with: actualItem)
         }
+
         updatePadding()
         setupNotificationObservers()
     }
@@ -238,6 +239,17 @@ class MSShyHeaderController: UIViewController {
         }
 
         return true
+    }
+
+    private func updateBackgroundColor(with item: UINavigationItem) {
+        let color = item.navigationBarColor
+        shyHeaderView.backgroundColor = color
+        view.backgroundColor = color
+        paddingView.backgroundColor = color
+
+        navigationBarColorObservation = item.observe(\.navigationBarColor) { [unowned self] item, _ in
+            self.updateBackgroundColor(with: item)
+        }
     }
 
     private func updatePadding() {

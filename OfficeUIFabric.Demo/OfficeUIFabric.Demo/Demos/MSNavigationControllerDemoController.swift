@@ -27,6 +27,9 @@ class MSNavigationControllerDemoController: DemoController {
 
         addTitle(text: "Size Customization")
         container.addArrangedSubview(createButton(title: "Show with expanded avatar, contracted title", action: #selector(showLargeTitleWithCustomizedElementSizes)))
+
+        addTitle(text: "Custom Navigation Bar Color")
+        container.addArrangedSubview(createButton(title: "Show with gradient navigation bar color", action: #selector(showLargeTitleWithCustomizedColor)))
     }
 
     @objc func showLargeTitle() {
@@ -71,6 +74,10 @@ class MSNavigationControllerDemoController: DemoController {
         controller.msNavigationBar.titleSize = .contracted
     }
 
+    @objc func showLargeTitleWithCustomizedColor() {
+        presentController(withLargeTitle: true, style: .custom, accessoryView: createAccessoryView())
+    }
+
     @discardableResult
     private func presentController(withLargeTitle useLargeTitle: Bool, style: MSNavigationBar.Style = .primary, accessoryView: UIView? = nil, contractNavigationBarOnScroll: Bool = true, showShadow: Bool = true) -> MSNavigationController {
         let content = RootViewController()
@@ -80,6 +87,9 @@ class MSNavigationControllerDemoController: DemoController {
         content.navigationItem.accessoryView = accessoryView
         content.navigationItem.contentScrollView = contractNavigationBarOnScroll ? content.tableView : nil
         content.showsTabs = !showShadow
+        if style == .custom {
+            content.navigationItem.navigationBarColor = CustomGradient.getCustomBackgroundColor(width: view.width)
+        }
 
         let controller = MSNavigationController(rootViewController: content)
         controller.msNavigationBar.avatar = MSPersonaData(name: "Kat Larrson", avatarImage: UIImage(named: "avatar_kat_larsson"))
@@ -129,6 +139,8 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
 
+    private var navigationBarFrameObservation: NSKeyValueObservation?
+
     private var segmentedControl: MSSegmentedControl? {
         didSet {
             oldValue?.removeFromSuperview()
@@ -152,6 +164,19 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             UIBarButtonItem(title: "Dismiss", style: .plain, target: self, action: #selector(dismissSelf)),
             UIBarButtonItem(image: UIImage(named: "3-day-view-28x28"), style: .plain, target: self, action: #selector(showModalView))
         ]
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let indexPath = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
+
+        navigationBarFrameObservation = navigationController?.navigationBar.observe(\.frame, options: [.old, .new]) { [unowned self] navigationBar, change in
+            if change.newValue?.width != change.oldValue?.width && self.navigationItem.navigationBarStyle == .custom {
+                self.navigationItem.navigationBarColor = CustomGradient.getCustomBackgroundColor(width: navigationBar.width)
+            }
+        }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -271,5 +296,30 @@ class ModalViewController: UITableViewController {
     private func updateTableView() {
         tableView.backgroundColor = isGrouped ? MSColors.Table.backgroundGrouped : MSColors.Table.background
         tableView.reloadData()
+    }
+}
+
+// MARK: - Gradient Color
+
+class CustomGradient {
+    class func getCustomBackgroundColor(width: CGFloat) -> UIColor {
+        let startColor: UIColor = #colorLiteral(red: 0.8156862745, green: 0.2156862745, blue: 0.3529411765, alpha: 1)
+        let midColor: UIColor = #colorLiteral(red: 0.8470588235, green: 0.231372549, blue: 0.003921568627, alpha: 1)
+        let endColor: UIColor = #colorLiteral(red: 0.8470588235, green: 0.231372549, blue: 0.003921568627, alpha: 1)
+
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = CGRect(x: 0.0, y: 0.0, width: width, height: 1.0)
+        gradientLayer.colors = [startColor.cgColor, midColor.cgColor, endColor.cgColor]
+        gradientLayer.locations = [0.0, 0.5, 1.0]
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+
+        UIGraphicsBeginImageContext(gradientLayer.bounds.size)
+        if let context = UIGraphicsGetCurrentContext() {
+            gradientLayer.render(in: context)
+        }
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return UIColor(light: image != nil ? UIColor(patternImage: image!) : endColor, dark: MSColors.Navigation.Primary.background)
     }
 }

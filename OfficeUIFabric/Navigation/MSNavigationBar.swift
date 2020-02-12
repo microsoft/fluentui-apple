@@ -12,24 +12,17 @@ import UIKit
 /// Custom UI can be hidden if desired
 @objcMembers
 open class MSNavigationBar: UINavigationBar {
+    /// If the style is `.custom`, UINavigationItem's `navigationBarColor` is used for all the subviews' backgroundColor
     @objc(MSNavigationBarStyle)
     public enum Style: Int {
         case `default`
         case primary
         case system
-
-        var backgroundColor: UIColor {
-            switch self {
-            case .primary, .default:
-                return MSColors.Navigation.Primary.background
-            case .system:
-                return MSColors.Navigation.System.background
-            }
-        }
+        case custom
 
         var tintColor: UIColor {
             switch self {
-            case .primary, .default:
+            case .primary, .default, .custom:
                 return MSColors.Navigation.Primary.tint
             case .system:
                 return MSColors.Navigation.System.tint
@@ -38,10 +31,21 @@ open class MSNavigationBar: UINavigationBar {
 
         var titleColor: UIColor {
             switch self {
-            case .primary, .default:
+            case .primary, .default, .custom:
                 return MSColors.Navigation.Primary.title
             case .system:
                 return MSColors.Navigation.System.title
+            }
+        }
+
+        func backgroundColor(customColor: UIColor?) -> UIColor {
+            switch self {
+            case .primary, .default:
+                return MSColors.Navigation.Primary.background
+            case .system:
+                return MSColors.Navigation.System.background
+            case .custom:
+                return customColor ?? MSColors.Navigation.Primary.background
             }
         }
     }
@@ -144,12 +148,6 @@ open class MSNavigationBar: UINavigationBar {
         }
     }
 
-    var style: Style = defaultStyle {
-        didSet {
-            setColorsForStyle()
-        }
-    }
-
     var titleView = MSLargeTitleView() {
         willSet {
             titleView.removeFromSuperview()
@@ -160,6 +158,8 @@ open class MSNavigationBar: UINavigationBar {
             titleView.setContentCompressionResistancePriority(.high, for: .horizontal)
         }
     }
+
+    private(set) var style: Style = defaultStyle
 
     let backgroundView = UIView() //used for coloration
     //used to cover the navigationbar during animated transitions between VCs
@@ -184,6 +184,7 @@ open class MSNavigationBar: UINavigationBar {
     private var leftBarButtonItemsObserver: NSKeyValueObservation?
     private var rightBarButtonItemsObserver: NSKeyValueObservation?
     private var titleObserver: NSKeyValueObservation?
+    private var navigationBarColorObserver: NSKeyValueObservation?
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -226,8 +227,7 @@ open class MSNavigationBar: UINavigationBar {
         rightBarButtonItemsStackView.setContentCompressionResistancePriority(.medium, for: .horizontal)
 
         updateViewsForLargeTitlePresentation(for: topItem)
-
-        setColorsForStyle()
+        updateColors(for: topItem)
 
         isTranslucent = false
 
@@ -290,25 +290,6 @@ open class MSNavigationBar: UINavigationBar {
         }
     }
 
-    private func setColorsForStyle() {
-        let backgroundColor = style.backgroundColor
-        switch style {
-        case .primary, .default:
-            titleView.style = .light
-        case .system:
-            titleView.style = .dark
-        }
-        backgroundView.backgroundColor = backgroundColor
-        barTintColor = backgroundColor
-        tintColor = style.tintColor
-        if var titleTextAttributes = titleTextAttributes {
-            titleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor
-            self.titleTextAttributes = titleTextAttributes
-        } else {
-            titleTextAttributes = [NSAttributedString.Key.foregroundColor: style.titleColor]
-        }
-    }
-
     // MARK: Element size handling
 
     private var currentAvatarSize: ElementSize {
@@ -345,9 +326,36 @@ open class MSNavigationBar: UINavigationBar {
 
     // MARK: UINavigationItem & UIBarButtonItem handling
 
-    func update(with navigationItem: UINavigationItem) {
-        style = actualStyle(for: navigationItem)
+    func updateColors(for navigationItem: UINavigationItem?) {
+        let color = navigationItem?.navigationBarColor ?? MSColors.Navigation.Primary.background
 
+        switch style {
+        case .primary, .default, .custom:
+            titleView.style = .light
+        case .system:
+            titleView.style = .dark
+        }
+
+        barTintColor = color
+        backgroundView.backgroundColor = color
+        tintColor = style.tintColor
+        if var titleTextAttributes = titleTextAttributes {
+            titleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor
+            self.titleTextAttributes = titleTextAttributes
+        } else {
+            titleTextAttributes = [NSAttributedString.Key.foregroundColor: style.titleColor]
+        }
+
+        navigationBarColorObserver = navigationItem?.observe(\.navigationBarColor) { [unowned self] navigationItem, _ in
+            // Unlike title or barButtonItems that depends on the topItem, navigation bar color can be set from the parentViewController's navigationItem
+            self.updateColors(for: navigationItem)
+        }
+    }
+
+    func update(with navigationItem: UINavigationItem) {
+        let (actualStyle, actualItem) = actualStyleAndItem(for: navigationItem)
+        style = actualStyle
+        updateColors(for: actualItem)
         showsLargeTitle = navigationItem.usesLargeTitle
         updateShadow(for: navigationItem)
 
@@ -377,15 +385,15 @@ open class MSNavigationBar: UINavigationBar {
         }
     }
 
-    func actualStyle(for navigationItem: UINavigationItem) -> Style {
+    func actualStyleAndItem(for navigationItem: UINavigationItem) -> (style: Style, item: UINavigationItem) {
         if navigationItem.navigationBarStyle != .default {
-            return navigationItem.navigationBarStyle
+            return (navigationItem.navigationBarStyle, navigationItem)
         }
         if let items = items?.prefix(while: { $0 != navigationItem }),
             let item = items.last(where: { $0.navigationBarStyle != .default }) {
-            return item.navigationBarStyle
+            return (item.navigationBarStyle, item)
         }
-        return MSNavigationBar.defaultStyle
+        return (MSNavigationBar.defaultStyle, navigationItem)
     }
 
     private func refresh(barButtonStack: UIStackView, with items: [UIBarButtonItem]?) {
