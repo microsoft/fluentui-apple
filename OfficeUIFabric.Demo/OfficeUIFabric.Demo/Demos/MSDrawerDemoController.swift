@@ -28,6 +28,7 @@ class MSDrawerDemoController: DemoController {
             itemSpacing: DemoController.verticalSpacing,
             stretchItems: true
         )
+        addDescription(text: "Swipe from the left or right edge of the screen to reveal a drawer interactively")
 
         addTitle(text: "Bottom Drawer")
         container.addArrangedSubview(createButton(title: "Show resizable", action: #selector(showBottomDrawerButtonTapped)))
@@ -39,10 +40,21 @@ class MSDrawerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show with focusable content", action: #selector(showBottomDrawerFocusableContentButtonTapped)))
 
         container.addArrangedSubview(UIView())
+
+        // Screen edge gestures to interactively present side drawers
+
+        let leadingEdgeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleScreenEdgePan))
+        leadingEdgeGesture.edges = view.effectiveUserInterfaceLayoutDirection == .leftToRight ? .left : .right
+        view.addGestureRecognizer(leadingEdgeGesture)
+        navigationController?.navigationController?.interactivePopGestureRecognizer?.require(toFail: leadingEdgeGesture)
+
+        let trailingEdgeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleScreenEdgePan))
+        trailingEdgeGesture.edges = view.effectiveUserInterfaceLayoutDirection == .leftToRight ? .right : .left
+        view.addGestureRecognizer(trailingEdgeGesture)
     }
 
     @discardableResult
-    private func presentDrawer(sourceView: UIView? = nil, barButtonItem: UIBarButtonItem? = nil, presentationOrigin: CGFloat = -1, presentationDirection: MSDrawerPresentationDirection, presentationStyle: MSDrawerPresentationStyle = .automatic, presentationOffset: CGFloat = 0, presentationBackground: MSDrawerPresentationBackground = .black, contentController: UIViewController? = nil, contentView: UIView? = nil, resizingBehavior: MSDrawerResizingBehavior = .none, adjustHeightForKeyboard: Bool = false, animated: Bool = true) -> MSDrawerController {
+    private func presentDrawer(sourceView: UIView? = nil, barButtonItem: UIBarButtonItem? = nil, presentationOrigin: CGFloat = -1, presentationDirection: MSDrawerPresentationDirection, presentationStyle: MSDrawerPresentationStyle = .automatic, presentationOffset: CGFloat = 0, presentationBackground: MSDrawerPresentationBackground = .black, presentingGesture: UIPanGestureRecognizer? = nil, contentController: UIViewController? = nil, contentView: UIView? = nil, resizingBehavior: MSDrawerResizingBehavior = .none, adjustHeightForKeyboard: Bool = false, animated: Bool = true) -> MSDrawerController {
         let controller: MSDrawerController
         if let sourceView = sourceView {
             controller = MSDrawerController(sourceView: sourceView, sourceRect: sourceView.bounds, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection)
@@ -55,6 +67,7 @@ class MSDrawerDemoController: DemoController {
         controller.presentationStyle = presentationStyle
         controller.presentationOffset = presentationOffset
         controller.presentationBackground = presentationBackground
+        controller.presentingGesture = presentingGesture
         controller.resizingBehavior = resizingBehavior
         controller.adjustsHeightForKeyboard = adjustHeightForKeyboard
 
@@ -180,6 +193,16 @@ class MSDrawerDemoController: DemoController {
         presentDrawer(sourceView: sender, presentationDirection: .up, contentController: contentController, resizingBehavior: .dismissOrExpand, adjustHeightForKeyboard: true)
 
         textField.becomeFirstResponder()
+    }
+
+    @objc private func handleScreenEdgePan(gesture: UIScreenEdgePanGestureRecognizer) {
+        guard gesture.state == .began else {
+            return
+        }
+
+        let leadingEdge: UIRectEdge = view.effectiveUserInterfaceLayoutDirection == .leftToRight ? .left : .right
+
+        presentDrawer(sourceView: view, presentationDirection: gesture.edges == leadingEdge ? .fromLeading : .fromTrailing, presentingGesture: gesture, contentView: containerForActionViews(drawerHasFlexibleHeight: false), resizingBehavior: .dismiss)
     }
 
     @objc private func changeContentHeightButtonTapped(sender: UIButton) {

@@ -95,7 +95,15 @@ class MSNavigationControllerDemoController: DemoController {
         controller.msNavigationBar.avatar = MSPersonaData(name: "Kat Larrson", avatarImage: UIImage(named: "avatar_kat_larsson"))
         controller.msNavigationBar.onAvatarTapped = handleAvatarTapped
         controller.modalPresentationStyle = .fullScreen
+        if useLargeTitle {
+            let leadingEdgeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleScreenEdgePan))
+            leadingEdgeGesture.edges = view.effectiveUserInterfaceLayoutDirection == .leftToRight ? .left : .right
+            leadingEdgeGesture.delegate = self
+            controller.view.addGestureRecognizer(leadingEdgeGesture)
+        }
+
         present(controller, animated: false)
+
         return controller
     }
 
@@ -106,16 +114,40 @@ class MSNavigationControllerDemoController: DemoController {
         return searchBar
     }
 
-    private func handleAvatarTapped() {
+    private func presentSideDrawer(presentingGesture: UIPanGestureRecognizer? = nil) {
         let meControl = MSLabel(style: .title2, colorStyle: .regular)
         meControl.text = "Me Control goes here"
         meControl.textAlignment = .center
 
-        let controller = MSDrawerController(sourceView: view, sourceRect: .zero, presentationOrigin: .zero, presentationDirection: .fromLeading)
+        let controller = MSDrawerController(sourceView: view, sourceRect: .zero, presentationDirection: .fromLeading)
         controller.contentView = meControl
         controller.preferredContentSize.width = 360
+        controller.presentingGesture = presentingGesture
         controller.resizingBehavior = .dismiss
         presentedViewController?.present(controller, animated: true)
+    }
+
+    private func handleAvatarTapped() {
+        presentSideDrawer()
+    }
+
+    @objc private func handleScreenEdgePan(gesture: UIScreenEdgePanGestureRecognizer) {
+        if gesture.state == .began {
+            presentSideDrawer(presentingGesture: gesture)
+        }
+    }
+}
+
+// MARK: - MSNavigationControllerDemoController: UIGestureRecognizerDelegate
+
+extension MSNavigationControllerDemoController: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        // Only show side drawer for the root view controller
+        if let controller = presentedViewController as? UINavigationController,
+            gestureRecognizer is UIScreenEdgePanGestureRecognizer && gestureRecognizer.view == controller.view && controller.topViewController != controller.viewControllers.first {
+            return false
+        }
+        return true
     }
 }
 

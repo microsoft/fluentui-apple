@@ -167,23 +167,25 @@ class MSDrawerPresentationController: UIPresentationController {
         if let presentationOrigin = presentationOrigin {
             return presentationOrigin
         }
+
+        let containerBounds = containerView?.bounds ?? UIScreen.main.bounds
         switch presentationDirection {
         case .down:
             var controller = sourceViewController
             while let navigationController = controller.navigationController {
                 let navigationBar = navigationController.navigationBar
                 if !navigationBar.isHidden, let navigationBarParent = navigationBar.superview {
-                    return navigationBarParent.convert(navigationBar.frame, to: nil).maxY
+                    return navigationBarParent.convert(navigationBar.frame, to: containerView).maxY
                 }
                 controller = navigationController
             }
-            return UIScreen.main.bounds.minY
+            return containerBounds.minY
         case .up:
-            return UIScreen.main.bounds.maxY
+            return containerBounds.maxY
         case .fromLeading:
-            return UIScreen.main.bounds.minX
+            return containerBounds.minX
         case .fromTrailing:
-            return UIScreen.main.bounds.maxX
+            return containerBounds.maxX
         }
     }
     private var extraContentSize: CGFloat = 0

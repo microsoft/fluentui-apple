@@ -167,6 +167,24 @@ open class MSDrawerController: UIViewController {
     @objc open var presentationBackground: MSDrawerPresentationBackground = .black
 
     /**
+     Set `presentingGesture` before calling `present` to provide a gesture recognizer that resulted in the presentation of the drawer and to allow this presentation to be interactive.
+
+     Only supported for a horizontal presentation direction.
+     */
+    @objc open var presentingGesture: UIPanGestureRecognizer? {
+        didSet {
+            if !presentationDirection.isHorizontal {
+                presentingGesture = nil
+            }
+            if presentingGesture == oldValue {
+                return
+            }
+            oldValue?.removeTarget(self, action: #selector(handlePresentingPan))
+            presentingGesture?.addTarget(self, action: #selector(handlePresentingPan))
+        }
+    }
+
+    /**
      When `resizingBehavior` is not `.none` a user can resize the drawer by tapping and dragging any area that does not handle this gesture itself. For example, if `contentController` constains a `UINavigationController`, a user can tap and drag navigation bar to resize the drawer.
 
      By resizing a drawer a user can switch between several predefined states:
@@ -481,6 +499,45 @@ open class MSDrawerController: UIViewController {
         containerViewBottomConstraint?.isActive = !tracksContentHeight
     }
 
+    // MARK: Interactive presentation
+
+    private var interactiveTransition: UIPercentDrivenInteractiveTransition? {
+        didSet {
+            interactiveTransition?.completionCurve = MSDrawerTransitionAnimator.animationCurve
+        }
+    }
+
+    @objc private func handlePresentingPan(gesture: UIPanGestureRecognizer) {
+        guard let presentedView = presentationController?.presentedView else {
+            return
+        }
+
+        var offset = gesture.translation(in: gesture.view).x
+        if presentationDirection(for: view) == .fromTrailing {
+            offset = -offset
+        }
+        let maxOffset = MSDrawerTransitionAnimator.sizeChange(forPresentedView: presentedView, presentationDirection: presentationDirection)
+
+        let percent = max(0, min(offset / maxOffset, 1))
+
+        switch gesture.state {
+        case .began, .changed:
+            interactiveTransition?.update(percent)
+        case .ended:
+            if percent < 0.5 {
+                interactiveTransition?.cancel()
+            } else {
+                interactiveTransition?.finish()
+            }
+            interactiveTransition = nil
+        case .cancelled:
+            interactiveTransition?.cancel()
+            interactiveTransition = nil
+        default:
+            break
+        }
+    }
+
     // MARK: Resizing
 
     private var canResize: Bool {
@@ -697,6 +754,14 @@ extension MSDrawerController: UIViewControllerTransitioningDelegate {
             return MSDrawerTransitionAnimator(presenting: false, presentationDirection: controller.presentationDirection)
         }
         return nil
+    }
+
+    public func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        guard let gesture = presentingGesture, gesture.state == .began || gesture.state == .changed else {
+            return nil
+        }
+        interactiveTransition = UIPercentDrivenInteractiveTransition()
+        return interactiveTransition
     }
 
     public func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
