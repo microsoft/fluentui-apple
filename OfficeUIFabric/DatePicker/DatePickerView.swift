@@ -284,8 +284,11 @@ class DatePickerView: NSView {
 			return
 		}
 		
-		textDatePicker.calendar = dataSource.calendar
-		textDatePicker.locale = dataSource.calendar.locale
+		if textDatePicker.calendar != dataSource.calendar {
+			textDatePicker.calendar = dataSource.calendar
+			textDatePicker.locale = dataSource.calendar.locale
+		}
+		
 		textDatePicker.dateValue = dataSource.selectedDateTime
 	}
 	
