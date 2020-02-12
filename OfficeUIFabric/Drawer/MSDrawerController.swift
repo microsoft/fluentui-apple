@@ -443,6 +443,7 @@ open class MSDrawerController: UIViewController {
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if isBeingDismissed {
+            resizingGestureRecognizer = nil
             willDismiss()
         }
     }
@@ -570,11 +571,15 @@ open class MSDrawerController: UIViewController {
     private var resizingGestureRecognizer: UIPanGestureRecognizer? {
         didSet {
             if let oldRecognizer = oldValue {
-                view.removeGestureRecognizer(oldRecognizer)
+                oldRecognizer.view?.removeGestureRecognizer(oldRecognizer)
             }
             if let newRecognizer = resizingGestureRecognizer {
                 newRecognizer.delegate = self
-                view.addGestureRecognizer(newRecognizer)
+                if presentationDirection.isHorizontal {
+                    presentationController?.containerView?.addGestureRecognizer(newRecognizer)
+                } else {
+                    view.addGestureRecognizer(newRecognizer)
+                }
             }
         }
     }
