@@ -369,6 +369,12 @@ class MSDrawerPresentationController: UIPresentationController {
     }
 
     private func frameForSeparator(in bounds: CGRect, withThickness thickness: CGFloat) -> CGRect {
+        var bounds = bounds
+        // Separator should stay fixed even when content view is moving - compensating for move
+        if extraContentSize < 0 && extraContentSizeEffectWhenCollapsing == .move {
+            bounds.origin.y += presentationDirection == .down ? -extraContentSize : extraContentSize
+        }
+
         return CGRect(
             x: bounds.minX,
             y: presentationDirection == .down ? bounds.minY : bounds.maxY - thickness,
