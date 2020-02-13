@@ -43,8 +43,8 @@ class MSDrawerPresentationController: UIPresentationController {
     private lazy var accessibilityContainer: UIView = {
         let view = UIView()
         view.accessibilityViewIsModal = true
-        view.layer.mask = CALayer()
-        view.layer.mask?.backgroundColor = UIColor.white.cgColor
+        view.mask = UIView()
+        view.mask?.backgroundColor = .white
         return view
     }()
     // A transparent view, which if tapped will dismiss the dropdown
@@ -66,6 +66,7 @@ class MSDrawerPresentationController: UIPresentationController {
         view.isUserInteractionEnabled = false
         return view
     }()
+    // `contentView` contains content in majority of cases with 2 exceptions: horizontal presentation with default presentation origin and non-animated presentations. `containerView` contains everything directly or indirectly, in some cases (2 cases described above) it will also contain content (but use `contentView` for layout information).
     private lazy var contentView = UIView()
     // Shadow behind presented view (cannot be done on presented view itself because it's masked)
     private lazy var shadowView: DrawerShadowView = {
@@ -102,7 +103,12 @@ class MSDrawerPresentationController: UIPresentationController {
             presentedViewController.view.frame = contentView.bounds
             presentedViewController.view.layoutIfNeeded()
 
-            contentView.addSubview(presentedViewController.view)
+            // Horizontally presented drawers must be inside containerView in order for device rotation animation to work correctly
+            if presentationDirection.isHorizontal && accessibilityContainer.mask?.frame == accessibilityContainer.bounds {
+                containerView?.addSubview(presentedViewController.view)
+            } else {
+                contentView.addSubview(presentedViewController.view)
+            }
         }
         setPresentedViewMask()
 
@@ -274,7 +280,7 @@ class MSDrawerPresentationController: UIPresentationController {
 
     private func updateLayout() {
         dimmingView.frame = frameForDimmingView(in: backgroundView.bounds)
-        accessibilityContainer.layer.mask?.frame = dimmingView.frame
+        accessibilityContainer.mask?.frame = dimmingView.frame
 
         setContentViewFrame(frameForContentView())
     }
