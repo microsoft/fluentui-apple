@@ -80,10 +80,10 @@ class MSCollectionViewCellDemoController: DemoController {
     override func viewWillLayoutSubviews() {
         if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             if #available(iOS 12, *) {
-                flowLayout.estimatedItemSize = CGSize(width: view.width, height: MSTableViewCell.mediumHeight)
+                flowLayout.estimatedItemSize = CGSize(width: view.frame.width, height: MSTableViewCell.mediumHeight)
             } else {
                 // Higher value of 100 needed for proper layout on iOS 11
-                flowLayout.estimatedItemSize = CGSize(width: view.width, height: 100)
+                flowLayout.estimatedItemSize = CGSize(width: view.frame.width, height: 100)
             }
         }
         super.viewWillLayoutSubviews()
@@ -213,6 +213,6 @@ extension MSCollectionViewCellDemoController: UICollectionViewDelegate {
 
 extension MSCollectionViewCellDemoController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.width, height: MSTableViewHeaderFooterView.height(style: .header, title: ""))
+        return CGSize(width: view.frame.width, height: MSTableViewHeaderFooterView.height(style: .header, title: ""))
     }
 }

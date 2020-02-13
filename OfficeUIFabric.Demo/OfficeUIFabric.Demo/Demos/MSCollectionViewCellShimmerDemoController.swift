@@ -67,7 +67,8 @@ extension MSCollectionViewCell {
 
         let shimmerView = MSShimmerView(containerView: cellView.contentView, animationSynchronizer: synchronizer)
         cellView.contentView.addSubview(shimmerView)
-        shimmerView.fitIntoSuperview()
+        shimmerView.frame = cellView.contentView.bounds
+        shimmerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.shimmerView = shimmerView
     }
 }

@@ -93,9 +93,15 @@ class DemoController: UIViewController {
         view.backgroundColor = MSColors.background1
 
         view.addSubview(scrollingContainer)
-        scrollingContainer.fitIntoSuperview()
+        scrollingContainer.translatesAutoresizingMaskIntoConstraints = true
+        scrollingContainer.frame = view.bounds
+        scrollingContainer.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        container.translatesAutoresizingMaskIntoConstraints = false
         scrollingContainer.addSubview(container)
         // UIScrollView in RTL mode still have leading on the left side, so we cannot rely on leading/trailing-based constraints
-        container.fitIntoSuperview(usingConstraints: true, usingLeadingTrailing: false, autoHeight: true)
+        NSLayoutConstraint.activate([container.topAnchor.constraint(equalTo: scrollingContainer.topAnchor),
+                                     container.bottomAnchor.constraint(equalTo: scrollingContainer.bottomAnchor),
+                                     container.leftAnchor.constraint(equalTo: scrollingContainer.leftAnchor),
+                                     container.widthAnchor.constraint(equalTo: scrollingContainer.widthAnchor)])
     }
 }

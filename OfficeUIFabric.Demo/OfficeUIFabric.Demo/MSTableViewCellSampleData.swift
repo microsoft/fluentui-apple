@@ -171,8 +171,12 @@ class MSTableViewCellSampleData: TableViewSampleData {
         stackView.layoutMargins = UIEdgeInsets(top: 2, left: 4, bottom: 2, right: 4)
 
         let container = UIView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         container.addSubview(stackView)
-        stackView.fitIntoSuperview(usingConstraints: true)
+        NSLayoutConstraint.activate([stackView.topAnchor.constraint(equalTo: container.topAnchor),
+                                     stackView.heightAnchor.constraint(equalTo: container.heightAnchor),
+                                     stackView.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+                                     stackView.widthAnchor.constraint(equalTo: container.widthAnchor)])
 
         if withBorder {
             container.layer.borderWidth = UIScreen.main.devicePixel

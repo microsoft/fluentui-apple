@@ -36,7 +36,7 @@ class MSCollectionViewHeaderFooterViewDemoController: DemoController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
-        let itemSize = CGSize(width: view.width, height: MSTableViewCell.height(title: TableViewHeaderFooterSampleData.itemTitle))
+        let itemSize = CGSize(width: view.frame.width, height: MSTableViewCell.height(title: TableViewHeaderFooterSampleData.itemTitle))
         [groupedCollectionView, plainCollectionView].forEach {
             ($0.collectionViewLayout as? UICollectionViewFlowLayout)?.estimatedItemSize = itemSize
         }
@@ -170,9 +170,9 @@ extension MSCollectionViewHeaderFooterViewDemoController: UICollectionViewDelega
             style: section.headerStyle,
             title: section.title,
             titleNumberOfLines: section.numberOfLines,
-            containerWidth: view.width
+            containerWidth: view.frame.width
         )
-        return CGSize(width: view.width, height: height)
+        return CGSize(width: view.frame.width, height: height)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
@@ -182,9 +182,9 @@ extension MSCollectionViewHeaderFooterViewDemoController: UICollectionViewDelega
                 style: section.headerStyle,
                 title: section.footerText,
                 titleNumberOfLines: section.numberOfLines,
-                containerWidth: view.width
+                containerWidth: view.frame.width
             )
-            return CGSize(width: view.width, height: height)
+            return CGSize(width: view.frame.width, height: height)
         }
         return .zero
     }

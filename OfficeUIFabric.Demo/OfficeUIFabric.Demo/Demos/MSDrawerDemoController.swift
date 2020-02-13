@@ -157,7 +157,8 @@ class MSDrawerDemoController: DemoController {
         let personaListView = MSPersonaListView()
         personaListView.personaList = samplePersonas
         controller.view.addSubview(personaListView)
-        personaListView.fitIntoSuperview()
+        personaListView.frame = controller.view.bounds
+        personaListView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
         let contentController = UINavigationController(rootViewController: controller)
         contentController.navigationBar.barTintColor = MSColors.background1
@@ -175,8 +176,12 @@ class MSDrawerDemoController: DemoController {
         container.isLayoutMarginsRelativeArrangement = true
         container.layoutMargins = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
         container.spacing = 10
+        container.translatesAutoresizingMaskIntoConstraints = false
         contentController.view.addSubview(container)
-        container.fitIntoSuperview(usingConstraints: true)
+        NSLayoutConstraint.activate([container.topAnchor.constraint(equalTo: contentController.view.topAnchor),
+                                     container.heightAnchor.constraint(equalTo: contentController.view.heightAnchor),
+                                     container.leadingAnchor.constraint(equalTo: contentController.view.leadingAnchor),
+                                     container.widthAnchor.constraint(equalTo: contentController.view.widthAnchor)])
 
         let textField = UITextField()
         textField.text = "Some focusable content"

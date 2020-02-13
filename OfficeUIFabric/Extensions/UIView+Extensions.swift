@@ -5,7 +5,7 @@
 
 import UIKit
 
-public extension UIView {
+extension UIView {
     var left: CGFloat {
         get { return frame.minX }
         set { frame.origin.x = newValue }

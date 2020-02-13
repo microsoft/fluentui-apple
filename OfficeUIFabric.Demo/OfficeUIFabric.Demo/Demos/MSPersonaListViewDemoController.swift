@@ -57,7 +57,8 @@ class MSPersonaListViewDemoController: DemoController {
             self.present(alert, animated: true)
         }
         view.addSubview(personaListView)
-        personaListView.fitIntoSuperview()
+        personaListView.frame = view.bounds
+        personaListView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }
 }
 
