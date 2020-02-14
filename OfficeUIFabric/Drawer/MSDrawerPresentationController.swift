@@ -66,7 +66,7 @@ class MSDrawerPresentationController: UIPresentationController {
         view.isUserInteractionEnabled = false
         return view
     }()
-    // `contentView` contains content in majority of cases with 2 exceptions: horizontal presentation with default presentation origin and non-animated presentations. `containerView` contains everything directly or indirectly, in some cases (2 cases described above) it will also contain content (but use `contentView` for layout information).
+    // `contentView` contains content in majority of cases with 2 exceptions: after horizontal presentations and in non-animated presentations. `containerView` contains everything directly or indirectly, in some cases (2 cases described above) it will also contain content (but use `contentView` for layout information).
     private lazy var contentView = UIView()
     // Shadow behind presented view (cannot be done on presented view itself because it's masked)
     private lazy var shadowView: DrawerShadowView = {
@@ -103,12 +103,7 @@ class MSDrawerPresentationController: UIPresentationController {
             presentedViewController.view.frame = contentView.bounds
             presentedViewController.view.layoutIfNeeded()
 
-            // Horizontally presented drawers must be inside containerView in order for device rotation animation to work correctly
-            if presentationDirection.isHorizontal && accessibilityContainer.mask?.frame == accessibilityContainer.bounds {
-                containerView?.addSubview(presentedViewController.view)
-            } else {
-                contentView.addSubview(presentedViewController.view)
-            }
+            contentView.addSubview(presentedViewController.view)
         }
         setPresentedViewMask()
 
@@ -120,6 +115,11 @@ class MSDrawerPresentationController: UIPresentationController {
 
     override func presentationTransitionDidEnd(_ completed: Bool) {
         if completed {
+            // Horizontally presented drawers must be inside containerView in order for device rotation animation to work correctly
+            if presentationDirection.isHorizontal {
+                containerView?.addSubview(presentedViewController.view)
+                presentedViewController.view.frame = frameOfPresentedViewInContainerView
+            }
             UIAccessibility.post(notification: .screenChanged, argument: contentView)
             UIAccessibility.post(notification: .announcement, argument: "Accessibility.Alert".localized)
         } else {
