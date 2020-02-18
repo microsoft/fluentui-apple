@@ -132,14 +132,14 @@ class MSDrawerPresentationController: UIPresentationController {
 
     override func dismissalTransitionWillBegin() {
         // For animated presentations presented view must be inside contentView to not slide over navigation bar/toolbar
-        if presentingViewController.transitionCoordinator?.isAnimated == true {
+        if let transitionCoordinator = presentingViewController.transitionCoordinator, transitionCoordinator.isAnimated == true {
             contentView.addSubview(presentedViewController.view)
             presentedViewController.view.frame = contentView.bounds
-        }
 
-        presentingViewController.transitionCoordinator?.animate(alongsideTransition: { _ in
-            self.backgroundView.alpha = 0.0
-        })
+            transitionCoordinator.animate(alongsideTransition: { _ in
+                self.backgroundView.alpha = 0.0
+            })
+        }
     }
 
     override func dismissalTransitionDidEnd(_ completed: Bool) {
