@@ -321,7 +321,12 @@ class DatePickerView: NSView {
 		monthClipView.addSubview(nextCalendarView)
 		
 		NSAnimationContext.runAnimationGroup({ context in
-			context.duration = Constants.pageScrollAnimationDuration
+			if NSWorkspace.shared.accessibilityDisplayShouldReduceMotion {
+				context.duration = 0.0
+			} else {
+				context.duration = Constants.pageScrollAnimationDuration
+			}
+			
 			nextCalendarView.animator().frame.origin.x = .zero
 			calendarView.animator().frame.origin.x -= scrollOffset
 		}, completionHandler: {
