@@ -293,6 +293,7 @@ public final class MSColors: NSObject {
     }
 
     public struct PopupMenu {
+        public static var description: UIColor = foreground2d
         public struct Item {
             public static var imageSelected: UIColor = selected
             public static var titleSelected: UIColor = selected

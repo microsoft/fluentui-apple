@@ -24,6 +24,8 @@ class DemoController: UIViewController {
     let container: UIStackView = createVerticalContainer()
     let scrollingContainer = MSScrollView(frame: .zero)
 
+    var allowsContentToScroll: Bool { return true }
+
     func createButton(title: String, action: Selector) -> MSButton {
         let button = MSButton()
         button.titleLabel?.lineBreakMode = .byTruncatingTail
@@ -92,16 +94,22 @@ class DemoController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = MSColors.background1
 
-        view.addSubview(scrollingContainer)
-        scrollingContainer.translatesAutoresizingMaskIntoConstraints = true
-        scrollingContainer.frame = view.bounds
-        scrollingContainer.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        container.translatesAutoresizingMaskIntoConstraints = false
-        scrollingContainer.addSubview(container)
-        // UIScrollView in RTL mode still have leading on the left side, so we cannot rely on leading/trailing-based constraints
-        NSLayoutConstraint.activate([container.topAnchor.constraint(equalTo: scrollingContainer.topAnchor),
-                                     container.bottomAnchor.constraint(equalTo: scrollingContainer.bottomAnchor),
-                                     container.leftAnchor.constraint(equalTo: scrollingContainer.leftAnchor),
-                                     container.widthAnchor.constraint(equalTo: scrollingContainer.widthAnchor)])
+        if allowsContentToScroll {
+            view.addSubview(scrollingContainer)
+            scrollingContainer.translatesAutoresizingMaskIntoConstraints = true
+            scrollingContainer.frame = view.bounds
+            scrollingContainer.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            container.translatesAutoresizingMaskIntoConstraints = false
+            scrollingContainer.addSubview(container)
+            // UIScrollView in RTL mode still have leading on the left side, so we cannot rely on leading/trailing-based constraints
+            NSLayoutConstraint.activate([container.topAnchor.constraint(equalTo: scrollingContainer.topAnchor),
+                                         container.bottomAnchor.constraint(equalTo: scrollingContainer.bottomAnchor),
+                                         container.leftAnchor.constraint(equalTo: scrollingContainer.leftAnchor),
+                                         container.widthAnchor.constraint(equalTo: scrollingContainer.widthAnchor)])
+        } else {
+            view.addSubview(container)
+            container.frame = view.bounds
+            container.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        }
     }
 }

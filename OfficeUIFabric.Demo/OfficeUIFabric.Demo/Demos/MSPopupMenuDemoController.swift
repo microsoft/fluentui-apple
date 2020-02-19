@@ -15,6 +15,8 @@ class MSPopupMenuDemoController: DemoController {
         case month
     }
 
+    override var allowsContentToScroll: Bool { return false }
+
     private var calendarLayout: CalendarLayout = .agenda
     private var cityIndexPath: IndexPath? = IndexPath(item: 2, section: 1)
 
@@ -25,15 +27,18 @@ class MSPopupMenuDemoController: DemoController {
 
         toolbarItems = [
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(title: "Show with selection", style: .plain, target: self, action: #selector(bottomBarButtonTapped)),
+            UIBarButtonItem(title: "Selection", style: .plain, target: self, action: #selector(bottomBarButtonTapped)),
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(title: "Show with header", style: .plain, target: self, action: #selector(bottomBarButtonTapped)),
+            UIBarButtonItem(title: "1-line description", style: .plain, target: self, action: #selector(bottomBarButtonTapped)),
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(title: "2-line header", style: .plain, target: self, action: #selector(bottomBarButtonTapped)),
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         ]
 
         container.addArrangedSubview(createButton(title: "Show with sections", action: #selector(showTopMenuWithSectionsButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show with scrollable items and no icons", action: #selector(showTopMenuWithScrollableItemsButtonTapped)))
         container.addArrangedSubview(UIView())
+        addTitle(text: "Show with...")
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -74,7 +79,10 @@ class MSPopupMenuDemoController: DemoController {
 
         let controller = MSPopupMenuController(barButtonItem: sender, presentationOrigin: origin, presentationDirection: .up)
 
-        if sender.title == "Show with header" {
+        if sender.title == "1-line description" {
+            controller.headerItem = MSPopupMenuItem(title: "Pick a calendar layout")
+        }
+        if sender.title == "2-line header" {
             controller.headerItem = MSPopupMenuItem(title: "Calendar layout", subtitle: "Some options might not be available")
         }
         controller.addItems([
