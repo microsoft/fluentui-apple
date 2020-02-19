@@ -151,7 +151,6 @@ open class MSNotificationView: UIView {
         actionButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: Constants.horizontalSpacing, bottom: 0, right: Constants.horizontalPadding)
         actionButton.setContentCompressionResistancePriority(.required, for: .horizontal)
         actionButton.setContentHuggingPriority(.required, for: .horizontal)
-        actionButton.addTarget(self, action: #selector(handleActionButtonTap), for: .touchUpInside)
         return actionButton
     }()
     private let separator = MSSeparator(style: .shadow, orientation: .horizontal)
@@ -201,6 +200,8 @@ open class MSNotificationView: UIView {
         accessibilityElements = [container, actionButton]
 
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleMessageTap)))
+
+        actionButton.addTarget(self, action: #selector(handleActionButtonTap), for: .touchUpInside)
 
         messageLabelBoundsObservation = messageLabel.observe(\.bounds) { [unowned self] (_, _) in
             self.updateVerticalPadding()
