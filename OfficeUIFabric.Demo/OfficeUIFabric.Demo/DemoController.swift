@@ -28,7 +28,8 @@ class DemoController: UIViewController {
 
     func createButton(title: String, action: Selector) -> MSButton {
         let button = MSButton()
-        button.titleLabel?.lineBreakMode = .byTruncatingTail
+        button.titleLabel?.textAlignment = .center
+        button.titleLabel?.numberOfLines = 0
         button.setTitle(title, for: .normal)
         button.addTarget(self, action: action, for: .touchUpInside)
         return button
