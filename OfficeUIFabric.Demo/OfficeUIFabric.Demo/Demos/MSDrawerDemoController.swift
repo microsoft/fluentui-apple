@@ -149,10 +149,16 @@ class MSDrawerDemoController: DemoController {
         presentDrawer(sourceView: sender, presentationOrigin: rect.minY, presentationDirection: .up, contentView: containerForActionViews())
     }
 
+    private var contentControllerOriginalPreferredContentHeight: CGFloat = 0
+
     @objc private func showBottomDrawerCustomContentControllerButtonTapped(sender: UIButton) {
         let controller = UIViewController()
         controller.title = "Resizable slideover drawer"
-        controller.preferredContentSize = CGSize(width: 400, height: 400)
+        controller.toolbarItems = [
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(title: "Change preferredContentSize", style: .plain, target: self, action: #selector(changePreferredContentSizeButtonTapped)),
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        ]
 
         let personaListView = MSPersonaListView()
         personaListView.personaList = samplePersonas
@@ -162,6 +168,9 @@ class MSDrawerDemoController: DemoController {
 
         let contentController = UINavigationController(rootViewController: controller)
         contentController.navigationBar.barTintColor = MSColors.background1
+        contentController.isToolbarHidden = false
+        contentController.preferredContentSize = CGSize(width: 400, height: 400)
+        contentControllerOriginalPreferredContentHeight = contentController.preferredContentSize.height
 
         let drawer = presentDrawer(sourceView: sender, presentationDirection: .up, presentationStyle: .slideover, presentationOffset: 20, presentationBackground: traitCollection.horizontalSizeClass == .regular ? .none : .black, contentController: contentController, resizingBehavior: .dismissOrExpand)
 
@@ -231,6 +240,14 @@ class MSDrawerDemoController: DemoController {
 
     @objc private func dismissNotAnimatedButtonTapped() {
         dismiss(animated: false)
+    }
+
+    @objc private func changePreferredContentSizeButtonTapped() {
+        if let contentController = (presentedViewController as? MSDrawerController)?.contentController {
+            var size = contentController.preferredContentSize
+            size.height = size.height == contentControllerOriginalPreferredContentHeight ? 500 : 400
+            contentController.preferredContentSize = size
+        }
     }
 
     @objc private func hideKeyboardButtonTapped(sender: UIButton) {

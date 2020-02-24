@@ -463,6 +463,15 @@ open class MSDrawerController: UIViewController {
         }
     }
 
+    open override func preferredContentSizeDidChange(forChildContentContainer container: UIContentContainer) {
+        super.preferredContentSizeDidChange(forChildContentContainer: container)
+        updateContainerViewBottomConstraint()
+        if presentingViewController != nil {
+            (presentationController as? MSDrawerPresentationController)?.updateContentViewFrame(animated: true)
+            (presentationController as? UIPopoverPresentationController)?.preferredContentSizeDidChange(forChildContentContainer: self)
+        }
+    }
+
     open override func accessibilityPerformEscape() -> Bool {
         presentingViewController?.dismiss(animated: true)
         return true
