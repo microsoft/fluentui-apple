@@ -54,10 +54,10 @@ class MSDrawerDemoController: DemoController {
     }
 
     @discardableResult
-    private func presentDrawer(sourceView: UIView? = nil, barButtonItem: UIBarButtonItem? = nil, presentationOrigin: CGFloat = -1, presentationDirection: MSDrawerPresentationDirection, presentationStyle: MSDrawerPresentationStyle = .automatic, presentationOffset: CGFloat = 0, presentationBackground: MSDrawerPresentationBackground = .black, presentingGesture: UIPanGestureRecognizer? = nil, contentController: UIViewController? = nil, contentView: UIView? = nil, resizingBehavior: MSDrawerResizingBehavior = .none, adjustHeightForKeyboard: Bool = false, animated: Bool = true) -> MSDrawerController {
+    private func presentDrawer(sourceView: UIView? = nil, barButtonItem: UIBarButtonItem? = nil, presentationOrigin: CGFloat = -1, presentationDirection: MSDrawerPresentationDirection, presentationStyle: MSDrawerPresentationStyle = .automatic, presentationOffset: CGFloat = 0, presentationBackground: MSDrawerPresentationBackground = .black, presentingGesture: UIPanGestureRecognizer? = nil, permittedArrowDirections: UIPopoverArrowDirection = [.left, .right], contentController: UIViewController? = nil, contentView: UIView? = nil, resizingBehavior: MSDrawerResizingBehavior = .none, adjustHeightForKeyboard: Bool = false, animated: Bool = true) -> MSDrawerController {
         let controller: MSDrawerController
         if let sourceView = sourceView {
-            controller = MSDrawerController(sourceView: sourceView, sourceRect: sourceView.bounds, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection)
+            controller = MSDrawerController(sourceView: sourceView, sourceRect: sourceView.bounds.insetBy(dx: sourceView.bounds.width / 2, dy: 0), presentationOrigin: presentationOrigin, presentationDirection: presentationDirection)
         } else if let barButtonItem = barButtonItem {
             controller = MSDrawerController(barButtonItem: barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection)
         } else {
@@ -68,6 +68,7 @@ class MSDrawerDemoController: DemoController {
         controller.presentationOffset = presentationOffset
         controller.presentationBackground = presentationBackground
         controller.presentingGesture = presentingGesture
+        controller.permittedArrowDirections = permittedArrowDirections
         controller.resizingBehavior = resizingBehavior
         controller.adjustsHeightForKeyboard = adjustHeightForKeyboard
 
@@ -112,7 +113,7 @@ class MSDrawerDemoController: DemoController {
     }
 
     @objc private func barButtonTapped(sender: UIBarButtonItem) {
-        presentDrawer(barButtonItem: sender, presentationDirection: .down, contentView: containerForActionViews())
+        presentDrawer(barButtonItem: sender, presentationDirection: .down, permittedArrowDirections: .any, contentView: containerForActionViews())
     }
 
     @objc private func showTopDrawerButtonTapped(sender: UIButton) {
@@ -204,7 +205,7 @@ class MSDrawerDemoController: DemoController {
         button.addTarget(self, action: #selector(hideKeyboardButtonTapped), for: .touchUpInside)
         container.addArrangedSubview(button)
 
-        presentDrawer(sourceView: sender, presentationDirection: .up, contentController: contentController, resizingBehavior: .dismissOrExpand, adjustHeightForKeyboard: true)
+        presentDrawer(sourceView: sender, presentationDirection: .up, permittedArrowDirections: .any, contentController: contentController, resizingBehavior: .dismissOrExpand, adjustHeightForKeyboard: true)
 
         textField.becomeFirstResponder()
     }

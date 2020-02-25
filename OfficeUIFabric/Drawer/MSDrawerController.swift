@@ -215,14 +215,11 @@ open class MSDrawerController: UIViewController {
             if presentationDirection.isHorizontal || isExpanded == oldValue {
                 return
             }
-            isExpandedBeingChanged = true
             if isExpanded {
+                normalDrawerHeight = isResizing ? originalDrawerHeight : view.height
                 normalPreferredContentHeight = super.preferredContentSize.height
-                preferredContentSize.height = UIScreen.main.bounds.height
-            } else {
-                preferredContentSize.height = normalPreferredContentHeight
             }
-            isExpandedBeingChanged = false
+            updatePreferredContentSize(isExpanded: isExpanded)
 
             updateResizingHandleViewAccessibility()
             UIAccessibility.post(notification: .layoutChanged, argument: nil)
@@ -270,7 +267,7 @@ open class MSDrawerController: UIViewController {
         }
         set {
             var newValue = newValue
-            if isExpanded && !isExpandedBeingChanged {
+            if isExpanded && !isPreferredContentSizeBeingChangedInternally {
                 normalPreferredContentHeight = newValue.height
                 newValue.height = preferredContentSize.height
             }
@@ -319,7 +316,8 @@ open class MSDrawerController: UIViewController {
     private let presentationOrigin: CGFloat?
     private let presentationDirection: MSDrawerPresentationDirection
 
-    private var isExpandedBeingChanged: Bool = false
+    private var isPreferredContentSizeBeingChangedInternally: Bool = false
+    private var normalDrawerHeight: CGFloat = 0
     private var normalPreferredContentHeight: CGFloat = -1
 
     private let containerView: UIStackView = {
@@ -509,6 +507,16 @@ open class MSDrawerController: UIViewController {
         containerViewBottomConstraint?.isActive = !tracksContentHeight
     }
 
+    private func updatePreferredContentSize(isExpanded: Bool) {
+        isPreferredContentSizeBeingChangedInternally = true
+        if isExpanded {
+            preferredContentSize.height = UIScreen.main.bounds.height
+        } else {
+            preferredContentSize.height = normalPreferredContentHeight
+        }
+        isPreferredContentSizeBeingChangedInternally = false
+    }
+
     // MARK: Interactive presentation
 
     private var interactiveTransition: UIPercentDrivenInteractiveTransition? {
@@ -601,6 +609,7 @@ open class MSDrawerController: UIViewController {
 
     private var originalContentOffsetY: CGFloat?
     private var originalDrawerOffsetY: CGFloat = 0
+    private var originalDrawerHeight: CGFloat = 0
     private var originalShowsContentScrollIndicator: Bool = true
 
     private func initResizingHandleView() {
@@ -672,7 +681,7 @@ open class MSDrawerController: UIViewController {
             fatalError("MSDrawerController cannot handle resizing without MSDrawerPresentationController")
         }
 
-        let offset = self.offset(forResizingGesture: gesture)
+        var offset = self.offset(forResizingGesture: gesture)
 
         switch gesture.state {
         case .began, .changed:
@@ -680,7 +689,20 @@ open class MSDrawerController: UIViewController {
                 isResizing = true
                 presentationController.extraContentSizeEffectWhenCollapsing = isExpanded ? .resize : .move
                 originalDrawerOffsetY = view.convert(view.bounds.origin, to: nil).y
+                originalDrawerHeight = view.height
                 initOriginalContentOffsetYIfNeeded()
+            }
+            if isExpanded {
+                let extraContentSizeEffect: MSDrawerPresentationController.ExtraContentSizeEffect = originalDrawerHeight + offset <= normalDrawerHeight ? .move : .resize
+                if extraContentSizeEffect == .move {
+                    offset += originalDrawerHeight - normalDrawerHeight
+                }
+                if presentationController.extraContentSizeEffectWhenCollapsing != extraContentSizeEffect {
+                    presentationController.extraContentSizeEffectWhenCollapsing = extraContentSizeEffect
+                    // When switching to .move, view has to pick up safe area insets and this requires it to be aligned with the screen edge and so offset has to be 0 at this point
+                    presentationController.setExtraContentSize(extraContentSizeEffect == .move ? 0 : offset, updatingLayout: false)
+                    updatePreferredContentSize(isExpanded: extraContentSizeEffect == .resize)
+                }
             }
             presentationController.setExtraContentSize(offset)
         case .ended:
@@ -694,9 +716,13 @@ open class MSDrawerController: UIViewController {
                 }
             } else if offset <= -Constants.resizingThreshold {
                 if isExpanded {
-                    presentationController.setExtraContentSize(0, updatingLayout: false)
-                    isExpanded = false
-                    delegate?.drawerControllerDidChangeExpandedState?(self)
+                    if originalDrawerHeight + offset <= normalDrawerHeight - Constants.resizingThreshold {
+                        presentingViewController?.dismiss(animated: true)
+                    } else {
+                        presentationController.setExtraContentSize(0, updatingLayout: false)
+                        isExpanded = false
+                        delegate?.drawerControllerDidChangeExpandedState?(self)
+                    }
                 } else {
                     presentingViewController?.dismiss(animated: true)
                 }
