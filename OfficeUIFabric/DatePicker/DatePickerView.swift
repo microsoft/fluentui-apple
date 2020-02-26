@@ -315,6 +315,7 @@ class DatePickerView: NSView {
 		
 		let nextCalendarView = CalendarView()
 		nextCalendarView.delegate = self
+		nextCalendarView.customSelectionColor = customSelectionColor
 		nextCalendarView.frame = calendarView.frame
 		nextCalendarView.frame.origin.x += scrollOffset
 		nextCalendarView.update(with: dataSource.paddedDays)
