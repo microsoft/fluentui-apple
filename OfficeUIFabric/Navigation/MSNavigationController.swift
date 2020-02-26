@@ -170,7 +170,7 @@ open class MSNavigationController: UINavigationController {
     ///
     /// - Parameter gesture: the default UIScreenEdgePanGestureRecognizer which powers the standard pop interaction on a UINavigationController
     @objc private func navigationPopScreenPanGestureRecognizerRecognized(gesture: UIScreenEdgePanGestureRecognizer) {
-        let percent = gesture.translation(in: gesture.view!).x / gesture.view!.bounds.size.width
+        let percent = abs(gesture.translation(in: gesture.view!).x) / gesture.view!.bounds.size.width
 
         switch gesture.state {
         case .began:
