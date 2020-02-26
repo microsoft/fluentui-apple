@@ -404,6 +404,9 @@ open class MSNotificationView: UIView {
     private func updateForStyle() {
         clipsToBounds = !style.needsSeparator
         layer.cornerRadius = style.cornerRadius
+        if #available(iOS 13.0, *) {
+            layer.cornerCurve = .continuous
+        }
         backgroundView.updateBackground(backgroundColor: style.backgroundColor)
         separator.isHidden = !style.needsSeparator
 
