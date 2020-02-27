@@ -277,6 +277,10 @@ public final class MSColors: NSObject {
             public static var foreground: UIColor = foreground1
         }
         public struct PrimaryBar {
+            public static var background: UIColor = PrimaryToast.background
+            public static var foreground: UIColor = PrimaryToast.foreground
+        }
+        public struct PrimaryOutlineBar {
             public static var background = UIColor(light: white, dark: gray600).withAlphaComponent(0.6)
             public static var foreground = UIColor(light: primary, dark: gray100)
         }
