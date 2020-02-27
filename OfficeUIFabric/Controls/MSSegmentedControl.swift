@@ -183,6 +183,10 @@ open class MSSegmentedControl: UIControl {
         return CGSize(width: min(fittingSize.width, size.width), height: min(fittingSize.height, size.height))
     }
 
+    func intrinsicContentSizeInvalidatedForChildView() {
+        invalidateIntrinsicContentSize()
+    }
+
     private func setupButtons(titles: [String]) {
         // Create buttons
         for (index, title) in titles.enumerated() {
@@ -250,15 +254,26 @@ private class MSSegmentedControlButton: UIButton {
         super.init(frame: .zero)
 
         contentEdgeInsets = Constants.contentEdgeInsets
-        titleLabel?.font = Constants.titleFontStyle.font
         titleLabel?.lineBreakMode = .byTruncatingTail
         setTitleColor(MSColors.SegmentedControl.buttonTextNormal, for: .normal)
         setTitleColor(MSColors.SegmentedControl.buttonTextSelected, for: .selected)
         setTitleColor(MSColors.SegmentedControl.buttonTextDisabled, for: .disabled)
         setTitleColor(MSColors.SegmentedControl.buttonTextSelectedAndDisabled, for: [.selected, .disabled])
+        updateFont()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(updateFont), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func invalidateIntrinsicContentSize() {
+        super.invalidateIntrinsicContentSize()
+        (superview as? MSSegmentedControl)?.intrinsicContentSizeInvalidatedForChildView()
+    }
+
+    @objc private func updateFont() {
+        titleLabel?.font = Constants.titleFontStyle.font
     }
 }
