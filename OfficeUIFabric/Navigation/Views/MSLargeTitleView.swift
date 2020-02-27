@@ -25,6 +25,7 @@ class MSLargeTitleView: UIView {
 
     var avatar: MSAvatar? {
         didSet {
+            updateProfileButtonVisibility()
             [avatarView, smallMorphingAvatarView].forEach { $0?.setup(avatar: avatar) }
         }
     }
@@ -95,7 +96,14 @@ class MSLargeTitleView: UIView {
 
     private var showsProfileButton: Bool = true { // whether to display the customizable profile button
         didSet {
-            avatarView?.isHidden = showsProfileButton == false
+            avatarView?.isHidden = !showsProfileButton
+            smallMorphingAvatarView?.isHidden = !showsProfileButton
+        }
+    }
+
+    private var hasLeftBarButtonItems: Bool = false {
+        didSet {
+            updateProfileButtonVisibility()
         }
     }
 
@@ -258,10 +266,15 @@ class MSLargeTitleView: UIView {
 
     // MARK: - Content Update Methods
 
+    private func updateProfileButtonVisibility() {
+        showsProfileButton = !hasLeftBarButtonItems && avatar != nil
+    }
+
     /// Sets the interface with the provided item's details
     ///
     /// - Parameter navigationItem: instance of UINavigationItem providing inteface information
     func update(with navigationItem: UINavigationItem) {
+        hasLeftBarButtonItems = !(navigationItem.leftBarButtonItems?.isEmpty ?? true)
         titleButton.setTitle(navigationItem.title, for: .normal)
     }
 

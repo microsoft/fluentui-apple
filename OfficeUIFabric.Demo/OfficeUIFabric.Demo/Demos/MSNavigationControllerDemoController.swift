@@ -14,6 +14,7 @@ class MSNavigationControllerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show without accessory", action: #selector(showLargeTitle)))
         container.addArrangedSubview(createButton(title: "Show with collapsible search bar", action: #selector(showLargeTitleWithShyAccessory)))
         container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: #selector(showLargeTitleWithFixedAccessory)))
+        container.addArrangedSubview(createButton(title: "Show without an avatar", action: #selector(showLargeTitleWithoutAvatar)))
 
         addTitle(text: "Large Title with System style")
         container.addArrangedSubview(createButton(title: "Show without accessory", action: #selector(showLargeTitleWithSystemStyle)))
@@ -78,8 +79,12 @@ class MSNavigationControllerDemoController: DemoController {
         presentController(withLargeTitle: true, style: .custom, accessoryView: createAccessoryView())
     }
 
+    @objc func showLargeTitleWithoutAvatar() {
+        presentController(withLargeTitle: true, style: .primary, accessoryView: createAccessoryView(), showAvatar: false)
+    }
+
     @discardableResult
-    private func presentController(withLargeTitle useLargeTitle: Bool, style: MSNavigationBar.Style = .primary, accessoryView: UIView? = nil, contractNavigationBarOnScroll: Bool = true, showShadow: Bool = true) -> MSNavigationController {
+    private func presentController(withLargeTitle useLargeTitle: Bool, style: MSNavigationBar.Style = .primary, accessoryView: UIView? = nil, contractNavigationBarOnScroll: Bool = true, showShadow: Bool = true, showAvatar: Bool = true) -> MSNavigationController {
         let content = RootViewController()
         content.navigationItem.usesLargeTitle = useLargeTitle
         content.navigationItem.navigationBarStyle = style
@@ -92,8 +97,13 @@ class MSNavigationControllerDemoController: DemoController {
         }
 
         let controller = MSNavigationController(rootViewController: content)
-        controller.msNavigationBar.avatar = MSPersonaData(name: "Kat Larrson", avatarImage: UIImage(named: "avatar_kat_larsson"))
-        controller.msNavigationBar.onAvatarTapped = handleAvatarTapped
+        if showAvatar {
+            controller.msNavigationBar.avatar = MSPersonaData(name: "Kat Larrson", avatarImage: UIImage(named: "avatar_kat_larsson"))
+            controller.msNavigationBar.onAvatarTapped = handleAvatarTapped
+        } else {
+            content.allowsCellSelection = true
+        }
+
         controller.modalPresentationStyle = .fullScreen
         if useLargeTitle {
             let leadingEdgeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleScreenEdgePan))
@@ -163,11 +173,33 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return tableView
     }()
 
+    var allowsCellSelection: Bool = false {
+        didSet {
+            updateRightBarButtonItems()
+        }
+    }
+
     var showsTabs: Bool = false {
         didSet {
             if showsTabs != oldValue {
                 segmentedControl = showsTabs ? MSSegmentedControl(items: ["Unread", "All"]) : nil
             }
+        }
+    }
+
+    private var isInSelectionMode: Bool = false {
+        didSet {
+            tableView.allowsMultipleSelection = isInSelectionMode
+
+            for indexPath in tableView.indexPathsForVisibleRows ?? [] {
+                if let cell = tableView.cellForRow(at: indexPath) as? MSTableViewCell {
+                    cell.setIsInSelectionMode(isInSelectionMode, animated: true)
+                }
+            }
+
+            updateNavigationTitle()
+            updateLeftBarButtonItems()
+            updateRightBarButtonItems()
         }
     }
 
@@ -191,11 +223,9 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
         container.addArrangedSubview(tableView)
-        navigationItem.title = navigationItem.usesLargeTitle ? "Large Title" : "Regular Title"
-        navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(title: "Dismiss", style: .plain, target: self, action: #selector(dismissSelf)),
-            UIBarButtonItem(image: UIImage(named: "3-day-view-28x28"), style: .plain, target: self, action: #selector(showModalView))
-        ]
+        updateNavigationTitle()
+        updateLeftBarButtonItems()
+        updateRightBarButtonItems()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -218,15 +248,57 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MSTableViewCell.identifier, for: indexPath) as! MSTableViewCell
         cell.setup(title: "Cell #\(1 + indexPath.row)", accessoryType: .disclosureIndicator)
+        cell.isInSelectionMode = isInSelectionMode
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let controller = ChildViewController()
-        if navigationItem.accessoryView == nil {
-            controller.navigationItem.navigationBarStyle = .system
+        if isInSelectionMode {
+            updateNavigationTitle()
+        } else {
+            let controller = ChildViewController()
+            if navigationItem.accessoryView == nil {
+                controller.navigationItem.navigationBarStyle = .system
+            }
+            navigationController?.pushViewController(controller, animated: true)
         }
-        navigationController?.pushViewController(controller, animated: true)
+    }
+
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        if isInSelectionMode {
+            updateNavigationTitle()
+        }
+    }
+
+    private func updateNavigationTitle() {
+        if isInSelectionMode {
+            let selectedCount = tableView.indexPathsForSelectedRows?.count ?? 0
+            navigationItem.title = selectedCount == 1 ? "1 item selected" : "\(selectedCount) items selected"
+        } else {
+            navigationItem.title = navigationItem.usesLargeTitle ? "Large Title" : "Regular Title"
+        }
+    }
+
+    private func updateLeftBarButtonItems() {
+        if isInSelectionMode {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "Dismiss_28"), landscapeImagePhone: UIImage(named: "Dismiss_24"), style: .plain, target: self, action: #selector(dismissSelectionMode))
+        } else {
+            navigationItem.leftBarButtonItem = nil
+        }
+    }
+
+    private func updateRightBarButtonItems() {
+        if isInSelectionMode {
+            navigationItem.rightBarButtonItems = nil
+        } else {
+            var items = [UIBarButtonItem(title: "Dismiss", style: .plain, target: self, action: #selector(dismissSelf))]
+            if allowsCellSelection {
+                items.append(UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(showSelectionMode)))
+            } else {
+                items.append(UIBarButtonItem(image: UIImage(named: "3-day-view-28x28"), landscapeImagePhone: UIImage(named: "3-day-view-24x24"), style: .plain, target: self, action: #selector(showModalView)))
+            }
+            navigationItem.rightBarButtonItems = items
+        }
     }
 
     @objc private func dismissSelf() {
@@ -237,6 +309,15 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let modalNavigationController = UINavigationController(rootViewController: ModalViewController(style: .grouped))
         present(modalNavigationController, animated: true)
     }
+
+    @objc private func showSelectionMode() {
+        isInSelectionMode = true
+    }
+
+    @objc private func dismissSelectionMode() {
+        isInSelectionMode = false
+    }
+
 }
 
 // MARK: - ChildViewController
