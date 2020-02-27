@@ -14,6 +14,7 @@ public final class MSColors: NSObject {
     public static var primary = UIColor(light: primaryLight, dark: primaryDark)
     public static var primaryLight: UIColor = communicationBlueLight
     public static var primaryDark: UIColor = communicationBlueDark
+    public static var primaryHighContrast: UIColor = communicationBlueHighContrast
     public static var foregroundOnPrimary = UIColor(light: white, dark: black)
     /// #E1EFFA
     public static var lightPrimary: UIColor = #colorLiteral(red: 0.8823529412, green: 0.937254902, blue: 0.9803921569, alpha: 1)
@@ -108,10 +109,15 @@ public final class MSColors: NSObject {
 
     /// Used for hyperlinks
     public static let communicationBlue = UIColor(light: communicationBlueLight, dark: communicationBlueDark)
+    public static let communicationBlueHighContrast = UIColor(light: communicationBlueHighContrastLight, dark: communicationBlueHighContrastDark)
     /// #0078D4
     public static let communicationBlueLight: UIColor = #colorLiteral(red: 0, green: 0.4705882353, blue: 0.831372549, alpha: 1)
     /// #0086F0
     public static let communicationBlueDark: UIColor = #colorLiteral(red: 0, green: 0.5254901961, blue: 0.9411764706, alpha: 1)
+    /// #0063AD
+    public static let communicationBlueHighContrastLight: UIColor = #colorLiteral(red: 0, green: 0.3882352941, blue: 0.6784313725, alpha: 1)
+    /// #6CB8F6
+    public static let communicationBlueHighContrastDark: UIColor = #colorLiteral(red: 0.4235294118, green: 0.7215686275, blue: 0.9647058824, alpha: 1)
 
     // MARK: Base semantic
 
@@ -264,7 +270,7 @@ public final class MSColors: NSObject {
     public struct Notification {
         public struct PrimaryToast {
             public static var background = UIColor(light: primary.withAlphaComponent(0.2), dark: primary)
-            public static var foreground = UIColor(light: primary, dark: black)
+            public static var foreground = UIColor(light: primaryHighContrast, dark: black)
         }
         public struct NeutralToast {
             public static var background = UIColor(light: gray100, dark: gray600).withAlphaComponent(0.6)
