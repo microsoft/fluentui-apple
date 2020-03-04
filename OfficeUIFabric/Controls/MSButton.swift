@@ -91,6 +91,9 @@ open class MSButton: UIButton {
 
     open func initialize() {
         layer.cornerRadius = Constants.cornerRadius
+        if #available(iOS 13.0, *) {
+            layer.cornerCurve = .continuous
+        }
         update()
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)

@@ -393,6 +393,9 @@ open class MSDrawerController: UIViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = MSColors.Drawer.background
+        if #available(iOS 13.0, *) {
+            view.layer.cornerCurve = .continuous
+        }
         view.isAccessibilityElement = false
 
         containerView.translatesAutoresizingMaskIntoConstraints = false

@@ -16,6 +16,8 @@ public final class MSColors: NSObject {
     public static var primaryDark: UIColor = communicationBlueDark
     public static var primaryHighContrast: UIColor = communicationBlueHighContrast
     public static var foregroundOnPrimary = UIColor(light: white, dark: black)
+    /// #0767B3
+    public static var darkPrimary: UIColor = #colorLiteral(red: 0.02745098039, green: 0.4039215686, blue: 0.7019607843, alpha: 1)   // TODO: update if needed after design is done
     /// #E1EFFA
     public static var lightPrimary: UIColor = #colorLiteral(red: 0.8823529412, green: 0.937254902, blue: 0.9803921569, alpha: 1)
     /// #F5FAFD - Primary with 4% opacity
@@ -344,13 +346,27 @@ public final class MSColors: NSObject {
     }
 
     public struct SegmentedControl {
-        public static var background: UIColor = background1c
-        public static var buttonTextNormal: UIColor = foreground1b
-        public static var buttonTextSelected: UIColor = selected2
-        public static var buttonTextDisabled: UIColor = foreground4
-        public static var buttonTextSelectedAndDisabled: UIColor = foreground2
-        public static var selectionBarNormal: UIColor = selected2
-        public static var selectionBarDisabled: UIColor = background4
+        public struct Tabs {
+            public static var background: UIColor = background1c
+            public static var backgroundDisabled: UIColor = background
+            public static var segmentText: UIColor = foreground1b
+            public static var segmentTextSelected: UIColor = selected2
+            public static var segmentTextDisabled: UIColor = foreground4
+            public static var segmentTextSelectedAndDisabled: UIColor = foreground2
+            public static var selection: UIColor = selected2
+            public static var selectionDisabled: UIColor = background4
+        }
+        // TODO: update if needed after design is done (specifically backgroundDisabled, segmentTextDisabled, segmentTextSelectedAndDisabled, selectionDisabled, but check other colors too)
+        public struct Switch {
+            public static var background = UIColor(light: darkPrimary, dark: black)
+            public static var backgroundDisabled = UIColor(light: disabled, dark: black)
+            public static var segmentText: UIColor = foreground7b
+            public static var segmentTextSelected = UIColor(light: primary, dark: gray100)
+            public static var segmentTextDisabled = UIColor(light: white, dark: foreground4)
+            public static var segmentTextSelectedAndDisabled: UIColor = foreground2
+            public static var selection = UIColor(light: white, dark: gray600)
+            public static var selectionDisabled: UIColor = selection
+        }
     }
 
     public struct Separator {

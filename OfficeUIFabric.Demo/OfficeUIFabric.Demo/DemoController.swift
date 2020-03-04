@@ -35,11 +35,14 @@ class DemoController: UIViewController {
         return button
     }
 
-    func addDescription(text: String) {
+    @discardableResult
+    func addDescription(text: String, textAlignment: NSTextAlignment = .natural) -> MSLabel {
         let description = MSLabel(style: .subhead, colorStyle: .regular)
         description.numberOfLines = 0
         description.text = text
+        description.textAlignment = textAlignment
         container.addArrangedSubview(description)
+        return description
     }
 
     func addTitle(text: String) {
@@ -49,10 +52,10 @@ class DemoController: UIViewController {
         container.addArrangedSubview(titleLabel)
     }
 
-    func addRow(text: String = "", items: [UIView], textStyle: MSTextStyle = .subhead, textWidth: CGFloat = rowTextWidth, itemSpacing: CGFloat = horizontalSpacing, stretchItems: Bool = false) {
+    func addRow(text: String = "", items: [UIView], textStyle: MSTextStyle = .subhead, textWidth: CGFloat = rowTextWidth, itemSpacing: CGFloat = horizontalSpacing, stretchItems: Bool = false, centerItems: Bool = false) {
         let itemsContainer = UIStackView()
         itemsContainer.axis = .vertical
-        itemsContainer.alignment = stretchItems ? .fill : .leading
+        itemsContainer.alignment = stretchItems ? .fill : (centerItems ? .center : .leading)
 
         let itemRow = UIStackView()
         itemRow.axis = .horizontal
