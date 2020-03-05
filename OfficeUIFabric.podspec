@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "OfficeUIFabric"
-  s.version      = "1.0.6"
+  s.version      = "1.1"
   s.summary      = "Office UI Fabric is a set of reusable UI controls and tools"
   s.homepage     = "https://github.com/OfficeDev/ui-fabric-ios"
   s.license      = { :type => "MIT", :file => "LICENSE" }
