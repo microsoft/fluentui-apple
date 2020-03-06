@@ -321,8 +321,7 @@ extension DatePickerController: DatePickerViewDelegate {
 	///
 	/// - Parameters:
 	///   - datePicker: The date picker view.
-	///   - button: The button that was pressed.
-	func datePicker(_ datePicker: DatePickerView, didPressNext button: NSButton) {
+	func datePickerDidPressNext(_ datePicker: DatePickerView) {
 		advanceMonth(by: 1)
 	}
 	
@@ -330,8 +329,7 @@ extension DatePickerController: DatePickerViewDelegate {
 	///
 	/// - Parameters:
 	///   - datePicker: The date picker view.
-	///   - button: The button that was pressed.
-	func datePicker(_ datePicker: DatePickerView, didPressPrevious button: NSButton) {
+	func datePickerDidPressPrevious(_ datePicker: DatePickerView) {
 		advanceMonth(by: -1)
 	}
 	

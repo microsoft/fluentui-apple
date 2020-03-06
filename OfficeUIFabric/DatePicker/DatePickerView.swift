@@ -16,7 +16,7 @@ fileprivate struct Constants {
 	static let backgroundColor: NSColor = NSColor.white
 	
 	/// Duration of one page scroll animation
-	static let pageScrollAnimationDuration: Double = 0.15
+	static let pageScrollAnimationDuration: Double = 0.2
 	
 	/// Background color of the text date picker
 	static var textDatePickerBackgroundColor: NSColor {
@@ -303,6 +303,7 @@ class DatePickerView: NSView {
 			assertionFailure("dataSource should be non-nil at this point.")
 			return
 		}
+		updateHeader()
 		
 		isAnimating = true
 		let scrollOffset: CGFloat
@@ -327,15 +328,14 @@ class DatePickerView: NSView {
 			} else {
 				context.duration = Constants.pageScrollAnimationDuration
 			}
-			
-			nextCalendarView.animator().frame.origin.x = .zero
-			calendarView.animator().frame.origin.x -= scrollOffset
+			monthClipView.animator().bounds.origin.x += scrollOffset
 		}, completionHandler: {
+			self.monthClipView.bounds.origin = .zero
 			self.calendarView.removeFromSuperview()
 			self.calendarView = nextCalendarView
+			self.calendarView.frame.origin.x = .zero
 			self.monthClipView.widthAnchor.constraint(equalTo: self.calendarView.widthAnchor).isActive = true
 			self.monthClipView.heightAnchor.constraint(equalTo: self.calendarView.heightAnchor).isActive = true
-			self.updateHeader()
 			self.updateSelection()
 			self.isAnimating = false
 		})
@@ -374,11 +374,13 @@ extension DatePickerView: CalendarHeaderViewDelegate {
 	///   - calendarHeader: The header view that the button is in.
 	///   - button: The button that was pressed.
 	func calendarHeaderView(_ calendarHeader: CalendarHeaderView, didPressLeading button: NSButton) {
-		guard !isAnimating else {
-			return
+		if isAnimating {
+			completePagingAnimation(completionHandler: {
+				self.delegate?.datePickerDidPressPrevious(self)
+			})
+		} else {
+			delegate?.datePickerDidPressPrevious(self)
 		}
-		
-		delegate?.datePicker(self, didPressPrevious: button)
 	}
 	
 	/// Passes a trailing header button press down to the delegate if the view is not animating
@@ -387,11 +389,24 @@ extension DatePickerView: CalendarHeaderViewDelegate {
 	///   - calendarHeader: The header view that the button is in.
 	///   - button: The button that was pressed.
 	func calendarHeaderView(_ calendarHeader: CalendarHeaderView, didPressTrailing button: NSButton) {
-		guard !isAnimating else {
-			return
+		if isAnimating {
+			completePagingAnimation(completionHandler: {
+				self.delegate?.datePickerDidPressNext(self)
+			})
+		} else {
+			delegate?.datePickerDidPressNext(self)
 		}
-		
-		delegate?.datePicker(self, didPressNext: button)
+	}
+	
+	/// Completes the ongoing paging animation and executes the given completion handler.
+	/// - Parameter completionHandler: The closure to be called after the current animation completes.
+	private func completePagingAnimation(completionHandler: @escaping () -> Void) {
+		// Using a 0-duration animation to cancel the in-flight property animation.
+		// See NSAnimatablePropertyContainer docs for details.
+		NSAnimationContext.runAnimationGroup({ context in
+			context.duration = 0.0
+			monthClipView.animator().bounds.origin = .zero
+		}, completionHandler: completionHandler)
 	}
 }
 
@@ -415,15 +430,13 @@ protocol DatePickerViewDelegate: class {
 	///
 	/// - Parameters:
 	///   - datePicker: The date picker that sent the message.
-	///   - button: The button that was pressed.
-	func datePicker(_ datePicker: DatePickerView, didPressNext button: NSButton)
+	func datePickerDidPressNext(_ datePicker: DatePickerView)
 	
 	/// Tells the delegate that the previous month button was pressed.
 	///
 	/// - Parameters:
 	///   - datePicker: The date picker that sent the message.
-	///   - button: The button that was pressed.
-	func datePicker(_ datePicker: DatePickerView, didPressPrevious button: NSButton)
+	func datePickerDidPressPrevious(_ datePicker: DatePickerView)
 	
 	/// Asks the delegate whether a given calendar day button should be highlighted.
 	///
@@ -441,9 +454,9 @@ extension DatePickerViewDelegate {
 	
 	func datePicker(_ datePicker: DatePickerView, didSelectDateTime date: Date) {}
 	
-	func datePicker(_ datePicker: DatePickerView, didPressNext button: NSButton) {}
+	func datePickerDidPressNext(_ datePicker: DatePickerView) {}
 	
-	func datePicker(_ datePicker: DatePickerView, didPressPrevious button: NSButton) {}
+	func datePickerDidPressPrevious(_ datePicker: DatePickerView) {}
 	
 	func datePicker(_ datePicker: DatePickerView, shouldHighlightButton button: CalendarDayButton) -> Bool {
 		return false
