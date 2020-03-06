@@ -29,6 +29,10 @@ class CalendarDayButton: NSButton {
 		wantsLayer = true
 		setButtonType(.onOff)
 		
+		// Setting title to an empty string to ensure the placeholder is not displayed (happens on High Sierra).
+		// We use our own labels instead (upperLabel and lowerLabel).
+		title = ""
+		
 		// Needed to support .compositingFilter on the highlightLayer
 		layerUsesCoreImageFilters = true
 		
