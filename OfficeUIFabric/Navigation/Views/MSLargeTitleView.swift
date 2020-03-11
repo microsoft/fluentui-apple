@@ -136,9 +136,6 @@ class MSLargeTitleView: UIView {
         contentStackView.spacing = Constants.horizontalSpacing
         contentStackView.alignment = .center
         contain(view: contentStackView, withInsets: UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8))
-        if #available(iOS 13, *) {
-            contentStackView.addInteraction(UILargeContentViewerInteraction())
-        }
 
         // default avatar view setup
         let avatarView = ProfileView(avatarSize: Constants.avatarSize)

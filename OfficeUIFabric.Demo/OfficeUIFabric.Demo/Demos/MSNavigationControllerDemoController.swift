@@ -295,7 +295,9 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             if allowsCellSelection {
                 items.append(UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(showSelectionMode)))
             } else {
-                items.append(UIBarButtonItem(image: UIImage(named: "3-day-view-28x28"), landscapeImagePhone: UIImage(named: "3-day-view-24x24"), style: .plain, target: self, action: #selector(showModalView)))
+                let modalViewItem = UIBarButtonItem(image: UIImage(named: "3-day-view-28x28"), landscapeImagePhone: UIImage(named: "3-day-view-24x24"), style: .plain, target: self, action: #selector(showModalView))
+                modalViewItem.accessibilityLabel = "Modal View"
+                items.append(modalViewItem)
             }
             navigationItem.rightBarButtonItems = items
         }
