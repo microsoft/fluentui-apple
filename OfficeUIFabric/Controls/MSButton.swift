@@ -11,14 +11,37 @@ import UIKit
     case primaryFilled
     case primaryOutline
     case secondaryOutline
+    case tertiaryOutline
     case borderless
 
     public var contentEdgeInsets: UIEdgeInsets {
         switch self {
         case .primaryFilled, .primaryOutline:
-            return UIEdgeInsets(top: 18, left: 20, bottom: 18, right: 20)
-        case .secondaryOutline, .borderless:
-            return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+            return UIEdgeInsets(top: 16, left: 20, bottom: 16, right: 20)
+        case .secondaryOutline:
+            return UIEdgeInsets(top: 10, left: 14, bottom: 10, right: 14)
+        case .borderless:
+            return UIEdgeInsets(top: 7, left: 12, bottom: 7, right: 12)
+        case .tertiaryOutline:
+            return UIEdgeInsets(top: 5, left: 8, bottom: 5, right: 8)
+        }
+    }
+
+    var hasBorders: Bool {
+        switch self {
+        case .primaryOutline, .secondaryOutline, .tertiaryOutline:
+            return true
+        case .primaryFilled, .borderless:
+            return false
+        }
+    }
+
+    var minTitleLabelHeight: CGFloat {
+        switch self {
+        case .primaryFilled, .primaryOutline, .borderless:
+            return 20
+        case .secondaryOutline, .tertiaryOutline:
+            return 18
         }
     }
 }
@@ -59,8 +82,8 @@ open class MSButton: UIButton {
 
     open override var intrinsicContentSize: CGSize {
         var size = titleLabel?.systemLayoutSizeFitting(CGSize(width: proposedTitleLabelWidth == 0 ? .greatestFiniteMagnitude : proposedTitleLabelWidth, height: .greatestFiniteMagnitude)) ?? .zero
-        size.width += contentEdgeInsets.left + contentEdgeInsets.right
-        size.height += contentEdgeInsets.top + contentEdgeInsets.bottom
+        size.width = ceil(size.width + contentEdgeInsets.left + contentEdgeInsets.right)
+        size.height = ceil(max(size.height, style.minTitleLabelHeight) + contentEdgeInsets.top + contentEdgeInsets.bottom)
         return size
     }
 
@@ -133,7 +156,7 @@ open class MSButton: UIButton {
 
         titleLabel?.font = Constants.titleFont
 
-        layer.borderWidth = style == .primaryOutline || style == .secondaryOutline ? Constants.borderWidth : 0
+        layer.borderWidth = style.hasBorders ? Constants.borderWidth : 0
 
         contentEdgeInsets = style.contentEdgeInsets
     }
