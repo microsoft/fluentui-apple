@@ -304,6 +304,23 @@ public final class MSColors: NSObject {
         public static var pageIndicator: UIColor = white.withAlphaComponent(0.5)
     }
 
+    public struct PillButton {
+        public struct Outline {
+            public static var background = UIColor(light: black.withAlphaComponent(0.0), dark: black)
+            public static var title = UIColor(light: gray500, dark: gray200)
+            public static var backgroundSelected = UIColor(light: primary, dark: gray500)
+            public static var titleSelected: UIColor = white
+        }
+        public struct Filled {
+            public static var background = UIColor(light: black.withAlphaComponent(0.2), dark: Outline.background)
+            public static var title = UIColor(light: white, dark: Outline.title)
+            public static var backgroundSelected = UIColor(light: white, dark: Outline.backgroundSelected)
+            public static var titleSelected = UIColor(light: primary, dark: Outline.titleSelected)
+        }
+
+        public static var border: UIColor = MSColors.gray100
+    }
+
     public struct PopupMenu {
         public static var description: UIColor = foreground2d
         public struct Item {
