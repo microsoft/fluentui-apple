@@ -1,3 +1,8 @@
+//
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
+//
+
 ALWAYS_SEARCH_USER_PATHS = NO
 COPY_PHASE_STRIP = NO
 CURRENT_PROJECT_VERSION = 1
