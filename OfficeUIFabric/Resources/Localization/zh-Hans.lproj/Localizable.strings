@@ -88,7 +88,7 @@
 "Accessibility.HUD.Loading" = "正在加载";
 
 /* Accessibility hint for MSPillButtons in an MSPillButtonBar to indicate its index relative to total number of items */
-"Accessibility.MSPillButtonBar.Hint" = "%d of %d";
+"Accessibility.MSPillButtonBar.Hint" = "第 %d 项(共 %d 项)";
 
 /* Accessibility label for the avatar (or profile) view in */
 "Accessibility.LargeTitle.ProfileView" = "帐户个人资料";

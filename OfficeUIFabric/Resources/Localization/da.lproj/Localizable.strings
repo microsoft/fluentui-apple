@@ -88,7 +88,7 @@
 "Accessibility.HUD.Loading" = "Indlæser";
 
 /* Accessibility hint for MSPillButtons in an MSPillButtonBar to indicate its index relative to total number of items */
-"Accessibility.MSPillButtonBar.Hint" = "%d of %d";
+"Accessibility.MSPillButtonBar.Hint" = "%d af %d";
 
 /* Accessibility label for the avatar (or profile) view in */
 "Accessibility.LargeTitle.ProfileView" = "Opret kontoprofil";
