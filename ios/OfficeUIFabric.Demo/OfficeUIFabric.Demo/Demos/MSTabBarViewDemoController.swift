@@ -16,11 +16,7 @@ class MSTabBarViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let switchLabel = MSLabel(style: .subhead)
-        switchLabel.text = "Show items title"
-        container.addArrangedSubview(switchLabel)
-        container.addArrangedSubview(itemTitleVisibilitySwitch)
-        container.alignment = .leading
+        addRow(text: "Show item titles", items: [itemTitleVisibilitySwitch], textWidth: 110)
         itemTitleVisibilitySwitch.addTarget(self, action: #selector(handleOnSwitchValueChanged), for: .valueChanged)
 
         setupTabBarView()

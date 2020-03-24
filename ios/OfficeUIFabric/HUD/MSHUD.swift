@@ -115,6 +115,10 @@ public class MSHUD: NSObject {
     }
 
     @objc public func show(in view: UIView, with params: MSHUDParams) {
+        show(in: view, with: params, onTap: nil)
+    }
+
+    @objc public func show(in view: UIView, with params: MSHUDParams, onTap: (() -> Void)? = nil) {
         resetIfNeeded()
 
         presentedHUDView = MSHUDView(label: params.caption, type: params.hudType)
@@ -127,6 +131,8 @@ public class MSHUD: NSObject {
         view.addSubview(containerView)
         containerView.frame = view.bounds
 
+        presentedHUDView.onTap = onTap
+
         // Setup MSHUD view start state
         presentedHUDView.alpha = 0.0
         presentedHUDView.transform = CGAffineTransform(scaleX: Constants.showAnimationScale, y: Constants.showAnimationScale)
@@ -136,7 +142,7 @@ public class MSHUD: NSObject {
             presentedHUDView.alpha = 1.0
             presentedHUDView.transform = .identity
         }, completion: { _ in
-            UIAccessibility.post(notification: .screenChanged, argument: nil)
+            UIAccessibility.post(notification: .screenChanged, argument: presentedHUDView)
         })
 
         // Dismiss after delay if needed
@@ -213,6 +219,11 @@ public class MSHUD: NSObject {
             transition()
             completion(true)
         }
+    }
+
+    @objc public func update(with caption: String) {
+        presentedHUDView?.label.text = caption
+        layout()
     }
 
     private func hostWindow(for controller: UIViewController) -> UIWindow? {

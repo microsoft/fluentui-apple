@@ -25,7 +25,6 @@ class DrawerShadowView: UIView {
                 owner.layer.addObserver(self, forKeyPath: #keyPath(CALayer.mask), options: [], context: nil)
             }
             updateFrame()
-            updateShadowPath()
         }
     }
 
@@ -96,11 +95,26 @@ class DrawerShadowView: UIView {
         } else {
             frame = .zero
         }
+        updateShadowPath()
     }
 
     private func updateShadowPath() {
         let oldShadowPath = layer.shadowPath
-        layer.shadowPath = (owner?.layer.mask as? CAShapeLayer)?.path
+
+        if let ownerLayer = owner?.layer {
+            if let mask = ownerLayer.mask as? CAShapeLayer {
+                layer.shadowPath = mask.path
+            } else {
+                layer.shadowPath = UIBezierPath(
+                    roundedRect: ownerLayer.bounds,
+                    byRoundingCorners: ownerLayer.roundedCorners,
+                    cornerRadii: CGSize(width: ownerLayer.cornerRadius, height: ownerLayer.cornerRadius)
+                ).cgPath
+            }
+        } else {
+            layer.shadowPath = nil
+        }
+
         animateShadowPath(from: oldShadowPath)
     }
 

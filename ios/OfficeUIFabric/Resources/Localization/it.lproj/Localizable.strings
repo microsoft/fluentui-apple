@@ -69,6 +69,15 @@
 /* Accessibility label for last week of the month */
 "Accessibility.DateTime.Week.Last" = "Ultima";
 
+/* Accessibility label for drawer's resizing handle when it has expand action */
+"Accessibility.Drawer.ResizingHandle.Label.Expand" = "Espandi";
+/* Accessibility hint for drawer's resizing handle when it has expand action */
+"Accessibility.Drawer.ResizingHandle.Hint.Expand" = "Tocca due volte per espandere";
+/* Accessibility label for drawer's resizing handle when it has collapse action */
+"Accessibility.Drawer.ResizingHandle.Label.Collapse" = "Comprimi";
+/* Accessibility hint for drawer's resizing handle when it has collapse action */
+"Accessibility.Drawer.ResizingHandle.Hint.Collapse" = "Tocca due volte per comprimere";
+
 /* Accessibility label for when a task under progress has finished */
 "Accessibility.HUD.Done" = "Fine";
 
@@ -77,6 +86,9 @@
 
 /* Accessibility label for when a task is in progress */
 "Accessibility.HUD.Loading" = "Caricamento in corso";
+
+/* Accessibility hint for MSPillButtons in an MSPillButtonBar to indicate its index relative to total number of items */
+"Accessibility.MSPillButtonBar.Hint" = "%d di %d";
 
 /* Accessibility label for the avatar (or profile) view in */
 "Accessibility.LargeTitle.ProfileView" = "Creazione del profilo";

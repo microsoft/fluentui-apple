@@ -12,24 +12,17 @@ import UIKit
 /// Custom UI can be hidden if desired
 @objcMembers
 open class MSNavigationBar: UINavigationBar {
+    /// If the style is `.custom`, UINavigationItem's `navigationBarColor` is used for all the subviews' backgroundColor
     @objc(MSNavigationBarStyle)
     public enum Style: Int {
         case `default`
         case primary
         case system
-
-        var backgroundColor: UIColor {
-            switch self {
-            case .primary, .default:
-                return MSColors.Navigation.Primary.background
-            case .system:
-                return MSColors.Navigation.System.background
-            }
-        }
+        case custom
 
         var tintColor: UIColor {
             switch self {
-            case .primary, .default:
+            case .primary, .default, .custom:
                 return MSColors.Navigation.Primary.tint
             case .system:
                 return MSColors.Navigation.System.tint
@@ -38,10 +31,21 @@ open class MSNavigationBar: UINavigationBar {
 
         var titleColor: UIColor {
             switch self {
-            case .primary, .default:
+            case .primary, .default, .custom:
                 return MSColors.Navigation.Primary.title
             case .system:
                 return MSColors.Navigation.System.title
+            }
+        }
+
+        func backgroundColor(customColor: UIColor?) -> UIColor {
+            switch self {
+            case .primary, .default:
+                return MSColors.Navigation.Primary.background
+            case .system:
+                return MSColors.Navigation.System.background
+            case .custom:
+                return customColor ?? MSColors.Navigation.Primary.background
             }
         }
     }
@@ -66,6 +70,9 @@ open class MSNavigationBar: UINavigationBar {
         static let normalContentHeight: CGFloat = 44
         static let expandedContentHeight: CGFloat = 50
 
+        static let leftBarButtonItemLeadingMargin: CGFloat = 8
+        static let rightBarButtonItemHorizontalPadding: CGFloat = 10
+
         static let contentLeadingMargin: CGFloat = 8
         static let contentTrailingMargin: CGFloat = 6
 
@@ -73,7 +80,7 @@ open class MSNavigationBar: UINavigationBar {
         static let revealingAnimationDuration: TimeInterval = 0.25
     }
 
-    /// An object that conforms to the `MSAvatar` protocol and provides text and an optional image for display as an `MSAvatarView` next to the large title. Only displayed if `showsLargeTitle` is true on the current navigation item.
+    /// An object that conforms to the `MSAvatar` protocol and provides text and an optional image for display as an `MSAvatarView` next to the large title. Only displayed if `showsLargeTitle` is true on the current navigation item. If avatar is nil, it won't show the avatar view.
     open var avatar: MSAvatar? {
         didSet {
             titleView.avatar = avatar
@@ -144,12 +151,6 @@ open class MSNavigationBar: UINavigationBar {
         }
     }
 
-    var style: Style = defaultStyle {
-        didSet {
-            setColorsForStyle()
-        }
-    }
-
     var titleView = MSLargeTitleView() {
         willSet {
             titleView.removeFromSuperview()
@@ -160,6 +161,8 @@ open class MSNavigationBar: UINavigationBar {
             titleView.setContentCompressionResistancePriority(.high, for: .horizontal)
         }
     }
+
+    private(set) var style: Style = defaultStyle
 
     let backgroundView = UIView() //used for coloration
     //used to cover the navigationbar during animated transitions between VCs
@@ -178,12 +181,10 @@ open class MSNavigationBar: UINavigationBar {
         }
     }
 
-    //whether all bar button items are grouped on the right side
-    private var allBarButtonItemsRightAligned: Bool = true
-
     private var leftBarButtonItemsObserver: NSKeyValueObservation?
     private var rightBarButtonItemsObserver: NSKeyValueObservation?
     private var titleObserver: NSKeyValueObservation?
+    private var navigationBarColorObserver: NSKeyValueObservation?
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -205,14 +206,19 @@ open class MSNavigationBar: UINavigationBar {
         setupContentStackView()
         contentStackView.isLayoutMarginsRelativeArrangement = true
         updateContentStackViewMargins(forExpandedContent: true)
+        if #available(iOS 13, *) {
+            contentStackView.addInteraction(UILargeContentViewerInteraction())
+        }
+
+        //leftBarButtonItemsStackView: layout priorities are set to medium to make sure titleView has the highest priority in horizontal spacing
+        contentStackView.addArrangedSubview(leftBarButtonItemsStackView)
+        leftBarButtonItemsStackView.setContentHuggingPriority(.medium, for: .horizontal)
+        leftBarButtonItemsStackView.setContentCompressionResistancePriority(.medium, for: .horizontal)
 
         //titleView
         contentStackView.addArrangedSubview(titleView)
         titleView.setContentHuggingPriority(.high, for: .horizontal)
         titleView.setContentCompressionResistancePriority(.high, for: .horizontal)
-
-        //leftBarButtonItemsStackView (ignored for now, TASK: 729995)
-//        contentStackView.addArrangedSubview(leftBarButtonItemsStackView)
 
         //spacerView
         contentStackView.addArrangedSubview(spacerView)
@@ -220,14 +226,13 @@ open class MSNavigationBar: UINavigationBar {
         spacerView.setContentHuggingPriority(.low, for: .horizontal)
         spacerView.setContentCompressionResistancePriority(.low, for: .horizontal)
 
-        //rightBarButtonItemsStackView
+        //rightBarButtonItemsStackView: layout priorities are set to medium to make sure titleView has the highest priority in horizontal spacing
         contentStackView.addArrangedSubview(rightBarButtonItemsStackView)
         rightBarButtonItemsStackView.setContentHuggingPriority(.medium, for: .horizontal)
         rightBarButtonItemsStackView.setContentCompressionResistancePriority(.medium, for: .horizontal)
 
         updateViewsForLargeTitlePresentation(for: topItem)
-
-        setColorsForStyle()
+        updateColors(for: topItem)
 
         isTranslucent = false
 
@@ -287,25 +292,11 @@ open class MSNavigationBar: UINavigationBar {
         if traitCollection.verticalSizeClass != previousTraitCollection?.verticalSizeClass {
             updateElementSizes()
             updateContentStackViewMargins(forExpandedContent: contentIsExpanded)
-        }
-    }
 
-    private func setColorsForStyle() {
-        let backgroundColor = style.backgroundColor
-        switch style {
-        case .primary, .default:
-            titleView.style = .light
-        case .system:
-            titleView.style = .dark
-        }
-        backgroundView.backgroundColor = backgroundColor
-        barTintColor = backgroundColor
-        tintColor = style.tintColor
-        if var titleTextAttributes = titleTextAttributes {
-            titleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor
-            self.titleTextAttributes = titleTextAttributes
-        } else {
-            titleTextAttributes = [NSAttributedString.Key.foregroundColor: style.titleColor]
+            // change bar button image size depending on device rotation
+            if showsLargeTitle, let navigationItem = topItem {
+                updateBarButtonItems(with: navigationItem)
+            }
         }
     }
 
@@ -345,23 +336,43 @@ open class MSNavigationBar: UINavigationBar {
 
     // MARK: UINavigationItem & UIBarButtonItem handling
 
-    func update(with navigationItem: UINavigationItem) {
-        style = actualStyle(for: navigationItem)
+    func updateColors(for navigationItem: UINavigationItem?) {
+        let color = navigationItem?.navigationBarColor ?? MSColors.Navigation.Primary.background
 
+        switch style {
+        case .primary, .default, .custom:
+            titleView.style = .light
+        case .system:
+            titleView.style = .dark
+        }
+
+        barTintColor = color
+        backgroundView.backgroundColor = color
+        tintColor = style.tintColor
+        if var titleTextAttributes = titleTextAttributes {
+            titleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor
+            self.titleTextAttributes = titleTextAttributes
+        } else {
+            titleTextAttributes = [NSAttributedString.Key.foregroundColor: style.titleColor]
+        }
+
+        navigationBarColorObserver = navigationItem?.observe(\.navigationBarColor) { [unowned self] navigationItem, _ in
+            // Unlike title or barButtonItems that depends on the topItem, navigation bar color can be set from the parentViewController's navigationItem
+            self.updateColors(for: navigationItem)
+        }
+    }
+
+    func update(with navigationItem: UINavigationItem) {
+        let (actualStyle, actualItem) = actualStyleAndItem(for: navigationItem)
+        style = actualStyle
+        updateColors(for: actualItem)
         showsLargeTitle = navigationItem.usesLargeTitle
         updateShadow(for: navigationItem)
 
         titleView.update(with: navigationItem)
 
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        if allBarButtonItemsRightAligned {
-            let items = navigationItem.leftBarButtonItems + navigationItem.rightBarButtonItems?.reversed()
-            refresh(barButtonStack: leftBarButtonItemsStackView, with: nil)
-            refresh(barButtonStack: rightBarButtonItemsStackView, with: items)
-        } else {
-            refresh(barButtonStack: leftBarButtonItemsStackView, with: navigationItem.leftBarButtonItems)
-            refresh(barButtonStack: rightBarButtonItemsStackView, with: navigationItem.rightBarButtonItems?.reversed())
-        }
+        updateBarButtonItems(with: navigationItem)
 
         // Force layout to avoid animation
         layoutIfNeeded()
@@ -377,21 +388,78 @@ open class MSNavigationBar: UINavigationBar {
         }
     }
 
-    func actualStyle(for navigationItem: UINavigationItem) -> Style {
+    func actualStyleAndItem(for navigationItem: UINavigationItem) -> (style: Style, item: UINavigationItem) {
         if navigationItem.navigationBarStyle != .default {
-            return navigationItem.navigationBarStyle
+            return (navigationItem.navigationBarStyle, navigationItem)
         }
         if let items = items?.prefix(while: { $0 != navigationItem }),
             let item = items.last(where: { $0.navigationBarStyle != .default }) {
-            return item.navigationBarStyle
+            return (item.navigationBarStyle, item)
         }
-        return MSNavigationBar.defaultStyle
+        return (MSNavigationBar.defaultStyle, navigationItem)
     }
 
-    private func refresh(barButtonStack: UIStackView, with items: [UIBarButtonItem]?) {
+    private func createBarButtonItemButton(with item: UIBarButtonItem, isLeftItem: Bool) -> UIButton {
+        let button = UIButton(type: .system)
+        button.isEnabled = item.isEnabled
+        if isLeftItem {
+            let isRTL = effectiveUserInterfaceLayoutDirection == .rightToLeft
+            button.contentEdgeInsets = UIEdgeInsets(top: 0, left: isRTL ? 0 : Constants.leftBarButtonItemLeadingMargin, bottom: 0, right: isRTL ? Constants.leftBarButtonItemLeadingMargin : 0)
+        } else {
+            button.contentEdgeInsets = UIEdgeInsets(top: 0, left: Constants.rightBarButtonItemHorizontalPadding, bottom: 0, right: Constants.rightBarButtonItemHorizontalPadding)
+        }
+
+        button.tag = item.tag
+        button.tintColor = item.tintColor
+        button.titleLabel?.font = item.titleTextAttributes(for: .normal)?[.font] as? UIFont
+
+        var portraitImage = item.image
+        if portraitImage?.renderingMode == .automatic {
+            portraitImage = portraitImage?.withRenderingMode(.alwaysTemplate)
+        }
+        var landscapeImage = item.landscapeImagePhone ?? portraitImage
+        if landscapeImage?.renderingMode == .automatic {
+            landscapeImage = landscapeImage?.withRenderingMode(.alwaysTemplate)
+        }
+
+        button.setImage(traitCollection.verticalSizeClass == .regular ? portraitImage : landscapeImage, for: .normal)
+        button.setTitle(item.title, for: .normal)
+
+        if let action = item.action {
+            button.addTarget(item.target, action: action, for: .touchUpInside)
+        }
+
+        button.accessibilityIdentifier = item.accessibilityIdentifier
+        button.accessibilityLabel = item.accessibilityLabel
+        button.accessibilityHint = item.accessibilityHint
+        if #available(iOS 13, *) {
+            button.showsLargeContentViewer = true
+            if let customLargeContentSizeImage = item.largeContentSizeImage {
+                button.largeContentImage = customLargeContentSizeImage
+            }
+
+            if item.title == nil {
+                button.largeContentTitle = item.accessibilityLabel
+            }
+        }
+        return button
+    }
+
+    private func updateBarButtonItems(with navigationItem: UINavigationItem) {
+        // only one left bar button item is support for large title view
+        if let leftBarButtonItem = navigationItem.leftBarButtonItem {
+            leftBarButtonItemsStackView.isHidden = false
+            refresh(barButtonStack: leftBarButtonItemsStackView, with: [leftBarButtonItem], isLeftItem: true)
+        } else {
+            leftBarButtonItemsStackView.isHidden = true
+        }
+        refresh(barButtonStack: rightBarButtonItemsStackView, with: navigationItem.rightBarButtonItems?.reversed(), isLeftItem: false)
+    }
+
+    private func refresh(barButtonStack: UIStackView, with items: [UIBarButtonItem]?, isLeftItem: Bool) {
         barButtonStack.removeAllSubviews()
         items?.forEach { item in
-            barButtonStack.addArrangedSubview(item.createButton())
+            barButtonStack.addArrangedSubview(createBarButtonItemButton(with: item, isLeftItem: isLeftItem))
         }
     }
 

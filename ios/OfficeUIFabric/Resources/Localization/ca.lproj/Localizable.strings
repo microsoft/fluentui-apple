@@ -69,6 +69,15 @@
 /* Accessibility label for last week of the month */
 "Accessibility.DateTime.Week.Last" = "Darrer";
 
+/* Accessibility label for drawer's resizing handle when it has expand action */
+"Accessibility.Drawer.ResizingHandle.Label.Expand" = "Expandeix";
+/* Accessibility hint for drawer's resizing handle when it has expand action */
+"Accessibility.Drawer.ResizingHandle.Hint.Expand" = "Toqueu dues vegades per expandir";
+/* Accessibility label for drawer's resizing handle when it has collapse action */
+"Accessibility.Drawer.ResizingHandle.Label.Collapse" = "Redueix";
+/* Accessibility hint for drawer's resizing handle when it has collapse action */
+"Accessibility.Drawer.ResizingHandle.Hint.Collapse" = "Toqueu dues vegades per reduir";
+
 /* Accessibility label for when a task under progress has finished */
 "Accessibility.HUD.Done" = "Fet";
 
@@ -77,6 +86,9 @@
 
 /* Accessibility label for when a task is in progress */
 "Accessibility.HUD.Loading" = "S'està carregant";
+
+/* Accessibility hint for MSPillButtons in an MSPillButtonBar to indicate its index relative to total number of items */
+"Accessibility.MSPillButtonBar.Hint" = "%d de %d";
 
 /* Accessibility label for the avatar (or profile) view in */
 "Accessibility.LargeTitle.ProfileView" = "Perfil del compte";

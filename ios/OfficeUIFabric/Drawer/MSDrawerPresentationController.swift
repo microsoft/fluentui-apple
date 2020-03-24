@@ -20,18 +20,21 @@ class MSDrawerPresentationController: UIPresentationController {
     let presentationDirection: MSDrawerPresentationDirection
     let presentationOffset: CGFloat
     let presentationBackground: MSDrawerPresentationBackground
-    let presentationIsInteractive: Bool
 
-    init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?, source: UIViewController, sourceObject: Any?, presentationOrigin: CGFloat?, presentationDirection: MSDrawerPresentationDirection, presentationOffset: CGFloat, presentationBackground: MSDrawerPresentationBackground, presentationIsInteractive: Bool) {
+    init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?, source: UIViewController, sourceObject: Any?, presentationOrigin: CGFloat?, presentationDirection: MSDrawerPresentationDirection, presentationOffset: CGFloat, presentationBackground: MSDrawerPresentationBackground, adjustHeightForKeyboard: Bool) {
         sourceViewController = source
         self.sourceObject = sourceObject
         self.presentationOrigin = presentationOrigin
         self.presentationDirection = presentationDirection
         self.presentationOffset = presentationOffset
         self.presentationBackground = presentationBackground
-        self.presentationIsInteractive = presentationIsInteractive
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
+
         backgroundView.gestureRecognizers = [UITapGestureRecognizer(target: self, action: #selector(handleBackgroundViewTapped(_:)))]
+
+        if adjustHeightForKeyboard {
+            NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillChangeFrame), name: UIApplication.keyboardWillChangeFrameNotification, object: nil)
+        }
     }
 
     // Workaround to get Voiceover to ignore the view behind the drawer.
@@ -40,8 +43,8 @@ class MSDrawerPresentationController: UIPresentationController {
     private lazy var accessibilityContainer: UIView = {
         let view = UIView()
         view.accessibilityViewIsModal = true
-        view.layer.mask = CALayer()
-        view.layer.mask?.backgroundColor = UIColor.white.cgColor
+        view.mask = UIView()
+        view.mask?.backgroundColor = .white
         return view
     }()
     // A transparent view, which if tapped will dismiss the dropdown
@@ -63,6 +66,7 @@ class MSDrawerPresentationController: UIPresentationController {
         view.isUserInteractionEnabled = false
         return view
     }()
+    // `contentView` contains content in majority of cases with 2 exceptions: after horizontal presentations and in non-animated presentations. `containerView` contains everything directly or indirectly, in some cases (2 cases described above) it will also contain content (but use `contentView` for layout information).
     private lazy var contentView = UIView()
     // Shadow behind presented view (cannot be done on presented view itself because it's masked)
     private lazy var shadowView: DrawerShadowView = {
@@ -81,23 +85,27 @@ class MSDrawerPresentationController: UIPresentationController {
         accessibilityContainer.addSubview(backgroundView)
         backgroundView.fitIntoSuperview()
         backgroundView.addSubview(dimmingView)
-        dimmingView.frame = frameForDimmingView(in: backgroundView.bounds)
-        accessibilityContainer.layer.mask?.frame = dimmingView.frame
 
         accessibilityContainer.addSubview(contentView)
-        contentView.frame = frameForContentView()
+
+        if presentationDirection.isVertical && actualPresentationOffset == 0 {
+            containerView?.addSubview(separator)
+        }
+
+        updateLayout()
+
         contentView.addSubview(shadowView)
         shadowView.owner = presentedViewController.view
         // In non-animated presentations presented view will be force-placed into containerView by UIKit
         // For animated presentations presented view must be inside contentView to not slide over navigation bar/toolbar
         if presentingViewController.transitionCoordinator?.isAnimated == true {
+            // Avoiding content animation due to showing of the keyboard (when presented view contains the first responder)
+            presentedViewController.view.frame = contentView.bounds
+            presentedViewController.view.layoutIfNeeded()
+
             contentView.addSubview(presentedViewController.view)
         }
-
-        if presentationDirection.isVertical && actualPresentationOffset == 0 {
-            containerView?.addSubview(separator)
-            separator.frame = frameForSeparator(in: contentView.frame, withThickness: separator.height)
-        }
+        setPresentedViewMask()
 
         backgroundView.alpha = 0.0
         presentingViewController.transitionCoordinator?.animate(alongsideTransition: { _ in
@@ -107,6 +115,11 @@ class MSDrawerPresentationController: UIPresentationController {
 
     override func presentationTransitionDidEnd(_ completed: Bool) {
         if completed {
+            // Horizontally presented drawers must be inside containerView in order for device rotation animation to work correctly
+            if presentationDirection.isHorizontal {
+                containerView?.addSubview(presentedViewController.view)
+                presentedViewController.view.frame = frameOfPresentedViewInContainerView
+            }
             UIAccessibility.post(notification: .screenChanged, argument: contentView)
             UIAccessibility.post(notification: .announcement, argument: "Accessibility.Alert".localized)
         } else {
@@ -119,14 +132,14 @@ class MSDrawerPresentationController: UIPresentationController {
 
     override func dismissalTransitionWillBegin() {
         // For animated presentations presented view must be inside contentView to not slide over navigation bar/toolbar
-        if presentingViewController.transitionCoordinator?.isAnimated == true {
+        if let transitionCoordinator = presentingViewController.transitionCoordinator, transitionCoordinator.isAnimated == true {
             contentView.addSubview(presentedViewController.view)
             presentedViewController.view.frame = contentView.bounds
-        }
 
-        presentingViewController.transitionCoordinator?.animate(alongsideTransition: { _ in
-            self.backgroundView.alpha = 0.0
-        })
+            transitionCoordinator.animate(alongsideTransition: { _ in
+                self.backgroundView.alpha = 0.0
+            })
+        }
     }
 
     override func dismissalTransitionDidEnd(_ completed: Bool) {
@@ -156,29 +169,31 @@ class MSDrawerPresentationController: UIPresentationController {
         }
         return 0
     }
-    private lazy var actualPresentationOrigin: CGFloat = {
+    private var actualPresentationOrigin: CGFloat {
         if let presentationOrigin = presentationOrigin {
             return presentationOrigin
         }
+
+        let containerBounds = containerView?.bounds ?? UIScreen.main.bounds
         switch presentationDirection {
         case .down:
             var controller = sourceViewController
             while let navigationController = controller.navigationController {
                 let navigationBar = navigationController.navigationBar
                 if !navigationBar.isHidden, let navigationBarParent = navigationBar.superview {
-                    return navigationBarParent.convert(navigationBar.frame, to: nil).maxY
+                    return navigationBarParent.convert(navigationBar.frame, to: containerView).maxY
                 }
                 controller = navigationController
             }
-            return UIScreen.main.bounds.minY
+            return containerBounds.minY
         case .up:
-            return UIScreen.main.bounds.maxY
+            return containerBounds.maxY
         case .fromLeading:
-            return UIScreen.main.bounds.minX
+            return containerBounds.minX
         case .fromTrailing:
-            return UIScreen.main.bounds.maxX
+            return containerBounds.maxX
         }
-    }()
+    }
     private var extraContentSize: CGFloat = 0
     private var safeAreaPresentationOffset: CGFloat {
         guard let containerView = containerView else {
@@ -191,7 +206,7 @@ class MSDrawerPresentationController: UIPresentationController {
             }
         case .up:
             if actualPresentationOrigin == containerView.bounds.maxY {
-                return containerView.safeAreaInsets.bottom
+                return containerView.safeAreaInsets.bottom + keyboardHeight
             }
         case .fromLeading:
             if actualPresentationOrigin == containerView.bounds.minX {
@@ -204,18 +219,23 @@ class MSDrawerPresentationController: UIPresentationController {
         }
         return 0
     }
+    private var keyboardHeight: CGFloat = 0 {
+        didSet {
+            if keyboardHeight != oldValue {
+                updateContentViewFrame(animated: true, animationDuration: keyboardAnimationDuration)
+                separator.isHidden = keyboardHeight != 0
+            }
+        }
+    }
+    private var keyboardAnimationDuration: Double?
 
     private var isUpdatingContentViewFrame: Bool = false
 
     override func containerViewWillLayoutSubviews() {
         super.containerViewWillLayoutSubviews()
+        updateLayout()
         // In non-animated presentations presented view will be force-placed into containerView by UIKit after separator thus hiding it
         containerView?.bringSubviewToFront(separator)
-    }
-
-    override func containerViewDidLayoutSubviews() {
-        super.containerViewDidLayoutSubviews()
-        setPresentedViewMask()
     }
 
     func setExtraContentSize(_ extraContentSize: CGFloat, updatingLayout updateLayout: Bool = true, animated: Bool = false) {
@@ -228,7 +248,7 @@ class MSDrawerPresentationController: UIPresentationController {
         }
     }
 
-    func updateContentViewFrame(animated: Bool) {
+    func updateContentViewFrame(animated: Bool, animationDuration: TimeInterval? = nil) {
         if isUpdatingContentViewFrame {
             return
         }
@@ -237,17 +257,13 @@ class MSDrawerPresentationController: UIPresentationController {
         let newFrame = frameForContentView()
         if animated {
             let sizeChange = presentationDirection.isVertical ? newFrame.height - contentView.height : newFrame.width - contentView.width
-            let animationDuration = MSDrawerTransitionAnimator.animationDuration(forSizeChange: sizeChange)
+            let animationDuration = animationDuration ?? MSDrawerTransitionAnimator.animationDuration(forSizeChange: sizeChange)
             UIView.animate(withDuration: animationDuration, delay: 0, options: [.layoutSubviews], animations: {
                 self.setContentViewFrame(newFrame)
-                self.animatePresentedViewMask(withDuration: animationDuration)
-
                 self.isUpdatingContentViewFrame = false
             })
         } else {
             setContentViewFrame(newFrame)
-            setPresentedViewMask()
-
             isUpdatingContentViewFrame = false
         }
     }
@@ -257,6 +273,16 @@ class MSDrawerPresentationController: UIPresentationController {
         if let presentedView = presentedView, presentedView.superview == containerView {
             presentedView.frame = frameOfPresentedViewInContainerView
         }
+        if separator.superview != nil {
+            separator.frame = frameForSeparator(in: contentView.frame, withThickness: separator.height)
+        }
+    }
+
+    private func updateLayout() {
+        dimmingView.frame = frameForDimmingView(in: backgroundView.bounds)
+        accessibilityContainer.mask?.frame = dimmingView.frame
+
+        setContentViewFrame(frameForContentView())
     }
 
     private func frameForDimmingView(in bounds: CGRect) -> CGRect {
@@ -287,7 +313,7 @@ class MSDrawerPresentationController: UIPresentationController {
             if contentSize.width == 0 || traitCollection.horizontalSizeClass == .compact {
                 contentSize.width = contentFrame.width
             }
-            if actualPresentationOffset == 0 {
+            if actualPresentationOffset == 0 && (presentationDirection == .down || keyboardHeight == 0) {
                 contentSize.height += safeAreaPresentationOffset
             }
             contentSize.height = min(contentSize.height, contentFrame.height)
@@ -335,6 +361,9 @@ class MSDrawerPresentationController: UIPresentationController {
         case .up:
             margins.top = max(Constants.minVerticalMargin, containerView.safeAreaInsets.top)
             margins.bottom = presentationOffsetMargin
+            if actualPresentationOffset == 0 && keyboardHeight > 0 {
+                margins.bottom += safeAreaPresentationOffset
+            }
         case .fromLeading:
             margins.left = presentationOffsetMargin
             margins.right = max(Constants.minHorizontalMargin, containerView.safeAreaInsets.right)
@@ -346,6 +375,12 @@ class MSDrawerPresentationController: UIPresentationController {
     }
 
     private func frameForSeparator(in bounds: CGRect, withThickness thickness: CGFloat) -> CGRect {
+        var bounds = bounds
+        // Separator should stay fixed even when content view is moving - compensating for move
+        if extraContentSize < 0 && extraContentSizeEffectWhenCollapsing == .move {
+            bounds.origin.y += presentationDirection == .down ? -extraContentSize : extraContentSize
+        }
+
         return CGRect(
             x: bounds.minX,
             y: presentationDirection == .down ? bounds.minY : bounds.maxY - thickness,
@@ -357,58 +392,53 @@ class MSDrawerPresentationController: UIPresentationController {
     // MARK: Presented View Mask
 
     private func setPresentedViewMask() {
-        // No change of mask when it's being animated
-        guard let presentedView = presentedView, !(presentedView.layer.mask?.isAnimating ?? false) else {
-            return
-        }
-        // TODO: use layer.maskedCorners
-        let roundedCorners: UIRectCorner
+        let maskedCorners: CACornerMask
         if actualPresentationOffset == 0 {
             switch presentationDirection {
             case .down:
-                roundedCorners = [.bottomLeft, .bottomRight]
+                maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
             case .up:
-                roundedCorners = [.topLeft, .topRight]
+                maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
             case .fromLeading, .fromTrailing:
-                roundedCorners = []
+                maskedCorners = []
             }
         } else {
-            roundedCorners = .allCorners
+            maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         }
-        presentedView.layer.mask = presentedView.layer(withRoundedCorners: roundedCorners, radius: Constants.cornerRadius)
+
+        presentedView?.layer.masksToBounds = true
+        presentedView?.layer.maskedCorners = maskedCorners
+        presentedView?.layer.cornerRadius = Constants.cornerRadius
     }
 
     private func removePresentedViewMask() {
-        presentedView?.layer.mask = nil
-    }
-
-    private func animatePresentedViewMask(withDuration duration: TimeInterval) {
-        guard let presentedView = presentedView else {
-            return
-        }
-
-        let oldMaskPath = (presentedView.layer.mask as? CAShapeLayer)?.path
-        shadowView.animate(withDuration: duration) {
-            setPresentedViewMask()
-        }
-
-        guard let presentedViewMask = presentedView.layer.mask as? CAShapeLayer else {
-            return
-        }
-
-        let animation = CABasicAnimation(keyPath: #keyPath(CAShapeLayer.path))
-        animation.fromValue = oldMaskPath
-        animation.duration = duration
-        // To match default timing function used in UIView.animate
-        animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-
-        presentedViewMask.add(animation, forKey: animation.keyPath)
+        presentedView?.layer.maskedCorners = []
     }
 
     // MARK: Actions
 
     @objc private func handleBackgroundViewTapped(_ recognizer: UITapGestureRecognizer) {
         presentingViewController.dismiss(animated: true)
+    }
+
+    @objc private func handleKeyboardWillChangeFrame(notification: Notification) {
+        guard let containerView = containerView, let notificationInfo = notification.userInfo else {
+            return
+        }
+
+        let isLocalNotification = (notificationInfo[UIResponder.keyboardIsLocalUserInfoKey] as? NSNumber)?.boolValue
+        if isLocalNotification == false {
+            return
+        }
+
+        guard var keyboardFrame = (notificationInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+            return
+        }
+
+        keyboardAnimationDuration = (notificationInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue
+
+        keyboardFrame = containerView.convert(keyboardFrame, from: nil)
+        keyboardHeight = max(0, containerView.bounds.maxY - containerView.safeAreaInsets.bottom - keyboardFrame.minY)
     }
 }
 

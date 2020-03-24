@@ -24,19 +24,25 @@ class DemoController: UIViewController {
     let container: UIStackView = createVerticalContainer()
     let scrollingContainer = MSScrollView(frame: .zero)
 
+    var allowsContentToScroll: Bool { return true }
+
     func createButton(title: String, action: Selector) -> MSButton {
         let button = MSButton()
-        button.titleLabel?.lineBreakMode = .byTruncatingTail
+        button.titleLabel?.textAlignment = .center
+        button.titleLabel?.numberOfLines = 0
         button.setTitle(title, for: .normal)
         button.addTarget(self, action: action, for: .touchUpInside)
         return button
     }
 
-    func addDescription(text: String) {
+    @discardableResult
+    func addDescription(text: String, textAlignment: NSTextAlignment = .natural) -> MSLabel {
         let description = MSLabel(style: .subhead, colorStyle: .regular)
         description.numberOfLines = 0
         description.text = text
+        description.textAlignment = textAlignment
         container.addArrangedSubview(description)
+        return description
     }
 
     func addTitle(text: String) {
@@ -46,10 +52,10 @@ class DemoController: UIViewController {
         container.addArrangedSubview(titleLabel)
     }
 
-    func addRow(text: String = "", items: [UIView], textStyle: MSTextStyle = .subhead, textWidth: CGFloat = rowTextWidth, itemSpacing: CGFloat = horizontalSpacing, stretchItems: Bool = false) {
+    func addRow(text: String = "", items: [UIView], textStyle: MSTextStyle = .subhead, textWidth: CGFloat = rowTextWidth, itemSpacing: CGFloat = horizontalSpacing, stretchItems: Bool = false, centerItems: Bool = false) {
         let itemsContainer = UIStackView()
         itemsContainer.axis = .vertical
-        itemsContainer.alignment = stretchItems ? .fill : .leading
+        itemsContainer.alignment = stretchItems ? .fill : (centerItems ? .center : .leading)
 
         let itemRow = UIStackView()
         itemRow.axis = .horizontal
@@ -69,22 +75,45 @@ class DemoController: UIViewController {
         container.addArrangedSubview(itemsContainer)
     }
 
-    func showMessage(_ message: String) {
+    func showMessage(_ message: String, autoDismiss: Bool = true, completion: (() -> Void)? = nil) {
         let alert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
         present(alert, animated: true)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.dismiss(animated: true)
+
+        if autoDismiss {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.dismiss(animated: true)
+            }
+        } else {
+            let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+                self.dismiss(animated: true, completion: completion)
+            }
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+            alert.addAction(okAction)
+            alert.addAction(cancelAction)
         }
+
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = MSColors.background1
 
-        view.addSubview(scrollingContainer)
-        scrollingContainer.fitIntoSuperview()
-        scrollingContainer.addSubview(container)
-        // UIScrollView in RTL mode still have leading on the left side, so we cannot rely on leading/trailing-based constraints
-        container.fitIntoSuperview(usingConstraints: true, usingLeadingTrailing: false, autoHeight: true)
+        if allowsContentToScroll {
+            view.addSubview(scrollingContainer)
+            scrollingContainer.translatesAutoresizingMaskIntoConstraints = true
+            scrollingContainer.frame = view.bounds
+            scrollingContainer.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            container.translatesAutoresizingMaskIntoConstraints = false
+            scrollingContainer.addSubview(container)
+            // UIScrollView in RTL mode still have leading on the left side, so we cannot rely on leading/trailing-based constraints
+            NSLayoutConstraint.activate([container.topAnchor.constraint(equalTo: scrollingContainer.topAnchor),
+                                         container.bottomAnchor.constraint(equalTo: scrollingContainer.bottomAnchor),
+                                         container.leftAnchor.constraint(equalTo: scrollingContainer.leftAnchor),
+                                         container.widthAnchor.constraint(equalTo: scrollingContainer.widthAnchor)])
+        } else {
+            view.addSubview(container)
+            container.frame = view.bounds
+            container.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        }
     }
 }

@@ -44,6 +44,8 @@ extension MSButtonStyle {
             return "Primary outline"
         case .secondaryOutline:
             return "Secondary outline"
+        case .tertiaryOutline:
+            return "Tertiary outline"
         case .borderless:
             return "Borderless"
         }

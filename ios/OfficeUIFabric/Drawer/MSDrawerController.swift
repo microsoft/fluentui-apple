@@ -167,6 +167,24 @@ open class MSDrawerController: UIViewController {
     @objc open var presentationBackground: MSDrawerPresentationBackground = .black
 
     /**
+     Set `presentingGesture` before calling `present` to provide a gesture recognizer that resulted in the presentation of the drawer and to allow this presentation to be interactive.
+
+     Only supported for a horizontal presentation direction.
+     */
+    @objc open var presentingGesture: UIPanGestureRecognizer? {
+        didSet {
+            if !presentationDirection.isHorizontal {
+                presentingGesture = nil
+            }
+            if presentingGesture == oldValue {
+                return
+            }
+            oldValue?.removeTarget(self, action: #selector(handlePresentingPan))
+            presentingGesture?.addTarget(self, action: #selector(handlePresentingPan))
+        }
+    }
+
+    /**
      When `resizingBehavior` is not `.none` a user can resize the drawer by tapping and dragging any area that does not handle this gesture itself. For example, if `contentController` constains a `UINavigationController`, a user can tap and drag navigation bar to resize the drawer.
 
      By resizing a drawer a user can switch between several predefined states:
@@ -197,16 +215,22 @@ open class MSDrawerController: UIViewController {
             if presentationDirection.isHorizontal || isExpanded == oldValue {
                 return
             }
-            isExpandedBeingChanged = true
             if isExpanded {
+                normalDrawerHeight = isResizing ? originalDrawerHeight : view.height
                 normalPreferredContentHeight = super.preferredContentSize.height
-                preferredContentSize.height = UIScreen.main.bounds.height
-            } else {
-                preferredContentSize.height = normalPreferredContentHeight
             }
-            isExpandedBeingChanged = false
+            updatePreferredContentSize(isExpanded: isExpanded)
+
+            updateResizingHandleViewAccessibility()
+            UIAccessibility.post(notification: .layoutChanged, argument: nil)
         }
     }
+    /**
+     Set `adjustsHeightForKeyboard` to `true` to allow drawer to adjust its height when keyboard is shown or hidden, so that drawer's content is always visible.
+
+     Supported only when drawer is presented as a slideover with the `.up` presentation direction.
+     */
+    @objc open var adjustsHeightForKeyboard: Bool = false
 
     /// Use `permittedArrowDirections` to specify the direction of the popover arrow for popover presentation on iPad.
     @objc open var permittedArrowDirections: UIPopoverArrowDirection = .any
@@ -243,7 +267,7 @@ open class MSDrawerController: UIViewController {
         }
         set {
             var newValue = newValue
-            if isExpanded && !isExpandedBeingChanged {
+            if isExpanded && !isPreferredContentSizeBeingChangedInternally {
                 normalPreferredContentHeight = newValue.height
                 newValue.height = preferredContentSize.height
             }
@@ -292,7 +316,8 @@ open class MSDrawerController: UIViewController {
     private let presentationOrigin: CGFloat?
     private let presentationDirection: MSDrawerPresentationDirection
 
-    private var isExpandedBeingChanged: Bool = false
+    private var isPreferredContentSizeBeingChangedInternally: Bool = false
+    private var normalDrawerHeight: CGFloat = 0
     private var normalPreferredContentHeight: CGFloat = -1
 
     private let containerView: UIStackView = {
@@ -368,6 +393,9 @@ open class MSDrawerController: UIViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = MSColors.Drawer.background
+        if #available(iOS 13.0, *) {
+            view.layer.cornerCurve = .continuous
+        }
         view.isAccessibilityElement = false
 
         containerView.translatesAutoresizingMaskIntoConstraints = false
@@ -416,6 +444,7 @@ open class MSDrawerController: UIViewController {
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if isBeingDismissed {
+            resizingGestureRecognizer = nil
             willDismiss()
         }
     }
@@ -429,9 +458,18 @@ open class MSDrawerController: UIViewController {
 
     open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        if !isBeingPresented && presentationController is MSDrawerPresentationController {
-            // The top offset is no longer accurate, and we cannot recalculate
+        if !isBeingPresented && presentationController is MSDrawerPresentationController &&
+            (presentationDirection.isVertical || presentationOrigin != nil) {
             presentingViewController?.dismiss(animated: false)
+        }
+    }
+
+    open override func preferredContentSizeDidChange(forChildContentContainer container: UIContentContainer) {
+        super.preferredContentSizeDidChange(forChildContentContainer: container)
+        updateContainerViewBottomConstraint()
+        if presentingViewController != nil {
+            (presentationController as? MSDrawerPresentationController)?.updateContentViewFrame(animated: true)
+            (presentationController as? UIPopoverPresentationController)?.preferredContentSizeDidChange(forChildContentContainer: self)
         }
     }
 
@@ -472,6 +510,55 @@ open class MSDrawerController: UIViewController {
         containerViewBottomConstraint?.isActive = !tracksContentHeight
     }
 
+    private func updatePreferredContentSize(isExpanded: Bool) {
+        isPreferredContentSizeBeingChangedInternally = true
+        if isExpanded {
+            preferredContentSize.height = UIScreen.main.bounds.height
+        } else {
+            preferredContentSize.height = normalPreferredContentHeight
+        }
+        isPreferredContentSizeBeingChangedInternally = false
+    }
+
+    // MARK: Interactive presentation
+
+    private var interactiveTransition: UIPercentDrivenInteractiveTransition? {
+        didSet {
+            interactiveTransition?.completionCurve = MSDrawerTransitionAnimator.animationCurve
+        }
+    }
+
+    @objc private func handlePresentingPan(gesture: UIPanGestureRecognizer) {
+        guard let presentedView = presentationController?.presentedView else {
+            return
+        }
+
+        var offset = gesture.translation(in: gesture.view).x
+        if presentationDirection(for: view) == .fromTrailing {
+            offset = -offset
+        }
+        let maxOffset = MSDrawerTransitionAnimator.sizeChange(forPresentedView: presentedView, presentationDirection: presentationDirection)
+
+        let percent = max(0, min(offset / maxOffset, 1))
+
+        switch gesture.state {
+        case .began, .changed:
+            interactiveTransition?.update(percent)
+        case .ended:
+            if percent < 0.5 {
+                interactiveTransition?.cancel()
+            } else {
+                interactiveTransition?.finish()
+            }
+            interactiveTransition = nil
+        case .cancelled:
+            interactiveTransition?.cancel()
+            interactiveTransition = nil
+        default:
+            break
+        }
+    }
+
     // MARK: Resizing
 
     private var canResize: Bool {
@@ -479,6 +566,9 @@ open class MSDrawerController: UIViewController {
     }
     private var showsResizingHandle: Bool {
         return canResize && presentationDirection.isVertical
+    }
+    private var resizingHandleIsInteractive: Bool {
+        return resizingBehavior == .dismissOrExpand
     }
 
     private var canResizeViaContentScrolling: Bool {
@@ -489,6 +579,7 @@ open class MSDrawerController: UIViewController {
         didSet {
             oldValue?.removeFromSuperview()
             if let newView = resizingHandleView {
+                initResizingHandleView()
                 if presentationDirection == .down {
                     containerView.addArrangedSubview(newView)
                 } else {
@@ -500,11 +591,15 @@ open class MSDrawerController: UIViewController {
     private var resizingGestureRecognizer: UIPanGestureRecognizer? {
         didSet {
             if let oldRecognizer = oldValue {
-                view.removeGestureRecognizer(oldRecognizer)
+                oldRecognizer.view?.removeGestureRecognizer(oldRecognizer)
             }
             if let newRecognizer = resizingGestureRecognizer {
                 newRecognizer.delegate = self
-                view.addGestureRecognizer(newRecognizer)
+                if presentationDirection.isHorizontal {
+                    presentationController?.containerView?.addGestureRecognizer(newRecognizer)
+                } else {
+                    view.addGestureRecognizer(newRecognizer)
+                }
             }
         }
     }
@@ -517,7 +612,28 @@ open class MSDrawerController: UIViewController {
 
     private var originalContentOffsetY: CGFloat?
     private var originalDrawerOffsetY: CGFloat = 0
+    private var originalDrawerHeight: CGFloat = 0
     private var originalShowsContentScrollIndicator: Bool = true
+
+    private func initResizingHandleView() {
+        if resizingHandleIsInteractive {
+            resizingHandleView?.isUserInteractionEnabled = true
+            resizingHandleView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleResizingHandleViewTap)))
+        }
+        updateResizingHandleViewAccessibility()
+    }
+
+    private func updateResizingHandleViewAccessibility() {
+        resizingHandleView?.isAccessibilityElement = resizingHandleIsInteractive
+        resizingHandleView?.accessibilityTraits = .button
+        if isExpanded {
+            resizingHandleView?.accessibilityLabel = "Accessibility.Drawer.ResizingHandle.Label.Collapse".localized
+            resizingHandleView?.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Collapse".localized
+        } else {
+            resizingHandleView?.accessibilityLabel = "Accessibility.Drawer.ResizingHandle.Label.Expand".localized
+            resizingHandleView?.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Expand".localized
+        }
+    }
 
     private func offset(forResizingGesture gesture: UIPanGestureRecognizer) -> CGFloat {
         let presentationDirection = self.presentationDirection(for: view)
@@ -568,7 +684,7 @@ open class MSDrawerController: UIViewController {
             fatalError("MSDrawerController cannot handle resizing without MSDrawerPresentationController")
         }
 
-        let offset = self.offset(forResizingGesture: gesture)
+        var offset = self.offset(forResizingGesture: gesture)
 
         switch gesture.state {
         case .began, .changed:
@@ -576,7 +692,20 @@ open class MSDrawerController: UIViewController {
                 isResizing = true
                 presentationController.extraContentSizeEffectWhenCollapsing = isExpanded ? .resize : .move
                 originalDrawerOffsetY = view.convert(view.bounds.origin, to: nil).y
+                originalDrawerHeight = view.height
                 initOriginalContentOffsetYIfNeeded()
+            }
+            if isExpanded {
+                let extraContentSizeEffect: MSDrawerPresentationController.ExtraContentSizeEffect = originalDrawerHeight + offset <= normalDrawerHeight ? .move : .resize
+                if extraContentSizeEffect == .move {
+                    offset += originalDrawerHeight - normalDrawerHeight
+                }
+                if presentationController.extraContentSizeEffectWhenCollapsing != extraContentSizeEffect {
+                    presentationController.extraContentSizeEffectWhenCollapsing = extraContentSizeEffect
+                    // When switching to .move, view has to pick up safe area insets and this requires it to be aligned with the screen edge and so offset has to be 0 at this point
+                    presentationController.setExtraContentSize(extraContentSizeEffect == .move ? 0 : offset, updatingLayout: false)
+                    updatePreferredContentSize(isExpanded: extraContentSizeEffect == .resize)
+                }
             }
             presentationController.setExtraContentSize(offset)
         case .ended:
@@ -590,9 +719,13 @@ open class MSDrawerController: UIViewController {
                 }
             } else if offset <= -Constants.resizingThreshold {
                 if isExpanded {
-                    presentationController.setExtraContentSize(0, updatingLayout: false)
-                    isExpanded = false
-                    delegate?.drawerControllerDidChangeExpandedState?(self)
+                    if originalDrawerHeight + offset <= normalDrawerHeight - Constants.resizingThreshold {
+                        presentingViewController?.dismiss(animated: true)
+                    } else {
+                        presentationController.setExtraContentSize(0, updatingLayout: false)
+                        isExpanded = false
+                        delegate?.drawerControllerDidChangeExpandedState?(self)
+                    }
                 } else {
                     presentingViewController?.dismiss(animated: true)
                 }
@@ -643,6 +776,10 @@ open class MSDrawerController: UIViewController {
             break
         }
     }
+
+    @objc private func handleResizingHandleViewTap() {
+        isExpanded = !isExpanded
+    }
 }
 
 // MARK: - MSDrawerController: UIViewControllerTransitioningDelegate
@@ -662,10 +799,18 @@ extension MSDrawerController: UIViewControllerTransitioningDelegate {
         return nil
     }
 
+    public func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        guard let gesture = presentingGesture, gesture.state == .began || gesture.state == .changed else {
+            return nil
+        }
+        interactiveTransition = UIPercentDrivenInteractiveTransition()
+        return interactiveTransition
+    }
+
     public func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         switch presentationStyle(for: source) {
         case .slideover:
-            return MSDrawerPresentationController(presentedViewController: presented, presenting: presenting, source: source, sourceObject: sourceView ?? barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection(for: source.view), presentationOffset: presentationOffset, presentationBackground: presentationBackground, presentationIsInteractive: resizingBehavior != .none)
+            return MSDrawerPresentationController(presentedViewController: presented, presenting: presenting, source: source, sourceObject: sourceView ?? barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection(for: source.view), presentationOffset: presentationOffset, presentationBackground: presentationBackground, adjustHeightForKeyboard: adjustsHeightForKeyboard)
         case .popover:
             let presentationController = UIPopoverPresentationController(presentedViewController: presented, presenting: presenting)
             presentationController.backgroundColor = MSColors.Drawer.background

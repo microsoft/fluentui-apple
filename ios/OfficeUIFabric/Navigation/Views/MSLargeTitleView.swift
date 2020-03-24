@@ -25,6 +25,7 @@ class MSLargeTitleView: UIView {
 
     var avatar: MSAvatar? {
         didSet {
+            updateProfileButtonVisibility()
             [avatarView, smallMorphingAvatarView].forEach { $0?.setup(avatar: avatar) }
         }
     }
@@ -95,7 +96,14 @@ class MSLargeTitleView: UIView {
 
     private var showsProfileButton: Bool = true { // whether to display the customizable profile button
         didSet {
-            avatarView?.isHidden = showsProfileButton == false
+            avatarView?.isHidden = !showsProfileButton
+            smallMorphingAvatarView?.isHidden = !showsProfileButton
+        }
+    }
+
+    private var hasLeftBarButtonItems: Bool = false {
+        didSet {
+            updateProfileButtonVisibility()
         }
     }
 
@@ -164,6 +172,10 @@ class MSLargeTitleView: UIView {
         // tap gesture for entire titleView
         tapGesture.addTarget(self, action: #selector(MSLargeTitleView.handleTitleViewTapped(sender:)))
         addGestureRecognizer(tapGesture)
+
+        if #available(iOS 13, *) {
+            titleButton.showsLargeContentViewer = true
+        }
     }
 
     // Declares animation closures used for title expansion/contraction
@@ -251,10 +263,15 @@ class MSLargeTitleView: UIView {
 
     // MARK: - Content Update Methods
 
+    private func updateProfileButtonVisibility() {
+        showsProfileButton = !hasLeftBarButtonItems && avatar != nil
+    }
+
     /// Sets the interface with the provided item's details
     ///
     /// - Parameter navigationItem: instance of UINavigationItem providing inteface information
     func update(with navigationItem: UINavigationItem) {
+        hasLeftBarButtonItems = !(navigationItem.leftBarButtonItems?.isEmpty ?? true)
         titleButton.setTitle(navigationItem.title, for: .normal)
     }
 

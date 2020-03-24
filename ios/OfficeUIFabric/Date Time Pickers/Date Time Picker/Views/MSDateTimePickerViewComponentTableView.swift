@@ -9,6 +9,14 @@ import UIKit
 
 /// TableView representing the component view of MSDateTimePickerViewComponent (should be used only by MSDateTimePickerViewComponent and not instantiated on its own)
 class MSDateTimePickerViewComponentTableView: UITableView {
+    override var frame: CGRect {
+        didSet {
+            // Adjust content inset so that first and last cells can be centered
+            let inset = round((height - MSDateTimePickerViewComponentCell.idealHeight) / 2)
+            contentInset = UIEdgeInsets(top: inset, left: 0, bottom: inset, right: 0)
+        }
+    }
+
     weak var accessibilityDelegate: AccessibleTableViewDelegate?
     private var accessibilityMiddleIndexPath: IndexPath?
 
@@ -56,14 +64,6 @@ class MSDateTimePickerViewComponentTableView: UITableView {
         let minOffsetY = CGFloat(numberOfRows(inSection: 0)) * cellHeight >= height ? -contentInset.top : -.infinity
         let offsetY = max(min(CGFloat(indexPath.row) * cellHeight - viewOffsetY, maxOffsetY), minOffsetY)
         setContentOffset(CGPoint(x: 0, y: offsetY), animated: animated)
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        // Adjust content inset so that first and last cells can be centered
-        let inset = round((height - MSDateTimePickerViewComponentCell.idealHeight) / 2)
-        contentInset = UIEdgeInsets(top: inset, left: 0, bottom: inset, right: 0)
     }
 }
 

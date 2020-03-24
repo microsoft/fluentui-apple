@@ -228,6 +228,9 @@ open class MSBadgeView: UIView {
         super.init(frame: .zero)
 
         backgroundView.layer.cornerRadius = Constants.backgroundCornerRadius
+        if #available(iOS 13.0, *) {
+            backgroundView.layer.cornerCurve = .continuous
+        }
         addSubview(backgroundView)
         updateBackgroundColor()
 

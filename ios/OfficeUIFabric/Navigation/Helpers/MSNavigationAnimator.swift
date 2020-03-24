@@ -91,7 +91,7 @@ class MSNavigationAnimator: UIPercentDrivenInteractiveTransition, UIViewControll
 
         transitions.forEach {
             containerView.addSubview($0.view)
-            $0.view.frame = $0.fromFrame
+            $0.view.frame = containerView.flipRectForRTL($0.fromFrame)
         }
         // Bring navigation bar upfront if it has a shadow (displayed outside of navigation bar's bounds)
         if let navigationBar = navigationController?.navigationBar, navigationBar.shadowImage == nil {
@@ -107,7 +107,12 @@ class MSNavigationAnimator: UIPercentDrivenInteractiveTransition, UIViewControll
 
         UIView.animate(
             withDuration: transitionDuration,
-            animations: { transitions.forEach { $0.view.frame = $0.toFrame; $0.customAnimation?() } },
+            animations: {
+                transitions.forEach {
+                    $0.view.frame = containerView.flipRectForRTL($0.toFrame)
+                    $0.customAnimation?()
+                }
+            },
             completion: { _ in
                 transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
                 transitions.forEach {
@@ -149,9 +154,13 @@ class MSNavigationAnimator: UIPercentDrivenInteractiveTransition, UIViewControll
         shadowSubview.backgroundColor = topView.backgroundColor
         shadowSubview.autoresizingMask = [.flexibleHeight]
         shadowSubview.layer.shadowOffset = CGSize(width: -Constants.shadowWidth, height: 0)
-        shadowSubview.layer.shadowPath = CGPath(rect: CGRect(origin: .zero, size: CGSize(width: Constants.shadowWidth, height: frame.height)), transform: nil)
         shadowSubview.layer.shadowOpacity = Constants.shadowOpacity
         topView.addSubview(shadowSubview)
+        shadowSubview.flipForRTL()
+        if shadowSubview.effectiveUserInterfaceLayoutDirection == .rightToLeft {
+            shadowSubview.autoresizingMask.insert(.flexibleLeftMargin)
+            shadowSubview.layer.shadowOffset.width *= -1
+        }
 
         let bottomView = operation == .push ? fromBgView : toBgView
         bottomView.layer.zPosition = -1

@@ -12,11 +12,19 @@ class MSDrawerTransitionAnimator: NSObject {
         static let animationDurationMin: TimeInterval = 0.15
         static let animationDurationMax: TimeInterval = 0.25
         static let animationSpeed: CGFloat = 1300   // pixels per second
+        static let animationCurve: UIView.AnimationOptions = .curveEaseOut
+        static let animationCurveInteractive: UIView.AnimationOptions = .curveLinear
     }
+
+    static let animationCurve: UIView.AnimationCurve = .easeOut
 
     static func animationDuration(forSizeChange change: CGFloat) -> TimeInterval {
         let duration = TimeInterval(abs(change) / Constants.animationSpeed)
         return max(Constants.animationDurationMin, min(duration, Constants.animationDurationMax))
+    }
+
+    static func sizeChange(forPresentedView presentedView: UIView, presentationDirection: MSDrawerPresentationDirection) -> CGFloat {
+        return presentationDirection.isVertical ? presentedView.height : presentedView.width
     }
 
     let presenting: Bool
@@ -33,9 +41,13 @@ class MSDrawerTransitionAnimator: NSObject {
         let contentView = presentedView.superview!
 
         presentedView.frame = presentedViewRectDismissed(forContentSize: contentView.bounds.size)
-        let sizeChange = presentationDirection.isVertical ? presentedView.height : presentedView.width
+        let sizeChange = Self.sizeChange(forPresentedView: presentedView, presentationDirection: presentationDirection)
         let animationDuration = MSDrawerTransitionAnimator.animationDuration(forSizeChange: sizeChange)
-        UIView.animate(withDuration: animationDuration, delay: 0, options: [.beginFromCurrentState, .curveEaseOut], animations: {
+        let options: UIView.AnimationOptions = [
+            .beginFromCurrentState,
+            transitionContext.isInteractive ? Constants.animationCurveInteractive : Constants.animationCurve
+        ]
+        UIView.animate(withDuration: animationDuration, delay: 0, options: options, animations: {
             presentedView.frame = self.presentedViewRectPresented(forContentSize: presentedView.frame.size)
         }, completion: completion)
     }
@@ -43,9 +55,9 @@ class MSDrawerTransitionAnimator: NSObject {
     private func dismissWithTransitionContext(_ transitionContext: UIViewControllerContextTransitioning, completion: @escaping ((Bool) -> Void)) {
         let presentedView = transitionContext.view(forKey: UITransitionContextViewKey.from)!
 
-        let sizeChange = presentationDirection.isVertical ? presentedView.height : presentedView.width
+        let sizeChange = Self.sizeChange(forPresentedView: presentedView, presentationDirection: presentationDirection)
         let animationDuration = MSDrawerTransitionAnimator.animationDuration(forSizeChange: sizeChange)
-        UIView.animate(withDuration: animationDuration, delay: 0.0, options: [.beginFromCurrentState, .curveEaseOut], animations: {
+        UIView.animate(withDuration: animationDuration, delay: 0.0, options: [.beginFromCurrentState, Constants.animationCurve], animations: {
             presentedView.frame = self.presentedViewRectDismissed(forContentSize: presentedView.frame.size)
         }, completion: completion)
     }
@@ -82,7 +94,7 @@ extension MSDrawerTransitionAnimator: UIViewControllerAnimatedTransitioning {
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         if presenting {
             presentWithTransitionContext(transitionContext) { finished in
-                transitionContext.completeTransition(finished)
+                transitionContext.completeTransition(finished && !transitionContext.transitionWasCancelled)
             }
         } else {
             dismissWithTransitionContext(transitionContext) { finished in

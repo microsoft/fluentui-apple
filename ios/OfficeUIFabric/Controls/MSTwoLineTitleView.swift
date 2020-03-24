@@ -160,6 +160,12 @@ open class MSTwoLineTitleView: UIView {
 
         titleButton.accessibilityTraits = [.staticText, .header]
         subtitleButton.accessibilityTraits = [.staticText, .header]
+
+        if #available(iOS 13, *) {
+            addInteraction(UILargeContentViewerInteraction())
+            titleButtonLabel.showsLargeContentViewer = true
+            subtitleButtonLabel.showsLargeContentViewer = true
+        }
     }
 
     public required init?(coder aDecoder: NSCoder) {

@@ -11,6 +11,7 @@ class MSNotificationViewDemoController: DemoController {
         case primaryToastWithImageAndTitle
         case neutralToast
         case primaryBar
+        case primaryOutlineBar
         case neutralBar
 
         var displayText: String {
@@ -23,6 +24,8 @@ class MSNotificationViewDemoController: DemoController {
                 return "Neutral Toast"
             case .primaryBar:
                 return "Primary Bar"
+            case .primaryOutlineBar:
+                return "Primary Outline Bar"
             case .neutralBar:
                 return "Neutral Bar"
             }
@@ -30,7 +33,7 @@ class MSNotificationViewDemoController: DemoController {
 
         var delayForHiding: TimeInterval {
             switch self {
-            case .primaryToast, .primaryBar, .neutralBar:
+            case .primaryToast, .primaryBar, .primaryOutlineBar, .neutralBar:
                 return 2
             default:
                 return .infinity
@@ -65,6 +68,8 @@ class MSNotificationViewDemoController: DemoController {
             view.setup(style: .neutralToast, message: "Some items require you to sign in to view them", actionTitle: "Sign in", action: { [unowned self] in self.showMessage("`Sign in` tapped") })
         case .primaryBar:
             view.setup(style: .primaryBar, message: "Updating...")
+        case .primaryOutlineBar:
+            view.setup(style: .primaryOutlineBar, message: "Mail Sent")
         case .neutralBar:
             view.setup(style: .neutralBar, message: "No internet connection")
         }
