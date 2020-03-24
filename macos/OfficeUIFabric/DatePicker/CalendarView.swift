@@ -1,5 +1,6 @@
 //
-// Copyright Microsoft Corporation
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
 //
 
 import AppKit
@@ -30,52 +31,26 @@ class CalendarView: NSView {
 	init() {
 		super.init(frame: .zero)
 		
-		wantsLayer = true
 		translatesAutoresizingMaskIntoConstraints = false
 		
-		// Main vertical stack view that holds the rows
-		let calendarStackView = NSStackView()
-		calendarStackView.wantsLayer = true
-		calendarStackView.translatesAutoresizingMaskIntoConstraints = false
-		calendarStackView.orientation = .vertical
-		calendarStackView.distribution = .fillEqually
-		calendarStackView.spacing = Constants.rowSpacing
-		
-		addSubview(calendarStackView)
-		
-		var constraints: [NSLayoutConstraint] = []
-		
-		// One horizontal stack view of CalendarDayButtons per each row
-		for row in 0..<Constants.rows {
-			let weekStackView = NSStackView()
-			weekStackView.wantsLayer = true
-			weekStackView.translatesAutoresizingMaskIntoConstraints = false
-			weekStackView.orientation = .horizontal
-			weekStackView.distribution = .equalCentering
-			weekStackView.spacing = Constants.columnSpacing
-			
-			for column in 0..<Constants.columns {
-				weekStackView.addView(buttonViews[column + row * Constants.columns], in: .center)
-			}
-			
-			calendarStackView.addView(weekStackView, in: .center)
-			constraints.append(weekStackView.leadingAnchor.constraint(equalTo: calendarStackView.leadingAnchor))
-			constraints.append(weekStackView.trailingAnchor.constraint(equalTo: calendarStackView.trailingAnchor))
+		let buttonViewMatrix: [[NSView]] = (0..<Constants.rows).map { row in
+			Array(buttonViews[row * Constants.columns..<row * Constants.columns + Constants.columns])
 		}
 		
-		constraints += [
-			calendarStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-			calendarStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-			calendarStackView.topAnchor.constraint(equalTo: self.topAnchor),
-			calendarStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-		]
+		let gridView = NSGridView(views: buttonViewMatrix)
+		gridView.translatesAutoresizingMaskIntoConstraints = false
+		gridView.rowSpacing = Constants.rowSpacing
+		gridView.columnSpacing = Constants.columnSpacing
+		gridView.setContentHuggingPriority(.required, for: .vertical)
+		gridView.setContentHuggingPriority(.required, for: .horizontal)
+		addSubview(gridView)
 		
-		NSLayoutConstraint.activate(constraints)
-		
-		setContentHuggingPriority(.required, for: .vertical)
-		setContentHuggingPriority(.required, for: .horizontal)
-		setContentCompressionResistancePriority(.required, for: .vertical)
-		setContentCompressionResistancePriority(.required, for: .horizontal)
+		NSLayoutConstraint.activate([
+			gridView.leadingAnchor.constraint(equalTo: leadingAnchor),
+			gridView.trailingAnchor.constraint(equalTo: trailingAnchor),
+			gridView.topAnchor.constraint(equalTo: topAnchor),
+			gridView.bottomAnchor.constraint(equalTo: bottomAnchor)
+		])
 		
 		buttonViews.forEach {
 			$0.target = self
