@@ -1,5 +1,6 @@
 //
-// Copyright Microsoft Corporation
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
 //
 
 import AppKit
@@ -16,7 +17,7 @@ fileprivate struct Constants {
 	static let backgroundColor: NSColor = NSColor.white
 	
 	/// Duration of one page scroll animation
-	static let pageScrollAnimationDuration: Double = 0.15
+	static let pageScrollAnimationDuration: Double = 0.2
 	
 	/// Background color of the text date picker
 	static var textDatePickerBackgroundColor: NSColor {
@@ -61,17 +62,9 @@ class DatePickerView: NSView {
 		containerStackView.addView(monthClipView, in: .center)
 		containerStackView.addView(textDatePicker, in: .center)
 		
-		calendarStackView.translatesAutoresizingMaskIntoConstraints = false
-		calendarStackView.detachesHiddenViews = false
-		calendarStackView.orientation = .horizontal
-		calendarStackView.distribution = .fillEqually
-		calendarStackView.spacing = 0
-		calendarStackView.wantsLayer = true
-		calendarStackView.setViews([calendarViews.leading, calendarViews.center, calendarViews.trailing], in: .center)
-		
 		monthClipView.translatesAutoresizingMaskIntoConstraints = false
 		monthClipView.wantsLayer = true
-		monthClipView.addSubview(calendarStackView)
+		monthClipView.addSubview(calendarView)
 		
 		let padding = hasEdgePadding ? Constants.edgePadding : 0.0
 		containerStackView.edgeInsets = NSEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
@@ -80,28 +73,18 @@ class DatePickerView: NSView {
 		containerStackView.setCustomSpacing(Constants.calendarBottomMargin, after: monthClipView)
 		
 		NSLayoutConstraint.activate([
-			containerStackView.topAnchor.constraint(equalTo: self.topAnchor),
-			containerStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-			containerStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-			containerStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+			containerStackView.topAnchor.constraint(equalTo: topAnchor),
+			containerStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+			containerStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+			containerStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
 			
-			headerView.widthAnchor.constraint(equalTo: calendarViews.center.widthAnchor),
-			monthClipView.widthAnchor.constraint(equalTo: calendarViews.center.widthAnchor),
-			monthClipView.heightAnchor.constraint(equalTo: calendarViews.center.heightAnchor),
-			
-			calendarStackView.bottomAnchor.constraint(equalTo: monthClipView.bottomAnchor),
-			calendarStackView.topAnchor.constraint(equalTo: monthClipView.topAnchor),
-			calendarStackView.centerXAnchor.constraint(equalTo: monthClipView.centerXAnchor)
+			headerView.widthAnchor.constraint(equalTo: monthClipView.widthAnchor),
+			monthClipView.widthAnchor.constraint(equalTo: calendarView.widthAnchor),
+			monthClipView.heightAnchor.constraint(equalTo: calendarView.heightAnchor),
 		])
 		
 		headerView.delegate = self
-		
-		calendarViews.leading.delegate = self
-		calendarViews.center.delegate = self
-		calendarViews.trailing.delegate = self
-		
-		calendarViews.leading.isHidden = true
-		calendarViews.trailing.isHidden = true
+		calendarView.delegate = self
 		
 		textDatePicker.target = self
 		textDatePicker.action = #selector(onTextDatePickerChange)
@@ -124,32 +107,28 @@ class DatePickerView: NSView {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	/// Animates a scroll to the leading calendar view
+	/// Scrolls in the leading direction
 	func scrollToLeading() {
-		calendarViews.leading.isHidden = false
-		
 		if userInterfaceLayoutDirection == .leftToRight {
-			scrollLeft()
+			animateInDirection(.left)
 		} else {
-			scrollRight()
+			animateInDirection(.right)
 		}
 	}
 	
-	/// Animates a scroll to the trailing calendar view
+	/// Scrolls in the trailing direction
 	func scrollToTrailing() {
-		calendarViews.trailing.isHidden = false
-		
 		if userInterfaceLayoutDirection == .leftToRight {
-			scrollRight()
+			animateInDirection(.right)
 		} else {
-			scrollLeft()
+			animateInDirection(.left)
 		}
 	}
 	
 	/// Refreshes the date picker using the latest data from the dataSource
 	func refresh() {
 		updateHeader()
-		updateCalendarViews()
+		updateCalendarView()
 		updateHighlights()
 		updateTextDatePicker()
 	}
@@ -192,9 +171,7 @@ class DatePickerView: NSView {
 	/// - note: Setting this to nil results in using a default color
 	var customSelectionColor: NSColor? {
 		didSet {
-			[calendarViews.leading, calendarViews.center, calendarViews.trailing].forEach {
-				$0.customSelectionColor = customSelectionColor
-			}
+			calendarView.customSelectionColor = customSelectionColor
 		}
 	}
 	
@@ -237,17 +214,8 @@ class DatePickerView: NSView {
 	/// Internal storage of the view that clips calendarStackView to only show one month
 	private let monthClipView = NSView()
 	
-	/// Internal storage of the calendarViews
-	private var calendarViews = CalendarViewBuffer(leading: CalendarView(), center: CalendarView(), trailing: CalendarView()) {
-		didSet {
-			calendarViews.leading.isHidden = true
-			calendarViews.trailing.isHidden = true
-			calendarStackView.setViews([calendarViews.leading, calendarViews.center, calendarViews.trailing], in: .center)
-		}
-	}
-	
-	/// Internal storage of the stack view that holds the calendar views
-	private let calendarStackView = NSStackView()
+	/// Internal storage of the CalendarView
+	private var calendarView = CalendarView()
 	
 	/// Internal storage of the textual NSDatePicker
 	private let textDatePicker: NSDatePicker = {
@@ -287,29 +255,17 @@ class DatePickerView: NSView {
 		headerView.monthYearLabel.stringValue = dateFormatter.string(from: dataSource.visibleRange.first)
 	}
 	
-	/// Uses the data source to retrieve all the dates for the calendar views and displays them
-	private func updateCalendarViews() {
-		guard
-			let dataSource = dataSource,
-			let previousMonthDate = dataSource.datePicker(self, previousMonthFor: dataSource.visibleRange.first),
-			let nextMonthDate = dataSource.datePicker(self, nextMonthFor: dataSource.visibleRange.first)
-			else {
+	/// Uses the data source to retrieve all the dates for the calendar view and displays them
+	private func updateCalendarView() {
+		guard let dataSource = dataSource else {
 				return
 		}
-		
-		let prevMonthPaddedDates = dataSource.datePicker(self, paddedDaysFor: previousMonthDate)
-		calendarViews.leading.update(with: prevMonthPaddedDates)
-		
-		let currentMonthDayPaddedDates = dataSource.datePicker(self, paddedDaysFor: dataSource.visibleRange.first)
-		calendarViews.center.update(with: currentMonthDayPaddedDates)
-		
-		let nextMonthPaddedDates = dataSource.datePicker(self, paddedDaysFor: nextMonthDate)
-		calendarViews.trailing.update(with: nextMonthPaddedDates)
+		calendarView.update(with: dataSource.paddedDays)
 	}
 	
 	/// Updates the highlighted button in the center calendar view using the delegate
 	private func updateHighlights() {
-		let buttonViews = calendarViews.center.buttonViews
+		let buttonViews = calendarView.buttonViews
 		
 		for button in buttonViews {
 			button.state = delegate?.datePicker(self, shouldHighlightButton: button) ?? false ? .on : .off
@@ -329,78 +285,66 @@ class DatePickerView: NSView {
 			return
 		}
 		
-		textDatePicker.calendar = dataSource.calendar
-		textDatePicker.locale = dataSource.calendar.locale
+		if textDatePicker.calendar != dataSource.calendar {
+			textDatePicker.calendar = dataSource.calendar
+			textDatePicker.locale = dataSource.calendar.locale
+		}
+		
 		textDatePicker.dateValue = dataSource.selectedDateTime
 	}
 	
-	/// Animates a scroll to the calendar view on the right
-	private func scrollRight() {
-		let newOrigin = NSPoint(x: monthClipView.bounds.minX + monthClipView.bounds.width, y: 0)
-		scrollToPointAndRecenter(point: newOrigin, completionHandler: userInterfaceLayoutDirection == .leftToRight ? shiftToNextMonth : shiftToPreviousMonth)
-	}
-	
-	/// Animates a scroll to the calendar view on the left
-	private func scrollLeft() {
-		let newOrigin = NSPoint(x: monthClipView.bounds.minX - monthClipView.bounds.width, y: 0)
-		scrollToPointAndRecenter(point: newOrigin, completionHandler: userInterfaceLayoutDirection == .leftToRight ? shiftToPreviousMonth : shiftToNextMonth)
-	}
-	
-	/// Scrolls the monthClipView bounds rectangle to the given point, resets its origin to .zero immediately afterwards, and calls the completion handler
-	/// - Parameters:
-	///   - point: The point that the clip view will animate to.
-	///   - completionHandler: The handler that is called after the clip view recenters.
-	private func scrollToPointAndRecenter(point: NSPoint, completionHandler: @escaping () -> ()) {
+	/// Animates to the current month in the given direction.
+	/// Note: Changing the direction param does not affect what month will be shown in the new CalendarView.
+	/// 	This method just gets the days that should currently be visible from the datasource,
+	/// 	creates a new CalendarView with these days on the side given by the direction param
+	/// 	and animates to it.
+	/// - Parameter direction: The direction to animate to.
+	private func animateInDirection(_ direction: AnimationDirection) {
+		guard let dataSource = dataSource else {
+			assertionFailure("dataSource should be non-nil at this point.")
+			return
+		}
+		updateHeader()
+		
 		isAnimating = true
+		let scrollOffset: CGFloat
+		switch direction {
+		case .left:
+			scrollOffset = -calendarView.frame.width
+		case .right:
+			scrollOffset = calendarView.frame.width
+		}
+		
+		let nextCalendarView = CalendarView()
+		nextCalendarView.delegate = self
+		nextCalendarView.customSelectionColor = customSelectionColor
+		nextCalendarView.frame = calendarView.frame
+		nextCalendarView.frame.origin.x += scrollOffset
+		nextCalendarView.update(with: dataSource.paddedDays)
+		monthClipView.addSubview(nextCalendarView)
 		
 		NSAnimationContext.runAnimationGroup({ context in
-			context.duration = Constants.pageScrollAnimationDuration
-			monthClipView.animator().setBoundsOrigin(point)
+			if NSWorkspace.shared.accessibilityDisplayShouldReduceMotion {
+				context.duration = 0.0
+			} else {
+				context.duration = Constants.pageScrollAnimationDuration
+			}
+			monthClipView.animator().bounds.origin.x += scrollOffset
 		}, completionHandler: {
-			self.isAnimating = false
 			self.monthClipView.bounds.origin = .zero
-			completionHandler()
+			self.calendarView.removeFromSuperview()
+			self.calendarView = nextCalendarView
+			self.calendarView.frame.origin.x = .zero
+			self.monthClipView.widthAnchor.constraint(equalTo: self.calendarView.widthAnchor).isActive = true
+			self.monthClipView.heightAnchor.constraint(equalTo: self.calendarView.heightAnchor).isActive = true
+			self.updateSelection()
+			self.isAnimating = false
 		})
 	}
 	
-	/// Rearranges the calendar views and reinitializes one of them to display the next month
-	private func shiftToNextMonth() {
-		guard let dataSource = dataSource else {
-			return
-		}
-		
-		// Shift center view to leading, trailing to center, and reuse the leading as the new trailing
-		calendarViews = CalendarViewBuffer(leading: calendarViews.center, center: calendarViews.trailing, trailing: calendarViews.leading)
-		
-		let nextMonth = dataSource.datePicker(self, nextMonthFor: dataSource.visibleRange.first) ?? dataSource.visibleRange.first
-		let paddedDates = dataSource.datePicker(self, paddedDaysFor: nextMonth)
-		
-		calendarViews.trailing.update(with: paddedDates)
-		updateHeader()
-		updateSelection()
-	}
-	
-	/// Rearranges the calendar views and reinitializes one of them to display the previous month
-	private func shiftToPreviousMonth() {
-		guard let dataSource = dataSource else {
-			return
-		}
-		
-		// Shift leading calendar view to center, center to trailing, and reuse the trailing as the new leading
-		calendarViews = CalendarViewBuffer(leading: calendarViews.trailing, center: calendarViews.leading, trailing: calendarViews.center)
-		
-		let prevMonth = dataSource.datePicker(self, previousMonthFor: dataSource.visibleRange.first) ?? dataSource.visibleRange.first
-		let paddedDates = dataSource.datePicker(self, paddedDaysFor: prevMonth)
-		
-		calendarViews.leading.update(with: paddedDates)
-		updateHeader()
-		updateSelection()
-	}
-	
-	private struct CalendarViewBuffer {
-		var leading: CalendarView
-		var center: CalendarView
-		var trailing: CalendarView
+	private enum AnimationDirection {
+		case left
+		case right
 	}
 	
 	// Undo this restriction after localization pipeline is set up.
@@ -431,11 +375,13 @@ extension DatePickerView: CalendarHeaderViewDelegate {
 	///   - calendarHeader: The header view that the button is in.
 	///   - button: The button that was pressed.
 	func calendarHeaderView(_ calendarHeader: CalendarHeaderView, didPressLeading button: NSButton) {
-		guard !isAnimating else {
-			return
+		if isAnimating {
+			completePagingAnimation(completionHandler: {
+				self.delegate?.datePickerDidPressPrevious(self)
+			})
+		} else {
+			delegate?.datePickerDidPressPrevious(self)
 		}
-		
-		delegate?.datePicker(self, didPressPrevious: button)
 	}
 	
 	/// Passes a trailing header button press down to the delegate if the view is not animating
@@ -444,11 +390,24 @@ extension DatePickerView: CalendarHeaderViewDelegate {
 	///   - calendarHeader: The header view that the button is in.
 	///   - button: The button that was pressed.
 	func calendarHeaderView(_ calendarHeader: CalendarHeaderView, didPressTrailing button: NSButton) {
-		guard !isAnimating else {
-			return
+		if isAnimating {
+			completePagingAnimation(completionHandler: {
+				self.delegate?.datePickerDidPressNext(self)
+			})
+		} else {
+			delegate?.datePickerDidPressNext(self)
 		}
-		
-		delegate?.datePicker(self, didPressNext: button)
+	}
+	
+	/// Completes the ongoing paging animation and executes the given completion handler.
+	/// - Parameter completionHandler: The closure to be called after the current animation completes.
+	private func completePagingAnimation(completionHandler: @escaping () -> Void) {
+		// Using a 0-duration animation to cancel the in-flight property animation.
+		// See NSAnimatablePropertyContainer docs for details.
+		NSAnimationContext.runAnimationGroup({ context in
+			context.duration = 0.0
+			monthClipView.animator().bounds.origin = .zero
+		}, completionHandler: completionHandler)
 	}
 }
 
@@ -472,15 +431,13 @@ protocol DatePickerViewDelegate: class {
 	///
 	/// - Parameters:
 	///   - datePicker: The date picker that sent the message.
-	///   - button: The button that was pressed.
-	func datePicker(_ datePicker: DatePickerView, didPressNext button: NSButton)
+	func datePickerDidPressNext(_ datePicker: DatePickerView)
 	
 	/// Tells the delegate that the previous month button was pressed.
 	///
 	/// - Parameters:
 	///   - datePicker: The date picker that sent the message.
-	///   - button: The button that was pressed.
-	func datePicker(_ datePicker: DatePickerView, didPressPrevious button: NSButton)
+	func datePickerDidPressPrevious(_ datePicker: DatePickerView)
 	
 	/// Asks the delegate whether a given calendar day button should be highlighted.
 	///
@@ -498,9 +455,9 @@ extension DatePickerViewDelegate {
 	
 	func datePicker(_ datePicker: DatePickerView, didSelectDateTime date: Date) {}
 	
-	func datePicker(_ datePicker: DatePickerView, didPressNext button: NSButton) {}
+	func datePickerDidPressNext(_ datePicker: DatePickerView) {}
 	
-	func datePicker(_ datePicker: DatePickerView, didPressPrevious button: NSButton) {}
+	func datePickerDidPressPrevious(_ datePicker: DatePickerView) {}
 	
 	func datePicker(_ datePicker: DatePickerView, shouldHighlightButton button: CalendarDayButton) -> Bool {
 		return false
@@ -518,6 +475,9 @@ protocol DatePickerViewDataSource: class {
 	/// Currently visible date range
 	var visibleRange: (first: Date, last: Date) { get }
 	
+	/// All current month days, possibly padded by days from the previous and next month to align with the calendar grid
+	var paddedDays: PaddedCalendarDays { get }
+	
 	/// Calendar that's currently being used
 	var calendar: Calendar { get }
 	
@@ -526,28 +486,4 @@ protocol DatePickerViewDataSource: class {
 	
 	/// List of long weekday labels in the order to be displayed
 	var longWeekdays: [String] { get }
-	
-	/// Asks the data source for the padded dates given a month
-	///
-	/// - Parameters:
-	///   - datePicker: The date picker that sent the message.
-	///   - month: The month.
-	/// - Returns: Padded dates for the given month
-	func datePicker(_ datePicker: DatePickerView, paddedDaysFor month: Date) -> PaddedCalendarDays
-	
-	/// Asks the data source for a date that is one month in the past from the given date
-	///
-	/// - Parameters:
-	///   - datePicker: The date picker that sent the message.
-	///   - date: The given date.
-	/// - Returns: A date that is one month in the past.
-	func datePicker(_ datePicker: DatePickerView, previousMonthFor date: Date) -> Date?
-	
-	/// Asks the data source for a date that is one month in the future from the given date
-	///
-	/// - Parameters:
-	///   - datePicker: The date picker that sent the message.
-	///   - date: The given date.
-	/// - Returns: A date that is one month in the future.
-	func datePicker(_ datePicker: DatePickerView, nextMonthFor date: Date) -> Date?
 }

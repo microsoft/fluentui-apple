@@ -1,5 +1,6 @@
 //
-//  Copyright Microsoft Corporation
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
 //
 
 import XCTest
@@ -16,108 +17,6 @@ class DatePickerControllerTests: XCTestCase {
 		
 		calendar = Calendar(identifier: .gregorian)
 		calendar.locale = Locale(identifier: "en_US")
-	}
-	
-	func testMonthIncrementing () {
-		let controller = DatePickerController(calendar: calendar, style: .dateTime)
-		
-		guard let datePickerView = controller.view as? DatePickerView else {
-			return
-		}
-		
-		// Simple month increment
-		var components1 = DateComponents(year: 1994, month: 5, day: 11)
-		var components2 = DateComponents(year: 1994, month: 6, day: 11)
-		
-		var date1 = calendar.date(from: components1)!
-		var date2 = calendar.date(from: components2)!
-		
-		XCTAssertEqual(controller.datePicker(datePickerView, nextMonthFor: date1), date2)
-		
-		// First date has a day that doesn't exit in the next month
-		components1 = DateComponents(year: 2019, month: 1, day: 31)
-		components2 = DateComponents(year: 2019, month: 2, day: 28)
-		
-		date1 = calendar.date(from: components1)!
-		date2 = calendar.date(from: components2)!
-		
-		XCTAssertEqual(controller.datePicker(datePickerView, nextMonthFor: date1), date2)
-		
-		components1 = DateComponents(year: 2019, month: 3, day: 31)
-		components2 = DateComponents(year: 2019, month: 4, day: 30)
-		
-		date1 = calendar.date(from: components1)!
-		date2 = calendar.date(from: components2)!
-		
-		XCTAssertEqual(controller.datePicker(datePickerView, nextMonthFor: date1), date2)
-		
-		// Edge cases
-		components1 = DateComponents(year: 2019, month: 4, day: 30)
-		components2 = DateComponents(year: 2019, month: 5, day: 30)
-		
-		date1 = calendar.date(from: components1)!
-		date2 = calendar.date(from: components2)!
-		
-		XCTAssertEqual(controller.datePicker(datePickerView, nextMonthFor: date1), date2)
-		
-		components1 = DateComponents(year: 2019, month: 1, day: 1)
-		components2 = DateComponents(year: 2019, month: 2, day: 1)
-		
-		date1 = calendar.date(from: components1)!
-		date2 = calendar.date(from: components2)!
-		
-		XCTAssertEqual(controller.datePicker(datePickerView, nextMonthFor: date1), date2)
-	}
-	
-	func testMonthDecrementing () {
-		let controller = DatePickerController(calendar: calendar, style: .dateTime)
-		
-		guard let datePickerView = controller.view as? DatePickerView else {
-			return
-		}
-		
-		// Simple month decrement
-		var components1 = DateComponents(year: 1994, month: 6, day: 11)
-		var components2 = DateComponents(year: 1994, month: 5, day: 11)
-		
-		var date1 = calendar.date(from: components1)!
-		var date2 = calendar.date(from: components2)!
-		
-		XCTAssertEqual(controller.datePicker(datePickerView, previousMonthFor: date1), date2)
-		
-		// First date has a day that doesn't exit in the previous month
-		components1 = DateComponents(year: 2019, month: 3, day: 31)
-		components2 = DateComponents(year: 2019, month: 2, day: 28)
-		
-		date1 = calendar.date(from: components1)!
-		date2 = calendar.date(from: components2)!
-		
-		XCTAssertEqual(controller.datePicker(datePickerView, previousMonthFor: date1), date2)
-		
-		components1 = DateComponents(year: 2019, month: 5, day: 31)
-		components2 = DateComponents(year: 2019, month: 4, day: 30)
-		
-		date1 = calendar.date(from: components1)!
-		date2 = calendar.date(from: components2)!
-		
-		XCTAssertEqual(controller.datePicker(datePickerView, previousMonthFor: date1), date2)
-		
-		// Edge cases
-		components1 = DateComponents(year: 2019, month: 4, day: 30)
-		components2 = DateComponents(year: 2019, month: 3, day: 30)
-		
-		date1 = calendar.date(from: components1)!
-		date2 = calendar.date(from: components2)!
-		
-		XCTAssertEqual(controller.datePicker(datePickerView, previousMonthFor: date1), date2)
-		
-		components1 = DateComponents(year: 2019, month: 2, day: 1)
-		components2 = DateComponents(year: 2019, month: 1, day: 1)
-		
-		date1 = calendar.date(from: components1)!
-		date2 = calendar.date(from: components2)!
-		
-		XCTAssertEqual(controller.datePicker(datePickerView, previousMonthFor: date1), date2)
 	}
 	
 	func testWeekdays () {
@@ -146,14 +45,11 @@ class DatePickerControllerTests: XCTestCase {
 	func testPaddedDays () {
 		var controller = DatePickerController(calendar: calendar, style: .dateTime)
 		
-		guard let datePickerView = controller.view as? DatePickerView else {
-			return
-		}
-		
 		let components = DateComponents(year: 2019, month: 5, day: 11)
 		let date = calendar.date(from: components)!
+		controller.date = date
 		
-		var paddedDays = controller.datePicker(datePickerView, paddedDaysFor: date)
+		var paddedDays = controller.paddedDays
 		
 		// Date counts for May 2019 should be 3 + 31 + 8 = 42
 		XCTAssertEqual(paddedDays.previousMonthDays.count, 3)
@@ -187,8 +83,9 @@ class DatePickerControllerTests: XCTestCase {
 		// Padded dates should change based on the locale (sk_SK week starts on a sunday, so the calendar grid will be shifted)
 		calendar.locale = Locale(identifier: "sk_SK")
 		controller = DatePickerController(calendar: calendar, style: .dateTime)
+		controller.date = date
 		
-		paddedDays = controller.datePicker(datePickerView, paddedDaysFor: date)
+		paddedDays = controller.paddedDays
 		
 		// Date counts for May 2019 should be 2 + 31 + 9 = 42
 		XCTAssertEqual(paddedDays.previousMonthDays.count, 2)
@@ -298,10 +195,6 @@ class DatePickerControllerTests: XCTestCase {
 	func testChineseSecondaryCalendar () {
 		let controller = DatePickerController(calendar: calendar, style: .dateTime)
 		
-		guard let datePickerView = controller.view as? DatePickerView else {
-			return
-		}
-				
 		// Chinese lunar calendar with zh locale
 		var chineseCalendar = Calendar(identifier: .chinese)
 		chineseCalendar.locale = Locale(identifier: "zh")
@@ -310,8 +203,9 @@ class DatePickerControllerTests: XCTestCase {
 		
 		let components = DateComponents(year: 2019, month: 5, day: 11)
 		let date = calendar.date(from: components)!
+		controller.date = date
 		
-		let days = controller.datePicker(datePickerView, paddedDaysFor: date)
+		let days = controller.paddedDays
 		
 		// All days should have a secondary label
 		[days.previousMonthDays, days.currentMonthDays, days.nextMonthDays].joined().forEach {
@@ -331,7 +225,7 @@ class DatePickerControllerTests: XCTestCase {
 		
 		controller.secondaryCalendar = chineseCalendarUSLocale
 		
-		let days2 = controller.datePicker(datePickerView, paddedDaysFor: date)
+		let days2 = controller.paddedDays
 		
 		// All days should have a secondary label
 		[days2.previousMonthDays, days2.currentMonthDays, days2.nextMonthDays].joined().forEach {
