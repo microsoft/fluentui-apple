@@ -1,5 +1,6 @@
 //
-// Copyright Microsoft Corporation
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
 //
 
 import AppKit
@@ -20,12 +21,18 @@ class CalendarDayButton: NSButton {
 	init(size: CGFloat, day: CalendarDay?) {
 		self.size = size
 		self.day = day ?? CalendarDay(date: Date(), primaryLabel: "", accessibilityLabel: "", secondaryLabel: nil)
+		dualMode = self.day.secondaryLabel != nil
+		upperLabel = NSTextField(labelWithString: self.day.primaryLabel)
 		
 		let frame = NSRect.init(x: 0, y: 0, width: size, height: size)
 		super.init(frame: frame)
 		
 		wantsLayer = true
 		setButtonType(.onOff)
+		
+		// Setting title to an empty string to ensure the placeholder is not displayed (happens on High Sierra).
+		// We use our own labels instead (upperLabel and lowerLabel).
+		title = ""
 		
 		// Needed to support .compositingFilter on the highlightLayer
 		layerUsesCoreImageFilters = true
@@ -48,44 +55,21 @@ class CalendarDayButton: NSButton {
 		// This only seems to be necessary when presented in an NSMenu
 		highlightLayer.zPosition = CGFloat(Float.greatestFiniteMagnitude)
 		
-		let upperLabelContainer = NSView()
-		let lowerLabelContainer = NSView()
+		upperLabel.translatesAutoresizingMaskIntoConstraints = false
+		addSubview(upperLabel)
 		
-		upperLabelContainer.translatesAutoresizingMaskIntoConstraints = false
-		lowerLabelContainer.translatesAutoresizingMaskIntoConstraints = false
-		
-		addSubview(centeredLabel)
-		upperLabelContainer.addSubview(upperLabel)
-		lowerLabelContainer.addSubview(lowerLabel)
-		
-		addSubview(upperLabelContainer)
-		addSubview(lowerLabelContainer)
-		
-		let constraints = [
+		NSLayoutConstraint.activate([
 			widthAnchor.constraint(equalToConstant: size),
 			heightAnchor.constraint(equalToConstant: size),
-			centeredLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-			centeredLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-			
-			upperLabelContainer.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.5),
-			upperLabelContainer.widthAnchor.constraint(equalTo: widthAnchor),
-			upperLabelContainer.topAnchor.constraint(equalTo: topAnchor, constant: CalendarDayButton.dualModeMargin),
-			
-			lowerLabelContainer.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.5),
-			lowerLabelContainer.widthAnchor.constraint(equalTo: widthAnchor),
-			lowerLabelContainer.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -CalendarDayButton.dualModeMargin),
-			
-			upperLabel.centerXAnchor.constraint(equalTo: upperLabelContainer.centerXAnchor),
-			upperLabel.centerYAnchor.constraint(equalTo: upperLabelContainer.centerYAnchor),
-			lowerLabel.centerXAnchor.constraint(equalTo: lowerLabelContainer.centerXAnchor),
-			lowerLabel.centerYAnchor.constraint(equalTo: lowerLabelContainer.centerYAnchor)
-		]
-		NSLayoutConstraint.activate(constraints)
+			upperLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
+		])
 		
 		if DatePickerView.accessibilityTemporarilyRestricted {
 			cell?.setAccessibilityElement(false)
 		}
 		setAccessibilityLabel(day?.accessibilityLabel)
+		
+		updateViewStyle()
 	}
 	
 	required init?(coder decoder: NSCoder) {
@@ -113,17 +97,13 @@ class CalendarDayButton: NSButton {
 			break
 		}
 		
-		centeredLabel.font = upperLabelFont
 		upperLabel.font = upperLabelFont
-		lowerLabel.font = lowerLabelFont
-
-		centeredLabel.textColor = upperLabelFontColor
 		upperLabel.textColor = upperLabelFontColor
-		lowerLabel.textColor = lowerLabelFontColor
-
-		centeredLabel.isHidden = dualMode
-		upperLabel.isHidden = !dualMode
-		lowerLabel.isHidden = !dualMode
+			
+		if dualMode, let lowerLabel = lowerLabel {
+			lowerLabel.font = lowerLabelFont
+			lowerLabel.textColor = lowerLabelFontColor
+		}
 	}
 	
 	override func viewDidChangeBackingProperties() {
@@ -159,12 +139,14 @@ class CalendarDayButton: NSButton {
 	/// The day that is being displayed
 	var day: CalendarDay {
 		didSet {
-			centeredLabel.stringValue = day.primaryLabel
 			upperLabel.stringValue = day.primaryLabel
-			
-			if let label = day.secondaryLabel {
-				lowerLabel.stringValue = label
+			if let secondaryLabel = day.secondaryLabel {
+				dualMode = true
+				lowerLabel?.stringValue = secondaryLabel
+			} else {
+				dualMode = false
 			}
+			
 			setAccessibilityLabel(day.accessibilityLabel)
 			needsDisplay = true
 		}
@@ -187,12 +169,49 @@ class CalendarDayButton: NSButton {
 		}
 	}
 	
+	/// Updates the layout depending on whether we are in dualMode or not
+	private func updateViewStyle() {
+		if dualMode {
+			upperLabelCenterYConstraint.isActive = false
+			upperLabelDualModeCenterYConstraint.isActive = true
+			
+			if let lowerLabel = lowerLabel {
+				assert(lowerLabel.superview != nil, "lowerLabel should be in the view hierarchy at this point.")
+				lowerLabel.isHidden = false
+			} else {
+				lowerLabel = NSTextField(labelWithString: day.secondaryLabel ?? "")
+				if let lowerLabel = lowerLabel {
+					lowerLabel.translatesAutoresizingMaskIntoConstraints = false
+					addSubview(lowerLabel)
+					lowerLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+					let lowerLabelConstraint = NSLayoutConstraint(item: lowerLabel,
+																  attribute: .centerY,
+																  relatedBy: .equal,
+																  toItem: self,
+																  attribute: .centerY,
+																  multiplier: CalendarDayButton.lowerHalfCenteringMultiplier,
+																  constant: -CalendarDayButton.dualModeMargin)
+					lowerLabelConstraint.isActive = true
+				}
+			}
+		} else {
+			upperLabelDualModeCenterYConstraint.isActive = false
+			upperLabelCenterYConstraint.isActive = true
+			lowerLabel?.isHidden = true
+		}
+	}
+	
 	/// Diameter of the button
 	private let size: CGFloat
 	
 	/// Indicates whether the button should display two labels
 	private var dualMode: Bool {
-		return day.secondaryLabel != nil
+		didSet {
+			guard dualMode != oldValue else {
+				return
+			}
+			updateViewStyle()
+		}
 	}
 	
 	/// Primary font size calculated relative to the button size
@@ -247,29 +266,25 @@ class CalendarDayButton: NSButton {
 		}
 	}
 	
-	/// Text field used to display the day label in single mode
-	private lazy var centeredLabel: NSTextField = {
-		var textField = NSTextField(labelWithString: "")
-		textField.wantsLayer = true
-		textField.translatesAutoresizingMaskIntoConstraints = false
-		return textField
-	}()
-	
-	/// Text field used to display the primary day label in dual mode
-	private lazy var upperLabel: NSTextField = {
-		var textField = NSTextField(labelWithString: "")
-		textField.wantsLayer = true
-		textField.translatesAutoresizingMaskIntoConstraints = false
-		return textField
-	}()
+	/// Text field used to display the primary day label in both dual and single calendar mode
+	private var upperLabel: NSTextField
 	
 	/// Text field used to display the secondary day label in dual mode
-	private lazy var lowerLabel: NSTextField = {
-		var textField = NSTextField(labelWithString: "")
-		textField.wantsLayer = true
-		textField.translatesAutoresizingMaskIntoConstraints = false
-		return textField
-	}()
+	private var lowerLabel: NSTextField?
+	
+	/// Constraint used for the upperLabel when dualMode == false
+	private lazy var upperLabelCenterYConstraint: NSLayoutConstraint =
+		upperLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
+	
+	/// Constraint used for the upperLabel when dualMode == true
+	private lazy var upperLabelDualModeCenterYConstraint: NSLayoutConstraint =
+		NSLayoutConstraint(item: upperLabel,
+						   attribute: .centerY,
+						   relatedBy: .equal,
+						   toItem: self,
+						   attribute: .centerY,
+						   multiplier: CalendarDayButton.upperHalfCenteringMultiplier,
+						   constant: CalendarDayButton.dualModeMargin)
 	
 	private var isDarkMode: Bool {
 		var isInDarkAppearance = false
@@ -295,6 +310,12 @@ class CalendarDayButton: NSButton {
 	
 	/// Top/Bottom margin for visual balance in dual mode
 	static let dualModeMargin: CGFloat = 1.75
+	
+	/// Multiplier for centering in the lower half of the view
+	static let lowerHalfCenteringMultiplier: CGFloat = 1.5
+	
+	/// Multiplier for centering in the upper half of the view
+	static let upperHalfCenteringMultiplier: CGFloat = 0.5
 }
 
 fileprivate extension NSColor {
