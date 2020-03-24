@@ -67,11 +67,9 @@ open class MSTabBarView: UIView {
 
     private let backgroundView: UIVisualEffectView = {
         var style = UIBlurEffect.Style.regular
-        #if swift(>=5.1)
         if #available(iOS 13, *) {
             style = .systemMaterial
         }
-        #endif
         return UIVisualEffectView(effect: UIBlurEffect(style: style))
     }()
 
@@ -110,11 +108,9 @@ open class MSTabBarView: UIView {
                                      topBorderLine.leadingAnchor.constraint(equalTo: leadingAnchor),
                                      topBorderLine.trailingAnchor.constraint(equalTo: trailingAnchor)])
 
-        #if swift(>=5.1)
         if #available(iOS 13, *) {
             addInteraction(UILargeContentViewerInteraction())
         }
-        #endif
 
         accessibilityTraits = .tabBar
         updateHeight()

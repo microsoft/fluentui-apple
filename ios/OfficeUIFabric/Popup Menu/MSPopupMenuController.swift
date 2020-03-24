@@ -15,6 +15,9 @@ import UIKit
 open class MSPopupMenuController: MSDrawerController {
     private struct Constants {
         static let minimumContentWidth: CGFloat = 250
+
+        static let descriptionHorizontalMargin: CGFloat = 16
+        static let descriptionVerticalMargin: CGFloat = 12
     }
 
     open override var contentView: UIView? { get { return super.contentView } set { } }
@@ -26,7 +29,12 @@ open class MSPopupMenuController: MSDrawerController {
     override var preferredContentWidth: CGFloat {
         var width = Constants.minimumContentWidth
         if let headerItem = headerItem {
-            width = max(width, MSPopupMenuItemCell.preferredWidth(for: headerItem, preservingSpaceForImage: false))
+            if !descriptionView.isHidden {
+                let size = descriptionView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+                width = max(width, size.width)
+            } else {
+                width = max(width, MSPopupMenuItemCell.preferredWidth(for: headerItem, preservingSpaceForImage: false))
+            }
         }
         for section in sections {
             width = max(width, MSPopupMenuSectionHeaderView.preferredWidth(for: section))
@@ -39,7 +47,12 @@ open class MSPopupMenuController: MSDrawerController {
     override var preferredContentHeight: CGFloat {
         var height: CGFloat = 0
         if let headerItem = headerItem {
-            height += MSPopupMenuItemCell.preferredHeight(for: headerItem)
+            if !descriptionView.isHidden {
+                let size = descriptionView.systemLayoutSizeFitting(CGSize(width: view.width, height: .infinity), withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
+                height += size.height
+            } else {
+                height += MSPopupMenuItemCell.preferredHeight(for: headerItem)
+            }
         }
         for section in sections {
             height += MSPopupMenuSectionHeaderView.preferredHeight(for: section)
@@ -51,13 +64,25 @@ open class MSPopupMenuController: MSDrawerController {
     }
     override var tracksContentHeight: Bool { return false }
 
-    /// Set `headerItem` to show a menu header. Header is not interactable and does not scroll.
+    /**
+     Set `headerItem` to show a menu header. If `subtitle` is present then a 2-line header will be shown. If only `title` is provided then a 1-line description will be presented. In this case a multi-line text is supported.
+
+     Header is not interactable and does not scroll.
+     */
     @objc open var headerItem: MSPopupMenuItem? {
         didSet {
+            descriptionView.isHidden = true
+            headerView.isHidden = true
             if let headerItem = headerItem {
-                headerView.setup(item: headerItem)
+                if headerItem.subtitle == nil {
+                    descriptionView.isHidden = false
+                    descriptionLabel.text = headerItem.title
+                    descriptionView.accessibilityLabel = headerItem.title
+                } else {
+                    headerView.isHidden = false
+                    headerView.setup(item: headerItem)
+                }
             }
-            headerView.isHidden = headerItem == nil
         }
     }
     /// Use `selectedItemIndexPath` to get or set the selected menu item instead of doing this via `MSPopupMenuItem` directly
@@ -90,9 +115,45 @@ open class MSPopupMenuController: MSDrawerController {
     private lazy var containerView: UIView = {
         let view = UIStackView()
         view.axis = .vertical
+        view.addArrangedSubview(descriptionView)
         view.addArrangedSubview(headerView)
         view.addArrangedSubview(tableView)
         return view
+    }()
+    private lazy var descriptionView: UIView = {
+        let view = UIView()
+        view.isAccessibilityElement = true
+        view.accessibilityTraits.insert(.header)
+        view.isHidden = true
+
+        view.addSubview(descriptionLabel)
+        descriptionLabel.fitIntoSuperview(
+            usingConstraints: true,
+            margins: UIEdgeInsets(
+                top: Constants.descriptionVerticalMargin,
+                left: Constants.descriptionHorizontalMargin,
+                bottom: Constants.descriptionVerticalMargin,
+                right: Constants.descriptionHorizontalMargin
+            )
+        )
+
+        let separator = MSSeparator()
+        view.addSubview(separator)
+        separator.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            separator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            separator.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            separator.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+
+        return view
+    }()
+    private let descriptionLabel: MSLabel = {
+        let label = MSLabel(style: .footnote)
+        label.textColor = MSColors.PopupMenu.description
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        return label
     }()
     private let headerView: MSPopupMenuItemCell = {
         let view = MSPopupMenuItemCell(frame: .zero)

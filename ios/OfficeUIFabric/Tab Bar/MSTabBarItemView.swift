@@ -71,14 +71,12 @@ class MSTabBarItemView: UIView {
         isAccessibilityElement = true
         accessibilityLabel = item.title
 
-        #if swift(>=5.1)
         if #available(iOS 13, *) {
             self.largeContentImage = item.largeContentImage ?? item.image
             largeContentTitle = accessibilityLabel
             showsLargeContentViewer = true
             scalesLargeContentImage = true
         }
-        #endif
 
         imageHeightConstraint = imageView.heightAnchor.constraint(equalToConstant: Constants.portraitImageSize)
         imageWidthConstraint = imageView.widthAnchor.constraint(equalToConstant: Constants.portraitImageSize)

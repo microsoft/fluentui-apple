@@ -6,7 +6,7 @@
 import UIKit
 
 /**
- `MSNotificationView` can be used to present a toast (`.primaryToast` and `.neutralToast` styles) or a notification bar (`.primaryBar` and `.neutralBar` styles) with information and actions at the bottom of the screen.
+ `MSNotificationView` can be used to present a toast (`.primaryToast` and `.neutralToast` styles) or a notification bar (`.primaryBar`, `.primaryOutlineBar`, and `.neutralBar` styles) with information and actions at the bottom of the screen.
 
  This view can be inserted into layout manually, if needed, or by using the `show` and `hide` methods which implement default presentation (with or without animation). Positioning is done using constraints.
 
@@ -23,6 +23,7 @@ open class MSNotificationView: UIView {
         case primaryToast
         case neutralToast
         case primaryBar
+        case primaryOutlineBar
         case neutralBar
 
         var isToast: Bool { self == .primaryToast || self == .neutralToast }
@@ -35,6 +36,8 @@ open class MSNotificationView: UIView {
                 return MSColors.Notification.NeutralToast.background
             case .primaryBar:
                 return MSColors.Notification.PrimaryBar.background
+            case .primaryOutlineBar:
+                return MSColors.Notification.PrimaryOutlineBar.background
             case .neutralBar:
                 return MSColors.Notification.NeutralBar.background
             }
@@ -47,6 +50,8 @@ open class MSNotificationView: UIView {
                 return MSColors.Notification.NeutralToast.foreground
             case .primaryBar:
                 return MSColors.Notification.PrimaryBar.foreground
+            case .primaryOutlineBar:
+                return MSColors.Notification.PrimaryOutlineBar.foreground
             case .neutralBar:
                 return MSColors.Notification.NeutralBar.foreground
             }
@@ -62,7 +67,7 @@ open class MSNotificationView: UIView {
         var animationDurationForHide: TimeInterval { return Constants.animationDurationForHide }
         var animationDampingRatio: CGFloat { return isToast ? Constants.animationDampingRatioForToast : 1 }
 
-        var needsSeparator: Bool { return !isToast }
+        var needsSeparator: Bool { return  self == .primaryOutlineBar }
         var supportsTitle: Bool { return isToast }
         var supportsImage: Bool { return isToast }
         var supportsAction: Bool { return isToast }
@@ -151,7 +156,6 @@ open class MSNotificationView: UIView {
         actionButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: Constants.horizontalSpacing, bottom: 0, right: Constants.horizontalPadding)
         actionButton.setContentCompressionResistancePriority(.required, for: .horizontal)
         actionButton.setContentHuggingPriority(.required, for: .horizontal)
-        actionButton.addTarget(self, action: #selector(handleActionButtonTap), for: .touchUpInside)
         return actionButton
     }()
     private let separator = MSSeparator(style: .shadow, orientation: .horizontal)
@@ -201,6 +205,8 @@ open class MSNotificationView: UIView {
         accessibilityElements = [container, actionButton]
 
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleMessageTap)))
+
+        actionButton.addTarget(self, action: #selector(handleActionButtonTap), for: .touchUpInside)
 
         messageLabelBoundsObservation = messageLabel.observe(\.bounds) { [unowned self] (_, _) in
             self.updateVerticalPadding()
@@ -258,16 +264,6 @@ open class MSNotificationView: UIView {
         updateAccessibility(title: title, message: message, hasMessageAction: messageAction != nil)
 
         return self
-    }
-
-    /// `setupAsBar` is used to initialize the view as a notification bar before showing.
-    /// - Parameters:
-    ///   - isPrimaryStyle: The style the defines presentation of the view. `.primaryBar` is used as a primary style or `.neutralBar` is used otherwise.
-    ///   - message: The message text that is shown in the center of the view.
-    ///  - Returns: Reference to this view that can be used for "chained" calling of `show`. Can be ignored.
-    @discardableResult
-    open func setupAsBar(withPrimaryStyle isPrimaryStyle: Bool, message: String) -> Self {
-        return setup(style: isPrimaryStyle ? .primaryBar : .neutralBar, message: message)
     }
 
     /// `show` is used to present the view inside a container view: insert into layout and show with optional animation. Constraints are used for the view positioning.
@@ -403,6 +399,9 @@ open class MSNotificationView: UIView {
     private func updateForStyle() {
         clipsToBounds = !style.needsSeparator
         layer.cornerRadius = style.cornerRadius
+        if #available(iOS 13.0, *) {
+            layer.cornerCurve = .continuous
+        }
         backgroundView.updateBackground(backgroundColor: style.backgroundColor)
         separator.isHidden = !style.needsSeparator
 

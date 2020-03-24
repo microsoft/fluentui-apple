@@ -14,7 +14,10 @@ public final class MSColors: NSObject {
     public static var primary = UIColor(light: primaryLight, dark: primaryDark)
     public static var primaryLight: UIColor = communicationBlueLight
     public static var primaryDark: UIColor = communicationBlueDark
+    public static var primaryHighContrast: UIColor = communicationBlueHighContrast
     public static var foregroundOnPrimary = UIColor(light: white, dark: black)
+    /// #0767B3
+    public static var darkPrimary: UIColor = #colorLiteral(red: 0.02745098039, green: 0.4039215686, blue: 0.7019607843, alpha: 1)   // TODO: update if needed after design is done
     /// #E1EFFA
     public static var lightPrimary: UIColor = #colorLiteral(red: 0.8823529412, green: 0.937254902, blue: 0.9803921569, alpha: 1)
     /// #F5FAFD - Primary with 4% opacity
@@ -108,10 +111,15 @@ public final class MSColors: NSObject {
 
     /// Used for hyperlinks
     public static let communicationBlue = UIColor(light: communicationBlueLight, dark: communicationBlueDark)
+    public static let communicationBlueHighContrast = UIColor(light: communicationBlueHighContrastLight, dark: communicationBlueHighContrastDark)
     /// #0078D4
     public static let communicationBlueLight: UIColor = #colorLiteral(red: 0, green: 0.4705882353, blue: 0.831372549, alpha: 1)
     /// #0086F0
     public static let communicationBlueDark: UIColor = #colorLiteral(red: 0, green: 0.5254901961, blue: 0.9411764706, alpha: 1)
+    /// #0063AD
+    public static let communicationBlueHighContrastLight: UIColor = #colorLiteral(red: 0, green: 0.3882352941, blue: 0.6784313725, alpha: 1)
+    /// #6CB8F6
+    public static let communicationBlueHighContrastDark: UIColor = #colorLiteral(red: 0.4235294118, green: 0.7215686275, blue: 0.9647058824, alpha: 1)
 
     // MARK: Base semantic
 
@@ -264,13 +272,17 @@ public final class MSColors: NSObject {
     public struct Notification {
         public struct PrimaryToast {
             public static var background = UIColor(light: primary.withAlphaComponent(0.2), dark: primary)
-            public static var foreground = UIColor(light: primary, dark: black)
+            public static var foreground = UIColor(light: primaryHighContrast, dark: black)
         }
         public struct NeutralToast {
             public static var background = UIColor(light: gray100, dark: gray600).withAlphaComponent(0.6)
             public static var foreground: UIColor = foreground1
         }
         public struct PrimaryBar {
+            public static var background: UIColor = PrimaryToast.background
+            public static var foreground: UIColor = PrimaryToast.foreground
+        }
+        public struct PrimaryOutlineBar {
             public static var background = UIColor(light: white, dark: gray600).withAlphaComponent(0.6)
             public static var foreground = UIColor(light: primary, dark: gray100)
         }
@@ -281,7 +293,7 @@ public final class MSColors: NSObject {
     }
 
     public struct NavigationBar {
-        public static var background: UIColor = background1c
+        public static var background = UIColor(light: white, dark: gray900)
         public static var tint: UIColor = BarButtonItem.secondary
         public static var title = UIColor(light: gray900, dark: white)
     }
@@ -292,7 +304,25 @@ public final class MSColors: NSObject {
         public static var pageIndicator: UIColor = white.withAlphaComponent(0.5)
     }
 
+    public struct PillButton {
+        public struct Outline {
+            public static var background = UIColor(light: black.withAlphaComponent(0.0), dark: black)
+            public static var title = UIColor(light: gray500, dark: gray200)
+            public static var backgroundSelected = UIColor(light: primary, dark: gray500)
+            public static var titleSelected: UIColor = white
+        }
+        public struct Filled {
+            public static var background = UIColor(light: black.withAlphaComponent(0.2), dark: Outline.background)
+            public static var title = UIColor(light: white, dark: Outline.title)
+            public static var backgroundSelected = UIColor(light: white, dark: Outline.backgroundSelected)
+            public static var titleSelected = UIColor(light: primary, dark: Outline.titleSelected)
+        }
+
+        public static var border: UIColor = MSColors.gray100
+    }
+
     public struct PopupMenu {
+        public static var description: UIColor = foreground2d
         public struct Item {
             public static var imageSelected: UIColor = selected
             public static var titleSelected: UIColor = selected
@@ -333,13 +363,27 @@ public final class MSColors: NSObject {
     }
 
     public struct SegmentedControl {
-        public static var background: UIColor = background1c
-        public static var buttonTextNormal: UIColor = foreground1b
-        public static var buttonTextSelected: UIColor = selected2
-        public static var buttonTextDisabled: UIColor = foreground4
-        public static var buttonTextSelectedAndDisabled: UIColor = foreground2
-        public static var selectionBarNormal: UIColor = selected2
-        public static var selectionBarDisabled: UIColor = background4
+        public struct Tabs {
+            public static var background: UIColor = background1c
+            public static var backgroundDisabled: UIColor = background
+            public static var segmentText: UIColor = foreground1b
+            public static var segmentTextSelected: UIColor = selected2
+            public static var segmentTextDisabled: UIColor = foreground4
+            public static var segmentTextSelectedAndDisabled: UIColor = foreground2
+            public static var selection: UIColor = selected2
+            public static var selectionDisabled: UIColor = background4
+        }
+        // TODO: update if needed after design is done (specifically backgroundDisabled, segmentTextDisabled, segmentTextSelectedAndDisabled, selectionDisabled, but check other colors too)
+        public struct Switch {
+            public static var background = UIColor(light: darkPrimary, dark: black)
+            public static var backgroundDisabled = UIColor(light: disabled, dark: black)
+            public static var segmentText: UIColor = foreground7b
+            public static var segmentTextSelected = UIColor(light: primary, dark: gray100)
+            public static var segmentTextDisabled = UIColor(light: white, dark: foreground4)
+            public static var segmentTextSelectedAndDisabled: UIColor = foreground2
+            public static var selection = UIColor(light: white, dark: gray600)
+            public static var selectionDisabled: UIColor = selection
+        }
     }
 
     public struct Separator {
@@ -398,7 +442,7 @@ public final class MSColors: NSObject {
             public static var text: UIColor = foreground2
             public static var textDivider: UIColor = foreground2d
             public static var textDividerHighlighted: UIColor = primary
-            public static var textLink: UIColor = primary
+            public static var textLink: UIColor = communicationBlue
         }
         public static var background: UIColor = background1
         public static var backgroundGrouped = UIColor(light: background2, dark: background1)
@@ -411,7 +455,7 @@ public final class MSColors: NSObject {
     public static var tableCellImage: UIColor { return Table.Cell.image }
 
     public struct Toolbar {
-        public static var background: UIColor = background1c
+        public static var background: UIColor = NavigationBar.background
         public static var tint: UIColor = BarButtonItem.secondary
     }
 

@@ -59,6 +59,9 @@ class MSTooltipView: UIView {
         let view = UIView()
         view.backgroundColor = MSColors.Tooltip.background
         view.layer.cornerRadius = backgroundCornerRadius
+        if #available(iOS 13.0, *) {
+            view.layer.cornerCurve = .continuous
+        }
         return view
     }()
 
