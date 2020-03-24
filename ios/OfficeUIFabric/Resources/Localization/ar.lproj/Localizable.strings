@@ -69,6 +69,15 @@
 /* Accessibility label for last week of the month */
 "Accessibility.DateTime.Week.Last" = "الأخير";
 
+/* Accessibility label for drawer's resizing handle when it has expand action */
+"Accessibility.Drawer.ResizingHandle.Label.Expand" = "توسيع";
+/* Accessibility hint for drawer's resizing handle when it has expand action */
+"Accessibility.Drawer.ResizingHandle.Hint.Expand" = "اضغط ضغطاً مزدوجاً برفق للتوسيع";
+/* Accessibility label for drawer's resizing handle when it has collapse action */
+"Accessibility.Drawer.ResizingHandle.Label.Collapse" = "طي";
+/* Accessibility hint for drawer's resizing handle when it has collapse action */
+"Accessibility.Drawer.ResizingHandle.Hint.Collapse" = "اضغط ضغطاً مزدوجاً برفق للطي";
+
 /* Accessibility label for when a task under progress has finished */
 "Accessibility.HUD.Done" = "تم";
 
@@ -77,6 +86,9 @@
 
 /* Accessibility label for when a task is in progress */
 "Accessibility.HUD.Loading" = "يتم الآن التحميل";
+
+/* Accessibility hint for MSPillButtons in an MSPillButtonBar to indicate its index relative to total number of items */
+"Accessibility.MSPillButtonBar.Hint" = "%d من %d";
 
 /* Accessibility label for the avatar (or profile) view in */
 "Accessibility.LargeTitle.ProfileView" = "ملف تعريف الحساب";

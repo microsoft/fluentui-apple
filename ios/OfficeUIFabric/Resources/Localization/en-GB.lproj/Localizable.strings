@@ -6,11 +6,11 @@
 // Accessibility
 "Accessibility.Alert" = "Alert";
 "Accessibility.Dismiss.Label" = "Dismiss";
-"Accessibility.Dismiss.Hint" = "Double-tap to dismiss";
+"Accessibility.Dismiss.Hint" = "Double tap to dismiss";
 "Accessibility.Done.Label" = "Done";
-"Accessibility.MultiSelect.Hint" = "Double-tap to toggle selection";
-"Accessibility.Select.Hint" = "Double-tap to select";
-"Accessibility.Selected.Hint" = "Double-tap to see details";
+"Accessibility.MultiSelect.Hint" = "Double tap to toggle selection";
+"Accessibility.Select.Hint" = "Double tap to select";
+"Accessibility.Selected.Hint" = "Double tap to see details";
 "Accessibility.Selected.Value" = "Selected";
 
 /* Accessibility label for the upper calendar date picker view. */
@@ -64,10 +64,19 @@
 "Accessibility.DateTime.Week.Third" = "Third";
 
 /* Accessibility label for fourth week of the month */
-"Accessibility.DateTime.Week.Fourth" = "Fourth";
+"Accessibility.DateTime.Week.Fourth" = "Quarter";
 
 /* Accessibility label for last week of the month */
 "Accessibility.DateTime.Week.Last" = "Last";
+
+/* Accessibility label for drawer's resizing handle when it has expand action */
+"Accessibility.Drawer.ResizingHandle.Label.Expand" = "Expand";
+/* Accessibility hint for drawer's resizing handle when it has expand action */
+"Accessibility.Drawer.ResizingHandle.Hint.Expand" = "Double tap to expand";
+/* Accessibility label for drawer's resizing handle when it has collapse action */
+"Accessibility.Drawer.ResizingHandle.Label.Collapse" = "Collapse";
+/* Accessibility hint for drawer's resizing handle when it has collapse action */
+"Accessibility.Drawer.ResizingHandle.Hint.Collapse" = "Double tap to collapse";
 
 /* Accessibility label for when a task under progress has finished */
 "Accessibility.HUD.Done" = "Done";
@@ -77,6 +86,9 @@
 
 /* Accessibility label for when a task is in progress */
 "Accessibility.HUD.Loading" = "Loading";
+
+/* Accessibility hint for MSPillButtons in an MSPillButtonBar to indicate its index relative to total number of items */
+"Accessibility.MSPillButtonBar.Hint" = "%d of %d";
 
 /* Accessibility label for the avatar (or profile) view in */
 "Accessibility.LargeTitle.ProfileView" = "Account Profile";
@@ -88,13 +100,13 @@
 "Accessibility.TabBarItemView.Hint" = "%d of %d";
 
 /* Accessibility hint for more actions button */
-"Accessibility.TableViewCell.MoreActions.Hint" = "Double-tap to view more actions";
+"Accessibility.TableViewCell.MoreActions.Hint" = "Double tap to view more actions";
 
 /* Accessibility label for more actions button */
 "Accessibility.TableViewCell.MoreActions.Label" = "More actions";
 
 /* Accessibility hint for cell when accessory view is a UISwitch */
-"Accessibility.TableViewCell.Switch.Hint" = "Double-tap to toggle setting";
+"Accessibility.TableViewCell.Switch.Hint" = "Double tap to toggle setting";
 
 /* Accessibility value for when a UISwitch is on */
 "Accessibility.TableViewCell.Switch.On" = "On";

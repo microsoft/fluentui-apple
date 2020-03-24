@@ -30,6 +30,8 @@ public final class MSFonts: NSObject {
     public static var button2: UIFont { return UIFont.preferredFont(forTextStyle: .footnote).withWeight(.medium) }
     /// Medium 10pt - Does not scale automatically with Dynamic Type
     public static let button3 = UIFont.systemFont(ofSize: 10, weight: .medium)
+    /// Medium 15pt - Does not scale automatically with Dynamic Type
+    public static let button4 = UIFont.systemFont(ofSize: 15, weight: .medium)
     /// Regular 12pt
     public static var caption1: UIFont { return .preferredFont(forTextStyle: .caption1) }
     /// Regular 11pt

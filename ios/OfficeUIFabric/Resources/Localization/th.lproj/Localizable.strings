@@ -69,6 +69,15 @@
 /* Accessibility label for last week of the month */
 "Accessibility.DateTime.Week.Last" = "สุดท้าย";
 
+/* Accessibility label for drawer's resizing handle when it has expand action */
+"Accessibility.Drawer.ResizingHandle.Label.Expand" = "ขยาย";
+/* Accessibility hint for drawer's resizing handle when it has expand action */
+"Accessibility.Drawer.ResizingHandle.Hint.Expand" = "แตะสองครั้งเพื่อขยาย";
+/* Accessibility label for drawer's resizing handle when it has collapse action */
+"Accessibility.Drawer.ResizingHandle.Label.Collapse" = "ยุบ";
+/* Accessibility hint for drawer's resizing handle when it has collapse action */
+"Accessibility.Drawer.ResizingHandle.Hint.Collapse" = "แตะสองครั้งเพื่อยุบ";
+
 /* Accessibility label for when a task under progress has finished */
 "Accessibility.HUD.Done" = "เสร็จสิ้น";
 
@@ -77,6 +86,9 @@
 
 /* Accessibility label for when a task is in progress */
 "Accessibility.HUD.Loading" = "กำลังโหลด";
+
+/* Accessibility hint for MSPillButtons in an MSPillButtonBar to indicate its index relative to total number of items */
+"Accessibility.MSPillButtonBar.Hint" = "%d จาก %d";
 
 /* Accessibility label for the avatar (or profile) view in */
 "Accessibility.LargeTitle.ProfileView" = "โปรไฟล์บัญชี";

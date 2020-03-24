@@ -24,10 +24,18 @@
     [self setupTitleView];
 
     [self.view addSubview:self.scrollingContainer];
-    [self.scrollingContainer fitIntoSuperview];
+    [self.scrollingContainer setFrame:self.view.bounds];
+    [self.scrollingContainer setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
+
     [self.scrollingContainer addSubview:self.container];
     // UIScrollView in RTL mode still have leading on the left side, so we cannot rely on leading/trailing-based constraints
-    [self.container fitIntoSuperviewUsingConstraints:true usingLeadingTrailing:false margins:UIEdgeInsetsZero autoWidth:false autoHeight:true];
+    [self.container setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [NSLayoutConstraint activateConstraints:@[
+        [[self.container topAnchor] constraintEqualToAnchor:[self.scrollingContainer topAnchor]],
+        [[self.container bottomAnchor] constraintEqualToAnchor:[self.scrollingContainer bottomAnchor]],
+        [[self.container leftAnchor] constraintEqualToAnchor:[self.scrollingContainer leftAnchor]],
+        [[self.container widthAnchor] constraintEqualToAnchor:[self.scrollingContainer widthAnchor]],
+    ]];
 }
 
 - (UIStackView *)createVerticalContainer {

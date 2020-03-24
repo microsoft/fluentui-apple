@@ -31,7 +31,7 @@ class MSAvatarViewDemoController: DemoController {
         let avatarContainer = UIView()
         avatarContainer.addSubview(avatarView)
         avatarContainer.widthAnchor.constraint(equalToConstant: 70).isActive = true
-        avatarContainer.heightAnchor.constraint(equalToConstant: avatarView.height).isActive = true
+        avatarContainer.heightAnchor.constraint(equalToConstant: avatarView.frame.height).isActive = true
 
         return avatarContainer
     }

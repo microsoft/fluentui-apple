@@ -29,7 +29,16 @@ class MSHUDView: UIView {
         static let labelMaxWidth: CGFloat = maxWidth - 2 * paddingHorizontalWithLabel
     }
 
-    private let label: UILabel = {
+    var onTap: (() -> Void)? {
+        didSet {
+            if onTap != nil {
+                addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleHUDTapped)))
+                isUserInteractionEnabled = true
+            }
+        }
+    }
+
+    let label: UILabel = {
         let label = UILabel()
         label.textColor = MSColors.HUD.text
         label.font = MSFonts.body
@@ -50,6 +59,9 @@ class MSHUDView: UIView {
         backgroundColor = MSColors.HUD.background
         layer.cornerRadius = Constants.backgroundCornerRadius
         layer.masksToBounds = true
+        if #available(iOS 13.0, *) {
+            layer.cornerCurve = .continuous
+        }
 
         addSubview(indicatorView)
 
@@ -58,6 +70,8 @@ class MSHUDView: UIView {
             self.label.text = label
             addSubview(self.label)
         }
+
+        isUserInteractionEnabled = false
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -131,8 +145,12 @@ class MSHUDView: UIView {
     }
 
     open override var accessibilityTraits: UIAccessibilityTraits {
-        get { return super.accessibilityTraits.union(.staticText) }
+        get { return super.accessibilityTraits.union(isUserInteractionEnabled ? .button : .staticText) }
         set { }
+    }
+
+    @objc private func handleHUDTapped() {
+        onTap?()
     }
 }
 

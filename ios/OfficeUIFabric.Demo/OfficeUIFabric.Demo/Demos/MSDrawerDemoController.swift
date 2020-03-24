@@ -6,6 +6,8 @@
 import OfficeUIFabric
 import UIKit
 
+// MARK: MSDrawerDemoController
+
 class MSDrawerDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +28,7 @@ class MSDrawerDemoController: DemoController {
             itemSpacing: DemoController.verticalSpacing,
             stretchItems: true
         )
+        addDescription(text: "Swipe from the left or right edge of the screen to reveal a drawer interactively")
 
         addTitle(text: "Bottom Drawer")
         container.addArrangedSubview(createButton(title: "Show resizable", action: #selector(showBottomDrawerButtonTapped)))
@@ -34,14 +37,27 @@ class MSDrawerDemoController: DemoController {
 
         container.addArrangedSubview(createButton(title: "Show always as slideover, resizable", action: #selector(showBottomDrawerCustomContentControllerButtonTapped)))
 
+        container.addArrangedSubview(createButton(title: "Show with focusable content", action: #selector(showBottomDrawerFocusableContentButtonTapped)))
+
         container.addArrangedSubview(UIView())
+
+        // Screen edge gestures to interactively present side drawers
+
+        let leadingEdgeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleScreenEdgePan))
+        leadingEdgeGesture.edges = view.effectiveUserInterfaceLayoutDirection == .leftToRight ? .left : .right
+        view.addGestureRecognizer(leadingEdgeGesture)
+        navigationController?.navigationController?.interactivePopGestureRecognizer?.require(toFail: leadingEdgeGesture)
+
+        let trailingEdgeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleScreenEdgePan))
+        trailingEdgeGesture.edges = view.effectiveUserInterfaceLayoutDirection == .leftToRight ? .right : .left
+        view.addGestureRecognizer(trailingEdgeGesture)
     }
 
     @discardableResult
-    private func presentDrawer(sourceView: UIView? = nil, barButtonItem: UIBarButtonItem? = nil, presentationOrigin: CGFloat = -1, presentationDirection: MSDrawerPresentationDirection, presentationStyle: MSDrawerPresentationStyle = .automatic, presentationOffset: CGFloat = 0, presentationBackground: MSDrawerPresentationBackground = .black, contentController: UIViewController? = nil, contentView: UIView? = nil, resizingBehavior: MSDrawerResizingBehavior = .none, animated: Bool = true) -> MSDrawerController {
+    private func presentDrawer(sourceView: UIView? = nil, barButtonItem: UIBarButtonItem? = nil, presentationOrigin: CGFloat = -1, presentationDirection: MSDrawerPresentationDirection, presentationStyle: MSDrawerPresentationStyle = .automatic, presentationOffset: CGFloat = 0, presentationBackground: MSDrawerPresentationBackground = .black, presentingGesture: UIPanGestureRecognizer? = nil, permittedArrowDirections: UIPopoverArrowDirection = [.left, .right], contentController: UIViewController? = nil, contentView: UIView? = nil, resizingBehavior: MSDrawerResizingBehavior = .none, adjustHeightForKeyboard: Bool = false, animated: Bool = true) -> MSDrawerController {
         let controller: MSDrawerController
         if let sourceView = sourceView {
-            controller = MSDrawerController(sourceView: sourceView, sourceRect: sourceView.bounds, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection)
+            controller = MSDrawerController(sourceView: sourceView, sourceRect: sourceView.bounds.insetBy(dx: sourceView.bounds.width / 2, dy: 0), presentationOrigin: presentationOrigin, presentationDirection: presentationDirection)
         } else if let barButtonItem = barButtonItem {
             controller = MSDrawerController(barButtonItem: barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection)
         } else {
@@ -51,7 +67,10 @@ class MSDrawerDemoController: DemoController {
         controller.presentationStyle = presentationStyle
         controller.presentationOffset = presentationOffset
         controller.presentationBackground = presentationBackground
+        controller.presentingGesture = presentingGesture
+        controller.permittedArrowDirections = permittedArrowDirections
         controller.resizingBehavior = resizingBehavior
+        controller.adjustsHeightForKeyboard = adjustHeightForKeyboard
 
         if let contentView = contentView {
             // `preferredContentSize` can be used to specify the preferred size of a drawer,
@@ -94,7 +113,7 @@ class MSDrawerDemoController: DemoController {
     }
 
     @objc private func barButtonTapped(sender: UIBarButtonItem) {
-        presentDrawer(barButtonItem: sender, presentationDirection: .down, contentView: containerForActionViews())
+        presentDrawer(barButtonItem: sender, presentationDirection: .down, permittedArrowDirections: .any, contentView: containerForActionViews())
     }
 
     @objc private func showTopDrawerButtonTapped(sender: UIButton) {
@@ -131,22 +150,74 @@ class MSDrawerDemoController: DemoController {
         presentDrawer(sourceView: sender, presentationOrigin: rect.minY, presentationDirection: .up, contentView: containerForActionViews())
     }
 
+    private var contentControllerOriginalPreferredContentHeight: CGFloat = 0
+
     @objc private func showBottomDrawerCustomContentControllerButtonTapped(sender: UIButton) {
         let controller = UIViewController()
         controller.title = "Resizable slideover drawer"
-        controller.preferredContentSize = CGSize(width: 400, height: 400)
+        controller.toolbarItems = [
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(title: "Change preferredContentSize", style: .plain, target: self, action: #selector(changePreferredContentSizeButtonTapped)),
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        ]
 
         let personaListView = MSPersonaListView()
         personaListView.personaList = samplePersonas
         controller.view.addSubview(personaListView)
-        personaListView.fitIntoSuperview()
+        personaListView.frame = controller.view.bounds
+        personaListView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
         let contentController = UINavigationController(rootViewController: controller)
         contentController.navigationBar.barTintColor = MSColors.background1
+        contentController.isToolbarHidden = false
+        contentController.preferredContentSize = CGSize(width: 400, height: 400)
+        contentControllerOriginalPreferredContentHeight = contentController.preferredContentSize.height
 
         let drawer = presentDrawer(sourceView: sender, presentationDirection: .up, presentationStyle: .slideover, presentationOffset: 20, presentationBackground: traitCollection.horizontalSizeClass == .regular ? .none : .black, contentController: contentController, resizingBehavior: .dismissOrExpand)
 
         drawer.contentScrollView = personaListView
+    }
+
+    @objc private func showBottomDrawerFocusableContentButtonTapped(sender: UIButton) {
+        let contentController = UIViewController()
+
+        let container = UIStackView()
+        container.axis = .vertical
+        container.isLayoutMarginsRelativeArrangement = true
+        container.layoutMargins = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        container.spacing = 10
+        container.translatesAutoresizingMaskIntoConstraints = false
+        contentController.view.addSubview(container)
+        NSLayoutConstraint.activate([container.topAnchor.constraint(equalTo: contentController.view.topAnchor),
+                                     container.heightAnchor.constraint(equalTo: contentController.view.heightAnchor),
+                                     container.leadingAnchor.constraint(equalTo: contentController.view.leadingAnchor),
+                                     container.widthAnchor.constraint(equalTo: contentController.view.widthAnchor)])
+
+        let textField = UITextField()
+        textField.text = "Some focusable content"
+        textField.delegate = self
+        container.addArrangedSubview(textField)
+
+        let button = MSButton(style: .primaryFilled)
+        button.setTitle("Hide keyboard", for: .normal)
+        button.setContentCompressionResistancePriority(.required, for: .vertical)
+        button.setContentHuggingPriority(.required, for: .vertical)
+        button.addTarget(self, action: #selector(hideKeyboardButtonTapped), for: .touchUpInside)
+        container.addArrangedSubview(button)
+
+        presentDrawer(sourceView: sender, presentationDirection: .up, permittedArrowDirections: .any, contentController: contentController, resizingBehavior: .dismissOrExpand, adjustHeightForKeyboard: true)
+
+        textField.becomeFirstResponder()
+    }
+
+    @objc private func handleScreenEdgePan(gesture: UIScreenEdgePanGestureRecognizer) {
+        guard gesture.state == .began else {
+            return
+        }
+
+        let leadingEdge: UIRectEdge = view.effectiveUserInterfaceLayoutDirection == .leftToRight ? .left : .right
+
+        presentDrawer(sourceView: view, presentationDirection: gesture.edges == leadingEdge ? .fromLeading : .fromTrailing, presentingGesture: gesture, contentView: containerForActionViews(drawerHasFlexibleHeight: false), resizingBehavior: .dismiss)
     }
 
     @objc private func changeContentHeightButtonTapped(sender: UIButton) {
@@ -170,5 +241,29 @@ class MSDrawerDemoController: DemoController {
 
     @objc private func dismissNotAnimatedButtonTapped() {
         dismiss(animated: false)
+    }
+
+    @objc private func changePreferredContentSizeButtonTapped() {
+        if let contentController = (presentedViewController as? MSDrawerController)?.contentController {
+            var size = contentController.preferredContentSize
+            size.height = size.height == contentControllerOriginalPreferredContentHeight ? 500 : 400
+            contentController.preferredContentSize = size
+        }
+    }
+
+    @objc private func hideKeyboardButtonTapped(sender: UIButton) {
+        if let stackView = sender.superview as? UIStackView {
+            let textField = stackView.arrangedSubviews.first(where: { $0 is UITextField })
+            textField?.resignFirstResponder()
+        }
+    }
+}
+
+// MARK: - MSDrawerDemoController: UITextFieldDelegate
+
+extension MSDrawerDemoController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return false
     }
 }

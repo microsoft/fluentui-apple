@@ -28,7 +28,7 @@ jobs:
           configuration: 'Debug'
           xcodeVersion: default
           useXcpretty: false
-          args: 'CLANG_DEBUG_INFORMATION_LEVEL=line-tables-only OTHER_SWIFT_FLAGS=-gline-tables-only SWIFT_OPTIMIZATION_LEVEL=-Osize SWIFT_REFLECTION_METADATA_LEVEL=none BUILD_LIBRARY_FOR_DISTRIBUTION=YES'
+          args: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides.xcconfig'
 
       - task: Xcode@5
         displayName: 'Xcode build Static Library, Release, iphonesimulator'
@@ -40,7 +40,7 @@ jobs:
           configuration: 'Release'
           xcodeVersion: default
           useXcpretty: false
-          args: 'CLANG_DEBUG_INFORMATION_LEVEL=line-tables-only OTHER_SWIFT_FLAGS=-gline-tables-only SWIFT_OPTIMIZATION_LEVEL=-Osize SWIFT_REFLECTION_METADATA_LEVEL=none BUILD_LIBRARY_FOR_DISTRIBUTION=YES'
+          args: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides.xcconfig'
 
       - task: Xcode@5
         displayName: 'Xcode build Static Library, Debug, iphoneos'
@@ -52,7 +52,7 @@ jobs:
           configuration: 'Debug'
           xcodeVersion: default
           useXcpretty: false
-          args: 'CLANG_DEBUG_INFORMATION_LEVEL=line-tables-only OTHER_SWIFT_FLAGS=-gline-tables-only SWIFT_OPTIMIZATION_LEVEL=-Osize SWIFT_REFLECTION_METADATA_LEVEL=none BUILD_LIBRARY_FOR_DISTRIBUTION=YES'
+          args: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides.xcconfig'
 
       - task: Xcode@5
         displayName: 'Xcode build Static Library, Release, iphoneos'
@@ -64,7 +64,7 @@ jobs:
           configuration: 'Release'
           xcodeVersion: default
           useXcpretty: false
-          args: 'CLANG_DEBUG_INFORMATION_LEVEL=line-tables-only OTHER_SWIFT_FLAGS=-gline-tables-only SWIFT_OPTIMIZATION_LEVEL=-Osize SWIFT_REFLECTION_METADATA_LEVEL=none BUILD_LIBRARY_FOR_DISTRIBUTION=YES'
+          args: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides.xcconfig'
 
       # Replace all nuspec files __BuildBuildNumber__ and __OUTPUTDIR__ fields
 

@@ -707,6 +707,7 @@ open class MSTableViewCell: UITableViewCell {
                 return
             }
             accessoryTypeView = _accessoryType == .none ? nil : MSTableViewCellAccessoryView(type: _accessoryType)
+            initAccessibilityForAccessoryType()
             setNeedsLayout()
             invalidateIntrinsicContentSize()
         }
@@ -752,14 +753,12 @@ open class MSTableViewCell: UITableViewCell {
 
     let titleLabel: MSLabel = {
         let label = MSLabel(style: TextStyles.title)
-        label.textColor = MSColors.Table.Cell.title
         label.lineBreakMode = .byTruncatingTail
         return label
     }()
 
     let subtitleLabel: MSLabel = {
         let label = MSLabel(style: TextStyles.subtitleTwoLines)
-        label.textColor = MSColors.Table.Cell.subtitle
         label.lineBreakMode = .byTruncatingTail
         label.isHidden = true
         return label
@@ -767,7 +766,6 @@ open class MSTableViewCell: UITableViewCell {
 
     let footerLabel: MSLabel = {
         let label = MSLabel(style: TextStyles.footer)
-        label.textColor = MSColors.Table.Cell.footer
         label.lineBreakMode = .byTruncatingTail
         label.isHidden = true
         return label
@@ -827,6 +825,8 @@ open class MSTableViewCell: UITableViewCell {
 
     open func initialize() {
         textLabel?.text = ""
+
+        updateTextColors()
 
         contentView.addSubview(titleLabel)
         contentView.addSubview(subtitleLabel)
@@ -910,6 +910,12 @@ open class MSTableViewCell: UITableViewCell {
         initAccessoryTypeView()
 
         selectionStyle = isInSelectionMode ? .none : .default
+    }
+
+    public func updateTextColors() {
+        titleLabel.textColor = MSColors.Table.Cell.title
+        subtitleLabel.textColor = MSColors.Table.Cell.subtitle
+        footerLabel.textColor = MSColors.Table.Cell.footer
     }
 
     open override func layoutSubviews() {
@@ -1215,6 +1221,19 @@ open class MSTableViewCell: UITableViewCell {
         let selectedStateBackgroundView = UIView()
         selectedStateBackgroundView.backgroundColor = MSColors.Table.Cell.backgroundSelected
         selectedBackgroundView = selectedStateBackgroundView
+    }
+
+    private func initAccessibilityForAccessoryType() {
+        if _accessoryType == .disclosureIndicator || _accessoryType == .detailButton {
+            accessibilityTraits.insert(.button)
+        } else {
+            accessibilityTraits.remove(.button)
+        }
+        if _accessoryType == .checkmark || isSelected {
+            accessibilityTraits.insert(.selected)
+        } else {
+            accessibilityTraits.remove(.selected)
+        }
     }
 
     private func updateAccessibility() {

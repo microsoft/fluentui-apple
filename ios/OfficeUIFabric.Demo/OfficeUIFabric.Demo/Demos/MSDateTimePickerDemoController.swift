@@ -10,6 +10,19 @@ class MSDateTimePickerDemoController: DemoController {
     private let dateLabel = MSLabel(style: .headline)
     private let dateTimePicker = MSDateTimePicker()
 
+    private let datePickerTypeSelector: UISegmentedControl = {
+        let selector = UISegmentedControl(items: ["Calendar", "Components"])
+        selector.selectedSegmentIndex = 0
+        return selector
+    }()
+    private var datePickerType: MSDateTimePicker.DatePickerType {
+        if let value = MSDateTimePicker.DatePickerType(rawValue: datePickerTypeSelector.selectedSegmentIndex) {
+            return value
+        } else {
+            fatalError("Unknown date picker type index")
+        }
+    }
+
     private let validationSwitch = UISwitch()
     private var isValidating: Bool { return validationSwitch.isOn }
 
@@ -28,10 +41,28 @@ class MSDateTimePickerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show date range picker (paged)", action: #selector(presentDateRangePicker)))
         container.addArrangedSubview(createButton(title: "Show date range picker (tabbed)", action: #selector(presentTabbedDateRangePicker)))
         container.addArrangedSubview(createButton(title: "Show date time range picker", action: #selector(presentDateTimeRangePicker)))
-        container.addArrangedSubview(createButton(title: "Show picker with custom subtitles", action: #selector(presentCustomSubtitlePicker)))
+        container.addArrangedSubview(createButton(title: "Show picker with custom subtitles or tabs", action: #selector(presentCustomSubtitlePicker)))
         container.addArrangedSubview(UIView())
+        container.addArrangedSubview(createDatePickerTypeUI())
         container.addArrangedSubview(createValidationUI())
         container.addArrangedSubview(createButton(title: "Reset selected dates", action: #selector(resetDates)))
+    }
+
+    func createDatePickerTypeUI() -> UIStackView {
+        let container = UIStackView()
+        container.axis = .horizontal
+        container.alignment = .center
+        container.distribution = .equalSpacing
+
+        let label = MSLabel(style: .subhead, colorStyle: .regular)
+        label.text = "Date picker type"
+        label.numberOfLines = 0
+        container.addArrangedSubview(label)
+
+        datePickerTypeSelector.setContentCompressionResistancePriority(.required, for: .horizontal)
+        container.addArrangedSubview(datePickerTypeSelector)
+
+        return container
     }
 
     func createValidationUI() -> UIStackView {
@@ -49,35 +80,41 @@ class MSDateTimePickerDemoController: DemoController {
     }
 
     @objc func presentDatePicker() {
-        dateTimePicker.present(from: self, with: .date, startDate: startDate ?? Date())
+        dateTimePicker.present(from: self, with: .date, startDate: startDate ?? Date(), datePickerType: datePickerType)
     }
 
     @objc func presentDateTimePicker() {
-        dateTimePicker.present(from: self, with: .dateTime, startDate: startDate ?? Date())
+        dateTimePicker.present(from: self, with: .dateTime, startDate: startDate ?? Date(), datePickerType: datePickerType)
     }
 
     @objc func presentDateRangePicker() {
         let startDate = self.startDate ?? Date()
         let endDate = self.endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
-        dateTimePicker.present(from: self, with: .dateRange, startDate: startDate, endDate: endDate)
+        dateTimePicker.present(from: self, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: datePickerType)
     }
 
     @objc func presentTabbedDateRangePicker() {
         let startDate = self.startDate ?? Date()
         let endDate = self.endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
-        dateTimePicker.present(from: self, with: .dateRange, startDate: startDate, endDate: endDate, dateRangePresentation: .tabbed)
+        dateTimePicker.present(from: self, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: datePickerType, dateRangePresentation: .tabbed)
     }
 
     @objc func presentDateTimeRangePicker() {
         let startDate = self.startDate ?? Date()
         let endDate = self.endDate ?? Calendar.current.date(byAdding: .hour, value: 1, to: startDate) ?? startDate
-        dateTimePicker.present(from: self, with: .dateTimeRange, startDate: startDate, endDate: endDate)
+        dateTimePicker.present(from: self, with: .dateTimeRange, startDate: startDate, endDate: endDate, datePickerType: datePickerType)
     }
 
     @objc func presentCustomSubtitlePicker() {
         let startDate = self.startDate ?? Date()
         let endDate = self.endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
-        dateTimePicker.present(from: self, with: .dateRange, startDate: startDate, endDate: endDate, titles: .with(startSubtitle: "Assignment date", endSubtitle: "Due Date"))
+        let titles: MSDateTimePicker.Titles
+        if datePickerType == .calendar && !UIAccessibility.isVoiceOverRunning {
+            titles = .with(startSubtitle: "Assignment Date", endSubtitle: "Due Date")
+        } else {
+            titles = .with(startTab: "Assignment Date", endTab: "Due Date")
+        }
+        dateTimePicker.present(from: self, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: datePickerType, titles: titles)
     }
 
     @objc func resetDates() {

@@ -9,51 +9,52 @@ import OfficeUIFabric
 class MSSegmentedControlDemoController: DemoController {
     let segmentTitles: [String] = ["First", "Second", "Third", "Fourth"]
 
-    var controlLabels = [MSSegmentedControl: MSLabel]()
+    var controlLabels = [MSSegmentedControl: MSLabel]() {
+        didSet {
+            controlLabels.forEach { updateLabel(forControl: $0.key) }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = MSColors.background2
 
-        container.layoutMargins = UIEdgeInsets.zero
+        container.layoutMargins.left = 0
+        container.layoutMargins.right = 0
 
-        let fourButtonSegmentedControl = MSSegmentedControl(items: segmentTitles)
-        let threeButtonSegmentedControl = MSSegmentedControl(items: Array(segmentTitles.prefix(3)))
-        let twoButtonSegmentedControl = MSSegmentedControl(items: Array(segmentTitles.prefix(2)))
-        let disabledSegmentedControl = MSSegmentedControl(items: segmentTitles)
+        addTitle(text: "Tabs")
 
-        fourButtonSegmentedControl.addTarget(self, action: #selector(updateLabel(forControl:)), for: .valueChanged)
-        threeButtonSegmentedControl.addTarget(self, action: #selector(updateLabel(forControl:)), for: .valueChanged)
-        twoButtonSegmentedControl.addTarget(self, action: #selector(updateLabel(forControl:)), for: .valueChanged)
-        disabledSegmentedControl.isEnabled = false
-        disabledSegmentedControl.selectedSegmentIndex = 2
+        let tabsSegmentedControl = MSSegmentedControl(items: segmentTitles)
+        tabsSegmentedControl.addTarget(self, action: #selector(updateLabel(forControl:)), for: .valueChanged)
+        container.addArrangedSubview(tabsSegmentedControl)
+        controlLabels[tabsSegmentedControl] = addDescription(text: "", textAlignment: .center)
+        container.addArrangedSubview(UIView())
 
-        let fourButtonLabel = createLabel()
-        let threeButtonLabel = createLabel()
-        let twoButtonLabel = createLabel()
+        addTitle(text: "Disabled Tabs")
 
-        controlLabels[fourButtonSegmentedControl] = fourButtonLabel
-        controlLabels[threeButtonSegmentedControl] = threeButtonLabel
-        controlLabels[twoButtonSegmentedControl] = twoButtonLabel
+        let disabledTabsSegmentedControl = MSSegmentedControl(items: Array(segmentTitles.prefix(3)))
+        disabledTabsSegmentedControl.isEnabled = false
+        disabledTabsSegmentedControl.selectedSegmentIndex = 1
+        container.addArrangedSubview(disabledTabsSegmentedControl)
+        container.addArrangedSubview(UIView())
 
-        for (control, label) in controlLabels {
-            updateLabel(forControl: control)
-            container.addArrangedSubview(control)
-            container.addArrangedSubview(label)
-            container.addArrangedSubview(UIView())
-        }
+        addTitle(text: "Switch")
 
-        container.addArrangedSubview(disabledSegmentedControl)
-        container.addArrangedSubview(createLabel(text: "Disabled"))
+        let switchSegmentedControl = MSSegmentedControl(items: Array(segmentTitles.prefix(2)), style: .switch)
+        switchSegmentedControl.addTarget(self, action: #selector(updateLabel(forControl:)), for: .valueChanged)
+        addRow(items: [switchSegmentedControl], centerItems: true)
+        controlLabels[switchSegmentedControl] = addDescription(text: "", textAlignment: .center)
+        container.addArrangedSubview(UIView())
+
+        addTitle(text: "Disabled Switch")
+
+        let disabledSwitchSegmentedControl = MSSegmentedControl(items: Array(segmentTitles.prefix(2)), style: .switch)
+        disabledSwitchSegmentedControl.isEnabled = false
+        disabledSwitchSegmentedControl.selectedSegmentIndex = 1
+        addRow(items: [disabledSwitchSegmentedControl], centerItems: true)
     }
 
     @objc func updateLabel(forControl control: MSSegmentedControl) {
-        controlLabels[control]?.text = segmentTitles[control.selectedSegmentIndex]
-    }
-
-    func createLabel(text: String = "") -> MSLabel {
-        let label = MSLabel(style: .headline, colorStyle: .regular)
-        label.text = text
-        label.textAlignment = .center
-        return label
+        controlLabels[control]?.text = "\"\(segmentTitles[control.selectedSegmentIndex])\" segment is selected"
     }
 }

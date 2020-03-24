@@ -12,6 +12,7 @@ import UIKit
         static var navigationBarStyle: String = "navigationBarStyle"
         static var navigationBarShadow: String = "navigationBarShadow"
         static var usesLargeTitle: String = "usesLargeTitle"
+        static var navigationBarColor: String = "navigationBarColor"
     }
 
     var accessoryView: UIView? {
@@ -56,6 +57,15 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.usesLargeTitle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
+    var navigationBarColor: UIColor {
+        get {
+            return navigationBarStyle.backgroundColor(customColor: objc_getAssociatedObject(self, &AssociatedKeys.navigationBarColor) as? UIColor)
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.navigationBarColor, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 }
