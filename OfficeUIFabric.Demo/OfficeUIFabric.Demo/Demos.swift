@@ -15,6 +15,7 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("MSCollectionViewCell", MSCollectionViewCellDemoController.self),
     ("MSCollectionViewCellShimmer", MSCollectionViewCellShimmerDemoController.self),
     ("MSCollectionViewHeaderFooterView", MSCollectionViewHeaderFooterViewDemoController.self),
+    ("MSColor", MSColorDemoController.self),
     ("MSDateTimePicker", MSDateTimePickerDemoController.self),
     ("MSDrawerController", MSDrawerDemoController.self),
     ("MSHUD", MSHUDDemoController.self),
