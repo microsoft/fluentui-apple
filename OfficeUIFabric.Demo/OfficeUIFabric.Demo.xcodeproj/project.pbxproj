@@ -408,16 +408,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-OfficeUIFabric.Demo/Pods-OfficeUIFabric.Demo-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/AppCenter/AppCenterDistributeResources.bundle",
+				"${PODS_ROOT}/Target Support Files/Pods-OfficeUIFabric.Demo/Pods-OfficeUIFabric.Demo-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AppCenterDistributeResources.bundle",
+				"${PODS_ROOT}/Target Support Files/Pods-OfficeUIFabric.Demo/Pods-OfficeUIFabric.Demo-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

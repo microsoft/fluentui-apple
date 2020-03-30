@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Property configurator.
  */
-@property(nonatomic, readonly) MSPropertyConfigurator *propertyConfigurator;
+@property(nonatomic, readonly, strong) MSPropertyConfigurator *propertyConfigurator;
 
 + (void)addAuthenticationProvider:(MSAnalyticsAuthenticationProvider *)authenticationProvider
     NS_SWIFT_NAME(addAuthenticationProvider(authenticationProvider:));
@@ -41,9 +41,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param eventName  event name.
  * @param properties dictionary of properties.
- * @param flags      Optional flags. Events tracked with the MSFlagsPersistenceCritical flag will take precedence over all other events in
+ * @param flags      Optional flags. Events tracked with the MSFlagsCritical flag will take precedence over all other events in
  * storage. An event tracked with this option will only be dropped if storage must make room for a newer event that is also marked with the
- * MSFlagsPersistenceCritical flag.
+ * MSFlagsCritical flag.
  */
 - (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties flags:(MSFlags)flags;
 
@@ -77,9 +77,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param eventName  Event name.
  * @param properties Typed properties.
- * @param flags      Optional flags. Events tracked with the MSFlagsPersistenceCritical flag will take precedence over all other events in
+ * @param flags      Optional flags. Events tracked with the MSFlagsCritical flag will take precedence over all other events in
  * storage. An event tracked with this option will only be dropped if storage must make room for a newer event that is also marked with the
- * MSFlagsPersistenceCritical flag.
+ * MSFlagsCritical flag.
  *
  * @discussion The following validation rules are applied:
  *
