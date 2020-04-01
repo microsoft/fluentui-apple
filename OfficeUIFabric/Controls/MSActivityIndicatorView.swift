@@ -164,7 +164,7 @@ open class MSActivityIndicatorView: UIView {
 
     open override func layoutSubviews() {
         super.layoutSubviews()
-        loaderLayer.position = CGPoint(x: width / 2, y: height / 2)
+        loaderLayer.position = CGPoint(x: frame.width / 2, y: frame.height / 2)
     }
 
     open override var intrinsicContentSize: CGSize {

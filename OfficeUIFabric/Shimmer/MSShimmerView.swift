@@ -62,10 +62,10 @@ open class MSShimmerView: UIView {
             return
         }
 
-        shimmeringLayer.frame = CGRect(x: -containerView.width,
+        shimmeringLayer.frame = CGRect(x: -containerView.frame.width,
                                        y: 0.0,
-                                       width: containerView.bounds.width + 2 * containerView.width,
-                                       height: containerView.height)
+                                       width: containerView.bounds.width + 2 * containerView.frame.width,
+                                       height: containerView.frame.height)
 
         updateShimmeringLayer()
         updateShimmeringAnimation()
@@ -173,7 +173,7 @@ open class MSShimmerView: UIView {
         animation.fromValue = [fromLocationStart, fromLocationMiddle, fromLocationEnd]
         animation.toValue = [toLocationStart, toLocationMiddle, toLocationEnd]
 
-        let distance = (width + shimmerAppearance.width) / cos(shimmerAppearance.angle)
+        let distance = (frame.width + shimmerAppearance.width) / cos(shimmerAppearance.angle)
         animation.duration = CFTimeInterval(distance / shimmerAppearance.speed)
         animation.fillMode = .forwards
 

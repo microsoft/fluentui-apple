@@ -83,16 +83,16 @@ class MSHUDView: UIView {
 
         indicatorView.sizeToFit()
         indicatorView.frame = CGRect(
-            x: UIScreen.main.roundToDevicePixels((bounds.width - indicatorView.width) / 2),
-            y: UIScreen.main.roundToDevicePixels(label.isHidden ? (bounds.height - indicatorView.height) / 2 : Constants.paddingVerticalWithLabel),
-            width: indicatorView.width,
-            height: indicatorView.height
+            x: UIScreen.main.roundToDevicePixels((bounds.width - indicatorView.frame.width) / 2),
+            y: UIScreen.main.roundToDevicePixels(label.isHidden ? (bounds.height - indicatorView.frame.height) / 2 : Constants.paddingVerticalWithLabel),
+            width: indicatorView.frame.width,
+            height: indicatorView.frame.height
         )
 
         let labelSize = label.sizeThatFits(CGSize(width: Constants.labelMaxWidth, height: .greatestFiniteMagnitude))
         label.frame = CGRect(
             x: UIScreen.main.roundToDevicePixels((bounds.width - labelSize.width) / 2),
-            y: indicatorView.bottom + Constants.labelMarginTop,
+            y: indicatorView.frame.maxY + Constants.labelMarginTop,
             width: labelSize.width,
             height: labelSize.height
         )

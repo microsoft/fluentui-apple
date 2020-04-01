@@ -163,7 +163,7 @@ open class MSNotificationView: UIView {
     private var messageLabelBoundsObservation: NSKeyValueObservation?
 
     private var hasSingleLineLayout: Bool {
-        return titleLabel.text?.isEmpty != false && messageLabel.height == messageLabel.font.deviceLineHeight
+        return titleLabel.text?.isEmpty != false && messageLabel.frame.height == messageLabel.font.deviceLineHeight
     }
     private var constraintWhenHidden: NSLayoutConstraint!
     private var constraintWhenShown: NSLayoutConstraint!

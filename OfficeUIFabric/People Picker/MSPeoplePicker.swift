@@ -188,8 +188,8 @@ open class MSPeoplePicker: MSBadgeField {
         let statusBarHeight = window?.safeAreaInsets.top ?? 0
         // If the space below people picker to the keyboard is larger than the space above minus the status bar
         // then position the suggestions list below the people picker, otherwise position above
-        if windowSize.height - (position.y + height) - keyboardHeight > position.y - statusBarHeight {
-            personaSuggestionsY = position.y + height + Constants.personaSuggestionsVerticalMargin
+        if windowSize.height - (position.y + frame.height) - keyboardHeight > position.y - statusBarHeight {
+            personaSuggestionsY = position.y + frame.height + Constants.personaSuggestionsVerticalMargin
             personaSuggestionsHeight = windowSize.height - personaSuggestionsY - keyboardHeight
             separatorY = 0
         } else {
@@ -202,7 +202,7 @@ open class MSPeoplePicker: MSBadgeField {
 
         personaListView.frame = personaSuggestionsView.bounds
 
-        separator.frame = CGRect(x: 0, y: separatorY, width: personaSuggestionsView.width, height: separator.height)
+        separator.frame = CGRect(x: 0, y: separatorY, width: personaSuggestionsView.frame.width, height: separator.frame.height)
     }
 
     // MARK: Personas

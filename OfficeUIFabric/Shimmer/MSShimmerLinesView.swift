@@ -47,12 +47,12 @@ open class MSShimmerLinesView: MSShimmerView {
                 }
             }()
 
-            linelayer.frame = CGRect(x: 0, y: currentTop, width: fillPercent * width, height: shimmerLinesViewAppearance.lineHeight)
+            linelayer.frame = CGRect(x: 0, y: currentTop, width: fillPercent * frame.width, height: shimmerLinesViewAppearance.lineHeight)
 
             currentTop += shimmerLinesViewAppearance.lineHeight + shimmerLinesViewAppearance.lineSpacing
         }
 
-        shimmeringLayer.frame = CGRect(x: -shimmerAppearance.width, y: 0.0, width: width + 2 * shimmerAppearance.width, height: height)
+        shimmeringLayer.frame = CGRect(x: -shimmerAppearance.width, y: 0.0, width: frame.width + 2 * shimmerAppearance.width, height: frame.height)
 
         viewCoverLayers.forEach { $0.frame = flipRectForRTL($0.frame) }
 
@@ -65,12 +65,12 @@ open class MSShimmerLinesView: MSShimmerView {
     }
 
     open override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIView.noIntrinsicMetric, height: sizeThatFits(CGSize(width: width, height: .infinity)).height)
+        return CGSize(width: UIView.noIntrinsicMetric, height: sizeThatFits(CGSize(width: frame.width, height: .infinity)).height)
     }
 
     override func updateViewCoverLayers() {
         var newLineLayers = [CALayer]()
-        let desiredLineCount = MSShimmerLinesView.lineCount(for: shimmerLinesViewAppearance, availableHeight: height)
+        let desiredLineCount = MSShimmerLinesView.lineCount(for: shimmerLinesViewAppearance, availableHeight: frame.height)
 
         for i in 0..<desiredLineCount {
             let lineLayer = i < viewCoverLayers.count ? viewCoverLayers[i] : CALayer()

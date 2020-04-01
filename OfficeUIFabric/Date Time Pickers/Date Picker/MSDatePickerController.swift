@@ -220,7 +220,7 @@ class MSDatePickerController: UIViewController, DateTimePicker {
                 x: 0.0,
                 y: 0.0,
                 width: Constants.titleButtonWidth,
-                height: navigationController.navigationBar.height
+                height: navigationController.navigationBar.frame.height
             )
         }
     }
@@ -264,9 +264,9 @@ class MSDatePickerController: UIViewController, DateTimePicker {
 
     private func visibleDates(at contentOffset: CGPoint) -> (startDate: Date, endDate: Date)? {
         let collectionView = calendarView.collectionView
-        let maxStartContentOffsetY = collectionView.contentSize.height - collectionView.height
+        let maxStartContentOffsetY = collectionView.contentSize.height - collectionView.frame.height
         let startPoint = CGPoint(x: contentOffset.x, y: min(max(contentOffset.y, 0), maxStartContentOffsetY))
-        let endPoint = CGPoint(x: collectionView.width - 1, y: startPoint.y + collectionView.height - 1)
+        let endPoint = CGPoint(x: collectionView.frame.width - 1, y: startPoint.y + collectionView.frame.height - 1)
 
         guard let startIndexPath = collectionView.indexPathForItem(at: startPoint),
             let endIndexPath = collectionView.indexPathForItem(at: endPoint) else {
@@ -471,7 +471,7 @@ extension MSDatePickerController: MSCardPresentable {
     func idealSize() -> CGSize {
         return CGSize(
             width: Constants.idealWidth,
-            height: calendarView.height(for: Constants.calendarHeightStyle, in: view.bounds) + (segmentedControl?.height ?? 0)
+            height: calendarView.height(for: Constants.calendarHeightStyle, in: view.bounds) + (segmentedControl?.frame.height ?? 0)
         )
     }
 }

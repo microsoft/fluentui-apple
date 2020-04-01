@@ -108,24 +108,24 @@ class MSTooltipView: UIView {
         backgroundView.frame = bounds
 
         if positionController.arrowDirection.isVertical {
-            arrowImageView.left = positionController.arrowPosition
-            backgroundView.height -= arrowImageView.height
+            arrowImageView.frame.origin.x = positionController.arrowPosition
+            backgroundView.frame.size.height -= arrowImageView.frame.height
         } else {
-            arrowImageView.top = positionController.arrowPosition
-            backgroundView.width -= arrowImageView.width
+            arrowImageView.frame.origin.y = positionController.arrowPosition
+            backgroundView.frame.size.width -= arrowImageView.frame.width
         }
 
         switch positionController.arrowDirection {
         case .up:
-            arrowImageView.top = 0.0
-            backgroundView.top = arrowImageView.bottom
+            arrowImageView.frame.origin.y = 0.0
+            backgroundView.frame.origin.y = arrowImageView.frame.maxY
         case .down:
-            arrowImageView.bottom = bounds.height
+            arrowImageView.frame.origin.y = bounds.height - arrowImageView.frame.height
         case .left:
-            arrowImageView.left = 0.0
-            backgroundView.left = arrowImageView.right
+            arrowImageView.frame.origin.x = 0.0
+            backgroundView.frame.origin.x = arrowImageView.frame.maxX
         case .right:
-            arrowImageView.right = bounds.width
+            arrowImageView.frame.origin.x = bounds.width - arrowImageView.frame.width
         }
 
         messageLabel.frame = backgroundView.frame.insetBy(dx: Constants.paddingHorizontal, dy: 0)

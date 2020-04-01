@@ -258,7 +258,7 @@ open class MSBadgeField: UIView {
         let contentHeight = self.contentHeight(forBoundingWidth: bounds.width)
         // Give the view controller a chance to relayout itself if necessary
         cachedContentHeight = contentHeight
-        let topMargin = UIScreen.main.middleOrigin(height, containedSizeValue: contentHeight)
+        let topMargin = UIScreen.main.middleOrigin(frame.height, containedSizeValue: contentHeight)
 
         labelView.frame = CGRect(x: 0, y: topMargin, width: labelViewWidth, height: Constants.badgeHeight)
 
@@ -276,7 +276,7 @@ open class MSBadgeField: UIView {
         let textFieldSize = textField.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
         let textFieldHeight = UIScreen.main.roundToDevicePixels(textFieldSize.height)
         let textFieldVerticalOffset = UIScreen.main.middleOrigin(Constants.badgeHeight, containedSizeValue: textFieldHeight)
-        let shouldAppendToCurrentLine = left + Constants.textFieldMinWidth <= width
+        let shouldAppendToCurrentLine = left + Constants.textFieldMinWidth <= frame.width
         if !shouldAppendToCurrentLine {
             lineIndex += 1
             left = 0
@@ -284,11 +284,11 @@ open class MSBadgeField: UIView {
         textField.frame = CGRect(
             x: left,
             y: topMargin + offsetForLine(at: lineIndex) + textFieldVerticalOffset,
-            width: width - left,
+            width: frame.width - left,
             height: textFieldHeight
         )
 
-        placeholderView.frame = CGRect(x: 0, y: topMargin, width: width, height: Constants.badgeHeight)
+        placeholderView.frame = CGRect(x: 0, y: topMargin, width: frame.width, height: Constants.badgeHeight)
 
         flipSubviewsForRTL()
     }
@@ -298,7 +298,7 @@ open class MSBadgeField: UIView {
     }
 
     open override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIView.noIntrinsicMetric, height: contentHeight(forBoundingWidth: width))
+        return CGSize(width: UIView.noIntrinsicMetric, height: contentHeight(forBoundingWidth: frame.width))
     }
 
     private func shouldDragBadge(_ badge: MSBadgeView) -> Bool {
@@ -344,15 +344,15 @@ open class MSBadgeField: UIView {
                                                                           isFirstBadge: false,
                                                                           isFirstBadgeOfLastDisplayedLine: false,
                                                                           moreBadgeOffset: 0,
-                                                                          boundingWidth: width)
+                                                                          boundingWidth: frame.width)
         }
 
         let badgeWidth = width(forBadge: badge,
                                isFirstBadge: isFirstBadge,
                                isFirstBadgeOfLastDisplayedLine: isFirstBadgeOfCurrentLine,
                                moreBadgeOffset: moreBadgeOffset,
-                               boundingWidth: width)
-        let enoughSpaceAvailable = currentLeft + badgeWidth + moreBadgeOffset <= width
+                               boundingWidth: frame.width)
+        let enoughSpaceAvailable = currentLeft + badgeWidth + moreBadgeOffset <= frame.width
         let shouldAppend = isFirstBadgeOfCurrentLine || enoughSpaceAvailable
         if !shouldAppend {
             if isLastDisplayedLine {
@@ -379,7 +379,7 @@ open class MSBadgeField: UIView {
     private func frameForBadge(_ badgeToInsert: MSBadgeView, boundingWidth: CGFloat) -> CGRect {
         let badges = currentBadges
         let contentHeight = self.contentHeight(forBoundingWidth: bounds.width)
-        let topMargin = UIScreen.main.middleOrigin(height, containedSizeValue: contentHeight)
+        let topMargin = UIScreen.main.middleOrigin(frame.height, containedSizeValue: contentHeight)
         var left = labelViewRightOffset
         var lineIndex = 0
 
@@ -454,7 +454,7 @@ open class MSBadgeField: UIView {
                                isFirstBadgeOfLastDisplayedLine: isFirstBadgeOfCurrentLine && isLastDisplayedLine,
                                boundingWidth: boundingWidth)
         // Not enough space on current line
-        let enoughSpaceAvailableOnCurrentLine = left + badgeWidth <= width
+        let enoughSpaceAvailableOnCurrentLine = left + badgeWidth <= frame.width
         let shouldAppendToCurrentLine = isFirstBadgeOfCurrentLine || enoughSpaceAvailableOnCurrentLine
         if !shouldAppendToCurrentLine {
             lineIndex += 1
@@ -923,7 +923,7 @@ open class MSBadgeField: UIView {
         draggedBadge = badge
         // Dragging badge offset
         let touchLocation = gestureRecognizer.location(in: badge)
-        draggedBadgeTouchCenterOffset = CGPoint(x: round(touchLocation.x - badge.width / 2), y: round(touchLocation.y - badge.height / 2))
+        draggedBadgeTouchCenterOffset = CGPoint(x: round(touchLocation.x - badge.frame.width / 2), y: round(touchLocation.y - badge.frame.height / 2))
         // Dragging window becomes front window
         draggingWindow.isHidden = false
         // Move dragged badge to main window
@@ -945,7 +945,7 @@ open class MSBadgeField: UIView {
             return
         }
         // Compute original position
-        let destinationFrameInSelf = frameForBadge(draggedBadge, boundingWidth: width)
+        let destinationFrameInSelf = frameForBadge(draggedBadge, boundingWidth: frame.width)
         let destinationFrameInWindow = convert(destinationFrameInSelf, to: containingWindow)
         // Move to original position
         let moveBadgeToOriginalPosition = {
@@ -989,7 +989,7 @@ open class MSBadgeField: UIView {
         }
 
         // Compute destination position
-        let destinationFrameInHoveredBadgeField = destinationBadgeField.frameForBadge(draggedBadge, boundingWidth: destinationBadgeField.width)
+        let destinationFrameInHoveredBadgeField = destinationBadgeField.frameForBadge(draggedBadge, boundingWidth: destinationBadgeField.frame.width)
         let destinationFrameInWindow = destinationBadgeField.convert(destinationFrameInHoveredBadgeField, to: containingWindow)
 
         // Animate to destination position

@@ -43,10 +43,10 @@ open class MSSeparator: UIView {
         self.orientation = orientation
         switch orientation {
         case .horizontal:
-            height = UIScreen.main.devicePixel
+            frame.size.height = UIScreen.main.devicePixel
             autoresizingMask = .flexibleWidth
         case .vertical:
-            width = UIScreen.main.devicePixel
+            frame.size.width = UIScreen.main.devicePixel
             autoresizingMask = .flexibleHeight
         }
         isAccessibilityElement = false
@@ -56,18 +56,18 @@ open class MSSeparator: UIView {
     open override var intrinsicContentSize: CGSize {
         switch orientation {
         case .horizontal:
-            return CGSize(width: UIView.noIntrinsicMetric, height: height)
+            return CGSize(width: UIView.noIntrinsicMetric, height: frame.height)
         case .vertical:
-            return CGSize(width: width, height: UIView.noIntrinsicMetric)
+            return CGSize(width: frame.width, height: UIView.noIntrinsicMetric)
         }
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
         switch orientation {
         case .horizontal:
-            return CGSize(width: size.width, height: height)
+            return CGSize(width: size.width, height: frame.height)
         case .vertical:
-            return CGSize(width: width, height: size.height)
+            return CGSize(width: frame.width, height: size.height)
         }
     }
 }

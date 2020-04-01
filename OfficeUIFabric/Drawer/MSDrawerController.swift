@@ -216,7 +216,7 @@ open class MSDrawerController: UIViewController {
                 return
             }
             if isExpanded {
-                normalDrawerHeight = isResizing ? originalDrawerHeight : view.height
+                normalDrawerHeight = isResizing ? originalDrawerHeight : view.frame.height
                 normalPreferredContentHeight = super.preferredContentSize.height
             }
             updatePreferredContentSize(isExpanded: isExpanded)
@@ -692,7 +692,7 @@ open class MSDrawerController: UIViewController {
                 isResizing = true
                 presentationController.extraContentSizeEffectWhenCollapsing = isExpanded ? .resize : .move
                 originalDrawerOffsetY = view.convert(view.bounds.origin, to: nil).y
-                originalDrawerHeight = view.height
+                originalDrawerHeight = view.frame.height
                 initOriginalContentOffsetYIfNeeded()
             }
             if isExpanded {

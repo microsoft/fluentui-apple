@@ -273,15 +273,15 @@ open class MSSegmentedControl: UIControl {
         var leftOffset: CGFloat = 0
         for (index, button) in buttons.enumerated() {
             if style.segmentsHaveEqualWidth {
-                rightOffset = UIScreen.main.roundToDevicePixels(CGFloat(index + 1) / CGFloat(buttons.count) * width)
+                rightOffset = UIScreen.main.roundToDevicePixels(CGFloat(index + 1) / CGFloat(buttons.count) * frame.width)
             } else {
                 rightOffset = leftOffset + UIScreen.main.roundToDevicePixels(button.sizeThatFits(.max).width)
             }
-            button.frame = CGRect(x: leftOffset, y: 0, width: rightOffset - leftOffset, height: height)
+            button.frame = CGRect(x: leftOffset, y: 0, width: rightOffset - leftOffset, height: frame.height)
             leftOffset = rightOffset
         }
 
-        bottomSeparator.frame = CGRect(x: 0, y: height - bottomSeparator.height, width: width, height: bottomSeparator.height)
+        bottomSeparator.frame = CGRect(x: 0, y: frame.height - bottomSeparator.frame.height, width: frame.width, height: bottomSeparator.frame.height)
 
         layoutSelectionView()
 
@@ -387,14 +387,14 @@ open class MSSegmentedControl: UIControl {
         switch style {
         case .tabs:
             selectionView.frame = CGRect(
-                x: button.left,
-                y: button.bottom - Constants.selectionBarHeight,
-                width: button.width,
+                x: button.frame.origin.x,
+                y: button.frame.maxY - Constants.selectionBarHeight,
+                width: button.frame.width,
                 height: Constants.selectionBarHeight
             )
         case .switch:
             selectionView.frame = button.frame
-            selectionView.layer.cornerRadius = selectionView.height / 2
+            selectionView.layer.cornerRadius = selectionView.frame.height / 2
         }
     }
 

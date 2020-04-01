@@ -244,7 +244,7 @@ class MSDrawerPresentationController: UIPresentationController {
 
         let newFrame = frameForContentView()
         if animated {
-            let sizeChange = presentationDirection.isVertical ? newFrame.height - contentView.height : newFrame.width - contentView.width
+            let sizeChange = presentationDirection.isVertical ? newFrame.height - contentView.frame.height : newFrame.width - contentView.frame.width
             let animationDuration = animationDuration ?? MSDrawerTransitionAnimator.animationDuration(forSizeChange: sizeChange)
             UIView.animate(withDuration: animationDuration, delay: 0, options: [.layoutSubviews], animations: {
                 self.setContentViewFrame(newFrame)
@@ -262,7 +262,7 @@ class MSDrawerPresentationController: UIPresentationController {
             presentedView.frame = frameOfPresentedViewInContainerView
         }
         if separator.superview != nil {
-            separator.frame = frameForSeparator(in: contentView.frame, withThickness: separator.height)
+            separator.frame = frameForSeparator(in: contentView.frame, withThickness: separator.frame.height)
         }
         updateBackgroundAccessibilityFrame()
     }

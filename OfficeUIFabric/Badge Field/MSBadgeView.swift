@@ -268,7 +268,7 @@ open class MSBadgeView: UIView {
         let fittingLabelWidth = UIScreen.main.roundToDevicePixels(labelSize.width)
 
         let minLabelWidth = minWidth - size.horizontalPadding * 2
-        let maxLabelWidth = width - size.horizontalPadding * 2
+        let maxLabelWidth = frame.width - size.horizontalPadding * 2
         let labelWidth = max(minLabelWidth, min(maxLabelWidth, fittingLabelWidth))
         label.frame = CGRect(x: size.horizontalPadding, y: size.verticalPadding, width: labelWidth, height: labelHeight)
     }

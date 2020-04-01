@@ -112,16 +112,16 @@ open class MSPageCardPresenterController: UIViewController {
         // Use bounds and position because CardPresenterTransitionAnimator applies a transform on the scrollView
         scrollView.bounds = view.bounds
         scrollView.layer.position = CGPoint(
-            x: round(view.width * scrollView.layer.anchorPoint.x),
-            y: round(view.height * scrollView.layer.anchorPoint.y)
+            x: round(view.frame.width * scrollView.layer.anchorPoint.x),
+            y: round(view.frame.height * scrollView.layer.anchorPoint.y)
         )
         scrollView.contentSize = CGSize(width: CGFloat(viewControllers.count) * scrollView.bounds.width, height: scrollView.bounds.height)
         scrollView.contentOffset = CGPoint(x: positionRatio * scrollView.contentSize.width, y: 0)
 
-        dismissView.frame = CGRect(x: 0, y: 0, width: scrollView.contentSize.width, height: scrollView.height)
+        dismissView.frame = CGRect(x: 0, y: 0, width: scrollView.contentSize.width, height: scrollView.frame.height)
 
         pageControl.sizeToFit()
-        pageControl.bottom = view.bottom - Constants.pageControlVerticalMargin
+        pageControl.frame.origin.y = view.frame.maxY - Constants.pageControlVerticalMargin - pageControl.frame.height
 
         for (index, viewController) in viewControllers.enumerated() {
             guard let cardView = viewController.view else {
@@ -134,19 +134,19 @@ open class MSPageCardPresenterController: UIViewController {
             }
 
             // Use bounds because scroll view might have a transform applied on it
-            cardView.left += round(CGFloat(index) * scrollView.bounds.width)
+            cardView.frame.origin.x += round(CGFloat(index) * scrollView.bounds.width)
 
             // Check if the pageControl has at least equal spacing between
             // the bottom of the view and the bottom of the cardView
-            let currentPageControlBottomMargin = view.bottom - pageControl.bottom
-            if cardView.bottom + currentPageControlBottomMargin > pageControl.top {
+            let currentPageControlBottomMargin = view.frame.maxY - pageControl.frame.maxY
+            if cardView.frame.maxY + currentPageControlBottomMargin > pageControl.frame.origin.y {
                 // Use smaller spacing between view bottom
-                pageControl.bottom = view.bottom - Constants.pageControlVerticalMarginCompact
+                pageControl.frame.origin.y = view.frame.maxY - Constants.pageControlVerticalMarginCompact - pageControl.frame.height
 
                 // adjust the height of the cardView to acommodate the pageControl
-                let maxHeight = view.height - 2 * (pageControl.height + 2 * Constants.pageControlVerticalMarginCompact)
-                cardView.height = min(cardView.height, maxHeight)
-                cardView.top = round((view.height - cardView.height) / 2)
+                let maxHeight = view.frame.height - 2 * (pageControl.frame.height + 2 * Constants.pageControlVerticalMarginCompact)
+                cardView.frame.size.height = min(cardView.frame.height, maxHeight)
+                cardView.frame.origin.y = round((view.frame.height - cardView.frame.height) / 2)
             }
         }
 
@@ -160,8 +160,8 @@ open class MSPageCardPresenterController: UIViewController {
 
     private func sizeForCard(_ card: MSCardPresentable) -> CGSize {
         var size = card.idealSize()
-        let idealWidth = min(size.width, view.width - Constants.minMargin * 2)
-        let idealHeight = min(size.height, view.height - Constants.minMargin * 2)
+        let idealWidth = min(size.width, view.frame.width - Constants.minMargin * 2)
+        let idealHeight = min(size.height, view.frame.height - Constants.minMargin * 2)
         size.width = min(idealWidth, Constants.maxWidth)
         size.height = idealHeight
         return size
@@ -170,8 +170,8 @@ open class MSPageCardPresenterController: UIViewController {
     private func frameForCard(_ card: MSCardPresentable) -> CGRect {
         let size = sizeForCard(card)
         return CGRect(
-            x: UIScreen.main.roundToDevicePixels((view.width - size.width) / 2),
-            y: UIScreen.main.roundToDevicePixels((view.height - size.height) / 2),
+            x: UIScreen.main.roundToDevicePixels((view.frame.width - size.width) / 2),
+            y: UIScreen.main.roundToDevicePixels((view.frame.height - size.height) / 2),
             width: size.width,
             height: size.height
         )
@@ -217,7 +217,7 @@ open class MSPageCardPresenterController: UIViewController {
 
 extension MSPageCardPresenterController: UIScrollViewDelegate {
     public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        let pageWidth = scrollView.width
+        let pageWidth = scrollView.frame.width
         let targetIndex = Int(targetContentOffset.pointee.x / pageWidth)
         pageControl.currentPage = flipPageIndexForRTL(targetIndex)
     }
