@@ -67,13 +67,10 @@
 		8FD0119D228A82A600D25925 /* DrawerShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5237ACC21ED6CA70040BF27 /* DrawerShadowView.swift */; };
 		8FD0119E228A82A600D25925 /* CALayer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54D97D9217A5FC10072681A /* CALayer+Extensions.swift */; };
 		8FD0119F228A82A600D25925 /* Calendar+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7254E82147059D002F4069 /* Calendar+Extensions.swift */; };
-		8FD011A0228A82A600D25925 /* CGSize+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCF7C8021BF24C70058E9E6 /* CGSize+Extensions.swift */; };
 		8FD011A1228A82A600D25925 /* CharacterSet+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46D3F90215056940029772C /* CharacterSet+Extension.swift */; };
 		8FD011A2228A82A600D25925 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5BBE3A214B2F44008964B4 /* Date+Extensions.swift */; };
 		8FD011A3228A82A600D25925 /* DateComponents+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9A5C862179464F00D224D9 /* DateComponents+Extensions.swift */; };
-		8FD011A4228A82A600D25925 /* Locale+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD777526219E305F00033D58 /* Locale+Extensions.swift */; };
 		8FD011A6228A82A600D25925 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A559BB7D212B6D100055E107 /* String+Extension.swift */; };
-		8FD011A7228A82A600D25925 /* UIDevice+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AFF211E1B700038C37C /* UIDevice+Extension.swift */; };
 		8FD011A8228A82A600D25925 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF0211BD4380038C37C /* UIFont+Extension.swift */; };
 		8FD011A9228A82A600D25925 /* UIFontDescriptor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AEE211BCA710038C37C /* UIFontDescriptor+Extension.swift */; };
 		8FD011AA228A82A600D25925 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA6218A2E4500E2A506 /* UIImage+Extensions.swift */; };
@@ -130,7 +127,6 @@
 		A5B87AF6211E16370038C37C /* MSDrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF3211E16360038C37C /* MSDrawerController.swift */; };
 		A5B87AF7211E16370038C37C /* MSDrawerTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF4211E16360038C37C /* MSDrawerTransitionAnimator.swift */; };
 		A5B87AF8211E16370038C37C /* MSDrawerPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF5211E16360038C37C /* MSDrawerPresentationController.swift */; };
-		A5B87B00211E1B700038C37C /* UIDevice+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AFF211E1B700038C37C /* UIDevice+Extension.swift */; };
 		A5B87B02211E20B50038C37C /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87B01211E20B50038C37C /* UIScreen+Extension.swift */; };
 		A5B87B04211E22B70038C37C /* MSDimmingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87B03211E22B70038C37C /* MSDimmingView.swift */; };
 		A5B87B06211E23650038C37C /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87B05211E23650038C37C /* UIView+Extensions.swift */; };
@@ -210,8 +206,6 @@
 		FD41C8BF22DD47120086F899 /* UINavigationItem+Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C8BD22DD47120086F899 /* UINavigationItem+Navigation.swift */; };
 		FD41C8C122DD48E60086F899 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C8C022DD48E60086F899 /* Operators.swift */; };
 		FD41C8C222DD48E60086F899 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C8C022DD48E60086F899 /* Operators.swift */; };
-		FD41C8CF22DE62D40086F899 /* UILayoutPriority+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C8CE22DE62D40086F899 /* UILayoutPriority+Extensions.swift */; };
-		FD41C8D022DE62D40086F899 /* UILayoutPriority+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C8CE22DE62D40086F899 /* UILayoutPriority+Extensions.swift */; };
 		FD4F2A1B2148937100C437D6 /* MSPageCardPresenterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4F2A1A2148937100C437D6 /* MSPageCardPresenterController.swift */; };
 		FD4F2A20214AE20400C437D6 /* MSDatePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4F2A1F214AE20400C437D6 /* MSDatePickerController.swift */; };
 		FD56FD92219123FE0023C7EA /* MSDateTimePickerViewComponentTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9758082191118E00B67319 /* MSDateTimePickerViewComponentTableView.swift */; };
@@ -229,7 +223,6 @@
 		FD5BBE43214C73CE008964B4 /* MSEasyTapButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5BBE42214C73CE008964B4 /* MSEasyTapButton.swift */; };
 		FD7254E72146E946002F4069 /* MSCalendarViewDayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDFB8AEE21361C9D0046850A /* MSCalendarViewDayCell.swift */; };
 		FD7254E92147059D002F4069 /* Calendar+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7254E82147059D002F4069 /* Calendar+Extensions.swift */; };
-		FD777527219E305F00033D58 /* Locale+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD777526219E305F00033D58 /* Locale+Extensions.swift */; };
 		FD777529219E3F6C00033D58 /* MSDayOfMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD777528219E3F6C00033D58 /* MSDayOfMonth.swift */; };
 		FD77752B219E455A00033D58 /* MSAccessibilityContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77752A219E455A00033D58 /* MSAccessibilityContainerView.swift */; };
 		FD77752D219E62E100033D58 /* MSDateTimePickerViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77752C219E62E100033D58 /* MSDateTimePickerViewLayout.swift */; };
@@ -245,7 +238,6 @@
 		FDA1AF8F21484A26001AE720 /* Obscurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA1AF8E21484A26001AE720 /* Obscurable.swift */; };
 		FDA1AF91214871B5001AE720 /* MSCardTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA1AF90214871B5001AE720 /* MSCardTransitionAnimator.swift */; };
 		FDCF7C7F21BB56740058E9E6 /* MSSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCF7C7E21BB56740058E9E6 /* MSSegmentedControl.swift */; };
-		FDCF7C8121BF24C70058E9E6 /* CGSize+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCF7C8021BF24C70058E9E6 /* CGSize+Extensions.swift */; };
 		FDD454EE21405B390006E84E /* MSDotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD454ED21405B390006E84E /* MSDotView.swift */; };
 		FDF41ED92141A02200EC527C /* MSCalendarConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF41ED82141A02200EC527C /* MSCalendarConfiguration.swift */; };
 		FDF41EDB2141A23B00EC527C /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF41EDA2141A23B00EC527C /* UIViewController+Extensions.swift */; };
@@ -309,7 +301,6 @@
 		A5B87AF3211E16360038C37C /* MSDrawerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDrawerController.swift; sourceTree = "<group>"; };
 		A5B87AF4211E16360038C37C /* MSDrawerTransitionAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDrawerTransitionAnimator.swift; sourceTree = "<group>"; };
 		A5B87AF5211E16360038C37C /* MSDrawerPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDrawerPresentationController.swift; sourceTree = "<group>"; };
-		A5B87AFF211E1B700038C37C /* UIDevice+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extension.swift"; sourceTree = "<group>"; };
 		A5B87B01211E20B50038C37C /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
 		A5B87B03211E22B70038C37C /* MSDimmingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDimmingView.swift; sourceTree = "<group>"; };
 		A5B87B05211E23650038C37C /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
@@ -374,7 +365,6 @@
 		FD41C8B422DD3EA20086F899 /* NSLayoutConstraint+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Extensions.swift"; sourceTree = "<group>"; };
 		FD41C8BD22DD47120086F899 /* UINavigationItem+Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationItem+Navigation.swift"; sourceTree = "<group>"; };
 		FD41C8C022DD48E60086F899 /* Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
-		FD41C8CE22DE62D40086F899 /* UILayoutPriority+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILayoutPriority+Extensions.swift"; sourceTree = "<group>"; };
 		FD4F2A1A2148937100C437D6 /* MSPageCardPresenterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPageCardPresenterController.swift; sourceTree = "<group>"; };
 		FD4F2A1F214AE20400C437D6 /* MSDatePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDatePickerController.swift; sourceTree = "<group>"; };
 		FD599D0121348439008845EE /* MSCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSCalendarView.swift; sourceTree = "<group>"; };
@@ -387,7 +377,6 @@
 		FD5BBE40214C6AF3008964B4 /* MSTwoLineTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTwoLineTitleView.swift; sourceTree = "<group>"; };
 		FD5BBE42214C73CE008964B4 /* MSEasyTapButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSEasyTapButton.swift; sourceTree = "<group>"; };
 		FD7254E82147059D002F4069 /* Calendar+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Calendar+Extensions.swift"; sourceTree = "<group>"; };
-		FD777526219E305F00033D58 /* Locale+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Locale+Extensions.swift"; sourceTree = "<group>"; };
 		FD777528219E3F6C00033D58 /* MSDayOfMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDayOfMonth.swift; sourceTree = "<group>"; };
 		FD77752A219E455A00033D58 /* MSAccessibilityContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAccessibilityContainerView.swift; sourceTree = "<group>"; };
 		FD77752C219E62E100033D58 /* MSDateTimePickerViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDateTimePickerViewLayout.swift; sourceTree = "<group>"; };
@@ -477,7 +466,6 @@
 		FDA1AF90214871B5001AE720 /* MSCardTransitionAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSCardTransitionAnimator.swift; sourceTree = "<group>"; };
 		FDA1AF9221487225001AE720 /* MSCardPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSCardPresentationController.swift; sourceTree = "<group>"; };
 		FDCF7C7E21BB56740058E9E6 /* MSSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSSegmentedControl.swift; sourceTree = "<group>"; };
-		FDCF7C8021BF24C70058E9E6 /* CGSize+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize+Extensions.swift"; sourceTree = "<group>"; };
 		FDD454ED21405B390006E84E /* MSDotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDotView.swift; sourceTree = "<group>"; };
 		FDF41ED82141A02200EC527C /* MSCalendarConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSCalendarConfiguration.swift; sourceTree = "<group>"; };
 		FDF41EDA2141A23B00EC527C /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
@@ -551,19 +539,15 @@
 			children = (
 				A54D97D9217A5FC10072681A /* CALayer+Extensions.swift */,
 				FD7254E82147059D002F4069 /* Calendar+Extensions.swift */,
-				FDCF7C8021BF24C70058E9E6 /* CGSize+Extensions.swift */,
 				B46D3F90215056940029772C /* CharacterSet+Extension.swift */,
 				FD5BBE3A214B2F44008964B4 /* Date+Extensions.swift */,
 				FD9A5C862179464F00D224D9 /* DateComponents+Extensions.swift */,
-				FD777526219E305F00033D58 /* Locale+Extensions.swift */,
 				FD41C8B422DD3EA20086F899 /* NSLayoutConstraint+Extensions.swift */,
 				A559BB7D212B6D100055E107 /* String+Extension.swift */,
 				A56CE7B522E68A7800AA77EE /* UIColor+Extensions.swift */,
-				A5B87AFF211E1B700038C37C /* UIDevice+Extension.swift */,
 				A5B87AF0211BD4380038C37C /* UIFont+Extension.swift */,
 				A5B87AEE211BCA710038C37C /* UIFontDescriptor+Extension.swift */,
 				A5961FA6218A2E4500E2A506 /* UIImage+Extensions.swift */,
-				FD41C8CE22DE62D40086F899 /* UILayoutPriority+Extensions.swift */,
 				A5F3B148232B1F9700007A4F /* UIResponder+Extensions.swift */,
 				A5B87B01211E20B50038C37C /* UIScreen+Extension.swift */,
 				FD41C8B122DD3BB70086F899 /* UIScrollView+Extensions.swift */,
@@ -1206,15 +1190,12 @@
 				8FD0119D228A82A600D25925 /* DrawerShadowView.swift in Sources */,
 				8FD0119E228A82A600D25925 /* CALayer+Extensions.swift in Sources */,
 				8FD0119F228A82A600D25925 /* Calendar+Extensions.swift in Sources */,
-				8FD011A0228A82A600D25925 /* CGSize+Extensions.swift in Sources */,
 				8FD011A1228A82A600D25925 /* CharacterSet+Extension.swift in Sources */,
 				FD41C8A122DD13230086F899 /* MSNavigationAnimator.swift in Sources */,
 				8FD011A2228A82A600D25925 /* Date+Extensions.swift in Sources */,
 				8FD011A3228A82A600D25925 /* DateComponents+Extensions.swift in Sources */,
 				FD9DA7B6232C33A80013E41B /* UIViewController+Navigation.swift in Sources */,
-				8FD011A4228A82A600D25925 /* Locale+Extensions.swift in Sources */,
 				8FD011A6228A82A600D25925 /* String+Extension.swift in Sources */,
-				8FD011A7228A82A600D25925 /* UIDevice+Extension.swift in Sources */,
 				8FD011A8228A82A600D25925 /* UIFont+Extension.swift in Sources */,
 				8FD011A9228A82A600D25925 /* UIFontDescriptor+Extension.swift in Sources */,
 				B4EF66592297488B007FEAB0 /* MSCollectionViewHeaderFooterView.swift in Sources */,
@@ -1225,7 +1206,6 @@
 				8FD011AE228A82A600D25925 /* UIView+Extensions.swift in Sources */,
 				8FD011AF228A82A600D25925 /* UIViewController+Extensions.swift in Sources */,
 				8FD011B0228A82A600D25925 /* MSHUD.swift in Sources */,
-				FD41C8D022DE62D40086F899 /* UILayoutPriority+Extensions.swift in Sources */,
 				8FD011B1228A82A600D25925 /* MSHUDView.swift in Sources */,
 				8FD011B2228A82A600D25925 /* MSAvatarView.swift in Sources */,
 				A5F3B147232B1E3700007A4F /* MSScrollView.swift in Sources */,
@@ -1266,7 +1246,6 @@
 				FD599D082134AB0E008845EE /* MSCalendarViewWeekdayHeadingView.swift in Sources */,
 				FDFB8AF321361C9D0046850A /* MSCalendarViewDayMonthYearCell.swift in Sources */,
 				A5961F9D218A254D00E2A506 /* MSPopupMenuController.swift in Sources */,
-				A5B87B00211E1B700038C37C /* UIDevice+Extension.swift in Sources */,
 				FD56FD92219123FE0023C7EA /* MSDateTimePickerViewComponentTableView.swift in Sources */,
 				B4E782C521793BB900A7DFCE /* MSActivityIndicatorView.swift in Sources */,
 				A52648DC2316F4F9003342A0 /* MSBarButtonItems.swift in Sources */,
@@ -1322,7 +1301,6 @@
 				A56CE7B622E68A7800AA77EE /* UIColor+Extensions.swift in Sources */,
 				A5237ACB21DED7030040BF27 /* MSResizingHandleView.swift in Sources */,
 				B4E782C72179509A00A7DFCE /* MSCenteredLabelCell.swift in Sources */,
-				FDCF7C8121BF24C70058E9E6 /* CGSize+Extensions.swift in Sources */,
 				FD9A5C872179464F00D224D9 /* DateComponents+Extensions.swift in Sources */,
 				A5B87AF7211E16370038C37C /* MSDrawerTransitionAnimator.swift in Sources */,
 				C0A0D76D233AEF6C00F432FD /* MSShimmerAppearance.swift in Sources */,
@@ -1332,7 +1310,6 @@
 				FD777529219E3F6C00033D58 /* MSDayOfMonth.swift in Sources */,
 				FD1FAE1B2272464B00A5DBA4 /* DateTimePicker.swift in Sources */,
 				A54D97DA217A5FC10072681A /* CALayer+Extensions.swift in Sources */,
-				FD777527219E305F00033D58 /* Locale+Extensions.swift in Sources */,
 				B483323721DEB5A00022B4CC /* MSTouchForwardingView.swift in Sources */,
 				FDA1AF8F21484A26001AE720 /* Obscurable.swift in Sources */,
 				FD41C8A022DD13230086F899 /* MSNavigationAnimator.swift in Sources */,
@@ -1357,7 +1334,6 @@
 				A5CEC23120E451D00016922A /* MSButton.swift in Sources */,
 				FDF41EDB2141A23B00EC527C /* UIViewController+Extensions.swift in Sources */,
 				FD56FD95219131430023C7EA /* MSDateTimePickerView.swift in Sources */,
-				FD41C8CF22DE62D40086F899 /* UILayoutPriority+Extensions.swift in Sources */,
 				FDA1AF8C21484625001AE720 /* MSBlurringView.swift in Sources */,
 				A5961FA1218A25C400E2A506 /* MSPopupMenuSection.swift in Sources */,
 				A5B87AF6211E16370038C37C /* MSDrawerController.swift in Sources */,

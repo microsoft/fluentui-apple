@@ -240,7 +240,7 @@ public class MSHUD: NSObject {
             return
         }
 
-        let hudViewSize = presentedHUDView.sizeThatFits(.max)
+        let hudViewSize = presentedHUDView.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
 
         let keyboardMarginTop = keyboardHeight != 0 ? Constants.keyboardMarginTop : 0
 

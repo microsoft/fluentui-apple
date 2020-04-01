@@ -158,8 +158,8 @@ open class MSNavigationBar: UINavigationBar {
         }
         didSet {
             contentStackView.insertArrangedSubview(titleView, at: 0)
-            titleView.setContentHuggingPriority(.high, for: .horizontal)
-            titleView.setContentCompressionResistancePriority(.high, for: .horizontal)
+            titleView.setContentHuggingPriority(.required, for: .horizontal)
+            titleView.setContentCompressionResistancePriority(.required, for: .horizontal)
         }
     }
 
@@ -211,26 +211,26 @@ open class MSNavigationBar: UINavigationBar {
             contentStackView.addInteraction(UILargeContentViewerInteraction())
         }
 
-        //leftBarButtonItemsStackView: layout priorities are set to medium to make sure titleView has the highest priority in horizontal spacing
+        //leftBarButtonItemsStackView: layout priorities are slightly lower to make sure titleView has the highest priority in horizontal spacing
         contentStackView.addArrangedSubview(leftBarButtonItemsStackView)
-        leftBarButtonItemsStackView.setContentHuggingPriority(.medium, for: .horizontal)
-        leftBarButtonItemsStackView.setContentCompressionResistancePriority(.medium, for: .horizontal)
+        leftBarButtonItemsStackView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        leftBarButtonItemsStackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
 
         //titleView
         contentStackView.addArrangedSubview(titleView)
-        titleView.setContentHuggingPriority(.high, for: .horizontal)
-        titleView.setContentCompressionResistancePriority(.high, for: .horizontal)
+        titleView.setContentHuggingPriority(.required, for: .horizontal)
+        titleView.setContentCompressionResistancePriority(.required, for: .horizontal)
 
         //spacerView
         contentStackView.addArrangedSubview(spacerView)
         spacerView.backgroundColor = .clear
-        spacerView.setContentHuggingPriority(.low, for: .horizontal)
-        spacerView.setContentCompressionResistancePriority(.low, for: .horizontal)
+        spacerView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        spacerView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
-        //rightBarButtonItemsStackView: layout priorities are set to medium to make sure titleView has the highest priority in horizontal spacing
+        //rightBarButtonItemsStackView: layout priorities are slightly lower to make sure titleView has the highest priority in horizontal spacing
         contentStackView.addArrangedSubview(rightBarButtonItemsStackView)
-        rightBarButtonItemsStackView.setContentHuggingPriority(.medium, for: .horizontal)
-        rightBarButtonItemsStackView.setContentCompressionResistancePriority(.medium, for: .horizontal)
+        rightBarButtonItemsStackView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        rightBarButtonItemsStackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
 
         updateViewsForLargeTitlePresentation(for: topItem)
         updateColors(for: topItem)

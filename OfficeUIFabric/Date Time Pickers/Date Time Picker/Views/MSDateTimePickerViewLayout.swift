@@ -40,7 +40,7 @@ class MSDateTimePickerViewLayout {
         case .date:
             // Determine whether Day or Month picker should be first based on locale
             var componentTypes: [MSDateTimePickerViewComponentType]
-            if Locale.current.dateOrderIsDayMonth() {
+            if isDateOrderDayMonth() {
                 componentTypes = [.day, .month]
             } else {
                 componentTypes = [.month, .day]
@@ -72,5 +72,9 @@ class MSDateTimePickerViewLayout {
             map[type] = component
             return map
         })
+    }
+
+    private static func isDateOrderDayMonth() -> Bool {
+        return DateFormatter.dateFormat(fromTemplate: "MMMMd", options: 0, locale: Locale.current)?.hasPrefix("d") == true
     }
 }

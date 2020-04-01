@@ -275,7 +275,8 @@ open class MSSegmentedControl: UIControl {
             if style.segmentsHaveEqualWidth {
                 rightOffset = UIScreen.main.roundToDevicePixels(CGFloat(index + 1) / CGFloat(buttons.count) * frame.width)
             } else {
-                rightOffset = leftOffset + UIScreen.main.roundToDevicePixels(button.sizeThatFits(.max).width)
+                let maxSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
+                rightOffset = leftOffset + UIScreen.main.roundToDevicePixels(button.sizeThatFits(maxSize).width)
             }
             button.frame = CGRect(x: leftOffset, y: 0, width: rightOffset - leftOffset, height: frame.height)
             leftOffset = rightOffset
@@ -291,7 +292,7 @@ open class MSSegmentedControl: UIControl {
     }
 
     open override var intrinsicContentSize: CGSize {
-        return sizeThatFits(.max)
+        return sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
