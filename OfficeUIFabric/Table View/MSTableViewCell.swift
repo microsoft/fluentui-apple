@@ -24,13 +24,13 @@ import UIKit
         case .none:
             icon = nil
         case .disclosureIndicator:
-            icon = UIImage.staticImageNamed(OfficeUIFabricFramework.usesFluentIcons ? "iOS-chevron-right-20x20" : "disclosure")?.imageFlippedForRightToLeftLayoutDirection()
+            icon = UIImage.staticImageNamed("iOS-chevron-right-20x20")
         case .detailButton:
-            icon = UIImage.staticImageNamed(OfficeUIFabricFramework.usesFluentIcons ? "more-24x24" : "details")
+            icon = UIImage.staticImageNamed("more-24x24")
         case .checkmark:
-            icon = UIImage.staticImageNamed(OfficeUIFabricFramework.usesFluentIcons ? "checkmark-24x24" : "checkmark-blue-20x20")
+            icon = UIImage.staticImageNamed("checkmark-24x24")
         }
-        return icon?.withRenderingMode(.alwaysTemplate)
+        return icon
     }
 
     var iconColor: UIColor? {
@@ -89,7 +89,7 @@ open class MSTableViewCell: UITableViewCell {
             case .zero:
                 return .zero
             case .small:
-                return OfficeUIFabricFramework.usesFluentIcons ? CGSize(width: 24, height: 24) : CGSize(width: 25, height: 25)
+                return CGSize(width: 24, height: 24)
             case .medium, .default:
                 return CGSize(width: 40, height: 40)
             }
@@ -171,8 +171,8 @@ open class MSTableViewCell: UITableViewCell {
         static let minHeight: CGFloat = 44
 
         static let selectionImageMarginTrailing: CGFloat = horizontalSpacing
-        static let selectionImageOff = UIImage.staticImageNamed("selection-off")?.withRenderingMode(.alwaysTemplate)
-        static let selectionImageOn = UIImage.staticImageNamed("selection-on")?.withRenderingMode(.alwaysTemplate)
+        static let selectionImageOff = UIImage.staticImageNamed("selection-off")
+        static let selectionImageOn = UIImage.staticImageNamed("selection-on")
         static let selectionImageSize = CGSize(width: 24, height: 24)
         static let selectionModeAnimationDuration: TimeInterval = 0.2
 

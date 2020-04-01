@@ -245,7 +245,7 @@ open class MSNotificationView: UIView {
         imageView.isHidden = image == nil
 
         if actionTitle.isEmpty {
-            let actionImage = UIImage.staticImageNamed("dismiss-20x20")?.withRenderingMode(.alwaysTemplate)
+            let actionImage = UIImage.staticImageNamed("dismiss-20x20")
             actionImage?.accessibilityLabel = "Accessibility.Dismiss.Label".localized
             actionButton.setImage(actionImage, for: .normal)
             actionButton.setTitle(nil, for: .normal)

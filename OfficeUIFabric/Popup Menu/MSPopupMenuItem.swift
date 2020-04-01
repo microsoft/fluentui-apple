@@ -50,7 +50,7 @@ open class MSPopupMenuItem: NSObject {
     }
 
     public convenience init(imageName: String, generateSelectedImage: Bool = true, title: String, subtitle: String? = nil, isEnabled: Bool = true, isSelected: Bool = false, executes executionMode: ExecutionMode = .onSelection, onSelected: (() -> Void)? = nil) {
-        let image = UIImage.staticImageNamed(imageName, in: nil)
+        let image = UIImage(named: imageName)
         let selectedImage = generateSelectedImage ? nil : image
         self.init(image: image, selectedImage: selectedImage, title: title, subtitle: subtitle, isEnabled: isEnabled, isSelected: isSelected, executes: executionMode, onSelected: onSelected)
     }

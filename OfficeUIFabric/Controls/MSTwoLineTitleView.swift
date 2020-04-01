@@ -45,13 +45,13 @@ open class MSTwoLineTitleView: UIView {
             let image: UIImage?
             switch self {
             case .disclosure:
-                image = UIImage.staticImageNamed(OfficeUIFabricFramework.usesFluentIcons ? "chevron-right-20x20" : "disclosure")?.imageFlippedForRightToLeftLayoutDirection()
+                image = UIImage.staticImageNamed("chevron-right-20x20")
             case .downArrow:
-                image = UIImage.staticImageNamed(OfficeUIFabricFramework.usesFluentIcons ? "chevron-down-20x20" : "down-arrow-20x20")
+                image = UIImage.staticImageNamed("chevron-down-20x20")
             case .none:
                 image = nil
             }
-            return image?.withRenderingMode(.alwaysTemplate)
+            return image
         }
 
         var size: CGSize { return image?.size ?? .zero }
@@ -59,9 +59,9 @@ open class MSTwoLineTitleView: UIView {
         var horizontalPadding: CGFloat {
             switch self {
             case .disclosure:
-                return OfficeUIFabricFramework.usesFluentIcons ? 0 : 6
+                return 0
             case .downArrow:
-                return OfficeUIFabricFramework.usesFluentIcons ? -1 : 2
+                return -1
             case .none:
                 return 0
             }

@@ -15,7 +15,8 @@ public class OfficeUIFabricFramework: NSObject {
         return bundle
     }()
 
-    public static var usesFluentIcons: Bool = false
+    @available(*, deprecated, message: "Non-fluent icons no longer supported. Setting this var no longer has any effect and it will be removed in a future update.")
+    public static var usesFluentIcons: Bool = true
 
     public static func initializeAppearance() {
         initializeUINavigationBarAppearance(UINavigationBar.appearance())
@@ -58,7 +59,7 @@ public class OfficeUIFabricFramework: NSObject {
         titleAttributes[.foregroundColor] = MSColors.NavigationBar.title
         navigationBar.titleTextAttributes = titleAttributes
 
-        navigationBar.backIndicatorImage = UIImage.staticImageNamed(usesFluentIcons ? "back-24x24" : "back-25x25")?.withRenderingMode(.alwaysTemplate)
+        navigationBar.backIndicatorImage = UIImage.staticImageNamed("back-24x24")
         navigationBar.backIndicatorTransitionMaskImage = navigationBar.backIndicatorImage
     }
 

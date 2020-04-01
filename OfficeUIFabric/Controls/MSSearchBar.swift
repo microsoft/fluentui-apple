@@ -144,7 +144,7 @@ open class MSSearchBar: UIView {
     //Leading-edge aligned Icon
     private lazy var searchIconImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage.staticImageNamed("search-20x20")?.withRenderingMode(.alwaysTemplate)
+        imageView.image = UIImage.staticImageNamed("search-20x20")
         imageView.contentMode = .scaleToFill
         return imageView
     }()
@@ -177,7 +177,7 @@ open class MSSearchBar: UIView {
     private lazy var clearButton: UIButton = {
         let clearButton = UIButton()
         clearButton.addTarget(self, action: #selector(MSSearchBar.clearButtonTapped(sender:)), for: .touchUpInside)
-        clearButton.setImage(UIImage.staticImageNamed("search-clear")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        clearButton.setImage(UIImage.staticImageNamed("search-clear"), for: .normal)
         clearButton.isHidden = true
         return clearButton
     }()
