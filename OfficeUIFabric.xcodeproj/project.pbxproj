@@ -72,13 +72,11 @@
 		8FD011A2228A82A600D25925 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5BBE3A214B2F44008964B4 /* Date+Extensions.swift */; };
 		8FD011A3228A82A600D25925 /* DateComponents+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9A5C862179464F00D224D9 /* DateComponents+Extensions.swift */; };
 		8FD011A4228A82A600D25925 /* Locale+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD777526219E305F00033D58 /* Locale+Extensions.swift */; };
-		8FD011A5228A82A600D25925 /* NSString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B426613F214852B400E25423 /* NSString+Extension.swift */; };
 		8FD011A6228A82A600D25925 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A559BB7D212B6D100055E107 /* String+Extension.swift */; };
 		8FD011A7228A82A600D25925 /* UIDevice+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AFF211E1B700038C37C /* UIDevice+Extension.swift */; };
 		8FD011A8228A82A600D25925 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF0211BD4380038C37C /* UIFont+Extension.swift */; };
 		8FD011A9228A82A600D25925 /* UIFontDescriptor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AEE211BCA710038C37C /* UIFontDescriptor+Extension.swift */; };
 		8FD011AA228A82A600D25925 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA6218A2E4500E2A506 /* UIImage+Extensions.swift */; };
-		8FD011AB228A82A600D25925 /* UINavigationBar+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5BBE3E214C68F8008964B4 /* UINavigationBar+Extensions.swift */; };
 		8FD011AC228A82A600D25925 /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87B01211E20B50038C37C /* UIScreen+Extension.swift */; };
 		8FD011AD228A82A600D25925 /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444D6B02181403C0002B4D4 /* UITableViewCell+Extension.swift */; };
 		8FD011AE228A82A600D25925 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87B05211E23650038C37C /* UIView+Extensions.swift */; };
@@ -148,7 +146,6 @@
 		A5F3B149232B1F9700007A4F /* UIResponder+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F3B148232B1F9700007A4F /* UIResponder+Extensions.swift */; };
 		A5F3B14A232B1F9700007A4F /* UIResponder+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F3B148232B1F9700007A4F /* UIResponder+Extensions.swift */; };
 		B426613E214731D100E25423 /* MSInitialsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B426613D214731D100E25423 /* MSInitialsView.swift */; };
-		B4266140214852B400E25423 /* NSString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B426613F214852B400E25423 /* NSString+Extension.swift */; };
 		B42661422148568800E25423 /* MSAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42661412148568800E25423 /* MSAvatarView.swift */; };
 		B441478D228CDA130040E88E /* MSBooleanCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B441478C228CDA130040E88E /* MSBooleanCell.swift */; };
 		B4414790228F4D920040E88E /* MSBooleanCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B441478C228CDA130040E88E /* MSBooleanCell.swift */; };
@@ -228,7 +225,6 @@
 		FD599D0A2134AB15008845EE /* MSCalendarViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD599D092134AB15008845EE /* MSCalendarViewLayout.swift */; };
 		FD599D0C2134AB1E008845EE /* MSCalendarViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD599D0B2134AB1E008845EE /* MSCalendarViewDataSource.swift */; };
 		FD5BBE3B214B2F44008964B4 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5BBE3A214B2F44008964B4 /* Date+Extensions.swift */; };
-		FD5BBE3F214C68F8008964B4 /* UINavigationBar+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5BBE3E214C68F8008964B4 /* UINavigationBar+Extensions.swift */; };
 		FD5BBE41214C6AF3008964B4 /* MSTwoLineTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5BBE40214C6AF3008964B4 /* MSTwoLineTitleView.swift */; };
 		FD5BBE43214C73CE008964B4 /* MSEasyTapButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5BBE42214C73CE008964B4 /* MSEasyTapButton.swift */; };
 		FD7254E72146E946002F4069 /* MSCalendarViewDayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDFB8AEE21361C9D0046850A /* MSCalendarViewDayCell.swift */; };
@@ -333,7 +329,6 @@
 		A5F3B145232B1E3700007A4F /* MSScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSScrollView.swift; sourceTree = "<group>"; };
 		A5F3B148232B1F9700007A4F /* UIResponder+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+Extensions.swift"; sourceTree = "<group>"; };
 		B426613D214731D100E25423 /* MSInitialsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSInitialsView.swift; sourceTree = "<group>"; };
-		B426613F214852B400E25423 /* NSString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSString+Extension.swift"; sourceTree = "<group>"; };
 		B42661412148568800E25423 /* MSAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAvatarView.swift; sourceTree = "<group>"; };
 		B441478C228CDA130040E88E /* MSBooleanCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSBooleanCell.swift; sourceTree = "<group>"; };
 		B444D6B02181403C0002B4D4 /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
@@ -389,7 +384,6 @@
 		FD599D0B2134AB1E008845EE /* MSCalendarViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCalendarViewDataSource.swift; sourceTree = "<group>"; };
 		FD5ADBF32190CDC80005A9AF /* MSDateTimePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDateTimePickerController.swift; sourceTree = "<group>"; };
 		FD5BBE3A214B2F44008964B4 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
-		FD5BBE3E214C68F8008964B4 /* UINavigationBar+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+Extensions.swift"; sourceTree = "<group>"; };
 		FD5BBE40214C6AF3008964B4 /* MSTwoLineTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTwoLineTitleView.swift; sourceTree = "<group>"; };
 		FD5BBE42214C73CE008964B4 /* MSEasyTapButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSEasyTapButton.swift; sourceTree = "<group>"; };
 		FD7254E82147059D002F4069 /* Calendar+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Calendar+Extensions.swift"; sourceTree = "<group>"; };
@@ -563,7 +557,6 @@
 				FD9A5C862179464F00D224D9 /* DateComponents+Extensions.swift */,
 				FD777526219E305F00033D58 /* Locale+Extensions.swift */,
 				FD41C8B422DD3EA20086F899 /* NSLayoutConstraint+Extensions.swift */,
-				B426613F214852B400E25423 /* NSString+Extension.swift */,
 				A559BB7D212B6D100055E107 /* String+Extension.swift */,
 				A56CE7B522E68A7800AA77EE /* UIColor+Extensions.swift */,
 				A5B87AFF211E1B700038C37C /* UIDevice+Extension.swift */,
@@ -571,7 +564,6 @@
 				A5B87AEE211BCA710038C37C /* UIFontDescriptor+Extension.swift */,
 				A5961FA6218A2E4500E2A506 /* UIImage+Extensions.swift */,
 				FD41C8CE22DE62D40086F899 /* UILayoutPriority+Extensions.swift */,
-				FD5BBE3E214C68F8008964B4 /* UINavigationBar+Extensions.swift */,
 				A5F3B148232B1F9700007A4F /* UIResponder+Extensions.swift */,
 				A5B87B01211E20B50038C37C /* UIScreen+Extension.swift */,
 				FD41C8B122DD3BB70086F899 /* UIScrollView+Extensions.swift */,
@@ -1221,7 +1213,6 @@
 				8FD011A3228A82A600D25925 /* DateComponents+Extensions.swift in Sources */,
 				FD9DA7B6232C33A80013E41B /* UIViewController+Navigation.swift in Sources */,
 				8FD011A4228A82A600D25925 /* Locale+Extensions.swift in Sources */,
-				8FD011A5228A82A600D25925 /* NSString+Extension.swift in Sources */,
 				8FD011A6228A82A600D25925 /* String+Extension.swift in Sources */,
 				8FD011A7228A82A600D25925 /* UIDevice+Extension.swift in Sources */,
 				8FD011A8228A82A600D25925 /* UIFont+Extension.swift in Sources */,
@@ -1229,7 +1220,6 @@
 				B4EF66592297488B007FEAB0 /* MSCollectionViewHeaderFooterView.swift in Sources */,
 				8FD011AA228A82A600D25925 /* UIImage+Extensions.swift in Sources */,
 				497DC2DC24185885008D86F8 /* MSPillButton.swift in Sources */,
-				8FD011AB228A82A600D25925 /* UINavigationBar+Extensions.swift in Sources */,
 				8FD011AC228A82A600D25925 /* UIScreen+Extension.swift in Sources */,
 				8FD011AD228A82A600D25925 /* UITableViewCell+Extension.swift in Sources */,
 				8FD011AE228A82A600D25925 /* UIView+Extensions.swift in Sources */,
@@ -1297,7 +1287,6 @@
 				FDFB8AF021361C9D0046850A /* MSCalendarViewDayTodayCell.swift in Sources */,
 				FD41C88422DD13230086F899 /* MSContentScrollViewTraits.swift in Sources */,
 				A5B87AEF211BCA710038C37C /* UIFontDescriptor+Extension.swift in Sources */,
-				FD5BBE3F214C68F8008964B4 /* UINavigationBar+Extensions.swift in Sources */,
 				FD97580F2191118E00B67319 /* MSDateTimePickerViewComponentCell.swift in Sources */,
 				A5B6617323A41E2900E801DD /* MSNotificationView.swift in Sources */,
 				FD41C88622DD13230086F899 /* MSShyHeaderController.swift in Sources */,
@@ -1330,7 +1319,6 @@
 				B444D6B62183A9740002B4D4 /* MSBadgeView.swift in Sources */,
 				FD7254E72146E946002F4069 /* MSCalendarViewDayCell.swift in Sources */,
 				A589F854211BA03200471C23 /* MSLabel.swift in Sources */,
-				B4266140214852B400E25423 /* NSString+Extension.swift in Sources */,
 				A56CE7B622E68A7800AA77EE /* UIColor+Extensions.swift in Sources */,
 				A5237ACB21DED7030040BF27 /* MSResizingHandleView.swift in Sources */,
 				B4E782C72179509A00A7DFCE /* MSCenteredLabelCell.swift in Sources */,

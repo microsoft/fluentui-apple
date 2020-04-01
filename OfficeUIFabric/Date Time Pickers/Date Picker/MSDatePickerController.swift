@@ -170,7 +170,7 @@ class MSDatePickerController: UIViewController, DateTimePicker {
 
         if segmentedControl == nil {
             // Hide default bottom border of navigation bar
-            navigationController?.navigationBar.hideBottomBorder()
+            navigationController?.navigationBar.shadowImage = UIImage()
         }
     }
 

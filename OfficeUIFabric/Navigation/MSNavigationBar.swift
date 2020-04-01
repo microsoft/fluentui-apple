@@ -67,8 +67,9 @@ open class MSNavigationBar: UINavigationBar {
     private static var defaultStyle: Style = .primary
 
     private struct Constants {
+        static let systemHeight: CGFloat = 44
         static let normalContentHeight: CGFloat = 44
-        static let expandedContentHeight: CGFloat = 50
+        static let expandedContentHeight: CGFloat = 48
 
         static let leftBarButtonItemLeadingMargin: CGFloat = 8
         static let rightBarButtonItemHorizontalPadding: CGFloat = 10
@@ -267,7 +268,7 @@ open class MSNavigationBar: UINavigationBar {
         contentStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(
             top: 0,
             leading: Constants.contentLeadingMargin,
-            bottom: -(contentHeight - systemHeight),
+            bottom: -(contentHeight - Constants.systemHeight),
             trailing: Constants.contentTrailingMargin
         )
     }
