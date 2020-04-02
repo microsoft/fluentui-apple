@@ -19,7 +19,6 @@ import UIKit
 // MARK: - MSSearchBar
 
 /// Drop-in replacement for UISearchBar that allows for more customization
-@objcMembers
 open class MSSearchBar: UIView {
     @objc(MSSearchBarStyle)
     public enum Style: Int {
@@ -110,28 +109,28 @@ open class MSSearchBar: UIView {
         static let defaultStyle: Style = .lightContent
     }
 
-    open var cornerRadius: CGFloat = Constants.searchTextFieldCornerRadius {
+    @objc open var cornerRadius: CGFloat = Constants.searchTextFieldCornerRadius {
         didSet {
             searchTextField.layer.cornerRadius = cornerRadius
         }
     }
 
-    open var placeholderText: String? {
+    @objc open var placeholderText: String? {
         didSet {
             attributePlaceholderText()
         }
     }
 
-    open var style: Style = Constants.defaultStyle {
+    @objc open var style: Style = Constants.defaultStyle {
         didSet {
             updateColorsForStyle()
         }
     }
 
     /// Indicates when search bar either has focus or contains a search text.
-    open private(set) var isActive: Bool = false
+    @objc open private(set) var isActive: Bool = false
 
-    open weak var delegate: MSSearchBarDelegate?
+    @objc open weak var delegate: MSSearchBarDelegate?
 
     weak var navigationController: MSNavigationController?
 
@@ -197,12 +196,12 @@ open class MSSearchBar: UIView {
 
     private var originalIsNavigationBarHidden: Bool = false
 
-    public override init(frame: CGRect) {
+    @objc public override init(frame: CGRect) {
         super.init(frame: frame)
         initialize()
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    @objc public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initialize()
     }
@@ -227,7 +226,7 @@ open class MSSearchBar: UIView {
         isActive = true
     }
 
-    open func cancelSearch() {
+    @objc open func cancelSearch() {
         if !isActive {
             return
         }
@@ -350,7 +349,7 @@ open class MSSearchBar: UIView {
     // MARK: - Search Text Handling
 
     /// The string value of the search text field
-    open var searchText: String? {
+    @objc open var searchText: String? {
         get { return searchTextField.text }
         set { self.searchTextField.text = newValue }
     }

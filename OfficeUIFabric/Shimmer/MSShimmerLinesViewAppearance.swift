@@ -8,13 +8,12 @@ import UIKit
 /**
  `MSShimmerViewAppearance` describes the appearance of a shimmer view (ie loading content view)
  */
-@objcMembers
 public class MSShimmerLinesViewAppearance: NSObject {
-    public let lineCount: Int // use 0 if the number of lines should adapt to the available height
-    public let lineHeight: CGFloat
-    public let lineSpacing: CGFloat
-    public let firstLineFillPercent: CGFloat
-    public let lastLineFillPercent: CGFloat
+    @objc public let lineCount: Int // use 0 if the number of lines should adapt to the available height
+    @objc public let lineHeight: CGFloat
+    @objc public let lineSpacing: CGFloat
+    @objc public let firstLineFillPercent: CGFloat
+    @objc public let lastLineFillPercent: CGFloat
 
     /// Create an apperance shimmer view apperance object
     /// - Parameter lineCount: Number of lines that will shimmer in this view. Use 0 if the number of lines should fill the available space.
@@ -22,11 +21,11 @@ public class MSShimmerLinesViewAppearance: NSObject {
     /// - Parameter lineSpacing: Spacing between lines (if lines > 1)
     /// - Parameter firstLineFillPercent: if two or more lines, the percent the first line should fill the available horizontal space
     /// - Parameter lastLineFillPercent: the percent the last line should fill the available horizontal space.
-    public init(lineCount: Int = 3,
-                lineHeight: CGFloat = 11,
-                lineSpacing: CGFloat = 11,
-                firstLineFillPercent: CGFloat = 0.94,
-                lastLineFillPercent: CGFloat = 0.6) {
+    @objc public init(lineCount: Int = 3,
+                      lineHeight: CGFloat = 11,
+                      lineSpacing: CGFloat = 11,
+                      firstLineFillPercent: CGFloat = 0.94,
+                      lastLineFillPercent: CGFloat = 0.6) {
         self.lineCount = lineCount
         self.lineHeight = lineHeight
         self.lineSpacing = lineSpacing

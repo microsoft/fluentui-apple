@@ -54,7 +54,6 @@ import UIKit
  * max number of lines, with custom "+XX" badge to indicate badges that are not displayed
  * voiceover and dynamic text sizing
  */
-@objcMembers
 open class MSBadgeField: UIView {
     private struct Constants {
         static let badgeHeight: CGFloat = 26
@@ -71,7 +70,7 @@ open class MSBadgeField: UIView {
         static let zeroWidthSpace: String = "\u{200B}"
     }
 
-    open var label: String = "" {
+    @objc open var label: String = "" {
         didSet {
             labelView.text = label
             updateLabelsVisibility()
@@ -80,7 +79,7 @@ open class MSBadgeField: UIView {
         }
     }
 
-    open var placeholder: String = "" {
+    @objc open var placeholder: String = "" {
         didSet {
             placeholderView.text = placeholder
             updateLabelsVisibility()
@@ -95,7 +94,7 @@ open class MSBadgeField: UIView {
      The default value is 0.
      Note:  Drag and drop should not be used with text fields that have a `numberOfLines` != 0. The resulting behavior is unknown.
      */
-    open var numberOfLines: Int = 0 {
+    @objc open var numberOfLines: Int = 0 {
         didSet {
             updateConstrainedBadges()
             updateBadgesVisibility()
@@ -104,7 +103,7 @@ open class MSBadgeField: UIView {
     }
 
     /// Indicates whether or not the badge field is "editable". Note: if `isEditable` is false and in "non-editable" mode, the user CAN select badges but CAN'T add, delete or drag badge views.
-    open var isEditable: Bool = true {
+    @objc open var isEditable: Bool = true {
         didSet {
             if !isEditable {
                 resignFirstResponder()
@@ -115,7 +114,7 @@ open class MSBadgeField: UIView {
     }
 
     /// `isActive` is a proxy property that is transmitted to all the badge views. Badge views should have their style altered if this is true. But this is the decision of whoever implement a new badge view abstract class. Note that this does not change the touch handling behavior in any way.
-    open var isActive: Bool = false {
+    @objc open var isActive: Bool = false {
         didSet {
             badges.forEach { $0.isActive = isActive }
             moreBadge?.isActive = isActive
@@ -123,17 +122,17 @@ open class MSBadgeField: UIView {
     }
 
     /// Set `allowsDragAndDrop`to determine whether or not the dragging and dropping of badges between badge fields is allowed.
-    open var allowsDragAndDrop: Bool = true
+    @objc open var allowsDragAndDrop: Bool = true
 
     /**
      "Soft" means that the `badgeField` badges the text only under certain conditions.
      It's the delegate's responsibility to define these conditions, via `badgeField(_, shouldBadgeText:, forSoftBadgingString:)`
      */
-    open var softBadgingCharacters: String = ""
+    @objc open var softBadgingCharacters: String = ""
     /**
      "Hard" means that the `badgeField` badges the text as soon as one of these character is used.
      */
-    open var hardBadgingCharacters: String = ""
+    @objc open var hardBadgingCharacters: String = ""
 
     @objc public private(set) var badges: [MSBadgeView] = []
 
@@ -159,7 +158,7 @@ open class MSBadgeField: UIView {
     /// Keeps a copy of the original numberOfLines when the text field begins editing
     private var originalNumberOfLines: Int = 0
 
-    public init() {
+    @objc public init() {
         super.init(frame: .zero)
         backgroundColor = MSColors.BadgeField.background
 
@@ -211,7 +210,7 @@ open class MSBadgeField: UIView {
     /**
      Sets up the view using the badge data sources.
      */
-    open func setup(dataSources: [MSBadgeViewDataSource]) {
+    @objc open func setup(dataSources: [MSBadgeViewDataSource]) {
         for badge in badges {
             badge.removeFromSuperview()
         }
@@ -227,7 +226,7 @@ open class MSBadgeField: UIView {
     /**
      Updates the view using existing data sources. This is a bit of a hack since it's better to assume `MSBadgeViewDataSource` is immutable, but this is necessary to update badge style without losing the current state.
      */
-    open func reload() {
+    @objc open func reload() {
         badges.forEach { $0.reload() }
         setNeedsLayout()
     }
@@ -421,7 +420,7 @@ open class MSBadgeField: UIView {
         }
     }
 
-    open func heightThatFits(numberOfLines: Int) -> CGFloat {
+    @objc open func heightThatFits(numberOfLines: Int) -> CGFloat {
         // Vertical margin not applicable to top line
         let heightForAllLines = CGFloat(numberOfLines) * (Constants.badgeHeight + Constants.badgeMarginVertical)
         return heightForAllLines - Constants.badgeMarginVertical
@@ -564,7 +563,7 @@ open class MSBadgeField: UIView {
         updateConstrainedBadges()
     }
 
-    open func deleteAllBadges() {
+    @objc open func deleteAllBadges() {
         deleteAllBadges(fromUserAction: false)
     }
 

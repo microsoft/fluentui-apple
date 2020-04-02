@@ -7,7 +7,6 @@ import UIKit
 
 // MARK: MSColors
 
-@objcMembers
 public final class MSColors: NSObject {
 
     // Mark - MSFColorPalette
@@ -158,53 +157,53 @@ public final class MSColors: NSObject {
 
     // MARK: Primary
 
-    public static var primary: UIColor = communicationBlue
-    public static var primaryTint10: UIColor = Palette.communicationBlueTint10.color
-    public static var primaryTint20: UIColor = Palette.communicationBlueTint20.color
-    public static var primaryTint30: UIColor = Palette.communicationBlueTint30.color
-    public static var primaryTint40: UIColor = Palette.communicationBlueTint40.color
-    public static var primaryShade10: UIColor = Palette.communicationBlueShade10.color
-    public static var primaryShade20: UIColor = Palette.communicationBlueShade20.color
-    public static var primaryShade30: UIColor = Palette.communicationBlueShade30.color
-    public static var primaryShade40: UIColor = Palette.communicationBlueShade40.color
+    @objc public static var primary: UIColor = communicationBlue
+    @objc public static var primaryTint10: UIColor = Palette.communicationBlueTint10.color
+    @objc public static var primaryTint20: UIColor = Palette.communicationBlueTint20.color
+    @objc public static var primaryTint30: UIColor = Palette.communicationBlueTint30.color
+    @objc public static var primaryTint40: UIColor = Palette.communicationBlueTint40.color
+    @objc public static var primaryShade10: UIColor = Palette.communicationBlueShade10.color
+    @objc public static var primaryShade20: UIColor = Palette.communicationBlueShade20.color
+    @objc public static var primaryShade30: UIColor = Palette.communicationBlueShade30.color
+    @objc public static var primaryShade40: UIColor = Palette.communicationBlueShade40.color
 
-    public static var foregroundOnPrimary = UIColor(light: .white, dark: .black)
+    @objc public static var foregroundOnPrimary = UIColor(light: .white, dark: .black)
 
     // MARK: Physical - Dynamic grays
 
-    public static let gray950 = UIColor(light: Palette.gray1.color, lightHighContrast: .black, darkHighContrast: Palette.gray3.color)
-    public static let gray900 = UIColor(light: Palette.gray2.color, lightHighContrast: .black, darkHighContrast: Palette.gray4.color)
-    public static let gray800 = UIColor(light: Palette.gray3.color, lightHighContrast: Palette.gray1.color, darkHighContrast: Palette.gray5.color)
-    public static let gray700 = UIColor(light: Palette.gray4.color, lightHighContrast: Palette.gray2.color, darkHighContrast: Palette.gray6.color)
-    public static let gray600 = UIColor(light: Palette.gray5.color, lightHighContrast: Palette.gray3.color, darkHighContrast: Palette.gray7.color)
-    public static let gray500 = UIColor(light: Palette.gray6.color, lightHighContrast: Palette.gray4.color, darkHighContrast: Palette.gray8.color)
-    public static let gray400 = UIColor(light: Palette.gray7.color, lightHighContrast: Palette.gray5.color, darkHighContrast: Palette.gray9.color)
-    public static let gray300 = UIColor(light: Palette.gray8.color, lightHighContrast: Palette.gray6.color, darkHighContrast: Palette.gray10.color)
-    public static let gray200 = UIColor(light: Palette.gray9.color, lightHighContrast: Palette.gray7.color, darkHighContrast: Palette.gray11.color)
-    public static let gray100 = UIColor(light: Palette.gray10.color, lightHighContrast: Palette.gray8.color, darkHighContrast: Palette.gray12.color)
-    public static let gray50 = UIColor(light: Palette.gray11.color, lightHighContrast: Palette.gray9.color, darkHighContrast: .white)
-    public static let gray25 = UIColor(light: Palette.gray12.color, lightHighContrast: Palette.gray10.color, darkHighContrast: .white)
+    @objc public static let gray950 = UIColor(light: Palette.gray1.color, lightHighContrast: .black, darkHighContrast: Palette.gray3.color)
+    @objc public static let gray900 = UIColor(light: Palette.gray2.color, lightHighContrast: .black, darkHighContrast: Palette.gray4.color)
+    @objc public static let gray800 = UIColor(light: Palette.gray3.color, lightHighContrast: Palette.gray1.color, darkHighContrast: Palette.gray5.color)
+    @objc public static let gray700 = UIColor(light: Palette.gray4.color, lightHighContrast: Palette.gray2.color, darkHighContrast: Palette.gray6.color)
+    @objc public static let gray600 = UIColor(light: Palette.gray5.color, lightHighContrast: Palette.gray3.color, darkHighContrast: Palette.gray7.color)
+    @objc public static let gray500 = UIColor(light: Palette.gray6.color, lightHighContrast: Palette.gray4.color, darkHighContrast: Palette.gray8.color)
+    @objc public static let gray400 = UIColor(light: Palette.gray7.color, lightHighContrast: Palette.gray5.color, darkHighContrast: Palette.gray9.color)
+    @objc public static let gray300 = UIColor(light: Palette.gray8.color, lightHighContrast: Palette.gray6.color, darkHighContrast: Palette.gray10.color)
+    @objc public static let gray200 = UIColor(light: Palette.gray9.color, lightHighContrast: Palette.gray7.color, darkHighContrast: Palette.gray11.color)
+    @objc public static let gray100 = UIColor(light: Palette.gray10.color, lightHighContrast: Palette.gray8.color, darkHighContrast: Palette.gray12.color)
+    @objc public static let gray50 = UIColor(light: Palette.gray11.color, lightHighContrast: Palette.gray9.color, darkHighContrast: .white)
+    @objc public static let gray25 = UIColor(light: Palette.gray12.color, lightHighContrast: Palette.gray10.color, darkHighContrast: .white)
 
     // MARK: Physical - Non-grays
 
     // TODO: decide if error and warning colors need to be split into semantic/physical sets
 
-    public static let error = UIColor(light: errorLight, dark: errorDark)
+    @objc public static let error = UIColor(light: errorLight, dark: errorDark)
     /// #E63237
-    public static let errorLight: UIColor = #colorLiteral(red: 0.9019607843, green: 0.1960784314, blue: 0.2156862745, alpha: 1)
+    @objc public static let errorLight: UIColor = #colorLiteral(red: 0.9019607843, green: 0.1960784314, blue: 0.2156862745, alpha: 1)
     /// #FF474C
-    public static let errorDark: UIColor = #colorLiteral(red: 1, green: 0.2784313725, blue: 0.2980392157, alpha: 1)
+    @objc public static let errorDark: UIColor = #colorLiteral(red: 1, green: 0.2784313725, blue: 0.2980392157, alpha: 1)
     /// #FFE8E9
-    public static let lightError: UIColor = #colorLiteral(red: 1, green: 0.9098039216, blue: 0.9137254902, alpha: 1)
+    @objc public static let lightError: UIColor = #colorLiteral(red: 1, green: 0.9098039216, blue: 0.9137254902, alpha: 1)
 
     /// #997302
-    public static let warning: UIColor = #colorLiteral(red: 0.6, green: 0.4509803922, blue: 0.007843137255, alpha: 1)
+    @objc public static let warning: UIColor = #colorLiteral(red: 0.6, green: 0.4509803922, blue: 0.007843137255, alpha: 1)
     /// #EBB510
-    public static let lightWarning: UIColor = #colorLiteral(red: 0.9215686275, green: 0.7098039216, blue: 0.06274509804, alpha: 1)
+    @objc public static let lightWarning: UIColor = #colorLiteral(red: 0.9215686275, green: 0.7098039216, blue: 0.06274509804, alpha: 1)
     /// #F3BF20
-    public static let yellow: UIColor = #colorLiteral(red: 0.9529411765, green: 0.7490196078, blue: 0.1254901961, alpha: 1)
+    @objc public static let yellow: UIColor = #colorLiteral(red: 0.9529411765, green: 0.7490196078, blue: 0.1254901961, alpha: 1)
 
-    public static var avatarBackgroundColors: [UIColor] = [
+    @objc public static var avatarBackgroundColors: [UIColor] = [
        Palette.cyanBlue10.color,
        Palette.red10.color,
        Palette.magenta20.color,
@@ -229,35 +228,35 @@ public final class MSColors: NSObject {
     ]
 
     /// Used for hyperlinks
-    public static let communicationBlue: UIColor = Palette.communicationBlue.color
+    @objc public static let communicationBlue: UIColor = Palette.communicationBlue.color
 
     // MARK: Base semantic
 
-    public static let background1 = UIColor(light: .white, dark: .black, darkElevated: gray900)
-    public static let background1b = UIColor(light: .white, dark: gray950, darkElevated: gray800)
-    public static let background1c = UIColor(light: .white, dark: gray900, darkElevated: gray800)
-    public static let background2 = UIColor(light: gray25, dark: gray950, darkElevated: gray700)
-    public static let background2b = UIColor(light: gray25, dark: gray700)
-    public static let background3 = UIColor(light: gray50, dark: gray900, darkElevated: gray700)
-    public static let background3b = UIColor(light: gray50, dark: gray600)
-    public static let disabled = UIColor(light: gray100, dark: gray600)
-    public static let foreground1 = UIColor(light: gray900, dark: gray100)
-    public static let foreground1b = UIColor(light: gray900, dark: gray400)
-    public static let foreground2 = UIColor(light: gray500, dark: gray400)
-    public static let foreground2b = UIColor(light: gray500, dark: gray300)
-    public static let foreground2c = UIColor(light: gray500, dark: gray500)
-    public static let foreground2d = UIColor(light: gray500, dark: gray100)
-    public static let foreground3 = UIColor(light: gray400, dark: gray400)
-    public static let foreground3b = UIColor(light: gray400, dark: gray500)
-    public static let foreground3c = UIColor(light: gray400, dark: gray600)
-    public static let foreground4 = UIColor(light: gray300, dark: gray600)
-    public static let foreground4b = UIColor(light: gray300, dark: gray500)
-    public static let foreground5 = UIColor(light: gray200, dark: gray500)
-    public static let foreground6 = UIColor(light: gray100, dark: gray700, darkElevated: gray600)
-    public static let foreground6b = UIColor(light: gray100, dark: gray500)
-    public static let foreground6c = UIColor(light: gray100, dark: .clear)
-    public static let foreground7b = UIColor(light: .white, dark: gray100)
-    public static let foreground8 = UIColor(light: primary, dark: .white)
+    @objc public static let background1 = UIColor(light: .white, dark: .black, darkElevated: gray900)
+    @objc public static let background1b = UIColor(light: .white, dark: gray950, darkElevated: gray800)
+    @objc public static let background1c = UIColor(light: .white, dark: gray900, darkElevated: gray800)
+    @objc public static let background2 = UIColor(light: gray25, dark: gray950, darkElevated: gray700)
+    @objc public static let background2b = UIColor(light: gray25, dark: gray700)
+    @objc public static let background3 = UIColor(light: gray50, dark: gray900, darkElevated: gray700)
+    @objc public static let background3b = UIColor(light: gray50, dark: gray600)
+    @objc public static let disabled = UIColor(light: gray100, dark: gray600)
+    @objc public static let foreground1 = UIColor(light: gray900, dark: gray100)
+    @objc public static let foreground1b = UIColor(light: gray900, dark: gray400)
+    @objc public static let foreground2 = UIColor(light: gray500, dark: gray400)
+    @objc public static let foreground2b = UIColor(light: gray500, dark: gray300)
+    @objc public static let foreground2c = UIColor(light: gray500, dark: gray500)
+    @objc public static let foreground2d = UIColor(light: gray500, dark: gray100)
+    @objc public static let foreground3 = UIColor(light: gray400, dark: gray400)
+    @objc public static let foreground3b = UIColor(light: gray400, dark: gray500)
+    @objc public static let foreground3c = UIColor(light: gray400, dark: gray600)
+    @objc public static let foreground4 = UIColor(light: gray300, dark: gray600)
+    @objc public static let foreground4b = UIColor(light: gray300, dark: gray500)
+    @objc public static let foreground5 = UIColor(light: gray200, dark: gray500)
+    @objc public static let foreground6 = UIColor(light: gray100, dark: gray700, darkElevated: gray600)
+    @objc public static let foreground6b = UIColor(light: gray100, dark: gray500)
+    @objc public static let foreground6c = UIColor(light: gray100, dark: .clear)
+    @objc public static let foreground7b = UIColor(light: .white, dark: gray100)
+    @objc public static let foreground8 = UIColor(light: primary, dark: .white)
 
     // MARK: Final semantic
 
@@ -496,7 +495,7 @@ public final class MSColors: NSObject {
         public static var shadow = UIColor(light: UIColor.black.withAlphaComponent(0.3), dark: gray700)
     }
     // Objective-C support
-    public static var separatorDefault: UIColor { return Separator.default }
+    @objc public static var separatorDefault: UIColor { return Separator.default }
 
     public struct Switch {
         public static var onTint: UIColor = primary
@@ -552,11 +551,11 @@ public final class MSColors: NSObject {
         public static var backgroundGrouped = UIColor(light: background2, dark: background1)
     }
     // Objective-C support
-    public static var tableBackground: UIColor { return Table.background }
-    public static var tableBackgroundGrouped: UIColor { return Table.backgroundGrouped }
-    public static var tableCellBackground: UIColor { return Table.Cell.background }
-    public static var tableCellBackgroundGrouped: UIColor { return Table.Cell.backgroundGrouped }
-    public static var tableCellImage: UIColor { return Table.Cell.image }
+    @objc public static var tableBackground: UIColor { return Table.background }
+    @objc public static var tableBackgroundGrouped: UIColor { return Table.backgroundGrouped }
+    @objc public static var tableCellBackground: UIColor { return Table.Cell.background }
+    @objc public static var tableCellBackgroundGrouped: UIColor { return Table.Cell.backgroundGrouped }
+    @objc public static var tableCellImage: UIColor { return Table.Cell.image }
 
     public struct Toolbar {
         public static var background: UIColor = NavigationBar.background
@@ -576,7 +575,7 @@ public final class MSColors: NSObject {
         public static var accessory: UIColor = foreground3
     }
 
-    public func color(from palette: Palette) -> UIColor {
+    @objc public func color(from palette: Palette) -> UIColor {
         return palette.color
     }
 }

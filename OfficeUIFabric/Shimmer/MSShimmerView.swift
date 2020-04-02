@@ -6,24 +6,23 @@
 import UIKit
 
 /// View that converts the subviews of a container view into a loading state with the "shimmering" effect
-@objcMembers
 open class MSShimmerView: UIView {
     /// Appearance of the shimmer itself (the animation appearance)
-    open var shimmerAppearance = MSShimmerAppearance() {
+    @objc open var shimmerAppearance = MSShimmerAppearance() {
         didSet {
             setNeedsLayout()
         }
     }
 
     /// Properties related to the apperance of the shimmer view itself
-    open var appearance = MSShimmerViewAppearence() {
+    @objc open var appearance = MSShimmerViewAppearence() {
         didSet {
             setNeedsLayout()
         }
     }
 
     /// Optional synchronizer to sync multiple shimmer views
-    open weak var animationSynchronizer: MSAnimationSynchronizerProtocol?
+    @objc open weak var animationSynchronizer: MSAnimationSynchronizerProtocol?
 
     open override var intrinsicContentSize: CGSize { return bounds.size }
 
@@ -40,9 +39,9 @@ open class MSShimmerView: UIView {
     /// - Parameter containerView: view to convert layout into a shimmer -- each of containerView's first-level subviews will be mirrored
     /// - Parameter excludedViews: subviews of `containerView` to exclude from shimmer
     /// - Parameter animationSynchronizer: optional synchronizer to sync multiple shimmer views
-    public init(containerView: UIView? = nil,
-                excludedViews: [UIView] = [],
-                animationSynchronizer: MSAnimationSynchronizerProtocol? = nil) {
+    @objc public init(containerView: UIView? = nil,
+                      excludedViews: [UIView] = [],
+                      animationSynchronizer: MSAnimationSynchronizerProtocol? = nil) {
         self.containerView = containerView
         self.excludedViews = excludedViews
         self.animationSynchronizer = animationSynchronizer
@@ -72,7 +71,7 @@ open class MSShimmerView: UIView {
     }
 
     /// Manaully sync with the synchronizer
-    open func syncAnimation() {
+    @objc open func syncAnimation() {
         updateShimmeringAnimation()
     }
 

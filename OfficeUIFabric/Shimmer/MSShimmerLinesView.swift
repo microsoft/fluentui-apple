@@ -8,15 +8,14 @@ import UIKit
 /**
  Specialized MSShimmerView that shows 1 or more shimmering lines.
  */
-@objcMembers
 open class MSShimmerLinesView: MSShimmerView {
-    public static func sizeThatFits(_ size: CGSize, appearance: MSShimmerLinesViewAppearance) -> CGSize {
+    @objc public static func sizeThatFits(_ size: CGSize, appearance: MSShimmerLinesViewAppearance) -> CGSize {
         let desiredLineCount = CGFloat(MSShimmerLinesView.lineCount(for: appearance, availableHeight: size.height))
         let height = desiredLineCount * appearance.lineHeight + (desiredLineCount - 1) * appearance.lineSpacing
         return CGSize(width: size.width, height: height)
     }
 
-    private static func lineCount(for appearance: MSShimmerLinesViewAppearance, availableHeight: CGFloat) -> Int {
+    @objc private static func lineCount(for appearance: MSShimmerLinesViewAppearance, availableHeight: CGFloat) -> Int {
         if appearance.lineCount == 0 {
             // Deduce lines count based on available height
             return Int(floor((availableHeight + appearance.lineSpacing) / (appearance.lineHeight + appearance.lineSpacing)))
@@ -26,7 +25,7 @@ open class MSShimmerLinesView: MSShimmerView {
         }
     }
 
-    public var shimmerLinesViewAppearance = MSShimmerLinesViewAppearance() {
+    @objc public var shimmerLinesViewAppearance = MSShimmerLinesViewAppearance() {
         didSet {
             setNeedsLayout()
         }

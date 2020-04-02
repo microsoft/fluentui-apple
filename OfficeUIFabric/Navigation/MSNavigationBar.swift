@@ -10,7 +10,6 @@ import UIKit
 /// UINavigationBar subclass, with a content view that contains various custom UIElements
 /// Contains the MSNavigationTitleView class and handles passing animatable progress through
 /// Custom UI can be hidden if desired
-@objcMembers
 open class MSNavigationBar: UINavigationBar {
     /// If the style is `.custom`, UINavigationItem's `navigationBarColor` is used for all the subviews' backgroundColor
     @objc(MSNavigationBarStyle)
@@ -82,21 +81,21 @@ open class MSNavigationBar: UINavigationBar {
     }
 
     /// An object that conforms to the `MSAvatar` protocol and provides text and an optional image for display as an `MSAvatarView` next to the large title. Only displayed if `showsLargeTitle` is true on the current navigation item. If avatar is nil, it won't show the avatar view.
-    open var avatar: MSAvatar? {
+    @objc open var avatar: MSAvatar? {
         didSet {
             titleView.avatar = avatar
         }
     }
 
     /// A string to optionally customize the accessibility label of the large title's avatar
-    open var avatarCustomAccessibilityLabel: String? {
+    @objc open var avatarCustomAccessibilityLabel: String? {
         didSet {
             titleView.avatarCustomAccessibilityLabel = avatarCustomAccessibilityLabel
         }
     }
 
     /// An element size to describe the behavior of large title's avatar. If `.automatic`, avatar will resize when `expand(animated:)` and `contract(animated:)` are called.
-    open var avatarSize: ElementSize = .automatic {
+    @objc open var avatarSize: ElementSize = .automatic {
         didSet {
             updateElementSizes()
         }
@@ -129,14 +128,14 @@ open class MSNavigationBar: UINavigationBar {
     }
 
     /// An element size to describe the behavior of the navigation bar's large title. If `.automatic`, the title label will resize when `expand(animated:)` and `contract(animated:)` are called.
-    open var titleSize: ElementSize = .automatic {
+    @objc open var titleSize: ElementSize = .automatic {
         didSet {
             updateElementSizes()
         }
     }
 
     /// An optional closure to be called when the avatar view is tapped, if it is present.
-    open var onAvatarTapped: (() -> Void)? {
+    @objc open var onAvatarTapped: (() -> Void)? {
         didSet {
             titleView.onAvatarTapped = onAvatarTapped
         }
@@ -187,12 +186,12 @@ open class MSNavigationBar: UINavigationBar {
     private var titleObserver: NSKeyValueObservation?
     private var navigationBarColorObserver: NSKeyValueObservation?
 
-    public override init(frame: CGRect) {
+    @objc public override init(frame: CGRect) {
         super.init(frame: frame)
         initBase()
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    @objc public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initBase()
     }

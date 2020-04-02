@@ -5,9 +5,8 @@
 
 import UIKit
 
-@objcMembers
 public final class MSBarButtonItems: NSObject {
-    public static func confirm(target: Any?, action: Selector?) -> UIBarButtonItem {
+    @objc static func confirm(target: Any?, action: Selector?) -> UIBarButtonItem {
         let image = UIImage.staticImageNamed("checkmark-24x24")
         let landscapeImage = UIImage.staticImageNamed("checkmark-thin-20x20")
 

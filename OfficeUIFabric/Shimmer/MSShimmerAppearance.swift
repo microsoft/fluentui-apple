@@ -8,25 +8,24 @@ import UIKit
 /**
  Object describing how a shimmer should look and function.
  */
-@objcMembers
 public class MSShimmerAppearance: NSObject {
-    public let alpha: CGFloat
-    public let width: CGFloat
+    @objc public let alpha: CGFloat
+    @objc public let width: CGFloat
 
     /// Angle of the direction of the gradient, in radian. 0 means horizontal, Pi/2 means vertical.
-    public let angle: CGFloat
+    @objc public let angle: CGFloat
 
     /// Speed of the animation, in point/seconds.
-    public let speed: CGFloat
+    @objc public let speed: CGFloat
 
     /// Delay between the end of a shimmering animation and the beginning of the next one.
-    public let delay: TimeInterval
+    @objc public let delay: TimeInterval
 
-    public init(alpha: CGFloat = 0.4,
-                width: CGFloat = 180,
-                angle: CGFloat = -(CGFloat.pi / 45.0),
-                speed: CGFloat = 350,
-                delay: TimeInterval = 0.4) {
+    @objc public init(alpha: CGFloat = 0.4,
+                      width: CGFloat = 180,
+                      angle: CGFloat = -(CGFloat.pi / 45.0),
+                      speed: CGFloat = 350,
+                      delay: TimeInterval = 0.4) {
         self.alpha = alpha
         self.width = width
         self.angle = angle

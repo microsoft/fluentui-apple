@@ -5,10 +5,9 @@
 
 import UIKit
 
-@objcMembers
 public class OfficeUIFabricFramework: NSObject {
-    public static var bundle: Bundle { return Bundle(for: self) }
-    public static let resourceBundle: Bundle = {
+    @objc public static var bundle: Bundle { return Bundle(for: self) }
+    @objc public static let resourceBundle: Bundle = {
         guard let url = bundle.resourceURL?.appendingPathComponent("OfficeUIFabricResources.bundle", isDirectory: true), let bundle = Bundle(url: url) else {
             fatalError("OfficeUIFabric: resource bundle is not found")
         }
@@ -16,9 +15,9 @@ public class OfficeUIFabricFramework: NSObject {
     }()
 
     @available(*, deprecated, message: "Non-fluent icons no longer supported. Setting this var no longer has any effect and it will be removed in a future update.")
-    public static var usesFluentIcons: Bool = true
+    @objc public static var usesFluentIcons: Bool = true
 
-    public static func initializeAppearance() {
+    @objc public static func initializeAppearance() {
         initializeUINavigationBarAppearance(UINavigationBar.appearance())
         if #available(iOS 12, *) {
             let light = UITraitCollection(userInterfaceStyle: .light)

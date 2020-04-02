@@ -5,37 +5,36 @@
 
 import UIKit
 
-@objcMembers
 public final class MSFonts: NSObject {
     /// Bold 30pt - Does not scale automatically with Dynamic Type
-    public static let largeTitle = UIFont.systemFont(ofSize: 30, weight: .bold)
+    @objc public static let largeTitle = UIFont.systemFont(ofSize: 30, weight: .bold)
     /// Bold 26pt - Does not scale automatically with Dynamic Type
-    public static let title1 = UIFont.systemFont(ofSize: 26, weight: .bold)
+    @objc public static let title1 = UIFont.systemFont(ofSize: 26, weight: .bold)
     /// Semibold 22pt
-    public static var title2: UIFont { return UIFont.preferredFont(forTextStyle: .title2).withWeight(.semibold) }
+    @objc public static var title2: UIFont { return UIFont.preferredFont(forTextStyle: .title2).withWeight(.semibold) }
     /// Semibold 17pt
-    public static var headline: UIFont { return .preferredFont(forTextStyle: .headline) }
-    public static var headlineUnscaled: UIFont { return .preferredFont(forTextStyle: .headline, compatibleWith: UITraitCollection(preferredContentSizeCategory: .large)) }
+    @objc public static var headline: UIFont { return .preferredFont(forTextStyle: .headline) }
+    @objc public static var headlineUnscaled: UIFont { return .preferredFont(forTextStyle: .headline, compatibleWith: UITraitCollection(preferredContentSizeCategory: .large)) }
     /// Regular 17pt
-    public static var body: UIFont { return .preferredFont(forTextStyle: .body) }
-    public static var bodyUnscaled: UIFont { return .preferredFont(forTextStyle: .body, compatibleWith: UITraitCollection(preferredContentSizeCategory: .large)) }
+    @objc public static var body: UIFont { return .preferredFont(forTextStyle: .body) }
+    @objc public static var bodyUnscaled: UIFont { return .preferredFont(forTextStyle: .body, compatibleWith: UITraitCollection(preferredContentSizeCategory: .large)) }
     /// Regular 15pt
-    public static var subhead: UIFont { return .preferredFont(forTextStyle: .subheadline) }
+    @objc public static var subhead: UIFont { return .preferredFont(forTextStyle: .subheadline) }
     /// Regular 13pt
-    public static var footnote: UIFont { return .preferredFont(forTextStyle: .footnote) }
-    public static var footnoteUnscaled: UIFont { return .preferredFont(forTextStyle: .footnote, compatibleWith: UITraitCollection(preferredContentSizeCategory: .large)) }
+    @objc public static var footnote: UIFont { return .preferredFont(forTextStyle: .footnote) }
+    @objc public static var footnoteUnscaled: UIFont { return .preferredFont(forTextStyle: .footnote, compatibleWith: UITraitCollection(preferredContentSizeCategory: .large)) }
     /// Medium 15pt
-    public static var button1: UIFont { return UIFont.preferredFont(forTextStyle: .subheadline).withWeight(.medium) }
+    @objc public static var button1: UIFont { return UIFont.preferredFont(forTextStyle: .subheadline).withWeight(.medium) }
     /// Medium 13pt
-    public static var button2: UIFont { return UIFont.preferredFont(forTextStyle: .footnote).withWeight(.medium) }
+    @objc public static var button2: UIFont { return UIFont.preferredFont(forTextStyle: .footnote).withWeight(.medium) }
     /// Medium 10pt - Does not scale automatically with Dynamic Type
-    public static let button3 = UIFont.systemFont(ofSize: 10, weight: .medium)
+    @objc public static let button3 = UIFont.systemFont(ofSize: 10, weight: .medium)
     /// Medium 15pt - Does not scale automatically with Dynamic Type
-    public static let button4 = UIFont.systemFont(ofSize: 15, weight: .medium)
+    @objc public static let button4 = UIFont.systemFont(ofSize: 15, weight: .medium)
     /// Regular 12pt
-    public static var caption1: UIFont { return .preferredFont(forTextStyle: .caption1) }
+    @objc public static var caption1: UIFont { return .preferredFont(forTextStyle: .caption1) }
     /// Regular 11pt
-    public static var caption2: UIFont { return .preferredFont(forTextStyle: .caption2) }
+    @objc public static var caption2: UIFont { return .preferredFont(forTextStyle: .caption2) }
 
     private override init() {
         super.init()
