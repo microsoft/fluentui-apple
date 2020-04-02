@@ -88,7 +88,7 @@
 "Accessibility.HUD.Loading" = "กำลังโหลด";
 
 /* Accessibility hint for MSPillButtons in an MSPillButtonBar. %1$d is placeholder for index and %2$d is a placeholder for total number of items */
-"Accessibility.MSPillButtonBar.Hint" = "%1$d of %2$d";
+"Accessibility.MSPillButtonBar.Hint" = "%1$d จาก %2$d";
 
 /* Accessibility label for the avatar (or profile) view in */
 "Accessibility.LargeTitle.ProfileView" = "โปรไฟล์บัญชี";
