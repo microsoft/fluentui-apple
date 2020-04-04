@@ -3,13 +3,9 @@
 //  Licensed under the MIT License.
 //
 
-import Foundation
-import OfficeUIFabric
-import ObjectiveC
+// MARK: MSTableViewCellShimmerDemoController
 
-// MARK: MSCollectionViewCellShimmerDemoController
-
-class MSCollectionViewCellShimmerDemoController: MSCollectionViewCellDemoController {
+class MSTableViewCellShimmerDemoController: MSTableViewCellDemoController {
     let shimmerSynchronizer = MSAnimationSynchronizer()
 
     override func viewDidLoad() {
@@ -19,20 +15,20 @@ class MSCollectionViewCellShimmerDemoController: MSCollectionViewCellDemoControl
         navigationItem.rightBarButtonItem = nil
     }
 
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return MSTableViewCellSampleData.numberOfItemsInSectionForShimmer
     }
 
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = sections[indexPath.section]
         let item = section.item
 
-        let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! MSCollectionViewCell
+        let cell = super.tableView(tableView, cellForRowAt: indexPath) as! MSTableViewCell
 
         // fill with spaces representing the text that would go in each cell
         // double the character count because spaces take up much less horizontal space than
         // non-space characters in most fonts
-        cell.cellView.setup(
+        cell.setup(
             title: String(repeating: " ", count: item.text1.count * 2),
             subtitle: String(repeating: " ", count: item.text2.count * 2),
             footer: String(repeating: " ", count: item.text3.count * 2),
@@ -45,18 +41,16 @@ class MSCollectionViewCellShimmerDemoController: MSCollectionViewCellDemoControl
     }
 }
 
-// MARK: MSCollectionViewCell
-
-extension MSCollectionViewCell {
+extension MSTableViewCell {
     /// associated object key for shimmer view
     private static var shimmerViewKey: UInt8 = 0
 
     var shimmerView: MSShimmerView? {
         get {
-            return objc_getAssociatedObject(self, &MSCollectionViewCell.shimmerViewKey) as? MSShimmerView
+            return objc_getAssociatedObject(self, &MSTableViewCell.shimmerViewKey) as? MSShimmerView
         }
         set {
-            objc_setAssociatedObject(self, &MSCollectionViewCell.shimmerViewKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_ASSIGN)
+            objc_setAssociatedObject(self, &MSTableViewCell.shimmerViewKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_ASSIGN)
         }
     }
 
@@ -65,9 +59,9 @@ extension MSCollectionViewCell {
         // because the cells have different layouts in this example, remove and re-add the shimmers
         shimmerView?.removeFromSuperview()
 
-        let shimmerView = MSShimmerView(containerView: cellView.contentView, animationSynchronizer: synchronizer)
-        cellView.contentView.addSubview(shimmerView)
-        shimmerView.frame = cellView.contentView.bounds
+        let shimmerView = MSShimmerView(containerView: contentView, animationSynchronizer: synchronizer)
+        contentView.addSubview(shimmerView)
+        shimmerView.frame = contentView.bounds
         shimmerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.shimmerView = shimmerView
     }
