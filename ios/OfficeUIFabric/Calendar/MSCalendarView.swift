@@ -71,9 +71,9 @@ class MSCalendarView: UIView {
 
         headingViewSeparator.frame = CGRect(
             x: 0.0,
-            y: weekdayHeadingView.height,
+            y: weekdayHeadingView.frame.height,
             width: bounds.size.width,
-            height: headingViewSeparator.height
+            height: headingViewSeparator.frame.height
         )
 
         // Collection view
@@ -84,17 +84,17 @@ class MSCalendarView: UIView {
         let originalContentOffset = collectionView.contentOffset
         collectionView.frame = CGRect(
             x: 0.0,
-            y: weekdayHeadingView.height,
+            y: weekdayHeadingView.frame.height,
             width: bounds.size.width,
-            height: bounds.size.height - weekdayHeadingView.height
+            height: bounds.size.height - weekdayHeadingView.frame.height
         )
         collectionView.contentOffset = originalContentOffset
 
         collectionViewSeparator.frame = CGRect(
             x: 0.0,
-            y: collectionView.bottom - collectionViewSeparator.height,
+            y: collectionView.frame.maxY - collectionViewSeparator.frame.height,
             width: bounds.size.width,
-            height: collectionViewSeparator.height
+            height: collectionViewSeparator.frame.height
         )
     }
 

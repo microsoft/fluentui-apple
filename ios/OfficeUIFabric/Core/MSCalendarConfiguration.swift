@@ -7,7 +7,6 @@ import Foundation
 
 // MARK: MSCalendarConfiguration
 
-@objcMembers
 open class MSCalendarConfiguration: NSObject {
     private struct Constants {
         static let baseReferenceStartTimestamp: TimeInterval = 1420416000 // January 3 2015
@@ -17,14 +16,14 @@ open class MSCalendarConfiguration: NSObject {
     }
 
     // swiftlint:disable:next explicit_type_interface
-    public static let `default` = MSCalendarConfiguration()
+    @objc public static let `default` = MSCalendarConfiguration()
 
-    open var firstWeekday: Int = Calendar.current.firstWeekday
+    @objc open var firstWeekday: Int = Calendar.current.firstWeekday
 
     let referenceStartDate: Date
     let referenceEndDate: Date
 
-    init(calendar: Calendar = .current) {
+    @objc init(calendar: Calendar = .current) {
         // Compute a start date (January 1st on a year a default number of years ago)
         let yearsAgo = calendar.dateByAdding(years: Constants.startYearsAgo, to: Date())
         var components = calendar.dateComponents([.year, .month, .day], from: yearsAgo)

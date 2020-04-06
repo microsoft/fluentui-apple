@@ -123,10 +123,10 @@ class MSDateTimePickerController: UIViewController, DateTimePicker {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         if let segmentedControl = segmentedControl {
-            segmentedControl.frame = CGRect(x: 0, y: 0, width: view.width, height: segmentedControl.intrinsicContentSize.height)
+            segmentedControl.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: segmentedControl.intrinsicContentSize.height)
         }
-        let verticalOffset = segmentedControl?.height ?? 0
-        dateTimePickerView.frame = CGRect(x: 0, y: verticalOffset, width: view.width, height: view.height - verticalOffset)
+        let verticalOffset = segmentedControl?.frame.height ?? 0
+        dateTimePickerView.frame = CGRect(x: 0, y: verticalOffset, width: view.frame.width, height: view.frame.height - verticalOffset)
     }
 
     override func accessibilityPerformEscape() -> Bool {
@@ -165,7 +165,7 @@ class MSDateTimePickerController: UIViewController, DateTimePicker {
                 x: 0.0,
                 y: 0.0,
                 width: Constants.titleButtonWidth,
-                height: navigationController.navigationBar.height
+                height: navigationController.navigationBar.frame.height
             )
         }
     }
@@ -203,7 +203,7 @@ extension MSDateTimePickerController: MSCardPresentable {
     func idealSize() -> CGSize {
         return CGSize(
             width: Constants.idealWidth,
-            height: MSDateTimePickerViewLayout.height(forRowCount: Constants.idealRowCount) + (segmentedControl?.height ?? 0)
+            height: MSDateTimePickerViewLayout.height(forRowCount: Constants.idealRowCount) + (segmentedControl?.frame.height ?? 0)
         )
     }
 }

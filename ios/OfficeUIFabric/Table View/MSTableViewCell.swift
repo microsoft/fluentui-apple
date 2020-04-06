@@ -24,13 +24,13 @@ import UIKit
         case .none:
             icon = nil
         case .disclosureIndicator:
-            icon = UIImage.staticImageNamed(OfficeUIFabricFramework.usesFluentIcons ? "iOS-chevron-right-20x20" : "disclosure")?.imageFlippedForRightToLeftLayoutDirection()
+            icon = UIImage.staticImageNamed("iOS-chevron-right-20x20")
         case .detailButton:
-            icon = UIImage.staticImageNamed(OfficeUIFabricFramework.usesFluentIcons ? "more-24x24" : "details")
+            icon = UIImage.staticImageNamed("more-24x24")
         case .checkmark:
-            icon = UIImage.staticImageNamed(OfficeUIFabricFramework.usesFluentIcons ? "checkmark-24x24" : "checkmark-blue-20x20")
+            icon = UIImage.staticImageNamed("checkmark-24x24")
         }
-        return icon?.withRenderingMode(.alwaysTemplate)
+        return icon
     }
 
     var iconColor: UIColor? {
@@ -89,7 +89,7 @@ open class MSTableViewCell: UITableViewCell {
             case .zero:
                 return .zero
             case .small:
-                return OfficeUIFabricFramework.usesFluentIcons ? CGSize(width: 24, height: 24) : CGSize(width: 25, height: 25)
+                return CGSize(width: 24, height: 24)
             case .medium, .default:
                 return CGSize(width: 40, height: 40)
             }
@@ -171,8 +171,8 @@ open class MSTableViewCell: UITableViewCell {
         static let minHeight: CGFloat = 44
 
         static let selectionImageMarginTrailing: CGFloat = horizontalSpacing
-        static let selectionImageOff = UIImage.staticImageNamed("selection-off")?.withRenderingMode(.alwaysTemplate)
-        static let selectionImageOn = UIImage.staticImageNamed("selection-on")?.withRenderingMode(.alwaysTemplate)
+        static let selectionImageOff = UIImage.staticImageNamed("selection-off")
+        static let selectionImageOn = UIImage.staticImageNamed("selection-on")
         static let selectionImageSize = CGSize(width: 24, height: 24)
         static let selectionModeAnimationDuration: TimeInterval = 0.2
 
@@ -244,10 +244,10 @@ open class MSTableViewCell: UITableViewCell {
         let textAreaTrailingOffset = self.textAreaTrailingOffset(customAccessoryView: customAccessoryView, customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge, accessoryType: accessoryType)
         var textAreaWidth = containerWidth - (textAreaLeadingOffset + textAreaTrailingOffset)
         if textAreaWidth < Constants.textAreaMinWidth, let customAccessoryView = customAccessoryView {
-            let oldAccessoryViewWidth = customAccessoryView.width
+            let oldAccessoryViewWidth = customAccessoryView.frame.width
             let availableWidth = oldAccessoryViewWidth - (Constants.textAreaMinWidth - textAreaWidth)
             customAccessoryView.frame.size = customAccessoryView.systemLayoutSizeFitting(CGSize(width: availableWidth, height: .infinity))
-            textAreaWidth += oldAccessoryViewWidth - customAccessoryView.width
+            textAreaWidth += oldAccessoryViewWidth - customAccessoryView.frame.width
         }
 
         let textAreaHeight = self.textAreaHeight(
@@ -261,7 +261,7 @@ open class MSTableViewCell: UITableViewCell {
 
         var minHeight = Constants.minHeight
         if let customAccessoryView = customAccessoryView {
-            minHeight = max(minHeight, customAccessoryView.height + 2 * Constants.customAccessoryViewMinVerticalMargin)
+            minHeight = max(minHeight, customAccessoryView.frame.height + 2 * Constants.customAccessoryViewMinVerticalMargin)
         }
         return max(labelVerticalMargin * 2 + textAreaHeight, minHeight)
     }
@@ -316,7 +316,7 @@ open class MSTableViewCell: UITableViewCell {
 
     private static func labelPreferredWidth(text: String, font: UIFont, leadingAccessoryView: UIView?, trailingAccessoryView: UIView?) -> CGFloat {
         var labelWidth = text.preferredSize(for: font).width
-        labelWidth += labelLeadingAccessoryAreaWidth(viewWidth: leadingAccessoryView?.width ?? 0) + labelTrailingAccessoryAreaWidth(viewWidth: trailingAccessoryView?.width ?? 0, text: text)
+        labelWidth += labelLeadingAccessoryAreaWidth(viewWidth: leadingAccessoryView?.frame.width ?? 0) + labelTrailingAccessoryAreaWidth(viewWidth: trailingAccessoryView?.frame.width ?? 0, text: text)
         return labelWidth
     }
 
@@ -354,7 +354,7 @@ open class MSTableViewCell: UITableViewCell {
     private static func textAreaTrailingOffset(customAccessoryView: UIView?, customAccessoryViewExtendsToEdge: Bool, accessoryType: MSTableViewCellAccessoryType) -> CGFloat {
         let customAccessoryViewAreaWidth: CGFloat
         if let customAccessoryView = customAccessoryView {
-            customAccessoryViewAreaWidth = customAccessoryView.width + Constants.customAccessoryViewMarginLeading
+            customAccessoryViewAreaWidth = customAccessoryView.frame.width + Constants.customAccessoryViewMarginLeading
         } else {
             customAccessoryViewAreaWidth = 0
         }
@@ -738,7 +738,7 @@ open class MSTableViewCell: UITableViewCell {
     private var textAreaWidth: CGFloat {
         let textAreaLeadingOffset = MSTableViewCell.textAreaLeadingOffset(customViewSize: customViewSize, isInSelectionMode: isInSelectionMode)
         let textAreaTrailingOffset = MSTableViewCell.textAreaTrailingOffset(customAccessoryView: customAccessoryView, customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge, accessoryType: _accessoryType)
-        return contentView.width - (textAreaLeadingOffset + textAreaTrailingOffset)
+        return contentView.frame.width - (textAreaLeadingOffset + textAreaTrailingOffset)
     }
 
     private(set) var customView: UIView? {
@@ -925,12 +925,12 @@ open class MSTableViewCell: UITableViewCell {
         contentView.flipSubviewsForRTL()
 
         layoutSeparator(topSeparator, with: topSeparatorType, at: 0)
-        layoutSeparator(bottomSeparator, with: bottomSeparatorType, at: height - bottomSeparator.height)
+        layoutSeparator(bottomSeparator, with: bottomSeparatorType, at: frame.height - bottomSeparator.frame.height)
     }
 
     open func layoutContentSubviews() {
         if isInSelectionMode {
-            let selectionImageViewYOffset = UIScreen.main.roundToDevicePixels((contentView.height - Constants.selectionImageSize.height) / 2)
+            let selectionImageViewYOffset = UIScreen.main.roundToDevicePixels((contentView.frame.height - Constants.selectionImageSize.height) / 2)
             selectionImageView.frame = CGRect(
                 origin: CGPoint(x: Constants.paddingLeading, y: selectionImageViewYOffset),
                 size: Constants.selectionImageSize
@@ -938,7 +938,7 @@ open class MSTableViewCell: UITableViewCell {
         }
 
         if let customView = customView {
-            let customViewYOffset = UIScreen.main.roundToDevicePixels((contentView.height - customViewSize.size.height) / 2)
+            let customViewYOffset = UIScreen.main.roundToDevicePixels((contentView.frame.height - customViewSize.size.height) / 2)
             let customViewXOffset = MSTableViewCell.customViewLeadingOffset(isInSelectionMode: isInSelectionMode)
             customView.frame = CGRect(
                 origin: CGPoint(x: customViewXOffset, y: customViewYOffset),
@@ -949,29 +949,29 @@ open class MSTableViewCell: UITableViewCell {
         layoutLabelViews(label: titleLabel, numberOfLines: titleNumberOfLines, topOffset: 0, leadingAccessoryView: titleLeadingAccessoryView, leadingAccessoryViewSize: titleLeadingAccessoryViewSize, trailingAccessoryView: titleTrailingAccessoryView, trailingAccessoryViewSize: titleTrailingAccessoryViewSize)
 
         if layoutType == .twoLines || layoutType == .threeLines {
-            layoutLabelViews(label: subtitleLabel, numberOfLines: subtitleNumberOfLines, topOffset: titleLabel.bottom + Constants.labelVerticalSpacing, leadingAccessoryView: subtitleLeadingAccessoryView, leadingAccessoryViewSize: subtitleLeadingAccessoryViewSize, trailingAccessoryView: subtitleTrailingAccessoryView, trailingAccessoryViewSize: subtitleTrailingAccessoryViewSize)
+            layoutLabelViews(label: subtitleLabel, numberOfLines: subtitleNumberOfLines, topOffset: titleLabel.frame.maxY + Constants.labelVerticalSpacing, leadingAccessoryView: subtitleLeadingAccessoryView, leadingAccessoryViewSize: subtitleLeadingAccessoryViewSize, trailingAccessoryView: subtitleTrailingAccessoryView, trailingAccessoryViewSize: subtitleTrailingAccessoryViewSize)
 
             if layoutType == .threeLines {
-                layoutLabelViews(label: footerLabel, numberOfLines: footerNumberOfLines, topOffset: subtitleLabel.bottom + Constants.labelVerticalSpacing, leadingAccessoryView: footerLeadingAccessoryView, leadingAccessoryViewSize: footerLeadingAccessoryViewSize, trailingAccessoryView: footerTrailingAccessoryView, trailingAccessoryViewSize: footerTrailingAccessoryViewSize)
+                layoutLabelViews(label: footerLabel, numberOfLines: footerNumberOfLines, topOffset: subtitleLabel.frame.maxY + Constants.labelVerticalSpacing, leadingAccessoryView: footerLeadingAccessoryView, leadingAccessoryViewSize: footerLeadingAccessoryViewSize, trailingAccessoryView: footerTrailingAccessoryView, trailingAccessoryViewSize: footerTrailingAccessoryViewSize)
             }
         }
 
-        let textAreaHeight = MSTableViewCell.textAreaHeight(layoutType: layoutType, titleHeight: titleLabel.height, subtitleHeight: subtitleLabel.height, footerHeight: footerLabel.height)
-        let textAreaTopOffset = UIScreen.main.roundToDevicePixels((contentView.height - textAreaHeight) / 2)
+        let textAreaHeight = MSTableViewCell.textAreaHeight(layoutType: layoutType, titleHeight: titleLabel.frame.height, subtitleHeight: subtitleLabel.frame.height, footerHeight: footerLabel.frame.height)
+        let textAreaTopOffset = UIScreen.main.roundToDevicePixels((contentView.frame.height - textAreaHeight) / 2)
         adjustLabelViewsTop(by: textAreaTopOffset, label: titleLabel, leadingAccessoryView: titleLeadingAccessoryView, trailingAccessoryView: titleTrailingAccessoryView)
         adjustLabelViewsTop(by: textAreaTopOffset, label: subtitleLabel, leadingAccessoryView: subtitleLeadingAccessoryView, trailingAccessoryView: subtitleTrailingAccessoryView)
         adjustLabelViewsTop(by: textAreaTopOffset, label: footerLabel, leadingAccessoryView: footerLeadingAccessoryView, trailingAccessoryView: footerTrailingAccessoryView)
 
         if let customAccessoryView = customAccessoryView {
             let trailingOffset = MSTableViewCell.customAccessoryViewTrailingOffset(customAccessoryView: customAccessoryView, customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge, accessoryType: _accessoryType)
-            let xOffset = contentView.width - customAccessoryView.width - trailingOffset
-            let yOffset = UIScreen.main.roundToDevicePixels((contentView.height - customAccessoryView.height) / 2)
+            let xOffset = contentView.frame.width - customAccessoryView.frame.width - trailingOffset
+            let yOffset = UIScreen.main.roundToDevicePixels((contentView.frame.height - customAccessoryView.frame.height) / 2)
             customAccessoryView.frame = CGRect(origin: CGPoint(x: xOffset, y: yOffset), size: customAccessoryView.frame.size)
         }
 
         if let accessoryTypeView = accessoryTypeView {
-            let xOffset = contentView.width - MSTableViewCell.customAccessoryViewTrailingOffset(customAccessoryView: customAccessoryView, customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge, accessoryType: _accessoryType)
-            let yOffset = UIScreen.main.roundToDevicePixels((contentView.height - _accessoryType.size.height) / 2)
+            let xOffset = contentView.frame.width - MSTableViewCell.customAccessoryViewTrailingOffset(customAccessoryView: customAccessoryView, customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge, accessoryType: _accessoryType)
+            let yOffset = UIScreen.main.roundToDevicePixels((contentView.frame.height - _accessoryType.size.height) / 2)
             accessoryTypeView.frame = CGRect(origin: CGPoint(x: xOffset, y: yOffset), size: _accessoryType.size)
         }
     }
@@ -1015,17 +1015,17 @@ open class MSTableViewCell: UITableViewCell {
     }
 
     private func adjustLabelViewsTop(by offset: CGFloat, label: UILabel, leadingAccessoryView: UIView?, trailingAccessoryView: UIView?) {
-        label.top += offset
-        leadingAccessoryView?.top += offset
-        trailingAccessoryView?.top += offset
+        label.frame.origin.y += offset
+        leadingAccessoryView?.frame.origin.y += offset
+        trailingAccessoryView?.frame.origin.y += offset
     }
 
     private func layoutSeparator(_ separator: MSSeparator, with type: SeparatorType, at verticalOffset: CGFloat) {
         separator.frame = CGRect(
             x: separatorLeadingInset(for: type),
             y: verticalOffset,
-            width: width - separatorLeadingInset(for: type),
-            height: separator.height
+            width: frame.width - separatorLeadingInset(for: type),
+            height: separator.frame.height
         )
         separator.flipForRTL()
     }

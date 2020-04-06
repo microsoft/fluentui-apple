@@ -7,19 +7,6 @@
 
 @protocol MSDistributeDelegate <NSObject>
 
-typedef NS_ENUM(NSInteger, MSUpdateAction) {
-
-  /**
-   * Action to trigger update.
-   */
-  MSUpdateActionUpdate,
-
-  /**
-   * Action to postpone update.
-   */
-  MSUpdateActionPostpone
-};
-
 @optional
 
 /**

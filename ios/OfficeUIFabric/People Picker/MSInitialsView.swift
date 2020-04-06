@@ -25,7 +25,7 @@ class MSInitialsView: UIView {
 
         let colors = MSColors.avatarBackgroundColors
         let combinedHashable = combined as NSString
-        let hashCode = Int(abs(combinedHashable.javaHashCode()))
+        let hashCode = Int(abs(javaHashCode(combinedHashable)))
         return colors[hashCode % colors.count]
     }
 
@@ -33,7 +33,7 @@ class MSInitialsView: UIView {
         var initials = ""
 
         if let primaryText = primaryText, primaryText.count > 0 {
-            initials = primaryText.initials
+            initials = initialLetters(primaryText)
         } else if let secondaryText = secondaryText, secondaryText.count > 0 {
             // Use first letter of the secondary text
             initials = String(secondaryText.prefix(1))
@@ -45,6 +45,42 @@ class MSInitialsView: UIView {
         }
 
         return initials.uppercased()
+    }
+
+     private static func initialLetters(_ text: String) -> String {
+        var initials = ""
+
+        // Use the leading character from the first two words in the user's name
+        let nameComponents = text.components(separatedBy: " ")
+        for nameComponent: String in nameComponents {
+            let trimmedName = nameComponent.trimmed()
+            if trimmedName.count < 1 {
+                continue
+            }
+            let initial = trimmedName.index(trimmedName.startIndex, offsetBy: 0)
+            let initialLetter = String(trimmedName[initial])
+            let initialUnicodeScalars = initialLetter.unicodeScalars
+            let initialUnicodeScalar = initialUnicodeScalars[initialUnicodeScalars.startIndex]
+            // Discard name if first char is not a letter
+            let isInitialLetter: Bool = initialLetter.count > 0 && CharacterSet.letters.contains(initialUnicodeScalar)
+            if isInitialLetter && initials.count < 2 {
+                initials += initialLetter
+            }
+        }
+
+        return initials
+    }
+
+    /// To ensure iOS and Android achieve the same result when generating string hash codes (e.g. to determine avatar colors) we've copied Java's String implementation of `hashCode`.
+    /// Must use Int32 as JVM specification is 32-bits for ints
+    /// - Returns: hash code of string
+    private static func javaHashCode(_ text: NSString) -> Int32 {
+        var hash: Int32 = 0
+        for i in 0..<text.length {
+            // Allow overflows, mimicking Java behavior
+            hash = 31 &* hash &+ Int32(text.character(at: i))
+        }
+        return hash
     }
 
     public var avatarSize: MSAvatarSize {

@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#ifndef MS_SERVICE_ABSTRACT_H
+#define MS_SERVICE_ABSTRACT_H
+
 #import <Foundation/Foundation.h>
 
 #import "MSService.h"
@@ -16,7 +19,7 @@
 /**
  * The flag indicates whether the service is started from application or not.
  */
-@property(nonatomic) BOOL startedFromApplication;
+@property(nonatomic, assign) BOOL startedFromApplication;
 
 /**
  * Start this service with a channel group. Also sets the flag that indicates that a service has been started.
@@ -48,3 +51,5 @@
 - (BOOL)isAppSecretRequired;
 
 @end
+
+#endif

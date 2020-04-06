@@ -42,28 +42,27 @@ import UIKit
 
  The `suggestedPersonas` are shown in a list either above or below the control based on the position of `MSPeoplePicker` on screen. If more space is available below the text field than above it then the persona list view will be positioned below, if not it will be positioned above the control.
  */
-@objcMembers
 open class MSPeoplePicker: MSBadgeField {
     private struct Constants {
         static let personaSuggestionsVerticalMargin: CGFloat = 8
     }
 
     /// Use `availablePersonas` to provide a list of personas that may be filtered and appear as `suggestedPersonas`in the persona list.
-    open var availablePersonas: [MSPersona] = [] {
+    @objc open var availablePersonas: [MSPersona] = [] {
         didSet {
             personaListView.personaList = availablePersonas
         }
     }
 
     /// Use `pickedPersonas` to provide a list of personas that have been picked. These personas are displayed as interactable badges next to the text field. When a persona from the persona list is picked it gets added here.
-    open var pickedPersonas: [MSPersona] = [] {
+    @objc open var pickedPersonas: [MSPersona] = [] {
         didSet {
             updatePickedPersonaBadges()
         }
     }
 
     /// Set `showsSearchDirectoryButton` to determine whether or not to show the search directory button that appears at the bottom of the persona list.
-    open var showsSearchDirectoryButton: Bool = false {
+    @objc open var showsSearchDirectoryButton: Bool = false {
         didSet {
             personaListView.showsSearchDirectoryButton = showsSearchDirectoryButton
         }
@@ -73,9 +72,9 @@ open class MSPeoplePicker: MSBadgeField {
      Set `allowsPickedPersonasToAppearAsSuggested` to false to remove personas from appearing in the suggested list if they have already been picked.
      Note: This property is disregarded if `getSuggestedPersonasForText` delegate method has been implemented.
      */
-    open var allowsPickedPersonasToAppearAsSuggested: Bool = true
+    @objc open var allowsPickedPersonasToAppearAsSuggested: Bool = true
 
-    open weak var delegate: MSPeoplePickerDelegate? {
+    @objc open weak var delegate: MSPeoplePickerDelegate? {
         didSet {
             badgeFieldDelegate = delegate
         }
@@ -112,17 +111,17 @@ open class MSPeoplePicker: MSBadgeField {
 
     private let separator = MSSeparator()
 
-    public override init() {
+    @objc public override init() {
         super.init()
         initialize()
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    @objc public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initialize()
     }
 
-    open func initialize() {
+    func initialize() {
         personaSuggestionsView.addSubview(personaListView)
         personaSuggestionsView.addSubview(separator)
 
@@ -137,7 +136,7 @@ open class MSPeoplePicker: MSBadgeField {
 
     /// Returns the badge for the associated persona
     /// - Parameter persona: The `MSPersona` to find the associated `MSBadgeView` for
-    open func badge(for persona: MSPersona) -> MSBadgeView? {
+    @objc open func badge(for persona: MSPersona) -> MSBadgeView? {
         return badges.first(where: {
             guard let personaBadgeDataSource = $0.dataSource as? MSPersonaBadgeViewDataSource else {
                 assertionFailure("Badge dataSource is not of type MSPersonaBadgeViewDataSource")
@@ -188,8 +187,8 @@ open class MSPeoplePicker: MSBadgeField {
         let statusBarHeight = window?.safeAreaInsets.top ?? 0
         // If the space below people picker to the keyboard is larger than the space above minus the status bar
         // then position the suggestions list below the people picker, otherwise position above
-        if windowSize.height - (position.y + height) - keyboardHeight > position.y - statusBarHeight {
-            personaSuggestionsY = position.y + height + Constants.personaSuggestionsVerticalMargin
+        if windowSize.height - (position.y + frame.height) - keyboardHeight > position.y - statusBarHeight {
+            personaSuggestionsY = position.y + frame.height + Constants.personaSuggestionsVerticalMargin
             personaSuggestionsHeight = windowSize.height - personaSuggestionsY - keyboardHeight
             separatorY = 0
         } else {
@@ -202,7 +201,7 @@ open class MSPeoplePicker: MSBadgeField {
 
         personaListView.frame = personaSuggestionsView.bounds
 
-        separator.frame = CGRect(x: 0, y: separatorY, width: personaSuggestionsView.width, height: separator.height)
+        separator.frame = CGRect(x: 0, y: separatorY, width: personaSuggestionsView.frame.width, height: separator.frame.height)
     }
 
     // MARK: Personas

@@ -62,9 +62,8 @@ enum MSActivityIndicatorStrokeThickness: CGFloat {
 /**
  * `MSActivityIndicatorView` is meant to be used as a drop-in replacement of `UIActivityIndicatorView`. Its API strictly matches `UIActivityIndicatorView` API. The only exception is the replacement of `UIActivityIndicatorViewStyle` with `MSActivityIndicatorViewSize` that doesn't include any color definition.
  */
-@objcMembers
 open class MSActivityIndicatorView: UIView {
-    public static func sizeThatFits(size: MSActivityIndicatorViewSize) -> CGSize {
+    @objc public static func sizeThatFits(size: MSActivityIndicatorViewSize) -> CGSize {
         return CGSize(width: size.sideSize, height: size.sideSize)
     }
 
@@ -73,7 +72,7 @@ open class MSActivityIndicatorView: UIView {
         static let rotationAnimationKey: String = "rotationAnimation"
     }
 
-    open var size: MSActivityIndicatorViewSize {
+    @objc open var size: MSActivityIndicatorViewSize {
         get {
             return MSActivityIndicatorViewSize.allCases.first { $0.sideSize == self.sideSize } ?? .medium
         }
@@ -83,8 +82,8 @@ open class MSActivityIndicatorView: UIView {
             }
         }
     }
-    open var hidesWhenStopped: Bool = true
-    open var color: UIColor = MSColors.ActivityIndicator.foreground {
+    @objc open var hidesWhenStopped: Bool = true
+    @objc open var color: UIColor = MSColors.ActivityIndicator.foreground {
         didSet {
             setupLoaderLayer()
         }
@@ -124,11 +123,11 @@ open class MSActivityIndicatorView: UIView {
     private var sideSize: CGFloat = 0
     private var strokeThickness: CGFloat = 0
 
-    public convenience init(size: MSActivityIndicatorViewSize) {
+    @objc public convenience init(size: MSActivityIndicatorViewSize) {
         self.init(sideSize: size.sideSize, strokeThickness: size.strokeThickness.rawValue)
     }
 
-    public init(sideSize: CGFloat, strokeThickness: CGFloat) {
+    @objc public init(sideSize: CGFloat, strokeThickness: CGFloat) {
         super.init(frame: .zero)
         layer.addSublayer(loaderLayer)
         isHidden = true
@@ -139,7 +138,7 @@ open class MSActivityIndicatorView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    open func startAnimating() {
+    @objc open func startAnimating() {
         if isAnimating {
             return
         }
@@ -149,7 +148,7 @@ open class MSActivityIndicatorView: UIView {
         loaderLayer.add(loaderRotationAnimation, forKey: Constants.rotationAnimationKey)
     }
 
-    open func stopAnimating() {
+    @objc open func stopAnimating() {
         if !isAnimating {
             return
         }
@@ -164,7 +163,7 @@ open class MSActivityIndicatorView: UIView {
 
     open override func layoutSubviews() {
         super.layoutSubviews()
-        loaderLayer.position = CGPoint(x: width / 2, y: height / 2)
+        loaderLayer.position = CGPoint(x: frame.width / 2, y: frame.height / 2)
     }
 
     open override var intrinsicContentSize: CGSize {

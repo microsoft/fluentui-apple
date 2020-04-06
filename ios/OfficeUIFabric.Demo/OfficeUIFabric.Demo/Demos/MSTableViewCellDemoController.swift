@@ -9,7 +9,7 @@ import OfficeUIFabric
 // MARK: MSTableViewCellDemoController
 
 class MSTableViewCellDemoController: DemoController {
-    private let sections: [TableViewSampleData.Section] = MSTableViewCellSampleData.sections
+    let sections: [TableViewSampleData.Section] = MSTableViewCellSampleData.sections
 
     private var isGrouped: Bool = false {
         didSet {

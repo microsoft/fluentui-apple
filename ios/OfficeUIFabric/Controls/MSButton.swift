@@ -117,6 +117,8 @@ open class MSButton: UIButton {
         if #available(iOS 13.0, *) {
             layer.cornerCurve = .continuous
         }
+
+        titleLabel?.font = Constants.titleFont
         update()
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
@@ -153,9 +155,6 @@ open class MSButton: UIButton {
         }
         self.backgroundColor = backgroundColor
         layer.borderColor = borderColor.cgColor
-
-        titleLabel?.font = Constants.titleFont
-
         layer.borderWidth = style.hasBorders ? Constants.borderWidth : 0
 
         contentEdgeInsets = style.contentEdgeInsets

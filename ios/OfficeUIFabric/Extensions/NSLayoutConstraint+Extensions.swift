@@ -74,18 +74,4 @@ extension NSLayoutConstraint {
 
         NSLayoutConstraint.activate([leading, trailing, top, bottom])
     }
-
-    /// Constrains the provided view at the center of the provided container view
-    /// Makes no definitions for the size (w/h) of the provided subview
-    ///
-    /// - Parameters:
-    ///   - view: the view to center
-    ///   - containerView: the view to do the containment
-    static func center(view: UIView, in containerView: UIView) {
-        view.translatesAutoresizingMaskIntoConstraints = false
-
-        containerView.addSubview(view)
-
-        NSLayoutConstraint.activate([view.centerXAnchor.constraint(equalTo: containerView.centerXAnchor), view.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)])
-    }
 }

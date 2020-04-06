@@ -90,9 +90,28 @@ typedef NS_ENUM(NSUInteger, MSUserConfirmation) {
 + (BOOL)hasCrashedInLastSession;
 
 /**
+ * Check if the app received memory warning in the last session.
+ *
+ * @return Returns YES is the app received memory warning in the last session.
+ */
++ (BOOL)hasReceivedMemoryWarningInLastSession;
+
+/**
  * Provides details about the crash that occurred in the last app session
  */
 + (nullable MSErrorReport *)lastSessionCrashReport;
+
+#if TARGET_OS_OSX
+/**
+ * Callback for report exception.
+ *
+ * NOTE: This method should be called only if you explicitly disabled swizzling for it.
+ *
+ * On OS X runtime, not all uncaught exceptions end in a custom `NSUncaughtExceptionHandler`.
+ * Forward exception from overrided `[NSApplication reportException:]` to catch additional exceptions.
+ */
++ (void)applicationDidReportException:(NSException *_Nonnull)exception;
+#endif
 
 ///-----------------------------------------------------------------------------
 /// @name Configuration

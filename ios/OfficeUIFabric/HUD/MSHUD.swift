@@ -240,15 +240,15 @@ public class MSHUD: NSObject {
             return
         }
 
-        let hudViewSize = presentedHUDView.sizeThatFits(.max)
+        let hudViewSize = presentedHUDView.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
 
         let keyboardMarginTop = keyboardHeight != 0 ? Constants.keyboardMarginTop : 0
 
-        let maxHUDViewCenterY = containerView.height - keyboardHeight - keyboardMarginTop - hudViewSize.height / 2.0
-        let hudViewCenterY = UIScreen.main.roundToDevicePixels(min(maxHUDViewCenterY, containerView.height / 2))
+        let maxHUDViewCenterY = containerView.frame.height - keyboardHeight - keyboardMarginTop - hudViewSize.height / 2.0
+        let hudViewCenterY = UIScreen.main.roundToDevicePixels(min(maxHUDViewCenterY, containerView.frame.height / 2))
 
         // Use `position` and `bounds` to ensure we don't override the transform value
-        presentedHUDView.layer.position = CGPoint(x: containerView.width / 2, y: hudViewCenterY)
+        presentedHUDView.layer.position = CGPoint(x: containerView.frame.width / 2, y: hudViewCenterY)
         presentedHUDView.layer.bounds = CGRect(origin: .zero, size: hudViewSize)
     }
 

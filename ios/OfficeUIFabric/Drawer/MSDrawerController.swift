@@ -216,7 +216,7 @@ open class MSDrawerController: UIViewController {
                 return
             }
             if isExpanded {
-                normalDrawerHeight = isResizing ? originalDrawerHeight : view.height
+                normalDrawerHeight = isResizing ? originalDrawerHeight : view.frame.height
                 normalPreferredContentHeight = super.preferredContentSize.height
             }
             updatePreferredContentSize(isExpanded: isExpanded)
@@ -262,8 +262,7 @@ open class MSDrawerController: UIViewController {
                 contentSize = CGRect(origin: .zero, size: contentSize).inset(by: contentView.safeAreaInsets).size
                 updatePreferredContentSize(contentSize.width, contentSize.height)
             }
-
-            return preferredContentSize.roundedToDevicePixels
+            return CGSize(width: UIScreen.main.roundToDevicePixels(preferredContentSize.width), height: UIScreen.main.roundToDevicePixels(preferredContentSize.height))
         }
         set {
             var newValue = newValue
@@ -499,7 +498,7 @@ open class MSDrawerController: UIViewController {
                 // It will be a problem:
                 //   - on iPhone Plus/X in landscape orientation
                 //   - on iPad in split view
-                return UIDevice.isPhone ? .slideover : .popover
+                return traitCollection.userInterfaceIdiom == .phone ? .slideover : .popover
             }
         } else {
             return .slideover
@@ -692,7 +691,7 @@ open class MSDrawerController: UIViewController {
                 isResizing = true
                 presentationController.extraContentSizeEffectWhenCollapsing = isExpanded ? .resize : .move
                 originalDrawerOffsetY = view.convert(view.bounds.origin, to: nil).y
-                originalDrawerHeight = view.height
+                originalDrawerHeight = view.frame.height
                 initOriginalContentOffsetYIfNeeded()
             }
             if isExpanded {

@@ -129,8 +129,8 @@ class MSDateTimePickerView: UIControl {
         super.layoutSubviews()
 
         // Compute ratio to ideal width
-        let idealWidth = sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: height)).width
-        let widthRatio = (width - 2 * MSDateTimePickerViewLayout.horizontalPadding) / (idealWidth - 2 * MSDateTimePickerViewLayout.horizontalPadding)
+        let idealWidth = sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: frame.height)).width
+        let widthRatio = (frame.width - 2 * MSDateTimePickerViewLayout.horizontalPadding) / (idealWidth - 2 * MSDateTimePickerViewLayout.horizontalPadding)
 
         // Compute components width based on the ratio of this width to ideal width
         let componentWidths: [CGFloat] = componentTypes.map {
@@ -145,26 +145,26 @@ class MSDateTimePickerView: UIControl {
                 continue
             }
             let viewWidth = componentWidths[index]
-            component.view.frame = CGRect(x: x, y: 0, width: viewWidth, height: height)
+            component.view.frame = CGRect(x: x, y: 0, width: viewWidth, height: frame.height)
 
             // Make sure views are all setup before setting date at the bottom of the function
             component.view.layoutIfNeeded()
             x += viewWidth
         }
 
-        let lineOffset = round((height - MSDateTimePickerViewComponentCell.idealHeight - 2 * selectionTopSeparator.height) / 2)
+        let lineOffset = round((frame.height - MSDateTimePickerViewComponentCell.idealHeight - 2 * selectionTopSeparator.frame.height) / 2)
 
-        selectionTopSeparator.frame = CGRect(x: 0, y: lineOffset, width: width, height: selectionTopSeparator.height)
+        selectionTopSeparator.frame = CGRect(x: 0, y: lineOffset, width: frame.width, height: selectionTopSeparator.frame.height)
 
         selectionBottomSeparator.frame = CGRect(
             x: 0,
-            y: height - lineOffset - selectionBottomSeparator.height,
-            width: width,
-            height: selectionBottomSeparator.height
+            y: frame.height - lineOffset - selectionBottomSeparator.frame.height,
+            width: frame.width,
+            height: selectionBottomSeparator.frame.height
         )
 
         let gradientOffset = lineOffset - MSDateTimePickerViewComponentCell.idealHeight
-        gradientLayer.locations = [0, NSNumber(value: Float(gradientOffset / height)), NSNumber(value: Float((height - gradientOffset) / height)), 1]
+        gradientLayer.locations = [0, NSNumber(value: Float(gradientOffset / frame.height)), NSNumber(value: Float((frame.height - gradientOffset) / frame.height)), 1]
         gradientLayer.frame = bounds
 
         setDate(date, animated: false)
