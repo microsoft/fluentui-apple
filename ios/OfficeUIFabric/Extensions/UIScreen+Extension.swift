@@ -8,11 +8,6 @@ import UIKit
 public extension UIScreen {
     var devicePixel: CGFloat { return 1 / scale }
 
-    class var isPortrait: Bool {
-        return UIScreen.main.bounds.height > UIScreen.main.bounds.width
-    }
-    class var isLandscape: Bool { return !isPortrait }
-
     func roundToDevicePixels(_ value: CGFloat) -> CGFloat {
         /*
          Round to 3 digits after floating point to better match the device rounding on 3x devices.

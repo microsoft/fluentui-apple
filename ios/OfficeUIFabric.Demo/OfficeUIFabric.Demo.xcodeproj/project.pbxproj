@@ -3,11 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		11047D2622932DB1001F0F59 /* MSTabBarViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11047D2522932DB1001F0F59 /* MSTabBarViewDemoController.swift */; };
+		114CF8B82423E10900D064AA /* MSColorDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114CF8B72423E10900D064AA /* MSColorDemoController.swift */; };
 		497DC2DE24185896008D86F8 /* MSPillButtonBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2DD24185896008D86F8 /* MSPillButtonBarDemoController.swift */; };
 		693773C40AE2B690393E36D2 /* Pods_OfficeUIFabric_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67438D47B2FE8A0087C02A1C /* Pods_OfficeUIFabric_Demo.framework */; };
 		A589F856211BA71000471C23 /* MSLabelDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A589F855211BA71000471C23 /* MSLabelDemoController.swift */; };
@@ -31,7 +32,6 @@
 		B444D6B82183BA4B0002B4D4 /* MSBadgeViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444D6B72183BA4B0002B4D4 /* MSBadgeViewDemoController.swift */; };
 		B4575C5122FB8B6900EBD0EB /* MSPeoplePickerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4575C5022FB8B6900EBD0EB /* MSPeoplePickerDemoController.swift */; };
 		B45EB79221A4D047008646A2 /* MSBadgeFieldDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45EB79121A4D047008646A2 /* MSBadgeFieldDemoController.swift */; };
-		B4946764220A4DF10059045E /* MSCollectionViewCellDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4946763220A4DF10059045E /* MSCollectionViewCellDemoController.swift */; };
 		B498141621E42C140077B48D /* MSTableViewCellDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B498141521E42C140077B48D /* MSTableViewCellDemoController.swift */; };
 		B4C39552227A4AC800539EC2 /* TableViewSampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C39551227A4AC800539EC2 /* TableViewSampleData.swift */; };
 		B4D852D922580661004B1B29 /* MSActivityIndicatorViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D852D822580661004B1B29 /* MSActivityIndicatorViewDemoController.swift */; };
@@ -40,8 +40,7 @@
 		B4EF53C5215C45C400573E8F /* MSPersonaListViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF53C4215C45C400573E8F /* MSPersonaListViewDemoController.swift */; };
 		B4EF66542295F1A8007FEAB0 /* MSTableViewHeaderFooterViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF66532295F1A8007FEAB0 /* MSTableViewHeaderFooterViewDemoController.swift */; };
 		B4EF66562295F729007FEAB0 /* TableViewHeaderFooterSampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF66552295F729007FEAB0 /* TableViewHeaderFooterSampleData.swift */; };
-		B4EF665B22974BF0007FEAB0 /* MSCollectionViewHeaderFooterViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF665A22974BF0007FEAB0 /* MSCollectionViewHeaderFooterViewDemoController.swift */; };
-		C038992E2359307D00265026 /* MSCollectionViewCellShimmerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C038992D2359307D00265026 /* MSCollectionViewCellShimmerDemoController.swift */; };
+		C038992E2359307D00265026 /* MSTableViewCellShimmerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C038992D2359307D00265026 /* MSTableViewCellShimmerDemoController.swift */; };
 		C0938E4A235F733100256251 /* MSShimmerLinesViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0938E49235F733100256251 /* MSShimmerLinesViewDemoController.swift */; };
 		FD41C8F422E28EEB0086F899 /* MSNavigationControllerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C8F322E28EEB0086F899 /* MSNavigationControllerDemoController.swift */; };
 		FD7254ED21471A3F002F4069 /* MSDateTimePickerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7254EC21471A3F002F4069 /* MSDateTimePickerDemoController.swift */; };
@@ -67,6 +66,7 @@
 /* Begin PBXFileReference section */
 		076DB4FE89F675C1A3A7A5C3 /* Pods-OfficeUIFabric.Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OfficeUIFabric.Demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-OfficeUIFabric.Demo/Pods-OfficeUIFabric.Demo.release.xcconfig"; sourceTree = "<group>"; };
 		11047D2522932DB1001F0F59 /* MSTabBarViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTabBarViewDemoController.swift; sourceTree = "<group>"; };
+		114CF8B72423E10900D064AA /* MSColorDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSColorDemoController.swift; sourceTree = "<group>"; };
 		497DC2DD24185896008D86F8 /* MSPillButtonBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSPillButtonBarDemoController.swift; sourceTree = "<group>"; };
 		67438D47B2FE8A0087C02A1C /* Pods_OfficeUIFabric_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OfficeUIFabric_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A52B637A2137834A009F7ADF /* Pods-OfficeUIFabric.Demo.dogfood.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Pods-OfficeUIFabric.Demo.dogfood.xcconfig"; path = "Pods/Target Support Files/Pods-OfficeUIFabric.Demo/Pods-OfficeUIFabric.Demo.dogfood.xcconfig"; sourceTree = "<group>"; };
@@ -92,7 +92,6 @@
 		B444D6B72183BA4B0002B4D4 /* MSBadgeViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSBadgeViewDemoController.swift; sourceTree = "<group>"; };
 		B4575C5022FB8B6900EBD0EB /* MSPeoplePickerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPeoplePickerDemoController.swift; sourceTree = "<group>"; };
 		B45EB79121A4D047008646A2 /* MSBadgeFieldDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSBadgeFieldDemoController.swift; sourceTree = "<group>"; };
-		B4946763220A4DF10059045E /* MSCollectionViewCellDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSCollectionViewCellDemoController.swift; sourceTree = "<group>"; };
 		B498141521E42C140077B48D /* MSTableViewCellDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTableViewCellDemoController.swift; sourceTree = "<group>"; };
 		B4C39551227A4AC800539EC2 /* TableViewSampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewSampleData.swift; sourceTree = "<group>"; };
 		B4D852D822580661004B1B29 /* MSActivityIndicatorViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSActivityIndicatorViewDemoController.swift; sourceTree = "<group>"; };
@@ -101,8 +100,7 @@
 		B4EF53C4215C45C400573E8F /* MSPersonaListViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPersonaListViewDemoController.swift; sourceTree = "<group>"; };
 		B4EF66532295F1A8007FEAB0 /* MSTableViewHeaderFooterViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTableViewHeaderFooterViewDemoController.swift; sourceTree = "<group>"; };
 		B4EF66552295F729007FEAB0 /* TableViewHeaderFooterSampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewHeaderFooterSampleData.swift; sourceTree = "<group>"; };
-		B4EF665A22974BF0007FEAB0 /* MSCollectionViewHeaderFooterViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSCollectionViewHeaderFooterViewDemoController.swift; sourceTree = "<group>"; };
-		C038992D2359307D00265026 /* MSCollectionViewCellShimmerDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCollectionViewCellShimmerDemoController.swift; sourceTree = "<group>"; };
+		C038992D2359307D00265026 /* MSTableViewCellShimmerDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSTableViewCellShimmerDemoController.swift; sourceTree = "<group>"; };
 		C0938E49235F733100256251 /* MSShimmerLinesViewDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSShimmerLinesViewDemoController.swift; sourceTree = "<group>"; };
 		CC45042B8AC98E3E251FC7E9 /* Pods-OfficeUIFabric.Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OfficeUIFabric.Demo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OfficeUIFabric.Demo/Pods-OfficeUIFabric.Demo.debug.xcconfig"; sourceTree = "<group>"; };
 		FD41C8F322E28EEB0086F899 /* MSNavigationControllerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSNavigationControllerDemoController.swift; sourceTree = "<group>"; };
@@ -251,9 +249,7 @@
 				B45EB79121A4D047008646A2 /* MSBadgeFieldDemoController.swift */,
 				B444D6B72183BA4B0002B4D4 /* MSBadgeViewDemoController.swift */,
 				B4D852DA225C010A004B1B29 /* MSButtonDemoController.swift */,
-				B4946763220A4DF10059045E /* MSCollectionViewCellDemoController.swift */,
-				C038992D2359307D00265026 /* MSCollectionViewCellShimmerDemoController.swift */,
-				B4EF665A22974BF0007FEAB0 /* MSCollectionViewHeaderFooterViewDemoController.swift */,
+				114CF8B72423E10900D064AA /* MSColorDemoController.swift */,
 				FD7254EC21471A3F002F4069 /* MSDateTimePickerDemoController.swift */,
 				A5DCA75D211E3A92005F4CB7 /* MSDrawerDemoController.swift */,
 				B4E8F65121CD9579008A1598 /* MSHUDDemoController.swift */,
@@ -268,6 +264,7 @@
 				C0938E49235F733100256251 /* MSShimmerLinesViewDemoController.swift */,
 				11047D2522932DB1001F0F59 /* MSTabBarViewDemoController.swift */,
 				B498141521E42C140077B48D /* MSTableViewCellDemoController.swift */,
+				C038992D2359307D00265026 /* MSTableViewCellShimmerDemoController.swift */,
 				B4EF66532295F1A8007FEAB0 /* MSTableViewHeaderFooterViewDemoController.swift */,
 				FD7DF06121FB941400857267 /* MSTooltipDemoController.swift */,
 				FDDD73FC22C6D86B00A9D995 /* ObjectiveCDemoController.h */,
@@ -405,16 +402,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-OfficeUIFabric.Demo/Pods-OfficeUIFabric.Demo-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/AppCenter/AppCenterDistributeResources.bundle",
+				"${PODS_ROOT}/Target Support Files/Pods-OfficeUIFabric.Demo/Pods-OfficeUIFabric.Demo-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AppCenterDistributeResources.bundle",
+				"${PODS_ROOT}/Target Support Files/Pods-OfficeUIFabric.Demo/Pods-OfficeUIFabric.Demo-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -463,15 +455,14 @@
 				A5CEC21420E436F10016922A /* DetailViewController.swift in Sources */,
 				B4E8F65221CD9579008A1598 /* MSHUDDemoController.swift in Sources */,
 				FD7254ED21471A3F002F4069 /* MSDateTimePickerDemoController.swift in Sources */,
-				B4EF665B22974BF0007FEAB0 /* MSCollectionViewHeaderFooterViewDemoController.swift in Sources */,
 				B4EF66542295F1A8007FEAB0 /* MSTableViewHeaderFooterViewDemoController.swift in Sources */,
 				B4575C5122FB8B6900EBD0EB /* MSPeoplePickerDemoController.swift in Sources */,
-				B4946764220A4DF10059045E /* MSCollectionViewCellDemoController.swift in Sources */,
 				A5CEC21220E436F10016922A /* MasterViewController.swift in Sources */,
 				B498141621E42C140077B48D /* MSTableViewCellDemoController.swift in Sources */,
 				FDCF7C8321BF35680058E9E6 /* MSSegmentedControlDemoController.swift in Sources */,
 				C0938E4A235F733100256251 /* MSShimmerLinesViewDemoController.swift in Sources */,
-				C038992E2359307D00265026 /* MSCollectionViewCellShimmerDemoController.swift in Sources */,
+				C038992E2359307D00265026 /* MSTableViewCellShimmerDemoController.swift in Sources */,
+				114CF8B82423E10900D064AA /* MSColorDemoController.swift in Sources */,
 				A589F856211BA71000471C23 /* MSLabelDemoController.swift in Sources */,
 				FD41C8F422E28EEB0086F899 /* MSNavigationControllerDemoController.swift in Sources */,
 				B4D852D922580661004B1B29 /* MSActivityIndicatorViewDemoController.swift in Sources */,

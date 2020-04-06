@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The type.
  */
-@property(nonatomic, readonly) MSAnalyticsAuthenticationType type;
+@property(nonatomic, readonly, assign) MSAnalyticsAuthenticationType type;
 
 /**
  * The ticket key for this authentication provider.

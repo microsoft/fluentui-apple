@@ -45,7 +45,7 @@ open class MSCenteredLabelCell: UITableViewCell {
 
     open override func layoutSubviews() {
         super.layoutSubviews()
-        let labelFittingSize = label.sizeThatFits(CGSize(width: contentView.width - layoutMargins.left - layoutMargins.right, height: CGFloat.greatestFiniteMagnitude))
+        let labelFittingSize = label.sizeThatFits(CGSize(width: contentView.frame.width - layoutMargins.left - layoutMargins.right, height: CGFloat.greatestFiniteMagnitude))
         label.frame.size = labelFittingSize
         label.centerInSuperview()
     }

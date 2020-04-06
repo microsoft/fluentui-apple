@@ -5,13 +5,12 @@
 
 import UIKit
 
-@objcMembers
 public class MSShimmerViewAppearence: NSObject {
-    public let tintColor: UIColor
-    public let cornerRadius: CGFloat
-    public let labelCornerRadius: CGFloat
-    public let usesTextHeightForLabels: Bool
-    public let labelHeight: CGFloat
+    @objc public let tintColor: UIColor
+    @objc public let cornerRadius: CGFloat
+    @objc public let labelCornerRadius: CGFloat
+    @objc public let usesTextHeightForLabels: Bool
+    @objc public let labelHeight: CGFloat
 
     /// Create an apperance shimmer view apperance object
     /// - Parameter tintColor: Tint color of the view.

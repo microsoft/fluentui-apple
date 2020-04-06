@@ -17,7 +17,7 @@ class MSCardPresenterNavigationController: UINavigationController, MSCardPresent
         }
 
         var size = topVC.idealSize()
-        size.height += navigationBar.height
+        size.height += navigationBar.frame.height
         return size
     }
 }

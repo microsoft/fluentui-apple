@@ -160,13 +160,13 @@ open class MSAvatarView: UIView {
         imageView.frame = bounds
         initialsView.frame = imageView.frame
 
-        imageView.layer.cornerRadius = cornerRadius(for: imageView.width)
+        imageView.layer.cornerRadius = cornerRadius(for: imageView.frame.width)
         initialsView.layer.cornerRadius = imageView.layer.cornerRadius
 
         if !borderView.isHidden {
             let borderWidth = avatarSize == .extraExtraLarge ? Constants.extraExtraLargeBorderWidth : Constants.borderWidth
             borderView.frame = bounds.insetBy(dx: -borderWidth, dy: -borderWidth)
-            borderView.layer.cornerRadius = cornerRadius(for: borderView.width)
+            borderView.layer.cornerRadius = cornerRadius(for: borderView.frame.width)
         }
     }
 

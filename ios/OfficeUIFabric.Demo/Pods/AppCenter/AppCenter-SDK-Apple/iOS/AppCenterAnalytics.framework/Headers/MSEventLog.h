@@ -16,6 +16,6 @@
 /**
  * Event properties.
  */
-@property(nonatomic) MSEventProperties *typedProperties;
+@property(nonatomic, strong) MSEventProperties *typedProperties;
 
 @end

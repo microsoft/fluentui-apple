@@ -6,31 +6,6 @@
 import UIKit
 
 extension UIView {
-    var left: CGFloat {
-        get { return frame.minX }
-        set { frame.origin.x = newValue }
-    }
-    var right: CGFloat {
-        get { return frame.maxX }
-        set { frame.origin.x = newValue - width }
-    }
-    var top: CGFloat {
-        get { return frame.minY }
-        set { frame.origin.y = newValue }
-    }
-    var bottom: CGFloat {
-        get { return frame.maxY }
-        set { frame.origin.y = newValue - height }
-    }
-    var width: CGFloat {
-        get { return frame.width }
-        set { frame.size.width = newValue }
-    }
-    var height: CGFloat {
-        get { return frame.height }
-        set { frame.size.height = newValue }
-    }
-
     var directionalSafeAreaInsets: NSDirectionalEdgeInsets {
         let insets = safeAreaInsets
         let isRTL = effectiveUserInterfaceLayoutDirection == .rightToLeft
@@ -42,11 +17,7 @@ extension UIView {
         )
     }
 
-    private var contentWidth: CGFloat {
-        return (self as? UIScrollView)?.contentSize.width ?? bounds.width
-    }
-
-    @objc func fitIntoSuperview(usingConstraints: Bool = false, usingLeadingTrailing: Bool = true, margins: UIEdgeInsets = .zero, autoWidth: Bool = false, autoHeight: Bool = false) {
+    func fitIntoSuperview(usingConstraints: Bool = false, usingLeadingTrailing: Bool = true, margins: UIEdgeInsets = .zero, autoWidth: Bool = false, autoHeight: Bool = false) {
         guard let superview = superview else {
             return
         }
@@ -79,7 +50,7 @@ extension UIView {
         }
     }
 
-    @objc func fitIntoSuperview() {
+    func fitIntoSuperview() {
         fitIntoSuperview(usingConstraints: false, usingLeadingTrailing: true, margins: .zero, autoWidth: false, autoHeight: false)
     }
 
@@ -100,11 +71,11 @@ extension UIView {
         }
 
         if horizontally {
-            left = UIScreen.main.roundDownToDevicePixels(0.5 * (superview.width - width))
+            frame.origin.x = UIScreen.main.roundDownToDevicePixels(0.5 * (superview.frame.width - frame.width))
         }
 
         if vertically {
-            top = UIScreen.main.roundDownToDevicePixels(0.5 * (superview.height - height))
+            frame.origin.y = UIScreen.main.roundDownToDevicePixels(0.5 * (superview.frame.height - frame.height))
         }
     }
 
@@ -145,6 +116,7 @@ extension UIView {
     func flipRectForRTL(_ rect: CGRect) -> CGRect {
         var newRect = rect
         if effectiveUserInterfaceLayoutDirection == .rightToLeft {
+            let contentWidth = (self as? UIScrollView)?.contentSize.width ?? bounds.width
             newRect.origin.x = contentWidth - rect.origin.x - rect.width
         }
         return newRect
@@ -223,23 +195,8 @@ extension UIView {
 // MARK: - NSLayoutConstraint and Autolayout Convenience Methods
 
 extension UIView {
-    //Uses autolayout to constrain the provided view as a matching subview of the receiver
-    func contain(view: UIView) {
-        NSLayoutConstraint.contain(view: view, in: self, withInsets: .zero, respectingSafeAreaInsets: false)
-    }
-
-    //Uses autolayout to constrain the provided view as a matching subview of the receiver, with insets
-    func contain(view: UIView, withInsets insets: UIEdgeInsets) {
-        NSLayoutConstraint.contain(view: view, in: self, withInsets: insets, respectingSafeAreaInsets: false)
-    }
-
     //Uses autolayout to constrain the provided view as a matching subview of the receiver, with insets and optionally respecting the safe area insets on iOS 11.0+
-    func contain(view: UIView, withInsets insets: UIEdgeInsets, respectingSafeAreaInsets respectsSafeAreaInsets: Bool) {
+    func contain(view: UIView, withInsets insets: UIEdgeInsets = .zero, respectingSafeAreaInsets respectsSafeAreaInsets: Bool = false) {
         NSLayoutConstraint.contain(view: view, in: self, withInsets: insets, respectingSafeAreaInsets: respectsSafeAreaInsets)
-    }
-
-    //Uses autolayout to constrain the provided view at the center of the receiver
-    func center(view: UIView) {
-        NSLayoutConstraint.center(view: view, in: self)
     }
 }

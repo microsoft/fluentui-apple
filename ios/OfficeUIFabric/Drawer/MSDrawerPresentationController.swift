@@ -37,16 +37,6 @@ class MSDrawerPresentationController: UIPresentationController {
         }
     }
 
-    // Workaround to get Voiceover to ignore the view behind the drawer.
-    // Setting accessibilityViewIsModal directly on the container does not work.
-    // Presented view requires a mask on its container to prevent sliding over the navigation bar or exposing shadow over it.
-    private lazy var accessibilityContainer: UIView = {
-        let view = UIView()
-        view.accessibilityViewIsModal = true
-        view.mask = UIView()
-        view.mask?.backgroundColor = .white
-        return view
-    }()
     // A transparent view, which if tapped will dismiss the dropdown
     private lazy var backgroundView: UIView = {
         let view = BackgroundView()
@@ -79,15 +69,11 @@ class MSDrawerPresentationController: UIPresentationController {
     // MARK: Presentation
 
     override func presentationTransitionWillBegin() {
-        containerView?.addSubview(accessibilityContainer)
-        accessibilityContainer.fitIntoSuperview()
-
-        accessibilityContainer.addSubview(backgroundView)
+        containerView?.addSubview(backgroundView)
         backgroundView.fitIntoSuperview()
         backgroundView.addSubview(dimmingView)
 
-        accessibilityContainer.addSubview(contentView)
-
+        containerView?.addSubview(contentView)
         if presentationDirection.isVertical && actualPresentationOffset == 0 {
             containerView?.addSubview(separator)
         }
@@ -115,15 +101,18 @@ class MSDrawerPresentationController: UIPresentationController {
 
     override func presentationTransitionDidEnd(_ completed: Bool) {
         if completed {
+            let focusElement: UIView?
             // Horizontally presented drawers must be inside containerView in order for device rotation animation to work correctly
             if presentationDirection.isHorizontal {
                 containerView?.addSubview(presentedViewController.view)
                 presentedViewController.view.frame = frameOfPresentedViewInContainerView
+                focusElement = containerView
+            } else {
+                focusElement = contentView
             }
-            UIAccessibility.post(notification: .screenChanged, argument: contentView)
+            UIAccessibility.post(notification: .screenChanged, argument: focusElement)
             UIAccessibility.post(notification: .announcement, argument: "Accessibility.Alert".localized)
         } else {
-            accessibilityContainer.removeFromSuperview()
             separator.removeFromSuperview()
             removePresentedViewMask()
             shadowView.owner = nil
@@ -144,7 +133,6 @@ class MSDrawerPresentationController: UIPresentationController {
 
     override func dismissalTransitionDidEnd(_ completed: Bool) {
         if completed {
-            accessibilityContainer.removeFromSuperview()
             separator.removeFromSuperview()
             removePresentedViewMask()
             shadowView.owner = nil
@@ -256,7 +244,7 @@ class MSDrawerPresentationController: UIPresentationController {
 
         let newFrame = frameForContentView()
         if animated {
-            let sizeChange = presentationDirection.isVertical ? newFrame.height - contentView.height : newFrame.width - contentView.width
+            let sizeChange = presentationDirection.isVertical ? newFrame.height - contentView.frame.height : newFrame.width - contentView.frame.width
             let animationDuration = animationDuration ?? MSDrawerTransitionAnimator.animationDuration(forSizeChange: sizeChange)
             UIView.animate(withDuration: animationDuration, delay: 0, options: [.layoutSubviews], animations: {
                 self.setContentViewFrame(newFrame)
@@ -274,15 +262,30 @@ class MSDrawerPresentationController: UIPresentationController {
             presentedView.frame = frameOfPresentedViewInContainerView
         }
         if separator.superview != nil {
-            separator.frame = frameForSeparator(in: contentView.frame, withThickness: separator.height)
+            separator.frame = frameForSeparator(in: contentView.frame, withThickness: separator.frame.height)
         }
+        updateBackgroundAccessibilityFrame()
     }
 
     private func updateLayout() {
         dimmingView.frame = frameForDimmingView(in: backgroundView.bounds)
-        accessibilityContainer.mask?.frame = dimmingView.frame
-
         setContentViewFrame(frameForContentView())
+    }
+
+    private func updateBackgroundAccessibilityFrame() {
+        let bounds = contentView.frame
+        var margins: UIEdgeInsets = .zero
+        switch presentationDirection {
+        case .down:
+            margins.top = bounds.height
+        case .up:
+            margins.bottom = bounds.height
+        case .fromLeading:
+            margins.left = bounds.width
+        case .fromTrailing:
+            margins.right = bounds.width
+        }
+        backgroundView.accessibilityFrame = dimmingView.frame.inset(by: margins)
     }
 
     private func frameForDimmingView(in bounds: CGRect) -> CGRect {

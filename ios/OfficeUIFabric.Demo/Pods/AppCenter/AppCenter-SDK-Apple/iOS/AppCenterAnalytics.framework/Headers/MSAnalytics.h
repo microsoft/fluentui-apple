@@ -60,9 +60,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param eventName  Event name. Cannot be `nil` or empty.
  * @param properties Dictionary of properties. Keys and values must not be `nil`.
- * @param flags      Optional flags. Events tracked with the MSFlagsPersistenceCritical flag will take precedence over all other events in
+ * @param flags      Optional flags. Events tracked with the MSFlagsCritical flag will take precedence over all other events in
  * storage. An event tracked with this option will only be dropped if storage must make room for a newer event that is also marked with the
- * MSFlagsPersistenceCritical flag.
+ * MSFlagsCritical flag.
  *
  * @discussion Additional validation rules apply depending on the configured secret.
  *
@@ -131,9 +131,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param eventName  Event name.
  * @param properties Typed properties.
- * @param flags      Optional flags. Events tracked with the MSFlagsPersistenceCritical flag will take precedence over all other events in
+ * @param flags      Optional flags. Events tracked with the MSFlagsCritical flag will take precedence over all other events in
  * storage. An event tracked with this option will only be dropped if storage must make room for a newer event that is also marked with the
- * MSFlagsPersistenceCritical flag.
+ * MSFlagsCritical flag.
  *
  * @discussion The following validation rules are applied:
  *
@@ -198,6 +198,15 @@ NS_ASSUME_NONNULL_BEGIN
  * @see MSAnalyticsTransmissionTarget for comparison.
  */
 + (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)token;
+
+/**
+ * Set the send time interval for non-critical logs.
+ * Must be between 3 seconds and 86400 seconds (1 day).
+ * Must be called before Analytics service start.
+ *
+ * @param interval The flush interval for logs.
+ */
++ (void)setTransmissionInterval:(NSUInteger)interval;
 
 @end
 

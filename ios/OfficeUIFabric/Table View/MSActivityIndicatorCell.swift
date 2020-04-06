@@ -30,7 +30,7 @@ open class MSActivityIndicatorCell: UITableViewCell {
     open override func layoutSubviews() {
         super.layoutSubviews()
         activityIndicatorView.sizeToFit()
-        activityIndicatorView.center = CGPoint(x: UIScreen.main.roundToDevicePixels(contentView.width / 2), y: UIScreen.main.roundToDevicePixels(contentView.height / 2))
+        activityIndicatorView.center = CGPoint(x: UIScreen.main.roundToDevicePixels(contentView.frame.width / 2), y: UIScreen.main.roundToDevicePixels(contentView.frame.height / 2))
     }
 
     open override func prepareForReuse() {

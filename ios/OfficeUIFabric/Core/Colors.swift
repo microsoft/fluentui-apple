@@ -7,153 +7,256 @@ import UIKit
 
 // MARK: MSColors
 
-@objcMembers
 public final class MSColors: NSObject {
+
+    // Mark - MSFColorPalette
+
+    /// colors defined in asset catalog
+     @objc(MSFColorPalette)
+     public enum Palette: Int {
+         case pinkRed10
+         case red20
+         case red10
+         case orange30
+         case orange20
+         case orangeYellow20
+         case green20
+         case green10
+         case cyan30
+         case cyan20
+         case cyanBlue20
+         case cyanBlue10
+         case blue10
+         case blueMagenta30
+         case blueMagenta20
+         case magenta20
+         case magenta10
+         case magentaPink10
+         case gray40
+         case gray30
+         case gray20
+         case gray12
+         case gray11
+         case gray10
+         case gray9
+         case gray8
+         case gray7
+         case gray6
+         case gray5
+         case gray4
+         case gray3
+         case gray2
+         case gray1
+         case communicationBlue
+         case communicationBlueTint40
+         case communicationBlueTint30
+         case communicationBlueTint20
+         case communicationBlueTint10
+         case communicationBlueShade40
+         case communicationBlueShade30
+         case communicationBlueShade20
+         case communicationBlueShade10
+
+         public var color: UIColor {
+             if let fluentColor = UIColor(named: "FluentColors/" + self.name, in: OfficeUIFabricFramework.resourceBundle, compatibleWith: nil) {
+                 return fluentColor
+             } else {
+                 fatalError("invalid fluent color")
+             }
+         }
+
+         public var name: String {
+             switch self {
+             case .pinkRed10:
+                 return "pinkRed10"
+             case .red20:
+                 return "red20"
+             case .red10:
+                 return "red10"
+             case .orange30:
+                 return "orange30"
+             case .orange20:
+                 return "orange20"
+             case .orangeYellow20:
+                 return "orangeYellow20"
+             case .green20:
+                 return "green20"
+             case .green10:
+                 return "green10"
+             case .cyan30:
+                 return "cyan30"
+             case .cyan20:
+                 return "cyan20"
+             case .cyanBlue20:
+                 return "cyanBlue20"
+             case .cyanBlue10:
+                 return "cyanBlue10"
+             case .blue10:
+                 return "blue10"
+             case .blueMagenta30:
+                 return "blueMagenta30"
+             case .blueMagenta20:
+                 return "blueMagenta20"
+             case .magenta20:
+                 return "magenta20"
+             case .magenta10:
+                 return "magenta10"
+             case .magentaPink10:
+                 return "magentaPink10"
+             case .gray40:
+                 return "gray40"
+             case .gray30:
+                 return "gray30"
+             case .gray20:
+                 return "gray20"
+             case .gray12:
+                 return "gray12"
+             case .gray11:
+                 return "gray11"
+             case .gray10:
+                 return "gray10"
+             case .gray9:
+                 return "gray9"
+             case .gray8:
+                 return "gray8"
+             case .gray7:
+                 return "gray7"
+             case .gray6:
+                 return "gray6"
+             case .gray5:
+                 return "gray5"
+             case .gray4:
+                 return "gray4"
+             case .gray3:
+                 return "gray3"
+             case .gray2:
+                 return "gray2"
+             case .gray1:
+                 return "gray1"
+             case .communicationBlue:
+                 return "communicationBlue"
+             case .communicationBlueTint40:
+                 return "communicationBlueTint40"
+             case .communicationBlueTint30:
+                 return "communicationBlueTint30"
+             case .communicationBlueTint20:
+                 return "communicationBlueTint20"
+             case .communicationBlueTint10:
+                 return "communicationBlueTint10"
+             case .communicationBlueShade40:
+                 return "communicationBlueShade40"
+             case .communicationBlueShade30:
+                 return "communicationBlueShade30"
+             case .communicationBlueShade20:
+                 return "communicationBlueShade20"
+             case .communicationBlueShade10:
+                 return "communicationBlueShade10"
+             }
+         }
+     }
+
     // MARK: Primary
 
-    public static var primary = UIColor(light: primaryLight, dark: primaryDark)
-    public static var primaryLight: UIColor = communicationBlueLight
-    public static var primaryDark: UIColor = communicationBlueDark
-    public static var primaryHighContrast: UIColor = communicationBlueHighContrast
-    public static var foregroundOnPrimary = UIColor(light: white, dark: black)
-    /// #0767B3
-    public static var darkPrimary: UIColor = #colorLiteral(red: 0.02745098039, green: 0.4039215686, blue: 0.7019607843, alpha: 1)   // TODO: update if needed after design is done
-    /// #E1EFFA
-    public static var lightPrimary: UIColor = #colorLiteral(red: 0.8823529412, green: 0.937254902, blue: 0.9803921569, alpha: 1)
-    /// #F5FAFD - Primary with 4% opacity
-    public static var extraLightPrimary: UIColor = #colorLiteral(red: 0.9607843137, green: 0.9803921569, blue: 0.9921568627, alpha: 1)
+    @objc public static var primary: UIColor = communicationBlue
+    @objc public static var primaryTint10: UIColor = Palette.communicationBlueTint10.color
+    @objc public static var primaryTint20: UIColor = Palette.communicationBlueTint20.color
+    @objc public static var primaryTint30: UIColor = Palette.communicationBlueTint30.color
+    @objc public static var primaryTint40: UIColor = Palette.communicationBlueTint40.color
+    @objc public static var primaryShade10: UIColor = Palette.communicationBlueShade10.color
+    @objc public static var primaryShade20: UIColor = Palette.communicationBlueShade20.color
+    @objc public static var primaryShade30: UIColor = Palette.communicationBlueShade30.color
+    @objc public static var primaryShade40: UIColor = Palette.communicationBlueShade40.color
 
-    // MARK: Physical - Base grays
-
-    /// #000000
-    public static let black: UIColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-    /// #141414
-    public static let gray1: UIColor = #colorLiteral(red: 0.07843137255, green: 0.07843137255, blue: 0.07843137255, alpha: 1)
-    /// #212121
-    public static let gray2: UIColor = #colorLiteral(red: 0.1294117647, green: 0.1294117647, blue: 0.1294117647, alpha: 1)
-    /// #292929
-    public static let gray3: UIColor = #colorLiteral(red: 0.1607843137, green: 0.1607843137, blue: 0.1607843137, alpha: 1)
-    /// #303030
-    public static let gray4: UIColor = #colorLiteral(red: 0.1882352941, green: 0.1882352941, blue: 0.1882352941, alpha: 1)
-    /// #404040
-    public static let gray5: UIColor = #colorLiteral(red: 0.2509803922, green: 0.2509803922, blue: 0.2509803922, alpha: 1)
-    /// #6E6E6E
-    public static let gray6: UIColor = #colorLiteral(red: 0.431372549, green: 0.431372549, blue: 0.431372549, alpha: 1)
-    /// #919191
-    public static let gray7: UIColor = #colorLiteral(red: 0.568627451, green: 0.568627451, blue: 0.568627451, alpha: 1)
-    /// #ACACAC
-    public static let gray8: UIColor = #colorLiteral(red: 0.6745098039, green: 0.6745098039, blue: 0.6745098039, alpha: 1)
-    /// #C8C8C8
-    public static let gray9: UIColor = #colorLiteral(red: 0.7843137255, green: 0.7843137255, blue: 0.7843137255, alpha: 1)
-    /// #E1E1E1
-    public static let gray10: UIColor = #colorLiteral(red: 0.8823529412, green: 0.8823529412, blue: 0.8823529412, alpha: 1)
-    /// #F1F1F1
-    public static let gray11: UIColor = #colorLiteral(red: 0.9450980392, green: 0.9450980392, blue: 0.9450980392, alpha: 1)
-    /// #F8F8F8
-    public static let gray12: UIColor = #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1)
-    /// #FFFFFF
-    public static let white: UIColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+    @objc public static var foregroundOnPrimary = UIColor(light: .white, dark: .black)
 
     // MARK: Physical - Dynamic grays
 
-    public static let gray950 = UIColor(light: gray1, lightHighContrast: black, darkHighContrast: gray3)
-    public static let gray900 = UIColor(light: gray2, lightHighContrast: black, darkHighContrast: gray4)
-    public static let gray800 = UIColor(light: gray3, lightHighContrast: gray1, darkHighContrast: gray5)
-    public static let gray700 = UIColor(light: gray4, lightHighContrast: gray2, darkHighContrast: gray6)
-    public static let gray600 = UIColor(light: gray5, lightHighContrast: gray3, darkHighContrast: gray7)
-    public static let gray500 = UIColor(light: gray6, lightHighContrast: gray4, darkHighContrast: gray8)
-    public static let gray400 = UIColor(light: gray7, lightHighContrast: gray5, darkHighContrast: gray9)
-    public static let gray300 = UIColor(light: gray8, lightHighContrast: gray6, darkHighContrast: gray10)
-    public static let gray200 = UIColor(light: gray9, lightHighContrast: gray7, darkHighContrast: gray11)
-    public static let gray100 = UIColor(light: gray10, lightHighContrast: gray8, darkHighContrast: gray12)
-    public static let gray50 = UIColor(light: gray11, lightHighContrast: gray9, darkHighContrast: white)
-    public static let gray25 = UIColor(light: gray12, lightHighContrast: gray10, darkHighContrast: white)
+    @objc public static let gray950 = UIColor(light: Palette.gray1.color, lightHighContrast: .black, darkHighContrast: Palette.gray3.color)
+    @objc public static let gray900 = UIColor(light: Palette.gray2.color, lightHighContrast: .black, darkHighContrast: Palette.gray4.color)
+    @objc public static let gray800 = UIColor(light: Palette.gray3.color, lightHighContrast: Palette.gray1.color, darkHighContrast: Palette.gray5.color)
+    @objc public static let gray700 = UIColor(light: Palette.gray4.color, lightHighContrast: Palette.gray2.color, darkHighContrast: Palette.gray6.color)
+    @objc public static let gray600 = UIColor(light: Palette.gray5.color, lightHighContrast: Palette.gray3.color, darkHighContrast: Palette.gray7.color)
+    @objc public static let gray500 = UIColor(light: Palette.gray6.color, lightHighContrast: Palette.gray4.color, darkHighContrast: Palette.gray8.color)
+    @objc public static let gray400 = UIColor(light: Palette.gray7.color, lightHighContrast: Palette.gray5.color, darkHighContrast: Palette.gray9.color)
+    @objc public static let gray300 = UIColor(light: Palette.gray8.color, lightHighContrast: Palette.gray6.color, darkHighContrast: Palette.gray10.color)
+    @objc public static let gray200 = UIColor(light: Palette.gray9.color, lightHighContrast: Palette.gray7.color, darkHighContrast: Palette.gray11.color)
+    @objc public static let gray100 = UIColor(light: Palette.gray10.color, lightHighContrast: Palette.gray8.color, darkHighContrast: Palette.gray12.color)
+    @objc public static let gray50 = UIColor(light: Palette.gray11.color, lightHighContrast: Palette.gray9.color, darkHighContrast: .white)
+    @objc public static let gray25 = UIColor(light: Palette.gray12.color, lightHighContrast: Palette.gray10.color, darkHighContrast: .white)
 
     // MARK: Physical - Non-grays
 
     // TODO: decide if error and warning colors need to be split into semantic/physical sets
 
-    public static var error = UIColor(light: errorLight, dark: errorDark)
+    @objc public static let error = UIColor(light: errorLight, dark: errorDark)
     /// #E63237
-    public static var errorLight: UIColor = #colorLiteral(red: 0.9019607843, green: 0.1960784314, blue: 0.2156862745, alpha: 1)
+    @objc public static let errorLight: UIColor = #colorLiteral(red: 0.9019607843, green: 0.1960784314, blue: 0.2156862745, alpha: 1)
     /// #FF474C
-    public static var errorDark: UIColor = #colorLiteral(red: 1, green: 0.2784313725, blue: 0.2980392157, alpha: 1)
+    @objc public static let errorDark: UIColor = #colorLiteral(red: 1, green: 0.2784313725, blue: 0.2980392157, alpha: 1)
     /// #FFE8E9
-    public static var lightError: UIColor = #colorLiteral(red: 1, green: 0.9098039216, blue: 0.9137254902, alpha: 1)
+    @objc public static let lightError: UIColor = #colorLiteral(red: 1, green: 0.9098039216, blue: 0.9137254902, alpha: 1)
 
     /// #997302
-    public static var warning: UIColor = #colorLiteral(red: 0.6, green: 0.4509803922, blue: 0.007843137255, alpha: 1)
+    @objc public static let warning: UIColor = #colorLiteral(red: 0.6, green: 0.4509803922, blue: 0.007843137255, alpha: 1)
     /// #EBB510
-    public static var lightWarning: UIColor = #colorLiteral(red: 0.9215686275, green: 0.7098039216, blue: 0.06274509804, alpha: 1)
+    @objc public static let lightWarning: UIColor = #colorLiteral(red: 0.9215686275, green: 0.7098039216, blue: 0.06274509804, alpha: 1)
     /// #F3BF20
-    public static var yellow: UIColor = #colorLiteral(red: 0.9529411765, green: 0.7490196078, blue: 0.1254901961, alpha: 1)
+    @objc public static let yellow: UIColor = #colorLiteral(red: 0.9529411765, green: 0.7490196078, blue: 0.1254901961, alpha: 1)
 
-    public static var avatarBackgroundColors: [UIColor] = [
-        #colorLiteral(red: 0.4588235294, green: 0.0431372549, blue: 0.1098039216, alpha: 1), // #750B1C
-        #colorLiteral(red: 0.6431372549, green: 0.1490196078, blue: 0.1725490196, alpha: 1), // #A4262C
-        #colorLiteral(red: 0.8196078431, green: 0.2039215686, blue: 0.2196078431, alpha: 1), // #D13438
-        #colorLiteral(red: 0.7921568627, green: 0.3137254902, blue: 0.06274509804, alpha: 1), // #CA5010
-        #colorLiteral(red: 0.5960784314, green: 0.4352941176, blue: 0.0431372549, alpha: 1), // #986F0B
-        #colorLiteral(red: 0.2862745098, green: 0.5098039216, blue: 0.01960784314, alpha: 1), // #498205
-        #colorLiteral(red: 0, green: 0.368627451, blue: 0.3137254902, alpha: 1), // #005E50
-        #colorLiteral(red: 0.01176470588, green: 0.5137254902, blue: 0.5294117647, alpha: 1), // #038387
-        #colorLiteral(red: 0, green: 0.4705882353, blue: 0.831372549, alpha: 1), // #0078D4
-        #colorLiteral(red: 0, green: 0.3058823529, blue: 0.5490196078, alpha: 1), // #004E8C
-        #colorLiteral(red: 0.3098039216, green: 0.4196078431, blue: 0.9294117647, alpha: 1), // #4F6BED
-        #colorLiteral(red: 0.2156862745, green: 0.1960784314, blue: 0.4666666667, alpha: 1), // #373277
-        #colorLiteral(red: 0.5333333333, green: 0.09019607843, blue: 0.5960784314, alpha: 1), // #881798
-        #colorLiteral(red: 0.7607843137, green: 0.2235294118, blue: 0.7019607843, alpha: 1), // #C239B3
-        #colorLiteral(red: 0.8901960784, green: 0, blue: 0.5490196078, alpha: 1), // #E3008C
-        #colorLiteral(red: 0.3764705882, green: 0.2392156863, blue: 0.1882352941, alpha: 1), // #603D30
-        #colorLiteral(red: 0.337254902, green: 0.4862745098, blue: 0.4509803922, alpha: 1), // #567C73
-        #colorLiteral(red: 0.4117647059, green: 0.4745098039, blue: 0.4941176471, alpha: 1)  // #69797E
+    @objc public static var avatarBackgroundColors: [UIColor] = [
+       Palette.cyanBlue10.color,
+       Palette.red10.color,
+       Palette.magenta20.color,
+       Palette.green10.color,
+       Palette.magentaPink10.color,
+       Palette.cyanBlue20.color,
+       Palette.orange20.color,
+       Palette.cyan20.color,
+       Palette.orangeYellow20.color,
+       Palette.red20.color,
+       Palette.blue10.color,
+       Palette.magenta10.color,
+       Palette.gray40.color,
+       Palette.green20.color,
+       Palette.blueMagenta20.color,
+       Palette.pinkRed10.color,
+       Palette.gray30.color,
+       Palette.blueMagenta30.color,
+       Palette.gray20.color,
+       Palette.cyan30.color,
+       Palette.orange30.color
     ]
 
     /// Used for hyperlinks
-    public static let communicationBlue = UIColor(light: communicationBlueLight, dark: communicationBlueDark)
-    public static let communicationBlueHighContrast = UIColor(light: communicationBlueHighContrastLight, dark: communicationBlueHighContrastDark)
-    /// #0078D4
-    public static let communicationBlueLight: UIColor = #colorLiteral(red: 0, green: 0.4705882353, blue: 0.831372549, alpha: 1)
-    /// #0086F0
-    public static let communicationBlueDark: UIColor = #colorLiteral(red: 0, green: 0.5254901961, blue: 0.9411764706, alpha: 1)
-    /// #0063AD
-    public static let communicationBlueHighContrastLight: UIColor = #colorLiteral(red: 0, green: 0.3882352941, blue: 0.6784313725, alpha: 1)
-    /// #6CB8F6
-    public static let communicationBlueHighContrastDark: UIColor = #colorLiteral(red: 0.4235294118, green: 0.7215686275, blue: 0.9647058824, alpha: 1)
+    @objc public static let communicationBlue: UIColor = Palette.communicationBlue.color
 
     // MARK: Base semantic
 
-    public static var background1 = UIColor(light: white, dark: black, darkElevated: gray900)
-    public static var background1b = UIColor(light: white, dark: gray950, darkElevated: gray800)
-    public static var background1c = UIColor(light: white, dark: gray900, darkElevated: gray800)
-    public static var background2 = UIColor(light: gray25, dark: gray950, darkElevated: gray700)
-    public static var background2b = UIColor(light: gray25, dark: gray700)
-    public static var background3 = UIColor(light: gray50, dark: gray900, darkElevated: gray700)
-    public static var background3b = UIColor(light: gray50, dark: gray600)
-    public static var background4 = UIColor(light: gray400)
-    public static var background5 = UIColor(light: gray900)
-    public static var disabled = UIColor(light: gray100, dark: gray600)
-    public static var foreground1 = UIColor(light: gray900, dark: gray100)
-    public static var foreground1b = UIColor(light: gray900, dark: gray400)
-    public static var foreground2 = UIColor(light: gray500, dark: gray400)
-    public static var foreground2b = UIColor(light: gray500, dark: gray300)
-    public static var foreground2c = UIColor(light: gray500, dark: gray500)
-    public static var foreground2d = UIColor(light: gray500, dark: gray100)
-    public static var foreground3 = UIColor(light: gray400, dark: gray400)
-    public static var foreground3b = UIColor(light: gray400, dark: gray500)
-    public static var foreground3c = UIColor(light: gray400, dark: gray600)
-    public static var foreground4 = UIColor(light: gray300, dark: gray600)
-    public static var foreground4b = UIColor(light: gray300, dark: gray500)
-    public static var foreground5 = UIColor(light: gray200, dark: gray500)
-    public static var foreground6 = UIColor(light: gray100, dark: gray700, darkElevated: gray600)
-    public static var foreground6b = UIColor(light: gray100, dark: gray500)
-    public static var foreground6c = UIColor(light: gray100, dark: .clear)
-    public static var foreground7 = UIColor(light: white)
-    public static var foreground7b = UIColor(light: white, dark: gray100)
-    public static var foreground8 = UIColor(light: primary, dark: white)
-    public static var selected: UIColor = primary
-    public static var selected2: UIColor = foreground8
-    public static var foregroundOnSelected: UIColor = foregroundOnPrimary
+    @objc public static let background1 = UIColor(light: .white, dark: .black, darkElevated: gray900)
+    @objc public static let background1b = UIColor(light: .white, dark: gray950, darkElevated: gray800)
+    @objc public static let background1c = UIColor(light: .white, dark: gray900, darkElevated: gray800)
+    @objc public static let background2 = UIColor(light: gray25, dark: gray950, darkElevated: gray700)
+    @objc public static let background2b = UIColor(light: gray25, dark: gray700)
+    @objc public static let background3 = UIColor(light: gray50, dark: gray900, darkElevated: gray700)
+    @objc public static let background3b = UIColor(light: gray50, dark: gray600)
+    @objc public static let disabled = UIColor(light: gray100, dark: gray600)
+    @objc public static let foreground1 = UIColor(light: gray900, dark: gray100)
+    @objc public static let foreground1b = UIColor(light: gray900, dark: gray400)
+    @objc public static let foreground2 = UIColor(light: gray500, dark: gray400)
+    @objc public static let foreground2b = UIColor(light: gray500, dark: gray300)
+    @objc public static let foreground2c = UIColor(light: gray500, dark: gray500)
+    @objc public static let foreground2d = UIColor(light: gray500, dark: gray100)
+    @objc public static let foreground3 = UIColor(light: gray400, dark: gray400)
+    @objc public static let foreground3b = UIColor(light: gray400, dark: gray500)
+    @objc public static let foreground3c = UIColor(light: gray400, dark: gray600)
+    @objc public static let foreground4 = UIColor(light: gray300, dark: gray600)
+    @objc public static let foreground4b = UIColor(light: gray300, dark: gray500)
+    @objc public static let foreground5 = UIColor(light: gray200, dark: gray500)
+    @objc public static let foreground6 = UIColor(light: gray100, dark: gray700, darkElevated: gray600)
+    @objc public static let foreground6b = UIColor(light: gray100, dark: gray500)
+    @objc public static let foreground6c = UIColor(light: gray100, dark: .clear)
+    @objc public static let foreground7b = UIColor(light: .white, dark: gray100)
+    @objc public static let foreground8 = UIColor(light: primary, dark: .white)
 
     // MARK: Final semantic
 
@@ -165,25 +268,25 @@ public final class MSColors: NSObject {
 
     public struct Avatar {
         // Should use physical color because this text is shown on physical avatar background
-        public static var text = UIColor(light: white, dark: black)
+        public static var text = UIColor(light: .white, dark: .black)
         public static var border: UIColor = background1c
     }
 
     public struct Badge {
         public static var background = UIColor(light: primary.withAlphaComponent(0.12), dark: primary.withAlphaComponent(0.3))
-        public static var backgroundSelected: UIColor = selected
+        public static var backgroundSelected: UIColor = primary
         public static var backgroundDisabled: UIColor = background2b
         public static var backgroundError = UIColor(light: lightError, dark: errorLight.withAlphaComponent(0.3))
         public static var backgroundErrorSelected: UIColor = error
         public static var backgroundWarning = UIColor(light: lightWarning.withAlphaComponent(0.08), dark: yellow.withAlphaComponent(0.25))
         public static var backgroundWarningSelected: UIColor = warning
         public static var text: UIColor = primary
-        public static var textSelected: UIColor = foregroundOnSelected
+        public static var textSelected: UIColor = foregroundOnPrimary
         public static var textDisabled: UIColor = foreground2b
         public static var textError: UIColor = error
-        public static var textErrorSelected: UIColor = foregroundOnSelected
+        public static var textErrorSelected: UIColor = foregroundOnPrimary
         public static var textWarning = UIColor(light: warning, dark: lightWarning)
-        public static var textWarningSelected: UIColor = foregroundOnSelected
+        public static var textWarningSelected: UIColor = foregroundOnPrimary
     }
 
     public struct BadgeField {
@@ -216,11 +319,11 @@ public final class MSColors: NSObject {
             // TODO: Readd availability colors?
             public static var textPrimary: UIColor = foreground2
             public static var textSecondary: UIColor = foreground1
-            public static var textSelected: UIColor = foregroundOnSelected
+            public static var textSelected: UIColor = foregroundOnPrimary
             public static var backgroundPrimary: UIColor = background1
             public static var backgroundSecondary: UIColor = background2
-            public static var circleHighlighted: UIColor = background4
-            public static var circleSelected: UIColor = selected
+            public static var circleHighlighted: UIColor = gray400
+            public static var circleSelected: UIColor = primary
         }
         public struct Today {
             public static var background: UIColor = background1
@@ -243,7 +346,7 @@ public final class MSColors: NSObject {
     public struct DateTimePicker {
         public static var background: UIColor = background1
         public static var text: UIColor = foreground2b
-        public static var textEmphasized: UIColor = selected
+        public static var textEmphasized: UIColor = primary
     }
 
     public struct Drawer {
@@ -251,8 +354,8 @@ public final class MSColors: NSObject {
     }
 
     public struct HUD {
-        public static var activityIndicator: UIColor = foreground7
-        public static var background = UIColor(light: background5.withAlphaComponent(0.9), dark: gray700)
+        public static var activityIndicator: UIColor = .white
+        public static var background = UIColor(light: gray900.withAlphaComponent(0.9), dark: gray700)
         public static var text: UIColor = foreground7b
     }
 
@@ -264,15 +367,15 @@ public final class MSColors: NSObject {
         }
         public struct Primary {
             public static var background = UIColor(light: primary, dark: System.background)
-            public static var tint = UIColor(light: foreground7, dark: System.tint)
-            public static var title = UIColor(light: foreground7, dark: System.title)
+            public static var tint = UIColor(light: .white, dark: System.tint)
+            public static var title = UIColor(light: .white, dark: System.title)
         }
     }
 
     public struct Notification {
         public struct PrimaryToast {
             public static var background = UIColor(light: primary.withAlphaComponent(0.2), dark: primary)
-            public static var foreground = UIColor(light: primaryHighContrast, dark: black)
+            public static var foreground = UIColor(light: primaryShade20, dark: .black)
         }
         public struct NeutralToast {
             public static var background = UIColor(light: gray100, dark: gray600).withAlphaComponent(0.6)
@@ -283,7 +386,7 @@ public final class MSColors: NSObject {
             public static var foreground: UIColor = PrimaryToast.foreground
         }
         public struct PrimaryOutlineBar {
-            public static var background = UIColor(light: white, dark: gray600).withAlphaComponent(0.6)
+            public static var background = UIColor(light: .white, dark: gray600).withAlphaComponent(0.6)
             public static var foreground = UIColor(light: primary, dark: gray100)
         }
         public struct NeutralBar {
@@ -293,28 +396,28 @@ public final class MSColors: NSObject {
     }
 
     public struct NavigationBar {
-        public static var background = UIColor(light: white, dark: gray900)
+        public static var background = UIColor(light: .white, dark: gray900)
         public static var tint: UIColor = BarButtonItem.secondary
-        public static var title = UIColor(light: gray900, dark: white)
+        public static var title = UIColor(light: gray900, dark: .white)
     }
 
     public struct PageCardPresenter {
         // Should use physical color because page indicators are shown on physical blurred dark background
-        public static var currentPageIndicator: UIColor = white
-        public static var pageIndicator: UIColor = white.withAlphaComponent(0.5)
+        public static var currentPageIndicator: UIColor = .white
+        public static var pageIndicator = UIColor.white.withAlphaComponent(0.5)
     }
 
     public struct PillButton {
         public struct Outline {
-            public static var background = UIColor(light: black.withAlphaComponent(0.0), dark: black)
+            public static var background = UIColor(light: UIColor.black.withAlphaComponent(0.0), dark: .black)
             public static var title = UIColor(light: gray500, dark: gray200)
             public static var backgroundSelected = UIColor(light: primary, dark: gray500)
-            public static var titleSelected: UIColor = white
+            public static var titleSelected: UIColor = .white
         }
         public struct Filled {
-            public static var background = UIColor(light: black.withAlphaComponent(0.2), dark: Outline.background)
-            public static var title = UIColor(light: white, dark: Outline.title)
-            public static var backgroundSelected = UIColor(light: white, dark: Outline.backgroundSelected)
+            public static var background = UIColor(light: UIColor.black.withAlphaComponent(0.2), dark: Outline.background)
+            public static var title = UIColor(light: .white, dark: Outline.title)
+            public static var backgroundSelected = UIColor(light: .white, dark: Outline.backgroundSelected)
             public static var titleSelected = UIColor(light: primary, dark: Outline.titleSelected)
         }
 
@@ -324,9 +427,9 @@ public final class MSColors: NSObject {
     public struct PopupMenu {
         public static var description: UIColor = foreground2d
         public struct Item {
-            public static var imageSelected: UIColor = selected
-            public static var titleSelected: UIColor = selected
-            public static var subtitleSelected: UIColor = selected
+            public static var imageSelected: UIColor = primary
+            public static var titleSelected: UIColor = primary
+            public static var subtitleSelected: UIColor = primary
         }
     }
 
@@ -343,7 +446,7 @@ public final class MSColors: NSObject {
 
     public struct SearchBar {
         public struct DarkContent {
-            public static var background = UIColor(light: background3, dark: LightContent.background)
+            public static var background = UIColor(light: gray50, dark: LightContent.background)
             public static var cancelButton = UIColor(light: foreground2, dark: LightContent.cancelButton)
             public static var clearIcon = UIColor(light: foreground3, dark: LightContent.clearIcon)
             public static var placeholderText = UIColor(light: foreground2, dark: LightContent.placeholderText)
@@ -352,13 +455,13 @@ public final class MSColors: NSObject {
             public static var tint = UIColor(light: foreground3, dark: LightContent.tint)
         }
         public struct LightContent {
-            public static var background = UIColor(light: black.withAlphaComponent(0.2), dark: white.withAlphaComponent(0.1))
+            public static var background = UIColor(light: UIColor.black.withAlphaComponent(0.2), dark: UIColor.white.withAlphaComponent(0.1))
             public static var cancelButton: UIColor = foreground7b
-            public static var clearIcon = UIColor(light: white.withAlphaComponent(0.6), dark: gray400)
-            public static var placeholderText = UIColor(light: foreground7.withAlphaComponent(0.7), dark: gray300)
-            public static var searchIcon = UIColor(light: white, dark: gray400)
+            public static var clearIcon = UIColor(light: UIColor.white.withAlphaComponent(0.6), dark: gray400)
+            public static var placeholderText = UIColor(light: UIColor.white.withAlphaComponent(0.7), dark: gray300)
+            public static var searchIcon = UIColor(light: .white, dark: gray400)
             public static var text: UIColor = foreground7b
-            public static var tint = UIColor(light: white.withAlphaComponent(0.8), dark: gray100)
+            public static var tint = UIColor(light: UIColor.white.withAlphaComponent(0.8), dark: gray100)
         }
     }
 
@@ -367,21 +470,21 @@ public final class MSColors: NSObject {
             public static var background: UIColor = background1c
             public static var backgroundDisabled: UIColor = background
             public static var segmentText: UIColor = foreground1b
-            public static var segmentTextSelected: UIColor = selected2
+            public static var segmentTextSelected: UIColor = foreground8
             public static var segmentTextDisabled: UIColor = foreground4
             public static var segmentTextSelectedAndDisabled: UIColor = foreground2
-            public static var selection: UIColor = selected2
-            public static var selectionDisabled: UIColor = background4
+            public static var selection: UIColor = foreground8
+            public static var selectionDisabled: UIColor = gray400
         }
         // TODO: update if needed after design is done (specifically backgroundDisabled, segmentTextDisabled, segmentTextSelectedAndDisabled, selectionDisabled, but check other colors too)
         public struct Switch {
-            public static var background = UIColor(light: darkPrimary, dark: black)
-            public static var backgroundDisabled = UIColor(light: disabled, dark: black)
+            public static var background = UIColor(light: primaryShade20, dark: .black)
+            public static var backgroundDisabled = UIColor(light: disabled, dark: .black)
             public static var segmentText: UIColor = foreground7b
             public static var segmentTextSelected = UIColor(light: primary, dark: gray100)
-            public static var segmentTextDisabled = UIColor(light: white, dark: foreground4)
+            public static var segmentTextDisabled = UIColor(light: .white, dark: foreground4)
             public static var segmentTextSelectedAndDisabled: UIColor = foreground2
-            public static var selection = UIColor(light: white, dark: gray600)
+            public static var selection = UIColor(light: .white, dark: gray600)
             public static var selectionDisabled: UIColor = selection
         }
     }
@@ -392,7 +495,7 @@ public final class MSColors: NSObject {
         public static var shadow = UIColor(light: UIColor.black.withAlphaComponent(0.3), dark: gray700)
     }
     // Objective-C support
-    public static var separatorDefault: UIColor { return Separator.default }
+    @objc public static var separatorDefault: UIColor { return Separator.default }
 
     public struct Switch {
         public static var onTint: UIColor = primary
@@ -418,7 +521,7 @@ public final class MSColors: NSObject {
             public static var footer: UIColor = foreground2
             public static var accessoryDisclosureIndicator: UIColor = foreground3b
             public static var accessoryDetailButton: UIColor = foreground3b
-            public static var accessoryCheckmark: UIColor = selected
+            public static var accessoryCheckmark: UIColor = primary
             public static var selectionIndicatorOn: UIColor = primary
             public static var selectionIndicatorOff: UIColor = foreground3b
         }
@@ -438,7 +541,7 @@ public final class MSColors: NSObject {
             public static var accessoryButtonTextPrimary: UIColor = primary
             public static var background: UIColor = .clear
             public static var backgroundDivider: UIColor = background2
-            public static var backgroundDividerHighlighted = UIColor(light: extraLightPrimary, dark: gray950)
+            public static var backgroundDividerHighlighted = UIColor(light: primaryTint40, dark: gray950)
             public static var text: UIColor = foreground2
             public static var textDivider: UIColor = foreground2d
             public static var textDividerHighlighted: UIColor = primary
@@ -448,11 +551,11 @@ public final class MSColors: NSObject {
         public static var backgroundGrouped = UIColor(light: background2, dark: background1)
     }
     // Objective-C support
-    public static var tableBackground: UIColor { return Table.background }
-    public static var tableBackgroundGrouped: UIColor { return Table.backgroundGrouped }
-    public static var tableCellBackground: UIColor { return Table.Cell.background }
-    public static var tableCellBackgroundGrouped: UIColor { return Table.Cell.backgroundGrouped }
-    public static var tableCellImage: UIColor { return Table.Cell.image }
+    @objc public static var tableBackground: UIColor { return Table.background }
+    @objc public static var tableBackgroundGrouped: UIColor { return Table.backgroundGrouped }
+    @objc public static var tableCellBackground: UIColor { return Table.Cell.background }
+    @objc public static var tableCellBackgroundGrouped: UIColor { return Table.Cell.backgroundGrouped }
+    @objc public static var tableCellImage: UIColor { return Table.Cell.image }
 
     public struct Toolbar {
         public static var background: UIColor = NavigationBar.background
@@ -460,20 +563,20 @@ public final class MSColors: NSObject {
     }
 
     public struct Tooltip {
-        public static var background = UIColor(light: background5.withAlphaComponent(0.95), dark: primary)
+        public static var background = UIColor(light: gray900.withAlphaComponent(0.95), dark: primary)
         public static var text: UIColor = foregroundOnPrimary
     }
 
     public struct TwoLineTitle {
         public static var titleDark: UIColor = NavigationBar.title
-        public static var titleLight: UIColor = foreground7
+        public static var titleLight: UIColor = .white
         public static var subtitleDark: UIColor = foreground2d
-        public static var subtitleLight: UIColor = foreground7.withAlphaComponent(0.8)
+        public static var subtitleLight = UIColor.white.withAlphaComponent(0.8)
         public static var accessory: UIColor = foreground3
     }
 
-    private override init() {
-        super.init()
+    @objc public func color(from palette: Palette) -> UIColor {
+        return palette.color
     }
 }
 
@@ -495,7 +598,7 @@ public final class MSColors: NSObject {
         case .secondary:
             return MSColors.foreground2
         case .white:
-            return MSColors.white
+            return .white
         case .primary:
             return MSColors.primary
         case .error:

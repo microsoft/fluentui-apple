@@ -48,7 +48,7 @@ open class MSPopupMenuController: MSDrawerController {
         var height: CGFloat = 0
         if let headerItem = headerItem {
             if !descriptionView.isHidden {
-                let size = descriptionView.systemLayoutSizeFitting(CGSize(width: view.width, height: .infinity), withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
+                let size = descriptionView.systemLayoutSizeFitting(CGSize(width: view.frame.width, height: .infinity), withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
                 height += size.height
             } else {
                 height += MSPopupMenuItemCell.preferredHeight(for: headerItem)

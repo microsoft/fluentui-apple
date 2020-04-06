@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#ifndef MS_CHANNEL_GROUP_PROTOCOL_H
+#define MS_CHANNEL_GROUP_PROTOCOL_H
+
 #import <Foundation/Foundation.h>
 
 #import "MSChannelProtocol.h"
@@ -76,3 +79,5 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif

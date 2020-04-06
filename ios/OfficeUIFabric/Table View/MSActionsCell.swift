@@ -155,19 +155,19 @@ open class MSActionsCell: UITableViewCell {
         super.layoutSubviews()
 
         let actionCount: CGFloat = action2Button.isHidden ? 1 : 2
-        let singleActionWidth = UIScreen.main.roundToDevicePixels(contentView.width / actionCount)
+        let singleActionWidth = UIScreen.main.roundToDevicePixels(contentView.frame.width / actionCount)
         var left: CGFloat = 0
 
-        action1Button.frame = CGRect(x: left, y: 0, width: singleActionWidth, height: height)
-        left += action1Button.width
+        action1Button.frame = CGRect(x: left, y: 0, width: singleActionWidth, height: frame.height)
+        left += action1Button.frame.width
 
         if actionCount > 1 {
-            action2Button.frame = CGRect(x: left, y: 0, width: width - left, height: height)
-            verticalSeparator.frame = CGRect(x: left, y: 0, width: verticalSeparator.width, height: height)
+            action2Button.frame = CGRect(x: left, y: 0, width: frame.width - left, height: frame.height)
+            verticalSeparator.frame = CGRect(x: left, y: 0, width: verticalSeparator.frame.width, height: frame.height)
         }
 
         layoutHorizontalSeparator(topSeparator, with: topSeparatorType, at: 0)
-        layoutHorizontalSeparator(bottomSeparator, with: bottomSeparatorType, at: height - bottomSeparator.height)
+        layoutHorizontalSeparator(bottomSeparator, with: bottomSeparatorType, at: frame.height - bottomSeparator.frame.height)
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -210,8 +210,8 @@ open class MSActionsCell: UITableViewCell {
         separator.frame = CGRect(
             x: horizontalOffset,
             y: verticalOffset,
-            width: width - horizontalOffset,
-            height: separator.height
+            width: frame.width - horizontalOffset,
+            height: separator.frame.height
         )
         separator.flipForRTL()
     }

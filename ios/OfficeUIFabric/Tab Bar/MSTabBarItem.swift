@@ -5,9 +5,8 @@
 
 import UIKit
 
-@objcMembers
 open class MSTabBarItem: NSObject {
-    public let title: String
+    @objc public let title: String
     let image: UIImage
     let selectedImage: UIImage?
     let landscapeImage: UIImage?
@@ -21,7 +20,7 @@ open class MSTabBarItem: NSObject {
     /// - Parameter landscapeImage: Used for imageView when tabbar item view in landscape. If it is nil, it will use `image`.
     /// - Parameter landscapeSelectedImage: Used for imageView when tabbar item view is selected in landscape. If it is nil, it will use `selectedImage`.
     /// - Parameter largeContentImage: Used for tabbar item view's accessibility largeContentImage.
-    public init(title: String, image: UIImage, selectedImage: UIImage? = nil, landscapeImage: UIImage? = nil, landscapeSelectedImage: UIImage? = nil, largeContentImage: UIImage? = nil) {
+    @objc public init(title: String, image: UIImage, selectedImage: UIImage? = nil, landscapeImage: UIImage? = nil, landscapeSelectedImage: UIImage? = nil, largeContentImage: UIImage? = nil) {
         self.image = image
         self.selectedImage = selectedImage
         self.title = title

@@ -37,11 +37,11 @@
 /**
  * The flag that indicates whether the release is a mandatory update or not.
  */
-@property(nonatomic) BOOL mandatoryUpdate;
+@property(nonatomic, getter=isMandatoryUpdate, assign) BOOL mandatoryUpdate;
 
 /**
  * The URL that hosts the release notes for this release.
  */
-@property(nonatomic) NSURL *releaseNotesUrl;
+@property(nonatomic, strong) NSURL *releaseNotesUrl;
 
 @end

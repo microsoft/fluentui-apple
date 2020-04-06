@@ -24,7 +24,7 @@ class MSDrawerTransitionAnimator: NSObject {
     }
 
     static func sizeChange(forPresentedView presentedView: UIView, presentationDirection: MSDrawerPresentationDirection) -> CGFloat {
-        return presentationDirection.isVertical ? presentedView.height : presentedView.width
+        return presentationDirection.isVertical ? presentedView.frame.height : presentedView.frame.width
     }
 
     let presenting: Bool
