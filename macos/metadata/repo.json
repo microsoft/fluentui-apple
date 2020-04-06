@@ -1,0 +1,10 @@
+{
+    "contacts": [ "mavitale@microsoft.com", "fabricmacosowners@microsoft.com" ],
+    "description": "",
+    "deployedToProduction": true,
+    "complianceTypes": [],
+    "inventoryId": [ "53398d04-eff6-40a7-9277-7d2ed78032e6" ],
+    "schema": {
+        "office": "1.0.0"
+    }
+}

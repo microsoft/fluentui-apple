@@ -1,0 +1,23 @@
+parameters:
+  xcode_sdk: 'macosx'
+  xcode_configuration: ''
+  xcode_workspacePath: ''
+  xcode_scheme: ''
+  xcode_actions: ''
+  xcode_useXcpretty: false
+  xcode_destination: ''
+  xcode_extraArgs: ''
+  xcode_displayNameTags: ''
+
+steps:
+  - task: Xcode@5
+    displayName: 'Xcode ${{ parameters.xcode_actions }} ${{ parameters.xcode_scheme }} ${{ parameters.xcode_configuration }} ${{ parameters.xcode_displayNameTags }}'
+    inputs:
+      actions: '${{ parameters.xcode_actions }}'
+      xcWorkspacePath: xcode/OfficeUIFabric.xcodeproj
+      scheme: ${{ parameters.xcode_scheme }}
+      sdk: ${{ parameters.xcode_sdk }}
+      configuration: ${{ parameters.xcode_configuration }}
+      xcodeVersion: 11
+      useXcpretty: ${{ parameters.xcode_useXcpretty }}
+      args: ${{ parameters.xcode_extraArgs }}

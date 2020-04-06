@@ -1,3 +1,10 @@
+# FluentUI Apple
+Fluent UI Apple is a repository containing native UIKit and AppKit controls aligned with Microsoft's Fluent UI design language. 
+
+## Getting Started
+To get started developing in this repository for iOS, please check out [the iOS readme file](ios/README.md).
+
+To get started developing in this repository for macOS, please check out [the macOS readme file](macos/README.md).
 
 # Contributing
 

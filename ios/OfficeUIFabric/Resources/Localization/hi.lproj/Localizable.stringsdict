@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Accessibility.DateTime.Hour.Value</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@hours@</string>
+      <key>Variable</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d o'clock</string>
+        <key>one</key>
+        <string>%d o'clock</string>
+        <key>two</key>
+        <string>%d o'clock</string>
+        <key>few</key>
+        <string>%d o'clock</string>
+        <key>many</key>
+        <string>%d o'clock</string>
+        <key>other</key>
+        <string>%d o'clock</string>
+      </dict>
+    </dict>
+    <key>Accessibility.DateTime.Minute.Value</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@minutes@</string>
+      <key>minutes</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d मिनट</string>
+        <key>one</key>
+        <string>%d मिनट</string>
+        <key>two</key>
+        <string>%d मिनट</string>
+        <key>few</key>
+        <string>%d मिनट</string>
+        <key>many</key>
+        <string>%d मिनट</string>
+        <key>other</key>
+        <string>%d मिनट</string>
+      </dict>
+    </dict>
+    <key>%d results found from directory</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@results@</string>
+      <key>results</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d डायरेक्टरी से प्राप्त परिणाम</string>
+        <key>one</key>
+        <string>%d डायरेक्टरी से प्राप्त परिणाम</string>
+        <key>two</key>
+        <string>%d डायरेक्टरी से प्राप्त परिणाम</string>
+        <key>few</key>
+        <string>%d डायरेक्टरी से प्राप्त परिणाम</string>
+        <key>many</key>
+        <string>%d डायरेक्टरी से प्राप्त परिणाम</string>
+        <key>other</key>
+        <string>%d डायरेक्टरी से प्राप्त परिणाम</string>
+      </dict>
+    </dict>
+  </dict>
+</plist>

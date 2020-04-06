@@ -1,0 +1,26 @@
+{
+  "images" : [
+    {
+      "idiom" : "universal",
+      "filename" : "fabricLogo.pdf"
+    },
+    {
+      "idiom" : "universal",
+      "height-class" : "regular"
+    },
+    {
+      "idiom" : "universal",
+      "width-class" : "regular"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "fabricLogoLarge.pdf",
+      "width-class" : "regular",
+      "height-class" : "regular"
+    }
+  ],
+  "info" : {
+    "version" : 1,
+    "author" : "xcode"
+  }
+}

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.Office.UIFabric.iOS</id>
+    <version>__BuildBuildNumber__</version>
+    <description>Contains implementations of Office UI Fabric for iOS</description>
+    <authors>Microsoft</authors>
+    <projectUrl>https://onedrive.visualstudio.com/Design/_git/fabric-ios</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+  </metadata>
+  <files>
+    <!-- iOS device debug -->
+    <file src="DerivedData\OfficeUIFabric\Build\Products\Debug-iphoneos\libOfficeUIFabricLib.a" target="Debug-iphoneos"/>
+    <file src="DerivedData\OfficeUIFabric\Build\Products\Debug-iphoneos\OfficeUIFabricLib.swiftmodule\**" target="Debug-iphoneos/OfficeUIFabricLib.swiftmodule"/>
+    <file src="DerivedData\OfficeUIFabric\Build\Products\Debug-iphoneos\OfficeUIFabricResources.bundle\**" target="Debug-iphoneos/OfficeUIFabricResources.bundle"/>
+    <!-- iOS device ship -->
+    <file src="DerivedData\OfficeUIFabric\Build\Products\Release-iphoneos\libOfficeUIFabricLib.a" target="Ship-iphoneos"/>
+    <file src="DerivedData\OfficeUIFabric\Build\Products\Release-iphoneos\OfficeUIFabricLib.swiftmodule\**" target="Ship-iphoneos/OfficeUIFabricLib.swiftmodule"/>
+    <file src="DerivedData\OfficeUIFabric\Build\Products\Release-iphoneos\OfficeUIFabricResources.bundle\**" target="Ship-iphoneos/OfficeUIFabricResources.bundle"/>
+    <!-- iOS simulator debug -->
+    <file src="DerivedData\OfficeUIFabric\Build\Products\Debug-iphonesimulator\libOfficeUIFabricLib.a" target="Debug-iphonesimulator"/>
+    <file src="DerivedData\OfficeUIFabric\Build\Products\Debug-iphonesimulator\OfficeUIFabricLib.swiftmodule\**" target="Debug-iphonesimulator/OfficeUIFabricLib.swiftmodule"/>
+    <file src="DerivedData\OfficeUIFabric\Build\Products\Debug-iphonesimulator\OfficeUIFabricResources.bundle\**" target="Debug-iphonesimulator/OfficeUIFabricResources.bundle"/>
+    <!-- iOS simulator ship -->
+    <file src="DerivedData\OfficeUIFabric\Build\Products\Release-iphonesimulator\libOfficeUIFabricLib.a" target="Ship-iphonesimulator"/>
+    <file src="DerivedData\OfficeUIFabric\Build\Products\Release-iphonesimulator\OfficeUIFabricLib.swiftmodule\**" target="Ship-iphonesimulator/OfficeUIFabricLib.swiftmodule"/>
+    <file src="DerivedData\OfficeUIFabric\Build\Products\Release-iphonesimulator\OfficeUIFabricResources.bundle\**" target="Ship-iphonesimulator/OfficeUIFabricResources.bundle"/>
+
+    <!-- Objective-C compatibility header -->
+    <file src="DerivedData/OfficeUIFabric/Build/Intermediates.noindex/OfficeUIFabric.build/Debug-iphonesimulator/OfficeUIFabricLib.build/DerivedSources/OfficeUIFabricLib-Swift.h" target="include"/>
+  </files>
+</package>

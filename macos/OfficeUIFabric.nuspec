@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.Office.UIFabric.macOS</id>
+    <version>$buildNumber$</version>
+    <description>Contains implementations of Office UI Fabric for macOS</description>
+    <authors>Microsoft</authors>
+    <projectUrl>https://dev.azure.com/office/ISS/_git/fabric-macos</projectUrl>
+    <repository type="git" url="$repoUri$" commit="$commitId$" />
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+  </metadata>
+  <files>
+    <!-- macOS zipped frameworks -->
+    <file src="DerivedData\OfficeUIFabric\Build\Products\BuildOutput.zip" target="Archives/BuildOutput.zip"/>
+  </files>
+</package>

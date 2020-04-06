@@ -1,0 +1,14 @@
+- sourceBranch: master
+  strategy: simpleReplace
+  scope: "/"
+  parameters:
+    - name: ""6cf792a3-b944-4522-b576-253460f6e384", "045d9ffa-b4d7-415a-a7d1-ac3f305427c8", "97f9ba09-313b-40bf-a722-297ef142fddf", "c8205b47-3340-4249-b3a5-2c6eeab0ca0b", "12773aad-1362-467b-b861-705cae2dca32", "0a933124-2ec5-4837-9732-84887e2cb9d3", "5b3e7fcc-eb29-4a8f-b6e3-7bb08a90ded8", "1f9c2cb7-61e8-48bf-92b1-9244a7060265", "53398d04-eff6-40a7-9277-7d2ed78032e6""
+      value: ""6cf792a3-b944-4522-b576-253460f6e384", "045d9ffa-b4d7-415a-a7d1-ac3f305427c8", "97f9ba09-313b-40bf-a722-297ef142fddf", "c8205b47-3340-4249-b3a5-2c6eeab0ca0b", "12773aad-1362-467b-b861-705cae2dca32", "0a933124-2ec5-4837-9732-84887e2cb9d3", "5b3e7fcc-eb29-4a8f-b6e3-7bb08a90ded8", "1f9c2cb7-61e8-48bf-92b1-9244a7060265", "53398d04-eff6-40a7-9277-7d2ed78032e6""
+    - name: "True"
+      value: "True"
+    - name: "A repository for the native Apple implementations of FluentUI. Will hold both the iOS and macOS native control implementations, themed to match the Fluent design system."
+      value: "A repository for the native Apple implementations of FluentUI. Will hold both the iOS and macOS native control implementations, themed to match the Fluent design system."
+    - name: "Mavitale@microsoft.com"
+      value: "Mavitale@microsoft.com"
+    - name: "Fluentuinativeowners@microsoft.com"
+      value: "Fluentuinativeowners@microsoft.com"
