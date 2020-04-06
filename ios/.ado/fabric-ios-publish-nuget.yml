@@ -1,0 +1,89 @@
+# This file defines the Apple publish build steps
+name: 1.$(Date:yyyy).$(Date:MMdd)-v$(Rev:r)
+
+trigger: none # will disable CI builds entirely
+
+pr: none # disable on PRs until stable
+
+jobs:
+  - job: fabric_ios_nuget_publish
+    pool:
+      name: Hosted Mac Internal Mojave
+    displayName: Fabric iOS NuGet Publish
+    timeoutInMinutes: 120 # how long to run the job before automatically cancelling
+    cancelTimeoutInMinutes: 5 # how much time to give 'run always even if cancelled tasks' before killing them
+    steps:
+      - task: Npm@1
+        displayName: 'npm install'
+        inputs:
+          verbose: false
+
+      - task: Xcode@5
+        displayName: 'Xcode build Static Library, Debug, iphonesimulator'
+        inputs:
+          actions: 'build'
+          xcWorkspacePath: OfficeUIFabric.xcworkspace
+          scheme: OfficeUIFabricLib
+          sdk: 'iphonesimulator'
+          configuration: 'Debug'
+          xcodeVersion: default
+          useXcpretty: false
+          args: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides.xcconfig'
+
+      - task: Xcode@5
+        displayName: 'Xcode build Static Library, Release, iphonesimulator'
+        inputs:
+          actions: 'build'
+          xcWorkspacePath: OfficeUIFabric.xcworkspace
+          scheme: OfficeUIFabricLib
+          sdk: 'iphonesimulator'
+          configuration: 'Release'
+          xcodeVersion: default
+          useXcpretty: false
+          args: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides.xcconfig'
+
+      - task: Xcode@5
+        displayName: 'Xcode build Static Library, Debug, iphoneos'
+        inputs:
+          actions: 'build'
+          xcWorkspacePath: OfficeUIFabric.xcworkspace
+          scheme: OfficeUIFabricLib
+          sdk: 'iphoneos'
+          configuration: 'Debug'
+          xcodeVersion: default
+          useXcpretty: false
+          args: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides.xcconfig'
+
+      - task: Xcode@5
+        displayName: 'Xcode build Static Library, Release, iphoneos'
+        inputs:
+          actions: 'build'
+          xcWorkspacePath: OfficeUIFabric.xcworkspace
+          scheme: OfficeUIFabricLib
+          sdk: 'iphoneos'
+          configuration: 'Release'
+          xcodeVersion: default
+          useXcpretty: false
+          args: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides.xcconfig'
+
+      # Replace all nuspec files __BuildBuildNumber__ and __OUTPUTDIR__ fields
+
+      - script: 'node scripts/vsto-collect-nuspec.js apple'
+        displayName: 'Generate versioned nuspec files'
+
+      # pack all the nuspecs
+
+      - task: NuGetCommand@2
+        displayName: 'NuGet pack'
+        inputs:
+          command: pack
+          packagesToPack: '$(nuspecsToPack)'
+        continueOnError: true
+
+      # push packages
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: OfficeUIFabriciOSNuPkg'
+        inputs:
+          ArtifactName: OfficeUIFabriciOSNuPkg
+        condition: succeededOrFailed()

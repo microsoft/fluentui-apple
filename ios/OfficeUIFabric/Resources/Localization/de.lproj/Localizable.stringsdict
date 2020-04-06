@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Accessibility.DateTime.Hour.Value</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@hours@</string>
+      <key>Variable</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d Uhr</string>
+        <key>one</key>
+        <string>%d Uhr</string>
+        <key>two</key>
+        <string>%d Uhr</string>
+        <key>few</key>
+        <string>%d Uhr</string>
+        <key>many</key>
+        <string>%d Uhr</string>
+        <key>other</key>
+        <string>%d Uhr</string>
+      </dict>
+    </dict>
+    <key>Accessibility.DateTime.Minute.Value</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@minutes@</string>
+      <key>minutes</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d Minuten</string>
+        <key>one</key>
+        <string>%d Minute</string>
+        <key>two</key>
+        <string>%d Minuten</string>
+        <key>few</key>
+        <string>%d Minuten</string>
+        <key>many</key>
+        <string>%d Minuten</string>
+        <key>other</key>
+        <string>%d Minuten</string>
+      </dict>
+    </dict>
+    <key>%d results found from directory</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@results@</string>
+      <key>results</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d Ergebnisse im Verzeichnis gefunden.</string>
+        <key>one</key>
+        <string>%d Ergebnis im Verzeichnis gefunden.</string>
+        <key>two</key>
+        <string>%d Ergebnisse im Verzeichnis gefunden.</string>
+        <key>few</key>
+        <string>%d Ergebnisse im Verzeichnis gefunden.</string>
+        <key>many</key>
+        <string>%d Ergebnisse im Verzeichnis gefunden.</string>
+        <key>other</key>
+        <string>%d Ergebnisse im Verzeichnis gefunden.</string>
+      </dict>
+    </dict>
+  </dict>
+</plist>

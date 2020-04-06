@@ -1,0 +1,133 @@
+//
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
+//
+
+// Accessibility
+"Accessibility.Alert" = "Waarschuwing";
+"Accessibility.Dismiss.Label" = "Verwijderen";
+"Accessibility.Dismiss.Hint" = "Dubbeltikken om te sluiten";
+"Accessibility.Done.Label" = "Gereed";
+"Accessibility.MultiSelect.Hint" = "Dubbeltikken om de selectie in of uit te schakelen";
+"Accessibility.Select.Hint" = "Dubbeltikken om te selecteren";
+"Accessibility.Selected.Hint" = "Dubbeltikken om details te zien";
+"Accessibility.Selected.Value" = "Geselecteerd";
+
+/* Accessibility label for the upper calendar date picker view. */
+"Accessibility.Calendar.Label" = "Agenda";
+
+/* Accessibility hint for the upper calendar date picker view */
+"Accessibility.Calendar.Hint" = "Datum selecteren";
+
+// TODO: Change to a stringsdict format
+// TODO: Reassess for generic indicator
+/* Accessibility: Number of events on the given day (%d is the number) */
+"Accessibility.Calendar.Events.Number" = "%d gebeurtenissen";
+
+/* Accessibility: There's no events on the given day */
+"Accessibility.Calendar.Events.None" = "geen gebeurtenissen";
+
+/* Accessibility label for month in date time picker */
+"Accessibility.DateTime.Month.Label" = "Maand";
+
+/* Accessibility label for day in date time picker */
+"Accessibility.DateTime.Day.Label" = "Dag";
+
+/* Accessibility label for year in date time picker */
+"Accessibility.DateTime.Year.Label" = "Jaar";
+
+/* Accessibility label for date in date time picker */
+"Accessibility.DateTime.Date.Label" = "Datum";
+
+/* Accessibility label for hour in date time picker */
+"Accessibility.DateTime.Hour.Label" = "Uur";
+
+/* Accessibility label for minute in date time picker */
+"Accessibility.DateTime.Minute.Label" = "Minuut";
+
+/* Accessibility label for AM/PM in date time picker */
+"Accessibility.DateTime.AMPM.Label" = "AM/PM";
+
+/* Accessibility label for week of month in date time picker */
+"Accessibility.DateTime.WeekOfMonth.Label" = "Week van de maand";
+
+/* Accessibility label for day of week in date time picker */
+"Accessibility.DateTime.DayOfWeek.Label" = "Dag van de week";
+
+/* Accessibility label for first week of the month */
+"Accessibility.DateTime.Week.First" = "Eerste";
+
+/* Accessibility label for second week of the month */
+"Accessibility.DateTime.Week.Second" = "Tweede";
+
+/* Accessibility label for third week of the month */
+"Accessibility.DateTime.Week.Third" = "Derde";
+
+/* Accessibility label for fourth week of the month */
+"Accessibility.DateTime.Week.Fourth" = "Vierde";
+
+/* Accessibility label for last week of the month */
+"Accessibility.DateTime.Week.Last" = "Laatste";
+
+/* Accessibility label for drawer's resizing handle when it has expand action */
+"Accessibility.Drawer.ResizingHandle.Label.Expand" = "Uitvouwen";
+/* Accessibility hint for drawer's resizing handle when it has expand action */
+"Accessibility.Drawer.ResizingHandle.Hint.Expand" = "Dubbeltikken om uit te vouwen";
+/* Accessibility label for drawer's resizing handle when it has collapse action */
+"Accessibility.Drawer.ResizingHandle.Label.Collapse" = "Samenvouwen";
+/* Accessibility hint for drawer's resizing handle when it has collapse action */
+"Accessibility.Drawer.ResizingHandle.Hint.Collapse" = "Dubbeltikken om samen te vouwen";
+
+/* Accessibility label for when a task under progress has finished */
+"Accessibility.HUD.Done" = "Gereed";
+
+/* Accessibility label for when a task under progress has failed */
+"Accessibility.HUD.Failed" = "Mislukt";
+
+/* Accessibility label for when a task is in progress */
+"Accessibility.HUD.Loading" = "Laden";
+
+/* Accessibility hint for MSPillButtons in an MSPillButtonBar. %1$d is placeholder for index and %2$d is a placeholder for total number of items */
+"Accessibility.MSPillButtonBar.Hint" = "%1$d van %2$d";
+
+/* Accessibility label for the avatar (or profile) view in */
+"Accessibility.LargeTitle.ProfileView" = "Accountprofiel";
+
+/* Accessibility hint for a segmented control button */
+"Accessibility.Segmented.Button.Hint" = "Tikken om naar %@ te gaan";
+
+/* Accessibility hint for TabBarItemView to indicate its index relative to total number of items */
+"Accessibility.TabBarItemView.Hint" = "%d van %d";
+
+/* Accessibility hint for more actions button */
+"Accessibility.TableViewCell.MoreActions.Hint" = "Dubbeltikken om meer acties weer te geven";
+
+/* Accessibility label for more actions button */
+"Accessibility.TableViewCell.MoreActions.Label" = "Meer acties";
+
+/* Accessibility hint for cell when accessory view is a UISwitch */
+"Accessibility.TableViewCell.Switch.Hint" = "Dubbeltikken om instelling in/uit te schakelen";
+
+/* Accessibility value for when a UISwitch is on */
+"Accessibility.TableViewCell.Switch.On" = "Aan";
+
+/* Accessibility value for when a UISwitch is off */
+"Accessibility.TableViewCell.Switch.Off" = "Uit";
+
+/* Generic label for cancel action */
+"Common.Cancel" = "Annuleren";
+
+// MSPersonaListView
+"MSPersonaListView.SearchDirectory" = "Zoeken in adreslijst";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "Begintijd";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "Eindtijd";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "Begindatum";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "Einddatum";

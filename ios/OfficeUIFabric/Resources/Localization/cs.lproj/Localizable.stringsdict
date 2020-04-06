@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Accessibility.DateTime.Hour.Value</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@hours@</string>
+      <key>Variable</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d h</string>
+        <key>one</key>
+        <string>%d h</string>
+        <key>two</key>
+        <string>%d h</string>
+        <key>few</key>
+        <string>%d h</string>
+        <key>many</key>
+        <string>%d h</string>
+        <key>other</key>
+        <string>%d h</string>
+      </dict>
+    </dict>
+    <key>Accessibility.DateTime.Minute.Value</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@minutes@</string>
+      <key>minutes</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d min</string>
+        <key>one</key>
+        <string>%d min</string>
+        <key>two</key>
+        <string>%d min</string>
+        <key>few</key>
+        <string>%d min</string>
+        <key>many</key>
+        <string>%d min</string>
+        <key>other</key>
+        <string>%d min</string>
+      </dict>
+    </dict>
+    <key>%d results found from directory</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@results@</string>
+      <key>results</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>V adresáři se našlo %d výsledků.</string>
+        <key>one</key>
+        <string>V adresáři se našel %d výsledek.</string>
+        <key>two</key>
+        <string>V adresáři se našly %d výsledky.</string>
+        <key>few</key>
+        <string>V adresáři se našly %d výsledky.</string>
+        <key>many</key>
+        <string>V adresáři se našlo %d výsledků.</string>
+        <key>other</key>
+        <string>V adresáři se našel tento počet výsledků: %d.</string>
+      </dict>
+    </dict>
+  </dict>
+</plist>

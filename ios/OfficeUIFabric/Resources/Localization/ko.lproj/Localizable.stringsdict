@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Accessibility.DateTime.Hour.Value</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@hours@</string>
+      <key>Variable</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d시</string>
+        <key>one</key>
+        <string>%d시</string>
+        <key>two</key>
+        <string>%d시</string>
+        <key>few</key>
+        <string>%d시</string>
+        <key>many</key>
+        <string>%d시</string>
+        <key>other</key>
+        <string>%d시</string>
+      </dict>
+    </dict>
+    <key>Accessibility.DateTime.Minute.Value</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@minutes@</string>
+      <key>minutes</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d분</string>
+        <key>one</key>
+        <string>%d분</string>
+        <key>two</key>
+        <string>%d분</string>
+        <key>few</key>
+        <string>%d분</string>
+        <key>many</key>
+        <string>%d분</string>
+        <key>other</key>
+        <string>%d분</string>
+      </dict>
+    </dict>
+    <key>%d results found from directory</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@results@</string>
+      <key>results</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>디렉터리에서 결과 %d개 발견됨</string>
+        <key>one</key>
+        <string>디렉터리에서 결과 %d개 발견됨</string>
+        <key>two</key>
+        <string>디렉터리에서 결과 %d개 발견됨</string>
+        <key>few</key>
+        <string>디렉터리에서 결과 %d개 발견됨</string>
+        <key>many</key>
+        <string>디렉터리에서 결과 %d개 발견됨</string>
+        <key>other</key>
+        <string>디렉터리에서 결과 %d개 발견됨</string>
+      </dict>
+    </dict>
+  </dict>
+</plist>
