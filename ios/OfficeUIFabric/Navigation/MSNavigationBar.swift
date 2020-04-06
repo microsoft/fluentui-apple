@@ -10,7 +10,6 @@ import UIKit
 /// UINavigationBar subclass, with a content view that contains various custom UIElements
 /// Contains the MSNavigationTitleView class and handles passing animatable progress through
 /// Custom UI can be hidden if desired
-@objcMembers
 open class MSNavigationBar: UINavigationBar {
     /// If the style is `.custom`, UINavigationItem's `navigationBarColor` is used for all the subviews' backgroundColor
     @objc(MSNavigationBarStyle)
@@ -67,8 +66,9 @@ open class MSNavigationBar: UINavigationBar {
     private static var defaultStyle: Style = .primary
 
     private struct Constants {
+        static let systemHeight: CGFloat = 44
         static let normalContentHeight: CGFloat = 44
-        static let expandedContentHeight: CGFloat = 50
+        static let expandedContentHeight: CGFloat = 48
 
         static let leftBarButtonItemLeadingMargin: CGFloat = 8
         static let rightBarButtonItemHorizontalPadding: CGFloat = 10
@@ -81,21 +81,21 @@ open class MSNavigationBar: UINavigationBar {
     }
 
     /// An object that conforms to the `MSAvatar` protocol and provides text and an optional image for display as an `MSAvatarView` next to the large title. Only displayed if `showsLargeTitle` is true on the current navigation item. If avatar is nil, it won't show the avatar view.
-    open var avatar: MSAvatar? {
+    @objc open var avatar: MSAvatar? {
         didSet {
             titleView.avatar = avatar
         }
     }
 
     /// A string to optionally customize the accessibility label of the large title's avatar
-    open var avatarCustomAccessibilityLabel: String? {
+    @objc open var avatarCustomAccessibilityLabel: String? {
         didSet {
             titleView.avatarCustomAccessibilityLabel = avatarCustomAccessibilityLabel
         }
     }
 
     /// An element size to describe the behavior of large title's avatar. If `.automatic`, avatar will resize when `expand(animated:)` and `contract(animated:)` are called.
-    open var avatarSize: ElementSize = .automatic {
+    @objc open var avatarSize: ElementSize = .automatic {
         didSet {
             updateElementSizes()
         }
@@ -128,14 +128,14 @@ open class MSNavigationBar: UINavigationBar {
     }
 
     /// An element size to describe the behavior of the navigation bar's large title. If `.automatic`, the title label will resize when `expand(animated:)` and `contract(animated:)` are called.
-    open var titleSize: ElementSize = .automatic {
+    @objc open var titleSize: ElementSize = .automatic {
         didSet {
             updateElementSizes()
         }
     }
 
     /// An optional closure to be called when the avatar view is tapped, if it is present.
-    open var onAvatarTapped: (() -> Void)? {
+    @objc open var onAvatarTapped: (() -> Void)? {
         didSet {
             titleView.onAvatarTapped = onAvatarTapped
         }
@@ -146,7 +146,7 @@ open class MSNavigationBar: UINavigationBar {
         set {
             var newValue = newValue
             // Workaround for iOS bug: when nav bar is hidden and device is rotated, the hidden nav bar get pushed up by additional 20px (status bar height) and when nav bar gets shown it animates from too far position leaving a 20px gap that shows window background (black by default) - this will then also affect nav bar hiding animation.
-            newValue.y = max(-height / 2, newValue.y)
+            newValue.y = max(-frame.height / 2, newValue.y)
             super.center = newValue
         }
     }
@@ -157,8 +157,8 @@ open class MSNavigationBar: UINavigationBar {
         }
         didSet {
             contentStackView.insertArrangedSubview(titleView, at: 0)
-            titleView.setContentHuggingPriority(.high, for: .horizontal)
-            titleView.setContentCompressionResistancePriority(.high, for: .horizontal)
+            titleView.setContentHuggingPriority(.required, for: .horizontal)
+            titleView.setContentCompressionResistancePriority(.required, for: .horizontal)
         }
     }
 
@@ -186,12 +186,12 @@ open class MSNavigationBar: UINavigationBar {
     private var titleObserver: NSKeyValueObservation?
     private var navigationBarColorObserver: NSKeyValueObservation?
 
-    public override init(frame: CGRect) {
+    @objc public override init(frame: CGRect) {
         super.init(frame: frame)
         initBase()
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    @objc public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initBase()
     }
@@ -210,26 +210,26 @@ open class MSNavigationBar: UINavigationBar {
             contentStackView.addInteraction(UILargeContentViewerInteraction())
         }
 
-        //leftBarButtonItemsStackView: layout priorities are set to medium to make sure titleView has the highest priority in horizontal spacing
+        //leftBarButtonItemsStackView: layout priorities are slightly lower to make sure titleView has the highest priority in horizontal spacing
         contentStackView.addArrangedSubview(leftBarButtonItemsStackView)
-        leftBarButtonItemsStackView.setContentHuggingPriority(.medium, for: .horizontal)
-        leftBarButtonItemsStackView.setContentCompressionResistancePriority(.medium, for: .horizontal)
+        leftBarButtonItemsStackView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        leftBarButtonItemsStackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
 
         //titleView
         contentStackView.addArrangedSubview(titleView)
-        titleView.setContentHuggingPriority(.high, for: .horizontal)
-        titleView.setContentCompressionResistancePriority(.high, for: .horizontal)
+        titleView.setContentHuggingPriority(.required, for: .horizontal)
+        titleView.setContentCompressionResistancePriority(.required, for: .horizontal)
 
         //spacerView
         contentStackView.addArrangedSubview(spacerView)
         spacerView.backgroundColor = .clear
-        spacerView.setContentHuggingPriority(.low, for: .horizontal)
-        spacerView.setContentCompressionResistancePriority(.low, for: .horizontal)
+        spacerView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        spacerView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
-        //rightBarButtonItemsStackView: layout priorities are set to medium to make sure titleView has the highest priority in horizontal spacing
+        //rightBarButtonItemsStackView: layout priorities are slightly lower to make sure titleView has the highest priority in horizontal spacing
         contentStackView.addArrangedSubview(rightBarButtonItemsStackView)
-        rightBarButtonItemsStackView.setContentHuggingPriority(.medium, for: .horizontal)
-        rightBarButtonItemsStackView.setContentCompressionResistancePriority(.medium, for: .horizontal)
+        rightBarButtonItemsStackView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        rightBarButtonItemsStackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
 
         updateViewsForLargeTitlePresentation(for: topItem)
         updateColors(for: topItem)
@@ -267,7 +267,7 @@ open class MSNavigationBar: UINavigationBar {
         contentStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(
             top: 0,
             leading: Constants.contentLeadingMargin,
-            bottom: -(contentHeight - systemHeight),
+            bottom: -(contentHeight - Constants.systemHeight),
             trailing: Constants.contentTrailingMargin
         )
     }

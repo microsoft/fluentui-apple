@@ -8,12 +8,11 @@ import UIKit
 /**
  `MSPopupMenuSection` represents a section of menu items inside `MSPopupMenuController`.
  */
-@objcMembers
 open class MSPopupMenuSection: NSObject {
-    public let title: String?
-    public var items: [MSPopupMenuItem]
+    @objc public let title: String?
+    @objc public var items: [MSPopupMenuItem]
 
-    public init(title: String?, items: [MSPopupMenuItem]) {
+    @objc public init(title: String?, items: [MSPopupMenuItem]) {
         self.title = title
         self.items = items
         super.init()

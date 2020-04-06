@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#ifndef MS_CHANNEL_PROTOCOL_H
+#define MS_CHANNEL_PROTOCOL_H
+
 #import <Foundation/Foundation.h>
 
 #import "MSEnable.h"
@@ -56,3 +59,5 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif

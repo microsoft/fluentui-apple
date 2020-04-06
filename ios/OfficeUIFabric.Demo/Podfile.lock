@@ -1,13 +1,13 @@
 PODS:
-  - AppCenter (2.0.1):
-    - AppCenter/Analytics (= 2.0.1)
-    - AppCenter/Crashes (= 2.0.1)
-  - AppCenter/Analytics (2.0.1):
+  - AppCenter (3.1.0):
+    - AppCenter/Analytics (= 3.1.0)
+    - AppCenter/Crashes (= 3.1.0)
+  - AppCenter/Analytics (3.1.0):
     - AppCenter/Core
-  - AppCenter/Core (2.0.1)
-  - AppCenter/Crashes (2.0.1):
+  - AppCenter/Core (3.1.0)
+  - AppCenter/Crashes (3.1.0):
     - AppCenter/Core
-  - AppCenter/Distribute (2.0.1):
+  - AppCenter/Distribute (3.1.0):
     - AppCenter/Core
 
 DEPENDENCIES:
@@ -15,12 +15,12 @@ DEPENDENCIES:
   - AppCenter/Distribute
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - AppCenter
 
 SPEC CHECKSUMS:
-  AppCenter: 6a5ff2fd007b53431259fdd74f91eb3d0dfea3d1
+  AppCenter: a1c30c47b7882a04a615ffa5ab26c007326436d8
 
 PODFILE CHECKSUM: c621724a9f802f5deb912004213be046935a75d2
 
-COCOAPODS: 1.6.2
+COCOAPODS: 1.9.1

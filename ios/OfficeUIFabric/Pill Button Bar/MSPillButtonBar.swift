@@ -15,11 +15,10 @@ import UIKit
 // MARK: MSPillButtonBarItem
 
 /// `MSPillButtonBarItem` is an item that can be presented as a pill shaped text button.
-@objcMembers
 open class MSPillButtonBarItem: NSObject {
-    public let title: String
+    @objc public let title: String
 
-    public init(title: String) {
+    @objc public init(title: String) {
         self.title = title
         super.init()
     }

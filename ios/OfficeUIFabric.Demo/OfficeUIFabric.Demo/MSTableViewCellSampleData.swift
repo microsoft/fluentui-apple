@@ -144,7 +144,7 @@ class MSTableViewCellSampleData: TableViewSampleData {
         var icons: [UIImageView] = []
 
         images.forEach {
-            icons.append(UIImageView(image: UIImage.staticImageNamed($0)))
+            icons.append(UIImageView(image: UIImage(named: $0)))
         }
 
         return labelAccessoryView(accessories: icons, spacing: iconSpacing, alignment: rightAligned ? .trailing : .leading )

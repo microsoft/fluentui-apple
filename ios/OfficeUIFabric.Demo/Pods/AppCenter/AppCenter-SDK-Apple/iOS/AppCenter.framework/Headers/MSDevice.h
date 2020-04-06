@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#ifndef MS_DEVICE_H
+#define MS_DEVICE_H
+
 #import <Foundation/Foundation.h>
 
 #import "MSWrapperSdk.h"
@@ -55,7 +58,7 @@
 /*
  * The offset in minutes from UTC for the device time zone, including daylight savings time.
  */
-@property(nonatomic, readonly) NSNumber *timeZoneOffset;
+@property(nonatomic, readonly, strong) NSNumber *timeZoneOffset;
 
 /*
  * Screen size of the device in pixels (example: 640x480).
@@ -89,3 +92,5 @@
 @property(nonatomic, copy, readonly) NSString *appNamespace;
 
 @end
+
+#endif

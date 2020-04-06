@@ -24,7 +24,7 @@ open class MSResizingHandleView: UIView {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = MSColors.ResizingHandle.background
-        height = MSResizingHandleView.height
+        self.frame.size.height = MSResizingHandleView.height
         autoresizingMask = .flexibleWidth
         setContentHuggingPriority(.required, for: .vertical)
         setContentCompressionResistancePriority(.required, for: .vertical)

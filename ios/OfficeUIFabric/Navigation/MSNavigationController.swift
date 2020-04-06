@@ -8,16 +8,15 @@ import UIKit
 // MARK: MSNavigationController
 
 /// `UINavigationController` subclass that supports Large Title presentation and accessory view by wrapping each view controller that needs this functionality into a controller that provides the required behavior. The original view controller can be accessed by using `topContentViewController` or `contentViewController(for:)`.
-@objcMembers
 open class MSNavigationController: UINavigationController {
-    open var msNavigationBar: MSNavigationBar {
+    @objc open var msNavigationBar: MSNavigationBar {
         guard let msNavBar = navigationBar as? MSNavigationBar else {
             fatalError("The navigation bar is either not present or not the correct class")
         }
         return msNavBar
     }
 
-    open var topContentViewController: UIViewController? {
+    @objc open var topContentViewController: UIViewController? {
         guard let controller = topViewController else {
             return nil
         }
@@ -43,24 +42,24 @@ open class MSNavigationController: UINavigationController {
 
     private var navigationBarWasHiddenBySearchBar: Bool = false
 
-    public convenience init() {
+    @objc public convenience init() {
         self.init(navigationBarClass: nil, toolbarClass: nil)
     }
 
-    public override init(navigationBarClass: AnyClass?, toolbarClass: AnyClass?) {
+    @objc public override init(navigationBarClass: AnyClass?, toolbarClass: AnyClass?) {
         super.init(navigationBarClass: MSNavigationBar.self, toolbarClass: toolbarClass)
     }
 
-    public convenience override init(rootViewController: UIViewController) {
+    @objc public convenience override init(rootViewController: UIViewController) {
         self.init()
         setViewControllers([rootViewController], animated: false)
     }
 
-    public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    @objc public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    @objc public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
@@ -101,17 +100,17 @@ open class MSNavigationController: UINavigationController {
         super.setViewControllers(viewControllers, animated: animated)
     }
 
-    public func expandNavigationBar(animated: Bool) {
+    @objc public func expandNavigationBar(animated: Bool) {
         msNavigationBar.expand(animated)
         (topViewController as? MSShyHeaderController)?.expandAccessory()
     }
 
-    public func contractNavigationBar(animated: Bool) {
+    @objc public func contractNavigationBar(animated: Bool) {
         msNavigationBar.contract(animated)
         (topViewController as? MSShyHeaderController)?.contractAccessory()
     }
 
-    public func contentViewController(for controller: UIViewController) -> UIViewController {
+    @objc public func contentViewController(for controller: UIViewController) -> UIViewController {
         return (controller as? MSShyHeaderController)?.contentViewController ?? controller
     }
 

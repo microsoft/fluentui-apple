@@ -16,7 +16,6 @@ import UIKit
 
  When used as a notification bar some functionality like `title`, `image` and actions are not supported. A convenience method `setupAsBar` can be used to initialize notification bar and assign only supported properties.
  */
-@objcMembers
 open class MSNotificationView: UIView {
     @objc(MSNotificationViewStyle)
     public enum Style: Int {
@@ -92,7 +91,7 @@ open class MSNotificationView: UIView {
         static let animationDampingRatioForToast: CGFloat = 0.5
     }
 
-    public static var allowsMultipleToasts: Bool = false
+    @objc public static var allowsMultipleToasts: Bool = false
 
     private static var currentToast: MSNotificationView? {
         didSet {
@@ -102,7 +101,7 @@ open class MSNotificationView: UIView {
         }
     }
 
-    open private(set) var isShown: Bool = false
+    @objc open private(set) var isShown: Bool = false
 
     private var style: Style = .primaryToast {
         didSet {
@@ -163,22 +162,22 @@ open class MSNotificationView: UIView {
     private var messageLabelBoundsObservation: NSKeyValueObservation?
 
     private var hasSingleLineLayout: Bool {
-        return titleLabel.text?.isEmpty != false && messageLabel.height == messageLabel.font.deviceLineHeight
+        return titleLabel.text?.isEmpty != false && messageLabel.frame.height == messageLabel.font.deviceLineHeight
     }
     private var constraintWhenHidden: NSLayoutConstraint!
     private var constraintWhenShown: NSLayoutConstraint!
 
-    public override init(frame: CGRect) {
+    @objc public override init(frame: CGRect) {
         super.init(frame: frame)
         initialize()
     }
 
-    public required init?(coder: NSCoder) {
+    @objc public required init?(coder: NSCoder) {
         super.init(coder: coder)
         initialize()
     }
 
-    open func initialize() {
+    @objc open func initialize() {
         addSubview(backgroundView)
         backgroundView.fitIntoSuperview(usingConstraints: true)
 
@@ -229,7 +228,7 @@ open class MSNotificationView: UIView {
     ///   - messageAction: The closure to be called when the body of the view (except action button) is tapped by a user (only supported in toasts).
     ///  - Returns: Reference to this view that can be used for "chained" calling of `show`. Can be ignored.
     @discardableResult
-    open func setup(style: Style, title: String = "", message: String, image: UIImage? = nil, actionTitle: String = "", action: (() -> Void)? = nil, messageAction: (() -> Void)? = nil) -> Self {
+    @objc open func setup(style: Style, title: String = "", message: String, image: UIImage? = nil, actionTitle: String = "", action: (() -> Void)? = nil, messageAction: (() -> Void)? = nil) -> Self {
         self.style = style
         let title = style.supportsTitle ? title : ""
         let image = style.supportsImage ? image : nil
@@ -245,7 +244,7 @@ open class MSNotificationView: UIView {
         imageView.isHidden = image == nil
 
         if actionTitle.isEmpty {
-            let actionImage = UIImage.staticImageNamed("dismiss-20x20")?.withRenderingMode(.alwaysTemplate)
+            let actionImage = UIImage.staticImageNamed("dismiss-20x20")
             actionImage?.accessibilityLabel = "Accessibility.Dismiss.Label".localized
             actionButton.setImage(actionImage, for: .normal)
             actionButton.setTitle(nil, for: .normal)
@@ -272,7 +271,7 @@ open class MSNotificationView: UIView {
     ///   - anchorView: The view used as the bottom anchor for presentation (notification view is always presented up from the anchor). When no anchor view is provided the bottom anchor of the container's safe area is used.
     ///   - animated: Indicates whether to use animation during presentation or not.
     ///   - completion: The closure to be called after presentation is completed. Can be used to call `hide` with a delay.
-    open func show(in view: UIView, from anchorView: UIView? = nil, animated: Bool = true, completion: ((MSNotificationView) -> Void)? = nil) {
+    @objc open func show(in view: UIView, from anchorView: UIView? = nil, animated: Bool = true, completion: ((MSNotificationView) -> Void)? = nil) {
         if isShown {
             return
         }
@@ -326,7 +325,7 @@ open class MSNotificationView: UIView {
     ///   - controller: The container controller whose view will be used for this view's presentation.
     ///   - animated: Indicates whether to use animation during presentation or not.
     ///   - completion: The closure to be called after presentation is completed. Can be used to call `hide` with a delay.
-    open func show(from controller: UIViewController, animated: Bool = true, completion: ((MSNotificationView) -> Void)? = nil) {
+    @objc open func show(from controller: UIViewController, animated: Bool = true, completion: ((MSNotificationView) -> Void)? = nil) {
         if isShown {
             return
         }
@@ -347,7 +346,7 @@ open class MSNotificationView: UIView {
     ///   - delay: The delay used for the start of dismissal. Default is 0.
     ///   - animated: Indicates whether to use animation during dismissal or not.
     ///   - completion: The closure to be called after dismissal is completed.
-    open func hide(after delay: TimeInterval = 0, animated: Bool = true, completion: (() -> Void)? = nil) {
+    @objc open func hide(after delay: TimeInterval = 0, animated: Bool = true, completion: (() -> Void)? = nil) {
         if !isShown || delay == .infinity {
             return
         }

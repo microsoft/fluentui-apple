@@ -121,7 +121,7 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
         var width = Constants.horizontalMargin + titleSize.width + Constants.horizontalMargin
 
         if let accessoryButton = accessoryButton {
-            width += Constants.accessoryButtonMarginLeft + accessoryButton.width
+            width += Constants.accessoryButtonMarginLeft + accessoryButton.frame.width
         }
 
         return width
@@ -130,7 +130,7 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
     private static func titleRightOffset(accessoryButton: UIButton? = nil) -> CGFloat {
         let accessoryButtonSpacing: CGFloat
         if let accessoryButton = accessoryButton {
-            accessoryButtonSpacing = Constants.accessoryButtonMarginLeft + accessoryButton.width
+            accessoryButtonSpacing = Constants.accessoryButtonMarginLeft + accessoryButton.frame.width
         } else {
             accessoryButtonSpacing = 0
         }
@@ -167,7 +167,7 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
                 style: style,
                 title: titleView.text ?? "",
                 titleNumberOfLines: titleNumberOfLines,
-                containerWidth: width > 0 ? width : .infinity
+                containerWidth: frame.width > 0 ? frame.width : .infinity
             )
         )
     }
@@ -267,16 +267,16 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
 
         accessoryButton?.sizeToFit()
 
-        let titleWidth = contentView.width - (Constants.horizontalMargin + MSTableViewHeaderFooterView.titleRightOffset(accessoryButton: accessoryButton))
+        let titleWidth = contentView.frame.width - (Constants.horizontalMargin + MSTableViewHeaderFooterView.titleRightOffset(accessoryButton: accessoryButton))
         let titleHeight: CGFloat
         let titleYOffset: CGFloat
         switch style {
         case .header, .footer:
             titleYOffset = style == .header ? Constants.titleDefaultTopMargin : Constants.titleDefaultBottomMargin
-            titleHeight = contentView.height - Constants.titleDefaultTopMargin - Constants.titleDefaultBottomMargin
+            titleHeight = contentView.frame.height - Constants.titleDefaultTopMargin - Constants.titleDefaultBottomMargin
         case .divider, .dividerHighlighted:
             titleYOffset = Constants.titleDividerVerticalMargin
-            titleHeight = contentView.height - (Constants.titleDividerVerticalMargin * 2)
+            titleHeight = contentView.frame.height - (Constants.titleDividerVerticalMargin * 2)
         }
         titleView.frame = CGRect(
             x: Constants.horizontalMargin,
@@ -287,7 +287,7 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
 
         if let accessoryButton = accessoryButton {
             let xOffset = titleView.frame.maxX + Constants.accessoryButtonMarginLeft
-            let yOffset = contentView.height - accessoryButton.height - Constants.accessoryButtonBottomMargin
+            let yOffset = contentView.frame.height - accessoryButton.frame.height - Constants.accessoryButtonBottomMargin
             accessoryButton.frame = CGRect(
                 origin: CGPoint(x: xOffset, y: yOffset),
                 size: accessoryButton.frame.size

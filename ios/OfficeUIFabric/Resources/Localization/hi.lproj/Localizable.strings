@@ -87,8 +87,8 @@
 /* Accessibility label for when a task is in progress */
 "Accessibility.HUD.Loading" = "लोड हो रहा है";
 
-/* Accessibility hint for MSPillButtons in an MSPillButtonBar to indicate its index relative to total number of items */
-"Accessibility.MSPillButtonBar.Hint" = "%d में से %d";
+/* Accessibility hint for MSPillButtons in an MSPillButtonBar. %1$d is placeholder for index and %2$d is a placeholder for total number of items */
+"Accessibility.MSPillButtonBar.Hint" = "%2$d में से %1$d";
 
 /* Accessibility label for the avatar (or profile) view in */
 "Accessibility.LargeTitle.ProfileView" = "खाता प्रोफ़ाइल";

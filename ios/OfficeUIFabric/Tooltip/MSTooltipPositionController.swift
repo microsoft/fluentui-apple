@@ -57,13 +57,13 @@ class MSTooltipPositionController {
     private var sourcePointInAnchorView: CGPoint {
         switch arrowDirection {
         case .up:
-            return CGPoint(x: anchorView.width / 2, y: anchorView.height)
+            return CGPoint(x: anchorView.frame.width / 2, y: anchorView.frame.height)
         case .down:
-            return CGPoint(x: anchorView.width / 2, y: 0)
+            return CGPoint(x: anchorView.frame.width / 2, y: 0)
         case .right:
-            return CGPoint(x: 0, y: anchorView.height / 2)
+            return CGPoint(x: 0, y: anchorView.frame.height / 2)
         case .left:
-            return CGPoint(x: anchorView.width, y: anchorView.height / 2)
+            return CGPoint(x: anchorView.frame.width, y: anchorView.frame.height / 2)
         }
     }
 

@@ -87,8 +87,8 @@
 /* Accessibility label for when a task is in progress */
 "Accessibility.HUD.Loading" = "読み込み中";
 
-/* Accessibility hint for MSPillButtons in an MSPillButtonBar to indicate its index relative to total number of items */
-"Accessibility.MSPillButtonBar.Hint" = "%d/%d";
+/* Accessibility hint for MSPillButtons in an MSPillButtonBar. %1$d is placeholder for index and %2$d is a placeholder for total number of items */
+"Accessibility.MSPillButtonBar.Hint" = "全 %2$d ページ中 %1$d ページ目";
 
 /* Accessibility label for the avatar (or profile) view in */
 "Accessibility.LargeTitle.ProfileView" = "アカウント プロファイル";
