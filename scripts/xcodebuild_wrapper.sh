@@ -55,3 +55,7 @@ function macos_build()
     invoke_xcodebuild project "macos/xcode/OfficeUIFabric.xcodeproj" "$1" "$2" macosx "${@:3}"
     return $?
 }
+
+# Execute commands passed in to this script and forward on the exit code.
+"$@"
+exit $?

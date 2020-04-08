@@ -9,98 +9,24 @@ on:
       - master
 
 jobs:
-  macos_debug_build_test:
+  xcodebuild:
     runs-on: macos-10.15
-    
-    steps:
-    - uses: actions/checkout@v2
-    - name: Switch to Xcode 11.2.1
-      run: sudo xcode-select --switch /Applications/Xcode_11.2.1.app/Contents/Developer
-    - name: macOS Debug Build and Test
-      run: |
-        source scripts/xcodebuild_wrapper.sh
-        macos_build OfficeUIFabricTestApp Debug build test
-  
-  macos_release_build_test:
-    runs-on: macos-10.15
-    
-    steps:
-    - uses: actions/checkout@v2
-    - name: Switch to Xcode 11.2.1
-      run: sudo xcode-select --switch /Applications/Xcode_11.2.1.app/Contents/Developer
-    - name: macOS Release Build and Test
-      run: |
-        source scripts/xcodebuild_wrapper.sh
-        macos_build OfficeUIFabricTestApp Release build test
+    strategy:
+      matrix:
+        build_command: [
+          'macos_build OfficeUIFabricTestApp Debug build test',
+          'macos_build OfficeUIFabricTestApp Release build test',
+          'ios_simulator_build OfficeUIFabric Debug build test',
+          'ios_simulator_build OfficeUIFabric Release build',
+          'ios_simulator_build Demo.Development Debug build',
+          'ios_simulator_build Demo.Development Release build',
+          'ios_device_build Demo.Development Debug build',
+          'ios_device_build Demo.Development Release build',
+        ]
 
-  ios_simulator_debug_build_test:
-    runs-on: macos-10.15
-    
     steps:
     - uses: actions/checkout@v2
     - name: Switch to Xcode 11.2.1
       run: sudo xcode-select --switch /Applications/Xcode_11.2.1.app/Contents/Developer
-    - name: iOS Simulator Debug Build and Test
-      run: |
-        source scripts/xcodebuild_wrapper.sh
-        ios_simulator_build OfficeUIFabric Debug build test
-  
-  ios_simulator_release_build:
-    runs-on: macos-10.15
-    
-    steps:
-    - uses: actions/checkout@v2
-    - name: Switch to Xcode 11.2.1
-      run: sudo xcode-select --switch /Applications/Xcode_11.2.1.app/Contents/Developer
-    - name: iOS Simulator Release Build
-      run: |
-        source scripts/xcodebuild_wrapper.sh
-        ios_simulator_build OfficeUIFabric Release build
-
-  ios_testapp_simulator_debug_build:
-    runs-on: macos-10.15
-    
-    steps:
-    - uses: actions/checkout@v2
-    - name: Switch to Xcode 11.2.1
-      run: sudo xcode-select --switch /Applications/Xcode_11.2.1.app/Contents/Developer
-    - name: iOS Testapp Simulator Debug Build
-      run: |
-        source scripts/xcodebuild_wrapper.sh
-        ios_simulator_build Demo.Development Debug build
-  
-  ios_testapp_simulator_release_build:
-    runs-on: macos-10.15
-    
-    steps:
-    - uses: actions/checkout@v2
-    - name: Switch to Xcode 11.2.1
-      run: sudo xcode-select --switch /Applications/Xcode_11.2.1.app/Contents/Developer
-    - name: iOS Testapp Simulator Release Build
-      run: |
-        source scripts/xcodebuild_wrapper.sh
-        ios_simulator_build Demo.Development Release build
-
-  ios_testapp_device_debug_build:
-    runs-on: macos-10.15
-    
-    steps:
-    - uses: actions/checkout@v2
-    - name: Switch to Xcode 11.2.1
-      run: sudo xcode-select --switch /Applications/Xcode_11.2.1.app/Contents/Developer
-    - name: iOS Testapp Device Debug Build
-      run: |
-        source scripts/xcodebuild_wrapper.sh
-        ios_device_build Demo.Development Debug build
-  
-  ios_testapp_device_release_build:
-    runs-on: macos-10.15
-    
-    steps:
-    - uses: actions/checkout@v2
-    - name: Switch to Xcode 11.2.1
-      run: sudo xcode-select --switch /Applications/Xcode_11.2.1.app/Contents/Developer
-    - name: iOS Testapp Device Release Build
-      run: |
-        source scripts/xcodebuild_wrapper.sh
-        ios_device_build Demo.Development Release build
+    - name: scripts/xcodebuild_wrapper.sh ${{ matrix.build_command }}
+      run: scripts/xcodebuild_wrapper.sh ${{ matrix.build_command }}
