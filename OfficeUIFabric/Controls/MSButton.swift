@@ -48,6 +48,7 @@ import UIKit
 
 // MARK: - MSButton
 
+/// By default, `titleLabel`'s `adjustsFontForContentSizeCategory` is set to true to automatically update its font when device's content size category changes
 @IBDesignable
 open class MSButton: UIButton {
     private struct Constants {
@@ -119,9 +120,8 @@ open class MSButton: UIButton {
         }
 
         titleLabel?.font = Constants.titleFont
+        titleLabel?.adjustsFontForContentSizeCategory = true
         update()
-
-        NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
     open override func layoutSubviews() {
@@ -158,9 +158,5 @@ open class MSButton: UIButton {
         layer.borderWidth = style.hasBorders ? Constants.borderWidth : 0
 
         contentEdgeInsets = style.contentEdgeInsets
-    }
-
-    @objc private func handleContentSizeCategoryDidChange() {
-        update()
     }
 }
