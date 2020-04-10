@@ -11,7 +11,7 @@ public final class MSFonts: NSObject {
     /// Bold 26pt - Does not scale automatically with Dynamic Type
     @objc public static let title1 = UIFont.systemFont(ofSize: 26, weight: .bold)
     /// Semibold 22pt
-    @objc public static var title2: UIFont { return UIFont.preferredFont(forTextStyle: .title2).withWeight(.semibold) }
+    @objc public static var title2: UIFont { return preferredFont(forTextStyle: .title2, weight: .semibold) }
     /// Semibold 17pt
     @objc public static var headline: UIFont { return .preferredFont(forTextStyle: .headline) }
     @objc public static var headlineUnscaled: UIFont { return .preferredFont(forTextStyle: .headline, compatibleWith: UITraitCollection(preferredContentSizeCategory: .large)) }
@@ -24,9 +24,9 @@ public final class MSFonts: NSObject {
     @objc public static var footnote: UIFont { return .preferredFont(forTextStyle: .footnote) }
     @objc public static var footnoteUnscaled: UIFont { return .preferredFont(forTextStyle: .footnote, compatibleWith: UITraitCollection(preferredContentSizeCategory: .large)) }
     /// Medium 15pt
-    @objc public static var button1: UIFont { return UIFont.preferredFont(forTextStyle: .subheadline).withWeight(.medium) }
+    @objc public static var button1: UIFont { return preferredFont(forTextStyle: .subheadline, weight: .medium) }
     /// Medium 13pt
-    @objc public static var button2: UIFont { return UIFont.preferredFont(forTextStyle: .footnote).withWeight(.medium) }
+    @objc public static var button2: UIFont { return preferredFont(forTextStyle: .footnote, weight: .medium) }
     /// Medium 10pt - Does not scale automatically with Dynamic Type
     @objc public static let button3 = UIFont.systemFont(ofSize: 10, weight: .medium)
     /// Medium 15pt - Does not scale automatically with Dynamic Type
@@ -35,6 +35,18 @@ public final class MSFonts: NSObject {
     @objc public static var caption1: UIFont { return .preferredFont(forTextStyle: .caption1) }
     /// Regular 11pt
     @objc public static var caption2: UIFont { return .preferredFont(forTextStyle: .caption2) }
+
+    static func preferredFont(forTextStyle style: UIFont.TextStyle, weight: UIFont.Weight, size: CGFloat? = 0) -> UIFont {
+        let descriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: style)
+        let newDescriptor = descriptor.addingAttributes([.traits: [UIFontDescriptor.TraitKey.weight: weight]])
+        let pointSize: CGFloat
+        if let size = size, size > 0 {
+            pointSize = size
+        } else {
+            pointSize = descriptor.pointSize
+        }
+        return UIFont(descriptor: newDescriptor, size: pointSize)
+    }
 
     private override init() {
         super.init()

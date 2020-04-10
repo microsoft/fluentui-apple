@@ -5,6 +5,7 @@
 
 import UIKit
 
+/// By default, `adjustsFontForContentSizeCategory` is set to true to automatically update its font when device's content size category changes
 open class MSLabel: UILabel {
     @objc open var colorStyle: MSTextColorStyle = .regular {
         didSet {
@@ -55,6 +56,7 @@ open class MSLabel: UILabel {
 
         updateFont()
         updateTextColor()
+        adjustsFontForContentSizeCategory = true
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
         if #available(iOS 13, *) { } else {
@@ -76,7 +78,9 @@ open class MSLabel: UILabel {
     }
 
     @objc private func handleContentSizeCategoryDidChange() {
-        updateFont()
+        if adjustsFontForContentSizeCategory {
+            updateFont()
+        }
     }
 
     @objc private func handleDarkerSystemColorsStatusDidChange() {
