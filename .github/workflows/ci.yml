@@ -12,6 +12,7 @@ jobs:
   xcodebuild:
     runs-on: macos-10.15
     strategy:
+      fail-fast: false
       matrix:
         build_command: [
           'macos_build OfficeUIFabricTestApp Debug build test',
