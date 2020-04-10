@@ -22,19 +22,19 @@ function handle_exit_code()
 
 
 echo "Building and Testing macOS Debug"
-$XCODEBUILD_WRAPPER_LOCATION macos_build OfficeUIFabricTestApp Debug build test
+$XCODEBUILD_WRAPPER_LOCATION macos_build FluentUITestApp-macOS Debug build test
 handle_exit_code
 
 echo "Building and Testing macOS Release"
-$XCODEBUILD_WRAPPER_LOCATION macos_build OfficeUIFabricTestApp Release build test
+$XCODEBUILD_WRAPPER_LOCATION macos_build FluentUITestApp-macOS Release build test
 handle_exit_code
 
 echo "Building and Testing iOS Debug Simulator"
-$XCODEBUILD_WRAPPER_LOCATION ios_simulator_build OfficeUIFabric Debug build test
+$XCODEBUILD_WRAPPER_LOCATION ios_simulator_build FluentUI-iOS Debug build test
 handle_exit_code
 
 echo "Building iOS Release Simulator"
-$XCODEBUILD_WRAPPER_LOCATION ios_simulator_build OfficeUIFabric Release build
+$XCODEBUILD_WRAPPER_LOCATION ios_simulator_build FluentUI-iOS Release build
 handle_exit_code
 
 echo "Building iOS Testapp Debug Simulator"

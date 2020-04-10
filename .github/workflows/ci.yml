@@ -15,10 +15,10 @@ jobs:
       fail-fast: false
       matrix:
         build_command: [
-          'macos_build OfficeUIFabricTestApp Debug build test',
-          'macos_build OfficeUIFabricTestApp Release build test',
-          'ios_simulator_build OfficeUIFabric Debug build test',
-          'ios_simulator_build OfficeUIFabric Release build',
+          'macos_build FluentUITestApp-macOS Debug build test',
+          'macos_build FluentUITestApp-macOS Release build test',
+          'ios_simulator_build FluentUI-iOS Debug build test',
+          'ios_simulator_build FluentUI-iOS Release build',
           'ios_simulator_build Demo.Development Debug build',
           'ios_simulator_build Demo.Development Release build',
           'ios_device_build Demo.Development Debug build',
