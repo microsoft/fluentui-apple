@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8FD01165228A820600D25925"
-               BuildableName = "libOfficeUIFabricLib.a"
-               BlueprintName = "OfficeUIFabricLib"
+               BlueprintIdentifier = "E61C96B12295E8D60006561F"
+               BuildableName = "OfficeUIFabric.framework"
+               BlueprintName = "OfficeUIFabric"
                ReferencedContainer = "container:OfficeUIFabric.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -27,10 +27,27 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "8F5368012295F4BF0098AC8F"
+            BuildableName = "OfficeUIFabricTestApp.app"
+            BlueprintName = "OfficeUIFabricTestApp"
+            ReferencedContainer = "container:OfficeUIFabric.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E61C96BA2295E8D60006561F"
+               BuildableName = "OfficeUIFabricUnitTests.xctest"
+               BlueprintName = "OfficeUIFabricTests"
+               ReferencedContainer = "container:OfficeUIFabric.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -45,14 +62,12 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8FD01165228A820600D25925"
-            BuildableName = "libOfficeUIFabricLib.a"
-            BlueprintName = "OfficeUIFabricLib"
+            BlueprintIdentifier = "E61C96B12295E8D60006561F"
+            BuildableName = "OfficeUIFabric.framework"
+            BlueprintName = "OfficeUIFabric"
             ReferencedContainer = "container:OfficeUIFabric.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -63,9 +78,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8FD01165228A820600D25925"
-            BuildableName = "libOfficeUIFabricLib.a"
-            BlueprintName = "OfficeUIFabricLib"
+            BlueprintIdentifier = "E61C96B12295E8D60006561F"
+            BuildableName = "OfficeUIFabric.framework"
+            BlueprintName = "OfficeUIFabric"
             ReferencedContainer = "container:OfficeUIFabric.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
