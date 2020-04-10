@@ -56,6 +56,16 @@ public final class MSColors: NSObject {
          case communicationBlueShade30
          case communicationBlueShade20
          case communicationBlueShade10
+         case dangerPrimary
+         case dangerTint40
+         case dangerTint10
+         case dangerShade40
+         case dangerShade10
+         case warningPrimary
+         case warningTint40
+         case warningTint10
+         case warningShade40
+         case warningShade30
 
          public var color: UIColor {
              if let fluentColor = UIColor(named: "FluentColors/" + self.name, in: OfficeUIFabricFramework.resourceBundle, compatibleWith: nil) {
@@ -151,7 +161,27 @@ public final class MSColors: NSObject {
                  return "communicationBlueShade20"
              case .communicationBlueShade10:
                  return "communicationBlueShade10"
-             }
+             case .dangerPrimary:
+                 return "dangerPrimary"
+             case .dangerTint40:
+                return "dangerTint40"
+             case .dangerTint10:
+                return "dangerTint10"
+             case .dangerShade40:
+                return "dangerShade40"
+             case .dangerShade10:
+                return "dangerShade10"
+             case .warningPrimary:
+                return "warningPrimary"
+             case .warningTint40:
+                return "warningTint40"
+             case .warningTint10:
+                return "warningTint10"
+             case .warningShade40:
+                return "warningShade40"
+             case .warningShade30:
+                return "warningShade30"
+            }
          }
      }
 
@@ -186,22 +216,8 @@ public final class MSColors: NSObject {
 
     // MARK: Physical - Non-grays
 
-    // TODO: decide if error and warning colors need to be split into semantic/physical sets
-
-    @objc public static let error = UIColor(light: errorLight, dark: errorDark)
-    /// #E63237
-    @objc public static let errorLight: UIColor = #colorLiteral(red: 0.9019607843, green: 0.1960784314, blue: 0.2156862745, alpha: 1)
-    /// #FF474C
-    @objc public static let errorDark: UIColor = #colorLiteral(red: 1, green: 0.2784313725, blue: 0.2980392157, alpha: 1)
-    /// #FFE8E9
-    @objc public static let lightError: UIColor = #colorLiteral(red: 1, green: 0.9098039216, blue: 0.9137254902, alpha: 1)
-
-    /// #997302
-    @objc public static let warning: UIColor = #colorLiteral(red: 0.6, green: 0.4509803922, blue: 0.007843137255, alpha: 1)
-    /// #EBB510
-    @objc public static let lightWarning: UIColor = #colorLiteral(red: 0.9215686275, green: 0.7098039216, blue: 0.06274509804, alpha: 1)
-    /// #F3BF20
-    @objc public static let yellow: UIColor = #colorLiteral(red: 0.9529411765, green: 0.7490196078, blue: 0.1254901961, alpha: 1)
+    @objc public static let error: UIColor = Palette.dangerPrimary.color
+    @objc public static let warning: UIColor = Palette.warningPrimary.color
 
     @objc public static var avatarBackgroundColors: [UIColor] = [
        Palette.cyanBlue10.color,
@@ -273,20 +289,20 @@ public final class MSColors: NSObject {
     }
 
     public struct Badge {
-        public static var background = UIColor(light: primary.withAlphaComponent(0.12), dark: primary.withAlphaComponent(0.3))
+        public static var background = UIColor(light: primaryTint40, dark: primaryShade40)
         public static var backgroundSelected: UIColor = primary
         public static var backgroundDisabled: UIColor = background2b
-        public static var backgroundError = UIColor(light: lightError, dark: errorLight.withAlphaComponent(0.3))
+        public static var backgroundError = UIColor(light: Palette.dangerTint40.color, dark: Palette.dangerShade40.color)
         public static var backgroundErrorSelected: UIColor = error
-        public static var backgroundWarning = UIColor(light: lightWarning.withAlphaComponent(0.08), dark: yellow.withAlphaComponent(0.25))
+        public static var backgroundWarning = UIColor(light: Palette.warningTint40.color, dark: Palette.warningShade40.color)
         public static var backgroundWarningSelected: UIColor = warning
         public static var text: UIColor = primary
         public static var textSelected: UIColor = foregroundOnPrimary
         public static var textDisabled: UIColor = foreground2b
-        public static var textError: UIColor = error
+        public static var textError = UIColor(light: Palette.dangerShade10.color, dark: Palette.dangerTint10.color)
         public static var textErrorSelected: UIColor = foregroundOnPrimary
-        public static var textWarning = UIColor(light: warning, dark: lightWarning)
-        public static var textWarningSelected: UIColor = foregroundOnPrimary
+        public static var textWarning = UIColor(light: Palette.warningShade30.color, dark: Palette.warningTint10.color)
+        public static var textWarningSelected = UIColor(light: Palette.warningShade30.color, dark: .black)
     }
 
     public struct BadgeField {
@@ -575,8 +591,13 @@ public final class MSColors: NSObject {
         public static var accessory: UIColor = foreground3
     }
 
-    @objc public func color(from palette: Palette) -> UIColor {
+    @objc public static func color(from palette: Palette) -> UIColor {
         return palette.color
+    }
+
+    @available(*, unavailable)
+    override init() {
+        super.init()
     }
 }
 

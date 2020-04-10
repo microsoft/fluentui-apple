@@ -36,6 +36,9 @@
         [[self.container leftAnchor] constraintEqualToAnchor:[self.scrollingContainer leftAnchor]],
         [[self.container widthAnchor] constraintEqualToAnchor:[self.scrollingContainer widthAnchor]],
     ]];
+
+    MSButton *testButton = [self createButtonWithTitle:@"Test" action:nil];
+    [self.container addArrangedSubview:testButton];
 }
 
 - (UIStackView *)createVerticalContainer {

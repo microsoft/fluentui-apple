@@ -7,12 +7,14 @@ import OfficeUIFabric
 import UIKit
 
 class MSLabelDemoController: DemoController {
+    private var dynamicLabels = [MSLabel]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         addLabel(text: "Text Styles", style: .headline, colorStyle: .regular).textAlignment = .center
         for style in MSTextStyle.allCases {
-            addLabel(text: style.detailedDescription, style: style, colorStyle: .regular)
+            dynamicLabels.append(addLabel(text: style.detailedDescription, style: style, colorStyle: .regular))
         }
 
         container.addArrangedSubview(UIView())  // spacer
@@ -23,17 +25,26 @@ class MSLabelDemoController: DemoController {
         }
 
         container.addArrangedSubview(UIView())  // spacer
+
+        NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
     @discardableResult
     func addLabel(text: String, style: MSTextStyle, colorStyle: MSTextColorStyle) -> MSLabel {
         let label = MSLabel(style: style, colorStyle: colorStyle)
         label.text = text
+        label.numberOfLines = 0
         if colorStyle == .white {
             label.backgroundColor = .black
         }
         container.addArrangedSubview(label)
         return label
+    }
+
+    @objc private func handleContentSizeCategoryDidChange() {
+        for label in dynamicLabels {
+            label.text = label.style.detailedDescription
+        }
     }
 }
 
@@ -106,5 +117,15 @@ extension MSTextStyle {
             weight = "Regular"
         }
         return "\(description) is \(weight) \(Int(font.pointSize))pt"
+    }
+}
+
+extension UIFontDescriptor {
+    var weight: UIFont.Weight {
+        let traits = object(forKey: .traits) as? [UIFontDescriptor.TraitKey: Any]
+        if let weight = traits?[.weight] as? NSNumber {
+            return UIFont.Weight(CGFloat(weight.floatValue))
+        }
+        return .regular
     }
 }
