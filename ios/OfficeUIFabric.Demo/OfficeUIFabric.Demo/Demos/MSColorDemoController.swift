@@ -63,10 +63,28 @@ class MSColorDemoController: DemoController {
         for palette in sharedColors {
             addRow(text: palette.name, color: palette.color)
         }
+
+        addTitle(text: "Message colors")
+        let messageColors = [
+            MSColors.Palette.dangerPrimary,
+            MSColors.Palette.dangerTint40,
+            MSColors.Palette.dangerTint10,
+            MSColors.Palette.dangerShade40,
+            MSColors.Palette.dangerShade10,
+            MSColors.Palette.warningPrimary,
+            MSColors.Palette.warningTint40,
+            MSColors.Palette.warningTint10,
+            MSColors.Palette.warningShade40,
+            MSColors.Palette.warningShade30
+        ]
+        for palette in messageColors {
+            addRow(text: palette.name, color: palette.color)
+        }
+
     }
 
     private func addRow(text: String, color: UIColor) {
-        addRow(text: text, items: [DemoColorView(color: color)], textStyle: .footnote, textWidth: 100)
+        addRow(text: text, items: [DemoColorView(color: color)], textStyle: .footnote, textWidth: 150)
     }
 }
 
