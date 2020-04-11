@@ -4,7 +4,7 @@
 //
 
 import Foundation
-import OfficeUIFabric
+import FluentUI
 
 class TableViewSampleData {
     struct Section {

@@ -2,10 +2,10 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:OfficeUIFabric.xcodeproj">
+      location = "group:FluentUI.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:OfficeUIFabric.Demo/OfficeUIFabric.Demo.xcodeproj">
+      location = "group:OfficeUIFabric.Demo/FluentUI.Demo.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:OfficeUIFabric.Demo/Pods/Pods.xcodeproj">

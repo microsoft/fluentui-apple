@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -100,7 +100,7 @@
 		A5237ACD21ED6CA70040BF27 /* DrawerShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5237ACC21ED6CA70040BF27 /* DrawerShadowView.swift */; };
 		A52648DC2316F4F9003342A0 /* MSBarButtonItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52648DB2316F4F9003342A0 /* MSBarButtonItems.swift */; };
 		A52648DD2316F4F9003342A0 /* MSBarButtonItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52648DB2316F4F9003342A0 /* MSBarButtonItems.swift */; };
-		A542A9D3226FBED900204A52 /* OfficeUIFabricResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A5DA88FC226FAA01000A8EA8 /* OfficeUIFabricResources.bundle */; };
+		A542A9D3226FBED900204A52 /* FluentUIResources-ios.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A5DA88FC226FAA01000A8EA8 /* FluentUIResources-ios.bundle */; platformFilter = ios; };
 		A542A9D7226FC01100204A52 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A559BB81212B6FA40055E107 /* Localizable.strings */; };
 		A542A9D8226FC01700204A52 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = A5DF1EAD2213B26900CC741A /* Localizable.stringsdict */; };
 		A542A9D9226FC01C00204A52 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A54D97DB217E5CED0072681A /* Assets.xcassets */; };
@@ -127,7 +127,7 @@
 		A5B87B02211E20B50038C37C /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87B01211E20B50038C37C /* UIScreen+Extension.swift */; };
 		A5B87B04211E22B70038C37C /* MSDimmingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87B03211E22B70038C37C /* MSDimmingView.swift */; };
 		A5B87B06211E23650038C37C /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87B05211E23650038C37C /* UIView+Extensions.swift */; };
-		A5CEC15B20D980B30016922A /* OfficeUIFabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5CEC15120D980B20016922A /* OfficeUIFabric.framework */; };
+		A5CEC15B20D980B30016922A /* FluentUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5CEC15120D980B20016922A /* FluentUI.framework */; };
 		A5CEC16020D980B30016922A /* OfficeUIFabricTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC15F20D980B30016922A /* OfficeUIFabricTests.swift */; };
 		A5CEC16220D980B30016922A /* OfficeUIFabric.h in Headers */ = {isa = PBXBuildFile; fileRef = A5CEC15420D980B20016922A /* OfficeUIFabric.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A5CEC16D20D98EE70016922A /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC16C20D98EE70016922A /* Colors.swift */; };
@@ -271,7 +271,7 @@
 		118D9847230BBA2300BC0B72 /* MSTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTabBarItem.swift; sourceTree = "<group>"; };
 		497DC2D724185885008D86F8 /* MSPillButtonBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSPillButtonBar.swift; sourceTree = "<group>"; };
 		497DC2D824185885008D86F8 /* MSPillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSPillButton.swift; sourceTree = "<group>"; };
-		8FD01166228A820600D25925 /* libOfficeUIFabricLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOfficeUIFabricLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8FD01166228A820600D25925 /* libFluentUILib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFluentUILib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5237ACA21DED7030040BF27 /* MSResizingHandleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSResizingHandleView.swift; sourceTree = "<group>"; };
 		A5237ACC21ED6CA70040BF27 /* DrawerShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerShadowView.swift; sourceTree = "<group>"; };
 		A52648DB2316F4F9003342A0 /* MSBarButtonItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSBarButtonItems.swift; sourceTree = "<group>"; };
@@ -297,16 +297,16 @@
 		A5B87B01211E20B50038C37C /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
 		A5B87B03211E22B70038C37C /* MSDimmingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDimmingView.swift; sourceTree = "<group>"; };
 		A5B87B05211E23650038C37C /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
-		A5CEC15120D980B20016922A /* OfficeUIFabric.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OfficeUIFabric.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5CEC15120D980B20016922A /* FluentUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FluentUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5CEC15420D980B20016922A /* OfficeUIFabric.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OfficeUIFabric.h; sourceTree = "<group>"; };
 		A5CEC15520D980B20016922A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A5CEC15A20D980B30016922A /* OfficeUIFabricTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OfficeUIFabricTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5CEC15A20D980B30016922A /* FluentUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FluentUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5CEC15F20D980B30016922A /* OfficeUIFabricTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficeUIFabricTests.swift; sourceTree = "<group>"; };
 		A5CEC16120D980B30016922A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A5CEC16C20D98EE70016922A /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		A5CEC16E20D98F340016922A /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		A5CEC23020E451D00016922A /* MSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSButton.swift; sourceTree = "<group>"; };
-		A5DA88FC226FAA01000A8EA8 /* OfficeUIFabricResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OfficeUIFabricResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5DA88FC226FAA01000A8EA8 /* FluentUIResources-ios.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FluentUIResources-ios.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5DA88FE226FAA01000A8EA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A5DCA76321224026005F4CB7 /* MSSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSSeparator.swift; sourceTree = "<group>"; };
 		A5DF1EAC2213B26900CC741A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
@@ -479,7 +479,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A5CEC15B20D980B30016922A /* OfficeUIFabric.framework in Frameworks */,
+				A5CEC15B20D980B30016922A /* FluentUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -572,10 +572,10 @@
 		A5CEC15220D980B20016922A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A5CEC15120D980B20016922A /* OfficeUIFabric.framework */,
-				A5CEC15A20D980B30016922A /* OfficeUIFabricTests.xctest */,
-				A5DA88FC226FAA01000A8EA8 /* OfficeUIFabricResources.bundle */,
-				8FD01166228A820600D25925 /* libOfficeUIFabricLib.a */,
+				A5CEC15120D980B20016922A /* FluentUI.framework */,
+				A5CEC15A20D980B30016922A /* FluentUITests.xctest */,
+				A5DA88FC226FAA01000A8EA8 /* FluentUIResources-ios.bundle */,
+				8FD01166228A820600D25925 /* libFluentUILib.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -899,9 +899,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8FD01165228A820600D25925 /* OfficeUIFabricLib */ = {
+		8FD01165228A820600D25925 /* FluentUILib */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8FD0116A228A820600D25925 /* Build configuration list for PBXNativeTarget "OfficeUIFabricLib" */;
+			buildConfigurationList = 8FD0116A228A820600D25925 /* Build configuration list for PBXNativeTarget "FluentUILib" */;
 			buildPhases = (
 				8FD01162228A820600D25925 /* Sources */,
 			);
@@ -910,14 +910,14 @@
 			dependencies = (
 				8FD011C8228A831700D25925 /* PBXTargetDependency */,
 			);
-			name = OfficeUIFabricLib;
+			name = FluentUILib;
 			productName = OfficeUIFabricStaticLib;
-			productReference = 8FD01166228A820600D25925 /* libOfficeUIFabricLib.a */;
+			productReference = 8FD01166228A820600D25925 /* libFluentUILib.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		A5CEC15020D980B20016922A /* OfficeUIFabric */ = {
+		A5CEC15020D980B20016922A /* FluentUI */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A5CEC16520D980B30016922A /* Build configuration list for PBXNativeTarget "OfficeUIFabric" */;
+			buildConfigurationList = A5CEC16520D980B30016922A /* Build configuration list for PBXNativeTarget "FluentUI" */;
 			buildPhases = (
 				A5CEC14C20D980B20016922A /* Sources */,
 				A5CEC14D20D980B20016922A /* Frameworks */,
@@ -930,14 +930,14 @@
 			dependencies = (
 				A542A9D5226FBEF000204A52 /* PBXTargetDependency */,
 			);
-			name = OfficeUIFabric;
+			name = FluentUI;
 			productName = OfficeUIFabric;
-			productReference = A5CEC15120D980B20016922A /* OfficeUIFabric.framework */;
+			productReference = A5CEC15120D980B20016922A /* FluentUI.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		A5CEC15920D980B30016922A /* OfficeUIFabricTests */ = {
+		A5CEC15920D980B30016922A /* FluentUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A5CEC16820D980B30016922A /* Build configuration list for PBXNativeTarget "OfficeUIFabricTests" */;
+			buildConfigurationList = A5CEC16820D980B30016922A /* Build configuration list for PBXNativeTarget "FluentUITests" */;
 			buildPhases = (
 				A5CEC15620D980B30016922A /* Sources */,
 				A5CEC15720D980B30016922A /* Frameworks */,
@@ -948,14 +948,14 @@
 			dependencies = (
 				A5CEC15D20D980B30016922A /* PBXTargetDependency */,
 			);
-			name = OfficeUIFabricTests;
+			name = FluentUITests;
 			productName = OfficeUIFabricTests;
-			productReference = A5CEC15A20D980B30016922A /* OfficeUIFabricTests.xctest */;
+			productReference = A5CEC15A20D980B30016922A /* FluentUITests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		A5DA88FB226FAA01000A8EA8 /* OfficeUIFabricResources */ = {
+		A5DA88FB226FAA01000A8EA8 /* FluentUIResources */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A5DA88FF226FAA01000A8EA8 /* Build configuration list for PBXNativeTarget "OfficeUIFabricResources" */;
+			buildConfigurationList = A5DA88FF226FAA01000A8EA8 /* Build configuration list for PBXNativeTarget "FluentUIResources" */;
 			buildPhases = (
 				A5DA88FA226FAA01000A8EA8 /* Resources */,
 			);
@@ -963,9 +963,9 @@
 			);
 			dependencies = (
 			);
-			name = OfficeUIFabricResources;
+			name = FluentUIResources;
 			productName = OfficeUIFabricResources;
-			productReference = A5DA88FC226FAA01000A8EA8 /* OfficeUIFabricResources.bundle */;
+			productReference = A5DA88FC226FAA01000A8EA8 /* FluentUIResources-ios.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -995,7 +995,7 @@
 					};
 				};
 			};
-			buildConfigurationList = A5CEC14B20D980B20016922A /* Build configuration list for PBXProject "OfficeUIFabric" */;
+			buildConfigurationList = A5CEC14B20D980B20016922A /* Build configuration list for PBXProject "FluentUI" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -1043,10 +1043,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A5CEC15020D980B20016922A /* OfficeUIFabric */,
-				A5DA88FB226FAA01000A8EA8 /* OfficeUIFabricResources */,
-				8FD01165228A820600D25925 /* OfficeUIFabricLib */,
-				A5CEC15920D980B30016922A /* OfficeUIFabricTests */,
+				A5CEC15020D980B20016922A /* FluentUI */,
+				A5DA88FB226FAA01000A8EA8 /* FluentUIResources */,
+				8FD01165228A820600D25925 /* FluentUILib */,
+				A5CEC15920D980B30016922A /* FluentUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -1056,7 +1056,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A542A9D3226FBED900204A52 /* OfficeUIFabricResources.bundle in Resources */,
+				A542A9D3226FBED900204A52 /* FluentUIResources-ios.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1348,17 +1348,18 @@
 /* Begin PBXTargetDependency section */
 		8FD011C8228A831700D25925 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = A5DA88FB226FAA01000A8EA8 /* OfficeUIFabricResources */;
+			target = A5DA88FB226FAA01000A8EA8 /* FluentUIResources */;
 			targetProxy = 8FD011C7228A831700D25925 /* PBXContainerItemProxy */;
 		};
 		A542A9D5226FBEF000204A52 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = A5DA88FB226FAA01000A8EA8 /* OfficeUIFabricResources */;
+			platformFilter = ios;
+			target = A5DA88FB226FAA01000A8EA8 /* FluentUIResources */;
 			targetProxy = A542A9D4226FBEF000204A52 /* PBXContainerItemProxy */;
 		};
 		A5CEC15D20D980B30016922A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = A5CEC15020D980B20016922A /* OfficeUIFabric */;
+			target = A5CEC15020D980B20016922A /* FluentUI */;
 			targetProxy = A5CEC15C20D980B30016922A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1555,6 +1556,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1567,7 +1569,8 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.OfficeUIFabric;
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.FluentUI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -1586,7 +1589,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.OfficeUIFabricTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.FluentUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1723,6 +1726,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1735,7 +1739,8 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.OfficeUIFabric;
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.FluentUI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1749,6 +1754,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1761,7 +1767,8 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.OfficeUIFabric;
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.FluentUI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -1780,7 +1787,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.OfficeUIFabricTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.FluentUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1799,7 +1806,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.OfficeUIFabricTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.FluentUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1812,8 +1819,8 @@
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = OfficeUIFabric.Resources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.OfficeUIFabricResources;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.FluentUIResources-ios";
+				PRODUCT_NAME = "FluentUIResources-ios";
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = bundle;
 			};
@@ -1825,8 +1832,8 @@
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = OfficeUIFabric.Resources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.OfficeUIFabricResources;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.FluentUIResources-ios";
+				PRODUCT_NAME = "FluentUIResources-ios";
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = bundle;
 			};
@@ -1838,8 +1845,8 @@
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = OfficeUIFabric.Resources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.OfficeUIFabricResources;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.FluentUIResources-ios";
+				PRODUCT_NAME = "FluentUIResources-ios";
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = bundle;
 			};
@@ -1848,7 +1855,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8FD0116A228A820600D25925 /* Build configuration list for PBXNativeTarget "OfficeUIFabricLib" */ = {
+		8FD0116A228A820600D25925 /* Build configuration list for PBXNativeTarget "FluentUILib" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8FD0116B228A820600D25925 /* Debug */,
@@ -1858,7 +1865,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A5CEC14B20D980B20016922A /* Build configuration list for PBXProject "OfficeUIFabric" */ = {
+		A5CEC14B20D980B20016922A /* Build configuration list for PBXProject "FluentUI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A5CEC16320D980B30016922A /* Debug */,
@@ -1868,7 +1875,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A5CEC16520D980B30016922A /* Build configuration list for PBXNativeTarget "OfficeUIFabric" */ = {
+		A5CEC16520D980B30016922A /* Build configuration list for PBXNativeTarget "FluentUI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A5CEC16620D980B30016922A /* Debug */,
@@ -1878,7 +1885,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A5CEC16820D980B30016922A /* Build configuration list for PBXNativeTarget "OfficeUIFabricTests" */ = {
+		A5CEC16820D980B30016922A /* Build configuration list for PBXNativeTarget "FluentUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A5CEC16920D980B30016922A /* Debug */,
@@ -1888,7 +1895,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A5DA88FF226FAA01000A8EA8 /* Build configuration list for PBXNativeTarget "OfficeUIFabricResources" */ = {
+		A5DA88FF226FAA01000A8EA8 /* Build configuration list for PBXNativeTarget "FluentUIResources" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A5DA8900226FAA01000A8EA8 /* Debug */,

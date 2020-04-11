@@ -4,7 +4,7 @@
 //
 
 import XCTest
-@testable import OfficeUIFabric
+@testable import FluentUI
 
 class OfficeUIFabricTests: XCTestCase {
     override func setUp() {

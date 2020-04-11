@@ -4,7 +4,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@import OfficeUIFabric;
+@import FluentUI;
 
 NS_ASSUME_NONNULL_BEGIN
 

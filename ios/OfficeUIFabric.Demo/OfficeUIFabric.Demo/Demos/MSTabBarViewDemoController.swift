@@ -4,7 +4,7 @@
 //
 
 import Foundation
-import OfficeUIFabric
+import FluentUI
 
 class MSTabBarViewDemoController: DemoController {
     private var tabBarView: MSTabBarView?

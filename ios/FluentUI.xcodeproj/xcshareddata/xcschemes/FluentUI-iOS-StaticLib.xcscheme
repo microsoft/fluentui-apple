@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0940"
+   LastUpgradeVersion = "1020"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "A5CEC15020D980B20016922A"
-               BuildableName = "OfficeUIFabric.framework"
-               BlueprintName = "OfficeUIFabric"
-               ReferencedContainer = "container:OfficeUIFabric.xcodeproj">
+               BlueprintIdentifier = "8FD01165228A820600D25925"
+               BuildableName = "libFluentUILib.a"
+               BlueprintName = "FluentUILib"
+               ReferencedContainer = "container:FluentUI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -27,26 +27,7 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A5CEC15020D980B20016922A"
-            BuildableName = "OfficeUIFabric.framework"
-            BlueprintName = "OfficeUIFabric"
-            ReferencedContainer = "container:OfficeUIFabric.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "A5CEC15920D980B30016922A"
-               BuildableName = "OfficeUIFabricTests.xctest"
-               BlueprintName = "OfficeUIFabricTests"
-               ReferencedContainer = "container:OfficeUIFabric.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -62,10 +43,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A5CEC15020D980B20016922A"
-            BuildableName = "OfficeUIFabric.framework"
-            BlueprintName = "OfficeUIFabric"
-            ReferencedContainer = "container:OfficeUIFabric.xcodeproj">
+            BlueprintIdentifier = "8FD01165228A820600D25925"
+            BuildableName = "libFluentUILib.a"
+            BlueprintName = "FluentUILib"
+            ReferencedContainer = "container:FluentUI.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </LaunchAction>
@@ -78,10 +59,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A5CEC15020D980B20016922A"
-            BuildableName = "OfficeUIFabric.framework"
-            BlueprintName = "OfficeUIFabric"
-            ReferencedContainer = "container:OfficeUIFabric.xcodeproj">
+            BlueprintIdentifier = "8FD01165228A820600D25925"
+            BuildableName = "libFluentUILib.a"
+            BlueprintName = "FluentUILib"
+            ReferencedContainer = "container:FluentUI.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

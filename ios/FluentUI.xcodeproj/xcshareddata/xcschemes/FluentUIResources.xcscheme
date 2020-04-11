@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1020"
+   LastUpgradeVersion = "1120"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8FD01165228A820600D25925"
-               BuildableName = "libOfficeUIFabricLib.a"
-               BlueprintName = "OfficeUIFabricLib"
-               ReferencedContainer = "container:OfficeUIFabric.xcodeproj">
+               BlueprintIdentifier = "A5DA88FB226FAA01000A8EA8"
+               BuildableName = "FluentUIResources-ios.bundle"
+               BlueprintName = "FluentUIResources"
+               ReferencedContainer = "container:FluentUI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -40,15 +40,6 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8FD01165228A820600D25925"
-            BuildableName = "libOfficeUIFabricLib.a"
-            BlueprintName = "OfficeUIFabricLib"
-            ReferencedContainer = "container:OfficeUIFabric.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -59,10 +50,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8FD01165228A820600D25925"
-            BuildableName = "libOfficeUIFabricLib.a"
-            BlueprintName = "OfficeUIFabricLib"
-            ReferencedContainer = "container:OfficeUIFabric.xcodeproj">
+            BlueprintIdentifier = "A5DA88FB226FAA01000A8EA8"
+            BuildableName = "FluentUIResources-ios.bundle"
+            BlueprintName = "FluentUIResources"
+            ReferencedContainer = "container:FluentUI.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

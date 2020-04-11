@@ -4,7 +4,7 @@
 //
 
 import Foundation
-import OfficeUIFabric
+import FluentUI
 
 class TableViewHeaderFooterSampleData: TableViewSampleData {
     static let numberOfItemsInSection: Int = 5

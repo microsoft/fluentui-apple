@@ -4,7 +4,7 @@
 //
 
 import UIKit
-import OfficeUIFabric
+import FluentUI
 
 class MasterViewController: UITableViewController {
     private(set) var demoController: UIViewController?
@@ -15,7 +15,7 @@ class MasterViewController: UITableViewController {
     }
     var demoPlaceholder: UIViewController?
 
-    let demos: [(title: String, controllerClass: UIViewController.Type)] = OfficeUIFabric_Demo.demos.filter { demo in
+    let demos: [(title: String, controllerClass: UIViewController.Type)] = FluentUI_Demo.demos.filter { demo in
         #if DEBUG
         return true
         #else

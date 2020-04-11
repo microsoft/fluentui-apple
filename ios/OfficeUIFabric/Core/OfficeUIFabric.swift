@@ -8,7 +8,7 @@ import UIKit
 public class OfficeUIFabricFramework: NSObject {
     @objc public static var bundle: Bundle { return Bundle(for: self) }
     @objc public static let resourceBundle: Bundle = {
-        guard let url = bundle.resourceURL?.appendingPathComponent("OfficeUIFabricResources.bundle", isDirectory: true), let bundle = Bundle(url: url) else {
+        guard let url = bundle.resourceURL?.appendingPathComponent("FluentUIResources-ios.bundle", isDirectory: true), let bundle = Bundle(url: url) else {
             fatalError("OfficeUIFabric: resource bundle is not found")
         }
         return bundle

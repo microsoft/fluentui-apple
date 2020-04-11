@@ -4,7 +4,7 @@
 //
 
 import Foundation
-import OfficeUIFabric
+import FluentUI
 
 class MSSegmentedControlDemoController: DemoController {
     let segmentTitles: [String] = ["First", "Second", "Third", "Fourth"]

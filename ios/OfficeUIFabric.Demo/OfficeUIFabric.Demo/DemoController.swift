@@ -3,7 +3,7 @@
 //  Licensed under the MIT License.
 //
 
-import OfficeUIFabric
+import FluentUI
 import UIKit
 
 class DemoController: UIViewController {
