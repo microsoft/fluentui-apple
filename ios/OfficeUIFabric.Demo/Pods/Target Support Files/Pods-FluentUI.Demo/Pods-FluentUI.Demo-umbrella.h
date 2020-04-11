@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_OfficeUIFabric_DemoVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_OfficeUIFabric_DemoVersionString[];
+FOUNDATION_EXPORT double Pods_FluentUI_DemoVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_FluentUI_DemoVersionString[];
 

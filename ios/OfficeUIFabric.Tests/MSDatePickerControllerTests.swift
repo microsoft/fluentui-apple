@@ -4,7 +4,7 @@
 //
 
 import XCTest
-@testable import OfficeUIFabric
+@testable import FluentUI
 
 class MSDatePickerControllerTests: XCTestCase {
     static let testDateInterval: TimeInterval = 1551903381

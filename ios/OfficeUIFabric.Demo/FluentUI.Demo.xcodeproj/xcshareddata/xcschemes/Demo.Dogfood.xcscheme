@@ -15,55 +15,32 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "A5CEC20B20E436F10016922A"
-               BuildableName = "OfficeUIFabric.Demo.app"
-               BlueprintName = "OfficeUIFabric.Demo"
-               ReferencedContainer = "container:OfficeUIFabric.Demo.xcodeproj">
+               BuildableName = "FluentUI.Demo.app"
+               BlueprintName = "FluentUI.Demo"
+               ReferencedContainer = "container:FluentUI.Demo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Dogfood"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      codeCoverageEnabled = "YES"
-      onlyGenerateCoverageForSpecifiedTargets = "YES"
       shouldUseLaunchSchemeArgsEnv = "YES">
-      <CodeCoverageTargets>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A5CEC15020D980B20016922A"
-            BuildableName = "OfficeUIFabric.framework"
-            BlueprintName = "OfficeUIFabric"
-            ReferencedContainer = "container:../OfficeUIFabric.xcodeproj">
-         </BuildableReference>
-      </CodeCoverageTargets>
-      <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "A5CEC15920D980B30016922A"
-               BuildableName = "OfficeUIFabricTests.xctest"
-               BlueprintName = "OfficeUIFabricTests"
-               ReferencedContainer = "container:../OfficeUIFabric.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-      </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A5CEC20B20E436F10016922A"
-            BuildableName = "OfficeUIFabric.Demo.app"
-            BlueprintName = "OfficeUIFabric.Demo"
-            ReferencedContainer = "container:OfficeUIFabric.Demo.xcodeproj">
+            BuildableName = "FluentUI.Demo.app"
+            BlueprintName = "FluentUI.Demo"
+            ReferencedContainer = "container:FluentUI.Demo.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
+      <Testables>
+      </Testables>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Dogfood"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -77,16 +54,14 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A5CEC20B20E436F10016922A"
-            BuildableName = "OfficeUIFabric.Demo.app"
-            BlueprintName = "OfficeUIFabric.Demo"
-            ReferencedContainer = "container:OfficeUIFabric.Demo.xcodeproj">
+            BuildableName = "FluentUI.Demo.app"
+            BlueprintName = "FluentUI.Demo"
+            ReferencedContainer = "container:FluentUI.Demo.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Dogfood"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
@@ -96,17 +71,18 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A5CEC20B20E436F10016922A"
-            BuildableName = "OfficeUIFabric.Demo.app"
-            BlueprintName = "OfficeUIFabric.Demo"
-            ReferencedContainer = "container:OfficeUIFabric.Demo.xcodeproj">
+            BuildableName = "FluentUI.Demo.app"
+            BlueprintName = "FluentUI.Demo"
+            ReferencedContainer = "container:FluentUI.Demo.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "Debug">
+      buildConfiguration = "Dogfood">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Dogfood"
+      customArchiveName = "OfficeUIFabric.Demo.Dogfood"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

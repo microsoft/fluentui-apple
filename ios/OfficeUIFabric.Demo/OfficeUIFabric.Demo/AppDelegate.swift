@@ -9,7 +9,7 @@ import AppCenterAnalytics
 import AppCenterCrashes
 import AppCenterDistribute
 #endif
-import OfficeUIFabric
+import FluentUI
 import UIKit
 
 #if DOGFOOD

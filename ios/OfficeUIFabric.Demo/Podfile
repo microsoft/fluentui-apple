@@ -1,6 +1,6 @@
 platform :ios, '11.0'
 
-target 'OfficeUIFabric.Demo' do
+target 'FluentUI.Demo' do
   use_frameworks!
 
 pod 'AppCenter'

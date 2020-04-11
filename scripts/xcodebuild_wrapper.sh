@@ -30,7 +30,7 @@ function invoke_xcodebuild()
 # \param $3+ build commands
 function ios_simulator_build()
 {
-    invoke_xcodebuild workspace "ios/OfficeUIFabric.xcworkspace" "$1" "$2" iphonesimulator "${@:3}" -destination "platform=iOS Simulator,name=iPhone 8"
+    invoke_xcodebuild workspace "ios/FluentUI.xcworkspace" "$1" "$2" iphonesimulator "${@:3}" -destination "platform=iOS Simulator,name=iPhone 8"
     return $?
 }
 
@@ -41,7 +41,7 @@ function ios_simulator_build()
 # \param $3+ build commands
 function ios_device_build()
 {
-    invoke_xcodebuild workspace "ios/OfficeUIFabric.xcworkspace" "$1" "$2" iphoneos "${@:3}"
+    invoke_xcodebuild workspace "ios/FluentUI.xcworkspace" "$1" "$2" iphoneos "${@:3}"
     return $?
 }
 
