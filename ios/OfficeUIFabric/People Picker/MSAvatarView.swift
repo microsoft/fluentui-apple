@@ -143,7 +143,7 @@ open class MSAvatarView: UIView {
     }
 
     @objc public required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     open override var intrinsicContentSize: CGSize {

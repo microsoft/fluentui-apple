@@ -124,7 +124,7 @@ public class MSHUD: NSObject {
         presentedHUDView = MSHUDView(label: params.caption, type: params.hudType)
 
         guard let presentedHUDView = presentedHUDView else {
-            fatalError("MSHUD could not create MSHUDView")
+            preconditionFailure("MSHUD could not create MSHUDView")
         }
 
         containerView.forwardsTouches = !params.isBlocking

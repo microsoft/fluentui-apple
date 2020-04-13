@@ -83,7 +83,7 @@ class MSTooltipPositionController {
 
     init(anchorView: UIView, message: String, boundingRect: CGRect, preferredArrowDirection: MSTooltip.ArrowDirection, offset: CGPoint, arrowMargin: CGFloat, arrowWidth: CGFloat) {
         guard let window = anchorView.window else {
-            fatalError("Can't find anchorView's window")
+            preconditionFailure("Can't find anchorView's window")
         }
         self.window = window
         self.anchorView = anchorView
@@ -122,7 +122,7 @@ class MSTooltipPositionController {
 
     private func anchorViewInset(for arrowDirection: MSTooltip.ArrowDirection) -> UIEdgeInsets {
         guard let window = anchorView.window else {
-            fatalError("Can't find anchorView's window")
+            preconditionFailure("Can't find anchorView's window")
         }
 
         var inset = UIEdgeInsets.zero

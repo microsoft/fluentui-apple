@@ -71,7 +71,7 @@ public final class MSColors: NSObject {
              if let fluentColor = UIColor(named: "FluentColors/" + self.name, in: OfficeUIFabricFramework.resourceBundle, compatibleWith: nil) {
                  return fluentColor
              } else {
-                 fatalError("invalid fluent color")
+                 preconditionFailure("invalid fluent color")
              }
          }
 

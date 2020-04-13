@@ -121,7 +121,7 @@ open class MSActionsCell: UITableViewCell {
     }
 
     public required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     /// Sets up the action cell with 1 or 2 actions.

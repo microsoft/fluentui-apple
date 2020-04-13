@@ -126,7 +126,7 @@ public class MSDateTimePicker: NSObject {
 
     private func presentDatePicker(startDate: Date, endDate: Date, dateRangePresentation: DateRangePresentation, titles: Titles?) {
         guard let mode = mode else {
-            fatalError("Mode not set when presenting date picker")
+            preconditionFailure("Mode not set when presenting date picker")
         }
         let startDate = startDate.startOfDay
         let endDate = endDate.startOfDay
@@ -149,7 +149,7 @@ public class MSDateTimePicker: NSObject {
 
     private func presentDateTimePicker(startDate: Date, endDate: Date, dateRangePresentation: DateRangePresentation, titles: Titles?) {
         guard let mode = mode else {
-            fatalError("Mode not set when presenting date time picker")
+            preconditionFailure("Mode not set when presenting date time picker")
         }
         // If we are not presenting a range, or if we have a range, but it is within the same calendar day, present both dateTimePicker and datePicker. Also presents this way if `presentation` is in `.tabbed` mode. Otherwise, present just a dateTimePicker.
         if datePickerType == .calendar &&
@@ -166,7 +166,7 @@ public class MSDateTimePicker: NSObject {
 
     private func presentDateTimePickerForAccessibility(startDate: Date, endDate: Date, titles: Titles?) {
         guard let mode = mode else {
-            fatalError("Mode not set when presenting date time picker for accessibility")
+            preconditionFailure("Mode not set when presenting date time picker for accessibility")
         }
         let dateTimePicker = MSDateTimePickerController(startDate: startDate, endDate: endDate, mode: mode, titles: titles)
         present([dateTimePicker])

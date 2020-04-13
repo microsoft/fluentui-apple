@@ -107,7 +107,7 @@ open class MSDrawerController: UIViewController {
                 return
             }
             if _contentView != nil {
-                fatalError("MSDrawerController: contentController cannot be set while contentView is assigned")
+                preconditionFailure("MSDrawerController: contentController cannot be set while contentView is assigned")
             }
 
             if let oldContentController = oldValue {
@@ -133,7 +133,7 @@ open class MSDrawerController: UIViewController {
                 return
             }
             if contentController != nil {
-                fatalError("MSDrawerController: contentView cannot be set while contentController is assigned")
+                preconditionFailure("MSDrawerController: contentView cannot be set while contentController is assigned")
             }
 
             _contentView?.removeFromSuperview()
@@ -371,7 +371,7 @@ open class MSDrawerController: UIViewController {
     }
 
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     open func initialize() {
@@ -680,7 +680,7 @@ open class MSDrawerController: UIViewController {
 
     @objc private func handleResizingGesture(gesture: UIPanGestureRecognizer) {
         guard let presentationController = presentationController as? MSDrawerPresentationController else {
-            fatalError("MSDrawerController cannot handle resizing without MSDrawerPresentationController")
+            preconditionFailure("MSDrawerController cannot handle resizing without MSDrawerPresentationController")
         }
 
         var offset = self.offset(forResizingGesture: gesture)
@@ -742,7 +742,7 @@ open class MSDrawerController: UIViewController {
 
     @objc private func handleContentPanGesture(gesture: UIPanGestureRecognizer) {
         guard let contentScrollView = contentScrollView else {
-            fatalError("MSDrawerController cannot handle content panning without contentScrollView")
+            preconditionFailure("MSDrawerController cannot handle content panning without contentScrollView")
         }
         if !canResizeViaContentScrolling {
             return
@@ -824,7 +824,7 @@ extension MSDrawerController: UIViewControllerTransitioningDelegate {
             } else if let barButtonItem = barButtonItem {
                 presentationController.barButtonItem = barButtonItem
             } else {
-                fatalError("A UIPopoverPresentationController should have a non-nil sourceView or barButtonItem set before the presentation occurs.")
+                preconditionFailure("A UIPopoverPresentationController should have a non-nil sourceView or barButtonItem set before the presentation occurs.")
             }
 
             return presentationController

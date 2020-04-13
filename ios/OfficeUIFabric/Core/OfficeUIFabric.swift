@@ -9,7 +9,7 @@ public class OfficeUIFabricFramework: NSObject {
     @objc public static var bundle: Bundle { return Bundle(for: self) }
     @objc public static let resourceBundle: Bundle = {
         guard let url = bundle.resourceURL?.appendingPathComponent("FluentUIResources-ios.bundle", isDirectory: true), let bundle = Bundle(url: url) else {
-            fatalError("OfficeUIFabric: resource bundle is not found")
+            preconditionFailure("OfficeUIFabric: resource bundle is not found")
         }
         return bundle
     }()
