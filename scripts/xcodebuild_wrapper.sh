@@ -52,7 +52,7 @@ function ios_device_build()
 # \param $3+ build commands
 function macos_build()
 {
-    invoke_xcodebuild project "macos/xcode/OfficeUIFabric.xcodeproj" "$1" "$2" macosx "${@:3}"
+    invoke_xcodebuild project "macos/xcode/FluentUI.xcodeproj" "$1" "$2" macosx "${@:3}"
     return $?
 }
 
