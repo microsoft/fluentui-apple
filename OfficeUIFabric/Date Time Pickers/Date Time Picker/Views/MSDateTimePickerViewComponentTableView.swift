@@ -53,7 +53,7 @@ class MSDateTimePickerViewComponentTableView: UITableView {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     func centerRow(at indexPath: IndexPath, animated: Bool) {

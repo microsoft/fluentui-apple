@@ -32,7 +32,7 @@ open class MSCenteredLabelCell: UITableViewCell {
     }
 
     @objc public required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     /// Set up the cell with text to be displayed in the centered label

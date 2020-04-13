@@ -175,7 +175,7 @@ open class MSSegmentedControl: UIControl {
     }
 
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     /// Insert new segment at index with the specified title. If a segment exists at that index, it will be inserted before and will therefore take its index.
@@ -432,7 +432,7 @@ private class MSSegmentedControlButton: UIButton {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     override func invalidateIntrinsicContentSize() {

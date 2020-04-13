@@ -90,7 +90,7 @@ open class MSPersonaListView: UITableView {
     }
 
     @objc public required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     // MARK: Keyboard shortcut support
@@ -156,7 +156,7 @@ extension MSPersonaListView: UITableViewDataSource {
 
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let section = Section(rawValue: section) else {
-            fatalError("numberOfRowsInSection: too many sections")
+            preconditionFailure("numberOfRowsInSection: too many sections")
         }
 
         switch section {
@@ -169,7 +169,7 @@ extension MSPersonaListView: UITableViewDataSource {
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let section = Section(rawValue: indexPath.section) else {
-            fatalError("cellForRowAtIndexPath: too many sections")
+            preconditionFailure("cellForRowAtIndexPath: too many sections")
         }
 
         switch section {
@@ -207,7 +207,7 @@ extension MSPersonaListView: UITableViewDataSource {
 extension MSPersonaListView: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let section = Section(rawValue: indexPath.section) else {
-            fatalError("heightForRowAtIndexPath: too many sections")
+            preconditionFailure("heightForRowAtIndexPath: too many sections")
         }
 
         switch section {

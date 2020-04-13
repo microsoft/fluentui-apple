@@ -91,7 +91,7 @@ class MSShyHeaderController: UIViewController {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     override func viewDidLoad() {
@@ -221,7 +221,7 @@ class MSShyHeaderController: UIViewController {
     private func shouldAcceptRequest(from requestOriginator: Any?) -> Bool {
         // we expect an object from all request notifications
         guard let expansionRequestOriginator = requestOriginator else {
-            fatalError("expansion request notification should have originator")
+            preconditionFailure("expansion request notification should have originator")
         }
 
         // if the originator is a VC, make sure it belongs to this heirarchy
@@ -363,7 +363,7 @@ class MSShyHeaderController: UIViewController {
         }
 
         guard let topConstraint = shyViewTopConstraint else {
-            fatalError("Proper shyView autolayout was not constructed")
+            preconditionFailure("Proper shyView autolayout was not constructed")
         }
 
         let maxHeight = shyViewMaxScrollHeight
