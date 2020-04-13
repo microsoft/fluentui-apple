@@ -20,7 +20,7 @@ open class MSDotView: UIView {
     }
 
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     open override func draw(_ rect: CGRect) {

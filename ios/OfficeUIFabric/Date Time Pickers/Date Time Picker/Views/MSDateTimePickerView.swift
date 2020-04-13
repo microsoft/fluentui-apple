@@ -85,7 +85,7 @@ class MSDateTimePickerView: UIControl {
     }
 
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     /// Set the date displayed on the picker. This does not trigger UIControlEventValueChanged
@@ -246,7 +246,7 @@ class MSDateTimePickerView: UIControl {
             return
         }
         guard var hour = componentsByType[.timeHour]?.selectedItem as? Int else {
-            fatalError("updateHourForAMPM > hour value not found")
+            preconditionFailure("updateHourForAMPM > hour value not found")
         }
         switch amPM {
         case .am:
@@ -274,7 +274,7 @@ extension MSDateTimePickerView: MSDateTimePickerViewComponentDelegate {
                 return
             }
             guard let amPMComponent = componentsByType[.timeAMPM] else {
-                fatalError("dateTimePickerComponent > amPM value not found")
+                preconditionFailure("dateTimePickerComponent > amPM value not found")
             }
 
             // Switch between am and pm every cycle

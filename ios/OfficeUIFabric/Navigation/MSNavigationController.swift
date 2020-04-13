@@ -11,7 +11,7 @@ import UIKit
 open class MSNavigationController: UINavigationController {
     @objc open var msNavigationBar: MSNavigationBar {
         guard let msNavBar = navigationBar as? MSNavigationBar else {
-            fatalError("The navigation bar is either not present or not the correct class")
+            preconditionFailure("The navigation bar is either not present or not the correct class")
         }
         return msNavBar
     }

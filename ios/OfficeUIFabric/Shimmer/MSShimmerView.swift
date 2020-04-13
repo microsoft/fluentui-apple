@@ -49,7 +49,7 @@ open class MSShimmerView: UIView {
     }
 
     required public init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     open override func layoutSubviews() {

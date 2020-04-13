@@ -8,7 +8,7 @@ import UIKit
 extension UIImage {
     class func staticImageNamed(_ name: String) -> UIImage? {
         guard let image = UIImage(named: name, in: OfficeUIFabricFramework.resourceBundle, compatibleWith: nil) else {
-            fatalError("Missing image asset with name: \(name)")
+            preconditionFailure("Missing image asset with name: \(name)")
         }
         return image
     }

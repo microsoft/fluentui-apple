@@ -31,7 +31,7 @@ open class MSCalendarConfiguration: NSObject {
         components.day = 1
 
         guard let slidingStartDate = calendar.date(from: components) else {
-            fatalError("Cannot construct date from years ago components")
+            preconditionFailure("Cannot construct date from years ago components")
         }
 
         referenceStartDate = slidingStartDate
