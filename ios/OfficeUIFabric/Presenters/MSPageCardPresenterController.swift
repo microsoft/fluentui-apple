@@ -67,7 +67,7 @@ open class MSPageCardPresenterController: UIViewController {
     }
 
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     open override func viewDidLoad() {

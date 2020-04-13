@@ -133,7 +133,7 @@ open class MSPillButtonBar: UIScrollView {
     }
 
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     @objc public func selectItem(_atIndex index: Int) -> Bool {

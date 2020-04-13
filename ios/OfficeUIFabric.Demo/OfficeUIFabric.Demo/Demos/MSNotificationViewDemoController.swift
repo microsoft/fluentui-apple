@@ -78,7 +78,7 @@ class MSNotificationViewDemoController: DemoController {
 
     @objc private func showNotificationView(sender: UIButton) {
         guard let index = container.arrangedSubviews.filter({ $0 is UIButton }).firstIndex(of: sender), let variant = Variant(rawValue: index) else {
-            fatalError("showNotificationView is used for a button in the wrong container")
+            preconditionFailure("showNotificationView is used for a button in the wrong container")
         }
 
         createNotificationView(forVariant: variant).show(in: view) { $0.hide(after: variant.delayForHiding) }

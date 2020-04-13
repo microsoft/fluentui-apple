@@ -110,7 +110,7 @@ class MSCalendarViewDayCell: UICollectionViewCell {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     // Only supports indicator levels from 0...4

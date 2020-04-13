@@ -19,7 +19,7 @@ class MSDateTimePickerDemoController: DemoController {
         if let value = MSDateTimePicker.DatePickerType(rawValue: datePickerTypeSelector.selectedSegmentIndex) {
             return value
         } else {
-            fatalError("Unknown date picker type index")
+            preconditionFailure("Unknown date picker type index")
         }
     }
 
@@ -129,7 +129,7 @@ class MSDateTimePickerDemoController: DemoController {
 extension MSDateTimePickerDemoController: MSDateTimePickerDelegate {
     func dateTimePicker(_ dateTimePicker: MSDateTimePicker, didPickStartDate startDate: Date, endDate: Date) {
         guard let mode = dateTimePicker.mode else {
-            fatalError("Received delegate call when mode = nil")
+            preconditionFailure("Received delegate call when mode = nil")
         }
 
         self.startDate = startDate

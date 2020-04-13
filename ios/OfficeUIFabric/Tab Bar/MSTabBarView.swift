@@ -35,7 +35,7 @@ open class MSTabBarView: UIView {
         didSet {
             let numberOfItems = items.count
             if numberOfItems > Constants.maxTabCount {
-                fatalError("tab bar items can't be more than \(Constants.maxTabCount)")
+                preconditionFailure("tab bar items can't be more than \(Constants.maxTabCount)")
             }
 
             for (index, item) in items.enumerated() {
@@ -117,7 +117,7 @@ open class MSTabBarView: UIView {
     }
 
     required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

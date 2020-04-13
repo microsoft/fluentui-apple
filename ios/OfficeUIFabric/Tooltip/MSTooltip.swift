@@ -79,7 +79,7 @@ open class MSTooltip: NSObject {
         hide()
 
         guard let window = anchorView.window else {
-            fatalError("Can't find anchorView's window")
+            preconditionFailure("Can't find anchorView's window")
         }
 
         let boundingRect = window.bounds.inset(by: window.safeAreaInsets).inset(by: screenMargins)
