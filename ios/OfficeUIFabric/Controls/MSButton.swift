@@ -129,6 +129,15 @@ open class MSButton: UIButton {
         proposedTitleLabelWidth = bounds.width - (contentEdgeInsets.left + contentEdgeInsets.right)
     }
 
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if #available(iOS 13, *) {
+            if previousTraitCollection?.userInterfaceStyle != traitCollection.userInterfaceStyle {
+                updateBorderColor()
+            }
+        }
+    }
+
     public func updateTitleColors() {
         let titleColor = style == .primaryFilled ? MSColors.Button.titleWithFilledBackground : MSColors.Button.title
         let titleColorHighlighted = style == .primaryFilled ? titleColor : MSColors.Button.titleHighlighted
@@ -140,23 +149,35 @@ open class MSButton: UIButton {
 
     private func update() {
         updateTitleColors()
+        updateBackgroundColor()
+        updateBorderColor()
 
-        let backgroundColor: UIColor
-        let borderColor: UIColor
-        if isHighlighted {
-            backgroundColor = style == .primaryFilled ? MSColors.Button.backgroundFilledHighlighted : MSColors.Button.background
-            borderColor = MSColors.Button.borderHighlighted
-        } else if !isEnabled {
-            backgroundColor = style == .primaryFilled ? MSColors.Button.backgroundFilledDisabled : MSColors.Button.background
-            borderColor = MSColors.Button.borderDisabled
-        } else {
-            backgroundColor = style == .primaryFilled ? MSColors.Button.backgroundFilled : MSColors.Button.background
-            borderColor = MSColors.Button.border
-        }
-        self.backgroundColor = backgroundColor
-        layer.borderColor = borderColor.cgColor
         layer.borderWidth = style.hasBorders ? Constants.borderWidth : 0
 
         contentEdgeInsets = style.contentEdgeInsets
+    }
+
+    private func updateBackgroundColor() {
+        let backgroundColor: UIColor
+        if isHighlighted {
+            backgroundColor = style == .primaryFilled ? MSColors.Button.backgroundFilledHighlighted : MSColors.Button.background
+        } else if !isEnabled {
+            backgroundColor = style == .primaryFilled ? MSColors.Button.backgroundFilledDisabled : MSColors.Button.background
+        } else {
+            backgroundColor = style == .primaryFilled ? MSColors.Button.backgroundFilled : MSColors.Button.background
+        }
+        self.backgroundColor = backgroundColor
+    }
+
+    private func updateBorderColor() {
+        let borderColor: UIColor
+        if isHighlighted {
+            borderColor = MSColors.Button.borderHighlighted
+        } else if !isEnabled {
+            borderColor = MSColors.Button.borderDisabled
+        } else {
+            borderColor = MSColors.Button.border
+        }
+        layer.borderColor = borderColor.cgColor
     }
 }
