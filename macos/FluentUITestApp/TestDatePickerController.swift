@@ -24,8 +24,9 @@ class TestDatePickerController: NSViewController {
 		menuDatePickerController?.hasEdgePadding = true
 	}
 	
+	@available(*, unavailable)
 	required init?(coder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
+		preconditionFailure()
 	}
 	
 	override func loadView() {

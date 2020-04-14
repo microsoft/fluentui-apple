@@ -103,8 +103,9 @@ class DatePickerView: NSView {
 		updateTextDatePicker()
 	}
 	
+	@available(*, unavailable)
 	required init?(coder decoder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
+		preconditionFailure()
 	}
 	
 	/// Scrolls in the leading direction

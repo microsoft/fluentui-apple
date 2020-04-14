@@ -67,8 +67,9 @@ class CalendarView: NSView {
 		))
 	}
 	
+	@available(*, unavailable)
 	required init?(coder decoder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
+		preconditionFailure()
 	}
 	
 	/// Updates the underlying button views with given days using the correct font colors

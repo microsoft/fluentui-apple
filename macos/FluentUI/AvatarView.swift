@@ -59,8 +59,9 @@ open class AvatarView : NSView {
 		updateAvatarViewContents()
 	}
 	
-	@available(*, unavailable) required public init?(coder decoder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
+	@available(*, unavailable)
+	required public init?(coder decoder: NSCoder) {
+		preconditionFailure()
 	}
 
 	override open func updateLayer() {
