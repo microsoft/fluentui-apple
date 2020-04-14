@@ -131,7 +131,7 @@ open class MSButton: UIButton {
 
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        if #available(iOS 12, *) {
+        if #available(iOS 13, *) {
             if previousTraitCollection?.userInterfaceStyle != traitCollection.userInterfaceStyle {
                 updateBorderColor()
             }
