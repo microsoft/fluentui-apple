@@ -320,13 +320,13 @@ public final class MSColors: NSObject {
         public static var background: UIColor = .clear
         public static var backgroundFilled: UIColor = primary
         public static var backgroundFilledDisabled: UIColor = disabled
-        public static var backgroundFilledHighlighted: UIColor = primary.withAlphaComponent(0.5)
-        public static var border = UIColor(light: primary.withAlphaComponent(0.2), dark: primary.withAlphaComponent(0.6))
+        public static var backgroundFilledHighlighted = UIColor(light: primaryTint10, dark: primaryShade20)
+        public static var border: UIColor = backgroundFilledHighlighted
         public static var borderDisabled: UIColor = disabled
-        public static var borderHighlighted = UIColor(light: primary.withAlphaComponent(0.08), dark: primary.withAlphaComponent(0.4))
+        public static var borderHighlighted = UIColor(light: primaryTint20, dark: primaryShade20)
         public static var title: UIColor = primary
         public static var titleDisabled: UIColor = foreground4
-        public static var titleHighlighted: UIColor = primary.withAlphaComponent(0.4)
+        public static var titleHighlighted = UIColor(light: primaryTint10, dark: primaryShade20)
         public static var titleWithFilledBackground: UIColor = foregroundOnPrimary
     }
 
