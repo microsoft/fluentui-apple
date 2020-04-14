@@ -1,0 +1,18 @@
+//
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
+//
+
+#include "FluentUI_common.xcconfig"
+
+PRODUCT_NAME = FluentUITestApp
+PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.${PRODUCT_NAME:rfc1034identifier}
+
+INFOPLIST_FILE = ../FluentUITestApp/FluentUITestApp-Info.plist
+INFOPLIST_EXPAND_BUILD_SETTINGS = YES
+
+ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon
+COMBINE_HIDPI_IMAGES = YES
+
+LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/../Frameworks
+
