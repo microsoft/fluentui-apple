@@ -48,7 +48,7 @@
 		8FD0118B228A82A600D25925 /* MSCalendarConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF41ED82141A02200EC527C /* MSCalendarConfiguration.swift */; };
 		8FD0118C228A82A600D25925 /* MSDayOfMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD777528219E3F6C00033D58 /* MSDayOfMonth.swift */; };
 		8FD0118D228A82A600D25925 /* Obscurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA1AF8E21484A26001AE720 /* Obscurable.swift */; };
-		8FD0118E228A82A600D25925 /* OfficeUIFabric.swift in Sources */ = {isa = PBXBuildFile; fileRef = A559BB82212B7D870055E107 /* OfficeUIFabric.swift */; };
+		8FD0118E228A82A600D25925 /* FluentUIFramework.swift in Sources */ = {isa = PBXBuildFile; fileRef = A559BB82212B7D870055E107 /* FluentUIFramework.swift */; };
 		8FD0118F228A82A600D25925 /* MSDateTimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77752F21A490BA00033D58 /* MSDateTimePicker.swift */; };
 		8FD01190228A82A600D25925 /* DateTimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1FAE1A2272464B00A5DBA4 /* DateTimePicker.swift */; };
 		8FD01191228A82A600D25925 /* MSDatePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4F2A1F214AE20400C437D6 /* MSDatePickerController.swift */; };
@@ -106,7 +106,7 @@
 		A542A9D9226FC01C00204A52 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A54D97DB217E5CED0072681A /* Assets.xcassets */; };
 		A54D97DA217A5FC10072681A /* CALayer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54D97D9217A5FC10072681A /* CALayer+Extensions.swift */; };
 		A559BB7E212B6D100055E107 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A559BB7D212B6D100055E107 /* String+Extension.swift */; };
-		A559BB83212B7D870055E107 /* OfficeUIFabric.swift in Sources */ = {isa = PBXBuildFile; fileRef = A559BB82212B7D870055E107 /* OfficeUIFabric.swift */; };
+		A559BB83212B7D870055E107 /* FluentUIFramework.swift in Sources */ = {isa = PBXBuildFile; fileRef = A559BB82212B7D870055E107 /* FluentUIFramework.swift */; };
 		A56CE7B622E68A7800AA77EE /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56CE7B522E68A7800AA77EE /* UIColor+Extensions.swift */; };
 		A56CE7B722E68A7800AA77EE /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56CE7B522E68A7800AA77EE /* UIColor+Extensions.swift */; };
 		A578C4A22321CFD6002D5C40 /* MSAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A578C4A12321CFD6002D5C40 /* MSAvatar.swift */; };
@@ -128,8 +128,8 @@
 		A5B87B04211E22B70038C37C /* MSDimmingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87B03211E22B70038C37C /* MSDimmingView.swift */; };
 		A5B87B06211E23650038C37C /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87B05211E23650038C37C /* UIView+Extensions.swift */; };
 		A5CEC15B20D980B30016922A /* FluentUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5CEC15120D980B20016922A /* FluentUI.framework */; };
-		A5CEC16020D980B30016922A /* OfficeUIFabricTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC15F20D980B30016922A /* OfficeUIFabricTests.swift */; };
-		A5CEC16220D980B30016922A /* OfficeUIFabric.h in Headers */ = {isa = PBXBuildFile; fileRef = A5CEC15420D980B20016922A /* OfficeUIFabric.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A5CEC16020D980B30016922A /* FluentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC15F20D980B30016922A /* FluentUITests.swift */; };
+		A5CEC16220D980B30016922A /* FluentUI.h in Headers */ = {isa = PBXBuildFile; fileRef = A5CEC15420D980B20016922A /* FluentUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A5CEC16D20D98EE70016922A /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC16C20D98EE70016922A /* Colors.swift */; };
 		A5CEC16F20D98F340016922A /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC16E20D98F340016922A /* Fonts.swift */; };
 		A5CEC23120E451D00016922A /* MSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC23020E451D00016922A /* MSButton.swift */; };
@@ -279,7 +279,7 @@
 		A54D97DB217E5CED0072681A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A559BB7D212B6D100055E107 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		A559BB80212B6FA40055E107 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		A559BB82212B7D870055E107 /* OfficeUIFabric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficeUIFabric.swift; sourceTree = "<group>"; };
+		A559BB82212B7D870055E107 /* FluentUIFramework.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentUIFramework.swift; sourceTree = "<group>"; };
 		A56CE7B522E68A7800AA77EE /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		A578C4A12321CFD6002D5C40 /* MSAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAvatar.swift; sourceTree = "<group>"; };
 		A589F853211BA03200471C23 /* MSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSLabel.swift; sourceTree = "<group>"; };
@@ -298,10 +298,10 @@
 		A5B87B03211E22B70038C37C /* MSDimmingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDimmingView.swift; sourceTree = "<group>"; };
 		A5B87B05211E23650038C37C /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		A5CEC15120D980B20016922A /* FluentUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FluentUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A5CEC15420D980B20016922A /* OfficeUIFabric.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OfficeUIFabric.h; sourceTree = "<group>"; };
+		A5CEC15420D980B20016922A /* FluentUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FluentUI.h; sourceTree = "<group>"; };
 		A5CEC15520D980B20016922A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A5CEC15A20D980B30016922A /* FluentUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FluentUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		A5CEC15F20D980B30016922A /* OfficeUIFabricTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficeUIFabricTests.swift; sourceTree = "<group>"; };
+		A5CEC15F20D980B30016922A /* FluentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentUITests.swift; sourceTree = "<group>"; };
 		A5CEC16120D980B30016922A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A5CEC16C20D98EE70016922A /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		A5CEC16E20D98F340016922A /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
@@ -612,7 +612,7 @@
 			isa = PBXGroup;
 			children = (
 				FD053A342224CA33009B6378 /* MSDatePickerControllerTests.swift */,
-				A5CEC15F20D980B30016922A /* OfficeUIFabricTests.swift */,
+				A5CEC15F20D980B30016922A /* FluentUITests.swift */,
 				A5CEC16120D980B30016922A /* Info.plist */,
 			);
 			path = FluentUI.Tests;
@@ -628,7 +628,7 @@
 				FDF41ED82141A02200EC527C /* MSCalendarConfiguration.swift */,
 				FD777528219E3F6C00033D58 /* MSDayOfMonth.swift */,
 				FDA1AF8E21484A26001AE720 /* Obscurable.swift */,
-				A559BB82212B7D870055E107 /* OfficeUIFabric.swift */,
+				A559BB82212B7D870055E107 /* FluentUIFramework.swift */,
 				FD41C8C022DD48E60086F899 /* Operators.swift */,
 			);
 			path = Core;
@@ -678,7 +678,7 @@
 			isa = PBXGroup;
 			children = (
 				A5CEC15520D980B20016922A /* Info.plist */,
-				A5CEC15420D980B20016922A /* OfficeUIFabric.h */,
+				A5CEC15420D980B20016922A /* FluentUI.h */,
 			);
 			name = Configuration;
 			sourceTree = "<group>";
@@ -892,7 +892,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A5CEC16220D980B30016922A /* OfficeUIFabric.h in Headers */,
+				A5CEC16220D980B30016922A /* FluentUI.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1145,7 +1145,7 @@
 				8FD0118B228A82A600D25925 /* MSCalendarConfiguration.swift in Sources */,
 				8FD0118C228A82A600D25925 /* MSDayOfMonth.swift in Sources */,
 				8FD0118D228A82A600D25925 /* Obscurable.swift in Sources */,
-				8FD0118E228A82A600D25925 /* OfficeUIFabric.swift in Sources */,
+				8FD0118E228A82A600D25925 /* FluentUIFramework.swift in Sources */,
 				8FD0118F228A82A600D25925 /* MSDateTimePicker.swift in Sources */,
 				FD41C88922DD13230086F899 /* MSShyHeaderView.swift in Sources */,
 				8FD01190228A82A600D25925 /* DateTimePicker.swift in Sources */,
@@ -1218,7 +1218,7 @@
 				B46D3F91215056940029772C /* CharacterSet+Extension.swift in Sources */,
 				A5961FA3218A25D100E2A506 /* MSPopupMenuItemCell.swift in Sources */,
 				FD599D0221348439008845EE /* MSCalendarView.swift in Sources */,
-				A559BB83212B7D870055E107 /* OfficeUIFabric.swift in Sources */,
+				A559BB83212B7D870055E107 /* FluentUIFramework.swift in Sources */,
 				1168630622E131CF0088B302 /* MSTabBarView.swift in Sources */,
 				FD599D082134AB0E008845EE /* MSCalendarViewWeekdayHeadingView.swift in Sources */,
 				FDFB8AF321361C9D0046850A /* MSCalendarViewDayMonthYearCell.swift in Sources */,
@@ -1338,7 +1338,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A5CEC16020D980B30016922A /* OfficeUIFabricTests.swift in Sources */,
+				A5CEC16020D980B30016922A /* FluentUITests.swift in Sources */,
 				FD053A352224CA33009B6378 /* MSDatePickerControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

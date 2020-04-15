@@ -28,7 +28,7 @@ class MasterViewController: UITableViewController {
         let titleView = MSTwoLineTitleView()
         titleView.setup(
             title: navigationItem.title ?? "",
-            subtitle: OfficeUIFabricFramework.bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+            subtitle: FluentUIFramework.bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
         )
         navigationItem.titleView = titleView
 

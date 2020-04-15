@@ -68,7 +68,7 @@ public final class MSColors: NSObject {
          case warningShade30
 
          public var color: UIColor {
-             if let fluentColor = UIColor(named: "FluentColors/" + self.name, in: OfficeUIFabricFramework.resourceBundle, compatibleWith: nil) {
+             if let fluentColor = UIColor(named: "FluentColors/" + self.name, in: FluentUIFramework.resourceBundle, compatibleWith: nil) {
                  return fluentColor
              } else {
                  preconditionFailure("invalid fluent color")

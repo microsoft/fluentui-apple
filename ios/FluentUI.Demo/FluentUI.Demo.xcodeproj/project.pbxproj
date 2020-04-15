@@ -143,7 +143,7 @@
 		FD7254EC21471A3F002F4069 /* MSDateTimePickerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDateTimePickerDemoController.swift; sourceTree = "<group>"; };
 		FD7DF06121FB941400857267 /* MSTooltipDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTooltipDemoController.swift; sourceTree = "<group>"; };
 		FDCF7C8221BF35680058E9E6 /* MSSegmentedControlDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSSegmentedControlDemoController.swift; sourceTree = "<group>"; };
-		FDDD73FA22C6D86A00A9D995 /* OfficeUIFabric.Demo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OfficeUIFabric.Demo-Bridging-Header.h"; sourceTree = "<group>"; };
+		FDDD73FA22C6D86A00A9D995 /* FluentUI.Demo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FluentUI.Demo-Bridging-Header.h"; sourceTree = "<group>"; };
 		FDDD73FB22C6D86B00A9D995 /* ObjectiveCDemoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectiveCDemoController.m; sourceTree = "<group>"; };
 		FDDD73FC22C6D86B00A9D995 /* ObjectiveCDemoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectiveCDemoController.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -175,7 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				A5CEC21D20E436F20016922A /* Info.plist */,
-				FDDD73FA22C6D86A00A9D995 /* OfficeUIFabric.Demo-Bridging-Header.h */,
+				FDDD73FA22C6D86A00A9D995 /* FluentUI.Demo-Bridging-Header.h */,
 			);
 			name = Configuration;
 			sourceTree = "<group>";
@@ -616,7 +616,7 @@
 				PRODUCT_NAME = FluentUI.Demo;
 				PROVISIONING_PROFILE = "4596e7d8-5232-4b9f-82bf-63883e38cd5c";
 				PROVISIONING_PROFILE_SPECIFIER = "Office Fabric Demo Dogfood Distribution";
-				SWIFT_OBJC_BRIDGING_HEADER = "FluentUI.Demo/OfficeUIFabric.Demo-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "FluentUI.Demo/FluentUI.Demo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -759,7 +759,7 @@
 				PRODUCT_NAME = FluentUI.Demo;
 				PROVISIONING_PROFILE = "63d62159-2691-4b44-9553-b668cc1746c1";
 				PROVISIONING_PROFILE_SPECIFIER = "Office UI Fabric Demo Development";
-				SWIFT_OBJC_BRIDGING_HEADER = "FluentUI.Demo/OfficeUIFabric.Demo-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "FluentUI.Demo/FluentUI.Demo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -785,7 +785,7 @@
 				PRODUCT_NAME = FluentUI.Demo;
 				PROVISIONING_PROFILE = "63d62159-2691-4b44-9553-b668cc1746c1";
 				PROVISIONING_PROFILE_SPECIFIER = "Office UI Fabric Demo Development";
-				SWIFT_OBJC_BRIDGING_HEADER = "FluentUI.Demo/OfficeUIFabric.Demo-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "FluentUI.Demo/FluentUI.Demo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

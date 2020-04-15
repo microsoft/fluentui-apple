@@ -7,7 +7,7 @@ import UIKit
 
 extension String {
     internal var localized: String {
-        return NSLocalizedString(self, bundle: OfficeUIFabricFramework.resourceBundle, comment: "")
+        return NSLocalizedString(self, bundle: FluentUIFramework.resourceBundle, comment: "")
     }
 
     func formatted(with args: CVarArg...) -> String {

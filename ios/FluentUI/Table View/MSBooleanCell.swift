@@ -26,7 +26,7 @@ open class MSBooleanCell: MSTableViewCell {
 
     private lazy var `switch`: UISwitch = {
         let `switch` = UISwitch()
-        OfficeUIFabricFramework.initializeUISwitchAppearance(`switch`)
+        FluentUIFramework.initializeUISwitchAppearance(`switch`)
         `switch`.addTarget(self, action: #selector(handleOnSwitchValueChanged), for: .valueChanged)
         return `switch`
     }()

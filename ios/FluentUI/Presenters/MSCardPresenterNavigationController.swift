@@ -8,7 +8,7 @@ import UIKit
 class MSCardPresenterNavigationController: UINavigationController, MSCardPresentable {
     override func viewDidLoad() {
         super.viewDidLoad()
-        OfficeUIFabricFramework.initializeUINavigationBarAppearance(navigationBar)
+        FluentUIFramework.initializeUINavigationBarAppearance(navigationBar)
     }
 
     func idealSize() -> CGSize {

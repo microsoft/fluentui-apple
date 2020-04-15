@@ -5,11 +5,11 @@
 
 import UIKit
 
-public class OfficeUIFabricFramework: NSObject {
+public class FluentUIFramework: NSObject {
     @objc public static var bundle: Bundle { return Bundle(for: self) }
     @objc public static let resourceBundle: Bundle = {
         guard let url = bundle.resourceURL?.appendingPathComponent("FluentUIResources-ios.bundle", isDirectory: true), let bundle = Bundle(url: url) else {
-            preconditionFailure("OfficeUIFabric: resource bundle is not found")
+            preconditionFailure("FluentUI resource bundle is not found")
         }
         return bundle
     }()
