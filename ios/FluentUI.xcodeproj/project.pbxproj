@@ -562,9 +562,9 @@
 		A5CEC14720D980B20016922A = {
 			isa = PBXGroup;
 			children = (
-				A5CEC15320D980B20016922A /* OfficeUIFabric */,
-				A5DA88FD226FAA01000A8EA8 /* OfficeUIFabric.Resources */,
-				A5CEC15E20D980B30016922A /* OfficeUIFabric.Tests */,
+				A5CEC15320D980B20016922A /* FluentUI */,
+				A5DA88FD226FAA01000A8EA8 /* FluentUI.Resources */,
+				A5CEC15E20D980B30016922A /* FluentUI.Tests */,
 				A5CEC15220D980B20016922A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -580,7 +580,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A5CEC15320D980B20016922A /* OfficeUIFabric */ = {
+		A5CEC15320D980B20016922A /* FluentUI */ = {
 			isa = PBXGroup;
 			children = (
 				B4F118EA21C8270F00855942 /* Badge Field */,
@@ -605,17 +605,17 @@
 				A5CEC17020D996120016922A /* Resources */,
 				A5CEC25720E6A64E0016922A /* Configuration */,
 			);
-			path = OfficeUIFabric;
+			path = FluentUI;
 			sourceTree = "<group>";
 		};
-		A5CEC15E20D980B30016922A /* OfficeUIFabric.Tests */ = {
+		A5CEC15E20D980B30016922A /* FluentUI.Tests */ = {
 			isa = PBXGroup;
 			children = (
 				FD053A342224CA33009B6378 /* MSDatePickerControllerTests.swift */,
 				A5CEC15F20D980B30016922A /* OfficeUIFabricTests.swift */,
 				A5CEC16120D980B30016922A /* Info.plist */,
 			);
-			path = OfficeUIFabric.Tests;
+			path = FluentUI.Tests;
 			sourceTree = "<group>";
 		};
 		A5CEC16B20D98EBF0016922A /* Core */ = {
@@ -683,12 +683,12 @@
 			name = Configuration;
 			sourceTree = "<group>";
 		};
-		A5DA88FD226FAA01000A8EA8 /* OfficeUIFabric.Resources */ = {
+		A5DA88FD226FAA01000A8EA8 /* FluentUI.Resources */ = {
 			isa = PBXGroup;
 			children = (
 				A5DA88FE226FAA01000A8EA8 /* Info.plist */,
 			);
-			path = OfficeUIFabric.Resources;
+			path = FluentUI.Resources;
 			sourceTree = "<group>";
 		};
 		B426613C214731AC00E25423 /* People Picker */ = {
