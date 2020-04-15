@@ -81,8 +81,14 @@ then follow the Carthage [integration steps](https://github.com/Carthage/Carthag
 ### Import and use the library
 
 After the framework has been added you can import the library to use it:
+
+For Swift
 ```swift
 import FluentUI
+```
+For Objective-C
+```objective-c
+#import <FluentUI/FluentUI-Swift.h>
 ```
 
 ## Demo app
