@@ -562,9 +562,9 @@
 		A5CEC14720D980B20016922A = {
 			isa = PBXGroup;
 			children = (
-				A5CEC15320D980B20016922A /* OfficeUIFabric */,
-				A5DA88FD226FAA01000A8EA8 /* OfficeUIFabric.Resources */,
-				A5CEC15E20D980B30016922A /* OfficeUIFabric.Tests */,
+				A5CEC15320D980B20016922A /* FluentUI */,
+				A5DA88FD226FAA01000A8EA8 /* FluentUI.Resources */,
+				A5CEC15E20D980B30016922A /* FluentUI.Tests */,
 				A5CEC15220D980B20016922A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -580,7 +580,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A5CEC15320D980B20016922A /* OfficeUIFabric */ = {
+		A5CEC15320D980B20016922A /* FluentUI */ = {
 			isa = PBXGroup;
 			children = (
 				B4F118EA21C8270F00855942 /* Badge Field */,
@@ -605,17 +605,17 @@
 				A5CEC17020D996120016922A /* Resources */,
 				A5CEC25720E6A64E0016922A /* Configuration */,
 			);
-			path = OfficeUIFabric;
+			path = FluentUI;
 			sourceTree = "<group>";
 		};
-		A5CEC15E20D980B30016922A /* OfficeUIFabric.Tests */ = {
+		A5CEC15E20D980B30016922A /* FluentUI.Tests */ = {
 			isa = PBXGroup;
 			children = (
 				FD053A342224CA33009B6378 /* MSDatePickerControllerTests.swift */,
 				A5CEC15F20D980B30016922A /* OfficeUIFabricTests.swift */,
 				A5CEC16120D980B30016922A /* Info.plist */,
 			);
-			path = OfficeUIFabric.Tests;
+			path = FluentUI.Tests;
 			sourceTree = "<group>";
 		};
 		A5CEC16B20D98EBF0016922A /* Core */ = {
@@ -683,12 +683,12 @@
 			name = Configuration;
 			sourceTree = "<group>";
 		};
-		A5DA88FD226FAA01000A8EA8 /* OfficeUIFabric.Resources */ = {
+		A5DA88FD226FAA01000A8EA8 /* FluentUI.Resources */ = {
 			isa = PBXGroup;
 			children = (
 				A5DA88FE226FAA01000A8EA8 /* Info.plist */,
 			);
-			path = OfficeUIFabric.Resources;
+			path = FluentUI.Resources;
 			sourceTree = "<group>";
 		};
 		B426613C214731AC00E25423 /* People Picker */ = {
@@ -1562,14 +1562,14 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = OfficeUIFabric/Info.plist;
+				INFOPLIST_FILE = FluentUI/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 0.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.FluentUI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1583,7 +1583,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UBF8T346G9;
-				INFOPLIST_FILE = OfficeUIFabric.Tests/Info.plist;
+				INFOPLIST_FILE = FluentUI.Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1732,14 +1732,14 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = OfficeUIFabric/Info.plist;
+				INFOPLIST_FILE = FluentUI/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 0.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.FluentUI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1760,14 +1760,14 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = OfficeUIFabric/Info.plist;
+				INFOPLIST_FILE = FluentUI/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 0.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.FluentUI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1781,7 +1781,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UBF8T346G9;
-				INFOPLIST_FILE = OfficeUIFabric.Tests/Info.plist;
+				INFOPLIST_FILE = FluentUI.Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1800,7 +1800,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UBF8T346G9;
-				INFOPLIST_FILE = OfficeUIFabric.Tests/Info.plist;
+				INFOPLIST_FILE = FluentUI.Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1817,7 +1817,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = UBF8T346G9;
-				INFOPLIST_FILE = OfficeUIFabric.Resources/Info.plist;
+				INFOPLIST_FILE = FluentUI.Resources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.FluentUIResources-ios";
 				PRODUCT_NAME = "FluentUIResources-ios";
@@ -1830,7 +1830,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = UBF8T346G9;
-				INFOPLIST_FILE = OfficeUIFabric.Resources/Info.plist;
+				INFOPLIST_FILE = FluentUI.Resources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.FluentUIResources-ios";
 				PRODUCT_NAME = "FluentUIResources-ios";
@@ -1843,7 +1843,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = UBF8T346G9;
-				INFOPLIST_FILE = OfficeUIFabric.Resources/Info.plist;
+				INFOPLIST_FILE = FluentUI.Resources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.FluentUIResources-ios";
 				PRODUCT_NAME = "FluentUIResources-ios";

@@ -203,7 +203,7 @@
 		A5CEC20320E436F10016922A = {
 			isa = PBXGroup;
 			children = (
-				A5CEC20E20E436F10016922A /* OfficeUIFabric.Demo */,
+				A5CEC20E20E436F10016922A /* FluentUI.Demo */,
 				A5CEC20D20E436F10016922A /* Products */,
 				A5CEC22920E44FBF0016922A /* Frameworks */,
 				6EA5200D30B13B5327B3F995 /* Pods */,
@@ -218,7 +218,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A5CEC20E20E436F10016922A /* OfficeUIFabric.Demo */ = {
+		A5CEC20E20E436F10016922A /* FluentUI.Demo */ = {
 			isa = PBXGroup;
 			children = (
 				A5CEC23220E452B80016922A /* Demos */,
@@ -229,7 +229,7 @@
 				A5CEC20F20E436F10016922A /* AppDelegate.swift */,
 				A591A3F320F429EB001ED23B /* Demos.swift */,
 			);
-			path = OfficeUIFabric.Demo;
+			path = FluentUI.Demo;
 			sourceTree = "<group>";
 		};
 		A5CEC22920E44FBF0016922A /* Frameworks */ = {
@@ -315,7 +315,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0940;
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1120;
 				ORGANIZATIONNAME = "Microsoft Corporation";
 				TargetAttributes = {
 					A5CEC20B20E436F10016922A = {
@@ -542,6 +542,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_NAME = "";
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -606,7 +607,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 9KBH5RKYEW;
-				INFOPLIST_FILE = OfficeUIFabric.Demo/Info.plist;
+				INFOPLIST_FILE = FluentUI.Demo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -615,7 +616,7 @@
 				PRODUCT_NAME = FluentUI.Demo;
 				PROVISIONING_PROFILE = "4596e7d8-5232-4b9f-82bf-63883e38cd5c";
 				PROVISIONING_PROFILE_SPECIFIER = "Office Fabric Demo Dogfood Distribution";
-				SWIFT_OBJC_BRIDGING_HEADER = "OfficeUIFabric.Demo/OfficeUIFabric.Demo-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "FluentUI.Demo/OfficeUIFabric.Demo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -626,6 +627,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_NAME = "";
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -687,6 +689,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_NAME = "";
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -747,7 +750,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = UBF8T346G9;
-				INFOPLIST_FILE = OfficeUIFabric.Demo/Info.plist;
+				INFOPLIST_FILE = FluentUI.Demo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -756,7 +759,7 @@
 				PRODUCT_NAME = FluentUI.Demo;
 				PROVISIONING_PROFILE = "63d62159-2691-4b44-9553-b668cc1746c1";
 				PROVISIONING_PROFILE_SPECIFIER = "Office UI Fabric Demo Development";
-				SWIFT_OBJC_BRIDGING_HEADER = "OfficeUIFabric.Demo/OfficeUIFabric.Demo-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "FluentUI.Demo/OfficeUIFabric.Demo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -773,7 +776,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = UBF8T346G9;
-				INFOPLIST_FILE = OfficeUIFabric.Demo/Info.plist;
+				INFOPLIST_FILE = FluentUI.Demo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -782,7 +785,7 @@
 				PRODUCT_NAME = FluentUI.Demo;
 				PROVISIONING_PROFILE = "63d62159-2691-4b44-9553-b668cc1746c1";
 				PROVISIONING_PROFILE_SPECIFIER = "Office UI Fabric Demo Development";
-				SWIFT_OBJC_BRIDGING_HEADER = "OfficeUIFabric.Demo/OfficeUIFabric.Demo-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "FluentUI.Demo/OfficeUIFabric.Demo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
