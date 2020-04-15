@@ -9,8 +9,8 @@ Pod::Spec.new do |s|
   s.swift_version = "5.0"
   
   s.ios.deployment_target = "11.0"
-  s.ios.source_files   = "ios/OfficeUIFabric/**/*.{swift,h}"
-  s.ios.resource_bundle = { 'FluentUIResources-ios' => "ios/OfficeUIFabric/**/*.{storyboard,xib,xcassets,strings,stringsdict}" }
+  s.ios.source_files   = "ios/FluentUI/**/*.{swift,h}"
+  s.ios.resource_bundle = { 'FluentUIResources-ios' => "ios/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}" }
   
   s.osx.deployment_target = "10.13"
   s.osx.source_files   = "macos/FluentUI/**/*.{swift,h}"
