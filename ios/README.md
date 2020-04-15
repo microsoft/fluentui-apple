@@ -1,14 +1,14 @@
 # Fluent UI for iOS
 
-##### The iOS UI framework for building experiences for Office and Office 365.
+##### The iOS UI framework for building experiences for Microsoft 365.
 
-Office UI Fabric for iOS is a native library that provides the Office UI experience for the iOS platform. It contains information about colors and typography, as well as custom controls and customizations for platform controls, all from the official Fluent design language used in Office and Office 365 products.
+FluentUI for iOS is a native library that provides the Microsoft UI experience for the iOS platform. It contains information about colors and typography, as well as custom controls and customizations for platform controls, all from the official Fluent design language used in Microsoft 365 products.
 
 ## Contents
 
 - [Colors and typography](#colors-and-typography)
 - [Controls](#controls)
-- [Install and use Office UI Fabric](#install-and-use-office-ui-fabric)
+- [Install and use FluentUI](#install-and-use-fluentui)
 - [Demo app](#demo-app)
 - [Contributing](#contributing)
 - [Changelog](#changelog)
@@ -16,11 +16,11 @@ Office UI Fabric for iOS is a native library that provides the Office UI experie
 
 ## Colors and Typography
 
-Office UI Fabric for iOS provides [colors](FluentUI/Core/Colors.swift) and [typography](FluentUI/Core/Fonts.swift) core to experiences within the Fluent Design language.
+FluentUI for iOS provides [colors](FluentUI/Core/Colors.swift) and [typography](FluentUI/Core/Fonts.swift) core to experiences within the Fluent Design language.
 
 ## Controls
 
-Office UI Fabric for iOS includes an expanding library of controls written in Swift and supporting Objective-C. These controls implement the Fluent Design language and provide consistency across Office experiences.
+FluentUI for iOS includes an expanding library of controls written in Swift and supporting Objective-C. These controls implement the Fluent Design language and provide consistency across Microsoft experiences.
 
 Some of the controls available include:
 - MSActivityIndicatorView
@@ -31,14 +31,20 @@ Some of the controls available include:
 - MSDrawerController
 - MSHUD
 - MSLabel
+- MSNavigationController
+- MSNotificationView
 - MSPersonaListView
+- MSPillButtonBar
 - MSPopupMenuController
 - MSSegmentedControl
+- MSShimmerLinesView
+- MSTabBarView
 - MSTableViewCell
+- MSTooltip
 
-A full list of currently supported controls can be found here: [OfficeUIFabric](OfficeUIFabric).
+A full list of currently supported controls can be found here: [FluentUI](FluentUI).
 
-## Install and use Office UI Fabric
+## Install and use FluentUI
 
 ### Requirements
 
@@ -50,14 +56,14 @@ A full list of currently supported controls can be found here: [OfficeUIFabric](
 
 To get set up with CocoaPods visit their [getting started guide](https://guides.cocoapods.org/using/getting-started.html).
 
-To integrate Office UI Fabric for iOS into your Xcode project using CocoaPods, specify it in your Podfile:
+To integrate FluentUI for iOS into your Xcode project using CocoaPods, specify it in your Podfile:
 ```ruby
-pod 'FluentUI', '~> 0.1.0'
+pod 'MicrosoftFluentUI', '~> 0.1.0'
 ```
 
 ### 2. Using Carthage
 
-To integrate Office UI Fabric using Carthage, specify it in your Cartfile:
+To integrate FluentUI for iOS using Carthage, specify it in your Cartfile:
 
 ```ruby
 github "Microsoft/fluentui-apple" ~> 0.1.0
@@ -99,6 +105,6 @@ We use [GitHub Releases](https://github.com/blog/1547-release-your-software) to 
 
 ## License
 
-All files on the Office UI Fabric for iOS GitHub repository are subject to the MIT license. Please read the [LICENSE](LICENSE) file at the root of the project.
+All files on the FluentUI Apple GitHub repository are subject to the MIT license. Please read the [LICENSE](LICENSE) file at the root of the project.
 
-Usage of the logos and icons referenced in FluentUI for iOS is subject to the terms of the [assets license agreement](https://aka.ms/fabric-assets-license).
+Usage of the logos and icons referenced in FluentUI Apple is subject to the terms of the [assets license agreement](https://aka.ms/fabric-assets-license).
