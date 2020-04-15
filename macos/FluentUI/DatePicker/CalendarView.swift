@@ -62,7 +62,7 @@ class CalendarView: NSView {
 		setAccessibilityLabel(NSLocalizedString(
 			"DATEPICKER_ACCESSIBILITY_CALENDAR_VIEW_LABEL",
 			tableName: "FluentUI",
-			bundle: Bundle(for: CalendarView.self),
+			bundle: FluentUIResources.resourceBundle,
 			comment: ""
 		))
 	}

@@ -64,7 +64,7 @@ class CalendarHeaderView: NSView {
 		leadingButton.setAccessibilityLabel(NSLocalizedString(
 			"DATEPICKER_ACCESSIBILITY_PREVIOUS_MONTH_LABEL",
 			tableName: "FluentUI",
-			bundle: Bundle(for: CalendarHeaderView.self),
+			bundle: FluentUIResources.resourceBundle,
 			comment: ""
 		))
 		
@@ -74,7 +74,7 @@ class CalendarHeaderView: NSView {
 		trailingButton.setAccessibilityLabel(NSLocalizedString(
 			"DATEPICKER_ACCESSIBILITY_NEXT_MONTH_LABEL",
 			tableName: "FluentUI",
-			bundle: Bundle(for: CalendarHeaderView.self),
+			bundle: FluentUIResources.resourceBundle,
 			comment: ""
 		))
 		

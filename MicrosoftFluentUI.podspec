@@ -15,5 +15,5 @@ Pod::Spec.new do |s|
   
   s.osx.deployment_target = "10.13"
   s.osx.source_files   = "macos/FluentUI/**/*.{swift,h}"
-  s.osx.resource_bundle = { 'FluentUIResources-macos' => "macos/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}" }
+  s.osx.resource_bundle = { 'FluentUIResources-macos' => "macos/FluentUIResources-macos/**/*.{storyboard,xib,xcassets,strings,stringsdict}" }
 end

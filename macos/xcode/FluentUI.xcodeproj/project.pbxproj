@@ -14,10 +14,12 @@
 		8061BF7E22EF936800F2D245 /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8061BF7C22EF936700F2D245 /* DatePickerView.swift */; };
 		8061BF7F22EF936800F2D245 /* DatePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8061BF7D22EF936700F2D245 /* DatePickerController.swift */; };
 		8061BF8322EF957200F2D245 /* TestDatePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8061BF8222EF957200F2D245 /* TestDatePickerController.swift */; };
-		80FEB30F230DE91D00F9FF3E /* FluentUI.strings in Resources */ = {isa = PBXBuildFile; fileRef = 80FEB2F8230DE53F00F9FF3E /* FluentUI.strings */; };
-		8F16282123CCD17900F81956 /* FluentUI.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F16282023CCD17900F81956 /* FluentUI.xcassets */; };
 		8F250B8B22B3045100142B0E /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F250B8A22B3045100142B0E /* AvatarView.swift */; };
 		8F250B8D22B3062A00142B0E /* TestAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F250B8C22B3062A00142B0E /* TestAvatarViewController.swift */; };
+		8F41CC682447B5580040B851 /* FluentUIResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F41CC672447B5580040B851 /* FluentUIResources.swift */; };
+		8F41CC7A2447B8DB0040B851 /* FluentUIResources-macos.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8F41CC6D2447B60F0040B851 /* FluentUIResources-macos.bundle */; };
+		8F41CC7D2447B93C0040B851 /* FluentUI.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F41CC742447B7D80040B851 /* FluentUI.xcassets */; };
+		8F41CC7E2447B9430040B851 /* FluentUI.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F41CC762447B7D80040B851 /* FluentUI.strings */; };
 		8F49B62624451A9900DA40CC /* FluentUIUnitTest-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E61C96C22295E8D60006561F /* FluentUIUnitTest-Info.plist */; };
 		8F5368052295F4BF0098AC8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5368042295F4BF0098AC8F /* AppDelegate.swift */; };
 		8F5368072295F4C10098AC8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368062295F4C10098AC8F /* Assets.xcassets */; };
@@ -31,6 +33,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		8F41CC7B2447B8F40040B851 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E61C96A92295E8D60006561F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8F41CC6C2447B60F0040B851;
+			remoteInfo = "FluentUIResources-macos";
+		};
 		8F69C7B3229604A8009F69C0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E61C96A92295E8D60006561F /* Project object */;
@@ -55,8 +64,6 @@
 		8061BF7C22EF936700F2D245 /* DatePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
 		8061BF7D22EF936700F2D245 /* DatePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerController.swift; sourceTree = "<group>"; };
 		8061BF8222EF957200F2D245 /* TestDatePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestDatePickerController.swift; sourceTree = "<group>"; };
-		80FEB2F7230DE53F00F9FF3E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/FluentUI.strings; sourceTree = "<group>"; };
-		8F16282023CCD17900F81956 /* FluentUI.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = FluentUI.xcassets; sourceTree = "<group>"; };
 		8F250B8A22B3045100142B0E /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		8F250B8C22B3062A00142B0E /* TestAvatarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAvatarViewController.swift; sourceTree = "<group>"; };
 		8F3572322361143B0076FBBE /* FluentUI.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = FluentUI.xctestplan; sourceTree = "<group>"; };
@@ -90,6 +97,12 @@
 		8F38AE5B230354D200F5D7B0 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		8F38AE5C230354D700F5D7B0 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		8F38AE5D230354DA00F5D7B0 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F41CC672447B5580040B851 /* FluentUIResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentUIResources.swift; sourceTree = "<group>"; };
+		8F41CC6D2447B60F0040B851 /* FluentUIResources-macos.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FluentUIResources-macos.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F41CC6F2447B60F0040B851 /* FluentUIResources-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FluentUIResources-Info.plist"; sourceTree = "<group>"; };
+		8F41CC732447B66A0040B851 /* FluentUI_resources.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_resources.xcconfig; sourceTree = "<group>"; };
+		8F41CC742447B7D80040B851 /* FluentUI.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = FluentUI.xcassets; sourceTree = "<group>"; };
+		8F41CC772447B7D80040B851 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/FluentUI.strings; sourceTree = "<group>"; };
 		8F5368022295F4BF0098AC8F /* FluentUITestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FluentUITestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F5368042295F4BF0098AC8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8F5368062295F4C10098AC8F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -113,6 +126,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8F41CC6A2447B60F0040B851 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8F5367FF2295F4BF0098AC8F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -150,13 +170,23 @@
 			path = DatePicker;
 			sourceTree = "<group>";
 		};
-		80FEB2E4230DB91100F9FF3E /* Resources */ = {
+		8F41CC6E2447B60F0040B851 /* FluentUIResources-macos */ = {
 			isa = PBXGroup;
 			children = (
-				80FEB2F8230DE53F00F9FF3E /* FluentUI.strings */,
-				8F16282023CCD17900F81956 /* FluentUI.xcassets */,
+				8F41CC742447B7D80040B851 /* FluentUI.xcassets */,
+				8F41CC752447B7D80040B851 /* Strings */,
+				8F41CC6F2447B60F0040B851 /* FluentUIResources-Info.plist */,
 			);
-			path = Resources;
+			name = "FluentUIResources-macos";
+			path = "../FluentUIResources-macos";
+			sourceTree = "<group>";
+		};
+		8F41CC752447B7D80040B851 /* Strings */ = {
+			isa = PBXGroup;
+			children = (
+				8F41CC762447B7D80040B851 /* FluentUI.strings */,
+			);
+			path = Strings;
 			sourceTree = "<group>";
 		};
 		8F5368032295F4BF0098AC8F /* FluentUITestApp */ = {
@@ -180,8 +210,9 @@
 			isa = PBXGroup;
 			children = (
 				E61C96B42295E8D60006561F /* FluentUI */,
-				E61C96BF2295E8D60006561F /* FluentUIUnitTest */,
+				8F41CC6E2447B60F0040B851 /* FluentUIResources-macos */,
 				8F5368032295F4BF0098AC8F /* FluentUITestApp */,
+				E61C96BF2295E8D60006561F /* FluentUIUnitTest */,
 				E61C96CD2295ED530006561F /* xcode */,
 				E61C96B32295E8D60006561F /* Products */,
 			);
@@ -196,6 +227,7 @@
 				E61C96B22295E8D60006561F /* FluentUI.framework */,
 				E61C96BB2295E8D60006561F /* FluentUIUnitTests.xctest */,
 				8F5368022295F4BF0098AC8F /* FluentUITestApp.app */,
+				8F41CC6D2447B60F0040B851 /* FluentUIResources-macos.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -203,11 +235,11 @@
 		E61C96B42295E8D60006561F /* FluentUI */ = {
 			isa = PBXGroup;
 			children = (
-				80FEB2E4230DB91100F9FF3E /* Resources */,
-				804626C722D7909200AFA48C /* DatePicker */,
 				8F250B8A22B3045100142B0E /* AvatarView.swift */,
-				E61C96B52295E8D60006561F /* FluentUI.h */,
+				804626C722D7909200AFA48C /* DatePicker */,
 				E61C96B62295E8D60006561F /* FluentUI-Info.plist */,
+				E61C96B52295E8D60006561F /* FluentUI.h */,
+				8F41CC672447B5580040B851 /* FluentUIResources.swift */,
 			);
 			name = FluentUI;
 			path = ../FluentUI;
@@ -231,6 +263,7 @@
 				E61C96D02295FA360006561F /* FluentUI_debug.xcconfig */,
 				E61C96CE2295ED8A0006561F /* FluentUI_framework.xcconfig */,
 				E61C96D12295FA4E0006561F /* FluentUI_release.xcconfig */,
+				8F41CC732447B66A0040B851 /* FluentUI_resources.xcconfig */,
 				8F69C7B22295FABD009F69C0 /* FluentUI_testapp.xcconfig */,
 				8F931A6C22BD593300311764 /* FluentUI_unittest.xcconfig */,
 				8F3572322361143B0076FBBE /* FluentUI.xctestplan */,
@@ -252,6 +285,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		8F41CC6C2447B60F0040B851 /* FluentUIResources-macos */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8F41CC702447B60F0040B851 /* Build configuration list for PBXNativeTarget "FluentUIResources-macos" */;
+			buildPhases = (
+				8F41CC692447B60F0040B851 /* Sources */,
+				8F41CC6A2447B60F0040B851 /* Frameworks */,
+				8F41CC6B2447B60F0040B851 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "FluentUIResources-macos";
+			productName = "FluentUIResources-macos";
+			productReference = 8F41CC6D2447B60F0040B851 /* FluentUIResources-macos.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
 		8F5368012295F4BF0098AC8F /* FluentUITestApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8F53680F2295F4C10098AC8F /* Build configuration list for PBXNativeTarget "FluentUITestApp" */;
@@ -282,6 +332,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				8F41CC7C2447B8F40040B851 /* PBXTargetDependency */,
 			);
 			name = FluentUI;
 			productName = FluentUI;
@@ -316,6 +367,9 @@
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Microsoft Corporation";
 				TargetAttributes = {
+					8F41CC6C2447B60F0040B851 = {
+						CreatedOnToolsVersion = 11.4;
+					};
 					8F5368012295F4BF0098AC8F = {
 						CreatedOnToolsVersion = 10.2.1;
 					};
@@ -373,11 +427,21 @@
 				E61C96B12295E8D60006561F /* FluentUI */,
 				E61C96BA2295E8D60006561F /* FluentUITests */,
 				8F5368012295F4BF0098AC8F /* FluentUITestApp */,
+				8F41CC6C2447B60F0040B851 /* FluentUIResources-macos */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		8F41CC6B2447B60F0040B851 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F41CC7D2447B93C0040B851 /* FluentUI.xcassets in Resources */,
+				8F41CC7E2447B9430040B851 /* FluentUI.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8F5368002295F4BF0098AC8F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -391,8 +455,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8F16282123CCD17900F81956 /* FluentUI.xcassets in Resources */,
-				80FEB30F230DE91D00F9FF3E /* FluentUI.strings in Resources */,
+				8F41CC7A2447B8DB0040B851 /* FluentUIResources-macos.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,6 +470,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8F41CC692447B60F0040B851 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8F5367FE2295F4BF0098AC8F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -430,6 +500,7 @@
 				8061BF7E22EF936800F2D245 /* DatePickerView.swift in Sources */,
 				8061BF7F22EF936800F2D245 /* DatePickerController.swift in Sources */,
 				8F250B8B22B3045100142B0E /* AvatarView.swift in Sources */,
+				8F41CC682447B5580040B851 /* FluentUIResources.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -445,6 +516,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		8F41CC7C2447B8F40040B851 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8F41CC6C2447B60F0040B851 /* FluentUIResources-macos */;
+			targetProxy = 8F41CC7B2447B8F40040B851 /* PBXContainerItemProxy */;
+		};
 		8F69C7B4229604A8009F69C0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = E61C96B12295E8D60006561F /* FluentUI */;
@@ -458,10 +534,10 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		80FEB2F8230DE53F00F9FF3E /* FluentUI.strings */ = {
+		8F41CC762447B7D80040B851 /* FluentUI.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				80FEB2F7230DE53F00F9FF3E /* en */,
+				8F41CC772447B7D80040B851 /* en */,
 			);
 			name = FluentUI.strings;
 			sourceTree = "<group>";
@@ -507,6 +583,20 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		8F41CC712447B60F0040B851 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F41CC732447B66A0040B851 /* FluentUI_resources.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		8F41CC722447B60F0040B851 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F41CC732447B66A0040B851 /* FluentUI_resources.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
 		8F53680D2295F4C10098AC8F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8F69C7B22295FABD009F69C0 /* FluentUI_testapp.xcconfig */;
@@ -568,6 +658,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8F41CC702447B60F0040B851 /* Build configuration list for PBXNativeTarget "FluentUIResources-macos" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8F41CC712447B60F0040B851 /* Debug */,
+				8F41CC722447B60F0040B851 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		8F53680F2295F4C10098AC8F /* Build configuration list for PBXNativeTarget "FluentUITestApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

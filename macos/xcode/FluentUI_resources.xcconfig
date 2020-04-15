@@ -1,0 +1,11 @@
+//
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
+//
+
+#include "FluentUI_common.xcconfig"
+
+PRODUCT_NAME = FluentUIResources-macos
+PRODUCT_BUNDLE_IDENTIFIER = FluentUIResources-macos
+
+INFOPLIST_FILE = ../FluentUIResources-macos/FluentUIResources-Info.plist

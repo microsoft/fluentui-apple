@@ -96,7 +96,7 @@ class DatePickerView: NSView {
 		setAccessibilityLabel(NSLocalizedString(
 			"DATEPICKER_ACCESSIBILITY_DATEPICKER_LABEL",
 			tableName: "FluentUI",
-			bundle: Bundle(for: DatePickerView.self),
+			bundle: FluentUIResources.resourceBundle,
 			comment: ""
 		))
 		
