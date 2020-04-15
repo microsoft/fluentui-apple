@@ -345,7 +345,7 @@ class MSLargeTitleView: UIView {
 // MARK: - Notification.Name Declarations
 
 extension NSNotification.Name {
-    static let accessoryExpansionRequested = Notification.Name("microsoft.officeUIFabric.accessoryExpansionRequested")
+    static let accessoryExpansionRequested = Notification.Name("microsoft.fluentui.accessoryExpansionRequested")
 }
 
 // MARK: - ProfileView

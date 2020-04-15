@@ -2,7 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "fabricLogo.pdf"
+      "filename" : "AppLogo.pdf"
     },
     {
       "idiom" : "universal",
@@ -14,7 +14,7 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "fabricLogoLarge.pdf",
+      "filename" : "AppLogoLarge.pdf",
       "width-class" : "regular",
       "height-class" : "regular"
     }

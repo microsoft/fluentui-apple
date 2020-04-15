@@ -106,7 +106,7 @@ extension MSTableViewHeaderFooterViewDemoController: UITableViewDelegate {
                 let title = NSMutableAttributedString(string: section.footerText)
                 let range = (title.string as NSString).range(of: section.footerLinkText)
                 if range.location != -1 {
-                    title.addAttribute(.link, value: "https://github.com/OfficeDev/ui-fabric-ios", range: range)
+                    title.addAttribute(.link, value: "https://github.com/microsoft/fluentui-apple", range: range)
                 }
                 footer.setup(style: .footer, attributedTitle: title)
 

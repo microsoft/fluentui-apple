@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        OfficeUIFabricFramework.initializeAppearance()
+        FluentUIFramework.initializeAppearance()
 
         let splitViewController = window!.rootViewController as! UISplitViewController
         let masterContainer = splitViewController.viewControllers.first as! UINavigationController
