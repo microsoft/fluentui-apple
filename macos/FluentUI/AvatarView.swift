@@ -316,7 +316,7 @@ open class AvatarView : NSView {
 	static let maximumNumberOfInitials = 2
 	
 	/// the color used for the outline view
-	static let outlineColor = NSColor(named: "AvatarView/outlineColor", bundle: Bundle(for: AvatarView.self))!
+	static let outlineColor = NSColor(named: "AvatarView/outlineColor", bundle: FluentUIResources.resourceBundle)!
 
 	/// Extract the initials to display from a name and email combo, providing a fallback otherwise
 	///

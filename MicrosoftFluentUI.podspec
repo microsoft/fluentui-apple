@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'MicrosoftFluentUI'
-  s.version          = '0.0.3'
+  s.version          = '0.0.4'
   s.summary          = 'Fluent UI is a set of reusable UI controls and tools'
   s.homepage         = "https://www.microsoft.com/design/fluent/#/"
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
@@ -15,5 +15,5 @@ Pod::Spec.new do |s|
   
   s.osx.deployment_target = "10.13"
   s.osx.source_files   = "macos/FluentUI/**/*.{swift,h}"
-  s.osx.resource_bundle = { 'FluentUIResources-macos' => "macos/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}" }
+  s.osx.resource_bundle = { 'FluentUIResources-macos' => "macos/FluentUIResources-macos/**/*.{storyboard,xib,xcassets,strings,stringsdict}" }
 end
