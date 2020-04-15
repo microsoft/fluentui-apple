@@ -5,9 +5,9 @@
       location = "group:FluentUI.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:OfficeUIFabric.Demo/FluentUI.Demo.xcodeproj">
+      location = "group:FluentUI.Demo/FluentUI.Demo.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:OfficeUIFabric.Demo/Pods/Pods.xcodeproj">
+      location = "group:FluentUI.Demo/Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>
