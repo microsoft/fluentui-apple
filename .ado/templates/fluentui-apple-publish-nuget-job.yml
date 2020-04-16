@@ -40,7 +40,7 @@ jobs:
     parameters:
       xcode_sdk: 'iphonesimulator'
       xcode_workspacePath: 'ios/FluentUI.xcworkspace'
-      xcode_actions: 'build test'
+      xcode_actions: 'build'
       xcode_scheme: 'FluentUI-iOS-StaticLib'
       xcode_configuration: 'Debug'
       xcode_extraArgs: '-destination "platform=iOS Simulator,name=iPhone 8" -xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides.xcconfig'
