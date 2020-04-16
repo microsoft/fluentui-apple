@@ -5,7 +5,6 @@ parameters:
   xcode_scheme: ''
   xcode_actions: ''
   xcode_useXcpretty: false
-  xcode_destination: ''
   xcode_extraArgs: ''
 
 steps:
@@ -21,7 +20,7 @@ steps:
       signingOption: auto
       packageApp: false
       teamId: '$(XCodeSigningMicrosoftTeamID)'
-      args: '-destination "${{ parameters.xcode_destination }}" -verbose -derivedDataPath DerivedData ${{ parameters.xcode_extraArgs }}'
+      args: '-verbose -derivedDataPath DerivedData ${{ parameters.xcode_extraArgs }}'
       useXcpretty: ${{ parameters.xcode_useXcpretty }}
       publishJUnitResults: ${{ parameters.xcode_useXcpretty }}
       xctoolReporter: 'junit:test-results.xml'

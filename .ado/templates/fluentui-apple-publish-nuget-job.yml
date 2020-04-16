@@ -40,7 +40,7 @@ jobs:
       xcode_actions: 'build test'
       xcode_scheme: 'FluentUI-iOS'
       xcode_configuration: 'Debug'
-      xcode_extraArgs: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides.xcconfig'
+      xcode_extraArgs: '-destination "platform=iOS Simulator,name=iPhone 8" -xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides.xcconfig'
   
   # iphonesimulator Library Release
   - template: apple-xcode-build.yml
@@ -50,7 +50,7 @@ jobs:
       xcode_actions: 'build'
       xcode_scheme: 'FluentUI-iOS'
       xcode_configuration: 'Release'
-      xcode_extraArgs: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides.xcconfig'
+      xcode_extraArgs: '-destination "platform=iOS Simulator,name=iPhone 8" -xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides.xcconfig'
 
   # iphoneos Library Debug
   - template: apple-xcode-build.yml
