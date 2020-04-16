@@ -1,0 +1,27 @@
+parameters:
+  xcode_sdk: ''
+  xcode_configuration: ''
+  xcode_workspacePath: ''
+  xcode_scheme: ''
+  xcode_actions: ''
+  xcode_useXcpretty: false
+  xcode_destination: ''
+  xcode_extraArgs: ''
+
+steps:
+  - task: Xcode@5
+    displayName: 'Xcode ${{ parameters.xcode_actions }} ${{ parameters.xcode_configuration }} ${{ parameters.xcode_sdk }} ${{ parameters.xcode_scheme }}'
+    inputs:
+      actions: '${{ parameters.xcode_actions }}'
+      configuration: ${{ parameters.xcode_configuration }}
+      sdk: ${{ parameters.xcode_sdk }}
+      xcWorkspacePath: ${{ parameters.xcode_workspacePath }}
+      scheme: ${{ parameters.xcode_scheme }}
+      xcodeDeveloperDir: /Applications/Xcode_11.2.1.app/Contents/Developer
+      signingOption: auto
+      packageApp: false
+      teamId: '$(XCodeSigningMicrosoftTeamID)'
+      args: '-destination "${{ parameters.xcode_destination }}" -verbose -derivedDataPath DerivedData ${{ parameters.xcode_extraArgs }}'
+      useXcpretty: ${{ parameters.xcode_useXcpretty }}
+      publishJUnitResults: ${{ parameters.xcode_useXcpretty }}
+      xctoolReporter: 'junit:test-results.xml'
