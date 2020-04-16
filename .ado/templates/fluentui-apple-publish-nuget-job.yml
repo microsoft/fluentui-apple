@@ -7,6 +7,9 @@ jobs:
   cancelTimeoutInMinutes: 5 # how much time to give 'run always even if cancelled tasks' before killing them
   
   steps:
+  # Select proper XCode version
+  - template: apple-xcode-select.yml
+
   # - task: Npm@1
   #   displayName: 'npm install'
   #   inputs:
