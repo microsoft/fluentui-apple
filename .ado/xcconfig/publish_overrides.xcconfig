@@ -13,4 +13,4 @@ ONLY_ACTIVE_ARCH=NO
 BUILD_LIBRARY_FOR_DISTRIBUTION=YES
 
 // Explicitly build arm64e for iOS device builds in case our clients need it
-ARCHS[sdk=iphoneos*] = $(ARCHS_STANDARD) arm64e
+ARCHS = $(ARCHS_STANDARD) arm64e
