@@ -195,7 +195,6 @@ public final class MSColors: NSObject {
     @objc public static var primaryShade10: UIColor = Palette.communicationBlueShade10.color
     @objc public static var primaryShade20: UIColor = Palette.communicationBlueShade20.color
     @objc public static var primaryShade30: UIColor = Palette.communicationBlueShade30.color
-    @objc public static var primaryShade40: UIColor = Palette.communicationBlueShade40.color
 
     @objc public static var foregroundOnPrimary = UIColor(light: .white, dark: .black)
 
@@ -289,7 +288,7 @@ public final class MSColors: NSObject {
     }
 
     public struct Badge {
-        public static var background = UIColor(light: primaryTint40, dark: primaryShade40)
+        public static var background: UIColor = primaryTint40
         public static var backgroundSelected: UIColor = primary
         public static var backgroundDisabled: UIColor = background2b
         public static var backgroundError = UIColor(light: Palette.dangerTint40.color, dark: Palette.dangerShade40.color)

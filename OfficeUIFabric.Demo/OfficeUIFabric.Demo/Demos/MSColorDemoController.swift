@@ -11,15 +11,14 @@ class MSColorDemoController: DemoController {
         super.loadView()
 
         addTitle(text: "App specific color")
+        addRow(text: "Shade30", color: MSColors.primaryShade30)
+        addRow(text: "Shade20", color: MSColors.primaryShade20)
+        addRow(text: "Shade10", color: MSColors.primaryShade10)
         addRow(text: "Primary", color: MSColors.primary)
         addRow(text: "Tint10", color: MSColors.primaryTint10)
         addRow(text: "Tint20", color: MSColors.primaryTint20)
         addRow(text: "Tint30", color: MSColors.primaryTint30)
         addRow(text: "Tint40", color: MSColors.primaryTint40)
-        addRow(text: "Shade10", color: MSColors.primaryShade10)
-        addRow(text: "Shade20", color: MSColors.primaryShade20)
-        addRow(text: "Shade30", color: MSColors.primaryShade30)
-        addRow(text: "Shade40", color: MSColors.primaryShade40)
 
         addTitle(text: "Neutral colors")
         addRow(text: "gray950", color: MSColors.gray950)
