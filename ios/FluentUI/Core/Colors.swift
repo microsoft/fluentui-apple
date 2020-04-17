@@ -52,7 +52,6 @@ public final class MSColors: NSObject {
          case communicationBlueTint30
          case communicationBlueTint20
          case communicationBlueTint10
-         case communicationBlueShade40
          case communicationBlueShade30
          case communicationBlueShade20
          case communicationBlueShade10
@@ -153,8 +152,6 @@ public final class MSColors: NSObject {
                  return "communicationBlueTint20"
              case .communicationBlueTint10:
                  return "communicationBlueTint10"
-             case .communicationBlueShade40:
-                 return "communicationBlueShade40"
              case .communicationBlueShade30:
                  return "communicationBlueShade30"
              case .communicationBlueShade20:
@@ -319,13 +316,14 @@ public final class MSColors: NSObject {
         public static var background: UIColor = .clear
         public static var backgroundFilled: UIColor = primary
         public static var backgroundFilledDisabled: UIColor = disabled
-        public static var backgroundFilledHighlighted = UIColor(light: primaryTint10, dark: primaryShade20)
-        public static var border: UIColor = backgroundFilledHighlighted
+        public static var backgroundFilledHighlighted = UIColor(light: primaryTint10, dark: primaryTint20)
+        public static var border = UIColor(light: primary, dark: primaryTint20)
+        public static var borderTertiary: UIColor = primaryTint20
         public static var borderDisabled: UIColor = disabled
-        public static var borderHighlighted = UIColor(light: primaryTint20, dark: primaryShade20)
+        public static var borderHighlighted: UIColor = primaryTint20
         public static var title: UIColor = primary
         public static var titleDisabled: UIColor = foreground4
-        public static var titleHighlighted = UIColor(light: primaryTint10, dark: primaryShade20)
+        public static var titleHighlighted = UIColor(light: primaryTint10, dark: primaryTint20)
         public static var titleWithFilledBackground: UIColor = foregroundOnPrimary
     }
 

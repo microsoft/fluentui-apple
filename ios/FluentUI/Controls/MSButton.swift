@@ -27,6 +27,15 @@ import UIKit
         }
     }
 
+    var cornerRadius: CGFloat {
+        switch self {
+        case .primaryFilled, .primaryOutline, .secondaryOutline, .borderless:
+            return 8
+        case .tertiaryOutline:
+            return 5
+        }
+    }
+
     var hasBorders: Bool {
         switch self {
         case .primaryOutline, .secondaryOutline, .tertiaryOutline:
@@ -44,6 +53,15 @@ import UIKit
             return 18
         }
     }
+
+    var titleFont: UIFont {
+        switch self {
+        case .primaryFilled, .primaryOutline, .borderless:
+            return MSFonts.button1
+        case .secondaryOutline, .tertiaryOutline:
+            return MSFonts.button2
+        }
+    }
 }
 
 // MARK: - MSButton
@@ -53,8 +71,6 @@ import UIKit
 open class MSButton: UIButton {
     private struct Constants {
         static let borderWidth: CGFloat = 1
-        static let cornerRadius: CGFloat = 8
-        static var titleFont: UIFont { return MSFonts.button1 }
     }
 
     @objc open var style: MSButtonStyle = .secondaryOutline {
@@ -114,12 +130,12 @@ open class MSButton: UIButton {
     }
 
     open func initialize() {
-        layer.cornerRadius = Constants.cornerRadius
+        layer.cornerRadius = style.cornerRadius
         if #available(iOS 13.0, *) {
             layer.cornerCurve = .continuous
         }
 
-        titleLabel?.font = Constants.titleFont
+        titleLabel?.font = style.titleFont
         titleLabel?.adjustsFontForContentSizeCategory = true
         update()
     }
@@ -170,13 +186,17 @@ open class MSButton: UIButton {
     }
 
     private func updateBorderColor() {
+        if !style.hasBorders {
+            return
+        }
+
         let borderColor: UIColor
         if isHighlighted {
             borderColor = MSColors.Button.borderHighlighted
         } else if !isEnabled {
             borderColor = MSColors.Button.borderDisabled
         } else {
-            borderColor = MSColors.Button.border
+            borderColor = style == .tertiaryOutline ? MSColors.Button.borderTertiary : MSColors.Button.border
         }
         layer.borderColor = borderColor.cgColor
     }
