@@ -81,8 +81,8 @@ jobs:
 
   # generate the nuspecsToPack and sanitizedBuildNumber environment variables
 
-  # - script: 'node scripts/vsto-collect-nuspec.js apple'
-  #   displayName: 'Generate versioned nuspec files'
+  - bash: 'scripts/generate_build_number.sh'
+    displayName: 'Generate Build Number'
 
   # pack all the nuspecs
 
