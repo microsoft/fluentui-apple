@@ -69,15 +69,18 @@ class MSDrawerPresentationController: UIPresentationController {
     // MARK: Presentation
 
     override func presentationTransitionWillBegin() {
-        containerView?.addSubview(backgroundView)
-        backgroundView.fitIntoSuperview()
-        backgroundView.addSubview(dimmingView)
+        if let containerView = containerView {
+            containerView.addSubview(backgroundView)
+            backgroundView.fitIntoSuperview()
+            backgroundView.addSubview(dimmingView)
 
-        containerView?.addSubview(contentView)
-        if presentationDirection.isVertical && actualPresentationOffset == 0 {
-            containerView?.addSubview(separator)
+            containerView.addSubview(contentView)
+            // Clipping is added to prevent any animation bug sliding over the navigation bar
+            contentView.clipsToBounds = true
+            if presentationDirection.isVertical && actualPresentationOffset == 0 {
+                containerView.addSubview(separator)
+            }
         }
-
         updateLayout()
 
         contentView.addSubview(shadowView)
