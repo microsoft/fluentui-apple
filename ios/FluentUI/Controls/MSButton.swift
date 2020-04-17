@@ -186,13 +186,17 @@ open class MSButton: UIButton {
     }
 
     private func updateBorderColor() {
+        if !style.hasBorders {
+            return
+        }
+
         let borderColor: UIColor
         if isHighlighted {
             borderColor = MSColors.Button.borderHighlighted
         } else if !isEnabled {
             borderColor = MSColors.Button.borderDisabled
         } else {
-            borderColor = MSColors.Button.border
+            borderColor = style == .tertiaryOutline ? MSColors.Button.borderTertiary : MSColors.Button.border
         }
         layer.borderColor = borderColor.cgColor
     }
