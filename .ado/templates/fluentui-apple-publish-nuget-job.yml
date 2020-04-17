@@ -75,8 +75,9 @@ jobs:
       xcode_configuration: 'Release'
       xcode_extraArgs: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides.xcconfig'
       
-  # - bash: 'scripts/prepare_for_nuget_pack.sh'
-  #   displayName: 'Zip frameworks to preserve symlinks'
+  # Zip our build output. It's important to zip here to preserve symlinks
+  - bash: 'scripts/prepare_for_nuget_pack.sh'
+    displayName: 'Zip build output for NuGet'
 
   # generate the nuspecsToPack and sanitizedBuildNumber environment variables
 
@@ -85,12 +86,12 @@ jobs:
 
   # pack all the nuspecs
 
-  # - task: NuGetCommand@2
-  #   displayName: 'NuGet pack'
-  #   inputs:
-  #     command: pack
-  #     packagesToPack: '$(nuspecsToPack)'
-  #     buildProperties: buildNumber=$(sanitizedBuildNumber);commitId=$(Build.SourceVersion);repoUri=$(Build.Repository.Uri)
+  - task: NuGetCommand@2
+    displayName: 'NuGet pack'
+    inputs:
+      command: pack
+      packagesToPack: 'FluentUI.nuspec'
+      buildProperties: buildNumber=$(sanitizedBuildNumber);commitId=$(Build.SourceVersion);repoUri=$(Build.Repository.Uri)
 
   # push packages
 

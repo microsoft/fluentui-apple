@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.Office.FluentUI.Apple</id>
+    <version>$buildNumber$</version>
+    <description>FluentUI native controls for iOS and macOS</description>
+    <authors>Microsoft</authors>
+    <projectUrl>https://github.com/microsoft/fluentui-apple</projectUrl>
+    <repository type="git" url="$repoUri$" commit="$commitId$" />
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+  </metadata>
+  <files>
+    <!-- Zipped Build Output -->
+    <file src="DerivedData\Build\Products\nuget\BuildOutput.zip" target="Archives/BuildOutput.zip"/>
+  </files>
+</package>
