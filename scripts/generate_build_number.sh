@@ -1,9 +1,16 @@
 #!/bin/bash
 
 # Tweak our build number and export it as a variable for the nuget packing script
+BUILD_VERSION_SUFFIX=""
+BUILD_VERSION_STRING="0.0.0.1"
 
-echo "Source Branch Name: $BUILD_SOURCEBRANCHNAME"
-echo "Build Number: $BUILD_BUILDNUMBER"
+if [ -n "$BUILD_SOURCEBRANCHNAME" ] && [ $BUILD_SOURCEBRANCHNAME != "master" ]; then
+    ADJUSTED_SOURCEBRANCHNAME="${BUILD_SOURCEBRANCHNAME//[^a-z0-9A-Z]/}"
+    BUILD_VERSION_SUFFIX="-$ADJUSTED_SOURCEBRANCHNAME"
+fi
 
-echo "Adjusted BuildNumber: $BUILD_BUILDNUMBER"
-echo "##vso[task.setvariable variable=sanitizedBuildNumber]$BUILD_BUILDNUMBER"
+if [ -n "$BUILD_BUILDNUMBER" ]; then
+    BUILD_VERSION_STRING=$BUILD_BUILDNUMBER
+fi
+
+echo "##vso[task.setvariable variable=sanitizedBuildNumber]$BUILD_VERSION_STRING$BUILD_VERSION_SUFFIX"
