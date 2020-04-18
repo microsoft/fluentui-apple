@@ -10,11 +10,6 @@ jobs:
   # Select proper XCode version
   - template: apple-xcode-select.yml
 
-  # - task: Npm@1
-  #   displayName: 'npm install'
-  #   inputs:
-  #     verbose: false
-
   # macOS Framework Debug
   - template: apple-xcode-build.yml
     parameters:
@@ -79,13 +74,11 @@ jobs:
   - bash: 'scripts/prepare_for_nuget_pack.sh'
     displayName: 'Zip build output for NuGet'
 
-  # generate the nuspecsToPack and sanitizedBuildNumber environment variables
-
+  # generate the sanitizedBuildNumber environment variable
   - bash: 'scripts/generate_build_number.sh'
     displayName: 'Generate Build Number'
 
-  # pack all the nuspecs
-
+  # pack the nuspec
   - task: NuGetCommand@2
     displayName: 'NuGet pack'
     inputs:
@@ -93,8 +86,7 @@ jobs:
       packagesToPack: 'FluentUI.nuspec'
       buildProperties: buildNumber=$(sanitizedBuildNumber);commitId=$(Build.SourceVersion);repoUri=$(Build.Repository.Uri)
 
-  # push packages
-
+  # push the package package
   - task: NuGetCommand@2
     displayName: 'NuGet push'
     inputs:
