@@ -95,8 +95,10 @@ jobs:
 
   # push packages
 
-  # - task: PublishBuildArtifacts@1
-  #   displayName: 'Publish Artifact: OfficeUIFabricmacOSNuPkg'
-  #   inputs:
-  #     ArtifactName: OfficeUIFabricmacOSNuPkg
-  #   condition: succeededOrFailed()
+  - task: NuGetCommand@2
+    displayName: 'NuGet push'
+    inputs:
+      command: push
+      packagesToPush: '$(Build.ArtifactStagingDirectory)/Microsoft.FluentUI.Apple.*.nupkg'
+      publishVstsFeed: ''
+
