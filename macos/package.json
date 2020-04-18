@@ -1,9 +1,0 @@
-{
-  "scripts": {
-    "postinstall": "node scripts/set-xcodeproj-workspacesettings.js"
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "@office-iss/sdx-build-tools": "0.5.219"
-  }
-}
