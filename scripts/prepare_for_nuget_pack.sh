@@ -64,6 +64,6 @@ cd "nuget"
 
 # Zip the build output
 echo "Creating zip archive named BuildOutput.zip containing all the platform folders"
-zip --symlinks -r BuildOutput.zip Debug-macosx/ Ship-macosx/ Debug-iphoneos/ Ship-iphoneos/ Debug-iphonesimulator/ Ship-iphonesimulator/
+zip --symlinks -r BuildOutput.zip Debug-macosx/ Ship-macosx/ Debug-iphoneos/ Ship-iphoneos/ Debug-iphonesimulator/ Ship-iphonesimulator/ include/
 
 exit $?
