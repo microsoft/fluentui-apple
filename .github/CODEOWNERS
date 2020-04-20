@@ -5,14 +5,14 @@
 # the repo. Unless a later match takes precedence,
 *            @microsoft/fluentui-native
 
-# cocoapod related files or version updates require admin approval
-Podfile    @microsoft/fluentui-native-admin
-*.podspec  @microsoft/fluentui-native-admin
-info.plist @microsoft/fluentui-native-admin
-*.nuspec   @microsoft/fluentui-native-admin
-*.yml      @microsoft/fluentui-native-admin
-*.xcconfig @microsoft/fluentui-native-admin
+# publishing related files require admin approval
+Podfile    @microsoft/fluentui-native-admins
+*.podspec  @microsoft/fluentui-native-admins
+info.plist @microsoft/fluentui-native-admins
+*.nuspec   @microsoft/fluentui-native-admins
+*.yml      @microsoft/fluentui-native-admins
+*.xcconfig @microsoft/fluentui-native-admins
 
 # any scripts added to repo require admin approval
-*.sh       @microsoft/fluentui-native-admin
-*.js       @microsoft/fluentui-native-admin
+*.sh       @microsoft/fluentui-native-admins
+*.js       @microsoft/fluentui-native-admins
