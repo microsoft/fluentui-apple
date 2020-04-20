@@ -16,7 +16,7 @@ steps:
       sdk: ${{ parameters.xcode_sdk }}
       xcWorkspacePath: ${{ parameters.xcode_workspacePath }}
       scheme: ${{ parameters.xcode_scheme }}
-      xcodeDeveloperDir: /Applications/Xcode_11.2.1.app/Contents/Developer
+      xcodeVersion: default
       signingOption: auto
       packageApp: false
       teamId: '$(XCodeSigningMicrosoftTeamID)'
