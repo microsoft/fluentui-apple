@@ -15,17 +15,30 @@ function make_dir_if_necessary()
     fi
 }
 
-# The rsync parameters to omit binary swiftmodule files in favor of swiftinterface files
-#
-# Note: Be sure to directly expand this variable (not surrounded in quotes) to have rsync treat these as 3 separate parameters
-RSYNC_EXCLUDE_PARAMS="--exclude '*.swiftsourceinfo' --exclude '*.swiftdoc' --exclude '*.swiftmodule'"
-
-# Invoke rsync -a but exclude binary swift module definition files since we prefer swiftinterface files for compatibility
+# Invoke rsync -am but exclude swiftsourceinfo and swiftdoc file types
 #
 # \param $@ additional arguments to rsync, see man rsync for more details
-function rsync_excluding_binary_swift_module_files()
+function rsync_excluding_swiftsourceinfo_swiftdoc()
 {
-    rsync -a --exclude '*.swiftsourceinfo' --exclude '*.swiftdoc' --exclude '*.swiftmodule' "$@"
+    rsync -am --exclude '*.swiftsourceinfo' --exclude '*.swiftdoc' "$@"
+}
+
+# Invoke rsync_excluding_swiftsourceinfo_swiftdoc but also exclude nested .swiftmodule files.
+# For use when rsync'ing an entire framework directory that contains a .swiftmodule folder
+#
+# \param $@ additional arguments to rsync, see man rsync for more details
+function rsync_excluding_binary_swift_module_files_framework()
+{
+    rsync_excluding_swiftsourceinfo_swiftdoc --exclude '*.swiftmodule/*.swiftmodule' "$@"
+}
+
+# Invoke rsync_excluding_swiftsourceinfo_swiftdoc but also exclude .swiftmodule files.
+# For use when rsync'ing an existing .swiftmodule folder
+#
+# \param $@ additional arguments to rsync, see man rsync for more details
+function rsync_excluding_binary_swift_module_files_swiftmodule_folder()
+{
+    rsync_excluding_swiftsourceinfo_swiftdoc --exclude '*.swiftmodule' "$@"
 }
 
 # Build up our output directory in Products/nuget
@@ -40,37 +53,36 @@ NUGET_OUTPUT_INCLUDE_DIR_IOS="$NUGET_OUTPUT_INCLUDE_DIR/ios"
 make_dir_if_necessary "$NUGET_OUTPUT_INCLUDE_DIR_IOS"
 
 # Copy a single generated header into our output directory in an includes folder. Pick the release device header since that's likely the most important target
-# Include the -m flag for not copying empty folders
-rsync -am "DerivedData/Build/Intermediates.noindex/FluentUI.build/Release-iphoneos/FluentUILib.build/DerivedSources/FluentUILib-Swift.h" "$NUGET_OUTPUT_INCLUDE_DIR_IOS/FluentUILib-Swift.h"
+rsync -a "DerivedData/Build/Intermediates.noindex/FluentUI.build/Release-iphoneos/FluentUILib.build/DerivedSources/FluentUILib-Swift.h" "$NUGET_OUTPUT_INCLUDE_DIR_IOS/FluentUILib-Swift.h"
 
 # cd into the products directory to make copying all the output easier
 cd $PRODUCTS_DIR
 
 # Copy each platform
 make_dir_if_necessary "nuget/Debug-macosx"
-rsync_excluding_binary_swift_module_files Debug/FluentUI.framework/ nuget/Debug-macosx/FluentUI.framework/
+rsync_excluding_binary_swift_module_files_framework Debug/FluentUI.framework/ nuget/Debug-macosx/FluentUI.framework/
 
 make_dir_if_necessary "nuget/Ship-macosx"
-rsync_excluding_binary_swift_module_files Release/FluentUI.framework/ nuget/Ship-macosx/FluentUI.framework/
+rsync_excluding_binary_swift_module_files_framework Release/FluentUI.framework/ nuget/Ship-macosx/FluentUI.framework/
 
 make_dir_if_necessary "nuget/Debug-iphoneos"
 rsync -a Debug-iphoneos/libFluentUILib.a nuget/Debug-iphoneos/
-rsync_excluding_binary_swift_module_files Debug-iphoneos/FluentUILib.swiftmodule/ nuget/Debug-iphoneos/FluentUILib.swiftmodule/
+rsync_excluding_binary_swift_module_files_swiftmodule_folder Debug-iphoneos/FluentUILib.swiftmodule/ nuget/Debug-iphoneos/FluentUILib.swiftmodule/
 rsync -a Debug-iphoneos/FluentUIResources-ios.bundle/ nuget/Debug-iphoneos/FluentUIResources-ios.bundle/
 
 make_dir_if_necessary "nuget/Ship-iphoneos"
 rsync -a Release-iphoneos/libFluentUILib.a nuget/Ship-iphoneos/
-rsync_excluding_binary_swift_module_files Release-iphoneos/FluentUILib.swiftmodule/ nuget/Ship-iphoneos/FluentUILib.swiftmodule/
+rsync_excluding_binary_swift_module_files_swiftmodule_folder Release-iphoneos/FluentUILib.swiftmodule/ nuget/Ship-iphoneos/FluentUILib.swiftmodule/
 rsync -a Release-iphoneos/FluentUIResources-ios.bundle/ nuget/Ship-iphoneos/FluentUIResources-ios.bundle/
 
 make_dir_if_necessary "nuget/Debug-iphonesimulator"
 rsync -a Debug-iphonesimulator/libFluentUILib.a nuget/Debug-iphonesimulator/
-rsync_excluding_binary_swift_module_files Debug-iphonesimulator/FluentUILib.swiftmodule/ nuget/Debug-iphonesimulator/FluentUILib.swiftmodule/
+rsync_excluding_binary_swift_module_files_swiftmodule_folder Debug-iphonesimulator/FluentUILib.swiftmodule/ nuget/Debug-iphonesimulator/FluentUILib.swiftmodule/
 rsync -a Debug-iphonesimulator/FluentUIResources-ios.bundle/ nuget/Debug-iphonesimulator/FluentUIResources-ios.bundle/
 
 make_dir_if_necessary "nuget/Ship-iphonesimulator"
 rsync -a Release-iphonesimulator/libFluentUILib.a nuget/Ship-iphonesimulator/
-rsync_excluding_binary_swift_module_files Release-iphonesimulator/FluentUILib.swiftmodule/ nuget/Ship-iphonesimulator/FluentUILib.swiftmodule/
+rsync_excluding_binary_swift_module_files_swiftmodule_folder Release-iphonesimulator/FluentUILib.swiftmodule/ nuget/Ship-iphonesimulator/FluentUILib.swiftmodule/
 rsync -a Release-iphonesimulator/FluentUIResources-ios.bundle/ nuget/Ship-iphonesimulator/FluentUIResources-ios.bundle/
 
 # cd into our nuget folder to finally zip up our build output
