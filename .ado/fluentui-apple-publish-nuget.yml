@@ -10,13 +10,5 @@ variables: { tags: "production, multi-phased" }
 # This file defines the Apple publish build steps
 name: 1.$(Date:yyyy).$(Date:MMdd)-v$(Rev:r)
 
-stages:
-- stage: fabric_macos_pr_stage
-  displayName: PR Stage
-  jobs:
-  - template: templates/fabric-macos-build-test-pr-job.yml
-
-- stage: fabric_macos_publish_nuget_stage
-  displayName: NuGet Publish Stage
-  jobs:
-  - template: templates/fabric-macos-nuget-publish-job.yml
+jobs:
+- template: templates/fluentui-apple-publish-nuget-job.yml
