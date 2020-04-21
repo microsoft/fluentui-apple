@@ -196,7 +196,7 @@ open class MSButton: UIButton {
         } else if !isEnabled {
             borderColor = MSColors.Button.borderDisabled
         } else {
-            borderColor = style == .tertiaryOutline ? MSColors.Button.borderTertiary : MSColors.Button.border
+            borderColor = MSColors.Button.border
         }
         layer.borderColor = borderColor.cgColor
     }
