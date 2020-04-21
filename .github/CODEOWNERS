@@ -3,4 +3,16 @@
 
 # These owners will be the default owners for everything in
 # the repo. Unless a later match takes precedence,
-*       @microsoft/fluentui-native-admins
+*            @microsoft/fluentui-native
+
+# publishing related files require admin approval
+Podfile    @microsoft/fluentui-native-admins
+*.podspec  @microsoft/fluentui-native-admins
+info.plist @microsoft/fluentui-native-admins
+*.nuspec   @microsoft/fluentui-native-admins
+*.yml      @microsoft/fluentui-native-admins
+*.xcconfig @microsoft/fluentui-native-admins
+
+# any scripts added to repo require admin approval
+*.sh       @microsoft/fluentui-native-admins
+*.js       @microsoft/fluentui-native-admins
