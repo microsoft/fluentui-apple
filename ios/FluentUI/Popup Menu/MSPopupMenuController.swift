@@ -26,7 +26,7 @@ open class MSPopupMenuController: MSDrawerController {
     open override var resizingBehavior: MSDrawerResizingBehavior { get { return .dismiss } set { } }
 
     open override var preferredContentSize: CGSize { get { return super.preferredContentSize } set { } }
-    override var preferredContentWidth: CGFloat {
+    open override var preferredContentWidth: CGFloat {
         var width = Constants.minimumContentWidth
         if let headerItem = headerItem {
             if !descriptionView.isHidden {
@@ -44,7 +44,7 @@ open class MSPopupMenuController: MSDrawerController {
         }
         return width
     }
-    override var preferredContentHeight: CGFloat {
+    open override var preferredContentHeight: CGFloat {
         var height: CGFloat = 0
         if let headerItem = headerItem {
             if !descriptionView.isHidden {

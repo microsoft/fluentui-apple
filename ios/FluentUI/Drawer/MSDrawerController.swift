@@ -282,8 +282,8 @@ open class MSDrawerController: UIViewController {
         }
     }
     // Override to provide the preferred size based on specifics of the concrete drawer subclass (see popup menu, for example)
-    var preferredContentWidth: CGFloat { return 0 }
-    var preferredContentHeight: CGFloat { return 0 }
+    open var preferredContentWidth: CGFloat { return 0 }
+    open var preferredContentHeight: CGFloat { return 0 }
     var tracksContentHeight: Bool {
         guard presentationController is UIPopoverPresentationController || presentationDirection.isVertical else {
             return false
