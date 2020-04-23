@@ -7,6 +7,7 @@ import UIKit
 
 // MARK: MSAvatarSize
 
+/// `MSAvatarSize` detemines the size, font, and corner radius for `MSAvatarView`
 @objc public enum MSAvatarSize: Int, CaseIterable {
     case extraSmall
     case small
@@ -48,6 +49,18 @@ import UIKit
             return CGSize(width: 70, height: 70)
         }
     }
+
+    /// only used for `MSAvatarView` with `MSAvatarStyle.square`
+    var squareCornerRadius: CGFloat {
+        switch self {
+        case .extraSmall, .small, .medium:
+            return 2
+        case .large, .extraLarge:
+            return 4
+        case .extraExtraLarge:
+            return 8
+        }
+    }
 }
 
 // MARK: - MSAvatarStyle
@@ -69,7 +82,6 @@ open class MSAvatarView: UIView {
         static let borderWidth: CGFloat = 2
         static let extraExtraLargeBorderWidth: CGFloat = 4
         static let animationDuration: TimeInterval = 0.2
-        static let squareAvatarCornerRadius: CGFloat = 2
     }
 
     private struct SetupData: Equatable {
@@ -171,7 +183,7 @@ open class MSAvatarView: UIView {
     }
 
     private func cornerRadius(for width: CGFloat) -> CGFloat {
-        return style == .circle ? width / 2 : Constants.squareAvatarCornerRadius
+        return style == .circle ? width / 2 : avatarSize.squareCornerRadius
     }
 
     // MARK: Setup
