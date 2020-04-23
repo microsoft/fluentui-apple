@@ -10,8 +10,8 @@ class MSAvatarViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        createSection(withTitle: "Circle style", name: "Kat Larrson", image: UIImage(named: "avatar_kat_larsson")!, style: .circle)
-        createSection(withTitle: "Square style", name: "NorthWind Traders", image: UIImage(named: "site")!, style: .square)
+        createSection(withTitle: "Circle style for person", name: "Kat Larrson", image: UIImage(named: "avatar_kat_larsson")!, style: .circle)
+        createSection(withTitle: "Square style for group", name: "NorthWind Traders", image: UIImage(named: "site")!, style: .square)
     }
 
     private func createSection(withTitle title: String, name: String, image: UIImage, style: MSAvatarStyle) {
