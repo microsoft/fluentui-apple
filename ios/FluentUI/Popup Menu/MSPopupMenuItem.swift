@@ -33,8 +33,10 @@ open class MSPopupMenuItem: NSObject {
     @objc public var isSelected: Bool = false
 
     @objc public let onSelected: (() -> Void)?
+    
+    @objc public var checkmarkVisibleOnSelect: Bool = true
 
-    @objc public init(image: UIImage? = nil, selectedImage: UIImage? = nil, accessoryImage: UIImage? = nil, title: String, subtitle: String? = nil, accessoryView: UIView? = nil, isEnabled: Bool = true, isSelected: Bool = false, executes executionMode: ExecutionMode = .onSelection, onSelected: (() -> Void)? = nil) {
+    @objc public init(image: UIImage? = nil, selectedImage: UIImage? = nil, accessoryImage: UIImage? = nil, title: String, subtitle: String? = nil, accessoryView: UIView? = nil, isEnabled: Bool = true, isSelected: Bool = false, executes executionMode: ExecutionMode = .onSelection, onSelected: (() -> Void)? = nil, checkmarkVisibleOnSelect: Bool = true) {
         self.image = image?.renderingMode == .automatic ? image?.withRenderingMode(.alwaysTemplate) : image
         self.selectedImage = selectedImage ?? image?.image(withPrimaryColor: MSColors.PopupMenu.Item.imageSelected)
         self.accessoryImage = accessoryImage
@@ -45,6 +47,7 @@ open class MSPopupMenuItem: NSObject {
         self.isSelected = isSelected
         self.executionMode = executionMode
         self.onSelected = onSelected
+        self.checkmarkVisibleOnSelect = checkmarkVisibleOnSelect
         super.init()
     }
 

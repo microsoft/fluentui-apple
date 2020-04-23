@@ -59,7 +59,7 @@ class MSPopupMenuDemoController: DemoController {
         controller.addItems([
             MSPopupMenuItem(image: UIImage(named: "mail-unread-24x24"), title: "Unread"),
             MSPopupMenuItem(image: UIImage(named: "flag-24x24"), title: "Flagged", accessoryView: createAccessoryView(text: "New")),
-            MSPopupMenuItem(image: UIImage(named: "attach-24x24"), accessoryImage: UIImage(named: "gleam"), title: "Attachments")
+            MSPopupMenuItem(image: UIImage(named: "attach-24x24"), accessoryImage: UIImage(named: "gleam"), title: "Attachments", checkmarkVisible: false)
         ])
 
         let originalTitle = sender.title
