@@ -165,10 +165,6 @@ class MSPopupMenuItemCell: MSTableViewCell {
         titleLabel.textColor = isSelected ? MSColors.PopupMenu.Item.titleSelected : MSColors.Table.Cell.title
         subtitleLabel.textColor = isSelected ? MSColors.PopupMenu.Item.subtitleSelected : MSColors.Table.Cell.subtitle
 
-        if let item = item,
-        item.checkmarkVisibleOnSelect
-        {
-            _accessoryType = isSelected ? .checkmark : .none
-        }
+        _accessoryType = (isSelected && item?.isAccessoryCheckmarkVisible == true) ? .checkmark : .none
     }
 }
