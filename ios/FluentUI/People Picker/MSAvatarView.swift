@@ -7,6 +7,7 @@ import UIKit
 
 // MARK: MSAvatarSize
 
+/// `MSAvatarSize` detemines the size, font, and corner radius for `MSAvatarView`
 @objc public enum MSAvatarSize: Int, CaseIterable {
     case extraSmall
     case small
@@ -49,6 +50,7 @@ import UIKit
         }
     }
 
+    /// only used for `MSAvatarView` with `MSAvatarStyle.square`
     var squareCornerRadius: CGFloat {
         switch self {
         case .extraSmall, .small, .medium:
