@@ -17,6 +17,12 @@
 		497DC2DA24185885008D86F8 /* MSPillButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D724185885008D86F8 /* MSPillButtonBar.swift */; };
 		497DC2DB24185885008D86F8 /* MSPillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D824185885008D86F8 /* MSPillButton.swift */; };
 		497DC2DC24185885008D86F8 /* MSPillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D824185885008D86F8 /* MSPillButton.swift */; };
+		56DA1CD824523611008D745E /* MSShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EAAEAC2347E1DF00C7244E /* MSShimmerView.swift */; };
+		56DA1CD924523616008D745E /* MSShimmerLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A0D76B233AEF6C00F432FD /* MSShimmerLinesView.swift */; };
+		56DA1CDA2452361B008D745E /* MSShimmerViewAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0938E45235F66E300256251 /* MSShimmerViewAppearance.swift */; };
+		56DA1CDB2452361E008D745E /* MSShimmerLinesViewAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A0D76C233AEF6C00F432FD /* MSShimmerLinesViewAppearance.swift */; };
+		56DA1CDC24523624008D745E /* MSShimmerAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A0D76A233AEF6C00F432FD /* MSShimmerAppearance.swift */; };
+		56DA1CDD24523699008D745E /* MSAnimationSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0938E43235E8ED500256251 /* MSAnimationSynchronizer.swift */; };
 		8FD0116E228A82A600D25925 /* MSBadgeField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45EB78F219E310F008646A2 /* MSBadgeField.swift */; };
 		8FD0116F228A82A600D25925 /* MSBadgeStringExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A8BBCC21BF6D6900D5E3ED /* MSBadgeStringExtractor.swift */; };
 		8FD01170228A82A600D25925 /* MSBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444D6B52183A9740002B4D4 /* MSBadgeView.swift */; };
@@ -1124,10 +1130,12 @@
 				FD41C8BF22DD47120086F899 /* UINavigationItem+Navigation.swift in Sources */,
 				8FD0117E228A82A600D25925 /* MSDimmingView.swift in Sources */,
 				8FD0117F228A82A600D25925 /* MSDotView.swift in Sources */,
+				56DA1CDD24523699008D745E /* MSAnimationSynchronizer.swift in Sources */,
 				8FD01180228A82A600D25925 /* MSEasyTapButton.swift in Sources */,
 				FD41C88522DD13230086F899 /* MSContentScrollViewTraits.swift in Sources */,
 				8FD01181228A82A600D25925 /* MSLabel.swift in Sources */,
 				8FD01182228A82A600D25925 /* MSResizingHandleView.swift in Sources */,
+				56DA1CDC24523624008D745E /* MSShimmerAppearance.swift in Sources */,
 				8FD01183228A82A600D25925 /* MSSegmentedControl.swift in Sources */,
 				FD41C88722DD13230086F899 /* MSShyHeaderController.swift in Sources */,
 				8FD01184228A82A600D25925 /* MSSeparator.swift in Sources */,
@@ -1152,7 +1160,9 @@
 				1168630522E131CF0088B302 /* MSTabBarItemView.swift in Sources */,
 				A578C4A32321CFD6002D5C40 /* MSAvatar.swift in Sources */,
 				8FD01191228A82A600D25925 /* MSDatePickerController.swift in Sources */,
+				56DA1CD924523616008D745E /* MSShimmerLinesView.swift in Sources */,
 				8FD01192228A82A600D25925 /* MSDatePickerSelectionManager.swift in Sources */,
+				56DA1CDA2452361B008D745E /* MSShimmerViewAppearance.swift in Sources */,
 				8FD01193228A82A600D25925 /* MSDateTimePickerController.swift in Sources */,
 				8FD01194228A82A600D25925 /* MSDateTimePickerView.swift in Sources */,
 				A5B6617423A41E2900E801DD /* MSNotificationView.swift in Sources */,
@@ -1188,6 +1198,7 @@
 				A5F3B147232B1E3700007A4F /* MSScrollView.swift in Sources */,
 				8FD011B3228A82A600D25925 /* MSInitialsView.swift in Sources */,
 				FD41C89722DD13230086F899 /* MSNavigationBar.swift in Sources */,
+				56DA1CD824523611008D745E /* MSShimmerView.swift in Sources */,
 				8FD011B4228A82A600D25925 /* MSPersonaCell.swift in Sources */,
 				8FD011B5228A82A600D25925 /* MSPersonaListView.swift in Sources */,
 				497DC2DA24185885008D86F8 /* MSPillButtonBar.swift in Sources */,
@@ -1201,6 +1212,7 @@
 				B4414790228F4D920040E88E /* MSBooleanCell.swift in Sources */,
 				8FD011BB228A82A600D25925 /* MSPopupMenuSectionHeaderView.swift in Sources */,
 				8FD011BC228A82A600D25925 /* MSCardPresentationController.swift in Sources */,
+				56DA1CDB2452361E008D745E /* MSShimmerLinesViewAppearance.swift in Sources */,
 				8FD011BD228A82A600D25925 /* MSCardPresenterNavigationController.swift in Sources */,
 				8FD011BE228A82A600D25925 /* MSCardTransitionAnimator.swift in Sources */,
 				8FD011BF228A82A600D25925 /* MSPageCardPresenterController.swift in Sources */,
