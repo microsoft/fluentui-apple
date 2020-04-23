@@ -33,8 +33,10 @@ open class MSPopupMenuItem: NSObject {
     @objc public var isSelected: Bool = false
 
     @objc public let onSelected: (() -> Void)?
+    
+    @objc public let isAccessoryCheckmarkVisible: Bool
 
-    @objc public init(image: UIImage? = nil, selectedImage: UIImage? = nil, accessoryImage: UIImage? = nil, title: String, subtitle: String? = nil, accessoryView: UIView? = nil, isEnabled: Bool = true, isSelected: Bool = false, executes executionMode: ExecutionMode = .onSelection, onSelected: (() -> Void)? = nil) {
+    @objc public init(image: UIImage? = nil, selectedImage: UIImage? = nil, accessoryImage: UIImage? = nil, title: String, subtitle: String? = nil, accessoryView: UIView? = nil, isEnabled: Bool = true, isSelected: Bool = false, executes executionMode: ExecutionMode = .onSelection, onSelected: (() -> Void)? = nil, isAccessoryCheckmarkVisible: Bool = true) {
         self.image = image?.renderingMode == .automatic ? image?.withRenderingMode(.alwaysTemplate) : image
         self.selectedImage = selectedImage ?? image?.image(withPrimaryColor: MSColors.PopupMenu.Item.imageSelected)
         self.accessoryImage = accessoryImage
@@ -45,12 +47,13 @@ open class MSPopupMenuItem: NSObject {
         self.isSelected = isSelected
         self.executionMode = executionMode
         self.onSelected = onSelected
+        self.isAccessoryCheckmarkVisible = isAccessoryCheckmarkVisible
         super.init()
     }
 
-    @objc public convenience init(imageName: String, generateSelectedImage: Bool = true, title: String, subtitle: String? = nil, isEnabled: Bool = true, isSelected: Bool = false, executes executionMode: ExecutionMode = .onSelection, onSelected: (() -> Void)? = nil) {
+    @objc public convenience init(imageName: String, generateSelectedImage: Bool = true, title: String, subtitle: String? = nil, isEnabled: Bool = true, isSelected: Bool = false, executes executionMode: ExecutionMode = .onSelection, onSelected: (() -> Void)? = nil, isAccessoryCheckmarkVisible: Bool = true) {
         let image = UIImage(named: imageName)
         let selectedImage = generateSelectedImage ? nil : image
-        self.init(image: image, selectedImage: selectedImage, title: title, subtitle: subtitle, isEnabled: isEnabled, isSelected: isSelected, executes: executionMode, onSelected: onSelected)
+        self.init(image: image, selectedImage: selectedImage, title: title, subtitle: subtitle, isEnabled: isEnabled, isSelected: isSelected, executes: executionMode, onSelected: onSelected, isAccessoryCheckmarkVisible: isAccessoryCheckmarkVisible)
     }
 }
