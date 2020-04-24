@@ -10,7 +10,7 @@ getLctFilesEnabled=false
 extension=""
 parserId=0
 isoauth=false
-tokenServer="TouchdownBuildOAuthServiceProd"
+tokenServer="tdb-touchdownbuild-prod"
 
 function ParseArgs()
 {
@@ -96,11 +96,11 @@ relPath=$relativeFilePath/"${file##*/}"
 echo "Relative file path $relPath"
 
 if [ "$isoauth" = false ]; then
-response=$(curl --ntlm -u $alias:$password -H "x-TDBuildWrapper: CocoaPod" -X put https://build.intlservices.microsoft.com/api/teams/$id/LocalizableFiles/ParserId/$parserId --form 'FilePath={"FilePath":"'$relPath'"};type=application/json' --form "file=@$file;type=application/octet-stream" -i -v -o loc.zip)
+response=$(curl --ntlm -u $alias:$password -H "x-TDBuildWrapper: CocoaPod" -X put https://build.intlservices.microsoft.com/api/teams/$id/LocalizableFiles/ParserId/$parserId?localizationTarget=false --form 'FilePath={"FilePath":"'$relPath'"};type=application/json' --form "file=@$file;type=application/octet-stream" -i -v -o loc.zip)
 echo "Response result LocalizableFiles call $response"
 else
 tokenValue=$(oauthToken)
-response=$(curl -H "Authorization: Bearer $tokenValue" -H "Accept: application/json" -H "x-TDBuildWrapper: CocoaPod" -X put https://build.intlservices.microsoft.com/api/teams/$id/LocalizableFiles/ParserId/$parserId --form 'FilePath={"FilePath":"'$relPath'"};type=application/json' --form "file=@$file;type=application/octet-stream" -i -v -o loc.zip)
+response=$(curl -H "Authorization: Bearer $tokenValue" -H "Accept: application/json" -H "x-TDBuildWrapper: CocoaPod" -X put https://build.intlservices.microsoft.com/api/teams/$id/LocalizableFiles/ParserId/$parserId?localizationTarget=false --form 'FilePath={"FilePath":"'$relPath'"};type=application/json' --form "file=@$file;type=application/octet-stream" -i -v -o loc.zip)
 echo "Response result LocalizableFiles call $response"
 fi
 
@@ -112,11 +112,11 @@ fi
 if [ "$getLctFilesEnabled" = true ]; then
 
 if [ "$isoauth" = false ]; then
-response=$(curl --ntlm -u $alias:$password -H "x-TDBuildWrapper: CocoaPod" -X put https://build.intlservices.microsoft.com/api/teams/$id/LctFiles --form 'FilePath={"FilePath":"'$relPath'"};type=application/json' --form "file=@$file;type=application/octet-stream" -i -v -o lct.zip)
+response=$(curl --ntlm -u $alias:$password -H "x-TDBuildWrapper: CocoaPod" -X put https://build.intlservices.microsoft.com/api/teams/$id/LctFiles?localizationTarget=false --form 'FilePath={"FilePath":"'$relPath'"};type=application/json' --form "file=@$file;type=application/octet-stream" -i -v -o lct.zip)
 echo "Response result for LctFiles call $response"
 else
 tokenValue=$(oauthToken)
-response=$(curl -H "Authorization: Bearer $tokenValue" -H "Accept: application/json" -H "x-TDBuildWrapper: CocoaPod" -X put https://build.intlservices.microsoft.com/api/teams/$id/LctFiles --form 'FilePath={"FilePath":"'$relPath'"};type=application/json' --form "file=@$file;type=application/octet-stream" -i -v -o lct.zip)
+response=$(curl -H "Authorization: Bearer $tokenValue" -H "Accept: application/json" -H "x-TDBuildWrapper: CocoaPod" -X put https://build.intlservices.microsoft.com/api/teams/$id/LctFiles?localizationTarget=false --form 'FilePath={"FilePath":"'$relPath'"};type=application/json' --form "file=@$file;type=application/octet-stream" -i -v -o lct.zip)
 echo "Response result for LctFiles call $response"
 fi
 
@@ -133,26 +133,26 @@ done
 elif [ -f $filePath ]; then
 
 if [ "$isoauth" = false ]; then
-response=$(curl --ntlm -u $alias:$password -H "x-TDBuildWrapper: CocoaPod" -X put https://build.intlservices.microsoft.com/api/teams/$id/LocalizableFiles/ParserId/$parserId --form 'FilePath={"FilePath":"'$relativeFilePath'"};type=application/json' --form "file=@$filePath;type=application/octet-stream" -i -v -o loc.zip)
+response=$(curl --ntlm -u $alias:$password -H "x-TDBuildWrapper: CocoaPod" -X put https://build.intlservices.microsoft.com/api/teams/$id/LocalizableFiles/ParserId/$parserId?localizationTarget=false --form 'FilePath={"FilePath":"'$relativeFilePath'"};type=application/json' --form "file=@$filePath;type=application/octet-stream" -i -v -o loc.zip)
 echo "Response result for LocalizableFiles call $response"
 else
 tokenValue=$(oauthToken)
-response=$(curl -H "Authorization: Bearer $tokenValue" -H "Accept: application/json" -H "x-TDBuildWrapper: CocoaPod" -X put https://build.intlservices.microsoft.com/api/teams/$id/LocalizableFiles/ParserId/$parserId --form 'FilePath={"FilePath":"'$relativeFilePath'"};type=application/json' --form "file=@$filePath;type=application/octet-stream" -i -v -o loc.zip)
+response=$(curl -H "Authorization: Bearer $tokenValue" -H "Accept: application/json" -H "x-TDBuildWrapper: CocoaPod" -X put https://build.intlservices.microsoft.com/api/teams/$id/LocalizableFiles/ParserId/$parserId?localizationTarget=false --form 'FilePath={"FilePath":"'$relativeFilePath'"};type=application/json' --form "file=@$filePath;type=application/octet-stream" -i -v -o loc.zip)
 echo "Response result for LocalizableFiles call $response"
 fi
 
 if [ -f loc.zip ]; then
 unzip -o loc.zip -d $outputDirectory
-# rm loc.zip
+rm loc.zip
 fi
 
 if [ "$getLctFilesEnabled" = true ]; then
 if [ "$isoauth" = false ]; then
-response=$(curl --ntlm -u $alias:$password -H "x-TDBuildWrapper: CocoaPod" -X put https://build.intlservices.microsoft.com/api/teams/$id/LctFiles --form 'FilePath={"FilePath":"'$relativeFilePath'"};type=application/json' --form "file=@$filePath;type=application/octet-stream" -i -v -o lct.zip)
+response=$(curl --ntlm -u $alias:$password -H "x-TDBuildWrapper: CocoaPod" -X put https://build.intlservices.microsoft.com/api/teams/$id/LctFiles?localizationTarget=false --form 'FilePath={"FilePath":"'$relativeFilePath'"};type=application/json' --form "file=@$filePath;type=application/octet-stream" -i -v -o lct.zip)
 echo "Response results for LctFiles $response"
 else
 tokenValue=$(oauthToken)
-response=$(curl -H "Authorization: Bearer $tokenValue" -H "Accept: application/json" -H "x-TDBuildWrapper: CocoaPod" -X put https://build.intlservices.microsoft.com/api/teams/$id/LctFiles --form 'FilePath={"FilePath":"'$relativeFilePath'"};type=application/json' --form "file=@$filePath;type=application/octet-stream" -i -v -o lct.zip)
+response=$(curl -H "Authorization: Bearer $tokenValue" -H "Accept: application/json" -H "x-TDBuildWrapper: CocoaPod" -X put https://build.intlservices.microsoft.com/api/teams/$id/LctFiles?localizationTarget=false --form 'FilePath={"FilePath":"'$relativeFilePath'"};type=application/json' --form "file=@$filePath;type=application/octet-stream" -i -v -o lct.zip)
 echo "Response results for LctFiles $response"
 fi
 if [ -f lct.zip ]

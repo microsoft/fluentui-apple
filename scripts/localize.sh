@@ -12,4 +12,4 @@ read password
 stty echo
 printf "\n"
 
-scripts/GetLocalizedFiles.sh -t $teamId -u -a $alias -p $password -f ios/FluentUI/Resources/Localization/en.lproj/Localizable.strings -r ios/FluentUI/Resources/Localization/Localizable.strings -o ios/FluentUI/Resources/Localization
+scripts/GetLocalizedFiles.sh -t $teamId -u -a $alias -p $password -f ios/FluentUI/Resources/Localization/en.lproj/Localizable.strings -r ios/FluentUI/Resources/Localization/en.lproj/Localizable.strings -o ios/FluentUI/Resources/Localization
