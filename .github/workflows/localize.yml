@@ -1,0 +1,30 @@
+name: Localize
+
+
+on: 
+  push:
+    branches:
+      - master
+      - markavitale/localizationPipeline
+  # TODO: Enable schedule once we know it works
+  # Also run every day at midnight to pick up new localizations
+  # schedule:
+    # * is a special character in YAML so you have to quote this string
+    # - cron:  '0 0 * * *'
+
+jobs:
+  Localize:
+    runs-on: macos-10.15
+
+    steps:
+    - uses: actions/checkout@v2
+    - shell: bash
+      name: Localize
+      env:
+        TDBUILD_TEAM_ID: ${{ secrets.TDBUILD_TEAM_ID }}
+        TDBUILD_AAD_APPLICATION_CLIENT_ID: ${{ secrets.TDBUILD_AAD_APPLICATION_CLIENT_ID }}
+        TDBUILD_AAD_APPLICATION_CLIENT_SECRET: ${{ secrets.TDBUILD_AAD_APPLICATION_CLIENT_SECRET }}
+      run: scripts/localize.sh
+    - name: Verify Git Client State # TODO: create a PR against master with changes instead of this
+      run: git status
+    
