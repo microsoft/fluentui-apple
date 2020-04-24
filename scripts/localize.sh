@@ -1,16 +1,22 @@
 #!/bin/bash
 
-printf "Team ID: "
-read teamId
+if [ -z $TDBUILD_TEAM_ID ]; then
+    printf "Team ID: "
+    read TDBUILD_TEAM_ID
+fi
 
-printf "Alias: "
-read alias
+if [ -z $TDBUILD_AAD_APPLICATION_CLIENT_ID ]; then
+    printf "Alias: "
+    read TDBUILD_AAD_APPLICATION_CLIENT_ID
+fi
 
-stty -echo
-printf "Password: "
-read password
-stty echo
-printf "\n"
+if [ -z $TDBUILD_AAD_APPLICATION_CLIENT_SECRET ]; then
+    stty -echo
+    printf "Password: "
+    read TDBUILD_AAD_APPLICATION_CLIENT_SECRET
+    stty echo
+    printf "\n"
+fi
 
-scripts/GetLocalizedFiles.sh -t $teamId -u -a $alias -p $password -f ios/FluentUI/Resources/Localization/en.lproj -r ios/Localization/en.lproj -o ios/FluentUI/Resources/Localization
-scripts/GetLocalizedFiles.sh -t $teamId -u -a $alias -p $password -f macos/FluentUIResources-macos/Strings/en.lproj -r macos/Localization/en.lproj -o macos/FluentUIResources-macos/Strings
+scripts/GetLocalizedFiles.sh -t $TDBUILD_TEAM_ID -u -a $TDBUILD_AAD_APPLICATION_CLIENT_ID -p $TDBUILD_AAD_APPLICATION_CLIENT_SECRET -f ios/FluentUI/Resources/Localization/en.lproj -r ios/Localization/en.lproj -o ios/FluentUI/Resources/Localization
+scripts/GetLocalizedFiles.sh -t $TDBUILD_TEAM_ID -u -a $TDBUILD_AAD_APPLICATION_CLIENT_ID -p $TDBUILD_AAD_APPLICATION_CLIENT_SECRET -f macos/FluentUIResources-macos/Strings/en.lproj -r macos/Localization/en.lproj -o macos/FluentUIResources-macos/Strings
