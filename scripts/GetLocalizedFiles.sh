@@ -88,6 +88,7 @@ relPath=$relativeFilePath/"$fileName"
 
 echo "Relative file path $relPath"
 
+# TODO: Remove ?localizationTarget=false flag to request real localizations
 if [ "$isoauth" = false ]; then
 response=$(curl --ntlm -u $alias:$password -H "x-TDBuildWrapper: FluentUI-Apple" -X put https://build.intlservices.microsoft.com/api/teams/$id/LocalizableFiles/ParserId/$parserId?localizationTarget=false --form 'FilePath={"FilePath":"'$relPath'"};type=application/json' --form "file=@$file;type=application/octet-stream" -o "$fileName.zip")
 echo "Response result LocalizableFiles call $response"

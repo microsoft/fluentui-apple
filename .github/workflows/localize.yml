@@ -1,16 +1,14 @@
 name: Localize
 
-
 on: 
   push:
     branches:
       - master
       - markavitale/localizationPipeline # TODO: Remove before check-in
-  # TODO: Enable schedule once we know it works
   # Also run every day at midnight to pick up new localizations
-  # schedule:
+  schedule:
     # * is a special character in YAML so you have to quote this string
-    # - cron:  '0 0 * * *'
+    - cron:  '0 0 * * *'
 
 jobs:
   Localize:
@@ -25,8 +23,6 @@ jobs:
         TDBUILD_AAD_APPLICATION_CLIENT_ID: ${{ secrets.TDBUILD_AAD_APPLICATION_CLIENT_ID }}
         TDBUILD_AAD_APPLICATION_CLIENT_SECRET: ${{ secrets.TDBUILD_AAD_APPLICATION_CLIENT_SECRET }}
       run: scripts/localize.sh
-    - name: Verify Git Client State # TODO: remove after verification
-      run: git status
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v2.7.0
       with:
