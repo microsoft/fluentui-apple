@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - markavitale/localizationPipeline # TODO: Remove before check-in
   # Also run every day at midnight to pick up new localizations
   schedule:
     # * is a special character in YAML so you have to quote this string
