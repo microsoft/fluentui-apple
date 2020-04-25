@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - master
-      - markavitale/localizationPipeline
+      - markavitale/localizationPipeline # TODO: Remove before check-in
   # TODO: Enable schedule once we know it works
   # Also run every day at midnight to pick up new localizations
   # schedule:
@@ -25,6 +25,15 @@ jobs:
         TDBUILD_AAD_APPLICATION_CLIENT_ID: ${{ secrets.TDBUILD_AAD_APPLICATION_CLIENT_ID }}
         TDBUILD_AAD_APPLICATION_CLIENT_SECRET: ${{ secrets.TDBUILD_AAD_APPLICATION_CLIENT_SECRET }}
       run: scripts/localize.sh
-    - name: Verify Git Client State # TODO: create a PR against master with changes instead of this
+    - name: Verify Git Client State # TODO: remove after verification
       run: git status
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v2.7.0
+      with:
+        commit-message: Latest localized resource files from Touchdown Build
+        title: '[Localization] Localized Resource Files'
+        body: 'Latest localized resource files from Touchdown Build'
+        branch: tdbuild
+        labels: Automated PR
+        branch-suffix: timestamp
     
