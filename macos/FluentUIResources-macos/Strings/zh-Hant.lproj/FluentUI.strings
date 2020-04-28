@@ -1,0 +1,16 @@
+//
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
+//
+
+/* Accessibility label for the date picker view */
+"DATEPICKER_ACCESSIBILITY_DATEPICKER_LABEL" = "日期選擇器";
+
+/* Accessibility label for the next month button */
+"DATEPICKER_ACCESSIBILITY_NEXT_MONTH_LABEL" = "下個月";
+
+/* Accessibility label for the previous month button */
+"DATEPICKER_ACCESSIBILITY_PREVIOUS_MONTH_LABEL" = "上個月";
+
+/* Accessibility label for the calendar day grid */
+"DATEPICKER_ACCESSIBILITY_CALENDAR_VIEW_LABEL" = "日格線";
