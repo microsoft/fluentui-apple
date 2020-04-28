@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - master
+    paths:
+      - '**.strings'
+      - '**.stringsdict'
   # Also run every day at midnight to pick up new localizations
   schedule:
     # * is a special character in YAML so you have to quote this string
@@ -11,7 +14,7 @@ on:
 
 jobs:
   Localize:
-    runs-on: macos-10.15
+    runs-on: ubuntu-18.04
 
     steps:
     - uses: actions/checkout@v2
