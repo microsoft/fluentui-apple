@@ -1,0 +1,16 @@
+//
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
+//
+
+/* Accessibility label for the date picker view */
+"DATEPICKER_ACCESSIBILITY_DATEPICKER_LABEL" = "Datumväljare";
+
+/* Accessibility label for the next month button */
+"DATEPICKER_ACCESSIBILITY_NEXT_MONTH_LABEL" = "Nästa månad";
+
+/* Accessibility label for the previous month button */
+"DATEPICKER_ACCESSIBILITY_PREVIOUS_MONTH_LABEL" = "Föregående månad";
+
+/* Accessibility label for the calendar day grid */
+"DATEPICKER_ACCESSIBILITY_CALENDAR_VIEW_LABEL" = "Rutnät för dag";
