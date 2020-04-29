@@ -5,15 +5,15 @@
 
 import UIKit
 
-// MARK: MSCalendarViewLayoutDelegate
+// MARK: CalendarViewLayoutDelegate
 
-protocol MSCalendarViewLayoutDelegate: class {
-    func calendarViewLayout(_ calendarViewLayout: MSCalendarViewLayout, shouldShowMonthBannerForSectionIndex sectionIndex: Int) -> Bool
+protocol CalendarViewLayoutDelegate: class {
+    func calendarViewLayout(_ calendarViewLayout: CalendarViewLayout, shouldShowMonthBannerForSectionIndex sectionIndex: Int) -> Bool
 }
 
-// MARK: - MSCalendarViewLayout
+// MARK: - CalendarViewLayout
 
-class MSCalendarViewLayout: UICollectionViewLayout {
+class CalendarViewLayout: UICollectionViewLayout {
     private struct Constants {
         static let itemHeight: CGFloat = 48.0
     }
@@ -26,7 +26,7 @@ class MSCalendarViewLayout: UICollectionViewLayout {
 
     static let preferredItemHeight: CGFloat = Constants.itemHeight
 
-    weak var delegate: MSCalendarViewLayoutDelegate?
+    weak var delegate: CalendarViewLayoutDelegate?
 
     private var numberOfSections: Int = 0
     private var itemSize: CGSize = .zero

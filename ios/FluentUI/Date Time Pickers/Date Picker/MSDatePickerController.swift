@@ -428,10 +428,10 @@ extension MSDatePickerController: UIScrollViewDelegate {
     }
 }
 
-// MARK: - MSDatePickerController: MSCalendarViewLayoutDelegate
+// MARK: - MSDatePickerController: CalendarViewLayoutDelegate
 
-extension MSDatePickerController: MSCalendarViewLayoutDelegate {
-    func calendarViewLayout(_ calendarViewLayout: MSCalendarViewLayout, shouldShowMonthBannerForSectionIndex sectionIndex: Int) -> Bool {
+extension MSDatePickerController: CalendarViewLayoutDelegate {
+    func calendarViewLayout(_ calendarViewLayout: CalendarViewLayout, shouldShowMonthBannerForSectionIndex sectionIndex: Int) -> Bool {
         let firstDayStartDateOfWeek = calendarViewDataSource.dayStart(forDayAt: IndexPath(item: 0, section: sectionIndex))
         let weekOfMonth = calendarViewDataSource.calendar.component(.weekOfMonth, from: firstDayStartDateOfWeek)
         return weekOfMonth == 3
