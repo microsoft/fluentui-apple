@@ -84,7 +84,7 @@ public class MSDateTimePicker: NSObject {
     @objc public weak var delegate: MSDateTimePickerDelegate?
 
     private var presentingController: UIViewController?
-    private var presentedPickers: [DateTimePicker]?
+    private var presentedPickers: [GenericDateTimePicker]?
 
     private var datePickerType: DatePickerType = .calendar
 
@@ -136,7 +136,7 @@ public class MSDateTimePicker: NSObject {
             present([startDatePicker, endDatePicker])
         } else {
             let endDate = mode.singleSelection ? startDate : endDate
-            let datePicker: DateTimePicker
+            let datePicker: GenericDateTimePicker
             switch datePickerType {
             case .calendar:
                 datePicker = MSDatePickerController(startDate: startDate, endDate: endDate, mode: mode, rangePresentation: dateRangePresentation, titles: titles)
@@ -172,7 +172,7 @@ public class MSDateTimePicker: NSObject {
         present([dateTimePicker])
     }
 
-    private func present(_ pickers: [DateTimePicker]) {
+    private func present(_ pickers: [GenericDateTimePicker]) {
         pickers.forEach { $0.delegate = self }
         presentedPickers = pickers
 
@@ -185,14 +185,14 @@ public class MSDateTimePicker: NSObject {
     }
 }
 
-// MARK: - MSDateTimePicker: DateTimePickerDelegate
+// MARK: - MSDateTimePicker: GenericDateTimePickerDelegate
 
-extension MSDateTimePicker: DateTimePickerDelegate {
-    func dateTimePicker(_ dateTimePicker: DateTimePicker, didPickStartDate startDate: Date, endDate: Date) {
+extension MSDateTimePicker: GenericDateTimePickerDelegate {
+    func dateTimePicker(_ dateTimePicker: GenericDateTimePicker, didPickStartDate startDate: Date, endDate: Date) {
         delegate?.dateTimePicker(self, didPickStartDate: startDate, endDate: endDate)
     }
 
-    func dateTimePicker(_ dateTimePicker: DateTimePicker, didSelectStartDate startDate: Date, endDate: Date) {
+    func dateTimePicker(_ dateTimePicker: GenericDateTimePicker, didSelectStartDate startDate: Date, endDate: Date) {
         guard let presentedPickers = presentedPickers else {
             return
         }
@@ -202,7 +202,7 @@ extension MSDateTimePicker: DateTimePickerDelegate {
         }
     }
 
-    func dateTimePicker(_ dateTimePicker: DateTimePicker, shouldEndPickingStartDate startDate: Date, endDate: Date) -> Bool {
+    func dateTimePicker(_ dateTimePicker: GenericDateTimePicker, shouldEndPickingStartDate startDate: Date, endDate: Date) -> Bool {
         return delegate?.dateTimePicker?(self, shouldEndPickingStartDate: startDate, endDate: endDate) ?? true
     }
 }

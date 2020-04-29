@@ -15,7 +15,7 @@ enum MSDateTimePickerControllerMode {
 
 /// A view controller that allows a user to select either a date or a combination of date and time using a custom control similar in appearance to UIDatePicker.
 /// Has support for a start and end time/date.
-class MSDateTimePickerController: UIViewController, DateTimePicker {
+class MSDateTimePickerController: UIViewController, GenericDateTimePicker {
     private struct Constants {
         static let idealRowCount: Int = 7
         static let idealWidth: CGFloat = 320
@@ -70,7 +70,7 @@ class MSDateTimePickerController: UIViewController, DateTimePicker {
         }
     }
 
-    weak var delegate: DateTimePickerDelegate?
+    weak var delegate: GenericDateTimePickerDelegate?
 
     private let customTitle: String?
     private let customSubtitle: String?

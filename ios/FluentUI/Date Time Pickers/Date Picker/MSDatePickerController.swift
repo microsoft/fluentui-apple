@@ -16,7 +16,7 @@ import UIKit
 
 /// Represents a date picker, that enables the user to scroll through years vertically week by week.
 /// The user can select a date or a range of dates.
-class MSDatePickerController: UIViewController, DateTimePicker {
+class MSDatePickerController: UIViewController, GenericDateTimePicker {
     private struct Constants {
         static let idealWidth: CGFloat = 343
         // TODO: Make title button width dynamic
@@ -59,7 +59,7 @@ class MSDatePickerController: UIViewController, DateTimePicker {
 
     private(set) var selectionManager: MSDatePickerSelectionManager!
 
-    weak var delegate: DateTimePickerDelegate?
+    weak var delegate: GenericDateTimePickerDelegate?
 
     private let mode: MSDateTimePickerMode
 
