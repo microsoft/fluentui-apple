@@ -11,44 +11,44 @@ public typealias MSBadgeFieldDelegate = BadgeFieldDelegate
 
 @objc(MSFBadgeFieldDelegate)
 public protocol BadgeFieldDelegate: class {
-    @objc optional func badgeField(_ badgeField: MSBadgeField, badgeDataSourceForText text: String) -> MSBadgeViewDataSource
+    @objc optional func badgeField(_ badgeField: BadgeField, badgeDataSourceForText text: String) -> BadgeViewDataSource
 
-    @objc optional func badgeField(_ badgeField: MSBadgeField, willChangeTextFieldContentWithText newText: String)
-    @objc optional func badgeFieldDidChangeTextFieldContent(_ badgeField: MSBadgeField, isPaste: Bool)
-    @objc optional func badgeField(_ badgeField: MSBadgeField, shouldBadgeText text: String, forSoftBadgingString badgingString: String) -> Bool
+    @objc optional func badgeField(_ badgeField: BadgeField, willChangeTextFieldContentWithText newText: String)
+    @objc optional func badgeFieldDidChangeTextFieldContent(_ badgeField: BadgeField, isPaste: Bool)
+    @objc optional func badgeField(_ badgeField: BadgeField, shouldBadgeText text: String, forSoftBadgingString badgingString: String) -> Bool
     /**
      `didAddBadge` and `didDeleteBadge` won't be called in the following case:
      add/delete were not triggered by a user action. In this case, handle the consequences of a add/delete after the external class called setupViewWithBadgeDataSources or addBadgeWithDataSource
      */
-    @objc optional func badgeField(_ badgeField: MSBadgeField, didAddBadge badge: MSBadgeView)
-    @objc optional func badgeField(_ badgeField: MSBadgeField, didDeleteBadge badge: MSBadgeView)
+    @objc optional func badgeField(_ badgeField: BadgeField, didAddBadge badge: BadgeView)
+    @objc optional func badgeField(_ badgeField: BadgeField, didDeleteBadge badge: BadgeView)
     /**
      `shouldAddBadgeForBadgeDataSource` defaults to true. Called only if the add results from a user action.
     */
-    @objc optional func badgeField(_ badgeField: MSBadgeField, shouldAddBadgeForBadgeDataSource badgeDataSource: MSBadgeViewDataSource) -> Bool
-    @objc optional func badgeField(_ badgeField: MSBadgeField, newBadgeForBadgeDataSource badgeDataSource: MSBadgeViewDataSource) -> MSBadgeView
-    @objc optional func badgeField(_ badgeField: MSBadgeField, newMoreBadgeForBadgeDataSources badgeDataSources: [MSBadgeViewDataSource]) -> MSBadgeView
-    @objc optional func badgeFieldContentHeightDidChange(_ badgeField: MSBadgeField)
-    @objc optional func badgeField(_ badgeField: MSBadgeField, didTapSelectedBadge badge: MSBadgeView)
-    @objc optional func badgeField(_ badgeField: MSBadgeField, shouldDragBadge badge: MSBadgeView) -> Bool // defaults to true
+    @objc optional func badgeField(_ badgeField: BadgeField, shouldAddBadgeForBadgeDataSource badgeDataSource: BadgeViewDataSource) -> Bool
+    @objc optional func badgeField(_ badgeField: BadgeField, newBadgeForBadgeDataSource badgeDataSource: BadgeViewDataSource) -> BadgeView
+    @objc optional func badgeField(_ badgeField: BadgeField, newMoreBadgeForBadgeDataSources badgeDataSources: [BadgeViewDataSource]) -> BadgeView
+    @objc optional func badgeFieldContentHeightDidChange(_ badgeField: BadgeField)
+    @objc optional func badgeField(_ badgeField: BadgeField, didTapSelectedBadge badge: BadgeView)
+    @objc optional func badgeField(_ badgeField: BadgeField, shouldDragBadge badge: BadgeView) -> Bool // defaults to true
     /**
      `destinationBadgeField` is nil if the badge is animated back to its original field.
      `newBadge` is nil if the destination field returned false to `badgeField:shouldAddBadgeForBadgeDataSource` when the user dropped the badge.
      */
-    @objc optional func badgeField(_ originbadgeField: MSBadgeField, didEndDraggingOriginBadge originBadge: MSBadgeView, toBadgeField destinationBadgeField: MSBadgeField?, withNewBadge newBadge: MSBadgeView?)
-    @objc optional func badgeFieldShouldBeginEditing(_ badgeField: MSBadgeField) -> Bool
-    @objc optional func badgeFieldDidBeginEditing(_ badgeField: MSBadgeField)
-    @objc optional func badgeFieldDidEndEditing(_ badgeField: MSBadgeField)
+    @objc optional func badgeField(_ originbadgeField: BadgeField, didEndDraggingOriginBadge originBadge: BadgeView, toBadgeField destinationBadgeField: BadgeField?, withNewBadge newBadge: BadgeView?)
+    @objc optional func badgeFieldShouldBeginEditing(_ badgeField: BadgeField) -> Bool
+    @objc optional func badgeFieldDidBeginEditing(_ badgeField: BadgeField)
+    @objc optional func badgeFieldDidEndEditing(_ badgeField: BadgeField)
     /**
      `badgeFieldShouldReturn` is called only when there's no text in the text field, otherwise `MSBadgeField` badges the text and doesn't call this.
      */
-    @objc optional func badgeFieldShouldReturn(_ badgeField: MSBadgeField) -> Bool
+    @objc optional func badgeFieldShouldReturn(_ badgeField: BadgeField) -> Bool
 }
 
-// MARK: - MSBadgeField
+// MARK: - BadgeField
 
 /**
- MSBadgeField is a UIView that acts as a UITextField that can contains badges with enclosed text.
+ BadgeField is a UIView that acts as a UITextField that can contains badges with enclosed text.
  It supports:
  * badge selection. Selection leaves the order of pills unchanged.
  * badge drag and drop between multiple MSBadgeFields
@@ -57,7 +57,7 @@ public protocol BadgeFieldDelegate: class {
  * max number of lines, with custom "+XX" badge to indicate badges that are not displayed
  * voiceover and dynamic text sizing
  */
-open class MSBadgeField: UIView {
+open class BadgeField: UIView {
     private struct Constants {
         static let badgeHeight: CGFloat = 26
         static let badgeMarginHorizontal: CGFloat = 5
@@ -137,9 +137,9 @@ open class MSBadgeField: UIView {
      */
     @objc open var hardBadgingCharacters: String = ""
 
-    @objc public private(set) var badges: [MSBadgeView] = []
+    @objc public private(set) var badges: [BadgeView] = []
 
-    @objc public var badgeDataSources: [MSBadgeViewDataSource] { return badges.map { $0.dataSource! } }
+    @objc public var badgeDataSources: [BadgeViewDataSource] { return badges.map { $0.dataSource! } }
 
     @objc public weak var badgeFieldDelegate: BadgeFieldDelegate?
 
@@ -213,7 +213,7 @@ open class MSBadgeField: UIView {
     /**
      Sets up the view using the badge data sources.
      */
-    @objc open func setup(dataSources: [MSBadgeViewDataSource]) {
+    @objc open func setup(dataSources: [BadgeViewDataSource]) {
         for badge in badges {
             badge.removeFromSuperview()
         }
@@ -303,7 +303,7 @@ open class MSBadgeField: UIView {
         return CGSize(width: UIView.noIntrinsicMetric, height: contentHeight(forBoundingWidth: frame.width))
     }
 
-    private func shouldDragBadge(_ badge: MSBadgeView) -> Bool {
+    private func shouldDragBadge(_ badge: BadgeView) -> Bool {
         if allowsDragAndDrop {
             return badgeFieldDelegate?.badgeField?(self, shouldDragBadge: badge) ?? true
         }
@@ -332,7 +332,7 @@ open class MSBadgeField: UIView {
         updateBadgesVisibility()
     }
 
-    private func addNextBadge(_ badge: MSBadgeView, badgeIndex: Int, currentLeft: CGFloat, currentLineIndex: Int) -> (Bool, CGFloat, Int) {
+    private func addNextBadge(_ badge: BadgeView, badgeIndex: Int, currentLeft: CGFloat, currentLineIndex: Int) -> (Bool, CGFloat, Int) {
         let isLastDisplayedLine = currentLineIndex == numberOfLines - 1
         let isFirstBadge = badgeIndex == 0
         let isFirstBadgeOfCurrentLine = isFirstBadge || currentLeft == 0
@@ -378,7 +378,7 @@ open class MSBadgeField: UIView {
         return (false, currentLeft + badgeWidth + Constants.badgeMarginHorizontal, currentLineIndex)
     }
 
-    private func frameForBadge(_ badgeToInsert: MSBadgeView, boundingWidth: CGFloat) -> CGRect {
+    private func frameForBadge(_ badgeToInsert: BadgeView, boundingWidth: CGFloat) -> CGRect {
         let badges = currentBadges
         let contentHeight = self.contentHeight(forBoundingWidth: bounds.width)
         let topMargin = UIScreen.main.middleOrigin(frame.height, containedSizeValue: contentHeight)
@@ -398,7 +398,7 @@ open class MSBadgeField: UIView {
     /**
      Use this method if you don't know yet which moreBadge should be added, typically if you're computing the badges that should be displayed when a constrained number of lines is set.
      */
-    private func width(forBadge badge: MSBadgeView, isFirstBadge: Bool, isFirstBadgeOfLastDisplayedLine: Bool, moreBadgeOffset: CGFloat = -1, boundingWidth: CGFloat) -> CGFloat {
+    private func width(forBadge badge: BadgeView, isFirstBadge: Bool, isFirstBadgeOfLastDisplayedLine: Bool, moreBadgeOffset: CGFloat = -1, boundingWidth: CGFloat) -> CGFloat {
         let badgeFittingSize = badge.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
         let badgeFittingWidth = UIScreen.main.roundToDevicePixels(badgeFittingSize.width)
         var badgeMaxWidth = boundingWidth
@@ -447,7 +447,7 @@ open class MSBadgeField: UIView {
     }
 
     @discardableResult
-    private func calculateBadgeFrame(badge: MSBadgeView, badgeIndex: Int, lineIndex: inout Int, left: inout CGFloat, topMargin: CGFloat, boundingWidth: CGFloat) -> CGRect {
+    private func calculateBadgeFrame(badge: BadgeView, badgeIndex: Int, lineIndex: inout Int, left: inout CGFloat, topMargin: CGFloat, boundingWidth: CGFloat) -> CGRect {
         let isFirstBadge = badgeIndex == 0
         let isFirstBadgeOfCurrentLine = isFirstBadge || left == 0
         let isLastDisplayedLine = shouldUseConstrainedBadges && lineIndex == numberOfLines - 1
@@ -483,16 +483,16 @@ open class MSBadgeField: UIView {
     /**
      The approach taken to handle the numberOfLines feature is to have a separate set of badges. It might look like this choice implies some code duplication, however this feature is almost only about layout (except the moreBadge). Handling numberOfLines directly in the layout process would lead to even more duplication: layoutSubviews, contentHeightForBoundingWidth and frameForBadge. This approach isolates the complexity of numberOfLines in a single method: updateConstrainedBadges that we have to call in the appropriate places.
      */
-    private var constrainedBadges: [MSBadgeView] = []
+    private var constrainedBadges: [BadgeView] = []
 
-    private var currentBadges: [MSBadgeView] { return shouldUseConstrainedBadges ? constrainedBadges : badges }
+    private var currentBadges: [BadgeView] { return shouldUseConstrainedBadges ? constrainedBadges : badges }
 
     private var shouldUseConstrainedBadges: Bool { return numberOfLines != 0 }
 
     /**
      This badge is added to the end of the last displayed line if all the badges don't fit in the numberOfLines. It will look like "+5", for example, to indicate the number of badges that are not being displayed.
      */
-    private var moreBadge: MSBadgeView? {
+    private var moreBadge: BadgeView? {
         didSet {
             if let moreBadge = moreBadge {
                 moreBadge.delegate = self
@@ -502,7 +502,7 @@ open class MSBadgeField: UIView {
         }
     }
 
-    private var selectedBadge: MSBadgeView? {
+    private var selectedBadge: BadgeView? {
         didSet {
             if selectedBadge == oldValue {
                 return
@@ -512,7 +512,7 @@ open class MSBadgeField: UIView {
         }
     }
 
-    var draggedBadge: MSBadgeView?
+    var draggedBadge: BadgeView?
     private var draggedBadgeTouchCenterOffset: CGPoint?
     private var draggingWindow = UIWindow()
 
@@ -532,14 +532,14 @@ open class MSBadgeField: UIView {
     }
 
     // For performance reasons, addBadges:withDataSources should be used when multiple badges must be added
-    @objc open func addBadges(withDataSources dataSources: [MSBadgeViewDataSource]) {
+    @objc open func addBadges(withDataSources dataSources: [BadgeViewDataSource]) {
         for dataSource in dataSources {
             addBadge(withDataSource: dataSource, updateConstrainedBadges: false)
         }
         updateConstrainedBadges()
     }
 
-    @objc open func addBadge(withDataSource dataSource: MSBadgeViewDataSource, fromUserAction: Bool = false, updateConstrainedBadges: Bool = true) {
+    @objc open func addBadge(withDataSource dataSource: BadgeViewDataSource, fromUserAction: Bool = false, updateConstrainedBadges: Bool = true) {
         let badge = createBadge(withDataSource: dataSource)
 
         addBadge(badge)
@@ -557,7 +557,7 @@ open class MSBadgeField: UIView {
         }
     }
 
-    @objc open func deleteBadges(withDataSource dataSource: MSBadgeViewDataSource) {
+    @objc open func deleteBadges(withDataSource dataSource: BadgeViewDataSource) {
         badges.forEach { badge in
             if badge.dataSource == dataSource {
                 deleteBadge(badge, fromUserAction: false, updateConstrainedBadges: false)
@@ -570,7 +570,7 @@ open class MSBadgeField: UIView {
         deleteAllBadges(fromUserAction: false)
     }
 
-    @objc open func selectBadge(_ badge: MSBadgeView) {
+    @objc open func selectBadge(_ badge: BadgeView) {
         // Do nothing if badge already selected
         if selectedBadge == badge {
             return
@@ -579,7 +579,7 @@ open class MSBadgeField: UIView {
         selectedBadgeTextField.becomeFirstResponder()
     }
 
-    func addBadge(_ badge: MSBadgeView) {
+    func addBadge(_ badge: BadgeView) {
         badge.delegate = self
         badge.isActive = isActive
         badges.append(badge)
@@ -623,24 +623,24 @@ open class MSBadgeField: UIView {
         return didBadge
     }
 
-    private func createBadge(withDataSource dataSource: MSBadgeViewDataSource) -> MSBadgeView {
-        var badge: MSBadgeView
+    private func createBadge(withDataSource dataSource: BadgeViewDataSource) -> BadgeView {
+        var badge: BadgeView
         if let badgeFromDelegate = badgeFieldDelegate?.badgeField?(self, newBadgeForBadgeDataSource: dataSource) {
             badge = badgeFromDelegate
         } else {
-            badge = MSBadgeView(dataSource: dataSource)
+            badge = BadgeView(dataSource: dataSource)
         }
 
         return badge
     }
 
-    private func createMoreBadge(withDataSources dataSources: [MSBadgeViewDataSource]) -> MSBadgeView {
+    private func createMoreBadge(withDataSources dataSources: [BadgeViewDataSource]) -> BadgeView {
         // If no delegate, fallback to default "+X" moreBadge
-        var moreBadge: MSBadgeView
+        var moreBadge: BadgeView
         if let moreBadgeFromDelegate = badgeFieldDelegate?.badgeField?(self, newMoreBadgeForBadgeDataSources: dataSources) {
             moreBadge = moreBadgeFromDelegate
         } else {
-            moreBadge = MSBadgeView(dataSource: MSBadgeViewDataSource(text: "+\(dataSources.count)", style: .default))
+            moreBadge = BadgeView(dataSource: BadgeViewDataSource(text: "+\(dataSources.count)", style: .default))
         }
 
         return moreBadge
@@ -655,7 +655,7 @@ open class MSBadgeField: UIView {
         selectedBadge = nil
     }
 
-    func deleteBadge(_ badge: MSBadgeView, fromUserAction: Bool, updateConstrainedBadges: Bool) {
+    func deleteBadge(_ badge: BadgeView, fromUserAction: Bool, updateConstrainedBadges: Bool) {
         badge.removeFromSuperview()
         badges.remove(at: badges.firstIndex(of: badge)!)
 
@@ -677,7 +677,7 @@ open class MSBadgeField: UIView {
         }
     }
 
-    private func shouldAddBadge(forBadgeDataSource dataSource: MSBadgeViewDataSource) -> Bool {
+    private func shouldAddBadge(forBadgeDataSource dataSource: BadgeViewDataSource) -> Bool {
         return badgeFieldDelegate?.badgeField?(self, shouldAddBadgeForBadgeDataSource: dataSource) ?? true
     }
 
@@ -818,7 +818,7 @@ open class MSBadgeField: UIView {
         if element as? UILabel == labelView {
             return 0
         }
-        if let badge = element as? MSBadgeView, let index = badges.firstIndex(of: badge) {
+        if let badge = element as? BadgeView, let index = badges.firstIndex(of: badge) {
              return isIntroductionLabelAccessible() ? index + 1 : index
         }
         return accessibilityElementCount() - 1
@@ -867,7 +867,7 @@ open class MSBadgeField: UIView {
             return
         }
 
-        let draggedBadge = gesture.view as! MSBadgeView
+        let draggedBadge = gesture.view as! BadgeView
         switch gesture.state {
         case .began:
             // Already dragging another badge: cancel this new gesture
@@ -896,9 +896,9 @@ open class MSBadgeField: UIView {
             draggedBadge.center = CGPoint(x: position.x - centerOffset.x, y: position.y - centerOffset.y)
         case .ended:
             // Find field under gesture end location
-            let hitBadgeField: MSBadgeField?
+            let hitBadgeField: BadgeField?
             if let hitView = containingWindow.hitTest(gesture.location(in: containingWindow), with: nil) {
-                hitBadgeField = hitView as? MSBadgeField ?? hitView.findSuperview(of: MSBadgeField.self) as? MSBadgeField
+                hitBadgeField = hitView as? BadgeField ?? hitView.findSuperview(of: BadgeField.self) as? BadgeField
             } else {
                 hitBadgeField = nil
             }
@@ -914,7 +914,7 @@ open class MSBadgeField: UIView {
         }
     }
 
-    private func startDraggingBadge(_ badge: MSBadgeView, gestureRecognizer: UIGestureRecognizer) {
+    private func startDraggingBadge(_ badge: BadgeView, gestureRecognizer: UIGestureRecognizer) {
         guard let containingWindow = window else {
             return
         }
@@ -978,7 +978,7 @@ open class MSBadgeField: UIView {
         }
     }
 
-    func animateDraggedBadgeToBadgeField(_ destinationBadgeField: MSBadgeField) {
+    func animateDraggedBadgeToBadgeField(_ destinationBadgeField: BadgeField) {
         guard let containingWindow = window else {
             cancelBadgeDraggingIfNeeded()
             return
@@ -1000,7 +1000,7 @@ open class MSBadgeField: UIView {
             draggedBadge.frame = destinationFrameInWindow
         }, completion: { _ in
             // Update destination field
-            let newlyCreatedBadge: MSBadgeView? = {
+            let newlyCreatedBadge: BadgeView? = {
                 guard let dataSource = draggedBadge.dataSource, destinationBadgeField.shouldAddBadge(forBadgeDataSource: dataSource) else {
                     return nil
                 }
@@ -1056,19 +1056,19 @@ open class MSBadgeField: UIView {
 
 // MARK: - MSBadgeField: MSBadgeViewDelegate
 
-extension MSBadgeField: MSBadgeViewDelegate {
-    public func didSelectBadge(_ badge: MSBadgeView) {
+extension BadgeField: BadgeViewDelegate {
+    public func didSelectBadge(_ badge: BadgeView) {
         selectBadge(badge)
     }
 
-    public func didTapSelectedBadge(_ badge: MSBadgeView) {
+    public func didTapSelectedBadge(_ badge: BadgeView) {
         badgeFieldDelegate?.badgeField?(self, didTapSelectedBadge: badge)
     }
 }
 
 // MARK: - MSBadgeField: UITextFieldDelegate
 
-extension MSBadgeField: UITextFieldDelegate {
+extension BadgeField: UITextFieldDelegate {
     // The switchingTextFieldResponders logic relies on the fact that when we're switching between 2 text fields A -> B, the order of the callbacks are
     // textFieldShouldBeginEditing called for B
     // textFieldDidEndEditing called for A

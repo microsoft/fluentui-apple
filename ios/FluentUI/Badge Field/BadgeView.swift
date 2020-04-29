@@ -5,14 +5,16 @@
 
 import UIKit
 
-// MARK: MSBadgeViewDataSource
+// MARK: BadgeViewDataSource
+@available(*, deprecated, renamed: "BadgeViewDataSource")
+public typealias MSBadgeViewDataSource = BadgeViewDataSource
 
-open class MSBadgeViewDataSource: NSObject {
+open class BadgeViewDataSource: NSObject {
     @objc open var text: String
-    @objc open var style: MSBadgeView.Style
-    @objc open var size: MSBadgeView.Size
+    @objc open var style: BadgeView.Style
+    @objc open var size: BadgeView.Size
 
-    @objc public init(text: String, style: MSBadgeView.Style = .default, size: MSBadgeView.Size = .medium) {
+    @objc public init(text: String, style: BadgeView.Style = .default, size: BadgeView.Size = .medium) {
         self.text = text
         self.style = style
         self.size = size
@@ -20,29 +22,33 @@ open class MSBadgeViewDataSource: NSObject {
     }
 }
 
-// MARK: - MSBadgeViewDelegate
+// MARK: - BadgeViewDelegate
+@available(*, deprecated, renamed: "BadgeViewDelegate")
+public typealias MSBadgeViewDelegate = BadgeViewDelegate
 
-@objc public protocol MSBadgeViewDelegate {
-    func didSelectBadge(_ badge: MSBadgeView)
-    func didTapSelectedBadge(_ badge: MSBadgeView)
+@objc(MSFBadgeViewDelegate)
+public protocol BadgeViewDelegate {
+    func didSelectBadge(_ badge: BadgeView)
+    func didTapSelectedBadge(_ badge: BadgeView)
 }
 
 // MARK: - MSBadgeView
 
 /**
- `MSBadgeView` is used to present text with a colored background in the form of a "badge". It is used in `MSBadgeField` to represent a selected item.
+ `BadgeView` is used to present text with a colored background in the form of a "badge". It is used in `BadgeField` to represent a selected item.
 
- `MSBadgeView` can be selected with a tap gesture and tapped again after entering a selected state for the purpose of displaying more details about the entity represented by the selected badge.
+ `BadgeView` can be selected with a tap gesture and tapped again after entering a selected state for the purpose of displaying more details about the entity represented by the selected badge.
  */
-open class MSBadgeView: UIView {
-    @objc(MSBadgeViewStyle)
+@objc(MSFBadgeView)
+open class BadgeView: UIView {
+    @objc(MSFBadgeViewStyle)
     public enum Style: Int {
         case `default`
         case warning
         case error
     }
 
-    @objc(MSBadgeViewSize)
+    @objc(MSFBadgeViewSize)
     public enum Size: Int, CaseIterable {
         case small
         case medium
@@ -134,13 +140,13 @@ open class MSBadgeView: UIView {
         }
     }
 
-    @objc open var dataSource: MSBadgeViewDataSource? {
+    @objc open var dataSource: BadgeViewDataSource? {
         didSet {
             reload()
         }
     }
 
-    @objc open weak var delegate: MSBadgeViewDelegate?
+    @objc open weak var delegate: BadgeViewDelegate?
 
     @objc open var isActive: Bool = true {
         didSet {
@@ -187,13 +193,13 @@ open class MSBadgeView: UIView {
 
     private var style: Style = .default {
         didSet {
-            badgeBackgroundColor = MSBadgeView.backgroundColor(for: style, selected: false, enabled: true)
-            badgeSelectedBackgroundColor = MSBadgeView.backgroundColor(for: style, selected: true, enabled: true)
-            badgeDisabledBackgroundColor = MSBadgeView.backgroundColor(for: style, selected: false, enabled: false)
+            badgeBackgroundColor = BadgeView.backgroundColor(for: style, selected: false, enabled: true)
+            badgeSelectedBackgroundColor = BadgeView.backgroundColor(for: style, selected: true, enabled: true)
+            badgeDisabledBackgroundColor = BadgeView.backgroundColor(for: style, selected: false, enabled: false)
 
-            textColor = MSBadgeView.textColor(for: style, selected: false, enabled: true)
-            selectedTextColor = MSBadgeView.textColor(for: style, selected: true, enabled: true)
-            disabledTextColor = MSBadgeView.textColor(for: style, selected: false, enabled: false)
+            textColor = BadgeView.textColor(for: style, selected: false, enabled: true)
+            selectedTextColor = BadgeView.textColor(for: style, selected: true, enabled: true)
+            disabledTextColor = BadgeView.textColor(for: style, selected: false, enabled: false)
         }
     }
 
@@ -224,7 +230,7 @@ open class MSBadgeView: UIView {
 
     private let label = MSLabel()
 
-    public init(dataSource: MSBadgeViewDataSource) {
+    public init(dataSource: BadgeViewDataSource) {
         super.init(frame: .zero)
 
         backgroundView.layer.cornerRadius = Constants.backgroundCornerRadius

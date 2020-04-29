@@ -9,8 +9,8 @@ import UIKit
 let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("MSActivityIndicatorView", MSActivityIndicatorViewDemoController.self),
     ("MSAvatarView", MSAvatarViewDemoController.self),
-    ("MSBadgeField", MSBadgeFieldDemoController.self),
-    ("MSBadgeView", MSBadgeViewDemoController.self),
+    ("BadgeField", BadgeFieldDemoController.self),
+    ("BadgeView", BadgeViewDemoController.self),
     ("MSButton", MSButtonDemoController.self),
     ("MSColor", MSColorDemoController.self),
     ("MSDateTimePicker", MSDateTimePickerDemoController.self),

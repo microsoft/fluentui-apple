@@ -7,10 +7,10 @@ import UIKit
 
 // MARK: MSPersonaBadgeViewDataSource
 
-open class MSPersonaBadgeViewDataSource: MSBadgeViewDataSource {
+open class MSPersonaBadgeViewDataSource: BadgeViewDataSource {
     @objc open var persona: MSPersona
 
-    @objc public init(persona: MSPersona, style: MSBadgeView.Style = .default, size: MSBadgeView.Size = .medium) {
+    @objc public init(persona: MSPersona, style: BadgeView.Style = .default, size: BadgeView.Size = .medium) {
         self.persona = persona
         super.init(text: persona.name, style: style, size: size)
     }

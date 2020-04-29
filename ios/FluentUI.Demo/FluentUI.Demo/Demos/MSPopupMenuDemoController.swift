@@ -47,7 +47,7 @@ class MSPopupMenuDemoController: DemoController {
     }
 
     private func createAccessoryView(text: String) -> UIView {
-        let accessoryView = MSBadgeView(dataSource: MSBadgeViewDataSource(text: text, style: .default, size: .small))
+        let accessoryView = BadgeView(dataSource: BadgeViewDataSource(text: text, style: .default, size: .small))
         accessoryView.isUserInteractionEnabled = false
         accessoryView.sizeToFit()
         return accessoryView

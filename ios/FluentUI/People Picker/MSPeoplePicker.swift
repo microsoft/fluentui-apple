@@ -42,7 +42,7 @@ import UIKit
 
  The `suggestedPersonas` are shown in a list either above or below the control based on the position of `MSPeoplePicker` on screen. If more space is available below the text field than above it then the persona list view will be positioned below, if not it will be positioned above the control.
  */
-open class MSPeoplePicker: MSBadgeField {
+open class MSPeoplePicker: BadgeField {
     private struct Constants {
         static let personaSuggestionsVerticalMargin: CGFloat = 8
     }
@@ -136,7 +136,7 @@ open class MSPeoplePicker: MSBadgeField {
 
     /// Returns the badge for the associated persona
     /// - Parameter persona: The `MSPersona` to find the associated `MSBadgeView` for
-    @objc open func badge(for persona: MSPersona) -> MSBadgeView? {
+    @objc open func badge(for persona: MSPersona) -> BadgeView? {
         return badges.first(where: {
             guard let personaBadgeDataSource = $0.dataSource as? MSPersonaBadgeViewDataSource else {
                 assertionFailure("Badge dataSource is not of type MSPersonaBadgeViewDataSource")
@@ -146,7 +146,7 @@ open class MSPeoplePicker: MSBadgeField {
         })
     }
 
-    private func persona(for badge: MSBadgeView) -> MSPersona? {
+    private func persona(for badge: BadgeView) -> MSPersona? {
         return pickedPersonas.first(where: {
             guard let personaBadgeDataSource = badge.dataSource as? MSPersonaBadgeViewDataSource else {
                 assertionFailure("Badge dataSource is not of type MSPersonaBadgeViewDataSource")
@@ -282,7 +282,7 @@ open class MSPeoplePicker: MSBadgeField {
         pickPersona(persona: persona)
     }
 
-    open override func addBadge(withDataSource dataSource: MSBadgeViewDataSource, fromUserAction: Bool = false, updateConstrainedBadges: Bool = true) {
+    open override func addBadge(withDataSource dataSource: BadgeViewDataSource, fromUserAction: Bool = false, updateConstrainedBadges: Bool = true) {
         super.addBadge(withDataSource: dataSource, fromUserAction: fromUserAction, updateConstrainedBadges: updateConstrainedBadges)
         guard let personaBadgeDataSource = dataSource as? MSPersonaBadgeViewDataSource else {
             assertionFailure("Badge dataSource is not of type MSPersonaBadgeViewDataSource")
@@ -293,7 +293,7 @@ open class MSPeoplePicker: MSBadgeField {
         }
     }
 
-    override func addBadge(_ badge: MSBadgeView) {
+    override func addBadge(_ badge: BadgeView) {
         guard let personaBadgeDataSource = badge.dataSource as? MSPersonaBadgeViewDataSource else {
             assertionFailure("Badge dataSource is not of type MSPersonaBadgeViewDataSource")
             return
@@ -304,7 +304,7 @@ open class MSPeoplePicker: MSBadgeField {
         super.addBadge(badge)
     }
 
-    override func deleteBadge(_ badge: MSBadgeView, fromUserAction: Bool, updateConstrainedBadges: Bool) {
+    override func deleteBadge(_ badge: BadgeView, fromUserAction: Bool, updateConstrainedBadges: Bool) {
         // Need to find and delete the correct badge since badges can be removed and recreated in the case that a badge is successfully drag and dropped into a new picker. If there's text in the origin picker's textfield after a badge is dropped the text will become a badge and cause a removal and recreation of all badges and consequently a crash since the `badge` passed into this method cannot be found. The below ensures that we are deleting the correct badge in the current list of badges.
         if let persona = persona(for: badge), let badge = self.badge(for: persona), let index = pickedPersonas.firstIndex(where: { $0.isEqual(to: persona) }) {
             super.deleteBadge(badge, fromUserAction: fromUserAction, updateConstrainedBadges: updateConstrainedBadges)
@@ -316,7 +316,7 @@ open class MSPeoplePicker: MSBadgeField {
         }
     }
 
-    override func animateDraggedBadgeToBadgeField(_ destinationBadgeField: MSBadgeField) {
+    override func animateDraggedBadgeToBadgeField(_ destinationBadgeField: BadgeField) {
         guard let draggedBadge = draggedBadge,
             let personaBadgeDataSource = draggedBadge.dataSource as? MSPersonaBadgeViewDataSource,
             let destinationPeoplePicker = destinationBadgeField as? MSPeoplePicker else {
@@ -353,7 +353,7 @@ open class MSPeoplePicker: MSBadgeField {
 
     // MARK: Badge actions
 
-    public override func didSelectBadge(_ badge: MSBadgeView) {
+    public override func didSelectBadge(_ badge: BadgeView) {
         super.didSelectBadge(badge)
         guard let personaBadgeDataSource = badge.dataSource as? MSPersonaBadgeViewDataSource else {
             assertionFailure("Badge dataSource is not of type MSPersonaBadgeViewDataSource")
@@ -362,7 +362,7 @@ open class MSPeoplePicker: MSBadgeField {
         delegate?.peoplePicker?(self, didSelectPersona: personaBadgeDataSource.persona)
     }
 
-    public override func didTapSelectedBadge(_ badge: MSBadgeView) {
+    public override func didTapSelectedBadge(_ badge: BadgeView) {
         super.didTapSelectedBadge(badge)
         guard let personaBadgeDataSource = badge.dataSource as? MSPersonaBadgeViewDataSource else {
             assertionFailure("Badge dataSource is not of type MSPersonaBadgeViewDataSource")

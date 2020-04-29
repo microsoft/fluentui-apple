@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-class MSBadgeViewDemoController: DemoController {
+class BadgeViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -16,16 +16,16 @@ class MSBadgeViewDemoController: DemoController {
         addBadgeSection(title: "Disabled badge", style: .default, isEnabled: false)
     }
 
-    func createBadge(text: String, style: MSBadgeView.Style, size: MSBadgeView.Size, isEnabled: Bool) -> MSBadgeView {
-        let badge = MSBadgeView(dataSource: MSBadgeViewDataSource(text: text, style: style, size: size))
+    func createBadge(text: String, style: BadgeView.Style, size: BadgeView.Size, isEnabled: Bool) -> BadgeView {
+        let badge = BadgeView(dataSource: BadgeViewDataSource(text: text, style: style, size: size))
         badge.delegate = self
         badge.isActive = isEnabled
         return badge
     }
 
-    func addBadgeSection(title: String, style: MSBadgeView.Style, isEnabled: Bool = true) {
+    func addBadgeSection(title: String, style: BadgeView.Style, isEnabled: Bool = true) {
         addTitle(text: title)
-        for size in MSBadgeView.Size.allCases.reversed() {
+        for size in BadgeView.Size.allCases.reversed() {
             let badge = createBadge(text: "Kat Larrson", style: style, size: size, isEnabled: isEnabled)
             addRow(text: size.description, items: [badge])
         }
@@ -33,10 +33,10 @@ class MSBadgeViewDemoController: DemoController {
     }
 }
 
-extension MSBadgeViewDemoController: MSBadgeViewDelegate {
-    func didSelectBadge(_ badge: MSBadgeView) { }
+extension BadgeViewDemoController: BadgeViewDelegate {
+    func didSelectBadge(_ badge: BadgeView) { }
 
-    func didTapSelectedBadge(_ badge: MSBadgeView) {
+    func didTapSelectedBadge(_ badge: BadgeView) {
         badge.isSelected = false
         let alert = UIAlertController(title: "A selected badge was tapped", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)
@@ -45,7 +45,7 @@ extension MSBadgeViewDemoController: MSBadgeViewDelegate {
     }
 }
 
-extension MSBadgeView.Size {
+extension BadgeView.Size {
     var description: String {
         switch self {
         case .small:
