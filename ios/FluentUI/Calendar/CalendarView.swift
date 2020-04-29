@@ -5,18 +5,18 @@
 
 import UIKit
 
-// MARK: MSCalendarViewHeightStyle
+// MARK: CalendarViewHeightStyle
 
-enum MSCalendarViewHeightStyle {
+enum CalendarViewHeightStyle {
     case short  // Shows 2 weeks
     case half   // Shows 2.5 weeks
     case tall   // Shows 5 weeks
     case extraTall // Show 6 weeks
 }
 
-// MARK: - MSCalendarView
+// MARK: - CalendarView
 
-class MSCalendarView: UIView {
+class CalendarView: UIView {
     let weekdayHeadingView: MSCalendarViewWeekdayHeadingView
     let collectionView: UICollectionView
     let collectionViewLayout: MSCalendarViewLayout
@@ -98,7 +98,7 @@ class MSCalendarView: UIView {
         )
     }
 
-    func height(for style: MSCalendarViewHeightStyle, in bounds: CGRect) -> CGFloat {
+    func height(for style: CalendarViewHeightStyle, in bounds: CGRect) -> CGFloat {
         var height: CGFloat = 0.0
 
         // Weekday heading
@@ -113,7 +113,7 @@ class MSCalendarView: UIView {
         return height
     }
 
-    func rows(for style: MSCalendarViewHeightStyle) -> CGFloat {
+    func rows(for style: CalendarViewHeightStyle) -> CGFloat {
         switch style {
         case .short:
             return 2.0

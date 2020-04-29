@@ -21,7 +21,7 @@ class MSDatePickerController: UIViewController, DateTimePicker {
         static let idealWidth: CGFloat = 343
         // TODO: Make title button width dynamic
         static let titleButtonWidth: CGFloat = 160
-        static let calendarHeightStyle: MSCalendarViewHeightStyle = .extraTall
+        static let calendarHeightStyle: CalendarViewHeightStyle = .extraTall
     }
 
     var startDate = Date() {
@@ -72,7 +72,7 @@ class MSDatePickerController: UIViewController, DateTimePicker {
     private var monthOverlayIsShown: Bool = false
     private var reloadDataAfterOverlayIsNeeded: Bool = false
 
-    private let calendarView = MSCalendarView()
+    private let calendarView = CalendarView()
     private var calendarViewDataSource: MSCalendarViewDataSource!
     private var segmentedControl: MSSegmentedControl?
 
