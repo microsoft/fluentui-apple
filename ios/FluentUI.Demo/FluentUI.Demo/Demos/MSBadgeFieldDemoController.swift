@@ -49,7 +49,7 @@ class MSBadgeFieldDemoController: DemoController {
     }
 }
 
-extension MSBadgeFieldDemoController: MSBadgeFieldDelegate {
+extension MSBadgeFieldDemoController: BadgeFieldDelegate {
     func badgeField(_ badgeField: MSBadgeField, badgeDataSourceForText text: String) -> MSBadgeViewDataSource {
         return MSBadgeViewDataSource(text: text, style: .default)
     }

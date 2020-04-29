@@ -5,9 +5,12 @@
 
 import UIKit
 
-// MARK: MSBadgeFieldDelegate
+// MARK: BadgeFieldDelegate
+@available(*, deprecated, renamed: "BadgeFieldDelegate")
+public typealias MSBadgeFieldDelegate = BadgeFieldDelegate
 
-@objc public protocol MSBadgeFieldDelegate: class {
+@objc(MSFBadgeFieldDelegate)
+public protocol BadgeFieldDelegate: class {
     @objc optional func badgeField(_ badgeField: MSBadgeField, badgeDataSourceForText text: String) -> MSBadgeViewDataSource
 
     @objc optional func badgeField(_ badgeField: MSBadgeField, willChangeTextFieldContentWithText newText: String)
@@ -138,7 +141,7 @@ open class MSBadgeField: UIView {
 
     @objc public var badgeDataSources: [MSBadgeViewDataSource] { return badges.map { $0.dataSource! } }
 
-    @objc public weak var badgeFieldDelegate: MSBadgeFieldDelegate?
+    @objc public weak var badgeFieldDelegate: BadgeFieldDelegate?
 
     var deviceOrientationIsChanging: Bool {
         originalDeviceOrientation != UIDevice.current.orientation

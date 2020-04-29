@@ -7,7 +7,7 @@ import UIKit
 
 // MARK: MSPeoplePickerDelegate
 
-@objc public protocol MSPeoplePickerDelegate: MSBadgeFieldDelegate {
+@objc public protocol MSPeoplePickerDelegate: BadgeFieldDelegate {
     // Suggested personas
     /// Called when text is entered into the text field. Provides an opportunity to return a list of personas based on the entered text to populate the suggested list.
     @objc optional func peoplePicker(_ peoplePicker: MSPeoplePicker, getSuggestedPersonasForText text: String, completion: @escaping ((_ personas: [MSPersona]) -> Void))
