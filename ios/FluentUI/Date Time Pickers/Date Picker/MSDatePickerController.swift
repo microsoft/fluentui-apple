@@ -73,7 +73,7 @@ class MSDatePickerController: UIViewController, DateTimePicker {
     private var reloadDataAfterOverlayIsNeeded: Bool = false
 
     private let calendarView = CalendarView()
-    private var calendarViewDataSource: MSCalendarViewDataSource!
+    private var calendarViewDataSource: CalendarViewDataSource!
     private var segmentedControl: MSSegmentedControl?
 
     private var entireRangeIsVisible: Bool {
@@ -115,7 +115,7 @@ class MSDatePickerController: UIViewController, DateTimePicker {
             self.endDate = endDate
         }
 
-        calendarViewDataSource = MSCalendarViewDataSource(styleDataSource: self)
+        calendarViewDataSource = CalendarViewDataSource(styleDataSource: self)
 
         let startDate = startDate.startOfDay
         selectionManager = MSDatePickerSelectionManager(
@@ -440,8 +440,8 @@ extension MSDatePickerController: MSCalendarViewLayoutDelegate {
 
 // MARK: - MSDatePickerController: MSCalendarViewStyleDataSource
 
-extension MSDatePickerController: MSCalendarViewStyleDataSource {
-    func calendarViewDataSource(_ dataSource: MSCalendarViewDataSource, textStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents) -> MSCalendarViewDayCellTextStyle {
+extension MSDatePickerController: CalendarViewStyleDataSource {
+    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, textStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents) -> MSCalendarViewDayCellTextStyle {
 
         if dayStartComponents.dateIsTodayOrLater(todayDateComponents: todayComponents) {
             return .primary
@@ -450,7 +450,7 @@ extension MSDatePickerController: MSCalendarViewStyleDataSource {
         }
     }
 
-    func calendarViewDataSource(_ dataSource: MSCalendarViewDataSource, backgroundStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents
+    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, backgroundStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents
         ) -> MSCalendarViewDayCellBackgroundStyle {
 
         if dayStartComponents.dateIsTodayOrLater(todayDateComponents: todayComponents) {
@@ -460,7 +460,7 @@ extension MSDatePickerController: MSCalendarViewStyleDataSource {
         }
     }
 
-    func calendarViewDataSource(_ dataSource: MSCalendarViewDataSource, selectionStyleForDayWithStart dayStartDate: Date, end: Date) -> MSCalendarViewDayCellSelectionStyle {
+    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, selectionStyleForDayWithStart dayStartDate: Date, end: Date) -> MSCalendarViewDayCellSelectionStyle {
         return .normal
     }
 }

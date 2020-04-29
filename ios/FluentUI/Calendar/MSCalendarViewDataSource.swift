@@ -5,26 +5,26 @@
 
 import UIKit
 
-// MARK: MSCalendarViewStyleDataSource
+// MARK: CalendarViewStyleDataSource
 
-protocol MSCalendarViewStyleDataSource: class {
-    func calendarViewDataSource(_ dataSource: MSCalendarViewDataSource, textStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents) -> MSCalendarViewDayCellTextStyle
+protocol CalendarViewStyleDataSource: class {
+    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, textStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents) -> MSCalendarViewDayCellTextStyle
 
     // Suggestion: Use provided components for performance improvements. Check where it's called to see what's available
-    func calendarViewDataSource(_ dataSource: MSCalendarViewDataSource, backgroundStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents) -> MSCalendarViewDayCellBackgroundStyle
+    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, backgroundStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents) -> MSCalendarViewDayCellBackgroundStyle
 
-    func calendarViewDataSource(_ dataSource: MSCalendarViewDataSource, selectionStyleForDayWithStart dayStartDate: Date, end: Date) -> MSCalendarViewDayCellSelectionStyle
+    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, selectionStyleForDayWithStart dayStartDate: Date, end: Date) -> MSCalendarViewDayCellSelectionStyle
 }
 
-// MARK: - MSCalendarViewIndicatorDataSource
+// MARK: - CalendarViewIndicatorDataSource
 
-protocol MSCalendarViewIndicatorDataSource {
-    func calendarViewDataSource(_ dataSource: MSCalendarViewDataSource, indicatorLevelForDayWithStart dayStartDate: Date, end: Date) -> Int
+protocol CalendarViewIndicatorDataSource {
+    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, indicatorLevelForDayWithStart dayStartDate: Date, end: Date) -> Int
 }
 
-// MARK: - MSCalendarViewDataSource
+// MARK: - CalendarViewDataSource
 
-class MSCalendarViewDataSource: NSObject {
+class CalendarViewDataSource: NSObject {
     /// Preference for what day is the first day of the week. Defaults to the user's current Calendar's firstWeekday.
     /// 1 for Sunday, 2 for Monday, 7 for Saturday
     var firstWeekday: Int = Calendar.current.firstWeekday
@@ -42,14 +42,14 @@ class MSCalendarViewDataSource: NSObject {
 
     private(set) var monthBannerViewSet: Set<NSValue>
 
-    private let styleDataSource: MSCalendarViewStyleDataSource
+    private let styleDataSource: CalendarViewStyleDataSource
     private let calendarConfiguration: MSCalendarConfiguration
-    private let indicatorDataSource: MSCalendarViewIndicatorDataSource?
+    private let indicatorDataSource: CalendarViewIndicatorDataSource?
 
     private var startOfDayCache: [Int: Date]!
     private var indicatorLevelForDayCache: [Date: Int]!
 
-    init(styleDataSource: MSCalendarViewStyleDataSource, indicatorDataSource: MSCalendarViewIndicatorDataSource? = nil, calendarConfiguration: MSCalendarConfiguration = MSCalendarConfiguration.default) {
+    init(styleDataSource: CalendarViewStyleDataSource, indicatorDataSource: CalendarViewIndicatorDataSource? = nil, calendarConfiguration: MSCalendarConfiguration = MSCalendarConfiguration.default) {
         self.styleDataSource = styleDataSource
         self.calendarConfiguration = calendarConfiguration
         self.indicatorDataSource = indicatorDataSource
@@ -133,7 +133,7 @@ class MSCalendarViewDataSource: NSObject {
 
 // MARK: - MSCalendarViewDataSource: UICollectionViewDataSource
 
-extension MSCalendarViewDataSource: UICollectionViewDataSource {
+extension CalendarViewDataSource: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         let daysBetweenFirstDateAndLastDate = calendar.dateComponents([.day], from: firstDate, to: lastDate).day!
         let numberOfDays = daysBetweenFirstDateAndLastDate + 1

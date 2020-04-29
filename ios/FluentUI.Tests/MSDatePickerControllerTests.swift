@@ -43,7 +43,7 @@ class MSDatePickerControllerTests: XCTestCase {
     }
 
     func testSelectionManagerEnd() {
-        let dataSource = MSCalendarViewDataSource(styleDataSource: MockMSCalendarViewStyleDataSource())
+        let dataSource = CalendarViewDataSource(styleDataSource: MockMSCalendarViewStyleDataSource())
         let selectionManager = MSDatePickerSelectionManager(
             dataSource: dataSource,
             startDate: startDate,
@@ -90,8 +90,8 @@ class MSDatePickerControllerTests: XCTestCase {
 
 // MARK: - MSDatePickerController
 
-class MockMSCalendarViewStyleDataSource: MSCalendarViewStyleDataSource {
-    func calendarViewDataSource(_ dataSource: MSCalendarViewDataSource, textStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents) -> MSCalendarViewDayCellTextStyle {
+class MockMSCalendarViewStyleDataSource: CalendarViewStyleDataSource {
+    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, textStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents) -> MSCalendarViewDayCellTextStyle {
         if dayStartComponents.dateIsTodayOrLater(todayDateComponents: todayComponents) {
             return .primary
         } else {
@@ -99,7 +99,7 @@ class MockMSCalendarViewStyleDataSource: MSCalendarViewStyleDataSource {
         }
     }
 
-    func calendarViewDataSource(_ dataSource: MSCalendarViewDataSource, backgroundStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents
+    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, backgroundStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents
         ) -> MSCalendarViewDayCellBackgroundStyle {
         if dayStartComponents.dateIsTodayOrLater(todayDateComponents: todayComponents) {
             return .primary
@@ -108,7 +108,7 @@ class MockMSCalendarViewStyleDataSource: MSCalendarViewStyleDataSource {
         }
     }
 
-    func calendarViewDataSource(_ dataSource: MSCalendarViewDataSource, selectionStyleForDayWithStart dayStartDate: Date, end: Date) -> MSCalendarViewDayCellSelectionStyle {
+    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, selectionStyleForDayWithStart dayStartDate: Date, end: Date) -> MSCalendarViewDayCellSelectionStyle {
         return .normal
     }
 }

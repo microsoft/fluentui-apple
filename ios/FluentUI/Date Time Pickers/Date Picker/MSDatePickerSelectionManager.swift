@@ -57,7 +57,7 @@ class MSDatePickerSelectionManager {
         }
     }
 
-    private let dataSource: MSCalendarViewDataSource
+    private let dataSource: CalendarViewDataSource
 
     private var selectedIndexPaths: (startIndexPath: IndexPath, endIndexPath: IndexPath) {
         switch selectionState {
@@ -68,7 +68,7 @@ class MSDatePickerSelectionManager {
         }
     }
 
-    init(dataSource: MSCalendarViewDataSource, startDate: Date, endDate: Date, selectionMode: SelectionMode) {
+    init(dataSource: CalendarViewDataSource, startDate: Date, endDate: Date, selectionMode: SelectionMode) {
         self.dataSource = dataSource
         self.selectionMode = selectionMode
 
