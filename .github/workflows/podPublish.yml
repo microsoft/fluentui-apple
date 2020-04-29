@@ -1,0 +1,16 @@
+name: Pod-Publish
+on:
+  push:
+    tags:
+      - 0.[0-9]+.[0-9]+ # Run automatically on new tags matching a 0.N.M pattern
+
+jobs:
+  Pod-Publish:
+    runs-on: macOS-10.15
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Publish to CocoaPod register
+      env:
+        COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+      run: scripts/publishCocoaPod.sh
