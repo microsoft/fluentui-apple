@@ -135,7 +135,7 @@ open class MSPeoplePicker: BadgeField {
     }
 
     /// Returns the badge for the associated persona
-    /// - Parameter persona: The `MSPersona` to find the associated `MSBadgeView` for
+    /// - Parameter persona: The `MSPersona` to find the associated `BadgeView` for
     @objc open func badge(for persona: MSPersona) -> BadgeView? {
         return badges.first(where: {
             guard let personaBadgeDataSource = $0.dataSource as? MSPersonaBadgeViewDataSource else {

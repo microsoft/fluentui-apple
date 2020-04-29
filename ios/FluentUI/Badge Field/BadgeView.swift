@@ -32,13 +32,17 @@ public protocol BadgeViewDelegate {
     func didTapSelectedBadge(_ badge: BadgeView)
 }
 
-// MARK: - MSBadgeView
+// MARK: - BadgeView
 
 /**
  `BadgeView` is used to present text with a colored background in the form of a "badge". It is used in `BadgeField` to represent a selected item.
 
  `BadgeView` can be selected with a tap gesture and tapped again after entering a selected state for the purpose of displaying more details about the entity represented by the selected badge.
  */
+
+@available(*, deprecated, renamed: "MSBadgeView")
+public typealias MSBadgeView = BadgeView
+
 @objc(MSFBadgeView)
 open class BadgeView: UIView {
     @objc(MSFBadgeViewStyle)

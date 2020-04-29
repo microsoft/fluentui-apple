@@ -40,7 +40,7 @@ public protocol BadgeFieldDelegate: class {
     @objc optional func badgeFieldDidBeginEditing(_ badgeField: BadgeField)
     @objc optional func badgeFieldDidEndEditing(_ badgeField: BadgeField)
     /**
-     `badgeFieldShouldReturn` is called only when there's no text in the text field, otherwise `MSBadgeField` badges the text and doesn't call this.
+     `badgeFieldShouldReturn` is called only when there's no text in the text field, otherwise `BadgeField` badges the text and doesn't call this.
      */
     @objc optional func badgeFieldShouldReturn(_ badgeField: BadgeField) -> Bool
 }
@@ -51,7 +51,7 @@ public protocol BadgeFieldDelegate: class {
  BadgeField is a UIView that acts as a UITextField that can contains badges with enclosed text.
  It supports:
  * badge selection. Selection leaves the order of pills unchanged.
- * badge drag and drop between multiple MSBadgeFields
+ * badge drag and drop between multiple BadgeFields
  * placeholder (hidden when text is not empty) or introduction text (not hidden when text is not empty)
  * custom input accessory view
  * max number of lines, with custom "+XX" badge to indicate badges that are not displayed
@@ -227,7 +227,7 @@ open class BadgeField: UIView {
     }
 
     /**
-     Updates the view using existing data sources. This is a bit of a hack since it's better to assume `MSBadgeViewDataSource` is immutable, but this is necessary to update badge style without losing the current state.
+     Updates the view using existing data sources. This is a bit of a hack since it's better to assume `BadgeViewDataSource` is immutable, but this is necessary to update badge style without losing the current state.
      */
     @objc open func reload() {
         badges.forEach { $0.reload() }
@@ -1054,7 +1054,7 @@ open class BadgeField: UIView {
     }
 }
 
-// MARK: - MSBadgeField: MSBadgeViewDelegate
+// MARK: - BadgeField: BadgeViewDelegate
 
 extension BadgeField: BadgeViewDelegate {
     public func didSelectBadge(_ badge: BadgeView) {
@@ -1066,7 +1066,7 @@ extension BadgeField: BadgeViewDelegate {
     }
 }
 
-// MARK: - MSBadgeField: UITextFieldDelegate
+// MARK: - BadgeField: UITextFieldDelegate
 
 extension BadgeField: UITextFieldDelegate {
     // The switchingTextFieldResponders logic relies on the fact that when we're switching between 2 text fields A -> B, the order of the callbacks are
@@ -1201,7 +1201,7 @@ extension BadgeField: UITextFieldDelegate {
 
 private class PasteControlTextField: UITextField {
     /**
-     Note: This is a signal that indicates that this is under a paste context. This pasteSignal is reset in 'textFieldTextChanged' method of 'MSBadgeField' right after the delegate method is called
+     Note: This is a signal that indicates that this is under a paste context. This pasteSignal is reset in 'textFieldTextChanged' method of 'BadgeField' right after the delegate method is called
      */
     fileprivate var isPaste: Bool = false
 
