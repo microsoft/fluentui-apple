@@ -5,10 +5,10 @@
 
 import UIKit
 
-// MARK: MSCalendarViewDayMonthYearCell
+// MARK: CalendarViewDayMonthYearCell
 
-class MSCalendarViewDayMonthYearCell: MSCalendarViewDayMonthCell {
-    override class var identifier: String { return "MSCalendarViewDayMonthYearCell" }
+class CalendarViewDayMonthYearCell: CalendarViewDayMonthCell {
+    override class var identifier: String { return "CalendarViewDayMonthYearCell" }
 
     override var isSelected: Bool {
         didSet {

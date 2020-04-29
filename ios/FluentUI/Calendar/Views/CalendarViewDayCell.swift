@@ -78,7 +78,7 @@ class CalendarViewDayCell: UICollectionViewCell {
 
     private var visibleDotViewAlpha: CGFloat = 1.0
 
-    private let selectionOverlayView: MSSelectionOverlayView
+    private let selectionOverlayView: SelectionOverlayView
     let dateLabel: UILabel
     let dotView: MSDotView
 
@@ -89,7 +89,7 @@ class CalendarViewDayCell: UICollectionViewCell {
         // and collection view cell especially during animation. This is protect against
         // subviews that default `userInteractionEnabled` to true (UIView).
 
-        selectionOverlayView = MSSelectionOverlayView()
+        selectionOverlayView = SelectionOverlayView()
         selectionOverlayView.isUserInteractionEnabled = false
 
         dateLabel = UILabel(frame: .zero)
@@ -208,9 +208,9 @@ class CalendarViewDayCell: UICollectionViewCell {
     }
 }
 
-// MARK: - MSSelectionOverlayView
+// MARK: - SelectionOverlayView
 
-private class MSSelectionOverlayView: UIView {
+private class SelectionOverlayView: UIView {
     struct Constants {
         static let highlightedOrSelectedCircleMargin: CGFloat = 5.0
     }

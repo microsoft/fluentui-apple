@@ -143,12 +143,12 @@ class MSDatePickerController: UIViewController, DateTimePicker {
 
         let collectionView = calendarView.collectionView
 
-        collectionView.register(MSCalendarViewMonthBannerView.self, forSupplementaryViewOfKind: MSCalendarViewMonthBannerView.supplementaryElementKind, withReuseIdentifier: MSCalendarViewMonthBannerView.reuseIdentifier)
+        collectionView.register(CalendarViewMonthBannerView.self, forSupplementaryViewOfKind: CalendarViewMonthBannerView.supplementaryElementKind, withReuseIdentifier: CalendarViewMonthBannerView.reuseIdentifier)
 
         collectionView.register(CalendarViewDayCell.self, forCellWithReuseIdentifier: CalendarViewDayCell.identifier)
-        collectionView.register(MSCalendarViewDayMonthCell.self, forCellWithReuseIdentifier: MSCalendarViewDayMonthCell.identifier)
-        collectionView.register(MSCalendarViewDayMonthYearCell.self, forCellWithReuseIdentifier: MSCalendarViewDayMonthYearCell.identifier)
-        collectionView.register(MSCalendarViewDayTodayCell.self, forCellWithReuseIdentifier: MSCalendarViewDayTodayCell.identifier)
+        collectionView.register(CalendarViewDayMonthCell.self, forCellWithReuseIdentifier: CalendarViewDayMonthCell.identifier)
+        collectionView.register(CalendarViewDayMonthYearCell.self, forCellWithReuseIdentifier: CalendarViewDayMonthYearCell.identifier)
+        collectionView.register(CalendarViewDayTodayCell.self, forCellWithReuseIdentifier: CalendarViewDayTodayCell.identifier)
 
         collectionView.dataSource = calendarViewDataSource
         collectionView.delegate = self
@@ -301,7 +301,7 @@ class MSDatePickerController: UIViewController, DateTimePicker {
 
 extension MSDatePickerController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
-        guard let monthBannerView = view as? MSCalendarViewMonthBannerView else {
+        guard let monthBannerView = view as? CalendarViewMonthBannerView else {
             return
         }
 
@@ -415,7 +415,7 @@ extension MSDatePickerController: UIScrollViewDelegate {
         monthOverlayIsShown = visible
 
         for monthBannerViewValue in calendarViewDataSource.monthBannerViewSet {
-            if let monthBannerView = monthBannerViewValue.nonretainedObjectValue as? MSCalendarViewMonthBannerView {
+            if let monthBannerView = monthBannerViewValue.nonretainedObjectValue as? CalendarViewMonthBannerView {
                 monthBannerView.setVisible(visible, animated: true)
             }
         }

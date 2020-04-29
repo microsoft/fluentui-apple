@@ -5,15 +5,15 @@
 
 import UIKit
 
-// MARK: MSCalendarViewMonthBannerView
+// MARK: CalendarViewMonthBannerView
 
-class MSCalendarViewMonthBannerView: UICollectionReusableView {
+class CalendarViewMonthBannerView: UICollectionReusableView {
     private struct Constants {
         static let visualStateTransitionDuration: TimeInterval = 0.3
     }
 
-    static let supplementaryElementKind: String = "MSCalendarViewMonthBannerView"
-    static let reuseIdentifier: String = "MSCalendarViewMonthBannerView"
+    static let supplementaryElementKind: String = "CalendarViewMonthBannerView"
+    static let reuseIdentifier: String = "CalendarViewMonthBannerView"
 
     private var isVisible: Bool = false
     private let monthLabel: UILabel

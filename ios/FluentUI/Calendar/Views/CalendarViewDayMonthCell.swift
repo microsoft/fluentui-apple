@@ -5,14 +5,14 @@
 
 import UIKit
 
-// MARK: MSCalendarViewDayMonthCell
+// MARK: CalendarViewDayMonthCell
 
-class MSCalendarViewDayMonthCell: CalendarViewDayCell {
+class CalendarViewDayMonthCell: CalendarViewDayCell {
     struct Constants {
         static let monthLabelMargin: CGFloat = 2.0
     }
 
-    override class var identifier: String { return "MSCalendarViewDayMonthCell" }
+    override class var identifier: String { return "CalendarViewDayMonthCell" }
 
     override var isSelected: Bool {
         didSet {

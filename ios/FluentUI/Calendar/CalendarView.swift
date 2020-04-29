@@ -17,7 +17,7 @@ enum CalendarViewHeightStyle {
 // MARK: - CalendarView
 
 class CalendarView: UIView {
-    let weekdayHeadingView: MSCalendarViewWeekdayHeadingView
+    let weekdayHeadingView: CalendarViewWeekdayHeadingView
     let collectionView: UICollectionView
     let collectionViewLayout: CalendarViewLayout
 
@@ -27,7 +27,7 @@ class CalendarView: UIView {
     private let collectionViewSeparator: MSSeparator
 
     init(headerStyle: MSDatePickerHeaderStyle = .light) {
-        weekdayHeadingView = MSCalendarViewWeekdayHeadingView(headerStyle: headerStyle)
+        weekdayHeadingView = CalendarViewWeekdayHeadingView(headerStyle: headerStyle)
 
         headingViewSeparator = MSSeparator(style: .shadow)
 

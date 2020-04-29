@@ -82,7 +82,7 @@ class CalendarViewLayout: UICollectionViewLayout {
             if delegate?.calendarViewLayout(self, shouldShowMonthBannerForSectionIndex: sectionIndex) == true {
                 let indexPath = IndexPath(item: 0, section: sectionIndex)
 
-                if let attributes = layoutAttributesForSupplementaryView(ofKind: MSCalendarViewMonthBannerView.supplementaryElementKind, at: indexPath) {
+                if let attributes = layoutAttributesForSupplementaryView(ofKind: CalendarViewMonthBannerView.supplementaryElementKind, at: indexPath) {
                     layoutAttributes.append(attributes)
                 }
             }
@@ -102,7 +102,7 @@ class CalendarViewLayout: UICollectionViewLayout {
     }
 
     override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        if elementKind == MSCalendarViewMonthBannerView.supplementaryElementKind {
+        if elementKind == CalendarViewMonthBannerView.supplementaryElementKind {
             let attributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: elementKind, with: indexPath)
             attributes.frame = CGRect(x: 0.0, y: CGFloat(indexPath.section) * itemSize.height, width: 7.0 * itemSize.width, height: itemSize.height)
             attributes.zIndex = LayoutZIndex.monthBanner.rawValue

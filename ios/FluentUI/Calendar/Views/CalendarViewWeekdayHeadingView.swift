@@ -5,9 +5,9 @@
 
 import UIKit
 
-// MARK: MSCalendarViewWeekdayHeadingView
+// MARK: CalendarViewWeekdayHeadingView
 
-class MSCalendarViewWeekdayHeadingView: UIView {
+class CalendarViewWeekdayHeadingView: UIView {
     private struct Constants {
         struct Light {
             static let regularHeight: CGFloat = 26.0

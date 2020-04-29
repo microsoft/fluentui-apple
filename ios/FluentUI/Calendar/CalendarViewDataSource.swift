@@ -180,18 +180,18 @@ extension CalendarViewDataSource: UICollectionViewDataSource {
         }
 
         if dayStartDate == todayDate {
-            let dayTodayCell = collectionView.dequeueReusableCell(withReuseIdentifier: MSCalendarViewDayTodayCell.identifier, for: indexPath) as! MSCalendarViewDayTodayCell
+            let dayTodayCell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarViewDayTodayCell.identifier, for: indexPath) as! CalendarViewDayTodayCell
             dayTodayCell.setup(textStyle: textStyle, backgroundStyle: backgroundStyle, selectionStyle: selectionStyle, dateLabelText: dateLabelText, indicatorLevel: indicatorLevel)
             return dayTodayCell
         }
 
         if dayStartDateComponents.day == 1 {
             if dayStartDateComponents.year != todayDateComponents.year {
-                let dayMonthYearCell = collectionView.dequeueReusableCell(withReuseIdentifier: MSCalendarViewDayMonthYearCell.identifier, for: indexPath) as! MSCalendarViewDayMonthYearCell
+                let dayMonthYearCell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarViewDayMonthYearCell.identifier, for: indexPath) as! CalendarViewDayMonthYearCell
                 dayMonthYearCell.setup(textStyle: textStyle, backgroundStyle: backgroundStyle, selectionStyle: selectionStyle, monthLabelText: monthLabelText, dateLabelText: dateLabelText, yearLabelText: yearLabelText, indicatorLevel: indicatorLevel)
                 return dayMonthYearCell
             } else {
-                let dayMonthCell = collectionView.dequeueReusableCell(withReuseIdentifier: MSCalendarViewDayMonthCell.identifier, for: indexPath) as! MSCalendarViewDayMonthCell
+                let dayMonthCell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarViewDayMonthCell.identifier, for: indexPath) as! CalendarViewDayMonthCell
                 dayMonthCell.setup(textStyle: textStyle, backgroundStyle: backgroundStyle, selectionStyle: selectionStyle, monthLabelText: monthLabelText, dateLabelText: dateLabelText, indicatorLevel: indicatorLevel)
                 return dayMonthCell
             }
@@ -203,7 +203,7 @@ extension CalendarViewDataSource: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard kind == MSCalendarViewMonthBannerView.supplementaryElementKind else {
+        guard kind == CalendarViewMonthBannerView.supplementaryElementKind else {
             return UICollectionReusableView()
         }
 
@@ -223,7 +223,7 @@ extension CalendarViewDataSource: UICollectionViewDataSource {
             monthLabelText = String.dateString(from: firstDayStartDateOfWeek, compactness: .longMonthNameFullYear)
         }
 
-        let monthBannerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MSCalendarViewMonthBannerView.reuseIdentifier, for: indexPath) as! MSCalendarViewMonthBannerView
+        let monthBannerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CalendarViewMonthBannerView.reuseIdentifier, for: indexPath) as! CalendarViewMonthBannerView
         monthBannerView.setup(monthLabelText: monthLabelText)
 
         // Keep weak reference

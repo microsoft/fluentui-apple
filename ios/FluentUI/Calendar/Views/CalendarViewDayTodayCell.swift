@@ -5,10 +5,10 @@
 
 import Foundation
 
-// MARK: MSCalendarViewDayTodayCell
+// MARK: CalendarViewDayTodayCell
 
-class MSCalendarViewDayTodayCell: CalendarViewDayCell {
-    override class var identifier: String { return "MSCalendarViewDayTodayCell" }
+class CalendarViewDayTodayCell: CalendarViewDayCell {
+    override class var identifier: String { return "CalendarViewDayTodayCell" }
 
     override var isSelected: Bool {
         didSet {
