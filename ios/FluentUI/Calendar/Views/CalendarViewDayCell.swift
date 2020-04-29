@@ -5,40 +5,40 @@
 
 import UIKit
 
-// MARK: MSCalendarViewDayCellTextStyle
+// MARK: CalendarViewDayCellTextStyle
 
-enum MSCalendarViewDayCellTextStyle {
+enum CalendarViewDayCellTextStyle {
     case primary
     case secondary
 }
 
-// MARK: - MSCalendarViewDayCellBackgroundStyle
+// MARK: - CalendarViewDayCellBackgroundStyle
 
-enum MSCalendarViewDayCellBackgroundStyle {
+enum CalendarViewDayCellBackgroundStyle {
     case primary
     case secondary
 }
 
-// MARK: - MSCalendarViewDayCellVisualState
+// MARK: - CalendarViewDayCellVisualState
 
-enum MSCalendarViewDayCellVisualState {
+enum CalendarViewDayCellVisualState {
     case normal          // Collapsed `.Short` style
     case normalWithDots  // Expanded `.Tall` style
     case fadedWithDots   // Expanded `.Half` or `.Tall` style during user interaction
 }
 
-// MARK: - MSCalendarViewDayCellSelectionType
+// MARK: - CalendarViewDayCellSelectionType
 
-enum MSCalendarViewDayCellSelectionType {
+enum CalendarViewDayCellSelectionType {
     case singleSelection
     case startOfRangedSelection
     case middleOfRangedSelection
     case endOfRangedSelection
 }
 
-// MARK: - MSCalendarViewDayCellSelectionStyle
+// MARK: - CalendarViewDayCellSelectionStyle
 
-enum MSCalendarViewDayCellSelectionStyle {
+enum CalendarViewDayCellSelectionStyle {
     case normal
     case freeAtSpecificTimeSlot
     case freeAtDifferentTimeSlot
@@ -46,11 +46,11 @@ enum MSCalendarViewDayCellSelectionStyle {
     case unknown
 }
 
-let MSCalendarViewDayCellVisualStateTransitionDuration: TimeInterval = 0.3
+let calendarViewDayCellVisualStateTransitionDuration: TimeInterval = 0.3
 
-// MARK: - MSCalendarViewDayCell
+// MARK: - CalendarViewDayCell
 
-class MSCalendarViewDayCell: UICollectionViewCell {
+class CalendarViewDayCell: UICollectionViewCell {
     struct Constants {
         static let borderWidth: CGFloat = UIScreen.main.devicePixel
         static let dotDiameter: CGFloat = 4.0
@@ -73,8 +73,8 @@ class MSCalendarViewDayCell: UICollectionViewCell {
         }
     }
 
-    private(set) var textStyle: MSCalendarViewDayCellTextStyle = .primary
-    private(set) var backgroundStyle: MSCalendarViewDayCellBackgroundStyle = .primary
+    private(set) var textStyle: CalendarViewDayCellTextStyle = .primary
+    private(set) var backgroundStyle: CalendarViewDayCellBackgroundStyle = .primary
 
     private var visibleDotViewAlpha: CGFloat = 1.0
 
@@ -114,7 +114,7 @@ class MSCalendarViewDayCell: UICollectionViewCell {
     }
 
     // Only supports indicator levels from 0...4
-    func setup(textStyle: MSCalendarViewDayCellTextStyle, backgroundStyle: MSCalendarViewDayCellBackgroundStyle, selectionStyle: MSCalendarViewDayCellSelectionStyle, dateLabelText: String, indicatorLevel: Int) {
+    func setup(textStyle: CalendarViewDayCellTextStyle, backgroundStyle: CalendarViewDayCellBackgroundStyle, selectionStyle: CalendarViewDayCellSelectionStyle, dateLabelText: String, indicatorLevel: Int) {
         self.textStyle = textStyle
         self.backgroundStyle = backgroundStyle
         selectionOverlayView.selectionStyle = selectionStyle
@@ -128,7 +128,7 @@ class MSCalendarViewDayCell: UICollectionViewCell {
         updateViews()
     }
 
-    func setVisualState(_ visualState: MSCalendarViewDayCellVisualState, animated: Bool) {
+    func setVisualState(_ visualState: CalendarViewDayCellVisualState, animated: Bool) {
         func applyVisualState() {
             switch visualState {
             case .normal:
@@ -152,13 +152,13 @@ class MSCalendarViewDayCell: UICollectionViewCell {
         }
 
         if animated {
-            UIView.animate(withDuration: MSCalendarViewDayCellVisualStateTransitionDuration, animations: applyVisualState)
+            UIView.animate(withDuration: calendarViewDayCellVisualStateTransitionDuration, animations: applyVisualState)
         } else {
             applyVisualState()
         }
     }
 
-    func setSelectionType(_ selectionType: MSCalendarViewDayCellSelectionType) {
+    func setSelectionType(_ selectionType: CalendarViewDayCellSelectionType) {
         selectionOverlayView.selectionType = selectionType
     }
 
@@ -215,12 +215,12 @@ private class MSSelectionOverlayView: UIView {
         static let highlightedOrSelectedCircleMargin: CGFloat = 5.0
     }
 
-    var selectionType: MSCalendarViewDayCellSelectionType = .singleSelection {
+    var selectionType: CalendarViewDayCellSelectionType = .singleSelection {
         didSet {
             setupActiveViews()
         }
     }
-    var selectionStyle: MSCalendarViewDayCellSelectionStyle = .normal
+    var selectionStyle: CalendarViewDayCellSelectionStyle = .normal
 
     // TODO: Add different colors for availability?
     var selected: Bool = false {

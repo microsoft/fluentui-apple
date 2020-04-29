@@ -145,7 +145,7 @@ class MSDatePickerController: UIViewController, DateTimePicker {
 
         collectionView.register(MSCalendarViewMonthBannerView.self, forSupplementaryViewOfKind: MSCalendarViewMonthBannerView.supplementaryElementKind, withReuseIdentifier: MSCalendarViewMonthBannerView.reuseIdentifier)
 
-        collectionView.register(MSCalendarViewDayCell.self, forCellWithReuseIdentifier: MSCalendarViewDayCell.identifier)
+        collectionView.register(CalendarViewDayCell.self, forCellWithReuseIdentifier: CalendarViewDayCell.identifier)
         collectionView.register(MSCalendarViewDayMonthCell.self, forCellWithReuseIdentifier: MSCalendarViewDayMonthCell.identifier)
         collectionView.register(MSCalendarViewDayMonthYearCell.self, forCellWithReuseIdentifier: MSCalendarViewDayMonthYearCell.identifier)
         collectionView.register(MSCalendarViewDayTodayCell.self, forCellWithReuseIdentifier: MSCalendarViewDayTodayCell.identifier)
@@ -309,7 +309,7 @@ extension MSDatePickerController: UICollectionViewDelegate {
     }
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let dayCell = cell as? MSCalendarViewDayCell else {
+        guard let dayCell = cell as? CalendarViewDayCell else {
             return
         }
 
@@ -361,14 +361,14 @@ extension MSDatePickerController: UICollectionViewDelegate {
     private func updateSelectionOfCell(at indexPath: IndexPath) {
         let collectionView = calendarView.collectionView
 
-        guard let cell = collectionView.cellForItem(at: indexPath) as? MSCalendarViewDayCell else {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? CalendarViewDayCell else {
             return
         }
 
         updateSelectionOfCell(cell, at: indexPath)
     }
 
-    private func updateSelectionOfCell(_ cell: MSCalendarViewDayCell, at indexPath: IndexPath) {
+    private func updateSelectionOfCell(_ cell: CalendarViewDayCell, at indexPath: IndexPath) {
         let collectionView = calendarView.collectionView
 
         if let selectionType = selectionManager.selectionType(for: indexPath) {
@@ -421,7 +421,7 @@ extension MSDatePickerController: UIScrollViewDelegate {
         }
 
         for cell in calendarView.collectionView.visibleCells {
-            if let dayCell = cell as? MSCalendarViewDayCell {
+            if let dayCell = cell as? CalendarViewDayCell {
                 dayCell.setVisualState(visible ? .fadedWithDots : .normal, animated: true)
             }
         }
@@ -441,7 +441,7 @@ extension MSDatePickerController: CalendarViewLayoutDelegate {
 // MARK: - MSDatePickerController: MSCalendarViewStyleDataSource
 
 extension MSDatePickerController: CalendarViewStyleDataSource {
-    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, textStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents) -> MSCalendarViewDayCellTextStyle {
+    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, textStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents) -> CalendarViewDayCellTextStyle {
 
         if dayStartComponents.dateIsTodayOrLater(todayDateComponents: todayComponents) {
             return .primary
@@ -451,7 +451,7 @@ extension MSDatePickerController: CalendarViewStyleDataSource {
     }
 
     func calendarViewDataSource(_ dataSource: CalendarViewDataSource, backgroundStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents
-        ) -> MSCalendarViewDayCellBackgroundStyle {
+        ) -> CalendarViewDayCellBackgroundStyle {
 
         if dayStartComponents.dateIsTodayOrLater(todayDateComponents: todayComponents) {
             return .primary
@@ -460,7 +460,7 @@ extension MSDatePickerController: CalendarViewStyleDataSource {
         }
     }
 
-    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, selectionStyleForDayWithStart dayStartDate: Date, end: Date) -> MSCalendarViewDayCellSelectionStyle {
+    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, selectionStyleForDayWithStart dayStartDate: Date, end: Date) -> CalendarViewDayCellSelectionStyle {
         return .normal
     }
 }

@@ -123,7 +123,7 @@ class MSDatePickerSelectionManager {
         }
     }
 
-    func selectionType(for indexPath: IndexPath) -> MSCalendarViewDayCellSelectionType? {
+    func selectionType(for indexPath: IndexPath) -> CalendarViewDayCellSelectionType? {
         switch selectionState {
         case let .single(selectedIndexPath):
             return indexPath == selectedIndexPath ? .singleSelection : nil

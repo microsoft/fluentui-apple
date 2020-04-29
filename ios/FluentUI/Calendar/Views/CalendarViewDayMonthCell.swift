@@ -7,7 +7,7 @@ import UIKit
 
 // MARK: MSCalendarViewDayMonthCell
 
-class MSCalendarViewDayMonthCell: MSCalendarViewDayCell {
+class MSCalendarViewDayMonthCell: CalendarViewDayCell {
     struct Constants {
         static let monthLabelMargin: CGFloat = 2.0
     }
@@ -43,12 +43,12 @@ class MSCalendarViewDayMonthCell: MSCalendarViewDayCell {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    override func setup(textStyle: MSCalendarViewDayCellTextStyle, backgroundStyle: MSCalendarViewDayCellBackgroundStyle, selectionStyle: MSCalendarViewDayCellSelectionStyle, dateLabelText: String, indicatorLevel: Int) {
+    override func setup(textStyle: CalendarViewDayCellTextStyle, backgroundStyle: CalendarViewDayCellBackgroundStyle, selectionStyle: CalendarViewDayCellSelectionStyle, dateLabelText: String, indicatorLevel: Int) {
         preconditionFailure("Use setup(textStyle, backgroundStyle, selectionStyle, monthLabelText, dateLabelText, indicatorLevel) instead")
     }
 
     // Only supports indicator levels from 0...4
-    func setup(textStyle: MSCalendarViewDayCellTextStyle, backgroundStyle: MSCalendarViewDayCellBackgroundStyle, selectionStyle: MSCalendarViewDayCellSelectionStyle, monthLabelText: String, dateLabelText: String, indicatorLevel: Int) {
+    func setup(textStyle: CalendarViewDayCellTextStyle, backgroundStyle: CalendarViewDayCellBackgroundStyle, selectionStyle: CalendarViewDayCellSelectionStyle, monthLabelText: String, dateLabelText: String, indicatorLevel: Int) {
         super.setup(textStyle: textStyle, backgroundStyle: backgroundStyle, selectionStyle: selectionStyle, dateLabelText: dateLabelText, indicatorLevel: indicatorLevel)
 
         switch textStyle {

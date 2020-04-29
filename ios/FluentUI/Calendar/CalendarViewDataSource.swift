@@ -8,12 +8,12 @@ import UIKit
 // MARK: CalendarViewStyleDataSource
 
 protocol CalendarViewStyleDataSource: class {
-    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, textStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents) -> MSCalendarViewDayCellTextStyle
+    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, textStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents) -> CalendarViewDayCellTextStyle
 
     // Suggestion: Use provided components for performance improvements. Check where it's called to see what's available
-    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, backgroundStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents) -> MSCalendarViewDayCellBackgroundStyle
+    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, backgroundStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents) -> CalendarViewDayCellBackgroundStyle
 
-    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, selectionStyleForDayWithStart dayStartDate: Date, end: Date) -> MSCalendarViewDayCellSelectionStyle
+    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, selectionStyleForDayWithStart dayStartDate: Date, end: Date) -> CalendarViewDayCellSelectionStyle
 }
 
 // MARK: - CalendarViewIndicatorDataSource
@@ -174,7 +174,7 @@ extension CalendarViewDataSource: UICollectionViewDataSource {
         // Setup cell
         if dayStartDate.compare(calendar.startOfDay(for: calendarConfiguration.referenceStartDate)) == .orderedAscending {
             // Before reference start date
-            let dayCell = collectionView.dequeueReusableCell(withReuseIdentifier: MSCalendarViewDayCell.identifier, for: indexPath) as! MSCalendarViewDayCell
+            let dayCell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarViewDayCell.identifier, for: indexPath) as! CalendarViewDayCell
             dayCell.setup(textStyle: textStyle, backgroundStyle: backgroundStyle, selectionStyle: selectionStyle, dateLabelText: "", indicatorLevel: 0)
             return dayCell
         }
@@ -197,7 +197,7 @@ extension CalendarViewDataSource: UICollectionViewDataSource {
             }
         }
 
-        let dayCell = collectionView.dequeueReusableCell(withReuseIdentifier: MSCalendarViewDayCell.identifier, for: indexPath) as! MSCalendarViewDayCell
+        let dayCell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarViewDayCell.identifier, for: indexPath) as! CalendarViewDayCell
         dayCell.setup(textStyle: textStyle, backgroundStyle: backgroundStyle, selectionStyle: selectionStyle, dateLabelText: dateLabelText, indicatorLevel: indicatorLevel)
         return dayCell
     }

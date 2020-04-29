@@ -50,7 +50,7 @@ class MSCalendarViewMonthBannerView: UICollectionReusableView {
             return
         }
 
-        let duration = (animated) ? MSCalendarViewDayCellVisualStateTransitionDuration : 0.0
+        let duration = (animated) ? calendarViewDayCellVisualStateTransitionDuration : 0.0
 
         UIView.animate(withDuration: duration) {
             self.monthLabel.alpha = isVisible ? 1.0 : 0.0

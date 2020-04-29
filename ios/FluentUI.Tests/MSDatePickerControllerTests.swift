@@ -91,7 +91,7 @@ class MSDatePickerControllerTests: XCTestCase {
 // MARK: - MSDatePickerController
 
 class MockMSCalendarViewStyleDataSource: CalendarViewStyleDataSource {
-    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, textStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents) -> MSCalendarViewDayCellTextStyle {
+    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, textStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents) -> CalendarViewDayCellTextStyle {
         if dayStartComponents.dateIsTodayOrLater(todayDateComponents: todayComponents) {
             return .primary
         } else {
@@ -100,7 +100,7 @@ class MockMSCalendarViewStyleDataSource: CalendarViewStyleDataSource {
     }
 
     func calendarViewDataSource(_ dataSource: CalendarViewDataSource, backgroundStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents
-        ) -> MSCalendarViewDayCellBackgroundStyle {
+        ) -> CalendarViewDayCellBackgroundStyle {
         if dayStartComponents.dateIsTodayOrLater(todayDateComponents: todayComponents) {
             return .primary
         } else {
@@ -108,7 +108,7 @@ class MockMSCalendarViewStyleDataSource: CalendarViewStyleDataSource {
         }
     }
 
-    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, selectionStyleForDayWithStart dayStartDate: Date, end: Date) -> MSCalendarViewDayCellSelectionStyle {
+    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, selectionStyleForDayWithStart dayStartDate: Date, end: Date) -> CalendarViewDayCellSelectionStyle {
         return .normal
     }
 }

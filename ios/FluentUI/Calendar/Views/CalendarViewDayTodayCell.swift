@@ -7,7 +7,7 @@ import Foundation
 
 // MARK: MSCalendarViewDayTodayCell
 
-class MSCalendarViewDayTodayCell: MSCalendarViewDayCell {
+class MSCalendarViewDayTodayCell: CalendarViewDayCell {
     override class var identifier: String { return "MSCalendarViewDayTodayCell" }
 
     override var isSelected: Bool {
@@ -25,7 +25,7 @@ class MSCalendarViewDayTodayCell: MSCalendarViewDayCell {
     }
 
     // Only supports indicator levels from 0...4
-    override func setup(textStyle: MSCalendarViewDayCellTextStyle, backgroundStyle: MSCalendarViewDayCellBackgroundStyle, selectionStyle: MSCalendarViewDayCellSelectionStyle, dateLabelText: String, indicatorLevel: Int) {
+    override func setup(textStyle: CalendarViewDayCellTextStyle, backgroundStyle: CalendarViewDayCellBackgroundStyle, selectionStyle: CalendarViewDayCellSelectionStyle, dateLabelText: String, indicatorLevel: Int) {
         super.setup(textStyle: textStyle, backgroundStyle: backgroundStyle, selectionStyle: selectionStyle, dateLabelText: dateLabelText, indicatorLevel: indicatorLevel)
 
         configureBackgroundColor()
