@@ -19,7 +19,7 @@ enum CalendarViewHeightStyle {
 class CalendarView: UIView {
     let weekdayHeadingView: MSCalendarViewWeekdayHeadingView
     let collectionView: UICollectionView
-    let collectionViewLayout: MSCalendarViewLayout
+    let collectionViewLayout: CalendarViewLayout
 
     weak var accessibleViewDelegate: AccessibleViewDelegate?
 
@@ -31,7 +31,7 @@ class CalendarView: UIView {
 
         headingViewSeparator = MSSeparator(style: .shadow)
 
-        collectionViewLayout = MSCalendarViewLayout()
+        collectionViewLayout = CalendarViewLayout()
 
         collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: collectionViewLayout)
         collectionView.backgroundColor = MSColors.Calendar.background
@@ -105,7 +105,7 @@ class CalendarView: UIView {
         height += weekdayHeadingView.sizeThatFits(bounds.size).height
 
         // Day cells
-        height += MSCalendarViewLayout.preferredItemHeight * rows(for: style)
+        height += CalendarViewLayout.preferredItemHeight * rows(for: style)
 
         // Do not include last separator
         height -= UIScreen.main.devicePixel
