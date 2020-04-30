@@ -5,7 +5,7 @@
 
 import UIKit
 
-// MARK: MSDatePickerHeaderStyle
+// MARK: DatePickerHeaderStyle
 
 enum DatePickerHeaderStyle: Int {
     case light

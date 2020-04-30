@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-// MARK: MSDrawerDemoController
+// MARK: DrawerDemoController
 
 class DrawerDemoController: DemoController {
     override func viewDidLoad() {
