@@ -5,17 +5,25 @@
 
 import UIKit
 
-// MARK: MSPillButtonBarDelegate
+// MARK: PillButtonBarDelegate
 
-@objc public protocol MSPillButtonBarDelegate {
+@available(*, deprecated, renamed: "PillButtonBarDelegate")
+public typealias MSPillButtonBarDelegate = PillButtonBarDelegate
+
+@objc(MSFPillButtonBarDelegate)
+public protocol PillButtonBarDelegate {
     /// Called after the button representing the item is tapped in the UI.
-    @objc optional func pillBar(_ pillBar: MSPillButtonBar, didSelectItem item: MSPillButtonBarItem, atIndex index: Int)
+    @objc optional func pillBar(_ pillBar: PillButtonBar, didSelectItem item: PillButtonBarItem, atIndex index: Int)
 }
 
-// MARK: MSPillButtonBarItem
+// MARK: PillButtonBarItem
 
-/// `MSPillButtonBarItem` is an item that can be presented as a pill shaped text button.
-open class MSPillButtonBarItem: NSObject {
+@available(*, deprecated, renamed: "PillButtonBarItem")
+public typealias MSPillButtonBarItem = PillButtonBarItem
+
+/// `PillButtonBarItem` is an item that can be presented as a pill shaped text button.
+@objc(MSFPillButtonBarItem)
+open class PillButtonBarItem: NSObject {
     @objc public let title: String
 
     @objc public init(title: String) {
@@ -24,14 +32,18 @@ open class MSPillButtonBarItem: NSObject {
     }
 }
 
-// MARK: MSPillButtonBar
+// MARK: PillButtonBar
 
-/// `MSPillButtonBar` is a horizontall scrollable list of pill shape text buttons in which only one button can be selected at a given time.
-/// Set the `items` property to determine what buttons will be shown in the bar. Each `MSPillButtonBarItem` will be represented as a button.
+@available(*, deprecated, renamed: "PillButtonBar")
+public typealias MSPillButtonBar = PillButtonBar
+
+/// `PillButtonBar` is a horizontall scrollable list of pill shape text buttons in which only one button can be selected at a given time.
+/// Set the `items` property to determine what buttons will be shown in the bar. Each `PillButtonBarItem` will be represented as a button.
 /// Set the `delegate` property to listen to selection changes.
 /// Set the `selectedItem` property if the selection needs to be programatically changed.
 /// Once a button is selected, the previously selected button will be deselected.
-open class MSPillButtonBar: UIScrollView {
+@objc(MSFPillButtonBar)
+open class PillButtonBar: UIScrollView {
     private struct Constants {
         static let maxButtonsSpacing: CGFloat = 10.0
         static let minButtonsSpacing: CGFloat = 8.0
@@ -41,7 +53,7 @@ open class MSPillButtonBar: UIScrollView {
         static let sideInset: CGFloat = 16.0
     }
 
-    @objc public weak var barDelegate: MSPillButtonBarDelegate?
+    @objc public weak var barDelegate: PillButtonBarDelegate?
 
     @objc public var centerAligned: Bool = false {
         didSet {
@@ -49,7 +61,7 @@ open class MSPillButtonBar: UIScrollView {
         }
     }
 
-    @objc public var items: [MSPillButtonBarItem]? {
+    @objc public var items: [PillButtonBarItem]? {
         didSet {
             clearButtons()
 
@@ -65,7 +77,7 @@ open class MSPillButtonBar: UIScrollView {
     @objc public let pillButtonStyle: PillButtonStyle
 
     /// If set to nil, the previously selected item will be deselected and there won't be any items selected
-    @objc public var selectedItem: MSPillButtonBarItem? {
+    @objc public var selectedItem: PillButtonBarItem? {
         get {
             return selectedButton?.pillBarItem
         }
@@ -78,13 +90,13 @@ open class MSPillButtonBar: UIScrollView {
 
     private var buttonExtraSidePadding: CGFloat = 0.0
 
-    private var buttons = [MSPillButton]()
+    private var buttons = [PillButton]()
 
     private var lastKnownScrollFrameWidth: CGFloat = 0.0
 
     private var needsButtonSizeReconfiguration: Bool = false
 
-    private var selectedButton: MSPillButton? {
+    private var selectedButton: PillButton? {
         willSet {
             selectedButton?.isSelected = false
         }
@@ -164,7 +176,7 @@ open class MSPillButtonBar: UIScrollView {
         }
     }
 
-    private func addButtonsWithItems(_ items: [MSPillButtonBarItem]) {
+    private func addButtonsWithItems(_ items: [PillButtonBarItem]) {
         for (index, item) in items.enumerated() {
             let button = createButtonWithItem(item)
             buttons.append(button)
@@ -268,8 +280,8 @@ open class MSPillButtonBar: UIScrollView {
         buttons.removeAll()
     }
 
-    private func createButtonWithItem(_ item: MSPillButtonBarItem) -> MSPillButton {
-        let button = MSPillButton(pillBarItem: item, style: pillButtonStyle)
+    private func createButtonWithItem(_ item: PillButtonBarItem) -> PillButton {
+        let button = PillButton(pillBarItem: item, style: pillButtonStyle)
         button.addTarget(self, action: #selector(selectButton(_:)), for: .touchUpInside)
         return button
     }
@@ -287,7 +299,7 @@ open class MSPillButtonBar: UIScrollView {
         }
     }
 
-    private func indexOfButtonWithItem(_ item: MSPillButtonBarItem) -> Int? {
+    private func indexOfButtonWithItem(_ item: PillButtonBarItem) -> Int? {
         for (index, button) in buttons.enumerated() {
             if button.pillBarItem == item {
                 return index
@@ -344,7 +356,7 @@ open class MSPillButtonBar: UIScrollView {
 
     /// If the button is not fully visible in the scroll frame, scrolls the view by an offset large enough so that
     /// both the button and a peek of its following button become visible.
-    private func scrollButtonToVisible(_ button: MSPillButton) {
+    private func scrollButtonToVisible(_ button: PillButton) {
         let buttonFrame = button.convert(button.bounds, to: self)
         let buttonLeftPosition = buttonFrame.origin.x
         let buttonRightPosition = buttonLeftPosition + button.frame.size.width
@@ -372,7 +384,7 @@ open class MSPillButtonBar: UIScrollView {
         setContentOffset(CGPoint(x: originX, y: contentOffset.y), animated: animated)
     }
 
-    @objc private func selectButton(_ button: MSPillButton) {
+    @objc private func selectButton(_ button: PillButton) {
         selectedButton = button
         scrollButtonToVisible(button)
         if let index = buttons.firstIndex(of: button) {
@@ -380,7 +392,7 @@ open class MSPillButtonBar: UIScrollView {
         }
     }
 
-    private func selectItem(_ item: MSPillButtonBarItem) {
+    private func selectItem(_ item: PillButtonBarItem) {
         guard let index = indexOfButtonWithItem(item) else {
             return
         }

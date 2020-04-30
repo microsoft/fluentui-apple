@@ -65,10 +65,14 @@ public enum PillButtonStyle: Int {
     }
 }
 
-// MARK: MSPillButton
+// MARK: PillButton
 
-/// An `MSPillButton` is a button in the shape of a pill that can have two states: on (Selected) and off (not selected)
-open class MSPillButton: UIButton {
+@available(*, deprecated, renamed: "PillButton")
+public typealias MSPillButton = PillButton
+
+/// An `PillButton` is a button in the shape of a pill that can have two states: on (Selected) and off (not selected)
+@objc(MSFPillButton)
+open class PillButton: UIButton {
     private struct Constants {
         static let borderWidth: CGFloat = 1.0
         static let bottomInset: CGFloat = 6.0
@@ -78,7 +82,7 @@ open class MSPillButton: UIButton {
         static let topInset: CGFloat = 4.0
     }
 
-    public let pillBarItem: MSPillButtonBarItem
+    public let pillBarItem: PillButtonBarItem
 
     public let style: PillButtonStyle
 
@@ -89,7 +93,7 @@ open class MSPillButton: UIButton {
         }
     }
 
-    public init(pillBarItem: MSPillButtonBarItem, style: PillButtonStyle = .outline) {
+    public init(pillBarItem: PillButtonBarItem, style: PillButtonStyle = .outline) {
         self.pillBarItem = pillBarItem
         self.style = style
         super.init(frame: .zero)

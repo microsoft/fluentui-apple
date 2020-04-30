@@ -11,13 +11,13 @@ class MSPillButtonBarDemoController: DemoController {
         super.viewDidLoad()
         container.layoutMargins.right = 0
         container.layoutMargins.left = 0
-        var items: [MSPillButtonBarItem] = [MSPillButtonBarItem(title: "All"),
-                                            MSPillButtonBarItem(title: "Documents"),
-                                            MSPillButtonBarItem(title: "People"),
-                                            MSPillButtonBarItem(title: "Other"),
-                                            MSPillButtonBarItem(title: "Templates"),
-                                            MSPillButtonBarItem(title: "Actions"),
-                                            MSPillButtonBarItem(title: "More")]
+        var items: [PillButtonBarItem] = [PillButtonBarItem(title: "All"),
+                                            PillButtonBarItem(title: "Documents"),
+                                            PillButtonBarItem(title: "People"),
+                                            PillButtonBarItem(title: "Other"),
+                                            PillButtonBarItem(title: "Templates"),
+                                            PillButtonBarItem(title: "Actions"),
+                                            PillButtonBarItem(title: "More")]
 
         container.addArrangedSubview(createLabelWithText("Filled"))
         container.addArrangedSubview(createBar(items: items, style: .filled))
@@ -49,7 +49,7 @@ class MSPillButtonBarDemoController: DemoController {
         container.addArrangedSubview(UIView())
     }
 
-    func createBar(items: [MSPillButtonBarItem], style: PillButtonStyle = .outline, centerAligned: Bool = false) -> UIView {
+    func createBar(items: [PillButtonBarItem], style: PillButtonStyle = .outline, centerAligned: Bool = false) -> UIView {
         let bar = MSPillButtonBar(pillButtonStyle: style)
         bar.items = items
         _ = bar.selectItem(_atIndex: 0)
@@ -89,10 +89,10 @@ class MSPillButtonBarDemoController: DemoController {
     }
 }
 
-// MARK: - MSPillButtonBarDemoController: MSPillButtonBarDelegate
+// MARK: - MSPillButtonBarDemoController: PillButtonBarDelegate
 
-extension MSPillButtonBarDemoController: MSPillButtonBarDelegate {
-    func pillBar(_ pillBar: MSPillButtonBar, didSelectItem item: MSPillButtonBarItem, atIndex index: Int) {
+extension MSPillButtonBarDemoController: PillButtonBarDelegate {
+    func pillBar(_ pillBar: MSPillButtonBar, didSelectItem item: PillButtonBarItem, atIndex index: Int) {
         let alert = UIAlertController(title: "Item \(item.title) was selected", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
