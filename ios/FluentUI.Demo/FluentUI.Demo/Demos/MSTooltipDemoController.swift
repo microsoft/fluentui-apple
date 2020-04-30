@@ -92,58 +92,58 @@ class MSTooltipDemoController: DemoController {
     }
 
     @objc func showTitleTooltip(sender: UIBarButtonItem) {
-        MSTooltip.shared.show(with: "This is a title-based tooltip.", for: titleView, preferredArrowDirection: .up)
+        Tooltip.shared.show(with: "This is a title-based tooltip.", for: titleView, preferredArrowDirection: .up)
     }
 
     @objc func showSingleTooltipBelow(sender: Button) {
-        MSTooltip.shared.show(with: "This is pointing up.", for: sender, preferredArrowDirection: .up)
+        Tooltip.shared.show(with: "This is pointing up.", for: sender, preferredArrowDirection: .up)
     }
 
     @objc func showDoubleTooltipAbove(sender: Button) {
-        MSTooltip.shared.show(with: "This is a very long message, and this is also pointing down.", for: sender)
+        Tooltip.shared.show(with: "This is a very long message, and this is also pointing down.", for: sender)
     }
 
     @objc func showTooltipWithTapOnTooltipDismissal(sender: Button) {
-        MSTooltip.shared.show(with: "Tap on this tooltip to dismiss.", for: sender, preferredArrowDirection: .up, dismissOn: .tapOnTooltip)
+        Tooltip.shared.show(with: "Tap on this tooltip to dismiss.", for: sender, preferredArrowDirection: .up, dismissOn: .tapOnTooltip)
     }
 
     @objc func showTooltipWithTapOnTooltipOrAnchorDismissal(sender: Button) {
-        MSTooltip.shared.show(with: "Tap on this tooltip or this title button to dismiss.", for: titleView, dismissOn: .tapOnTooltipOrAnchor)
+        Tooltip.shared.show(with: "Tap on this tooltip or this title button to dismiss.", for: titleView, dismissOn: .tapOnTooltipOrAnchor)
     }
 
     @objc func showTooltipLeftArrow(sender: Button) {
-        MSTooltip.shared.show(with: "This is pointing left.", for: sender, preferredArrowDirection: .left)
+        Tooltip.shared.show(with: "This is pointing left.", for: sender, preferredArrowDirection: .left)
     }
 
     @objc func showTooltipRightArrow(sender: Button) {
-        MSTooltip.shared.show(with: "This is pointing right.", for: sender, preferredArrowDirection: .right)
+        Tooltip.shared.show(with: "This is pointing right.", for: sender, preferredArrowDirection: .right)
     }
 
     @objc func showTopLeftOffsetTooltip(sender: Button) {
-        MSTooltip.shared.show(with: "This is an offset tooltip.", for: sender, preferredArrowDirection: .up)
+        Tooltip.shared.show(with: "This is an offset tooltip.", for: sender, preferredArrowDirection: .up)
     }
 
     @objc func showTopRightOffsetTooltip(sender: Button) {
         guard let window = view.window else {
             return
         }
-        var margins = MSTooltip.defaultScreenMargins
+        var margins = Tooltip.defaultScreenMargins
         margins.top = edgeCaseStackView.convert(edgeCaseStackView.bounds, to: window).minY - window.safeAreaInsets.top
         margins.left = window.frame.inset(by: window.safeAreaInsets).midX
-        MSTooltip.shared.show(with: "This is a very long, offset message.", for: sender, preferredArrowDirection: .right, screenMargins: margins)
+        Tooltip.shared.show(with: "This is a very long, offset message.", for: sender, preferredArrowDirection: .right, screenMargins: margins)
     }
 
     @objc func showBottomLeftOffsetTooltip(sender: Button) {
         guard let window = view.window else {
             return
         }
-        var margins = MSTooltip.defaultScreenMargins
+        var margins = Tooltip.defaultScreenMargins
         margins.right = window.frame.inset(by: window.safeAreaInsets).midX
-        MSTooltip.shared.show(with: "This is a very long, offset message.", for: sender, preferredArrowDirection: .left, screenMargins: margins)
+        Tooltip.shared.show(with: "This is a very long, offset message.", for: sender, preferredArrowDirection: .left, screenMargins: margins)
     }
 
     @objc func showBottomRightOffsetTooltip(sender: Button) {
-        MSTooltip.shared.show(with: "This is an offset tooltip.", for: sender)
+        Tooltip.shared.show(with: "This is an offset tooltip.", for: sender)
     }
 }
 

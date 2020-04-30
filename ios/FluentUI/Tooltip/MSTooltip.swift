@@ -5,11 +5,15 @@
 
 import UIKit
 
-// MARK: MSTooltip
+// MARK: Tooltip
+
+@available(*, deprecated, renamed: "Tooltip")
+public typealias MSTooltip = Tooltip
 
 /// A styled tooltip that is presented anchored to a view.
-open class MSTooltip: NSObject {
-    @objc(MSTooltipArrowDirection)
+@objc(MSFTooltip)
+open class Tooltip: NSObject {
+    @objc(MSFTooltipArrowDirection)
     public enum ArrowDirection: Int {
         case up, down, left, right
 
@@ -36,7 +40,7 @@ open class MSTooltip: NSObject {
         }
     }
 
-    @objc(MSTooltipDismissMode)
+    @objc(MSFTooltipDismissMode)
     public enum DismissMode: Int {
         case tapAnywhere
         case tapOnTooltip
@@ -50,7 +54,7 @@ open class MSTooltip: NSObject {
 
     @objc public static let defaultScreenMargins = UIEdgeInsets(top: Constants.defaultMargin, left: Constants.defaultMargin, bottom: Constants.defaultMargin, right: Constants.defaultMargin)
 
-    @objc public static let shared = MSTooltip()
+    @objc public static let shared = Tooltip()
 
     /// The alignment of the text in the tooltip. Defaults to natural alignment (left for LTR languages, right for RTL languages).
     @objc public var textAlignment: NSTextAlignment = .natural

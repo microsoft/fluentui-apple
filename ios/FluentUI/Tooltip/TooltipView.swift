@@ -27,7 +27,7 @@ class TooltipView: UIView {
     static let arrowSize = CGSize(width: 14.0, height: 7.0)
 
     /// Returns the tooltip size
-    static func sizeThatFits(_ size: CGSize, message: String, arrowDirection: MSTooltip.ArrowDirection) -> CGSize {
+    static func sizeThatFits(_ size: CGSize, message: String, arrowDirection: Tooltip.ArrowDirection) -> CGSize {
         var messageBoundingSize = size
         if arrowDirection.isVertical {
             messageBoundingSize.height -= arrowSize.height

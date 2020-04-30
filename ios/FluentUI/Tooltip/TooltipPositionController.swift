@@ -9,7 +9,7 @@ import UIKit
 
 class TooltipPositionController {
     let anchorView: UIView
-    private(set) var arrowDirection: MSTooltip.ArrowDirection = .down
+    private(set) var arrowDirection: Tooltip.ArrowDirection = .down
 
     var arrowPosition: CGFloat {
         let minPosition = arrowMargin
@@ -71,7 +71,7 @@ class TooltipPositionController {
         return anchorView.convert(sourcePointInAnchorView, to: window)
     }
 
-    private let preferredArrowDirection: MSTooltip.ArrowDirection
+    private let preferredArrowDirection: Tooltip.ArrowDirection
     private let window: UIView
 
     private let arrowMargin: CGFloat
@@ -81,7 +81,7 @@ class TooltipPositionController {
 
     private var tooltipSize: CGSize = .zero
 
-    init(anchorView: UIView, message: String, boundingRect: CGRect, preferredArrowDirection: MSTooltip.ArrowDirection, offset: CGPoint, arrowMargin: CGFloat, arrowWidth: CGFloat) {
+    init(anchorView: UIView, message: String, boundingRect: CGRect, preferredArrowDirection: Tooltip.ArrowDirection, offset: CGPoint, arrowMargin: CGFloat, arrowWidth: CGFloat) {
         guard let window = anchorView.window else {
             preconditionFailure("Can't find anchorView's window")
         }
@@ -120,7 +120,7 @@ class TooltipPositionController {
         }
     }
 
-    private func anchorViewInset(for arrowDirection: MSTooltip.ArrowDirection) -> UIEdgeInsets {
+    private func anchorViewInset(for arrowDirection: Tooltip.ArrowDirection) -> UIEdgeInsets {
         guard let window = anchorView.window else {
             preconditionFailure("Can't find anchorView's window")
         }

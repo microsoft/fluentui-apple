@@ -26,7 +26,7 @@ open class ShimmerView: UIView {
     }
 
     /// Optional synchronizer to sync multiple shimmer views
-    @objc open weak var animationSynchronizer: MSAnimationSynchronizerProtocol?
+    @objc open weak var animationSynchronizer: AnimationSynchronizerProtocol?
 
     open override var intrinsicContentSize: CGSize { return bounds.size }
 
@@ -45,7 +45,7 @@ open class ShimmerView: UIView {
     /// - Parameter animationSynchronizer: optional synchronizer to sync multiple shimmer views
     @objc public init(containerView: UIView? = nil,
                       excludedViews: [UIView] = [],
-                      animationSynchronizer: MSAnimationSynchronizerProtocol? = nil) {
+                      animationSynchronizer: AnimationSynchronizerProtocol? = nil) {
         self.containerView = containerView
         self.excludedViews = excludedViews
         self.animationSynchronizer = animationSynchronizer

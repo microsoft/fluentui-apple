@@ -12,7 +12,7 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("BadgeField", BadgeFieldDemoController.self),
     ("BadgeView", BadgeViewDemoController.self),
     ("Button", MSButtonDemoController.self),
-    ("MSColor", MSColorDemoController.self),
+    ("Color", MSColorDemoController.self),
     ("DateTimePicker", DateTimePickerDemoController.self),
     ("DrawerController", MSDrawerDemoController.self),
     ("HUD", MSHUDDemoController.self),
@@ -29,7 +29,7 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("TableViewCell", MSTableViewCellDemoController.self),
     ("MSTableViewCellShimmer", MSTableViewCellShimmerDemoController.self),
     ("TableViewHeaderFooterView", MSTableViewHeaderFooterViewDemoController.self),
-    ("MSTooltip", MSTooltipDemoController.self),
+    ("Tooltip", MSTooltipDemoController.self),
     ("Other cells", OtherCellsDemoController.self),
     ("DEBUG: Objective-C Demos", ObjectiveCDemoController.self)
 ]

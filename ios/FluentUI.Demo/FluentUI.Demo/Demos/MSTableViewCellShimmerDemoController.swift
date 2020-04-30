@@ -6,7 +6,7 @@
 // MARK: MSTableViewCellShimmerDemoController
 
 class MSTableViewCellShimmerDemoController: MSTableViewCellDemoController {
-    let shimmerSynchronizer = MSAnimationSynchronizer()
+    let shimmerSynchronizer = AnimationSynchronizer()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,7 +55,7 @@ extension TableViewCell {
     }
 
     /// Start or reset the shimmer
-    func shimmer(synchronizer: MSAnimationSynchronizerProtocol) {
+    func shimmer(synchronizer: AnimationSynchronizerProtocol) {
         // because the cells have different layouts in this example, remove and re-add the shimmers
         shimmerView?.removeFromSuperview()
 
