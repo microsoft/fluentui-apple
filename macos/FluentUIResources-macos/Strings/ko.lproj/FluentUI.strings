@@ -10,7 +10,7 @@
 "DATEPICKER_ACCESSIBILITY_NEXT_MONTH_LABEL" = "다음 달";
 
 /* Accessibility label for the previous month button */
-"DATEPICKER_ACCESSIBILITY_PREVIOUS_MONTH_LABEL" = "이전 달";
+"DATEPICKER_ACCESSIBILITY_PREVIOUS_MONTH_LABEL" = "지난달";
 
 /* Accessibility label for the calendar day grid */
-"DATEPICKER_ACCESSIBILITY_CALENDAR_VIEW_LABEL" = "데이 그리드";
+"DATEPICKER_ACCESSIBILITY_CALENDAR_VIEW_LABEL" = "일 그리드";
