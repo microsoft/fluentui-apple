@@ -5,7 +5,7 @@
 
 import UIKit
 
-class MSCardPresentationController: UIPresentationController {
+class CardPresentationController: UIPresentationController {
     // Workaround to get Voiceover to ignore the view behind the action sheet.
     // Setting accessibilityViewIsModal directly on the container does not work.
     private lazy var accessibilityContainer: UIView = {

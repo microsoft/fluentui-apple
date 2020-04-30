@@ -5,7 +5,7 @@
 
 import UIKit
 
-class MSPopupMenuItemCell: MSTableViewCell {
+class PopupMenuItemCell: MSTableViewCell {
     private struct Constants {
         static let labelVerticalMarginForOneLine: CGFloat = 14
         static let accessoryImageViewOffset: CGFloat = 5
@@ -21,12 +21,12 @@ class MSPopupMenuItemCell: MSTableViewCell {
 
     override class var labelVerticalMarginForOneAndThreeLines: CGFloat { return Constants.labelVerticalMarginForOneLine }
 
-    static func preferredWidth(for item: MSPopupMenuItem, preservingSpaceForImage preserveSpaceForImage: Bool) -> CGFloat {
+    static func preferredWidth(for item: PopupMenuItem, preservingSpaceForImage preserveSpaceForImage: Bool) -> CGFloat {
         let imageViewSize: CustomViewSize = item.image != nil || preserveSpaceForImage ? Constants.imageViewSize : .zero
         return preferredWidth(title: item.title, subtitle: item.subtitle ?? "", customViewSize: imageViewSize, customAccessoryView: item.accessoryView, accessoryType: .checkmark)
     }
 
-    static func preferredHeight(for item: MSPopupMenuItem) -> CGFloat {
+    static func preferredHeight(for item: PopupMenuItem) -> CGFloat {
         return height(title: item.title, subtitle: item.subtitle ?? "", customViewSize: Constants.imageViewSize, customAccessoryView: item.accessoryView, accessoryType: .checkmark)
     }
 
@@ -48,7 +48,7 @@ class MSPopupMenuItemCell: MSTableViewCell {
         set { super.isUserInteractionEnabled = newValue }
     }
 
-    private var item: MSPopupMenuItem?
+    private var item: PopupMenuItem?
 
     // Cannot use imageView since it exists in superclass
     private let _imageView: UIImageView = {
@@ -75,7 +75,7 @@ class MSPopupMenuItemCell: MSTableViewCell {
         isAccessibilityElement = true
     }
 
-    func setup(item: MSPopupMenuItem) {
+    func setup(item: PopupMenuItem) {
         self.item = item
 
         _imageView.image = item.image

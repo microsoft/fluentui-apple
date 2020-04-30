@@ -188,8 +188,8 @@ public class DateTimePicker: NSObject {
         pickers.forEach { $0.delegate = self }
         presentedPickers = pickers
 
-        let viewControllers = pickers.map { MSCardPresenterNavigationController(rootViewController: $0 as! UIViewController) }
-        let pageCardPresenter = MSPageCardPresenterController(viewControllers: viewControllers, startingIndex: 0)
+        let viewControllers = pickers.map { CardPresenterNavigationController(rootViewController: $0 as! UIViewController) }
+        let pageCardPresenter = PageCardPresenterController(viewControllers: viewControllers, startingIndex: 0)
         pageCardPresenter.onDismiss = {
             self.dismiss()
         }

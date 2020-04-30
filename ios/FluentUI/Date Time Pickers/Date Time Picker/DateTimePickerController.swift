@@ -197,9 +197,9 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
 
 }
 
-// MARK: - DateTimePickerController: MSCardPresentable
+// MARK: - DateTimePickerController: CardPresentable
 
-extension DateTimePickerController: MSCardPresentable {
+extension DateTimePickerController: CardPresentable {
     func idealSize() -> CGSize {
         return CGSize(
             width: Constants.idealWidth,

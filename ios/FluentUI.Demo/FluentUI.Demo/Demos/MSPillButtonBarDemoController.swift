@@ -50,7 +50,7 @@ class MSPillButtonBarDemoController: DemoController {
     }
 
     func createBar(items: [PillButtonBarItem], style: PillButtonStyle = .outline, centerAligned: Bool = false) -> UIView {
-        let bar = MSPillButtonBar(pillButtonStyle: style)
+        let bar = PillButtonBar(pillButtonStyle: style)
         bar.items = items
         _ = bar.selectItem(_atIndex: 0)
         bar.barDelegate = self
@@ -92,7 +92,7 @@ class MSPillButtonBarDemoController: DemoController {
 // MARK: - MSPillButtonBarDemoController: PillButtonBarDelegate
 
 extension MSPillButtonBarDemoController: PillButtonBarDelegate {
-    func pillBar(_ pillBar: MSPillButtonBar, didSelectItem item: PillButtonBarItem, atIndex index: Int) {
+    func pillBar(_ pillBar: PillButtonBar, didSelectItem item: PillButtonBarItem, atIndex index: Int) {
         let alert = UIAlertController(title: "Item \(item.title) was selected", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)

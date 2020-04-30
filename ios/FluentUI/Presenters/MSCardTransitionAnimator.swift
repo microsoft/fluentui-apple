@@ -5,7 +5,7 @@
 
 import UIKit
 
-class MSCardTransitionAnimator: NSObject {
+class CardTransitionAnimator: NSObject {
     struct Constants {
         static let animationDuration: TimeInterval = 0.15
         static let presentationInScale: CGFloat = 0.65
@@ -115,9 +115,9 @@ class MSCardTransitionAnimator: NSObject {
     }
 }
 
-// MARK: - MSCardTransitionAnimator: UIViewControllerAnimatedTransitioning
+// MARK: - CardTransitionAnimator: UIViewControllerAnimatedTransitioning
 
-extension MSCardTransitionAnimator: UIViewControllerAnimatedTransitioning {
+extension CardTransitionAnimator: UIViewControllerAnimatedTransitioning {
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return Constants.animationDuration
     }

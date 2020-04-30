@@ -5,10 +5,14 @@
 
 import UIKit
 
+@available(*, deprecated, renamed: "PopupMenuItem")
+public typealias MSPopupMenuItem = PopupMenuItem
+
 /**
- `MSPopupMenuItem` represents a menu item inside `MSPopupMenuController`.
+ `PopupMenuItem` represents a menu item inside `PopupMenuController`.
  */
-open class MSPopupMenuItem: NSObject {
+@objc(MSFPopupMenuItem)
+open class PopupMenuItem: NSObject {
     /// Defines the timing for the call of the onSelected closure/block
     @objc(MSPopupMenuItemExecutionMode)
     public enum ExecutionMode: Int {

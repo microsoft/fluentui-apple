@@ -465,9 +465,9 @@ extension DatePickerController: CalendarViewStyleDataSource {
     }
 }
 
-// MARK: - DatePickerController: MSCardPresentable
+// MARK: - DatePickerController: CardPresentable
 
-extension DatePickerController: MSCardPresentable {
+extension DatePickerController: CardPresentable {
     func idealSize() -> CGSize {
         return CGSize(
             width: Constants.idealWidth,

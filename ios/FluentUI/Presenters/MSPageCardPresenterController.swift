@@ -5,15 +5,18 @@
 
 import UIKit
 
-@objc protocol MSCardPresentable: class {
+protocol CardPresentable: class {
     func idealSize() -> CGSize
 }
+
+@available(*, deprecated, renamed: "PageCardPresenterController")
+public typealias MSPageCardPresenterController = PageCardPresenterController
 
 /**
  Presents viewController views as "cards" in a paged scrollView
  */
-
-open class MSPageCardPresenterController: UIViewController {
+@objc(MSFPageCardPresenterController)
+open class PageCardPresenterController: UIViewController {
     private struct Constants {
         static let cornerRadius: CGFloat = 14
         static let minMargin: CGFloat = 16
@@ -127,7 +130,7 @@ open class MSPageCardPresenterController: UIViewController {
             guard let cardView = viewController.view else {
                 continue
             }
-            if let card = viewController as? MSCardPresentable {
+            if let card = viewController as? CardPresentable {
                 cardView.frame = frameForCard(card)
             } else {
                 cardView.frame = view.bounds
@@ -158,7 +161,7 @@ open class MSPageCardPresenterController: UIViewController {
         view.clipsToBounds = true
     }
 
-    private func sizeForCard(_ card: MSCardPresentable) -> CGSize {
+    private func sizeForCard(_ card: CardPresentable) -> CGSize {
         var size = card.idealSize()
         let idealWidth = min(size.width, view.frame.width - Constants.minMargin * 2)
         let idealHeight = min(size.height, view.frame.height - Constants.minMargin * 2)
@@ -167,7 +170,7 @@ open class MSPageCardPresenterController: UIViewController {
         return size
     }
 
-    private func frameForCard(_ card: MSCardPresentable) -> CGRect {
+    private func frameForCard(_ card: CardPresentable) -> CGRect {
         let size = sizeForCard(card)
         return CGRect(
             x: UIScreen.main.roundToDevicePixels((view.frame.width - size.width) / 2),
@@ -215,7 +218,7 @@ open class MSPageCardPresenterController: UIViewController {
 
 // MARK: - MSPageCardPresenterController: UIScrollViewDelegate
 
-extension MSPageCardPresenterController: UIScrollViewDelegate {
+extension PageCardPresenterController: UIScrollViewDelegate {
     public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let pageWidth = scrollView.frame.width
         let targetIndex = Int(targetContentOffset.pointee.x / pageWidth)
@@ -237,16 +240,16 @@ extension MSPageCardPresenterController: UIScrollViewDelegate {
 
 // MARK: - MSPageCardPresenterController: UIViewControllerTransitioningDelegate
 
-extension MSPageCardPresenterController: UIViewControllerTransitioningDelegate {
+extension PageCardPresenterController: UIViewControllerTransitioningDelegate {
     public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return MSCardTransitionAnimator(presenting: true, scaledView: scrollView, sourceView: nil, sourceRect: .zero)
+        return CardTransitionAnimator(presenting: true, scaledView: scrollView, sourceView: nil, sourceRect: .zero)
     }
 
     public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return MSCardTransitionAnimator(presenting: false, scaledView: scrollView, sourceView: nil, sourceRect: .zero)
+        return CardTransitionAnimator(presenting: false, scaledView: scrollView, sourceView: nil, sourceRect: .zero)
     }
 
     public func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        return MSCardPresentationController(presentedViewController: presented, presenting: presenting)
+        return CardPresentationController(presentedViewController: presented, presenting: presenting)
     }
 }

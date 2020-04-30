@@ -5,14 +5,14 @@
 
 import UIKit
 
-class MSCardPresenterNavigationController: UINavigationController, MSCardPresentable {
+class CardPresenterNavigationController: UINavigationController, CardPresentable {
     override func viewDidLoad() {
         super.viewDidLoad()
         FluentUIFramework.initializeUINavigationBarAppearance(navigationBar)
     }
 
     func idealSize() -> CGSize {
-        guard let topVC = topViewController as? MSCardPresentable else {
+        guard let topVC = topViewController as? CardPresentable else {
             return .zero
         }
 

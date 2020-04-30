@@ -5,14 +5,18 @@
 
 import UIKit
 
+@available(*, deprecated, renamed: "PopupMenuController")
+public typealias MSPopupMenuController = PopupMenuController
+
 /**
- `MSPopupMenuController` is used to present a popup menu that slides from top or bottom depending on `presentationDirection`. Use `presentationOrigin` to specify the vertical offset (in screen coordinates) from which to show popup menu. If not provided it will be calculated automatically: bottom of navigation bar for `.down` presentation and bottom of the screen for `.up` presentation.
+ `PopupMenuController` is used to present a popup menu that slides from top or bottom depending on `presentationDirection`. Use `presentationOrigin` to specify the vertical offset (in screen coordinates) from which to show popup menu. If not provided it will be calculated automatically: bottom of navigation bar for `.down` presentation and bottom of the screen for `.up` presentation.
 
- When presented as a slide over, `MSPopupMenuController` will have a resizing handle that provides a user an alternative way to dismiss it.
+ When presented as a slide over, `PopupMenuController` will have a resizing handle that provides a user an alternative way to dismiss it.
 
- `MSPopupMenuController` will be presented as a popover on iPad and so requires either `sourceView`/`sourceRect` or `barButtonItem` to be provided via available initializers. Use `permittedArrowDirections` to specify the direction of the popover arrow.
+ `PopupMenuController` will be presented as a popover on iPad and so requires either `sourceView`/`sourceRect` or `barButtonItem` to be provided via available initializers. Use `permittedArrowDirections` to specify the direction of the popover arrow.
  */
-open class MSPopupMenuController: DrawerController {
+@objc(MSFPopupMenuController)
+open class PopupMenuController: DrawerController {
     private struct Constants {
         static let minimumContentWidth: CGFloat = 250
 
@@ -33,13 +37,13 @@ open class MSPopupMenuController: DrawerController {
                 let size = descriptionView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
                 width = max(width, size.width)
             } else {
-                width = max(width, MSPopupMenuItemCell.preferredWidth(for: headerItem, preservingSpaceForImage: false))
+                width = max(width, PopupMenuItemCell.preferredWidth(for: headerItem, preservingSpaceForImage: false))
             }
         }
         for section in sections {
-            width = max(width, MSPopupMenuSectionHeaderView.preferredWidth(for: section))
+            width = max(width, PopupMenuSectionHeaderView.preferredWidth(for: section))
             for item in section.items {
-                width = max(width, MSPopupMenuItemCell.preferredWidth(for: item, preservingSpaceForImage: itemsHaveImages))
+                width = max(width, PopupMenuItemCell.preferredWidth(for: item, preservingSpaceForImage: itemsHaveImages))
             }
         }
         return width
@@ -51,13 +55,13 @@ open class MSPopupMenuController: DrawerController {
                 let size = descriptionView.systemLayoutSizeFitting(CGSize(width: view.frame.width, height: .infinity), withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
                 height += size.height
             } else {
-                height += MSPopupMenuItemCell.preferredHeight(for: headerItem)
+                height += PopupMenuItemCell.preferredHeight(for: headerItem)
             }
         }
         for section in sections {
-            height += MSPopupMenuSectionHeaderView.preferredHeight(for: section)
+            height += PopupMenuSectionHeaderView.preferredHeight(for: section)
             for item in section.items {
-                height += MSPopupMenuItemCell.preferredHeight(for: item)
+                height += PopupMenuItemCell.preferredHeight(for: item)
             }
         }
         return height
@@ -69,7 +73,7 @@ open class MSPopupMenuController: DrawerController {
 
      Header is not interactable and does not scroll.
      */
-    @objc open var headerItem: MSPopupMenuItem? {
+    @objc open var headerItem: PopupMenuItem? {
         didSet {
             descriptionView.isHidden = true
             headerView.isHidden = true
@@ -106,8 +110,8 @@ open class MSPopupMenuController: DrawerController {
         }
     }
 
-    private var sections: [MSPopupMenuSection] = []
-    private var itemForExecutionAfterPopupMenuDismissal: MSPopupMenuItem?
+    private var sections: [PopupMenuSection] = []
+    private var itemForExecutionAfterPopupMenuDismissal: PopupMenuItem?
     private var itemsHaveImages: Bool {
         return sections.contains(where: { $0.items.contains(where: { $0.image != nil }) })
     }
@@ -155,8 +159,8 @@ open class MSPopupMenuController: DrawerController {
         label.numberOfLines = 0
         return label
     }()
-    private let headerView: MSPopupMenuItemCell = {
-        let view = MSPopupMenuItemCell(frame: .zero)
+    private let headerView: PopupMenuItemCell = {
+        let view = PopupMenuItemCell(frame: .zero)
         view.isHeader = true
         view.isHidden = true
         return view
@@ -165,22 +169,22 @@ open class MSPopupMenuController: DrawerController {
 
     /// Append new items to the last section of the menu
     /// - note: If there is no section in the menu, create a new one without header and append the items to it
-    @objc public func addItems(_ items: [MSPopupMenuItem]) {
+    @objc public func addItems(_ items: [PopupMenuItem]) {
         if let section = sections.last {
             section.items.append(contentsOf: items)
         } else {
-            let section = MSPopupMenuSection(title: nil, items: items)
+            let section = PopupMenuSection(title: nil, items: items)
             sections.append(section)
         }
     }
 
     /// Append a new section to the end of menu
-    @objc public func addSection(_ section: MSPopupMenuSection) {
+    @objc public func addSection(_ section: PopupMenuSection) {
         sections.append(section)
     }
 
     /// Append new sections to the end of menu
-    @objc public func addSections(_ sections: [MSPopupMenuSection]) {
+    @objc public func addSections(_ sections: [PopupMenuSection]) {
         self.sections.append(contentsOf: sections)
     }
 
@@ -227,13 +231,13 @@ open class MSPopupMenuController: DrawerController {
         tableView.alwaysBounceVertical = false
         tableView.isAccessibilityElement = true
 
-        tableView.register(MSPopupMenuItemCell.self, forCellReuseIdentifier: MSPopupMenuItemCell.identifier)
-        tableView.register(MSPopupMenuSectionHeaderView.self, forHeaderFooterViewReuseIdentifier: MSPopupMenuSectionHeaderView.identifier)
+        tableView.register(PopupMenuItemCell.self, forCellReuseIdentifier: PopupMenuItemCell.identifier)
+        tableView.register(PopupMenuSectionHeaderView.self, forHeaderFooterViewReuseIdentifier: PopupMenuSectionHeaderView.identifier)
         tableView.delegate = self
         tableView.dataSource = self
     }
 
-    private func didSelectItem(_ item: MSPopupMenuItem) {
+    private func didSelectItem(_ item: PopupMenuItem) {
         switch item.executionMode {
         case .onSelection:
             item.onSelected?()
@@ -245,14 +249,14 @@ open class MSPopupMenuController: DrawerController {
         }
     }
 
-    private func item(at indexPath: IndexPath) -> MSPopupMenuItem {
+    private func item(at indexPath: IndexPath) -> PopupMenuItem {
         return sections[indexPath.section].items[indexPath.item]
     }
 }
 
-// MARK: - MSPopupMenuController: UITableViewDataSource
+// MARK: - PopupMenuController: UITableViewDataSource
 
-extension MSPopupMenuController: UITableViewDataSource {
+extension PopupMenuController: UITableViewDataSource {
     public func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
@@ -266,7 +270,7 @@ extension MSPopupMenuController: UITableViewDataSource {
         let row = indexPath.row
         let item = sections[section].items[row]
 
-        let cell = tableView.dequeueReusableCell(withIdentifier: MSPopupMenuItemCell.identifier) as! MSPopupMenuItemCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: PopupMenuItemCell.identifier) as! PopupMenuItemCell
         cell.setup(item: item)
         cell.preservesSpaceForImage = itemsHaveImages
         let isLastInSection = row == tableView.numberOfRows(inSection: section) - 1
@@ -277,11 +281,11 @@ extension MSPopupMenuController: UITableViewDataSource {
     }
 }
 
-// MARK: - MSPopupMenuController: UITableViewDelegate
+// MARK: - PopupMenuController: UITableViewDelegate
 
-extension MSPopupMenuController: UITableViewDelegate {
+extension PopupMenuController: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return MSPopupMenuSectionHeaderView.preferredHeight(for: sections[section])
+        return PopupMenuSectionHeaderView.preferredHeight(for: sections[section])
     }
 
     public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -290,10 +294,10 @@ extension MSPopupMenuController: UITableViewDelegate {
 
     public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let section = sections[section]
-        if !MSPopupMenuSectionHeaderView.isHeaderVisible(for: section) {
+        if !PopupMenuSectionHeaderView.isHeaderVisible(for: section) {
             return nil
         }
-        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: MSPopupMenuSectionHeaderView.identifier) as! MSPopupMenuSectionHeaderView
+        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: PopupMenuSectionHeaderView.identifier) as! PopupMenuSectionHeaderView
         headerView.setup(section: section)
         return headerView
     }
