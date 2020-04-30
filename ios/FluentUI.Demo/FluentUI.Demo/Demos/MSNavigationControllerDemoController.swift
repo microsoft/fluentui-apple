@@ -129,7 +129,7 @@ class MSNavigationControllerDemoController: DemoController {
         meControl.text = "Me Control goes here"
         meControl.textAlignment = .center
 
-        let controller = MSDrawerController(sourceView: view, sourceRect: .zero, presentationDirection: .fromLeading)
+        let controller = DrawerController(sourceView: view, sourceRect: .zero, presentationDirection: .fromLeading)
         controller.contentView = meControl
         controller.preferredContentSize.width = 360
         controller.presentingGesture = presentingGesture

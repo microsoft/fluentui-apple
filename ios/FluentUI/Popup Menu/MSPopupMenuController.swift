@@ -12,7 +12,7 @@ import UIKit
 
  `MSPopupMenuController` will be presented as a popover on iPad and so requires either `sourceView`/`sourceRect` or `barButtonItem` to be provided via available initializers. Use `permittedArrowDirections` to specify the direction of the popover arrow.
  */
-open class MSPopupMenuController: MSDrawerController {
+open class MSPopupMenuController: DrawerController {
     private struct Constants {
         static let minimumContentWidth: CGFloat = 250
 

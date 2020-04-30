@@ -5,9 +5,9 @@
 
 import UIKit
 
-// MARK: MSDrawerPresentationController
+// MARK: DrawerPresentationController
 
-class MSDrawerPresentationController: UIPresentationController {
+class DrawerPresentationController: UIPresentationController {
     private struct Constants {
         static let cornerRadius: CGFloat = 14
         static let minHorizontalMargin: CGFloat = 44
@@ -248,7 +248,7 @@ class MSDrawerPresentationController: UIPresentationController {
         let newFrame = frameForContentView()
         if animated {
             let sizeChange = presentationDirection.isVertical ? newFrame.height - contentView.frame.height : newFrame.width - contentView.frame.width
-            let animationDuration = animationDuration ?? MSDrawerTransitionAnimator.animationDuration(forSizeChange: sizeChange)
+            let animationDuration = animationDuration ?? DrawerTransitionAnimator.animationDuration(forSizeChange: sizeChange)
             UIView.animate(withDuration: animationDuration, delay: 0, options: [.layoutSubviews], animations: {
                 self.setContentViewFrame(newFrame)
                 self.isUpdatingContentViewFrame = false

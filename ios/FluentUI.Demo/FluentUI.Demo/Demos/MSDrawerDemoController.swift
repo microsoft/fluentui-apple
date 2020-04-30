@@ -54,12 +54,12 @@ class MSDrawerDemoController: DemoController {
     }
 
     @discardableResult
-    private func presentDrawer(sourceView: UIView? = nil, barButtonItem: UIBarButtonItem? = nil, presentationOrigin: CGFloat = -1, presentationDirection: DrawerPresentationDirection, presentationStyle: DrawerPresentationStyle = .automatic, presentationOffset: CGFloat = 0, presentationBackground: DrawerPresentationBackground = .black, presentingGesture: UIPanGestureRecognizer? = nil, permittedArrowDirections: UIPopoverArrowDirection = [.left, .right], contentController: UIViewController? = nil, contentView: UIView? = nil, resizingBehavior: DrawerResizingBehavior = .none, adjustHeightForKeyboard: Bool = false, animated: Bool = true) -> MSDrawerController {
-        let controller: MSDrawerController
+    private func presentDrawer(sourceView: UIView? = nil, barButtonItem: UIBarButtonItem? = nil, presentationOrigin: CGFloat = -1, presentationDirection: DrawerPresentationDirection, presentationStyle: DrawerPresentationStyle = .automatic, presentationOffset: CGFloat = 0, presentationBackground: DrawerPresentationBackground = .black, presentingGesture: UIPanGestureRecognizer? = nil, permittedArrowDirections: UIPopoverArrowDirection = [.left, .right], contentController: UIViewController? = nil, contentView: UIView? = nil, resizingBehavior: DrawerResizingBehavior = .none, adjustHeightForKeyboard: Bool = false, animated: Bool = true) -> DrawerController {
+        let controller: DrawerController
         if let sourceView = sourceView {
-            controller = MSDrawerController(sourceView: sourceView, sourceRect: sourceView.bounds.insetBy(dx: sourceView.bounds.width / 2, dy: 0), presentationOrigin: presentationOrigin, presentationDirection: presentationDirection)
+            controller = DrawerController(sourceView: sourceView, sourceRect: sourceView.bounds.insetBy(dx: sourceView.bounds.width / 2, dy: 0), presentationOrigin: presentationOrigin, presentationDirection: presentationDirection)
         } else if let barButtonItem = barButtonItem {
-            controller = MSDrawerController(barButtonItem: barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection)
+            controller = DrawerController(barButtonItem: barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection)
         } else {
             preconditionFailure("Presenting a drawer requires either a sourceView or a barButtonItem")
         }
@@ -228,7 +228,7 @@ class MSDrawerDemoController: DemoController {
     }
 
     @objc private func expandButtonTapped(sender: UIButton) {
-        guard let drawer = presentedViewController as? MSDrawerController else {
+        guard let drawer = presentedViewController as? DrawerController else {
             return
         }
         drawer.isExpanded = !drawer.isExpanded
@@ -244,7 +244,7 @@ class MSDrawerDemoController: DemoController {
     }
 
     @objc private func changePreferredContentSizeButtonTapped() {
-        if let contentController = (presentedViewController as? MSDrawerController)?.contentController {
+        if let contentController = (presentedViewController as? DrawerController)?.contentController {
             var size = contentController.preferredContentSize
             size.height = size.height == contentControllerOriginalPreferredContentHeight ? 500 : 400
             contentController.preferredContentSize = size

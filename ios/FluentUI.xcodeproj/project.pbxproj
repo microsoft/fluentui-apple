@@ -66,9 +66,9 @@
 		8FD01197228A82A600D25925 /* DateTimePickerViewComponentTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9758082191118E00B67319 /* DateTimePickerViewComponentTableView.swift */; };
 		8FD01198228A82A600D25925 /* DateTimePickerViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9758072191118E00B67319 /* DateTimePickerViewDataSource.swift */; };
 		8FD01199228A82A600D25925 /* DateTimePickerViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77752C219E62E100033D58 /* DateTimePickerViewLayout.swift */; };
-		8FD0119A228A82A600D25925 /* MSDrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF3211E16360038C37C /* MSDrawerController.swift */; };
-		8FD0119B228A82A600D25925 /* MSDrawerPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF5211E16360038C37C /* MSDrawerPresentationController.swift */; };
-		8FD0119C228A82A600D25925 /* MSDrawerTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF4211E16360038C37C /* MSDrawerTransitionAnimator.swift */; };
+		8FD0119A228A82A600D25925 /* DrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF3211E16360038C37C /* DrawerController.swift */; };
+		8FD0119B228A82A600D25925 /* DrawerPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF5211E16360038C37C /* DrawerPresentationController.swift */; };
+		8FD0119C228A82A600D25925 /* DrawerTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF4211E16360038C37C /* DrawerTransitionAnimator.swift */; };
 		8FD0119D228A82A600D25925 /* DrawerShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5237ACC21ED6CA70040BF27 /* DrawerShadowView.swift */; };
 		8FD0119E228A82A600D25925 /* CALayer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54D97D9217A5FC10072681A /* CALayer+Extensions.swift */; };
 		8FD0119F228A82A600D25925 /* Calendar+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7254E82147059D002F4069 /* Calendar+Extensions.swift */; };
@@ -127,9 +127,9 @@
 		A5B6617323A41E2900E801DD /* MSNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B6617223A41E2900E801DD /* MSNotificationView.swift */; };
 		A5B6617423A41E2900E801DD /* MSNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B6617223A41E2900E801DD /* MSNotificationView.swift */; };
 		A5B87AF1211BD4380038C37C /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF0211BD4380038C37C /* UIFont+Extension.swift */; };
-		A5B87AF6211E16370038C37C /* MSDrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF3211E16360038C37C /* MSDrawerController.swift */; };
-		A5B87AF7211E16370038C37C /* MSDrawerTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF4211E16360038C37C /* MSDrawerTransitionAnimator.swift */; };
-		A5B87AF8211E16370038C37C /* MSDrawerPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF5211E16360038C37C /* MSDrawerPresentationController.swift */; };
+		A5B87AF6211E16370038C37C /* DrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF3211E16360038C37C /* DrawerController.swift */; };
+		A5B87AF7211E16370038C37C /* DrawerTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF4211E16360038C37C /* DrawerTransitionAnimator.swift */; };
+		A5B87AF8211E16370038C37C /* DrawerPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF5211E16360038C37C /* DrawerPresentationController.swift */; };
 		A5B87B02211E20B50038C37C /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87B01211E20B50038C37C /* UIScreen+Extension.swift */; };
 		A5B87B04211E22B70038C37C /* DimmingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87B03211E22B70038C37C /* DimmingView.swift */; };
 		A5B87B06211E23650038C37C /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87B05211E23650038C37C /* UIView+Extensions.swift */; };
@@ -297,9 +297,9 @@
 		A5961FA6218A2E4500E2A506 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		A5B6617223A41E2900E801DD /* MSNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSNotificationView.swift; sourceTree = "<group>"; };
 		A5B87AF0211BD4380038C37C /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
-		A5B87AF3211E16360038C37C /* MSDrawerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDrawerController.swift; sourceTree = "<group>"; };
-		A5B87AF4211E16360038C37C /* MSDrawerTransitionAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDrawerTransitionAnimator.swift; sourceTree = "<group>"; };
-		A5B87AF5211E16360038C37C /* MSDrawerPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDrawerPresentationController.swift; sourceTree = "<group>"; };
+		A5B87AF3211E16360038C37C /* DrawerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawerController.swift; sourceTree = "<group>"; };
+		A5B87AF4211E16360038C37C /* DrawerTransitionAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawerTransitionAnimator.swift; sourceTree = "<group>"; };
+		A5B87AF5211E16360038C37C /* DrawerPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawerPresentationController.swift; sourceTree = "<group>"; };
 		A5B87B01211E20B50038C37C /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
 		A5B87B03211E22B70038C37C /* DimmingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmingView.swift; sourceTree = "<group>"; };
 		A5B87B05211E23650038C37C /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
@@ -557,9 +557,9 @@
 		A5B87AF2211E13D00038C37C /* Drawer */ = {
 			isa = PBXGroup;
 			children = (
-				A5B87AF3211E16360038C37C /* MSDrawerController.swift */,
-				A5B87AF5211E16360038C37C /* MSDrawerPresentationController.swift */,
-				A5B87AF4211E16360038C37C /* MSDrawerTransitionAnimator.swift */,
+				A5B87AF3211E16360038C37C /* DrawerController.swift */,
+				A5B87AF5211E16360038C37C /* DrawerPresentationController.swift */,
+				A5B87AF4211E16360038C37C /* DrawerTransitionAnimator.swift */,
 				A5237ACC21ED6CA70040BF27 /* DrawerShadowView.swift */,
 			);
 			path = Drawer;
@@ -1173,9 +1173,9 @@
 				8FD01198228A82A600D25925 /* DateTimePickerViewDataSource.swift in Sources */,
 				8FD01199228A82A600D25925 /* DateTimePickerViewLayout.swift in Sources */,
 				FD41C8C222DD48E60086F899 /* Operators.swift in Sources */,
-				8FD0119A228A82A600D25925 /* MSDrawerController.swift in Sources */,
-				8FD0119B228A82A600D25925 /* MSDrawerPresentationController.swift in Sources */,
-				8FD0119C228A82A600D25925 /* MSDrawerTransitionAnimator.swift in Sources */,
+				8FD0119A228A82A600D25925 /* DrawerController.swift in Sources */,
+				8FD0119B228A82A600D25925 /* DrawerPresentationController.swift in Sources */,
+				8FD0119C228A82A600D25925 /* DrawerTransitionAnimator.swift in Sources */,
 				8FD0119D228A82A600D25925 /* DrawerShadowView.swift in Sources */,
 				8FD0119E228A82A600D25925 /* CALayer+Extensions.swift in Sources */,
 				8FD0119F228A82A600D25925 /* Calendar+Extensions.swift in Sources */,
@@ -1241,7 +1241,7 @@
 				FD5BBE41214C6AF3008964B4 /* TwoLineTitleView.swift in Sources */,
 				A5B87AF1211BD4380038C37C /* UIFont+Extension.swift in Sources */,
 				FD41C89C22DD13230086F899 /* SearchBar.swift in Sources */,
-				A5B87AF8211E16370038C37C /* MSDrawerPresentationController.swift in Sources */,
+				A5B87AF8211E16370038C37C /* DrawerPresentationController.swift in Sources */,
 				FD36F1A9216C0A6900CECBC6 /* MSCardPresentationController.swift in Sources */,
 				B426613E214731D100E25423 /* MSInitialsView.swift in Sources */,
 				A5B87B02211E20B50038C37C /* UIScreen+Extension.swift in Sources */,
@@ -1289,7 +1289,7 @@
 				A5237ACB21DED7030040BF27 /* ResizingHandleView.swift in Sources */,
 				B4E782C72179509A00A7DFCE /* MSCenteredLabelCell.swift in Sources */,
 				FD9A5C872179464F00D224D9 /* DateComponents+Extensions.swift in Sources */,
-				A5B87AF7211E16370038C37C /* MSDrawerTransitionAnimator.swift in Sources */,
+				A5B87AF7211E16370038C37C /* DrawerTransitionAnimator.swift in Sources */,
 				C0A0D76D233AEF6C00F432FD /* MSShimmerAppearance.swift in Sources */,
 				FD41C8C122DD48E60086F899 /* Operators.swift in Sources */,
 				B46D3F932151D95F0029772C /* MSPersonaCell.swift in Sources */,
@@ -1322,7 +1322,7 @@
 				FD56FD95219131430023C7EA /* DateTimePickerView.swift in Sources */,
 				FDA1AF8C21484625001AE720 /* BlurringView.swift in Sources */,
 				A5961FA1218A25C400E2A506 /* MSPopupMenuSection.swift in Sources */,
-				A5B87AF6211E16370038C37C /* MSDrawerController.swift in Sources */,
+				A5B87AF6211E16370038C37C /* DrawerController.swift in Sources */,
 				FD41C89622DD13230086F899 /* MSNavigationBar.swift in Sources */,
 				A5CEC16D20D98EE70016922A /* Colors.swift in Sources */,
 				FD0D29D62151A3D700E8655E /* MSCardPresenterNavigationController.swift in Sources */,

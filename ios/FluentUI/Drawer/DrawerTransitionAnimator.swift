@@ -5,9 +5,9 @@
 
 import UIKit
 
-// MARK: MSDrawerTransitionAnimator
+// MARK: DrawerTransitionAnimator
 
-class MSDrawerTransitionAnimator: NSObject {
+class DrawerTransitionAnimator: NSObject {
     private struct Constants {
         static let animationDurationMin: TimeInterval = 0.15
         static let animationDurationMax: TimeInterval = 0.25
@@ -42,7 +42,7 @@ class MSDrawerTransitionAnimator: NSObject {
 
         presentedView.frame = presentedViewRectDismissed(forContentSize: contentView.bounds.size)
         let sizeChange = Self.sizeChange(forPresentedView: presentedView, presentationDirection: presentationDirection)
-        let animationDuration = MSDrawerTransitionAnimator.animationDuration(forSizeChange: sizeChange)
+        let animationDuration = DrawerTransitionAnimator.animationDuration(forSizeChange: sizeChange)
         let options: UIView.AnimationOptions = [
             .beginFromCurrentState,
             transitionContext.isInteractive ? Constants.animationCurveInteractive : Constants.animationCurve
@@ -56,7 +56,7 @@ class MSDrawerTransitionAnimator: NSObject {
         let presentedView = transitionContext.view(forKey: UITransitionContextViewKey.from)!
 
         let sizeChange = Self.sizeChange(forPresentedView: presentedView, presentationDirection: presentationDirection)
-        let animationDuration = MSDrawerTransitionAnimator.animationDuration(forSizeChange: sizeChange)
+        let animationDuration = DrawerTransitionAnimator.animationDuration(forSizeChange: sizeChange)
         UIView.animate(withDuration: animationDuration, delay: 0.0, options: [.beginFromCurrentState, Constants.animationCurve], animations: {
             presentedView.frame = self.presentedViewRectDismissed(forContentSize: presentedView.frame.size)
         }, completion: completion)
@@ -84,7 +84,7 @@ class MSDrawerTransitionAnimator: NSObject {
 
 // MARK: - MSDrawerTransitionAnimator: UIViewControllerAnimatedTransitioning
 
-extension MSDrawerTransitionAnimator: UIViewControllerAnimatedTransitioning {
+extension DrawerTransitionAnimator: UIViewControllerAnimatedTransitioning {
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         // Cannot provide a value here since it's dynamically calculated from the change of a size, which is not available here.
         // As a consequence, animations running along are not supported.
