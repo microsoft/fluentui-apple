@@ -207,7 +207,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         }
     }
 
-    private let titleView = MSTableViewHeaderFooterTitleView()
+    private let titleView = TableViewHeaderFooterTitleView()
 
     private var accessoryButton: UIButton? = nil {
         didSet {
@@ -372,9 +372,9 @@ extension TableViewHeaderFooterView: UITextViewDelegate {
     }
 }
 
-// MARK: - MSTableViewHeaderFooterTitleView
+// MARK: - TableViewHeaderFooterTitleView
 
-private class MSTableViewHeaderFooterTitleView: UITextView {
+private class TableViewHeaderFooterTitleView: UITextView {
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         backgroundColor = nil

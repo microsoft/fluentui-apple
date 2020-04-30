@@ -6,7 +6,7 @@
 import Foundation
 import FluentUI
 
-class MSSegmentedControlDemoController: DemoController {
+class SegmentedControlDemoController: DemoController {
     let segmentTitles: [String] = ["First", "Second", "Third", "Fourth"]
 
     var controlLabels = [SegmentedControl: Label]() {

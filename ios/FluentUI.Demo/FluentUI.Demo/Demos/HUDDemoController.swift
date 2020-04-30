@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-class MSHUDDemoController: DemoController {
+class HUDDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 

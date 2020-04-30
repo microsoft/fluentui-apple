@@ -5,7 +5,7 @@
 
 import UIKit
 
-class MSShimmerLinesViewDemoController: DemoController {
+class ShimmerLinesViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 

@@ -6,9 +6,9 @@
 import Foundation
 import FluentUI
 
-// MARK: MSTableViewHeaderFooterViewDemoController
+// MARK: TableViewHeaderFooterViewDemoController
 
-class MSTableViewHeaderFooterViewDemoController: DemoController {
+class TableViewHeaderFooterViewDemoController: DemoController {
     private let groupedSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.groupedSections
     private let plainSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.plainSections
 
@@ -51,9 +51,9 @@ class MSTableViewHeaderFooterViewDemoController: DemoController {
     }
 }
 
-// MARK: - MSTableViewHeaderFooterViewDemoController: UITableViewDataSource
+// MARK: - TableViewHeaderFooterViewDemoController: UITableViewDataSource
 
-extension MSTableViewHeaderFooterViewDemoController: UITableViewDataSource {
+extension TableViewHeaderFooterViewDemoController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return tableView.style == .grouped ? groupedSections.count : plainSections.count
     }
@@ -78,9 +78,9 @@ extension MSTableViewHeaderFooterViewDemoController: UITableViewDataSource {
     }
 }
 
-// MARK: - MSTableViewHeaderFooterViewDemoController: UITableViewDelegate
+// MARK: - TableViewHeaderFooterViewDemoController: UITableViewDelegate
 
-extension MSTableViewHeaderFooterViewDemoController: UITableViewDelegate {
+extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         let section = tableView.style == .grouped ? groupedSections[section] : plainSections[section]
         return section.hasFooter ? UITableView.automaticDimension : 0
@@ -132,9 +132,9 @@ extension MSTableViewHeaderFooterViewDemoController: UITableViewDelegate {
     }
 }
 
-// MARK: - MSTableViewHeaderFooterViewDemoController: TableViewHeaderFooterViewDelegate
+// MARK: - TableViewHeaderFooterViewDemoController: TableViewHeaderFooterViewDelegate
 
-extension MSTableViewHeaderFooterViewDemoController: TableViewHeaderFooterViewDelegate {
+extension TableViewHeaderFooterViewDemoController: TableViewHeaderFooterViewDelegate {
     func headerFooterView(_ headerFooterView: TableViewHeaderFooterView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         let alertController = UIAlertController(title: "Link tapped", message: nil, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))

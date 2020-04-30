@@ -6,7 +6,7 @@
 import Foundation
 import FluentUI
 
-class MSTabBarViewDemoController: DemoController {
+class TabBarViewDemoController: DemoController {
     private var tabBarView: TabBarView?
     private var tabBarViewConstraints: [NSLayoutConstraint]?
     private var showsItemTitles: Bool { return itemTitleVisibilitySwitch.isOn }
@@ -57,9 +57,9 @@ class MSTabBarViewDemoController: DemoController {
     }
 }
 
-// MARK: - MSTabBarViewDemoController: TabBarViewDelegate
+// MARK: - TabBarViewDemoController: TabBarViewDelegate
 
-extension MSTabBarViewDemoController: TabBarViewDelegate {
+extension TabBarViewDemoController: TabBarViewDelegate {
     func tabBarView(_ tabBarView: TabBarView, didSelect item: TabBarItem) {
         let alert = UIAlertController(title: "Tab Bar Item \(item.title) was tapped", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)

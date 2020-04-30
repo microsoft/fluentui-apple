@@ -33,9 +33,9 @@ class PeoplePickerSampleData {
     ]
 }
 
-// MARK: - MSPeoplePickerDemoController
+// MARK: - PeoplePickerDemoController
 
-class MSPeoplePickerDemoController: DemoController {
+class PeoplePickerDemoController: DemoController {
     var peoplePickers: [PeoplePicker] = []
 
     override func viewDidLoad() {
@@ -65,9 +65,9 @@ class MSPeoplePickerDemoController: DemoController {
     }
 }
 
-// MARK: - MSPeoplePickerDemoController: PeoplePickerDelegate
+// MARK: - PeoplePickerDemoController: PeoplePickerDelegate
 
-extension MSPeoplePickerDemoController: PeoplePickerDelegate {
+extension PeoplePickerDemoController: PeoplePickerDelegate {
     func peoplePicker(_ peoplePicker: PeoplePicker, personaFromText text: String) -> Persona {
         return samplePersonas.first { return $0.name.lowercased() == text.lowercased() } ?? PersonaData(name: text)
     }

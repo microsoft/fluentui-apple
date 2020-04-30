@@ -131,7 +131,7 @@ class CalendarViewDataSource: NSObject {
     }
 }
 
-// MARK: - MSCalendarViewDataSource: UICollectionViewDataSource
+// MARK: - CalendarViewDataSource: UICollectionViewDataSource
 
 extension CalendarViewDataSource: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {

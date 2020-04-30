@@ -14,7 +14,7 @@ public typealias MSPopupMenuItem = PopupMenuItem
 @objc(MSFPopupMenuItem)
 open class PopupMenuItem: NSObject {
     /// Defines the timing for the call of the onSelected closure/block
-    @objc(MSPopupMenuItemExecutionMode)
+    @objc(MSFPopupMenuItemExecutionMode)
     public enum ExecutionMode: Int {
         /// `onSelected` is called right after item is tapped, before popup menu dismissal
         case onSelection

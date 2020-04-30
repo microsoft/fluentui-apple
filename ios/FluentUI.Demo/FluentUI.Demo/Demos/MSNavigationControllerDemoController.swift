@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-class MSNavigationControllerDemoController: DemoController {
+class NavigationControllerDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -148,9 +148,9 @@ class MSNavigationControllerDemoController: DemoController {
     }
 }
 
-// MARK: - MSNavigationControllerDemoController: UIGestureRecognizerDelegate
+// MARK: - NavigationControllerDemoController: UIGestureRecognizerDelegate
 
-extension MSNavigationControllerDemoController: UIGestureRecognizerDelegate {
+extension NavigationControllerDemoController: UIGestureRecognizerDelegate {
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         // Only show side drawer for the root view controller
         if let controller = presentedViewController as? UINavigationController,

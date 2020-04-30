@@ -6,9 +6,9 @@
 import Foundation
 import FluentUI
 
-// MARK: MSTableViewCellSampleData
+// MARK: TableViewCellSampleData
 
-class MSTableViewCellSampleData: TableViewSampleData {
+class TableViewCellSampleData: TableViewSampleData {
     static let numberOfItemsInSection: Int = 5
     static let numberOfItemsInSectionForShimmer: Int = 3
 

@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-class MSColorDemoController: DemoController {
+class ColorDemoController: DemoController {
       override func loadView() {
         super.loadView()
 

@@ -6,9 +6,9 @@
 import FluentUI
 import UIKit
 
-// MARK: MSTooltipDemoController
+// MARK: TooltipDemoController
 
-class MSTooltipDemoController: DemoController {
+class TooltipDemoController: DemoController {
     let titleView = TwoLineTitleView(style: .dark)
     var edgeCaseStackView: UIStackView!
 
@@ -147,9 +147,9 @@ class MSTooltipDemoController: DemoController {
     }
 }
 
-// MARK: - MSTooltipDemoController: TwoLineTitleViewDelegate
+// MARK: - TooltipDemoController: TwoLineTitleViewDelegate
 
-extension MSTooltipDemoController: TwoLineTitleViewDelegate {
+extension TooltipDemoController: TwoLineTitleViewDelegate {
     func twoLineTitleViewDidTapOnTitle(_ twoLineTitleView: TwoLineTitleView) {
         let alert = UIAlertController(title: nil, message: "The title button was pressed", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))

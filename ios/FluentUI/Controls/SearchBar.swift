@@ -28,7 +28,7 @@ public typealias MSSearchBar = SearchBar
 /// Drop-in replacement for UISearchBar that allows for more customization
 @objc(MSFSearchBar)
 open class SearchBar: UIView {
-    @objc(MSSearchBarStyle)
+    @objc(MSFSearchBarStyle)
     public enum Style: Int {
         case lightContent, darkContent
 
@@ -432,7 +432,7 @@ open class SearchBar: UIView {
     }
 }
 
-// MARK: - MSSearchBar: UITextFieldDelegate
+// MARK: - SearchBar: UITextFieldDelegate
 
 extension SearchBar: UITextFieldDelegate {
     public func textFieldDidBeginEditing(_ textField: UITextField) {

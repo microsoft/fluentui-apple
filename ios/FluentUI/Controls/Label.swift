@@ -11,7 +11,7 @@ public typealias MSLabel = Label
 /// By default, `adjustsFontForContentSizeCategory` is set to true to automatically update its font when device's content size category changes
 @objc(MSFLabel)
 open class Label: UILabel {
-    @objc open var colorStyle: MSTextColorStyle = .regular {
+    @objc open var colorStyle: TextColorStyle = .regular {
         didSet {
             _textColor = nil
             updateTextColor()
@@ -42,7 +42,7 @@ open class Label: UILabel {
     private var _textColor: UIColor?
     private var currentTextColor: UIColor { return _textColor ?? colorStyle.color }
 
-    @objc public init(style: TextStyle = .body, colorStyle: MSTextColorStyle = .regular) {
+    @objc public init(style: TextStyle = .body, colorStyle: TextColorStyle = .regular) {
         self.style = style
         self.colorStyle = colorStyle
         super.init(frame: .zero)

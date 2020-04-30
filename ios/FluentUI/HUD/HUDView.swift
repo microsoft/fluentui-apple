@@ -52,7 +52,7 @@ class HUDView: UIView {
     private let indicatorView: UIView
 
     public init(label: String = "", type: HUDType) {
-        indicatorView = MSHUDIndicatorView(type: type)
+        indicatorView = HUDIndicatorView(type: type)
 
         super.init(frame: .zero)
 
@@ -154,10 +154,10 @@ class HUDView: UIView {
     }
 }
 
-// MARK: - MSHUDIndicatorView
+// MARK: - HUDIndicatorView
 
 /// A container view of a fixed size which accepts a `HUDType` and centers its visual presentation.
-private class MSHUDIndicatorView: UIView {
+private class HUDIndicatorView: UIView {
     private struct Constants {
         static let width: CGFloat = 40.0
         static let height: CGFloat = 40.0
@@ -186,7 +186,7 @@ private class MSHUDIndicatorView: UIView {
     private let contentView: UIView
 
     init(type: HUDType) {
-        contentView = MSHUDIndicatorView.createContentView(type: type)
+        contentView = HUDIndicatorView.createContentView(type: type)
 
         super.init(frame: .zero)
 

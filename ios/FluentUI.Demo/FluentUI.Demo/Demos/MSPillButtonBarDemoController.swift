@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-class MSPillButtonBarDemoController: DemoController {
+class PillButtonBarDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
         container.layoutMargins.right = 0
@@ -89,9 +89,9 @@ class MSPillButtonBarDemoController: DemoController {
     }
 }
 
-// MARK: - MSPillButtonBarDemoController: PillButtonBarDelegate
+// MARK: - PillButtonBarDemoController: PillButtonBarDelegate
 
-extension MSPillButtonBarDemoController: PillButtonBarDelegate {
+extension PillButtonBarDemoController: PillButtonBarDelegate {
     func pillBar(_ pillBar: PillButtonBar, didSelectItem item: PillButtonBarItem, atIndex index: Int) {
         let alert = UIAlertController(title: "Item \(item.title) was selected", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)

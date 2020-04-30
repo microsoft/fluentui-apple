@@ -12,7 +12,7 @@ public typealias MSColors = Colors
 
 @objc(MSFColors)
 public final class Colors: NSObject {
-    // Mark - MSFColorPalette
+    // MARK: - MSFColorPalette
 
     /// colors defined in asset catalog
      @objc(MSFColorPalette)
@@ -600,9 +600,13 @@ public final class Colors: NSObject {
     }
 }
 
-// MARK: - MSTextColorStyle
+// MARK: - TextColorStyle
 
-@objc public enum MSTextColorStyle: Int, CaseIterable {
+@available(*, deprecated, renamed: "TextColorStyle")
+public typealias MSTextColorStyle = TextColorStyle
+
+@objc(MSFTextColorStyle)
+public enum TextColorStyle: Int, CaseIterable {
     case regular
     case secondary
     case white

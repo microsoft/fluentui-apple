@@ -66,7 +66,7 @@
 }
 
 - (void)addTitleWithText:(NSString*)text {
-    MSFLabel* titleLabel = [[MSFLabel alloc] initWithStyle:MSFTextStyleHeadline colorStyle:MSTextColorStyleRegular];
+    MSFLabel* titleLabel = [[MSFLabel alloc] initWithStyle:MSFTextStyleHeadline colorStyle:MSFTextColorStyleRegular];
     titleLabel.text = text;
     titleLabel.textAlignment = NSTextAlignmentCenter;
     [self.container addArrangedSubview:titleLabel];

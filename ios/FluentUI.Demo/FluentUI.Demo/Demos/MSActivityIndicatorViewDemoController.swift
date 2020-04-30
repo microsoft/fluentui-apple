@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-class MSActivityIndicatorViewDemoController: DemoController {
+class ActivityIndicatorViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 

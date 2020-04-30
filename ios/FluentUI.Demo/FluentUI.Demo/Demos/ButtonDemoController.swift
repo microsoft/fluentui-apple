@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-class MSButtonDemoController: DemoController {
+class ButtonDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 

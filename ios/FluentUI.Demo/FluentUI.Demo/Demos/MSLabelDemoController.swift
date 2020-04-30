@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-class MSLabelDemoController: DemoController {
+class LabelDemoController: DemoController {
     private var dynamicLabels = [Label]()
 
     override func viewDidLoad() {
@@ -20,7 +20,7 @@ class MSLabelDemoController: DemoController {
         container.addArrangedSubview(UIView())  // spacer
 
         addLabel(text: "Text Color Styles", style: .headline, colorStyle: .regular).textAlignment = .center
-        for colorStyle in MSTextColorStyle.allCases {
+        for colorStyle in TextColorStyle.allCases {
             addLabel(text: colorStyle.description, style: .body, colorStyle: colorStyle)
         }
 
@@ -30,7 +30,7 @@ class MSLabelDemoController: DemoController {
     }
 
     @discardableResult
-    func addLabel(text: String, style: TextStyle, colorStyle: MSTextColorStyle) -> Label {
+    func addLabel(text: String, style: TextStyle, colorStyle: TextColorStyle) -> Label {
         let label = Label(style: style, colorStyle: colorStyle)
         label.text = text
         label.numberOfLines = 0
@@ -48,7 +48,7 @@ class MSLabelDemoController: DemoController {
     }
 }
 
-extension MSTextColorStyle {
+extension TextColorStyle {
     var description: String {
         switch self {
         case .regular:

@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-class MSPopupMenuDemoController: DemoController {
+class PopupMenuDemoController: DemoController {
     private enum CalendarLayout {
         case agenda
         case day

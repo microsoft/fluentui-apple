@@ -714,7 +714,7 @@ open class TableViewCell: UITableViewCell {
             if _accessoryType == oldValue {
                 return
             }
-            accessoryTypeView = _accessoryType == .none ? nil : MSTableViewCellAccessoryView(type: _accessoryType)
+            accessoryTypeView = _accessoryType == .none ? nil : TableViewCellAccessoryView(type: _accessoryType)
             initAccessibilityForAccessoryType()
             setNeedsLayout()
             invalidateIntrinsicContentSize()
@@ -798,7 +798,7 @@ open class TableViewCell: UITableViewCell {
     private var footerLeadingAccessoryViewSize: CGSize = .zero
     private var footerTrailingAccessoryViewSize: CGSize = .zero
 
-    private var accessoryTypeView: MSTableViewCellAccessoryView? {
+    private var accessoryTypeView: TableViewCellAccessoryView? {
         didSet {
             oldValue?.removeFromSuperview()
             if let accessoryTypeView = accessoryTypeView {
@@ -1279,9 +1279,9 @@ open class TableViewCell: UITableViewCell {
     }
 }
 
-// MARK: - MSTableViewCellAccessoryView
+// MARK: - TableViewCellAccessoryView
 
-private class MSTableViewCellAccessoryView: UIView {
+private class TableViewCellAccessoryView: UIView {
     override var accessibilityElementsHidden: Bool { get { return !isUserInteractionEnabled } set { } }
     override var intrinsicContentSize: CGSize { return type.size }
 

@@ -82,7 +82,7 @@ class DrawerTransitionAnimator: NSObject {
     }
 }
 
-// MARK: - MSDrawerTransitionAnimator: UIViewControllerAnimatedTransitioning
+// MARK: - DrawerTransitionAnimator: UIViewControllerAnimatedTransitioning
 
 extension DrawerTransitionAnimator: UIViewControllerAnimatedTransitioning {
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {

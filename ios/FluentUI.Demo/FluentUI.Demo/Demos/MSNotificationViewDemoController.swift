@@ -5,7 +5,7 @@
 
 import UIKit
 
-class MSNotificationViewDemoController: DemoController {
+class NotificationViewDemoController: DemoController {
     enum Variant: Int, CaseIterable {
         case primaryToast
         case primaryToastWithImageAndTitle

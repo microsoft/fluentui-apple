@@ -3,9 +3,9 @@
 //  Licensed under the MIT License.
 //
 
-// MARK: MSTableViewCellShimmerDemoController
+// MARK: TableViewCellShimmerDemoController
 
-class MSTableViewCellShimmerDemoController: MSTableViewCellDemoController {
+class TableViewCellShimmerDemoController: TableViewCellDemoController {
     let shimmerSynchronizer = AnimationSynchronizer()
 
     override func viewDidLoad() {
@@ -16,7 +16,7 @@ class MSTableViewCellShimmerDemoController: MSTableViewCellDemoController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return MSTableViewCellSampleData.numberOfItemsInSectionForShimmer
+        return TableViewCellSampleData.numberOfItemsInSectionForShimmer
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

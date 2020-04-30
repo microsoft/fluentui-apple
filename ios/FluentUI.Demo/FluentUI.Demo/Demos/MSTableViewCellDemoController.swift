@@ -6,10 +6,10 @@
 import Foundation
 import FluentUI
 
-// MARK: MSTableViewCellDemoController
+// MARK: TableViewCellDemoController
 
-class MSTableViewCellDemoController: DemoController {
-    let sections: [TableViewSampleData.Section] = MSTableViewCellSampleData.sections
+class TableViewCellDemoController: DemoController {
+    let sections: [TableViewSampleData.Section] = TableViewCellSampleData.sections
 
     private var isGrouped: Bool = false {
         didSet {
@@ -98,15 +98,15 @@ class MSTableViewCellDemoController: DemoController {
     }
 }
 
-// MARK: - MSTableViewCellDemoController: UITableViewDataSource
+// MARK: - TableViewCellDemoController: UITableViewDataSource
 
-extension MSTableViewCellDemoController: UITableViewDataSource {
+extension TableViewCellDemoController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return MSTableViewCellSampleData.numberOfItemsInSection
+        return TableViewCellSampleData.numberOfItemsInSection
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -116,13 +116,13 @@ extension MSTableViewCellDemoController: UITableViewDataSource {
         cell.setup(
             title: item.text1,
             subtitle: item.text2,
-            footer: MSTableViewCellSampleData.hasFullLengthLabelAccessoryView(at: indexPath) ? "" : item.text3,
+            footer: TableViewCellSampleData.hasFullLengthLabelAccessoryView(at: indexPath) ? "" : item.text3,
             customView: TableViewSampleData.createCustomView(imageName: item.image),
-            customAccessoryView: section.hasAccessory ? MSTableViewCellSampleData.customAccessoryView : nil,
-            accessoryType: MSTableViewCellSampleData.accessoryType(for: indexPath)
+            customAccessoryView: section.hasAccessory ? TableViewCellSampleData.customAccessoryView : nil,
+            accessoryType: TableViewCellSampleData.accessoryType(for: indexPath)
         )
 
-        let showsLabelAccessoryView = MSTableViewCellSampleData.hasLabelAccessoryViews(at: indexPath)
+        let showsLabelAccessoryView = TableViewCellSampleData.hasLabelAccessoryViews(at: indexPath)
         cell.titleLeadingAccessoryView = showsLabelAccessoryView ? item.text1LeadingAccessoryView() : nil
         cell.titleTrailingAccessoryView = showsLabelAccessoryView ? item.text1TrailingAccessoryView() : nil
         cell.subtitleLeadingAccessoryView = showsLabelAccessoryView ? item.text2LeadingAccessoryView() : nil
@@ -151,9 +151,9 @@ extension MSTableViewCellDemoController: UITableViewDataSource {
     }
 }
 
-// MARK: - MSTableViewCellDemoController: UITableViewDelegate
+// MARK: - TableViewCellDemoController: UITableViewDelegate
 
-extension MSTableViewCellDemoController: UITableViewDelegate {
+extension TableViewCellDemoController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as! TableViewHeaderFooterView
         let section = sections[section]

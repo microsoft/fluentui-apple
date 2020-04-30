@@ -346,7 +346,7 @@ private class DateTimePickerViewDateDataSource: DateTimePickerViewDataSource {
     }
 }
 
-// MARK: - MSDateTimePickerViewHourDataSource
+// MARK: - DateTimePickerViewHourDataSource
 
 private class DateTimePickerViewHourDataSource: DateTimePickerViewDataSource {
     func numberOfItems() -> Int {

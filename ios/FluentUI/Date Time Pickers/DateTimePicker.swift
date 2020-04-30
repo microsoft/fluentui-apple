@@ -197,7 +197,7 @@ public class DateTimePicker: NSObject {
     }
 }
 
-// MARK: - MSDateTimePicker: GenericDateTimePickerDelegate
+// MARK: - DateTimePicker: GenericDateTimePickerDelegate
 
 extension DateTimePicker: GenericDateTimePickerDelegate {
     func dateTimePicker(_ dateTimePicker: GenericDateTimePicker, didPickStartDate startDate: Date, endDate: Date) {

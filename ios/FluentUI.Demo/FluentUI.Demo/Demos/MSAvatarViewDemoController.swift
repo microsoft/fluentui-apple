@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-class MSAvatarViewDemoController: DemoController {
+class AvatarViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 

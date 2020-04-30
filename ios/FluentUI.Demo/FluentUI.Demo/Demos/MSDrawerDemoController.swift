@@ -8,7 +8,7 @@ import UIKit
 
 // MARK: MSDrawerDemoController
 
-class MSDrawerDemoController: DemoController {
+class DrawerDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -259,9 +259,9 @@ class MSDrawerDemoController: DemoController {
     }
 }
 
-// MARK: - MSDrawerDemoController: UITextFieldDelegate
+// MARK: - DrawerDemoController: UITextFieldDelegate
 
-extension MSDrawerDemoController: UITextFieldDelegate {
+extension DrawerDemoController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return false

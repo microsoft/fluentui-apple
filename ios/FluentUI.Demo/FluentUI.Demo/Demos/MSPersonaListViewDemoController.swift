@@ -40,7 +40,7 @@ let searchDirectoryPersonas: [PersonaData] = [
     PersonaData(name: "Miguel Garcia", email: "miguel.garcia@contoso.com", subtitle: "Software Engineer", avatarImage: UIImage(named: "avatar_miguel_garcia"))
 ]
 
-class MSPersonaListViewDemoController: DemoController {
+class PersonaListViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -62,9 +62,9 @@ class MSPersonaListViewDemoController: DemoController {
     }
 }
 
-// MARK: - MSPersonaListViewDemoController: PersonaListViewSearchDirectoryDelegate
+// MARK: - PersonaListViewDemoController: PersonaListViewSearchDirectoryDelegate
 
-extension MSPersonaListViewDemoController: PersonaListViewSearchDirectoryDelegate {
+extension PersonaListViewDemoController: PersonaListViewSearchDirectoryDelegate {
     func personaListSearchDirectory(_ personaListView: PersonaListView, completion: @escaping ((_ success: Bool) -> Void)) {
         // Delay added for 2 seconds to demo activity indicator
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {

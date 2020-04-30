@@ -856,7 +856,7 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
     }
 }
 
-// MARK: - MSDrawerController: UIPopoverPresentationControllerDelegate
+// MARK: - DrawerController: UIPopoverPresentationControllerDelegate
 
 extension DrawerController: UIPopoverPresentationControllerDelegate {
     public func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
@@ -864,7 +864,7 @@ extension DrawerController: UIPopoverPresentationControllerDelegate {
     }
 }
 
-// MARK: - MSDrawerController: UIGestureRecognizerDelegate
+// MARK: - DrawerController: UIGestureRecognizerDelegate
 
 extension DrawerController: UIGestureRecognizerDelegate {
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
