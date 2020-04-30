@@ -21,9 +21,9 @@ class ObscurableFactory {
     static func obscurable(with obscureStyle: ObscureStyle) -> Obscurable {
         switch obscureStyle {
         case .blur:
-            return MSBlurringView(style: .dark)
+            return BlurringView(style: .dark)
         case .dim:
-            return MSDimmingView(type: .black)
+            return DimmingView(type: .black)
         }
     }
 }

@@ -5,25 +5,33 @@
 
 import UIKit
 
-// MARK: MSDimmingViewType
+// MARK: DimmingViewType
 
-@objc public enum MSDimmingViewType: Int {
+@available(*, deprecated, renamed: "DimmingViewType")
+public typealias MSDimmingViewType = DimmingViewType
+
+@objc(MSFDimmingViewType)
+public enum DimmingViewType: Int {
     case white = 1
     case black
     case none
 }
 
-// MARK: - MSDimmingView
+// MARK: - DimmingView
 
-open class MSDimmingView: UIView {
+@available(*, deprecated, renamed: "MSDimmingView")
+public typealias MSDimmingView = DimmingView
+
+@objc(MSFDimmingView)
+open class DimmingView: UIView {
     public struct Constants {
         public static let blackAlpha: CGFloat = 0.4
         public static let whiteAlpha: CGFloat = 0.5
     }
 
-    private var type: MSDimmingViewType
+    private var type: DimmingViewType
 
-    @objc public init(type: MSDimmingViewType) {
+    @objc public init(type: DimmingViewType) {
         self.type = type
         super.init(frame: .zero)
         setBackground(type: type)
@@ -33,7 +41,7 @@ open class MSDimmingView: UIView {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    private func setBackground(type: MSDimmingViewType) {
+    private func setBackground(type: DimmingViewType) {
         switch type {
         case .white:
             backgroundColor = UIColor(white: 1, alpha: Constants.whiteAlpha)
@@ -45,9 +53,9 @@ open class MSDimmingView: UIView {
     }
 }
 
-// MARK: - MSDimmingView: Obscurable
+// MARK: - DimmingView: Obscurable
 
-extension MSDimmingView: Obscurable {
+extension DimmingView: Obscurable {
     var view: UIView { return self }
     var isObscuring: Bool {
         get {

@@ -46,7 +46,7 @@ import UIKit
     /// Black semi-transparent background
     case black
 
-    var dimmingViewType: MSDimmingViewType {
+    var dimmingViewType: DimmingViewType {
         switch self {
         case .none:
             return .none
@@ -246,7 +246,7 @@ open class MSDrawerController: UIViewController {
                 if preferredContentSize.height == 0 {
                     preferredContentSize.height = getHeight()
                     if preferredContentSize.height != 0 && self.showsResizingHandle {
-                        preferredContentSize.height += MSResizingHandleView.height
+                        preferredContentSize.height += ResizingHandleView.height
                     }
                 }
             }
@@ -420,7 +420,7 @@ open class MSDrawerController: UIViewController {
         if canResize {
             if showsResizingHandle {
                 if resizingHandleView == nil {
-                    resizingHandleView = MSResizingHandleView()
+                    resizingHandleView = ResizingHandleView()
                 }
             } else {
                 resizingHandleView = nil
@@ -574,7 +574,7 @@ open class MSDrawerController: UIViewController {
         return canResize && presentationDirection == .up
     }
 
-    private var resizingHandleView: MSResizingHandleView? {
+    private var resizingHandleView: ResizingHandleView? {
         didSet {
             oldValue?.removeFromSuperview()
             if let newView = resizingHandleView {

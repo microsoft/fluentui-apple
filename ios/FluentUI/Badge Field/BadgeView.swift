@@ -232,7 +232,7 @@ open class BadgeView: UIView {
 
     private let backgroundView = UIView()
 
-    private let label = MSLabel()
+    private let label = Label()
 
     public init(dataSource: BadgeViewDataSource) {
         super.init(frame: .zero)

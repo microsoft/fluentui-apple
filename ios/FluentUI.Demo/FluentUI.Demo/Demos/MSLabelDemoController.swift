@@ -7,7 +7,7 @@ import FluentUI
 import UIKit
 
 class MSLabelDemoController: DemoController {
-    private var dynamicLabels = [MSLabel]()
+    private var dynamicLabels = [Label]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,8 +30,8 @@ class MSLabelDemoController: DemoController {
     }
 
     @discardableResult
-    func addLabel(text: String, style: MSTextStyle, colorStyle: MSTextColorStyle) -> MSLabel {
-        let label = MSLabel(style: style, colorStyle: colorStyle)
+    func addLabel(text: String, style: MSTextStyle, colorStyle: MSTextColorStyle) -> Label {
+        let label = Label(style: style, colorStyle: colorStyle)
         label.text = text
         label.numberOfLines = 0
         if colorStyle == .white {

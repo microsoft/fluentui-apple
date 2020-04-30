@@ -85,7 +85,7 @@ open class MSTabBarView: UIView {
         return stackView
     }()
 
-    private let topBorderLine = MSSeparator(style: .shadow, orientation: .horizontal)
+    private let topBorderLine = Separator(style: .shadow, orientation: .horizontal)
 
     /// Initializes MSTabBarView
     /// - Parameter showsItemTitles: Determines whether or not to show the titles of the tab ba ritems.

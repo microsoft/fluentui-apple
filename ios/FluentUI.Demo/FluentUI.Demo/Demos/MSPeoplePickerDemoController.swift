@@ -45,7 +45,7 @@ class MSPeoplePickerDemoController: DemoController {
             addDescription(text: variant.description)
             addPeoplePicker(for: variant)
             if index != PeoplePickerSampleData.variants.count - 1 {
-                container.addArrangedSubview(MSSeparator())
+                container.addArrangedSubview(Separator())
             }
         }
     }

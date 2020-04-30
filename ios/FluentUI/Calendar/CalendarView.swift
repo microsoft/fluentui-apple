@@ -23,13 +23,13 @@ class CalendarView: UIView {
 
     weak var accessibleViewDelegate: AccessibleViewDelegate?
 
-    private let headingViewSeparator: MSSeparator
-    private let collectionViewSeparator: MSSeparator
+    private let headingViewSeparator: Separator
+    private let collectionViewSeparator: Separator
 
     init(headerStyle: DatePickerHeaderStyle = .light) {
         weekdayHeadingView = CalendarViewWeekdayHeadingView(headerStyle: headerStyle)
 
-        headingViewSeparator = MSSeparator(style: .shadow)
+        headingViewSeparator = Separator(style: .shadow)
 
         collectionViewLayout = CalendarViewLayout()
 
@@ -40,7 +40,7 @@ class CalendarView: UIView {
         // Enable multiple selection to allow for one cell to be selected and another cell to be highlighted simultaneously
         collectionView.allowsMultipleSelection = true
 
-        collectionViewSeparator = MSSeparator(style: .default)
+        collectionViewSeparator = Separator(style: .default)
 
         super.init(frame: .zero)
 

@@ -67,8 +67,8 @@ class MSPillButtonBarDemoController: DemoController {
         return backgroundView
     }
 
-    func createLabelWithText(_ text: String = "") -> MSLabel {
-        let label = MSLabel(style: .subhead, colorStyle: .regular)
+    func createLabelWithText(_ text: String = "") -> Label {
+        let label = Label(style: .subhead, colorStyle: .regular)
         label.text = text
         label.textAlignment = .center
         return label

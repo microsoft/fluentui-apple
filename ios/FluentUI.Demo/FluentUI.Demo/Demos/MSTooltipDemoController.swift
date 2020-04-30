@@ -74,7 +74,7 @@ class MSTooltipDemoController: DemoController {
         topContainer.addArrangedSubview(topleftButton)
         topContainer.addArrangedSubview(topRightButton)
 
-        let middleLabel = MSLabel(style: .headline, colorStyle: .regular)
+        let middleLabel = Label(style: .headline, colorStyle: .regular)
         middleLabel.text = "Press corner buttons to show offset tooltips"
         middleLabel.numberOfLines = 0
         middleLabel.textAlignment = .center
@@ -95,35 +95,35 @@ class MSTooltipDemoController: DemoController {
         MSTooltip.shared.show(with: "This is a title-based tooltip.", for: titleView, preferredArrowDirection: .up)
     }
 
-    @objc func showSingleTooltipBelow(sender: MSButton) {
+    @objc func showSingleTooltipBelow(sender: Button) {
         MSTooltip.shared.show(with: "This is pointing up.", for: sender, preferredArrowDirection: .up)
     }
 
-    @objc func showDoubleTooltipAbove(sender: MSButton) {
+    @objc func showDoubleTooltipAbove(sender: Button) {
         MSTooltip.shared.show(with: "This is a very long message, and this is also pointing down.", for: sender)
     }
 
-    @objc func showTooltipWithTapOnTooltipDismissal(sender: MSButton) {
+    @objc func showTooltipWithTapOnTooltipDismissal(sender: Button) {
         MSTooltip.shared.show(with: "Tap on this tooltip to dismiss.", for: sender, preferredArrowDirection: .up, dismissOn: .tapOnTooltip)
     }
 
-    @objc func showTooltipWithTapOnTooltipOrAnchorDismissal(sender: MSButton) {
+    @objc func showTooltipWithTapOnTooltipOrAnchorDismissal(sender: Button) {
         MSTooltip.shared.show(with: "Tap on this tooltip or this title button to dismiss.", for: titleView, dismissOn: .tapOnTooltipOrAnchor)
     }
 
-    @objc func showTooltipLeftArrow(sender: MSButton) {
+    @objc func showTooltipLeftArrow(sender: Button) {
         MSTooltip.shared.show(with: "This is pointing left.", for: sender, preferredArrowDirection: .left)
     }
 
-    @objc func showTooltipRightArrow(sender: MSButton) {
+    @objc func showTooltipRightArrow(sender: Button) {
         MSTooltip.shared.show(with: "This is pointing right.", for: sender, preferredArrowDirection: .right)
     }
 
-    @objc func showTopLeftOffsetTooltip(sender: MSButton) {
+    @objc func showTopLeftOffsetTooltip(sender: Button) {
         MSTooltip.shared.show(with: "This is an offset tooltip.", for: sender, preferredArrowDirection: .up)
     }
 
-    @objc func showTopRightOffsetTooltip(sender: MSButton) {
+    @objc func showTopRightOffsetTooltip(sender: Button) {
         guard let window = view.window else {
             return
         }
@@ -133,7 +133,7 @@ class MSTooltipDemoController: DemoController {
         MSTooltip.shared.show(with: "This is a very long, offset message.", for: sender, preferredArrowDirection: .right, screenMargins: margins)
     }
 
-    @objc func showBottomLeftOffsetTooltip(sender: MSButton) {
+    @objc func showBottomLeftOffsetTooltip(sender: Button) {
         guard let window = view.window else {
             return
         }
@@ -142,7 +142,7 @@ class MSTooltipDemoController: DemoController {
         MSTooltip.shared.show(with: "This is a very long, offset message.", for: sender, preferredArrowDirection: .left, screenMargins: margins)
     }
 
-    @objc func showBottomRightOffsetTooltip(sender: MSButton) {
+    @objc func showBottomRightOffsetTooltip(sender: Button) {
         MSTooltip.shared.show(with: "This is an offset tooltip.", for: sender)
     }
 }

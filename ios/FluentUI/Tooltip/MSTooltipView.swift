@@ -68,7 +68,7 @@ class MSTooltipView: UIView {
     private let arrowImageView = UIImageView(image: UIImage.staticImageNamed("tooltip-arrow")?.image(withPrimaryColor: MSColors.Tooltip.background))
 
     private let messageLabel: UILabel = {
-        let label = MSLabel(style: Constants.messageLabelTextStyle)
+        let label = Label(style: Constants.messageLabelTextStyle)
         label.textColor = MSColors.Tooltip.text
         label.numberOfLines = Constants.maxLines
         return label

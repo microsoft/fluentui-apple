@@ -117,7 +117,7 @@ open class MSNotificationView: UIView {
     private var action: (() -> Void)?
     private var messageAction: (() -> Void)?
 
-    private let backgroundView = MSBlurringView(style: .regular)
+    private let backgroundView = BlurringView(style: .regular)
     private let container: UIStackView = {
         let container = UIStackView()
         container.axis = .horizontal
@@ -144,9 +144,9 @@ open class MSNotificationView: UIView {
         imageView.setContentHuggingPriority(.required, for: .horizontal)
         return imageView
     }()
-    private let titleLabel = MSLabel(style: Constants.titleTextStyle)
-    private let messageLabel: MSLabel = {
-        let messageLabel = MSLabel(style: Constants.messageTextStyle)
+    private let titleLabel = Label(style: Constants.titleTextStyle)
+    private let messageLabel: Label = {
+        let messageLabel = Label(style: Constants.messageTextStyle)
         messageLabel.numberOfLines = 0
         return messageLabel
     }()
@@ -157,7 +157,7 @@ open class MSNotificationView: UIView {
         actionButton.setContentHuggingPriority(.required, for: .horizontal)
         return actionButton
     }()
-    private let separator = MSSeparator(style: .shadow, orientation: .horizontal)
+    private let separator = Separator(style: .shadow, orientation: .horizontal)
 
     private var messageLabelBoundsObservation: NSKeyValueObservation?
 

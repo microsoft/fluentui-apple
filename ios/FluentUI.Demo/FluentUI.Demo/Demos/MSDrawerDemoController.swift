@@ -198,7 +198,7 @@ class MSDrawerDemoController: DemoController {
         textField.delegate = self
         container.addArrangedSubview(textField)
 
-        let button = MSButton(style: .primaryFilled)
+        let button = Button(style: .primaryFilled)
         button.setTitle("Hide keyboard", for: .normal)
         button.setContentCompressionResistancePriority(.required, for: .vertical)
         button.setContentHuggingPriority(.required, for: .vertical)

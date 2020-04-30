@@ -5,21 +5,29 @@
 
 import UIKit
 
-// MARK: MSSearchBarDelegate
+// MARK: SearchBarDelegate
+
+@available(*, deprecated, renamed: "SearchBarDelegate")
+public typealias MSSearchBarDelegate = SearchBarDelegate
 
 /// Various state update methods coming from the SearchBar
-@objc public protocol MSSearchBarDelegate: class, NSObjectProtocol {
-    func searchBarDidBeginEditing(_ searchBar: MSSearchBar)
-    func searchBar(_ searchBar: MSSearchBar, didUpdateSearchText newSearchText: String?)
-    @objc optional func searchBarDidFinishEditing(_ searchBar: MSSearchBar)
-    func searchBarDidCancel(_ searchBar: MSSearchBar)
-    @objc optional func searchBarDidRequestSearch(_ searchBar: MSSearchBar)
+@objc(MSFSearchBarDelegate)
+public protocol SearchBarDelegate: class, NSObjectProtocol {
+    func searchBarDidBeginEditing(_ searchBar: SearchBar)
+    func searchBar(_ searchBar: SearchBar, didUpdateSearchText newSearchText: String?)
+    @objc optional func searchBarDidFinishEditing(_ searchBar: SearchBar)
+    func searchBarDidCancel(_ searchBar: SearchBar)
+    @objc optional func searchBarDidRequestSearch(_ searchBar: SearchBar)
 }
 
-// MARK: - MSSearchBar
+// MARK: - SearchBar
+
+@available(*, deprecated, renamed: "SearchBar")
+public typealias MSSearchBar = SearchBar
 
 /// Drop-in replacement for UISearchBar that allows for more customization
-open class MSSearchBar: UIView {
+@objc(MSFSearchBar)
+open class SearchBar: UIView {
     @objc(MSSearchBarStyle)
     public enum Style: Int {
         case lightContent, darkContent
@@ -130,7 +138,7 @@ open class MSSearchBar: UIView {
     /// Indicates when search bar either has focus or contains a search text.
     @objc open private(set) var isActive: Bool = false
 
-    @objc open weak var delegate: MSSearchBarDelegate?
+    @objc open weak var delegate: SearchBarDelegate?
 
     weak var navigationController: MSNavigationController?
 
@@ -175,7 +183,7 @@ open class MSSearchBar: UIView {
     //removes text from the searchTextField
     private lazy var clearButton: UIButton = {
         let clearButton = UIButton()
-        clearButton.addTarget(self, action: #selector(MSSearchBar.clearButtonTapped(sender:)), for: .touchUpInside)
+        clearButton.addTarget(self, action: #selector(SearchBar.clearButtonTapped(sender:)), for: .touchUpInside)
         clearButton.setImage(UIImage.staticImageNamed("search-clear"), for: .normal)
         clearButton.isHidden = true
         return clearButton
@@ -186,7 +194,7 @@ open class MSSearchBar: UIView {
         let button = UIButton(type: .system)
         button.titleLabel?.font = Constants.cancelButtonTextStyle.font
         button.setTitle("Common.Cancel".localized, for: .normal)
-        button.addTarget(self, action: #selector(MSSearchBar.cancelButtonTapped(sender:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(SearchBar.cancelButtonTapped(sender:)), for: .touchUpInside)
         button.alpha = 0.0
         if #available(iOS 13, *) {
             button.showsLargeContentViewer = true
@@ -426,7 +434,7 @@ open class MSSearchBar: UIView {
 
 // MARK: - MSSearchBar: UITextFieldDelegate
 
-extension MSSearchBar: UITextFieldDelegate {
+extension SearchBar: UITextFieldDelegate {
     public func textFieldDidBeginEditing(_ textField: UITextField) {
         startSearch()
         delegate?.searchBarDidBeginEditing(self)
@@ -442,5 +450,5 @@ extension MSSearchBar: UITextFieldDelegate {
 // MARK: - UINavigationItem extension
 
 extension UINavigationItem {
-    var accessorySearchBar: MSSearchBar? { return accessoryView as? MSSearchBar }
+    var accessorySearchBar: SearchBar? { return accessoryView as? SearchBar }
 }

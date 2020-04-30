@@ -137,7 +137,7 @@ open class MSPopupMenuController: MSDrawerController {
             )
         )
 
-        let separator = MSSeparator()
+        let separator = Separator()
         view.addSubview(separator)
         separator.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -148,8 +148,8 @@ open class MSPopupMenuController: MSDrawerController {
 
         return view
     }()
-    private let descriptionLabel: MSLabel = {
-        let label = MSLabel(style: .footnote)
+    private let descriptionLabel: Label = {
+        let label = Label(style: .footnote)
         label.textColor = MSColors.PopupMenu.description
         label.textAlignment = .center
         label.numberOfLines = 0

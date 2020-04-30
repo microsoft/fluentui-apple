@@ -7,7 +7,7 @@ import FluentUI
 import UIKit
 
 class DateTimePickerDemoController: DemoController {
-    private let dateLabel = MSLabel(style: .headline)
+    private let dateLabel = Label(style: .headline)
     private let dateTimePicker = DateTimePicker()
 
     private let datePickerTypeSelector: UISegmentedControl = {
@@ -54,7 +54,7 @@ class DateTimePickerDemoController: DemoController {
         container.alignment = .center
         container.distribution = .equalSpacing
 
-        let label = MSLabel(style: .subhead, colorStyle: .regular)
+        let label = Label(style: .subhead, colorStyle: .regular)
         label.text = "Date picker type"
         label.numberOfLines = 0
         container.addArrangedSubview(label)
@@ -71,7 +71,7 @@ class DateTimePickerDemoController: DemoController {
         validationRow.alignment = .center
         validationRow.distribution = .equalSpacing
 
-        let validationLabel = MSLabel(style: .subhead, colorStyle: .regular)
+        let validationLabel = Label(style: .subhead, colorStyle: .regular)
         validationLabel.text = "Validate for date in future"
 
         validationRow.addArrangedSubview(validationLabel)

@@ -95,7 +95,7 @@ open class MSTwoLineTitleView: UIView {
     private var interactivePart: InteractivePart = .none
     private var accessoryType: AccessoryType = .none
 
-    private let titleButton = MSEasyTapButton()
+    private let titleButton = EasyTapButton()
     private var titleAccessoryType: AccessoryType {
         return interactivePart == .title ? accessoryType : .none
     }
@@ -110,7 +110,7 @@ open class MSTwoLineTitleView: UIView {
 
     private var titleButtonImageView = UIImageView()
 
-    private let subtitleButton = MSEasyTapButton()
+    private let subtitleButton = EasyTapButton()
     private var subtitleAccessoryType: AccessoryType {
         return interactivePart == .subtitle ? accessoryType : .none
     }

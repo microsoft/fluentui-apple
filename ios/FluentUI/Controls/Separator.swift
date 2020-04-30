@@ -5,7 +5,11 @@
 
 import UIKit
 
-@objc public enum MSSeparatorStyle: Int {
+@available(*, deprecated, renamed: "SeparatorStyle")
+public typealias MSSeparatorStyle = SeparatorStyle
+
+@objc(MSFSeparatorStyle)
+public enum SeparatorStyle: Int {
     case `default`
     case shadow
 
@@ -19,17 +23,25 @@ import UIKit
     }
 }
 
-@objc public enum MSSeparatorOrientation: Int {
+@available(*, deprecated, renamed: "SeparatorOrientation")
+public typealias MSSeparatorOrientation = SeparatorOrientation
+
+@objc(MSFSeparatorOrientation)
+public enum SeparatorOrientation: Int {
     case horizontal
     case vertical
 }
 
-open class MSSeparator: UIView {
+@available(*, deprecated, renamed: "Separator")
+public typealias MSSeparator = Separator
+
+@objc(MSFSeparator)
+open class Separator: UIView {
     open override var backgroundColor: UIColor? { get { return super.backgroundColor } set { } }
 
-    private var orientation: MSSeparatorOrientation = .horizontal
+    private var orientation: SeparatorOrientation = .horizontal
 
-    public init(style: MSSeparatorStyle = .default, orientation: MSSeparatorOrientation = .horizontal) {
+    public init(style: SeparatorStyle = .default, orientation: SeparatorOrientation = .horizontal) {
         super.init(frame: .zero)
         initialize(style: style, orientation: orientation)
     }
@@ -38,7 +50,7 @@ open class MSSeparator: UIView {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    private func initialize(style: MSSeparatorStyle, orientation: MSSeparatorOrientation) {
+    private func initialize(style: SeparatorStyle, orientation: SeparatorOrientation) {
         super.backgroundColor = style.color
         self.orientation = orientation
         switch orientation {

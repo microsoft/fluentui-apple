@@ -117,15 +117,15 @@ class MSNavigationControllerDemoController: DemoController {
         return controller
     }
 
-    private func createAccessoryView(with style: MSSearchBar.Style = .lightContent) -> UIView {
-        let searchBar = MSSearchBar()
+    private func createAccessoryView(with style: SearchBar.Style = .lightContent) -> UIView {
+        let searchBar = SearchBar()
         searchBar.style = style
         searchBar.placeholderText = "Search"
         return searchBar
     }
 
     private func presentSideDrawer(presentingGesture: UIPanGestureRecognizer? = nil) {
-        let meControl = MSLabel(style: .title2, colorStyle: .regular)
+        let meControl = Label(style: .title2, colorStyle: .regular)
         meControl.text = "Me Control goes here"
         meControl.textAlignment = .center
 
@@ -182,7 +182,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var showsTabs: Bool = false {
         didSet {
             if showsTabs != oldValue {
-                segmentedControl = showsTabs ? MSSegmentedControl(items: ["Unread", "All"]) : nil
+                segmentedControl = showsTabs ? SegmentedControl(items: ["Unread", "All"]) : nil
             }
         }
     }
@@ -205,7 +205,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     private var navigationBarFrameObservation: NSKeyValueObservation?
 
-    private var segmentedControl: MSSegmentedControl? {
+    private var segmentedControl: SegmentedControl? {
         didSet {
             oldValue?.removeFromSuperview()
             if let segmentedControl = segmentedControl {

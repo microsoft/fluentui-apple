@@ -48,8 +48,8 @@ class DateTimePickerView: UIControl {
     private let componentTypes: [DateTimePickerViewComponentType]!
     private let componentsByType: [DateTimePickerViewComponentType: DateTimePickerViewComponent]!
 
-    private let selectionTopSeparator = MSSeparator()
-    private let selectionBottomSeparator = MSSeparator()
+    private let selectionTopSeparator = Separator()
+    private let selectionBottomSeparator = Separator()
 
     private let gradientLayer: CAGradientLayer = {
         let gradientLayer = CAGradientLayer()

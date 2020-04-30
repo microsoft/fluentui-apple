@@ -5,9 +5,13 @@
 
 import UIKit
 
-// MARK: MSBlurringView
+// MARK: BlurringView
 
-open class MSBlurringView: UIView {
+@available(*, deprecated, renamed: "BlurringView")
+public typealias MSBlurringView = BlurringView
+
+@objc(MSFBlurringView)
+open class BlurringView: UIView {
     private let blurEffect: UIBlurEffect
     private let blurVisualEffectView: UIVisualEffectView
     private let backgroundView: UIView
@@ -43,9 +47,9 @@ open class MSBlurringView: UIView {
     }
 }
 
-// MARK: - MSBlurringView: Obscurable
+// MARK: - BlurringView: Obscurable
 
-extension MSBlurringView: Obscurable {
+extension BlurringView: Obscurable {
     var view: UIView { return self }
     var isObscuring: Bool {
         get {

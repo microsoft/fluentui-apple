@@ -751,21 +751,21 @@ open class MSTableViewCell: UITableViewCell {
         }
     }
 
-    let titleLabel: MSLabel = {
-        let label = MSLabel(style: TextStyles.title)
+    let titleLabel: Label = {
+        let label = Label(style: TextStyles.title)
         label.lineBreakMode = .byTruncatingTail
         return label
     }()
 
-    let subtitleLabel: MSLabel = {
-        let label = MSLabel(style: TextStyles.subtitleTwoLines)
+    let subtitleLabel: Label = {
+        let label = Label(style: TextStyles.subtitleTwoLines)
         label.lineBreakMode = .byTruncatingTail
         label.isHidden = true
         return label
     }()
 
-    let footerLabel: MSLabel = {
-        let label = MSLabel(style: TextStyles.footer)
+    let footerLabel: Label = {
+        let label = Label(style: TextStyles.footer)
         label.lineBreakMode = .byTruncatingTail
         label.isHidden = true
         return label
@@ -806,8 +806,8 @@ open class MSTableViewCell: UITableViewCell {
         return imageView
     }()
 
-    private let topSeparator = MSSeparator(style: .default, orientation: .horizontal)
-    private let bottomSeparator = MSSeparator(style: .default, orientation: .horizontal)
+    private let topSeparator = Separator(style: .default, orientation: .horizontal)
+    private let bottomSeparator = Separator(style: .default, orientation: .horizontal)
 
     private var superTableView: UITableView? {
         return findSuperview(of: UITableView.self) as? UITableView
@@ -1020,7 +1020,7 @@ open class MSTableViewCell: UITableViewCell {
         trailingAccessoryView?.frame.origin.y += offset
     }
 
-    private func layoutSeparator(_ separator: MSSeparator, with type: SeparatorType, at verticalOffset: CGFloat) {
+    private func layoutSeparator(_ separator: Separator, with type: SeparatorType, at verticalOffset: CGFloat) {
         separator.frame = CGRect(
             x: separatorLeadingInset(for: type),
             y: verticalOffset,
@@ -1249,7 +1249,7 @@ open class MSTableViewCell: UITableViewCell {
         selectionImageView.tintColor = isSelected ? MSColors.Table.Cell.selectionIndicatorOn : MSColors.Table.Cell.selectionIndicatorOff
     }
 
-    private func updateSeparator(_ separator: MSSeparator, with type: SeparatorType) {
+    private func updateSeparator(_ separator: Separator, with type: SeparatorType) {
         separator.isHidden = type == .none
         setNeedsLayout()
     }

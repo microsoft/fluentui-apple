@@ -5,7 +5,11 @@
 
 import UIKit
 
-open class MSDotView: UIView {
+@available(*, deprecated, renamed: "DotView")
+public typealias MSDotView = DotView
+
+@objc(MSFDotView)
+open class DotView: UIView {
     @objc open var color: UIColor? {
         didSet {
             if oldValue != color {

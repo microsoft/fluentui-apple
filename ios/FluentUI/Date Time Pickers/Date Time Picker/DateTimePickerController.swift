@@ -78,7 +78,7 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
     private let customEndTabTitle: String?
     private let dateTimePickerView: DateTimePickerView
     private let titleView = MSTwoLineTitleView()
-    private var segmentedControl: MSSegmentedControl?
+    private var segmentedControl: SegmentedControl?
 
     // TODO: Add availability back in? - contactAvailabilitySummaryDataSource: ContactAvailabilitySummaryDataSource?,
     init(startDate: Date, endDate: Date, mode: DateTimePickerMode, titles: DateTimePicker.Titles?) {
@@ -137,18 +137,18 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
     private func initSegmentedControl(includesTime: Bool) {
         let titles: [String]
         if includesTime {
-            titles = [customStartTabTitle ?? "DateTimePicker.StartTime".localized,
-                      customEndTabTitle ?? "DateTimePicker.EndTime".localized]
+            titles = [customStartTabTitle ?? "MSDateTimePicker.StartTime".localized,
+                      customEndTabTitle ?? "MSDateTimePicker.EndTime".localized]
         } else {
-            titles = [customStartTabTitle ?? "DateTimePicker.StartDate".localized,
-                      customEndTabTitle ?? "DateTimePicker.EndDate".localized]
+            titles = [customStartTabTitle ?? "MSDateTimePicker.StartDate".localized,
+                      customEndTabTitle ?? "MSDateTimePicker.EndDate".localized]
         }
-        segmentedControl = MSSegmentedControl(items: titles)
+        segmentedControl = SegmentedControl(items: titles)
         segmentedControl?.addTarget(self, action: #selector(handleDidSelectStartEnd(_:)), for: .valueChanged)
     }
 
     private func initNavigationBar() {
-        navigationItem.rightBarButtonItem = MSBarButtonItems.confirm(target: self, action: #selector(handleDidTapDone))
+        navigationItem.rightBarButtonItem = BarButtonItems.confirm(target: self, action: #selector(handleDidTapDone))
         navigationItem.titleView = titleView
     }
 
@@ -187,7 +187,7 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
         delegate?.dateTimePicker(self, didSelectStartDate: startDate, endDate: endDate)
     }
 
-    @objc private func handleDidSelectStartEnd(_ segmentedControl: MSSegmentedControl) {
+    @objc private func handleDidSelectStartEnd(_ segmentedControl: SegmentedControl) {
         mode = segmentedControl.selectedSegmentIndex == 0 ? .start : .end
     }
 

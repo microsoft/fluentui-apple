@@ -5,11 +5,15 @@
 
 import UIKit
 
-// MARK: MSSegmentedControl
+// MARK: SegmentedControl
+
+@available(*, deprecated, renamed: "SegmentedControl")
+public typealias MSSegmentedControl = SegmentedControl
 
 /// A styled segmented control that should be used instead of UISegmentedControl. It is designed to flex the button width proportionally to the control's width.
-open class MSSegmentedControl: UIControl {
-    @objc(MSSegmentedControlStyle)
+@objc(MSFSegmentedControl)
+open class SegmentedControl: UIControl {
+    @objc(MSFSegmentedControlStyle)
     public enum Style: Int {
         /// Segments are shown as tabs. Selection is indicated by a color of the selected tab's text and by the bar on the bottom edge of the selected tab.
         case tabs
@@ -135,7 +139,7 @@ open class MSSegmentedControl: UIControl {
         }
         return view
     }()
-    private var buttons = [MSSegmentedControlButton]()
+    private var buttons = [SegmentedControlButton]()
     private let selectionView: UIView = {
         let view = UIView()
         if #available(iOS 13.0, *) {
@@ -143,7 +147,7 @@ open class MSSegmentedControl: UIControl {
         }
         return view
     }()
-    private let bottomSeparator = MSSeparator()
+    private let bottomSeparator = Separator()
 
     private var isAnimating: Bool = false
 
@@ -233,7 +237,7 @@ open class MSSegmentedControl: UIControl {
     ///   - index: The index of the segment to set as selected
     ///   - animated: Whether or not to animate the change in selected segment
     @objc open func selectSegment(at index: Int, animated: Bool) {
-        precondition(index >= 0 && index < buttons.count, "MSSegmentedControl > try to selected segment index with invalid index: \(index)")
+        precondition(index >= 0 && index < buttons.count, "SegmentedControl > try to selected segment index with invalid index: \(index)")
 
         if index == _selectedSegmentIndex {
             return
@@ -335,8 +339,8 @@ open class MSSegmentedControl: UIControl {
         }
     }
 
-    private func createButton(withTitle title: String) -> MSSegmentedControlButton {
-        let button = MSSegmentedControlButton(style: style)
+    private func createButton(withTitle title: String) -> SegmentedControlButton {
+        let button = SegmentedControlButton(style: style)
         button.setTitle(title, for: .normal)
         button.accessibilityLabel = title
         button.accessibilityHint = String(format: "Accessibility.Segmented.Button.Hint".localized, title)
@@ -344,7 +348,7 @@ open class MSSegmentedControl: UIControl {
         return button
     }
 
-    @objc private func handleButtonTap(_ sender: MSSegmentedControlButton) {
+    @objc private func handleButtonTap(_ sender: SegmentedControlButton) {
         if let index = buttons.firstIndex(of: sender), selectedSegmentIndex != index {
             selectSegment(at: index, animated: isAnimated)
             sendActions(for: .valueChanged)
@@ -405,17 +409,17 @@ open class MSSegmentedControl: UIControl {
     }
 }
 
-// MARK: - MSSegmentedControlButton
+// MARK: - SegmentedControlButton
 
-private class MSSegmentedControlButton: UIButton {
+private class SegmentedControlButton: UIButton {
     private struct Constants {
         static let contentEdgeInsets = UIEdgeInsets(top: 11, left: 12, bottom: 13, right: 12)
         static let contentEdgeInsetsForSwitch = UIEdgeInsets(top: 5, left: 12, bottom: 5, right: 12)
     }
 
-    private let style: MSSegmentedControl.Style
+    private let style: SegmentedControl.Style
 
-    init(style: MSSegmentedControl.Style) {
+    init(style: SegmentedControl.Style) {
         self.style = style
 
         super.init(frame: .zero)
@@ -437,7 +441,7 @@ private class MSSegmentedControlButton: UIButton {
 
     override func invalidateIntrinsicContentSize() {
         super.invalidateIntrinsicContentSize()
-        (superview as? MSSegmentedControl)?.intrinsicContentSizeInvalidatedForChildView()
+        (superview as? SegmentedControl)?.intrinsicContentSizeInvalidatedForChildView()
     }
 
     @objc private func updateFont() {

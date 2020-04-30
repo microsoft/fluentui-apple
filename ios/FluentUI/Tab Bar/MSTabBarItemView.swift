@@ -37,8 +37,8 @@ class MSTabBarItemView: UIView {
         return imageView
     }()
 
-    private let titleLabel: MSLabel = {
-        let titleLabel = MSLabel()
+    private let titleLabel: Label = {
+        let titleLabel = Label()
         titleLabel.lineBreakMode = .byTruncatingTail
         titleLabel.textAlignment = .center
         titleLabel.textColor = MSColors.TabBar.unselected

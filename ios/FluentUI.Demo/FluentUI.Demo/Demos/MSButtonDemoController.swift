@@ -12,13 +12,13 @@ class MSButtonDemoController: DemoController {
 
         container.alignment = .leading
 
-        for style in MSButtonStyle.allCases {
+        for style in ButtonStyle.allCases {
             addTitle(text: style.description)
 
-            let button = MSButton(style: style)
+            let button = Button(style: style)
             button.setTitle("Button", for: .normal)
 
-            let disabledButton = MSButton(style: style)
+            let disabledButton = Button(style: style)
             disabledButton.isEnabled = false
             disabledButton.setTitle("Button", for: .normal)
 
@@ -26,7 +26,7 @@ class MSButtonDemoController: DemoController {
         }
 
         addTitle(text: "With multi-line title")
-        let button = MSButton(style: .primaryFilled)
+        let button = Button(style: .primaryFilled)
         button.setTitle("Longer Text Button", for: .normal)
         button.titleLabel?.numberOfLines = 0
         addRow(items: [button])
@@ -35,7 +35,7 @@ class MSButtonDemoController: DemoController {
     }
 }
 
-extension MSButtonStyle {
+extension ButtonStyle {
     var description: String {
         switch self {
         case .primaryFilled:

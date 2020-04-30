@@ -12,8 +12,8 @@ class MSTableViewHeaderFooterViewDemoController: DemoController {
     private let groupedSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.groupedSections
     private let plainSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.plainSections
 
-    private let segmentedControl: MSSegmentedControl = {
-        let segmentedControl = MSSegmentedControl(items: TableViewHeaderFooterSampleData.tabTitles)
+    private let segmentedControl: SegmentedControl = {
+        let segmentedControl = SegmentedControl(items: TableViewHeaderFooterSampleData.tabTitles)
         segmentedControl.addTarget(self, action: #selector(updateActiveTabContent), for: .valueChanged)
         return segmentedControl
     }()

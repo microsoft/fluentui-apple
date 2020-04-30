@@ -74,7 +74,7 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
 
     private let calendarView = CalendarView()
     private var calendarViewDataSource: CalendarViewDataSource!
-    private var segmentedControl: MSSegmentedControl?
+    private var segmentedControl: SegmentedControl?
 
     private var entireRangeIsVisible: Bool {
         guard let visibleDates = visibleDates else {
@@ -98,8 +98,8 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
         if !mode.singleSelection && rangePresentation == .paged {
             customTitle = selectionMode == .start ? titles?.startTitle : titles?.endTitle
             customSubtitle = selectionMode == .start ?
-                titles?.startSubtitle ?? "DateTimePicker.StartDate".localized :
-                titles?.endSubtitle ?? "DateTimePicker.EndDate".localized
+                titles?.startSubtitle ?? "MSDateTimePicker.StartDate".localized :
+                titles?.endSubtitle ?? "MSDateTimePicker.EndDate".localized
         } else {
             customTitle = titles?.dateTitle
             customSubtitle = titles?.dateSubtitle
@@ -197,14 +197,14 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
     }
 
     private func initNavigationBar() {
-        navigationItem.rightBarButtonItem = MSBarButtonItems.confirm(target: self, action: #selector(handleDidTapDone))
+        navigationItem.rightBarButtonItem = BarButtonItems.confirm(target: self, action: #selector(handleDidTapDone))
         navigationItem.titleView = titleView
     }
 
     private func initSegmentedControl() {
-        let titles = [customStartTabTitle ?? "DateTimePicker.StartDate".localized,
-                      customEndTabTitle ?? "DateTimePicker.EndDate".localized]
-        segmentedControl = MSSegmentedControl(items: titles)
+        let titles = [customStartTabTitle ?? "MSDateTimePicker.StartDate".localized,
+                      customEndTabTitle ?? "MSDateTimePicker.EndDate".localized]
+        segmentedControl = SegmentedControl(items: titles)
         segmentedControl?.addTarget(self, action: #selector(handleDidSelectStartEnd(_:)), for: .valueChanged)
     }
 
@@ -288,7 +288,7 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
         dismiss()
     }
 
-    @objc private func handleDidSelectStartEnd(_ segmentedControl: MSSegmentedControl) {
+    @objc private func handleDidSelectStartEnd(_ segmentedControl: SegmentedControl) {
         selectionManager.selectionMode = segmentedControl.selectedSegmentIndex == 0 ? .start : .end
         updateNavigationBar()
         if let visibleDates = visibleDates, focusDate > visibleDates.endDate || focusDate < visibleDates.startDate {

@@ -5,12 +5,16 @@
 
 import UIKit
 
-// MARK: MSActivityIndicatorViewSize
+// MARK: ActivityIndicatorViewSize
 
 /**
- * `MSActivityIndicatorViewSize` defines the side size of the loader and the thickness of the loader stroke.
+ * `ActivityIndicatorViewSize` defines the side size of the loader and the thickness of the loader stroke.
  */
-@objc public enum MSActivityIndicatorViewSize: Int, CaseIterable {
+@available(*, deprecated, renamed: "ActivityIndicatorViewSize")
+public typealias MSActivityIndicatorViewSize = ActivityIndicatorViewSize
+
+@objc(MSFActivityIndicatorViewSize)
+public enum ActivityIndicatorViewSize: Int, CaseIterable {
     case xSmall
     case small
     case medium
@@ -32,7 +36,7 @@ import UIKit
         }
     }
 
-    var strokeThickness: MSActivityIndicatorStrokeThickness {
+    var strokeThickness: ActivityIndicatorStrokeThickness {
         switch self {
         case .xSmall:
             return .small
@@ -48,22 +52,26 @@ import UIKit
     }
 }
 
-// MARK: - MSActivityIndicatorStrokeThickness
+// MARK: - ActivityIndicatorStrokeThickness
 
-enum MSActivityIndicatorStrokeThickness: CGFloat {
+enum ActivityIndicatorStrokeThickness: CGFloat {
     case small = 1
     case medium = 2
     case large = 3
     case xLarge = 4
 }
 
-// MARK: - MSActivityIndicatorView
+// MARK: - ActivityIndicatorView
 
 /**
- * `MSActivityIndicatorView` is meant to be used as a drop-in replacement of `UIActivityIndicatorView`. Its API strictly matches `UIActivityIndicatorView` API. The only exception is the replacement of `UIActivityIndicatorViewStyle` with `MSActivityIndicatorViewSize` that doesn't include any color definition.
+ * `ActivityIndicatorView` is meant to be used as a drop-in replacement of `UIActivityIndicatorView`. Its API strictly matches `UIActivityIndicatorView` API. The only exception is the replacement of `UIActivityIndicatorViewStyle` with `ActivityIndicatorViewSize` that doesn't include any color definition.
  */
-open class MSActivityIndicatorView: UIView {
-    @objc public static func sizeThatFits(size: MSActivityIndicatorViewSize) -> CGSize {
+@available(*, deprecated, renamed: "ActivityIndicatorView")
+public typealias MSActivityIndicatorView = ActivityIndicatorView
+
+@objc(MSFActivityIndicatorView)
+open class ActivityIndicatorView: UIView {
+    @objc public static func sizeThatFits(size: ActivityIndicatorViewSize) -> CGSize {
         return CGSize(width: size.sideSize, height: size.sideSize)
     }
 
@@ -72,9 +80,9 @@ open class MSActivityIndicatorView: UIView {
         static let rotationAnimationKey: String = "rotationAnimation"
     }
 
-    @objc open var size: MSActivityIndicatorViewSize {
+    @objc open var size: ActivityIndicatorViewSize {
         get {
-            return MSActivityIndicatorViewSize.allCases.first { $0.sideSize == self.sideSize } ?? .medium
+            return ActivityIndicatorViewSize.allCases.first { $0.sideSize == self.sideSize } ?? .medium
         }
         set {
             if size != newValue {
@@ -123,7 +131,7 @@ open class MSActivityIndicatorView: UIView {
     private var sideSize: CGFloat = 0
     private var strokeThickness: CGFloat = 0
 
-    @objc public convenience init(size: MSActivityIndicatorViewSize) {
+    @objc public convenience init(size: ActivityIndicatorViewSize) {
         self.init(sideSize: size.sideSize, strokeThickness: size.strokeThickness.rawValue)
     }
 

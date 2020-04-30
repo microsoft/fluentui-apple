@@ -109,7 +109,7 @@ open class MSPeoplePicker: BadgeField {
 
     private let personaListView = MSPersonaListView()
 
-    private let separator = MSSeparator()
+    private let separator = Separator()
 
     @objc public override init() {
         super.init()

@@ -88,7 +88,7 @@ class MSTableViewCellSampleData: TableViewSampleData {
     ]
 
     static var customAccessoryView: UIView {
-        let label = MSLabel(style: .body, colorStyle: .secondary)
+        let label = Label(style: .body, colorStyle: .secondary)
         label.text = "PowerPoint Presentation"
         label.sizeToFit()
         label.numberOfLines = 0
@@ -162,7 +162,7 @@ class MSTableViewCellSampleData: TableViewSampleData {
         stackView.distribution = .fill
         stackView.axis = .vertical
 
-        let label = MSLabel(style: .footnote)
+        let label = Label(style: .footnote)
         label.textColor = MSColors.foreground3
         label.text = text
         stackView.addArrangedSubview(label)

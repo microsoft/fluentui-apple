@@ -166,7 +166,7 @@ private class MSHUDIndicatorView: UIView {
     private static func createContentView(type: MSHUDType) -> UIView {
         switch type {
         case .activity:
-            let activityIndicatorView = MSActivityIndicatorView(size: .xLarge)
+            let activityIndicatorView = ActivityIndicatorView(size: .xLarge)
             activityIndicatorView.color = MSColors.HUD.activityIndicator
             activityIndicatorView.startAnimating()
             return activityIndicatorView

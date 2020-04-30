@@ -37,7 +37,7 @@
         [[self.container widthAnchor] constraintEqualToAnchor:[self.scrollingContainer widthAnchor]],
     ]];
 
-    MSButton *testButton = [self createButtonWithTitle:@"Test" action:nil];
+    MSFButton *testButton = [self createButtonWithTitle:@"Test" action:nil];
     [self.container addArrangedSubview:testButton];
 }
 
@@ -57,8 +57,8 @@
     self.navigationItem.titleView = self.titleView;
 }
 
-- (MSButton *)createButtonWithTitle:(NSString *)title action:(SEL)action {
-    MSButton* button = [[MSButton alloc] init];
+- (MSFButton *)createButtonWithTitle:(NSString *)title action:(SEL)action {
+    MSFButton* button = [[MSFButton alloc] init];
     button.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     [button setTitle:title forState:UIControlStateNormal];
     [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
@@ -66,7 +66,7 @@
 }
 
 - (void)addTitleWithText:(NSString*)text {
-    MSLabel* titleLabel = [[MSLabel alloc] initWithStyle:MSTextStyleHeadline colorStyle:MSTextColorStyleRegular];
+    MSFLabel* titleLabel = [[MSFLabel alloc] initWithStyle:MSTextStyleHeadline colorStyle:MSTextColorStyleRegular];
     titleLabel.text = text;
     titleLabel.textAlignment = NSTextAlignmentCenter;
     [self.container addArrangedSubview:titleLabel];

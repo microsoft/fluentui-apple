@@ -5,9 +5,13 @@
 
 import UIKit
 
-// MARK: MSButtonStyle
+// MARK: ButtonStyle
 
-@objc public enum MSButtonStyle: Int, CaseIterable {
+@available(*, deprecated, renamed: "ButtonStyle")
+public typealias MSButtonStyle = ButtonStyle
+
+@objc(MSFButtonStyle)
+public enum ButtonStyle: Int, CaseIterable {
     case primaryFilled
     case primaryOutline
     case secondaryOutline
@@ -64,16 +68,20 @@ import UIKit
     }
 }
 
-// MARK: - MSButton
+// MARK: - Button
 
 /// By default, `titleLabel`'s `adjustsFontForContentSizeCategory` is set to true to automatically update its font when device's content size category changes
+@available(*, deprecated, renamed: "Button")
+public typealias MSButton = Button
+
 @IBDesignable
-open class MSButton: UIButton {
+@objc(MSFButton)
+open class Button: UIButton {
     private struct Constants {
         static let borderWidth: CGFloat = 1
     }
 
-    @objc open var style: MSButtonStyle = .secondaryOutline {
+    @objc open var style: ButtonStyle = .secondaryOutline {
         didSet {
             if style != oldValue {
                 update()
@@ -113,7 +121,7 @@ open class MSButton: UIButton {
         }
     }
 
-    @objc public init(style: MSButtonStyle = .secondaryOutline) {
+    @objc public init(style: ButtonStyle = .secondaryOutline) {
         self.style = style
         super.init(frame: .zero)
         initialize()

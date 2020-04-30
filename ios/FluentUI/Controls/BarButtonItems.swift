@@ -5,7 +5,10 @@
 
 import UIKit
 
-public final class MSBarButtonItems: NSObject {
+@available(*, deprecated, renamed: "BarButtonItems")
+public typealias MSBarButtonItems = BarButtonItems
+
+public final class BarButtonItems: NSObject {
     @objc static func confirm(target: Any?, action: Selector?) -> UIBarButtonItem {
         let image = UIImage.staticImageNamed("checkmark-24x24")
         let landscapeImage = UIImage.staticImageNamed("checkmark-thin-20x20")

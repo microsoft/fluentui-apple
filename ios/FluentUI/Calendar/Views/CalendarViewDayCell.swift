@@ -80,7 +80,7 @@ class CalendarViewDayCell: UICollectionViewCell {
 
     private let selectionOverlayView: SelectionOverlayView
     let dateLabel: UILabel
-    let dotView: MSDotView
+    let dotView: DotView
 
     override init(frame: CGRect) {
         // Initialize subviews
@@ -97,7 +97,7 @@ class CalendarViewDayCell: UICollectionViewCell {
         dateLabel.textAlignment = .center
         dateLabel.textColor = MSColors.Calendar.Day.textPrimary
 
-        dotView = MSDotView()
+        dotView = DotView()
         dotView.color = MSColors.Calendar.Day.textPrimary
         dotView.alpha = 0.0  // Initial `visualState` is `.Normal` without dots
         dotView.isUserInteractionEnabled = false
@@ -241,7 +241,7 @@ private class SelectionOverlayView: UIView {
     // Lazy load views as every additional subview impacts the "Calendar"
     // tab loading time because the MSDatePicker needs
     // to initialize N * 7 cells when loading the view
-    private var circleView: MSDotView?
+    private var circleView: DotView?
     private var squareView: UIView?
 
     override func layoutSubviews() {
@@ -287,7 +287,7 @@ private class SelectionOverlayView: UIView {
 
     private func setupCircleView() {
         if circleView == nil {
-            circleView = MSDotView()
+            circleView = DotView()
         }
 
         setupView(circleView!)

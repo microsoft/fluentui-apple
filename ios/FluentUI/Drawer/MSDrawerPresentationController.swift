@@ -51,8 +51,8 @@ class MSDrawerPresentationController: UIPresentationController {
         }
         return view
     }()
-    private lazy var dimmingView: MSDimmingView = {
-        let view = MSDimmingView(type: presentationBackground.dimmingViewType)
+    private lazy var dimmingView: DimmingView = {
+        let view = DimmingView(type: presentationBackground.dimmingViewType)
         view.isUserInteractionEnabled = false
         return view
     }()
@@ -64,7 +64,7 @@ class MSDrawerPresentationController: UIPresentationController {
         return DrawerShadowView(shadowDirection: actualPresentationOffset == 0 ? presentationDirection : nil)
     }()
     // Imitates the bottom shadow of navigation bar or top shadow of toolbar because original ones are hidden by presented view
-    private lazy var separator = MSSeparator(style: .shadow)
+    private lazy var separator = Separator(style: .shadow)
 
     // MARK: Presentation
 
