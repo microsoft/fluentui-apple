@@ -57,8 +57,8 @@ class MSNotificationViewDemoController: DemoController {
         }
     }
 
-    private func createNotificationView(forVariant variant: Variant) -> MSNotificationView {
-        let view = MSNotificationView()
+    private func createNotificationView(forVariant variant: Variant) -> NotificationView {
+        let view = NotificationView()
         switch variant {
         case .primaryToast:
             view.setup(style: .primaryToast, message: "Mail Archived", actionTitle: "Undo", action: { [unowned self] in self.showMessage("`Undo` tapped") })

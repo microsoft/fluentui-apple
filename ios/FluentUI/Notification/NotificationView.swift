@@ -5,8 +5,11 @@
 
 import UIKit
 
+@available(*, deprecated, renamed: "NotificationView")
+public typealias MSNotificationView = NotificationView
+
 /**
- `MSNotificationView` can be used to present a toast (`.primaryToast` and `.neutralToast` styles) or a notification bar (`.primaryBar`, `.primaryOutlineBar`, and `.neutralBar` styles) with information and actions at the bottom of the screen.
+ `NotificationView` can be used to present a toast (`.primaryToast` and `.neutralToast` styles) or a notification bar (`.primaryBar`, `.primaryOutlineBar`, and `.neutralBar` styles) with information and actions at the bottom of the screen.
 
  This view can be inserted into layout manually, if needed, or by using the `show` and `hide` methods which implement default presentation (with or without animation). Positioning is done using constraints.
 
@@ -16,7 +19,8 @@ import UIKit
 
  When used as a notification bar some functionality like `title`, `image` and actions are not supported. A convenience method `setupAsBar` can be used to initialize notification bar and assign only supported properties.
  */
-open class MSNotificationView: UIView {
+@objc(MSFNotificationView)
+open class NotificationView: UIView {
     @objc(MSFNotificationViewStyle)
     public enum Style: Int {
         case primaryToast
@@ -93,7 +97,7 @@ open class MSNotificationView: UIView {
 
     @objc public static var allowsMultipleToasts: Bool = false
 
-    private static var currentToast: MSNotificationView? {
+    private static var currentToast: NotificationView? {
         didSet {
             if allowsMultipleToasts {
                 currentToast = nil
@@ -271,12 +275,12 @@ open class MSNotificationView: UIView {
     ///   - anchorView: The view used as the bottom anchor for presentation (notification view is always presented up from the anchor). When no anchor view is provided the bottom anchor of the container's safe area is used.
     ///   - animated: Indicates whether to use animation during presentation or not.
     ///   - completion: The closure to be called after presentation is completed. Can be used to call `hide` with a delay.
-    @objc open func show(in view: UIView, from anchorView: UIView? = nil, animated: Bool = true, completion: ((MSNotificationView) -> Void)? = nil) {
+    @objc open func show(in view: UIView, from anchorView: UIView? = nil, animated: Bool = true, completion: ((NotificationView) -> Void)? = nil) {
         if isShown {
             return
         }
 
-        if style.isToast, let currentToast = MSNotificationView.currentToast {
+        if style.isToast, let currentToast = NotificationView.currentToast {
             currentToast.hide(animated: animated) {
                 self.show(in: view, from: anchorView, animated: animated, completion: completion)
             }
@@ -301,7 +305,7 @@ open class MSNotificationView: UIView {
 
         isShown = true
         if style.isToast {
-            MSNotificationView.currentToast = self
+            NotificationView.currentToast = self
         }
 
         let completionForShow = { (_: Bool) in
@@ -325,7 +329,7 @@ open class MSNotificationView: UIView {
     ///   - controller: The container controller whose view will be used for this view's presentation.
     ///   - animated: Indicates whether to use animation during presentation or not.
     ///   - completion: The closure to be called after presentation is completed. Can be used to call `hide` with a delay.
-    @objc open func show(from controller: UIViewController, animated: Bool = true, completion: ((MSNotificationView) -> Void)? = nil) {
+    @objc open func show(from controller: UIViewController, animated: Bool = true, completion: ((NotificationView) -> Void)? = nil) {
         if isShown {
             return
         }
@@ -366,8 +370,8 @@ open class MSNotificationView: UIView {
             UIAccessibility.post(notification: .layoutChanged, argument: nil)
 
             self.isShown = false
-            if MSNotificationView.currentToast == self {
-                MSNotificationView.currentToast = nil
+            if NotificationView.currentToast == self {
+                NotificationView.currentToast = nil
             }
 
             self.completionsForHide.forEach { $0() }
