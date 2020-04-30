@@ -51,7 +51,7 @@ class TooltipView: UIView {
         return message.preferredSize(for: Constants.messageLabelTextStyle.font, width: boundingWidth, numberOfLines: Constants.maxLines)
     }
 
-    let positionController: MSTooltipPositionController
+    let positionController: TooltipPositionController
 
     private let message: String
 
@@ -74,7 +74,7 @@ class TooltipView: UIView {
         return label
     }()
 
-    init(message: String, textAlignment: NSTextAlignment, positionController: MSTooltipPositionController) {
+    init(message: String, textAlignment: NSTextAlignment, positionController: TooltipPositionController) {
         self.message = message
         self.positionController = positionController
 

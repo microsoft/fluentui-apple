@@ -83,7 +83,7 @@ open class MSTooltip: NSObject {
         }
 
         let boundingRect = window.bounds.inset(by: window.safeAreaInsets).inset(by: screenMargins)
-        let positionController = MSTooltipPositionController(anchorView: anchorView, message: message, boundingRect: boundingRect, preferredArrowDirection: preferredArrowDirection, offset: offset, arrowMargin: TooltipView.backgroundCornerRadius, arrowWidth: TooltipView.arrowSize.width)
+        let positionController = TooltipPositionController(anchorView: anchorView, message: message, boundingRect: boundingRect, preferredArrowDirection: preferredArrowDirection, offset: offset, arrowMargin: TooltipView.backgroundCornerRadius, arrowWidth: TooltipView.arrowSize.width)
         let tooltipView = TooltipView(message: message, textAlignment: textAlignment, positionController: positionController)
 
         self.tooltipView = tooltipView

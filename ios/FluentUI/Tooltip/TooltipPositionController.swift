@@ -5,9 +5,9 @@
 
 import UIKit
 
-// MARK: MSTooltipPositionController
+// MARK: TooltipPositionController
 
-class MSTooltipPositionController {
+class TooltipPositionController {
     let anchorView: UIView
     private(set) var arrowDirection: MSTooltip.ArrowDirection = .down
 
