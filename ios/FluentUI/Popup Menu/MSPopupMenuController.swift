@@ -22,8 +22,8 @@ open class MSPopupMenuController: MSDrawerController {
 
     open override var contentView: UIView? { get { return super.contentView } set { } }
 
-    open override var presentationStyle: MSDrawerPresentationStyle { get { return .automatic } set { } }
-    open override var resizingBehavior: MSDrawerResizingBehavior { get { return .dismiss } set { } }
+    open override var presentationStyle: DrawerPresentationStyle { get { return .automatic } set { } }
+    open override var resizingBehavior: DrawerResizingBehavior { get { return .dismiss } set { } }
 
     open override var preferredContentSize: CGSize { get { return super.preferredContentSize } set { } }
     open override var preferredContentWidth: CGFloat {

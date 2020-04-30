@@ -23,14 +23,14 @@ class MSDrawerTransitionAnimator: NSObject {
         return max(Constants.animationDurationMin, min(duration, Constants.animationDurationMax))
     }
 
-    static func sizeChange(forPresentedView presentedView: UIView, presentationDirection: MSDrawerPresentationDirection) -> CGFloat {
+    static func sizeChange(forPresentedView presentedView: UIView, presentationDirection: DrawerPresentationDirection) -> CGFloat {
         return presentationDirection.isVertical ? presentedView.frame.height : presentedView.frame.width
     }
 
     let presenting: Bool
-    let presentationDirection: MSDrawerPresentationDirection
+    let presentationDirection: DrawerPresentationDirection
 
-    init(presenting: Bool, presentationDirection: MSDrawerPresentationDirection) {
+    init(presenting: Bool, presentationDirection: DrawerPresentationDirection) {
         self.presenting = presenting
         self.presentationDirection = presentationDirection
         super.init()

@@ -30,7 +30,7 @@ class DrawerShadowView: UIView {
 
     private var animationDuration: TimeInterval = 0
 
-    init(shadowDirection: MSDrawerPresentationDirection?) {
+    init(shadowDirection: DrawerPresentationDirection?) {
         super.init(frame: .zero)
         layer.shadowRadius = Constants.shadowRadius
         layer.shadowOffset = shadowOffset(for: shadowDirection)
@@ -72,7 +72,7 @@ class DrawerShadowView: UIView {
         super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
     }
 
-    private func shadowOffset(for shadowDirection: MSDrawerPresentationDirection?) -> CGSize {
+    private func shadowOffset(for shadowDirection: DrawerPresentationDirection?) -> CGSize {
         var offset = CGSize.zero
         if let shadowDirection = shadowDirection {
             switch shadowDirection {

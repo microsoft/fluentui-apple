@@ -5,17 +5,25 @@
 
 import UIKit
 
-// MARK: MSDrawerResizingBehavior
+// MARK: DrawerResizingBehavior
 
-@objc public enum MSDrawerResizingBehavior: Int {
+@available(*, deprecated, renamed: "DrawerResizingBehavior")
+public typealias MSDrawerResizingBehavior = DrawerResizingBehavior
+
+@objc(MSFDrawerResizingBehavior)
+public enum DrawerResizingBehavior: Int {
     case none
     case dismiss
     case dismissOrExpand
 }
 
-// MARK: - MSDrawerPresentationDirection
+// MARK: - DrawerPresentationDirection
 
-@objc public enum MSDrawerPresentationDirection: Int {
+@available(*, deprecated, renamed: "DrawerPresentationDirection")
+public typealias MSDrawerPresentationDirection = DrawerPresentationDirection
+
+@objc(MSFDrawerPresentationDirection)
+public enum DrawerPresentationDirection: Int {
     /// Drawer animated down from a top base
     case down
     /// Drawer animated up from a bottom base
@@ -29,18 +37,26 @@ import UIKit
     var isHorizontal: Bool { return !isVertical }
 }
 
-// MARK: - MSDrawerPresentationStyle
+// MARK: - DrawerPresentationStyle
 
-@objc public enum MSDrawerPresentationStyle: Int {
+@available(*, deprecated, renamed: "DrawerPresentationStyle")
+public typealias MSDrawerPresentationStyle = DrawerPresentationStyle
+
+@objc(MSFDrawerPresentationStyle)
+public enum DrawerPresentationStyle: Int {
     /// Always `.slideover` for horizontal presentation. For vertical presentation results in `.slideover` in horizontally compact environments, `.popover` otherwise.
     case automatic = -1
     case slideover
     case popover
 }
 
-// MARK: - MSDrawerPresentationBackground
+// MARK: - DrawerPresentationBackground
 
-@objc public enum MSDrawerPresentationBackground: Int {
+@available(*, deprecated, renamed: "DrawerPresentationBackground")
+public typealias MSDrawerPresentationBackground = DrawerPresentationBackground
+
+@objc(MSFDrawerPresentationBackground)
+public enum DrawerPresentationBackground: Int {
     /// Clear background
     case none
     /// Black semi-transparent background
@@ -56,9 +72,12 @@ import UIKit
     }
 }
 
-// MARK: - MSDrawerControllerDelegate
+// MARK: - DrawerControllerDelegate
+@available(*, deprecated, renamed: "DrawerControllerDelegate")
+public typealias MSDrawerControllerDelegate = DrawerControllerDelegate
 
-@objc public protocol MSDrawerControllerDelegate: class {
+@objc(MSFDrawerControllerDelegate)
+public protocol DrawerControllerDelegate: class {
     /**
      Called when a user resizes the drawer enough to change its expanded state. Use `isExpanded` property to get the current state.
 
@@ -153,7 +172,7 @@ open class MSDrawerController: UIViewController {
     }
 
     /// When `presentationStyle` is `.automatic` (the default value) drawer is presented as a slideover in horizontally compact environments and as a popover otherwise. For horizontal presentation a slideover is always used. Set this property to a specific presentation style to enforce it in all environments.
-    @objc open var presentationStyle: MSDrawerPresentationStyle = .automatic
+    @objc open var presentationStyle: DrawerPresentationStyle = .automatic
     /// Use `presentationOffset` to offset drawer from the presentation base in the direction of presentation. Only supported in horizontally regular environments for vertical presentation.
     @objc open var presentationOffset: CGFloat = 0 {
         didSet {
@@ -164,7 +183,7 @@ open class MSDrawerController: UIViewController {
             }
         }
     }
-    @objc open var presentationBackground: MSDrawerPresentationBackground = .black
+    @objc open var presentationBackground: DrawerPresentationBackground = .black
 
     /**
      Set `presentingGesture` before calling `present` to provide a gesture recognizer that resulted in the presentation of the drawer and to allow this presentation to be interactive.
@@ -198,7 +217,7 @@ open class MSDrawerController: UIViewController {
 
      Resizing is supported only when drawer is presented as a slideover. `.dismissOrExpand` is not supported for horizontal presentation.
      */
-    @objc open var resizingBehavior: MSDrawerResizingBehavior = .none {
+    @objc open var resizingBehavior: DrawerResizingBehavior = .none {
         didSet {
             if presentationDirection.isHorizontal && resizingBehavior == .dismissOrExpand {
                 resizingBehavior = .dismiss
@@ -307,13 +326,13 @@ open class MSDrawerController: UIViewController {
     /// `onDismissCompleted` is called after drawer has been dismissed.
     @objc open var onDismissCompleted: (() -> Void)?
 
-    @objc public weak var delegate: MSDrawerControllerDelegate?
+    @objc public weak var delegate: DrawerControllerDelegate?
 
     private let sourceView: UIView?
     private let sourceRect: CGRect?
     private let barButtonItem: UIBarButtonItem?
     private let presentationOrigin: CGFloat?
-    private let presentationDirection: MSDrawerPresentationDirection
+    private let presentationDirection: DrawerPresentationDirection
 
     private var isPreferredContentSizeBeingChangedInternally: Bool = false
     private var normalDrawerHeight: CGFloat = 0
@@ -339,7 +358,7 @@ open class MSDrawerController: UIViewController {
      - Parameter presentationOrigin: The offset (in screen coordinates) from which to show a slideover. If not provided it will be calculated automatically: bottom of navigation bar for `.down` presentation and edge of the screen for other presentations.
      - Parameter presentationDirection: The direction of slideover presentation.
      */
-    @objc public init(sourceView: UIView, sourceRect: CGRect, presentationOrigin: CGFloat = -1, presentationDirection: MSDrawerPresentationDirection) {
+    @objc public init(sourceView: UIView, sourceRect: CGRect, presentationOrigin: CGFloat = -1, presentationDirection: DrawerPresentationDirection) {
         self.sourceView = sourceView
         self.sourceRect = sourceRect
         self.barButtonItem = nil
@@ -358,7 +377,7 @@ open class MSDrawerController: UIViewController {
      - Parameter presentationOrigin: The offset (in screen coordinates) from which to show a slideover. If not provided it will be calculated automatically: bottom of navigation bar for `.down` presentation and edge of the screen for other presentations.
      - Parameter presentationDirection: The direction of slideover presentation.
      */
-    @objc public init(barButtonItem: UIBarButtonItem, presentationOrigin: CGFloat = -1, presentationDirection: MSDrawerPresentationDirection) {
+    @objc public init(barButtonItem: UIBarButtonItem, presentationOrigin: CGFloat = -1, presentationDirection: DrawerPresentationDirection) {
         self.sourceView = nil
         self.sourceRect = nil
         self.barButtonItem = barButtonItem
@@ -478,7 +497,7 @@ open class MSDrawerController: UIViewController {
     }
 
     // Change of presentation direction's orientation is not supported
-    private func presentationDirection(for view: UIView) -> MSDrawerPresentationDirection {
+    private func presentationDirection(for view: UIView) -> DrawerPresentationDirection {
         if presentationDirection.isHorizontal && view.effectiveUserInterfaceLayoutDirection == .rightToLeft {
             return presentationDirection == .fromLeading ? .fromTrailing : .fromLeading
         }

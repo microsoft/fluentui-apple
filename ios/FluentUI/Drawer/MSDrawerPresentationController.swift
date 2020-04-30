@@ -17,11 +17,11 @@ class MSDrawerPresentationController: UIPresentationController {
     let sourceViewController: UIViewController
     let sourceObject: Any?
     let presentationOrigin: CGFloat?
-    let presentationDirection: MSDrawerPresentationDirection
+    let presentationDirection: DrawerPresentationDirection
     let presentationOffset: CGFloat
-    let presentationBackground: MSDrawerPresentationBackground
+    let presentationBackground: DrawerPresentationBackground
 
-    init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?, source: UIViewController, sourceObject: Any?, presentationOrigin: CGFloat?, presentationDirection: MSDrawerPresentationDirection, presentationOffset: CGFloat, presentationBackground: MSDrawerPresentationBackground, adjustHeightForKeyboard: Bool) {
+    init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?, source: UIViewController, sourceObject: Any?, presentationOrigin: CGFloat?, presentationDirection: DrawerPresentationDirection, presentationOffset: CGFloat, presentationBackground: DrawerPresentationBackground, adjustHeightForKeyboard: Bool) {
         sourceViewController = source
         self.sourceObject = sourceObject
         self.presentationOrigin = presentationOrigin
