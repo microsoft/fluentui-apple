@@ -180,7 +180,7 @@
 		FD256C5B2183B90B00EC9588 /* DatePickerSelectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD256C5A2183B90B00EC9588 /* DatePickerSelectionManager.swift */; };
 		FD26DBD02298B35F0011178B /* MSTooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05B21FA7F5000857267 /* MSTooltip.swift */; };
 		FD26DBD12298B3610011178B /* MSTooltipPositionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05F21FA83C900857267 /* MSTooltipPositionController.swift */; };
-		FD26DBD22298B3630011178B /* MSTooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05D21FA7FC100857267 /* MSTooltipView.swift */; };
+		FD26DBD22298B3630011178B /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05D21FA7FC100857267 /* TooltipView.swift */; };
 		FD36F1A9216C0A6900CECBC6 /* CardPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA1AF9221487225001AE720 /* CardPresentationController.swift */; };
 		FD41C88422DD13230086F899 /* ContentScrollViewTraits.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C86E22DD13230086F899 /* ContentScrollViewTraits.swift */; };
 		FD41C88522DD13230086F899 /* ContentScrollViewTraits.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C86E22DD13230086F899 /* ContentScrollViewTraits.swift */; };
@@ -228,7 +228,7 @@
 		FD77752D219E62E100033D58 /* DateTimePickerViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77752C219E62E100033D58 /* DateTimePickerViewLayout.swift */; };
 		FD77753021A490BA00033D58 /* DateTimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77752F21A490BA00033D58 /* DateTimePicker.swift */; };
 		FD7DF05C21FA7F5000857267 /* MSTooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05B21FA7F5000857267 /* MSTooltip.swift */; };
-		FD7DF05E21FA7FC100857267 /* MSTooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05D21FA7FC100857267 /* MSTooltipView.swift */; };
+		FD7DF05E21FA7FC100857267 /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05D21FA7FC100857267 /* TooltipView.swift */; };
 		FD7DF06021FA83C900857267 /* MSTooltipPositionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05F21FA83C900857267 /* MSTooltipPositionController.swift */; };
 		FD97580F2191118E00B67319 /* DateTimePickerViewComponentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD97580A2191118E00B67319 /* DateTimePickerViewComponentCell.swift */; };
 		FD9A5C872179464F00D224D9 /* DateComponents+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9A5C862179464F00D224D9 /* DateComponents+Extensions.swift */; };
@@ -379,7 +379,7 @@
 		FD77752C219E62E100033D58 /* DateTimePickerViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimePickerViewLayout.swift; sourceTree = "<group>"; };
 		FD77752F21A490BA00033D58 /* DateTimePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimePicker.swift; sourceTree = "<group>"; };
 		FD7DF05B21FA7F5000857267 /* MSTooltip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTooltip.swift; sourceTree = "<group>"; };
-		FD7DF05D21FA7FC100857267 /* MSTooltipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTooltipView.swift; sourceTree = "<group>"; };
+		FD7DF05D21FA7FC100857267 /* TooltipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipView.swift; sourceTree = "<group>"; };
 		FD7DF05F21FA83C900857267 /* MSTooltipPositionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTooltipPositionController.swift; sourceTree = "<group>"; };
 		FD8D26422253FF330078E1D3 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FD8D26432253FF330078E1D3 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ar; path = ar.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
@@ -862,7 +862,7 @@
 			children = (
 				FD7DF05B21FA7F5000857267 /* MSTooltip.swift */,
 				FD7DF05F21FA83C900857267 /* MSTooltipPositionController.swift */,
-				FD7DF05D21FA7FC100857267 /* MSTooltipView.swift */,
+				FD7DF05D21FA7FC100857267 /* TooltipView.swift */,
 			);
 			path = Tooltip;
 			sourceTree = "<group>";
@@ -1118,7 +1118,7 @@
 				8FD01176228A82A600D25925 /* CalendarViewDayMonthYearCell.swift in Sources */,
 				8FD01177228A82A600D25925 /* CalendarViewDayTodayCell.swift in Sources */,
 				A52648DD2316F4F9003342A0 /* BarButtonItems.swift in Sources */,
-				FD26DBD22298B3630011178B /* MSTooltipView.swift in Sources */,
+				FD26DBD22298B3630011178B /* TooltipView.swift in Sources */,
 				8FD01178228A82A600D25925 /* CalendarViewMonthBannerView.swift in Sources */,
 				8FD01179228A82A600D25925 /* CalendarViewWeekdayHeadingView.swift in Sources */,
 				FD41C89D22DD13230086F899 /* SearchBar.swift in Sources */,
@@ -1303,7 +1303,7 @@
 				FDA1AF91214871B5001AE720 /* CardTransitionAnimator.swift in Sources */,
 				A5237ACD21ED6CA70040BF27 /* DrawerShadowView.swift in Sources */,
 				FD9DA7B5232C33A80013E41B /* UIViewController+Navigation.swift in Sources */,
-				FD7DF05E21FA7FC100857267 /* MSTooltipView.swift in Sources */,
+				FD7DF05E21FA7FC100857267 /* TooltipView.swift in Sources */,
 				A5CEC16F20D98F340016922A /* Fonts.swift in Sources */,
 				FD599D0C2134AB1E008845EE /* CalendarViewDataSource.swift in Sources */,
 				A5B87B04211E22B70038C37C /* DimmingView.swift in Sources */,

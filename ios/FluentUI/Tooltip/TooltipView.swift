@@ -5,9 +5,9 @@
 
 import UIKit
 
-// MARK: MSTooltipView
+// MARK: TooltipView
 
-class MSTooltipView: UIView {
+class TooltipView: UIView {
     private struct Constants {
         static let messageLabelTextStyle: TextStyle = .subhead
 

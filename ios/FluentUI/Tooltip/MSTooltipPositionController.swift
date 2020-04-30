@@ -98,8 +98,8 @@ class MSTooltipPositionController {
     private func setupArrowDirectionAndTooltipSize(for message: String) {
         let preferredBoundingRect = boundingRect.inset(by: anchorViewInset(for: preferredArrowDirection))
         let backupBoundingRect = boundingRect.inset(by: anchorViewInset(for: preferredArrowDirection.opposite))
-        let preferredSize = MSTooltipView.sizeThatFits(preferredBoundingRect.size, message: message, arrowDirection: preferredArrowDirection)
-        let backupSize = MSTooltipView.sizeThatFits(backupBoundingRect.size, message: message, arrowDirection: preferredArrowDirection.opposite)
+        let preferredSize = TooltipView.sizeThatFits(preferredBoundingRect.size, message: message, arrowDirection: preferredArrowDirection)
+        let backupSize = TooltipView.sizeThatFits(backupBoundingRect.size, message: message, arrowDirection: preferredArrowDirection.opposite)
 
         var usePreferred = true
         if preferredArrowDirection.isVertical {

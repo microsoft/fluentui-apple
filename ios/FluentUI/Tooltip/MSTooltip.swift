@@ -57,7 +57,7 @@ open class MSTooltip: NSObject {
     /// Whether a tooltip is currently showing.
     @objc public private(set) var isShowing: Bool = false
 
-    private var tooltipView: MSTooltipView?
+    private var tooltipView: TooltipView?
     private var onTap: (() -> Void)?
     private var gestureView: UIView?
     private var dismissMode: DismissMode = .tapAnywhere
@@ -83,8 +83,8 @@ open class MSTooltip: NSObject {
         }
 
         let boundingRect = window.bounds.inset(by: window.safeAreaInsets).inset(by: screenMargins)
-        let positionController = MSTooltipPositionController(anchorView: anchorView, message: message, boundingRect: boundingRect, preferredArrowDirection: preferredArrowDirection, offset: offset, arrowMargin: MSTooltipView.backgroundCornerRadius, arrowWidth: MSTooltipView.arrowSize.width)
-        let tooltipView = MSTooltipView(message: message, textAlignment: textAlignment, positionController: positionController)
+        let positionController = MSTooltipPositionController(anchorView: anchorView, message: message, boundingRect: boundingRect, preferredArrowDirection: preferredArrowDirection, offset: offset, arrowMargin: TooltipView.backgroundCornerRadius, arrowWidth: TooltipView.arrowSize.width)
+        let tooltipView = TooltipView(message: message, textAlignment: textAlignment, positionController: positionController)
 
         self.tooltipView = tooltipView
         tooltipView.accessibilityViewIsModal = true
