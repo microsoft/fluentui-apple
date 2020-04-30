@@ -13,4 +13,4 @@
 "DATEPICKER_ACCESSIBILITY_PREVIOUS_MONTH_LABEL" = "Предыдущий месяц";
 
 /* Accessibility label for the calendar day grid */
-"DATEPICKER_ACCESSIBILITY_CALENDAR_VIEW_LABEL" = "Дневная сетка";
+"DATEPICKER_ACCESSIBILITY_CALENDAR_VIEW_LABEL" = "Сетка дня";

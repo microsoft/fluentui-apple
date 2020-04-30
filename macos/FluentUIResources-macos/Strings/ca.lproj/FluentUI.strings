@@ -7,7 +7,7 @@
 "DATEPICKER_ACCESSIBILITY_DATEPICKER_LABEL" = "Selector de data";
 
 /* Accessibility label for the next month button */
-"DATEPICKER_ACCESSIBILITY_NEXT_MONTH_LABEL" = "El proper mes";
+"DATEPICKER_ACCESSIBILITY_NEXT_MONTH_LABEL" = "El mes que ve";
 
 /* Accessibility label for the previous month button */
 "DATEPICKER_ACCESSIBILITY_PREVIOUS_MONTH_LABEL" = "El mes anterior";

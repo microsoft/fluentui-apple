@@ -13,4 +13,4 @@
 "DATEPICKER_ACCESSIBILITY_PREVIOUS_MONTH_LABEL" = "Poprzedni miesiąc";
 
 /* Accessibility label for the calendar day grid */
-"DATEPICKER_ACCESSIBILITY_CALENDAR_VIEW_LABEL" = "Siatka dzienna";
+"DATEPICKER_ACCESSIBILITY_CALENDAR_VIEW_LABEL" = "Siatka dni";

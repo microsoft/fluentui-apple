@@ -13,4 +13,4 @@
 "DATEPICKER_ACCESSIBILITY_PREVIOUS_MONTH_LABEL" = "Mois précédent";
 
 /* Accessibility label for the calendar day grid */
-"DATEPICKER_ACCESSIBILITY_CALENDAR_VIEW_LABEL" = "Grille de jour";
+"DATEPICKER_ACCESSIBILITY_CALENDAR_VIEW_LABEL" = "Grille du jour";

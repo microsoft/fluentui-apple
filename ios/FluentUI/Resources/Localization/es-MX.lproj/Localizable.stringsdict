@@ -63,7 +63,7 @@
         <key>zero</key>
         <string>Se encontraron %d resultados en el directorio</string>
         <key>one</key>
-        <string>%d resultado encontrado en el directorio</string>
+        <string>Se encontró %d resultado en el directorio</string>
         <key>two</key>
         <string>Se encontraron %d resultados en el directorio</string>
         <key>few</key>

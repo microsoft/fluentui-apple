@@ -13,4 +13,4 @@
 "DATEPICKER_ACCESSIBILITY_PREVIOUS_MONTH_LABEL" = "Mês anterior";
 
 /* Accessibility label for the calendar day grid */
-"DATEPICKER_ACCESSIBILITY_CALENDAR_VIEW_LABEL" = "Grade do dia";
+"DATEPICKER_ACCESSIBILITY_CALENDAR_VIEW_LABEL" = "Grade de dias";

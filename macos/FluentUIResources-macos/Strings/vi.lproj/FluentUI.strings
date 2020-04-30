@@ -7,7 +7,7 @@
 "DATEPICKER_ACCESSIBILITY_DATEPICKER_LABEL" = "Bộ chọn ngày";
 
 /* Accessibility label for the next month button */
-"DATEPICKER_ACCESSIBILITY_NEXT_MONTH_LABEL" = "Tháng tới";
+"DATEPICKER_ACCESSIBILITY_NEXT_MONTH_LABEL" = "Tháng sau";
 
 /* Accessibility label for the previous month button */
 "DATEPICKER_ACCESSIBILITY_PREVIOUS_MONTH_LABEL" = "Tháng trước";
