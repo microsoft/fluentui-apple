@@ -22,7 +22,7 @@
 		56DA1CDA2452361B008D745E /* ShimmerViewAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0938E45235F66E300256251 /* ShimmerViewAppearance.swift */; };
 		56DA1CDB2452361E008D745E /* ShimmerLinesViewAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A0D76C233AEF6C00F432FD /* ShimmerLinesViewAppearance.swift */; };
 		56DA1CDC24523624008D745E /* ShimmerAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A0D76A233AEF6C00F432FD /* ShimmerAppearance.swift */; };
-		56DA1CDD24523699008D745E /* MSAnimationSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0938E43235E8ED500256251 /* MSAnimationSynchronizer.swift */; };
+		56DA1CDD24523699008D745E /* AnimationSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0938E43235E8ED500256251 /* AnimationSynchronizer.swift */; };
 		8FD0116E228A82A600D25925 /* BadgeField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45EB78F219E310F008646A2 /* BadgeField.swift */; };
 		8FD0116F228A82A600D25925 /* BadgeStringExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A8BBCC21BF6D6900D5E3ED /* BadgeStringExtractor.swift */; };
 		8FD01170228A82A600D25925 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444D6B52183A9740002B4D4 /* BadgeView.swift */; };
@@ -168,7 +168,7 @@
 		B4EF53C3215AF1AB00573E8F /* Persona.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF53C2215AF1AB00573E8F /* Persona.swift */; };
 		B4EF66512294A665007FEAB0 /* TableViewHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF66502294A664007FEAB0 /* TableViewHeaderFooterView.swift */; };
 		B4EF66522294A665007FEAB0 /* TableViewHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF66502294A664007FEAB0 /* TableViewHeaderFooterView.swift */; };
-		C0938E44235E8ED500256251 /* MSAnimationSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0938E43235E8ED500256251 /* MSAnimationSynchronizer.swift */; };
+		C0938E44235E8ED500256251 /* AnimationSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0938E43235E8ED500256251 /* AnimationSynchronizer.swift */; };
 		C0938E46235F66E300256251 /* ShimmerViewAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0938E45235F66E300256251 /* ShimmerViewAppearance.swift */; };
 		C0A0D76D233AEF6C00F432FD /* ShimmerAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A0D76A233AEF6C00F432FD /* ShimmerAppearance.swift */; };
 		C0A0D76E233AEF6C00F432FD /* ShimmerLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A0D76B233AEF6C00F432FD /* ShimmerLinesView.swift */; };
@@ -178,7 +178,7 @@
 		FD0D29D62151A3D700E8655E /* CardPresenterNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0D29D52151A3D700E8655E /* CardPresenterNavigationController.swift */; };
 		FD1FAE1B2272464B00A5DBA4 /* GenericDateTimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1FAE1A2272464B00A5DBA4 /* GenericDateTimePicker.swift */; };
 		FD256C5B2183B90B00EC9588 /* DatePickerSelectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD256C5A2183B90B00EC9588 /* DatePickerSelectionManager.swift */; };
-		FD26DBD02298B35F0011178B /* MSTooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05B21FA7F5000857267 /* MSTooltip.swift */; };
+		FD26DBD02298B35F0011178B /* Tooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05B21FA7F5000857267 /* Tooltip.swift */; };
 		FD26DBD12298B3610011178B /* TooltipPositionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05F21FA83C900857267 /* TooltipPositionController.swift */; };
 		FD26DBD22298B3630011178B /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05D21FA7FC100857267 /* TooltipView.swift */; };
 		FD36F1A9216C0A6900CECBC6 /* CardPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA1AF9221487225001AE720 /* CardPresentationController.swift */; };
@@ -227,7 +227,7 @@
 		FD77752B219E455A00033D58 /* AccessibilityContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77752A219E455A00033D58 /* AccessibilityContainerView.swift */; };
 		FD77752D219E62E100033D58 /* DateTimePickerViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77752C219E62E100033D58 /* DateTimePickerViewLayout.swift */; };
 		FD77753021A490BA00033D58 /* DateTimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77752F21A490BA00033D58 /* DateTimePicker.swift */; };
-		FD7DF05C21FA7F5000857267 /* MSTooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05B21FA7F5000857267 /* MSTooltip.swift */; };
+		FD7DF05C21FA7F5000857267 /* Tooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05B21FA7F5000857267 /* Tooltip.swift */; };
 		FD7DF05E21FA7FC100857267 /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05D21FA7FC100857267 /* TooltipView.swift */; };
 		FD7DF06021FA83C900857267 /* TooltipPositionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05F21FA83C900857267 /* TooltipPositionController.swift */; };
 		FD97580F2191118E00B67319 /* DateTimePickerViewComponentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD97580A2191118E00B67319 /* DateTimePickerViewComponentCell.swift */; };
@@ -340,7 +340,7 @@
 		B4E782C62179509A00A7DFCE /* CenteredLabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CenteredLabelCell.swift; sourceTree = "<group>"; };
 		B4EF53C2215AF1AB00573E8F /* Persona.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persona.swift; sourceTree = "<group>"; };
 		B4EF66502294A664007FEAB0 /* TableViewHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewHeaderFooterView.swift; sourceTree = "<group>"; };
-		C0938E43235E8ED500256251 /* MSAnimationSynchronizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAnimationSynchronizer.swift; sourceTree = "<group>"; };
+		C0938E43235E8ED500256251 /* AnimationSynchronizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationSynchronizer.swift; sourceTree = "<group>"; };
 		C0938E45235F66E300256251 /* ShimmerViewAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerViewAppearance.swift; sourceTree = "<group>"; };
 		C0A0D76A233AEF6C00F432FD /* ShimmerAppearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShimmerAppearance.swift; sourceTree = "<group>"; };
 		C0A0D76B233AEF6C00F432FD /* ShimmerLinesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShimmerLinesView.swift; sourceTree = "<group>"; };
@@ -378,7 +378,7 @@
 		FD77752A219E455A00033D58 /* AccessibilityContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityContainerView.swift; sourceTree = "<group>"; };
 		FD77752C219E62E100033D58 /* DateTimePickerViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimePickerViewLayout.swift; sourceTree = "<group>"; };
 		FD77752F21A490BA00033D58 /* DateTimePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimePicker.swift; sourceTree = "<group>"; };
-		FD7DF05B21FA7F5000857267 /* MSTooltip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTooltip.swift; sourceTree = "<group>"; };
+		FD7DF05B21FA7F5000857267 /* Tooltip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tooltip.swift; sourceTree = "<group>"; };
 		FD7DF05D21FA7FC100857267 /* TooltipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipView.swift; sourceTree = "<group>"; };
 		FD7DF05F21FA83C900857267 /* TooltipPositionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipPositionController.swift; sourceTree = "<group>"; };
 		FD8D26422253FF330078E1D3 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -747,7 +747,7 @@
 		C0938E42235E8EAF00256251 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				C0938E43235E8ED500256251 /* MSAnimationSynchronizer.swift */,
+				C0938E43235E8ED500256251 /* AnimationSynchronizer.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -860,7 +860,7 @@
 		FD7DF05A21FA7F3200857267 /* Tooltip */ = {
 			isa = PBXGroup;
 			children = (
-				FD7DF05B21FA7F5000857267 /* MSTooltip.swift */,
+				FD7DF05B21FA7F5000857267 /* Tooltip.swift */,
 				FD7DF05F21FA83C900857267 /* TooltipPositionController.swift */,
 				FD7DF05D21FA7FC100857267 /* TooltipView.swift */,
 			);
@@ -1123,14 +1123,14 @@
 				8FD01179228A82A600D25925 /* CalendarViewWeekdayHeadingView.swift in Sources */,
 				FD41C89D22DD13230086F899 /* SearchBar.swift in Sources */,
 				FD26DBD12298B3610011178B /* TooltipPositionController.swift in Sources */,
-				FD26DBD02298B35F0011178B /* MSTooltip.swift in Sources */,
+				FD26DBD02298B35F0011178B /* Tooltip.swift in Sources */,
 				8FD0117B228A82A600D25925 /* ActivityIndicatorView.swift in Sources */,
 				8FD0117C228A82A600D25925 /* BlurringView.swift in Sources */,
 				8FD0117D228A82A600D25925 /* Button.swift in Sources */,
 				FD41C8BF22DD47120086F899 /* UINavigationItem+Navigation.swift in Sources */,
 				8FD0117E228A82A600D25925 /* DimmingView.swift in Sources */,
 				8FD0117F228A82A600D25925 /* DotView.swift in Sources */,
-				56DA1CDD24523699008D745E /* MSAnimationSynchronizer.swift in Sources */,
+				56DA1CDD24523699008D745E /* AnimationSynchronizer.swift in Sources */,
 				8FD01180228A82A600D25925 /* EasyTapButton.swift in Sources */,
 				FD41C88522DD13230086F899 /* ContentScrollViewTraits.swift in Sources */,
 				8FD01181228A82A600D25925 /* Label.swift in Sources */,
@@ -1246,7 +1246,7 @@
 				B426613E214731D100E25423 /* InitialsView.swift in Sources */,
 				A5B87B02211E20B50038C37C /* UIScreen+Extension.swift in Sources */,
 				FD77752D219E62E100033D58 /* DateTimePickerViewLayout.swift in Sources */,
-				FD7DF05C21FA7F5000857267 /* MSTooltip.swift in Sources */,
+				FD7DF05C21FA7F5000857267 /* Tooltip.swift in Sources */,
 				497DC2DB24185885008D86F8 /* PillButton.swift in Sources */,
 				FD41C8BE22DD47120086F899 /* UINavigationItem+Navigation.swift in Sources */,
 				B4E782C12176AD5E00A7DFCE /* ActionsCell.swift in Sources */,
@@ -1268,7 +1268,7 @@
 				FD41C8B222DD3BB70086F899 /* UIScrollView+Extensions.swift in Sources */,
 				B483323321CC71940022B4CC /* HUDView.swift in Sources */,
 				FD41C89422DD13230086F899 /* LargeTitleView.swift in Sources */,
-				C0938E44235E8ED500256251 /* MSAnimationSynchronizer.swift in Sources */,
+				C0938E44235E8ED500256251 /* AnimationSynchronizer.swift in Sources */,
 				B483323521DEA8D70022B4CC /* HUD.swift in Sources */,
 				A5B87B06211E23650038C37C /* UIView+Extensions.swift in Sources */,
 				FDCF7C7F21BB56740058E9E6 /* SegmentedControl.swift in Sources */,
