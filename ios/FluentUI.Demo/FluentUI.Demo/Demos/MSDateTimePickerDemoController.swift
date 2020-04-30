@@ -8,15 +8,15 @@ import UIKit
 
 class MSDateTimePickerDemoController: DemoController {
     private let dateLabel = MSLabel(style: .headline)
-    private let dateTimePicker = MSDateTimePicker()
+    private let dateTimePicker = DateTimePicker()
 
     private let datePickerTypeSelector: UISegmentedControl = {
         let selector = UISegmentedControl(items: ["Calendar", "Components"])
         selector.selectedSegmentIndex = 0
         return selector
     }()
-    private var datePickerType: MSDateTimePicker.DatePickerType {
-        if let value = MSDateTimePicker.DatePickerType(rawValue: datePickerTypeSelector.selectedSegmentIndex) {
+    private var datePickerType: DateTimePicker.DatePickerType {
+        if let value = DateTimePicker.DatePickerType(rawValue: datePickerTypeSelector.selectedSegmentIndex) {
             return value
         } else {
             preconditionFailure("Unknown date picker type index")
@@ -108,7 +108,7 @@ class MSDateTimePickerDemoController: DemoController {
     @objc func presentCustomSubtitlePicker() {
         let startDate = self.startDate ?? Date()
         let endDate = self.endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
-        let titles: MSDateTimePicker.Titles
+        let titles: DateTimePicker.Titles
         if datePickerType == .calendar && !UIAccessibility.isVoiceOverRunning {
             titles = .with(startSubtitle: "Assignment Date", endSubtitle: "Due Date")
         } else {
@@ -126,8 +126,8 @@ class MSDateTimePickerDemoController: DemoController {
 
 // MARK: - MSDateTimePickerDemoController: MSDatePickerDelegate
 
-extension MSDateTimePickerDemoController: MSDateTimePickerDelegate {
-    func dateTimePicker(_ dateTimePicker: MSDateTimePicker, didPickStartDate startDate: Date, endDate: Date) {
+extension MSDateTimePickerDemoController: DateTimePickerDelegate {
+    func dateTimePicker(_ dateTimePicker: DateTimePicker, didPickStartDate startDate: Date, endDate: Date) {
         guard let mode = dateTimePicker.mode else {
             preconditionFailure("Received delegate call when mode = nil")
         }
@@ -153,7 +153,7 @@ extension MSDateTimePickerDemoController: MSDateTimePickerDelegate {
         }
     }
 
-    func dateTimePicker(_ dateTimePicker: MSDateTimePicker, shouldEndPickingStartDate startDate: Date, endDate: Date) -> Bool {
+    func dateTimePicker(_ dateTimePicker: DateTimePicker, shouldEndPickingStartDate startDate: Date, endDate: Date) -> Bool {
         if isValidating && startDate.timeIntervalSinceNow < 0 {
             // Start date is in the past, cancel selection and don't dismiss the picker
             let alert = UIAlertController(title: "Error", message: "Can't pick a date in the past", preferredStyle: .alert)

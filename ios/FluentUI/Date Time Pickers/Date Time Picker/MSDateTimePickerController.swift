@@ -81,7 +81,7 @@ class MSDateTimePickerController: UIViewController, GenericDateTimePicker {
     private var segmentedControl: MSSegmentedControl?
 
     // TODO: Add availability back in? - contactAvailabilitySummaryDataSource: ContactAvailabilitySummaryDataSource?,
-    init(startDate: Date, endDate: Date, mode: MSDateTimePickerMode, titles: MSDateTimePicker.Titles?) {
+    init(startDate: Date, endDate: Date, mode: DateTimePickerMode, titles: DateTimePicker.Titles?) {
         self.mode = mode.singleSelection ? .single : .start
         self.startDate = startDate.rounded(toNearestMinutes: MSDateTimePickerViewDataSourceConstants.minuteInterval) ?? startDate
         self.endDate = self.mode == .single ? self.startDate : (endDate.rounded(toNearestMinutes: MSDateTimePickerViewDataSourceConstants.minuteInterval) ?? endDate)
@@ -137,11 +137,11 @@ class MSDateTimePickerController: UIViewController, GenericDateTimePicker {
     private func initSegmentedControl(includesTime: Bool) {
         let titles: [String]
         if includesTime {
-            titles = [customStartTabTitle ?? "MSDateTimePicker.StartTime".localized,
-                      customEndTabTitle ?? "MSDateTimePicker.EndTime".localized]
+            titles = [customStartTabTitle ?? "DateTimePicker.StartTime".localized,
+                      customEndTabTitle ?? "DateTimePicker.EndTime".localized]
         } else {
-            titles = [customStartTabTitle ?? "MSDateTimePicker.StartDate".localized,
-                      customEndTabTitle ?? "MSDateTimePicker.EndDate".localized]
+            titles = [customStartTabTitle ?? "DateTimePicker.StartDate".localized,
+                      customEndTabTitle ?? "DateTimePicker.EndDate".localized]
         }
         segmentedControl = MSSegmentedControl(items: titles)
         segmentedControl?.addTarget(self, action: #selector(handleDidSelectStartEnd(_:)), for: .valueChanged)

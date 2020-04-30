@@ -61,7 +61,7 @@ class MSDatePickerController: UIViewController, GenericDateTimePicker {
 
     weak var delegate: GenericDateTimePickerDelegate?
 
-    private let mode: MSDateTimePickerMode
+    private let mode: DateTimePickerMode
 
     private var titleView: MSTwoLineTitleView!
     private let customTitle: String?
@@ -94,12 +94,12 @@ class MSDatePickerController: UIViewController, GenericDateTimePicker {
     ///   - selectionMode: The side (start or end) of the current range to be selected on this picker.
     ///   - rangePresentation: The `DateRangePresentation` in which this controller is being presented if `mode` is `.dateRange` or `.dateTimeRange`.
     ///   - titles: A `Titles` object that holds strings for use in overriding the default picker title, subtitle, and tab titles. If title is not provided, titleview will show currently selected date. If tab titles are not provided, they will default to "Start Date" and "End Date".
-    init(startDate: Date, endDate: Date, mode: MSDateTimePickerMode, selectionMode: MSDatePickerSelectionManager.SelectionMode = .start, rangePresentation: MSDateTimePicker.DateRangePresentation, titles: MSDateTimePicker.Titles?) {
+    init(startDate: Date, endDate: Date, mode: DateTimePickerMode, selectionMode: MSDatePickerSelectionManager.SelectionMode = .start, rangePresentation: DateTimePicker.DateRangePresentation, titles: DateTimePicker.Titles?) {
         if !mode.singleSelection && rangePresentation == .paged {
             customTitle = selectionMode == .start ? titles?.startTitle : titles?.endTitle
             customSubtitle = selectionMode == .start ?
-                titles?.startSubtitle ?? "MSDateTimePicker.StartDate".localized :
-                titles?.endSubtitle ?? "MSDateTimePicker.EndDate".localized
+                titles?.startSubtitle ?? "DateTimePicker.StartDate".localized :
+                titles?.endSubtitle ?? "DateTimePicker.EndDate".localized
         } else {
             customTitle = titles?.dateTitle
             customSubtitle = titles?.dateSubtitle
@@ -202,8 +202,8 @@ class MSDatePickerController: UIViewController, GenericDateTimePicker {
     }
 
     private func initSegmentedControl() {
-        let titles = [customStartTabTitle ?? "MSDateTimePicker.StartDate".localized,
-                      customEndTabTitle ?? "MSDateTimePicker.EndDate".localized]
+        let titles = [customStartTabTitle ?? "DateTimePicker.StartDate".localized,
+                      customEndTabTitle ?? "DateTimePicker.EndDate".localized]
         segmentedControl = MSSegmentedControl(items: titles)
         segmentedControl?.addTarget(self, action: #selector(handleDidSelectStartEnd(_:)), for: .valueChanged)
     }

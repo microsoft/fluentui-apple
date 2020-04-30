@@ -5,9 +5,13 @@
 
 import UIKit
 
-// MARK: MSDateTimePickerMode
+// MARK: DateTimePickerMode
 
-@objc public enum MSDateTimePickerMode: Int {
+@available(*, deprecated, renamed: "DateTimePickerMode")
+public typealias MSDateTimePickerMode = DateTimePickerMode
+
+@objc(MSFDateTimePickerMode)
+public enum DateTimePickerMode: Int {
     case date
     case dateTime
     case dateRange
@@ -17,20 +21,27 @@ import UIKit
     public var singleSelection: Bool { return self == .date || self == .dateTime }
 }
 
-// MARK: - MSDateTimePickerDelegate
+// MARK: - DateTimePickerDelegate
 
-@objc public protocol MSDateTimePickerDelegate: class {
+@available(*, deprecated, renamed: "DateTimePickerDelegate")
+public typealias MSDateTimePickerDelegate = DateTimePickerDelegate
+
+@objc(MSFDateTimePickerDelegate)
+public protocol DateTimePickerDelegate: class {
     /// Allows a class to be notified when a user confirms their selected date
-    func dateTimePicker(_ dateTimePicker: MSDateTimePicker, didPickStartDate startDate: Date, endDate: Date)
+    func dateTimePicker(_ dateTimePicker: DateTimePicker, didPickStartDate startDate: Date, endDate: Date)
     /// Allows for some validation and cancellation of picking behavior, including the dismissal of DateTimePicker classes when Done is pressed. If false is returned, the dismissal and `didPickStartDate` delegate calls will not occur. This is not called when dismissing the modal without selection, such as when tapping outside to dismiss.
-    @objc optional func dateTimePicker(_ dateTimePicker: MSDateTimePicker, shouldEndPickingStartDate startDate: Date, endDate: Date) -> Bool
+    @objc optional func dateTimePicker(_ dateTimePicker: DateTimePicker, shouldEndPickingStartDate startDate: Date, endDate: Date) -> Bool
 }
 
-// MARK: - MSDateTimePicker
+// MARK: - DateTimePicker
+
+@available(*, deprecated, renamed: "DateTimePicker")
+public typealias MSDateTimePicker = DateTimePicker
 
 /// Manages the presentation and coordination of different date and time pickers
-public class MSDateTimePicker: NSObject {
-    @objc(MSDateTimePickerDatePickerType)
+public class DateTimePicker: NSObject {
+    @objc(MSFDateTimePickerDatePickerType)
     public enum DatePickerType: Int {
         /// Date picker is represented as a calendar with 7 columns to show days of week and each row showing one week of dates.
         case calendar
@@ -38,13 +49,13 @@ public class MSDateTimePicker: NSObject {
         case components
     }
 
-    @objc(MSDateTimePickerDateRangePresentation)
+    @objc(MSFDateTimePickerDateRangePresentation)
     public enum DateRangePresentation: Int {
         case paged
         case tabbed
     }
 
-    @objc(MSDateTimePickerTitles)
+    @objc(MSFDateTimePickerTitles)
     public class Titles: NSObject {
         public override init() { }
 
@@ -80,8 +91,8 @@ public class MSDateTimePicker: NSObject {
         static let defaultDateTimeHoursRange: Int = 1
     }
 
-    public private(set) var mode: MSDateTimePickerMode?
-    @objc public weak var delegate: MSDateTimePickerDelegate?
+    public private(set) var mode: DateTimePickerMode?
+    @objc public weak var delegate: DateTimePickerDelegate?
 
     private var presentingController: UIViewController?
     private var presentedPickers: [GenericDateTimePicker]?
@@ -99,7 +110,7 @@ public class MSDateTimePicker: NSObject {
     ///   - dateRangePresentation: The `DateRangePresentation` in which to show any date pickers when `mode` is `.dateRange` or `.dateTimeRange`. Does not affect the time picker, which is always tabbed in range mode, but may change whether the date picker is presented in certain modes.
     ///   - titles: A `Titles` object that holds strings for use in overriding the default picker titles, subtitles, and tab titles. If a string is provided for a property that does not apply to the current mode, it will be ignored.
     /// - Tag: MSDateTimePicker.present
-    @objc public func present(from presentingController: UIViewController, with mode: MSDateTimePickerMode, startDate: Date = Date(), endDate: Date? = nil, datePickerType: DatePickerType = .calendar, dateRangePresentation: DateRangePresentation = .paged, titles: Titles? = nil) {
+    @objc public func present(from presentingController: UIViewController, with mode: DateTimePickerMode, startDate: Date = Date(), endDate: Date? = nil, datePickerType: DatePickerType = .calendar, dateRangePresentation: DateRangePresentation = .paged, titles: Titles? = nil) {
         self.presentingController = presentingController
         self.mode = mode
         self.datePickerType = datePickerType
@@ -187,7 +198,7 @@ public class MSDateTimePicker: NSObject {
 
 // MARK: - MSDateTimePicker: GenericDateTimePickerDelegate
 
-extension MSDateTimePicker: GenericDateTimePickerDelegate {
+extension DateTimePicker: GenericDateTimePickerDelegate {
     func dateTimePicker(_ dateTimePicker: GenericDateTimePicker, didPickStartDate startDate: Date, endDate: Date) {
         delegate?.dateTimePicker(self, didPickStartDate: startDate, endDate: endDate)
     }
