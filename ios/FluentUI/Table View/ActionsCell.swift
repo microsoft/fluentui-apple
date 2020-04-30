@@ -5,16 +5,20 @@
 
 import UIKit
 
-// MARK: MSActionsCell
+// MARK: ActionsCell
+
+@available(*, deprecated, renamed: "ActionsCell")
+public typealias MSActionsCell = ActionsCell
 
 /**
- `MSActionsCell` is used to present a button or set of buttons (max of 2) as a row in a table view. After being added to the table view a target can be added to the button(s) with a corresponding action.
+ `ActionsCell` is used to present a button or set of buttons (max of 2) as a row in a table view. After being added to the table view a target can be added to the button(s) with a corresponding action.
 
- `MSActionsCell` supports a maximum of 2 buttons that are displayed in a single row with a vertical separator between them. A button can be denoted 'destructive' by setting the 'action(X)ActionType' parameter to `.destructive`. When `.destructive`, this property causes the button to be displayed with red title label text to signify a 'destructive' action. When `.communication` is passed in, the button will be displayed with communication blue color.
+ `ActionsCell` supports a maximum of 2 buttons that are displayed in a single row with a vertical separator between them. A button can be denoted 'destructive' by setting the 'action(X)ActionType' parameter to `.destructive`. When `.destructive`, this property causes the button to be displayed with red title label text to signify a 'destructive' action. When `.communication` is passed in, the button will be displayed with communication blue color.
 
  `topSeparatorType` and `bottomSeparatorType` can be used to show custom horizontal separators. Make sure to remove the `UITableViewCell` built-in separator by setting `separatorStyle = .none` on your table view.
  */
-open class MSActionsCell: UITableViewCell {
+@objc(MSFActionsCell)
+open class ActionsCell: UITableViewCell {
     @objc(MSActionsCellActionType)
     public enum ActionType: Int {
         case regular
@@ -56,7 +60,7 @@ open class MSActionsCell: UITableViewCell {
         let actionCount: CGFloat = action2Title == "" ? 1 : 2
         let width = UIScreen.main.roundToDevicePixels(containerWidth / actionCount)
 
-        let actionTitleFont = MSTableViewCell.TextStyles.title.font
+        let actionTitleFont = TableViewCell.TextStyles.title.font
         let action1TitleHeight = action1Title.preferredSize(for: actionTitleFont, width: width).height
         let action2TitleHeight = action2Title.preferredSize(for: actionTitleFont, width: width).height
 
@@ -64,7 +68,7 @@ open class MSActionsCell: UITableViewCell {
     }
 
     @objc public class func preferredWidth(action1Title: String, action2Title: String = "") -> CGFloat {
-        let actionTitleFont = MSTableViewCell.TextStyles.title.font
+        let actionTitleFont = TableViewCell.TextStyles.title.font
         let action1TitleWidth = action1Title.preferredSize(for: actionTitleFont).width
         let action2TitleWidth = action2Title.preferredSize(for: actionTitleFont).width
 
@@ -73,7 +77,7 @@ open class MSActionsCell: UITableViewCell {
     }
 
     /// Style describing whether or not the cell's custom top separator should be visible and how wide it should extend
-    @objc open var topSeparatorType: MSTableViewCell.SeparatorType = .none {
+    @objc open var topSeparatorType: TableViewCell.SeparatorType = .none {
         didSet {
             if topSeparatorType != oldValue {
                 updateHorizontalSeparator(topSeparator, with: topSeparatorType)
@@ -81,7 +85,7 @@ open class MSActionsCell: UITableViewCell {
         }
     }
     /// Style describing whether or not the cell's custom bottom separator should be visible and how wide it should extend
-    @objc open var bottomSeparatorType: MSTableViewCell.SeparatorType = .none {
+    @objc open var bottomSeparatorType: TableViewCell.SeparatorType = .none {
         didSet {
             if bottomSeparatorType != oldValue {
                 updateHorizontalSeparator(bottomSeparator, with: bottomSeparatorType)
@@ -199,12 +203,12 @@ open class MSActionsCell: UITableViewCell {
     open override func setSelected(_ selected: Bool, animated: Bool) { }
 
     private func setupAction(_ button: UIButton) {
-        button.titleLabel?.font = MSTableViewCell.TextStyles.title.font
+        button.titleLabel?.font = TableViewCell.TextStyles.title.font
         button.titleLabel?.numberOfLines = 0
         button.titleLabel?.textAlignment = .center
     }
 
-    private func layoutHorizontalSeparator(_ separator: Separator, with type: MSTableViewCell.SeparatorType, at verticalOffset: CGFloat) {
+    private func layoutHorizontalSeparator(_ separator: Separator, with type: TableViewCell.SeparatorType, at verticalOffset: CGFloat) {
         let horizontalOffset = type == .inset ? safeAreaInsets.left + Constants.horizontalSpacing : 0
 
         separator.frame = CGRect(
@@ -216,7 +220,7 @@ open class MSActionsCell: UITableViewCell {
         separator.flipForRTL()
     }
 
-    private func updateHorizontalSeparator(_ separator: Separator, with type: MSTableViewCell.SeparatorType) {
+    private func updateHorizontalSeparator(_ separator: Separator, with type: TableViewCell.SeparatorType) {
         separator.isHidden = type == .none
         setNeedsLayout()
     }

@@ -36,8 +36,8 @@ class MSTableViewHeaderFooterViewDemoController: DemoController {
 
     func createTableView(style: UITableView.Style) -> UITableView {
         let tableView = UITableView(frame: .zero, style: style)
-        tableView.register(MSTableViewCell.self, forCellReuseIdentifier: MSTableViewCell.identifier)
-        tableView.register(MSTableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: MSTableViewHeaderFooterView.identifier)
+        tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
+        tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = Colors.Table.background
@@ -63,7 +63,7 @@ extension MSTableViewHeaderFooterViewDemoController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: MSTableViewCell.identifier) as! MSTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as! TableViewCell
         cell.setup(title: TableViewHeaderFooterSampleData.itemTitle)
         var isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
         if tableView.style == .grouped {
@@ -87,7 +87,7 @@ extension MSTableViewHeaderFooterViewDemoController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: MSTableViewHeaderFooterView.identifier) as! MSTableViewHeaderFooterView
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as! TableViewHeaderFooterView
         let section = tableView.style == .grouped ? groupedSections[section] : plainSections[section]
         header.setup(style: section.headerStyle, title: section.title, accessoryButtonTitle: section.hasAccessory ? "See More" : "")
         header.titleNumberOfLines = section.numberOfLines
@@ -98,7 +98,7 @@ extension MSTableViewHeaderFooterViewDemoController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         if tableView.style == .grouped && groupedSections[section].hasFooter {
-            let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: MSTableViewHeaderFooterView.identifier) as! MSTableViewHeaderFooterView
+            let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as! TableViewHeaderFooterView
             let section = groupedSections[section]
             if section.footerLinkText.isEmpty {
                 footer.setup(style: .footer, title: section.footerText)
@@ -132,10 +132,10 @@ extension MSTableViewHeaderFooterViewDemoController: UITableViewDelegate {
     }
 }
 
-// MARK: - MSTableViewHeaderFooterViewDemoController: MSTableViewHeaderFooterViewDelegate
+// MARK: - MSTableViewHeaderFooterViewDemoController: TableViewHeaderFooterViewDelegate
 
-extension MSTableViewHeaderFooterViewDemoController: MSTableViewHeaderFooterViewDelegate {
-    func headerFooterView(_ headerFooterView: MSTableViewHeaderFooterView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+extension MSTableViewHeaderFooterViewDemoController: TableViewHeaderFooterViewDelegate {
+    func headerFooterView(_ headerFooterView: TableViewHeaderFooterView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         let alertController = UIAlertController(title: "Link tapped", message: nil, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alertController, animated: true, completion: nil)

@@ -5,10 +5,14 @@
 
 import UIKit
 
-// MARK: MSCenteredLabelCell
+// MARK: CenteredLabelCell
 
-open class MSCenteredLabelCell: UITableViewCell {
-    public static let identifier: String = "MSCenteredLabelCell"
+@available(*, deprecated, renamed: "CenteredLabelCell")
+public typealias MSCenteredLabelCell = CenteredLabelCell
+
+@objc(MSFCenteredLabelCell)
+open class CenteredLabelCell: UITableViewCell {
+    public static let identifier: String = "CenteredLabelCell"
     public static let defaultHeight: CGFloat = 45
 
     private struct Constants {

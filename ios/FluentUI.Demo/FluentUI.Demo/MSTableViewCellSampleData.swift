@@ -104,7 +104,7 @@ class MSTableViewCellSampleData: TableViewSampleData {
         return section.hasFullLengthLabelAccessoryView && hasLabelAccessoryViews(at: indexPath)
     }
 
-    static func accessoryType(for indexPath: IndexPath) -> MSTableViewCellAccessoryType {
+    static func accessoryType(for indexPath: IndexPath) -> TableViewCellAccessoryType {
         // Demo accessory types based on indexPath row
         switch indexPath.row {
         case 0:

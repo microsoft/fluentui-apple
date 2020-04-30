@@ -5,10 +5,14 @@
 
 import UIKit
 
-// MARK: MSActivityIndicatorCell
+// MARK: ActivityIndicatorCell
 
-open class MSActivityIndicatorCell: UITableViewCell {
-    public static let identifier: String = "MSActivityIndicatorCell"
+@available(*, deprecated, renamed: "ActivityIndicatorCell")
+public typealias MSActivityIndicatorCell = ActivityIndicatorCell
+
+@objc(MSFActivityIndicatorCell)
+open class ActivityIndicatorCell: UITableViewCell {
+    public static let identifier: String = "ActivityIndicatorCell"
     public static let defaultHeight: CGFloat = 45
 
     private let activityIndicatorView: ActivityIndicatorView = {

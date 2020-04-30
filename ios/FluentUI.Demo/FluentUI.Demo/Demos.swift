@@ -26,9 +26,9 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("SegmentedControl", MSSegmentedControlDemoController.self),
     ("ShimmerLinesView", MSShimmerLinesViewDemoController.self),
     ("TabBarView", MSTabBarViewDemoController.self),
-    ("MSTableViewCell", MSTableViewCellDemoController.self),
+    ("TableViewCell", MSTableViewCellDemoController.self),
     ("MSTableViewCellShimmer", MSTableViewCellShimmerDemoController.self),
-    ("MSTableViewHeaderFooterView", MSTableViewHeaderFooterViewDemoController.self),
+    ("TableViewHeaderFooterView", MSTableViewHeaderFooterViewDemoController.self),
     ("MSTooltip", MSTooltipDemoController.self),
     ("Other cells", OtherCellsDemoController.self),
     ("DEBUG: Objective-C Demos", ObjectiveCDemoController.self)

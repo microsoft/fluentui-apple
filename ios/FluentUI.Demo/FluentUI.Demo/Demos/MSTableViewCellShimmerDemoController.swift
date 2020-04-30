@@ -23,7 +23,7 @@ class MSTableViewCellShimmerDemoController: MSTableViewCellDemoController {
         let section = sections[indexPath.section]
         let item = section.item
 
-        let cell = super.tableView(tableView, cellForRowAt: indexPath) as! MSTableViewCell
+        let cell = super.tableView(tableView, cellForRowAt: indexPath) as! TableViewCell
 
         // fill with spaces representing the text that would go in each cell
         // double the character count because spaces take up much less horizontal space than
@@ -41,16 +41,16 @@ class MSTableViewCellShimmerDemoController: MSTableViewCellDemoController {
     }
 }
 
-extension MSTableViewCell {
+extension TableViewCell {
     /// associated object key for shimmer view
     private static var shimmerViewKey: UInt8 = 0
 
     var shimmerView: ShimmerView? {
         get {
-            return objc_getAssociatedObject(self, &MSTableViewCell.shimmerViewKey) as? ShimmerView
+            return objc_getAssociatedObject(self, &TableViewCell.shimmerViewKey) as? ShimmerView
         }
         set {
-            objc_setAssociatedObject(self, &MSTableViewCell.shimmerViewKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_ASSIGN)
+            objc_setAssociatedObject(self, &TableViewCell.shimmerViewKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_ASSIGN)
         }
     }
 

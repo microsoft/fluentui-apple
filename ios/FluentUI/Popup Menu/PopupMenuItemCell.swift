@@ -5,7 +5,7 @@
 
 import UIKit
 
-class PopupMenuItemCell: MSTableViewCell {
+class PopupMenuItemCell: TableViewCell {
     private struct Constants {
         static let labelVerticalMarginForOneLine: CGFloat = 14
         static let accessoryImageViewOffset: CGFloat = 5

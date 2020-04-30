@@ -52,7 +52,7 @@ open class PersonaListView: UITableView {
     }
 
     /// The type of accessory that appears on the trailing edge: a disclosure indicator or a details button with an ellipsis icon
-    @objc public var accessoryType: MSTableViewCellAccessoryType = .none
+    @objc public var accessoryType: TableViewCellAccessoryType = .none
 
     /// Bool indicating whether the 'Search Directory' button should be shown
     @objc open var showsSearchDirectoryButton: Bool = false {
@@ -90,9 +90,9 @@ open class PersonaListView: UITableView {
         tableFooterView = UIView(frame: .zero)
 
         register(PersonaCell.self, forCellReuseIdentifier: PersonaCell.identifier)
-        register(MSActionsCell.self, forCellReuseIdentifier: MSActionsCell.identifier)
-        register(MSActivityIndicatorCell.self, forCellReuseIdentifier: MSActivityIndicatorCell.identifier)
-        register(MSCenteredLabelCell.self, forCellReuseIdentifier: MSCenteredLabelCell.identifier)
+        register(ActionsCell.self, forCellReuseIdentifier: ActionsCell.identifier)
+        register(ActivityIndicatorCell.self, forCellReuseIdentifier: ActivityIndicatorCell.identifier)
+        register(CenteredLabelCell.self, forCellReuseIdentifier: CenteredLabelCell.identifier)
 
         // Keep the cell layout margins fixed
         cellLayoutMarginsFollowReadableWidth = false
@@ -194,16 +194,16 @@ extension PersonaListView: UITableViewDataSource {
         case .searchDirectory:
             switch searchDirectoryState {
             case .searching:
-                let cell = dequeueReusableCell(withIdentifier: MSActivityIndicatorCell.identifier, for: indexPath) as! MSActivityIndicatorCell
+                let cell = dequeueReusableCell(withIdentifier: ActivityIndicatorCell.identifier, for: indexPath) as! ActivityIndicatorCell
                 cell.hideSystemSeparator()
                 return cell
             case .displayingSearchResults:
-                let cell = dequeueReusableCell(withIdentifier: MSCenteredLabelCell.identifier, for: indexPath) as! MSCenteredLabelCell
+                let cell = dequeueReusableCell(withIdentifier: CenteredLabelCell.identifier, for: indexPath) as! CenteredLabelCell
                 cell.setup(text: searchResultText)
                 cell.hideSystemSeparator()
                 return cell
             case .idle:
-                let cell = dequeueReusableCell(withIdentifier: MSActionsCell.identifier, for: indexPath) as! MSActionsCell
+                let cell = dequeueReusableCell(withIdentifier: ActionsCell.identifier, for: indexPath) as! ActionsCell
                 cell.setup(action1Title: "MSPersonaListView.SearchDirectory".localized)
                 cell.action1Button.addTarget(self, action: #selector(searchDirectoryButtonTapped), for: .touchUpInside)
                 cell.accessibilityTraits = .button
@@ -228,11 +228,11 @@ extension PersonaListView: UITableViewDelegate {
         case .searchDirectory:
             switch searchDirectoryState {
             case .searching:
-                return MSActivityIndicatorCell.defaultHeight
+                return ActivityIndicatorCell.defaultHeight
             case .displayingSearchResults:
-                return MSCenteredLabelCell.defaultHeight
+                return CenteredLabelCell.defaultHeight
             case .idle:
-                return MSActionsCell.defaultHeight
+                return ActionsCell.defaultHeight
             }
         }
     }

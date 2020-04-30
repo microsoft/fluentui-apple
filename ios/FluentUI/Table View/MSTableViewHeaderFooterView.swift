@@ -5,26 +5,34 @@
 
 import UIKit
 
-// MARK: MSTableViewHeaderFooterViewDelegate
+// MARK: TableViewHeaderFooterViewDelegate
 
-@objc public protocol MSTableViewHeaderFooterViewDelegate: class {
+@available(*, deprecated, renamed: "TableViewHeaderFooterViewDelegate")
+public typealias MSTableViewHeaderFooterViewDelegate = TableViewHeaderFooterViewDelegate
+
+@objc(MSFTableViewHeaderFooterViewDelegate)
+public protocol TableViewHeaderFooterViewDelegate: class {
     /// Returns: true if the interaction with the header view should be allowed; false if the interaction should not be allowed.
-    @objc optional func headerFooterView(_ headerFooterView: MSTableViewHeaderFooterView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool
+    @objc optional func headerFooterView(_ headerFooterView: TableViewHeaderFooterView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool
 }
 
-// MARK: - MSTableViewHeaderFooterView
+// MARK: - TableViewHeaderFooterView
+
+@available(*, deprecated, renamed: "TableViewHeaderFooterView")
+public typealias MSTableViewHeaderFooterView = TableViewHeaderFooterView
 
 /**
- `MSTableViewHeaderFooterView` is used to present a section header or footer with a `title` and an optional accessory button.
+ `TableViewHeaderFooterView` is used to present a section header or footer with a `title` and an optional accessory button.
 
- Set the `MSTableViewHeaderFooterView.Style` of the view to specify its visual style. While the `default` style may be used for headers, the `footer` style, which lays out the `title` near the top of the view, may be used for footers in grouped lists. Use `divider` and `dividerHighlighted` as headers for plain lists.
+ Set the `TableViewHeaderFooterView.Style` of the view to specify its visual style. While the `default` style may be used for headers, the `footer` style, which lays out the `title` near the top of the view, may be used for footers in grouped lists. Use `divider` and `dividerHighlighted` as headers for plain lists.
 
  The optional accessory button should only be used with `default` style headers with the `title` as a single line of text.
 
  Use `titleNumberOfLines` to configure the number of lines for the `title`. Headers generally use the default number of lines of 1 while footers may use a multiple number of lines.
  */
-open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
-    @objc(MSTableViewHeaderFooterViewAccessoryButtonStyle)
+@objc(MSFTableViewHeaderFooterView)
+open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
+    @objc(MSFTableViewHeaderFooterViewAccessoryButtonStyle)
     public enum AccessoryButtonStyle: Int {
         case regular
         case primary
@@ -40,7 +48,7 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
     }
 
     /// Defines the visual style of the view
-    @objc(MSTableViewHeaderFooterViewStyle)
+    @objc(MSFTableViewHeaderFooterViewStyle)
     public enum Style: Int {
         case header
         case divider
@@ -88,13 +96,13 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
     /// The height of the view based on the height of its content.
     ///
     /// - Parameters:
-    ///   - style: The `MSTableViewHeaderFooterView.Style` used to set up the view.
+    ///   - style: The `TableViewHeaderFooterView.Style` used to set up the view.
     ///   - title: The title string.
     ///   - titleNumberOfLines: The number of lines that the title should display.
     ///   - containerWidth: The width of the view's super view (e.g. the table view's width).
     /// - Returns: a value representing the calculated height of the view.
     @objc public class func height(style: Style, title: String, titleNumberOfLines: Int = 1, containerWidth: CGFloat = .greatestFiniteMagnitude) -> CGFloat {
-        let titleWidth = containerWidth - (Constants.horizontalMargin + MSTableViewHeaderFooterView.titleRightOffset())
+        let titleWidth = containerWidth - (Constants.horizontalMargin + TableViewHeaderFooterView.titleRightOffset())
         let titleHeight = title.preferredSize(for: Constants.titleTextStyle.font, width: titleWidth, numberOfLines: titleNumberOfLines).height
 
         let verticalMargin: CGFloat
@@ -111,7 +119,7 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
      /// The preferred width of the view based on the width of its content.
      ///
      /// - Parameters:
-     ///   - style: The `MSTableViewHeaderFooterView.Style` used to set up the view.
+     ///   - style: The `TableViewHeaderFooterView.Style` used to set up the view.
      ///   - title: The title string.
      ///   - accessoryButton: An optional accessory button that appears near the trailing edge of the view.
      /// - Returns: a value representing the calculated preferred width of the view.
@@ -154,7 +162,7 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
     /// `onAccessoryButtonTapped` is called when `accessoryButton` is tapped
     @objc open var onAccessoryButtonTapped: (() -> Void)?
 
-    @objc public weak var delegate: MSTableViewHeaderFooterViewDelegate?
+    @objc public weak var delegate: TableViewHeaderFooterViewDelegate?
 
     open override var intrinsicContentSize: CGSize {
         return CGSize(
@@ -267,7 +275,7 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
 
         accessoryButton?.sizeToFit()
 
-        let titleWidth = contentView.frame.width - (Constants.horizontalMargin + MSTableViewHeaderFooterView.titleRightOffset(accessoryButton: accessoryButton))
+        let titleWidth = contentView.frame.width - (Constants.horizontalMargin + TableViewHeaderFooterView.titleRightOffset(accessoryButton: accessoryButton))
         let titleHeight: CGFloat
         let titleYOffset: CGFloat
         switch style {
@@ -355,9 +363,9 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
     }
 }
 
-// MARK: - MSTableViewHeaderFooterView: UITextViewDelegate
+// MARK: - TableViewHeaderFooterView: UITextViewDelegate
 
-extension MSTableViewHeaderFooterView: UITextViewDelegate {
+extension TableViewHeaderFooterView: UITextViewDelegate {
     public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         // If the delegate function is not set, return `true` to let the default interaction handle this
         return delegate?.headerFooterView?(self, shouldInteractWith: URL, in: characterRange, interaction: interaction) ?? true

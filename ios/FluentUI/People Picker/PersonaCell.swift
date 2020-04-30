@@ -11,12 +11,12 @@ import UIKit
 public typealias MSPersonaCell = PersonaCell
 
 @objc(MSFPersonaCell)
-open class PersonaCell: MSTableViewCell {
+open class PersonaCell: TableViewCell {
     private struct Constants {
         static let avatarSize: AvatarSize = .large
     }
 
-    open override var customViewSize: MSTableViewCell.CustomViewSize { get { return .medium } set { } }
+    open override var customViewSize: TableViewCell.CustomViewSize { get { return .medium } set { } }
 
     private let avatarView: AvatarView = {
         let avatarView = AvatarView(avatarSize: Constants.avatarSize)
@@ -29,7 +29,7 @@ open class PersonaCell: MSTableViewCell {
     /// - Parameters:
     ///   - persona: The Persona to set up the cell with
     ///   - accessoryType: The type of accessory that appears on the trailing edge: a disclosure indicator or a details button with an ellipsis icon
-    @objc open func setup(persona: Persona, accessoryType: MSTableViewCellAccessoryType = .none) {
+    @objc open func setup(persona: Persona, accessoryType: TableViewCellAccessoryType = .none) {
         avatarView.setup(avatar: persona)
         // Attempt to use email if name is empty
         let title = !persona.name.isEmpty ? persona.name : persona.email

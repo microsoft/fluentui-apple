@@ -26,7 +26,7 @@ class MSTableViewCellDemoController: DemoController {
                     continue
                 }
 
-                if let cell = tableView.cellForRow(at: indexPath) as? MSTableViewCell {
+                if let cell = tableView.cellForRow(at: indexPath) as? TableViewCell {
                     cell.setIsInSelectionMode(isInSelectionMode, animated: true)
                 }
             }
@@ -51,8 +51,8 @@ class MSTableViewCellDemoController: DemoController {
 
         tableView = UITableView(frame: view.bounds, style: .grouped)
         tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        tableView.register(MSTableViewCell.self, forCellReuseIdentifier: MSTableViewCell.identifier)
-        tableView.register(MSTableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: MSTableViewHeaderFooterView.identifier)
+        tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
+        tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
@@ -112,7 +112,7 @@ extension MSTableViewCellDemoController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = sections[indexPath.section]
         let item = section.item
-        let cell = tableView.dequeueReusableCell(withIdentifier: MSTableViewCell.identifier) as! MSTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as! TableViewCell
         cell.setup(
             title: item.text1,
             subtitle: item.text2,
@@ -136,9 +136,9 @@ extension MSTableViewCellDemoController: UITableViewDataSource {
 
         cell.titleLineBreakMode = .byTruncatingMiddle
 
-        cell.titleNumberOfLinesForLargerDynamicType = section.numberOfLines == 1 ? 3 : MSTableViewCell.defaultNumberOfLinesForLargerDynamicType
-        cell.subtitleNumberOfLinesForLargerDynamicType = section.numberOfLines == 1 ? 2 : MSTableViewCell.defaultNumberOfLinesForLargerDynamicType
-        cell.footerNumberOfLinesForLargerDynamicType = section.numberOfLines == 1 ? 2 : MSTableViewCell.defaultNumberOfLinesForLargerDynamicType
+        cell.titleNumberOfLinesForLargerDynamicType = section.numberOfLines == 1 ? 3 : TableViewCell.defaultNumberOfLinesForLargerDynamicType
+        cell.subtitleNumberOfLinesForLargerDynamicType = section.numberOfLines == 1 ? 2 : TableViewCell.defaultNumberOfLinesForLargerDynamicType
+        cell.footerNumberOfLinesForLargerDynamicType = section.numberOfLines == 1 ? 2 : TableViewCell.defaultNumberOfLinesForLargerDynamicType
 
         cell.backgroundColor = isGrouped ? Colors.Table.Cell.backgroundGrouped : Colors.Table.Cell.background
         cell.topSeparatorType = isGrouped && indexPath.row == 0 ? .full : .none
@@ -155,7 +155,7 @@ extension MSTableViewCellDemoController: UITableViewDataSource {
 
 extension MSTableViewCellDemoController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: MSTableViewHeaderFooterView.identifier) as! MSTableViewHeaderFooterView
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as! TableViewHeaderFooterView
         let section = sections[section]
         header.setup(style: section.headerStyle, title: section.title)
         return header

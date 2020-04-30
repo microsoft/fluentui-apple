@@ -169,7 +169,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(MSTableViewCell.self, forCellReuseIdentifier: MSTableViewCell.identifier)
+        tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         return tableView
     }()
 
@@ -192,7 +192,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             tableView.allowsMultipleSelection = isInSelectionMode
 
             for indexPath in tableView.indexPathsForVisibleRows ?? [] {
-                if let cell = tableView.cellForRow(at: indexPath) as? MSTableViewCell {
+                if let cell = tableView.cellForRow(at: indexPath) as? TableViewCell {
                     cell.setIsInSelectionMode(isInSelectionMode, animated: true)
                 }
             }
@@ -246,7 +246,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: MSTableViewCell.identifier, for: indexPath) as! MSTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as! TableViewCell
         cell.setup(title: "Cell #\(1 + indexPath.row)", accessoryType: .disclosureIndicator)
         cell.isInSelectionMode = isInSelectionMode
         return cell
@@ -328,7 +328,7 @@ class ChildViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.contentInsetAdjustmentBehavior = .never
-        tableView.register(MSTableViewCell.self, forCellReuseIdentifier: MSTableViewCell.identifier)
+        tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         navigationItem.title = "Regular Title"
     }
 
@@ -337,7 +337,7 @@ class ChildViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: MSTableViewCell.identifier, for: indexPath) as! MSTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as! TableViewCell
         cell.setup(title: "Child Cell #\(1 + indexPath.row)")
         return cell
     }
@@ -362,8 +362,8 @@ class ModalViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(MSTableViewCell.self, forCellReuseIdentifier: MSTableViewCell.identifier)
-        tableView.register(MSTableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: MSTableViewHeaderFooterView.identifier)
+        tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
+        tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
         updateTableView()
 
         navigationItem.title = "Modal View"
@@ -386,7 +386,7 @@ class ModalViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: MSTableViewCell.identifier, for: indexPath) as! MSTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as! TableViewCell
         cell.setup(title: "Child Cell #\(1 + indexPath.row)")
         cell.backgroundColor = isGrouped ? Colors.Table.Cell.backgroundGrouped : Colors.Table.Cell.background
         cell.topSeparatorType = isGrouped && indexPath.row == 0 ? .full : .none
@@ -398,7 +398,7 @@ class ModalViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: MSTableViewHeaderFooterView.identifier) as! MSTableViewHeaderFooterView
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as! TableViewHeaderFooterView
         header.setup(style: .header, title: "Section Header")
         return header
     }

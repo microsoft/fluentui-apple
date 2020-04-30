@@ -5,7 +5,7 @@
 
 import UIKit
 
-class PopupMenuSectionHeaderView: MSTableViewHeaderFooterView {
+class PopupMenuSectionHeaderView: TableViewHeaderFooterView {
     static func isHeaderVisible(for section: PopupMenuSection) -> Bool {
         return section.title != nil
     }

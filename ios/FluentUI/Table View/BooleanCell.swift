@@ -5,16 +5,20 @@
 
 import UIKit
 
-// MARK: MSBooleanCell
+// MARK: BooleanCell
+
+@available(*, deprecated, renamed: "BooleanCell")
+public typealias MSBooleanCell = BooleanCell
 
 /**
- `MSBooleanCell` is used to present a cell with one line of text with an optional custom view and a UISwitch accessory view.
+ `BooleanCell` is used to present a cell with one line of text with an optional custom view and a UISwitch accessory view.
 
  Use the `isOn` property to update the cell accessory view's `isOn` property.
 
  Use `onValueChanged` as a callback for an event that changes the value of the accessory view.
  */
-open class MSBooleanCell: MSTableViewCell {
+@objc(MSFBooleanCell)
+open class BooleanCell: TableViewCell {
     /// Updates the cell accessory view's `isOn` property
     @objc public var isOn: Bool {
         get { return `switch`.isOn }
