@@ -32,9 +32,9 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
         var textColor: UIColor {
             switch self {
             case .regular:
-                return MSColors.Table.HeaderFooter.accessoryButtonText
+                return Colors.Table.HeaderFooter.accessoryButtonText
             case .primary:
-                return MSColors.Table.HeaderFooter.accessoryButtonTextPrimary
+                return Colors.Table.HeaderFooter.accessoryButtonTextPrimary
             }
         }
     }
@@ -50,22 +50,22 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
         var backgroundColor: UIColor {
             switch self {
             case .header, .footer:
-                return MSColors.Table.HeaderFooter.background
+                return Colors.Table.HeaderFooter.background
             case .divider:
-                return MSColors.Table.HeaderFooter.backgroundDivider
+                return Colors.Table.HeaderFooter.backgroundDivider
             case .dividerHighlighted:
-                return MSColors.Table.HeaderFooter.backgroundDividerHighlighted
+                return Colors.Table.HeaderFooter.backgroundDividerHighlighted
             }
         }
 
         var textColor: UIColor {
             switch self {
             case .header, .footer:
-                return MSColors.Table.HeaderFooter.text
+                return Colors.Table.HeaderFooter.text
             case .divider:
-                return MSColors.Table.HeaderFooter.textDivider
+                return Colors.Table.HeaderFooter.textDivider
             case .dividerHighlighted:
-                return MSColors.Table.HeaderFooter.textDividerHighlighted
+                return Colors.Table.HeaderFooter.textDividerHighlighted
             }
         }
     }
@@ -378,7 +378,7 @@ private class MSTableViewHeaderFooterTitleView: UITextView {
         self.textContainer.lineFragmentPadding = 0
         textContainerInset = .zero
         layoutManager.usesFontLeading = false
-        linkTextAttributes = [.foregroundColor: MSColors.Table.HeaderFooter.textLink]
+        linkTextAttributes = [.foregroundColor: Colors.Table.HeaderFooter.textLink]
     }
 
     required init?(coder: NSCoder) {

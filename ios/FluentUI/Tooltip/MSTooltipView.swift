@@ -57,7 +57,7 @@ class MSTooltipView: UIView {
 
     private let backgroundView: UIView = {
         let view = UIView()
-        view.backgroundColor = MSColors.Tooltip.background
+        view.backgroundColor = Colors.Tooltip.background
         view.layer.cornerRadius = backgroundCornerRadius
         if #available(iOS 13.0, *) {
             view.layer.cornerCurve = .continuous
@@ -65,11 +65,11 @@ class MSTooltipView: UIView {
         return view
     }()
 
-    private let arrowImageView = UIImageView(image: UIImage.staticImageNamed("tooltip-arrow")?.image(withPrimaryColor: MSColors.Tooltip.background))
+    private let arrowImageView = UIImageView(image: UIImage.staticImageNamed("tooltip-arrow")?.image(withPrimaryColor: Colors.Tooltip.background))
 
     private let messageLabel: UILabel = {
         let label = Label(style: Constants.messageLabelTextStyle)
-        label.textColor = MSColors.Tooltip.text
+        label.textColor = Colors.Tooltip.text
         label.numberOfLines = Constants.maxLines
         return label
     }()

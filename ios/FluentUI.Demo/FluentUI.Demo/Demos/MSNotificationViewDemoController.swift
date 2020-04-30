@@ -43,7 +43,7 @@ class MSNotificationViewDemoController: DemoController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = MSColors.background2
+        view.backgroundColor = Colors.background2
 
         for (index, variant) in Variant.allCases.enumerated() {
             if index > 0 {

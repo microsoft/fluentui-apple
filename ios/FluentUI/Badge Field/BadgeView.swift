@@ -98,23 +98,23 @@ open class BadgeView: UIView {
         switch style {
         case .default:
             if !enabled {
-                return MSColors.Badge.backgroundDisabled
+                return Colors.Badge.backgroundDisabled
             } else if selected {
-                return MSColors.Badge.backgroundSelected
+                return Colors.Badge.backgroundSelected
             } else {
-                return MSColors.Badge.background
+                return Colors.Badge.background
             }
         case .warning:
             if selected {
-                return MSColors.Badge.backgroundWarningSelected
+                return Colors.Badge.backgroundWarningSelected
             } else {
-                return MSColors.Badge.backgroundWarning
+                return Colors.Badge.backgroundWarning
             }
         case .error:
             if selected {
-                return MSColors.Badge.backgroundErrorSelected
+                return Colors.Badge.backgroundErrorSelected
             } else {
-                return MSColors.Badge.backgroundError
+                return Colors.Badge.backgroundError
             }
         }
     }
@@ -123,23 +123,23 @@ open class BadgeView: UIView {
         switch style {
         case .default:
             if !enabled {
-                return MSColors.Badge.textDisabled
+                return Colors.Badge.textDisabled
             } else if selected {
-                return MSColors.Badge.textSelected
+                return Colors.Badge.textSelected
             } else {
-                return MSColors.Badge.text
+                return Colors.Badge.text
             }
         case .warning:
             if selected {
-                return MSColors.Badge.textWarningSelected
+                return Colors.Badge.textWarningSelected
             } else {
-                return MSColors.Badge.textWarning
+                return Colors.Badge.textWarning
             }
         case .error:
             if selected {
-                return MSColors.Badge.textErrorSelected
+                return Colors.Badge.textErrorSelected
             } else {
-                return MSColors.Badge.textError
+                return Colors.Badge.textError
             }
         }
     }
@@ -179,17 +179,17 @@ open class BadgeView: UIView {
         return sizeThatFits(CGSize(width: CGFloat.infinity, height: CGFloat.infinity))
     }
 
-    private var badgeBackgroundColor: UIColor = MSColors.Badge.background {
+    private var badgeBackgroundColor: UIColor = Colors.Badge.background {
         didSet {
             updateBackgroundColor()
         }
     }
-    private var badgeSelectedBackgroundColor: UIColor = MSColors.Badge.backgroundSelected {
+    private var badgeSelectedBackgroundColor: UIColor = Colors.Badge.backgroundSelected {
         didSet {
             updateBackgroundColor()
         }
     }
-    private var badgeDisabledBackgroundColor: UIColor = MSColors.Badge.backgroundDisabled {
+    private var badgeDisabledBackgroundColor: UIColor = Colors.Badge.backgroundDisabled {
         didSet {
             updateBackgroundColor()
         }
@@ -214,17 +214,17 @@ open class BadgeView: UIView {
         }
     }
 
-    private var textColor: UIColor = MSColors.Badge.text {
+    private var textColor: UIColor = Colors.Badge.text {
         didSet {
             updateLabelTextColor()
         }
     }
-    private var selectedTextColor: UIColor = MSColors.Badge.textSelected {
+    private var selectedTextColor: UIColor = Colors.Badge.textSelected {
         didSet {
             updateLabelTextColor()
         }
     }
-    private var disabledTextColor: UIColor = MSColors.Badge.textDisabled {
+    private var disabledTextColor: UIColor = Colors.Badge.textDisabled {
         didSet {
             updateLabelTextColor()
         }

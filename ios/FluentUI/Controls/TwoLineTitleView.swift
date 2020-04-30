@@ -204,14 +204,14 @@ open class TwoLineTitleView: UIView {
     private func applyStyle(style: Style) {
         switch style {
         case .dark:
-            titleButtonLabel.textColor = MSColors.TwoLineTitle.titleDark
-            subtitleButtonLabel.textColor = MSColors.TwoLineTitle.subtitleDark
+            titleButtonLabel.textColor = Colors.TwoLineTitle.titleDark
+            subtitleButtonLabel.textColor = Colors.TwoLineTitle.subtitleDark
         case .light:
-            titleButtonLabel.textColor = MSColors.TwoLineTitle.titleLight
-            subtitleButtonLabel.textColor = MSColors.TwoLineTitle.subtitleLight
+            titleButtonLabel.textColor = Colors.TwoLineTitle.titleLight
+            subtitleButtonLabel.textColor = Colors.TwoLineTitle.subtitleLight
         }
-        titleButtonImageView.tintColor = MSColors.TwoLineTitle.accessory
-        subtitleButtonImageView.tintColor = MSColors.TwoLineTitle.accessory
+        titleButtonImageView.tintColor = Colors.TwoLineTitle.accessory
+        subtitleButtonImageView.tintColor = Colors.TwoLineTitle.accessory
     }
 
     private func setupTitleButtonColor(highlighted: Bool, animated: Bool) {

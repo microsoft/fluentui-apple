@@ -163,9 +163,9 @@ open class Button: UIButton {
     }
 
     public func updateTitleColors() {
-        let titleColor = style == .primaryFilled ? MSColors.Button.titleWithFilledBackground : MSColors.Button.title
-        let titleColorHighlighted = style == .primaryFilled ? titleColor : MSColors.Button.titleHighlighted
-        let titleColorDisabled = style == .primaryFilled ? titleColor : MSColors.Button.titleDisabled
+        let titleColor = style == .primaryFilled ? Colors.Button.titleWithFilledBackground : Colors.Button.title
+        let titleColorHighlighted = style == .primaryFilled ? titleColor : Colors.Button.titleHighlighted
+        let titleColorDisabled = style == .primaryFilled ? titleColor : Colors.Button.titleDisabled
         setTitleColor(titleColor, for: .normal)
         setTitleColor(titleColorHighlighted, for: .highlighted)
         setTitleColor(titleColorDisabled, for: .disabled)
@@ -184,11 +184,11 @@ open class Button: UIButton {
     private func updateBackgroundColor() {
         let backgroundColor: UIColor
         if isHighlighted {
-            backgroundColor = style == .primaryFilled ? MSColors.Button.backgroundFilledHighlighted : MSColors.Button.background
+            backgroundColor = style == .primaryFilled ? Colors.Button.backgroundFilledHighlighted : Colors.Button.background
         } else if !isEnabled {
-            backgroundColor = style == .primaryFilled ? MSColors.Button.backgroundFilledDisabled : MSColors.Button.background
+            backgroundColor = style == .primaryFilled ? Colors.Button.backgroundFilledDisabled : Colors.Button.background
         } else {
-            backgroundColor = style == .primaryFilled ? MSColors.Button.backgroundFilled : MSColors.Button.background
+            backgroundColor = style == .primaryFilled ? Colors.Button.backgroundFilled : Colors.Button.background
         }
         self.backgroundColor = backgroundColor
     }
@@ -200,11 +200,11 @@ open class Button: UIButton {
 
         let borderColor: UIColor
         if isHighlighted {
-            borderColor = MSColors.Button.borderHighlighted
+            borderColor = Colors.Button.borderHighlighted
         } else if !isEnabled {
-            borderColor = MSColors.Button.borderDisabled
+            borderColor = Colors.Button.borderDisabled
         } else {
-            borderColor = MSColors.Button.border
+            borderColor = Colors.Button.border
         }
         layer.borderColor = borderColor.cgColor
     }

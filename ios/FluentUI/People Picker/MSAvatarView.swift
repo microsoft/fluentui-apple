@@ -144,7 +144,7 @@ open class MSAvatarView: UIView {
         imageView.contentMode = .scaleAspectFill
 
         borderView = UIView(frame: .zero)
-        borderView.backgroundColor = MSColors.Avatar.border
+        borderView.backgroundColor = Colors.Avatar.border
         borderView.isHidden = !hasBorder
 
         super.init(frame: CGRect(origin: .zero, size: avatarSize.size))

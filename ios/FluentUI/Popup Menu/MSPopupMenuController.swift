@@ -150,7 +150,7 @@ open class MSPopupMenuController: MSDrawerController {
     }()
     private let descriptionLabel: Label = {
         let label = Label(style: .footnote)
-        label.textColor = MSColors.PopupMenu.description
+        label.textColor = Colors.PopupMenu.description
         label.textAlignment = .center
         label.numberOfLines = 0
         return label
@@ -218,7 +218,7 @@ open class MSPopupMenuController: MSDrawerController {
     }
 
     private func initTableView() {
-        tableView.backgroundColor = MSColors.Table.background
+        tableView.backgroundColor = Colors.Table.background
         tableView.separatorStyle = .none
         // Helps reduce the delay between touch and action due to a bug in iOS 11
         if #available(iOS 12.0, *) { } else {

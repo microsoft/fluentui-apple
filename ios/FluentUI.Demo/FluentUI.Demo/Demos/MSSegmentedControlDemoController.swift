@@ -17,7 +17,7 @@ class MSSegmentedControlDemoController: DemoController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = MSColors.background2
+        view.backgroundColor = Colors.background2
 
         container.layoutMargins.left = 0
         container.layoutMargins.right = 0

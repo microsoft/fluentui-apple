@@ -40,8 +40,8 @@ open class MSPageCardPresenterController: UIViewController {
         let pageControl = UIPageControl()
         pageControl.hidesForSinglePage = true
         pageControl.isUserInteractionEnabled = false
-        pageControl.pageIndicatorTintColor = MSColors.PageCardPresenter.pageIndicator
-        pageControl.currentPageIndicatorTintColor = MSColors.PageCardPresenter.currentPageIndicator
+        pageControl.pageIndicatorTintColor = Colors.PageCardPresenter.pageIndicator
+        pageControl.currentPageIndicatorTintColor = Colors.PageCardPresenter.currentPageIndicator
         return pageControl
     }()
 

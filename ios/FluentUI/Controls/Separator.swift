@@ -16,9 +16,9 @@ public enum SeparatorStyle: Int {
     fileprivate var color: UIColor {
         switch self {
         case .default:
-            return MSColors.Separator.default
+            return Colors.Separator.default
         case .shadow:
-            return MSColors.Separator.shadow
+            return Colors.Separator.shadow
         }
     }
 }

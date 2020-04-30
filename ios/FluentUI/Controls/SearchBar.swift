@@ -35,63 +35,63 @@ open class SearchBar: UIView {
         var backgroundColor: UIColor {
             switch self {
             case .lightContent:
-                return MSColors.SearchBar.LightContent.background
+                return Colors.SearchBar.LightContent.background
             case .darkContent:
-                return MSColors.SearchBar.DarkContent.background
+                return Colors.SearchBar.DarkContent.background
             }
         }
 
         var cancelButtonColor: UIColor {
             switch self {
             case .lightContent:
-                return MSColors.SearchBar.LightContent.cancelButton
+                return Colors.SearchBar.LightContent.cancelButton
             case .darkContent:
-                return MSColors.SearchBar.DarkContent.cancelButton
+                return Colors.SearchBar.DarkContent.cancelButton
             }
         }
 
         var clearIconColor: UIColor {
             switch self {
             case .lightContent:
-                return MSColors.SearchBar.LightContent.clearIcon
+                return Colors.SearchBar.LightContent.clearIcon
             case .darkContent:
-                return MSColors.SearchBar.DarkContent.clearIcon
+                return Colors.SearchBar.DarkContent.clearIcon
             }
         }
 
         var placeholderColor: UIColor {
             switch self {
             case .lightContent:
-                return MSColors.SearchBar.LightContent.placeholderText
+                return Colors.SearchBar.LightContent.placeholderText
             case .darkContent:
-                return MSColors.SearchBar.DarkContent.placeholderText
+                return Colors.SearchBar.DarkContent.placeholderText
             }
         }
 
         var searchIconColor: UIColor {
             switch self {
             case .lightContent:
-                return MSColors.SearchBar.LightContent.searchIcon
+                return Colors.SearchBar.LightContent.searchIcon
             case .darkContent:
-                return MSColors.SearchBar.DarkContent.searchIcon
+                return Colors.SearchBar.DarkContent.searchIcon
             }
         }
 
         var textColor: UIColor {
             switch self {
             case .lightContent:
-                return MSColors.SearchBar.LightContent.text
+                return Colors.SearchBar.LightContent.text
             case .darkContent:
-                return MSColors.SearchBar.DarkContent.text
+                return Colors.SearchBar.DarkContent.text
             }
         }
 
         var tintColor: UIColor {
             switch self {
             case .lightContent:
-                return MSColors.SearchBar.LightContent.tint
+                return Colors.SearchBar.LightContent.tint
             case .darkContent:
-                return MSColors.SearchBar.DarkContent.tint
+                return Colors.SearchBar.DarkContent.tint
             }
         }
     }

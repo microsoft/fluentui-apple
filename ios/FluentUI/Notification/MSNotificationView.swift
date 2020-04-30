@@ -30,29 +30,29 @@ open class MSNotificationView: UIView {
         var backgroundColor: UIColor {
             switch self {
             case .primaryToast:
-                return MSColors.Notification.PrimaryToast.background
+                return Colors.Notification.PrimaryToast.background
             case .neutralToast:
-                return MSColors.Notification.NeutralToast.background
+                return Colors.Notification.NeutralToast.background
             case .primaryBar:
-                return MSColors.Notification.PrimaryBar.background
+                return Colors.Notification.PrimaryBar.background
             case .primaryOutlineBar:
-                return MSColors.Notification.PrimaryOutlineBar.background
+                return Colors.Notification.PrimaryOutlineBar.background
             case .neutralBar:
-                return MSColors.Notification.NeutralBar.background
+                return Colors.Notification.NeutralBar.background
             }
         }
         var foregroundColor: UIColor {
             switch self {
             case .primaryToast:
-                return MSColors.Notification.PrimaryToast.foreground
+                return Colors.Notification.PrimaryToast.foreground
             case .neutralToast:
-                return MSColors.Notification.NeutralToast.foreground
+                return Colors.Notification.NeutralToast.foreground
             case .primaryBar:
-                return MSColors.Notification.PrimaryBar.foreground
+                return Colors.Notification.PrimaryBar.foreground
             case .primaryOutlineBar:
-                return MSColors.Notification.PrimaryOutlineBar.foreground
+                return Colors.Notification.PrimaryOutlineBar.foreground
             case .neutralBar:
-                return MSColors.Notification.NeutralBar.foreground
+                return Colors.Notification.NeutralBar.foreground
             }
         }
 

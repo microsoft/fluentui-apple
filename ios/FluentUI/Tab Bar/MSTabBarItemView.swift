@@ -18,7 +18,7 @@ class MSTabBarItemView: UIView {
         didSet {
             titleLabel.isHighlighted = isSelected
             imageView.isHighlighted = isSelected
-            imageView.tintColor = isSelected ? MSColors.TabBar.selected : MSColors.TabBar.unselected
+            imageView.tintColor = isSelected ? Colors.TabBar.selected : Colors.TabBar.unselected
             accessibilityTraits = isSelected ? .selected : .none
         }
     }
@@ -33,7 +33,7 @@ class MSTabBarItemView: UIView {
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = MSColors.TabBar.unselected
+        imageView.tintColor = Colors.TabBar.unselected
         return imageView
     }()
 
@@ -41,8 +41,8 @@ class MSTabBarItemView: UIView {
         let titleLabel = Label()
         titleLabel.lineBreakMode = .byTruncatingTail
         titleLabel.textAlignment = .center
-        titleLabel.textColor = MSColors.TabBar.unselected
-        titleLabel.highlightedTextColor = MSColors.TabBar.selected
+        titleLabel.textColor = Colors.TabBar.unselected
+        titleLabel.highlightedTextColor = Colors.TabBar.selected
         return titleLabel
     }()
 

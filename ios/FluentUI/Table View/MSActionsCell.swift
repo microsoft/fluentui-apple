@@ -24,22 +24,22 @@ open class MSActionsCell: UITableViewCell {
         var highlightedTextColor: UIColor {
             switch self {
             case .regular:
-                return MSColors.Table.ActionCell.textHighlighted
+                return Colors.Table.ActionCell.textHighlighted
             case .destructive:
-                return MSColors.Table.ActionCell.textDestructiveHighlighted
+                return Colors.Table.ActionCell.textDestructiveHighlighted
             case .communication:
-                return MSColors.Table.ActionCell.textCommunicationHighlighted
+                return Colors.Table.ActionCell.textCommunicationHighlighted
             }
         }
 
         var textColor: UIColor {
             switch self {
             case .regular:
-                return MSColors.Table.ActionCell.text
+                return Colors.Table.ActionCell.text
             case .destructive:
-                return MSColors.Table.ActionCell.textDestructive
+                return Colors.Table.ActionCell.textDestructive
             case .communication:
-                return MSColors.Table.ActionCell.textCommunication
+                return Colors.Table.ActionCell.textCommunication
             }
         }
     }
@@ -114,7 +114,7 @@ open class MSActionsCell: UITableViewCell {
         updateHorizontalSeparator(topSeparator, with: topSeparatorType)
         updateHorizontalSeparator(bottomSeparator, with: bottomSeparatorType)
 
-        backgroundColor = MSColors.Table.Cell.background
+        backgroundColor = Colors.Table.Cell.background
 
         setupAction(action1Button)
         setupAction(action2Button)

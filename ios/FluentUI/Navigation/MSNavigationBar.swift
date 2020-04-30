@@ -22,29 +22,29 @@ open class MSNavigationBar: UINavigationBar {
         var tintColor: UIColor {
             switch self {
             case .primary, .default, .custom:
-                return MSColors.Navigation.Primary.tint
+                return Colors.Navigation.Primary.tint
             case .system:
-                return MSColors.Navigation.System.tint
+                return Colors.Navigation.System.tint
             }
         }
 
         var titleColor: UIColor {
             switch self {
             case .primary, .default, .custom:
-                return MSColors.Navigation.Primary.title
+                return Colors.Navigation.Primary.title
             case .system:
-                return MSColors.Navigation.System.title
+                return Colors.Navigation.System.title
             }
         }
 
         func backgroundColor(customColor: UIColor?) -> UIColor {
             switch self {
             case .primary, .default:
-                return MSColors.Navigation.Primary.background
+                return Colors.Navigation.Primary.background
             case .system:
-                return MSColors.Navigation.System.background
+                return Colors.Navigation.System.background
             case .custom:
-                return customColor ?? MSColors.Navigation.Primary.background
+                return customColor ?? Colors.Navigation.Primary.background
             }
         }
     }
@@ -337,7 +337,7 @@ open class MSNavigationBar: UINavigationBar {
     // MARK: UINavigationItem & UIBarButtonItem handling
 
     func updateColors(for navigationItem: UINavigationItem?) {
-        let color = navigationItem?.navigationBarColor ?? MSColors.Navigation.Primary.background
+        let color = navigationItem?.navigationBarColor ?? Colors.Navigation.Primary.background
 
         switch style {
         case .primary, .default, .custom:

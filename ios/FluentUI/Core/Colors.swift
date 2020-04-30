@@ -5,10 +5,13 @@
 
 import UIKit
 
-// MARK: MSColors
+// MARK: Colors
 
-public final class MSColors: NSObject {
+@available(*, deprecated, renamed: "Colors")
+public typealias MSColors = Colors
 
+@objc(MSFColors)
+public final class Colors: NSObject {
     // Mark - MSFColorPalette
 
     /// colors defined in asset catalog
@@ -433,7 +436,7 @@ public final class MSColors: NSObject {
             public static var titleSelected = UIColor(light: primary, dark: Outline.titleSelected)
         }
 
-        public static var border: UIColor = MSColors.gray100
+        public static var border: UIColor = Colors.gray100
     }
 
     public struct PopupMenu {
@@ -611,19 +614,19 @@ public final class MSColors: NSObject {
     public var color: UIColor {
         switch self {
         case .regular:
-            return MSColors.foreground1
+            return Colors.foreground1
         case .secondary:
-            return MSColors.foreground2
+            return Colors.foreground2
         case .white:
             return .white
         case .primary:
-            return MSColors.primary
+            return Colors.primary
         case .error:
-            return MSColors.error
+            return Colors.error
         case .warning:
-            return MSColors.warning
+            return Colors.warning
         case .disabled:
-            return MSColors.disabled
+            return Colors.disabled
         }
     }
 }

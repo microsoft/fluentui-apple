@@ -23,7 +23,7 @@ class MSInitialsView: UIView {
             combined = ""
         }
 
-        let colors = MSColors.avatarBackgroundColors
+        let colors = Colors.avatarBackgroundColors
         let combinedHashable = combined as NSString
         let hashCode = Int(abs(javaHashCode(combinedHashable)))
         return colors[hashCode % colors.count]
@@ -105,7 +105,7 @@ class MSInitialsView: UIView {
         initialsLabel = UILabel()
         initialsLabel.font = avatarSize.font
         initialsLabel.backgroundColor = UIColor.clear
-        initialsLabel.textColor = MSColors.Avatar.text
+        initialsLabel.textColor = Colors.Avatar.text
         initialsLabel.textAlignment = .center
         initialsLabel.isAccessibilityElement = false
         addSubview(initialsLabel)

@@ -11,52 +11,52 @@ class MSColorDemoController: DemoController {
         super.loadView()
 
         addTitle(text: "App specific color")
-        addRow(text: "Shade30", color: MSColors.primaryShade30)
-        addRow(text: "Shade20", color: MSColors.primaryShade20)
-        addRow(text: "Shade10", color: MSColors.primaryShade10)
-        addRow(text: "Primary", color: MSColors.primary)
-        addRow(text: "Tint10", color: MSColors.primaryTint10)
-        addRow(text: "Tint20", color: MSColors.primaryTint20)
-        addRow(text: "Tint30", color: MSColors.primaryTint30)
-        addRow(text: "Tint40", color: MSColors.primaryTint40)
+        addRow(text: "Shade30", color: Colors.primaryShade30)
+        addRow(text: "Shade20", color: Colors.primaryShade20)
+        addRow(text: "Shade10", color: Colors.primaryShade10)
+        addRow(text: "Primary", color: Colors.primary)
+        addRow(text: "Tint10", color: Colors.primaryTint10)
+        addRow(text: "Tint20", color: Colors.primaryTint20)
+        addRow(text: "Tint30", color: Colors.primaryTint30)
+        addRow(text: "Tint40", color: Colors.primaryTint40)
 
         addTitle(text: "Neutral colors")
-        addRow(text: "gray950", color: MSColors.gray950)
-        addRow(text: "gray900", color: MSColors.gray900)
-        addRow(text: "gray800", color: MSColors.gray800)
-        addRow(text: "gray700", color: MSColors.gray700)
-        addRow(text: "gray600", color: MSColors.gray600)
-        addRow(text: "gray500", color: MSColors.gray500)
-        addRow(text: "gray400", color: MSColors.gray400)
-        addRow(text: "gray300", color: MSColors.gray300)
-        addRow(text: "gray200", color: MSColors.gray200)
-        addRow(text: "gray100", color: MSColors.gray100)
-        addRow(text: "gray50", color: MSColors.gray50)
-        addRow(text: "gray25", color: MSColors.gray25)
+        addRow(text: "gray950", color: Colors.gray950)
+        addRow(text: "gray900", color: Colors.gray900)
+        addRow(text: "gray800", color: Colors.gray800)
+        addRow(text: "gray700", color: Colors.gray700)
+        addRow(text: "gray600", color: Colors.gray600)
+        addRow(text: "gray500", color: Colors.gray500)
+        addRow(text: "gray400", color: Colors.gray400)
+        addRow(text: "gray300", color: Colors.gray300)
+        addRow(text: "gray200", color: Colors.gray200)
+        addRow(text: "gray100", color: Colors.gray100)
+        addRow(text: "gray50", color: Colors.gray50)
+        addRow(text: "gray25", color: Colors.gray25)
 
         addTitle(text: "Shared colors")
         let sharedColors = [
-            MSColors.Palette.pinkRed10,
-            MSColors.Palette.red20,
-            MSColors.Palette.red10,
-            MSColors.Palette.orange30,
-            MSColors.Palette.orange20,
-            MSColors.Palette.orangeYellow20,
-            MSColors.Palette.green20,
-            MSColors.Palette.green10,
-            MSColors.Palette.cyan30,
-            MSColors.Palette.cyan20,
-            MSColors.Palette.cyanBlue20,
-            MSColors.Palette.cyanBlue10,
-            MSColors.Palette.blue10,
-            MSColors.Palette.blueMagenta30,
-            MSColors.Palette.blueMagenta20,
-            MSColors.Palette.magenta20,
-            MSColors.Palette.magenta10,
-            MSColors.Palette.magentaPink10,
-            MSColors.Palette.gray40,
-            MSColors.Palette.gray30,
-            MSColors.Palette.gray20
+            Colors.Palette.pinkRed10,
+            Colors.Palette.red20,
+            Colors.Palette.red10,
+            Colors.Palette.orange30,
+            Colors.Palette.orange20,
+            Colors.Palette.orangeYellow20,
+            Colors.Palette.green20,
+            Colors.Palette.green10,
+            Colors.Palette.cyan30,
+            Colors.Palette.cyan20,
+            Colors.Palette.cyanBlue20,
+            Colors.Palette.cyanBlue10,
+            Colors.Palette.blue10,
+            Colors.Palette.blueMagenta30,
+            Colors.Palette.blueMagenta20,
+            Colors.Palette.magenta20,
+            Colors.Palette.magenta10,
+            Colors.Palette.magentaPink10,
+            Colors.Palette.gray40,
+            Colors.Palette.gray30,
+            Colors.Palette.gray20
         ]
 
         for palette in sharedColors {
@@ -65,16 +65,16 @@ class MSColorDemoController: DemoController {
 
         addTitle(text: "Message colors")
         let messageColors = [
-            MSColors.Palette.dangerPrimary,
-            MSColors.Palette.dangerTint40,
-            MSColors.Palette.dangerTint10,
-            MSColors.Palette.dangerShade40,
-            MSColors.Palette.dangerShade10,
-            MSColors.Palette.warningPrimary,
-            MSColors.Palette.warningTint40,
-            MSColors.Palette.warningTint10,
-            MSColors.Palette.warningShade40,
-            MSColors.Palette.warningShade30
+            Colors.Palette.dangerPrimary,
+            Colors.Palette.dangerTint40,
+            Colors.Palette.dangerTint10,
+            Colors.Palette.dangerShade40,
+            Colors.Palette.dangerShade10,
+            Colors.Palette.warningPrimary,
+            Colors.Palette.warningTint40,
+            Colors.Palette.warningTint10,
+            Colors.Palette.warningShade40,
+            Colors.Palette.warningShade30
         ]
         for palette in messageColors {
             addRow(text: palette.name, color: palette.color)

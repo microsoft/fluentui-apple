@@ -56,8 +56,8 @@ class MSPillButtonBarDemoController: DemoController {
         bar.barDelegate = self
         bar.centerAligned = centerAligned
 
-        let backgroundViewColor = style == .outline ? MSColors.Navigation.System.background
-                                                  : MSColors.Navigation.Primary.background
+        let backgroundViewColor = style == .outline ? Colors.Navigation.System.background
+                                                  : Colors.Navigation.Primary.background
 
         let backgroundView = UIView()
         backgroundView.backgroundColor = backgroundViewColor

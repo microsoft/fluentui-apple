@@ -40,7 +40,7 @@ class MSTableViewHeaderFooterViewDemoController: DemoController {
         tableView.register(MSTableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: MSTableViewHeaderFooterView.identifier)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = MSColors.Table.background
+        tableView.backgroundColor = Colors.Table.background
         tableView.separatorStyle = .none
         return tableView
     }

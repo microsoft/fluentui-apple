@@ -73,9 +73,9 @@ class MSLargeTitleView: UIView {
     private var colorForStyle: UIColor {
         switch style {
         case .light:
-            return MSColors.Navigation.Primary.title
+            return Colors.Navigation.Primary.title
         case .dark:
-            return MSColors.Navigation.System.title
+            return Colors.Navigation.System.title
         }
     }
 

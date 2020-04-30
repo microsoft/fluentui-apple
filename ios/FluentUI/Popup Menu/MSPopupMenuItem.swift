@@ -38,7 +38,7 @@ open class MSPopupMenuItem: NSObject {
 
     @objc public init(image: UIImage? = nil, selectedImage: UIImage? = nil, accessoryImage: UIImage? = nil, title: String, subtitle: String? = nil, accessoryView: UIView? = nil, isEnabled: Bool = true, isSelected: Bool = false, executes executionMode: ExecutionMode = .onSelection, onSelected: (() -> Void)? = nil, isAccessoryCheckmarkVisible: Bool = true) {
         self.image = image?.renderingMode == .automatic ? image?.withRenderingMode(.alwaysTemplate) : image
-        self.selectedImage = selectedImage ?? image?.image(withPrimaryColor: MSColors.PopupMenu.Item.imageSelected)
+        self.selectedImage = selectedImage ?? image?.image(withPrimaryColor: Colors.PopupMenu.Item.imageSelected)
         self.accessoryImage = accessoryImage
         self.title = title
         self.subtitle = subtitle

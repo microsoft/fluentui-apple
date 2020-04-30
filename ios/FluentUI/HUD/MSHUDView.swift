@@ -40,7 +40,7 @@ class MSHUDView: UIView {
 
     let label: UILabel = {
         let label = UILabel()
-        label.textColor = MSColors.HUD.text
+        label.textColor = Colors.HUD.text
         label.font = MSFonts.body
         label.numberOfLines = 0
         label.preferredMaxLayoutWidth = Constants.labelMaxWidth
@@ -56,7 +56,7 @@ class MSHUDView: UIView {
 
         super.init(frame: .zero)
 
-        backgroundColor = MSColors.HUD.background
+        backgroundColor = Colors.HUD.background
         layer.cornerRadius = Constants.backgroundCornerRadius
         layer.masksToBounds = true
         if #available(iOS 13.0, *) {
@@ -167,7 +167,7 @@ private class MSHUDIndicatorView: UIView {
         switch type {
         case .activity:
             let activityIndicatorView = ActivityIndicatorView(size: .xLarge)
-            activityIndicatorView.color = MSColors.HUD.activityIndicator
+            activityIndicatorView.color = Colors.HUD.activityIndicator
             activityIndicatorView.startAnimating()
             return activityIndicatorView
         case .success:

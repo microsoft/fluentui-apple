@@ -91,7 +91,7 @@ open class ActivityIndicatorView: UIView {
         }
     }
     @objc open var hidesWhenStopped: Bool = true
-    @objc open var color: UIColor = MSColors.ActivityIndicator.foreground {
+    @objc open var color: UIColor = Colors.ActivityIndicator.foreground {
         didSet {
             setupLoaderLayer()
         }

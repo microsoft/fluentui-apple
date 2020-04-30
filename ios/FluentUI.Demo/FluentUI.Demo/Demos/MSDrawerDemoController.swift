@@ -168,7 +168,7 @@ class MSDrawerDemoController: DemoController {
         personaListView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
         let contentController = UINavigationController(rootViewController: controller)
-        contentController.navigationBar.barTintColor = MSColors.background1
+        contentController.navigationBar.barTintColor = Colors.background1
         contentController.isToolbarHidden = false
         contentController.preferredContentSize = CGSize(width: 400, height: 400)
         contentControllerOriginalPreferredContentHeight = contentController.preferredContentSize.height

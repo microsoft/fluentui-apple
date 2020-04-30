@@ -30,7 +30,7 @@ class CalendarViewWeekdayHeadingView: UIView {
 
         super.init(frame: .zero)
 
-        backgroundColor = headerStyle == .dark ? MSColors.Calendar.WeekdayHeading.Dark.background : MSColors.Calendar.WeekdayHeading.Light.background
+        backgroundColor = headerStyle == .dark ? Colors.Calendar.WeekdayHeading.Dark.background : Colors.Calendar.WeekdayHeading.Light.background
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -93,10 +93,10 @@ class CalendarViewWeekdayHeadingView: UIView {
 
             switch headerStyle {
             case .light:
-                label.textColor = (index == 0 || index == 6) ? MSColors.Calendar.WeekdayHeading.Light.textWeekend : MSColors.Calendar.WeekdayHeading.Light.textRegular
+                label.textColor = (index == 0 || index == 6) ? Colors.Calendar.WeekdayHeading.Light.textWeekend : Colors.Calendar.WeekdayHeading.Light.textRegular
 
             case .dark:
-                label.textColor = (index == 0 || index == 6) ? MSColors.Calendar.WeekdayHeading.Dark.textWeekend : MSColors.Calendar.WeekdayHeading.Dark.textRegular
+                label.textColor = (index == 0 || index == 6) ? Colors.Calendar.WeekdayHeading.Dark.textWeekend : Colors.Calendar.WeekdayHeading.Dark.textRegular
             }
 
             headingLabels.append(label)

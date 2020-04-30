@@ -26,65 +26,65 @@ open class SegmentedControl: UIControl {
         var backgroundColor: UIColor {
             switch self {
             case .tabs:
-                return MSColors.SegmentedControl.Tabs.background
+                return Colors.SegmentedControl.Tabs.background
             case .switch:
-                return MSColors.SegmentedControl.Switch.background
+                return Colors.SegmentedControl.Switch.background
             }
         }
         var backgroundColorDisabled: UIColor {
             switch self {
             case .tabs:
-                return MSColors.SegmentedControl.Tabs.backgroundDisabled
+                return Colors.SegmentedControl.Tabs.backgroundDisabled
             case .switch:
-                return MSColors.SegmentedControl.Switch.backgroundDisabled
+                return Colors.SegmentedControl.Switch.backgroundDisabled
             }
         }
         var selectionColor: UIColor {
             switch self {
             case .tabs:
-                return MSColors.SegmentedControl.Tabs.selection
+                return Colors.SegmentedControl.Tabs.selection
             case .switch:
-                return MSColors.SegmentedControl.Switch.selection
+                return Colors.SegmentedControl.Switch.selection
             }
         }
         var selectionColorDisabled: UIColor {
             switch self {
             case .tabs:
-                return MSColors.SegmentedControl.Tabs.selectionDisabled
+                return Colors.SegmentedControl.Tabs.selectionDisabled
             case .switch:
-                return MSColors.SegmentedControl.Switch.selectionDisabled
+                return Colors.SegmentedControl.Switch.selectionDisabled
             }
         }
         var segmentTextColor: UIColor {
             switch self {
             case .tabs:
-                return MSColors.SegmentedControl.Tabs.segmentText
+                return Colors.SegmentedControl.Tabs.segmentText
             case .switch:
-                return MSColors.SegmentedControl.Switch.segmentText
+                return Colors.SegmentedControl.Switch.segmentText
             }
         }
         var segmentTextColorSelected: UIColor {
             switch self {
             case .tabs:
-                return MSColors.SegmentedControl.Tabs.segmentTextSelected
+                return Colors.SegmentedControl.Tabs.segmentTextSelected
             case .switch:
-                return MSColors.SegmentedControl.Switch.segmentTextSelected
+                return Colors.SegmentedControl.Switch.segmentTextSelected
             }
         }
         var segmentTextColorDisabled: UIColor {
             switch self {
             case .tabs:
-                return MSColors.SegmentedControl.Tabs.segmentTextDisabled
+                return Colors.SegmentedControl.Tabs.segmentTextDisabled
             case .switch:
-                return MSColors.SegmentedControl.Switch.segmentTextDisabled
+                return Colors.SegmentedControl.Switch.segmentTextDisabled
             }
         }
         var segmentTextColorSelectedAndDisabled: UIColor {
             switch self {
             case .tabs:
-                return MSColors.SegmentedControl.Tabs.segmentTextSelectedAndDisabled
+                return Colors.SegmentedControl.Tabs.segmentTextSelectedAndDisabled
             case .switch:
-                return MSColors.SegmentedControl.Switch.segmentTextSelectedAndDisabled
+                return Colors.SegmentedControl.Switch.segmentTextSelectedAndDisabled
             }
         }
 

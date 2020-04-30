@@ -54,14 +54,14 @@ class MSPopupMenuItemCell: MSTableViewCell {
     private let _imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = MSColors.Table.Cell.image
+        imageView.tintColor = Colors.Table.Cell.image
         return imageView
     }()
 
     private let accessoryImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = MSColors.Table.Cell.image
+        imageView.tintColor = Colors.Table.Cell.image
         return imageView
     }()
 
@@ -111,7 +111,7 @@ class MSPopupMenuItemCell: MSTableViewCell {
         }
 
         // Override default background color change
-        backgroundColor = MSColors.Table.Cell.background
+        backgroundColor = Colors.Table.Cell.background
 
         if animated {
             UIView.animate(withDuration: Constants.animationDuration) {
@@ -130,7 +130,7 @@ class MSPopupMenuItemCell: MSTableViewCell {
         }
 
         // Override default background color change
-        backgroundColor = MSColors.Table.Cell.background
+        backgroundColor = Colors.Table.Cell.background
 
         if animated {
             UIView.animate(withDuration: Constants.animationDuration) {
@@ -162,8 +162,8 @@ class MSPopupMenuItemCell: MSTableViewCell {
 
         // Selection
         _imageView.isHighlighted = isSelected
-        titleLabel.textColor = isSelected ? MSColors.PopupMenu.Item.titleSelected : MSColors.Table.Cell.title
-        subtitleLabel.textColor = isSelected ? MSColors.PopupMenu.Item.subtitleSelected : MSColors.Table.Cell.subtitle
+        titleLabel.textColor = isSelected ? Colors.PopupMenu.Item.titleSelected : Colors.Table.Cell.title
+        subtitleLabel.textColor = isSelected ? Colors.PopupMenu.Item.subtitleSelected : Colors.Table.Cell.subtitle
 
         _accessoryType = (isSelected && item?.isAccessoryCheckmarkVisible == true) ? .checkmark : .none
     }

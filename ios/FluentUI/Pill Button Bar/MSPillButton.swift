@@ -14,41 +14,41 @@ import UIKit
     var backgroundColor: UIColor {
         switch self {
         case .outline:
-            return MSColors.PillButton.Outline.background
+            return Colors.PillButton.Outline.background
         case .filled:
-            return MSColors.PillButton.Filled.background
+            return Colors.PillButton.Filled.background
         }
     }
 
     var selectedBackgroundColor: UIColor {
         switch self {
         case .outline:
-           return MSColors.PillButton.Outline.backgroundSelected
+           return Colors.PillButton.Outline.backgroundSelected
         case .filled:
-           return MSColors.PillButton.Filled.backgroundSelected
+           return Colors.PillButton.Filled.backgroundSelected
         }
     }
 
     var titleColor: UIColor {
         switch self {
         case .outline:
-            return MSColors.PillButton.Outline.title
+            return Colors.PillButton.Outline.title
         case .filled:
-            return MSColors.PillButton.Filled.title
+            return Colors.PillButton.Filled.title
         }
     }
 
     var selectedTitleColor: UIColor {
         switch self {
         case .outline:
-            return  MSColors.PillButton.Outline.titleSelected
+            return  Colors.PillButton.Outline.titleSelected
         case .filled:
-            return MSColors.PillButton.Filled.titleSelected
+            return Colors.PillButton.Filled.titleSelected
         }
     }
 
     var borderColor: UIColor {
-        return  MSColors.PillButton.border
+        return  Colors.PillButton.border
     }
 
     func hasBorder(isSelected: Bool = false, isDarkMode: Bool = false) -> Bool {

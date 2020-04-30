@@ -15,7 +15,7 @@ public final class BarButtonItems: NSObject {
 
         let button = UIBarButtonItem(image: image, landscapeImagePhone: landscapeImage, style: .plain, target: target, action: action)
         button.accessibilityLabel = "Accessibility.Done.Label".localized
-        button.tintColor = MSColors.BarButtonItem.primary
+        button.tintColor = Colors.BarButtonItem.primary
         return button
     }
 

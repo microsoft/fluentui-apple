@@ -38,11 +38,11 @@ import UIKit
         case .none:
             return nil
         case .disclosureIndicator:
-            return MSColors.Table.Cell.accessoryDisclosureIndicator
+            return Colors.Table.Cell.accessoryDisclosureIndicator
         case .detailButton:
-            return MSColors.Table.Cell.accessoryDetailButton
+            return Colors.Table.Cell.accessoryDetailButton
         case .checkmark:
-            return MSColors.Table.Cell.accessoryCheckmark
+            return Colors.Table.Cell.accessoryCheckmark
         }
     }
 
@@ -913,9 +913,9 @@ open class MSTableViewCell: UITableViewCell {
     }
 
     public func updateTextColors() {
-        titleLabel.textColor = MSColors.Table.Cell.title
-        subtitleLabel.textColor = MSColors.Table.Cell.subtitle
-        footerLabel.textColor = MSColors.Table.Cell.footer
+        titleLabel.textColor = Colors.Table.Cell.title
+        subtitleLabel.textColor = Colors.Table.Cell.subtitle
+        footerLabel.textColor = Colors.Table.Cell.footer
     }
 
     open override func layoutSubviews() {
@@ -1216,10 +1216,10 @@ open class MSTableViewCell: UITableViewCell {
     }
 
     private func setupBackgroundColors() {
-        backgroundColor = MSColors.Table.Cell.background
+        backgroundColor = Colors.Table.Cell.background
 
         let selectedStateBackgroundView = UIView()
-        selectedStateBackgroundView.backgroundColor = MSColors.Table.Cell.backgroundSelected
+        selectedStateBackgroundView.backgroundColor = Colors.Table.Cell.backgroundSelected
         selectedBackgroundView = selectedStateBackgroundView
     }
 
@@ -1246,7 +1246,7 @@ open class MSTableViewCell: UITableViewCell {
 
     private func updateSelectionImageView() {
         selectionImageView.image = isSelected ? Constants.selectionImageOn : Constants.selectionImageOff
-        selectionImageView.tintColor = isSelected ? MSColors.Table.Cell.selectionIndicatorOn : MSColors.Table.Cell.selectionIndicatorOff
+        selectionImageView.tintColor = isSelected ? Colors.Table.Cell.selectionIndicatorOn : Colors.Table.Cell.selectionIndicatorOff
     }
 
     private func updateSeparator(_ separator: Separator, with type: SeparatorType) {

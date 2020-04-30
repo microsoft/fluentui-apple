@@ -21,14 +21,14 @@ open class MSCenteredLabelCell: UITableViewCell {
         let label = UILabel()
         label.backgroundColor = .clear
         label.font = Constants.labelFont
-        label.textColor = MSColors.Table.CenteredLabelCell.text
+        label.textColor = Colors.Table.CenteredLabelCell.text
         return label
     }()
 
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(label)
-        backgroundColor = MSColors.Table.Cell.background
+        backgroundColor = Colors.Table.Cell.background
     }
 
     @objc public required init(coder aDecoder: NSCoder) {

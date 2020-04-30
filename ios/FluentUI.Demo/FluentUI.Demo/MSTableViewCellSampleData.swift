@@ -163,7 +163,7 @@ class MSTableViewCellSampleData: TableViewSampleData {
         stackView.axis = .vertical
 
         let label = Label(style: .footnote)
-        label.textColor = MSColors.foreground3
+        label.textColor = Colors.foreground3
         label.text = text
         stackView.addArrangedSubview(label)
 
@@ -180,7 +180,7 @@ class MSTableViewCellSampleData: TableViewSampleData {
 
         if withBorder {
             container.layer.borderWidth = UIScreen.main.devicePixel
-            container.layer.borderColor = MSColors.foreground6b.cgColor
+            container.layer.borderColor = Colors.foreground6b.cgColor
             container.layer.cornerRadius = 3
         }
 

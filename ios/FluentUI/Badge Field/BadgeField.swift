@@ -163,14 +163,14 @@ open class BadgeField: UIView {
 
     @objc public init() {
         super.init(frame: .zero)
-        backgroundColor = MSColors.BadgeField.background
+        backgroundColor = Colors.BadgeField.background
 
         labelView.font = Constants.textStyleFont
-        labelView.textColor = MSColors.BadgeField.label
+        labelView.textColor = Colors.BadgeField.label
         addSubview(labelView)
 
         placeholderView.font = Constants.textStyleFont
-        placeholderView.textColor = MSColors.BadgeField.placeholder
+        placeholderView.textColor = Colors.BadgeField.placeholder
         addSubview(placeholderView)
 
         updateLabelsVisibility()

@@ -21,13 +21,13 @@ open class ResizingHandleView: UIView {
         let markLayer = CALayer()
         markLayer.bounds.size = Constants.markSize
         markLayer.cornerRadius = Constants.markCornerRadius
-        markLayer.backgroundColor = MSColors.ResizingHandle.mark.cgColor
+        markLayer.backgroundColor = Colors.ResizingHandle.mark.cgColor
         return markLayer
     }()
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = MSColors.ResizingHandle.background
+        backgroundColor = Colors.ResizingHandle.background
         self.frame.size.height = ResizingHandleView.height
         autoresizingMask = .flexibleWidth
         setContentHuggingPriority(.required, for: .vertical)

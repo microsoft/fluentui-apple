@@ -391,7 +391,7 @@ open class MSDrawerController: UIViewController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = MSColors.Drawer.background
+        view.backgroundColor = Colors.Drawer.background
         if #available(iOS 13.0, *) {
             view.layer.cornerCurve = .continuous
         }
@@ -812,7 +812,7 @@ extension MSDrawerController: UIViewControllerTransitioningDelegate {
             return MSDrawerPresentationController(presentedViewController: presented, presenting: presenting, source: source, sourceObject: sourceView ?? barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection(for: source.view), presentationOffset: presentationOffset, presentationBackground: presentationBackground, adjustHeightForKeyboard: adjustsHeightForKeyboard)
         case .popover:
             let presentationController = UIPopoverPresentationController(presentedViewController: presented, presenting: presenting)
-            presentationController.backgroundColor = MSColors.Drawer.background
+            presentationController.backgroundColor = Colors.Drawer.background
             presentationController.permittedArrowDirections = permittedArrowDirections
             presentationController.delegate = self
 
