@@ -5,18 +5,18 @@
 
 import UIKit
 
-// MARK: MSHUDType
+// MARK: HUDType
 
-enum MSHUDType {
+enum HUDType {
     case activity
     case success
     case failure
     case custom(image: UIImage)
 }
 
-// MARK: - MSHUDView
+// MARK: - HUDView
 
-class MSHUDView: UIView {
+class HUDView: UIView {
     private struct Constants {
         static let backgroundCornerRadius: CGFloat = 4.0
         static let maxWidth: CGFloat = 200.0
@@ -51,7 +51,7 @@ class MSHUDView: UIView {
 
     private let indicatorView: UIView
 
-    public init(label: String = "", type: MSHUDType) {
+    public init(label: String = "", type: HUDType) {
         indicatorView = MSHUDIndicatorView(type: type)
 
         super.init(frame: .zero)
@@ -156,14 +156,14 @@ class MSHUDView: UIView {
 
 // MARK: - MSHUDIndicatorView
 
-/// A container view of a fixed size which accepts a `MSHUDType` and centers its visual presentation.
+/// A container view of a fixed size which accepts a `HUDType` and centers its visual presentation.
 private class MSHUDIndicatorView: UIView {
     private struct Constants {
         static let width: CGFloat = 40.0
         static let height: CGFloat = 40.0
     }
 
-    private static func createContentView(type: MSHUDType) -> UIView {
+    private static func createContentView(type: HUDType) -> UIView {
         switch type {
         case .activity:
             let activityIndicatorView = ActivityIndicatorView(size: .xLarge)
@@ -185,7 +185,7 @@ private class MSHUDIndicatorView: UIView {
 
     private let contentView: UIView
 
-    init(type: MSHUDType) {
+    init(type: HUDType) {
         contentView = MSHUDIndicatorView.createContentView(type: type)
 
         super.init(frame: .zero)

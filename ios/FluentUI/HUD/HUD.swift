@@ -42,7 +42,7 @@ public class HUDParams: NSObject {
     @objc open var isBlocking: Bool
     @objc open var isPersistent: Bool
 
-    fileprivate var hudType: MSHUDType
+    fileprivate var hudType: HUDType
 
     // For Objective-C
     @objc public override convenience init() {
@@ -57,7 +57,7 @@ public class HUDParams: NSObject {
         }
     }
 
-    fileprivate init(caption: String, hudType: MSHUDType, isPersistent: Bool, isBlocking: Bool) {
+    fileprivate init(caption: String, hudType: HUDType, isPersistent: Bool, isBlocking: Bool) {
         self.caption = caption
         self.hudType = hudType
         self.isBlocking = isBlocking
@@ -87,7 +87,7 @@ public class HUD: NSObject {
 
     @objc public weak var delegate: HUDDelegate?
 
-    private var presentedHUDView: MSHUDView? {
+    private var presentedHUDView: HUDView? {
         didSet {
             oldValue?.removeFromSuperview()
             if let presentedHUDView = presentedHUDView {
@@ -133,10 +133,10 @@ public class HUD: NSObject {
     @objc public func show(in view: UIView, with params: HUDParams, onTap: (() -> Void)? = nil) {
         resetIfNeeded()
 
-        presentedHUDView = MSHUDView(label: params.caption, type: params.hudType)
+        presentedHUDView = HUDView(label: params.caption, type: params.hudType)
 
         guard let presentedHUDView = presentedHUDView else {
-            preconditionFailure("HUD could not create MSHUDView")
+            preconditionFailure("HUD could not create HUDView")
         }
 
         containerView.forwardsTouches = !params.isBlocking
