@@ -26,7 +26,7 @@ class CalendarViewDayMonthYearCell: CalendarViewDayMonthCell {
 
     override init(frame: CGRect) {
         yearLabel = UILabel(frame: .zero)
-        yearLabel.font = MSFonts.caption1
+        yearLabel.font = Fonts.caption1
         yearLabel.textAlignment = .center
         yearLabel.textColor = Colors.Calendar.Day.textPrimary
 

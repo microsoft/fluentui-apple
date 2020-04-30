@@ -58,7 +58,7 @@ open class MSNotificationView: UIView {
 
         var cornerRadius: CGFloat { return isToast ? Constants.cornerRadiusForToast : 0 }
         var messageAlignment: NSTextAlignment { return isToast ? .natural : .center }
-        var messageStyle: MSTextStyle { return isToast ? Constants.messageTextStyle : Constants.messageTextStyleForBar }
+        var messageStyle: TextStyle { return isToast ? Constants.messageTextStyle : Constants.messageTextStyleForBar }
         var presentationOffset: CGFloat { return isToast ? Constants.presentationOffsetForToast : 0 }
         var needsFullWidth: Bool { return !isToast }
 
@@ -80,10 +80,10 @@ open class MSNotificationView: UIView {
         static let horizontalSpacing: CGFloat = 16
         static let presentationOffsetForToast: CGFloat = 12
 
-        static let titleTextStyle: MSTextStyle = .button1
-        static let messageTextStyle: MSTextStyle = .subhead
-        static let messageTextStyleForBar: MSTextStyle = .button1
-        static let actionButtonTextStyle: MSTextStyle = .button1
+        static let titleTextStyle: TextStyle = .button1
+        static let messageTextStyle: TextStyle = .subhead
+        static let messageTextStyleForBar: TextStyle = .button1
+        static let actionButtonTextStyle: TextStyle = .button1
 
         static let animationDurationForShowToast: TimeInterval = 0.6
         static let animationDurationForShowBar: TimeInterval = 0.3

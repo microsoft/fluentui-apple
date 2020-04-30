@@ -69,7 +69,7 @@ open class MSPillButton: UIButton {
         static let borderWidth: CGFloat = 1.0
         static let bottomInset: CGFloat = 6.0
         static let cornerRadius: CGFloat = 15.0
-        static let font: UIFont = MSFonts.button4
+        static let font: UIFont = Fonts.button4
         static let horizontalInset: CGFloat = 16.0
         static let topInset: CGFloat = 4.0
     }

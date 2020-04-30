@@ -88,7 +88,7 @@ open class SegmentedControl: UIControl {
             }
         }
 
-        var segmentTextStyle: MSTextStyle {
+        var segmentTextStyle: TextStyle {
             switch self {
             case .tabs:
                 return .subhead

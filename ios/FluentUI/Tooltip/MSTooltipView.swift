@@ -9,7 +9,7 @@ import UIKit
 
 class MSTooltipView: UIView {
     private struct Constants {
-        static let messageLabelTextStyle: MSTextStyle = .subhead
+        static let messageLabelTextStyle: TextStyle = .subhead
 
         static let shadowRadius: CGFloat = 4
         static let shadowOffset: CGFloat = 2

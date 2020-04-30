@@ -5,7 +5,10 @@
 
 import UIKit
 
-public final class MSFonts: NSObject {
+@available(*, deprecated, renamed: "Fonts")
+public typealias MSFonts = Fonts
+
+public final class Fonts: NSObject {
     /// Bold 30pt - Does not scale automatically with Dynamic Type
     @objc public static let largeTitle = UIFont.systemFont(ofSize: 30, weight: .bold)
     /// Bold 26pt - Does not scale automatically with Dynamic Type
@@ -53,7 +56,11 @@ public final class MSFonts: NSObject {
     }
 }
 
-@objc public enum MSTextStyle: Int, CaseIterable {
+@available(*, deprecated, renamed: "TextStyle")
+public typealias MSTextStyle = TextStyle
+
+@objc(MSFTextStyle)
+public enum TextStyle: Int, CaseIterable {
     case largeTitle
     case title1
     case title2
@@ -73,35 +80,35 @@ public final class MSFonts: NSObject {
     public var font: UIFont {
         switch self {
         case .largeTitle:
-            return MSFonts.largeTitle
+            return Fonts.largeTitle
         case .title1:
-            return MSFonts.title1
+            return Fonts.title1
         case .title2:
-            return MSFonts.title2
+            return Fonts.title2
         case .headline:
-            return MSFonts.headline
+            return Fonts.headline
         case .headlineUnscaled:
-            return MSFonts.headlineUnscaled
+            return Fonts.headlineUnscaled
         case .body:
-            return MSFonts.body
+            return Fonts.body
         case .bodyUnscaled:
-            return MSFonts.bodyUnscaled
+            return Fonts.bodyUnscaled
         case .subhead:
-            return MSFonts.subhead
+            return Fonts.subhead
         case .footnote:
-            return MSFonts.footnote
+            return Fonts.footnote
         case .footnoteUnscaled:
-            return MSFonts.footnoteUnscaled
+            return Fonts.footnoteUnscaled
         case .button1:
-            return MSFonts.button1
+            return Fonts.button1
         case .button2:
-            return MSFonts.button2
+            return Fonts.button2
         case .button3:
-            return MSFonts.button3
+            return Fonts.button3
         case .caption1:
-            return MSFonts.caption1
+            return Fonts.caption1
         case .caption2:
-            return MSFonts.caption2
+            return Fonts.caption2
         }
     }
 }

@@ -41,7 +41,7 @@ class MSHUDView: UIView {
     let label: UILabel = {
         let label = UILabel()
         label.textColor = Colors.HUD.text
-        label.font = MSFonts.body
+        label.font = Fonts.body
         label.numberOfLines = 0
         label.preferredMaxLayoutWidth = Constants.labelMaxWidth
         label.lineBreakMode = .byTruncatingTail

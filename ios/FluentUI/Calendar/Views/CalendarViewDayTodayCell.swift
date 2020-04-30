@@ -47,10 +47,10 @@ class CalendarViewDayTodayCell: CalendarViewDayCell {
 
     private func configureFontColor() {
         if isHighlighted || isSelected {
-            dateLabel.font = MSFonts.body
+            dateLabel.font = Fonts.body
             dateLabel.textColor = Colors.Calendar.Day.textSelected
         } else {
-            dateLabel.font = MSFonts.headline
+            dateLabel.font = Fonts.headline
             switch textStyle {
             case .primary:
                 dateLabel.textColor = Colors.Calendar.Day.textPrimary

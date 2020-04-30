@@ -12,8 +12,8 @@ class DateTimePickerViewComponentCell: UITableViewCell {
     private struct Constants {
         static let baseHeight: CGFloat = 45
         static let verticalPadding: CGFloat = 12
-        static let normalTextStyle: MSTextStyle = .body
-        static let emphasizedTextStyle: MSTextStyle = .headline
+        static let normalTextStyle: TextStyle = .body
+        static let emphasizedTextStyle: TextStyle = .headline
         static let normalTextColor: UIColor = Colors.DateTimePicker.text
         static let emphasizedTextColor: UIColor = Colors.DateTimePicker.textEmphasized
     }

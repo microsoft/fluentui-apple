@@ -108,8 +108,8 @@ open class SearchBar: UIView {
         static let clearButtonTrailingInset: CGFloat = 0
         static let cancelButtonLeadingInset: CGFloat = 8.0
 
-        static let searchTextFieldTextStyle: MSTextStyle = .bodyUnscaled
-        static let cancelButtonTextStyle: MSTextStyle = .bodyUnscaled
+        static let searchTextFieldTextStyle: TextStyle = .bodyUnscaled
+        static let cancelButtonTextStyle: TextStyle = .bodyUnscaled
 
         static let cancelButtonShowHideAnimationDuration: TimeInterval = 0.25
         static let navigationBarTransitionHidingDelay: TimeInterval = 0.5

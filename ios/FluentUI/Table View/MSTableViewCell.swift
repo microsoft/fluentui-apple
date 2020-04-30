@@ -126,7 +126,7 @@ open class MSTableViewCell: UITableViewCell {
 
         var customViewSize: CustomViewSize { return self == .oneLine ? .small : .medium }
 
-        var subtitleTextStyle: MSTextStyle {
+        var subtitleTextStyle: TextStyle {
             switch self {
             case .oneLine, .twoLines:
                 return TextStyles.subtitleTwoLines
@@ -146,10 +146,10 @@ open class MSTableViewCell: UITableViewCell {
     }
 
     struct TextStyles {
-        static let title: MSTextStyle = .body
-        static let subtitleTwoLines: MSTextStyle = .footnote
-        static let subtitleThreeLines: MSTextStyle = .subhead
-        static let footer: MSTextStyle = .footnote
+        static let title: TextStyle = .body
+        static let subtitleTwoLines: TextStyle = .footnote
+        static let subtitleThreeLines: TextStyle = .subhead
+        static let footer: TextStyle = .footnote
     }
 
     private struct Constants {

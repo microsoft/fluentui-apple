@@ -62,7 +62,7 @@ class DateTimePickerViewComponent: UIViewController {
     }
 
     override func loadView() {
-        view = MSAccessibilityContainerView(delegate: tableView)
+        view = AccessibilityContainerView(delegate: tableView)
     }
 
     override func viewDidLoad() {

@@ -76,11 +76,11 @@ open class MSTableViewHeaderFooterView: UITableViewHeaderFooterView {
         static let titleDefaultTopMargin: CGFloat = 24
         static let titleDefaultBottomMargin: CGFloat = 8
         static let titleDividerVerticalMargin: CGFloat = 3
-        static let titleTextStyle: MSTextStyle = .footnote
+        static let titleTextStyle: TextStyle = .footnote
 
         static let accessoryButtonBottomMargin: CGFloat = 2
         static let accessoryButtonMarginLeft: CGFloat = 8
-        static var accessoryButtonTextStyle: MSTextStyle = .button2
+        static var accessoryButtonTextStyle: TextStyle = .button2
     }
 
     @objc public static var identifier: String { return String(describing: self) }

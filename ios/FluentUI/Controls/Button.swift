@@ -61,9 +61,9 @@ public enum ButtonStyle: Int, CaseIterable {
     var titleFont: UIFont {
         switch self {
         case .primaryFilled, .primaryOutline, .borderless:
-            return MSFonts.button1
+            return Fonts.button1
         case .secondaryOutline, .tertiaryOutline:
-            return MSFonts.button2
+            return Fonts.button2
         }
     }
 }

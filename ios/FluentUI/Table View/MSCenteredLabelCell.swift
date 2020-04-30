@@ -12,7 +12,7 @@ open class MSCenteredLabelCell: UITableViewCell {
     public static let defaultHeight: CGFloat = 45
 
     private struct Constants {
-        static let labelFont: UIFont = MSFonts.body
+        static let labelFont: UIFont = Fonts.body
         static let paddingVerticalSmall: CGFloat = 5
     }
 

@@ -68,7 +68,7 @@ open class BadgeField: UIView {
         static let dragAndDropScaleFactor: CGFloat = 1.10
         static let dragAndDropPositioningAnimationDuration: TimeInterval = 0.2
         static let labelMarginRight: CGFloat = 5
-        static let textStyleFont: UIFont = MSTextStyle.subhead.font
+        static let textStyleFont: UIFont = TextStyle.subhead.font
         static let textFieldMinWidth: CGFloat = 100
         static let zeroWidthSpace: String = "\u{200B}"
     }

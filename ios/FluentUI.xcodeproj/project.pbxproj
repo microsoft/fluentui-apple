@@ -50,7 +50,7 @@
 		8FD01187228A82A600D25925 /* AccessibleViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD599D052134A682008845EE /* AccessibleViewDelegate.swift */; };
 		8FD01188228A82A600D25925 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC16C20D98EE70016922A /* Colors.swift */; };
 		8FD01189228A82A600D25925 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC16E20D98F340016922A /* Fonts.swift */; };
-		8FD0118A228A82A600D25925 /* MSAccessibilityContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77752A219E455A00033D58 /* MSAccessibilityContainerView.swift */; };
+		8FD0118A228A82A600D25925 /* AccessibilityContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77752A219E455A00033D58 /* AccessibilityContainerView.swift */; };
 		8FD0118B228A82A600D25925 /* MSCalendarConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF41ED82141A02200EC527C /* MSCalendarConfiguration.swift */; };
 		8FD0118C228A82A600D25925 /* MSDayOfMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD777528219E3F6C00033D58 /* MSDayOfMonth.swift */; };
 		8FD0118D228A82A600D25925 /* Obscurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA1AF8E21484A26001AE720 /* Obscurable.swift */; };
@@ -224,7 +224,7 @@
 		FD7254E72146E946002F4069 /* CalendarViewDayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDFB8AEE21361C9D0046850A /* CalendarViewDayCell.swift */; };
 		FD7254E92147059D002F4069 /* Calendar+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7254E82147059D002F4069 /* Calendar+Extensions.swift */; };
 		FD777529219E3F6C00033D58 /* MSDayOfMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD777528219E3F6C00033D58 /* MSDayOfMonth.swift */; };
-		FD77752B219E455A00033D58 /* MSAccessibilityContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77752A219E455A00033D58 /* MSAccessibilityContainerView.swift */; };
+		FD77752B219E455A00033D58 /* AccessibilityContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77752A219E455A00033D58 /* AccessibilityContainerView.swift */; };
 		FD77752D219E62E100033D58 /* DateTimePickerViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77752C219E62E100033D58 /* DateTimePickerViewLayout.swift */; };
 		FD77753021A490BA00033D58 /* DateTimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77752F21A490BA00033D58 /* DateTimePicker.swift */; };
 		FD7DF05C21FA7F5000857267 /* MSTooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05B21FA7F5000857267 /* MSTooltip.swift */; };
@@ -375,7 +375,7 @@
 		FD5BBE42214C73CE008964B4 /* EasyTapButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyTapButton.swift; sourceTree = "<group>"; };
 		FD7254E82147059D002F4069 /* Calendar+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Calendar+Extensions.swift"; sourceTree = "<group>"; };
 		FD777528219E3F6C00033D58 /* MSDayOfMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDayOfMonth.swift; sourceTree = "<group>"; };
-		FD77752A219E455A00033D58 /* MSAccessibilityContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAccessibilityContainerView.swift; sourceTree = "<group>"; };
+		FD77752A219E455A00033D58 /* AccessibilityContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityContainerView.swift; sourceTree = "<group>"; };
 		FD77752C219E62E100033D58 /* DateTimePickerViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimePickerViewLayout.swift; sourceTree = "<group>"; };
 		FD77752F21A490BA00033D58 /* DateTimePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimePicker.swift; sourceTree = "<group>"; };
 		FD7DF05B21FA7F5000857267 /* MSTooltip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTooltip.swift; sourceTree = "<group>"; };
@@ -630,7 +630,7 @@
 				FD599D052134A682008845EE /* AccessibleViewDelegate.swift */,
 				A5CEC16C20D98EE70016922A /* Colors.swift */,
 				A5CEC16E20D98F340016922A /* Fonts.swift */,
-				FD77752A219E455A00033D58 /* MSAccessibilityContainerView.swift */,
+				FD77752A219E455A00033D58 /* AccessibilityContainerView.swift */,
 				FDF41ED82141A02200EC527C /* MSCalendarConfiguration.swift */,
 				FD777528219E3F6C00033D58 /* MSDayOfMonth.swift */,
 				FDA1AF8E21484A26001AE720 /* Obscurable.swift */,
@@ -1146,7 +1146,7 @@
 				8FD01188228A82A600D25925 /* Colors.swift in Sources */,
 				8FD01189228A82A600D25925 /* Fonts.swift in Sources */,
 				FD41C8B322DD3BB70086F899 /* UIScrollView+Extensions.swift in Sources */,
-				8FD0118A228A82A600D25925 /* MSAccessibilityContainerView.swift in Sources */,
+				8FD0118A228A82A600D25925 /* AccessibilityContainerView.swift in Sources */,
 				FD41C89522DD13230086F899 /* MSLargeTitleView.swift in Sources */,
 				B4EF66522294A665007FEAB0 /* MSTableViewHeaderFooterView.swift in Sources */,
 				A5F3B14A232B1F9700007A4F /* UIResponder+Extensions.swift in Sources */,
@@ -1331,7 +1331,7 @@
 				FD5BBE43214C73CE008964B4 /* EasyTapButton.swift in Sources */,
 				B498141421E424920077B48D /* MSTableViewCell.swift in Sources */,
 				FD41C8B522DD3EA20086F899 /* NSLayoutConstraint+Extensions.swift in Sources */,
-				FD77752B219E455A00033D58 /* MSAccessibilityContainerView.swift in Sources */,
+				FD77752B219E455A00033D58 /* AccessibilityContainerView.swift in Sources */,
 				B441478D228CDA130040E88E /* MSBooleanCell.swift in Sources */,
 				FDF41ED92141A02200EC527C /* MSCalendarConfiguration.swift in Sources */,
 				FD77753021A490BA00033D58 /* DateTimePicker.swift in Sources */,

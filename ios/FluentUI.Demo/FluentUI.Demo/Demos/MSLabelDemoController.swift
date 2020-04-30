@@ -13,7 +13,7 @@ class MSLabelDemoController: DemoController {
         super.viewDidLoad()
 
         addLabel(text: "Text Styles", style: .headline, colorStyle: .regular).textAlignment = .center
-        for style in MSTextStyle.allCases {
+        for style in TextStyle.allCases {
             dynamicLabels.append(addLabel(text: style.detailedDescription, style: style, colorStyle: .regular))
         }
 
@@ -30,7 +30,7 @@ class MSLabelDemoController: DemoController {
     }
 
     @discardableResult
-    func addLabel(text: String, style: MSTextStyle, colorStyle: MSTextColorStyle) -> Label {
+    func addLabel(text: String, style: TextStyle, colorStyle: MSTextColorStyle) -> Label {
         let label = Label(style: style, colorStyle: colorStyle)
         label.text = text
         label.numberOfLines = 0
@@ -69,7 +69,7 @@ extension MSTextColorStyle {
     }
 }
 
-extension MSTextStyle {
+extension TextStyle {
     var description: String {
         switch self {
         case .largeTitle:

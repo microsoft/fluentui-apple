@@ -111,7 +111,7 @@ open class TwoLineTitleView: UIView {
     private lazy var titleButtonLabel: UILabel = {
         let label = UILabel()
         label.lineBreakMode = .byTruncatingTail
-        label.font = MSFonts.headlineUnscaled
+        label.font = Fonts.headlineUnscaled
         label.textAlignment = .center
         return label
     }()
@@ -126,7 +126,7 @@ open class TwoLineTitleView: UIView {
     private lazy var subtitleButtonLabel: UILabel = {
         let label = UILabel()
         label.lineBreakMode = .byTruncatingMiddle
-        label.font = MSFonts.footnoteUnscaled
+        label.font = Fonts.footnoteUnscaled
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.8
         return label

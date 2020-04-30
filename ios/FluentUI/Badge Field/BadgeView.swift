@@ -57,7 +57,7 @@ open class BadgeView: UIView {
         case small
         case medium
 
-        var labelTextStyle: MSTextStyle {
+        var labelTextStyle: TextStyle {
             switch self {
             case .small:
                 return .footnote

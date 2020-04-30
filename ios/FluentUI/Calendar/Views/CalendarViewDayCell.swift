@@ -93,7 +93,7 @@ class CalendarViewDayCell: UICollectionViewCell {
         selectionOverlayView.isUserInteractionEnabled = false
 
         dateLabel = UILabel(frame: .zero)
-        dateLabel.font = MSFonts.body
+        dateLabel.font = Fonts.body
         dateLabel.textAlignment = .center
         dateLabel.textColor = Colors.Calendar.Day.textPrimary
 

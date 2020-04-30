@@ -17,7 +17,7 @@ open class Label: UILabel {
             updateTextColor()
         }
     }
-    @objc open var style: MSTextStyle = .body {
+    @objc open var style: TextStyle = .body {
         didSet {
             updateFont()
         }
@@ -42,7 +42,7 @@ open class Label: UILabel {
     private var _textColor: UIColor?
     private var currentTextColor: UIColor { return _textColor ?? colorStyle.color }
 
-    @objc public init(style: MSTextStyle = .body, colorStyle: MSTextColorStyle = .regular) {
+    @objc public init(style: TextStyle = .body, colorStyle: MSTextColorStyle = .regular) {
         self.style = style
         self.colorStyle = colorStyle
         super.init(frame: .zero)

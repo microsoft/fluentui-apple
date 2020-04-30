@@ -19,8 +19,8 @@ class MSLargeTitleView: UIView {
         static let compactAvatarSize: MSAvatarSize = .small
         static let avatarSize: MSAvatarSize = .medium
 
-        static let compactTitleFont: UIFont = MSFonts.title1
-        static let titleFont: UIFont = MSFonts.largeTitle
+        static let compactTitleFont: UIFont = Fonts.title1
+        static let titleFont: UIFont = Fonts.largeTitle
     }
 
     var avatar: MSAvatar? {

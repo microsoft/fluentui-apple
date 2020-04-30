@@ -7,7 +7,7 @@ import UIKit
 
 /// This is a container that forwards the calls to the tableview to create an adjustable picker.
 /// Making the tableView adjustable directly does not work. Tableviews and cells have a weird way of working with accessibility
-class MSAccessibilityContainerView: UIView {
+class AccessibilityContainerView: UIView {
     private weak var delegate: AccessibleViewDelegate?
 
     init(delegate: AccessibleViewDelegate) {
