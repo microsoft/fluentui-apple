@@ -5,21 +5,28 @@
 
 import Foundation
 
-// MARK: MSDayOfMonth
+// MARK: DayOfMonth
 
-public struct MSDayOfMonth {
-    public let weekOfMonth: MSWeekOfMonth
-    public let dayOfWeek: MSDayOfWeek
+@available(*, deprecated, renamed: "DayOfMonth")
+public typealias MSDayOfMonth = DayOfMonth
 
-    public init(weekOfMonth: MSWeekOfMonth? = nil, dayOfWeek: MSDayOfWeek? = nil) {
+public struct DayOfMonth {
+    public let weekOfMonth: WeekOfMonth
+    public let dayOfWeek: DayOfWeek
+
+    public init(weekOfMonth: WeekOfMonth? = nil, dayOfWeek: DayOfWeek? = nil) {
         self.weekOfMonth = weekOfMonth ?? .first
-        self.dayOfWeek = dayOfWeek ?? MSDayOfWeek.allCases.first!
+        self.dayOfWeek = dayOfWeek ?? DayOfWeek.allCases.first!
     }
 }
 
-// MARK: - MSWeekOfMonth
+// MARK: - WeekOfMonth
 
-public enum MSWeekOfMonth: Int, CaseIterable {
+@available(*, deprecated, renamed: "WeekOfMonth")
+public typealias MSWeekOfMonth = WeekOfMonth
+
+@objc(MSFWeekOfMonth)
+public enum WeekOfMonth: Int, CaseIterable {
     case first = 1, second, third, fourth, last
 
     public init?(weekdayOrdinal: Int) {
@@ -44,13 +51,17 @@ public enum MSWeekOfMonth: Int, CaseIterable {
     public var weekdayOrdinal: Int { return rawValue }
 }
 
-// MARK: - MSDayOfWeek
+// MARK: - DayOfWeek
 
-public enum MSDayOfWeek: Int {
+@available(*, deprecated, renamed: "DayOfWeek")
+public typealias MSDayOfWeek = DayOfWeek
+
+@objc(MSFDayOfWeek)
+public enum DayOfWeek: Int {
     case sunday, monday, tuesday, wednesday, thursday, friday, saturday
 
-    static var allCases: [MSDayOfWeek] {
-        var daysOfWeek: [MSDayOfWeek] = [.sunday, .monday, .tuesday, .wednesday, .thursday, .friday, .saturday]
+    static var allCases: [DayOfWeek] {
+        var daysOfWeek: [DayOfWeek] = [.sunday, .monday, .tuesday, .wednesday, .thursday, .friday, .saturday]
         for _ in 0..<Calendar.current.firstWeekday - 1 {
             daysOfWeek.append(daysOfWeek.removeFirst())
         }
@@ -60,7 +71,7 @@ public enum MSDayOfWeek: Int {
     private static let weekdaySymbols = Calendar.sharedCalendarWithTimeZone(nil).weekdaySymbols
 
     public var label: String {
-        return MSDayOfWeek.weekdaySymbols[rawValue]
+        return DayOfWeek.weekdaySymbols[rawValue]
     }
 
     var weekday: Int { return rawValue + 1 }

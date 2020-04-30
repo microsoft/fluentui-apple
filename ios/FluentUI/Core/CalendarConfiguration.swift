@@ -5,9 +5,13 @@
 
 import Foundation
 
-// MARK: MSCalendarConfiguration
+// MARK: CalendarConfiguration
 
-open class MSCalendarConfiguration: NSObject {
+@available(*, deprecated, renamed: "CalendarConfiguration")
+public typealias MSCalendarConfiguration = CalendarConfiguration
+
+@objc(MSFCalendarConfiguration)
+open class CalendarConfiguration: NSObject {
     private struct Constants {
         static let baseReferenceStartTimestamp: TimeInterval = 1420416000 // January 3 2015
         static let baseReferenceEndTimestamp: TimeInterval = 1736035200 // January 5 2025
@@ -16,7 +20,7 @@ open class MSCalendarConfiguration: NSObject {
     }
 
     // swiftlint:disable:next explicit_type_interface
-    @objc public static let `default` = MSCalendarConfiguration()
+    @objc public static let `default` = CalendarConfiguration()
 
     @objc open var firstWeekday: Int = Calendar.current.firstWeekday
 

@@ -283,12 +283,12 @@ private class DateTimePickerViewYearDataSource: DateTimePickerViewDataSource {
 private class DateTimePickerViewDateDataSource: DateTimePickerViewDataSource {
     private var numberOfDates: Int
     private let today = Calendar.sharedCalendarWithTimeZone(nil).startOfDay(for: Date())
-    private let referenceStartDate = Calendar.sharedCalendarWithTimeZone(nil).startOfDay(for: MSCalendarConfiguration.default.referenceStartDate)
+    private let referenceStartDate = Calendar.sharedCalendarWithTimeZone(nil).startOfDay(for: CalendarConfiguration.default.referenceStartDate)
     private var dateComponents = DateComponents()
     private let calendar = Calendar.sharedCalendarWithTimeZone(nil)
 
     init() {
-        let end = calendar.startOfDay(for: MSCalendarConfiguration.default.referenceEndDate)
+        let end = calendar.startOfDay(for: CalendarConfiguration.default.referenceEndDate)
         numberOfDates = referenceStartDate.days(until: end)
     }
 
@@ -527,14 +527,14 @@ private class DateTimePickerViewAMPMDataSource: DateTimePickerViewDataSource {
 // MARK: - DateTimePickerViewWeekOfMonthDataSource
 
 private class DateTimePickerViewWeekOfMonthDataSource: DateTimePickerViewDataSource {
-    let weeksOfMonth: [MSWeekOfMonth] = MSWeekOfMonth.allCases
+    let weeksOfMonth: [WeekOfMonth] = WeekOfMonth.allCases
 
     func numberOfItems() -> Int {
         return weeksOfMonth.count
     }
 
     func indexPath(forItem item: Any) -> IndexPath? {
-        guard let weekOfMonth = item as? MSWeekOfMonth, let weekOfMonthIndex = weeksOfMonth.firstIndex(of: weekOfMonth) else {
+        guard let weekOfMonth = item as? WeekOfMonth, let weekOfMonthIndex = weeksOfMonth.firstIndex(of: weekOfMonth) else {
             return nil
         }
 
@@ -558,7 +558,7 @@ private class DateTimePickerViewWeekOfMonthDataSource: DateTimePickerViewDataSou
     }
 
     func dateComponents(forRowAtIndex index: Int) -> DateComponents? {
-        guard let weekOfMonth = item(forRowAtIndex: index) as? MSWeekOfMonth else {
+        guard let weekOfMonth = item(forRowAtIndex: index) as? WeekOfMonth else {
             return nil
         }
 
@@ -571,14 +571,14 @@ private class DateTimePickerViewWeekOfMonthDataSource: DateTimePickerViewDataSou
 // MARK: - DateTimePickerViewDayOfWeekDataSource
 
 private class DateTimePickerViewDayOfWeekDataSource: DateTimePickerViewDataSource {
-    let weekdays: [MSDayOfWeek] = MSDayOfWeek.allCases
+    let weekdays: [DayOfWeek] = DayOfWeek.allCases
 
     func numberOfItems() -> Int {
         return weekdays.count
     }
 
     func indexPath(forItem item: Any) -> IndexPath? {
-        guard let item = item as? MSDayOfWeek, let index = weekdays.firstIndex(of: item) else {
+        guard let item = item as? DayOfWeek, let index = weekdays.firstIndex(of: item) else {
             return nil
         }
 
@@ -602,7 +602,7 @@ private class DateTimePickerViewDayOfWeekDataSource: DateTimePickerViewDataSourc
     }
 
     func dateComponents(forRowAtIndex index: Int) -> DateComponents? {
-        guard let dayOfWeek = item(forRowAtIndex: index) as? MSDayOfWeek else {
+        guard let dayOfWeek = item(forRowAtIndex: index) as? DayOfWeek else {
             return nil
         }
 

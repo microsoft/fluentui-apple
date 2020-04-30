@@ -43,13 +43,13 @@ class CalendarViewDataSource: NSObject {
     private(set) var monthBannerViewSet: Set<NSValue>
 
     private let styleDataSource: CalendarViewStyleDataSource
-    private let calendarConfiguration: MSCalendarConfiguration
+    private let calendarConfiguration: CalendarConfiguration
     private let indicatorDataSource: CalendarViewIndicatorDataSource?
 
     private var startOfDayCache: [Int: Date]!
     private var indicatorLevelForDayCache: [Date: Int]!
 
-    init(styleDataSource: CalendarViewStyleDataSource, indicatorDataSource: CalendarViewIndicatorDataSource? = nil, calendarConfiguration: MSCalendarConfiguration = MSCalendarConfiguration.default) {
+    init(styleDataSource: CalendarViewStyleDataSource, indicatorDataSource: CalendarViewIndicatorDataSource? = nil, calendarConfiguration: CalendarConfiguration = CalendarConfiguration.default) {
         self.styleDataSource = styleDataSource
         self.calendarConfiguration = calendarConfiguration
         self.indicatorDataSource = indicatorDataSource

@@ -11,7 +11,8 @@ protocol Obscurable: class {
     var isObscuring: Bool { get set }
 }
 
-@objc public enum ObscureStyle: Int {
+@objc(MSFObscureStyle)
+public enum ObscureStyle: Int {
     case blur
     case dim
 }

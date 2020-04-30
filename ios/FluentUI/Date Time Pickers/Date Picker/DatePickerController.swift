@@ -139,7 +139,7 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        calendarView.weekdayHeadingView.setup(horizontalSizeClass: traitCollection.horizontalSizeClass, firstWeekday: MSCalendarConfiguration.default.firstWeekday)
+        calendarView.weekdayHeadingView.setup(horizontalSizeClass: traitCollection.horizontalSizeClass, firstWeekday: CalendarConfiguration.default.firstWeekday)
 
         let collectionView = calendarView.collectionView
 

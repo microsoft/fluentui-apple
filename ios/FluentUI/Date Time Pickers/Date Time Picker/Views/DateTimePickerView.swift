@@ -12,8 +12,8 @@ enum DateTimePickerViewMode {
     case dateTime   /// Date hour/minute am/pm
     case dayOfMonth /// Week of month / Day of week
 
-    static let defaultStartYear: Int = MSCalendarConfiguration.default.referenceStartDate.year
-    static let defaultEndYear: Int = MSCalendarConfiguration.default.referenceEndDate.year
+    static let defaultStartYear: Int = CalendarConfiguration.default.referenceStartDate.year
+    static let defaultEndYear: Int = CalendarConfiguration.default.referenceEndDate.year
 }
 
 // MARK: - DateTimePickerViewDelegate
@@ -41,7 +41,7 @@ protocol DateTimePickerViewDelegate: class {
 class DateTimePickerView: UIControl {
     let mode: DateTimePickerViewMode
     private(set) var date = Date()
-    private(set) var dayOfMonth = MSDayOfMonth()
+    private(set) var dayOfMonth = DayOfMonth()
 
     weak var delegate: DateTimePickerViewDelegate?
 
@@ -114,7 +114,7 @@ class DateTimePickerView: UIControl {
         componentsByType[.timeMinute]?.select(item: dateComponents.minute, animated: animated, userInitiated: false)
     }
 
-    func setDayOfMonth(_ dayOfMonth: MSDayOfMonth, animated: Bool) {
+    func setDayOfMonth(_ dayOfMonth: DayOfMonth, animated: Bool) {
         self.dayOfMonth = dayOfMonth
 
         componentsByType[.weekOfMonth]?.select(item: dayOfMonth.weekOfMonth, animated: animated, userInitiated: false)
@@ -234,9 +234,9 @@ class DateTimePickerView: UIControl {
 
         date = calendar.date(from: dateComponents) ?? date
 
-        let weekOfMonth = componentsByType[.weekOfMonth]?.selectedItem as? MSWeekOfMonth ?? dayOfMonth.weekOfMonth
-        let dayOfWeek = componentsByType[.dayOfWeek]?.selectedItem as? MSDayOfWeek ?? dayOfMonth.dayOfWeek
-        dayOfMonth = MSDayOfMonth(weekOfMonth: weekOfMonth, dayOfWeek: dayOfWeek)
+        let weekOfMonth = componentsByType[.weekOfMonth]?.selectedItem as? WeekOfMonth ?? dayOfMonth.weekOfMonth
+        let dayOfWeek = componentsByType[.dayOfWeek]?.selectedItem as? DayOfWeek ?? dayOfMonth.dayOfWeek
+        dayOfMonth = DayOfMonth(weekOfMonth: weekOfMonth, dayOfWeek: dayOfWeek)
 
         sendActions(for: .valueChanged)
     }
