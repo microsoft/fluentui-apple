@@ -161,7 +161,7 @@ class MSDrawerDemoController: DemoController {
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         ]
 
-        let personaListView = MSPersonaListView()
+        let personaListView = PersonaListView()
         personaListView.personaList = samplePersonas
         controller.view.addSubview(personaListView)
         personaListView.frame = controller.view.bounds

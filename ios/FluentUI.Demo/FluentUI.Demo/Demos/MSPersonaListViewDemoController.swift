@@ -6,45 +6,45 @@
 import FluentUI
 import UIKit
 
-let samplePersonas: [MSPersonaData] = [
-    MSPersonaData(name: "Kat Larrson", email: "kat.larrson@contoso.com", subtitle: "Designer", avatarImage: UIImage(named: "avatar_kat_larsson")),
-    MSPersonaData(name: "Kristin Patterson", email: "kristin.patterson@contoso.com", subtitle: "Software Engineer"),
-    MSPersonaData(name: "Ashley McCarthy", avatarImage: UIImage(named: "avatar_ashley_mccarthy")),
-    MSPersonaData(name: "Carole Poland", email: "carole.poland@contoso.com", subtitle: "Software Engineer"),
-    MSPersonaData(name: "Allan Munger", email: "allan.munger@contoso.com", subtitle: "Designer", avatarImage: UIImage(named: "avatar_allan_munger")),
-    MSPersonaData(name: "Amanda Brady", subtitle: "Program Manager", avatarImage: UIImage(named: "avatar_amanda_brady")),
-    MSPersonaData(name: "Kevin Sturgis", email: "kevin.sturgis@contoso.com", subtitle: "Software Engineeer"),
-    MSPersonaData(name: "Lydia Bauer", email: "lydia.bauer@contoso.com", avatarImage: UIImage(named: "avatar_lydia_bauer")),
-    MSPersonaData(name: "Robin Counts", subtitle: "Program Manager", avatarImage: UIImage(named: "avatar_robin_counts")),
-    MSPersonaData(name: "Tim Deboer", email: "tim.deboer@contoso.com", subtitle: "Designer", avatarImage: UIImage(named: "avatar_tim_deboer")),
-    MSPersonaData(email: "wanda.howard@contoso.com", subtitle: "Director"),
-    MSPersonaData(name: "Daisy Phillips", email: "daisy.phillips@contoso.com", subtitle: "Software Engineer", avatarImage: UIImage(named: "avatar_daisy_phillips")),
-    MSPersonaData(name: "Katri Ahokas", subtitle: "Program Manager", avatarImage: UIImage(named: "avatar_katri_ahokas")),
-    MSPersonaData(name: "Colin Ballinger", email: "colin.ballinger@contoso.com", subtitle: "Software Engineer", avatarImage: UIImage(named: "avatar_colin_ballinger")),
-    MSPersonaData(name: "Mona Kane", email: "mona.kane@contoso.com", subtitle: "Designer"),
-    MSPersonaData(name: "Elvia Atkins", email: "elvia.atkins@contoso.com", subtitle: "Software Engineer", avatarImage: UIImage(named: "avatar_elvia_atkins")),
-    MSPersonaData(name: "Johnie McConnell", subtitle: "Designer", avatarImage: UIImage(named: "avatar_johnie_mcconnell")),
-    MSPersonaData(name: "Charlotte Waltsson", email: "charlotte.waltsson@contoso.com", subtitle: "Software Engineer"),
-    MSPersonaData(name: "Mauricio August", email: "mauricio.august@contoso.com", subtitle: "Program Manager", avatarImage: UIImage(named: "avatar_mauricio_august")),
-    MSPersonaData(name: "Robert Tolbert", email: "robert.tolbert@contoso.com", subtitle: "Software Engineer", avatarImage: UIImage(named: "avatar_robert_tolbert")),
-    MSPersonaData(name: "Isaac Fielder", subtitle: "Designer", avatarImage: UIImage(named: "avatar_isaac_fielder")),
-    MSPersonaData(name: "Elliot Woodward", subtitle: "Designer"),
-    MSPersonaData(email: "carlos.slattery@contoso.com", subtitle: "Software Engineer"),
-    MSPersonaData(name: "Henry Brill", subtitle: "Software Engineer", avatarImage: UIImage(named: "avatar_henry_brill")),
-    MSPersonaData(name: "Cecil Folk", subtitle: "Program Manager", avatarImage: UIImage(named: "avatar_cecil_folk"))
+let samplePersonas: [PersonaData] = [
+    PersonaData(name: "Kat Larrson", email: "kat.larrson@contoso.com", subtitle: "Designer", avatarImage: UIImage(named: "avatar_kat_larsson")),
+    PersonaData(name: "Kristin Patterson", email: "kristin.patterson@contoso.com", subtitle: "Software Engineer"),
+    PersonaData(name: "Ashley McCarthy", avatarImage: UIImage(named: "avatar_ashley_mccarthy")),
+    PersonaData(name: "Carole Poland", email: "carole.poland@contoso.com", subtitle: "Software Engineer"),
+    PersonaData(name: "Allan Munger", email: "allan.munger@contoso.com", subtitle: "Designer", avatarImage: UIImage(named: "avatar_allan_munger")),
+    PersonaData(name: "Amanda Brady", subtitle: "Program Manager", avatarImage: UIImage(named: "avatar_amanda_brady")),
+    PersonaData(name: "Kevin Sturgis", email: "kevin.sturgis@contoso.com", subtitle: "Software Engineeer"),
+    PersonaData(name: "Lydia Bauer", email: "lydia.bauer@contoso.com", avatarImage: UIImage(named: "avatar_lydia_bauer")),
+    PersonaData(name: "Robin Counts", subtitle: "Program Manager", avatarImage: UIImage(named: "avatar_robin_counts")),
+    PersonaData(name: "Tim Deboer", email: "tim.deboer@contoso.com", subtitle: "Designer", avatarImage: UIImage(named: "avatar_tim_deboer")),
+    PersonaData(email: "wanda.howard@contoso.com", subtitle: "Director"),
+    PersonaData(name: "Daisy Phillips", email: "daisy.phillips@contoso.com", subtitle: "Software Engineer", avatarImage: UIImage(named: "avatar_daisy_phillips")),
+    PersonaData(name: "Katri Ahokas", subtitle: "Program Manager", avatarImage: UIImage(named: "avatar_katri_ahokas")),
+    PersonaData(name: "Colin Ballinger", email: "colin.ballinger@contoso.com", subtitle: "Software Engineer", avatarImage: UIImage(named: "avatar_colin_ballinger")),
+    PersonaData(name: "Mona Kane", email: "mona.kane@contoso.com", subtitle: "Designer"),
+    PersonaData(name: "Elvia Atkins", email: "elvia.atkins@contoso.com", subtitle: "Software Engineer", avatarImage: UIImage(named: "avatar_elvia_atkins")),
+    PersonaData(name: "Johnie McConnell", subtitle: "Designer", avatarImage: UIImage(named: "avatar_johnie_mcconnell")),
+    PersonaData(name: "Charlotte Waltsson", email: "charlotte.waltsson@contoso.com", subtitle: "Software Engineer"),
+    PersonaData(name: "Mauricio August", email: "mauricio.august@contoso.com", subtitle: "Program Manager", avatarImage: UIImage(named: "avatar_mauricio_august")),
+    PersonaData(name: "Robert Tolbert", email: "robert.tolbert@contoso.com", subtitle: "Software Engineer", avatarImage: UIImage(named: "avatar_robert_tolbert")),
+    PersonaData(name: "Isaac Fielder", subtitle: "Designer", avatarImage: UIImage(named: "avatar_isaac_fielder")),
+    PersonaData(name: "Elliot Woodward", subtitle: "Designer"),
+    PersonaData(email: "carlos.slattery@contoso.com", subtitle: "Software Engineer"),
+    PersonaData(name: "Henry Brill", subtitle: "Software Engineer", avatarImage: UIImage(named: "avatar_henry_brill")),
+    PersonaData(name: "Cecil Folk", subtitle: "Program Manager", avatarImage: UIImage(named: "avatar_cecil_folk"))
 ]
 
-let searchDirectoryPersonas: [MSPersonaData] = [
-    MSPersonaData(name: "Celeste Burton", email: "celeste.burton@contoso.com", subtitle: "Program Manager", avatarImage: UIImage(named: "avatar_celeste_burton")),
-    MSPersonaData(name: "Erik Nason", email: "erik.nason@contoso.com", subtitle: "Designer"),
-    MSPersonaData(name: "Miguel Garcia", email: "miguel.garcia@contoso.com", subtitle: "Software Engineer", avatarImage: UIImage(named: "avatar_miguel_garcia"))
+let searchDirectoryPersonas: [PersonaData] = [
+    PersonaData(name: "Celeste Burton", email: "celeste.burton@contoso.com", subtitle: "Program Manager", avatarImage: UIImage(named: "avatar_celeste_burton")),
+    PersonaData(name: "Erik Nason", email: "erik.nason@contoso.com", subtitle: "Designer"),
+    PersonaData(name: "Miguel Garcia", email: "miguel.garcia@contoso.com", subtitle: "Software Engineer", avatarImage: UIImage(named: "avatar_miguel_garcia"))
 ]
 
 class MSPersonaListViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let personaListView = MSPersonaListView()
+        let personaListView = PersonaListView()
         personaListView.personaList = samplePersonas
         personaListView.showsSearchDirectoryButton = true
         personaListView.searchDirectoryDelegate = self
@@ -62,10 +62,10 @@ class MSPersonaListViewDemoController: DemoController {
     }
 }
 
-// MARK: - MSPersonaListViewDemoController: MSPersonaListViewSearchDirectoryDelegate
+// MARK: - MSPersonaListViewDemoController: PersonaListViewSearchDirectoryDelegate
 
-extension MSPersonaListViewDemoController: MSPersonaListViewSearchDirectoryDelegate {
-    func personaListSearchDirectory(_ personaListView: MSPersonaListView, completion: @escaping ((_ success: Bool) -> Void)) {
+extension MSPersonaListViewDemoController: PersonaListViewSearchDirectoryDelegate {
+    func personaListSearchDirectory(_ personaListView: PersonaListView, completion: @escaping ((_ success: Bool) -> Void)) {
         // Delay added for 2 seconds to demo activity indicator
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             personaListView.personaList = searchDirectoryPersonas

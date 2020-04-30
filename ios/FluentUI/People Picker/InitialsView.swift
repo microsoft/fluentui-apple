@@ -5,13 +5,13 @@
 
 import UIKit
 
-// MARK: MSInitialsView
+// MARK: InitialsView
 
 /**
- `MSInitialsView` is used to present the initials of an entity such as a person within an avatar view.
+ `InitialsView` is used to present the initials of an entity such as a person within an avatar view.
  The initials are generated from a provided primary text (e.g. a name) or secondary text (e.g. an email address) and placed as a label above a colored background.
  */
-class MSInitialsView: UIView {
+class InitialsView: UIView {
     private static func initialsBackgroundColor(fromPrimaryText primaryText: String?, secondaryText: String?) -> UIColor {
         // Set the color based on the primary text and secondary text
         var combined: String
@@ -83,7 +83,7 @@ class MSInitialsView: UIView {
         return hash
     }
 
-    public var avatarSize: MSAvatarSize {
+    public var avatarSize: AvatarSize {
         didSet {
             frame.size = avatarSize.size
             initialsLabel.font = avatarSize.font
@@ -94,10 +94,10 @@ class MSInitialsView: UIView {
 
     private var initialsLabel: UILabel!
 
-    /// Initializes the initials view and sizes it with MSAvatarSize
+    /// Initializes the initials view and sizes it with AvatarSize
     ///
-    /// - Parameter avatarSize: The MSAvatarSize to size the initials view with
-    init(avatarSize: MSAvatarSize) {
+    /// - Parameter avatarSize: The AvatarSize to size the initials view with
+    init(avatarSize: AvatarSize) {
         self.avatarSize = avatarSize
         super.init(frame: CGRect(origin: .zero, size: avatarSize.size))
 
@@ -123,8 +123,8 @@ class MSInitialsView: UIView {
     ///   - primaryText: The primary text to use to display the initials from (e.g. a name)
     ///   - secondaryText: The secondary text to use to display the initials if name isn't provided (e.g. an email address)
     public func setup(primaryText: String?, secondaryText: String?) {
-        initialsLabel.text = MSInitialsView.initialsText(fromPrimaryText: primaryText, secondaryText: secondaryText)
-        setBackgroundColor(MSInitialsView.initialsBackgroundColor(fromPrimaryText: primaryText, secondaryText: secondaryText))
+        initialsLabel.text = InitialsView.initialsText(fromPrimaryText: primaryText, secondaryText: secondaryText)
+        setBackgroundColor(InitialsView.initialsBackgroundColor(fromPrimaryText: primaryText, secondaryText: secondaryText))
     }
 
     override func layoutSubviews() {

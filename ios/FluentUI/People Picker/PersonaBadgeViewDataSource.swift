@@ -5,12 +5,16 @@
 
 import UIKit
 
-// MARK: MSPersonaBadgeViewDataSource
+// MARK: PersonaBadgeViewDataSource
 
-open class MSPersonaBadgeViewDataSource: BadgeViewDataSource {
-    @objc open var persona: MSPersona
+@available(*, deprecated, renamed: "PersonaBadgeViewDataSource")
+public typealias MSPersonaBadgeViewDataSource = PersonaBadgeViewDataSource
 
-    @objc public init(persona: MSPersona, style: BadgeView.Style = .default, size: BadgeView.Size = .medium) {
+@objc(MSFPersonaBadgeViewDataSource)
+open class PersonaBadgeViewDataSource: BadgeViewDataSource {
+    @objc open var persona: Persona
+
+    @objc public init(persona: Persona, style: BadgeView.Style = .default, size: BadgeView.Size = .medium) {
         self.persona = persona
         super.init(text: persona.name, style: style, size: size)
     }

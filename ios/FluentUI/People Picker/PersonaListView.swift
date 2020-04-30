@@ -5,22 +5,34 @@
 
 import UIKit
 
-// MARK: MSPersonaListViewSelectionDirection
+// MARK: PersonaListViewSelectionDirection
 
-@objc public enum MSPersonaListViewSelectionDirection: Int {
+@available(*, deprecated, renamed: "PersonaListViewSelectionDirection")
+public typealias MSPersonaListViewSelectionDirection = PersonaListViewSelectionDirection
+
+@objc(MSFPersonaListViewSelectionDirection)
+public enum PersonaListViewSelectionDirection: Int {
     case next = 1
     case prev = -1
 }
 
-// MARK: - MSPersonaListViewSearchDirectoryDelegate
+// MARK: - PersonaListViewSearchDirectoryDelegate
 
-@objc public protocol MSPersonaListViewSearchDirectoryDelegate {
-    func personaListSearchDirectory(_ personaListView: MSPersonaListView, completion: @escaping ((_ success: Bool) -> Void))
+@available(*, deprecated, renamed: "PersonaListViewSearchDirectoryDelegate")
+public typealias MSPersonaListViewSearchDirectoryDelegate = PersonaListViewSearchDirectoryDelegate
+
+@objc(MSFPersonaListViewSearchDirectoryDelegate)
+public protocol PersonaListViewSearchDirectoryDelegate {
+    func personaListSearchDirectory(_ personaListView: PersonaListView, completion: @escaping ((_ success: Bool) -> Void))
 }
 
-// MARK: - MSPersonaListView
+// MARK: - PersonaListView
 
-open class MSPersonaListView: UITableView {
+@available(*, deprecated, renamed: "PersonaListView")
+public typealias MSPersonaListView = PersonaListView
+
+@objc(MSFPersonaListView)
+open class PersonaListView: UITableView {
     private enum Section: Int {
         case personas
         case searchDirectory
@@ -33,7 +45,7 @@ open class MSPersonaListView: UITableView {
     }
 
     /// The personas to display in the list view
-    @objc open var personaList: [MSPersona] = [] {
+    @objc open var personaList: [Persona] = [] {
         didSet {
             reloadData()
         }
@@ -49,10 +61,10 @@ open class MSPersonaListView: UITableView {
         }
     }
 
-    @objc open weak var searchDirectoryDelegate: MSPersonaListViewSearchDirectoryDelegate?
+    @objc open weak var searchDirectoryDelegate: PersonaListViewSearchDirectoryDelegate?
 
     /// Callback with the selected MSPersona
-    @objc open var onPersonaSelected: ((MSPersona) -> Void)?
+    @objc open var onPersonaSelected: ((Persona) -> Void)?
 
     private var searchResultText: String = "" {
         didSet {
@@ -77,7 +89,7 @@ open class MSPersonaListView: UITableView {
         separatorStyle = .none
         tableFooterView = UIView(frame: .zero)
 
-        register(MSPersonaCell.self, forCellReuseIdentifier: MSPersonaCell.identifier)
+        register(PersonaCell.self, forCellReuseIdentifier: PersonaCell.identifier)
         register(MSActionsCell.self, forCellReuseIdentifier: MSActionsCell.identifier)
         register(MSActivityIndicatorCell.self, forCellReuseIdentifier: MSActivityIndicatorCell.identifier)
         register(MSCenteredLabelCell.self, forCellReuseIdentifier: MSCenteredLabelCell.identifier)
@@ -107,10 +119,10 @@ open class MSPersonaListView: UITableView {
         delegate?.tableView?(self, didSelectRowAt: indexPathToPick)
     }
 
-    /// Selects / deselects a row based on the MSPersonaListViewSelectionDirection value
+    /// Selects / deselects a row based on the PersonaListViewSelectionDirection value
     ///
-    /// - Parameter direction: The MSPersonaListViewSelectionDirection value to select a 'next' or 'previous' cell
-    @objc public func selectPersona(direction: MSPersonaListViewSelectionDirection) {
+    /// - Parameter direction: The PersonaListViewSelectionDirection value to select a 'next' or 'previous' cell
+    @objc public func selectPersona(direction: PersonaListViewSelectionDirection) {
         if personaList.isEmpty {
             return
         }
@@ -127,7 +139,7 @@ open class MSPersonaListView: UITableView {
         selectRow(at: newIndexPath, animated: false, scrollPosition: .none)
     }
 
-    private func indexPath(for indexPath: IndexPath, direction: MSPersonaListViewSelectionDirection) -> IndexPath {
+    private func indexPath(for indexPath: IndexPath, direction: PersonaListViewSelectionDirection) -> IndexPath {
         let newRow = indexPath.row + direction.rawValue
         if newRow < 0 || newRow >= personaList.count {
             return indexPath
@@ -147,9 +159,9 @@ open class MSPersonaListView: UITableView {
     }
 }
 
-// MARK: - MSPersonaListView: UITableViewDataSource
+// MARK: - PersonaListView: UITableViewDataSource
 
-extension MSPersonaListView: UITableViewDataSource {
+extension PersonaListView: UITableViewDataSource {
     public func numberOfSections(in tableView: UITableView) -> Int {
         return showsSearchDirectoryButton ? 2 : 1
     }
@@ -174,7 +186,7 @@ extension MSPersonaListView: UITableViewDataSource {
 
         switch section {
         case .personas:
-            let cell = dequeueReusableCell(withIdentifier: MSPersonaCell.identifier, for: indexPath) as! MSPersonaCell
+            let cell = dequeueReusableCell(withIdentifier: PersonaCell.identifier, for: indexPath) as! PersonaCell
             let persona = personaList[indexPath.row]
             cell.setup(persona: persona, accessoryType: accessoryType)
             cell.accessibilityTraits = .button
@@ -202,9 +214,9 @@ extension MSPersonaListView: UITableViewDataSource {
     }
 }
 
-// MARK: - MSPersonaListView: UITableViewDelegate
+// MARK: - PersonaListView: UITableViewDelegate
 
-extension MSPersonaListView: UITableViewDelegate {
+extension PersonaListView: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let section = Section(rawValue: indexPath.section) else {
             preconditionFailure("heightForRowAtIndexPath: too many sections")

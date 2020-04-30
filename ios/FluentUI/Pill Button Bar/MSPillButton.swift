@@ -5,9 +5,13 @@
 
 import UIKit
 
-// MARK: MSPillButtonStyle
+// MARK: PillButtonStyle
 
-@objc public enum MSPillButtonStyle: Int {
+@available(*, deprecated, renamed: "PillButtonStyle")
+public typealias MSPillButtonStyle = PillButtonStyle
+
+@objc(MSFPillButtonStyle)
+public enum PillButtonStyle: Int {
     case outline
     case filled
 
@@ -76,7 +80,7 @@ open class MSPillButton: UIButton {
 
     public let pillBarItem: MSPillButtonBarItem
 
-    public let style: MSPillButtonStyle
+    public let style: PillButtonStyle
 
     public override var isSelected: Bool {
         didSet {
@@ -85,7 +89,7 @@ open class MSPillButton: UIButton {
         }
     }
 
-    public init(pillBarItem: MSPillButtonBarItem, style: MSPillButtonStyle = .outline) {
+    public init(pillBarItem: MSPillButtonBarItem, style: PillButtonStyle = .outline) {
         self.pillBarItem = pillBarItem
         self.style = style
         super.init(frame: .zero)

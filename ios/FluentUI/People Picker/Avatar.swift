@@ -5,17 +5,25 @@
 
 import UIKit
 
-// MARK: MSAvatar
+// MARK: Avatar
 
-@objc public protocol MSAvatar {
+@available(*, deprecated, renamed: "Avatar")
+public typealias MSAvatar = Avatar
+
+@objc(MSFAvatar)
+public protocol Avatar {
     var primaryText: String { get }
     var secondaryText: String { get }
     var image: UIImage? { get }
 }
 
-// MARK: - MSAvatarData
+// MARK: - AvatarData
 
-open class MSAvatarData: NSObject, MSAvatar {
+@available(*, deprecated, renamed: "AvatarData")
+public typealias MSAvatarData = AvatarData
+
+@objc(MSFAvatarData)
+open class AvatarData: NSObject, Avatar {
     public var primaryText: String
     public var secondaryText: String
     public var image: UIImage?

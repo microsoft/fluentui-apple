@@ -5,25 +5,33 @@
 
 import UIKit
 
-// MARK: MSPersona
+// MARK: Persona
 
-@objc public protocol MSPersona: MSAvatar {
+@available(*, deprecated, renamed: "Persona")
+public typealias MSPersona = Persona
+
+@objc(MSFPersona)
+public protocol Persona: Avatar {
     var avatarImage: UIImage? { get }
     var email: String { get }
     var name: String { get }
     var subtitle: String { get }
 }
 
-extension MSPersona {
-    func isEqual(to persona: MSPersona) -> Bool {
+extension Persona {
+    func isEqual(to persona: Persona) -> Bool {
         // Preferred method is to check name and email
         return name == persona.name && email == persona.email
     }
 }
 
-// MARK: - MSPersonaData
+// MARK: - PersonaData
 
-open class MSPersonaData: NSObject, MSPersona {
+@available(*, deprecated, renamed: "PersonaData")
+public typealias MSPersonaData = PersonaData
+
+@objc(MSFPersonaData)
+open class PersonaData: NSObject, Persona {
     public var avatarImage: UIImage?
     public var email: String
     public var name: String

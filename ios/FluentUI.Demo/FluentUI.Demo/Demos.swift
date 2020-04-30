@@ -8,7 +8,7 @@ import UIKit
 // Register your control demos here
 let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("ActivityIndicatorView", MSActivityIndicatorViewDemoController.self),
-    ("MSAvatarView", MSAvatarViewDemoController.self),
+    ("AvatarView", MSAvatarViewDemoController.self),
     ("BadgeField", BadgeFieldDemoController.self),
     ("BadgeView", BadgeViewDemoController.self),
     ("Button", MSButtonDemoController.self),
@@ -19,8 +19,8 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("Label", MSLabelDemoController.self),
     ("NavigationController", MSNavigationControllerDemoController.self),
     ("NotificationView", MSNotificationViewDemoController.self),
-    ("MSPeoplePicker", MSPeoplePickerDemoController.self),
-    ("MSPersonaListView", MSPersonaListViewDemoController.self),
+    ("PeoplePicker", MSPeoplePickerDemoController.self),
+    ("PersonaListView", MSPersonaListViewDemoController.self),
     ("MSPillButtonBar", MSPillButtonBarDemoController.self),
     ("MSPopupMenuController", MSPopupMenuDemoController.self),
     ("SegmentedControl", MSSegmentedControlDemoController.self),

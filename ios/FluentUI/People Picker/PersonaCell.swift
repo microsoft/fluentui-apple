@@ -5,27 +5,31 @@
 
 import UIKit
 
-// MARK: MSPersonaCell
+// MARK: PersonaCell
 
-open class MSPersonaCell: MSTableViewCell {
+@available(*, deprecated, renamed: "PersonaCell")
+public typealias MSPersonaCell = PersonaCell
+
+@objc(MSFPersonaCell)
+open class PersonaCell: MSTableViewCell {
     private struct Constants {
-        static let avatarSize: MSAvatarSize = .large
+        static let avatarSize: AvatarSize = .large
     }
 
     open override var customViewSize: MSTableViewCell.CustomViewSize { get { return .medium } set { } }
 
-    private let avatarView: MSAvatarView = {
-        let avatarView = MSAvatarView(avatarSize: Constants.avatarSize)
+    private let avatarView: AvatarView = {
+        let avatarView = AvatarView(avatarSize: Constants.avatarSize)
         avatarView.accessibilityElementsHidden = true
         return avatarView
     }()
 
-    /// Sets up the cell with an MSPersona and an accessory
+    /// Sets up the cell with an Persona and an accessory
     ///
     /// - Parameters:
-    ///   - persona: The MSPersona to set up the cell with
+    ///   - persona: The Persona to set up the cell with
     ///   - accessoryType: The type of accessory that appears on the trailing edge: a disclosure indicator or a details button with an ellipsis icon
-    @objc open func setup(persona: MSPersona, accessoryType: MSTableViewCellAccessoryType = .none) {
+    @objc open func setup(persona: Persona, accessoryType: MSTableViewCellAccessoryType = .none) {
         avatarView.setup(avatar: persona)
         // Attempt to use email if name is empty
         let title = !persona.name.isEmpty ? persona.name : persona.email

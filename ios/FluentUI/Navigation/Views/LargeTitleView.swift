@@ -16,14 +16,14 @@ class LargeTitleView: UIView {
     private struct Constants {
         static let horizontalSpacing: CGFloat = 10
 
-        static let compactAvatarSize: MSAvatarSize = .small
-        static let avatarSize: MSAvatarSize = .medium
+        static let compactAvatarSize: AvatarSize = .small
+        static let avatarSize: AvatarSize = .medium
 
         static let compactTitleFont: UIFont = Fonts.title1
         static let titleFont: UIFont = Fonts.largeTitle
     }
 
-    var avatar: MSAvatar? {
+    var avatar: Avatar? {
         didSet {
             updateProfileButtonVisibility()
             [avatarView, smallMorphingAvatarView].forEach { $0?.setup(avatar: avatar) }
@@ -231,7 +231,7 @@ class LargeTitleView: UIView {
 
     /// Target for the tap gesture on the avatar view, as it is not a button
     ///
-    /// - Parameter gesture: tap gesture on the MSAvatarView
+    /// - Parameter gesture: tap gesture on the AvatarView
     @objc private func handleAvatarViewTapped(gesture: UITapGestureRecognizer) {
         onAvatarTapped?()
     }
@@ -310,10 +310,10 @@ class LargeTitleView: UIView {
     }
 
     /// Triggers the UIViewPropertyAnimator for the SmallMorphingAvatarView
-    /// Used to smoothly animate between two layouts of the internal UILabel of MSAvatarView
+    /// Used to smoothly animate between two layouts of the internal UILabel of AvatarView
     /// Since UILabel is non-animatable, without a "view morph" the animation occurs out-of-step
     ///
-    /// the smallMorphingAvatarView's transform property is manipulated via a CGAffineTransform whose scale is determined via the delta between the expanded and contracted sizes of the MSAvatarView
+    /// the smallMorphingAvatarView's transform property is manipulated via a CGAffineTransform whose scale is determined via the delta between the expanded and contracted sizes of the AvatarView
     /// the default transform expands the smallMorphingAvatarView to match the size of the default AvatarView
     /// since UIView.transform is an animatable property, this animation allows us to simulate the animation of a UILabel
     /// within the animator, the transform is set to the CGAffineTransform.identity, to return it to the smaller size
@@ -350,7 +350,7 @@ extension NSNotification.Name {
 
 // MARK: - ProfileView
 
-private class ProfileView: MSAvatarView {
+private class ProfileView: AvatarView {
     var customAccessibilityLabel: String?
     override var accessibilityLabel: String? {
         get {

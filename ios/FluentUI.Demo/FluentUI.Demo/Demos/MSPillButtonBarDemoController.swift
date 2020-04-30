@@ -49,7 +49,7 @@ class MSPillButtonBarDemoController: DemoController {
         container.addArrangedSubview(UIView())
     }
 
-    func createBar(items: [MSPillButtonBarItem], style: MSPillButtonStyle = .outline, centerAligned: Bool = false) -> UIView {
+    func createBar(items: [MSPillButtonBarItem], style: PillButtonStyle = .outline, centerAligned: Bool = false) -> UIView {
         let bar = MSPillButtonBar(pillButtonStyle: style)
         bar.items = items
         _ = bar.selectItem(_atIndex: 0)

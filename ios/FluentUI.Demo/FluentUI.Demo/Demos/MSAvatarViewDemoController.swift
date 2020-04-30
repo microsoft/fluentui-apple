@@ -14,9 +14,9 @@ class MSAvatarViewDemoController: DemoController {
         createSection(withTitle: "Square style for group", name: "NorthWind Traders", image: UIImage(named: "site")!, style: .square)
     }
 
-    private func createSection(withTitle title: String, name: String, image: UIImage, style: MSAvatarStyle) {
+    private func createSection(withTitle title: String, name: String, image: UIImage, style: AvatarStyle) {
         addTitle(text: title)
-        for size in MSAvatarSize.allCases.reversed() {
+        for size in AvatarSize.allCases.reversed() {
             let imageAvatar = createAvatarView(size: size, name: name, image: image, style: style)
             let initialsAvatar = createAvatarView(size: size, name: name, style: style)
             addRow(text: size.description, items: [imageAvatar, initialsAvatar], textStyle: .footnote, textWidth: 100)
@@ -24,8 +24,8 @@ class MSAvatarViewDemoController: DemoController {
         container.addArrangedSubview(UIView())
     }
 
-    private func createAvatarView(size: MSAvatarSize, name: String, image: UIImage? = nil, style: MSAvatarStyle) -> UIView {
-        let avatarView = MSAvatarView(avatarSize: size, withBorder: true, style: style)
+    private func createAvatarView(size: AvatarSize, name: String, image: UIImage? = nil, style: AvatarStyle) -> UIView {
+        let avatarView = AvatarView(avatarSize: size, withBorder: true, style: style)
         avatarView.setup(primaryText: name, secondaryText: "", image: image)
 
         let avatarContainer = UIView()
@@ -37,7 +37,7 @@ class MSAvatarViewDemoController: DemoController {
     }
 }
 
-extension MSAvatarSize {
+extension AvatarSize {
     var description: String {
         switch self {
         case .extraSmall:

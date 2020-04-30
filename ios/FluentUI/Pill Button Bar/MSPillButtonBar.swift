@@ -62,7 +62,7 @@ open class MSPillButtonBar: UIScrollView {
         }
     }
 
-    @objc public let pillButtonStyle: MSPillButtonStyle
+    @objc public let pillButtonStyle: PillButtonStyle
 
     /// If set to nil, the previously selected item will be deselected and there won't be any items selected
     @objc public var selectedItem: MSPillButtonBarItem? {
@@ -125,7 +125,7 @@ open class MSPillButtonBar: UIScrollView {
         }
     }
 
-    public init(pillButtonStyle: MSPillButtonStyle = .outline) {
+    public init(pillButtonStyle: PillButtonStyle = .outline) {
         self.pillButtonStyle = pillButtonStyle
         super.init(frame: .zero)
         setupScrollView()

@@ -5,57 +5,65 @@
 
 import UIKit
 
-// MARK: MSPeoplePickerDelegate
+// MARK: PeoplePickerDelegate
 
-@objc public protocol MSPeoplePickerDelegate: BadgeFieldDelegate {
+@available(*, deprecated, renamed: "PeoplePickerDelegate")
+public typealias MSPeoplePickerDelegate = PeoplePickerDelegate
+
+@objc(MSFPeoplePickerDelegate)
+public protocol PeoplePickerDelegate: BadgeFieldDelegate {
     // Suggested personas
     /// Called when text is entered into the text field. Provides an opportunity to return a list of personas based on the entered text to populate the suggested list.
-    @objc optional func peoplePicker(_ peoplePicker: MSPeoplePicker, getSuggestedPersonasForText text: String, completion: @escaping ((_ personas: [MSPersona]) -> Void))
+    @objc optional func peoplePicker(_ peoplePicker: PeoplePicker, getSuggestedPersonasForText text: String, completion: @escaping ((_ personas: [Persona]) -> Void))
     /// Determines whether or not the suggested persona should be picked. Called when selecting a persona from the suggested list or returning text from the text field.
-    @objc optional func peoplePicker(_ peoplePicker: MSPeoplePicker, shouldPickPersona persona: MSPersona) -> Bool
+    @objc optional func peoplePicker(_ peoplePicker: PeoplePicker, shouldPickPersona persona: Persona) -> Bool
     /// Called after `shouldPickPersona` when a persona is picked from the suggested list or when text is returned from the text field.
-    @objc optional func peoplePicker(_ peoplePicker: MSPeoplePicker, didPickPersona persona: MSPersona)
+    @objc optional func peoplePicker(_ peoplePicker: PeoplePicker, didPickPersona persona: Persona)
     /// Called when text is returned from the text field. Opportunity to match entered text to a persona (e.g. from an email address) and return that persona to be picked.
-    @objc optional func peoplePicker(_ peoplePicker: MSPeoplePicker, personaFromText text: String) -> MSPersona
+    @objc optional func peoplePicker(_ peoplePicker: PeoplePicker, personaFromText text: String) -> Persona
 
     // Picked personas
     /// Determines whether or not the picked persona is "valid". If invalid the corresponding badge added to the badge field will display in an error state.
-    @objc optional func peoplePicker(_ peoplePicker: MSPeoplePicker, personaIsValid persona: MSPersona) -> Bool
+    @objc optional func peoplePicker(_ peoplePicker: PeoplePicker, personaIsValid persona: Persona) -> Bool
     /// Called when an already picked persona appearing as a badge in the badge field is selected.
-    @objc optional func peoplePicker(_ peoplePicker: MSPeoplePicker, didSelectPersona persona: MSPersona)
+    @objc optional func peoplePicker(_ peoplePicker: PeoplePicker, didSelectPersona persona: Persona)
     /// Called when an already selected and picked persona appearing as a badge in the badge field is tapped.
-    @objc optional func peoplePicker(_ peoplePicker: MSPeoplePicker, didTapSelectedPersona persona: MSPersona)
+    @objc optional func peoplePicker(_ peoplePicker: PeoplePicker, didTapSelectedPersona persona: Persona)
     /// Called when a picked persona is removed from the badge field.
-    @objc optional func peoplePicker(_ peoplePicker: MSPeoplePicker, didRemovePersona persona: MSPersona)
+    @objc optional func peoplePicker(_ peoplePicker: PeoplePicker, didRemovePersona persona: Persona)
 
     // Search directory button
     /// Called when the search directory button is tapped.
-    @objc optional func peoplePicker(_ peoplePicker: MSPeoplePicker, searchDirectoryWithCompletion completion: @escaping (_ personas: [MSPersona], _ success: Bool) -> Void)
+    @objc optional func peoplePicker(_ peoplePicker: PeoplePicker, searchDirectoryWithCompletion completion: @escaping (_ personas: [Persona], _ success: Bool) -> Void)
 }
 
-// MARK: - MSPeoplePicker
+// MARK: - PeoplePicker
+
+@available(*, deprecated, renamed: "PeoplePicker")
+public typealias MSPeoplePicker = PeoplePicker
 
 /**
- `MSPeoplePicker` is used to select one or more personas from a list which is populated according to the text entered into its text field. Selected personas are added to a list of `pickedPersonas` and represented visually as "badges" which can be interacted with and removed.
+ `PeoplePicker` is used to select one or more personas from a list which is populated according to the text entered into its text field. Selected personas are added to a list of `pickedPersonas` and represented visually as "badges" which can be interacted with and removed.
 
  Set `availablePersonas` to provide a list of personas to filter from and populate the `suggestedPersonas` list which is shown in the persona list view based on the text field content provided. The delegate method `getSuggestedPersonasForText` can be used instead of filtering `availablePersonas` to provide custom filtering or calls to other services to return a list of `suggestedPersonas` to display in the persona list.
 
- The `suggestedPersonas` are shown in a list either above or below the control based on the position of `MSPeoplePicker` on screen. If more space is available below the text field than above it then the persona list view will be positioned below, if not it will be positioned above the control.
+ The `suggestedPersonas` are shown in a list either above or below the control based on the position of `PeoplePicker` on screen. If more space is available below the text field than above it then the persona list view will be positioned below, if not it will be positioned above the control.
  */
-open class MSPeoplePicker: BadgeField {
+@objc(MSFPeoplePicker)
+open class PeoplePicker: BadgeField {
     private struct Constants {
         static let personaSuggestionsVerticalMargin: CGFloat = 8
     }
 
     /// Use `availablePersonas` to provide a list of personas that may be filtered and appear as `suggestedPersonas`in the persona list.
-    @objc open var availablePersonas: [MSPersona] = [] {
+    @objc open var availablePersonas: [Persona] = [] {
         didSet {
             personaListView.personaList = availablePersonas
         }
     }
 
     /// Use `pickedPersonas` to provide a list of personas that have been picked. These personas are displayed as interactable badges next to the text field. When a persona from the persona list is picked it gets added here.
-    @objc open var pickedPersonas: [MSPersona] = [] {
+    @objc open var pickedPersonas: [Persona] = [] {
         didSet {
             updatePickedPersonaBadges()
         }
@@ -74,14 +82,14 @@ open class MSPeoplePicker: BadgeField {
      */
     @objc open var allowsPickedPersonasToAppearAsSuggested: Bool = true
 
-    @objc open weak var delegate: MSPeoplePickerDelegate? {
+    @objc open weak var delegate: PeoplePickerDelegate? {
         didSet {
             badgeFieldDelegate = delegate
         }
     }
 
     /// The `suggestedPersonas` are personas that appear in the persona list that can be picked and added to `pickedPersonas`.
-    private var suggestedPersonas: [MSPersona] = [] {
+    private var suggestedPersonas: [Persona] = [] {
         didSet {
             personaListView.personaList = suggestedPersonas
         }
@@ -107,7 +115,7 @@ open class MSPeoplePicker: BadgeField {
 
     private let personaSuggestionsView = UIView()
 
-    private let personaListView = MSPersonaListView()
+    private let personaListView = PersonaListView()
 
     private let separator = Separator()
 
@@ -135,21 +143,21 @@ open class MSPeoplePicker: BadgeField {
     }
 
     /// Returns the badge for the associated persona
-    /// - Parameter persona: The `MSPersona` to find the associated `BadgeView` for
-    @objc open func badge(for persona: MSPersona) -> BadgeView? {
+    /// - Parameter persona: The `Persona` to find the associated `BadgeView` for
+    @objc open func badge(for persona: Persona) -> BadgeView? {
         return badges.first(where: {
-            guard let personaBadgeDataSource = $0.dataSource as? MSPersonaBadgeViewDataSource else {
-                assertionFailure("Badge dataSource is not of type MSPersonaBadgeViewDataSource")
+            guard let personaBadgeDataSource = $0.dataSource as? PersonaBadgeViewDataSource else {
+                assertionFailure("Badge dataSource is not of type PersonaBadgeViewDataSource")
                 return false
             }
             return personaBadgeDataSource.persona.isEqual(to: persona)
         })
     }
 
-    private func persona(for badge: BadgeView) -> MSPersona? {
+    private func persona(for badge: BadgeView) -> Persona? {
         return pickedPersonas.first(where: {
-            guard let personaBadgeDataSource = badge.dataSource as? MSPersonaBadgeViewDataSource else {
-                assertionFailure("Badge dataSource is not of type MSPersonaBadgeViewDataSource")
+            guard let personaBadgeDataSource = badge.dataSource as? PersonaBadgeViewDataSource else {
+                assertionFailure("Badge dataSource is not of type PersonaBadgeViewDataSource")
                 return false
             }
             return personaBadgeDataSource.persona.isEqual(to: $0)
@@ -241,7 +249,7 @@ open class MSPeoplePicker: BadgeField {
         suggestedPersonas = filteredPersonas
     }
 
-    private func shouldPick(persona: MSPersona) -> Bool {
+    private func shouldPick(persona: Persona) -> Bool {
         // Use `shouldPickPersona` delegate method if implemented, otherwise only pick persona if not already picked (checks for matching name and email).
         if let shouldPickPersonaFromDelegate = delegate?.peoplePicker?(self, shouldPickPersona: persona) {
             return shouldPickPersonaFromDelegate
@@ -249,7 +257,7 @@ open class MSPeoplePicker: BadgeField {
         return !pickedPersonas.contains(where: { $0.isEqual(to: persona) })
     }
 
-    private func pickPersona(persona: MSPersona) {
+    private func pickPersona(persona: Persona) {
         if !shouldPick(persona: persona) {
             resetTextFieldContent()
             return
@@ -264,7 +272,7 @@ open class MSPeoplePicker: BadgeField {
     private func updatePickedPersonaBadges() {
         deleteAllBadges()
         pickedPersonas.forEach {
-            addBadge(withDataSource: MSPersonaBadgeViewDataSource(persona: $0))
+            addBadge(withDataSource: PersonaBadgeViewDataSource(persona: $0))
         }
     }
 
@@ -278,14 +286,14 @@ open class MSPeoplePicker: BadgeField {
             return
         }
 
-        let persona = delegate?.peoplePicker?(self, personaFromText: textFieldContent) ?? MSPersonaData(name: textFieldContent)
+        let persona = delegate?.peoplePicker?(self, personaFromText: textFieldContent) ?? PersonaData(name: textFieldContent)
         pickPersona(persona: persona)
     }
 
     open override func addBadge(withDataSource dataSource: BadgeViewDataSource, fromUserAction: Bool = false, updateConstrainedBadges: Bool = true) {
         super.addBadge(withDataSource: dataSource, fromUserAction: fromUserAction, updateConstrainedBadges: updateConstrainedBadges)
-        guard let personaBadgeDataSource = dataSource as? MSPersonaBadgeViewDataSource else {
-            assertionFailure("Badge dataSource is not of type MSPersonaBadgeViewDataSource")
+        guard let personaBadgeDataSource = dataSource as? PersonaBadgeViewDataSource else {
+            assertionFailure("Badge dataSource is not of type PersonaBadgeViewDataSource")
             return
         }
         if fromUserAction {
@@ -294,8 +302,8 @@ open class MSPeoplePicker: BadgeField {
     }
 
     override func addBadge(_ badge: BadgeView) {
-        guard let personaBadgeDataSource = badge.dataSource as? MSPersonaBadgeViewDataSource else {
-            assertionFailure("Badge dataSource is not of type MSPersonaBadgeViewDataSource")
+        guard let personaBadgeDataSource = badge.dataSource as? PersonaBadgeViewDataSource else {
+            assertionFailure("Badge dataSource is not of type PersonaBadgeViewDataSource")
             return
         }
         let isValid = delegate?.peoplePicker?(self, personaIsValid: personaBadgeDataSource.persona) ?? true
@@ -318,9 +326,9 @@ open class MSPeoplePicker: BadgeField {
 
     override func animateDraggedBadgeToBadgeField(_ destinationBadgeField: BadgeField) {
         guard let draggedBadge = draggedBadge,
-            let personaBadgeDataSource = draggedBadge.dataSource as? MSPersonaBadgeViewDataSource,
-            let destinationPeoplePicker = destinationBadgeField as? MSPeoplePicker else {
-            assertionFailure("Badge dataSource is not of type MSPersonaBadgeViewDataSource or destination badge field is not of type MSPeoplePicker")
+            let personaBadgeDataSource = draggedBadge.dataSource as? PersonaBadgeViewDataSource,
+            let destinationPeoplePicker = destinationBadgeField as? PeoplePicker else {
+            assertionFailure("Badge dataSource is not of type PersonaBadgeViewDataSource or destination badge field is not of type MSPeoplePicker")
             return
         }
         if !destinationPeoplePicker.shouldPick(persona: personaBadgeDataSource.persona) {
@@ -355,8 +363,8 @@ open class MSPeoplePicker: BadgeField {
 
     public override func didSelectBadge(_ badge: BadgeView) {
         super.didSelectBadge(badge)
-        guard let personaBadgeDataSource = badge.dataSource as? MSPersonaBadgeViewDataSource else {
-            assertionFailure("Badge dataSource is not of type MSPersonaBadgeViewDataSource")
+        guard let personaBadgeDataSource = badge.dataSource as? PersonaBadgeViewDataSource else {
+            assertionFailure("Badge dataSource is not of type PersonaBadgeViewDataSource")
             return
         }
         delegate?.peoplePicker?(self, didSelectPersona: personaBadgeDataSource.persona)
@@ -364,8 +372,8 @@ open class MSPeoplePicker: BadgeField {
 
     public override func didTapSelectedBadge(_ badge: BadgeView) {
         super.didTapSelectedBadge(badge)
-        guard let personaBadgeDataSource = badge.dataSource as? MSPersonaBadgeViewDataSource else {
-            assertionFailure("Badge dataSource is not of type MSPersonaBadgeViewDataSource")
+        guard let personaBadgeDataSource = badge.dataSource as? PersonaBadgeViewDataSource else {
+            assertionFailure("Badge dataSource is not of type PersonaBadgeViewDataSource")
             return
         }
         delegate?.peoplePicker?(self, didTapSelectedPersona: personaBadgeDataSource.persona)
@@ -395,10 +403,10 @@ open class MSPeoplePicker: BadgeField {
     }
 }
 
-// MARK: - MSPeoplePicker: MSPersonaListViewSearchDirectoryDelegate
+// MARK: - PeoplePicker: PersonaListViewSearchDirectoryDelegate
 
-extension MSPeoplePicker: MSPersonaListViewSearchDirectoryDelegate {
-    public func personaListSearchDirectory(_ personaListView: MSPersonaListView, completion: @escaping (Bool) -> Void) {
+extension PeoplePicker: PersonaListViewSearchDirectoryDelegate {
+    public func personaListSearchDirectory(_ personaListView: PersonaListView, completion: @escaping (Bool) -> Void) {
         delegate?.peoplePicker?(self, searchDirectoryWithCompletion: { personas, success in
             self.suggestedPersonas = personas
             completion(success)

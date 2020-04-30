@@ -5,10 +5,14 @@
 
 import UIKit
 
-// MARK: MSAvatarSize
+// MARK: AvatarSize
 
-/// `MSAvatarSize` detemines the size, font, and corner radius for `MSAvatarView`
-@objc public enum MSAvatarSize: Int, CaseIterable {
+@available(*, deprecated, renamed: "AvatarSize")
+public typealias MSAvatarSize = AvatarSize
+
+/// `AvatarSize` detemines the size, font, and corner radius for `AvatarView`
+@objc(MSFAvatarSize)
+public enum AvatarSize: Int, CaseIterable {
     case extraSmall
     case small
     case medium
@@ -63,21 +67,29 @@ import UIKit
     }
 }
 
-// MARK: - MSAvatarStyle
+// MARK: - AvatarStyle
 
-@objc public enum MSAvatarStyle: Int {
+@available(*, deprecated, renamed: "AvatarStyle")
+public typealias MSAvatarStyle = AvatarStyle
+
+@objc(MSFAvatarStyle)
+public enum AvatarStyle: Int {
     case circle
     case square
 }
 
-// MARK: - MSAvatarView
+// MARK: - AvatarView
+
+@available(*, deprecated, renamed: "AvatarView")
+public typealias MSAvatarView = AvatarView
 
 /**
- `MSAvatarView` is used to present an image or initials view representing an entity such as a person.
- If an image is provided the image is presented in either a circular or a square view based on the `MSAvatarStyle` provided with the initials view presented as a fallback.
+ `AvatarView` is used to present an image or initials view representing an entity such as a person.
+ If an image is provided the image is presented in either a circular or a square view based on the `AvatarStyle` provided with the initials view presented as a fallback.
  The initials used in the initials view are generated from the provided primary text (e.g. a name) or secondary text (e.g. an email address) used to initialize the avatar view.
  */
-open class MSAvatarView: UIView {
+@objc(MSFAvatarView)
+open class AvatarView: UIView {
     private struct Constants {
         static let borderWidth: CGFloat = 2
         static let extraExtraLargeBorderWidth: CGFloat = 4
@@ -88,13 +100,13 @@ open class MSAvatarView: UIView {
         let primaryText: String?
         let secondaryText: String?
 
-        init(avatarView: MSAvatarView) {
+        init(avatarView: AvatarView) {
             self.primaryText = avatarView.primaryText
             self.secondaryText = avatarView.secondaryText
         }
     }
 
-    @objc open var avatarSize: MSAvatarSize {
+    @objc open var avatarSize: AvatarSize {
         didSet {
             frame.size = avatarSize.size
             initialsView.avatarSize = avatarSize
@@ -108,7 +120,7 @@ open class MSAvatarView: UIView {
         }
     }
 
-    @objc open var style: MSAvatarStyle {
+    @objc open var style: AvatarStyle {
         didSet {
             if style != oldValue {
                 setNeedsLayout()
@@ -119,7 +131,7 @@ open class MSAvatarView: UIView {
     private var primaryText: String?
     private var secondaryText: String?
 
-    private var initialsView: MSInitialsView
+    private var initialsView: InitialsView
     private let imageView: UIImageView
     // Use a view as a border to avoid leaking pixels on corner radius
     private let borderView: UIView
@@ -127,15 +139,15 @@ open class MSAvatarView: UIView {
     /// Initializes the avatar view with a size and an optional border
     ///
     /// - Parameters:
-    ///   - avatarSize: The MSAvatarSize to configure the avatar view with
+    ///   - avatarSize: The AvatarSize to configure the avatar view with
     ///   - hasBorder: Boolean describing whether or not to show a border around the avatarView
     ///   - style: The `MSAvatarStyle` to indicate whether the avatar should be displayed as a circle or a square
-    @objc public init(avatarSize: MSAvatarSize, withBorder hasBorder: Bool = false, style: MSAvatarStyle = .circle) {
+    @objc public init(avatarSize: AvatarSize, withBorder hasBorder: Bool = false, style: AvatarStyle = .circle) {
         self.avatarSize = avatarSize
         self.style = style
         avatarBackgroundColor = UIColor.clear
 
-        initialsView = MSInitialsView(avatarSize: avatarSize)
+        initialsView = InitialsView(avatarSize: avatarSize)
         initialsView.isHidden = true
 
         imageView = UIImageView()
@@ -220,7 +232,7 @@ open class MSAvatarView: UIView {
 
     /// Sets up the avatar view with a data from the avatar object.
     /// - Parameter avatar: The avatar object to get content from
-    @objc public func setup(avatar: MSAvatar?) {
+    @objc public func setup(avatar: Avatar?) {
         setup(primaryText: avatar?.primaryText, secondaryText: avatar?.secondaryText, image: avatar?.image)
     }
 

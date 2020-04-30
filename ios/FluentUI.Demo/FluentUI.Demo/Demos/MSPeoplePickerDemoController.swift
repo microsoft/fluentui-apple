@@ -12,11 +12,11 @@ class PeoplePickerSampleData {
     struct Variant {
         let description: String
         let numberOfLines: Int
-        let pickedPersonas: [MSPersona]
+        let pickedPersonas: [Persona]
         let allowsPickedPersonasToAppearAsSuggested: Bool
         let showsSearchDirectoryButton: Bool
 
-        init(description: String, numberOfLines: Int = 0, pickedPersonas: [MSPersona] = [], allowsPickedPersonasToAppearAsSuggested: Bool = true, showsSearchDirectoryButton: Bool = true) {
+        init(description: String, numberOfLines: Int = 0, pickedPersonas: [Persona] = [], allowsPickedPersonasToAppearAsSuggested: Bool = true, showsSearchDirectoryButton: Bool = true) {
             self.description = description
             self.numberOfLines = numberOfLines
             self.pickedPersonas = pickedPersonas
@@ -36,7 +36,7 @@ class PeoplePickerSampleData {
 // MARK: - MSPeoplePickerDemoController
 
 class MSPeoplePickerDemoController: DemoController {
-    var peoplePickers: [MSPeoplePicker] = []
+    var peoplePickers: [PeoplePicker] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,7 +51,7 @@ class MSPeoplePickerDemoController: DemoController {
     }
 
     func addPeoplePicker(for variant: PeoplePickerSampleData.Variant) {
-        let peoplePicker = MSPeoplePicker()
+        let peoplePicker = PeoplePicker()
         peoplePicker.label = "Send to:"
         peoplePicker.availablePersonas = samplePersonas
         peoplePicker.pickedPersonas = variant.pickedPersonas
@@ -65,30 +65,30 @@ class MSPeoplePickerDemoController: DemoController {
     }
 }
 
-// MARK: - MSPeoplePickerDemoController: MSPeoplePickerDelegate
+// MARK: - MSPeoplePickerDemoController: PeoplePickerDelegate
 
-extension MSPeoplePickerDemoController: MSPeoplePickerDelegate {
-    func peoplePicker(_ peoplePicker: MSPeoplePicker, personaFromText text: String) -> MSPersona {
-        return samplePersonas.first { return $0.name.lowercased() == text.lowercased() } ?? MSPersonaData(name: text)
+extension MSPeoplePickerDemoController: PeoplePickerDelegate {
+    func peoplePicker(_ peoplePicker: PeoplePicker, personaFromText text: String) -> Persona {
+        return samplePersonas.first { return $0.name.lowercased() == text.lowercased() } ?? PersonaData(name: text)
     }
 
-    func peoplePicker(_ peoplePicker: MSPeoplePicker, personaIsValid persona: MSPersona) -> Bool {
+    func peoplePicker(_ peoplePicker: PeoplePicker, personaIsValid persona: Persona) -> Bool {
         let availablePersonas = samplePersonas + searchDirectoryPersonas
         return availablePersonas.contains { $0.name == persona.name }
     }
 
-    func peoplePicker(_ peoplePicker: MSPeoplePicker, didPickPersona persona: MSPersona) {
+    func peoplePicker(_ peoplePicker: PeoplePicker, didPickPersona persona: Persona) {
         if peoplePicker == peoplePickers.last {
             showMessage("\(persona.name) was picked")
         }
     }
 
-    func peoplePicker(_ peoplePicker: MSPeoplePicker, didTapSelectedPersona persona: MSPersona) {
+    func peoplePicker(_ peoplePicker: PeoplePicker, didTapSelectedPersona persona: Persona) {
         peoplePicker.badge(for: persona)?.isSelected = false
         showMessage("\(persona.name) was tapped")
     }
 
-    func peoplePicker(_ peoplePicker: MSPeoplePicker, searchDirectoryWithCompletion completion: @escaping ([MSPersona], Bool) -> Void) {
+    func peoplePicker(_ peoplePicker: PeoplePicker, searchDirectoryWithCompletion completion: @escaping ([Persona], Bool) -> Void) {
         // Delay added for 2 seconds to demo activity indicator
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             let text = peoplePicker.textFieldContent.lowercased()
