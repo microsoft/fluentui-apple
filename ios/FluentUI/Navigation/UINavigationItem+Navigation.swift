@@ -33,18 +33,18 @@ import UIKit
         }
     }
 
-    var navigationBarStyle: MSNavigationBar.Style {
+    var navigationBarStyle: NavigationBar.Style {
         get {
-            return objc_getAssociatedObject(self, &AssociatedKeys.navigationBarStyle) as? MSNavigationBar.Style ?? .default
+            return objc_getAssociatedObject(self, &AssociatedKeys.navigationBarStyle) as? NavigationBar.Style ?? .default
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.navigationBarStyle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 
-    var navigationBarShadow: MSNavigationBar.Shadow {
+    var navigationBarShadow: NavigationBar.Shadow {
         get {
-            return objc_getAssociatedObject(self, &AssociatedKeys.navigationBarShadow) as? MSNavigationBar.Shadow ?? .automatic
+            return objc_getAssociatedObject(self, &AssociatedKeys.navigationBarShadow) as? NavigationBar.Shadow ?? .automatic
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.navigationBarShadow, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)

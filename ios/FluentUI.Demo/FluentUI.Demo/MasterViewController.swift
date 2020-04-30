@@ -25,14 +25,14 @@ class MasterViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let titleView = MSTwoLineTitleView()
+        let titleView = TwoLineTitleView()
         titleView.setup(
             title: navigationItem.title ?? "",
             subtitle: FluentUIFramework.bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
         )
         navigationItem.titleView = titleView
 
-        tableView.backgroundColor = MSColors.Table.background
+        tableView.backgroundColor = Colors.Table.background
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
     }
@@ -68,7 +68,7 @@ class MasterViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MSTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! TableViewCell
         cell.setup(title: demos[indexPath.row].title, accessoryType: .disclosureIndicator)
         cell.titleNumberOfLinesForLargerDynamicType = 2
         return cell

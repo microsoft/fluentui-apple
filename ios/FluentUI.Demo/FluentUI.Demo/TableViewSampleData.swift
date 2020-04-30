@@ -14,15 +14,15 @@ class TableViewSampleData {
         let numberOfLines: Int
         let hasFullLengthLabelAccessoryView: Bool
         let hasAccessory: Bool
-        let accessoryButtonStyle: MSTableViewHeaderFooterView.AccessoryButtonStyle
+        let accessoryButtonStyle: TableViewHeaderFooterView.AccessoryButtonStyle
         let allowsMultipleSelection: Bool
-        let headerStyle: MSTableViewHeaderFooterView.Style
+        let headerStyle: TableViewHeaderFooterView.Style
         let hasFooter: Bool
         let footerText: String
         let footerLinkText: String
         let hasCustomLinkHandler: Bool
 
-        init(title: String, items: [Item] = [], numberOfLines: Int = 1, hasFullLengthLabelAccessoryView: Bool = false, hasAccessory: Bool = false, accessoryButtonStyle: MSTableViewHeaderFooterView.AccessoryButtonStyle = .regular, allowsMultipleSelection: Bool = true, headerStyle: MSTableViewHeaderFooterView.Style = .header, hasFooter: Bool = false, footerText: String = "", footerLinkText: String = "", hasCustomLinkHandler: Bool = false) {
+        init(title: String, items: [Item] = [], numberOfLines: Int = 1, hasFullLengthLabelAccessoryView: Bool = false, hasAccessory: Bool = false, accessoryButtonStyle: TableViewHeaderFooterView.AccessoryButtonStyle = .regular, allowsMultipleSelection: Bool = true, headerStyle: TableViewHeaderFooterView.Style = .header, hasFooter: Bool = false, footerText: String = "", footerLinkText: String = "", hasCustomLinkHandler: Bool = false) {
             self.title = title
             self.items = items
             self.numberOfLines = numberOfLines
@@ -87,7 +87,7 @@ class TableViewSampleData {
         }
         let customView = UIImageView(image: image)
         customView.contentMode = .scaleAspectFit
-        customView.tintColor = MSColors.Table.Cell.image
+        customView.tintColor = Colors.Table.Cell.image
         return customView
     }
 }

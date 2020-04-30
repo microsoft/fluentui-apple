@@ -22,12 +22,12 @@ class DemoController: UIViewController {
     }
 
     let container: UIStackView = createVerticalContainer()
-    let scrollingContainer = MSScrollView(frame: .zero)
+    let scrollingContainer = ScrollView(frame: .zero)
 
     var allowsContentToScroll: Bool { return true }
 
-    func createButton(title: String, action: Selector) -> MSButton {
-        let button = MSButton()
+    func createButton(title: String, action: Selector) -> Button {
+        let button = Button()
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.numberOfLines = 0
         button.setTitle(title, for: .normal)
@@ -36,8 +36,8 @@ class DemoController: UIViewController {
     }
 
     @discardableResult
-    func addDescription(text: String, textAlignment: NSTextAlignment = .natural) -> MSLabel {
-        let description = MSLabel(style: .subhead, colorStyle: .regular)
+    func addDescription(text: String, textAlignment: NSTextAlignment = .natural) -> Label {
+        let description = Label(style: .subhead, colorStyle: .regular)
         description.numberOfLines = 0
         description.text = text
         description.textAlignment = textAlignment
@@ -46,13 +46,13 @@ class DemoController: UIViewController {
     }
 
     func addTitle(text: String) {
-        let titleLabel = MSLabel(style: .headline)
+        let titleLabel = Label(style: .headline)
         titleLabel.text = text
         titleLabel.textAlignment = .center
         container.addArrangedSubview(titleLabel)
     }
 
-    func addRow(text: String = "", items: [UIView], textStyle: MSTextStyle = .subhead, textWidth: CGFloat = rowTextWidth, itemSpacing: CGFloat = horizontalSpacing, stretchItems: Bool = false, centerItems: Bool = false) {
+    func addRow(text: String = "", items: [UIView], textStyle: TextStyle = .subhead, textWidth: CGFloat = rowTextWidth, itemSpacing: CGFloat = horizontalSpacing, stretchItems: Bool = false, centerItems: Bool = false) {
         let itemsContainer = UIStackView()
         itemsContainer.axis = .vertical
         itemsContainer.alignment = stretchItems ? .fill : (centerItems ? .center : .leading)
@@ -64,7 +64,7 @@ class DemoController: UIViewController {
         itemRow.spacing = itemSpacing
 
         if text != "" {
-            let label = MSLabel(style: textStyle, colorStyle: .regular)
+            let label = Label(style: textStyle, colorStyle: .regular)
             label.text = text
             label.widthAnchor.constraint(equalToConstant: textWidth).isActive = true
             itemRow.addArrangedSubview(label)
@@ -96,7 +96,7 @@ class DemoController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = MSColors.background1
+        view.backgroundColor = Colors.background1
 
         if allowsContentToScroll {
             view.addSubview(scrollingContainer)

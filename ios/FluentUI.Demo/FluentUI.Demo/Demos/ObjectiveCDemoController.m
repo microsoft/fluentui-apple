@@ -5,9 +5,9 @@
 
 #import "ObjectiveCDemoController.h"
 
-@interface ObjectiveCDemoController () <MSTwoLineTitleViewDelegate>
+@interface ObjectiveCDemoController () <MSFTwoLineTitleViewDelegate>
 
-@property (nonatomic) MSTwoLineTitleView *titleView;
+@property (nonatomic) MSFTwoLineTitleView *titleView;
 @property (nonatomic) UIStackView *container;
 @property (nonatomic) UIScrollView *scrollingContainer;
 
@@ -20,7 +20,7 @@
     self.container = [self createVerticalContainer];
     self.scrollingContainer = [[UIScrollView alloc] initWithFrame:CGRectZero];
 
-    self.view.backgroundColor = MSColors.background1;
+    self.view.backgroundColor = MSFColors.background1;
     [self setupTitleView];
 
     [self.view addSubview:self.scrollingContainer];
@@ -37,7 +37,7 @@
         [[self.container widthAnchor] constraintEqualToAnchor:[self.scrollingContainer widthAnchor]],
     ]];
 
-    MSButton *testButton = [self createButtonWithTitle:@"Test" action:nil];
+    MSFButton *testButton = [self createButtonWithTitle:@"Test" action:nil];
     [self.container addArrangedSubview:testButton];
 }
 
@@ -51,14 +51,14 @@
 }
 
 - (void)setupTitleView {
-    self.titleView = [[MSTwoLineTitleView alloc] initWithStyle: MSTwoLineTitleViewStyleDark];
-    [self.titleView setupWithTitle:self.title subtitle:nil interactivePart:MSTwoLineTitleViewInteractivePartTitle accessoryType:MSTwoLineTitleViewAccessoryTypeNone];
+    self.titleView = [[MSFTwoLineTitleView alloc] initWithStyle:MSFTwoLineTitleViewStyleDark];
+    [self.titleView setupWithTitle:self.title subtitle:nil interactivePart:MSFTwoLineTitleViewInteractivePartTitle accessoryType:MSFTwoLineTitleViewAccessoryTypeNone];
     self.titleView.delegate = self;
     self.navigationItem.titleView = self.titleView;
 }
 
-- (MSButton *)createButtonWithTitle:(NSString *)title action:(SEL)action {
-    MSButton* button = [[MSButton alloc] init];
+- (MSFButton *)createButtonWithTitle:(NSString *)title action:(SEL)action {
+    MSFButton* button = [[MSFButton alloc] init];
     button.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     [button setTitle:title forState:UIControlStateNormal];
     [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
@@ -66,15 +66,15 @@
 }
 
 - (void)addTitleWithText:(NSString*)text {
-    MSLabel* titleLabel = [[MSLabel alloc] initWithStyle:MSTextStyleHeadline colorStyle:MSTextColorStyleRegular];
+    MSFLabel* titleLabel = [[MSFLabel alloc] initWithStyle:MSFTextStyleHeadline colorStyle:MSFTextColorStyleRegular];
     titleLabel.text = text;
     titleLabel.textAlignment = NSTextAlignmentCenter;
     [self.container addArrangedSubview:titleLabel];
 }
 
-#pragma mark MSTwoLineTitleViewDelegate
+#pragma mark MSFTwoLineTitleViewDelegate
 
-- (void)twoLineTitleViewDidTapOnTitle:(MSTwoLineTitleView *)twoLineTitleView {
+- (void)twoLineTitleViewDidTapOnTitle:(MSFTwoLineTitleView *)twoLineTitleView {
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:nil message:@"The title button was pressed" preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
     [self presentViewController:alert animated:true completion:nil];

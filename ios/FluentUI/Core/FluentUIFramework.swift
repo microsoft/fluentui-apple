@@ -29,13 +29,13 @@ public class FluentUIFramework: NSObject {
         // UIToolbar
         let toolbar = UIToolbar.appearance()
         toolbar.isTranslucent = false
-        toolbar.barTintColor = MSColors.Toolbar.background
-        toolbar.tintColor = MSColors.Toolbar.tint
+        toolbar.barTintColor = Colors.Toolbar.background
+        toolbar.tintColor = Colors.Toolbar.tint
 
         // UIBarButtonItem
         let barButtonItem = UIBarButtonItem.appearance()
         var titleAttributes = barButtonItem.titleTextAttributes(for: .normal) ?? [:]
-        titleAttributes[.font] = MSFonts.bodyUnscaled
+        titleAttributes[.font] = Fonts.bodyUnscaled
         barButtonItem.setTitleTextAttributes(titleAttributes, for: .normal)
 
         initializeUISwitchAppearance(UISwitch.appearance())
@@ -45,8 +45,8 @@ public class FluentUIFramework: NSObject {
 
     static func initializeUINavigationBarAppearance(_ navigationBar: UINavigationBar, traits: UITraitCollection? = nil) {
         navigationBar.isTranslucent = false
-        navigationBar.barTintColor = MSColors.NavigationBar.background
-        navigationBar.tintColor = MSColors.NavigationBar.tint
+        navigationBar.barTintColor = Colors.NavigationBar.background
+        navigationBar.tintColor = Colors.NavigationBar.tint
         if #available(iOS 12, *) {
             let traits = traits ?? navigationBar.traitCollection
             // Removing built-in shadow for Dark Mode
@@ -54,8 +54,8 @@ public class FluentUIFramework: NSObject {
         }
 
         var titleAttributes = navigationBar.titleTextAttributes ?? [:]
-        titleAttributes[.font] = MSFonts.headlineUnscaled
-        titleAttributes[.foregroundColor] = MSColors.NavigationBar.title
+        titleAttributes[.font] = Fonts.headlineUnscaled
+        titleAttributes[.foregroundColor] = Colors.NavigationBar.title
         navigationBar.titleTextAttributes = titleAttributes
 
         navigationBar.backIndicatorImage = UIImage.staticImageNamed("back-24x24")
@@ -63,11 +63,11 @@ public class FluentUIFramework: NSObject {
     }
 
     static func initializeUISwitchAppearance(_ `switch`: UISwitch) {
-        `switch`.onTintColor = MSColors.Switch.onTint
+        `switch`.onTintColor = Colors.Switch.onTint
     }
 
     static func initializeUIProgressViewAppearance(_ progressView: UIProgressView) {
-        progressView.progressTintColor = MSColors.Progress.progressTint
-        progressView.trackTintColor = MSColors.Progress.trackTint
+        progressView.progressTintColor = Colors.Progress.progressTint
+        progressView.trackTintColor = Colors.Progress.trackTint
     }
 }

@@ -18,15 +18,15 @@ class OtherCellsDemoController: DemoController {
 
         tableView = UITableView(frame: view.bounds, style: .grouped)
         tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        tableView.register(MSActionsCell.self, forCellReuseIdentifier: MSActionsCell.identifier)
-        tableView.register(MSActivityIndicatorCell.self, forCellReuseIdentifier: MSActivityIndicatorCell.identifier)
-        tableView.register(MSBooleanCell.self, forCellReuseIdentifier: MSBooleanCell.identifier)
-        tableView.register(MSCenteredLabelCell.self, forCellReuseIdentifier: MSCenteredLabelCell.identifier)
-        tableView.register(MSTableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: MSTableViewHeaderFooterView.identifier)
+        tableView.register(ActionsCell.self, forCellReuseIdentifier: ActionsCell.identifier)
+        tableView.register(ActivityIndicatorCell.self, forCellReuseIdentifier: ActivityIndicatorCell.identifier)
+        tableView.register(BooleanCell.self, forCellReuseIdentifier: BooleanCell.identifier)
+        tableView.register(CenteredLabelCell.self, forCellReuseIdentifier: CenteredLabelCell.identifier)
+        tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = MSColors.Table.backgroundGrouped
-        tableView.separatorColor = MSColors.Separator.default
+        tableView.backgroundColor = Colors.Table.backgroundGrouped
+        tableView.separatorColor = Colors.Separator.default
         tableView.tableFooterView = UIView(frame: .zero)
         view.addSubview(tableView)
     }
@@ -47,20 +47,20 @@ extension OtherCellsDemoController: UITableViewDataSource {
         let section = sections[indexPath.section]
         let item = section.items[indexPath.row]
 
-        if section.title == "MSActionsCell" {
-            let cell = tableView.dequeueReusableCell(withIdentifier: MSActionsCell.identifier) as! MSActionsCell
+        if section.title == "ActionsCell" {
+            let cell = tableView.dequeueReusableCell(withIdentifier: ActionsCell.identifier) as! ActionsCell
             cell.setup(action1Title: item.text1, action2Title: item.text2, action2Type: .destructive)
             let isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
             cell.bottomSeparatorType = isLastInSection ? .full : .inset
             return cell
         }
 
-        if section.title == "MSActivityIndicatorCell" {
-            return tableView.dequeueReusableCell(withIdentifier: MSActivityIndicatorCell.identifier) as! MSActivityIndicatorCell
+        if section.title == "ActivityIndicatorCell" {
+            return tableView.dequeueReusableCell(withIdentifier: ActivityIndicatorCell.identifier) as! ActivityIndicatorCell
         }
 
-        if section.title == "MSBooleanCell" {
-            let cell = tableView.dequeueReusableCell(withIdentifier: MSBooleanCell.identifier) as! MSBooleanCell
+        if section.title == "BooleanCell" {
+            let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as! BooleanCell
             cell.setup(title: item.text1, customView: TableViewSampleData.createCustomView(imageName: item.image, useImageAsTemplate: true), isOn: indexPath.row == 0)
             cell.onValueChanged = { [unowned self, unowned cell] in
                 self.showAlertForSwitchTapped(isOn: cell.isOn)
@@ -68,8 +68,8 @@ extension OtherCellsDemoController: UITableViewDataSource {
             return cell
         }
 
-        if section.title == "MSCenteredLabelCell" {
-            let cell = tableView.dequeueReusableCell(withIdentifier: MSCenteredLabelCell.identifier) as! MSCenteredLabelCell
+        if section.title == "CenteredLabelCell" {
+            let cell = tableView.dequeueReusableCell(withIdentifier: CenteredLabelCell.identifier) as! CenteredLabelCell
             cell.setup(text: item.text1)
             return cell
         }
@@ -90,14 +90,14 @@ extension OtherCellsDemoController: UITableViewDataSource {
 
 extension OtherCellsDemoController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: MSTableViewHeaderFooterView.identifier) as! MSTableViewHeaderFooterView
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as! TableViewHeaderFooterView
         let section = sections[section]
         header.setup(style: section.headerStyle, title: section.title)
         return header
     }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.backgroundColor = MSColors.Table.Cell.backgroundGrouped
+        cell.backgroundColor = Colors.Table.Cell.backgroundGrouped
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
