@@ -5,13 +5,13 @@
 
 import UIKit
 
-// MARK: MSShyHeaderView
+// MARK: ShyHeaderView
 
 /// "Hideable" header view for use in a navigation stack, appearing above a content view controller
 /// Used to contain an accessory provided by the VC contained by the NavigatableShyContainerVC
 /// This class in itself is fairly straightforward, defining a height and a containment layout
 /// The animation around showing/hiding this view progressively is handled by its superview/superVC, an instance of ShyHeaderController
-class MSShyHeaderView: UIView {
+class ShyHeaderView: UIView {
     /// Defines all possible states of the header view's appearance
     ///
     /// - exposed: Fully showing header

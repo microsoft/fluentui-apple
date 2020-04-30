@@ -186,10 +186,10 @@
 		FD41C88522DD13230086F899 /* ContentScrollViewTraits.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C86E22DD13230086F899 /* ContentScrollViewTraits.swift */; };
 		FD41C88622DD13230086F899 /* ShyHeaderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87022DD13230086F899 /* ShyHeaderController.swift */; };
 		FD41C88722DD13230086F899 /* ShyHeaderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87022DD13230086F899 /* ShyHeaderController.swift */; };
-		FD41C88822DD13230086F899 /* MSShyHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87122DD13230086F899 /* MSShyHeaderView.swift */; };
-		FD41C88922DD13230086F899 /* MSShyHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87122DD13230086F899 /* MSShyHeaderView.swift */; };
-		FD41C89422DD13230086F899 /* MSLargeTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87A22DD13230086F899 /* MSLargeTitleView.swift */; };
-		FD41C89522DD13230086F899 /* MSLargeTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87A22DD13230086F899 /* MSLargeTitleView.swift */; };
+		FD41C88822DD13230086F899 /* ShyHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87122DD13230086F899 /* ShyHeaderView.swift */; };
+		FD41C88922DD13230086F899 /* ShyHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87122DD13230086F899 /* ShyHeaderView.swift */; };
+		FD41C89422DD13230086F899 /* LargeTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87A22DD13230086F899 /* LargeTitleView.swift */; };
+		FD41C89522DD13230086F899 /* LargeTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87A22DD13230086F899 /* LargeTitleView.swift */; };
 		FD41C89622DD13230086F899 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87B22DD13230086F899 /* NavigationBar.swift */; };
 		FD41C89722DD13230086F899 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87B22DD13230086F899 /* NavigationBar.swift */; };
 		FD41C89C22DD13230086F899 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87E22DD13230086F899 /* SearchBar.swift */; };
@@ -352,8 +352,8 @@
 		FD256C5A2183B90B00EC9588 /* DatePickerSelectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerSelectionManager.swift; sourceTree = "<group>"; };
 		FD41C86E22DD13230086F899 /* ContentScrollViewTraits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentScrollViewTraits.swift; sourceTree = "<group>"; };
 		FD41C87022DD13230086F899 /* ShyHeaderController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShyHeaderController.swift; sourceTree = "<group>"; };
-		FD41C87122DD13230086F899 /* MSShyHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSShyHeaderView.swift; sourceTree = "<group>"; };
-		FD41C87A22DD13230086F899 /* MSLargeTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSLargeTitleView.swift; sourceTree = "<group>"; };
+		FD41C87122DD13230086F899 /* ShyHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShyHeaderView.swift; sourceTree = "<group>"; };
+		FD41C87A22DD13230086F899 /* LargeTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LargeTitleView.swift; sourceTree = "<group>"; };
 		FD41C87B22DD13230086F899 /* NavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
 		FD41C87E22DD13230086F899 /* SearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		FD41C87F22DD13230086F899 /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
@@ -795,7 +795,7 @@
 			isa = PBXGroup;
 			children = (
 				FD41C87022DD13230086F899 /* ShyHeaderController.swift */,
-				FD41C87122DD13230086F899 /* MSShyHeaderView.swift */,
+				FD41C87122DD13230086F899 /* ShyHeaderView.swift */,
 			);
 			path = "Shy Header";
 			sourceTree = "<group>";
@@ -812,7 +812,7 @@
 		FD41C87922DD13230086F899 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				FD41C87A22DD13230086F899 /* MSLargeTitleView.swift */,
+				FD41C87A22DD13230086F899 /* LargeTitleView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1147,7 +1147,7 @@
 				8FD01189228A82A600D25925 /* Fonts.swift in Sources */,
 				FD41C8B322DD3BB70086F899 /* UIScrollView+Extensions.swift in Sources */,
 				8FD0118A228A82A600D25925 /* AccessibilityContainerView.swift in Sources */,
-				FD41C89522DD13230086F899 /* MSLargeTitleView.swift in Sources */,
+				FD41C89522DD13230086F899 /* LargeTitleView.swift in Sources */,
 				B4EF66522294A665007FEAB0 /* MSTableViewHeaderFooterView.swift in Sources */,
 				A5F3B14A232B1F9700007A4F /* UIResponder+Extensions.swift in Sources */,
 				8FD0118B228A82A600D25925 /* CalendarConfiguration.swift in Sources */,
@@ -1155,7 +1155,7 @@
 				8FD0118D228A82A600D25925 /* Obscurable.swift in Sources */,
 				8FD0118E228A82A600D25925 /* FluentUIFramework.swift in Sources */,
 				8FD0118F228A82A600D25925 /* DateTimePicker.swift in Sources */,
-				FD41C88922DD13230086F899 /* MSShyHeaderView.swift in Sources */,
+				FD41C88922DD13230086F899 /* ShyHeaderView.swift in Sources */,
 				8FD01190228A82A600D25925 /* GenericDateTimePicker.swift in Sources */,
 				1168630522E131CF0088B302 /* MSTabBarItemView.swift in Sources */,
 				A578C4A32321CFD6002D5C40 /* MSAvatar.swift in Sources */,
@@ -1267,7 +1267,7 @@
 				B4EF66512294A665007FEAB0 /* MSTableViewHeaderFooterView.swift in Sources */,
 				FD41C8B222DD3BB70086F899 /* UIScrollView+Extensions.swift in Sources */,
 				B483323321CC71940022B4CC /* HUDView.swift in Sources */,
-				FD41C89422DD13230086F899 /* MSLargeTitleView.swift in Sources */,
+				FD41C89422DD13230086F899 /* LargeTitleView.swift in Sources */,
 				C0938E44235E8ED500256251 /* MSAnimationSynchronizer.swift in Sources */,
 				B483323521DEA8D70022B4CC /* HUD.swift in Sources */,
 				A5B87B06211E23650038C37C /* UIView+Extensions.swift in Sources */,
@@ -1276,7 +1276,7 @@
 				B4BA27882319DC0D0001563C /* MSPersonaBadgeViewDataSource.swift in Sources */,
 				FD7DF06021FA83C900857267 /* MSTooltipPositionController.swift in Sources */,
 				FD56FD94219128BF0023C7EA /* DateTimePickerViewDataSource.swift in Sources */,
-				FD41C88822DD13230086F899 /* MSShyHeaderView.swift in Sources */,
+				FD41C88822DD13230086F899 /* ShyHeaderView.swift in Sources */,
 				C0A0D76E233AEF6C00F432FD /* MSShimmerLinesView.swift in Sources */,
 				B42661422148568800E25423 /* MSAvatarView.swift in Sources */,
 				118D9848230BBA2300BC0B72 /* MSTabBarItem.swift in Sources */,

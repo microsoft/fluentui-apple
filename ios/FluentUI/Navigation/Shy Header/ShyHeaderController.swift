@@ -33,7 +33,7 @@ class ShyHeaderController: UIViewController {
         return Constants.paddingHeightTotal - shyHeaderView.contentBottomInset
     }
     private var paddingHeightConstraint: NSLayoutConstraint?
-    private let shyHeaderView = MSShyHeaderView() //header view, displayed above the content view
+    private let shyHeaderView = ShyHeaderView() //header view, displayed above the content view
     private var shyViewTopConstraint: NSLayoutConstraint? //animatable constraint used to show/hide the header
     private var shyViewHeightConstraint: NSLayoutConstraint?
     private var shyViewMaxScrollHeight: CGFloat {
@@ -232,7 +232,7 @@ class ShyHeaderController: UIViewController {
         }
 
         // if the originator is a LargeTitleView, make sure it belongs to this heirarchy
-        if let originatorTitleView = expansionRequestOriginator as? MSLargeTitleView {
+        if let originatorTitleView = expansionRequestOriginator as? LargeTitleView {
             guard originatorTitleView == msfNavigationController?.msfNavigationBar.titleView else {
                 return false
             }
@@ -489,7 +489,7 @@ class ShyHeaderController: UIViewController {
             msfNavigationController?.msfNavigationBar.contract(true)
         }
 
-        shyHeaderView.exposure = MSShyHeaderView.Exposure(withProgress: progress)
+        shyHeaderView.exposure = ShyHeaderView.Exposure(withProgress: progress)
     }
 
     /// Calculates and sets the shy container's top constraint's constant value, moving the header

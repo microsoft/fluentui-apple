@@ -155,7 +155,7 @@ open class NavigationBar: UINavigationBar {
         }
     }
 
-    var titleView = MSLargeTitleView() {
+    var titleView = LargeTitleView() {
         willSet {
             titleView.removeFromSuperview()
         }

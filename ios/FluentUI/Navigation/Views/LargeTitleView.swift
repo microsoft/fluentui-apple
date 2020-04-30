@@ -5,10 +5,10 @@
 
 import UIKit
 
-// MARK: MSLargeTitleView
+// MARK: LargeTitleView
 
 /// Large Header and custom profile button container
-class MSLargeTitleView: UIView {
+class LargeTitleView: UIView {
     enum Style: Int {
         case light, dark
     }
@@ -166,11 +166,11 @@ class MSLargeTitleView: UIView {
         titleButton.titleLabel?.textAlignment = .left
         titleButton.contentHorizontalAlignment = .left
         titleButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        titleButton.addTarget(self, action: #selector(MSLargeTitleView.titleButtonTapped(sender:)), for: .touchUpInside)
+        titleButton.addTarget(self, action: #selector(LargeTitleView.titleButtonTapped(sender:)), for: .touchUpInside)
         titleButton.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
         // tap gesture for entire titleView
-        tapGesture.addTarget(self, action: #selector(MSLargeTitleView.handleTitleViewTapped(sender:)))
+        tapGesture.addTarget(self, action: #selector(LargeTitleView.handleTitleViewTapped(sender:)))
         addGestureRecognizer(tapGesture)
 
         if #available(iOS 13, *) {
