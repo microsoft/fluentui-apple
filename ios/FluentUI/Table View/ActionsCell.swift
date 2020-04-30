@@ -54,7 +54,7 @@ open class ActionsCell: UITableViewCell {
     }
 
     public static let defaultHeight: CGFloat = 45
-    public static let identifier: String = "MSActionsCell"
+    public static let identifier: String = "ActionsCell"
 
     @objc public class func height(action1Title: String, action2Title: String = "", containerWidth: CGFloat) -> CGFloat {
         let actionCount: CGFloat = action2Title == "" ? 1 : 2

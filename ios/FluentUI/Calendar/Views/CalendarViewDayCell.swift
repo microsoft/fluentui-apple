@@ -57,7 +57,7 @@ class CalendarViewDayCell: UICollectionViewCell {
         static let fadedVisualStateAlphaMultiplier: CGFloat = 0.2
     }
 
-    class var identifier: String { return "MSCalendarViewDayCell" }
+    class var identifier: String { return "CalendarViewDayCell" }
 
     override var isSelected: Bool {
         didSet {

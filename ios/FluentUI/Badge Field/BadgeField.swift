@@ -47,6 +47,8 @@ public protocol BadgeFieldDelegate: class {
 
 // MARK: - BadgeField
 
+@available(*, deprecated, renamed: "BadgeField")
+public typealias MSBadgeField = BadgeField
 /**
  BadgeField is a UIView that acts as a UITextField that can contains badges with enclosed text.
  It supports:
@@ -57,6 +59,7 @@ public protocol BadgeFieldDelegate: class {
  * max number of lines, with custom "+XX" badge to indicate badges that are not displayed
  * voiceover and dynamic text sizing
  */
+@objc(MSFBadgeField)
 open class BadgeField: UIView {
     private struct Constants {
         static let badgeHeight: CGFloat = 26

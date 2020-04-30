@@ -27,7 +27,7 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("ShimmerLinesView", ShimmerLinesViewDemoController.self),
     ("TabBarView", TabBarViewDemoController.self),
     ("TableViewCell", TableViewCellDemoController.self),
-    ("MSTableViewCellShimmer", TableViewCellShimmerDemoController.self),
+    ("TableViewCellShimmer", TableViewCellShimmerDemoController.self),
     ("TableViewHeaderFooterView", TableViewHeaderFooterViewDemoController.self),
     ("Tooltip", TooltipDemoController.self),
     ("Other cells", OtherCellsDemoController.self),

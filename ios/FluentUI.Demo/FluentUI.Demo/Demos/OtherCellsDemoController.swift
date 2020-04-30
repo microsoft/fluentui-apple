@@ -68,7 +68,7 @@ extension OtherCellsDemoController: UITableViewDataSource {
             return cell
         }
 
-        if section.title == "MSCenteredLabelCell" {
+        if section.title == "CenteredLabelCell" {
             let cell = tableView.dequeueReusableCell(withIdentifier: CenteredLabelCell.identifier) as! CenteredLabelCell
             cell.setup(text: item.text1)
             return cell

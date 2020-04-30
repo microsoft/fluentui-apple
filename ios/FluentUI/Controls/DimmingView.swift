@@ -19,7 +19,7 @@ public enum DimmingViewType: Int {
 
 // MARK: - DimmingView
 
-@available(*, deprecated, renamed: "MSDimmingView")
+@available(*, deprecated, renamed: "DimmingView")
 public typealias MSDimmingView = DimmingView
 
 @objc(MSFDimmingView)

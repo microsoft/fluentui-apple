@@ -6,9 +6,11 @@
 import UIKit
 
 // MARK: BadgeViewDataSource
+
 @available(*, deprecated, renamed: "BadgeViewDataSource")
 public typealias MSBadgeViewDataSource = BadgeViewDataSource
 
+@objc(MSFBadgeViewDataSource)
 open class BadgeViewDataSource: NSObject {
     @objc open var text: String
     @objc open var style: BadgeView.Style
@@ -40,7 +42,7 @@ public protocol BadgeViewDelegate {
  `BadgeView` can be selected with a tap gesture and tapped again after entering a selected state for the purpose of displaying more details about the entity represented by the selected badge.
  */
 
-@available(*, deprecated, renamed: "MSBadgeView")
+@available(*, deprecated, renamed: "BadgeView")
 public typealias MSBadgeView = BadgeView
 
 @objc(MSFBadgeView)
