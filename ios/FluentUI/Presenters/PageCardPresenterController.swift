@@ -216,7 +216,7 @@ open class PageCardPresenterController: UIViewController {
     }
 }
 
-// MARK: - MSPageCardPresenterController: UIScrollViewDelegate
+// MARK: - PageCardPresenterController: UIScrollViewDelegate
 
 extension PageCardPresenterController: UIScrollViewDelegate {
     public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
@@ -238,7 +238,7 @@ extension PageCardPresenterController: UIScrollViewDelegate {
     }
 }
 
-// MARK: - MSPageCardPresenterController: UIViewControllerTransitioningDelegate
+// MARK: - PageCardPresenterController: UIViewControllerTransitioningDelegate
 
 extension PageCardPresenterController: UIViewControllerTransitioningDelegate {
     public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
