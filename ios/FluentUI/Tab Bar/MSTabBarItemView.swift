@@ -5,7 +5,7 @@
 
 import UIKit
 
-class MSTabBarItemView: UIView {
+class TabBarItemView: UIView {
     private struct Constants {
         static let spacingVertical: CGFloat = 3.0
         static let spacingHorizontal: CGFloat = 8.0
@@ -13,7 +13,7 @@ class MSTabBarItemView: UIView {
         static let landscapeImageSize: CGFloat = 24.0
     }
 
-    let item: MSTabBarItem
+    let item: TabBarItem
     var isSelected: Bool = false {
         didSet {
             titleLabel.isHighlighted = isSelected
@@ -53,7 +53,7 @@ class MSTabBarItemView: UIView {
         return traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .regular
     }
 
-    init(item: MSTabBarItem, showsTitle: Bool) {
+    init(item: TabBarItem, showsTitle: Bool) {
         self.item = item
         super.init(frame: .zero)
 

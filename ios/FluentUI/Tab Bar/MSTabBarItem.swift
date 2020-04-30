@@ -5,7 +5,11 @@
 
 import UIKit
 
-open class MSTabBarItem: NSObject {
+@available(*, deprecated, renamed: "TabBarItem")
+public typealias MSTabBarItem = TabBarItem
+
+@objc(MSFTabBarItem)
+open class TabBarItem: NSObject {
     @objc public let title: String
     let image: UIImage
     let selectedImage: UIImage?
@@ -13,7 +17,7 @@ open class MSTabBarItem: NSObject {
     let landscapeSelectedImage: UIImage?
     let largeContentImage: UIImage?
 
-    /// Initializes `MSTabBarItem
+    /// Initializes `TabBarItem
     /// - Parameter title: Used for tabbar item view's label and for its accessibilityLabel.
     /// - Parameter image: Used for tabbar item view's imageView and for its accessibility largeContentImage unless `largeContentImage` is specified.
     /// - Parameter selectedImage: Used for imageView when tabbar item view is selected.  If it is nil, it will use `image`.

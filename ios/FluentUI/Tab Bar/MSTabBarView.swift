@@ -5,20 +5,28 @@
 
 import UIKit
 
-// MARK: MSTabBarViewDelegate
+// MARK: TabBarViewDelegate
 
-@objc public protocol MSTabBarViewDelegate {
-    /// Called after the view representing `MSTabBarItem` is selected.
-    @objc optional func tabBarView(_ tabBarView: MSTabBarView, didSelect item: MSTabBarItem)
+@available(*, deprecated, renamed: "TabBarViewDelegate")
+public typealias MSTabBarViewDelegate = TabBarViewDelegate
+
+@objc(MSFTabBarViewDelegate)
+public protocol TabBarViewDelegate {
+    /// Called after the view representing `TabBarItem` is selected.
+    @objc optional func tabBarView(_ tabBarView: TabBarView, didSelect item: TabBarItem)
 }
 
-// MARK: - MSTabBarView
+// MARK: - TabBarView
 
-/// `MSTabBarView` supports maximum 5 tab bar items
+@available(*, deprecated, renamed: "TabBarView")
+public typealias MSTabBarView = TabBarView
+
+/// `TabBarView` supports maximum 5 tab bar items
 /// Set up `delegate` property to listen to selection changes.
 /// Set up `items` array to determine the order of `MSTabBarItems` to show.
 /// Use `selectedItem` property to change the selected tab bar item.
-open class MSTabBarView: UIView {
+@objc(MSFTabBarView)
+open class TabBarView: UIView {
     private struct Constants {
         static let maxTabCount: Int = 5
         static let portraitHeight: CGFloat = 49.0
@@ -26,7 +34,7 @@ open class MSTabBarView: UIView {
     }
 
     /// List of MSTabBarItems in the MSTabBarView. Order of the array is the order of the subviews.
-    @objc open var items: [MSTabBarItem] = [] {
+    @objc open var items: [TabBarItem] = [] {
         willSet {
             for subview in stackView.arrangedSubviews {
                 subview.removeFromSuperview()
@@ -39,7 +47,7 @@ open class MSTabBarView: UIView {
             }
 
             for (index, item) in items.enumerated() {
-                let tabBarItemView = MSTabBarItemView(item: item, showsTitle: showsItemTitles)
+                let tabBarItemView = TabBarItemView(item: item, showsTitle: showsItemTitles)
                 let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTabBarItemTapped(_:)))
                 tabBarItemView.addGestureRecognizer(tapGesture)
                 tabBarItemView.accessibilityHint = String(format: "Accessibility.TabBarItemView.Hint".localized, index + 1, numberOfItems)
@@ -50,7 +58,7 @@ open class MSTabBarView: UIView {
         }
     }
 
-    @objc open var selectedItem: MSTabBarItem? {
+    @objc open var selectedItem: TabBarItem? {
         willSet {
             if let item = selectedItem {
                 itemView(with: item)?.isSelected = false
@@ -63,7 +71,7 @@ open class MSTabBarView: UIView {
         }
     }
 
-    @objc public weak var delegate: MSTabBarViewDelegate?
+    @objc public weak var delegate: TabBarViewDelegate?
 
     private let backgroundView: UIVisualEffectView = {
         var style = UIBlurEffect.Style.regular
@@ -127,8 +135,8 @@ open class MSTabBarView: UIView {
         }
     }
 
-    private func itemView(with item: MSTabBarItem) -> MSTabBarItemView? {
-        if let index = items.firstIndex(of: item), let tabBarItemView = stackView.arrangedSubviews[index] as? MSTabBarItemView {
+    private func itemView(with item: TabBarItem) -> TabBarItemView? {
+        if let index = items.firstIndex(of: item), let tabBarItemView = stackView.arrangedSubviews[index] as? TabBarItemView {
             return tabBarItemView
         }
         return nil
@@ -140,7 +148,7 @@ open class MSTabBarView: UIView {
     }
 
     @objc private func handleTabBarItemTapped(_ recognizer: UITapGestureRecognizer) {
-        if let item = (recognizer.view as? MSTabBarItemView)?.item {
+        if let item = (recognizer.view as? TabBarItemView)?.item {
             selectedItem = item
             delegate?.tabBarView?(self, didSelect: item)
         }

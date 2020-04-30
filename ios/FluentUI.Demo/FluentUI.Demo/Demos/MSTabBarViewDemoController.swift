@@ -7,7 +7,7 @@ import Foundation
 import FluentUI
 
 class MSTabBarViewDemoController: DemoController {
-    private var tabBarView: MSTabBarView?
+    private var tabBarView: TabBarView?
     private var tabBarViewConstraints: [NSLayoutConstraint]?
     private var showsItemTitles: Bool { return itemTitleVisibilitySwitch.isOn }
 
@@ -31,12 +31,12 @@ class MSTabBarViewDemoController: DemoController {
             oldTabBarView.removeFromSuperview()
         }
 
-        let updatedTabBarView = MSTabBarView(showsItemTitles: showsItemTitles)
+        let updatedTabBarView = TabBarView(showsItemTitles: showsItemTitles)
         updatedTabBarView.delegate = self
         updatedTabBarView.items = [
-            MSTabBarItem(title: "Home", image: UIImage(named: "Home_28")!, selectedImage: UIImage(named: "Home_Selected_28")!, landscapeImage: UIImage(named: "Home_24")!, landscapeSelectedImage: UIImage(named: "Home_Selected_24")!),
-            MSTabBarItem(title: "New", image: UIImage(named: "New_28")!, selectedImage: UIImage(named: "New_Selected_28")!, landscapeImage: UIImage(named: "New_24")!, landscapeSelectedImage: UIImage(named: "New_Selected_24")!),
-            MSTabBarItem(title: "Open", image: UIImage(named: "Open_28")!, selectedImage: UIImage(named: "Open_Selected_28")!, landscapeImage: UIImage(named: "Open_24")!, landscapeSelectedImage: UIImage(named: "Open_Selected_24")!)
+            TabBarItem(title: "Home", image: UIImage(named: "Home_28")!, selectedImage: UIImage(named: "Home_Selected_28")!, landscapeImage: UIImage(named: "Home_24")!, landscapeSelectedImage: UIImage(named: "Home_Selected_24")!),
+            TabBarItem(title: "New", image: UIImage(named: "New_28")!, selectedImage: UIImage(named: "New_Selected_28")!, landscapeImage: UIImage(named: "New_24")!, landscapeSelectedImage: UIImage(named: "New_Selected_24")!),
+            TabBarItem(title: "Open", image: UIImage(named: "Open_28")!, selectedImage: UIImage(named: "Open_Selected_28")!, landscapeImage: UIImage(named: "Open_24")!, landscapeSelectedImage: UIImage(named: "Open_Selected_24")!)
         ]
         updatedTabBarView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(updatedTabBarView)
@@ -57,10 +57,10 @@ class MSTabBarViewDemoController: DemoController {
     }
 }
 
-// MARK: - MSTabBarViewDemoController: MSTabBarViewDelegate
+// MARK: - MSTabBarViewDemoController: TabBarViewDelegate
 
-extension MSTabBarViewDemoController: MSTabBarViewDelegate {
-    func tabBarView(_ tabBarView: MSTabBarView, didSelect item: MSTabBarItem) {
+extension MSTabBarViewDemoController: TabBarViewDelegate {
+    func tabBarView(_ tabBarView: TabBarView, didSelect item: TabBarItem) {
         let alert = UIAlertController(title: "Tab Bar Item \(item.title) was tapped", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
