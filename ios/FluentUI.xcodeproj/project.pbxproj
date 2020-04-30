@@ -57,15 +57,15 @@
 		8FD0118E228A82A600D25925 /* FluentUIFramework.swift in Sources */ = {isa = PBXBuildFile; fileRef = A559BB82212B7D870055E107 /* FluentUIFramework.swift */; };
 		8FD0118F228A82A600D25925 /* DateTimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77752F21A490BA00033D58 /* DateTimePicker.swift */; };
 		8FD01190228A82A600D25925 /* GenericDateTimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1FAE1A2272464B00A5DBA4 /* GenericDateTimePicker.swift */; };
-		8FD01191228A82A600D25925 /* MSDatePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4F2A1F214AE20400C437D6 /* MSDatePickerController.swift */; };
-		8FD01192228A82A600D25925 /* MSDatePickerSelectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD256C5A2183B90B00EC9588 /* MSDatePickerSelectionManager.swift */; };
-		8FD01193228A82A600D25925 /* MSDateTimePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5ADBF32190CDC80005A9AF /* MSDateTimePickerController.swift */; };
-		8FD01194228A82A600D25925 /* MSDateTimePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9758062191118D00B67319 /* MSDateTimePickerView.swift */; };
-		8FD01195228A82A600D25925 /* MSDateTimePickerViewComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9758092191118E00B67319 /* MSDateTimePickerViewComponent.swift */; };
-		8FD01196228A82A600D25925 /* MSDateTimePickerViewComponentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD97580A2191118E00B67319 /* MSDateTimePickerViewComponentCell.swift */; };
-		8FD01197228A82A600D25925 /* MSDateTimePickerViewComponentTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9758082191118E00B67319 /* MSDateTimePickerViewComponentTableView.swift */; };
-		8FD01198228A82A600D25925 /* MSDateTimePickerViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9758072191118E00B67319 /* MSDateTimePickerViewDataSource.swift */; };
-		8FD01199228A82A600D25925 /* MSDateTimePickerViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77752C219E62E100033D58 /* MSDateTimePickerViewLayout.swift */; };
+		8FD01191228A82A600D25925 /* DatePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4F2A1F214AE20400C437D6 /* DatePickerController.swift */; };
+		8FD01192228A82A600D25925 /* DatePickerSelectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD256C5A2183B90B00EC9588 /* DatePickerSelectionManager.swift */; };
+		8FD01193228A82A600D25925 /* DateTimePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5ADBF32190CDC80005A9AF /* DateTimePickerController.swift */; };
+		8FD01194228A82A600D25925 /* DateTimePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9758062191118D00B67319 /* DateTimePickerView.swift */; };
+		8FD01195228A82A600D25925 /* DateTimePickerViewComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9758092191118E00B67319 /* DateTimePickerViewComponent.swift */; };
+		8FD01196228A82A600D25925 /* DateTimePickerViewComponentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD97580A2191118E00B67319 /* DateTimePickerViewComponentCell.swift */; };
+		8FD01197228A82A600D25925 /* DateTimePickerViewComponentTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9758082191118E00B67319 /* DateTimePickerViewComponentTableView.swift */; };
+		8FD01198228A82A600D25925 /* DateTimePickerViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9758072191118E00B67319 /* DateTimePickerViewDataSource.swift */; };
+		8FD01199228A82A600D25925 /* DateTimePickerViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77752C219E62E100033D58 /* DateTimePickerViewLayout.swift */; };
 		8FD0119A228A82A600D25925 /* MSDrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF3211E16360038C37C /* MSDrawerController.swift */; };
 		8FD0119B228A82A600D25925 /* MSDrawerPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF5211E16360038C37C /* MSDrawerPresentationController.swift */; };
 		8FD0119C228A82A600D25925 /* MSDrawerTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF4211E16360038C37C /* MSDrawerTransitionAnimator.swift */; };
@@ -174,10 +174,10 @@
 		C0A0D76E233AEF6C00F432FD /* MSShimmerLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A0D76B233AEF6C00F432FD /* MSShimmerLinesView.swift */; };
 		C0A0D76F233AEF6C00F432FD /* MSShimmerLinesViewAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A0D76C233AEF6C00F432FD /* MSShimmerLinesViewAppearance.swift */; };
 		C0EAAEAD2347E1DF00C7244E /* MSShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EAAEAC2347E1DF00C7244E /* MSShimmerView.swift */; };
-		FD053A352224CA33009B6378 /* MSDatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD053A342224CA33009B6378 /* MSDatePickerControllerTests.swift */; };
+		FD053A352224CA33009B6378 /* DatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */; };
 		FD0D29D62151A3D700E8655E /* MSCardPresenterNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0D29D52151A3D700E8655E /* MSCardPresenterNavigationController.swift */; };
 		FD1FAE1B2272464B00A5DBA4 /* GenericDateTimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1FAE1A2272464B00A5DBA4 /* GenericDateTimePicker.swift */; };
-		FD256C5B2183B90B00EC9588 /* MSDatePickerSelectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD256C5A2183B90B00EC9588 /* MSDatePickerSelectionManager.swift */; };
+		FD256C5B2183B90B00EC9588 /* DatePickerSelectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD256C5A2183B90B00EC9588 /* DatePickerSelectionManager.swift */; };
 		FD26DBD02298B35F0011178B /* MSTooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05B21FA7F5000857267 /* MSTooltip.swift */; };
 		FD26DBD12298B3610011178B /* MSTooltipPositionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05F21FA83C900857267 /* MSTooltipPositionController.swift */; };
 		FD26DBD22298B3630011178B /* MSTooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05D21FA7FC100857267 /* MSTooltipView.swift */; };
@@ -207,12 +207,12 @@
 		FD41C8C122DD48E60086F899 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C8C022DD48E60086F899 /* Operators.swift */; };
 		FD41C8C222DD48E60086F899 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C8C022DD48E60086F899 /* Operators.swift */; };
 		FD4F2A1B2148937100C437D6 /* MSPageCardPresenterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4F2A1A2148937100C437D6 /* MSPageCardPresenterController.swift */; };
-		FD4F2A20214AE20400C437D6 /* MSDatePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4F2A1F214AE20400C437D6 /* MSDatePickerController.swift */; };
-		FD56FD92219123FE0023C7EA /* MSDateTimePickerViewComponentTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9758082191118E00B67319 /* MSDateTimePickerViewComponentTableView.swift */; };
-		FD56FD94219128BF0023C7EA /* MSDateTimePickerViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9758072191118E00B67319 /* MSDateTimePickerViewDataSource.swift */; };
-		FD56FD95219131430023C7EA /* MSDateTimePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9758062191118D00B67319 /* MSDateTimePickerView.swift */; };
-		FD56FD962192754B0023C7EA /* MSDateTimePickerViewComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9758092191118E00B67319 /* MSDateTimePickerViewComponent.swift */; };
-		FD56FD9A2194E50D0023C7EA /* MSDateTimePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5ADBF32190CDC80005A9AF /* MSDateTimePickerController.swift */; };
+		FD4F2A20214AE20400C437D6 /* DatePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4F2A1F214AE20400C437D6 /* DatePickerController.swift */; };
+		FD56FD92219123FE0023C7EA /* DateTimePickerViewComponentTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9758082191118E00B67319 /* DateTimePickerViewComponentTableView.swift */; };
+		FD56FD94219128BF0023C7EA /* DateTimePickerViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9758072191118E00B67319 /* DateTimePickerViewDataSource.swift */; };
+		FD56FD95219131430023C7EA /* DateTimePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9758062191118D00B67319 /* DateTimePickerView.swift */; };
+		FD56FD962192754B0023C7EA /* DateTimePickerViewComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9758092191118E00B67319 /* DateTimePickerViewComponent.swift */; };
+		FD56FD9A2194E50D0023C7EA /* DateTimePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5ADBF32190CDC80005A9AF /* DateTimePickerController.swift */; };
 		FD599D0221348439008845EE /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD599D0121348439008845EE /* CalendarView.swift */; };
 		FD599D062134A682008845EE /* AccessibleViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD599D052134A682008845EE /* AccessibleViewDelegate.swift */; };
 		FD599D082134AB0E008845EE /* CalendarViewWeekdayHeadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD599D072134AB0E008845EE /* CalendarViewWeekdayHeadingView.swift */; };
@@ -225,12 +225,12 @@
 		FD7254E92147059D002F4069 /* Calendar+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7254E82147059D002F4069 /* Calendar+Extensions.swift */; };
 		FD777529219E3F6C00033D58 /* MSDayOfMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD777528219E3F6C00033D58 /* MSDayOfMonth.swift */; };
 		FD77752B219E455A00033D58 /* MSAccessibilityContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77752A219E455A00033D58 /* MSAccessibilityContainerView.swift */; };
-		FD77752D219E62E100033D58 /* MSDateTimePickerViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77752C219E62E100033D58 /* MSDateTimePickerViewLayout.swift */; };
+		FD77752D219E62E100033D58 /* DateTimePickerViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77752C219E62E100033D58 /* DateTimePickerViewLayout.swift */; };
 		FD77753021A490BA00033D58 /* DateTimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77752F21A490BA00033D58 /* DateTimePicker.swift */; };
 		FD7DF05C21FA7F5000857267 /* MSTooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05B21FA7F5000857267 /* MSTooltip.swift */; };
 		FD7DF05E21FA7FC100857267 /* MSTooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05D21FA7FC100857267 /* MSTooltipView.swift */; };
 		FD7DF06021FA83C900857267 /* MSTooltipPositionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05F21FA83C900857267 /* MSTooltipPositionController.swift */; };
-		FD97580F2191118E00B67319 /* MSDateTimePickerViewComponentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD97580A2191118E00B67319 /* MSDateTimePickerViewComponentCell.swift */; };
+		FD97580F2191118E00B67319 /* DateTimePickerViewComponentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD97580A2191118E00B67319 /* DateTimePickerViewComponentCell.swift */; };
 		FD9A5C872179464F00D224D9 /* DateComponents+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9A5C862179464F00D224D9 /* DateComponents+Extensions.swift */; };
 		FD9DA7B5232C33A80013E41B /* UIViewController+Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9DA7B4232C33A80013E41B /* UIViewController+Navigation.swift */; };
 		FD9DA7B6232C33A80013E41B /* UIViewController+Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9DA7B4232C33A80013E41B /* UIViewController+Navigation.swift */; };
@@ -346,10 +346,10 @@
 		C0A0D76B233AEF6C00F432FD /* MSShimmerLinesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSShimmerLinesView.swift; sourceTree = "<group>"; };
 		C0A0D76C233AEF6C00F432FD /* MSShimmerLinesViewAppearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSShimmerLinesViewAppearance.swift; sourceTree = "<group>"; };
 		C0EAAEAC2347E1DF00C7244E /* MSShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSShimmerView.swift; sourceTree = "<group>"; };
-		FD053A342224CA33009B6378 /* MSDatePickerControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDatePickerControllerTests.swift; sourceTree = "<group>"; };
+		FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerControllerTests.swift; sourceTree = "<group>"; };
 		FD0D29D52151A3D700E8655E /* MSCardPresenterNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSCardPresenterNavigationController.swift; sourceTree = "<group>"; };
 		FD1FAE1A2272464B00A5DBA4 /* GenericDateTimePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericDateTimePicker.swift; sourceTree = "<group>"; };
-		FD256C5A2183B90B00EC9588 /* MSDatePickerSelectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDatePickerSelectionManager.swift; sourceTree = "<group>"; };
+		FD256C5A2183B90B00EC9588 /* DatePickerSelectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerSelectionManager.swift; sourceTree = "<group>"; };
 		FD41C86E22DD13230086F899 /* MSContentScrollViewTraits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSContentScrollViewTraits.swift; sourceTree = "<group>"; };
 		FD41C87022DD13230086F899 /* MSShyHeaderController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSShyHeaderController.swift; sourceTree = "<group>"; };
 		FD41C87122DD13230086F899 /* MSShyHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSShyHeaderView.swift; sourceTree = "<group>"; };
@@ -363,20 +363,20 @@
 		FD41C8BD22DD47120086F899 /* UINavigationItem+Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationItem+Navigation.swift"; sourceTree = "<group>"; };
 		FD41C8C022DD48E60086F899 /* Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 		FD4F2A1A2148937100C437D6 /* MSPageCardPresenterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPageCardPresenterController.swift; sourceTree = "<group>"; };
-		FD4F2A1F214AE20400C437D6 /* MSDatePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDatePickerController.swift; sourceTree = "<group>"; };
+		FD4F2A1F214AE20400C437D6 /* DatePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerController.swift; sourceTree = "<group>"; };
 		FD599D0121348439008845EE /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		FD599D052134A682008845EE /* AccessibleViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessibleViewDelegate.swift; sourceTree = "<group>"; };
 		FD599D072134AB0E008845EE /* CalendarViewWeekdayHeadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewWeekdayHeadingView.swift; sourceTree = "<group>"; };
 		FD599D092134AB15008845EE /* CalendarViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewLayout.swift; sourceTree = "<group>"; };
 		FD599D0B2134AB1E008845EE /* CalendarViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewDataSource.swift; sourceTree = "<group>"; };
-		FD5ADBF32190CDC80005A9AF /* MSDateTimePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDateTimePickerController.swift; sourceTree = "<group>"; };
+		FD5ADBF32190CDC80005A9AF /* DateTimePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimePickerController.swift; sourceTree = "<group>"; };
 		FD5BBE3A214B2F44008964B4 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		FD5BBE40214C6AF3008964B4 /* MSTwoLineTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTwoLineTitleView.swift; sourceTree = "<group>"; };
 		FD5BBE42214C73CE008964B4 /* MSEasyTapButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSEasyTapButton.swift; sourceTree = "<group>"; };
 		FD7254E82147059D002F4069 /* Calendar+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Calendar+Extensions.swift"; sourceTree = "<group>"; };
 		FD777528219E3F6C00033D58 /* MSDayOfMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDayOfMonth.swift; sourceTree = "<group>"; };
 		FD77752A219E455A00033D58 /* MSAccessibilityContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAccessibilityContainerView.swift; sourceTree = "<group>"; };
-		FD77752C219E62E100033D58 /* MSDateTimePickerViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDateTimePickerViewLayout.swift; sourceTree = "<group>"; };
+		FD77752C219E62E100033D58 /* DateTimePickerViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimePickerViewLayout.swift; sourceTree = "<group>"; };
 		FD77752F21A490BA00033D58 /* DateTimePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimePicker.swift; sourceTree = "<group>"; };
 		FD7DF05B21FA7F5000857267 /* MSTooltip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTooltip.swift; sourceTree = "<group>"; };
 		FD7DF05D21FA7FC100857267 /* MSTooltipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTooltipView.swift; sourceTree = "<group>"; };
@@ -451,11 +451,11 @@
 		FD8D2685225403360078E1D3 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.stringsdict"; sourceTree = "<group>"; };
 		FD8D26862254033B0078E1D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		FD8D26872254033B0078E1D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.stringsdict"; sourceTree = "<group>"; };
-		FD9758062191118D00B67319 /* MSDateTimePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDateTimePickerView.swift; sourceTree = "<group>"; };
-		FD9758072191118E00B67319 /* MSDateTimePickerViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDateTimePickerViewDataSource.swift; sourceTree = "<group>"; };
-		FD9758082191118E00B67319 /* MSDateTimePickerViewComponentTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDateTimePickerViewComponentTableView.swift; sourceTree = "<group>"; };
-		FD9758092191118E00B67319 /* MSDateTimePickerViewComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDateTimePickerViewComponent.swift; sourceTree = "<group>"; };
-		FD97580A2191118E00B67319 /* MSDateTimePickerViewComponentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDateTimePickerViewComponentCell.swift; sourceTree = "<group>"; };
+		FD9758062191118D00B67319 /* DateTimePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTimePickerView.swift; sourceTree = "<group>"; };
+		FD9758072191118E00B67319 /* DateTimePickerViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTimePickerViewDataSource.swift; sourceTree = "<group>"; };
+		FD9758082191118E00B67319 /* DateTimePickerViewComponentTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTimePickerViewComponentTableView.swift; sourceTree = "<group>"; };
+		FD9758092191118E00B67319 /* DateTimePickerViewComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTimePickerViewComponent.swift; sourceTree = "<group>"; };
+		FD97580A2191118E00B67319 /* DateTimePickerViewComponentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTimePickerViewComponentCell.swift; sourceTree = "<group>"; };
 		FD9A5C862179464F00D224D9 /* DateComponents+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateComponents+Extensions.swift"; sourceTree = "<group>"; };
 		FD9DA7B4232C33A80013E41B /* UIViewController+Navigation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Navigation.swift"; sourceTree = "<group>"; };
 		FDA1AF8B21484625001AE720 /* MSBlurringView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSBlurringView.swift; sourceTree = "<group>"; };
@@ -617,7 +617,7 @@
 		A5CEC15E20D980B30016922A /* FluentUI.Tests */ = {
 			isa = PBXGroup;
 			children = (
-				FD053A342224CA33009B6378 /* MSDatePickerControllerTests.swift */,
+				FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */,
 				A5CEC15F20D980B30016922A /* FluentUITests.swift */,
 				A5CEC16120D980B30016922A /* Info.plist */,
 			);
@@ -820,8 +820,8 @@
 		FD4F2A1C214ADBBF00C437D6 /* Date Picker */ = {
 			isa = PBXGroup;
 			children = (
-				FD4F2A1F214AE20400C437D6 /* MSDatePickerController.swift */,
-				FD256C5A2183B90B00EC9588 /* MSDatePickerSelectionManager.swift */,
+				FD4F2A1F214AE20400C437D6 /* DatePickerController.swift */,
+				FD256C5A2183B90B00EC9588 /* DatePickerSelectionManager.swift */,
 			);
 			path = "Date Picker";
 			sourceTree = "<group>";
@@ -840,7 +840,7 @@
 		FD5C8C2A2190C3470063562C /* Date Time Picker */ = {
 			isa = PBXGroup;
 			children = (
-				FD5ADBF32190CDC80005A9AF /* MSDateTimePickerController.swift */,
+				FD5ADBF32190CDC80005A9AF /* DateTimePickerController.swift */,
 				FD97580521910FE800B67319 /* Views */,
 			);
 			path = "Date Time Picker";
@@ -870,12 +870,12 @@
 		FD97580521910FE800B67319 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				FD9758062191118D00B67319 /* MSDateTimePickerView.swift */,
-				FD9758092191118E00B67319 /* MSDateTimePickerViewComponent.swift */,
-				FD97580A2191118E00B67319 /* MSDateTimePickerViewComponentCell.swift */,
-				FD9758082191118E00B67319 /* MSDateTimePickerViewComponentTableView.swift */,
-				FD9758072191118E00B67319 /* MSDateTimePickerViewDataSource.swift */,
-				FD77752C219E62E100033D58 /* MSDateTimePickerViewLayout.swift */,
+				FD9758062191118D00B67319 /* DateTimePickerView.swift */,
+				FD9758092191118E00B67319 /* DateTimePickerViewComponent.swift */,
+				FD97580A2191118E00B67319 /* DateTimePickerViewComponentCell.swift */,
+				FD9758082191118E00B67319 /* DateTimePickerViewComponentTableView.swift */,
+				FD9758072191118E00B67319 /* DateTimePickerViewDataSource.swift */,
+				FD77752C219E62E100033D58 /* DateTimePickerViewLayout.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1159,19 +1159,19 @@
 				8FD01190228A82A600D25925 /* GenericDateTimePicker.swift in Sources */,
 				1168630522E131CF0088B302 /* MSTabBarItemView.swift in Sources */,
 				A578C4A32321CFD6002D5C40 /* MSAvatar.swift in Sources */,
-				8FD01191228A82A600D25925 /* MSDatePickerController.swift in Sources */,
+				8FD01191228A82A600D25925 /* DatePickerController.swift in Sources */,
 				56DA1CD924523616008D745E /* MSShimmerLinesView.swift in Sources */,
-				8FD01192228A82A600D25925 /* MSDatePickerSelectionManager.swift in Sources */,
+				8FD01192228A82A600D25925 /* DatePickerSelectionManager.swift in Sources */,
 				56DA1CDA2452361B008D745E /* MSShimmerViewAppearance.swift in Sources */,
-				8FD01193228A82A600D25925 /* MSDateTimePickerController.swift in Sources */,
-				8FD01194228A82A600D25925 /* MSDateTimePickerView.swift in Sources */,
+				8FD01193228A82A600D25925 /* DateTimePickerController.swift in Sources */,
+				8FD01194228A82A600D25925 /* DateTimePickerView.swift in Sources */,
 				A5B6617423A41E2900E801DD /* MSNotificationView.swift in Sources */,
 				A56CE7B722E68A7800AA77EE /* UIColor+Extensions.swift in Sources */,
-				8FD01195228A82A600D25925 /* MSDateTimePickerViewComponent.swift in Sources */,
-				8FD01196228A82A600D25925 /* MSDateTimePickerViewComponentCell.swift in Sources */,
-				8FD01197228A82A600D25925 /* MSDateTimePickerViewComponentTableView.swift in Sources */,
-				8FD01198228A82A600D25925 /* MSDateTimePickerViewDataSource.swift in Sources */,
-				8FD01199228A82A600D25925 /* MSDateTimePickerViewLayout.swift in Sources */,
+				8FD01195228A82A600D25925 /* DateTimePickerViewComponent.swift in Sources */,
+				8FD01196228A82A600D25925 /* DateTimePickerViewComponentCell.swift in Sources */,
+				8FD01197228A82A600D25925 /* DateTimePickerViewComponentTableView.swift in Sources */,
+				8FD01198228A82A600D25925 /* DateTimePickerViewDataSource.swift in Sources */,
+				8FD01199228A82A600D25925 /* DateTimePickerViewLayout.swift in Sources */,
 				FD41C8C222DD48E60086F899 /* Operators.swift in Sources */,
 				8FD0119A228A82A600D25925 /* MSDrawerController.swift in Sources */,
 				8FD0119B228A82A600D25925 /* MSDrawerPresentationController.swift in Sources */,
@@ -1235,7 +1235,7 @@
 				FD599D082134AB0E008845EE /* CalendarViewWeekdayHeadingView.swift in Sources */,
 				FDFB8AF321361C9D0046850A /* CalendarViewDayMonthYearCell.swift in Sources */,
 				A5961F9D218A254D00E2A506 /* MSPopupMenuController.swift in Sources */,
-				FD56FD92219123FE0023C7EA /* MSDateTimePickerViewComponentTableView.swift in Sources */,
+				FD56FD92219123FE0023C7EA /* DateTimePickerViewComponentTableView.swift in Sources */,
 				B4E782C521793BB900A7DFCE /* MSActivityIndicatorView.swift in Sources */,
 				A52648DC2316F4F9003342A0 /* MSBarButtonItems.swift in Sources */,
 				FD5BBE41214C6AF3008964B4 /* MSTwoLineTitleView.swift in Sources */,
@@ -1245,21 +1245,21 @@
 				FD36F1A9216C0A6900CECBC6 /* MSCardPresentationController.swift in Sources */,
 				B426613E214731D100E25423 /* MSInitialsView.swift in Sources */,
 				A5B87B02211E20B50038C37C /* UIScreen+Extension.swift in Sources */,
-				FD77752D219E62E100033D58 /* MSDateTimePickerViewLayout.swift in Sources */,
+				FD77752D219E62E100033D58 /* DateTimePickerViewLayout.swift in Sources */,
 				FD7DF05C21FA7F5000857267 /* MSTooltip.swift in Sources */,
 				497DC2DB24185885008D86F8 /* MSPillButton.swift in Sources */,
 				FD41C8BE22DD47120086F899 /* UINavigationItem+Navigation.swift in Sources */,
 				B4E782C12176AD5E00A7DFCE /* MSActionsCell.swift in Sources */,
-				FD56FD962192754B0023C7EA /* MSDateTimePickerViewComponent.swift in Sources */,
+				FD56FD962192754B0023C7EA /* DateTimePickerViewComponent.swift in Sources */,
 				FDFB8AF021361C9D0046850A /* CalendarViewDayTodayCell.swift in Sources */,
 				FD41C88422DD13230086F899 /* MSContentScrollViewTraits.swift in Sources */,
-				FD97580F2191118E00B67319 /* MSDateTimePickerViewComponentCell.swift in Sources */,
+				FD97580F2191118E00B67319 /* DateTimePickerViewComponentCell.swift in Sources */,
 				A5B6617323A41E2900E801DD /* MSNotificationView.swift in Sources */,
 				FD41C88622DD13230086F899 /* MSShyHeaderController.swift in Sources */,
 				FDFB8AF121361C9D0046850A /* CalendarViewDayMonthCell.swift in Sources */,
 				B47B58B822F8E5840078DE38 /* MSPeoplePicker.swift in Sources */,
 				FD41C89E22DD13230086F899 /* MSNavigationController.swift in Sources */,
-				FD4F2A20214AE20400C437D6 /* MSDatePickerController.swift in Sources */,
+				FD4F2A20214AE20400C437D6 /* DatePickerController.swift in Sources */,
 				B4EF53C3215AF1AB00573E8F /* MSPersona.swift in Sources */,
 				B45EB790219E310F008646A2 /* BadgeField.swift in Sources */,
 				497DC2D924185885008D86F8 /* MSPillButtonBar.swift in Sources */,
@@ -1275,7 +1275,7 @@
 				A5961FA7218A2E4500E2A506 /* UIImage+Extensions.swift in Sources */,
 				B4BA27882319DC0D0001563C /* MSPersonaBadgeViewDataSource.swift in Sources */,
 				FD7DF06021FA83C900857267 /* MSTooltipPositionController.swift in Sources */,
-				FD56FD94219128BF0023C7EA /* MSDateTimePickerViewDataSource.swift in Sources */,
+				FD56FD94219128BF0023C7EA /* DateTimePickerViewDataSource.swift in Sources */,
 				FD41C88822DD13230086F899 /* MSShyHeaderView.swift in Sources */,
 				C0A0D76E233AEF6C00F432FD /* MSShimmerLinesView.swift in Sources */,
 				B42661422148568800E25423 /* MSAvatarView.swift in Sources */,
@@ -1316,10 +1316,10 @@
 				C0EAAEAD2347E1DF00C7244E /* MSShimmerView.swift in Sources */,
 				C0938E46235F66E300256251 /* MSShimmerViewAppearance.swift in Sources */,
 				C0A0D76F233AEF6C00F432FD /* MSShimmerLinesViewAppearance.swift in Sources */,
-				FD256C5B2183B90B00EC9588 /* MSDatePickerSelectionManager.swift in Sources */,
+				FD256C5B2183B90B00EC9588 /* DatePickerSelectionManager.swift in Sources */,
 				A5CEC23120E451D00016922A /* MSButton.swift in Sources */,
 				FDF41EDB2141A23B00EC527C /* UIViewController+Extensions.swift in Sources */,
-				FD56FD95219131430023C7EA /* MSDateTimePickerView.swift in Sources */,
+				FD56FD95219131430023C7EA /* DateTimePickerView.swift in Sources */,
 				FDA1AF8C21484625001AE720 /* MSBlurringView.swift in Sources */,
 				A5961FA1218A25C400E2A506 /* MSPopupMenuSection.swift in Sources */,
 				A5B87AF6211E16370038C37C /* MSDrawerController.swift in Sources */,
@@ -1338,7 +1338,7 @@
 				FD7254E92147059D002F4069 /* Calendar+Extensions.swift in Sources */,
 				A559BB7E212B6D100055E107 /* String+Extension.swift in Sources */,
 				A5961FA5218A260500E2A506 /* MSPopupMenuSectionHeaderView.swift in Sources */,
-				FD56FD9A2194E50D0023C7EA /* MSDateTimePickerController.swift in Sources */,
+				FD56FD9A2194E50D0023C7EA /* DateTimePickerController.swift in Sources */,
 				A5F3B146232B1E3700007A4F /* MSScrollView.swift in Sources */,
 				B46D3F9D215985AC0029772C /* MSPersonaListView.swift in Sources */,
 				A5DCA76421224026005F4CB7 /* MSSeparator.swift in Sources */,
@@ -1351,7 +1351,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A5CEC16020D980B30016922A /* FluentUITests.swift in Sources */,
-				FD053A352224CA33009B6378 /* MSDatePickerControllerTests.swift in Sources */,
+				FD053A352224CA33009B6378 /* DatePickerControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
