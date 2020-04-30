@@ -21,58 +21,58 @@ class MSHUDDemoController: DemoController {
     }
 
     @objc private func showActivityHUD(sender: UIButton) {
-        MSHUD.shared.show(in: view, with: MSHUDParams(caption: "Loading for 3 seconds"))
+        HUD.shared.show(in: view, with: HUDParams(caption: "Loading for 3 seconds"))
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            MSHUD.shared.hide()
+            HUD.shared.hide()
         }
     }
 
     @objc private func showSuccessHUD(sender: UIButton) {
-        MSHUD.shared.showSuccess(from: self, with: "Success")
+        HUD.shared.showSuccess(from: self, with: "Success")
     }
 
     @objc private func showFailureHUD(sender: UIButton) {
-        MSHUD.shared.showFailure(from: self, with: "Failure")
+        HUD.shared.showFailure(from: self, with: "Failure")
     }
 
     @objc private func showCustomHUD(sender: UIButton) {
-        MSHUD.shared.show(in: self.view, with: MSHUDParams(caption: "Custom", image: UIImage(named: "flag-40x40"), isPersistent: false))
+        HUD.shared.show(in: self.view, with: HUDParams(caption: "Custom", image: UIImage(named: "flag-40x40"), isPersistent: false))
     }
 
     @objc private func showCustomNonBlockingHUD(sender: UIButton) {
-        MSHUD.shared.show(in: view, with: MSHUDParams(caption: "Custom image non-blocking", image: UIImage(named: "flag-40x40"), isBlocking: false))
+        HUD.shared.show(in: view, with: HUDParams(caption: "Custom image non-blocking", image: UIImage(named: "flag-40x40"), isBlocking: false))
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            MSHUD.shared.hide()
+            HUD.shared.hide()
         }
     }
 
     @objc private func showNoLabelHUD(sender: UIButton) {
-        MSHUD.shared.show(in: view)
+        HUD.shared.show(in: view)
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            MSHUD.shared.hide()
+            HUD.shared.hide()
         }
     }
 
     @objc private func showGestureHUD(sender: UIButton) {
-        MSHUD.shared.show(in: view, with: MSHUDParams(caption: "Downloading..."), onTap: {
+        HUD.shared.show(in: view, with: HUDParams(caption: "Downloading..."), onTap: {
             self.showMessage("Stop Download?", autoDismiss: false) {
-                MSHUD.shared.hide()
+                HUD.shared.hide()
             }
         })
     }
 
     @objc private func showUpdateHUD(sender: UIButton) {
-        MSHUD.shared.show(in: view, with: MSHUDParams(caption: "Downloading..."))
+        HUD.shared.show(in: view, with: HUDParams(caption: "Downloading..."))
         var time: TimeInterval = 0
         Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
             time += timer.timeInterval
             if time < 4 {
-                MSHUD.shared.update(with: "Downloading \(Int(time))")
+                HUD.shared.update(with: "Downloading \(Int(time))")
             } else {
                 timer.invalidate()
-                MSHUD.shared.update(with: "Download complete!")
+                HUD.shared.update(with: "Download complete!")
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    MSHUD.shared.hide()
+                    HUD.shared.hide()
                 }
             }
         }

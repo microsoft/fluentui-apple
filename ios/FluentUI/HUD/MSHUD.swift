@@ -5,15 +5,23 @@
 
 import UIKit
 
-// MARK: MSHUDDelegate
+// MARK: HUDDelegate
 
-@objc public protocol MSHUDDelegate: class {
-    func defaultWindowForHUD(_ hud: MSHUD) -> UIWindow?
+@available(*, deprecated, renamed: "HUDDelegate")
+public typealias MSHUDDelegate = HUDDelegate
+
+@objc(MSFHUDDelegate)
+public protocol HUDDelegate: class {
+    func defaultWindowForHUD(_ hud: HUD) -> UIWindow?
 }
 
-// MARK: - MSHUDParams
+// MARK: - HUDParams
 
-public class MSHUDParams: NSObject {
+@available(*, deprecated, renamed: "HUDParams")
+public typealias MSHUDParams = HUDParams
+
+@objc(MSFHUDParams)
+public class HUDParams: NSObject {
     @objc open var caption: String
     @objc open var image: UIImage? {
         get {
@@ -59,9 +67,13 @@ public class MSHUDParams: NSObject {
     }
 }
 
-// MARK: - MSHUD
+// MARK: - HUD
 
-public class MSHUD: NSObject {
+@available(*, deprecated, renamed: "HUD")
+public typealias MSHUD = HUD
+
+@objc(MSFHUD)
+public class HUD: NSObject {
     private struct Constants {
         static let showAnimationDuration: TimeInterval = 0.2
         static let hideAnimationDuration: TimeInterval = 0.2
@@ -71,9 +83,9 @@ public class MSHUD: NSObject {
         static let keyboardMarginTop: CGFloat = 50.0
     }
 
-    @objc public static let shared = MSHUD()
+    @objc public static let shared = HUD()
 
-    @objc public weak var delegate: MSHUDDelegate?
+    @objc public weak var delegate: HUDDelegate?
 
     private var presentedHUDView: MSHUDView? {
         didSet {
@@ -111,20 +123,20 @@ public class MSHUD: NSObject {
 
     // Using a separate overload method for Objective-C instead of default parameters
     @objc public func show(in view: UIView) {
-        show(in: view, with: MSHUDParams())
+        show(in: view, with: HUDParams())
     }
 
-    @objc public func show(in view: UIView, with params: MSHUDParams) {
+    @objc public func show(in view: UIView, with params: HUDParams) {
         show(in: view, with: params, onTap: nil)
     }
 
-    @objc public func show(in view: UIView, with params: MSHUDParams, onTap: (() -> Void)? = nil) {
+    @objc public func show(in view: UIView, with params: HUDParams, onTap: (() -> Void)? = nil) {
         resetIfNeeded()
 
         presentedHUDView = MSHUDView(label: params.caption, type: params.hudType)
 
         guard let presentedHUDView = presentedHUDView else {
-            preconditionFailure("MSHUD could not create MSHUDView")
+            preconditionFailure("HUD could not create MSHUDView")
         }
 
         containerView.forwardsTouches = !params.isBlocking
@@ -155,12 +167,12 @@ public class MSHUD: NSObject {
 
     // Using a separate overload method for Objective-C instead of default parameters
     @objc public func show(from controller: UIViewController) {
-        show(from: controller, with: MSHUDParams())
+        show(from: controller, with: HUDParams())
     }
 
-    @objc public func show(from controller: UIViewController, with params: MSHUDParams) {
+    @objc public func show(from controller: UIViewController, with params: HUDParams) {
         guard let hostWindow = hostWindow(for: controller) else {
-            // No valid window found to host the MSHUD, don't present it
+            // No valid window found to host the HUD, don't present it
             return
         }
 
@@ -168,12 +180,12 @@ public class MSHUD: NSObject {
     }
 
     @objc public func showSuccess(in view: UIView, with caption: String = "") {
-        show(in: view, with: MSHUDParams(caption: caption, hudType: .success, isPersistent: false, isBlocking: true))
+        show(in: view, with: HUDParams(caption: caption, hudType: .success, isPersistent: false, isBlocking: true))
     }
 
     @objc public func showSuccess(from controller: UIViewController, with caption: String = "") {
         guard let hostWindow = hostWindow(for: controller) else {
-            // No valid window found to host the MSHUD, don't present it
+            // No valid window found to host the HUD, don't present it
             return
         }
 
@@ -181,12 +193,12 @@ public class MSHUD: NSObject {
     }
 
     @objc public func showFailure(in view: UIView, with caption: String = "") {
-        show(in: view, with: MSHUDParams(caption: caption, hudType: .failure, isPersistent: false, isBlocking: true))
+        show(in: view, with: HUDParams(caption: caption, hudType: .failure, isPersistent: false, isBlocking: true))
     }
 
     @objc public func showFailure(from controller: UIViewController, with caption: String = "") {
         guard let hostWindow = hostWindow(for: controller) else {
-            // No valid window found to host the MSHUD, don't present it
+            // No valid window found to host the HUD, don't present it
             return
         }
 
@@ -206,7 +218,7 @@ public class MSHUD: NSObject {
 
         let completion = { (finished: Bool) in
             guard presentedHUDView === presentedHUDView else {
-                // MSHUD has been shown before it finished being hidden
+                // HUD has been shown before it finished being hidden
                 return
             }
             self.resetIfNeeded()
@@ -262,7 +274,7 @@ public class MSHUD: NSObject {
                 return
         }
 
-        // Animate position of MSHUD view
+        // Animate position of HUD view
         keyboardHeight = keyboardFrame.height
         UIView.animate(withDuration: keyboardAnimationDuration, animations: layout)
     }
@@ -274,7 +286,7 @@ public class MSHUD: NSObject {
                 return
         }
 
-        // Animate position of MSHUD view
+        // Animate position of HUD view
         keyboardHeight = 0
         UIView.animate(withDuration: keyboardAnimationDuration, animations: layout)
     }
