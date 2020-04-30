@@ -89,11 +89,11 @@
 		8FD011B4228A82A600D25925 /* PersonaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46D3F922151D95F0029772C /* PersonaCell.swift */; };
 		8FD011B5228A82A600D25925 /* PersonaListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46D3F9C215985AC0029772C /* PersonaListView.swift */; };
 		8FD011B6228A82A600D25925 /* Persona.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF53C2215AF1AB00573E8F /* Persona.swift */; };
-		8FD011B7228A82A600D25925 /* MSPopupMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961F9C218A254D00E2A506 /* MSPopupMenuController.swift */; };
-		8FD011B8228A82A600D25925 /* MSPopupMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961F9E218A256B00E2A506 /* MSPopupMenuItem.swift */; };
-		8FD011B9228A82A600D25925 /* MSPopupMenuSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA0218A25C400E2A506 /* MSPopupMenuSection.swift */; };
-		8FD011BA228A82A600D25925 /* MSPopupMenuItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA2218A25D100E2A506 /* MSPopupMenuItemCell.swift */; };
-		8FD011BB228A82A600D25925 /* MSPopupMenuSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA4218A260500E2A506 /* MSPopupMenuSectionHeaderView.swift */; };
+		8FD011B7228A82A600D25925 /* PopupMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961F9C218A254D00E2A506 /* PopupMenuController.swift */; };
+		8FD011B8228A82A600D25925 /* PopupMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961F9E218A256B00E2A506 /* PopupMenuItem.swift */; };
+		8FD011B9228A82A600D25925 /* PopupMenuSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA0218A25C400E2A506 /* PopupMenuSection.swift */; };
+		8FD011BA228A82A600D25925 /* PopupMenuItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA2218A25D100E2A506 /* PopupMenuItemCell.swift */; };
+		8FD011BB228A82A600D25925 /* PopupMenuSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA4218A260500E2A506 /* PopupMenuSectionHeaderView.swift */; };
 		8FD011BC228A82A600D25925 /* MSCardPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA1AF9221487225001AE720 /* MSCardPresentationController.swift */; };
 		8FD011BD228A82A600D25925 /* MSCardPresenterNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0D29D52151A3D700E8655E /* MSCardPresenterNavigationController.swift */; };
 		8FD011BE228A82A600D25925 /* MSCardTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA1AF90214871B5001AE720 /* MSCardTransitionAnimator.swift */; };
@@ -118,11 +118,11 @@
 		A578C4A22321CFD6002D5C40 /* Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A578C4A12321CFD6002D5C40 /* Avatar.swift */; };
 		A578C4A32321CFD6002D5C40 /* Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A578C4A12321CFD6002D5C40 /* Avatar.swift */; };
 		A589F854211BA03200471C23 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = A589F853211BA03200471C23 /* Label.swift */; };
-		A5961F9D218A254D00E2A506 /* MSPopupMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961F9C218A254D00E2A506 /* MSPopupMenuController.swift */; };
-		A5961F9F218A256B00E2A506 /* MSPopupMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961F9E218A256B00E2A506 /* MSPopupMenuItem.swift */; };
-		A5961FA1218A25C400E2A506 /* MSPopupMenuSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA0218A25C400E2A506 /* MSPopupMenuSection.swift */; };
-		A5961FA3218A25D100E2A506 /* MSPopupMenuItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA2218A25D100E2A506 /* MSPopupMenuItemCell.swift */; };
-		A5961FA5218A260500E2A506 /* MSPopupMenuSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA4218A260500E2A506 /* MSPopupMenuSectionHeaderView.swift */; };
+		A5961F9D218A254D00E2A506 /* PopupMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961F9C218A254D00E2A506 /* PopupMenuController.swift */; };
+		A5961F9F218A256B00E2A506 /* PopupMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961F9E218A256B00E2A506 /* PopupMenuItem.swift */; };
+		A5961FA1218A25C400E2A506 /* PopupMenuSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA0218A25C400E2A506 /* PopupMenuSection.swift */; };
+		A5961FA3218A25D100E2A506 /* PopupMenuItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA2218A25D100E2A506 /* PopupMenuItemCell.swift */; };
+		A5961FA5218A260500E2A506 /* PopupMenuSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA4218A260500E2A506 /* PopupMenuSectionHeaderView.swift */; };
 		A5961FA7218A2E4500E2A506 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA6218A2E4500E2A506 /* UIImage+Extensions.swift */; };
 		A5B6617323A41E2900E801DD /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B6617223A41E2900E801DD /* NotificationView.swift */; };
 		A5B6617423A41E2900E801DD /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B6617223A41E2900E801DD /* NotificationView.swift */; };
@@ -289,11 +289,11 @@
 		A56CE7B522E68A7800AA77EE /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		A578C4A12321CFD6002D5C40 /* Avatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Avatar.swift; sourceTree = "<group>"; };
 		A589F853211BA03200471C23 /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
-		A5961F9C218A254D00E2A506 /* MSPopupMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPopupMenuController.swift; sourceTree = "<group>"; };
-		A5961F9E218A256B00E2A506 /* MSPopupMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPopupMenuItem.swift; sourceTree = "<group>"; };
-		A5961FA0218A25C400E2A506 /* MSPopupMenuSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPopupMenuSection.swift; sourceTree = "<group>"; };
-		A5961FA2218A25D100E2A506 /* MSPopupMenuItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPopupMenuItemCell.swift; sourceTree = "<group>"; };
-		A5961FA4218A260500E2A506 /* MSPopupMenuSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPopupMenuSectionHeaderView.swift; sourceTree = "<group>"; };
+		A5961F9C218A254D00E2A506 /* PopupMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuController.swift; sourceTree = "<group>"; };
+		A5961F9E218A256B00E2A506 /* PopupMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuItem.swift; sourceTree = "<group>"; };
+		A5961FA0218A25C400E2A506 /* PopupMenuSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuSection.swift; sourceTree = "<group>"; };
+		A5961FA2218A25D100E2A506 /* PopupMenuItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuItemCell.swift; sourceTree = "<group>"; };
+		A5961FA4218A260500E2A506 /* PopupMenuSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuSectionHeaderView.swift; sourceTree = "<group>"; };
 		A5961FA6218A2E4500E2A506 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		A5B6617223A41E2900E801DD /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		A5B87AF0211BD4380038C37C /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
@@ -514,11 +514,11 @@
 		A5961F9B218A251E00E2A506 /* Popup Menu */ = {
 			isa = PBXGroup;
 			children = (
-				A5961F9C218A254D00E2A506 /* MSPopupMenuController.swift */,
-				A5961F9E218A256B00E2A506 /* MSPopupMenuItem.swift */,
-				A5961FA0218A25C400E2A506 /* MSPopupMenuSection.swift */,
-				A5961FA2218A25D100E2A506 /* MSPopupMenuItemCell.swift */,
-				A5961FA4218A260500E2A506 /* MSPopupMenuSectionHeaderView.swift */,
+				A5961F9C218A254D00E2A506 /* PopupMenuController.swift */,
+				A5961F9E218A256B00E2A506 /* PopupMenuItem.swift */,
+				A5961FA0218A25C400E2A506 /* PopupMenuSection.swift */,
+				A5961FA2218A25D100E2A506 /* PopupMenuItemCell.swift */,
+				A5961FA4218A260500E2A506 /* PopupMenuSectionHeaderView.swift */,
 			);
 			path = "Popup Menu";
 			sourceTree = "<group>";
@@ -1204,13 +1204,13 @@
 				497DC2DA24185885008D86F8 /* PillButtonBar.swift in Sources */,
 				8FD011B6228A82A600D25925 /* Persona.swift in Sources */,
 				11104BCE233ACA9500CCB232 /* MSTabBarItem.swift in Sources */,
-				8FD011B7228A82A600D25925 /* MSPopupMenuController.swift in Sources */,
-				8FD011B8228A82A600D25925 /* MSPopupMenuItem.swift in Sources */,
-				8FD011B9228A82A600D25925 /* MSPopupMenuSection.swift in Sources */,
+				8FD011B7228A82A600D25925 /* PopupMenuController.swift in Sources */,
+				8FD011B8228A82A600D25925 /* PopupMenuItem.swift in Sources */,
+				8FD011B9228A82A600D25925 /* PopupMenuSection.swift in Sources */,
 				FD41C8B622DD3EA20086F899 /* NSLayoutConstraint+Extensions.swift in Sources */,
-				8FD011BA228A82A600D25925 /* MSPopupMenuItemCell.swift in Sources */,
+				8FD011BA228A82A600D25925 /* PopupMenuItemCell.swift in Sources */,
 				B4414790228F4D920040E88E /* MSBooleanCell.swift in Sources */,
-				8FD011BB228A82A600D25925 /* MSPopupMenuSectionHeaderView.swift in Sources */,
+				8FD011BB228A82A600D25925 /* PopupMenuSectionHeaderView.swift in Sources */,
 				8FD011BC228A82A600D25925 /* MSCardPresentationController.swift in Sources */,
 				56DA1CDB2452361E008D745E /* MSShimmerLinesViewAppearance.swift in Sources */,
 				8FD011BD228A82A600D25925 /* MSCardPresenterNavigationController.swift in Sources */,
@@ -1228,13 +1228,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				B46D3F91215056940029772C /* CharacterSet+Extension.swift in Sources */,
-				A5961FA3218A25D100E2A506 /* MSPopupMenuItemCell.swift in Sources */,
+				A5961FA3218A25D100E2A506 /* PopupMenuItemCell.swift in Sources */,
 				FD599D0221348439008845EE /* CalendarView.swift in Sources */,
 				A559BB83212B7D870055E107 /* FluentUIFramework.swift in Sources */,
 				1168630622E131CF0088B302 /* MSTabBarView.swift in Sources */,
 				FD599D082134AB0E008845EE /* CalendarViewWeekdayHeadingView.swift in Sources */,
 				FDFB8AF321361C9D0046850A /* CalendarViewDayMonthYearCell.swift in Sources */,
-				A5961F9D218A254D00E2A506 /* MSPopupMenuController.swift in Sources */,
+				A5961F9D218A254D00E2A506 /* PopupMenuController.swift in Sources */,
 				FD56FD92219123FE0023C7EA /* DateTimePickerViewComponentTableView.swift in Sources */,
 				B4E782C521793BB900A7DFCE /* ActivityIndicatorView.swift in Sources */,
 				A52648DC2316F4F9003342A0 /* BarButtonItems.swift in Sources */,
@@ -1307,7 +1307,7 @@
 				A5CEC16F20D98F340016922A /* Fonts.swift in Sources */,
 				FD599D0C2134AB1E008845EE /* CalendarViewDataSource.swift in Sources */,
 				A5B87B04211E22B70038C37C /* DimmingView.swift in Sources */,
-				A5961F9F218A256B00E2A506 /* MSPopupMenuItem.swift in Sources */,
+				A5961F9F218A256B00E2A506 /* PopupMenuItem.swift in Sources */,
 				B4E782C321793AB200A7DFCE /* MSActivityIndicatorCell.swift in Sources */,
 				B4A8BBCD21BF6D6900D5E3ED /* BadgeStringExtractor.swift in Sources */,
 				FD599D0A2134AB15008845EE /* CalendarViewLayout.swift in Sources */,
@@ -1321,7 +1321,7 @@
 				FDF41EDB2141A23B00EC527C /* UIViewController+Extensions.swift in Sources */,
 				FD56FD95219131430023C7EA /* DateTimePickerView.swift in Sources */,
 				FDA1AF8C21484625001AE720 /* BlurringView.swift in Sources */,
-				A5961FA1218A25C400E2A506 /* MSPopupMenuSection.swift in Sources */,
+				A5961FA1218A25C400E2A506 /* PopupMenuSection.swift in Sources */,
 				A5B87AF6211E16370038C37C /* DrawerController.swift in Sources */,
 				FD41C89622DD13230086F899 /* NavigationBar.swift in Sources */,
 				A5CEC16D20D98EE70016922A /* Colors.swift in Sources */,
@@ -1337,7 +1337,7 @@
 				FD77753021A490BA00033D58 /* DateTimePicker.swift in Sources */,
 				FD7254E92147059D002F4069 /* Calendar+Extensions.swift in Sources */,
 				A559BB7E212B6D100055E107 /* String+Extension.swift in Sources */,
-				A5961FA5218A260500E2A506 /* MSPopupMenuSectionHeaderView.swift in Sources */,
+				A5961FA5218A260500E2A506 /* PopupMenuSectionHeaderView.swift in Sources */,
 				FD56FD9A2194E50D0023C7EA /* DateTimePickerController.swift in Sources */,
 				A5F3B146232B1E3700007A4F /* ScrollView.swift in Sources */,
 				B46D3F9D215985AC0029772C /* PersonaListView.swift in Sources */,
