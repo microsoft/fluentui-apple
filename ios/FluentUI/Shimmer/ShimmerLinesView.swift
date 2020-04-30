@@ -5,17 +5,21 @@
 
 import UIKit
 
+@available(*, deprecated, renamed: "ShimmerLinesView")
+public typealias MSShimmerLinesView = ShimmerLinesView
+
 /**
- Specialized MSShimmerView that shows 1 or more shimmering lines.
+ Specialized ShimmerView that shows 1 or more shimmering lines.
  */
-open class MSShimmerLinesView: MSShimmerView {
-    @objc public static func sizeThatFits(_ size: CGSize, appearance: MSShimmerLinesViewAppearance) -> CGSize {
-        let desiredLineCount = CGFloat(MSShimmerLinesView.lineCount(for: appearance, availableHeight: size.height))
+@objc(MSFShimmerLinesView)
+open class ShimmerLinesView: ShimmerView {
+    @objc public static func sizeThatFits(_ size: CGSize, appearance: ShimmerLinesViewAppearance) -> CGSize {
+        let desiredLineCount = CGFloat(ShimmerLinesView.lineCount(for: appearance, availableHeight: size.height))
         let height = desiredLineCount * appearance.lineHeight + (desiredLineCount - 1) * appearance.lineSpacing
         return CGSize(width: size.width, height: height)
     }
 
-    @objc private static func lineCount(for appearance: MSShimmerLinesViewAppearance, availableHeight: CGFloat) -> Int {
+    @objc private static func lineCount(for appearance: ShimmerLinesViewAppearance, availableHeight: CGFloat) -> Int {
         if appearance.lineCount == 0 {
             // Deduce lines count based on available height
             return Int(floor((availableHeight + appearance.lineSpacing) / (appearance.lineHeight + appearance.lineSpacing)))
@@ -25,7 +29,7 @@ open class MSShimmerLinesView: MSShimmerView {
         }
     }
 
-    @objc public var shimmerLinesViewAppearance = MSShimmerLinesViewAppearance() {
+    @objc public var shimmerLinesViewAppearance = ShimmerLinesViewAppearance() {
         didSet {
             setNeedsLayout()
         }
@@ -60,7 +64,7 @@ open class MSShimmerLinesView: MSShimmerView {
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        return MSShimmerLinesView.sizeThatFits(size, appearance: shimmerLinesViewAppearance)
+        return ShimmerLinesView.sizeThatFits(size, appearance: shimmerLinesViewAppearance)
     }
 
     open override var intrinsicContentSize: CGSize {
@@ -69,7 +73,7 @@ open class MSShimmerLinesView: MSShimmerView {
 
     override func updateViewCoverLayers() {
         var newLineLayers = [CALayer]()
-        let desiredLineCount = MSShimmerLinesView.lineCount(for: shimmerLinesViewAppearance, availableHeight: frame.height)
+        let desiredLineCount = ShimmerLinesView.lineCount(for: shimmerLinesViewAppearance, availableHeight: frame.height)
 
         for i in 0..<desiredLineCount {
             let lineLayer = i < viewCoverLayers.count ? viewCoverLayers[i] : CALayer()

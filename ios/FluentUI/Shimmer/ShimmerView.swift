@@ -5,17 +5,21 @@
 
 import UIKit
 
+@available(*, deprecated, renamed: "ShimmerView")
+public typealias MSShimmerView = ShimmerView
+
 /// View that converts the subviews of a container view into a loading state with the "shimmering" effect
-open class MSShimmerView: UIView {
+@objc(MSFShimmerView)
+open class ShimmerView: UIView {
     /// Appearance of the shimmer itself (the animation appearance)
-    @objc open var shimmerAppearance = MSShimmerAppearance() {
+    @objc open var shimmerAppearance = ShimmerAppearance() {
         didSet {
             setNeedsLayout()
         }
     }
 
     /// Properties related to the apperance of the shimmer view itself
-    @objc open var appearance = MSShimmerViewAppearence() {
+    @objc open var appearance = ShimmerViewAppearance() {
         didSet {
             setNeedsLayout()
         }
@@ -85,7 +89,7 @@ open class MSShimmerView: UIView {
 
         let subviews = Set(containerView.subviews).subtracting(Set(excludedViews))
 
-        viewCoverLayers = subviews.filter({ !$0.isHidden && !($0 is MSShimmerView) }).map { subview in
+        viewCoverLayers = subviews.filter({ !$0.isHidden && !($0 is ShimmerView) }).map { subview in
             let coverLayer = CALayer()
 
             let shouldApplyLabelCornerRadius = subview is UILabel && appearance.labelCornerRadius >= 0

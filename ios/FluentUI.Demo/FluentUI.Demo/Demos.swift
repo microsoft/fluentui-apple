@@ -24,7 +24,7 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("PillButtonBar", MSPillButtonBarDemoController.self),
     ("PopupMenuController", MSPopupMenuDemoController.self),
     ("SegmentedControl", MSSegmentedControlDemoController.self),
-    ("MSShimmerLinesView", MSShimmerLinesViewDemoController.self),
+    ("ShimmerLinesView", MSShimmerLinesViewDemoController.self),
     ("MSTabBarView", MSTabBarViewDemoController.self),
     ("MSTableViewCell", MSTableViewCellDemoController.self),
     ("MSTableViewCellShimmer", MSTableViewCellShimmerDemoController.self),

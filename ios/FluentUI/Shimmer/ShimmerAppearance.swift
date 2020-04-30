@@ -5,10 +5,14 @@
 
 import UIKit
 
+@available(*, deprecated, renamed: "ShimmerAppearance")
+public typealias MSShimmerAppearance = ShimmerAppearance
+
 /**
  Object describing how a shimmer should look and function.
  */
-public class MSShimmerAppearance: NSObject {
+@objc(MSFShimmerAppearance)
+public class ShimmerAppearance: NSObject {
     @objc public let alpha: CGFloat
     @objc public let width: CGFloat
 

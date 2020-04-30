@@ -5,7 +5,11 @@
 
 import UIKit
 
-public class MSShimmerViewAppearence: NSObject {
+@available(*, deprecated, renamed: "ShimmerViewAppearance")
+public typealias MSShimmerViewAppearance = ShimmerViewAppearance
+
+@objc(MSFShimmerViewAppearence)
+public class ShimmerViewAppearance: NSObject {
     @objc public let tintColor: UIColor
     @objc public let cornerRadius: CGFloat
     @objc public let labelCornerRadius: CGFloat

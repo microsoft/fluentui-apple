@@ -10,6 +10,6 @@ class MSShimmerLinesViewDemoController: DemoController {
         super.viewDidLoad()
 
         // Default Shimmer
-        container.addArrangedSubview(MSShimmerLinesView())
+        container.addArrangedSubview(ShimmerLinesView())
     }
 }
