@@ -84,11 +84,11 @@ public class MSHUD: NSObject {
         }
     }
 
-    private lazy var containerView: MSTouchForwardingView = {
-        let view = MSTouchForwardingView()
+    private lazy var containerView: TouchForwardingView = {
+        let view = TouchForwardingView()
         view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.backgroundColor = .clear
-        containerViewFrameObservation = view.observe(\MSTouchForwardingView.frame) { [unowned self] (_, _) in
+        containerViewFrameObservation = view.observe(\TouchForwardingView.frame) { [unowned self] (_, _) in
             self.layout()
         }
         return view

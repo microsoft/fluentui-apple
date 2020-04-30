@@ -5,15 +5,23 @@
 
 import UIKit
 
-// MARK: MSTwoLineTitleViewDelegate
+// MARK: TwoLineTitleViewDelegate
 
-@objc public protocol MSTwoLineTitleViewDelegate: class {
-    func twoLineTitleViewDidTapOnTitle(_ twoLineTitleView: MSTwoLineTitleView)
+@available(*, deprecated, renamed: "TwoLineTitleViewDelegate")
+public typealias MSTwoLineTitleViewDelegate = TwoLineTitleViewDelegate
+
+@objc(MSFTwoLineTitleViewDelegate)
+public protocol TwoLineTitleViewDelegate: class {
+    func twoLineTitleViewDidTapOnTitle(_ twoLineTitleView: TwoLineTitleView)
 }
 
-// MARK: - MSTwoLineTitleView
+// MARK: - TwoLineTitleView
 
-open class MSTwoLineTitleView: UIView {
+@available(*, deprecated, renamed: "TwoLineTitleView")
+public typealias MSTwoLineTitleView = TwoLineTitleView
+
+@objc(MSFTwoLineTitleView)
+open class TwoLineTitleView: UIView {
     private struct Constants {
         static let titleButtonLabelMarginBottomRegular: CGFloat = 0
         static let titleButtonLabelMarginBottomCompact: CGFloat = -2
@@ -22,20 +30,20 @@ open class MSTwoLineTitleView: UIView {
         static let colorHighlightedAlpha: CGFloat = 0.4
     }
 
-    @objc(MSTwoLineTitleViewStyle)
+    @objc(MSFTwoLineTitleViewStyle)
     public enum Style: Int {
         case light
         case dark
     }
 
-    @objc(MSTwoLineTitleViewInteractivePart)
+    @objc(MSFTwoLineTitleViewInteractivePart)
     public enum InteractivePart: Int {
         case none
         case title
         case subtitle
     }
 
-    @objc(MSTwoLineTitleViewAccessoryType)
+    @objc(MSFTwoLineTitleViewAccessoryType)
     public enum AccessoryType: Int {
         case none
         case disclosure
@@ -90,7 +98,7 @@ open class MSTwoLineTitleView: UIView {
         set { subtitleButton.accessibilityTraits = newValue }
     }
 
-    @objc public weak var delegate: MSTwoLineTitleViewDelegate?
+    @objc public weak var delegate: TwoLineTitleViewDelegate?
 
     private var interactivePart: InteractivePart = .none
     private var accessoryType: AccessoryType = .none

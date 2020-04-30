@@ -5,7 +5,11 @@
 
 import UIKit
 
-open class MSTouchForwardingView: UIView {
+@available(*, deprecated, renamed: "TouchForwardingView")
+public typealias MSTouchForwardingView = TouchForwardingView
+
+@objc(MSFTouchForwardingView)
+open class TouchForwardingView: UIView {
     var forwardsTouches: Bool = true
     var passthroughView: UIView?
 

@@ -25,7 +25,7 @@ class MasterViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let titleView = MSTwoLineTitleView()
+        let titleView = TwoLineTitleView()
         titleView.setup(
             title: navigationItem.title ?? "",
             subtitle: FluentUIFramework.bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String

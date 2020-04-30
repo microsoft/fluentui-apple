@@ -63,7 +63,7 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
 
     private let mode: DateTimePickerMode
 
-    private var titleView: MSTwoLineTitleView!
+    private var titleView: TwoLineTitleView!
     private let customTitle: String?
     private let customSubtitle: String?
     private let customStartTabTitle: String?
@@ -189,7 +189,7 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
     }
 
     private func initTitleView() {
-        titleView = MSTwoLineTitleView()
+        titleView = TwoLineTitleView()
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTitleButtonTapped))
         titleView.addGestureRecognizer(tapRecognizer)
 

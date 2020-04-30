@@ -93,7 +93,7 @@ open class MSTooltip: NSObject {
 
         self.dismissMode = UIAccessibility.isVoiceOverRunning ? .tapOnTooltip : dismissMode
 
-        let gestureView = MSTouchForwardingView(frame: window.bounds)
+        let gestureView = TouchForwardingView(frame: window.bounds)
         self.gestureView = gestureView
         switch self.dismissMode {
         case .tapAnywhere:

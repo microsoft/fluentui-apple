@@ -9,7 +9,7 @@ import UIKit
 // MARK: MSTooltipDemoController
 
 class MSTooltipDemoController: DemoController {
-    let titleView = MSTwoLineTitleView(style: .dark)
+    let titleView = TwoLineTitleView(style: .dark)
     var edgeCaseStackView: UIStackView!
 
     override func viewDidLoad() {
@@ -147,10 +147,10 @@ class MSTooltipDemoController: DemoController {
     }
 }
 
-// MARK: - MSTooltipDemoController: MSTwoLineTitleViewDelegate
+// MARK: - MSTooltipDemoController: TwoLineTitleViewDelegate
 
-extension MSTooltipDemoController: MSTwoLineTitleViewDelegate {
-    func twoLineTitleViewDidTapOnTitle(_ twoLineTitleView: MSTwoLineTitleView) {
+extension MSTooltipDemoController: TwoLineTitleViewDelegate {
+    func twoLineTitleViewDidTapOnTitle(_ twoLineTitleView: TwoLineTitleView) {
         let alert = UIAlertController(title: nil, message: "The title button was pressed", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)

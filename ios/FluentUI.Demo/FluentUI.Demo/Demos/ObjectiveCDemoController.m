@@ -5,9 +5,9 @@
 
 #import "ObjectiveCDemoController.h"
 
-@interface ObjectiveCDemoController () <MSTwoLineTitleViewDelegate>
+@interface ObjectiveCDemoController () <MSFTwoLineTitleViewDelegate>
 
-@property (nonatomic) MSTwoLineTitleView *titleView;
+@property (nonatomic) MSFTwoLineTitleView *titleView;
 @property (nonatomic) UIStackView *container;
 @property (nonatomic) UIScrollView *scrollingContainer;
 
@@ -51,8 +51,8 @@
 }
 
 - (void)setupTitleView {
-    self.titleView = [[MSTwoLineTitleView alloc] initWithStyle: MSTwoLineTitleViewStyleDark];
-    [self.titleView setupWithTitle:self.title subtitle:nil interactivePart:MSTwoLineTitleViewInteractivePartTitle accessoryType:MSTwoLineTitleViewAccessoryTypeNone];
+    self.titleView = [[MSFTwoLineTitleView alloc] initWithStyle:MSFTwoLineTitleViewStyleDark];
+    [self.titleView setupWithTitle:self.title subtitle:nil interactivePart:MSFTwoLineTitleViewInteractivePartTitle accessoryType:MSFTwoLineTitleViewAccessoryTypeNone];
     self.titleView.delegate = self;
     self.navigationItem.titleView = self.titleView;
 }
@@ -72,9 +72,9 @@
     [self.container addArrangedSubview:titleLabel];
 }
 
-#pragma mark MSTwoLineTitleViewDelegate
+#pragma mark MSFTwoLineTitleViewDelegate
 
-- (void)twoLineTitleViewDidTapOnTitle:(MSTwoLineTitleView *)twoLineTitleView {
+- (void)twoLineTitleViewDidTapOnTitle:(MSFTwoLineTitleView *)twoLineTitleView {
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:nil message:@"The title button was pressed" preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
     [self presentViewController:alert animated:true completion:nil];
