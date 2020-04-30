@@ -63,7 +63,7 @@ open class PersonaListView: UITableView {
 
     @objc open weak var searchDirectoryDelegate: PersonaListViewSearchDirectoryDelegate?
 
-    /// Callback with the selected MSPersona
+    /// Callback with the selected Persona
     @objc open var onPersonaSelected: ((Persona) -> Void)?
 
     private var searchResultText: String = "" {

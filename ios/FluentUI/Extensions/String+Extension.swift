@@ -64,10 +64,13 @@ extension String {
 
 // MARK: - Date
 
+@available(*, deprecated, renamed: "DateStringCompactness")
+public typealias MSDateStringCompactness = DateStringCompactness
 /**
  * Defines the string format of the date (time not included) of a Date
  */
-@objc public enum MSDateStringCompactness: Int {
+@objc(MSFDateStringCompactness)
+public enum DateStringCompactness: Int {
     case longDaynameDayMonth = 1                        // ex: Thursday, December 12
     case longDaynameDayMonthYear                        // ex: Thursday, December 12, 2015
     case shortDayname                                   // ex: Wed
@@ -87,15 +90,19 @@ extension String {
     case shortDaynameDayShortMonthYear                  // ex: Thur, Dec 12, 2015
 }
 
+@available(*, deprecated, renamed: "TimeStringCompactness")
+public typealias MSTimeStringCompactness = TimeStringCompactness
+
 /**
  * Defines the string format of the time of a Date
  */
-@objc public enum MSTimeStringCompactness: Int {
+@objc(MSFTimeStringCompactness)
+public enum TimeStringCompactness: Int {
     case hoursColumnsMinutes = 1  // ex: 2:15 AM
     case hours                    // ex: 2 AM
 }
 
-@objc private enum MSDurationUnitInSeconds: Int {
+private enum DurationUnitInSeconds: Int {
     case minute = 60
     case hour = 3600
     case day = 86400 // 24h, when using this, keep in mind that a day is not necessarily 24h long.
@@ -167,7 +174,7 @@ public extension String {
      * Returns a representation of a date (time not included) based on given Date, MSDateStringCompactness and NSTimeZone
      * Example: Thursday 12 December
      */
-    static func dateString(from date: Date, compactness: MSDateStringCompactness, timeZone: TimeZone? = nil) -> String {
+    static func dateString(from date: Date, compactness: DateStringCompactness, timeZone: TimeZone? = nil) -> String {
         switch compactness {
         case .longDaynameDayMonth:
             return stringFromDate(date, dateFormat: "EEEE d MMMM", timeZone: timeZone)
@@ -215,7 +222,7 @@ public extension String {
      * Returns a representation of a time based on given Date, MSTimeStringCompactness and NSTimezone
      * Example: 2:15
      */
-    static func timeString(from date: Date, compactness: MSTimeStringCompactness, timeZone: TimeZone? = nil) -> String {
+    static func timeString(from date: Date, compactness: TimeStringCompactness, timeZone: TimeZone? = nil) -> String {
         switch compactness {
         case .hoursColumnsMinutes:
             return stringFromDate(date, dateFormat: "j:m", timeZone: timeZone)
@@ -229,7 +236,7 @@ public extension String {
      */
     static func relativeDayString(forNumberOfDaysSinceNow numberOfDays: Int, timeZone: TimeZone? = nil) -> String? {
         let dateFormatter = DateFormatterCache.shared.dateFormatter(timeZone: timeZone ?? TimeZone.autoupdatingCurrent)
-        let timeIntervalSinceNow = TimeInterval(numberOfDays * MSDurationUnitInSeconds.day.rawValue)
+        let timeIntervalSinceNow = TimeInterval(numberOfDays * DurationUnitInSeconds.day.rawValue)
         return dateFormatter.string(from: Date(timeIntervalSinceNow: timeIntervalSinceNow))
     }
 

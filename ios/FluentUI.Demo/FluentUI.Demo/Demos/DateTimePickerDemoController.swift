@@ -134,7 +134,7 @@ extension DateTimePickerDemoController: DateTimePickerDelegate {
 
         self.startDate = startDate
 
-        let compactness: MSDateStringCompactness
+        let compactness: DateStringCompactness
         if mode.singleSelection {
             if mode.includesTime {
                 compactness = .longDaynameDayMonthHoursColumnsMinutes

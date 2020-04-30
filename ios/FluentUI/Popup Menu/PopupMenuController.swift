@@ -89,7 +89,7 @@ open class PopupMenuController: DrawerController {
             }
         }
     }
-    /// Use `selectedItemIndexPath` to get or set the selected menu item instead of doing this via `MSPopupMenuItem` directly
+    /// Use `selectedItemIndexPath` to get or set the selected menu item instead of doing this via `PopupMenuItem` directly
     @objc open var selectedItemIndexPath: IndexPath? {
         get {
             for (sectionIndex, section) in sections.enumerated() {

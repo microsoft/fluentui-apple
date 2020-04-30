@@ -19,7 +19,7 @@ public typealias MSActionsCell = ActionsCell
  */
 @objc(MSFActionsCell)
 open class ActionsCell: UITableViewCell {
-    @objc(MSActionsCellActionType)
+    @objc(MSFActionsCellActionType)
     public enum ActionType: Int {
         case regular
         case destructive

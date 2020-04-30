@@ -23,7 +23,7 @@ public typealias MSTabBarView = TabBarView
 
 /// `TabBarView` supports maximum 5 tab bar items
 /// Set up `delegate` property to listen to selection changes.
-/// Set up `items` array to determine the order of `MSTabBarItems` to show.
+/// Set up `items` array to determine the order of `TabBarItems` to show.
 /// Use `selectedItem` property to change the selected tab bar item.
 @objc(MSFTabBarView)
 open class TabBarView: UIView {
@@ -33,7 +33,7 @@ open class TabBarView: UIView {
         static let landscapeHeight: CGFloat = 40.0
     }
 
-    /// List of MSTabBarItems in the MSTabBarView. Order of the array is the order of the subviews.
+    /// List of TabBarItems in the TabBarView. Order of the array is the order of the subviews.
     @objc open var items: [TabBarItem] = [] {
         willSet {
             for subview in stackView.arrangedSubviews {
