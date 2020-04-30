@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		11104BCE233ACA9500CCB232 /* MSTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D9847230BBA2300BC0B72 /* MSTabBarItem.swift */; };
-		1168630422E131CF0088B302 /* MSTabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630222E131CF0088B302 /* MSTabBarItemView.swift */; };
-		1168630522E131CF0088B302 /* MSTabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630222E131CF0088B302 /* MSTabBarItemView.swift */; };
-		1168630622E131CF0088B302 /* MSTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630322E131CF0088B302 /* MSTabBarView.swift */; };
-		1168630722E131CF0088B302 /* MSTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630322E131CF0088B302 /* MSTabBarView.swift */; };
-		118D9848230BBA2300BC0B72 /* MSTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D9847230BBA2300BC0B72 /* MSTabBarItem.swift */; };
+		11104BCE233ACA9500CCB232 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D9847230BBA2300BC0B72 /* TabBarItem.swift */; };
+		1168630422E131CF0088B302 /* TabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630222E131CF0088B302 /* TabBarItemView.swift */; };
+		1168630522E131CF0088B302 /* TabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630222E131CF0088B302 /* TabBarItemView.swift */; };
+		1168630622E131CF0088B302 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630322E131CF0088B302 /* TabBarView.swift */; };
+		1168630722E131CF0088B302 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630322E131CF0088B302 /* TabBarView.swift */; };
+		118D9848230BBA2300BC0B72 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D9847230BBA2300BC0B72 /* TabBarItem.swift */; };
 		497DC2D924185885008D86F8 /* PillButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D724185885008D86F8 /* PillButtonBar.swift */; };
 		497DC2DA24185885008D86F8 /* PillButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D724185885008D86F8 /* PillButtonBar.swift */; };
 		497DC2DB24185885008D86F8 /* PillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D824185885008D86F8 /* PillButton.swift */; };
@@ -272,9 +272,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1168630222E131CF0088B302 /* MSTabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSTabBarItemView.swift; sourceTree = "<group>"; };
-		1168630322E131CF0088B302 /* MSTabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSTabBarView.swift; sourceTree = "<group>"; };
-		118D9847230BBA2300BC0B72 /* MSTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTabBarItem.swift; sourceTree = "<group>"; };
+		1168630222E131CF0088B302 /* TabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
+		1168630322E131CF0088B302 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
+		118D9847230BBA2300BC0B72 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		497DC2D724185885008D86F8 /* PillButtonBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBar.swift; sourceTree = "<group>"; };
 		497DC2D824185885008D86F8 /* PillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
 		8FD01166228A820600D25925 /* libFluentUILib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFluentUILib.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -495,9 +495,9 @@
 		1168630122E131A20088B302 /* Tab Bar */ = {
 			isa = PBXGroup;
 			children = (
-				118D9847230BBA2300BC0B72 /* MSTabBarItem.swift */,
-				1168630222E131CF0088B302 /* MSTabBarItemView.swift */,
-				1168630322E131CF0088B302 /* MSTabBarView.swift */,
+				118D9847230BBA2300BC0B72 /* TabBarItem.swift */,
+				1168630222E131CF0088B302 /* TabBarItemView.swift */,
+				1168630322E131CF0088B302 /* TabBarView.swift */,
 			);
 			path = "Tab Bar";
 			sourceTree = "<group>";
@@ -1110,7 +1110,7 @@
 				8FD0116F228A82A600D25925 /* BadgeStringExtractor.swift in Sources */,
 				8FD01170228A82A600D25925 /* BadgeView.swift in Sources */,
 				8FD01171228A82A600D25925 /* CalendarView.swift in Sources */,
-				1168630722E131CF0088B302 /* MSTabBarView.swift in Sources */,
+				1168630722E131CF0088B302 /* TabBarView.swift in Sources */,
 				8FD01172228A82A600D25925 /* CalendarViewDataSource.swift in Sources */,
 				8FD01173228A82A600D25925 /* CalendarViewLayout.swift in Sources */,
 				8FD01174228A82A600D25925 /* CalendarViewDayCell.swift in Sources */,
@@ -1157,7 +1157,7 @@
 				8FD0118F228A82A600D25925 /* DateTimePicker.swift in Sources */,
 				FD41C88922DD13230086F899 /* ShyHeaderView.swift in Sources */,
 				8FD01190228A82A600D25925 /* GenericDateTimePicker.swift in Sources */,
-				1168630522E131CF0088B302 /* MSTabBarItemView.swift in Sources */,
+				1168630522E131CF0088B302 /* TabBarItemView.swift in Sources */,
 				A578C4A32321CFD6002D5C40 /* Avatar.swift in Sources */,
 				8FD01191228A82A600D25925 /* DatePickerController.swift in Sources */,
 				56DA1CD924523616008D745E /* ShimmerLinesView.swift in Sources */,
@@ -1203,7 +1203,7 @@
 				8FD011B5228A82A600D25925 /* PersonaListView.swift in Sources */,
 				497DC2DA24185885008D86F8 /* PillButtonBar.swift in Sources */,
 				8FD011B6228A82A600D25925 /* Persona.swift in Sources */,
-				11104BCE233ACA9500CCB232 /* MSTabBarItem.swift in Sources */,
+				11104BCE233ACA9500CCB232 /* TabBarItem.swift in Sources */,
 				8FD011B7228A82A600D25925 /* PopupMenuController.swift in Sources */,
 				8FD011B8228A82A600D25925 /* PopupMenuItem.swift in Sources */,
 				8FD011B9228A82A600D25925 /* PopupMenuSection.swift in Sources */,
@@ -1231,7 +1231,7 @@
 				A5961FA3218A25D100E2A506 /* PopupMenuItemCell.swift in Sources */,
 				FD599D0221348439008845EE /* CalendarView.swift in Sources */,
 				A559BB83212B7D870055E107 /* FluentUIFramework.swift in Sources */,
-				1168630622E131CF0088B302 /* MSTabBarView.swift in Sources */,
+				1168630622E131CF0088B302 /* TabBarView.swift in Sources */,
 				FD599D082134AB0E008845EE /* CalendarViewWeekdayHeadingView.swift in Sources */,
 				FDFB8AF321361C9D0046850A /* CalendarViewDayMonthYearCell.swift in Sources */,
 				A5961F9D218A254D00E2A506 /* PopupMenuController.swift in Sources */,
@@ -1279,8 +1279,8 @@
 				FD41C88822DD13230086F899 /* ShyHeaderView.swift in Sources */,
 				C0A0D76E233AEF6C00F432FD /* ShimmerLinesView.swift in Sources */,
 				B42661422148568800E25423 /* AvatarView.swift in Sources */,
-				118D9848230BBA2300BC0B72 /* MSTabBarItem.swift in Sources */,
-				1168630422E131CF0088B302 /* MSTabBarItemView.swift in Sources */,
+				118D9848230BBA2300BC0B72 /* TabBarItem.swift in Sources */,
+				1168630422E131CF0088B302 /* TabBarItemView.swift in Sources */,
 				A578C4A22321CFD6002D5C40 /* Avatar.swift in Sources */,
 				B444D6B62183A9740002B4D4 /* BadgeView.swift in Sources */,
 				FD7254E72146E946002F4069 /* CalendarViewDayCell.swift in Sources */,
