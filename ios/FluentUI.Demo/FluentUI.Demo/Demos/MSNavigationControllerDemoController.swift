@@ -71,8 +71,8 @@ class MSNavigationControllerDemoController: DemoController {
 
     @objc func showLargeTitleWithCustomizedElementSizes() {
         let controller = presentController(withLargeTitle: true, accessoryView: createAccessoryView())
-        controller.msNavigationBar.avatarSize = .expanded
-        controller.msNavigationBar.titleSize = .contracted
+        controller.msfNavigationBar.avatarSize = .expanded
+        controller.msfNavigationBar.titleSize = .contracted
     }
 
     @objc func showLargeTitleWithCustomizedColor() {
@@ -84,7 +84,7 @@ class MSNavigationControllerDemoController: DemoController {
     }
 
     @discardableResult
-    private func presentController(withLargeTitle useLargeTitle: Bool, style: MSNavigationBar.Style = .primary, accessoryView: UIView? = nil, contractNavigationBarOnScroll: Bool = true, showShadow: Bool = true, showAvatar: Bool = true) -> MSNavigationController {
+    private func presentController(withLargeTitle useLargeTitle: Bool, style: NavigationBar.Style = .primary, accessoryView: UIView? = nil, contractNavigationBarOnScroll: Bool = true, showShadow: Bool = true, showAvatar: Bool = true) -> NavigationController {
         let content = RootViewController()
         content.navigationItem.usesLargeTitle = useLargeTitle
         content.navigationItem.navigationBarStyle = style
@@ -96,10 +96,10 @@ class MSNavigationControllerDemoController: DemoController {
             content.navigationItem.navigationBarColor = CustomGradient.getCustomBackgroundColor(width: view.frame.width)
         }
 
-        let controller = MSNavigationController(rootViewController: content)
+        let controller = NavigationController(rootViewController: content)
         if showAvatar {
-            controller.msNavigationBar.avatar = MSPersonaData(name: "Kat Larrson", avatarImage: UIImage(named: "avatar_kat_larsson"))
-            controller.msNavigationBar.onAvatarTapped = handleAvatarTapped
+            controller.msfNavigationBar.avatar = MSPersonaData(name: "Kat Larrson", avatarImage: UIImage(named: "avatar_kat_larsson"))
+            controller.msfNavigationBar.onAvatarTapped = handleAvatarTapped
         } else {
             content.allowsCellSelection = true
         }

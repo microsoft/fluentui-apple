@@ -5,11 +5,11 @@
 
 import UIKit
 
-// MARK: MSContentScrollViewTraits
+// MARK: ContentScrollViewTraits
 
 /// Defines various properties of a scroll view and user's scroll behavior
 /// Used to understand user behavior over time
-struct MSContentScrollViewTraits {
+struct ContentScrollViewTraits {
     /// Speed of the gesture
     let yVelocity: CGFloat
 

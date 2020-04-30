@@ -5,15 +5,19 @@
 
 import UIKit
 
-// MARK: MSNavigationController
+// MARK: NavigationController
+
+@available(*, deprecated, renamed: "NavigationController")
+public typealias MSNavigationController = NavigationController
 
 /// `UINavigationController` subclass that supports Large Title presentation and accessory view by wrapping each view controller that needs this functionality into a controller that provides the required behavior. The original view controller can be accessed by using `topContentViewController` or `contentViewController(for:)`.
-open class MSNavigationController: UINavigationController {
-    @objc open var msNavigationBar: MSNavigationBar {
-        guard let msNavBar = navigationBar as? MSNavigationBar else {
+@objc(MSFNavigationController)
+open class NavigationController: UINavigationController {
+    @objc open var msfNavigationBar: NavigationBar {
+        guard let msfNavBar = navigationBar as? NavigationBar else {
             preconditionFailure("The navigation bar is either not present or not the correct class")
         }
-        return msNavBar
+        return msfNavBar
     }
 
     @objc open var topContentViewController: UIViewController? {
@@ -28,7 +32,7 @@ open class MSNavigationController: UINavigationController {
         return nil
     }
     open override var preferredStatusBarStyle: UIStatusBarStyle {
-        return msNavigationBar.style == .system ? .default : .lightContent
+        return msfNavigationBar.style == .system ? .default : .lightContent
     }
 
     open override var delegate: UINavigationControllerDelegate? {
@@ -38,7 +42,7 @@ open class MSNavigationController: UINavigationController {
     private weak var _delegate: UINavigationControllerDelegate?
 
     // Using "lazy var" instead of "let" to avoid memory leak issue in iOS 12
-    private lazy var transitionAnimator = MSNavigationAnimator()
+    private lazy var transitionAnimator = NavigationAnimator()
 
     private var navigationBarWasHiddenBySearchBar: Bool = false
 
@@ -47,7 +51,7 @@ open class MSNavigationController: UINavigationController {
     }
 
     @objc public override init(navigationBarClass: AnyClass?, toolbarClass: AnyClass?) {
-        super.init(navigationBarClass: MSNavigationBar.self, toolbarClass: toolbarClass)
+        super.init(navigationBarClass: NavigationBar.self, toolbarClass: toolbarClass)
     }
 
     @objc public convenience override init(rootViewController: UIViewController) {
@@ -101,28 +105,28 @@ open class MSNavigationController: UINavigationController {
     }
 
     @objc public func expandNavigationBar(animated: Bool) {
-        msNavigationBar.expand(animated)
-        (topViewController as? MSShyHeaderController)?.expandAccessory()
+        msfNavigationBar.expand(animated)
+        (topViewController as? ShyHeaderController)?.expandAccessory()
     }
 
     @objc public func contractNavigationBar(animated: Bool) {
-        msNavigationBar.contract(animated)
-        (topViewController as? MSShyHeaderController)?.contractAccessory()
+        msfNavigationBar.contract(animated)
+        (topViewController as? ShyHeaderController)?.contractAccessory()
     }
 
     @objc public func contentViewController(for controller: UIViewController) -> UIViewController {
-        return (controller as? MSShyHeaderController)?.contentViewController ?? controller
+        return (controller as? ShyHeaderController)?.contentViewController ?? controller
     }
 
     private func wrapViewControllerIfNeeded(_ viewController: UIViewController) -> UIViewController {
         if !viewControllerNeedsWrapping(viewController) {
             return viewController
         }
-        return MSShyHeaderController(contentViewController: viewController)
+        return ShyHeaderController(contentViewController: viewController)
     }
 
     private func viewControllerNeedsWrapping(_ viewController: UIViewController) -> Bool {
-        if viewController is MSShyHeaderController {
+        if viewController is ShyHeaderController {
             return false
         }
         if viewController.navigationItem.usesLargeTitle || viewController.navigationItem.accessoryView != nil {
@@ -132,10 +136,10 @@ open class MSNavigationController: UINavigationController {
     }
 
     func updateNavigationBar(for viewController: UIViewController) {
-        msNavigationBar.update(with: viewController.navigationItem)
+        msfNavigationBar.update(with: viewController.navigationItem)
         viewController.navigationItem.accessorySearchBar?.navigationController = self
         setNeedsStatusBarAppearanceUpdate()
-        transitionAnimator.tintColor = msNavigationBar.backgroundView.backgroundColor!
+        transitionAnimator.tintColor = msfNavigationBar.backgroundView.backgroundColor!
     }
 
     private func updateNavigationBarVisibility(for viewController: UIViewController, animated: Bool) {
@@ -148,12 +152,12 @@ open class MSNavigationController: UINavigationController {
     open override func setNavigationBarHidden(_ hidden: Bool, animated: Bool) {
         if isNavigationBarHidden != hidden {
             if hidden {
-                msNavigationBar.obscureContent(animated: animated)
+                msfNavigationBar.obscureContent(animated: animated)
                 if searchIsActive(in: topViewController) {
                     navigationBarWasHiddenBySearchBar = true
                 }
             } else {
-                msNavigationBar.revealContent(animated: animated)
+                msfNavigationBar.revealContent(animated: animated)
                 navigationBarWasHiddenBySearchBar = false
             }
         }
@@ -198,10 +202,10 @@ open class MSNavigationController: UINavigationController {
     }
 }
 
-// MARK: - MSNavigationController: UINavigationControllerDelegate
+// MARK: - NavigationController: UINavigationControllerDelegate
 
 // `navigationControllerPreferredInterfaceOrientationForPresentation` is not supported due to inability to provide a return value when developer's delegate does not implement this method
-extension MSNavigationController: UINavigationControllerDelegate {
+extension NavigationController: UINavigationControllerDelegate {
     public func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         updateNavigationBarVisibility(for: viewController, animated: animated)
         updateNavigationBar(for: viewController)

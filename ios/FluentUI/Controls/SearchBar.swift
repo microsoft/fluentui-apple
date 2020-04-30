@@ -140,7 +140,7 @@ open class SearchBar: UIView {
 
     @objc open weak var delegate: SearchBarDelegate?
 
-    weak var navigationController: MSNavigationController?
+    weak var navigationController: NavigationController?
 
     //used to hide the cancelButton in non-active states
     private var searchTextFieldBackgroundViewTrailingConstraint: NSLayoutConstraint?

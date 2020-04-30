@@ -5,13 +5,13 @@
 
 import UIKit
 
-// MARK: MSNavigationAnimator
+// MARK: NavigationAnimator
 
-/// Implements a custom navigation animation for `MSNavigationController`.
+/// Implements a custom navigation animation for `NavigationController`.
 /// Animates view controllers, navigation bar, toolbar and a background views.
 /// This custom animation is needed because the native animation only animates view controllers.
 /// This class attemps to match the native animation as much as possible.
-class MSNavigationAnimator: UIPercentDrivenInteractiveTransition, UIViewControllerAnimatedTransitioning {
+class NavigationAnimator: UIPercentDrivenInteractiveTransition, UIViewControllerAnimatedTransitioning {
     private struct Constants {
         static let pushDuration: TimeInterval = 0.45
         static let popDuration: TimeInterval = 0.40
@@ -128,7 +128,7 @@ class MSNavigationAnimator: UIPercentDrivenInteractiveTransition, UIViewControll
                     }
                 }
                 if transitionContext.transitionWasCancelled, let fromVC = transitionContext.viewController(forKey: .from) {
-                    (self.navigationController as? MSNavigationController)?.updateNavigationBar(for: fromVC)
+                    (self.navigationController as? NavigationController)?.updateNavigationBar(for: fromVC)
                 }
             }
         )
@@ -186,10 +186,10 @@ class MSNavigationAnimator: UIPercentDrivenInteractiveTransition, UIViewControll
         createTransition(view: toVC.view, frame: newViewFrame, isTemporaryView: false, isToView: true, frameTransitions: &frameTransitions)
     }
 
-    /// Creates the transitions for the Navigation Controller which must be an instance of `MSNavigationController`.
+    /// Creates the transitions for the Navigation Controller which must be an instance of `NavigationController`.
     /// All subviews including Navigation Bar and Toolbar are animated.
     private func createNavigationControllerTransitions(_ transitionContext: UIViewControllerContextTransitioning, frameTransitions : inout ViewFrameTransitionGroups) {
-        guard let navigationController = navigationController as? MSNavigationController else {
+        guard let navigationController = navigationController as? NavigationController else {
             return
         }
 

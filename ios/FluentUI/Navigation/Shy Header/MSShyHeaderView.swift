@@ -10,7 +10,7 @@ import UIKit
 /// "Hideable" header view for use in a navigation stack, appearing above a content view controller
 /// Used to contain an accessory provided by the VC contained by the NavigatableShyContainerVC
 /// This class in itself is fairly straightforward, defining a height and a containment layout
-/// The animation around showing/hiding this view progressively is handled by its superview/superVC, an instance of MSShyHeaderController
+/// The animation around showing/hiding this view progressively is handled by its superview/superVC, an instance of ShyHeaderController
 class MSShyHeaderView: UIView {
     /// Defines all possible states of the header view's appearance
     ///
@@ -140,12 +140,12 @@ class MSShyHeaderView: UIView {
             }
         }
     }
-    var navigationBarStyle: MSNavigationBar.Style = .primary {
+    var navigationBarStyle: NavigationBar.Style = .primary {
         didSet {
             updateShadowVisibility()
         }
     }
-    var navigationBarShadow: MSNavigationBar.Shadow = .automatic {
+    var navigationBarShadow: NavigationBar.Shadow = .automatic {
         didSet {
             updateShadowVisibility()
         }

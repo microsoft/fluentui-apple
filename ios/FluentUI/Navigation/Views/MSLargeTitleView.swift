@@ -30,7 +30,7 @@ class MSLargeTitleView: UIView {
         }
     }
 
-    var avatarSize: MSNavigationBar.ElementSize = .automatic {
+    var avatarSize: NavigationBar.ElementSize = .automatic {
         didSet {
             switch avatarSize {
             case .automatic:
@@ -55,7 +55,7 @@ class MSLargeTitleView: UIView {
         }
     }
 
-    var titleSize: MSNavigationBar.ElementSize = .automatic {
+    var titleSize: NavigationBar.ElementSize = .automatic {
         didSet {
             switch titleSize {
             case .automatic:
@@ -181,7 +181,7 @@ class MSLargeTitleView: UIView {
     // Declares animation closures used for title expansion/contraction
     private func setupAnimations() {
         /// construct an animator for the avatarView's transform property
-        let smallMorphingAvatarViewAnimator = UIViewPropertyAnimator(duration: MSNavigationBar.expansionContractionAnimationDuration, curve: .linear) {
+        let smallMorphingAvatarViewAnimator = UIViewPropertyAnimator(duration: NavigationBar.expansionContractionAnimationDuration, curve: .linear) {
             self.smallMorphingAvatarView?.transform = CGAffineTransform.identity
         }
         smallMorphingAvatarViewAnimator.scrubsLinearly = false
@@ -286,7 +286,7 @@ class MSLargeTitleView: UIView {
             return
         }
         if animated {
-            UIView.animate(withDuration: MSNavigationBar.expansionContractionAnimationDuration, animations: expansionAnimation)
+            UIView.animate(withDuration: NavigationBar.expansionContractionAnimationDuration, animations: expansionAnimation)
             morphSmallAvatarView(expanding: true)
         } else {
             expansionAnimation()
@@ -302,7 +302,7 @@ class MSLargeTitleView: UIView {
             return
         }
         if animated {
-            UIView.animate(withDuration: MSNavigationBar.expansionContractionAnimationDuration, animations: contractionAnimation)
+            UIView.animate(withDuration: NavigationBar.expansionContractionAnimationDuration, animations: contractionAnimation)
             morphSmallAvatarView(expanding: false)
         } else {
             contractionAnimation()

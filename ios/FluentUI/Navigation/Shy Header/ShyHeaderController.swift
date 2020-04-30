@@ -5,11 +5,11 @@
 
 import UIKit
 
-// MARK: MSShyHeaderController
+// MARK: ShyHeaderController
 
 /// Container VC defining a content area beneath a custom header container for a ShyHeader and a content VC, enabling "scroll to hide header" behavior
 /// Manages logic around contained scroll views, using the offset to animate the exposure of the header view
-class MSShyHeaderController: UIViewController {
+class ShyHeaderController: UIViewController {
     private struct Constants {
         static let paddingHeightTotal: CGFloat = 12.0
         static let headerShowHideAnimationDuration: TimeInterval = 0.2 //how long a full expansion should take, when not defined by a gesture interaction
@@ -57,11 +57,11 @@ class MSShyHeaderController: UIViewController {
             } else {
                 updateHeader(with: 1.0, expanding: true)
             }
-            previousContentScrollViewTraits = MSContentScrollViewTraits(yOffset: contentScrollView?.contentOffset.y ?? 0)
+            previousContentScrollViewTraits = ContentScrollViewTraits(yOffset: contentScrollView?.contentOffset.y ?? 0)
         }
     }
     private var contentScrollViewObservation: NSKeyValueObservation?
-    private var previousContentScrollViewTraits = MSContentScrollViewTraits() //properties of the scroll view at the last scrollDidOccurIn: update. Used with current traits to understand user action
+    private var previousContentScrollViewTraits = ContentScrollViewTraits() //properties of the scroll view at the last scrollDidOccurIn: update. Used with current traits to understand user action
 
     init(contentViewController: UIViewController) {
         self.contentViewController = contentViewController
@@ -105,7 +105,7 @@ class MSShyHeaderController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if let (actualStyle, actualItem) = msNavigationController?.msNavigationBar.actualStyleAndItem(for: navigationItem) {
+        if let (actualStyle, actualItem) = msfNavigationController?.msfNavigationBar.actualStyleAndItem(for: navigationItem) {
             shyHeaderView.navigationBarStyle = actualStyle
             updateBackgroundColor(with: actualItem)
         }
@@ -200,7 +200,7 @@ class MSShyHeaderController: UIViewController {
         navigationBarCenterObservation = navigationController?.navigationBar.observe(\.center) { [unowned self] navigationBar, _ in
             self.shyHeaderView.navigationBarIsHidden = navigationBar.frame.maxY == 0
         }
-        navigationBarHeightObservation = msNavigationController?.msNavigationBar.observe(\.barHeight) { [unowned self] _, _ in
+        navigationBarHeightObservation = msfNavigationController?.msfNavigationBar.observe(\.barHeight) { [unowned self] _, _ in
             self.updatePadding()
         }
     }
@@ -233,7 +233,7 @@ class MSShyHeaderController: UIViewController {
 
         // if the originator is a LargeTitleView, make sure it belongs to this heirarchy
         if let originatorTitleView = expansionRequestOriginator as? MSLargeTitleView {
-            guard originatorTitleView == msNavigationController?.msNavigationBar.titleView else {
+            guard originatorTitleView == msfNavigationController?.msfNavigationBar.titleView else {
                 return false
             }
         }
@@ -253,7 +253,7 @@ class MSShyHeaderController: UIViewController {
     }
 
     private func updatePadding() {
-        shyHeaderView.lockedInContractedState = msNavigationController?.msNavigationBar.barHeight == .contracted
+        shyHeaderView.lockedInContractedState = msfNavigationController?.msfNavigationBar.barHeight == .contracted
         paddingHeightConstraint?.constant = paddingIsStatic ? paddingViewHeight : 0
         shyViewHeightConstraint?.constant = shyHeaderView.maxHeight
         if shyHeaderView.exposure == .concealed {
@@ -263,7 +263,7 @@ class MSShyHeaderController: UIViewController {
 
     private var paddingIsStatic: Bool {
         let isLandscape = traitCollection.verticalSizeClass == .compact && traitCollection.horizontalSizeClass == .compact
-        return isLandscape || msNavigationController?.msNavigationBar.barHeight == .expanded
+        return isLandscape || msfNavigationController?.msfNavigationBar.barHeight == .expanded
     }
 
     // MARK: - Gesture-Based Shy Behavior Methods
@@ -318,7 +318,7 @@ class MSShyHeaderController: UIViewController {
         let velocity = gesture.velocity(in: scrollView).y
 
         let logUpdatedTraits: () -> Void = {
-            self.previousContentScrollViewTraits = MSContentScrollViewTraits(yVelocity: velocity,
+            self.previousContentScrollViewTraits = ContentScrollViewTraits(yVelocity: velocity,
                                                                              userScrolling: scrollView.userIsScrolling,
                                                                              scrollDirection: newScrollDirection,
                                                                              switchedDirection: switchedDirection,
@@ -352,7 +352,7 @@ class MSShyHeaderController: UIViewController {
 
         guard scrollView.userIsScrolling else { //if the user stops scrolling, we decide if to finish the animation based on the velocity of the scrollView
             if previousContentScrollViewTraits.userIsScrolling { //user not scrolling now, but was previously, indicates a release
-                if abs(previousContentScrollViewTraits.yVelocity) > MSShyHeaderController.Constants.swipeThresholdVelocity { //hot release (exceeds threshold, a "toss")
+                if abs(previousContentScrollViewTraits.yVelocity) > ShyHeaderController.Constants.swipeThresholdVelocity { //hot release (exceeds threshold, a "toss")
 
                     let newProgress: CGFloat = swipeDirection == .up ? 0.0 : 1.0
                     updateHeader(with: newProgress, expanding: wouldExpandHeader)
@@ -399,7 +399,7 @@ class MSShyHeaderController: UIViewController {
             updateHeader(with: newProgress, expanding: wouldExpandHeader)
         }
 
-        previousContentScrollViewTraits = MSContentScrollViewTraits(yVelocity: velocity,
+        previousContentScrollViewTraits = ContentScrollViewTraits(yVelocity: velocity,
                                                                     userScrolling: scrollView.userIsScrolling,
                                                                     scrollDirection: newScrollDirection,
                                                                     switchedDirection: switchedDirection,
@@ -437,7 +437,7 @@ class MSShyHeaderController: UIViewController {
 
         let progress: CGFloat = expanding ? 1.0 : 0.0
 
-        UIView.animate(withDuration: MSShyHeaderController.Constants.headerShowHideAnimationDuration,
+        UIView.animate(withDuration: ShyHeaderController.Constants.headerShowHideAnimationDuration,
                        delay: 0.0,
                        usingSpringWithDamping: 1.0,
                        initialSpringVelocity: springVelocity,
@@ -451,7 +451,7 @@ class MSShyHeaderController: UIViewController {
 
     /// Shows the accessoryContent, if the content provider has given us one
     func expandAccessory() {
-        UIView.animate(withDuration: MSShyHeaderController.Constants.headerShowHideAnimationDuration,
+        UIView.animate(withDuration: ShyHeaderController.Constants.headerShowHideAnimationDuration,
                        delay: 0.0,
                        options: .allowUserInteraction,
                        animations: {
@@ -462,7 +462,7 @@ class MSShyHeaderController: UIViewController {
     /// Hides the accessoryContent, if the content provider has given us one
     func contractAccessory() {
         // Note: unlike the expansion request, we don't care if the accessory container is empty for contractions
-        UIView.animate(withDuration: MSShyHeaderController.Constants.headerShowHideAnimationDuration,
+        UIView.animate(withDuration: ShyHeaderController.Constants.headerShowHideAnimationDuration,
                        delay: 0.0,
                        options: .allowUserInteraction,
                        animations: {
@@ -484,9 +484,9 @@ class MSShyHeaderController: UIViewController {
 
         //passes appropriate call to delegate
         if expanding { //we always want to begin the expansion animations if the progress is expanding
-            msNavigationController?.msNavigationBar.expand(true)
+            msfNavigationController?.msfNavigationBar.expand(true)
         } else if progress <= 0.0 { //we only want to contract if the progress is contracting AND zero/negative AKA never contract during positive progress
-            msNavigationController?.msNavigationBar.contract(true)
+            msfNavigationController?.msfNavigationBar.contract(true)
         }
 
         shyHeaderView.exposure = MSShyHeaderView.Exposure(withProgress: progress)
@@ -521,7 +521,7 @@ class MSShyHeaderController: UIViewController {
         if shyHeaderView.exposure == .concealed
             && scrollDirection == .up
             && yOffset < 0 { // if we encounter a scenario where we're concealed, but the content doesn't support shy behavior, we want to guarantee we've expanded if the user scrolls down the list
-            UIView.animate(withDuration: MSShyHeaderController.Constants.headerShowHideAnimationDuration,
+            UIView.animate(withDuration: ShyHeaderController.Constants.headerShowHideAnimationDuration,
                            delay: 0.0,
                            options: .allowUserInteraction,
                            animations: {

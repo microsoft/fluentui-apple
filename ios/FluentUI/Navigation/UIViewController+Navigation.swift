@@ -6,7 +6,7 @@
 import UIKit
 
 @objc public extension UIViewController {
-    var msNavigationController: MSNavigationController? {
-        return navigationController as? MSNavigationController
+    var msfNavigationController: NavigationController? {
+        return navigationController as? NavigationController
     }
 }

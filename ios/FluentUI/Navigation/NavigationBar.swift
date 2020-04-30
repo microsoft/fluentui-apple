@@ -5,14 +5,18 @@
 
 import UIKit
 
-// MARK: MSNavigationBar
+// MARK: NavigationBar
+
+@available(*, deprecated, renamed: "NavigationBar")
+public typealias MSNavigationBar = NavigationBar
 
 /// UINavigationBar subclass, with a content view that contains various custom UIElements
 /// Contains the MSNavigationTitleView class and handles passing animatable progress through
 /// Custom UI can be hidden if desired
-open class MSNavigationBar: UINavigationBar {
+@objc(MSFNavigationBar)
+open class NavigationBar: UINavigationBar {
     /// If the style is `.custom`, UINavigationItem's `navigationBarColor` is used for all the subviews' backgroundColor
-    @objc(MSNavigationBarStyle)
+    @objc(MSFNavigationBarStyle)
     public enum Style: Int {
         case `default`
         case primary
@@ -50,12 +54,12 @@ open class MSNavigationBar: UINavigationBar {
     }
 
     /// Describes the sizing behavior of navigation bar elements (title, avatar, bar height)
-    @objc(MSNavigationBarElementSize)
+    @objc(MSFNavigationBarElementSize)
     public enum ElementSize: Int {
         case automatic, contracted, expanded
     }
 
-    @objc(MSNavigationBarShadow)
+    @objc(MSFNavigationBarShadow)
     public enum Shadow: Int {
         case automatic
         case alwaysHidden
@@ -396,7 +400,7 @@ open class MSNavigationBar: UINavigationBar {
             let item = items.last(where: { $0.navigationBarStyle != .default }) {
             return (item.navigationBarStyle, item)
         }
-        return (MSNavigationBar.defaultStyle, navigationItem)
+        return (NavigationBar.defaultStyle, navigationItem)
     }
 
     private func createBarButtonItemButton(with item: UIBarButtonItem, isLeftItem: Bool) -> UIButton {
@@ -544,7 +548,7 @@ open class MSNavigationBar: UINavigationBar {
             self.updateContentStackViewMargins(forExpandedContent: true)
         }
         if animated {
-            UIView.animate(withDuration: MSNavigationBar.expansionContractionAnimationDuration) {
+            UIView.animate(withDuration: NavigationBar.expansionContractionAnimationDuration) {
                 updateLayout()
                 self.contentStackView.layoutIfNeeded()
             }
@@ -565,7 +569,7 @@ open class MSNavigationBar: UINavigationBar {
             self.updateContentStackViewMargins(forExpandedContent: false)
         }
         if animated {
-            UIView.animate(withDuration: MSNavigationBar.expansionContractionAnimationDuration) {
+            UIView.animate(withDuration: NavigationBar.expansionContractionAnimationDuration) {
                 updateLayout()
                 self.contentStackView.layoutIfNeeded()
             }

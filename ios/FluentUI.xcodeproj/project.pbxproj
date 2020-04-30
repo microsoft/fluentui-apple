@@ -182,22 +182,22 @@
 		FD26DBD12298B3610011178B /* MSTooltipPositionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05F21FA83C900857267 /* MSTooltipPositionController.swift */; };
 		FD26DBD22298B3630011178B /* MSTooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05D21FA7FC100857267 /* MSTooltipView.swift */; };
 		FD36F1A9216C0A6900CECBC6 /* MSCardPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA1AF9221487225001AE720 /* MSCardPresentationController.swift */; };
-		FD41C88422DD13230086F899 /* MSContentScrollViewTraits.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C86E22DD13230086F899 /* MSContentScrollViewTraits.swift */; };
-		FD41C88522DD13230086F899 /* MSContentScrollViewTraits.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C86E22DD13230086F899 /* MSContentScrollViewTraits.swift */; };
-		FD41C88622DD13230086F899 /* MSShyHeaderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87022DD13230086F899 /* MSShyHeaderController.swift */; };
-		FD41C88722DD13230086F899 /* MSShyHeaderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87022DD13230086F899 /* MSShyHeaderController.swift */; };
+		FD41C88422DD13230086F899 /* ContentScrollViewTraits.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C86E22DD13230086F899 /* ContentScrollViewTraits.swift */; };
+		FD41C88522DD13230086F899 /* ContentScrollViewTraits.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C86E22DD13230086F899 /* ContentScrollViewTraits.swift */; };
+		FD41C88622DD13230086F899 /* ShyHeaderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87022DD13230086F899 /* ShyHeaderController.swift */; };
+		FD41C88722DD13230086F899 /* ShyHeaderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87022DD13230086F899 /* ShyHeaderController.swift */; };
 		FD41C88822DD13230086F899 /* MSShyHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87122DD13230086F899 /* MSShyHeaderView.swift */; };
 		FD41C88922DD13230086F899 /* MSShyHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87122DD13230086F899 /* MSShyHeaderView.swift */; };
 		FD41C89422DD13230086F899 /* MSLargeTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87A22DD13230086F899 /* MSLargeTitleView.swift */; };
 		FD41C89522DD13230086F899 /* MSLargeTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87A22DD13230086F899 /* MSLargeTitleView.swift */; };
-		FD41C89622DD13230086F899 /* MSNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87B22DD13230086F899 /* MSNavigationBar.swift */; };
-		FD41C89722DD13230086F899 /* MSNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87B22DD13230086F899 /* MSNavigationBar.swift */; };
+		FD41C89622DD13230086F899 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87B22DD13230086F899 /* NavigationBar.swift */; };
+		FD41C89722DD13230086F899 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87B22DD13230086F899 /* NavigationBar.swift */; };
 		FD41C89C22DD13230086F899 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87E22DD13230086F899 /* SearchBar.swift */; };
 		FD41C89D22DD13230086F899 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87E22DD13230086F899 /* SearchBar.swift */; };
-		FD41C89E22DD13230086F899 /* MSNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87F22DD13230086F899 /* MSNavigationController.swift */; };
-		FD41C89F22DD13230086F899 /* MSNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87F22DD13230086F899 /* MSNavigationController.swift */; };
-		FD41C8A022DD13230086F899 /* MSNavigationAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C88022DD13230086F899 /* MSNavigationAnimator.swift */; };
-		FD41C8A122DD13230086F899 /* MSNavigationAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C88022DD13230086F899 /* MSNavigationAnimator.swift */; };
+		FD41C89E22DD13230086F899 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87F22DD13230086F899 /* NavigationController.swift */; };
+		FD41C89F22DD13230086F899 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87F22DD13230086F899 /* NavigationController.swift */; };
+		FD41C8A022DD13230086F899 /* NavigationAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C88022DD13230086F899 /* NavigationAnimator.swift */; };
+		FD41C8A122DD13230086F899 /* NavigationAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C88022DD13230086F899 /* NavigationAnimator.swift */; };
 		FD41C8B222DD3BB70086F899 /* UIScrollView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C8B122DD3BB70086F899 /* UIScrollView+Extensions.swift */; };
 		FD41C8B322DD3BB70086F899 /* UIScrollView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C8B122DD3BB70086F899 /* UIScrollView+Extensions.swift */; };
 		FD41C8B522DD3EA20086F899 /* NSLayoutConstraint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C8B422DD3EA20086F899 /* NSLayoutConstraint+Extensions.swift */; };
@@ -350,14 +350,14 @@
 		FD0D29D52151A3D700E8655E /* MSCardPresenterNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSCardPresenterNavigationController.swift; sourceTree = "<group>"; };
 		FD1FAE1A2272464B00A5DBA4 /* GenericDateTimePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericDateTimePicker.swift; sourceTree = "<group>"; };
 		FD256C5A2183B90B00EC9588 /* DatePickerSelectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerSelectionManager.swift; sourceTree = "<group>"; };
-		FD41C86E22DD13230086F899 /* MSContentScrollViewTraits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSContentScrollViewTraits.swift; sourceTree = "<group>"; };
-		FD41C87022DD13230086F899 /* MSShyHeaderController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSShyHeaderController.swift; sourceTree = "<group>"; };
+		FD41C86E22DD13230086F899 /* ContentScrollViewTraits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentScrollViewTraits.swift; sourceTree = "<group>"; };
+		FD41C87022DD13230086F899 /* ShyHeaderController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShyHeaderController.swift; sourceTree = "<group>"; };
 		FD41C87122DD13230086F899 /* MSShyHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSShyHeaderView.swift; sourceTree = "<group>"; };
 		FD41C87A22DD13230086F899 /* MSLargeTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSLargeTitleView.swift; sourceTree = "<group>"; };
-		FD41C87B22DD13230086F899 /* MSNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSNavigationBar.swift; sourceTree = "<group>"; };
+		FD41C87B22DD13230086F899 /* NavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
 		FD41C87E22DD13230086F899 /* SearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
-		FD41C87F22DD13230086F899 /* MSNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSNavigationController.swift; sourceTree = "<group>"; };
-		FD41C88022DD13230086F899 /* MSNavigationAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSNavigationAnimator.swift; sourceTree = "<group>"; };
+		FD41C87F22DD13230086F899 /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
+		FD41C88022DD13230086F899 /* NavigationAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationAnimator.swift; sourceTree = "<group>"; };
 		FD41C8B122DD3BB70086F899 /* UIScrollView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Extensions.swift"; sourceTree = "<group>"; };
 		FD41C8B422DD3EA20086F899 /* NSLayoutConstraint+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Extensions.swift"; sourceTree = "<group>"; };
 		FD41C8BD22DD47120086F899 /* UINavigationItem+Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationItem+Navigation.swift"; sourceTree = "<group>"; };
@@ -780,8 +780,8 @@
 		FD41C86D22DD12A20086F899 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
-				FD41C87F22DD13230086F899 /* MSNavigationController.swift */,
-				FD41C87B22DD13230086F899 /* MSNavigationBar.swift */,
+				FD41C87F22DD13230086F899 /* NavigationController.swift */,
+				FD41C87B22DD13230086F899 /* NavigationBar.swift */,
 				FD41C8BD22DD47120086F899 /* UINavigationItem+Navigation.swift */,
 				FD9DA7B4232C33A80013E41B /* UIViewController+Navigation.swift */,
 				FD41C87222DD13230086F899 /* Helpers */,
@@ -794,7 +794,7 @@
 		FD41C86F22DD13230086F899 /* Shy Header */ = {
 			isa = PBXGroup;
 			children = (
-				FD41C87022DD13230086F899 /* MSShyHeaderController.swift */,
+				FD41C87022DD13230086F899 /* ShyHeaderController.swift */,
 				FD41C87122DD13230086F899 /* MSShyHeaderView.swift */,
 			);
 			path = "Shy Header";
@@ -803,8 +803,8 @@
 		FD41C87222DD13230086F899 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				FD41C86E22DD13230086F899 /* MSContentScrollViewTraits.swift */,
-				FD41C88022DD13230086F899 /* MSNavigationAnimator.swift */,
+				FD41C86E22DD13230086F899 /* ContentScrollViewTraits.swift */,
+				FD41C88022DD13230086F899 /* NavigationAnimator.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1132,14 +1132,14 @@
 				8FD0117F228A82A600D25925 /* DotView.swift in Sources */,
 				56DA1CDD24523699008D745E /* MSAnimationSynchronizer.swift in Sources */,
 				8FD01180228A82A600D25925 /* EasyTapButton.swift in Sources */,
-				FD41C88522DD13230086F899 /* MSContentScrollViewTraits.swift in Sources */,
+				FD41C88522DD13230086F899 /* ContentScrollViewTraits.swift in Sources */,
 				8FD01181228A82A600D25925 /* Label.swift in Sources */,
 				8FD01182228A82A600D25925 /* ResizingHandleView.swift in Sources */,
 				56DA1CDC24523624008D745E /* MSShimmerAppearance.swift in Sources */,
 				8FD01183228A82A600D25925 /* SegmentedControl.swift in Sources */,
-				FD41C88722DD13230086F899 /* MSShyHeaderController.swift in Sources */,
+				FD41C88722DD13230086F899 /* ShyHeaderController.swift in Sources */,
 				8FD01184228A82A600D25925 /* Separator.swift in Sources */,
-				FD41C89F22DD13230086F899 /* MSNavigationController.swift in Sources */,
+				FD41C89F22DD13230086F899 /* NavigationController.swift in Sources */,
 				8FD01185228A82A600D25925 /* TouchForwardingView.swift in Sources */,
 				8FD01186228A82A600D25925 /* TwoLineTitleView.swift in Sources */,
 				8FD01187228A82A600D25925 /* AccessibleViewDelegate.swift in Sources */,
@@ -1180,7 +1180,7 @@
 				8FD0119E228A82A600D25925 /* CALayer+Extensions.swift in Sources */,
 				8FD0119F228A82A600D25925 /* Calendar+Extensions.swift in Sources */,
 				8FD011A1228A82A600D25925 /* CharacterSet+Extension.swift in Sources */,
-				FD41C8A122DD13230086F899 /* MSNavigationAnimator.swift in Sources */,
+				FD41C8A122DD13230086F899 /* NavigationAnimator.swift in Sources */,
 				8FD011A2228A82A600D25925 /* Date+Extensions.swift in Sources */,
 				8FD011A3228A82A600D25925 /* DateComponents+Extensions.swift in Sources */,
 				FD9DA7B6232C33A80013E41B /* UIViewController+Navigation.swift in Sources */,
@@ -1197,7 +1197,7 @@
 				8FD011B2228A82A600D25925 /* MSAvatarView.swift in Sources */,
 				A5F3B147232B1E3700007A4F /* ScrollView.swift in Sources */,
 				8FD011B3228A82A600D25925 /* MSInitialsView.swift in Sources */,
-				FD41C89722DD13230086F899 /* MSNavigationBar.swift in Sources */,
+				FD41C89722DD13230086F899 /* NavigationBar.swift in Sources */,
 				56DA1CD824523611008D745E /* MSShimmerView.swift in Sources */,
 				8FD011B4228A82A600D25925 /* MSPersonaCell.swift in Sources */,
 				8FD011B5228A82A600D25925 /* MSPersonaListView.swift in Sources */,
@@ -1252,13 +1252,13 @@
 				B4E782C12176AD5E00A7DFCE /* MSActionsCell.swift in Sources */,
 				FD56FD962192754B0023C7EA /* DateTimePickerViewComponent.swift in Sources */,
 				FDFB8AF021361C9D0046850A /* CalendarViewDayTodayCell.swift in Sources */,
-				FD41C88422DD13230086F899 /* MSContentScrollViewTraits.swift in Sources */,
+				FD41C88422DD13230086F899 /* ContentScrollViewTraits.swift in Sources */,
 				FD97580F2191118E00B67319 /* DateTimePickerViewComponentCell.swift in Sources */,
 				A5B6617323A41E2900E801DD /* MSNotificationView.swift in Sources */,
-				FD41C88622DD13230086F899 /* MSShyHeaderController.swift in Sources */,
+				FD41C88622DD13230086F899 /* ShyHeaderController.swift in Sources */,
 				FDFB8AF121361C9D0046850A /* CalendarViewDayMonthCell.swift in Sources */,
 				B47B58B822F8E5840078DE38 /* MSPeoplePicker.swift in Sources */,
-				FD41C89E22DD13230086F899 /* MSNavigationController.swift in Sources */,
+				FD41C89E22DD13230086F899 /* NavigationController.swift in Sources */,
 				FD4F2A20214AE20400C437D6 /* DatePickerController.swift in Sources */,
 				B4EF53C3215AF1AB00573E8F /* MSPersona.swift in Sources */,
 				B45EB790219E310F008646A2 /* BadgeField.swift in Sources */,
@@ -1299,7 +1299,7 @@
 				A54D97DA217A5FC10072681A /* CALayer+Extensions.swift in Sources */,
 				B483323721DEB5A00022B4CC /* TouchForwardingView.swift in Sources */,
 				FDA1AF8F21484A26001AE720 /* Obscurable.swift in Sources */,
-				FD41C8A022DD13230086F899 /* MSNavigationAnimator.swift in Sources */,
+				FD41C8A022DD13230086F899 /* NavigationAnimator.swift in Sources */,
 				FDA1AF91214871B5001AE720 /* MSCardTransitionAnimator.swift in Sources */,
 				A5237ACD21ED6CA70040BF27 /* DrawerShadowView.swift in Sources */,
 				FD9DA7B5232C33A80013E41B /* UIViewController+Navigation.swift in Sources */,
@@ -1323,7 +1323,7 @@
 				FDA1AF8C21484625001AE720 /* BlurringView.swift in Sources */,
 				A5961FA1218A25C400E2A506 /* MSPopupMenuSection.swift in Sources */,
 				A5B87AF6211E16370038C37C /* DrawerController.swift in Sources */,
-				FD41C89622DD13230086F899 /* MSNavigationBar.swift in Sources */,
+				FD41C89622DD13230086F899 /* NavigationBar.swift in Sources */,
 				A5CEC16D20D98EE70016922A /* Colors.swift in Sources */,
 				FD0D29D62151A3D700E8655E /* MSCardPresenterNavigationController.swift in Sources */,
 				FD4F2A1B2148937100C437D6 /* MSPageCardPresenterController.swift in Sources */,
