@@ -124,8 +124,8 @@
 		A5961FA3218A25D100E2A506 /* MSPopupMenuItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA2218A25D100E2A506 /* MSPopupMenuItemCell.swift */; };
 		A5961FA5218A260500E2A506 /* MSPopupMenuSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA4218A260500E2A506 /* MSPopupMenuSectionHeaderView.swift */; };
 		A5961FA7218A2E4500E2A506 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA6218A2E4500E2A506 /* UIImage+Extensions.swift */; };
-		A5B6617323A41E2900E801DD /* MSNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B6617223A41E2900E801DD /* MSNotificationView.swift */; };
-		A5B6617423A41E2900E801DD /* MSNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B6617223A41E2900E801DD /* MSNotificationView.swift */; };
+		A5B6617323A41E2900E801DD /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B6617223A41E2900E801DD /* NotificationView.swift */; };
+		A5B6617423A41E2900E801DD /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B6617223A41E2900E801DD /* NotificationView.swift */; };
 		A5B87AF1211BD4380038C37C /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF0211BD4380038C37C /* UIFont+Extension.swift */; };
 		A5B87AF6211E16370038C37C /* DrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF3211E16360038C37C /* DrawerController.swift */; };
 		A5B87AF7211E16370038C37C /* DrawerTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF4211E16360038C37C /* DrawerTransitionAnimator.swift */; };
@@ -295,7 +295,7 @@
 		A5961FA2218A25D100E2A506 /* MSPopupMenuItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPopupMenuItemCell.swift; sourceTree = "<group>"; };
 		A5961FA4218A260500E2A506 /* MSPopupMenuSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPopupMenuSectionHeaderView.swift; sourceTree = "<group>"; };
 		A5961FA6218A2E4500E2A506 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
-		A5B6617223A41E2900E801DD /* MSNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSNotificationView.swift; sourceTree = "<group>"; };
+		A5B6617223A41E2900E801DD /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		A5B87AF0211BD4380038C37C /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		A5B87AF3211E16360038C37C /* DrawerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawerController.swift; sourceTree = "<group>"; };
 		A5B87AF4211E16360038C37C /* DrawerTransitionAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawerTransitionAnimator.swift; sourceTree = "<group>"; };
@@ -526,7 +526,7 @@
 		A5B6617123A41DEC00E801DD /* Notification */ = {
 			isa = PBXGroup;
 			children = (
-				A5B6617223A41E2900E801DD /* MSNotificationView.swift */,
+				A5B6617223A41E2900E801DD /* NotificationView.swift */,
 			);
 			path = Notification;
 			sourceTree = "<group>";
@@ -1165,7 +1165,7 @@
 				56DA1CDA2452361B008D745E /* MSShimmerViewAppearance.swift in Sources */,
 				8FD01193228A82A600D25925 /* DateTimePickerController.swift in Sources */,
 				8FD01194228A82A600D25925 /* DateTimePickerView.swift in Sources */,
-				A5B6617423A41E2900E801DD /* MSNotificationView.swift in Sources */,
+				A5B6617423A41E2900E801DD /* NotificationView.swift in Sources */,
 				A56CE7B722E68A7800AA77EE /* UIColor+Extensions.swift in Sources */,
 				8FD01195228A82A600D25925 /* DateTimePickerViewComponent.swift in Sources */,
 				8FD01196228A82A600D25925 /* DateTimePickerViewComponentCell.swift in Sources */,
@@ -1254,7 +1254,7 @@
 				FDFB8AF021361C9D0046850A /* CalendarViewDayTodayCell.swift in Sources */,
 				FD41C88422DD13230086F899 /* ContentScrollViewTraits.swift in Sources */,
 				FD97580F2191118E00B67319 /* DateTimePickerViewComponentCell.swift in Sources */,
-				A5B6617323A41E2900E801DD /* MSNotificationView.swift in Sources */,
+				A5B6617323A41E2900E801DD /* NotificationView.swift in Sources */,
 				FD41C88622DD13230086F899 /* ShyHeaderController.swift in Sources */,
 				FDFB8AF121361C9D0046850A /* CalendarViewDayMonthCell.swift in Sources */,
 				B47B58B822F8E5840078DE38 /* MSPeoplePicker.swift in Sources */,

@@ -17,7 +17,7 @@ import UIKit
  When used as a notification bar some functionality like `title`, `image` and actions are not supported. A convenience method `setupAsBar` can be used to initialize notification bar and assign only supported properties.
  */
 open class MSNotificationView: UIView {
-    @objc(MSNotificationViewStyle)
+    @objc(MSFNotificationViewStyle)
     public enum Style: Int {
         case primaryToast
         case neutralToast
