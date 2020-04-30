@@ -40,6 +40,7 @@ public protocol DateTimePickerDelegate: class {
 public typealias MSDateTimePicker = DateTimePicker
 
 /// Manages the presentation and coordination of different date and time pickers
+@objc(MSFDateTimePicker)
 public class DateTimePicker: NSObject {
     @objc(MSFDateTimePickerDatePickerType)
     public enum DatePickerType: Int {
@@ -142,17 +143,17 @@ public class DateTimePicker: NSObject {
         let startDate = startDate.startOfDay
         let endDate = endDate.startOfDay
         if datePickerType == .calendar && mode == .dateRange && dateRangePresentation == .paged {
-            let startDatePicker = MSDatePickerController(startDate: startDate, endDate: endDate, mode: mode, selectionMode: .start, rangePresentation: dateRangePresentation, titles: titles)
-            let endDatePicker = MSDatePickerController(startDate: startDate, endDate: endDate, mode: mode, selectionMode: .end, rangePresentation: dateRangePresentation, titles: titles)
+            let startDatePicker = DatePickerController(startDate: startDate, endDate: endDate, mode: mode, selectionMode: .start, rangePresentation: dateRangePresentation, titles: titles)
+            let endDatePicker = DatePickerController(startDate: startDate, endDate: endDate, mode: mode, selectionMode: .end, rangePresentation: dateRangePresentation, titles: titles)
             present([startDatePicker, endDatePicker])
         } else {
             let endDate = mode.singleSelection ? startDate : endDate
             let datePicker: GenericDateTimePicker
             switch datePickerType {
             case .calendar:
-                datePicker = MSDatePickerController(startDate: startDate, endDate: endDate, mode: mode, rangePresentation: dateRangePresentation, titles: titles)
+                datePicker = DatePickerController(startDate: startDate, endDate: endDate, mode: mode, rangePresentation: dateRangePresentation, titles: titles)
             case .components:
-                datePicker = MSDateTimePickerController(startDate: startDate, endDate: endDate, mode: mode, titles: titles)
+                datePicker = DateTimePickerController(startDate: startDate, endDate: endDate, mode: mode, titles: titles)
             }
             present([datePicker])
         }
@@ -165,12 +166,12 @@ public class DateTimePicker: NSObject {
         // If we are not presenting a range, or if we have a range, but it is within the same calendar day, present both dateTimePicker and datePicker. Also presents this way if `presentation` is in `.tabbed` mode. Otherwise, present just a dateTimePicker.
         if datePickerType == .calendar &&
             (mode == .dateTime || Calendar.current.isDate(startDate, inSameDayAs: endDate) || dateRangePresentation == .tabbed) {
-            let dateTimePicker = MSDateTimePickerController(startDate: startDate, endDate: endDate, mode: mode, titles: titles)
+            let dateTimePicker = DateTimePickerController(startDate: startDate, endDate: endDate, mode: mode, titles: titles)
             // Create datePicker second to pick up the time that dateTimePicker rounded to the nearest minute interval
-            let datePicker = MSDatePickerController(startDate: dateTimePicker.startDate, endDate: dateTimePicker.endDate, mode: mode, rangePresentation: dateRangePresentation, titles: titles)
+            let datePicker = DatePickerController(startDate: dateTimePicker.startDate, endDate: dateTimePicker.endDate, mode: mode, rangePresentation: dateRangePresentation, titles: titles)
             present([datePicker, dateTimePicker])
         } else {
-            let dateTimePicker = MSDateTimePickerController(startDate: startDate, endDate: endDate, mode: mode, titles: titles)
+            let dateTimePicker = DateTimePickerController(startDate: startDate, endDate: endDate, mode: mode, titles: titles)
             present([dateTimePicker])
         }
     }
@@ -179,7 +180,7 @@ public class DateTimePicker: NSObject {
         guard let mode = mode else {
             preconditionFailure("Mode not set when presenting date time picker for accessibility")
         }
-        let dateTimePicker = MSDateTimePickerController(startDate: startDate, endDate: endDate, mode: mode, titles: titles)
+        let dateTimePicker = DateTimePickerController(startDate: startDate, endDate: endDate, mode: mode, titles: titles)
         present([dateTimePicker])
     }
 

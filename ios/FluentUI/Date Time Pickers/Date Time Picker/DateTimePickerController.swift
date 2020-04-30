@@ -5,17 +5,17 @@
 
 import UIKit
 
-// MARK: MSDateTimePickerControllerMode
+// MARK: DateTimePickerControllerMode
 
-enum MSDateTimePickerControllerMode {
+enum DateTimePickerControllerMode {
     case single, start, end
 }
 
-// MARK: - MSDateTimePickerController
+// MARK: - DateTimePickerController
 
 /// A view controller that allows a user to select either a date or a combination of date and time using a custom control similar in appearance to UIDatePicker.
 /// Has support for a start and end time/date.
-class MSDateTimePickerController: UIViewController, GenericDateTimePicker {
+class DateTimePickerController: UIViewController, GenericDateTimePicker {
     private struct Constants {
         static let idealRowCount: Int = 7
         static let idealWidth: CGFloat = 320
@@ -24,7 +24,7 @@ class MSDateTimePickerController: UIViewController, GenericDateTimePicker {
 
     var startDate: Date {
         didSet {
-            startDate = startDate.rounded(toNearestMinutes: MSDateTimePickerViewDataSourceConstants.minuteInterval) ?? startDate
+            startDate = startDate.rounded(toNearestMinutes: DateTimePickerViewDataSourceConstants.minuteInterval) ?? startDate
             switch mode {
             case .single:
                 dateTimePickerView.setDate(startDate, animated: false)
@@ -40,7 +40,7 @@ class MSDateTimePickerController: UIViewController, GenericDateTimePicker {
     var endDate: Date {
         didSet {
             if mode != .single {
-                endDate = endDate.rounded(toNearestMinutes: MSDateTimePickerViewDataSourceConstants.minuteInterval) ?? endDate
+                endDate = endDate.rounded(toNearestMinutes: DateTimePickerViewDataSourceConstants.minuteInterval) ?? endDate
             }
             switch mode {
             case .single:
@@ -55,7 +55,7 @@ class MSDateTimePickerController: UIViewController, GenericDateTimePicker {
         }
     }
 
-    private(set) var mode: MSDateTimePickerControllerMode {
+    private(set) var mode: DateTimePickerControllerMode {
         didSet {
             switch mode {
             case .start:
@@ -76,18 +76,18 @@ class MSDateTimePickerController: UIViewController, GenericDateTimePicker {
     private let customSubtitle: String?
     private let customStartTabTitle: String?
     private let customEndTabTitle: String?
-    private let dateTimePickerView: MSDateTimePickerView
+    private let dateTimePickerView: DateTimePickerView
     private let titleView = MSTwoLineTitleView()
     private var segmentedControl: MSSegmentedControl?
 
     // TODO: Add availability back in? - contactAvailabilitySummaryDataSource: ContactAvailabilitySummaryDataSource?,
     init(startDate: Date, endDate: Date, mode: DateTimePickerMode, titles: DateTimePicker.Titles?) {
         self.mode = mode.singleSelection ? .single : .start
-        self.startDate = startDate.rounded(toNearestMinutes: MSDateTimePickerViewDataSourceConstants.minuteInterval) ?? startDate
-        self.endDate = self.mode == .single ? self.startDate : (endDate.rounded(toNearestMinutes: MSDateTimePickerViewDataSourceConstants.minuteInterval) ?? endDate)
+        self.startDate = startDate.rounded(toNearestMinutes: DateTimePickerViewDataSourceConstants.minuteInterval) ?? startDate
+        self.endDate = self.mode == .single ? self.startDate : (endDate.rounded(toNearestMinutes: DateTimePickerViewDataSourceConstants.minuteInterval) ?? endDate)
 
-        let datePickerMode: MSDateTimePickerViewMode = mode.includesTime ? .dateTime : .date(startYear: MSDateTimePickerViewMode.defaultStartYear, endYear: MSDateTimePickerViewMode.defaultEndYear)
-        dateTimePickerView = MSDateTimePickerView(mode: datePickerMode)
+        let datePickerMode: DateTimePickerViewMode = mode.includesTime ? .dateTime : .date(startYear: DateTimePickerViewMode.defaultStartYear, endYear: DateTimePickerViewMode.defaultEndYear)
+        dateTimePickerView = DateTimePickerView(mode: datePickerMode)
         dateTimePickerView.setDate(self.startDate, animated: false)
 
         customTitle = titles?.dateTimeTitle
@@ -170,7 +170,7 @@ class MSDateTimePickerController: UIViewController, GenericDateTimePicker {
         }
     }
 
-    @objc private func handleDidSelectDate(_ datePicker: MSDateTimePickerView) {
+    @objc private func handleDidSelectDate(_ datePicker: DateTimePickerView) {
         switch mode {
         case .single:
             startDate = datePicker.date
@@ -197,13 +197,13 @@ class MSDateTimePickerController: UIViewController, GenericDateTimePicker {
 
 }
 
-// MARK: - MSDateTimePickerController: MSCardPresentable
+// MARK: - DateTimePickerController: MSCardPresentable
 
-extension MSDateTimePickerController: MSCardPresentable {
+extension DateTimePickerController: MSCardPresentable {
     func idealSize() -> CGSize {
         return CGSize(
             width: Constants.idealWidth,
-            height: MSDateTimePickerViewLayout.height(forRowCount: Constants.idealRowCount) + (segmentedControl?.frame.height ?? 0)
+            height: DateTimePickerViewLayout.height(forRowCount: Constants.idealRowCount) + (segmentedControl?.frame.height ?? 0)
         )
     }
 }

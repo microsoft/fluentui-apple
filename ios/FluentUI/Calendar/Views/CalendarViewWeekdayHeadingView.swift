@@ -21,11 +21,11 @@ class CalendarViewWeekdayHeadingView: UIView {
     }
 
     private var firstWeekday: Int?
-    private let headerStyle: MSDatePickerHeaderStyle
+    private let headerStyle: DatePickerHeaderStyle
 
     private var headingLabels = [UILabel]()
 
-    init(headerStyle: MSDatePickerHeaderStyle) {
+    init(headerStyle: DatePickerHeaderStyle) {
         self.headerStyle = headerStyle
 
         super.init(frame: .zero)

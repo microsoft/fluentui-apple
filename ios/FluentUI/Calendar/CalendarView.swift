@@ -26,7 +26,7 @@ class CalendarView: UIView {
     private let headingViewSeparator: MSSeparator
     private let collectionViewSeparator: MSSeparator
 
-    init(headerStyle: MSDatePickerHeaderStyle = .light) {
+    init(headerStyle: DatePickerHeaderStyle = .light) {
         weekdayHeadingView = CalendarViewWeekdayHeadingView(headerStyle: headerStyle)
 
         headingViewSeparator = MSSeparator(style: .shadow)

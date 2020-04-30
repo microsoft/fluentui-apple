@@ -5,12 +5,12 @@
 
 import UIKit
 
-/// A static class used to calculate layout and sizing information for MSDateTimePickerView.
-class MSDateTimePickerViewLayout {
+/// A static class used to calculate layout and sizing information for DateTimePickerView.
+class DateTimePickerViewLayout {
 	static let horizontalPadding: CGFloat = 6
 
     // Component widths, based on the ideal total width minus padding
-    static let componentWidths: [MSDateTimePickerViewComponentType: CGFloat] = [
+    static let componentWidths: [DateTimePickerViewComponentType: CGFloat] = [
         .date: Date.has24HourFormat() ? 154 : 134,
         .month: 174,
         .day: 100,
@@ -25,21 +25,21 @@ class MSDateTimePickerViewLayout {
     private static let idealRowCount: Int = 5
 
     static func height(forRowCount rowCount: Int) -> CGFloat {
-        return CGFloat(rowCount) * MSDateTimePickerViewComponentCell.idealHeight
+        return CGFloat(rowCount) * DateTimePickerViewComponentCell.idealHeight
     }
 
-    static func sizeThatFits(_ size: CGSize, mode: MSDateTimePickerViewMode) -> CGSize {
-        let componentTypes = MSDateTimePickerViewLayout.componentTypes(fromDatePickerMode: mode)
+    static func sizeThatFits(_ size: CGSize, mode: DateTimePickerViewMode) -> CGSize {
+        let componentTypes = DateTimePickerViewLayout.componentTypes(fromDatePickerMode: mode)
         let totalWidth = componentTypes.reduce(horizontalPadding * 2) { $0 + (componentWidths[$1] ?? 0) }
 
-        return CGSize(width: totalWidth, height: max(size.height, MSDateTimePickerViewComponentCell.idealHeight * CGFloat(idealRowCount)))
+        return CGSize(width: totalWidth, height: max(size.height, DateTimePickerViewComponentCell.idealHeight * CGFloat(idealRowCount)))
     }
 
-    static func componentTypes(fromDatePickerMode datePickerMode: MSDateTimePickerViewMode) -> [MSDateTimePickerViewComponentType] {
+    static func componentTypes(fromDatePickerMode datePickerMode: DateTimePickerViewMode) -> [DateTimePickerViewComponentType] {
         switch datePickerMode {
         case .date:
             // Determine whether Day or Month picker should be first based on locale
-            var componentTypes: [MSDateTimePickerViewComponentType]
+            var componentTypes: [DateTimePickerViewComponentType]
             if isDateOrderDayMonth() {
                 componentTypes = [.day, .month]
             } else {
@@ -49,7 +49,7 @@ class MSDateTimePickerViewLayout {
             return componentTypes
 
         case .dateTime:
-            var componentTypes: [MSDateTimePickerViewComponentType] = [.date, .timeHour, .timeMinute]
+            var componentTypes: [DateTimePickerViewComponentType] = [.date, .timeHour, .timeMinute]
             if !Date.has24HourFormat() {
                 componentTypes.append(.timeAMPM)
             }
@@ -60,15 +60,15 @@ class MSDateTimePickerViewLayout {
         }
     }
 
-    static func componentsByType(fromTypes types: [MSDateTimePickerViewComponentType], mode: MSDateTimePickerViewMode) -> [MSDateTimePickerViewComponentType: MSDateTimePickerViewComponent] {
-        return types.reduce([MSDateTimePickerViewComponentType: MSDateTimePickerViewComponent](), { map, type in
+    static func componentsByType(fromTypes types: [DateTimePickerViewComponentType], mode: DateTimePickerViewMode) -> [DateTimePickerViewComponentType: DateTimePickerViewComponent] {
+        return types.reduce([DateTimePickerViewComponentType: DateTimePickerViewComponent](), { map, type in
             var map = map
-            let dataSource = MSDateTimePickerViewDataSourceFactory.dataSource(withType: type, mode: mode)
+            let dataSource = DateTimePickerViewDataSourceFactory.dataSource(withType: type, mode: mode)
 
             // Set date on MSDateTimePickerViewDataSourceWithDate to properly set number of days for month
-            (dataSource as? MSDateTimePickerViewDataSourceWithDate)?.date = Date()
+            (dataSource as? DateTimePickerViewDataSourceWithDate)?.date = Date()
 
-            let component = MSDateTimePickerViewComponent(dataSource: dataSource)
+            let component = DateTimePickerViewComponent(dataSource: dataSource)
             map[type] = component
             return map
         })

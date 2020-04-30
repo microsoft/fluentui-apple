@@ -5,10 +5,10 @@
 
 import UIKit
 
-// MARK: MSDateTimePickerViewComponentCell
+// MARK: DateTimePickerViewComponentCell
 
-/// TableViewCell representing the cell of component view (should be used only by MSDateTimePickerViewComponent and not instantiated on its own)
-class MSDateTimePickerViewComponentCell: UITableViewCell {
+/// TableViewCell representing the cell of component view (should be used only by DateTimePickerViewComponent and not instantiated on its own)
+class DateTimePickerViewComponentCell: UITableViewCell {
     private struct Constants {
         static let baseHeight: CGFloat = 45
         static let verticalPadding: CGFloat = 12
@@ -18,7 +18,7 @@ class MSDateTimePickerViewComponentCell: UITableViewCell {
         static let emphasizedTextColor: UIColor = MSColors.DateTimePicker.textEmphasized
     }
 
-    static let identifier: String = "MSDateTimePickerViewComponentCell"
+    static let identifier: String = "DateTimePickerViewComponentCell"
 
     class var idealHeight: CGFloat {
         return max(Constants.verticalPadding * 2 + Constants.normalTextStyle.font.deviceLineHeight, Constants.baseHeight)

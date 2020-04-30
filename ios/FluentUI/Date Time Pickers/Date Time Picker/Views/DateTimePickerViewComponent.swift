@@ -5,20 +5,20 @@
 
 import UIKit
 
-// MARK: MSDateTimePickerViewComponentDelegate
+// MARK: DateTimePickerViewComponentDelegate
 
-protocol MSDateTimePickerViewComponentDelegate: class {
-    func dateTimePickerComponentDidScroll(_ component: MSDateTimePickerViewComponent, userInitiated: Bool)
-    func dateTimePickerComponent(_ component: MSDateTimePickerViewComponent, didSelectItemAtIndexPath indexPath: IndexPath, userInitiated: Bool)
-    func dateTimePickerComponent(_ component: MSDateTimePickerViewComponent, accessibilityValueForDateComponents dateComponents: DateComponents?, originalValue: String?) -> String?
+protocol DateTimePickerViewComponentDelegate: class {
+    func dateTimePickerComponentDidScroll(_ component: DateTimePickerViewComponent, userInitiated: Bool)
+    func dateTimePickerComponent(_ component: DateTimePickerViewComponent, didSelectItemAtIndexPath indexPath: IndexPath, userInitiated: Bool)
+    func dateTimePickerComponent(_ component: DateTimePickerViewComponent, accessibilityValueForDateComponents dateComponents: DateComponents?, originalValue: String?) -> String?
 }
 
-// MARK: - MSDateTimePickerViewComponent
+// MARK: - DateTimePickerViewComponent
 
-/// Component of MSDateTimePickerView (should be used only by MSDateTimePickerView and not instantiated on its own)
-class MSDateTimePickerViewComponent: UIViewController {
-    let dataSource: MSDateTimePickerViewDataSource
-    weak var delegate: MSDateTimePickerViewComponentDelegate?
+/// Component of DateTimePickerView (should be used only by DateTimePickerView and not instantiated on its own)
+class DateTimePickerViewComponent: UIViewController {
+    let dataSource: DateTimePickerViewDataSource
+    weak var delegate: DateTimePickerViewComponentDelegate?
 
     var selectedItem: Any? {
         if let selectedIndexPath = selectedIndexPath {
@@ -28,12 +28,12 @@ class MSDateTimePickerViewComponent: UIViewController {
         }
     }
 
-    private(set) lazy var tableView = MSDateTimePickerViewComponentTableView()
+    private(set) lazy var tableView = DateTimePickerViewComponentTableView()
     private(set) var selectedIndexPath: IndexPath?
     private var previousSelectedIndexPath: IndexPath?
     private var isScrollUserInitiated: Bool = false
 
-    init(dataSource: MSDateTimePickerViewDataSource) {
+    init(dataSource: DateTimePickerViewDataSource) {
         self.dataSource = dataSource
         super.init(nibName: nil, bundle: nil)
     }
@@ -67,11 +67,11 @@ class MSDateTimePickerViewComponent: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(MSDateTimePickerViewComponentCell.self, forCellReuseIdentifier: MSDateTimePickerViewComponentCell.identifier)
+        tableView.register(DateTimePickerViewComponentCell.self, forCellReuseIdentifier: DateTimePickerViewComponentCell.identifier)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.accessibilityDelegate = self
-        tableView.rowHeight = MSDateTimePickerViewComponentCell.idealHeight
+        tableView.rowHeight = DateTimePickerViewComponentCell.idealHeight
         // Prevent iOS 11 from adjusting the row heights
         tableView.estimatedRowHeight = 0
         view.addSubview(tableView)
@@ -90,34 +90,34 @@ class MSDateTimePickerViewComponent: UIViewController {
 
     private func updateSelectedCell() {
         // Unemphasized previous cell
-        if let indexPath = previousSelectedIndexPath, let cell = tableView.cellForRow(at: indexPath) as? MSDateTimePickerViewComponentCell {
+        if let indexPath = previousSelectedIndexPath, let cell = tableView.cellForRow(at: indexPath) as? DateTimePickerViewComponentCell {
             cell.emphasized = false
             previousSelectedIndexPath = nil
         }
 
         // Emphasize new cell
-        if let indexPath = tableView.middleIndexPath, let cell = tableView.cellForRow(at: indexPath) as? MSDateTimePickerViewComponentCell {
+        if let indexPath = tableView.middleIndexPath, let cell = tableView.cellForRow(at: indexPath) as? DateTimePickerViewComponentCell {
             cell.emphasized = true
             previousSelectedIndexPath = indexPath
         }
     }
 
     @objc private func handleContentSizeCategoryDidChange() {
-        tableView.rowHeight = MSDateTimePickerViewComponentCell.idealHeight
+        tableView.rowHeight = DateTimePickerViewComponentCell.idealHeight
         tableView.reloadData()
     }
 }
 
-// MARK: - MSDateTimePickerViewComponent: UITableViewDataSource
+// MARK: - DateTimePickerViewComponent: UITableViewDataSource
 
-extension MSDateTimePickerViewComponent: UITableViewDataSource {
+extension DateTimePickerViewComponent: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSource.numberOfItems()
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = dataSource.itemStringRepresentation(forRowAtIndex: indexPath.row)
-        let cell = tableView.dequeueReusableCell(withIdentifier: MSDateTimePickerViewComponentCell.identifier) as! MSDateTimePickerViewComponentCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: DateTimePickerViewComponentCell.identifier) as! DateTimePickerViewComponentCell
 
         cell.textLabel?.text = item
         if indexPath.row == self.tableView.middleIndexPath?.row {
@@ -128,17 +128,17 @@ extension MSDateTimePickerViewComponent: UITableViewDataSource {
     }
 }
 
-// MARK: - MSDateTimePickerViewComponent: UITableViewDelegate
+// MARK: - DateTimePickerViewComponent: UITableViewDelegate
 
-extension MSDateTimePickerViewComponent: UITableViewDelegate {
+extension DateTimePickerViewComponent: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         select(indexPath: indexPath, animated: true, userInitiated: true)
     }
 }
 
-// MARK: - MSDateTimePickerViewComponent: UIScrollViewDelegate
+// MARK: - DateTimePickerViewComponent: UIScrollViewDelegate
 
-extension MSDateTimePickerViewComponent: UIScrollViewDelegate {
+extension DateTimePickerViewComponent: UIScrollViewDelegate {
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         isScrollUserInitiated = true
     }
@@ -153,7 +153,7 @@ extension MSDateTimePickerViewComponent: UIScrollViewDelegate {
         // Snap to the nearest cell
         var targetOffset = targetContentOffset.pointee
         let offsetY = targetOffset.y + scrollView.contentInset.top
-        let cellHeight = MSDateTimePickerViewComponentCell.idealHeight
+        let cellHeight = DateTimePickerViewComponentCell.idealHeight
 
         let prevY = floor(offsetY / cellHeight) * cellHeight - scrollView.contentInset.top
         let nextY = (floor(offsetY / cellHeight) + 1) * cellHeight - scrollView.contentInset.top
@@ -194,9 +194,9 @@ extension MSDateTimePickerViewComponent: UIScrollViewDelegate {
     }
 }
 
-// MARK: - MSDateTimePickerViewComponent: AccessibleTableViewDelegate
+// MARK: - DateTimePickerViewComponent: AccessibleTableViewDelegate
 
-extension MSDateTimePickerViewComponent: AccessibleTableViewDelegate {
+extension DateTimePickerViewComponent: AccessibleTableViewDelegate {
     func accessibilityLabelForAccessibleView(_ accessibleView: UIView) -> String? {
         return dataSource.accessibilityLabel()
     }

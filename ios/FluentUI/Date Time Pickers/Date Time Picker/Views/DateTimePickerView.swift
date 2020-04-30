@@ -5,9 +5,9 @@
 
 import UIKit
 
-// MARK: MSDateTimePickerViewMode
+// MARK: DateTimePickerViewMode
 
-enum MSDateTimePickerViewMode {
+enum DateTimePickerViewMode {
     case date(startYear: Int, endYear: Int)
     case dateTime   /// Date hour/minute am/pm
     case dayOfMonth /// Week of month / Day of week
@@ -16,37 +16,37 @@ enum MSDateTimePickerViewMode {
     static let defaultEndYear: Int = MSCalendarConfiguration.default.referenceEndDate.year
 }
 
-// MARK: - MSDateTimePickerViewDelegate
+// MARK: - DateTimePickerViewDelegate
 
-protocol MSDateTimePickerViewDelegate: class {
-    func dateTimePickerView(_ dateTimePickerView: MSDateTimePickerView, accessibilityValueOverwriteForDate date: Date, originalValue: String?) -> String?
+protocol DateTimePickerViewDelegate: class {
+    func dateTimePickerView(_ dateTimePickerView: DateTimePickerView, accessibilityValueOverwriteForDate date: Date, originalValue: String?) -> String?
 }
 
-// MARK: - MSDateTimePickerView
+// MARK: - DateTimePickerView
 
 /*
  * Custom Date picker view
  *
  * Public
- * - init(type: MSDateTimePickerViewMode)
+ * - init(type: DateTimePickerViewMode)
  * - property date: Date
  * - setDate(date: Date, animated: Bool)
  *
  * To use:
- *  - Initialize with the types you want (see MSDateTimePickerViewMode)
+ *  - Initialize with the types you want (see DateTimePickerViewMode)
  *  - Set the date you want to show first
  *  - Listen to UIControlEventChanged to get notified of changes. It is only fired when the change is initiated by the user
  *  - Query the date property to retrieve a Date
  */
-class MSDateTimePickerView: UIControl {
-    let mode: MSDateTimePickerViewMode
+class DateTimePickerView: UIControl {
+    let mode: DateTimePickerViewMode
     private(set) var date = Date()
     private(set) var dayOfMonth = MSDayOfMonth()
 
-    weak var delegate: MSDateTimePickerViewDelegate?
+    weak var delegate: DateTimePickerViewDelegate?
 
-    private let componentTypes: [MSDateTimePickerViewComponentType]!
-    private let componentsByType: [MSDateTimePickerViewComponentType: MSDateTimePickerViewComponent]!
+    private let componentTypes: [DateTimePickerViewComponentType]!
+    private let componentsByType: [DateTimePickerViewComponentType: DateTimePickerViewComponent]!
 
     private let selectionTopSeparator = MSSeparator()
     private let selectionBottomSeparator = MSSeparator()
@@ -61,11 +61,11 @@ class MSDateTimePickerView: UIControl {
         return gradientLayer
     }()
 
-    init(mode: MSDateTimePickerViewMode) {
+    init(mode: DateTimePickerViewMode) {
         self.mode = mode
 
-        componentTypes = MSDateTimePickerViewLayout.componentTypes(fromDatePickerMode: mode)
-        componentsByType = MSDateTimePickerViewLayout.componentsByType(fromTypes: componentTypes, mode: mode)
+        componentTypes = DateTimePickerViewLayout.componentTypes(fromDatePickerMode: mode)
+        componentsByType = DateTimePickerViewLayout.componentsByType(fromTypes: componentTypes, mode: mode)
 
         super.init(frame: .zero)
 
@@ -103,7 +103,7 @@ class MSDateTimePickerView: UIControl {
 
         let calendar = Calendar.current
         let dateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: date)
-        let amPM: MSDateTimePickerViewAMPM = dateComponents.hour! > 11 ? .pm : .am
+        let amPM: DateTimePickerViewAMPM = dateComponents.hour! > 11 ? .pm : .am
 
         componentsByType[.date]?.select(item: calendar.startOfDay(for: date), animated: animated, userInitiated: false)
         componentsByType[.month]?.select(item: dateComponents.month, animated: animated, userInitiated: false)
@@ -122,7 +122,7 @@ class MSDateTimePickerView: UIControl {
     }
 
     override func sizeThatFits(_ size: CGSize) -> CGSize {
-        return MSDateTimePickerViewLayout.sizeThatFits(size, mode: mode)
+        return DateTimePickerViewLayout.sizeThatFits(size, mode: mode)
     }
 
     override func layoutSubviews() {
@@ -130,16 +130,16 @@ class MSDateTimePickerView: UIControl {
 
         // Compute ratio to ideal width
         let idealWidth = sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: frame.height)).width
-        let widthRatio = (frame.width - 2 * MSDateTimePickerViewLayout.horizontalPadding) / (idealWidth - 2 * MSDateTimePickerViewLayout.horizontalPadding)
+        let widthRatio = (frame.width - 2 * DateTimePickerViewLayout.horizontalPadding) / (idealWidth - 2 * DateTimePickerViewLayout.horizontalPadding)
 
         // Compute components width based on the ratio of this width to ideal width
         let componentWidths: [CGFloat] = componentTypes.map {
-            let componentIdealWidth = MSDateTimePickerViewLayout.componentWidths[$0] ?? 0
+            let componentIdealWidth = DateTimePickerViewLayout.componentWidths[$0] ?? 0
             return floor(componentIdealWidth * widthRatio)
         }
 
         // Layout components
-        var x: CGFloat = MSDateTimePickerViewLayout.horizontalPadding
+        var x: CGFloat = DateTimePickerViewLayout.horizontalPadding
         for (index, type) in componentTypes.enumerated() {
             guard let component = componentsByType[type] else {
                 continue
@@ -152,7 +152,7 @@ class MSDateTimePickerView: UIControl {
             x += viewWidth
         }
 
-        let lineOffset = round((frame.height - MSDateTimePickerViewComponentCell.idealHeight - 2 * selectionTopSeparator.frame.height) / 2)
+        let lineOffset = round((frame.height - DateTimePickerViewComponentCell.idealHeight - 2 * selectionTopSeparator.frame.height) / 2)
 
         selectionTopSeparator.frame = CGRect(x: 0, y: lineOffset, width: frame.width, height: selectionTopSeparator.frame.height)
 
@@ -163,7 +163,7 @@ class MSDateTimePickerView: UIControl {
             height: selectionBottomSeparator.frame.height
         )
 
-        let gradientOffset = lineOffset - MSDateTimePickerViewComponentCell.idealHeight
+        let gradientOffset = lineOffset - DateTimePickerViewComponentCell.idealHeight
         gradientLayer.locations = [0, NSNumber(value: Float(gradientOffset / frame.height)), NSNumber(value: Float((frame.height - gradientOffset) / frame.height)), 1]
         gradientLayer.frame = bounds
 
@@ -173,7 +173,7 @@ class MSDateTimePickerView: UIControl {
         flipSubviewsForRTL()
     }
 
-    private func type(of component: MSDateTimePickerViewComponent) -> MSDateTimePickerViewComponentType? {
+    private func type(of component: DateTimePickerViewComponent) -> DateTimePickerViewComponentType? {
         return componentsByType.first(where: { $1 == component })?.key
     }
 
@@ -208,7 +208,7 @@ class MSDateTimePickerView: UIControl {
                 dateComponents.day = newDay
 
                 // Update date picker in case the number of days for that month has changed
-                if let dataSource = dayComponent.dataSource as? MSDateTimePickerViewDataSourceWithDate {
+                if let dataSource = dayComponent.dataSource as? DateTimePickerViewDataSourceWithDate {
                     dataSource.date = testDate
                     if let indexPath = dataSource.indexPath(forItem: day) {
                         dayComponent.reloadData()
@@ -221,7 +221,7 @@ class MSDateTimePickerView: UIControl {
             }
         }
 
-        if let amPM = componentsByType[.timeAMPM]?.selectedItem as? MSDateTimePickerViewAMPM {
+        if let amPM = componentsByType[.timeAMPM]?.selectedItem as? DateTimePickerViewAMPM {
             var hour = dateComponents.hour
             switch amPM {
             case .am:
@@ -242,7 +242,7 @@ class MSDateTimePickerView: UIControl {
     }
 
     private func updateHourForAMPM() {
-        guard let amPM = componentsByType[.timeAMPM]?.selectedItem as? MSDateTimePickerViewAMPM else {
+        guard let amPM = componentsByType[.timeAMPM]?.selectedItem as? DateTimePickerViewAMPM else {
             return
         }
         guard var hour = componentsByType[.timeHour]?.selectedItem as? Int else {
@@ -259,10 +259,10 @@ class MSDateTimePickerView: UIControl {
     }
 }
 
-// MARK: - MSDateTimePickerView: MSDateTimePickerViewComponentDelegate
+// MARK: - DateTimePickerView: DateTimePickerViewComponentDelegate
 
-extension MSDateTimePickerView: MSDateTimePickerViewComponentDelegate {
-    func dateTimePickerComponentDidScroll(_ component: MSDateTimePickerViewComponent, userInitiated: Bool) {
+extension DateTimePickerView: DateTimePickerViewComponentDelegate {
+    func dateTimePickerComponentDidScroll(_ component: DateTimePickerViewComponent, userInitiated: Bool) {
         guard let type = type(of: component) else {
             assertionFailure("dateTimePickerComponent > component not found")
             return
@@ -279,13 +279,13 @@ extension MSDateTimePickerView: MSDateTimePickerViewComponentDelegate {
 
             // Switch between am and pm every cycle
             let moduloIsEven = (indexPath.row / 12) % 2 == 0
-            let newValue: MSDateTimePickerViewAMPM = moduloIsEven ? .am : .pm
+            let newValue: DateTimePickerViewAMPM = moduloIsEven ? .am : .pm
 
             amPMComponent.select(item: newValue, animated: true, userInitiated: false)
         }
     }
 
-    func dateTimePickerComponent(_ component: MSDateTimePickerViewComponent, didSelectItemAtIndexPath indexPath: IndexPath, userInitiated: Bool) {
+    func dateTimePickerComponent(_ component: DateTimePickerViewComponent, didSelectItemAtIndexPath indexPath: IndexPath, userInitiated: Bool) {
         if userInitiated {
             if type(of: component) == .timeAMPM {
                 updateHourForAMPM()
@@ -302,7 +302,7 @@ extension MSDateTimePickerView: MSDateTimePickerViewComponentDelegate {
      *
      * In summary, this can be used to override the accessibility value for the entire view based on the date rather than individual components.
      */
-    func dateTimePickerComponent(_ component: MSDateTimePickerViewComponent, accessibilityValueForDateComponents dateComponents: DateComponents?, originalValue: String?) -> String? {
+    func dateTimePickerComponent(_ component: DateTimePickerViewComponent, accessibilityValueForDateComponents dateComponents: DateComponents?, originalValue: String?) -> String? {
         guard let delegate = delegate else {
             return originalValue
         }
@@ -324,7 +324,7 @@ extension MSDateTimePickerView: MSDateTimePickerViewComponentDelegate {
 
         // Hours and AM/PM are different components. Therefore they don't know each other and can't compute the 24Hour time by themselves.
         // We compute this here.
-        if var amPM = componentsByType[.timeAMPM]?.selectedItem as? MSDateTimePickerViewAMPM {
+        if var amPM = componentsByType[.timeAMPM]?.selectedItem as? DateTimePickerViewAMPM {
             guard var hour = currentDateComponents.hour else {
                 assertionFailure("Invalid date")
                 return nil

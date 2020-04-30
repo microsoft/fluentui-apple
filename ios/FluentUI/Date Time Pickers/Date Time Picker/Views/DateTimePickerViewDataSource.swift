@@ -5,18 +5,18 @@
 
 import Foundation
 
-// MARK: MSDateTimePickerViewDataSourceConstants
+// MARK: DateTimePickerViewDataSourceConstants
 
-struct MSDateTimePickerViewDataSourceConstants {
+struct DateTimePickerViewDataSourceConstants {
     // Do not change this number (1200). This should be an even multiple of 24 and 60 (50 is even and is the multiple of 24)
     static let infiniteRowCount: Int = 1200
     static let indexPathOffset: Int = infiniteRowCount / 2
     static let minuteInterval: Int = 5
 }
 
-// MARK: - MSDateTimePickerViewComponentType
+// MARK: - DateTimePickerViewComponentType
 
-enum MSDateTimePickerViewComponentType {
+enum DateTimePickerViewComponentType {
     case date
     case month
     case day
@@ -28,20 +28,20 @@ enum MSDateTimePickerViewComponentType {
     case dayOfWeek
 }
 
-// MARK: - MSDateTimePickerViewAMPM
+// MARK: - DateTimePickerViewAMPM
 
-enum MSDateTimePickerViewAMPM {
+enum DateTimePickerViewAMPM {
     case am
     case pm
 }
 
-// MARK: - MSDateTimePickerViewDataSource
+// MARK: - DateTimePickerViewDataSource
 
 /**
- * DataSource of a component of MSDateTimePickerView. All dataSources must follow this protocol and be private to this file.
- * Use the factory to instantiate the specific dataSources based on a type. (should be used only by MSDateTimePickerView and not used or instantiated on its own)
+ * DataSource of a component of DateTimePickerView. All dataSources must follow this protocol and be private to this file.
+ * Use the factory to instantiate the specific dataSources based on a type. (should be used only by DateTimePickerView and not used or instantiated on its own)
  */
-protocol MSDateTimePickerViewDataSource: class {
+protocol DateTimePickerViewDataSource: class {
     func numberOfItems() -> Int
 
     // If the item is present multiple times, return the indexPath at the center
@@ -59,52 +59,52 @@ protocol MSDateTimePickerViewDataSource: class {
     func dateComponents(forRowAtIndex index: Int) -> DateComponents?
 }
 
-// MARK: - MSDateTimePickerViewDataSourceWithDate
+// MARK: - DateTimePickerViewDataSourceWithDate
 
 /// For dataSources that depend on a given date
-protocol MSDateTimePickerViewDataSourceWithDate: MSDateTimePickerViewDataSource {
+protocol DateTimePickerViewDataSourceWithDate: DateTimePickerViewDataSource {
     var date: Date? { get set }
 }
 
-// MARK: - MSDateTimePickerViewDataSourceFactory
+// MARK: - DateTimePickerViewDataSourceFactory
 
-class MSDateTimePickerViewDataSourceFactory {
-    static func dataSource(withType type: MSDateTimePickerViewComponentType, mode: MSDateTimePickerViewMode) -> MSDateTimePickerViewDataSource {
+class DateTimePickerViewDataSourceFactory {
+    static func dataSource(withType type: DateTimePickerViewComponentType, mode: DateTimePickerViewMode) -> DateTimePickerViewDataSource {
         switch type {
         case .date:
-            return MSDateTimePickerViewDateDataSource()
+            return DateTimePickerViewDateDataSource()
         case .month:
-            return MSDateTimePickerViewMonthDataSource()
+            return DateTimePickerViewMonthDataSource()
         case .day:
-            return MSDateTimePickerViewDayDataSource()
+            return DateTimePickerViewDayDataSource()
         case .year:
             switch mode {
             case .date(let startYear, let endYear):
-                return MSDateTimePickerViewYearDataSource(startYear: startYear, endYear: endYear)
+                return DateTimePickerViewYearDataSource(startYear: startYear, endYear: endYear)
             case .dateTime, .dayOfMonth:
-                return MSDateTimePickerViewYearDataSource(startYear: MSDateTimePickerViewMode.defaultStartYear, endYear: MSDateTimePickerViewMode.defaultEndYear)
+                return DateTimePickerViewYearDataSource(startYear: DateTimePickerViewMode.defaultStartYear, endYear: DateTimePickerViewMode.defaultEndYear)
             }
         case .timeHour:
-            return MSDateTimePickerViewHourDataSource()
+            return DateTimePickerViewHourDataSource()
         case .timeMinute:
-            return MSDateTimePickerViewMinuteDataSource()
+            return DateTimePickerViewMinuteDataSource()
         case .timeAMPM:
-            return MSDateTimePickerViewAMPMDataSource()
+            return DateTimePickerViewAMPMDataSource()
         case .weekOfMonth:
-            return MSDateTimePickerViewWeekOfMonthDataSource()
+            return DateTimePickerViewWeekOfMonthDataSource()
         case .dayOfWeek:
-            return MSDateTimePickerViewDayOfWeekDataSource()
+            return DateTimePickerViewDayOfWeekDataSource()
         }
     }
 }
 
-// MARK: - MSDateTimePickerViewMonthDataSource
+// MARK: - DateTimePickerViewMonthDataSource
 
-private class MSDateTimePickerViewMonthDataSource: MSDateTimePickerViewDataSource {
+private class DateTimePickerViewMonthDataSource: DateTimePickerViewDataSource {
     private let dateFormatter = DateFormatter()
 
     func numberOfItems() -> Int {
-        return MSDateTimePickerViewDataSourceConstants.infiniteRowCount
+        return DateTimePickerViewDataSourceConstants.infiniteRowCount
     }
 
     func indexPath(forItem item: Any) -> IndexPath? {
@@ -112,7 +112,7 @@ private class MSDateTimePickerViewMonthDataSource: MSDateTimePickerViewDataSourc
             return nil
         }
 
-        let row = MSDateTimePickerViewDataSourceConstants.indexPathOffset + month
+        let row = DateTimePickerViewDataSourceConstants.indexPathOffset + month
 
         return IndexPath(row: row - 1, section: 0)
     }
@@ -148,15 +148,15 @@ private class MSDateTimePickerViewMonthDataSource: MSDateTimePickerViewDataSourc
     }
 }
 
-// MARK: - MSDateTimePickerViewDayDataSource
+// MARK: - DateTimePickerViewDayDataSource
 
-private class MSDateTimePickerViewDayDataSource: MSDateTimePickerViewDataSourceWithDate {
+private class DateTimePickerViewDayDataSource: DateTimePickerViewDataSourceWithDate {
     var date: Date?
 
     private let calendar = Calendar.sharedCalendarWithTimeZone(nil)
 
     func numberOfItems() -> Int {
-        return MSDateTimePickerViewDataSourceConstants.infiniteRowCount
+        return DateTimePickerViewDataSourceConstants.infiniteRowCount
     }
 
     func indexPath(forItem item: Any) -> IndexPath? {
@@ -178,7 +178,7 @@ private class MSDateTimePickerViewDayDataSource: MSDateTimePickerViewDataSourceW
             return nil
         }
 
-        let row = numDays * ((MSDateTimePickerViewDataSourceConstants.infiniteRowCount / numDays) / 2) + day
+        let row = numDays * ((DateTimePickerViewDataSourceConstants.infiniteRowCount / numDays) / 2) + day
 
         return IndexPath(row: row - 1, section: 0)
     }
@@ -224,9 +224,9 @@ private class MSDateTimePickerViewDayDataSource: MSDateTimePickerViewDataSourceW
     }
 }
 
-// MARK: - MSDateTimePickerViewYearDataSource
+// MARK: - DateTimePickerViewYearDataSource
 
-private class MSDateTimePickerViewYearDataSource: MSDateTimePickerViewDataSource {
+private class DateTimePickerViewYearDataSource: DateTimePickerViewDataSource {
     private let startYear: Int
     private let endYear: Int
 
@@ -278,9 +278,9 @@ private class MSDateTimePickerViewYearDataSource: MSDateTimePickerViewDataSource
     }
 }
 
-// MARK: - MSDateTimePickerViewDateDataSource
+// MARK: - DateTimePickerViewDateDataSource
 
-private class MSDateTimePickerViewDateDataSource: MSDateTimePickerViewDataSource {
+private class DateTimePickerViewDateDataSource: DateTimePickerViewDataSource {
     private var numberOfDates: Int
     private let today = Calendar.sharedCalendarWithTimeZone(nil).startOfDay(for: Date())
     private let referenceStartDate = Calendar.sharedCalendarWithTimeZone(nil).startOfDay(for: MSCalendarConfiguration.default.referenceStartDate)
@@ -348,9 +348,9 @@ private class MSDateTimePickerViewDateDataSource: MSDateTimePickerViewDataSource
 
 // MARK: - MSDateTimePickerViewHourDataSource
 
-private class MSDateTimePickerViewHourDataSource: MSDateTimePickerViewDataSource {
+private class DateTimePickerViewHourDataSource: DateTimePickerViewDataSource {
     func numberOfItems() -> Int {
-        return MSDateTimePickerViewDataSourceConstants.infiniteRowCount
+        return DateTimePickerViewDataSourceConstants.infiniteRowCount
     }
 
     func indexPath(forItem item: Any) -> IndexPath? {
@@ -359,7 +359,7 @@ private class MSDateTimePickerViewHourDataSource: MSDateTimePickerViewDataSource
             return nil
         }
 
-        return IndexPath(row: MSDateTimePickerViewDataSourceConstants.infiniteRowCount / 2 + hour, section: 0)
+        return IndexPath(row: DateTimePickerViewDataSourceConstants.infiniteRowCount / 2 + hour, section: 0)
     }
 
     func item(forRowAtIndex index: Int) -> Any {
@@ -405,11 +405,11 @@ private class MSDateTimePickerViewHourDataSource: MSDateTimePickerViewDataSource
     }
 }
 
-// MARK: - MSDateTimePickerViewMinuteDataSource
+// MARK: - DateTimePickerViewMinuteDataSource
 
-private class MSDateTimePickerViewMinuteDataSource: MSDateTimePickerViewDataSource {
+private class DateTimePickerViewMinuteDataSource: DateTimePickerViewDataSource {
     func numberOfItems() -> Int {
-        return MSDateTimePickerViewDataSourceConstants.infiniteRowCount
+        return DateTimePickerViewDataSourceConstants.infiniteRowCount
     }
 
     func indexPath(forItem item: Any) -> IndexPath? {
@@ -418,13 +418,13 @@ private class MSDateTimePickerViewMinuteDataSource: MSDateTimePickerViewDataSour
             return nil
         }
 
-        let offset = minute / MSDateTimePickerViewDataSourceConstants.minuteInterval
-        let index = MSDateTimePickerViewDataSourceConstants.infiniteRowCount / 2 + offset
+        let offset = minute / DateTimePickerViewDataSourceConstants.minuteInterval
+        let index = DateTimePickerViewDataSourceConstants.infiniteRowCount / 2 + offset
         return IndexPath(row: index, section: 0)
     }
 
     func item(forRowAtIndex index: Int) -> Any {
-        let interval = MSDateTimePickerViewDataSourceConstants.minuteInterval
+        let interval = DateTimePickerViewDataSourceConstants.minuteInterval
         let numberOfIntervalsInHour = 60 / interval
         return (index % numberOfIntervalsInHour) * interval
     }
@@ -463,9 +463,9 @@ private class MSDateTimePickerViewMinuteDataSource: MSDateTimePickerViewDataSour
     }
 }
 
-// MARK: - MSDateTimePickerViewAMPMDataSource
+// MARK: - DateTimePickerViewAMPMDataSource
 
-private class MSDateTimePickerViewAMPMDataSource: MSDateTimePickerViewDataSource {
+private class DateTimePickerViewAMPMDataSource: DateTimePickerViewDataSource {
     private let dateFormatter = DateFormatter()
 
     func numberOfItems() -> Int {
@@ -473,7 +473,7 @@ private class MSDateTimePickerViewAMPMDataSource: MSDateTimePickerViewDataSource
     }
 
     func indexPath(forItem item: Any) -> IndexPath? {
-        guard let value = item as? MSDateTimePickerViewAMPM else {
+        guard let value = item as? DateTimePickerViewAMPM else {
             assertionFailure("indexPath(forItem:) > wrong argument type")
             return nil
         }
@@ -487,11 +487,11 @@ private class MSDateTimePickerViewAMPMDataSource: MSDateTimePickerViewDataSource
     }
 
     func item(forRowAtIndex index: Int) -> Any {
-        return index == 0 ? MSDateTimePickerViewAMPM.am : MSDateTimePickerViewAMPM.pm
+        return index == 0 ? DateTimePickerViewAMPM.am : DateTimePickerViewAMPM.pm
     }
 
     func itemStringRepresentation(forRowAtIndex index: Int) -> String? {
-        guard let item = item(forRowAtIndex: index) as? MSDateTimePickerViewAMPM else {
+        guard let item = item(forRowAtIndex: index) as? DateTimePickerViewAMPM else {
             assertionFailure("itemStringRepresentation(forRowAtIndex:) > item not found")
             return nil
         }
@@ -514,7 +514,7 @@ private class MSDateTimePickerViewAMPMDataSource: MSDateTimePickerViewDataSource
 
     func dateComponents(forRowAtIndex index: Int) -> DateComponents? {
         // Hack for am/pm which doesn't have a component. We need to say what it is so let's use era to give 0 or 1
-        guard let item = item(forRowAtIndex: index) as? MSDateTimePickerViewAMPM else {
+        guard let item = item(forRowAtIndex: index) as? DateTimePickerViewAMPM else {
             return nil
         }
 
@@ -524,9 +524,9 @@ private class MSDateTimePickerViewAMPMDataSource: MSDateTimePickerViewDataSource
     }
 }
 
-// MARK: - MSDateTimePickerViewWeekOfMonthDataSource
+// MARK: - DateTimePickerViewWeekOfMonthDataSource
 
-private class MSDateTimePickerViewWeekOfMonthDataSource: MSDateTimePickerViewDataSource {
+private class DateTimePickerViewWeekOfMonthDataSource: DateTimePickerViewDataSource {
     let weeksOfMonth: [MSWeekOfMonth] = MSWeekOfMonth.allCases
 
     func numberOfItems() -> Int {
@@ -568,9 +568,9 @@ private class MSDateTimePickerViewWeekOfMonthDataSource: MSDateTimePickerViewDat
     }
 }
 
-// MARK: - MSDateTimePickerViewDayOfWeekDataSource
+// MARK: - DateTimePickerViewDayOfWeekDataSource
 
-private class MSDateTimePickerViewDayOfWeekDataSource: MSDateTimePickerViewDataSource {
+private class DateTimePickerViewDayOfWeekDataSource: DateTimePickerViewDataSource {
     let weekdays: [MSDayOfWeek] = MSDayOfWeek.allCases
 
     func numberOfItems() -> Int {

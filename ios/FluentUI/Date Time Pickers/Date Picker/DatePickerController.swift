@@ -7,16 +7,16 @@ import UIKit
 
 // MARK: MSDatePickerHeaderStyle
 
-@objc enum MSDatePickerHeaderStyle: Int {
+enum DatePickerHeaderStyle: Int {
     case light
     case dark
 }
 
-// MARK: - MSDatePickerController
+// MARK: - DatePickerController
 
 /// Represents a date picker, that enables the user to scroll through years vertically week by week.
 /// The user can select a date or a range of dates.
-class MSDatePickerController: UIViewController, GenericDateTimePicker {
+class DatePickerController: UIViewController, GenericDateTimePicker {
     private struct Constants {
         static let idealWidth: CGFloat = 343
         // TODO: Make title button width dynamic
@@ -57,7 +57,7 @@ class MSDatePickerController: UIViewController, GenericDateTimePicker {
         return selectionManager.selectionMode == .start ? startDate : endDate
     }
 
-    private(set) var selectionManager: MSDatePickerSelectionManager!
+    private(set) var selectionManager: DatePickerSelectionManager!
 
     weak var delegate: GenericDateTimePickerDelegate?
 
@@ -94,7 +94,7 @@ class MSDatePickerController: UIViewController, GenericDateTimePicker {
     ///   - selectionMode: The side (start or end) of the current range to be selected on this picker.
     ///   - rangePresentation: The `DateRangePresentation` in which this controller is being presented if `mode` is `.dateRange` or `.dateTimeRange`.
     ///   - titles: A `Titles` object that holds strings for use in overriding the default picker title, subtitle, and tab titles. If title is not provided, titleview will show currently selected date. If tab titles are not provided, they will default to "Start Date" and "End Date".
-    init(startDate: Date, endDate: Date, mode: DateTimePickerMode, selectionMode: MSDatePickerSelectionManager.SelectionMode = .start, rangePresentation: DateTimePicker.DateRangePresentation, titles: DateTimePicker.Titles?) {
+    init(startDate: Date, endDate: Date, mode: DateTimePickerMode, selectionMode: DatePickerSelectionManager.SelectionMode = .start, rangePresentation: DateTimePicker.DateRangePresentation, titles: DateTimePicker.Titles?) {
         if !mode.singleSelection && rangePresentation == .paged {
             customTitle = selectionMode == .start ? titles?.startTitle : titles?.endTitle
             customSubtitle = selectionMode == .start ?
@@ -118,7 +118,7 @@ class MSDatePickerController: UIViewController, GenericDateTimePicker {
         calendarViewDataSource = CalendarViewDataSource(styleDataSource: self)
 
         let startDate = startDate.startOfDay
-        selectionManager = MSDatePickerSelectionManager(
+        selectionManager = DatePickerSelectionManager(
             dataSource: calendarViewDataSource,
             startDate: startDate,
             endDate: endDate,
@@ -297,9 +297,9 @@ class MSDatePickerController: UIViewController, GenericDateTimePicker {
     }
 }
 
-// MARK: - MSDatePickerController: UICollectionViewDelegate
+// MARK: - DatePickerController: UICollectionViewDelegate
 
-extension MSDatePickerController: UICollectionViewDelegate {
+extension DatePickerController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         guard let monthBannerView = view as? CalendarViewMonthBannerView else {
             return
@@ -386,9 +386,9 @@ extension MSDatePickerController: UICollectionViewDelegate {
     }
 }
 
-// MARK: - MSDatePickerController: UIScrollViewDelegate
+// MARK: - DatePickerController: UIScrollViewDelegate
 
-extension MSDatePickerController: UIScrollViewDelegate {
+extension DatePickerController: UIScrollViewDelegate {
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         changeMonthOverlayVisibility(true)
     }
@@ -428,9 +428,9 @@ extension MSDatePickerController: UIScrollViewDelegate {
     }
 }
 
-// MARK: - MSDatePickerController: CalendarViewLayoutDelegate
+// MARK: - DatePickerController: CalendarViewLayoutDelegate
 
-extension MSDatePickerController: CalendarViewLayoutDelegate {
+extension DatePickerController: CalendarViewLayoutDelegate {
     func calendarViewLayout(_ calendarViewLayout: CalendarViewLayout, shouldShowMonthBannerForSectionIndex sectionIndex: Int) -> Bool {
         let firstDayStartDateOfWeek = calendarViewDataSource.dayStart(forDayAt: IndexPath(item: 0, section: sectionIndex))
         let weekOfMonth = calendarViewDataSource.calendar.component(.weekOfMonth, from: firstDayStartDateOfWeek)
@@ -438,9 +438,9 @@ extension MSDatePickerController: CalendarViewLayoutDelegate {
     }
 }
 
-// MARK: - MSDatePickerController: MSCalendarViewStyleDataSource
+// MARK: - DatePickerController: MSCalendarViewStyleDataSource
 
-extension MSDatePickerController: CalendarViewStyleDataSource {
+extension DatePickerController: CalendarViewStyleDataSource {
     func calendarViewDataSource(_ dataSource: CalendarViewDataSource, textStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents) -> CalendarViewDayCellTextStyle {
 
         if dayStartComponents.dateIsTodayOrLater(todayDateComponents: todayComponents) {
@@ -465,9 +465,9 @@ extension MSDatePickerController: CalendarViewStyleDataSource {
     }
 }
 
-// MARK: - MSDatePickerController: MSCardPresentable
+// MARK: - DatePickerController: MSCardPresentable
 
-extension MSDatePickerController: MSCardPresentable {
+extension DatePickerController: MSCardPresentable {
     func idealSize() -> CGSize {
         return CGSize(
             width: Constants.idealWidth,

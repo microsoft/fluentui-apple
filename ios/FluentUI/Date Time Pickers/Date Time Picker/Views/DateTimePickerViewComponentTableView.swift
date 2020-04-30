@@ -5,14 +5,14 @@
 
 import UIKit
 
-// MARK: MSDateTimePickerViewComponentTableView
+// MARK: DateTimePickerViewComponentTableView
 
-/// TableView representing the component view of MSDateTimePickerViewComponent (should be used only by MSDateTimePickerViewComponent and not instantiated on its own)
-class MSDateTimePickerViewComponentTableView: UITableView {
+/// TableView representing the component view of MSDateTimePickerViewComponent (should be used only by DateTimePickerViewComponent and not instantiated on its own)
+class DateTimePickerViewComponentTableView: UITableView {
     override var frame: CGRect {
         didSet {
             // Adjust content inset so that first and last cells can be centered
-            let inset = round((frame.height - MSDateTimePickerViewComponentCell.idealHeight) / 2)
+            let inset = round((frame.height - DateTimePickerViewComponentCell.idealHeight) / 2)
             contentInset = UIEdgeInsets(top: inset, left: 0, bottom: inset, right: 0)
         }
     }
@@ -58,7 +58,7 @@ class MSDateTimePickerViewComponentTableView: UITableView {
 
     func centerRow(at indexPath: IndexPath, animated: Bool) {
         // Update Content Offset
-        let cellHeight = MSDateTimePickerViewComponentCell.idealHeight
+        let cellHeight = DateTimePickerViewComponentCell.idealHeight
         let viewOffsetY = round((frame.height - cellHeight) / 2)
         let maxOffsetY = contentSize.height - contentInset.top
         let minOffsetY = CGFloat(numberOfRows(inSection: 0)) * cellHeight >= frame.height ? -contentInset.top : -.infinity
@@ -67,9 +67,9 @@ class MSDateTimePickerViewComponentTableView: UITableView {
     }
 }
 
-// MARK: - MSDateTimePickerViewComponentTableView: AccessibleViewDelegate
+// MARK: - DateTimePickerViewComponentTableView: AccessibleViewDelegate
 
-extension MSDateTimePickerViewComponentTableView: AccessibleViewDelegate {
+extension DateTimePickerViewComponentTableView: AccessibleViewDelegate {
     func accessibilityLabelForAccessibleView(_ view: UIView) -> String? {
         return accessibilityDelegate?.accessibilityLabelForAccessibleView?(self)
     }

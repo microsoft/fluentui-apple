@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-class MSDateTimePickerDemoController: DemoController {
+class DateTimePickerDemoController: DemoController {
     private let dateLabel = MSLabel(style: .headline)
     private let dateTimePicker = DateTimePicker()
 
@@ -124,9 +124,9 @@ class MSDateTimePickerDemoController: DemoController {
     }
 }
 
-// MARK: - MSDateTimePickerDemoController: MSDatePickerDelegate
+// MARK: - DateTimePickerDemoController: MSDatePickerDelegate
 
-extension MSDateTimePickerDemoController: DateTimePickerDelegate {
+extension DateTimePickerDemoController: DateTimePickerDelegate {
     func dateTimePicker(_ dateTimePicker: DateTimePicker, didPickStartDate startDate: Date, endDate: Date) {
         guard let mode = dateTimePicker.mode else {
             preconditionFailure("Received delegate call when mode = nil")
