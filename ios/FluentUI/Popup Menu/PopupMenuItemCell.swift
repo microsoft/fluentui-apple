@@ -161,10 +161,18 @@ class PopupMenuItemCell: TableViewCell {
         customAccessoryView?.alpha = alpha
 
         // Selection
+        if let item = item {
+            _imageView.tintColor = isSelected ? item.imageSelectedColor : Colors.Table.Cell.image
+            titleLabel.textColor = isSelected ? item.titleSelectedColor : item.titleColor
+            subtitleLabel.textColor = isSelected ? item.subtitleSelectedColor : item.subtitleColor
+            backgroundColor = item.backgroundColor
+        }
         _imageView.isHighlighted = isSelected
-        titleLabel.textColor = isSelected ? Colors.PopupMenu.Item.titleSelected : Colors.Table.Cell.title
-        subtitleLabel.textColor = isSelected ? Colors.PopupMenu.Item.subtitleSelected : Colors.Table.Cell.subtitle
-
-        _accessoryType = (isSelected && item?.isAccessoryCheckmarkVisible == true) ? .checkmark : .none
+        if isSelected && item?.isAccessoryCheckmarkVisible == true {
+            accessoryTypeView?.customTintColor = item?.accessoryCheckmarkColor
+            _accessoryType = .checkmark
+        } else {
+            _accessoryType = .none
+        }
     }
 }

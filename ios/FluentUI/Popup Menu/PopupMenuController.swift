@@ -110,6 +110,12 @@ open class PopupMenuController: DrawerController {
         }
     }
 
+    @objc var separatorColor: UIColor = Colors.Separator.default {
+        didSet {
+            separator?.backgroundColor = separatorColor
+        }
+    }
+
     private var sections: [PopupMenuSection] = []
     private var itemForExecutionAfterPopupMenuDismissal: PopupMenuItem?
     private var itemsHaveImages: Bool {
@@ -124,6 +130,8 @@ open class PopupMenuController: DrawerController {
         view.addArrangedSubview(tableView)
         return view
     }()
+
+    private var separator: Separator?
     private lazy var descriptionView: UIView = {
         let view = UIView()
         view.isAccessibilityElement = true
@@ -141,15 +149,17 @@ open class PopupMenuController: DrawerController {
             )
         )
 
-        let separator = Separator()
-        view.addSubview(separator)
-        separator.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            separator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            separator.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            separator.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-
+        separator = Separator()
+        if let separator = separator {
+            separator.backgroundColor = separatorColor
+            view.addSubview(separator)
+            separator.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                separator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                separator.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                separator.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
+        }
         return view
     }()
     private let descriptionLabel: Label = {
@@ -274,9 +284,12 @@ extension PopupMenuController: UITableViewDataSource {
         cell.setup(item: item)
         cell.preservesSpaceForImage = itemsHaveImages
         let isLastInSection = row == tableView.numberOfRows(inSection: section) - 1
-        let isLast = section == tableView.numberOfSections - 1 && isLastInSection
-        cell.bottomSeparatorType = isLast ? .none : (isLastInSection ? .full : .inset)
-
+        if section == tableView.numberOfSections - 1 && isLastInSection {
+            cell.bottomSeparatorType = .none
+        } else {
+            cell.bottomSeparatorType = isLastInSection ? .full : .inset
+            cell.bottomSeparator.backgroundColor = separatorColor
+        }
         return cell
     }
 }

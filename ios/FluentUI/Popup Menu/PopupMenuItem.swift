@@ -36,13 +36,21 @@ open class PopupMenuItem: NSObject {
     @objc public var isEnabled: Bool = true
     @objc public var isSelected: Bool = false
 
+    @objc public var titleColor: UIColor = Colors.Table.Cell.title
+    @objc public var subtitleColor: UIColor = Colors.Table.Cell.subtitle
+    @objc public var titleSelectedColor: UIColor = Colors.PopupMenu.Item.titleSelected
+    @objc public var subtitleSelectedColor: UIColor = Colors.PopupMenu.Item.subtitleSelected
+    @objc public var imageSelectedColor: UIColor = Colors.PopupMenu.Item.imageSelected
+    @objc public var backgroundColor: UIColor = Colors.Table.Cell.background
+    @objc public var accessoryCheckmarkColor: UIColor = Colors.Table.Cell.accessoryCheckmark
+
     @objc public let onSelected: (() -> Void)?
 
     @objc public let isAccessoryCheckmarkVisible: Bool
 
     @objc public init(image: UIImage? = nil, selectedImage: UIImage? = nil, accessoryImage: UIImage? = nil, title: String, subtitle: String? = nil, accessoryView: UIView? = nil, isEnabled: Bool = true, isSelected: Bool = false, executes executionMode: ExecutionMode = .onSelection, onSelected: (() -> Void)? = nil, isAccessoryCheckmarkVisible: Bool = true) {
         self.image = image?.renderingMode == .automatic ? image?.withRenderingMode(.alwaysTemplate) : image
-        self.selectedImage = selectedImage ?? image?.image(withPrimaryColor: Colors.PopupMenu.Item.imageSelected)
+        self.selectedImage = selectedImage ?? image?.withRenderingMode(.alwaysTemplate)
         self.accessoryImage = accessoryImage
         self.title = title
         self.subtitle = subtitle

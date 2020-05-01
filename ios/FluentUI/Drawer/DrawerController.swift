@@ -120,6 +120,18 @@ open class DrawerController: UIViewController {
         case popover
     }
 
+    @objc open var backgroundColor: UIColor = Colors.Drawer.background {
+        didSet {
+            view.backgroundColor = backgroundColor
+        }
+    }
+
+    @objc open var resizingHandleViewBackgroundColor: UIColor = Colors.ResizingHandle.background {
+        didSet {
+            resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
+        }
+    }
+
     /**
      Set `contentController` to provide a controller that will represent drawer's content. Its view will be hosted in the root view of the drawer and will be sized and positioned to accommodate any shell UI of the drawer.
 
@@ -415,7 +427,7 @@ open class DrawerController: UIViewController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Colors.Drawer.background
+        view.backgroundColor = backgroundColor
         if #available(iOS 13.0, *) {
             view.layer.cornerCurve = .continuous
         }
@@ -640,6 +652,7 @@ open class DrawerController: UIViewController {
 
     private func initResizingHandleView() {
         if resizingHandleIsInteractive {
+            resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
             resizingHandleView?.isUserInteractionEnabled = true
             resizingHandleView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleResizingHandleViewTap)))
         }

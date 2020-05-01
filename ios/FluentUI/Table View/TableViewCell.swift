@@ -798,7 +798,7 @@ open class TableViewCell: UITableViewCell {
     private var footerLeadingAccessoryViewSize: CGSize = .zero
     private var footerTrailingAccessoryViewSize: CGSize = .zero
 
-    private var accessoryTypeView: TableViewCellAccessoryView? {
+    internal var accessoryTypeView: TableViewCellAccessoryView? {
         didSet {
             oldValue?.removeFromSuperview()
             if let accessoryTypeView = accessoryTypeView {
@@ -814,8 +814,8 @@ open class TableViewCell: UITableViewCell {
         return imageView
     }()
 
-    private let topSeparator = Separator(style: .default, orientation: .horizontal)
-    private let bottomSeparator = Separator(style: .default, orientation: .horizontal)
+    internal let topSeparator = Separator(style: .default, orientation: .horizontal)
+    internal let bottomSeparator = Separator(style: .default, orientation: .horizontal)
 
     private var superTableView: UITableView? {
         return findSuperview(of: UITableView.self) as? UITableView
@@ -1281,14 +1281,21 @@ open class TableViewCell: UITableViewCell {
 
 // MARK: - TableViewCellAccessoryView
 
-private class TableViewCellAccessoryView: UIView {
+internal class TableViewCellAccessoryView: UIView {
     override var accessibilityElementsHidden: Bool { get { return !isUserInteractionEnabled } set { } }
     override var intrinsicContentSize: CGSize { return type.size }
 
     let type: TableViewCellAccessoryType
-
+    var iconView: UIImageView?
     /// `onTapped` is called when `detailButton` is tapped
     var onTapped: (() -> Void)?
+    var customTintColor: UIColor? {
+        didSet {
+            if let iconView = iconView {
+                iconView.tintColor = customTintColor
+            }
+        }
+    }
 
     init(type: TableViewCellAccessoryType) {
         self.type = type
@@ -1323,12 +1330,14 @@ private class TableViewCellAccessoryView: UIView {
     }
 
     private func addIconView(type: TableViewCellAccessoryType) {
-        let iconView = UIImageView(image: type.icon)
-        iconView.frame.size = type.size
-        iconView.contentMode = .center
-        iconView.tintColor = type.iconColor
-        addSubview(iconView)
-        iconView.fitIntoSuperview()
+        iconView = UIImageView(image: type.icon)
+        if let iconView = iconView {
+            iconView.frame.size = type.size
+            iconView.contentMode = .center
+            iconView.tintColor = customTintColor ?? type.iconColor
+            addSubview(iconView)
+            iconView.fitIntoSuperview()
+        }
     }
 
     @objc private func handleOnAccessoryTapped() {
