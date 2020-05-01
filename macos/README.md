@@ -1,14 +1,30 @@
+# Fluent UI for macOS
 
-# Contributing
+##### The macOS UI framework for building experiences for Microsoft 365.
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.microsoft.com.
+FluentUI for macOS is a native library that provides the Microsoft UI experience for the macOS platform. It contains custom controls and customizations for platform controls, all from the official Fluent design language used in Microsoft 365 products.
 
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+## Contents
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+- [Controls](#controls)
+- [Test app](#test-app)
+
+## Controls
+
+FluentUI for macOS includes an expanding library of controls written in Swift and supporting Objective-C. These controls implement the Fluent Design language and provide consistency across Microsoft experiences.
+
+Some of the controls available include:
+- AvatarView
+- DatePicker
+
+A full list of currently supported controls can be found here: [FluentUI](FluentUI).
+
+## Test app
+
+Included in this repository is a demo of currently implemented controls. A full list of implemented controls available in the test app can be found here:  [TestApp](FluentUI.Demo/FluentUI.Demo/Demos).
+
+To build and run the test app follow these steps:
+- Download or clone the [FluentUI](https://github.com/microsoft/fluentui-apple) repository.
+- Open `macos/xcode/FluentUI.xcodeproj` in Xcode.
+- In the Xcode scheme menu choose `FluentUITestApp` and choose "My Mac" as the deployment target.
+- Once deployed you can choose a control to test from the list of controls in the left pane.
