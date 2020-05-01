@@ -2,7 +2,7 @@
 
 ##### The iOS UI framework for building experiences for Microsoft 365.
 
-FluentUI for iOS is a native library that provides the Microsoft UI experience for the iOS platform. It contains information about colors and typography, as well as custom controls and customizations for platform controls, all from the official Fluent design language used in Microsoft 365 products.
+FluentUI for iOS is a native framework that provides the Microsoft UI experience for the iOS platform. It contains information about colors and typography, as well as custom controls and customizations for platform controls, all from the official Fluent design language used in Microsoft 365 products.
 
 ## Contents
 
@@ -10,6 +10,7 @@ FluentUI for iOS is a native library that provides the Microsoft UI experience f
 - [Controls](#controls)
 - [Install and use FluentUI](#install-and-use-fluentui)
 - [Demo app](#demo-app)
+- [Targets](#targets)
 
 ## Colors and Typography
 
@@ -17,7 +18,7 @@ FluentUI for iOS provides [colors](FluentUI/Core/Colors.swift) and [typography](
 
 ## Controls
 
-FluentUI for iOS includes an expanding library of controls written in Swift and supporting Objective-C. These controls implement the Fluent Design language and provide consistency across Microsoft experiences.
+FluentUI for iOS includes an expanding set of controls written in Swift and supporting Objective-C. These controls implement the Fluent Design language and provide consistency across Microsoft experiences.
 
 Some of the controls available include:
 - ActivityIndicatorView
@@ -50,3 +51,6 @@ To build and deploy the demo follow these steps:
 - Open `ios/FluentUI.xcworkspace` in Xcode.
 - In the Xcode scheme menu choose `Demo.development` and choose a device to deploy to.
 - Once deployed you can choose a control to demo from the list of controls on the selected device.
+
+## Targets
+Fluent UI for iOS builds both a framework target and a static library target. If you are adding, removing, or renaming files, please ensure that all files compile for both the framework and static library targets.

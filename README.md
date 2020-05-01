@@ -1,5 +1,5 @@
 # Fluent UI Apple
-Fluent UI Apple is a library containing native UIKit and AppKit controls aligned with [Microsoft's Fluent UI design system](https://www.microsoft.com/design/fluent/#/). 
+Fluent UI Apple contains native UIKit and AppKit controls aligned with [Microsoft's Fluent UI design system](https://www.microsoft.com/design/fluent/#/). 
 
 ![Build Status](https://github.com/microsoft/fluentui-apple/workflows/CI/badge.svg?branch=master)
 ![License](https://img.shields.io/github/license/Microsoft/fluentui-apple)
@@ -45,9 +45,9 @@ pod 'MicrosoftFluentUI', '~> X.X.X'
 #### Swift Package Manager
 As of this writing, the version of Swift Package Manager shipped with the latest Xcode does not support packages that require resource bundles. As Fluent UI Apple does  require resource bundles, we do not currently support Swift Package Manager.
 
-### Import and use the library
+### Import and use FluentUI
 
-After the framework has been added you can import the library to use it:
+After the framework has been added you can import the module to use it:
 
 For Swift
 ```swift
