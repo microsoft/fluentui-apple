@@ -57,20 +57,14 @@ class CalendarHeaderView: NSView {
 		
 		leadingButton.isBordered = false
 		trailingButton.isBordered = false
-		
-		if DatePickerView.accessibilityTemporarilyRestricted {
-			leadingButton.cell?.setAccessibilityElement(false)
-		}
+
 		leadingButton.setAccessibilityLabel(NSLocalizedString(
 			"DATEPICKER_ACCESSIBILITY_PREVIOUS_MONTH_LABEL",
 			tableName: "FluentUI",
 			bundle: FluentUIResources.resourceBundle,
 			comment: ""
 		))
-		
-		if DatePickerView.accessibilityTemporarilyRestricted {
-			trailingButton.cell?.setAccessibilityElement(false)
-		}
+
 		trailingButton.setAccessibilityLabel(NSLocalizedString(
 			"DATEPICKER_ACCESSIBILITY_NEXT_MONTH_LABEL",
 			tableName: "FluentUI",
@@ -124,10 +118,6 @@ class CalendarHeaderView: NSView {
 		let textField = NSTextField(labelWithString: "")
 		textField.font = NSFont.boldSystemFont(ofSize: Constants.fontSize)
 		
-		if DatePickerView.accessibilityTemporarilyRestricted {
-			textField.cell?.setAccessibilityElement(false)
-		}
-		
 		return textField
 	}()
 	
@@ -149,10 +139,6 @@ class CalendarHeaderView: NSView {
 		for _ in 0..<Constants.weekdayCount {
 			let label = NSTextField(labelWithString: "")
 			label.alignment = .center
-			
-			if DatePickerView.accessibilityTemporarilyRestricted {
-				label.cell?.setAccessibilityElement(false)
-			}
 			label.setAccessibilityRole(.staticText)
 			label.widthAnchor.constraint(equalToConstant: Constants.weekdayLabelWidth).isActive = true
 			labels.append(label)

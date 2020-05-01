@@ -58,7 +58,7 @@ class CalendarView: NSView {
 		}
 		
 		// Accessibility
-		setAccessibilityElement(!DatePickerView.accessibilityTemporarilyRestricted)
+		setAccessibilityElement(true)
 		setAccessibilityLabel(NSLocalizedString(
 			"DATEPICKER_ACCESSIBILITY_CALENDAR_VIEW_LABEL",
 			tableName: "FluentUI",
