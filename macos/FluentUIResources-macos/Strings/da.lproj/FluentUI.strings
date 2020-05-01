@@ -13,4 +13,4 @@
 "DATEPICKER_ACCESSIBILITY_PREVIOUS_MONTH_LABEL" = "Forrige måned";
 
 /* Accessibility label for the calendar day grid */
-"DATEPICKER_ACCESSIBILITY_CALENDAR_VIEW_LABEL" = "Daggitter";
+"DATEPICKER_ACCESSIBILITY_CALENDAR_VIEW_LABEL" = "Dagsgitter";

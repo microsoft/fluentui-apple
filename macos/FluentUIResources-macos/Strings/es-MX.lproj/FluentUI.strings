@@ -4,7 +4,7 @@
 //
 
 /* Accessibility label for the date picker view */
-"DATEPICKER_ACCESSIBILITY_DATEPICKER_LABEL" = "Selector de fecha";
+"DATEPICKER_ACCESSIBILITY_DATEPICKER_LABEL" = "Control de selector de fecha";
 
 /* Accessibility label for the next month button */
 "DATEPICKER_ACCESSIBILITY_NEXT_MONTH_LABEL" = "Mes siguiente";

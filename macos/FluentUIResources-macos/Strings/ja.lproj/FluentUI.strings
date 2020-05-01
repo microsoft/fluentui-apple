@@ -7,10 +7,10 @@
 "DATEPICKER_ACCESSIBILITY_DATEPICKER_LABEL" = "日付の選択";
 
 /* Accessibility label for the next month button */
-"DATEPICKER_ACCESSIBILITY_NEXT_MONTH_LABEL" = "来月";
+"DATEPICKER_ACCESSIBILITY_NEXT_MONTH_LABEL" = "次の月";
 
 /* Accessibility label for the previous month button */
-"DATEPICKER_ACCESSIBILITY_PREVIOUS_MONTH_LABEL" = "先月";
+"DATEPICKER_ACCESSIBILITY_PREVIOUS_MONTH_LABEL" = "前の月";
 
 /* Accessibility label for the calendar day grid */
 "DATEPICKER_ACCESSIBILITY_CALENDAR_VIEW_LABEL" = "日グリッド";

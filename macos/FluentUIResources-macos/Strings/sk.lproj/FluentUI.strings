@@ -13,4 +13,4 @@
 "DATEPICKER_ACCESSIBILITY_PREVIOUS_MONTH_LABEL" = "Predchádzajúci mesiac";
 
 /* Accessibility label for the calendar day grid */
-"DATEPICKER_ACCESSIBILITY_CALENDAR_VIEW_LABEL" = "Deň mriežky";
+"DATEPICKER_ACCESSIBILITY_CALENDAR_VIEW_LABEL" = "Mriežka dňa";
