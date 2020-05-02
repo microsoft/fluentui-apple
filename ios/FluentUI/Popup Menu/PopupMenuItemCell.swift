@@ -111,7 +111,7 @@ class PopupMenuItemCell: TableViewCell {
         }
 
         // Override default background color change
-        backgroundColor = Colors.Table.Cell.background
+        backgroundColor = item?.backgroundColor ?? Colors.Table.Cell.background
 
         if animated {
             UIView.animate(withDuration: Constants.animationDuration) {
