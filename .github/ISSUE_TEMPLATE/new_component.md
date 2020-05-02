@@ -45,16 +45,15 @@ about: Interested in contributing a new component to Fluent UI Apple? This templ
 
 ```
 
-### Checklist
+### New Component Checklist
 
 - [ ] Light and Dark Appearance
 - [ ] Unit tests
 - [ ] UI tests
 - [ ] Documentation and examples
-- [ ] VoiceOver and Accessibility Testing
-- [ ] Keyboard Accessible
+- [ ] VoiceOver and Keyboard Accessibility
 - [ ] Increase Contrast Support
-- [ ] RTL Support
+- [ ] Internationalization and Right-to-left Layouts
 - [ ] Design Review
 - [ ] API review
-- [ ] Ready for Publishing
+- [ ] Ready for Contribution

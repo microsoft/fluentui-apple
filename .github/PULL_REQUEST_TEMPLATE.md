@@ -18,6 +18,5 @@
 
 This PR has considered:
 - [ ] Light and Dark appearances
-- [ ] Accessibility
-- [ ] Right to Left layouts
-- [ ] Localization and Internationalization
+- [ ] VoiceOver and Keyboard Accessibility
+- [ ] Internationalization and Right to Left layouts
