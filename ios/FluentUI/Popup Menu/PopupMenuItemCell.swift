@@ -169,8 +169,8 @@ class PopupMenuItemCell: TableViewCell {
         }
         _imageView.isHighlighted = isSelected
         if isSelected && item?.isAccessoryCheckmarkVisible == true {
-            accessoryTypeView?.customTintColor = item?.accessoryCheckmarkColor
             _accessoryType = .checkmark
+            accessoryTypeView?.customTintColor = item?.accessoryCheckmarkColor
         } else {
             _accessoryType = .none
         }

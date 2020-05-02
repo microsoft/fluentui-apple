@@ -66,6 +66,17 @@ open class PopupMenuController: DrawerController {
         }
         return height
     }
+
+    open override var backgroundColor: UIColor {
+        get {
+            return super.backgroundColor
+        }
+        set {
+            super.backgroundColor = newValue
+            tableView.backgroundColor = newValue
+        }
+    }
+
     override var tracksContentHeight: Bool { return false }
 
     /**
@@ -110,7 +121,7 @@ open class PopupMenuController: DrawerController {
         }
     }
 
-    @objc var separatorColor: UIColor = Colors.Separator.default {
+    @objc open var separatorColor: UIColor = Colors.Separator.default {
         didSet {
             separator?.backgroundColor = separatorColor
         }
@@ -232,7 +243,7 @@ open class PopupMenuController: DrawerController {
     }
 
     private func initTableView() {
-        tableView.backgroundColor = Colors.Table.background
+        tableView.backgroundColor = backgroundColor
         tableView.separatorStyle = .none
         // Helps reduce the delay between touch and action due to a bug in iOS 11
         if #available(iOS 12.0, *) { } else {

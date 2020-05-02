@@ -126,12 +126,6 @@ open class DrawerController: UIViewController {
         }
     }
 
-    @objc open var resizingHandleViewBackgroundColor: UIColor = Colors.ResizingHandle.background {
-        didSet {
-            resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
-        }
-    }
-
     /**
      Set `contentController` to provide a controller that will represent drawer's content. Its view will be hosted in the root view of the drawer and will be sized and positioned to accommodate any shell UI of the drawer.
 
@@ -241,6 +235,13 @@ open class DrawerController: UIViewController {
             }
         }
     }
+
+    @objc open var resizingHandleViewBackgroundColor: UIColor = Colors.ResizingHandle.background {
+        didSet {
+            resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
+        }
+    }
+
     /**
      Set `isExpanded` to `true` to maximize the drawer's height to fill the device screen vertically minus the safe areas. Set to `false` to restore it to the normal size.
 
@@ -457,6 +458,7 @@ open class DrawerController: UIViewController {
             if showsResizingHandle {
                 if resizingHandleView == nil {
                     resizingHandleView = ResizingHandleView()
+                    resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
                 }
             } else {
                 resizingHandleView = nil
@@ -652,7 +654,6 @@ open class DrawerController: UIViewController {
 
     private func initResizingHandleView() {
         if resizingHandleIsInteractive {
-            resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
             resizingHandleView?.isUserInteractionEnabled = true
             resizingHandleView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleResizingHandleViewTap)))
         }
