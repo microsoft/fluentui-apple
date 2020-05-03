@@ -8,6 +8,7 @@ import UIKit
 @available(*, deprecated, renamed: "Fonts")
 public typealias MSFonts = Fonts
 
+@objc(MSFFonts)
 public final class Fonts: NSObject {
     /// Bold 30pt - Does not scale automatically with Dynamic Type
     @objc public static let largeTitle = UIFont.systemFont(ofSize: 30, weight: .bold)
