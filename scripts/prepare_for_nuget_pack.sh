@@ -52,8 +52,13 @@ make_dir_if_necessary "$NUGET_OUTPUT_INCLUDE_DIR"
 NUGET_OUTPUT_INCLUDE_DIR_IOS="$NUGET_OUTPUT_INCLUDE_DIR/ios"
 make_dir_if_necessary "$NUGET_OUTPUT_INCLUDE_DIR_IOS"
 
-# Copy a single generated header into our output directory in an includes folder. Pick the release device header since that's likely the most important target
-rsync -a "DerivedData/Build/Intermediates.noindex/FluentUI.build/Release-iphoneos/FluentUILib.build/DerivedSources/FluentUILib-Swift.h" "$NUGET_OUTPUT_INCLUDE_DIR_IOS/FluentUILib-Swift.h"
+NUGET_OUTPUT_INCLUDE_DIR_IOS_FLUENTUI="$NUGET_OUTPUT_INCLUDE_DIR_IOS/FluentUI"
+make_dir_if_necessary "$NUGET_OUTPUT_INCLUDE_DIR_IOS_FLUENTUI"
+
+# Copy a single generated header into our output directory in an includes folder. Ensure we nest a FluentUI folder for proper `#import <FluentUI/FluentUI-Swift.h>` imports
+# Pick the release simulator header since the device target has some arm64 specific ifdefs while the simulator version works on all platforms.
+# Rename the FluentUILib-Swift.h to FluentUI-Swift.h for consistency with Framework consumption
+rsync -a "DerivedData/Build/Intermediates.noindex/FluentUI.build/Release-iphonesimulator/FluentUILib.build/DerivedSources/FluentUILib-Swift.h" "$NUGET_OUTPUT_INCLUDE_DIR_IOS_FLUENTUI/FluentUI-Swift.h"
 
 # cd into the products directory to make copying all the output easier
 cd $PRODUCTS_DIR
