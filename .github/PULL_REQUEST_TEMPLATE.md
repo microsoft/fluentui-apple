@@ -20,3 +20,5 @@ This PR has considered:
 - [ ] Light and Dark appearances
 - [ ] VoiceOver and Keyboard Accessibility
 - [ ] Internationalization and Right to Left layouts
+- [ ] Different resolutions (1x, 2x, 3x)
+- [ ] Size classes and window sizes (iPhone vs iPad, notched devices, multitasking, different window sizes, etc)

@@ -18,6 +18,7 @@ about: Interested in contributing a new component to Fluent UI Apple? This templ
 ### Design assets
 
 <!-- Please provide links to redlines or screenshots of intended component design -->
+<!-- Are you internal to Microsoft and your design isn't yet public? Please reach out to us internally via the Fluent UI Apple Teams channel or log a request at https://aka.ms/fluentui-native. -->
 
 ### Component ownership
 
@@ -50,6 +51,8 @@ about: Interested in contributing a new component to Fluent UI Apple? This templ
 - [ ] Light and Dark Appearance
 - [ ] Unit tests
 - [ ] UI tests
+- [ ] Different resolutions (1x, 2x, 3x)
+- [ ] Size classes and window sizes (iPhone vs iPad, notched devices, multitasking, different window sizes, etc)
 - [ ] Documentation and examples
 - [ ] VoiceOver and Keyboard Accessibility
 - [ ] Increase Contrast Support
