@@ -50,19 +50,6 @@ public enum PillButtonStyle: Int {
             return Colors.PillButton.Filled.titleSelected
         }
     }
-
-    var borderColor: UIColor {
-        return  Colors.PillButton.border
-    }
-
-    func hasBorder(isSelected: Bool = false, isDarkMode: Bool = false) -> Bool {
-        switch self {
-        case .outline:
-            return !isSelected && !isDarkMode
-        case .filled:
-            return false
-        }
-    }
 }
 
 // MARK: PillButton
@@ -76,10 +63,10 @@ open class PillButton: UIButton {
     private struct Constants {
         static let borderWidth: CGFloat = 1.0
         static let bottomInset: CGFloat = 6.0
-        static let cornerRadius: CGFloat = 15.0
+        static let cornerRadius: CGFloat = 16.0
         static let font: UIFont = Fonts.button4
         static let horizontalInset: CGFloat = 16.0
-        static let topInset: CGFloat = 4.0
+        static let topInset: CGFloat = 6.0
     }
 
     public let pillBarItem: PillButtonBarItem
@@ -106,7 +93,6 @@ open class PillButton: UIButton {
 
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        updateBorder()
     }
 
     private func setupView() {
@@ -144,25 +130,6 @@ open class PillButton: UIButton {
         } else {
             backgroundColor = style.backgroundColor
             setTitleColor(style.titleColor, for: .normal)
-        }
-
-        updateBorder()
-    }
-
-    private func updateBorder() {
-        let isDarkMode: Bool
-        if #available(iOS 13, *) {
-            isDarkMode = traitCollection.userInterfaceStyle == .dark
-        } else {
-            isDarkMode = false
-        }
-
-        if style.hasBorder(isSelected: isSelected, isDarkMode: isDarkMode) {
-            layer.borderWidth = Constants.borderWidth
-            layer.borderColor = style.borderColor.cgColor
-        } else {
-            layer.borderWidth = 0.0
-            layer.borderColor = nil
         }
     }
 }
