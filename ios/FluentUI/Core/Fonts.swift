@@ -33,8 +33,8 @@ public final class Fonts: NSObject {
     @objc public static var button2: UIFont { return preferredFont(forTextStyle: .footnote, weight: .medium) }
     /// Medium 10pt - Does not scale automatically with Dynamic Type
     @objc public static let button3 = UIFont.systemFont(ofSize: 10, weight: .medium)
-    /// Medium 15pt - Does not scale automatically with Dynamic Type
-    @objc public static let button4 = UIFont.systemFont(ofSize: 15, weight: .medium)
+    /// Medium 16pt - Does not scale automatically with Dynamic Type
+    @objc public static let button4 = UIFont.systemFont(ofSize: 16, weight: .regular)
     /// Regular 12pt
     @objc public static var caption1: UIFont { return .preferredFont(forTextStyle: .caption1) }
     /// Regular 11pt

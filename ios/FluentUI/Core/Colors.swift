@@ -424,19 +424,17 @@ public final class Colors: NSObject {
 
     public struct PillButton {
         public struct Outline {
-            public static var background = UIColor(light: UIColor.black.withAlphaComponent(0.0), dark: .black)
-            public static var title = UIColor(light: gray500, dark: gray200)
-            public static var backgroundSelected = UIColor(light: primary, dark: gray500)
-            public static var titleSelected: UIColor = .white
+            public static var background = UIColor(light: gray50, dark: gray950)
+            public static var title = UIColor(light: gray500, dark: gray100)
+            public static var backgroundSelected = UIColor(light: primary, dark: gray600)
+            public static var titleSelected = UIColor(light: gray25, dark: .white)
         }
         public struct Filled {
-            public static var background = UIColor(light: UIColor.black.withAlphaComponent(0.2), dark: Outline.background)
+            public static var background = UIColor(light: primaryShade10, dark: Outline.background)
             public static var title = UIColor(light: .white, dark: Outline.title)
             public static var backgroundSelected = UIColor(light: .white, dark: Outline.backgroundSelected)
             public static var titleSelected = UIColor(light: primary, dark: Outline.titleSelected)
         }
-
-        public static var border: UIColor = Colors.gray100
     }
 
     public struct PopupMenu {

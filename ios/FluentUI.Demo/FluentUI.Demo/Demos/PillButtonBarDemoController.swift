@@ -52,7 +52,7 @@ class PillButtonBarDemoController: DemoController {
     func createBar(items: [PillButtonBarItem], style: PillButtonStyle = .outline, centerAligned: Bool = false) -> UIView {
         let bar = PillButtonBar(pillButtonStyle: style)
         bar.items = items
-        _ = bar.selectItem(_atIndex: 0)
+        _ = bar.selectItem(atIndex: 0)
         bar.barDelegate = self
         bar.centerAligned = centerAligned
 

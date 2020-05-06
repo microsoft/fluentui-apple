@@ -148,7 +148,15 @@ open class PillButtonBar: UIScrollView {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    @objc public func selectItem(_atIndex index: Int) -> Bool {
+   @objc public func selectItem(_ item: PillButtonBarItem) {
+        guard let index = indexOfButtonWithItem(item) else {
+            return
+        }
+
+        selectedButton = buttons[index]
+    }
+
+    @objc public func selectItem(atIndex index: Int) -> Bool {
         if index < 0 || index >= buttons.count {
             return false
         }
@@ -390,14 +398,6 @@ open class PillButtonBar: UIScrollView {
         if let index = buttons.firstIndex(of: button) {
             barDelegate?.pillBar?(self, didSelectItem: button.pillBarItem, atIndex: index)
         }
-    }
-
-    private func selectItem(_ item: PillButtonBarItem) {
-        guard let index = indexOfButtonWithItem(item) else {
-            return
-        }
-
-        selectedButton = buttons[index]
     }
 
     private func updateHeightConstraint() {
