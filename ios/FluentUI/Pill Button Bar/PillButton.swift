@@ -90,10 +90,6 @@ open class PillButton: UIButton {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-    }
-
     private func setupView() {
         setTitle(pillBarItem.title, for: .normal)
         titleLabel?.font = Constants.font
