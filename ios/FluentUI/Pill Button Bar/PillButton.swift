@@ -68,9 +68,9 @@ open class PillButton: UIButton {
         static let topInset: CGFloat = 6.0
     }
 
-    public let pillBarItem: PillButtonBarItem
+    @objc public let pillBarItem: PillButtonBarItem
 
-    public let style: PillButtonStyle
+    @objc public let style: PillButtonStyle
 
     public override var isSelected: Bool {
         didSet {
@@ -79,7 +79,7 @@ open class PillButton: UIButton {
         }
     }
 
-    public init(pillBarItem: PillButtonBarItem, style: PillButtonStyle = .outline) {
+    @objc public init(pillBarItem: PillButtonBarItem, style: PillButtonStyle = .outline) {
         self.pillBarItem = pillBarItem
         self.style = style
         super.init(frame: .zero)

@@ -41,7 +41,7 @@ open class Separator: UIView {
 
     private var orientation: SeparatorOrientation = .horizontal
 
-    public init(style: SeparatorStyle = .default, orientation: SeparatorOrientation = .horizontal) {
+    @objc public init(style: SeparatorStyle = .default, orientation: SeparatorOrientation = .horizontal) {
         super.init(frame: .zero)
         initialize(style: style, orientation: orientation)
     }

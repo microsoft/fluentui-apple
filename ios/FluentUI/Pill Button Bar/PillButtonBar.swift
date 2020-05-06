@@ -137,7 +137,7 @@ open class PillButtonBar: UIScrollView {
         }
     }
 
-    public init(pillButtonStyle: PillButtonStyle = .outline) {
+    @objc public init(pillButtonStyle: PillButtonStyle = .outline) {
         self.pillButtonStyle = pillButtonStyle
         super.init(frame: .zero)
         setupScrollView()

@@ -236,7 +236,7 @@ open class BadgeView: UIView {
 
     private let label = Label()
 
-    public init(dataSource: BadgeViewDataSource) {
+    @objc public init(dataSource: BadgeViewDataSource) {
         super.init(frame: .zero)
 
         backgroundView.layer.cornerRadius = Constants.backgroundCornerRadius
