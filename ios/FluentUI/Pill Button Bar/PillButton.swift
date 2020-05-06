@@ -61,7 +61,6 @@ public typealias MSPillButton = PillButton
 @objc(MSFPillButton)
 open class PillButton: UIButton {
     private struct Constants {
-        static let borderWidth: CGFloat = 1.0
         static let bottomInset: CGFloat = 6.0
         static let cornerRadius: CGFloat = 16.0
         static let font: UIFont = Fonts.button4
