@@ -19,13 +19,13 @@ enum HUDType {
 class HUDView: UIView {
     private struct Constants {
         static let backgroundCornerRadius: CGFloat = 4.0
-        static let maxWidth: CGFloat = 200.0
-        static let minSideSizeWithoutLabel: CGFloat = 98.0
+        static let maxWidth: CGFloat = 212.0
+        static let minSideSizeWithoutLabel: CGFloat = 100.0
         static let minSideSizeWithLabel: CGFloat = 108.0
-        static let paddingHorizontalWithoutLabel: CGFloat = 30.0
-        static let paddingHorizontalWithLabel: CGFloat = 24.0
-        static let paddingVerticalWithLabel: CGFloat = 18.0
-        static let labelMarginTop: CGFloat = 14.0
+        static let paddingHorizontalWithoutLabel: CGFloat = 32.0
+        static let paddingHorizontalWithLabel: CGFloat = 12.0
+        static let paddingVerticalWithLabel: CGFloat = 20.0
+        static let labelMarginTop: CGFloat = 15.0
         static let labelMaxWidth: CGFloat = maxWidth - 2 * paddingHorizontalWithLabel
     }
 
@@ -158,11 +158,6 @@ class HUDView: UIView {
 
 /// A container view of a fixed size which accepts a `HUDType` and centers its visual presentation.
 private class HUDIndicatorView: UIView {
-    private struct Constants {
-        static let width: CGFloat = 40.0
-        static let height: CGFloat = 40.0
-    }
-
     private static func createContentView(type: HUDType) -> UIView {
         switch type {
         case .activity:
@@ -205,7 +200,7 @@ private class HUDIndicatorView: UIView {
     }
 
     override func sizeThatFits(_ size: CGSize) -> CGSize {
-        return CGSize(width: Constants.width, height: Constants.height)
+        return CGSize(width: ActivityIndicatorViewSize.xLarge.sideSize, height: ActivityIndicatorViewSize.xLarge.sideSize)
     }
 
     override var accessibilityLabel: String? {
