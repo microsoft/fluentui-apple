@@ -54,7 +54,6 @@ class PopupMenuItemCell: TableViewCell {
     private let _imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = Colors.Table.Cell.image
         return imageView
     }()
 
@@ -162,7 +161,7 @@ class PopupMenuItemCell: TableViewCell {
 
         // Selection
         if let item = item {
-            _imageView.tintColor = isSelected ? item.imageSelectedColor : Colors.Table.Cell.image
+            _imageView.tintColor = isSelected ? item.imageSelectedColor : item.imageColor
             titleLabel.textColor = isSelected ? item.titleSelectedColor : item.titleColor
             subtitleLabel.textColor = isSelected ? item.subtitleSelectedColor : item.subtitleColor
             backgroundColor = item.backgroundColor

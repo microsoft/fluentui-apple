@@ -120,6 +120,7 @@ open class DrawerController: UIViewController {
         case popover
     }
 
+    /// Set `backgroundColor` to customize background color of the drawer
     @objc open var backgroundColor: UIColor = Colors.Drawer.background {
         didSet {
             view.backgroundColor = backgroundColor
@@ -236,6 +237,7 @@ open class DrawerController: UIViewController {
         }
     }
 
+    /// Set `resizingHandleViewBackgroundColor` to customize background color of resizingHandleView if it is shown
     @objc open var resizingHandleViewBackgroundColor: UIColor = Colors.ResizingHandle.background {
         didSet {
             resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor

@@ -36,12 +36,21 @@ open class PopupMenuItem: NSObject {
     @objc public var isEnabled: Bool = true
     @objc public var isSelected: Bool = false
 
+    /// `title` color
     @objc public var titleColor: UIColor = Colors.Table.Cell.title
+    /// `subtitle` color
     @objc public var subtitleColor: UIColor = Colors.Table.Cell.subtitle
+    /// `image` tint color if it is rendered as template
+    @objc public var imageColor: UIColor = Colors.Table.Cell.image
+    /// `title` color when`isSelected` is true
     @objc public var titleSelectedColor: UIColor = Colors.PopupMenu.Item.titleSelected
+    /// `subtitle` color when`isSelected` is true
     @objc public var subtitleSelectedColor: UIColor = Colors.PopupMenu.Item.subtitleSelected
+    /// tint color if `selectedImage` is rendered as template and `isSelected` is true
     @objc public var imageSelectedColor: UIColor = Colors.PopupMenu.Item.imageSelected
+    /// background color of PopupMenuItem corresponding cell
     @objc public var backgroundColor: UIColor = Colors.Table.Cell.background
+    /// checkmark color `isAccessoryCheckmarkVisible` and `isSelected` is true
     @objc public var accessoryCheckmarkColor: UIColor = Colors.Table.Cell.accessoryCheckmark
 
     @objc public let onSelected: (() -> Void)?

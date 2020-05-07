@@ -67,13 +67,10 @@ open class PopupMenuController: DrawerController {
         return height
     }
 
+    /// Set `backgroundColor` to customize background color of controller' view and its tableView
     open override var backgroundColor: UIColor {
-        get {
-            return super.backgroundColor
-        }
-        set {
-            super.backgroundColor = newValue
-            tableView.backgroundColor = newValue
+        didSet {
+            tableView.backgroundColor = backgroundColor
         }
     }
 
@@ -121,6 +118,7 @@ open class PopupMenuController: DrawerController {
         }
     }
 
+    /// set `separatorColor` to customize separator colors of  PopupMenuItem cells and the drawer
     @objc open var separatorColor: UIColor = Colors.Separator.default {
         didSet {
             separator?.backgroundColor = separatorColor

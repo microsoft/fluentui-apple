@@ -140,7 +140,7 @@ class PopupMenuDemoController: DemoController {
             PopupMenuItem(image: UIImage(named: "3-day-view-24x24"), title: "3-Day", isEnabled: false, isSelected: calendarLayout == .threeDay, onSelected: { self.calendarLayout = .threeDay })
         ]
 
-        let menuBackgroundColor = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1.0)
+        let menuBackgroundColor: UIColor = .darkGray
 
         for item in items {
             item.titleColor = .white
@@ -154,7 +154,7 @@ class PopupMenuDemoController: DemoController {
 
         controller.backgroundColor = menuBackgroundColor
         controller.resizingHandleViewBackgroundColor = menuBackgroundColor
-        controller.separatorColor = UIColor(red: 0.3333333333, green: 0.3333333333, blue: 0.3333333333, alpha: 1.0)
+        controller.separatorColor = .lightGray
 
         present(controller, animated: true)
     }
