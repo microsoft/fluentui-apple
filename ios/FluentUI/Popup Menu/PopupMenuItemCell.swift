@@ -54,7 +54,6 @@ class PopupMenuItemCell: TableViewCell {
     private let _imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = Colors.Table.Cell.image
         return imageView
     }()
 
@@ -111,7 +110,7 @@ class PopupMenuItemCell: TableViewCell {
         }
 
         // Override default background color change
-        backgroundColor = Colors.Table.Cell.background
+        backgroundColor = item?.backgroundColor ?? Colors.Table.Cell.background
 
         if animated {
             UIView.animate(withDuration: Constants.animationDuration) {
@@ -161,10 +160,18 @@ class PopupMenuItemCell: TableViewCell {
         customAccessoryView?.alpha = alpha
 
         // Selection
+        if let item = item {
+            _imageView.tintColor = isSelected ? item.imageSelectedColor : item.imageColor
+            titleLabel.textColor = isSelected ? item.titleSelectedColor : item.titleColor
+            subtitleLabel.textColor = isSelected ? item.subtitleSelectedColor : item.subtitleColor
+            backgroundColor = item.backgroundColor
+        }
         _imageView.isHighlighted = isSelected
-        titleLabel.textColor = isSelected ? Colors.PopupMenu.Item.titleSelected : Colors.Table.Cell.title
-        subtitleLabel.textColor = isSelected ? Colors.PopupMenu.Item.subtitleSelected : Colors.Table.Cell.subtitle
-
-        _accessoryType = (isSelected && item?.isAccessoryCheckmarkVisible == true) ? .checkmark : .none
+        if isSelected && item?.isAccessoryCheckmarkVisible == true {
+            _accessoryType = .checkmark
+            accessoryTypeView?.customTintColor = item?.accessoryCheckmarkColor
+        } else {
+            _accessoryType = .none
+        }
     }
 }

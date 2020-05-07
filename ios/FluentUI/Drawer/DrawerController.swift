@@ -120,6 +120,13 @@ open class DrawerController: UIViewController {
         case popover
     }
 
+    /// Set `backgroundColor` to customize background color of the drawer
+    @objc open var backgroundColor: UIColor = Colors.Drawer.background {
+        didSet {
+            view.backgroundColor = backgroundColor
+        }
+    }
+
     /**
      Set `contentController` to provide a controller that will represent drawer's content. Its view will be hosted in the root view of the drawer and will be sized and positioned to accommodate any shell UI of the drawer.
 
@@ -229,6 +236,14 @@ open class DrawerController: UIViewController {
             }
         }
     }
+
+    /// Set `resizingHandleViewBackgroundColor` to customize background color of resizingHandleView if it is shown
+    @objc open var resizingHandleViewBackgroundColor: UIColor = Colors.ResizingHandle.background {
+        didSet {
+            resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
+        }
+    }
+
     /**
      Set `isExpanded` to `true` to maximize the drawer's height to fill the device screen vertically minus the safe areas. Set to `false` to restore it to the normal size.
 
@@ -415,7 +430,7 @@ open class DrawerController: UIViewController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Colors.Drawer.background
+        view.backgroundColor = backgroundColor
         if #available(iOS 13.0, *) {
             view.layer.cornerCurve = .continuous
         }
@@ -445,6 +460,7 @@ open class DrawerController: UIViewController {
             if showsResizingHandle {
                 if resizingHandleView == nil {
                     resizingHandleView = ResizingHandleView()
+                    resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
                 }
             } else {
                 resizingHandleView = nil

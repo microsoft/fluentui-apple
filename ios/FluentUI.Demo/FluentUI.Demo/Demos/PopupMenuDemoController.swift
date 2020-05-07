@@ -37,6 +37,7 @@ class PopupMenuDemoController: DemoController {
 
         container.addArrangedSubview(createButton(title: "Show with sections", action: #selector(showTopMenuWithSectionsButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show with scrollable items and no icons", action: #selector(showTopMenuWithScrollableItemsButtonTapped)))
+        container.addArrangedSubview(createButton(title: "Show items with custom colors", action: #selector(showCustomColorsButtonTapped)))
         container.addArrangedSubview(UIView())
         addTitle(text: "Show with...")
     }
@@ -126,6 +127,34 @@ class PopupMenuDemoController: DemoController {
 
         let items = samplePersonas.map { PopupMenuItem(title: !$0.name.isEmpty ? $0.name : $0.email) }
         controller.addItems(items)
+
+        present(controller, animated: true)
+    }
+
+    @objc private func showCustomColorsButtonTapped(sender: UIButton) {
+        let controller = PopupMenuController(sourceView: sender, sourceRect: sender.bounds, presentationDirection: .down)
+
+        let items = [
+            PopupMenuItem(image: UIImage(named: "agenda-24x24"), title: "Agenda", isSelected: calendarLayout == .agenda, onSelected: { self.calendarLayout = .agenda }),
+            PopupMenuItem(image: UIImage(named: "day-view-24x24"), title: "Day", isSelected: calendarLayout == .day, onSelected: { self.calendarLayout = .day }),
+            PopupMenuItem(image: UIImage(named: "3-day-view-24x24"), title: "3-Day", isEnabled: false, isSelected: calendarLayout == .threeDay, onSelected: { self.calendarLayout = .threeDay })
+        ]
+
+        let menuBackgroundColor: UIColor = .darkGray
+
+        for item in items {
+            item.titleColor = .white
+            item.titleSelectedColor = .white
+            item.imageSelectedColor = .white
+            item.accessoryCheckmarkColor = .white
+            item.backgroundColor = menuBackgroundColor
+        }
+
+        controller.addItems(items)
+
+        controller.backgroundColor = menuBackgroundColor
+        controller.resizingHandleViewBackgroundColor = menuBackgroundColor
+        controller.separatorColor = .lightGray
 
         present(controller, animated: true)
     }
