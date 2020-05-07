@@ -7,7 +7,7 @@ import FluentUI
 import UIKit
 
 class ColorDemoController: DemoController {
-    private let sections: [DemoColorSection] = [
+    private var sections: [DemoColorSection] = [
         DemoColorSection(text: "App specific color", items: [
             DemoColorItem(text: "Shade30", color: Colors.primaryShade30),
             DemoColorItem(text: "Shade20", color: Colors.primaryShade20),
@@ -17,7 +17,7 @@ class ColorDemoController: DemoController {
             DemoColorItem(text: "Tint20", color: Colors.primaryTint20),
             DemoColorItem(text: "Tint30", color: Colors.primaryTint30),
             DemoColorItem(text: "Tint40", color: Colors.primaryTint40)
-        ]),
+        ], accessoryTitle: "Change color"),
         DemoColorSection(text: "Neutral colors", items: [
             DemoColorItem(text: "gray950", color: Colors.gray950),
             DemoColorItem(text: "gray900", color: Colors.gray900),
@@ -68,6 +68,7 @@ class ColorDemoController: DemoController {
         ])
     ]
     private var tableView: UITableView!
+    private var usingDefaultPrimaryColor: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,6 +84,42 @@ class ColorDemoController: DemoController {
         tableView.backgroundColor = Colors.Table.background
         view.addSubview(tableView)
     }
+
+    private func accessoryTapped() {
+        if usingDefaultPrimaryColor {
+            Colors.primary = Colors.communicationBlue
+            Colors.primaryTint10 = Colors.Palette.communicationBlueTint10.color
+            Colors.primaryTint20 = Colors.Palette.communicationBlueTint20.color
+            Colors.primaryTint30 = Colors.Palette.communicationBlueTint30.color
+            Colors.primaryTint40 = Colors.Palette.communicationBlueTint40.color
+            Colors.primaryShade10 = Colors.Palette.communicationBlueShade10.color
+            Colors.primaryShade20 = Colors.Palette.communicationBlueShade20.color
+            Colors.primaryShade30 = Colors.Palette.communicationBlueShade30.color
+        } else {
+            Colors.primary = UIColor(named: "Colors/PrimaryColor") ?? Colors.communicationBlue
+            Colors.primaryTint10 = UIColor(named: "Colors/PrimaryTint10Color") ?? Colors.Palette.communicationBlueTint10.color
+            Colors.primaryTint20 = UIColor(named: "Colors/PrimaryTint20Color") ?? Colors.Palette.communicationBlueTint20.color
+            Colors.primaryTint30 = UIColor(named: "Colors/PrimaryTint30Color") ?? Colors.Palette.communicationBlueTint30.color
+            Colors.primaryTint40 = UIColor(named: "Colors/PrimaryTint40Color") ?? Colors.Palette.communicationBlueTint40.color
+            Colors.primaryShade10 = UIColor(named: "Colors/PrimaryShade10Color") ?? Colors.Palette.communicationBlueShade10.color
+            Colors.primaryShade20 = UIColor(named: "Colors/PrimaryShade20Color") ?? Colors.Palette.communicationBlueShade20.color
+            Colors.primaryShade30 = UIColor(named: "Colors/PrimaryShade30Color") ?? Colors.Palette.communicationBlueShade30.color
+        }
+
+        sections[0].items = [
+            DemoColorItem(text: "Shade30", color: Colors.primaryShade30),
+            DemoColorItem(text: "Shade20", color: Colors.primaryShade20),
+            DemoColorItem(text: "Shade10", color: Colors.primaryShade10),
+            DemoColorItem(text: "Primary", color: Colors.primary),
+            DemoColorItem(text: "Tint10", color: Colors.primaryTint10),
+            DemoColorItem(text: "Tint20", color: Colors.primaryTint20),
+            DemoColorItem(text: "Tint30", color: Colors.primaryTint30),
+            DemoColorItem(text: "Tint40", color: Colors.primaryTint40)
+        ]
+
+        usingDefaultPrimaryColor = !usingDefaultPrimaryColor
+        tableView.reloadSections([0], with: .automatic)
+    }
 }
 
 // MARK: - ColorDemoController: UITableViewDelegate
@@ -91,7 +128,12 @@ extension ColorDemoController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as! TableViewHeaderFooterView
         let section = sections[section]
-        header.setup(style: .header, title: section.text)
+        header.setup(style: .header, title: section.text, accessoryButtonTitle: section.hasAccessoryTitle ? section.accessoryTitle! : "")
+
+        if section.hasAccessoryTitle {
+            header.accessoryButtonStyle = .primary
+            header.onAccessoryButtonTapped = { [unowned self] in self.accessoryTapped() }
+        }
         return header
     }
 }
@@ -134,11 +176,20 @@ class DemoColorView: UIView {
 }
 
 struct DemoColorItem {
-    var text: String
-    var color: UIColor
+    let text: String
+    let color: UIColor
 }
 
 struct DemoColorSection {
     let text: String
-    let items: [DemoColorItem]
+    var items: [DemoColorItem]
+    var hasAccessoryTitle: Bool = false
+    let accessoryTitle: String?
+
+    init(text: String, items: [DemoColorItem], accessoryTitle: String? = nil) {
+        self.text = text
+        self.items = items
+        self.accessoryTitle = accessoryTitle
+        self.hasAccessoryTitle = accessoryTitle != nil
+    }
 }
