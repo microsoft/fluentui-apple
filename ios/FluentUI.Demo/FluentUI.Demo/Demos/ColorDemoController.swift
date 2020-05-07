@@ -7,84 +7,115 @@ import FluentUI
 import UIKit
 
 class ColorDemoController: DemoController {
-      override func loadView() {
-        super.loadView()
+    private let sections: [DemoColorSection] = [
+        DemoColorSection(text: "App specific color", items: [
+            DemoColorItem(text: "Shade30", color: Colors.primaryShade30),
+            DemoColorItem(text: "Shade20", color: Colors.primaryShade20),
+            DemoColorItem(text: "Shade10", color: Colors.primaryShade10),
+            DemoColorItem(text: "Primary", color: Colors.primary),
+            DemoColorItem(text: "Tint10", color: Colors.primaryTint10),
+            DemoColorItem(text: "Tint20", color: Colors.primaryTint20),
+            DemoColorItem(text: "Tint30", color: Colors.primaryTint30),
+            DemoColorItem(text: "Tint40", color: Colors.primaryTint40)
+        ]),
+        DemoColorSection(text: "Neutral colors", items: [
+            DemoColorItem(text: "gray950", color: Colors.gray950),
+            DemoColorItem(text: "gray900", color: Colors.gray900),
+            DemoColorItem(text: "gray800", color: Colors.gray800),
+            DemoColorItem(text: "gray700", color: Colors.gray700),
+            DemoColorItem(text: "gray600", color: Colors.gray600),
+            DemoColorItem(text: "gray500", color: Colors.gray500),
+            DemoColorItem(text: "gray400", color: Colors.gray400),
+            DemoColorItem(text: "gray300", color: Colors.gray300),
+            DemoColorItem(text: "gray200", color: Colors.gray200),
+            DemoColorItem(text: "gray100", color: Colors.gray100),
+            DemoColorItem(text: "gray50", color: Colors.gray50),
+            DemoColorItem(text: "gray25", color: Colors.gray25)
+        ]),
+        DemoColorSection(text: "Shared colors", items: [
+            DemoColorItem(text: Colors.Palette.pinkRed10.name, color: Colors.Palette.pinkRed10.color),
+            DemoColorItem(text: Colors.Palette.red20.name, color: Colors.Palette.red20.color),
+            DemoColorItem(text: Colors.Palette.red10.name, color: Colors.Palette.red10.color),
+            DemoColorItem(text: Colors.Palette.orange30.name, color: Colors.Palette.orange30.color),
+            DemoColorItem(text: Colors.Palette.orange20.name, color: Colors.Palette.orange20.color),
+            DemoColorItem(text: Colors.Palette.orangeYellow20.name, color: Colors.Palette.orangeYellow20.color),
+            DemoColorItem(text: Colors.Palette.green20.name, color: Colors.Palette.green20.color),
+            DemoColorItem(text: Colors.Palette.green10.name, color: Colors.Palette.green10.color),
+            DemoColorItem(text: Colors.Palette.cyan30.name, color: Colors.Palette.cyan30.color),
+            DemoColorItem(text: Colors.Palette.cyan20.name, color: Colors.Palette.cyan20.color),
+            DemoColorItem(text: Colors.Palette.cyanBlue20.name, color: Colors.Palette.cyanBlue20.color),
+            DemoColorItem(text: Colors.Palette.blue10.name, color: Colors.Palette.blue10.color),
+            DemoColorItem(text: Colors.Palette.blueMagenta30.name, color: Colors.Palette.blueMagenta30.color),
+            DemoColorItem(text: Colors.Palette.blueMagenta20.name, color: Colors.Palette.blueMagenta20.color),
+            DemoColorItem(text: Colors.Palette.magenta20.name, color: Colors.Palette.magenta20.color),
+            DemoColorItem(text: Colors.Palette.magenta10.name, color: Colors.Palette.magenta10.color),
+            DemoColorItem(text: Colors.Palette.magentaPink10.name, color: Colors.Palette.magentaPink10.color),
+            DemoColorItem(text: Colors.Palette.gray40.name, color: Colors.Palette.gray40.color),
+            DemoColorItem(text: Colors.Palette.gray30.name, color: Colors.Palette.gray30.color),
+            DemoColorItem(text: Colors.Palette.gray20.name, color: Colors.Palette.gray20.color)
+        ]),
+        DemoColorSection(text: "Message colors", items: [
+            DemoColorItem(text: Colors.Palette.dangerPrimary.name, color: Colors.Palette.dangerPrimary.color),
+            DemoColorItem(text: Colors.Palette.dangerTint40.name, color: Colors.Palette.dangerTint40.color),
+            DemoColorItem(text: Colors.Palette.dangerTint10.name, color: Colors.Palette.dangerTint10.color),
+            DemoColorItem(text: Colors.Palette.dangerShade40.name, color: Colors.Palette.dangerShade40.color),
+            DemoColorItem(text: Colors.Palette.dangerShade10.name, color: Colors.Palette.dangerShade10.color),
+            DemoColorItem(text: Colors.Palette.warningPrimary.name, color: Colors.Palette.warningPrimary.color),
+            DemoColorItem(text: Colors.Palette.warningTint40.name, color: Colors.Palette.warningTint40.color),
+            DemoColorItem(text: Colors.Palette.warningTint10.name, color: Colors.Palette.warningTint10.color),
+            DemoColorItem(text: Colors.Palette.warningShade40.name, color: Colors.Palette.warningShade40.color),
+            DemoColorItem(text: Colors.Palette.warningShade30.name, color: Colors.Palette.warningShade30.color)
+        ])
+    ]
+    private var tableView: UITableView!
 
-        addTitle(text: "App specific color")
-        addRow(text: "Shade30", color: Colors.primaryShade30)
-        addRow(text: "Shade20", color: Colors.primaryShade20)
-        addRow(text: "Shade10", color: Colors.primaryShade10)
-        addRow(text: "Primary", color: Colors.primary)
-        addRow(text: "Tint10", color: Colors.primaryTint10)
-        addRow(text: "Tint20", color: Colors.primaryTint20)
-        addRow(text: "Tint30", color: Colors.primaryTint30)
-        addRow(text: "Tint40", color: Colors.primaryTint40)
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-        addTitle(text: "Neutral colors")
-        addRow(text: "gray950", color: Colors.gray950)
-        addRow(text: "gray900", color: Colors.gray900)
-        addRow(text: "gray800", color: Colors.gray800)
-        addRow(text: "gray700", color: Colors.gray700)
-        addRow(text: "gray600", color: Colors.gray600)
-        addRow(text: "gray500", color: Colors.gray500)
-        addRow(text: "gray400", color: Colors.gray400)
-        addRow(text: "gray300", color: Colors.gray300)
-        addRow(text: "gray200", color: Colors.gray200)
-        addRow(text: "gray100", color: Colors.gray100)
-        addRow(text: "gray50", color: Colors.gray50)
-        addRow(text: "gray25", color: Colors.gray25)
+        tableView = UITableView(frame: view.bounds, style: .grouped)
+        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
+        tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = Colors.Table.backgroundGrouped
+        tableView.backgroundColor = Colors.Table.background
+        view.addSubview(tableView)
+    }
+}
 
-        addTitle(text: "Shared colors")
-        let sharedColors = [
-            Colors.Palette.pinkRed10,
-            Colors.Palette.red20,
-            Colors.Palette.red10,
-            Colors.Palette.orange30,
-            Colors.Palette.orange20,
-            Colors.Palette.orangeYellow20,
-            Colors.Palette.green20,
-            Colors.Palette.green10,
-            Colors.Palette.cyan30,
-            Colors.Palette.cyan20,
-            Colors.Palette.cyanBlue20,
-            Colors.Palette.cyanBlue10,
-            Colors.Palette.blue10,
-            Colors.Palette.blueMagenta30,
-            Colors.Palette.blueMagenta20,
-            Colors.Palette.magenta20,
-            Colors.Palette.magenta10,
-            Colors.Palette.magentaPink10,
-            Colors.Palette.gray40,
-            Colors.Palette.gray30,
-            Colors.Palette.gray20
-        ]
+// MARK: - ColorDemoController: UITableViewDelegate
 
-        for palette in sharedColors {
-            addRow(text: palette.name, color: palette.color)
-        }
+extension ColorDemoController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as! TableViewHeaderFooterView
+        let section = sections[section]
+        header.setup(style: .header, title: section.text)
+        return header
+    }
+}
 
-        addTitle(text: "Message colors")
-        let messageColors = [
-            Colors.Palette.dangerPrimary,
-            Colors.Palette.dangerTint40,
-            Colors.Palette.dangerTint10,
-            Colors.Palette.dangerShade40,
-            Colors.Palette.dangerShade10,
-            Colors.Palette.warningPrimary,
-            Colors.Palette.warningTint40,
-            Colors.Palette.warningTint10,
-            Colors.Palette.warningShade40,
-            Colors.Palette.warningShade30
-        ]
-        for palette in messageColors {
-            addRow(text: palette.name, color: palette.color)
-        }
+// MARK: - ColorDemoController: UITableViewDataSource
 
+extension ColorDemoController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sections.count
     }
 
-    private func addRow(text: String, color: UIColor) {
-        addRow(text: text, items: [DemoColorView(color: color)], textStyle: .footnote, textWidth: 150)
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return sections[section].items.count
     }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = sections[indexPath.section]
+        let item = section.items[indexPath.row]
+
+        let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as! TableViewCell
+        cell.setup(title: item.text, customView: DemoColorView(color: item.color))
+        return cell
+    }
+
 }
 
 class DemoColorView: UIView {
@@ -100,4 +131,14 @@ class DemoColorView: UIView {
     required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
+}
+
+struct DemoColorItem {
+    var text: String
+    var color: UIColor
+}
+
+struct DemoColorSection {
+    let text: String
+    let items: [DemoColorItem]
 }
