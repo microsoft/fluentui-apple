@@ -187,6 +187,8 @@ public final class Colors: NSObject {
 
     // MARK: Primary
 
+    /// Variation of App brand colors. If an application is a hub of different apps, `primary` color could change within the same foreground session.
+    /// It is not recommended to cache `primary` color because it could change.
     @objc public static var primary: UIColor = communicationBlue
     @objc public static var primaryTint10: UIColor = Palette.communicationBlueTint10.color
     @objc public static var primaryTint20: UIColor = Palette.communicationBlueTint20.color

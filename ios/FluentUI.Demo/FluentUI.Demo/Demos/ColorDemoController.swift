@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-class ColorDemoController: DemoController {
+class ColorDemoController: UIViewController {
     private var sections: [DemoColorSection] = [
         DemoColorSection(text: "App specific color", items: [
             DemoColorItem(text: "Shade30", color: Colors.primaryShade30),
@@ -70,19 +70,24 @@ class ColorDemoController: DemoController {
     private var tableView: UITableView!
     private var usingDefaultPrimaryColor: Bool = false
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func loadView() {
+        super.loadView()
+        tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tableView)
+        NSLayoutConstraint.activate([
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
 
-        tableView = UITableView(frame: view.bounds, style: .grouped)
-        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
-        tableView.backgroundColor = Colors.Table.backgroundGrouped
         tableView.backgroundColor = Colors.Table.background
-        view.addSubview(tableView)
     }
 
     private func accessoryTapped() {
@@ -96,14 +101,14 @@ class ColorDemoController: DemoController {
             Colors.primaryShade20 = Colors.Palette.communicationBlueShade20.color
             Colors.primaryShade30 = Colors.Palette.communicationBlueShade30.color
         } else {
-            Colors.primary = UIColor(named: "Colors/PrimaryColor") ?? Colors.communicationBlue
-            Colors.primaryTint10 = UIColor(named: "Colors/PrimaryTint10Color") ?? Colors.Palette.communicationBlueTint10.color
-            Colors.primaryTint20 = UIColor(named: "Colors/PrimaryTint20Color") ?? Colors.Palette.communicationBlueTint20.color
-            Colors.primaryTint30 = UIColor(named: "Colors/PrimaryTint30Color") ?? Colors.Palette.communicationBlueTint30.color
-            Colors.primaryTint40 = UIColor(named: "Colors/PrimaryTint40Color") ?? Colors.Palette.communicationBlueTint40.color
-            Colors.primaryShade10 = UIColor(named: "Colors/PrimaryShade10Color") ?? Colors.Palette.communicationBlueShade10.color
-            Colors.primaryShade20 = UIColor(named: "Colors/PrimaryShade20Color") ?? Colors.Palette.communicationBlueShade20.color
-            Colors.primaryShade30 = UIColor(named: "Colors/PrimaryShade30Color") ?? Colors.Palette.communicationBlueShade30.color
+            Colors.primary = UIColor(named: "Colors/DemoPrimaryColor") ?? Colors.communicationBlue
+            Colors.primaryTint10 = UIColor(named: "Colors/DemoPrimaryTint10Color") ?? Colors.Palette.communicationBlueTint10.color
+            Colors.primaryTint20 = UIColor(named: "Colors/DemoPrimaryTint20Color") ?? Colors.Palette.communicationBlueTint20.color
+            Colors.primaryTint30 = UIColor(named: "Colors/DemoPrimaryTint30Color") ?? Colors.Palette.communicationBlueTint30.color
+            Colors.primaryTint40 = UIColor(named: "Colors/DemoPrimaryTint40Color") ?? Colors.Palette.communicationBlueTint40.color
+            Colors.primaryShade10 = UIColor(named: "Colors/DemoPrimaryShade10Color") ?? Colors.Palette.communicationBlueShade10.color
+            Colors.primaryShade20 = UIColor(named: "Colors/DemoPrimaryShade20Color") ?? Colors.Palette.communicationBlueShade20.color
+            Colors.primaryShade30 = UIColor(named: "Colors/DemoPrimaryShade30Color") ?? Colors.Palette.communicationBlueShade30.color
         }
 
         sections[0].items = [
