@@ -18,7 +18,7 @@ class TabBarItemView: UIView {
         didSet {
             titleLabel.isHighlighted = isSelected
             imageView.isHighlighted = isSelected
-			updateColors()
+            updateColors()
             accessibilityTraits = isSelected ? .selected : .none
         }
     }
@@ -99,17 +99,17 @@ class TabBarItemView: UIView {
         }
     }
 
-	override func didMoveToWindow() {
-		updateColors()
-	}
+    override func didMoveToWindow() {
+        updateColors()
+    }
 
-	private func updateColors() {
-		if let window = window {
-			let primaryColor = Colors.primary(for: window)
-			titleLabel.highlightedTextColor = primaryColor
-			imageView.tintColor = isSelected ? primaryColor : unselectedColor
-		}
-	}
+    private func updateColors() {
+        if let window = window {
+            let primaryColor = Colors.primary(for: window)
+            titleLabel.highlightedTextColor = primaryColor
+            imageView.tintColor = isSelected ? primaryColor : unselectedColor
+        }
+    }
 
     func updateLayout() {
         if isInPortraitMode {

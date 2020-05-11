@@ -229,15 +229,15 @@ public final class Colors: NSObject {
 
     // MARK: Primary
 
-	private static var primaryColorsMap = NSMapTable<UIWindow, UIColor>(keyOptions: .weakMemory, valueOptions: .strongMemory)
+    private static var primaryColorsMap = NSMapTable<UIWindow, UIColor>(keyOptions: .weakMemory, valueOptions: .strongMemory)
 
-	@objc public static func primary(for window: UIWindow) -> UIColor {
-		return primaryColorsMap.object(forKey: window) ?? communicationBlue
-	}
+    @objc public static func primary(for window: UIWindow) -> UIColor {
+        return primaryColorsMap.object(forKey: window) ?? communicationBlue
+    }
 
-	@objc public static func setPrimary(color: UIColor, for window: UIWindow) {
-		primaryColorsMap.setObject(color, forKey: window)
-	}
+    @objc public static func setPrimary(color: UIColor, for window: UIWindow) {
+        primaryColorsMap.setObject(color, forKey: window)
+    }
 
     /// Variation of App brand colors. If an application is a hub of different apps, `primary` color could change within the same foreground session.
     /// It is not recommended to cache `primary` color because it could change.
