@@ -98,7 +98,7 @@ class TabBarItemView: UIView {
             updateLayout()
         }
     }
-	
+
 	override func didMoveToWindow() {
 		updateColors()
 	}
@@ -130,4 +130,4 @@ class TabBarItemView: UIView {
     }
 }
 
-fileprivate let unselectedColor = Colors.foreground2c
+private let unselectedColor = Colors.foreground2c

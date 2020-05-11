@@ -228,13 +228,13 @@ public final class Colors: NSObject {
      }
 
     // MARK: Primary
-	
+
 	private static var primaryColorsMap = NSMapTable<UIWindow, UIColor>(keyOptions: .weakMemory, valueOptions: .strongMemory)
-	
+
 	@objc public static func primary(for window: UIWindow) -> UIColor {
 		return primaryColorsMap.object(forKey: window) ?? communicationBlue
 	}
-	
+
 	@objc public static func setPrimary(color: UIColor, for window: UIWindow) {
 		primaryColorsMap.setObject(color, forKey: window)
 	}
