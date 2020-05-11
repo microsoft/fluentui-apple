@@ -107,6 +107,7 @@ class ColorDemoController: UIViewController {
     private func accessoryTapped() {
         if usingDefaultPrimaryColor {
             Colors.primary = Colors.communicationBlue
+			Colors.setPrimary(color: Colors.communicationBlue, for: view.window!)
             Colors.primaryTint10 = Colors.Palette.communicationBlueTint10.color
             Colors.primaryTint20 = Colors.Palette.communicationBlueTint20.color
             Colors.primaryTint30 = Colors.Palette.communicationBlueTint30.color
@@ -116,6 +117,7 @@ class ColorDemoController: UIViewController {
             Colors.primaryShade30 = Colors.Palette.communicationBlueShade30.color
         } else {
             Colors.primary = UIColor(named: "Colors/DemoPrimaryColor") ?? Colors.communicationBlue
+			Colors.setPrimary(color: UIColor(named: "Colors/DemoPrimaryColor") ?? Colors.communicationBlue, for: view.window!)
             Colors.primaryTint10 = UIColor(named: "Colors/DemoPrimaryTint10Color") ?? Colors.Palette.communicationBlueTint10.color
             Colors.primaryTint20 = UIColor(named: "Colors/DemoPrimaryTint20Color") ?? Colors.Palette.communicationBlueTint20.color
             Colors.primaryTint30 = UIColor(named: "Colors/DemoPrimaryTint30Color") ?? Colors.Palette.communicationBlueTint30.color

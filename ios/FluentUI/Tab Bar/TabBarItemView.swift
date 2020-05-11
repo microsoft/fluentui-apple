@@ -18,7 +18,7 @@ class TabBarItemView: UIView {
         didSet {
             titleLabel.isHighlighted = isSelected
             imageView.isHighlighted = isSelected
-            imageView.tintColor = isSelected ? Colors.TabBar.selected : Colors.TabBar.unselected
+			updateColors()
             accessibilityTraits = isSelected ? .selected : .none
         }
     }
@@ -33,7 +33,7 @@ class TabBarItemView: UIView {
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = Colors.TabBar.unselected
+        imageView.tintColor = unselectedColor
         return imageView
     }()
 
@@ -41,8 +41,7 @@ class TabBarItemView: UIView {
         let titleLabel = Label()
         titleLabel.lineBreakMode = .byTruncatingTail
         titleLabel.textAlignment = .center
-        titleLabel.textColor = Colors.TabBar.unselected
-        titleLabel.highlightedTextColor = Colors.TabBar.selected
+        titleLabel.textColor = unselectedColor
         return titleLabel
     }()
 
@@ -99,6 +98,18 @@ class TabBarItemView: UIView {
             updateLayout()
         }
     }
+	
+	override func didMoveToWindow() {
+		updateColors()
+	}
+
+	private func updateColors() {
+		if let window = window {
+			let primaryColor = Colors.primary(for: window)
+			titleLabel.highlightedTextColor = primaryColor
+			imageView.tintColor = isSelected ? primaryColor : unselectedColor
+		}
+	}
 
     func updateLayout() {
         if isInPortraitMode {
@@ -118,3 +129,5 @@ class TabBarItemView: UIView {
         imageView.highlightedImage = item.selectedImage(isInPortraitMode: isInPortraitMode)
     }
 }
+
+fileprivate let unselectedColor = Colors.foreground2c
