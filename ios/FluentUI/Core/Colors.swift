@@ -9,7 +9,7 @@ import UIKit
 
 @objc(MSFColorProviding)
 public protocol ColorProviding {
-	@objc func primaryColor(for window: UIWindow) -> UIColor?
+    @objc func primaryColor(for window: UIWindow) -> UIColor?
 }
 
 @available(*, deprecated, renamed: "Colors")
@@ -235,12 +235,12 @@ public final class Colors: NSObject {
     private static var colorProvidersMap = NSMapTable<UIWindow, ColorProviding>(keyOptions: .weakMemory, valueOptions: .weakMemory)
 
     @objc public static func setProvider(provider: ColorProviding, for window: UIWindow) {
-        colorProvidersMap.setObject(provider, forKey: window)
+       colorProvidersMap.setObject(provider, forKey: window)
     }
 
-	// MARK: Primary
-	@objc public static func primary(for window: UIWindow) -> UIColor {
-		return colorProvidersMap.object(forKey: window)?.primaryColor(for: window) ?? primary
+    // MARK: Primary
+    @objc public static func primary(for window: UIWindow) -> UIColor {
+        return colorProvidersMap.object(forKey: window)?.primaryColor(for: window) ?? primary
     }
 
     /// Variation of App brand colors. If an application is a hub of different apps, `primary` color could change within the same foreground session.

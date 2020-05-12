@@ -59,7 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     // MARK: ColorProviding
 
     func primaryColor(for window: UIWindow) -> UIColor? {
-		return ColorDemoController.primary
+        return ColorDemoController.primary
     }
 
 }
