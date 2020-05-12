@@ -18,10 +18,14 @@ private let appCenterSecret = app_center_secret_to_be_supplied_before_building
 #endif
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate, ColorProviding {
+
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        if let window = window {
+            Colors.setProvider(provider: self, for: window)
+        }
         FluentUIFramework.initializeAppearance()
 
         let splitViewController = window!.rootViewController as! UISplitViewController
@@ -51,4 +55,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         // Return true to indicate that we don't care about DetailViewController - it will be removed
         return (secondaryViewController as? UINavigationController)?.topViewController is DetailViewController
     }
+
+    // MARK: ColorProviding
+
+    func primaryColor(for window: UIWindow) -> UIColor? {
+		return ColorDemoController.primary
+    }
+
 }
