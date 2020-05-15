@@ -256,7 +256,7 @@ public class HUD: NSObject {
             return
         }
 
-        bottomConstraint?.constant = keyboardHeight != 0 ? (Constants.keyboardMarginTop + keyboardHeight ) : 0
+        bottomConstraint?.constant = keyboardHeight != 0 ? -1 * (Constants.keyboardMarginTop + keyboardHeight ) : 0
     }
 
     // MARK: Observations
