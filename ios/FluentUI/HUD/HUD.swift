@@ -91,6 +91,7 @@ public class HUD: NSObject {
         didSet {
             oldValue?.removeFromSuperview()
             if let presentedHUDView = presentedHUDView {
+                presentedHUDView.translatesAutoresizingMaskIntoConstraints = false
                 containerView.addSubview(presentedHUDView)
             }
         }
@@ -98,15 +99,11 @@ public class HUD: NSObject {
 
     private lazy var containerView: TouchForwardingView = {
         let view = TouchForwardingView()
-        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.backgroundColor = .clear
-        containerViewFrameObservation = view.observe(\TouchForwardingView.frame) { [unowned self] (_, _) in
-            self.layout()
-        }
         return view
     }()
-    private var containerViewFrameObservation: NSKeyValueObservation?
 
+    private var bottomConstraint: NSLayoutConstraint?
     private var keyboardHeight: CGFloat = 0
 
     private override init() {
@@ -115,10 +112,6 @@ public class HUD: NSObject {
         // Keyboard observation
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-
-    deinit {
-        containerViewFrameObservation = nil
     }
 
     // Using a separate overload method for Objective-C instead of default parameters
@@ -140,8 +133,19 @@ public class HUD: NSObject {
         }
 
         containerView.forwardsTouches = !params.isBlocking
+        containerView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(containerView)
-        containerView.frame = view.bounds
+        bottomConstraint = containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        updateBottomConstraint()
+
+        NSLayoutConstraint.activate([
+            bottomConstraint!,
+            containerView.topAnchor.constraint(equalTo: view.topAnchor),
+            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            presentedHUDView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            presentedHUDView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
+        ])
 
         presentedHUDView.onTap = onTap
 
@@ -235,7 +239,7 @@ public class HUD: NSObject {
 
     @objc public func update(with caption: String) {
         presentedHUDView?.label.text = caption
-        layout()
+        presentedHUDView?.label.sizeToFit()
     }
 
     private func hostWindow(for controller: UIViewController) -> UIWindow? {
@@ -247,21 +251,12 @@ public class HUD: NSObject {
         presentedHUDView = nil
     }
 
-    private func layout() {
-        guard let presentedHUDView = self.presentedHUDView else {
+    private func updateBottomConstraint() {
+        guard self.presentedHUDView != nil else {
             return
         }
 
-        let hudViewSize = presentedHUDView.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-
-        let keyboardMarginTop = keyboardHeight != 0 ? Constants.keyboardMarginTop : 0
-
-        let maxHUDViewCenterY = containerView.frame.height - keyboardHeight - keyboardMarginTop - hudViewSize.height / 2.0
-        let hudViewCenterY = UIScreen.main.roundToDevicePixels(min(maxHUDViewCenterY, containerView.frame.height / 2))
-
-        // Use `position` and `bounds` to ensure we don't override the transform value
-        presentedHUDView.layer.position = CGPoint(x: containerView.frame.width / 2, y: hudViewCenterY)
-        presentedHUDView.layer.bounds = CGRect(origin: .zero, size: hudViewSize)
+        bottomConstraint?.constant = keyboardHeight != 0 ? (Constants.keyboardMarginTop + keyboardHeight ) : 0
     }
 
     // MARK: Observations
@@ -276,7 +271,7 @@ public class HUD: NSObject {
 
         // Animate position of HUD view
         keyboardHeight = keyboardFrame.height
-        UIView.animate(withDuration: keyboardAnimationDuration, animations: layout)
+        UIView.animate(withDuration: keyboardAnimationDuration, animations: updateBottomConstraint)
     }
 
     @objc private func handleKeyboardWillHide(_ notification: Notification) {
@@ -288,6 +283,6 @@ public class HUD: NSObject {
 
         // Animate position of HUD view
         keyboardHeight = 0
-        UIView.animate(withDuration: keyboardAnimationDuration, animations: layout)
+        UIView.animate(withDuration: keyboardAnimationDuration, animations: updateBottomConstraint)
     }
 }

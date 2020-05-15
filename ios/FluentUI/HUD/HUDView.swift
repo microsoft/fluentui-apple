@@ -7,7 +7,7 @@ import UIKit
 
 // MARK: HUDType
 
-enum HUDType {
+enum HUDType: Equatable {
     case activity
     case success
     case failure
@@ -19,14 +19,12 @@ enum HUDType {
 class HUDView: UIView {
     private struct Constants {
         static let backgroundCornerRadius: CGFloat = 4.0
-        static let maxWidth: CGFloat = 212.0
-        static let minSideSizeWithoutLabel: CGFloat = 100.0
-        static let minSideSizeWithLabel: CGFloat = 108.0
-        static let paddingHorizontalWithoutLabel: CGFloat = 32.0
-        static let paddingHorizontalWithLabel: CGFloat = 12.0
-        static let paddingVerticalWithLabel: CGFloat = 20.0
+        static let maxWidthInLargerContent: CGFloat = 256.0
+        static let maxWidth: CGFloat = 192.0
+        static let minWidth: CGFloat = 100.0
+        static let paddingVertical: CGFloat = 20.0
+        static let paddingHorizontal: CGFloat = 12.0
         static let labelMarginTop: CGFloat = 15.0
-        static let labelMaxWidth: CGFloat = maxWidth - 2 * paddingHorizontalWithLabel
     }
 
     var onTap: (() -> Void)? {
@@ -38,13 +36,21 @@ class HUDView: UIView {
         }
     }
 
-    let label: UILabel = {
-        let label = UILabel()
+    private let container: UIStackView = {
+        let container = UIStackView()
+        container.alignment = .center
+        container.distribution = .fill
+        container.spacing = Constants.labelMarginTop
+        container.axis = .vertical
+        return container
+    }()
+
+    private let type: HUDType
+
+    let label: Label = {
+        let label = Label()
         label.textColor = Colors.HUD.text
-        label.font = Fonts.body
-        label.numberOfLines = 0
-        label.preferredMaxLayoutWidth = Constants.labelMaxWidth
-        label.lineBreakMode = .byTruncatingTail
+        label.numberOfLines = 2
         label.textAlignment = .center
         return label
     }()
@@ -52,10 +58,12 @@ class HUDView: UIView {
     private let indicatorView: UIView
 
     public init(label: String = "", type: HUDType) {
-        indicatorView = HUDIndicatorView(type: type)
+        self.type = type
+        indicatorView = HUDView.createIndicatorView(type: type)
 
         super.init(frame: .zero)
 
+        isUserInteractionEnabled = false
         backgroundColor = Colors.HUD.background
         layer.cornerRadius = Constants.backgroundCornerRadius
         layer.masksToBounds = true
@@ -63,56 +71,67 @@ class HUDView: UIView {
             layer.cornerCurve = .continuous
         }
 
-        addSubview(indicatorView)
+        container.addArrangedSubview(indicatorView)
 
         self.label.isHidden = label.isEmpty
         if !self.label.isHidden {
             self.label.text = label
-            addSubview(self.label)
+            container.addArrangedSubview(self.label)
+
+            self.label.setContentCompressionResistancePriority(.required, for: .vertical)
+            if traitCollection.preferredContentSizeCategory > .large {
+                self.label.setContentCompressionResistancePriority(.required, for: .horizontal)
+                self.label.adjustsFontSizeToFitWidth = true
+            } else {
+                // label should try to grow vertically before it tries to grow horizontally
+                self.label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+            }
         }
 
-        isUserInteractionEnabled = false
+        container.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(container)
+
+        setContentHuggingPriority(.required, for: .horizontal)
+        setContentHuggingPriority(.required, for: .vertical)
+
+        // showing the containerView in the middle of `HUDView` veritcally
+        // takes precedence over having a fix padding in the bottom
+        let bottom = container.bottomAnchor.constraint(greaterThanOrEqualTo: bottomAnchor, constant: Constants.paddingVertical * -1.0)
+        bottom.priority = .defaultLow
+
+        NSLayoutConstraint.activate([
+            bottom,
+            container.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: Constants.paddingVertical),
+            container.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.paddingHorizontal),
+            container.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Constants.paddingHorizontal * -1.0),
+            container.centerYAnchor.constraint(equalTo: centerYAnchor),
+            indicatorView.widthAnchor.constraint(equalToConstant: ActivityIndicatorViewSize.xLarge.sideSize),
+            indicatorView.heightAnchor.constraint(equalToConstant: ActivityIndicatorViewSize.xLarge.sideSize)
+        ])
     }
 
     public required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    open override func layoutSubviews() {
-        super.layoutSubviews()
-
-        indicatorView.sizeToFit()
-        indicatorView.frame = CGRect(
-            x: UIScreen.main.roundToDevicePixels((bounds.width - indicatorView.frame.width) / 2),
-            y: UIScreen.main.roundToDevicePixels(label.isHidden ? (bounds.height - indicatorView.frame.height) / 2 : Constants.paddingVerticalWithLabel),
-            width: indicatorView.frame.width,
-            height: indicatorView.frame.height
-        )
-
-        let labelSize = label.sizeThatFits(CGSize(width: Constants.labelMaxWidth, height: .greatestFiniteMagnitude))
-        label.frame = CGRect(
-            x: UIScreen.main.roundToDevicePixels((bounds.width - labelSize.width) / 2),
-            y: indicatorView.frame.maxY + Constants.labelMarginTop,
-            width: labelSize.width,
-            height: labelSize.height
-        )
-    }
-
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        let indicatorViewSize = indicatorView.sizeThatFits(size)
-
         if label.isHidden {
-            let sideSize = max(Constants.minSideSizeWithoutLabel, indicatorViewSize.width + 2 * Constants.paddingHorizontalWithoutLabel)
-            return CGSize(width: sideSize, height: sideSize)
+            return CGSize(width: Constants.minWidth, height: Constants.minWidth)
         } else {
-            let labelSize = label.sizeThatFits(CGSize(width: Constants.labelMaxWidth, height: .greatestFiniteMagnitude))
-            let fittingWidth = max(indicatorViewSize.width, labelSize.width) + 2 * Constants.paddingHorizontalWithLabel
-            let fittingHeight = Constants.paddingVerticalWithLabel + indicatorViewSize.height + Constants.labelMarginTop + labelSize.height + Constants.paddingVerticalWithLabel
+            let activitySize = ActivityIndicatorViewSize.xLarge.sideSize
+            let maxWidth = traitCollection.preferredContentSizeCategory > .large ? Constants.maxWidthInLargerContent : Constants.maxWidth
 
-            return CGSize(
-                width: min(Constants.maxWidth, max(Constants.minSideSizeWithLabel, fittingWidth)),
-                height: max(Constants.minSideSizeWithLabel, fittingHeight)
-            )
+            let labelSize = label.sizeThatFits(CGSize(width: maxWidth - 2 * Constants.paddingHorizontal, height: .greatestFiniteMagnitude))
+
+            let fittingWidth = max(activitySize, labelSize.width) + 2 * Constants.paddingHorizontal
+            let fittingHeight = activitySize + Constants.labelMarginTop + labelSize.height + (2 * Constants.paddingVertical)
+
+            var suggestedSize = max(fittingWidth, fittingHeight)
+            suggestedSize = max(ceil(suggestedSize), Constants.minWidth)
+            suggestedSize = min(maxWidth, suggestedSize)
+
+            // make sure HUD is always a square
+            return CGSize(width: suggestedSize, height: suggestedSize)
         }
     }
 
@@ -129,7 +148,14 @@ class HUDView: UIView {
             if let labelText = label.text, !labelText.isEmpty {
                 return labelText
             }
-            return indicatorView.accessibilityLabel ?? "Accessibility.HUD.Loading".localized
+
+            if type == .success {
+                return "Accessibility.HUD.Done".localized
+            } else if type == .failure {
+                return "Accessibility.HUD.Failed".localized
+            } else {
+                return "Accessibility.HUD.Loading".localized
+            }
         }
         set { }
     }
@@ -152,13 +178,8 @@ class HUDView: UIView {
     @objc private func handleHUDTapped() {
         onTap?()
     }
-}
 
-// MARK: - HUDIndicatorView
-
-/// A container view of a fixed size which accepts a `HUDType` and centers its visual presentation.
-private class HUDIndicatorView: UIView {
-    private static func createContentView(type: HUDType) -> UIView {
+    private static func createIndicatorView(type: HUDType) -> UIView {
         switch type {
         case .activity:
             let activityIndicatorView = ActivityIndicatorView(size: .xLarge)
@@ -167,44 +188,13 @@ private class HUDIndicatorView: UIView {
             return activityIndicatorView
         case .success:
             let imageView = UIImageView(image: .staticImageNamed("checkmark-white-40x40"))
-            imageView.accessibilityLabel = "Accessibility.HUD.Done".localized
+            // unfortuantely, this resource image isn't the right size
+            imageView.contentMode = .scaleAspectFit
             return imageView
         case .failure:
-            let imageView = UIImageView(image: .staticImageNamed("cancel-white-40x40"))
-            imageView.accessibilityLabel = "Accessibility.HUD.Failed".localized
-            return imageView
+            return UIImageView(image: .staticImageNamed("cancel-white-40x40"))
         case .custom(let image):
             return UIImageView(image: image)
         }
-    }
-
-    private let contentView: UIView
-
-    init(type: HUDType) {
-        contentView = HUDIndicatorView.createContentView(type: type)
-
-        super.init(frame: .zero)
-
-        addSubview(contentView)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        preconditionFailure("init(coder:) has not been implemented")
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        contentView.frame.size = contentView.sizeThatFits(bounds.size)
-        contentView.centerInSuperview(horizontally: true, vertically: true)
-    }
-
-    override func sizeThatFits(_ size: CGSize) -> CGSize {
-        return CGSize(width: ActivityIndicatorViewSize.xLarge.sideSize, height: ActivityIndicatorViewSize.xLarge.sideSize)
-    }
-
-    override var accessibilityLabel: String? {
-        get { return contentView.accessibilityLabel }
-        set { }
     }
 }
