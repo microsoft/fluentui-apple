@@ -55,16 +55,22 @@ class ColorDemoController: UIViewController {
             DemoColorItem(text: Colors.Palette.gray20.name, color: Colors.Palette.gray20.color)
         ]),
         DemoColorSection(text: "Message colors", items: [
-            DemoColorItem(text: Colors.Palette.dangerPrimary.name, color: Colors.Palette.dangerPrimary.color),
-            DemoColorItem(text: Colors.Palette.dangerTint40.name, color: Colors.Palette.dangerTint40.color),
-            DemoColorItem(text: Colors.Palette.dangerTint10.name, color: Colors.Palette.dangerTint10.color),
-            DemoColorItem(text: Colors.Palette.dangerShade40.name, color: Colors.Palette.dangerShade40.color),
+            DemoColorItem(text: Colors.Palette.dangerShade30.name, color: Colors.Palette.dangerShade30.color),
+            DemoColorItem(text: Colors.Palette.dangerShade20.name, color: Colors.Palette.dangerShade20.color),
             DemoColorItem(text: Colors.Palette.dangerShade10.name, color: Colors.Palette.dangerShade10.color),
+            DemoColorItem(text: Colors.Palette.dangerPrimary.name, color: Colors.Palette.dangerPrimary.color),
+            DemoColorItem(text: Colors.Palette.dangerTint10.name, color: Colors.Palette.dangerTint10.color),
+            DemoColorItem(text: Colors.Palette.dangerTint20.name, color: Colors.Palette.dangerTint20.color),
+            DemoColorItem(text: Colors.Palette.dangerTint30.name, color: Colors.Palette.dangerTint30.color),
+            DemoColorItem(text: Colors.Palette.dangerTint40.name, color: Colors.Palette.dangerTint40.color),
+            DemoColorItem(text: Colors.Palette.warningShade30.name, color: Colors.Palette.warningShade30.color),
+            DemoColorItem(text: Colors.Palette.warningShade20.name, color: Colors.Palette.warningShade20.color),
+            DemoColorItem(text: Colors.Palette.warningShade10.name, color: Colors.Palette.warningShade10.color),
             DemoColorItem(text: Colors.Palette.warningPrimary.name, color: Colors.Palette.warningPrimary.color),
-            DemoColorItem(text: Colors.Palette.warningTint40.name, color: Colors.Palette.warningTint40.color),
             DemoColorItem(text: Colors.Palette.warningTint10.name, color: Colors.Palette.warningTint10.color),
-            DemoColorItem(text: Colors.Palette.warningShade40.name, color: Colors.Palette.warningShade40.color),
-            DemoColorItem(text: Colors.Palette.warningShade30.name, color: Colors.Palette.warningShade30.color)
+            DemoColorItem(text: Colors.Palette.warningTint20.name, color: Colors.Palette.warningTint20.color),
+            DemoColorItem(text: Colors.Palette.warningTint30.name, color: Colors.Palette.warningTint30.color),
+            DemoColorItem(text: Colors.Palette.warningTint40.name, color: Colors.Palette.warningTint40.color)
         ])
     ]
     private var tableView: UITableView!

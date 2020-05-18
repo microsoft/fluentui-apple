@@ -60,14 +60,20 @@ public final class Colors: NSObject {
          case communicationBlueShade10
          case dangerPrimary
          case dangerTint40
+         case dangerTint30
+         case dangerTint20
          case dangerTint10
-         case dangerShade40
+         case dangerShade30
+         case dangerShade20
          case dangerShade10
          case warningPrimary
          case warningTint40
+         case warningTint30
+         case warningTint20
          case warningTint10
-         case warningShade40
          case warningShade30
+         case warningShade20
+         case warningShade10
 
          public var color: UIColor {
              if let fluentColor = UIColor(named: "FluentColors/" + self.name, in: FluentUIFramework.resourceBundle, compatibleWith: nil) {
@@ -165,22 +171,34 @@ public final class Colors: NSObject {
                  return "dangerPrimary"
              case .dangerTint40:
                 return "dangerTint40"
+             case .dangerTint30:
+                return "dangerTint30"
+             case .dangerTint20:
+                return "dangerTint20"
              case .dangerTint10:
                 return "dangerTint10"
-             case .dangerShade40:
-                return "dangerShade40"
+             case .dangerShade30:
+                return "dangerShade30"
+             case .dangerShade20:
+                return "dangerShade20"
              case .dangerShade10:
                 return "dangerShade10"
              case .warningPrimary:
                 return "warningPrimary"
              case .warningTint40:
                 return "warningTint40"
+             case .warningTint30:
+                return "warningTint30"
+             case .warningTint20:
+                return "warningTint20"
              case .warningTint10:
                 return "warningTint10"
-             case .warningShade40:
-                return "warningShade40"
              case .warningShade30:
                 return "warningShade30"
+             case .warningShade20:
+                return "warningShade20"
+             case .warningShade10:
+                return "warningShade10"
             }
          }
      }
@@ -292,16 +310,16 @@ public final class Colors: NSObject {
         public static var background: UIColor { return primaryTint40 }
         public static var backgroundSelected: UIColor { return primary }
         public static var backgroundDisabled: UIColor = background2b
-        public static var backgroundError = UIColor(light: Palette.dangerTint40.color, dark: Palette.dangerShade40.color)
+        public static var backgroundError = UIColor(light: Palette.dangerTint40.color, dark: Palette.dangerTint30.color)
         public static var backgroundErrorSelected: UIColor = error
-        public static var backgroundWarning = UIColor(light: Palette.warningTint40.color, dark: Palette.warningShade40.color)
+        public static var backgroundWarning = UIColor(light: Palette.warningTint40.color, dark: Palette.warningTint30.color)
         public static var backgroundWarningSelected: UIColor = warning
         public static var text: UIColor { return primary }
         public static var textSelected: UIColor = foregroundOnPrimary
         public static var textDisabled: UIColor = foreground2b
-        public static var textError = UIColor(light: Palette.dangerShade10.color, dark: Palette.dangerTint10.color)
+        public static var textError = UIColor(light: Palette.dangerShade10.color, dark: Palette.dangerPrimary.color)
         public static var textErrorSelected: UIColor = foregroundOnPrimary
-        public static var textWarning = UIColor(light: Palette.warningShade30.color, dark: Palette.warningTint10.color)
+        public static var textWarning = UIColor(light: Palette.warningShade30.color, dark: Palette.warningPrimary.color)
         public static var textWarningSelected = UIColor(light: Palette.warningShade30.color, dark: .black)
     }
 
