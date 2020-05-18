@@ -126,7 +126,7 @@ public class HUD: NSObject {
     @objc public func show(in view: UIView, with params: HUDParams, onTap: (() -> Void)? = nil) {
         resetIfNeeded()
 
-        presentedHUDView = HUDView(label: params.caption, type: params.hudType)
+        presentedHUDView = HUDView(title: params.caption, type: params.hudType)
 
         guard let presentedHUDView = presentedHUDView else {
             preconditionFailure("HUD could not create HUDView")
@@ -136,7 +136,7 @@ public class HUD: NSObject {
         containerView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(containerView)
         bottomConstraint = containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        updateBottomConstraint()
+        updateBottomConstraintConstant()
 
         NSLayoutConstraint.activate([
             bottomConstraint!,
@@ -239,7 +239,6 @@ public class HUD: NSObject {
 
     @objc public func update(with caption: String) {
         presentedHUDView?.label.text = caption
-        presentedHUDView?.label.sizeToFit()
     }
 
     private func hostWindow(for controller: UIViewController) -> UIWindow? {
@@ -251,7 +250,7 @@ public class HUD: NSObject {
         presentedHUDView = nil
     }
 
-    private func updateBottomConstraint() {
+    private func updateBottomConstraintConstant() {
         guard self.presentedHUDView != nil else {
             return
         }
@@ -271,7 +270,7 @@ public class HUD: NSObject {
 
         // Animate position of HUD view
         keyboardHeight = keyboardFrame.height
-        UIView.animate(withDuration: keyboardAnimationDuration, animations: updateBottomConstraint)
+        UIView.animate(withDuration: keyboardAnimationDuration, animations: updateBottomConstraintConstant)
     }
 
     @objc private func handleKeyboardWillHide(_ notification: Notification) {
@@ -283,6 +282,6 @@ public class HUD: NSObject {
 
         // Animate position of HUD view
         keyboardHeight = 0
-        UIView.animate(withDuration: keyboardAnimationDuration, animations: updateBottomConstraint)
+        UIView.animate(withDuration: keyboardAnimationDuration, animations: updateBottomConstraintConstant)
     }
 }

@@ -19,9 +19,9 @@ enum HUDType: Equatable {
 class HUDView: UIView {
     private struct Constants {
         static let backgroundCornerRadius: CGFloat = 4.0
-        static let maxWidthInLargerContent: CGFloat = 256.0
-        static let maxWidth: CGFloat = 192.0
-        static let minWidth: CGFloat = 100.0
+        static let maxSizeInLargerContent: CGFloat = 256.0
+        static let maxSize: CGFloat = 192.0
+        static let minSize: CGFloat = 100.0
         static let paddingVertical: CGFloat = 20.0
         static let paddingHorizontal: CGFloat = 12.0
         static let labelMarginTop: CGFloat = 15.0
@@ -57,7 +57,7 @@ class HUDView: UIView {
 
     private let indicatorView: UIView
 
-    public init(label: String = "", type: HUDType) {
+    public init(title: String = "", type: HUDType) {
         self.type = type
         indicatorView = HUDView.createIndicatorView(type: type)
 
@@ -73,18 +73,18 @@ class HUDView: UIView {
 
         container.addArrangedSubview(indicatorView)
 
-        self.label.isHidden = label.isEmpty
-        if !self.label.isHidden {
-            self.label.text = label
-            container.addArrangedSubview(self.label)
+        label.isHidden = title.isEmpty
+        if !label.isHidden {
+            label.text = title
+            container.addArrangedSubview(label)
 
-            self.label.setContentCompressionResistancePriority(.required, for: .vertical)
+            label.setContentCompressionResistancePriority(.required, for: .vertical)
             if traitCollection.preferredContentSizeCategory > .large {
-                self.label.setContentCompressionResistancePriority(.required, for: .horizontal)
-                self.label.adjustsFontSizeToFitWidth = true
+                label.setContentCompressionResistancePriority(.required, for: .horizontal)
+                label.adjustsFontSizeToFitWidth = true
             } else {
                 // label should try to grow vertically before it tries to grow horizontally
-                self.label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+                label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
             }
         }
 
@@ -116,21 +116,20 @@ class HUDView: UIView {
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
         if label.isHidden {
-            return CGSize(width: Constants.minWidth, height: Constants.minWidth)
+            return CGSize(width: Constants.minSize, height: Constants.minSize)
         } else {
             let activitySize = ActivityIndicatorViewSize.xLarge.sideSize
-            let maxWidth = traitCollection.preferredContentSizeCategory > .large ? Constants.maxWidthInLargerContent : Constants.maxWidth
+            let maxSize = traitCollection.preferredContentSizeCategory > .large ? Constants.maxSizeInLargerContent : Constants.maxSize
 
-            let labelSize = label.sizeThatFits(CGSize(width: maxWidth - 2 * Constants.paddingHorizontal, height: .greatestFiniteMagnitude))
+            let labelSize = label.systemLayoutSizeFitting(CGSize(width: maxSize - 2 * Constants.paddingHorizontal, height: 0.0), withHorizontalFittingPriority: .defaultLow, verticalFittingPriority: .defaultLow)
 
             let fittingWidth = max(activitySize, labelSize.width) + 2 * Constants.paddingHorizontal
-            let fittingHeight = activitySize + Constants.labelMarginTop + labelSize.height + (2 * Constants.paddingVertical)
-
-            var suggestedSize = max(fittingWidth, fittingHeight)
-            suggestedSize = max(ceil(suggestedSize), Constants.minWidth)
-            suggestedSize = min(maxWidth, suggestedSize)
+            let fittingHeight = labelSize.height + activitySize + Constants.labelMarginTop + 2 * Constants.paddingVertical
 
             // make sure HUD is always a square
+            var suggestedSize = max(fittingWidth, fittingHeight)
+            suggestedSize = max(ceil(suggestedSize), Constants.minSize)
+            suggestedSize = min(maxSize, suggestedSize)
             return CGSize(width: suggestedSize, height: suggestedSize)
         }
     }
@@ -188,7 +187,7 @@ class HUDView: UIView {
             return activityIndicatorView
         case .success:
             let imageView = UIImageView(image: .staticImageNamed("checkmark-white-40x40"))
-            // unfortuantely, this resource image isn't the right size
+            // TODO: unfortuantely, this resource image isn't currently the right size
             imageView.contentMode = .scaleAspectFit
             return imageView
         case .failure:
