@@ -26,13 +26,13 @@ public enum ActivityIndicatorViewSize: Int, CaseIterable {
         case .xSmall:
             return 12
         case .small:
-            return 17
+            return 16
         case .medium:
-            return 26
+            return 24
         case .large:
-            return 35
+            return 32
         case .xLarge:
-            return 40
+            return 36
         }
     }
 
