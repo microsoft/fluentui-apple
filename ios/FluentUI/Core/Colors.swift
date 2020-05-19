@@ -341,7 +341,7 @@ public final class Colors: NSObject {
         public static var text: UIColor { return primary }
         public static var textSelected: UIColor = foregroundOnPrimary
         public static var textDisabled: UIColor = foreground2b
-        public static var textError = UIColor(light: Palette.dangerShade10.color, dark: Palette.dangerPrimary.color)
+        public static var textError = UIColor(light: Palette.dangerShade10.color, dark: Palette.dangerShade20.color)
         public static var textErrorSelected: UIColor = foregroundOnPrimary
         public static var textWarning = UIColor(light: Palette.warningShade30.color, dark: Palette.warningPrimary.color)
         public static var textWarningSelected = UIColor(light: Palette.warningShade30.color, dark: .black)
