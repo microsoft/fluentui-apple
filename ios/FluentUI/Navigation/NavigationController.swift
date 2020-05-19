@@ -13,6 +13,9 @@ public typealias MSNavigationController = NavigationController
 /// `UINavigationController` subclass that supports Large Title presentation and accessory view by wrapping each view controller that needs this functionality into a controller that provides the required behavior. The original view controller can be accessed by using `topContentViewController` or `contentViewController(for:)`.
 @objc(MSFNavigationController)
 open class NavigationController: UINavigationController {
+    /// allow users to collapse or expand the large header view while scrolling `contentScrollView`
+    @objc open var allowResizeOfNavigationBarOnScroll: Bool = true
+
     @objc open var msfNavigationBar: NavigationBar {
         guard let msfNavBar = navigationBar as? NavigationBar else {
             preconditionFailure("The navigation bar is either not present or not the correct class")
