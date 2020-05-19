@@ -314,10 +314,13 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     @objc private func showSelectionMode() {
         isInSelectionMode = true
+        msfNavigationController?.contractNavigationBar(animated: false)
+        msfNavigationController?.lockNavBarPosition = true
     }
 
     @objc private func dismissSelectionMode() {
         isInSelectionMode = false
+        msfNavigationController?.lockNavBarPosition = false
     }
 
 }
