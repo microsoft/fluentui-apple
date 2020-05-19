@@ -74,6 +74,14 @@ public final class Colors: NSObject {
          case warningShade30
          case warningShade20
          case warningShade10
+         case successPrimary
+         case successTint40
+         case successTint30
+         case successTint20
+         case successTint10
+         case successShade30
+         case successShade20
+         case successShade10
 
          public var color: UIColor {
              if let fluentColor = UIColor(named: "FluentColors/" + self.name, in: FluentUIFramework.resourceBundle, compatibleWith: nil) {
@@ -199,6 +207,22 @@ public final class Colors: NSObject {
                 return "warningShade20"
              case .warningShade10:
                 return "warningShade10"
+             case .successPrimary:
+                return "successPrimary"
+             case .successTint40:
+                return "successTint40"
+             case .successTint30:
+                return "successTint30"
+             case .successTint20:
+                return "successTint20"
+             case .successTint10:
+                return "successTint10"
+             case .successShade30:
+                return "successShade30"
+             case .successShade20:
+                return "successShade20"
+             case .successShade10:
+                return "successShade10"
             }
          }
      }

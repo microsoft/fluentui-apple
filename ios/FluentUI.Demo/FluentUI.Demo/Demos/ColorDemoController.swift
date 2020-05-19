@@ -70,7 +70,15 @@ class ColorDemoController: UIViewController {
             DemoColorItem(text: Colors.Palette.warningTint10.name, color: Colors.Palette.warningTint10.color),
             DemoColorItem(text: Colors.Palette.warningTint20.name, color: Colors.Palette.warningTint20.color),
             DemoColorItem(text: Colors.Palette.warningTint30.name, color: Colors.Palette.warningTint30.color),
-            DemoColorItem(text: Colors.Palette.warningTint40.name, color: Colors.Palette.warningTint40.color)
+            DemoColorItem(text: Colors.Palette.warningTint40.name, color: Colors.Palette.warningTint40.color),
+            DemoColorItem(text: Colors.Palette.successShade30.name, color: Colors.Palette.successShade30.color),
+            DemoColorItem(text: Colors.Palette.successShade20.name, color: Colors.Palette.successShade20.color),
+            DemoColorItem(text: Colors.Palette.successShade10.name, color: Colors.Palette.successShade10.color),
+            DemoColorItem(text: Colors.Palette.successPrimary.name, color: Colors.Palette.successPrimary.color),
+            DemoColorItem(text: Colors.Palette.successTint10.name, color: Colors.Palette.successTint10.color),
+            DemoColorItem(text: Colors.Palette.successTint20.name, color: Colors.Palette.successTint20.color),
+            DemoColorItem(text: Colors.Palette.successTint30.name, color: Colors.Palette.successTint30.color),
+            DemoColorItem(text: Colors.Palette.successTint40.name, color: Colors.Palette.successTint40.color)
         ])
     ]
     private var tableView: UITableView!
