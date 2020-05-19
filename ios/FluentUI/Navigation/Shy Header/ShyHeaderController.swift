@@ -476,7 +476,7 @@ class ShyHeaderController: UIViewController {
     /// - Parameter progress: progress, represented as a fraction (0.5) not a percent (50.0)
     private func updateHeader(with progress: CGFloat, expanding: Bool) {
         // fall out to ignore repeated animations resulting in the same layout
-        guard shyHeaderView.exposure.progress != progress, msfNavigationController?.lockNavBarPosition == false else {
+        guard shyHeaderView.exposure.progress != progress, msfNavigationController?.allowResizeOfNavigationBarOnScroll == true else {
             return
         }
 
