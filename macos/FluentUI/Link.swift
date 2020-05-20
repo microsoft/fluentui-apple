@@ -13,8 +13,7 @@ open class Link : NSButton {
 	/// - Parameters:
 	///   - content: The visible text of the link that the user sees.
 	///   - url: The URL that is opened when the link is clicked
-	@objc public init(content: String, url: NSURL) {
-		self.content = content
+	@objc public init(title: String, url: NSURL) {
 		self.url = url
 		super.init(frame: .zero)
 		alignment = .natural
@@ -22,12 +21,10 @@ open class Link : NSButton {
 		target = self
 		action = #selector(linkClicked(_:))
 		
-		let attributedTitleAttributes = [
-			NSAttributedString.Key.foregroundColor : NSColor.linkColor,
-			NSAttributedString.Key.font : NSFont.labelFont(ofSize: NSFont.labelFontSize)
+		let titleAttributes: [NSAttributedString.Key: Any] = [
+			.foregroundColor : NSColor.linkColor
 		]
-		let attributedTitle = NSAttributedString(string: content, attributes: attributedTitleAttributes)
-		self.attributedTitle = attributedTitle
+		self.attributedTitle = NSAttributedString(string: title, attributes: titleAttributes)
 	}
 	
 	@available(*, unavailable)
@@ -35,12 +32,8 @@ open class Link : NSButton {
 		preconditionFailure()
 	}
 	
-	/// The visible text of the link that the user sees
-	@objc public let content: String
-	
 	/// The URL that is opened when the link is clicked
 	@objc public let url: NSURL
-
 	
 	@objc private func linkClicked(_ sender: NSButton) {
 		NSWorkspace.shared.open(url as URL)

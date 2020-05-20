@@ -18,8 +18,8 @@ class TestControlsViewController: NSViewController, NSTableViewDelegate, NSTable
 	private let controls: [(title: String, type: NSViewController.Type)] = [
 							("FluentUI-macOS (placeholder)", TestPlaceholderViewController.self),
 							("Avatar View", TestAvatarViewController.self),
-							("Link", TestLinkViewController.self),
 							("Date Picker", TestDatePickerController.self),
+							("Link", TestLinkViewController.self)
 	]
 	
 	override func loadView() {

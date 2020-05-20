@@ -9,7 +9,7 @@ import FluentUI
 class TestLinkViewController: NSViewController {
 	override func loadView() {		
 		let containerView = NSStackView(frame: .zero)
-		containerView.addView(Link(content: "Bing", url: NSURL(string: "https://wwww.bing.com")!), in: .center)
+		containerView.addView(Link(title: "Bing", url: NSURL(string: "https://wwww.bing.com")!), in: .center)
 		containerView.orientation = .vertical
 		containerView.distribution = .gravityAreas
 		view = containerView
