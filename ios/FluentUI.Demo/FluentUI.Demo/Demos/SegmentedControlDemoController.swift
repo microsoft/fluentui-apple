@@ -17,7 +17,7 @@ class SegmentedControlDemoController: DemoController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Colors.background2
+        view.backgroundColor = Colors.surfaceTertiary
 
         container.layoutMargins.left = 0
         container.layoutMargins.right = 0

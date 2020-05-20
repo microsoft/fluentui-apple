@@ -333,6 +333,7 @@ open class SearchBar: UIView {
         searchTextFieldBackgroundView.backgroundColor = style.backgroundColor
         searchIconImageView.tintColor = style.searchIconColor
         searchTextField.textColor = style.textColor
+        // used for cursor or selection handle
         searchTextField.tintColor = style.tintColor
         clearButton.tintColor = style.clearIconColor
         cancelButton.setTitleColor(style.cancelButtonColor, for: .normal)
