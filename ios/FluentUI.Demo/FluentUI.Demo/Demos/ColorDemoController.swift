@@ -118,8 +118,10 @@ class ColorDemoController: UIViewController {
             Colors.primaryShade30 = Colors.Palette.communicationBlueShade30.color
         } else {
             Self.primary = UIColor(named: "Colors/DemoPrimaryColor")
-            Colors.primary = UIColor(named: "Colors/DemoPrimaryColor") ?? Colors.communicationBlue
-            Colors.primaryTint10 = UIColor(named: "Colors/DemoPrimaryTint10Color") ?? Colors.Palette.communicationBlueTint10.color
+
+			Colors.primary = UIColor(named: "Colors/DemoPrimaryColor") ?? Colors.communicationBlue
+     
+			Colors.primaryTint10 = UIColor(named: "Colors/DemoPrimaryTint10Color") ?? Colors.Palette.communicationBlueTint10.color
             Colors.primaryTint20 = UIColor(named: "Colors/DemoPrimaryTint20Color") ?? Colors.Palette.communicationBlueTint20.color
             Colors.primaryTint30 = UIColor(named: "Colors/DemoPrimaryTint30Color") ?? Colors.Palette.communicationBlueTint30.color
             Colors.primaryTint40 = UIColor(named: "Colors/DemoPrimaryTint40Color") ?? Colors.Palette.communicationBlueTint40.color
