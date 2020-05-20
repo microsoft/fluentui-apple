@@ -24,12 +24,13 @@
 		8F5368072295F4C10098AC8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368062295F4C10098AC8F /* Assets.xcassets */; };
 		8F53680A2295F4C10098AC8F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368082295F4C10098AC8F /* MainMenu.xib */; };
 		8F79191B24589B4E00C84086 /* FluentUI.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F7918F624589B4E00C84086 /* FluentUI.strings */; };
+		AC97EFE2247541C700DADC99 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC97EFE1247541C700DADC99 /* Button.swift */; };
+		AC97EFE52475421300DADC99 /* TestButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC97EFE3247541E100DADC99 /* TestButtonViewController.swift */; };
 		E61C96BC2295E8D60006561F /* FluentUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C96B22295E8D60006561F /* FluentUI.framework */; };
 		E61C96C12295E8D60006561F /* AvatarViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61C96C02295E8D60006561F /* AvatarViewTests.swift */; };
 		E61C96CC2295EAC50006561F /* FluentUI.h in Headers */ = {isa = PBXBuildFile; fileRef = E61C96B52295E8D60006561F /* FluentUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E61C96D322962BC20006561F /* TestControlsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61C96D222962BC20006561F /* TestControlsViewController.swift */; };
 		E61C96D52298665F0006561F /* TestPlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61C96D42298665F0006561F /* TestPlaceholderViewController.swift */; };
-		E61C96D722987B3C0006561F /* TestHoverButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61C96D622987B3C0006561F /* TestHoverButtonViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,6 +152,8 @@
 		8F79192724589B6D00C84086 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		8F79192924589B6E00C84086 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		8F931A6C22BD593300311764 /* FluentUI_unittest.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_unittest.xcconfig; sourceTree = "<group>"; };
+		AC97EFE1247541C700DADC99 /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
+		AC97EFE3247541E100DADC99 /* TestButtonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestButtonViewController.swift; sourceTree = "<group>"; };
 		E61C96B22295E8D60006561F /* FluentUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FluentUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E61C96B52295E8D60006561F /* FluentUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FluentUI.h; sourceTree = "<group>"; };
 		E61C96B62295E8D60006561F /* FluentUI-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FluentUI-Info.plist"; sourceTree = "<group>"; };
@@ -163,7 +166,6 @@
 		E61C96D12295FA4E0006561F /* FluentUI_release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_release.xcconfig; sourceTree = "<group>"; };
 		E61C96D222962BC20006561F /* TestControlsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestControlsViewController.swift; sourceTree = "<group>"; };
 		E61C96D42298665F0006561F /* TestPlaceholderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPlaceholderViewController.swift; sourceTree = "<group>"; };
-		E61C96D622987B3C0006561F /* TestHoverButtonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHoverButtonViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,10 +228,10 @@
 			isa = PBXGroup;
 			children = (
 				8F5368042295F4BF0098AC8F /* AppDelegate.swift */,
-				8F250B8C22B3062A00142B0E /* TestAvatarViewController.swift */,
 				E61C96D222962BC20006561F /* TestControlsViewController.swift */,
-				E61C96D622987B3C0006561F /* TestHoverButtonViewController.swift */,
 				E61C96D42298665F0006561F /* TestPlaceholderViewController.swift */,
+				8F250B8C22B3062A00142B0E /* TestAvatarViewController.swift */,
+				AC97EFE3247541E100DADC99 /* TestButtonViewController.swift */,
 				8061BF8222EF957200F2D245 /* TestDatePickerController.swift */,
 				8F5368062295F4C10098AC8F /* Assets.xcassets */,
 				8F5368082295F4C10098AC8F /* MainMenu.xib */,
@@ -277,6 +279,7 @@
 			isa = PBXGroup;
 			children = (
 				8F250B8A22B3045100142B0E /* AvatarView.swift */,
+				AC97EFE1247541C700DADC99 /* Button.swift */,
 				804626C722D7909200AFA48C /* DatePicker */,
 				E61C96B62295E8D60006561F /* FluentUI-Info.plist */,
 				E61C96B52295E8D60006561F /* FluentUI.h */,
@@ -529,10 +532,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				E61C96D52298665F0006561F /* TestPlaceholderViewController.swift in Sources */,
-				E61C96D722987B3C0006561F /* TestHoverButtonViewController.swift in Sources */,
 				E61C96D322962BC20006561F /* TestControlsViewController.swift in Sources */,
 				8F5368052295F4BF0098AC8F /* AppDelegate.swift in Sources */,
 				8F250B8D22B3062A00142B0E /* TestAvatarViewController.swift in Sources */,
+				AC97EFE52475421300DADC99 /* TestButtonViewController.swift in Sources */,
 				8061BF8322EF957200F2D245 /* TestDatePickerController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -544,6 +547,7 @@
 				804626C622D7908100AFA48C /* CalendarDayButton.swift in Sources */,
 				80117A8322E0E63E00813D59 /* CalendarHeaderView.swift in Sources */,
 				80117A7F22DCDF6F00813D59 /* CalendarView.swift in Sources */,
+				AC97EFE2247541C700DADC99 /* Button.swift in Sources */,
 				8061BF7E22EF936800F2D245 /* DatePickerView.swift in Sources */,
 				8061BF7F22EF936800F2D245 /* DatePickerController.swift in Sources */,
 				8F250B8B22B3045100142B0E /* AvatarView.swift in Sources */,
