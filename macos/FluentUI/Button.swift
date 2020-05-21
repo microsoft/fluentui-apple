@@ -52,13 +52,13 @@ open class Button: NSButton {
 	override public func updateTrackingAreas() {
 		super.updateTrackingAreas()
 		
-		// Remove existing one
+		// Remove existing trackingArea
 		if let trackingArea = trackingArea {
 			removeTrackingArea(trackingArea)
 			self.trackingArea = nil
 		}
 		
-		// Create a new one
+		// Create a new trackingArea
 		let opts: NSTrackingArea.Options = [.mouseEnteredAndExited, .activeAlways]
 		let trackingArea = NSTrackingArea(
 			rect: bounds,
@@ -126,68 +126,74 @@ open class Button: NSButton {
 	}
 	
 	private func update() {
-		layer?.borderWidth = borderWidth
-		layer?.masksToBounds = true
-		layer?.cornerRadius = cornerRadius
-
-		var fillColor : NSColor = .clear
-		var outlineColor : NSColor = .clear
-		var textColor : NSColor = .white
-
-		switch style {
-		case .primaryFilled:
-			fillColor = primaryColor
-			break
-		case .primaryOutline:
-			outlineColor = primaryColor.withAlphaComponent(0.4)
-			textColor = primaryColor
-			break
-		case .borderless:
-			textColor = primaryColor
-			break
+		if let layer = layer {
+			layer.borderWidth = borderWidth
+			layer.masksToBounds = true
+			layer.cornerRadius = cornerRadius
+			layer.backgroundColor = layerBackgroundColor.cgColor
+			layer.borderColor = outlineColor.cgColor
 		}
-		
-		if (isEnabled) {
-			if (mouseDown) {
-				if #available(macOS 10.14, *) {
-					layer?.backgroundColor = fillColor.withSystemEffect(.pressed).cgColor
-				} else {
-					layer?.backgroundColor = fillColor.withAlphaComponent(0.25).cgColor
-				}
-				
-			} else if (mouseEntered) {
-				if #available(macOS 10.14, *) {
-					layer?.backgroundColor = fillColor.withSystemEffect(.rollover).cgColor
-				} else {
-					layer?.backgroundColor = fillColor.withAlphaComponent(0.5).cgColor
-				}
-			} else {
-				if #available(macOS 10.14, *) {
-					layer?.backgroundColor = fillColor.withSystemEffect(.none).cgColor
-				} else {
-					layer?.backgroundColor = fillColor.cgColor
-				}
-			}
-		} else {
-			if #available(macOS 10.14, *) {
-				layer?.backgroundColor = fillColor.withSystemEffect(.disabled).cgColor
-			} else {
-				layer?.backgroundColor = NSColor.systemGray.withAlphaComponent(0.25).cgColor
-			}
-		}
-		
-		layer?.borderColor = outlineColor.cgColor
-		
-		let titleAttributes: [NSAttributedString.Key : Any] = [
-			.foregroundColor : textColor,
-		]
-		self.attributedTitle = NSAttributedString(string: title, attributes: titleAttributes)
+		self.attributedTitle = NSAttributedString(string: title, attributes: [.foregroundColor : textColor])
 	}
 	
 	private var trackingArea: NSTrackingArea?
 	
 	private var mouseEntered = false
 	private var mouseDown = false
+	
+	private var fillColor: NSColor {
+		return style == ButtonStyle.primaryFilled ? primaryColor : .clear
+	}
+	
+	private var outlineColor: NSColor {
+		return style == ButtonStyle.primaryOutline ? primaryColor.withAlphaComponent(0.4) : .clear
+	}
+	
+	private var textColor: NSColor {
+		return style == ButtonStyle.primaryFilled ? .white : primaryColor
+	}
+	
+	private var restBackgroundColor: NSColor {
+		return fillColor
+	}
+
+	private var hoverBackgroundColor: NSColor {
+		if #available(macOS 10.14, *) {
+			return fillColor.withSystemEffect(.rollover)
+		} else {
+			return fillColor.withAlphaComponent(0.5)
+		}
+	}
+
+	private var pressedBackgroundColor: NSColor {
+		if #available(macOS 10.14, *) {
+			return fillColor.withSystemEffect(.pressed)
+		} else {
+			return fillColor.withAlphaComponent(0.25)
+		}
+	}
+	
+	private var disabledBackgroundColor: NSColor {
+		if #available(macOS 10.14, *) {
+			return fillColor.withSystemEffect(.disabled)
+		} else {
+			return NSColor.systemGray.withAlphaComponent(0.25)
+		}
+	}
+	
+	private var layerBackgroundColor: NSColor {
+		if isEnabled {
+			if mouseDown {
+				return pressedBackgroundColor
+			} else if mouseEntered {
+				return hoverBackgroundColor
+			} else {
+				return restBackgroundColor
+			}
+		} else {
+			return disabledBackgroundColor
+		}
+	}
 }
 
 // MARK: - Constants
