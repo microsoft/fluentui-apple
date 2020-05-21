@@ -101,7 +101,7 @@ open class Button: NSButton {
 	open override var intrinsicContentSize: NSSize {
 		var intrinsicContentSize = super.intrinsicContentSize;
 
-		intrinsicContentSize.width = max(minimumWidth, intrinsicContentSize.width + (horizontalPadding * 2))
+		intrinsicContentSize.width = intrinsicContentSize.width + (horizontalPadding * 2)
 		intrinsicContentSize.height += (verticalPadding * 2);
 
 		return intrinsicContentSize;
@@ -196,8 +196,6 @@ fileprivate let borderWidth: CGFloat = 1
 
 fileprivate let cornerRadius: CGFloat = 3
 
-fileprivate let minimumWidth: CGFloat = 30
-
 fileprivate let verticalPadding: CGFloat = 2
 
-fileprivate let horizontalPadding:  CGFloat = 8
+fileprivate let horizontalPadding:  CGFloat = 10
