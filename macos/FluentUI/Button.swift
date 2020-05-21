@@ -90,10 +90,6 @@ open class Button: NSButton {
 		needsDisplay = true
 	}
 	
-	override public var wantsUpdateLayer: Bool {
-		return true
-	}
-	
 	open override func updateLayer() {
 		update()
 	}
@@ -105,6 +101,10 @@ open class Button: NSButton {
 		intrinsicContentSize.height += (verticalPadding * 2);
 
 		return intrinsicContentSize;
+	}
+	
+	override public var wantsUpdateLayer: Bool {
+		return true
 	}
 	
 	/// The primary color of the button, AKA, the fill color in the primaryFilled style, and the outline in the primaryOutline style
