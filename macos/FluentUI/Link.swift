@@ -9,7 +9,7 @@ import AppKit
 @objc(MSFLink)
 open class Link : NSButton {
 	
-	/// Initializes a hyperlink with a content string that is displayed, and an underlying URL that opens when clicked
+	/// Initializes a hyperlink with a title and an underlying URL that opens when clicked
 	/// - Parameters:
 	///   - title: The visible text of the link that the user sees.
 	///   - url: The URL that is opened when the link is clicked
@@ -17,12 +17,22 @@ open class Link : NSButton {
 		self.url = url
 		super.init(frame: .zero)
 		self.title = title
-		alignment = .natural
-		isBordered = false
-		target = self
-		action = #selector(linkClicked)
-		
-		updateTitle()
+		initialize()
+	}
+	
+	/// Initializes a hyperlink with a title and no URL, useful if you plan to override the Target/Action
+	/// - Parameters:
+	///   - title: The visible text of the link that the user sees.
+	@objc public init(title: String) {
+		super.init(frame: .zero)
+		self.title = title
+		initialize()
+	}
+	
+	public override init(frame frameRect: NSRect) {
+		super.init(frame: frameRect)
+		self.title = ""
+		initialize()
 	}
 	
 	@available(*, unavailable)
@@ -30,8 +40,16 @@ open class Link : NSButton {
 		preconditionFailure()
 	}
 	
+	open func initialize() {
+		alignment = .natural
+		isBordered = false
+		target = self
+		action = #selector(linkClicked)
+		updateTitle()
+	}
+	
 	/// The URL that is opened when the link is clicked
-	@objc public var url: NSURL
+	@objc public var url: NSURL?
 	
 	@objc public var showsUnderlineWhileMouseInside: Bool = false {
 		didSet {
@@ -93,7 +111,9 @@ open class Link : NSButton {
 	}
 	
 	@objc private func linkClicked() {
-		NSWorkspace.shared.open(url as URL)
+		if let url = url {
+			NSWorkspace.shared.open(url as URL)
+		}
 	}
 }
 
