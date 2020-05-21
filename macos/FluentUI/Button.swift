@@ -20,7 +20,7 @@ import AppKit
 open class Button: NSButton {
 
 	@objc public init(title: String, style: ButtonStyle = .primaryFilled) {
-        super.init(frame: .zero)
+		super.init(frame: .zero)
 		self.title = title
 		self.style = style
         initialize()
