@@ -16,8 +16,7 @@ class TestLinkViewController: NSViewController {
 		let linkWithHoverAndNoURL = Link(title: "Link with hover effects and no URL")
 		linkWithHoverAndNoURL.showsUnderlineWhileMouseInside = true
 		
-		let linkWithOverridenTargetAction = Link(frame: .zero)
-		linkWithOverridenTargetAction.title = "Link with overridden Target/Action"
+		let linkWithOverridenTargetAction = Link(title: "Link with overridden Target/Action")
 		linkWithOverridenTargetAction.showsUnderlineWhileMouseInside = true
 		linkWithOverridenTargetAction.target = self
 		linkWithOverridenTargetAction.action = #selector(displayAlert)
