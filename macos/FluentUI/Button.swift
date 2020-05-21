@@ -1,28 +1,15 @@
 //
-// Copyright Microsoft Corporation
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
 //
 
 import AppKit
 
-fileprivate struct Constants {
-	
-	static let borderWidth: CGFloat = 1
-	
-	static let cornerRadius: CGFloat = 3
-	
-	static let minimumWidth: CGFloat = 120
-	
-	static let verticalPadding: CGFloat = 2
-	
-	static let horizontalPadding:  CGFloat = 2
-	
-	private init() {}
-}
-
+/// Indicates what style our button is drawn as
 @objc public enum ButtonStyle: Int, CaseIterable {
-    case primaryFilled
-    case primaryOutline
-    case borderless
+    case primaryFilled	// Solid fill color
+    case primaryOutline	// Clear fill color, solid outline
+    case borderless		// clear fill color, clear outline
 }
 
 // MARK: - Button
@@ -31,34 +18,23 @@ fileprivate struct Constants {
 @IBDesignable
 @objc(MSFButton)
 open class Button: NSButton {
-	/// The primary color of the button, AKA, the fill color in the primaryFilled style, and the outline in the primaryOutline style
-	@objc open var primaryColor: NSColor = NSColor.clear
-	
-	private var trackingArea: NSTrackingArea?
-	
-	private var mouseEntered: Bool = false
-	private var mouseClicked: Bool = false
-	
-	override open var wantsUpdateLayer: Bool {
-		return true
-	}
 
-	private let style: ButtonStyle
-	
 	@objc public init(title: String, style: ButtonStyle = .primaryFilled) {
-		self.style = style
         super.init(frame: .zero)
 		self.title = title
+		self.style = style
         initialize()
     }
 	
-    public override init(frame: CGRect) {
-		preconditionFailure()
-    }
+	public override init(frame frameRect: NSRect) {
+        super.init(frame: frameRect)
+        initialize()
+	}
 
-    public required init?(coder aDecoder: NSCoder) {
+	@available(*, unavailable)
+	required public init?(coder decoder: NSCoder) {
 		preconditionFailure()
-    }
+	}
 	
 	open func initialize() {
 		// Do common initialization work
@@ -66,10 +42,11 @@ open class Button: NSButton {
 		wantsLayer = true
 
 		if #available(macOS 10.14, *) {
-			primaryColor = NSColor.controlAccentColor
+			primaryColor = .controlAccentColor
 		} else {
-			primaryColor = NSColor.systemBlue
+			primaryColor = .systemBlue
 		}
+		update()
 	}
 	
 	override public func updateTrackingAreas() {
@@ -104,24 +81,59 @@ open class Button: NSButton {
 	}
 	
 	override public func mouseDown(with event: NSEvent) {
-		mouseClicked = true
+		mouseDown = true
 		needsDisplay = true
 	}
 	
 	override public func mouseUp(with event: NSEvent) {
-		mouseClicked = false
+		mouseDown = false
 		needsDisplay = true
 	}
 	
+	override public var wantsUpdateLayer: Bool {
+		return true
+	}
+	
 	open override func updateLayer() {
-		layer?.borderWidth = Constants.borderWidth
+		update()
+	}
+	
+	open override var intrinsicContentSize: NSSize {
+		var intrinsicContentSize = super.intrinsicContentSize;
+
+		intrinsicContentSize.width = max(minimumWidth, intrinsicContentSize.width + (horizontalPadding * 2))
+		intrinsicContentSize.height += (verticalPadding * 2);
+
+		return intrinsicContentSize;
+	}
+	
+	/// The primary color of the button, AKA, the fill color in the primaryFilled style, and the outline in the primaryOutline style
+	@objc public var primaryColor: NSColor = .clear {
+		didSet {
+            if primaryColor != oldValue {
+                update()
+            }
+		}
+	}
+
+	/// The primary style of the button
+	@objc public var style: ButtonStyle = .primaryFilled {
+		didSet {
+            if style != oldValue {
+                update()
+            }
+		}
+	}
+	
+	private func update() {
+		layer?.borderWidth = borderWidth
 		layer?.masksToBounds = true
-		layer?.cornerRadius = Constants.cornerRadius
-				
-		var fillColor : NSColor = NSColor.clear
-		var outlineColor : NSColor = NSColor.clear
-		var textColor : NSColor = NSColor.white
-		
+		layer?.cornerRadius = cornerRadius
+
+		var fillColor : NSColor = .clear
+		var outlineColor : NSColor = .clear
+		var textColor : NSColor = .white
+
 		switch style {
 		case .primaryFilled:
 			fillColor = primaryColor
@@ -136,7 +148,7 @@ open class Button: NSButton {
 		}
 		
 		if (isEnabled) {
-			if (mouseClicked) {
+			if (mouseDown) {
 				if #available(macOS 10.14, *) {
 					layer?.backgroundColor = fillColor.withSystemEffect(.pressed).cgColor
 				} else {
@@ -172,17 +184,20 @@ open class Button: NSButton {
 		self.attributedTitle = NSAttributedString(string: title, attributes: titleAttributes)
 	}
 	
-	open override var intrinsicContentSize: NSSize {
-		var intrinsicContentSize = super.intrinsicContentSize;
-
-		if (intrinsicContentSize.width > Constants.minimumWidth) {
-			intrinsicContentSize.width += (Constants.horizontalPadding * 2);
-		} else {
-			intrinsicContentSize.width = Constants.minimumWidth;
-		}
-
-		intrinsicContentSize.height += (Constants.verticalPadding * 2);
-
-		return intrinsicContentSize;
-	}
+	private var trackingArea: NSTrackingArea?
+	
+	private var mouseEntered = false
+	private var mouseDown = false
 }
+
+// MARK: - Constants
+
+fileprivate let borderWidth: CGFloat = 1
+
+fileprivate let cornerRadius: CGFloat = 3
+
+fileprivate let minimumWidth: CGFloat = 30
+
+fileprivate let verticalPadding: CGFloat = 2
+
+fileprivate let horizontalPadding:  CGFloat = 8
