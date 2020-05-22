@@ -670,6 +670,9 @@ public final class Colors: NSObject {
     }
 }
 
+/// Make palette enum CaseIterable for unit testing purposes
+extension Colors.Palette: CaseIterable {}
+
 // MARK: - TextColorStyle
 
 @available(*, deprecated, renamed: "TextColorStyle")
