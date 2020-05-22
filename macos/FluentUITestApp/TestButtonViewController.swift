@@ -76,7 +76,7 @@ class TestButtonViewController: NSViewController {
 		let containerView = NSStackView()
 		containerView.orientation = .vertical
 		containerView.translatesAutoresizingMaskIntoConstraints = false
-		containerView.edgeInsets = NSEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)xs
+		containerView.edgeInsets = NSEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
 		
 		containerView.addView(gridView, in: .top)
 		
