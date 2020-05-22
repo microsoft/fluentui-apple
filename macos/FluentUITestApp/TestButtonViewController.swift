@@ -54,14 +54,7 @@ class TestButtonViewController: NSViewController {
 		gridView.addColumn(with: [])	//Padding
 
 		let emptyCell = NSGridCell.emptyContentView
-		
-//		let paddingRow = Array(repeating: emptyCell, count: gridView.numberOfColumns + 1)
-//		let paddingColumn = Array(repeating: emptyCell, count: gridView.numberOfRows + 1)
-//
-//		gridView.addRow(with: paddingRow)
-//		gridView.addColumn(with: paddingColumn)
-
-		
+	
 		// Insert the Row Titles as the last step
 		let rowLabels: [NSView] = [
 			emptyCell,
