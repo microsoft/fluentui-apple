@@ -1,7 +1,7 @@
 # Link
 
 ## Overview
-With a Link, users can navigate to another page, window, or Help topic; display a definition; initiate a command; or choose an option. A Link indicates that it can be clicked, typically by being displayed using the visited or unvisited link system colors. Traditionally, Links are underlined as well, but that approach is often unnecessary and falling out of favor to reduce visual clutter.
+With a Link, users can navigate to an external URL, or be overridden to perform a custom action. A link can be set to have an underline when the mouse hovers over it, or remove the underline completely to reduce visual clutter.
 
 A Link is the lightest weight clickable control, and is often used to reduce the visual complexity of a design.
 
@@ -9,26 +9,29 @@ A Link is the lightest weight clickable control, and is often used to reduce the
 
 ## Best Practices
 ### Do
-- Use to navigate to another page, window, or help topic; display a definition; initiate a command; or choose an option.
+- Use to navigate to an external URL, or open a help page
 - Make Links discoverable by visual inspection alone. Users shouldn't have to interact with your program to find links.
-- Use Links that give specific descriptive information about the result of clicking on the link, using as much text as necessary. Users should be able to - accurately predict the result of a link from its link text and optional Tooltip.
-- Use text that suggests clicking, such as a command starting with an imperative verb like "Show", "Print", "Copy", or "Delete".
+- Use Links that give specific descriptive information about the result of clicking on the link, using as much text as necessary. Users should be able to - accurately predict the result of a link from its link text.
+
 
 ### Don't
+- Use a link where a button would be better suited. Links should be used to navigate to webpages. For most other actions, a button is better suited than a link with an overriden action.
 - Use if the action is destructive or irreversible. Because users associate links with navigation (and the ability to back out), Links aren't appropriate for commands with significant consequences.
 
 ## Usage
 
 ```Swift
 // Given a title and URL, `Link` will by default open the URL in a web browser.
-let link = Link(title: "Link to Bing", url: NSURL(string: "https://wwww.bing.com")!)
+let link = Link(title: "Link", url: NSURL(string: "https://github.com/microsoft/fluentui-apple")!)
 ```
+![Link.png](.attachments/Link.png)
 
 ```Swift
 // Link can also display an underline when a mouse hovers over it with the optional property "showsUnderlineWhileMouseInside".
-let link = Link(title: "Link to Bing with hover effects", url: NSURL(string: "https://wwww.bing.com")!)
+let link = Link(title: "Link  with hover effects", url: NSURL(string: "https://github.com/microsoft/fluentui-apple")!)
 link.showsUnderlineWhileMouseInside = true
 ```
+![LinkWithHover.png](.attachments/LinkWithHover.png)
 
 ```Swift
 // Because Link is a subclass of NSControl, we can override the target/action to perform a custom task
