@@ -241,6 +241,8 @@ open class PopupMenuController: DrawerController {
     }
 
     private func initTableView() {
+        // if the PopupMenuController shows as UIPopoverPresentationController then we want to show different darkElevated color
+        backgroundColor = traitCollection.horizontalSizeClass == .compact ? Colors.Drawer.background : Colors.PopupMenu.background
         tableView.backgroundColor = backgroundColor
         tableView.separatorStyle = .none
         // Helps reduce the delay between touch and action due to a bug in iOS 11

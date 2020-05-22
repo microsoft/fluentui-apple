@@ -49,7 +49,7 @@ open class PopupMenuItem: NSObject {
     /// tint color if `selectedImage` is rendered as template and `isSelected` is true
     @objc public var imageSelectedColor: UIColor = Colors.PopupMenu.Item.imageSelected
     /// background color of PopupMenuItem corresponding cell
-    @objc public var backgroundColor: UIColor = Colors.Table.Cell.background
+    @objc public var backgroundColor: UIColor = .clear
     /// checkmark color `isAccessoryCheckmarkVisible` and `isSelected` is true
     @objc public var accessoryCheckmarkColor: UIColor = Colors.Table.Cell.accessoryCheckmark
 

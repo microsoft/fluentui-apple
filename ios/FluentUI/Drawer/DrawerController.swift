@@ -238,7 +238,7 @@ open class DrawerController: UIViewController {
     }
 
     /// Set `resizingHandleViewBackgroundColor` to customize background color of resizingHandleView if it is shown
-    @objc open var resizingHandleViewBackgroundColor: UIColor = Colors.ResizingHandle.background {
+    @objc open var resizingHandleViewBackgroundColor: UIColor = .clear {
         didSet {
             resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
         }
@@ -852,7 +852,7 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
             return DrawerPresentationController(presentedViewController: presented, presenting: presenting, source: source, sourceObject: sourceView ?? barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection(for: source.view), presentationOffset: presentationOffset, presentationBackground: presentationBackground, adjustHeightForKeyboard: adjustsHeightForKeyboard)
         case .popover:
             let presentationController = UIPopoverPresentationController(presentedViewController: presented, presenting: presenting)
-            presentationController.backgroundColor = Colors.Drawer.background
+            presentationController.backgroundColor = backgroundColor
             presentationController.permittedArrowDirections = permittedArrowDirections
             presentationController.delegate = self
 

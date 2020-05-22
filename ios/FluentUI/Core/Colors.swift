@@ -317,6 +317,9 @@ public final class Colors: NSObject {
 //    @objc public static let foreground6b = UIColor(light: gray100, dark: gray500)
 //    @objc public static let foreground7b = UIColor(light: .white, dark: gray100)
 
+    /// text color should never be lower than `gray500` in light mode to achieve 4.5:1 minimum contrast ratio in `.white` background
+    /// when determining high contrast color, add 200 in light mode and substract 200 in dark mode from the default color.
+
     /// text appears on a main level in the screen. eg. title in dialog, title in navigationbar with `surfacePrimary`, etc
     @objc public static let textDominant = UIColor(light: gray900, lightHighContrast: .black, dark: .white)
     @objc public static let textPrimary = UIColor(light: gray900, lightHighContrast: .black, dark: gray100, darkHighContrast: .white)
@@ -337,8 +340,6 @@ public final class Colors: NSObject {
     @objc public static let surfaceSecondary = UIColor(light: gray25, dark: gray950, darkElevated: gray900)
     @objc public static let surfaceTertiary = UIColor(light: gray50, dark: gray900, darkElevated: gray800)
     @objc public static let surfaceQuaternary = UIColor(light: gray100, dark: gray600, darkElevated: gray600)
-
-    // should question
     @objc public static let surfaceDisabled = UIColor(light: gray100, dark: gray600)
 
     @objc public static let dividerOnPrimary = UIColor(light: gray100, dark: gray800, darkElevated: gray700)
@@ -369,7 +370,7 @@ public final class Colors: NSObject {
         public static var backgroundWarningSelected: UIColor = warning
         public static var text: UIColor { return primary }
         public static var textSelected: UIColor = textOnAccent
-        public static var textDisabled: UIColor = Colors.textDisabled
+        public static var textDisabled: UIColor = textSecondary
         public static var textError = UIColor(light: Palette.dangerShade10.color, dark: Palette.dangerShade20.color)
         public static var textErrorSelected: UIColor = textOnAccent
         public static var textWarning = UIColor(light: Palette.warningShade30.color, dark: Palette.warningPrimary.color)
@@ -406,8 +407,8 @@ public final class Colors: NSObject {
             public static var textPrimary = UIColor(light: Colors.textSecondary, dark: Colors.textPrimary)
             public static var textSecondary: UIColor = Colors.textSecondary
             public static var textSelected: UIColor = textOnAccent
-            public static var backgroundPrimary: UIColor = surfaceSecondary
-            public static var backgroundSecondary: UIColor = Calendar.background
+            public static var backgroundPrimary = UIColor(light: Calendar.background, dark: surfaceSecondary)
+            public static var backgroundSecondary = UIColor(light: surfaceSecondary, dark: Calendar.background)
             public static var circleHighlighted: UIColor = gray400
             public static var circleSelected: UIColor { return primary }
         }
@@ -416,8 +417,8 @@ public final class Colors: NSObject {
         }
         public struct WeekdayHeading {
             public struct Light {
-                public static var textRegular = UIColor(light: textSecondary, dark: textPrimary)
-                public static var textWeekend: UIColor = gray400
+                public static var textRegular = UIColor(light: gray600, lightHighContrast: gray700, dark: textPrimary)
+                public static var textWeekend: UIColor = textSecondary
                 public static var background: UIColor = Calendar.background
             }
             public struct Dark {
@@ -436,7 +437,7 @@ public final class Colors: NSObject {
     }
 
     public struct Drawer {
-        public static var background: UIColor = NavigationBar.background
+        public static var background = UIColor(light: surfacePrimary, dark: surfaceSecondary)
     }
 
     public struct HUD {
@@ -515,6 +516,7 @@ public final class Colors: NSObject {
             public static var titleSelected: UIColor { return primary }
             public static var subtitleSelected: UIColor { return primary }
         }
+        public static var background = UIColor(light: Colors.Drawer.background, dark: surfaceQuaternary)
     }
 
     public struct Progress {
@@ -523,7 +525,7 @@ public final class Colors: NSObject {
     }
 
     public struct ResizingHandle {
-        public static var background: UIColor = NavigationBar.background
+        public static var background: UIColor = Drawer.background
         public static var mark = UIColor(light: gray100, dark: gray500)
     }
 
@@ -538,9 +540,9 @@ public final class Colors: NSObject {
             public static var tint = UIColor(light: gray400, dark: LightContent.tint)
         }
         public struct LightContent {
-            public static var background = UIColor(light: UIColor.black.withAlphaComponent(0.2), dark: UIColor.white.withAlphaComponent(0.1))
+            public static var background = UIColor(light: UIColor.black.withAlphaComponent(0.2), dark: gray700, darkElevated: gray600)
             public static var cancelButton: UIColor = .white
-            public static var clearIcon = UIColor(light: UIColor.white.withAlphaComponent(0.6), dark: gray300)
+            public static var clearIcon = UIColor(light: UIColor.white.withAlphaComponent(0.6), dark: gray400)
             public static var placeholderText = UIColor(light: .white, dark: gray300)
             public static var searchIcon = UIColor(light: .white, dark: gray400)
             public static var text: UIColor = .white
