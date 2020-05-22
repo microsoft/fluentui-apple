@@ -40,7 +40,7 @@ open class Link : NSButton {
 		preconditionFailure()
 	}
 	
-	open func initialize() {
+	private func initialize() {
 		alignment = .natural
 		isBordered = false
 		target = self
@@ -82,10 +82,10 @@ open class Link : NSButton {
 		}
 
 		// Create a new trackingArea
-		let opts: NSTrackingArea.Options = [.mouseEnteredAndExited, .activeAlways]
+		let options: NSTrackingArea.Options = [.mouseEnteredAndExited, .activeAlways]
 		let trackingArea = NSTrackingArea(
 			rect: bounds,
-			options: opts,
+			options: options,
 			owner: self,
 			userInfo: nil
 		)
