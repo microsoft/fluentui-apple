@@ -9,7 +9,7 @@ import AppKit
 @objc public enum ButtonStyle: Int, CaseIterable {
     case primaryFilled	// Solid fill color
     case primaryOutline	// Clear fill color, solid outline
-    case borderless		// clear fill color, clear outline
+    case borderless		// Clear fill color, clear outline
 }
 
 // MARK: - Button
@@ -23,12 +23,12 @@ open class Button: NSButton {
 		super.init(frame: .zero)
 		self.title = title
 		self.style = style
-        initialize()
+		initialize()
     }
 	
 	public override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
-        initialize()
+		initialize()
 	}
 
 	@available(*, unavailable)
@@ -36,16 +36,10 @@ open class Button: NSButton {
 		preconditionFailure()
 	}
 	
-	open func initialize() {
+	private func initialize() {
 		// Do common initialization work
 		isBordered = false
 		wantsLayer = true
-
-		if #available(macOS 10.14, *) {
-			primaryColor = .controlAccentColor
-		} else {
-			primaryColor = .systemBlue
-		}
 		update()
 	}
 	
@@ -91,7 +85,13 @@ open class Button: NSButton {
 	}
 	
 	open override func updateLayer() {
-		update()
+		if let layer = layer {
+			layer.borderWidth = borderWidth
+			layer.masksToBounds = true
+			layer.cornerRadius = cornerRadius
+			layer.backgroundColor = layerBackgroundColor.cgColor
+			layer.borderColor = outlineColor.cgColor
+		}
 	}
 	
 	open override var intrinsicContentSize: NSSize {
@@ -108,11 +108,11 @@ open class Button: NSButton {
 	}
 	
 	/// The primary color of the button, AKA, the fill color in the primaryFilled style, and the outline in the primaryOutline style
-	@objc public var primaryColor: NSColor = .clear {
+	@objc public var primaryColor: NSColor = defaultPrimaryColor {
 		didSet {
-            if primaryColor != oldValue {
-                update()
-            }
+			if primaryColor != oldValue {
+				update()
+			}
 		}
 	}
 
@@ -126,14 +126,24 @@ open class Button: NSButton {
 	}
 	
 	private func update() {
-		if let layer = layer {
-			layer.borderWidth = borderWidth
-			layer.masksToBounds = true
-			layer.cornerRadius = cornerRadius
-			layer.backgroundColor = layerBackgroundColor.cgColor
-			layer.borderColor = outlineColor.cgColor
-		}
 		self.attributedTitle = NSAttributedString(string: title, attributes: [.foregroundColor : textColor])
+		needsDisplay = true
+	}
+	
+	private func disabledColor(color: NSColor) -> NSColor {
+		if #available(macOS 10.14, *) {
+			return color.withSystemEffect(.disabled)
+		} else {
+			return color.withAlphaComponent(0.25)
+		}
+	}
+	
+	private static var defaultPrimaryColor: NSColor {
+		if #available(macOS 10.14, *) {
+			return .controlAccentColor
+		} else {
+			return .systemBlue
+		}
 	}
 	
 	private var trackingArea: NSTrackingArea?
@@ -146,7 +156,12 @@ open class Button: NSButton {
 	}
 	
 	private var outlineColor: NSColor {
-		return style == ButtonStyle.primaryOutline ? primaryColor.withAlphaComponent(0.4) : .clear
+		let baseOutlineColor = style == ButtonStyle.primaryOutline ? primaryColor.withAlphaComponent(0.4) : .clear
+		if isEnabled {
+			return style == ButtonStyle.primaryOutline ? primaryColor.withAlphaComponent(0.4) : .clear
+		} else {
+			return disabledColor(color: baseOutlineColor)
+		}
 	}
 	
 	private var textColor: NSColor {
@@ -173,14 +188,6 @@ open class Button: NSButton {
 		}
 	}
 	
-	private var disabledBackgroundColor: NSColor {
-		if #available(macOS 10.14, *) {
-			return fillColor.withSystemEffect(.disabled)
-		} else {
-			return NSColor.systemGray.withAlphaComponent(0.25)
-		}
-	}
-	
 	private var layerBackgroundColor: NSColor {
 		if isEnabled {
 			if mouseDown {
@@ -191,7 +198,7 @@ open class Button: NSButton {
 				return restBackgroundColor
 			}
 		} else {
-			return disabledBackgroundColor
+			return disabledColor(color: fillColor)
 		}
 	}
 }

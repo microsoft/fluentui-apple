@@ -8,60 +8,79 @@ import FluentUI
 
 
 class TestButtonViewController: NSViewController {
+
 	override func loadView() {
-		let enabledButtons = testButtons()
-		let disabledButtons = testButtons().map { button -> NSButton in
+		let columnLabels: [NSView] = [
+			NSTextField(labelWithString: "Primary Filled"),
+			NSTextField(labelWithString: "Primary Outline"),
+			NSTextField(labelWithString: "Borderless"),
+		]
+		
+		let buttons: () -> [NSButton] = {
+			return [
+				Button(title: "FluentUI Button", style: .primaryFilled),
+				Button(title: "FluentUI Button", style: .primaryOutline),
+				Button(title: "FluentUI Button", style: .borderless),
+			]
+		}
+		
+		let buttonsWithTitle = buttons()
+		let buttonsWithImage = buttons().map { button -> NSButton in
+			button.image = NSImage(named: NSImage.addTemplateName)
+			button.imagePosition = .imageOnly
+			return button
+		}
+		let buttonsWithTitleAndImage = buttons().map { button -> NSButton in
+			button.image = NSImage(named: NSImage.addTemplateName)
+			button.imagePosition = .imageLeading
+			return button
+		}
+		let disabledButtons = buttons().map { button -> NSButton in
 			button.isEnabled = false
 			return button
 		}
 		
-		// Create a vertical stack view for each set of buttons
-		let stackViews = [enabledButtons, disabledButtons].map { buttons -> NSStackView in
-			let stackView = NSStackView(views: buttons)
-			stackView.orientation = .vertical
-			stackView.alignment = .leading
-			let spacing = stackView.spacing
-			stackView.edgeInsets = NSEdgeInsets(top: spacing, left: 0, bottom: spacing, right: 0)
-			return stackView
-		}
+		let gridView = NSGridView(frame: .zero)
+		gridView.rowSpacing = 20
+		gridView.columnSpacing = 20
+		gridView.setContentHuggingPriority(.defaultHigh, for: .vertical)
+		gridView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
 		
-		// set our view to a horizontal stack view containing the vertical stack views
-		let containerView = NSStackView(views: stackViews)
-		containerView.alignment = .top
-		let spacing = containerView.spacing
-		containerView.edgeInsets = NSEdgeInsets(top: 0, left: spacing, bottom: 0, right: spacing)
-		containerView.orientation = .horizontal
+		gridView.addColumn(with: columnLabels)
+		gridView.addColumn(with: buttonsWithTitle)
+		gridView.addColumn(with: buttonsWithImage)
+		gridView.addColumn(with: buttonsWithTitleAndImage)
+		gridView.addColumn(with: disabledButtons)
+		gridView.addColumn(with: [])	//Padding
+
+		let emptyCell = NSGridCell.emptyContentView
+		
+//		let paddingRow = Array(repeating: emptyCell, count: gridView.numberOfColumns + 1)
+//		let paddingColumn = Array(repeating: emptyCell, count: gridView.numberOfRows + 1)
+//
+//		gridView.addRow(with: paddingRow)
+//		gridView.addColumn(with: paddingColumn)
+
+		
+		// Insert the Row Titles as the last step
+		let rowLabels: [NSView] = [
+			emptyCell,
+			NSTextField(labelWithString: "Title"),
+			NSTextField(labelWithString: "Image"),
+			NSTextField(labelWithString: "Title and Image"),
+			NSTextField(labelWithString: "Disabled")
+		]
+		gridView.insertRow(at: 0, with: rowLabels)
+		gridView.addRow(with: [])	//Padding
+
+		let containerView = NSStackView()
+		containerView.orientation = .vertical
+		containerView.translatesAutoresizingMaskIntoConstraints = false
+		containerView.edgeInsets = NSEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)xs
+		
+		containerView.addView(gridView, in: .top)
 		
 		view = containerView
-	}
-	
-	private func testNSButtons() -> [NSButton] {
-		return [
-			NSButton(title: "NSButton", target: nil, action: nil),
-			NSButton(title: "+", target: nil, action: nil)
-		]
-	}
-	
-	private func testFluentButtons() -> [Button] {
-		return [
-			Button(title: "Primary Filled", style: .primaryFilled),
-			Button(title: "+", style: .primaryFilled),
-			Button(title: "Primary Outline", style: .primaryOutline),
-			Button(title: "+", style: .primaryOutline),
-			Button(title: "Borderless", style: .borderless),
-			Button(title: "+", style: .borderless),
-		]
-	}
-	
-	private func testRedFluentButtons() -> [Button] {
-		return testFluentButtons().map{ button -> Button in
-			button.primaryColor = NSColor.systemRed
-			return button
-		}
-	}
-	
-	private func testButtons() -> [NSButton] {
-		return testNSButtons() + testFluentButtons() + testRedFluentButtons()
 	}
 }
 
