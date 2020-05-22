@@ -7,7 +7,7 @@ import AppKit
 
 /// A lightweight hyperlink control
 @objc(MSFLink)
-open class Link : NSButton {
+open class Link: NSButton {
 	
 	/// Initializes a hyperlink with a title and an underlying URL that opens when clicked
 	/// - Parameters:
@@ -106,7 +106,7 @@ open class Link : NSButton {
 	private var mouseEntered = false
 	
 	private func updateTitle() {
-		let titleAttributes = (showsUnderlineWhileMouseInside && mouseEntered) ? underlinedlinkAttributes : linkAttributes
+		let titleAttributes = (showsUnderlineWhileMouseInside && mouseEntered) ? underlinedlinkAttributes: linkAttributes
 		self.attributedTitle = NSAttributedString(string: title, attributes: titleAttributes)
 	}
 	
@@ -117,11 +117,11 @@ open class Link : NSButton {
 	}
 }
 
-fileprivate let linkAttributes: [NSAttributedString.Key : Any] = [
-	.foregroundColor : NSColor.linkColor
+fileprivate let linkAttributes: [NSAttributedString.Key: Any] = [
+	.foregroundColor: NSColor.linkColor
 ]
 
-fileprivate let underlinedlinkAttributes: [NSAttributedString.Key : Any] = [
-	.foregroundColor : NSColor.linkColor,
-	.underlineStyle : NSUnderlineStyle.single.rawValue
+fileprivate let underlinedlinkAttributes: [NSAttributedString.Key: Any] = [
+	.foregroundColor: NSColor.linkColor,
+	.underlineStyle: NSUnderlineStyle.single.rawValue
 ]
