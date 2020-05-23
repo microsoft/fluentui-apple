@@ -151,6 +151,14 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         }
     }
 
+    /// If set, the accessory button title color will be based on this image, overiding the acessory style's title color.
+    /// The image will be adjusted to the button size, so the entire image based color is evenly distributed.
+     @objc open var imageForAccessoryButtonColor: UIImage? {
+        didSet {
+            updateAccessoryButtonTitleColor()
+        }
+    }
+
     /// The maximum number of lines to be shown for `title`
     @objc open var titleNumberOfLines: Int = 1 {
         didSet {
@@ -218,6 +226,9 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
             }
         }
     }
+
+    private var customAccessoryButtonTitleColor: UIColor?
+    private var lastAccessoryButtonSize: CGSize = .zero
 
     public override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
@@ -303,6 +314,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         }
 
         contentView.flipSubviewsForRTL()
+        updateAccessoryButtonTitleColor()
     }
 
     open override func prepareForReuse() {
@@ -343,7 +355,36 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
 
     private func updateAccessoryButtonTitleStyle() {
         accessoryButton?.titleLabel?.font = Constants.accessoryButtonTextStyle.font
-        accessoryButton?.setTitleColor(accessoryButtonStyle.textColor, for: .normal)
+        updateAccessoryButtonTitleColor()
+    }
+
+    private func updateAccessoryButtonTitleColor() {
+        accessoryButton?.setTitleColor(colorForAccessoryViewTitle(), for: .normal)
+    }
+
+    private func colorForAccessoryViewTitle() -> UIColor {
+        let defaultColor = accessoryButtonStyle.textColor
+        guard let colorImage = imageForAccessoryButtonColor, let acessoryView = accessoryButton else {
+            return defaultColor
+        }
+
+        let size = acessoryView.bounds.size
+        if size.width == .zero || size.height == .zero {
+             lastAccessoryButtonSize = size
+             return defaultColor
+        }
+
+        if lastAccessoryButtonSize != size {
+            UIGraphicsBeginImageContextWithOptions(size, false /* opaque */, 0.0 /* scale */)
+            colorImage.draw(in: CGRect(origin: .zero, size: CGSize(width: size.width, height: size.height)))
+            if let contextImage = UIGraphicsGetImageFromCurrentImageContext() {
+               customAccessoryButtonTitleColor = UIColor.init(patternImage: contextImage)
+            }
+            UIGraphicsEndImageContext()
+            lastAccessoryButtonSize = size
+        }
+
+       return customAccessoryButtonTitleColor ?? defaultColor
     }
 
     private func createAccessoryButton(withTitle title: String) -> UIButton {

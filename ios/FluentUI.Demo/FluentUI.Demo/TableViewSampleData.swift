@@ -15,6 +15,7 @@ class TableViewSampleData {
         let hasFullLengthLabelAccessoryView: Bool
         let hasAccessory: Bool
         let accessoryButtonStyle: TableViewHeaderFooterView.AccessoryButtonStyle
+        let hasColorfulAccessoryButton: Bool
         let allowsMultipleSelection: Bool
         let headerStyle: TableViewHeaderFooterView.Style
         let hasFooter: Bool
@@ -22,7 +23,7 @@ class TableViewSampleData {
         let footerLinkText: String
         let hasCustomLinkHandler: Bool
 
-        init(title: String, items: [Item] = [], numberOfLines: Int = 1, hasFullLengthLabelAccessoryView: Bool = false, hasAccessory: Bool = false, accessoryButtonStyle: TableViewHeaderFooterView.AccessoryButtonStyle = .regular, allowsMultipleSelection: Bool = true, headerStyle: TableViewHeaderFooterView.Style = .header, hasFooter: Bool = false, footerText: String = "", footerLinkText: String = "", hasCustomLinkHandler: Bool = false) {
+        init(title: String, items: [Item] = [], numberOfLines: Int = 1, hasFullLengthLabelAccessoryView: Bool = false, hasAccessory: Bool = false, accessoryButtonStyle: TableViewHeaderFooterView.AccessoryButtonStyle = .regular, allowsMultipleSelection: Bool = true, headerStyle: TableViewHeaderFooterView.Style = .header, hasFooter: Bool = false, footerText: String = "", footerLinkText: String = "", hasCustomLinkHandler: Bool = false, hasColorfulAccessoryButton: Bool = false) {
             self.title = title
             self.items = items
             self.numberOfLines = numberOfLines
@@ -35,6 +36,7 @@ class TableViewSampleData {
             self.footerText = footerText
             self.footerLinkText = footerLinkText
             self.hasCustomLinkHandler = hasCustomLinkHandler
+            self.hasColorfulAccessoryButton = hasColorfulAccessoryButton
         }
     }
 

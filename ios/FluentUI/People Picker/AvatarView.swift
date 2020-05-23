@@ -94,6 +94,7 @@ open class AvatarView: UIView {
         static let borderWidth: CGFloat = 2
         static let extraExtraLargeBorderWidth: CGFloat = 4
         static let animationDuration: TimeInterval = 0.2
+        static let frameBorderWidth: CGFloat = 3
     }
 
     private struct SetupData: Equatable {
@@ -120,6 +121,17 @@ open class AvatarView: UIView {
         }
     }
 
+    /// Image to be used as frame around the avatar. It will be scaled to fit the avatar size.
+    @objc open var frameImage: UIImage? {
+        didSet {
+            if frameImage != nil {
+                frameView = UIView(frame: .zero)
+            } else {
+                frameView = nil
+            }
+        }
+    }
+
     @objc open var style: AvatarStyle {
         didSet {
             if style != oldValue {
@@ -128,6 +140,24 @@ open class AvatarView: UIView {
         }
     }
 
+    private var frameView: UIView? {
+        willSet {
+            if newValue == nil {
+                borderView.isHidden = !hasBorder
+                frameView?.removeFromSuperview()
+            }
+        }
+
+        didSet {
+            if let frameView = frameView {
+                borderView.isHidden = true
+                insertSubview(frameView, at: 0)
+                updateFrameView()
+            }
+        }
+    }
+
+    private var hasBorder: Bool = false
     private var primaryText: String?
     private var secondaryText: String?
 
@@ -145,6 +175,7 @@ open class AvatarView: UIView {
     @objc public init(avatarSize: AvatarSize, withBorder hasBorder: Bool = false, style: AvatarStyle = .circle) {
         self.avatarSize = avatarSize
         self.style = style
+        self.hasBorder = hasBorder
         avatarBackgroundColor = UIColor.clear
 
         initialsView = InitialsView(avatarSize: avatarSize)
@@ -192,6 +223,8 @@ open class AvatarView: UIView {
             borderView.frame = bounds.insetBy(dx: -borderWidth, dy: -borderWidth)
             borderView.layer.cornerRadius = cornerRadius(for: borderView.frame.width)
         }
+
+        updateFrameView()
     }
 
     private func cornerRadius(for width: CGFloat) -> CGFloat {
@@ -234,6 +267,7 @@ open class AvatarView: UIView {
     /// - Parameter avatar: The avatar object to get content from
     @objc public func setup(avatar: Avatar?) {
         setup(primaryText: avatar?.primaryText, secondaryText: avatar?.secondaryText, image: avatar?.image)
+        frameImage = avatar?.frameImage
     }
 
     private func setupWithInitials() {
@@ -274,6 +308,32 @@ open class AvatarView: UIView {
                 }
             }
         }
+    }
+
+    private func updateFrameView() {
+        guard let frameView = frameView, let frameImage = frameImage else {
+            return
+        }
+
+        let expectedFrame = bounds.insetBy(dx: -Constants.frameBorderWidth, dy: -Constants.frameBorderWidth)
+        if frameView.frame == expectedFrame {
+            return
+        }
+
+        frameView.frame = expectedFrame
+        frameView.layer.cornerRadius = cornerRadius(for: expectedFrame.width)
+
+        var image = frameImage
+        if frameImage.size != expectedFrame.size {
+            UIGraphicsBeginImageContextWithOptions(expectedFrame.size, false /* opaque */, 0.0 /* scale */)
+            frameImage.draw(in: CGRect(origin: .zero, size: CGSize(width: expectedFrame.size.width, height: expectedFrame.size.height)))
+            if let contextImage = UIGraphicsGetImageFromCurrentImageContext() {
+                image = contextImage
+            }
+            UIGraphicsEndImageContext()
+        }
+
+        frameView.backgroundColor = UIColor.init(patternImage: image)
     }
 
     // MARK: Accessibility

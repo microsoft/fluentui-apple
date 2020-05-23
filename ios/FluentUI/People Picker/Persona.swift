@@ -34,6 +34,9 @@ public typealias MSPersonaData = PersonaData
 open class PersonaData: NSObject, Persona {
     public var avatarImage: UIImage?
     public var email: String
+
+    /// An image that can be used as a frame (outer wide broder) for the avatar view
+    @objc public var frameImage: UIImage?
     public var name: String
     public var subtitle: String
 

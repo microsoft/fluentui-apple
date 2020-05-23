@@ -15,6 +15,7 @@ public protocol Avatar {
     var primaryText: String { get }
     var secondaryText: String { get }
     var image: UIImage? { get }
+    var frameImage: UIImage? { get }
 }
 
 // MARK: - AvatarData
@@ -27,6 +28,9 @@ open class AvatarData: NSObject, Avatar {
     public var primaryText: String
     public var secondaryText: String
     public var image: UIImage?
+
+    /// An image that can be used as a frame (outer wide broder) for the avatar view
+    @objc public var frameImage: UIImage?
 
     @objc public init(primaryText: String = "", secondaryText: String = "", image: UIImage? = nil) {
         self.primaryText = primaryText
