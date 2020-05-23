@@ -96,9 +96,6 @@
 /* Accessibility hint for a segmented control button */
 "Accessibility.Segmented.Button.Hint" = "タップして %@ に移動します";
 
-/* Accessibility hint for TabBarItemView to indicate its index relative to total number of items */
-"Accessibility.TabBarItemView.Hint" = "%d/%d";
-
 /* Accessibility hint for more actions button */
 "Accessibility.TableViewCell.MoreActions.Hint" = "ダブルタップしてその他のアクションを表示します";
 
