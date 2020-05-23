@@ -245,8 +245,10 @@ public final class Colors: NSObject {
 
     /// Variation of App brand colors. If an application is a hub of different apps, `primary` color could change within the same foreground session.
     /// It is not recommended to cache `primary` color because it could change.
-    @objc public static var primary: UIColor = communicationBlue
-    @objc public static var primaryTint10: UIColor = Palette.communicationBlueTint10.color
+    @available(*, deprecated, renamed: "setProvider(_:forWindow:)")
+	@objc public static var primary: UIColor = communicationBlue
+
+	@objc public static var primaryTint10: UIColor = Palette.communicationBlueTint10.color
     @objc public static var primaryTint20: UIColor = Palette.communicationBlueTint20.color
     @objc public static var primaryTint30: UIColor = Palette.communicationBlueTint30.color
     @objc public static var primaryTint40: UIColor = Palette.communicationBlueTint40.color
@@ -346,13 +348,11 @@ public final class Colors: NSObject {
 
     public struct Badge {
         public static var background: UIColor { return primaryTint40 }
-        public static var backgroundSelected: UIColor { return primary }
         public static var backgroundDisabled: UIColor = background2b
         public static var backgroundError = UIColor(light: Palette.dangerTint40.color, dark: Palette.dangerTint30.color)
         public static var backgroundErrorSelected: UIColor = error
         public static var backgroundWarning = UIColor(light: Palette.warningTint40.color, dark: Palette.warningTint30.color)
         public static var backgroundWarningSelected: UIColor = warning
-        public static var text: UIColor { return primary }
         public static var textSelected: UIColor = foregroundOnPrimary
         public static var textDisabled: UIColor = foreground2b
         public static var textError = UIColor(light: Palette.dangerShade10.color, dark: Palette.dangerShade20.color)
@@ -368,7 +368,7 @@ public final class Colors: NSObject {
     }
 
     public struct BarButtonItem {
-        public static var primary: UIColor { return UIColor(light: Colors.primary, dark: .white) }
+        public static var primary: UIColor { return UIColor(light: Colors.primary, dark: .white) } // TODO: Move to Date Picker where this is actually used
         public static var secondary: UIColor = foreground2d
     }
 
@@ -395,7 +395,6 @@ public final class Colors: NSObject {
             public static var backgroundPrimary: UIColor = background1
             public static var backgroundSecondary: UIColor = background2
             public static var circleHighlighted: UIColor = gray400
-            public static var circleSelected: UIColor { return primary }
         }
         public struct Today {
             public static var background: UIColor = background1
@@ -628,7 +627,6 @@ public final class Colors: NSObject {
     }
 
     public struct Tooltip {
-        public static var background: UIColor { return UIColor(light: gray900.withAlphaComponent(0.95), dark: primary)}
         public static var text: UIColor = foregroundOnPrimary
     }
 
@@ -668,7 +666,7 @@ public enum TextColorStyle: Int, CaseIterable {
     case warning
     case disabled
 
-    public var color: UIColor {
+	public func color(for window: UIWindow) -> UIColor {
         switch self {
         case .regular:
             return Colors.foreground1
@@ -677,7 +675,7 @@ public enum TextColorStyle: Int, CaseIterable {
         case .white:
             return .white
         case .primary:
-            return Colors.primary
+            return Colors.primary(for: window)
         case .error:
             return Colors.error
         case .warning:

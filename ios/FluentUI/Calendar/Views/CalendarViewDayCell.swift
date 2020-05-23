@@ -225,20 +225,24 @@ private class SelectionOverlayView: UIView {
     // TODO: Add different colors for availability?
     var selected: Bool = false {
         didSet {
-            activeColor = Colors.Calendar.Day.circleSelected
             setupActiveViews()
         }
     }
     var highlighted: Bool = false {
         didSet {
-            activeColor = Colors.Calendar.Day.circleHighlighted
             setupActiveViews()
         }
     }
+	
+	private var activeColor: UIColor {
+		if selected,
+			let window = window {
+			return Colors.primary(for: window)
+		}
+		return Colors.Calendar.Day.circleHighlighted
+	}
 
-    private var activeColor: UIColor = Colors.Calendar.Day.circleHighlighted
-
-    // Lazy load views as every additional subview impacts the "Calendar"
+	// Lazy load views as every additional subview impacts the "Calendar"
     // tab loading time because the MSDatePicker needs
     // to initialize N * 7 cells when loading the view
     private var circleView: DotView?
@@ -268,6 +272,10 @@ private class SelectionOverlayView: UIView {
 
         flipSubviewsForRTL()
     }
+	
+	override func didMoveToWindow() {
+		setupActiveViews()
+	}
 
     private func setupActiveViews() {
         switch selectionType {
