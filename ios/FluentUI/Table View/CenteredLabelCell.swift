@@ -54,6 +54,7 @@ open class CenteredLabelCell: UITableViewCell {
     }
 
     open override func didMoveToWindow() {
+        super.didMoveToWindow()
         if let window = window {
             label.textColor = Colors.primary(for: window)
         }

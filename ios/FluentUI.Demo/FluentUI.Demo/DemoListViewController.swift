@@ -20,7 +20,6 @@ class DemoListViewController: UITableViewController {
 
         if let viewController = viewController {
             navigationController.pushViewController(viewController, animated: false)
-
         }
     }
 

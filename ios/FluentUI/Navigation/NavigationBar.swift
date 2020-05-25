@@ -290,6 +290,7 @@ open class NavigationBar: UINavigationBar {
     }
 
     open override func didMoveToWindow() {
+        super.didMoveToWindow()
         updateColors(for: topItem)
     }
 

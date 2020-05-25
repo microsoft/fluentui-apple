@@ -406,6 +406,7 @@ open class NotificationView: UIView {
     }
 
     open override func didMoveToWindow() {
+        super.didMoveToWindow()
         updateWindowSpecificColors()
     }
 

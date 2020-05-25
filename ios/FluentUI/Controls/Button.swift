@@ -163,6 +163,7 @@ open class Button: UIButton {
     }
 
     open override func didMoveToWindow() {
+        super.didMoveToWindow()
         updateBackgroundColor()
         updateTitleColors()
         updateBorderColor()

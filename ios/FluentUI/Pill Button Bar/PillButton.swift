@@ -91,6 +91,7 @@ open class PillButton: UIButton {
     }
 
     open override func didMoveToWindow() {
+        super.didMoveToWindow()
         updateAppearance()
     }
 

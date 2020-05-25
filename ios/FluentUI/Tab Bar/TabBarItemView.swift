@@ -100,6 +100,7 @@ class TabBarItemView: UIView {
     }
 
     override func didMoveToWindow() {
+        super.didMoveToWindow()
         updateColors()
     }
 

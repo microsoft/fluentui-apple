@@ -54,6 +54,7 @@ open class Label: UILabel {
     }
 
     open override func didMoveToWindow() {
+        super.didMoveToWindow()
         updateTextColor()
     }
 

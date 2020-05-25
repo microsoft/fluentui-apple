@@ -1170,6 +1170,7 @@ open class TableViewCell: UITableViewCell {
     }
 
     open override func didMoveToWindow() {
+        super.didMoveToWindow()
         updateSelectionImageColor()
     }
 

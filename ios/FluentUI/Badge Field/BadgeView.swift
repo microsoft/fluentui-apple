@@ -261,6 +261,7 @@ open class BadgeView: UIView {
     }
 
     open override func didMoveToWindow() {
+        super.didMoveToWindow()
         updateBackgroundColor()
         updateLabelTextColor()
     }

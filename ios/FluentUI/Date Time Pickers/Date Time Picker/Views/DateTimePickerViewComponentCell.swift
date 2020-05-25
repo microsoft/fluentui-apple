@@ -63,6 +63,7 @@ class DateTimePickerViewComponentCell: UITableViewCell {
     }
 
     override func didMoveToWindow() {
+        super.didMoveToWindow()
         updateTextLabelColor()
     }
 

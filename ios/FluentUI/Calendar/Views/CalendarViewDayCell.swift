@@ -274,6 +274,7 @@ private class SelectionOverlayView: UIView {
     }
 
     override func didMoveToWindow() {
+        super.didMoveToWindow()
         setupActiveViews()
     }
 

@@ -323,6 +323,7 @@ open class SegmentedControl: UIControl {
     }
 
     open override func didMoveToWindow() {
+        super.didMoveToWindow()
         updateWindowSpecificColors()
     }
 
@@ -449,6 +450,7 @@ private class SegmentedControlButton: UIButton {
     }
 
     override func didMoveToWindow() {
+        super.didMoveToWindow()
         if let window = window {
             setTitleColor(style.segmentTextColorSelected(for: window), for: .selected)
         }

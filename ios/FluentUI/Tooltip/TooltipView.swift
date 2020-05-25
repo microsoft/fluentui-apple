@@ -132,6 +132,7 @@ class TooltipView: UIView {
     }
 
     override func didMoveToWindow() {
+        super.didMoveToWindow()
         updateWindowSpecificColors()
     }
 

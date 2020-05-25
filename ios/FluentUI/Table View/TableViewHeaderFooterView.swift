@@ -348,6 +348,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     }
 
     open override func didMoveToWindow() {
+        super.didMoveToWindow()
         updateTitleAndBackgroundColors()
         updateAccessoryButtonTitleColor()
     }

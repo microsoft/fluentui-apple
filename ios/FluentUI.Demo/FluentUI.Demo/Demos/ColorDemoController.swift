@@ -200,6 +200,7 @@ class DemoColorView: UIView {
     }
 
     override func didMoveToWindow() {
+        super.didMoveToWindow()
         if let colorProvider = colorProvider,
             let window = window {
             backgroundColor = colorProvider(window)
