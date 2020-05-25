@@ -41,7 +41,7 @@ open class NavigationBar: UINavigationBar {
             }
         }
 
-		func backgroundColor(for window: UIWindow, customColor: UIColor?) -> UIColor {
+        func backgroundColor(for window: UIWindow, customColor: UIColor?) -> UIColor {
             switch self {
             case .primary, .default:
                 return defaultBackgroundColor(for: window)
@@ -52,9 +52,9 @@ open class NavigationBar: UINavigationBar {
             }
         }
 
-		func defaultBackgroundColor(for window: UIWindow) -> UIColor {
-			return UIColor(light: Colors.primary(for: window), dark: Colors.Navigation.System.background)
-		}
+        func defaultBackgroundColor(for window: UIWindow) -> UIColor {
+            return UIColor(light: Colors.primary(for: window), dark: Colors.Navigation.System.background)
+        }
     }
 
     /// Describes the sizing behavior of navigation bar elements (title, avatar, bar height)
@@ -289,9 +289,9 @@ open class NavigationBar: UINavigationBar {
         updateAccessibilityElements()
     }
 
-	open override func didMoveToWindow() {
-		updateColors(for: topItem)
-	}
+    open override func didMoveToWindow() {
+        updateColors(for: topItem)
+    }
 
     open override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         // contentStackView's content extends its bounds outside of navigation bar bounds
@@ -349,31 +349,31 @@ open class NavigationBar: UINavigationBar {
     // MARK: UINavigationItem & UIBarButtonItem handling
 
     func updateColors(for navigationItem: UINavigationItem?) {
-		if let window = window {
-			let color = navigationItem?.navigationBarColor(for: window)
+        if let window = window {
+            let color = navigationItem?.navigationBarColor(for: window)
 
-			switch style {
-			case .primary, .default, .custom:
-				titleView.style = .light
-			case .system:
-				titleView.style = .dark
-			}
+            switch style {
+            case .primary, .default, .custom:
+                titleView.style = .light
+            case .system:
+                titleView.style = .dark
+            }
 
-			barTintColor = color
-			backgroundView.backgroundColor = color
-			tintColor = style.tintColor
-			if var titleTextAttributes = titleTextAttributes {
-				titleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor
-				self.titleTextAttributes = titleTextAttributes
-			} else {
-				titleTextAttributes = [NSAttributedString.Key.foregroundColor: style.titleColor]
-			}
+            barTintColor = color
+            backgroundView.backgroundColor = color
+            tintColor = style.tintColor
+            if var titleTextAttributes = titleTextAttributes {
+                titleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor
+                self.titleTextAttributes = titleTextAttributes
+            } else {
+                titleTextAttributes = [NSAttributedString.Key.foregroundColor: style.titleColor]
+            }
 
-			navigationBarColorObserver = navigationItem?.observe(\.customNavigationBarColor) { [unowned self] navigationItem, _ in
-				// Unlike title or barButtonItems that depends on the topItem, navigation bar color can be set from the parentViewController's navigationItem
-				self.updateColors(for: navigationItem)
-			}
-		}
+            navigationBarColorObserver = navigationItem?.observe(\.customNavigationBarColor) { [unowned self] navigationItem, _ in
+                // Unlike title or barButtonItems that depends on the topItem, navigation bar color can be set from the parentViewController's navigationItem
+                self.updateColors(for: navigationItem)
+            }
+        }
     }
 
     func update(with navigationItem: UINavigationItem) {

@@ -60,9 +60,9 @@ import UIKit
         }
     }
 
-	func navigationBarColor(for window: UIWindow) -> UIColor {
-		return navigationBarStyle.backgroundColor(for: window, customColor: customNavigationBarColor)
-	}
+    func navigationBarColor(for window: UIWindow) -> UIColor {
+        return navigationBarStyle.backgroundColor(for: window, customColor: customNavigationBarColor)
+    }
 
     var customNavigationBarColor: UIColor? {
         get {

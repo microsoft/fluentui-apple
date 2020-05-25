@@ -31,7 +31,7 @@ open class NotificationView: UIView {
 
         var isToast: Bool { self == .primaryToast || self == .neutralToast }
 
-		func backgroundColor(for window: UIWindow) -> UIColor {
+        func backgroundColor(for window: UIWindow) -> UIColor {
             switch self {
             case .primaryToast:
                 return primaryFilledBackground(for: window)
@@ -45,16 +45,16 @@ open class NotificationView: UIView {
                 return Colors.Notification.NeutralBar.background
             }
         }
-		func foregroundColor(for window: UIWindow) -> UIColor {
+        func foregroundColor(for window: UIWindow) -> UIColor {
             switch self {
             case .primaryToast:
-				return UIColor(light: Colors.primaryShade20(for: window), dark: .black)
+                return UIColor(light: Colors.primaryShade20(for: window), dark: .black)
             case .neutralToast:
                 return Colors.Notification.NeutralToast.foreground
             case .primaryBar:
-				return UIColor(light: Colors.primaryShade20(for: window), dark: .black)
+                return UIColor(light: Colors.primaryShade20(for: window), dark: .black)
             case .primaryOutlineBar:
-				return UIColor(light: Colors.primary(for: window), dark: Colors.gray100)
+                return UIColor(light: Colors.primary(for: window), dark: Colors.gray100)
             case .neutralBar:
                 return Colors.Notification.NeutralBar.foreground
             }
@@ -75,10 +75,10 @@ open class NotificationView: UIView {
         var supportsImage: Bool { return isToast }
         var supportsAction: Bool { return isToast }
 
-		private func primaryFilledBackground(for window: UIWindow) -> UIColor {
-			let primaryColor = Colors.primary(for: window)
-			return UIColor(light: primaryColor.withAlphaComponent(0.2), dark: primaryColor)
-		}
+        private func primaryFilledBackground(for window: UIWindow) -> UIColor {
+            let primaryColor = Colors.primary(for: window)
+            return UIColor(light: primaryColor.withAlphaComponent(0.2), dark: primaryColor)
+        }
 
     }
 
@@ -99,7 +99,7 @@ open class NotificationView: UIView {
         static let animationDurationForShowBar: TimeInterval = 0.3
         static let animationDurationForHide: TimeInterval = 0.25
         static let animationDampingRatioForToast: CGFloat = 0.5
-	}
+    }
 
     @objc public static var allowsMultipleToasts: Bool = false
 
@@ -405,9 +405,9 @@ open class NotificationView: UIView {
         updateHorizontalPadding()
     }
 
-	open override func didMoveToWindow() {
-		updateWindowSpecificColors()
-	}
+    open override func didMoveToWindow() {
+        updateWindowSpecificColors()
+    }
 
     private func updateForStyle() {
         clipsToBounds = !style.needsSeparator
@@ -420,19 +420,19 @@ open class NotificationView: UIView {
         messageLabel.textAlignment = style.messageAlignment
         messageLabel.style = style.messageStyle
 
-		updateWindowSpecificColors()
+        updateWindowSpecificColors()
     }
 
-	private func updateWindowSpecificColors() {
-		if let window = window {
-			backgroundView.updateBackground(backgroundColor: style.backgroundColor(for: window))
-			let foregroundColor = style.foregroundColor(for: window)
-			imageView.tintColor = foregroundColor
-			titleLabel.textColor = foregroundColor
-			messageLabel.textColor = foregroundColor
-			actionButton.tintColor = foregroundColor
-		}
-	}
+    private func updateWindowSpecificColors() {
+        if let window = window {
+            backgroundView.updateBackground(backgroundColor: style.backgroundColor(for: window))
+            let foregroundColor = style.foregroundColor(for: window)
+            imageView.tintColor = foregroundColor
+            titleLabel.textColor = foregroundColor
+            messageLabel.textColor = foregroundColor
+            actionButton.tintColor = foregroundColor
+        }
+    }
 
     private func updateHorizontalPadding() {
         // Since container.insetsLayoutMarginsFromSafeArea is false we need to manually add horizontal insets

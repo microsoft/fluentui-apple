@@ -439,6 +439,6 @@ class CustomGradient {
         }
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-		return UIColor(light: image != nil ? UIColor(patternImage: image!) : endColor, dark: .white)
+        return UIColor(light: image != nil ? UIColor(patternImage: image!) : endColor, dark: Colors.Navigation.System.background)
     }
 }

@@ -15,21 +15,21 @@ public enum PillButtonStyle: Int {
     case outline
     case filled
 
-	func backgroundColor(for window: UIWindow) -> UIColor {
+    func backgroundColor(for window: UIWindow) -> UIColor {
         switch self {
         case .outline:
             return Colors.PillButton.Outline.background
         case .filled:
-			return UIColor(light: Colors.primaryShade10(for: window), dark: Colors.PillButton.Outline.background)
+            return UIColor(light: Colors.primaryShade10(for: window), dark: Colors.PillButton.Outline.background)
         }
     }
 
-	func selectedBackgroundColor(for window: UIWindow) -> UIColor {
+    func selectedBackgroundColor(for window: UIWindow) -> UIColor {
         switch self {
         case .outline:
-		   return UIColor(light: Colors.primary(for: window), dark: Colors.gray600)
+            return UIColor(light: Colors.primary(for: window), dark: Colors.gray600)
         case .filled:
-           return Colors.PillButton.Filled.backgroundSelected
+            return Colors.PillButton.Filled.backgroundSelected
         }
     }
 
@@ -42,12 +42,12 @@ public enum PillButtonStyle: Int {
         }
     }
 
-	func selectedTitleColor(for window: UIWindow) -> UIColor {
+    func selectedTitleColor(for window: UIWindow) -> UIColor {
         switch self {
         case .outline:
             return  Colors.PillButton.Outline.titleSelected
         case .filled:
-			return UIColor(light: Colors.primary(for: window), dark: Colors.PillButton.Outline.titleSelected)
+            return UIColor(light: Colors.primary(for: window), dark: Colors.PillButton.Outline.titleSelected)
         }
     }
 }
@@ -90,9 +90,9 @@ open class PillButton: UIButton {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-	open override func didMoveToWindow() {
-		updateAppearance()
-	}
+    open override func didMoveToWindow() {
+        updateAppearance()
+    }
 
     private func setupView() {
         setTitle(pillBarItem.title, for: .normal)
@@ -107,9 +107,9 @@ open class PillButton: UIButton {
         }
 
         contentEdgeInsets = UIEdgeInsets(top: Constants.topInset,
-                                        left: Constants.horizontalInset,
-                                      bottom: Constants.bottomInset,
-                                       right: Constants.horizontalInset)
+                                         left: Constants.horizontalInset,
+                                         bottom: Constants.bottomInset,
+                                         right: Constants.horizontalInset)
 
     }
 
@@ -122,14 +122,14 @@ open class PillButton: UIButton {
     }
 
     private func updateAppearance() {
-		if let window = window {
-			backgroundColor = isSelected ? style.selectedBackgroundColor(for: window) : style.backgroundColor(for: window)
+        if let window = window {
+            backgroundColor = isSelected ? style.selectedBackgroundColor(for: window) : style.backgroundColor(for: window)
 
-			if isSelected {
-				setTitleColor(style.selectedTitleColor(for: window), for: .normal)
-			} else {
-				setTitleColor(style.titleColor, for: .normal)
-			}
-		}
+            if isSelected {
+                setTitleColor(style.selectedTitleColor(for: window), for: .normal)
+            } else {
+                setTitleColor(style.titleColor, for: .normal)
+            }
+        }
     }
 }

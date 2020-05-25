@@ -96,7 +96,7 @@ open class BadgeView: UIView {
         static let backgroundCornerRadius: CGFloat = 3
     }
 
-	private func backgroundColor(for window: UIWindow, style: Style, selected: Bool, enabled: Bool) -> UIColor {
+    private func backgroundColor(for window: UIWindow, style: Style, selected: Bool, enabled: Bool) -> UIColor {
         switch style {
         case .default:
             if !enabled {
@@ -184,7 +184,7 @@ open class BadgeView: UIView {
     private var style: Style = .default {
         didSet {
             updateBackgroundColor()
-			updateLabelTextColor()
+            updateLabelTextColor()
         }
     }
 
@@ -260,12 +260,12 @@ open class BadgeView: UIView {
         return CGSize(width: max(minWidth, min(width, maxWidth)), height: self.size.height)
     }
 
-	open override func didMoveToWindow() {
-		updateBackgroundColor()
-		updateLabelTextColor()
-	}
+    open override func didMoveToWindow() {
+        updateBackgroundColor()
+        updateLabelTextColor()
+    }
 
-	private func updateAccessibility() {
+    private func updateAccessibility() {
         if isSelected {
             accessibilityValue = "Accessibility.Selected.Value".localized
             accessibilityHint = "Accessibility.Selected.Hint".localized
@@ -276,15 +276,15 @@ open class BadgeView: UIView {
     }
 
     private func updateBackgroundColor() {
-		if let window = window {
-			backgroundView.backgroundColor = backgroundColor(for: window, style: style, selected: isSelected, enabled: isActive)
-		}
+        if let window = window {
+            backgroundView.backgroundColor = backgroundColor(for: window, style: style, selected: isSelected, enabled: isActive)
+        }
     }
 
     private func updateLabelTextColor() {
-		if let window = window {
-			label.textColor = textColor(for: window, style: style, selected: isSelected, enabled: isActive)
-		}
+        if let window = window {
+            label.textColor = textColor(for: window, style: style, selected: isSelected, enabled: isActive)
+        }
     }
 
     @objc private func badgeTapped() {

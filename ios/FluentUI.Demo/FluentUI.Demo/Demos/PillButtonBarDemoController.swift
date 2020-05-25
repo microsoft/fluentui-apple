@@ -12,17 +12,17 @@ class PillButtonBarDemoController: DemoController {
         container.layoutMargins.right = 0
         container.layoutMargins.left = 0
         var items: [PillButtonBarItem] = [PillButtonBarItem(title: "All"),
-                                            PillButtonBarItem(title: "Documents"),
-                                            PillButtonBarItem(title: "People"),
-                                            PillButtonBarItem(title: "Other"),
-                                            PillButtonBarItem(title: "Templates"),
-                                            PillButtonBarItem(title: "Actions"),
-                                            PillButtonBarItem(title: "More")]
+                                          PillButtonBarItem(title: "Documents"),
+                                          PillButtonBarItem(title: "People"),
+                                          PillButtonBarItem(title: "Other"),
+                                          PillButtonBarItem(title: "Templates"),
+                                          PillButtonBarItem(title: "Actions"),
+                                          PillButtonBarItem(title: "More")]
 
         container.addArrangedSubview(createLabelWithText("Filled"))
-		let filledBar = createBar(items: items, style: .filled)
+        let filledBar = createBar(items: items, style: .filled)
         container.addArrangedSubview(filledBar)
-		self.filledBar = filledBar
+        self.filledBar = filledBar
         container.addArrangedSubview(UIView())
 
         container.addArrangedSubview(createLabelWithText("Outline"))
@@ -51,12 +51,12 @@ class PillButtonBarDemoController: DemoController {
         container.addArrangedSubview(UIView())
     }
 
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
-		if let window = view.window {
-			filledBar?.backgroundColor = Colors.primary(for: window)
-		}
-	}
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let window = view.window {
+            filledBar?.backgroundColor = Colors.primary(for: window)
+        }
+    }
 
     func createBar(items: [PillButtonBarItem], style: PillButtonStyle = .outline, centerAligned: Bool = false) -> UIView {
         let bar = PillButtonBar(pillButtonStyle: style)
@@ -66,9 +66,9 @@ class PillButtonBarDemoController: DemoController {
         bar.centerAligned = centerAligned
 
         let backgroundView = UIView()
-		if style == .outline {
-			backgroundView.backgroundColor = Colors.Navigation.System.background
-		}
+        if style == .outline {
+            backgroundView.backgroundColor = Colors.Navigation.System.background
+        }
         backgroundView.addSubview(bar)
         let margins = UIEdgeInsets(top: 16.0, left: 0, bottom: 16.0, right: 0.0)
         fitViewIntoSuperview(bar, margins: margins)
@@ -89,14 +89,14 @@ class PillButtonBarDemoController: DemoController {
 
         view.translatesAutoresizingMaskIntoConstraints = false
         let constraints = [view.leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: margins.left),
-            view.trailingAnchor.constraint(equalTo: superview.trailingAnchor, constant: -margins.right),
-            view.topAnchor.constraint(equalTo: superview.topAnchor, constant: margins.top),
-            view.bottomAnchor.constraint(equalTo: superview.bottomAnchor, constant: -margins.bottom)]
+                           view.trailingAnchor.constraint(equalTo: superview.trailingAnchor, constant: -margins.right),
+                           view.topAnchor.constraint(equalTo: superview.topAnchor, constant: margins.top),
+                           view.bottomAnchor.constraint(equalTo: superview.bottomAnchor, constant: -margins.bottom)]
 
         NSLayoutConstraint.activate(constraints)
     }
 
-	private var filledBar: UIView?
+    private var filledBar: UIView?
 }
 
 // MARK: - PillButtonBarDemoController: PillButtonBarDelegate

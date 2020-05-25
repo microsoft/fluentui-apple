@@ -37,7 +37,7 @@ public enum TableViewCellAccessoryType: Int {
         return icon
     }
 
-	func iconColor(for window: UIWindow) -> UIColor? {
+    func iconColor(for window: UIWindow) -> UIColor? {
         switch self {
         case .none:
             return nil
@@ -1169,9 +1169,9 @@ open class TableViewCell: UITableViewCell {
         }
     }
 
-	open override func didMoveToWindow() {
-		updateSelectionImageColor()
-	}
+    open override func didMoveToWindow() {
+        updateSelectionImageColor()
+    }
 
     open func selectionDidChange() { }
 
@@ -1258,14 +1258,14 @@ open class TableViewCell: UITableViewCell {
 
     private func updateSelectionImageView() {
         selectionImageView.image = isSelected ? Constants.selectionImageOn : Constants.selectionImageOff
-		updateSelectionImageColor()
+        updateSelectionImageColor()
     }
 
-	private func updateSelectionImageColor() {
-		if let window = window {
-			selectionImageView.tintColor = isSelected ? Colors.primary(for: window) : Colors.Table.Cell.selectionIndicatorOff
-		}
-	}
+    private func updateSelectionImageColor() {
+        if let window = window {
+            selectionImageView.tintColor = isSelected ? Colors.primary(for: window) : Colors.Table.Cell.selectionIndicatorOff
+        }
+    }
 
     private func updateSeparator(_ separator: Separator, with type: SeparatorType) {
         separator.isHidden = type == .none
@@ -1330,10 +1330,10 @@ internal class TableViewCellAccessoryView: UIView {
         return type.size
     }
 
-	override func didMoveToWindow() {
-		super.didMoveToWindow()
-		updateWindowSpecificColors()
-	}
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateWindowSpecificColors()
+    }
 
     private func addIconView(type: TableViewCellAccessoryType) {
         iconView = UIImageView(image: type.icon)
@@ -1349,22 +1349,22 @@ internal class TableViewCellAccessoryView: UIView {
         onTapped?()
     }
 
-	private lazy var detailButton: UIButton = {
-		let button = UIButton(type: .custom)
-		button.setImage(type.icon, for: .normal)
-		button.frame.size = type.size
-		button.contentMode = .center
-		button.accessibilityLabel = "Accessibility.TableViewCell.MoreActions.Label".localized
-		button.accessibilityHint = "Accessibility.TableViewCell.MoreActions.Hint".localized
-		button.addTarget(self, action: #selector(handleOnAccessoryTapped), for: .touchUpInside)
-		return button
-	}()
+    private lazy var detailButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(type.icon, for: .normal)
+        button.frame.size = type.size
+        button.contentMode = .center
+        button.accessibilityLabel = "Accessibility.TableViewCell.MoreActions.Label".localized
+        button.accessibilityHint = "Accessibility.TableViewCell.MoreActions.Hint".localized
+        button.addTarget(self, action: #selector(handleOnAccessoryTapped), for: .touchUpInside)
+        return button
+    }()
 
-	private func updateWindowSpecificColors() {
-		if let window = window {
-			let iconColor = type.iconColor(for: window)
+    private func updateWindowSpecificColors() {
+        if let window = window {
+            let iconColor = type.iconColor(for: window)
             iconView?.tintColor = customTintColor ?? iconColor
-			detailButton.tintColor = iconColor
-		}
-	}
+            detailButton.tintColor = iconColor
+        }
+    }
 }

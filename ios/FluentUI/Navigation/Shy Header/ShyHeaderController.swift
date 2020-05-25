@@ -110,14 +110,14 @@ class ShyHeaderController: UIViewController {
         setupNotificationObservers()
     }
 
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
-		if let window = view.window,
-		   let (actualStyle, actualItem) = msfNavigationController?.msfNavigationBar.actualStyleAndItem(for: navigationItem) {
-			shyHeaderView.navigationBarStyle = actualStyle
-			updateBackgroundColor(with: actualItem, window: window)
-		}
-	}
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let window = view.window,
+            let (actualStyle, actualItem) = msfNavigationController?.msfNavigationBar.actualStyleAndItem(for: navigationItem) {
+            shyHeaderView.navigationBarStyle = actualStyle
+            updateBackgroundColor(with: actualItem, window: window)
+        }
+    }
 
     // MARK: - Base Construction
 
@@ -246,7 +246,7 @@ class ShyHeaderController: UIViewController {
         return true
     }
 
-	private func updateBackgroundColor(with item: UINavigationItem, window: UIWindow) {
+    private func updateBackgroundColor(with item: UINavigationItem, window: UIWindow) {
         let color = item.navigationBarColor(for: window)
         shyHeaderView.backgroundColor = color
         view.backgroundColor = color
@@ -324,11 +324,11 @@ class ShyHeaderController: UIViewController {
 
         let logUpdatedTraits: () -> Void = {
             self.previousContentScrollViewTraits = ContentScrollViewTraits(yVelocity: velocity,
-                                                                             userScrolling: scrollView.userIsScrolling,
-                                                                             scrollDirection: newScrollDirection,
-                                                                             switchedDirection: switchedDirection,
-                                                                             yOffset: yOffset,
-                                                                             scrollLocationDescriptor: scrollView.scrollLocationDescriptor)
+                                                                           userScrolling: scrollView.userIsScrolling,
+                                                                           scrollDirection: newScrollDirection,
+                                                                           switchedDirection: switchedDirection,
+                                                                           yOffset: yOffset,
+                                                                           scrollLocationDescriptor: scrollView.scrollLocationDescriptor)
         }
 
         guard shyBehaviorCalculationsShouldProceed(inScrollView: scrollView, forGestureRecognizer: gesture, withExpectedState: .changed) else {
@@ -405,11 +405,11 @@ class ShyHeaderController: UIViewController {
         }
 
         previousContentScrollViewTraits = ContentScrollViewTraits(yVelocity: velocity,
-                                                                    userScrolling: scrollView.userIsScrolling,
-                                                                    scrollDirection: newScrollDirection,
-                                                                    switchedDirection: switchedDirection,
-                                                                    yOffset: scrollView.contentOffset.y,
-                                                                    scrollLocationDescriptor: scrollView.scrollLocationDescriptor)
+                                                                  userScrolling: scrollView.userIsScrolling,
+                                                                  scrollDirection: newScrollDirection,
+                                                                  switchedDirection: switchedDirection,
+                                                                  yOffset: scrollView.contentOffset.y,
+                                                                  scrollLocationDescriptor: scrollView.scrollLocationDescriptor)
     }
 
     /// Converts the properties of a UIPanGesture with a .ended state into the proper shy behaviors

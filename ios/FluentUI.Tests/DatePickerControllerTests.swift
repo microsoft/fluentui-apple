@@ -100,7 +100,7 @@ class MockCalendarViewStyleDataSource: CalendarViewStyleDataSource {
     }
 
     func calendarViewDataSource(_ dataSource: CalendarViewDataSource, backgroundStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents
-        ) -> CalendarViewDayCellBackgroundStyle {
+    ) -> CalendarViewDayCellBackgroundStyle {
         if dayStartComponents.dateIsTodayOrLater(todayDateComponents: todayComponents) {
             return .primary
         } else {

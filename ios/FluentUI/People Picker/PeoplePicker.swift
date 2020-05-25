@@ -328,8 +328,8 @@ open class PeoplePicker: BadgeField {
         guard let draggedBadge = draggedBadge,
             let personaBadgeDataSource = draggedBadge.dataSource as? PersonaBadgeViewDataSource,
             let destinationPeoplePicker = destinationBadgeField as? PeoplePicker else {
-            assertionFailure("Badge dataSource is not of type PersonaBadgeViewDataSource or destination badge field is not of type MSPeoplePicker")
-            return
+                assertionFailure("Badge dataSource is not of type PersonaBadgeViewDataSource or destination badge field is not of type MSPeoplePicker")
+                return
         }
         if !destinationPeoplePicker.shouldPick(persona: personaBadgeDataSource.persona) {
             cancelBadgeDraggingIfNeeded()

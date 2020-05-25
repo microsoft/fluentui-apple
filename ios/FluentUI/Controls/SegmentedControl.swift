@@ -23,12 +23,12 @@ open class SegmentedControl: UIControl {
         var backgroundHasRoundedCorners: Bool { return self == .switch }
         var segmentsHaveEqualWidth: Bool { return self == .tabs }
 
-		func backgroundColor(for window: UIWindow) -> UIColor {
+        func backgroundColor(for window: UIWindow) -> UIColor {
             switch self {
             case .tabs:
                 return Colors.SegmentedControl.Tabs.background
             case .switch:
-				return UIColor(light: Colors.primaryShade20(for: window), dark: .black)
+                return UIColor(light: Colors.primaryShade20(for: window), dark: .black)
             }
         }
         var backgroundColorDisabled: UIColor {
@@ -39,10 +39,10 @@ open class SegmentedControl: UIControl {
                 return Colors.SegmentedControl.Switch.backgroundDisabled
             }
         }
-		func selectionColor(for window: UIWindow) -> UIColor {
+        func selectionColor(for window: UIWindow) -> UIColor {
             switch self {
             case .tabs:
-				return UIColor(light: Colors.primary(for: window), dark: .white)
+                return UIColor(light: Colors.primary(for: window), dark: .white)
             case .switch:
                 return Colors.SegmentedControl.Switch.selection
             }
@@ -63,12 +63,12 @@ open class SegmentedControl: UIControl {
                 return Colors.SegmentedControl.Switch.segmentText
             }
         }
-		func segmentTextColorSelected(for window: UIWindow) -> UIColor {
+        func segmentTextColorSelected(for window: UIWindow) -> UIColor {
             switch self {
             case .tabs:
-				return UIColor(light: Colors.primary(for: window), dark: .white)
+                return UIColor(light: Colors.primary(for: window), dark: .white)
             case .switch:
-				return UIColor(light: Colors.primary(for: window), dark: Colors.gray100)
+                return UIColor(light: Colors.primary(for: window), dark: Colors.gray100)
             }
         }
         var segmentTextColorDisabled: UIColor {
@@ -322,9 +322,9 @@ open class SegmentedControl: UIControl {
         return CGSize(width: min(fittingSize.width, size.width), height: min(fittingSize.height, size.height))
     }
 
-	open override func didMoveToWindow() {
-		updateWindowSpecificColors()
-	}
+    open override func didMoveToWindow() {
+        updateWindowSpecificColors()
+    }
 
     func intrinsicContentSizeInvalidatedForChildView() {
         invalidateIntrinsicContentSize()
@@ -406,12 +406,12 @@ open class SegmentedControl: UIControl {
         }
     }
 
-	private func updateWindowSpecificColors() {
-		if let window = window {
-			selectionView.backgroundColor = isEnabled ? style.selectionColor(for: window) : style.selectionColorDisabled
-			backgroundView.backgroundColor = isEnabled ? style.backgroundColor(for: window) : style.backgroundColorDisabled
-		}
-	}
+    private func updateWindowSpecificColors() {
+        if let window = window {
+            selectionView.backgroundColor = isEnabled ? style.selectionColor(for: window) : style.selectionColorDisabled
+            backgroundView.backgroundColor = isEnabled ? style.backgroundColor(for: window) : style.backgroundColorDisabled
+        }
+    }
 }
 
 // MARK: - SegmentedControlButton
@@ -448,11 +448,11 @@ private class SegmentedControlButton: UIButton {
         (superview as? SegmentedControl)?.intrinsicContentSizeInvalidatedForChildView()
     }
 
-	override func didMoveToWindow() {
-		if let window = window {
-			setTitleColor(style.segmentTextColorSelected(for: window), for: .selected)
-		}
-	}
+    override func didMoveToWindow() {
+        if let window = window {
+            setTitleColor(style.segmentTextColorSelected(for: window), for: .selected)
+        }
+    }
 
     @objc private func updateFont() {
         titleLabel?.font = style.segmentTextStyle.font

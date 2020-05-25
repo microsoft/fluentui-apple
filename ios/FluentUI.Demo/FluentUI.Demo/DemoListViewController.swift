@@ -8,6 +8,22 @@ import FluentUI
 
 class DemoListViewController: UITableViewController {
 
+    static func addDemoListTo(window: UIWindow, pushing viewController: UIViewController?) {
+        let demoListViewController = DemoListViewController(nibName: nil, bundle: nil)
+        let navigationController = UINavigationController(rootViewController: demoListViewController)
+        window.rootViewController = navigationController
+        window.makeKeyAndVisible()
+        if let colorProvider = window as? ColorProviding {
+            Colors.setProvider(provider: colorProvider, for: window)
+            FluentUIFramework.initializeAppearance(with: colorProvider.primaryColor(for: window)!, whenContainedInInstancesOf: [type(of: window)])
+        }
+
+        if let viewController = viewController {
+            navigationController.pushViewController(viewController, animated: false)
+
+        }
+    }
+
     let demos: [(title: String, controllerClass: UIViewController.Type)] = FluentUI_Demo.demos.filter { demo in
         #if DEBUG
         return true
@@ -29,7 +45,7 @@ class DemoListViewController: UITableViewController {
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
 
-		tableView.register(TableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
+        tableView.register(TableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
     }
 
     // MARK: Table View
@@ -45,12 +61,12 @@ class DemoListViewController: UITableViewController {
         return cell
     }
 
-	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		let demo = demos[indexPath.row]
-		let demoController = demo.controllerClass.init(nibName: nil, bundle: nil)
-		demoController.title = demo.title
-		navigationController?.pushViewController(demoController, animated: true)
-	}
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let demo = demos[indexPath.row]
+        let demoController = demo.controllerClass.init(nibName: nil, bundle: nil)
+        demoController.title = demo.title
+        navigationController?.pushViewController(demoController, animated: true)
+    }
 
-	let cellReuseIdentifier: String = "TableViewCell"
+    let cellReuseIdentifier: String = "TableViewCell"
 }

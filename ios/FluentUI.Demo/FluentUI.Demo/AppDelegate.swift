@@ -18,18 +18,20 @@ private let appCenterSecret = app_center_secret_to_be_supplied_before_building
 #endif
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate, ColorThemeHosting {
+class AppDelegate: UIResponder, UIApplicationDelegate, ColorThemeHosting {
+
+    // MARK: UIApplicationDelegate
 
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-		if #available(iOS 13, *) {
-			// Configured in Scene Delegate
-		} else {
-			updateToWindowWith(type: DemoColorThemeDefaultWindow.self, pushing: nil)
-		}
+        if #available(iOS 13, *) {
+            // Configured in Scene Delegate
+        } else {
+            updateToWindowWith(type: DemoColorThemeDefaultWindow.self, pushing: nil)
+        }
 
-		#if DOGFOOD
+        #if DOGFOOD
         MSAppCenter.start(appCenterSecret, withServices: [
             MSAnalytics.self,
             MSCrashes.self,
@@ -40,26 +42,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         return true
     }
 
-	func updateToWindowWith(type: UIWindow.Type, pushing viewController: UIViewController?) {
-		let newWindow = type.init(frame: UIScreen.main.bounds)
-		Self.addDemoListTo(window: newWindow, pushing: viewController)
-		window = newWindow
-	}
+    // MARK: ColorThemeHosting
 
-	static func addDemoListTo(window: UIWindow, pushing viewController: UIViewController?) {
-		let demoListViewController = DemoListViewController(nibName: nil, bundle: nil)
-		let navigationController = UINavigationController(rootViewController: demoListViewController)
-		window.rootViewController = navigationController
-		window.makeKeyAndVisible()
-		if let colorProvider = window as? ColorProviding {
-			Colors.setProvider(provider: colorProvider, for: window)
-			FluentUIFramework.initializeAppearance(with: colorProvider.primaryColor(for: window)!, whenContainedInInstancesOf: [type(of: window)])
-		}
-
-		if let viewController = viewController {
-			navigationController.pushViewController(viewController, animated: false)
-
-		}
-	}
-
+    func updateToWindowWith(type: UIWindow.Type, pushing viewController: UIViewController?) {
+        let newWindow = type.init(frame: UIScreen.main.bounds)
+        DemoListViewController.addDemoListTo(window: newWindow, pushing: viewController)
+        window = newWindow
+    }
 }

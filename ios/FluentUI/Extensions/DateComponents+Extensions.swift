@@ -17,8 +17,8 @@ extension DateComponents {
             let todayYear = todayDateComponents.year,
             let todayMonth = todayDateComponents.month,
             let today = todayDateComponents.day else {
-            assertionFailure("Date and today's date requires year, month, and day components")
-            return false
+                assertionFailure("Date and today's date requires year, month, and day components")
+                return false
         }
 
         if year > todayYear ||

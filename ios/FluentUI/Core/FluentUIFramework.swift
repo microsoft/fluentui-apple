@@ -18,18 +18,18 @@ public class FluentUIFramework: NSObject {
     @objc public static var usesFluentIcons: Bool = true
 
     @available(*, deprecated, renamed: "initializeAppearance(with:whenContainedInInstancesOf:)")
-	@objc public static func initializeAppearance() {
-		initializeAppearance(with: Colors.primary)
-	}
+    @objc public static func initializeAppearance() {
+        initializeAppearance(with: Colors.primary)
+    }
 
-	@objc public static func initializeAppearance(with primaryColor: UIColor, whenContainedInInstancesOf containerTypes: [UIAppearanceContainer.Type]? = nil) {
-		let navigationBarAppearance = containerTypes != nil ? UINavigationBar.appearance(whenContainedInInstancesOf: containerTypes!) : UINavigationBar.appearance()
-		initializeUINavigationBarAppearance(navigationBarAppearance)
+    @objc public static func initializeAppearance(with primaryColor: UIColor, whenContainedInInstancesOf containerTypes: [UIAppearanceContainer.Type]? = nil) {
+        let navigationBarAppearance = containerTypes != nil ? UINavigationBar.appearance(whenContainedInInstancesOf: containerTypes!) : UINavigationBar.appearance()
+        initializeUINavigationBarAppearance(navigationBarAppearance)
         if #available(iOS 12, *) {
             let light = UITraitCollection(userInterfaceStyle: .light)
             let dark = UITraitCollection(userInterfaceStyle: .dark)
-			let navigationBarLightAppearance = containerTypes != nil ? UINavigationBar.appearance(for: light, whenContainedInInstancesOf: containerTypes!) : UINavigationBar.appearance(for: light)
-			let navigationBarDarkAppearance = containerTypes != nil ? UINavigationBar.appearance(for: dark, whenContainedInInstancesOf: containerTypes!) : UINavigationBar.appearance(for: dark)
+            let navigationBarLightAppearance = containerTypes != nil ? UINavigationBar.appearance(for: light, whenContainedInInstancesOf: containerTypes!) : UINavigationBar.appearance(for: light)
+            let navigationBarDarkAppearance = containerTypes != nil ? UINavigationBar.appearance(for: dark, whenContainedInInstancesOf: containerTypes!) : UINavigationBar.appearance(for: dark)
             initializeUINavigationBarAppearance(navigationBarLightAppearance, traits: light)
             initializeUINavigationBarAppearance(navigationBarDarkAppearance, traits: dark)
         }
@@ -46,10 +46,10 @@ public class FluentUIFramework: NSObject {
         titleAttributes[.font] = Fonts.bodyUnscaled
         barButtonItem.setTitleTextAttributes(titleAttributes, for: .normal)
 
-		let switchAppearance = containerTypes != nil ? UISwitch.appearance(whenContainedInInstancesOf: containerTypes!) : UISwitch.appearance()
-		switchAppearance.onTintColor = primaryColor
+        let switchAppearance = containerTypes != nil ? UISwitch.appearance(whenContainedInInstancesOf: containerTypes!) : UISwitch.appearance()
+        switchAppearance.onTintColor = primaryColor
 
-		let progressViewAppearance = containerTypes != nil ? UIProgressView.appearance(whenContainedInInstancesOf: containerTypes!) : UIProgressView.appearance()
+        let progressViewAppearance = containerTypes != nil ? UIProgressView.appearance(whenContainedInInstancesOf: containerTypes!) : UIProgressView.appearance()
         progressViewAppearance.progressTintColor = primaryColor
         progressViewAppearance.trackTintColor = Colors.Progress.trackTint
     }

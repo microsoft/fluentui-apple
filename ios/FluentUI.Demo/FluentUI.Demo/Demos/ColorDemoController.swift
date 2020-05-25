@@ -7,21 +7,21 @@ import FluentUI
 import UIKit
 
 protocol ColorThemeHosting {
-	func updateToWindowWith(type: UIWindow.Type, pushing viewController: UIViewController?)
+    func updateToWindowWith(type: UIWindow.Type, pushing viewController: UIViewController?)
 }
 
 class ColorDemoController: UIViewController {
     private var sections: [DemoColorSection] = [
         DemoColorSection(text: "App specific color", colorViews: [
-			DemoColorView(text: "Shade30", colorProvider: { (window: UIWindow) -> UIColor in return Colors.primaryShade30(for: window) }),
-			DemoColorView(text: "Shade20", colorProvider: { (window: UIWindow) -> UIColor in return Colors.primaryShade20(for: window) }),
-			DemoColorView(text: "Shade10", colorProvider: { (window: UIWindow) -> UIColor in return Colors.primaryShade10(for: window) }),
-			DemoColorView(text: "Primary", colorProvider: { (window: UIWindow) -> UIColor in return Colors.primary(for: window) }),
-			DemoColorView(text: "Tint10", colorProvider: { (window: UIWindow) -> UIColor in return Colors.primaryTint10(for: window) }),
-			DemoColorView(text: "Tint20", colorProvider: { (window: UIWindow) -> UIColor in return Colors.primaryTint20(for: window) }),
-			DemoColorView(text: "Tint30", colorProvider: { (window: UIWindow) -> UIColor in return Colors.primaryTint30(for: window) }),
-			DemoColorView(text: "Tint40", colorProvider: { (window: UIWindow) -> UIColor in return Colors.primaryTint40(for: window) })
-		]),
+            DemoColorView(text: "Shade30", colorProvider: { (window: UIWindow) -> UIColor in return Colors.primaryShade30(for: window) }),
+            DemoColorView(text: "Shade20", colorProvider: { (window: UIWindow) -> UIColor in return Colors.primaryShade20(for: window) }),
+            DemoColorView(text: "Shade10", colorProvider: { (window: UIWindow) -> UIColor in return Colors.primaryShade10(for: window) }),
+            DemoColorView(text: "Primary", colorProvider: { (window: UIWindow) -> UIColor in return Colors.primary(for: window) }),
+            DemoColorView(text: "Tint10", colorProvider: { (window: UIWindow) -> UIColor in return Colors.primaryTint10(for: window) }),
+            DemoColorView(text: "Tint20", colorProvider: { (window: UIWindow) -> UIColor in return Colors.primaryTint20(for: window) }),
+            DemoColorView(text: "Tint30", colorProvider: { (window: UIWindow) -> UIColor in return Colors.primaryTint30(for: window) }),
+            DemoColorView(text: "Tint40", colorProvider: { (window: UIWindow) -> UIColor in return Colors.primaryTint40(for: window) })
+        ]),
         DemoColorSection(text: "Neutral colors", colorViews: [
             DemoColorView(text: "gray950", color: Colors.gray950),
             DemoColorView(text: "gray900", color: Colors.gray900),
@@ -88,10 +88,10 @@ class ColorDemoController: UIViewController {
 
     override func loadView() {
 
-		let segmentedControl = SegmentedControl(items: colorProviderThemedWindowTypes.map({ return $0.name }), style: .tabs)
-		segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(sender:)), for: .valueChanged)
+        let segmentedControl = SegmentedControl(items: colorProviderThemedWindowTypes.map({ return $0.name }), style: .tabs)
+        segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(sender:)), for: .valueChanged)
 
-		let tableView = UITableView(frame: .zero, style: .grouped)
+        let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
 
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
@@ -100,17 +100,17 @@ class ColorDemoController: UIViewController {
         tableView.delegate = self
         tableView.separatorStyle = .none
 
-		let stackView = UIStackView(arrangedSubviews: [segmentedControl, tableView])
-		stackView.axis = .vertical
+        let stackView = UIStackView(arrangedSubviews: [segmentedControl, tableView])
+        stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
 
-		view = UIView(frame: .zero)
-		view.addSubview(stackView)
+        view = UIView(frame: .zero)
+        view.addSubview(stackView)
         view.backgroundColor = Colors.Table.background
 
-		let safeAreaLayoutGuide = view.safeAreaLayoutGuide
+        let safeAreaLayoutGuide = view.safeAreaLayoutGuide
 
-		NSLayoutConstraint.activate([
+        NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
             stackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
@@ -118,26 +118,26 @@ class ColorDemoController: UIViewController {
         ])
     }
 
-	@objc private func segmentedControlValueChanged(sender: Any) {
-		if let segmentedControl = sender as? SegmentedControl {
-			let windowType = colorProviderThemedWindowTypes[segmentedControl.selectedSegmentIndex].windowType
-			let colorThemeHost: ColorThemeHosting
-			if #available(iOS 13, *) {
-				colorThemeHost = view.window?.windowScene?.delegate as! ColorThemeHosting
-			} else {
-				colorThemeHost = UIApplication.shared.delegate as! ColorThemeHosting
-			}
+    @objc private func segmentedControlValueChanged(sender: Any) {
+        if let segmentedControl = sender as? SegmentedControl {
+            let windowType = colorProviderThemedWindowTypes[segmentedControl.selectedSegmentIndex].windowType
+            let colorThemeHost: ColorThemeHosting
+            if #available(iOS 13, *) {
+                colorThemeHost = view.window?.windowScene?.delegate as! ColorThemeHosting
+            } else {
+                colorThemeHost = UIApplication.shared.delegate as! ColorThemeHosting
+            }
 
-			if let navigationController = navigationController {
-				navigationController.popViewController(animated: false)
-				colorThemeHost.updateToWindowWith(type: windowType, pushing: self)
-			}
-		}
+            if let navigationController = navigationController {
+                navigationController.popViewController(animated: false)
+                colorThemeHost.updateToWindowWith(type: windowType, pushing: self)
+            }
+        }
     }
 
-	private let colorProviderThemedWindowTypes: [(name: String, windowType: UIWindow.Type)] = [("Default", DemoColorThemeDefaultWindow.self),
-																							   ("Green", DemoColorThemeGreenWindow.self),
-																							   ("None", UIWindow.self)]
+    private let colorProviderThemedWindowTypes: [(name: String, windowType: UIWindow.Type)] = [("Default", DemoColorThemeDefaultWindow.self),
+                                                                                               ("Green", DemoColorThemeGreenWindow.self),
+                                                                                               ("None", UIWindow.self)]
 }
 
 // MARK: - ColorDemoController: UITableViewDelegate
@@ -165,7 +165,7 @@ extension ColorDemoController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as! TableViewCell
 
-		let section = sections[indexPath.section]
+        let section = sections[indexPath.section]
         let colorView = section.colorViews[indexPath.row]
 
         cell.setup(title: colorView.text, customView: colorView)
@@ -175,22 +175,22 @@ extension ColorDemoController: UITableViewDataSource {
 }
 
 class DemoColorView: UIView {
-	let text: String
-	var colorProvider: ((UIWindow) -> (UIColor))?
+    let text: String
+    var colorProvider: ((UIWindow) -> (UIColor))?
 
-	init(text: String, color: UIColor) {
-		self.text = text
+    init(text: String, color: UIColor) {
+        self.text = text
         super.init(frame: .zero)
         backgroundColor = color
     }
 
-	init(text: String, colorProvider: @escaping (UIWindow) -> (UIColor)) {
-		self.text = text
+    init(text: String, colorProvider: @escaping (UIWindow) -> (UIColor)) {
+        self.text = text
         super.init(frame: .zero)
-		self.colorProvider = colorProvider
+        self.colorProvider = colorProvider
     }
 
-	@available(*, unavailable)
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
@@ -199,19 +199,19 @@ class DemoColorView: UIView {
         return CGSize(width: 30, height: 30)
     }
 
-	override func didMoveToWindow() {
-		if let colorProvider = colorProvider,
-			let window = window {
-			backgroundColor = colorProvider(window)
-		}
-	}
+    override func didMoveToWindow() {
+        if let colorProvider = colorProvider,
+            let window = window {
+            backgroundColor = colorProvider(window)
+        }
+    }
 }
 
 struct DemoColorSection {
     let text: String
     let colorViews: [DemoColorView]
 
-	init(text: String, colorViews: [DemoColorView]) {
+    init(text: String, colorViews: [DemoColorView]) {
         self.text = text
         self.colorViews = colorViews
     }

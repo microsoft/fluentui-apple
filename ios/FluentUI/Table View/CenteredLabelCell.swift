@@ -53,11 +53,11 @@ open class CenteredLabelCell: UITableViewCell {
         label.centerInSuperview()
     }
 
-	open override func didMoveToWindow() {
-		if let window = window {
-			label.textColor = Colors.primary(for: window)
-		}
-	}
+    open override func didMoveToWindow() {
+        if let window = window {
+            label.textColor = Colors.primary(for: window)
+        }
+    }
 
     open override func setHighlighted(_ highlighted: Bool, animated: Bool) { }
 

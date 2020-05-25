@@ -53,9 +53,9 @@ open class Label: UILabel {
         initialize()
     }
 
-	open override func didMoveToWindow() {
-		updateTextColor()
-	}
+    open override func didMoveToWindow() {
+        updateTextColor()
+    }
 
     private func initialize() {
         // textColor is assigned in super.init to a default value and so we need to reset our cache afterwards
@@ -81,10 +81,10 @@ open class Label: UILabel {
     }
 
     private func updateTextColor() {
-		if let window = window {
-			let currentTextColor = _textColor ?? colorStyle.color(for: window)
-			super.textColor = currentTextColor.current
-		}
+        if let window = window {
+            let currentTextColor = _textColor ?? colorStyle.color(for: window)
+            super.textColor = currentTextColor.current
+        }
     }
 
     @objc private func handleContentSizeCategoryDidChange() {
