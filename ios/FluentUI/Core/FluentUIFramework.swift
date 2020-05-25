@@ -72,5 +72,4 @@ public class FluentUIFramework: NSObject {
         navigationBar.backIndicatorImage = UIImage.staticImageNamed("back-24x24")
         navigationBar.backIndicatorTransitionMaskImage = navigationBar.backIndicatorImage
     }
-
 }

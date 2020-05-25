@@ -1365,7 +1365,9 @@ internal class TableViewCellAccessoryView: UIView {
         if let window = window {
             let iconColor = type.iconColor(for: window)
             iconView?.tintColor = customTintColor ?? iconColor
-            detailButton.tintColor = iconColor
+            if type == .detailButton {
+                detailButton.tintColor = iconColor
+            }
         }
     }
 }

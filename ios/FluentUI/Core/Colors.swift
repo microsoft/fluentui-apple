@@ -5,21 +5,29 @@
 
 import UIKit
 
-// MARK: Colors
+// MARK: ColorProviding
 
+/// Protocol through which consumers can provide colors to "theme" their experiences
+/// The window in which the color will be shown is sent to allow apps to provide different experiences per each window
 @objc(MSFColorProviding)
 public protocol ColorProviding {
+
+    /// Primary branding color. If this protocol is not conformed to, communicationBlue will be used
     @objc func primaryColor(for window: UIWindow) -> UIColor?
 
+    /// Tint colors. If this protocol is not conformed to, communicationBlueTint* colors will be used
     @objc func primaryTint10Color(for window: UIWindow) -> UIColor?
     @objc func primaryTint20Color(for window: UIWindow) -> UIColor?
     @objc func primaryTint30Color(for window: UIWindow) -> UIColor?
     @objc func primaryTint40Color(for window: UIWindow) -> UIColor?
 
+    /// Shade colors. If this protocol is not conformed to, communicationBlueShade* colors will be used
     @objc func primaryShade10Color(for window: UIWindow) -> UIColor?
     @objc func primaryShade20Color(for window: UIWindow) -> UIColor?
     @objc func primaryShade30Color(for window: UIWindow) -> UIColor?
 }
+
+// MARK: Colors
 
 @available(*, deprecated, renamed: "Colors")
 public typealias MSColors = Colors
@@ -241,13 +249,13 @@ public final class Colors: NSObject {
         }
     }
 
-    private static var colorProvidersMap = NSMapTable<UIWindow, ColorProviding>(keyOptions: .weakMemory, valueOptions: .weakMemory)
-
     @objc public static func setProvider(provider: ColorProviding, for window: UIWindow) {
         colorProvidersMap.setObject(provider, forKey: window)
     }
 
     // MARK: Primary
+
+    /// Use these funcs to grab a color customized by a ColorProviding object for a specific window.. If no colorProvider exists for the window, falls back to deprecated singleton theme color
     @objc public static func primary(for window: UIWindow) -> UIColor {
         return colorProvidersMap.object(forKey: window)?.primaryColor(for: window) ?? primary
     }
@@ -280,8 +288,10 @@ public final class Colors: NSObject {
         return colorProvidersMap.object(forKey: window)?.primaryShade30Color(for: window) ?? primaryShade30
     }
 
-    /// Variation of App brand colors. If an application is a hub of different apps, `primary` color could change within the same foreground session.
-    /// It is not recommended to cache `primary` color because it could change.
+    private static var colorProvidersMap = NSMapTable<UIWindow, ColorProviding>(keyOptions: .weakMemory, valueOptions: .weakMemory)
+
+    /// Customization of primary colors should happen through the ColorProviding protocol rather than this singleton. Doing so
+    /// will allow hosts of fluentui controls to simultaneously host different experiences with different themes
     @available(*, deprecated, renamed: "setProvider(_:forWindow:)")
     @objc public static var primary: UIColor = communicationBlue
 

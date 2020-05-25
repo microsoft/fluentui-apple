@@ -64,8 +64,8 @@ class TooltipView: UIView {
         return view
     }()
 
-    private let arrowImageView = UIImageView(image: nil)
-    private let arrowImageViewBaseImage = UIImage.staticImageNamed("tooltip-arrow")
+    private let arrowImageViewBaseImage: UIImage?
+    private let arrowImageView: UIImageView
 
     private let messageLabel: UILabel = {
         let label = Label(style: Constants.messageLabelTextStyle)
@@ -77,6 +77,9 @@ class TooltipView: UIView {
     init(message: String, textAlignment: NSTextAlignment, positionController: TooltipPositionController) {
         self.message = message
         self.positionController = positionController
+
+        arrowImageViewBaseImage = UIImage.staticImageNamed("tooltip-arrow")
+        arrowImageView = UIImageView(image: arrowImageViewBaseImage)
 
         super.init(frame: .zero)
 

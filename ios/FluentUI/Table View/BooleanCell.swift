@@ -48,4 +48,11 @@ open class BooleanCell: TableViewCell {
     @objc private func handleOnSwitchValueChanged() {
         onValueChanged?()
     }
+
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+        if let window = window {
+            `switch`.onTintColor = Colors.primary(for: window)
+        }
+    }
 }
