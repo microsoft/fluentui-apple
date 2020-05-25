@@ -162,13 +162,20 @@ open class Button: UIButton {
         }
     }
 
+	open override func didMoveToWindow() {
+		updateBackgroundColor()
+		updateTitleColors()
+	}
+
     public func updateTitleColors() {
-        let titleColor = style == .primaryFilled ? Colors.Button.titleWithFilledBackground : Colors.Button.title
-        let titleColorHighlighted = style == .primaryFilled ? titleColor : Colors.Button.titleHighlighted
-        let titleColorDisabled = style == .primaryFilled ? titleColor : Colors.Button.titleDisabled
-        setTitleColor(titleColor, for: .normal)
-        setTitleColor(titleColorHighlighted, for: .highlighted)
-        setTitleColor(titleColorDisabled, for: .disabled)
+		if let window = window {
+			let titleColor = style == .primaryFilled ? Colors.Button.titleWithFilledBackground : Colors.primary(for: window)
+			let titleColorHighlighted = style == .primaryFilled ? titleColor : Colors.Button.titleHighlighted
+			let titleColorDisabled = style == .primaryFilled ? titleColor : Colors.Button.titleDisabled
+			setTitleColor(titleColor, for: .normal)
+			setTitleColor(titleColorHighlighted, for: .highlighted)
+			setTitleColor(titleColorDisabled, for: .disabled)
+		}
     }
 
     private func update() {
@@ -182,15 +189,17 @@ open class Button: UIButton {
     }
 
     private func updateBackgroundColor() {
-        let backgroundColor: UIColor
-        if isHighlighted {
-            backgroundColor = style == .primaryFilled ? Colors.Button.backgroundFilledHighlighted : Colors.Button.background
-        } else if !isEnabled {
-            backgroundColor = style == .primaryFilled ? Colors.Button.backgroundFilledDisabled : Colors.Button.background
-        } else {
-            backgroundColor = style == .primaryFilled ? Colors.Button.backgroundFilled : Colors.Button.background
-        }
-        self.backgroundColor = backgroundColor
+		if let window = window {
+			let backgroundColor: UIColor
+			if isHighlighted {
+				backgroundColor = style == .primaryFilled ? Colors.Button.backgroundFilledHighlighted : Colors.Button.background
+			} else if !isEnabled {
+				backgroundColor = style == .primaryFilled ? Colors.Button.backgroundFilledDisabled : Colors.Button.background
+			} else {
+				backgroundColor = style == .primaryFilled ? Colors.primary(for: window) : Colors.Button.background
+			}
+			self.backgroundColor = backgroundColor
+		}
     }
 
     private func updateBorderColor() {

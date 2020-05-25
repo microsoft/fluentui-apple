@@ -29,8 +29,6 @@ class CalendarViewWeekdayHeadingView: UIView {
         self.headerStyle = headerStyle
 
         super.init(frame: .zero)
-
-        backgroundColor = headerStyle == .dark ? Colors.Calendar.WeekdayHeading.Dark.background : Colors.Calendar.WeekdayHeading.Light.background
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -69,6 +67,12 @@ class CalendarViewWeekdayHeadingView: UIView {
 
         flipSubviewsForRTL()
     }
+
+	override func didMoveToWindow() {
+		if let window = window {
+			backgroundColor = headerStyle == .dark ? Colors.primary(for: window) : Colors.Calendar.WeekdayHeading.Light.background
+		}
+	}
 
     func setup(horizontalSizeClass: UIUserInterfaceSizeClass, firstWeekday: Int) {
         if self.firstWeekday != nil && self.firstWeekday == firstWeekday {

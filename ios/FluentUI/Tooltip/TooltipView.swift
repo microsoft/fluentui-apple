@@ -130,7 +130,7 @@ class TooltipView: UIView {
 
         messageLabel.frame = backgroundView.frame.insetBy(dx: Constants.paddingHorizontal, dy: 0)
     }
-	
+
 	override func didMoveToWindow() {
 		updateWindowSpecificColors()
 	}

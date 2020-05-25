@@ -57,7 +57,7 @@ class PillButtonBarDemoController: DemoController {
         bar.centerAligned = centerAligned
 
         let backgroundViewColor = style == .outline ? Colors.Navigation.System.background
-                                                  : Colors.Navigation.Primary.background
+													: ColorDemoController.primary
 
         let backgroundView = UIView()
         backgroundView.backgroundColor = backgroundViewColor

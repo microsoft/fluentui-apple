@@ -188,6 +188,13 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
         calendarView.frame = calendarFrame
     }
 
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		if let window = view.window {
+			navigationItem.rightBarButtonItem?.tintColor = UIColor(light: Colors.primary(for: window), dark: .white)
+		}
+	}
+
     private func initTitleView() {
         titleView = TwoLineTitleView()
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTitleButtonTapped))

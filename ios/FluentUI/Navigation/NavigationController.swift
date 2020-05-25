@@ -142,7 +142,9 @@ open class NavigationController: UINavigationController {
         msfNavigationBar.update(with: viewController.navigationItem)
         viewController.navigationItem.accessorySearchBar?.navigationController = self
         setNeedsStatusBarAppearanceUpdate()
-        transitionAnimator.tintColor = msfNavigationBar.backgroundView.backgroundColor!
+		if let backgroundColor = msfNavigationBar.backgroundView.backgroundColor {
+			transitionAnimator.tintColor = backgroundColor
+		}
     }
 
     private func updateNavigationBarVisibility(for viewController: UIViewController, animated: Bool) {

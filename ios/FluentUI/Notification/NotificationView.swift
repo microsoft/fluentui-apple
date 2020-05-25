@@ -31,21 +31,21 @@ open class NotificationView: UIView {
 
         var isToast: Bool { self == .primaryToast || self == .neutralToast }
 
-        var backgroundColor: UIColor {
+		func backgroundColor(for window: UIWindow) -> UIColor {
             switch self {
             case .primaryToast:
-                return Colors.Notification.PrimaryToast.background
+                return primaryFilledBackground(for: window)
             case .neutralToast:
                 return Colors.Notification.NeutralToast.background
             case .primaryBar:
-                return Colors.Notification.PrimaryBar.background
+                return primaryFilledBackground(for: window)
             case .primaryOutlineBar:
                 return Colors.Notification.PrimaryOutlineBar.background
             case .neutralBar:
                 return Colors.Notification.NeutralBar.background
             }
         }
-        var foregroundColor: UIColor {
+		func foregroundColor(for window: UIWindow) -> UIColor {
             switch self {
             case .primaryToast:
                 return Colors.Notification.PrimaryToast.foreground
@@ -54,7 +54,7 @@ open class NotificationView: UIView {
             case .primaryBar:
                 return Colors.Notification.PrimaryBar.foreground
             case .primaryOutlineBar:
-                return Colors.Notification.PrimaryOutlineBar.foreground
+				return UIColor(light: Colors.primary(for: window), dark: Colors.gray100)
             case .neutralBar:
                 return Colors.Notification.NeutralBar.foreground
             }
@@ -74,6 +74,12 @@ open class NotificationView: UIView {
         var supportsTitle: Bool { return isToast }
         var supportsImage: Bool { return isToast }
         var supportsAction: Bool { return isToast }
+
+		private func primaryFilledBackground(for window: UIWindow) -> UIColor {
+			let primaryColor = Colors.primary(for: window)
+			return UIColor(light: primaryColor.withAlphaComponent(0.2), dark: primaryColor)
+		}
+
     }
 
     private struct Constants {
@@ -93,7 +99,7 @@ open class NotificationView: UIView {
         static let animationDurationForShowBar: TimeInterval = 0.3
         static let animationDurationForHide: TimeInterval = 0.25
         static let animationDampingRatioForToast: CGFloat = 0.5
-    }
+	}
 
     @objc public static var allowsMultipleToasts: Bool = false
 
@@ -399,23 +405,34 @@ open class NotificationView: UIView {
         updateHorizontalPadding()
     }
 
+	open override func didMoveToWindow() {
+		updateWindowSpecificColors()
+	}
+
     private func updateForStyle() {
         clipsToBounds = !style.needsSeparator
         layer.cornerRadius = style.cornerRadius
         if #available(iOS 13.0, *) {
             layer.cornerCurve = .continuous
         }
-        backgroundView.updateBackground(backgroundColor: style.backgroundColor)
         separator.isHidden = !style.needsSeparator
 
         messageLabel.textAlignment = style.messageAlignment
         messageLabel.style = style.messageStyle
 
-        imageView.tintColor = style.foregroundColor
-        titleLabel.textColor = style.foregroundColor
-        messageLabel.textColor = style.foregroundColor
-        actionButton.tintColor = style.foregroundColor
+		updateWindowSpecificColors()
     }
+
+	private func updateWindowSpecificColors() {
+		if let window = window {
+			backgroundView.updateBackground(backgroundColor: style.backgroundColor(for: window))
+			let foregroundColor = style.foregroundColor(for: window)
+			imageView.tintColor = foregroundColor
+			titleLabel.textColor = foregroundColor
+			messageLabel.textColor = foregroundColor
+			actionButton.tintColor = foregroundColor
+		}
+	}
 
     private func updateHorizontalPadding() {
         // Since container.insetsLayoutMarginsFromSafeArea is false we need to manually add horizontal insets

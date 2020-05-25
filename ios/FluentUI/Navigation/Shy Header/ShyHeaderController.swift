@@ -105,14 +105,19 @@ class ShyHeaderController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if let (actualStyle, actualItem) = msfNavigationController?.msfNavigationBar.actualStyleAndItem(for: navigationItem) {
-            shyHeaderView.navigationBarStyle = actualStyle
-            updateBackgroundColor(with: actualItem)
-        }
 
         updatePadding()
         setupNotificationObservers()
     }
+
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		if let window = view.window,
+		   let (actualStyle, actualItem) = msfNavigationController?.msfNavigationBar.actualStyleAndItem(for: navigationItem) {
+			shyHeaderView.navigationBarStyle = actualStyle
+			updateBackgroundColor(with: actualItem, window: window)
+		}
+	}
 
     // MARK: - Base Construction
 
@@ -241,14 +246,14 @@ class ShyHeaderController: UIViewController {
         return true
     }
 
-    private func updateBackgroundColor(with item: UINavigationItem) {
-        let color = item.navigationBarColor
+	private func updateBackgroundColor(with item: UINavigationItem, window: UIWindow) {
+        let color = item.navigationBarColor(for: window)
         shyHeaderView.backgroundColor = color
         view.backgroundColor = color
         paddingView.backgroundColor = color
 
-        navigationBarColorObservation = item.observe(\.navigationBarColor) { [unowned self] item, _ in
-            self.updateBackgroundColor(with: item)
+        navigationBarColorObservation = item.observe(\.customNavigationBarColor) { [unowned self] item, _ in
+            self.updateBackgroundColor(with: item, window: window)
         }
     }
 

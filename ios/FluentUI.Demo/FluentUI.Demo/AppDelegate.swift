@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         if let window = window {
             Colors.setProvider(provider: self, for: window)
         }
-        FluentUIFramework.initializeAppearance()
+		FluentUIFramework.initializeAppearance(with: ColorDemoController.primary)
 
         let splitViewController = window!.rootViewController as! UISplitViewController
         let masterContainer = splitViewController.viewControllers.first as! UINavigationController

@@ -25,7 +25,6 @@ open class CenteredLabelCell: UITableViewCell {
         let label = UILabel()
         label.backgroundColor = .clear
         label.font = Constants.labelFont
-        label.textColor = Colors.Table.CenteredLabelCell.text
         return label
     }()
 
@@ -53,6 +52,12 @@ open class CenteredLabelCell: UITableViewCell {
         label.frame.size = labelFittingSize
         label.centerInSuperview()
     }
+
+	open override func didMoveToWindow() {
+		if let window = window {
+			label.textColor = Colors.primary(for: window)
+		}
+	}
 
     open override func setHighlighted(_ highlighted: Bool, animated: Bool) { }
 

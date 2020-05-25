@@ -37,12 +37,12 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         case regular
         case primary
 
-        var textColor: UIColor {
+		func textColor(for window: UIWindow) -> UIColor {
             switch self {
             case .regular:
                 return Colors.Table.HeaderFooter.accessoryButtonText
             case .primary:
-                return Colors.Table.HeaderFooter.accessoryButtonTextPrimary
+                return Colors.primary(for: window)
             }
         }
     }
@@ -66,14 +66,14 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
             }
         }
 
-        var textColor: UIColor {
+        func textColor(for window: UIWindow) -> UIColor {
             switch self {
             case .header, .footer:
                 return Colors.Table.HeaderFooter.text
             case .divider:
                 return Colors.Table.HeaderFooter.textDivider
             case .dividerHighlighted:
-                return Colors.Table.HeaderFooter.textDividerHighlighted
+				return Colors.primary(for: window)
             }
         }
     }
@@ -201,8 +201,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
             view.backgroundColor = style.backgroundColor
             backgroundView = view
 
-            titleView.textColor = style.textColor
-
+			updateTitleViewTextColor()
             invalidateIntrinsicContentSize()
         }
     }
@@ -349,6 +348,11 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         )
     }
 
+	open override func didMoveToWindow() {
+		updateTitleViewTextColor()
+		updateAccessoryButtonTitleColor()
+	}
+
     private func updateTitleViewFont() {
         let font = Constants.titleTextStyle.font
         titleView.font = font
@@ -358,9 +362,21 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         titleView.textContainerInset.bottom = -offset
     }
 
+	private func updateTitleViewTextColor() {
+		if let window = window {
+			titleView.textColor = style.textColor(for: window)
+		}
+	}
+
+	private func updateAccessoryButtonTitleColor() {
+		if let window = window {
+			accessoryButton?.setTitleColor(accessoryButtonStyle.textColor(for: window), for: .normal)
+		}
+	}
+
     private func updateAccessoryButtonTitleStyle() {
         accessoryButton?.titleLabel?.font = Constants.accessoryButtonTextStyle.font
-        accessoryButton?.setTitleColor(accessoryButtonStyle.textColor, for: .normal)
+		updateAccessoryButtonTitleColor()
     }
 
     private func createAccessoryButton(withTitle title: String) -> UIButton {

@@ -233,7 +233,7 @@ private class SelectionOverlayView: UIView {
             setupActiveViews()
         }
     }
-	
+
 	private var activeColor: UIColor {
 		if selected,
 			let window = window {
@@ -272,7 +272,7 @@ private class SelectionOverlayView: UIView {
 
         flipSubviewsForRTL()
     }
-	
+
 	override func didMoveToWindow() {
 		setupActiveViews()
 	}

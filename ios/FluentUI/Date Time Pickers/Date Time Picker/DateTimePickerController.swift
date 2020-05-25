@@ -129,7 +129,14 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
         dateTimePickerView.frame = CGRect(x: 0, y: verticalOffset, width: view.frame.width, height: view.frame.height - verticalOffset)
     }
 
-    override func accessibilityPerformEscape() -> Bool {
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		if let window = view.window {
+			navigationItem.rightBarButtonItem?.tintColor = UIColor(light: Colors.primary(for: window), dark: .white)
+		}
+	}
+
+	override func accessibilityPerformEscape() -> Bool {
         dismiss()
         return true
     }
