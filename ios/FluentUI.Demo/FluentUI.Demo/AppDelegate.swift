@@ -18,27 +18,18 @@ private let appCenterSecret = app_center_secret_to_be_supplied_before_building
 #endif
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate, ColorProviding {
+class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate, ColorThemeHosting {
 
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        if let window = window {
-            Colors.setProvider(provider: self, for: window)
-        }
-		FluentUIFramework.initializeAppearance(with: ColorDemoController.primary)
+		if #available(iOS 13, *) {
+			// Configured in Scene Delegate
+		} else {
+			updateToWindowWith(type: DemoColorThemeDefaultWindow.self, pushing: nil)
+		}
 
-        let splitViewController = window!.rootViewController as! UISplitViewController
-        let masterContainer = splitViewController.viewControllers.first as! UINavigationController
-        let masterController = masterContainer.topViewController as! MasterViewController
-        let detailContainer = splitViewController.viewControllers.last as! UINavigationController
-        let detailController = detailContainer.topViewController!
-
-        masterController.demoPlaceholder = detailController
-        detailController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
-        splitViewController.delegate = self
-
-        #if DOGFOOD
+		#if DOGFOOD
         MSAppCenter.start(appCenterSecret, withServices: [
             MSAnalytics.self,
             MSCrashes.self,
@@ -49,17 +40,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         return true
     }
 
-    // MARK: Split view
+	func updateToWindowWith(type: UIWindow.Type, pushing viewController: UIViewController?) {
+		let newWindow = type.init(frame: UIScreen.main.bounds)
+		Self.addDemoListTo(window: newWindow, pushing: viewController)
+		window = newWindow
+	}
 
-    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
-        // Return true to indicate that we don't care about DetailViewController - it will be removed
-        return (secondaryViewController as? UINavigationController)?.topViewController is DetailViewController
-    }
+	static func addDemoListTo(window: UIWindow, pushing viewController: UIViewController?) {
+		let demoListViewController = DemoListViewController(nibName: nil, bundle: nil)
+		let navigationController = UINavigationController(rootViewController: demoListViewController)
+		window.rootViewController = navigationController
+		window.makeKeyAndVisible()
+		if let colorProvider = window as? ColorProviding {
+			Colors.setProvider(provider: colorProvider, for: window)
+			FluentUIFramework.initializeAppearance(with: colorProvider.primaryColor(for: window)!, whenContainedInInstancesOf: [type(of: window)])
+		}
 
-    // MARK: ColorProviding
+		if let viewController = viewController {
+			navigationController.pushViewController(viewController, animated: false)
 
-    func primaryColor(for window: UIWindow) -> UIColor? {
-        return ColorDemoController.primary
-    }
+		}
+	}
 
 }

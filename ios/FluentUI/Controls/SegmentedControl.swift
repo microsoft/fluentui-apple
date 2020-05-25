@@ -23,12 +23,12 @@ open class SegmentedControl: UIControl {
         var backgroundHasRoundedCorners: Bool { return self == .switch }
         var segmentsHaveEqualWidth: Bool { return self == .tabs }
 
-        var backgroundColor: UIColor {
+		func backgroundColor(for window: UIWindow) -> UIColor {
             switch self {
             case .tabs:
                 return Colors.SegmentedControl.Tabs.background
             case .switch:
-                return Colors.SegmentedControl.Switch.background
+				return UIColor(light: Colors.primaryShade20(for: window), dark: .black)
             }
         }
         var backgroundColorDisabled: UIColor {
@@ -116,7 +116,7 @@ open class SegmentedControl: UIControl {
             for button in buttons {
                 button.isEnabled = isEnabled
             }
-            updateViewColors()
+            updateWindowSpecificColors()
         }
     }
 
@@ -175,7 +175,6 @@ open class SegmentedControl: UIControl {
             addSubview(bottomSeparator)
             addSubview(selectionView)
         }
-        updateViewColors()
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -407,13 +406,10 @@ open class SegmentedControl: UIControl {
         }
     }
 
-    private func updateViewColors() {
-        backgroundView.backgroundColor = isEnabled ? style.backgroundColor : style.backgroundColorDisabled
-    }
-
 	private func updateWindowSpecificColors() {
 		if let window = window {
 			selectionView.backgroundColor = isEnabled ? style.selectionColor(for: window) : style.selectionColorDisabled
+			backgroundView.backgroundColor = isEnabled ? style.backgroundColor(for: window) : style.backgroundColorDisabled
 		}
 	}
 }

@@ -165,12 +165,13 @@ open class Button: UIButton {
 	open override func didMoveToWindow() {
 		updateBackgroundColor()
 		updateTitleColors()
+		updateBorderColor()
 	}
 
     public func updateTitleColors() {
 		if let window = window {
 			let titleColor = style == .primaryFilled ? Colors.Button.titleWithFilledBackground : Colors.primary(for: window)
-			let titleColorHighlighted = style == .primaryFilled ? titleColor : Colors.Button.titleHighlighted
+			let titleColorHighlighted = style == .primaryFilled ? titleColor : Colors.primaryTint20(for: window)
 			let titleColorDisabled = style == .primaryFilled ? titleColor : Colors.Button.titleDisabled
 			setTitleColor(titleColor, for: .normal)
 			setTitleColor(titleColorHighlighted, for: .highlighted)
@@ -192,7 +193,7 @@ open class Button: UIButton {
 		if let window = window {
 			let backgroundColor: UIColor
 			if isHighlighted {
-				backgroundColor = style == .primaryFilled ? Colors.Button.backgroundFilledHighlighted : Colors.Button.background
+				backgroundColor = style == .primaryFilled ? UIColor(light: Colors.primaryTint10(for: window), dark: Colors.primaryTint20(for: window)) : Colors.Button.background
 			} else if !isEnabled {
 				backgroundColor = style == .primaryFilled ? Colors.Button.backgroundFilledDisabled : Colors.Button.background
 			} else {
@@ -207,14 +208,16 @@ open class Button: UIButton {
             return
         }
 
-        let borderColor: UIColor
-        if isHighlighted {
-            borderColor = Colors.Button.borderHighlighted
-        } else if !isEnabled {
-            borderColor = Colors.Button.borderDisabled
-        } else {
-            borderColor = Colors.Button.border
-        }
-        layer.borderColor = borderColor.cgColor
+		if let window = window {
+			let borderColor: UIColor
+			if isHighlighted {
+				borderColor = Colors.primaryTint30(for: window)
+			} else if !isEnabled {
+				borderColor = Colors.Button.borderDisabled
+			} else {
+				borderColor = Colors.primaryTint20(for: window)
+			}
+			layer.borderColor = borderColor.cgColor
+		}
     }
 }

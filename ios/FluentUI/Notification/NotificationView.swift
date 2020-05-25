@@ -48,11 +48,11 @@ open class NotificationView: UIView {
 		func foregroundColor(for window: UIWindow) -> UIColor {
             switch self {
             case .primaryToast:
-                return Colors.Notification.PrimaryToast.foreground
+				return UIColor(light: Colors.primaryShade20(for: window), dark: .black)
             case .neutralToast:
                 return Colors.Notification.NeutralToast.foreground
             case .primaryBar:
-                return Colors.Notification.PrimaryBar.foreground
+				return UIColor(light: Colors.primaryShade20(for: window), dark: .black)
             case .primaryOutlineBar:
 				return UIColor(light: Colors.primary(for: window), dark: Colors.gray100)
             case .neutralBar:

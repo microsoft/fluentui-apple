@@ -55,14 +55,14 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         case dividerHighlighted
         case footer
 
-        var backgroundColor: UIColor {
+        func backgroundColor(for window: UIWindow) -> UIColor {
             switch self {
             case .header, .footer:
                 return Colors.Table.HeaderFooter.background
             case .divider:
                 return Colors.Table.HeaderFooter.backgroundDivider
             case .dividerHighlighted:
-                return Colors.Table.HeaderFooter.backgroundDividerHighlighted
+				return UIColor(light: Colors.primaryTint40(for: window), dark: Colors.gray950)
             }
         }
 
@@ -198,10 +198,9 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     private var style: Style = .header {
         didSet {
             let view = UIView()
-            view.backgroundColor = style.backgroundColor
             backgroundView = view
 
-			updateTitleViewTextColor()
+			updateTitleAndBackgroundColors()
             invalidateIntrinsicContentSize()
         }
     }
@@ -349,7 +348,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     }
 
 	open override func didMoveToWindow() {
-		updateTitleViewTextColor()
+		updateTitleAndBackgroundColors()
 		updateAccessoryButtonTitleColor()
 	}
 
@@ -362,9 +361,10 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         titleView.textContainerInset.bottom = -offset
     }
 
-	private func updateTitleViewTextColor() {
+	private func updateTitleAndBackgroundColors() {
 		if let window = window {
 			titleView.textColor = style.textColor(for: window)
+			backgroundView?.backgroundColor = style.backgroundColor(for: window)
 		}
 	}
 

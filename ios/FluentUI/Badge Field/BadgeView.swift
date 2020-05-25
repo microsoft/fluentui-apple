@@ -104,7 +104,7 @@ open class BadgeView: UIView {
             } else if selected {
                 return Colors.primary(for: window)
             } else {
-                return Colors.Badge.background
+                return Colors.primaryTint40(for: window)
             }
         case .warning:
             if selected {

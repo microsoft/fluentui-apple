@@ -20,7 +20,9 @@ class PillButtonBarDemoController: DemoController {
                                             PillButtonBarItem(title: "More")]
 
         container.addArrangedSubview(createLabelWithText("Filled"))
-        container.addArrangedSubview(createBar(items: items, style: .filled))
+		let filledBar = createBar(items: items, style: .filled)
+        container.addArrangedSubview(filledBar)
+		self.filledBar = filledBar
         container.addArrangedSubview(UIView())
 
         container.addArrangedSubview(createLabelWithText("Outline"))
@@ -49,6 +51,13 @@ class PillButtonBarDemoController: DemoController {
         container.addArrangedSubview(UIView())
     }
 
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		if let window = view.window {
+			filledBar?.backgroundColor = Colors.primary(for: window)
+		}
+	}
+
     func createBar(items: [PillButtonBarItem], style: PillButtonStyle = .outline, centerAligned: Bool = false) -> UIView {
         let bar = PillButtonBar(pillButtonStyle: style)
         bar.items = items
@@ -56,11 +65,10 @@ class PillButtonBarDemoController: DemoController {
         bar.barDelegate = self
         bar.centerAligned = centerAligned
 
-        let backgroundViewColor = style == .outline ? Colors.Navigation.System.background
-													: ColorDemoController.primary
-
         let backgroundView = UIView()
-        backgroundView.backgroundColor = backgroundViewColor
+		if style == .outline {
+			backgroundView.backgroundColor = Colors.Navigation.System.background
+		}
         backgroundView.addSubview(bar)
         let margins = UIEdgeInsets(top: 16.0, left: 0, bottom: 16.0, right: 0.0)
         fitViewIntoSuperview(bar, margins: margins)
@@ -87,6 +95,8 @@ class PillButtonBarDemoController: DemoController {
 
         NSLayoutConstraint.activate(constraints)
     }
+
+	private var filledBar: UIView?
 }
 
 // MARK: - PillButtonBarDemoController: PillButtonBarDelegate

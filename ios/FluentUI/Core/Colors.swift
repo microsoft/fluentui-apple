@@ -10,6 +10,15 @@ import UIKit
 @objc(MSFColorProviding)
 public protocol ColorProviding {
     @objc func primaryColor(for window: UIWindow) -> UIColor?
+
+	@objc func primaryTint10Color(for window: UIWindow) -> UIColor?
+    @objc func primaryTint20Color(for window: UIWindow) -> UIColor?
+    @objc func primaryTint30Color(for window: UIWindow) -> UIColor?
+    @objc func primaryTint40Color(for window: UIWindow) -> UIColor?
+
+	@objc func primaryShade10Color(for window: UIWindow) -> UIColor?
+    @objc func primaryShade20Color(for window: UIWindow) -> UIColor?
+    @objc func primaryShade30Color(for window: UIWindow) -> UIColor?
 }
 
 @available(*, deprecated, renamed: "Colors")
@@ -243,17 +252,58 @@ public final class Colors: NSObject {
         return colorProvidersMap.object(forKey: window)?.primaryColor(for: window) ?? primary
     }
 
-    /// Variation of App brand colors. If an application is a hub of different apps, `primary` color could change within the same foreground session.
+    @objc public static func primaryTint10(for window: UIWindow) -> UIColor {
+        return colorProvidersMap.object(forKey: window)?.primaryTint10Color(for: window) ?? primaryTint10
+    }
+
+    @objc public static func primaryTint20(for window: UIWindow) -> UIColor {
+        return colorProvidersMap.object(forKey: window)?.primaryTint20Color(for: window) ?? primaryTint20
+    }
+
+    @objc public static func primaryTint30(for window: UIWindow) -> UIColor {
+        return colorProvidersMap.object(forKey: window)?.primaryTint30Color(for: window) ?? primaryTint30
+    }
+
+    @objc public static func primaryTint40(for window: UIWindow) -> UIColor {
+        return colorProvidersMap.object(forKey: window)?.primaryTint40Color(for: window) ?? primaryTint40
+    }
+
+    @objc public static func primaryShade10(for window: UIWindow) -> UIColor {
+        return colorProvidersMap.object(forKey: window)?.primaryShade10Color(for: window) ?? primaryShade10
+    }
+
+    @objc public static func primaryShade20(for window: UIWindow) -> UIColor {
+        return colorProvidersMap.object(forKey: window)?.primaryShade20Color(for: window) ?? primaryShade20
+    }
+
+    @objc public static func primaryShade30(for window: UIWindow) -> UIColor {
+        return colorProvidersMap.object(forKey: window)?.primaryShade30Color(for: window) ?? primaryShade30
+    }
+
+	/// Variation of App brand colors. If an application is a hub of different apps, `primary` color could change within the same foreground session.
     /// It is not recommended to cache `primary` color because it could change.
     @available(*, deprecated, renamed: "setProvider(_:forWindow:)")
 	@objc public static var primary: UIColor = communicationBlue
 
+    @available(*, deprecated, renamed: "setProvider(_:forWindow:)")
 	@objc public static var primaryTint10: UIColor = Palette.communicationBlueTint10.color
-    @objc public static var primaryTint20: UIColor = Palette.communicationBlueTint20.color
-    @objc public static var primaryTint30: UIColor = Palette.communicationBlueTint30.color
-    @objc public static var primaryTint40: UIColor = Palette.communicationBlueTint40.color
+
+    @available(*, deprecated, renamed: "setProvider(_:forWindow:)")
+	@objc public static var primaryTint20: UIColor = Palette.communicationBlueTint20.color
+
+    @available(*, deprecated, renamed: "setProvider(_:forWindow:)")
+	@objc public static var primaryTint30: UIColor = Palette.communicationBlueTint30.color
+
+    @available(*, deprecated, renamed: "setProvider(_:forWindow:)")
+	@objc public static var primaryTint40: UIColor = Palette.communicationBlueTint40.color
+
+    @available(*, deprecated, renamed: "setProvider(_:forWindow:)")
     @objc public static var primaryShade10: UIColor = Palette.communicationBlueShade10.color
-    @objc public static var primaryShade20: UIColor = Palette.communicationBlueShade20.color
+
+    @available(*, deprecated, renamed: "setProvider(_:forWindow:)")
+	@objc public static var primaryShade20: UIColor = Palette.communicationBlueShade20.color
+
+    @available(*, deprecated, renamed: "setProvider(_:forWindow:)")
     @objc public static var primaryShade30: UIColor = Palette.communicationBlueShade30.color
 
     @objc public static var foregroundOnPrimary = UIColor(light: .white, dark: .black)
@@ -347,7 +397,6 @@ public final class Colors: NSObject {
     }
 
     public struct Badge {
-        public static var background: UIColor { return primaryTint40 }
         public static var backgroundDisabled: UIColor = background2b
         public static var backgroundError = UIColor(light: Palette.dangerTint40.color, dark: Palette.dangerTint30.color)
         public static var backgroundErrorSelected: UIColor = error
@@ -374,12 +423,8 @@ public final class Colors: NSObject {
     public struct Button {
         public static var background: UIColor = .clear
         public static var backgroundFilledDisabled: UIColor = disabled
-        public static var backgroundFilledHighlighted: UIColor { return UIColor(light: primaryTint10, dark: primaryTint20) }
-        public static var border: UIColor { return primaryTint20 }
         public static var borderDisabled: UIColor = disabled
-        public static var borderHighlighted: UIColor { return primaryTint30 }
         public static var titleDisabled: UIColor = foreground4
-        public static var titleHighlighted: UIColor { return primaryTint20 }
         public static var titleWithFilledBackground: UIColor = foregroundOnPrimary
     }
 
@@ -438,15 +483,9 @@ public final class Colors: NSObject {
     }
 
     public struct Notification {
-        public struct PrimaryToast {
-            public static var foreground: UIColor { return UIColor(light: primaryShade20, dark: .black) }
-        }
         public struct NeutralToast {
             public static var background = UIColor(light: gray100, dark: gray600).withAlphaComponent(0.6)
             public static var foreground: UIColor = foreground1
-        }
-        public struct PrimaryBar {
-            public static var foreground: UIColor { return PrimaryToast.foreground }
         }
         public struct PrimaryOutlineBar {
             public static var background = UIColor(light: .white, dark: gray600).withAlphaComponent(0.6)
@@ -476,7 +515,6 @@ public final class Colors: NSObject {
             public static var titleSelected = UIColor(light: gray25, dark: .white)
         }
         public struct Filled {
-            public static var background: UIColor { return UIColor(light: primaryShade10, dark: Outline.background) }
             public static var title = UIColor(light: .white, dark: Outline.title)
             public static var backgroundSelected = UIColor(light: .white, dark: gray600)
         }
@@ -528,7 +566,6 @@ public final class Colors: NSObject {
         }
         // TODO: update if needed after design is done (specifically backgroundDisabled, segmentTextDisabled, segmentTextSelectedAndDisabled, selectionDisabled, but check other colors too)
         public struct Switch {
-            public static var background: UIColor { return UIColor(light: primaryShade20, dark: .black) }
             public static var backgroundDisabled = UIColor(light: disabled, dark: .black)
             public static var segmentText: UIColor = foreground7b
             public static var segmentTextDisabled = UIColor(light: .white, dark: foreground4)
@@ -573,7 +610,6 @@ public final class Colors: NSObject {
             public static var accessoryButtonText = UIColor(light: text, dark: gray300)
             public static var background: UIColor = .clear
             public static var backgroundDivider: UIColor = background2
-            public static var backgroundDividerHighlighted: UIColor { return UIColor(light: primaryTint40, dark: gray950) }
             public static var text: UIColor = foreground2
             public static var textDivider: UIColor = foreground2d
             public static var textLink: UIColor = communicationBlue

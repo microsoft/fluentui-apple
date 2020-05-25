@@ -15,12 +15,12 @@ public enum PillButtonStyle: Int {
     case outline
     case filled
 
-    var backgroundColor: UIColor {
+	func backgroundColor(for window: UIWindow) -> UIColor {
         switch self {
         case .outline:
             return Colors.PillButton.Outline.background
         case .filled:
-            return Colors.PillButton.Filled.background
+			return UIColor(light: Colors.primaryShade10(for: window), dark: Colors.PillButton.Outline.background)
         }
     }
 
@@ -74,7 +74,7 @@ open class PillButton: UIButton {
 
     public override var isSelected: Bool {
         didSet {
-            updateAppereance()
+            updateAppearance()
             updateAccessibilityTraits()
         }
     }
@@ -91,7 +91,7 @@ open class PillButton: UIButton {
     }
 
 	open override func didMoveToWindow() {
-		updateAppereance()
+		updateAppearance()
 	}
 
     private func setupView() {
@@ -121,9 +121,9 @@ open class PillButton: UIButton {
         }
     }
 
-    private func updateAppereance() {
+    private func updateAppearance() {
 		if let window = window {
-			backgroundColor = isSelected ? style.selectedBackgroundColor(for: window) : style.backgroundColor
+			backgroundColor = isSelected ? style.selectedBackgroundColor(for: window) : style.backgroundColor(for: window)
 
 			if isSelected {
 				setTitleColor(style.selectedTitleColor(for: window), for: .normal)
