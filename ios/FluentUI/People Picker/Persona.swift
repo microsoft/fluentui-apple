@@ -35,8 +35,8 @@ open class PersonaData: NSObject, Persona {
     public var avatarImage: UIImage?
     public var email: String
 
-    /// An image that can be used as a frame (outer wide broder) for the avatar view
-    @objc public var frameImage: UIImage?
+    /// An image that can be used as a frame (outer wide border) for the avatar view
+    @objc public var customBorderImage: UIImage?
     public var name: String
     public var subtitle: String
 

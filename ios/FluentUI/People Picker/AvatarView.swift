@@ -94,7 +94,9 @@ open class AvatarView: UIView {
         static let borderWidth: CGFloat = 2
         static let extraExtraLargeBorderWidth: CGFloat = 4
         static let animationDuration: TimeInterval = 0.2
-        static let frameBorderWidth: CGFloat = 3
+
+        /// If a customBorderImage is set, a custom border of this width will be added to the avatar view.
+        static let customBorderWidth: CGFloat = 3
     }
 
     private struct SetupData: Equatable {
@@ -121,13 +123,15 @@ open class AvatarView: UIView {
         }
     }
 
-    /// Image to be used as frame around the avatar. It will be scaled to fit the avatar size.
-    @objc open var frameImage: UIImage? {
+    /// Image to be used as border around the avatar. It will be scaled to fit the avatar size.
+    /// If set, the hasBorder initializer value will be ignored, since it's assumed that the client inteds
+    /// to have a custom border.
+    @objc open var customBorderImage: UIImage? {
         didSet {
-            if frameImage != nil {
-                frameView = UIView(frame: .zero)
+            if customBorderImage != nil {
+                customBorderView = UIView(frame: .zero)
             } else {
-                frameView = nil
+                customBorderView = nil
             }
         }
     }
@@ -140,19 +144,19 @@ open class AvatarView: UIView {
         }
     }
 
-    private var frameView: UIView? {
+    private var customBorderView: UIView? {
         willSet {
             if newValue == nil {
                 borderView.isHidden = !hasBorder
-                frameView?.removeFromSuperview()
+                customBorderView?.removeFromSuperview()
             }
         }
 
         didSet {
-            if let frameView = frameView {
+            if let customBorderView = customBorderView {
                 borderView.isHidden = true
-                insertSubview(frameView, at: 0)
-                updateFrameView()
+                insertSubview(customBorderView, at: 0)
+                updateCustomBorderView()
             }
         }
     }
@@ -224,7 +228,7 @@ open class AvatarView: UIView {
             borderView.layer.cornerRadius = cornerRadius(for: borderView.frame.width)
         }
 
-        updateFrameView()
+        updateCustomBorderView()
     }
 
     private func cornerRadius(for width: CGFloat) -> CGFloat {
@@ -267,7 +271,7 @@ open class AvatarView: UIView {
     /// - Parameter avatar: The avatar object to get content from
     @objc public func setup(avatar: Avatar?) {
         setup(primaryText: avatar?.primaryText, secondaryText: avatar?.secondaryText, image: avatar?.image)
-        frameImage = avatar?.frameImage
+        customBorderImage = avatar?.customBorderImage
     }
 
     private func setupWithInitials() {
@@ -310,30 +314,28 @@ open class AvatarView: UIView {
         }
     }
 
-    private func updateFrameView() {
-        guard let frameView = frameView, let frameImage = frameImage else {
+    private func updateCustomBorderView() {
+        guard let customBorderView = customBorderView, let customBorderImage = customBorderImage else {
             return
         }
 
-        let expectedFrame = bounds.insetBy(dx: -Constants.frameBorderWidth, dy: -Constants.frameBorderWidth)
-        if frameView.frame == expectedFrame {
+        let expectedFrame = bounds.insetBy(dx: -Constants.customBorderWidth, dy: -Constants.customBorderWidth)
+        if customBorderView.frame == expectedFrame {
             return
         }
 
-        frameView.frame = expectedFrame
-        frameView.layer.cornerRadius = cornerRadius(for: expectedFrame.width)
+        customBorderView.frame = expectedFrame
+        customBorderView.layer.cornerRadius = cornerRadius(for: expectedFrame.width)
 
-        var image = frameImage
-        if frameImage.size != expectedFrame.size {
-            UIGraphicsBeginImageContextWithOptions(expectedFrame.size, false /* opaque */, 0.0 /* scale */)
-            frameImage.draw(in: CGRect(origin: .zero, size: CGSize(width: expectedFrame.size.width, height: expectedFrame.size.height)))
-            if let contextImage = UIGraphicsGetImageFromCurrentImageContext() {
-                image = contextImage
-            }
-            UIGraphicsEndImageContext()
+        var image = customBorderImage
+        if customBorderImage.size != expectedFrame.size {
+            let renderer = UIGraphicsImageRenderer(size: expectedFrame.size)
+            image = renderer.image { context in
+                customBorderImage.draw(in: CGRect(origin: .zero, size: CGSize(width: expectedFrame.size.width, height: expectedFrame.size.height)))
+            }.withRenderingMode(.alwaysOriginal)
         }
 
-        frameView.backgroundColor = UIColor.init(patternImage: image)
+        customBorderView.backgroundColor = UIColor.init(patternImage: image)
     }
 
     // MARK: Accessibility

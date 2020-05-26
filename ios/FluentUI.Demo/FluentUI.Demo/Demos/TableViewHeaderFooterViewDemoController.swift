@@ -52,7 +52,6 @@ class TableViewHeaderFooterViewDemoController: DemoController {
 }
 
 // MARK: - TableViewHeaderFooterViewDemoController: UITableViewDataSource
-
 extension TableViewHeaderFooterViewDemoController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return tableView.style == .grouped ? groupedSections.count : plainSections.count
@@ -89,10 +88,6 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as! TableViewHeaderFooterView
         let section = tableView.style == .grouped ? groupedSections[section] : plainSections[section]
-        if section.hasColorfulAccessoryButton {
-             header.imageForAccessoryButtonColor = colorfulImage()
-        }
-
         header.setup(style: section.headerStyle, title: section.title, accessoryButtonTitle: section.hasAccessory ? "See More" : "")
         header.titleNumberOfLines = section.numberOfLines
         header.accessoryButtonStyle = section.accessoryButtonStyle
@@ -133,25 +128,6 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
         present(alert, animated: true)
-    }
-
-    private func colorfulImage() -> UIImage? {
-        let colorfulGradient = CAGradientLayer()
-        let size = CGSize(width: 76, height: 76)
-        colorfulGradient.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-        colorfulGradient.colors = [UIColor.red.cgColor, UIColor.orange.cgColor, UIColor.yellow.cgColor]
-        colorfulGradient.startPoint = CGPoint(x: 0, y: 0)
-        colorfulGradient.endPoint = CGPoint(x: 1, y: 0)
-
-        var frameImage: UIImage?
-        UIGraphicsBeginImageContext(size)
-        if let context = UIGraphicsGetCurrentContext() {
-            colorfulGradient.render(in: context)
-            frameImage = UIGraphicsGetImageFromCurrentImageContext()
-        }
-        UIGraphicsEndImageContext()
-
-        return frameImage
     }
 }
 

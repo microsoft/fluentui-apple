@@ -12,23 +12,23 @@ class AvatarViewDemoController: DemoController {
 
         createSection(withTitle: "Circle style for person", name: "Kat Larrson", image: UIImage(named: "avatar_kat_larsson")!, style: .circle)
         createSection(withTitle: "Square style for group", name: "NorthWind Traders", image: UIImage(named: "site")!, style: .square)
-        createSection(withTitle: "With image based frame", name: "Kat Larrson", image: UIImage(named: "avatar_kat_larsson")!, style: .circle, withFrame: true)
+        createSection(withTitle: "With image based frame", name: "Kat Larrson", image: UIImage(named: "avatar_kat_larsson")!, style: .circle, withColorfulBorder: true)
     }
 
-    private func createSection(withTitle title: String, name: String, image: UIImage, style: AvatarStyle, withFrame: Bool = false) {
+    private func createSection(withTitle title: String, name: String, image: UIImage, style: AvatarStyle, withColorfulBorder: Bool = false) {
         addTitle(text: title)
         for size in AvatarSize.allCases.reversed() {
-            let imageAvatar = createAvatarView(size: size, name: name, image: image, style: style, withFrame: withFrame)
-            let initialsAvatar = createAvatarView(size: size, name: name, style: style, withFrame: withFrame)
+            let imageAvatar = createAvatarView(size: size, name: name, image: image, style: style, withColorfulBorder: withColorfulBorder)
+            let initialsAvatar = createAvatarView(size: size, name: name, style: style, withColorfulBorder: withColorfulBorder)
             addRow(text: size.description, items: [imageAvatar, initialsAvatar], textStyle: .footnote, textWidth: 100)
         }
         container.addArrangedSubview(UIView())
     }
 
-    private func createAvatarView(size: AvatarSize, name: String, image: UIImage? = nil, style: AvatarStyle, withFrame: Bool = false) -> UIView {
+    private func createAvatarView(size: AvatarSize, name: String, image: UIImage? = nil, style: AvatarStyle, withColorfulBorder: Bool = false) -> UIView {
         let avatarView = AvatarView(avatarSize: size, withBorder: true, style: style)
-        if withFrame, let frameImage = colorfulImageForFrame() {
-            avatarView.frameImage = frameImage
+        if withColorfulBorder, let customBorderImage = colorfulImageForFrame() {
+            avatarView.customBorderImage = customBorderImage
         }
 
         avatarView.setup(primaryText: name, secondaryText: "", image: image)
@@ -62,15 +62,15 @@ class AvatarViewDemoController: DemoController {
              colorfulGradient.type = .conic
         }
 
-        var frameImage: UIImage?
+        var customBorderImage: UIImage?
         UIGraphicsBeginImageContext(size)
         if let context = UIGraphicsGetCurrentContext() {
             colorfulGradient.render(in: context)
-            frameImage = UIGraphicsGetImageFromCurrentImageContext()
+            customBorderImage = UIGraphicsGetImageFromCurrentImageContext()
         }
         UIGraphicsEndImageContext()
 
-        return frameImage
+        return customBorderImage
     }
 }
 
