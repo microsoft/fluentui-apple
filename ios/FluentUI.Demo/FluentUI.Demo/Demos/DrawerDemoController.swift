@@ -173,7 +173,7 @@ class DrawerDemoController: DemoController {
         contentController.preferredContentSize = CGSize(width: 400, height: 400)
         contentControllerOriginalPreferredContentHeight = contentController.preferredContentSize.height
 
-        let drawer = presentDrawer(sourceView: sender, presentationDirection: .up, presentationStyle: .slideover, presentationOffset: 20, presentationBackground: traitCollection.horizontalSizeClass == .regular ? .none : .black, contentController: contentController, resizingBehavior: .dismissOrExpand)
+        let drawer = presentDrawer(sourceView: sender, presentationDirection: .up, presentationStyle: .slideover, presentationOffset: 20, presentationBackground: .black, contentController: contentController, resizingBehavior: .dismissOrExpand)
 
         drawer.contentScrollView = personaListView
     }
