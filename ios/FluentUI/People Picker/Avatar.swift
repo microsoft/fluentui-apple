@@ -15,6 +15,8 @@ public protocol Avatar {
     var primaryText: String { get }
     var secondaryText: String { get }
     var image: UIImage? { get }
+
+    /// An image that can be used as a frame (outer wide border) for the avatar view
     var customBorderImage: UIImage? { get }
 }
 
@@ -29,7 +31,6 @@ open class AvatarData: NSObject, Avatar {
     public var secondaryText: String
     public var image: UIImage?
 
-    /// An image that can be used as a frame (outer wide border) for the avatar view
     @objc public var customBorderImage: UIImage?
 
     @objc public init(primaryText: String = "", secondaryText: String = "", image: UIImage? = nil) {

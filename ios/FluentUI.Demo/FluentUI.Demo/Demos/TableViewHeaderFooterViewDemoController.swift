@@ -52,6 +52,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
 }
 
 // MARK: - TableViewHeaderFooterViewDemoController: UITableViewDataSource
+
 extension TableViewHeaderFooterViewDemoController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return tableView.style == .grouped ? groupedSections.count : plainSections.count

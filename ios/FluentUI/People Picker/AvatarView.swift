@@ -123,15 +123,19 @@ open class AvatarView: UIView {
         }
     }
 
-    /// Image to be used as border around the avatar. It will be scaled to fit the avatar size.
-    /// If set, the hasBorder initializer value will be ignored, since it's assumed that the client inteds
-    /// to have a custom border.
+    /// Image to be used as border around the avatar. It will be used as a pattern image color,
+    /// but It will be scaled to fit the avatar size. If set, the hasBorder initializer value will be ignored,
+    /// since it's assumed that the client intends to have a custom border.
     @objc open var customBorderImage: UIImage? {
         didSet {
             if customBorderImage != nil {
-                customBorderView = UIView(frame: .zero)
+                hasCustomBorder = true
+                borderView.isHidden = false
+                updateCustomBorder()
             } else {
-                customBorderView = nil
+                hasCustomBorder = false
+                borderView.isHidden = !hasBorder
+                updateBorder()
             }
         }
     }
@@ -144,24 +148,9 @@ open class AvatarView: UIView {
         }
     }
 
-    private var customBorderView: UIView? {
-        willSet {
-            if newValue == nil {
-                borderView.isHidden = !hasBorder
-                customBorderView?.removeFromSuperview()
-            }
-        }
-
-        didSet {
-            if let customBorderView = customBorderView {
-                borderView.isHidden = true
-                insertSubview(customBorderView, at: 0)
-                updateCustomBorderView()
-            }
-        }
-    }
-
     private var hasBorder: Bool = false
+    private var hasCustomBorder: Bool = false
+    private var customBorderImageSize: CGSize = .zero
     private var primaryText: String?
     private var secondaryText: String?
 
@@ -191,7 +180,6 @@ open class AvatarView: UIView {
         imageView.contentMode = .scaleAspectFill
 
         borderView = UIView(frame: .zero)
-        borderView.backgroundColor = Colors.Avatar.border
         borderView.isHidden = !hasBorder
 
         super.init(frame: CGRect(origin: .zero, size: avatarSize.size))
@@ -222,13 +210,11 @@ open class AvatarView: UIView {
         imageView.layer.cornerRadius = cornerRadius(for: imageView.frame.width)
         initialsView.layer.cornerRadius = imageView.layer.cornerRadius
 
-        if !borderView.isHidden {
-            let borderWidth = avatarSize == .extraExtraLarge ? Constants.extraExtraLargeBorderWidth : Constants.borderWidth
-            borderView.frame = bounds.insetBy(dx: -borderWidth, dy: -borderWidth)
-            borderView.layer.cornerRadius = cornerRadius(for: borderView.frame.width)
+        if hasCustomBorder {
+            updateCustomBorder()
+        } else if hasBorder {
+           updateBorder()
         }
-
-        updateCustomBorderView()
     }
 
     private func cornerRadius(for width: CGFloat) -> CGFloat {
@@ -314,28 +300,37 @@ open class AvatarView: UIView {
         }
     }
 
-    private func updateCustomBorderView() {
-        guard let customBorderView = customBorderView, let customBorderImage = customBorderImage else {
+    private func updateBorder() {
+        let borderWidth = avatarSize == .extraExtraLarge ? Constants.extraExtraLargeBorderWidth : Constants.borderWidth
+        borderView.frame = bounds.insetBy(dx: -borderWidth, dy: -borderWidth)
+        borderView.layer.cornerRadius = cornerRadius(for: borderView.frame.width)
+        borderView.backgroundColor = Colors.Avatar.border
+    }
+
+    private func updateCustomBorder() {
+        guard let customBorderImage = customBorderImage else {
             return
         }
 
         let expectedFrame = bounds.insetBy(dx: -Constants.customBorderWidth, dy: -Constants.customBorderWidth)
-        if customBorderView.frame == expectedFrame {
+        if customBorderImageSize == expectedFrame.size {
             return
         }
 
-        customBorderView.frame = expectedFrame
-        customBorderView.layer.cornerRadius = cornerRadius(for: expectedFrame.width)
+        borderView.frame = expectedFrame
+        let size = expectedFrame.size
+        customBorderImageSize = size
+        borderView.layer.cornerRadius = cornerRadius(for: size.width)
 
         var image = customBorderImage
-        if customBorderImage.size != expectedFrame.size {
-            let renderer = UIGraphicsImageRenderer(size: expectedFrame.size)
-            image = renderer.image { context in
-                customBorderImage.draw(in: CGRect(origin: .zero, size: CGSize(width: expectedFrame.size.width, height: expectedFrame.size.height)))
+        if customBorderImage.size != size {
+            let renderer = UIGraphicsImageRenderer(size: size)
+            image = renderer.image { _ in
+                customBorderImage.draw(in: CGRect(origin: .zero, size: CGSize(width: size.width, height: size.height)))
             }.withRenderingMode(.alwaysOriginal)
         }
 
-        customBorderView.backgroundColor = UIColor.init(patternImage: image)
+        borderView.backgroundColor = UIColor(patternImage: image)
     }
 
     // MARK: Accessibility
