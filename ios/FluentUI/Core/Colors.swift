@@ -299,26 +299,33 @@ public final class Colors: NSObject {
     /// text color should not be higher than `gray400` in dark mode to achieve 4.5:1 minimum contrast ratio in `.black` background
     /// when determining high contrast color, add 200 in light mode and substract 200 in dark mode from the default color.
 
-    /// text appears on a main level in the screen. eg. title in dialog, title in navigationbar with `surfacePrimary`, etc
+    /// text color used for main level in the screen. eg. title in dialog, title in navigationbar with `surfacePrimary`, etc
     @objc public static let textDominant = UIColor(light: gray900, lightHighContrast: .black, dark: .white)
+    /// text color used for titles
     @objc public static let textPrimary = UIColor(light: gray900, lightHighContrast: .black, dark: gray100, darkHighContrast: .white)
+    /// text color used for subtitles
     @objc public static let textSecondary = UIColor(light: gray500, lightHighContrast: gray700, dark: gray400, darkHighContrast: gray200)
+    /// text color used in disabled state
     @objc public static let textDisabled = UIColor(light: gray300, lightHighContrast: gray500, dark: gray600, darkHighContrast: gray400)
     /// text appears on top of the surface that uses `Colors.primary` as background color
-    @objc public static let textOnAccent = UIColor(light: .white, dark: .black) // same as `foregroundOnPrimary`
+    @objc public static let textOnAccent = UIColor(light: .white, dark: .black)
 
     /// icon used as call-to-actions without a label attached. They need to reach a minimum contrast ratio 4.5:1 to its background
     @objc public static let iconPrimary = UIColor(light: gray500, lightHighContrast: gray700, dark: .white)
     /// icon that are attached to a label and are only used for decorative purposes
     @objc public static let iconSecondary = UIColor(light: gray400, lightHighContrast: gray600, dark: gray500, darkHighContrast: gray300, darkElevated: gray400)
+    /// icon color used in disabled state
     @objc public static let iconDisabled = UIColor(light: gray300, lightHighContrast: gray500, dark: gray600, darkHighContrast: gray400)
     /// icon appears on top of surfaces that uses `Colors.primary` as background color
-    @objc public static let iconOnAccent = UIColor(light: .white, dark: .black) // same as `foregroundOnPrimary`
+    @objc public static let iconOnAccent = UIColor(light: .white, dark: .black)
+
+    /// In Darkmode, our system use two sets of background colors -- called base and elevated -- to enhance the perception of depath when one dark interface is layered above another.
+    /// The dark base colors are darker, making background interface appear to recede, and the elevete colors are lighter, making foreground interfaces appear to advance
 
     @objc public static let surfacePrimary = UIColor(light: .white, dark: .black, darkElevated: gray950)
     @objc public static let surfaceSecondary = UIColor(light: gray25, dark: gray950, darkElevated: gray900)
     @objc public static let surfaceTertiary = UIColor(light: gray50, dark: gray900, darkElevated: gray800)
-    /// also used for disabled background color as well
+    /// also used for disabled background color
     @objc public static let surfaceQuaternary = UIColor(light: gray100, dark: gray600)
 
     @objc public static let dividerOnPrimary = UIColor(light: gray100, dark: gray800, darkElevated: gray700)
