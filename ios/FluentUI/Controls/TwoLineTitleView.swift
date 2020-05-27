@@ -206,12 +206,15 @@ open class TwoLineTitleView: UIView {
         case .dark:
             titleButtonLabel.textColor = Colors.TwoLineTitle.titleDark
             subtitleButtonLabel.textColor = Colors.TwoLineTitle.subtitleDark
+            titleButtonImageView.tintColor = Colors.TwoLineTitle.titleAccessoryDark
         case .light:
             titleButtonLabel.textColor = Colors.TwoLineTitle.titleLight
             subtitleButtonLabel.textColor = Colors.TwoLineTitle.subtitleLight
+            titleButtonImageView.tintColor = Colors.TwoLineTitle.titleAccessoryLight
         }
-        titleButtonImageView.tintColor = Colors.TwoLineTitle.accessory
-        subtitleButtonImageView.tintColor = Colors.TwoLineTitle.accessory
+
+        // unlike title accessory image view, subtitle accessory image view should be the same color as subtitle label
+        subtitleButtonImageView.tintColor = subtitleButtonLabel.textColor
     }
 
     private func setupTitleButtonColor(highlighted: Bool, animated: Bool) {

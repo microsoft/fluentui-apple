@@ -241,7 +241,7 @@ public final class Colors: NSObject {
     @objc public static var primaryShade30: UIColor = Palette.communicationBlueShade30.color
 
     @available(*, deprecated, renamed: "textOnAccent")
-    @objc public static var foregroundOnPrimary = UIColor(light: .white, dark: .black)
+    @objc public static var foregroundOnPrimary: UIColor = textOnAccent
 
     // MARK: Physical - grays
 
@@ -292,32 +292,11 @@ public final class Colors: NSObject {
 
     // MARK: Base semantic
 
-//    @objc public static let background1 = UIColor(light: .white, dark: .black, darkElevated: gray900)
-//    @objc public static let background1b = UIColor(light: .white, dark: gray950, darkElevated: gray800)
-//    @objc public static let background1c = UIColor(light: .white, dark: gray900, darkElevated: gray800)
-//    @objc public static let background2 = UIColor(light: gray25, dark: gray950, darkElevated: gray700)
-//    @objc public static let background2b = UIColor(light: gray25, dark: gray700)
-//    @objc public static let background3 = UIColor(light: gray50, dark: gray900, darkElevated: gray700)
-//    @objc public static let background3b = UIColor(light: gray50, dark: gray600)
     @available(*, deprecated, renamed: "surfaceDisabled")
-    @objc public static let disabled = UIColor(light: gray100, dark: gray600)
-//    @objc public static let foreground1 = UIColor(light: gray900, dark: gray100)
-//    @objc public static let foreground1b = UIColor(light: gray900, dark: gray400)
-//    @objc public static let foreground2 = UIColor(light: gray500, dark: gray400)
-//    @objc public static let foreground2b = UIColor(light: gray500, dark: gray300)
-//    @objc public static let foreground2c = UIColor(light: gray500, dark: gray500)
-//    @objc public static let foreground2d = UIColor(light: gray500, dark: gray100)
-//    @objc public static let foreground3 = UIColor(light: gray400, dark: gray400)
-//    @objc public static let foreground3b = UIColor(light: gray400, dark: gray500)
-//    @objc public static let foreground3c = UIColor(light: gray400, dark: gray600)
-//    @objc public static let foreground4 = UIColor(light: gray300, dark: gray600)
-//    @objc public static let foreground4b = UIColor(light: gray300, dark: gray500)
-//    @objc public static let foreground5 = UIColor(light: gray200, dark: gray500)
-//    @objc public static let foreground6 = UIColor(light: gray100, dark: gray700, darkElevated: gray600)
-//    @objc public static let foreground6b = UIColor(light: gray100, dark: gray500)
-//    @objc public static let foreground7b = UIColor(light: .white, dark: gray100)
+    @objc public static let disabled: UIColor = textDisabled
 
-    /// text color should never be lower than `gray500` in light mode to achieve 4.5:1 minimum contrast ratio in `.white` background
+    /// text color should not be lower than `gray500` in light mode to achieve 4.5:1 minimum contrast ratio in `.white` background
+    /// text color should not be higher than `gray400` in dark mode to achieve 4.5:1 minimum contrast ratio in `.black` background
     /// when determining high contrast color, add 200 in light mode and substract 200 in dark mode from the default color.
 
     /// text appears on a main level in the screen. eg. title in dialog, title in navigationbar with `surfacePrimary`, etc
@@ -339,8 +318,8 @@ public final class Colors: NSObject {
     @objc public static let surfacePrimary = UIColor(light: .white, dark: .black, darkElevated: gray950)
     @objc public static let surfaceSecondary = UIColor(light: gray25, dark: gray950, darkElevated: gray900)
     @objc public static let surfaceTertiary = UIColor(light: gray50, dark: gray900, darkElevated: gray800)
-    @objc public static let surfaceQuaternary = UIColor(light: gray100, dark: gray600, darkElevated: gray600)
-    @objc public static let surfaceDisabled = UIColor(light: gray100, dark: gray600)
+    /// also used for disabled background color as well
+    @objc public static let surfaceQuaternary = UIColor(light: gray100, dark: gray600)
 
     @objc public static let dividerOnPrimary = UIColor(light: gray100, dark: gray800, darkElevated: gray700)
     @objc public static let dividerOnSecondary = UIColor(light: gray200, dark: gray700, darkElevated: gray600)
@@ -351,12 +330,12 @@ public final class Colors: NSObject {
     // Add semantic colors describing colors used for particular control elements
 
     public struct ActivityIndicator {
-        public static var foreground = UIColor(light: gray300, dark: gray500)
+        public static var foreground: UIColor = iconSecondary
     }
 
     public struct Avatar {
         // Should use physical color because this text is shown on physical avatar background
-        public static var text = UIColor(light: .white, dark: .black)
+        public static var text: UIColor = textOnAccent
         public static var border = UIColor(light: .white, dark: gray900, darkElevated: gray800)
     }
 
@@ -384,17 +363,17 @@ public final class Colors: NSObject {
     }
 
     public struct BarButtonItem {
-        public static var primary: UIColor { return UIColor(light: Colors.primary, dark: .white) }
+        public static var primary: UIColor { return UIColor(light: Colors.primary, dark: textDominant) }
         public static var secondary: UIColor = iconPrimary
     }
 
     public struct Button {
         public static var background: UIColor = .clear
         public static var backgroundFilled: UIColor { return primary }
-        public static var backgroundFilledDisabled: UIColor = surfaceDisabled
+        public static var backgroundFilledDisabled: UIColor = surfaceQuaternary
         public static var backgroundFilledHighlighted: UIColor { return UIColor(light: primaryTint10, dark: primaryTint20) }
         public static var border: UIColor { return primaryTint20 }
-        public static var borderDisabled: UIColor = surfaceDisabled
+        public static var borderDisabled: UIColor = surfaceQuaternary
         public static var borderHighlighted: UIColor { return primaryTint30 }
         public static var title: UIColor { return primary }
         public static var titleDisabled: UIColor = textDisabled
@@ -443,7 +422,7 @@ public final class Colors: NSObject {
     public struct HUD {
         public static var activityIndicator: UIColor = .white
         public static var background = UIColor(light: gray900.withAlphaComponent(0.9), dark: gray700)
-        public static var text = UIColor(light: .white, dark: gray100)
+        public static var text = UIColor(light: textOnAccent, dark: textPrimary)
     }
 
     public struct Navigation {
@@ -454,8 +433,8 @@ public final class Colors: NSObject {
         }
         public struct Primary {
             public static var background: UIColor { return UIColor(light: primary, dark: System.background) }
-            public static var tint = UIColor(light: .white, dark: System.tint)
-            public static var title = UIColor(light: .white, dark: System.title)
+            public static var tint = UIColor(light: textOnAccent, dark: System.tint)
+            public static var title = UIColor(light: textOnAccent, dark: System.title)
         }
     }
 
@@ -465,7 +444,7 @@ public final class Colors: NSObject {
             public static var foreground: UIColor { return UIColor(light: primaryShade20, dark: .black) }
         }
         public struct NeutralToast {
-            public static var background = UIColor(light: gray100, dark: gray600).withAlphaComponent(0.6)
+            public static var background: UIColor = surfaceQuaternary.withAlphaComponent(0.6)
             public static var foreground: UIColor = Colors.textDominant
         }
         public struct PrimaryBar {
@@ -473,8 +452,8 @@ public final class Colors: NSObject {
             public static var foreground: UIColor { return PrimaryToast.foreground }
         }
         public struct PrimaryOutlineBar {
-            public static var background = UIColor(light: .white, dark: gray600).withAlphaComponent(0.6)
-            public static var foreground: UIColor { return UIColor(light: primary, dark: gray100) }
+            public static var background = UIColor(light: surfacePrimary, dark: surfaceQuaternary).withAlphaComponent(0.6)
+            public static var foreground: UIColor { return UIColor(light: primary, dark: textPrimary) }
         }
         public struct NeutralBar {
             public static var background: UIColor = NeutralToast.background
@@ -499,12 +478,12 @@ public final class Colors: NSObject {
             public static var background = UIColor(light: surfaceTertiary, dark: surfaceSecondary)
             public static var title = UIColor(light: textSecondary, dark: textPrimary)
             public static var backgroundSelected: UIColor { return UIColor(light: primary, dark: surfaceQuaternary) }
-            public static var titleSelected = UIColor(light: gray25, dark: .white)
+            public static var titleSelected = UIColor(light: textOnAccent, dark: textDominant)
         }
         public struct Filled {
             public static var background: UIColor { return UIColor(light: primaryShade10, dark: Outline.background) }
-            public static var title = UIColor(light: .white, dark: Outline.title)
-            public static var backgroundSelected = UIColor(light: .white, dark: Outline.backgroundSelected)
+            public static var title = UIColor(light: textOnAccent, dark: Outline.title)
+            public static var backgroundSelected = UIColor(light: surfacePrimary, dark: Outline.backgroundSelected)
             public static var titleSelected: UIColor { return UIColor(light: primary, dark: Outline.titleSelected) }
         }
     }
@@ -521,32 +500,31 @@ public final class Colors: NSObject {
 
     public struct Progress {
         public static var progressTint: UIColor { return primary }
-        public static var trackTint = UIColor(light: gray100, dark: gray700, darkElevated: gray600)
+        public static var trackTint = UIColor(light: surfaceQuaternary, dark: surfaceTertiary)
     }
 
     public struct ResizingHandle {
-        public static var background: UIColor = Drawer.background
         public static var mark = UIColor(light: gray100, dark: gray500)
     }
 
     public struct SearchBar {
         public struct DarkContent {
-            public static var background = UIColor(light: gray50, dark: LightContent.background)
-            public static var cancelButton = UIColor(light: gray500, dark: LightContent.cancelButton)
-            public static var clearIcon = UIColor(light: gray400, dark: LightContent.clearIcon)
-            public static var placeholderText = UIColor(light: gray500, dark: LightContent.placeholderText)
-            public static var searchIcon = UIColor(light: gray500, dark: LightContent.searchIcon)
-            public static var text = UIColor(light: gray900, dark: LightContent.text)
-            public static var tint = UIColor(light: gray400, dark: LightContent.tint)
+            public static var background = UIColor(light: surfaceTertiary, dark: LightContent.background)
+            public static var cancelButton = UIColor(light: textSecondary, dark: LightContent.cancelButton)
+            public static var clearIcon = UIColor(light: iconSecondary, dark: LightContent.clearIcon)
+            public static var placeholderText = UIColor(light: textSecondary, dark: LightContent.placeholderText)
+            public static var searchIcon = UIColor(light: iconPrimary, dark: LightContent.searchIcon)
+            public static var text = UIColor(light: textDominant, dark: LightContent.text)
+            public static var tint = UIColor(light: iconSecondary, dark: LightContent.tint)
         }
         public struct LightContent {
             public static var background = UIColor(light: UIColor.black.withAlphaComponent(0.2), dark: gray700, darkElevated: gray600)
-            public static var cancelButton: UIColor = .white
+            public static var cancelButton: UIColor = LightContent.text
             public static var clearIcon = UIColor(light: UIColor.white.withAlphaComponent(0.6), dark: gray400)
-            public static var placeholderText = UIColor(light: .white, dark: gray300)
-            public static var searchIcon = UIColor(light: .white, dark: gray400)
-            public static var text: UIColor = .white
-            public static var tint: UIColor = .white
+            public static var placeholderText = UIColor(light: textOnAccent, dark: textSecondary)
+            public static var searchIcon: UIColor = placeholderText
+            public static var text = UIColor(light: textOnAccent, dark: textDominant)
+            public static var tint: UIColor = LightContent.text
         }
     }
 
@@ -555,21 +533,21 @@ public final class Colors: NSObject {
             public static var background: UIColor = NavigationBar.background
             public static var backgroundDisabled: UIColor = background
             public static var segmentText: UIColor = textSecondary
-            public static var segmentTextSelected: UIColor { return UIColor(light: primary, dark: .white) }
-            public static var segmentTextDisabled: UIColor = surfaceDisabled
+            public static var segmentTextSelected: UIColor { return UIColor(light: primary, dark: textDominant) }
+            public static var segmentTextDisabled: UIColor = surfaceQuaternary
             public static var segmentTextSelectedAndDisabled: UIColor = textDisabled
-            public static var selection: UIColor { return UIColor(light: primary, dark: .white) }
+            public static var selection: UIColor { return UIColor(light: primary, dark: textDominant) }
             public static var selectionDisabled: UIColor = textDisabled
         }
 
         public struct Switch {
-            public static var background: UIColor { return UIColor(light: primaryShade10, dark: surfaceSecondary) }
-            public static var backgroundDisabled = UIColor(light: iconDisabled, dark: .black)
-            public static var segmentText = UIColor(light: textOnAccent, dark: textPrimary)
-            public static var segmentTextSelected: UIColor { return UIColor(light: primary, dark: textDominant) }
-            public static var segmentTextDisabled = UIColor(light: .white, dark: textDisabled)
-            public static var segmentTextSelectedAndDisabled = UIColor(light: textDisabled, dark: textSecondary)
-            public static var selection = UIColor(light: .white, dark: surfaceQuaternary)
+            public static var background: UIColor { return PillButton.Filled.background }
+            public static var backgroundDisabled: UIColor = background
+            public static var segmentText: UIColor = PillButton.Filled.title
+            public static var segmentTextSelected: UIColor { return PillButton.Filled.titleSelected }
+            public static var segmentTextDisabled: UIColor { return UIColor(light: primaryTint10, dark: textDisabled) }
+            public static var segmentTextSelectedAndDisabled = UIColor(light: primaryTint20, dark: gray500)
+            public static var selection: UIColor = PillButton.Filled.backgroundSelected
             public static var selectionDisabled: UIColor = selection
         }
     }
@@ -653,11 +631,13 @@ public final class Colors: NSObject {
     }
 
     public struct TwoLineTitle {
-        public static var titleDark: UIColor = NavigationBar.title
-        public static var titleLight: UIColor = .white
-        public static var subtitleDark: UIColor = textSecondary
-        public static var subtitleLight = UIColor.white.withAlphaComponent(0.8)
-        public static var accessory: UIColor = iconSecondary
+        // light style is used Navigation.Primary.background. Dark style is used for Navigation.System.background
+        public static var titleDark: UIColor = Navigation.System.title
+        public static var titleLight: UIColor = Navigation.Primary.title
+        public static var subtitleDark = UIColor(light: textSecondary, dark: textDominant)
+        public static var subtitleLight: UIColor = titleLight
+        public static var titleAccessoryLight = UIColor(light: iconOnAccent, dark: iconPrimary)
+        public static var titleAccessoryDark = UIColor(light: iconSecondary, dark: iconPrimary)
     }
 
     @objc public static func color(from palette: Palette) -> UIColor {
