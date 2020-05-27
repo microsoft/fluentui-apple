@@ -399,7 +399,7 @@ public final class Colors: NSObject {
             public static var circleSelected: UIColor { return primary }
         }
         public struct Today {
-            public static var background: UIColor = Calendar.background
+            public static var background: UIColor = Calendar.Day.backgroundPrimary
         }
         public struct WeekdayHeading {
             public struct Light {
