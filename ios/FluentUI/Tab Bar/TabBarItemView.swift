@@ -6,12 +6,6 @@
 import UIKit
 
 class TabBarItemView: UIView {
-    private struct Constants {
-        static let spacingVertical: CGFloat = 3.0
-        static let spacingHorizontal: CGFloat = 8.0
-        static let portraitImageSize: CGFloat = 28.0
-        static let landscapeImageSize: CGFloat = 24.0
-    }
 
     let item: TabBarItem
     var isSelected: Bool = false {
@@ -77,8 +71,8 @@ class TabBarItemView: UIView {
             scalesLargeContentImage = true
         }
 
-        imageHeightConstraint = imageView.heightAnchor.constraint(equalToConstant: Constants.portraitImageSize)
-        imageWidthConstraint = imageView.widthAnchor.constraint(equalToConstant: Constants.portraitImageSize)
+        imageHeightConstraint = imageView.heightAnchor.constraint(equalToConstant: portraitImageSize)
+        imageWidthConstraint = imageView.widthAnchor.constraint(equalToConstant: portraitImageSize)
 
         NSLayoutConstraint.activate([imageHeightConstraint!,
                                      imageWidthConstraint!,
@@ -115,15 +109,15 @@ class TabBarItemView: UIView {
     func updateLayout() {
         if isInPortraitMode {
             container.axis = .vertical
-            container.spacing = Constants.spacingVertical
-            imageHeightConstraint?.constant = Constants.portraitImageSize
-            imageWidthConstraint?.constant = Constants.portraitImageSize
+            container.spacing = spacingVertical
+            imageHeightConstraint?.constant = portraitImageSize
+            imageWidthConstraint?.constant = portraitImageSize
             titleLabel.style = .button3
         } else {
             container.axis = .horizontal
-            container.spacing = Constants.spacingHorizontal
-            imageHeightConstraint?.constant = Constants.landscapeImageSize
-            imageWidthConstraint?.constant = Constants.landscapeImageSize
+            container.spacing = spacingHorizontal
+            imageHeightConstraint?.constant = landscapeImageSize
+            imageWidthConstraint?.constant = landscapeImageSize
             titleLabel.style = .footnoteUnscaled
         }
         imageView.image = item.unselectedImage(isInPortraitMode: isInPortraitMode)
@@ -132,3 +126,7 @@ class TabBarItemView: UIView {
 }
 
 private let unselectedColor = Colors.foreground2c
+private let spacingVertical: CGFloat = 3.0
+private let spacingHorizontal: CGFloat = 8.0
+private let portraitImageSize: CGFloat = 28.0
+private let landscapeImageSize: CGFloat = 24.0

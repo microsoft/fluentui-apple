@@ -87,10 +87,6 @@ class ColorDemoController: UIViewController {
     ]
 
     override func loadView() {
-
-        let segmentedControl = SegmentedControl(items: colorProviderThemedWindowTypes.map({ return $0.name }), style: .tabs)
-        segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(sender:)), for: .valueChanged)
-
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -117,6 +113,18 @@ class ColorDemoController: UIViewController {
             stackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let window = view.window {
+            segmentedControl.selectedSegmentIndex = colorProviderThemedWindowTypes.firstIndex(where: { return window.isKind(of: $0.windowType) }) ?? 0
+        }
+    }
+    private lazy var segmentedControl: SegmentedControl = {
+        let segmentedControl = SegmentedControl(items: colorProviderThemedWindowTypes.map({ return $0.name }), style: .tabs)
+        segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(sender:)), for: .valueChanged)
+        return segmentedControl
+    }()
 
     @objc private func segmentedControlValueChanged(sender: Any) {
         if let segmentedControl = sender as? SegmentedControl {

@@ -194,6 +194,7 @@ open class ActionsCell: UITableViewCell {
             )
         )
     }
+
     open override func didMoveToWindow() {
         super.didMoveToWindow()
         updateActionTitleColors()

@@ -9,14 +9,18 @@ import FluentUI
 class DemoListViewController: UITableViewController {
 
     static func addDemoListTo(window: UIWindow, pushing viewController: UIViewController?) {
-        let demoListViewController = DemoListViewController(nibName: nil, bundle: nil)
-        let navigationController = UINavigationController(rootViewController: demoListViewController)
-        window.rootViewController = navigationController
-        window.makeKeyAndVisible()
         if let colorProvider = window as? ColorProviding {
             Colors.setProvider(provider: colorProvider, for: window)
             FluentUIFramework.initializeAppearance(with: colorProvider.primaryColor(for: window)!, whenContainedInInstancesOf: [type(of: window)])
+        } else {
+            FluentUIFramework.initializeAppearance()
         }
+
+        let demoListViewController = DemoListViewController(nibName: nil, bundle: nil)
+
+        let navigationController = UINavigationController(rootViewController: demoListViewController)
+        window.rootViewController = navigationController
+        window.makeKeyAndVisible()
 
         if let viewController = viewController {
             navigationController.pushViewController(viewController, animated: false)
