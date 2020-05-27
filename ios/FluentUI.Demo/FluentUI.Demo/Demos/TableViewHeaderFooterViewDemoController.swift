@@ -93,7 +93,18 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
         header.titleNumberOfLines = section.numberOfLines
         header.accessoryButtonStyle = section.accessoryButtonStyle
         header.onAccessoryButtonTapped = { [unowned self] in self.showAlertForAccessoryTapped(title: section.title) }
+        if section.hasCustomAccessoryView {
+            header.customAccessoryView = createCustomAccessoryView()
+        }
+
         return header
+    }
+
+    private func createCustomAccessoryView() -> UIView {
+        let button = UIButton(type: .system)
+        button.setTitle("Custom Accessory", for: .normal)
+        button.setTitleColor(.green, for: .normal)
+        return button
     }
 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
