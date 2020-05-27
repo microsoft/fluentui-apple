@@ -41,7 +41,7 @@ enum DateTimePickerViewAMPM {
  * DataSource of a component of DateTimePickerView. All dataSources must follow this protocol and be private to this file.
  * Use the factory to instantiate the specific dataSources based on a type. (should be used only by DateTimePickerView and not used or instantiated on its own)
  */
-protocol DateTimePickerViewDataSource: class {
+protocol DateTimePickerViewDataSource: AnyObject {
     func numberOfItems() -> Int
 
     // If the item is present multiple times, return the indexPath at the center

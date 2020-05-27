@@ -11,7 +11,7 @@ import UIKit
 public typealias MSTableViewHeaderFooterViewDelegate = TableViewHeaderFooterViewDelegate
 
 @objc(MSFTableViewHeaderFooterViewDelegate)
-public protocol TableViewHeaderFooterViewDelegate: class {
+public protocol TableViewHeaderFooterViewDelegate: AnyObject {
     /// Returns: true if the interaction with the header view should be allowed; false if the interaction should not be allowed.
     @objc optional func headerFooterView(_ headerFooterView: TableViewHeaderFooterView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool
 }
