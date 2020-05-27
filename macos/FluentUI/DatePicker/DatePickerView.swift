@@ -409,7 +409,7 @@ extension DatePickerView: CalendarHeaderViewDelegate {
 	}
 }
 
-protocol DatePickerViewDelegate: class {
+protocol DatePickerViewDelegate: AnyObject {
 	
 	/// Tells the delegate that a new date was selected.
 	///
@@ -462,7 +462,7 @@ extension DatePickerViewDelegate {
 	}
 }
 
-protocol DatePickerViewDataSource: class {
+protocol DatePickerViewDataSource: AnyObject {
 	
 	/// Currently selected date
 	var selectedDate: Date { get }

@@ -7,7 +7,7 @@ import UIKit
 
 protocol ContainerView { }
 
-protocol ScrollableContainerView: class {
+protocol ScrollableContainerView: AnyObject {
     func makeFirstResponderVisible()
 }
 

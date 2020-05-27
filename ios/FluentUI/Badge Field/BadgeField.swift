@@ -10,7 +10,7 @@ import UIKit
 public typealias MSBadgeFieldDelegate = BadgeFieldDelegate
 
 @objc(MSFBadgeFieldDelegate)
-public protocol BadgeFieldDelegate: class {
+public protocol BadgeFieldDelegate: AnyObject {
     @objc optional func badgeField(_ badgeField: BadgeField, badgeDataSourceForText text: String) -> BadgeViewDataSource
 
     @objc optional func badgeField(_ badgeField: BadgeField, willChangeTextFieldContentWithText newText: String)

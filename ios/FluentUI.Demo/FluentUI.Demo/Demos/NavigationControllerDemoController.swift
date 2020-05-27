@@ -314,10 +314,14 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     @objc private func showSelectionMode() {
         isInSelectionMode = true
+        msfNavigationController?.contractNavigationBar(animated: true)
+        msfNavigationController?.allowResizeOfNavigationBarOnScroll = false
     }
 
     @objc private func dismissSelectionMode() {
         isInSelectionMode = false
+        msfNavigationController?.allowResizeOfNavigationBarOnScroll = true
+        msfNavigationController?.expandNavigationBar(animated: true)
     }
 
 }

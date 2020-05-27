@@ -477,7 +477,7 @@ extension Calendar {
 }
 
 @objc(MSFDatePickerControllerDelegate)
-public protocol DatePickerControllerDelegate : class {
+public protocol DatePickerControllerDelegate : AnyObject {
 	
 	/// Tells the delegate that a new date was selected.
 	///

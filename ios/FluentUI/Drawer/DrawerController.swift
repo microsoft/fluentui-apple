@@ -78,7 +78,7 @@ public enum DrawerPresentationBackground: Int {
 public typealias MSDrawerControllerDelegate = DrawerControllerDelegate
 
 @objc(MSFDrawerControllerDelegate)
-public protocol DrawerControllerDelegate: class {
+public protocol DrawerControllerDelegate: AnyObject {
     /**
      Called when a user resizes the drawer enough to change its expanded state. Use `isExpanded` property to get the current state.
 
@@ -118,6 +118,13 @@ open class DrawerController: UIViewController {
     private enum PresentationStyle: Int {
         case slideover
         case popover
+    }
+
+    /// Set `backgroundColor` to customize background color of the drawer
+    @objc open var backgroundColor: UIColor = Colors.Drawer.background {
+        didSet {
+            view.backgroundColor = backgroundColor
+        }
     }
 
     /**
@@ -229,6 +236,14 @@ open class DrawerController: UIViewController {
             }
         }
     }
+
+    /// Set `resizingHandleViewBackgroundColor` to customize background color of resizingHandleView if it is shown
+    @objc open var resizingHandleViewBackgroundColor: UIColor = Colors.ResizingHandle.background {
+        didSet {
+            resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
+        }
+    }
+
     /**
      Set `isExpanded` to `true` to maximize the drawer's height to fill the device screen vertically minus the safe areas. Set to `false` to restore it to the normal size.
 
@@ -415,7 +430,7 @@ open class DrawerController: UIViewController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Colors.Drawer.background
+        view.backgroundColor = backgroundColor
         if #available(iOS 13.0, *) {
             view.layer.cornerCurve = .continuous
         }
@@ -445,6 +460,7 @@ open class DrawerController: UIViewController {
             if showsResizingHandle {
                 if resizingHandleView == nil {
                     resizingHandleView = ResizingHandleView()
+                    resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
                 }
             } else {
                 resizingHandleView = nil
@@ -836,7 +852,7 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
             return DrawerPresentationController(presentedViewController: presented, presenting: presenting, source: source, sourceObject: sourceView ?? barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection(for: source.view), presentationOffset: presentationOffset, presentationBackground: presentationBackground, adjustHeightForKeyboard: adjustsHeightForKeyboard)
         case .popover:
             let presentationController = UIPopoverPresentationController(presentedViewController: presented, presenting: presenting)
-            presentationController.backgroundColor = Colors.Drawer.background
+            presentationController.backgroundColor = backgroundColor
             presentationController.permittedArrowDirections = permittedArrowDirections
             presentationController.delegate = self
 

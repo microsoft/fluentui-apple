@@ -37,11 +37,14 @@ public typealias MSSeparator = Separator
 
 @objc(MSFSeparator)
 open class Separator: UIView {
-    open override var backgroundColor: UIColor? { get { return super.backgroundColor } set { } }
-
     private var orientation: SeparatorOrientation = .horizontal
 
-    public init(style: SeparatorStyle = .default, orientation: SeparatorOrientation = .horizontal) {
+    @objc public override init(frame: CGRect) {
+        super.init(frame: frame)
+        initialize(style: .default, orientation: .horizontal)
+    }
+
+    @objc public init(style: SeparatorStyle = .default, orientation: SeparatorOrientation = .horizontal) {
         super.init(frame: .zero)
         initialize(style: style, orientation: orientation)
     }

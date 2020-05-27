@@ -60,14 +60,28 @@ public final class Colors: NSObject {
          case communicationBlueShade10
          case dangerPrimary
          case dangerTint40
+         case dangerTint30
+         case dangerTint20
          case dangerTint10
-         case dangerShade40
+         case dangerShade30
+         case dangerShade20
          case dangerShade10
          case warningPrimary
          case warningTint40
+         case warningTint30
+         case warningTint20
          case warningTint10
-         case warningShade40
          case warningShade30
+         case warningShade20
+         case warningShade10
+         case successPrimary
+         case successTint40
+         case successTint30
+         case successTint20
+         case successTint10
+         case successShade30
+         case successShade20
+         case successShade10
 
          public var color: UIColor {
              if let fluentColor = UIColor(named: "FluentColors/" + self.name, in: FluentUIFramework.resourceBundle, compatibleWith: nil) {
@@ -165,28 +179,58 @@ public final class Colors: NSObject {
                  return "dangerPrimary"
              case .dangerTint40:
                 return "dangerTint40"
+             case .dangerTint30:
+                return "dangerTint30"
+             case .dangerTint20:
+                return "dangerTint20"
              case .dangerTint10:
                 return "dangerTint10"
-             case .dangerShade40:
-                return "dangerShade40"
+             case .dangerShade30:
+                return "dangerShade30"
+             case .dangerShade20:
+                return "dangerShade20"
              case .dangerShade10:
                 return "dangerShade10"
              case .warningPrimary:
                 return "warningPrimary"
              case .warningTint40:
                 return "warningTint40"
+             case .warningTint30:
+                return "warningTint30"
+             case .warningTint20:
+                return "warningTint20"
              case .warningTint10:
                 return "warningTint10"
-             case .warningShade40:
-                return "warningShade40"
              case .warningShade30:
                 return "warningShade30"
+             case .warningShade20:
+                return "warningShade20"
+             case .warningShade10:
+                return "warningShade10"
+             case .successPrimary:
+                return "successPrimary"
+             case .successTint40:
+                return "successTint40"
+             case .successTint30:
+                return "successTint30"
+             case .successTint20:
+                return "successTint20"
+             case .successTint10:
+                return "successTint10"
+             case .successShade30:
+                return "successShade30"
+             case .successShade20:
+                return "successShade20"
+             case .successShade10:
+                return "successShade10"
             }
          }
      }
 
     // MARK: Primary
 
+    /// Variation of App brand colors. If an application is a hub of different apps, `primary` color could change within the same foreground session.
+    /// It is not recommended to cache `primary` color because it could change.
     @objc public static var primary: UIColor = communicationBlue
     @objc public static var primaryTint10: UIColor = Palette.communicationBlueTint10.color
     @objc public static var primaryTint20: UIColor = Palette.communicationBlueTint20.color
@@ -271,7 +315,6 @@ public final class Colors: NSObject {
     @objc public static let foreground6b = UIColor(light: gray100, dark: gray500)
     @objc public static let foreground6c = UIColor(light: gray100, dark: .clear)
     @objc public static let foreground7b = UIColor(light: .white, dark: gray100)
-    @objc public static let foreground8 = UIColor(light: primary, dark: .white)
 
     // MARK: Final semantic
 
@@ -288,19 +331,19 @@ public final class Colors: NSObject {
     }
 
     public struct Badge {
-        public static var background: UIColor = primaryTint40
-        public static var backgroundSelected: UIColor = primary
+        public static var background: UIColor { return primaryTint40 }
+        public static var backgroundSelected: UIColor { return primary }
         public static var backgroundDisabled: UIColor = background2b
-        public static var backgroundError = UIColor(light: Palette.dangerTint40.color, dark: Palette.dangerShade40.color)
+        public static var backgroundError = UIColor(light: Palette.dangerTint40.color, dark: Palette.dangerTint30.color)
         public static var backgroundErrorSelected: UIColor = error
-        public static var backgroundWarning = UIColor(light: Palette.warningTint40.color, dark: Palette.warningShade40.color)
+        public static var backgroundWarning = UIColor(light: Palette.warningTint40.color, dark: Palette.warningTint30.color)
         public static var backgroundWarningSelected: UIColor = warning
-        public static var text: UIColor = primary
+        public static var text: UIColor { return primary }
         public static var textSelected: UIColor = foregroundOnPrimary
         public static var textDisabled: UIColor = foreground2b
-        public static var textError = UIColor(light: Palette.dangerShade10.color, dark: Palette.dangerTint10.color)
+        public static var textError = UIColor(light: Palette.dangerShade10.color, dark: Palette.dangerShade20.color)
         public static var textErrorSelected: UIColor = foregroundOnPrimary
-        public static var textWarning = UIColor(light: Palette.warningShade30.color, dark: Palette.warningTint10.color)
+        public static var textWarning = UIColor(light: Palette.warningShade30.color, dark: Palette.warningPrimary.color)
         public static var textWarningSelected = UIColor(light: Palette.warningShade30.color, dark: .black)
     }
 
@@ -311,21 +354,21 @@ public final class Colors: NSObject {
     }
 
     public struct BarButtonItem {
-        public static var primary: UIColor = foreground8
+        public static var primary: UIColor { return UIColor(light: Colors.primary, dark: .white) }
         public static var secondary: UIColor = foreground2d
     }
 
     public struct Button {
         public static var background: UIColor = .clear
-        public static var backgroundFilled: UIColor = primary
+        public static var backgroundFilled: UIColor { return primary }
         public static var backgroundFilledDisabled: UIColor = disabled
-        public static var backgroundFilledHighlighted = UIColor(light: primaryTint10, dark: primaryTint20)
-        public static var border: UIColor = primaryTint20
+        public static var backgroundFilledHighlighted: UIColor { return UIColor(light: primaryTint10, dark: primaryTint20) }
+        public static var border: UIColor { return primaryTint20 }
         public static var borderDisabled: UIColor = disabled
-        public static var borderHighlighted: UIColor = primaryTint30
-        public static var title: UIColor = primary
+        public static var borderHighlighted: UIColor { return primaryTint30 }
+        public static var title: UIColor { return primary }
         public static var titleDisabled: UIColor = foreground4
-        public static var titleHighlighted: UIColor = primaryTint20
+        public static var titleHighlighted: UIColor { return primaryTint20 }
         public static var titleWithFilledBackground: UIColor = foregroundOnPrimary
     }
 
@@ -338,7 +381,7 @@ public final class Colors: NSObject {
             public static var backgroundPrimary: UIColor = background1
             public static var backgroundSecondary: UIColor = background2
             public static var circleHighlighted: UIColor = gray400
-            public static var circleSelected: UIColor = primary
+            public static var circleSelected: UIColor { return primary }
         }
         public struct Today {
             public static var background: UIColor = background1
@@ -352,7 +395,7 @@ public final class Colors: NSObject {
             public struct Dark {
                 public static var textRegular: UIColor = foregroundOnPrimary
                 public static var textWeekend: UIColor = foregroundOnPrimary.withAlphaComponent(0.7)
-                public static var background: UIColor = primary
+                public static var background: UIColor { return primary }
             }
         }
         public static var background: UIColor = background1
@@ -361,7 +404,7 @@ public final class Colors: NSObject {
     public struct DateTimePicker {
         public static var background: UIColor = background1
         public static var text: UIColor = foreground2b
-        public static var textEmphasized: UIColor = primary
+        public static var textEmphasized: UIColor { return primary }
     }
 
     public struct Drawer {
@@ -381,7 +424,7 @@ public final class Colors: NSObject {
             public static var title: UIColor = NavigationBar.title
         }
         public struct Primary {
-            public static var background = UIColor(light: primary, dark: System.background)
+            public static var background: UIColor { return UIColor(light: primary, dark: System.background) }
             public static var tint = UIColor(light: .white, dark: System.tint)
             public static var title = UIColor(light: .white, dark: System.title)
         }
@@ -389,20 +432,20 @@ public final class Colors: NSObject {
 
     public struct Notification {
         public struct PrimaryToast {
-            public static var background = UIColor(light: primary.withAlphaComponent(0.2), dark: primary)
-            public static var foreground = UIColor(light: primaryShade20, dark: .black)
+            public static var background: UIColor { return UIColor(light: primary.withAlphaComponent(0.2), dark: primary) }
+            public static var foreground: UIColor { return UIColor(light: primaryShade20, dark: .black) }
         }
         public struct NeutralToast {
             public static var background = UIColor(light: gray100, dark: gray600).withAlphaComponent(0.6)
             public static var foreground: UIColor = foreground1
         }
         public struct PrimaryBar {
-            public static var background: UIColor = PrimaryToast.background
-            public static var foreground: UIColor = PrimaryToast.foreground
+            public static var background: UIColor { return PrimaryToast.background }
+            public static var foreground: UIColor { return PrimaryToast.foreground }
         }
         public struct PrimaryOutlineBar {
             public static var background = UIColor(light: .white, dark: gray600).withAlphaComponent(0.6)
-            public static var foreground = UIColor(light: primary, dark: gray100)
+            public static var foreground: UIColor { return UIColor(light: primary, dark: gray100) }
         }
         public struct NeutralBar {
             public static var background: UIColor = NeutralToast.background
@@ -426,28 +469,28 @@ public final class Colors: NSObject {
         public struct Outline {
             public static var background = UIColor(light: gray50, dark: gray950)
             public static var title = UIColor(light: gray500, dark: gray100)
-            public static var backgroundSelected = UIColor(light: primary, dark: gray600)
+            public static var backgroundSelected: UIColor { return UIColor(light: primary, dark: gray600) }
             public static var titleSelected = UIColor(light: gray25, dark: .white)
         }
         public struct Filled {
-            public static var background = UIColor(light: primaryShade10, dark: Outline.background)
+            public static var background: UIColor { return UIColor(light: primaryShade10, dark: Outline.background) }
             public static var title = UIColor(light: .white, dark: Outline.title)
             public static var backgroundSelected = UIColor(light: .white, dark: Outline.backgroundSelected)
-            public static var titleSelected = UIColor(light: primary, dark: Outline.titleSelected)
+            public static var titleSelected: UIColor { return UIColor(light: primary, dark: Outline.titleSelected) }
         }
     }
 
     public struct PopupMenu {
         public static var description: UIColor = foreground2d
         public struct Item {
-            public static var imageSelected: UIColor = primary
-            public static var titleSelected: UIColor = primary
-            public static var subtitleSelected: UIColor = primary
+            public static var imageSelected: UIColor { return primary }
+            public static var titleSelected: UIColor { return primary }
+            public static var subtitleSelected: UIColor { return primary }
         }
     }
 
     public struct Progress {
-        public static var progressTint: UIColor = primary
+        public static var progressTint: UIColor { return primary }
         public static var trackTint: UIColor = foreground6
         public static var trackTintForFullWidth: UIColor = foreground6c
     }
@@ -483,18 +526,18 @@ public final class Colors: NSObject {
             public static var background: UIColor = background1c
             public static var backgroundDisabled: UIColor = background
             public static var segmentText: UIColor = foreground1b
-            public static var segmentTextSelected: UIColor = foreground8
+            public static var segmentTextSelected: UIColor { return UIColor(light: primary, dark: .white) }
             public static var segmentTextDisabled: UIColor = foreground4
             public static var segmentTextSelectedAndDisabled: UIColor = foreground2
-            public static var selection: UIColor = foreground8
+            public static var selection: UIColor { return UIColor(light: primary, dark: .white) }
             public static var selectionDisabled: UIColor = gray400
         }
         // TODO: update if needed after design is done (specifically backgroundDisabled, segmentTextDisabled, segmentTextSelectedAndDisabled, selectionDisabled, but check other colors too)
         public struct Switch {
-            public static var background = UIColor(light: primaryShade20, dark: .black)
+            public static var background: UIColor { return UIColor(light: primaryShade20, dark: .black) }
             public static var backgroundDisabled = UIColor(light: disabled, dark: .black)
             public static var segmentText: UIColor = foreground7b
-            public static var segmentTextSelected = UIColor(light: primary, dark: gray100)
+            public static var segmentTextSelected: UIColor { return UIColor(light: primary, dark: gray100) }
             public static var segmentTextDisabled = UIColor(light: .white, dark: foreground4)
             public static var segmentTextSelectedAndDisabled: UIColor = foreground2
             public static var selection = UIColor(light: .white, dark: gray600)
@@ -511,7 +554,7 @@ public final class Colors: NSObject {
     @objc public static var separatorDefault: UIColor { return Separator.default }
 
     public struct Switch {
-        public static var onTint: UIColor = primary
+        public static var onTint: UIColor { return primary }
     }
 
     public struct Shimmer {
@@ -520,7 +563,7 @@ public final class Colors: NSObject {
 
     public struct TabBar {
         public static var unselected: UIColor = foreground2c
-        public static var selected: UIColor = primary
+        public static var selected: UIColor { return primary }
     }
 
     public struct Table {
@@ -534,30 +577,30 @@ public final class Colors: NSObject {
             public static var footer: UIColor = foreground2
             public static var accessoryDisclosureIndicator: UIColor = foreground3b
             public static var accessoryDetailButton: UIColor = foreground3b
-            public static var accessoryCheckmark: UIColor = primary
-            public static var selectionIndicatorOn: UIColor = primary
+            public static var accessoryCheckmark: UIColor { return primary }
+            public static var selectionIndicatorOn: UIColor { return primary }
             public static var selectionIndicatorOff: UIColor = foreground3b
         }
         public struct ActionCell {
-            public static var text: UIColor = primary
-            public static var textHighlighted: UIColor = primary.withAlphaComponent(0.4)
+            public static var text: UIColor { return primary }
+            public static var textHighlighted: UIColor { return primary.withAlphaComponent(0.4) }
             public static var textDestructive: UIColor = error
             public static var textDestructiveHighlighted: UIColor = error.withAlphaComponent(0.4)
             public static var textCommunication: UIColor = communicationBlue
             public static var textCommunicationHighlighted: UIColor = communicationBlue.withAlphaComponent(0.4)
         }
         public struct CenteredLabelCell {
-            public static var text: UIColor = primary
+            public static var text: UIColor { return primary }
         }
         public struct HeaderFooter {
             public static var accessoryButtonText = UIColor(light: text, dark: gray300)
-            public static var accessoryButtonTextPrimary: UIColor = primary
+            public static var accessoryButtonTextPrimary: UIColor { return primary }
             public static var background: UIColor = .clear
             public static var backgroundDivider: UIColor = background2
-            public static var backgroundDividerHighlighted = UIColor(light: primaryTint40, dark: gray950)
+            public static var backgroundDividerHighlighted: UIColor { return UIColor(light: primaryTint40, dark: gray950) }
             public static var text: UIColor = foreground2
             public static var textDivider: UIColor = foreground2d
-            public static var textDividerHighlighted: UIColor = primary
+            public static var textDividerHighlighted: UIColor { return primary }
             public static var textLink: UIColor = communicationBlue
         }
         public static var background: UIColor = background1
@@ -576,7 +619,7 @@ public final class Colors: NSObject {
     }
 
     public struct Tooltip {
-        public static var background = UIColor(light: gray900.withAlphaComponent(0.95), dark: primary)
+        public static var background: UIColor { return UIColor(light: gray900.withAlphaComponent(0.95), dark: primary)}
         public static var text: UIColor = foregroundOnPrimary
     }
 
@@ -597,6 +640,9 @@ public final class Colors: NSObject {
         super.init()
     }
 }
+
+/// Make palette enum CaseIterable for unit testing purposes
+extension Colors.Palette: CaseIterable {}
 
 // MARK: - TextColorStyle
 
