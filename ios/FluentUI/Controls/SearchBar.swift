@@ -12,7 +12,7 @@ public typealias MSSearchBarDelegate = SearchBarDelegate
 
 /// Various state update methods coming from the SearchBar
 @objc(MSFSearchBarDelegate)
-public protocol SearchBarDelegate: AnyObject, NSObjectProtocol {
+public protocol SearchBarDelegate: AnyObject {
     func searchBarDidBeginEditing(_ searchBar: SearchBar)
     func searchBar(_ searchBar: SearchBar, didUpdateSearchText newSearchText: String?)
     @objc optional func searchBarDidFinishEditing(_ searchBar: SearchBar)
