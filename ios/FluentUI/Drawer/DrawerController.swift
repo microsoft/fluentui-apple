@@ -78,7 +78,7 @@ public enum DrawerPresentationBackground: Int {
 public typealias MSDrawerControllerDelegate = DrawerControllerDelegate
 
 @objc(MSFDrawerControllerDelegate)
-public protocol DrawerControllerDelegate: class {
+public protocol DrawerControllerDelegate: AnyObject {
     /**
      Called when a user resizes the drawer enough to change its expanded state. Use `isExpanded` property to get the current state.
 

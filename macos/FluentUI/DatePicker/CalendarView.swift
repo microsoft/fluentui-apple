@@ -139,7 +139,7 @@ class CalendarView: NSView {
 	}
 }
 
-protocol CalendarViewDelegate: class {
+protocol CalendarViewDelegate: AnyObject {
 	
 	/// Tells the delegate that a date was selected.
 	///
