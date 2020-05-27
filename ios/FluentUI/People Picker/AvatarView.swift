@@ -133,6 +133,7 @@ open class AvatarView: UIView {
                 borderView.isHidden = false
                 updateCustomBorder()
             } else {
+                customBorderImageSize = .zero
                 hasCustomBorder = false
                 borderView.isHidden = !hasBorder
                 updateBorder()
