@@ -90,12 +90,11 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as! TableViewHeaderFooterView
         let section = tableView.style == .grouped ? groupedSections[section] : plainSections[section]
         if section.hasCustomAccessoryView {
-            header.customAccessoryView = createCustomAccessoryView()
+            header.setup(style: section.headerStyle, title: section.title, accessoryView: createCustomAccessoryView())
         } else {
-            header.customAccessoryView = nil
+            header.setup(style: section.headerStyle, title: section.title, accessoryButtonTitle: section.hasAccessory ? "See More" : "")
         }
 
-        header.setup(style: section.headerStyle, title: section.title, accessoryButtonTitle: section.hasAccessory ? "See More" : "")
         header.titleNumberOfLines = section.numberOfLines
         header.accessoryButtonStyle = section.accessoryButtonStyle
         header.onAccessoryButtonTapped = { [unowned self] in self.showAlertForAccessoryTapped(title: section.title) }
