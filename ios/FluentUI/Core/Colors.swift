@@ -349,7 +349,7 @@ public final class Colors: NSObject {
     public struct Badge {
         public static var background: UIColor { return primaryTint40 }
         public static var backgroundSelected: UIColor { return primary }
-        public static var backgroundDisabled = UIColor(light: gray25, dark: gray700)
+        public static var backgroundDisabled = UIColor(light: surfaceSecondary, dark: gray700)
         public static var backgroundError = UIColor(light: Palette.dangerTint40.color, dark: Palette.dangerTint30.color)
         public static var backgroundErrorSelected: UIColor = error
         public static var backgroundWarning = UIColor(light: Palette.warningTint40.color, dark: Palette.warningTint30.color)
@@ -511,7 +511,7 @@ public final class Colors: NSObject {
     }
 
     public struct ResizingHandle {
-        public static var mark = UIColor(light: gray100, dark: gray500)
+        public static var mark = iconSecondary
     }
 
     public struct SearchBar {
@@ -561,8 +561,7 @@ public final class Colors: NSObject {
 
     public struct Separator {
         public static var `default`: UIColor = dividerOnPrimary
-        // Matches shadow used in UINavigationBar
-        public static var shadow = UIColor(light: UIColor.black.withAlphaComponent(0.3), dark: dividerOnSecondary)
+        public static var shadow = dividerOnSecondary
     }
     // Objective-C support
     @objc public static var separatorDefault: UIColor { return Separator.default }
@@ -572,7 +571,7 @@ public final class Colors: NSObject {
     }
 
     public struct Shimmer {
-        public static var tint = UIColor(light: gray50, dark: gray800)
+        public static var tint = UIColor(light: surfaceTertiary, dark: surfaceQuaternary)
     }
 
     public struct TabBar {
