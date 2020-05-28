@@ -14,20 +14,23 @@ class DrawerPresentationController: UIPresentationController {
         static let minVerticalMargin: CGFloat = 20
     }
 
-    let sourceViewController: UIViewController
-    let sourceObject: Any?
-    let presentationOrigin: CGFloat?
     let presentationDirection: DrawerPresentationDirection
-    let presentationOffset: CGFloat
-    let presentationBackground: DrawerPresentationBackground
 
-    init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?, source: UIViewController, sourceObject: Any?, presentationOrigin: CGFloat?, presentationDirection: DrawerPresentationDirection, presentationOffset: CGFloat, presentationBackground: DrawerPresentationBackground, adjustHeightForKeyboard: Bool) {
+    private let shouldUseWindowFullWidth: Bool
+    private let sourceViewController: UIViewController
+    private let sourceObject: Any?
+    private let presentationOrigin: CGFloat?
+    private let presentationOffset: CGFloat
+    private let presentationBackground: DrawerPresentationBackground
+
+    init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?, source: UIViewController, sourceObject: Any?, presentationOrigin: CGFloat?, presentationDirection: DrawerPresentationDirection, presentationOffset: CGFloat, presentationBackground: DrawerPresentationBackground, adjustHeightForKeyboard: Bool, shouldUseWindowFullWidth: Bool) {
         sourceViewController = source
         self.sourceObject = sourceObject
         self.presentationOrigin = presentationOrigin
         self.presentationDirection = presentationDirection
         self.presentationOffset = presentationOffset
         self.presentationBackground = presentationBackground
+        self.shouldUseWindowFullWidth = shouldUseWindowFullWidth
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
 
         backgroundView.gestureRecognizers = [UITapGestureRecognizer(target: self, action: #selector(handleBackgroundViewTapped(_:)))]
@@ -316,7 +319,7 @@ class DrawerPresentationController: UIPresentationController {
 
         var contentSize = presentedViewController.preferredContentSize
         if presentationDirection.isVertical {
-            if contentSize.width == 0 || traitCollection.horizontalSizeClass == .compact {
+            if contentSize.width == 0 || ((traitCollection.userInterfaceIdiom == .phone || traitCollection.horizontalSizeClass == .compact) && shouldUseWindowFullWidth) {
                 contentSize.width = contentFrame.width
             }
             if actualPresentationOffset == 0 && (presentationDirection == .down || keyboardHeight == 0) {
