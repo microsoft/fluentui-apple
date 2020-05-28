@@ -8,10 +8,10 @@ import XCTest
 
 class ColorTests: XCTestCase {
 
-	func testColorsExist() throws {
-		for paletteColor in Colors.Palette.allCases {
-			XCTAssertNotNil(paletteColor.color)
-		}
-	}
+    func testColorsExist() throws {
+        for paletteColor in Colors.Palette.allCases {
+            XCTAssertNotNil(paletteColor.color)
+        }
+    }
 
 }

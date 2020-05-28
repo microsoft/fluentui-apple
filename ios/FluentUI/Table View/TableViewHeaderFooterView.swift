@@ -37,12 +37,12 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         case regular
         case primary
 
-        var textColor: UIColor {
+        func textColor(for window: UIWindow) -> UIColor {
             switch self {
             case .regular:
                 return Colors.Table.HeaderFooter.accessoryButtonText
             case .primary:
-                return Colors.Table.HeaderFooter.accessoryButtonTextPrimary
+                return Colors.primary(for: window)
             }
         }
     }
@@ -55,25 +55,25 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         case dividerHighlighted
         case footer
 
-        var backgroundColor: UIColor {
+        func backgroundColor(for window: UIWindow) -> UIColor {
             switch self {
             case .header, .footer:
                 return Colors.Table.HeaderFooter.background
             case .divider:
                 return Colors.Table.HeaderFooter.backgroundDivider
             case .dividerHighlighted:
-                return Colors.Table.HeaderFooter.backgroundDividerHighlighted
+                return UIColor(light: Colors.primaryTint40(for: window), dark: Colors.gray950)
             }
         }
 
-        var textColor: UIColor {
+        func textColor(for window: UIWindow) -> UIColor {
             switch self {
             case .header, .footer:
                 return Colors.Table.HeaderFooter.text
             case .divider:
                 return Colors.Table.HeaderFooter.textDivider
             case .dividerHighlighted:
-                return Colors.Table.HeaderFooter.textDividerHighlighted
+                return Colors.primary(for: window)
             }
         }
     }
@@ -116,14 +116,14 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         return verticalMargin + titleHeight
     }
 
-     /// The preferred width of the view based on the width of its content.
-     ///
-     /// - Parameters:
-     ///   - style: The `TableViewHeaderFooterView.Style` used to set up the view.
-     ///   - title: The title string.
-     ///   - accessoryView: An optional accessory view that appears near the trailing edge of the view.
-     /// - Returns: a value representing the calculated preferred width of the view.
-     @objc public class func preferredWidth(style: Style, title: String, accessoryView: UIView? = nil) -> CGFloat {
+    /// The preferred width of the view based on the width of its content.
+    ///
+    /// - Parameters:
+    ///   - style: The `TableViewHeaderFooterView.Style` used to set up the view.
+    ///   - title: The title string.
+    ///   - accessoryView: An optional accessory view that appears near the trailing edge of the view.
+    /// - Returns: a value representing the calculated preferred width of the view.
+    @objc public class func preferredWidth(style: Style, title: String, accessoryView: UIView? = nil) -> CGFloat {
         let titleSize = title.preferredSize(for: Constants.titleTextStyle.font)
 
         var width = Constants.horizontalMargin + titleSize.width + Constants.horizontalMargin
@@ -198,11 +198,9 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     private var style: Style = .header {
         didSet {
             let view = UIView()
-            view.backgroundColor = style.backgroundColor
             backgroundView = view
 
-            titleView.textColor = style.textColor
-
+            updateTitleAndBackgroundColors()
             invalidateIntrinsicContentSize()
         }
     }
@@ -220,8 +218,8 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
 
     private var accessoryButton: UIButton? = nil {
         didSet {
-           accessoryView = accessoryButton
-           if accessoryButton != nil {
+            accessoryView = accessoryButton
+            if accessoryButton != nil {
                 updateAccessoryButtonTitleStyle()
             }
         }
@@ -349,6 +347,12 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         )
     }
 
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateTitleAndBackgroundColors()
+        updateAccessoryButtonTitleColor()
+    }
+
     private func updateTitleViewFont() {
         let font = Constants.titleTextStyle.font
         titleView.font = font
@@ -358,9 +362,22 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         titleView.textContainerInset.bottom = -offset
     }
 
+    private func updateTitleAndBackgroundColors() {
+        if let window = window {
+            titleView.textColor = style.textColor(for: window)
+            backgroundView?.backgroundColor = style.backgroundColor(for: window)
+        }
+    }
+
+    private func updateAccessoryButtonTitleColor() {
+        if let window = window {
+            accessoryButton?.setTitleColor(accessoryButtonStyle.textColor(for: window), for: .normal)
+        }
+    }
+
     private func updateAccessoryButtonTitleStyle() {
         accessoryButton?.titleLabel?.font = Constants.accessoryButtonTextStyle.font
-        accessoryButton?.setTitleColor(accessoryButtonStyle.textColor, for: .normal)
+        updateAccessoryButtonTitleColor()
     }
 
     private func createAccessoryButton(withTitle title: String) -> UIButton {

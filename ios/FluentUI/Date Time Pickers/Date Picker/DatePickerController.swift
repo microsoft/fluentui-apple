@@ -188,6 +188,13 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
         calendarView.frame = calendarFrame
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let window = view.window {
+            navigationItem.rightBarButtonItem?.tintColor = UIColor(light: Colors.primary(for: window), dark: .white)
+        }
+    }
+
     private func initTitleView() {
         titleView = TwoLineTitleView()
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTitleButtonTapped))
@@ -270,7 +277,7 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
 
         guard let startIndexPath = collectionView.indexPathForItem(at: startPoint),
             let endIndexPath = collectionView.indexPathForItem(at: endPoint) else {
-            return nil
+                return nil
         }
 
         let startDate = calendarViewDataSource.dayStart(forDayAt: startIndexPath)
@@ -400,7 +407,7 @@ extension DatePickerController: UIScrollViewDelegate {
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !decelerate {
-           changeMonthOverlayVisibility(false)
+            changeMonthOverlayVisibility(false)
         }
     }
 
@@ -451,7 +458,7 @@ extension DatePickerController: CalendarViewStyleDataSource {
     }
 
     func calendarViewDataSource(_ dataSource: CalendarViewDataSource, backgroundStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents
-        ) -> CalendarViewDayCellBackgroundStyle {
+    ) -> CalendarViewDayCellBackgroundStyle {
 
         if dayStartComponents.dateIsTodayOrLater(todayDateComponents: todayComponents) {
             return .primary

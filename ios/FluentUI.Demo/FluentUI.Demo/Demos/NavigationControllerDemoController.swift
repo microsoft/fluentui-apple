@@ -93,7 +93,7 @@ class NavigationControllerDemoController: DemoController {
         content.navigationItem.contentScrollView = contractNavigationBarOnScroll ? content.tableView : nil
         content.showsTabs = !showShadow
         if style == .custom {
-            content.navigationItem.navigationBarColor = CustomGradient.getCustomBackgroundColor(width: view.frame.width)
+            content.navigationItem.customNavigationBarColor = CustomGradient.getCustomBackgroundColor(width: view.frame.width)
         }
 
         let controller = NavigationController(rootViewController: content)
@@ -236,7 +236,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
         navigationBarFrameObservation = navigationController?.navigationBar.observe(\.frame, options: [.old, .new]) { [unowned self] navigationBar, change in
             if change.newValue?.width != change.oldValue?.width && self.navigationItem.navigationBarStyle == .custom {
-                self.navigationItem.navigationBarColor = CustomGradient.getCustomBackgroundColor(width: navigationBar.frame.width)
+                self.navigationItem.customNavigationBarColor = CustomGradient.getCustomBackgroundColor(width: navigationBar.frame.width)
             }
         }
     }
@@ -439,6 +439,6 @@ class CustomGradient {
         }
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return UIColor(light: image != nil ? UIColor(patternImage: image!) : endColor, dark: Colors.Navigation.Primary.background)
+        return UIColor(light: image != nil ? UIColor(patternImage: image!) : endColor, dark: Colors.Navigation.System.background)
     }
 }
