@@ -282,7 +282,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         }
 
         if customAccessoryView == nil {
-            accessoryView = accessoryButtonTitle != "" ? createAccessoryButton(withTitle: accessoryButtonTitle) : nil
+            accessoryButton = accessoryButtonTitle != "" ? createAccessoryButton(withTitle: accessoryButtonTitle) : nil
         }
 
         self.style = style
