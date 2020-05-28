@@ -116,14 +116,14 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         return verticalMargin + titleHeight
     }
 
-     /// The preferred width of the view based on the width of its content.
-     ///
-     /// - Parameters:
-     ///   - style: The `TableViewHeaderFooterView.Style` used to set up the view.
-     ///   - title: The title string.
-     ///   - accessoryView: An optional accessory view that appears near the trailing edge of the view.
-     /// - Returns: a value representing the calculated preferred width of the view.
-     @objc public class func preferredWidth(style: Style, title: String, accessoryView: UIView? = nil) -> CGFloat {
+    /// The preferred width of the view based on the width of its content.
+    ///
+    /// - Parameters:
+    ///   - style: The `TableViewHeaderFooterView.Style` used to set up the view.
+    ///   - title: The title string.
+    ///   - accessoryView: An optional accessory view that appears near the trailing edge of the view.
+    /// - Returns: a value representing the calculated preferred width of the view.
+    @objc public class func preferredWidth(style: Style, title: String, accessoryView: UIView? = nil) -> CGFloat {
         let titleSize = title.preferredSize(for: Constants.titleTextStyle.font)
 
         var width = Constants.horizontalMargin + titleSize.width + Constants.horizontalMargin
@@ -218,8 +218,8 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
 
     private var accessoryButton: UIButton? = nil {
         didSet {
-           accessoryView = accessoryButton
-           if accessoryButton != nil {
+            accessoryView = accessoryButton
+            if accessoryButton != nil {
                 updateAccessoryButtonTitleStyle()
             }
         }
