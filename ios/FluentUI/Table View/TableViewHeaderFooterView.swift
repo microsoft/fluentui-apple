@@ -151,15 +151,6 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         }
     }
 
-    /// A custom accessory view to be used instead of the accessory button in the trailing edge of this view.
-    /// If set, the accessory button (if any) will be replaced by this custom view. Clients are responsible
-    /// for the appeareance and behavior of this view, including event handling and accessibility.
-     @objc open var customAccessoryView: UIView? = nil {
-        didSet {
-            accessoryView = customAccessoryView
-        }
-    }
-
     /// The maximum number of lines to be shown for `title`
     @objc open var titleNumberOfLines: Int = 1 {
         didSet {
@@ -269,6 +260,14 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         setup(style: style, accessoryButtonTitle: accessoryButtonTitle)
     }
 
+    /// The custom accessory view  be used instead of the accessory button in the trailing edge of this view.
+    /// If set, the accessory button (if any) will be replaced by this custom view. Clients are responsible
+    /// for the appeareance and behavior of this view, including event handling and accessibility.
+    @objc open func setup(style: Style, title: String, accessoryView: UIView) {
+        setup(style: style, title: title)
+        self.accessoryView = accessoryView
+    }
+
     private func setup(style: Style, accessoryButtonTitle: String) {
         updateTitleViewFont()
         switch style {
@@ -281,9 +280,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
             titleView.isAccessibilityElement = true
         }
 
-        if customAccessoryView == nil {
-            accessoryView = accessoryButtonTitle != "" ? createAccessoryButton(withTitle: accessoryButtonTitle) : nil
-        }
+        accessoryButton = accessoryButtonTitle != "" ? createAccessoryButton(withTitle: accessoryButtonTitle) : nil
 
         self.style = style
 
