@@ -60,13 +60,11 @@ open class Separator: NSView {
 		self.orientation = orientation
 		switch orientation {
 		case .horizontal:
-			frame.size.height = 1.0
-			autoresizingMask = .width
+			heightAnchor.constraint(equalToConstant: 1.0).isActive = true
 		case .vertical:
-			frame.size.width = 1.0
-			autoresizingMask = .height
+			widthAnchor.constraint(equalToConstant: 1.0).isActive = true
 		}
-		}
+	}
 	
 	open override var wantsUpdateLayer: Bool {
 		return true
@@ -75,19 +73,6 @@ open class Separator: NSView {
 	open override func updateLayer() {
 		if let layer = layer {
 			layer.backgroundColor = style.color.cgColor
-		}
-	}
-	
-	open override func isAccessibilityElement() -> Bool {
-		return false
-	}
-
-	open override var intrinsicContentSize: CGSize {
-		switch orientation {
-		case .horizontal:
-			return CGSize(width: NSView.noIntrinsicMetric, height: frame.height)
-		case .vertical:
-			return CGSize(width: frame.width, height: NSView.noIntrinsicMetric)
 		}
 	}
 }
