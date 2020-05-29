@@ -123,6 +123,7 @@ open class DrawerController: UIViewController {
     /// Set `backgroundColor` to customize background color of the drawer
     @objc open var backgroundColor: UIColor = Colors.Drawer.background {
         didSet {
+            useCustomBackgroundColor = true
             view.backgroundColor = backgroundColor
         }
     }
@@ -370,6 +371,8 @@ open class DrawerController: UIViewController {
     }
     private var containerViewCenterObservation: NSKeyValueObservation?
 
+    private var useCustomBackgroundColor: Bool = false
+
     /**
      Initializes `DrawerController` to be presented as a popover from `sourceRect` in `sourceView` on iPad and as a slideover on iPhone/iPad.
 
@@ -473,6 +476,11 @@ open class DrawerController: UIViewController {
             resizingGestureRecognizer = nil
         }
         resizingGestureRecognizer?.isEnabled = false
+
+        // if DrawerController is shown in UIPopoverPresentationController then we want to show different darkElevated color
+        if !useCustomBackgroundColor {
+            backgroundColor = presentationController is UIPopoverPresentationController ? Colors.PopupMenu.background : Colors.Drawer.background
+        }
     }
 
     open override func viewDidAppear(_ animated: Bool) {

@@ -364,6 +364,13 @@ class ModalViewController: UITableViewController {
         return isGrouped ? "Switch to Plain style" : "Switch to Grouped style"
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let window = view.window {
+            navigationItem.rightBarButtonItem?.tintColor = UIColor(light: Colors.primary(for: window), dark: Colors.textDominant)
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)

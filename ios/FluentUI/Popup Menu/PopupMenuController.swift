@@ -70,7 +70,6 @@ open class PopupMenuController: DrawerController {
     /// Set `backgroundColor` to customize background color of controller' view and its tableView
     open override var backgroundColor: UIColor {
         didSet {
-            useCustomBackgroundColor = true
             tableView.backgroundColor = backgroundColor
         }
     }
@@ -131,8 +130,6 @@ open class PopupMenuController: DrawerController {
     private var itemsHaveImages: Bool {
         return sections.contains(where: { $0.items.contains(where: { $0.image != nil }) })
     }
-
-    private var useCustomBackgroundColor: Bool = false
 
     private lazy var containerView: UIView = {
         let view = UIStackView()
@@ -235,10 +232,6 @@ open class PopupMenuController: DrawerController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.selectRow(at: selectedItemIndexPath, animated: false, scrollPosition: .none)
-        // if PopupMenuController is shown in UIPopoverPresentationController then we want to show different darkElevated color
-        if !useCustomBackgroundColor {
-            backgroundColor = presentationController is UIPopoverPresentationController ? Colors.PopupMenu.background : Colors.Drawer.background
-        }
     }
 
     open override func viewDidLayoutSubviews() {

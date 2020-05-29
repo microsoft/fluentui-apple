@@ -442,11 +442,6 @@ public final class Colors: NSObject {
         public static var placeholder: UIColor = textSecondary
     }
 
-    public struct BarButtonItem {
-//        public static var primary: UIColor { return UIColor(light: Colors.primary, dark: textDominant) }
-        public static var secondary: UIColor = iconPrimary
-    }
-
     public struct Button {
         public static var background: UIColor = .clear
         public static var backgroundFilledDisabled: UIColor = surfaceQuaternary
@@ -524,8 +519,8 @@ public final class Colors: NSObject {
 
     public struct NavigationBar {
         public static var background = UIColor(light: surfacePrimary, dark: surfaceTertiary)
-        public static var tint: UIColor = BarButtonItem.secondary
-        public static var title: UIColor = Colors.textDominant
+        public static var tint: UIColor = iconPrimary
+        public static var title: UIColor = textDominant
     }
 
     public struct PageCardPresenter {
@@ -646,7 +641,7 @@ public final class Colors: NSObject {
 
     public struct Toolbar {
         public static var background: UIColor = NavigationBar.background
-        public static var tint: UIColor = BarButtonItem.secondary
+        public static var tint: UIColor = NavigationBar.tint
     }
 
     public struct Tooltip {
