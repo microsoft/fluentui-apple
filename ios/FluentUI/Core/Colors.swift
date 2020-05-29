@@ -368,7 +368,7 @@ public final class Colors: NSObject {
 
     // MARK: Base semantic
 
-    @available(*, deprecated, renamed: "surfaceDisabled")
+    @available(*, deprecated, renamed: "textDisabled")
     @objc public static let disabled: UIColor = textDisabled
 
     /// text color should not be lower than `gray500` in light mode to achieve 4.5:1 minimum contrast ratio in `.white` background
@@ -396,7 +396,7 @@ public final class Colors: NSObject {
     @objc public static let iconOnAccent = UIColor(light: .white, dark: .black)
 
     /// In Darkmode, our system use two sets of background colors -- called base and elevated -- to enhance the perception of depath when one dark interface is layered above another.
-    /// The dark base colors are darker, making background interface appear to recede, and the elevete colors are lighter, making foreground interfaces appear to advance
+    /// The dark base colors are darker, making background interface appear to recede, and the elevate colors are lighter, making foreground interfaces appear to advance
 
     @objc public static let surfacePrimary = UIColor(light: .white, dark: .black, darkElevated: gray950)
     @objc public static let surfaceSecondary = UIColor(light: gray25, dark: gray950, darkElevated: gray900)
