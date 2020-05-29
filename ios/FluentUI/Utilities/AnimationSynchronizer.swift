@@ -11,7 +11,7 @@ public typealias MSAnimationSynchronizerProtocol = AnimationSynchronizerProtocol
 /// An animation synchronizer syncs homogeneous layer animations by calculating the appropriate timeOffset
 /// of a referenceLayer so that newly added animations can stay in sync with existing animations.
 @objc(MSFAnimationSynchronizerProtocol)
-public protocol AnimationSynchronizerProtocol: class {
+public protocol AnimationSynchronizerProtocol: AnyObject {
     /// Current reference layer to compare timing against.
     @objc var referenceLayer: CALayer? { get set }
 

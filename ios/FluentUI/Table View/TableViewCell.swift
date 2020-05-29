@@ -37,7 +37,7 @@ public enum TableViewCellAccessoryType: Int {
         return icon
     }
 
-    var iconColor: UIColor? {
+    func iconColor(for window: UIWindow) -> UIColor? {
         switch self {
         case .none:
             return nil
@@ -46,7 +46,7 @@ public enum TableViewCellAccessoryType: Int {
         case .detailButton:
             return Colors.Table.Cell.accessoryDetailButton
         case .checkmark:
-            return Colors.Table.Cell.accessoryCheckmark
+            return Colors.primary(for: window)
         }
     }
 
@@ -1169,6 +1169,11 @@ open class TableViewCell: UITableViewCell {
         }
     }
 
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateSelectionImageColor()
+    }
+
     open func selectionDidChange() { }
 
     open override func setSelected(_ selected: Bool, animated: Bool) {
@@ -1254,7 +1259,13 @@ open class TableViewCell: UITableViewCell {
 
     private func updateSelectionImageView() {
         selectionImageView.image = isSelected ? Constants.selectionImageOn : Constants.selectionImageOff
-        selectionImageView.tintColor = isSelected ? Colors.Table.Cell.selectionIndicatorOn : Colors.Table.Cell.selectionIndicatorOff
+        updateSelectionImageColor()
+    }
+
+    private func updateSelectionImageColor() {
+        if let window = window {
+            selectionImageView.tintColor = isSelected ? Colors.primary(for: window) : Colors.Table.Cell.selectionIndicatorOff
+        }
     }
 
     private func updateSeparator(_ separator: Separator, with type: SeparatorType) {
@@ -1307,17 +1318,8 @@ internal class TableViewCellAccessoryView: UIView {
         case .disclosureIndicator, .checkmark:
             addIconView(type: type)
         case .detailButton:
-            let button = UIButton(type: .custom)
-            button.setImage(type.icon, for: .normal)
-            button.frame.size = type.size
-            button.contentMode = .center
-            button.tintColor = type.iconColor
-            button.accessibilityLabel = "Accessibility.TableViewCell.MoreActions.Label".localized
-            button.accessibilityHint = "Accessibility.TableViewCell.MoreActions.Hint".localized
-            button.addTarget(self, action: #selector(handleOnAccessoryTapped), for: .touchUpInside)
-
-            addSubview(button)
-            button.fitIntoSuperview()
+            addSubview(detailButton)
+            detailButton.fitIntoSuperview()
         }
     }
 
@@ -1329,12 +1331,16 @@ internal class TableViewCellAccessoryView: UIView {
         return type.size
     }
 
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateWindowSpecificColors()
+    }
+
     private func addIconView(type: TableViewCellAccessoryType) {
         iconView = UIImageView(image: type.icon)
         if let iconView = iconView {
             iconView.frame.size = type.size
             iconView.contentMode = .center
-            iconView.tintColor = customTintColor ?? type.iconColor
             addSubview(iconView)
             iconView.fitIntoSuperview()
         }
@@ -1342,5 +1348,26 @@ internal class TableViewCellAccessoryView: UIView {
 
     @objc private func handleOnAccessoryTapped() {
         onTapped?()
+    }
+
+    private lazy var detailButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(type.icon, for: .normal)
+        button.frame.size = type.size
+        button.contentMode = .center
+        button.accessibilityLabel = "Accessibility.TableViewCell.MoreActions.Label".localized
+        button.accessibilityHint = "Accessibility.TableViewCell.MoreActions.Hint".localized
+        button.addTarget(self, action: #selector(handleOnAccessoryTapped), for: .touchUpInside)
+        return button
+    }()
+
+    private func updateWindowSpecificColors() {
+        if let window = window {
+            let iconColor = type.iconColor(for: window)
+            iconView?.tintColor = customTintColor ?? iconColor
+            if type == .detailButton {
+                detailButton.tintColor = iconColor
+            }
+        }
     }
 }

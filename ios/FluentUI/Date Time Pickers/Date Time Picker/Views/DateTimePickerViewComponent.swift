@@ -7,7 +7,7 @@ import UIKit
 
 // MARK: DateTimePickerViewComponentDelegate
 
-protocol DateTimePickerViewComponentDelegate: class {
+protocol DateTimePickerViewComponentDelegate: AnyObject {
     func dateTimePickerComponentDidScroll(_ component: DateTimePickerViewComponent, userInitiated: Bool)
     func dateTimePickerComponent(_ component: DateTimePickerViewComponent, didSelectItemAtIndexPath indexPath: IndexPath, userInitiated: Bool)
     func dateTimePickerComponent(_ component: DateTimePickerViewComponent, accessibilityValueForDateComponents dateComponents: DateComponents?, originalValue: String?) -> String?

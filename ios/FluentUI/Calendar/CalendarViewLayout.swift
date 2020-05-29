@@ -7,7 +7,7 @@ import UIKit
 
 // MARK: CalendarViewLayoutDelegate
 
-protocol CalendarViewLayoutDelegate: class {
+protocol CalendarViewLayoutDelegate: AnyObject {
     func calendarViewLayout(_ calendarViewLayout: CalendarViewLayout, shouldShowMonthBannerForSectionIndex sectionIndex: Int) -> Bool
 }
 

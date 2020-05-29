@@ -7,7 +7,7 @@ import UIKit
 
 // MARK: GenericDateTimePicker
 
-protocol GenericDateTimePicker: class {
+protocol GenericDateTimePicker: AnyObject {
     var startDate: Date { get set }
     var endDate: Date { get set }
     var delegate: GenericDateTimePickerDelegate? { get set }
@@ -24,7 +24,7 @@ extension GenericDateTimePicker where Self: UIViewController {
 
 // MARK: - GenericDateTimePickerDelegate
 
-protocol GenericDateTimePickerDelegate: class {
+protocol GenericDateTimePickerDelegate: AnyObject {
     func dateTimePicker(_ dateTimePicker: GenericDateTimePicker, didPickStartDate startDate: Date, endDate: Date)
     func dateTimePicker(_ dateTimePicker: GenericDateTimePicker, didSelectStartDate startDate: Date, endDate: Date)
     func dateTimePicker(_ dateTimePicker: GenericDateTimePicker, shouldEndPickingStartDate startDate: Date, endDate: Date) -> Bool

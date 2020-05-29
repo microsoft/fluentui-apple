@@ -11,7 +11,7 @@ import UIKit
 public typealias MSTwoLineTitleViewDelegate = TwoLineTitleViewDelegate
 
 @objc(MSFTwoLineTitleViewDelegate)
-public protocol TwoLineTitleViewDelegate: class {
+public protocol TwoLineTitleViewDelegate: AnyObject {
     func twoLineTitleViewDidTapOnTitle(_ twoLineTitleView: TwoLineTitleView)
 }
 

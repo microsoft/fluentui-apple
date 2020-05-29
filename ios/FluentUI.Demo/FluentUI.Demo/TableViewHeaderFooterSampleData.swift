@@ -15,7 +15,8 @@ class TableViewHeaderFooterSampleData: TableViewSampleData {
         Section(title: "Default with accessory button", hasAccessory: true),
         Section(title: "Default with primary accessory button", hasAccessory: true, accessoryButtonStyle: .primary),
         Section(title: "Default with multi-line text - A description that starts at the bottom and provides three to two lines of info.", numberOfLines: 0, hasFooter: true, footerText: "Footer - A description that starts at the top and provides three to two lines of info. Learn More", footerLinkText: "Learn More"),
-        Section(title: "Default with multi-line truncated text - A description that starts at the bottom and provides three to two lines of info. Also maybe used for providing detailed documentation for a specific feature.", numberOfLines: 3, hasFooter: true, footerText: "Footer - A description that starts at the top and provides three to two lines of info. Custom Learn More", footerLinkText: "Custom Learn More", hasCustomLinkHandler: true)
+        Section(title: "Default with multi-line truncated text - A description that starts at the bottom and provides three to two lines of info. Also maybe used for providing detailed documentation for a specific feature.", numberOfLines: 3, hasFooter: true, footerText: "Footer - A description that starts at the top and provides three to two lines of info. Custom Learn More", footerLinkText: "Custom Learn More", hasCustomLinkHandler: true),
+        Section(title: "Default with custom accessory view", hasCustomAccessoryView: true)
     ]
 
     static let plainSections: [Section] = [

@@ -96,9 +96,6 @@
 /* Accessibility hint for a segmented control button */
 "Accessibility.Segmented.Button.Hint" = "Ketik untuk pergi ke %@";
 
-/* Accessibility hint for TabBarItemView to indicate its index relative to total number of items */
-"Accessibility.TabBarItemView.Hint" = "%d daripada %d";
-
 /* Accessibility hint for more actions button */
 "Accessibility.TableViewCell.MoreActions.Hint" = "Dwiketik untuk melihat lebih banyak tindakan";
 

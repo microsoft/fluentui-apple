@@ -155,7 +155,7 @@ class CalendarHeaderView: NSView {
 	}
 }
 
-protocol CalendarHeaderViewDelegate: class {
+protocol CalendarHeaderViewDelegate: AnyObject {
 	
 	/// Tells the delegate that the leading arrow button was pressed.
 	///
