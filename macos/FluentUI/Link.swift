@@ -105,6 +105,10 @@ open class Link: NSButton {
 
 	private var mouseEntered = false
 	
+	open override func resetCursorRects() {
+		addCursorRect(bounds, cursor: .pointingHand)
+	}
+	
 	private func updateTitle() {
 		let titleAttributes = (showsUnderlineWhileMouseInside && mouseEntered) ? underlinedlinkAttributes: linkAttributes
 		self.attributedTitle = NSAttributedString(string: title, attributes: titleAttributes)
