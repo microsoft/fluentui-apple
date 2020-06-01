@@ -321,8 +321,8 @@ open class DrawerController: UIViewController {
         }
     }
 
-    /// For `vertical` presentation on compact mode, the content width will be the full width of the window. If set to false, the `preferredContentSize.width` will be used for calculation.
-    @objc open var shouldUseWindowFullWidth: Bool = true
+    /// For `vertical` presentation shown when horizontal size is `.compact`, the content width will be the full width of the presenting window. If set to false, the `preferredContentSize.width` will be used for calculation in landscape mode.
+    @objc open var shouldUseWindowFullWidthInLandscape: Bool = true
 
     // Override to provide the preferred size based on specifics of the concrete drawer subclass (see popup menu, for example)
     open var preferredContentWidth: CGFloat { return 0 }
@@ -850,7 +850,7 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
     public func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         switch presentationStyle(for: source) {
         case .slideover:
-            return DrawerPresentationController(presentedViewController: presented, presenting: presenting, source: source, sourceObject: sourceView ?? barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection(for: source.view), presentationOffset: presentationOffset, presentationBackground: presentationBackground, adjustHeightForKeyboard: adjustsHeightForKeyboard, shouldUseWindowFullWidth: shouldUseWindowFullWidth)
+            return DrawerPresentationController(presentedViewController: presented, presenting: presenting, source: source, sourceObject: sourceView ?? barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection(for: source.view), presentationOffset: presentationOffset, presentationBackground: presentationBackground, adjustHeightForKeyboard: adjustsHeightForKeyboard, shouldUseWindowFullWidthInLandscape: shouldUseWindowFullWidthInLandscape)
         case .popover:
             let presentationController = UIPopoverPresentationController(presentedViewController: presented, presenting: presenting)
             presentationController.backgroundColor = backgroundColor

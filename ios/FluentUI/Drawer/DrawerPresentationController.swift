@@ -16,21 +16,21 @@ class DrawerPresentationController: UIPresentationController {
 
     let presentationDirection: DrawerPresentationDirection
 
-    private let shouldUseWindowFullWidth: Bool
+    private let shouldUseWindowFullWidthInLandscape: Bool
     private let sourceViewController: UIViewController
     private let sourceObject: Any?
     private let presentationOrigin: CGFloat?
     private let presentationOffset: CGFloat
     private let presentationBackground: DrawerPresentationBackground
 
-    init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?, source: UIViewController, sourceObject: Any?, presentationOrigin: CGFloat?, presentationDirection: DrawerPresentationDirection, presentationOffset: CGFloat, presentationBackground: DrawerPresentationBackground, adjustHeightForKeyboard: Bool, shouldUseWindowFullWidth: Bool) {
+    init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?, source: UIViewController, sourceObject: Any?, presentationOrigin: CGFloat?, presentationDirection: DrawerPresentationDirection, presentationOffset: CGFloat, presentationBackground: DrawerPresentationBackground, adjustHeightForKeyboard: Bool, shouldUseWindowFullWidthInLandscape: Bool) {
         sourceViewController = source
         self.sourceObject = sourceObject
         self.presentationOrigin = presentationOrigin
         self.presentationDirection = presentationDirection
         self.presentationOffset = presentationOffset
         self.presentationBackground = presentationBackground
-        self.shouldUseWindowFullWidth = shouldUseWindowFullWidth
+        self.shouldUseWindowFullWidthInLandscape = shouldUseWindowFullWidthInLandscape
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
 
         backgroundView.gestureRecognizers = [UITapGestureRecognizer(target: self, action: #selector(handleBackgroundViewTapped(_:)))]
@@ -318,8 +318,12 @@ class DrawerPresentationController: UIPresentationController {
         var contentFrame = bounds.inset(by: marginsForContentView())
 
         var contentSize = presentedViewController.preferredContentSize
+        let landscapeMode = contentFrame.width > contentFrame.height
+
         if presentationDirection.isVertical {
-            if contentSize.width == 0 || ((traitCollection.userInterfaceIdiom == .phone || traitCollection.horizontalSizeClass == .compact) && shouldUseWindowFullWidth) {
+            if contentSize.width == 0 ||
+                (traitCollection.userInterfaceIdiom == .phone && landscapeMode && shouldUseWindowFullWidthInLandscape) ||
+                (traitCollection.horizontalSizeClass == .compact && !landscapeMode) {
                 contentSize.width = contentFrame.width
             }
             if actualPresentationOffset == 0 && (presentationDirection == .down || keyboardHeight == 0) {

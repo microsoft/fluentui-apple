@@ -17,7 +17,7 @@ class DrawerDemoController: DemoController {
         addTitle(text: "Top Drawer")
         container.addArrangedSubview(createButton(title: "Show resizable", action: #selector(showTopDrawerButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show with no animation", action: #selector(showTopDrawerNotAnimatedButtonTapped)))
-        container.addArrangedSubview(createButton(title: "Show from custom base with width", action: #selector(showTopDrawerCustomOffsetButtonTapped)))
+        container.addArrangedSubview(createButton(title: "Show from custom base with width on landscape", action: #selector(showTopDrawerCustomOffsetButtonTapped)))
 
         addTitle(text: "Left/Right Drawer")
         addRow(
@@ -78,7 +78,7 @@ class DrawerDemoController: DemoController {
             controller.preferredContentSize.width = 360
             controller.contentView = contentView
             if customWidth {
-                controller.shouldUseWindowFullWidth = false
+                controller.shouldUseWindowFullWidthInLandscape = false
             }
         } else {
             controller.contentController = contentController
