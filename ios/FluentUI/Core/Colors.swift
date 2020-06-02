@@ -483,6 +483,7 @@ public final class Colors: NSObject {
 
     public struct Drawer {
         public static var background = UIColor(light: surfacePrimary, dark: surfaceSecondary)
+        public static var popoverBackground = UIColor(light: surfacePrimary, dark: surfaceQuaternary)
     }
 
     public struct HUD {
@@ -542,7 +543,6 @@ public final class Colors: NSObject {
 
     public struct PopupMenu {
         public static var description: UIColor = textSecondary
-        public static var background = UIColor(light: Colors.Drawer.background, dark: surfaceQuaternary)
     }
 
     public struct Progress {
