@@ -36,7 +36,6 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
 
     override class var labelVerticalMarginForOneAndThreeLines: CGFloat { return Constants.labelVerticalMarginForOneLine }
 
-    
     static func preferredWidth(for item: PopupMenuTemplateItem, preservingSpaceForImage preserveSpaceForImage: Bool) -> CGFloat {
         guard let item = item as? PopupMenuItem else {
             return 0
@@ -98,7 +97,6 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
         isAccessibilityElement = true
     }
 
-    
     func setup(item: PopupMenuTemplateItem) {
         guard let item = item as? PopupMenuItem else {
             return
