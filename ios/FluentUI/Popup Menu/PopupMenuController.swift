@@ -37,13 +37,13 @@ open class PopupMenuController: DrawerController {
                 let size = descriptionView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
                 width = max(width, size.width)
             } else {
-                width = max(width, PopupMenuItemCell.preferredWidth(for: headerItem, preservingSpaceForImage: false))
+                width = max(width, headerItem.cellClass.preferredWidth(for: headerItem, preservingSpaceForImage: false))
             }
         }
         for section in sections {
             width = max(width, PopupMenuSectionHeaderView.preferredWidth(for: section))
             for item in section.items {
-                width = max(width, PopupMenuItemCell.preferredWidth(for: item, preservingSpaceForImage: itemsHaveImages))
+                width = max(width, item.cellClass.preferredWidth(for: item, preservingSpaceForImage: itemsHaveImages))
             }
         }
         return width
@@ -55,13 +55,13 @@ open class PopupMenuController: DrawerController {
                 let size = descriptionView.systemLayoutSizeFitting(CGSize(width: view.frame.width, height: .infinity), withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
                 height += size.height
             } else {
-                height += PopupMenuItemCell.preferredHeight(for: headerItem)
+                height += headerItem.cellClass.preferredHeight(for: headerItem)
             }
         }
         for section in sections {
             height += PopupMenuSectionHeaderView.preferredHeight(for: section)
             for item in section.items {
-                height += PopupMenuItemCell.preferredHeight(for: item)
+                height += item.cellClass.preferredHeight(for: item)
             }
         }
         return height
@@ -126,9 +126,13 @@ open class PopupMenuController: DrawerController {
     }
 
     private var sections: [PopupMenuSection] = []
-    private var itemForExecutionAfterPopupMenuDismissal: PopupMenuItem?
+    private var itemForExecutionAfterPopupMenuDismissal: PopupMenuTemplateItem?
     private var itemsHaveImages: Bool {
-        return sections.contains(where: { $0.items.contains(where: { $0.image != nil }) })
+        return sections.contains(where: { $0.items.contains(where: {
+            let item = $0 as? PopupMenuItem
+            return item?.image != nil
+        })
+        })
     }
 
     private lazy var containerView: UIView = {
@@ -188,7 +192,7 @@ open class PopupMenuController: DrawerController {
 
     /// Append new items to the last section of the menu
     /// - note: If there is no section in the menu, create a new one without header and append the items to it
-    @objc public func addItems(_ items: [PopupMenuItem]) {
+    @objc public func addItems(_ items: [PopupMenuTemplateItem]) {
         if let section = sections.last {
             section.items.append(contentsOf: items)
         } else {
@@ -256,19 +260,21 @@ open class PopupMenuController: DrawerController {
         tableView.dataSource = self
     }
 
-    private func didSelectItem(_ item: PopupMenuItem) {
+    private func didSelectItem(_ item: PopupMenuTemplateItem) {
         switch item.executionMode {
         case .onSelection:
             item.onSelected?()
         case .afterPopupMenuDismissal, .afterPopupMenuDismissalCompleted:
             itemForExecutionAfterPopupMenuDismissal = item
+        case .onSelectionWithoutDismissal:
+            return
         }
         if !isBeingDismissed {
             presentingViewController?.dismiss(animated: true)
         }
     }
 
-    private func item(at indexPath: IndexPath) -> PopupMenuItem {
+    private func item(at indexPath: IndexPath) -> PopupMenuTemplateItem {
         return sections[indexPath.section].items[indexPath.item]
     }
 }
@@ -288,17 +294,20 @@ extension PopupMenuController: UITableViewDataSource {
         let section = indexPath.section
         let row = indexPath.row
         let item = sections[section].items[row]
-
-        let cell = tableView.dequeueReusableCell(withIdentifier: PopupMenuItemCell.identifier) as! PopupMenuItemCell
+        
+        let cellClass = item.cellClass
+        let identifier = String(describing: cellClass)
+        self.tableView.register(cellClass, forCellReuseIdentifier: identifier)
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as! PopupMenuItemTemplateCell
         cell.setup(item: item)
         cell.preservesSpaceForImage = itemsHaveImages
+        
         let isLastInSection = row == tableView.numberOfRows(inSection: section) - 1
-        if section == tableView.numberOfSections - 1 && isLastInSection {
-            cell.bottomSeparatorType = .none
-        } else {
-            cell.bottomSeparatorType = isLastInSection ? .full : .inset
-            cell.bottomSeparator.backgroundColor = separatorColor
-        }
+        let isLastSection = section == tableView.numberOfSections - 1
+        cell.isLastItemInSection = isLastInSection
+        cell.isInLastSection = isLastSection
+        
         return cell
     }
 }
