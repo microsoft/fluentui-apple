@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0BCEFADE2485FEC00088CEE5 /* PopupMenuProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */; };
+		0BCEFAE1248650F10088CEE5 /* PopupMenuProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */; };
 		11104BCE233ACA9500CCB232 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D9847230BBA2300BC0B72 /* TabBarItem.swift */; };
 		1168630422E131CF0088B302 /* TabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630222E131CF0088B302 /* TabBarItemView.swift */; };
 		1168630522E131CF0088B302 /* TabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630222E131CF0088B302 /* TabBarItemView.swift */; };
@@ -1182,6 +1183,7 @@
 				8FD0119A228A82A600D25925 /* DrawerController.swift in Sources */,
 				8FD0119B228A82A600D25925 /* DrawerPresentationController.swift in Sources */,
 				8FD0119C228A82A600D25925 /* DrawerTransitionAnimator.swift in Sources */,
+				0BCEFAE1248650F10088CEE5 /* PopupMenuProtocols.swift in Sources */,
 				8FD0119D228A82A600D25925 /* DrawerShadowView.swift in Sources */,
 				8FD0119E228A82A600D25925 /* CALayer+Extensions.swift in Sources */,
 				8FD0119F228A82A600D25925 /* Calendar+Extensions.swift in Sources */,
