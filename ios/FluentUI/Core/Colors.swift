@@ -557,7 +557,7 @@ public final class Colors: NSObject {
         public struct DarkContent {
             public static var background = UIColor(light: surfaceTertiary, dark: LightContent.background)
             public static var cancelButton = UIColor(light: textSecondary, dark: LightContent.cancelButton)
-            public static var clearIcon = UIColor(light: iconSecondary, dark: LightContent.clearIcon)
+            public static var clearIcon = UIColor(light: iconPrimary, dark: LightContent.clearIcon)
             public static var placeholderText = UIColor(light: textSecondary, dark: LightContent.placeholderText)
             public static var searchIcon = UIColor(light: iconPrimary, dark: LightContent.searchIcon)
             public static var text = UIColor(light: textDominant, dark: LightContent.text)
@@ -566,7 +566,7 @@ public final class Colors: NSObject {
         public struct LightContent {
             public static var background = UIColor(light: UIColor.black.withAlphaComponent(0.2), dark: gray700, darkElevated: gray600)
             public static var cancelButton: UIColor = LightContent.text
-            public static var clearIcon = UIColor(light: UIColor.white.withAlphaComponent(0.6), dark: gray400)
+            public static var clearIcon = UIColor(light: iconOnAccent, dark: textSecondary)
             public static var placeholderText = UIColor(light: textOnAccent, dark: textSecondary)
             public static var searchIcon: UIColor = placeholderText
             public static var text = UIColor(light: textOnAccent, dark: textDominant)
