@@ -9,16 +9,15 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
     
     var isLastItemInSection: Bool = false {
         didSet {
-            if isLastItemInSection, isInLastSection {
-                self.bottomSeparatorType = .none
-            } else {
-                self.bottomSeparatorType = isInLastSection ? .full : .inset
-                self.bottomSeparator.backgroundColor = self.separatorColor
-            }
+            self.updateSeparatorColors()
         }
     }
     
-    var isInLastSection: Bool = false
+    var isInLastSection: Bool = false {
+        didSet {
+            self.updateSeparatorColors()
+        }
+    }
     
     var separatorColor: UIColor?
     
@@ -219,6 +218,15 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
             } else {
                 _accessoryType = .none
             }
+        }
+    }
+    
+    private func updateSeparatorColors() {
+        if isLastItemInSection, isInLastSection {
+            self.bottomSeparatorType = .none
+        } else {
+            self.bottomSeparatorType = isInLastSection ? .full : .inset
+            self.bottomSeparator.backgroundColor = self.separatorColor
         }
     }
 }

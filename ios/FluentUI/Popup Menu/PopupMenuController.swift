@@ -302,6 +302,7 @@ extension PopupMenuController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as! PopupMenuItemTemplateCell
         cell.setup(item: item)
         cell.preservesSpaceForImage = itemsHaveImages
+        cell.separatorColor = separatorColor
         
         let isLastInSection = row == tableView.numberOfRows(inSection: section) - 1
         let isLastSection = section == tableView.numberOfSections - 1
