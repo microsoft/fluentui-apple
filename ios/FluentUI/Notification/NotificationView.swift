@@ -54,7 +54,7 @@ open class NotificationView: UIView {
             case .primaryBar:
                 return UIColor(light: Colors.primaryShade20(for: window), dark: .black)
             case .primaryOutlineBar:
-                return UIColor(light: Colors.primary(for: window), dark: Colors.gray100)
+                return UIColor(light: Colors.primary(for: window), dark: Colors.textPrimary)
             case .neutralBar:
                 return Colors.Notification.NeutralBar.foreground
             }

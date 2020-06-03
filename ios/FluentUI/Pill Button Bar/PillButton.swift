@@ -27,9 +27,9 @@ public enum PillButtonStyle: Int {
     func selectedBackgroundColor(for window: UIWindow) -> UIColor {
         switch self {
         case .outline:
-            return UIColor(light: Colors.primary(for: window), dark: Colors.gray600)
+            return UIColor(light: Colors.primary(for: window), dark: Colors.surfaceQuaternary)
         case .filled:
-            return Colors.PillButton.Filled.backgroundSelected
+            return UIColor(light: Colors.surfacePrimary, dark: Colors.surfaceQuaternary)
         }
     }
 

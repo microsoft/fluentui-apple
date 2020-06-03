@@ -43,7 +43,7 @@ class NotificationViewDemoController: DemoController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Colors.background2
+        view.backgroundColor = Colors.surfaceSecondary
 
         for (index, variant) in Variant.allCases.enumerated() {
             if index > 0 {
