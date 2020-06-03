@@ -318,7 +318,13 @@ class DrawerPresentationController: UIPresentationController {
         var contentFrame = bounds.inset(by: marginsForContentView())
 
         var contentSize = presentedViewController.preferredContentSize
-        let landscapeMode = contentFrame.width > contentFrame.height
+
+        let landscapeMode: Bool
+        if let windowSize = sourceViewController.view.window?.frame.size {
+            landscapeMode = windowSize.width > windowSize.height
+        } else {
+            landscapeMode = false
+        }
 
         if presentationDirection.isVertical {
             if contentSize.width == 0 ||
