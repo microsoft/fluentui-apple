@@ -214,6 +214,16 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
 
+    private let tabBarView: TabBarView = {
+        let tabBarView = TabBarView()
+        tabBarView.items = [
+            TabBarItem(title: "Home", image: UIImage(named: "Home_28")!, selectedImage: UIImage(named: "Home_Selected_28")!, landscapeImage: UIImage(named: "Home_24")!, landscapeSelectedImage: UIImage(named: "Home_Selected_24")!),
+            TabBarItem(title: "New", image: UIImage(named: "New_28")!, selectedImage: UIImage(named: "New_Selected_28")!, landscapeImage: UIImage(named: "New_24")!, landscapeSelectedImage: UIImage(named: "New_Selected_24")!),
+            TabBarItem(title: "Open", image: UIImage(named: "Open_28")!, selectedImage: UIImage(named: "Open_Selected_28")!, landscapeImage: UIImage(named: "Open_24")!, landscapeSelectedImage: UIImage(named: "Open_Selected_24")!)
+        ]
+        return tabBarView
+    }()
+
     override func loadView() {
         let container = UIStackView()
         container.axis = .vertical
@@ -226,6 +236,16 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         updateNavigationTitle()
         updateLeftBarButtonItems()
         updateRightBarButtonItems()
+
+        tabBarView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tabBarView)
+
+        let tabBarViewConstraints = [
+            tabBarView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tabBarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tabBarView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ]
+        NSLayoutConstraint.activate(tabBarViewConstraints)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -233,6 +253,9 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if let indexPath = tableView.indexPathForSelectedRow {
             tableView.deselectRow(at: indexPath, animated: true)
         }
+
+        let size = tabBarView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+        tableView.contentInset.bottom = size.height
 
         navigationBarFrameObservation = navigationController?.navigationBar.observe(\.frame, options: [.old, .new]) { [unowned self] navigationBar, change in
             if change.newValue?.width != change.oldValue?.width && self.navigationItem.navigationBarStyle == .custom {
@@ -247,7 +270,8 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as! TableViewCell
-        cell.setup(title: "Cell #\(1 + indexPath.row)", accessoryType: .disclosureIndicator)
+        let imageView = UIImageView(image: UIImage(named: "excelIcon"))
+        cell.setup(title: "Cell #\(1 + indexPath.row)", customView: imageView, accessoryType: .disclosureIndicator)
         cell.isInSelectionMode = isInSelectionMode
         return cell
     }
