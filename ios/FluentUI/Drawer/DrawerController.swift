@@ -123,6 +123,7 @@ open class DrawerController: UIViewController {
     /// Set `backgroundColor` to customize background color of the drawer
     @objc open var backgroundColor: UIColor = Colors.Drawer.background {
         didSet {
+            useCustomBackgroundColor = true
             view.backgroundColor = backgroundColor
         }
     }
@@ -238,7 +239,7 @@ open class DrawerController: UIViewController {
     }
 
     /// Set `resizingHandleViewBackgroundColor` to customize background color of resizingHandleView if it is shown
-    @objc open var resizingHandleViewBackgroundColor: UIColor = Colors.ResizingHandle.background {
+    @objc open var resizingHandleViewBackgroundColor: UIColor = .clear {
         didSet {
             resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
         }
@@ -370,6 +371,10 @@ open class DrawerController: UIViewController {
     }
     private var containerViewCenterObservation: NSKeyValueObservation?
 
+    private var useCustomBackgroundColor: Bool = false
+    /// for iPad split mode, navigation bar has a different dark elevated color, and if it is a `.down` presentation style, match `Colors.NavigationBar.background` elevated color
+    private var useNavigationBarBackgroundColor: Bool = false
+
     /**
      Initializes `DrawerController` to be presented as a popover from `sourceRect` in `sourceView` on iPad and as a slideover on iPhone/iPad.
 
@@ -473,6 +478,17 @@ open class DrawerController: UIViewController {
             resizingGestureRecognizer = nil
         }
         resizingGestureRecognizer?.isEnabled = false
+
+        // if DrawerController is shown in UIPopoverPresentationController then we want to show different darkElevated color
+        if !useCustomBackgroundColor {
+            if presentationController is UIPopoverPresentationController {
+                backgroundColor = Colors.Drawer.popoverBackground
+            } else if useNavigationBarBackgroundColor {
+                backgroundColor = Colors.NavigationBar.background
+            } else {
+                backgroundColor = Colors.Drawer.background
+            }
+        }
     }
 
     open override func viewDidAppear(_ animated: Bool) {
@@ -849,7 +865,11 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
     public func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         switch presentationStyle(for: source) {
         case .slideover:
-            return DrawerPresentationController(presentedViewController: presented, presenting: presenting, source: source, sourceObject: sourceView ?? barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection(for: source.view), presentationOffset: presentationOffset, presentationBackground: presentationBackground, adjustHeightForKeyboard: adjustsHeightForKeyboard)
+            let direction = presentationDirection(for: source.view)
+            if #available(iOS 13.0, *) {
+                useNavigationBarBackgroundColor = (direction.isVertical && source.traitCollection.userInterfaceLevel == .elevated)
+            }
+            return DrawerPresentationController(presentedViewController: presented, presenting: presenting, source: source, sourceObject: sourceView ?? barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: direction, presentationOffset: presentationOffset, presentationBackground: presentationBackground, adjustHeightForKeyboard: adjustsHeightForKeyboard)
         case .popover:
             let presentationController = UIPopoverPresentationController(presentedViewController: presented, presenting: presenting)
             presentationController.backgroundColor = backgroundColor

@@ -27,7 +27,7 @@ open class ResizingHandleView: UIView {
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = Colors.ResizingHandle.background
+        backgroundColor = .clear
         self.frame.size.height = ResizingHandleView.height
         autoresizingMask = .flexibleWidth
         setContentHuggingPriority(.required, for: .vertical)

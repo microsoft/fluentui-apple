@@ -189,6 +189,7 @@ extension PersonaListView: UITableViewDataSource {
             let cell = dequeueReusableCell(withIdentifier: PersonaCell.identifier, for: indexPath) as! PersonaCell
             let persona = personaList[indexPath.row]
             cell.setup(persona: persona, accessoryType: accessoryType)
+            cell.backgroundColor = .clear
             cell.accessibilityTraits = .button
             return cell
         case .searchDirectory:
