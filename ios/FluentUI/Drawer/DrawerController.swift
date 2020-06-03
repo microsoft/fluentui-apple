@@ -371,9 +371,9 @@ open class DrawerController: UIViewController {
     }
     private var containerViewCenterObservation: NSKeyValueObservation?
 
+    private var useCustomBackgroundColor: Bool = false
     /// for iPad split mode, navigation bar has a different dark elevated color, and if it is a `.down` presentation style, match `Colors.NavigationBar.background` elevated color
     private var useNavigationBarBackgroundColor: Bool = false
-    private var useCustomBackgroundColor: Bool = false
 
     /**
      Initializes `DrawerController` to be presented as a popover from `sourceRect` in `sourceView` on iPad and as a slideover on iPhone/iPad.
