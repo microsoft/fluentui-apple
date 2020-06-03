@@ -321,6 +321,10 @@ open class DrawerController: UIViewController {
             }
         }
     }
+
+    /// For `vertical` presentation shown when horizontal size is `.compact`, the content width will be the full width of the presenting window. If set to false, the `preferredContentSize.width` will be used for calculation in landscape mode.
+    @objc open var shouldUseWindowFullWidthInLandscape: Bool = true
+
     // Override to provide the preferred size based on specifics of the concrete drawer subclass (see popup menu, for example)
     open var preferredContentWidth: CGFloat { return 0 }
     open var preferredContentHeight: CGFloat { return 0 }
@@ -547,15 +551,12 @@ open class DrawerController: UIViewController {
         }
 
         if presentationDirection.isVertical {
-            if let window = sourceViewController.view?.window {
-                return window.traitCollection.horizontalSizeClass == .compact ? .slideover : .popover
-            } else {
-                // No window, use the device type as last resort.
-                // It will be a problem:
-                //   - on iPhone Plus/X in landscape orientation
-                //   - on iPad in split view
-                return traitCollection.userInterfaceIdiom == .phone ? .slideover : .popover
+            if traitCollection.userInterfaceIdiom == .phone {
+                return .slideover
+            } else if let window = sourceViewController.view?.window, window.traitCollection.horizontalSizeClass == .compact {
+                return .slideover
             }
+            return .popover
         } else {
             return .slideover
         }
@@ -869,7 +870,7 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
             if #available(iOS 13.0, *) {
                 useNavigationBarBackgroundColor = (direction.isVertical && source.traitCollection.userInterfaceLevel == .elevated)
             }
-            return DrawerPresentationController(presentedViewController: presented, presenting: presenting, source: source, sourceObject: sourceView ?? barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: direction, presentationOffset: presentationOffset, presentationBackground: presentationBackground, adjustHeightForKeyboard: adjustsHeightForKeyboard)
+            return DrawerPresentationController(presentedViewController: presented, presenting: presenting, source: source, sourceObject: sourceView ?? barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: direction, presentationOffset: presentationOffset, presentationBackground: presentationBackground, adjustHeightForKeyboard: adjustsHeightForKeyboard, shouldUseWindowFullWidthInLandscape: shouldUseWindowFullWidthInLandscape)
         case .popover:
             let presentationController = UIPopoverPresentationController(presentedViewController: presented, presenting: presenting)
             presentationController.backgroundColor = backgroundColor
