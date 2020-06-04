@@ -15,9 +15,7 @@
 		A5961FA9218A61BB00E2A506 /* PopupMenuDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA8218A61BB00E2A506 /* PopupMenuDemoController.swift */; };
 		A5B6617623A4227400E801DD /* NotificationViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B6617523A4227300E801DD /* NotificationViewDemoController.swift */; };
 		A5CEC21020E436F10016922A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC20F20E436F10016922A /* AppDelegate.swift */; };
-		A5CEC21220E436F10016922A /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC21120E436F10016922A /* MasterViewController.swift */; };
-		A5CEC21420E436F10016922A /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC21320E436F10016922A /* DetailViewController.swift */; };
-		A5CEC21720E436F10016922A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5CEC21520E436F10016922A /* Main.storyboard */; };
+		A5CEC21220E436F10016922A /* DemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC21120E436F10016922A /* DemoListViewController.swift */; };
 		A5CEC21920E436F20016922A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5CEC21820E436F20016922A /* Assets.xcassets */; };
 		A5CEC21C20E436F20016922A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5CEC21A20E436F20016922A /* LaunchScreen.storyboard */; };
 		A5CEC22C20E450340016922A /* FluentUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5CEC22A20E44FBF0016922A /* FluentUI.framework */; };
@@ -42,6 +40,8 @@
 		B9450C42DB92C964C77483FF /* Pods_FluentUI_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC7D5AF5DAF7393E14BF5B28 /* Pods_FluentUI_Demo.framework */; };
 		C038992E2359307D00265026 /* TableViewCellShimmerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C038992D2359307D00265026 /* TableViewCellShimmerDemoController.swift */; };
 		C0938E4A235F733100256251 /* ShimmerLinesViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0938E49235F733100256251 /* ShimmerLinesViewDemoController.swift */; };
+		E6842974247B672000A29C40 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842973247B672000A29C40 /* SceneDelegate.swift */; };
+		E6842996247C350700A29C40 /* DemoColorThemeWindows.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842995247C350700A29C40 /* DemoColorThemeWindows.swift */; };
 		FD41C8F422E28EEB0086F899 /* NavigationControllerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C8F322E28EEB0086F899 /* NavigationControllerDemoController.swift */; };
 		FD7254ED21471A3F002F4069 /* DateTimePickerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7254EC21471A3F002F4069 /* DateTimePickerDemoController.swift */; };
 		FD7DF06221FB941500857267 /* TooltipDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF06121FB941400857267 /* TooltipDemoController.swift */; };
@@ -75,9 +75,7 @@
 		A5B6617523A4227300E801DD /* NotificationViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewDemoController.swift; sourceTree = "<group>"; };
 		A5CEC20C20E436F10016922A /* FluentUI.Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FluentUI.Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5CEC20F20E436F10016922A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A5CEC21120E436F10016922A /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
-		A5CEC21320E436F10016922A /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		A5CEC21620E436F10016922A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		A5CEC21120E436F10016922A /* DemoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoListViewController.swift; sourceTree = "<group>"; };
 		A5CEC21820E436F20016922A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A5CEC21B20E436F20016922A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A5CEC21D20E436F20016922A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -101,6 +99,8 @@
 		B4EF66552295F729007FEAB0 /* TableViewHeaderFooterSampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewHeaderFooterSampleData.swift; sourceTree = "<group>"; };
 		C038992D2359307D00265026 /* TableViewCellShimmerDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellShimmerDemoController.swift; sourceTree = "<group>"; };
 		C0938E49235F733100256251 /* ShimmerLinesViewDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShimmerLinesViewDemoController.swift; sourceTree = "<group>"; };
+		E6842973247B672000A29C40 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		E6842995247C350700A29C40 /* DemoColorThemeWindows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoColorThemeWindows.swift; sourceTree = "<group>"; };
 		E6D2996ECAAD9A81A6338783 /* Pods-FluentUI.Demo.dogfood.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluentUI.Demo.dogfood.xcconfig"; path = "Target Support Files/Pods-FluentUI.Demo/Pods-FluentUI.Demo.dogfood.xcconfig"; sourceTree = "<group>"; };
 		EC7D5AF5DAF7393E14BF5B28 /* Pods_FluentUI_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FluentUI_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD41C8F322E28EEB0086F899 /* NavigationControllerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllerDemoController.swift; sourceTree = "<group>"; };
@@ -185,7 +185,6 @@
 			children = (
 				A5CEC21820E436F20016922A /* Assets.xcassets */,
 				A5CEC21A20E436F20016922A /* LaunchScreen.storyboard */,
-				A5CEC21520E436F10016922A /* Main.storyboard */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -193,9 +192,9 @@
 		A591A3F520F42A9E001ED23B /* Shell */ = {
 			isa = PBXGroup;
 			children = (
-				A5CEC21120E436F10016922A /* MasterViewController.swift */,
-				A5CEC21320E436F10016922A /* DetailViewController.swift */,
+				E6842995247C350700A29C40 /* DemoColorThemeWindows.swift */,
 				A5DCA75F211E3B4C005F4CB7 /* DemoController.swift */,
+				A5CEC21120E436F10016922A /* DemoListViewController.swift */,
 			);
 			name = Shell;
 			sourceTree = "<group>";
@@ -228,6 +227,7 @@
 				A52B637E21387566009F7ADF /* Configuration */,
 				A5CEC20F20E436F10016922A /* AppDelegate.swift */,
 				A591A3F320F429EB001ED23B /* Demos.swift */,
+				E6842973247B672000A29C40 /* SceneDelegate.swift */,
 			);
 			path = FluentUI.Demo;
 			sourceTree = "<group>";
@@ -389,7 +389,6 @@
 			files = (
 				A5CEC21C20E436F20016922A /* LaunchScreen.storyboard in Resources */,
 				A5CEC21920E436F20016922A /* Assets.xcassets in Resources */,
-				A5CEC21720E436F10016922A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -456,12 +455,12 @@
 				A5DCA75E211E3A92005F4CB7 /* DrawerDemoController.swift in Sources */,
 				FDDD73FD22C6D86B00A9D995 /* ObjectiveCDemoController.m in Sources */,
 				B4414792228F6F740040E88E /* TableViewCellSampleData.swift in Sources */,
-				A5CEC21420E436F10016922A /* DetailViewController.swift in Sources */,
+				E6842974247B672000A29C40 /* SceneDelegate.swift in Sources */,
 				B4E8F65221CD9579008A1598 /* HUDDemoController.swift in Sources */,
 				FD7254ED21471A3F002F4069 /* DateTimePickerDemoController.swift in Sources */,
 				B4EF66542295F1A8007FEAB0 /* TableViewHeaderFooterViewDemoController.swift in Sources */,
 				B4575C5122FB8B6900EBD0EB /* PeoplePickerDemoController.swift in Sources */,
-				A5CEC21220E436F10016922A /* MasterViewController.swift in Sources */,
+				A5CEC21220E436F10016922A /* DemoListViewController.swift in Sources */,
 				B498141621E42C140077B48D /* TableViewCellDemoController.swift in Sources */,
 				FDCF7C8321BF35680058E9E6 /* SegmentedControlDemoController.swift in Sources */,
 				C0938E4A235F733100256251 /* ShimmerLinesViewDemoController.swift in Sources */,
@@ -470,6 +469,7 @@
 				A589F856211BA71000471C23 /* LabelDemoController.swift in Sources */,
 				FD41C8F422E28EEB0086F899 /* NavigationControllerDemoController.swift in Sources */,
 				B4D852D922580661004B1B29 /* ActivityIndicatorViewDemoController.swift in Sources */,
+				E6842996247C350700A29C40 /* DemoColorThemeWindows.swift in Sources */,
 				A5CEC21020E436F10016922A /* AppDelegate.swift in Sources */,
 				B4414794228F6FDF0040E88E /* OtherCellsSampleData.swift in Sources */,
 				B444D6B82183BA4B0002B4D4 /* BadgeViewDemoController.swift in Sources */,
@@ -482,14 +482,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		A5CEC21520E436F10016922A /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A5CEC21620E436F10016922A /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		A5CEC21A20E436F20016922A /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

@@ -59,7 +59,7 @@ class AvatarViewDemoController: DemoController {
         colorfulGradient.startPoint = CGPoint(x: 0.5, y: 0.5)
         colorfulGradient.endPoint = CGPoint(x: 0.5, y: 0)
         if #available(iOS 12.0, *) {
-             colorfulGradient.type = .conic
+            colorfulGradient.type = .conic
         }
 
         var customBorderImage: UIImage?

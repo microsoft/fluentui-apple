@@ -30,7 +30,6 @@ open class BooleanCell: TableViewCell {
 
     private lazy var `switch`: UISwitch = {
         let `switch` = UISwitch()
-        FluentUIFramework.initializeUISwitchAppearance(`switch`)
         `switch`.addTarget(self, action: #selector(handleOnSwitchValueChanged), for: .valueChanged)
         return `switch`
     }()
@@ -48,5 +47,12 @@ open class BooleanCell: TableViewCell {
 
     @objc private func handleOnSwitchValueChanged() {
         onValueChanged?()
+    }
+
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+        if let window = window {
+            `switch`.onTintColor = Colors.primary(for: window)
+        }
     }
 }

@@ -140,6 +140,11 @@ class PopupMenuItemCell: TableViewCell {
         }
     }
 
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateSelectionColors()
+    }
+
     private func updateAccessibilityTraits() {
         if isHeader {
             accessibilityTraits.remove(.button)
@@ -159,19 +164,32 @@ class PopupMenuItemCell: TableViewCell {
         subtitleLabel.alpha = alpha
         customAccessoryView?.alpha = alpha
 
-        // Selection
-        if let item = item {
-            _imageView.tintColor = isSelected ? item.imageSelectedColor : item.imageColor
-            titleLabel.textColor = isSelected ? item.titleSelectedColor : item.titleColor
-            subtitleLabel.textColor = isSelected ? item.subtitleSelectedColor : item.subtitleColor
-            backgroundColor = item.backgroundColor
-        }
+        updateSelectionColors()
+
         _imageView.isHighlighted = isSelected
-        if isSelected && item?.isAccessoryCheckmarkVisible == true {
-            _accessoryType = .checkmark
-            accessoryTypeView?.customTintColor = item?.accessoryCheckmarkColor
-        } else {
-            _accessoryType = .none
+    }
+
+    private func updateSelectionColors() {
+        if let window = window {
+            if let item = item {
+                _imageView.tintColor = isSelected
+                    ? item.imageSelectedColor ?? Colors.primary(for: window)
+                    : item.imageColor
+                titleLabel.textColor = isSelected
+                    ? item.titleSelectedColor ?? Colors.primary(for: window)
+                    : item.titleColor
+                subtitleLabel.textColor = isSelected
+                    ? item.subtitleSelectedColor ?? Colors.primary(for: window)
+                    : item.subtitleColor
+                backgroundColor = item.backgroundColor
+            }
+
+            if isSelected && item?.isAccessoryCheckmarkVisible == true {
+                _accessoryType = .checkmark
+                accessoryTypeView?.customTintColor = item?.accessoryCheckmarkColor ?? Colors.primary(for: window)
+            } else {
+                _accessoryType = .none
+            }
         }
     }
 }

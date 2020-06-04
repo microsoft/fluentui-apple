@@ -214,7 +214,7 @@ open class AvatarView: UIView {
         if hasCustomBorder {
             updateCustomBorder()
         } else if hasBorder {
-           updateBorder()
+            updateBorder()
         }
     }
 
