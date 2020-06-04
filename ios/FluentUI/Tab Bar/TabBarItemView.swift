@@ -110,8 +110,8 @@ class TabBarItemView: UIView {
         if isInPortraitMode {
             container.axis = .vertical
             container.spacing = spacingVertical
-            imageHeightConstraint?.constant = portraitImageSize
-            imageWidthConstraint?.constant = portraitImageSize
+            imageHeightConstraint?.constant = titleLabel.isHidden ? portraitImageSize : landscapeImageSize
+            imageWidthConstraint?.constant = titleLabel.isHidden ? portraitImageSize : landscapeImageSize
             titleLabel.style = .button3
         } else {
             container.axis = .horizontal
