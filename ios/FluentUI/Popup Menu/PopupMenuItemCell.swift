@@ -11,7 +11,7 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
 
     var separatorType: TableViewCell.SeparatorType = .inset {
         didSet {
-            self.bottomSeparatorType = .inset
+            self.bottomSeparatorType = self.separatorType
             self.bottomSeparator.backgroundColor = self.separatorColor
         }
     }
