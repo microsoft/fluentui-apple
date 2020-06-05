@@ -7,12 +7,15 @@ import UIKit
 
 class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
 
-    var separatorColor: UIColor?
-
-    var separatorType: TableViewCell.SeparatorType = .inset {
+    var expectedSeparatorColor: UIColor? {
         didSet {
-            self.bottomSeparatorType = self.separatorType
-            self.bottomSeparator.backgroundColor = self.separatorColor
+            self.bottomSeparator.backgroundColor = self.expectedSeparatorColor
+        }
+    }
+
+    var expectedSeparatorType: TableViewCell.SeparatorType = .full {
+        didSet {
+            self.bottomSeparatorType = self.expectedSeparatorType
         }
     }
 

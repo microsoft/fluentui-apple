@@ -305,10 +305,10 @@ extension PopupMenuController: UITableViewDataSource {
 
         let isLastInSection = row == tableView.numberOfRows(inSection: section) - 1
         if section == tableView.numberOfSections - 1 && isLastInSection {
-            cell.separatorType = .none
+            cell.expectedSeparatorType = .none
         } else {
-            cell.separatorColor = separatorColor
-            cell.separatorType = isLastInSection ? .full : .inset
+            cell.expectedSeparatorColor = self.separatorColor
+            cell.expectedSeparatorType = isLastInSection ? .full : .inset
         }
 
         return cell

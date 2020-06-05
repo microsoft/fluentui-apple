@@ -43,10 +43,10 @@ public protocol PopupMenuItemTemplateCell where Self: UITableViewCell {
     @objc var preservesSpaceForImage: Bool { get set }
     /// `PopupMenuController` will notify the expected separatorColor.
     /// For custom cell, you should add your own separator.
-    @objc var separatorColor: UIColor? { get set }
+    @objc var expectedSeparatorColor: UIColor? { get set }
     /// `PopupMenuController` will notify the expected separatorType.
     /// For `PopupMenuItemCell`, the separator is at the bottom.
-    @objc var separatorType: TableViewCell.SeparatorType { get set }
+    @objc var expectedSeparatorType: TableViewCell.SeparatorType { get set }
 
     /// Called when `PopupMenuController` setup the cell with the item
     @objc func setup(item: PopupMenuTemplateItem)
