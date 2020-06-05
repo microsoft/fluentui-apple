@@ -13,9 +13,9 @@ public typealias MSPopupMenuItem = PopupMenuItem
  */
 @objc(MSFPopupMenuItem)
 open class PopupMenuItem: NSObject, PopupMenuTemplateItem {
-    
+
     @objc public var cellClass: PopupMenuItemTemplateCell.Type
-    
+
     @objc public let image: UIImage?
     @objc public let selectedImage: UIImage?
     @objc public let accessoryImage: UIImage?

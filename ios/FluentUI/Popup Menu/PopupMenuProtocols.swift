@@ -20,8 +20,8 @@ public enum ExecutionMode: Int {
 
 /**
 `PopupMenuTemplateItem` represents a template item protocol inside `PopupMenuController`.
- The built-in type is `PopupMenuItem`
- You can use object conforms to this protocol for customization
+ The built-in type is `PopupMenuItem`.
+ You can use object conforms to this protocol for customization.
 */
 @objc(MSFPopupMenuTemplateItem)
 public protocol PopupMenuTemplateItem: AnyObject {
@@ -34,24 +34,22 @@ public protocol PopupMenuTemplateItem: AnyObject {
 
 /**
 `PopupMenuItemTemplateCell` represents a template cell protocol inside `PopupMenuController`.
- The built-in type is `PopupMenuItemCell`
- You can use UITableViewCell conforms to this protocol for customization
+ The built-in type is `PopupMenuItemCell`.
+ You can use `UITableViewCell` conforms to this protocol for customization.
 */
 @objc(MSFPopupMenuItemTemplateCell)
 public protocol PopupMenuItemTemplateCell where Self: UITableViewCell {
-    /// `PopupMenuController` will notify that if the cell in the last item in the section
-    @objc var isLastItemInSection: Bool { get set }
-    /// `PopupMenuController` will notify that if the cell in the last section
-    @objc var isInLastSection: Bool { get set }
     /// `PopupMenuController` will notify that one or more items in the list contain image(s)
     @objc var preservesSpaceForImage: Bool { get set }
-    /// `PopupMenuController` will notify the specified separatorColor
+    /// `PopupMenuController` will notify the expected separatorColor.
     /// For custom cell, you should add your own separator
     @objc var separatorColor: UIColor? { get set }
+    /// `PopupMenuController` will notify the expected bottomSeparatorType
+    @objc var separatorType: TableViewCell.SeparatorType { get set }
 
     /// Called when `PopupMenuController` setup the cell with the item
     @objc func setup(item: PopupMenuTemplateItem)
-    
+
     @objc static func preferredWidth(for item: PopupMenuTemplateItem, preservingSpaceForImage preserveSpaceForImage: Bool) -> CGFloat
     @objc static func preferredHeight(for item: PopupMenuTemplateItem) -> CGFloat
 }

@@ -294,21 +294,23 @@ extension PopupMenuController: UITableViewDataSource {
         let section = indexPath.section
         let row = indexPath.row
         let item = sections[section].items[row]
-        
+
         let cellClass = item.cellClass
         let identifier = String(describing: cellClass)
         self.tableView.register(cellClass, forCellReuseIdentifier: identifier)
-        
+
         let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as! PopupMenuItemTemplateCell
         cell.setup(item: item)
         cell.preservesSpaceForImage = itemsHaveImages
-        cell.separatorColor = separatorColor
-        
+
         let isLastInSection = row == tableView.numberOfRows(inSection: section) - 1
-        let isLastSection = section == tableView.numberOfSections - 1
-        cell.isLastItemInSection = isLastInSection
-        cell.isInLastSection = isLastSection
-        
+        if section == tableView.numberOfSections - 1 && isLastInSection {
+            cell.separatorType = .none
+        } else {
+            cell.separatorColor = separatorColor
+            cell.separatorType = isLastInSection ? .full : .inset
+        }
+
         return cell
     }
 }
