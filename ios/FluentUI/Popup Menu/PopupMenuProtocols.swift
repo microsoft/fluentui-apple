@@ -42,9 +42,10 @@ public protocol PopupMenuItemTemplateCell where Self: UITableViewCell {
     /// `PopupMenuController` will notify that one or more items in the list contain image(s)
     @objc var preservesSpaceForImage: Bool { get set }
     /// `PopupMenuController` will notify the expected separatorColor.
-    /// For custom cell, you should add your own separator
+    /// For custom cell, you should add your own separator.
     @objc var separatorColor: UIColor? { get set }
-    /// `PopupMenuController` will notify the expected bottomSeparatorType
+    /// `PopupMenuController` will notify the expected separatorType.
+    /// For `PopupMenuItemCell`, the separator is at the bottom.
     @objc var separatorType: TableViewCell.SeparatorType { get set }
 
     /// Called when `PopupMenuController` setup the cell with the item
