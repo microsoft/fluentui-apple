@@ -297,7 +297,7 @@ extension PopupMenuController: UITableViewDataSource {
 
         let cellClass = item.cellClass
         let identifier = String(describing: cellClass)
-        self.tableView.register(cellClass, forCellReuseIdentifier: identifier)
+        tableView.register(cellClass, forCellReuseIdentifier: identifier)
 
         let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as! PopupMenuItemTemplateCell
         cell.setup(item: item)
@@ -307,7 +307,7 @@ extension PopupMenuController: UITableViewDataSource {
         if section == tableView.numberOfSections - 1 && isLastInSection {
             cell.bottomSeparatorType = .none
         } else {
-            cell.customSeparatorColor = self.separatorColor
+            cell.customSeparatorColor = separatorColor
             cell.bottomSeparatorType = isLastInSection ? .full : .inset
         }
 
