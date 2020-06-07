@@ -7,15 +7,9 @@ import UIKit
 
 class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
 
-    var expectedSeparatorColor: UIColor? {
+    var customSeparatorColor: UIColor? {
         didSet {
-            self.bottomSeparator.backgroundColor = self.expectedSeparatorColor
-        }
-    }
-
-    var expectedSeparatorType: TableViewCell.SeparatorType = .full {
-        didSet {
-            self.bottomSeparatorType = self.expectedSeparatorType
+            self.bottomSeparator.backgroundColor = self.customSeparatorColor
         }
     }
 
@@ -36,6 +30,7 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
 
     static func preferredWidth(for item: PopupMenuTemplateItem, preservingSpaceForImage preserveSpaceForImage: Bool) -> CGFloat {
         guard let item = item as? PopupMenuItem else {
+            assertionFailure("Invalid item type for cell.")
             return 0
         }
 
@@ -45,6 +40,7 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
 
     static func preferredHeight(for item: PopupMenuTemplateItem) -> CGFloat {
         guard let item = item as? PopupMenuItem else {
+            assertionFailure("Invalid item type for cell.")
             return 0
         }
 
@@ -97,8 +93,10 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
 
     func setup(item: PopupMenuTemplateItem) {
         guard let item = item as? PopupMenuItem else {
+            assertionFailure("Invalid item type for cell.")
             return
         }
+
         self.item = item
 
         _imageView.image = item.image
