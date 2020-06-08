@@ -110,8 +110,8 @@ class TabBarItemView: UIView {
         if isInPortraitMode {
             container.axis = .vertical
             container.spacing = spacingVertical
-            imageHeightConstraint?.constant = titleLabel.isHidden ? portraitImageSize : landscapeImageSize
-            imageWidthConstraint?.constant = titleLabel.isHidden ? portraitImageSize : landscapeImageSize
+            imageHeightConstraint?.constant = titleLabel.isHidden ? portraitImageSize : portraitImageWithLabelSize
+            imageWidthConstraint?.constant = titleLabel.isHidden ? portraitImageSize : portraitImageWithLabelSize
             titleLabel.style = .button3
         } else {
             container.axis = .horizontal
@@ -120,8 +120,8 @@ class TabBarItemView: UIView {
             imageWidthConstraint?.constant = landscapeImageSize
             titleLabel.style = .footnoteUnscaled
         }
-        imageView.image = item.unselectedImage(isInPortraitMode: isInPortraitMode)
-        imageView.highlightedImage = item.selectedImage(isInPortraitMode: isInPortraitMode)
+        imageView.image = item.unselectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
+        imageView.highlightedImage = item.selectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
     }
 }
 
@@ -129,4 +129,5 @@ private let unselectedColor = Colors.foreground2c
 private let spacingVertical: CGFloat = 3.0
 private let spacingHorizontal: CGFloat = 8.0
 private let portraitImageSize: CGFloat = 28.0
+private let portraitImageWithLabelSize: CGFloat = 24.0
 private let landscapeImageSize: CGFloat = 24.0

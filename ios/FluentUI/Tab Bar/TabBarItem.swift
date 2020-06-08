@@ -21,8 +21,8 @@ open class TabBarItem: NSObject {
     /// - Parameter title: Used for tabbar item view's label and for its accessibilityLabel.
     /// - Parameter image: Used for tabbar item view's imageView and for its accessibility largeContentImage unless `largeContentImage` is specified.
     /// - Parameter selectedImage: Used for imageView when tabbar item view is selected.  If it is nil, it will use `image`.
-    /// - Parameter landscapeImage: Used for imageView when tabbar item view in landscape. If it is nil, it will use `image`.
-    /// - Parameter landscapeSelectedImage: Used for imageView when tabbar item view is selected in landscape. If it is nil, it will use `selectedImage`.
+    /// - Parameter landscapeImage: Used for imageView when tabbar item view in landscape. If it is nil, it will use `image`. Will be used in portrait mode if the tab bar item shows a label.
+    /// - Parameter landscapeSelectedImage: Used for imageView when tabbar item view is selected in landscape. If it is nil, it will use `selectedImage`. Will be used in portrait mode if the tab bar item shows a label.
     /// - Parameter largeContentImage: Used for tabbar item view's accessibility largeContentImage.
     @objc public init(title: String, image: UIImage, selectedImage: UIImage? = nil, landscapeImage: UIImage? = nil, landscapeSelectedImage: UIImage? = nil, largeContentImage: UIImage? = nil) {
         self.image = image
@@ -34,17 +34,17 @@ open class TabBarItem: NSObject {
         super.init()
     }
 
-    func selectedImage(isInPortraitMode: Bool) -> UIImage? {
+    func selectedImage(isInPortraitMode: Bool, labelIsHidden: Bool) -> UIImage? {
         if isInPortraitMode {
-            return selectedImage ?? image
+            return (labelIsHidden ? selectedImage : landscapeSelectedImage) ?? image
         } else {
             return landscapeSelectedImage ?? selectedImage ?? image
         }
     }
 
-    func unselectedImage(isInPortraitMode: Bool) -> UIImage? {
+    func unselectedImage(isInPortraitMode: Bool, labelIsHidden: Bool) -> UIImage? {
         if isInPortraitMode {
-            return image
+            return labelIsHidden ? image : landscapeImage
         } else {
             return landscapeImage ?? image
         }
