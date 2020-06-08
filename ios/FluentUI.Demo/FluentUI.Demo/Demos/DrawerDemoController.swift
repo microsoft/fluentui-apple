@@ -17,7 +17,7 @@ class DrawerDemoController: DemoController {
         addTitle(text: "Top Drawer")
         container.addArrangedSubview(createButton(title: "Show resizable", action: #selector(showTopDrawerButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show with no animation", action: #selector(showTopDrawerNotAnimatedButtonTapped)))
-        container.addArrangedSubview(createButton(title: "Show from custom base", action: #selector(showTopDrawerCustomOffsetButtonTapped)))
+        container.addArrangedSubview(createButton(title: "Show from custom base with width on landscape", action: #selector(showTopDrawerCustomOffsetButtonTapped)))
 
         addTitle(text: "Left/Right Drawer")
         addRow(
@@ -54,7 +54,7 @@ class DrawerDemoController: DemoController {
     }
 
     @discardableResult
-    private func presentDrawer(sourceView: UIView? = nil, barButtonItem: UIBarButtonItem? = nil, presentationOrigin: CGFloat = -1, presentationDirection: DrawerPresentationDirection, presentationStyle: DrawerPresentationStyle = .automatic, presentationOffset: CGFloat = 0, presentationBackground: DrawerPresentationBackground = .black, presentingGesture: UIPanGestureRecognizer? = nil, permittedArrowDirections: UIPopoverArrowDirection = [.left, .right], contentController: UIViewController? = nil, contentView: UIView? = nil, resizingBehavior: DrawerResizingBehavior = .none, adjustHeightForKeyboard: Bool = false, animated: Bool = true) -> DrawerController {
+    private func presentDrawer(sourceView: UIView? = nil, barButtonItem: UIBarButtonItem? = nil, presentationOrigin: CGFloat = -1, presentationDirection: DrawerPresentationDirection, presentationStyle: DrawerPresentationStyle = .automatic, presentationOffset: CGFloat = 0, presentationBackground: DrawerPresentationBackground = .black, presentingGesture: UIPanGestureRecognizer? = nil, permittedArrowDirections: UIPopoverArrowDirection = [.left, .right], contentController: UIViewController? = nil, contentView: UIView? = nil, resizingBehavior: DrawerResizingBehavior = .none, adjustHeightForKeyboard: Bool = false, animated: Bool = true, customWidth: Bool = false) -> DrawerController {
         let controller: DrawerController
         if let sourceView = sourceView {
             controller = DrawerController(sourceView: sourceView, sourceRect: sourceView.bounds.insetBy(dx: sourceView.bounds.width / 2, dy: 0), presentationOrigin: presentationOrigin, presentationDirection: presentationDirection)
@@ -76,8 +76,10 @@ class DrawerDemoController: DemoController {
             // `preferredContentSize` can be used to specify the preferred size of a drawer,
             // but here we just define the width and allow it to calculate height automatically
             controller.preferredContentSize.width = 360
-            //controller.preferredContentSize.height = 230
             controller.contentView = contentView
+            if customWidth {
+                controller.shouldUseWindowFullWidthInLandscape = false
+            }
         } else {
             controller.contentController = contentController
         }
@@ -126,7 +128,7 @@ class DrawerDemoController: DemoController {
 
     @objc private func showTopDrawerCustomOffsetButtonTapped(sender: UIButton) {
         let rect = sender.superview!.convert(sender.frame, to: nil)
-        presentDrawer(sourceView: sender, presentationOrigin: rect.maxY, presentationDirection: .down, contentView: containerForActionViews())
+        presentDrawer(sourceView: sender, presentationOrigin: rect.maxY, presentationDirection: .down, contentView: containerForActionViews(), customWidth: true)
     }
 
     @objc private func showLeftDrawerButtonTapped(sender: UIButton) {
@@ -166,15 +168,18 @@ class DrawerDemoController: DemoController {
         controller.view.addSubview(personaListView)
         personaListView.frame = controller.view.bounds
         personaListView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        personaListView.backgroundColor = Colors.NavigationBar.background
 
         let contentController = UINavigationController(rootViewController: controller)
-        contentController.navigationBar.barTintColor = Colors.background1
+        contentController.navigationBar.barTintColor = Colors.NavigationBar.background
+        contentController.toolbar.barTintColor = Colors.Toolbar.background
         contentController.isToolbarHidden = false
         contentController.preferredContentSize = CGSize(width: 400, height: 400)
         contentControllerOriginalPreferredContentHeight = contentController.preferredContentSize.height
 
-        let drawer = presentDrawer(sourceView: sender, presentationDirection: .up, presentationStyle: .slideover, presentationOffset: 20, presentationBackground: traitCollection.horizontalSizeClass == .regular ? .none : .black, contentController: contentController, resizingBehavior: .dismissOrExpand)
+        let drawer = presentDrawer(sourceView: sender, presentationDirection: .up, presentationStyle: .slideover, presentationOffset: 20, presentationBackground: .black, contentController: contentController, resizingBehavior: .dismissOrExpand)
 
+        drawer.resizingHandleViewBackgroundColor = Colors.NavigationBar.background
         drawer.contentScrollView = personaListView
     }
 

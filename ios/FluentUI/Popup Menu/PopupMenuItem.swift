@@ -49,7 +49,7 @@ open class PopupMenuItem: NSObject {
     /// tint color if `selectedImage` is rendered as template and `isSelected` is true.  Is unset, Colors.primary will be used
     @objc public var imageSelectedColor: UIColor?
     /// background color of PopupMenuItem corresponding cell
-    @objc public var backgroundColor: UIColor = Colors.Table.Cell.background
+    @objc public var backgroundColor: UIColor = .clear
     /// checkmark color `isAccessoryCheckmarkVisible` and `isSelected` is true. If unset, Colors.primary will be used
     @objc public var accessoryCheckmarkColor: UIColor?
 

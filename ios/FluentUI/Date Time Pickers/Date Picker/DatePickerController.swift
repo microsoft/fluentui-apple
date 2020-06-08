@@ -191,7 +191,7 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if let window = view.window {
-            navigationItem.rightBarButtonItem?.tintColor = UIColor(light: Colors.primary(for: window), dark: .white)
+            navigationItem.rightBarButtonItem?.tintColor = UIColor(light: Colors.primary(for: window), dark: Colors.textDominant)
         }
     }
 

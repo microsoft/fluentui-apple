@@ -123,6 +123,7 @@ open class DrawerController: UIViewController {
     /// Set `backgroundColor` to customize background color of the drawer
     @objc open var backgroundColor: UIColor = Colors.Drawer.background {
         didSet {
+            useCustomBackgroundColor = true
             view.backgroundColor = backgroundColor
         }
     }
@@ -238,7 +239,7 @@ open class DrawerController: UIViewController {
     }
 
     /// Set `resizingHandleViewBackgroundColor` to customize background color of resizingHandleView if it is shown
-    @objc open var resizingHandleViewBackgroundColor: UIColor = Colors.ResizingHandle.background {
+    @objc open var resizingHandleViewBackgroundColor: UIColor = .clear {
         didSet {
             resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
         }
@@ -320,6 +321,10 @@ open class DrawerController: UIViewController {
             }
         }
     }
+
+    /// For `vertical` presentation shown when horizontal size is `.compact`, the content width will be the full width of the presenting window. If set to false, the `preferredContentSize.width` will be used for calculation in landscape mode.
+    @objc open var shouldUseWindowFullWidthInLandscape: Bool = true
+
     // Override to provide the preferred size based on specifics of the concrete drawer subclass (see popup menu, for example)
     open var preferredContentWidth: CGFloat { return 0 }
     open var preferredContentHeight: CGFloat { return 0 }
@@ -369,6 +374,10 @@ open class DrawerController: UIViewController {
         }
     }
     private var containerViewCenterObservation: NSKeyValueObservation?
+
+    private var useCustomBackgroundColor: Bool = false
+    /// for iPad split mode, navigation bar has a different dark elevated color, and if it is a `.down` presentation style, match `Colors.NavigationBar.background` elevated color
+    private var useNavigationBarBackgroundColor: Bool = false
 
     /**
      Initializes `DrawerController` to be presented as a popover from `sourceRect` in `sourceView` on iPad and as a slideover on iPhone/iPad.
@@ -473,6 +482,17 @@ open class DrawerController: UIViewController {
             resizingGestureRecognizer = nil
         }
         resizingGestureRecognizer?.isEnabled = false
+
+        // if DrawerController is shown in UIPopoverPresentationController then we want to show different darkElevated color
+        if !useCustomBackgroundColor {
+            if presentationController is UIPopoverPresentationController {
+                backgroundColor = Colors.Drawer.popoverBackground
+            } else if useNavigationBarBackgroundColor {
+                backgroundColor = Colors.NavigationBar.background
+            } else {
+                backgroundColor = Colors.Drawer.background
+            }
+        }
     }
 
     open override func viewDidAppear(_ animated: Bool) {
@@ -531,15 +551,12 @@ open class DrawerController: UIViewController {
         }
 
         if presentationDirection.isVertical {
-            if let window = sourceViewController.view?.window {
-                return window.traitCollection.horizontalSizeClass == .compact ? .slideover : .popover
-            } else {
-                // No window, use the device type as last resort.
-                // It will be a problem:
-                //   - on iPhone Plus/X in landscape orientation
-                //   - on iPad in split view
-                return traitCollection.userInterfaceIdiom == .phone ? .slideover : .popover
+            if traitCollection.userInterfaceIdiom == .phone {
+                return .slideover
+            } else if let window = sourceViewController.view?.window, window.traitCollection.horizontalSizeClass == .compact {
+                return .slideover
             }
+            return .popover
         } else {
             return .slideover
         }
@@ -849,7 +866,11 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
     public func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         switch presentationStyle(for: source) {
         case .slideover:
-            return DrawerPresentationController(presentedViewController: presented, presenting: presenting, source: source, sourceObject: sourceView ?? barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection(for: source.view), presentationOffset: presentationOffset, presentationBackground: presentationBackground, adjustHeightForKeyboard: adjustsHeightForKeyboard)
+            let direction = presentationDirection(for: source.view)
+            if #available(iOS 13.0, *) {
+                useNavigationBarBackgroundColor = (direction.isVertical && source.traitCollection.userInterfaceLevel == .elevated)
+            }
+            return DrawerPresentationController(presentedViewController: presented, presenting: presenting, source: source, sourceObject: sourceView ?? barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: direction, presentationOffset: presentationOffset, presentationBackground: presentationBackground, adjustHeightForKeyboard: adjustsHeightForKeyboard, shouldUseWindowFullWidthInLandscape: shouldUseWindowFullWidthInLandscape)
         case .popover:
             let presentationController = UIPopoverPresentationController(presentedViewController: presented, presenting: presenting)
             presentationController.backgroundColor = backgroundColor

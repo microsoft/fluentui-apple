@@ -125,7 +125,7 @@ class TabBarItemView: UIView {
     }
 }
 
-private let unselectedColor = Colors.foreground2c
+private let unselectedColor = Colors.textSecondary
 private let spacingVertical: CGFloat = 3.0
 private let spacingHorizontal: CGFloat = 8.0
 private let portraitImageSize: CGFloat = 28.0
