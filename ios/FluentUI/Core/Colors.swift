@@ -605,7 +605,7 @@ public final class Colors: NSObject {
     public struct Table {
         public struct Cell {
             public static var background: UIColor = surfacePrimary
-            public static var backgroundGrouped: UIColor = surfacePrimary
+            public static var backgroundGrouped = UIColor(light: surfacePrimary, dark: surfaceSecondary)
             public static var backgroundSelected: UIColor = surfaceTertiary
             public static var image: UIColor = iconSecondary
             public static var title: UIColor = textPrimary
@@ -630,7 +630,7 @@ public final class Colors: NSObject {
             public static var textLink: UIColor = communicationBlue
         }
         public static var background: UIColor = surfacePrimary
-        public static var backgroundGrouped: UIColor = surfaceSecondary
+        public static var backgroundGrouped = UIColor(light: surfaceSecondary, dark: surfacePrimary)
     }
     // Objective-C support
     @objc public static var tableBackground: UIColor { return Table.background }
