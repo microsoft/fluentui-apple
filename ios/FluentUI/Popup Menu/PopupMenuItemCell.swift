@@ -5,7 +5,14 @@
 
 import UIKit
 
-class PopupMenuItemCell: TableViewCell {
+class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
+
+    var customSeparatorColor: UIColor? {
+        didSet {
+            bottomSeparator.backgroundColor = customSeparatorColor
+        }
+    }
+
     private struct Constants {
         static let labelVerticalMarginForOneLine: CGFloat = 14
         static let accessoryImageViewOffset: CGFloat = 5
@@ -21,12 +28,22 @@ class PopupMenuItemCell: TableViewCell {
 
     override class var labelVerticalMarginForOneAndThreeLines: CGFloat { return Constants.labelVerticalMarginForOneLine }
 
-    static func preferredWidth(for item: PopupMenuItem, preservingSpaceForImage preserveSpaceForImage: Bool) -> CGFloat {
+    static func preferredWidth(for item: PopupMenuTemplateItem, preservingSpaceForImage preserveSpaceForImage: Bool) -> CGFloat {
+        guard let item = item as? PopupMenuItem else {
+            assertionFailure("Invalid item type for cell.")
+            return 0
+        }
+
         let imageViewSize: CustomViewSize = item.image != nil || preserveSpaceForImage ? Constants.imageViewSize : .zero
         return preferredWidth(title: item.title, subtitle: item.subtitle ?? "", customViewSize: imageViewSize, customAccessoryView: item.accessoryView, accessoryType: .checkmark)
     }
 
-    static func preferredHeight(for item: PopupMenuItem) -> CGFloat {
+    static func preferredHeight(for item: PopupMenuTemplateItem) -> CGFloat {
+        guard let item = item as? PopupMenuItem else {
+            assertionFailure("Invalid item type for cell.")
+            return 0
+        }
+
         return height(title: item.title, subtitle: item.subtitle ?? "", customViewSize: Constants.imageViewSize, customAccessoryView: item.accessoryView, accessoryType: .checkmark)
     }
 
@@ -74,7 +91,12 @@ class PopupMenuItemCell: TableViewCell {
         isAccessibilityElement = true
     }
 
-    func setup(item: PopupMenuItem) {
+    func setup(item: PopupMenuTemplateItem) {
+        guard let item = item as? PopupMenuItem else {
+            assertionFailure("Invalid item type for cell.")
+            return
+        }
+
         self.item = item
 
         _imageView.image = item.image
