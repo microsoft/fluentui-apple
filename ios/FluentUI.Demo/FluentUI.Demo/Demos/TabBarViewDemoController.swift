@@ -36,9 +36,9 @@ class TabBarViewDemoController: DemoController {
         
         if showsItemTitles {
             updatedTabBarView.items = [
-                TabBarItem(title: "Home", image: UIImage(named: "Home_24")!, selectedImage: UIImage(named: "Home_Selected_24")!, landscapeImage: UIImage(named: "Home_24")!, landscapeSelectedImage: UIImage(named: "Home_Selected_24")!),
-                TabBarItem(title: "New", image: UIImage(named: "New_24")!, selectedImage: UIImage(named: "New_Selected_24")!, landscapeImage: UIImage(named: "New_24")!, landscapeSelectedImage: UIImage(named: "New_Selected_24")!),
-                TabBarItem(title: "Open", image: UIImage(named: "Open_24")!, selectedImage: UIImage(named: "Open_Selected_24")!, landscapeImage: UIImage(named: "Open_24")!, landscapeSelectedImage: UIImage(named: "Open_Selected_24")!)
+                TabBarItem(title: "Home", image: UIImage(named: "Home_24")!, selectedImage: UIImage(named: "Home_Selected_24")!),
+                TabBarItem(title: "New", image: UIImage(named: "New_24")!, selectedImage: UIImage(named: "New_Selected_24")!),
+              TabBarItem(title: "Open", image: UIImage(named: "Open_24")!, selectedImage: UIImage(named: "Open_Selected_24")!)
             ]
         } else {
             updatedTabBarView.items = [
