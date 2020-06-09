@@ -33,7 +33,7 @@ class TabBarViewDemoController: DemoController {
 
         let updatedTabBarView = TabBarView(showsItemTitles: showsItemTitles)
         updatedTabBarView.delegate = self
-        
+
         if showsItemTitles {
             updatedTabBarView.items = [
                 TabBarItem(title: "Home", image: UIImage(named: "Home_24")!, selectedImage: UIImage(named: "Home_Selected_24")!),
