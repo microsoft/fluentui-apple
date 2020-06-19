@@ -517,8 +517,21 @@ open class DrawerController: UIViewController {
 
     open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        if !isBeingPresented && presentationController is DrawerPresentationController &&
-            (presentationDirection.isVertical || presentationOrigin != nil) {
+
+        // Dismiss the drawer if it has a custom origin, since its coordinates only make sense on a specific frame.
+        // No need to dismiss drawers whose origin is fixed (up, down, sides) since they are presented the same for any frame,
+        // with one exception handled in the willTransition(to: with:) method.
+        if !isBeingPresented && presentationController is DrawerPresentationController && presentationOrigin != nil {
+            presentingViewController?.dismiss(animated: false)
+        }
+    }
+
+    open override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+
+        // Vertical drawers change their presentation style in compact vs. regular split view on iPad, so they need to be dismissed.
+        if !isBeingPresented && traitCollection.userInterfaceIdiom == .pad && presentationDirection.isVertical &&
+            traitCollection.horizontalSizeClass != newCollection.horizontalSizeClass {
             presentingViewController?.dismiss(animated: false)
         }
     }
