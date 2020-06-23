@@ -19,7 +19,12 @@ open class ContactView: UIView {
     private var lastNameLabel: UILabel?
     private var identifierLabel: UILabel?
 
-    // Provide both a first name and a last name
+    /// Initializes the contact view with an avatar view, first name, and last name
+    ///
+    /// - Parameters:
+    ///   - avatarView: The AvatarView that will be displayed within the ContactView
+    ///   - firstName: String that will be the text of the top label
+    ///   - lastName: String that will be the text of the bottom label
     public init(avatarView: AvatarView, firstName: String, lastName: String) {
         self.avatarView = avatarView
         self.firstNameLabel = UILabel()
@@ -32,14 +37,17 @@ open class ContactView: UIView {
         setupLayout()
     }
 
-    // Only provide an identifier (first name, email, or phone number)
-    // Should not be a first and last name separated by a space
-    public init(avatarView: AvatarView, name: String) {
+    /// Initializes the contact view with an avatar view and an identifier
+    ///
+    /// - Parameters:
+    ///   - avatarView: The AvatarView that will be displayed within the ContactView
+    ///   - identifier: String that will be used to identify the contact (e.g. email, phone number, first name)
+    public init(avatarView: AvatarView, identifier: String) {
         self.avatarView = avatarView
         super.init(frame: .zero)
         self.backgroundColor = Colors.background1
         self.translatesAutoresizingMaskIntoConstraints = false
-        setupIdentifierLabel(identifier: name)
+        setupIdentifierLabel(using: identifier)
         setupLayout()
     }
 
@@ -149,7 +157,7 @@ open class ContactView: UIView {
         }
     }
 
-    private func setupIdentifierLabel(identifier: String) {
+    private func setupIdentifierLabel(using identifier: String) {
         identifierLabel = UILabel(frame: .zero)
 
         if let identifierLabel = identifierLabel {

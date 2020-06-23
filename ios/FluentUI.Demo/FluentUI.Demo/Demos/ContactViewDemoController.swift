@@ -23,12 +23,12 @@ class ContactViewDemoController: DemoController {
 
         // ContactView with email
         let emailAvatarView = createAvatarView(size: AvatarSize.extraExtraLarge, name: "elatk@contoso.com", style: .circle)
-        let emailContactView = ContactView(avatarView: emailAvatarView, name: "elatk@contoso.com")
+        let emailContactView = ContactView(avatarView: emailAvatarView, identifier: "elatk@contoso.com")
         emailContactView.translatesAutoresizingMaskIntoConstraints = false
 
         // ContactView with phone number
         let phoneNumberAvatarView = createAvatarView(size: AvatarSize.large, name: "+1 (425) 123 4567", style: .circle)
-        let phoneNumberContactView = ContactView(avatarView: phoneNumberAvatarView, name: "+1 (425) 123 4567")
+        let phoneNumberContactView = ContactView(avatarView: phoneNumberAvatarView, identifier: "+1 (425) 123 4567")
         phoneNumberContactView.translatesAutoresizingMaskIntoConstraints = false
 
         addRow(text: "ContactView with image", items: [contactView], textWidth: 200)
