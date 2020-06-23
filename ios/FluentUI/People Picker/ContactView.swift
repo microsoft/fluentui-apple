@@ -1,60 +1,44 @@
 //
-//  ContactView.swift
-//  FluentUI
-//
-//  Created by Jonathan Wang on 2020-06-08.
-//  Copyright © 2020 Microsoft Corporation. All rights reserved.
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
 //
 
 import UIKit
 
 open class ContactView: UIView {
     private struct Constants {
-        static let cardWidth: CGFloat = 70.0
-        static let font: UIFont = Fonts.button4
+        static let contactWidth: CGFloat = 70.0
+        static let avatarViewWidth: CGFloat = 70.0
+        static let avatarViewHeight: CGFloat = 70.0
+        static let firstNameLabelMinimumHeight: CGFloat = 12.0
         static let spacingBetweenAvatarAndFirstLabel: CGFloat = 13.0
-        static let XSCardHeight: CGFloat = 115.0
-        static let SCardHeight: CGFloat = 117.0
-        static let MCardHeight: CGFloat = 118.0
-        static let LCardHeight: CGFloat = 121.0
-        static let XLCardHeight: CGFloat = 125.0
-        static let XXLCardHeight: CGFloat = 129.0
-        static let XXXLCardHeight: CGFloat = 135.0
-    }
-
-    public enum CardSize {
-        case extraSmall
-        case small
-        case medium
-        case large
-        case extraLarge
-        case extraExtraLarge
-        case extraExtraExtraLarge
     }
 
     private var avatarView: AvatarView
     private var firstNameLabel: UILabel?
     private var lastNameLabel: UILabel?
     private var identifierLabel: UILabel?
-    private var cardSize: CardSize
 
     // Provide both a first name and a last name
     public init(avatarView: AvatarView, firstName: String, lastName: String) {
         self.avatarView = avatarView
         self.firstNameLabel = UILabel()
         self.lastNameLabel = UILabel()
-        self.cardSize = CardSize.large
         super.init(frame: .zero)
-        setupFirstNameLabel(firstName: firstName)
-        setupLastNameLabel(lastName: lastName)
+        self.backgroundColor = Colors.background1
+        self.translatesAutoresizingMaskIntoConstraints = false
+        setupFirstNameLabel(using: firstName)
+        setupLastNameLabel(using: lastName)
         setupLayout()
     }
 
-    // Only provide a name (could be first + last separated by a space or just a first name)
-    public init(avatarView: AvatarView, name: String, cardSize: CardSize) {
+    // Only provide an identifier (first name, email, or phone number)
+    // Should not be a first and last name separated by a space
+    public init(avatarView: AvatarView, name: String) {
         self.avatarView = avatarView
-        self.cardSize = CardSize.large
         super.init(frame: .zero)
+        self.backgroundColor = Colors.background1
+        self.translatesAutoresizingMaskIntoConstraints = false
         setupIdentifierLabel(identifier: name)
         setupLayout()
     }
@@ -63,103 +47,105 @@ open class ContactView: UIView {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    private func setupAvatarLayout() {
-        addSubview(avatarView)
-        avatarView.translatesAutoresizingMaskIntoConstraints = false
-        avatarView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        avatarView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        avatarView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        avatarView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+    private func setupLayout() {
+        var constraints = [NSLayoutConstraint]()
+        constraints.append(self.widthAnchor.constraint(equalToConstant: Constants.contactWidth))
+        constraints.append(contentsOf: avatarLayoutConstraints())
+
+        if firstNameLabel != nil && lastNameLabel != nil {
+            constraints.append(contentsOf: firstNameLayoutConstraints())
+            constraints.append(contentsOf: lastNameLayoutConstraints())
+        } else {
+            constraints.append(contentsOf: identifierLayoutConstraints())
+        }
+
+        NSLayoutConstraint.activate(constraints)
     }
 
-    private func setupFirstNameLayout() {
+    private func avatarLayoutConstraints() -> [NSLayoutConstraint] {
+        addSubview(avatarView)
+        avatarView.translatesAutoresizingMaskIntoConstraints = false
+
+        var constraints = [NSLayoutConstraint]()
+        constraints.append(avatarView.heightAnchor.constraint(equalToConstant: Constants.avatarViewHeight))
+        constraints.append(avatarView.widthAnchor.constraint(equalToConstant: Constants.avatarViewWidth))
+        constraints.append(avatarView.centerXAnchor.constraint(equalTo: self.centerXAnchor))
+        constraints.append(avatarView.topAnchor.constraint(equalTo: self.topAnchor))
+        constraints.append(avatarView.leadingAnchor.constraint(equalTo: self.leadingAnchor))
+        constraints.append(avatarView.trailingAnchor.constraint(equalTo: self.trailingAnchor))
+        return constraints
+    }
+
+    private func firstNameLayoutConstraints() -> [NSLayoutConstraint] {
+        var constraints = [NSLayoutConstraint]()
         if let firstNameLabel = firstNameLabel {
             addSubview(firstNameLabel)
             firstNameLabel.translatesAutoresizingMaskIntoConstraints = false
-            firstNameLabel.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.spacingBetweenAvatarAndFirstLabel).isActive = true
-            firstNameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-            firstNameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-            firstNameLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-            firstNameLabel.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+            constraints.append(firstNameLabel.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.spacingBetweenAvatarAndFirstLabel))
+            constraints.append(firstNameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor))
+            constraints.append(firstNameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor))
+            constraints.append(firstNameLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor))
+            constraints.append(firstNameLabel.widthAnchor.constraint(equalTo: self.widthAnchor))
+            constraints.append(firstNameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.firstNameLabelMinimumHeight))
         }
+        return constraints
     }
 
-    private func setupLastNameLayout() {
+    private func lastNameLayoutConstraints() -> [NSLayoutConstraint] {
+        var constraints = [NSLayoutConstraint]()
         if let lastNameLabel = lastNameLabel {
             addSubview(lastNameLabel)
             lastNameLabel.translatesAutoresizingMaskIntoConstraints = false
-            lastNameLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+            constraints.append(lastNameLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor))
 
             if let firstNameLabel = firstNameLabel {
-                lastNameLabel.topAnchor.constraint(equalTo: firstNameLabel.bottomAnchor).isActive = true
+                constraints.append(lastNameLabel.topAnchor.constraint(equalTo: firstNameLabel.bottomAnchor))
             }
 
-            lastNameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-            lastNameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-            lastNameLabel.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
-
-            switch self.cardSize {
-            case .extraSmall:
-                lastNameLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-            case .small:
-                // TODO: Replace with something in constants struct (refactor)
-                lastNameLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -1).isActive = true
-            case .medium, .large, .extraLarge, .extraExtraExtraLarge:
-                lastNameLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -2).isActive = true
-            case .extraExtraLarge:
-                lastNameLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -3).isActive = true
-            }
+            constraints.append(lastNameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor))
+            constraints.append(lastNameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor))
+            constraints.append(lastNameLabel.widthAnchor.constraint(equalTo: self.widthAnchor))
+            constraints.append(lastNameLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor))
         }
+        return constraints
     }
 
-    private func setupIdentifierLayout() {
+    private func identifierLayoutConstraints() -> [NSLayoutConstraint] {
+        var constraints = [NSLayoutConstraint]()
         if let identifierLabel = identifierLabel {
             addSubview(identifierLabel)
-            identifierLabel.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
-            identifierLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-            identifierLabel.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.spacingBetweenAvatarAndFirstLabel).isActive = true
-            identifierLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-            identifierLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-            identifierLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+            identifierLabel.translatesAutoresizingMaskIntoConstraints = false
+            constraints.append(identifierLabel.widthAnchor.constraint(equalTo: self.widthAnchor))
+            constraints.append(identifierLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor))
+            constraints.append(identifierLabel.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.spacingBetweenAvatarAndFirstLabel))
+            constraints.append(identifierLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor))
+            constraints.append(identifierLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor))
+            constraints.append(identifierLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor))
         }
+        return constraints
     }
 
-    private func setupLayout() {
-        self.widthAnchor.constraint(equalToConstant: Constants.cardWidth).isActive = true
-
-        setupAvatarLayout()
-
-        if let _ = firstNameLabel, let _ = lastNameLabel {
-            setupFirstNameLayout()
-            setupLastNameLayout()
-        } else {
-            setupIdentifierLayout()
-        }
-    }
-
-    private func setupFirstNameLabel(firstName: String) {
+    private func setupFirstNameLabel(using firstName: String) {
         firstNameLabel = UILabel(frame: .zero)
 
         if let firstNameLabel = firstNameLabel {
+            firstNameLabel.adjustsFontForContentSizeCategory = true
+            firstNameLabel.font = Fonts.subhead
             firstNameLabel.text = firstName
+            firstNameLabel.textColor = Colors.Contact.firstName
             firstNameLabel.textAlignment = .center
-            // TODO: Font style
-            if let window = window {
-                firstNameLabel.textColor = Colors.primary(for: window)
-            }
         }
     }
 
-    private func setupLastNameLabel(lastName: String) {
+    private func setupLastNameLabel(using lastName: String) {
         lastNameLabel = UILabel(frame: .zero)
 
         if let lastNameLabel = lastNameLabel {
+            lastNameLabel.adjustsFontForContentSizeCategory = true
+            lastNameLabel.font = Fonts.footnote
             lastNameLabel.text = lastName
             lastNameLabel.textAlignment = .center
-            // TODO: Font style
-            if let window = window {
-                lastNameLabel.textColor = Colors.primary(for: window)
-            }
+            lastNameLabel.textColor = Colors.foreground2
         }
     }
 
@@ -167,33 +153,12 @@ open class ContactView: UIView {
         identifierLabel = UILabel(frame: .zero)
 
         if let identifierLabel = identifierLabel {
+            identifierLabel.adjustsFontForContentSizeCategory = true
+            identifierLabel.font = Fonts.subhead
+            identifierLabel.numberOfLines = 2
             identifierLabel.text = identifier
             identifierLabel.textAlignment = .natural
-            identifierLabel.numberOfLines = 2
-            // TODO: Font style
-            if let window = window {
-                identifierLabel.textColor = Colors.primary(for: window)
-            }
-        }
-    }
-
-    // TODO: Look at     public var size: CGSize { in AvatarView.swift
-    private func getCardWidthAndHeight(cardSize: CardSize) -> (CGFloat, CGFloat) {
-        switch cardSize {
-        case .extraSmall:
-            return (Constants.cardWidth, Constants.XSCardHeight)
-        case .small:
-            return (Constants.cardWidth, Constants.SCardHeight)
-        case .medium:
-            return (Constants.cardWidth, Constants.MCardHeight)
-        case .large:
-            return (Constants.cardWidth, Constants.LCardHeight)
-        case .extraLarge:
-            return (Constants.cardWidth, Constants.XLCardHeight)
-        case .extraExtraLarge:
-            return (Constants.cardWidth, Constants.XXLCardHeight)
-        case .extraExtraExtraLarge:
-            return (Constants.cardWidth, Constants.XXXLCardHeight)
+            identifierLabel.textColor = Colors.Contact.firstName
         }
     }
 }

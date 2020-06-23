@@ -465,6 +465,11 @@ public final class Colors: NSObject {
         public static var background: UIColor = background1
     }
 
+    public struct Contact {
+        public static var firstName = foreground1
+        public static var lastName = foreground2
+    }
+
     public struct DateTimePicker {
         public static var background: UIColor = background1
         public static var text: UIColor = foreground2b
