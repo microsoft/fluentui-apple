@@ -466,8 +466,8 @@ public final class Colors: NSObject {
     }
 
     public struct Contact {
-        public static var firstName = foreground1
-        public static var lastName = foreground2
+        public static var firstName: UIColor = foreground1
+        public static var lastName: UIColor = foreground2
     }
 
     public struct DateTimePicker {
