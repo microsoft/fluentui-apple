@@ -75,7 +75,7 @@ open class TabBarView: UIView {
     private let backgroundView: UIVisualEffectView = {
         var style = UIBlurEffect.Style.regular
         if #available(iOS 13, *) {
-            style = .systemMaterial
+            style = .systemChromeMaterial
         }
         return UIVisualEffectView(effect: UIBlurEffect(style: style))
     }()

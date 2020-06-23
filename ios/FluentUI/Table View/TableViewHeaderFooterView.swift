@@ -62,7 +62,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
             case .divider:
                 return Colors.Table.HeaderFooter.backgroundDivider
             case .dividerHighlighted:
-                return UIColor(light: Colors.primaryTint40(for: window), dark: Colors.gray950)
+                return UIColor(light: Colors.primaryTint40(for: window), dark: Colors.surfaceSecondary)
             }
         }
 
