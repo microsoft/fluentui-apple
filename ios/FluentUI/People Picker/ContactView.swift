@@ -30,7 +30,7 @@ open class ContactView: UIView {
         self.firstNameLabel = UILabel()
         self.lastNameLabel = UILabel()
         super.init(frame: .zero)
-        self.backgroundColor = Colors.background1
+        self.backgroundColor = Colors.surfacePrimary
         self.translatesAutoresizingMaskIntoConstraints = false
         setupFirstNameLabel(using: firstName)
         setupLastNameLabel(using: lastName)
@@ -45,7 +45,7 @@ open class ContactView: UIView {
     public init(avatarView: AvatarView, identifier: String) {
         self.avatarView = avatarView
         super.init(frame: .zero)
-        self.backgroundColor = Colors.background1
+        self.backgroundColor = Colors.surfacePrimary
         self.translatesAutoresizingMaskIntoConstraints = false
         setupIdentifierLabel(using: identifier)
         setupLayout()
@@ -153,7 +153,7 @@ open class ContactView: UIView {
             lastNameLabel.font = Fonts.footnote
             lastNameLabel.text = lastName
             lastNameLabel.textAlignment = .center
-            lastNameLabel.textColor = Colors.foreground2
+            lastNameLabel.textColor = Colors.Contact.lastName
         }
     }
 
