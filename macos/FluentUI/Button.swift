@@ -42,7 +42,7 @@ open class Button: NSButton {
 		update()
 	}
 	
-	override open var image: NSImage? {
+	override public var image: NSImage? {
 		didSet {
 			if imagePosition != .imageOnly {
 				preconditionFailure("We currently do not support adding both an image and a title. Please set the imagePosition to .imageOnly before setting an image")
