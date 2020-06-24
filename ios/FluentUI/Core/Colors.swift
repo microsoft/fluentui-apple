@@ -477,8 +477,8 @@ public final class Colors: NSObject {
     }
 
     public struct Contact {
-        public static var firstName: UIColor = textPrimary
-        public static var lastName: UIColor = textSecondary
+        public static var title: UIColor = textPrimary
+        public static var subtitle: UIColor = textSecondary
     }
 
     public struct DateTimePicker {

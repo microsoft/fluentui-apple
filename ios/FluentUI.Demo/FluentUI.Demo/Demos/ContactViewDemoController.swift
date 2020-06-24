@@ -12,12 +12,12 @@ class ContactViewDemoController: DemoController {
         view.backgroundColor = UIColor.lightGray
 
         // ContactView with picture
-        let contactView = ContactView(firstName: "Christopher", lastName: "Mendelson")
+        let contactView = ContactView(title: "Christopher", subtitle: "Mendelson")
         contactView.avatarImage = UIImage(named: "avatar_kat_larsson")
         contactView.translatesAutoresizingMaskIntoConstraints = false
 
         // ContactView with initials
-        let noImageContactView = ContactView(firstName: "John", lastName: "Smith")
+        let noImageContactView = ContactView(title: "John", subtitle: "Smith")
         noImageContactView.translatesAutoresizingMaskIntoConstraints = false
 
         // ContactView with email
