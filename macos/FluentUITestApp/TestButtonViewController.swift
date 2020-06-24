@@ -37,8 +37,8 @@ class TestButtonViewController: NSViewController {
 		}
 		
 		let gridView = NSGridView(frame: .zero)
-		gridView.rowSpacing = 20
-		gridView.columnSpacing = 20
+		gridView.rowSpacing = gridViewRowSpacing
+		gridView.columnSpacing = gridViewColumnSpacing
 		gridView.setContentHuggingPriority(.defaultHigh, for: .vertical)
 		gridView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
 		
@@ -63,7 +63,10 @@ class TestButtonViewController: NSViewController {
 		let containerView = NSStackView()
 		containerView.orientation = .vertical
 		containerView.translatesAutoresizingMaskIntoConstraints = false
-		containerView.edgeInsets = NSEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+		containerView.edgeInsets = NSEdgeInsets(top: containerViewEdgeInsets,
+												left: containerViewEdgeInsets,
+												bottom: containerViewEdgeInsets,
+												right: containerViewEdgeInsets)
 		
 		containerView.addView(gridView, in: .top)
 		
@@ -71,3 +74,10 @@ class TestButtonViewController: NSViewController {
 	}
 }
 
+// MARK: - Constants
+
+fileprivate let gridViewRowSpacing: CGFloat = 20
+
+fileprivate let gridViewColumnSpacing: CGFloat = 20
+
+fileprivate let containerViewEdgeInsets: CGFloat = 20
