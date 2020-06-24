@@ -26,15 +26,11 @@ class TestButtonViewController: NSViewController {
 		
 		let buttonsWithTitle = buttons()
 		let buttonsWithImage = buttons().map { button -> NSButton in
-			button.image = NSImage(named: NSImage.addTemplateName)
 			button.imagePosition = .imageOnly
-			return button
-		}
-		let buttonsWithTitleAndImage = buttons().map { button -> NSButton in
 			button.image = NSImage(named: NSImage.addTemplateName)
-			button.imagePosition = .imageLeading
 			return button
 		}
+
 		let disabledButtons = buttons().map { button -> NSButton in
 			button.isEnabled = false
 			return button
@@ -49,7 +45,6 @@ class TestButtonViewController: NSViewController {
 		gridView.addColumn(with: columnLabels)
 		gridView.addColumn(with: buttonsWithTitle)
 		gridView.addColumn(with: buttonsWithImage)
-		gridView.addColumn(with: buttonsWithTitleAndImage)
 		gridView.addColumn(with: disabledButtons)
 		gridView.addColumn(with: [])	//Padding
 
@@ -60,7 +55,6 @@ class TestButtonViewController: NSViewController {
 			emptyCell,
 			NSTextField(labelWithString: "Title"),
 			NSTextField(labelWithString: "Image"),
-			NSTextField(labelWithString: "Title and Image"),
 			NSTextField(labelWithString: "Disabled")
 		]
 		gridView.insertRow(at: 0, with: rowLabels)
