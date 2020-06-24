@@ -33,13 +33,12 @@ open class ContactView: UIView {
     ///   - firstName: String that will be the text of the top label
     ///   - lastName: String that will be the text of the bottom label
     public init(firstName: String, lastName: String) {
-        self.avatarView = AvatarView(avatarSize: .extraExtraLarge, withBorder: false, style: .circle)
+        avatarView = AvatarView(avatarSize: .extraExtraLarge, withBorder: false, style: .circle)
         firstNameLabel = UILabel()
         lastNameLabel = UILabel()
         super.init(frame: .zero)
         setupAvatarView(with: firstName, and: lastName, or: nil)
-        self.backgroundColor = Colors.surfacePrimary
-        self.translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = Colors.surfacePrimary
         setupFirstNameLabel(using: firstName)
         setupLastNameLabel(using: lastName)
         setupLayout()
@@ -50,12 +49,11 @@ open class ContactView: UIView {
     /// - Parameters:
     ///   - identifier: String that will be used to identify the contact (e.g. email, phone number, first name)
     public init(identifier: String) {
-        self.avatarView = AvatarView(avatarSize: .extraExtraLarge, withBorder: false, style: .circle)
+        avatarView = AvatarView(avatarSize: .extraExtraLarge, withBorder: false, style: .circle)
         super.init(frame: .zero)
         // TODO: Should 'nil' be used here?
         setupAvatarView(with: nil, and: nil, or: identifier)
-        self.backgroundColor = Colors.surfacePrimary
-        self.translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = Colors.surfacePrimary
         setupIdentifierLabel(using: identifier)
         setupLayout()
     }
@@ -75,7 +73,7 @@ open class ContactView: UIView {
 
     private func setupLayout() {
         var constraints = [NSLayoutConstraint]()
-        constraints.append(self.widthAnchor.constraint(equalToConstant: Constants.contactWidth))
+        constraints.append(widthAnchor.constraint(equalToConstant: Constants.contactWidth))
         constraints.append(contentsOf: avatarLayoutConstraints())
 
         if firstNameLabel != nil && lastNameLabel != nil {
@@ -95,10 +93,10 @@ open class ContactView: UIView {
         var constraints = [NSLayoutConstraint]()
         constraints.append(avatarView.heightAnchor.constraint(equalToConstant: Constants.avatarViewHeight))
         constraints.append(avatarView.widthAnchor.constraint(equalToConstant: Constants.avatarViewWidth))
-        constraints.append(avatarView.centerXAnchor.constraint(equalTo: self.centerXAnchor))
-        constraints.append(avatarView.topAnchor.constraint(equalTo: self.topAnchor))
-        constraints.append(avatarView.leadingAnchor.constraint(equalTo: self.leadingAnchor))
-        constraints.append(avatarView.trailingAnchor.constraint(equalTo: self.trailingAnchor))
+        constraints.append(avatarView.centerXAnchor.constraint(equalTo: centerXAnchor))
+        constraints.append(avatarView.topAnchor.constraint(equalTo: topAnchor))
+        constraints.append(avatarView.leadingAnchor.constraint(equalTo: leadingAnchor))
+        constraints.append(avatarView.trailingAnchor.constraint(equalTo: trailingAnchor))
         return constraints
     }
 
@@ -108,10 +106,10 @@ open class ContactView: UIView {
             addSubview(firstNameLabel)
             firstNameLabel.translatesAutoresizingMaskIntoConstraints = false
             constraints.append(firstNameLabel.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.spacingBetweenAvatarAndFirstLabel))
-            constraints.append(firstNameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor))
-            constraints.append(firstNameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor))
-            constraints.append(firstNameLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor))
-            constraints.append(firstNameLabel.widthAnchor.constraint(equalTo: self.widthAnchor))
+            constraints.append(firstNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor))
+            constraints.append(firstNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor))
+            constraints.append(firstNameLabel.centerXAnchor.constraint(equalTo: centerXAnchor))
+            constraints.append(firstNameLabel.widthAnchor.constraint(equalTo: widthAnchor))
             constraints.append(firstNameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.firstNameLabelMinimumHeight))
         }
         return constraints
@@ -122,16 +120,16 @@ open class ContactView: UIView {
         if let lastNameLabel = lastNameLabel {
             addSubview(lastNameLabel)
             lastNameLabel.translatesAutoresizingMaskIntoConstraints = false
-            constraints.append(lastNameLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor))
+            constraints.append(lastNameLabel.centerXAnchor.constraint(equalTo: centerXAnchor))
 
             if let firstNameLabel = firstNameLabel {
                 constraints.append(lastNameLabel.topAnchor.constraint(equalTo: firstNameLabel.bottomAnchor))
             }
 
-            constraints.append(lastNameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor))
-            constraints.append(lastNameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor))
-            constraints.append(lastNameLabel.widthAnchor.constraint(equalTo: self.widthAnchor))
-            constraints.append(lastNameLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor))
+            constraints.append(lastNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor))
+            constraints.append(lastNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor))
+            constraints.append(lastNameLabel.widthAnchor.constraint(equalTo: widthAnchor))
+            constraints.append(lastNameLabel.bottomAnchor.constraint(equalTo: bottomAnchor))
         }
         return constraints
     }
@@ -141,12 +139,12 @@ open class ContactView: UIView {
         if let identifierLabel = identifierLabel {
             addSubview(identifierLabel)
             identifierLabel.translatesAutoresizingMaskIntoConstraints = false
-            constraints.append(identifierLabel.widthAnchor.constraint(equalTo: self.widthAnchor))
-            constraints.append(identifierLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor))
+            constraints.append(identifierLabel.widthAnchor.constraint(equalTo: widthAnchor))
+            constraints.append(identifierLabel.centerXAnchor.constraint(equalTo: centerXAnchor))
             constraints.append(identifierLabel.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.spacingBetweenAvatarAndFirstLabel))
-            constraints.append(identifierLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor))
-            constraints.append(identifierLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor))
-            constraints.append(identifierLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor))
+            constraints.append(identifierLabel.leadingAnchor.constraint(equalTo: leadingAnchor))
+            constraints.append(identifierLabel.trailingAnchor.constraint(equalTo: trailingAnchor))
+            constraints.append(identifierLabel.bottomAnchor.constraint(equalTo: bottomAnchor))
         }
         return constraints
     }
