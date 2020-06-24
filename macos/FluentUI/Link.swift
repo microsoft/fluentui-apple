@@ -29,7 +29,7 @@ open class Link: NSButton {
 		initialize()
 	}
 	
-	public override init(frame frameRect: NSRect) {
+	@objc public override init(frame frameRect: NSRect) {
 		super.init(frame: frameRect)
 		self.title = ""
 		initialize()
