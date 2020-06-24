@@ -5,7 +5,7 @@
 
 import UIKit
 
-protocol CardPresentable: class {
+protocol CardPresentable: AnyObject {
     func idealSize() -> CGSize
 }
 

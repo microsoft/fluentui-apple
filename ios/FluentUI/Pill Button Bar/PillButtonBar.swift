@@ -103,8 +103,8 @@ open class PillButtonBar: UIScrollView {
 
         didSet {
             if let button = selectedButton {
-               button.isSelected = true
-           }
+                button.isSelected = true
+            }
         }
     }
 
@@ -148,7 +148,7 @@ open class PillButtonBar: UIScrollView {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-   @objc public func selectItem(_ item: PillButtonBarItem) {
+    @objc public func selectItem(_ item: PillButtonBarItem) {
         guard let index = indexOfButtonWithItem(item) else {
             return
         }
@@ -190,7 +190,7 @@ open class PillButtonBar: UIScrollView {
             buttons.append(button)
             stackView.addArrangedSubview(button)
             button.accessibilityHint = String(format: "Accessibility.MSPillButtonBar.Hint".localized, index + 1, items.count)
-       }
+        }
     }
 
     private func adjustAlignment() {
@@ -245,7 +245,7 @@ open class PillButtonBar: UIScrollView {
         let adjustedSpace = adjustButtonsSpacing(totalSpace: totalAdjustment, numberOfButtons: numberOfButtonsToAdjust)
         let reminderToAdjust = totalAdjustment - adjustedSpace
         if reminderToAdjust > 0 {
-           adjustButtonsSidePadding(totalPadding: reminderToAdjust, numberOfButtons: numberOfButtonsToAdjust)
+            adjustButtonsSidePadding(totalPadding: reminderToAdjust, numberOfButtons: numberOfButtonsToAdjust)
         }
     }
 

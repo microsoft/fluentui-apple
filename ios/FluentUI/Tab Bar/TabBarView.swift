@@ -46,11 +46,10 @@ open class TabBarView: UIView {
                 preconditionFailure("tab bar items can't be more than \(Constants.maxTabCount)")
             }
 
-            for (index, item) in items.enumerated() {
+            for item in items {
                 let tabBarItemView = TabBarItemView(item: item, showsTitle: showsItemTitles)
                 let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTabBarItemTapped(_:)))
                 tabBarItemView.addGestureRecognizer(tapGesture)
-                tabBarItemView.accessibilityHint = String(format: "Accessibility.TabBarItemView.Hint".localized, index + 1, numberOfItems)
                 stackView.addArrangedSubview(tabBarItemView)
             }
 
@@ -76,7 +75,7 @@ open class TabBarView: UIView {
     private let backgroundView: UIVisualEffectView = {
         var style = UIBlurEffect.Style.regular
         if #available(iOS 13, *) {
-            style = .systemMaterial
+            style = .systemChromeMaterial
         }
         return UIVisualEffectView(effect: UIBlurEffect(style: style))
     }()

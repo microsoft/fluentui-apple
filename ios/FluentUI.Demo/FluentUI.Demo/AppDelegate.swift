@@ -18,21 +18,18 @@ private let appCenterSecret = app_center_secret_to_be_supplied_before_building
 #endif
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, ColorThemeHosting {
+
+    // MARK: UIApplicationDelegate
+
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        FluentUIFramework.initializeAppearance()
-
-        let splitViewController = window!.rootViewController as! UISplitViewController
-        let masterContainer = splitViewController.viewControllers.first as! UINavigationController
-        let masterController = masterContainer.topViewController as! MasterViewController
-        let detailContainer = splitViewController.viewControllers.last as! UINavigationController
-        let detailController = detailContainer.topViewController!
-
-        masterController.demoPlaceholder = detailController
-        detailController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
-        splitViewController.delegate = self
+        if #available(iOS 13, *) {
+            // Configured in Scene Delegate
+        } else {
+            updateToWindowWith(type: DemoColorThemeDefaultWindow.self, pushing: nil)
+        }
 
         #if DOGFOOD
         MSAppCenter.start(appCenterSecret, withServices: [
@@ -45,10 +42,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         return true
     }
 
-    // MARK: Split view
+    // MARK: ColorThemeHosting
 
-    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
-        // Return true to indicate that we don't care about DetailViewController - it will be removed
-        return (secondaryViewController as? UINavigationController)?.topViewController is DetailViewController
+    func updateToWindowWith(type: UIWindow.Type, pushing viewController: UIViewController?) {
+        let newWindow = type.init(frame: UIScreen.main.bounds)
+        DemoListViewController.addDemoListTo(window: newWindow, pushing: viewController)
+        window = newWindow
     }
 }

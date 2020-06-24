@@ -7,7 +7,7 @@ import UIKit
 
 // MARK: CalendarViewStyleDataSource
 
-protocol CalendarViewStyleDataSource: class {
+protocol CalendarViewStyleDataSource: AnyObject {
     func calendarViewDataSource(_ dataSource: CalendarViewDataSource, textStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents) -> CalendarViewDayCellTextStyle
 
     // Suggestion: Use provided components for performance improvements. Check where it's called to see what's available

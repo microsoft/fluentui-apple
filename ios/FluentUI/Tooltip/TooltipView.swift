@@ -57,7 +57,6 @@ class TooltipView: UIView {
 
     private let backgroundView: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.Tooltip.background
         view.layer.cornerRadius = backgroundCornerRadius
         if #available(iOS 13.0, *) {
             view.layer.cornerCurve = .continuous
@@ -65,7 +64,8 @@ class TooltipView: UIView {
         return view
     }()
 
-    private let arrowImageView = UIImageView(image: UIImage.staticImageNamed("tooltip-arrow")?.image(withPrimaryColor: Colors.Tooltip.background))
+    private let arrowImageViewBaseImage: UIImage?
+    private let arrowImageView: UIImageView
 
     private let messageLabel: UILabel = {
         let label = Label(style: Constants.messageLabelTextStyle)
@@ -77,6 +77,9 @@ class TooltipView: UIView {
     init(message: String, textAlignment: NSTextAlignment, positionController: TooltipPositionController) {
         self.message = message
         self.positionController = positionController
+
+        arrowImageViewBaseImage = UIImage.staticImageNamed("tooltip-arrow")
+        arrowImageView = UIImageView(image: arrowImageViewBaseImage)
 
         super.init(frame: .zero)
 
@@ -131,6 +134,11 @@ class TooltipView: UIView {
         messageLabel.frame = backgroundView.frame.insetBy(dx: Constants.paddingHorizontal, dy: 0)
     }
 
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateWindowSpecificColors()
+    }
+
     private func transformForArrowImageView() -> CGAffineTransform {
         switch positionController.arrowDirection {
         case .up:
@@ -141,6 +149,14 @@ class TooltipView: UIView {
             return CGAffineTransform(rotationAngle: .pi * 1.5)
         case .right:
             return CGAffineTransform(rotationAngle: .pi * 0.5)
+        }
+    }
+
+    private func updateWindowSpecificColors() {
+        if let window = window {
+            let backgroundColor = UIColor(light: Colors.gray900.withAlphaComponent(0.95), dark: Colors.primary(for: window))
+            backgroundView.backgroundColor = backgroundColor
+            arrowImageView.image = arrowImageViewBaseImage?.image(withPrimaryColor: backgroundColor)
         }
     }
 

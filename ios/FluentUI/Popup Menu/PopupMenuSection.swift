@@ -14,9 +14,9 @@ public typealias MSPopupMenuSection = PopupMenuSection
 @objc(MSFPopupMenuSection)
 open class PopupMenuSection: NSObject {
     @objc public let title: String?
-    @objc public var items: [PopupMenuItem]
+    @objc public var items: [PopupMenuTemplateItem]
 
-    @objc public init(title: String?, items: [PopupMenuItem]) {
+    @objc public init(title: String?, items: [PopupMenuTemplateItem]) {
         self.title = title
         self.items = items
         super.init()

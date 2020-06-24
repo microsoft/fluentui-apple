@@ -12,7 +12,7 @@ public typealias MSSearchBarDelegate = SearchBarDelegate
 
 /// Various state update methods coming from the SearchBar
 @objc(MSFSearchBarDelegate)
-public protocol SearchBarDelegate: class, NSObjectProtocol {
+public protocol SearchBarDelegate: AnyObject {
     func searchBarDidBeginEditing(_ searchBar: SearchBar)
     func searchBar(_ searchBar: SearchBar, didUpdateSearchText newSearchText: String?)
     @objc optional func searchBarDidFinishEditing(_ searchBar: SearchBar)
@@ -333,6 +333,7 @@ open class SearchBar: UIView {
         searchTextFieldBackgroundView.backgroundColor = style.backgroundColor
         searchIconImageView.tintColor = style.searchIconColor
         searchTextField.textColor = style.textColor
+        // used for cursor or selection handle
         searchTextField.tintColor = style.tintColor
         clearButton.tintColor = style.clearIconColor
         cancelButton.setTitleColor(style.cancelButtonColor, for: .normal)

@@ -10,7 +10,7 @@ import UIKit
 public typealias MSBadgeFieldDelegate = BadgeFieldDelegate
 
 @objc(MSFBadgeFieldDelegate)
-public protocol BadgeFieldDelegate: class {
+public protocol BadgeFieldDelegate: AnyObject {
     @objc optional func badgeField(_ badgeField: BadgeField, badgeDataSourceForText text: String) -> BadgeViewDataSource
 
     @objc optional func badgeField(_ badgeField: BadgeField, willChangeTextFieldContentWithText newText: String)
@@ -24,7 +24,7 @@ public protocol BadgeFieldDelegate: class {
     @objc optional func badgeField(_ badgeField: BadgeField, didDeleteBadge badge: BadgeView)
     /**
      `shouldAddBadgeForBadgeDataSource` defaults to true. Called only if the add results from a user action.
-    */
+     */
     @objc optional func badgeField(_ badgeField: BadgeField, shouldAddBadgeForBadgeDataSource badgeDataSource: BadgeViewDataSource) -> Bool
     @objc optional func badgeField(_ badgeField: BadgeField, newBadgeForBadgeDataSource badgeDataSource: BadgeViewDataSource) -> BadgeView
     @objc optional func badgeField(_ badgeField: BadgeField, newMoreBadgeForBadgeDataSources badgeDataSources: [BadgeViewDataSource]) -> BadgeView
@@ -346,10 +346,10 @@ open class BadgeField: UIView {
             let moreBadgesDataSources = moreBadges.compactMap { $0.dataSource }
             let moreBadge = createMoreBadge(withDataSources: moreBadgesDataSources)
             moreBadgeOffset = Constants.badgeMarginHorizontal + width(forBadge: moreBadge,
-                                                                          isFirstBadge: false,
-                                                                          isFirstBadgeOfLastDisplayedLine: false,
-                                                                          moreBadgeOffset: 0,
-                                                                          boundingWidth: frame.width)
+                                                                      isFirstBadge: false,
+                                                                      isFirstBadgeOfLastDisplayedLine: false,
+                                                                      moreBadgeOffset: 0,
+                                                                      boundingWidth: frame.width)
         }
 
         let badgeWidth = width(forBadge: badge,
@@ -822,7 +822,7 @@ open class BadgeField: UIView {
             return 0
         }
         if let badge = element as? BadgeView, let index = badges.firstIndex(of: badge) {
-             return isIntroductionLabelAccessible() ? index + 1 : index
+            return isIntroductionLabelAccessible() ? index + 1 : index
         }
         return accessibilityElementCount() - 1
     }

@@ -21,8 +21,9 @@ class TableViewSampleData {
         let footerText: String
         let footerLinkText: String
         let hasCustomLinkHandler: Bool
+        let hasCustomAccessoryView: Bool
 
-        init(title: String, items: [Item] = [], numberOfLines: Int = 1, hasFullLengthLabelAccessoryView: Bool = false, hasAccessory: Bool = false, accessoryButtonStyle: TableViewHeaderFooterView.AccessoryButtonStyle = .regular, allowsMultipleSelection: Bool = true, headerStyle: TableViewHeaderFooterView.Style = .header, hasFooter: Bool = false, footerText: String = "", footerLinkText: String = "", hasCustomLinkHandler: Bool = false) {
+        init(title: String, items: [Item] = [], numberOfLines: Int = 1, hasFullLengthLabelAccessoryView: Bool = false, hasAccessory: Bool = false, accessoryButtonStyle: TableViewHeaderFooterView.AccessoryButtonStyle = .regular, allowsMultipleSelection: Bool = true, headerStyle: TableViewHeaderFooterView.Style = .header, hasFooter: Bool = false, footerText: String = "", footerLinkText: String = "", hasCustomLinkHandler: Bool = false, hasCustomAccessoryView: Bool = false) {
             self.title = title
             self.items = items
             self.numberOfLines = numberOfLines
@@ -35,6 +36,7 @@ class TableViewSampleData {
             self.footerText = footerText
             self.footerLinkText = footerLinkText
             self.hasCustomLinkHandler = hasCustomLinkHandler
+            self.hasCustomAccessoryView = hasCustomAccessoryView
         }
     }
 

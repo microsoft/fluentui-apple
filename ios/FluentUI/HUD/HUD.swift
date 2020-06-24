@@ -11,7 +11,7 @@ import UIKit
 public typealias MSHUDDelegate = HUDDelegate
 
 @objc(MSFHUDDelegate)
-public protocol HUDDelegate: class {
+public protocol HUDDelegate: AnyObject {
     func defaultWindowForHUD(_ hud: HUD) -> UIWindow?
 }
 

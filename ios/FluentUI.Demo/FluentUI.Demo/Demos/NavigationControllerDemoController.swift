@@ -93,7 +93,7 @@ class NavigationControllerDemoController: DemoController {
         content.navigationItem.contentScrollView = contractNavigationBarOnScroll ? content.tableView : nil
         content.showsTabs = !showShadow
         if style == .custom {
-            content.navigationItem.navigationBarColor = CustomGradient.getCustomBackgroundColor(width: view.frame.width)
+            content.navigationItem.customNavigationBarColor = CustomGradient.getCustomBackgroundColor(width: view.frame.width)
         }
 
         let controller = NavigationController(rootViewController: content)
@@ -214,6 +214,16 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
 
+    private let tabBarView: TabBarView = {
+        let tabBarView = TabBarView()
+        tabBarView.items = [
+            TabBarItem(title: "Home", image: UIImage(named: "Home_28")!, selectedImage: UIImage(named: "Home_Selected_28")!, landscapeImage: UIImage(named: "Home_24")!, landscapeSelectedImage: UIImage(named: "Home_Selected_24")!),
+            TabBarItem(title: "New", image: UIImage(named: "New_28")!, selectedImage: UIImage(named: "New_Selected_28")!, landscapeImage: UIImage(named: "New_24")!, landscapeSelectedImage: UIImage(named: "New_Selected_24")!),
+            TabBarItem(title: "Open", image: UIImage(named: "Open_28")!, selectedImage: UIImage(named: "Open_Selected_28")!, landscapeImage: UIImage(named: "Open_24")!, landscapeSelectedImage: UIImage(named: "Open_Selected_24")!)
+        ]
+        return tabBarView
+    }()
+
     override func loadView() {
         let container = UIStackView()
         container.axis = .vertical
@@ -226,6 +236,16 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         updateNavigationTitle()
         updateLeftBarButtonItems()
         updateRightBarButtonItems()
+
+        tabBarView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tabBarView)
+
+        let tabBarViewConstraints = [
+            tabBarView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tabBarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tabBarView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ]
+        NSLayoutConstraint.activate(tabBarViewConstraints)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -234,9 +254,12 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             tableView.deselectRow(at: indexPath, animated: true)
         }
 
+        let size = tabBarView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+        tableView.contentInset.bottom = size.height
+
         navigationBarFrameObservation = navigationController?.navigationBar.observe(\.frame, options: [.old, .new]) { [unowned self] navigationBar, change in
             if change.newValue?.width != change.oldValue?.width && self.navigationItem.navigationBarStyle == .custom {
-                self.navigationItem.navigationBarColor = CustomGradient.getCustomBackgroundColor(width: navigationBar.frame.width)
+                self.navigationItem.customNavigationBarColor = CustomGradient.getCustomBackgroundColor(width: navigationBar.frame.width)
             }
         }
     }
@@ -247,7 +270,8 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as! TableViewCell
-        cell.setup(title: "Cell #\(1 + indexPath.row)", accessoryType: .disclosureIndicator)
+        let imageView = UIImageView(image: UIImage(named: "excelIcon"))
+        cell.setup(title: "Cell #\(1 + indexPath.row)", customView: imageView, accessoryType: .disclosureIndicator)
         cell.isInSelectionMode = isInSelectionMode
         return cell
     }
@@ -364,6 +388,13 @@ class ModalViewController: UITableViewController {
         return isGrouped ? "Switch to Plain style" : "Switch to Grouped style"
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let window = view.window {
+            navigationItem.rightBarButtonItem?.tintColor = UIColor(light: Colors.primary(for: window), dark: Colors.textDominant)
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
@@ -439,6 +470,6 @@ class CustomGradient {
         }
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return UIColor(light: image != nil ? UIColor(patternImage: image!) : endColor, dark: Colors.Navigation.Primary.background)
+        return UIColor(light: image != nil ? UIColor(patternImage: image!) : endColor, dark: Colors.Navigation.System.background)
     }
 }
