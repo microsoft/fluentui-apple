@@ -14,22 +14,30 @@ open class ContactView: UIView {
         static let spacingBetweenAvatarAndFirstLabel: CGFloat = 13.0
     }
 
-    private var avatarView: AvatarView
+    // TODO: Set it as the default image (pawn)
+    public var avatarImage: UIImage? {
+        didSet {
+            if let avatarImage = avatarImage {
+                avatarView.setup(image: avatarImage)
+            }
+        }
+    }
+    private let avatarView: AvatarView
     private var firstNameLabel: UILabel?
     private var lastNameLabel: UILabel?
     private var identifierLabel: UILabel?
 
-    /// Initializes the contact view with an avatar view, first name, and last name
+    /// Initializes the contact view by creating an avatar view with a first name and last name
     ///
     /// - Parameters:
-    ///   - avatarView: The AvatarView that will be displayed within the ContactView
     ///   - firstName: String that will be the text of the top label
     ///   - lastName: String that will be the text of the bottom label
-    public init(avatarView: AvatarView, firstName: String, lastName: String) {
-        self.avatarView = avatarView
-        self.firstNameLabel = UILabel()
-        self.lastNameLabel = UILabel()
+    public init(firstName: String, lastName: String) {
+        self.avatarView = AvatarView(avatarSize: .extraExtraLarge, withBorder: false, style: .circle)
+        firstNameLabel = UILabel()
+        lastNameLabel = UILabel()
         super.init(frame: .zero)
+        setupAvatarView(with: firstName, and: lastName, or: nil)
         self.backgroundColor = Colors.surfacePrimary
         self.translatesAutoresizingMaskIntoConstraints = false
         setupFirstNameLabel(using: firstName)
@@ -37,14 +45,15 @@ open class ContactView: UIView {
         setupLayout()
     }
 
-    /// Initializes the contact view with an avatar view and an identifier
+    /// Initializes the contact view by creating an avatar view with an identifier
     ///
     /// - Parameters:
-    ///   - avatarView: The AvatarView that will be displayed within the ContactView
     ///   - identifier: String that will be used to identify the contact (e.g. email, phone number, first name)
-    public init(avatarView: AvatarView, identifier: String) {
-        self.avatarView = avatarView
+    public init(identifier: String) {
+        self.avatarView = AvatarView(avatarSize: .extraExtraLarge, withBorder: false, style: .circle)
         super.init(frame: .zero)
+        // TODO: Should 'nil' be used here?
+        setupAvatarView(with: nil, and: nil, or: identifier)
         self.backgroundColor = Colors.surfacePrimary
         self.translatesAutoresizingMaskIntoConstraints = false
         setupIdentifierLabel(using: identifier)
@@ -53,6 +62,15 @@ open class ContactView: UIView {
 
     public required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
+    }
+
+    private func setupAvatarView(with firstName: String?, and lastName: String?, or identifier: String?) {
+        if let firstName = firstName, let lastName = lastName {
+            let fullName = firstName + " " + lastName
+            avatarView.setup(primaryText: fullName, secondaryText: identifier, image: avatarImage)
+        } else {
+            avatarView.setup(primaryText: identifier, secondaryText: "", image: avatarImage)
+        }
     }
 
     private func setupLayout() {

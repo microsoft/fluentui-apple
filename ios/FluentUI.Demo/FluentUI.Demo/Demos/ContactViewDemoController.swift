@@ -12,23 +12,20 @@ class ContactViewDemoController: DemoController {
         view.backgroundColor = UIColor.lightGray
 
         // ContactView with picture
-        let avatarView = createAvatarView(size: AvatarSize.medium, name: "Christopher Mendelson", image: UIImage(named: "avatar_kat_larsson"), style: .circle)
-        let contactView = ContactView(avatarView: avatarView, firstName: "Christopher", lastName: "Mendelson")
+        let contactView = ContactView(firstName: "Christopher", lastName: "Mendelson")
+        contactView.avatarImage = UIImage(named: "avatar_kat_larsson")
         contactView.translatesAutoresizingMaskIntoConstraints = false
 
         // ContactView with initials
-        let secondAvatarView = createAvatarView(size: AvatarSize.extraExtraLarge, name: "John Smith", style: .circle)
-        let noImageContactView = ContactView(avatarView: secondAvatarView, firstName: "John", lastName: "Smith")
+        let noImageContactView = ContactView(firstName: "John", lastName: "Smith")
         noImageContactView.translatesAutoresizingMaskIntoConstraints = false
 
         // ContactView with email
-        let emailAvatarView = createAvatarView(size: AvatarSize.extraExtraLarge, name: "elatk@contoso.com", style: .circle)
-        let emailContactView = ContactView(avatarView: emailAvatarView, identifier: "elatk@contoso.com")
+        let emailContactView = ContactView(identifier: "elatk@contoso.com")
         emailContactView.translatesAutoresizingMaskIntoConstraints = false
 
         // ContactView with phone number
-        let phoneNumberAvatarView = createAvatarView(size: AvatarSize.large, name: "+1 (425) 123 4567", style: .circle)
-        let phoneNumberContactView = ContactView(avatarView: phoneNumberAvatarView, identifier: "+1 (425) 123 4567")
+        let phoneNumberContactView = ContactView(identifier: "+1 (425) 123 4567")
         phoneNumberContactView.translatesAutoresizingMaskIntoConstraints = false
 
         addRow(text: "ContactView with image", items: [contactView], textWidth: 200)
