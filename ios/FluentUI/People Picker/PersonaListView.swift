@@ -38,7 +38,7 @@ open class PersonaListView: UITableView {
         case searchDirectory
     }
 
-    enum SearchDirectoryState {
+    public enum SearchDirectoryState {
         case idle
         case searching
         case displayingSearchResults
@@ -72,7 +72,7 @@ open class PersonaListView: UITableView {
         }
     }
 
-    var searchDirectoryState: SearchDirectoryState = .idle {
+    public var searchDirectoryState: SearchDirectoryState = .idle {
         didSet {
             if searchDirectoryState != oldValue {
                 UIView.performWithoutAnimation {
@@ -156,6 +156,7 @@ open class PersonaListView: UITableView {
                 self.searchResultText = "%d results found from directory".localized.formatted(with: self.personaList.count)
             }
         })
+        searchDirectoryState = .idle
     }
 }
 
