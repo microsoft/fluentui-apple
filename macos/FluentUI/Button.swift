@@ -209,6 +209,6 @@ fileprivate let borderWidth: CGFloat = 1
 
 fileprivate let cornerRadius: CGFloat = 3
 
-fileprivate let verticalPadding: CGFloat = 2
+fileprivate let verticalPadding: CGFloat = 4
 
-fileprivate let horizontalPadding:  CGFloat = 10
+fileprivate let horizontalPadding:  CGFloat = 12
