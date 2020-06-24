@@ -6,19 +6,13 @@
 import UIKit
 
 class TabBarItemView: UIView {
-    private struct Constants {
-        static let spacingVertical: CGFloat = 3.0
-        static let spacingHorizontal: CGFloat = 8.0
-        static let portraitImageSize: CGFloat = 28.0
-        static let landscapeImageSize: CGFloat = 24.0
-    }
 
     let item: TabBarItem
     var isSelected: Bool = false {
         didSet {
             titleLabel.isHighlighted = isSelected
             imageView.isHighlighted = isSelected
-            imageView.tintColor = isSelected ? Colors.TabBar.selected : Colors.TabBar.unselected
+            updateColors()
             accessibilityTraits = isSelected ? .selected : .none
         }
     }
@@ -33,7 +27,7 @@ class TabBarItemView: UIView {
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = Colors.TabBar.unselected
+        imageView.tintColor = unselectedColor
         return imageView
     }()
 
@@ -41,8 +35,7 @@ class TabBarItemView: UIView {
         let titleLabel = Label()
         titleLabel.lineBreakMode = .byTruncatingTail
         titleLabel.textAlignment = .center
-        titleLabel.textColor = Colors.TabBar.unselected
-        titleLabel.highlightedTextColor = Colors.TabBar.selected
+        titleLabel.textColor = unselectedColor
         return titleLabel
     }()
 
@@ -78,8 +71,8 @@ class TabBarItemView: UIView {
             scalesLargeContentImage = true
         }
 
-        imageHeightConstraint = imageView.heightAnchor.constraint(equalToConstant: Constants.portraitImageSize)
-        imageWidthConstraint = imageView.widthAnchor.constraint(equalToConstant: Constants.portraitImageSize)
+        imageHeightConstraint = imageView.heightAnchor.constraint(equalToConstant: portraitImageSize)
+        imageWidthConstraint = imageView.widthAnchor.constraint(equalToConstant: portraitImageSize)
 
         NSLayoutConstraint.activate([imageHeightConstraint!,
                                      imageWidthConstraint!,
@@ -100,21 +93,41 @@ class TabBarItemView: UIView {
         }
     }
 
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateColors()
+    }
+
+    private func updateColors() {
+        if let window = window {
+            let primaryColor = Colors.primary(for: window)
+            titleLabel.highlightedTextColor = primaryColor
+            imageView.tintColor = isSelected ? primaryColor : unselectedColor
+        }
+    }
+
     func updateLayout() {
         if isInPortraitMode {
             container.axis = .vertical
-            container.spacing = Constants.spacingVertical
-            imageHeightConstraint?.constant = Constants.portraitImageSize
-            imageWidthConstraint?.constant = Constants.portraitImageSize
+            container.spacing = spacingVertical
+            imageHeightConstraint?.constant = titleLabel.isHidden ? portraitImageSize : portraitImageWithLabelSize
+            imageWidthConstraint?.constant = titleLabel.isHidden ? portraitImageSize : portraitImageWithLabelSize
             titleLabel.style = .button3
         } else {
             container.axis = .horizontal
-            container.spacing = Constants.spacingHorizontal
-            imageHeightConstraint?.constant = Constants.landscapeImageSize
-            imageWidthConstraint?.constant = Constants.landscapeImageSize
+            container.spacing = spacingHorizontal
+            imageHeightConstraint?.constant = landscapeImageSize
+            imageWidthConstraint?.constant = landscapeImageSize
             titleLabel.style = .footnoteUnscaled
         }
-        imageView.image = item.unselectedImage(isInPortraitMode: isInPortraitMode)
-        imageView.highlightedImage = item.selectedImage(isInPortraitMode: isInPortraitMode)
+        imageView.image = item.unselectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
+        imageView.highlightedImage = item.selectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
     }
 }
+
+private let unselectedColor = Colors.textSecondary
+private let spacingVertical: CGFloat = 3.0
+private let spacingHorizontal: CGFloat = 8.0
+private let portraitImageSize: CGFloat = 28.0
+private let portraitImageWithLabelSize: CGFloat = 24.0
+private let landscapeImageSize: CGFloat = 24.0

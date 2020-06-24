@@ -27,7 +27,7 @@ public enum DateTimePickerMode: Int {
 public typealias MSDateTimePickerDelegate = DateTimePickerDelegate
 
 @objc(MSFDateTimePickerDelegate)
-public protocol DateTimePickerDelegate: class {
+public protocol DateTimePickerDelegate: AnyObject {
     /// Allows a class to be notified when a user confirms their selected date
     func dateTimePicker(_ dateTimePicker: DateTimePicker, didPickStartDate startDate: Date, endDate: Date)
     /// Allows for some validation and cancellation of picking behavior, including the dismissal of DateTimePicker classes when Done is pressed. If false is returned, the dismissal and `didPickStartDate` delegate calls will not occur. This is not called when dismissing the modal without selection, such as when tapping outside to dismiss.

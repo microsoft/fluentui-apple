@@ -7,7 +7,7 @@ import UIKit
 
 /// A static class used to calculate layout and sizing information for DateTimePickerView.
 class DateTimePickerViewLayout {
-	static let horizontalPadding: CGFloat = 6
+    static let horizontalPadding: CGFloat = 6
 
     // Component widths, based on the ideal total width minus padding
     static let componentWidths: [DateTimePickerViewComponentType: CGFloat] = [

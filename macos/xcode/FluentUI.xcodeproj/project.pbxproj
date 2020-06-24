@@ -25,6 +25,8 @@
 		8F53680A2295F4C10098AC8F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368082295F4C10098AC8F /* MainMenu.xib */; };
 		8F79191B24589B4E00C84086 /* FluentUI.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F7918F624589B4E00C84086 /* FluentUI.strings */; };
 		AC68D3192474863A000DACD1 /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC68D3182474863A000DACD1 /* Link.swift */; };
+		AC7235D82492E0D000D0DCA8 /* FluentUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C96B22295E8D60006561F /* FluentUI.framework */; };
+		AC7235D92492E0D000D0DCA8 /* FluentUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E61C96B22295E8D60006561F /* FluentUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E61C96BC2295E8D60006561F /* FluentUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C96B22295E8D60006561F /* FluentUI.framework */; };
 		E61C96C12295E8D60006561F /* AvatarViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61C96C02295E8D60006561F /* AvatarViewTests.swift */; };
 		E61C96CC2295EAC50006561F /* FluentUI.h in Headers */ = {isa = PBXBuildFile; fileRef = E61C96B52295E8D60006561F /* FluentUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -48,6 +50,13 @@
 			remoteGlobalIDString = E61C96B12295E8D60006561F;
 			remoteInfo = FluentUI;
 		};
+		AC7235DA2492E0D000D0DCA8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E61C96A92295E8D60006561F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E61C96B12295E8D60006561F;
+			remoteInfo = FluentUI;
+		};
 		E61C96BD2295E8D60006561F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E61C96A92295E8D60006561F /* Project object */;
@@ -56,6 +65,20 @@
 			remoteInfo = FluentUI;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AC7235DC2492E0D000D0DCA8 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				AC7235D92492E0D000D0DCA8 /* FluentUI.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		8005007622FB361200CA6343 /* DatePickerControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerControllerTests.swift; sourceTree = "<group>"; };
@@ -180,6 +203,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC7235D82492E0D000D0DCA8 /* FluentUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,6 +273,13 @@
 			path = Strings;
 			sourceTree = "<group>";
 		};
+		AC7235D72492E0D000D0DCA8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E61C96A82295E8D60006561F = {
 			isa = PBXGroup;
 			children = (
@@ -258,6 +289,7 @@
 				E61C96BF2295E8D60006561F /* FluentUIUnitTest */,
 				E61C96CD2295ED530006561F /* xcode */,
 				E61C96B32295E8D60006561F /* Products */,
+				AC7235D72492E0D000D0DCA8 /* Frameworks */,
 			);
 			indentWidth = 4;
 			sourceTree = "<group>";
@@ -353,11 +385,13 @@
 				8F5367FE2295F4BF0098AC8F /* Sources */,
 				8F5367FF2295F4BF0098AC8F /* Frameworks */,
 				8F5368002295F4BF0098AC8F /* Resources */,
+				AC7235DC2492E0D000D0DCA8 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				8F69C7B4229604A8009F69C0 /* PBXTargetDependency */,
+				AC7235DB2492E0D000D0DCA8 /* PBXTargetDependency */,
 			);
 			name = FluentUITestApp;
 			productName = FluentUITestApp;
@@ -576,6 +610,11 @@
 			isa = PBXTargetDependency;
 			target = E61C96B12295E8D60006561F /* FluentUI */;
 			targetProxy = 8F69C7B3229604A8009F69C0 /* PBXContainerItemProxy */;
+		};
+		AC7235DB2492E0D000D0DCA8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E61C96B12295E8D60006561F /* FluentUI */;
+			targetProxy = AC7235DA2492E0D000D0DCA8 /* PBXContainerItemProxy */;
 		};
 		E61C96BE2295E8D60006561F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

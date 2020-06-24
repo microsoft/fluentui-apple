@@ -12,17 +12,9 @@ public typealias MSPopupMenuItem = PopupMenuItem
  `PopupMenuItem` represents a menu item inside `PopupMenuController`.
  */
 @objc(MSFPopupMenuItem)
-open class PopupMenuItem: NSObject {
-    /// Defines the timing for the call of the onSelected closure/block
-    @objc(MSFPopupMenuItemExecutionMode)
-    public enum ExecutionMode: Int {
-        /// `onSelected` is called right after item is tapped, before popup menu dismissal
-        case onSelection
-        /// `onSelected` is called after popup menu is dismissed, but before its `onDismissCompleted` is called
-        case afterPopupMenuDismissal
-        /// `onSelected` is called after popup menu is dismissed and its `onDismissCompleted` is called
-        case afterPopupMenuDismissalCompleted
-    }
+open class PopupMenuItem: NSObject, PopupMenuTemplateItem {
+
+    @objc public var cellClass: PopupMenuItemTemplateCell.Type
 
     @objc public let image: UIImage?
     @objc public let selectedImage: UIImage?
@@ -42,22 +34,23 @@ open class PopupMenuItem: NSObject {
     @objc public var subtitleColor: UIColor = Colors.Table.Cell.subtitle
     /// `image` tint color if it is rendered as template
     @objc public var imageColor: UIColor = Colors.Table.Cell.image
-    /// `title` color when`isSelected` is true
-    @objc public var titleSelectedColor: UIColor = Colors.PopupMenu.Item.titleSelected
-    /// `subtitle` color when`isSelected` is true
-    @objc public var subtitleSelectedColor: UIColor = Colors.PopupMenu.Item.subtitleSelected
-    /// tint color if `selectedImage` is rendered as template and `isSelected` is true
-    @objc public var imageSelectedColor: UIColor = Colors.PopupMenu.Item.imageSelected
+    /// `title` color when`isSelected` is true. If unset, Colors.primary will be used
+    @objc public var titleSelectedColor: UIColor?
+    /// `subtitle` color when`isSelected` is true.  If unset, Colors.primary will be used
+    @objc public var subtitleSelectedColor: UIColor?
+    /// tint color if `selectedImage` is rendered as template and `isSelected` is true.  Is unset, Colors.primary will be used
+    @objc public var imageSelectedColor: UIColor?
     /// background color of PopupMenuItem corresponding cell
-    @objc public var backgroundColor: UIColor = Colors.Table.Cell.background
-    /// checkmark color `isAccessoryCheckmarkVisible` and `isSelected` is true
-    @objc public var accessoryCheckmarkColor: UIColor = Colors.Table.Cell.accessoryCheckmark
+    @objc public var backgroundColor: UIColor = .clear
+    /// checkmark color `isAccessoryCheckmarkVisible` and `isSelected` is true. If unset, Colors.primary will be used
+    @objc public var accessoryCheckmarkColor: UIColor?
 
     @objc public let onSelected: (() -> Void)?
 
     @objc public let isAccessoryCheckmarkVisible: Bool
 
     @objc public init(image: UIImage? = nil, selectedImage: UIImage? = nil, accessoryImage: UIImage? = nil, title: String, subtitle: String? = nil, accessoryView: UIView? = nil, isEnabled: Bool = true, isSelected: Bool = false, executes executionMode: ExecutionMode = .onSelection, onSelected: (() -> Void)? = nil, isAccessoryCheckmarkVisible: Bool = true) {
+        self.cellClass = PopupMenuItemCell.self
         self.image = image?.renderingMode == .automatic ? image?.withRenderingMode(.alwaysTemplate) : image
         self.selectedImage = selectedImage ?? image?.withRenderingMode(.alwaysTemplate)
         self.accessoryImage = accessoryImage

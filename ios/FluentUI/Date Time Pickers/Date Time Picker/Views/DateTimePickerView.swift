@@ -18,7 +18,7 @@ enum DateTimePickerViewMode {
 
 // MARK: - DateTimePickerViewDelegate
 
-protocol DateTimePickerViewDelegate: class {
+protocol DateTimePickerViewDelegate: AnyObject {
     func dateTimePickerView(_ dateTimePickerView: DateTimePickerView, accessibilityValueOverwriteForDate date: Date, originalValue: String?) -> String?
 }
 

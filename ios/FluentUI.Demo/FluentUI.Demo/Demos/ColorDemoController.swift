@@ -6,139 +6,146 @@
 import FluentUI
 import UIKit
 
+protocol ColorThemeHosting {
+    func updateToWindowWith(type: UIWindow.Type, pushing viewController: UIViewController?)
+}
+
 class ColorDemoController: UIViewController {
     private var sections: [DemoColorSection] = [
-        DemoColorSection(text: "App specific color", items: [
-            DemoColorItem(text: "Shade30", color: Colors.primaryShade30),
-            DemoColorItem(text: "Shade20", color: Colors.primaryShade20),
-            DemoColorItem(text: "Shade10", color: Colors.primaryShade10),
-            DemoColorItem(text: "Primary", color: Colors.primary),
-            DemoColorItem(text: "Tint10", color: Colors.primaryTint10),
-            DemoColorItem(text: "Tint20", color: Colors.primaryTint20),
-            DemoColorItem(text: "Tint30", color: Colors.primaryTint30),
-            DemoColorItem(text: "Tint40", color: Colors.primaryTint40)
-        ], accessoryTitle: "Change color"),
-        DemoColorSection(text: "Neutral colors", items: [
-            DemoColorItem(text: "gray950", color: Colors.gray950),
-            DemoColorItem(text: "gray900", color: Colors.gray900),
-            DemoColorItem(text: "gray800", color: Colors.gray800),
-            DemoColorItem(text: "gray700", color: Colors.gray700),
-            DemoColorItem(text: "gray600", color: Colors.gray600),
-            DemoColorItem(text: "gray500", color: Colors.gray500),
-            DemoColorItem(text: "gray400", color: Colors.gray400),
-            DemoColorItem(text: "gray300", color: Colors.gray300),
-            DemoColorItem(text: "gray200", color: Colors.gray200),
-            DemoColorItem(text: "gray100", color: Colors.gray100),
-            DemoColorItem(text: "gray50", color: Colors.gray50),
-            DemoColorItem(text: "gray25", color: Colors.gray25)
+        DemoColorSection(text: "App specific color", colorViews: [
+            DemoColorView(text: "Shade30", colorProvider: { (window: UIWindow) -> UIColor in return Colors.primaryShade30(for: window) }),
+            DemoColorView(text: "Shade20", colorProvider: { (window: UIWindow) -> UIColor in return Colors.primaryShade20(for: window) }),
+            DemoColorView(text: "Shade10", colorProvider: { (window: UIWindow) -> UIColor in return Colors.primaryShade10(for: window) }),
+            DemoColorView(text: "Primary", colorProvider: { (window: UIWindow) -> UIColor in return Colors.primary(for: window) }),
+            DemoColorView(text: "Tint10", colorProvider: { (window: UIWindow) -> UIColor in return Colors.primaryTint10(for: window) }),
+            DemoColorView(text: "Tint20", colorProvider: { (window: UIWindow) -> UIColor in return Colors.primaryTint20(for: window) }),
+            DemoColorView(text: "Tint30", colorProvider: { (window: UIWindow) -> UIColor in return Colors.primaryTint30(for: window) }),
+            DemoColorView(text: "Tint40", colorProvider: { (window: UIWindow) -> UIColor in return Colors.primaryTint40(for: window) })
         ]),
-        DemoColorSection(text: "Shared colors", items: [
-            DemoColorItem(text: Colors.Palette.pinkRed10.name, color: Colors.Palette.pinkRed10.color),
-            DemoColorItem(text: Colors.Palette.red20.name, color: Colors.Palette.red20.color),
-            DemoColorItem(text: Colors.Palette.red10.name, color: Colors.Palette.red10.color),
-            DemoColorItem(text: Colors.Palette.orange30.name, color: Colors.Palette.orange30.color),
-            DemoColorItem(text: Colors.Palette.orange20.name, color: Colors.Palette.orange20.color),
-            DemoColorItem(text: Colors.Palette.orangeYellow20.name, color: Colors.Palette.orangeYellow20.color),
-            DemoColorItem(text: Colors.Palette.green20.name, color: Colors.Palette.green20.color),
-            DemoColorItem(text: Colors.Palette.green10.name, color: Colors.Palette.green10.color),
-            DemoColorItem(text: Colors.Palette.cyan30.name, color: Colors.Palette.cyan30.color),
-            DemoColorItem(text: Colors.Palette.cyan20.name, color: Colors.Palette.cyan20.color),
-            DemoColorItem(text: Colors.Palette.cyanBlue20.name, color: Colors.Palette.cyanBlue20.color),
-            DemoColorItem(text: Colors.Palette.blue10.name, color: Colors.Palette.blue10.color),
-            DemoColorItem(text: Colors.Palette.blueMagenta30.name, color: Colors.Palette.blueMagenta30.color),
-            DemoColorItem(text: Colors.Palette.blueMagenta20.name, color: Colors.Palette.blueMagenta20.color),
-            DemoColorItem(text: Colors.Palette.magenta20.name, color: Colors.Palette.magenta20.color),
-            DemoColorItem(text: Colors.Palette.magenta10.name, color: Colors.Palette.magenta10.color),
-            DemoColorItem(text: Colors.Palette.magentaPink10.name, color: Colors.Palette.magentaPink10.color),
-            DemoColorItem(text: Colors.Palette.gray40.name, color: Colors.Palette.gray40.color),
-            DemoColorItem(text: Colors.Palette.gray30.name, color: Colors.Palette.gray30.color),
-            DemoColorItem(text: Colors.Palette.gray20.name, color: Colors.Palette.gray20.color)
+        DemoColorSection(text: "Neutral colors", colorViews: [
+            DemoColorView(text: "gray950", color: Colors.gray950),
+            DemoColorView(text: "gray900", color: Colors.gray900),
+            DemoColorView(text: "gray800", color: Colors.gray800),
+            DemoColorView(text: "gray700", color: Colors.gray700),
+            DemoColorView(text: "gray600", color: Colors.gray600),
+            DemoColorView(text: "gray500", color: Colors.gray500),
+            DemoColorView(text: "gray400", color: Colors.gray400),
+            DemoColorView(text: "gray300", color: Colors.gray300),
+            DemoColorView(text: "gray200", color: Colors.gray200),
+            DemoColorView(text: "gray100", color: Colors.gray100),
+            DemoColorView(text: "gray50", color: Colors.gray50),
+            DemoColorView(text: "gray25", color: Colors.gray25)
         ]),
-        DemoColorSection(text: "Message colors", items: [
-            DemoColorItem(text: Colors.Palette.dangerShade30.name, color: Colors.Palette.dangerShade30.color),
-            DemoColorItem(text: Colors.Palette.dangerShade20.name, color: Colors.Palette.dangerShade20.color),
-            DemoColorItem(text: Colors.Palette.dangerShade10.name, color: Colors.Palette.dangerShade10.color),
-            DemoColorItem(text: Colors.Palette.dangerPrimary.name, color: Colors.Palette.dangerPrimary.color),
-            DemoColorItem(text: Colors.Palette.dangerTint10.name, color: Colors.Palette.dangerTint10.color),
-            DemoColorItem(text: Colors.Palette.dangerTint20.name, color: Colors.Palette.dangerTint20.color),
-            DemoColorItem(text: Colors.Palette.dangerTint30.name, color: Colors.Palette.dangerTint30.color),
-            DemoColorItem(text: Colors.Palette.dangerTint40.name, color: Colors.Palette.dangerTint40.color),
-            DemoColorItem(text: Colors.Palette.warningShade30.name, color: Colors.Palette.warningShade30.color),
-            DemoColorItem(text: Colors.Palette.warningShade20.name, color: Colors.Palette.warningShade20.color),
-            DemoColorItem(text: Colors.Palette.warningShade10.name, color: Colors.Palette.warningShade10.color),
-            DemoColorItem(text: Colors.Palette.warningPrimary.name, color: Colors.Palette.warningPrimary.color),
-            DemoColorItem(text: Colors.Palette.warningTint10.name, color: Colors.Palette.warningTint10.color),
-            DemoColorItem(text: Colors.Palette.warningTint20.name, color: Colors.Palette.warningTint20.color),
-            DemoColorItem(text: Colors.Palette.warningTint30.name, color: Colors.Palette.warningTint30.color),
-            DemoColorItem(text: Colors.Palette.warningTint40.name, color: Colors.Palette.warningTint40.color),
-            DemoColorItem(text: Colors.Palette.successShade30.name, color: Colors.Palette.successShade30.color),
-            DemoColorItem(text: Colors.Palette.successShade20.name, color: Colors.Palette.successShade20.color),
-            DemoColorItem(text: Colors.Palette.successShade10.name, color: Colors.Palette.successShade10.color),
-            DemoColorItem(text: Colors.Palette.successPrimary.name, color: Colors.Palette.successPrimary.color),
-            DemoColorItem(text: Colors.Palette.successTint10.name, color: Colors.Palette.successTint10.color),
-            DemoColorItem(text: Colors.Palette.successTint20.name, color: Colors.Palette.successTint20.color),
-            DemoColorItem(text: Colors.Palette.successTint30.name, color: Colors.Palette.successTint30.color),
-            DemoColorItem(text: Colors.Palette.successTint40.name, color: Colors.Palette.successTint40.color)
+        DemoColorSection(text: "Shared colors", colorViews: [
+            DemoColorView(text: Colors.Palette.pinkRed10.name, color: Colors.Palette.pinkRed10.color),
+            DemoColorView(text: Colors.Palette.red20.name, color: Colors.Palette.red20.color),
+            DemoColorView(text: Colors.Palette.red10.name, color: Colors.Palette.red10.color),
+            DemoColorView(text: Colors.Palette.orange30.name, color: Colors.Palette.orange30.color),
+            DemoColorView(text: Colors.Palette.orange20.name, color: Colors.Palette.orange20.color),
+            DemoColorView(text: Colors.Palette.orangeYellow20.name, color: Colors.Palette.orangeYellow20.color),
+            DemoColorView(text: Colors.Palette.green20.name, color: Colors.Palette.green20.color),
+            DemoColorView(text: Colors.Palette.green10.name, color: Colors.Palette.green10.color),
+            DemoColorView(text: Colors.Palette.cyan30.name, color: Colors.Palette.cyan30.color),
+            DemoColorView(text: Colors.Palette.cyan20.name, color: Colors.Palette.cyan20.color),
+            DemoColorView(text: Colors.Palette.cyanBlue20.name, color: Colors.Palette.cyanBlue20.color),
+            DemoColorView(text: Colors.Palette.blue10.name, color: Colors.Palette.blue10.color),
+            DemoColorView(text: Colors.Palette.blueMagenta30.name, color: Colors.Palette.blueMagenta30.color),
+            DemoColorView(text: Colors.Palette.blueMagenta20.name, color: Colors.Palette.blueMagenta20.color),
+            DemoColorView(text: Colors.Palette.magenta20.name, color: Colors.Palette.magenta20.color),
+            DemoColorView(text: Colors.Palette.magenta10.name, color: Colors.Palette.magenta10.color),
+            DemoColorView(text: Colors.Palette.magentaPink10.name, color: Colors.Palette.magentaPink10.color),
+            DemoColorView(text: Colors.Palette.gray40.name, color: Colors.Palette.gray40.color),
+            DemoColorView(text: Colors.Palette.gray30.name, color: Colors.Palette.gray30.color),
+            DemoColorView(text: Colors.Palette.gray20.name, color: Colors.Palette.gray20.color)
+        ]),
+        DemoColorSection(text: "Message colors", colorViews: [
+            DemoColorView(text: Colors.Palette.dangerShade30.name, color: Colors.Palette.dangerShade30.color),
+            DemoColorView(text: Colors.Palette.dangerShade20.name, color: Colors.Palette.dangerShade20.color),
+            DemoColorView(text: Colors.Palette.dangerShade10.name, color: Colors.Palette.dangerShade10.color),
+            DemoColorView(text: Colors.Palette.dangerPrimary.name, color: Colors.Palette.dangerPrimary.color),
+            DemoColorView(text: Colors.Palette.dangerTint10.name, color: Colors.Palette.dangerTint10.color),
+            DemoColorView(text: Colors.Palette.dangerTint20.name, color: Colors.Palette.dangerTint20.color),
+            DemoColorView(text: Colors.Palette.dangerTint30.name, color: Colors.Palette.dangerTint30.color),
+            DemoColorView(text: Colors.Palette.dangerTint40.name, color: Colors.Palette.dangerTint40.color),
+            DemoColorView(text: Colors.Palette.warningShade30.name, color: Colors.Palette.warningShade30.color),
+            DemoColorView(text: Colors.Palette.warningShade20.name, color: Colors.Palette.warningShade20.color),
+            DemoColorView(text: Colors.Palette.warningShade10.name, color: Colors.Palette.warningShade10.color),
+            DemoColorView(text: Colors.Palette.warningPrimary.name, color: Colors.Palette.warningPrimary.color),
+            DemoColorView(text: Colors.Palette.warningTint10.name, color: Colors.Palette.warningTint10.color),
+            DemoColorView(text: Colors.Palette.warningTint20.name, color: Colors.Palette.warningTint20.color),
+            DemoColorView(text: Colors.Palette.warningTint30.name, color: Colors.Palette.warningTint30.color),
+            DemoColorView(text: Colors.Palette.warningTint40.name, color: Colors.Palette.warningTint40.color),
+            DemoColorView(text: Colors.Palette.successShade30.name, color: Colors.Palette.successShade30.color),
+            DemoColorView(text: Colors.Palette.successShade20.name, color: Colors.Palette.successShade20.color),
+            DemoColorView(text: Colors.Palette.successShade10.name, color: Colors.Palette.successShade10.color),
+            DemoColorView(text: Colors.Palette.successPrimary.name, color: Colors.Palette.successPrimary.color),
+            DemoColorView(text: Colors.Palette.successTint10.name, color: Colors.Palette.successTint10.color),
+            DemoColorView(text: Colors.Palette.successTint20.name, color: Colors.Palette.successTint20.color),
+            DemoColorView(text: Colors.Palette.successTint30.name, color: Colors.Palette.successTint30.color),
+            DemoColorView(text: Colors.Palette.successTint40.name, color: Colors.Palette.successTint40.color)
         ])
     ]
-    private var tableView: UITableView!
-    private var usingDefaultPrimaryColor: Bool = false
 
     override func loadView() {
-        super.loadView()
-        tableView = UITableView(frame: .zero, style: .grouped)
+        let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(tableView)
-        NSLayoutConstraint.activate([
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
 
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
-        tableView.backgroundColor = Colors.Table.background
+
+        let stackView = UIStackView(arrangedSubviews: [segmentedControl, tableView])
+        stackView.axis = .vertical
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+
+        view = UIView(frame: .zero)
+        view.addSubview(stackView)
+        view.backgroundColor = Colors.Table.background
+
+        let safeAreaLayoutGuide = view.safeAreaLayoutGuide
+
+        NSLayoutConstraint.activate([
+            stackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            stackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
 
-    private func accessoryTapped() {
-        if usingDefaultPrimaryColor {
-            Colors.primary = Colors.communicationBlue
-            Colors.primaryTint10 = Colors.Palette.communicationBlueTint10.color
-            Colors.primaryTint20 = Colors.Palette.communicationBlueTint20.color
-            Colors.primaryTint30 = Colors.Palette.communicationBlueTint30.color
-            Colors.primaryTint40 = Colors.Palette.communicationBlueTint40.color
-            Colors.primaryShade10 = Colors.Palette.communicationBlueShade10.color
-            Colors.primaryShade20 = Colors.Palette.communicationBlueShade20.color
-            Colors.primaryShade30 = Colors.Palette.communicationBlueShade30.color
-        } else {
-            Colors.primary = UIColor(named: "Colors/DemoPrimaryColor") ?? Colors.communicationBlue
-            Colors.primaryTint10 = UIColor(named: "Colors/DemoPrimaryTint10Color") ?? Colors.Palette.communicationBlueTint10.color
-            Colors.primaryTint20 = UIColor(named: "Colors/DemoPrimaryTint20Color") ?? Colors.Palette.communicationBlueTint20.color
-            Colors.primaryTint30 = UIColor(named: "Colors/DemoPrimaryTint30Color") ?? Colors.Palette.communicationBlueTint30.color
-            Colors.primaryTint40 = UIColor(named: "Colors/DemoPrimaryTint40Color") ?? Colors.Palette.communicationBlueTint40.color
-            Colors.primaryShade10 = UIColor(named: "Colors/DemoPrimaryShade10Color") ?? Colors.Palette.communicationBlueShade10.color
-            Colors.primaryShade20 = UIColor(named: "Colors/DemoPrimaryShade20Color") ?? Colors.Palette.communicationBlueShade20.color
-            Colors.primaryShade30 = UIColor(named: "Colors/DemoPrimaryShade30Color") ?? Colors.Palette.communicationBlueShade30.color
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let window = view.window {
+            segmentedControl.selectedSegmentIndex = colorProviderThemedWindowTypes.firstIndex(where: { return window.isKind(of: $0.windowType) }) ?? 0
         }
-
-        sections[0].items = [
-            DemoColorItem(text: "Shade30", color: Colors.primaryShade30),
-            DemoColorItem(text: "Shade20", color: Colors.primaryShade20),
-            DemoColorItem(text: "Shade10", color: Colors.primaryShade10),
-            DemoColorItem(text: "Primary", color: Colors.primary),
-            DemoColorItem(text: "Tint10", color: Colors.primaryTint10),
-            DemoColorItem(text: "Tint20", color: Colors.primaryTint20),
-            DemoColorItem(text: "Tint30", color: Colors.primaryTint30),
-            DemoColorItem(text: "Tint40", color: Colors.primaryTint40)
-        ]
-
-        usingDefaultPrimaryColor = !usingDefaultPrimaryColor
-        tableView.reloadSections([0], with: .automatic)
     }
+    private lazy var segmentedControl: SegmentedControl = {
+        let segmentedControl = SegmentedControl(items: colorProviderThemedWindowTypes.map({ return $0.name }), style: .tabs)
+        segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(sender:)), for: .valueChanged)
+        return segmentedControl
+    }()
+
+    @objc private func segmentedControlValueChanged(sender: Any) {
+        if let segmentedControl = sender as? SegmentedControl {
+            let windowType = colorProviderThemedWindowTypes[segmentedControl.selectedSegmentIndex].windowType
+            let colorThemeHost: ColorThemeHosting
+            if #available(iOS 13, *) {
+                colorThemeHost = view.window?.windowScene?.delegate as! ColorThemeHosting
+            } else {
+                colorThemeHost = UIApplication.shared.delegate as! ColorThemeHosting
+            }
+
+            if let navigationController = navigationController {
+                navigationController.popViewController(animated: false)
+                colorThemeHost.updateToWindowWith(type: windowType, pushing: self)
+            }
+        }
+    }
+
+    private let colorProviderThemedWindowTypes: [(name: String, windowType: UIWindow.Type)] = [("Default", DemoColorThemeDefaultWindow.self),
+                                                                                               ("Green", DemoColorThemeGreenWindow.self),
+                                                                                               ("None", UIWindow.self)]
 }
 
 // MARK: - ColorDemoController: UITableViewDelegate
@@ -147,12 +154,7 @@ extension ColorDemoController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as! TableViewHeaderFooterView
         let section = sections[section]
-        header.setup(style: .header, title: section.text, accessoryButtonTitle: section.hasAccessoryTitle ? section.accessoryTitle! : "")
-
-        if section.hasAccessoryTitle {
-            header.accessoryButtonStyle = .primary
-            header.onAccessoryButtonTapped = { [unowned self] in self.accessoryTapped() }
-        }
+        header.setup(style: .header, title: section.text)
         return header
     }
 }
@@ -165,50 +167,61 @@ extension ColorDemoController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sections[section].items.count
+        return sections[section].colorViews.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let section = sections[indexPath.section]
-        let item = section.items[indexPath.row]
-
         let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as! TableViewCell
-        cell.setup(title: item.text, customView: DemoColorView(color: item.color))
+
+        let section = sections[indexPath.section]
+        let colorView = section.colorViews[indexPath.row]
+
+        cell.setup(title: colorView.text, customView: colorView)
         return cell
     }
 
 }
 
 class DemoColorView: UIView {
-    override var intrinsicContentSize: CGSize {
-        return CGSize(width: 30, height: 30)
-    }
+    let text: String
+    var colorProvider: ((UIWindow) -> (UIColor))?
 
-    public init(color: UIColor) {
+    init(text: String, color: UIColor) {
+        self.text = text
         super.init(frame: .zero)
         backgroundColor = color
     }
 
+    init(text: String, colorProvider: @escaping (UIWindow) -> (UIColor)) {
+        self.text = text
+        super.init(frame: .zero)
+        self.colorProvider = colorProvider
+    }
+
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
-}
 
-struct DemoColorItem {
-    let text: String
-    let color: UIColor
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: 30, height: 30)
+    }
+
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        if let colorProvider = colorProvider,
+            let window = window {
+            backgroundColor = colorProvider(window)
+        }
+    }
 }
 
 struct DemoColorSection {
     let text: String
-    var items: [DemoColorItem]
-    var hasAccessoryTitle: Bool = false
-    let accessoryTitle: String?
+    let colorViews: [DemoColorView]
 
-    init(text: String, items: [DemoColorItem], accessoryTitle: String? = nil) {
+    init(text: String, colorViews: [DemoColorView]) {
         self.text = text
-        self.items = items
-        self.accessoryTitle = accessoryTitle
-        self.hasAccessoryTitle = accessoryTitle != nil
+        self.colorViews = colorViews
     }
 }

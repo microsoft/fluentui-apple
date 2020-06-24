@@ -186,12 +186,13 @@ class HUDView: UIView {
             activityIndicatorView.startAnimating()
             return activityIndicatorView
         case .success:
-            let imageView = UIImageView(image: .staticImageNamed("checkmark-white-40x40"))
-            // TODO: unfortuantely, this resource image isn't currently the right size
-            imageView.contentMode = .scaleAspectFit
+            let imageView = UIImageView(image: .staticImageNamed("checkmark-36x36"))
+            imageView.tintColor = Colors.HUD.activityIndicator
             return imageView
         case .failure:
-            return UIImageView(image: .staticImageNamed("cancel-white-40x40"))
+            let imageView = UIImageView(image: .staticImageNamed("dismiss-36x36"))
+            imageView.tintColor = Colors.HUD.activityIndicator
+            return imageView
         case .custom(let image):
             return UIImageView(image: image)
         }
