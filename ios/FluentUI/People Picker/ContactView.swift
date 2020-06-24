@@ -15,7 +15,7 @@ open class ContactView: UIView {
     }
 
     // TODO: Set it as the default image (pawn)
-    public var avatarImage: UIImage? {
+    @objc public var avatarImage: UIImage? {
         didSet {
             if let avatarImage = avatarImage {
                 avatarView.setup(image: avatarImage)
@@ -32,7 +32,7 @@ open class ContactView: UIView {
     /// - Parameters:
     ///   - firstName: String that will be the text of the top label
     ///   - lastName: String that will be the text of the bottom label
-    public init(firstName: String, lastName: String) {
+    @objc public init(firstName: String, lastName: String) {
         avatarView = AvatarView(avatarSize: .extraExtraLarge, withBorder: false, style: .circle)
         firstNameLabel = UILabel()
         lastNameLabel = UILabel()
@@ -48,7 +48,7 @@ open class ContactView: UIView {
     ///
     /// - Parameters:
     ///   - identifier: String that will be used to identify the contact (e.g. email, phone number, first name)
-    public init(identifier: String) {
+    @objc public init(identifier: String) {
         avatarView = AvatarView(avatarSize: .extraExtraLarge, withBorder: false, style: .circle)
         super.init(frame: .zero)
         // TODO: Should 'nil' be used here?
