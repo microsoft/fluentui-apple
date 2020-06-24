@@ -88,8 +88,13 @@ open class PeoplePicker: BadgeField {
         }
     }
 
+    /// The UIView used to present 'suggestedPersonas'
+    @objc public let personaSuggestionsView = UIView()
+
+    @objc public let personaListView = PersonaListView()
+
     /// The `suggestedPersonas` are personas that appear in the persona list that can be picked and added to `pickedPersonas`.
-    open var suggestedPersonas: [Persona] = [] {
+    private var suggestedPersonas: [Persona] = [] {
         didSet {
             personaListView.personaList = suggestedPersonas
         }
@@ -112,10 +117,6 @@ open class PeoplePicker: BadgeField {
     private var keyboardHeight: CGFloat = 0
 
     private var containingViewBoundsObservation: NSKeyValueObservation?
-
-    public let personaSuggestionsView = UIView()
-
-    public let personaListView = PersonaListView()
 
     private let separator = Separator()
 
@@ -231,7 +232,7 @@ open class PeoplePicker: BadgeField {
         containingViewBoundsObservation = nil
     }
 
-    open func getSuggestedPersonas() {
+    private func getSuggestedPersonas() {
         // Use `getSuggestedPersonasForText` delegate method if implemented, otherwise filter `availablePersonas` with `textFieldContent` and remove any personas that have already been picked (checks for matching name and email) if `allowPickedPersonasToAppearAsSuggested` is set to false.
         if delegate?.peoplePicker(_:getSuggestedPersonasForText:completion:) != nil {
             delegate?.peoplePicker?(self, getSuggestedPersonasForText: textFieldContent, completion: {
