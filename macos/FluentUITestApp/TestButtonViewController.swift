@@ -15,38 +15,44 @@ class TestButtonViewController: NSViewController {
 			NSTextField(labelWithString: "Primary Outline"),
 			NSTextField(labelWithString: "Borderless"),
 		]
-		
-		let buttons: () -> [NSButton] = {
+
+		let buttonsWithTitle: () -> [NSButton] = {
 			return [
-				Button(title: "FluentUI Button", style: .primaryFilled),
-				Button(title: "FluentUI Button", style: .primaryOutline),
-				Button(title: "FluentUI Button", style: .borderless),
+				Button(title: "Button", style: .primaryFilled),
+				Button(title: "Button", style: .primaryOutline),
+				Button(title: "Button", style: .borderless),
 			]
 		}
 		
-		let buttonsWithTitle = buttons()
-		let buttonsWithImage = buttons().map { button -> NSButton in
-			button.imagePosition = .imageOnly
-			button.image = NSImage(named: NSImage.addTemplateName)
-			return button
-		}
-
-		let disabledButtons = buttons().map { button -> NSButton in
+		let disabledButtonsWithTitle = buttonsWithTitle().map { button -> NSButton in
 			button.isEnabled = false
 			return button
 		}
-		
+
+		let buttonsWithImage: () -> [NSButton] = {
+			return [
+
+				Button(image: NSImage(named: NSImage.addTemplateName)!, style: .primaryFilled),
+				Button(image: NSImage(named: NSImage.addTemplateName)!, style: .primaryOutline),
+				Button(image: NSImage(named: NSImage.addTemplateName)!, style: .borderless),
+			]
+		}
+
+		let disabledButtonsWithImage = buttonsWithImage().map { button -> NSButton in
+			button.isEnabled = false
+			return button
+		}
+
 		let gridView = NSGridView(frame: .zero)
 		gridView.rowSpacing = gridViewRowSpacing
 		gridView.columnSpacing = gridViewColumnSpacing
 		gridView.setContentHuggingPriority(.defaultHigh, for: .vertical)
-		gridView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
 		
 		gridView.addColumn(with: columnLabels)
-		gridView.addColumn(with: buttonsWithTitle)
-		gridView.addColumn(with: buttonsWithImage)
-		gridView.addColumn(with: disabledButtons)
-		gridView.addColumn(with: [])	//Padding
+		gridView.addColumn(with: buttonsWithTitle())
+		gridView.addColumn(with: disabledButtonsWithTitle)
+		gridView.addColumn(with: buttonsWithImage())
+		gridView.addColumn(with: disabledButtonsWithImage)
 
 		let emptyCell = NSGridCell.emptyContentView
 	
@@ -54,8 +60,9 @@ class TestButtonViewController: NSViewController {
 		let rowLabels: [NSView] = [
 			emptyCell,
 			NSTextField(labelWithString: "Title"),
+			NSTextField(labelWithString: "Title (Disabled)"),
 			NSTextField(labelWithString: "Image"),
-			NSTextField(labelWithString: "Disabled")
+			NSTextField(labelWithString: "Image (Disabled)")
 		]
 		gridView.insertRow(at: 0, with: rowLabels)
 		gridView.addRow(with: [])	//Padding
@@ -67,9 +74,9 @@ class TestButtonViewController: NSViewController {
 												left: containerViewEdgeInsets,
 												bottom: containerViewEdgeInsets,
 												right: containerViewEdgeInsets)
-		
+
 		containerView.addView(gridView, in: .top)
-		
+
 		view = containerView
 	}
 }

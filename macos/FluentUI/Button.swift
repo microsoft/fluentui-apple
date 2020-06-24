@@ -25,6 +25,15 @@ open class Button: NSButton {
 		initialize()
     }
 	
+	@objc public init(image: NSImage, style: ButtonStyle = .primaryFilled) {
+		super.init(frame: .zero)
+		self.style = style
+		initialize()
+		// Image must be set after `wantsLayer = true` so that the image is on the layer and not the underlying NSButtonCell
+		imagePosition = .imageOnly
+		self.image = image
+    }    
+	
 	public override init(frame frameRect: NSRect) {
 		super.init(frame: frameRect)
 		initialize()
