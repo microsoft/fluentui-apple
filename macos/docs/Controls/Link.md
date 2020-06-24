@@ -15,7 +15,7 @@ A Link is the lightest weight clickable control, and is often used to reduce the
 
 
 ### Don't
-- Use a link where a button would be better suited. Links should be used to navigate to webpages. For most other actions, a button is better suited than a link with an overriden action.
+- Use a link where a button would be better suited. Links should be used to navigate to webpages. For most other actions (e.g navigation internal to your app), a button is better suited than a link with an overridden action.
 - Use if the action is destructive or irreversible. Because users associate links with navigation (and the ability to back out), Links aren't appropriate for commands with significant consequences.
 
 ## Usage
