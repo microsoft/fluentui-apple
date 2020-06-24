@@ -15,7 +15,6 @@ import AppKit
 // MARK: - Button
 
 /// A fluent styled button, with hover effects and a corner radius.
-@IBDesignable
 @objc(MSFButton)
 open class Button: NSButton {
 
@@ -27,7 +26,7 @@ open class Button: NSButton {
     }
 	
 	public override init(frame frameRect: NSRect) {
-        super.init(frame: frameRect)
+		super.init(frame: frameRect)
 		initialize()
 	}
 
@@ -119,12 +118,12 @@ open class Button: NSButton {
 	/// The primary style of the button
 	@objc public var style: ButtonStyle = .primaryFilled {
 		didSet {
-            if style != oldValue {
-                update()
-            }
+			if style != oldValue {
+				update()
+			}
 		}
 	}
-	
+
 	private func update() {
 		self.attributedTitle = NSAttributedString(string: title, attributes: [.foregroundColor : textColor])
 		needsDisplay = true
@@ -158,7 +157,7 @@ open class Button: NSButton {
 	private var outlineColor: NSColor {
 		let baseOutlineColor = style == ButtonStyle.primaryOutline ? primaryColor.withAlphaComponent(0.4) : .clear
 		if isEnabled {
-			return style == ButtonStyle.primaryOutline ? primaryColor.withAlphaComponent(0.4) : .clear
+			return baseOutlineColor
 		} else {
 			return disabledColor(color: baseOutlineColor)
 		}
