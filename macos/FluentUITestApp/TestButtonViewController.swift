@@ -31,7 +31,6 @@ class TestButtonViewController: NSViewController {
 
 		let buttonsWithImage: () -> [NSButton] = {
 			return [
-
 				Button(image: NSImage(named: NSImage.addTemplateName)!, style: .primaryFilled),
 				Button(image: NSImage(named: NSImage.addTemplateName)!, style: .primaryOutline),
 				Button(image: NSImage(named: NSImage.addTemplateName)!, style: .borderless),
