@@ -96,15 +96,15 @@ open class BadgeView: UIView {
         static let backgroundCornerRadius: CGFloat = 3
     }
 
-    private static func backgroundColor(for style: Style, selected: Bool, enabled: Bool) -> UIColor {
+    private func backgroundColor(for window: UIWindow, style: Style, selected: Bool, enabled: Bool) -> UIColor {
         switch style {
         case .default:
             if !enabled {
                 return Colors.Badge.backgroundDisabled
             } else if selected {
-                return Colors.Badge.backgroundSelected
+                return Colors.primary(for: window)
             } else {
-                return Colors.Badge.background
+                return Colors.primaryTint40(for: window)
             }
         case .warning:
             if selected {
@@ -121,7 +121,7 @@ open class BadgeView: UIView {
         }
     }
 
-    private static func textColor(for style: Style, selected: Bool, enabled: Bool) -> UIColor {
+    private func textColor(for window: UIWindow, style: Style, selected: Bool, enabled: Bool) -> UIColor {
         switch style {
         case .default:
             if !enabled {
@@ -129,7 +129,7 @@ open class BadgeView: UIView {
             } else if selected {
                 return Colors.Badge.textSelected
             } else {
-                return Colors.Badge.text
+                return Colors.primary(for: window)
             }
         case .warning:
             if selected {
@@ -181,31 +181,10 @@ open class BadgeView: UIView {
         return sizeThatFits(CGSize(width: CGFloat.infinity, height: CGFloat.infinity))
     }
 
-    private var badgeBackgroundColor: UIColor = Colors.Badge.background {
-        didSet {
-            updateBackgroundColor()
-        }
-    }
-    private var badgeSelectedBackgroundColor: UIColor = Colors.Badge.backgroundSelected {
-        didSet {
-            updateBackgroundColor()
-        }
-    }
-    private var badgeDisabledBackgroundColor: UIColor = Colors.Badge.backgroundDisabled {
-        didSet {
-            updateBackgroundColor()
-        }
-    }
-
     private var style: Style = .default {
         didSet {
-            badgeBackgroundColor = BadgeView.backgroundColor(for: style, selected: false, enabled: true)
-            badgeSelectedBackgroundColor = BadgeView.backgroundColor(for: style, selected: true, enabled: true)
-            badgeDisabledBackgroundColor = BadgeView.backgroundColor(for: style, selected: false, enabled: false)
-
-            textColor = BadgeView.textColor(for: style, selected: false, enabled: true)
-            selectedTextColor = BadgeView.textColor(for: style, selected: true, enabled: true)
-            disabledTextColor = BadgeView.textColor(for: style, selected: false, enabled: false)
+            updateBackgroundColor()
+            updateLabelTextColor()
         }
     }
 
@@ -213,22 +192,6 @@ open class BadgeView: UIView {
         didSet {
             label.style = size.labelTextStyle
             invalidateIntrinsicContentSize()
-        }
-    }
-
-    private var textColor: UIColor = Colors.Badge.text {
-        didSet {
-            updateLabelTextColor()
-        }
-    }
-    private var selectedTextColor: UIColor = Colors.Badge.textSelected {
-        didSet {
-            updateLabelTextColor()
-        }
-    }
-    private var disabledTextColor: UIColor = Colors.Badge.textDisabled {
-        didSet {
-            updateLabelTextColor()
         }
     }
 
@@ -244,13 +207,11 @@ open class BadgeView: UIView {
             backgroundView.layer.cornerCurve = .continuous
         }
         addSubview(backgroundView)
-        updateBackgroundColor()
 
         label.lineBreakMode = .byTruncatingMiddle
         label.textAlignment = .center
         label.backgroundColor = .clear
         addSubview(label)
-        updateLabelTextColor()
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(badgeTapped))
         addGestureRecognizer(tapGesture)
@@ -299,6 +260,12 @@ open class BadgeView: UIView {
         return CGSize(width: max(minWidth, min(width, maxWidth)), height: self.size.height)
     }
 
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateBackgroundColor()
+        updateLabelTextColor()
+    }
+
     private func updateAccessibility() {
         if isSelected {
             accessibilityValue = "Accessibility.Selected.Value".localized
@@ -310,20 +277,15 @@ open class BadgeView: UIView {
     }
 
     private func updateBackgroundColor() {
-        if !isActive {
-            backgroundView.backgroundColor = badgeDisabledBackgroundColor
-            return
+        if let window = window {
+            backgroundView.backgroundColor = backgroundColor(for: window, style: style, selected: isSelected, enabled: isActive)
         }
-        backgroundView.backgroundColor = isSelected ? badgeSelectedBackgroundColor : badgeBackgroundColor
     }
 
     private func updateLabelTextColor() {
-        if !isActive {
-            label.textColor = disabledTextColor
-            return
+        if let window = window {
+            label.textColor = textColor(for: window, style: style, selected: isSelected, enabled: isActive)
         }
-
-        label.textColor = isSelected ? selectedTextColor : textColor
     }
 
     @objc private func badgeTapped() {

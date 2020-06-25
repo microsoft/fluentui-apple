@@ -15,7 +15,6 @@ class DateTimePickerViewComponentCell: UITableViewCell {
         static let normalTextStyle: TextStyle = .body
         static let emphasizedTextStyle: TextStyle = .headline
         static let normalTextColor: UIColor = Colors.DateTimePicker.text
-        static let emphasizedTextColor: UIColor = Colors.DateTimePicker.textEmphasized
     }
 
     static let identifier: String = "DateTimePickerViewComponentCell"
@@ -27,7 +26,7 @@ class DateTimePickerViewComponentCell: UITableViewCell {
     var emphasized: Bool = false {
         didSet {
             textLabel?.font = (emphasized ? Constants.emphasizedTextStyle: Constants.normalTextStyle).font
-            textLabel?.textColor = emphasized ? Constants.emphasizedTextColor : Constants.normalTextColor
+            updateTextLabelColor()
         }
     }
 
@@ -61,5 +60,16 @@ class DateTimePickerViewComponentCell: UITableViewCell {
 
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         // Override -> No highlight
+    }
+
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateTextLabelColor()
+    }
+
+    private func updateTextLabelColor() {
+        if let window = window {
+            textLabel?.textColor = emphasized ? Colors.primary(for: window) : Constants.normalTextColor
+        }
     }
 }

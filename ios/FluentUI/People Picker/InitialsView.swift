@@ -47,7 +47,7 @@ class InitialsView: UIView {
         return initials.uppercased()
     }
 
-     private static func initialLetters(_ text: String) -> String {
+    private static func initialLetters(_ text: String) -> String {
         var initials = ""
 
         // Use the leading character from the first two words in the user's name

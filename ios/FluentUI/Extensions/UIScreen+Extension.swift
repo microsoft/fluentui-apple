@@ -13,9 +13,9 @@ public extension UIScreen {
          Round to 3 digits after floating point to better match the device rounding on 3x devices.
          Avoids a situation where calculated size is smaller than screen size by a difference in 4th+ position after floaing point.
          For example:
-           calculated = 52.666666666666671
-               actual = 52.666667938232422
-        */
+         calculated = 52.666666666666671
+         actual = 52.666667938232422
+         */
         return ceil(ceil(value * scale) / scale * 1000) / 1000
     }
 

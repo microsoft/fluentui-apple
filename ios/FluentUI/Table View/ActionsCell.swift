@@ -25,10 +25,10 @@ open class ActionsCell: UITableViewCell {
         case destructive
         case communication
 
-        var highlightedTextColor: UIColor {
+        func highlightedTextColor(for window: UIWindow) -> UIColor {
             switch self {
             case .regular:
-                return Colors.Table.ActionCell.textHighlighted
+                return Colors.primary(for: window).withAlphaComponent(0.4)
             case .destructive:
                 return Colors.Table.ActionCell.textDestructiveHighlighted
             case .communication:
@@ -36,10 +36,10 @@ open class ActionsCell: UITableViewCell {
             }
         }
 
-        var textColor: UIColor {
+        func textColor(for window: UIWindow) -> UIColor {
             switch self {
             case .regular:
-                return Colors.Table.ActionCell.text
+                return Colors.primary(for: window)
             case .destructive:
                 return Colors.Table.ActionCell.textDestructive
             case .communication:
@@ -101,6 +101,9 @@ open class ActionsCell: UITableViewCell {
     @objc public let action1Button = UIButton()
     @objc public let action2Button = UIButton()
 
+    private var action1Type: ActionType = .regular
+    private var action2Type: ActionType = .regular
+
     private let topSeparator = Separator(style: .default, orientation: .horizontal)
     private let bottomSeparator = Separator(style: .default, orientation: .horizontal)
     private let verticalSeparator = Separator(style: .default, orientation: .vertical)
@@ -137,17 +140,17 @@ open class ActionsCell: UITableViewCell {
     ///   - action2Type: type describing if the second action has '.regular', '.destructive' or '.communication' color.
     @objc open func setup(action1Title: String, action2Title: String = "", action1Type: ActionType = .regular, action2Type: ActionType = .regular) {
         action1Button.setTitle(action1Title, for: .normal)
-        action1Button.setTitleColor(action1Type.textColor, for: .normal)
-        action1Button.setTitleColor(action1Type.highlightedTextColor, for: .highlighted)
+        self.action1Type = action1Type
 
         let hasAction = !action2Title.isEmpty
         if hasAction {
             action2Button.setTitle(action2Title, for: .normal)
-            action2Button.setTitleColor(action2Type.textColor, for: .normal)
-            action2Button.setTitleColor(action2Type.highlightedTextColor, for: .highlighted)
+            self.action2Type = action2Type
         }
         action2Button.isHidden = !hasAction
         verticalSeparator.isHidden = !hasAction
+
+        updateActionTitleColors()
     }
 
     /// Sets up the action cell with 1 action
@@ -192,6 +195,11 @@ open class ActionsCell: UITableViewCell {
         )
     }
 
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateActionTitleColors()
+    }
+
     open override func prepareForReuse() {
         super.prepareForReuse()
         action1Button.removeTarget(nil, action: nil, for: .allEvents)
@@ -223,5 +231,17 @@ open class ActionsCell: UITableViewCell {
     private func updateHorizontalSeparator(_ separator: Separator, with type: TableViewCell.SeparatorType) {
         separator.isHidden = type == .none
         setNeedsLayout()
+    }
+
+    private func updateActionTitleColors() {
+        if let window = window {
+            action1Button.setTitleColor(action1Type.textColor(for: window), for: .normal)
+            action1Button.setTitleColor(action1Type.highlightedTextColor(for: window), for: .highlighted)
+            if !action2Button.isHidden {
+                action2Button.setTitleColor(action2Type.textColor(for: window), for: .normal)
+                action2Button.setTitleColor(action2Type.highlightedTextColor(for: window), for: .highlighted)
+            }
+        }
+
     }
 }

@@ -5,7 +5,14 @@
 
 import UIKit
 
-class PopupMenuItemCell: TableViewCell {
+class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
+
+    var customSeparatorColor: UIColor? {
+        didSet {
+            bottomSeparator.backgroundColor = customSeparatorColor
+        }
+    }
+
     private struct Constants {
         static let labelVerticalMarginForOneLine: CGFloat = 14
         static let accessoryImageViewOffset: CGFloat = 5
@@ -21,12 +28,22 @@ class PopupMenuItemCell: TableViewCell {
 
     override class var labelVerticalMarginForOneAndThreeLines: CGFloat { return Constants.labelVerticalMarginForOneLine }
 
-    static func preferredWidth(for item: PopupMenuItem, preservingSpaceForImage preserveSpaceForImage: Bool) -> CGFloat {
+    static func preferredWidth(for item: PopupMenuTemplateItem, preservingSpaceForImage preserveSpaceForImage: Bool) -> CGFloat {
+        guard let item = item as? PopupMenuItem else {
+            assertionFailure("Invalid item type for cell.")
+            return 0
+        }
+
         let imageViewSize: CustomViewSize = item.image != nil || preserveSpaceForImage ? Constants.imageViewSize : .zero
         return preferredWidth(title: item.title, subtitle: item.subtitle ?? "", customViewSize: imageViewSize, customAccessoryView: item.accessoryView, accessoryType: .checkmark)
     }
 
-    static func preferredHeight(for item: PopupMenuItem) -> CGFloat {
+    static func preferredHeight(for item: PopupMenuTemplateItem) -> CGFloat {
+        guard let item = item as? PopupMenuItem else {
+            assertionFailure("Invalid item type for cell.")
+            return 0
+        }
+
         return height(title: item.title, subtitle: item.subtitle ?? "", customViewSize: Constants.imageViewSize, customAccessoryView: item.accessoryView, accessoryType: .checkmark)
     }
 
@@ -74,7 +91,12 @@ class PopupMenuItemCell: TableViewCell {
         isAccessibilityElement = true
     }
 
-    func setup(item: PopupMenuItem) {
+    func setup(item: PopupMenuTemplateItem) {
+        guard let item = item as? PopupMenuItem else {
+            assertionFailure("Invalid item type for cell.")
+            return
+        }
+
         self.item = item
 
         _imageView.image = item.image
@@ -110,7 +132,7 @@ class PopupMenuItemCell: TableViewCell {
         }
 
         // Override default background color change
-        backgroundColor = item?.backgroundColor ?? Colors.Table.Cell.background
+        backgroundColor = item?.backgroundColor ?? .clear
 
         if animated {
             UIView.animate(withDuration: Constants.animationDuration) {
@@ -129,7 +151,7 @@ class PopupMenuItemCell: TableViewCell {
         }
 
         // Override default background color change
-        backgroundColor = Colors.Table.Cell.background
+        backgroundColor = item?.backgroundColor ?? .clear
 
         if animated {
             UIView.animate(withDuration: Constants.animationDuration) {
@@ -138,6 +160,11 @@ class PopupMenuItemCell: TableViewCell {
         } else {
             updateViews()
         }
+    }
+
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateSelectionColors()
     }
 
     private func updateAccessibilityTraits() {
@@ -159,19 +186,32 @@ class PopupMenuItemCell: TableViewCell {
         subtitleLabel.alpha = alpha
         customAccessoryView?.alpha = alpha
 
-        // Selection
-        if let item = item {
-            _imageView.tintColor = isSelected ? item.imageSelectedColor : item.imageColor
-            titleLabel.textColor = isSelected ? item.titleSelectedColor : item.titleColor
-            subtitleLabel.textColor = isSelected ? item.subtitleSelectedColor : item.subtitleColor
-            backgroundColor = item.backgroundColor
-        }
+        updateSelectionColors()
+
         _imageView.isHighlighted = isSelected
-        if isSelected && item?.isAccessoryCheckmarkVisible == true {
-            _accessoryType = .checkmark
-            accessoryTypeView?.customTintColor = item?.accessoryCheckmarkColor
-        } else {
-            _accessoryType = .none
+    }
+
+    private func updateSelectionColors() {
+        if let window = window {
+            if let item = item {
+                _imageView.tintColor = isSelected
+                    ? item.imageSelectedColor ?? Colors.primary(for: window)
+                    : item.imageColor
+                titleLabel.textColor = isSelected
+                    ? item.titleSelectedColor ?? Colors.primary(for: window)
+                    : item.titleColor
+                subtitleLabel.textColor = isSelected
+                    ? item.subtitleSelectedColor ?? Colors.primary(for: window)
+                    : item.subtitleColor
+                backgroundColor = item.backgroundColor
+            }
+
+            if isSelected && item?.isAccessoryCheckmarkVisible == true {
+                _accessoryType = .checkmark
+                accessoryTypeView?.customTintColor = item?.accessoryCheckmarkColor ?? Colors.primary(for: window)
+            } else {
+                _accessoryType = .none
+            }
         }
     }
 }
