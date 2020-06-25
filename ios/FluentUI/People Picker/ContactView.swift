@@ -76,77 +76,83 @@ open class ContactView: UIView {
         constraints.append(widthAnchor.constraint(equalToConstant: Constants.contactWidth))
         constraints.append(contentsOf: avatarLayoutConstraints())
 
-        if titleLabel != nil && subtitleLabel != nil {
-            constraints.append(contentsOf: titleLayoutConstraints())
-            constraints.append(contentsOf: subtitleLayoutConstraints())
-        } else {
+        if let titleLabel = titleLabel, let subtitleLabel = subtitleLabel {
+            constraints.append(contentsOf: titleLabelLayoutConstraints())
+            constraints.append(contentsOf: subtitleLabelLayoutConstraints())
+            addSubview(titleLabel)
+            addSubview(subtitleLabel)
+        } else if let identifierLabel = identifierLabel {
             constraints.append(contentsOf: identifierLayoutConstraints())
+            addSubview(identifierLabel)
         }
+
+        addSubview(avatarView)
 
         NSLayoutConstraint.activate(constraints)
     }
 
     private func avatarLayoutConstraints() -> [NSLayoutConstraint] {
-        addSubview(avatarView)
         avatarView.translatesAutoresizingMaskIntoConstraints = false
 
-        var constraints = [NSLayoutConstraint]()
-        constraints.append(avatarView.heightAnchor.constraint(equalToConstant: Constants.avatarViewHeight))
-        constraints.append(avatarView.widthAnchor.constraint(equalToConstant: Constants.avatarViewWidth))
-        constraints.append(avatarView.centerXAnchor.constraint(equalTo: centerXAnchor))
-        constraints.append(avatarView.topAnchor.constraint(equalTo: topAnchor))
-        constraints.append(avatarView.leadingAnchor.constraint(equalTo: leadingAnchor))
-        constraints.append(avatarView.trailingAnchor.constraint(equalTo: trailingAnchor))
-        return constraints
+        return [
+            avatarView.heightAnchor.constraint(equalToConstant: Constants.avatarViewHeight),
+            avatarView.widthAnchor.constraint(equalToConstant: Constants.avatarViewWidth),
+            avatarView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            avatarView.topAnchor.constraint(equalTo: topAnchor),
+            avatarView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            avatarView.trailingAnchor.constraint(equalTo: trailingAnchor)
+        ]
     }
 
-    private func titleLayoutConstraints() -> [NSLayoutConstraint] {
+    private func titleLabelLayoutConstraints() -> [NSLayoutConstraint] {
+        guard let titleLabel = titleLabel else {
+            return []
+        }
+
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        return [
+            titleLabel.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.spacingBetweenAvatarAndFirstLabel),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            titleLabel.widthAnchor.constraint(equalTo: widthAnchor),
+            titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.titleLabelMinimumHeight)
+        ]
+    }
+
+    private func subtitleLabelLayoutConstraints() -> [NSLayoutConstraint] {
+        guard let subtitleLabel = subtitleLabel else {
+            return []
+        }
+
         var constraints = [NSLayoutConstraint]()
+        subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
+
         if let titleLabel = titleLabel {
-            addSubview(titleLabel)
-            titleLabel.translatesAutoresizingMaskIntoConstraints = false
-            constraints.append(titleLabel.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.spacingBetweenAvatarAndFirstLabel))
-            constraints.append(titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor))
-            constraints.append(titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor))
-            constraints.append(titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor))
-            constraints.append(titleLabel.widthAnchor.constraint(equalTo: widthAnchor))
-            constraints.append(titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.titleLabelMinimumHeight))
+            constraints.append(subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor))
         }
-        return constraints
-    }
-
-    private func subtitleLayoutConstraints() -> [NSLayoutConstraint] {
-        var constraints = [NSLayoutConstraint]()
-        if let subtitleLabel = subtitleLabel {
-            addSubview(subtitleLabel)
-            subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
-            constraints.append(subtitleLabel.centerXAnchor.constraint(equalTo: centerXAnchor))
-
-            if let titleLabel = titleLabel {
-                constraints.append(subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor))
-            }
-
-            constraints.append(subtitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor))
-            constraints.append(subtitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor))
-            constraints.append(subtitleLabel.widthAnchor.constraint(equalTo: widthAnchor))
-            constraints.append(subtitleLabel.bottomAnchor.constraint(equalTo: bottomAnchor))
-        }
+        constraints.append(subtitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor))
+        constraints.append(subtitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor))
+        constraints.append(subtitleLabel.centerXAnchor.constraint(equalTo: centerXAnchor))
+        constraints.append(subtitleLabel.widthAnchor.constraint(equalTo: widthAnchor))
+        constraints.append(subtitleLabel.bottomAnchor.constraint(equalTo: bottomAnchor))
         return constraints
     }
 
     private func identifierLayoutConstraints() -> [NSLayoutConstraint] {
-        var constraints = [NSLayoutConstraint]()
-        if let identifierLabel = identifierLabel {
-            addSubview(identifierLabel)
-            identifierLabel.translatesAutoresizingMaskIntoConstraints = false
-            constraints.append(identifierLabel.widthAnchor.constraint(equalTo: widthAnchor))
-            constraints.append(identifierLabel.centerXAnchor.constraint(equalTo: centerXAnchor))
-            constraints.append(identifierLabel.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.spacingBetweenAvatarAndFirstLabel))
-            constraints.append(identifierLabel.leadingAnchor.constraint(equalTo: leadingAnchor))
-            constraints.append(identifierLabel.trailingAnchor.constraint(equalTo: trailingAnchor))
-            constraints.append(identifierLabel.bottomAnchor.constraint(equalTo: bottomAnchor))
+        guard let identifierLabel = identifierLabel else {
+            return []
         }
-        return constraints
+
+        identifierLabel.translatesAutoresizingMaskIntoConstraints = false
+        return [
+            identifierLabel.widthAnchor.constraint(equalTo: widthAnchor),
+            identifierLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            identifierLabel.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.spacingBetweenAvatarAndFirstLabel),
+            identifierLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            identifierLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            identifierLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ]
     }
 
     private func setupTitleLabel(using firstName: String) {
