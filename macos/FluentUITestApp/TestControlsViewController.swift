@@ -21,7 +21,6 @@ class TestControlsViewController: NSViewController, NSTableViewDelegate, NSTable
 							("Date Picker", TestDatePickerController.self),
 							("Link", TestLinkViewController.self),
 							("Separator", TestSeparatorViewController.self)
-
 	]
 	
 	override func loadView() {
