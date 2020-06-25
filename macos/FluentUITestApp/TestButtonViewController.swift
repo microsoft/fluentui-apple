@@ -18,9 +18,9 @@ class TestButtonViewController: NSViewController {
 
 		let buttonsWithTitle: () -> [NSButton] = {
 			return [
-				Button(title: "Button", style: .primaryFilled),
-				Button(title: "Button", style: .primaryOutline),
-				Button(title: "Button", style: .borderless),
+				Button(title: "FluentUI Button", style: .primaryFilled),
+				Button(title: "FluentUI Button", style: .primaryOutline),
+				Button(title: "FluentUI Button", style: .borderless),
 			]
 		}
 		
@@ -69,10 +69,12 @@ class TestButtonViewController: NSViewController {
 		let containerView = NSStackView()
 		containerView.orientation = .vertical
 		containerView.translatesAutoresizingMaskIntoConstraints = false
-		containerView.edgeInsets = NSEdgeInsets(top: containerViewEdgeInsets,
-												left: containerViewEdgeInsets,
-												bottom: containerViewEdgeInsets,
-												right: containerViewEdgeInsets)
+		containerView.edgeInsets = NSEdgeInsets(
+			top: containerViewEdgeInsets,
+			left: containerViewEdgeInsets,
+			bottom: containerViewEdgeInsets,
+			right: containerViewEdgeInsets
+		)
 
 		containerView.addView(gridView, in: .top)
 

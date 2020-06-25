@@ -17,45 +17,62 @@ import AppKit
 /// A fluent styled button, with hover effects and a corner radius.
 @objc(MSFButton)
 open class Button: NSButton {
-
+	/// Initializes a Fluent UI Button with a title, automatically colored to suit the style
+	/// - Parameters:
+	///   - title: String displayed in the button
+	///   - style: The ButtonStyle, defaulting to primaryFilled
 	@objc public init(title: String, style: ButtonStyle = .primaryFilled) {
 		super.init(frame: .zero)
-		self.title = title
-		self.style = style
-		initialize()
+		initialize(title: title, image: nil, style: style)
     }
 	
+	/// Initializes a Fluent UI Button with an image, setting the imagePosition to imageOnly
+	/// - Parameters:
+	///   - image: The NSImage to diplay in the button
+	///   - style: The ButtonStyle, defaulting to primaryFilled
 	@objc public init(image: NSImage, style: ButtonStyle = .primaryFilled) {
 		super.init(frame: .zero)
-		self.style = style
-		initialize()
-		// Image must be set after `wantsLayer = true` so that the image is on the layer and not the underlying NSButtonCell
-		imagePosition = .imageOnly
-		self.image = image
-    }    
-	
-	public override init(frame frameRect: NSRect) {
-		super.init(frame: frameRect)
-		initialize()
-	}
+		initialize(title: nil, image: image, style: style)
+    }
 
 	@available(*, unavailable)
 	required public init?(coder decoder: NSCoder) {
 		preconditionFailure()
 	}
 	
-	private func initialize() {
+	private func initialize(title: String?, image: NSImage?, style: ButtonStyle = .primaryFilled) {
 		// Do common initialization work
 		isBordered = false
 		wantsLayer = true
-		update()
+		
+		self.style = style
+		
+		if let title = title {
+			self.title = title
+		}
+		
+		if let image = image {
+			self.image = image
+		}
 	}
 	
 	override public var image: NSImage? {
-		didSet {
-			if imagePosition != .imageOnly {
-				preconditionFailure("We currently do not support adding both an image and a title. Please set the imagePosition to .imageOnly before setting an image")
+		willSet {
+			guard wantsLayer == true else {
+				exit(-1)
 			}
+			imagePosition = .imageOnly
+		}
+	}
+	
+	override public var title: String {
+		willSet {
+			guard wantsLayer == true else {
+				exit(-1)
+			}
+		}
+		didSet {
+			self.attributedTitle = NSAttributedString(string: title, attributes: [.foregroundColor : textColor])
 		}
 	}
 	
@@ -80,22 +97,22 @@ open class Button: NSButton {
 		self.trackingArea = trackingArea
 	}
 	
-	override public func mouseEntered(with event: NSEvent) {
+	open override func mouseEntered(with event: NSEvent) {
 		mouseEntered = true
 		needsDisplay = true
 	}
 
-	override public func mouseExited(with event: NSEvent) {
+	open override func mouseExited(with event: NSEvent) {
 		mouseEntered = false
 		needsDisplay = true
 	}
 	
-	override public func mouseDown(with event: NSEvent) {
+	open override func mouseDown(with event: NSEvent) {
 		mouseDown = true
 		needsDisplay = true
 	}
 	
-	override public func mouseUp(with event: NSEvent) {
+	open override func mouseUp(with event: NSEvent) {
 		mouseDown = false
 		needsDisplay = true
 	}
@@ -103,7 +120,6 @@ open class Button: NSButton {
 	open override func updateLayer() {
 		if let layer = layer {
 			layer.borderWidth = borderWidth
-			layer.masksToBounds = true
 			layer.cornerRadius = cornerRadius
 			layer.backgroundColor = layerBackgroundColor.cgColor
 			layer.borderColor = outlineColor.cgColor
@@ -127,7 +143,7 @@ open class Button: NSButton {
 	@objc public var primaryColor: NSColor = defaultPrimaryColor {
 		didSet {
 			if primaryColor != oldValue {
-				update()
+				needsDisplay = true
 			}
 		}
 	}
@@ -136,29 +152,16 @@ open class Button: NSButton {
 	@objc public var style: ButtonStyle = .primaryFilled {
 		didSet {
 			if style != oldValue {
-				update()
+				needsDisplay = true
 			}
 		}
 	}
-
-	private func update() {
-		self.attributedTitle = NSAttributedString(string: title, attributes: [.foregroundColor : textColor])
-		needsDisplay = true
-	}
 	
-	private func disabledColor(color: NSColor) -> NSColor {
+	private func disabledColor(for color: NSColor) -> NSColor {
 		if #available(macOS 10.14, *) {
 			return color.withSystemEffect(.disabled)
 		} else {
 			return color.withAlphaComponent(0.25)
-		}
-	}
-	
-	private static var defaultPrimaryColor: NSColor {
-		if #available(macOS 10.14, *) {
-			return .controlAccentColor
-		} else {
-			return .systemBlue
 		}
 	}
 	
@@ -176,7 +179,7 @@ open class Button: NSButton {
 		if isEnabled {
 			return baseOutlineColor
 		} else {
-			return disabledColor(color: baseOutlineColor)
+			return disabledColor(for: baseOutlineColor)
 		}
 	}
 	
@@ -214,7 +217,15 @@ open class Button: NSButton {
 				return restBackgroundColor
 			}
 		} else {
-			return disabledColor(color: fillColor)
+			return disabledColor(for: fillColor)
+		}
+	}
+	
+	private static var defaultPrimaryColor: NSColor {
+		if #available(macOS 10.14, *) {
+			return .controlAccentColor
+		} else {
+			return .systemBlue
 		}
 	}
 }
