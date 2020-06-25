@@ -18,7 +18,7 @@ Buttons are one of the core controls that make an app feel native to the platfor
 // There are 3 styles to choose from, the default being primary filled
 let primaryFilledButton = Button(title: "FluentUI Button", style: .primaryFilled),
 let primaryOutlineButton = Button(title: "FluentUI Button", style: .primaryOutline),
-let BorderlessButton = Button(title: "FluentUI Button", style: .borderless),
+let borderlessButton = Button(title: "FluentUI Button", style: .borderless)
 ```
 
 ```Swift
