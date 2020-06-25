@@ -16,9 +16,7 @@ open class ContactView: UIView {
 
     @objc public var avatarImage: UIImage? {
         didSet {
-            if let avatarImage = avatarImage {
-                avatarView.setup(image: avatarImage)
-            }
+            setupAvatarView(with: titleLabel?.text, and: subtitleLabel?.text, or: nil)
         }
     }
     private let avatarView: AvatarView
