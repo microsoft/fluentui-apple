@@ -31,29 +31,33 @@ open class ContactView: UIView {
     /// - Parameters:
     ///   - title: String that will be the text of the top label
     ///   - subtitle: String that will be the text of the bottom label
-    @objc public init(title: String, subtitle: String) {
-        avatarView = AvatarView(avatarSize: .extraExtraLarge, withBorder: false, style: .circle)
-        titleLabel = UILabel()
-        subtitleLabel = UILabel()
-        super.init(frame: .zero)
-        setupAvatarView(with: title, and: subtitle, or: nil)
-        backgroundColor = Colors.surfacePrimary
-        setupTitleLabel(using: title)
-        setupSubtitleLabel(using: subtitle)
-        setupLayout()
+    @objc public convenience init(title: String, subtitle: String) {
+        self.init(title: title, subtitle: subtitle, identifier: nil)
     }
 
     /// Initializes the contact view by creating an avatar view with an identifier
     ///
     /// - Parameters:
     ///   - identifier: String that will be used to identify the contact (e.g. email, phone number, first name)
-    @objc public init(identifier: String) {
+    @objc public convenience init(identifier: String) {
+        self.init(title: nil, subtitle: nil, identifier: identifier)
+    }
+
+    private init(title: String?, subtitle: String?, identifier: String?) {
         avatarView = AvatarView(avatarSize: .extraExtraLarge, withBorder: false, style: .circle)
         super.init(frame: .zero)
-        // TODO: Should 'nil' be used here?
-        setupAvatarView(with: nil, and: nil, or: identifier)
+
+        if let title = title, let subtitle = subtitle {
+            subtitleLabel = UILabel()
+            setupAvatarView(with: title, and: subtitle, or: nil)
+            setupTitleLabel(using: title)
+            setupSubtitleLabel(using: subtitle)
+        } else if let identifier = identifier {
+            setupAvatarView(with: nil, and: nil, or: identifier)
+            setupTitleLabel(using: identifier)
+        }
+
         backgroundColor = Colors.surfacePrimary
-        setupTitleLabel(using: identifier)
         setupLayout()
     }
 
@@ -166,6 +170,7 @@ open class ContactView: UIView {
 
             if subtitleLabel == nil {
                 titleLabel.numberOfLines = 2
+                titleLabel.textAlignment = .natural
             }
         }
     }
