@@ -88,9 +88,10 @@ open class PeoplePicker: BadgeField {
         }
     }
 
-    /// The UIView used to present 'suggestedPersonas'
+    /// The UIView used to present 'suggestedPersonas'. It includes personaListView
     @objc public let personaSuggestionsView = UIView()
 
+    /// The UITableView used to present 'availablePersonas'
     @objc public let personaListView = PersonaListView()
 
     /// The `suggestedPersonas` are personas that appear in the persona list that can be picked and added to `pickedPersonas`.
@@ -178,6 +179,25 @@ open class PeoplePicker: BadgeField {
         layoutPersonaSuggestions()
     }
 
+    /// layouts personaSuggestionsView in available window frame
+    @objc open func showPersonaSuggestions() {
+        personaListView.contentOffset = .zero
+        window?.addSubview(personaSuggestionsView)
+        containingViewBoundsObservation = window?.observe(\.bounds) { [unowned self] (_, _) in
+            self.layoutPersonaSuggestions()
+        }
+
+        personaListView.searchDirectoryState = .idle
+
+        setNeedsLayout()
+    }
+
+    /// Hides personaSuggestionsView
+    @objc open func hidePersonaSuggestions() {
+        personaSuggestionsView.removeFromSuperview()
+        containingViewBoundsObservation = nil
+    }
+
     private func layoutPersonaSuggestions() {
         if !isShowingPersonaSuggestions {
             return
@@ -214,23 +234,6 @@ open class PeoplePicker: BadgeField {
     }
 
     // MARK: Personas
-
-    open func showPersonaSuggestions() {
-        personaListView.contentOffset = .zero
-        window?.addSubview(personaSuggestionsView)
-        containingViewBoundsObservation = window?.observe(\.bounds) { [unowned self] (_, _) in
-            self.layoutPersonaSuggestions()
-        }
-
-        personaListView.searchDirectoryState = .idle
-
-        setNeedsLayout()
-    }
-
-    open func hidePersonaSuggestions() {
-        personaSuggestionsView.removeFromSuperview()
-        containingViewBoundsObservation = nil
-    }
 
     private func getSuggestedPersonas() {
         // Use `getSuggestedPersonasForText` delegate method if implemented, otherwise filter `availablePersonas` with `textFieldContent` and remove any personas that have already been picked (checks for matching name and email) if `allowPickedPersonasToAppearAsSuggested` is set to false.
