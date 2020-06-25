@@ -125,17 +125,20 @@ open class ContactView: UIView {
             return []
         }
 
-        var constraints = [NSLayoutConstraint]()
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        var constraints = [
+            subtitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            subtitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            subtitleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            subtitleLabel.widthAnchor.constraint(equalTo: widthAnchor),
+            subtitleLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ]
 
         if let titleLabel = titleLabel {
             constraints.append(subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor))
         }
-        constraints.append(subtitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor))
-        constraints.append(subtitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor))
-        constraints.append(subtitleLabel.centerXAnchor.constraint(equalTo: centerXAnchor))
-        constraints.append(subtitleLabel.widthAnchor.constraint(equalTo: widthAnchor))
-        constraints.append(subtitleLabel.bottomAnchor.constraint(equalTo: bottomAnchor))
+
         return constraints
     }
 
