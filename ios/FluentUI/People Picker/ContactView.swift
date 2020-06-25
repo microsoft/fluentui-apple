@@ -14,7 +14,6 @@ open class ContactView: UIView {
         static let spacingBetweenAvatarAndFirstLabel: CGFloat = 13.0
     }
 
-    // TODO: Set it as the default image (pawn)
     @objc public var avatarImage: UIImage? {
         didSet {
             if let avatarImage = avatarImage {
