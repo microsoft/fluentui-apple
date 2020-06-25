@@ -25,7 +25,6 @@ open class ContactView: UIView {
     private let avatarView: AvatarView
     private var titleLabel: UILabel?
     private var subtitleLabel: UILabel?
-    private var identifierLabel: UILabel?
 
     /// Initializes the contact view by creating an avatar view with a first name and last name
     ///
@@ -54,7 +53,7 @@ open class ContactView: UIView {
         // TODO: Should 'nil' be used here?
         setupAvatarView(with: nil, and: nil, or: identifier)
         backgroundColor = Colors.surfacePrimary
-        setupIdentifierLabel(using: identifier)
+        setupTitleLabel(using: identifier)
         setupLayout()
     }
 
@@ -81,9 +80,9 @@ open class ContactView: UIView {
             constraints.append(contentsOf: subtitleLabelLayoutConstraints())
             addSubview(titleLabel)
             addSubview(subtitleLabel)
-        } else if let identifierLabel = identifierLabel {
+        } else if let titleLabel = titleLabel {
             constraints.append(contentsOf: identifierLayoutConstraints())
-            addSubview(identifierLabel)
+            addSubview(titleLabel)
         }
 
         addSubview(avatarView)
@@ -140,18 +139,18 @@ open class ContactView: UIView {
     }
 
     private func identifierLayoutConstraints() -> [NSLayoutConstraint] {
-        guard let identifierLabel = identifierLabel else {
+        guard let titleLabel = titleLabel else {
             return []
         }
 
-        identifierLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         return [
-            identifierLabel.widthAnchor.constraint(equalTo: widthAnchor),
-            identifierLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            identifierLabel.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.spacingBetweenAvatarAndFirstLabel),
-            identifierLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            identifierLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-            identifierLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
+            titleLabel.widthAnchor.constraint(equalTo: widthAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            titleLabel.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.spacingBetweenAvatarAndFirstLabel),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
         ]
     }
 
@@ -162,8 +161,12 @@ open class ContactView: UIView {
             titleLabel.adjustsFontForContentSizeCategory = true
             titleLabel.font = Fonts.subhead
             titleLabel.text = firstName
-            titleLabel.textColor = Colors.Contact.title
             titleLabel.textAlignment = .center
+            titleLabel.textColor = Colors.Contact.title
+
+            if subtitleLabel == nil {
+                titleLabel.numberOfLines = 2
+            }
         }
     }
 
@@ -176,19 +179,6 @@ open class ContactView: UIView {
             subtitleLabel.text = lastName
             subtitleLabel.textAlignment = .center
             subtitleLabel.textColor = Colors.Contact.subtitle
-        }
-    }
-
-    private func setupIdentifierLabel(using identifier: String) {
-        identifierLabel = UILabel(frame: .zero)
-
-        if let identifierLabel = identifierLabel {
-            identifierLabel.adjustsFontForContentSizeCategory = true
-            identifierLabel.font = Fonts.subhead
-            identifierLabel.numberOfLines = 2
-            identifierLabel.text = identifier
-            identifierLabel.textAlignment = .natural
-            identifierLabel.textColor = Colors.Contact.title
         }
     }
 }

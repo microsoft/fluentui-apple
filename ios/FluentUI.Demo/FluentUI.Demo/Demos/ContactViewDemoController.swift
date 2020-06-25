@@ -20,6 +20,10 @@ class ContactViewDemoController: DemoController {
         let noImageContactView = ContactView(title: "John", subtitle: "Smith")
         noImageContactView.translatesAutoresizingMaskIntoConstraints = false
 
+        // ContactView with first name
+        let firstNameContactView = ContactView(identifier: "Christopher")
+        firstNameContactView.translatesAutoresizingMaskIntoConstraints = false
+
         // ContactView with email
         let emailContactView = ContactView(identifier: "elatk@contoso.com")
         emailContactView.translatesAutoresizingMaskIntoConstraints = false
@@ -30,6 +34,7 @@ class ContactViewDemoController: DemoController {
 
         addRow(text: "ContactView with image", items: [contactView], textWidth: 200)
         addRow(text: "ContactView with initials", items: [noImageContactView], textWidth: 200)
+        addRow(text: "ContactView with first name", items: [firstNameContactView], textWidth: 200)
         addRow(text: "ContactView with email", items: [emailContactView], textWidth: 200)
         addRow(text: "ContactView with phone number", items: [phoneNumberContactView], textWidth: 200)
         container.addArrangedSubview(UIView())
