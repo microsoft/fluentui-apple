@@ -13,13 +13,17 @@ public enum SeparatorStyle: Int {
     fileprivate var color: NSColor {
         switch self {
         case .default:
-			return NSColor.systemBlue
+			if #available(OSX 10.14, *) {
+				return NSColor.separatorColor
+
+			} else {
+				return NSColor.systemGray
+			}
         case .shadow:
-			return NSColor.systemGray
+			return NSColor.gridColor
         }
     }
 }
-
 
 @objc(MSFSeparatorOrientation)
 public enum SeparatorOrientation: Int {
