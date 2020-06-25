@@ -11,15 +11,15 @@ public enum SeparatorStyle: Int {
     case shadow
 
     fileprivate var color: NSColor {
-        switch self {
-        case .default:
+		switch self {
+		case .default:
 			if #available(OSX 10.14, *) {
 				return NSColor.separatorColor
 
 			} else {
 				return NSColor.systemGray
 			}
-        case .shadow:
+		case .shadow:
 			return NSColor.gridColor
         }
     }
