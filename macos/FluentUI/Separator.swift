@@ -7,8 +7,8 @@ import AppKit
 
 @objc(MSFSeparatorOrientation)
 public enum SeparatorOrientation: Int {
-    case horizontal
-    case vertical
+    case horizontal // Separator with no intrinic width
+    case vertical // Separator with no intrinic height
 }
 
 @objc(MSFSeparator)
@@ -21,9 +21,6 @@ open class Separator: NSView {
 		self.orientation = orientation
 		super.init(frame: .zero)
 		wantsLayer = true
-		if let layer = layer {
-			layer.backgroundColor = separatorColor.cgColor
-		}
 	}
 
 	@available(*, unavailable)
