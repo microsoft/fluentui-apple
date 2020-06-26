@@ -5,6 +5,7 @@
 
 import UIKit
 
+@objc(MSFContactView)
 open class ContactView: UIView {
     private struct Constants {
         static let contactWidth: CGFloat = 70.0
