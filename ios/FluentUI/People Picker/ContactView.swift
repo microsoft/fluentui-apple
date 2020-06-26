@@ -20,6 +20,7 @@ open class ContactView: UIView {
             setupAvatarView(with: titleLabel?.text, and: subtitleLabel?.text, or: nil)
         }
     }
+
     private let avatarView: AvatarView
     private var titleLabel: UILabel?
     private var subtitleLabel: UILabel?
@@ -77,13 +78,14 @@ open class ContactView: UIView {
         constraints.append(widthAnchor.constraint(equalToConstant: Constants.contactWidth))
         constraints.append(contentsOf: avatarLayoutConstraints())
 
-        if let titleLabel = titleLabel, let subtitleLabel = subtitleLabel {
-            constraints.append(contentsOf: titleLabelLayoutConstraints())
-            constraints.append(contentsOf: subtitleLabelLayoutConstraints())
-            addSubview(titleLabel)
-            addSubview(subtitleLabel)
-        } else if let titleLabel = titleLabel {
-            constraints.append(contentsOf: identifierLayoutConstraints())
+        if let titleLabel = titleLabel {
+            if let subtitleLabel = subtitleLabel {
+                constraints.append(contentsOf: titleLabelLayoutConstraints())
+                constraints.append(contentsOf: subtitleLabelLayoutConstraints())
+                addSubview(subtitleLabel)
+            } else {
+                constraints.append(contentsOf: identifierLayoutConstraints())
+            }
             addSubview(titleLabel)
         }
 
