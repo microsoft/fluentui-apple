@@ -32,6 +32,7 @@ open class Button: NSButton {
 	///   - style: The ButtonStyle, defaulting to primaryFilled
 	@objc public init(image: NSImage, style: ButtonStyle = .primaryFilled) {
 		super.init(frame: .zero)
+		imagePosition = .imageOnly
 		initialize(title: nil, image: image, style: style)
     }
 
@@ -59,16 +60,15 @@ open class Button: NSButton {
 	override public var image: NSImage? {
 		willSet {
 			guard wantsLayer == true else {
-				exit(-1)
+				preconditionFailure("wantsLayer must be set so that the image is rendered on the layer")
 			}
-			imagePosition = .imageOnly
 		}
 	}
 	
 	override public var title: String {
 		willSet {
 			guard wantsLayer == true else {
-				exit(-1)
+				preconditionFailure("wantsLayer must be set so that the title is rendered on the layer")
 			}
 		}
 		didSet {

@@ -26,6 +26,7 @@ let borderlessButton = Button(title: "FluentUI Button", style: .borderless)
 let buttonWithImageAndStyle = Button(image: NSImage(named: NSImage.addTemplateName)!, style: .primaryFilled)
 ```
 
+Overriding the underlying NSButtonCell will result in udefined behavior.
 
 ## Implementation
 ### Control Name
