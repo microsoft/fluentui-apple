@@ -11,7 +11,6 @@ public enum SeparatorOrientation: Int {
     case vertical
 }
 
-
 @objc(MSFSeparator)
 open class Separator: NSView {
 	let orientation: SeparatorOrientation
