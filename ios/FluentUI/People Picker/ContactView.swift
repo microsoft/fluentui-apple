@@ -162,31 +162,29 @@ open class ContactView: UIView {
     }
 
     private func setupTitleLabel(using firstName: String) {
-        titleLabel = UILabel(frame: .zero)
+        let label = UILabel(frame: .zero)
+        label.adjustsFontForContentSizeCategory = true
+        label.font = Fonts.subhead
+        label.text = firstName
+        label.textAlignment = .center
+        label.textColor = Colors.Contact.title
 
-        if let titleLabel = titleLabel {
-            titleLabel.adjustsFontForContentSizeCategory = true
-            titleLabel.font = Fonts.subhead
-            titleLabel.text = firstName
-            titleLabel.textAlignment = .center
-            titleLabel.textColor = Colors.Contact.title
-
-            if subtitleLabel == nil {
-                titleLabel.numberOfLines = 2
-                titleLabel.textAlignment = .natural
-            }
+        if subtitleLabel == nil {
+            label.numberOfLines = 2
+            label.textAlignment = .natural
         }
+
+        titleLabel = label
     }
 
     private func setupSubtitleLabel(using lastName: String) {
-        subtitleLabel = UILabel(frame: .zero)
+        let label = UILabel(frame: .zero)
+        label.adjustsFontForContentSizeCategory = true
+        label.font = Fonts.footnote
+        label.text = lastName
+        label.textAlignment = .center
+        label.textColor = Colors.Contact.subtitle
 
-        if let subtitleLabel = subtitleLabel {
-            subtitleLabel.adjustsFontForContentSizeCategory = true
-            subtitleLabel.font = Fonts.footnote
-            subtitleLabel.text = lastName
-            subtitleLabel.textAlignment = .center
-            subtitleLabel.textColor = Colors.Contact.subtitle
-        }
+        subtitleLabel = label
     }
 }
