@@ -5,26 +5,6 @@
 
 import AppKit
 
-@objc(MSFSeparatorStyle)
-public enum SeparatorStyle: Int {
-    case `default`
-    case shadow
-
-    fileprivate var color: NSColor {
-		switch self {
-		case .default:
-			if #available(OSX 10.14, *) {
-				return NSColor.separatorColor
-
-			} else {
-				return NSColor.systemGray
-			}
-		case .shadow:
-			return NSColor.gridColor
-        }
-    }
-}
-
 @objc(MSFSeparatorOrientation)
 public enum SeparatorOrientation: Int {
     case horizontal
@@ -34,49 +14,52 @@ public enum SeparatorOrientation: Int {
 
 @objc(MSFSeparator)
 open class Separator: NSView {
-	private var orientation: SeparatorOrientation = .horizontal
+	let orientation: SeparatorOrientation
 	
-	private var style: SeparatorStyle = .default
-
-	@objc public override init(frame frameRect: NSRect) {
-		super.init(frame: frameRect)
-		initialize()
-	}
-	
-	@objc public init(orientation: SeparatorOrientation = .horizontal) {
+	/// Initializes a separator in the specified orientation
+	/// - Parameter orientation: The orientation of the separator, vertical or horizontal
+	@objc public init(orientation: SeparatorOrientation) {
+		self.orientation = orientation
 		super.init(frame: .zero)
-		initialize(orientation: orientation)
-	}
-
-	@objc public init(style: SeparatorStyle = .default, orientation: SeparatorOrientation = .horizontal) {
-		super.init(frame: .zero)
-		initialize(style: style, orientation: orientation)
+		wantsLayer = true
+		if let layer = layer {
+			layer.backgroundColor = separatorColor.cgColor
+		}
 	}
 
 	@available(*, unavailable)
 	required public init?(coder aDecoder: NSCoder) {
 		preconditionFailure()
 	}
-
-	private func initialize(style: SeparatorStyle = .default, orientation: SeparatorOrientation = .horizontal) {
-		wantsLayer = true
-		self.style = style
-		self.orientation = orientation
-		switch orientation {
-		case .horizontal:
-			heightAnchor.constraint(equalToConstant: 1.0).isActive = true
-		case .vertical:
-			widthAnchor.constraint(equalToConstant: 1.0).isActive = true
-		}
-	}
 	
 	open override var wantsUpdateLayer: Bool {
 		return true
 	}
-	
+
 	open override func updateLayer() {
 		if let layer = layer {
-			layer.backgroundColor = style.color.cgColor
+			layer.backgroundColor = separatorColor.cgColor
+		}
+	}
+	
+	open override var intrinsicContentSize: CGSize {
+		switch orientation {
+		case .horizontal:
+			return CGSize(width: NSView.noIntrinsicMetric, height: separatorThickness)
+		case .vertical:
+			return CGSize(width: separatorThickness, height: NSView.noIntrinsicMetric)
+		}
+	}
+	
+	private var separatorColor: NSColor {
+		if #available(OSX 10.14, *) {
+			return .separatorColor
+		} else {
+			return.gridColor
 		}
 	}
 }
+
+// MARK: - Constants
+
+fileprivate let separatorThickness: CGFloat = 1.0

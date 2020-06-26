@@ -9,26 +9,26 @@ import FluentUI
 class TestSeparatorViewController: NSViewController {
 	override func loadView() {
 		let containerView = NSStackView(frame: .zero)
-		containerView.addView(Separator(), in: .center)
-		containerView.addView(NSTextField(labelWithString: "Outside separators are style \"default\""), in: .center)
+		containerView.addView(Separator(orientation: .horizontal), in: .center)
+		containerView.addView(NSTextField(labelWithString: "Separators are used to divide content"), in: .center)
 		
-		containerView.addView(Separator(style: .shadow, orientation: .horizontal), in: .center)
+		containerView.addView(Separator(orientation: .horizontal), in: .center)
 
 		containerView.addView(NSStackView(views: [
 			Separator(orientation: .vertical),
 			NSTextField(labelWithString: "Left"),
-			Separator(style: .shadow, orientation: .vertical),
+			Separator(orientation: .vertical),
 			NSTextField(labelWithString: "Middle"),
-			Separator(style: .shadow, orientation: .vertical),
+			Separator(orientation: .vertical),
 			NSTextField(labelWithString: "Right"),
 			Separator(orientation: .vertical)
 		]), in: .center)
 
-		containerView.addView(Separator(style: .shadow, orientation: .horizontal), in: .center)
+		containerView.addView(Separator(orientation: .horizontal), in: .center)
 		
-		containerView.addView(NSTextField(labelWithString: "Inside Separators are style \"shadow\""), in: .center)
+		containerView.addView(NSTextField(labelWithString: "They can be created in both orientations"), in: .center)
 
-		containerView.addView(Separator(), in: .center)
+		containerView.addView(Separator(orientation: .horizontal), in: .center)
 		
 		containerView.orientation = .vertical
 		containerView.distribution = .gravityAreas
