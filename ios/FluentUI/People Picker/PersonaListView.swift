@@ -33,21 +33,33 @@ public typealias MSPersonaListView = PersonaListView
 
 @objc(MSFPersonaListView)
 open class PersonaListView: UITableView {
-    private enum Section: Int {
-        case personas
-        case searchDirectory
-    }
-
-    enum SearchDirectoryState {
+    /// SearchDirectory button state enum
+    public enum SearchDirectoryState {
         case idle
         case searching
         case displayingSearchResults
+    }
+
+    private enum Section: Int {
+        case personas
+        case searchDirectory
     }
 
     /// The personas to display in the list view
     @objc open var personaList: [Persona] = [] {
         didSet {
             reloadData()
+        }
+    }
+
+    /// searchDIrectoryState variable (persona list to reload rows on state change)
+    public var searchDirectoryState: SearchDirectoryState = .idle {
+        didSet {
+            if searchDirectoryState != oldValue {
+                UIView.performWithoutAnimation {
+                    reloadRows(at: [IndexPath(row: 0, section: 1)], with: .none)
+                }
+            }
         }
     }
 
@@ -69,16 +81,6 @@ open class PersonaListView: UITableView {
     private var searchResultText: String = "" {
         didSet {
             searchDirectoryState = .displayingSearchResults
-        }
-    }
-
-    var searchDirectoryState: SearchDirectoryState = .idle {
-        didSet {
-            if searchDirectoryState != oldValue {
-                UIView.performWithoutAnimation {
-                    reloadRows(at: [IndexPath(row: 0, section: 1)], with: .none)
-                }
-            }
         }
     }
 
@@ -156,6 +158,7 @@ open class PersonaListView: UITableView {
                 self.searchResultText = "%d results found from directory".localized.formatted(with: self.personaList.count)
             }
         })
+        searchDirectoryState = .idle
     }
 }
 
