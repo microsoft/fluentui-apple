@@ -19,7 +19,8 @@ class TestControlsViewController: NSViewController, NSTableViewDelegate, NSTable
 							("FluentUI-macOS (placeholder)", TestPlaceholderViewController.self),
 							("Avatar View", TestAvatarViewController.self),
 							("Date Picker", TestDatePickerController.self),
-							("Link", TestLinkViewController.self)
+							("Link", TestLinkViewController.self),
+							("Separator", TestSeparatorViewController.self)
 	]
 	
 	override func loadView() {
