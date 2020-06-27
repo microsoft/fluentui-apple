@@ -18,6 +18,7 @@ class TestControlsViewController: NSViewController, NSTableViewDelegate, NSTable
 	private let controls: [(title: String, type: NSViewController.Type)] = [
 							("FluentUI-macOS (placeholder)", TestPlaceholderViewController.self),
 							("Avatar View", TestAvatarViewController.self),
+							("Button", TestButtonViewController.self),
 							("Date Picker", TestDatePickerController.self),
 							("Link", TestLinkViewController.self),
 							("Separator", TestSeparatorViewController.self)
