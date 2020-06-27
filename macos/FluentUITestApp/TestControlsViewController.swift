@@ -20,7 +20,8 @@ class TestControlsViewController: NSViewController, NSTableViewDelegate, NSTable
 							("Avatar View", TestAvatarViewController.self),
 							("Button", TestButtonViewController.self),
 							("Date Picker", TestDatePickerController.self),
-							("Link", TestLinkViewController.self)
+							("Link", TestLinkViewController.self),
+							("Separator", TestSeparatorViewController.self)
 	]
 	
 	override func loadView() {
