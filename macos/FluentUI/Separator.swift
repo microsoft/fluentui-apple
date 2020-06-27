@@ -13,7 +13,7 @@ public enum SeparatorOrientation: Int {
 
 @objc(MSFSeparator)
 open class Separator: NSView {
-	let orientation: SeparatorOrientation
+	private let orientation: SeparatorOrientation
 	
 	/// Initializes a separator in the specified orientation
 	/// - Parameter orientation: The orientation of the separator, vertical or horizontal
@@ -34,28 +34,26 @@ open class Separator: NSView {
 
 	open override func updateLayer() {
 		if let layer = layer {
-			layer.backgroundColor = separatorColor.cgColor
+			layer.backgroundColor = Separator.separatorColor.cgColor
 		}
 	}
 	
 	open override var intrinsicContentSize: CGSize {
 		switch orientation {
 		case .horizontal:
-			return CGSize(width: NSView.noIntrinsicMetric, height: separatorThickness)
+			return CGSize(width: NSView.noIntrinsicMetric, height: Separator.separatorThickness)
 		case .vertical:
-			return CGSize(width: separatorThickness, height: NSView.noIntrinsicMetric)
+			return CGSize(width: Separator.separatorThickness, height: NSView.noIntrinsicMetric)
 		}
 	}
 	
-	private var separatorColor: NSColor {
+	private static var separatorColor: NSColor {
 		if #available(OSX 10.14, *) {
 			return .separatorColor
 		} else {
 			return.gridColor
 		}
 	}
+	
+	private static let separatorThickness: CGFloat = 1.0
 }
-
-// MARK: - Constants
-
-fileprivate let separatorThickness: CGFloat = 1.0
