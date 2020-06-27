@@ -119,8 +119,8 @@ open class Button: NSButton {
 	
 	open override func updateLayer() {
 		if let layer = layer {
-			layer.borderWidth = borderWidth
-			layer.cornerRadius = cornerRadius
+			layer.borderWidth = Button.borderWidth
+			layer.cornerRadius = Button.cornerRadius
 			layer.backgroundColor = layerBackgroundColor.cgColor
 			layer.borderColor = outlineColor.cgColor
 		}
@@ -129,8 +129,8 @@ open class Button: NSButton {
 	open override var intrinsicContentSize: NSSize {
 		var intrinsicContentSize = super.intrinsicContentSize;
 
-		intrinsicContentSize.width = intrinsicContentSize.width + (horizontalPadding * 2)
-		intrinsicContentSize.height += (verticalPadding * 2);
+		intrinsicContentSize.width = intrinsicContentSize.width + (Button.horizontalEdgePadding * 2)
+		intrinsicContentSize.height += (Button.verticalEdgePadding * 2);
 
 		return intrinsicContentSize;
 	}
@@ -161,7 +161,7 @@ open class Button: NSButton {
 		if #available(macOS 10.14, *) {
 			return color.withSystemEffect(.disabled)
 		} else {
-			return color.withAlphaComponent(disabledColorFallbackAlphaComponent)
+			return color.withAlphaComponent(Button.disabledColorFallbackAlphaComponent)
 		}
 	}
 	
@@ -175,7 +175,7 @@ open class Button: NSButton {
 	}
 	
 	private var outlineColor: NSColor {
-		let baseOutlineColor = style == ButtonStyle.primaryOutline ? primaryColor.withAlphaComponent(outlineColorAlphaComponent) : .clear
+		let baseOutlineColor = style == ButtonStyle.primaryOutline ? primaryColor.withAlphaComponent(Button.outlineColorAlphaComponent) : .clear
 		if isEnabled {
 			return baseOutlineColor
 		} else {
@@ -195,7 +195,7 @@ open class Button: NSButton {
 		if #available(macOS 10.14, *) {
 			return fillColor.withSystemEffect(.rollover)
 		} else {
-			return fillColor.withAlphaComponent(hoverBackgroundColorFallbackAlphaComponent)
+			return fillColor.withAlphaComponent(Button.hoverBackgroundColorFallbackAlphaComponent)
 		}
 	}
 
@@ -203,7 +203,7 @@ open class Button: NSButton {
 		if #available(macOS 10.14, *) {
 			return fillColor.withSystemEffect(.pressed)
 		} else {
-			return fillColor.withAlphaComponent(pressedBackgroundColorFallbackAlphaComponent)
+			return fillColor.withAlphaComponent(Button.pressedBackgroundColorFallbackAlphaComponent)
 		}
 	}
 	
@@ -228,25 +228,20 @@ open class Button: NSButton {
 			return .systemBlue
 		}
 	}
+	
+	private static let borderWidth: CGFloat = 1
+
+	private static let cornerRadius: CGFloat = 3
+
+	private static let verticalEdgePadding: CGFloat = 4
+
+	private static let horizontalEdgePadding:  CGFloat = 12
+
+	private static let outlineColorAlphaComponent:  CGFloat = 0.4
+
+	private static let disabledColorFallbackAlphaComponent:  CGFloat = 0.25
+
+	private static let hoverBackgroundColorFallbackAlphaComponent:  CGFloat = 0.5
+
+	private static let pressedBackgroundColorFallbackAlphaComponent:  CGFloat = 0.25
 }
-
-// MARK: - Constants
-
-fileprivate let borderWidth: CGFloat = 1
-
-fileprivate let cornerRadius: CGFloat = 3
-
-fileprivate let verticalPadding: CGFloat = 4
-
-fileprivate let horizontalPadding:  CGFloat = 12
-
-fileprivate let outlineColorAlphaComponent:  CGFloat = 0.4
-
-fileprivate let disabledColorFallbackAlphaComponent:  CGFloat = 0.25
-
-fileprivate let hoverBackgroundColorFallbackAlphaComponent:  CGFloat = 0.5
-
-fileprivate let pressedBackgroundColorFallbackAlphaComponent:  CGFloat = 0.25
-
-
-
