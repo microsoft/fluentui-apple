@@ -5,6 +5,8 @@ Buttons are one of the core controls that make an app feel native to the platfor
 
 ![ButtonViews.png](.attachments/ButtonViews.png)
 
+Buttons are a standard control that users can interact with to take actions within your application. The FluentUI button for macOS adds system appropriate hover effects when your mouse rests over it.
+
 ## Best Practices
 ### Do
 - Make sure the label conveys a clear purpose of the button to the user.
