@@ -25,8 +25,9 @@ let borderlessButton = Button(title: "FluentUI Button", style: .borderless)
 // You can display an image instead of a title
 let buttonWithImageAndStyle = Button(image: NSImage(named: NSImage.addTemplateName)!, style: .primaryFilled)
 ```
-
-Overriding the underlying NSButtonCell will result in udefined behavior.
+### Not recommended
+- Overriding the underlying NSButtonCell will result in undefined behavior. While this may fit your use case, take caution while doing so.
+- Displaying both a title and an image currently does not render properly, and is not recommended.
 
 ## Implementation
 ### Control Name
