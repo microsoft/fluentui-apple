@@ -28,6 +28,10 @@ class PillButtonBarDemoController: DemoController {
         container.addArrangedSubview(createLabelWithText("Outline"))
         container.addArrangedSubview(createBar(items: items))
         container.addArrangedSubview(UIView())
+        
+        container.addArrangedSubview(createLabelWithText("Transparent"))
+        container.addArrangedSubview(createBar(items: items, style: .transparent))
+        container.addArrangedSubview(UIView())
 
         // When inserting longer button "Templates" instead of shorter "Other" button as the fourth button, compact layouts (most iPhones)
         // will end up with a button configuration where the last visible button won't be a clear indication that the view is scrollable,
@@ -66,7 +70,7 @@ class PillButtonBarDemoController: DemoController {
         bar.centerAligned = centerAligned
 
         let backgroundView = UIView()
-        if style == .outline {
+        if style == .outline || style == .transparent {
             backgroundView.backgroundColor = Colors.Navigation.System.background
         }
         backgroundView.addSubview(bar)

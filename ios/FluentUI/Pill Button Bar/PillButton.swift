@@ -14,6 +14,7 @@ public typealias MSPillButtonStyle = PillButtonStyle
 public enum PillButtonStyle: Int {
     case outline
     case filled
+    case transparent
 
     func backgroundColor(for window: UIWindow) -> UIColor {
         switch self {
@@ -21,6 +22,8 @@ public enum PillButtonStyle: Int {
             return Colors.PillButton.Outline.background
         case .filled:
             return UIColor(light: Colors.primaryShade10(for: window), dark: Colors.PillButton.Outline.background)
+        case .transparent:
+            return .clear
         }
     }
 
@@ -30,12 +33,14 @@ public enum PillButtonStyle: Int {
             return UIColor(light: Colors.primary(for: window), dark: Colors.surfaceQuaternary)
         case .filled:
             return UIColor(light: Colors.surfacePrimary, dark: Colors.surfaceQuaternary)
+        case .transparent:
+            return Colors.primaryTint40(for: window)
         }
     }
 
     var titleColor: UIColor {
         switch self {
-        case .outline:
+        case .outline, .transparent:
             return Colors.PillButton.Outline.title
         case .filled:
             return Colors.PillButton.Filled.title
@@ -48,6 +53,8 @@ public enum PillButtonStyle: Int {
             return  Colors.PillButton.Outline.titleSelected
         case .filled:
             return UIColor(light: Colors.primary(for: window), dark: Colors.PillButton.Outline.titleSelected)
+        case .transparent:
+            return UIColor(light: Colors.primary(for: window), dark: Colors.primaryShade10(for: window))
         }
     }
 }
@@ -76,6 +83,7 @@ open class PillButton: UIButton {
         didSet {
             updateAppearance()
             updateAccessibilityTraits()
+            updateFont()
         }
     }
 
@@ -97,7 +105,7 @@ open class PillButton: UIButton {
 
     private func setupView() {
         setTitle(pillBarItem.title, for: .normal)
-        titleLabel?.font = Constants.font
+        titleLabel?.font = style == .transparent ? Fonts.button1 : Constants.font
         layer.cornerRadius = Constants.cornerRadius
         clipsToBounds = true
 
@@ -131,6 +139,12 @@ open class PillButton: UIButton {
             } else {
                 setTitleColor(style.titleColor, for: .normal)
             }
+        }
+    }
+    
+    private func updateFont() {
+        if style == .transparent {
+            titleLabel?.font = isSelected ? Fonts.preferredFont(forTextStyle: .subheadline, weight: .bold) : Fonts.button1
         }
     }
 }
