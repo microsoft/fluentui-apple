@@ -1144,7 +1144,7 @@ extension BadgeField: UITextFieldDelegate {
             // Insert the new char at beginning of text field
             if let formerTextFieldText = self.textField.text {
                 let newTextFieldText = NSMutableString(string: formerTextFieldText)
-                newTextFieldText.insert(string, at: 1)
+                newTextFieldText.insert(string, at: newTextFieldText.length == 0 ? 0 : 1)
                 self.textField.text = newTextFieldText as String
                 badgeFieldDelegate?.badgeField?(self, willChangeTextFieldContentWithText: self.textField.text!.trimmed())
             }
