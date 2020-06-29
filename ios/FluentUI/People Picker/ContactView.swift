@@ -87,7 +87,7 @@ open class ContactView: UIView {
         constraints.append(contentsOf: avatarLayoutConstraints())
 
         avatarView.translatesAutoresizingMaskIntoConstraints = false
-        labelContainer.addSubview(avatarView)
+        addSubview(avatarView)
 
         if let subtitleLabel = subtitleLabel {
             constraints.append(contentsOf: titleLabelLayoutConstraints())
@@ -99,7 +99,7 @@ open class ContactView: UIView {
         }
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         labelContainer.addSubview(titleLabel)
-        
+
         labelContainer.translatesAutoresizingMaskIntoConstraints = false
         addSubview(labelContainer)
 
