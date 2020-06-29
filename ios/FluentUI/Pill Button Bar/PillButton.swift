@@ -57,6 +57,24 @@ public enum PillButtonStyle: Int {
             return UIColor(light: Colors.primary(for: window), dark: Colors.primaryShade10(for: window))
         }
     }
+    
+    func font() -> UIFont {
+        switch self {
+        case .outline, .filled:
+            return Fonts.button4
+        case .transparent:
+            return Fonts.button1
+        }
+    }
+    
+    func selectedFont() -> UIFont {
+        switch self {
+        case .outline, .filled:
+            return Fonts.button4
+        case .transparent:
+            return Fonts.preferredFont(forTextStyle: .subheadline, weight: .bold)
+        }
+    }
 }
 
 // MARK: PillButton
@@ -70,7 +88,6 @@ open class PillButton: UIButton {
     private struct Constants {
         static let bottomInset: CGFloat = 6.0
         static let cornerRadius: CGFloat = 16.0
-        static let font: UIFont = Fonts.button4
         static let horizontalInset: CGFloat = 16.0
         static let topInset: CGFloat = 6.0
     }
@@ -105,7 +122,7 @@ open class PillButton: UIButton {
 
     private func setupView() {
         setTitle(pillBarItem.title, for: .normal)
-        titleLabel?.font = style == .transparent ? Fonts.button1 : Constants.font
+        titleLabel?.font = style.font()
         layer.cornerRadius = Constants.cornerRadius
         clipsToBounds = true
 
@@ -143,8 +160,6 @@ open class PillButton: UIButton {
     }
     
     private func updateFont() {
-        if style == .transparent {
-            titleLabel?.font = isSelected ? Fonts.preferredFont(forTextStyle: .subheadline, weight: .bold) : Fonts.button1
-        }
+        titleLabel?.font = isSelected ? style.selectedFont() : style.font()
     }
 }
