@@ -14,7 +14,7 @@ open class ContactView: UIView {
         static let labelMinimumHeight: CGFloat = 16.0
         static let titleLabelMaximumHeight: CGFloat = 28.0
         static let subtitleMaximumHeight: CGFloat = 24.0
-        static let spacingBetweenAvatarAndFirstLabel: CGFloat = 13.0
+        static let spacingBetweenAvatarAndLabelContainer: CGFloat = 13.0
     }
 
     @objc public var avatarImage: UIImage? {
@@ -57,8 +57,8 @@ open class ContactView: UIView {
 
         if let title = title, let subtitle = subtitle {
             setupAvatarView(with: title, and: subtitle)
-            setupTitleLabel(using: title)
             setupSubtitleLabel(using: subtitle)
+            setupTitleLabel(using: title)
         } else if let identifier = identifier {
             setupAvatarView(with: identifier)
             setupTitleLabel(using: identifier)
@@ -122,7 +122,7 @@ open class ContactView: UIView {
         return [
             labelContainer.widthAnchor.constraint(equalToConstant: Constants.contactWidth),
             labelContainer.centerXAnchor.constraint(equalTo: centerXAnchor),
-            labelContainer.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.spacingBetweenAvatarAndFirstLabel),
+            labelContainer.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.spacingBetweenAvatarAndLabelContainer),
             labelContainer.leadingAnchor.constraint(equalTo: leadingAnchor),
             labelContainer.trailingAnchor.constraint(equalTo: trailingAnchor),
             labelContainer.bottomAnchor.constraint(equalTo: bottomAnchor),
@@ -132,11 +132,11 @@ open class ContactView: UIView {
 
     private func titleLabelLayoutConstraints() -> [NSLayoutConstraint] {
         return [
-            titleLabel.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.spacingBetweenAvatarAndFirstLabel),
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            titleLabel.widthAnchor.constraint(equalTo: widthAnchor),
+            titleLabel.topAnchor.constraint(equalTo: labelContainer.topAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: labelContainer.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: labelContainer.trailingAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: labelContainer.centerXAnchor),
+            titleLabel.widthAnchor.constraint(equalTo: labelContainer.widthAnchor),
             titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.labelMinimumHeight)
         ]
     }
@@ -159,12 +159,12 @@ open class ContactView: UIView {
 
     private func identifierLayoutConstraints() -> [NSLayoutConstraint] {
         return [
-            titleLabel.widthAnchor.constraint(equalTo: widthAnchor),
-            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            titleLabel.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.spacingBetweenAvatarAndFirstLabel),
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
+            titleLabel.widthAnchor.constraint(equalTo: labelContainer.widthAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: labelContainer.centerXAnchor),
+            titleLabel.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.spacingBetweenAvatarAndLabelContainer),
+            titleLabel.leadingAnchor.constraint(equalTo: labelContainer.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: labelContainer.trailingAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: labelContainer.bottomAnchor)
         ]
     }
 
