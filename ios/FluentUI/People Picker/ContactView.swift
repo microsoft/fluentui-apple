@@ -19,7 +19,9 @@ open class ContactView: UIView {
 
     @objc public var avatarImage: UIImage? {
         didSet {
-            setupAvatarView(with: titleLabel?.text, and: subtitleLabel?.text, or: nil)
+            if let subtitleLabel = subtitleLabel {
+                setupAvatarView(with: titleLabel.text ?? "", and: subtitleLabel.text ?? "")
+            }
         }
     }
 
@@ -52,11 +54,11 @@ open class ContactView: UIView {
         super.init(frame: .zero)
 
         if let title = title, let subtitle = subtitle {
-            setupAvatarView(with: title, and: subtitle, or: nil)
+            setupAvatarView(with: title, and: subtitle)
             setupTitleLabel(using: title)
             setupSubtitleLabel(using: subtitle)
         } else if let identifier = identifier {
-            setupAvatarView(with: nil, and: nil, or: identifier)
+            setupAvatarView(with: identifier)
             setupTitleLabel(using: identifier)
         }
 
@@ -68,13 +70,13 @@ open class ContactView: UIView {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    private func setupAvatarView(with firstName: String?, and lastName: String?, or identifier: String?) {
-        if let firstName = firstName, let lastName = lastName {
-            let fullName = firstName + " " + lastName
-            avatarView.setup(primaryText: fullName, secondaryText: identifier, image: avatarImage)
-        } else {
-            avatarView.setup(primaryText: identifier, secondaryText: "", image: avatarImage)
-        }
+    private func setupAvatarView(with firstName: String, and lastName: String) {
+        let fullName = firstName + " " + lastName
+        avatarView.setup(primaryText: fullName, secondaryText: nil, image: avatarImage)
+    }
+
+    private func setupAvatarView(with identifier: String) {
+        avatarView.setup(primaryText: identifier, secondaryText: nil, image: avatarImage)
     }
 
     private func setupLayout() {
