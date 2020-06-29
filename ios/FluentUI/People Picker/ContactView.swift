@@ -21,6 +21,8 @@ open class ContactView: UIView {
         didSet {
             if let subtitleLabel = subtitleLabel {
                 setupAvatarView(with: titleLabel.text ?? "", and: subtitleLabel.text ?? "")
+            } else {
+                setupAvatarView(with: titleLabel.text ?? "")
             }
         }
     }
@@ -84,25 +86,28 @@ open class ContactView: UIView {
         constraints.append(widthAnchor.constraint(equalToConstant: Constants.contactWidth))
         constraints.append(contentsOf: avatarLayoutConstraints())
 
+        avatarView.translatesAutoresizingMaskIntoConstraints = false
+        labelContainer.addSubview(avatarView)
+
         if let subtitleLabel = subtitleLabel {
             constraints.append(contentsOf: titleLabelLayoutConstraints())
             constraints.append(contentsOf: subtitleLabelLayoutConstraints())
+            subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
             labelContainer.addSubview(subtitleLabel)
         } else {
             constraints.append(contentsOf: identifierLayoutConstraints())
         }
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         labelContainer.addSubview(titleLabel)
-
-        constraints.append(contentsOf: labelContainerLayoutConstraints())
-        labelContainer.addSubview(avatarView)
+        
+        labelContainer.translatesAutoresizingMaskIntoConstraints = false
         addSubview(labelContainer)
 
+        constraints.append(contentsOf: labelContainerLayoutConstraints())
         NSLayoutConstraint.activate(constraints)
     }
 
     private func avatarLayoutConstraints() -> [NSLayoutConstraint] {
-        avatarView.translatesAutoresizingMaskIntoConstraints = false
-
         return [
             avatarView.heightAnchor.constraint(equalToConstant: Constants.avatarViewHeight),
             avatarView.widthAnchor.constraint(equalToConstant: Constants.avatarViewWidth),
@@ -114,8 +119,6 @@ open class ContactView: UIView {
     }
 
     private func labelContainerLayoutConstraints() -> [NSLayoutConstraint] {
-        labelContainer.translatesAutoresizingMaskIntoConstraints = false
-
         return [
             labelContainer.widthAnchor.constraint(equalToConstant: Constants.contactWidth),
             labelContainer.centerXAnchor.constraint(equalTo: centerXAnchor),
@@ -129,8 +132,6 @@ open class ContactView: UIView {
     }
 
     private func titleLabelLayoutConstraints() -> [NSLayoutConstraint] {
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-
         return [
             titleLabel.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.spacingBetweenAvatarAndFirstLabel),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -147,8 +148,6 @@ open class ContactView: UIView {
             return []
         }
 
-        subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
-
         return [
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             subtitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -162,8 +161,6 @@ open class ContactView: UIView {
     }
 
     private func identifierLayoutConstraints() -> [NSLayoutConstraint] {
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-
         return [
             titleLabel.widthAnchor.constraint(equalTo: widthAnchor),
             titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
