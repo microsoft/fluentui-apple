@@ -24,7 +24,7 @@ open class ContactView: UIView {
     }
 
     private let avatarView: AvatarView
-    private var titleLabel: UILabel?
+    private var titleLabel: UILabel
     private var subtitleLabel: UILabel?
     private var labelContainer: UIView
 
@@ -48,6 +48,7 @@ open class ContactView: UIView {
     private init(title: String?, subtitle: String?, identifier: String?) {
         avatarView = AvatarView(avatarSize: .extraExtraLarge, withBorder: false, style: .circle)
         labelContainer = UIView(frame: .zero)
+        titleLabel = UILabel(frame: .zero)
         super.init(frame: .zero)
 
         if let title = title, let subtitle = subtitle {
@@ -81,16 +82,14 @@ open class ContactView: UIView {
         constraints.append(widthAnchor.constraint(equalToConstant: Constants.contactWidth))
         constraints.append(contentsOf: avatarLayoutConstraints())
 
-        if let titleLabel = titleLabel {
-            if let subtitleLabel = subtitleLabel {
-                constraints.append(contentsOf: titleLabelLayoutConstraints())
-                constraints.append(contentsOf: subtitleLabelLayoutConstraints())
-                labelContainer.addSubview(subtitleLabel)
-            } else {
-                constraints.append(contentsOf: identifierLayoutConstraints())
-            }
-            labelContainer.addSubview(titleLabel)
+        if let subtitleLabel = subtitleLabel {
+            constraints.append(contentsOf: titleLabelLayoutConstraints())
+            constraints.append(contentsOf: subtitleLabelLayoutConstraints())
+            labelContainer.addSubview(subtitleLabel)
+        } else {
+            constraints.append(contentsOf: identifierLayoutConstraints())
         }
+        labelContainer.addSubview(titleLabel)
 
         constraints.append(contentsOf: labelContainerLayoutConstraints())
         labelContainer.addSubview(avatarView)
@@ -128,11 +127,8 @@ open class ContactView: UIView {
     }
 
     private func titleLabelLayoutConstraints() -> [NSLayoutConstraint] {
-        guard let titleLabel = titleLabel else {
-            return []
-        }
-
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
+
         return [
             titleLabel.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.spacingBetweenAvatarAndFirstLabel),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -151,7 +147,8 @@ open class ContactView: UIView {
 
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        var constraints = [
+        return [
+            subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             subtitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             subtitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             subtitleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
@@ -160,20 +157,11 @@ open class ContactView: UIView {
             subtitleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.labelMinimumHeight),
             subtitleLabel.heightAnchor.constraint(lessThanOrEqualToConstant: Constants.subtitleMaximumHeight)
         ]
-
-        if let titleLabel = titleLabel {
-            constraints.append(subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor))
-        }
-
-        return constraints
     }
 
     private func identifierLayoutConstraints() -> [NSLayoutConstraint] {
-        guard let titleLabel = titleLabel else {
-            return []
-        }
-
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
+
         return [
             titleLabel.widthAnchor.constraint(equalTo: widthAnchor),
             titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
