@@ -126,8 +126,7 @@ open class ContactView: UIView {
             labelContainer.leadingAnchor.constraint(equalTo: leadingAnchor),
             labelContainer.trailingAnchor.constraint(equalTo: trailingAnchor),
             labelContainer.bottomAnchor.constraint(equalTo: bottomAnchor),
-            labelContainer.heightAnchor.constraint(greaterThanOrEqualToConstant: 2 * Constants.labelMinimumHeight),
-            labelContainer.heightAnchor.constraint(lessThanOrEqualToConstant: Constants.titleLabelMaximumHeight + Constants.subtitleMaximumHeight)
+            labelContainer.heightAnchor.constraint(greaterThanOrEqualToConstant: 2.0 * Constants.labelMinimumHeight)
         ]
     }
 
@@ -138,8 +137,7 @@ open class ContactView: UIView {
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             titleLabel.widthAnchor.constraint(equalTo: widthAnchor),
-            titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.labelMinimumHeight),
-            titleLabel.heightAnchor.constraint(lessThanOrEqualToConstant: Constants.titleLabelMaximumHeight)
+            titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.labelMinimumHeight)
         ]
     }
 
@@ -155,8 +153,7 @@ open class ContactView: UIView {
             subtitleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             subtitleLabel.widthAnchor.constraint(equalTo: widthAnchor),
             subtitleLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
-            subtitleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.labelMinimumHeight),
-            subtitleLabel.heightAnchor.constraint(lessThanOrEqualToConstant: Constants.subtitleMaximumHeight)
+            subtitleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.labelMinimumHeight)
         ]
     }
 
