@@ -18,6 +18,7 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("HUD", HUDDemoController.self),
     ("Label", LabelDemoController.self),
     ("NavigationController", NavigationControllerDemoController.self),
+	("NavigationRail", NavigationRailDemoController.self),
     ("NotificationView", NotificationViewDemoController.self),
     ("PeoplePicker", PeoplePickerDemoController.self),
     ("PersonaListView", PersonaListViewDemoController.self),
