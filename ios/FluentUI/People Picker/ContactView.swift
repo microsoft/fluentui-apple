@@ -15,6 +15,7 @@ open class ContactView: UIView {
         static let titleLabelMaximumHeight: CGFloat = 28.0
         static let subtitleMaximumHeight: CGFloat = 24.0
         static let spacingBetweenAvatarAndLabelContainer: CGFloat = 13.0
+        static let numberOfLinesForSingleLabel = 2
     }
 
     @objc public var avatarImage: UIImage? {
@@ -32,7 +33,7 @@ open class ContactView: UIView {
     private var subtitleLabel: UILabel?
     private var labelContainer: UIView
 
-    /// Initializes the contact view by creating an avatar view with a first name and last name
+    /// Initializes the contact view by creating an avatar view with a primary and secondary text
     ///
     /// - Parameters:
     ///   - title: String that will be the text of the top label
@@ -72,9 +73,9 @@ open class ContactView: UIView {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    private func setupAvatarView(with firstName: String, and lastName: String) {
-        let fullName = firstName + " " + lastName
-        avatarView.setup(primaryText: fullName, secondaryText: nil, image: avatarImage)
+    private func setupAvatarView(with title: String, and subtitle: String) {
+        let identifier = title + " " + subtitle
+        avatarView.setup(primaryText: identifier, secondaryText: nil, image: avatarImage)
     }
 
     private func setupAvatarView(with identifier: String) {
@@ -168,26 +169,26 @@ open class ContactView: UIView {
         ]
     }
 
-    private func setupTitleLabel(using firstName: String) {
+    private func setupTitleLabel(using title: String) {
         let label = UILabel(frame: .zero)
         label.adjustsFontForContentSizeCategory = true
         label.font = Fonts.subhead
-        label.text = firstName
+        label.text = title
         label.textAlignment = .center
         label.textColor = Colors.Contact.title
 
         if subtitleLabel == nil {
-            label.numberOfLines = 2
+            label.numberOfLines = Constants.numberOfLinesForSingleLabel
         }
 
         titleLabel = label
     }
 
-    private func setupSubtitleLabel(using lastName: String) {
+    private func setupSubtitleLabel(using subtitle: String) {
         let label = UILabel(frame: .zero)
         label.adjustsFontForContentSizeCategory = true
         label.font = Fonts.footnote
-        label.text = lastName
+        label.text = subtitle
         label.textAlignment = .center
         label.textColor = Colors.Contact.subtitle
 
