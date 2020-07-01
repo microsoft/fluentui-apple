@@ -476,6 +476,11 @@ public final class Colors: NSObject {
         public static var background: UIColor = NavigationBar.background
     }
 
+    public struct Contact {
+        public static var title: UIColor = textPrimary
+        public static var subtitle: UIColor = textSecondary
+    }
+
     public struct DateTimePicker {
         public static var background: UIColor = NavigationBar.background
         public static var text: UIColor = textSecondary
