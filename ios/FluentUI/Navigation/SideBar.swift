@@ -204,14 +204,14 @@ open class SideBar: UIView {
 
 		if let avatarView = self.avatarView {
 			layoutConstraints.append(contentsOf: [
-				avatarView.topAnchor.constraint(equalTo: topAnchor, constant: Constants.topItemSpacing),
+				avatarView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 18.0),
 				avatarView.centerXAnchor.constraint(equalTo: centerXAnchor),
 				avatarView.widthAnchor.constraint(equalToConstant: Constants.avatarViewSize),
 				avatarView.heightAnchor.constraint(equalToConstant: Constants.avatarViewSize),
 				topStackView.topAnchor.constraint(equalTo:avatarView.bottomAnchor , constant: 34.0)
 			])
 		} else {
-			layoutConstraints.append(topStackView.topAnchor.constraint(equalTo: topAnchor, constant: 50.0))
+			layoutConstraints.append(topStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 30.0))
 		}
 
 		layoutConstraints.append(contentsOf: [
@@ -219,7 +219,7 @@ open class SideBar: UIView {
 			topStackView.heightAnchor.constraint(equalToConstant: stackViewHeight(topStackView)),
 			bottomStackView.widthAnchor.constraint(equalTo: widthAnchor),
 			bottomStackView.heightAnchor.constraint(equalToConstant: stackViewHeight(bottomStackView)),
-			bottomStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30.0)
+			bottomStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -10.0)
 		])
 
 		NSLayoutConstraint.activate(layoutConstraints)
