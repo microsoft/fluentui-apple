@@ -7,19 +7,19 @@ import UIKit
 
 @objc(MSFSideBarDelegate)
 public protocol SideBarDelegate {
-    /// Called after the view representing `TabBarItem` is selected.
+	/// Called after the view representing `TabBarItem` is selected.
 	@objc optional func sideBar(_ sideBar: SideBar, didSelect item: TabBarItem, fromTop: Bool)
 
 	/// Called after the avatar view is tapped in the side bar.
-    @objc optional func sideBar(_ sideBar: SideBar, didActivate avatarView: AvatarView)
+	@objc optional func sideBar(_ sideBar: SideBar, didActivate avatarView: AvatarView)
 }
 
 @objc(MSFSideBar)
 open class SideBar: UIView {
-    private enum Section: Int {
-        case top
-        case bottom
-    }
+	private enum Section: Int {
+		case top
+		case bottom
+	}
 
 	private struct Constants {
 		static let maxTabCount: Int = 5
@@ -27,7 +27,7 @@ open class SideBar: UIView {
 		static let avatarViewSize: CGFloat = 30.0
 		static let topItemSpacing: CGFloat = 38.0
 		static let bottomItemSpacing: CGFloat = 28.0
-    }
+	}
 
 	@objc public weak var delegate: SideBarDelegate?
 
@@ -59,23 +59,23 @@ open class SideBar: UIView {
 		let topStackView = UIStackView(frame: .zero)
 		topStackView.axis = .vertical
 		topStackView.distribution = .fillEqually
-        topStackView.alignment = .fill
+		topStackView.alignment = .fill
 		topStackView.translatesAutoresizingMaskIntoConstraints = false
 		topStackView.spacing = Constants.topItemSpacing
 
-        return topStackView
-    }()
+		return topStackView
+	}()
 
 	private let bottomStackView: UIStackView = {
 		let bottomStackView = UIStackView(frame: .zero)
 		bottomStackView.axis = .vertical
 		bottomStackView.distribution = .fillEqually
-        bottomStackView.alignment = .fill
+		bottomStackView.alignment = .fill
 		bottomStackView.translatesAutoresizingMaskIntoConstraints = false
 		bottomStackView.spacing = Constants.bottomItemSpacing
 
-        return bottomStackView
-    }()
+		return bottomStackView
+	}()
 
 	@objc open var bottomItems: [TabBarItem] = [] {
 		willSet {
@@ -87,13 +87,13 @@ open class SideBar: UIView {
 	}
 
 	@objc open var topItems: [TabBarItem] = [] {
-        willSet {
+		willSet {
 			willSetItems(in: .top)
-        }
+		}
 		didSet {
 			didSetItems(in: .top)
 		}
-    }
+	}
 
 	private func willSetItems(in section: Section) {
 		for subview in stackview(in: section).arrangedSubviews {
@@ -126,27 +126,27 @@ open class SideBar: UIView {
 	}
 
 	@objc open var selectedTopItem: TabBarItem? {
-        willSet {
-            if let item = selectedTopItem {
+		willSet {
+			if let item = selectedTopItem {
 				itemView(with: item, in: .top)?.isSelected = false
-            }
-        }
-        didSet {
-            if let item = selectedTopItem {
+			}
+		}
+		didSet {
+			if let item = selectedTopItem {
 				itemView(with: item, in: .top)?.isSelected = true
-            }
-        }
-    }
+			}
+		}
+	}
 
 	@objc public override init(frame: CGRect) {
-        super.init(frame: frame)
-        initialize()
-    }
+		super.init(frame: frame)
+		initialize()
+	}
 
 	@objc public required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        initialize()
-    }
+		super.init(coder: coder)
+		initialize()
+	}
 
 	/// Helper method to insert the view in a superview.
 	@objc public func insert(in superView: UIView) {
@@ -160,13 +160,13 @@ open class SideBar: UIView {
 	}
 
 	private let backgroundView: UIVisualEffectView = {
-        var style = UIBlurEffect.Style.regular
-        if #available(iOS 13, *) {
-            style = .systemMaterial
-        }
+		var style = UIBlurEffect.Style.regular
+		if #available(iOS 13, *) {
+			style = .systemMaterial
+		}
 
-        return UIVisualEffectView(effect: UIBlurEffect(style: style))
-    }()
+		return UIVisualEffectView(effect: UIBlurEffect(style: style))
+	}()
 
 	private let borderLine = Separator(style: .shadow, orientation: .vertical)
 
@@ -177,16 +177,16 @@ open class SideBar: UIView {
 		contain(view: backgroundView)
 
 		borderLine.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(borderLine)
+		addSubview(borderLine)
 
 		addSubview(topStackView)
 		addSubview(bottomStackView)
 
 		if #available(iOS 13, *) {
-            addInteraction(UILargeContentViewerInteraction())
-        }
+			addInteraction(UILargeContentViewerInteraction())
+		}
 
-        accessibilityTraits = .tabBar
+		accessibilityTraits = .tabBar
 
 		NSLayoutConstraint.activate([widthAnchor.constraint(equalToConstant: Constants.viewWidth),
 									 borderLine.leadingAnchor.constraint(equalTo: trailingAnchor),
@@ -259,10 +259,10 @@ open class SideBar: UIView {
 			if let tabBarItemView = stackview(in: section).arrangedSubviews[index] as? TabBarItemView {
 				return tabBarItemView
 			}
-        }
+		}
 
-        return nil
-    }
+		return nil
+	}
 
 	@objc private func handleAvatarViewTapped(_ recognizer: UITapGestureRecognizer) {
 		delegate?.sideBar?(self, didActivate: avatarView!)
@@ -273,7 +273,7 @@ open class SideBar: UIView {
 			selectedTopItem = item
 
 			delegate?.sideBar?(self, didSelect: item, fromTop: true)
-        }
+		}
 	}
 
 	@objc private func handleBottomItemTapped(_ recognizer: UITapGestureRecognizer) {

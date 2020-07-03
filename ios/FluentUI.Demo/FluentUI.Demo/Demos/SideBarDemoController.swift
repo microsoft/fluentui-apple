@@ -10,14 +10,14 @@ class SideBarDemoController: DemoController {
 	private var sideBar: SideBar?
 	private var contentViewController: UIViewController?
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+	override func viewDidLoad() {
+		super.viewDidLoad()
 
-        container.addArrangedSubview(createButton(title: "Show side bar", action: #selector(presentSideBar)))
-    }
+		container.addArrangedSubview(createButton(title: "Show side bar", action: #selector(presentSideBar)))
+	}
 
 	@objc private func presentSideBar() {
-        let controller = UIViewController(nibName: nil, bundle: nil)
+		let controller = UIViewController(nibName: nil, bundle: nil)
 		contentViewController = controller
 		controller.modalPresentationStyle = .fullScreen
 		controller.view.backgroundColor = Colors.background1
@@ -27,15 +27,15 @@ class SideBarDemoController: DemoController {
 		sideBar!.delegate = self
 
 		sideBar!.topItems = [
-            TabBarItem(title: "Home", image: UIImage(named: "Home_28")!, selectedImage: UIImage(named: "Home_Selected_28")!, landscapeImage: UIImage(named: "Home_24")!, landscapeSelectedImage: UIImage(named: "Home_Selected_24")!),
-            TabBarItem(title: "New", image: UIImage(named: "New_28")!, selectedImage: UIImage(named: "New_Selected_28")!, landscapeImage: UIImage(named: "New_24")!, landscapeSelectedImage: UIImage(named: "New_Selected_24")!),
-            TabBarItem(title: "Open", image: UIImage(named: "Open_28")!, selectedImage: UIImage(named: "Open_Selected_28")!, landscapeImage: UIImage(named: "Open_24")!, landscapeSelectedImage: UIImage(named: "Open_Selected_24")!)
-        ]
+			TabBarItem(title: "Home", image: UIImage(named: "Home_28")!, selectedImage: UIImage(named: "Home_Selected_28")!, landscapeImage: UIImage(named: "Home_24")!, landscapeSelectedImage: UIImage(named: "Home_Selected_24")!),
+			TabBarItem(title: "New", image: UIImage(named: "New_28")!, selectedImage: UIImage(named: "New_Selected_28")!, landscapeImage: UIImage(named: "New_24")!, landscapeSelectedImage: UIImage(named: "New_Selected_24")!),
+			TabBarItem(title: "Open", image: UIImage(named: "Open_28")!, selectedImage: UIImage(named: "Open_Selected_28")!, landscapeImage: UIImage(named: "Open_24")!, landscapeSelectedImage: UIImage(named: "Open_Selected_24")!)
+		]
 
 		sideBar!.bottomItems = [
-            TabBarItem(title: "Help", image: UIImage(named: "Help_28")!, selectedImage: UIImage(named: "Help_Selected_28")!, landscapeImage: UIImage(named: "Help_24")!, landscapeSelectedImage: UIImage(named: "Help_Selected_24")!),
-            TabBarItem(title: "Settings", image: UIImage(named: "Settings_28")!, selectedImage: UIImage(named: "Settings_Selected_28")!, landscapeImage: UIImage(named: "Settings_24")!, landscapeSelectedImage: UIImage(named: "Settings_Selected_24")!)
-        ]
+			TabBarItem(title: "Help", image: UIImage(named: "Help_28")!, selectedImage: UIImage(named: "Help_Selected_28")!, landscapeImage: UIImage(named: "Help_24")!, landscapeSelectedImage: UIImage(named: "Help_Selected_24")!),
+			TabBarItem(title: "Settings", image: UIImage(named: "Settings_28")!, selectedImage: UIImage(named: "Settings_Selected_28")!, landscapeImage: UIImage(named: "Settings_24")!, landscapeSelectedImage: UIImage(named: "Settings_Selected_24")!)
+		]
 
 		let optionsStackView = UIStackView(frame: .zero)
 		optionsStackView.axis = .vertical
@@ -51,10 +51,10 @@ class SideBarDemoController: DemoController {
 
 		let button = Button()
 		button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.textAlignment = .center
-        button.titleLabel?.numberOfLines = 0
-        button.setTitle("Dismiss", for: .normal)
-        button.addTarget(self, action: #selector(dismissSideBar), for: .touchUpInside)
+		button.titleLabel?.textAlignment = .center
+		button.titleLabel?.numberOfLines = 0
+		button.setTitle("Dismiss", for: .normal)
+		button.addTarget(self, action: #selector(dismissSideBar), for: .touchUpInside)
 		optionsStackView.addArrangedSubview(button)
 
 		NSLayoutConstraint.activate([
@@ -62,7 +62,7 @@ class SideBarDemoController: DemoController {
 			optionsStackView.centerYAnchor.constraint(equalTo: controller.view.centerYAnchor),
 		])
 
-        present(controller, animated: false)
+		present(controller, animated: false)
 	}
 
 	private func createLabelAndSwitchRow(labelText: String, switchAction: Selector, isOn: Bool = false) -> UIView {
@@ -107,15 +107,15 @@ class SideBarDemoController: DemoController {
 extension SideBarDemoController: SideBarDelegate {
 	func sideBar(_ sideBar: SideBar, didSelect item: TabBarItem, fromTop: Bool) {
 		let alert = UIAlertController(title: "\(item.title) was selected", message: nil, preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default)
-        alert.addAction(action)
+		let action = UIAlertAction(title: "OK", style: .default)
+		alert.addAction(action)
 		contentViewController?.present(alert, animated: true)
 	}
 
 	func sideBar(_ sideBar: SideBar, didActivate avatarView: AvatarView) {
 		let alert = UIAlertController(title: "Avatar view was tapped", message: nil, preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default)
-        alert.addAction(action)
+		let action = UIAlertAction(title: "OK", style: .default)
+		alert.addAction(action)
 		contentViewController?.present(alert, animated: true)
 	}
 }
