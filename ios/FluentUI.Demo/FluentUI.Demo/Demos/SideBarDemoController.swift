@@ -68,7 +68,7 @@ class SideBarDemoController: DemoController {
 	private func createLabelAndSwitchRow(labelText: String, switchAction: Selector, isOn: Bool = false) -> UIView {
 		let stackView = UIStackView(frame: .zero)
 		stackView.axis = .horizontal
-        stackView.alignment = .center
+		stackView.alignment = .center
 		stackView.spacing = 10.0
 
 		let label = Label(style: .subhead, colorStyle: .regular)
