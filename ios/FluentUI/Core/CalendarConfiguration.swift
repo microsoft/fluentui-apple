@@ -13,10 +13,8 @@ public typealias MSCalendarConfiguration = CalendarConfiguration
 @objc(MSFCalendarConfiguration)
 open class CalendarConfiguration: NSObject {
     private struct Constants {
-        static let baseReferenceStartTimestamp: TimeInterval = 1420416000 // January 3 2015
-        static let baseReferenceEndTimestamp: TimeInterval = 1736035200 // January 5 2025
-        static let startYearsAgo: Int = -3
-        static let endYearsInterval: Int = 10
+        static let startYearsAgo: Int = -100
+        static let endYearsInterval: Int = 200
     }
 
     // swiftlint:disable:next explicit_type_interface
