@@ -10,8 +10,7 @@
 		11047D2622932DB1001F0F59 /* TabBarViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11047D2522932DB1001F0F59 /* TabBarViewDemoController.swift */; };
 		114CF8B82423E10900D064AA /* ColorDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114CF8B72423E10900D064AA /* ColorDemoController.swift */; };
 		497DC2DE24185896008D86F8 /* PillButtonBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */; };
-		7D0931C124AAA3D3
-    0072458A /* SideBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0931C024AAA3D30072458A /* SideBarDemoController.swift */; };
+		7D0931C124AAA3D30072458A /* SideBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0931C024AAA3D30072458A /* SideBarDemoController.swift */; };
 		8AD4FF842493F2500085C076 /* ContactViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD4FF832493F2500085C076 /* ContactViewDemoController.swift */; };
 		A589F856211BA71000471C23 /* LabelDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A589F855211BA71000471C23 /* LabelDemoController.swift */; };
 		A591A3F420F429EB001ED23B /* Demos.swift in Sources */ = {isa = PBXBuildFile; fileRef = A591A3F320F429EB001ED23B /* Demos.swift */; };
