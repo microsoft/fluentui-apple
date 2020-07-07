@@ -28,13 +28,10 @@ open class SideTabBar: UIView {
     @objc public weak var delegate: SideTabBarDelegate?
 
     /// The avatar view that displays above the top tab bar items.
+    /// The avatar view's size class should be AvatarSize.medium.
     @objc open var avatarView: AvatarView? {
         willSet {
-            if let gestureRecognizer = avatarViewGestureRecognizer {
-                avatarView?.removeGestureRecognizer(gestureRecognizer)
-                avatarViewGestureRecognizer = nil
-            }
-
+            avatarView?.removeGestureRecognizer(avatarViewGestureRecognizer)
             avatarView?.removeFromSuperview()
         }
         didSet {
@@ -42,9 +39,7 @@ open class SideTabBar: UIView {
                 view.translatesAutoresizingMaskIntoConstraints = false
                 addSubview(view)
 
-                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleAvatarViewTapped))
-                avatarViewGestureRecognizer = tapGesture;
-                view.addGestureRecognizer(tapGesture)
+                view.addGestureRecognizer(avatarViewGestureRecognizer)
             }
 
             setupLayoutConstraints()
@@ -128,7 +123,6 @@ open class SideTabBar: UIView {
     }
 
     private var layoutConstraints: [NSLayoutConstraint] = []
-    private var avatarViewGestureRecognizer: UITapGestureRecognizer?
     private let borderLine = Separator(style: .shadow, orientation: .vertical)
 
     private let backgroundView: UIVisualEffectView = {
@@ -141,25 +135,15 @@ open class SideTabBar: UIView {
     }()
 
     private let topStackView: UIStackView = {
-        let topStackView = UIStackView(frame: .zero)
-        topStackView.axis = .vertical
-        topStackView.distribution = .fillEqually
-        topStackView.alignment = .fill
-        topStackView.translatesAutoresizingMaskIntoConstraints = false
-        topStackView.spacing = Constants.topItemSpacing
-
-        return topStackView
+        return createStackView(spacing: Constants.topItemSpacing)
     }()
 
     private let bottomStackView: UIStackView = {
-        let bottomStackView = UIStackView(frame: .zero)
-        bottomStackView.axis = .vertical
-        bottomStackView.distribution = .fillEqually
-        bottomStackView.alignment = .fill
-        bottomStackView.translatesAutoresizingMaskIntoConstraints = false
-        bottomStackView.spacing = Constants.bottomItemSpacing
+        return createStackView(spacing: Constants.bottomItemSpacing)
+    }()
 
-        return bottomStackView
+    private let avatarViewGestureRecognizer: UITapGestureRecognizer = {
+        return UITapGestureRecognizer(target: self, action: #selector(handleAvatarViewTapped))
     }()
 
     private func initialize() {
@@ -192,7 +176,7 @@ open class SideTabBar: UIView {
             layoutConstraints.removeAll()
         }
 
-        if let avatarView = self.avatarView {
+        if let avatarView = avatarView {
             layoutConstraints.append(contentsOf: [
                 avatarView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.avatarViewTopPadding),
                 avatarView.centerXAnchor.constraint(equalTo: centerXAnchor),
@@ -206,9 +190,9 @@ open class SideTabBar: UIView {
 
         layoutConstraints.append(contentsOf: [
             topStackView.widthAnchor.constraint(equalTo: widthAnchor),
-            topStackView.heightAnchor.constraint(equalToConstant: stackViewHeight(topStackView)),
+            topStackView.heightAnchor.constraint(equalToConstant: SideTabBar.stackViewHeight(topStackView)),
             bottomStackView.widthAnchor.constraint(equalTo: widthAnchor),
-            bottomStackView.heightAnchor.constraint(equalToConstant: stackViewHeight(bottomStackView)),
+            bottomStackView.heightAnchor.constraint(equalToConstant: SideTabBar.stackViewHeight(bottomStackView)),
             bottomStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -Constants.bottomStackViewBottomPadding)
         ])
 
@@ -245,7 +229,7 @@ open class SideTabBar: UIView {
         setupLayoutConstraints()
     }
 
-    private func stackViewHeight(_ stackView: UIStackView) -> CGFloat {
+    private class func stackViewHeight(_ stackView: UIStackView) -> CGFloat {
         let itemCount: CGFloat = CGFloat(stackView.arrangedSubviews.count)
         var height: CGFloat = Constants.itemHeight * itemCount
 
@@ -282,6 +266,17 @@ open class SideTabBar: UIView {
         }
 
         return nil
+    }
+
+    private class func createStackView(spacing: CGFloat) -> UIStackView {
+        let stackView = UIStackView(frame: .zero)
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.alignment = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.spacing = spacing
+
+        return stackView
     }
 
     @objc private func handleAvatarViewTapped(_ recognizer: UITapGestureRecognizer) {
