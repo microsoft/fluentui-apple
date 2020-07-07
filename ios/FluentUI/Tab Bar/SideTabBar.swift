@@ -5,22 +5,27 @@
 
 import UIKit
 
-/// Delegate protocol to handle user events inside the side bar.
-@objc(MSFSideBarDelegate)
-public protocol SideBarDelegate {
+/// Delegate protocol to handle user events inside the side tab bar.
+@objc(MSFSideTabBarDelegate)
+public protocol SideTabBarDelegate {
     /// Called after the view representing `TabBarItem` is selected.
-    @objc optional func sideBar(_ sideBar: SideBar, didSelect item: TabBarItem, fromTop: Bool)
+    /// - Parameter sideTabBar: The side tab bar.
+    /// - Parameter item: The selected tab bar item.
+    /// - Parameter fromTop: true if the item was in the top section, false if it was in the bottom section.
+    @objc optional func sideTabBar(_ sideTabBar: SideTabBar, didSelect item: TabBarItem, fromTop: Bool)
 
-    /// Called after the avatar view is tapped in the side bar.
-    @objc optional func sideBar(_ sideBar: SideBar, didActivate avatarView: AvatarView)
+    /// Called after the avatar view is tapped in the side tab bar.
+    /// - Parameter sideTabBar: The side tab bar.
+    /// - Parameter avatarView: The avatar view.
+    @objc optional func sideTabBar(_ sideTabBar: SideTabBar, didActivate avatarView: AvatarView)
 }
 
-/// View for a vertical side bar that can be used for app navigation.
+/// View for a vertical side tab bar that can be used for app navigation.
 /// Optimized for horizontal regular + vertical regular size class configuration. Prefer using TabBarView for other size class configurations.
-@objc(MSFSideBar)
-open class SideBar: UIView {
-    /// Delegate to handle user interactions in the side bar.
-    @objc public weak var delegate: SideBarDelegate?
+@objc(MSFSideTabBar)
+open class SideTabBar: UIView {
+    /// Delegate to handle user interactions in the side tab bar.
+    @objc public weak var delegate: SideTabBarDelegate?
 
     /// The avatar view that displays above the top tab bar items.
     @objc open var avatarView: AvatarView? {
@@ -46,7 +51,7 @@ open class SideBar: UIView {
         }
     }
 
-    /// Tab bar iems to display in the top section of the side bar.
+    /// Tab bar iems to display in the top section of the side tab bar.
     @objc open var topItems: [TabBarItem] = [] {
         willSet {
             willSetItems(in: .top)
@@ -56,7 +61,8 @@ open class SideBar: UIView {
         }
     }
 
-    /// Tab bar iems to display in the bottom section of the side bar.
+    /// Tab bar iems to display in the bottom section of the side tab bar.
+    /// These items do not have a selected state.
     @objc open var bottomItems: [TabBarItem] = [] {
         willSet {
             willSetItems(in: .bottom)
@@ -66,7 +72,7 @@ open class SideBar: UIView {
         }
     }
 
-    /// Selected tab bar item in the top section of the side bar.
+    /// Selected tab bar item in the top section of the side tab bar.
     @objc open var selectedTopItem: TabBarItem? {
         willSet {
             if let item = selectedTopItem {
@@ -126,7 +132,7 @@ open class SideBar: UIView {
     private let backgroundView: UIVisualEffectView = {
         var style = UIBlurEffect.Style.regular
         if #available(iOS 13, *) {
-            style = .systemMaterial
+            style = .systemChromeMaterial
         }
 
         return UIVisualEffectView(effect: UIBlurEffect(style: style))
@@ -277,20 +283,20 @@ open class SideBar: UIView {
     }
 
     @objc private func handleAvatarViewTapped(_ recognizer: UITapGestureRecognizer) {
-        delegate?.sideBar?(self, didActivate: avatarView!)
+        delegate?.sideTabBar?(self, didActivate: avatarView!)
     }
 
     @objc private func handleTopItemTapped(_ recognizer: UITapGestureRecognizer) {
         if let item = (recognizer.view as? TabBarItemView)?.item {
             selectedTopItem = item
 
-            delegate?.sideBar?(self, didSelect: item, fromTop: true)
+            delegate?.sideTabBar?(self, didSelect: item, fromTop: true)
         }
     }
 
     @objc private func handleBottomItemTapped(_ recognizer: UITapGestureRecognizer) {
         if let item = (recognizer.view as? TabBarItemView)?.item {
-            delegate?.sideBar?(self, didSelect: item, fromTop: false)
+            delegate?.sideTabBar?(self, didSelect: item, fromTop: false)
         }
     }
 }

@@ -6,10 +6,10 @@
 import FluentUI
 import UIKit
 
-class SideBarDemoController: DemoController {
+class SideTabBarDemoController: DemoController {
     override func loadView() {
         view = UIView(frame: .zero)
-        container.addArrangedSubview(createButton(title: "Show side bar", action: #selector(presentSideBar)))
+        container.addArrangedSubview(createButton(title: "Show side tab bar", action: #selector(presentSideTabBar)))
     }
 
     private struct Constants {
@@ -17,28 +17,28 @@ class SideBarDemoController: DemoController {
         static let labelSwitchSpacing: CGFloat = 10.0
     }
 
-    private let sideBar: SideBar = {
-        return SideBar(frame: .zero);
+    private let sideTabBar: SideTabBar = {
+        return SideTabBar(frame: .zero);
     }()
 
     private let contentViewController: UIViewController = {
         return UIViewController(nibName: nil, bundle: nil);
     }()
 
-    @objc private func presentSideBar() {
+    @objc private func presentSideTabBar() {
         contentViewController.modalPresentationStyle = .fullScreen
         contentViewController.view.backgroundColor = view.backgroundColor
 
-        sideBar.insert(in: contentViewController.view)
-        sideBar.delegate = self
+        sideTabBar.insert(in: contentViewController.view)
+        sideTabBar.delegate = self
 
-        sideBar.topItems = [
+        sideTabBar.topItems = [
             TabBarItem(title: "Home", image: UIImage(named: "Home_28")!, selectedImage: UIImage(named: "Home_Selected_28")!, landscapeImage: UIImage(named: "Home_24")!, landscapeSelectedImage: UIImage(named: "Home_Selected_24")!),
             TabBarItem(title: "New", image: UIImage(named: "New_28")!, selectedImage: UIImage(named: "New_Selected_28")!, landscapeImage: UIImage(named: "New_24")!, landscapeSelectedImage: UIImage(named: "New_Selected_24")!),
             TabBarItem(title: "Open", image: UIImage(named: "Open_28")!, selectedImage: UIImage(named: "Open_Selected_28")!, landscapeImage: UIImage(named: "Open_24")!, landscapeSelectedImage: UIImage(named: "Open_Selected_24")!)
         ]
 
-        sideBar.bottomItems = [
+        sideTabBar.bottomItems = [
             TabBarItem(title: "Help", image: UIImage(named: "Help_28")!, selectedImage: UIImage(named: "Help_Selected_28")!, landscapeImage: UIImage(named: "Help_24")!, landscapeSelectedImage: UIImage(named: "Help_Selected_24")!),
             TabBarItem(title: "Settings", image: UIImage(named: "Settings_28")!, selectedImage: UIImage(named: "Settings_Selected_28")!, landscapeImage: UIImage(named: "Settings_24")!, landscapeSelectedImage: UIImage(named: "Settings_Selected_24")!)
         ]
@@ -60,7 +60,7 @@ class SideBarDemoController: DemoController {
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.numberOfLines = 0
         button.setTitle("Dismiss", for: .normal)
-        button.addTarget(self, action: #selector(dismissSideBar), for: .touchUpInside)
+        button.addTarget(self, action: #selector(dismissSideTabBar), for: .touchUpInside)
         optionsStackView.addArrangedSubview(button)
 
         NSLayoutConstraint.activate([
@@ -89,7 +89,7 @@ class SideBarDemoController: DemoController {
         return stackView;
     }
 
-    @objc private func dismissSideBar() {
+    @objc private func dismissSideTabBar() {
         dismiss(animated: false, completion: nil)
     }
 
@@ -104,21 +104,21 @@ class SideBarDemoController: DemoController {
             avatarView!.setup(primaryText: "Kat Larson", secondaryText: "", image: UIImage(named: "avatar_kat_larsson")!)
         }
 
-        sideBar.avatarView = avatarView;
+        sideTabBar.avatarView = avatarView;
     }
 }
 
-// MARK: - SideBarDemoController: SideBarDelegate
+// MARK: - SideTabBarDemoController: SideTabBarDelegate
 
-extension SideBarDemoController: SideBarDelegate {
-    func sideBar(_ sideBar: SideBar, didSelect item: TabBarItem, fromTop: Bool) {
+extension SideTabBarDemoController: SideTabBarDelegate {
+    func sideTabBar(_ sideTabBar: SideTabBar, didSelect item: TabBarItem, fromTop: Bool) {
         let alert = UIAlertController(title: "\(item.title) was selected", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
         contentViewController.present(alert, animated: true)
     }
 
-    func sideBar(_ sideBar: SideBar, didActivate avatarView: AvatarView) {
+    func sideTabBar(_ sideTabBar: SideTabBar, didActivate avatarView: AvatarView) {
         let alert = UIAlertController(title: "Avatar view was tapped", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
