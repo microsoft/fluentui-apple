@@ -52,6 +52,7 @@ open class SideTabBar: UIView {
     }
 
     /// Tab bar iems to display in the top section of the side tab bar.
+    /// These TabBarItems don't need landscape images.
     @objc open var topItems: [TabBarItem] = [] {
         willSet {
             willSetItems(in: .top)
@@ -63,6 +64,7 @@ open class SideTabBar: UIView {
 
     /// Tab bar iems to display in the bottom section of the side tab bar.
     /// These items do not have a selected state.
+    /// These TabBarItems don't need landscape images.
     @objc open var bottomItems: [TabBarItem] = [] {
         willSet {
             willSetItems(in: .bottom)
