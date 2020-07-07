@@ -33,14 +33,14 @@ class SideTabBarDemoController: DemoController {
         sideTabBar.delegate = self
 
         sideTabBar.topItems = [
-            TabBarItem(title: "Home", image: UIImage(named: "Home_28")!, selectedImage: UIImage(named: "Home_Selected_28")!, landscapeImage: nil, landscapeSelectedImage: nil),
-            TabBarItem(title: "New", image: UIImage(named: "New_28")!, selectedImage: UIImage(named: "New_Selected_28")!, landscapeImage: nil, landscapeSelectedImage: nil),
-            TabBarItem(title: "Open", image: UIImage(named: "Open_28")!, selectedImage: UIImage(named: "Open_Selected_28")!, landscapeImage: nil, landscapeSelectedImage: nil)
+            TabBarItem(title: "Home", image: UIImage(named: "Home_28")!, selectedImage: UIImage(named: "Home_Selected_28")!),
+            TabBarItem(title: "New", image: UIImage(named: "New_28")!, selectedImage: UIImage(named: "New_Selected_28")!),
+            TabBarItem(title: "Open", image: UIImage(named: "Open_28")!, selectedImage: UIImage(named: "Open_Selected_28")!)
         ]
 
         sideTabBar.bottomItems = [
-            TabBarItem(title: "Help", image: UIImage(named: "Help_28")!, selectedImage: UIImage(named: "Help_Selected_28")!, landscapeImage: nil, landscapeSelectedImage: nil),
-            TabBarItem(title: "Settings", image: UIImage(named: "Settings_28")!, selectedImage: UIImage(named: "Settings_Selected_28")!, landscapeImage: nil, landscapeSelectedImage: nil)
+            TabBarItem(title: "Help", image: UIImage(named: "Help_28")!, selectedImage: UIImage(named: "Help_Selected_28")!),
+            TabBarItem(title: "Settings", image: UIImage(named: "Settings_28")!, selectedImage: UIImage(named: "Settings_Selected_28")!)
         ]
 
         let optionsStackView = UIStackView(frame: .zero)
