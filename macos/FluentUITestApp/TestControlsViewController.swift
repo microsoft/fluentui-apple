@@ -17,9 +17,11 @@ fileprivate struct Constants {
 class TestControlsViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
 	private let controls: [(title: String, type: NSViewController.Type)] = [
 							("FluentUI-macOS (placeholder)", TestPlaceholderViewController.self),
-							("Hover Button", TestHoverButtonViewController.self),
 							("Avatar View", TestAvatarViewController.self),
+							("Button", TestButtonViewController.self),
 							("Date Picker", TestDatePickerController.self),
+							("Link", TestLinkViewController.self),
+							("Separator", TestSeparatorViewController.self)
 	]
 	
 	override func loadView() {
