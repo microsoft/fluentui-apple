@@ -378,7 +378,7 @@ public final class Colors: NSObject {
     /// text color used for main level in the screen. eg. title in dialog, title in navigationbar with `surfacePrimary`, etc
     @objc public static let textDominant = UIColor(light: gray900, lightHighContrast: .black, dark: .white)
     /// text color used for titles
-    @objc public static let textPrimary = UIColor(light: gray900, lightHighContrast: .black, dark: gray100, darkHighContrast: .white)
+    @objc public static var textPrimary = UIColor(light: gray900, lightHighContrast: .black, dark: gray100, darkHighContrast: .white)
     /// text color used for subtitles
     @objc public static let textSecondary = UIColor(light: gray500, lightHighContrast: gray700, dark: gray400, darkHighContrast: gray200)
     /// text color used in disabled state
@@ -398,7 +398,7 @@ public final class Colors: NSObject {
     /// In Darkmode, our system use two sets of background colors -- called base and elevated -- to enhance the perception of depath when one dark interface is layered above another.
     /// The dark base colors are darker, making background interface appear to recede, and the elevate colors are lighter, making foreground interfaces appear to advance
 
-    @objc public static let surfacePrimary = UIColor(light: .white, dark: .black, darkElevated: gray950)
+    @objc public static var surfacePrimary = UIColor(light: .white, dark: .black, darkElevated: gray950)
     @objc public static let surfaceSecondary = UIColor(light: gray25, dark: gray950, darkElevated: gray900)
     @objc public static let surfaceTertiary = UIColor(light: gray50, dark: gray900, darkElevated: gray800)
     /// also used for disabled background color
