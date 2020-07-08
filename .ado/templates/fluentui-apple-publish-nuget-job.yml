@@ -18,7 +18,7 @@ jobs:
       xcode_actions: 'build'
       xcode_scheme: 'FluentUI-macOS'
       xcode_configuration: 'Debug'
-      xcode_extraArgs: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides.xcconfig'
+      xcode_extraArgs: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides_macos.xcconfig'
   
   # macOS Framework Release
   - template: apple-xcode-build.yml
@@ -28,7 +28,7 @@ jobs:
       xcode_actions: 'build'
       xcode_scheme: 'FluentUI-macOS'
       xcode_configuration: 'Release'
-      xcode_extraArgs: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides.xcconfig'
+      xcode_extraArgs: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides_macos.xcconfig'
 
   # iphonesimulator Library Debug
   - template: apple-xcode-build.yml
@@ -38,7 +38,7 @@ jobs:
       xcode_actions: 'build'
       xcode_scheme: 'FluentUI-iOS-StaticLib'
       xcode_configuration: 'Debug'
-      xcode_extraArgs: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides.xcconfig'
+      xcode_extraArgs: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides_ios.xcconfig'
   
   # iphonesimulator Library Release
   - template: apple-xcode-build.yml
@@ -48,7 +48,7 @@ jobs:
       xcode_actions: 'build'
       xcode_scheme: 'FluentUI-iOS-StaticLib'
       xcode_configuration: 'Release'
-      xcode_extraArgs: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides.xcconfig'
+      xcode_extraArgs: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides_ios.xcconfig'
 
   # iphoneos Library Debug
   - template: apple-xcode-build.yml
@@ -58,7 +58,7 @@ jobs:
       xcode_actions: 'build'
       xcode_scheme: 'FluentUI-iOS-StaticLib'
       xcode_configuration: 'Debug'
-      xcode_extraArgs: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides.xcconfig'
+      xcode_extraArgs: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides_ios.xcconfig'
   
   # iphoneos Library Release
   - template: apple-xcode-build.yml
@@ -68,7 +68,7 @@ jobs:
       xcode_actions: 'build'
       xcode_scheme: 'FluentUI-iOS-StaticLib'
       xcode_configuration: 'Release'
-      xcode_extraArgs: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides.xcconfig'
+      xcode_extraArgs: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides_ios.xcconfig'
       
   # Zip our build output. It's important to zip here to preserve symlinks
   - bash: 'scripts/prepare_for_nuget_pack.sh'
