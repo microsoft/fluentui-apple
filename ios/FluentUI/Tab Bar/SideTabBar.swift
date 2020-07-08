@@ -85,7 +85,28 @@ open class SideTabBar: UIView {
 
     @objc public override init(frame: CGRect) {
         super.init(frame: frame)
-        initialize()
+
+        translatesAutoresizingMaskIntoConstraints = false
+
+        backgroundView.translatesAutoresizingMaskIntoConstraints = false
+        contain(view: backgroundView)
+
+        borderLine.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(borderLine)
+
+        addSubview(topStackView)
+        addSubview(bottomStackView)
+
+        if #available(iOS 13, *) {
+            addInteraction(UILargeContentViewerInteraction())
+        }
+
+        accessibilityTraits = .tabBar
+
+        NSLayoutConstraint.activate([widthAnchor.constraint(equalToConstant: Constants.viewWidth),
+                                     borderLine.leadingAnchor.constraint(equalTo: trailingAnchor),
+                                     borderLine.bottomAnchor.constraint(equalTo: bottomAnchor),
+                                     borderLine.topAnchor.constraint(equalTo: topAnchor)])
     }
 
     @available(*, unavailable)
@@ -145,30 +166,6 @@ open class SideTabBar: UIView {
     private let avatarViewGestureRecognizer: UITapGestureRecognizer = {
         return UITapGestureRecognizer(target: self, action: #selector(handleAvatarViewTapped))
     }()
-
-    private func initialize() {
-        translatesAutoresizingMaskIntoConstraints = false
-
-        backgroundView.translatesAutoresizingMaskIntoConstraints = false
-        contain(view: backgroundView)
-
-        borderLine.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(borderLine)
-
-        addSubview(topStackView)
-        addSubview(bottomStackView)
-
-        if #available(iOS 13, *) {
-            addInteraction(UILargeContentViewerInteraction())
-        }
-
-        accessibilityTraits = .tabBar
-
-        NSLayoutConstraint.activate([widthAnchor.constraint(equalToConstant: Constants.viewWidth),
-                                     borderLine.leadingAnchor.constraint(equalTo: trailingAnchor),
-                                     borderLine.bottomAnchor.constraint(equalTo: bottomAnchor),
-                                     borderLine.topAnchor.constraint(equalTo: topAnchor)])
-    }
 
     private func setupLayoutConstraints() {
         if layoutConstraints.count > 0 {
