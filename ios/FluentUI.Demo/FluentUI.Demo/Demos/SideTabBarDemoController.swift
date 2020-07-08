@@ -28,8 +28,8 @@ class SideTabBarDemoController: DemoController {
     @objc private func presentSideTabBar() {
         contentViewController.modalPresentationStyle = .fullScreen
         contentViewController.view.backgroundColor = view.backgroundColor
-
         contentViewController.view.addSubview(sideTabBar)
+
         sideTabBar.delegate = self
 
         sideTabBar.topItems = [
