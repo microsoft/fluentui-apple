@@ -114,17 +114,6 @@ open class SideTabBar: UIView {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    /// Helper method to insert the view in a superview.
-    @objc public func insert(in superView: UIView) {
-        superView.addSubview(self)
-
-        NSLayoutConstraint.activate([
-            leadingAnchor.constraint(equalTo: superView.leadingAnchor),
-            topAnchor.constraint(equalTo: superView.topAnchor),
-            bottomAnchor.constraint(equalTo: superView.bottomAnchor)
-        ])
-    }
-
     private enum Section: Int {
         case top
         case bottom
@@ -226,6 +215,7 @@ open class SideTabBar: UIView {
         setupLayoutConstraints()
     }
 
+    // Issue #110: TabBarItemViews don't have an intrinsic size so we need to calculate the stack view height manually.
     private class func stackViewHeight(_ stackView: UIStackView) -> CGFloat {
         let itemCount: CGFloat = CGFloat(stackView.arrangedSubviews.count)
         var height: CGFloat = Constants.itemHeight * itemCount

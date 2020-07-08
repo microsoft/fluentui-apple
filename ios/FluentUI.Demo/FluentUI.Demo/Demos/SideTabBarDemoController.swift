@@ -29,7 +29,7 @@ class SideTabBarDemoController: DemoController {
         contentViewController.modalPresentationStyle = .fullScreen
         contentViewController.view.backgroundColor = view.backgroundColor
 
-        sideTabBar.insert(in: contentViewController.view)
+        contentViewController.view.addSubview(sideTabBar)
         sideTabBar.delegate = self
 
         sideTabBar.topItems = [
@@ -64,8 +64,11 @@ class SideTabBarDemoController: DemoController {
         optionsStackView.addArrangedSubview(button)
 
         NSLayoutConstraint.activate([
+            sideTabBar.leadingAnchor.constraint(equalTo: contentViewController.view.leadingAnchor),
+            sideTabBar.topAnchor.constraint(equalTo: contentViewController.view.topAnchor),
+            sideTabBar.bottomAnchor.constraint(equalTo: contentViewController.view.bottomAnchor),
             optionsStackView.centerXAnchor.constraint(equalTo: contentViewController.view.centerXAnchor),
-            optionsStackView.centerYAnchor.constraint(equalTo: contentViewController.view.centerYAnchor),
+            optionsStackView.centerYAnchor.constraint(equalTo: contentViewController.view.centerYAnchor)
         ])
 
         present(contentViewController, animated: false)
