@@ -9,4 +9,4 @@ steps:
     displayName: 'Switch to current version of Xcode'
     failOnStderr: true
     env:
-      XCODE_PATH_OVERRIDE: $(xcode_path_override)
+      XCODE_PATH_OVERRIDE: ${{ parameters.xcode_path_override }}
