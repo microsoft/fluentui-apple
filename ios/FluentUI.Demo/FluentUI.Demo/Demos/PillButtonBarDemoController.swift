@@ -54,7 +54,7 @@ class PillButtonBarDemoController: DemoController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if let window = view.window {
-            filledBar?.backgroundColor = Colors.primary(for: window)
+            filledBar?.backgroundColor = UIColor(light: Colors.primary(for: window), dark: Colors.Navigation.System.background)
         }
     }
 
