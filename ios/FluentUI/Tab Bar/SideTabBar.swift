@@ -35,11 +35,12 @@ open class SideTabBar: UIView {
             avatarView?.removeFromSuperview()
         }
         didSet {
-            if let view = avatarView {
-                view.translatesAutoresizingMaskIntoConstraints = false
-                addSubview(view)
+            if let avatarView = avatarView {
+                avatarView.avatarSize = .medium
+                avatarView.translatesAutoresizingMaskIntoConstraints = false
+                addSubview(avatarView)
 
-                view.addGestureRecognizer(avatarViewGestureRecognizer)
+                avatarView.addGestureRecognizer(avatarViewGestureRecognizer)
             }
 
             setupLayoutConstraints()
@@ -47,7 +48,7 @@ open class SideTabBar: UIView {
     }
 
     /// Tab bar iems to display in the top section of the side tab bar.
-    /// These TabBarItems don't need landscape images.
+    /// These TabBarItems should have 28x28 images and don't need landscape images.
     @objc open var topItems: [TabBarItem] = [] {
         willSet {
             willSetItems(in: .top)
@@ -59,7 +60,7 @@ open class SideTabBar: UIView {
 
     /// Tab bar iems to display in the bottom section of the side tab bar.
     /// These items do not have a selected state.
-    /// These TabBarItems don't need landscape images.
+    /// These TabBarItems should have 24x24 images and don't need landscape images.
     @objc open var bottomItems: [TabBarItem] = [] {
         willSet {
             willSetItems(in: .bottom)
@@ -122,14 +123,14 @@ open class SideTabBar: UIView {
     private struct Constants {
         static let maxTabCount: Int = 5
         static let viewWidth: CGFloat = 62.0
-        static let avatarViewSize: CGFloat = 30.0
         static let avatarViewTopPadding: CGFloat = 18.0
         static let topStackViewTopPadding: CGFloat = 30.0
         static let avatarViewTopStackViewPadding: CGFloat = 34.0
         static let bottomStackViewBottomPadding: CGFloat = 10.0
-        static let topItemSpacing: CGFloat = 38.0
+        static let topItemSpacing: CGFloat = 30.0
         static let bottomItemSpacing: CGFloat = 28.0
-        static let itemHeight: CGFloat = 24.0
+        static let topItemSize: CGFloat = 28.0
+        static let bottomItemSize: CGFloat = 24.0
     }
 
     private var layoutConstraints: [NSLayoutConstraint] = []
@@ -166,8 +167,6 @@ open class SideTabBar: UIView {
             layoutConstraints.append(contentsOf: [
                 avatarView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.avatarViewTopPadding),
                 avatarView.centerXAnchor.constraint(equalTo: centerXAnchor),
-                avatarView.widthAnchor.constraint(equalToConstant: Constants.avatarViewSize),
-                avatarView.heightAnchor.constraint(equalToConstant: Constants.avatarViewSize),
                 topStackView.topAnchor.constraint(equalTo:avatarView.bottomAnchor , constant: Constants.avatarViewTopStackViewPadding)
             ])
         } else {
@@ -175,10 +174,10 @@ open class SideTabBar: UIView {
         }
 
         layoutConstraints.append(contentsOf: [
-            topStackView.widthAnchor.constraint(equalTo: widthAnchor),
-            topStackView.heightAnchor.constraint(equalToConstant: SideTabBar.stackViewHeight(topStackView)),
-            bottomStackView.widthAnchor.constraint(equalTo: widthAnchor),
-            bottomStackView.heightAnchor.constraint(equalToConstant: SideTabBar.stackViewHeight(bottomStackView)),
+            topStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            topStackView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor),
+            bottomStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            bottomStackView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor),
             bottomStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -Constants.bottomStackViewBottomPadding)
         ])
 
@@ -200,31 +199,32 @@ open class SideTabBar: UIView {
 
         let stackView = self.stackView(in: section)
 
+        let itemSize = section == .top ? Constants.topItemSize : Constants.bottomItemSize
+        var constraints: [NSLayoutConstraint] = []
+
         for item in allItems {
-            let tabBarItemView = TabBarItemView(item: item, showsTitle: false)
+            let tabBarItemView = TabBarItemView(item: item, showsTitle: false, canResizeImage: false)
+            tabBarItemView.translatesAutoresizingMaskIntoConstraints = false;
+
             let tapGesture = UITapGestureRecognizer(target: self, action: (section == .top) ? #selector(handleTopItemTapped(_:)) : #selector(handleBottomItemTapped(_:)))
             tabBarItemView.addGestureRecognizer(tapGesture)
 
+            // Issue #110: TabBarItemViews don't have an intrinsic size so we need to set the height with constraints.
+            constraints.append(contentsOf: [
+                tabBarItemView.widthAnchor.constraint(equalToConstant: itemSize),
+                tabBarItemView.heightAnchor.constraint(equalToConstant: itemSize)
+            ]);
+
             stackView.addArrangedSubview(tabBarItemView)
         }
+
+        NSLayoutConstraint.activate(constraints)
 
         if (section == .top) {
             selectedTopItem = allItems.first
         }
 
         setupLayoutConstraints()
-    }
-
-    // Issue #110: TabBarItemViews don't have an intrinsic size so we need to calculate the stack view height manually.
-    private class func stackViewHeight(_ stackView: UIStackView) -> CGFloat {
-        let itemCount: CGFloat = CGFloat(stackView.arrangedSubviews.count)
-        var height: CGFloat = Constants.itemHeight * itemCount
-
-        if (itemCount > 0) {
-            height += stackView.spacing * (itemCount - 1)
-        }
-
-        return height
     }
 
     private func items(in section: Section) -> [TabBarItem] {
