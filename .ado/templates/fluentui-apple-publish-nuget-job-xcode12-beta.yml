@@ -1,14 +1,16 @@
 jobs:
-- job: fluentui_apple_publish_nuget
+- job: fluentui_apple_publish_nuget_xcode12_beta
   pool:
     vmImage: 'macos-10.15'
-  displayName: FluentUI Apple Publish NuGet
+  displayName: FluentUI Apple Publish NuGet Xcode 12 Beta
   timeoutInMinutes: 60 # how long to run the job before automatically cancelling
   cancelTimeoutInMinutes: 5 # how much time to give 'run always even if cancelled tasks' before killing them
   
   steps:
-  # Select proper Xcode version
+  # Select Xcode 12 beta version
   - template: apple-xcode-select.yml
+    parameters:
+      xcode_path_override: '/Applications/Xcode_12_beta.app/Contents/Developer'
 
   # Build and zip the libraries
   - template: fluentui-apple-build-zip.yml
@@ -16,6 +18,8 @@ jobs:
   # generate the sanitizedBuildNumber environment variable
   - bash: 'scripts/generate_build_number.sh'
     displayName: 'Generate Build Number'
+    env:
+      BUILD_NUMBER_SUFFIX_OVERRIDE: 'xcode12betabuild'
 
   # pack the nuspec
   - task: NuGetCommand@2
