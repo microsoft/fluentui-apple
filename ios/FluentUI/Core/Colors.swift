@@ -400,7 +400,7 @@ public final class Colors: NSObject {
 
     @objc public static let surfacePrimary = UIColor(light: .white, dark: .black, darkElevated: gray950)
     @objc public static let surfaceSecondary = UIColor(light: gray25, dark: gray950, darkElevated: gray900)
-    @objc public static let surfaceTertiary = UIColor(light: gray50, dark: gray900)
+    @objc public static let surfaceTertiary = UIColor(light: gray50, dark: gray900, darkElevated: gray800)
     /// also used for disabled background color
     @objc public static let surfaceQuaternary = UIColor(light: gray100, dark: gray600)
 
@@ -519,7 +519,7 @@ public final class Colors: NSObject {
     }
 
     public struct NavigationBar {
-        public static var background = UIColor(light: surfacePrimary, dark: surfaceTertiary)
+        public static var background = UIColor(light: surfacePrimary, dark: gray900)
         public static var tint: UIColor = iconPrimary
         public static var title: UIColor = textDominant
     }
