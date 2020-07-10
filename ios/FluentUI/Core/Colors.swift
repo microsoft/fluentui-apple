@@ -473,7 +473,7 @@ public final class Colors: NSObject {
                 public static var textWeekend: UIColor = textOnAccent.withAlphaComponent(0.7)
             }
         }
-        public static var background: UIColor = NavigationBar.background
+        public static var background = UIColor(light: surfacePrimary, dark: surfaceTertiary)
     }
 
     public struct Contact {
@@ -482,7 +482,7 @@ public final class Colors: NSObject {
     }
 
     public struct DateTimePicker {
-        public static var background: UIColor = NavigationBar.background
+        public static var background: UIColor = Calendar.background
         public static var text: UIColor = textSecondary
     }
 
@@ -524,7 +524,7 @@ public final class Colors: NSObject {
     }
 
     public struct NavigationBar {
-        public static var background = UIColor(light: surfacePrimary, dark: surfaceTertiary)
+        public static var background = UIColor(light: surfacePrimary, dark: gray900)
         public static var tint: UIColor = iconPrimary
         public static var title: UIColor = textDominant
     }
