@@ -6,7 +6,6 @@
 import UIKit
 
 class TabBarItemView: UIView {
-
     let item: TabBarItem
     var isSelected: Bool = false {
         didSet {
@@ -41,12 +40,14 @@ class TabBarItemView: UIView {
 
     private var imageHeightConstraint: NSLayoutConstraint?
     private var imageWidthConstraint: NSLayoutConstraint?
+    private let canResizeImage: Bool
 
     private var isInPortraitMode: Bool {
         return traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .regular
     }
 
-    init(item: TabBarItem, showsTitle: Bool) {
+    init(item: TabBarItem, showsTitle: Bool, canResizeImage: Bool = true) {
+        self.canResizeImage = canResizeImage
         self.item = item
         super.init(frame: .zero)
 
@@ -107,21 +108,38 @@ class TabBarItemView: UIView {
     }
 
     func updateLayout() {
+        imageView.image = item.unselectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
+        imageView.highlightedImage = item.selectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
+
+        if (!canResizeImage) {
+            var imageSize = CGSize.zero
+            if let image = imageView.image {
+                imageSize = image.size
+            }
+
+            imageHeightConstraint?.constant = imageSize.height
+            imageWidthConstraint?.constant = imageSize.width
+        }
+
         if isInPortraitMode {
             container.axis = .vertical
             container.spacing = spacingVertical
-            imageHeightConstraint?.constant = titleLabel.isHidden ? portraitImageSize : portraitImageWithLabelSize
-            imageWidthConstraint?.constant = titleLabel.isHidden ? portraitImageSize : portraitImageWithLabelSize
             titleLabel.style = .button3
+
+            if (canResizeImage) {
+                imageHeightConstraint?.constant = titleLabel.isHidden ? portraitImageSize : portraitImageWithLabelSize
+                imageWidthConstraint?.constant = titleLabel.isHidden ? portraitImageSize : portraitImageWithLabelSize
+            }
         } else {
             container.axis = .horizontal
             container.spacing = spacingHorizontal
-            imageHeightConstraint?.constant = landscapeImageSize
-            imageWidthConstraint?.constant = landscapeImageSize
             titleLabel.style = .footnoteUnscaled
+
+            if (canResizeImage) {
+                imageHeightConstraint?.constant = landscapeImageSize
+                imageWidthConstraint?.constant = landscapeImageSize
+            }
         }
-        imageView.image = item.unselectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
-        imageView.highlightedImage = item.selectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
     }
 }
 
