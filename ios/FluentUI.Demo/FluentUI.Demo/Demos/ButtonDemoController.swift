@@ -18,10 +18,6 @@ class ButtonDemoController: DemoController {
             let button = Button(style: style)
             button.setTitle("Button", for: .normal)
 
-            if style == .borderless {
-                button.contentEdgeInsets = .zero
-            }
-
             let disabledButton = Button(style: style)
             disabledButton.isEnabled = false
             disabledButton.setTitle("Button", for: .normal)
