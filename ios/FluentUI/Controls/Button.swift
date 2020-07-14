@@ -105,11 +105,11 @@ open class Button: UIButton {
         }
     }
 
-	open override var contentEdgeInsets: UIEdgeInsets {
-		didSet {
-			isUsingCustomContentEdgeInsets = true
-		}
-	}
+    open override var contentEdgeInsets: UIEdgeInsets {
+        didSet {
+            isUsingCustomContentEdgeInsets = true
+        }
+    }
 
     open override var intrinsicContentSize: CGSize {
         var size = titleLabel?.systemLayoutSizeFitting(CGSize(width: proposedTitleLabelWidth == 0 ? .greatestFiniteMagnitude : proposedTitleLabelWidth, height: .greatestFiniteMagnitude)) ?? .zero
@@ -127,7 +127,7 @@ open class Button: UIButton {
         }
     }
 
-	private var isUsingCustomContentEdgeInsets: Bool = false
+    private var isUsingCustomContentEdgeInsets: Bool = false
 
     @objc public init(style: ButtonStyle = .secondaryOutline) {
         self.style = style
@@ -195,9 +195,9 @@ open class Button: UIButton {
 
         layer.borderWidth = style.hasBorders ? Constants.borderWidth : 0
 
-		if !isUsingCustomContentEdgeInsets {
-			contentEdgeInsets = style.contentEdgeInsets
-		}
+        if !isUsingCustomContentEdgeInsets {
+            contentEdgeInsets = style.contentEdgeInsets
+        }
     }
 
     private func updateBackgroundColor() {
