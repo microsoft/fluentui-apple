@@ -167,7 +167,7 @@ open class SideTabBar: UIView {
             layoutConstraints.append(contentsOf: [
                 avatarView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.avatarViewTopPadding),
                 avatarView.centerXAnchor.constraint(equalTo: centerXAnchor),
-                topStackView.topAnchor.constraint(equalTo:avatarView.bottomAnchor , constant: Constants.avatarViewTopStackViewPadding)
+                topStackView.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.avatarViewTopStackViewPadding)
             ])
         } else {
             layoutConstraints.append(topStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.topStackViewTopPadding))
@@ -204,7 +204,7 @@ open class SideTabBar: UIView {
 
         for item in allItems {
             let tabBarItemView = TabBarItemView(item: item, showsTitle: false, canResizeImage: false)
-            tabBarItemView.translatesAutoresizingMaskIntoConstraints = false;
+            tabBarItemView.translatesAutoresizingMaskIntoConstraints = false
 
             let tapGesture = UITapGestureRecognizer(target: self, action: (section == .top) ? #selector(handleTopItemTapped(_:)) : #selector(handleBottomItemTapped(_:)))
             tabBarItemView.addGestureRecognizer(tapGesture)
@@ -213,14 +213,14 @@ open class SideTabBar: UIView {
             constraints.append(contentsOf: [
                 tabBarItemView.widthAnchor.constraint(equalToConstant: itemSize),
                 tabBarItemView.heightAnchor.constraint(equalToConstant: itemSize)
-            ]);
+            ])
 
             stackView.addArrangedSubview(tabBarItemView)
         }
 
         NSLayoutConstraint.activate(constraints)
 
-        if (section == .top) {
+        if section == .top {
             selectedTopItem = allItems.first
         }
 

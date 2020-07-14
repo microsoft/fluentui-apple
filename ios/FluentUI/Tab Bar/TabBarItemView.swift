@@ -111,7 +111,7 @@ class TabBarItemView: UIView {
         imageView.image = item.unselectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
         imageView.highlightedImage = item.selectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
 
-        if (!canResizeImage) {
+        if !canResizeImage {
             var imageSize = CGSize.zero
             if let image = imageView.image {
                 imageSize = image.size
@@ -126,7 +126,7 @@ class TabBarItemView: UIView {
             container.spacing = spacingVertical
             titleLabel.style = .button3
 
-            if (canResizeImage) {
+            if canResizeImage {
                 imageHeightConstraint?.constant = titleLabel.isHidden ? portraitImageSize : portraitImageWithLabelSize
                 imageWidthConstraint?.constant = titleLabel.isHidden ? portraitImageSize : portraitImageWithLabelSize
             }
@@ -135,7 +135,7 @@ class TabBarItemView: UIView {
             container.spacing = spacingHorizontal
             titleLabel.style = .footnoteUnscaled
 
-            if (canResizeImage) {
+            if canResizeImage {
                 imageHeightConstraint?.constant = landscapeImageSize
                 imageWidthConstraint?.constant = landscapeImageSize
             }

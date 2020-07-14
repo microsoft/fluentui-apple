@@ -40,17 +40,17 @@ public enum AvatarSize: Int, CaseIterable {
     public var size: CGSize {
         switch self {
         case .extraSmall:
-            return CGSize(width: 18, height: 18)
+            return CGSize(width: 16, height: 16)
         case .small:
             return CGSize(width: 24, height: 24)
         case .medium:
-            return CGSize(width: 30, height: 30)
+            return CGSize(width: 32, height: 32)
         case .large:
             return CGSize(width: 40, height: 40)
         case .extraLarge:
             return CGSize(width: 52, height: 52)
         case .extraExtraLarge:
-            return CGSize(width: 70, height: 70)
+            return CGSize(width: 72, height: 72)
         }
     }
 

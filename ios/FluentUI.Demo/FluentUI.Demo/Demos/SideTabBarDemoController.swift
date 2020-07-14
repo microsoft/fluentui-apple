@@ -18,11 +18,11 @@ class SideTabBarDemoController: DemoController {
     }
 
     private let sideTabBar: SideTabBar = {
-        return SideTabBar(frame: .zero);
+        return SideTabBar(frame: .zero)
     }()
 
     private let contentViewController: UIViewController = {
-        return UIViewController(nibName: nil, bundle: nil);
+        return UIViewController(nibName: nil, bundle: nil)
     }()
 
     @objc private func presentSideTabBar() {
@@ -89,7 +89,7 @@ class SideTabBarDemoController: DemoController {
         switchView.addTarget(self, action: switchAction, for: .valueChanged)
         stackView.addArrangedSubview(switchView)
 
-        return stackView;
+        return stackView
     }
 
     @objc private func dismissSideTabBar() {
@@ -102,12 +102,12 @@ class SideTabBarDemoController: DemoController {
 
     private func showAvatarView(_ show: Bool) {
         var avatarView: AvatarView?
-        if (show) {
+        if show {
             avatarView = AvatarView(avatarSize: .medium, withBorder: false, style: .circle)
             avatarView!.setup(primaryText: "Kat Larson", secondaryText: "", image: UIImage(named: "avatar_kat_larsson")!)
         }
 
-        sideTabBar.avatarView = avatarView;
+        sideTabBar.avatarView = avatarView
     }
 }
 
@@ -128,4 +128,3 @@ extension SideTabBarDemoController: SideTabBarDelegate {
         contentViewController.present(alert, animated: true)
     }
 }
-

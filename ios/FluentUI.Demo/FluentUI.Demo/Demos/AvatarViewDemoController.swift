@@ -26,7 +26,7 @@ class AvatarViewDemoController: DemoController {
     }
 
     private func createAvatarView(size: AvatarSize, name: String, image: UIImage? = nil, style: AvatarStyle, withColorfulBorder: Bool = false) -> UIView {
-        let avatarView = AvatarView(avatarSize: size, withBorder: true, style: style)
+        let avatarView = AvatarView(avatarSize: size, withBorder: withColorfulBorder, style: style)
         if withColorfulBorder, let customBorderImage = colorfulImageForFrame() {
             avatarView.customBorderImage = customBorderImage
         }
@@ -35,7 +35,7 @@ class AvatarViewDemoController: DemoController {
 
         let avatarContainer = UIView()
         avatarContainer.addSubview(avatarView)
-        avatarContainer.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        avatarContainer.widthAnchor.constraint(equalToConstant: AvatarSize.extraExtraLarge.size.width).isActive = true
         avatarContainer.heightAnchor.constraint(equalToConstant: avatarView.frame.height).isActive = true
 
         return avatarContainer
