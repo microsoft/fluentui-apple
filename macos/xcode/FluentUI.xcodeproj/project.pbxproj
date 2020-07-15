@@ -65,6 +65,13 @@
 			remoteGlobalIDString = E61C96B12295E8D60006561F;
 			remoteInfo = FluentUI;
 		};
+		E660317324BEBF8F00A132DB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E61C96A92295E8D60006561F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E61C96B12295E8D60006561F;
+			remoteInfo = FluentUI;
+		};
 		E6A92D4624BEA9A600562BCA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E61C96A92295E8D60006561F /* Project object */;
@@ -545,6 +552,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				E660317424BEBF8F00A132DB /* PBXTargetDependency */,
 			);
 			name = FluentUITestViewControllers;
 			productName = FluentUITestViewControllers;
@@ -787,6 +795,11 @@
 			isa = PBXTargetDependency;
 			target = E61C96B12295E8D60006561F /* FluentUI */;
 			targetProxy = E61C96BD2295E8D60006561F /* PBXContainerItemProxy */;
+		};
+		E660317424BEBF8F00A132DB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E61C96B12295E8D60006561F /* FluentUI */;
+			targetProxy = E660317324BEBF8F00A132DB /* PBXContainerItemProxy */;
 		};
 		E6A92D4724BEA9A600562BCA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
