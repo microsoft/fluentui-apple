@@ -43,6 +43,7 @@ class DemoListViewController: UITableViewController {
             subtitle: FluentUIFramework.bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
         )
         navigationItem.titleView = titleView
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
 
         tableView.backgroundColor = Colors.Table.background
         tableView.tableFooterView = UIView()
