@@ -1,16 +1,24 @@
 //
-//  ContentView.swift
-//  FluentUISwiftUITestApp
-//
-//  Created by Anand Rajeswaran on 7/14/20.
-//  Copyright © 2020 Microsoft Corporation. All rights reserved.
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
 //
 
+import FluentUITestViewControllers
 import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, world!").padding()
+		NavigationView {
+			List {
+				ForEach(testViewControllers) { testViewController in
+					NavigationLink(destination: TestViewControllerWrappingView(type: testViewController.type)) {
+						Text(testViewController.id)
+					}
+				}
+			}
+			.listStyle(SidebarListStyle())
+		}
+		.frame(minWidth: 800, maxWidth: .infinity, minHeight: 500, maxHeight: .infinity)
     }
 }
 
