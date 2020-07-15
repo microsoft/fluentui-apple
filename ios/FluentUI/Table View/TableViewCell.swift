@@ -925,6 +925,24 @@ open class TableViewCell: UITableViewCell {
         subtitleLabel.textColor = Colors.Table.Cell.subtitle
         footerLabel.textColor = Colors.Table.Cell.footer
     }
+    
+    /// To set color for title label
+    /// - Parameter color: UIColor to set
+    public func setTitleLabelTextColor(color: UIColor) {
+        titleLabel.textColor = color
+    }
+    
+    /// To set color for subTitle label
+    /// - Parameter color: UIColor to set
+    public func setSubTitleLabelTextColor(color: UIColor) {
+        subtitleLabel.textColor = color
+    }
+    
+    /// To set color for footer label
+    /// - Parameter color: UIColor to set
+    public func setFooterLabelTextColor(color: UIColor) {
+        footerLabel.textColor = color
+    }
 
     open override func layoutSubviews() {
         super.layoutSubviews()
