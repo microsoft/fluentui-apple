@@ -919,7 +919,7 @@ open class TableViewCell: UITableViewCell {
 
         selectionStyle = isInSelectionMode ? .none : .default
     }
-    
+
     private var isUsingCustomTextColors: Bool = false
 
     public func updateTextColors() {
@@ -929,21 +929,21 @@ open class TableViewCell: UITableViewCell {
             footerLabel.textColor = Colors.Table.Cell.footer
         }
     }
-    
+
     /// To set color for title label
     /// - Parameter color: UIColor to set
     public func setTitleLabelTextColor(color: UIColor) {
         titleLabel.textColor = color
         isUsingCustomTextColors = true
     }
-    
+
     /// To set color for subTitle label
     /// - Parameter color: UIColor to set
     public func setSubTitleLabelTextColor(color: UIColor) {
         subtitleLabel.textColor = color
         isUsingCustomTextColors = true
     }
-    
+
     /// To set color for footer label
     /// - Parameter color: UIColor to set
     public func setFooterLabelTextColor(color: UIColor) {
