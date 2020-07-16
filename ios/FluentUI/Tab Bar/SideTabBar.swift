@@ -124,11 +124,10 @@ open class SideTabBar: UIView {
         static let maxTabCount: Int = 5
         static let viewWidth: CGFloat = 62.0
         static let avatarViewTopPadding: CGFloat = 18.0
-        static let topStackViewTopPadding: CGFloat = 30.0
         static let avatarViewTopStackViewPadding: CGFloat = 34.0
-        static let bottomStackViewBottomPadding: CGFloat = 10.0
-        static let topItemSpacing: CGFloat = 30.0
-        static let bottomItemSpacing: CGFloat = 28.0
+        static let bottomStackViewBottomPadding: CGFloat = 14.0
+        static let topItemSpacing: CGFloat = 32.0
+        static let bottomItemSpacing: CGFloat = 24.0
         static let topItemSize: CGFloat = 28.0
         static let bottomItemSize: CGFloat = 24.0
     }
@@ -170,7 +169,7 @@ open class SideTabBar: UIView {
                 topStackView.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.avatarViewTopStackViewPadding)
             ])
         } else {
-            layoutConstraints.append(topStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.topStackViewTopPadding))
+            layoutConstraints.append(topStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.topItemSpacing))
         }
 
         layoutConstraints.append(contentsOf: [
