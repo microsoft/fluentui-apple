@@ -45,7 +45,7 @@ class TestControlsViewController: NSViewController, NSTableViewDelegate, NSTable
 	}
 	
 	func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-		let textField = NSTextField(labelWithString: testViewControllers[row].id)
+		let textField = NSTextField(labelWithString: testViewControllers[row].title)
 		textField.translatesAutoresizingMaskIntoConstraints = false
 		let view = NSView(frame: .zero)
 		view.addSubview(textField)

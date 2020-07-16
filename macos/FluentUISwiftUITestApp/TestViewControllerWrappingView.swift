@@ -16,5 +16,7 @@ struct TestViewControllerWrappingView: NSViewControllerRepresentable {
 	}
 	
 	func updateNSViewController(_ nsViewController: NSViewControllerType, context: Context) {
+		// Required protocol method, but can be empty since we don't ever need to
+		// update the wrapped view controller from SwiftUI after creating it
 	}
 }

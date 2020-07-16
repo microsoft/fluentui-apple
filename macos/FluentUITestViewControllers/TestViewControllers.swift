@@ -6,17 +6,18 @@
 import AppKit
 
 public struct TestViewController: Identifiable {
-	public let id: String
+	public let id = UUID()
+	public let title: String
 	public let type: NSViewController.Type
 }
 
-public let testViewControllers = [TestViewController(id: "Avatar View",
+public let testViewControllers = [TestViewController(title: "Avatar View",
 													 type: TestAvatarViewController.self),
-								  TestViewController(id: "Button",
+								  TestViewController(title: "Button",
 													 type: TestButtonViewController.self),
-								  TestViewController(id: "Date Picker",
+								  TestViewController(title: "Date Picker",
 													 type: TestDatePickerController.self),
-								  TestViewController(id: "Link",
+								  TestViewController(title: "Link",
 													 type: TestLinkViewController.self),
-								  TestViewController(id: "Separator",
+								  TestViewController(title: "Separator",
 													 type: TestSeparatorViewController.self)]

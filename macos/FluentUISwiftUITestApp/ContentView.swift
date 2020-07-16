@@ -12,14 +12,17 @@ struct ContentView: View {
 			List {
 				ForEach(testViewControllers) { testViewController in
 					NavigationLink(destination: TestViewControllerWrappingView(type: testViewController.type)) {
-						Text(testViewController.id)
+						Text(testViewController.title)
 					}
 				}
 			}
 			.listStyle(SidebarListStyle())
 		}
-		.frame(minWidth: 800, maxWidth: .infinity, minHeight: 500, maxHeight: .infinity)
+		.frame(minWidth: minWidth, maxWidth: .infinity, minHeight: minHeight, maxHeight: .infinity)
     }
+
+	private let minWidth: CGFloat = 800
+	private let minHeight: CGFloat = 500
 }
 
 struct ContentView_Previews: PreviewProvider {
