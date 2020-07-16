@@ -919,29 +919,36 @@ open class TableViewCell: UITableViewCell {
 
         selectionStyle = isInSelectionMode ? .none : .default
     }
+    
+    private var isUsingCustomTextColors: Bool = false
 
     public func updateTextColors() {
-        titleLabel.textColor = Colors.Table.Cell.title
-        subtitleLabel.textColor = Colors.Table.Cell.subtitle
-        footerLabel.textColor = Colors.Table.Cell.footer
+        if !isUsingCustomTextColors {
+            titleLabel.textColor = Colors.Table.Cell.title
+            subtitleLabel.textColor = Colors.Table.Cell.subtitle
+            footerLabel.textColor = Colors.Table.Cell.footer
+        }
     }
     
     /// To set color for title label
     /// - Parameter color: UIColor to set
     public func setTitleLabelTextColor(color: UIColor) {
         titleLabel.textColor = color
+        isUsingCustomTextColors = true
     }
     
     /// To set color for subTitle label
     /// - Parameter color: UIColor to set
     public func setSubTitleLabelTextColor(color: UIColor) {
         subtitleLabel.textColor = color
+        isUsingCustomTextColors = true
     }
     
     /// To set color for footer label
     /// - Parameter color: UIColor to set
     public func setFooterLabelTextColor(color: UIColor) {
         footerLabel.textColor = color
+        isUsingCustomTextColors = true
     }
 
     open override func layoutSubviews() {
