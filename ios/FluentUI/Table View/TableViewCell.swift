@@ -61,6 +61,14 @@ public enum TableViewCellAccessoryType: Int {
     }
 }
 
+// MARK: - TableViewCellDelegate
+
+@objc(MSFTableViewCellDelegate)
+public protocol TableViewCellDelegate: AnyObject {
+    /// Called when the table view cell's size changes.
+    @objc optional func tableViewCellSizeDidChange(_ tableViewCell: TableViewCell)
+}
+
 // MARK: - TableViewCell
 
 @available(*, deprecated, renamed: "TableViewCell")
@@ -205,6 +213,9 @@ open class TableViewCell: UITableViewCell {
 
     /// A constant representing the number of lines for a label in which no change will be made when the `preferredContentSizeCategory` returns a size greater than `.large`.
     @objc public static let defaultNumberOfLinesForLargerDynamicType: Int = -1
+
+    /// The table view cell's delegate
+    @objc public weak var delegate: TableViewCellDelegate?
 
     /// The vertical margins for cells with one or three lines of text
     class var labelVerticalMarginForOneAndThreeLines: CGFloat { return Constants.labelVerticalMarginForOneAndThreeLines }
@@ -954,6 +965,12 @@ open class TableViewCell: UITableViewCell {
     open override func layoutSubviews() {
         super.layoutSubviews()
 
+        if !bounds.equalTo(previousBounds) {
+            previousBounds = bounds
+
+            delegate?.tableViewCellSizeDidChange?(self)
+        }
+
         layoutContentSubviews()
         contentView.flipSubviewsForRTL()
 
@@ -1313,6 +1330,10 @@ open class TableViewCell: UITableViewCell {
         setNeedsLayout()
         invalidateIntrinsicContentSize()
     }
+
+    private var previousBounds: CGRect = {
+        return .zero
+    }()
 }
 
 // MARK: - TableViewCellAccessoryView

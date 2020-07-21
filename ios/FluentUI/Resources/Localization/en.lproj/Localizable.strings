@@ -114,6 +114,9 @@
 /* Generic label for cancel action */
 "Common.Cancel" = "Cancel";
 
+/* Generic label to indicate that an item is shaqred */
+"Common.Shared" = "Shared";
+
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Search Directory";
 
@@ -128,3 +131,4 @@
 
 /* MSDateTimePicker label for the end date of a date range */
 "MSDateTimePicker.EndDate" = "End Date";
+
