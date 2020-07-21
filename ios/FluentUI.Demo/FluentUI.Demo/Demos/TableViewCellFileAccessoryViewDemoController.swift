@@ -62,7 +62,7 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         updateDate()
     }
 
-    private static let cellSizes: [UInt16] = [320, 375, 414, 423, 424, 503, 504, 583, 584, 615, 616, 751, 752, 899, 900, 923, 924, 1092, 1270]
+    private static let cellSizes: [UInt16] = [320, 375, 414, 423, 424, 503, 504, 583, 584, 615, 616, 751, 752, 899, 900, 924, 950, 1000, 1091, 1092, 1270]
 
     private var accessoryViews: [TableViewCellFileAccessoryView] = []
 
@@ -158,9 +158,9 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         accessoryViews.append(customAccessoryView)
 
         let cell = TableViewCell(frame: .zero)
-        cell.delegate = customAccessoryView
         customAccessoryView.tableViewCell = cell
         customAccessoryView.showSharedStatus = true
+        customAccessoryView.isShared = true
 
         cell.setup(
             title: title,
