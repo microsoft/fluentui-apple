@@ -49,7 +49,7 @@ open class TableViewCellFileAccessoryView: UIView {
             let dateString = "Yesterday"
             dateLabel.text = dateString
 
-            if (date == nil && oldValue != nil) || (oldValue == nil && date != nil) {
+            if tableViewCell != nil && (date == nil && oldValue != nil) || (oldValue == nil && date != nil) {
                 updateLayout()
             }
         }
@@ -58,7 +58,7 @@ open class TableViewCellFileAccessoryView: UIView {
     /// Set to true to display the shared status in the accessory view's second column, false otherwise.
     @objc public var showSharedStatus: Bool = false {
         didSet {
-            if oldValue != showSharedStatus {
+            if tableViewCell != nil && oldValue != showSharedStatus {
                 updateLayout()
             }
         }
@@ -77,7 +77,7 @@ open class TableViewCellFileAccessoryView: UIView {
     /// Actions with the smallest index in the array will have a higher priority for being displayed.
     @objc public var actions: [FileAccessoryViewAction] = [] {
         didSet {
-            if !oldValue.elementsEqual(actions) {
+            if tableViewCell != nil && !oldValue.elementsEqual(actions) {
                 updateLayout()
             }
         }
@@ -85,13 +85,11 @@ open class TableViewCellFileAccessoryView: UIView {
 
     @objc public weak var tableViewCell: TableViewCell? {
         didSet {
-            oldValue?.delegate = nil
-            tableViewCell?.delegate = self
             updateLayout()
         }
     }
 
-    @objc public override init(frame: CGRect) { // TODO update initializer with values needed like actions and tableViewCell
+    @objc public override init(frame: CGRect) { // TODO_ update initializer with values needed like actions and tableViewCell
         super.init(frame: frame)
 
         addSubview(columnStackView)
@@ -105,13 +103,23 @@ open class TableViewCellFileAccessoryView: UIView {
         columnStackView.addArrangedSubview(actionsStackView)
 
         sharedStatusView.subviews.first!.isHidden = true
-
-        updateLayout()
     }
 
     @available(*, unavailable)
     @objc public required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
+    }
+
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+
+        if let tableViewCell = tableViewCell {
+            if !tableViewCell.bounds.equalTo(previousBounds) {
+                previousBounds = tableViewCell.bounds
+
+                updateLayout()
+            }
+        }
     }
 
     private struct Constants {
@@ -326,14 +334,8 @@ open class TableViewCellFileAccessoryView: UIView {
             tableViewCell?.setNeedsLayout()
         }
     }
-}
 
-// MARK: - TableViewCellFileAccessoryView: TableViewCellDelegate
-
-extension TableViewCellFileAccessoryView: TableViewCellDelegate {
-    public func tableViewCellSizeDidChange(_ tableViewCell: TableViewCell) {
-        updateLayout()
-    }
+    private var previousBounds: CGRect = .zero
 }
 
 // MARK: - FileAccessoryViewActionView

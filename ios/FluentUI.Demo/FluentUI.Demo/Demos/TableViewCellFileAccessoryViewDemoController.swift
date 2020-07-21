@@ -28,9 +28,9 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
 
         stackView.addArrangedSubview(settingsView)
 
-        for size in TableViewCellFileAccessoryViewDemoController.cellSizes {
+        for width in TableViewCellFileAccessoryViewDemoController.cellWidths {
             let cellTitle = Label(style: .subhead, colorStyle: .regular)
-            cellTitle.text = "\t\(size)px"
+            cellTitle.text = "\t\(Int(width))px"
             stackView.addArrangedSubview(cellTitle)
 
             let cell1 = createCell(title: "Document Title", subtitle: "OneDrive - Microsoft · Microsoft Teams Chat Files")
@@ -45,11 +45,15 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
             containerView.addArrangedSubview(cell2)
             stackView.addArrangedSubview(containerView)
 
-            constraints.append(contentsOf: [
-                containerView.widthAnchor.constraint(equalToConstant: CGFloat(size))
+            dynamicWidthConstraints.append(contentsOf: [
+                cell1.widthAnchor.constraint(equalTo: scrollingContainer.widthAnchor),
+                cell2.widthAnchor.constraint(equalTo: scrollingContainer.widthAnchor)
             ])
+
+            staticWidthConstraints.append(containerView.widthAnchor.constraint(equalToConstant: width))
         }
 
+        constraints.append(contentsOf: staticWidthConstraints)
         constraints.append(contentsOf: [
             stackView.topAnchor.constraint(equalTo: scrollingContainer.topAnchor, constant: Constants.stackViewSpacing),
             stackView.bottomAnchor.constraint(equalTo: scrollingContainer.bottomAnchor, constant: -Constants.stackViewSpacing),
@@ -62,7 +66,10 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         updateDate()
     }
 
-    private static let cellSizes: [UInt16] = [320, 375, 414, 423, 424, 503, 504, 583, 584, 615, 616, 751, 752, 899, 900, 924, 950, 1000, 1091, 1092, 1270]
+    private static let cellWidths: [CGFloat] = [320.0, 375.0, 414.0, 423.0, 424.0, 503.0, 504.0, 583.0, 584.0, 615.0, 616.0, 751.0, 752.0, 899.0, 900.0, 924.0, 950.0, 1000.0, 1091.0, 1092.0, 1270.0]
+
+    private var staticWidthConstraints: [NSLayoutConstraint] = []
+    private var dynamicWidthConstraints: [NSLayoutConstraint] = []
 
     private var accessoryViews: [TableViewCellFileAccessoryView] = []
 
@@ -215,6 +222,7 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         settingsView.addArrangedSubview(spacingView)
 
         let settingViews: [UIView] = [
+            createLabelAndSwitchRow(labelText: "Dynamic width", switchAction: #selector(toggleDynamicWidth(switchView:)), isOn: false),
             createLabelAndSwitchRow(labelText: "Show date", switchAction: #selector(toggleShowDate(switchView:)), isOn: showDate),
             createButton(title: "Choose date", action: #selector(presentDateTimeRangePicker)),
             createLabelAndSwitchRow(labelText: "Show shared status", switchAction: #selector(toggleShowSharedStatus(switchView:)), isOn: true),
@@ -268,6 +276,16 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         let startDate = Date()
         let endDate = Calendar.current.date(byAdding: .hour, value: 1, to: startDate) ?? startDate
         dateTimePicker.present(from: self, with: .dateTimeRange, startDate: startDate, endDate: endDate, datePickerType: .components)
+    }
+
+    @objc private func toggleDynamicWidth(switchView: UISwitch) {
+        if switchView.isOn {
+            NSLayoutConstraint.deactivate(staticWidthConstraints)
+            NSLayoutConstraint.activate(dynamicWidthConstraints)
+        } else {
+            NSLayoutConstraint.deactivate(dynamicWidthConstraints)
+            NSLayoutConstraint.activate(staticWidthConstraints)
+        }
     }
 
     @objc private func toggleShowSharedStatus(switchView: UISwitch) {
