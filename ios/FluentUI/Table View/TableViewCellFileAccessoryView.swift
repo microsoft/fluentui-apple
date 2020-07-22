@@ -65,7 +65,7 @@ open class TableViewCellFileAccessoryView: UIView {
     /// Set to true to indicate that the document is shared with others, false otherwise.
     @objc public var isShared: Bool = false {
         didSet {
-            sharedStatusView.subviews.first!.isHidden = !isShared
+            updateSharedStatus()
         }
     }
 
@@ -100,7 +100,7 @@ open class TableViewCellFileAccessoryView: UIView {
 
         columnStackView.addArrangedSubview(actionsStackView)
 
-        sharedStatusView.subviews.first!.isHidden = true
+        updateSharedStatus()
     }
 
     @available(*, unavailable)
@@ -170,14 +170,26 @@ open class TableViewCellFileAccessoryView: UIView {
         return dateLabel.widthAnchor.constraint(equalToConstant: 0.0)
     }()
 
+    private func updateSharedStatus() {
+        let imageName = isShared ? "people-24x24" : "person-24x24"
+        sharedStatusImageView.image = UIImage.staticImageNamed(imageName)!.image(withPrimaryColor: Colors.gray500)
+        sharedStatusLabel.text = isShared ? "Common.Shared".localized : "Common.OnlyMe".localized
+    }
+
     private lazy var sharedStatusLabel: Label = {
         let label = Label(style: .footnote, colorStyle: .secondary)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
         label.textAlignment = .natural
-        label.text = "Common.Shared".localized
 
         return label
+    }()
+
+    private lazy var sharedStatusImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+
+        return imageView
     }()
 
     private lazy var sharedStatusView: UIView = {
@@ -188,19 +200,15 @@ open class TableViewCellFileAccessoryView: UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(view)
 
-        let imageView = UIImageView()
-        imageView.image = UIImage.staticImageNamed("shared-24x24")!.image(withPrimaryColor: Colors.gray500)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-
-        view.addSubview(imageView)
+        view.addSubview(sharedStatusImageView)
         view.addSubview(sharedStatusLabel)
 
         NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalToConstant: Constants.sharedIconSize),
-            imageView.heightAnchor.constraint(equalToConstant: Constants.sharedIconSize),
-            imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            sharedStatusLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: Constants.sharedStatusSpacing),
+            sharedStatusImageView.widthAnchor.constraint(equalToConstant: Constants.sharedIconSize),
+            sharedStatusImageView.heightAnchor.constraint(equalToConstant: Constants.sharedIconSize),
+            sharedStatusImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            sharedStatusImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            sharedStatusLabel.leadingAnchor.constraint(equalTo: sharedStatusImageView.trailingAnchor, constant: Constants.sharedStatusSpacing),
             sharedStatusLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             sharedStatusLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),

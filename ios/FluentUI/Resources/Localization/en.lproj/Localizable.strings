@@ -114,8 +114,11 @@
 /* Generic label for cancel action */
 "Common.Cancel" = "Cancel";
 
-/* Generic label to indicate that an item is shaqred */
+/* Generic label to indicate that an item is shared */
 "Common.Shared" = "Shared";
+
+/* Generic label to indicate that an item is not shared */
+"Common.OnlyMe" = "Only me";
 
 /* Just now date string */
 "Date.Now" = "Just now";
