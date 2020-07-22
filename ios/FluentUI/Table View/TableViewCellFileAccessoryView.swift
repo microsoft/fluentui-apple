@@ -135,21 +135,17 @@ open class TableViewCellFileAccessoryView: UIView {
     }
 
     private lazy var actionsStackView: UIStackView = {
-        return createStackView()
-    }()
-
-    private lazy var actionsStackViewWidthConstraint: NSLayoutConstraint = {
-        return actionsStackView.widthAnchor.constraint(equalToConstant: 0.0)
+        return createHorizontalStackView()
     }()
 
     private lazy var columnStackView: UIStackView = {
-        let columnStackView = createStackView()
+        let columnStackView = createHorizontalStackView()
         columnStackView.spacing = Constants.columnSpacing
 
         return columnStackView
     }()
 
-    private func createStackView() -> UIStackView {
+    private func createHorizontalStackView() -> UIStackView {
         let stackView = UIStackView(frame: .zero)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
@@ -288,9 +284,6 @@ open class TableViewCellFileAccessoryView: UIView {
         if actionCount > 1 {
             width += CGFloat(actionCount - 1) * actionsStackView.spacing
         }
-
-        actionsStackViewWidthConstraint.constant = width
-        actionsStackViewWidthConstraint.isActive = true
 
         let cellSize = tableViewCell?.frame.size ?? .zero
         var reservedCellSpace = Constants.reservedCellSpace[0]
