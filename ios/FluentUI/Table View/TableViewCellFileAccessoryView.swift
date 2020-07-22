@@ -248,7 +248,7 @@ open class TableViewCellFileAccessoryView: UIView {
         if visibleActions.count > maxActionCount {
             for (index, action) in visibleActions.reversed().enumerated() {
                 if action.canHide {
-                    visibleActions.remove(at: index)
+                    visibleActions.remove(at: visibleActions.count - index - 1)
 
                     if visibleActions.count == maxActionCount {
                         break
