@@ -5,6 +5,26 @@
 
 import UIKit
 
+// MARK: Notification Colors
+
+public extension Colors {
+    struct Notification {
+        public struct NeutralToast {
+            public static var background: UIColor = surfaceQuaternary.withAlphaComponent(0.6)
+            public static var foreground: UIColor = textDominant
+        }
+        public struct PrimaryOutlineBar {
+            public static var background = UIColor(light: surfacePrimary, dark: surfaceQuaternary).withAlphaComponent(0.6)
+        }
+        public struct NeutralBar {
+            public static var background: UIColor = NeutralToast.background
+            public static var foreground: UIColor = NeutralToast.foreground
+        }
+    }
+}
+
+// MARK: - NotificationView
+
 @available(*, deprecated, renamed: "NotificationView")
 public typealias MSNotificationView = NotificationView
 

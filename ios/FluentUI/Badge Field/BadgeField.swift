@@ -45,6 +45,16 @@ public protocol BadgeFieldDelegate: AnyObject {
     @objc optional func badgeFieldShouldReturn(_ badgeField: BadgeField) -> Bool
 }
 
+// MARK: - BadgeField Colors
+
+public extension Colors {
+    struct BadgeField {
+        public static var background: UIColor = surfacePrimary
+        public static var label: UIColor = textSecondary
+        public static var placeholder: UIColor = textSecondary
+    }
+}
+
 // MARK: - BadgeField
 
 @available(*, deprecated, renamed: "BadgeField")

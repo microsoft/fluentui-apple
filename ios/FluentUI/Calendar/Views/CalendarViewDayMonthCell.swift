@@ -5,7 +5,37 @@
 
 import UIKit
 
-// MARK: CalendarViewDayMonthCell
+// MARK: Calendar Colors
+
+public extension Colors {
+    struct Calendar {
+        public struct Day {
+            public static var textPrimary = UIColor(light: Colors.textSecondary, dark: Colors.textPrimary)
+            public static var textSecondary: UIColor = Colors.textSecondary
+            public static var textSelected: UIColor = textOnAccent
+            public static var backgroundPrimary = UIColor(light: Calendar.background, dark: surfaceSecondary)
+            public static var backgroundSecondary = UIColor(light: surfaceSecondary, dark: Calendar.background)
+            public static var circleHighlighted: UIColor = gray400
+        }
+        public struct Today {
+            public static var background: UIColor = Calendar.Day.backgroundPrimary
+        }
+        public struct WeekdayHeading {
+            public struct Light {
+                public static var textRegular = UIColor(light: gray600, lightHighContrast: gray700, dark: textPrimary)
+                public static var textWeekend: UIColor = textSecondary
+                public static var background: UIColor = Calendar.background
+            }
+            public struct Dark {
+                public static var textRegular: UIColor = textOnAccent
+                public static var textWeekend: UIColor = textOnAccent.withAlphaComponent(0.7)
+            }
+        }
+        public static var background = UIColor(light: surfacePrimary, dark: surfaceTertiary)
+    }
+}
+
+// MARK: - CalendarViewDayMonthCell
 
 class CalendarViewDayMonthCell: CalendarViewDayCell {
     struct Constants {

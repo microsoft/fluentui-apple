@@ -5,6 +5,27 @@
 
 import UIKit
 
+// MARK: Colors
+
+public extension Colors {
+     struct Progress {
+        public static var trackTint = UIColor(light: surfaceQuaternary, dark: surfaceTertiary)
+    }
+
+    struct NavigationBar {
+        public static var background = UIColor(light: surfacePrimary, dark: gray900)
+        public static var tint: UIColor = iconPrimary
+        public static var title: UIColor = textDominant
+    }
+
+    struct Toolbar {
+        public static var background: UIColor = NavigationBar.background
+        public static var tint: UIColor = NavigationBar.tint
+    }
+}
+
+// MARK: - FluentUIFramework
+
 public class FluentUIFramework: NSObject {
     @objc public static var bundle: Bundle { return Bundle(for: self) }
     @objc public static let resourceBundle: Bundle = {

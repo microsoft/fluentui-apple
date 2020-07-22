@@ -5,6 +5,19 @@
 
 import UIKit
 
+// MARK: Separator Colors
+
+public extension Colors {
+    struct Separator {
+        public static var `default`: UIColor = dividerOnPrimary
+        public static var shadow: UIColor = dividerOnSecondary
+    }
+    // Objective-C support
+    @objc static var separatorDefault: UIColor { return Separator.default }
+}
+
+// MARK: - SeparatorStyle
+
 @available(*, deprecated, renamed: "SeparatorStyle")
 public typealias MSSeparatorStyle = SeparatorStyle
 
@@ -23,6 +36,8 @@ public enum SeparatorStyle: Int {
     }
 }
 
+// MARK: - SeparatorOrientation
+
 @available(*, deprecated, renamed: "SeparatorOrientation")
 public typealias MSSeparatorOrientation = SeparatorOrientation
 
@@ -31,6 +46,8 @@ public enum SeparatorOrientation: Int {
     case horizontal
     case vertical
 }
+
+// MARK: - Separator
 
 @available(*, deprecated, renamed: "Separator")
 public typealias MSSeparator = Separator

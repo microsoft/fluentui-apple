@@ -68,6 +68,18 @@ public enum ButtonStyle: Int, CaseIterable {
     }
 }
 
+// MARK: - Button Colors
+
+public extension Colors {
+    struct Button {
+        public static var background: UIColor = .clear
+        public static var backgroundFilledDisabled: UIColor = surfaceQuaternary
+        public static var borderDisabled: UIColor = surfaceQuaternary
+        public static var titleDisabled: UIColor = textDisabled
+        public static var titleWithFilledBackground: UIColor = textOnAccent
+    }
+}
+
 // MARK: - Button
 
 /// By default, `titleLabel`'s `adjustsFontForContentSizeCategory` is set to true to automatically update its font when device's content size category changes

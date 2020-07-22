@@ -5,9 +5,23 @@
 
 import UIKit
 
+// MARK: PageCardPresenter Colors
+
+public extension Colors {
+    struct PageCardPresenter {
+        // Should use physical color because page indicators are shown on physical blurred dark background
+        public static var currentPageIndicator: UIColor = .white
+        public static var pageIndicator = UIColor.white.withAlphaComponent(0.5)
+    }
+}
+
+// MARK: - CardPresentable
+
 protocol CardPresentable: AnyObject {
     func idealSize() -> CGSize
 }
+
+// MARK: - PageCardPresenterController
 
 @available(*, deprecated, renamed: "PageCardPresenterController")
 public typealias MSPageCardPresenterController = PageCardPresenterController

@@ -5,6 +5,16 @@
 
 import UIKit
 
+// MARK: ResizingHandle Colors
+
+public extension Colors {
+    struct ResizingHandle {
+        public static var mark: UIColor = iconSecondary
+    }
+}
+
+// MARK: - ResizingHandleView
+
 @available(*, deprecated, renamed: "ResizingHandleView")
 public typealias MSResizingHandleView = ResizingHandleView
 
