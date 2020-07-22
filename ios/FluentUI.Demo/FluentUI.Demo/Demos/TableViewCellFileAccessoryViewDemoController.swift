@@ -12,26 +12,39 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        dateTimePicker.delegate = self
-
         view.backgroundColor = Colors.surfaceSecondary
 
-        var constraints: [NSLayoutConstraint] = []
-
-        let stackView = UIStackView(frame: .zero)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.spacing = Constants.stackViewSpacing
+        dateTimePicker.delegate = self
 
         scrollingContainer.addSubview(stackView)
-
         stackView.addArrangedSubview(settingsView)
 
-        for width in TableViewCellFileAccessoryViewDemoController.cellWidths {
-            let cellTitle = Label(style: .subhead, colorStyle: .regular)
-            cellTitle.text = "\t\(Int(width))px"
-            stackView.addArrangedSubview(cellTitle)
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: scrollingContainer.topAnchor, constant: Constants.stackViewSpacing),
+            stackView.bottomAnchor.constraint(equalTo: scrollingContainer.bottomAnchor, constant: -Constants.stackViewSpacing),
+            stackView.leadingAnchor.constraint(equalTo: scrollingContainer.leadingAnchor)
+        ])
+
+        reloadCells()
+    }
+
+    private func reloadCells() {
+        for view in stackView.arrangedSubviews {
+            if view != settingsView {
+                view.removeFromSuperview()
+            }
+        }
+
+        accessoryViews.removeAll()
+
+        var layoutConstraints: [NSLayoutConstraint] = []
+
+        for width in Constants.cellWidths {
+            if !useDynamicWidth {
+                let cellTitle = Label(style: .subhead, colorStyle: .regular)
+                cellTitle.text = "\t\(Int(width))px"
+                stackView.addArrangedSubview(cellTitle)
+            }
 
             let cell1 = createCell(title: "Document Title", subtitle: "OneDrive - Microsoft · Microsoft Teams Chat Files")
             let cell2 = createCell(title: "This is a very long document title that keeps on going forever to test text truncation",
@@ -45,38 +58,43 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
             containerView.addArrangedSubview(cell2)
             stackView.addArrangedSubview(containerView)
 
-            dynamicWidthConstraints.append(contentsOf: [
-                cell1.widthAnchor.constraint(equalTo: scrollingContainer.widthAnchor),
-                cell2.widthAnchor.constraint(equalTo: scrollingContainer.widthAnchor)
-            ])
+            if useDynamicWidth {
+                layoutConstraints.append(contentsOf: [
+                    cell1.widthAnchor.constraint(equalTo: scrollingContainer.widthAnchor),
+                    cell2.widthAnchor.constraint(equalTo: scrollingContainer.widthAnchor)
+                ])
 
-            staticWidthConstraints.append(containerView.widthAnchor.constraint(equalToConstant: width))
+                break
+            } else {
+                layoutConstraints.append(containerView.widthAnchor.constraint(equalToConstant: width))
+            }
         }
 
-        constraints.append(contentsOf: staticWidthConstraints)
-        constraints.append(contentsOf: [
-            stackView.topAnchor.constraint(equalTo: scrollingContainer.topAnchor, constant: Constants.stackViewSpacing),
-            stackView.bottomAnchor.constraint(equalTo: scrollingContainer.bottomAnchor, constant: -Constants.stackViewSpacing),
-            stackView.leadingAnchor.constraint(equalTo: scrollingContainer.leadingAnchor)
-        ])
-
-        NSLayoutConstraint.activate(constraints)
+        NSLayoutConstraint.activate(layoutConstraints)
 
         updateActions()
         updateDate()
+        updateSharedStatus()
+        updateAreDocumentsShared()
     }
-
-    private static let cellWidths: [CGFloat] = [320.0, 375.0, 414.0, 423.0, 424.0, 503.0, 504.0, 583.0, 584.0, 615.0, 616.0, 751.0, 752.0, 899.0, 900.0, 924.0, 950.0, 1000.0, 1091.0, 1092.0, 1270.0]
-
-    private var staticWidthConstraints: [NSLayoutConstraint] = []
-    private var dynamicWidthConstraints: [NSLayoutConstraint] = []
-
-    private var accessoryViews: [TableViewCellFileAccessoryView] = []
 
     private struct Constants {
         static let stackViewSpacing: CGFloat = 20.0
         static let labelSwitchSpacing: CGFloat = 10.0
+        static let cellWidths: [CGFloat] = [320.0, 375.0, 414.0, 423.0, 424.0, 503.0, 504.0, 583.0, 584.0, 615.0, 616.0, 751.0, 752.0, 899.0, 900.0, 924.0, 950.0, 1000.0, 1091.0, 1092.0, 1270.0]
     }
+
+    private var accessoryViews: [TableViewCellFileAccessoryView] = []
+
+    private lazy var stackView: UIStackView = {
+        let stackView = UIStackView(frame: .zero)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .leading
+        stackView.spacing = Constants.stackViewSpacing
+
+        return stackView
+    }()
 
     private func createAccessoryView() -> TableViewCellFileAccessoryView {
         let customAccessoryView = TableViewCellFileAccessoryView.init(frame: .zero)
@@ -155,14 +173,24 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         }
     }
 
+    private func updateSharedStatus() {
+        for accessoryView in accessoryViews {
+            accessoryView.showSharedStatus = showSharedStatus
+        }
+    }
+
+    private func updateAreDocumentsShared() {
+        for accessoryView in accessoryViews {
+            accessoryView.isShared = areDocumentsShared
+        }
+    }
+
     private func createCell(title: String, subtitle: String) -> TableViewCell {
         let customAccessoryView = createAccessoryView()
         accessoryViews.append(customAccessoryView)
 
         let cell = TableViewCell(frame: .zero)
         customAccessoryView.tableViewCell = cell
-        customAccessoryView.showSharedStatus = true
-        customAccessoryView.isShared = true
 
         cell.setup(
             title: title,
@@ -188,12 +216,47 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         return cell
     }
 
-    private var showKeepOfflineAction: Bool = true
-    private var showShareAction: Bool = true
-    private var showPinAction: Bool = true
-    private var isPinned: Bool = false
-    private var showErrorAction: Bool = false
-    private var showOverflowAction: Bool = true
+    private var showKeepOfflineAction: Bool = true {
+        didSet {
+            updateActions()
+        }
+    }
+
+    private var showShareAction: Bool = true {
+        didSet {
+            updateActions()
+        }
+    }
+
+    private var showPinAction: Bool = true {
+        didSet {
+            updateActions()
+        }
+    }
+
+    private var isPinned: Bool = false {
+        didSet {
+            reloadCells()
+        }
+    }
+
+    private var showErrorAction: Bool = false {
+        didSet {
+            updateActions()
+        }
+    }
+
+    private var showOverflowAction: Bool = true {
+        didSet {
+            reloadCells()
+        }
+    }
+
+    private var useDynamicWidth: Bool = false {
+        didSet {
+            reloadCells()
+        }
+    }
 
     private var date = Date() {
         didSet {
@@ -207,6 +270,18 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         }
     }
 
+    private var showSharedStatus: Bool = true {
+        didSet {
+            updateSharedStatus()
+        }
+    }
+
+    private var areDocumentsShared: Bool = true {
+        didSet {
+            updateAreDocumentsShared()
+        }
+    }
+
     private lazy var settingsView: UIView = {
         let settingsView = UIStackView(frame: .zero)
         settingsView.axis = .horizontal
@@ -217,12 +292,12 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         settingsView.addArrangedSubview(spacingView)
 
         let settingViews: [UIView] = [
-            createLabelAndSwitchRow(labelText: "Dynamic width", switchAction: #selector(toggleDynamicWidth(switchView:)), isOn: false),
+            createLabelAndSwitchRow(labelText: "Dynamic width", switchAction: #selector(toggleDynamicWidth(switchView:)), isOn: useDynamicWidth),
             createLabelAndSwitchRow(labelText: "Show date", switchAction: #selector(toggleShowDate(switchView:)), isOn: showDate),
             createButton(title: "Choose date", action: #selector(presentDatePicker)),
             createButton(title: "Choose time", action: #selector(presentTimePicker)),
-            createLabelAndSwitchRow(labelText: "Show shared status", switchAction: #selector(toggleShowSharedStatus(switchView:)), isOn: true),
-            createLabelAndSwitchRow(labelText: "Is document shared", switchAction: #selector(toggleIsShared(switchView:)), isOn: true),
+            createLabelAndSwitchRow(labelText: "Show shared status", switchAction: #selector(toggleShowSharedStatus(switchView:)), isOn: showSharedStatus),
+            createLabelAndSwitchRow(labelText: "Is document shared", switchAction: #selector(toggleAreDocumentsShared(switchView:)), isOn: areDocumentsShared),
             createLabelAndSwitchRow(labelText: "Show keep offline button", switchAction: #selector(toggleShowKeepOffline(switchView:)), isOn: showKeepOfflineAction),
             createLabelAndSwitchRow(labelText: "Show share button", switchAction: #selector(toggleShareButton(switchView:)), isOn: showShareAction),
             createLabelAndSwitchRow(labelText: "Show pin button", switchAction: #selector(togglePin(switchView:)), isOn: showPinAction),
@@ -277,54 +352,35 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
     }
 
     @objc private func toggleDynamicWidth(switchView: UISwitch) {
-        if switchView.isOn {
-            NSLayoutConstraint.deactivate(staticWidthConstraints)
-            NSLayoutConstraint.activate(dynamicWidthConstraints)
-        } else {
-            NSLayoutConstraint.deactivate(dynamicWidthConstraints)
-            NSLayoutConstraint.activate(staticWidthConstraints)
-        }
+        useDynamicWidth = switchView.isOn
     }
 
     @objc private func toggleShowSharedStatus(switchView: UISwitch) {
-        let showSharedStatus = switchView.isOn
-
-        for accessoryView in accessoryViews {
-            accessoryView.showSharedStatus = showSharedStatus
-        }
+        showSharedStatus = switchView.isOn
     }
 
-    @objc private func toggleIsShared(switchView: UISwitch) {
-        let isShared = switchView.isOn
-
-        for accessoryView in accessoryViews {
-            accessoryView.isShared = isShared
-        }
+    @objc private func toggleAreDocumentsShared(switchView: UISwitch) {
+        areDocumentsShared = switchView.isOn
     }
 
     @objc private func toggleShowKeepOffline(switchView: UISwitch) {
         showKeepOfflineAction = switchView.isOn
-        updateActions()
     }
 
     @objc private func togglePin(switchView: UISwitch) {
         showPinAction = switchView.isOn
-        updateActions()
     }
 
     @objc private func toggleShareButton(switchView: UISwitch) {
         showShareAction = switchView.isOn
-        updateActions()
     }
 
     @objc private func toggleErrorButton(switchView: UISwitch) {
         showErrorAction = switchView.isOn
-        updateActions()
     }
 
     @objc private func toggleOverflow(switchView: UISwitch) {
         showOverflowAction = switchView.isOn
-        updateActions()
     }
 
     @objc private func handleErrorAction() {
@@ -333,7 +389,6 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
 
     @objc private func handlePinAction() {
         isPinned = !isPinned
-        updateActions()
     }
 
     @objc private func handleShareAction() {
