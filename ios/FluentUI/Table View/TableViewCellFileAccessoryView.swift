@@ -14,27 +14,27 @@ open class FileAccessoryViewAction: NSObject {
     /// - Parameters:
     ///   - title: the action's title
     ///   - image: the action's image
-    ///   - highlightedImage: the action's highlighted image
     ///   - target: the action's target
     ///   - action: the action's selector
     ///   - canHide: false if the action must always be visible, true otherwise
-    public init(title: String, image: UIImage, highlightedImage: UIImage? = nil, target: Any? = nil, action: Selector? = nil, canHide: Bool = true) {
+    ///   - useAppPrimaryColor: true if the action's image should be tinted with the app's primary color
+    public init(title: String, image: UIImage, target: Any? = nil, action: Selector? = nil, canHide: Bool = true, useAppPrimaryColor: Bool = false) {
         self.title = title
         self.image = image
-        self.highlightedImage = highlightedImage // TODO_ app tint for filled icons, update icons, pressed states
         self.target = target
         self.action = action
         self.canHide = canHide
+        self.useAppPrimaryColor = useAppPrimaryColor
 
         super.init()
     }
 
     fileprivate let title: String
     fileprivate let image: UIImage
-    fileprivate let highlightedImage: UIImage?
     fileprivate let target: Any?
     fileprivate let action: Selector?
     fileprivate let canHide: Bool
+    fileprivate let useAppPrimaryColor: Bool
 }
 
 // MARK: - TableViewCellFileAccessoryView
@@ -258,8 +258,11 @@ open class TableViewCellFileAccessoryView: UIView {
             visibleActions = Array(visibleActions.prefix(Int(Constants.maxVisibleActionCount)))
         }
 
+        // If the window is not available yet, default to a random window.
+        // This method will eventually get called once the view is installed in a window.
+        let currentWindow = window ?? UIApplication.shared.windows.first!
         for action in visibleActions.reversed() {
-            let actionView = FileAccessoryViewActionView(action: action)
+            let actionView = FileAccessoryViewActionView(action: action, window: currentWindow)
             actionsStackView.addArrangedSubview(actionView)
         }
     }
@@ -349,7 +352,7 @@ open class TableViewCellFileAccessoryView: UIView {
 private class FileAccessoryViewActionView: UIButton {
     fileprivate static let size = CGSize(width: 24.0, height: 60.0)
 
-    fileprivate init(action: FileAccessoryViewAction) {
+    fileprivate init(action: FileAccessoryViewAction, window: UIWindow) {
         super.init(frame: .zero)
 
         accessibilityLabel = action.title
@@ -358,8 +361,8 @@ private class FileAccessoryViewActionView: UIButton {
             addTarget(target, action: action, for: .touchUpInside)
         }
 
-        setImage(action.image.image(withPrimaryColor: Colors.gray500), for: .normal)
-        setImage(action.highlightedImage?.image(withPrimaryColor: Colors.gray500), for: .highlighted)
+        setImage(action.image, for: .normal)
+        tintColor = action.useAppPrimaryColor ? Colors.primary(for: window) : Colors.iconSecondary
 
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: FileAccessoryViewActionView.size.width),

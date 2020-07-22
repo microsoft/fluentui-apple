@@ -88,7 +88,6 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         if showOverflowAction {
             let action = FileAccessoryViewAction(title: "File actions",
                                                  image: UIImage(named: "Overflow_24")!,
-                                                 highlightedImage: UIImage(named: "Overflow_pressed_24")!,
                                                  target: self,
                                                  action: #selector(handleOverflowAction),
                                                  canHide: false)
@@ -98,7 +97,6 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         if showShareAction {
             let action = FileAccessoryViewAction(title: "Share",
                                                  image: UIImage(named: "Share_24")!,
-                                                 highlightedImage: UIImage(named: "Share_pressed_24")!,
                                                  target: self,
                                                  action: #selector(handleShareAction))
             actions.append(action)
@@ -108,14 +106,13 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
             if isPinned {
                 let action = FileAccessoryViewAction(title: "Unpin",
                                                      image: UIImage(named: "Pin_pinned_24")!,
-                                                     highlightedImage: nil,
                                                      target: self,
-                                                     action: #selector(handlePinAction))
+                                                     action: #selector(handlePinAction),
+                                                     useAppPrimaryColor: true)
                 actions.append(action)
             } else {
                 let action = FileAccessoryViewAction(title: "Pin",
                                                      image: UIImage(named: "Pin_unpinned_24")!,
-                                                     highlightedImage: nil,
                                                      target: self,
                                                      action: #selector(handlePinAction))
                 actions.append(action)
@@ -125,7 +122,6 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         if showKeepOfflineAction {
             let action = FileAccessoryViewAction(title: "Keep Offline",
                                                  image: UIImage(named: "KeepOffline_24")!,
-                                                 highlightedImage: UIImage(named: "KeepOffline_pressed_24")!,
                                                  target: self,
                                                  action: #selector(handleKeepOfflineAction))
             actions.append(action)
@@ -135,7 +131,6 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
             if #available(iOS 13.0, *) {
                 let action = FileAccessoryViewAction(title: "Error",
                                                      image: UIImage(named: "Error_24")!,
-                                                     highlightedImage: UIImage(named: "Error_pressed_24")!,
                                                      target: self,
                                                      action: #selector(handleErrorAction),
                                                      canHide: false)
