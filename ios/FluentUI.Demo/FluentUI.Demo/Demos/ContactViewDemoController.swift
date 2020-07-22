@@ -37,7 +37,6 @@ class ContactViewDemoController: DemoController {
         addRow(text: "ContactView with first name", items: [firstNameContactView], textWidth: 200)
         addRow(text: "ContactView with email", items: [emailContactView], textWidth: 200)
         addRow(text: "ContactView with phone number", items: [phoneNumberContactView], textWidth: 200)
-        container.addArrangedSubview(UIView())
     }
 
     private func createAvatarView(size: AvatarSize, name: String, image: UIImage? = nil, style: AvatarStyle) -> AvatarView {
