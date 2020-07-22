@@ -224,7 +224,8 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         let settingViews: [UIView] = [
             createLabelAndSwitchRow(labelText: "Dynamic width", switchAction: #selector(toggleDynamicWidth(switchView:)), isOn: false),
             createLabelAndSwitchRow(labelText: "Show date", switchAction: #selector(toggleShowDate(switchView:)), isOn: showDate),
-            createButton(title: "Choose date", action: #selector(presentDateTimeRangePicker)),
+            createButton(title: "Choose date", action: #selector(presentDatePicker)),
+            createButton(title: "Choose time", action: #selector(presentTimePicker)),
             createLabelAndSwitchRow(labelText: "Show shared status", switchAction: #selector(toggleShowSharedStatus(switchView:)), isOn: true),
             createLabelAndSwitchRow(labelText: "Is document shared", switchAction: #selector(toggleIsShared(switchView:)), isOn: true),
             createLabelAndSwitchRow(labelText: "Show keep offline button", switchAction: #selector(toggleShowKeepOffline(switchView:)), isOn: showKeepOfflineAction),
@@ -272,10 +273,12 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
 
     private let dateTimePicker = DateTimePicker()
 
-    @objc func presentDateTimeRangePicker() {
-        let startDate = Date()
-        let endDate = Calendar.current.date(byAdding: .hour, value: 1, to: startDate) ?? startDate
-        dateTimePicker.present(from: self, with: .dateTimeRange, startDate: startDate, endDate: endDate, datePickerType: .components)
+    @objc func presentDatePicker() {
+        dateTimePicker.present(from: self, with: .date, startDate: Date(), endDate: nil, datePickerType: .components)
+    }
+
+    @objc func presentTimePicker() {
+        dateTimePicker.present(from: self, with: .dateTime, startDate: Date(), endDate: nil, datePickerType: .components)
     }
 
     @objc private func toggleDynamicWidth(switchView: UISwitch) {

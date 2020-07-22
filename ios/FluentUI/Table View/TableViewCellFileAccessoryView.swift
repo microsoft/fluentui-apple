@@ -21,7 +21,7 @@ open class FileAccessoryViewAction: NSObject {
     public init(title: String, image: UIImage, highlightedImage: UIImage? = nil, target: Any? = nil, action: Selector? = nil, canHide: Bool = true) {
         self.title = title
         self.image = image
-        self.highlightedImage = highlightedImage
+        self.highlightedImage = highlightedImage // TODO_ app tint for filled icons, update icons, pressed states
         self.target = target
         self.action = action
         self.canHide = canHide
@@ -45,9 +45,7 @@ open class TableViewCellFileAccessoryView: UIView {
     /// The date will be displayed in a friendly format in the accessory view's first column.
     @objc public var date: Date? {
         didSet {
-            // TODO_
-            let dateString = "Yesterday"
-            dateLabel.text = dateString
+            updateDateLabel()
 
             if tableViewCell != nil && (date == nil && oldValue != nil) || (oldValue == nil && date != nil) {
                 updateLayout()
@@ -89,7 +87,7 @@ open class TableViewCellFileAccessoryView: UIView {
         }
     }
 
-    @objc public override init(frame: CGRect) { // TODO_ update initializer with values needed like actions and tableViewCell
+    @objc public override init(frame: CGRect) {
         super.init(frame: frame)
 
         addSubview(columnStackView)
@@ -131,6 +129,7 @@ open class TableViewCellFileAccessoryView: UIView {
         static let columnSpacing: CGFloat = 24.0
         static let reservedCellSpace: [CGFloat] = [460.0, 600.0]
         static let columnMinWidth: CGFloat = 150.0
+        static let fullDateMinWidth: CGFloat = 170.0
         static let sharedIconSize: CGFloat = 24.0
         static let sharedStatusSpacing: CGFloat = 8.0
     }
@@ -265,6 +264,11 @@ open class TableViewCellFileAccessoryView: UIView {
         }
     }
 
+    private func updateDateLabel() {
+        let dateString = date?.displayString(short: (dateLabelWidth.constant < Constants.fullDateMinWidth)) ?? ""
+        dateLabel.text = dateString
+    }
+
     private func updateLayout() {
         updateActions()
 
@@ -309,6 +313,8 @@ open class TableViewCellFileAccessoryView: UIView {
             columnStackView.insertArrangedSubview(dateLabel, at: 0)
             dateLabelWidth.constant = columnWidth
             dateLabelWidth.isActive = true
+
+            updateDateLabel()
         }
 
         sharedStatusView.removeFromSuperview()
