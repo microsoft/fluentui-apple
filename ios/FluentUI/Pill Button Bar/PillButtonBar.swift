@@ -104,6 +104,30 @@ open class PillButtonBar: UIScrollView {
         buttons[index].isEnabled = false
     }
     
+    @objc public func enableItem(_ item: PillButtonBarItem) {
+        guard let index = indexOfButtonWithItem(item) else {
+            return
+        }
+
+        let button = buttons[index]
+        if (!button.isEnabled)
+        {
+            button.isEnabled = true
+        }
+    }
+    
+    @objc public func enableItem(atIndex index: Int) {
+        if index < 0 || index >= buttons.count {
+            return
+        }
+
+        let button = buttons[index]
+        if (!button.isEnabled)
+        {
+            button.isEnabled = true
+        }
+    }
+    
     private var buttonExtraSidePadding: CGFloat = 0.0
 
     private var buttons = [PillButton]()

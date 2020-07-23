@@ -25,10 +25,20 @@ class PillButtonBarDemoController: DemoController {
         self.filledBar = filledBar
         container.addArrangedSubview(UIView())
 
+        container.addArrangedSubview(createLabelWithText("Filled - Disabled"))
+        let filledDisabledBar = createBar(items: items, style: .filled, disabledItems: true)
+        container.addArrangedSubview(filledDisabledBar)
+        self.filledDisabledBar = filledDisabledBar
+        container.addArrangedSubview(UIView())
+        
         container.addArrangedSubview(createLabelWithText("Outline"))
         container.addArrangedSubview(createBar(items: items))
         container.addArrangedSubview(UIView())
 
+        container.addArrangedSubview(createLabelWithText("Outline - Disabled"))
+        container.addArrangedSubview(createBar(items: items, disabledItems: true))
+        container.addArrangedSubview(UIView())
+        
         // When inserting longer button "Templates" instead of shorter "Other" button as the fourth button, compact layouts (most iPhones)
         // will end up with a button configuration where the last visible button won't be a clear indication that the view is scrollable,
         // so our algorithm to adjust insets and spacings will kick in, making the three first buttons longer than in the previous line.
@@ -55,17 +65,21 @@ class PillButtonBarDemoController: DemoController {
         super.viewDidAppear(animated)
         if let window = view.window {
             filledBar?.backgroundColor = UIColor(light: Colors.primary(for: window), dark: Colors.Navigation.System.background)
+            filledDisabledBar?.backgroundColor = UIColor(light: Colors.primary(for: window), dark: Colors.Navigation.System.background)
         }
     }
 
-    func createBar(items: [PillButtonBarItem], style: PillButtonStyle = .outline, centerAligned: Bool = false) -> UIView {
+    func createBar(items: [PillButtonBarItem], style: PillButtonStyle = .outline, centerAligned: Bool = false, disabledItems: Bool = false) -> UIView {
         let bar = PillButtonBar(pillButtonStyle: style)
         bar.items = items
         _ = bar.selectItem(atIndex: 0)
-        _ = bar.disableItem(atIndex: 1)
         bar.barDelegate = self
         bar.centerAligned = centerAligned
 
+        if (disabledItems) {
+            items.forEach { bar.disableItem($0) }
+        }
+        
         let backgroundView = UIView()
         if style == .outline {
             backgroundView.backgroundColor = Colors.Navigation.System.background
@@ -98,6 +112,8 @@ class PillButtonBarDemoController: DemoController {
     }
 
     private var filledBar: UIView?
+    
+    private var filledDisabledBar: UIView?
 }
 
 // MARK: - PillButtonBarDemoController: PillButtonBarDelegate
