@@ -88,46 +88,6 @@ open class PillButtonBar: UIScrollView {
         }
     }
 
-    @objc public func disableItem(_ item: PillButtonBarItem) {
-        guard let index = indexOfButtonWithItem(item) else {
-            return
-        }
-
-        buttons[index].isEnabled = false
-    }
-    
-    @objc public func disableItem(atIndex index: Int) {
-        if index < 0 || index >= buttons.count {
-            return
-        }
-
-        buttons[index].isEnabled = false
-    }
-    
-    @objc public func enableItem(_ item: PillButtonBarItem) {
-        guard let index = indexOfButtonWithItem(item) else {
-            return
-        }
-
-        let button = buttons[index]
-        if (!button.isEnabled)
-        {
-            button.isEnabled = true
-        }
-    }
-    
-    @objc public func enableItem(atIndex index: Int) {
-        if index < 0 || index >= buttons.count {
-            return
-        }
-
-        let button = buttons[index]
-        if (!button.isEnabled)
-        {
-            button.isEnabled = true
-        }
-    }
-    
     private var buttonExtraSidePadding: CGFloat = 0.0
 
     private var buttons = [PillButton]()
@@ -205,6 +165,46 @@ open class PillButtonBar: UIScrollView {
         return true
     }
 
+    @objc public func disableItem(_ item: PillButtonBarItem) {
+        guard let index = indexOfButtonWithItem(item) else {
+            return
+        }
+
+        buttons[index].isEnabled = false
+    }
+    
+    @objc public func disableItem(atIndex index: Int) {
+        if index < 0 || index >= buttons.count {
+            return
+        }
+
+        buttons[index].isEnabled = false
+    }
+    
+    @objc public func enableItem(_ item: PillButtonBarItem) {
+        guard let index = indexOfButtonWithItem(item) else {
+            return
+        }
+
+        let button = buttons[index]
+        if (!button.isEnabled)
+        {
+            button.isEnabled = true
+        }
+    }
+    
+    @objc public func enableItem(atIndex index: Int) {
+        if index < 0 || index >= buttons.count {
+            return
+        }
+
+        let button = buttons[index]
+        if (!button.isEnabled)
+        {
+            button.isEnabled = true
+        }
+    }
+    
     open override func layoutSubviews() {
         super.layoutSubviews()
 

@@ -65,14 +65,14 @@ public enum PillButtonStyle: Int {
         case .outline:
             return Colors.surfaceQuaternary
         case .filled:
-            return UIColor(light: .white, dark: Colors.surfaceQuaternary)
+            return UIColor(light: Colors.surfacePrimary, dark: Colors.surfaceQuaternary)
         }
     }
     
     func selectedDisabledTitleColor(for window: UIWindow) -> UIColor {
         switch self {
         case .outline:
-            return UIColor(light: .white, dark: Colors.gray500)
+            return UIColor(light: Colors.surfacePrimary, dark: Colors.gray500)
         case .filled:
             return UIColor(light: Colors.primaryTint20(for: window), dark: Colors.gray500)
         }
@@ -148,31 +148,32 @@ open class PillButton: UIButton {
         } else {
             accessibilityTraits.remove(.selected)
         }
+        
+        if (!isEnabled) {
+            accessibilityTraits.insert(.notEnabled)
+        } else {
+            accessibilityTraits.remove(.notEnabled)
+        }
     }
 
     private func updateAppearance() {
         if let window = window {
-            if (isSelected && !isEnabled) {
-                backgroundColor = style.selectedDisabledBackgroundColor(for: window)
-            }
-            else if (isSelected) {
-                backgroundColor = style.selectedBackgroundColor(for: window)
-            }
-            else {
+            if isSelected {
+                if isEnabled {
+                    backgroundColor = style.selectedBackgroundColor(for: window)
+                    setTitleColor(style.selectedTitleColor(for: window), for: .normal)
+                } else {
+                    backgroundColor = style.selectedDisabledBackgroundColor(for: window)
+                    setTitleColor(style.selectedDisabledTitleColor(for: window), for: .normal)
+                }
+            } else {
                 backgroundColor = style.backgroundColor(for: window)
-            }
-
-            if isSelected && !isEnabled {
-                setTitleColor(style.selectedDisabledTitleColor(for: window), for: .normal)
-            }
-            else if isSelected {
-                setTitleColor(style.selectedTitleColor(for: window), for: .normal)
-            }
-            else if !isEnabled {
-                setTitleColor(style.disabledTitleColor(for: window), for: .disabled)
-            }
-            else {
-                setTitleColor(style.titleColor, for: .normal)
+                
+                if isEnabled {
+                    setTitleColor(style.titleColor, for: .normal)
+                } else {
+                    setTitleColor(style.disabledTitleColor(for: window), for: .disabled)
+                }
             }
         }
     }
