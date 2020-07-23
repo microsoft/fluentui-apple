@@ -15,7 +15,15 @@ open class ContactView: UIView {
         static let titleLabelMaximumHeight: CGFloat = 28.0
         static let subtitleMaximumHeight: CGFloat = 24.0
         static let spacingBetweenAvatarAndLabelContainer: CGFloat = 13.0
-        static let numberOfLinesForSingleLabel = 2
+        static let numberOfLinesForSingleLabel: Int = 2
+
+        static let extraSmallContentContactHeight: CGFloat = 115.0
+        static let smallContentContactHeight: CGFloat = 117.0
+        static let mediumContentContactHeight: CGFloat = 118.0
+        static let largeContentContactHeight: CGFloat = 121.0
+        static let extraLargeContentContactHeight: CGFloat = 125.0
+        static let extraExtraLargeContentContactHeight: CGFloat = 129.0
+        static let extraExtraExtraLargeContentContactHeight: CGFloat = 135.0
     }
 
     @objc public var avatarImage: UIImage? {
@@ -102,12 +110,34 @@ open class ContactView: UIView {
         labelContainer.addSubview(titleLabel)
 
         labelContainer.translatesAutoresizingMaskIntoConstraints = false
+
+        let category = UIApplication.shared.preferredContentSizeCategory
+        var contactHeightConstraint: CGFloat
+        switch category {
+        case .extraSmall:
+            contactHeightConstraint = Constants.extraSmallContentContactHeight
+        case .small:
+            contactHeightConstraint = Constants.smallContentContactHeight
+        case .medium:
+            contactHeightConstraint = Constants.mediumContentContactHeight
+        case .large:
+            contactHeightConstraint = Constants.largeContentContactHeight
+        case .extraLarge:
+            contactHeightConstraint = Constants.extraLargeContentContactHeight
+        case .extraExtraLarge:
+            contactHeightConstraint = Constants.extraExtraLargeContentContactHeight
+        case .extraExtraExtraLarge:
+            contactHeightConstraint = Constants.extraExtraExtraLargeContentContactHeight
+        default:
+            contactHeightConstraint = Constants.extraExtraExtraLargeContentContactHeight
+        }
+        constraints.append(heightAnchor.constraint(equalToConstant: contactHeightConstraint))
+
         addSubview(labelContainer)
 
         constraints.append(contentsOf: labelContainerLayoutConstraints())
         NSLayoutConstraint.activate(constraints)
     }
-
     private func avatarLayoutConstraints() -> [NSLayoutConstraint] {
         return [
             avatarView.heightAnchor.constraint(equalToConstant: Constants.avatarViewHeight),

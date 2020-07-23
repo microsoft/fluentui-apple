@@ -31,17 +31,16 @@ open class ContactCollectionView: UICollectionView {
     @objc public init() {
         layout = ContactCollectionViewLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 16.0
-//        layout.setupItemSize()
-
         contactList = [PersonaData]()
 
         super.init(frame: .zero, collectionViewLayout: layout)
+
         translatesAutoresizingMaskIntoConstraints = false
         showsHorizontalScrollIndicator = false
         backgroundColor = .green
         dataSource = self
-        delegate = self
+//        delegate = self
+        layout.delegate = self
 
         register(ContactCollectionViewCell.self, forCellWithReuseIdentifier: ContactCollectionViewCell.identifier)
         setupConstraints()
@@ -61,9 +60,10 @@ open class ContactCollectionView: UICollectionView {
 
         var constant: CGFloat = 0.0
         if contactList.count > 0 {
-            constant = 121
-//            constant = layout.collectionViewContentSize.height
-//            constant = collectionView(self, cellForItemAt: IndexPath(item: 0, section: 0)).frame.height
+            let indexPath = IndexPath(item: 0, section: 0)
+            // NOTE: Why doesn't calling this after setting the .scrollDirection make the collection no longer scrollable?
+            constant = collectionView(self, layout: layout, sizeForItemAt: indexPath).height
+//            constant = layout.collectionView(self, layout: layout, sizeForItemAt: indexPath).height
         }
         widthAnchor.constraint(equalToConstant: layout.collectionViewContentSize.width).isActive = true
         heightConstraint!.constant = constant
@@ -89,30 +89,34 @@ extension ContactCollectionView: UICollectionViewDelegate {
     // Perhaps something to do with highlighting (even though I already have something similar in ContactView.swift) later on
 }
 
-//extension ContactCollectionView: UICollectionViewDelegateFlowLayout {
-//    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//
-//        let itemHeight: CGFloat
-//
-//        switch UIApplication.shared.preferredContentSizeCategory {
-//        case .extraSmall:
-//            itemHeight = Constants.extraSmallContentContactHeight
-//        case .small:
-//            itemHeight = Constants.smallContentContactHeight
-//        case .medium:
-//            itemHeight = Constants.mediumContentContactHeight
-//        case .large:
-//            itemHeight = Constants.largeContentContactHeight
-//        case .extraLarge:
-//            itemHeight = Constants.extraLargeContentContactHeight
-//        case .extraExtraLarge:
-//            itemHeight = Constants.extraExtraLargeContentContactHeight
-//        case .extraExtraExtraLarge:
-//            itemHeight = Constants.extraExtraExtraLargeContentContactHeight
-//        default:
-//            itemHeight = Constants.extraExtraExtraLargeContentContactHeight
-//        }
-//
-//        return CGSize(width: 70.0, height: itemHeight)
-//    }
-//}
+extension ContactCollectionView: UICollectionViewDelegateFlowLayout {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        // TODO: Will need to change this when the number of Contacts line up perfectly to the screen
+        return 16.0
+    }
+
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let itemHeight: CGFloat
+
+        switch UIApplication.shared.preferredContentSizeCategory {
+        case .extraSmall:
+            itemHeight = Constants.extraSmallContentContactHeight
+        case .small:
+            itemHeight = Constants.smallContentContactHeight
+        case .medium:
+            itemHeight = Constants.mediumContentContactHeight
+        case .large:
+            itemHeight = Constants.largeContentContactHeight
+        case .extraLarge:
+            itemHeight = Constants.extraLargeContentContactHeight
+        case .extraExtraLarge:
+            itemHeight = Constants.extraExtraLargeContentContactHeight
+        case .extraExtraExtraLarge:
+            itemHeight = Constants.extraExtraExtraLargeContentContactHeight
+        default:
+            itemHeight = Constants.extraExtraExtraLargeContentContactHeight
+        }
+
+        return CGSize(width: 70.0, height: itemHeight)
+    }
+}
