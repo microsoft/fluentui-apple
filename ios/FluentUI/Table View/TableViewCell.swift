@@ -61,6 +61,47 @@ public enum TableViewCellAccessoryType: Int {
     }
 }
 
+// MARK: - Table Colors
+
+public extension Colors {
+    struct Table {
+        public struct Cell {
+            public static var background: UIColor = surfacePrimary
+            public static var backgroundGrouped = UIColor(light: surfacePrimary, dark: surfaceSecondary)
+            public static var backgroundSelected: UIColor = surfaceTertiary
+            public static var image: UIColor = iconSecondary
+            public static var title: UIColor = textPrimary
+            public static var subtitle: UIColor = textSecondary
+            public static var footer: UIColor = textSecondary
+            public static var accessoryDisclosureIndicator: UIColor = iconSecondary
+            public static var accessoryDetailButton: UIColor = iconSecondary
+            public static var selectionIndicatorOff: UIColor = iconSecondary
+        }
+        public struct ActionCell {
+            public static var textDestructive: UIColor = error
+            public static var textDestructiveHighlighted: UIColor = error.withAlphaComponent(0.4)
+            public static var textCommunication: UIColor = communicationBlue
+            public static var textCommunicationHighlighted: UIColor = communicationBlue.withAlphaComponent(0.4)
+        }
+        public struct HeaderFooter {
+            public static var accessoryButtonText: UIColor = textSecondary
+            public static var background: UIColor = .clear
+            public static var backgroundDivider: UIColor = surfaceSecondary
+            public static var text: UIColor = textSecondary
+            public static var textDivider: UIColor = textSecondary
+            public static var textLink: UIColor = communicationBlue
+        }
+        public static var background: UIColor = surfacePrimary
+        public static var backgroundGrouped = UIColor(light: surfaceSecondary, dark: surfacePrimary)
+    }
+    // Objective-C support
+    @objc static var tableBackground: UIColor { return Table.background }
+    @objc static var tableBackgroundGrouped: UIColor { return Table.backgroundGrouped }
+    @objc static var tableCellBackground: UIColor { return Table.Cell.background }
+    @objc static var tableCellBackgroundGrouped: UIColor { return Table.Cell.backgroundGrouped }
+    @objc static var tableCellImage: UIColor { return Table.Cell.image }
+}
+
 // MARK: - TableViewCell
 
 @available(*, deprecated, renamed: "TableViewCell")

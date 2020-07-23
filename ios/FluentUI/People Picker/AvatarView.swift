@@ -78,6 +78,16 @@ public enum AvatarStyle: Int {
     case square
 }
 
+// MARK: - Avatar Colors
+
+public extension Colors {
+    struct Avatar {
+        // Should use physical color because this text is shown on physical avatar background
+        public static var text: UIColor = textOnAccent
+        public static var border = UIColor(light: .white, dark: gray900, darkElevated: gray800)
+    }
+}
+
 // MARK: - AvatarView
 
 @available(*, deprecated, renamed: "AvatarView")

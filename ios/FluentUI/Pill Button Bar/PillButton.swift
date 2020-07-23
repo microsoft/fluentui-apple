@@ -5,7 +5,22 @@
 
 import UIKit
 
-// MARK: PillButtonStyle
+// MARK: PillButton Colors
+
+public extension Colors {
+    struct PillButton {
+        public struct Outline {
+            public static var background = UIColor(light: surfaceTertiary, dark: surfaceSecondary)
+            public static var title = UIColor(light: textSecondary, dark: textPrimary)
+            public static var titleSelected = UIColor(light: textOnAccent, dark: textDominant)
+        }
+        public struct Filled {
+            public static var title = UIColor(light: textOnAccent, dark: Outline.title)
+        }
+    }
+}
+
+// MARK: - PillButtonStyle
 
 @available(*, deprecated, renamed: "PillButtonStyle")
 public typealias MSPillButtonStyle = PillButtonStyle
