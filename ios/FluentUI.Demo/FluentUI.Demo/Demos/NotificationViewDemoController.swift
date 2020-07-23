@@ -54,6 +54,7 @@ class NotificationViewDemoController: DemoController {
             addTitle(text: variant.displayText)
             container.addArrangedSubview(createNotificationView(forVariant: variant))
             container.addArrangedSubview(createButton(title: "Show", action: #selector(showNotificationView)))
+            container.alignment = .leading
         }
     }
 

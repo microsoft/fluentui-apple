@@ -105,10 +105,12 @@ open class NotificationView: UIView {
     private struct Constants {
         static let cornerRadiusForToast: CGFloat = 12
         static let horizontalPadding: CGFloat = 16
-        static let verticalPadding: CGFloat = 14
+        static let verticalPadding: CGFloat = 12
         static let verticalPaddingForOneLine: CGFloat = 16
         static let horizontalSpacing: CGFloat = 16
         static let presentationOffsetForToast: CGFloat = 12
+        static let minHeight: CGFloat = 64.0
+        static let minHeightForOneLine: CGFloat = 52.0
 
         static let titleTextStyle: TextStyle = .button1
         static let messageTextStyle: TextStyle = .subhead
@@ -150,21 +152,19 @@ open class NotificationView: UIView {
     private let backgroundView = BlurringView(style: .regular)
     private let container: UIStackView = {
         let container = UIStackView()
+        container.distribution = .fill
+        container.alignment = .center
         container.axis = .horizontal
-        container.isLayoutMarginsRelativeArrangement = true
-        container.insetsLayoutMarginsFromSafeArea = false
-        // Actual horizontal margins will be set in updateHorizontalPadding later
-        container.layoutMargins = .zero
         container.isAccessibilityElement = true
+        container.spacing = Constants.horizontalSpacing
+        container.layoutMargins = UIEdgeInsets(top: Constants.verticalPadding, left: 0, bottom: Constants.verticalPadding, right: 0)
         return container
     }()
     private let textContainer: UIStackView = {
         let textContainer = UIStackView()
         textContainer.axis = .vertical
-        textContainer.isLayoutMarginsRelativeArrangement = true
-        textContainer.insetsLayoutMarginsFromSafeArea = false
-        // Actual vertical margins will be set in updateVerticalPadding later
-        textContainer.layoutMargins = .zero
+        textContainer.setContentCompressionResistancePriority(.required, for: .vertical)
+        textContainer.setContentHuggingPriority(.required, for: .vertical)
         return textContainer
     }()
     private let imageView: UIImageView = {
@@ -174,25 +174,34 @@ open class NotificationView: UIView {
         imageView.setContentHuggingPriority(.required, for: .horizontal)
         return imageView
     }()
-    private let titleLabel = Label(style: Constants.titleTextStyle)
+    private let titleLabel: Label = {
+        let titleLabel = Label(style: Constants.titleTextStyle)
+        titleLabel.numberOfLines = 0
+        titleLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+        titleLabel.setContentHuggingPriority(.required, for: .vertical)
+        return titleLabel
+    }()
     private let messageLabel: Label = {
         let messageLabel = Label(style: Constants.messageTextStyle)
         messageLabel.numberOfLines = 0
+        messageLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        messageLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+        messageLabel.setContentHuggingPriority(.required, for: .vertical)
         return messageLabel
     }()
     private let actionButton: UIButton = {
         let actionButton = UIButton(type: .system)
-        actionButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: Constants.horizontalSpacing, bottom: 0, right: Constants.horizontalPadding)
         actionButton.setContentCompressionResistancePriority(.required, for: .horizontal)
         actionButton.setContentHuggingPriority(.required, for: .horizontal)
+        actionButton.titleLabel?.font = Constants.actionButtonTextStyle.font
+        actionButton.titleLabel?.adjustsFontForContentSizeCategory = true
         return actionButton
     }()
     private let separator = Separator(style: .shadow, orientation: .horizontal)
 
-    private var messageLabelBoundsObservation: NSKeyValueObservation?
-
     private var hasSingleLineLayout: Bool {
-        return titleLabel.text?.isEmpty != false && messageLabel.frame.height == messageLabel.font.deviceLineHeight
+        return titleLabel.text?.isEmpty == true && messageLabel.frame.height == messageLabel.font.deviceLineHeight
     }
     private var constraintWhenHidden: NSLayoutConstraint!
     private var constraintWhenShown: NSLayoutConstraint!
@@ -209,42 +218,41 @@ open class NotificationView: UIView {
 
     @objc open func initialize() {
         addSubview(backgroundView)
-        backgroundView.fitIntoSuperview(usingConstraints: true)
+        backgroundView.translatesAutoresizingMaskIntoConstraints = false
 
         addSubview(separator)
         separator.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            separator.leadingAnchor.constraint(equalTo: leadingAnchor),
-            separator.trailingAnchor.constraint(equalTo: trailingAnchor),
-            separator.bottomAnchor.constraint(equalTo: topAnchor)
-        ])
 
         addSubview(container)
-        container.fitIntoSuperview(usingConstraints: true)
+        container.translatesAutoresizingMaskIntoConstraints = false
+
         container.addArrangedSubview(imageView)
-        container.setCustomSpacing(Constants.horizontalSpacing, after: imageView)
         container.addArrangedSubview(textContainer)
         textContainer.addArrangedSubview(titleLabel)
         textContainer.addArrangedSubview(messageLabel)
         container.addArrangedSubview(actionButton)
 
+        NSLayoutConstraint.activate([
+            backgroundView.topAnchor.constraint(equalTo: topAnchor),
+            backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            backgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            backgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            separator.leadingAnchor.constraint(equalTo: leadingAnchor),
+            separator.trailingAnchor.constraint(equalTo: trailingAnchor),
+            separator.bottomAnchor.constraint(equalTo: topAnchor),
+            container.topAnchor.constraint(equalTo: topAnchor),
+            container.bottomAnchor.constraint(equalTo: bottomAnchor),
+            container.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: Constants.horizontalPadding),
+            container.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -Constants.horizontalPadding)
+        ])
+
         updateForStyle()
-        updateActionButtonFont()
 
         accessibilityElements = [container, actionButton]
 
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleMessageTap)))
 
         actionButton.addTarget(self, action: #selector(handleActionButtonTap), for: .touchUpInside)
-
-        messageLabelBoundsObservation = messageLabel.observe(\.bounds) { [unowned self] (_, _) in
-            self.updateVerticalPadding()
-        }
-        NotificationCenter.default.addObserver(self, selector: #selector(updateActionButtonFont), name: UIContentSizeCategory.didChangeNotification, object: nil)
-    }
-
-    deinit {
-        messageLabelBoundsObservation = nil
     }
 
     /// `setup` is used to initialize the view before showing.
@@ -287,9 +295,6 @@ open class NotificationView: UIView {
         self.action = action
         self.messageAction = messageAction
 
-        updateHorizontalPadding()
-        updateVerticalPadding()
-
         updateAccessibility(title: title, message: message, hasMessageAction: messageAction != nil)
 
         return self
@@ -323,11 +328,17 @@ open class NotificationView: UIView {
         let anchor = anchorView?.topAnchor ?? view.safeAreaLayoutGuide.bottomAnchor
         constraintWhenHidden = topAnchor.constraint(equalTo: anchor)
         constraintWhenShown = bottomAnchor.constraint(equalTo: anchor, constant: -style.presentationOffset)
-        NSLayoutConstraint.activate([
-            leadingAnchor.constraint(equalTo: style.needsFullWidth ? view.leadingAnchor : view.safeAreaLayoutGuide.leadingAnchor, constant: style.presentationOffset),
-            trailingAnchor.constraint(equalTo: style.needsFullWidth ? view.trailingAnchor : view.safeAreaLayoutGuide.trailingAnchor, constant: -style.presentationOffset),
-            animated ? constraintWhenHidden : constraintWhenShown
-        ])
+
+        var constraints = [NSLayoutConstraint]()
+        constraints.append(animated ? constraintWhenHidden : constraintWhenShown)
+        if style.needsFullWidth {
+            constraints.append(leadingAnchor.constraint(equalTo: view.leadingAnchor))
+            constraints.append(trailingAnchor.constraint(equalTo: view.trailingAnchor))
+        } else {
+            constraints.append(centerXAnchor.constraint(equalTo: view.centerXAnchor))
+            constraints.append(widthAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.widthAnchor, constant: -2 * style.presentationOffset))
+        }
+        NSLayoutConstraint.activate(constraints)
 
         isShown = true
         if style.isToast {
@@ -420,14 +431,65 @@ open class NotificationView: UIView {
         }
     }
 
-    open override func safeAreaInsetsDidChange() {
-        super.safeAreaInsetsDidChange()
-        updateHorizontalPadding()
-    }
-
     open override func didMoveToWindow() {
         super.didMoveToWindow()
         updateWindowSpecificColors()
+    }
+
+    open override func sizeThatFits(_ size: CGSize) -> CGSize {
+        var suggestedWidth: CGFloat = size.width
+
+        if !style.needsFullWidth {
+            if let windowWidth = window?.frame.width {
+                suggestedWidth = windowWidth
+            }
+
+            // for iPad regular width size, notification toast might look too wide
+            if traitCollection.userInterfaceIdiom == .pad &&
+                traitCollection.horizontalSizeClass == .regular &&
+                traitCollection.preferredContentSizeCategory < .accessibilityMedium {
+                suggestedWidth = max(suggestedWidth / 2, 375.0)
+            } else {
+                suggestedWidth -= (safeAreaInsets.left + safeAreaInsets.right + 2 * style.presentationOffset)
+            }
+            suggestedWidth = ceil(suggestedWidth)
+        }
+
+        var availableLabelWidth = suggestedWidth - 2 * Constants.horizontalPadding
+        if !actionButton.isHidden {
+            let actionButtonSize = actionButton.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+            availableLabelWidth -= (actionButtonSize.width + Constants.horizontalSpacing)
+        }
+        if !imageView.isHidden {
+            let imageSize = imageView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+            availableLabelWidth -= (imageSize.width + Constants.horizontalSpacing)
+        }
+
+        var suggesgedHeight: CGFloat
+        let messagelabelSize = messageLabel.systemLayoutSizeFitting(CGSize(width: availableLabelWidth, height: UIView.layoutFittingCompressedSize.height), withHorizontalFittingPriority: .defaultHigh, verticalFittingPriority: .defaultHigh)
+        suggesgedHeight = messagelabelSize.height
+
+        // there are different veritcal padding depending on the text we show
+        // `Constants.verticalPaddingForOneLine` is used when only messagelabel is shown and all the text fits in oneline
+        // Otherwise, use `Constants.veritcalPadding` for top and bottom
+        var hasSingleLineLayout = false
+        if titleLabel.text?.isEmpty == true {
+            hasSingleLineLayout = (messagelabelSize.height == messageLabel.font.deviceLineHeight)
+        } else {
+            let titleLabelSize = titleLabel.systemLayoutSizeFitting(CGSize(width: availableLabelWidth, height: 0), withHorizontalFittingPriority: .defaultHigh, verticalFittingPriority: .defaultHigh)
+            suggesgedHeight += titleLabelSize.height
+        }
+
+        let suggestedVerticalPadding = hasSingleLineLayout ? Constants.verticalPaddingForOneLine : Constants.verticalPadding
+        suggesgedHeight += 2 * suggestedVerticalPadding
+        suggesgedHeight = ceil(max(suggesgedHeight, hasSingleLineLayout ? Constants.minHeightForOneLine : Constants.minHeight))
+        container.layoutMargins = UIEdgeInsets(top: suggestedVerticalPadding, left: 0, bottom: suggestedVerticalPadding, right: 0)
+
+        return CGSize(width: suggestedWidth, height: suggesgedHeight)
+    }
+
+    open override var intrinsicContentSize: CGSize {
+        return sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
     }
 
     private func updateForStyle() {
@@ -453,23 +515,6 @@ open class NotificationView: UIView {
             messageLabel.textColor = foregroundColor
             actionButton.tintColor = foregroundColor
         }
-    }
-
-    private func updateHorizontalPadding() {
-        // Since container.insetsLayoutMarginsFromSafeArea is false we need to manually add horizontal insets
-        let insets = directionalSafeAreaInsets
-        container.directionalLayoutMargins.leading = (style.needsFullWidth ? insets.leading : 0) + Constants.horizontalPadding
-        // Action button includes trailing margin as its padding
-        container.directionalLayoutMargins.trailing = (style.needsFullWidth ? insets.trailing : 0) + (actionButton.isHidden ? Constants.horizontalPadding : 0)
-    }
-
-    private func updateVerticalPadding() {
-        textContainer.layoutMargins.top = hasSingleLineLayout ? Constants.verticalPaddingForOneLine : Constants.verticalPadding
-        textContainer.layoutMargins.bottom = textContainer.layoutMargins.top
-    }
-
-    @objc private func updateActionButtonFont() {
-        actionButton.titleLabel?.font = Constants.actionButtonTextStyle.font
     }
 
     private func updateAccessibility(title: String, message: String, hasMessageAction: Bool) {
