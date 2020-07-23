@@ -50,6 +50,34 @@ public enum PillButtonStyle: Int {
             return UIColor(light: Colors.primary(for: window), dark: Colors.PillButton.Outline.titleSelected)
         }
     }
+    
+    func disabledTitleColor(for window: UIWindow) -> UIColor {
+        switch self {
+        case .outline:
+            return Colors.textDisabled
+        case .filled:
+            return UIColor(light: Colors.primaryTint10(for: window), dark: Colors.textDisabled)
+        }
+    }
+    
+    func selectedDisabledBackgroundColor(for window: UIWindow) -> UIColor {
+        switch self {
+        case .outline:
+            return Colors.surfaceQuaternary
+        case .filled:
+            return UIColor(light: .white, dark: Colors.surfaceQuaternary)
+        }
+    }
+    
+    func selectedDisabledTitleColor(for window: UIWindow) -> UIColor {
+        switch self {
+        case .outline:
+            return UIColor(light: .white, dark: Colors.gray500)
+        case .filled:
+            return UIColor(light: Colors.primaryTint20(for: window), dark: Colors.gray500)
+        }
+    }
+    
 }
 
 // MARK: PillButton
@@ -124,11 +152,26 @@ open class PillButton: UIButton {
 
     private func updateAppearance() {
         if let window = window {
-            backgroundColor = isSelected ? style.selectedBackgroundColor(for: window) : style.backgroundColor(for: window)
+            if (isSelected && !isEnabled) {
+                backgroundColor = style.selectedDisabledBackgroundColor(for: window)
+            }
+            else if (isSelected) {
+                backgroundColor = style.selectedBackgroundColor(for: window)
+            }
+            else {
+                backgroundColor = style.backgroundColor(for: window)
+            }
 
-            if isSelected {
+            if isSelected && !isEnabled {
+                setTitleColor(style.selectedDisabledTitleColor(for: window), for: .normal)
+            }
+            else if isSelected {
                 setTitleColor(style.selectedTitleColor(for: window), for: .normal)
-            } else {
+            }
+            else if !isEnabled {
+                setTitleColor(style.disabledTitleColor(for: window), for: .disabled)
+            }
+            else {
                 setTitleColor(style.titleColor, for: .normal)
             }
         }

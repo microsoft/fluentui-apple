@@ -62,6 +62,7 @@ class PillButtonBarDemoController: DemoController {
         let bar = PillButtonBar(pillButtonStyle: style)
         bar.items = items
         _ = bar.selectItem(atIndex: 0)
+        _ = bar.disableItem(atIndex: 1)
         bar.barDelegate = self
         bar.centerAligned = centerAligned
 
