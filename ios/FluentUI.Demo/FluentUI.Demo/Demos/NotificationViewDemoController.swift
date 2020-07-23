@@ -13,6 +13,8 @@ class NotificationViewDemoController: DemoController {
         case primaryBar
         case primaryOutlineBar
         case neutralBar
+        case persistentBarWithAction
+        case persistentBarWithCancel
 
         var displayText: String {
             switch self {
@@ -28,6 +30,10 @@ class NotificationViewDemoController: DemoController {
                 return "Primary Outline Bar"
             case .neutralBar:
                 return "Neutral Bar"
+            case .persistentBarWithAction:
+                return "Persistent Bar with Action"
+            case .persistentBarWithCancel:
+                return "Persistent Bar with Cancel"
             }
         }
 
@@ -73,6 +79,10 @@ class NotificationViewDemoController: DemoController {
             view.setup(style: .primaryOutlineBar, message: "Mail Sent")
         case .neutralBar:
             view.setup(style: .neutralBar, message: "No internet connection")
+        case .persistentBarWithAction:
+            view.setup(style: .neutralBar, message: "This error can be taken action on with the action on the right.", actionTitle: "Action", action: { [unowned self] in self.showMessage("`Action` tapped") })
+        case .persistentBarWithCancel:
+            view.setup(style: .neutralBar, message: "This error can be tapped or dismissed with the icon to the right.", action: { [unowned self] in self.showMessage("`Dismiss` tapped") })
         }
         return view
     }
