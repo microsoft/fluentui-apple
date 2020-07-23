@@ -5,7 +5,15 @@
 
 import UIKit
 
-// MARK: DateTimePickerViewComponentCell
+// MARK: DateTimePicker Colors
+public extension Colors {
+  struct DateTimePicker {
+      public static var background: UIColor = Calendar.background
+      public static var text: UIColor = textSecondary
+  }
+}
+
+// MARK: - DateTimePickerViewComponentCell
 
 /// TableViewCell representing the cell of component view (should be used only by DateTimePickerViewComponent and not instantiated on its own)
 class DateTimePickerViewComponentCell: UITableViewCell {

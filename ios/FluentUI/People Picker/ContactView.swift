@@ -5,6 +5,17 @@
 
 import UIKit
 
+// MARK: Contact Colors
+
+public extension Colors {
+    struct Contact {
+        public static var title: UIColor = textPrimary
+        public static var subtitle: UIColor = textSecondary
+    }
+}
+
+// MARK: ContactView
+
 @objc(MSFContactView)
 open class ContactView: UIView {
     private struct Constants {

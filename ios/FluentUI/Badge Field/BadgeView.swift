@@ -34,6 +34,24 @@ public protocol BadgeViewDelegate {
     func didTapSelectedBadge(_ badge: BadgeView)
 }
 
+// MARK: - Badge Colors
+
+public extension Colors {
+    struct Badge {
+        public static var backgroundDisabled = UIColor(light: surfaceSecondary, dark: gray700)
+        public static var backgroundError = UIColor(light: Palette.dangerTint40.color, dark: Palette.dangerTint30.color)
+        public static var backgroundErrorSelected: UIColor = error
+        public static var backgroundWarning = UIColor(light: Palette.warningTint40.color, dark: Palette.warningTint30.color)
+        public static var backgroundWarningSelected: UIColor = warning
+        public static var textSelected: UIColor = textOnAccent
+        public static var textDisabled: UIColor = textSecondary
+        public static var textError: UIColor = Palette.dangerShade20.color
+        public static var textErrorSelected: UIColor = textOnAccent
+        public static var textWarning = UIColor(light: Palette.warningShade30.color, dark: Palette.warningPrimary.color)
+        public static var textWarningSelected = UIColor(light: Palette.warningShade30.color, dark: .black)
+    }
+}
+
 // MARK: - BadgeView
 
 /**
