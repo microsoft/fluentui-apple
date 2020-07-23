@@ -456,7 +456,7 @@ open class NotificationView: UIView {
         if titleLabel.text?.isEmpty == true {
             hasSingleLineLayout = (messagelabelSize.height == messageLabel.font.deviceLineHeight)
         } else {
-            let titleLabelSize = titleLabel.systemLayoutSizeFitting(CGSize(width: availableLabelWidth, height: 0))
+            let titleLabelSize = titleLabel.systemLayoutSizeFitting(CGSize(width: availableLabelWidth, height: 0), withHorizontalFittingPriority: .defaultHigh, verticalFittingPriority: .defaultHigh)
             suggesgedHeight += titleLabelSize.height
         }
 
