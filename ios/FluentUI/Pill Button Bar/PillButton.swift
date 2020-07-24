@@ -107,6 +107,13 @@ open class PillButton: UIButton {
         }
     }
 
+    public override var isEnabled: Bool {
+        didSet {
+            updateAppearance()
+            updateAccessibilityTraits()
+        }
+    }
+
     @objc public init(pillBarItem: PillButtonBarItem, style: PillButtonStyle = .outline) {
         self.pillBarItem = pillBarItem
         self.style = style
