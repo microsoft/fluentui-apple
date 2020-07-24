@@ -55,10 +55,6 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         var layoutAttributes = [UICollectionViewLayoutAttributes]()
 
-        guard numSections == 1 else {
-            return layoutAttributes
-        }
-
         if let collectionView = collectionView {
             numberOfItems = collectionView.numberOfItems(inSection: 0)
         }
@@ -95,7 +91,6 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
         return super.shouldInvalidateLayout(forBoundsChange: newBounds)
     }
 
-    private var numSections: Int = 0
     private var numberOfItems: Int = 0
 
     // 1) Called whenever the layout is invalidated
@@ -107,8 +102,6 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
         guard let collectionView = collectionView else {
             return
         }
-
-        numSections = 1
 
         let indexPath = IndexPath(item: 0, section: 0)
         if let size = delegate?.collectionView?(collectionView, layout: self, sizeForItemAt: indexPath) {

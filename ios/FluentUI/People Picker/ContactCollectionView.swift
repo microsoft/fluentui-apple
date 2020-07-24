@@ -34,13 +34,7 @@ open class ContactCollectionView: UICollectionView {
         contactList = [PersonaData]()
 
         super.init(frame: .zero, collectionViewLayout: layout)
-
-        translatesAutoresizingMaskIntoConstraints = false
-        showsHorizontalScrollIndicator = false
-        showsVerticalScrollIndicator = false
-        backgroundColor = .green
-        dataSource = self
-//        delegate = self
+        configureCollectionView()
 
         register(ContactCollectionViewCell.self, forCellWithReuseIdentifier: ContactCollectionViewCell.identifier)
         setupConstraints()
@@ -68,6 +62,16 @@ open class ContactCollectionView: UICollectionView {
 
         print("collectionView.contentSize: \(contentSize)")
         heightConstraint!.constant = constant
+    }
+
+    private func configureCollectionView() {
+        translatesAutoresizingMaskIntoConstraints = false
+        showsHorizontalScrollIndicator = false
+        showsVerticalScrollIndicator = false
+        backgroundColor = .green
+        //        backgroundColor = Colors.surfacePrimary
+        dataSource = self
+        //        delegate = self
     }
 }
 
