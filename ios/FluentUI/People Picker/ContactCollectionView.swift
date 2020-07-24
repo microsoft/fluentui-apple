@@ -17,6 +17,9 @@ open class ContactCollectionView: UICollectionView {
         static let extraExtraExtraLargeContentContactHeight: CGFloat = 135.0
     }
 
+    let layout: ContactCollectionViewLayout
+    @objc public weak var contactCollectionDelegate: UICollectionViewDelegate?
+
     @objc public var contactList: [PersonaData] = [] {
         didSet {
             if (oldValue.count == 0 && contactList.count > 0) || (oldValue.count > 0 && contactList.count == 0) {
@@ -25,9 +28,6 @@ open class ContactCollectionView: UICollectionView {
         }
     }
 
-    let layout: ContactCollectionViewLayout
-    @objc public weak var contactCollectionDelegate: UICollectionViewDelegate?
-
     @objc public init() {
         layout = ContactCollectionViewLayout()
         layout.scrollDirection = .horizontal
@@ -35,8 +35,6 @@ open class ContactCollectionView: UICollectionView {
 
         super.init(frame: .zero, collectionViewLayout: layout)
 
-        // don't think this should be here, place in collectionViewContentSize instead
-//        contentSize = layout.collectionViewContentSize
         translatesAutoresizingMaskIntoConstraints = false
         showsHorizontalScrollIndicator = false
         showsVerticalScrollIndicator = false
@@ -56,7 +54,7 @@ open class ContactCollectionView: UICollectionView {
     var widthConstraint: NSLayoutConstraint?
     private func setupConstraints() {
         if heightConstraint == nil {
-            heightConstraint = heightAnchor.constraint(equalToConstant: 0)
+            heightConstraint = heightAnchor.constraint(equalToConstant: 0.0)
             heightConstraint!.isActive = true
             return
         }
@@ -68,10 +66,7 @@ open class ContactCollectionView: UICollectionView {
             constant = layout.collectionView(self, layout: layout, sizeForItemAt: indexPath).height
         }
 
-        widthConstraint = widthAnchor.constraint(equalToConstant: layout.collectionViewContentSize.width)
-        widthConstraint?.isActive = true
-        print("width constraint constant: \(widthConstraint?.constant)")
-        print("collection view content size: \(contentSize)")
+        print("collectionView.contentSize: \(contentSize)")
         heightConstraint!.constant = constant
     }
 }
@@ -94,35 +89,3 @@ extension ContactCollectionView: UICollectionViewDelegate {
     // It doesn't seem like I need to implement any of the functions in UICollectionViewDelegate
     // Perhaps something to do with highlighting (even though I already have something similar in ContactView.swift) later on
 }
-
-//extension ContactCollectionView: UICollectionViewDelegateFlowLayout {
-//    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        // TODO: Will need to change this when the number of Contacts line up perfectly to the screen
-//        return 16.0
-//    }
-//
-//    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        let itemHeight: CGFloat
-//
-//        switch UIApplication.shared.preferredContentSizeCategory {
-//        case .extraSmall:
-//            itemHeight = Constants.extraSmallContentContactHeight
-//        case .small:
-//            itemHeight = Constants.smallContentContactHeight
-//        case .medium:
-//            itemHeight = Constants.mediumContentContactHeight
-//        case .large:
-//            itemHeight = Constants.largeContentContactHeight
-//        case .extraLarge:
-//            itemHeight = Constants.extraLargeContentContactHeight
-//        case .extraExtraLarge:
-//            itemHeight = Constants.extraExtraLargeContentContactHeight
-//        case .extraExtraExtraLarge:
-//            itemHeight = Constants.extraExtraExtraLargeContentContactHeight
-//        default:
-//            itemHeight = Constants.extraExtraExtraLargeContentContactHeight
-//        }
-//
-//        return CGSize(width: 70.0, height: itemHeight)
-//    }
-//}

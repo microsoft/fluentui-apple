@@ -38,7 +38,6 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
             minimumLineSpacing = minLineSpacing
         }
 
-        // get the updated width + height here by calling the delegate method
         let indexPath = IndexPath(item: 0, section: 0)
         let numItems = collectionView.numberOfItems(inSection: 0)
         let height = delegate?.collectionView?(collectionView, layout: self, sizeForItemAt: indexPath).height
@@ -79,9 +78,11 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
         let frame = CGRect(x: CGFloat(indexPath.item) * Constants.itemWidth + CGFloat(indexPath.item) * minimumLineSpacing, y: 0, width: Constants.itemWidth, height: itemSize.height)
-
-        // TODO: Consideration of flipping due to RTL (look at CalendarViewLayout)
         attributes.frame = frame
+
+        if let collectionView = collectionView {
+            attributes.frame = collectionView.flipRectForRTL(attributes.frame)
+        }
         return attributes
     }
 
