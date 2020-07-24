@@ -80,7 +80,7 @@ class PillButtonBarDemoController: DemoController {
         if (disabledItems) {
             items.forEach { bar.disableItem($0) }
         }
-        
+
         let backgroundView = UIView()
         if style == .outline {
             backgroundView.backgroundColor = Colors.Navigation.System.background

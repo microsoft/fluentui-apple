@@ -50,7 +50,7 @@ public enum PillButtonStyle: Int {
             return UIColor(light: Colors.primary(for: window), dark: Colors.PillButton.Outline.titleSelected)
         }
     }
-    
+
     func disabledTitleColor(for window: UIWindow) -> UIColor {
         switch self {
         case .outline:
@@ -59,7 +59,7 @@ public enum PillButtonStyle: Int {
             return UIColor(light: Colors.primaryTint10(for: window), dark: Colors.textDisabled)
         }
     }
-    
+
     func selectedDisabledBackgroundColor(for window: UIWindow) -> UIColor {
         switch self {
         case .outline:
@@ -68,7 +68,7 @@ public enum PillButtonStyle: Int {
             return UIColor(light: Colors.surfacePrimary, dark: Colors.surfaceQuaternary)
         }
     }
-    
+
     func selectedDisabledTitleColor(for window: UIWindow) -> UIColor {
         switch self {
         case .outline:
@@ -77,7 +77,6 @@ public enum PillButtonStyle: Int {
             return UIColor(light: Colors.primaryTint20(for: window), dark: Colors.gray500)
         }
     }
-    
 }
 
 // MARK: PillButton
@@ -155,7 +154,7 @@ open class PillButton: UIButton {
         } else {
             accessibilityTraits.remove(.selected)
         }
-        
+    
         if (!isEnabled) {
             accessibilityTraits.insert(.notEnabled)
         } else {
@@ -175,7 +174,6 @@ open class PillButton: UIButton {
                 }
             } else {
                 backgroundColor = style.backgroundColor(for: window)
-                
                 if isEnabled {
                     setTitleColor(style.titleColor, for: .normal)
                 } else {
