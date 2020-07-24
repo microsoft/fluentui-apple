@@ -35,12 +35,14 @@ open class ContactCollectionView: UICollectionView {
 
         super.init(frame: .zero, collectionViewLayout: layout)
 
+        // don't think this should be here, place in collectionViewContentSize instead
+//        contentSize = layout.collectionViewContentSize
         translatesAutoresizingMaskIntoConstraints = false
         showsHorizontalScrollIndicator = false
+        showsVerticalScrollIndicator = false
         backgroundColor = .green
         dataSource = self
 //        delegate = self
-        layout.delegate = self
 
         register(ContactCollectionViewCell.self, forCellWithReuseIdentifier: ContactCollectionViewCell.identifier)
         setupConstraints()
@@ -51,6 +53,7 @@ open class ContactCollectionView: UICollectionView {
     }
 
     var heightConstraint: NSLayoutConstraint?
+    var widthConstraint: NSLayoutConstraint?
     private func setupConstraints() {
         if heightConstraint == nil {
             heightConstraint = heightAnchor.constraint(equalToConstant: 0)
@@ -62,10 +65,13 @@ open class ContactCollectionView: UICollectionView {
         if contactList.count > 0 {
             let indexPath = IndexPath(item: 0, section: 0)
             // NOTE: Why doesn't calling this after setting the .scrollDirection make the collection no longer scrollable?
-            constant = collectionView(self, layout: layout, sizeForItemAt: indexPath).height
-//            constant = layout.collectionView(self, layout: layout, sizeForItemAt: indexPath).height
+            constant = layout.collectionView(self, layout: layout, sizeForItemAt: indexPath).height
         }
-        widthAnchor.constraint(equalToConstant: layout.collectionViewContentSize.width).isActive = true
+
+        widthConstraint = widthAnchor.constraint(equalToConstant: layout.collectionViewContentSize.width)
+        widthConstraint?.isActive = true
+        print("width constraint constant: \(widthConstraint?.constant)")
+        print("collection view content size: \(contentSize)")
         heightConstraint!.constant = constant
     }
 }
@@ -89,34 +95,34 @@ extension ContactCollectionView: UICollectionViewDelegate {
     // Perhaps something to do with highlighting (even though I already have something similar in ContactView.swift) later on
 }
 
-extension ContactCollectionView: UICollectionViewDelegateFlowLayout {
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        // TODO: Will need to change this when the number of Contacts line up perfectly to the screen
-        return 16.0
-    }
-
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemHeight: CGFloat
-
-        switch UIApplication.shared.preferredContentSizeCategory {
-        case .extraSmall:
-            itemHeight = Constants.extraSmallContentContactHeight
-        case .small:
-            itemHeight = Constants.smallContentContactHeight
-        case .medium:
-            itemHeight = Constants.mediumContentContactHeight
-        case .large:
-            itemHeight = Constants.largeContentContactHeight
-        case .extraLarge:
-            itemHeight = Constants.extraLargeContentContactHeight
-        case .extraExtraLarge:
-            itemHeight = Constants.extraExtraLargeContentContactHeight
-        case .extraExtraExtraLarge:
-            itemHeight = Constants.extraExtraExtraLargeContentContactHeight
-        default:
-            itemHeight = Constants.extraExtraExtraLargeContentContactHeight
-        }
-
-        return CGSize(width: 70.0, height: itemHeight)
-    }
-}
+//extension ContactCollectionView: UICollectionViewDelegateFlowLayout {
+//    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+//        // TODO: Will need to change this when the number of Contacts line up perfectly to the screen
+//        return 16.0
+//    }
+//
+//    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        let itemHeight: CGFloat
+//
+//        switch UIApplication.shared.preferredContentSizeCategory {
+//        case .extraSmall:
+//            itemHeight = Constants.extraSmallContentContactHeight
+//        case .small:
+//            itemHeight = Constants.smallContentContactHeight
+//        case .medium:
+//            itemHeight = Constants.mediumContentContactHeight
+//        case .large:
+//            itemHeight = Constants.largeContentContactHeight
+//        case .extraLarge:
+//            itemHeight = Constants.extraLargeContentContactHeight
+//        case .extraExtraLarge:
+//            itemHeight = Constants.extraExtraLargeContentContactHeight
+//        case .extraExtraExtraLarge:
+//            itemHeight = Constants.extraExtraExtraLargeContentContactHeight
+//        default:
+//            itemHeight = Constants.extraExtraExtraLargeContentContactHeight
+//        }
+//
+//        return CGSize(width: 70.0, height: itemHeight)
+//    }
+//}

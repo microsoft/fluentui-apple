@@ -20,14 +20,14 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
         static let extraExtraExtraLargeContentContactHeight: CGFloat = 135.0
     }
 
-//    override init() {
-//        super.init()
-//        delegate = self
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        preconditionFailure("init(coder:) not implemented")
-//    }
+    override init() {
+        super.init()
+        delegate = self
+    }
+
+    required init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) not implemented")
+    }
 
     override var collectionViewContentSize: CGSize {
         guard let collectionView = collectionView else {
@@ -39,16 +39,17 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
         }
 
         // get the updated width + height here by calling the delegate method
-
+        let indexPath = IndexPath(item: 0, section: 0)
         let numItems = collectionView.numberOfItems(inSection: 0)
-//        let totalWidth = CGFloat(collectionView.numberOfItems(inSection: 0)) * itemSize.width + (CGFloat(collectionView.numberOfItems(inSection: 0)) - 1) * minimumLineSpacing
-        let totalWidth = CGFloat(numItems) * itemSize.width + ((CGFloat(numItems) - 1) * minimumLineSpacing)
-//        let totalWidth = CGFloat(numItems) * Constants.itemWidth + (CGFloat(numItems) - 1) * minimumLineSpacing
-        
-        print("totalWidth: \(totalWidth)")
-        print("height: \(itemSize.height)")
+        let height = delegate?.collectionView?(collectionView, layout: self, sizeForItemAt: indexPath).height
+        let totalWidth = numItems > 0 ? CGFloat(numItems) * Constants.itemWidth + (CGFloat(numItems) - 1) * minimumLineSpacing : 0.0
 
-        return CGSize(width: totalWidth, height: itemSize.height)
+        let size = CGSize(width: totalWidth, height: height!)
+        print("totalWidth: \(totalWidth)")
+        print("height: \(height!)")
+        collectionView.contentSize = size
+
+        return size
     }
 
     // Called periodically by the collection view when it needs to decide what should be on the visible screen
@@ -108,7 +109,6 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
 
         numSections = 1
 
-        // Compute collectionViewContentSize by setting the itemSize
         let indexPath = IndexPath(item: 0, section: 0)
         if let size = delegate?.collectionView?(collectionView, layout: self, sizeForItemAt: indexPath) {
             itemSize = size
@@ -116,29 +116,34 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
     }
 }
 
-//extension ContactCollectionViewLayout: UICollectionViewDelegateFlowLayout {
-//    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        let itemHeight: CGFloat
-//
-//        switch UIApplication.shared.preferredContentSizeCategory {
-//        case .extraSmall:
-//            itemHeight = Constants.extraSmallContentContactHeight
-//        case .small:
-//            itemHeight = Constants.smallContentContactHeight
-//        case .medium:
-//            itemHeight = Constants.mediumContentContactHeight
-//        case .large:
-//            itemHeight = Constants.largeContentContactHeight
-//        case .extraLarge:
-//            itemHeight = Constants.extraLargeContentContactHeight
-//        case .extraExtraLarge:
-//            itemHeight = Constants.extraExtraLargeContentContactHeight
-//        case .extraExtraExtraLarge:
-//            itemHeight = Constants.extraExtraExtraLargeContentContactHeight
-//        default:
-//            itemHeight = Constants.extraExtraExtraLargeContentContactHeight
-//        }
-//
-//        return CGSize(width: Constants.itemWidth, height: itemHeight)
-//    }
-//}
+extension ContactCollectionViewLayout: UICollectionViewDelegateFlowLayout {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        // TODO: Will need to change this when the number of Contacts line up perfectly to the screen
+        return 16.0
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let itemHeight: CGFloat
+
+        switch UIApplication.shared.preferredContentSizeCategory {
+        case .extraSmall:
+            itemHeight = Constants.extraSmallContentContactHeight
+        case .small:
+            itemHeight = Constants.smallContentContactHeight
+        case .medium:
+            itemHeight = Constants.mediumContentContactHeight
+        case .large:
+            itemHeight = Constants.largeContentContactHeight
+        case .extraLarge:
+            itemHeight = Constants.extraLargeContentContactHeight
+        case .extraExtraLarge:
+            itemHeight = Constants.extraExtraLargeContentContactHeight
+        case .extraExtraExtraLarge:
+            itemHeight = Constants.extraExtraExtraLargeContentContactHeight
+        default:
+            itemHeight = Constants.extraExtraExtraLargeContentContactHeight
+        }
+
+        return CGSize(width: Constants.itemWidth, height: itemHeight)
+    }
+}
