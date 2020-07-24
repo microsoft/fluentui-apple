@@ -81,8 +81,6 @@ open class NotificationView: UIView {
         }
 
         var cornerRadius: CGFloat { return isToast ? Constants.cornerRadiusForToast : 0 }
-        var messageAlignment: NSTextAlignment { return isToast ? .natural : .center }
-        var messageStyle: TextStyle { return isToast ? Constants.messageTextStyle : Constants.messageTextStyleForBar }
         var presentationOffset: CGFloat { return isToast ? Constants.presentationOffsetForToast : 0 }
         var needsFullWidth: Bool { return !isToast }
 
@@ -93,7 +91,8 @@ open class NotificationView: UIView {
         var needsSeparator: Bool { return  self == .primaryOutlineBar }
         var supportsTitle: Bool { return isToast }
         var supportsImage: Bool { return isToast }
-        var supportsAction: Bool { return isToast }
+        var supportsMessageAction: Bool { return isToast }
+        var shouldAlwaysShowActionButton: Bool { return isToast }
 
         private func primaryFilledBackground(for window: UIWindow) -> UIColor {
             let primaryColor = Colors.primary(for: window)
@@ -114,7 +113,6 @@ open class NotificationView: UIView {
 
         static let titleTextStyle: TextStyle = .button1
         static let messageTextStyle: TextStyle = .subhead
-        static let messageTextStyleForBar: TextStyle = .button1
         static let actionButtonTextStyle: TextStyle = .button1
 
         static let animationDurationForShowToast: TimeInterval = 0.6
@@ -261,8 +259,8 @@ open class NotificationView: UIView {
     ///   - title: The title text that is shown on the top of the view (only supported in toasts).
     ///   - message: The message text that is shown below title (if present) or vertically centered in the view.
     ///   - image: The image that is shown at the leading edge of the view (only supported in toasts).
-    ///   - actionTitle: The title for action on the trailing edge of the view (only supported in toasts).
-    ///   - action: The closure to be called when action button is tapped by a user (only supported in toasts).
+    ///   - actionTitle: The title for action on the trailing edge of the view.
+    ///   - action: The closure to be called when action button is tapped by a user.
     ///   - messageAction: The closure to be called when the body of the view (except action button) is tapped by a user (only supported in toasts).
     ///  - Returns: Reference to this view that can be used for "chained" calling of `show`. Can be ignored.
     @discardableResult
@@ -270,9 +268,7 @@ open class NotificationView: UIView {
         self.style = style
         let title = style.supportsTitle ? title : ""
         let image = style.supportsImage ? image : nil
-        let actionTitle = style.supportsAction ? actionTitle : ""
-        let action = style.supportsAction ? action : nil
-        let messageAction = style.supportsAction ? messageAction : nil
+        let messageAction = style.supportsMessageAction ? messageAction : nil
 
         titleLabel.text = title
         titleLabel.isHidden = title.isEmpty
@@ -281,16 +277,22 @@ open class NotificationView: UIView {
         imageView.image = image?.renderingMode == .automatic ? image?.withRenderingMode(.alwaysTemplate) : image
         imageView.isHidden = image == nil
 
-        if actionTitle.isEmpty {
-            let actionImage = UIImage.staticImageNamed("dismiss-20x20")
-            actionImage?.accessibilityLabel = "Accessibility.Dismiss.Label".localized
-            actionButton.setImage(actionImage, for: .normal)
-            actionButton.setTitle(nil, for: .normal)
+        if action != nil || style.shouldAlwaysShowActionButton {
+            if actionTitle.isEmpty {
+                let actionImage = UIImage.staticImageNamed("dismiss-20x20")
+                actionImage?.accessibilityLabel = "Accessibility.Dismiss.Label".localized
+                actionButton.setImage(actionImage, for: .normal)
+                actionButton.setTitle(nil, for: .normal)
+            } else {
+                actionButton.setImage(nil, for: .normal)
+                actionButton.setTitle(actionTitle, for: .normal)
+            }
+            actionButton.isHidden = false
+            messageLabel.textAlignment = .natural
         } else {
-            actionButton.setImage(nil, for: .normal)
-            actionButton.setTitle(actionTitle, for: .normal)
+            actionButton.isHidden = true
+            messageLabel.textAlignment = .center
         }
-        actionButton.isHidden = actionTitle.isEmpty && action == nil
 
         self.action = action
         self.messageAction = messageAction
@@ -438,8 +440,13 @@ open class NotificationView: UIView {
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
         var suggestedWidth: CGFloat = size.width
+        var availableLabelWidth = suggestedWidth
 
-        if !style.needsFullWidth {
+        if style.needsFullWidth {
+            if let windowWidth = window?.safeAreaLayoutGuide.layoutFrame.width {
+                availableLabelWidth = windowWidth
+            }
+        } else {
             if let windowWidth = window?.frame.width {
                 suggestedWidth = windowWidth
             }
@@ -453,9 +460,10 @@ open class NotificationView: UIView {
                 suggestedWidth -= (safeAreaInsets.left + safeAreaInsets.right + 2 * style.presentationOffset)
             }
             suggestedWidth = ceil(suggestedWidth)
+            availableLabelWidth = suggestedWidth
         }
 
-        var availableLabelWidth = suggestedWidth - 2 * Constants.horizontalPadding
+        availableLabelWidth -= (2 * Constants.horizontalPadding)
         if !actionButton.isHidden {
             let actionButtonSize = actionButton.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
             availableLabelWidth -= (actionButtonSize.width + Constants.horizontalSpacing)
@@ -499,9 +507,6 @@ open class NotificationView: UIView {
             layer.cornerCurve = .continuous
         }
         separator.isHidden = !style.needsSeparator
-
-        messageLabel.textAlignment = style.messageAlignment
-        messageLabel.style = style.messageStyle
 
         updateWindowSpecificColors()
     }
