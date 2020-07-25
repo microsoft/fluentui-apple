@@ -77,7 +77,7 @@ class PillButtonBarDemoController: DemoController {
         bar.barDelegate = self
         bar.centerAligned = centerAligned
 
-        if (disabledItems) {
+        if disabledItems {
             items.forEach { bar.disableItem($0) }
         }
 
@@ -114,12 +114,11 @@ class PillButtonBarDemoController: DemoController {
 
     func togglePills(pillBar: PillButtonBar, enable: Bool) {
         let items = pillBar.items
-        if (enable) {
+        if enable {
             for item in items! {
                 pillBar.enableItem(item)
             }
-        }
-        else {
+        } else {
             for item in items! {
                 pillBar.disableItem(item)
             }

@@ -187,8 +187,7 @@ open class PillButtonBar: UIScrollView {
         }
 
         let button = buttons[index]
-        if (!button.isEnabled)
-        {
+        if !button.isEnabled {
             button.isEnabled = true
         }
     }
@@ -199,8 +198,7 @@ open class PillButtonBar: UIScrollView {
         }
 
         let button = buttons[index]
-        if (!button.isEnabled)
-        {
+        if !button.isEnabled {
             button.isEnabled = true
         }
     }
