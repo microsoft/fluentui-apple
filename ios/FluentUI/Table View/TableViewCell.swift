@@ -217,7 +217,7 @@ open class TableViewCell: UITableViewCell {
         static let labelVerticalMarginForTwoLines: CGFloat = 12
         static let labelVerticalSpacing: CGFloat = 0
 
-        static let minHeight: CGFloat = 44
+        static let minHeight: CGFloat = 48
 
         static let selectionImageMarginTrailing: CGFloat = horizontalSpacing
         static let selectionImageOff = UIImage.staticImageNamed("selection-off")
