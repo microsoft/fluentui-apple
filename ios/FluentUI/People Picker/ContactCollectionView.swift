@@ -8,6 +8,7 @@ import UIKit
 @objc(MSFContactCollectionView)
 open class ContactCollectionView: UICollectionView {
     struct Constants {
+        static let sideInset: CGFloat = 16.0
         static let extraSmallContentContactHeight: CGFloat = 115.0
         static let smallContentContactHeight: CGFloat = 117.0
         static let mediumContentContactHeight: CGFloat = 118.0
@@ -68,10 +69,11 @@ open class ContactCollectionView: UICollectionView {
         translatesAutoresizingMaskIntoConstraints = false
         showsHorizontalScrollIndicator = false
         showsVerticalScrollIndicator = false
-        backgroundColor = .green
-        //        backgroundColor = Colors.surfacePrimary
+//        backgroundColor = .green
+        backgroundColor = Colors.surfacePrimary
         dataSource = self
         //        delegate = self
+        contentInset = UIEdgeInsets(top: 0, left: Constants.sideInset, bottom: 0, right: 0)
     }
 }
 

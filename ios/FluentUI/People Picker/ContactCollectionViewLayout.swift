@@ -10,6 +10,8 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
 
     struct Constants {
         static let itemWidth: CGFloat = 70.0
+        static let minLineSpacing: CGFloat = 14.0
+        static let maxLineSpacing: CGFloat = 16.0
 
         static let extraSmallContentContactHeight: CGFloat = 115.0
         static let smallContentContactHeight: CGFloat = 117.0
@@ -23,6 +25,7 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
     override init() {
         super.init()
         delegate = self
+        minimumLineSpacing = Constants.maxLineSpacing
     }
 
     required init?(coder: NSCoder) {
@@ -34,6 +37,7 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
             return .zero
         }
 
+        // TODO: Might not even need the setting here since the delegate method already sets it
         if let minLineSpacing = delegate?.collectionView?(collectionView, layout: self, minimumLineSpacingForSectionAt: 0) {
             minimumLineSpacing = minLineSpacing
         }
@@ -108,12 +112,26 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
             itemSize = size
         }
     }
+
+    private func calculateMinimumLineSpacing() {
+        guard let collectionView = collectionView else {
+            return
+        }
+
+        let usableWidth = Int(collectionView.frame.width - collectionView.contentInset.left)
+
+        if usableWidth % Int(Constants.itemWidth + minimumLineSpacing) == Int(Constants.itemWidth) {
+            minimumLineSpacing = Constants.minLineSpacing
+        } else {
+            minimumLineSpacing = Constants.maxLineSpacing
+        }
+    }
 }
 
 extension ContactCollectionViewLayout: UICollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        // TODO: Will need to change this when the number of Contacts line up perfectly to the screen
-        return 16.0
+        calculateMinimumLineSpacing()
+        return minimumLineSpacing
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
