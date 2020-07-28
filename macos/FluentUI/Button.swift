@@ -6,7 +6,8 @@
 import AppKit
 
 /// Indicates what style our button is drawn as
-@objc public enum ButtonStyle: Int, CaseIterable {
+@objc(MSFButtonStyle)
+public enum ButtonStyle: Int, CaseIterable {
     case primaryFilled	// Solid fill color
     case primaryOutline	// Clear fill color, solid outline
     case borderless		// Clear fill color, clear outline
