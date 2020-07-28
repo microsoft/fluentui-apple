@@ -22,7 +22,7 @@ class ButtonDemoController: DemoController {
             disabledButton.isEnabled = false
             disabledButton.setTitle("Button", for: .normal)
 
-            var buttons: [Button] = [button, disabledButton]
+            addRow(items: [button, disabledButton], itemSpacing: 20)
 
             if let image = style.image {
                 let iconButton = Button(style: style)
@@ -34,10 +34,17 @@ class ButtonDemoController: DemoController {
                 disabledIconButton.setTitle("Button", for: .normal)
                 disabledIconButton.image = image
 
-                buttons.append(contentsOf: [iconButton, disabledIconButton])
-            }
+                addRow(items: [iconButton, disabledIconButton], itemSpacing: 20)
 
-            addRow(items: buttons, itemSpacing: 20)
+                let iconOnlyButton = Button(style: style)
+                iconOnlyButton.image = image
+
+                let disabledIconOnlyButton = Button(style: style)
+                disabledIconOnlyButton.isEnabled = false
+                disabledIconOnlyButton.image = image
+
+                addRow(items: [iconOnlyButton, disabledIconOnlyButton], itemSpacing: 20)
+            }
         }
 
         addTitle(text: "With multi-line title")
@@ -50,7 +57,8 @@ class ButtonDemoController: DemoController {
         iconButton.titleLabel?.numberOfLines = 0
         iconButton.image = ButtonStyle.primaryFilled.image
 
-        addRow(items: [button, iconButton])
+        addRow(items: [button])
+        addRow(items: [iconButton])
 
         container.addArrangedSubview(UIView())
     }

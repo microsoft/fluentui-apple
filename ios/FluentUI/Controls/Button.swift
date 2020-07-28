@@ -142,6 +142,8 @@ open class Button: UIButton {
         didSet {
             isUsingCustomContentEdgeInsets = true
 
+            updateProposedTitleLabelWidth()
+
             if !isAdjustingCustomContentEdgeInsetsForImage && image(for: .normal) != nil {
                 adjustCustomContentEdgeInsetsForImage()
             }
@@ -149,9 +151,17 @@ open class Button: UIButton {
     }
 
     open override var intrinsicContentSize: CGSize {
-        var size = super.intrinsicContentSize
-        let labelHeight = titleLabel?.intrinsicContentSize.height ?? 0.0
-        size.height = ceil(max(labelHeight, style.minTitleLabelHeight)) + contentEdgeInsets.top + contentEdgeInsets.bottom
+        var size = titleLabel?.systemLayoutSizeFitting(CGSize(width: proposedTitleLabelWidth == 0 ? .greatestFiniteMagnitude : proposedTitleLabelWidth, height: .greatestFiniteMagnitude)) ?? .zero
+        size.width = ceil(size.width + contentEdgeInsets.left + contentEdgeInsets.right)
+        size.height = ceil(max(size.height, style.minTitleLabelHeight) + contentEdgeInsets.top + contentEdgeInsets.bottom)
+
+        if let image = image(for: .normal) {
+            size.width += image.size.width
+
+            if titleLabel?.text?.count ?? 0 == 0 {
+                size.width -= style.titleImagePadding
+            }
+        }
 
         return size
     }
@@ -166,6 +176,8 @@ open class Button: UIButton {
                 rect.origin.y -= round((imageHeight - rect.size.height) / 2.0)
                 rect.size.height = imageHeight
             }
+
+            rect.size.width = image.size.width
         }
 
         return rect
@@ -215,7 +227,13 @@ open class Button: UIButton {
         updateBorderColor()
     }
 
-    public func updateTitleColors() {
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+
+        updateProposedTitleLabelWidth()
+    }
+
+    private func updateTitleColors() {
         if let window = window {
             setTitleColor(normalTitleAndImageColor(for: window), for: .normal)
             setTitleColor(highlightedTitleAndImageColor(for: window), for: .highlighted)
@@ -223,7 +241,7 @@ open class Button: UIButton {
         }
     }
 
-    public func updateImage() {
+    private func updateImage() {
         let isDisplayingImage = (style == .primaryFilled || style == .primaryOutline || style == .secondaryOutline) && image != nil
 
         if let window = window {
@@ -247,8 +265,12 @@ open class Button: UIButton {
                 setImage(image?.image(withPrimaryColor: disabledColor), for: .disabled)
             }
 
-            if needsSetImage && isUsingCustomContentEdgeInsets {
-                adjustCustomContentEdgeInsetsForImage()
+            if needsSetImage {
+                updateProposedTitleLabelWidth()
+
+                if isUsingCustomContentEdgeInsets {
+                    adjustCustomContentEdgeInsetsForImage()
+                }
             }
         }
 
@@ -260,6 +282,8 @@ open class Button: UIButton {
             normalImageTintColor = nil
             highlightedImageTintColor = nil
             disabledImageTintColor = nil
+
+            updateProposedTitleLabelWidth()
 
             if isUsingCustomContentEdgeInsets {
                 adjustCustomContentEdgeInsetsForImage()
@@ -278,6 +302,8 @@ open class Button: UIButton {
         if !isUsingCustomContentEdgeInsets {
             contentEdgeInsets = style.contentEdgeInsets
         }
+
+        updateProposedTitleLabelWidth()
     }
 
     private func normalTitleAndImageColor(for window: UIWindow) -> UIColor {
@@ -298,6 +324,28 @@ open class Button: UIButton {
 
     private var isUsingCustomContentEdgeInsets: Bool = false
     private var isAdjustingCustomContentEdgeInsetsForImage: Bool = false
+
+    /// if value is 0.0, CGFloat.greatestFiniteMagnitude is used to calculate the width of the `titleLabel` in `intrinsicContentSize`
+    private var proposedTitleLabelWidth: CGFloat = 0.0 {
+        didSet {
+            if proposedTitleLabelWidth != oldValue {
+                invalidateIntrinsicContentSize()
+            }
+        }
+    }
+
+    private func updateProposedTitleLabelWidth() {
+        if bounds.width > 0.0 {
+            var labelWidth = bounds.width - (contentEdgeInsets.left + contentEdgeInsets.right)
+            if let image = image(for: .normal) {
+                labelWidth -= image.size.width
+            }
+
+            if labelWidth > 0.0 {
+                proposedTitleLabelWidth = labelWidth
+            }
+        }
+    }
 
     private func adjustCustomContentEdgeInsetsForImage() {
         isAdjustingCustomContentEdgeInsetsForImage = true
