@@ -113,7 +113,6 @@ open class Button: UIButton {
     }
 
     /// The button's image.
-    /// The image must be a template image.
     /// For ButtonStyle.primaryFilled and ButtonStyle.primaryOutline, the image must be 24x24.
     /// For ButtonStyle.secondaryOutline, the image must be 20x20.
     /// For other styles, the image is not displayed.
