@@ -25,7 +25,7 @@ open class Button: NSButton {
 		super.init(frame: .zero)
 		initialize(title: title, image: nil, style: style)
     }
-	
+
 	/// Initializes a Fluent UI Button with an image, setting the imagePosition to imageOnly
 	/// - Parameters:
 	///   - image: The NSImage to diplay in the button
@@ -34,6 +34,13 @@ open class Button: NSButton {
 		super.init(frame: .zero)
 		imagePosition = .imageOnly
 		initialize(title: nil, image: image, style: style)
+    }
+
+	/// Initializes a Fluent UI Button
+	/// Set style to primaryFilled as default
+	@objc public init() {
+		super.init(frame: .zero)
+		initialize(title: nil, image: nil, style: .primaryFilled)
     }
 
 	@available(*, unavailable)
