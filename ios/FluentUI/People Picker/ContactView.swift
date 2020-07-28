@@ -40,6 +40,7 @@ open class ContactView: UIView {
     private var titleLabel: UILabel
     private var subtitleLabel: UILabel?
     private var labelContainer: UIView
+    private let pressedStateOverlay: UIView
 
     /// Initializes the contact view by creating an avatar view with a primary and secondary text
     ///
@@ -62,6 +63,7 @@ open class ContactView: UIView {
         avatarView = AvatarView(avatarSize: .extraExtraLarge, withBorder: false, style: .circle)
         labelContainer = UIView(frame: .zero)
         titleLabel = UILabel(frame: .zero)
+        pressedStateOverlay = UIView(frame: .zero)
         super.init(frame: .zero)
 
         if let title = title, let subtitle = subtitle {
@@ -74,6 +76,7 @@ open class ContactView: UIView {
         }
 
         backgroundColor = Colors.surfacePrimary
+        setupPressedStateOverlay()
         setupLayout()
     }
 
@@ -131,6 +134,11 @@ open class ContactView: UIView {
         default:
             contactHeightConstraint = Constants.extraExtraExtraLargeContentContactHeight
         }
+
+        pressedStateOverlay.translatesAutoresizingMaskIntoConstraints = false
+        avatarView.addSubview(pressedStateOverlay)
+
+        constraints.append(contentsOf: pressedStateOverlayLayoutConstraints())
         constraints.append(heightAnchor.constraint(equalToConstant: contactHeightConstraint))
 
         addSubview(labelContainer)
@@ -199,6 +207,17 @@ open class ContactView: UIView {
         ]
     }
 
+    private func pressedStateOverlayLayoutConstraints() -> [NSLayoutConstraint] {
+        return [
+            pressedStateOverlay.widthAnchor.constraint(equalTo: avatarView.widthAnchor),
+            pressedStateOverlay.heightAnchor.constraint(equalTo: avatarView.heightAnchor),
+            pressedStateOverlay.leadingAnchor.constraint(equalTo: avatarView.leadingAnchor),
+            pressedStateOverlay.trailingAnchor.constraint(equalTo: avatarView.trailingAnchor),
+            pressedStateOverlay.topAnchor.constraint(equalTo: avatarView.topAnchor),
+            pressedStateOverlay.bottomAnchor.constraint(equalTo: avatarView.bottomAnchor)
+        ]
+    }
+
     private func setupTitleLabel(using title: String) {
         let label = UILabel(frame: .zero)
         label.adjustsFontForContentSizeCategory = true
@@ -223,5 +242,23 @@ open class ContactView: UIView {
         label.textColor = Colors.Contact.subtitle
 
         subtitleLabel = label
+    }
+
+    private func setupPressedStateOverlay() {
+        pressedStateOverlay.clipsToBounds = true
+        pressedStateOverlay.frame = avatarView.frame
+        pressedStateOverlay.layer.cornerRadius = avatarView.frame.width / 2
+    }
+
+    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        pressedStateOverlay.backgroundColor = UIColor(red: 0.83, green: 0.83, blue: 0.83, alpha: 0.6)
+    }
+
+    open override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        pressedStateOverlay.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.0)
+    }
+
+    open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        pressedStateOverlay.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.0)
     }
 }
