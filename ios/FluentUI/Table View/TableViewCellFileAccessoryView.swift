@@ -16,13 +16,15 @@ open class FileAccessoryViewAction: NSObject {
     ///   - image: the action's image
     ///   - target: the action's target
     ///   - action: the action's selector
+    ///   - isEnabled: true if the action is enabled, false otherwise
     ///   - canHide: false if the action must always be visible, true otherwise
     ///   - useAppPrimaryColor: true if the action's image should be tinted with the app's primary color
-    public init(title: String, image: UIImage, target: Any? = nil, action: Selector? = nil, canHide: Bool = true, useAppPrimaryColor: Bool = false) {
+    public init(title: String, image: UIImage, target: Any? = nil, action: Selector? = nil, isEnabled: Bool = true, canHide: Bool = true, useAppPrimaryColor: Bool = false) {
         self.title = title
         self.image = image
         self.target = target
         self.action = action
+        self.isEnabled = isEnabled
         self.canHide = canHide
         self.useAppPrimaryColor = useAppPrimaryColor
 
@@ -33,6 +35,7 @@ open class FileAccessoryViewAction: NSObject {
     fileprivate let image: UIImage
     fileprivate let target: Any?
     fileprivate let action: Selector?
+    fileprivate let isEnabled: Bool
     fileprivate let canHide: Bool
     fileprivate let useAppPrimaryColor: Bool
 }
@@ -167,7 +170,7 @@ open class TableViewCellFileAccessoryView: UIView {
     }()
 
     private func updateSharedStatus() {
-        let imageName = isShared ? "people-24x24" : "person-24x24"
+        let imageName = isShared ? "ic_fluent_people_24_regular" : "ic_fluent_person_24_regular"
         sharedStatusImageView.image = UIImage.staticImageNamed(imageName)!.image(withPrimaryColor: Colors.gray500)
         sharedStatusLabel.text = isShared ? "Common.Shared".localized : "Common.OnlyMe".localized
     }
@@ -362,8 +365,16 @@ private class FileAccessoryViewActionView: UIButton {
             addTarget(target, action: action, for: .touchUpInside)
         }
 
+        isEnabled = action.isEnabled
         setImage(action.image, for: .normal)
-        tintColor = action.useAppPrimaryColor ? Colors.primary(for: window) : Colors.iconSecondary
+
+        if action.useAppPrimaryColor {
+            tintColor = Colors.primary(for: window)
+        } else if action.isEnabled {
+            tintColor = Colors.iconSecondary
+        } else {
+            tintColor = Colors.iconDisabled
+        }
 
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: FileAccessoryViewActionView.size.width),
@@ -380,4 +391,21 @@ private class FileAccessoryViewActionView: UIButton {
     @objc public required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
+
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        // When the button is disabled, we still need to capture touch events to prevent them from
+        // being forwarded to the table view cell.
+        if !isEnabled && self.point(inside: convert(point, to: self), with: event) {
+            return touchIntercept
+        }
+
+        return super.hitTest(point, with: event)
+    }
+
+    private let touchIntercept: UIView = {
+        let view = UIView(frame: .zero)
+        view.isUserInteractionEnabled = true
+
+        return view
+    }()
 }

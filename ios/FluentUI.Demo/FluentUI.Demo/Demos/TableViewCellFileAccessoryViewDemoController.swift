@@ -105,7 +105,7 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         var actions: [FileAccessoryViewAction] = []
         if showOverflowAction {
             let action = FileAccessoryViewAction(title: "File actions",
-                                                 image: UIImage(named: "Overflow_24")!,
+                                                 image: UIImage(named: "ic_fluent_more_24_regular")!,
                                                  target: self,
                                                  action: #selector(handleOverflowAction),
                                                  canHide: false)
@@ -114,32 +114,35 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
 
         if showShareAction {
             let action = FileAccessoryViewAction(title: "Share",
-                                                 image: UIImage(named: "Share_24")!,
+                                                 image: UIImage(named: "ic_fluent_share_ios_24_regular")!,
                                                  target: self,
-                                                 action: #selector(handleShareAction))
+                                                 action: #selector(handleShareAction),
+                                                 isEnabled: !isShareActionDisabled)
             actions.append(action)
         }
 
         if showPinAction {
             if isPinned {
                 let action = FileAccessoryViewAction(title: "Unpin",
-                                                     image: UIImage(named: "Pin_pinned_24")!,
+                                                     image: UIImage(named: "ic_fluent_pin_24_filled")!,
                                                      target: self,
                                                      action: #selector(handlePinAction),
+                                                     isEnabled: !isPinActionDisabled,
                                                      useAppPrimaryColor: true)
                 actions.append(action)
             } else {
                 let action = FileAccessoryViewAction(title: "Pin",
-                                                     image: UIImage(named: "Pin_unpinned_24")!,
+                                                     image: UIImage(named: "ic_fluent_pin_24_regular")!,
                                                      target: self,
-                                                     action: #selector(handlePinAction))
+                                                     action: #selector(handlePinAction),
+                                                     isEnabled: !isPinActionDisabled)
                 actions.append(action)
             }
         }
 
         if showKeepOfflineAction {
             let action = FileAccessoryViewAction(title: "Keep Offline",
-                                                 image: UIImage(named: "KeepOffline_24")!,
+                                                 image: UIImage(named: "ic_fluent_cloud_download_24_regular")!,
                                                  target: self,
                                                  action: #selector(handleKeepOfflineAction))
             actions.append(action)
@@ -148,7 +151,7 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         if showErrorAction {
             if #available(iOS 13.0, *) {
                 let action = FileAccessoryViewAction(title: "Error",
-                                                     image: UIImage(named: "Error_24")!,
+                                                     image: UIImage(named: "ic_fluent_warning_24_regular")!,
                                                      target: self,
                                                      action: #selector(handleErrorAction),
                                                      canHide: false)
@@ -228,7 +231,19 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         }
     }
 
+    private var isShareActionDisabled: Bool = false {
+        didSet {
+            updateActions()
+        }
+    }
+
     private var showPinAction: Bool = true {
+        didSet {
+            updateActions()
+        }
+    }
+
+    private var isPinActionDisabled: Bool = false {
         didSet {
             updateActions()
         }
@@ -300,7 +315,9 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
             createLabelAndSwitchRow(labelText: "Is document shared", switchAction: #selector(toggleAreDocumentsShared(switchView:)), isOn: areDocumentsShared),
             createLabelAndSwitchRow(labelText: "Show keep offline button", switchAction: #selector(toggleShowKeepOffline(switchView:)), isOn: showKeepOfflineAction),
             createLabelAndSwitchRow(labelText: "Show share button", switchAction: #selector(toggleShareButton(switchView:)), isOn: showShareAction),
+            createLabelAndSwitchRow(labelText: "Disable share button", switchAction: #selector(toggleShareButtonDisabled(switchView:)), isOn: isShareActionDisabled),
             createLabelAndSwitchRow(labelText: "Show pin button", switchAction: #selector(togglePin(switchView:)), isOn: showPinAction),
+            createLabelAndSwitchRow(labelText: "Disable pin button", switchAction: #selector(togglePinButtonDisabled(switchView:)), isOn: isPinActionDisabled),
             createLabelAndSwitchRow(labelText: "Show error button", switchAction: #selector(toggleErrorButton(switchView:)), isOn: showErrorAction),
             createLabelAndSwitchRow(labelText: "Show overflow button", switchAction: #selector(toggleOverflow(switchView:)), isOn: showOverflowAction)
         ]
@@ -371,8 +388,16 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         showPinAction = switchView.isOn
     }
 
+    @objc private func togglePinButtonDisabled(switchView: UISwitch) {
+        isPinActionDisabled = switchView.isOn
+    }
+
     @objc private func toggleShareButton(switchView: UISwitch) {
         showShareAction = switchView.isOn
+    }
+
+    @objc private func toggleShareButtonDisabled(switchView: UISwitch) {
+        isShareActionDisabled = switchView.isOn
     }
 
     @objc private func toggleErrorButton(switchView: UISwitch) {
