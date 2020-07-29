@@ -10,28 +10,64 @@ class AvatarViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        createSection(withTitle: "Circle style for person", name: "Kat Larrson", image: UIImage(named: "avatar_kat_larsson")!, style: .circle)
-        createSection(withTitle: "Square style for group", name: "NorthWind Traders", image: UIImage(named: "site")!, style: .square)
-        createSection(withTitle: "With image based frame", name: "Kat Larrson", image: UIImage(named: "avatar_kat_larsson")!, style: .circle, withColorfulBorder: true)
+        createSection(withTitle: "Circle style for person",
+                      name: "Kat Larrson",
+                      image: UIImage(named: "avatar_kat_larsson")!,
+                      style: .circle)
+
+        createSection(withTitle: "Square style for group",
+                      name: "NorthWind Traders",
+                      image: UIImage(named: "site")!,
+                      style: .square)
+
+        createSection(withTitle: "With image based frame",
+                      name: "Kat Larrson",
+                      image: UIImage(named: "avatar_kat_larsson")!,
+                      style: .circle,
+                      withColorfulBorder: true)
+
+        createSection(withTitle: "Circle style for person with presence",
+                      name: "Kat Larrson",
+                      image: UIImage(named: "avatar_kat_larsson")!,
+                      style: .circle,
+                      withPresence: true)
+
+        createSection(withTitle: "Square style for group with presence",
+                      name: "NorthWind Traders",
+                      image: UIImage(named: "site")!,
+                      style: .square,
+                      withPresence: true)
+
+        createSection(withTitle: "With image based frame with presence",
+                      name: "Kat Larrson",
+                      image: UIImage(named: "avatar_kat_larsson")!,
+                      style: .circle,
+                      withColorfulBorder: true,
+                      withPresence: true)
     }
 
-    private func createSection(withTitle title: String, name: String, image: UIImage, style: AvatarStyle, withColorfulBorder: Bool = false) {
+    private func createSection(withTitle title: String, name: String, image: UIImage, style: AvatarStyle, withColorfulBorder: Bool = false, withPresence: Bool = false) {
         addTitle(text: title)
         for size in AvatarSize.allCases.reversed() {
-            let imageAvatar = createAvatarView(size: size, name: name, image: image, style: style, withColorfulBorder: withColorfulBorder)
-            let initialsAvatar = createAvatarView(size: size, name: name, style: style, withColorfulBorder: withColorfulBorder)
+            let presence1 = withPresence ? size.presence1 : .none
+            let imageAvatar = createAvatarView(size: size, name: name, image: image, style: style, withColorfulBorder: withColorfulBorder, presence: presence1)
+
+            let presence2 = withPresence ? size.presence2 : .none
+            let initialsAvatar = createAvatarView(size: size, name: name, style: style, withColorfulBorder: withColorfulBorder, presence: presence2)
+
             addRow(text: size.description, items: [imageAvatar, initialsAvatar], textStyle: .footnote, textWidth: 100)
         }
+
         container.addArrangedSubview(UIView())
     }
 
-    private func createAvatarView(size: AvatarSize, name: String, image: UIImage? = nil, style: AvatarStyle, withColorfulBorder: Bool = false) -> UIView {
+    private func createAvatarView(size: AvatarSize, name: String, image: UIImage? = nil, style: AvatarStyle, withColorfulBorder: Bool = false, presence: AvatarPresence = .none) -> UIView {
         let avatarView = AvatarView(avatarSize: size, withBorder: withColorfulBorder, style: style)
         if withColorfulBorder, let customBorderImage = colorfulImageForFrame() {
             avatarView.customBorderImage = customBorderImage
         }
 
-        avatarView.setup(primaryText: name, secondaryText: "", image: image)
+        avatarView.setup(primaryText: name, secondaryText: "", image: image, presence: presence)
 
         let avatarContainer = UIView()
         avatarContainer.addSubview(avatarView)
@@ -89,6 +125,40 @@ extension AvatarSize {
             return "ExtraLarge"
         case .extraExtraLarge:
             return "ExtraExtraLarge"
+        }
+    }
+
+    var presence1: AvatarPresence {
+        switch self {
+        case .extraSmall:
+            return .away
+        case .small:
+            return .away
+        case .medium:
+            return .available
+        case .large:
+            return .blocked
+        case .extraLarge:
+            return .busy
+        case .extraExtraLarge:
+            return .doNotDisturb
+        }
+    }
+
+    var presence2: AvatarPresence {
+        switch self {
+        case .extraSmall:
+            return .busy
+        case .small:
+            return .offline
+        case .medium:
+            return .outOfOffice
+        case .large:
+            return .available
+        case .extraLarge:
+            return .busy
+        case .extraExtraLarge:
+            return .doNotDisturb
         }
     }
 }
