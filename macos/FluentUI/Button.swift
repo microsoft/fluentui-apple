@@ -193,6 +193,10 @@ open class Button: NSButton {
 
 	private var hoverBackgroundColor: NSColor {
 		if #available(macOS 10.14, *) {
+			if (fillColor == .clear)
+			{
+				return  NSColor(named: "ButtonView/hoverColor", bundle: FluentUIResources.resourceBundle)!
+			}
 			return fillColor.withSystemEffect(.rollover)
 		} else {
 			return fillColor.withAlphaComponent(Button.hoverBackgroundColorFallbackAlphaComponent)
@@ -201,6 +205,10 @@ open class Button: NSButton {
 
 	private var pressedBackgroundColor: NSColor {
 		if #available(macOS 10.14, *) {
+			if (fillColor == .clear)
+			{
+				return  NSColor(named: "ButtonView/pressedColor", bundle: FluentUIResources.resourceBundle)!
+			}
 			return fillColor.withSystemEffect(.pressed)
 		} else {
 			return fillColor.withAlphaComponent(Button.pressedBackgroundColorFallbackAlphaComponent)
