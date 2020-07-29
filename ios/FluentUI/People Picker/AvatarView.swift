@@ -66,16 +66,14 @@ public enum AvatarSize: Int, CaseIterable {
         }
     }
 
-    var presenceSize: CGFloat {
+    var presenceSize: PresenceSize {
         switch self {
-        case .extraSmall:
-            return 0
-        case .small, .medium:
-            return 10
+        case .extraSmall, .small, .medium:
+            return PresenceSize.normal
         case .large, .extraLarge:
-            return 12
+            return PresenceSize.large
         case .extraExtraLarge:
-            return 16
+            return PresenceSize.extraLarge
         }
     }
 
@@ -196,7 +194,7 @@ open class AvatarView: UIView {
     private var primaryText: String?
     private var secondaryText: String?
 
-    private var presence: AvatarPresence = .none {
+    private var presence: Presence = .none {
         didSet {
             if oldValue != presence {
                 updatePresenceImage()
@@ -271,7 +269,7 @@ open class AvatarView: UIView {
         imageView.frame = bounds
         initialsView.frame = imageView.frame
 
-        let presenceSize = avatarSize.presenceSize
+        let presenceSize = avatarSize.presenceSize.sizeValue
         let presenceCornerOffset = style == .circle ? avatarSize.presenceCornerOffset : 0.0
         var presenceFrame = CGRect(x: bounds.width - presenceSize - presenceCornerOffset,
                                    y: bounds.height - presenceSize - presenceCornerOffset,
@@ -309,8 +307,8 @@ open class AvatarView: UIView {
     ///   - primaryText: The primary text to create initials with (e.g. a name)
     ///   - secondaryText: The secondary text to create initials with if primary text is not provided (e.g. an email address)
     ///   - image: The image to be displayed
-    ///   - presence: The avatar's presence status
-    @objc public func setup(primaryText: String?, secondaryText: String?, image: UIImage?, presence: AvatarPresence = .none) {
+    ///   - presence: The presence state
+    @objc public func setup(primaryText: String?, secondaryText: String?, image: UIImage?, presence: Presence = .none) {
         self.primaryText = primaryText
         self.secondaryText = secondaryText
         self.presence = presence
@@ -328,8 +326,8 @@ open class AvatarView: UIView {
     ///
     /// - Parameters:
     ///   - image: The image to be displayed
-    ///   - presence: The avatar's presence status
-    @objc public func setup(image: UIImage, presence: AvatarPresence = .none) {
+    ///   - presence: The presence state
+    @objc public func setup(image: UIImage, presence: Presence = .none) {
         primaryText = nil
         secondaryText = nil
         self.presence = presence
@@ -425,42 +423,9 @@ open class AvatarView: UIView {
             presenceImageView.isHidden = false
             presenceBorderView.isHidden = false
 
-            let imageSize = Int(avatarSize.presenceSize)
-            var imageName: String?
-            var colorName: String?
-
-            switch presence {
-            case .none:
-                break
-            case .available:
-                imageName = "ic_fluent_presence_available_\(imageSize)_filled"
-                colorName = "presence_available"
-            case .away:
-                imageName = "ic_fluent_presence_away_\(imageSize)_filled"
-                colorName = "presence_away"
-            case .busy:
-                imageName = "ic_fluent_presence_busy_\(imageSize)_filled"
-                colorName = "presence_busy"
-            case .doNotDisturb:
-                imageName = "ic_fluent_presence_dnd_\(imageSize)_filled"
-                colorName = "presence_dnd"
-            case .outOfOffice:
-                imageName = "ic_fluent_presence_oof_\(imageSize)_regular"
-                colorName = "presence_oof"
-            case .offline:
-                imageName = "ic_fluent_presence_offline_\(imageSize)_regular"
-                colorName = "presence_offline"
-            case .unknown:
-                imageName = "ic_fluent_presence_unknown_\(imageSize)_regular"
-                colorName = "presence_unknown"
-            case .blocked:
-                imageName = "ic_fluent_presence_blocked_\(imageSize)_regular"
-                colorName = "presence_blocked"
-            }
-
-            if let imageName = imageName {
-                let color = UIColor(named: colorName!, in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
-                presenceImageView.image = UIImage.staticImageNamed(imageName)!.image(withPrimaryColor: color)
+            let image = presence.image(size: avatarSize.presenceSize)
+            if let image = image {
+                presenceImageView.image = image
             }
         }
     }

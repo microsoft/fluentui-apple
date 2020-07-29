@@ -5,21 +5,6 @@
 
 import UIKit
 
-// MARK: - Avatar Presence
-
-@objc(MSFAvatarPresence)
-public enum AvatarPresence: Int, CaseIterable {
-    case none
-    case available
-    case away
-    case busy
-    case doNotDisturb
-    case outOfOffice
-    case offline
-    case unknown
-    case blocked
-}
-
 // MARK: Avatar
 
 @available(*, deprecated, renamed: "Avatar")
@@ -34,8 +19,8 @@ public protocol Avatar {
     /// An image that can be used as a frame (outer wide border) for the avatar view
     var customBorderImage: UIImage? { get }
 
-    /// The avatar's presence status
-    var presence: AvatarPresence { get }
+   /// The presence state
+    var presence: Presence { get }
 }
 
 // MARK: - AvatarData
@@ -51,10 +36,10 @@ open class AvatarData: NSObject, Avatar {
 
     @objc public var customBorderImage: UIImage?
 
-    /// The avatar's presence status
-    @objc public var presence: AvatarPresence
+    /// The presence state
+    @objc public var presence: Presence
 
-    @objc public init(primaryText: String = "", secondaryText: String = "", image: UIImage? = nil, presence: AvatarPresence = .none) {
+    @objc public init(primaryText: String = "", secondaryText: String = "", image: UIImage? = nil, presence: Presence = .none) {
         self.primaryText = primaryText
         self.secondaryText = secondaryText
         self.image = image

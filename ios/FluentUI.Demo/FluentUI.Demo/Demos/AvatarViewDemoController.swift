@@ -43,11 +43,11 @@ class AvatarViewDemoController: DemoController {
     private func createSection(withTitle title: String, name: String, image: UIImage, style: AvatarStyle, withColorfulBorder: Bool = false, withPresence: Bool = false) {
         addTitle(text: title)
         for size in AvatarSize.allCases.reversed() {
-            let presence1 = withPresence ? size.presence1 : .none
-            let imageAvatar = createAvatarView(size: size, name: name, image: image, style: style, withColorfulBorder: withColorfulBorder, presence: presence1)
+            let presenceWithPicture = withPresence ? size.presenceWithPicture : .none
+            let imageAvatar = createAvatarView(size: size, name: name, image: image, style: style, withColorfulBorder: withColorfulBorder, presence: presenceWithPicture)
 
-            let presence2 = withPresence ? size.presence2 : .none
-            let initialsAvatar = createAvatarView(size: size, name: name, style: style, withColorfulBorder: withColorfulBorder, presence: presence2)
+            let presenceWithInitials = withPresence ? size.presenceWithInitials : .none
+            let initialsAvatar = createAvatarView(size: size, name: name, style: style, withColorfulBorder: withColorfulBorder, presence: presenceWithInitials)
 
             addRow(text: size.description, items: [imageAvatar, initialsAvatar], textStyle: .footnote, textWidth: 100)
         }
@@ -55,7 +55,7 @@ class AvatarViewDemoController: DemoController {
         container.addArrangedSubview(UIView())
     }
 
-    private func createAvatarView(size: AvatarSize, name: String, image: UIImage? = nil, style: AvatarStyle, withColorfulBorder: Bool = false, presence: AvatarPresence = .none) -> UIView {
+    private func createAvatarView(size: AvatarSize, name: String, image: UIImage? = nil, style: AvatarStyle, withColorfulBorder: Bool = false, presence: Presence = .none) -> UIView {
         let avatarView = AvatarView(avatarSize: size, withBorder: withColorfulBorder, style: style)
         if withColorfulBorder, let customBorderImage = colorfulImageForFrame() {
             avatarView.customBorderImage = customBorderImage
@@ -122,7 +122,7 @@ extension AvatarSize {
         }
     }
 
-    var presence1: AvatarPresence {
+    var presenceWithPicture: Presence {
         switch self {
         case .extraSmall:
             return .away
@@ -139,7 +139,7 @@ extension AvatarSize {
         }
     }
 
-    var presence2: AvatarPresence {
+    var presenceWithInitials: Presence {
         switch self {
         case .extraSmall:
             return .busy
