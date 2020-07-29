@@ -133,6 +133,9 @@ open class AvatarView: UIView {
 
         /// If a customBorderImage is set, a custom border of this width will be added to the avatar view.
         static let customBorderWidth: CGFloat = 3
+
+        /// The width for the presence status border.
+        static let presenceBorderWidth: CGFloat = 2
     }
 
     private struct SetupData: Equatable {
@@ -207,6 +210,7 @@ open class AvatarView: UIView {
 
     // Use a view as a border to avoid leaking pixels on corner radius
     private let borderView: UIView
+    private let presenceBorderView: UIView
 
     /// Initializes the avatar view with a size and an optional border
     ///
@@ -228,22 +232,24 @@ open class AvatarView: UIView {
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
 
-        presenceImageView = UIImageView(frame: .zero)
-        presenceImageView.isHidden = true
-        presenceImageView.clipsToBounds = true
-        presenceImageView.contentMode = .scaleAspectFill
-        presenceImageView.backgroundColor = .white
-        presenceImageView.layer.borderWidth = 2
-        presenceImageView.layer.borderColor = UIColor.white.cgColor
-
         borderView = UIView(frame: .zero)
         borderView.isHidden = !hasBorder
+
+        presenceImageView = UIImageView(frame: .zero)
+        presenceImageView.isHidden = true
+
+        presenceBorderView = UIView(frame: .zero)
+        presenceBorderView.isHidden = true
+
+        let presenceBorderColor = UIColor(named: "presence_border", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+        presenceBorderView.backgroundColor = presenceBorderColor
 
         super.init(frame: CGRect(origin: .zero, size: avatarSize.size))
 
         addSubview(borderView)
         addSubview(initialsView)
         addSubview(imageView)
+        addSubview(presenceBorderView)
         addSubview(presenceImageView)
     }
 
@@ -267,14 +273,22 @@ open class AvatarView: UIView {
 
         let presenceSize = avatarSize.presenceSize
         let presenceCornerOffset = style == .circle ? avatarSize.presenceCornerOffset : 0.0
-        presenceImageView.frame = CGRect(x: bounds.width - presenceSize - presenceCornerOffset,
-                                         y: bounds.height - presenceSize - presenceCornerOffset,
-                                         width: presenceSize,
-                                         height: presenceSize)
+        var presenceFrame = CGRect(x: bounds.width - presenceSize - presenceCornerOffset,
+                                   y: bounds.height - presenceSize - presenceCornerOffset,
+                                   width: presenceSize,
+                                   height: presenceSize)
+        presenceImageView.frame = presenceFrame
+
+        presenceFrame.origin.x -= Constants.presenceBorderWidth
+        presenceFrame.origin.y -= Constants.presenceBorderWidth
+        presenceFrame.size.width += Constants.presenceBorderWidth * 2
+        presenceFrame.size.height += Constants.presenceBorderWidth * 2
+        presenceBorderView.frame = presenceFrame
 
         imageView.layer.cornerRadius = cornerRadius(for: imageView.frame.width)
         initialsView.layer.cornerRadius = imageView.layer.cornerRadius
         presenceImageView.layer.cornerRadius = presenceImageView.frame.width / 2
+        presenceBorderView.layer.cornerRadius = presenceBorderView.frame.width / 2
 
         if hasCustomBorder {
             updateCustomBorder()
@@ -406,35 +420,47 @@ open class AvatarView: UIView {
     private func updatePresenceImage() {
         if presence == .none || avatarSize == .extraSmall {
             presenceImageView.isHidden = true
+            presenceBorderView.isHidden = true
         } else {
             presenceImageView.isHidden = false
+            presenceBorderView.isHidden = false
 
             let imageSize = Int(avatarSize.presenceSize)
             var imageName: String?
+            var colorName: String?
 
             switch presence {
             case .none:
                 break
             case .available:
                 imageName = "ic_fluent_presence_available_\(imageSize)_filled"
+                colorName = "presence_available"
             case .away:
                 imageName = "ic_fluent_presence_away_\(imageSize)_filled"
+                colorName = "presence_away"
             case .busy:
                 imageName = "ic_fluent_presence_busy_\(imageSize)_filled"
+                colorName = "presence_busy"
             case .doNotDisturb:
                 imageName = "ic_fluent_presence_dnd_\(imageSize)_filled"
+                colorName = "presence_dnd"
             case .outOfOffice:
                 imageName = "ic_fluent_presence_oof_\(imageSize)_regular"
+                colorName = "presence_oof"
             case .offline:
                 imageName = "ic_fluent_presence_offline_\(imageSize)_regular"
+                colorName = "presence_offline"
             case .unknown:
                 imageName = "ic_fluent_presence_unknown_\(imageSize)_regular"
+                colorName = "presence_unknown"
             case .blocked:
                 imageName = "ic_fluent_presence_blocked_\(imageSize)_regular"
+                colorName = "presence_blocked"
             }
 
             if let imageName = imageName {
-                presenceImageView.image = UIImage.staticImageNamed(imageName)
+                let color = UIColor(named: colorName!, in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+                presenceImageView.image = UIImage.staticImageNamed(imageName)!.image(withPrimaryColor: color)
             }
         }
     }

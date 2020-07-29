@@ -32,12 +32,6 @@ class AvatarViewDemoController: DemoController {
                       style: .circle,
                       withPresence: true)
 
-        createSection(withTitle: "Square style for group with presence",
-                      name: "NorthWind Traders",
-                      image: UIImage(named: "site")!,
-                      style: .square,
-                      withPresence: true)
-
         createSection(withTitle: "With image based frame with presence",
                       name: "Kat Larrson",
                       image: UIImage(named: "avatar_kat_larsson")!,
@@ -133,15 +127,15 @@ extension AvatarSize {
         case .extraSmall:
             return .away
         case .small:
-            return .away
+            return .doNotDisturb
         case .medium:
             return .available
         case .large:
             return .blocked
         case .extraLarge:
-            return .busy
+            return .offline
         case .extraExtraLarge:
-            return .doNotDisturb
+            return .available
         }
     }
 
@@ -150,15 +144,15 @@ extension AvatarSize {
         case .extraSmall:
             return .busy
         case .small:
-            return .offline
-        case .medium:
-            return .outOfOffice
-        case .large:
             return .available
+        case .medium:
+            return .doNotDisturb
+        case .large:
+            return .outOfOffice
         case .extraLarge:
             return .busy
         case .extraExtraLarge:
-            return .doNotDisturb
+            return .away
         }
     }
 }
