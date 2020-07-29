@@ -251,14 +251,17 @@ open class ContactView: UIView {
     }
 
     open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         pressedStateOverlay.backgroundColor = UIColor(red: 0.83, green: 0.83, blue: 0.83, alpha: 0.6)
     }
 
     open override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesMoved(touches, with: event)
         pressedStateOverlay.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.0)
     }
 
     open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
         pressedStateOverlay.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.0)
     }
 }

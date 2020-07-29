@@ -72,8 +72,37 @@ open class ContactCollectionView: UICollectionView {
 //        backgroundColor = .green
         backgroundColor = Colors.surfacePrimary
         dataSource = self
-        //        delegate = self
+        delegate = self
         contentInset = UIEdgeInsets(top: 0, left: Constants.sideInset, bottom: 0, right: 0)
+    }
+
+    // If the Contact is not fully visible in the scroll frame, scrolls the view by an offset large enough so that the entire Contact and the next Contact are fully visible.
+    private func scrollContactToVisible(at indexPath: IndexPath) {
+        guard let cell = cellForItem(at: indexPath) else {
+            return
+        }
+
+        let cellWidth = cell.frame.width
+        let cellFrame = cell.contentView.convert(cell.bounds, to: self)
+        let cellLeftPosition = cellFrame.origin.x
+        let cellRightPosition = cellLeftPosition + cellWidth
+        let viewLeadingPosition = bounds.origin.x
+        let viewTrailingPosition = viewLeadingPosition + frame.size.width
+
+        let extraScrollWidth = cellWidth + layout.collectionView(self, layout: layout, minimumLineSpacingForSectionAt: 0)
+        var offSet = contentOffset.x
+        if cellLeftPosition < viewLeadingPosition {
+            offSet = cellLeftPosition - extraScrollWidth
+            offSet = max(offSet, -Constants.sideInset)
+        } else if cellRightPosition > viewTrailingPosition {
+            let maxOffsetX = contentSize.width - frame.size.width + extraScrollWidth
+            offSet = cellRightPosition - frame.size.width + extraScrollWidth
+            offSet = min(offSet, maxOffsetX)
+        }
+
+        if offSet != contentOffset.x {
+            setContentOffset(CGPoint(x: offSet, y: contentOffset.y), animated: true)
+        }
     }
 }
 
@@ -92,6 +121,9 @@ extension ContactCollectionView: UICollectionViewDataSource {
 }
 
 extension ContactCollectionView: UICollectionViewDelegate {
-    // It doesn't seem like I need to implement any of the functions in UICollectionViewDelegate
     // Perhaps something to do with highlighting (even though I already have something similar in ContactView.swift) later on
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        print("item \(indexPath.item) at section \(indexPath.section) selected in collection view")
+        scrollContactToVisible(at: indexPath)
+    }
 }
