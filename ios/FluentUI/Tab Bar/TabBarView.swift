@@ -146,9 +146,16 @@ open class TabBarView: UIView {
     }
 
     private func itemView(with item: TabBarItem) -> TabBarItemView? {
-        if let index = items.firstIndex(of: item), let tabBarItemView = stackView.arrangedSubviews[index] as? TabBarItemView {
-            return tabBarItemView
+        if let index = items.firstIndex(of: item) {
+            let arrangedSubviews = stackView.arrangedSubviews
+
+            if arrangedSubviews.count > index {
+                if let tabBarItemView = arrangedSubviews[index] as? TabBarItemView {
+                    return tabBarItemView
+                }
+            }
         }
+
         return nil
     }
 

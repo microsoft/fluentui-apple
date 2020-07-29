@@ -19,9 +19,21 @@ class TabBarItemView: UIView {
 
     var badgeNumber: Int = 0 {
         didSet {
-            // TODO_
-            setNeedsLayout()
+            updateLayout()
         }
+    }
+
+    private struct Constants {
+        static let unselectedColor: UIColor = Colors.textSecondary
+        static let spacingVertical: CGFloat = 3
+        static let spacingHorizontal: CGFloat = 8
+        static let portraitImageSize: CGFloat = 28
+        static let portraitImageWithLabelSize: CGFloat = 24
+        static let landscapeImageSize: CGFloat = 24
+        static let badgeVerticalOffset: CGFloat = -6
+        static let badgeHorizontalOffset: CGFloat = 4
+        static let badgeHeight: CGFloat = 16
+        static let badgeMinWidth: CGFloat = 16
     }
 
     private let container: UIStackView = {
@@ -34,7 +46,7 @@ class TabBarItemView: UIView {
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = unselectedColor
+        imageView.tintColor = Constants.unselectedColor
         return imageView
     }()
 
@@ -42,14 +54,13 @@ class TabBarItemView: UIView {
         let titleLabel = Label()
         titleLabel.lineBreakMode = .byTruncatingTail
         titleLabel.textAlignment = .center
-        titleLabel.textColor = unselectedColor
+        titleLabel.textColor = Constants.unselectedColor
         return titleLabel
     }()
 
     private let badgeView: UIView = {
         let badgeView = UIView(frame: .zero)
-        badgeView.translatesAutoresizingMaskIntoConstraints = false
-        badgeView.layer.backgroundColor = Colors.Palette.dangerPrimary.color
+        badgeView.backgroundColor = Colors.Palette.dangerPrimary.color
 
         return badgeView
     }()
@@ -67,6 +78,7 @@ class TabBarItemView: UIView {
         self.item = item
         super.init(frame: .zero)
 
+        imageView.addSubview(badgeView)
         container.addArrangedSubview(imageView)
 
         titleLabel.isHidden = !showsTitle
@@ -88,8 +100,8 @@ class TabBarItemView: UIView {
             scalesLargeContentImage = true
         }
 
-        imageHeightConstraint = imageView.heightAnchor.constraint(equalToConstant: portraitImageSize)
-        imageWidthConstraint = imageView.widthAnchor.constraint(equalToConstant: portraitImageSize)
+        imageHeightConstraint = imageView.heightAnchor.constraint(equalToConstant: Constants.portraitImageSize)
+        imageWidthConstraint = imageView.widthAnchor.constraint(equalToConstant: Constants.portraitImageSize)
 
         NSLayoutConstraint.activate([imageHeightConstraint!,
                                      imageWidthConstraint!,
@@ -119,11 +131,11 @@ class TabBarItemView: UIView {
         if let window = window {
             let primaryColor = Colors.primary(for: window)
             titleLabel.highlightedTextColor = primaryColor
-            imageView.tintColor = isSelected ? primaryColor : unselectedColor
+            imageView.tintColor = isSelected ? primaryColor : Constants.unselectedColor
         }
     }
 
-    func updateLayout() {
+    private func updateLayout() {
         imageView.image = item.unselectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
         imageView.highlightedImage = item.selectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
 
@@ -139,35 +151,38 @@ class TabBarItemView: UIView {
 
         if isInPortraitMode {
             container.axis = .vertical
-            container.spacing = spacingVertical
+            container.spacing = Constants.spacingVertical
             titleLabel.style = .button3
 
             if canResizeImage {
-                imageHeightConstraint?.constant = titleLabel.isHidden ? portraitImageSize : portraitImageWithLabelSize
-                imageWidthConstraint?.constant = titleLabel.isHidden ? portraitImageSize : portraitImageWithLabelSize
+                imageHeightConstraint?.constant = titleLabel.isHidden ? Constants.portraitImageSize : Constants.portraitImageWithLabelSize
+                imageWidthConstraint?.constant = titleLabel.isHidden ? Constants.portraitImageSize : Constants.portraitImageWithLabelSize
             }
         } else {
             container.axis = .horizontal
-            container.spacing = spacingHorizontal
+            container.spacing = Constants.spacingHorizontal
             titleLabel.style = .footnoteUnscaled
 
             if canResizeImage {
-                imageHeightConstraint?.constant = landscapeImageSize
-                imageWidthConstraint?.constant = landscapeImageSize
+                imageHeightConstraint?.constant = Constants.landscapeImageSize
+                imageWidthConstraint?.constant = Constants.landscapeImageSize
             }
         }
-    }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
+        if badgeNumber > 0 {
+            badgeView.isHidden = false
 
-        badgeView.layer.cornerRadius = badgeView.bounds.width / 3
+            let imageViewWidth = imageWidthConstraint?.constant ?? 0 // TODO_
+            let badgeWidth = Constants.badgeMinWidth
+
+            badgeView.frame = CGRect(x: imageViewWidth - badgeWidth + Constants.badgeHorizontalOffset,
+                                     y: Constants.badgeVerticalOffset,
+                                     width: badgeWidth,
+                                     height: Constants.badgeHeight)
+
+            badgeView.layer.cornerRadius = badgeView.bounds.width / 3
+        } else {
+            badgeView.isHidden = true
+        }
     }
 }
-
-private let unselectedColor = Colors.textSecondary
-private let spacingVertical: CGFloat = 3.0
-private let spacingHorizontal: CGFloat = 8.0
-private let portraitImageSize: CGFloat = 28.0
-private let portraitImageWithLabelSize: CGFloat = 24.0
-private let landscapeImageSize: CGFloat = 24.0

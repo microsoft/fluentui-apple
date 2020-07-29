@@ -59,6 +59,9 @@ class TabBarViewDemoController: DemoController {
         NSLayoutConstraint.activate(tabBarViewConstraints!)
 
         tabBarView = updatedTabBarView
+
+        updatedTabBarView.setBadgeNumber(5, for: updatedTabBarView.items[0]) // TODO_
+        updatedTabBarView.setBadgeNumber(50, for: updatedTabBarView.items[1])
     }
 
     // Switch toggle handler
