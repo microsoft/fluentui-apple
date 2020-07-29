@@ -7,12 +7,20 @@ import UIKit
 
 class TabBarItemView: UIView {
     let item: TabBarItem
+
     var isSelected: Bool = false {
         didSet {
             titleLabel.isHighlighted = isSelected
             imageView.isHighlighted = isSelected
             updateColors()
             accessibilityTraits = isSelected ? .selected : .none
+        }
+    }
+
+    var badgeNumber: Int = 0 {
+        didSet {
+            // TODO_
+            setNeedsLayout()
         }
     }
 
@@ -36,6 +44,14 @@ class TabBarItemView: UIView {
         titleLabel.textAlignment = .center
         titleLabel.textColor = unselectedColor
         return titleLabel
+    }()
+
+    private let badgeView: UIView = {
+        let badgeView = UIView(frame: .zero)
+        badgeView.translatesAutoresizingMaskIntoConstraints = false
+        badgeView.layer.backgroundColor = Colors.Palette.dangerPrimary.color
+
+        return badgeView
     }()
 
     private var imageHeightConstraint: NSLayoutConstraint?
@@ -140,6 +156,12 @@ class TabBarItemView: UIView {
                 imageWidthConstraint?.constant = landscapeImageSize
             }
         }
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        badgeView.layer.cornerRadius = badgeView.bounds.width / 3
     }
 }
 

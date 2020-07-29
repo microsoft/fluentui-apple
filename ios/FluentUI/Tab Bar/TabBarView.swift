@@ -47,7 +47,14 @@ open class TabBarView: UIView {
             }
 
             for item in items {
+                var existingBadgeNumber = 0
+                if let itemView = itemView(with: item) {
+                    existingBadgeNumber = itemView.badgeNumber
+                }
+
                 let tabBarItemView = TabBarItemView(item: item, showsTitle: showsItemTitles)
+                tabBarItemView.badgeNumber = existingBadgeNumber
+
                 let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTabBarItemTapped(_:)))
                 tabBarItemView.addGestureRecognizer(tapGesture)
                 stackView.addArrangedSubview(tabBarItemView)
@@ -71,6 +78,10 @@ open class TabBarView: UIView {
     }
 
     @objc public weak var delegate: TabBarViewDelegate?
+
+    @objc public func setBadgeNumber(_ badgeNumber: Int, for tabBarItem: TabBarItem) {
+        itemView(with: tabBarItem)?.badgeNumber = badgeNumber
+    }
 
     private let backgroundView: UIVisualEffectView = {
         var style = UIBlurEffect.Style.regular
