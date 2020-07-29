@@ -186,10 +186,7 @@ open class PillButtonBar: UIScrollView {
             return
         }
 
-        let button = buttons[index]
-        if !button.isEnabled {
-            button.isEnabled = true
-        }
+        buttons[index].isEnabled = true
     }
 
     @objc public func enableItem(atIndex index: Int) {
@@ -197,10 +194,7 @@ open class PillButtonBar: UIScrollView {
             return
         }
 
-        let button = buttons[index]
-        if !button.isEnabled {
-            button.isEnabled = true
-        }
+        buttons[index].isEnabled = true
     }
 
     open override func layoutSubviews() {

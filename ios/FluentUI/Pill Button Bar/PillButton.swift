@@ -155,10 +155,10 @@ open class PillButton: UIButton {
             accessibilityTraits.remove(.selected)
         }
 
-        if !isEnabled {
-            accessibilityTraits.insert(.notEnabled)
-        } else {
+        if isEnabled {
             accessibilityTraits.remove(.notEnabled)
+        } else {
+            accessibilityTraits.insert(.notEnabled)
         }
     }
 

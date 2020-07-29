@@ -113,14 +113,15 @@ class PillButtonBarDemoController: DemoController {
     }
 
     func togglePills(pillBar: PillButtonBar, enable: Bool) {
-        let items = pillBar.items
-        if enable {
-            for item in items! {
-                pillBar.enableItem(item)
-            }
-        } else {
-            for item in items! {
-                pillBar.disableItem(item)
+        if let items = pillBar.items {
+            if enable {
+                for item in items {
+                    pillBar.enableItem(item)
+                }
+            } else {
+                for item in items {
+                    pillBar.disableItem(item)
+                }
             }
         }
     }
