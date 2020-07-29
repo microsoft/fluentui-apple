@@ -39,7 +39,7 @@ public enum Presence: Int, CaseIterable {
 
     public func image(size: PresenceSize) -> UIImage? {
         var imageName: String?
-        var colorName: String?
+        var color: UIColor?
         let sizeValue = Int(size.sizeValue)
 
         switch self {
@@ -47,34 +47,33 @@ public enum Presence: Int, CaseIterable {
             break
         case .available:
             imageName = "ic_fluent_presence_available_\(sizeValue)_filled"
-            colorName = "presence_available"
+            color = Colors.Palette.presenceAvailable.color
         case .away:
             imageName = "ic_fluent_presence_away_\(sizeValue)_filled"
-            colorName = "presence_away"
+            color = Colors.Palette.presenceAway.color
         case .busy:
             imageName = "ic_fluent_presence_busy_\(sizeValue)_filled"
-            colorName = "presence_busy"
+            color = Colors.Palette.presenceBusy.color
         case .doNotDisturb:
             imageName = "ic_fluent_presence_dnd_\(sizeValue)_filled"
-            colorName = "presence_dnd"
+            color = Colors.Palette.presenceDnd.color
         case .outOfOffice:
             imageName = "ic_fluent_presence_oof_\(sizeValue)_regular"
-            colorName = "presence_oof"
+            color = Colors.Palette.presenceOof.color
         case .offline:
             imageName = "ic_fluent_presence_offline_\(sizeValue)_regular"
-            colorName = "presence_offline"
+            color = Colors.Palette.presenceOffline.color
         case .unknown:
             imageName = "ic_fluent_presence_unknown_\(sizeValue)_regular"
-            colorName = "presence_unknown"
+            color = Colors.Palette.presenceUnknown.color
         case .blocked:
             imageName = "ic_fluent_presence_blocked_\(sizeValue)_regular"
-            colorName = "presence_blocked"
+            color = Colors.Palette.presenceBlocked.color
         }
 
         var image: UIImage?
         if let imageName = imageName {
-            let color = UIColor(named: colorName!, in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
-            image = UIImage.staticImageNamed(imageName)!.image(withPrimaryColor: color)
+            image = UIImage.staticImageNamed(imageName)!.image(withPrimaryColor: color!)
         }
 
         return image

@@ -239,7 +239,7 @@ open class AvatarView: UIView {
         presenceBorderView = UIView(frame: .zero)
         presenceBorderView.isHidden = true
 
-        let presenceBorderColor = UIColor(named: "presence_border", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+        let presenceBorderColor = UIColor(named: "presenceBorder", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
         presenceBorderView.backgroundColor = presenceBorderColor
 
         super.init(frame: CGRect(origin: .zero, size: avatarSize.size))
