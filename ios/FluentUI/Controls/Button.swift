@@ -172,6 +172,8 @@ open class Button: UIButton {
         if let image = image {
             let imageHeight = image.size.height
 
+            // If the entire image doesn't fit in the default rect, increase the rect's height
+            // to fit the entire image and reposition the origin to keep the image centered.
             if imageHeight > rect.size.height {
                 rect.origin.y -= round((imageHeight - rect.size.height) / 2.0)
                 rect.size.height = imageHeight
