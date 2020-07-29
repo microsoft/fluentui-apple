@@ -7,17 +7,20 @@ import FluentUI
 import UIKit
 
 class DemoController: UIViewController {
-    static let margin: CGFloat = 16
-    static let horizontalSpacing: CGFloat = 40
-    static let verticalSpacing: CGFloat = 16
-    static let rowTextWidth: CGFloat = 75
+    struct Constants {
+        static let margin: CGFloat = 16
+        static let horizontalSpacing: CGFloat = 40
+        static let verticalSpacing: CGFloat = 16
+        static let rowTextWidth: CGFloat = 75
+        static let labelSwitchSpacing: CGFloat = 10.0
+    }
 
     class func createVerticalContainer() -> UIStackView {
         let container = UIStackView(frame: .zero)
         container.axis = .vertical
-        container.layoutMargins = UIEdgeInsets(top: margin, left: margin, bottom: margin, right: margin)
+        container.layoutMargins = UIEdgeInsets(top: Constants.margin, left: Constants.margin, bottom: Constants.margin, right: Constants.margin)
         container.isLayoutMarginsRelativeArrangement = true
-        container.spacing = verticalSpacing
+        container.spacing = Constants.verticalSpacing
         return container
     }
 
@@ -52,7 +55,7 @@ class DemoController: UIViewController {
         container.addArrangedSubview(titleLabel)
     }
 
-    func addRow(text: String = "", items: [UIView], textStyle: TextStyle = .subhead, textWidth: CGFloat = rowTextWidth, itemSpacing: CGFloat = horizontalSpacing, stretchItems: Bool = false, centerItems: Bool = false) {
+    func addRow(text: String = "", items: [UIView], textStyle: TextStyle = .subhead, textWidth: CGFloat = Constants.rowTextWidth, itemSpacing: CGFloat = Constants.horizontalSpacing, stretchItems: Bool = false, centerItems: Bool = false) {
         let itemsContainer = UIStackView()
         itemsContainer.axis = .vertical
         itemsContainer.alignment = stretchItems ? .fill : (centerItems ? .center : .leading)
@@ -92,6 +95,24 @@ class DemoController: UIViewController {
             alert.addAction(cancelAction)
         }
 
+    }
+
+    func createLabelAndSwitchRow(labelText: String, switchAction: Selector, isOn: Bool = false) -> UIView {
+        let stackView = UIStackView(frame: .zero)
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.spacing = Constants.labelSwitchSpacing
+
+        let label = Label(style: .subhead, colorStyle: .regular)
+        label.text = labelText
+        stackView.addArrangedSubview(label)
+
+        let switchView = UISwitch()
+        switchView.isOn = isOn
+        switchView.addTarget(self, action: switchAction, for: .valueChanged)
+        stackView.addArrangedSubview(switchView)
+
+        return stackView
     }
 
     override func viewDidLoad() {

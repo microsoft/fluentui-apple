@@ -10,6 +10,12 @@ class AvatarViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let showPresenceView = createLabelAndSwitchRow(labelText: "Show presence",
+                                                       switchAction: #selector(toggleShowPresence(switchView:)),
+                                                       isOn: isShowingPresence)
+
+        addRow(items: [showPresenceView])
+
         createSection(withTitle: "Circle style for person",
                       name: "Kat Larrson",
                       image: UIImage(named: "avatar_kat_larsson")!,
@@ -25,37 +31,48 @@ class AvatarViewDemoController: DemoController {
                       image: UIImage(named: "avatar_kat_larsson")!,
                       style: .circle,
                       withColorfulBorder: true)
-
-        createSection(withTitle: "Circle style for person with presence",
-                      name: "Kat Larrson",
-                      image: UIImage(named: "avatar_kat_larsson")!,
-                      style: .circle,
-                      withPresence: true)
-
-        createSection(withTitle: "With image based frame with presence",
-                      name: "Kat Larrson",
-                      image: UIImage(named: "avatar_kat_larsson")!,
-                      style: .circle,
-                      withColorfulBorder: true,
-                      withPresence: true)
     }
+
+    private var isShowingPresence: Bool = false {
+        didSet {
+            if oldValue != isShowingPresence {
+                for avatarView in avatarViewsWithImages {
+                    avatarView.presence = isShowingPresence ? avatarView.avatarSize.presenceWithImage : .none
+                }
+
+                for avatarView in avatarViewsWithInitials {
+                    avatarView.presence = isShowingPresence ? avatarView.avatarSize.presenceWithInitials : .none
+                }
+            }
+        }
+    }
+
+    @objc private func toggleShowPresence(switchView: UISwitch) {
+        isShowingPresence = switchView.isOn
+    }
+
+    private var avatarViewsWithImages: [AvatarView] = []
+    private var avatarViewsWithInitials: [AvatarView] = []
 
     private func createSection(withTitle title: String, name: String, image: UIImage, style: AvatarStyle, withColorfulBorder: Bool = false, withPresence: Bool = false) {
         addTitle(text: title)
+
         for size in AvatarSize.allCases.reversed() {
-            let presenceWithPicture = withPresence ? size.presenceWithPicture : .none
-            let imageAvatar = createAvatarView(size: size, name: name, image: image, style: style, withColorfulBorder: withColorfulBorder, presence: presenceWithPicture)
+            let presenceWithImage = withPresence ? size.presenceWithImage : .none
+            let imageAvatar = createAvatarView(size: size, name: name, image: image, style: style, withColorfulBorder: withColorfulBorder, presence: presenceWithImage)
+            avatarViewsWithImages.append(imageAvatar.1)
 
             let presenceWithInitials = withPresence ? size.presenceWithInitials : .none
             let initialsAvatar = createAvatarView(size: size, name: name, style: style, withColorfulBorder: withColorfulBorder, presence: presenceWithInitials)
+            avatarViewsWithInitials.append(initialsAvatar.1)
 
-            addRow(text: size.description, items: [imageAvatar, initialsAvatar], textStyle: .footnote, textWidth: 100)
+            addRow(text: size.description, items: [imageAvatar.0, initialsAvatar.0], textStyle: .footnote, textWidth: 100)
         }
 
         container.addArrangedSubview(UIView())
     }
 
-    private func createAvatarView(size: AvatarSize, name: String, image: UIImage? = nil, style: AvatarStyle, withColorfulBorder: Bool = false, presence: Presence = .none) -> UIView {
+    private func createAvatarView(size: AvatarSize, name: String, image: UIImage? = nil, style: AvatarStyle, withColorfulBorder: Bool = false, presence: Presence = .none) -> (UIView, AvatarView) {
         let avatarView = AvatarView(avatarSize: size, withBorder: withColorfulBorder, style: style)
         if withColorfulBorder, let customBorderImage = colorfulImageForFrame() {
             avatarView.customBorderImage = customBorderImage
@@ -68,7 +85,7 @@ class AvatarViewDemoController: DemoController {
         avatarContainer.widthAnchor.constraint(equalToConstant: AvatarSize.extraExtraLarge.size.width).isActive = true
         avatarContainer.heightAnchor.constraint(equalToConstant: avatarView.frame.height).isActive = true
 
-        return avatarContainer
+        return (avatarContainer, avatarView)
     }
 
     private func colorfulImageForFrame() -> UIImage? {
@@ -122,7 +139,7 @@ extension AvatarSize {
         }
     }
 
-    var presenceWithPicture: Presence {
+    var presenceWithImage: Presence {
         switch self {
         case .extraSmall:
             return .away

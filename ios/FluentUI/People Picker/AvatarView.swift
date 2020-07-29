@@ -188,19 +188,19 @@ open class AvatarView: UIView {
         }
     }
 
-    private var hasBorder: Bool = false
-    private var hasCustomBorder: Bool = false
-    private var customBorderImageSize: CGSize = .zero
-    private var primaryText: String?
-    private var secondaryText: String?
-
-    private var presence: Presence = .none {
+    @objc open var presence: Presence = .none {
         didSet {
             if oldValue != presence {
                 updatePresenceImage()
             }
         }
     }
+
+    private var hasBorder: Bool = false
+    private var hasCustomBorder: Bool = false
+    private var customBorderImageSize: CGSize = .zero
+    private var primaryText: String?
+    private var secondaryText: String?
 
     private var initialsView: InitialsView
     private let imageView: UIImageView
