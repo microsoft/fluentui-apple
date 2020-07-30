@@ -79,8 +79,7 @@ class TabBarItemView: UIView {
         return badgeView
     }()
 
-    private var imageHeightConstraint: NSLayoutConstraint?
-    private var imageWidthConstraint: NSLayoutConstraint?
+    private var suggestImageSize: CGFloat
     private let canResizeImage: Bool
 
     private var isInPortraitMode: Bool {
@@ -90,6 +89,7 @@ class TabBarItemView: UIView {
     init(item: TabBarItem, showsTitle: Bool, canResizeImage: Bool = true) {
         self.canResizeImage = canResizeImage
         self.item = item
+        self.suggestImageSize = portraitImageSize
         super.init(frame: .zero)
 
         container.addArrangedSubview(imageView)
@@ -115,12 +115,7 @@ class TabBarItemView: UIView {
             scalesLargeContentImage = true
         }
 
-        imageHeightConstraint = imageView.heightAnchor.constraint(equalToConstant: Constants.portraitImageSize)
-        imageWidthConstraint = imageView.widthAnchor.constraint(equalToConstant: Constants.portraitImageSize)
-
-        NSLayoutConstraint.activate([imageHeightConstraint!,
-                                     imageWidthConstraint!,
-                                     container.centerXAnchor.constraint(equalTo: centerXAnchor),
+        NSLayoutConstraint.activate([container.centerXAnchor.constraint(equalTo: centerXAnchor),
                                      container.centerYAnchor.constraint(equalTo: centerYAnchor)])
 
         updateLayout()
@@ -128,6 +123,18 @@ class TabBarItemView: UIView {
 
     required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
+    }
+
+    open override var intrinsicContentSize: CGSize {
+        return sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+    }
+
+    open override func sizeThatFits(_ size: CGSize) -> CGSize {
+        if canResizeImage {
+            imageView.frame = CGRect(x: 0, y: 0, width: suggestImageSize, height: suggestImageSize)
+        }
+        let size = container.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+        return size
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -154,24 +161,13 @@ class TabBarItemView: UIView {
         imageView.image = item.unselectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
         imageView.highlightedImage = item.selectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
 
-        if !canResizeImage {
-            var imageSize = CGSize.zero
-            if let image = imageView.image {
-                imageSize = image.size
-            }
-
-            imageHeightConstraint?.constant = imageSize.height
-            imageWidthConstraint?.constant = imageSize.width
-        }
-
         if isInPortraitMode {
             container.axis = .vertical
             container.spacing = Constants.spacingVertical
             titleLabel.style = .button3
 
             if canResizeImage {
-                imageHeightConstraint?.constant = titleLabel.isHidden ? Constants.portraitImageSize : Constants.portraitImageWithLabelSize
-                imageWidthConstraint?.constant = titleLabel.isHidden ? Constants.portraitImageSize : Constants.portraitImageWithLabelSize
+                suggestImageSize = titleLabel.isHidden ? portraitImageSize : portraitImageWithLabelSize
             }
         } else {
             container.axis = .horizontal
@@ -179,8 +175,7 @@ class TabBarItemView: UIView {
             titleLabel.style = .footnoteUnscaled
 
             if canResizeImage {
-                imageHeightConstraint?.constant = Constants.landscapeImageSize
-                imageWidthConstraint?.constant = Constants.landscapeImageSize
+                 suggestImageSize = landscapeImageSize
             }
         }
 
@@ -233,6 +228,8 @@ class TabBarItemView: UIView {
             badgeView.isHidden = true
             imageView.layer.mask = nil
         }
+
+        invalidateIntrinsicContentSize()
     }
 
     private func badgeBorderRect(badgeViewFrame: CGRect) -> CGRect {
