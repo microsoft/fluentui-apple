@@ -157,7 +157,7 @@
 "MSDateTimePicker.EndDate" = "結束日期";
 
 /* Presence - Available status */
-"Presence.Available" = "Available";
+"Presence.Available" = "有空";
 
 /* Presence - Away status */
 "Presence.Away" = "離開";

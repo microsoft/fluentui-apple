@@ -157,26 +157,26 @@
 "MSDateTimePicker.EndDate" = "Befejezés dátuma";
 
 /* Presence - Available status */
-"Presence.Available" = "Available";
+"Presence.Available" = "Elérhető";
 
 /* Presence - Away status */
-"Presence.Away" = "Away";
+"Presence.Away" = "Nincs a gépnél";
 
 /* Presence - Busy status */
-"Presence.Busy" = "Busy";
+"Presence.Busy" = "Elfoglalt";
 
 /* Presence - Do not disturb status */
-"Presence.DND" = "Do not disturb";
+"Presence.DND" = "Ne zavarjanak";
 
 /* Presence - Out of office status */
-"Presence.OOF" = "Out of office";
+"Presence.OOF" = "Házon kívül";
 
 /* Presence - Offline status */
 "Presence.Offline" = "Offline";
 
 /* Presence - Unknown status */
-"Presence.Unknown" = "Unknown";
+"Presence.Unknown" = "Ismeretlen";
 
 /* Presence - Blocked status */
-"Presence.Blocked" = "Blocked";
+"Presence.Blocked" = "Letiltva";
 
