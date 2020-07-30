@@ -38,17 +38,17 @@ class AvatarViewDemoController: DemoController {
                       image: UIImage(named: "site")!,
                       style: .square)
 
-        createSection(withTitle: "With border",
-                      name: "Kat Larrson",
-                      image: UIImage(named: "avatar_kat_larsson")!,
-                      style: .circle,
-                      borderStyle: .defaultBorder)
-
-        createSection(withTitle: "With image based border",
+        createSection(withTitle: "Circle style with image-based border",
                       name: "Kat Larrson",
                       image: UIImage(named: "avatar_kat_larsson")!,
                       style: .circle,
                       borderStyle: .colorfulBorder)
+
+        createSection(withTitle: "Circle style with border",
+                      name: "Kat Larrson",
+                      image: UIImage(named: "avatar_kat_larsson")!,
+                      style: .circle,
+                      borderStyle: .defaultBorder)
     }
 
     private var isUsingAlternateBackgroundColor: Bool = false {
