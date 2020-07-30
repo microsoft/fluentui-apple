@@ -27,6 +27,8 @@
 		56DA1CDD24523699008D745E /* AnimationSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0938E43235E8ED500256251 /* AnimationSynchronizer.swift */; };
 		7D0931C324AAAC9B0072458A /* SideTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0931C224AAAC8C0072458A /* SideTabBar.swift */; };
 		7D0931C424AAAC9C0072458A /* SideTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0931C224AAAC8C0072458A /* SideTabBar.swift */; };
+		7DC2FB2D24D209E800367A55 /* Presence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2C24D209E300367A55 /* Presence.swift */; };
+		7DC2FB2E24D209E800367A55 /* Presence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2C24D209E300367A55 /* Presence.swift */; };
 		7DC2FB2824C0ED1600367A55 /* TableViewCellFileAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */; };
 		7DC2FB2924C0ED1700367A55 /* TableViewCellFileAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */; };
 		8A01C86F248FFC5300C971F3 /* ContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A01C86E248FFC5300C971F3 /* ContactView.swift */; };
@@ -287,6 +289,7 @@
 		497DC2D724185885008D86F8 /* PillButtonBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBar.swift; sourceTree = "<group>"; };
 		497DC2D824185885008D86F8 /* PillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
 		7D0931C224AAAC8C0072458A /* SideTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideTabBar.swift; sourceTree = "<group>"; };
+		7DC2FB2C24D209E300367A55 /* Presence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presence.swift; sourceTree = "<group>"; };
 		7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellFileAccessoryView.swift; sourceTree = "<group>"; };
 		8A01C86E248FFC5300C971F3 /* ContactView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactView.swift; sourceTree = "<group>"; };
 		8FA3CB5A246B19EA0049E431 /* ColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTests.swift; sourceTree = "<group>"; };
@@ -725,6 +728,7 @@
 				B46D3F922151D95F0029772C /* PersonaCell.swift */,
 				B46D3F9C215985AC0029772C /* PersonaListView.swift */,
 				B4EF53C2215AF1AB00573E8F /* Persona.swift */,
+				7DC2FB2C24D209E300367A55 /* Presence.swift */,
 			);
 			path = "People Picker";
 			sourceTree = "<group>";
@@ -1210,6 +1214,7 @@
 				8FD011AA228A82A600D25925 /* UIImage+Extensions.swift in Sources */,
 				497DC2DC24185885008D86F8 /* PillButton.swift in Sources */,
 				8FD011AC228A82A600D25925 /* UIScreen+Extension.swift in Sources */,
+				7DC2FB2E24D209E800367A55 /* Presence.swift in Sources */,
 				8FD011AD228A82A600D25925 /* UITableViewCell+Extension.swift in Sources */,
 				8FD011AE228A82A600D25925 /* UIView+Extensions.swift in Sources */,
 				8FD011AF228A82A600D25925 /* UIViewController+Extensions.swift in Sources */,
@@ -1270,6 +1275,7 @@
 				FD7DF05C21FA7F5000857267 /* Tooltip.swift in Sources */,
 				497DC2DB24185885008D86F8 /* PillButton.swift in Sources */,
 				FD41C8BE22DD47120086F899 /* UINavigationItem+Navigation.swift in Sources */,
+				7DC2FB2D24D209E800367A55 /* Presence.swift in Sources */,
 				B4E782C12176AD5E00A7DFCE /* ActionsCell.swift in Sources */,
 				FD56FD962192754B0023C7EA /* DateTimePickerViewComponent.swift in Sources */,
 				FDFB8AF021361C9D0046850A /* CalendarViewDayTodayCell.swift in Sources */,

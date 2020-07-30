@@ -83,6 +83,16 @@ class ColorDemoController: UIViewController {
             DemoColorView(text: Colors.Palette.successTint20.name, color: Colors.Palette.successTint20.color),
             DemoColorView(text: Colors.Palette.successTint30.name, color: Colors.Palette.successTint30.color),
             DemoColorView(text: Colors.Palette.successTint40.name, color: Colors.Palette.successTint40.color)
+        ]),
+        DemoColorSection(text: "Presence colors", colorViews: [
+            DemoColorView(text: Colors.Palette.presenceAvailable.name, color: Colors.Palette.presenceAvailable.color),
+            DemoColorView(text: Colors.Palette.presenceAway.name, color: Colors.Palette.presenceAway.color),
+            DemoColorView(text: Colors.Palette.presenceBlocked.name, color: Colors.Palette.presenceBlocked.color),
+            DemoColorView(text: Colors.Palette.presenceBusy.name, color: Colors.Palette.presenceBusy.color),
+            DemoColorView(text: Colors.Palette.presenceDnd.name, color: Colors.Palette.presenceDnd.color),
+            DemoColorView(text: Colors.Palette.presenceOffline.name, color: Colors.Palette.presenceOffline.color),
+            DemoColorView(text: Colors.Palette.presenceOof.name, color: Colors.Palette.presenceOof.color),
+            DemoColorView(text: Colors.Palette.presenceUnknown.name, color: Colors.Palette.presenceUnknown.color)
         ])
     ]
 

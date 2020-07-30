@@ -36,7 +36,7 @@ open class TabBarItem: NSObject {
 
     func selectedImage(isInPortraitMode: Bool, labelIsHidden: Bool) -> UIImage? {
         if isInPortraitMode {
-            return (labelIsHidden ? selectedImage : landscapeSelectedImage) ?? image
+            return (labelIsHidden ? selectedImage : landscapeSelectedImage) ?? selectedImage ?? image
         } else {
             return landscapeSelectedImage ?? selectedImage ?? image
         }

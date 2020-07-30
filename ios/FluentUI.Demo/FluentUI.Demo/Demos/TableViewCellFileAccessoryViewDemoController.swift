@@ -80,7 +80,6 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
 
     private struct Constants {
         static let stackViewSpacing: CGFloat = 20.0
-        static let labelSwitchSpacing: CGFloat = 10.0
         static let cellWidths: [CGFloat] = [320.0, 375.0, 414.0, 423.0, 424.0, 503.0, 504.0, 583.0, 584.0, 615.0, 616.0, 751.0, 752.0, 899.0, 900.0, 924.0, 950.0, 1000.0, 1091.0, 1092.0, 1270.0]
     }
 
@@ -335,24 +334,6 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
 
         return settingsView
     }()
-
-    private func createLabelAndSwitchRow(labelText: String, switchAction: Selector, isOn: Bool = false) -> UIView {
-        let stackView = UIStackView(frame: .zero)
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.spacing = Constants.labelSwitchSpacing
-
-        let label = Label(style: .subhead, colorStyle: .regular)
-        label.text = labelText
-        stackView.addArrangedSubview(label)
-
-        let switchView = UISwitch()
-        switchView.isOn = isOn
-        switchView.addTarget(self, action: switchAction, for: .valueChanged)
-        stackView.addArrangedSubview(switchView)
-
-        return stackView
-    }
 
     @objc private func toggleShowDate(switchView: UISwitch) {
         showDate = switchView.isOn

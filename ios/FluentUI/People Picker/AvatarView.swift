@@ -65,6 +65,30 @@ public enum AvatarSize: Int, CaseIterable {
             return 8
         }
     }
+
+    var presenceSize: PresenceSize {
+        switch self {
+        case .extraSmall, .small, .medium:
+            return PresenceSize.normal
+        case .large, .extraLarge:
+            return PresenceSize.large
+        case .extraExtraLarge:
+            return PresenceSize.extraLarge
+        }
+    }
+
+    var presenceCornerOffset: CGFloat {
+        switch self {
+        case .extraSmall, .large, .medium:
+            return 0
+        case .small:
+            return -1
+        case .extraLarge:
+            return 2
+        case .extraExtraLarge:
+            return 3
+        }
+    }
 }
 
 // MARK: - AvatarStyle
@@ -107,6 +131,9 @@ open class AvatarView: UIView {
 
         /// If a customBorderImage is set, a custom border of this width will be added to the avatar view.
         static let customBorderWidth: CGFloat = 3
+
+        /// The width for the presence status border.
+        static let presenceBorderWidth: CGFloat = 2
     }
 
     private struct SetupData: Equatable {
@@ -119,10 +146,16 @@ open class AvatarView: UIView {
         }
     }
 
+    /// Set this to override the avatar view's default accessibility label.
+    @objc open var overrideAccessibilityLabel: String?
+
     @objc open var avatarSize: AvatarSize {
         didSet {
+            updatePresenceImage()
+
             frame.size = avatarSize.size
             initialsView.avatarSize = avatarSize
+
             invalidateIntrinsicContentSize()
         }
     }
@@ -159,6 +192,22 @@ open class AvatarView: UIView {
         }
     }
 
+    /// The avatar view's presence state.
+    @objc open var presence: Presence = .none {
+        didSet {
+            if oldValue != presence {
+                updatePresenceImage()
+            }
+        }
+    }
+
+    /// When true, the presence status border is opaque. Otherwise, it is transparent.
+    @objc open var useOpaquePresenceBorder: Bool = false {
+        didSet {
+            updatePresenceImage()
+        }
+    }
+
     private var hasBorder: Bool = false
     private var hasCustomBorder: Bool = false
     private var customBorderImageSize: CGSize = .zero
@@ -167,8 +216,13 @@ open class AvatarView: UIView {
 
     private var initialsView: InitialsView
     private let imageView: UIImageView
+    private let containerView: UIView
+
     // Use a view as a border to avoid leaking pixels on corner radius
     private let borderView: UIView
+
+    private var presenceImageView: UIImageView?
+    private var presenceBorderView: UIView?
 
     /// Initializes the avatar view with a size and an optional border
     ///
@@ -185,7 +239,7 @@ open class AvatarView: UIView {
         initialsView = InitialsView(avatarSize: avatarSize)
         initialsView.isHidden = true
 
-        imageView = UIImageView()
+        imageView = UIImageView(frame: .zero)
         imageView.isHidden = true
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
@@ -193,11 +247,14 @@ open class AvatarView: UIView {
         borderView = UIView(frame: .zero)
         borderView.isHidden = !hasBorder
 
-        super.init(frame: CGRect(origin: .zero, size: avatarSize.size))
+        containerView = UIView(frame: CGRect(origin: .zero, size: avatarSize.size))
+        containerView.addSubview(borderView)
+        containerView.addSubview(initialsView)
+        containerView.addSubview(imageView)
 
-        addSubview(borderView)
-        addSubview(initialsView)
-        addSubview(imageView)
+        super.init(frame: containerView.frame)
+
+        addSubview(containerView)
     }
 
     @objc public required init(coder aDecoder: NSCoder) {
@@ -217,6 +274,16 @@ open class AvatarView: UIView {
 
         imageView.frame = bounds
         initialsView.frame = imageView.frame
+
+        if let presenceImageView = presenceImageView, let presenceBorderView = presenceBorderView {
+            presenceImageView.frame = presenceFrame()
+            presenceBorderView.frame = presenceBorderFrame()
+
+            presenceImageView.layer.cornerRadius = presenceImageView.frame.width / 2
+            presenceBorderView.layer.cornerRadius = presenceBorderView.frame.width / 2
+
+            updatePresenceMask()
+        }
 
         imageView.layer.cornerRadius = cornerRadius(for: imageView.frame.width)
         initialsView.layer.cornerRadius = imageView.layer.cornerRadius
@@ -240,9 +307,11 @@ open class AvatarView: UIView {
     ///   - primaryText: The primary text to create initials with (e.g. a name)
     ///   - secondaryText: The secondary text to create initials with if primary text is not provided (e.g. an email address)
     ///   - image: The image to be displayed
-    @objc public func setup(primaryText: String?, secondaryText: String?, image: UIImage?) {
+    ///   - presence: The presence state
+    @objc public func setup(primaryText: String?, secondaryText: String?, image: UIImage?, presence: Presence = .none) {
         self.primaryText = primaryText
         self.secondaryText = secondaryText
+        self.presence = presence
 
         if let image = image {
             setupWithImage(image)
@@ -257,9 +326,11 @@ open class AvatarView: UIView {
     ///
     /// - Parameters:
     ///   - image: The image to be displayed
-    @objc public func setup(image: UIImage) {
+    ///   - presence: The presence state
+    @objc public func setup(image: UIImage, presence: Presence = .none) {
         primaryText = nil
         secondaryText = nil
+        self.presence = presence
 
         setupWithImage(image)
     }
@@ -267,7 +338,7 @@ open class AvatarView: UIView {
     /// Sets up the avatar view with a data from the avatar object.
     /// - Parameter avatar: The avatar object to get content from
     @objc public func setup(avatar: Avatar?) {
-        setup(primaryText: avatar?.primaryText, secondaryText: avatar?.secondaryText, image: avatar?.image)
+        setup(primaryText: avatar?.primaryText, secondaryText: avatar?.secondaryText, image: avatar?.image, presence: avatar?.presence ?? .none)
         customBorderImage = avatar?.customBorderImage
     }
 
@@ -344,9 +415,112 @@ open class AvatarView: UIView {
         borderView.backgroundColor = UIColor(patternImage: image)
     }
 
+    private func updatePresenceImage() {
+        if isDisplayingPresence() {
+            if presenceImageView == nil {
+                presenceImageView = UIImageView(frame: .zero)
+                presenceBorderView = UIView(frame: .zero)
+
+                let presenceBorderColor = UIColor(named: "presenceBorder", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+                presenceBorderView!.backgroundColor = presenceBorderColor
+
+                addSubview(presenceBorderView!)
+                addSubview(presenceImageView!)
+            }
+
+            presenceBorderView!.isHidden = !useOpaquePresenceBorder
+
+            let image = presence.image(size: avatarSize.presenceSize)
+            if let image = image {
+                presenceImageView!.image = image
+            }
+        } else if presenceImageView != nil {
+            presenceImageView!.removeFromSuperview()
+            presenceBorderView!.removeFromSuperview()
+            presenceImageView = nil
+            presenceBorderView = nil
+        }
+
+        updatePresenceMask()
+    }
+
+    private func presenceFrame() -> CGRect {
+        let presenceSize = avatarSize.presenceSize.sizeValue
+        let presenceCornerOffset = style == .circle ? avatarSize.presenceCornerOffset : 0.0
+
+        var presenceXOrigin = presenceCornerOffset
+        if effectiveUserInterfaceLayoutDirection == .leftToRight {
+            presenceXOrigin = bounds.width - presenceSize - presenceXOrigin
+        }
+
+        return CGRect(x: presenceXOrigin,
+                      y: bounds.height - presenceSize - presenceCornerOffset,
+                      width: presenceSize,
+                      height: presenceSize)
+    }
+
+    private func presenceBorderFrame() -> CGRect {
+        var frame = presenceFrame()
+        frame.origin.x -= Constants.presenceBorderWidth
+        frame.origin.y -= Constants.presenceBorderWidth
+        frame.size.width += Constants.presenceBorderWidth * 2
+        frame.size.height += Constants.presenceBorderWidth * 2
+
+        return frame
+    }
+
+    private func updatePresenceMask() {
+        if !useOpaquePresenceBorder && isDisplayingPresence() {
+            var maskFrame = bounds
+            maskFrame.origin.x -= Constants.customBorderWidth
+            maskFrame.origin.y -= Constants.customBorderWidth
+            maskFrame.size.width += Constants.customBorderWidth * 3
+            maskFrame.size.height += Constants.customBorderWidth * 3
+
+            var presenceFrame = presenceBorderFrame()
+            presenceFrame.origin.x += Constants.customBorderWidth
+            presenceFrame.origin.y += Constants.customBorderWidth
+
+            let path = UIBezierPath(rect: maskFrame)
+            path.append(UIBezierPath(ovalIn: presenceFrame))
+
+            let maskLayer = CAShapeLayer()
+            maskLayer.frame = maskFrame
+            maskLayer.fillRule = CAShapeLayerFillRule.evenOdd
+            maskLayer.path = path.cgPath
+
+            containerView.layer.mask = maskLayer
+        } else {
+            containerView.layer.mask = nil
+        }
+    }
+
+    private func isDisplayingPresence() -> Bool {
+        return presence != .none && avatarSize != .extraSmall
+    }
+
     // MARK: Accessibility
 
     open override var isAccessibilityElement: Bool { get { return true } set { } }
-    open override var accessibilityLabel: String? { get { return primaryText ?? secondaryText } set { } }
     open override var accessibilityTraits: UIAccessibilityTraits { get { return .image } set { } }
+
+    open override var accessibilityLabel: String? {
+        get {
+            if let overrideAccessibilityLabel = overrideAccessibilityLabel {
+                return overrideAccessibilityLabel
+            }
+
+            var label = primaryText ?? secondaryText
+            if let presenceString = presence.string {
+                if label?.count ?? 0 > 0 {
+                    label = String(format: "Accessibility.AvatarView.LabelFormat".localized, label!, presenceString)
+                } else {
+                    label = presenceString
+                }
+            }
+
+            return label
+        }
+        set { }
+    }
 }

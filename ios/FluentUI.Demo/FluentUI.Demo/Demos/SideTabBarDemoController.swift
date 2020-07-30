@@ -14,7 +14,6 @@ class SideTabBarDemoController: DemoController {
 
     private struct Constants {
         static let optionsSpacing: CGFloat = 5.0
-        static let labelSwitchSpacing: CGFloat = 10.0
     }
 
     private let sideTabBar: SideTabBar = {
@@ -72,24 +71,6 @@ class SideTabBarDemoController: DemoController {
         ])
 
         present(contentViewController, animated: false)
-    }
-
-    private func createLabelAndSwitchRow(labelText: String, switchAction: Selector, isOn: Bool = false) -> UIView {
-        let stackView = UIStackView(frame: .zero)
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.spacing = Constants.labelSwitchSpacing
-
-        let label = Label(style: .subhead, colorStyle: .regular)
-        label.text = labelText
-        stackView.addArrangedSubview(label)
-
-        let switchView = UISwitch()
-        switchView.isOn = isOn
-        switchView.addTarget(self, action: switchAction, for: .valueChanged)
-        stackView.addArrangedSubview(switchView)
-
-        return stackView
     }
 
     @objc private func dismissSideTabBar() {

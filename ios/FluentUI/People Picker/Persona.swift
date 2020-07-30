@@ -43,11 +43,13 @@ open class PersonaData: NSObject, Persona {
     public var primaryText: String { return name }
     public var secondaryText: String { return email }
     public var image: UIImage? { return avatarImage }
+    public var presence: Presence
 
-    @objc public init(name: String = "", email: String = "", subtitle: String = "", avatarImage: UIImage? = nil) {
+    @objc public init(name: String = "", email: String = "", subtitle: String = "", avatarImage: UIImage? = nil, presence: Presence = .none) {
         self.name = name
         self.email = email
         self.subtitle = subtitle
         self.avatarImage = avatarImage
+        self.presence = presence
     }
 }
