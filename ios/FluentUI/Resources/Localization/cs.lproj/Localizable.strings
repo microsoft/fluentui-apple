@@ -90,8 +90,11 @@
 /* Accessibility hint for MSPillButtons in an MSPillButtonBar. %1$d is placeholder for index and %2$d is a placeholder for total number of items */
 "Accessibility.MSPillButtonBar.Hint" = "%1$d z %2$d";
 
-/* Accessibility label for the avatar (or profile) view in */
+/* Accessibility label for the avatar (or profile) view */
 "Accessibility.LargeTitle.ProfileView" = "Profil účtu";
+
+/* Accessibility label format string for avatar view. Format: <Name>, <Presence>. Example: Kat, Available */
+"Accessibility.AvatarView.LabelFormat" = "%@, %@";
 
 /* Accessibility hint for a segmented control button */
 "Accessibility.Segmented.Button.Hint" = "Klepnutím přejdete na %@";
@@ -152,4 +155,28 @@
 
 /* MSDateTimePicker label for the end date of a date range */
 "MSDateTimePicker.EndDate" = "Koncové datum";
+
+/* Presence - Available status */
+"Presence.Available" = "Available";
+
+/* Presence - Away status */
+"Presence.Away" = "Away";
+
+/* Presence - Busy status */
+"Presence.Busy" = "Busy";
+
+/* Presence - Do not disturb status */
+"Presence.DND" = "Do not disturb";
+
+/* Presence - Out of office status */
+"Presence.OOF" = "Out of office";
+
+/* Presence - Offline status */
+"Presence.Offline" = "Offline";
+
+/* Presence - Unknown status */
+"Presence.Unknown" = "Unknown";
+
+/* Presence - Blocked status */
+"Presence.Blocked" = "Blocked";
 
