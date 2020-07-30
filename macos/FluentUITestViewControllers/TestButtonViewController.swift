@@ -42,14 +42,14 @@ class TestButtonViewController: NSViewController {
 			return button
 		}
 		
-		let isRTL = NSApp.userInterfaceLayoutDirection == .rightToLeft
-		let leadingArrowImage = isRTL ? NSImage(named: NSImage.goRightTemplateName)! : NSImage(named: NSImage.goLeftTemplateName)!
-		let trailingArrowImage = isRTL ? NSImage(named: NSImage.goLeftTemplateName)! : NSImage(named: NSImage.goRightTemplateName)!
+		let leadingArrowImage = NSImage(named: TestButtonViewController.leadingArrow)!
+		let trailingArrowImage = NSImage(named: TestButtonViewController.trailingArrow)!
+		
 		
 		let buttonsWithTitleAndImage: () -> [NSButton] = {
 			return [
 				Button(title: "Back", image: leadingArrowImage, imagePosition: .imageLeading, style: .primaryFilled),
-				Button(title: "Skip", image: trailingArrowImage, imagePosition: .imageTrailing, style: .primaryOutline),
+				Button(title: "Back", image: trailingArrowImage, imagePosition: .imageTrailing, style: .primaryOutline),
 				Button(title: "Back", image: leadingArrowImage, imagePosition: .imageLeading, style: .borderless),
 			]
 		}
@@ -60,8 +60,8 @@ class TestButtonViewController: NSViewController {
 		}
 
 		let gridView = NSGridView(frame: .zero)
-		gridView.rowSpacing = gridViewRowSpacing
-		gridView.columnSpacing = gridViewColumnSpacing
+		gridView.rowSpacing = TestButtonViewController.gridViewRowSpacing
+		gridView.columnSpacing = TestButtonViewController.gridViewColumnSpacing
 		gridView.setContentHuggingPriority(.defaultHigh, for: .vertical)
 		
 		gridView.addColumn(with: columnLabels)
@@ -91,22 +91,25 @@ class TestButtonViewController: NSViewController {
 		containerView.orientation = .vertical
 		containerView.translatesAutoresizingMaskIntoConstraints = false
 		containerView.edgeInsets = NSEdgeInsets(
-			top: containerViewEdgeInsets,
-			left: containerViewEdgeInsets,
-			bottom: containerViewEdgeInsets,
-			right: containerViewEdgeInsets
+			top: TestButtonViewController.containerViewEdgeInsets,
+			left: TestButtonViewController.containerViewEdgeInsets,
+			bottom: TestButtonViewController.containerViewEdgeInsets,
+			right: TestButtonViewController.containerViewEdgeInsets
 		)
 
 		containerView.addView(gridView, in: .top)
 
 		view = containerView
 	}
+	
+	private static let leadingArrow = "ic_fluent_chevron_left_16_filled"
+	private static let trailingArrow = "ic_fluent_chevron_right_16_filled"
+	
+	private static let gridViewRowSpacing: CGFloat = 20
+	private static let gridViewColumnSpacing: CGFloat = 20
+	private static let containerViewEdgeInsets: CGFloat = 20
+
 }
 
 // MARK: - Constants
 
-fileprivate let gridViewRowSpacing: CGFloat = 20
-
-fileprivate let gridViewColumnSpacing: CGFloat = 20
-
-fileprivate let containerViewEdgeInsets: CGFloat = 20

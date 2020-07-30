@@ -267,6 +267,7 @@ open class Button: NSButton {
 			let isRTL = NSApp.userInterfaceLayoutDirection == .rightToLeft
 			let imageRect = super.imageRect(forBounds: rect)
 			let titleSize = title.size(withAttributes: [.font: font as Any])
+			let imageSize = image?.size ?? NSZeroSize
 			
 			var x = imageRect.origin.x
 			var y = imageRect.origin.y
@@ -285,20 +286,49 @@ open class Button: NSButton {
 				y = Button.verticalEdgePadding
 				width = rect.width - (Button.horizontalEdgePadding * 2)
 				height = rect.height - (Button.verticalEdgePadding * 2)
-			case .imageLeading:
-				x = isRTL ? titleSize.width + Button.titleAndImageRectInterspacing : 0
+			case .imageLeft:
+				x = Button.horizontalEdgePadding
 				y = Button.verticalEdgePadding
-				width = rect.width - Button.titleAndImageRectInterspacing - titleSize.width
+				width = imageSize.width
+				height = imageSize.height
+				break
+			case .imageRight:
+				x = titleSize.width + Button.titleAndImageRectInterspacing + Button.horizontalEdgePadding
+				y = Button.verticalEdgePadding
+				width = imageSize.width
+				height = imageSize.height
+				break
+			case .imageBelow:
+				x = (rect.width - imageSize.width) / 2
+				y = Button.verticalEdgePadding + titleSize.height + Button.titleAndImageRectInterspacing
+				width = imageSize.width
+				height = imageSize.height
+				break
+			case .imageAbove:
+				x = (rect.width - imageSize.width) / 2
+				y = Button.verticalEdgePadding
+				width = imageSize.width
+				height = imageSize.height
+				break
+			case .imageOverlaps:
+				x = Button.horizontalEdgePadding
+				y = Button.verticalEdgePadding
+				width = rect.width - (Button.horizontalEdgePadding * 2)
 				height = rect.height - (Button.verticalEdgePadding * 2)
+				break;
+			case .imageLeading:
+				x = isRTL ? titleSize.width + Button.titleAndImageRectInterspacing + Button.horizontalEdgePadding : Button.horizontalEdgePadding
+				y = Button.verticalEdgePadding
+				width = imageSize.width
+				height = imageSize.height
 				break
 			case .imageTrailing:
-				x = isRTL ? 0 : titleSize.width + Button.titleAndImageRectInterspacing
+				x = isRTL ? Button.horizontalEdgePadding : titleSize.width + Button.titleAndImageRectInterspacing + Button.horizontalEdgePadding
 				y = Button.verticalEdgePadding
-				width = rect.width - Button.titleAndImageRectInterspacing - titleSize.width
-				height = rect.height - (Button.verticalEdgePadding * 2)
+				width = imageSize.width
+				height = imageSize.height
 				break
-			default:
-				// We explicitly do not support the other variants of imagePosition
+			@unknown default:
 				break
 			}
 			
@@ -319,10 +349,10 @@ open class Button: NSButton {
 						
 			switch imagePosition {
 			case .noImage:
-				x = 0
-				y = 0
-				width = titleRect.width + (Button.horizontalEdgePadding * 2)
-				height = titleRect.height + (Button.verticalEdgePadding * 2)
+				x = Button.horizontalEdgePadding
+				y = Button.verticalEdgePadding
+				width = rect.width - (Button.horizontalEdgePadding * 2)
+				height = rect.height - (Button.verticalEdgePadding * 2)
 				break
 			case .imageOnly:
 				x = 0
@@ -330,6 +360,36 @@ open class Button: NSButton {
 				width = 0
 				height = 0
 				break
+			case .imageLeft:
+				x = Button.horizontalEdgePadding + imageSize.width + Button.titleAndImageRectInterspacing
+				y = Button.verticalEdgePadding
+				width = titleSize.width
+				height = titleSize.height
+				break
+			case .imageRight:
+				x = Button.horizontalEdgePadding
+				y = Button.verticalEdgePadding
+				width = titleSize.width
+				height = titleSize.height
+				break
+			case .imageBelow:
+				x = (rect.width - titleSize.width) / 2
+				y = Button.verticalEdgePadding
+				width =	titleSize.width
+				height = titleSize.height
+				break
+			case .imageAbove:
+				x = (rect.width - titleSize.width) / 2
+				y = Button.verticalEdgePadding + imageSize.height + Button.titleAndImageRectInterspacing
+				width =	titleSize.width
+				height = titleSize.height
+				break
+			case .imageOverlaps:
+				x = Button.horizontalEdgePadding
+				y = Button.verticalEdgePadding
+				width = rect.width - (Button.horizontalEdgePadding * 2)
+				height = rect.height - (Button.verticalEdgePadding * 2)
+				break;
 			case .imageLeading:
 				x = isRTL ? Button.horizontalEdgePadding : Button.horizontalEdgePadding + imageSize.width + Button.titleAndImageRectInterspacing
 				y = Button.verticalEdgePadding
@@ -342,8 +402,7 @@ open class Button: NSButton {
 				width = titleSize.width
 				height = titleSize.height
 				break
-			default:
-				// We explicitly do not support the other variants of imagePosition
+			@unknown default:
 				break
 			}
 			
@@ -351,11 +410,44 @@ open class Button: NSButton {
 		}
 		
 		override func drawingRect(forBounds rect: NSRect) -> NSRect {
+			
+			var horizontalTnterCellSpacing: CGFloat = 0
+			var verticalTnterCellSpacing: CGFloat = 0
+			switch imagePosition {
+			
+			case .noImage:
+				break
+			case .imageOnly:
+				break
+			case .imageLeft:
+				horizontalTnterCellSpacing = Button.titleAndImageRectInterspacing
+				break
+			case .imageRight:
+				horizontalTnterCellSpacing = Button.titleAndImageRectInterspacing
+				break
+			case .imageBelow:
+				verticalTnterCellSpacing = Button.titleAndImageRectInterspacing
+				break
+			case .imageAbove:
+				verticalTnterCellSpacing = Button.titleAndImageRectInterspacing
+				break
+			case .imageOverlaps:
+				break
+			case .imageLeading:
+				horizontalTnterCellSpacing = Button.titleAndImageRectInterspacing
+				break
+			case .imageTrailing:
+				horizontalTnterCellSpacing = Button.titleAndImageRectInterspacing
+				break
+			@unknown default:
+				break
+			}
+			
 			let drawingRectWithPadding = NSMakeRect(
 				0,
 				0,
-				rect.width - (Button.horizontalEdgePadding * 2),
-				rect.height - (Button.verticalEdgePadding * 2)
+				rect.width - (Button.horizontalEdgePadding * 2) - horizontalTnterCellSpacing,
+				rect.height - (Button.verticalEdgePadding * 2) - verticalTnterCellSpacing
 			)
 			return drawingRectWithPadding
 		}
