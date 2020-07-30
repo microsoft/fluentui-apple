@@ -115,28 +115,28 @@
 "Common.Cancel" = "Mégse";
 
 /* Generic label to indicate that an item is shared */
-"Common.Shared" = "Shared";
+"Common.Shared" = "Megosztva";
 
 /* Generic label to indicate that an item is not shared */
-"Common.OnlyMe" = "Only me";
+"Common.OnlyMe" = "Csak én";
 
 /* Just now date string */
-"Date.Now" = "Just now";
+"Date.Now" = "Éppen most";
 
 /* Minutes ago date format string. Example: "5m ago" */
-"Date.FormatMinutes" = "%ldm ago";
+"Date.FormatMinutes" = "%ldm telt el azóta";
 
 /* Hours ago date format string. Example: "5h ago" */
-"Date.FormatHours" = "%ldh ago";
+"Date.FormatHours" = "%ldh telt el azóta";
 
 /* Yesterday string */
-"Date.Yesterday" = "Yesterday";
+"Date.Yesterday" = "Tegnap";
 
 /* Yesterday and time format string. Eample: "Yesterday at 11:00 AM" */
-"Date.FormatYesterdayTime" = "Yesterday at %@";
+"Date.FormatYesterdayTime" = "Tegnap ekkor: %@";
 
 /* Day and time format string. Eample: "Fri at 11:00 AM" */
-"Date.FormatDayTime" = "%@ at %@";
+"Date.FormatDayTime" = "%@ ekkor: %@";
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Keresés a címtárban";

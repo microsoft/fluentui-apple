@@ -115,28 +115,28 @@
 "Common.Cancel" = "ยกเลิก";
 
 /* Generic label to indicate that an item is shared */
-"Common.Shared" = "Shared";
+"Common.Shared" = "แชร์แล้ว";
 
 /* Generic label to indicate that an item is not shared */
-"Common.OnlyMe" = "Only me";
+"Common.OnlyMe" = "ฉันเท่านั้น";
 
 /* Just now date string */
-"Date.Now" = "Just now";
+"Date.Now" = "เมื่อครู่นี้";
 
 /* Minutes ago date format string. Example: "5m ago" */
-"Date.FormatMinutes" = "%ldm ago";
+"Date.FormatMinutes" = "%ldm ที่แล้ว";
 
 /* Hours ago date format string. Example: "5h ago" */
-"Date.FormatHours" = "%ldh ago";
+"Date.FormatHours" = "%ldh ที่แล้ว";
 
 /* Yesterday string */
-"Date.Yesterday" = "Yesterday";
+"Date.Yesterday" = "เมื่อวานนี้";
 
 /* Yesterday and time format string. Eample: "Yesterday at 11:00 AM" */
-"Date.FormatYesterdayTime" = "Yesterday at %@";
+"Date.FormatYesterdayTime" = "เมื่อวาน เวลา %@";
 
 /* Day and time format string. Eample: "Fri at 11:00 AM" */
-"Date.FormatDayTime" = "%@ at %@";
+"Date.FormatDayTime" = "%@ เวลา %@";
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "ค้นหาในไดเรกทอรี";
