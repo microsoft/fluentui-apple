@@ -13,6 +13,8 @@ class SideTabBarDemoController: DemoController {
     }
 
     private struct Constants {
+        static let initialBadgeNumbers: [UInt] = [5, 50, 250, 4, 135]
+        static let initialHigherBadgeNumbers: [UInt] = [1250, 25505, 3050528, 50890, 2304]
         static let optionsSpacing: CGFloat = 5.0
     }
 
@@ -20,11 +22,36 @@ class SideTabBarDemoController: DemoController {
         return SideTabBar(frame: .zero)
     }()
 
-    private let contentViewController: UIViewController = {
-        return UIViewController(nibName: nil, bundle: nil)
+    private var contentViewController: UIViewController?
+
+    private var badgeNumbers: [UInt] = Constants.initialBadgeNumbers
+    private var higherBadgeNumbers: [UInt] = Constants.initialHigherBadgeNumbers
+
+    private var showBadgeNumbers: Bool = false {
+        didSet {
+            updateBadgeNumbers()
+            updateBadgeButtons()
+        }
+    }
+
+    private var useHigherBadgeNumbers: Bool = false {
+        didSet {
+            updateBadgeNumbers()
+        }
+    }
+
+    private lazy var incrementBadgeButton: Button = {
+        return createButton(title: "+", action: #selector(incrementBadgeNumbers))
+    }()
+
+    private lazy var decrementBadgeButton: Button = {
+        return createButton(title: "-", action: #selector(decrementBadgeNumbers))
     }()
 
     @objc private func presentSideTabBar() {
+        let contentViewController = UIViewController(nibName: nil, bundle: nil)
+        self.contentViewController = contentViewController
+
         contentViewController.modalPresentationStyle = .fullScreen
         contentViewController.view.backgroundColor = view.backgroundColor
         contentViewController.view.addSubview(sideTabBar)
@@ -54,6 +81,34 @@ class SideTabBarDemoController: DemoController {
         optionsStackView.addArrangedSubview(showAvatarViewRow)
         showAvatarView(true)
 
+        let showTopTitlesView = createLabelAndSwitchRow(labelText: "Show top item titles",
+                                                        switchAction: #selector(toggleShowTopItemTitles(switchView:)),
+                                                        isOn: false)
+        showTopTitlesView.translatesAutoresizingMaskIntoConstraints = false
+        optionsStackView.addArrangedSubview(showTopTitlesView)
+
+        let showBottomTitlesView = createLabelAndSwitchRow(labelText: "Show bottom item titles",
+                                                           switchAction: #selector(toggleShowBottomItemTitles(switchView:)),
+                                                           isOn: false)
+        showBottomTitlesView.translatesAutoresizingMaskIntoConstraints = false
+        optionsStackView.addArrangedSubview(showBottomTitlesView)
+
+        let showBadgeNumbersView = createLabelAndSwitchRow(labelText: "Show badge numbers",
+                                                           switchAction: #selector(toggleShowBadgeNumbers(switchView:)),
+                                                           isOn: showBadgeNumbers)
+        showBadgeNumbersView.translatesAutoresizingMaskIntoConstraints = false
+        optionsStackView.addArrangedSubview(showBadgeNumbersView)
+
+        let useHigherBadgeNumbersView = createLabelAndSwitchRow(labelText: "Use higher badge numbers",
+                                                                switchAction: #selector(toggleUseHigherBadgeNumbers(switchView:)),
+                                                                isOn: useHigherBadgeNumbers)
+        useHigherBadgeNumbersView.translatesAutoresizingMaskIntoConstraints = false
+        optionsStackView.addArrangedSubview(useHigherBadgeNumbersView)
+
+        let modifyBadgeNumbersView = createLabelAndViewsRow(labelText: "Modify badge numbers", views: [incrementBadgeButton, decrementBadgeButton])
+        modifyBadgeNumbersView.translatesAutoresizingMaskIntoConstraints = false
+        optionsStackView.addArrangedSubview(modifyBadgeNumbersView)
+
         let button = Button()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.textAlignment = .center
@@ -71,6 +126,9 @@ class SideTabBarDemoController: DemoController {
         ])
 
         present(contentViewController, animated: false)
+
+        updateBadgeNumbers()
+        updateBadgeButtons()
     }
 
     @objc private func dismissSideTabBar() {
@@ -79,6 +137,22 @@ class SideTabBarDemoController: DemoController {
 
     @objc private func toggleAvatarView(switchView: UISwitch) {
         showAvatarView(switchView.isOn)
+    }
+
+    @objc private func toggleShowBadgeNumbers(switchView: UISwitch) {
+        showBadgeNumbers = switchView.isOn
+    }
+
+    @objc private func toggleUseHigherBadgeNumbers(switchView: UISwitch) {
+        useHigherBadgeNumbers = switchView.isOn
+    }
+
+    @objc private func toggleShowTopItemTitles(switchView: UISwitch) {
+        sideTabBar.showTopItemTitles = switchView.isOn
+    }
+
+    @objc private func toggleShowBottomItemTitles(switchView: UISwitch) {
+        sideTabBar.showBottomItemTitles = switchView.isOn
     }
 
     private func showAvatarView(_ show: Bool) {
@@ -90,6 +164,52 @@ class SideTabBarDemoController: DemoController {
 
         sideTabBar.avatarView = avatarView
     }
+
+    private func updateBadgeNumbers() {
+        var numbers = useHigherBadgeNumbers ? higherBadgeNumbers : badgeNumbers
+        if !showBadgeNumbers {
+            numbers = [0, 0, 0, 0, 0]
+        }
+
+        sideTabBar.setBadgeNumber(numbers[0], for: sideTabBar.topItems[0], fromTop: true)
+        sideTabBar.setBadgeNumber(numbers[1], for: sideTabBar.topItems[1], fromTop: true)
+        sideTabBar.setBadgeNumber(numbers[2], for: sideTabBar.topItems[2], fromTop: true)
+        sideTabBar.setBadgeNumber(numbers[3], for: sideTabBar.bottomItems[0], fromTop: false)
+        sideTabBar.setBadgeNumber(numbers[4], for: sideTabBar.bottomItems[1], fromTop: false)
+    }
+
+    private func updateBadgeButtons() {
+        incrementBadgeButton.isEnabled = showBadgeNumbers
+        decrementBadgeButton.isEnabled = showBadgeNumbers
+    }
+
+    private func modifyBadgeNumbers(increment: Int) {
+        var numbers = useHigherBadgeNumbers ? higherBadgeNumbers : badgeNumbers
+        for (index, value) in numbers.enumerated() {
+            let newValue = Int(value) + increment
+            if newValue > 0 {
+                numbers[index] = UInt(newValue)
+            } else {
+                numbers[index] = 0
+            }
+        }
+
+        if useHigherBadgeNumbers {
+            higherBadgeNumbers = numbers
+        } else {
+            badgeNumbers = numbers
+        }
+
+        updateBadgeNumbers()
+    }
+
+    @objc private func incrementBadgeNumbers() {
+        modifyBadgeNumbers(increment: 1)
+    }
+
+    @objc private func decrementBadgeNumbers() {
+        modifyBadgeNumbers(increment: -1)
+    }
 }
 
 // MARK: - SideTabBarDemoController: SideTabBarDelegate
@@ -99,13 +219,13 @@ extension SideTabBarDemoController: SideTabBarDelegate {
         let alert = UIAlertController(title: "\(item.title) was selected", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
-        contentViewController.present(alert, animated: true)
+        contentViewController!.present(alert, animated: true)
     }
 
     func sideTabBar(_ sideTabBar: SideTabBar, didActivate avatarView: AvatarView) {
         let alert = UIAlertController(title: "Avatar view was tapped", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
-        contentViewController.present(alert, animated: true)
+        contentViewController!.present(alert, animated: true)
     }
 }

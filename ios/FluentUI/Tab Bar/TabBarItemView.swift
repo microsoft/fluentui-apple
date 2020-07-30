@@ -34,6 +34,25 @@ class TabBarItemView: UIView {
         }
     }
 
+    /// Maximum width for the badge view where the badge number is displayed.
+    var maxBadgeWidth: CGFloat = Constants.defaultBadgeMaxWidth {
+        didSet {
+            if oldValue != maxBadgeWidth {
+                updateBadgeView()
+            }
+        }
+    }
+
+    /// If set to true, the item's title will always show below the image.
+    /// Otherwise, depending on the traitCollection, the title will be displayed either below or to the side of the image.
+    var alwaysShowTitleBelowImage: Bool = false {
+        didSet {
+            if oldValue != alwaysShowTitleBelowImage {
+                updateLayout()
+            }
+        }
+    }
+
     init(item: TabBarItem, showsTitle: Bool, canResizeImage: Bool = true) {
         self.canResizeImage = canResizeImage
         self.item = item
@@ -118,7 +137,7 @@ class TabBarItemView: UIView {
         static let multiDigitBadgeHorizontalOffset: CGFloat = 12
         static let badgeHeight: CGFloat = 16
         static let badgeMinWidth: CGFloat = 16
-        static let badgeMaxWidth: CGFloat = 42
+        static let defaultBadgeMaxWidth: CGFloat = 42
         static let badgeBorderWidth: CGFloat = 2
         static let badgeFontSize: CGFloat = 11
         static let badgeHorizontalPadding: CGFloat = 10
@@ -174,7 +193,7 @@ class TabBarItemView: UIView {
     }
 
     private var isInPortraitMode: Bool {
-        return traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .regular
+        return alwaysShowTitleBelowImage || (traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .regular)
     }
 
     private func updateColors() {
@@ -220,7 +239,7 @@ class TabBarItemView: UIView {
             let badgeVerticalOffset = !titleLabel.isHidden && isInPortraitMode ? Constants.badgePortraitTitleVerticalOffset : Constants.badgeVerticalOffset
 
             if badgeView.text?.count ?? 1 > 1 {
-                let badgeWidth = min(max(badgeView.intrinsicContentSize.width + Constants.badgeHorizontalPadding, Constants.badgeMinWidth), Constants.badgeMaxWidth)
+                let badgeWidth = min(max(badgeView.intrinsicContentSize.width + Constants.badgeHorizontalPadding, Constants.badgeMinWidth), maxBadgeWidth)
 
                 badgeView.frame = CGRect(x: badgeFrameOriginX(offset: Constants.multiDigitBadgeHorizontalOffset, frameWidth: badgeWidth),
                                          y: imageView.frame.origin.y + badgeVerticalOffset,

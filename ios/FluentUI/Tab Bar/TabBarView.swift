@@ -41,13 +41,11 @@ open class TabBarView: UIView {
             }
 
             for item in items {
-                var existingBadgeNumber: UInt = 0
-                if let itemView = itemView(with: item) {
-                    existingBadgeNumber = itemView.badgeNumber
-                }
-
                 let tabBarItemView = TabBarItemView(item: item, showsTitle: showsItemTitles)
-                tabBarItemView.badgeNumber = existingBadgeNumber
+
+                if let itemView = itemView(with: item) {
+                    tabBarItemView.badgeNumber = itemView.badgeNumber
+                }
 
                 let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTabBarItemTapped(_:)))
                 tabBarItemView.addGestureRecognizer(tapGesture)
