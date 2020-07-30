@@ -198,22 +198,12 @@ open class SideTabBar: UIView {
 
         let stackView = self.stackView(in: section)
 
-        let itemSize = section == .top ? Constants.topItemSize : Constants.bottomItemSize
-        var constraints: [NSLayoutConstraint] = []
-
         for item in allItems {
             let tabBarItemView = TabBarItemView(item: item, showsTitle: false, canResizeImage: false)
             tabBarItemView.translatesAutoresizingMaskIntoConstraints = false
 
             let tapGesture = UITapGestureRecognizer(target: self, action: (section == .top) ? #selector(handleTopItemTapped(_:)) : #selector(handleBottomItemTapped(_:)))
             tabBarItemView.addGestureRecognizer(tapGesture)
-
-            // Issue #110: TabBarItemViews don't have an intrinsic size so we need to set the height with constraints.
-            constraints.append(contentsOf: [
-                tabBarItemView.widthAnchor.constraint(equalToConstant: itemSize),
-                tabBarItemView.heightAnchor.constraint(equalToConstant: itemSize)
-            ])
-
             stackView.addArrangedSubview(tabBarItemView)
         }
 
