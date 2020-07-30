@@ -124,31 +124,6 @@ public typealias MSAvatarView = AvatarView
  */
 @objc(MSFAvatarView)
 open class AvatarView: UIView {
-    private struct Constants {
-        static let borderWidth: CGFloat = 2
-        static let extraExtraLargeBorderWidth: CGFloat = 4
-        static let animationDuration: TimeInterval = 0.2
-
-        /// If a customBorderImage is set, a custom border of this width will be added to the avatar view.
-        static let customBorderWidth: CGFloat = 3
-
-        /// The width for the presence status border.
-        static let presenceBorderWidth: CGFloat = 2
-    }
-
-    private struct SetupData: Equatable {
-        let primaryText: String?
-        let secondaryText: String?
-
-        init(avatarView: AvatarView) {
-            self.primaryText = avatarView.primaryText
-            self.secondaryText = avatarView.secondaryText
-        }
-    }
-
-    /// Set this to override the avatar view's default accessibility label.
-    @objc open var overrideAccessibilityLabel: String?
-
     @objc open var avatarSize: AvatarSize {
         didSet {
             updatePresenceImage()
@@ -187,12 +162,14 @@ open class AvatarView: UIView {
     @objc open var style: AvatarStyle {
         didSet {
             if style != oldValue {
+                updatePresenceImage()
                 setNeedsLayout()
             }
         }
     }
 
     /// The avatar view's presence state.
+    /// The presence state is only shown when the style is set to AvatarStyle.circle.
     @objc open var presence: Presence = .none {
         didSet {
             if oldValue != presence {
@@ -208,21 +185,8 @@ open class AvatarView: UIView {
         }
     }
 
-    private var hasBorder: Bool = false
-    private var hasCustomBorder: Bool = false
-    private var customBorderImageSize: CGSize = .zero
-    private var primaryText: String?
-    private var secondaryText: String?
-
-    private var initialsView: InitialsView
-    private let imageView: UIImageView
-    private let containerView: UIView
-
-    // Use a view as a border to avoid leaking pixels on corner radius
-    private let borderView: UIView
-
-    private var presenceImageView: UIImageView?
-    private var presenceBorderView: UIView?
+    /// Set this to override the avatar view's default accessibility label.
+    @objc open var overrideAccessibilityLabel: String?
 
     /// Initializes the avatar view with a size and an optional border
     ///
@@ -295,10 +259,6 @@ open class AvatarView: UIView {
         }
     }
 
-    private func cornerRadius(for width: CGFloat) -> CGFloat {
-        return style == .circle ? width / 2 : avatarSize.squareCornerRadius
-    }
-
     // MARK: Setup
 
     /// Sets up the avatarView to show an image or initials based on if an image is provided
@@ -340,6 +300,44 @@ open class AvatarView: UIView {
     @objc public func setup(avatar: Avatar?) {
         setup(primaryText: avatar?.primaryText, secondaryText: avatar?.secondaryText, image: avatar?.image, presence: avatar?.presence ?? .none)
         customBorderImage = avatar?.customBorderImage
+    }
+
+    private var hasBorder: Bool = false
+    private var hasCustomBorder: Bool = false
+    private var customBorderImageSize: CGSize = .zero
+    private var primaryText: String?
+    private var secondaryText: String?
+
+    private var initialsView: InitialsView
+    private let imageView: UIImageView
+    private let containerView: UIView
+
+    // Use a view as a border to avoid leaking pixels on corner radius
+    private let borderView: UIView
+
+    private var presenceImageView: UIImageView?
+    private var presenceBorderView: UIView?
+
+    private struct Constants {
+        static let borderWidth: CGFloat = 2
+        static let extraExtraLargeBorderWidth: CGFloat = 4
+        static let animationDuration: TimeInterval = 0.2
+
+        /// If a customBorderImage is set, a custom border of this width will be added to the avatar view.
+        static let customBorderWidth: CGFloat = 3
+
+        /// The width for the presence status border.
+        static let presenceBorderWidth: CGFloat = 2
+    }
+
+    private struct SetupData: Equatable {
+        let primaryText: String?
+        let secondaryText: String?
+
+        init(avatarView: AvatarView) {
+            self.primaryText = avatarView.primaryText
+            self.secondaryText = avatarView.secondaryText
+        }
     }
 
     private func setupWithInitials() {
@@ -496,7 +494,11 @@ open class AvatarView: UIView {
     }
 
     private func isDisplayingPresence() -> Bool {
-        return presence != .none && avatarSize != .extraSmall
+        return presence != .none && avatarSize != .extraSmall && style == .circle
+    }
+
+    private func cornerRadius(for width: CGFloat) -> CGFloat {
+        return style == .circle ? width / 2 : avatarSize.squareCornerRadius
     }
 
     // MARK: Accessibility
