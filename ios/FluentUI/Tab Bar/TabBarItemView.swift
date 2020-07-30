@@ -19,8 +19,89 @@ class TabBarItemView: UIView {
 
     var badgeNumber: UInt = 0 {
         didSet {
+            if oldValue != badgeNumber {
+                if badgeNumber > 0 {
+                    badgeView.isHidden = false
+                    badgeView.text = NumberFormatter.localizedString(from: NSNumber(value: badgeNumber), number: .none)
+                } else {
+                    badgeView.isHidden = true
+                    badgeView.text = nil
+                }
+
+                updateBadgeView()
+            }
+        }
+    }
+
+    init(item: TabBarItem, showsTitle: Bool, canResizeImage: Bool = true) {
+        self.canResizeImage = canResizeImage
+        self.item = item
+        self.suggestImageSize = Constants.portraitImageSize
+        super.init(frame: .zero)
+
+        container.addArrangedSubview(imageView)
+
+        titleLabel.isHidden = !showsTitle
+        if showsTitle {
+            titleLabel.text = item.title
+            container.addArrangedSubview(titleLabel)
+        }
+
+        container.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(container)
+
+        container.addSubview(badgeView)
+
+        isAccessibilityElement = true
+        accessibilityLabel = item.title
+
+        if #available(iOS 13, *) {
+            self.largeContentImage = item.largeContentImage ?? item.image
+            largeContentTitle = accessibilityLabel
+            showsLargeContentViewer = true
+            scalesLargeContentImage = true
+        }
+
+        NSLayoutConstraint.activate([container.centerXAnchor.constraint(equalTo: centerXAnchor),
+                                     container.centerYAnchor.constraint(equalTo: centerYAnchor)])
+
+        updateLayout()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        // Need to layout container subviews now, otherwise imageView's frame will get updated later
+        container.layoutSubviews()
+        imageViewFrame = imageView.frame
+    }
+
+    open override var intrinsicContentSize: CGSize {
+        return sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+    }
+
+    open override func sizeThatFits(_ size: CGSize) -> CGSize {
+        if canResizeImage {
+            imageView.frame = CGRect(x: 0, y: 0, width: suggestImageSize, height: suggestImageSize)
+        }
+        let size = container.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+        return size
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if previousTraitCollection?.horizontalSizeClass != traitCollection.horizontalSizeClass || previousTraitCollection?.verticalSizeClass != traitCollection.verticalSizeClass {
             updateLayout()
         }
+    }
+
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateColors()
     }
 
     private struct Constants {
@@ -75,6 +156,7 @@ class TabBarItemView: UIView {
         badgeView.textColor = .white
         badgeView.textAlignment = .center
         badgeView.font = UIFont.systemFont(ofSize: Constants.badgeFontSize, weight: .regular)
+        badgeView.isHidden = true
 
         return badgeView
     }()
@@ -82,71 +164,16 @@ class TabBarItemView: UIView {
     private var suggestImageSize: CGFloat
     private let canResizeImage: Bool
 
+    private var imageViewFrame: CGRect = .zero {
+        didSet {
+            if !oldValue.equalTo(imageViewFrame) {
+                updateBadgeView()
+            }
+        }
+    }
+
     private var isInPortraitMode: Bool {
         return traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .regular
-    }
-
-    init(item: TabBarItem, showsTitle: Bool, canResizeImage: Bool = true) {
-        self.canResizeImage = canResizeImage
-        self.item = item
-        self.suggestImageSize = portraitImageSize
-        super.init(frame: .zero)
-
-        container.addArrangedSubview(imageView)
-
-        titleLabel.isHidden = !showsTitle
-        if showsTitle {
-            titleLabel.text = item.title
-            container.addArrangedSubview(titleLabel)
-        }
-
-        container.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(container)
-
-        container.addSubview(badgeView)
-
-        isAccessibilityElement = true
-        accessibilityLabel = item.title
-
-        if #available(iOS 13, *) {
-            self.largeContentImage = item.largeContentImage ?? item.image
-            largeContentTitle = accessibilityLabel
-            showsLargeContentViewer = true
-            scalesLargeContentImage = true
-        }
-
-        NSLayoutConstraint.activate([container.centerXAnchor.constraint(equalTo: centerXAnchor),
-                                     container.centerYAnchor.constraint(equalTo: centerYAnchor)])
-
-        updateLayout()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        preconditionFailure("init(coder:) has not been implemented")
-    }
-
-    open override var intrinsicContentSize: CGSize {
-        return sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-    }
-
-    open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        if canResizeImage {
-            imageView.frame = CGRect(x: 0, y: 0, width: suggestImageSize, height: suggestImageSize)
-        }
-        let size = container.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-        return size
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if previousTraitCollection?.horizontalSizeClass != traitCollection.horizontalSizeClass || previousTraitCollection?.verticalSizeClass != traitCollection.verticalSizeClass {
-            updateLayout()
-        }
-    }
-
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
-        updateColors()
     }
 
     private func updateColors() {
@@ -167,7 +194,7 @@ class TabBarItemView: UIView {
             titleLabel.style = .button3
 
             if canResizeImage {
-                suggestImageSize = titleLabel.isHidden ? portraitImageSize : portraitImageWithLabelSize
+                suggestImageSize = titleLabel.isHidden ? Constants.portraitImageSize : Constants.portraitImageWithLabelSize
             }
         } else {
             container.axis = .horizontal
@@ -175,18 +202,20 @@ class TabBarItemView: UIView {
             titleLabel.style = .footnoteUnscaled
 
             if canResizeImage {
-                 suggestImageSize = landscapeImageSize
+                 suggestImageSize = Constants.landscapeImageSize
             }
         }
 
-        if badgeNumber > 0 {
-            badgeView.isHidden = false
-            badgeView.text = NumberFormatter.localizedString(from: NSNumber(value: badgeNumber), number: .none)
+        updateBadgeView()
+        invalidateIntrinsicContentSize()
+    }
 
+    private func updateBadgeView() {
+        if badgeNumber > 0 {
             let maskLayer = CAShapeLayer()
             maskLayer.fillRule = .evenOdd
 
-            let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: imageWidthConstraint!.constant, height: imageHeightConstraint!.constant))
+            let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: imageView.frame.size.width, height: imageView.frame.size.height))
             let badgeVerticalOffset = !titleLabel.isHidden && isInPortraitMode ? Constants.badgePortraitTitleVerticalOffset : Constants.badgeVerticalOffset
 
             if badgeView.text?.count ?? 1 > 1 {
@@ -225,16 +254,13 @@ class TabBarItemView: UIView {
             maskLayer.path = path.cgPath
             imageView.layer.mask = maskLayer
         } else {
-            badgeView.isHidden = true
             imageView.layer.mask = nil
         }
-
-        invalidateIntrinsicContentSize()
     }
 
     private func badgeBorderRect(badgeViewFrame: CGRect) -> CGRect {
-        return CGRect(x: badgeViewFrame.origin.x - Constants.badgeBorderWidth,
-                      y: badgeViewFrame.origin.y - Constants.badgeBorderWidth,
+        return CGRect(x: badgeViewFrame.origin.x - Constants.badgeBorderWidth - imageView.frame.origin.x,
+                      y: badgeViewFrame.origin.y - Constants.badgeBorderWidth - imageView.frame.origin.y,
                       width: badgeViewFrame.size.width + 2 * Constants.badgeBorderWidth,
                       height: badgeViewFrame.size.height + 2 * Constants.badgeBorderWidth)
     }
