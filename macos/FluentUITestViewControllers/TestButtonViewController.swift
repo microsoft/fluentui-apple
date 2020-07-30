@@ -45,7 +45,7 @@ class TestButtonViewController: NSViewController {
 		let buttonsWithTitleAndImage: () -> [NSButton] = {
 			return [
 				Button(title: "Back", image: NSImage(named: NSImage.goLeftTemplateName)!, imagePosition: .imageLeading, style: .primaryFilled),
-				Button(title: "Back", image: NSImage(named: NSImage.goLeftTemplateName)!, imagePosition: .imageLeading, style: .primaryOutline),
+				Button(title: "Skip", image: NSImage(named: NSImage.goRightTemplateName)!, imagePosition: .imageTrailing, style: .primaryOutline),
 				Button(title: "Back", image: NSImage(named: NSImage.goLeftTemplateName)!, imagePosition: .imageLeading, style: .borderless),
 			]
 		}

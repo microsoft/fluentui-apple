@@ -263,32 +263,30 @@ open class Button: NSButton {
 			
 			switch imagePosition {
 			case .noImage:
+				x = 0
+				y = 0
+				width = 0
+				height = 0
 				break
 			case .imageOnly:
 				x = Button.horizontalEdgePadding
 				y = Button.verticalEdgePadding
 				width = rect.width - (Button.horizontalEdgePadding * 2)
 				height = rect.height - (Button.verticalEdgePadding * 2)
-				break
-			case .imageLeft:
-				break
-			case .imageRight:
-				break
-			case .imageBelow:
-				break
-			case .imageAbove:
-				break
-			case .imageOverlaps:
-				break
 			case .imageLeading:
 				x = 0
 				y = Button.verticalEdgePadding
-				width = rect.width - Button.TitleImageRectInterspacing - titleSize.width
+				width = rect.width - Button.titleAndImageRectInterspacing - titleSize.width
 				height = rect.height - (Button.verticalEdgePadding * 2)
 				break
 			case .imageTrailing:
+				x = titleSize.width + Button.titleAndImageRectInterspacing
+				y = Button.verticalEdgePadding
+				width = rect.width - Button.titleAndImageRectInterspacing - titleSize.width
+				height = rect.height - (Button.verticalEdgePadding * 2)
 				break
-			@unknown default:
+			default:
+				// We explicitly do not support the other variants of imagePosition
 				break
 			}
 			
@@ -296,30 +294,49 @@ open class Button: NSButton {
 		}
 		
 		override func titleRect(forBounds rect: NSRect) -> NSRect {
-			if let image = image {
-				//.imageLeading
-				let titleSize = title.size(withAttributes: [.font: font as Any])
-				let imageSize = image.size
-//				let titleRect = super.titleRect(forBounds: rect)
-				
-				let x: CGFloat = Button.horizontalEdgePadding + imageSize.width + Button.TitleImageRectInterspacing
-				let y: CGFloat = Button.verticalEdgePadding
-				let width = titleSize.width
-				let height = titleSize.height
-				
-				return NSMakeRect(x, y, width, height)
-				
-			} else {
-				let titleRect = super.titleRect(forBounds: rect);
-				
-				let titleRectWithPadding = NSMakeRect(
-					0,
-					0,
-					titleRect.width + (Button.horizontalEdgePadding * 2),
-					titleRect.height + (Button.verticalEdgePadding * 2)
-				)
-				return titleRectWithPadding
+			
+			let titleSize = title.size(withAttributes: [.font: font as Any])
+			
+			let titleRect = super.titleRect(forBounds: rect);
+			
+			var x = titleRect.origin.x
+			var y = titleRect.origin.y
+			var width = titleRect.size.width
+			var height = titleRect.size.height
+			
+			let imageSize = image?.size ?? NSZeroSize
+			
+			switch imagePosition {
+			case .noImage:
+				x = 0
+				y = 0
+				width = titleRect.width + (Button.horizontalEdgePadding * 2)
+				height = titleRect.height + (Button.verticalEdgePadding * 2)
+				break
+			case .imageOnly:
+				x = 0
+				y = 0
+				width = 0
+				height = 0
+				break
+			case .imageLeading:
+				x = Button.horizontalEdgePadding + imageSize.width + Button.titleAndImageRectInterspacing
+				y = Button.verticalEdgePadding
+				width = titleSize.width
+				height = titleSize.height
+				break
+			case .imageTrailing:
+				x = Button.horizontalEdgePadding
+				y = Button.verticalEdgePadding
+				width = titleSize.width
+				height = titleSize.height
+				break
+			default:
+				// We explicitly do not support the other variants of imagePosition
+				break
 			}
+			
+			return NSMakeRect(x, y, width, height)
 		}
 		
 		override func drawingRect(forBounds rect: NSRect) -> NSRect {
@@ -333,7 +350,7 @@ open class Button: NSButton {
 		}
 	}
 
-	private static let TitleImageRectInterspacing: CGFloat = 4
+	private static let titleAndImageRectInterspacing: CGFloat = 8
 	
 	
 	private static let borderWidth: CGFloat = 1
