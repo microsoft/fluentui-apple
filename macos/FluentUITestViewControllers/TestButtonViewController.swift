@@ -42,11 +42,15 @@ class TestButtonViewController: NSViewController {
 			return button
 		}
 		
+		let isRTL = NSApp.userInterfaceLayoutDirection == .rightToLeft
+		let leadingArrowImage = isRTL ? NSImage(named: NSImage.goRightTemplateName)! : NSImage(named: NSImage.goLeftTemplateName)!
+		let trailingArrowImage = isRTL ? NSImage(named: NSImage.goLeftTemplateName)! : NSImage(named: NSImage.goRightTemplateName)!
+		
 		let buttonsWithTitleAndImage: () -> [NSButton] = {
 			return [
-				Button(title: "Back", image: NSImage(named: NSImage.goLeftTemplateName)!, imagePosition: .imageLeading, style: .primaryFilled),
-				Button(title: "Skip", image: NSImage(named: NSImage.goRightTemplateName)!, imagePosition: .imageTrailing, style: .primaryOutline),
-				Button(title: "Back", image: NSImage(named: NSImage.goLeftTemplateName)!, imagePosition: .imageLeading, style: .borderless),
+				Button(title: "Back", image: leadingArrowImage, imagePosition: .imageLeading, style: .primaryFilled),
+				Button(title: "Skip", image: trailingArrowImage, imagePosition: .imageTrailing, style: .primaryOutline),
+				Button(title: "Back", image: leadingArrowImage, imagePosition: .imageLeading, style: .borderless),
 			]
 		}
 		

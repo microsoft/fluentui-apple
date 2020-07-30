@@ -66,6 +66,7 @@ open class Button: NSButton {
 		// Do common initialization work
 		isBordered = false
 		wantsLayer = true
+		layer?.contentsScale = window?.backingScaleFactor ?? 1.0
 		
 		self.style = style
 		
@@ -156,6 +157,18 @@ open class Button: NSButton {
 	
 	override public var wantsUpdateLayer: Bool {
 		return true
+	}
+	
+	open override func viewDidChangeBackingProperties() {
+		super.viewDidChangeBackingProperties()
+
+		// Update the layer content scales to the current window backingScaleFactor
+		guard let scale = window?.backingScaleFactor else {
+			return
+		}
+		if let layer = layer {
+			layer.contentsScale = scale
+		}
 	}
 	
 	/// The primary color of the button, AKA, the fill color in the primaryFilled style, and the outline in the primaryOutline style
@@ -251,10 +264,9 @@ open class Button: NSButton {
 	
 	class FluentButtonCell : NSButtonCell {
 		override func imageRect(forBounds rect: NSRect) -> NSRect {
-			
-			let titleSize = title.size(withAttributes: [.font: font as Any])
-			
+			let isRTL = NSApp.userInterfaceLayoutDirection == .rightToLeft
 			let imageRect = super.imageRect(forBounds: rect)
+			let titleSize = title.size(withAttributes: [.font: font as Any])
 			
 			var x = imageRect.origin.x
 			var y = imageRect.origin.y
@@ -274,13 +286,13 @@ open class Button: NSButton {
 				width = rect.width - (Button.horizontalEdgePadding * 2)
 				height = rect.height - (Button.verticalEdgePadding * 2)
 			case .imageLeading:
-				x = 0
+				x = isRTL ? titleSize.width + Button.titleAndImageRectInterspacing : 0
 				y = Button.verticalEdgePadding
 				width = rect.width - Button.titleAndImageRectInterspacing - titleSize.width
 				height = rect.height - (Button.verticalEdgePadding * 2)
 				break
 			case .imageTrailing:
-				x = titleSize.width + Button.titleAndImageRectInterspacing
+				x = isRTL ? 0 : titleSize.width + Button.titleAndImageRectInterspacing
 				y = Button.verticalEdgePadding
 				width = rect.width - Button.titleAndImageRectInterspacing - titleSize.width
 				height = rect.height - (Button.verticalEdgePadding * 2)
@@ -294,10 +306,9 @@ open class Button: NSButton {
 		}
 		
 		override func titleRect(forBounds rect: NSRect) -> NSRect {
-			
-			let titleSize = title.size(withAttributes: [.font: font as Any])
-			
+			let isRTL = NSApp.userInterfaceLayoutDirection == .rightToLeft
 			let titleRect = super.titleRect(forBounds: rect);
+			let titleSize = title.size(withAttributes: [.font: font as Any])
 			
 			var x = titleRect.origin.x
 			var y = titleRect.origin.y
@@ -305,7 +316,7 @@ open class Button: NSButton {
 			var height = titleRect.size.height
 			
 			let imageSize = image?.size ?? NSZeroSize
-			
+						
 			switch imagePosition {
 			case .noImage:
 				x = 0
@@ -320,13 +331,13 @@ open class Button: NSButton {
 				height = 0
 				break
 			case .imageLeading:
-				x = Button.horizontalEdgePadding + imageSize.width + Button.titleAndImageRectInterspacing
+				x = isRTL ? Button.horizontalEdgePadding : Button.horizontalEdgePadding + imageSize.width + Button.titleAndImageRectInterspacing
 				y = Button.verticalEdgePadding
 				width = titleSize.width
 				height = titleSize.height
 				break
 			case .imageTrailing:
-				x = Button.horizontalEdgePadding
+				x = isRTL ? Button.horizontalEdgePadding + imageSize.width + Button.titleAndImageRectInterspacing : Button.horizontalEdgePadding
 				y = Button.verticalEdgePadding
 				width = titleSize.width
 				height = titleSize.height
