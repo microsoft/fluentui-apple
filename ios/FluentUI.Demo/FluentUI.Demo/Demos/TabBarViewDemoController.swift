@@ -11,7 +11,7 @@ class TabBarViewDemoController: DemoController {
     private var tabBarViewConstraints: [NSLayoutConstraint]?
     private var showsItemTitles: Bool { return itemTitleVisibilitySwitch.isOn }
     private var showBadgeNumbers: Bool { return showBadgeNumbersSwitch.isOn }
-    private var useHigherBadgeNumbers: Bool { return showBadgeNumbersSwitch.isOn }
+    private var useHigherBadgeNumbers: Bool { return useHigherBadgeNumbersSwitch.isOn }
 
     private let itemTitleVisibilitySwitch = UISwitch()
     private let showBadgeNumbersSwitch = UISwitch()
@@ -19,7 +19,7 @@ class TabBarViewDemoController: DemoController {
 
     private enum Constants {
         static let badgeNumbers: [UInt] = [5, 50, 250]
-        static let higherBadgeNumbers: [UInt] = [1250, 25505, 305052]
+        static let higherBadgeNumbers: [UInt] = [1250, 25505, 3050528]
         static let settingsTextWidth: CGFloat = 180
     }
 
@@ -30,7 +30,7 @@ class TabBarViewDemoController: DemoController {
         itemTitleVisibilitySwitch.addTarget(self, action: #selector(handleOnSwitchValueChanged), for: .valueChanged)
 
         addRow(text: "Show badge numbers", items: [showBadgeNumbersSwitch], textWidth: Constants.settingsTextWidth)
-        itemTitleVisibilitySwitch.addTarget(self, action: #selector(handleOnSwitchValueChanged), for: .valueChanged)
+        showBadgeNumbersSwitch.addTarget(self, action: #selector(handleOnSwitchValueChanged), for: .valueChanged)
 
         addRow(text: "Use higher badge numbers", items: [useHigherBadgeNumbersSwitch], textWidth: Constants.settingsTextWidth)
         useHigherBadgeNumbersSwitch.addTarget(self, action: #selector(handleOnSwitchValueChanged), for: .valueChanged)

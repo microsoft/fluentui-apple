@@ -31,10 +31,11 @@ class TabBarItemView: UIView {
         static let portraitImageWithLabelSize: CGFloat = 24
         static let landscapeImageSize: CGFloat = 24
         static let badgeVerticalOffset: CGFloat = -4
-        static let badgeHorizontalOffset: CGFloat = 12
+        static let singleDigitBadgeHorizontalOffset: CGFloat = 15
+        static let multiDigitBadgeHorizontalOffset: CGFloat = 12
         static let badgeHeight: CGFloat = 16
         static let badgeMinWidth: CGFloat = 16
-        static let badgeMaxWidth: CGFloat = 200
+        static let badgeMaxWidth: CGFloat = 42
         static let badgeBorderWidth: CGFloat = 2
         static let badgeFontSize: CGFloat = 11
         static let badgeHorizontalPadding: CGFloat = 10
@@ -197,15 +198,12 @@ class TabBarItemView: UIView {
 
         if badgeNumber > 0 {
             badgeView.isHidden = false
-            badgeView.text = "\(badgeNumber)" // TODO_ localize
+            badgeView.text = NumberFormatter.localizedString(from: NSNumber(value: badgeNumber), number: .none)
 
             if badgeView.text?.count ?? 1 > 1 {
-                var badgeWidth = max(badgeView.intrinsicContentSize.width + Constants.badgeHorizontalPadding, Constants.badgeMinWidth)
-                if badgeWidth > Constants.badgeMaxWidth {
-                    badgeWidth = Constants.badgeMaxWidth // TODO_
-                }
+                let badgeWidth = min(max(badgeView.intrinsicContentSize.width + Constants.badgeHorizontalPadding, Constants.badgeMinWidth), Constants.badgeMaxWidth)
 
-                badgeView.frame = CGRect(x: Constants.badgeHorizontalOffset,
+                badgeView.frame = CGRect(x: Constants.multiDigitBadgeHorizontalOffset,
                                          y: Constants.badgeVerticalOffset,
                                          width: badgeWidth,
                                          height: Constants.badgeHeight)
@@ -220,7 +218,7 @@ class TabBarItemView: UIView {
             } else {
                 let badgeWidth = max(badgeView.intrinsicContentSize.width, Constants.badgeMinWidth)
 
-                badgeView.frame = CGRect(x: Constants.badgeHorizontalOffset,
+                badgeView.frame = CGRect(x: Constants.singleDigitBadgeHorizontalOffset,
                                          y: Constants.badgeVerticalOffset,
                                          width: badgeWidth,
                                          height: Constants.badgeHeight)
