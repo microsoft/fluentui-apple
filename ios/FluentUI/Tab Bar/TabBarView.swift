@@ -27,12 +27,6 @@ public typealias MSTabBarView = TabBarView
 /// Use `selectedItem` property to change the selected tab bar item.
 @objc(MSFTabBarView)
 open class TabBarView: UIView {
-    private struct Constants {
-        static let maxTabCount: Int = 5
-        static let portraitHeight: CGFloat = 49.0
-        static let landscapeHeight: CGFloat = 40.0
-    }
-
     /// List of TabBarItems in the TabBarView. Order of the array is the order of the subviews.
     @objc open var items: [TabBarItem] = [] {
         willSet {
@@ -79,31 +73,9 @@ open class TabBarView: UIView {
 
     @objc public weak var delegate: TabBarViewDelegate?
 
-    @objc public func setBadgeNumber(_ badgeNumber: UInt, for tabBarItem: TabBarItem) {
+    @objc open func setBadgeNumber(_ badgeNumber: UInt, for tabBarItem: TabBarItem) {
         itemView(with: tabBarItem)?.badgeNumber = badgeNumber
     }
-
-    private let backgroundView: UIVisualEffectView = {
-        var style = UIBlurEffect.Style.regular
-        if #available(iOS 13, *) {
-            style = .systemChromeMaterial
-        }
-        return UIVisualEffectView(effect: UIBlurEffect(style: style))
-    }()
-
-    private var heightConstraint: NSLayoutConstraint?
-
-    private let showsItemTitles: Bool
-
-    private let stackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.distribution = .fillEqually
-        stackView.alignment = .fill
-        stackView.axis = .horizontal
-        return stackView
-    }()
-
-    private let topBorderLine = Separator(style: .shadow, orientation: .horizontal)
 
     /// Initializes MSTabBarView
     /// - Parameter showsItemTitles: Determines whether or not to show the titles of the tab ba ritems.
@@ -144,6 +116,34 @@ open class TabBarView: UIView {
             updateHeight()
         }
     }
+
+    private struct Constants {
+        static let maxTabCount: Int = 5
+        static let portraitHeight: CGFloat = 49.0
+        static let landscapeHeight: CGFloat = 40.0
+    }
+
+    private let backgroundView: UIVisualEffectView = {
+        var style = UIBlurEffect.Style.regular
+        if #available(iOS 13, *) {
+            style = .systemChromeMaterial
+        }
+        return UIVisualEffectView(effect: UIBlurEffect(style: style))
+    }()
+
+    private var heightConstraint: NSLayoutConstraint?
+
+    private let showsItemTitles: Bool
+
+    private let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.distribution = .fillEqually
+        stackView.alignment = .fill
+        stackView.axis = .horizontal
+        return stackView
+    }()
+
+    private let topBorderLine = Separator(style: .shadow, orientation: .horizontal)
 
     private func itemView(with item: TabBarItem) -> TabBarItemView? {
         if let index = items.firstIndex(of: item) {

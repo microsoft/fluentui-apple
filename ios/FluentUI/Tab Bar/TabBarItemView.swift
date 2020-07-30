@@ -29,6 +29,7 @@ class TabBarItemView: UIView {
                 }
 
                 updateBadgeView()
+                updateAccessibilityLabel()
             }
         }
     }
@@ -53,11 +54,11 @@ class TabBarItemView: UIView {
         container.addSubview(badgeView)
 
         isAccessibilityElement = true
-        accessibilityLabel = item.title
+        updateAccessibilityLabel()
 
         if #available(iOS 13, *) {
             self.largeContentImage = item.largeContentImage ?? item.image
-            largeContentTitle = accessibilityLabel
+            largeContentTitle = item.title
             showsLargeContentViewer = true
             scalesLargeContentImage = true
         }
@@ -263,5 +264,17 @@ class TabBarItemView: UIView {
                       y: badgeViewFrame.origin.y - Constants.badgeBorderWidth - imageView.frame.origin.y,
                       width: badgeViewFrame.size.width + 2 * Constants.badgeBorderWidth,
                       height: badgeViewFrame.size.height + 2 * Constants.badgeBorderWidth)
+    }
+
+    private func updateAccessibilityLabel() {
+        if let accessibilityLabelBadgeFormatString = item.accessibilityLabelBadgeFormatString {
+            accessibilityLabel = String(format: accessibilityLabelBadgeFormatString, item.title, badgeNumber)
+        } else {
+            if badgeNumber > 0 {
+                accessibilityLabel = String(format: "Accessibility.TabBarItemView.LabelFormat".localized, item.title, Int64(badgeNumber))
+            } else {
+                accessibilityLabel = item.title
+            }
+        }
     }
 }
