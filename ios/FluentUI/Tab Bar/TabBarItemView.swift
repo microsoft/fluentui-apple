@@ -222,7 +222,7 @@ class TabBarItemView: UIView {
             if badgeView.text?.count ?? 1 > 1 {
                 let badgeWidth = min(max(badgeView.intrinsicContentSize.width + Constants.badgeHorizontalPadding, Constants.badgeMinWidth), Constants.badgeMaxWidth)
 
-                badgeView.frame = CGRect(x: imageView.frame.origin.x + Constants.multiDigitBadgeHorizontalOffset,
+                badgeView.frame = CGRect(x: badgeFrameOriginX(offset: Constants.multiDigitBadgeHorizontalOffset, frameWidth: badgeWidth),
                                          y: imageView.frame.origin.y + badgeVerticalOffset,
                                          width: badgeWidth,
                                          height: Constants.badgeHeight)
@@ -241,7 +241,7 @@ class TabBarItemView: UIView {
             } else {
                 let badgeWidth = max(badgeView.intrinsicContentSize.width, Constants.badgeMinWidth)
 
-                badgeView.frame = CGRect(x: imageView.frame.origin.x + Constants.singleDigitBadgeHorizontalOffset,
+                badgeView.frame = CGRect(x: badgeFrameOriginX(offset: Constants.singleDigitBadgeHorizontalOffset, frameWidth: badgeWidth),
                                          y: imageView.frame.origin.y + badgeVerticalOffset,
                                          width: badgeWidth,
                                          height: Constants.badgeHeight)
@@ -257,6 +257,17 @@ class TabBarItemView: UIView {
         } else {
             imageView.layer.mask = nil
         }
+    }
+
+    private func badgeFrameOriginX(offset: CGFloat, frameWidth: CGFloat) -> CGFloat {
+        var xOrigin: CGFloat = 0
+        if effectiveUserInterfaceLayoutDirection == .leftToRight {
+            xOrigin = imageView.frame.origin.x + offset
+        } else {
+            xOrigin = imageView.frame.origin.x + imageView.frame.size.width - offset - frameWidth
+        }
+
+        return xOrigin
     }
 
     private func badgeBorderRect(badgeViewFrame: CGRect) -> CGRect {
