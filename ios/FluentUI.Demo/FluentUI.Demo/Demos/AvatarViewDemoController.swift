@@ -7,14 +7,26 @@ import FluentUI
 import UIKit
 
 class AvatarViewDemoController: DemoController {
+    enum BorderStyle: Int {
+    case noBorder
+    case defaultBorder
+    case colorfulBorder
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let showPresenceView = createLabelAndSwitchRow(labelText: "Show presence",
-                                                       switchAction: #selector(toggleShowPresence(switchView:)),
-                                                       isOn: isShowingPresence)
+        let showPresenceSettingView = createLabelAndSwitchRow(labelText: "Show presence",
+                                                              switchAction: #selector(toggleShowPresence(switchView:)),
+                                                              isOn: isShowingPresence)
 
-        addRow(items: [showPresenceView])
+        let backgroundSettingView = createLabelAndSwitchRow(labelText: "Use custom background color",
+                                                            switchAction: #selector(toggleCustomBackground(switchView:)),
+                                                            isOn: isShowingPresence)
+
+        addRow(items: [backgroundSettingView])
+        addRow(items: [showPresenceSettingView])
+        addRow(items: [opaquePresenceBorderSettingView])
 
         createSection(withTitle: "Circle style for person",
                       name: "Kat Larrson",
@@ -26,11 +38,17 @@ class AvatarViewDemoController: DemoController {
                       image: UIImage(named: "site")!,
                       style: .square)
 
-        createSection(withTitle: "With image based frame",
+        createSection(withTitle: "With border",
                       name: "Kat Larrson",
                       image: UIImage(named: "avatar_kat_larsson")!,
                       style: .circle,
-                      withColorfulBorder: true)
+                      borderStyle: .defaultBorder)
+
+        createSection(withTitle: "With image based border",
+                      name: "Kat Larrson",
+                      image: UIImage(named: "avatar_kat_larsson")!,
+                      style: .circle,
+                      borderStyle: .colorfulBorder)
     }
 
     private var isShowingPresence: Bool = false {
@@ -43,6 +61,32 @@ class AvatarViewDemoController: DemoController {
                 for avatarView in avatarViewsWithInitials {
                     avatarView.presence = isShowingPresence ? avatarView.avatarSize.presenceWithInitials : .none
                 }
+
+                opaquePresenceBorderSettingView.isHidden = !isShowingPresence
+            }
+        }
+    }
+
+    private lazy var opaquePresenceBorderSettingView: UIView = {
+        let view = createLabelAndSwitchRow(labelText: "Use opaque presence border",
+                                           switchAction: #selector(toggleUseOpaquePresenceBorder(switchView:)),
+                                           isOn: isUsingOpaquePresenceBorder)
+
+        view.isHidden = !isShowingPresence
+
+        return view
+    }()
+
+    private var isUsingOpaquePresenceBorder: Bool = false {
+        didSet {
+            if oldValue != isUsingOpaquePresenceBorder {
+                for avatarView in avatarViewsWithImages {
+                    avatarView.useOpaquePresenceBorder = isUsingOpaquePresenceBorder
+                }
+
+                for avatarView in avatarViewsWithInitials {
+                    avatarView.useOpaquePresenceBorder = isUsingOpaquePresenceBorder
+                }
             }
         }
     }
@@ -51,19 +95,27 @@ class AvatarViewDemoController: DemoController {
         isShowingPresence = switchView.isOn
     }
 
+    @objc private func toggleUseOpaquePresenceBorder(switchView: UISwitch) {
+        isUsingOpaquePresenceBorder = switchView.isOn
+    }
+
+    @objc private func toggleCustomBackground(switchView: UISwitch) {
+        view.backgroundColor = switchView.isOn ? Colors.gray100 : Colors.surfacePrimary
+    }
+
     private var avatarViewsWithImages: [AvatarView] = []
     private var avatarViewsWithInitials: [AvatarView] = []
 
-    private func createSection(withTitle title: String, name: String, image: UIImage, style: AvatarStyle, withColorfulBorder: Bool = false, withPresence: Bool = false) {
+    private func createSection(withTitle title: String, name: String, image: UIImage, style: AvatarStyle, borderStyle: BorderStyle = .noBorder, withPresence: Bool = false) {
         addTitle(text: title)
 
         for size in AvatarSize.allCases.reversed() {
             let presenceWithImage = withPresence ? size.presenceWithImage : .none
-            let imageAvatar = createAvatarView(size: size, name: name, image: image, style: style, withColorfulBorder: withColorfulBorder, presence: presenceWithImage)
+            let imageAvatar = createAvatarView(size: size, name: name, image: image, style: style, borderStyle: borderStyle, presence: presenceWithImage)
             avatarViewsWithImages.append(imageAvatar.1)
 
             let presenceWithInitials = withPresence ? size.presenceWithInitials : .none
-            let initialsAvatar = createAvatarView(size: size, name: name, style: style, withColorfulBorder: withColorfulBorder, presence: presenceWithInitials)
+            let initialsAvatar = createAvatarView(size: size, name: name, style: style, borderStyle: borderStyle, presence: presenceWithInitials)
             avatarViewsWithInitials.append(initialsAvatar.1)
 
             addRow(text: size.description, items: [imageAvatar.0, initialsAvatar.0], textStyle: .footnote, textWidth: 100)
@@ -72,9 +124,9 @@ class AvatarViewDemoController: DemoController {
         container.addArrangedSubview(UIView())
     }
 
-    private func createAvatarView(size: AvatarSize, name: String, image: UIImage? = nil, style: AvatarStyle, withColorfulBorder: Bool = false, presence: Presence = .none) -> (UIView, AvatarView) {
-        let avatarView = AvatarView(avatarSize: size, withBorder: withColorfulBorder, style: style)
-        if withColorfulBorder, let customBorderImage = colorfulImageForFrame() {
+    private func createAvatarView(size: AvatarSize, name: String, image: UIImage? = nil, style: AvatarStyle, borderStyle: BorderStyle = .noBorder, presence: Presence = .none) -> (UIView, AvatarView) {
+        let avatarView = AvatarView(avatarSize: size, withBorder: borderStyle != .noBorder, style: style)
+        if borderStyle == .colorfulBorder, let customBorderImage = colorfulImageForFrame() {
             avatarView.customBorderImage = customBorderImage
         }
 

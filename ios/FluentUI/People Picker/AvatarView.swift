@@ -192,11 +192,19 @@ open class AvatarView: UIView {
         }
     }
 
+    /// The avatar view's presence state.
     @objc open var presence: Presence = .none {
         didSet {
             if oldValue != presence {
                 updatePresenceImage()
             }
+        }
+    }
+
+    /// When true, the presence status border is opaque. Otherwise, it is transparent.
+    @objc open var useOpaquePresenceBorder: Bool = false {
+        didSet {
+            updatePresenceImage()
         }
     }
 
@@ -208,6 +216,7 @@ open class AvatarView: UIView {
 
     private var initialsView: InitialsView
     private let imageView: UIImageView
+    private let containerView: UIView
 
     // Use a view as a border to avoid leaking pixels on corner radius
     private let borderView: UIView
@@ -238,11 +247,14 @@ open class AvatarView: UIView {
         borderView = UIView(frame: .zero)
         borderView.isHidden = !hasBorder
 
-        super.init(frame: CGRect(origin: .zero, size: avatarSize.size))
+        containerView = UIView(frame: CGRect(origin: .zero, size: avatarSize.size))
+        containerView.addSubview(borderView)
+        containerView.addSubview(initialsView)
+        containerView.addSubview(imageView)
 
-        addSubview(borderView)
-        addSubview(initialsView)
-        addSubview(imageView)
+        super.init(frame: containerView.frame)
+
+        addSubview(containerView)
     }
 
     @objc public required init(coder aDecoder: NSCoder) {
@@ -264,28 +276,13 @@ open class AvatarView: UIView {
         initialsView.frame = imageView.frame
 
         if let presenceImageView = presenceImageView, let presenceBorderView = presenceBorderView {
-            let presenceSize = avatarSize.presenceSize.sizeValue
-            let presenceCornerOffset = style == .circle ? avatarSize.presenceCornerOffset : 0.0
-
-            var presenceXOrigin = presenceCornerOffset
-            if effectiveUserInterfaceLayoutDirection == .leftToRight {
-                presenceXOrigin = bounds.width - presenceSize - presenceXOrigin
-            }
-
-            var presenceFrame = CGRect(x: presenceXOrigin,
-                                       y: bounds.height - presenceSize - presenceCornerOffset,
-                                       width: presenceSize,
-                                       height: presenceSize)
-            presenceImageView.frame = presenceFrame
-
-            presenceFrame.origin.x -= Constants.presenceBorderWidth
-            presenceFrame.origin.y -= Constants.presenceBorderWidth
-            presenceFrame.size.width += Constants.presenceBorderWidth * 2
-            presenceFrame.size.height += Constants.presenceBorderWidth * 2
-            presenceBorderView.frame = presenceFrame
+            presenceImageView.frame = presenceFrame()
+            presenceBorderView.frame = presenceBorderFrame()
 
             presenceImageView.layer.cornerRadius = presenceImageView.frame.width / 2
             presenceBorderView.layer.cornerRadius = presenceBorderView.frame.width / 2
+
+            updatePresenceMask()
         }
 
         imageView.layer.cornerRadius = cornerRadius(for: imageView.frame.width)
@@ -419,14 +416,7 @@ open class AvatarView: UIView {
     }
 
     private func updatePresenceImage() {
-        if !isDisplayingPresence() {
-            if presenceImageView != nil {
-                presenceImageView!.removeFromSuperview()
-                presenceBorderView!.removeFromSuperview()
-                presenceImageView = nil
-                presenceBorderView = nil
-            }
-        } else {
+        if isDisplayingPresence() {
             if presenceImageView == nil {
                 presenceImageView = UIImageView(frame: .zero)
                 presenceBorderView = UIView(frame: .zero)
@@ -438,10 +428,70 @@ open class AvatarView: UIView {
                 addSubview(presenceImageView!)
             }
 
+            presenceBorderView!.isHidden = !useOpaquePresenceBorder
+
             let image = presence.image(size: avatarSize.presenceSize)
             if let image = image {
                 presenceImageView!.image = image
             }
+        } else if presenceImageView != nil {
+            presenceImageView!.removeFromSuperview()
+            presenceBorderView!.removeFromSuperview()
+            presenceImageView = nil
+            presenceBorderView = nil
+        }
+
+        updatePresenceMask()
+    }
+
+    private func presenceFrame() -> CGRect {
+        let presenceSize = avatarSize.presenceSize.sizeValue
+        let presenceCornerOffset = style == .circle ? avatarSize.presenceCornerOffset : 0.0
+
+        var presenceXOrigin = presenceCornerOffset
+        if effectiveUserInterfaceLayoutDirection == .leftToRight {
+            presenceXOrigin = bounds.width - presenceSize - presenceXOrigin
+        }
+
+        return CGRect(x: presenceXOrigin,
+                      y: bounds.height - presenceSize - presenceCornerOffset,
+                      width: presenceSize,
+                      height: presenceSize)
+    }
+
+    private func presenceBorderFrame() -> CGRect {
+        var frame = presenceFrame()
+        frame.origin.x -= Constants.presenceBorderWidth
+        frame.origin.y -= Constants.presenceBorderWidth
+        frame.size.width += Constants.presenceBorderWidth * 2
+        frame.size.height += Constants.presenceBorderWidth * 2
+
+        return frame
+    }
+
+    private func updatePresenceMask() {
+        if !useOpaquePresenceBorder && isDisplayingPresence() {
+            var maskFrame = bounds
+            maskFrame.origin.x -= Constants.customBorderWidth
+            maskFrame.origin.y -= Constants.customBorderWidth
+            maskFrame.size.width += Constants.customBorderWidth * 3
+            maskFrame.size.height += Constants.customBorderWidth * 3
+
+            var presenceFrame = presenceBorderFrame()
+            presenceFrame.origin.x += Constants.customBorderWidth
+            presenceFrame.origin.y += Constants.customBorderWidth
+
+            let path = UIBezierPath(rect: maskFrame)
+            path.append(UIBezierPath(ovalIn: presenceFrame))
+
+            let maskLayer = CAShapeLayer()
+            maskLayer.frame = maskFrame
+            maskLayer.fillRule = CAShapeLayerFillRule.evenOdd
+            maskLayer.path = path.cgPath
+
+            containerView.layer.mask = maskLayer
+        } else {
+            containerView.layer.mask = nil
         }
     }
 
