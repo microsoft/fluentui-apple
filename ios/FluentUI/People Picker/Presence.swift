@@ -78,4 +78,27 @@ public enum Presence: Int, CaseIterable {
 
         return image
     }
+
+    public var string: String? {
+        switch self {
+        case .none:
+            return nil
+        case .available:
+            return "Presence.Available".localized
+        case .away:
+            return "Presence.Away".localized
+        case .busy:
+            return "Presence.Busy".localized
+        case .doNotDisturb:
+            return "Presence.DND".localized
+        case .outOfOffice:
+            return "Presence.OOF".localized
+        case .offline:
+            return "Presence.Offline".localized
+        case .unknown:
+            return "Presence.Unknown".localized
+        case .blocked:
+            return "Presence.Blocked".localized
+        }
+    }
 }

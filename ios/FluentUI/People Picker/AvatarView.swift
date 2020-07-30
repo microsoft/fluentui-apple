@@ -146,12 +146,16 @@ open class AvatarView: UIView {
         }
     }
 
+    /// Set this to override the avatar view's default accessibility label.
+    @objc open var overrideAccessibilityLabel: String?
+
     @objc open var avatarSize: AvatarSize {
         didSet {
+            updatePresenceImage()
+
             frame.size = avatarSize.size
             initialsView.avatarSize = avatarSize
 
-            updatePresenceImage()
             invalidateIntrinsicContentSize()
         }
     }
@@ -204,11 +208,12 @@ open class AvatarView: UIView {
 
     private var initialsView: InitialsView
     private let imageView: UIImageView
-    private let presenceImageView: UIImageView
 
     // Use a view as a border to avoid leaking pixels on corner radius
     private let borderView: UIView
-    private let presenceBorderView: UIView
+
+    private var presenceImageView: UIImageView?
+    private var presenceBorderView: UIView?
 
     /// Initializes the avatar view with a size and an optional border
     ///
@@ -233,22 +238,11 @@ open class AvatarView: UIView {
         borderView = UIView(frame: .zero)
         borderView.isHidden = !hasBorder
 
-        presenceImageView = UIImageView(frame: .zero)
-        presenceImageView.isHidden = true
-
-        presenceBorderView = UIView(frame: .zero)
-        presenceBorderView.isHidden = true
-
-        let presenceBorderColor = UIColor(named: "presenceBorder", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
-        presenceBorderView.backgroundColor = presenceBorderColor
-
         super.init(frame: CGRect(origin: .zero, size: avatarSize.size))
 
         addSubview(borderView)
         addSubview(initialsView)
         addSubview(imageView)
-        addSubview(presenceBorderView)
-        addSubview(presenceImageView)
     }
 
     @objc public required init(coder aDecoder: NSCoder) {
@@ -269,24 +263,33 @@ open class AvatarView: UIView {
         imageView.frame = bounds
         initialsView.frame = imageView.frame
 
-        let presenceSize = avatarSize.presenceSize.sizeValue
-        let presenceCornerOffset = style == .circle ? avatarSize.presenceCornerOffset : 0.0
-        var presenceFrame = CGRect(x: bounds.width - presenceSize - presenceCornerOffset,
-                                   y: bounds.height - presenceSize - presenceCornerOffset,
-                                   width: presenceSize,
-                                   height: presenceSize)
-        presenceImageView.frame = presenceFrame
+        if let presenceImageView = presenceImageView, let presenceBorderView = presenceBorderView {
+            let presenceSize = avatarSize.presenceSize.sizeValue
+            let presenceCornerOffset = style == .circle ? avatarSize.presenceCornerOffset : 0.0
 
-        presenceFrame.origin.x -= Constants.presenceBorderWidth
-        presenceFrame.origin.y -= Constants.presenceBorderWidth
-        presenceFrame.size.width += Constants.presenceBorderWidth * 2
-        presenceFrame.size.height += Constants.presenceBorderWidth * 2
-        presenceBorderView.frame = presenceFrame
+            var presenceXOrigin = presenceCornerOffset
+            if effectiveUserInterfaceLayoutDirection == .leftToRight {
+                presenceXOrigin = bounds.width - presenceSize - presenceXOrigin
+            }
+
+            var presenceFrame = CGRect(x: presenceXOrigin,
+                                       y: bounds.height - presenceSize - presenceCornerOffset,
+                                       width: presenceSize,
+                                       height: presenceSize)
+            presenceImageView.frame = presenceFrame
+
+            presenceFrame.origin.x -= Constants.presenceBorderWidth
+            presenceFrame.origin.y -= Constants.presenceBorderWidth
+            presenceFrame.size.width += Constants.presenceBorderWidth * 2
+            presenceFrame.size.height += Constants.presenceBorderWidth * 2
+            presenceBorderView.frame = presenceFrame
+
+            presenceImageView.layer.cornerRadius = presenceImageView.frame.width / 2
+            presenceBorderView.layer.cornerRadius = presenceBorderView.frame.width / 2
+        }
 
         imageView.layer.cornerRadius = cornerRadius(for: imageView.frame.width)
         initialsView.layer.cornerRadius = imageView.layer.cornerRadius
-        presenceImageView.layer.cornerRadius = presenceImageView.frame.width / 2
-        presenceBorderView.layer.cornerRadius = presenceBorderView.frame.width / 2
 
         if hasCustomBorder {
             updateCustomBorder()
@@ -416,23 +419,58 @@ open class AvatarView: UIView {
     }
 
     private func updatePresenceImage() {
-        if presence == .none || avatarSize == .extraSmall {
-            presenceImageView.isHidden = true
-            presenceBorderView.isHidden = true
+        if !isDisplayingPresence() {
+            if presenceImageView != nil {
+                presenceImageView!.removeFromSuperview()
+                presenceBorderView!.removeFromSuperview()
+                presenceImageView = nil
+                presenceBorderView = nil
+            }
         } else {
-            presenceImageView.isHidden = false
-            presenceBorderView.isHidden = false
+            if presenceImageView == nil {
+                presenceImageView = UIImageView(frame: .zero)
+                presenceBorderView = UIView(frame: .zero)
+
+                let presenceBorderColor = UIColor(named: "presenceBorder", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+                presenceBorderView!.backgroundColor = presenceBorderColor
+
+                addSubview(presenceBorderView!)
+                addSubview(presenceImageView!)
+            }
 
             let image = presence.image(size: avatarSize.presenceSize)
             if let image = image {
-                presenceImageView.image = image
+                presenceImageView!.image = image
             }
         }
+    }
+
+    private func isDisplayingPresence() -> Bool {
+        return presence != .none && avatarSize != .extraSmall
     }
 
     // MARK: Accessibility
 
     open override var isAccessibilityElement: Bool { get { return true } set { } }
-    open override var accessibilityLabel: String? { get { return primaryText ?? secondaryText } set { } }
     open override var accessibilityTraits: UIAccessibilityTraits { get { return .image } set { } }
+
+    open override var accessibilityLabel: String? {
+        get {
+            if let overrideAccessibilityLabel = overrideAccessibilityLabel {
+                return overrideAccessibilityLabel
+            }
+
+            var label = primaryText ?? secondaryText
+            if let presenceString = presence.string {
+                if label?.count ?? 0 > 0 {
+                    label = String(format: "Accessibility.AvatarView.LabelFormat".localized, label!, presenceString)
+                } else {
+                    label = presenceString
+                }
+            }
+
+            return label
+        }
+        set { }
+    }
 }
