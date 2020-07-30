@@ -31,7 +31,8 @@ class TabBarItemView: UIView {
         static let portraitImageWithLabelSize: CGFloat = 24
         static let landscapeImageSize: CGFloat = 24
         static let badgeVerticalOffset: CGFloat = -4
-        static let singleDigitBadgeHorizontalOffset: CGFloat = 15
+        static let badgePortraitTitleVerticalOffset: CGFloat = -2
+        static let singleDigitBadgeHorizontalOffset: CGFloat = 14
         static let multiDigitBadgeHorizontalOffset: CGFloat = 12
         static let badgeHeight: CGFloat = 16
         static let badgeMinWidth: CGFloat = 16
@@ -39,6 +40,7 @@ class TabBarItemView: UIView {
         static let badgeBorderWidth: CGFloat = 2
         static let badgeFontSize: CGFloat = 11
         static let badgeHorizontalPadding: CGFloat = 10
+        static let badgeCorderRadii: CGFloat = 10
     }
 
     private let container: UIStackView = {
@@ -53,21 +55,6 @@ class TabBarItemView: UIView {
         let imageView = UIImageView(frame: .zero)
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = Constants.unselectedColor
-
-//        let maskLayer = CAShapeLayer() TODO_
-//        maskLayer.fillRule = CAShapeLayerFillRule.evenOdd
-//
-//        let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: 28, height: 28))
-//        path.append(UIBezierPath(
-//            arcCenter: CGPoint(x: 10, y: 0),
-//            radius: 10,
-//            startAngle: 0 * CGFloat.pi / 180,
-//            endAngle: 360 * CGFloat.pi / 180,
-//            clockwise: true))
-//
-//        maskLayer.path = path.cgPath
-//
-//        imageView.layer.mask = maskLayer
 
         return imageView
     }()
@@ -105,7 +92,6 @@ class TabBarItemView: UIView {
         self.item = item
         super.init(frame: .zero)
 
-        imageView.addSubview(badgeView)
         container.addArrangedSubview(imageView)
 
         titleLabel.isHidden = !showsTitle
@@ -116,6 +102,8 @@ class TabBarItemView: UIView {
 
         container.translatesAutoresizingMaskIntoConstraints = false
         addSubview(container)
+
+        container.addSubview(badgeView)
 
         isAccessibilityElement = true
         accessibilityLabel = item.title
@@ -200,34 +188,57 @@ class TabBarItemView: UIView {
             badgeView.isHidden = false
             badgeView.text = NumberFormatter.localizedString(from: NSNumber(value: badgeNumber), number: .none)
 
+            let maskLayer = CAShapeLayer()
+            maskLayer.fillRule = .evenOdd
+
+            let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: imageWidthConstraint!.constant, height: imageHeightConstraint!.constant))
+            let badgeVerticalOffset = !titleLabel.isHidden && isInPortraitMode ? Constants.badgePortraitTitleVerticalOffset : Constants.badgeVerticalOffset
+
             if badgeView.text?.count ?? 1 > 1 {
                 let badgeWidth = min(max(badgeView.intrinsicContentSize.width + Constants.badgeHorizontalPadding, Constants.badgeMinWidth), Constants.badgeMaxWidth)
 
-                badgeView.frame = CGRect(x: Constants.multiDigitBadgeHorizontalOffset,
-                                         y: Constants.badgeVerticalOffset,
+                badgeView.frame = CGRect(x: imageView.frame.origin.x + Constants.multiDigitBadgeHorizontalOffset,
+                                         y: imageView.frame.origin.y + badgeVerticalOffset,
                                          width: badgeWidth,
                                          height: Constants.badgeHeight)
 
                 let layer = CAShapeLayer()
                 layer.path = UIBezierPath(roundedRect: badgeView.bounds,
                                           byRoundingCorners: .allCorners,
-                                          cornerRadii: CGSize(width: 10.0, height: 10.0)).cgPath
+                                          cornerRadii: CGSize(width: Constants.badgeCorderRadii, height: Constants.badgeCorderRadii)).cgPath
+
+                path.append(UIBezierPath(roundedRect: badgeBorderRect(badgeViewFrame: badgeView.frame),
+                                         byRoundingCorners: .allCorners,
+                                         cornerRadii: CGSize(width: Constants.badgeCorderRadii, height: Constants.badgeCorderRadii)))
 
                 badgeView.layer.mask = layer
                 badgeView.layer.cornerRadius = 0
             } else {
                 let badgeWidth = max(badgeView.intrinsicContentSize.width, Constants.badgeMinWidth)
 
-                badgeView.frame = CGRect(x: Constants.singleDigitBadgeHorizontalOffset,
-                                         y: Constants.badgeVerticalOffset,
+                badgeView.frame = CGRect(x: imageView.frame.origin.x + Constants.singleDigitBadgeHorizontalOffset,
+                                         y: imageView.frame.origin.y + badgeVerticalOffset,
                                          width: badgeWidth,
                                          height: Constants.badgeHeight)
+
+                path.append(UIBezierPath(ovalIn: badgeBorderRect(badgeViewFrame: badgeView.frame)))
 
                 badgeView.layer.mask = nil
                 badgeView.layer.cornerRadius = badgeWidth / 2
             }
+
+            maskLayer.path = path.cgPath
+            imageView.layer.mask = maskLayer
         } else {
             badgeView.isHidden = true
+            imageView.layer.mask = nil
         }
+    }
+
+    private func badgeBorderRect(badgeViewFrame: CGRect) -> CGRect {
+        return CGRect(x: badgeViewFrame.origin.x - Constants.badgeBorderWidth,
+                      y: badgeViewFrame.origin.y - Constants.badgeBorderWidth,
+                      width: badgeViewFrame.size.width + 2 * Constants.badgeBorderWidth,
+                      height: badgeViewFrame.size.height + 2 * Constants.badgeBorderWidth)
     }
 }
