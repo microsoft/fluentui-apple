@@ -12,7 +12,7 @@ class DemoController: UIViewController {
         static let horizontalSpacing: CGFloat = 40
         static let verticalSpacing: CGFloat = 16
         static let rowTextWidth: CGFloat = 75
-        static let labelSwitchSpacing: CGFloat = 10.0
+        static let labelSwitchSpacing: CGFloat = 10
     }
 
     class func createVerticalContainer() -> UIStackView {
