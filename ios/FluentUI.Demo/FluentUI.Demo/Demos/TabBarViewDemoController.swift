@@ -10,14 +10,30 @@ class TabBarViewDemoController: DemoController {
     private var tabBarView: TabBarView?
     private var tabBarViewConstraints: [NSLayoutConstraint]?
     private var showsItemTitles: Bool { return itemTitleVisibilitySwitch.isOn }
+    private var showBadgeNumbers: Bool { return showBadgeNumbersSwitch.isOn }
+    private var useHigherBadgeNumbers: Bool { return showBadgeNumbersSwitch.isOn }
 
     private let itemTitleVisibilitySwitch = UISwitch()
+    private let showBadgeNumbersSwitch = UISwitch()
+    private let useHigherBadgeNumbersSwitch = UISwitch()
+
+    private enum Constants {
+        static let badgeNumbers: [UInt] = [5, 50, 250]
+        static let higherBadgeNumbers: [UInt] = [1250, 25505, 305052]
+        static let settingsTextWidth: CGFloat = 180
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        addRow(text: "Show item titles", items: [itemTitleVisibilitySwitch], textWidth: 110)
+        addRow(text: "Show item titles", items: [itemTitleVisibilitySwitch], textWidth: Constants.settingsTextWidth)
         itemTitleVisibilitySwitch.addTarget(self, action: #selector(handleOnSwitchValueChanged), for: .valueChanged)
+
+        addRow(text: "Show badge numbers", items: [showBadgeNumbersSwitch], textWidth: Constants.settingsTextWidth)
+        itemTitleVisibilitySwitch.addTarget(self, action: #selector(handleOnSwitchValueChanged), for: .valueChanged)
+
+        addRow(text: "Use higher badge numbers", items: [useHigherBadgeNumbersSwitch], textWidth: Constants.settingsTextWidth)
+        useHigherBadgeNumbersSwitch.addTarget(self, action: #selector(handleOnSwitchValueChanged), for: .valueChanged)
 
         setupTabBarView()
     }
@@ -60,9 +76,13 @@ class TabBarViewDemoController: DemoController {
 
         tabBarView = updatedTabBarView
 
-        updatedTabBarView.setBadgeNumber(5, for: updatedTabBarView.items[0]) // TODO_
-        updatedTabBarView.setBadgeNumber(50, for: updatedTabBarView.items[1])
-        updatedTabBarView.setBadgeNumber(250, for: updatedTabBarView.items[2])
+        if showBadgeNumbers {
+            let numbers = useHigherBadgeNumbers ? Constants.higherBadgeNumbers : Constants.badgeNumbers
+
+            updatedTabBarView.setBadgeNumber(numbers[0], for: updatedTabBarView.items[0])
+            updatedTabBarView.setBadgeNumber(numbers[1], for: updatedTabBarView.items[1])
+            updatedTabBarView.setBadgeNumber(numbers[2], for: updatedTabBarView.items[2])
+        }
     }
 
     // Switch toggle handler

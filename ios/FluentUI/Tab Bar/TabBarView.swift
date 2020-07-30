@@ -47,7 +47,7 @@ open class TabBarView: UIView {
             }
 
             for item in items {
-                var existingBadgeNumber = 0
+                var existingBadgeNumber: UInt = 0
                 if let itemView = itemView(with: item) {
                     existingBadgeNumber = itemView.badgeNumber
                 }
@@ -79,7 +79,7 @@ open class TabBarView: UIView {
 
     @objc public weak var delegate: TabBarViewDelegate?
 
-    @objc public func setBadgeNumber(_ badgeNumber: Int, for tabBarItem: TabBarItem) {
+    @objc public func setBadgeNumber(_ badgeNumber: UInt, for tabBarItem: TabBarItem) {
         itemView(with: tabBarItem)?.badgeNumber = badgeNumber
     }
 

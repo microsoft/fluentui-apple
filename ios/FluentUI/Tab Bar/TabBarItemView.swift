@@ -17,7 +17,7 @@ class TabBarItemView: UIView {
         }
     }
 
-    var badgeNumber: Int = 0 {
+    var badgeNumber: UInt = 0 {
         didSet {
             updateLayout()
         }
@@ -37,6 +37,7 @@ class TabBarItemView: UIView {
         static let badgeMaxWidth: CGFloat = 200
         static let badgeBorderWidth: CGFloat = 2
         static let badgeFontSize: CGFloat = 11
+        static let badgeHorizontalPadding: CGFloat = 10
     }
 
     private let container: UIStackView = {
@@ -196,20 +197,37 @@ class TabBarItemView: UIView {
 
         if badgeNumber > 0 {
             badgeView.isHidden = false
-            badgeView.text = "\(badgeNumber)"
+            badgeView.text = "\(badgeNumber)" // TODO_ localize
 
-            let imageViewWidth = imageWidthConstraint?.constant ?? 0
-            var badgeWidth = max(badgeView.intrinsicContentSize.width + 12, Constants.badgeMinWidth)
-            if badgeWidth > Constants.badgeMaxWidth {
-                badgeWidth = Constants.badgeMaxWidth
+            if badgeView.text?.count ?? 1 > 1 {
+                var badgeWidth = max(badgeView.intrinsicContentSize.width + Constants.badgeHorizontalPadding, Constants.badgeMinWidth)
+                if badgeWidth > Constants.badgeMaxWidth {
+                    badgeWidth = Constants.badgeMaxWidth // TODO_
+                }
+
+                badgeView.frame = CGRect(x: Constants.badgeHorizontalOffset,
+                                         y: Constants.badgeVerticalOffset,
+                                         width: badgeWidth,
+                                         height: Constants.badgeHeight)
+
+                let layer = CAShapeLayer()
+                layer.path = UIBezierPath(roundedRect: badgeView.bounds,
+                                          byRoundingCorners: .allCorners,
+                                          cornerRadii: CGSize(width: 10.0, height: 10.0)).cgPath
+
+                badgeView.layer.mask = layer
+                badgeView.layer.cornerRadius = 0
+            } else {
+                let badgeWidth = max(badgeView.intrinsicContentSize.width, Constants.badgeMinWidth)
+
+                badgeView.frame = CGRect(x: Constants.badgeHorizontalOffset,
+                                         y: Constants.badgeVerticalOffset,
+                                         width: badgeWidth,
+                                         height: Constants.badgeHeight)
+
+                badgeView.layer.mask = nil
+                badgeView.layer.cornerRadius = badgeWidth / 2
             }
-
-            badgeView.frame = CGRect(x: Constants.badgeHorizontalOffset,
-                                     y: Constants.badgeVerticalOffset,
-                                     width: badgeWidth,
-                                     height: Constants.badgeHeight)
-
-            badgeView.layer.cornerRadius = badgeView.bounds.width / 2
         } else {
             badgeView.isHidden = true
         }
