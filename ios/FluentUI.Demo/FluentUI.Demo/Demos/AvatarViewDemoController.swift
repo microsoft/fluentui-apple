@@ -22,7 +22,7 @@ class AvatarViewDemoController: DemoController {
 
         let backgroundSettingView = createLabelAndSwitchRow(labelText: "Use custom background color",
                                                             switchAction: #selector(toggleCustomBackground(switchView:)),
-                                                            isOn: isShowingPresence)
+                                                            isOn: isUsingCustomBackgroundColor)
 
         addRow(items: [backgroundSettingView])
         addRow(items: [showPresenceSettingView])
@@ -49,6 +49,12 @@ class AvatarViewDemoController: DemoController {
                       image: UIImage(named: "avatar_kat_larsson")!,
                       style: .circle,
                       borderStyle: .colorfulBorder)
+    }
+
+    private var isUsingCustomBackgroundColor: Bool = false {
+        didSet {
+            updateBackgroundColor()
+        }
     }
 
     private var isShowingPresence: Bool = false {
@@ -100,7 +106,17 @@ class AvatarViewDemoController: DemoController {
     }
 
     @objc private func toggleCustomBackground(switchView: UISwitch) {
-        view.backgroundColor = switchView.isOn ? Colors.gray100 : Colors.surfacePrimary
+        isUsingCustomBackgroundColor = switchView.isOn
+    }
+
+    private static var customBackgroundColor = UIColor(light: Colors.gray100, dark: Colors.gray600)
+    private func updateBackgroundColor() {
+        var color = Colors.surfacePrimary
+        if isUsingCustomBackgroundColor {
+            color = AvatarViewDemoController.customBackgroundColor
+        }
+
+        view.backgroundColor = color
     }
 
     private var avatarViewsWithImages: [AvatarView] = []
