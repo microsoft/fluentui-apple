@@ -23,11 +23,6 @@ class TestButtonViewController: NSViewController {
 				Button(title: "FluentUI Button", style: .borderless),
 			]
 		}
-		
-		let disabledButtonsWithTitle = buttonsWithTitle().map { button -> NSButton in
-			button.isEnabled = false
-			return button
-		}
 
 		let buttonsWithImage: () -> [NSButton] = {
 			return [
@@ -35,11 +30,6 @@ class TestButtonViewController: NSViewController {
 				Button(image: NSImage(named: NSImage.stopProgressTemplateName)!, style: .primaryOutline),
 				Button(image: NSImage(named: NSImage.stopProgressTemplateName)!, style: .borderless),
 			]
-		}
-
-		let disabledButtonsWithImage = buttonsWithImage().map { button -> NSButton in
-			button.isEnabled = false
-			return button
 		}
 		
 		let leadingArrowImage = NSImage(named: TestButtonViewController.leadingArrow)!
@@ -49,7 +39,7 @@ class TestButtonViewController: NSViewController {
 		let buttonsWithTitleAndImage: () -> [NSButton] = {
 			return [
 				Button(title: "Back", image: leadingArrowImage, imagePosition: .imageLeading, style: .primaryFilled),
-				Button(title: "Back", image: trailingArrowImage, imagePosition: .imageTrailing, style: .primaryOutline),
+				Button(title: "Skip", image: trailingArrowImage, imagePosition: .imageTrailing, style: .primaryOutline),
 				Button(title: "Back", image: leadingArrowImage, imagePosition: .imageLeading, style: .borderless),
 			]
 		}
@@ -66,9 +56,7 @@ class TestButtonViewController: NSViewController {
 		
 		gridView.addColumn(with: columnLabels)
 		gridView.addColumn(with: buttonsWithTitle())
-		gridView.addColumn(with: disabledButtonsWithTitle)
 		gridView.addColumn(with: buttonsWithImage())
-		gridView.addColumn(with: disabledButtonsWithImage)
 		gridView.addColumn(with: buttonsWithTitleAndImage())
 		gridView.addColumn(with: disabledButtonsWithTitleAndImage)
 
@@ -78,9 +66,7 @@ class TestButtonViewController: NSViewController {
 		let rowLabels: [NSView] = [
 			emptyCell,
 			NSTextField(labelWithString: "Title"),
-			NSTextField(labelWithString: "Title (Disabled)"),
 			NSTextField(labelWithString: "Image"),
-			NSTextField(labelWithString: "Image (Disabled)"),
 			NSTextField(labelWithString: "Title & Image"),
 			NSTextField(labelWithString: "Title & Image (Disabled)")
 		]
