@@ -118,13 +118,13 @@
 "Common.Cancel" = "취소";
 
 /* Generic label to indicate that an item is shared */
-"Common.Shared" = "Shared";
+"Common.Shared" = "공유됨";
 
 /* Generic label to indicate that an item is not shared */
 "Common.OnlyMe" = "나만";
 
 /* Just now date string */
-"Date.Now" = "Just now";
+"Date.Now" = "오늘";
 
 /* Minutes ago date format string. Example: "5m ago" */
 "Date.FormatMinutes" = "%ldm 전";
