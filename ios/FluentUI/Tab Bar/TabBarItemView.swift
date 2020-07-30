@@ -30,23 +30,43 @@ class TabBarItemView: UIView {
         static let portraitImageSize: CGFloat = 28
         static let portraitImageWithLabelSize: CGFloat = 24
         static let landscapeImageSize: CGFloat = 24
-        static let badgeVerticalOffset: CGFloat = -6
-        static let badgeHorizontalOffset: CGFloat = 4
+        static let badgeVerticalOffset: CGFloat = -4
+        static let badgeHorizontalOffset: CGFloat = 12
         static let badgeHeight: CGFloat = 16
         static let badgeMinWidth: CGFloat = 16
+        static let badgeMaxWidth: CGFloat = 200
+        static let badgeBorderWidth: CGFloat = 2
+        static let badgeFontSize: CGFloat = 11
     }
 
     private let container: UIStackView = {
-        let container = UIStackView()
+        let container = UIStackView(frame: .zero)
         container.alignment = .center
         container.distribution = .fill
+
         return container
     }()
 
     private let imageView: UIImageView = {
-        let imageView = UIImageView()
+        let imageView = UIImageView(frame: .zero)
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = Constants.unselectedColor
+
+//        let maskLayer = CAShapeLayer() TODO_
+//        maskLayer.fillRule = CAShapeLayerFillRule.evenOdd
+//
+//        let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: 28, height: 28))
+//        path.append(UIBezierPath(
+//            arcCenter: CGPoint(x: 10, y: 0),
+//            radius: 10,
+//            startAngle: 0 * CGFloat.pi / 180,
+//            endAngle: 360 * CGFloat.pi / 180,
+//            clockwise: true))
+//
+//        maskLayer.path = path.cgPath
+//
+//        imageView.layer.mask = maskLayer
+
         return imageView
     }()
 
@@ -55,12 +75,17 @@ class TabBarItemView: UIView {
         titleLabel.lineBreakMode = .byTruncatingTail
         titleLabel.textAlignment = .center
         titleLabel.textColor = Constants.unselectedColor
+
         return titleLabel
     }()
 
-    private let badgeView: UIView = {
-        let badgeView = UIView(frame: .zero)
+    private let badgeView: UILabel = {
+        let badgeView = UILabel(frame: .zero)
+        badgeView.layer.masksToBounds = true
         badgeView.backgroundColor = Colors.Palette.dangerPrimary.color
+        badgeView.textColor = .white
+        badgeView.textAlignment = .center
+        badgeView.font = UIFont.systemFont(ofSize: Constants.badgeFontSize, weight: .regular)
 
         return badgeView
     }()
@@ -171,16 +196,20 @@ class TabBarItemView: UIView {
 
         if badgeNumber > 0 {
             badgeView.isHidden = false
+            badgeView.text = "\(badgeNumber)"
 
-            let imageViewWidth = imageWidthConstraint?.constant ?? 0 // TODO_
-            let badgeWidth = Constants.badgeMinWidth
+            let imageViewWidth = imageWidthConstraint?.constant ?? 0
+            var badgeWidth = max(badgeView.intrinsicContentSize.width + 12, Constants.badgeMinWidth)
+            if badgeWidth > Constants.badgeMaxWidth {
+                badgeWidth = Constants.badgeMaxWidth
+            }
 
-            badgeView.frame = CGRect(x: imageViewWidth - badgeWidth + Constants.badgeHorizontalOffset,
+            badgeView.frame = CGRect(x: Constants.badgeHorizontalOffset,
                                      y: Constants.badgeVerticalOffset,
                                      width: badgeWidth,
                                      height: Constants.badgeHeight)
 
-            badgeView.layer.cornerRadius = badgeView.bounds.width / 3
+            badgeView.layer.cornerRadius = badgeView.bounds.width / 2
         } else {
             badgeView.isHidden = true
         }

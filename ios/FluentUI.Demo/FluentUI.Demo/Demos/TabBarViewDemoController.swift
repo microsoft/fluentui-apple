@@ -62,6 +62,7 @@ class TabBarViewDemoController: DemoController {
 
         updatedTabBarView.setBadgeNumber(5, for: updatedTabBarView.items[0]) // TODO_
         updatedTabBarView.setBadgeNumber(50, for: updatedTabBarView.items[1])
+        updatedTabBarView.setBadgeNumber(250, for: updatedTabBarView.items[2])
     }
 
     // Switch toggle handler
