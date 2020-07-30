@@ -36,6 +36,19 @@ open class Button: NSButton {
 		imagePosition = .imageOnly
 		initialize(title: nil, image: image, style: style)
     }
+	
+	
+	/// Initializes a Fluent UI Button with a title,  image,  imagePosition, and style
+	/// - Parameters:
+	///   - title: String displayed in the button
+	///   - image: The NSImage to diplay in the button
+	///   - imagePosition: The position of the image, relative to the title
+	///   - style: The ButtonStyle, defaulting to primaryFilled
+	@objc public init(title: String, image: NSImage, imagePosition: NSControl.ImagePosition, style: ButtonStyle = .primaryFilled) {
+		super.init(frame: .zero)
+		self.imagePosition = imagePosition
+		initialize(title: title, image: image, style: style)
+    }
 
 	/// Initializes a Fluent UI Button
 	/// Set style to primaryFilled as default
@@ -63,6 +76,13 @@ open class Button: NSButton {
 		if let image = image {
 			self.image = image
 		}
+	}
+	
+	open class override var cellClass: AnyClass? {
+		get {
+			return FluentButtonCell.self
+		}
+		set {}
 	}
 	
 	override public var image: NSImage? {
@@ -132,15 +152,6 @@ open class Button: NSButton {
 			layer.backgroundColor = layerBackgroundColor.cgColor
 			layer.borderColor = outlineColor.cgColor
 		}
-	}
-	
-	open override var intrinsicContentSize: NSSize {
-		var intrinsicContentSize = super.intrinsicContentSize;
-
-		intrinsicContentSize.width = intrinsicContentSize.width + (Button.horizontalEdgePadding * 2)
-		intrinsicContentSize.height += (Button.verticalEdgePadding * 2);
-
-		return intrinsicContentSize;
 	}
 	
 	override public var wantsUpdateLayer: Bool {
@@ -236,6 +247,94 @@ open class Button: NSButton {
 			return .systemBlue
 		}
 	}
+	
+	
+	class FluentButtonCell : NSButtonCell {
+		override func imageRect(forBounds rect: NSRect) -> NSRect {
+			
+			let titleSize = title.size(withAttributes: [.font: font as Any])
+			
+			let imageRect = super.imageRect(forBounds: rect)
+			
+			var x = imageRect.origin.x
+			var y = imageRect.origin.y
+			var width = imageRect.size.width
+			var height = imageRect.size.height
+			
+			switch imagePosition {
+			case .noImage:
+				break
+			case .imageOnly:
+				x = Button.horizontalEdgePadding
+				y = Button.verticalEdgePadding
+				width = rect.width - (Button.horizontalEdgePadding * 2)
+				height = rect.height - (Button.verticalEdgePadding * 2)
+				break
+			case .imageLeft:
+				break
+			case .imageRight:
+				break
+			case .imageBelow:
+				break
+			case .imageAbove:
+				break
+			case .imageOverlaps:
+				break
+			case .imageLeading:
+				x = 0
+				y = Button.verticalEdgePadding
+				width = rect.width - Button.TitleImageRectInterspacing - titleSize.width
+				height = rect.height - (Button.verticalEdgePadding * 2)
+				break
+			case .imageTrailing:
+				break
+			@unknown default:
+				break
+			}
+			
+			return NSMakeRect(x, y, width, height)
+		}
+		
+		override func titleRect(forBounds rect: NSRect) -> NSRect {
+			if let image = image {
+				//.imageLeading
+				let titleSize = title.size(withAttributes: [.font: font as Any])
+				let imageSize = image.size
+//				let titleRect = super.titleRect(forBounds: rect)
+				
+				let x: CGFloat = Button.horizontalEdgePadding + imageSize.width + Button.TitleImageRectInterspacing
+				let y: CGFloat = Button.verticalEdgePadding
+				let width = titleSize.width
+				let height = titleSize.height
+				
+				return NSMakeRect(x, y, width, height)
+				
+			} else {
+				let titleRect = super.titleRect(forBounds: rect);
+				
+				let titleRectWithPadding = NSMakeRect(
+					0,
+					0,
+					titleRect.width + (Button.horizontalEdgePadding * 2),
+					titleRect.height + (Button.verticalEdgePadding * 2)
+				)
+				return titleRectWithPadding
+			}
+		}
+		
+		override func drawingRect(forBounds rect: NSRect) -> NSRect {
+			let drawingRectWithPadding = NSMakeRect(
+				0,
+				0,
+				rect.width - (Button.horizontalEdgePadding * 2),
+				rect.height - (Button.verticalEdgePadding * 2)
+			)
+			return drawingRectWithPadding
+		}
+	}
+
+	private static let TitleImageRectInterspacing: CGFloat = 8
+	
 	
 	private static let borderWidth: CGFloat = 1
 
