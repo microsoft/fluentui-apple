@@ -61,15 +61,11 @@ class AvatarViewDemoController: DemoController {
         didSet {
             if oldValue != isShowingPresence {
                 for avatarView in avatarViewsWithImages {
-                    if avatarView.style == .circle {
-                        avatarView.presence = isShowingPresence ? avatarView.avatarSize.presenceWithImage : .none
-                    }
+                    avatarView.presence = isShowingPresence ? avatarView.avatarSize.presenceWithImage : .none
                 }
 
                 for avatarView in avatarViewsWithInitials {
-                    if avatarView.style == .circle {
-                        avatarView.presence = isShowingPresence ? avatarView.avatarSize.presenceWithInitials : .none
-                    }
+                    avatarView.presence = isShowingPresence ? avatarView.avatarSize.presenceWithInitials : .none
                 }
 
                 opaquePresenceBorderSettingView.isHidden = !isShowingPresence
