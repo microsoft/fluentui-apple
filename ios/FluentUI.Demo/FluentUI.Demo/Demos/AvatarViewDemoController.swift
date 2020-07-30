@@ -20,9 +20,9 @@ class AvatarViewDemoController: DemoController {
                                                               switchAction: #selector(toggleShowPresence(switchView:)),
                                                               isOn: isShowingPresence)
 
-        let backgroundSettingView = createLabelAndSwitchRow(labelText: "Use custom background color",
-                                                            switchAction: #selector(toggleCustomBackground(switchView:)),
-                                                            isOn: isUsingCustomBackgroundColor)
+        let backgroundSettingView = createLabelAndSwitchRow(labelText: "Use alternate background color",
+                                                            switchAction: #selector(toggleAlternateBackground(switchView:)),
+                                                            isOn: isUsingAlternateBackgroundColor)
 
         addRow(items: [backgroundSettingView])
         addRow(items: [showPresenceSettingView])
@@ -51,7 +51,7 @@ class AvatarViewDemoController: DemoController {
                       borderStyle: .colorfulBorder)
     }
 
-    private var isUsingCustomBackgroundColor: Bool = false {
+    private var isUsingAlternateBackgroundColor: Bool = false {
         didSet {
             updateBackgroundColor()
         }
@@ -105,18 +105,12 @@ class AvatarViewDemoController: DemoController {
         isUsingOpaquePresenceBorder = switchView.isOn
     }
 
-    @objc private func toggleCustomBackground(switchView: UISwitch) {
-        isUsingCustomBackgroundColor = switchView.isOn
+    @objc private func toggleAlternateBackground(switchView: UISwitch) {
+        isUsingAlternateBackgroundColor = switchView.isOn
     }
 
-    private static var customBackgroundColor = UIColor(light: Colors.gray100, dark: Colors.gray600)
     private func updateBackgroundColor() {
-        var color = Colors.surfacePrimary
-        if isUsingCustomBackgroundColor {
-            color = AvatarViewDemoController.customBackgroundColor
-        }
-
-        view.backgroundColor = color
+        view.backgroundColor = isUsingAlternateBackgroundColor ? UIColor(light: Colors.gray100, dark: Colors.gray600) : Colors.surfacePrimary
     }
 
     private var avatarViewsWithImages: [AvatarView] = []
