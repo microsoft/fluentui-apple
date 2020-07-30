@@ -333,7 +333,7 @@ open class Button: NSButton {
 		}
 	}
 
-	private static let TitleImageRectInterspacing: CGFloat = 8
+	private static let TitleImageRectInterspacing: CGFloat = 4
 	
 	
 	private static let borderWidth: CGFloat = 1
