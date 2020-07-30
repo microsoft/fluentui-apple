@@ -118,22 +118,22 @@
 "Common.Cancel" = "Annuller";
 
 /* Generic label to indicate that an item is shared */
-"Common.Shared" = "Shared";
+"Common.Shared" = "Delt";
 
 /* Generic label to indicate that an item is not shared */
-"Common.OnlyMe" = "Only me";
+"Common.OnlyMe" = "Kun mig";
 
 /* Just now date string */
-"Date.Now" = "Just now";
+"Date.Now" = "For et øjeblik siden";
 
 /* Minutes ago date format string. Example: "5m ago" */
-"Date.FormatMinutes" = "%ldm ago";
+"Date.FormatMinutes" = "%ldm siden";
 
 /* Hours ago date format string. Example: "5h ago" */
-"Date.FormatHours" = "%ldh ago";
+"Date.FormatHours" = "%ldh siden";
 
 /* Yesterday string */
-"Date.Yesterday" = "Yesterday";
+"Date.Yesterday" = "I går";
 
 /* Yesterday and time format string. Eample: "Yesterday at 11:00 AM" */
 "Date.FormatYesterdayTime" = "Yesterday at %@";
