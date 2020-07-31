@@ -24,7 +24,7 @@ public extension Colors {
             public struct Light {
                 public static var textRegular = UIColor(light: gray600, lightHighContrast: gray700, dark: textPrimary)
                 public static var textWeekend: UIColor = textSecondary
-                public static var background: UIColor = Calendar.background
+                public static var background: UIColor = NavigationBar.background
             }
             public struct Dark {
                 public static var textRegular: UIColor = textOnAccent
