@@ -157,26 +157,26 @@
 "MSDateTimePicker.EndDate" = "Дата завершення";
 
 /* Presence - Available status */
-"Presence.Available" = "Available";
+"Presence.Available" = "Доступний";
 
 /* Presence - Away status */
-"Presence.Away" = "Away";
+"Presence.Away" = "Не на місці";
 
 /* Presence - Busy status */
-"Presence.Busy" = "Busy";
+"Presence.Busy" = "Зайнятий";
 
 /* Presence - Do not disturb status */
-"Presence.DND" = "Do not disturb";
+"Presence.DND" = "Не турбувати";
 
 /* Presence - Out of office status */
-"Presence.OOF" = "Out of office";
+"Presence.OOF" = "Не на робочому місці";
 
 /* Presence - Offline status */
-"Presence.Offline" = "Offline";
+"Presence.Offline" = "Офлайн";
 
 /* Presence - Unknown status */
-"Presence.Unknown" = "Unknown";
+"Presence.Unknown" = "Невідомо";
 
 /* Presence - Blocked status */
-"Presence.Blocked" = "Blocked";
+"Presence.Blocked" = "Заблокований";
 

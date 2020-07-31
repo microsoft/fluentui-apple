@@ -157,26 +157,26 @@
 "MSDateTimePicker.EndDate" = "Tarikh Tamat";
 
 /* Presence - Available status */
-"Presence.Available" = "Available";
+"Presence.Available" = "Tersedia";
 
 /* Presence - Away status */
-"Presence.Away" = "Away";
+"Presence.Away" = "Tiada";
 
 /* Presence - Busy status */
-"Presence.Busy" = "Busy";
+"Presence.Busy" = "Sibuk";
 
 /* Presence - Do not disturb status */
-"Presence.DND" = "Do not disturb";
+"Presence.DND" = "Jangan ganggu";
 
 /* Presence - Out of office status */
-"Presence.OOF" = "Out of office";
+"Presence.OOF" = "Luar dari pejabat";
 
 /* Presence - Offline status */
-"Presence.Offline" = "Offline";
+"Presence.Offline" = "Luar talian";
 
 /* Presence - Unknown status */
-"Presence.Unknown" = "Unknown";
+"Presence.Unknown" = "Tidak Diketahui";
 
 /* Presence - Blocked status */
-"Presence.Blocked" = "Blocked";
+"Presence.Blocked" = "Disekat";
 

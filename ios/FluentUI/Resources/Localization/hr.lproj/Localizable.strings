@@ -157,26 +157,26 @@
 "MSDateTimePicker.EndDate" = "Datum završetka";
 
 /* Presence - Available status */
-"Presence.Available" = "Available";
+"Presence.Available" = "Dostupno";
 
 /* Presence - Away status */
-"Presence.Away" = "Away";
+"Presence.Away" = "Nisam tu";
 
 /* Presence - Busy status */
-"Presence.Busy" = "Busy";
+"Presence.Busy" = "Zauzet";
 
 /* Presence - Do not disturb status */
-"Presence.DND" = "Do not disturb";
+"Presence.DND" = "Ne ometaj";
 
 /* Presence - Out of office status */
-"Presence.OOF" = "Out of office";
+"Presence.OOF" = "Nisam u uredu";
 
 /* Presence - Offline status */
-"Presence.Offline" = "Offline";
+"Presence.Offline" = "Izvan mreže";
 
 /* Presence - Unknown status */
-"Presence.Unknown" = "Unknown";
+"Presence.Unknown" = "Nepoznato";
 
 /* Presence - Blocked status */
-"Presence.Blocked" = "Blocked";
+"Presence.Blocked" = "Blokiran";
 

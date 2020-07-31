@@ -157,26 +157,26 @@
 "MSDateTimePicker.EndDate" = "Bitiş Tarihi";
 
 /* Presence - Available status */
-"Presence.Available" = "Available";
+"Presence.Available" = "Kullanılabilir";
 
 /* Presence - Away status */
-"Presence.Away" = "Away";
+"Presence.Away" = "Dışarıda";
 
 /* Presence - Busy status */
-"Presence.Busy" = "Busy";
+"Presence.Busy" = "Meşgul";
 
 /* Presence - Do not disturb status */
-"Presence.DND" = "Do not disturb";
+"Presence.DND" = "Rahatsız etmeyin";
 
 /* Presence - Out of office status */
-"Presence.OOF" = "Out of office";
+"Presence.OOF" = "İş yeri dışında";
 
 /* Presence - Offline status */
-"Presence.Offline" = "Offline";
+"Presence.Offline" = "Çevrimdışı";
 
 /* Presence - Unknown status */
-"Presence.Unknown" = "Unknown";
+"Presence.Unknown" = "Bilinmiyor";
 
 /* Presence - Blocked status */
-"Presence.Blocked" = "Blocked";
+"Presence.Blocked" = "Engellendi";
 
