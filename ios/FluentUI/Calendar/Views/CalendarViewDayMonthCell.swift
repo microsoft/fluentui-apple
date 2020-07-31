@@ -10,8 +10,8 @@ import UIKit
 public extension Colors {
     struct Calendar {
         public struct Day {
-            public static var textPrimary: UIColor = Colors.textPrimary
-            public static var textSecondary: UIColor = Colors.textSecondary
+            public static var textPrimary = UIColor(light: Colors.textSecondary, dark: Colors.textPrimary)
+            public static var textSecondary = UIColor(light: Colors.textPrimary, dark: Colors.textSecondary)
             public static var textSelected: UIColor = textOnAccent
             public static var backgroundPrimary = UIColor(light: Calendar.background, dark: surfaceSecondary)
             public static var backgroundSecondary = UIColor(light: surfaceSecondary, dark: Calendar.background)
