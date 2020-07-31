@@ -94,7 +94,7 @@
 "Accessibility.LargeTitle.ProfileView" = "ملف تعريف الحساب";
 
 /* Accessibility label format string for avatar view. Format: <Name>, <Presence>. Example: Kat, Available */
-"Accessibility.AvatarView.LabelFormat" = "%@, %@";
+"Accessibility.AvatarView.LabelFormat" = "%@، %@";
 
 /* Accessibility hint for a segmented control button */
 "Accessibility.Segmented.Button.Hint" = "انقر للانتقال إلى %@";
@@ -157,26 +157,26 @@
 "MSDateTimePicker.EndDate" = "تاريخ الانتهاء";
 
 /* Presence - Available status */
-"Presence.Available" = "Available";
+"Presence.Available" = "متوفر";
 
 /* Presence - Away status */
-"Presence.Away" = "Away";
+"Presence.Away" = "بالخارج";
 
 /* Presence - Busy status */
-"Presence.Busy" = "Busy";
+"Presence.Busy" = "مشغول";
 
 /* Presence - Do not disturb status */
-"Presence.DND" = "Do not disturb";
+"Presence.DND" = "ممنوع الإزعاج";
 
 /* Presence - Out of office status */
-"Presence.OOF" = "Out of office";
+"Presence.OOF" = "خارج المكتب";
 
 /* Presence - Offline status */
-"Presence.Offline" = "Offline";
+"Presence.Offline" = "دون اتصال";
 
 /* Presence - Unknown status */
-"Presence.Unknown" = "Unknown";
+"Presence.Unknown" = "غير معروف";
 
 /* Presence - Blocked status */
-"Presence.Blocked" = "Blocked";
+"Presence.Blocked" = "ممنوعة";
 

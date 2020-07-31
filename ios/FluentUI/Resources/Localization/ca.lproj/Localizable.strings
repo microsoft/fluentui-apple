@@ -172,7 +172,7 @@
 "Presence.OOF" = "Fora de l'oficina";
 
 /* Presence - Offline status */
-"Presence.Offline" = "Offline";
+"Presence.Offline" = "Sense connexió";
 
 /* Presence - Unknown status */
 "Presence.Unknown" = "Desconegut";
