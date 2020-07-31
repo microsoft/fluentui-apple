@@ -29,7 +29,7 @@ public typealias MSTabBarView = TabBarView
 open class TabBarView: UIView {
     private struct Constants {
         static let maxTabCount: Int = 5
-        static let portraitHeight: CGFloat = 49.0
+        static let portraitHeight: CGFloat = 48.0
         static let landscapeHeight: CGFloat = 40.0
     }
 
