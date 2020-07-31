@@ -29,8 +29,9 @@ public typealias MSTabBarView = TabBarView
 open class TabBarView: UIView {
     private struct Constants {
         static let maxTabCount: Int = 5
-        static let portraitHeight: CGFloat = 48.0
-        static let landscapeHeight: CGFloat = 40.0
+        static let phonePortraitHeight: CGFloat = 48.0
+        static let phoneLandscapeHeight: CGFloat = 40.0
+        static let padHeight: CGFloat = 48.0
     }
 
     /// List of TabBarItems in the TabBarView. Order of the array is the order of the subviews.
@@ -109,7 +110,7 @@ open class TabBarView: UIView {
         topBorderLine.translatesAutoresizingMaskIntoConstraints = false
         addSubview(topBorderLine)
 
-        heightConstraint = stackView.heightAnchor.constraint(equalToConstant: Constants.portraitHeight)
+        heightConstraint = stackView.heightAnchor.constraint(equalToConstant: traitCollection.userInterfaceIdiom == .phone ? Constants.phonePortraitHeight : Constants.padHeight)
         NSLayoutConstraint.activate([heightConstraint!,
                                      topBorderLine.bottomAnchor.constraint(equalTo: topAnchor),
                                      topBorderLine.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -142,8 +143,10 @@ open class TabBarView: UIView {
     }
 
     private func updateHeight() {
-        let isPortrait = traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .regular
-        heightConstraint?.constant = isPortrait ? Constants.portraitHeight : Constants.landscapeHeight
+        if traitCollection.userInterfaceIdiom == .phone {
+            let isPortrait = traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .regular
+            heightConstraint?.constant = isPortrait ? Constants.phonePortraitHeight : Constants.phoneLandscapeHeight
+        }
     }
 
     @objc private func handleTabBarItemTapped(_ recognizer: UITapGestureRecognizer) {
