@@ -157,26 +157,26 @@
 "MSDateTimePicker.EndDate" = "Fecha de finalización";
 
 /* Presence - Available status */
-"Presence.Available" = "Available";
+"Presence.Available" = "Disponible";
 
 /* Presence - Away status */
-"Presence.Away" = "Away";
+"Presence.Away" = "Ausente";
 
 /* Presence - Busy status */
-"Presence.Busy" = "Busy";
+"Presence.Busy" = "Ocupado";
 
 /* Presence - Do not disturb status */
-"Presence.DND" = "Do not disturb";
+"Presence.DND" = "No molestar";
 
 /* Presence - Out of office status */
-"Presence.OOF" = "Out of office";
+"Presence.OOF" = "Fuera de la oficina";
 
 /* Presence - Offline status */
-"Presence.Offline" = "Offline";
+"Presence.Offline" = "Sin conexión";
 
 /* Presence - Unknown status */
-"Presence.Unknown" = "Unknown";
+"Presence.Unknown" = "Desconocido";
 
 /* Presence - Blocked status */
-"Presence.Blocked" = "Blocked";
+"Presence.Blocked" = "Bloqueado";
 
