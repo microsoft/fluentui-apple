@@ -21,9 +21,11 @@
 		8F5368072295F4C10098AC8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368062295F4C10098AC8F /* Assets.xcassets */; };
 		8F53680A2295F4C10098AC8F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368082295F4C10098AC8F /* MainMenu.xib */; };
 		8F79191B24589B4E00C84086 /* FluentUI.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F7918F624589B4E00C84086 /* FluentUI.strings */; };
+		AC350F0624D55A8300536FE4 /* TestLabelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC350F0524D55A8300536FE4 /* TestLabelViewController.swift */; };
 		AC68D3192474863A000DACD1 /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC68D3182474863A000DACD1 /* Link.swift */; };
 		AC7235D82492E0D000D0DCA8 /* FluentUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C96B22295E8D60006561F /* FluentUI.framework */; };
 		AC7235D92492E0D000D0DCA8 /* FluentUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E61C96B22295E8D60006561F /* FluentUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AC78D53924D54C1B003DC675 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC78D53824D54C1B003DC675 /* Label.swift */; };
 		AC97EFE2247541C700DADC99 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC97EFE1247541C700DADC99 /* Button.swift */; };
 		AC97EFE7247FA17000DADC99 /* Separator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC97EFE6247FA17000DADC99 /* Separator.swift */; };
 		E61C96BC2295E8D60006561F /* FluentUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C96B22295E8D60006561F /* FluentUI.framework */; };
@@ -204,7 +206,9 @@
 		8F79192724589B6D00C84086 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		8F79192924589B6E00C84086 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		8F931A6C22BD593300311764 /* FluentUI_unittest.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_unittest.xcconfig; sourceTree = "<group>"; };
+		AC350F0524D55A8300536FE4 /* TestLabelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestLabelViewController.swift; sourceTree = "<group>"; };
 		AC68D3182474863A000DACD1 /* Link.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
+		AC78D53824D54C1B003DC675 /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
 		AC97EFE1247541C700DADC99 /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		AC97EFE3247541E100DADC99 /* TestButtonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestButtonViewController.swift; sourceTree = "<group>"; };
 		AC97EFE6247FA17000DADC99 /* Separator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Separator.swift; sourceTree = "<group>"; };
@@ -371,6 +375,7 @@
 				8F250B8A22B3045100142B0E /* AvatarView.swift */,
 				AC97EFE1247541C700DADC99 /* Button.swift */,
 				804626C722D7909200AFA48C /* DatePicker */,
+				AC78D53824D54C1B003DC675 /* Label.swift */,
 				AC68D3182474863A000DACD1 /* Link.swift */,
 				AC97EFE6247FA17000DADC99 /* Separator.swift */,
 				E61C96B62295E8D60006561F /* FluentUI-Info.plist */,
@@ -415,6 +420,7 @@
 				8F250B8C22B3062A00142B0E /* TestAvatarViewController.swift */,
 				AC97EFE3247541E100DADC99 /* TestButtonViewController.swift */,
 				8061BF8222EF957200F2D245 /* TestDatePickerController.swift */,
+				AC350F0524D55A8300536FE4 /* TestLabelViewController.swift */,
 				E61C96D622987B3C0006561F /* TestLinkViewController.swift */,
 				AC97EFE8247FAB1D00DADC99 /* TestSeparatorViewController.swift */,
 				E6A92D4E24BEAEEA00562BCA /* TestViewControllers.swift */,
@@ -742,6 +748,7 @@
 				8061BF7E22EF936800F2D245 /* DatePickerView.swift in Sources */,
 				8061BF7F22EF936800F2D245 /* DatePickerController.swift in Sources */,
 				8F250B8B22B3045100142B0E /* AvatarView.swift in Sources */,
+				AC78D53924D54C1B003DC675 /* Label.swift in Sources */,
 				8F41CC682447B5580040B851 /* FluentUIResources.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -762,6 +769,7 @@
 				E6A92D2F24BEA8AC00562BCA /* TestButtonViewController.swift in Sources */,
 				E6A92D2D24BEA8AC00562BCA /* TestSeparatorViewController.swift in Sources */,
 				E6A92D3024BEA8AC00562BCA /* TestLinkViewController.swift in Sources */,
+				AC350F0624D55A8300536FE4 /* TestLabelViewController.swift in Sources */,
 				E6A92D2E24BEA8AC00562BCA /* TestAvatarViewController.swift in Sources */,
 				E6A92D4F24BEAEEA00562BCA /* TestViewControllers.swift in Sources */,
 				E6A92D3124BEA8AC00562BCA /* TestDatePickerController.swift in Sources */,

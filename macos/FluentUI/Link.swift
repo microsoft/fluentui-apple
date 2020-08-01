@@ -13,8 +13,9 @@ open class Link: NSButton {
 	/// - Parameters:
 	///   - title: The visible text of the link that the user sees.
 	///   - url: The URL that is opened when the link is clicked
-	@objc public init(title: String, url: NSURL) {
+	@objc public init(title: String, textStyle: TextStyle = .body, url: NSURL) {
 		self.url = url
+		self.textStyle = textStyle
 		super.init(frame: .zero)
 		self.title = title
 		initialize()
@@ -23,7 +24,8 @@ open class Link: NSButton {
 	/// Initializes a hyperlink with a title and no URL, useful if you plan to override the Target/Action
 	/// - Parameters:
 	///   - title: The visible text of the link that the user sees.
-	@objc public init(title: String) {
+	@objc public init(title: String, textStyle: TextStyle = .body) {
+		self.textStyle = textStyle
 		super.init(frame: .zero)
 		self.title = title
 		initialize()
@@ -46,6 +48,15 @@ open class Link: NSButton {
 		target = self
 		action = #selector(linkClicked)
 		updateTitle()
+	}
+	
+	@objc public var textStyle: TextStyle = .body {
+		didSet {
+			guard oldValue != textStyle else {
+				return
+			}
+			updateTitle()
+		}
 	}
 	
 	/// The URL that is opened when the link is clicked
@@ -110,7 +121,10 @@ open class Link: NSButton {
 	}
 	
 	private func updateTitle() {
-		let titleAttributes = (showsUnderlineWhileMouseInside && mouseEntered) ? underlinedlinkAttributes: linkAttributes
+		
+		let shouldUnderline = showsUnderlineWhileMouseInside && mouseEntered
+		
+		let titleAttributes = (shouldUnderline) ? underlinedlinkAttributes: linkAttributes
 		self.attributedTitle = NSAttributedString(string: title, attributes: titleAttributes)
 	}
 	
@@ -119,13 +133,21 @@ open class Link: NSButton {
 			NSWorkspace.shared.open(url as URL)
 		}
 	}
+	
+	private var linkAttributes: [NSAttributedString.Key: Any] {
+		return [
+			.foregroundColor: NSColor.linkColor,
+			.font: textStyle.font()
+	  ]
+	}
+
+	private var underlinedlinkAttributes: [NSAttributedString.Key: Any] {
+		return [
+			.foregroundColor: NSColor.linkColor,
+			.font: textStyle.font(),
+			.underlineStyle: NSUnderlineStyle.single.rawValue
+		]
+	}
 }
 
-fileprivate let linkAttributes: [NSAttributedString.Key: Any] = [
-	.foregroundColor: NSColor.linkColor
-]
 
-fileprivate let underlinedlinkAttributes: [NSAttributedString.Key: Any] = [
-	.foregroundColor: NSColor.linkColor,
-	.underlineStyle: NSUnderlineStyle.single.rawValue
-]

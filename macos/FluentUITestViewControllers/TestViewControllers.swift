@@ -11,12 +11,15 @@ public struct TestViewController: Identifiable {
 	public let type: NSViewController.Type
 }
 
+// Keep this list alphabetical
 public let testViewControllers = [TestViewController(title: "Avatar View",
 													 type: TestAvatarViewController.self),
 								  TestViewController(title: "Button",
 													 type: TestButtonViewController.self),
 								  TestViewController(title: "Date Picker",
 													 type: TestDatePickerController.self),
+								  TestViewController(title: "Label",
+													 type: TestLabelViewController.self),
 								  TestViewController(title: "Link",
 													 type: TestLinkViewController.self),
 								  TestViewController(title: "Separator",

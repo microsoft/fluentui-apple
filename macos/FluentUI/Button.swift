@@ -22,9 +22,9 @@ open class Button: NSButton {
 	/// - Parameters:
 	///   - title: String displayed in the button
 	///   - style: The ButtonStyle, defaulting to primaryFilled
-	@objc public init(title: String, style: ButtonStyle = .primaryFilled) {
+	@objc public init(title: String, textStyle: TextStyle = .body ,style: ButtonStyle = .primaryFilled) {
 		super.init(frame: .zero)
-		initialize(title: title, image: nil, style: style)
+		initialize(title: title, textStyle: textStyle, image: nil, style: style)
     }
 
 	/// Initializes a Fluent UI Button with an image, setting the imagePosition to imageOnly
@@ -49,17 +49,18 @@ open class Button: NSButton {
 		preconditionFailure()
 	}
 	
-	private func initialize(title: String?, image: NSImage?, style: ButtonStyle = .primaryFilled) {
+	private func initialize(title: String?, textStyle: TextStyle = .body, image: NSImage?, style: ButtonStyle = .primaryFilled) {
 		// Do common initialization work
 		isBordered = false
 		wantsLayer = true
-		
+
+		self.textStyle = textStyle
 		self.style = style
 		
 		if let title = title {
 			self.title = title
 		}
-		
+
 		if let image = image {
 			self.image = image
 		}
@@ -151,7 +152,7 @@ open class Button: NSButton {
 	@objc public var primaryColor: NSColor = defaultPrimaryColor {
 		didSet {
 			if primaryColor != oldValue {
-				needsDisplay = true
+				setNeedsDisplay()
 			}
 		}
 	}
@@ -160,7 +161,15 @@ open class Button: NSButton {
 	@objc public var style: ButtonStyle = .primaryFilled {
 		didSet {
 			if style != oldValue {
-				needsDisplay = true
+				setNeedsDisplay()
+			}
+		}
+	}
+	
+	@objc public var textStyle: TextStyle = .body {
+		didSet {
+			if textStyle != oldValue {
+				font = textStyle.font()
 			}
 		}
 	}
