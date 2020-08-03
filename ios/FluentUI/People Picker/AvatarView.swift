@@ -472,8 +472,8 @@ open class AvatarView: UIView {
             var maskFrame = bounds
             maskFrame.origin.x -= Constants.customBorderWidth
             maskFrame.origin.y -= Constants.customBorderWidth
-            maskFrame.size.width += Constants.customBorderWidth * 3
-            maskFrame.size.height += Constants.customBorderWidth * 3
+            maskFrame.size.width += Constants.customBorderWidth * 4
+            maskFrame.size.height += Constants.customBorderWidth * 4
 
             var presenceFrame = presenceBorderFrame()
             presenceFrame.origin.x += Constants.customBorderWidth
