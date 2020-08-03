@@ -171,11 +171,11 @@ class SideTabBarDemoController: DemoController {
             numbers = [0, 0, 0, 0, 0]
         }
 
-        sideTabBar.topItems[0].badgeNumber = numbers[0]
-        sideTabBar.topItems[1].badgeNumber = numbers[1]
-        sideTabBar.topItems[2].badgeNumber = numbers[2]
-        sideTabBar.bottomItems[0].badgeNumber = numbers[3]
-        sideTabBar.bottomItems[1].badgeNumber = numbers[4]
+        sideTabBar.topItems[0].setBadgeNumber(numbers[0])
+        sideTabBar.topItems[1].setBadgeNumber(numbers[1])
+        sideTabBar.topItems[2].setBadgeNumber(numbers[2])
+        sideTabBar.bottomItems[0].setBadgeNumber(numbers[3])
+        sideTabBar.bottomItems[1].setBadgeNumber(numbers[4])
     }
 
     private func updateBadgeButtons() {
