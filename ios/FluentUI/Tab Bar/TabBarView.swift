@@ -42,11 +42,6 @@ open class TabBarView: UIView {
 
             for item in items {
                 let tabBarItemView = TabBarItemView(item: item, showsTitle: showsItemTitles)
-
-                if let itemView = itemView(with: item) {
-                    tabBarItemView.badgeNumber = itemView.badgeNumber
-                }
-
                 let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTabBarItemTapped(_:)))
                 tabBarItemView.addGestureRecognizer(tapGesture)
                 stackView.addArrangedSubview(tabBarItemView)
@@ -70,10 +65,6 @@ open class TabBarView: UIView {
     }
 
     @objc public weak var delegate: TabBarViewDelegate?
-
-    @objc open func setBadgeNumber(_ badgeNumber: UInt, for tabBarItem: TabBarItem) {
-        itemView(with: tabBarItem)?.badgeNumber = badgeNumber
-    }
 
     /// Initializes MSTabBarView
     /// - Parameter showsItemTitles: Determines whether or not to show the titles of the tab ba ritems.
@@ -115,11 +106,6 @@ open class TabBarView: UIView {
         }
     }
 
-    private struct Constants {
-        static let maxTabCount: Int = 5
-        static let portraitHeight: CGFloat = 49.0
-        static let landscapeHeight: CGFloat = 40.0
-    }
     private struct Constants {
         static let maxTabCount: Int = 5
         static let phonePortraitHeight: CGFloat = 48.0

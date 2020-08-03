@@ -99,9 +99,9 @@ class TabBarViewDemoController: DemoController {
         if showBadgeNumbers, let tabBarView = tabBarView {
             let numbers = useHigherBadgeNumbers ? higherBadgeNumbers : badgeNumbers
 
-            tabBarView.setBadgeNumber(numbers[0], for: tabBarView.items[0])
-            tabBarView.setBadgeNumber(numbers[1], for: tabBarView.items[1])
-            tabBarView.setBadgeNumber(numbers[2], for: tabBarView.items[2])
+            tabBarView.items[0].badgeNumber = numbers[0]
+            tabBarView.items[1].badgeNumber = numbers[1]
+            tabBarView.items[2].badgeNumber = numbers[2]
         }
     }
 

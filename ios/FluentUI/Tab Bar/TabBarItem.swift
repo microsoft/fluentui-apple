@@ -18,6 +18,18 @@ open class TabBarItem: NSObject {
     let largeContentImage: UIImage?
     let accessibilityLabelBadgeFormatString: String?
 
+    /// The badge number will be displayed in a red oval above the tab bar item.
+    @objc public var badgeNumber: UInt = 0 {
+        didSet {
+            if oldValue != badgeNumber {
+                NotificationCenter.default.post(name: TabBarItem.badgeNumberDidChangeNotification, object: self)
+            }
+        }
+    }
+
+    /// Notification sent when the tab bar item's badge number changes.
+    static let badgeNumberDidChangeNotification: NSNotification.Name = NSNotification.Name(rawValue: "TabBarItemBadgeNumberDidChangeNotification")
+
     /// Initializes `TabBarItem
     /// - Parameter title: Used for tabbar item view's label and for its accessibilityLabel.
     /// - Parameter image: Used for tabbar item view's imageView and for its accessibility largeContentImage unless `largeContentImage` is specified.

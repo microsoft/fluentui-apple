@@ -78,10 +78,6 @@ open class SideTabBar: UIView {
         }
     }
 
-    @objc open func setBadgeNumber(_ badgeNumber: UInt, for tabBarItem: TabBarItem, fromTop: Bool) {
-        itemView(with: tabBarItem, in: fromTop ? .top : .bottom)?.badgeNumber = badgeNumber
-    }
-
     @objc public var showTopItemTitles: Bool = false {
         didSet {
             if oldValue != showTopItemTitles {
@@ -221,13 +217,9 @@ open class SideTabBar: UIView {
             tabBarItemView.alwaysShowTitleBelowImage = true
             tabBarItemView.maxBadgeWidth = Constants.viewWidth / 2 - badgePadding
 
-            if let itemView = itemView(with: item, in: section) {
-                tabBarItemView.badgeNumber = itemView.badgeNumber
-
-                if section == .top && item == selectedTopItem {
-                    tabBarItemView.isSelected = true
-                    didRestoreSelection = true
-                }
+            if itemView(with: item, in: section) != nil && section == .top && item == selectedTopItem  {
+                tabBarItemView.isSelected = true
+                didRestoreSelection = true
             }
 
             let tapGesture = UITapGestureRecognizer(target: self, action: (section == .top) ? #selector(handleTopItemTapped(_:)) : #selector(handleBottomItemTapped(_:)))

@@ -17,23 +17,6 @@ class TabBarItemView: UIView {
         }
     }
 
-    var badgeNumber: UInt = 0 {
-        didSet {
-            if oldValue != badgeNumber {
-                if badgeNumber > 0 {
-                    badgeView.isHidden = false
-                    badgeView.text = NumberFormatter.localizedString(from: NSNumber(value: badgeNumber), number: .none)
-                } else {
-                    badgeView.isHidden = true
-                    badgeView.text = nil
-                }
-
-                updateBadgeView()
-                updateAccessibilityLabel()
-            }
-        }
-    }
-
     /// Maximum width for the badge view where the badge number is displayed.
     var maxBadgeWidth: CGFloat = Constants.defaultBadgeMaxWidth {
         didSet {
@@ -85,6 +68,12 @@ class TabBarItemView: UIView {
         NSLayoutConstraint.activate([container.centerXAnchor.constraint(equalTo: centerXAnchor),
                                      container.centerYAnchor.constraint(equalTo: centerYAnchor)])
 
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(badgeNumberDidChange),
+                                               name: TabBarItem.badgeNumberDidChangeNotification,
+                                               object: item)
+
+        badgeNumber = item.badgeNumber
         updateLayout()
     }
 
@@ -142,6 +131,23 @@ class TabBarItemView: UIView {
         static let badgeFontSize: CGFloat = 11
         static let badgeHorizontalPadding: CGFloat = 10
         static let badgeCorderRadii: CGFloat = 10
+    }
+
+    private var badgeNumber: UInt = 0 {
+        didSet {
+            if oldValue != badgeNumber {
+                if badgeNumber > 0 {
+                    badgeView.isHidden = false
+                    badgeView.text = NumberFormatter.localizedString(from: NSNumber(value: badgeNumber), number: .none)
+                } else {
+                    badgeView.isHidden = true
+                    badgeView.text = nil
+                }
+
+                updateBadgeView()
+                updateAccessibilityLabel()
+            }
+        }
     }
 
     private let container: UIStackView = {
@@ -294,6 +300,10 @@ class TabBarItemView: UIView {
                       y: badgeViewFrame.origin.y - Constants.badgeBorderWidth - imageView.frame.origin.y,
                       width: badgeViewFrame.size.width + 2 * Constants.badgeBorderWidth,
                       height: badgeViewFrame.size.height + 2 * Constants.badgeBorderWidth)
+    }
+
+    @objc private func badgeNumberDidChange() {
+        badgeNumber = item.badgeNumber
     }
 
     private func updateAccessibilityLabel() {
