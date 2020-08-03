@@ -118,28 +118,28 @@
 "Common.Cancel" = "Anuluj";
 
 /* Generic label to indicate that an item is shared */
-"Common.Shared" = "Shared";
+"Common.Shared" = "Udostępniono";
 
 /* Generic label to indicate that an item is not shared */
-"Common.OnlyMe" = "Only me";
+"Common.OnlyMe" = "Tylko ja";
 
 /* Just now date string */
-"Date.Now" = "Just now";
+"Date.Now" = "W tej chwili";
 
 /* Minutes ago date format string. Example: "5m ago" */
-"Date.FormatMinutes" = "%ldm ago";
+"Date.FormatMinutes" = "%ldm temu";
 
 /* Hours ago date format string. Example: "5h ago" */
-"Date.FormatHours" = "%ldh ago";
+"Date.FormatHours" = "%ldh temu";
 
 /* Yesterday string */
-"Date.Yesterday" = "Yesterday";
+"Date.Yesterday" = "Wczoraj";
 
 /* Yesterday and time format string. Eample: "Yesterday at 11:00 AM" */
-"Date.FormatYesterdayTime" = "Yesterday at %@";
+"Date.FormatYesterdayTime" = "Wczoraj o %@";
 
 /* Day and time format string. Eample: "Fri at 11:00 AM" */
-"Date.FormatDayTime" = "%@ at %@";
+"Date.FormatDayTime" = "%@ o %@";
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Wyszukaj w katalogu";
@@ -157,26 +157,26 @@
 "MSDateTimePicker.EndDate" = "Data zakończenia";
 
 /* Presence - Available status */
-"Presence.Available" = "Available";
+"Presence.Available" = "Dostępne";
 
 /* Presence - Away status */
-"Presence.Away" = "Away";
+"Presence.Away" = "Z dala od komputera";
 
 /* Presence - Busy status */
-"Presence.Busy" = "Busy";
+"Presence.Busy" = "Zajęty";
 
 /* Presence - Do not disturb status */
-"Presence.DND" = "Do not disturb";
+"Presence.DND" = "Nie przeszkadzać";
 
 /* Presence - Out of office status */
-"Presence.OOF" = "Out of office";
+"Presence.OOF" = "Poza biurem";
 
 /* Presence - Offline status */
 "Presence.Offline" = "Offline";
 
 /* Presence - Unknown status */
-"Presence.Unknown" = "Unknown";
+"Presence.Unknown" = "Nieznany";
 
 /* Presence - Blocked status */
-"Presence.Blocked" = "Blocked";
+"Presence.Blocked" = "Zablokowane";
 

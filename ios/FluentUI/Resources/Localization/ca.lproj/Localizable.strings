@@ -157,26 +157,26 @@
 "MSDateTimePicker.EndDate" = "Data de finalització";
 
 /* Presence - Available status */
-"Presence.Available" = "Available";
+"Presence.Available" = "Disponible";
 
 /* Presence - Away status */
-"Presence.Away" = "Away";
+"Presence.Away" = "Absent";
 
 /* Presence - Busy status */
-"Presence.Busy" = "Busy";
+"Presence.Busy" = "Ocupat";
 
 /* Presence - Do not disturb status */
-"Presence.DND" = "Do not disturb";
+"Presence.DND" = "No molesteu";
 
 /* Presence - Out of office status */
-"Presence.OOF" = "Out of office";
+"Presence.OOF" = "Fora de l'oficina";
 
 /* Presence - Offline status */
-"Presence.Offline" = "Offline";
+"Presence.Offline" = "Sense connexió";
 
 /* Presence - Unknown status */
-"Presence.Unknown" = "Unknown";
+"Presence.Unknown" = "Desconegut";
 
 /* Presence - Blocked status */
-"Presence.Blocked" = "Blocked";
+"Presence.Blocked" = "Bloquejat";
 

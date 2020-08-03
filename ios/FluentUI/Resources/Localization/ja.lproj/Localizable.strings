@@ -94,7 +94,7 @@
 "Accessibility.LargeTitle.ProfileView" = "アカウント プロファイル";
 
 /* Accessibility label format string for avatar view. Format: <Name>, <Presence>. Example: Kat, Available */
-"Accessibility.AvatarView.LabelFormat" = "%@, %@";
+"Accessibility.AvatarView.LabelFormat" = "%@、 %@";
 
 /* Accessibility hint for a segmented control button */
 "Accessibility.Segmented.Button.Hint" = "タップして %@ に移動します";
@@ -157,26 +157,26 @@
 "MSDateTimePicker.EndDate" = "終了日";
 
 /* Presence - Available status */
-"Presence.Available" = "Available";
+"Presence.Available" = "連絡可能";
 
 /* Presence - Away status */
-"Presence.Away" = "Away";
+"Presence.Away" = "退席中";
 
 /* Presence - Busy status */
-"Presence.Busy" = "Busy";
+"Presence.Busy" = "取り込み中";
 
 /* Presence - Do not disturb status */
-"Presence.DND" = "Do not disturb";
+"Presence.DND" = "応答不可";
 
 /* Presence - Out of office status */
-"Presence.OOF" = "Out of office";
+"Presence.OOF" = "外出中";
 
 /* Presence - Offline status */
-"Presence.Offline" = "Offline";
+"Presence.Offline" = "オフライン";
 
 /* Presence - Unknown status */
-"Presence.Unknown" = "Unknown";
+"Presence.Unknown" = "不明";
 
 /* Presence - Blocked status */
-"Presence.Blocked" = "Blocked";
+"Presence.Blocked" = "ブロック";
 

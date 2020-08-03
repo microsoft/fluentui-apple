@@ -157,26 +157,26 @@
 "MSDateTimePicker.EndDate" = "समाप्ति दिनांक";
 
 /* Presence - Available status */
-"Presence.Available" = "Available";
+"Presence.Available" = "उपलब्ध";
 
 /* Presence - Away status */
-"Presence.Away" = "Away";
+"Presence.Away" = "अनुपलब्ध";
 
 /* Presence - Busy status */
-"Presence.Busy" = "Busy";
+"Presence.Busy" = "व्यस्त";
 
 /* Presence - Do not disturb status */
-"Presence.DND" = "Do not disturb";
+"Presence.DND" = "परेशान न करें";
 
 /* Presence - Out of office status */
-"Presence.OOF" = "Out of office";
+"Presence.OOF" = "कार्यालय से बाहर";
 
 /* Presence - Offline status */
-"Presence.Offline" = "Offline";
+"Presence.Offline" = "ऑफ़लाइन";
 
 /* Presence - Unknown status */
-"Presence.Unknown" = "Unknown";
+"Presence.Unknown" = "अज्ञात";
 
 /* Presence - Blocked status */
-"Presence.Blocked" = "Blocked";
+"Presence.Blocked" = "ब्लॉक किया गया";
 

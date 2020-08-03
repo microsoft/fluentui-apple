@@ -118,28 +118,28 @@
 "Common.Cancel" = "취소";
 
 /* Generic label to indicate that an item is shared */
-"Common.Shared" = "Shared";
+"Common.Shared" = "공유됨";
 
 /* Generic label to indicate that an item is not shared */
-"Common.OnlyMe" = "Only me";
+"Common.OnlyMe" = "나만";
 
 /* Just now date string */
-"Date.Now" = "Just now";
+"Date.Now" = "오늘";
 
 /* Minutes ago date format string. Example: "5m ago" */
-"Date.FormatMinutes" = "%ldm ago";
+"Date.FormatMinutes" = "%ldm 전";
 
 /* Hours ago date format string. Example: "5h ago" */
-"Date.FormatHours" = "%ldh ago";
+"Date.FormatHours" = "%ldh 전";
 
 /* Yesterday string */
-"Date.Yesterday" = "Yesterday";
+"Date.Yesterday" = "어제";
 
 /* Yesterday and time format string. Eample: "Yesterday at 11:00 AM" */
-"Date.FormatYesterdayTime" = "Yesterday at %@";
+"Date.FormatYesterdayTime" = "어제 %@";
 
 /* Day and time format string. Eample: "Fri at 11:00 AM" */
-"Date.FormatDayTime" = "%@ at %@";
+"Date.FormatDayTime" = "%@ %@";
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "디렉터리 검색";
@@ -157,26 +157,26 @@
 "MSDateTimePicker.EndDate" = "종료 날짜";
 
 /* Presence - Available status */
-"Presence.Available" = "Available";
+"Presence.Available" = "사용 가능";
 
 /* Presence - Away status */
-"Presence.Away" = "Away";
+"Presence.Away" = "자리 비움";
 
 /* Presence - Busy status */
-"Presence.Busy" = "Busy";
+"Presence.Busy" = "약속 있음";
 
 /* Presence - Do not disturb status */
-"Presence.DND" = "Do not disturb";
+"Presence.DND" = "방해 금지";
 
 /* Presence - Out of office status */
-"Presence.OOF" = "Out of office";
+"Presence.OOF" = "부재 중";
 
 /* Presence - Offline status */
-"Presence.Offline" = "Offline";
+"Presence.Offline" = "오프라인";
 
 /* Presence - Unknown status */
-"Presence.Unknown" = "Unknown";
+"Presence.Unknown" = "알 수 없음";
 
 /* Presence - Blocked status */
-"Presence.Blocked" = "Blocked";
+"Presence.Blocked" = "차단됨";
 

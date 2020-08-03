@@ -118,28 +118,28 @@
 "Common.Cancel" = "Odustani";
 
 /* Generic label to indicate that an item is shared */
-"Common.Shared" = "Shared";
+"Common.Shared" = "Zajednički se koristi";
 
 /* Generic label to indicate that an item is not shared */
-"Common.OnlyMe" = "Only me";
+"Common.OnlyMe" = "Samo ja";
 
 /* Just now date string */
-"Date.Now" = "Just now";
+"Date.Now" = "Upravo";
 
 /* Minutes ago date format string. Example: "5m ago" */
-"Date.FormatMinutes" = "%ldm ago";
+"Date.FormatMinutes" = "Prije %ldm";
 
 /* Hours ago date format string. Example: "5h ago" */
-"Date.FormatHours" = "%ldh ago";
+"Date.FormatHours" = "Prije %ldh";
 
 /* Yesterday string */
-"Date.Yesterday" = "Yesterday";
+"Date.Yesterday" = "Jučer";
 
 /* Yesterday and time format string. Eample: "Yesterday at 11:00 AM" */
-"Date.FormatYesterdayTime" = "Yesterday at %@";
+"Date.FormatYesterdayTime" = "Jučer u %@";
 
 /* Day and time format string. Eample: "Fri at 11:00 AM" */
-"Date.FormatDayTime" = "%@ at %@";
+"Date.FormatDayTime" = "%@ u %@";
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Pretraživanje direktorija";
@@ -157,26 +157,26 @@
 "MSDateTimePicker.EndDate" = "Datum završetka";
 
 /* Presence - Available status */
-"Presence.Available" = "Available";
+"Presence.Available" = "Dostupno";
 
 /* Presence - Away status */
-"Presence.Away" = "Away";
+"Presence.Away" = "Nisam tu";
 
 /* Presence - Busy status */
-"Presence.Busy" = "Busy";
+"Presence.Busy" = "Zauzet";
 
 /* Presence - Do not disturb status */
-"Presence.DND" = "Do not disturb";
+"Presence.DND" = "Ne ometaj";
 
 /* Presence - Out of office status */
-"Presence.OOF" = "Out of office";
+"Presence.OOF" = "Nisam u uredu";
 
 /* Presence - Offline status */
-"Presence.Offline" = "Offline";
+"Presence.Offline" = "Izvan mreže";
 
 /* Presence - Unknown status */
-"Presence.Unknown" = "Unknown";
+"Presence.Unknown" = "Nepoznato";
 
 /* Presence - Blocked status */
-"Presence.Blocked" = "Blocked";
+"Presence.Blocked" = "Blokiran";
 

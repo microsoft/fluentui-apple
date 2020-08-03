@@ -94,7 +94,7 @@
 "Accessibility.LargeTitle.ProfileView" = "帳戶設定檔";
 
 /* Accessibility label format string for avatar view. Format: <Name>, <Presence>. Example: Kat, Available */
-"Accessibility.AvatarView.LabelFormat" = "%@, %@";
+"Accessibility.AvatarView.LabelFormat" = "%@，%@";
 
 /* Accessibility hint for a segmented control button */
 "Accessibility.Segmented.Button.Hint" = "點選以移至 %@";
@@ -157,26 +157,26 @@
 "MSDateTimePicker.EndDate" = "結束日期";
 
 /* Presence - Available status */
-"Presence.Available" = "Available";
+"Presence.Available" = "有空";
 
 /* Presence - Away status */
-"Presence.Away" = "Away";
+"Presence.Away" = "離開";
 
 /* Presence - Busy status */
-"Presence.Busy" = "Busy";
+"Presence.Busy" = "忙碌";
 
 /* Presence - Do not disturb status */
-"Presence.DND" = "Do not disturb";
+"Presence.DND" = "請勿打擾";
 
 /* Presence - Out of office status */
-"Presence.OOF" = "Out of office";
+"Presence.OOF" = "不在辦公室";
 
 /* Presence - Offline status */
-"Presence.Offline" = "Offline";
+"Presence.Offline" = "離線";
 
 /* Presence - Unknown status */
-"Presence.Unknown" = "Unknown";
+"Presence.Unknown" = "未知";
 
 /* Presence - Blocked status */
-"Presence.Blocked" = "Blocked";
+"Presence.Blocked" = "已封鎖";
 

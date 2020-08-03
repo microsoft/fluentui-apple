@@ -94,7 +94,7 @@
 "Accessibility.LargeTitle.ProfileView" = "ملف تعريف الحساب";
 
 /* Accessibility label format string for avatar view. Format: <Name>, <Presence>. Example: Kat, Available */
-"Accessibility.AvatarView.LabelFormat" = "%@, %@";
+"Accessibility.AvatarView.LabelFormat" = "%@، %@";
 
 /* Accessibility hint for a segmented control button */
 "Accessibility.Segmented.Button.Hint" = "انقر للانتقال إلى %@";
@@ -118,28 +118,28 @@
 "Common.Cancel" = "إلغاء";
 
 /* Generic label to indicate that an item is shared */
-"Common.Shared" = "Shared";
+"Common.Shared" = "مشترك";
 
 /* Generic label to indicate that an item is not shared */
-"Common.OnlyMe" = "Only me";
+"Common.OnlyMe" = "أنا فقط";
 
 /* Just now date string */
-"Date.Now" = "Just now";
+"Date.Now" = "للتو";
 
 /* Minutes ago date format string. Example: "5m ago" */
-"Date.FormatMinutes" = "%ldm ago";
+"Date.FormatMinutes" = "منذ %ldm";
 
 /* Hours ago date format string. Example: "5h ago" */
-"Date.FormatHours" = "%ldh ago";
+"Date.FormatHours" = "منذ %ldh";
 
 /* Yesterday string */
-"Date.Yesterday" = "Yesterday";
+"Date.Yesterday" = "أمس";
 
 /* Yesterday and time format string. Eample: "Yesterday at 11:00 AM" */
-"Date.FormatYesterdayTime" = "Yesterday at %@";
+"Date.FormatYesterdayTime" = "أمس الساعة %@";
 
 /* Day and time format string. Eample: "Fri at 11:00 AM" */
-"Date.FormatDayTime" = "%@ at %@";
+"Date.FormatDayTime" = "%@ الساعة %@";
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "البحث في الدليل";
@@ -157,26 +157,26 @@
 "MSDateTimePicker.EndDate" = "تاريخ الانتهاء";
 
 /* Presence - Available status */
-"Presence.Available" = "Available";
+"Presence.Available" = "متوفر";
 
 /* Presence - Away status */
-"Presence.Away" = "Away";
+"Presence.Away" = "بالخارج";
 
 /* Presence - Busy status */
-"Presence.Busy" = "Busy";
+"Presence.Busy" = "مشغول";
 
 /* Presence - Do not disturb status */
-"Presence.DND" = "Do not disturb";
+"Presence.DND" = "ممنوع الإزعاج";
 
 /* Presence - Out of office status */
-"Presence.OOF" = "Out of office";
+"Presence.OOF" = "خارج المكتب";
 
 /* Presence - Offline status */
-"Presence.Offline" = "Offline";
+"Presence.Offline" = "دون اتصال";
 
 /* Presence - Unknown status */
-"Presence.Unknown" = "Unknown";
+"Presence.Unknown" = "غير معروف";
 
 /* Presence - Blocked status */
-"Presence.Blocked" = "Blocked";
+"Presence.Blocked" = "ممنوعة";
 

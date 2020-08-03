@@ -118,28 +118,28 @@
 "Common.Cancel" = "Annuleren";
 
 /* Generic label to indicate that an item is shared */
-"Common.Shared" = "Shared";
+"Common.Shared" = "Gedeeld";
 
 /* Generic label to indicate that an item is not shared */
-"Common.OnlyMe" = "Only me";
+"Common.OnlyMe" = "Alleen mezelf";
 
 /* Just now date string */
-"Date.Now" = "Just now";
+"Date.Now" = "Zojuist";
 
 /* Minutes ago date format string. Example: "5m ago" */
-"Date.FormatMinutes" = "%ldm ago";
+"Date.FormatMinutes" = "%ldm geleden";
 
 /* Hours ago date format string. Example: "5h ago" */
-"Date.FormatHours" = "%ldh ago";
+"Date.FormatHours" = "%ldh geleden";
 
 /* Yesterday string */
-"Date.Yesterday" = "Yesterday";
+"Date.Yesterday" = "Gisteren";
 
 /* Yesterday and time format string. Eample: "Yesterday at 11:00 AM" */
-"Date.FormatYesterdayTime" = "Yesterday at %@";
+"Date.FormatYesterdayTime" = "Gisteren om %@";
 
 /* Day and time format string. Eample: "Fri at 11:00 AM" */
-"Date.FormatDayTime" = "%@ at %@";
+"Date.FormatDayTime" = "%@ om %@";
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Zoeken in adreslijst";
@@ -157,26 +157,26 @@
 "MSDateTimePicker.EndDate" = "Einddatum";
 
 /* Presence - Available status */
-"Presence.Available" = "Available";
+"Presence.Available" = "Beschikbaar";
 
 /* Presence - Away status */
-"Presence.Away" = "Away";
+"Presence.Away" = "Afwezig";
 
 /* Presence - Busy status */
-"Presence.Busy" = "Busy";
+"Presence.Busy" = "Bezet";
 
 /* Presence - Do not disturb status */
-"Presence.DND" = "Do not disturb";
+"Presence.DND" = "Niet storen";
 
 /* Presence - Out of office status */
-"Presence.OOF" = "Out of office";
+"Presence.OOF" = "Afwezig";
 
 /* Presence - Offline status */
 "Presence.Offline" = "Offline";
 
 /* Presence - Unknown status */
-"Presence.Unknown" = "Unknown";
+"Presence.Unknown" = "Onbekend";
 
 /* Presence - Blocked status */
-"Presence.Blocked" = "Blocked";
+"Presence.Blocked" = "Geblokkeerd";
 

@@ -157,26 +157,26 @@
 "MSDateTimePicker.EndDate" = "Ημερομηνία λήξης";
 
 /* Presence - Available status */
-"Presence.Available" = "Available";
+"Presence.Available" = "Διαθέσιμος/η";
 
 /* Presence - Away status */
-"Presence.Away" = "Away";
+"Presence.Away" = "Δεν βρίσκομαι στον υπολογιστή";
 
 /* Presence - Busy status */
-"Presence.Busy" = "Busy";
+"Presence.Busy" = "Απασχολημένος/η";
 
 /* Presence - Do not disturb status */
-"Presence.DND" = "Do not disturb";
+"Presence.DND" = "Μην ενοχλείτε";
 
 /* Presence - Out of office status */
-"Presence.OOF" = "Out of office";
+"Presence.OOF" = "Εκτός γραφείου";
 
 /* Presence - Offline status */
-"Presence.Offline" = "Offline";
+"Presence.Offline" = "Εκτός σύνδεσης";
 
 /* Presence - Unknown status */
-"Presence.Unknown" = "Unknown";
+"Presence.Unknown" = "Άγνωστο";
 
 /* Presence - Blocked status */
-"Presence.Blocked" = "Blocked";
+"Presence.Blocked" = "Αποκλείστηκε";
 

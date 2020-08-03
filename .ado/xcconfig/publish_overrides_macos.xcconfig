@@ -1,5 +1,0 @@
-#include "publish_overrides.xcconfig"
-
-// opt into arm64 on macOS
-// note: the arm64 arch is safely ignored on versions of Xcode where macOS doesn't support arm64
-ARCHS = $(ARCHS_STANDARD) arm64
