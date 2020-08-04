@@ -111,53 +111,47 @@ open class AvatarStack: UIView {
         accessibilityElements = [avatarViews]
 
         invalidateIntrinsicContentSize()
+        updateLayerMask()
     }
 
     private func updateLayerMask() {
         if avatarViews.count <= 1 {
-            layer.mask = nil
+            for avatarView in avatarViews {
+                avatarView.layer.mask = nil
+            }
+
             return
         }
 
-        let borderWidth: CGFloat = avatarViews[0].borderWidth
-        var maskFrame = CGRect(origin: .zero, size: intrinsicContentSize)
+        var borderWidth: CGFloat = avatarViews[0].borderWidth
+        let avatarFrame = CGRect(origin: .zero, size: avatarSize.size)
+
+        var pathFrame = avatarFrame
         if displaysBorders {
-            maskFrame.origin.x -= borderWidth
-            maskFrame.origin.y -= borderWidth
-            maskFrame.size.width += borderWidth * 4
-            maskFrame.size.height += borderWidth * 4
+            pathFrame.origin.x -= borderWidth
+            pathFrame.origin.y -= borderWidth
+            pathFrame.size.width += borderWidth * 4
+            pathFrame.size.height += borderWidth * 4
+            borderWidth *= 2
         }
 
-        let path = UIBezierPath(rect: maskFrame)
+        var nextFrame = avatarFrame
+        nextFrame.origin.x += avatarSize.size.width - avatarOverlap() - borderWidth
+        nextFrame.origin.y -= borderWidth
+        nextFrame.size.width += borderWidth * 2
+        nextFrame.size.height += borderWidth * 2
 
-        for avatarView in avatarViews {
-            var frame = avatarView.frame
-            if displaysBorders {
-                frame.size.width += borderWidth * 2
-                frame.size.height += borderWidth * 2
-            }
+        let path = UIBezierPath(rect: pathFrame)
+        path.append(UIBezierPath(ovalIn: nextFrame))
 
-            let avatarPath = UIBezierPath()
-            avatarPath.addArc(withCenter: CGPoint(x: frame.origin.x + frame.size.width / 2, y: frame.origin.y + frame.size.height / 2),
-                           radius: frame.size.width / 2,
-                           startAngle: CGFloat.pi / 2,
-                           endAngle: 3 * CGFloat.pi / 2,
-                           clockwise: true)
-            avatarPath.addArc(withCenter: CGPoint(x: frame.origin.x + frame.size.width / 2, y: frame.origin.y + frame.size.height / 2),
-                           radius: frame.size.width / 2 + borderWidth,
-                           startAngle: CGFloat.pi / 2,
-                           endAngle: 3 * CGFloat.pi / 2,
-                           clockwise: true)
+        for avatarView in avatarViews.prefix(avatarViews.count - 1) {
+            let maskLayer = CAShapeLayer()
+            maskLayer.frame = avatarFrame
+            maskLayer.fillRule = .evenOdd
+            maskLayer.path = path.cgPath
 
-            path.append(avatarPath)
+            avatarView.layer.mask = maskLayer
         }
-
-        let maskLayer = CAShapeLayer()
-        maskLayer.frame = maskFrame
-        maskLayer.fillRule = .evenOdd
-        maskLayer.path = path.cgPath
-
-        layer.mask = maskLayer
     }
 
     private func avatarOverlap() -> CGFloat {
