@@ -74,6 +74,11 @@ class TableViewCellDemoController: DemoController {
         navigationController?.isToolbarHidden = false
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.isToolbarHidden = true
+    }
+
     @objc private func selectionBarButtonTapped(sender: UIBarButtonItem) {
         isInSelectionMode = !isInSelectionMode
     }

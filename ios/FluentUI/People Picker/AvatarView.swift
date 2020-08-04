@@ -484,7 +484,7 @@ open class AvatarView: UIView {
 
             let maskLayer = CAShapeLayer()
             maskLayer.frame = maskFrame
-            maskLayer.fillRule = CAShapeLayerFillRule.evenOdd
+            maskLayer.fillRule = .evenOdd
             maskLayer.path = path.cgPath
 
             containerView.layer.mask = maskLayer
