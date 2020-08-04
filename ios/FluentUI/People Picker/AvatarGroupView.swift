@@ -34,18 +34,45 @@ open class AvatarGroupView: UIView {
         }
     }
 
-    /// Set to true to display avatar borders in the avatar group view.
-    @objc open var displaysBorders: Bool {
+    /// Set to true to show avatar borders in the avatar group view.
+    @objc open var showBorders: Bool {
         didSet {
             updateAvatars()
         }
     }
 
-    @objc public required init(with avatars: [Avatar], size: AvatarSize, style: AvatarGroupViewStyle, displaysBorders: Bool = false) {
+    /// Maximum count of avatars that can be displayed in the avatar group view.
+    /// If the avatars array contains more avatars than this limit, an overflow UI will be displayed with the overflow count.
+    /// The overflow UI is an avatar view with a "+" sign and the overflow count.
+    /// The overflow UI is not counted in the maxDisplayedAvatars.
+    /// Calculation for the overflow count: max(avatars.count() - maxDisplayedAvatars, 0) + overflowCount.
+    @objc open var maxDisplayedAvatars: UInt {
+        didSet {
+            updateAvatars()
+        }
+    }
+
+    /// The overflow count will be displayed to represent the number of avatars that couldn't be displayed in the group view.
+    /// If the count if avatars in the avatars array is greater than maxDisplayedAvatars, the overflow count will also include the extra avatars from that array.
+    /// Calculation for the overflow count: max(avatars.count() - maxDisplayedAvatars, 0) + overflowCount.
+    @objc open var overflowCount: UInt {
+        didSet {
+            updateAvatars()
+        }
+    }
+
+    @objc public required init(avatars: [Avatar],
+                               size: AvatarSize,
+                               style: AvatarGroupViewStyle,
+                               showBorders: Bool = false,
+                               maxDisplayedAvatars: UInt = UInt.max,
+                               overflowCount: UInt = 0) {
         self.avatars = avatars
         self.avatarSize = size
-        self.displaysBorders = displaysBorders
+        self.showBorders = showBorders
         self.style = style
+        self.maxDisplayedAvatars = maxDisplayedAvatars
+        self.overflowCount = overflowCount
         super.init(frame: .zero)
 
         updateAvatars()
@@ -89,30 +116,26 @@ open class AvatarGroupView: UIView {
         avatarViews.removeAll()
         var constraints: [NSLayoutConstraint] = []
         var previousAvatarView: AvatarView?
-        let avatarSpacing = -self.avatarSpacing()
 
-        for avatar in avatars {
-            let avatarView = AvatarView(avatarSize: avatarSize, withBorder: displaysBorders, style: .circle)
-            avatarView.translatesAutoresizingMaskIntoConstraints = false
+        for avatar in avatars.prefix(Int(maxDisplayedAvatars)) {
+            let avatarView = AvatarView(avatarSize: avatarSize, withBorder: showBorders, style: .circle)
             avatarView.setup(avatar: avatar)
-            avatarViews.append(avatarView)
 
-            addSubview(avatarView)
-
-            constraints.append(contentsOf: [
-                avatarView.topAnchor.constraint(equalTo: topAnchor),
-                avatarView.bottomAnchor.constraint(equalTo: bottomAnchor),
-                avatarView.widthAnchor.constraint(equalToConstant: avatarSize.size.width),
-                avatarView.heightAnchor.constraint(equalToConstant: avatarSize.size.height)
-            ])
-
-            if let previousAvatarView = previousAvatarView {
-                constraints.append(previousAvatarView.trailingAnchor.constraint(equalTo: avatarView.leadingAnchor, constant: avatarSpacing))
-            } else {
-                constraints.append(leadingAnchor.constraint(equalTo: avatarView.leadingAnchor))
-            }
+            constraints.append(contentsOf: insert(avatarView: avatarView, previousAvatarView: previousAvatarView))
 
             previousAvatarView = avatarView
+        }
+
+        var overflowCount = self.overflowCount
+        if avatars.count > maxDisplayedAvatars {
+            overflowCount += UInt(avatars.count) - maxDisplayedAvatars
+        }
+
+        if overflowCount > 0 {
+            let avatarView = OverflowAvatarView(overflowCount: overflowCount, avatarSize: avatarSize, withBorder: showBorders)
+            avatarView.translatesAutoresizingMaskIntoConstraints = false
+
+            constraints.append(contentsOf: insert(avatarView: avatarView, previousAvatarView: previousAvatarView))
         }
 
         if let lastAvatarView = avatarViews.last {
@@ -125,6 +148,29 @@ open class AvatarGroupView: UIView {
 
         invalidateIntrinsicContentSize()
         updateLayerMask()
+    }
+
+    private func insert(avatarView: AvatarView, previousAvatarView: AvatarView?) -> [NSLayoutConstraint] {
+        avatarView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(avatarView)
+        avatarViews.append(avatarView)
+
+        var constraints: [NSLayoutConstraint] = []
+
+        constraints.append(contentsOf: [
+            avatarView.topAnchor.constraint(equalTo: topAnchor),
+            avatarView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            avatarView.widthAnchor.constraint(equalToConstant: avatarSize.size.width),
+            avatarView.heightAnchor.constraint(equalToConstant: avatarSize.size.height)
+        ])
+
+        if let previousAvatarView = previousAvatarView {
+            constraints.append(previousAvatarView.trailingAnchor.constraint(equalTo: avatarView.leadingAnchor, constant: -avatarSpacing()))
+        } else {
+            constraints.append(leadingAnchor.constraint(equalTo: avatarView.leadingAnchor))
+        }
+
+        return constraints
     }
 
     private func updateLayerMask() {
@@ -144,7 +190,7 @@ open class AvatarGroupView: UIView {
         let avatarFrame = CGRect(origin: .zero, size: avatarSize.size)
 
         var pathFrame = avatarFrame
-        if displaysBorders {
+        if showBorders {
             pathFrame.origin.x -= borderWidth
             pathFrame.origin.y -= borderWidth
             pathFrame.size.width += borderWidth * 4
@@ -187,7 +233,7 @@ open class AvatarGroupView: UIView {
         switch style {
         case .pile:
             spacing = avatarSize.pileSpacing
-            if displaysBorders {
+            if showBorders {
                 spacing += 2 * avatarBorderWidth()
             }
         case .stack:
