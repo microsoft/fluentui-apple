@@ -110,42 +110,22 @@ open class ContactView: UIView {
             constraints.append(contentsOf: identifierLayoutConstraints())
         }
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        labelContainer.addSubview(titleLabel)
-
-        labelContainer.translatesAutoresizingMaskIntoConstraints = false
-
-        let category = UIApplication.shared.preferredContentSizeCategory
-        var contactHeightConstraint: CGFloat
-        switch category {
-        case .extraSmall:
-            contactHeightConstraint = Constants.extraSmallContentContactHeight
-        case .small:
-            contactHeightConstraint = Constants.smallContentContactHeight
-        case .medium:
-            contactHeightConstraint = Constants.mediumContentContactHeight
-        case .large:
-            contactHeightConstraint = Constants.largeContentContactHeight
-        case .extraLarge:
-            contactHeightConstraint = Constants.extraLargeContentContactHeight
-        case .extraExtraLarge:
-            contactHeightConstraint = Constants.extraExtraLargeContentContactHeight
-        case .extraExtraExtraLarge:
-            contactHeightConstraint = Constants.extraExtraExtraLargeContentContactHeight
-        default:
-            contactHeightConstraint = Constants.extraExtraExtraLargeContentContactHeight
-        }
 
         pressedStateOverlay.translatesAutoresizingMaskIntoConstraints = false
         avatarView.addSubview(pressedStateOverlay)
-
         constraints.append(contentsOf: pressedStateOverlayLayoutConstraints())
-        constraints.append(heightAnchor.constraint(equalToConstant: contactHeightConstraint))
 
+        labelContainer.layer.borderColor = UIColor.red.cgColor
+        labelContainer.layer.borderWidth = 1.0
+        
+        labelContainer.translatesAutoresizingMaskIntoConstraints = false
+        labelContainer.addSubview(titleLabel)
         addSubview(labelContainer)
-
         constraints.append(contentsOf: labelContainerLayoutConstraints())
+
         NSLayoutConstraint.activate(constraints)
     }
+
     private func avatarLayoutConstraints() -> [NSLayoutConstraint] {
         return [
             avatarView.heightAnchor.constraint(equalToConstant: Constants.avatarViewHeight),
@@ -242,6 +222,27 @@ open class ContactView: UIView {
         label.textColor = Colors.Contact.subtitle
 
         subtitleLabel = label
+    }
+
+    private func categoryHeight() -> CGFloat {
+        switch UIApplication.shared.preferredContentSizeCategory {
+        case .extraSmall:
+            return Constants.extraSmallContentContactHeight
+        case .small:
+            return Constants.smallContentContactHeight
+        case .medium:
+            return Constants.mediumContentContactHeight
+        case .large:
+            return Constants.largeContentContactHeight
+        case .extraLarge:
+            return Constants.extraLargeContentContactHeight
+        case .extraExtraLarge:
+            return Constants.extraExtraLargeContentContactHeight
+        case .extraExtraExtraLarge:
+            return Constants.extraExtraExtraLargeContentContactHeight
+        default:
+            return Constants.extraExtraExtraLargeContentContactHeight
+        }
     }
 
     private func setupPressedStateOverlay() {

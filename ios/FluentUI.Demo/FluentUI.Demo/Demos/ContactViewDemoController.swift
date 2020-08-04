@@ -31,12 +31,17 @@ class ContactViewDemoController: DemoController {
         // ContactView with phone number
         let phoneNumberContactView = ContactView(identifier: "+1 (425) 123 4567")
         phoneNumberContactView.translatesAutoresizingMaskIntoConstraints = false
+        
+        // ContactView with no title, subtitle or identifier
+        let emptyContactView = ContactView(title: "", subtitle: "")
+        emptyContactView.translatesAutoresizingMaskIntoConstraints = false
 
         addRow(text: "ContactView with image", items: [contactView], textWidth: 200)
         addRow(text: "ContactView with initials", items: [noImageContactView], textWidth: 200)
         addRow(text: "ContactView with first name", items: [firstNameContactView], textWidth: 200)
         addRow(text: "ContactView with email", items: [emailContactView], textWidth: 200)
         addRow(text: "ContactView with phone number", items: [phoneNumberContactView], textWidth: 200)
+        addRow(text: "ContactView with nothing", items: [emptyContactView], textWidth: 200)
     }
 
     private func createAvatarView(size: AvatarSize, name: String, image: UIImage? = nil, style: AvatarStyle) -> AvatarView {

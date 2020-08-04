@@ -15,7 +15,14 @@ class ContactCollectionViewCell: UICollectionViewCell {
     }
 
     func setup(contact persona: PersonaData) {
-        let contactView = ContactView(identifier: persona.name)
+        var contactView: ContactView
+//        if persona.name != "" {
+//            contactView = ContactView(identifier: persona.name)
+//        } else {
+//            contactView = ContactView(identifier: persona.email)
+//        }
+        contactView = ContactView(identifier: persona.name)
+
         contactView.translatesAutoresizingMaskIntoConstraints = false
         if let avatarImage = persona.avatarImage {
             contactView.avatarImage = avatarImage

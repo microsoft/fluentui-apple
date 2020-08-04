@@ -24,7 +24,7 @@ open class ContactCollectionView: UICollectionView {
     @objc public var contactList: [PersonaData] = [] {
         didSet {
             if (oldValue.count == 0 && contactList.count > 0) || (oldValue.count > 0 && contactList.count == 0) {
-                setupConstraints()
+                updateHeightConstraint()
             }
         }
     }
@@ -32,22 +32,21 @@ open class ContactCollectionView: UICollectionView {
     @objc public init() {
         layout = ContactCollectionViewLayout()
         layout.scrollDirection = .horizontal
-        contactList = [PersonaData]()
-
         super.init(frame: .zero, collectionViewLayout: layout)
         configureCollectionView()
-
+        updateHeightConstraint()
         register(ContactCollectionViewCell.self, forCellWithReuseIdentifier: ContactCollectionViewCell.identifier)
-        setupConstraints()
+        NotificationCenter.default.addObserver(self, selector: #selector(setNewHeightConstraint), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
-    public required init?(coder: NSCoder) {
+    @objc public required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
     var heightConstraint: NSLayoutConstraint?
     var widthConstraint: NSLayoutConstraint?
-    private func setupConstraints() {
+
+    private func updateHeightConstraint() {
         if heightConstraint == nil {
             heightConstraint = heightAnchor.constraint(equalToConstant: 0.0)
             heightConstraint!.isActive = true
@@ -56,12 +55,9 @@ open class ContactCollectionView: UICollectionView {
 
         var constant: CGFloat = 0.0
         if contactList.count > 0 {
-            let indexPath = IndexPath(item: 0, section: 0)
-            // NOTE: Why doesn't calling this after setting the .scrollDirection make the collection no longer scrollable?
-            constant = layout.collectionView(self, layout: layout, sizeForItemAt: indexPath).height
+            constant = categoryHeight()
         }
 
-        print("collectionView.contentSize: \(contentSize)")
         heightConstraint!.constant = constant
     }
 
@@ -69,15 +65,58 @@ open class ContactCollectionView: UICollectionView {
         translatesAutoresizingMaskIntoConstraints = false
         showsHorizontalScrollIndicator = false
         showsVerticalScrollIndicator = false
-//        backgroundColor = .green
-        backgroundColor = Colors.surfacePrimary
+        backgroundColor = .green
         dataSource = self
         delegate = self
         contentInset = UIEdgeInsets(top: 0, left: Constants.sideInset, bottom: 0, right: 0)
     }
 
-    // If the Contact is not fully visible in the scroll frame, scrolls the view by an offset large enough so that the entire Contact and the next Contact are fully visible.
-    private func scrollContactToVisible(at indexPath: IndexPath) {
+    @objc private func setNewHeightConstraint() {
+        print("new height constraint")
+        let height = categoryHeight()
+        heightConstraint?.constant = height
+    }
+
+    private func categoryHeight() -> CGFloat {
+        switch UIApplication.shared.preferredContentSizeCategory {
+        case .extraSmall:
+            return Constants.extraSmallContentContactHeight
+        case .small:
+            return Constants.smallContentContactHeight
+        case .medium:
+            return Constants.mediumContentContactHeight
+        case .large:
+            return Constants.largeContentContactHeight
+        case .extraLarge:
+            return Constants.extraLargeContentContactHeight
+        case .extraExtraLarge:
+            return Constants.extraExtraLargeContentContactHeight
+        case .extraExtraExtraLarge:
+            return Constants.extraExtraExtraLargeContentContactHeight
+        default:
+            return Constants.extraExtraExtraLargeContentContactHeight
+        }
+    }
+}
+
+extension ContactCollectionView: UICollectionViewDataSource {
+    @objc public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return contactList.count
+    }
+
+    @objc public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContactCollectionViewCell.identifier, for: indexPath) as! ContactCollectionViewCell
+        cell.setup(contact: contactList[indexPath.item])
+        cell.backgroundColor = UIColor(red: 0, green: 0, blue: 1, alpha: 1)
+
+        return cell
+    }
+}
+
+extension ContactCollectionView: UICollectionViewDelegate {
+    // If the Contact is not fully visible in the scroll frame, scrolls the view by an offset large enough
+    // so that the tapped Contact and the next Contact are fully visible.
+    @objc public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = cellForItem(at: indexPath) else {
             return
         }
@@ -103,27 +142,5 @@ open class ContactCollectionView: UICollectionView {
         if offSet != contentOffset.x {
             setContentOffset(CGPoint(x: offSet, y: contentOffset.y), animated: true)
         }
-    }
-}
-
-extension ContactCollectionView: UICollectionViewDataSource {
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return contactList.count
-    }
-
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContactCollectionViewCell.identifier, for: indexPath) as! ContactCollectionViewCell
-        cell.setup(contact: contactList[indexPath.item])
-        cell.backgroundColor = UIColor(red: 0, green: 0, blue: 1, alpha: 1)
-
-        return cell
-    }
-}
-
-extension ContactCollectionView: UICollectionViewDelegate {
-    // Perhaps something to do with highlighting (even though I already have something similar in ContactView.swift) later on
-    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        print("item \(indexPath.item) at section \(indexPath.section) selected in collection view")
-        scrollContactToVisible(at: indexPath)
     }
 }

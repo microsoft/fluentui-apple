@@ -48,9 +48,8 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
         let totalWidth = numItems > 0 ? CGFloat(numItems) * Constants.itemWidth + (CGFloat(numItems) - 1) * minimumLineSpacing : 0.0
 
         let size = CGSize(width: totalWidth, height: height!)
-        print("totalWidth: \(totalWidth)")
         print("height: \(height!)")
-        collectionView.contentSize = size
+//        collectionView.contentSize = size
 
         return size
     }
@@ -91,15 +90,12 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
             return true
         }
 
-        // TODO: Figure out why we pass in newBounds here
         return super.shouldInvalidateLayout(forBoundsChange: newBounds)
     }
 
     private var numberOfItems: Int = 0
+    private var currentContentSizeCategory: UIContentSizeCategory = .large
 
-    // 1) Called whenever the layout is invalidated
-    // For a FlowLayout, invalidated when the collection view bounds changes (resized / rotated)
-    // Want it to be a function of the collectionView width
     // 2) Need to cache UICollectionViewLayouAttribute's
     // 3) Needs to compute the collectionViewContentSize
     override func prepare() {
