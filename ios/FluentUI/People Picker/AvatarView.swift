@@ -168,6 +168,14 @@ open class AvatarView: UIView {
         }
     }
 
+    @objc open var borderColor: UIColor? {
+        didSet {
+            if hasBorder && !hasCustomBorder {
+                updateBorderColor()
+            }
+        }
+    }
+
     /// The avatar view's presence state.
     /// The presence state is only shown when the style is set to AvatarStyle.circle.
     @objc open var presence: Presence = .none {
@@ -300,6 +308,21 @@ open class AvatarView: UIView {
     @objc public func setup(avatar: Avatar?) {
         setup(primaryText: avatar?.primaryText, secondaryText: avatar?.secondaryText, image: avatar?.image, presence: avatar?.presence ?? .none)
         customBorderImage = avatar?.customBorderImage
+        borderColor = avatar?.borderColor
+    }
+
+    var borderWidth: CGFloat {
+        get {
+            var borderWidth: CGFloat = 0
+            if hasCustomBorder {
+                borderWidth = Constants.customBorderWidth
+            } else {
+                borderWidth = avatarSize == .extraExtraLarge ? Constants.extraExtraLargeBorderWidth : Constants.borderWidth
+            }
+
+            return borderWidth
+        }
+        set { }
     }
 
     private var hasBorder: Bool = false
@@ -381,10 +404,18 @@ open class AvatarView: UIView {
     }
 
     private func updateBorder() {
-        let borderWidth = avatarSize == .extraExtraLarge ? Constants.extraExtraLargeBorderWidth : Constants.borderWidth
+        let borderWidth = self.borderWidth
         borderView.frame = bounds.insetBy(dx: -borderWidth, dy: -borderWidth)
         borderView.layer.cornerRadius = cornerRadius(for: borderView.frame.width)
-        borderView.backgroundColor = Colors.Avatar.border
+        updateBorderColor()
+    }
+
+    private func updateBorderColor() {
+        if let borderColor = borderColor {
+            borderView.backgroundColor = borderColor
+        } else {
+            borderView.backgroundColor = Colors.Avatar.border
+        }
     }
 
     private func updateCustomBorder() {
@@ -392,7 +423,8 @@ open class AvatarView: UIView {
             return
         }
 
-        let expectedFrame = bounds.insetBy(dx: -Constants.customBorderWidth, dy: -Constants.customBorderWidth)
+        let borderWidth = self.borderWidth
+        let expectedFrame = bounds.insetBy(dx: -borderWidth, dy: -borderWidth)
         if customBorderImageSize == expectedFrame.size {
             return
         }
@@ -469,15 +501,16 @@ open class AvatarView: UIView {
 
     private func updatePresenceMask() {
         if !useOpaquePresenceBorder && isDisplayingPresence() {
+            let borderWidth = self.borderWidth
             var maskFrame = bounds
-            maskFrame.origin.x -= Constants.customBorderWidth
-            maskFrame.origin.y -= Constants.customBorderWidth
-            maskFrame.size.width += Constants.customBorderWidth * 4
-            maskFrame.size.height += Constants.customBorderWidth * 4
+            maskFrame.origin.x -= borderWidth
+            maskFrame.origin.y -= borderWidth
+            maskFrame.size.width += borderWidth * 4
+            maskFrame.size.height += borderWidth * 4
 
             var presenceFrame = presenceBorderFrame()
-            presenceFrame.origin.x += Constants.customBorderWidth
-            presenceFrame.origin.y += Constants.customBorderWidth
+            presenceFrame.origin.x += borderWidth
+            presenceFrame.origin.y += borderWidth
 
             let path = UIBezierPath(rect: maskFrame)
             path.append(UIBezierPath(ovalIn: presenceFrame))
