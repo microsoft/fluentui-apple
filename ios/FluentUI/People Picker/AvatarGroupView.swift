@@ -5,33 +5,47 @@
 
 import UIKit
 
-@objc(MSFAvatarStack)
-open class AvatarStack: UIView {
-    /// Array of avatars to display in the avatar stack.
+@objc(MSFAvatarGroupViewStyle)
+public enum AvatarGroupViewStyle: Int {
+    case stack
+    case pile
+}
+
+@objc(MSFAvatarGroupView)
+open class AvatarGroupView: UIView {
+    /// Array of avatars to display in the avatar group view.
     @objc open var avatars: [Avatar] {
         didSet {
             updateAvatars()
         }
     }
 
-    /// The size for avatar views in the avatar stack
+    /// The size for avatar views in the avatar group view
     @objc open var avatarSize: AvatarSize {
         didSet {
             updateAvatars()
         }
     }
 
-    /// Set to true to display avatar borders in the avatar stack.
+    /// The avatar group view's style
+    @objc open var style: AvatarGroupViewStyle {
+        didSet {
+            updateAvatars()
+        }
+    }
+
+    /// Set to true to display avatar borders in the avatar group view.
     @objc open var displaysBorders: Bool {
         didSet {
             updateAvatars()
         }
     }
 
-    @objc public required init(with avatars: [Avatar], size: AvatarSize, displaysBorders: Bool = false) {
+    @objc public required init(with avatars: [Avatar], size: AvatarSize, style: AvatarGroupViewStyle, displaysBorders: Bool = false) {
         self.avatars = avatars
         self.avatarSize = size
         self.displaysBorders = displaysBorders
+        self.style = style
         super.init(frame: .zero)
 
         updateAvatars()
@@ -50,10 +64,9 @@ open class AvatarStack: UIView {
     open override var intrinsicContentSize: CGSize {
         let avatarsCount = CGFloat(avatars.count)
         var width = avatarSize.size.width * avatarsCount
-        let avatarOverlap = self.avatarOverlap()
 
         if avatarsCount > 1 {
-            width -= (avatarsCount - 1) * avatarOverlap
+            width += (avatarsCount - 1) * avatarSpacing()
         }
 
         return CGSize(width: width, height: avatarSize.size.height)
@@ -65,7 +78,7 @@ open class AvatarStack: UIView {
     }
 
     private struct Constants {
-        static let avatarOverlapRatio: CGFloat = 0.14
+        static let avatarStackOverlapRatio: CGFloat = 0.14
     }
 
     private var avatarViews: [AvatarView] = []
@@ -76,7 +89,7 @@ open class AvatarStack: UIView {
         avatarViews.removeAll()
         var constraints: [NSLayoutConstraint] = []
         var previousAvatarView: AvatarView?
-        let avatarOverlap = self.avatarOverlap()
+        let avatarSpacing = -self.avatarSpacing()
 
         for avatar in avatars {
             let avatarView = AvatarView(avatarSize: avatarSize, withBorder: displaysBorders, style: .circle)
@@ -94,7 +107,7 @@ open class AvatarStack: UIView {
             ])
 
             if let previousAvatarView = previousAvatarView {
-                constraints.append(previousAvatarView.trailingAnchor.constraint(equalTo: avatarView.leadingAnchor, constant: avatarOverlap))
+                constraints.append(previousAvatarView.trailingAnchor.constraint(equalTo: avatarView.leadingAnchor, constant: avatarSpacing))
             } else {
                 constraints.append(leadingAnchor.constraint(equalTo: avatarView.leadingAnchor))
             }
@@ -115,6 +128,10 @@ open class AvatarStack: UIView {
     }
 
     private func updateLayerMask() {
+        if style != .stack {
+            return
+        }
+
         if avatarViews.count <= 1 {
             for avatarView in avatarViews {
                 avatarView.layer.mask = nil
@@ -123,7 +140,7 @@ open class AvatarStack: UIView {
             return
         }
 
-        var borderWidth: CGFloat = avatarViews[0].borderWidth
+        var borderWidth = avatarBorderWidth()
         let avatarFrame = CGRect(origin: .zero, size: avatarSize.size)
 
         var pathFrame = avatarFrame
@@ -136,7 +153,7 @@ open class AvatarStack: UIView {
         }
 
         var nextFrame = avatarFrame
-        nextFrame.origin.x += avatarSize.size.width - avatarOverlap() - borderWidth
+        nextFrame.origin.x += avatarSize.size.width + avatarSpacing() - borderWidth
         nextFrame.origin.y -= borderWidth
         nextFrame.size.width += borderWidth * 2
         nextFrame.size.height += borderWidth * 2
@@ -161,7 +178,33 @@ open class AvatarStack: UIView {
         }
     }
 
-    private func avatarOverlap() -> CGFloat {
-        return avatarSize.size.width * Constants.avatarOverlapRatio
+    private func avatarBorderWidth() -> CGFloat {
+        return AvatarView.borderWidth(size: avatarSize, hasCustomBorder: false)
+    }
+
+    private func avatarSpacing() -> CGFloat {
+        var spacing: CGFloat = 0
+        switch style {
+        case .pile:
+            spacing = avatarSize.pileSpacing
+            if displaysBorders {
+                spacing += 2 * avatarBorderWidth()
+            }
+        case .stack:
+            spacing = -avatarSize.size.width * Constants.avatarStackOverlapRatio
+        }
+
+        return spacing
+    }
+}
+
+extension AvatarSize {
+    var pileSpacing: CGFloat {
+        switch self {
+        case .extraSmall, .small:
+            return 4
+        case .medium, .large, .extraLarge, .extraExtraLarge:
+            return 8
+        }
     }
 }

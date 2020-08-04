@@ -317,16 +317,20 @@ open class AvatarView: UIView {
 
     var borderWidth: CGFloat {
         get {
-            var borderWidth: CGFloat = 0
-            if hasCustomBorder {
-                borderWidth = Constants.customBorderWidth
-            } else {
-                borderWidth = avatarSize == .extraExtraLarge ? Constants.extraExtraLargeBorderWidth : Constants.borderWidth
-            }
-
-            return borderWidth
+            return AvatarView.borderWidth(size: avatarSize, hasCustomBorder: hasCustomBorder)
         }
         set { }
+    }
+
+    static func borderWidth(size: AvatarSize, hasCustomBorder: Bool) -> CGFloat {
+        var borderWidth: CGFloat = 0
+        if hasCustomBorder {
+            borderWidth = Constants.customBorderWidth
+        } else {
+            borderWidth = size == .extraExtraLarge ? Constants.extraExtraLargeBorderWidth : Constants.borderWidth
+        }
+
+        return borderWidth
     }
 
     private var hasBorder: Bool = false

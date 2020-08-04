@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-class AvatarStackDemoController: DemoController {
+class AvatarGroupViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -38,47 +38,19 @@ class AvatarStackDemoController: DemoController {
 
         addRow(text: "Use alternate background color", items: [backgroundColorSwitch], textStyle: .footnote, textWidth: Constants.settingsTextWidth)
 
-        let noBorderTitle = Label(style: .headline, colorStyle: .regular)
-        noBorderTitle.text = "Avatar stacks without borders"
-        container.addArrangedSubview(UIView())
-        container.addArrangedSubview(noBorderTitle)
+        insertLabel(text: "Avatar stack without borders")
+        insertAvatarViews(style: .stack, showBorder: false)
 
-        insertAvatarViews(showBorder: false)
+        insertLabel(text: "Avatar stack with borders")
+        insertAvatarViews(style: .stack, showBorder: true)
 
-        let bordersTitle = Label(style: .headline, colorStyle: .regular)
-        bordersTitle.text = "Avatar stacks with borders"
-        container.addArrangedSubview(UIView())
-        container.addArrangedSubview(bordersTitle)
+        insertLabel(text: "Avatar pile without borders")
+        insertAvatarViews(style: .pile, showBorder: false)
 
-        insertAvatarViews(showBorder: true)
+        insertLabel(text: "Avatar pile with borders")
+        insertAvatarViews(style: .pile, showBorder: true)
 
         updateBackgroundColor()
-    }
-
-    private func insertAvatarViews(showBorder: Bool) {
-        var constraints: [NSLayoutConstraint] = []
-
-        for size in AvatarSize.allCases.reversed() {
-            let containerView = UIView(frame: .zero)
-
-            let avatarStack = AvatarStack(with: Array(samplePersonas.prefix(avatarCount)), size: size, displaysBorders: showBorder)
-            avatarStack.translatesAutoresizingMaskIntoConstraints = false
-            containerView.addSubview(avatarStack)
-
-            let trailingConstraint = containerView.trailingAnchor.constraint(equalTo: container.trailingAnchor)
-            trailingConstraint.priority = .defaultHigh
-
-            constraints.append(contentsOf: [
-                avatarStack.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-                avatarStack.topAnchor.constraint(equalTo: containerView.topAnchor),
-                avatarStack.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-                trailingConstraint
-            ])
-
-            addRow(text: size.description, items: [containerView], textStyle: .footnote, textWidth: Constants.avatarsTextWidth)
-        }
-
-        NSLayoutConstraint.activate(constraints)
     }
 
     private struct Constants {
@@ -116,5 +88,39 @@ class AvatarStackDemoController: DemoController {
 
     @objc private func toggleAlternateBackground(switchView: UISwitch) {
         isUsingAlternateBackgroundColor = switchView.isOn
+    }
+
+    private func insertAvatarViews(style: AvatarGroupViewStyle, showBorder: Bool) {
+        var constraints: [NSLayoutConstraint] = []
+
+        for size in AvatarSize.allCases.reversed() {
+            let containerView = UIView(frame: .zero)
+
+            let avatarGroupView = AvatarGroupView(with: Array(samplePersonas.prefix(avatarCount)), size: size, style: style, displaysBorders: showBorder)
+            avatarGroupView.translatesAutoresizingMaskIntoConstraints = false
+            containerView.addSubview(avatarGroupView)
+
+            let trailingConstraint = containerView.trailingAnchor.constraint(equalTo: container.trailingAnchor)
+            trailingConstraint.priority = .defaultHigh
+
+            constraints.append(contentsOf: [
+                avatarGroupView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+                avatarGroupView.topAnchor.constraint(equalTo: containerView.topAnchor),
+                avatarGroupView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+                trailingConstraint
+            ])
+
+            addRow(text: size.description, items: [containerView], textStyle: .footnote, textWidth: Constants.avatarsTextWidth)
+        }
+
+        NSLayoutConstraint.activate(constraints)
+    }
+
+    private func insertLabel(text: String) {
+        let label = Label(style: .headline, colorStyle: .regular)
+        label.text = text
+
+        container.addArrangedSubview(UIView())
+        container.addArrangedSubview(label)
     }
 }
