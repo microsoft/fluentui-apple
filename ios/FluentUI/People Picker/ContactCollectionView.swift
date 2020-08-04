@@ -113,7 +113,7 @@ extension ContactCollectionView: UICollectionViewDataSource {
 
 extension ContactCollectionView: UICollectionViewDelegate {
     // If the Contact is not fully visible in the scroll frame, scrolls the view by an offset large enough
-    // so that the tapped Contact and the next Contact are fully visible.
+    // so that the tapped Contact is fully visible.
     @objc public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = cellForItem(at: indexPath) else {
             return
@@ -126,7 +126,7 @@ extension ContactCollectionView: UICollectionViewDelegate {
         let viewLeadingPosition = bounds.origin.x
         let viewTrailingPosition = viewLeadingPosition + frame.size.width
 
-        let extraScrollWidth = cellWidth + layout.collectionView(self, layout: layout, minimumLineSpacingForSectionAt: 0)
+        let extraScrollWidth = layout.collectionView(self, layout: layout, minimumLineSpacingForSectionAt: 0)
         var offSet = contentOffset.x
         if cellLeftPosition < viewLeadingPosition {
             offSet = cellLeftPosition - extraScrollWidth
