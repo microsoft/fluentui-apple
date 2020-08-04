@@ -89,6 +89,23 @@ public enum AvatarSize: Int, CaseIterable {
             return 3
         }
     }
+
+    var personImageSize: CGFloat {
+        switch self {
+        case .extraSmall:
+            return 12
+        case .small:
+            return 16
+        case .medium:
+            return 20
+        case .large:
+            return 24
+        case .extraLarge:
+            return 28
+        case .extraExtraLarge:
+            return 48
+        }
+    }
 }
 
 // MARK: - AvatarStyle
@@ -109,6 +126,9 @@ public extension Colors {
         // Should use physical color because this text is shown on physical avatar background
         public static var text: UIColor = textOnAccent
         public static var border = UIColor(light: .white, dark: gray900, darkElevated: gray800)
+
+        static let signedOutImageBackground = UIColor(light: gray50, dark: gray800)
+        static let signedOutImage = UIColor(light: gray500, dark: gray200)
     }
 }
 
@@ -257,6 +277,10 @@ open class AvatarView: UIView {
         } else if hasBorder {
             updateBorder()
         }
+
+        if isPersonIconShown {
+            updateImageViewWithPersonIcon(isSignedOut: shouldShowSignOutImage())
+        }
     }
 
     // MARK: Setup
@@ -272,11 +296,17 @@ open class AvatarView: UIView {
         self.primaryText = primaryText
         self.secondaryText = secondaryText
         self.presence = presence
-
+        self.isPersonIconShown = false
         if let image = image {
             setupWithImage(image)
         } else {
-            setupWithInitials()
+            if shouldShowSignOutImage() {
+                updateImageViewWithPersonIcon(isSignedOut: true)
+            } else if shouldShowDefaultImage() {
+                updateImageViewWithPersonIcon()
+            } else {
+                setupWithInitials()
+            }
         }
 
         accessibilityLabel = primaryText ?? secondaryText
@@ -304,6 +334,7 @@ open class AvatarView: UIView {
 
     private var hasBorder: Bool = false
     private var hasCustomBorder: Bool = false
+    private var isPersonIconShown: Bool = false
     private var customBorderImageSize: CGSize = .zero
     private var primaryText: String?
     private var secondaryText: String?
@@ -493,8 +524,42 @@ open class AvatarView: UIView {
         }
     }
 
+    private func updateImageViewWithPersonIcon(isSignedOut: Bool = false) {
+        let personImageSize = avatarSize.personImageSize
+        let containerSize = avatarSize.size
+        let imageName = isSignedOut ? "person_\(Int(personImageSize))_regular" : "person_\(Int(personImageSize))_filled"
+        if let image = UIImage.staticImageNamed(imageName) {
+            let renderer = UIGraphicsImageRenderer(size: containerSize)
+            let personImage = renderer.image { _ in
+                image.draw(at: CGPoint(x: floor((containerSize.width - personImageSize) / 2), y: floor((containerSize.height - personImageSize) / 2)))
+            }.withRenderingMode(.alwaysTemplate)
+            setupWithImage(personImage)
+            if isSignedOut {
+                imageView.backgroundColor = Colors.Avatar.signedOutImageBackground
+                imageView.tintColor = Colors.Avatar.signedOutImage
+            } else {
+                if let window = window {
+                    imageView.backgroundColor = Colors.primary(for: window)
+                }
+                imageView.tintColor = Colors.iconOnAccent
+            }
+            isPersonIconShown = true
+        }
+    }
+
+    private func shouldShowSignOutImage() -> Bool {
+        let isPrimaryTextEmpty = primaryText?.count ?? 0 == 0
+        let isSecondaryTextEmpty = secondaryText?.count ?? 0 == 0
+        return style == .circle && isPrimaryTextEmpty && isSecondaryTextEmpty
+    }
+
+    private func shouldShowDefaultImage() -> Bool {
+        let initials = InitialsView.initialsText(fromPrimaryText: primaryText, secondaryText: secondaryText)
+        return initials.count == 0
+    }
+
     private func isDisplayingPresence() -> Bool {
-        return presence != .none && avatarSize != .extraSmall && style == .circle
+        return presence != .none && avatarSize != .extraSmall && style == .circle && !shouldShowSignOutImage()
     }
 
     private func cornerRadius(for width: CGFloat) -> CGFloat {

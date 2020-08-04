@@ -29,7 +29,7 @@ class InitialsView: UIView {
         return colors[hashCode % colors.count]
     }
 
-    private static func initialsText(fromPrimaryText primaryText: String?, secondaryText: String?) -> String {
+    static func initialsText(fromPrimaryText primaryText: String?, secondaryText: String?) -> String {
         var initials = ""
 
         if let primaryText = primaryText, primaryText.count > 0 {
@@ -37,11 +37,6 @@ class InitialsView: UIView {
         } else if let secondaryText = secondaryText, secondaryText.count > 0 {
             // Use first letter of the secondary text
             initials = String(secondaryText.prefix(1))
-        }
-
-        // Fallback to `#` otherwise
-        if initials.count == 0 {
-            initials = "#"
         }
 
         return initials.uppercased()
