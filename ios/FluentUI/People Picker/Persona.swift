@@ -38,9 +38,8 @@ open class PersonaData: NSObject, Persona {
     /// An image that can be used as a frame (outer wide border) for the avatar view
     @objc public var customBorderImage: UIImage?
 
-    /// If the avatar view is configured to display a border, this will be the border's color.
-    /// Note that the colored border will not be displayed if a custom border image is provided.
-    @objc public var borderColor: UIColor?
+    /// The color associated to this persona.
+    @objc public var color: UIColor?
 
     public var name: String
     public var subtitle: String
@@ -55,12 +54,12 @@ open class PersonaData: NSObject, Persona {
                       subtitle: String = "",
                       avatarImage: UIImage? = nil,
                       presence: Presence = .none,
-                      borderColor: UIColor? = nil) {
+                      color: UIColor? = nil) {
         self.name = name
         self.email = email
         self.subtitle = subtitle
         self.avatarImage = avatarImage
         self.presence = presence
-        self.borderColor = borderColor
+        self.color = color
     }
 }

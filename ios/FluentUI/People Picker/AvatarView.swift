@@ -308,7 +308,11 @@ open class AvatarView: UIView {
     @objc public func setup(avatar: Avatar?) {
         setup(primaryText: avatar?.primaryText, secondaryText: avatar?.secondaryText, image: avatar?.image, presence: avatar?.presence ?? .none)
         customBorderImage = avatar?.customBorderImage
-        borderColor = avatar?.borderColor
+
+        if let color = avatar?.color {
+            borderColor = color
+            avatarBackgroundColor = color
+        }
     }
 
     var borderWidth: CGFloat {
