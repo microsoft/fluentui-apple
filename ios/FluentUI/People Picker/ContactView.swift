@@ -115,9 +115,6 @@ open class ContactView: UIView {
         avatarView.addSubview(pressedStateOverlay)
         constraints.append(contentsOf: pressedStateOverlayLayoutConstraints())
 
-        labelContainer.layer.borderColor = UIColor.red.cgColor
-        labelContainer.layer.borderWidth = 1.0
-        
         labelContainer.translatesAutoresizingMaskIntoConstraints = false
         labelContainer.addSubview(titleLabel)
         addSubview(labelContainer)

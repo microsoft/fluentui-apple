@@ -6,22 +6,20 @@
 import UIKit
 
 class ContactCollectionViewCell: UICollectionViewCell {
-
-    // TODO: Need to disable user interaction to allow gestures to fall through? (look at CalendaryViewDayCell.swift)
     static var identifier: String { return "ContactCollectionViewCell" }
+    var contactView: ContactView
 
     override init(frame: CGRect) {
+        contactView = ContactView(title: "", subtitle: "")
         super.init(frame: frame)
     }
 
     func setup(contact persona: PersonaData) {
-        var contactView: ContactView
-//        if persona.name != "" {
-//            contactView = ContactView(identifier: persona.name)
-//        } else {
-//            contactView = ContactView(identifier: persona.email)
-//        }
-        contactView = ContactView(identifier: persona.name)
+        if persona.name != "" {
+            contactView = ContactView(identifier: persona.name)
+        } else {
+            contactView = ContactView(identifier: persona.email)
+        }
 
         contactView.translatesAutoresizingMaskIntoConstraints = false
         if let avatarImage = persona.avatarImage {
@@ -29,6 +27,11 @@ class ContactCollectionViewCell: UICollectionViewCell {
         }
 
         contentView.addSubview(contactView)
+    }
+
+    override func prepareForReuse() {
+        contactView.removeAllSubviews()
+        super.prepareForReuse()
     }
 
     required init?(coder: NSCoder) {

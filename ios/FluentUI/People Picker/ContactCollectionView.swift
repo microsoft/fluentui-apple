@@ -65,14 +65,13 @@ open class ContactCollectionView: UICollectionView {
         translatesAutoresizingMaskIntoConstraints = false
         showsHorizontalScrollIndicator = false
         showsVerticalScrollIndicator = false
-        backgroundColor = .green
+        backgroundColor = Colors.surfacePrimary
         dataSource = self
         delegate = self
         contentInset = UIEdgeInsets(top: 0, left: Constants.sideInset, bottom: 0, right: 0)
     }
 
     @objc private func setNewHeightConstraint() {
-        print("new height constraint")
         let height = categoryHeight()
         heightConstraint?.constant = height
     }
@@ -107,7 +106,6 @@ extension ContactCollectionView: UICollectionViewDataSource {
     @objc public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContactCollectionViewCell.identifier, for: indexPath) as! ContactCollectionViewCell
         cell.setup(contact: contactList[indexPath.item])
-        cell.backgroundColor = UIColor(red: 0, green: 0, blue: 1, alpha: 1)
 
         return cell
     }

@@ -19,7 +19,6 @@ class ContactCollectionViewDemoController: DemoController {
 
         view.addSubview(contactCollectionView)
 
-        // TODO: Find out why setting this allows my collection view to scroll
         contactCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         contactCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     }
