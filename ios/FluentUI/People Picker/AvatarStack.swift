@@ -144,7 +144,14 @@ open class AvatarStack: UIView {
         let path = UIBezierPath(rect: pathFrame)
         path.append(UIBezierPath(ovalIn: nextFrame))
 
-        for avatarView in avatarViews.prefix(avatarViews.count - 1) {
+        var maskedAvatares: ArraySlice<AvatarView>
+        if effectiveUserInterfaceLayoutDirection == .leftToRight {
+            maskedAvatares = avatarViews.prefix(avatarViews.count - 1)
+        } else {
+            maskedAvatares = avatarViews.suffix(avatarViews.count - 1)
+        }
+
+        for avatarView in maskedAvatares {
             let maskLayer = CAShapeLayer()
             maskLayer.frame = avatarFrame
             maskLayer.fillRule = .evenOdd
