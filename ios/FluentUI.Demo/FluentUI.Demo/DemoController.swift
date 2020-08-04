@@ -12,7 +12,7 @@ class DemoController: UIViewController {
         static let horizontalSpacing: CGFloat = 40
         static let verticalSpacing: CGFloat = 16
         static let rowTextWidth: CGFloat = 75
-        static let labelSwitchSpacing: CGFloat = 10
+        static let stackViewSpacing: CGFloat = 10
     }
 
     class func createVerticalContainer() -> UIStackView {
@@ -98,19 +98,26 @@ class DemoController: UIViewController {
     }
 
     func createLabelAndSwitchRow(labelText: String, switchAction: Selector, isOn: Bool = false) -> UIView {
+        let switchView = UISwitch()
+        switchView.isOn = isOn
+        switchView.addTarget(self, action: switchAction, for: .valueChanged)
+
+        return createLabelAndViewsRow(labelText: labelText, views: [switchView])
+    }
+
+    func createLabelAndViewsRow(labelText: String, views: [UIView]) -> UIView {
         let stackView = UIStackView(frame: .zero)
         stackView.axis = .horizontal
         stackView.alignment = .center
-        stackView.spacing = Constants.labelSwitchSpacing
+        stackView.spacing = Constants.stackViewSpacing
 
         let label = Label(style: .subhead, colorStyle: .regular)
         label.text = labelText
         stackView.addArrangedSubview(label)
 
-        let switchView = UISwitch()
-        switchView.isOn = isOn
-        switchView.addTarget(self, action: switchAction, for: .valueChanged)
-        stackView.addArrangedSubview(switchView)
+        for view in views {
+            stackView.addArrangedSubview(view)
+        }
 
         return stackView
     }
