@@ -52,7 +52,6 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
         return size
     }
 
-    // Called periodically by the collection view when it needs to decide what should be on the visible screen
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         var layoutAttributes = [UICollectionViewLayoutAttributes]()
 
@@ -92,10 +91,7 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
     }
 
     private var numberOfItems: Int = 0
-    private var currentContentSizeCategory: UIContentSizeCategory = .large
 
-    // 2) Need to cache UICollectionViewLayouAttribute's
-    // 3) Needs to compute the collectionViewContentSize
     override func prepare() {
         guard let collectionView = collectionView else {
             return

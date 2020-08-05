@@ -75,6 +75,11 @@ open class ContactView: UIView {
             setupTitleLabel(using: identifier)
         }
 
+        if #available(iOS 13, *) {
+            showsLargeContentViewer = true
+            largeContentTitle = titleLabel.text
+        }
+
         backgroundColor = Colors.surfacePrimary
         setupPressedStateOverlay()
         setupLayout()

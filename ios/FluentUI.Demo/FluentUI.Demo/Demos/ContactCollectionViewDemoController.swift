@@ -10,8 +10,6 @@ class ContactCollectionViewDemoController: DemoController {
     private let contactCollectionView = ContactCollectionView()
 
     override func viewDidLoad() {
-        view.backgroundColor = UIColor.lightGray
-
         super.viewDidLoad()
 
         contactCollectionView.translatesAutoresizingMaskIntoConstraints = false

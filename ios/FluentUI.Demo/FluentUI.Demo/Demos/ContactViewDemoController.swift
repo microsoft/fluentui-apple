@@ -31,7 +31,7 @@ class ContactViewDemoController: DemoController {
         // ContactView with phone number
         let phoneNumberContactView = ContactView(identifier: "+1 (425) 123 4567")
         phoneNumberContactView.translatesAutoresizingMaskIntoConstraints = false
-        
+
         // ContactView with no title, subtitle or identifier
         let emptyContactView = ContactView(title: "", subtitle: "")
         emptyContactView.translatesAutoresizingMaskIntoConstraints = false

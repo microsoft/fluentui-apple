@@ -69,6 +69,10 @@ open class ContactCollectionView: UICollectionView {
         dataSource = self
         delegate = self
         contentInset = UIEdgeInsets(top: 0, left: Constants.sideInset, bottom: 0, right: 0)
+
+        if #available(iOS 13, *) {
+            addInteraction(UILargeContentViewerInteraction())
+        }
     }
 
     @objc private func setNewHeightConstraint() {
