@@ -16,14 +16,6 @@ open class ContactView: UIView {
         static let subtitleMaximumHeight: CGFloat = 24.0
         static let spacingBetweenAvatarAndLabelContainer: CGFloat = 13.0
         static let numberOfLinesForSingleLabel: Int = 2
-
-        static let extraSmallContentContactHeight: CGFloat = 115.0
-        static let smallContentContactHeight: CGFloat = 117.0
-        static let mediumContentContactHeight: CGFloat = 118.0
-        static let largeContentContactHeight: CGFloat = 121.0
-        static let extraLargeContentContactHeight: CGFloat = 125.0
-        static let extraExtraLargeContentContactHeight: CGFloat = 129.0
-        static let extraExtraExtraLargeContentContactHeight: CGFloat = 135.0
     }
 
     @objc public var avatarImage: UIImage? {
@@ -224,27 +216,6 @@ open class ContactView: UIView {
         label.textColor = Colors.Contact.subtitle
 
         subtitleLabel = label
-    }
-
-    private func categoryHeight() -> CGFloat {
-        switch UIApplication.shared.preferredContentSizeCategory {
-        case .extraSmall:
-            return Constants.extraSmallContentContactHeight
-        case .small:
-            return Constants.smallContentContactHeight
-        case .medium:
-            return Constants.mediumContentContactHeight
-        case .large:
-            return Constants.largeContentContactHeight
-        case .extraLarge:
-            return Constants.extraLargeContentContactHeight
-        case .extraExtraLarge:
-            return Constants.extraExtraLargeContentContactHeight
-        case .extraExtraExtraLarge:
-            return Constants.extraExtraExtraLargeContentContactHeight
-        default:
-            return Constants.extraExtraExtraLargeContentContactHeight
-        }
     }
 
     private func setupPressedStateOverlay() {
