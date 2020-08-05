@@ -36,7 +36,7 @@ open class ContactCollectionView: UICollectionView {
         configureCollectionView()
         updateHeightConstraint()
         register(ContactCollectionViewCell.self, forCellWithReuseIdentifier: ContactCollectionViewCell.identifier)
-        NotificationCenter.default.addObserver(self, selector: #selector(setNewHeightConstraint), name: UIContentSizeCategory.didChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(setupHeightConstraint), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
     @objc public required init?(coder: NSCoder) {
@@ -75,7 +75,7 @@ open class ContactCollectionView: UICollectionView {
         }
     }
 
-    @objc private func setNewHeightConstraint() {
+    @objc private func setupHeightConstraint() {
         let height = categoryHeight()
         heightConstraint?.constant = height
     }
