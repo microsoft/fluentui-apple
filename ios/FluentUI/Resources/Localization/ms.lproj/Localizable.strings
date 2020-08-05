@@ -90,8 +90,11 @@
 /* Accessibility hint for MSPillButtons in an MSPillButtonBar. %1$d is placeholder for index and %2$d is a placeholder for total number of items */
 "Accessibility.MSPillButtonBar.Hint" = "%1$d daripada %2$d";
 
-/* Accessibility label for the avatar (or profile) view in */
+/* Accessibility label for the avatar (or profile) view */
 "Accessibility.LargeTitle.ProfileView" = "Profil Akaun";
+
+/* Accessibility label format string for avatar view. Format: "<Name>, <Presence>". Example: "Kat, Available" */
+"Accessibility.AvatarView.LabelFormat" = "%@, %@";
 
 /* Accessibility hint for a segmented control button */
 "Accessibility.Segmented.Button.Hint" = "Ketik untuk pergi ke %@";
@@ -111,8 +114,35 @@
 /* Accessibility value for when a UISwitch is off */
 "Accessibility.TableViewCell.Switch.Off" = "Matikan";
 
+/* Format string for tab bar item accessbility labels. Format: "<Title>, <BadgeValue> items". Example: "Home, 5 items" */
+"Accessibility.TabBarItemView.LabelFormat" = "%@, %@ items";
+
 /* Generic label for cancel action */
 "Common.Cancel" = "Batal";
+
+/* Generic label to indicate that an item is shared */
+"Common.Shared" = "Dikongsi";
+
+/* Generic label to indicate that an item is not shared */
+"Common.OnlyMe" = "Hanya saya";
+
+/* Just now date string */
+"Date.Now" = "Tadi";
+
+/* Minutes ago date format string. Example: "5m ago" */
+"Date.FormatMinutes" = "%ldm yang lalu";
+
+/* Hours ago date format string. Example: "5h ago" */
+"Date.FormatHours" = "%ldh yang lalu";
+
+/* Yesterday string */
+"Date.Yesterday" = "Semalam";
+
+/* Yesterday and time format string. Eample: "Yesterday at 11:00 AM" */
+"Date.FormatYesterdayTime" = "Semalam di %@";
+
+/* Day and time format string. Eample: "Fri at 11:00 AM" */
+"Date.FormatDayTime" = "%@ pada %@";
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Cari dalam Direktori";
@@ -128,3 +158,28 @@
 
 /* MSDateTimePicker label for the end date of a date range */
 "MSDateTimePicker.EndDate" = "Tarikh Tamat";
+
+/* Presence - Available status */
+"Presence.Available" = "Tersedia";
+
+/* Presence - Away status */
+"Presence.Away" = "Tiada";
+
+/* Presence - Busy status */
+"Presence.Busy" = "Sibuk";
+
+/* Presence - Do not disturb status */
+"Presence.DND" = "Jangan ganggu";
+
+/* Presence - Out of office status */
+"Presence.OOF" = "Luar dari pejabat";
+
+/* Presence - Offline status */
+"Presence.Offline" = "Luar talian";
+
+/* Presence - Unknown status */
+"Presence.Unknown" = "Tidak Diketahui";
+
+/* Presence - Blocked status */
+"Presence.Blocked" = "Disekat";
+

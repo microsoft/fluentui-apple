@@ -5,12 +5,20 @@
 
 import UIKit
 
+// MARK: Contact Colors
+
+public extension Colors {
+    struct Contact {
+        public static var title: UIColor = textPrimary
+        public static var subtitle: UIColor = textSecondary
+    }
+}
+
+// MARK: ContactView
+
 @objc(MSFContactView)
 open class ContactView: UIView {
     private struct Constants {
-        static let contactWidth: CGFloat = 70.0
-        static let avatarViewWidth: CGFloat = 70.0
-        static let avatarViewHeight: CGFloat = 70.0
         static let labelMinimumHeight: CGFloat = 16.0
         static let titleLabelMaximumHeight: CGFloat = 28.0
         static let subtitleMaximumHeight: CGFloat = 24.0
@@ -92,7 +100,6 @@ open class ContactView: UIView {
 
     private func setupLayout() {
         var constraints = [NSLayoutConstraint]()
-        constraints.append(widthAnchor.constraint(equalToConstant: Constants.contactWidth))
         constraints.append(contentsOf: avatarLayoutConstraints())
 
         avatarView.translatesAutoresizingMaskIntoConstraints = false
@@ -122,8 +129,8 @@ open class ContactView: UIView {
 
     private func avatarLayoutConstraints() -> [NSLayoutConstraint] {
         return [
-            avatarView.heightAnchor.constraint(equalToConstant: Constants.avatarViewHeight),
-            avatarView.widthAnchor.constraint(equalToConstant: Constants.avatarViewWidth),
+            avatarView.heightAnchor.constraint(equalToConstant: AvatarSize.extraExtraLarge.size.height),
+            avatarView.widthAnchor.constraint(equalToConstant: AvatarSize.extraExtraLarge.size.width),
             avatarView.centerXAnchor.constraint(equalTo: centerXAnchor),
             avatarView.topAnchor.constraint(equalTo: topAnchor),
             avatarView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -133,8 +140,6 @@ open class ContactView: UIView {
 
     private func labelContainerLayoutConstraints() -> [NSLayoutConstraint] {
         return [
-            labelContainer.widthAnchor.constraint(equalToConstant: Constants.contactWidth),
-            labelContainer.centerXAnchor.constraint(equalTo: centerXAnchor),
             labelContainer.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.spacingBetweenAvatarAndLabelContainer),
             labelContainer.leadingAnchor.constraint(equalTo: leadingAnchor),
             labelContainer.trailingAnchor.constraint(equalTo: trailingAnchor),

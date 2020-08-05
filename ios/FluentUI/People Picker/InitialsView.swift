@@ -127,6 +127,13 @@ class InitialsView: UIView {
         setBackgroundColor(InitialsView.initialsBackgroundColor(fromPrimaryText: primaryText, secondaryText: secondaryText))
     }
 
+    /// Sets up the initialsView with the provided initials text.
+    /// - Parameter initialsText: the initials text.
+    public func setup(initialsText: String?) {
+        initialsLabel.text = initialsText
+        setBackgroundColor(InitialsView.initialsBackgroundColor(fromPrimaryText: initialsText, secondaryText: nil))
+    }
+
     override func layoutSubviews() {
         super.layoutSubviews()
         initialsLabel.frame = bounds
@@ -134,5 +141,9 @@ class InitialsView: UIView {
 
     func setBackgroundColor(_ color: UIColor) {
         super.backgroundColor = color
+    }
+
+    func setFontColor(_ color: UIColor) {
+        initialsLabel.textColor = color
     }
 }

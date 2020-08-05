@@ -1,0 +1,12 @@
+//
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
+//
+
+#include "FluentUI_common.xcconfig"
+
+PRODUCT_NAME = FluentUITestViewControllers
+SWIFT_MODULE_NAME = FluentUITestViewControllers
+
+CLANG_ENABLE_MODULES = YES
+DEFINE_MODULE = YES

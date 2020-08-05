@@ -61,6 +61,14 @@ enum ActivityIndicatorStrokeThickness: CGFloat {
     case xLarge = 4
 }
 
+// MARK: - ActivityIndicator Colors
+
+public extension Colors {
+    struct ActivityIndicator {
+        public static var foreground: UIColor = iconSecondary
+    }
+}
+
 // MARK: - ActivityIndicatorView
 
 /**

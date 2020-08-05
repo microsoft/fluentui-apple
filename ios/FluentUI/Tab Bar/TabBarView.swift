@@ -27,12 +27,6 @@ public typealias MSTabBarView = TabBarView
 /// Use `selectedItem` property to change the selected tab bar item.
 @objc(MSFTabBarView)
 open class TabBarView: UIView {
-    private struct Constants {
-        static let maxTabCount: Int = 5
-        static let portraitHeight: CGFloat = 49.0
-        static let landscapeHeight: CGFloat = 40.0
-    }
-
     /// List of TabBarItems in the TabBarView. Order of the array is the order of the subviews.
     @objc open var items: [TabBarItem] = [] {
         willSet {
@@ -72,28 +66,6 @@ open class TabBarView: UIView {
 
     @objc public weak var delegate: TabBarViewDelegate?
 
-    private let backgroundView: UIVisualEffectView = {
-        var style = UIBlurEffect.Style.regular
-        if #available(iOS 13, *) {
-            style = .systemChromeMaterial
-        }
-        return UIVisualEffectView(effect: UIBlurEffect(style: style))
-    }()
-
-    private var heightConstraint: NSLayoutConstraint?
-
-    private let showsItemTitles: Bool
-
-    private let stackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.distribution = .fillEqually
-        stackView.alignment = .fill
-        stackView.axis = .horizontal
-        return stackView
-    }()
-
-    private let topBorderLine = Separator(style: .shadow, orientation: .horizontal)
-
     /// Initializes MSTabBarView
     /// - Parameter showsItemTitles: Determines whether or not to show the titles of the tab ba ritems.
     @objc public init(showsItemTitles: Bool = false) {
@@ -109,7 +81,7 @@ open class TabBarView: UIView {
         topBorderLine.translatesAutoresizingMaskIntoConstraints = false
         addSubview(topBorderLine)
 
-        heightConstraint = stackView.heightAnchor.constraint(equalToConstant: Constants.portraitHeight)
+        heightConstraint = stackView.heightAnchor.constraint(equalToConstant: traitCollection.userInterfaceIdiom == .phone ? Constants.phonePortraitHeight : Constants.padHeight)
         NSLayoutConstraint.activate([heightConstraint!,
                                      topBorderLine.bottomAnchor.constraint(equalTo: topAnchor),
                                      topBorderLine.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -134,16 +106,54 @@ open class TabBarView: UIView {
         }
     }
 
-    private func itemView(with item: TabBarItem) -> TabBarItemView? {
-        if let index = items.firstIndex(of: item), let tabBarItemView = stackView.arrangedSubviews[index] as? TabBarItemView {
-            return tabBarItemView
+    private struct Constants {
+        static let maxTabCount: Int = 5
+        static let phonePortraitHeight: CGFloat = 48.0
+        static let phoneLandscapeHeight: CGFloat = 40.0
+        static let padHeight: CGFloat = 48.0
+    }
+
+    private let backgroundView: UIVisualEffectView = {
+        var style = UIBlurEffect.Style.regular
+        if #available(iOS 13, *) {
+            style = .systemChromeMaterial
         }
+        return UIVisualEffectView(effect: UIBlurEffect(style: style))
+    }()
+
+    private var heightConstraint: NSLayoutConstraint?
+
+    private let showsItemTitles: Bool
+
+    private let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.distribution = .fillEqually
+        stackView.alignment = .fill
+        stackView.axis = .horizontal
+        return stackView
+    }()
+
+    private let topBorderLine = Separator(style: .shadow, orientation: .horizontal)
+
+    private func itemView(with item: TabBarItem) -> TabBarItemView? {
+        if let index = items.firstIndex(of: item) {
+            let arrangedSubviews = stackView.arrangedSubviews
+
+            if arrangedSubviews.count > index {
+                if let tabBarItemView = arrangedSubviews[index] as? TabBarItemView {
+                    return tabBarItemView
+                }
+            }
+        }
+
         return nil
     }
 
     private func updateHeight() {
-        let isPortrait = traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .regular
-        heightConstraint?.constant = isPortrait ? Constants.portraitHeight : Constants.landscapeHeight
+        if traitCollection.userInterfaceIdiom == .phone {
+            let isPortrait = traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .regular
+            heightConstraint?.constant = isPortrait ? Constants.phonePortraitHeight : Constants.phoneLandscapeHeight
+        }
     }
 
     @objc private func handleTabBarItemTapped(_ recognizer: UITapGestureRecognizer) {

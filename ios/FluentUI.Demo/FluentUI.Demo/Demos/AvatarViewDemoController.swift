@@ -7,38 +7,147 @@ import FluentUI
 import UIKit
 
 class AvatarViewDemoController: DemoController {
+    enum BorderStyle: Int {
+    case noBorder
+    case defaultBorder
+    case colorfulBorder
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        createSection(withTitle: "Circle style for person", name: "Kat Larrson", image: UIImage(named: "avatar_kat_larsson")!, style: .circle)
-        createSection(withTitle: "Square style for group", name: "NorthWind Traders", image: UIImage(named: "site")!, style: .square)
-        createSection(withTitle: "With image based frame", name: "Kat Larrson", image: UIImage(named: "avatar_kat_larsson")!, style: .circle, withColorfulBorder: true)
+        let showPresenceSettingView = createLabelAndSwitchRow(labelText: "Show presence",
+                                                              switchAction: #selector(toggleShowPresence(switchView:)),
+                                                              isOn: isShowingPresence)
+
+        let backgroundSettingView = createLabelAndSwitchRow(labelText: "Use alternate background color",
+                                                            switchAction: #selector(toggleAlternateBackground(switchView:)),
+                                                            isOn: isUsingAlternateBackgroundColor)
+
+        addRow(items: [backgroundSettingView])
+        addRow(items: [showPresenceSettingView])
+        addRow(items: [opaquePresenceBorderSettingView])
+
+        createSection(withTitle: "Circle style for person",
+                      name: "Kat Larrson",
+                      image: UIImage(named: "avatar_kat_larsson")!,
+                      style: .circle)
+
+        createSection(withTitle: "Square style for group",
+                      name: "NorthWind Traders",
+                      image: UIImage(named: "site")!,
+                      style: .square)
+
+        createSection(withTitle: "Circle style with image-based border",
+                      name: "Kat Larrson",
+                      image: UIImage(named: "avatar_kat_larsson")!,
+                      style: .circle,
+                      borderStyle: .colorfulBorder)
+
+        createSection(withTitle: "Circle style with border",
+                      name: "Kat Larrson",
+                      image: UIImage(named: "avatar_kat_larsson")!,
+                      style: .circle,
+                      borderStyle: .defaultBorder)
     }
 
-    private func createSection(withTitle title: String, name: String, image: UIImage, style: AvatarStyle, withColorfulBorder: Bool = false) {
-        addTitle(text: title)
-        for size in AvatarSize.allCases.reversed() {
-            let imageAvatar = createAvatarView(size: size, name: name, image: image, style: style, withColorfulBorder: withColorfulBorder)
-            let initialsAvatar = createAvatarView(size: size, name: name, style: style, withColorfulBorder: withColorfulBorder)
-            addRow(text: size.description, items: [imageAvatar, initialsAvatar], textStyle: .footnote, textWidth: 100)
+    private var isUsingAlternateBackgroundColor: Bool = false {
+        didSet {
+            updateBackgroundColor()
         }
+    }
+
+    private var isShowingPresence: Bool = false {
+        didSet {
+            if oldValue != isShowingPresence {
+                for avatarView in avatarViewsWithImages {
+                    avatarView.presence = isShowingPresence ? avatarView.avatarSize.presenceWithImage : .none
+                }
+
+                for avatarView in avatarViewsWithInitials {
+                    avatarView.presence = isShowingPresence ? avatarView.avatarSize.presenceWithInitials : .none
+                }
+
+                opaquePresenceBorderSettingView.isHidden = !isShowingPresence
+            }
+        }
+    }
+
+    private lazy var opaquePresenceBorderSettingView: UIView = {
+        let view = createLabelAndSwitchRow(labelText: "Use opaque presence border",
+                                           switchAction: #selector(toggleUseOpaquePresenceBorder(switchView:)),
+                                           isOn: isUsingOpaquePresenceBorder)
+
+        view.isHidden = !isShowingPresence
+
+        return view
+    }()
+
+    private var isUsingOpaquePresenceBorder: Bool = false {
+        didSet {
+            if oldValue != isUsingOpaquePresenceBorder {
+                for avatarView in avatarViewsWithImages {
+                    avatarView.useOpaquePresenceBorder = isUsingOpaquePresenceBorder
+                }
+
+                for avatarView in avatarViewsWithInitials {
+                    avatarView.useOpaquePresenceBorder = isUsingOpaquePresenceBorder
+                }
+            }
+        }
+    }
+
+    @objc private func toggleShowPresence(switchView: UISwitch) {
+        isShowingPresence = switchView.isOn
+    }
+
+    @objc private func toggleUseOpaquePresenceBorder(switchView: UISwitch) {
+        isUsingOpaquePresenceBorder = switchView.isOn
+    }
+
+    @objc private func toggleAlternateBackground(switchView: UISwitch) {
+        isUsingAlternateBackgroundColor = switchView.isOn
+    }
+
+    private func updateBackgroundColor() {
+        view.backgroundColor = isUsingAlternateBackgroundColor ? UIColor(light: Colors.gray100, dark: Colors.gray600) : Colors.surfacePrimary
+    }
+
+    private var avatarViewsWithImages: [AvatarView] = []
+    private var avatarViewsWithInitials: [AvatarView] = []
+
+    private func createSection(withTitle title: String, name: String, image: UIImage, style: AvatarStyle, borderStyle: BorderStyle = .noBorder, withPresence: Bool = false) {
+        addTitle(text: title)
+
+        for size in AvatarSize.allCases.reversed() {
+            let presenceWithImage = withPresence ? size.presenceWithImage : .none
+            let imageAvatar = createAvatarView(size: size, name: name, image: image, style: style, borderStyle: borderStyle, presence: presenceWithImage)
+            avatarViewsWithImages.append(imageAvatar.1)
+
+            let presenceWithInitials = withPresence ? size.presenceWithInitials : .none
+            let initialsAvatar = createAvatarView(size: size, name: name, style: style, borderStyle: borderStyle, presence: presenceWithInitials)
+            avatarViewsWithInitials.append(initialsAvatar.1)
+
+            addRow(text: size.description, items: [imageAvatar.0, initialsAvatar.0], textStyle: .footnote, textWidth: 100)
+        }
+
         container.addArrangedSubview(UIView())
     }
 
-    private func createAvatarView(size: AvatarSize, name: String, image: UIImage? = nil, style: AvatarStyle, withColorfulBorder: Bool = false) -> UIView {
-        let avatarView = AvatarView(avatarSize: size, withBorder: true, style: style)
-        if withColorfulBorder, let customBorderImage = colorfulImageForFrame() {
+    private func createAvatarView(size: AvatarSize, name: String, image: UIImage? = nil, style: AvatarStyle, borderStyle: BorderStyle = .noBorder, presence: Presence = .none) -> (UIView, AvatarView) {
+        let avatarView = AvatarView(avatarSize: size, withBorder: borderStyle != .noBorder, style: style)
+        if borderStyle == .colorfulBorder, let customBorderImage = colorfulImageForFrame() {
             avatarView.customBorderImage = customBorderImage
         }
 
-        avatarView.setup(primaryText: name, secondaryText: "", image: image)
+        avatarView.setup(primaryText: name, secondaryText: "", image: image, presence: presence)
 
         let avatarContainer = UIView()
         avatarContainer.addSubview(avatarView)
-        avatarContainer.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        avatarContainer.widthAnchor.constraint(equalToConstant: AvatarSize.extraExtraLarge.size.width).isActive = true
         avatarContainer.heightAnchor.constraint(equalToConstant: avatarView.frame.height).isActive = true
 
-        return avatarContainer
+        return (avatarContainer, avatarView)
     }
 
     private func colorfulImageForFrame() -> UIImage? {
@@ -89,6 +198,40 @@ extension AvatarSize {
             return "ExtraLarge"
         case .extraExtraLarge:
             return "ExtraExtraLarge"
+        }
+    }
+
+    var presenceWithImage: Presence {
+        switch self {
+        case .extraSmall:
+            return .away
+        case .small:
+            return .doNotDisturb
+        case .medium:
+            return .available
+        case .large:
+            return .blocked
+        case .extraLarge:
+            return .offline
+        case .extraExtraLarge:
+            return .available
+        }
+    }
+
+    var presenceWithInitials: Presence {
+        switch self {
+        case .extraSmall:
+            return .busy
+        case .small:
+            return .available
+        case .medium:
+            return .doNotDisturb
+        case .large:
+            return .outOfOffice
+        case .extraLarge:
+            return .busy
+        case .extraExtraLarge:
+            return .away
         }
     }
 }

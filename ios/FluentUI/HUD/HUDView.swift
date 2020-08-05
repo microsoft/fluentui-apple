@@ -14,6 +14,16 @@ enum HUDType: Equatable {
     case custom(image: UIImage)
 }
 
+// MARK: - HUD Colors
+
+public extension Colors {
+    struct HUD {
+        public static var activityIndicator: UIColor = .white
+        public static var background = UIColor(light: gray900.withAlphaComponent(0.9), dark: gray700)
+        public static var text = UIColor(light: textOnAccent, dark: textPrimary)
+    }
+}
+
 // MARK: - HUDView
 
 class HUDView: UIView {

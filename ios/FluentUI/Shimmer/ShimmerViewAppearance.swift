@@ -5,6 +5,16 @@
 
 import UIKit
 
+// MARK: Shimmer Colors
+
+public extension Colors {
+    struct Shimmer {
+        public static var tint = UIColor(light: surfaceTertiary, dark: surfaceQuaternary)
+    }
+}
+
+// MARK: - ShimmerViewAppearance
+
 @available(*, deprecated, renamed: "ShimmerViewAppearance")
 public typealias MSShimmerViewAppearance = ShimmerViewAppearance
 

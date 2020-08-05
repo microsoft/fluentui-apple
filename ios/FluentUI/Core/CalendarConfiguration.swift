@@ -13,8 +13,6 @@ public typealias MSCalendarConfiguration = CalendarConfiguration
 @objc(MSFCalendarConfiguration)
 open class CalendarConfiguration: NSObject {
     private struct Constants {
-        static let baseReferenceStartTimestamp: TimeInterval = 1420416000 // January 3 2015
-        static let baseReferenceEndTimestamp: TimeInterval = 1736035200 // January 5 2025
         static let startYearsAgo: Int = -3
         static let endYearsInterval: Int = 10
     }
@@ -24,8 +22,11 @@ open class CalendarConfiguration: NSObject {
 
     @objc open var firstWeekday: Int = Calendar.current.firstWeekday
 
-    let referenceStartDate: Date
-    let referenceEndDate: Date
+    /// By default, this is today minus 3 years. If overridden, make sure it's before (less than) the 'referenceEndDate'
+    @objc open var referenceStartDate: Date
+
+    /// By default, this is the default 'referenceStartDate' plus 10 years.  If overridden, make sure it's after (greater than) the 'referenceStartDate'
+    @objc open var referenceEndDate: Date
 
     @objc init(calendar: Calendar = .current) {
         // Compute a start date (January 1st on a year a default number of years ago)

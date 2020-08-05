@@ -6,7 +6,8 @@
 import AppKit
 
 /// Indicates what style our button is drawn as
-@objc public enum ButtonStyle: Int, CaseIterable {
+@objc(MSFButtonStyle)
+public enum ButtonStyle: Int, CaseIterable {
     case primaryFilled	// Solid fill color
     case primaryOutline	// Clear fill color, solid outline
     case borderless		// Clear fill color, clear outline
@@ -25,7 +26,7 @@ open class Button: NSButton {
 		super.init(frame: .zero)
 		initialize(title: title, image: nil, style: style)
     }
-	
+
 	/// Initializes a Fluent UI Button with an image, setting the imagePosition to imageOnly
 	/// - Parameters:
 	///   - image: The NSImage to diplay in the button
@@ -34,6 +35,13 @@ open class Button: NSButton {
 		super.init(frame: .zero)
 		imagePosition = .imageOnly
 		initialize(title: nil, image: image, style: style)
+    }
+
+	/// Initializes a Fluent UI Button
+	/// Set style to primaryFilled as default
+	@objc public init() {
+		super.init(frame: .zero)
+		initialize(title: nil, image: nil, style: .primaryFilled)
     }
 
 	@available(*, unavailable)

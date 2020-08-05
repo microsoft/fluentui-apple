@@ -5,6 +5,43 @@
 
 import UIKit
 
+// MARK: TextColorStyle
+
+@available(*, deprecated, renamed: "TextColorStyle")
+public typealias MSTextColorStyle = TextColorStyle
+
+@objc(MSFTextColorStyle)
+public enum TextColorStyle: Int, CaseIterable {
+    case regular
+    case secondary
+    case white
+    case primary
+    case error
+    case warning
+    case disabled
+
+    public func color(for window: UIWindow) -> UIColor {
+        switch self {
+        case .regular:
+            return Colors.textPrimary
+        case .secondary:
+            return Colors.textSecondary
+        case .white:
+            return .white
+        case .primary:
+            return Colors.primary(for: window)
+        case .error:
+            return Colors.error
+        case .warning:
+            return Colors.warning
+        case .disabled:
+            return Colors.textDisabled
+        }
+    }
+}
+
+// MARK: - Label
+
 @available(*, deprecated, renamed: "Label")
 public typealias MSLabel = Label
 

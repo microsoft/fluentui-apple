@@ -13,30 +13,34 @@
 		804626C622D7908100AFA48C /* CalendarDayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804626C522D7908100AFA48C /* CalendarDayButton.swift */; };
 		8061BF7E22EF936800F2D245 /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8061BF7C22EF936700F2D245 /* DatePickerView.swift */; };
 		8061BF7F22EF936800F2D245 /* DatePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8061BF7D22EF936700F2D245 /* DatePickerController.swift */; };
-		8061BF8322EF957200F2D245 /* TestDatePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8061BF8222EF957200F2D245 /* TestDatePickerController.swift */; };
 		8F250B8B22B3045100142B0E /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F250B8A22B3045100142B0E /* AvatarView.swift */; };
-		8F250B8D22B3062A00142B0E /* TestAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F250B8C22B3062A00142B0E /* TestAvatarViewController.swift */; };
 		8F41CC682447B5580040B851 /* FluentUIResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F41CC672447B5580040B851 /* FluentUIResources.swift */; };
 		8F41CC7A2447B8DB0040B851 /* FluentUIResources-macos.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8F41CC6D2447B60F0040B851 /* FluentUIResources-macos.bundle */; };
 		8F41CC7D2447B93C0040B851 /* FluentUI.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F41CC742447B7D80040B851 /* FluentUI.xcassets */; };
-		8F49B62624451A9900DA40CC /* FluentUIUnitTest-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E61C96C22295E8D60006561F /* FluentUIUnitTest-Info.plist */; };
 		8F5368052295F4BF0098AC8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5368042295F4BF0098AC8F /* AppDelegate.swift */; };
 		8F5368072295F4C10098AC8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368062295F4C10098AC8F /* Assets.xcassets */; };
 		8F53680A2295F4C10098AC8F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368082295F4C10098AC8F /* MainMenu.xib */; };
 		8F79191B24589B4E00C84086 /* FluentUI.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F7918F624589B4E00C84086 /* FluentUI.strings */; };
-		AC97EFE2247541C700DADC99 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC97EFE1247541C700DADC99 /* Button.swift */; };
-		AC97EFE52475421300DADC99 /* TestButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC97EFE3247541E100DADC99 /* TestButtonViewController.swift */; };
 		AC68D3192474863A000DACD1 /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC68D3182474863A000DACD1 /* Link.swift */; };
 		AC7235D82492E0D000D0DCA8 /* FluentUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C96B22295E8D60006561F /* FluentUI.framework */; };
 		AC7235D92492E0D000D0DCA8 /* FluentUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E61C96B22295E8D60006561F /* FluentUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AC97EFE2247541C700DADC99 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC97EFE1247541C700DADC99 /* Button.swift */; };
 		AC97EFE7247FA17000DADC99 /* Separator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC97EFE6247FA17000DADC99 /* Separator.swift */; };
-		AC97EFEA247FABBB00DADC99 /* TestSeparatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC97EFE8247FAB1D00DADC99 /* TestSeparatorViewController.swift */; };
 		E61C96BC2295E8D60006561F /* FluentUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C96B22295E8D60006561F /* FluentUI.framework */; };
 		E61C96C12295E8D60006561F /* AvatarViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61C96C02295E8D60006561F /* AvatarViewTests.swift */; };
 		E61C96CC2295EAC50006561F /* FluentUI.h in Headers */ = {isa = PBXBuildFile; fileRef = E61C96B52295E8D60006561F /* FluentUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E61C96D322962BC20006561F /* TestControlsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61C96D222962BC20006561F /* TestControlsViewController.swift */; };
-		E61C96D52298665F0006561F /* TestPlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61C96D42298665F0006561F /* TestPlaceholderViewController.swift */; };
-		E61C96D722987B3C0006561F /* TestLinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61C96D622987B3C0006561F /* TestLinkViewController.swift */; };
+		E660317224BEB46F00A132DB /* TestViewControllerWrappingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E660317124BEB46F00A132DB /* TestViewControllerWrappingView.swift */; };
+		E6A92D2D24BEA8AC00562BCA /* TestSeparatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC97EFE8247FAB1D00DADC99 /* TestSeparatorViewController.swift */; };
+		E6A92D2E24BEA8AC00562BCA /* TestAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F250B8C22B3062A00142B0E /* TestAvatarViewController.swift */; };
+		E6A92D2F24BEA8AC00562BCA /* TestButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC97EFE3247541E100DADC99 /* TestButtonViewController.swift */; };
+		E6A92D3024BEA8AC00562BCA /* TestLinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61C96D622987B3C0006561F /* TestLinkViewController.swift */; };
+		E6A92D3124BEA8AC00562BCA /* TestDatePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8061BF8222EF957200F2D245 /* TestDatePickerController.swift */; };
+		E6A92D3924BEA91F00562BCA /* FluentUISwiftUITestAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A92D3824BEA91F00562BCA /* FluentUISwiftUITestAppApp.swift */; };
+		E6A92D3B24BEA91F00562BCA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A92D3A24BEA91F00562BCA /* ContentView.swift */; };
+		E6A92D3D24BEA92000562BCA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6A92D3C24BEA92000562BCA /* Assets.xcassets */; };
+		E6A92D4024BEA92000562BCA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6A92D3F24BEA92000562BCA /* Preview Assets.xcassets */; };
+		E6A92D4F24BEAEEA00562BCA /* TestViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A92D4E24BEAEEA00562BCA /* TestViewControllers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,14 +58,35 @@
 			remoteGlobalIDString = E61C96B12295E8D60006561F;
 			remoteInfo = FluentUI;
 		};
-		AC7235DA2492E0D000D0DCA8 /* PBXContainerItemProxy */ = {
+		E61C96BD2295E8D60006561F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E61C96A92295E8D60006561F /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = E61C96B12295E8D60006561F;
 			remoteInfo = FluentUI;
 		};
-		E61C96BD2295E8D60006561F /* PBXContainerItemProxy */ = {
+		E660317324BEBF8F00A132DB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E61C96A92295E8D60006561F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E61C96B12295E8D60006561F;
+			remoteInfo = FluentUI;
+		};
+		E6A92D4624BEA9A600562BCA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E61C96A92295E8D60006561F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E6A92D2324BEA85900562BCA;
+			remoteInfo = FluentUITestViewControllers;
+		};
+		E6A92D4824BEA9AF00562BCA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E61C96A92295E8D60006561F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E6A92D2324BEA85900562BCA;
+			remoteInfo = FluentUITestViewControllers;
+		};
+		E6A92D4A24BEA9B400562BCA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E61C96A92295E8D60006561F /* Project object */;
 			proxyType = 1;
@@ -179,9 +204,9 @@
 		8F79192724589B6D00C84086 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		8F79192924589B6E00C84086 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		8F931A6C22BD593300311764 /* FluentUI_unittest.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_unittest.xcconfig; sourceTree = "<group>"; };
+		AC68D3182474863A000DACD1 /* Link.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
 		AC97EFE1247541C700DADC99 /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		AC97EFE3247541E100DADC99 /* TestButtonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestButtonViewController.swift; sourceTree = "<group>"; };
-		AC68D3182474863A000DACD1 /* Link.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
 		AC97EFE6247FA17000DADC99 /* Separator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Separator.swift; sourceTree = "<group>"; };
 		AC97EFE8247FAB1D00DADC99 /* TestSeparatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSeparatorViewController.swift; sourceTree = "<group>"; };
 		E61C96B22295E8D60006561F /* FluentUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FluentUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -195,8 +220,19 @@
 		E61C96D02295FA360006561F /* FluentUI_debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_debug.xcconfig; sourceTree = "<group>"; };
 		E61C96D12295FA4E0006561F /* FluentUI_release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_release.xcconfig; sourceTree = "<group>"; };
 		E61C96D222962BC20006561F /* TestControlsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestControlsViewController.swift; sourceTree = "<group>"; };
-		E61C96D42298665F0006561F /* TestPlaceholderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPlaceholderViewController.swift; sourceTree = "<group>"; };
 		E61C96D622987B3C0006561F /* TestLinkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestLinkViewController.swift; sourceTree = "<group>"; };
+		E660317124BEB46F00A132DB /* TestViewControllerWrappingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestViewControllerWrappingView.swift; sourceTree = "<group>"; };
+		E6A92D2424BEA85900562BCA /* libFluentUITestViewControllers.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFluentUITestViewControllers.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E6A92D3624BEA91F00562BCA /* FluentUISwiftUITestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FluentUISwiftUITestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E6A92D3824BEA91F00562BCA /* FluentUISwiftUITestAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentUISwiftUITestAppApp.swift; sourceTree = "<group>"; };
+		E6A92D3A24BEA91F00562BCA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		E6A92D3C24BEA92000562BCA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E6A92D3F24BEA92000562BCA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		E6A92D4124BEA92000562BCA /* FluentUISwiftUITestApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FluentUISwiftUITestApp-Info.plist"; sourceTree = "<group>"; };
+		E6A92D4224BEA92000562BCA /* FluentUISwiftUITestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FluentUISwiftUITestApp.entitlements; sourceTree = "<group>"; };
+		E6A92D4C24BEAA0200562BCA /* FluentUI_swiftui_testapp.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_swiftui_testapp.xcconfig; sourceTree = "<group>"; };
+		E6A92D4D24BEAA0200562BCA /* FluentUI_testviewcontrollers.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_testviewcontrollers.xcconfig; sourceTree = "<group>"; };
+		E6A92D4E24BEAEEA00562BCA /* TestViewControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewControllers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,6 +263,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				E61C96BC2295E8D60006561F /* FluentUI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E6A92D2224BEA85900562BCA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E6A92D3324BEA91F00562BCA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,12 +311,6 @@
 			children = (
 				8F5368042295F4BF0098AC8F /* AppDelegate.swift */,
 				E61C96D222962BC20006561F /* TestControlsViewController.swift */,
-				E61C96D42298665F0006561F /* TestPlaceholderViewController.swift */,
-				8F250B8C22B3062A00142B0E /* TestAvatarViewController.swift */,
-				AC97EFE3247541E100DADC99 /* TestButtonViewController.swift */,
-				8061BF8222EF957200F2D245 /* TestDatePickerController.swift */,
-				E61C96D622987B3C0006561F /* TestLinkViewController.swift */,
-				AC97EFE8247FAB1D00DADC99 /* TestSeparatorViewController.swift */,
 				8F5368062295F4C10098AC8F /* Assets.xcassets */,
 				8F5368082295F4C10098AC8F /* MainMenu.xib */,
 				8F53680B2295F4C10098AC8F /* FluentUITestApp-Info.plist */,
@@ -295,7 +339,9 @@
 			children = (
 				E61C96B42295E8D60006561F /* FluentUI */,
 				8F41CC6E2447B60F0040B851 /* FluentUIResources-macos */,
+				E6A92D2524BEA85900562BCA /* FluentUITestViewControllers */,
 				8F5368032295F4BF0098AC8F /* FluentUITestApp */,
+				E6A92D3724BEA91F00562BCA /* FluentUISwiftUITestApp */,
 				E61C96BF2295E8D60006561F /* FluentUIUnitTest */,
 				E61C96CD2295ED530006561F /* xcode */,
 				E61C96B32295E8D60006561F /* Products */,
@@ -313,6 +359,8 @@
 				E61C96BB2295E8D60006561F /* FluentUIUnitTests.xctest */,
 				8F5368022295F4BF0098AC8F /* FluentUITestApp.app */,
 				8F41CC6D2447B60F0040B851 /* FluentUIResources-macos.bundle */,
+				E6A92D2424BEA85900562BCA /* libFluentUITestViewControllers.a */,
+				E6A92D3624BEA91F00562BCA /* FluentUISwiftUITestApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -352,11 +400,50 @@
 				E61C96CE2295ED8A0006561F /* FluentUI_framework.xcconfig */,
 				E61C96D12295FA4E0006561F /* FluentUI_release.xcconfig */,
 				8F41CC732447B66A0040B851 /* FluentUI_resources.xcconfig */,
+				E6A92D4C24BEAA0200562BCA /* FluentUI_swiftui_testapp.xcconfig */,
 				8F69C7B22295FABD009F69C0 /* FluentUI_testapp.xcconfig */,
+				E6A92D4D24BEAA0200562BCA /* FluentUI_testviewcontrollers.xcconfig */,
 				8F931A6C22BD593300311764 /* FluentUI_unittest.xcconfig */,
 				8F3572322361143B0076FBBE /* FluentUI.xctestplan */,
 			);
 			name = xcode;
+			sourceTree = "<group>";
+		};
+		E6A92D2524BEA85900562BCA /* FluentUITestViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				8F250B8C22B3062A00142B0E /* TestAvatarViewController.swift */,
+				AC97EFE3247541E100DADC99 /* TestButtonViewController.swift */,
+				8061BF8222EF957200F2D245 /* TestDatePickerController.swift */,
+				E61C96D622987B3C0006561F /* TestLinkViewController.swift */,
+				AC97EFE8247FAB1D00DADC99 /* TestSeparatorViewController.swift */,
+				E6A92D4E24BEAEEA00562BCA /* TestViewControllers.swift */,
+			);
+			name = FluentUITestViewControllers;
+			path = ../FluentUITestViewControllers;
+			sourceTree = "<group>";
+		};
+		E6A92D3724BEA91F00562BCA /* FluentUISwiftUITestApp */ = {
+			isa = PBXGroup;
+			children = (
+				E6A92D3C24BEA92000562BCA /* Assets.xcassets */,
+				E6A92D3A24BEA91F00562BCA /* ContentView.swift */,
+				E6A92D3824BEA91F00562BCA /* FluentUISwiftUITestAppApp.swift */,
+				E6A92D4124BEA92000562BCA /* FluentUISwiftUITestApp-Info.plist */,
+				E6A92D4224BEA92000562BCA /* FluentUISwiftUITestApp.entitlements */,
+				E660317124BEB46F00A132DB /* TestViewControllerWrappingView.swift */,
+				E6A92D3E24BEA92000562BCA /* Preview Content */,
+			);
+			name = FluentUISwiftUITestApp;
+			path = ../FluentUISwiftUITestApp;
+			sourceTree = "<group>";
+		};
+		E6A92D3E24BEA92000562BCA /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				E6A92D3F24BEA92000562BCA /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -367,6 +454,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				E61C96CC2295EAC50006561F /* FluentUI.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E6A92D2024BEA85900562BCA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -402,8 +496,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				E6A92D4724BEA9A600562BCA /* PBXTargetDependency */,
 				8F69C7B4229604A8009F69C0 /* PBXTargetDependency */,
-				AC7235DB2492E0D000D0DCA8 /* PBXTargetDependency */,
 			);
 			name = FluentUITestApp;
 			productName = FluentUITestApp;
@@ -447,13 +541,50 @@
 			productReference = E61C96BB2295E8D60006561F /* FluentUIUnitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		E6A92D2324BEA85900562BCA /* FluentUITestViewControllers */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E6A92D2C24BEA85900562BCA /* Build configuration list for PBXNativeTarget "FluentUITestViewControllers" */;
+			buildPhases = (
+				E6A92D2024BEA85900562BCA /* Headers */,
+				E6A92D2124BEA85900562BCA /* Sources */,
+				E6A92D2224BEA85900562BCA /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E660317424BEBF8F00A132DB /* PBXTargetDependency */,
+			);
+			name = FluentUITestViewControllers;
+			productName = FluentUITestViewControllers;
+			productReference = E6A92D2424BEA85900562BCA /* libFluentUITestViewControllers.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		E6A92D3524BEA91F00562BCA /* FluentUISwiftUITestApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E6A92D4324BEA92000562BCA /* Build configuration list for PBXNativeTarget "FluentUISwiftUITestApp" */;
+			buildPhases = (
+				E6A92D3224BEA91F00562BCA /* Sources */,
+				E6A92D3324BEA91F00562BCA /* Frameworks */,
+				E6A92D3424BEA91F00562BCA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E6A92D4B24BEA9B400562BCA /* PBXTargetDependency */,
+				E6A92D4924BEA9AF00562BCA /* PBXTargetDependency */,
+			);
+			name = FluentUISwiftUITestApp;
+			productName = FluentUISwiftUITestApp;
+			productReference = E6A92D3624BEA91F00562BCA /* FluentUISwiftUITestApp.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		E61C96A92295E8D60006561F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1020;
+				LastSwiftUpdateCheck = 1200;
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Microsoft Corporation";
 				TargetAttributes = {
@@ -469,6 +600,12 @@
 					};
 					E61C96BA2295E8D60006561F = {
 						CreatedOnToolsVersion = 10.2.1;
+					};
+					E6A92D2324BEA85900562BCA = {
+						CreatedOnToolsVersion = 12.0;
+					};
+					E6A92D3524BEA91F00562BCA = {
+						CreatedOnToolsVersion = 12.0;
 					};
 				};
 			};
@@ -524,6 +661,8 @@
 				E61C96BA2295E8D60006561F /* FluentUITests */,
 				8F5368012295F4BF0098AC8F /* FluentUITestApp */,
 				8F41CC6C2447B60F0040B851 /* FluentUIResources-macos */,
+				E6A92D2324BEA85900562BCA /* FluentUITestViewControllers */,
+				E6A92D3524BEA91F00562BCA /* FluentUISwiftUITestApp */,
 			);
 		};
 /* End PBXProject section */
@@ -559,7 +698,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8F49B62624451A9900DA40CC /* FluentUIUnitTest-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E6A92D3424BEA91F00562BCA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E6A92D4024BEA92000562BCA /* Preview Assets.xcassets in Resources */,
+				E6A92D3D24BEA92000562BCA /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -577,14 +724,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E61C96D52298665F0006561F /* TestPlaceholderViewController.swift in Sources */,
-				E61C96D722987B3C0006561F /* TestLinkViewController.swift in Sources */,
 				E61C96D322962BC20006561F /* TestControlsViewController.swift in Sources */,
-				AC97EFEA247FABBB00DADC99 /* TestSeparatorViewController.swift in Sources */,
 				8F5368052295F4BF0098AC8F /* AppDelegate.swift in Sources */,
-				8F250B8D22B3062A00142B0E /* TestAvatarViewController.swift in Sources */,
-				AC97EFE52475421300DADC99 /* TestButtonViewController.swift in Sources */,
-				8061BF8322EF957200F2D245 /* TestDatePickerController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -614,6 +755,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E6A92D2124BEA85900562BCA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E6A92D2F24BEA8AC00562BCA /* TestButtonViewController.swift in Sources */,
+				E6A92D2D24BEA8AC00562BCA /* TestSeparatorViewController.swift in Sources */,
+				E6A92D3024BEA8AC00562BCA /* TestLinkViewController.swift in Sources */,
+				E6A92D2E24BEA8AC00562BCA /* TestAvatarViewController.swift in Sources */,
+				E6A92D4F24BEAEEA00562BCA /* TestViewControllers.swift in Sources */,
+				E6A92D3124BEA8AC00562BCA /* TestDatePickerController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E6A92D3224BEA91F00562BCA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E660317224BEB46F00A132DB /* TestViewControllerWrappingView.swift in Sources */,
+				E6A92D3B24BEA91F00562BCA /* ContentView.swift in Sources */,
+				E6A92D3924BEA91F00562BCA /* FluentUISwiftUITestAppApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -627,15 +791,30 @@
 			target = E61C96B12295E8D60006561F /* FluentUI */;
 			targetProxy = 8F69C7B3229604A8009F69C0 /* PBXContainerItemProxy */;
 		};
-		AC7235DB2492E0D000D0DCA8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E61C96B12295E8D60006561F /* FluentUI */;
-			targetProxy = AC7235DA2492E0D000D0DCA8 /* PBXContainerItemProxy */;
-		};
 		E61C96BE2295E8D60006561F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = E61C96B12295E8D60006561F /* FluentUI */;
 			targetProxy = E61C96BD2295E8D60006561F /* PBXContainerItemProxy */;
+		};
+		E660317424BEBF8F00A132DB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E61C96B12295E8D60006561F /* FluentUI */;
+			targetProxy = E660317324BEBF8F00A132DB /* PBXContainerItemProxy */;
+		};
+		E6A92D4724BEA9A600562BCA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E6A92D2324BEA85900562BCA /* FluentUITestViewControllers */;
+			targetProxy = E6A92D4624BEA9A600562BCA /* PBXContainerItemProxy */;
+		};
+		E6A92D4924BEA9AF00562BCA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E6A92D2324BEA85900562BCA /* FluentUITestViewControllers */;
+			targetProxy = E6A92D4824BEA9AF00562BCA /* PBXContainerItemProxy */;
+		};
+		E6A92D4B24BEA9B400562BCA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E61C96B12295E8D60006561F /* FluentUI */;
+			targetProxy = E6A92D4A24BEA9B400562BCA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -802,6 +981,34 @@
 			};
 			name = Release;
 		};
+		E6A92D2A24BEA85900562BCA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E6A92D4D24BEAA0200562BCA /* FluentUI_testviewcontrollers.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		E6A92D2B24BEA85900562BCA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E6A92D4D24BEAA0200562BCA /* FluentUI_testviewcontrollers.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		E6A92D4424BEA92000562BCA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E6A92D4C24BEAA0200562BCA /* FluentUI_swiftui_testapp.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		E6A92D4524BEA92000562BCA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E6A92D4C24BEAA0200562BCA /* FluentUI_swiftui_testapp.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -846,6 +1053,24 @@
 			buildConfigurations = (
 				E61C96CA2295E8D60006561F /* Debug */,
 				E61C96CB2295E8D60006561F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E6A92D2C24BEA85900562BCA /* Build configuration list for PBXNativeTarget "FluentUITestViewControllers" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E6A92D2A24BEA85900562BCA /* Debug */,
+				E6A92D2B24BEA85900562BCA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E6A92D4324BEA92000562BCA /* Build configuration list for PBXNativeTarget "FluentUISwiftUITestApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E6A92D4424BEA92000562BCA /* Debug */,
+				E6A92D4524BEA92000562BCA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
