@@ -6,7 +6,7 @@
 import UIKit
 
 class ContactCollectionViewCell: UICollectionViewCell {
-    static var identifier: String { return "ContactCollectionViewCell" }
+    static let identifier: String = "ContactCollectionViewCell"
     var contactView: ContactView
 
     override init(frame: CGRect) {
@@ -15,7 +15,7 @@ class ContactCollectionViewCell: UICollectionViewCell {
     }
 
     func setup(contact persona: PersonaData) {
-        if persona.name != "" {
+        if persona.name.count > 0 {
             contactView = ContactView(identifier: persona.name)
         } else {
             contactView = ContactView(identifier: persona.email)
