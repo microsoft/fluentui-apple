@@ -8,7 +8,7 @@ import UIKit
 @objc(MSFContactCollectionView)
 open class ContactCollectionView: UICollectionView {
     struct Constants {
-        static let sideInset: CGFloat = 16.0
+        static let leadingInset: CGFloat = 16.0
         static let extraSmallContentContactHeight: CGFloat = 115.0
         static let smallContentContactHeight: CGFloat = 117.0
         static let mediumContentContactHeight: CGFloat = 118.0
@@ -68,7 +68,7 @@ open class ContactCollectionView: UICollectionView {
         backgroundColor = Colors.surfacePrimary
         dataSource = self
         delegate = self
-        contentInset = UIEdgeInsets(top: 0, left: Constants.sideInset, bottom: 0, right: 0)
+        contentInset = UIEdgeInsets(top: 0, left: Constants.leadingInset, bottom: 0, right: 0)
 
         if #available(iOS 13, *) {
             addInteraction(UILargeContentViewerInteraction())
@@ -134,7 +134,7 @@ extension ContactCollectionView: UICollectionViewDelegate {
         var offSet = contentOffset.x
         if cellLeftPosition < viewLeadingPosition {
             offSet = cellLeftPosition - extraScrollWidth
-            offSet = max(offSet, -Constants.sideInset)
+            offSet = max(offSet, -Constants.leadingInset)
         } else if cellRightPosition > viewTrailingPosition {
             let maxOffsetX = contentSize.width - frame.size.width + extraScrollWidth
             offSet = cellRightPosition - frame.size.width + extraScrollWidth
