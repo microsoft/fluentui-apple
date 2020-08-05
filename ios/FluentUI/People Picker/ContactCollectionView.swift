@@ -19,7 +19,6 @@ open class ContactCollectionView: UICollectionView {
     }
 
     let layout: ContactCollectionViewLayout
-    @objc public weak var contactCollectionDelegate: UICollectionViewDelegate?
 
     @objc public var contactList: [PersonaData] = [] {
         didSet {
