@@ -20,6 +20,7 @@ open class ContactCollectionView: UICollectionView {
 
     let layout: ContactCollectionViewLayout
 
+    // The array of PersonaData which is used to create each ContactView. The height constraint of the ContactCollectionView is updated when the count increases from 0 or decreases to 0.
     @objc public var contactList: [PersonaData] = [] {
         didSet {
             if (oldValue.count == 0 && contactList.count > 0) || (oldValue.count > 0 && contactList.count == 0) {
