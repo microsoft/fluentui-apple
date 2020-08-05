@@ -217,7 +217,7 @@ open class SideTabBar: UIView {
             tabBarItemView.alwaysShowTitleBelowImage = true
             tabBarItemView.maxBadgeWidth = Constants.viewWidth / 2 - badgePadding
 
-            if itemView(with: item, in: section) != nil && section == .top && item == selectedTopItem  {
+            if itemView(with: item, in: section) != nil && section == .top && item == selectedTopItem {
                 tabBarItemView.isSelected = true
                 didRestoreSelection = true
             }
