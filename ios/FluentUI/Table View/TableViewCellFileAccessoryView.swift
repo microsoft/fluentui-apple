@@ -43,7 +43,7 @@ open class FileAccessoryViewAction: NSObject {
 // MARK: - TableViewCellFileAccessoryView
 
 /// Class that represents a table view cell accessory view representing a file or folder.
-@objc (TableViewCellFileAccessoryView)
+@objc (MSFTableViewCellFileAccessoryView)
 open class TableViewCellFileAccessoryView: UIView {
     /// The date will be displayed in a friendly format in the accessory view's first column.
     @objc public var date: Date? {
