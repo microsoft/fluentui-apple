@@ -380,6 +380,13 @@ private class FileAccessoryViewActionView: UIButton {
             widthAnchor.constraint(equalToConstant: FileAccessoryViewActionView.size.width),
             heightAnchor.constraint(greaterThanOrEqualToConstant: FileAccessoryViewActionView.size.height)
         ])
+
+        if #available(iOS 13, *) {
+            addInteraction(UILargeContentViewerInteraction())
+            showsLargeContentViewer = true
+            scalesLargeContentImage = true
+            largeContentTitle = action.title
+        }
     }
 
     @available(*, unavailable)
