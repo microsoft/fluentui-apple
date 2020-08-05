@@ -17,7 +17,9 @@ class ContactCollectionViewDemoController: DemoController {
 
         view.addSubview(contactCollectionView)
 
-        contactCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        contactCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        NSLayoutConstraint.activate([
+            contactCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            contactCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
     }
 }
