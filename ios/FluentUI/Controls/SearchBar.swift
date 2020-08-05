@@ -14,7 +14,8 @@ public extension Colors {
             public static var cancelButton = UIColor(light: textSecondary, dark: LightContent.cancelButton)
             public static var clearIcon = UIColor(light: iconPrimary, dark: LightContent.clearIcon)
             public static var placeholderText = UIColor(light: textSecondary, dark: LightContent.placeholderText)
-            public static var searchIcon = UIColor(light: iconPrimary, dark: LightContent.searchIcon)
+            public static var progressSpinner = UIColor(light: iconPrimary, dark: LightContent.searchIcon)
+            public static var searchIcon: UIColor = progressSpinner
             public static var text = UIColor(light: textDominant, dark: LightContent.text)
             public static var tint = UIColor(light: iconSecondary, dark: LightContent.tint)
         }
@@ -23,6 +24,7 @@ public extension Colors {
             public static var cancelButton: UIColor = LightContent.text
             public static var clearIcon = UIColor(light: iconOnAccent, dark: textSecondary)
             public static var placeholderText = UIColor(light: textOnAccent, dark: textSecondary)
+            public static var progressSpinner: UIColor = placeholderText
             public static var searchIcon: UIColor = placeholderText
             public static var text = UIColor(light: textOnAccent, dark: textDominant)
             public static var tint: UIColor = LightContent.text
@@ -90,6 +92,15 @@ open class SearchBar: UIView {
                 return Colors.SearchBar.LightContent.placeholderText
             case .darkContent:
                 return Colors.SearchBar.DarkContent.placeholderText
+            }
+        }
+
+       var progressSpinnerColor: UIColor {
+            switch self {
+            case .lightContent:
+                return Colors.SearchBar.LightContent.progressSpinner
+            case .darkContent:
+                return Colors.SearchBar.DarkContent.progressSpinner
             }
         }
 
@@ -214,6 +225,13 @@ open class SearchBar: UIView {
         return clearButton
     }()
 
+    //indicates search in progress
+    @objc public var progressSpinner: ActivityIndicatorView = {
+        let progressSpinner = ActivityIndicatorView(size: .medium)
+        progressSpinner.isHidden = true
+        return progressSpinner
+    }()
+
     //hidden when the textfield is not active
     private lazy var cancelButton: UIButton = {
         let button = UIButton(type: .system)
@@ -330,6 +348,16 @@ open class SearchBar: UIView {
         constraints.append(searchTextField.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor))
         constraints.append(searchTextField.heightAnchor.constraint(equalTo: searchTextFieldBackgroundView.heightAnchor, constant: -2 * Constants.searchTextFieldVerticalInset))
 
+        //progressSpinner
+        searchTextFieldBackgroundView.addSubview(progressSpinner)
+        progressSpinner.translatesAutoresizingMaskIntoConstraints = false
+
+        constraints.append(progressSpinner.leadingAnchor.constraint(equalTo: searchTextField.trailingAnchor, constant: Constants.clearButtonLeadingInset))
+        constraints.append(progressSpinner.widthAnchor.constraint(equalToConstant: Constants.clearButtonWidth))
+        constraints.append(progressSpinner.heightAnchor.constraint(equalTo: clearButton.widthAnchor))
+        constraints.append(progressSpinner.trailingAnchor.constraint(equalTo: searchTextFieldBackgroundView.trailingAnchor, constant: -1 * Constants.clearButtonTrailingInset))
+        constraints.append(progressSpinner.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor))
+
         //clearButton
         searchTextFieldBackgroundView.addSubview(clearButton)
         clearButton.translatesAutoresizingMaskIntoConstraints = false
@@ -361,6 +389,7 @@ open class SearchBar: UIView {
         // used for cursor or selection handle
         searchTextField.tintColor = style.tintColor
         clearButton.tintColor = style.clearIconColor
+        progressSpinner.tintColor = style.progressSpinnerColor
         cancelButton.setTitleColor(style.cancelButtonColor, for: .normal)
         attributePlaceholderText()
     }

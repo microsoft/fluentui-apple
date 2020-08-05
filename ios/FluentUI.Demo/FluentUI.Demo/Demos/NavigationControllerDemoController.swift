@@ -119,6 +119,7 @@ class NavigationControllerDemoController: DemoController {
 
     private func createAccessoryView(with style: SearchBar.Style = .lightContent) -> UIView {
         let searchBar = SearchBar()
+        searchBar.delegate = self
         searchBar.style = style
         searchBar.placeholderText = "Search"
         return searchBar
@@ -150,7 +151,27 @@ class NavigationControllerDemoController: DemoController {
 
 // MARK: - NavigationControllerDemoController: UIGestureRecognizerDelegate
 
-extension NavigationControllerDemoController: UIGestureRecognizerDelegate {
+extension NavigationControllerDemoController: UIGestureRecognizerDelegate, SearchBarDelegate {
+
+       func searchBarDidBeginEditing(_ searchBar: SearchBar) {
+               searchBar.progressSpinner.stopAnimating()
+               searchBar.progressSpinner.isHidden = true
+       }
+
+       func searchBar(_ searchBar: SearchBar, didUpdateSearchText newSearchText: String?) {
+               // Do Nothing
+       }
+
+       func searchBarDidCancel(_ searchBar: SearchBar) {
+               searchBar.progressSpinner.stopAnimating()
+               searchBar.progressSpinner.isHidden = true
+       }
+
+       func searchBarDidRequestSearch(_ searchBar: SearchBar) {
+               searchBar.progressSpinner.isHidden = false
+               searchBar.progressSpinner.startAnimating()
+       }
+
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         // Only show side drawer for the root view controller
         if let controller = presentedViewController as? UINavigationController,
