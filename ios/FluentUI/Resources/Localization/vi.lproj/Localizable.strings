@@ -55,7 +55,7 @@
 "Accessibility.DateTime.DayOfWeek.Label" = "Ngày trong tuần";
 
 /* Accessibility label for first week of the month */
-"Accessibility.DateTime.Week.First" = "Đầu tiên";
+"Accessibility.DateTime.Week.First" = "Đầu tiên";
 
 /* Accessibility label for second week of the month */
 "Accessibility.DateTime.Week.Second" = "Thứ hai";
@@ -97,7 +97,7 @@
 "Accessibility.AvatarView.LabelFormat" = "%@, %@";
 
 /* Accessibility hint for a segmented control button */
-"Accessibility.Segmented.Button.Hint" = "Nhấn để đi tới %@";
+"Accessibility.Segmented.Button.Hint" = "Nhấn để đi tới %@";
 
 /* Accessibility hint for more actions button */
 "Accessibility.TableViewCell.MoreActions.Hint" = "Nhấn đúp để xem thêm hành động";
@@ -181,5 +181,5 @@
 "Presence.Unknown" = "Không xác định";
 
 /* Presence - Blocked status */
-"Presence.Blocked" = "Bị chặn";
+"Presence.Blocked" = "Bị chặn";
 
