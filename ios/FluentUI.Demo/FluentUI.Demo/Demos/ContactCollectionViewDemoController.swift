@@ -6,11 +6,12 @@
 import FluentUI
 import UIKit
 
-class ContactCollectionViewDemoController: DemoController {
+class ContactCollectionViewDemoController: UIViewController {
     private let contactCollectionView = ContactCollectionView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = Colors.surfacePrimary
 
         contactCollectionView.translatesAutoresizingMaskIntoConstraints = false
         contactCollectionView.contactList = samplePersonas
