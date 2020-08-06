@@ -58,8 +58,11 @@ class AvatarViewDemoController: DemoController {
 
         addTitle(text: "Unauthenticated")
         for size in AvatarSize.allCases.reversed() {
-            let signedoutAvatar = createAvatarView(size: size, style: .circle)
-            addRow(text: size.description, items: [signedoutAvatar.1], textStyle: .footnote, textWidth: 100)
+            let avatarView = AvatarView(avatarSize: size, withBorder: false, style: .circle)
+            avatarView.setup(fallbackStyle: .outlined)
+            avatarView.translatesAutoresizingMaskIntoConstraints = false
+            avatarView.overrideAccessibilityLabel = "Signed Out"
+            addRow(text: size.description, items: [avatarView], textStyle: .footnote, textWidth: 100)
         }
 
     }
