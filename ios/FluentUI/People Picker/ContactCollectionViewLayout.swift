@@ -73,7 +73,10 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
 
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
-        let frame = CGRect(x: CGFloat(indexPath.item) * Constants.itemWidth + CGFloat(indexPath.item) * minimumLineSpacing, y: 0, width: Constants.itemWidth, height: itemSize.height)
+        let frame = CGRect(x: CGFloat(indexPath.item) * Constants.itemWidth + CGFloat(indexPath.item) * minimumLineSpacing,
+                           y: 0,
+                           width: Constants.itemWidth,
+                           height: itemSize.height)
         attributes.frame = frame
 
         if let collectionView = collectionView {
