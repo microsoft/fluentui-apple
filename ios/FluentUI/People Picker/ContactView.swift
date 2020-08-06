@@ -188,8 +188,6 @@ open class ContactView: UIView {
 
     private func pressedStateOverlayLayoutConstraints() -> [NSLayoutConstraint] {
         return [
-            pressedStateOverlay.widthAnchor.constraint(equalTo: avatarView.widthAnchor),
-            pressedStateOverlay.heightAnchor.constraint(equalTo: avatarView.heightAnchor),
             pressedStateOverlay.leadingAnchor.constraint(equalTo: avatarView.leadingAnchor),
             pressedStateOverlay.trailingAnchor.constraint(equalTo: avatarView.trailingAnchor),
             pressedStateOverlay.topAnchor.constraint(equalTo: avatarView.topAnchor),
