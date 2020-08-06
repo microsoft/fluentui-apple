@@ -30,17 +30,6 @@ class PillButtonBarDemoController: DemoController {
         self.filledBar = filledBar
         container.addArrangedSubview(UIView())
 
-        let disableGradientSwitchView = UISwitch()
-        disableGradientSwitchView.isOn = true
-        disableGradientSwitchView.addTarget(self, action: #selector(toggleGradientPills(switchView:)), for: .valueChanged)
-
-        container.addArrangedSubview(createLabelWithText("Gradient"))
-        addRow(items: [createLabelWithText("Enable/Disable pills in Gradient Pill Bar below"), disableGradientSwitchView], itemSpacing: 20, centerItems: true)
-        let gradientBar = createBar(items: items, style: .gradient)
-        container.addArrangedSubview(gradientBar)
-        self.gradientBar = gradientBar
-        container.addArrangedSubview(UIView())
-
         let disableOutlinedSwitchView = UISwitch()
         disableOutlinedSwitchView.isOn = true
         disableOutlinedSwitchView.addTarget(self, action: #selector(toggleOutlinedPills(switchView:)), for: .valueChanged)
@@ -95,35 +84,11 @@ class PillButtonBarDemoController: DemoController {
         let backgroundView = UIView()
         if style == .outline {
             backgroundView.backgroundColor = Colors.Navigation.System.background
-        } else if style == .gradient {
-            backgroundView.backgroundColor = getCustomBackgroundColor(width: view.frame.width)
         }
-
         backgroundView.addSubview(bar)
         let margins = UIEdgeInsets(top: 16.0, left: 0, bottom: 16.0, right: 0.0)
         fitViewIntoSuperview(bar, margins: margins)
         return backgroundView
-    }
-
-    func getCustomBackgroundColor(width: CGFloat) -> UIColor {
-        let startColor: UIColor = #colorLiteral(red: 0.01404584414, green: 0.4073548353, blue: 0.8523316062, alpha: 1)
-        let midColor: UIColor = #colorLiteral(red: 0.2156807228, green: 0.6311728202, blue: 0.9168139814, alpha: 1)
-        let endColor: UIColor = #colorLiteral(red: 0.3765182292, green: 0.7099975095, blue: 0.9298384652, alpha: 1)
-
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = CGRect(x: 0.0, y: 0.0, width: width, height: 1.0)
-        gradientLayer.colors = [startColor.cgColor, midColor.cgColor, endColor.cgColor]
-        gradientLayer.locations = [0.0, 0.5, 1.0]
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
-        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
-
-        UIGraphicsBeginImageContext(gradientLayer.bounds.size)
-        if let context = UIGraphicsGetCurrentContext() {
-            gradientLayer.render(in: context)
-        }
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return UIColor(light: image != nil ? UIColor(patternImage: image!) : endColor, dark: Colors.Navigation.System.background)
     }
 
     func createLabelWithText(_ text: String = "") -> Label {
@@ -166,19 +131,12 @@ class PillButtonBarDemoController: DemoController {
         togglePills(pillBar: pillBar, enable: switchView.isOn)
     }
 
-    @objc private func toggleGradientPills(switchView: UISwitch) {
-        let pillBar = self.gradientBar?.subviews[0] as! PillButtonBar
-        togglePills(pillBar: pillBar, enable: switchView.isOn)
-    }
-
     @objc private func toggleOutlinedPills(switchView: UISwitch) {
         let pillBar = self.outlineBar?.subviews[0] as! PillButtonBar
         togglePills(pillBar: pillBar, enable: switchView.isOn)
     }
 
     private var filledBar: UIView?
-
-    private var gradientBar: UIView?
 
     private var outlineBar: UIView?
 }

@@ -17,9 +17,6 @@ public extension Colors {
         public struct Filled {
             public static var title = UIColor(light: textOnAccent, dark: Outline.title)
         }
-        public struct Gradient {
-            public static var background = UIColor(light: UIColor.black.withAlphaComponent(0.2), dark: surfaceSecondary)
-        }
     }
 }
 
@@ -32,7 +29,6 @@ public typealias MSPillButtonStyle = PillButtonStyle
 public enum PillButtonStyle: Int {
     case outline
     case filled
-    case gradient
 
     func backgroundColor(for window: UIWindow) -> UIColor {
         switch self {
@@ -40,8 +36,6 @@ public enum PillButtonStyle: Int {
             return Colors.PillButton.Outline.background
         case .filled:
             return UIColor(light: Colors.primaryShade10(for: window), dark: Colors.PillButton.Outline.background)
-        case .gradient:
-            return UIColor(light: Colors.PillButton.Gradient.background, dark: Colors.PillButton.Outline.background)
         }
     }
 
@@ -50,8 +44,6 @@ public enum PillButtonStyle: Int {
         case .outline:
             return UIColor(light: Colors.primary(for: window), dark: Colors.surfaceQuaternary)
         case .filled:
-            return UIColor(light: Colors.surfacePrimary, dark: Colors.surfaceQuaternary)
-        case .gradient:
             return UIColor(light: Colors.surfacePrimary, dark: Colors.surfaceQuaternary)
         }
     }
@@ -62,8 +54,6 @@ public enum PillButtonStyle: Int {
             return Colors.PillButton.Outline.title
         case .filled:
             return Colors.PillButton.Filled.title
-        case .gradient:
-            return Colors.PillButton.Filled.title
         }
     }
 
@@ -72,8 +62,6 @@ public enum PillButtonStyle: Int {
         case .outline:
             return  Colors.PillButton.Outline.titleSelected
         case .filled:
-            return UIColor(light: Colors.primary(for: window), dark: Colors.PillButton.Outline.titleSelected)
-        case .gradient:
             return UIColor(light: Colors.primary(for: window), dark: Colors.PillButton.Outline.titleSelected)
         }
     }
@@ -84,8 +72,6 @@ public enum PillButtonStyle: Int {
             return Colors.textDisabled
         case .filled:
             return UIColor(light: Colors.primaryTint10(for: window), dark: Colors.textDisabled)
-        case .gradient:
-            return UIColor(light: Colors.primaryTint10(for: window), dark: Colors.textDisabled)
         }
     }
 
@@ -95,8 +81,6 @@ public enum PillButtonStyle: Int {
             return Colors.surfaceQuaternary
         case .filled:
             return UIColor(light: Colors.surfacePrimary, dark: Colors.surfaceQuaternary)
-        case .gradient:
-            return UIColor(light: Colors.surfacePrimary, dark: Colors.surfaceQuaternary)
         }
     }
 
@@ -105,8 +89,6 @@ public enum PillButtonStyle: Int {
         case .outline:
             return UIColor(light: Colors.surfacePrimary, dark: Colors.gray500)
         case .filled:
-            return UIColor(light: Colors.primaryTint20(for: window), dark: Colors.gray500)
-        case .gradient:
             return UIColor(light: Colors.primaryTint20(for: window), dark: Colors.gray500)
         }
     }
