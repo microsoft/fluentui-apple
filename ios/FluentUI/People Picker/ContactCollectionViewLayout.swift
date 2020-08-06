@@ -12,14 +12,6 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
         static let itemWidth: CGFloat = 70.0
         static let minLineSpacing: CGFloat = 14.0
         static let maxLineSpacing: CGFloat = 16.0
-
-        static let extraSmallContentContactHeight: CGFloat = 115.0
-        static let smallContentContactHeight: CGFloat = 117.0
-        static let mediumContentContactHeight: CGFloat = 118.0
-        static let largeContentContactHeight: CGFloat = 121.0
-        static let extraLargeContentContactHeight: CGFloat = 125.0
-        static let extraExtraLargeContentContactHeight: CGFloat = 129.0
-        static let extraExtraExtraLargeContentContactHeight: CGFloat = 135.0
     }
 
     override init() {
@@ -127,26 +119,7 @@ extension ContactCollectionViewLayout: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemHeight: CGFloat
-
-        switch UIApplication.shared.preferredContentSizeCategory {
-        case .extraSmall:
-            itemHeight = Constants.extraSmallContentContactHeight
-        case .small:
-            itemHeight = Constants.smallContentContactHeight
-        case .medium:
-            itemHeight = Constants.mediumContentContactHeight
-        case .large:
-            itemHeight = Constants.largeContentContactHeight
-        case .extraLarge:
-            itemHeight = Constants.extraLargeContentContactHeight
-        case .extraExtraLarge:
-            itemHeight = Constants.extraExtraLargeContentContactHeight
-        case .extraExtraExtraLarge:
-            itemHeight = Constants.extraExtraExtraLargeContentContactHeight
-        default:
-            itemHeight = Constants.extraExtraExtraLargeContentContactHeight
-        }
+        let itemHeight = UIApplication.shared.preferredContentSizeCategory.contactHeight
 
         return CGSize(width: Constants.itemWidth, height: itemHeight)
     }

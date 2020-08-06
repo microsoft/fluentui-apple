@@ -50,7 +50,7 @@ open class ContactCollectionView: UICollectionView {
     }()
 
     private func updateHeightConstraint() {
-        let constant = (contactList.count > 0) ? categoryHeight() : 0
+        let constant = (contactList.count > 0) ? UIApplication.shared.preferredContentSizeCategory.contactHeight : 0
         heightConstraint.constant = constant
     }
 
@@ -69,29 +69,8 @@ open class ContactCollectionView: UICollectionView {
     }
 
     @objc private func setupHeightConstraint() {
-        let height = categoryHeight()
+        let height = UIApplication.shared.preferredContentSizeCategory.contactHeight
         heightConstraint.constant = height
-    }
-
-    private func categoryHeight() -> CGFloat {
-        switch UIApplication.shared.preferredContentSizeCategory {
-        case .extraSmall:
-            return Constants.extraSmallContentContactHeight
-        case .small:
-            return Constants.smallContentContactHeight
-        case .medium:
-            return Constants.mediumContentContactHeight
-        case .large:
-            return Constants.largeContentContactHeight
-        case .extraLarge:
-            return Constants.extraLargeContentContactHeight
-        case .extraExtraLarge:
-            return Constants.extraExtraLargeContentContactHeight
-        case .extraExtraExtraLarge:
-            return Constants.extraExtraExtraLargeContentContactHeight
-        default:
-            return Constants.extraExtraExtraLargeContentContactHeight
-        }
     }
 }
 
@@ -136,6 +115,29 @@ extension ContactCollectionView: UICollectionViewDelegate {
 
         if offSet != contentOffset.x {
             setContentOffset(CGPoint(x: offSet, y: contentOffset.y), animated: true)
+        }
+    }
+}
+
+extension UIContentSizeCategory {
+    var contactHeight: CGFloat {
+        switch self {
+        case .extraSmall:
+            return ContactCollectionView.Constants.extraSmallContentContactHeight
+        case .small:
+            return ContactCollectionView.Constants.smallContentContactHeight
+        case .medium:
+            return ContactCollectionView.Constants.mediumContentContactHeight
+        case .large:
+            return ContactCollectionView.Constants.largeContentContactHeight
+        case .extraLarge:
+            return ContactCollectionView.Constants.extraLargeContentContactHeight
+        case .extraExtraLarge:
+            return ContactCollectionView.Constants.extraExtraLargeContentContactHeight
+        case .extraExtraExtraLarge:
+            return ContactCollectionView.Constants.extraExtraExtraLargeContentContactHeight
+        default:
+            return ContactCollectionView.Constants.extraExtraExtraLargeContentContactHeight
         }
     }
 }
