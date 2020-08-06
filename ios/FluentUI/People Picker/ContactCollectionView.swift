@@ -12,7 +12,7 @@ open class ContactCollectionView: UICollectionView {
         layout.scrollDirection = .horizontal
         super.init(frame: .zero, collectionViewLayout: layout)
         configureCollectionView()
-        updateHeightConstraint()
+        setupHeightConstraint()
         register(ContactCollectionViewCell.self, forCellWithReuseIdentifier: ContactCollectionViewCell.identifier)
         NotificationCenter.default.addObserver(self, selector: #selector(setupHeightConstraint), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
@@ -25,7 +25,7 @@ open class ContactCollectionView: UICollectionView {
     @objc public var contactList: [PersonaData] = [] {
         didSet {
             if (oldValue.count == 0 && contactList.count > 0) || (oldValue.count > 0 && contactList.count == 0) {
-                updateHeightConstraint()
+                setupHeightConstraint()
             }
         }
     }
@@ -49,11 +49,6 @@ open class ContactCollectionView: UICollectionView {
         return heightConstraint
     }()
 
-    private func updateHeightConstraint() {
-        let constant = (contactList.count > 0) ? UIApplication.shared.preferredContentSizeCategory.contactHeight : 0
-        heightConstraint.constant = constant
-    }
-
     private func configureCollectionView() {
         translatesAutoresizingMaskIntoConstraints = false
         showsHorizontalScrollIndicator = false
@@ -69,7 +64,7 @@ open class ContactCollectionView: UICollectionView {
     }
 
     @objc private func setupHeightConstraint() {
-        let height = UIApplication.shared.preferredContentSizeCategory.contactHeight
+        let height = (contactList.count > 0) ? UIApplication.shared.preferredContentSizeCategory.contactHeight : 0
         heightConstraint.constant = height
     }
 }
