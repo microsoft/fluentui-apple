@@ -115,7 +115,7 @@
 "Accessibility.TableViewCell.Switch.Off" = "כבוי";
 
 /* Format string for tab bar item accessbility labels. Format: "<Title>, <BadgeValue> items". Example: "Home, 5 items" */
-"Accessibility.TabBarItemView.LabelFormat" = "%@, %@ items";
+"Accessibility.TabBarItemView.LabelFormat" = "%@, ‏%@ פריטים";
 
 /* Generic label for cancel action */
 "Common.Cancel" = "ביטול";
@@ -138,10 +138,10 @@
 /* Yesterday string */
 "Date.Yesterday" = "אתמול";
 
-/* Yesterday and time format string. Eample: "Yesterday at 11:00 AM" */
+/* Yesterday and time format string. Example: "Yesterday at 11:00 AM" */
 "Date.FormatYesterdayTime" = "אתמול ב- %@";
 
-/* Day and time format string. Eample: "Fri at 11:00 AM" */
+/* Day and time format string. Example: "Fri at 11:00 AM" */
 "Date.FormatDayTime" = "%@ ב- %@";
 
 // MSPersonaListView
@@ -183,3 +183,5 @@
 /* Presence - Blocked status */
 "Presence.Blocked" = "חסום/ה";
 
+/* AvatarView - Format string for overflow avatar. Format: "+<OverflowCount>". Example: "+5" */
+"AvatarView.OverflowFormat" = "+%@";
