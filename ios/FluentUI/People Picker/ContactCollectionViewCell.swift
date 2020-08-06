@@ -14,6 +14,10 @@ class ContactCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
     }
 
+    required init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
+    }
+
     func setup(contact persona: PersonaData) {
         let identifier = (persona.name.count > 0) ? persona.name : persona.email
         contactView = ContactView(identifier: identifier)
@@ -29,9 +33,5 @@ class ContactCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         contactView.removeAllSubviews()
         super.prepareForReuse()
-    }
-
-    required init?(coder: NSCoder) {
-        preconditionFailure("init(coder:) has not been implemented")
     }
 }
