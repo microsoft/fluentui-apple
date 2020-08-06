@@ -42,22 +42,20 @@ open class ContactCollectionView: UICollectionView {
     }
 
     let layout: ContactCollectionViewLayout
-    var heightConstraint: NSLayoutConstraint?
     var widthConstraint: NSLayoutConstraint?
+    lazy var heightConstraint: NSLayoutConstraint = {
+        let heightConstraint = heightAnchor.constraint(equalToConstant: 0.0)
+        heightConstraint.isActive = true
+        return heightConstraint
+    }()
 
     private func updateHeightConstraint() {
-        if heightConstraint == nil {
-            heightConstraint = heightAnchor.constraint(equalToConstant: 0.0)
-            heightConstraint!.isActive = true
-            return
-        }
-
         var constant: CGFloat = 0.0
         if contactList.count > 0 {
             constant = categoryHeight()
         }
 
-        heightConstraint!.constant = constant
+        heightConstraint.constant = constant
     }
 
     private func configureCollectionView() {
@@ -76,7 +74,7 @@ open class ContactCollectionView: UICollectionView {
 
     @objc private func setupHeightConstraint() {
         let height = categoryHeight()
-        heightConstraint?.constant = height
+        heightConstraint.constant = height
     }
 
     private func categoryHeight() -> CGFloat {
