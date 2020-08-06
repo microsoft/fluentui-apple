@@ -104,6 +104,14 @@ public final class Colors: NSObject {
         case successShade30
         case successShade20
         case successShade10
+        case presenceAvailable
+        case presenceAway
+        case presenceBlocked
+        case presenceBusy
+        case presenceDnd
+        case presenceOffline
+        case presenceOof
+        case presenceUnknown
 
         public var color: UIColor {
             if let fluentColor = UIColor(named: "FluentColors/" + self.name, in: FluentUIFramework.resourceBundle, compatibleWith: nil) {
@@ -245,6 +253,22 @@ public final class Colors: NSObject {
                 return "successShade20"
             case .successShade10:
                 return "successShade10"
+            case .presenceAvailable:
+                return "presenceAvailable"
+            case .presenceAway:
+                return "presenceAway"
+            case .presenceBlocked:
+                return "presenceBlocked"
+            case .presenceBusy:
+                return "presenceBusy"
+            case .presenceDnd:
+                return "presenceOffline"
+            case .presenceOffline:
+                return "presenceOffline"
+            case .presenceOof:
+                return "presenceOof"
+            case .presenceUnknown:
+                return "presenceUnknown"
             }
         }
     }
@@ -378,7 +402,7 @@ public final class Colors: NSObject {
     /// text color used for main level in the screen. eg. title in dialog, title in navigationbar with `surfacePrimary`, etc
     @objc public static let textDominant = UIColor(light: gray900, lightHighContrast: .black, dark: .white)
     /// text color used for titles
-    @objc public static let textPrimary = UIColor(light: gray900, lightHighContrast: .black, dark: gray100, darkHighContrast: .white)
+    @objc public static var textPrimary = UIColor(light: gray900, lightHighContrast: .black, dark: gray100, darkHighContrast: .white)
     /// text color used for subtitles
     @objc public static let textSecondary = UIColor(light: gray500, lightHighContrast: gray700, dark: gray400, darkHighContrast: gray200)
     /// text color used in disabled state
@@ -398,7 +422,7 @@ public final class Colors: NSObject {
     /// In Darkmode, our system use two sets of background colors -- called base and elevated -- to enhance the perception of depath when one dark interface is layered above another.
     /// The dark base colors are darker, making background interface appear to recede, and the elevate colors are lighter, making foreground interfaces appear to advance
 
-    @objc public static let surfacePrimary = UIColor(light: .white, dark: .black, darkElevated: gray950)
+    @objc public static var surfacePrimary = UIColor(light: .white, dark: .black, darkElevated: gray950)
     @objc public static let surfaceSecondary = UIColor(light: gray25, dark: gray950, darkElevated: gray900)
     @objc public static let surfaceTertiary = UIColor(light: gray50, dark: gray900, darkElevated: gray800)
     /// also used for disabled background color
@@ -407,261 +431,6 @@ public final class Colors: NSObject {
     @objc public static let dividerOnPrimary = UIColor(light: gray100, dark: gray800, darkElevated: gray700)
     @objc public static let dividerOnSecondary = UIColor(light: gray200, dark: gray700, darkElevated: gray600)
     @objc public static let dividerOnTertiary = UIColor(light: gray200, dark: gray700, darkElevated: gray600)
-
-    // MARK: Final semantic
-
-    // Add semantic colors describing colors used for particular control elements
-
-    public struct ActivityIndicator {
-        public static var foreground: UIColor = iconSecondary
-    }
-
-    public struct Avatar {
-        // Should use physical color because this text is shown on physical avatar background
-        public static var text: UIColor = textOnAccent
-        public static var border = UIColor(light: .white, dark: gray900, darkElevated: gray800)
-    }
-
-    public struct Badge {
-        public static var backgroundDisabled = UIColor(light: surfaceSecondary, dark: gray700)
-        public static var backgroundError = UIColor(light: Palette.dangerTint40.color, dark: Palette.dangerTint30.color)
-        public static var backgroundErrorSelected: UIColor = error
-        public static var backgroundWarning = UIColor(light: Palette.warningTint40.color, dark: Palette.warningTint30.color)
-        public static var backgroundWarningSelected: UIColor = warning
-        public static var textSelected: UIColor = textOnAccent
-        public static var textDisabled: UIColor = textSecondary
-        public static var textError = UIColor(light: Palette.dangerShade10.color, dark: Palette.dangerShade20.color)
-        public static var textErrorSelected: UIColor = textOnAccent
-        public static var textWarning = UIColor(light: Palette.warningShade30.color, dark: Palette.warningPrimary.color)
-        public static var textWarningSelected = UIColor(light: Palette.warningShade30.color, dark: .black)
-    }
-
-    public struct BadgeField {
-        public static var background: UIColor = surfacePrimary
-        public static var label: UIColor = textSecondary
-        public static var placeholder: UIColor = textSecondary
-    }
-
-    public struct Button {
-        public static var background: UIColor = .clear
-        public static var backgroundFilledDisabled: UIColor = surfaceQuaternary
-        public static var borderDisabled: UIColor = surfaceQuaternary
-        public static var titleDisabled: UIColor = textDisabled
-        public static var titleWithFilledBackground: UIColor = textOnAccent
-    }
-
-    public struct Calendar {
-        public struct Day {
-            public static var textPrimary = UIColor(light: Colors.textSecondary, dark: Colors.textPrimary)
-            public static var textSecondary: UIColor = Colors.textSecondary
-            public static var textSelected: UIColor = textOnAccent
-            public static var backgroundPrimary = UIColor(light: Calendar.background, dark: surfaceSecondary)
-            public static var backgroundSecondary = UIColor(light: surfaceSecondary, dark: Calendar.background)
-            public static var circleHighlighted: UIColor = gray400
-        }
-        public struct Today {
-            public static var background: UIColor = Calendar.Day.backgroundPrimary
-        }
-        public struct WeekdayHeading {
-            public struct Light {
-                public static var textRegular = UIColor(light: gray600, lightHighContrast: gray700, dark: textPrimary)
-                public static var textWeekend: UIColor = textSecondary
-                public static var background: UIColor = Calendar.background
-            }
-            public struct Dark {
-                public static var textRegular: UIColor = textOnAccent
-                public static var textWeekend: UIColor = textOnAccent.withAlphaComponent(0.7)
-            }
-        }
-        public static var background: UIColor = NavigationBar.background
-    }
-
-    public struct Contact {
-        public static var title: UIColor = textPrimary
-        public static var subtitle: UIColor = textSecondary
-    }
-
-    public struct DateTimePicker {
-        public static var background: UIColor = NavigationBar.background
-        public static var text: UIColor = textSecondary
-    }
-
-    public struct Drawer {
-        public static var background = UIColor(light: surfacePrimary, dark: surfaceSecondary)
-        public static var popoverBackground = UIColor(light: surfacePrimary, dark: surfaceQuaternary)
-    }
-
-    public struct HUD {
-        public static var activityIndicator: UIColor = .white
-        public static var background = UIColor(light: gray900.withAlphaComponent(0.9), dark: gray700)
-        public static var text = UIColor(light: textOnAccent, dark: textPrimary)
-    }
-
-    public struct Navigation {
-        public struct System {
-            public static var background: UIColor = NavigationBar.background
-            public static var tint: UIColor = NavigationBar.tint
-            public static var title: UIColor = NavigationBar.title
-        }
-        public struct Primary {
-            public static var tint = UIColor(light: textOnAccent, dark: System.tint)
-            public static var title = UIColor(light: textOnAccent, dark: System.title)
-        }
-    }
-
-    public struct Notification {
-        public struct NeutralToast {
-            public static var background: UIColor = surfaceQuaternary.withAlphaComponent(0.6)
-            public static var foreground: UIColor = textDominant
-        }
-        public struct PrimaryOutlineBar {
-            public static var background = UIColor(light: surfacePrimary, dark: surfaceQuaternary).withAlphaComponent(0.6)
-        }
-        public struct NeutralBar {
-            public static var background: UIColor = NeutralToast.background
-            public static var foreground: UIColor = NeutralToast.foreground
-        }
-    }
-
-    public struct NavigationBar {
-        public static var background = UIColor(light: surfacePrimary, dark: surfaceTertiary)
-        public static var tint: UIColor = iconPrimary
-        public static var title: UIColor = textDominant
-    }
-
-    public struct PageCardPresenter {
-        // Should use physical color because page indicators are shown on physical blurred dark background
-        public static var currentPageIndicator: UIColor = .white
-        public static var pageIndicator = UIColor.white.withAlphaComponent(0.5)
-    }
-
-    public struct PillButton {
-        public struct Outline {
-            public static var background = UIColor(light: surfaceTertiary, dark: surfaceSecondary)
-            public static var title = UIColor(light: textSecondary, dark: textPrimary)
-            public static var titleSelected = UIColor(light: textOnAccent, dark: textDominant)
-        }
-        public struct Filled {
-            public static var title = UIColor(light: textOnAccent, dark: Outline.title)
-        }
-    }
-
-    public struct PopupMenu {
-        public static var description: UIColor = textSecondary
-    }
-
-    public struct Progress {
-        public static var trackTint = UIColor(light: surfaceQuaternary, dark: surfaceTertiary)
-    }
-
-    public struct ResizingHandle {
-        public static var mark: UIColor = iconSecondary
-    }
-
-    public struct SearchBar {
-        public struct DarkContent {
-            public static var background = UIColor(light: surfaceTertiary, dark: LightContent.background)
-            public static var cancelButton = UIColor(light: textSecondary, dark: LightContent.cancelButton)
-            public static var clearIcon = UIColor(light: iconPrimary, dark: LightContent.clearIcon)
-            public static var placeholderText = UIColor(light: textSecondary, dark: LightContent.placeholderText)
-            public static var searchIcon = UIColor(light: iconPrimary, dark: LightContent.searchIcon)
-            public static var text = UIColor(light: textDominant, dark: LightContent.text)
-            public static var tint = UIColor(light: iconSecondary, dark: LightContent.tint)
-        }
-        public struct LightContent {
-            public static var background = UIColor(light: UIColor.black.withAlphaComponent(0.2), dark: gray700, darkElevated: gray600)
-            public static var cancelButton: UIColor = LightContent.text
-            public static var clearIcon = UIColor(light: iconOnAccent, dark: textSecondary)
-            public static var placeholderText = UIColor(light: textOnAccent, dark: textSecondary)
-            public static var searchIcon: UIColor = placeholderText
-            public static var text = UIColor(light: textOnAccent, dark: textDominant)
-            public static var tint: UIColor = LightContent.text
-        }
-    }
-
-    public struct SegmentedControl {
-        public struct Tabs {
-            public static var background: UIColor = NavigationBar.background
-            public static var backgroundDisabled: UIColor = background
-            public static var segmentText: UIColor = textSecondary
-            public static var segmentTextDisabled: UIColor = surfaceQuaternary
-            public static var segmentTextSelectedAndDisabled: UIColor = textDisabled
-            public static var selectionDisabled: UIColor = textDisabled
-        }
-
-        public struct Switch {
-            public static var segmentText: UIColor = PillButton.Filled.title
-            public static var selection = UIColor(light: Colors.surfacePrimary, dark: Colors.surfaceQuaternary)
-            public static var selectionDisabled: UIColor = selection
-        }
-    }
-
-    public struct Separator {
-        public static var `default`: UIColor = dividerOnPrimary
-        public static var shadow: UIColor = dividerOnSecondary
-    }
-    // Objective-C support
-    @objc public static var separatorDefault: UIColor { return Separator.default }
-
-    public struct Shimmer {
-        public static var tint = UIColor(light: surfaceTertiary, dark: surfaceQuaternary)
-    }
-
-    public struct Table {
-        public struct Cell {
-            public static var background: UIColor = surfacePrimary
-            public static var backgroundGrouped = UIColor(light: surfacePrimary, dark: surfaceSecondary)
-            public static var backgroundSelected: UIColor = surfaceTertiary
-            public static var image: UIColor = iconSecondary
-            public static var title: UIColor = textPrimary
-            public static var subtitle: UIColor = textSecondary
-            public static var footer: UIColor = textSecondary
-            public static var accessoryDisclosureIndicator: UIColor = iconSecondary
-            public static var accessoryDetailButton: UIColor = iconSecondary
-            public static var selectionIndicatorOff: UIColor = iconSecondary
-        }
-        public struct ActionCell {
-            public static var textDestructive: UIColor = error
-            public static var textDestructiveHighlighted: UIColor = error.withAlphaComponent(0.4)
-            public static var textCommunication: UIColor = communicationBlue
-            public static var textCommunicationHighlighted: UIColor = communicationBlue.withAlphaComponent(0.4)
-        }
-        public struct HeaderFooter {
-            public static var accessoryButtonText: UIColor = textSecondary
-            public static var background: UIColor = .clear
-            public static var backgroundDivider: UIColor = surfaceSecondary
-            public static var text: UIColor = textSecondary
-            public static var textDivider: UIColor = textSecondary
-            public static var textLink: UIColor = communicationBlue
-        }
-        public static var background: UIColor = surfacePrimary
-        public static var backgroundGrouped = UIColor(light: surfaceSecondary, dark: surfacePrimary)
-    }
-    // Objective-C support
-    @objc public static var tableBackground: UIColor { return Table.background }
-    @objc public static var tableBackgroundGrouped: UIColor { return Table.backgroundGrouped }
-    @objc public static var tableCellBackground: UIColor { return Table.Cell.background }
-    @objc public static var tableCellBackgroundGrouped: UIColor { return Table.Cell.backgroundGrouped }
-    @objc public static var tableCellImage: UIColor { return Table.Cell.image }
-
-    public struct Toolbar {
-        public static var background: UIColor = NavigationBar.background
-        public static var tint: UIColor = NavigationBar.tint
-    }
-
-    public struct Tooltip {
-        public static var text: UIColor = textOnAccent
-    }
-
-    public struct TwoLineTitle {
-        // light style is used Navigation.Primary.background. Dark style is used for Navigation.System.background
-        public static var titleDark: UIColor = Navigation.System.title
-        public static var titleLight: UIColor = Navigation.Primary.title
-        public static var subtitleDark = UIColor(light: textSecondary, dark: textDominant)
-        public static var subtitleLight: UIColor = titleLight
-        public static var titleAccessoryLight = UIColor(light: iconOnAccent, dark: iconPrimary)
-        public static var titleAccessoryDark = UIColor(light: iconSecondary, dark: iconPrimary)
-    }
 
     @objc public static func color(from palette: Palette) -> UIColor {
         return palette.color
@@ -675,38 +444,3 @@ public final class Colors: NSObject {
 
 /// Make palette enum CaseIterable for unit testing purposes
 extension Colors.Palette: CaseIterable {}
-
-// MARK: - TextColorStyle
-
-@available(*, deprecated, renamed: "TextColorStyle")
-public typealias MSTextColorStyle = TextColorStyle
-
-@objc(MSFTextColorStyle)
-public enum TextColorStyle: Int, CaseIterable {
-    case regular
-    case secondary
-    case white
-    case primary
-    case error
-    case warning
-    case disabled
-
-    public func color(for window: UIWindow) -> UIColor {
-        switch self {
-        case .regular:
-            return Colors.textPrimary
-        case .secondary:
-            return Colors.textSecondary
-        case .white:
-            return .white
-        case .primary:
-            return Colors.primary(for: window)
-        case .error:
-            return Colors.error
-        case .warning:
-            return Colors.warning
-        case .disabled:
-            return Colors.textDisabled
-        }
-    }
-}

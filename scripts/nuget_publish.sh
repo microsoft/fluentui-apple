@@ -13,7 +13,9 @@ EXIT_CODE=0
 XCODEBUILD_WRAPPER_LOCATION='scripts/xcodebuild_wrapper.sh'
 
 # Extra arguments for xcode build to mimic nuget publishing environment  
-XCODEBUILD_EXTRA_ARGS='-xcconfig .ado/xcconfig/publish_overrides.xcconfig -derivedDataPath DerivedData'
+DERIVED_DATA_EXTRA_ARG='-derivedDataPath DerivedData'
+STANDARD_XCCONFIG_EXTRA_ARG='-xcconfig .ado/xcconfig/publish_overrides.xcconfig'
+IOS_DEVICE_XCCONFIG_EXTRA_ARG='-xcconfig .ado/xcconfig/publish_overrides_ios_device.xcconfig'
 
 function handle_exit_code()
 {
@@ -26,27 +28,27 @@ function handle_exit_code()
 }
 
 echo "Building and Testing macOS Debug"
-$XCODEBUILD_WRAPPER_LOCATION macos_build FluentUI-macOS Debug build $XCODEBUILD_EXTRA_ARGS
+$XCODEBUILD_WRAPPER_LOCATION macos_build FluentUI-macOS Debug build $DERIVED_DATA_EXTRA_ARG $STANDARD_XCCONFIG_EXTRA_ARG
 handle_exit_code
 
 echo "Building and Testing macOS Release"
-$XCODEBUILD_WRAPPER_LOCATION macos_build FluentUI-macOS Release build $XCODEBUILD_EXTRA_ARGS
+$XCODEBUILD_WRAPPER_LOCATION macos_build FluentUI-macOS Release build $DERIVED_DATA_EXTRA_ARG $STANDARD_XCCONFIG_EXTRA_ARG
 handle_exit_code
 
 echo "Building iOS Static Lib Debug Simulator"
-$XCODEBUILD_WRAPPER_LOCATION ios_simulator_build FluentUI-iOS-StaticLib Debug build $XCODEBUILD_EXTRA_ARGS
+$XCODEBUILD_WRAPPER_LOCATION ios_simulator_build FluentUI-iOS-StaticLib Debug build $DERIVED_DATA_EXTRA_ARG $STANDARD_XCCONFIG_EXTRA_ARG
 handle_exit_code
 
 echo "Building iOS Static Lib Release Simulator"
-$XCODEBUILD_WRAPPER_LOCATION ios_simulator_build FluentUI-iOS-StaticLib Release build $XCODEBUILD_EXTRA_ARGS
+$XCODEBUILD_WRAPPER_LOCATION ios_simulator_build FluentUI-iOS-StaticLib Release build $DERIVED_DATA_EXTRA_ARG $STANDARD_XCCONFIG_EXTRA_ARG
 handle_exit_code
 
 echo "Building Static Lib iOS Debug Device"
-$XCODEBUILD_WRAPPER_LOCATION ios_device_build FluentUI-iOS-StaticLib Debug build $XCODEBUILD_EXTRA_ARGS
+$XCODEBUILD_WRAPPER_LOCATION ios_device_build FluentUI-iOS-StaticLib Debug build $DERIVED_DATA_EXTRA_ARG $IOS_DEVICE_XCCONFIG_EXTRA_ARG
 handle_exit_code
 
 echo "Building iOS Release Static Lib Device"
-$XCODEBUILD_WRAPPER_LOCATION ios_device_build FluentUI-iOS-StaticLib Release build $XCODEBUILD_EXTRA_ARGS
+$XCODEBUILD_WRAPPER_LOCATION ios_device_build FluentUI-iOS-StaticLib Release build $DERIVED_DATA_EXTRA_ARG $IOS_DEVICE_XCCONFIG_EXTRA_ARG
 handle_exit_code
 
 echo "Running scripts/prepare_for_nuget_pack.sh"

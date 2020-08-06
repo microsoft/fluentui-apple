@@ -5,7 +5,22 @@
 
 import UIKit
 
-// MARK: PillButtonStyle
+// MARK: PillButton Colors
+
+public extension Colors {
+    struct PillButton {
+        public struct Outline {
+            public static var background = UIColor(light: surfaceTertiary, dark: surfaceSecondary)
+            public static var title = UIColor(light: textSecondary, dark: textPrimary)
+            public static var titleSelected = UIColor(light: textOnAccent, dark: textDominant)
+        }
+        public struct Filled {
+            public static var title = UIColor(light: textOnAccent, dark: Outline.title)
+        }
+    }
+}
+
+// MARK: - PillButtonStyle
 
 @available(*, deprecated, renamed: "PillButtonStyle")
 public typealias MSPillButtonStyle = PillButtonStyle
@@ -50,6 +65,33 @@ public enum PillButtonStyle: Int {
             return UIColor(light: Colors.primary(for: window), dark: Colors.PillButton.Outline.titleSelected)
         }
     }
+
+    func disabledTitleColor(for window: UIWindow) -> UIColor {
+        switch self {
+        case .outline:
+            return Colors.textDisabled
+        case .filled:
+            return UIColor(light: Colors.primaryTint10(for: window), dark: Colors.textDisabled)
+        }
+    }
+
+    func selectedDisabledBackgroundColor(for window: UIWindow) -> UIColor {
+        switch self {
+        case .outline:
+            return Colors.surfaceQuaternary
+        case .filled:
+            return UIColor(light: Colors.surfacePrimary, dark: Colors.surfaceQuaternary)
+        }
+    }
+
+    func selectedDisabledTitleColor(for window: UIWindow) -> UIColor {
+        switch self {
+        case .outline:
+            return UIColor(light: Colors.surfacePrimary, dark: Colors.gray500)
+        case .filled:
+            return UIColor(light: Colors.primaryTint20(for: window), dark: Colors.gray500)
+        }
+    }
 }
 
 // MARK: PillButton
@@ -73,6 +115,13 @@ open class PillButton: UIButton {
     @objc public let style: PillButtonStyle
 
     public override var isSelected: Bool {
+        didSet {
+            updateAppearance()
+            updateAccessibilityTraits()
+        }
+    }
+
+    public override var isEnabled: Bool {
         didSet {
             updateAppearance()
             updateAccessibilityTraits()
@@ -120,16 +169,31 @@ open class PillButton: UIButton {
         } else {
             accessibilityTraits.remove(.selected)
         }
+
+        if isEnabled {
+            accessibilityTraits.remove(.notEnabled)
+        } else {
+            accessibilityTraits.insert(.notEnabled)
+        }
     }
 
     private func updateAppearance() {
         if let window = window {
-            backgroundColor = isSelected ? style.selectedBackgroundColor(for: window) : style.backgroundColor(for: window)
-
             if isSelected {
-                setTitleColor(style.selectedTitleColor(for: window), for: .normal)
+                if isEnabled {
+                    backgroundColor = style.selectedBackgroundColor(for: window)
+                    setTitleColor(style.selectedTitleColor(for: window), for: .normal)
+                } else {
+                    backgroundColor = style.selectedDisabledBackgroundColor(for: window)
+                    setTitleColor(style.selectedDisabledTitleColor(for: window), for: .normal)
+                }
             } else {
-                setTitleColor(style.titleColor, for: .normal)
+                backgroundColor = style.backgroundColor(for: window)
+                if isEnabled {
+                    setTitleColor(style.titleColor, for: .normal)
+                } else {
+                    setTitleColor(style.disabledTitleColor(for: window), for: .disabled)
+                }
             }
         }
     }

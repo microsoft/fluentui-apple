@@ -4,6 +4,7 @@
 //
 
 import AppKit
+import FluentUITestViewControllers
 
 fileprivate struct Constants {
 	static let previousSelectionIndexUserDefaultsKey = "FluentUITestApp.previousSelectionIndexUserDefaultsKey"
@@ -15,14 +16,6 @@ fileprivate struct Constants {
 /// Master-detail view controller to implement a playground for testing various controls.
 /// To add a control, add it and the type of its NSViewController to "controls"
 class TestControlsViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
-	private let controls: [(title: String, type: NSViewController.Type)] = [
-							("FluentUI-macOS (placeholder)", TestPlaceholderViewController.self),
-							("Avatar View", TestAvatarViewController.self),
-							("Button", TestButtonViewController.self),
-							("Date Picker", TestDatePickerController.self),
-							("Link", TestLinkViewController.self),
-							("Separator", TestSeparatorViewController.self)
-	]
 	
 	override func loadView() {
 		controlListView.usesAlternatingRowBackgroundColors = true
@@ -32,31 +25,27 @@ class TestControlsViewController: NSViewController, NSTableViewDelegate, NSTable
 		controlListView.translatesAutoresizingMaskIntoConstraints = false
 		controlListView.rowHeight = Constants.rowHeight
 
-		view = masterView
+		view = stackView
+		let standardUserDefaults = UserDefaults.standard
+		if let previousSelection = standardUserDefaults.object(forKey: Constants.previousSelectionIndexUserDefaultsKey) {
+			if let previousSelectedIndex = previousSelection as? NSNumber,
+			   controlListView.numberOfRows > previousSelectedIndex.intValue {
+				controlListView.selectRowIndexes(IndexSet(integer: previousSelectedIndex.intValue), byExtendingSelection: false)
+			} else {
+				// Selected row index information is invalid, remove it
+				standardUserDefaults.removeObject(forKey: Constants.previousSelectionIndexUserDefaultsKey)
+			}
+		}
 
-		controlDetailViewController = TestPlaceholderViewController(nibName: nil, bundle: nil)
-		
 		NSLayoutConstraint.activate([controlListView.widthAnchor.constraint(equalToConstant: 200)])
 	}
 
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		let standardUserDefaults = UserDefaults.standard
-		let previouslySelectedRowIndex = standardUserDefaults.integer(forKey: Constants.previousSelectionIndexUserDefaultsKey)
-		if controlListView.numberOfRows > previouslySelectedRowIndex {
-			controlListView.selectRowIndexes(IndexSet(integer: previouslySelectedRowIndex), byExtendingSelection: false)
-		} else {
-			// Selected row index information is invalid, remove it
-			standardUserDefaults.removeObject(forKey: Constants.previousSelectionIndexUserDefaultsKey)
-		}
-	}
-
 	func numberOfRows(in tableView: NSTableView) -> Int {
-		return controls.count
+		return testViewControllers.count
 	}
 	
 	func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-		let textField = NSTextField(labelWithString: controls[row].title)
+		let textField = NSTextField(labelWithString: testViewControllers[row].title)
 		textField.translatesAutoresizingMaskIntoConstraints = false
 		let view = NSView(frame: .zero)
 		view.addSubview(textField)
@@ -68,7 +57,7 @@ class TestControlsViewController: NSViewController, NSTableViewDelegate, NSTable
 	}
 	
 	func tableViewSelectionDidChange(_ notification: Notification) {
-		controlDetailViewController = controls[controlListView.selectedRow].type.init(nibName: nil, bundle: nil)
+		controlDetailViewController = testViewControllers[controlListView.selectedRow].type.init(nibName: nil, bundle: nil)
 		UserDefaults.standard.set(controlListView.selectedRow, forKey: Constants.previousSelectionIndexUserDefaultsKey)
 	}
 
@@ -83,7 +72,7 @@ class TestControlsViewController: NSViewController, NSTableViewDelegate, NSTable
 			if let controlDetailViewController = controlDetailViewController {
 				addChild(controlDetailViewController)
 				let controlDetailView = controlDetailViewController.view
-				masterView.addArrangedSubview(controlDetailView)
+				stackView.addArrangedSubview(controlDetailView)
 				NSLayoutConstraint.activate([controlDetailView.bottomAnchor.constraint(equalTo: view.bottomAnchor)])
 			}
 		}
@@ -91,15 +80,15 @@ class TestControlsViewController: NSViewController, NSTableViewDelegate, NSTable
 	
 	private let controlListView = NSTableView(frame: .zero)
 	
-	private lazy var masterView: NSStackView = {
+	private lazy var stackView: NSStackView = {
 		let dividerView = NSView(frame: .zero)
 		dividerView.wantsLayer = true
 		dividerView.layer?.backgroundColor = NSColor.systemGray.cgColor
 		dividerView.widthAnchor.constraint(equalToConstant: 1.0).isActive = true
-		let masterView = NSStackView(views: [self.controlListView, dividerView])
-		masterView.alignment = .top
-		masterView.distribution = .fill
-		masterView.spacing = 0.0
-		return masterView
+		let stackView = NSStackView(views: [self.controlListView, dividerView])
+		stackView.alignment = .top
+		stackView.distribution = .fill
+		stackView.spacing = 0.0
+		return stackView
 	}()
 }

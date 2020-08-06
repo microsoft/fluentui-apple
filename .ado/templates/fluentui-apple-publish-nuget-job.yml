@@ -7,72 +7,11 @@ jobs:
   cancelTimeoutInMinutes: 5 # how much time to give 'run always even if cancelled tasks' before killing them
   
   steps:
-  # Select proper XCode version
+  # Select proper Xcode version
   - template: apple-xcode-select.yml
 
-  # macOS Framework Debug
-  - template: apple-xcode-build.yml
-    parameters:
-      xcode_sdk: 'macosx'
-      xcode_workspacePath: 'macos/xcode/FluentUI.xcodeproj'
-      xcode_actions: 'build'
-      xcode_scheme: 'FluentUI-macOS'
-      xcode_configuration: 'Debug'
-      xcode_extraArgs: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides.xcconfig'
-  
-  # macOS Framework Release
-  - template: apple-xcode-build.yml
-    parameters:
-      xcode_sdk: 'macosx'
-      xcode_workspacePath: 'macos/xcode/FluentUI.xcodeproj'
-      xcode_actions: 'build'
-      xcode_scheme: 'FluentUI-macOS'
-      xcode_configuration: 'Release'
-      xcode_extraArgs: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides.xcconfig'
-
-  # iphonesimulator Library Debug
-  - template: apple-xcode-build.yml
-    parameters:
-      xcode_sdk: 'iphonesimulator'
-      xcode_workspacePath: 'ios/FluentUI.xcworkspace'
-      xcode_actions: 'build'
-      xcode_scheme: 'FluentUI-iOS-StaticLib'
-      xcode_configuration: 'Debug'
-      xcode_extraArgs: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides.xcconfig'
-  
-  # iphonesimulator Library Release
-  - template: apple-xcode-build.yml
-    parameters:
-      xcode_sdk: 'iphonesimulator'
-      xcode_workspacePath: 'ios/FluentUI.xcworkspace'
-      xcode_actions: 'build'
-      xcode_scheme: 'FluentUI-iOS-StaticLib'
-      xcode_configuration: 'Release'
-      xcode_extraArgs: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides.xcconfig'
-
-  # iphoneos Library Debug
-  - template: apple-xcode-build.yml
-    parameters:
-      xcode_sdk: 'iphoneos'
-      xcode_workspacePath: 'ios/FluentUI.xcworkspace'
-      xcode_actions: 'build'
-      xcode_scheme: 'FluentUI-iOS-StaticLib'
-      xcode_configuration: 'Debug'
-      xcode_extraArgs: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides.xcconfig'
-  
-  # iphoneos Library Release
-  - template: apple-xcode-build.yml
-    parameters:
-      xcode_sdk: 'iphoneos'
-      xcode_workspacePath: 'ios/FluentUI.xcworkspace'
-      xcode_actions: 'build'
-      xcode_scheme: 'FluentUI-iOS-StaticLib'
-      xcode_configuration: 'Release'
-      xcode_extraArgs: '-xcconfig $(Build.Repository.LocalPath)/.ado/xcconfig/publish_overrides.xcconfig'
-      
-  # Zip our build output. It's important to zip here to preserve symlinks
-  - bash: 'scripts/prepare_for_nuget_pack.sh'
-    displayName: 'Zip build output for NuGet'
+  # Build and zip the libraries
+  - template: fluentui-apple-build-zip.yml
 
   # generate the sanitizedBuildNumber environment variable
   - bash: 'scripts/generate_build_number.sh'

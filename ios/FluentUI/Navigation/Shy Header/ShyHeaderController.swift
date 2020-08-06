@@ -44,6 +44,8 @@ class ShyHeaderController: UIViewController {
         return maxHeight
     }
 
+    private var accessoryViewObservation: NSKeyValueObservation?
+
     private var navigationBarCenterObservation: NSKeyValueObservation?
     private var navigationBarHeightObservation: NSKeyValueObservation?
     private var navigationBarColorObservation: NSKeyValueObservation?
@@ -87,6 +89,10 @@ class ShyHeaderController: UIViewController {
         }
         defer {
             contentScrollView = contentViewController.navigationItem.contentScrollView
+        }
+
+        accessoryViewObservation = contentViewController.navigationItem.observe(\UINavigationItem.accessoryView) { [unowned self] item, _ in
+            self.shyHeaderView.accessoryView = item.accessoryView
         }
     }
 

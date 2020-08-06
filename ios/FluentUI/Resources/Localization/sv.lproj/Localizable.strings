@@ -90,8 +90,11 @@
 /* Accessibility hint for MSPillButtons in an MSPillButtonBar. %1$d is placeholder for index and %2$d is a placeholder for total number of items */
 "Accessibility.MSPillButtonBar.Hint" = "%1$d av %2$d";
 
-/* Accessibility label for the avatar (or profile) view in */
+/* Accessibility label for the avatar (or profile) view */
 "Accessibility.LargeTitle.ProfileView" = "Kontoprofil";
+
+/* Accessibility label format string for avatar view. Format: "<Name>, <Presence>". Example: "Kat, Available" */
+"Accessibility.AvatarView.LabelFormat" = "%@, %@";
 
 /* Accessibility hint for a segmented control button */
 "Accessibility.Segmented.Button.Hint" = "Tryck för att gå till %@";
@@ -111,8 +114,35 @@
 /* Accessibility value for when a UISwitch is off */
 "Accessibility.TableViewCell.Switch.Off" = "Av";
 
+/* Format string for tab bar item accessbility labels. Format: "<Title>, <BadgeValue> items". Example: "Home, 5 items" */
+"Accessibility.TabBarItemView.LabelFormat" = "%@, %@ objekt";
+
 /* Generic label for cancel action */
 "Common.Cancel" = "Avbryt";
+
+/* Generic label to indicate that an item is shared */
+"Common.Shared" = "Delat";
+
+/* Generic label to indicate that an item is not shared */
+"Common.OnlyMe" = "Endast mig";
+
+/* Just now date string */
+"Date.Now" = "Just nu";
+
+/* Minutes ago date format string. Example: "5m ago" */
+"Date.FormatMinutes" = "%ldm sedan";
+
+/* Hours ago date format string. Example: "5h ago" */
+"Date.FormatHours" = "%ldh sedan";
+
+/* Yesterday string */
+"Date.Yesterday" = "I går";
+
+/* Yesterday and time format string. Eample: "Yesterday at 11:00 AM" */
+"Date.FormatYesterdayTime" = "I går %@";
+
+/* Day and time format string. Eample: "Fri at 11:00 AM" */
+"Date.FormatDayTime" = "%@ kl. %@";
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "Sök i katalog";
@@ -128,3 +158,28 @@
 
 /* MSDateTimePicker label for the end date of a date range */
 "MSDateTimePicker.EndDate" = "Slutdatum";
+
+/* Presence - Available status */
+"Presence.Available" = "Tillgänglig";
+
+/* Presence - Away status */
+"Presence.Away" = "Inte vid datorn";
+
+/* Presence - Busy status */
+"Presence.Busy" = "Upptagen";
+
+/* Presence - Do not disturb status */
+"Presence.DND" = "Stör ej";
+
+/* Presence - Out of office status */
+"Presence.OOF" = "Frånvarande";
+
+/* Presence - Offline status */
+"Presence.Offline" = "Offline";
+
+/* Presence - Unknown status */
+"Presence.Unknown" = "Okänd";
+
+/* Presence - Blocked status */
+"Presence.Blocked" = "Har blockerats";
+
