@@ -6,8 +6,6 @@
 import UIKit
 
 class ContactCollectionViewLayout: UICollectionViewFlowLayout {
-    @objc weak var delegate: UICollectionViewDelegateFlowLayout?
-
     struct Constants {
         static let itemWidth: CGFloat = 70.0
         static let minLineSpacing: CGFloat = 14.0
@@ -16,7 +14,6 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
 
     override init() {
         super.init()
-        delegate = self
         minimumLineSpacing = Constants.maxLineSpacing
     }
 
@@ -29,18 +26,14 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
             return .zero
         }
 
-        // TODO: Might not even need the setting here since the delegate method already sets it
-        if let minLineSpacing = delegate?.collectionView?(collectionView, layout: self, minimumLineSpacingForSectionAt: 0) {
-            minimumLineSpacing = minLineSpacing
-        }
+        minimumLineSpacing = minimumLineSpacingForSectionAt(section: 0)
 
         let indexPath = IndexPath(item: 0, section: 0)
         let numItems = collectionView.numberOfItems(inSection: 0)
-        let height = delegate?.collectionView?(collectionView, layout: self, sizeForItemAt: indexPath).height
+        let height = sizeForItemAt(indexPath: indexPath).height
         let totalWidth = numItems > 0 ? CGFloat(numItems) * Constants.itemWidth + (CGFloat(numItems) - 1) * minimumLineSpacing : 0.0
 
-        let size = CGSize(width: totalWidth, height: height!)
-
+        let size = CGSize(width: totalWidth, height: height)
         return size
     }
 
@@ -87,14 +80,8 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
     }
 
     override func prepare() {
-        guard let collectionView = collectionView else {
-            return
-        }
-
         let indexPath = IndexPath(item: 0, section: 0)
-        if let size = delegate?.collectionView?(collectionView, layout: self, sizeForItemAt: indexPath) {
-            itemSize = size
-        }
+        itemSize = sizeForItemAt(indexPath: indexPath)
     }
 
     private func calculateMinimumLineSpacing() {
@@ -110,17 +97,14 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
             minimumLineSpacing = Constants.maxLineSpacing
         }
     }
-}
 
-extension ContactCollectionViewLayout: UICollectionViewDelegateFlowLayout {
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    public func minimumLineSpacingForSectionAt(section: Int) -> CGFloat {
         calculateMinimumLineSpacing()
         return minimumLineSpacing
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    private func sizeForItemAt(indexPath: IndexPath) -> CGSize {
         let itemHeight = UIApplication.shared.preferredContentSizeCategory.contactHeight
-
         return CGSize(width: Constants.itemWidth, height: itemHeight)
     }
 }

@@ -93,7 +93,7 @@ extension ContactCollectionView: UICollectionViewDelegate {
         let viewLeadingPosition = bounds.origin.x
         let viewTrailingPosition = viewLeadingPosition + frame.size.width
 
-        let extraScrollWidth = layout.collectionView(self, layout: layout, minimumLineSpacingForSectionAt: 0)
+        let extraScrollWidth = layout.minimumLineSpacingForSectionAt(section: 0)
         var offSet = contentOffset.x
         if cellLeftPosition < viewLeadingPosition {
             offSet = cellLeftPosition - extraScrollWidth
