@@ -7,28 +7,6 @@ import UIKit
 
 @objc(MSFContactCollectionView)
 open class ContactCollectionView: UICollectionView {
-    struct Constants {
-        static let leadingInset: CGFloat = 16.0
-        static let extraSmallContentContactHeight: CGFloat = 115.0
-        static let smallContentContactHeight: CGFloat = 117.0
-        static let mediumContentContactHeight: CGFloat = 118.0
-        static let largeContentContactHeight: CGFloat = 121.0
-        static let extraLargeContentContactHeight: CGFloat = 125.0
-        static let extraExtraLargeContentContactHeight: CGFloat = 129.0
-        static let extraExtraExtraLargeContentContactHeight: CGFloat = 135.0
-    }
-
-    let layout: ContactCollectionViewLayout
-
-    // The array of PersonaData which is used to create each ContactView. The height constraint of the ContactCollectionView is updated when the count increases from 0 or decreases to 0.
-    @objc public var contactList: [PersonaData] = [] {
-        didSet {
-            if (oldValue.count == 0 && contactList.count > 0) || (oldValue.count > 0 && contactList.count == 0) {
-                updateHeightConstraint()
-            }
-        }
-    }
-
     @objc public init() {
         layout = ContactCollectionViewLayout()
         layout.scrollDirection = .horizontal
@@ -43,6 +21,27 @@ open class ContactCollectionView: UICollectionView {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
+    // The array of PersonaData which is used to create each ContactView. The height constraint of the ContactCollectionView is updated when the count increases from 0 or decreases to 0.
+    @objc public var contactList: [PersonaData] = [] {
+        didSet {
+            if (oldValue.count == 0 && contactList.count > 0) || (oldValue.count > 0 && contactList.count == 0) {
+                updateHeightConstraint()
+            }
+        }
+    }
+
+    struct Constants {
+        static let leadingInset: CGFloat = 16.0
+        static let extraSmallContentContactHeight: CGFloat = 115.0
+        static let smallContentContactHeight: CGFloat = 117.0
+        static let mediumContentContactHeight: CGFloat = 118.0
+        static let largeContentContactHeight: CGFloat = 121.0
+        static let extraLargeContentContactHeight: CGFloat = 125.0
+        static let extraExtraLargeContentContactHeight: CGFloat = 129.0
+        static let extraExtraExtraLargeContentContactHeight: CGFloat = 135.0
+    }
+
+    let layout: ContactCollectionViewLayout
     var heightConstraint: NSLayoutConstraint?
     var widthConstraint: NSLayoutConstraint?
 
