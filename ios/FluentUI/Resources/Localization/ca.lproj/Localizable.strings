@@ -115,7 +115,7 @@
 "Accessibility.TableViewCell.Switch.Off" = "Desactivat";
 
 /* Format string for tab bar item accessbility labels. Format: "<Title>, <BadgeValue> items". Example: "Home, 5 items" */
-"Accessibility.TabBarItemView.LabelFormat" = "%@, %@ items";
+"Accessibility.TabBarItemView.LabelFormat" = "%@, %@ elements";
 
 /* Generic label for cancel action */
 "Common.Cancel" = "Cancel·la";
