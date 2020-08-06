@@ -50,11 +50,7 @@ open class ContactCollectionView: UICollectionView {
     }()
 
     private func updateHeightConstraint() {
-        var constant: CGFloat = 0.0
-        if contactList.count > 0 {
-            constant = categoryHeight()
-        }
-
+        let constant = (contactList.count > 0) ? categoryHeight() : 0
         heightConstraint.constant = constant
     }
 
