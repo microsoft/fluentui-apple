@@ -147,11 +147,11 @@ extension Date {
         } else if timeIntervalSince(currentDate.addingTimeInterval(-60.0 * 60.0)) > 0 {
             // if occurs in past hour
             let minutes = calendar.dateComponents([.minute], from: self, to: currentDate).minute ?? 0
-            dateString = String(format: "Date.FormatMinutes".localized, minutes)
+            dateString = String(format: "Date.FormatMinutes".localized, Int64(minutes))
         } else if calendar.isDateInToday(self) {
             // if occurs today
             let hours = calendar.dateComponents([.hour], from: self, to: currentDate).hour ?? 0
-            dateString = String(format: "Date.FormatHours".localized, hours)
+            dateString = String(format: "Date.FormatHours".localized, Int64(hours))
         } else if calendar.isDateInYesterday(self) {
             // if occurs Yesterday
             if short {

@@ -93,7 +93,7 @@
 /* Accessibility label for the avatar (or profile) view */
 "Accessibility.LargeTitle.ProfileView" = "Profil účtu";
 
-/* Accessibility label format string for avatar view. Format: <Name>, <Presence>. Example: Kat, Available */
+/* Accessibility label format string for avatar view. Format: "<Name>, <Presence>". Example: "Kat, Available" */
 "Accessibility.AvatarView.LabelFormat" = "%@, %@";
 
 /* Accessibility hint for a segmented control button */
@@ -113,6 +113,9 @@
 
 /* Accessibility value for when a UISwitch is off */
 "Accessibility.TableViewCell.Switch.Off" = "Vypnuto";
+
+/* Format string for tab bar item accessbility labels. Format: "<Title>, <BadgeValue> items". Example: "Home, 5 items" */
+"Accessibility.TabBarItemView.LabelFormat" = "%@, počet položek: %@";
 
 /* Generic label for cancel action */
 "Common.Cancel" = "Zrušit";
@@ -135,10 +138,10 @@
 /* Yesterday string */
 "Date.Yesterday" = "Včera";
 
-/* Yesterday and time format string. Eample: "Yesterday at 11:00 AM" */
+/* Yesterday and time format string. Example: "Yesterday at 11:00 AM" */
 "Date.FormatYesterdayTime" = "Včera v %@";
 
-/* Day and time format string. Eample: "Fri at 11:00 AM" */
+/* Day and time format string. Example: "Fri at 11:00 AM" */
 "Date.FormatDayTime" = "%@ v %@";
 
 // MSPersonaListView
@@ -180,3 +183,5 @@
 /* Presence - Blocked status */
 "Presence.Blocked" = "Blokováno";
 
+/* AvatarView - Format string for overflow avatar. Format: "+<OverflowCount>". Example: "+5" */
+"AvatarView.OverflowFormat" = "+%@";

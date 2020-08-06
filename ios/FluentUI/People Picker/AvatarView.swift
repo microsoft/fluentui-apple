@@ -5,7 +5,7 @@
 
 import UIKit
 
-// MARK: AvatarSize
+// MARK: - AvatarSize
 
 @available(*, deprecated, renamed: "AvatarSize")
 public typealias MSAvatarSize = AvatarSize
@@ -188,6 +188,14 @@ open class AvatarView: UIView {
         }
     }
 
+    @objc open var borderColor: UIColor? {
+        didSet {
+            if hasBorder && !hasCustomBorder {
+                updateBorderColor()
+            }
+        }
+    }
+
     /// The avatar view's presence state.
     /// The presence state is only shown when the style is set to AvatarStyle.circle.
     @objc open var presence: Presence = .none {
@@ -292,7 +300,12 @@ open class AvatarView: UIView {
     ///   - secondaryText: The secondary text to create initials with if primary text is not provided (e.g. an email address)
     ///   - image: The image to be displayed
     ///   - presence: The presence state
-    @objc public func setup(primaryText: String?, secondaryText: String?, image: UIImage?, presence: Presence = .none) {
+    ///   - convertTextToInitials: If true, the provided text values will be converted to initials when shown in the avatar view. If false, the text is directly displayed. Primary text is prioritized over secondary text.
+    @objc public func setup(primaryText: String?,
+                            secondaryText: String?,
+                            image: UIImage?,
+                            presence: Presence = .none,
+                            convertTextToInitials: Bool = true) {
         self.primaryText = primaryText
         self.secondaryText = secondaryText
         self.presence = presence
@@ -305,7 +318,7 @@ open class AvatarView: UIView {
             } else if shouldShowDefaultImage() {
                 updateImageViewWithPersonIcon()
             } else {
-                setupWithInitials()
+                setupWithInitialsView(convertTextToInitials: convertTextToInitials)
             }
         }
 
@@ -330,6 +343,29 @@ open class AvatarView: UIView {
     @objc public func setup(avatar: Avatar?) {
         setup(primaryText: avatar?.primaryText, secondaryText: avatar?.secondaryText, image: avatar?.image, presence: avatar?.presence ?? .none)
         customBorderImage = avatar?.customBorderImage
+
+        if let color = avatar?.color {
+            borderColor = color
+            avatarBackgroundColor = color
+        }
+    }
+
+    var borderWidth: CGFloat {
+        get {
+            return AvatarView.borderWidth(size: avatarSize, hasCustomBorder: hasCustomBorder)
+        }
+        set { }
+    }
+
+    static func borderWidth(size: AvatarSize, hasCustomBorder: Bool) -> CGFloat {
+        var borderWidth: CGFloat = 0
+        if hasCustomBorder {
+            borderWidth = Constants.customBorderWidth
+        } else {
+            borderWidth = size == .extraExtraLarge ? Constants.extraExtraLargeBorderWidth : Constants.borderWidth
+        }
+
+        return borderWidth
     }
 
     private var hasBorder: Bool = false
@@ -339,7 +375,7 @@ open class AvatarView: UIView {
     private var primaryText: String?
     private var secondaryText: String?
 
-    private var initialsView: InitialsView
+    fileprivate var initialsView: InitialsView
     private let imageView: UIImageView
     private let containerView: UIView
 
@@ -371,10 +407,16 @@ open class AvatarView: UIView {
         }
     }
 
-    private func setupWithInitials() {
-        initialsView.setup(primaryText: primaryText, secondaryText: secondaryText)
+    private func setupWithInitialsView(convertTextToInitials: Bool) {
+        if convertTextToInitials {
+            initialsView.setup(primaryText: primaryText, secondaryText: secondaryText)
+        } else {
+            initialsView.setup(initialsText: primaryText ?? secondaryText)
+        }
+
         initialsView.isHidden = false
         imageView.isHidden = true
+
         if let initialsViewBackgroundColor = initialsView.backgroundColor {
             avatarBackgroundColor = initialsViewBackgroundColor
         }
@@ -412,10 +454,18 @@ open class AvatarView: UIView {
     }
 
     private func updateBorder() {
-        let borderWidth = avatarSize == .extraExtraLarge ? Constants.extraExtraLargeBorderWidth : Constants.borderWidth
+        let borderWidth = self.borderWidth
         borderView.frame = bounds.insetBy(dx: -borderWidth, dy: -borderWidth)
         borderView.layer.cornerRadius = cornerRadius(for: borderView.frame.width)
-        borderView.backgroundColor = Colors.Avatar.border
+        updateBorderColor()
+    }
+
+    private func updateBorderColor() {
+        if let borderColor = borderColor {
+            borderView.backgroundColor = borderColor
+        } else {
+            borderView.backgroundColor = Colors.Avatar.border
+        }
     }
 
     private func updateCustomBorder() {
@@ -423,7 +473,8 @@ open class AvatarView: UIView {
             return
         }
 
-        let expectedFrame = bounds.insetBy(dx: -Constants.customBorderWidth, dy: -Constants.customBorderWidth)
+        let borderWidth = self.borderWidth
+        let expectedFrame = bounds.insetBy(dx: -borderWidth, dy: -borderWidth)
         if customBorderImageSize == expectedFrame.size {
             return
         }
@@ -500,22 +551,23 @@ open class AvatarView: UIView {
 
     private func updatePresenceMask() {
         if !useOpaquePresenceBorder && isDisplayingPresence() {
+            let borderWidth = self.borderWidth
             var maskFrame = bounds
-            maskFrame.origin.x -= Constants.customBorderWidth
-            maskFrame.origin.y -= Constants.customBorderWidth
-            maskFrame.size.width += Constants.customBorderWidth * 3
-            maskFrame.size.height += Constants.customBorderWidth * 3
+            maskFrame.origin.x -= borderWidth
+            maskFrame.origin.y -= borderWidth
+            maskFrame.size.width += borderWidth * 4
+            maskFrame.size.height += borderWidth * 4
 
             var presenceFrame = presenceBorderFrame()
-            presenceFrame.origin.x += Constants.customBorderWidth
-            presenceFrame.origin.y += Constants.customBorderWidth
+            presenceFrame.origin.x += borderWidth
+            presenceFrame.origin.y += borderWidth
 
             let path = UIBezierPath(rect: maskFrame)
             path.append(UIBezierPath(ovalIn: presenceFrame))
 
             let maskLayer = CAShapeLayer()
             maskLayer.frame = maskFrame
-            maskLayer.fillRule = CAShapeLayerFillRule.evenOdd
+            maskLayer.fillRule = .evenOdd
             maskLayer.path = path.cgPath
 
             containerView.layer.mask = maskLayer
@@ -562,7 +614,7 @@ open class AvatarView: UIView {
         return presence != .none && avatarSize != .extraSmall && style == .circle && !shouldShowSignOutImage()
     }
 
-    private func cornerRadius(for width: CGFloat) -> CGFloat {
+    fileprivate func cornerRadius(for width: CGFloat) -> CGFloat {
         return style == .circle ? width / 2 : avatarSize.squareCornerRadius
     }
 
@@ -589,5 +641,88 @@ open class AvatarView: UIView {
             return label
         }
         set { }
+    }
+}
+
+// MARK: - OverflowAvatarView
+
+class OverflowAvatarView: AvatarView {
+    @objc public init(overflowCount: UInt, avatarSize: AvatarSize, withBorder hasBorder: Bool = false) {
+        self.hasBorder = hasBorder
+        borderView = UIView(frame: .zero)
+        super.init(avatarSize: avatarSize, withBorder: false, style: .circle)
+
+        var overflowCountString = NumberFormatter.localizedString(from: NSNumber(value: overflowCount), number: .none)
+        overflowCountString = String(format: "AvatarView.OverflowFormat".localized, overflowCountString)
+
+        setup(primaryText: overflowCountString, secondaryText: nil, image: nil, convertTextToInitials: false)
+        avatarBackgroundColor = .clear
+        initialsView.setFontColor(Colors.gray400)
+
+        borderView.backgroundColor = UIColor(light: Colors.gray200, dark: Colors.gray700)
+        addSubview(borderView)
+    }
+
+    @objc public required init(coder aDecoder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
+    }
+
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+
+        updateBorder()
+    }
+
+    private struct Constants {
+        static let maskFrameOffset: CGFloat = 4
+        static let borderSize: CGFloat = 1
+        static let extraExtraLargeBorderSize: CGFloat = 2
+    }
+
+    private let hasBorder: Bool
+    private let borderView: UIView
+
+    private func updateBorder() {
+        let borderWidth = AvatarView.borderWidth(size: avatarSize, hasCustomBorder: false)
+        borderView.frame = hasBorder ? bounds.insetBy(dx: -borderWidth, dy: -borderWidth) : bounds
+        borderView.layer.cornerRadius = cornerRadius(for: borderView.frame.width)
+
+        var maskFrame = bounds
+        maskFrame.origin.x -= Constants.maskFrameOffset
+        maskFrame.origin.y -= Constants.maskFrameOffset
+        maskFrame.size.width += Constants.maskFrameOffset * 4
+        maskFrame.size.height += Constants.maskFrameOffset * 4
+
+        var avatarFrame = bounds
+        if hasBorder {
+            let borderOffset = Constants.borderSize - borderWidth
+            avatarFrame.origin.x -= borderOffset
+            avatarFrame.origin.y -= borderOffset
+            avatarFrame.size.width += -borderOffset * 2
+            avatarFrame.size.height += -borderOffset * 2
+
+            if avatarSize == .extraExtraLarge {
+                avatarFrame.origin.x -= Constants.borderSize
+                avatarFrame.origin.y -= Constants.borderSize
+                avatarFrame.size.width -= Constants.extraExtraLargeBorderSize
+                avatarFrame.size.height -= Constants.extraExtraLargeBorderSize
+            }
+        } else {
+            let borderSize = avatarSize == .extraExtraLarge ? Constants.extraExtraLargeBorderSize : Constants.borderSize
+            avatarFrame.origin.x += borderSize
+            avatarFrame.origin.y += borderSize
+            avatarFrame.size.width -= borderSize * 2
+            avatarFrame.size.height -= borderSize * 2
+        }
+
+        let path = UIBezierPath(rect: maskFrame)
+        path.append(UIBezierPath(ovalIn: avatarFrame))
+
+        let maskLayer = CAShapeLayer()
+        maskLayer.frame = bounds
+        maskLayer.fillRule = .evenOdd
+        maskLayer.path = path.cgPath
+
+        borderView.layer.mask = maskLayer
     }
 }
