@@ -19,7 +19,7 @@ open class FileAccessoryViewAction: NSObject {
     ///   - isEnabled: true if the action is enabled, false otherwise
     ///   - canHide: false if the action must always be visible, true otherwise
     ///   - useAppPrimaryColor: true if the action's image should be tinted with the app's primary color
-    public init(title: String, image: UIImage, target: Any? = nil, action: Selector? = nil, isEnabled: Bool = true, canHide: Bool = true, useAppPrimaryColor: Bool = false) {
+    @objc public init(title: String, image: UIImage, target: Any? = nil, action: Selector? = nil, isEnabled: Bool = true, canHide: Bool = true, useAppPrimaryColor: Bool = false) {
         self.title = title
         self.image = image
         self.target = target
