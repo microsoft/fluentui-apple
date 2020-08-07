@@ -40,11 +40,11 @@ class SideTabBarDemoController: DemoController {
         }
     }
 
-    private lazy var incrementBadgeButton: Button = {
+    private lazy var incrementBadgeButton: MSFButton = {
         return createButton(title: "+", action: #selector(incrementBadgeNumbers))
     }()
 
-    private lazy var decrementBadgeButton: Button = {
+    private lazy var decrementBadgeButton: MSFButton = {
         return createButton(title: "-", action: #selector(decrementBadgeNumbers))
     }()
 
@@ -109,7 +109,7 @@ class SideTabBarDemoController: DemoController {
         modifyBadgeNumbersView.translatesAutoresizingMaskIntoConstraints = false
         optionsStackView.addArrangedSubview(modifyBadgeNumbersView)
 
-        let button = Button()
+        let button = MSFButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.numberOfLines = 0

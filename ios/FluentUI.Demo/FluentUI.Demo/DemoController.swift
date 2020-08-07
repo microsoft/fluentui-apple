@@ -29,8 +29,8 @@ class DemoController: UIViewController {
 
     var allowsContentToScroll: Bool { return true }
 
-    func createButton(title: String, action: Selector) -> Button {
-        let button = Button()
+    func createButton(title: String, action: Selector) -> MSFButton {
+        let button = MSFButton()
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.numberOfLines = 0
         button.setTitle(title, for: .normal)

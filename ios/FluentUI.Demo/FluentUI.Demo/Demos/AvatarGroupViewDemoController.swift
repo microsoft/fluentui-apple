@@ -15,15 +15,15 @@ class AvatarGroupViewDemoController: DemoController {
         reloadAvatarViews()
     }
 
-    private lazy var incrementBadgeButton: Button = {
+    private lazy var incrementBadgeButton: MSFButton = {
         return createButton(title: "+", action: #selector(incrementBadgeNumbers))
     }()
 
-    private lazy var decrementBadgeButton: Button = {
+    private lazy var decrementBadgeButton: MSFButton = {
         return createButton(title: "-", action: #selector(decrementBadgeNumbers))
     }()
 
-    private lazy var maxAvatarButton: Button = {
+    private lazy var maxAvatarButton: MSFButton = {
         let button = createButton(title: "Set", action: #selector(maxAvatarButtonWasPressed))
         button.isEnabled = false
 
@@ -39,7 +39,7 @@ class AvatarGroupViewDemoController: DemoController {
         return textField
     }()
 
-    private lazy var overflowCountButton: Button = {
+    private lazy var overflowCountButton: MSFButton = {
         let button = createButton(title: "Set", action: #selector(overflowCountButtonWasPressed))
         button.isEnabled = false
 

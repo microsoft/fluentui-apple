@@ -203,7 +203,7 @@ class DrawerDemoController: DemoController {
         textField.delegate = self
         container.addArrangedSubview(textField)
 
-        let button = Button(style: .primaryFilled)
+        let button = MSFButton(style: .primaryFilled)
         button.setTitle("Hide keyboard", for: .normal)
         button.setContentCompressionResistancePriority(.required, for: .vertical)
         button.setContentHuggingPriority(.required, for: .vertical)

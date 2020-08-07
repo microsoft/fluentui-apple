@@ -24,11 +24,11 @@ class TabBarViewDemoController: DemoController {
     private let showBadgeNumbersSwitch = UISwitch()
     private let useHigherBadgeNumbersSwitch = UISwitch()
 
-    private lazy var incrementBadgeButton: Button = {
+    private lazy var incrementBadgeButton: MSFButton = {
         return createButton(title: "+", action: #selector(incrementBadgeNumbers))
     }()
 
-    private lazy var decrementBadgeButton: Button = {
+    private lazy var decrementBadgeButton: MSFButton = {
         return createButton(title: "-", action: #selector(decrementBadgeNumbers))
     }()
 
