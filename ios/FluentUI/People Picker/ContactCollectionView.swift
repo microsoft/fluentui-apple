@@ -7,10 +7,15 @@ import UIKit
 
 @objc(MSFContactCollectionView)
 open class ContactCollectionView: UICollectionView {
-    @objc public init() {
+    @objc public init(personaData: [PersonaData] = []) {
         layout = ContactCollectionViewLayout()
         layout.scrollDirection = .horizontal
         super.init(frame: .zero, collectionViewLayout: layout)
+
+        if personaData.count > 0 {
+            contactList = personaData
+        }
+
         configureCollectionView()
         setupHeightConstraint()
         register(ContactCollectionViewCell.self, forCellWithReuseIdentifier: ContactCollectionViewCell.identifier)
