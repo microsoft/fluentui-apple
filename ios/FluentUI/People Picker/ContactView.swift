@@ -92,7 +92,6 @@ open class ContactView: UIView {
     private func setupLayout() {
         var constraints = [NSLayoutConstraint]()
         constraints.append(contentsOf: avatarLayoutConstraints())
-        translatesAutoresizingMaskIntoConstraints = false
 
         avatarView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(avatarView)
