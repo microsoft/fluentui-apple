@@ -320,8 +320,8 @@ open class AvatarView: UIView {
             updateBorder()
         }
 
-        if let currentFallbackImageStyle = currentFallbackImageStyle {
-            updateImageViewWithFallbackImage(style: currentFallbackImageStyle)
+        if let fallbackImageStyle = fallbackImageStyle {
+            updateImageViewWithFallbackImage(style: fallbackImageStyle)
         }
     }
 
@@ -343,7 +343,7 @@ open class AvatarView: UIView {
         self.primaryText = primaryText
         self.secondaryText = secondaryText
         self.presence = presence
-        self.currentFallbackImageStyle = nil
+        self.fallbackImageStyle = nil
         if let image = image {
             setupWithImage(image)
         } else if !convertTextToInitials || isInitialsAvailable() {
@@ -364,7 +364,7 @@ open class AvatarView: UIView {
         primaryText = nil
         secondaryText = nil
         self.presence = presence
-        self.currentFallbackImageStyle = nil
+        self.fallbackImageStyle = nil
         setupWithImage(image)
     }
 
@@ -413,7 +413,7 @@ open class AvatarView: UIView {
 
     private var hasBorder: Bool = false
     private var hasCustomBorder: Bool = false
-    private var currentFallbackImageStyle: AvatarFallbackImageStyle?
+    private var fallbackImageStyle: AvatarFallbackImageStyle?
     private var customBorderImageSize: CGSize = .zero
     private var primaryText: String?
     private var secondaryText: String?
@@ -636,7 +636,7 @@ open class AvatarView: UIView {
             }
             imageView.tintColor = style.imageColor
 
-            currentFallbackImageStyle = style
+            fallbackImageStyle = style
         }
     }
 
