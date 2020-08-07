@@ -148,6 +148,10 @@ open class PillButtonBar: UIScrollView {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
+    @objc public func pillsBackgroundColor(_ backgroundColor: UIColor) {
+        buttons.forEach { $0.customBackgroundColor = backgroundColor }
+    }
+
     @objc public func selectItem(_ item: PillButtonBarItem) {
         guard let index = indexOfButtonWithItem(item) else {
             return
