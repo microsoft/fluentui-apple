@@ -19,6 +19,7 @@ class ContactCollectionViewDemoController: UIViewController {
         view.addSubview(contactCollectionView)
 
         NSLayoutConstraint.activate([
+            contactCollectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
             contactCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             contactCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
