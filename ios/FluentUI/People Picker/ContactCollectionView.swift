@@ -35,18 +35,6 @@ open class ContactCollectionView: UICollectionView {
         }
     }
 
-    struct Constants {
-        static let leadingInset: CGFloat = 16.0
-    }
-
-    let layout: ContactCollectionViewLayout
-    var widthConstraint: NSLayoutConstraint?
-    lazy var heightConstraint: NSLayoutConstraint = {
-        let heightConstraint = heightAnchor.constraint(equalToConstant: 0.0)
-        heightConstraint.isActive = true
-        return heightConstraint
-    }()
-
     private func configureCollectionView() {
         translatesAutoresizingMaskIntoConstraints = false
         showsHorizontalScrollIndicator = false
@@ -61,6 +49,18 @@ open class ContactCollectionView: UICollectionView {
         let height = (contactList.count > 0) ? UIApplication.shared.preferredContentSizeCategory.contactHeight : 0
         heightConstraint.constant = height
     }
+
+    private struct Constants {
+        static let leadingInset: CGFloat = 16.0
+    }
+
+    private let layout: ContactCollectionViewLayout
+    private var widthConstraint: NSLayoutConstraint?
+    private lazy var heightConstraint: NSLayoutConstraint = {
+        let heightConstraint = heightAnchor.constraint(equalToConstant: 0.0)
+        heightConstraint.isActive = true
+        return heightConstraint
+    }()
 }
 
 extension ContactCollectionView: UICollectionViewDataSource {

@@ -7,7 +7,7 @@ import UIKit
 
 class ContactCollectionViewCell: UICollectionViewCell {
     static let identifier: String = "ContactCollectionViewCell"
-    var contactView: ContactView
+    private var contactView: ContactView
 
     override init(frame: CGRect) {
         contactView = ContactView(title: "", subtitle: "")

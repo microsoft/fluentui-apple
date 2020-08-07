@@ -20,13 +20,7 @@ public extension Colors {
 
 @objc(MSFContactView)
 open class ContactView: UIView {
-    private struct Constants {
-        static let labelMinimumHeight: CGFloat = 16.0
-        static let titleLabelMaximumHeight: CGFloat = 28.0
-        static let subtitleMaximumHeight: CGFloat = 24.0
-        static let spacingBetweenAvatarAndLabelContainer: CGFloat = 13.0
-        static let numberOfLinesForSingleLabel: Int = 2
-    }
+
 
     @objc public var avatarImage: UIImage? {
         didSet {
@@ -223,6 +217,14 @@ open class ContactView: UIView {
         pressedStateOverlay.clipsToBounds = true
         pressedStateOverlay.frame = avatarView.frame
         pressedStateOverlay.layer.cornerRadius = avatarView.frame.width / 2
+    }
+
+    private struct Constants {
+        static let labelMinimumHeight: CGFloat = 16.0
+        static let titleLabelMaximumHeight: CGFloat = 28.0
+        static let subtitleMaximumHeight: CGFloat = 24.0
+        static let spacingBetweenAvatarAndLabelContainer: CGFloat = 13.0
+        static let numberOfLinesForSingleLabel: Int = 2
     }
 
     open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

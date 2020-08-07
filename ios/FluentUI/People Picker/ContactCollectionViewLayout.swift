@@ -6,12 +6,6 @@
 import UIKit
 
 class ContactCollectionViewLayout: UICollectionViewFlowLayout {
-    struct Constants {
-        static let itemWidth: CGFloat = 70.0
-        static let minLineSpacing: CGFloat = 14.0
-        static let maxLineSpacing: CGFloat = 16.0
-    }
-
     override init() {
         super.init()
         minimumLineSpacing = Constants.maxLineSpacing
@@ -19,6 +13,11 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
 
     required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) not implemented")
+    }
+
+    public func minimumLineSpacingForSectionAt(section: Int) -> CGFloat {
+        calculateMinimumLineSpacing()
+        return minimumLineSpacing
     }
 
     override var collectionViewContentSize: CGSize {
@@ -99,13 +98,14 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
         }
     }
 
-    public func minimumLineSpacingForSectionAt(section: Int) -> CGFloat {
-        calculateMinimumLineSpacing()
-        return minimumLineSpacing
-    }
-
     private func sizeForItemAt(indexPath: IndexPath) -> CGSize {
         let itemHeight = UIApplication.shared.preferredContentSizeCategory.contactHeight
         return CGSize(width: Constants.itemWidth, height: itemHeight)
+    }
+
+    private struct Constants {
+        static let itemWidth: CGFloat = 70.0
+        static let minLineSpacing: CGFloat = 14.0
+        static let maxLineSpacing: CGFloat = 16.0
     }
 }
