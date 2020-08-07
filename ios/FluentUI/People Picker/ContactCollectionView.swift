@@ -37,13 +37,6 @@ open class ContactCollectionView: UICollectionView {
 
     struct Constants {
         static let leadingInset: CGFloat = 16.0
-        static let extraSmallContentContactHeight: CGFloat = 115.0
-        static let smallContentContactHeight: CGFloat = 117.0
-        static let mediumContentContactHeight: CGFloat = 118.0
-        static let largeContentContactHeight: CGFloat = 121.0
-        static let extraLargeContentContactHeight: CGFloat = 125.0
-        static let extraExtraLargeContentContactHeight: CGFloat = 129.0
-        static let extraExtraExtraLargeContentContactHeight: CGFloat = 135.0
     }
 
     let layout: ContactCollectionViewLayout
@@ -119,21 +112,21 @@ extension UIContentSizeCategory {
     var contactHeight: CGFloat {
         switch self {
         case .extraSmall:
-            return ContactCollectionView.Constants.extraSmallContentContactHeight
+            return 115.0
         case .small:
-            return ContactCollectionView.Constants.smallContentContactHeight
+            return 117.0
         case .medium:
-            return ContactCollectionView.Constants.mediumContentContactHeight
+            return 118.0
         case .large:
-            return ContactCollectionView.Constants.largeContentContactHeight
+            return 121.0
         case .extraLarge:
-            return ContactCollectionView.Constants.extraLargeContentContactHeight
+            return 125.0
         case .extraExtraLarge:
-            return ContactCollectionView.Constants.extraExtraLargeContentContactHeight
+            return 129.0
         case .extraExtraExtraLarge:
-            return ContactCollectionView.Constants.extraExtraExtraLargeContentContactHeight
+            return 135.0
         default:
-            return ContactCollectionView.Constants.extraExtraExtraLargeContentContactHeight
+            return 135.0
         }
     }
 }
