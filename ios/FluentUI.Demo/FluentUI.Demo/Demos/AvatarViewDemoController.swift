@@ -49,6 +49,22 @@ class AvatarViewDemoController: DemoController {
                       image: UIImage(named: "avatar_kat_larsson")!,
                       style: .circle,
                       borderStyle: .defaultBorder)
+
+        addTitle(text: "Default")
+        for size in AvatarSize.allCases.reversed() {
+            let signedoutAvatar = createAvatarView(size: size, name: "+1 (425) 123 4567", style: .circle)
+            addRow(text: size.description, items: [signedoutAvatar.1], textStyle: .footnote, textWidth: 100)
+        }
+
+        addTitle(text: "Unauthenticated")
+        for size in AvatarSize.allCases.reversed() {
+            let avatarView = AvatarView(avatarSize: size, withBorder: false, style: .circle)
+            avatarView.setup(fallbackStyle: .outlined)
+            avatarView.translatesAutoresizingMaskIntoConstraints = false
+            avatarView.overrideAccessibilityLabel = "Signed Out"
+            addRow(text: size.description, items: [avatarView], textStyle: .footnote, textWidth: 100)
+        }
+
     }
 
     private var isUsingAlternateBackgroundColor: Bool = false {
@@ -116,16 +132,14 @@ class AvatarViewDemoController: DemoController {
     private var avatarViewsWithImages: [AvatarView] = []
     private var avatarViewsWithInitials: [AvatarView] = []
 
-    private func createSection(withTitle title: String, name: String, image: UIImage, style: AvatarStyle, borderStyle: BorderStyle = .noBorder, withPresence: Bool = false) {
+    private func createSection(withTitle title: String, name: String, image: UIImage, style: AvatarStyle, borderStyle: BorderStyle = .noBorder) {
         addTitle(text: title)
 
         for size in AvatarSize.allCases.reversed() {
-            let presenceWithImage = withPresence ? size.presenceWithImage : .none
-            let imageAvatar = createAvatarView(size: size, name: name, image: image, style: style, borderStyle: borderStyle, presence: presenceWithImage)
+            let imageAvatar = createAvatarView(size: size, name: name, image: image, style: style, borderStyle: borderStyle)
             avatarViewsWithImages.append(imageAvatar.1)
 
-            let presenceWithInitials = withPresence ? size.presenceWithInitials : .none
-            let initialsAvatar = createAvatarView(size: size, name: name, style: style, borderStyle: borderStyle, presence: presenceWithInitials)
+            let initialsAvatar = createAvatarView(size: size, name: name, style: style, borderStyle: borderStyle)
             avatarViewsWithInitials.append(initialsAvatar.1)
 
             addRow(text: size.description, items: [imageAvatar.0, initialsAvatar.0], textStyle: .footnote, textWidth: 100)
@@ -134,13 +148,13 @@ class AvatarViewDemoController: DemoController {
         container.addArrangedSubview(UIView())
     }
 
-    private func createAvatarView(size: AvatarSize, name: String, image: UIImage? = nil, style: AvatarStyle, borderStyle: BorderStyle = .noBorder, presence: Presence = .none) -> (UIView, AvatarView) {
+    private func createAvatarView(size: AvatarSize, name: String? = nil, image: UIImage? = nil, style: AvatarStyle, borderStyle: BorderStyle = .noBorder) -> (UIView, AvatarView) {
         let avatarView = AvatarView(avatarSize: size, withBorder: borderStyle != .noBorder, style: style)
         if borderStyle == .colorfulBorder, let customBorderImage = colorfulImageForFrame() {
             avatarView.customBorderImage = customBorderImage
         }
 
-        avatarView.setup(primaryText: name, secondaryText: "", image: image, presence: presence)
+        avatarView.setup(primaryText: name, secondaryText: nil, image: image)
 
         let avatarContainer = UIView()
         avatarContainer.addSubview(avatarView)

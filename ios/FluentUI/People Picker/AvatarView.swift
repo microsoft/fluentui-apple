@@ -89,6 +89,23 @@ public enum AvatarSize: Int, CaseIterable {
             return 3
         }
     }
+
+    var personImageSize: CGFloat {
+        switch self {
+        case .extraSmall:
+            return 12
+        case .small:
+            return 16
+        case .medium:
+            return 20
+        case .large:
+            return 24
+        case .extraLarge:
+            return 28
+        case .extraExtraLarge:
+            return 48
+        }
+    }
 }
 
 // MARK: - AvatarStyle
@@ -100,6 +117,42 @@ public typealias MSAvatarStyle = AvatarStyle
 public enum AvatarStyle: Int {
     case circle
     case square
+}
+
+// MARK: - AvatarFallbackImageStyle
+
+@objc(MSFAvatarFallbackImageStyle)
+public enum AvatarFallbackImageStyle: Int {
+    case primaryFilled
+    case outlined
+
+    func backgroundColor(for window: UIWindow) -> UIColor {
+        switch self {
+        case .outlined:
+            return UIColor(light: Colors.gray50, dark: Colors.gray800)
+        case .primaryFilled:
+            return Colors.primary(for: window)
+        }
+    }
+
+    var imageColor: UIColor {
+        switch self {
+        case .outlined:
+            return UIColor(light: Colors.gray500, dark: Colors.gray200)
+        case .primaryFilled:
+            return Colors.iconOnAccent
+        }
+    }
+
+    func imageName(size: AvatarSize) -> String {
+        let personImageSize = size.personImageSize
+        switch self {
+        case .outlined:
+            return "person_\(Int(personImageSize))_regular"
+        case .primaryFilled:
+            return "person_\(Int(personImageSize))_filled"
+        }
+    }
 }
 
 // MARK: - Avatar Colors
@@ -121,6 +174,7 @@ public typealias MSAvatarView = AvatarView
  `AvatarView` is used to present an image or initials view representing an entity such as a person.
  If an image is provided the image is presented in either a circular or a square view based on the `AvatarStyle` provided with the initials view presented as a fallback.
  The initials used in the initials view are generated from the provided primary text (e.g. a name) or secondary text (e.g. an email address) used to initialize the avatar view.
+ To show fallback person icon image, `AvatarFallbackImageStyle` can be passed in `setup()`.
  */
 @objc(MSFAvatarView)
 open class AvatarView: UIView {
@@ -265,11 +319,15 @@ open class AvatarView: UIView {
         } else if hasBorder {
             updateBorder()
         }
+
+        if let fallbackImageStyle = fallbackImageStyle {
+            updateImageViewWithFallbackImage(style: fallbackImageStyle)
+        }
     }
 
     // MARK: Setup
 
-    /// Sets up the avatarView to show an image or initials based on if an image is provided
+    /// Sets up the avatarView to show an image or initials based on if an image is provided. If client fails to provide image or text to generate initials, fallback person icon will be shown.
     ///
     /// - Parameters:
     ///   - primaryText: The primary text to create initials with (e.g. a name)
@@ -285,11 +343,13 @@ open class AvatarView: UIView {
         self.primaryText = primaryText
         self.secondaryText = secondaryText
         self.presence = presence
-
+        self.fallbackImageStyle = nil
         if let image = image {
             setupWithImage(image)
-        } else {
+        } else if !convertTextToInitials || isInitialsAvailable() {
             setupWithInitialsView(convertTextToInitials: convertTextToInitials)
+        } else {
+            updateImageViewWithFallbackImage(style: .primaryFilled)
         }
 
         accessibilityLabel = primaryText ?? secondaryText
@@ -304,7 +364,7 @@ open class AvatarView: UIView {
         primaryText = nil
         secondaryText = nil
         self.presence = presence
-
+        self.fallbackImageStyle = nil
         setupWithImage(image)
     }
 
@@ -318,6 +378,19 @@ open class AvatarView: UIView {
             borderColor = color
             avatarBackgroundColor = color
         }
+    }
+
+    /// Sets up the avatarView with a fallback image of a person
+    ///
+    /// - Parameters:
+    ///   - fallbackStyle: The image style to be displayed
+    ///   - presence: The presence state
+    @objc public func setup(fallbackStyle: AvatarFallbackImageStyle, presence: Presence = .none) {
+        primaryText = nil
+        secondaryText = nil
+        self.presence = presence
+
+        updateImageViewWithFallbackImage(style: fallbackStyle)
     }
 
     var borderWidth: CGFloat {
@@ -340,6 +413,7 @@ open class AvatarView: UIView {
 
     private var hasBorder: Bool = false
     private var hasCustomBorder: Bool = false
+    private var fallbackImageStyle: AvatarFallbackImageStyle?
     private var customBorderImageSize: CGSize = .zero
     private var primaryText: String?
     private var secondaryText: String?
@@ -543,6 +617,32 @@ open class AvatarView: UIView {
         } else {
             containerView.layer.mask = nil
         }
+    }
+
+    private func updateImageViewWithFallbackImage(style: AvatarFallbackImageStyle = .primaryFilled) {
+        let imageName = style.imageName(size: avatarSize)
+        if let image = UIImage.staticImageNamed(imageName) {
+            let containerSize = avatarSize.size
+            let renderer = UIGraphicsImageRenderer(size: containerSize)
+
+            let personImage = renderer.image { _ in
+                let personImageSize = avatarSize.personImageSize
+                image.draw(at: CGPoint(x: floor((containerSize.width - personImageSize) / 2), y: floor((containerSize.height - personImageSize) / 2)))
+            }.withRenderingMode(.alwaysTemplate)
+            setupWithImage(personImage)
+
+            if let window = window {
+                imageView.backgroundColor = style.backgroundColor(for: window)
+            }
+            imageView.tintColor = style.imageColor
+
+            fallbackImageStyle = style
+        }
+    }
+
+    private func isInitialsAvailable() -> Bool {
+        let initials = InitialsView.initialsText(fromPrimaryText: primaryText, secondaryText: secondaryText)
+        return initials.count > 0
     }
 
     private func isDisplayingPresence() -> Bool {
