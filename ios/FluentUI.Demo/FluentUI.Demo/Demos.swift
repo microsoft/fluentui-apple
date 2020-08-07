@@ -15,7 +15,6 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("Button", ButtonDemoController.self),
     ("Color", ColorDemoController.self),
     ("ContactCollectionView", ContactCollectionViewDemoController.self),
-    ("ContactView", ContactViewDemoController.self),
     ("DateTimePicker", DateTimePickerDemoController.self),
     ("DrawerController", DrawerDemoController.self),
     ("HUD", HUDDemoController.self),
