@@ -11,7 +11,7 @@ public extension Colors {
     struct Calendar {
         public struct Day {
             public static var textPrimary = UIColor(light: Colors.textSecondary, dark: Colors.textPrimary)
-            public static var textSecondary: UIColor = Colors.textSecondary
+            public static var textSecondary = UIColor(light: Colors.textPrimary, dark: Colors.textSecondary)
             public static var textSelected: UIColor = textOnAccent
             public static var backgroundPrimary = UIColor(light: Calendar.background, dark: surfaceSecondary)
             public static var backgroundSecondary = UIColor(light: surfaceSecondary, dark: Calendar.background)
@@ -24,7 +24,7 @@ public extension Colors {
             public struct Light {
                 public static var textRegular = UIColor(light: gray600, lightHighContrast: gray700, dark: textPrimary)
                 public static var textWeekend: UIColor = textSecondary
-                public static var background: UIColor = Calendar.background
+                public static var background: UIColor = NavigationBar.background
             }
             public struct Dark {
                 public static var textRegular: UIColor = textOnAccent

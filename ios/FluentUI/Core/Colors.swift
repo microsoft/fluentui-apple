@@ -104,6 +104,14 @@ public final class Colors: NSObject {
         case successShade30
         case successShade20
         case successShade10
+        case presenceAvailable
+        case presenceAway
+        case presenceBlocked
+        case presenceBusy
+        case presenceDnd
+        case presenceOffline
+        case presenceOof
+        case presenceUnknown
 
         public var color: UIColor {
             if let fluentColor = UIColor(named: "FluentColors/" + self.name, in: FluentUIFramework.resourceBundle, compatibleWith: nil) {
@@ -245,6 +253,22 @@ public final class Colors: NSObject {
                 return "successShade20"
             case .successShade10:
                 return "successShade10"
+            case .presenceAvailable:
+                return "presenceAvailable"
+            case .presenceAway:
+                return "presenceAway"
+            case .presenceBlocked:
+                return "presenceBlocked"
+            case .presenceBusy:
+                return "presenceBusy"
+            case .presenceDnd:
+                return "presenceOffline"
+            case .presenceOffline:
+                return "presenceOffline"
+            case .presenceOof:
+                return "presenceOof"
+            case .presenceUnknown:
+                return "presenceUnknown"
             }
         }
     }

@@ -25,7 +25,7 @@ class DrawerDemoController: DemoController {
                 createButton(title: "Show from leading", action: #selector(showLeftDrawerButtonTapped)),
                 createButton(title: "Show from trailing", action: #selector(showRightDrawerButtonTapped))
             ],
-            itemSpacing: DemoController.verticalSpacing,
+            itemSpacing: Constants.verticalSpacing,
             stretchItems: true
         )
         addDescription(text: "Swipe from the left or right edge of the screen to reveal a drawer interactively")

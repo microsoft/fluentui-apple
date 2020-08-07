@@ -50,11 +50,8 @@ open class SideTabBar: UIView {
     /// Tab bar iems to display in the top section of the side tab bar.
     /// These TabBarItems should have 28x28 images and don't need landscape images.
     @objc open var topItems: [TabBarItem] = [] {
-        willSet {
-            willSetItems(in: .top)
-        }
         didSet {
-            didSetItems(in: .top)
+            didUpdateItems(in: .top)
         }
     }
 
@@ -62,11 +59,8 @@ open class SideTabBar: UIView {
     /// These items do not have a selected state.
     /// These TabBarItems should have 24x24 images and don't need landscape images.
     @objc open var bottomItems: [TabBarItem] = [] {
-        willSet {
-            willSetItems(in: .bottom)
-        }
         didSet {
-            didSetItems(in: .bottom)
+            didUpdateItems(in: .bottom)
         }
     }
 
@@ -80,6 +74,22 @@ open class SideTabBar: UIView {
         didSet {
             if let item = selectedTopItem {
                 itemView(with: item, in: .top)?.isSelected = true
+            }
+        }
+    }
+
+    @objc public var showTopItemTitles: Bool = false {
+        didSet {
+            if oldValue != showTopItemTitles {
+                didUpdateItems(in: .top)
+            }
+        }
+    }
+
+    @objc public var showBottomItemTitles: Bool = false {
+        didSet {
+            if oldValue != showBottomItemTitles {
+                didUpdateItems(in: .bottom)
             }
         }
     }
@@ -130,6 +140,8 @@ open class SideTabBar: UIView {
         static let bottomItemSpacing: CGFloat = 24.0
         static let topItemSize: CGFloat = 28.0
         static let bottomItemSize: CGFloat = 24.0
+        static let badgeTopSectionPadding: CGFloat = 2.0
+        static let badgeBottomSectionPadding: CGFloat = 4.0
     }
 
     private var layoutConstraints: [NSLayoutConstraint] = []
@@ -183,13 +195,11 @@ open class SideTabBar: UIView {
         NSLayoutConstraint.activate(layoutConstraints)
     }
 
-    private func willSetItems(in section: Section) {
+    private func didUpdateItems(in section: Section) {
         for subview in stackView(in: section).arrangedSubviews {
             subview.removeFromSuperview()
         }
-    }
 
-    private func didSetItems(in section: Section) {
         let allItems = items(in: section)
         let numberOfItems = allItems.count
         if numberOfItems > Constants.maxTabCount {
@@ -197,29 +207,29 @@ open class SideTabBar: UIView {
         }
 
         let stackView = self.stackView(in: section)
-
-        let itemSize = section == .top ? Constants.topItemSize : Constants.bottomItemSize
-        var constraints: [NSLayoutConstraint] = []
+        let badgePadding = section == .top ? Constants.badgeTopSectionPadding : Constants.badgeBottomSectionPadding
+        let showItemTitles = section == .top ? showTopItemTitles : showBottomItemTitles
+        var didRestoreSelection = false
 
         for item in allItems {
-            let tabBarItemView = TabBarItemView(item: item, showsTitle: false, canResizeImage: false)
+            let tabBarItemView = TabBarItemView(item: item, showsTitle: showItemTitles, canResizeImage: false)
             tabBarItemView.translatesAutoresizingMaskIntoConstraints = false
+            tabBarItemView.alwaysShowTitleBelowImage = true
+            tabBarItemView.maxBadgeWidth = Constants.viewWidth / 2 - badgePadding
+
+            if itemView(with: item, in: section) != nil && section == .top && item == selectedTopItem {
+                tabBarItemView.isSelected = true
+                didRestoreSelection = true
+            }
 
             let tapGesture = UITapGestureRecognizer(target: self, action: (section == .top) ? #selector(handleTopItemTapped(_:)) : #selector(handleBottomItemTapped(_:)))
             tabBarItemView.addGestureRecognizer(tapGesture)
-
-            // Issue #110: TabBarItemViews don't have an intrinsic size so we need to set the height with constraints.
-            constraints.append(contentsOf: [
-                tabBarItemView.widthAnchor.constraint(equalToConstant: itemSize),
-                tabBarItemView.heightAnchor.constraint(equalToConstant: itemSize)
-            ])
-
             stackView.addArrangedSubview(tabBarItemView)
         }
 
         NSLayoutConstraint.activate(constraints)
 
-        if section == .top {
+        if section == .top && !didRestoreSelection {
             selectedTopItem = allItems.first
         }
 
@@ -246,8 +256,13 @@ open class SideTabBar: UIView {
 
     private func itemView(with item: TabBarItem, in section: Section) -> TabBarItemView? {
         if let index = items(in: section).firstIndex(of: item) {
-            if let tabBarItemView = stackView(in: section).arrangedSubviews[index] as? TabBarItemView {
-                return tabBarItemView
+            let stack = stackView(in: section)
+            let arrangedSubviews = stack.arrangedSubviews
+
+            if arrangedSubviews.count > index {
+                if let tabBarItemView = stack.arrangedSubviews[index] as? TabBarItemView {
+                    return tabBarItemView
+                }
             }
         }
 

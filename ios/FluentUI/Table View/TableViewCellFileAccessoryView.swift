@@ -19,7 +19,7 @@ open class FileAccessoryViewAction: NSObject {
     ///   - isEnabled: true if the action is enabled, false otherwise
     ///   - canHide: false if the action must always be visible, true otherwise
     ///   - useAppPrimaryColor: true if the action's image should be tinted with the app's primary color
-    public init(title: String, image: UIImage, target: Any? = nil, action: Selector? = nil, isEnabled: Bool = true, canHide: Bool = true, useAppPrimaryColor: Bool = false) {
+    @objc public init(title: String, image: UIImage, target: Any? = nil, action: Selector? = nil, isEnabled: Bool = true, canHide: Bool = true, useAppPrimaryColor: Bool = false) {
         self.title = title
         self.image = image
         self.target = target
@@ -43,7 +43,7 @@ open class FileAccessoryViewAction: NSObject {
 // MARK: - TableViewCellFileAccessoryView
 
 /// Class that represents a table view cell accessory view representing a file or folder.
-@objc (TableViewCellFileAccessoryView)
+@objc (MSFTableViewCellFileAccessoryView)
 open class TableViewCellFileAccessoryView: UIView {
     /// The date will be displayed in a friendly format in the accessory view's first column.
     @objc public var date: Date? {
@@ -104,6 +104,11 @@ open class TableViewCellFileAccessoryView: UIView {
         columnStackView.addArrangedSubview(actionsStackView)
 
         updateSharedStatus()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateLayout),
+                                               name: UIContentSizeCategory.didChangeNotification,
+                                               object: nil)
     }
 
     @available(*, unavailable)
@@ -138,7 +143,13 @@ open class TableViewCellFileAccessoryView: UIView {
     }
 
     private lazy var actionsStackView: UIStackView = {
-        return createHorizontalStackView()
+        let stackView = createHorizontalStackView()
+
+        if #available(iOS 13, *) {
+            stackView.addInteraction(UILargeContentViewerInteraction())
+        }
+
+        return stackView
     }()
 
     private lazy var columnStackView: UIStackView = {
@@ -279,7 +290,7 @@ open class TableViewCellFileAccessoryView: UIView {
         dateLabel.text = dateString
     }
 
-    private func updateLayout() {
+    @objc private func updateLayout() {
         updateActions()
 
         let actionCount = actionsStackView.arrangedSubviews.count
@@ -297,7 +308,7 @@ open class TableViewCellFileAccessoryView: UIView {
         let availableColumnSpace = cellSize.width - reservedCellSpace - width
         let columnMinWidth = Constants.columnMinWidth + Constants.columnSpacing
         let canShowFirstColumn = cellSize.width >= Constants.layoutBreakPoints[4] && availableColumnSpace > columnMinWidth
-        let canShowSecondColumn = cellSize.width >= Constants.layoutBreakPoints[5] && availableColumnSpace > 2 * columnMinWidth
+        let canShowSecondColumn = cellSize.width >= Constants.layoutBreakPoints[5] && availableColumnSpace > 2 * columnMinWidth && UIApplication.shared.preferredContentSizeCategory.canShowSharedStatus
         let isShowingDate = canShowFirstColumn && date != nil
         let isShowingSharedStatus = showSharedStatus && (canShowSecondColumn || (canShowFirstColumn && !isShowingDate))
 
@@ -380,6 +391,12 @@ private class FileAccessoryViewActionView: UIButton {
             widthAnchor.constraint(equalToConstant: FileAccessoryViewActionView.size.width),
             heightAnchor.constraint(greaterThanOrEqualToConstant: FileAccessoryViewActionView.size.height)
         ])
+
+        if #available(iOS 13, *) {
+            showsLargeContentViewer = true
+            scalesLargeContentImage = true
+            largeContentTitle = action.title
+        }
     }
 
     @available(*, unavailable)
@@ -408,4 +425,15 @@ private class FileAccessoryViewActionView: UIButton {
 
         return view
     }()
+}
+
+extension UIContentSizeCategory {
+    var canShowSharedStatus: Bool {
+        switch self {
+        case .accessibilityExtraExtraExtraLarge, .accessibilityExtraExtraLarge, .accessibilityExtraLarge, .accessibilityLarge, .accessibilityMedium:
+            return false
+        default:
+            return true
+        }
+    }
 }
