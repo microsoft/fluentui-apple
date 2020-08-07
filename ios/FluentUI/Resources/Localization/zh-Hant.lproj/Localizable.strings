@@ -1,0 +1,187 @@
+//
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
+//
+
+// Accessibility
+"Accessibility.Alert" = "通知";
+"Accessibility.Dismiss.Label" = "關閉";
+"Accessibility.Dismiss.Hint" = "點兩下以關閉";
+"Accessibility.Done.Label" = "完成";
+"Accessibility.MultiSelect.Hint" = "點兩下以切換選取項目";
+"Accessibility.Select.Hint" = "點兩下以選取";
+"Accessibility.Selected.Hint" = "點兩下以檢視詳細資料";
+"Accessibility.Selected.Value" = "已選取";
+
+/* Accessibility label for the upper calendar date picker view. */
+"Accessibility.Calendar.Label" = "行事曆";
+
+/* Accessibility hint for the upper calendar date picker view */
+"Accessibility.Calendar.Hint" = "選取日期";
+
+// TODO: Change to a stringsdict format
+// TODO: Reassess for generic indicator
+/* Accessibility: Number of events on the given day (%d is the number) */
+"Accessibility.Calendar.Events.Number" = "%d 個活動";
+
+/* Accessibility: There's no events on the given day */
+"Accessibility.Calendar.Events.None" = "沒有活動";
+
+/* Accessibility label for month in date time picker */
+"Accessibility.DateTime.Month.Label" = "月";
+
+/* Accessibility label for day in date time picker */
+"Accessibility.DateTime.Day.Label" = "日";
+
+/* Accessibility label for year in date time picker */
+"Accessibility.DateTime.Year.Label" = "年";
+
+/* Accessibility label for date in date time picker */
+"Accessibility.DateTime.Date.Label" = "日期";
+
+/* Accessibility label for hour in date time picker */
+"Accessibility.DateTime.Hour.Label" = "小時";
+
+/* Accessibility label for minute in date time picker */
+"Accessibility.DateTime.Minute.Label" = "分鐘";
+
+/* Accessibility label for AM/PM in date time picker */
+"Accessibility.DateTime.AMPM.Label" = "上午/下午";
+
+/* Accessibility label for week of month in date time picker */
+"Accessibility.DateTime.WeekOfMonth.Label" = "當月週次";
+
+/* Accessibility label for day of week in date time picker */
+"Accessibility.DateTime.DayOfWeek.Label" = "當週日次";
+
+/* Accessibility label for first week of the month */
+"Accessibility.DateTime.Week.First" = "第一個";
+
+/* Accessibility label for second week of the month */
+"Accessibility.DateTime.Week.Second" = "第二個";
+
+/* Accessibility label for third week of the month */
+"Accessibility.DateTime.Week.Third" = "第三個";
+
+/* Accessibility label for fourth week of the month */
+"Accessibility.DateTime.Week.Fourth" = "第四個";
+
+/* Accessibility label for last week of the month */
+"Accessibility.DateTime.Week.Last" = "最後一個";
+
+/* Accessibility label for drawer's resizing handle when it has expand action */
+"Accessibility.Drawer.ResizingHandle.Label.Expand" = "展開";
+/* Accessibility hint for drawer's resizing handle when it has expand action */
+"Accessibility.Drawer.ResizingHandle.Hint.Expand" = "點兩下以展開";
+/* Accessibility label for drawer's resizing handle when it has collapse action */
+"Accessibility.Drawer.ResizingHandle.Label.Collapse" = "摺疊";
+/* Accessibility hint for drawer's resizing handle when it has collapse action */
+"Accessibility.Drawer.ResizingHandle.Hint.Collapse" = "點兩下以摺疊";
+
+/* Accessibility label for when a task under progress has finished */
+"Accessibility.HUD.Done" = "完成";
+
+/* Accessibility label for when a task under progress has failed */
+"Accessibility.HUD.Failed" = "失敗";
+
+/* Accessibility label for when a task is in progress */
+"Accessibility.HUD.Loading" = "正在載入";
+
+/* Accessibility hint for MSPillButtons in an MSPillButtonBar. %1$d is placeholder for index and %2$d is a placeholder for total number of items */
+"Accessibility.MSPillButtonBar.Hint" = "%1$d / %2$d";
+
+/* Accessibility label for the avatar (or profile) view */
+"Accessibility.LargeTitle.ProfileView" = "帳戶設定檔";
+
+/* Accessibility label format string for avatar view. Format: "<Name>, <Presence>". Example: "Kat, Available" */
+"Accessibility.AvatarView.LabelFormat" = "%@，%@";
+
+/* Accessibility hint for a segmented control button */
+"Accessibility.Segmented.Button.Hint" = "點選以移至 %@";
+
+/* Accessibility hint for more actions button */
+"Accessibility.TableViewCell.MoreActions.Hint" = "點兩下以檢視更多動作";
+
+/* Accessibility label for more actions button */
+"Accessibility.TableViewCell.MoreActions.Label" = "更多動作";
+
+/* Accessibility hint for cell when accessory view is a UISwitch */
+"Accessibility.TableViewCell.Switch.Hint" = "點兩下以切換設定";
+
+/* Accessibility value for when a UISwitch is on */
+"Accessibility.TableViewCell.Switch.On" = "開啟";
+
+/* Accessibility value for when a UISwitch is off */
+"Accessibility.TableViewCell.Switch.Off" = "關閉";
+
+/* Format string for tab bar item accessbility labels. Format: "<Title>, <BadgeValue> items". Example: "Home, 5 items" */
+"Accessibility.TabBarItemView.LabelFormat" = "%@，%@ 個項目";
+
+/* Generic label for cancel action */
+"Common.Cancel" = "取消";
+
+/* Generic label to indicate that an item is shared */
+"Common.Shared" = "已共用";
+
+/* Generic label to indicate that an item is not shared */
+"Common.OnlyMe" = "只有我";
+
+/* Just now date string */
+"Date.Now" = "剛剛";
+
+/* Minutes ago date format string. Example: "5m ago" */
+"Date.FormatMinutes" = "%ldm 之前";
+
+/* Hours ago date format string. Example: "5h ago" */
+"Date.FormatHours" = "%ldh 之前";
+
+/* Yesterday string */
+"Date.Yesterday" = "昨天";
+
+/* Yesterday and time format string. Example: "Yesterday at 11:00 AM" */
+"Date.FormatYesterdayTime" = "昨天 %@";
+
+/* Day and time format string. Example: "Fri at 11:00 AM" */
+"Date.FormatDayTime" = "%@ 於 %@";
+
+// MSPersonaListView
+"MSPersonaListView.SearchDirectory" = "搜尋目錄";
+
+/* MSDateTimePicker label for the start time of a date range */
+"MSDateTimePicker.StartTime" = "開始時間";
+
+/* MSDateTimePicker label for the end time of a date range */
+"MSDateTimePicker.EndTime" = "結束時間";
+
+/* MSDateTimePicker label for the start date of a date range */
+"MSDateTimePicker.StartDate" = "開始日期";
+
+/* MSDateTimePicker label for the end date of a date range */
+"MSDateTimePicker.EndDate" = "結束日期";
+
+/* Presence - Available status */
+"Presence.Available" = "有空";
+
+/* Presence - Away status */
+"Presence.Away" = "離開";
+
+/* Presence - Busy status */
+"Presence.Busy" = "忙碌";
+
+/* Presence - Do not disturb status */
+"Presence.DND" = "請勿打擾";
+
+/* Presence - Out of office status */
+"Presence.OOF" = "不在辦公室";
+
+/* Presence - Offline status */
+"Presence.Offline" = "離線";
+
+/* Presence - Unknown status */
+"Presence.Unknown" = "未知";
+
+/* Presence - Blocked status */
+"Presence.Blocked" = "已封鎖";
+
+/* AvatarView - Format string for overflow avatar. Format: "+<OverflowCount>". Example: "+5" */
+"AvatarView.OverflowFormat" = "+%@";
