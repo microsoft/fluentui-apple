@@ -34,6 +34,7 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
         let totalWidth = numItems > 0 ? CGFloat(numItems) * Constants.itemWidth + (CGFloat(numItems) - 1) * minimumLineSpacing : 0.0
 
         let size = CGSize(width: totalWidth, height: height)
+        collectionView.contentSize = size
         return size
     }
 
