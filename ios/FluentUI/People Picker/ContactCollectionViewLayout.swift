@@ -15,6 +15,7 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
         preconditionFailure("init(coder:) not implemented")
     }
 
+    // Function that determines the minimum line spacing between two ContactView's and returns the value.
     public func minimumLineSpacingForSectionAt(section: Int) -> CGFloat {
         calculateMinimumLineSpacing()
         return minimumLineSpacing

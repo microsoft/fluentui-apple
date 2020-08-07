@@ -7,6 +7,11 @@ import UIKit
 
 @objc(MSFContactCollectionView)
 open class ContactCollectionView: UICollectionView {
+
+    /// Initializes the collection view by setting the layout, constraints, and cell to be used.
+    ///
+    /// - Parameters:
+    ///   - personaData: Array of PersonaData used to create each individual ContactView
     @objc public init(personaData: [PersonaData] = []) {
         layout = ContactCollectionViewLayout()
         layout.scrollDirection = .horizontal
