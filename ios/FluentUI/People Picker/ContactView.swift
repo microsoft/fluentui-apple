@@ -12,7 +12,6 @@ public extension Colors {
         public static let title: UIColor = textPrimary
         public static let subtitle: UIColor = textSecondary
         public static let pressedState = UIColor(red: 0.83, green: 0.83, blue: 0.83, alpha: 0.6)
-        public static let unpressedState = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.0)
     }
 }
 
@@ -20,8 +19,6 @@ public extension Colors {
 
 @objc(MSFContactView)
 open class ContactView: UIView {
-
-
     @objc public var avatarImage: UIImage? {
         didSet {
             if let subtitleLabel = subtitleLabel {
@@ -229,15 +226,16 @@ open class ContactView: UIView {
     open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         pressedStateOverlay.backgroundColor = Colors.Contact.pressedState
+        pressedStateOverlay.isHidden = false
     }
 
     open override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesMoved(touches, with: event)
-        pressedStateOverlay.backgroundColor = Colors.Contact.unpressedState
+        pressedStateOverlay.isHidden = true
     }
 
     open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
-        pressedStateOverlay.backgroundColor = Colors.Contact.unpressedState
+        pressedStateOverlay.isHidden = true
     }
 }
