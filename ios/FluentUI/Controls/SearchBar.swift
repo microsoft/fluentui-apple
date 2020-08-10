@@ -24,7 +24,6 @@ public extension Colors {
             public static var cancelButton: UIColor = LightContent.text
             public static var clearIcon = UIColor(light: iconOnAccent, dark: textSecondary)
             public static var placeholderText = UIColor(light: textOnAccent, dark: textSecondary)
-            public static var progressSpinner = placeholderText
             public static var searchIcon: UIColor = placeholderText
             public static var text = UIColor(light: textOnAccent, dark: textDominant)
             public static var tint: UIColor = LightContent.text
@@ -95,15 +94,6 @@ open class SearchBar: UIView {
             }
         }
 
-       var progressSpinnerColor: UIColor {
-            switch self {
-            case .lightContent:
-                return Colors.SearchBar.LightContent.progressSpinner
-            case .darkContent:
-                return Colors.SearchBar.DarkContent.progressSpinner
-            }
-        }
-
         var searchIconColor: UIColor {
             switch self {
             case .lightContent:
@@ -128,6 +118,15 @@ open class SearchBar: UIView {
                 return Colors.SearchBar.LightContent.tint
             case .darkContent:
                 return Colors.SearchBar.DarkContent.tint
+            }
+        }
+
+        func progressSpinnerColor(for window: UIWindow) -> UIColor {
+            switch self {
+            case .lightContent:
+                return UIColor(light: Colors.primaryTint10(for: window), dark: Colors.iconSecondary)
+            case .darkContent:
+                return Colors.SearchBar.DarkContent.progressSpinner
             }
         }
     }
@@ -241,7 +240,7 @@ open class SearchBar: UIView {
     private var originalIsNavigationBarHidden: Bool = false
 
     ///indicates search in progress
-    @objc public var progressSpinner: ActivityIndicatorView = {
+    @objc public lazy var progressSpinner: ActivityIndicatorView = {
         let progressSpinner = ActivityIndicatorView(size: .medium)
         progressSpinner.isHidden = true
         return progressSpinner
@@ -258,8 +257,12 @@ open class SearchBar: UIView {
     }
 
     private func initialize() {
-        updateColorsForStyle()
         setupLayout()
+    }
+
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateColorsForStyle()
     }
 
     private func startSearch() {
@@ -387,7 +390,9 @@ open class SearchBar: UIView {
         // used for cursor or selection handle
         searchTextField.tintColor = style.tintColor
         clearButton.tintColor = style.clearIconColor
-        progressSpinner.tintColor = style.progressSpinnerColor
+        if let window = window {
+            progressSpinner.tintColor = style.progressSpinnerColor(for: window)
+        }
         cancelButton.setTitleColor(style.cancelButtonColor, for: .normal)
         attributePlaceholderText()
     }
