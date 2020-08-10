@@ -129,7 +129,9 @@ extension UIContentSizeCategory {
             return 125.0
         case .extraExtraLarge:
             return 129.0
-        case .extraExtraExtraLarge:
+        case .extraExtraExtraLarge, .accessibilityMedium,
+             .accessibilityLarge, .accessibilityExtraLarge,
+             .accessibilityExtraExtraLarge, .accessibilityExtraExtraExtraLarge:
             return 135.0
         default:
             return 135.0
