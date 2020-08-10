@@ -11,7 +11,7 @@ public extension Colors {
     struct Contact {
         public static let title: UIColor = textPrimary
         public static let subtitle: UIColor = textSecondary
-        public static let pressedState = UIColor(red: 0.83, green: 0.83, blue: 0.83, alpha: 0.6)
+        public static let pressedState: UIColor = Colors.gray200.withAlphaComponent(0.6)
     }
 }
 
