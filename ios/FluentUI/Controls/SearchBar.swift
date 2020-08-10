@@ -322,7 +322,7 @@ open class SearchBar: UIView {
         searchTextFieldBackgroundViewTrailingConstraint = searchTextFieldBackgroundViewTrailing
         constraints.append(searchTextFieldBackgroundViewTrailing)
 
-        /// search icon container
+        //search icon container
         searchTextFieldBackgroundView.addSubview(searchIconImageViewContainerView)
         searchIconImageViewContainerView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -348,7 +348,7 @@ open class SearchBar: UIView {
         constraints.append(searchTextField.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor))
         constraints.append(searchTextField.heightAnchor.constraint(equalTo: searchTextFieldBackgroundView.heightAnchor, constant: -2 * Constants.searchTextFieldVerticalInset))
 
-        /// progressSpinner
+        //progressSpinner
         searchTextFieldBackgroundView.addSubview(progressSpinner)
         progressSpinner.translatesAutoresizingMaskIntoConstraints = false
 
@@ -357,7 +357,7 @@ open class SearchBar: UIView {
         constraints.append(progressSpinner.trailingAnchor.constraint(equalTo: searchTextFieldBackgroundView.trailingAnchor, constant: -1 * Constants.clearButtonTrailingInset))
         constraints.append(progressSpinner.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor))
 
-        /// clearButton
+        //clearButton
         searchTextFieldBackgroundView.addSubview(clearButton)
         clearButton.translatesAutoresizingMaskIntoConstraints = false
 
@@ -384,7 +384,7 @@ open class SearchBar: UIView {
         searchTextFieldBackgroundView.backgroundColor = style.backgroundColor
         searchIconImageView.tintColor = style.searchIconColor
         searchTextField.textColor = style.textColor
-        /// used for cursor or selection handle
+        // used for cursor or selection handle
         searchTextField.tintColor = style.tintColor
         clearButton.tintColor = style.clearIconColor
         progressSpinner.tintColor = style.progressSpinnerColor
