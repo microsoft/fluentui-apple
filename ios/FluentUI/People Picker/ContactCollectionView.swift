@@ -7,8 +7,9 @@ import UIKit
 
 // MARK: ContactCollectionViewDelegate
 
-public protocol ContactCollectionViewDelegate: AnyObject {
-    func didTapOnContactViewAtIndex(index: Int, personaData: PersonaData)
+public typealias MSContactCollectionViewDelegate = ContactCollectionViewDelegate
+@objc public protocol ContactCollectionViewDelegate: AnyObject {
+    @objc optional func didTapOnContactViewAtIndex(index: Int, personaData: PersonaData)
 }
 
 // MARK: ContactCollectionView
@@ -84,7 +85,7 @@ open class ContactCollectionView: UICollectionView {
 extension ContactCollectionView: ContactViewDelegate {
     public func didTapContactView(_ contact: ContactView) {
         if let contactCollectionViewDelegate = contactCollectionViewDelegate, let currentTappedIndex = currentTappedIndex {
-            contactCollectionViewDelegate.didTapOnContactViewAtIndex(index: currentTappedIndex, personaData: contactList[currentTappedIndex])
+            contactCollectionViewDelegate.didTapOnContactViewAtIndex?(index: currentTappedIndex, personaData: contactList[currentTappedIndex])
         }
     }
 }

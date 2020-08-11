@@ -16,9 +16,9 @@ public extension Colors {
 }
 
 // MARK: ContactViewDelegate
-
-public protocol ContactViewDelegate: AnyObject {
-    func didTapContactView(_ contact: ContactView)
+public typealias MSContactViewDelegate = ContactViewDelegate
+@objc public protocol ContactViewDelegate: AnyObject {
+    @objc optional func didTapContactView(_ contact: ContactView)
 }
 
 // MARK: ContactView
@@ -35,12 +35,13 @@ open class ContactView: UIView {
         }
     }
 
+    open weak var contactViewDelegate: ContactViewDelegate?
+
     private let avatarView: AvatarView
     private var titleLabel: UILabel
     private var subtitleLabel: UILabel?
     private var labelContainer: UIView
     private let pressedStateOverlay: UIView
-    open weak var contactViewDelegate: ContactViewDelegate?
 
     /// Initializes the contact view by creating an avatar view with a primary and secondary text
     ///
@@ -112,7 +113,12 @@ open class ContactView: UIView {
 
         pressedStateOverlay.translatesAutoresizingMaskIntoConstraints = false
         avatarView.addSubview(pressedStateOverlay)
-        constraints.append(contentsOf: pressedStateOverlayLayoutConstraints())
+        constraints.append(contentsOf: [
+            pressedStateOverlay.leadingAnchor.constraint(equalTo: avatarView.leadingAnchor),
+            pressedStateOverlay.trailingAnchor.constraint(equalTo: avatarView.trailingAnchor),
+            pressedStateOverlay.topAnchor.constraint(equalTo: avatarView.topAnchor),
+            pressedStateOverlay.bottomAnchor.constraint(equalTo: avatarView.bottomAnchor)
+        ])
 
         labelContainer.translatesAutoresizingMaskIntoConstraints = false
         labelContainer.addSubview(titleLabel)
@@ -181,15 +187,6 @@ open class ContactView: UIView {
         ]
     }
 
-    private func pressedStateOverlayLayoutConstraints() -> [NSLayoutConstraint] {
-        return [
-            pressedStateOverlay.leadingAnchor.constraint(equalTo: avatarView.leadingAnchor),
-            pressedStateOverlay.trailingAnchor.constraint(equalTo: avatarView.trailingAnchor),
-            pressedStateOverlay.topAnchor.constraint(equalTo: avatarView.topAnchor),
-            pressedStateOverlay.bottomAnchor.constraint(equalTo: avatarView.bottomAnchor)
-        ]
-    }
-
     private func setupTitleLabel(using title: String) {
         let label = UILabel(frame: .zero)
         label.adjustsFontForContentSizeCategory = true
@@ -243,7 +240,7 @@ open class ContactView: UIView {
 
     open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
-        contactViewDelegate?.didTapContactView(self)
+        contactViewDelegate?.didTapContactView?(self)
         pressedStateOverlay.isHidden = true
     }
 }
