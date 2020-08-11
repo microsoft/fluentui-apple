@@ -139,6 +139,13 @@ open class PillButtonBar: UIScrollView {
         }
     }
 
+    @objc public init(pillButtonStyle: PillButtonStyle = .outline) {
+        self.pillButtonStyle = pillButtonStyle
+        super.init(frame: .zero)
+        setupScrollView()
+        setupStackView()
+    }
+
     @objc public init(pillButtonStyle: PillButtonStyle = .outline, pillButtonBackgroundColor: UIColor? = nil) {
         self.pillButtonStyle = pillButtonStyle
         self.customPillButtonBackgroundColor = pillButtonBackgroundColor
