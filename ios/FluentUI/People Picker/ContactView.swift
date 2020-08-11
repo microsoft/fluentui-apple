@@ -15,6 +15,12 @@ public extension Colors {
     }
 }
 
+// MARK: ContactViewDelegate
+
+public protocol ContactViewDelegate: AnyObject {
+    func didTapContactView(_ contact: ContactView)
+}
+
 // MARK: ContactView
 
 @objc(MSFContactView)
@@ -34,6 +40,7 @@ open class ContactView: UIView {
     private var subtitleLabel: UILabel?
     private var labelContainer: UIView
     private let pressedStateOverlay: UIView
+    open weak var contactViewDelegate: ContactViewDelegate?
 
     /// Initializes the contact view by creating an avatar view with a primary and secondary text
     ///
@@ -236,6 +243,7 @@ open class ContactView: UIView {
 
     open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
+        contactViewDelegate?.didTapContactView(self)
         pressedStateOverlay.isHidden = true
     }
 }

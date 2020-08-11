@@ -5,6 +5,14 @@
 
 import UIKit
 
+// MARK: ContactCollectionViewDelegate
+
+public protocol ContactCollectionViewDelegate: AnyObject {
+    func didTapOnContactViewAtIndex(index: Int, personaData: PersonaData)
+}
+
+// MARK: ContactCollectionView
+
 @objc(MSFContactCollectionView)
 open class ContactCollectionView: UICollectionView {
 
@@ -41,6 +49,8 @@ open class ContactCollectionView: UICollectionView {
         }
     }
 
+    open weak var contactCollectionViewDelegate: ContactCollectionViewDelegate?
+
     private func configureCollectionView() {
         translatesAutoresizingMaskIntoConstraints = false
         showsHorizontalScrollIndicator = false
@@ -67,6 +77,15 @@ open class ContactCollectionView: UICollectionView {
         heightConstraint.isActive = true
         return heightConstraint
     }()
+    private var currentTappedIndex: Int?
+}
+
+extension ContactCollectionView: ContactViewDelegate {
+    public func didTapContactView(_ contact: ContactView) {
+        if let contactCollectionViewDelegate = contactCollectionViewDelegate, let currentTappedIndex = currentTappedIndex {
+            contactCollectionViewDelegate.didTapOnContactViewAtIndex(index: currentTappedIndex, personaData: contactList[currentTappedIndex])
+        }
+    }
 }
 
 extension ContactCollectionView: UICollectionViewDataSource {
@@ -77,6 +96,7 @@ extension ContactCollectionView: UICollectionViewDataSource {
     @objc public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContactCollectionViewCell.identifier, for: indexPath) as! ContactCollectionViewCell
         cell.setup(contact: contactList[indexPath.item])
+        cell.contactView.contactViewDelegate = self
 
         return cell
     }
@@ -89,6 +109,7 @@ extension ContactCollectionView: UICollectionViewDelegate {
         guard let cell = cellForItem(at: indexPath) else {
             return
         }
+        currentTappedIndex = indexPath.item
 
         let cellWidth = cell.frame.width
         let cellFrame = cell.contentView.convert(cell.bounds, to: self)

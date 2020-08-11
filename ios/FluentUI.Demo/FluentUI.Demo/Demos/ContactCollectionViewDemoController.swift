@@ -13,6 +13,7 @@ class ContactCollectionViewDemoController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = Colors.surfacePrimary
 
+        contactCollectionView.contactCollectionViewDelegate = self
         contactCollectionView.translatesAutoresizingMaskIntoConstraints = false
         contactCollectionView.contactList = samplePersonas
 
@@ -23,5 +24,15 @@ class ContactCollectionViewDemoController: UIViewController {
             contactCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             contactCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+    }
+}
+
+extension ContactCollectionViewDemoController: ContactCollectionViewDelegate {
+    func didTapOnContactViewAtIndex(index: Int, personaData: PersonaData) {
+        let name = personaData.name
+        let alert = UIAlertController(title: "\(name) was selected", message: nil, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(action)
+        self.present(alert, animated: true)
     }
 }
