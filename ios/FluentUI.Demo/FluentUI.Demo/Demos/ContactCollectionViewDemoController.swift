@@ -29,8 +29,8 @@ class ContactCollectionViewDemoController: UIViewController {
 
 extension ContactCollectionViewDemoController: ContactCollectionViewDelegate {
     func didTapOnContactViewAtIndex(index: Int, personaData: PersonaData) {
-        let name = personaData.name
-        let alert = UIAlertController(title: "\(name) was selected", message: nil, preferredStyle: .alert)
+        let identifier = personaData.name.count > 0 ? personaData.name : personaData.email
+        let alert = UIAlertController(title: "\(identifier) was selected", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(action)
         self.present(alert, animated: true)

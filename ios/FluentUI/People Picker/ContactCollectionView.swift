@@ -68,6 +68,7 @@ open class ContactCollectionView: UICollectionView {
 
     private struct Constants {
         static let leadingInset: CGFloat = 16.0
+        static let amountOfNextContactToShow: CGFloat = 20.0
     }
 
     private let layout: ContactCollectionViewLayout
@@ -118,7 +119,7 @@ extension ContactCollectionView: UICollectionViewDelegate {
         let viewLeadingPosition = bounds.origin.x
         let viewTrailingPosition = viewLeadingPosition + frame.size.width
 
-        let extraScrollWidth = layout.minimumLineSpacingForSectionAt(section: 0)
+        let extraScrollWidth = layout.minimumLineSpacingForSectionAt(section: 0) + Constants.amountOfNextContactToShow
         var offSet = contentOffset.x
         if cellLeftPosition < viewLeadingPosition {
             offSet = cellLeftPosition - extraScrollWidth
