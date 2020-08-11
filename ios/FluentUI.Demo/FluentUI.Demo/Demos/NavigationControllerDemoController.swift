@@ -155,7 +155,6 @@ extension NavigationControllerDemoController: UIGestureRecognizerDelegate, Searc
 
        func searchBarDidBeginEditing(_ searchBar: SearchBar) {
                searchBar.progressSpinner.stopAnimating()
-               searchBar.progressSpinner.isHidden = true
        }
 
        func searchBar(_ searchBar: SearchBar, didUpdateSearchText newSearchText: String?) {
@@ -164,11 +163,9 @@ extension NavigationControllerDemoController: UIGestureRecognizerDelegate, Searc
 
        func searchBarDidCancel(_ searchBar: SearchBar) {
                searchBar.progressSpinner.stopAnimating()
-               searchBar.progressSpinner.isHidden = true
        }
 
        func searchBarDidRequestSearch(_ searchBar: SearchBar) {
-               searchBar.progressSpinner.isHidden = false
                searchBar.progressSpinner.startAnimating()
        }
 

@@ -14,7 +14,7 @@ public extension Colors {
             public static var cancelButton = UIColor(light: textSecondary, dark: LightContent.cancelButton)
             public static var clearIcon = UIColor(light: iconPrimary, dark: LightContent.clearIcon)
             public static var placeholderText = UIColor(light: textSecondary, dark: LightContent.placeholderText)
-            public static var progressSpinner: UIColor = DarkContent.searchIcon
+            public static var progressSpinner = UIColor(light: iconDisabled, dark: textPrimary)
             public static var searchIcon = UIColor(light: iconPrimary, dark: LightContent.searchIcon)
             public static var text = UIColor(light: textDominant, dark: LightContent.text)
             public static var tint = UIColor(light: iconSecondary, dark: LightContent.tint)
@@ -124,7 +124,7 @@ open class SearchBar: UIView {
         func progressSpinnerColor(for window: UIWindow) -> UIColor {
             switch self {
             case .lightContent:
-                return UIColor(light: Colors.primaryTint10(for: window), dark: Colors.iconSecondary)
+                return UIColor(light: Colors.primaryTint10(for: window), dark: Colors.textPrimary)
             case .darkContent:
                 return Colors.SearchBar.DarkContent.progressSpinner
             }
@@ -242,7 +242,6 @@ open class SearchBar: UIView {
     ///indicates search in progress
     @objc public lazy var progressSpinner: ActivityIndicatorView = {
         let progressSpinner = ActivityIndicatorView(size: .medium)
-        progressSpinner.isHidden = true
         return progressSpinner
     }()
 
@@ -391,7 +390,7 @@ open class SearchBar: UIView {
         searchTextField.tintColor = style.tintColor
         clearButton.tintColor = style.clearIconColor
         if let window = window {
-            progressSpinner.tintColor = style.progressSpinnerColor(for: window)
+            progressSpinner.color = style.progressSpinnerColor(for: window)
         }
         cancelButton.setTitleColor(style.cancelButtonColor, for: .normal)
         attributePlaceholderText()
