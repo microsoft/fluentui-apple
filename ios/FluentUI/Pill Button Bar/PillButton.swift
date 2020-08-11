@@ -198,11 +198,7 @@ open class PillButton: UIButton {
                     setTitleColor(style.selectedDisabledTitleColor(for: window), for: .normal)
                 }
             } else {
-                if useCustomBackgroundColor {
-                    backgroundColor = customBackgroundColor
-                } else {
-                    backgroundColor = style.backgroundColor(for: window)
-                }
+                backgroundColor = useCustomBackgroundColor ? customBackgroundColor : style.backgroundColor(for: window)
                 if isEnabled {
                     setTitleColor(style.titleColor, for: .normal)
                 } else {

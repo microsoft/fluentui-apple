@@ -137,8 +137,11 @@ open class PillButtonBar: UIScrollView {
         }
     }
 
-    @objc public init(pillButtonStyle: PillButtonStyle = .outline) {
+    private var customPillButtonBackgroundColor:UIColor?
+
+    @objc public init(pillButtonStyle: PillButtonStyle = .outline, pillButtonBackgroundColor: UIColor? = nil) {
         self.pillButtonStyle = pillButtonStyle
+        self.customPillButtonBackgroundColor = pillButtonBackgroundColor
         super.init(frame: .zero)
         setupScrollView()
         setupStackView()
@@ -226,6 +229,9 @@ open class PillButtonBar: UIScrollView {
             buttons.append(button)
             stackView.addArrangedSubview(button)
             button.accessibilityHint = String(format: "Accessibility.MSPillButtonBar.Hint".localized, index + 1, items.count)
+            if let customButtonBackgroundColor = self.customPillButtonBackgroundColor {
+                button.customBackgroundColor = customButtonBackgroundColor
+            }
         }
     }
 
