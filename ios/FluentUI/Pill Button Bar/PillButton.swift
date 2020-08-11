@@ -131,7 +131,7 @@ open class PillButton: UIButton {
     }
 
     /// Set `backgroundColor` to customize background color of the pill button
-    @objc open var customBackgroundColor: UIColor = Colors.Drawer.background {
+    @objc open var customBackgroundColor: UIColor? {
         didSet {
             useCustomBackgroundColor = true
             self.backgroundColor = customBackgroundColor

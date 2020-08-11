@@ -115,6 +115,8 @@ open class PillButtonBar: UIScrollView {
         return view
     }()
 
+    private var customPillButtonBackgroundColor: UIColor?
+
     private var leadingConstraint: NSLayoutConstraint?
 
     private var centerConstraint: NSLayoutConstraint?
@@ -137,8 +139,6 @@ open class PillButtonBar: UIScrollView {
         }
     }
 
-    private var customPillButtonBackgroundColor:UIColor?
-
     @objc public init(pillButtonStyle: PillButtonStyle = .outline, pillButtonBackgroundColor: UIColor? = nil) {
         self.pillButtonStyle = pillButtonStyle
         self.customPillButtonBackgroundColor = pillButtonBackgroundColor
@@ -149,10 +149,6 @@ open class PillButtonBar: UIScrollView {
 
     public required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
-    }
-
-    @objc public func pillsBackgroundColor(_ backgroundColor: UIColor) {
-        buttons.forEach { $0.customBackgroundColor = backgroundColor }
     }
 
     @objc public func selectItem(_ item: PillButtonBarItem) {

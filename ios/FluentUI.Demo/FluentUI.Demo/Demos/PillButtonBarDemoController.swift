@@ -83,7 +83,7 @@ class PillButtonBarDemoController: DemoController {
     }
 
     func createBar(items: [PillButtonBarItem], style: PillButtonStyle = .outline, centerAligned: Bool = false, disabledItems: Bool = false, useCustomPillsBackground: Bool = false) -> UIView {
-        let bar = useCustomPillsBackground ? PillButtonBar(pillButtonStyle: style, pillButtonBackgroundColor: Colors.Palette.successShade20.color) : PillButtonBar(pillButtonStyle: style)
+        let bar = PillButtonBar(pillButtonStyle: style, pillButtonBackgroundColor: useCustomPillsBackground ? Colors.Palette.successShade20.color : nil)
         bar.items = items
         _ = bar.selectItem(atIndex: 0)
         bar.barDelegate = self
