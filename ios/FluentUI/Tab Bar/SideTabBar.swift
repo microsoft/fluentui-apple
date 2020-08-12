@@ -164,7 +164,7 @@ open class SideTabBar: UIView {
         return createStackView(spacing: Constants.bottomItemSpacing)
     }()
 
-    private let avatarViewGestureRecognizer: UITapGestureRecognizer = {
+    private lazy var avatarViewGestureRecognizer: UITapGestureRecognizer = {
         return UITapGestureRecognizer(target: self, action: #selector(handleAvatarViewTapped))
     }()
 
