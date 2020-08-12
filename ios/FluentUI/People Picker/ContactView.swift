@@ -59,7 +59,7 @@ open class ContactView: UIView {
     }
 
     private init(title: String?, subtitle: String?, identifier: String?) {
-        avatarView = AvatarView(avatarSize: .extraExtraLarge, withBorder: false, style: .circle)
+        avatarView = AvatarView(avatarSize: .extraExtraLarge, withBorder: false, style: .circle, preferredFallbackImageStyle: .onAccentFilled)
         labelContainer = UIView(frame: .zero)
         titleLabel = UILabel(frame: .zero)
         super.init(frame: .zero)

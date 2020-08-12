@@ -123,24 +123,29 @@ public enum AvatarStyle: Int {
 
 @objc(MSFAvatarFallbackImageStyle)
 public enum AvatarFallbackImageStyle: Int {
-    case primaryFilled
+    case onAccentFilled
     case outlined
+    case primaryFilled
 
     func backgroundColor(for window: UIWindow) -> UIColor {
         switch self {
         case .outlined:
             return UIColor(light: Colors.gray50, dark: Colors.gray800)
-        case .primaryFilled:
+        case .onAccentFilled:
             return Colors.primary(for: window)
+        case .primaryFilled:
+            return UIColor(light: .white, dark: Colors.primary(for: window))
         }
     }
 
-    var imageColor: UIColor {
+    func imageColor(for window: UIWindow) -> UIColor {
         switch self {
         case .outlined:
             return UIColor(light: Colors.gray500, dark: Colors.gray200)
-        case .primaryFilled:
+        case .onAccentFilled:
             return Colors.iconOnAccent
+        case .primaryFilled:
+            return UIColor(light: Colors.primary(for: window), dark: Colors.iconOnAccent)
         }
     }
 
@@ -149,7 +154,7 @@ public enum AvatarFallbackImageStyle: Int {
         switch self {
         case .outlined:
             return "person_\(Int(personImageSize))_regular"
-        case .primaryFilled:
+        case .onAccentFilled, .primaryFilled:
             return "person_\(Int(personImageSize))_filled"
         }
     }
@@ -250,16 +255,39 @@ open class AvatarView: UIView {
     /// Set this to override the avatar view's default accessibility label.
     @objc open var overrideAccessibilityLabel: String?
 
+    /// Used when avatarView doesn't have image or can't generate initials string
+    internal var preferredFallbackImageStyle: AvatarFallbackImageStyle = .outlined {
+        didSet {
+            if preferredFallbackImageStyle != oldValue {
+                if let fallbackImageStyle = fallbackImageStyle, fallbackImageStyle == oldValue {
+                    updateImageViewWithFallbackImage(style: preferredFallbackImageStyle)
+                }
+            }
+        }
+    }
+
     /// Initializes the avatar view with a size and an optional border
     ///
     /// - Parameters:
     ///   - avatarSize: The AvatarSize to configure the avatar view with
     ///   - hasBorder: Boolean describing whether or not to show a border around the avatarView
     ///   - style: The `MSAvatarStyle` to indicate whether the avatar should be displayed as a circle or a square
-    @objc public init(avatarSize: AvatarSize, withBorder hasBorder: Bool = false, style: AvatarStyle = .circle) {
+    @objc public convenience init(avatarSize: AvatarSize, withBorder hasBorder: Bool = false, style: AvatarStyle = .circle) {
+        self.init(avatarSize: avatarSize, withBorder: hasBorder, style: style, preferredFallbackImageStyle: .outlined)
+    }
+
+    /// Initializes the avatar view with a size and an optional border
+    ///
+    /// - Parameters:
+    ///   - avatarSize: The AvatarSize to configure the avatar view with
+    ///   - hasBorder: Boolean describing whether or not to show a border around the avatarView
+    ///   - style: The `MSAvatarStyle` to indicate whether the avatar should be displayed as a circle or a square
+    ///   - preferredFallbackImageStyle: `AvatarFallbackImageStyle` used when avatarView doesn't have an image or can't show initials text
+    @objc public init(avatarSize: AvatarSize, withBorder hasBorder: Bool = false, style: AvatarStyle = .circle, preferredFallbackImageStyle: AvatarFallbackImageStyle = .outlined) {
         self.avatarSize = avatarSize
         self.style = style
         self.hasBorder = hasBorder
+        self.preferredFallbackImageStyle = preferredFallbackImageStyle
         avatarBackgroundColor = UIColor.clear
 
         initialsView = InitialsView(avatarSize: avatarSize)
@@ -325,6 +353,14 @@ open class AvatarView: UIView {
         }
     }
 
+    open override func didMoveToWindow() {
+         super.didMoveToWindow()
+
+         if let fallbackImageStyle = fallbackImageStyle {
+             updateImageViewWithFallbackImage(style: fallbackImageStyle)
+         }
+     }
+
     // MARK: Setup
 
     /// Sets up the avatarView to show an image or initials based on if an image is provided. If client fails to provide image or text to generate initials, fallback person icon will be shown.
@@ -349,7 +385,7 @@ open class AvatarView: UIView {
         } else if !convertTextToInitials || isInitialsAvailable() {
             setupWithInitialsView(convertTextToInitials: convertTextToInitials)
         } else {
-            updateImageViewWithFallbackImage(style: .primaryFilled)
+            updateImageViewWithFallbackImage(style: preferredFallbackImageStyle)
         }
 
         accessibilityLabel = primaryText ?? secondaryText
@@ -633,8 +669,8 @@ open class AvatarView: UIView {
 
             if let window = window {
                 imageView.backgroundColor = style.backgroundColor(for: window)
+                imageView.tintColor = style.imageColor(for: window)
             }
-            imageView.tintColor = style.imageColor
 
             fallbackImageStyle = style
         }
@@ -685,7 +721,7 @@ class OverflowAvatarView: AvatarView {
     @objc public init(overflowCount: UInt, avatarSize: AvatarSize, withBorder hasBorder: Bool = false) {
         self.hasBorder = hasBorder
         borderView = UIView(frame: .zero)
-        super.init(avatarSize: avatarSize, withBorder: false, style: .circle)
+        super.init(avatarSize: avatarSize, withBorder: false, style: .circle, preferredFallbackImageStyle: .outlined)
 
         var overflowCountString = NumberFormatter.localizedString(from: NSNumber(value: overflowCount), number: .none)
         overflowCountString = String(format: "AvatarView.OverflowFormat".localized, overflowCountString)

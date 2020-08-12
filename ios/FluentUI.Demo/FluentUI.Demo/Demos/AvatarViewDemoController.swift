@@ -50,10 +50,12 @@ class AvatarViewDemoController: DemoController {
                       style: .circle,
                       borderStyle: .defaultBorder)
 
-        addTitle(text: "Default")
+        addTitle(text: "Fallback Images")
         for size in AvatarSize.allCases.reversed() {
-            let signedoutAvatar = createAvatarView(size: size, name: "+1 (425) 123 4567", style: .circle)
-            addRow(text: size.description, items: [signedoutAvatar.1], textStyle: .footnote, textWidth: 100)
+            let phoneNumber = "+1 (425) 123 4567"
+            let primaryFilledAvatar = createAvatarView(size: size, name: phoneNumber, style: .circle, preferredFallbackImageStyle: .primaryFilled)
+            let onAccentFilledAvatar = createAvatarView(size: size, name: phoneNumber, style: .circle, preferredFallbackImageStyle: .onAccentFilled)
+            addRow(text: size.description, items: [primaryFilledAvatar.1, onAccentFilledAvatar.1], textStyle: .footnote, textWidth: 100)
         }
 
         addTitle(text: "Unauthenticated")
@@ -64,7 +66,6 @@ class AvatarViewDemoController: DemoController {
             avatarView.overrideAccessibilityLabel = "Signed Out"
             addRow(text: size.description, items: [avatarView], textStyle: .footnote, textWidth: 100)
         }
-
     }
 
     private var isUsingAlternateBackgroundColor: Bool = false {
@@ -148,8 +149,8 @@ class AvatarViewDemoController: DemoController {
         container.addArrangedSubview(UIView())
     }
 
-    private func createAvatarView(size: AvatarSize, name: String? = nil, image: UIImage? = nil, style: AvatarStyle, borderStyle: BorderStyle = .noBorder) -> (UIView, AvatarView) {
-        let avatarView = AvatarView(avatarSize: size, withBorder: borderStyle != .noBorder, style: style)
+    private func createAvatarView(size: AvatarSize, name: String? = nil, image: UIImage? = nil, style: AvatarStyle, borderStyle: BorderStyle = .noBorder, preferredFallbackImageStyle: AvatarFallbackImageStyle = .onAccentFilled) -> (UIView, AvatarView) {
+        let avatarView = AvatarView(avatarSize: size, withBorder: borderStyle != .noBorder, style: style, preferredFallbackImageStyle: preferredFallbackImageStyle)
         if borderStyle == .colorfulBorder, let customBorderImage = colorfulImageForFrame() {
             avatarView.customBorderImage = customBorderImage
         }

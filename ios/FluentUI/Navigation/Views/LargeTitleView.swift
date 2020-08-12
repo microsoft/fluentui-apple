@@ -52,6 +52,7 @@ class LargeTitleView: UIView {
     var style: Style = .light {
         didSet {
             titleButton.setTitleColor(colorForStyle, for: .normal)
+            [avatarView, smallMorphingAvatarView].forEach { $0?.preferredFallbackImageStyle = style == .light ? .primaryFilled : .onAccentFilled }
         }
     }
 
@@ -138,7 +139,7 @@ class LargeTitleView: UIView {
         contain(view: contentStackView, withInsets: UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8))
 
         // default avatar view setup
-        let avatarView = ProfileView(avatarSize: Constants.avatarSize)
+        let avatarView = ProfileView(avatarSize: Constants.avatarSize, preferredFallbackImageStyle: style == .light ? .primaryFilled : .onAccentFilled)
         avatarView.setup(avatar: avatar)
         avatarView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleAvatarViewTapped)))
         self.avatarView = avatarView
