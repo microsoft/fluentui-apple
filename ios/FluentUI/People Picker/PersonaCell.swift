@@ -19,7 +19,7 @@ open class PersonaCell: TableViewCell {
     open override var customViewSize: TableViewCell.CustomViewSize { get { return .medium } set { } }
 
     private let avatarView: AvatarView = {
-        let avatarView = AvatarView(avatarSize: Constants.avatarSize)
+        let avatarView = AvatarView(avatarSize: Constants.avatarSize, preferredFallbackImageStyle: .onAccentFilled)
         avatarView.accessibilityElementsHidden = true
         return avatarView
     }()
