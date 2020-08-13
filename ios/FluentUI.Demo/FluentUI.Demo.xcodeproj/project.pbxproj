@@ -13,7 +13,7 @@
 		7D0931C124AAA3D30072458A /* SideTabBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0931C024AAA3D30072458A /* SideTabBarDemoController.swift */; };
 		7D23482A24D89C1C00FBE057 /* AvatarGroupViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D23482924D89C1C00FBE057 /* AvatarGroupViewDemoController.swift */; };
 		7DC2FB2B24C0F4FD00367A55 /* TableViewCellFileAccessoryViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2A24C0F4FD00367A55 /* TableViewCellFileAccessoryViewDemoController.swift */; };
-		8AD4FF842493F2500085C076 /* ContactViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD4FF832493F2500085C076 /* ContactViewDemoController.swift */; };
+		8AF03E2024B6BE3100E6E2A2 /* ContactCollectionViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF03E1F24B6BE3100E6E2A2 /* ContactCollectionViewDemoController.swift */; };
 		A589F856211BA71000471C23 /* LabelDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A589F855211BA71000471C23 /* LabelDemoController.swift */; };
 		A591A3F420F429EB001ED23B /* Demos.swift in Sources */ = {isa = PBXBuildFile; fileRef = A591A3F320F429EB001ED23B /* Demos.swift */; };
 		A5961FA9218A61BB00E2A506 /* PopupMenuDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA8218A61BB00E2A506 /* PopupMenuDemoController.swift */; };
@@ -76,7 +76,7 @@
 		7D0931C024AAA3D30072458A /* SideTabBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideTabBarDemoController.swift; sourceTree = "<group>"; };
 		7D23482924D89C1C00FBE057 /* AvatarGroupViewDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarGroupViewDemoController.swift; sourceTree = "<group>"; };
 		7DC2FB2A24C0F4FD00367A55 /* TableViewCellFileAccessoryViewDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellFileAccessoryViewDemoController.swift; sourceTree = "<group>"; };
-		8AD4FF832493F2500085C076 /* ContactViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewDemoController.swift; sourceTree = "<group>"; };
+		8AF03E1F24B6BE3100E6E2A2 /* ContactCollectionViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCollectionViewDemoController.swift; sourceTree = "<group>"; };
 		A589F855211BA71000471C23 /* LabelDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelDemoController.swift; sourceTree = "<group>"; };
 		A591A3F320F429EB001ED23B /* Demos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Demos.swift; sourceTree = "<group>"; };
 		A5961FA8218A61BB00E2A506 /* PopupMenuDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuDemoController.swift; sourceTree = "<group>"; };
@@ -281,7 +281,7 @@
 				FDDD73FC22C6D86B00A9D995 /* ObjectiveCDemoController.h */,
 				FDDD73FB22C6D86B00A9D995 /* ObjectiveCDemoController.m */,
 				B441478E228E02540040E88E /* OtherCellsDemoController.swift */,
-				8AD4FF832493F2500085C076 /* ContactViewDemoController.swift */,
+				8AF03E1F24B6BE3100E6E2A2 /* ContactCollectionViewDemoController.swift */,
 			);
 			path = Demos;
 			sourceTree = "<group>";
@@ -458,6 +458,7 @@
 				A5961FA9218A61BB00E2A506 /* PopupMenuDemoController.swift in Sources */,
 				B42760DD21488FFA0021A4F7 /* AvatarViewDemoController.swift in Sources */,
 				A5B6617623A4227400E801DD /* NotificationViewDemoController.swift in Sources */,
+				8AF03E2024B6BE3100E6E2A2 /* ContactCollectionViewDemoController.swift in Sources */,
 				A5DCA760211E3B4C005F4CB7 /* DemoController.swift in Sources */,
 				7D0931C124AAA3D30072458A /* SideTabBarDemoController.swift in Sources */,
 				B45EB79221A4D047008646A2 /* BadgeFieldDemoController.swift in Sources */,
@@ -465,7 +466,6 @@
 				B4D852DB225C010A004B1B29 /* ButtonDemoController.swift in Sources */,
 				7D23482A24D89C1C00FBE057 /* AvatarGroupViewDemoController.swift in Sources */,
 				497DC2DE24185896008D86F8 /* PillButtonBarDemoController.swift in Sources */,
-				8AD4FF842493F2500085C076 /* ContactViewDemoController.swift in Sources */,
 				B4EF53C5215C45C400573E8F /* PersonaListViewDemoController.swift in Sources */,
 				A5DCA75E211E3A92005F4CB7 /* DrawerDemoController.swift in Sources */,
 				FDDD73FD22C6D86B00A9D995 /* ObjectiveCDemoController.m in Sources */,

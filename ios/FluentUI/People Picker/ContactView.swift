@@ -9,23 +9,20 @@ import UIKit
 
 public extension Colors {
     struct Contact {
-        public static var title: UIColor = textPrimary
-        public static var subtitle: UIColor = textSecondary
+        public static let pressedState: UIColor = Colors.gray200.withAlphaComponent(0.6)
     }
+}
+
+// MARK: ContactViewDelegate
+@objc(MSFContactViewDelegate)
+public protocol ContactViewDelegate: AnyObject {
+    @objc optional func didTapContactView(_ contact: ContactView)
 }
 
 // MARK: ContactView
 
 @objc(MSFContactView)
-open class ContactView: UIView {
-    private struct Constants {
-        static let labelMinimumHeight: CGFloat = 16.0
-        static let titleLabelMaximumHeight: CGFloat = 28.0
-        static let subtitleMaximumHeight: CGFloat = 24.0
-        static let spacingBetweenAvatarAndLabelContainer: CGFloat = 13.0
-        static let numberOfLinesForSingleLabel: Int = 2
-    }
-
+open class ContactView: UIControl {
     @objc public var avatarImage: UIImage? {
         didSet {
             if let subtitleLabel = subtitleLabel {
@@ -36,10 +33,13 @@ open class ContactView: UIView {
         }
     }
 
+    open weak var contactViewDelegate: ContactViewDelegate?
+
     private let avatarView: AvatarView
     private var titleLabel: UILabel
     private var subtitleLabel: UILabel?
     private var labelContainer: UIView
+    private let pressedStateOverlay: UIView
 
     /// Initializes the contact view by creating an avatar view with a primary and secondary text
     ///
@@ -62,7 +62,12 @@ open class ContactView: UIView {
         avatarView = AvatarView(avatarSize: .extraExtraLarge, withBorder: false, style: .circle)
         labelContainer = UIView(frame: .zero)
         titleLabel = UILabel(frame: .zero)
+        pressedStateOverlay = UIView(frame: .zero)
         super.init(frame: .zero)
+
+        addTarget(self, action: #selector(touchDownHandler), for: .touchDown)
+        addTarget(self, action: #selector(touchUpInsideHandler), for: .touchUpInside)
+        addTarget(self, action: #selector(touchMovedHandler), for: .touchDragInside)
 
         if let title = title, let subtitle = subtitle {
             setupAvatarView(with: title, and: subtitle)
@@ -74,6 +79,7 @@ open class ContactView: UIView {
         }
 
         backgroundColor = Colors.surfacePrimary
+        setupPressedStateOverlay()
         setupLayout()
     }
 
@@ -95,6 +101,7 @@ open class ContactView: UIView {
         constraints.append(contentsOf: avatarLayoutConstraints())
 
         avatarView.translatesAutoresizingMaskIntoConstraints = false
+        avatarView.isUserInteractionEnabled = false
         addSubview(avatarView)
 
         if let subtitleLabel = subtitleLabel {
@@ -106,12 +113,22 @@ open class ContactView: UIView {
             constraints.append(contentsOf: identifierLayoutConstraints())
         }
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        labelContainer.addSubview(titleLabel)
+
+        pressedStateOverlay.translatesAutoresizingMaskIntoConstraints = false
+        avatarView.addSubview(pressedStateOverlay)
+        constraints.append(contentsOf: [
+            pressedStateOverlay.leadingAnchor.constraint(equalTo: avatarView.leadingAnchor),
+            pressedStateOverlay.trailingAnchor.constraint(equalTo: avatarView.trailingAnchor),
+            pressedStateOverlay.topAnchor.constraint(equalTo: avatarView.topAnchor),
+            pressedStateOverlay.bottomAnchor.constraint(equalTo: avatarView.bottomAnchor)
+        ])
 
         labelContainer.translatesAutoresizingMaskIntoConstraints = false
+        labelContainer.isUserInteractionEnabled = false
+        labelContainer.addSubview(titleLabel)
         addSubview(labelContainer)
-
         constraints.append(contentsOf: labelContainerLayoutConstraints())
+
         NSLayoutConstraint.activate(constraints)
     }
 
@@ -180,7 +197,7 @@ open class ContactView: UIView {
         label.font = Fonts.subhead
         label.text = title
         label.textAlignment = .center
-        label.textColor = Colors.Contact.title
+        label.textColor = Colors.textPrimary
 
         if subtitleLabel == nil {
             label.numberOfLines = Constants.numberOfLinesForSingleLabel
@@ -195,8 +212,36 @@ open class ContactView: UIView {
         label.font = Fonts.footnote
         label.text = subtitle
         label.textAlignment = .center
-        label.textColor = Colors.Contact.subtitle
+        label.textColor = Colors.textSecondary
 
         subtitleLabel = label
+    }
+
+    private func setupPressedStateOverlay() {
+        pressedStateOverlay.backgroundColor = Colors.Contact.pressedState
+        pressedStateOverlay.clipsToBounds = true
+        pressedStateOverlay.frame = avatarView.frame
+        pressedStateOverlay.isHidden = true
+        pressedStateOverlay.isUserInteractionEnabled = false
+        pressedStateOverlay.layer.cornerRadius = avatarView.frame.width / 2
+    }
+
+    @objc private func touchDownHandler() {
+        pressedStateOverlay.isHidden = false
+    }
+
+    @objc private func touchUpInsideHandler() {
+        contactViewDelegate?.didTapContactView?(self)
+        pressedStateOverlay.isHidden = true
+    }
+
+    @objc private func touchMovedHandler() {
+        pressedStateOverlay.isHidden = true
+    }
+
+    private struct Constants {
+        static let labelMinimumHeight: CGFloat = 16.0
+        static let spacingBetweenAvatarAndLabelContainer: CGFloat = 13.0
+        static let numberOfLinesForSingleLabel: Int = 2
     }
 }
