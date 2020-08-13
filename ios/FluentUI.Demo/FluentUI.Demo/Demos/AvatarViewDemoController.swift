@@ -60,11 +60,17 @@ class AvatarViewDemoController: DemoController {
 
         addTitle(text: "Unauthenticated")
         for size in AvatarSize.allCases.reversed() {
-            let avatarView = AvatarView(avatarSize: size, withBorder: false, style: .circle)
-            avatarView.setup(fallbackStyle: .outlined)
-            avatarView.translatesAutoresizingMaskIntoConstraints = false
-            avatarView.overrideAccessibilityLabel = "Signed Out"
-            addRow(text: size.description, items: [avatarView], textStyle: .footnote, textWidth: 100)
+            let accessibilityLabel = "Signed Out"
+            let grayAvatarView = AvatarView(avatarSize: size, withBorder: false, style: .circle)
+            grayAvatarView.setup(fallbackStyle: .outlined)
+            grayAvatarView.translatesAutoresizingMaskIntoConstraints = false
+            grayAvatarView.overrideAccessibilityLabel = accessibilityLabel
+
+            let primaryAvatarView = AvatarView(avatarSize: size, withBorder: false, style: .circle)
+            primaryAvatarView.setup(fallbackStyle: .primaryOutlined)
+            primaryAvatarView.translatesAutoresizingMaskIntoConstraints = false
+            primaryAvatarView.overrideAccessibilityLabel = accessibilityLabel
+            addRow(text: size.description, items: [grayAvatarView, primaryAvatarView], textStyle: .footnote, textWidth: 100)
         }
     }
 

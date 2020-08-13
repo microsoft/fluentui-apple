@@ -126,6 +126,7 @@ public enum AvatarFallbackImageStyle: Int {
     case onAccentFilled
     case outlined
     case primaryFilled
+    case primaryOutlined
 
     func backgroundColor(for window: UIWindow) -> UIColor {
         switch self {
@@ -135,6 +136,8 @@ public enum AvatarFallbackImageStyle: Int {
             return Colors.primary(for: window)
         case .primaryFilled:
             return UIColor(light: .white, dark: Colors.primary(for: window))
+        case .primaryOutlined:
+            return Colors.primaryTint40(for: window)
         }
     }
 
@@ -146,13 +149,15 @@ public enum AvatarFallbackImageStyle: Int {
             return Colors.iconOnAccent
         case .primaryFilled:
             return UIColor(light: Colors.primary(for: window), dark: Colors.iconOnAccent)
+        case .primaryOutlined:
+            return Colors.primary(for: window)
         }
     }
 
     func imageName(size: AvatarSize) -> String {
         let personImageSize = size.personImageSize
         switch self {
-        case .outlined:
+        case .outlined, .primaryOutlined:
             return "person_\(Int(personImageSize))_regular"
         case .onAccentFilled, .primaryFilled:
             return "person_\(Int(personImageSize))_filled"
