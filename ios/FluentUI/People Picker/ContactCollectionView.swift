@@ -7,8 +7,10 @@ import UIKit
 
 // MARK: ContactCollectionViewDelegate
 
-public typealias MSContactCollectionViewDelegate = ContactCollectionViewDelegate
-@objc public protocol ContactCollectionViewDelegate: AnyObject {
+public typealias MSFContactCollectionViewDelegate = ContactCollectionViewDelegate
+
+@objc(MSFContactCollectionViewDelegate)
+public protocol ContactCollectionViewDelegate: AnyObject {
     @objc optional func didTapOnContactViewAtIndex(index: Int, personaData: PersonaData)
 }
 
@@ -103,7 +105,6 @@ open class ContactCollectionView: UICollectionView {
     }
 
     private let layout: ContactCollectionViewLayout
-    private var widthConstraint: NSLayoutConstraint?
     private lazy var heightConstraint: NSLayoutConstraint = {
         let heightConstraint = heightAnchor.constraint(equalToConstant: 0.0)
         return heightConstraint

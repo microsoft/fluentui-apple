@@ -9,15 +9,13 @@ import UIKit
 
 public extension Colors {
     struct Contact {
-        public static let title: UIColor = textPrimary
-        public static let subtitle: UIColor = textSecondary
         public static let pressedState: UIColor = Colors.gray200.withAlphaComponent(0.6)
     }
 }
 
 // MARK: ContactViewDelegate
-public typealias MSContactViewDelegate = ContactViewDelegate
-@objc public protocol ContactViewDelegate: AnyObject {
+@objc(MSFContactViewDelegate)
+public protocol ContactViewDelegate: AnyObject {
     @objc optional func didTapContactView(_ contact: ContactView)
 }
 
@@ -199,7 +197,7 @@ open class ContactView: UIControl {
         label.font = Fonts.subhead
         label.text = title
         label.textAlignment = .center
-        label.textColor = Colors.Contact.title
+        label.textColor = Colors.textPrimary
 
         if subtitleLabel == nil {
             label.numberOfLines = Constants.numberOfLinesForSingleLabel
@@ -214,7 +212,7 @@ open class ContactView: UIControl {
         label.font = Fonts.footnote
         label.text = subtitle
         label.textAlignment = .center
-        label.textColor = Colors.Contact.subtitle
+        label.textColor = Colors.textSecondary
 
         subtitleLabel = label
     }
@@ -243,8 +241,6 @@ open class ContactView: UIControl {
 
     private struct Constants {
         static let labelMinimumHeight: CGFloat = 16.0
-        static let titleLabelMaximumHeight: CGFloat = 28.0
-        static let subtitleMaximumHeight: CGFloat = 24.0
         static let spacingBetweenAvatarAndLabelContainer: CGFloat = 13.0
         static let numberOfLinesForSingleLabel: Int = 2
     }
