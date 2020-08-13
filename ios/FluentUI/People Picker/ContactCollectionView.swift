@@ -30,6 +30,7 @@ open class ContactCollectionView: UICollectionView {
             contactList = personaData
         }
 
+        heightConstraint.isActive = true
         configureCollectionView()
         setupHeightConstraint()
         register(ContactCollectionViewCell.self, forCellWithReuseIdentifier: ContactCollectionViewCell.identifier)
@@ -76,7 +77,6 @@ open class ContactCollectionView: UICollectionView {
     private var widthConstraint: NSLayoutConstraint?
     private lazy var heightConstraint: NSLayoutConstraint = {
         let heightConstraint = heightAnchor.constraint(equalToConstant: 0.0)
-        heightConstraint.isActive = true
         return heightConstraint
     }()
     private var currentTappedIndex: Int?
