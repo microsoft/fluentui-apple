@@ -24,7 +24,7 @@ public typealias MSContactViewDelegate = ContactViewDelegate
 // MARK: ContactView
 
 @objc(MSFContactView)
-open class ContactView: UIView {
+open class ContactView: UIControl {
     @objc public var avatarImage: UIImage? {
         didSet {
             if let subtitleLabel = subtitleLabel {
@@ -67,6 +67,10 @@ open class ContactView: UIView {
         pressedStateOverlay = UIView(frame: .zero)
         super.init(frame: .zero)
 
+        addTarget(self, action: #selector(touchDownHandler), for: .touchDown)
+        addTarget(self, action: #selector(touchUpInsideHandler), for: .touchUpInside)
+        addTarget(self, action: #selector(touchMovedHandler), for: .touchDragInside)
+
         if let title = title, let subtitle = subtitle {
             setupAvatarView(with: title, and: subtitle)
             setupSubtitleLabel(using: subtitle)
@@ -99,6 +103,7 @@ open class ContactView: UIView {
         constraints.append(contentsOf: avatarLayoutConstraints())
 
         avatarView.translatesAutoresizingMaskIntoConstraints = false
+        avatarView.isUserInteractionEnabled = false
         addSubview(avatarView)
 
         if let subtitleLabel = subtitleLabel {
@@ -121,6 +126,7 @@ open class ContactView: UIView {
         ])
 
         labelContainer.translatesAutoresizingMaskIntoConstraints = false
+        labelContainer.isUserInteractionEnabled = false
         labelContainer.addSubview(titleLabel)
         addSubview(labelContainer)
         constraints.append(contentsOf: labelContainerLayoutConstraints())
@@ -214,9 +220,25 @@ open class ContactView: UIView {
     }
 
     private func setupPressedStateOverlay() {
+        pressedStateOverlay.backgroundColor = Colors.Contact.pressedState
         pressedStateOverlay.clipsToBounds = true
         pressedStateOverlay.frame = avatarView.frame
+        pressedStateOverlay.isHidden = true
+        pressedStateOverlay.isUserInteractionEnabled = false
         pressedStateOverlay.layer.cornerRadius = avatarView.frame.width / 2
+    }
+
+    @objc private func touchDownHandler() {
+        pressedStateOverlay.isHidden = false
+    }
+
+    @objc private func touchUpInsideHandler() {
+        contactViewDelegate?.didTapContactView?(self)
+        pressedStateOverlay.isHidden = true
+    }
+
+    @objc private func touchMovedHandler() {
+        pressedStateOverlay.isHidden = true
     }
 
     private struct Constants {
@@ -225,22 +247,5 @@ open class ContactView: UIView {
         static let subtitleMaximumHeight: CGFloat = 24.0
         static let spacingBetweenAvatarAndLabelContainer: CGFloat = 13.0
         static let numberOfLinesForSingleLabel: Int = 2
-    }
-
-    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        pressedStateOverlay.backgroundColor = Colors.Contact.pressedState
-        pressedStateOverlay.isHidden = false
-    }
-
-    open override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesMoved(touches, with: event)
-        pressedStateOverlay.isHidden = true
-    }
-
-    open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesEnded(touches, with: event)
-        contactViewDelegate?.didTapContactView?(self)
-        pressedStateOverlay.isHidden = true
     }
 }
