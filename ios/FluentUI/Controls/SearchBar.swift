@@ -239,7 +239,7 @@ open class SearchBar: UIView {
 
     private var originalIsNavigationBarHidden: Bool = false
 
-    ///indicates search in progress
+    /// indicates search in progress
     @objc public lazy var progressSpinner: ActivityIndicatorView = {
         let progressSpinner = ActivityIndicatorView(size: .medium)
         return progressSpinner

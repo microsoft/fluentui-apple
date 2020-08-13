@@ -153,21 +153,20 @@ class NavigationControllerDemoController: DemoController {
 
 extension NavigationControllerDemoController: UIGestureRecognizerDelegate, SearchBarDelegate {
 
-       func searchBarDidBeginEditing(_ searchBar: SearchBar) {
-               searchBar.progressSpinner.stopAnimating()
-       }
+    func searchBarDidBeginEditing(_ searchBar: SearchBar) {
+        searchBar.progressSpinner.stopAnimating()
+    }
 
-       func searchBar(_ searchBar: SearchBar, didUpdateSearchText newSearchText: String?) {
-               // Do Nothing
-       }
+    func searchBar(_ searchBar: SearchBar, didUpdateSearchText newSearchText: String?) {
+    }
 
-       func searchBarDidCancel(_ searchBar: SearchBar) {
-               searchBar.progressSpinner.stopAnimating()
-       }
+    func searchBarDidCancel(_ searchBar: SearchBar) {
+        searchBar.progressSpinner.stopAnimating()
+    }
 
-       func searchBarDidRequestSearch(_ searchBar: SearchBar) {
-               searchBar.progressSpinner.startAnimating()
-       }
+    func searchBarDidRequestSearch(_ searchBar: SearchBar) {
+        searchBar.progressSpinner.startAnimating()
+    }
 
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         // Only show side drawer for the root view controller

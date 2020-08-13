@@ -158,7 +158,7 @@ open class ActivityIndicatorView: UIView {
         super.traitCollectionDidChange(previousTraitCollection)
         if #available(iOS 13, *) {
             if previousTraitCollection?.userInterfaceStyle != traitCollection.userInterfaceStyle {
-            setupLoaderLayer()
+                setupLoaderLayer()
             }
         }
     }
