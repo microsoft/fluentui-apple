@@ -53,7 +53,8 @@ class ContactCollectionViewDemoController: DemoController {
             smallCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             smallCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             stackView.leadingAnchor.constraint(equalTo: scrollingContainer.leadingAnchor, constant: Constants.leadingSpacing),
-            stackView.topAnchor.constraint(equalTo: smallCollectionView.bottomAnchor, constant: Constants.spacing)
+            stackView.topAnchor.constraint(equalTo: smallCollectionView.bottomAnchor, constant: Constants.spacing),
+            stackView.bottomAnchor.constraint(equalTo: scrollingContainer.bottomAnchor)
         ])
     }
 
@@ -79,10 +80,7 @@ class ContactCollectionViewDemoController: DemoController {
         PersonaData(surname: "Lydia", lastName: "Bauer", avatarImage: UIImage(named: "avatar_lydia_bauer")),
         PersonaData(surname: "Robin", lastName: "Counts"),
         PersonaData(surname: "Tim", lastName: "Deboer", avatarImage: UIImage(named: "avatar_tim_deboer")),
-        PersonaData(email: "wanda.howard@contoso.com"),
         PersonaData(surname: "Daisy", lastName: "Phillips", avatarImage: UIImage(named: "avatar_daisy_phillips")),
-        PersonaData(name: "Katri Ahokas", avatarImage: UIImage(named: "avatar_katri_ahokas")),
-        PersonaData(name: "Colin Ballinger", email: "colin.ballinger@contoso.com", avatarImage: UIImage(named: "avatar_colin_ballinger")),
         PersonaData(surname: "Mona", lastName: "Kane", email: "mona.kane@contoso.com"),
         PersonaData(surname: "Elvia", lastName: "Atkins", avatarImage: UIImage(named: "avatar_elvia_atkins")),
         PersonaData(surname: "Johnie", lastName: "McConnell", subtitle: "Designer", avatarImage: UIImage(named: "avatar_johnie_mcconnell")),
@@ -92,9 +90,12 @@ class ContactCollectionViewDemoController: DemoController {
         PersonaData(surname: "Isaac", lastName: "Fielder", avatarImage: UIImage(named: "avatar_isaac_fielder")),
         PersonaData(surname: "Carole", lastName: "Poland"),
         PersonaData(surname: "Elliot", lastName: "Woodward"),
-        PersonaData(email: "carlos.slattery@contoso.com", subtitle: "Software Engineer"),
         PersonaData(surname: "Henry", lastName: "Brill", avatarImage: UIImage(named: "avatar_henry_brill")),
-        PersonaData(surname: "Cecil", lastName: "Folk", avatarImage: UIImage(named: "avatar_cecil_folk"))
+        PersonaData(surname: "Cecil", lastName: "Folk", avatarImage: UIImage(named: "avatar_cecil_folk")),
+        PersonaData(name: "Katri Ahokas", avatarImage: UIImage(named: "avatar_katri_ahokas")),
+        PersonaData(name: "Colin Ballinger", email: "colin.ballinger@contoso.com", avatarImage: UIImage(named: "avatar_colin_ballinger")),
+        PersonaData(email: "wanda.howard@contoso.com"),
+        PersonaData(email: "carlos.slattery@contoso.com", subtitle: "Software Engineer")
     ]
 }
 

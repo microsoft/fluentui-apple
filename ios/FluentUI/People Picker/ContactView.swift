@@ -38,6 +38,30 @@ open class ContactView: UIControl {
                 return false
             }
         }
+
+        var width: CGFloat {
+            var width = avatarSize.size.width
+            switch UIApplication.shared.preferredContentSizeCategory {
+            case .accessibilityMedium:
+                width += 20
+            case .accessibilityLarge:
+                width += 30
+            case .accessibilityExtraLarge:
+                width += 40
+            case .accessibilityExtraExtraLarge:
+                width += 50
+            case .accessibilityExtraExtraExtraLarge:
+                width += 60
+            default:
+                break
+            }
+
+            return width
+        }
+
+        var height: CGFloat {
+            return avatarSize.size.height
+        }
     }
 
     @objc public var avatarImage: UIImage? {
@@ -85,14 +109,18 @@ open class ContactView: UIControl {
 
         if let title = title, let subtitle = subtitle {
             setupAvatarView(with: title, and: subtitle)
-            setupSubtitleLabel(using: subtitle)
-            setupTitleLabel(using: title)
+
+            if size == .large {
+                setupSubtitleLabel(using: subtitle)
+            }
+
+            setupTitleLabel(using: title, numberOfLines: 1)
         } else if let identifier = identifier {
             setupAvatarView(with: identifier)
-            setupTitleLabel(using: identifier)
+            setupTitleLabel(using: identifier, numberOfLines: (size == .large ? 2 : 1))
         }
 
-        backgroundColor = Colors.surfaceSecondary // TODO_ Colors.surfacePrimary
+        backgroundColor = .cyan // TODO_ Colors.surfacePrimary
         setupPressedStateOverlay()
         setupLayout()
     }
@@ -106,6 +134,14 @@ open class ContactView: UIControl {
     private var subtitleLabel: UILabel?
     private var labelContainer: UIView
     private let pressedStateOverlay: UIView
+
+    private lazy var labelHeightConstraint: NSLayoutConstraint = {
+        return labelContainer.heightAnchor.constraint(equalToConstant: 0)
+    }()
+
+    private lazy var widthConstraint: NSLayoutConstraint = {
+        return widthAnchor.constraint(equalToConstant: 0)
+    }()
 
     private func setupAvatarView(with title: String, and subtitle: String) {
         let identifier = title + " " + subtitle
@@ -137,7 +173,9 @@ open class ContactView: UIControl {
 
         pressedStateOverlay.translatesAutoresizingMaskIntoConstraints = false
         avatarView.addSubview(pressedStateOverlay)
+
         constraints.append(contentsOf: [
+            widthConstraint,
             pressedStateOverlay.leadingAnchor.constraint(equalTo: avatarView.leadingAnchor),
             pressedStateOverlay.trailingAnchor.constraint(equalTo: avatarView.trailingAnchor),
             pressedStateOverlay.topAnchor.constraint(equalTo: avatarView.topAnchor),
@@ -151,15 +189,30 @@ open class ContactView: UIControl {
         constraints.append(contentsOf: labelContainerLayoutConstraints())
 
         NSLayoutConstraint.activate(constraints)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateSizeConstraints),
+                                               name: UIContentSizeCategory.didChangeNotification,
+                                               object: nil)
+
+        updateSizeConstraints()
+    }
+
+    @objc private func updateSizeConstraints() {
+        updateLabelHeight()
+        widthConstraint.constant = size.width
+    }
+
+    private func updateLabelHeight() {
+        let contactHeight = UIApplication.shared.preferredContentSizeCategory.contactHeight
+        labelHeightConstraint.constant = contactHeight - size.height - Constants.spacingBetweenAvatarAndLabelContainer
     }
 
     private func avatarLayoutConstraints() -> [NSLayoutConstraint] {
         return [
-            avatarView.heightAnchor.constraint(equalToConstant: size.avatarSize.size.height),
-            avatarView.widthAnchor.constraint(equalToConstant: size.avatarSize.size.width),
+            avatarView.heightAnchor.constraint(equalToConstant: size.height),
             avatarView.topAnchor.constraint(equalTo: topAnchor),
-            avatarView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            avatarView.trailingAnchor.constraint(equalTo: trailingAnchor)
+            avatarView.centerXAnchor.constraint(equalTo: centerXAnchor)
         ]
     }
 
@@ -169,7 +222,7 @@ open class ContactView: UIControl {
             labelContainer.leadingAnchor.constraint(equalTo: leadingAnchor),
             labelContainer.trailingAnchor.constraint(equalTo: trailingAnchor),
             labelContainer.bottomAnchor.constraint(equalTo: bottomAnchor),
-            labelContainer.heightAnchor.constraint(greaterThanOrEqualToConstant: 2.0 * Constants.labelMinimumHeight)
+            labelHeightConstraint
         ]
     }
 
@@ -205,17 +258,14 @@ open class ContactView: UIControl {
         ]
     }
 
-    private func setupTitleLabel(using title: String) {
+    private func setupTitleLabel(using title: String, numberOfLines: Int = 2) {
         let label = UILabel(frame: .zero)
         label.adjustsFontForContentSizeCategory = true
         label.font = Fonts.subhead
         label.text = title
         label.textAlignment = .center
         label.textColor = Colors.textPrimary
-
-        if subtitleLabel == nil {
-            label.numberOfLines = Constants.numberOfLinesForSingleLabel
-        }
+        label.numberOfLines = numberOfLines
 
         titleLabel = label
     }
@@ -227,6 +277,7 @@ open class ContactView: UIControl {
         label.text = subtitle
         label.textAlignment = .center
         label.textColor = Colors.textSecondary
+        label.numberOfLines = 1
 
         subtitleLabel = label
     }
@@ -258,7 +309,6 @@ open class ContactView: UIControl {
     private struct Constants {
         static let labelMinimumHeight: CGFloat = 16.0
         static let spacingBetweenAvatarAndLabelContainer: CGFloat = 13.0
-        static let numberOfLinesForSingleLabel: Int = 2
     }
 }
 

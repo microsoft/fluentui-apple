@@ -31,6 +31,23 @@ open class ContactCollectionView: UICollectionView {
                 return .small
             }
         }
+
+        var avatarSize: AvatarSize {
+            switch self {
+            case .large:
+                return .extraExtraLarge
+            case .small:
+                return .extraLarge
+            }
+        }
+
+        var width: CGFloat {
+            return avatarSize.size.width
+        }
+
+        var height: CGFloat {
+            return avatarSize.size.height
+        }
     }
 
     /// The size of the collection view.
@@ -40,7 +57,7 @@ open class ContactCollectionView: UICollectionView {
     /// - Parameter size: The size of the collection view.
     /// - Parameter personas: Array of PersonaData used to create each individual ContactView.
     @objc public init(size: Size = .large, personas: [PersonaData] = []) {
-        layout = ContactCollectionViewLayout()
+        layout = ContactCollectionViewLayout(size: size)
         layout.scrollDirection = .horizontal
         self.size = size
         self.personas = personas
@@ -50,10 +67,10 @@ open class ContactCollectionView: UICollectionView {
 
         heightConstraint.isActive = true
         configureCollectionView()
-        setupHeightConstraint()
+        updateHeightConstraint()
 
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(setupHeightConstraint),
+                                               selector: #selector(sizeCategoryDidUpdate),
                                                name: UIContentSizeCategory.didChangeNotification,
                                                object: nil)
     }
@@ -67,7 +84,7 @@ open class ContactCollectionView: UICollectionView {
     @objc public var personas: [PersonaData] = [] {
         didSet {
             if (oldValue.count == 0 && personas.count > 0) || (oldValue.count > 0 && personas.count == 0) {
-                setupHeightConstraint()
+                updateHeightConstraint()
             }
         }
     }
@@ -92,7 +109,12 @@ open class ContactCollectionView: UICollectionView {
         contentInset = UIEdgeInsets(top: Constants.verticalInset, left: Constants.horizontalInset, bottom: Constants.verticalInset, right: Constants.horizontalInset)
     }
 
-    @objc private func setupHeightConstraint() {
+    @objc private func sizeCategoryDidUpdate() {
+        updateHeightConstraint()
+        reloadData()
+    }
+
+    @objc private func updateHeightConstraint() {
         let height = UIApplication.shared.preferredContentSizeCategory.contactHeight + 2 * Constants.verticalInset
         heightConstraint.constant = height
     }
@@ -175,23 +197,31 @@ extension UIContentSizeCategory {
     var contactHeight: CGFloat {
         switch self {
         case .extraSmall:
-            return 115
-        case .small:
             return 117
+        case .small:
+            return 119
         case .medium:
-            return 118
+            return 120
         case .large:
-            return 121
+            return 123
         case .extraLarge:
-            return 125
+            return 127
         case .extraExtraLarge:
-            return 129
-        case .extraExtraExtraLarge, .accessibilityMedium,
-             .accessibilityLarge, .accessibilityExtraLarge,
-             .accessibilityExtraExtraLarge, .accessibilityExtraExtraExtraLarge:
-            return 135
+            return 131
+        case .extraExtraExtraLarge:
+            return 137
+        case .accessibilityMedium:
+            return 141
+        case .accessibilityLarge:
+            return 151
+        case .accessibilityExtraLarge:
+            return 165
+        case .accessibilityExtraExtraLarge:
+            return 178
+        case .accessibilityExtraExtraExtraLarge:
+            return 194
         default:
-            return 135
+            return 0
         }
     }
 }
