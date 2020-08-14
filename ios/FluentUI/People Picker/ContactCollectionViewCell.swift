@@ -7,10 +7,9 @@ import UIKit
 
 class ContactCollectionViewCell: UICollectionViewCell {
     static let identifier: String = "ContactCollectionViewCell"
-    public var contactView: ContactView
+    public var contactView: ContactView?
 
     override init(frame: CGRect) {
-        contactView = ContactView(title: "", subtitle: "")
         super.init(frame: frame)
     }
 
@@ -18,20 +17,25 @@ class ContactCollectionViewCell: UICollectionViewCell {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    func setup(contact persona: PersonaData) {
-        let identifier = (persona.name.count > 0) ? persona.name : persona.email
-        contactView = ContactView(identifier: identifier)
-        contactView.translatesAutoresizingMaskIntoConstraints = false
-
-        if let avatarImage = persona.avatarImage {
-            contactView.avatarImage = avatarImage
+    func setup(contact persona: PersonaData, size: ContactView.Size) {
+        if let name = persona.composedName {
+            contactView = ContactView(title: name.0, subtitle: name.1, size: size)
+        } else {
+            let identifier = (persona.name.count > 0) ? persona.name : persona.email
+            contactView = ContactView(identifier: identifier, size: size)
         }
 
-        contentView.addSubview(contactView)
+        contactView!.translatesAutoresizingMaskIntoConstraints = false
+
+        if let avatarImage = persona.avatarImage {
+            contactView!.avatarImage = avatarImage
+        }
+
+        contentView.addSubview(contactView!)
     }
 
     override func prepareForReuse() {
-        contactView.removeAllSubviews()
+        contactView?.removeAllSubviews()
         super.prepareForReuse()
     }
 }
