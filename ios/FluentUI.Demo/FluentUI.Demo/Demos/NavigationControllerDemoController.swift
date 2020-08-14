@@ -105,8 +105,10 @@ class NavigationControllerDemoController: DemoController {
             content.allowsCellSelection = true
         }
 
-        let searchBarView = accessoryView as! SearchBar
-        searchBarView.delegate = content
+        if accessoryView != nil {
+            let searchBarView = accessoryView as! SearchBar
+            searchBarView.delegate = content
+        }
 
         controller.modalPresentationStyle = .fullScreen
         if useLargeTitle {
@@ -184,18 +186,18 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         itemRow.distribution = .equalCentering
         itemRow.alignment = .leading
         itemRow.isLayoutMarginsRelativeArrangement = true
-        itemRow.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        itemRow.layoutMargins = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
         itemRow.translatesAutoresizingMaskIntoConstraints = false
 
-        let label = Label(style: .subhead, colorStyle: .regular)
-        label.text = "Show search spinner when user hits search"
-        itemRow.addArrangedSubview(label)
+        let searchSpinnerSwitchLabel = Label(style: .subhead, colorStyle: .regular)
+        searchSpinnerSwitchLabel.text = "Show spinner while using the search bar:"
+        itemRow.addArrangedSubview(searchSpinnerSwitchLabel)
 
         let searchSpinnerSwitch = UISwitch()
-        searchSpinnerSwitch.isOn = false
+        searchSpinnerSwitch.isOn = true
         searchSpinnerSwitch.addTarget(self, action: #selector(shouldShowSearchSpinner(switchView:)), for: .valueChanged)
 
-        itemRow.addArrangedSubview(label)
+        itemRow.addArrangedSubview(searchSpinnerSwitchLabel)
         itemRow.addArrangedSubview(searchSpinnerSwitch)
 
         let itemsContainer = UIView()
@@ -207,13 +209,15 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             itemsContainer.topAnchor.constraint(equalTo: itemRow.topAnchor),
             itemsContainer.bottomAnchor.constraint(equalTo: itemRow.bottomAnchor),
             itemsContainer.leadingAnchor.constraint(equalTo: itemRow.leadingAnchor),
-            itemsContainer.trailingAnchor.constraint(equalTo: itemRow.trailingAnchor)
+            itemsContainer.trailingAnchor.constraint(equalTo: itemRow.trailingAnchor),
+            searchSpinnerSwitchLabel.centerYAnchor.constraint(equalTo: itemsContainer.centerYAnchor),
+            searchSpinnerSwitch.centerYAnchor.constraint(equalTo: itemsContainer.centerYAnchor)
         ])
 
         return itemsContainer
     }()
 
-    var showSearchProgressSpinner: Bool = false
+    var showSearchProgressSpinner: Bool = true
 
     var allowsCellSelection: Bool = false {
         didSet {
@@ -396,7 +400,6 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         msfNavigationController?.expandNavigationBar(animated: true)
         container.insertArrangedSubview(searchProgressSpinnerSwitchView, at: 0 /* index */)
     }
-
 }
 
 // MARK: - RootViewController: SearchBarDelegate
