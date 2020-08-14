@@ -261,7 +261,7 @@ open class AvatarView: UIView {
     @objc open var overrideAccessibilityLabel: String?
 
     /// Used when avatarView doesn't have image or can't generate initials string
-    internal var preferredFallbackImageStyle: AvatarFallbackImageStyle = .outlined {
+    @objc open var preferredFallbackImageStyle: AvatarFallbackImageStyle = .outlined {
         didSet {
             if preferredFallbackImageStyle != oldValue {
                 if let fallbackImageStyle = fallbackImageStyle, fallbackImageStyle == oldValue {
