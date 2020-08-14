@@ -18,12 +18,16 @@ class ContactCollectionViewCell: UICollectionViewCell {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    func setup(contact persona: PersonaData) {
-        let identifier = (persona.name.count > 0) ? persona.name : persona.email
-        contactView = ContactView(identifier: identifier)
+    func setup(contact avatar: AvatarData) {
+        if avatar.primaryText.count > 0 && avatar.secondaryText.count > 0 {
+            contactView = ContactView(title: avatar.primaryText, subtitle: avatar.secondaryText)
+        } else {
+            contactView = ContactView(identifier: avatar.primaryText)
+        }
+
         contactView.translatesAutoresizingMaskIntoConstraints = false
 
-        if let avatarImage = persona.avatarImage {
+        if let avatarImage = avatar.image {
             contactView.avatarImage = avatarImage
         }
 

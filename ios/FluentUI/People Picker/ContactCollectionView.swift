@@ -11,7 +11,7 @@ public typealias MSFContactCollectionViewDelegate = ContactCollectionViewDelegat
 
 @objc(MSFContactCollectionViewDelegate)
 public protocol ContactCollectionViewDelegate: AnyObject {
-    @objc optional func didTapOnContactViewAtIndex(index: Int, personaData: PersonaData)
+    @objc optional func didTapOnContactViewAtIndex(index: Int, avatarData: AvatarData)
 }
 
 // MARK: ContactCollectionView
@@ -22,14 +22,14 @@ open class ContactCollectionView: UICollectionView {
     /// Initializes the collection view by setting the layout, constraints, and cell to be used.
     ///
     /// - Parameters:
-    ///   - personaData: Array of PersonaData used to create each individual ContactView
-    @objc public init(personaData: [PersonaData] = []) {
+    ///   - avatarData: Array of AvatarData used to create each individual ContactView
+    @objc public init(avatarData: [AvatarData] = []) {
         layout = ContactCollectionViewLayout()
         layout.scrollDirection = .horizontal
         super.init(frame: .zero, collectionViewLayout: layout)
 
-        if personaData.count > 0 {
-            contactList = personaData
+        if avatarData.count > 0 {
+            contactList = avatarData
         }
 
         heightConstraint.isActive = true
@@ -43,9 +43,9 @@ open class ContactCollectionView: UICollectionView {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    /// The array of PersonaData which is used to create each ContactView.
+    /// The array of AvatarData which is used to create each ContactView.
     /// The height constraint of the ContactCollectionView is updated when the count increases from 0 or decreases to 0.
-    @objc public var contactList: [PersonaData] = [] {
+    @objc public var contactList: [AvatarData] = [] {
         didSet {
             if (oldValue.count == 0 && contactList.count > 0) || (oldValue.count > 0 && contactList.count == 0) {
                 setupHeightConstraint()
@@ -117,7 +117,7 @@ extension ContactCollectionView: ContactViewDelegate {
         if let contactCollectionViewDelegate = contactCollectionViewDelegate, let currentTappedIndex = contactViewToIndexMap[contact] {
             let indexPath = IndexPath(item: currentTappedIndex, section: 0)
             scrollToContact(at: indexPath)
-            contactCollectionViewDelegate.didTapOnContactViewAtIndex?(index: currentTappedIndex, personaData: contactList[currentTappedIndex])
+            contactCollectionViewDelegate.didTapOnContactViewAtIndex?(index: currentTappedIndex, avatarData: contactList[currentTappedIndex])
         }
     }
 }
@@ -141,23 +141,23 @@ extension UIContentSizeCategory {
     var contactHeight: CGFloat {
         switch self {
         case .extraSmall:
-            return 115.0
-        case .small:
             return 117.0
+        case .small:
+            return 119.0
         case .medium:
-            return 118.0
+            return 120.0
         case .large:
-            return 121.0
+            return 123.0
         case .extraLarge:
-            return 125.0
+            return 127.0
         case .extraExtraLarge:
-            return 129.0
+            return 131.0
         case .extraExtraExtraLarge, .accessibilityMedium,
              .accessibilityLarge, .accessibilityExtraLarge,
              .accessibilityExtraExtraLarge, .accessibilityExtraExtraExtraLarge:
-            return 135.0
+            return 137.0
         default:
-            return 135.0
+            return 137.0
         }
     }
 }

@@ -105,7 +105,7 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
     }
 
     private struct Constants {
-        static let itemWidth: CGFloat = 70.0
+        static let itemWidth: CGFloat = AvatarSize.extraExtraLarge.size.width
         static let minLineSpacing: CGFloat = 14.0
         static let maxLineSpacing: CGFloat = 16.0
     }

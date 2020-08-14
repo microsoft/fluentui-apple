@@ -144,12 +144,17 @@ open class ContactView: UIControl {
     }
 
     private func labelContainerLayoutConstraints() -> [NSLayoutConstraint] {
+        let contactHeight = UIApplication.shared.preferredContentSizeCategory.contactHeight
+        let avatarHeight = AvatarSize.extraExtraLarge.size.height
+        let spacingHeight = Constants.spacingBetweenAvatarAndLabelContainer
+        let height = contactHeight - avatarHeight - spacingHeight
+
         return [
             labelContainer.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.spacingBetweenAvatarAndLabelContainer),
             labelContainer.leadingAnchor.constraint(equalTo: leadingAnchor),
             labelContainer.trailingAnchor.constraint(equalTo: trailingAnchor),
             labelContainer.bottomAnchor.constraint(equalTo: bottomAnchor),
-            labelContainer.heightAnchor.constraint(greaterThanOrEqualToConstant: 2.0 * Constants.labelMinimumHeight)
+            labelContainer.heightAnchor.constraint(equalToConstant: height)
         ]
     }
 
