@@ -148,14 +148,15 @@ class LargeTitleView: UIView {
         contain(view: contentStackView, withInsets: UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8))
 
         // default avatar view setup
-        let avatarView = ProfileView(avatarSize: Constants.avatarSize, preferredFallbackImageStyle: style == .light ? .primaryFilled : .onAccentFilled)
+        let preferredFallbackImageStyle: AvatarFallbackImageStyle = style == .light ? .primaryFilled : .onAccentFilled
+        let avatarView = ProfileView(avatarSize: Constants.avatarSize, preferredFallbackImageStyle: preferredFallbackImageStyle)
         avatarView.setup(avatar: avatar)
         avatarView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleAvatarViewTapped)))
         self.avatarView = avatarView
         contentStackView.addArrangedSubview(avatarView)
 
         // small avatar view setup
-        let smallAvatarView = ProfileView(avatarSize: Constants.compactAvatarSize, preferredFallbackImageStyle: style == .light ? .primaryFilled : .onAccentFilled)
+        let smallAvatarView = ProfileView(avatarSize: Constants.compactAvatarSize, preferredFallbackImageStyle: preferredFallbackImageStyle)
         smallAvatarView.setup(avatar: avatar)
         self.smallMorphingAvatarView = smallAvatarView
         smallAvatarView.translatesAutoresizingMaskIntoConstraints = false
