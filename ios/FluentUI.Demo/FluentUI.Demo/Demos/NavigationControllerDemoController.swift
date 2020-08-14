@@ -199,7 +199,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         itemRow.addArrangedSubview(searchSpinnerSwitch)
 
         let itemsContainer = UIView()
-		itemsContainer.backgroundColor = Colors.tableBackground
+        itemsContainer.backgroundColor = Colors.tableBackground
         itemsContainer.addSubview(itemRow)
         itemsContainer.translatesAutoresizingMaskIntoConstraints = false
 
