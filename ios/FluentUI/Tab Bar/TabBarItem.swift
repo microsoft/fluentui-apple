@@ -39,6 +39,7 @@ open class TabBarItem: NSObject {
     @objc public convenience init(title: String, image: UIImage) {
         self.init(title: title,
                   image: image,
+                  isImageAppTinted: false,
                   selectedImage: nil,
                   landscapeImage: nil,
                   landscapeSelectedImage: nil,
@@ -59,6 +60,7 @@ open class TabBarItem: NSObject {
                                   landscapeSelectedImage: UIImage? = nil) {
         self.init(title: title,
                   image: image,
+                  isImageAppTinted: false,
                   selectedImage: selectedImage,
                   landscapeImage: landscapeImage,
                   landscapeSelectedImage: landscapeSelectedImage,
