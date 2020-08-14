@@ -278,7 +278,9 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        container.addArrangedSubview(searchProgressSpinnerSwitchView)
+        if self.navigationItem.accessoryView != nil {
+            container.addArrangedSubview(searchProgressSpinnerSwitchView)
+        }
         container.addArrangedSubview(tableView)
         updateNavigationTitle()
         updateLeftBarButtonItems()
