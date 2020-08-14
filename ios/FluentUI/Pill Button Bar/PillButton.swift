@@ -110,6 +110,8 @@ open class PillButton: UIButton {
         static let topInset: CGFloat = 6.0
     }
 
+    private var useCustomBackgroundColor: Bool = false
+
     @objc public let pillBarItem: PillButtonBarItem
 
     @objc public let style: PillButtonStyle
@@ -125,6 +127,14 @@ open class PillButton: UIButton {
         didSet {
             updateAppearance()
             updateAccessibilityTraits()
+        }
+    }
+
+    /// Set `backgroundColor` to customize background color of the pill button
+    @objc open var customBackgroundColor: UIColor? {
+        didSet {
+            useCustomBackgroundColor = true
+            self.backgroundColor = customBackgroundColor
         }
     }
 
@@ -188,7 +198,7 @@ open class PillButton: UIButton {
                     setTitleColor(style.selectedDisabledTitleColor(for: window), for: .normal)
                 }
             } else {
-                backgroundColor = style.backgroundColor(for: window)
+                backgroundColor = useCustomBackgroundColor ? customBackgroundColor : style.backgroundColor(for: window)
                 if isEnabled {
                     setTitleColor(style.titleColor, for: .normal)
                 } else {
