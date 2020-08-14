@@ -51,16 +51,12 @@ open class ContactView: UIControl {
             case .accessibilityExtraExtraLarge:
                 width += 50
             case .accessibilityExtraExtraExtraLarge:
-                width += 60
+                width += 90
             default:
                 break
             }
 
             return width
-        }
-
-        var height: CGFloat {
-            return avatarSize.size.height
         }
     }
 
@@ -205,12 +201,12 @@ open class ContactView: UIControl {
 
     private func updateLabelHeight() {
         let contactHeight = UIApplication.shared.preferredContentSizeCategory.contactHeight
-        labelHeightConstraint.constant = contactHeight - size.height - Constants.spacingBetweenAvatarAndLabelContainer
+        labelHeightConstraint.constant = contactHeight - size.avatarSize.size.height - Constants.spacingBetweenAvatarAndLabelContainer
     }
 
     private func avatarLayoutConstraints() -> [NSLayoutConstraint] {
         return [
-            avatarView.heightAnchor.constraint(equalToConstant: size.height),
+            avatarView.heightAnchor.constraint(equalToConstant: size.avatarSize.size.height),
             avatarView.topAnchor.constraint(equalTo: topAnchor),
             avatarView.centerXAnchor.constraint(equalTo: centerXAnchor)
         ]

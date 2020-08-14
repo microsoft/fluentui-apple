@@ -42,11 +42,7 @@ open class ContactCollectionView: UICollectionView {
         }
 
         var width: CGFloat {
-            return avatarSize.size.width
-        }
-
-        var height: CGFloat {
-            return avatarSize.size.height
+            return contactViewSize.width
         }
     }
 
