@@ -104,6 +104,11 @@ class NavigationControllerDemoController: DemoController {
             content.allowsCellSelection = true
         }
 
+        if accessoryView != nil {
+            let searchBarView = accessoryView as! SearchBar
+            searchBarView.delegate = content
+        }
+
         controller.modalPresentationStyle = .fullScreen
         if useLargeTitle {
             let leadingEdgeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleScreenEdgePan))
@@ -173,6 +178,45 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return tableView
     }()
 
+    private(set) lazy var searchProgressSpinnerSwitchView: UIView = {
+        let itemRow = UIStackView()
+        itemRow.axis = .horizontal
+        itemRow.distribution = .equalCentering
+        itemRow.alignment = .leading
+        itemRow.isLayoutMarginsRelativeArrangement = true
+        itemRow.layoutMargins = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
+        itemRow.translatesAutoresizingMaskIntoConstraints = false
+
+        let searchSpinnerSwitchLabel = Label(style: .subhead, colorStyle: .regular)
+        searchSpinnerSwitchLabel.text = "Show spinner while using the search bar"
+        itemRow.addArrangedSubview(searchSpinnerSwitchLabel)
+
+        let searchSpinnerSwitch = UISwitch()
+        searchSpinnerSwitch.isOn = true
+        searchSpinnerSwitch.addTarget(self, action: #selector(shouldShowSearchSpinner(switchView:)), for: .valueChanged)
+
+        itemRow.addArrangedSubview(searchSpinnerSwitchLabel)
+        itemRow.addArrangedSubview(searchSpinnerSwitch)
+
+        let itemsContainer = UIView()
+        itemsContainer.backgroundColor = Colors.tableBackground
+        itemsContainer.addSubview(itemRow)
+        itemsContainer.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            itemsContainer.topAnchor.constraint(equalTo: itemRow.topAnchor),
+            itemsContainer.bottomAnchor.constraint(equalTo: itemRow.bottomAnchor),
+            itemsContainer.leadingAnchor.constraint(equalTo: itemRow.leadingAnchor),
+            itemsContainer.trailingAnchor.constraint(equalTo: itemRow.trailingAnchor),
+            searchSpinnerSwitchLabel.centerYAnchor.constraint(equalTo: itemsContainer.centerYAnchor),
+            searchSpinnerSwitch.centerYAnchor.constraint(equalTo: itemsContainer.centerYAnchor)
+        ])
+
+        return itemsContainer
+    }()
+
+    var showSearchProgressSpinner: Bool = true
+
     var allowsCellSelection: Bool = false {
         didSet {
             updateRightBarButtonItems()
@@ -232,6 +276,9 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        if self.navigationItem.accessoryView != nil {
+            container.addArrangedSubview(searchProgressSpinnerSwitchView)
+        }
         container.addArrangedSubview(tableView)
         updateNavigationTitle()
         updateLeftBarButtonItems()
@@ -327,6 +374,10 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
 
+    @objc private func shouldShowSearchSpinner(switchView: UISwitch) {
+        showSearchProgressSpinner = switchView.isOn
+    }
+
     @objc private func dismissSelf() {
         dismiss(animated: false)
     }
@@ -340,14 +391,37 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         isInSelectionMode = true
         msfNavigationController?.contractNavigationBar(animated: true)
         msfNavigationController?.allowResizeOfNavigationBarOnScroll = false
+        container.removeArrangedSubview(searchProgressSpinnerSwitchView)
     }
 
     @objc private func dismissSelectionMode() {
         isInSelectionMode = false
         msfNavigationController?.allowResizeOfNavigationBarOnScroll = true
         msfNavigationController?.expandNavigationBar(animated: true)
+        container.insertArrangedSubview(searchProgressSpinnerSwitchView, at: 0 /* index */)
+    }
+}
+
+// MARK: - RootViewController: SearchBarDelegate
+
+extension RootViewController: SearchBarDelegate {
+
+    func searchBarDidBeginEditing(_ searchBar: SearchBar) {
+        searchBar.progressSpinner.stopAnimating()
     }
 
+    func searchBar(_ searchBar: SearchBar, didUpdateSearchText newSearchText: String?) {
+    }
+
+    func searchBarDidCancel(_ searchBar: SearchBar) {
+        searchBar.progressSpinner.stopAnimating()
+    }
+
+    func searchBarDidRequestSearch(_ searchBar: SearchBar) {
+        if showSearchProgressSpinner {
+            searchBar.progressSpinner.startAnimating()
+        }
+    }
 }
 
 // MARK: - ChildViewController
