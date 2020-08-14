@@ -91,6 +91,7 @@ class NavigationControllerDemoController: DemoController {
         content.navigationItem.navigationBarShadow = showShadow ? .automatic : .alwaysHidden
         content.navigationItem.accessoryView = accessoryView
         content.navigationItem.contentScrollView = contractNavigationBarOnScroll ? content.tableView : nil
+
         content.showsTabs = !showShadow
         if style == .custom {
             content.navigationItem.customNavigationBarColor = CustomGradient.getCustomBackgroundColor(width: view.frame.width)
@@ -103,6 +104,9 @@ class NavigationControllerDemoController: DemoController {
         } else {
             content.allowsCellSelection = true
         }
+
+        let searchBarView = accessoryView as! SearchBar
+        searchBarView.delegate = content
 
         controller.modalPresentationStyle = .fullScreen
         if useLargeTitle {
@@ -119,7 +123,6 @@ class NavigationControllerDemoController: DemoController {
 
     private func createAccessoryView(with style: SearchBar.Style = .lightContent) -> UIView {
         let searchBar = SearchBar()
-        searchBar.delegate = self
         searchBar.style = style
         searchBar.placeholderText = "Search"
         return searchBar
@@ -151,22 +154,7 @@ class NavigationControllerDemoController: DemoController {
 
 // MARK: - NavigationControllerDemoController: UIGestureRecognizerDelegate
 
-extension NavigationControllerDemoController: UIGestureRecognizerDelegate, SearchBarDelegate {
-
-    func searchBarDidBeginEditing(_ searchBar: SearchBar) {
-        searchBar.progressSpinner.stopAnimating()
-    }
-
-    func searchBar(_ searchBar: SearchBar, didUpdateSearchText newSearchText: String?) {
-    }
-
-    func searchBarDidCancel(_ searchBar: SearchBar) {
-        searchBar.progressSpinner.stopAnimating()
-    }
-
-    func searchBarDidRequestSearch(_ searchBar: SearchBar) {
-        searchBar.progressSpinner.startAnimating()
-    }
+extension NavigationControllerDemoController: UIGestureRecognizerDelegate {
 
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         // Only show side drawer for the root view controller
@@ -189,6 +177,43 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         return tableView
     }()
+
+    private(set) lazy var searchProgressSpinnerSwitchView: UIView = {
+        let itemRow = UIStackView()
+        itemRow.axis = .horizontal
+        itemRow.distribution = .equalCentering
+        itemRow.alignment = .leading
+        itemRow.isLayoutMarginsRelativeArrangement = true
+        itemRow.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        itemRow.translatesAutoresizingMaskIntoConstraints = false
+
+        let label = Label(style: .subhead, colorStyle: .regular)
+        label.text = "Show search spinner when user hits search"
+        itemRow.addArrangedSubview(label)
+
+        let searchSpinnerSwitch = UISwitch()
+        searchSpinnerSwitch.isOn = false
+        searchSpinnerSwitch.addTarget(self, action: #selector(shouldShowSearchSpinner(switchView:)), for: .valueChanged)
+
+        itemRow.addArrangedSubview(label)
+        itemRow.addArrangedSubview(searchSpinnerSwitch)
+
+        let itemsContainer = UIView()
+		itemsContainer.backgroundColor = Colors.tableBackground
+        itemsContainer.addSubview(itemRow)
+        itemsContainer.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            itemsContainer.topAnchor.constraint(equalTo: itemRow.topAnchor),
+            itemsContainer.bottomAnchor.constraint(equalTo: itemRow.bottomAnchor),
+            itemsContainer.leadingAnchor.constraint(equalTo: itemRow.leadingAnchor),
+            itemsContainer.trailingAnchor.constraint(equalTo: itemRow.trailingAnchor)
+        ])
+
+        return itemsContainer
+    }()
+
+    var showSearchProgressSpinner: Bool = false
 
     var allowsCellSelection: Bool = false {
         didSet {
@@ -249,6 +274,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        container.addArrangedSubview(searchProgressSpinnerSwitchView)
         container.addArrangedSubview(tableView)
         updateNavigationTitle()
         updateLeftBarButtonItems()
@@ -344,6 +370,10 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
 
+    @objc private func shouldShowSearchSpinner(switchView: UISwitch) {
+        showSearchProgressSpinner = switchView.isOn
+    }
+
     @objc private func dismissSelf() {
         dismiss(animated: false)
     }
@@ -357,14 +387,38 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         isInSelectionMode = true
         msfNavigationController?.contractNavigationBar(animated: true)
         msfNavigationController?.allowResizeOfNavigationBarOnScroll = false
+        container.removeArrangedSubview(searchProgressSpinnerSwitchView)
     }
 
     @objc private func dismissSelectionMode() {
         isInSelectionMode = false
         msfNavigationController?.allowResizeOfNavigationBarOnScroll = true
         msfNavigationController?.expandNavigationBar(animated: true)
+        container.insertArrangedSubview(searchProgressSpinnerSwitchView, at: 0 /* index */)
     }
 
+}
+
+// MARK: - RootViewController: SearchBarDelegate
+
+extension RootViewController: SearchBarDelegate {
+
+    func searchBarDidBeginEditing(_ searchBar: SearchBar) {
+        searchBar.progressSpinner.stopAnimating()
+    }
+
+    func searchBar(_ searchBar: SearchBar, didUpdateSearchText newSearchText: String?) {
+    }
+
+    func searchBarDidCancel(_ searchBar: SearchBar) {
+        searchBar.progressSpinner.stopAnimating()
+    }
+
+    func searchBarDidRequestSearch(_ searchBar: SearchBar) {
+        if showSearchProgressSpinner {
+            searchBar.progressSpinner.startAnimating()
+        }
+    }
 }
 
 // MARK: - ChildViewController
