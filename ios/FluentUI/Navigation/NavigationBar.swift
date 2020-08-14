@@ -328,6 +328,12 @@ open class NavigationBar: UINavigationBar {
         }
     }
 
+    /// Override the avatarView with fallbackImageStyle rather than using avatar data
+    /// - Parameter fallbackImageStyle: image style used in  avatarView
+    @objc open func overrideAvatar(with fallbackImageStyle: AvatarFallbackImageStyle) {
+        titleView.avatarOverrideFallbackImageStyle = fallbackImageStyle
+    }
+
     // MARK: Element size handling
 
     private var currentAvatarSize: ElementSize {

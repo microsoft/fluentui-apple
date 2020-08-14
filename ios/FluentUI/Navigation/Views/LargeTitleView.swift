@@ -49,6 +49,15 @@ class LargeTitleView: UIView {
         }
     }
 
+    var avatarOverrideFallbackImageStyle: AvatarFallbackImageStyle? {
+        didSet {
+            if let fallbackStyle = avatarOverrideFallbackImageStyle {
+                updateProfileButtonVisibility()
+                [avatarView, smallMorphingAvatarView].forEach { $0?.setup(fallbackStyle: fallbackStyle) }
+            }
+        }
+    }
+
     var style: Style = .light {
         didSet {
             titleButton.setTitleColor(colorForStyle, for: .normal)
@@ -146,7 +155,7 @@ class LargeTitleView: UIView {
         contentStackView.addArrangedSubview(avatarView)
 
         // small avatar view setup
-        let smallAvatarView = ProfileView(avatarSize: Constants.compactAvatarSize)
+        let smallAvatarView = ProfileView(avatarSize: Constants.compactAvatarSize, preferredFallbackImageStyle: style == .light ? .primaryFilled : .onAccentFilled)
         smallAvatarView.setup(avatar: avatar)
         self.smallMorphingAvatarView = smallAvatarView
         smallAvatarView.translatesAutoresizingMaskIntoConstraints = false
@@ -265,7 +274,7 @@ class LargeTitleView: UIView {
     // MARK: - Content Update Methods
 
     private func updateProfileButtonVisibility() {
-        showsProfileButton = !hasLeftBarButtonItems && avatar != nil
+        showsProfileButton = !hasLeftBarButtonItems && (avatar != nil || avatarOverrideFallbackImageStyle != nil)
     }
 
     /// Sets the interface with the provided item's details
