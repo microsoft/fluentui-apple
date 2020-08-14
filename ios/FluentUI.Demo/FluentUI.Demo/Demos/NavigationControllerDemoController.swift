@@ -188,7 +188,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         itemRow.translatesAutoresizingMaskIntoConstraints = false
 
         let searchSpinnerSwitchLabel = Label(style: .subhead, colorStyle: .regular)
-        searchSpinnerSwitchLabel.text = "Show spinner while using the search bar:"
+        searchSpinnerSwitchLabel.text = "Show spinner while using the search bar"
         itemRow.addArrangedSubview(searchSpinnerSwitchLabel)
 
         let searchSpinnerSwitch = UISwitch()
