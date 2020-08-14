@@ -45,13 +45,13 @@ open class ContactView: UIControl {
             case .accessibilityMedium:
                 width += 20
             case .accessibilityLarge:
-                width += 30
-            case .accessibilityExtraLarge:
-                width += 40
-            case .accessibilityExtraExtraLarge:
                 width += 50
+            case .accessibilityExtraLarge:
+                width += 60
+            case .accessibilityExtraExtraLarge:
+                width += 70
             case .accessibilityExtraExtraExtraLarge:
-                width += 90
+                width += 100
             default:
                 break
             }
@@ -116,7 +116,7 @@ open class ContactView: UIControl {
             setupTitleLabel(using: identifier, numberOfLines: (size == .large ? 2 : 1))
         }
 
-        backgroundColor = .cyan // TODO_ Colors.surfacePrimary
+        backgroundColor = Colors.surfacePrimary
         setupPressedStateOverlay()
         setupLayout()
     }
@@ -200,7 +200,7 @@ open class ContactView: UIControl {
     }
 
     private func updateLabelHeight() {
-        let contactHeight = UIApplication.shared.preferredContentSizeCategory.contactHeight
+        let contactHeight = UIApplication.shared.preferredContentSizeCategory.contactHeight(size: size)
         labelHeightConstraint.constant = contactHeight - size.avatarSize.size.height - Constants.spacingBetweenAvatarAndLabelContainer
     }
 

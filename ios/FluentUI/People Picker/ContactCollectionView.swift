@@ -111,7 +111,7 @@ open class ContactCollectionView: UICollectionView {
     }
 
     @objc private func updateHeightConstraint() {
-        let height = UIApplication.shared.preferredContentSizeCategory.contactHeight + 2 * Constants.verticalInset
+        let height = UIApplication.shared.preferredContentSizeCategory.contactHeight(size: size.contactViewSize) + 2 * Constants.verticalInset
         heightConstraint.constant = height
     }
 
@@ -190,34 +190,42 @@ extension ContactCollectionView: UICollectionViewDataSource {
 }
 
 extension UIContentSizeCategory {
-    var contactHeight: CGFloat {
+    func contactHeight(size: ContactView.Size) -> CGFloat {
+        var height: CGFloat = 0
+
         switch self {
         case .extraSmall:
-            return 117
+            height = 117
         case .small:
-            return 119
+            height = 119
         case .medium:
-            return 120
+            height = 120
         case .large:
-            return 123
+            height = 123
         case .extraLarge:
-            return 127
+            height = 127
         case .extraExtraLarge:
-            return 131
+            height = 131
         case .extraExtraExtraLarge:
-            return 137
+            height = 137
         case .accessibilityMedium:
-            return 141
+            height = 141
         case .accessibilityLarge:
-            return 151
+            height = 151
         case .accessibilityExtraLarge:
-            return 165
+            height = 165
         case .accessibilityExtraExtraLarge:
-            return 178
+            height = 178
         case .accessibilityExtraExtraExtraLarge:
-            return 194
+            height = 194
         default:
-            return 0
+            break
         }
+
+        if size == .small {
+            height -= 38
+        }
+
+        return height
     }
 }
