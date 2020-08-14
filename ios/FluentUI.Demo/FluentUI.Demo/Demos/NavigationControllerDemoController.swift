@@ -91,7 +91,6 @@ class NavigationControllerDemoController: DemoController {
         content.navigationItem.navigationBarShadow = showShadow ? .automatic : .alwaysHidden
         content.navigationItem.accessoryView = accessoryView
         content.navigationItem.contentScrollView = contractNavigationBarOnScroll ? content.tableView : nil
-
         content.showsTabs = !showShadow
         if style == .custom {
             content.navigationItem.customNavigationBarColor = CustomGradient.getCustomBackgroundColor(width: view.frame.width)
@@ -157,7 +156,6 @@ class NavigationControllerDemoController: DemoController {
 // MARK: - NavigationControllerDemoController: UIGestureRecognizerDelegate
 
 extension NavigationControllerDemoController: UIGestureRecognizerDelegate {
-
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         // Only show side drawer for the root view controller
         if let controller = presentedViewController as? UINavigationController,
