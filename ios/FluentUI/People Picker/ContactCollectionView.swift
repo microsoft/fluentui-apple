@@ -223,7 +223,7 @@ extension UIContentSizeCategory {
         }
 
         if size == .small {
-            // Remove height for smaller size
+            // Remove height for smaller size to compensate for the missing secondary label.
             height -= 38
         }
 
