@@ -18,25 +18,57 @@ public protocol ContactCollectionViewDelegate: AnyObject {
 
 @objc(MSFContactCollectionView)
 open class ContactCollectionView: UICollectionView {
+    @objc(MSFContactCollectionViewSize)
+    public enum Size: Int {
+        case large
+        case small
+
+        var contactViewSize: ContactView.Size {
+            switch self {
+            case .large:
+                return .large
+            case .small:
+                return .small
+            }
+        }
+
+        var avatarSize: AvatarSize {
+            switch self {
+            case .large:
+                return .extraExtraLarge
+            case .small:
+                return .extraLarge
+            }
+        }
+
+        var width: CGFloat {
+            return contactViewSize.width
+        }
+    }
+
+    /// The size of the collection view.
+    @objc public let size: Size
 
     /// Initializes the collection view by setting the layout, constraints, and cell to be used.
-    ///
-    /// - Parameters:
-    ///   - personaData: Array of PersonaData used to create each individual ContactView
-    @objc public init(personaData: [PersonaData] = []) {
-        layout = ContactCollectionViewLayout()
+    /// - Parameter size: The size of the collection view.
+    /// - Parameter personas: Array of PersonaData used to create each individual ContactView.
+    @objc public init(size: Size = .large, personas: [PersonaData] = []) {
+        layout = ContactCollectionViewLayout(size: size)
         layout.scrollDirection = .horizontal
+        self.size = size
+        self.personas = personas
         super.init(frame: .zero, collectionViewLayout: layout)
 
-        if personaData.count > 0 {
-            contactList = personaData
-        }
+        register(ContactCollectionViewCell.self, forCellWithReuseIdentifier: ContactCollectionViewCell.identifier)
 
         heightConstraint.isActive = true
         configureCollectionView()
-        setupHeightConstraint()
-        register(ContactCollectionViewCell.self, forCellWithReuseIdentifier: ContactCollectionViewCell.identifier)
-        NotificationCenter.default.addObserver(self, selector: #selector(setupHeightConstraint), name: UIContentSizeCategory.didChangeNotification, object: nil)
+        updateHeightConstraint()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(sizeCategoryDidUpdate),
+                                               name: UIContentSizeCategory.didChangeNotification,
+                                               object: nil)
     }
 
     @objc public required init?(coder: NSCoder) {
@@ -45,15 +77,24 @@ open class ContactCollectionView: UICollectionView {
 
     /// The array of PersonaData which is used to create each ContactView.
     /// The height constraint of the ContactCollectionView is updated when the count increases from 0 or decreases to 0.
-    @objc public var contactList: [PersonaData] = [] {
+    @objc public var personas: [PersonaData] = [] {
         didSet {
-            if (oldValue.count == 0 && contactList.count > 0) || (oldValue.count > 0 && contactList.count == 0) {
-                setupHeightConstraint()
+            if (oldValue.count == 0 && personas.count > 0) || (oldValue.count > 0 && personas.count == 0) {
+                updateHeightConstraint()
             }
         }
     }
 
-    open weak var contactCollectionViewDelegate: ContactCollectionViewDelegate?
+    open weak var contactCollectionViewDelegate: ContactCollectionViewDelegate? {
+        didSet {
+            if oldValue == nil && contactCollectionViewDelegate != nil {
+                let cells = visibleCells as! [ContactCollectionViewCell]
+                for cell in cells {
+                    cell.contactView?.contactViewDelegate = self
+                }
+            }
+        }
+    }
 
     private func configureCollectionView() {
         translatesAutoresizingMaskIntoConstraints = false
@@ -61,11 +102,16 @@ open class ContactCollectionView: UICollectionView {
         showsVerticalScrollIndicator = false
         backgroundColor = Colors.surfacePrimary
         dataSource = self
-        contentInset = UIEdgeInsets(top: 0, left: Constants.leadingInset, bottom: 0, right: 0)
+        contentInset = UIEdgeInsets(top: Constants.verticalInset, left: Constants.horizontalInset, bottom: Constants.verticalInset, right: Constants.horizontalInset)
     }
 
-    @objc private func setupHeightConstraint() {
-        let height = (contactList.count > 0) ? UIApplication.shared.preferredContentSizeCategory.contactHeight : 0
+    @objc private func sizeCategoryDidUpdate() {
+        updateHeightConstraint()
+        reloadData()
+    }
+
+    @objc private func updateHeightConstraint() {
+        let height = UIApplication.shared.preferredContentSizeCategory.contactHeight(size: size.contactViewSize) + 2 * Constants.verticalInset
         heightConstraint.constant = height
     }
 
@@ -87,9 +133,9 @@ open class ContactCollectionView: UICollectionView {
         var offSet = contentOffset.x
         if cellLeftPosition < viewLeadingPosition {
             offSet = cellLeftPosition - extraScrollWidth
-            offSet = max(offSet, -Constants.leadingInset)
+            offSet = max(offSet, -Constants.horizontalInset)
         } else if cellRightPosition > viewTrailingPosition {
-            let maxOffsetX = contentSize.width - frame.size.width + extraScrollWidth
+            let maxOffsetX = contentSize.width - frame.size.width + extraScrollWidth - Constants.horizontalInset
             offSet = cellRightPosition - frame.size.width + extraScrollWidth
             offSet = min(offSet, maxOffsetX)
         }
@@ -100,15 +146,17 @@ open class ContactCollectionView: UICollectionView {
     }
 
     private struct Constants {
-        static let leadingInset: CGFloat = 16.0
-        static let amountOfNextContactToShow: CGFloat = 20.0
+        static let horizontalInset: CGFloat = 16
+        static let verticalInset: CGFloat = 8
+        static let amountOfNextContactToShow: CGFloat = 20
     }
 
     private let layout: ContactCollectionViewLayout
+
     private lazy var heightConstraint: NSLayoutConstraint = {
-        let heightConstraint = heightAnchor.constraint(equalToConstant: 0.0)
-        return heightConstraint
+        return heightAnchor.constraint(equalToConstant: 0)
     }()
+
     private var contactViewToIndexMap: [ContactView: Int] = [:]
 }
 
@@ -117,47 +165,68 @@ extension ContactCollectionView: ContactViewDelegate {
         if let contactCollectionViewDelegate = contactCollectionViewDelegate, let currentTappedIndex = contactViewToIndexMap[contact] {
             let indexPath = IndexPath(item: currentTappedIndex, section: 0)
             scrollToContact(at: indexPath)
-            contactCollectionViewDelegate.didTapOnContactViewAtIndex?(index: currentTappedIndex, personaData: contactList[currentTappedIndex])
+            contactCollectionViewDelegate.didTapOnContactViewAtIndex?(index: currentTappedIndex, personaData: personas[currentTappedIndex])
         }
     }
 }
 
 extension ContactCollectionView: UICollectionViewDataSource {
     @objc public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return contactList.count
+        return personas.count
     }
 
     @objc public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContactCollectionViewCell.identifier, for: indexPath) as! ContactCollectionViewCell
-        cell.setup(contact: contactList[indexPath.item])
-        cell.contactView.contactViewDelegate = self
-        contactViewToIndexMap[cell.contactView] = indexPath.item
+        cell.setup(contact: personas[indexPath.item], size: size.contactViewSize)
+
+        if contactCollectionViewDelegate != nil {
+            cell.contactView!.contactViewDelegate = self
+        }
+
+        contactViewToIndexMap[cell.contactView!] = indexPath.item
 
         return cell
     }
 }
 
 extension UIContentSizeCategory {
-    var contactHeight: CGFloat {
+    func contactHeight(size: ContactView.Size) -> CGFloat {
+        var height: CGFloat = 0
+
         switch self {
         case .extraSmall:
-            return 115.0
+            height = 117
         case .small:
-            return 117.0
+            height = 119
         case .medium:
-            return 118.0
+            height = 120
         case .large:
-            return 121.0
+            height = 123
         case .extraLarge:
-            return 125.0
+            height = 127
         case .extraExtraLarge:
-            return 129.0
-        case .extraExtraExtraLarge, .accessibilityMedium,
-             .accessibilityLarge, .accessibilityExtraLarge,
-             .accessibilityExtraExtraLarge, .accessibilityExtraExtraExtraLarge:
-            return 135.0
+            height = 131
+        case .extraExtraExtraLarge:
+            height = 137
+        case .accessibilityMedium:
+            height = 141
+        case .accessibilityLarge:
+            height = 151
+        case .accessibilityExtraLarge:
+            height = 165
+        case .accessibilityExtraExtraLarge:
+            height = 178
+        case .accessibilityExtraExtraExtraLarge:
+            height = 194
         default:
-            return 135.0
+            break
         }
+
+        if size == .small {
+            // Remove height for smaller size to compensate for the missing secondary label.
+            height -= 38
+        }
+
+        return height
     }
 }
