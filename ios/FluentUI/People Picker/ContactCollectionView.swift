@@ -223,6 +223,7 @@ extension UIContentSizeCategory {
         }
 
         if size == .small {
+            // Remove height for smaller size
             height -= 38
         }
 

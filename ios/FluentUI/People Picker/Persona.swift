@@ -63,6 +63,13 @@ open class PersonaData: NSObject, Persona {
         return email
     }
 
+    /// Initializer for PersonaData
+    /// - Parameter name: The persona's name.
+    /// - Parameter email: The persona's email.
+    /// - Parameter subtitle: The persona's subtitle.
+    /// - Parameter avatarImage: The persona's image.
+    /// - Parameter presence: The persona's presence status.
+    /// - Parameter color: The persona's color.
     @objc public init(name: String = "",
                       email: String = "",
                       subtitle: String = "",
@@ -77,17 +84,25 @@ open class PersonaData: NSObject, Persona {
         self.color = color
     }
 
-    @objc public init(surname: String = "",
+    /// Initializer for PersonaData
+    /// - Parameter firstName: The persona's first name.
+    /// - Parameter lastName: The persona's last name.
+    /// - Parameter email: The persona's email.
+    /// - Parameter subtitle: The persona's subtitle.
+    /// - Parameter avatarImage: The persona's image.
+    /// - Parameter presence: The persona's presence status.
+    /// - Parameter color: The persona's color.
+    @objc public init(firstName: String = "",
                       lastName: String = "",
                       email: String = "",
                       subtitle: String = "",
                       avatarImage: UIImage? = nil,
                       presence: Presence = .none,
                       color: UIColor? = nil) {
-        self.name = surname
+        self.name = firstName
         self.email = email
         self.subtitle = subtitle
-        self.composedName = (surname, lastName)
+        self.composedName = (firstName, lastName)
         self.avatarImage = avatarImage
         self.presence = presence
         self.color = color
