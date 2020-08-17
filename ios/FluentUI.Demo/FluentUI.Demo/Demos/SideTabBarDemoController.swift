@@ -65,8 +65,9 @@ class SideTabBarDemoController: DemoController {
         ]
 
         sideTabBar.bottomItems = [
-            TabBarItem(title: "Help", image: UIImage(named: "Help_24")!, selectedImage: UIImage(named: "Help_Selected_24")!),
-            TabBarItem(title: "Settings", image: UIImage(named: "Settings_24")!, selectedImage: UIImage(named: "Settings_Selected_24")!)
+            TabBarItem(title: "Go Premium", image: UIImage(named: "ic_fluent_premium_24_regular")!, isImageAppTinted: true),
+            TabBarItem(title: "Help", image: UIImage(named: "Help_24")!),
+            TabBarItem(title: "Settings", image: UIImage(named: "Settings_24")!)
         ]
 
         let optionsStackView = UIStackView(frame: .zero)
