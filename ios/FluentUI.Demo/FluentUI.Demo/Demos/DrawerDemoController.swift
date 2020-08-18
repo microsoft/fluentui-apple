@@ -32,6 +32,7 @@ class DrawerDemoController: DemoController {
 
         addTitle(text: "Bottom Drawer")
         container.addArrangedSubview(createButton(title: "Show resizable", action: #selector(showBottomDrawerButtonTapped)))
+        container.addArrangedSubview(createButton(title: "Show resizable with expand state and passthrough presentation background", action: #selector(showBottomDrawerWithExpandStateAndPassthroughBackgroundButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show with no animation", action: #selector(showBottomDrawerNotAnimatedButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show from custom base", action: #selector(showBottomDrawerCustomOffsetButtonTapped)))
 
@@ -53,8 +54,16 @@ class DrawerDemoController: DemoController {
         view.addGestureRecognizer(trailingEdgeGesture)
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        guard let drawer = presentedViewController as? DrawerController else {
+            return
+        }
+        drawer.dismiss(animated: false, completion: nil)
+    }
+
     @discardableResult
-    private func presentDrawer(sourceView: UIView? = nil, barButtonItem: UIBarButtonItem? = nil, presentationOrigin: CGFloat = -1, presentationDirection: DrawerPresentationDirection, presentationStyle: DrawerPresentationStyle = .automatic, presentationOffset: CGFloat = 0, presentationBackground: DrawerPresentationBackground = .black, presentingGesture: UIPanGestureRecognizer? = nil, permittedArrowDirections: UIPopoverArrowDirection = [.left, .right], contentController: UIViewController? = nil, contentView: UIView? = nil, resizingBehavior: DrawerResizingBehavior = .none, adjustHeightForKeyboard: Bool = false, animated: Bool = true, customWidth: Bool = false) -> DrawerController {
+    private func presentDrawer(sourceView: UIView? = nil, barButtonItem: UIBarButtonItem? = nil, presentationOrigin: CGFloat = -1, presentationDirection: DrawerPresentationDirection, presentationStyle: DrawerPresentationStyle = .automatic, presentationOffset: CGFloat = 0, presentationBackground: DrawerPresentationBackground = .black, presentingGesture: UIPanGestureRecognizer? = nil, permittedArrowDirections: UIPopoverArrowDirection = [.left, .right], contentController: UIViewController? = nil, contentView: UIView? = nil, resizingBehavior: DrawerResizingBehavior = .none, adjustHeightForKeyboard: Bool = false, animated: Bool = true, customWidth: Bool = false, delegateeTouchView: UIView? = nil) -> DrawerController {
         let controller: DrawerController
         if let sourceView = sourceView {
             controller = DrawerController(sourceView: sourceView, sourceRect: sourceView.bounds.insetBy(dx: sourceView.bounds.width / 2, dy: 0), presentationOrigin: presentationOrigin, presentationDirection: presentationDirection)
@@ -71,6 +80,7 @@ class DrawerDemoController: DemoController {
         controller.permittedArrowDirections = permittedArrowDirections
         controller.resizingBehavior = resizingBehavior
         controller.adjustsHeightForKeyboard = adjustHeightForKeyboard
+        controller.delegateeTouchView = delegateeTouchView
 
         if let contentView = contentView {
             // `preferredContentSize` can be used to specify the preferred size of a drawer,
@@ -141,6 +151,10 @@ class DrawerDemoController: DemoController {
 
     @objc private func showBottomDrawerButtonTapped(sender: UIButton) {
         presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews(), resizingBehavior: .dismissOrExpand)
+    }
+
+    @objc private func showBottomDrawerWithExpandStateAndPassthroughBackgroundButtonTapped(sender: UIButton) {
+        presentDrawer(sourceView: sender, presentationDirection: .up, presentationBackground: .passThrough, contentView: containerForActionViews(), resizingBehavior: .expand, delegateeTouchView: self.navigationController?.view)
     }
 
     @objc private func showBottomDrawerNotAnimatedButtonTapped(sender: UIButton) {

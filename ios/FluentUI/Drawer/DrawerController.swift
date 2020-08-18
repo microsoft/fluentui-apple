@@ -14,6 +14,7 @@ public typealias MSDrawerResizingBehavior = DrawerResizingBehavior
 public enum DrawerResizingBehavior: Int {
     case none
     case dismiss
+    case expand
     case dismissOrExpand
 }
 
@@ -57,14 +58,14 @@ public typealias MSDrawerPresentationBackground = DrawerPresentationBackground
 
 @objc(MSFDrawerPresentationBackground)
 public enum DrawerPresentationBackground: Int {
-    /// Clear background
-    case none
+    /// Clear background which delegate touch events to delegateeTouchView
+    case passThrough
     /// Black semi-transparent background
     case black
 
     var dimmingViewType: DimmingViewType {
         switch self {
-        case .none:
+        case .passThrough:
             return .none
         case .black:
             return .black
@@ -206,6 +207,8 @@ open class DrawerController: UIViewController {
         }
     }
     @objc open var presentationBackground: DrawerPresentationBackground = .black
+
+    @objc open weak var delegateeTouchView: UIView?
 
     /**
      Set `presentingGesture` before calling `present` to provide a gesture recognizer that resulted in the presentation of the drawer and to allow this presentation to be interactive.
@@ -736,6 +739,20 @@ open class DrawerController: UIViewController {
                 offset = min(offset, 0)
             }
         }
+
+        // This resizingBehavior(expand) avoid the user to dismiss the drawer
+        if resizingBehavior == .expand && presentationDirection == .up {
+            // This is to avoid drawer to get dismissed when user drag the drawer from expanded state to normal state
+            if isExpanded {
+                offset = max(offset, -(originalDrawerHeight - normalDrawerHeight))
+            }
+
+            // This is to restrict dismiss behaviour of drawer
+            if !isExpanded && offset < 0 && !mayResizeViaContentScrolling {
+                offset = offsetWithResistance(for: offset)
+            }
+        }
+
         if mayResizeViaContentScrolling && offset < 0, let originalContentOffsetY = originalContentOffsetY {
             offset = min(offset + originalContentOffsetY, 0)
         }
@@ -892,7 +909,7 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
             if #available(iOS 13.0, *) {
                 useNavigationBarBackgroundColor = (direction.isVertical && source.traitCollection.userInterfaceLevel == .elevated)
             }
-            return DrawerPresentationController(presentedViewController: presented, presenting: presenting, source: source, sourceObject: sourceView ?? barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: direction, presentationOffset: presentationOffset, presentationBackground: presentationBackground, adjustHeightForKeyboard: adjustsHeightForKeyboard, shouldUseWindowFullWidthInLandscape: shouldUseWindowFullWidthInLandscape)
+            return DrawerPresentationController(presentedViewController: presented, presenting: presenting, source: source, sourceObject: sourceView ?? barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: direction, presentationOffset: presentationOffset, presentationBackground: presentationBackground, adjustHeightForKeyboard: adjustsHeightForKeyboard, shouldUseWindowFullWidthInLandscape: shouldUseWindowFullWidthInLandscape, delegateeTouchView: delegateeTouchView)
         case .popover:
             let presentationController = UIPopoverPresentationController(presentedViewController: presented, presenting: presenting)
             presentationController.backgroundColor = backgroundColor
