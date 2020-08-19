@@ -159,7 +159,7 @@ class SideTabBarDemoController: DemoController {
     private func showAvatarView(_ show: Bool) {
         var avatarView: AvatarView?
         if show {
-            avatarView = AvatarView(avatarSize: .medium, withBorder: false, style: .circle)
+            avatarView = AvatarView(avatarSize: .medium, withBorder: false, style: .circle, preferredFallbackImageStyle: .onAccentFilled)
             avatarView!.setup(primaryText: "Kat Larson", secondaryText: "", image: UIImage(named: "avatar_kat_larsson")!)
         }
 
