@@ -70,6 +70,10 @@ class LargeTitleView: UIView {
 
     var onAvatarTapped: (() -> Void)? // called in response to a tap on the MSAvatarView
 
+    var avatarUIView: UIView? {
+        return avatarView
+    }
+
     private var colorForStyle: UIColor {
         switch style {
         case .light:

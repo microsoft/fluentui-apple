@@ -64,6 +64,10 @@ open class TabBarView: UIView {
         }
     }
 
+    @objc public func itemView(item: TabBarItem) -> UIView? {
+        return itemView(with: item)
+    }
+
     @objc public weak var delegate: TabBarViewDelegate?
 
     /// Initializes MSTabBarView
