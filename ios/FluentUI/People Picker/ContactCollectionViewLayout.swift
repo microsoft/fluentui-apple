@@ -6,7 +6,8 @@
 import UIKit
 
 class ContactCollectionViewLayout: UICollectionViewFlowLayout {
-    override init() {
+    init(size: ContactCollectionView.Size) {
+        self.size = size
         super.init()
         minimumLineSpacing = Constants.maxLineSpacing
     }
@@ -31,7 +32,7 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
         let indexPath = IndexPath(item: 0, section: 0)
         let numItems = collectionView.numberOfItems(inSection: 0)
         let height = sizeForItemAt(indexPath: indexPath).height
-        let totalWidth = numItems > 0 ? CGFloat(numItems) * Constants.itemWidth + (CGFloat(numItems) - 1) * minimumLineSpacing : 0.0
+        let totalWidth = numItems > 0 ? CGFloat(numItems) * size.width + (CGFloat(numItems) - 1) * minimumLineSpacing : 0.0
 
         let size = CGSize(width: totalWidth, height: height)
         collectionView.contentSize = size
@@ -60,9 +61,9 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
 
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
-        let frame = CGRect(x: CGFloat(indexPath.item) * Constants.itemWidth + CGFloat(indexPath.item) * minimumLineSpacing,
+        let frame = CGRect(x: CGFloat(indexPath.item) * size.width + CGFloat(indexPath.item) * minimumLineSpacing,
                            y: 0,
-                           width: Constants.itemWidth,
+                           width: size.width,
                            height: itemSize.height)
         attributes.frame = frame
 
@@ -85,6 +86,8 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
         itemSize = sizeForItemAt(indexPath: indexPath)
     }
 
+    private let size: ContactCollectionView.Size
+
     private func calculateMinimumLineSpacing() {
         guard let collectionView = collectionView else {
             return
@@ -92,7 +95,7 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
 
         let usableWidth = Int(collectionView.frame.width - collectionView.contentInset.left)
 
-        if usableWidth % Int(Constants.itemWidth + minimumLineSpacing) == Int(Constants.itemWidth) {
+        if usableWidth % Int(size.width + minimumLineSpacing) == Int(size.width) {
             minimumLineSpacing = Constants.minLineSpacing
         } else {
             minimumLineSpacing = Constants.maxLineSpacing
@@ -100,12 +103,11 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
     }
 
     private func sizeForItemAt(indexPath: IndexPath) -> CGSize {
-        let itemHeight = UIApplication.shared.preferredContentSizeCategory.contactHeight
-        return CGSize(width: Constants.itemWidth, height: itemHeight)
+        let itemHeight = UIApplication.shared.preferredContentSizeCategory.contactHeight(size: size.contactViewSize)
+        return CGSize(width: size.width, height: itemHeight)
     }
 
     private struct Constants {
-        static let itemWidth: CGFloat = 70.0
         static let minLineSpacing: CGFloat = 14.0
         static let maxLineSpacing: CGFloat = 16.0
     }
