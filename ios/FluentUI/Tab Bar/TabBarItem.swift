@@ -35,15 +35,15 @@ open class TabBarItem: NSObject {
     /// Initializes `TabBarItem`             /// Notification sent when the tab bar item's badge value changes.
     /// - Parameter title: Used for tabbar item view's label and for its accessibilityLabel.             static let badgeValueDidChangeNotification: NSNotification.Name = NSNotification.Name(rawValue: "TabBarItemBadgeValueDidChangeNotification")
     /// - Parameter image: Used for tabbar item view's imageView and for its accessibility largeContentImage unless `largeContentImage` is specified.
-     @objc public convenience init(title: String, image: UIImage) {
-         self.init(title: title,
-                   image: image,
-                   selectedImage: nil,
-                   landscapeImage: nil,
-                   landscapeSelectedImage: nil,
-                   largeContentImage: nil,
-                   accessibilityLabelBadgeFormatString: nil)
-     }
+    @objc public convenience init(title: String, image: UIImage) {
+        self.init(title: title,
+                  image: image,
+                  selectedImage: nil,
+                  landscapeImage: nil,
+                  landscapeSelectedImage: nil,
+                  largeContentImage: nil,
+                  accessibilityLabelBadgeFormatString: nil)
+    }
 
     /// Initializes `TabBarItem`
     /// - Parameter title: Used for tabbar item view's label and for its accessibilityLabel.
@@ -51,19 +51,19 @@ open class TabBarItem: NSObject {
     /// - Parameter selectedImage: Used for imageView when tabbar item view is selected.  If it is nil, it will use `image`.
     /// - Parameter landscapeImage: Used for imageView when tabbar item view in landscape. If it is nil, it will use `image`. The image will be used in portrait mode if the tab bar item shows a label.
     /// - Parameter landscapeSelectedImage: Used for imageView when tabbar item view is selected in landscape. If it is nil, it will use `selectedImage`. The image will be used in portrait mode if the tab bar item shows a label.
-     @objc public convenience init(title: String,
-                                   image: UIImage,
-                                   selectedImage: UIImage? = nil,
-                                   landscapeImage: UIImage? = nil,
-                                   landscapeSelectedImage: UIImage? = nil) {
-         self.init(title: title,
-                   image: image,
-                   selectedImage: selectedImage,
-                   landscapeImage: landscapeImage,
-                   landscapeSelectedImage: landscapeSelectedImage,
-                   largeContentImage: nil,
-                   accessibilityLabelBadgeFormatString: nil)
-     }
+    @objc public convenience init(title: String,
+                                  image: UIImage,
+                                  selectedImage: UIImage? = nil,
+                                  landscapeImage: UIImage? = nil,
+                                  landscapeSelectedImage: UIImage? = nil) {
+        self.init(title: title,
+                  image: image,
+                  selectedImage: selectedImage,
+                  landscapeImage: landscapeImage,
+                  landscapeSelectedImage: landscapeSelectedImage,
+                  largeContentImage: nil,
+                  accessibilityLabelBadgeFormatString: nil)
+    }
 
     /// Initializes `TabBarItem`
     /// - Parameter title: Used for tabbar item view's label and for its accessibilityLabel.
@@ -90,6 +90,16 @@ open class TabBarItem: NSObject {
         super.init()
     }
 
+    /// Notification sent when the tab bar item's badge value changes.
+    static let badgeValueDidChangeNotification: NSNotification.Name = NSNotification.Name(rawValue: "TabBarItemBadgeValueDidChangeNotification")
+
+    let image: UIImage
+    let selectedImage: UIImage?
+    let landscapeImage: UIImage?
+    let landscapeSelectedImage: UIImage?
+    let largeContentImage: UIImage?
+    let accessibilityLabelBadgeFormatString: String?
+
     func selectedImage(isInPortraitMode: Bool, labelIsHidden: Bool) -> UIImage? {
         if isInPortraitMode {
             return (labelIsHidden ? selectedImage : landscapeSelectedImage) ?? selectedImage ?? image
@@ -105,14 +115,4 @@ open class TabBarItem: NSObject {
             return landscapeImage ?? image
         }
     }
-
-    /// Notification sent when the tab bar item's badge value changes.
-    static let badgeValueDidChangeNotification: NSNotification.Name = NSNotification.Name(rawValue: "TabBarItemBadgeValueDidChangeNotification")
-
-    let image: UIImage
-    let selectedImage: UIImage?
-    let landscapeImage: UIImage?
-    let landscapeSelectedImage: UIImage?
-    let largeContentImage: UIImage?
-    let accessibilityLabelBadgeFormatString: String?
 }
