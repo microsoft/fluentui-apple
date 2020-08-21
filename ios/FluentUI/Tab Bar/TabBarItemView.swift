@@ -201,7 +201,7 @@ class TabBarItemView: UIView {
         if let window = window {
             let primaryColor = Colors.primary(for: window)
             titleLabel.highlightedTextColor = primaryColor
-            imageView.tintColor = isSelected || item.isImageAppTinted ? primaryColor : Constants.unselectedColor
+            imageView.tintColor = isSelected ? primaryColor : Constants.unselectedColor
         }
     }
 

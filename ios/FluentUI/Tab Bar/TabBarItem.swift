@@ -10,7 +10,6 @@ public typealias MSTabBarItem = TabBarItem
 
 @objc(MSFTabBarItem)
 open class TabBarItem: NSObject {
-    /// The item's title
     @objc public let title: String
 
     /// The badge value will be displayed in a red oval above the tab bar item.
@@ -39,7 +38,6 @@ open class TabBarItem: NSObject {
     @objc public convenience init(title: String, image: UIImage) {
         self.init(title: title,
                   image: image,
-                  isImageAppTinted: false,
                   selectedImage: nil,
                   landscapeImage: nil,
                   landscapeSelectedImage: nil,
@@ -60,7 +58,6 @@ open class TabBarItem: NSObject {
                                   landscapeSelectedImage: UIImage? = nil) {
         self.init(title: title,
                   image: image,
-                  isImageAppTinted: false,
                   selectedImage: selectedImage,
                   landscapeImage: landscapeImage,
                   landscapeSelectedImage: landscapeSelectedImage,
@@ -71,7 +68,6 @@ open class TabBarItem: NSObject {
     /// Initializes `TabBarItem`
     /// - Parameter title: Used for tabbar item view's label and for its accessibilityLabel.
     /// - Parameter image: Used for tabbar item view's imageView and for its accessibility largeContentImage unless `largeContentImage` is specified.
-    /// - Parameter isImageAppTinted: Set to true if the image should be app tinted, false otherwise. Note that the selected image will always be app tinted.
     /// - Parameter selectedImage: Used for imageView when tabbar item view is selected.  If it is nil, it will use `image`.
     /// - Parameter landscapeImage: Used for imageView when tabbar item view in landscape. If it is nil, it will use `image`. The image will be used in portrait mode if the tab bar item shows a label.
     /// - Parameter landscapeSelectedImage: Used for imageView when tabbar item view is selected in landscape. If it is nil, it will use `selectedImage`. The image will be used in portrait mode if the tab bar item shows a label.
@@ -79,14 +75,12 @@ open class TabBarItem: NSObject {
     /// - Parameter accessibilityLabelBadgeFormatString: Format string to use for the tabbar item's accessibility label when the badge number is greater than zero. When the badge number is zero, the accessibility label is set to the item's title. By default, when the badge number is greater than zero, the following format is used to builds the accessibility label: "%@, %ld items" where the item's title and the badge number are used to populate the format specifiers. If a format string is provided through this parameter, it must contain "%@" and "%ld" in the same order and will be populated with the title and badge number.
     @objc public init(title: String,
                       image: UIImage,
-                      isImageAppTinted: Bool = false,
                       selectedImage: UIImage? = nil,
                       landscapeImage: UIImage? = nil,
                       landscapeSelectedImage: UIImage? = nil,
                       largeContentImage: UIImage? = nil,
                       accessibilityLabelBadgeFormatString: String? = nil) {
         self.image = image
-        self.isImageAppTinted = isImageAppTinted
         self.selectedImage = selectedImage
         self.title = title
         self.largeContentImage = largeContentImage
@@ -100,7 +94,6 @@ open class TabBarItem: NSObject {
     static let badgeValueDidChangeNotification = NSNotification.Name(rawValue: "TabBarItemBadgeValueDidChangeNotification")
 
     let image: UIImage
-    let isImageAppTinted: Bool
     let selectedImage: UIImage?
     let landscapeImage: UIImage?
     let landscapeSelectedImage: UIImage?
