@@ -32,8 +32,8 @@ open class TabBarItem: NSObject {
         }
     }
 
-    /// Initializes `TabBarItem`             /// Notification sent when the tab bar item's badge value changes.
-    /// - Parameter title: Used for tabbar item view's label and for its accessibilityLabel.             static let badgeValueDidChangeNotification: NSNotification.Name = NSNotification.Name(rawValue: "TabBarItemBadgeValueDidChangeNotification")
+    /// Initializes `TabBarItem`
+    /// - Parameter title: Used for tabbar item view's label and for its accessibilityLabel.
     /// - Parameter image: Used for tabbar item view's imageView and for its accessibility largeContentImage unless `largeContentImage` is specified.
     @objc public convenience init(title: String, image: UIImage) {
         self.init(title: title,
@@ -91,7 +91,7 @@ open class TabBarItem: NSObject {
     }
 
     /// Notification sent when the tab bar item's badge value changes.
-    static let badgeValueDidChangeNotification: NSNotification.Name = NSNotification.Name(rawValue: "TabBarItemBadgeValueDidChangeNotification")
+    static let badgeValueDidChangeNotification = NSNotification.Name(rawValue: "TabBarItemBadgeValueDidChangeNotification")
 
     let image: UIImage
     let selectedImage: UIImage?
