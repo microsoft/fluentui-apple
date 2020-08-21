@@ -5,6 +5,16 @@
 
 import UIKit
 
+// MARK: PopupMenu Colors
+
+public extension Colors {
+    struct PopupMenu {
+        public static var description: UIColor = textSecondary
+    }
+}
+
+// MARK: - PopupMenuController Colors
+
 @available(*, deprecated, renamed: "PopupMenuController")
 public typealias MSPopupMenuController = PopupMenuController
 

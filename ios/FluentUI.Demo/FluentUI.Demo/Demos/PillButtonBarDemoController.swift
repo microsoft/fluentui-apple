@@ -19,14 +19,37 @@ class PillButtonBarDemoController: DemoController {
                                           PillButtonBarItem(title: "Actions"),
                                           PillButtonBarItem(title: "More")]
 
+        let disableFilledSwitchView = UISwitch()
+        disableFilledSwitchView.isOn = true
+        disableFilledSwitchView.addTarget(self, action: #selector(toggleFilledPills(switchView:)), for: .valueChanged)
+
         container.addArrangedSubview(createLabelWithText("Filled"))
+        addRow(items: [createLabelWithText("Enable/Disable pills in Filled Pill Bar"), disableFilledSwitchView], itemSpacing: 20, centerItems: true)
         let filledBar = createBar(items: items, style: .filled)
         container.addArrangedSubview(filledBar)
         self.filledBar = filledBar
         container.addArrangedSubview(UIView())
 
+        let disableCustomFilledSwitchView = UISwitch()
+        disableCustomFilledSwitchView.isOn = true
+        disableCustomFilledSwitchView.addTarget(self, action: #selector(toggleCustomFilledPills(switchView:)), for: .valueChanged)
+
+        container.addArrangedSubview(createLabelWithText("Filled With Custom Pills Background"))
+        addRow(items: [createLabelWithText("Enable/Disable pills in custom Filled Pill Bar"), disableCustomFilledSwitchView], itemSpacing: 20, centerItems: true)
+        let customBar = createBar(items: items, style: .filled, useCustomPillsBackground: true)
+        container.addArrangedSubview(customBar)
+        self.customBar = customBar
+        container.addArrangedSubview(UIView())
+
+        let disableOutlinedSwitchView = UISwitch()
+        disableOutlinedSwitchView.isOn = true
+        disableOutlinedSwitchView.addTarget(self, action: #selector(toggleOutlinedPills(switchView:)), for: .valueChanged)
+
         container.addArrangedSubview(createLabelWithText("Outline"))
-        container.addArrangedSubview(createBar(items: items))
+        addRow(items: [createLabelWithText("Enable/Disable pills in Outline Pill bar"), disableOutlinedSwitchView], itemSpacing: 20, centerItems: true)
+        let outlineBar = createBar(items: items)
+        container.addArrangedSubview(outlineBar)
+        self.outlineBar = outlineBar
         container.addArrangedSubview(UIView())
 
         // When inserting longer button "Templates" instead of shorter "Other" button as the fourth button, compact layouts (most iPhones)
@@ -55,20 +78,26 @@ class PillButtonBarDemoController: DemoController {
         super.viewDidAppear(animated)
         if let window = view.window {
             filledBar?.backgroundColor = UIColor(light: Colors.primary(for: window), dark: Colors.Navigation.System.background)
+            customBar?.backgroundColor = UIColor(light: Colors.primary(for: window), dark: Colors.Navigation.System.background)
         }
     }
 
-    func createBar(items: [PillButtonBarItem], style: PillButtonStyle = .outline, centerAligned: Bool = false) -> UIView {
-        let bar = PillButtonBar(pillButtonStyle: style)
+    func createBar(items: [PillButtonBarItem], style: PillButtonStyle = .outline, centerAligned: Bool = false, disabledItems: Bool = false, useCustomPillsBackground: Bool = false) -> UIView {
+        let bar = PillButtonBar(pillButtonStyle: style, pillButtonBackgroundColor: useCustomPillsBackground ? Colors.Palette.communicationBlueShade30.color : nil)
         bar.items = items
         _ = bar.selectItem(atIndex: 0)
         bar.barDelegate = self
         bar.centerAligned = centerAligned
 
+        if disabledItems {
+            items.forEach { bar.disableItem($0) }
+        }
+
         let backgroundView = UIView()
         if style == .outline {
             backgroundView.backgroundColor = Colors.Navigation.System.background
         }
+
         backgroundView.addSubview(bar)
         let margins = UIEdgeInsets(top: 16.0, left: 0, bottom: 16.0, right: 0.0)
         fitViewIntoSuperview(bar, margins: margins)
@@ -96,7 +125,40 @@ class PillButtonBarDemoController: DemoController {
         NSLayoutConstraint.activate(constraints)
     }
 
+    func togglePills(pillBar: PillButtonBar, enable: Bool) {
+        if let items = pillBar.items {
+            if enable {
+                for item in items {
+                    pillBar.enableItem(item)
+                }
+            } else {
+                for item in items {
+                    pillBar.disableItem(item)
+                }
+            }
+        }
+    }
+
+    @objc private func toggleFilledPills(switchView: UISwitch) {
+        let pillBar = self.filledBar?.subviews[0] as! PillButtonBar
+        togglePills(pillBar: pillBar, enable: switchView.isOn)
+    }
+
+    @objc private func toggleCustomFilledPills(switchView: UISwitch) {
+        let pillBar = self.customBar?.subviews[0] as! PillButtonBar
+        togglePills(pillBar: pillBar, enable: switchView.isOn)
+    }
+
+    @objc private func toggleOutlinedPills(switchView: UISwitch) {
+        let pillBar = self.outlineBar?.subviews[0] as! PillButtonBar
+        togglePills(pillBar: pillBar, enable: switchView.isOn)
+    }
+
     private var filledBar: UIView?
+
+    private var customBar: UIView?
+
+    private var outlineBar: UIView?
 }
 
 // MARK: - PillButtonBarDemoController: PillButtonBarDelegate

@@ -66,6 +66,29 @@ public enum ButtonStyle: Int, CaseIterable {
             return Fonts.button2
         }
     }
+
+    var titleImagePadding: CGFloat {
+        switch self {
+        case .primaryFilled, .primaryOutline:
+            return 10
+        case .secondaryOutline:
+            return 8
+        case .tertiaryOutline, .borderless:
+            return 0
+        }
+    }
+}
+
+// MARK: - Button Colors
+
+public extension Colors {
+    struct Button {
+        public static var background: UIColor = .clear
+        public static var backgroundFilledDisabled: UIColor = surfaceQuaternary
+        public static var borderDisabled: UIColor = surfaceQuaternary
+        public static var titleDisabled: UIColor = textDisabled
+        public static var titleWithFilledBackground: UIColor = textOnAccent
+    }
 }
 
 // MARK: - Button
@@ -89,6 +112,16 @@ open class Button: UIButton {
         }
     }
 
+    /// The button's image.
+    /// For ButtonStyle.primaryFilled and ButtonStyle.primaryOutline, the image must be 24x24.
+    /// For ButtonStyle.secondaryOutline, the image must be 20x20.
+    /// For other styles, the image is not displayed.
+    @objc open var image: UIImage? {
+        didSet {
+            update()
+        }
+    }
+
     open override var isHighlighted: Bool {
         didSet {
             if isHighlighted != oldValue {
@@ -108,6 +141,12 @@ open class Button: UIButton {
     open override var contentEdgeInsets: UIEdgeInsets {
         didSet {
             isUsingCustomContentEdgeInsets = true
+
+            updateProposedTitleLabelWidth()
+
+            if !isAdjustingCustomContentEdgeInsetsForImage && image(for: .normal) != nil {
+                adjustCustomContentEdgeInsetsForImage()
+            }
         }
     }
 
@@ -115,19 +154,36 @@ open class Button: UIButton {
         var size = titleLabel?.systemLayoutSizeFitting(CGSize(width: proposedTitleLabelWidth == 0 ? .greatestFiniteMagnitude : proposedTitleLabelWidth, height: .greatestFiniteMagnitude)) ?? .zero
         size.width = ceil(size.width + contentEdgeInsets.left + contentEdgeInsets.right)
         size.height = ceil(max(size.height, style.minTitleLabelHeight) + contentEdgeInsets.top + contentEdgeInsets.bottom)
+
+        if let image = image(for: .normal) {
+            size.width += image.size.width
+
+            if titleLabel?.text?.count ?? 0 == 0 {
+                size.width -= style.titleImagePadding
+            }
+        }
+
         return size
     }
 
-    /// if value is 0.0, CGFloat.greatestFiniteMagnitude is used to calculate the width of the `titleLabel` in `intrinsicContentSize`
-    private var proposedTitleLabelWidth: CGFloat = 0.0 {
-        didSet {
-            if proposedTitleLabelWidth != oldValue {
-                invalidateIntrinsicContentSize()
-            }
-        }
-    }
+    open override func imageRect(forContentRect contentRect: CGRect) -> CGRect {
+        var rect = super.imageRect(forContentRect: contentRect)
 
-    private var isUsingCustomContentEdgeInsets: Bool = false
+        if let image = image {
+            let imageHeight = image.size.height
+
+            // If the entire image doesn't fit in the default rect, increase the rect's height
+            // to fit the entire image and reposition the origin to keep the image centered.
+            if imageHeight > rect.size.height {
+                rect.origin.y -= round((imageHeight - rect.size.height) / 2.0)
+                rect.size.height = imageHeight
+            }
+
+            rect.size.width = image.size.width
+        }
+
+        return rect
+    }
 
     @objc public init(style: ButtonStyle = .secondaryOutline) {
         self.style = style
@@ -156,11 +212,6 @@ open class Button: UIButton {
         update()
     }
 
-    open override func layoutSubviews() {
-        super.layoutSubviews()
-        proposedTitleLabelWidth = bounds.width - (contentEdgeInsets.left + contentEdgeInsets.right)
-    }
-
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         if #available(iOS 13, *) {
@@ -174,22 +225,77 @@ open class Button: UIButton {
         super.didMoveToWindow()
         updateBackgroundColor()
         updateTitleColors()
+        updateImage()
         updateBorderColor()
     }
 
-    public func updateTitleColors() {
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+
+        updateProposedTitleLabelWidth()
+    }
+
+    private func updateTitleColors() {
         if let window = window {
-            let titleColor = style == .primaryFilled ? Colors.Button.titleWithFilledBackground : Colors.primary(for: window)
-            let titleColorHighlighted = style == .primaryFilled ? titleColor : Colors.primaryTint20(for: window)
-            let titleColorDisabled = style == .primaryFilled ? titleColor : Colors.Button.titleDisabled
-            setTitleColor(titleColor, for: .normal)
-            setTitleColor(titleColorHighlighted, for: .highlighted)
-            setTitleColor(titleColorDisabled, for: .disabled)
+            setTitleColor(normalTitleAndImageColor(for: window), for: .normal)
+            setTitleColor(highlightedTitleAndImageColor(for: window), for: .highlighted)
+            setTitleColor(disabledTitleAndImageColor(for: window), for: .disabled)
+        }
+    }
+
+    private func updateImage() {
+        let isDisplayingImage = (style == .primaryFilled || style == .primaryOutline || style == .secondaryOutline) && image != nil
+
+        if let window = window {
+            let normalColor = normalTitleAndImageColor(for: window)
+            let highlightedColor = highlightedTitleAndImageColor(for: window)
+            let disabledColor = disabledTitleAndImageColor(for: window)
+            let needsSetImage = isDisplayingImage && image(for: .normal) == nil
+
+            if needsSetImage || !normalColor.isEqual(normalImageTintColor) {
+                normalImageTintColor = normalColor
+                setImage(image?.image(withPrimaryColor: normalColor), for: .normal)
+            }
+
+            if needsSetImage || !highlightedColor.isEqual(highlightedImageTintColor) {
+                highlightedImageTintColor = highlightedColor
+                setImage(image?.image(withPrimaryColor: highlightedColor), for: .highlighted)
+            }
+
+            if needsSetImage || !disabledColor.isEqual(disabledImageTintColor) {
+                disabledImageTintColor = disabledColor
+                setImage(image?.image(withPrimaryColor: disabledColor), for: .disabled)
+            }
+
+            if needsSetImage {
+                updateProposedTitleLabelWidth()
+
+                if isUsingCustomContentEdgeInsets {
+                    adjustCustomContentEdgeInsetsForImage()
+                }
+            }
+        }
+
+        if (image == nil || !isDisplayingImage) && image(for: .normal) != nil {
+            setImage(nil, for: .normal)
+            setImage(nil, for: .highlighted)
+            setImage(nil, for: .disabled)
+
+            normalImageTintColor = nil
+            highlightedImageTintColor = nil
+            disabledImageTintColor = nil
+
+            updateProposedTitleLabelWidth()
+
+            if isUsingCustomContentEdgeInsets {
+                adjustCustomContentEdgeInsetsForImage()
+            }
         }
     }
 
     private func update() {
         updateTitleColors()
+        updateImage()
         updateBackgroundColor()
         updateBorderColor()
 
@@ -198,6 +304,71 @@ open class Button: UIButton {
         if !isUsingCustomContentEdgeInsets {
             contentEdgeInsets = style.contentEdgeInsets
         }
+
+        updateProposedTitleLabelWidth()
+    }
+
+    private func normalTitleAndImageColor(for window: UIWindow) -> UIColor {
+        return style == .primaryFilled ? Colors.Button.titleWithFilledBackground : Colors.primary(for: window)
+    }
+
+    private func highlightedTitleAndImageColor(for window: UIWindow) -> UIColor {
+        return style == .primaryFilled ? normalTitleAndImageColor(for: window) : Colors.primaryTint20(for: window)
+    }
+
+    private func disabledTitleAndImageColor(for window: UIWindow) -> UIColor {
+        return style == .primaryFilled ? normalTitleAndImageColor(for: window) : Colors.primaryTint20(for: window)
+    }
+
+    private var normalImageTintColor: UIColor?
+    private var highlightedImageTintColor: UIColor?
+    private var disabledImageTintColor: UIColor?
+
+    private var isUsingCustomContentEdgeInsets: Bool = false
+    private var isAdjustingCustomContentEdgeInsetsForImage: Bool = false
+
+    /// if value is 0.0, CGFloat.greatestFiniteMagnitude is used to calculate the width of the `titleLabel` in `intrinsicContentSize`
+    private var proposedTitleLabelWidth: CGFloat = 0.0 {
+        didSet {
+            if proposedTitleLabelWidth != oldValue {
+                invalidateIntrinsicContentSize()
+            }
+        }
+    }
+
+    private func updateProposedTitleLabelWidth() {
+        if bounds.width > 0.0 {
+            var labelWidth = bounds.width - (contentEdgeInsets.left + contentEdgeInsets.right)
+            if let image = image(for: .normal) {
+                labelWidth -= image.size.width
+            }
+
+            if labelWidth > 0.0 {
+                proposedTitleLabelWidth = labelWidth
+            }
+        }
+    }
+
+    private func adjustCustomContentEdgeInsetsForImage() {
+        isAdjustingCustomContentEdgeInsetsForImage = true
+
+        var spacing = style.titleImagePadding
+
+        if image(for: .normal) == nil {
+            spacing = -spacing
+        }
+
+        if effectiveUserInterfaceLayoutDirection == .leftToRight {
+            contentEdgeInsets.right += spacing
+            titleEdgeInsets.left += spacing
+            titleEdgeInsets.right -= spacing
+        } else {
+            contentEdgeInsets.left += spacing
+            titleEdgeInsets.right += spacing
+            titleEdgeInsets.left -= spacing
+        }
+
+        isAdjustingCustomContentEdgeInsetsForImage = false
     }
 
     private func updateBackgroundColor() {

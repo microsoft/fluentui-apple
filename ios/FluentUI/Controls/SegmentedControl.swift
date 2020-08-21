@@ -5,6 +5,27 @@
 
 import UIKit
 
+// MARK: SegmentedControl Colors
+
+public extension Colors {
+    struct SegmentedControl {
+        public struct Tabs {
+            public static var background: UIColor = NavigationBar.background
+            public static var backgroundDisabled: UIColor = background
+            public static var segmentText: UIColor = textSecondary
+            public static var segmentTextDisabled: UIColor = surfaceQuaternary
+            public static var segmentTextSelectedAndDisabled: UIColor = textDisabled
+            public static var selectionDisabled: UIColor = textDisabled
+        }
+
+        public struct Switch {
+            public static var segmentText = UIColor(light: textOnAccent, dark: textPrimary)
+            public static var selection = UIColor(light: Colors.surfacePrimary, dark: Colors.surfaceQuaternary)
+            public static var selectionDisabled: UIColor = selection
+        }
+    }
+}
+
 // MARK: SegmentedControl
 
 @available(*, deprecated, renamed: "SegmentedControl")

@@ -5,7 +5,22 @@
 
 import UIKit
 
-// MARK: NavigationBar
+// MARK: Navigation Colors
+public extension Colors {
+    struct Navigation {
+        public struct System {
+            public static var background: UIColor = NavigationBar.background
+            public static var tint: UIColor = NavigationBar.tint
+            public static var title: UIColor = NavigationBar.title
+        }
+        public struct Primary {
+            public static var tint = UIColor(light: textOnAccent, dark: System.tint)
+            public static var title = UIColor(light: textOnAccent, dark: System.title)
+        }
+    }
+}
+
+// MARK: - NavigationBar
 
 @available(*, deprecated, renamed: "NavigationBar")
 public typealias MSNavigationBar = NavigationBar
@@ -311,6 +326,12 @@ open class NavigationBar: UINavigationBar {
                 updateBarButtonItems(with: navigationItem)
             }
         }
+    }
+
+    /// Override the avatarView with fallbackImageStyle rather than using avatar data
+    /// - Parameter fallbackImageStyle: image style used in  avatarView
+    @objc open func overrideAvatar(with fallbackImageStyle: AvatarFallbackImageStyle) {
+        titleView.avatarOverrideFallbackImageStyle = fallbackImageStyle
     }
 
     // MARK: Element size handling

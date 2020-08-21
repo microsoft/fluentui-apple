@@ -72,6 +72,15 @@ public enum DrawerPresentationBackground: Int {
     }
 }
 
+// MARK: - Drawer Color
+
+public extension Colors {
+    struct Drawer {
+        public static var background = UIColor(light: surfacePrimary, dark: surfaceSecondary)
+        public static var popoverBackground = UIColor(light: surfacePrimary, dark: surfaceQuaternary)
+    }
+}
+
 // MARK: - DrawerControllerDelegate
 
 @available(*, deprecated, renamed: "DrawerControllerDelegate")

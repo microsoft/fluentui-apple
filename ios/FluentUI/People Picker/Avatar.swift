@@ -16,8 +16,17 @@ public protocol Avatar {
     var secondaryText: String { get }
     var image: UIImage? { get }
 
+    /// The color that represents this avatar.
+    /// This color will override the initials view's background color.
+    /// If the avatar view is configured to display a border, this will be the border's color.
+    /// The colored border will not be displayed if a custom border image is provided.
+    var color: UIColor? { get }
+
     /// An image that can be used as a frame (outer wide border) for the avatar view
     var customBorderImage: UIImage? { get }
+
+    /// The presence state
+    var presence: Presence { get }
 }
 
 // MARK: - AvatarData
@@ -33,9 +42,15 @@ open class AvatarData: NSObject, Avatar {
 
     @objc public var customBorderImage: UIImage?
 
-    @objc public init(primaryText: String = "", secondaryText: String = "", image: UIImage? = nil) {
+    @objc public var color: UIColor?
+
+    @objc public var presence: Presence
+
+    @objc public init(primaryText: String = "", secondaryText: String = "", image: UIImage? = nil, presence: Presence = .none, color: UIColor? = nil) {
         self.primaryText = primaryText
         self.secondaryText = secondaryText
         self.image = image
+        self.presence = presence
+        self.color = color
     }
 }
