@@ -141,7 +141,7 @@ class DrawerDemoController: DemoController {
     }
 
     @objc private func showBottomDrawerButtonTapped(sender: UIButton) {
-        presentDrawer(sourceView: sender, presentationDirection: .down, contentView: containerForActionViews(), resizingBehavior: .expand)
+        presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews(), resizingBehavior: .dismissOrExpand)
     }
 
     @objc private func showBottomDrawerWithExpandStateAndPassthroughBackgroundButtonTapped(sender: UIButton) {
