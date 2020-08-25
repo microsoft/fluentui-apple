@@ -22,9 +22,9 @@ class DrawerPresentationController: UIPresentationController {
     private let presentationOrigin: CGFloat?
     private let presentationOffset: CGFloat
     private let presentationBackground: DrawerPresentationBackground
-	private weak var delegateeTouchView: UIView?
+	private weak var passThroughView: UIView?
 
-	init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?, source: UIViewController, sourceObject: Any?, presentationOrigin: CGFloat?, presentationDirection: DrawerPresentationDirection, presentationOffset: CGFloat, presentationBackground: DrawerPresentationBackground, adjustHeightForKeyboard: Bool, shouldUseWindowFullWidthInLandscape: Bool, delegateeTouchView: UIView?) {
+	init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?, source: UIViewController, sourceObject: Any?, presentationOrigin: CGFloat?, presentationDirection: DrawerPresentationDirection, presentationOffset: CGFloat, presentationBackground: DrawerPresentationBackground, adjustHeightForKeyboard: Bool, shouldUseWindowFullWidthInLandscape: Bool, passThroughView: UIView?) {
         sourceViewController = source
         self.sourceObject = sourceObject
         self.presentationOrigin = presentationOrigin
@@ -32,7 +32,7 @@ class DrawerPresentationController: UIPresentationController {
         self.presentationOffset = presentationOffset
         self.presentationBackground = presentationBackground
         self.shouldUseWindowFullWidthInLandscape = shouldUseWindowFullWidthInLandscape
-        self.delegateeTouchView = delegateeTouchView
+        self.passThroughView = passThroughView
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
 
         if adjustHeightForKeyboard {
@@ -41,14 +41,13 @@ class DrawerPresentationController: UIPresentationController {
     }
 
     private lazy var backgroundView: UIView = {
-        if presentationBackground == .passThrough, let delegateeTouchView = self.delegateeTouchView {
-            // It is to make the drawer and any delegateeTouchView view (presenting view controller root view) both interactive by delegating all the touch events to the delegateeTouchView.
-            let delegatorTouchView = DelegatorTouchView(delegateeTouchView: delegateeTouchView)
-            return delegatorTouchView
-        }
-
     // A transparent view, which if tapped will dismiss the dropdown
         let view = BackgroundView()
+        view.forwardsTouches = false
+        // Pass the passthrough view in touch forwarding view
+        if let passThroughView = self.passThroughView {
+            view.passthroughView = passThroughView
+        }
         view.backgroundColor = .clear
         view.isAccessibilityElement = true
         view.accessibilityLabel = "Accessibility.Dismiss.Label".localized
@@ -473,38 +472,11 @@ class DrawerPresentationController: UIPresentationController {
 // MARK: - BackgroundView
 
 // Used for workaround for a bug in iOS: if the resizing handle happens to be in the middle of the backgroundView, VoiceOver will send touch event to it (according to the backgroundView's accessibilityActivationPoint) even though it's not parented in backgroundView or even interactable - this will prevent backgroundView from receiving touch and dismissing controller. This view overrides the default behavior of sending touch event to a view at the activation point and provides a way for custom handling.
-private class BackgroundView: UIView {
+private class BackgroundView: TouchForwardingView {
     var onAccessibilityActivate: (() -> Void)?
 
     override func accessibilityActivate() -> Bool {
         onAccessibilityActivate?()
         return true
-    }
-}
-
-// MARK: - DelegatorTouchView
-
-private class DelegatorTouchView: UIView {
-    private let delegateeTouchView: UIView?
-
-    init(delegateeTouchView: UIView?) {
-        self.delegateeTouchView = delegateeTouchView
-        super.init(frame: .zero)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        var hitTestView = super.hitTest(point, with: event)
-
-        if let hitView = hitTestView, let delegateeTouchView = delegateeTouchView {
-            let convertedPoint = hitView.convert(point, to: delegateeTouchView)
-            // checking which subview is eligible for the touch event
-            hitTestView = delegateeTouchView.hitTest(convertedPoint, with: event)
-        }
-
-        return hitTestView
     }
 }
