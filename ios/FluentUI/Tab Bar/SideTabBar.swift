@@ -177,6 +177,9 @@ open class SideTabBar: UIView {
         }
 
         if let avatarView = avatarView {
+            // The avatar view's distance from the top of the side tab bar depends on safe layout guides.
+            // There is a minimum spacing. If the layout guide spacing is large than the minimum spacing,
+            // then the spacing will be layoutGuideSpacing + safeTopSpacing.
             let topSafeConstraint = avatarView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.avatarViewSafeTopSpacing)
             topSafeConstraint.priority = .defaultHigh
 
