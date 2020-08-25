@@ -134,10 +134,10 @@ open class SideTabBar: UIView {
         static let maxTabCount: Int = 5
         static let viewWidth: CGFloat = 62
         static let avatarViewSafeTopSpacing: CGFloat = 18
-		static let avatarViewMinTopSpacing: CGFloat = 36
+        static let avatarViewMinTopSpacing: CGFloat = 36
         static let avatarViewTopStackViewSpacing: CGFloat = 34
         static let bottomStackViewSafeSpacing: CGFloat = 14
-		static let bottomStackViewMinSpacing: CGFloat = 24
+        static let bottomStackViewMinSpacing: CGFloat = 24
         static let topItemSpacing: CGFloat = 32
         static let bottomItemSpacing: CGFloat = 24
         static let topItemSize: CGFloat = 28
@@ -177,12 +177,12 @@ open class SideTabBar: UIView {
         }
 
         if let avatarView = avatarView {
-			let topSafeConstraint = avatarView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.avatarViewSafeTopSpacing)
-			topSafeConstraint.priority = .defaultHigh
+            let topSafeConstraint = avatarView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.avatarViewSafeTopSpacing)
+            topSafeConstraint.priority = .defaultHigh
 
             layoutConstraints.append(contentsOf: [
                 topSafeConstraint,
-				avatarView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: Constants.avatarViewMinTopSpacing),
+                avatarView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: Constants.avatarViewMinTopSpacing),
                 avatarView.centerXAnchor.constraint(equalTo: centerXAnchor),
                 topStackView.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.avatarViewTopStackViewSpacing)
             ])
@@ -190,8 +190,8 @@ open class SideTabBar: UIView {
             layoutConstraints.append(topStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.topItemSpacing))
         }
 
-		let bottomSafeConstraint = bottomStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -Constants.bottomStackViewSafeSpacing)
-		bottomSafeConstraint.priority = .defaultHigh
+        let bottomSafeConstraint = bottomStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -Constants.bottomStackViewSafeSpacing)
+        bottomSafeConstraint.priority = .defaultHigh
 
         layoutConstraints.append(contentsOf: [
             topStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
@@ -199,7 +199,7 @@ open class SideTabBar: UIView {
             bottomStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
             bottomStackView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor),
             bottomSafeConstraint,
-			bottomStackView.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -Constants.bottomStackViewMinSpacing)
+            bottomStackView.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -Constants.bottomStackViewMinSpacing)
         ])
 
         NSLayoutConstraint.activate(layoutConstraints)
