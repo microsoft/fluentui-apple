@@ -214,7 +214,8 @@ open class NavigationBar: UINavigationBar {
     private let contentStackView = ContentStackView() //used to contain the various custom UI Elements
     private let rightBarButtonItemsStackView = UIStackView()
     private let leftBarButtonItemsStackView = UIStackView()
-    private let leadingSpacerView = UIView()
+    private let trailingSpacerView = UIView() //defines the leading space between the left and right barbuttonitems stack
+    private let leadingSpacerView = UIView() //defines the trailing space between the left and right barbuttonitems stack
     private var topAccessoryView: UIView?
     private var topAccessoryViewConstraints: [NSLayoutConstraint] = []
 
@@ -232,6 +233,12 @@ open class NavigationBar: UINavigationBar {
     private var rightBarButtonItemsObserver: NSKeyValueObservation?
     private var titleObserver: NSKeyValueObservation?
     private var navigationBarColorObserver: NSKeyValueObservation?
+    private var accessoryViewObserver: NSKeyValueObservation?
+    private var topAccessoryViewObserver: NSKeyValueObservation?
+    private var topAccessoryViewAttributesObserver: NSKeyValueObservation?
+    private var navigationBarStyleObserver: NSKeyValueObservation?
+    private var navigationBarShadowObserver: NSKeyValueObservation?
+    private var usesLargeTitleObserver: NSKeyValueObservation?
 
     @objc public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -274,7 +281,6 @@ open class NavigationBar: UINavigationBar {
         leadingSpacerView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
         //trailingSpacerView
-        let trailingSpacerView = UIView()
         contentStackView.addArrangedSubview(trailingSpacerView)
         trailingSpacerView.backgroundColor = .clear
         trailingSpacerView.setContentHuggingPriority(.defaultLow, for: .horizontal)
@@ -462,13 +468,6 @@ open class NavigationBar: UINavigationBar {
         }
     }
 
-    @objc private func updateNavigationItem(notification: NSNotification) {
-        let item = notification.object as? UINavigationItem
-        if let item = item {
-            update(with: item)
-        }
-    }
-
     func update(with navigationItem: UINavigationItem) {
         let (actualStyle, actualItem) = actualStyleAndItem(for: navigationItem)
         style = actualStyle
@@ -476,15 +475,6 @@ open class NavigationBar: UINavigationBar {
         showsLargeTitle = navigationItem.usesLargeTitle
         updateShadow(for: navigationItem)
         updateTopAccessoryView(for: navigationItem)
-
-        NotificationCenter.default.removeObserver(self,
-                                                  name: UINavigationItem.navigationItemDidChangeNotification,
-                                                  object: nil)
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(updateNavigationItem(notification:)),
-                                               name: UINavigationItem.navigationItemDidChangeNotification,
-                                               object: navigationItem)
 
         titleView.update(with: navigationItem)
 
@@ -501,6 +491,24 @@ open class NavigationBar: UINavigationBar {
             self.navigationItemDidUpdate(item)
         }
         titleObserver = navigationItem.observe(\UINavigationItem.title) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        accessoryViewObserver = navigationItem.observe(\UINavigationItem.accessoryView) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        topAccessoryViewObserver = navigationItem.observe(\UINavigationItem.topAccessoryView) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        topAccessoryViewAttributesObserver = navigationItem.observe(\UINavigationItem.topAccessoryViewAttributes) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        navigationBarStyleObserver = navigationItem.observe(\UINavigationItem.navigationBarStyle) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        navigationBarShadowObserver = navigationItem.observe(\UINavigationItem.navigationBarShadow) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        usesLargeTitleObserver = navigationItem.observe(\UINavigationItem.usesLargeTitle) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
     }

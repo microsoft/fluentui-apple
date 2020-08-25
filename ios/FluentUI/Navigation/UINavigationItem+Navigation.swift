@@ -17,15 +17,12 @@ import UIKit
         static var customNavigationBarColor: String = "customNavigationBarColor"
     }
 
-    static let navigationItemDidChangeNotification = NSNotification.Name(rawValue: "MSFNavigationItemDidChangeNotification")
-
     var accessoryView: UIView? {
         get {
             return objc_getAssociatedObject(self, &AssociatedKeys.accessoryView) as? UIView
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.accessoryView, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            NotificationCenter.default.post(name: UINavigationItem.navigationItemDidChangeNotification, object: self)
         }
     }
 
@@ -35,7 +32,6 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.topAccessoryView, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            NotificationCenter.default.post(name: UINavigationItem.navigationItemDidChangeNotification, object: self)
         }
     }
 
@@ -45,7 +41,6 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.topAccessoryViewAttributes, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            NotificationCenter.default.post(name: UINavigationItem.navigationItemDidChangeNotification, object: self)
         }
     }
 
@@ -55,7 +50,6 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.contentScrollView, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            NotificationCenter.default.post(name: UINavigationItem.navigationItemDidChangeNotification, object: self)
         }
     }
 
@@ -65,7 +59,6 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.navigationBarStyle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            NotificationCenter.default.post(name: UINavigationItem.navigationItemDidChangeNotification, object: self)
         }
     }
 
@@ -75,7 +68,6 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.navigationBarShadow, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            NotificationCenter.default.post(name: UINavigationItem.navigationItemDidChangeNotification, object: self)
         }
     }
 
@@ -85,7 +77,6 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.usesLargeTitle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            NotificationCenter.default.post(name: UINavigationItem.navigationItemDidChangeNotification, object: self)
         }
     }
 
@@ -99,7 +90,6 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.customNavigationBarColor, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            NotificationCenter.default.post(name: UINavigationItem.navigationItemDidChangeNotification, object: self)
         }
     }
 }
