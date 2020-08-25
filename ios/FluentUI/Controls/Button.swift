@@ -100,7 +100,7 @@ public typealias MSButton = MSFButton
 @IBDesignable
 @objc(MSFButton)
 open class MSFButton: UIButton {
-	
+
 	/// <#Description#>
 	@objc public lazy var test: UIView = {
 		let view = UIView()
