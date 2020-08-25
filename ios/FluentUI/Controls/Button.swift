@@ -100,14 +100,6 @@ public typealias MSButton = MSFButton
 @IBDesignable
 @objc(MSFButton)
 open class MSFButton: UIButton {
-
-	/// <#Description#>
-	@objc public lazy var test: UIView = {
-		let view = UIView()
-		view.backgroundColor = UIColor.gray
-		return view
-	}()
-
     private struct Constants {
         static let borderWidth: CGFloat = 1
     }
