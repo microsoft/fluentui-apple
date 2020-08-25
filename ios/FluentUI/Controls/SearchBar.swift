@@ -152,6 +152,18 @@ open class SearchBar: UIView {
         static let defaultStyle: Style = .lightContent
     }
 
+    @objc open var hidesNavigationBarDuringSearch: Bool = true {
+        didSet {
+            if oldValue != hidesNavigationBarDuringSearch && isActive {
+                if hidesNavigationBarDuringSearch {
+                    hideNavigationBar()
+                } else {
+                    unhideNavigationBar()
+                }
+            }
+        }
+    }
+
     @objc open var cornerRadius: CGFloat = Constants.searchTextFieldCornerRadius {
         didSet {
             searchTextField.layer.cornerRadius = cornerRadius
@@ -268,14 +280,16 @@ open class SearchBar: UIView {
         if isActive {
             return
         }
+
         attributePlaceholderText()
         showCancelButton()
-        originalIsNavigationBarHidden = navigationController?.isNavigationBarHidden ?? false
-        // Using delayed async to work around a bug on iOS when it restores responder status for the text field when controller appears (due to navigation controller's pop action) even though text field resigned responder status before a detail controller was pushed
-        let isTransitioning = navigationController?.transitionCoordinator != nil
-        DispatchQueue.main.asyncAfter(deadline: .now() + (isTransitioning ? Constants.navigationBarTransitionHidingDelay : 0)) {
-            self.navigationController?.setNavigationBarHidden(true, animated: true)
+
+        if hidesNavigationBarDuringSearch {
+            originalIsNavigationBarHidden = navigationController?.isNavigationBarHidden ?? false
+
+            hideNavigationBar()
         }
+
         isActive = true
     }
 
@@ -283,12 +297,28 @@ open class SearchBar: UIView {
         if !isActive {
             return
         }
+
         isActive = false
         searchTextField.resignFirstResponder()
         searchTextField.text = nil
         searchTextDidChange(shouldUpdateDelegate: false)
         delegate?.searchBarDidCancel(self)
         hideCancelButton()
+
+        if hidesNavigationBarDuringSearch {
+            unhideNavigationBar()
+        }
+    }
+
+    private func hideNavigationBar() {
+        // Using delayed async to work around a bug on iOS when it restores responder status for the text field when controller appears (due to navigation controller's pop action) even though text field resigned responder status before a detail controller was pushed
+        let isTransitioning = navigationController?.transitionCoordinator != nil
+        DispatchQueue.main.asyncAfter(deadline: .now() + (isTransitioning ? Constants.navigationBarTransitionHidingDelay : 0)) {
+            self.navigationController?.setNavigationBarHidden(true, animated: true)
+        }
+    }
+
+    private func unhideNavigationBar() {
         navigationController?.setNavigationBarHidden(originalIsNavigationBarHidden, animated: true)
     }
 

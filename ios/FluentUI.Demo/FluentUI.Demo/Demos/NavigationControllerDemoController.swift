@@ -31,6 +31,9 @@ class NavigationControllerDemoController: DemoController {
 
         addTitle(text: "Custom Navigation Bar Color")
         container.addArrangedSubview(createButton(title: "Show with gradient navigation bar color", action: #selector(showLargeTitleWithCustomizedColor)))
+
+        addTitle(text: "Top Accessory View")
+        container.addArrangedSubview(createButton(title: "Show with top search bar for large screen width", action: #selector(showWithTopSearchBar)))
     }
 
     @objc func showLargeTitle() {
@@ -83,15 +86,28 @@ class NavigationControllerDemoController: DemoController {
         presentController(withLargeTitle: true, style: .primary, accessoryView: createAccessoryView(), showAvatar: false)
     }
 
+    @objc func showWithTopSearchBar() {
+        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), showsTopAccessory: true, contractNavigationBarOnScroll: false)
+    }
+
     @discardableResult
-    private func presentController(withLargeTitle useLargeTitle: Bool, style: NavigationBar.Style = .primary, accessoryView: UIView? = nil, contractNavigationBarOnScroll: Bool = true, showShadow: Bool = true, showAvatar: Bool = true) -> NavigationController {
+    private func presentController(withLargeTitle useLargeTitle: Bool,
+                                   style: NavigationBar.Style = .primary,
+                                   accessoryView: UIView? = nil,
+                                   showsTopAccessory: Bool = false,
+                                   contractNavigationBarOnScroll: Bool = true,
+                                   showShadow: Bool = true,
+                                   showAvatar: Bool = true) -> NavigationController {
         let content = RootViewController()
         content.navigationItem.usesLargeTitle = useLargeTitle
         content.navigationItem.navigationBarStyle = style
         content.navigationItem.navigationBarShadow = showShadow ? .automatic : .alwaysHidden
         content.navigationItem.accessoryView = accessoryView
+        content.navigationItem.topAccessoryViewAttributes = createTopAccessoryViewAttributes()
         content.navigationItem.contentScrollView = contractNavigationBarOnScroll ? content.tableView : nil
         content.showsTabs = !showShadow
+        content.showsTopAccessoryView = showsTopAccessory
+
         if style == .custom {
             content.navigationItem.customNavigationBarColor = CustomGradient.getCustomBackgroundColor(width: view.frame.width)
         }
@@ -122,11 +138,19 @@ class NavigationControllerDemoController: DemoController {
         return controller
     }
 
-    private func createAccessoryView(with style: SearchBar.Style = .lightContent) -> UIView {
+    private func createAccessoryView(with style: SearchBar.Style = .lightContent) -> SearchBar {
         let searchBar = SearchBar()
         searchBar.style = style
         searchBar.placeholderText = "Search"
         return searchBar
+    }
+
+    private func createTopAccessoryViewAttributes() -> NavigationBarTopAccessoryViewAttributes {
+        let attributes = NavigationBarTopAccessoryViewAttributes(widthMultiplier: Constants.topAccessoryViewWidthMultiplier,
+                                                                 maxWidth: Constants.topAccessoryViewMaxWidth,
+                                                                 minWidth: Constants.topAccessoryViewMinWidth)
+
+        return attributes
     }
 
     private func presentSideDrawer(presentingGesture: UIPanGestureRecognizer? = nil) {
@@ -150,6 +174,12 @@ class NavigationControllerDemoController: DemoController {
         if gesture.state == .began {
             presentSideDrawer(presentingGesture: gesture)
         }
+    }
+
+    private struct Constants {
+        static let topAccessoryViewWidthMultiplier: CGFloat = 0.375
+        static let topAccessoryViewMinWidth: CGFloat = 264
+        static let topAccessoryViewMaxWidth: CGFloat = 552
     }
 }
 
@@ -231,6 +261,8 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
 
+    var showsTopAccessoryView: Bool = false
+
     private var isInSelectionMode: Bool = false {
         didSet {
             tableView.allowsMultipleSelection = isInSelectionMode
@@ -276,9 +308,10 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if self.navigationItem.accessoryView != nil {
+        if navigationItem.accessoryView != nil {
             container.addArrangedSubview(searchProgressSpinnerSwitchView)
         }
+
         container.addArrangedSubview(tableView)
         updateNavigationTitle()
         updateLeftBarButtonItems()
@@ -292,6 +325,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             tabBarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tabBarView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ]
+
         NSLayoutConstraint.activate(tabBarViewConstraints)
     }
 
@@ -307,6 +341,28 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         navigationBarFrameObservation = navigationController?.navigationBar.observe(\.frame, options: [.old, .new]) { [unowned self] navigationBar, change in
             if change.newValue?.width != change.oldValue?.width && self.navigationItem.navigationBarStyle == .custom {
                 self.navigationItem.customNavigationBarColor = CustomGradient.getCustomBackgroundColor(width: navigationBar.frame.width)
+            }
+        }
+    }
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+
+        if showsTopAccessoryView {
+            let showTopAccessoryView = view.frame.size.width >= Constants.topAccessoryViewWidthThreshold
+
+            if showTopAccessoryView && navigationItem.accessoryView != nil {
+                let accessoryView = navigationItem.accessoryView as! SearchBar
+                accessoryView.hidesNavigationBarDuringSearch = false
+
+                navigationItem.accessoryView = nil
+                navigationItem.topAccessoryView = accessoryView
+            } else if !showTopAccessoryView && navigationItem.topAccessoryView != nil {
+                let accessoryView = navigationItem.topAccessoryView as! SearchBar
+                accessoryView.hidesNavigationBarDuringSearch = true
+
+                navigationItem.topAccessoryView = nil
+                navigationItem.accessoryView = accessoryView
             }
         }
     }
@@ -405,7 +461,6 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 // MARK: - RootViewController: SearchBarDelegate
 
 extension RootViewController: SearchBarDelegate {
-
     func searchBarDidBeginEditing(_ searchBar: SearchBar) {
         searchBar.progressSpinner.stopAnimating()
     }
@@ -421,6 +476,10 @@ extension RootViewController: SearchBarDelegate {
         if showSearchProgressSpinner {
             searchBar.progressSpinner.startAnimating()
         }
+    }
+
+    private struct Constants {
+        static let topAccessoryViewWidthThreshold: CGFloat = 768
     }
 }
 

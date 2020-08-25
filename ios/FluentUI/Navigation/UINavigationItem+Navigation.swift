@@ -8,6 +8,8 @@ import UIKit
 @objc public extension UINavigationItem {
     private struct AssociatedKeys {
         static var accessoryView: String = "accessoryView"
+        static var topAccessoryView: String = "topAccessoryView"
+        static var topAccessoryViewAttributes: String = "topAccessoryViewAttributes"
         static var contentScrollView: String = "contentScrollView"
         static var navigationBarStyle: String = "navigationBarStyle"
         static var navigationBarShadow: String = "navigationBarShadow"
@@ -15,12 +17,35 @@ import UIKit
         static var customNavigationBarColor: String = "customNavigationBarColor"
     }
 
+    static let navigationItemDidChangeNotification = NSNotification.Name(rawValue: "MSFNavigationItemDidChangeNotification")
+
     var accessoryView: UIView? {
         get {
             return objc_getAssociatedObject(self, &AssociatedKeys.accessoryView) as? UIView
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.accessoryView, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            NotificationCenter.default.post(name: UINavigationItem.navigationItemDidChangeNotification, object: self)
+        }
+    }
+
+    var topAccessoryView: UIView? {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.topAccessoryView) as? UIView
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.topAccessoryView, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            NotificationCenter.default.post(name: UINavigationItem.navigationItemDidChangeNotification, object: self)
+        }
+    }
+
+    var topAccessoryViewAttributes: NavigationBarTopAccessoryViewAttributes? {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.topAccessoryViewAttributes) as? NavigationBarTopAccessoryViewAttributes
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.topAccessoryViewAttributes, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            NotificationCenter.default.post(name: UINavigationItem.navigationItemDidChangeNotification, object: self)
         }
     }
 
@@ -30,6 +55,7 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.contentScrollView, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            NotificationCenter.default.post(name: UINavigationItem.navigationItemDidChangeNotification, object: self)
         }
     }
 
@@ -39,6 +65,7 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.navigationBarStyle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            NotificationCenter.default.post(name: UINavigationItem.navigationItemDidChangeNotification, object: self)
         }
     }
 
@@ -48,6 +75,7 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.navigationBarShadow, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            NotificationCenter.default.post(name: UINavigationItem.navigationItemDidChangeNotification, object: self)
         }
     }
 
@@ -57,6 +85,7 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.usesLargeTitle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            NotificationCenter.default.post(name: UINavigationItem.navigationItemDidChangeNotification, object: self)
         }
     }
 
@@ -70,6 +99,7 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.customNavigationBarColor, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            NotificationCenter.default.post(name: UINavigationItem.navigationItemDidChangeNotification, object: self)
         }
     }
 }
