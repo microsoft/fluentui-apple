@@ -118,9 +118,6 @@ open class NavigationBar: UINavigationBar {
         static let leftBarButtonItemLeadingMargin: CGFloat = 8
         static let rightBarButtonItemHorizontalPadding: CGFloat = 10
 
-        static let contentLeadingMargin: CGFloat = 8
-        static let contentTrailingMargin: CGFloat = 6
-
         static let obscuringAnimationDuration: TimeInterval = 0.12
         static let revealingAnimationDuration: TimeInterval = 0.25
     }
@@ -183,6 +180,30 @@ open class NavigationBar: UINavigationBar {
     @objc open var onAvatarTapped: (() -> Void)? {
         didSet {
             titleView.onAvatarTapped = onAvatarTapped
+        }
+    }
+
+     /// The navigation bar's default leading content margin.
+    @objc public static let defaultContentLeadingMargin: CGFloat = 8
+
+     /// The navigation bar's default trailing content margin.
+    @objc public static let defaultContentTrailingMargin: CGFloat = 6
+
+    /// The navigation bar's leading content margin.
+    @objc open var contentLeadingMargin: CGFloat = defaultContentLeadingMargin {
+        didSet {
+            if oldValue != contentLeadingMargin {
+                updateContentStackViewMargins(forExpandedContent: contentIsExpanded)
+            }
+        }
+    }
+
+    /// The navigation bar's leading content margin.
+    @objc open var contentTrailingMargin: CGFloat = defaultContentTrailingMargin{
+        didSet {
+            if oldValue != contentLeadingMargin {
+                updateContentStackViewMargins(forExpandedContent: contentIsExpanded)
+            }
         }
     }
 
@@ -359,9 +380,9 @@ open class NavigationBar: UINavigationBar {
         let contentHeight = contentIsExpanded ? Constants.expandedContentHeight : Constants.normalContentHeight
         contentStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(
             top: 0,
-            leading: Constants.contentLeadingMargin,
+            leading: contentLeadingMargin,
             bottom: -(contentHeight - Constants.systemHeight),
-            trailing: Constants.contentTrailingMargin
+            trailing: contentTrailingMargin
         )
     }
 
