@@ -131,7 +131,7 @@ open class TableViewCellFileAccessoryView: UIView {
     private struct Constants {
         static let layoutBreakPoints: [CGFloat] = [424, 504, 584, 616, 752, 900, 1092]
         static let maxVisibleActionCount: UInt8 = 4
-        static let  minimumViewHeight: CGFloat = 24
+        static let minimumViewHeight: CGFloat = 24
         static let actionsSpacingDefault: CGFloat = 16
         static let actionsSpacingLarge: CGFloat = 24
         static let columnSpacing: CGFloat = 24
