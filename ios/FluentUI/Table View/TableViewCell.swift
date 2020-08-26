@@ -290,7 +290,26 @@ open class TableViewCell: UITableViewCell {
     ///   - paddingLeading: The cell's leading padding
     ///   - paddingTrailing: The cell's trailing padding
     /// - Returns: a value representing the calculated height of the cell
-    @objc public class func height(title: String, subtitle: String = "", footer: String = "", titleLeadingAccessoryView: UIView? = nil, titleTrailingAccessoryView: UIView? = nil, subtitleLeadingAccessoryView: UIView? = nil, subtitleTrailingAccessoryView: UIView? = nil, footerLeadingAccessoryView: UIView? = nil, footerTrailingAccessoryView: UIView? = nil, customViewSize: CustomViewSize = .default, customAccessoryView: UIView? = nil, accessoryType: TableViewCellAccessoryType = .none, titleNumberOfLines: Int = 1, subtitleNumberOfLines: Int = 1, footerNumberOfLines: Int = 1, customAccessoryViewExtendsToEdge: Bool = false, containerWidth: CGFloat = .greatestFiniteMagnitude, isInSelectionMode: Bool = false, paddingLeading: CGFloat = defaultPaddingLeading, paddingTrailing: CGFloat = defaultPaddingTrailing) -> CGFloat {
+    @objc public class func height(title: String,
+                                   subtitle: String = "",
+                                   footer: String = "",
+                                   titleLeadingAccessoryView: UIView? = nil,
+                                   titleTrailingAccessoryView: UIView? = nil,
+                                   subtitleLeadingAccessoryView: UIView? = nil,
+                                   subtitleTrailingAccessoryView: UIView? = nil,
+                                   footerLeadingAccessoryView: UIView? = nil,
+                                   footerTrailingAccessoryView: UIView? = nil,
+                                   customViewSize: CustomViewSize = .default,
+                                   customAccessoryView: UIView? = nil,
+                                   accessoryType: TableViewCellAccessoryType = .none,
+                                   titleNumberOfLines: Int = 1,
+                                   subtitleNumberOfLines: Int = 1,
+                                   footerNumberOfLines: Int = 1,
+                                   customAccessoryViewExtendsToEdge: Bool = false,
+                                   containerWidth: CGFloat = .greatestFiniteMagnitude,
+                                   isInSelectionMode: Bool = false,
+                                   paddingLeading: CGFloat = defaultPaddingLeading,
+                                   paddingTrailing: CGFloat = defaultPaddingTrailing) -> CGFloat {
         var layoutType = self.layoutType(subtitle: subtitle, footer: footer, subtitleLeadingAccessoryView: subtitleLeadingAccessoryView, subtitleTrailingAccessoryView: subtitleTrailingAccessoryView, footerLeadingAccessoryView: footerLeadingAccessoryView, footerTrailingAccessoryView: footerTrailingAccessoryView)
         customViewSize.validateLayoutTypeForHeightCalculation(&layoutType)
         let customViewSize = self.customViewSize(from: customViewSize, layoutType: layoutType)
@@ -341,7 +360,22 @@ open class TableViewCell: UITableViewCell {
     ///   - paddingLeading: The cell's leading padding
     ///   - paddingTrailing: The cell's trailing padding
     /// - Returns: a value representing the preferred width of the cell
-    @objc public class func preferredWidth(title: String, subtitle: String = "", footer: String = "", titleLeadingAccessoryView: UIView? = nil, titleTrailingAccessoryView: UIView? = nil, subtitleLeadingAccessoryView: UIView? = nil, subtitleTrailingAccessoryView: UIView? = nil, footerLeadingAccessoryView: UIView? = nil, footerTrailingAccessoryView: UIView? = nil, customViewSize: CustomViewSize = .default, customAccessoryView: UIView? = nil, accessoryType: TableViewCellAccessoryType = .none, customAccessoryViewExtendsToEdge: Bool = false, isInSelectionMode: Bool = false, paddingLeading: CGFloat = defaultPaddingLeading, paddingTrailing: CGFloat = defaultPaddingTrailing) -> CGFloat {
+    @objc public class func preferredWidth(title: String,
+                                           subtitle: String = "",
+                                           footer: String = "",
+                                           titleLeadingAccessoryView: UIView? = nil,
+                                           titleTrailingAccessoryView: UIView? = nil,
+                                           subtitleLeadingAccessoryView: UIView? = nil,
+                                           subtitleTrailingAccessoryView: UIView? = nil,
+                                           footerLeadingAccessoryView: UIView? = nil,
+                                           footerTrailingAccessoryView: UIView? = nil,
+                                           customViewSize: CustomViewSize = .default,
+                                           customAccessoryView: UIView? = nil,
+                                           accessoryType: TableViewCellAccessoryType = .none,
+                                           customAccessoryViewExtendsToEdge: Bool = false,
+                                           isInSelectionMode: Bool = false,
+                                           paddingLeading: CGFloat = defaultPaddingLeading,
+                                           paddingTrailing: CGFloat = defaultPaddingTrailing) -> CGFloat {
         let layoutType = self.layoutType(subtitle: subtitle, footer: footer, subtitleLeadingAccessoryView: subtitleLeadingAccessoryView, subtitleTrailingAccessoryView: subtitleTrailingAccessoryView, footerLeadingAccessoryView: footerLeadingAccessoryView, footerTrailingAccessoryView: footerTrailingAccessoryView)
         let customViewSize = self.customViewSize(from: customViewSize, layoutType: layoutType)
 
