@@ -20,6 +20,28 @@ public extension Colors {
     }
 }
 
+// MARK: - NavigationBarTopAccessoryViewAttributes
+
+/// Attributes for a navigation bar's top accessory view.
+@objc(MSFNavigationBarTopAccessoryViewAttributes)
+open class NavigationBarTopAccessoryViewAttributes: NSObject {
+    /// The width multiplier is the propotion of the navigation bar's width that the top accessory view will occupy.
+    @objc public let widthMultiplier: CGFloat
+
+    /// The maximum width of the top accessory view.
+    @objc public let maxWidth: CGFloat
+
+    /// The minimum width of the top accessory view.
+    @objc public let minWidth: CGFloat
+
+    @objc public init(widthMultiplier: CGFloat, maxWidth: CGFloat, minWidth: CGFloat) {
+        self.widthMultiplier = widthMultiplier
+        self.maxWidth = maxWidth
+        self.minWidth = minWidth
+        super.init()
+    }
+}
+
 // MARK: - NavigationBar
 
 @available(*, deprecated, renamed: "NavigationBar")
@@ -192,7 +214,10 @@ open class NavigationBar: UINavigationBar {
     private let contentStackView = ContentStackView() //used to contain the various custom UI Elements
     private let rightBarButtonItemsStackView = UIStackView()
     private let leftBarButtonItemsStackView = UIStackView()
-    private let spacerView = UIView() //defines the space between the left and right barbuttonitems stack
+    private let trailingSpacerView = UIView() //defines the leading space between the left and right barbuttonitems stack
+    private let leadingSpacerView = UIView() //defines the trailing space between the left and right barbuttonitems stack
+    private var topAccessoryView: UIView?
+    private var topAccessoryViewConstraints: [NSLayoutConstraint] = []
 
     private var showsLargeTitle: Bool = true {
         didSet {
@@ -208,6 +233,12 @@ open class NavigationBar: UINavigationBar {
     private var rightBarButtonItemsObserver: NSKeyValueObservation?
     private var titleObserver: NSKeyValueObservation?
     private var navigationBarColorObserver: NSKeyValueObservation?
+    private var accessoryViewObserver: NSKeyValueObservation?
+    private var topAccessoryViewObserver: NSKeyValueObservation?
+    private var topAccessoryViewAttributesObserver: NSKeyValueObservation?
+    private var navigationBarStyleObserver: NSKeyValueObservation?
+    private var navigationBarShadowObserver: NSKeyValueObservation?
+    private var usesLargeTitleObserver: NSKeyValueObservation?
 
     @objc public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -243,11 +274,19 @@ open class NavigationBar: UINavigationBar {
         titleView.setContentHuggingPriority(.required, for: .horizontal)
         titleView.setContentCompressionResistancePriority(.required, for: .horizontal)
 
-        //spacerView
-        contentStackView.addArrangedSubview(spacerView)
-        spacerView.backgroundColor = .clear
-        spacerView.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        spacerView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        //leadingSpacerView
+        contentStackView.addArrangedSubview(leadingSpacerView)
+        leadingSpacerView.backgroundColor = .clear
+        leadingSpacerView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        leadingSpacerView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+
+        //trailingSpacerView
+        contentStackView.addArrangedSubview(trailingSpacerView)
+        trailingSpacerView.backgroundColor = .clear
+        trailingSpacerView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        trailingSpacerView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+
+        trailingSpacerView.widthAnchor.constraint(equalTo: leadingSpacerView.widthAnchor).isActive = true
 
         //rightBarButtonItemsStackView: layout priorities are slightly lower to make sure titleView has the highest priority in horizontal spacing
         contentStackView.addArrangedSubview(rightBarButtonItemsStackView)
@@ -260,6 +299,37 @@ open class NavigationBar: UINavigationBar {
         isTranslucent = false
 
         updateAccessibilityElements()
+    }
+
+    private func updateTopAccessoryView(for navigationItem: UINavigationItem?) {
+        if let topAccessoryView = topAccessoryView {
+            topAccessoryView.removeFromSuperview()
+        }
+
+        self.topAccessoryView = navigationItem?.topAccessoryView
+
+        if let topAccessoryView = self.topAccessoryView {
+            let insertionIndex = contentStackView.arrangedSubviews.firstIndex(of: leadingSpacerView)! + 1
+            contentStackView.insertArrangedSubview(topAccessoryView, at: insertionIndex)
+
+            NSLayoutConstraint.deactivate(topAccessoryViewConstraints)
+            topAccessoryViewConstraints.removeAll()
+
+            if let attributes = navigationItem?.topAccessoryViewAttributes {
+                topAccessoryView.translatesAutoresizingMaskIntoConstraints = false
+
+                let widthConstraint = topAccessoryView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: attributes.widthMultiplier)
+                widthConstraint.priority = .defaultHigh
+
+                topAccessoryViewConstraints.append(contentsOf: [
+                    widthConstraint,
+                    topAccessoryView.widthAnchor.constraint(lessThanOrEqualToConstant: attributes.maxWidth),
+                    topAccessoryView.widthAnchor.constraint(greaterThanOrEqualToConstant: attributes.minWidth)
+                ])
+
+                NSLayoutConstraint.activate(topAccessoryViewConstraints)
+            }
+        }
     }
 
     // Manually contains the content stack view with lower priority constraints in order to avoid invalid simultaneous constraints when nav bar is hidden.
@@ -404,6 +474,7 @@ open class NavigationBar: UINavigationBar {
         updateColors(for: actualItem)
         showsLargeTitle = navigationItem.usesLargeTitle
         updateShadow(for: navigationItem)
+        updateTopAccessoryView(for: navigationItem)
 
         titleView.update(with: navigationItem)
 
@@ -420,6 +491,24 @@ open class NavigationBar: UINavigationBar {
             self.navigationItemDidUpdate(item)
         }
         titleObserver = navigationItem.observe(\UINavigationItem.title) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        accessoryViewObserver = navigationItem.observe(\UINavigationItem.accessoryView) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        topAccessoryViewObserver = navigationItem.observe(\UINavigationItem.topAccessoryView) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        topAccessoryViewAttributesObserver = navigationItem.observe(\UINavigationItem.topAccessoryViewAttributes) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        navigationBarStyleObserver = navigationItem.observe(\UINavigationItem.navigationBarStyle) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        navigationBarShadowObserver = navigationItem.observe(\UINavigationItem.navigationBarShadow) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        usesLargeTitleObserver = navigationItem.observe(\UINavigationItem.usesLargeTitle) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
     }
