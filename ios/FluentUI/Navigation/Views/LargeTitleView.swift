@@ -70,10 +70,15 @@ class LargeTitleView: UIView {
 
     var onAvatarTapped: (() -> Void)? // called in response to a tap on the MSAvatarView
 
-    var avatarUIView: UIView? {
+    public func visibleAvatarView() -> UIView? {
+        if !showsProfileButton {
+            return nil
+        }
+
         if smallMorphingAvatarView?.alpha != 0 {
             return smallMorphingAvatarView
         }
+
         return avatarView
     }
 
