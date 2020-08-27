@@ -50,21 +50,28 @@ class AvatarViewDemoController: DemoController {
                       style: .circle,
                       borderStyle: .defaultBorder)
 
-        addTitle(text: "Default")
+        addTitle(text: "Fallback Images")
         for size in AvatarSize.allCases.reversed() {
-            let signedoutAvatar = createAvatarView(size: size, name: "+1 (425) 123 4567", style: .circle)
-            addRow(text: size.description, items: [signedoutAvatar.1], textStyle: .footnote, textWidth: 100)
+            let phoneNumber = "+1 (425) 123 4567"
+            let primaryFilledAvatar = createAvatarView(size: size, name: phoneNumber, style: .circle, preferredFallbackImageStyle: .primaryFilled)
+            let onAccentFilledAvatar = createAvatarView(size: size, name: phoneNumber, style: .circle, preferredFallbackImageStyle: .onAccentFilled)
+            addRow(text: size.description, items: [primaryFilledAvatar.1, onAccentFilledAvatar.1], textStyle: .footnote, textWidth: 100)
         }
 
         addTitle(text: "Unauthenticated")
         for size in AvatarSize.allCases.reversed() {
-            let avatarView = AvatarView(avatarSize: size, withBorder: false, style: .circle)
-            avatarView.setup(fallbackStyle: .outlined)
-            avatarView.translatesAutoresizingMaskIntoConstraints = false
-            avatarView.overrideAccessibilityLabel = "Signed Out"
-            addRow(text: size.description, items: [avatarView], textStyle: .footnote, textWidth: 100)
-        }
+            let accessibilityLabel = "Signed Out"
+            let grayAvatarView = AvatarView(avatarSize: size, withBorder: false, style: .circle)
+            grayAvatarView.setup(fallbackStyle: .outlined)
+            grayAvatarView.translatesAutoresizingMaskIntoConstraints = false
+            grayAvatarView.overrideAccessibilityLabel = accessibilityLabel
 
+            let primaryAvatarView = AvatarView(avatarSize: size, withBorder: false, style: .circle)
+            primaryAvatarView.setup(fallbackStyle: .primaryOutlined)
+            primaryAvatarView.translatesAutoresizingMaskIntoConstraints = false
+            primaryAvatarView.overrideAccessibilityLabel = accessibilityLabel
+            addRow(text: size.description, items: [grayAvatarView, primaryAvatarView], textStyle: .footnote, textWidth: 100)
+        }
     }
 
     private var isUsingAlternateBackgroundColor: Bool = false {
@@ -148,8 +155,8 @@ class AvatarViewDemoController: DemoController {
         container.addArrangedSubview(UIView())
     }
 
-    private func createAvatarView(size: AvatarSize, name: String? = nil, image: UIImage? = nil, style: AvatarStyle, borderStyle: BorderStyle = .noBorder) -> (UIView, AvatarView) {
-        let avatarView = AvatarView(avatarSize: size, withBorder: borderStyle != .noBorder, style: style)
+    private func createAvatarView(size: AvatarSize, name: String? = nil, image: UIImage? = nil, style: AvatarStyle, borderStyle: BorderStyle = .noBorder, preferredFallbackImageStyle: AvatarFallbackImageStyle = .onAccentFilled) -> (UIView, AvatarView) {
+        let avatarView = AvatarView(avatarSize: size, withBorder: borderStyle != .noBorder, style: style, preferredFallbackImageStyle: preferredFallbackImageStyle)
         if borderStyle == .colorfulBorder, let customBorderImage = colorfulImageForFrame() {
             avatarView.customBorderImage = customBorderImage
         }

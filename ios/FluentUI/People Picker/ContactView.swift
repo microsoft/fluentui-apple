@@ -92,7 +92,7 @@ open class ContactView: UIControl {
     }
 
     private init(title: String?, subtitle: String?, identifier: String?, size: Size = .large) {
-        avatarView = AvatarView(avatarSize: size.avatarSize, withBorder: false, style: .circle)
+        avatarView = AvatarView(avatarSize: size.avatarSize, withBorder: false, style: .circle, preferredFallbackImageStyle: .onAccentFilled)
         labelContainer = UIView(frame: .zero)
         titleLabel = UILabel(frame: .zero)
         pressedStateOverlay = UIView(frame: .zero)

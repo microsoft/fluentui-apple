@@ -49,9 +49,19 @@ class LargeTitleView: UIView {
         }
     }
 
+    var avatarOverrideFallbackImageStyle: AvatarFallbackImageStyle? {
+        didSet {
+            if let fallbackStyle = avatarOverrideFallbackImageStyle {
+                updateProfileButtonVisibility()
+                [avatarView, smallMorphingAvatarView].forEach { $0?.setup(fallbackStyle: fallbackStyle) }
+            }
+        }
+    }
+
     var style: Style = .light {
         didSet {
             titleButton.setTitleColor(colorForStyle, for: .normal)
+            [avatarView, smallMorphingAvatarView].forEach { $0?.preferredFallbackImageStyle = style == .light ? .primaryFilled : .onAccentFilled }
         }
     }
 
@@ -150,14 +160,15 @@ class LargeTitleView: UIView {
         contain(view: contentStackView, withInsets: UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8))
 
         // default avatar view setup
-        let avatarView = ProfileView(avatarSize: Constants.avatarSize)
+        let preferredFallbackImageStyle: AvatarFallbackImageStyle = style == .light ? .primaryFilled : .onAccentFilled
+        let avatarView = ProfileView(avatarSize: Constants.avatarSize, preferredFallbackImageStyle: preferredFallbackImageStyle)
         avatarView.setup(avatar: avatar)
         avatarView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleAvatarViewTapped)))
         self.avatarView = avatarView
         contentStackView.addArrangedSubview(avatarView)
 
         // small avatar view setup
-        let smallAvatarView = ProfileView(avatarSize: Constants.compactAvatarSize)
+        let smallAvatarView = ProfileView(avatarSize: Constants.compactAvatarSize, preferredFallbackImageStyle: preferredFallbackImageStyle)
         smallAvatarView.setup(avatar: avatar)
         self.smallMorphingAvatarView = smallAvatarView
         smallAvatarView.translatesAutoresizingMaskIntoConstraints = false
@@ -276,7 +287,7 @@ class LargeTitleView: UIView {
     // MARK: - Content Update Methods
 
     private func updateProfileButtonVisibility() {
-        showsProfileButton = !hasLeftBarButtonItems && avatar != nil
+        showsProfileButton = !hasLeftBarButtonItems && (avatar != nil || avatarOverrideFallbackImageStyle != nil)
     }
 
     /// Sets the interface with the provided item's details

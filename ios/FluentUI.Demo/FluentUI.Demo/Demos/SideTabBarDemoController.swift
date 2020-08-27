@@ -64,8 +64,14 @@ class SideTabBarDemoController: DemoController {
             TabBarItem(title: "Open", image: UIImage(named: "Open_28")!, selectedImage: UIImage(named: "Open_Selected_28")!)
         ]
 
+        var premiumImage = UIImage(named: "ic_fluent_premium_24_regular")!
+        if let window = view.window {
+            let primaryColor = Colors.primary(for: window)
+            premiumImage = premiumImage.image(withPrimaryColor: primaryColor)
+        }
+
         sideTabBar.bottomItems = [
-            TabBarItem(title: "Go Premium", image: UIImage(named: "ic_fluent_premium_24_regular")!, isImageAppTinted: true),
+            TabBarItem(title: "Go Premium", image: premiumImage),
             TabBarItem(title: "Help", image: UIImage(named: "Help_24")!),
             TabBarItem(title: "Settings", image: UIImage(named: "Settings_24")!)
         ]
@@ -159,7 +165,7 @@ class SideTabBarDemoController: DemoController {
     private func showAvatarView(_ show: Bool) {
         var avatarView: AvatarView?
         if show {
-            avatarView = AvatarView(avatarSize: .medium, withBorder: false, style: .circle)
+            avatarView = AvatarView(avatarSize: .medium, withBorder: false, style: .circle, preferredFallbackImageStyle: .onAccentFilled)
             avatarView!.setup(primaryText: "Kat Larson", secondaryText: "", image: UIImage(named: "avatar_kat_larsson")!)
         }
 
