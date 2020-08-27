@@ -22,7 +22,7 @@ public extension Colors {
 
 // MARK: - NavigationBarTopAccessoryViewAttributes
 
-/// Attributes for a navigation bar's top accessory view.
+/// Layout attributes for a navigation bar's top accessory view.
 @objc(MSFNavigationBarTopAccessoryViewAttributes)
 open class NavigationBarTopAccessoryViewAttributes: NSObject {
     /// The width multiplier is the propotion of the navigation bar's width that the top accessory view will occupy.
@@ -39,6 +39,20 @@ open class NavigationBarTopAccessoryViewAttributes: NSObject {
         self.maxWidth = maxWidth
         self.minWidth = minWidth
         super.init()
+    }
+}
+
+/// Layout attributes for a navigation bar's top search bar.
+@objc(MSFNavigationBarTopSearchBarAttributes)
+open class NavigationBarTopSearchBarAttributes: NavigationBarTopAccessoryViewAttributes {
+    @objc public init() {
+        super.init(widthMultiplier: Constants.widthMultiplier, maxWidth: Constants.viewMaxWidth, minWidth: Constants.viewMinWidth)
+    }
+
+    private struct Constants {
+        static let widthMultiplier: CGFloat = 0.375
+        static let viewMinWidth: CGFloat = 264
+        static let viewMaxWidth: CGFloat = 552
     }
 }
 
