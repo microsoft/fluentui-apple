@@ -249,7 +249,8 @@ open class NavigationBar: UINavigationBar {
     private let contentStackView = ContentStackView() //used to contain the various custom UI Elements
     private let rightBarButtonItemsStackView = UIStackView()
     private let leftBarButtonItemsStackView = UIStackView()
-    private let spacerView = UIView() //defines the leading space between the left and right barbuttonitems stack
+    private let leadingSpacerView = UIView() //defines the leading space between the left and right barbuttonitems stack
+    private let trailingSpacerView = UIView() //defines the trailing space between the left and right barbuttonitems stack
     private var topAccessoryView: UIView?
     private var topAccessoryViewConstraints: [NSLayoutConstraint] = []
 
@@ -308,11 +309,17 @@ open class NavigationBar: UINavigationBar {
         titleView.setContentHuggingPriority(.required, for: .horizontal)
         titleView.setContentCompressionResistancePriority(.required, for: .horizontal)
 
-        //spacerView
-        contentStackView.addArrangedSubview(spacerView)
-        spacerView.backgroundColor = .clear
-        spacerView.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        spacerView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        //leadingSpacerView
+        contentStackView.addArrangedSubview(leadingSpacerView)
+        leadingSpacerView.backgroundColor = .clear
+        leadingSpacerView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        leadingSpacerView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+
+        //trailingSpacerView
+        contentStackView.addArrangedSubview(trailingSpacerView)
+        trailingSpacerView.backgroundColor = .clear
+        trailingSpacerView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        trailingSpacerView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
         //rightBarButtonItemsStackView: layout priorities are slightly lower to make sure titleView has the highest priority in horizontal spacing
         contentStackView.addArrangedSubview(rightBarButtonItemsStackView)
@@ -335,27 +342,34 @@ open class NavigationBar: UINavigationBar {
         self.topAccessoryView = navigationItem?.topAccessoryView
 
         if let topAccessoryView = self.topAccessoryView {
-            contentStackView.addSubview(topAccessoryView)
+            topAccessoryView.translatesAutoresizingMaskIntoConstraints = false
+
+            let insertionIndex = contentStackView.arrangedSubviews.firstIndex(of: leadingSpacerView)! + 1
+            contentStackView.insertArrangedSubview(topAccessoryView, at: insertionIndex)
 
             NSLayoutConstraint.deactivate(topAccessoryViewConstraints)
             topAccessoryViewConstraints.removeAll()
 
-            if let attributes = navigationItem?.topAccessoryViewAttributes {
-                topAccessoryView.translatesAutoresizingMaskIntoConstraints = false
+            topAccessoryViewConstraints.append(contentsOf: [
+                topAccessoryView.centerXAnchor.constraint(equalTo: centerXAnchor),
+                topAccessoryView.centerYAnchor.constraint(equalTo: centerYAnchor)
+            ])
 
+            if let attributes = navigationItem?.topAccessoryViewAttributes {
                 let widthConstraint = topAccessoryView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: attributes.widthMultiplier)
                 widthConstraint.priority = .defaultHigh
 
+                let maxWidthConstraint = topAccessoryView.widthAnchor.constraint(lessThanOrEqualToConstant: attributes.maxWidth)
+                maxWidthConstraint.priority = .defaultHigh
+
                 topAccessoryViewConstraints.append(contentsOf: [
                     widthConstraint,
-                    topAccessoryView.widthAnchor.constraint(lessThanOrEqualToConstant: attributes.maxWidth),
-                    topAccessoryView.widthAnchor.constraint(greaterThanOrEqualToConstant: attributes.minWidth),
-                    topAccessoryView.centerXAnchor.constraint(equalTo: contentStackView.centerXAnchor),
-                    topAccessoryView.centerYAnchor.constraint(equalTo: contentStackView.centerYAnchor)
+                    maxWidthConstraint,
+                    topAccessoryView.widthAnchor.constraint(greaterThanOrEqualToConstant: attributes.minWidth)
                 ])
-
-                NSLayoutConstraint.activate(topAccessoryViewConstraints)
             }
+
+            NSLayoutConstraint.activate(topAccessoryViewConstraints)
         }
     }
 
