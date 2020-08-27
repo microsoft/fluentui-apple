@@ -21,6 +21,12 @@
 		497DC2DC24185885008D86F8 /* PillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D824185885008D86F8 /* PillButton.swift */; };
 		5302AF6824DD305100775251 /* ButtonVnext.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5302AF6624DD305000775251 /* ButtonVnext.generated.swift */; };
 		5302AF6924DD305100775251 /* ButtonVnext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5302AF6724DD305000775251 /* ButtonVnext.swift */; };
+		53A48E7824F6EA4D005FB872 /* FluentUIStyle.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A48E7524F6EA4D005FB872 /* FluentUIStyle.generated.swift */; };
+		53A48E7924F6EA4D005FB872 /* FluentUIStyle.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A48E7524F6EA4D005FB872 /* FluentUIStyle.generated.swift */; };
+		53A48E7A24F6EA4D005FB872 /* GenericStyle.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A48E7624F6EA4D005FB872 /* GenericStyle.generated.swift */; };
+		53A48E7B24F6EA4D005FB872 /* GenericStyle.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A48E7624F6EA4D005FB872 /* GenericStyle.generated.swift */; };
+		53A48E7C24F6EA4D005FB872 /* TeamsStyle.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A48E7724F6EA4D005FB872 /* TeamsStyle.generated.swift */; };
+		53A48E7D24F6EA4D005FB872 /* TeamsStyle.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A48E7724F6EA4D005FB872 /* TeamsStyle.generated.swift */; };
 		56DA1CD824523611008D745E /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EAAEAC2347E1DF00C7244E /* ShimmerView.swift */; };
 		56DA1CD924523616008D745E /* ShimmerLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A0D76B233AEF6C00F432FD /* ShimmerLinesView.swift */; };
 		56DA1CDA2452361B008D745E /* ShimmerViewAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0938E45235F66E300256251 /* ShimmerViewAppearance.swift */; };
@@ -294,6 +300,9 @@
 		497DC2D824185885008D86F8 /* PillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
 		5302AF6624DD305000775251 /* ButtonVnext.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonVnext.generated.swift; sourceTree = "<group>"; };
 		5302AF6724DD305000775251 /* ButtonVnext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonVnext.swift; sourceTree = "<group>"; };
+		53A48E7524F6EA4D005FB872 /* FluentUIStyle.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentUIStyle.generated.swift; sourceTree = "<group>"; };
+		53A48E7624F6EA4D005FB872 /* GenericStyle.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericStyle.generated.swift; sourceTree = "<group>"; };
+		53A48E7724F6EA4D005FB872 /* TeamsStyle.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamsStyle.generated.swift; sourceTree = "<group>"; };
 		7D0931C224AAAC8C0072458A /* SideTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideTabBar.swift; sourceTree = "<group>"; };
 		7D23482624D88DDF00FBE057 /* AvatarGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGroupView.swift; sourceTree = "<group>"; };
 		7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellFileAccessoryView.swift; sourceTree = "<group>"; };
@@ -535,6 +544,16 @@
 			path = "Pill Button Bar";
 			sourceTree = "<group>";
 		};
+		53A48E7424F6E9B7005FB872 /* Design Tokens */ = {
+			isa = PBXGroup;
+			children = (
+				53A48E7524F6EA4D005FB872 /* FluentUIStyle.generated.swift */,
+				53A48E7624F6EA4D005FB872 /* GenericStyle.generated.swift */,
+				53A48E7724F6EA4D005FB872 /* TeamsStyle.generated.swift */,
+			);
+			path = "Design Tokens";
+			sourceTree = "<group>";
+		};
 		A5961F9B218A251E00E2A506 /* Popup Menu */ = {
 			isa = PBXGroup;
 			children = (
@@ -619,6 +638,7 @@
 				A5CEC22F20E451990016922A /* Controls */,
 				A5CEC16B20D98EBF0016922A /* Core */,
 				FD599D0021347FA0008845EE /* Date Time Pickers */,
+				53A48E7424F6E9B7005FB872 /* Design Tokens */,
 				A5B87AF2211E13D00038C37C /* Drawer */,
 				A5B87AED211BCA4A0038C37C /* Extensions */,
 				B483323121CC71700022B4CC /* HUD */,
@@ -1201,9 +1221,11 @@
 				A5B6617423A41E2900E801DD /* NotificationView.swift in Sources */,
 				A56CE7B722E68A7800AA77EE /* UIColor+Extensions.swift in Sources */,
 				8FD01195228A82A600D25925 /* DateTimePickerViewComponent.swift in Sources */,
+				53A48E7B24F6EA4D005FB872 /* GenericStyle.generated.swift in Sources */,
 				8FD01196228A82A600D25925 /* DateTimePickerViewComponentCell.swift in Sources */,
 				8FD01197228A82A600D25925 /* DateTimePickerViewComponentTableView.swift in Sources */,
 				8FD01198228A82A600D25925 /* DateTimePickerViewDataSource.swift in Sources */,
+				53A48E7924F6EA4D005FB872 /* FluentUIStyle.generated.swift in Sources */,
 				8FD01199228A82A600D25925 /* DateTimePickerViewLayout.swift in Sources */,
 				FD41C8C222DD48E60086F899 /* Operators.swift in Sources */,
 				8FD0119A228A82A600D25925 /* DrawerController.swift in Sources */,
@@ -1219,6 +1241,7 @@
 				8FD011A2228A82A600D25925 /* Date+Extensions.swift in Sources */,
 				8FD011A3228A82A600D25925 /* DateComponents+Extensions.swift in Sources */,
 				FD9DA7B6232C33A80013E41B /* UIViewController+Navigation.swift in Sources */,
+				53A48E7D24F6EA4D005FB872 /* TeamsStyle.generated.swift in Sources */,
 				8FD011A6228A82A600D25925 /* String+Extension.swift in Sources */,
 				8FD011A8228A82A600D25925 /* UIFont+Extension.swift in Sources */,
 				8FD011AA228A82A600D25925 /* UIImage+Extensions.swift in Sources */,
@@ -1293,9 +1316,11 @@
 				FD41C88422DD13230086F899 /* ContentScrollViewTraits.swift in Sources */,
 				FD97580F2191118E00B67319 /* DateTimePickerViewComponentCell.swift in Sources */,
 				A5B6617323A41E2900E801DD /* NotificationView.swift in Sources */,
+				53A48E7C24F6EA4D005FB872 /* TeamsStyle.generated.swift in Sources */,
 				FD41C88622DD13230086F899 /* ShyHeaderController.swift in Sources */,
 				FDFB8AF121361C9D0046850A /* CalendarViewDayMonthCell.swift in Sources */,
 				B47B58B822F8E5840078DE38 /* PeoplePicker.swift in Sources */,
+				53A48E7A24F6EA4D005FB872 /* GenericStyle.generated.swift in Sources */,
 				FD41C89E22DD13230086F899 /* NavigationController.swift in Sources */,
 				FD4F2A20214AE20400C437D6 /* DatePickerController.swift in Sources */,
 				5302AF6824DD305100775251 /* ButtonVnext.generated.swift in Sources */,
@@ -1345,6 +1370,7 @@
 				7D23482724D88DE600FBE057 /* AvatarGroupView.swift in Sources */,
 				FDA1AF91214871B5001AE720 /* CardTransitionAnimator.swift in Sources */,
 				A5237ACD21ED6CA70040BF27 /* DrawerShadowView.swift in Sources */,
+				53A48E7824F6EA4D005FB872 /* FluentUIStyle.generated.swift in Sources */,
 				FD9DA7B5232C33A80013E41B /* UIViewController+Navigation.swift in Sources */,
 				FD7DF05E21FA7FC100857267 /* TooltipView.swift in Sources */,
 				A5CEC16F20D98F340016922A /* Fonts.swift in Sources */,

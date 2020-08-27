@@ -30,12 +30,12 @@ class ButtonVNextDemoController: DemoController {
 
 		addTitle(text: "Switch Themes")
 		let vnextButtonFluent = ButtonVnext(style: .primaryFilled, action: {
-			StylesheetManager.currentTheme.applyStyleSheet(styleSheet: FluentStyleSheet())
+            StylesheetManager.default.theme = .fluentUI
 		})
 		vnextButtonFluent.buttonTitle = "Set FluentUI Theme"
 
 		let vnextButtonTeams = ButtonVnext(style: .primaryFilled, action: {
-			StylesheetManager.currentTheme.applyStyleSheet(styleSheet: TeamsStyleSheet())
+            StylesheetManager.default.theme = .teams
 		})
 		vnextButtonTeams.buttonTitle = "Set Teams Theme"
 		if let vnextButtonFluentView = vnextButtonFluent.view, let vnextButtonTeamsView = vnextButtonTeams.view {

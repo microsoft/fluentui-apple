@@ -45,12 +45,12 @@ public struct ButtonVnextViewButtonStyle: ButtonStyle {
 
 public struct ButtonVnextView: View {
 	var action: () -> Void
-	@ObservedObject var tokens: ButtonVnextAppearanceProxy
+	@ObservedObject var tokens: ButtonVnextAppearanceProxyAdapter
 	@ObservedObject var state: ButtonVnextState
 
-	public init(action: @escaping () -> Void, style: ButtonVnextStyle) {
+    public init(action: @escaping () -> Void, style: ButtonVnextStyle) {
 		self.action = action
-		self.tokens = StylesheetManager.currentTheme.buttonAppearanceProxyFor(style: style) ?? ButtonVnextAppearanceProxy(tokens: ButtonVnextPrimaryFilledTokens())
+		self.tokens = ButtonVnextAppearanceProxyAdapter(style: style)
 		self.state = ButtonVnextState()
 	}
 
