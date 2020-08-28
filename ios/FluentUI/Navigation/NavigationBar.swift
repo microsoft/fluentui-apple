@@ -157,6 +157,14 @@ open class NavigationBar: UINavigationBar {
         }
     }
 
+    @objc public func visibleAvatarView() -> UIView? {
+        if contentStackView.alpha != 0 {
+            return titleView.visibleAvatarView()
+        }
+
+        return nil
+    }
+
     /// An element size to describe the behavior of the navigation bar's expanded height. Set automatically when the values of `avatarSize` and `titleSize` are changed. The bar will lock to expanded size if either element is set to `.expanded`, lock to contracted if both elements are `.contracted`, and stay automatic in any other case.
     @objc open private(set) dynamic var barHeight: ElementSize = .automatic {
         didSet {
