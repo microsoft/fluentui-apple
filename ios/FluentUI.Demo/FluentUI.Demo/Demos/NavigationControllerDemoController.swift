@@ -103,7 +103,7 @@ class NavigationControllerDemoController: DemoController {
         content.navigationItem.navigationBarStyle = style
         content.navigationItem.navigationBarShadow = showShadow ? .automatic : .alwaysHidden
         content.navigationItem.accessoryView = accessoryView
-        content.navigationItem.topAccessoryViewAttributes = createTopAccessoryViewAttributes()
+        content.navigationItem.topAccessoryViewAttributes = NavigationBarTopSearchBarAttributes()
         content.navigationItem.contentScrollView = contractNavigationBarOnScroll ? content.tableView : nil
         content.showsTabs = !showShadow
         content.showsTopAccessoryView = showsTopAccessory
@@ -145,14 +145,6 @@ class NavigationControllerDemoController: DemoController {
         return searchBar
     }
 
-    private func createTopAccessoryViewAttributes() -> NavigationBarTopAccessoryViewAttributes {
-        let attributes = NavigationBarTopAccessoryViewAttributes(widthMultiplier: Constants.topAccessoryViewWidthMultiplier,
-                                                                 maxWidth: Constants.topAccessoryViewMaxWidth,
-                                                                 minWidth: Constants.topAccessoryViewMinWidth)
-
-        return attributes
-    }
-
     private func presentSideDrawer(presentingGesture: UIPanGestureRecognizer? = nil) {
         let meControl = Label(style: .title2, colorStyle: .regular)
         meControl.text = "Me Control goes here"
@@ -174,12 +166,6 @@ class NavigationControllerDemoController: DemoController {
         if gesture.state == .began {
             presentSideDrawer(presentingGesture: gesture)
         }
-    }
-
-    private struct Constants {
-        static let topAccessoryViewWidthMultiplier: CGFloat = 0.375
-        static let topAccessoryViewMinWidth: CGFloat = 264
-        static let topAccessoryViewMaxWidth: CGFloat = 552
     }
 }
 

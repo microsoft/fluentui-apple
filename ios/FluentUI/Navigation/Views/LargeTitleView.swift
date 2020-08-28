@@ -80,6 +80,18 @@ class LargeTitleView: UIView {
 
     var onAvatarTapped: (() -> Void)? // called in response to a tap on the MSAvatarView
 
+    public func visibleAvatarView() -> UIView? {
+        if !showsProfileButton {
+            return nil
+        }
+
+        if smallMorphingAvatarView?.alpha != 0 {
+            return smallMorphingAvatarView
+        }
+
+        return avatarView
+    }
+
     private var colorForStyle: UIColor {
         switch style {
         case .light:

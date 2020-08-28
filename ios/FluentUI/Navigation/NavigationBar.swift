@@ -22,7 +22,7 @@ public extension Colors {
 
 // MARK: - NavigationBarTopAccessoryViewAttributes
 
-/// Attributes for a navigation bar's top accessory view.
+/// Layout attributes for a navigation bar's top accessory view.
 @objc(MSFNavigationBarTopAccessoryViewAttributes)
 open class NavigationBarTopAccessoryViewAttributes: NSObject {
     /// The width multiplier is the propotion of the navigation bar's width that the top accessory view will occupy.
@@ -39,6 +39,20 @@ open class NavigationBarTopAccessoryViewAttributes: NSObject {
         self.maxWidth = maxWidth
         self.minWidth = minWidth
         super.init()
+    }
+}
+
+/// Layout attributes for a navigation bar's top search bar.
+@objc(MSFNavigationBarTopSearchBarAttributes)
+open class NavigationBarTopSearchBarAttributes: NavigationBarTopAccessoryViewAttributes {
+    @objc public init() {
+        super.init(widthMultiplier: Constants.widthMultiplier, maxWidth: Constants.viewMaxWidth, minWidth: Constants.viewMinWidth)
+    }
+
+    private struct Constants {
+        static let widthMultiplier: CGFloat = 0.375
+        static let viewMinWidth: CGFloat = 264
+        static let viewMaxWidth: CGFloat = 552
     }
 }
 
@@ -143,6 +157,14 @@ open class NavigationBar: UINavigationBar {
         }
     }
 
+    @objc public func visibleAvatarView() -> UIView? {
+        if contentStackView.alpha != 0 {
+            return titleView.visibleAvatarView()
+        }
+
+        return nil
+    }
+
     /// An element size to describe the behavior of the navigation bar's expanded height. Set automatically when the values of `avatarSize` and `titleSize` are changed. The bar will lock to expanded size if either element is set to `.expanded`, lock to contracted if both elements are `.contracted`, and stay automatic in any other case.
     @objc open private(set) dynamic var barHeight: ElementSize = .automatic {
         didSet {
@@ -235,8 +257,8 @@ open class NavigationBar: UINavigationBar {
     private let contentStackView = ContentStackView() //used to contain the various custom UI Elements
     private let rightBarButtonItemsStackView = UIStackView()
     private let leftBarButtonItemsStackView = UIStackView()
-    private let trailingSpacerView = UIView() //defines the leading space between the left and right barbuttonitems stack
-    private let leadingSpacerView = UIView() //defines the trailing space between the left and right barbuttonitems stack
+    private let leadingSpacerView = UIView() //defines the leading space between the left and right barbuttonitems stack
+    private let trailingSpacerView = UIView() //defines the trailing space between the left and right barbuttonitems stack
     private var topAccessoryView: UIView?
     private var topAccessoryViewConstraints: [NSLayoutConstraint] = []
 
@@ -307,8 +329,6 @@ open class NavigationBar: UINavigationBar {
         trailingSpacerView.setContentHuggingPriority(.defaultLow, for: .horizontal)
         trailingSpacerView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
-        trailingSpacerView.widthAnchor.constraint(equalTo: leadingSpacerView.widthAnchor).isActive = true
-
         //rightBarButtonItemsStackView: layout priorities are slightly lower to make sure titleView has the highest priority in horizontal spacing
         contentStackView.addArrangedSubview(rightBarButtonItemsStackView)
         rightBarButtonItemsStackView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
@@ -330,26 +350,34 @@ open class NavigationBar: UINavigationBar {
         self.topAccessoryView = navigationItem?.topAccessoryView
 
         if let topAccessoryView = self.topAccessoryView {
+            topAccessoryView.translatesAutoresizingMaskIntoConstraints = false
+
             let insertionIndex = contentStackView.arrangedSubviews.firstIndex(of: leadingSpacerView)! + 1
             contentStackView.insertArrangedSubview(topAccessoryView, at: insertionIndex)
 
             NSLayoutConstraint.deactivate(topAccessoryViewConstraints)
             topAccessoryViewConstraints.removeAll()
 
-            if let attributes = navigationItem?.topAccessoryViewAttributes {
-                topAccessoryView.translatesAutoresizingMaskIntoConstraints = false
+            topAccessoryViewConstraints.append(contentsOf: [
+                topAccessoryView.centerXAnchor.constraint(equalTo: centerXAnchor),
+                topAccessoryView.centerYAnchor.constraint(equalTo: centerYAnchor)
+            ])
 
+            if let attributes = navigationItem?.topAccessoryViewAttributes {
                 let widthConstraint = topAccessoryView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: attributes.widthMultiplier)
                 widthConstraint.priority = .defaultHigh
 
+                let maxWidthConstraint = topAccessoryView.widthAnchor.constraint(lessThanOrEqualToConstant: attributes.maxWidth)
+                maxWidthConstraint.priority = .defaultHigh
+
                 topAccessoryViewConstraints.append(contentsOf: [
                     widthConstraint,
-                    topAccessoryView.widthAnchor.constraint(lessThanOrEqualToConstant: attributes.maxWidth),
+                    maxWidthConstraint,
                     topAccessoryView.widthAnchor.constraint(greaterThanOrEqualToConstant: attributes.minWidth)
                 ])
-
-                NSLayoutConstraint.activate(topAccessoryViewConstraints)
             }
+
+            NSLayoutConstraint.activate(topAccessoryViewConstraints)
         }
     }
 
