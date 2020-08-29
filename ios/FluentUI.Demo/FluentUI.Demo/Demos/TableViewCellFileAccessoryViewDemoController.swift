@@ -28,6 +28,12 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         reloadCells()
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        updateCellPadding()
+    }
+
     private func reloadCells() {
         for view in stackView.arrangedSubviews {
             if view != settingsView {
@@ -76,11 +82,15 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         updateDate()
         updateSharedStatus()
         updateAreDocumentsShared()
+        updateCellPadding()
     }
 
     private struct Constants {
-        static let stackViewSpacing: CGFloat = 20.0
-        static let cellWidths: [CGFloat] = [320.0, 375.0, 414.0, 423.0, 424.0, 503.0, 504.0, 583.0, 584.0, 615.0, 616.0, 751.0, 752.0, 899.0, 900.0, 924.0, 950.0, 1000.0, 1091.0, 1092.0, 1270.0]
+        static let stackViewSpacing: CGFloat = 20
+        static let cellWidths: [CGFloat] = [320, 375, 414, 423, 424, 503, 504, 583, 584, 615, 616, 751, 752, 899, 900, 924, 950, 1000, 1091, 1092, 1270]
+        static let cellPaddingThreshold: CGFloat = 768
+        static let largeCellPadding: CGFloat = 16
+        static let smallCellPadding: CGFloat = 8
     }
 
     private var accessoryViews: [TableViewCellFileAccessoryView] = []
@@ -218,6 +228,17 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         return cell
     }
 
+    private func updateCellPadding() {
+        let extraPadding = view.frame.width >= Constants.cellPaddingThreshold && useDynamicPadding ? Constants.largeCellPadding : Constants.smallCellPadding
+
+        for accessoryView in accessoryViews {
+            if let cell = accessoryView.tableViewCell {
+                cell.paddingLeading = TableViewCell.defaultPaddingLeading + extraPadding
+                cell.paddingTrailing = TableViewCell.defaultPaddingTrailing + extraPadding
+            }
+        }
+    }
+
     private var showKeepOfflineAction: Bool = true {
         didSet {
             updateActions()
@@ -272,6 +293,14 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         }
     }
 
+    private var useDynamicPadding: Bool = false {
+        didSet {
+            if oldValue != useDynamicPadding {
+                updateCellPadding()
+            }
+        }
+    }
+
     private var date = Date() {
         didSet {
             updateDate()
@@ -307,6 +336,7 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
 
         let settingViews: [UIView] = [
             createLabelAndSwitchRow(labelText: "Dynamic width", switchAction: #selector(toggleDynamicWidth(switchView:)), isOn: useDynamicWidth),
+            createLabelAndSwitchRow(labelText: "Dynamic padding", switchAction: #selector(toggleDynamicPadding(switchView:)), isOn: useDynamicPadding),
             createLabelAndSwitchRow(labelText: "Show date", switchAction: #selector(toggleShowDate(switchView:)), isOn: showDate),
             createButton(title: "Choose date", action: #selector(presentDatePicker)),
             createButton(title: "Choose time", action: #selector(presentTimePicker)),
@@ -351,6 +381,10 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
 
     @objc private func toggleDynamicWidth(switchView: UISwitch) {
         useDynamicWidth = switchView.isOn
+    }
+
+    @objc private func toggleDynamicPadding(switchView: UISwitch) {
+        useDynamicPadding = switchView.isOn
     }
 
     @objc private func toggleShowSharedStatus(switchView: UISwitch) {

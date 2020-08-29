@@ -11,12 +11,6 @@ public typealias MSTabBarItem = TabBarItem
 @objc(MSFTabBarItem)
 open class TabBarItem: NSObject {
     @objc public let title: String
-    let image: UIImage
-    let selectedImage: UIImage?
-    let landscapeImage: UIImage?
-    let landscapeSelectedImage: UIImage?
-    let largeContentImage: UIImage?
-    let accessibilityLabelBadgeFormatString: String?
 
     /// The badge value will be displayed in a red oval above the tab bar item.
     /// Set the badge value to nil to hide the red oval.
@@ -38,10 +32,40 @@ open class TabBarItem: NSObject {
         }
     }
 
-    /// Notification sent when the tab bar item's badge value changes.
-    static let badgeValueDidChangeNotification: NSNotification.Name = NSNotification.Name(rawValue: "TabBarItemBadgeValueDidChangeNotification")
+    /// Initializes `TabBarItem`
+    /// - Parameter title: Used for tabbar item view's label and for its accessibilityLabel.
+    /// - Parameter image: Used for tabbar item view's imageView and for its accessibility largeContentImage unless `largeContentImage` is specified.
+    @objc public convenience init(title: String, image: UIImage) {
+        self.init(title: title,
+                  image: image,
+                  selectedImage: nil,
+                  landscapeImage: nil,
+                  landscapeSelectedImage: nil,
+                  largeContentImage: nil,
+                  accessibilityLabelBadgeFormatString: nil)
+    }
 
-    /// Initializes `TabBarItem
+    /// Initializes `TabBarItem`
+    /// - Parameter title: Used for tabbar item view's label and for its accessibilityLabel.
+    /// - Parameter image: Used for tabbar item view's imageView and for its accessibility largeContentImage unless `largeContentImage` is specified.
+    /// - Parameter selectedImage: Used for imageView when tabbar item view is selected.  If it is nil, it will use `image`.
+    /// - Parameter landscapeImage: Used for imageView when tabbar item view in landscape. If it is nil, it will use `image`. The image will be used in portrait mode if the tab bar item shows a label.
+    /// - Parameter landscapeSelectedImage: Used for imageView when tabbar item view is selected in landscape. If it is nil, it will use `selectedImage`. The image will be used in portrait mode if the tab bar item shows a label.
+    @objc public convenience init(title: String,
+                                  image: UIImage,
+                                  selectedImage: UIImage? = nil,
+                                  landscapeImage: UIImage? = nil,
+                                  landscapeSelectedImage: UIImage? = nil) {
+        self.init(title: title,
+                  image: image,
+                  selectedImage: selectedImage,
+                  landscapeImage: landscapeImage,
+                  landscapeSelectedImage: landscapeSelectedImage,
+                  largeContentImage: nil,
+                  accessibilityLabelBadgeFormatString: nil)
+    }
+
+    /// Initializes `TabBarItem`
     /// - Parameter title: Used for tabbar item view's label and for its accessibilityLabel.
     /// - Parameter image: Used for tabbar item view's imageView and for its accessibility largeContentImage unless `largeContentImage` is specified.
     /// - Parameter selectedImage: Used for imageView when tabbar item view is selected.  If it is nil, it will use `image`.
@@ -65,6 +89,16 @@ open class TabBarItem: NSObject {
         self.accessibilityLabelBadgeFormatString = accessibilityLabelBadgeFormatString
         super.init()
     }
+
+    /// Notification sent when the tab bar item's badge value changes.
+    static let badgeValueDidChangeNotification = NSNotification.Name(rawValue: "TabBarItemBadgeValueDidChangeNotification")
+
+    let image: UIImage
+    let selectedImage: UIImage?
+    let landscapeImage: UIImage?
+    let landscapeSelectedImage: UIImage?
+    let largeContentImage: UIImage?
+    let accessibilityLabelBadgeFormatString: String?
 
     func selectedImage(isInPortraitMode: Bool, labelIsHidden: Bool) -> UIImage? {
         if isInPortraitMode {

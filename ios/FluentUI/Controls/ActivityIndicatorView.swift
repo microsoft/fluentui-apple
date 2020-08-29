@@ -154,6 +154,15 @@ open class ActivityIndicatorView: UIView {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if #available(iOS 13, *) {
+            if previousTraitCollection?.userInterfaceStyle != traitCollection.userInterfaceStyle {
+                setupLoaderLayer()
+            }
+        }
+    }
+
     @objc open func startAnimating() {
         if isAnimating {
             return

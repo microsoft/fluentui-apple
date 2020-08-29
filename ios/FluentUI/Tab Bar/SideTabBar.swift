@@ -132,16 +132,18 @@ open class SideTabBar: UIView {
 
     private struct Constants {
         static let maxTabCount: Int = 5
-        static let viewWidth: CGFloat = 62.0
-        static let avatarViewTopPadding: CGFloat = 18.0
-        static let avatarViewTopStackViewPadding: CGFloat = 34.0
-        static let bottomStackViewBottomPadding: CGFloat = 14.0
-        static let topItemSpacing: CGFloat = 32.0
-        static let bottomItemSpacing: CGFloat = 24.0
-        static let topItemSize: CGFloat = 28.0
-        static let bottomItemSize: CGFloat = 24.0
-        static let badgeTopSectionPadding: CGFloat = 2.0
-        static let badgeBottomSectionPadding: CGFloat = 4.0
+        static let viewWidth: CGFloat = 62
+        static let avatarViewSafeTopSpacing: CGFloat = 18
+        static let avatarViewMinTopSpacing: CGFloat = 36
+        static let avatarViewTopStackViewSpacing: CGFloat = 34
+        static let bottomStackViewSafeSpacing: CGFloat = 14
+        static let bottomStackViewMinSpacing: CGFloat = 24
+        static let topItemSpacing: CGFloat = 32
+        static let bottomItemSpacing: CGFloat = 24
+        static let topItemSize: CGFloat = 28
+        static let bottomItemSize: CGFloat = 24
+        static let badgeTopSectionPadding: CGFloat = 2
+        static let badgeBottomSectionPadding: CGFloat = 4
     }
 
     private var layoutConstraints: [NSLayoutConstraint] = []
@@ -164,7 +166,7 @@ open class SideTabBar: UIView {
         return createStackView(spacing: Constants.bottomItemSpacing)
     }()
 
-    private let avatarViewGestureRecognizer: UITapGestureRecognizer = {
+    private lazy var avatarViewGestureRecognizer: UITapGestureRecognizer = {
         return UITapGestureRecognizer(target: self, action: #selector(handleAvatarViewTapped))
     }()
 
@@ -175,21 +177,32 @@ open class SideTabBar: UIView {
         }
 
         if let avatarView = avatarView {
+            // The avatar view's distance from the top of the side tab bar depends on safe layout guides.
+            // There is a minimum spacing. If the layout guide spacing is large than the minimum spacing,
+            // then the spacing will be layoutGuideSpacing + safeTopSpacing.
+            let topSafeConstraint = avatarView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.avatarViewSafeTopSpacing)
+            topSafeConstraint.priority = .defaultHigh
+
             layoutConstraints.append(contentsOf: [
-                avatarView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.avatarViewTopPadding),
+                topSafeConstraint,
+                avatarView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: Constants.avatarViewMinTopSpacing),
                 avatarView.centerXAnchor.constraint(equalTo: centerXAnchor),
-                topStackView.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.avatarViewTopStackViewPadding)
+                topStackView.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.avatarViewTopStackViewSpacing)
             ])
         } else {
             layoutConstraints.append(topStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.topItemSpacing))
         }
+
+        let bottomSafeConstraint = bottomStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -Constants.bottomStackViewSafeSpacing)
+        bottomSafeConstraint.priority = .defaultHigh
 
         layoutConstraints.append(contentsOf: [
             topStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
             topStackView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor),
             bottomStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
             bottomStackView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor),
-            bottomStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -Constants.bottomStackViewBottomPadding)
+            bottomSafeConstraint,
+            bottomStackView.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -Constants.bottomStackViewMinSpacing)
         ])
 
         NSLayoutConstraint.activate(layoutConstraints)

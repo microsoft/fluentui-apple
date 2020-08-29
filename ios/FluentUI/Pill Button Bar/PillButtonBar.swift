@@ -37,7 +37,7 @@ open class PillButtonBarItem: NSObject {
 @available(*, deprecated, renamed: "PillButtonBar")
 public typealias MSPillButtonBar = PillButtonBar
 
-/// `PillButtonBar` is a horizontall scrollable list of pill shape text buttons in which only one button can be selected at a given time.
+/// `PillButtonBar` is a horizontal scrollable list of pill shape text buttons in which only one button can be selected at a given time.
 /// Set the `items` property to determine what buttons will be shown in the bar. Each `PillButtonBarItem` will be represented as a button.
 /// Set the `delegate` property to listen to selection changes.
 /// Set the `selectedItem` property if the selection needs to be programatically changed.
@@ -115,6 +115,8 @@ open class PillButtonBar: UIScrollView {
         return view
     }()
 
+    private var customPillButtonBackgroundColor: UIColor?
+
     private var leadingConstraint: NSLayoutConstraint?
 
     private var centerConstraint: NSLayoutConstraint?
@@ -137,8 +139,13 @@ open class PillButtonBar: UIScrollView {
         }
     }
 
-    @objc public init(pillButtonStyle: PillButtonStyle = .outline) {
+    @objc public convenience init(pillButtonStyle: PillButtonStyle = .outline) {
+        self.init(pillButtonStyle: pillButtonStyle, pillButtonBackgroundColor: nil)
+    }
+
+    @objc public init(pillButtonStyle: PillButtonStyle = .outline, pillButtonBackgroundColor: UIColor? = nil) {
         self.pillButtonStyle = pillButtonStyle
+        self.customPillButtonBackgroundColor = pillButtonBackgroundColor
         super.init(frame: .zero)
         setupScrollView()
         setupStackView()
@@ -222,6 +229,9 @@ open class PillButtonBar: UIScrollView {
             buttons.append(button)
             stackView.addArrangedSubview(button)
             button.accessibilityHint = String(format: "Accessibility.MSPillButtonBar.Hint".localized, index + 1, items.count)
+            if let customButtonBackgroundColor = self.customPillButtonBackgroundColor {
+                button.customBackgroundColor = customButtonBackgroundColor
+            }
         }
     }
 
@@ -281,7 +291,7 @@ open class PillButtonBar: UIScrollView {
         }
     }
 
-    /// Increases the left and righ content inset of all the buttons, so that the sum of the extra space added in the first numberOfButtons
+    /// Increases the left and right content inset of all the buttons, so that the sum of the extra space added in the first numberOfButtons
     /// buttons accounts for the totalAdjustment needed.
     /// - Parameter totalPadding: The total padding needed before the first numberOfButtons buttons
     /// - Parameter numberOfButtons: The number of buttons that should allocate the totalPadding change

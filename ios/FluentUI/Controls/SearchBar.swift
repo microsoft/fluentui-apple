@@ -14,6 +14,7 @@ public extension Colors {
             public static var cancelButton = UIColor(light: textSecondary, dark: LightContent.cancelButton)
             public static var clearIcon = UIColor(light: iconPrimary, dark: LightContent.clearIcon)
             public static var placeholderText = UIColor(light: textSecondary, dark: LightContent.placeholderText)
+            public static var progressSpinner = UIColor(light: iconDisabled, dark: textPrimary)
             public static var searchIcon = UIColor(light: iconPrimary, dark: LightContent.searchIcon)
             public static var text = UIColor(light: textDominant, dark: LightContent.text)
             public static var tint = UIColor(light: iconSecondary, dark: LightContent.tint)
@@ -119,6 +120,15 @@ open class SearchBar: UIView {
                 return Colors.SearchBar.DarkContent.tint
             }
         }
+
+        func progressSpinnerColor(for window: UIWindow) -> UIColor {
+            switch self {
+            case .lightContent:
+                return UIColor(light: Colors.primaryTint10(for: window), dark: Colors.textPrimary)
+            case .darkContent:
+                return Colors.SearchBar.DarkContent.progressSpinner
+            }
+        }
     }
 
     private struct Constants {
@@ -130,7 +140,7 @@ open class SearchBar: UIView {
         static let searchTextFieldVerticalInset: CGFloat = 2
         static let clearButtonLeadingInset: CGFloat = 10
         static let clearButtonWidth: CGFloat = 8 + 16 + 8   // padding + image + padding
-        static let clearButtonTrailingInset: CGFloat = 0
+        static let clearButtonTrailingInset: CGFloat = 10
         static let cancelButtonLeadingInset: CGFloat = 8.0
 
         static let searchTextFieldTextStyle: TextStyle = .bodyUnscaled
@@ -140,6 +150,18 @@ open class SearchBar: UIView {
         static let navigationBarTransitionHidingDelay: TimeInterval = 0.5
 
         static let defaultStyle: Style = .lightContent
+    }
+
+    @objc open var hidesNavigationBarDuringSearch: Bool = true {
+        didSet {
+            if oldValue != hidesNavigationBarDuringSearch && isActive {
+                if hidesNavigationBarDuringSearch {
+                    hideNavigationBar(animated: false)
+                } else {
+                    unhideNavigationBar(animated: false)
+                }
+            }
+        }
     }
 
     @objc open var cornerRadius: CGFloat = Constants.searchTextFieldCornerRadius {
@@ -167,13 +189,13 @@ open class SearchBar: UIView {
 
     weak var navigationController: NavigationController?
 
-    //used to hide the cancelButton in non-active states
+    // used to hide the cancelButton in non-active states
     private var searchTextFieldBackgroundViewTrailingConstraint: NSLayoutConstraint?
     private var cancelButtonTrailingConstraint: NSLayoutConstraint?
 
     private lazy var searchIconImageViewContainerView = UIView()
 
-    //Leading-edge aligned Icon
+    // Leading-edge aligned Icon
     private lazy var searchIconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage.staticImageNamed("search-20x20")
@@ -181,7 +203,7 @@ open class SearchBar: UIView {
         return imageView
     }()
 
-    //user interaction point
+    // user interaction point
     private lazy var searchTextField: UITextField = {
         let textField = UITextField()
         textField.font = Constants.searchTextFieldTextStyle.font
@@ -196,8 +218,8 @@ open class SearchBar: UIView {
         return textField
     }()
 
-    //a "searchTextField" in native iOS is comprised of an inset Magnifying Glass image followed by an inset textfield.
-    //backgroundview is used to achive an inset textfield
+    // a "searchTextField" in native iOS is comprised of an inset Magnifying Glass image followed by an inset textfield.
+    // backgroundview is used to achive an inset textfield
     private lazy var searchTextFieldBackgroundView: UIView = {
         let backgroundView = UIView()
         backgroundView.backgroundColor = style.backgroundColor
@@ -205,7 +227,7 @@ open class SearchBar: UIView {
         return backgroundView
     }()
 
-    //removes text from the searchTextField
+    // removes text from the searchTextField
     private lazy var clearButton: UIButton = {
         let clearButton = UIButton()
         clearButton.addTarget(self, action: #selector(SearchBar.clearButtonTapped(sender:)), for: .touchUpInside)
@@ -214,7 +236,7 @@ open class SearchBar: UIView {
         return clearButton
     }()
 
-    //hidden when the textfield is not active
+    // hidden when the textfield is not active
     private lazy var cancelButton: UIButton = {
         let button = UIButton(type: .system)
         button.titleLabel?.font = Constants.cancelButtonTextStyle.font
@@ -229,6 +251,12 @@ open class SearchBar: UIView {
 
     private var originalIsNavigationBarHidden: Bool = false
 
+    /// indicates search in progress
+    @objc public lazy var progressSpinner: ActivityIndicatorView = {
+        let progressSpinner = ActivityIndicatorView(size: .medium)
+        return progressSpinner
+    }()
+
     @objc public override init(frame: CGRect) {
         super.init(frame: frame)
         initialize()
@@ -240,22 +268,32 @@ open class SearchBar: UIView {
     }
 
     private func initialize() {
-        updateColorsForStyle()
         setupLayout()
+    }
+
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateColorsForStyle()
     }
 
     private func startSearch() {
         if isActive {
             return
         }
+
         attributePlaceholderText()
         showCancelButton()
-        originalIsNavigationBarHidden = navigationController?.isNavigationBarHidden ?? false
-        // Using delayed async to work around a bug on iOS when it restores responder status for the text field when controller appears (due to navigation controller's pop action) even though text field resigned responder status before a detail controller was pushed
-        let isTransitioning = navigationController?.transitionCoordinator != nil
-        DispatchQueue.main.asyncAfter(deadline: .now() + (isTransitioning ? Constants.navigationBarTransitionHidingDelay : 0)) {
-            self.navigationController?.setNavigationBarHidden(true, animated: true)
+
+        if hidesNavigationBarDuringSearch {
+            originalIsNavigationBarHidden = navigationController?.isNavigationBarHidden ?? false
+
+            // Using delayed async to work around a bug on iOS when it restores responder status for the text field when controller appears (due to navigation controller's pop action) even though text field resigned responder status before a detail controller was pushed
+            let isTransitioning = navigationController?.transitionCoordinator != nil
+            DispatchQueue.main.asyncAfter(deadline: .now() + (isTransitioning ? Constants.navigationBarTransitionHidingDelay : 0)) {
+                self.hideNavigationBar(animated: true)
+            }
         }
+
         isActive = true
     }
 
@@ -263,13 +301,25 @@ open class SearchBar: UIView {
         if !isActive {
             return
         }
+
         isActive = false
         searchTextField.resignFirstResponder()
         searchTextField.text = nil
         searchTextDidChange(shouldUpdateDelegate: false)
         delegate?.searchBarDidCancel(self)
         hideCancelButton()
-        navigationController?.setNavigationBarHidden(originalIsNavigationBarHidden, animated: true)
+
+        if hidesNavigationBarDuringSearch {
+            unhideNavigationBar(animated: true)
+        }
+    }
+
+    private func hideNavigationBar(animated: Bool) {
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+
+    private func unhideNavigationBar(animated: Bool) {
+        navigationController?.setNavigationBarHidden(originalIsNavigationBarHidden, animated: animated)
     }
 
     private func attributePlaceholderText() {
@@ -289,10 +339,10 @@ open class SearchBar: UIView {
             addInteraction(UILargeContentViewerInteraction())
         }
 
-        //Autolayout is more efficent if all constraints are activated simultaneously
+        // Autolayout is more efficent if all constraints are activated simultaneously
         var constraints = [NSLayoutConstraint]()
 
-        //textfield background
+        // textfield background
         addSubview(searchTextFieldBackgroundView)
         searchTextFieldBackgroundView.translatesAutoresizingMaskIntoConstraints = false
         searchTextFieldBackgroundView.setContentHuggingPriority(.defaultLow, for: .horizontal)
@@ -304,7 +354,7 @@ open class SearchBar: UIView {
         searchTextFieldBackgroundViewTrailingConstraint = searchTextFieldBackgroundViewTrailing
         constraints.append(searchTextFieldBackgroundViewTrailing)
 
-        //search icon container
+        // search icon container
         searchTextFieldBackgroundView.addSubview(searchIconImageViewContainerView)
         searchIconImageViewContainerView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -313,7 +363,7 @@ open class SearchBar: UIView {
         constraints.append(searchIconImageViewContainerView.heightAnchor.constraint(equalTo: searchIconImageViewContainerView.widthAnchor))
         constraints.append(searchIconImageViewContainerView.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor))
 
-        //search icon
+        // search icon
         searchIconImageViewContainerView.addSubview(searchIconImageView)
         searchIconImageView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -322,7 +372,7 @@ open class SearchBar: UIView {
         constraints.append(searchIconImageView.centerXAnchor.constraint(equalTo: searchIconImageViewContainerView.centerXAnchor))
         constraints.append(searchIconImageView.centerYAnchor.constraint(equalTo: searchIconImageViewContainerView.centerYAnchor))
 
-        //search textfield
+        // search textfield
         searchTextFieldBackgroundView.addSubview(searchTextField)
         searchTextField.translatesAutoresizingMaskIntoConstraints = false
 
@@ -330,17 +380,25 @@ open class SearchBar: UIView {
         constraints.append(searchTextField.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor))
         constraints.append(searchTextField.heightAnchor.constraint(equalTo: searchTextFieldBackgroundView.heightAnchor, constant: -2 * Constants.searchTextFieldVerticalInset))
 
-        //clearButton
+        // progressSpinner
+        searchTextFieldBackgroundView.addSubview(progressSpinner)
+        progressSpinner.translatesAutoresizingMaskIntoConstraints = false
+
+        constraints.append(progressSpinner.leadingAnchor.constraint(equalTo: searchTextField.trailingAnchor, constant: Constants.clearButtonLeadingInset))
+        constraints.append(progressSpinner.heightAnchor.constraint(equalTo: clearButton.widthAnchor))
+        constraints.append(progressSpinner.trailingAnchor.constraint(equalTo: searchTextFieldBackgroundView.trailingAnchor, constant: -1 * Constants.clearButtonTrailingInset))
+        constraints.append(progressSpinner.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor))
+
+        // clearButton
         searchTextFieldBackgroundView.addSubview(clearButton)
         clearButton.translatesAutoresizingMaskIntoConstraints = false
 
         constraints.append(clearButton.leadingAnchor.constraint(equalTo: searchTextField.trailingAnchor, constant: Constants.clearButtonLeadingInset))
-        constraints.append(clearButton.widthAnchor.constraint(equalToConstant: Constants.clearButtonWidth))
         constraints.append(clearButton.heightAnchor.constraint(equalTo: clearButton.widthAnchor))
         constraints.append(clearButton.trailingAnchor.constraint(equalTo: searchTextFieldBackgroundView.trailingAnchor, constant: -1 * Constants.clearButtonTrailingInset))
         constraints.append(clearButton.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor))
 
-        //cancelButton
+        // cancelButton
         addSubview(cancelButton)
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
         cancelButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
@@ -361,6 +419,9 @@ open class SearchBar: UIView {
         // used for cursor or selection handle
         searchTextField.tintColor = style.tintColor
         clearButton.tintColor = style.clearIconColor
+        if let window = window {
+            progressSpinner.color = style.progressSpinnerColor(for: window)
+        }
         cancelButton.setTitleColor(style.cancelButtonColor, for: .normal)
         attributePlaceholderText()
     }

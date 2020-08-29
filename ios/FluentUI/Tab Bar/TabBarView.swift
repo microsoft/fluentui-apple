@@ -54,12 +54,12 @@ open class TabBarView: UIView {
     @objc open var selectedItem: TabBarItem? {
         willSet {
             if let item = selectedItem {
-                itemView(with: item)?.isSelected = false
+               (itemView(with: item) as? TabBarItemView)?.isSelected = false
             }
         }
         didSet {
             if let item = selectedItem {
-                itemView(with: item)?.isSelected = true
+                (itemView(with: item) as? TabBarItemView)?.isSelected = true
             }
         }
     }
@@ -106,6 +106,20 @@ open class TabBarView: UIView {
         }
     }
 
+    @objc public func itemView(with item: TabBarItem) -> UIView? {
+        if let index = items.firstIndex(of: item) {
+            let arrangedSubviews = stackView.arrangedSubviews
+
+            if arrangedSubviews.count > index {
+                if let tabBarItemView = arrangedSubviews[index] as? TabBarItemView {
+                    return tabBarItemView
+                }
+            }
+        }
+
+        return nil
+    }
+
     private struct Constants {
         static let maxTabCount: Int = 5
         static let phonePortraitHeight: CGFloat = 48.0
@@ -134,20 +148,6 @@ open class TabBarView: UIView {
     }()
 
     private let topBorderLine = Separator(style: .shadow, orientation: .horizontal)
-
-    private func itemView(with item: TabBarItem) -> TabBarItemView? {
-        if let index = items.firstIndex(of: item) {
-            let arrangedSubviews = stackView.arrangedSubviews
-
-            if arrangedSubviews.count > index {
-                if let tabBarItemView = arrangedSubviews[index] as? TabBarItemView {
-                    return tabBarItemView
-                }
-            }
-        }
-
-        return nil
-    }
 
     private func updateHeight() {
         if traitCollection.userInterfaceIdiom == .phone {
