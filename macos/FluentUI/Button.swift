@@ -8,9 +8,9 @@ import AppKit
 /// Indicates what style our button is drawn as
 @objc(MSFButtonStyle)
 public enum ButtonStyle: Int, CaseIterable {
-    case primaryFilled	// Solid fill color
-    case primaryOutline	// Clear fill color, solid outline
-    case borderless		// Clear fill color, clear outline
+	case primaryFilled	// Solid fill color
+	case primaryOutline	// Clear fill color, solid outline
+	case borderless		// Clear fill color, clear outline
 }
 
 // MARK: - Button
@@ -67,18 +67,18 @@ open class Button: NSButton {
 		isBordered = false
 		wantsLayer = true
 		layer?.contentsScale = window?.backingScaleFactor ?? 1.0
-		
+
 		self.style = style
-		
+
 		if let title = title {
 			self.title = title
 		}
-		
+
 		if let image = image {
 			self.image = image
 		}
 	}
-	
+
 	open class override var cellClass: AnyClass? {
 		get {
 			return FluentButtonCell.self
@@ -113,7 +113,7 @@ open class Button: NSButton {
 			removeTrackingArea(trackingArea)
 			self.trackingArea = nil
 		}
-		
+
 		// Create a new trackingArea
 		let opts: NSTrackingArea.Options = [.mouseEnteredAndExited, .activeAlways]
 		let trackingArea = NSTrackingArea(
@@ -125,7 +125,7 @@ open class Button: NSButton {
 		addTrackingArea(trackingArea)
 		self.trackingArea = trackingArea
 	}
-	
+
 	open override func mouseEntered(with event: NSEvent) {
 		mouseEntered = true
 		needsDisplay = true
@@ -135,17 +135,17 @@ open class Button: NSButton {
 		mouseEntered = false
 		needsDisplay = true
 	}
-	
+
 	open override func mouseDown(with event: NSEvent) {
 		mouseDown = true
 		needsDisplay = true
 	}
-	
+
 	open override func mouseUp(with event: NSEvent) {
 		mouseDown = false
 		needsDisplay = true
 	}
-	
+
 	open override func updateLayer() {
 		if let layer = layer {
 			layer.borderWidth = Button.borderWidth
@@ -154,11 +154,11 @@ open class Button: NSButton {
 			layer.borderColor = outlineColor.cgColor
 		}
 	}
-	
+
 	override public var wantsUpdateLayer: Bool {
 		return true
 	}
-	
+
 	open override func viewDidChangeBackingProperties() {
 		super.viewDidChangeBackingProperties()
 
@@ -170,7 +170,7 @@ open class Button: NSButton {
 			layer.contentsScale = scale
 		}
 	}
-	
+
 	/// The primary color of the button, AKA, the fill color in the primaryFilled style, and the outline in the primaryOutline style
 	@objc public var primaryColor: NSColor = defaultPrimaryColor {
 		didSet {
@@ -188,7 +188,7 @@ open class Button: NSButton {
 			}
 		}
 	}
-	
+
 	private func disabledColor(for color: NSColor) -> NSColor {
 		if #available(macOS 10.14, *) {
 			return color.withSystemEffect(.disabled)
@@ -196,16 +196,16 @@ open class Button: NSButton {
 			return color.withAlphaComponent(Button.disabledColorFallbackAlphaComponent)
 		}
 	}
-	
+
 	private var trackingArea: NSTrackingArea?
-	
+
 	private var mouseEntered = false
 	private var mouseDown = false
-	
+
 	private var fillColor: NSColor {
 		return style == ButtonStyle.primaryFilled ? primaryColor : .clear
 	}
-	
+
 	private var outlineColor: NSColor {
 		let baseOutlineColor = style == ButtonStyle.primaryOutline ? primaryColor.withAlphaComponent(Button.outlineColorAlphaComponent) : .clear
 		if isEnabled {
@@ -214,11 +214,11 @@ open class Button: NSButton {
 			return disabledColor(for: baseOutlineColor)
 		}
 	}
-	
+
 	private var textColor: NSColor {
 		return style == ButtonStyle.primaryFilled ? .white : primaryColor
 	}
-	
+
 	private var restBackgroundColor: NSColor {
 		return fillColor
 	}
@@ -238,7 +238,7 @@ open class Button: NSButton {
 			return fillColor.withAlphaComponent(Button.pressedBackgroundColorFallbackAlphaComponent)
 		}
 	}
-	
+
 	private var layerBackgroundColor: NSColor {
 		if isEnabled {
 			if mouseDown {
@@ -252,7 +252,7 @@ open class Button: NSButton {
 			return disabledColor(for: fillColor)
 		}
 	}
-	
+
 	private static var defaultPrimaryColor: NSColor {
 		if #available(macOS 10.14, *) {
 			return .controlAccentColor
@@ -331,10 +331,10 @@ open class Button: NSButton {
 			@unknown default:
 				break
 			}
-			
+
 			return NSMakeRect(x, y, width, height)
 		}
-		
+
 		override func titleRect(forBounds rect: NSRect) -> NSRect {
 			let isRTL = NSApp.userInterfaceLayoutDirection == .rightToLeft
 			let titleRect = super.titleRect(forBounds: rect);
@@ -405,14 +405,14 @@ open class Button: NSButton {
 			@unknown default:
 				break
 			}
-			
+
 			return NSMakeRect(x, y, width, height)
 		}
-		
+
 		override func drawingRect(forBounds rect: NSRect) -> NSRect {
 			
-			var horizontalTnterCellSpacing: CGFloat = 0
-			var verticalTnterCellSpacing: CGFloat = 0
+			var horizontalInterCellSpacing: CGFloat = 0
+			var verticalInterCellSpacing: CGFloat = 0
 			switch imagePosition {
 			
 			case .noImage:
@@ -420,42 +420,42 @@ open class Button: NSButton {
 			case .imageOnly:
 				break
 			case .imageLeft:
-				horizontalTnterCellSpacing = Button.titleAndImageRectInterspacing
+				horizontalInterCellSpacing = Button.titleAndImageRectInterspacing
 				break
 			case .imageRight:
-				horizontalTnterCellSpacing = Button.titleAndImageRectInterspacing
+				horizontalInterCellSpacing = Button.titleAndImageRectInterspacing
 				break
 			case .imageBelow:
-				verticalTnterCellSpacing = Button.titleAndImageRectInterspacing
+				verticalInterCellSpacing = Button.titleAndImageRectInterspacing
 				break
 			case .imageAbove:
-				verticalTnterCellSpacing = Button.titleAndImageRectInterspacing
+				verticalInterCellSpacing = Button.titleAndImageRectInterspacing
 				break
 			case .imageOverlaps:
 				break
 			case .imageLeading:
-				horizontalTnterCellSpacing = Button.titleAndImageRectInterspacing
+				horizontalInterCellSpacing = Button.titleAndImageRectInterspacing
 				break
 			case .imageTrailing:
-				horizontalTnterCellSpacing = Button.titleAndImageRectInterspacing
+				horizontalInterCellSpacing = Button.titleAndImageRectInterspacing
 				break
 			@unknown default:
 				break
 			}
-			
+
 			let drawingRectWithPadding = NSMakeRect(
 				0,
 				0,
-				rect.width - (Button.horizontalEdgePadding * 2) - horizontalTnterCellSpacing,
-				rect.height - (Button.verticalEdgePadding * 2) - verticalTnterCellSpacing
+				rect.width - (Button.horizontalEdgePadding * 2) - horizontalInterCellSpacing,
+				rect.height - (Button.verticalEdgePadding * 2) - verticalInterCellSpacing
 			)
 			return drawingRectWithPadding
 		}
 	}
 
 	private static let titleAndImageRectInterspacing: CGFloat = 8
-	
-	
+
+
 	private static let borderWidth: CGFloat = 1
 
 	private static let cornerRadius: CGFloat = 3
