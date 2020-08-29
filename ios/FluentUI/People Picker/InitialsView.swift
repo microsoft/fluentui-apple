@@ -29,7 +29,7 @@ class InitialsView: UIView {
         return colors[hashCode % colors.count]
     }
 
-    private static func initialsText(fromPrimaryText primaryText: String?, secondaryText: String?) -> String {
+    static func initialsText(fromPrimaryText primaryText: String?, secondaryText: String?) -> String {
         var initials = ""
 
         if let primaryText = primaryText, primaryText.count > 0 {
@@ -37,11 +37,6 @@ class InitialsView: UIView {
         } else if let secondaryText = secondaryText, secondaryText.count > 0 {
             // Use first letter of the secondary text
             initials = String(secondaryText.prefix(1))
-        }
-
-        // Fallback to `#` otherwise
-        if initials.count == 0 {
-            initials = "#"
         }
 
         return initials.uppercased()
@@ -127,6 +122,13 @@ class InitialsView: UIView {
         setBackgroundColor(InitialsView.initialsBackgroundColor(fromPrimaryText: primaryText, secondaryText: secondaryText))
     }
 
+    /// Sets up the initialsView with the provided initials text.
+    /// - Parameter initialsText: the initials text.
+    public func setup(initialsText: String?) {
+        initialsLabel.text = initialsText
+        setBackgroundColor(InitialsView.initialsBackgroundColor(fromPrimaryText: initialsText, secondaryText: nil))
+    }
+
     override func layoutSubviews() {
         super.layoutSubviews()
         initialsLabel.frame = bounds
@@ -134,5 +136,9 @@ class InitialsView: UIView {
 
     func setBackgroundColor(_ color: UIColor) {
         super.backgroundColor = color
+    }
+
+    func setFontColor(_ color: UIColor) {
+        initialsLabel.textColor = color
     }
 }

@@ -90,8 +90,11 @@
 /* Accessibility hint for MSPillButtons in an MSPillButtonBar. %1$d is placeholder for index and %2$d is a placeholder for total number of items */
 "Accessibility.MSPillButtonBar.Hint" = "%2$d में से %1$d";
 
-/* Accessibility label for the avatar (or profile) view in */
+/* Accessibility label for the avatar (or profile) view */
 "Accessibility.LargeTitle.ProfileView" = "खाता प्रोफ़ाइल";
+
+/* Accessibility label format string for avatar view. Format: "<Name>, <Presence>". Example: "Kat, Available" */
+"Accessibility.AvatarView.LabelFormat" = "%@, %@";
 
 /* Accessibility hint for a segmented control button */
 "Accessibility.Segmented.Button.Hint" = "%@ पर जाने के लिए टैप करें";
@@ -111,8 +114,35 @@
 /* Accessibility value for when a UISwitch is off */
 "Accessibility.TableViewCell.Switch.Off" = "बंद";
 
+/* Format string for tab bar item accessbility labels. Format: "<Title>, <BadgeValue> items". Example: "Home, 5 items" */
+"Accessibility.TabBarItemView.LabelFormat" = "%@, %@ आइटम्स";
+
 /* Generic label for cancel action */
 "Common.Cancel" = "रद्द करें";
+
+/* Generic label to indicate that an item is shared */
+"Common.Shared" = "साझा किया गया";
+
+/* Generic label to indicate that an item is not shared */
+"Common.OnlyMe" = "केवल मैं";
+
+/* Just now date string */
+"Date.Now" = "अभी-अभी";
+
+/* Minutes ago date format string. Example: "5m ago" */
+"Date.FormatMinutes" = "%ldm पहले";
+
+/* Hours ago date format string. Example: "5h ago" */
+"Date.FormatHours" = "%ldh पहले";
+
+/* Yesterday string */
+"Date.Yesterday" = "कल (बीता हुआ)";
+
+/* Yesterday and time format string. Example: "Yesterday at 11:00 AM" */
+"Date.FormatYesterdayTime" = "बीते दिन %@ बजे";
+
+/* Day and time format string. Example: "Fri at 11:00 AM" */
+"Date.FormatDayTime" = "%@ पर %@";
 
 // MSPersonaListView
 "MSPersonaListView.SearchDirectory" = "डायरेक्टरी खोजें";
@@ -128,3 +158,30 @@
 
 /* MSDateTimePicker label for the end date of a date range */
 "MSDateTimePicker.EndDate" = "समाप्ति दिनांक";
+
+/* Presence - Available status */
+"Presence.Available" = "उपलब्ध";
+
+/* Presence - Away status */
+"Presence.Away" = "अनुपलब्ध";
+
+/* Presence - Busy status */
+"Presence.Busy" = "व्यस्त";
+
+/* Presence - Do not disturb status */
+"Presence.DND" = "परेशान न करें";
+
+/* Presence - Out of office status */
+"Presence.OOF" = "कार्यालय से बाहर";
+
+/* Presence - Offline status */
+"Presence.Offline" = "ऑफ़लाइन";
+
+/* Presence - Unknown status */
+"Presence.Unknown" = "अज्ञात";
+
+/* Presence - Blocked status */
+"Presence.Blocked" = "ब्लॉक किया गया";
+
+/* AvatarView - Format string for overflow avatar. Format: "+<OverflowCount>". Example: "+5" */
+"AvatarView.OverflowFormat" = "+%@";

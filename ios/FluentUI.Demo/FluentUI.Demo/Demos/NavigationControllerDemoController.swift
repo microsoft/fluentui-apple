@@ -31,6 +31,9 @@ class NavigationControllerDemoController: DemoController {
 
         addTitle(text: "Custom Navigation Bar Color")
         container.addArrangedSubview(createButton(title: "Show with gradient navigation bar color", action: #selector(showLargeTitleWithCustomizedColor)))
+
+        addTitle(text: "Top Accessory View")
+        container.addArrangedSubview(createButton(title: "Show with top search bar for large screen width", action: #selector(showWithTopSearchBar)))
     }
 
     @objc func showLargeTitle() {
@@ -83,15 +86,28 @@ class NavigationControllerDemoController: DemoController {
         presentController(withLargeTitle: true, style: .primary, accessoryView: createAccessoryView(), showAvatar: false)
     }
 
+    @objc func showWithTopSearchBar() {
+        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), showsTopAccessory: true, contractNavigationBarOnScroll: false)
+    }
+
     @discardableResult
-    private func presentController(withLargeTitle useLargeTitle: Bool, style: NavigationBar.Style = .primary, accessoryView: UIView? = nil, contractNavigationBarOnScroll: Bool = true, showShadow: Bool = true, showAvatar: Bool = true) -> NavigationController {
+    private func presentController(withLargeTitle useLargeTitle: Bool,
+                                   style: NavigationBar.Style = .primary,
+                                   accessoryView: UIView? = nil,
+                                   showsTopAccessory: Bool = false,
+                                   contractNavigationBarOnScroll: Bool = true,
+                                   showShadow: Bool = true,
+                                   showAvatar: Bool = true) -> NavigationController {
         let content = RootViewController()
         content.navigationItem.usesLargeTitle = useLargeTitle
         content.navigationItem.navigationBarStyle = style
         content.navigationItem.navigationBarShadow = showShadow ? .automatic : .alwaysHidden
         content.navigationItem.accessoryView = accessoryView
+        content.navigationItem.topAccessoryViewAttributes = NavigationBarTopSearchBarAttributes()
         content.navigationItem.contentScrollView = contractNavigationBarOnScroll ? content.tableView : nil
         content.showsTabs = !showShadow
+        content.showsTopAccessoryView = showsTopAccessory
+
         if style == .custom {
             content.navigationItem.customNavigationBarColor = CustomGradient.getCustomBackgroundColor(width: view.frame.width)
         }
@@ -102,6 +118,11 @@ class NavigationControllerDemoController: DemoController {
             controller.msfNavigationBar.onAvatarTapped = handleAvatarTapped
         } else {
             content.allowsCellSelection = true
+        }
+
+        if accessoryView != nil {
+            let searchBarView = accessoryView as! SearchBar
+            searchBarView.delegate = content
         }
 
         controller.modalPresentationStyle = .fullScreen
@@ -117,7 +138,7 @@ class NavigationControllerDemoController: DemoController {
         return controller
     }
 
-    private func createAccessoryView(with style: SearchBar.Style = .lightContent) -> UIView {
+    private func createAccessoryView(with style: SearchBar.Style = .lightContent) -> SearchBar {
         let searchBar = SearchBar()
         searchBar.style = style
         searchBar.placeholderText = "Search"
@@ -173,6 +194,45 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return tableView
     }()
 
+    private(set) lazy var searchProgressSpinnerSwitchView: UIView = {
+        let itemRow = UIStackView()
+        itemRow.axis = .horizontal
+        itemRow.distribution = .equalCentering
+        itemRow.alignment = .leading
+        itemRow.isLayoutMarginsRelativeArrangement = true
+        itemRow.layoutMargins = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
+        itemRow.translatesAutoresizingMaskIntoConstraints = false
+
+        let searchSpinnerSwitchLabel = Label(style: .subhead, colorStyle: .regular)
+        searchSpinnerSwitchLabel.text = "Show spinner while using the search bar"
+        itemRow.addArrangedSubview(searchSpinnerSwitchLabel)
+
+        let searchSpinnerSwitch = UISwitch()
+        searchSpinnerSwitch.isOn = true
+        searchSpinnerSwitch.addTarget(self, action: #selector(shouldShowSearchSpinner(switchView:)), for: .valueChanged)
+
+        itemRow.addArrangedSubview(searchSpinnerSwitchLabel)
+        itemRow.addArrangedSubview(searchSpinnerSwitch)
+
+        let itemsContainer = UIView()
+        itemsContainer.backgroundColor = Colors.tableBackground
+        itemsContainer.addSubview(itemRow)
+        itemsContainer.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            itemsContainer.topAnchor.constraint(equalTo: itemRow.topAnchor),
+            itemsContainer.bottomAnchor.constraint(equalTo: itemRow.bottomAnchor),
+            itemsContainer.leadingAnchor.constraint(equalTo: itemRow.leadingAnchor),
+            itemsContainer.trailingAnchor.constraint(equalTo: itemRow.trailingAnchor),
+            searchSpinnerSwitchLabel.centerYAnchor.constraint(equalTo: itemsContainer.centerYAnchor),
+            searchSpinnerSwitch.centerYAnchor.constraint(equalTo: itemsContainer.centerYAnchor)
+        ])
+
+        return itemsContainer
+    }()
+
+    var showSearchProgressSpinner: Bool = true
+
     var allowsCellSelection: Bool = false {
         didSet {
             updateRightBarButtonItems()
@@ -186,6 +246,8 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
         }
     }
+
+    var showsTopAccessoryView: Bool = false
 
     private var isInSelectionMode: Bool = false {
         didSet {
@@ -232,6 +294,10 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        if navigationItem.accessoryView != nil {
+            container.addArrangedSubview(searchProgressSpinnerSwitchView)
+        }
+
         container.addArrangedSubview(tableView)
         updateNavigationTitle()
         updateLeftBarButtonItems()
@@ -245,6 +311,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             tabBarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tabBarView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ]
+
         NSLayoutConstraint.activate(tabBarViewConstraints)
     }
 
@@ -260,6 +327,28 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         navigationBarFrameObservation = navigationController?.navigationBar.observe(\.frame, options: [.old, .new]) { [unowned self] navigationBar, change in
             if change.newValue?.width != change.oldValue?.width && self.navigationItem.navigationBarStyle == .custom {
                 self.navigationItem.customNavigationBarColor = CustomGradient.getCustomBackgroundColor(width: navigationBar.frame.width)
+            }
+        }
+    }
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+
+        if showsTopAccessoryView {
+            let showTopAccessoryView = view.frame.size.width >= Constants.topAccessoryViewWidthThreshold
+
+            if showTopAccessoryView && navigationItem.accessoryView != nil {
+                let accessoryView = navigationItem.accessoryView as! SearchBar
+                accessoryView.hidesNavigationBarDuringSearch = false
+
+                navigationItem.accessoryView = nil
+                navigationItem.topAccessoryView = accessoryView
+            } else if !showTopAccessoryView && navigationItem.topAccessoryView != nil {
+                let accessoryView = navigationItem.topAccessoryView as! SearchBar
+                accessoryView.hidesNavigationBarDuringSearch = true
+
+                navigationItem.topAccessoryView = nil
+                navigationItem.accessoryView = accessoryView
             }
         }
     }
@@ -327,6 +416,10 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
 
+    @objc private func shouldShowSearchSpinner(switchView: UISwitch) {
+        showSearchProgressSpinner = switchView.isOn
+    }
+
     @objc private func dismissSelf() {
         dismiss(animated: false)
     }
@@ -340,14 +433,40 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         isInSelectionMode = true
         msfNavigationController?.contractNavigationBar(animated: true)
         msfNavigationController?.allowResizeOfNavigationBarOnScroll = false
+        container.removeArrangedSubview(searchProgressSpinnerSwitchView)
     }
 
     @objc private func dismissSelectionMode() {
         isInSelectionMode = false
         msfNavigationController?.allowResizeOfNavigationBarOnScroll = true
         msfNavigationController?.expandNavigationBar(animated: true)
+        container.insertArrangedSubview(searchProgressSpinnerSwitchView, at: 0 /* index */)
+    }
+}
+
+// MARK: - RootViewController: SearchBarDelegate
+
+extension RootViewController: SearchBarDelegate {
+    func searchBarDidBeginEditing(_ searchBar: SearchBar) {
+        searchBar.progressSpinner.stopAnimating()
     }
 
+    func searchBar(_ searchBar: SearchBar, didUpdateSearchText newSearchText: String?) {
+    }
+
+    func searchBarDidCancel(_ searchBar: SearchBar) {
+        searchBar.progressSpinner.stopAnimating()
+    }
+
+    func searchBarDidRequestSearch(_ searchBar: SearchBar) {
+        if showSearchProgressSpinner {
+            searchBar.progressSpinner.startAnimating()
+        }
+    }
+
+    private struct Constants {
+        static let topAccessoryViewWidthThreshold: CGFloat = 768
+    }
 }
 
 // MARK: - ChildViewController

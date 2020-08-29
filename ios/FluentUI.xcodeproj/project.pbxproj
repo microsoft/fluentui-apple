@@ -27,7 +27,20 @@
 		56DA1CDD24523699008D745E /* AnimationSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0938E43235E8ED500256251 /* AnimationSynchronizer.swift */; };
 		7D0931C324AAAC9B0072458A /* SideTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0931C224AAAC8C0072458A /* SideTabBar.swift */; };
 		7D0931C424AAAC9C0072458A /* SideTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0931C224AAAC8C0072458A /* SideTabBar.swift */; };
+		7D23482724D88DE600FBE057 /* AvatarGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D23482624D88DDF00FBE057 /* AvatarGroupView.swift */; };
+		7D23482824D88DE700FBE057 /* AvatarGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D23482624D88DDF00FBE057 /* AvatarGroupView.swift */; };
+		7DC2FB2824C0ED1600367A55 /* TableViewCellFileAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */; };
+		7DC2FB2924C0ED1700367A55 /* TableViewCellFileAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */; };
+		7DC2FB2D24D209E800367A55 /* Presence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2C24D209E300367A55 /* Presence.swift */; };
+		7DC2FB2E24D209E800367A55 /* Presence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2C24D209E300367A55 /* Presence.swift */; };
 		8A01C86F248FFC5300C971F3 /* ContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A01C86E248FFC5300C971F3 /* ContactView.swift */; };
+		8ACE4D3524E31ADA00B9D0EB /* ContactCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF03E1B24B6BDBD00E6E2A2 /* ContactCollectionViewCell.swift */; };
+		8ACE4D3624E31B1C00B9D0EB /* ContactCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF03E1924B6BD4700E6E2A2 /* ContactCollectionView.swift */; };
+		8ACE4D3724E31B3700B9D0EB /* ContactCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF03E1D24B6BDFB00E6E2A2 /* ContactCollectionViewLayout.swift */; };
+		8ACE4D3824E31B4700B9D0EB /* ContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A01C86E248FFC5300C971F3 /* ContactView.swift */; };
+		8AF03E1A24B6BD4700E6E2A2 /* ContactCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF03E1924B6BD4700E6E2A2 /* ContactCollectionView.swift */; };
+		8AF03E1C24B6BDBD00E6E2A2 /* ContactCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF03E1B24B6BDBD00E6E2A2 /* ContactCollectionViewCell.swift */; };
+		8AF03E1E24B6BDFB00E6E2A2 /* ContactCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF03E1D24B6BDFB00E6E2A2 /* ContactCollectionViewLayout.swift */; };
 		8FA3CB5B246B19EA0049E431 /* ColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA3CB5A246B19EA0049E431 /* ColorTests.swift */; };
 		8FD0116E228A82A600D25925 /* BadgeField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45EB78F219E310F008646A2 /* BadgeField.swift */; };
 		8FD0116F228A82A600D25925 /* BadgeStringExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A8BBCC21BF6D6900D5E3ED /* BadgeStringExtractor.swift */; };
@@ -285,7 +298,13 @@
 		497DC2D724185885008D86F8 /* PillButtonBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBar.swift; sourceTree = "<group>"; };
 		497DC2D824185885008D86F8 /* PillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
 		7D0931C224AAAC8C0072458A /* SideTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideTabBar.swift; sourceTree = "<group>"; };
+		7D23482624D88DDF00FBE057 /* AvatarGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGroupView.swift; sourceTree = "<group>"; };
+		7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellFileAccessoryView.swift; sourceTree = "<group>"; };
+		7DC2FB2C24D209E300367A55 /* Presence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presence.swift; sourceTree = "<group>"; };
 		8A01C86E248FFC5300C971F3 /* ContactView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactView.swift; sourceTree = "<group>"; };
+		8AF03E1924B6BD4700E6E2A2 /* ContactCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCollectionView.swift; sourceTree = "<group>"; };
+		8AF03E1B24B6BDBD00E6E2A2 /* ContactCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCollectionViewCell.swift; sourceTree = "<group>"; };
+		8AF03E1D24B6BDFB00E6E2A2 /* ContactCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCollectionViewLayout.swift; sourceTree = "<group>"; };
 		8FA3CB5A246B19EA0049E431 /* ColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTests.swift; sourceTree = "<group>"; };
 		8FD01166228A820600D25925 /* libFluentUILib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFluentUILib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5237ACA21DED7030040BF27 /* ResizingHandleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizingHandleView.swift; sourceTree = "<group>"; };
@@ -714,6 +733,7 @@
 			isa = PBXGroup;
 			children = (
 				A578C4A12321CFD6002D5C40 /* Avatar.swift */,
+				7D23482624D88DDF00FBE057 /* AvatarGroupView.swift */,
 				B42661412148568800E25423 /* AvatarView.swift */,
 				B426613D214731D100E25423 /* InitialsView.swift */,
 				B47B58B722F8E5840078DE38 /* PeoplePicker.swift */,
@@ -722,6 +742,10 @@
 				B46D3F922151D95F0029772C /* PersonaCell.swift */,
 				B46D3F9C215985AC0029772C /* PersonaListView.swift */,
 				B4EF53C2215AF1AB00573E8F /* Persona.swift */,
+				8AF03E1924B6BD4700E6E2A2 /* ContactCollectionView.swift */,
+				8AF03E1B24B6BDBD00E6E2A2 /* ContactCollectionViewCell.swift */,
+				8AF03E1D24B6BDFB00E6E2A2 /* ContactCollectionViewLayout.swift */,
+				7DC2FB2C24D209E300367A55 /* Presence.swift */,
 			);
 			path = "People Picker";
 			sourceTree = "<group>";
@@ -733,6 +757,7 @@
 				B4E782C221793AB200A7DFCE /* ActivityIndicatorCell.swift */,
 				B441478C228CDA130040E88E /* BooleanCell.swift */,
 				B4E782C62179509A00A7DFCE /* CenteredLabelCell.swift */,
+				7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */,
 				B498141321E424920077B48D /* TableViewCell.swift */,
 				B4EF66502294A664007FEAB0 /* TableViewHeaderFooterView.swift */,
 			);
@@ -1139,6 +1164,7 @@
 				7D0931C424AAAC9C0072458A /* SideTabBar.swift in Sources */,
 				FD26DBD12298B3610011178B /* TooltipPositionController.swift in Sources */,
 				FD26DBD02298B35F0011178B /* Tooltip.swift in Sources */,
+				8ACE4D3624E31B1C00B9D0EB /* ContactCollectionView.swift in Sources */,
 				8FD0117B228A82A600D25925 /* ActivityIndicatorView.swift in Sources */,
 				8FD0117C228A82A600D25925 /* BlurringView.swift in Sources */,
 				8FD0117D228A82A600D25925 /* Button.swift in Sources */,
@@ -1189,6 +1215,7 @@
 				8FD01199228A82A600D25925 /* DateTimePickerViewLayout.swift in Sources */,
 				FD41C8C222DD48E60086F899 /* Operators.swift in Sources */,
 				8FD0119A228A82A600D25925 /* DrawerController.swift in Sources */,
+				7DC2FB2924C0ED1700367A55 /* TableViewCellFileAccessoryView.swift in Sources */,
 				8FD0119B228A82A600D25925 /* DrawerPresentationController.swift in Sources */,
 				8FD0119C228A82A600D25925 /* DrawerTransitionAnimator.swift in Sources */,
 				0BCEFAE1248650F10088CEE5 /* PopupMenuProtocols.swift in Sources */,
@@ -1201,14 +1228,18 @@
 				8FD011A3228A82A600D25925 /* DateComponents+Extensions.swift in Sources */,
 				FD9DA7B6232C33A80013E41B /* UIViewController+Navigation.swift in Sources */,
 				8FD011A6228A82A600D25925 /* String+Extension.swift in Sources */,
+				8ACE4D3724E31B3700B9D0EB /* ContactCollectionViewLayout.swift in Sources */,
 				8FD011A8228A82A600D25925 /* UIFont+Extension.swift in Sources */,
 				8FD011AA228A82A600D25925 /* UIImage+Extensions.swift in Sources */,
 				497DC2DC24185885008D86F8 /* PillButton.swift in Sources */,
 				8FD011AC228A82A600D25925 /* UIScreen+Extension.swift in Sources */,
+				7DC2FB2E24D209E800367A55 /* Presence.swift in Sources */,
 				8FD011AD228A82A600D25925 /* UITableViewCell+Extension.swift in Sources */,
 				8FD011AE228A82A600D25925 /* UIView+Extensions.swift in Sources */,
 				8FD011AF228A82A600D25925 /* UIViewController+Extensions.swift in Sources */,
+				7D23482824D88DE700FBE057 /* AvatarGroupView.swift in Sources */,
 				8FD011B0228A82A600D25925 /* HUD.swift in Sources */,
+				8ACE4D3824E31B4700B9D0EB /* ContactView.swift in Sources */,
 				8FD011B1228A82A600D25925 /* HUDView.swift in Sources */,
 				8FD011B2228A82A600D25925 /* AvatarView.swift in Sources */,
 				A5F3B147232B1E3700007A4F /* ScrollView.swift in Sources */,
@@ -1218,6 +1249,7 @@
 				8FD011B4228A82A600D25925 /* PersonaCell.swift in Sources */,
 				8FD011B5228A82A600D25925 /* PersonaListView.swift in Sources */,
 				497DC2DA24185885008D86F8 /* PillButtonBar.swift in Sources */,
+				8ACE4D3524E31ADA00B9D0EB /* ContactCollectionViewCell.swift in Sources */,
 				8FD011B6228A82A600D25925 /* Persona.swift in Sources */,
 				11104BCE233ACA9500CCB232 /* TabBarItem.swift in Sources */,
 				8FD011B7228A82A600D25925 /* PopupMenuController.swift in Sources */,
@@ -1264,7 +1296,9 @@
 				FD77752D219E62E100033D58 /* DateTimePickerViewLayout.swift in Sources */,
 				FD7DF05C21FA7F5000857267 /* Tooltip.swift in Sources */,
 				497DC2DB24185885008D86F8 /* PillButton.swift in Sources */,
+				8AF03E1E24B6BDFB00E6E2A2 /* ContactCollectionViewLayout.swift in Sources */,
 				FD41C8BE22DD47120086F899 /* UINavigationItem+Navigation.swift in Sources */,
+				7DC2FB2D24D209E800367A55 /* Presence.swift in Sources */,
 				B4E782C12176AD5E00A7DFCE /* ActionsCell.swift in Sources */,
 				FD56FD962192754B0023C7EA /* DateTimePickerViewComponent.swift in Sources */,
 				FDFB8AF021361C9D0046850A /* CalendarViewDayTodayCell.swift in Sources */,
@@ -1319,6 +1353,7 @@
 				B483323721DEB5A00022B4CC /* TouchForwardingView.swift in Sources */,
 				FDA1AF8F21484A26001AE720 /* Obscurable.swift in Sources */,
 				FD41C8A022DD13230086F899 /* NavigationAnimator.swift in Sources */,
+				7D23482724D88DE600FBE057 /* AvatarGroupView.swift in Sources */,
 				FDA1AF91214871B5001AE720 /* CardTransitionAnimator.swift in Sources */,
 				A5237ACD21ED6CA70040BF27 /* DrawerShadowView.swift in Sources */,
 				FD9DA7B5232C33A80013E41B /* UIViewController+Navigation.swift in Sources */,
@@ -1345,12 +1380,14 @@
 				FD41C89622DD13230086F899 /* NavigationBar.swift in Sources */,
 				A5CEC16D20D98EE70016922A /* Colors.swift in Sources */,
 				FD0D29D62151A3D700E8655E /* CardPresenterNavigationController.swift in Sources */,
+				8AF03E1C24B6BDBD00E6E2A2 /* ContactCollectionViewCell.swift in Sources */,
 				FD4F2A1B2148937100C437D6 /* PageCardPresenterController.swift in Sources */,
 				FD5BBE3B214B2F44008964B4 /* Date+Extensions.swift in Sources */,
 				FD5BBE43214C73CE008964B4 /* EasyTapButton.swift in Sources */,
 				B498141421E424920077B48D /* TableViewCell.swift in Sources */,
 				FD41C8B522DD3EA20086F899 /* NSLayoutConstraint+Extensions.swift in Sources */,
 				FD77752B219E455A00033D58 /* AccessibilityContainerView.swift in Sources */,
+				8AF03E1A24B6BD4700E6E2A2 /* ContactCollectionView.swift in Sources */,
 				B441478D228CDA130040E88E /* BooleanCell.swift in Sources */,
 				FDF41ED92141A02200EC527C /* CalendarConfiguration.swift in Sources */,
 				FD77753021A490BA00033D58 /* DateTimePicker.swift in Sources */,
@@ -1360,6 +1397,7 @@
 				FD56FD9A2194E50D0023C7EA /* DateTimePickerController.swift in Sources */,
 				A5F3B146232B1E3700007A4F /* ScrollView.swift in Sources */,
 				B46D3F9D215985AC0029772C /* PersonaListView.swift in Sources */,
+				7DC2FB2824C0ED1600367A55 /* TableViewCellFileAccessoryView.swift in Sources */,
 				A5DCA76421224026005F4CB7 /* Separator.swift in Sources */,
 				FD599D062134A682008845EE /* AccessibleViewDelegate.swift in Sources */,
 			);
