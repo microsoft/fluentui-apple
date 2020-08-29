@@ -15,7 +15,6 @@ class PassThroughDrawerDemoController: DemoController {
         let personaListView = PersonaListView()
         personaListView.personaList = samplePersonas
         personaListView.translatesAutoresizingMaskIntoConstraints = false
-        personaListView.backgroundColor = Colors.NavigationBar.background
         return personaListView
     }()
 

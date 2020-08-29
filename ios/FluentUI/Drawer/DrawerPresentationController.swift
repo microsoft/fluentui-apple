@@ -24,7 +24,15 @@ class DrawerPresentationController: UIPresentationController {
     private let presentationBackground: DrawerPresentationBackground
 	private weak var passThroughView: UIView?
 
-	init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?, source: UIViewController, sourceObject: Any?, presentationOrigin: CGFloat?, presentationDirection: DrawerPresentationDirection, presentationOffset: CGFloat, presentationBackground: DrawerPresentationBackground, adjustHeightForKeyboard: Bool, shouldUseWindowFullWidthInLandscape: Bool, passThroughView: UIView?) {
+	init(presentedViewController: UIViewController,
+         presenting presentingViewController: UIViewController?,
+         source: UIViewController, sourceObject: Any?,
+         presentationOrigin: CGFloat?, presentationDirection:
+         DrawerPresentationDirection, presentationOffset: CGFloat,
+         presentationBackground: DrawerPresentationBackground,
+         adjustHeightForKeyboard: Bool,
+         shouldUseWindowFullWidthInLandscape: Bool,
+         passThroughView: UIView?) {
         sourceViewController = source
         self.sourceObject = sourceObject
         self.presentationOrigin = presentationOrigin
