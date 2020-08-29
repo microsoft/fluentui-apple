@@ -15,7 +15,7 @@ INFOPLIST_EXPAND_BUILD_SETTINGS = YES
 CLANG_ENABLE_MODULES = YES
 DEFINES_MODULE = YES
 LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/../Frameworks @loader_path/Frameworks
-ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = $(inherited)
+ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
 
 // The framework specifies that it can be found relative to the RUNPATH hierarchy
 // that is specified by additional loader commands in other frameworks and apps
