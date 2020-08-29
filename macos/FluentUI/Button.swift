@@ -92,6 +92,13 @@ open class Button: NSButton {
 				preconditionFailure("wantsLayer must be set so that the image is rendered on the layer")
 			}
 		}
+		didSet {
+			if let image = image {
+				if image.isTemplate {
+					self.image = image.tint(color: self.textColor)
+				}
+			}
+		}
 	}
 	
 	override public var title: String {
@@ -471,4 +478,21 @@ open class Button: NSButton {
 	private static let hoverBackgroundColorFallbackAlphaComponent:  CGFloat = 0.5
 
 	private static let pressedBackgroundColorFallbackAlphaComponent:  CGFloat = 0.25
+}
+
+extension NSImage {
+	func tint(color: NSColor) -> NSImage {
+		let image = self.copy() as! NSImage
+		image.lockFocus()
+
+		color.set()
+
+		let imageRect = NSRect(origin: NSZeroPoint, size: image.size)
+		imageRect.fill(using: .sourceAtop)
+
+		image.unlockFocus()
+		image.isTemplate = false
+
+		return image
+	}
 }
