@@ -18,6 +18,14 @@ class PassThroughDrawerDemoController: DemoController {
         return personaListView
     }()
 
+    private let spacer: UIView = {
+        let spacer = UIView()
+        spacer.backgroundColor = .orange
+        spacer.layer.borderWidth = 1
+        spacer.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
+        return spacer
+    }()
+
     private var contentControllerOriginalPreferredContentHeight: CGFloat = 0
     private var drawerController: DrawerController?
 
@@ -81,18 +89,17 @@ class PassThroughDrawerDemoController: DemoController {
     }
 
     private func actionViews(drawerHasFlexibleHeight: Bool) -> [UIView] {
-        let spacer = UIView()
-        spacer.backgroundColor = .orange
-        spacer.layer.borderWidth = 1
-        spacer.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
-
         var views = [UIView]()
         if drawerHasFlexibleHeight {
-            views.append(createButton(title: "Change content height", action: #selector(changeContentHeightButtonTapped)))
-            views.append(createButton(title: "Expand", action: #selector(expandButtonTapped)))
+            let container = DemoController.createHorizontalContainer()
+            container.addArrangedSubview(createButton(title: "Change content height", action: #selector(changeContentHeightButtonTapped)))
+            container.addArrangedSubview(createButton(title: "Expand", action: #selector(expandButtonTapped)))
+            views.append(container)
         }
-        views.append(createButton(title: "Dismiss", action: #selector(dismissButtonTapped)))
-        views.append(createButton(title: "Dismiss (no animation)", action: #selector(dismissNotAnimatedButtonTapped)))
+        let container = DemoController.createHorizontalContainer()
+        container.addArrangedSubview(createButton(title: "Dismiss", action: #selector(dismissButtonTapped)))
+        container.addArrangedSubview(createButton(title: "Dismiss (no animation)", action: #selector(dismissNotAnimatedButtonTapped)))
+        views.append(container)
         views.append(spacer)
         return views
     }
@@ -122,8 +129,7 @@ class PassThroughDrawerDemoController: DemoController {
     }
 
     @objc private func changeContentHeightButtonTapped(sender: UIButton) {
-        if let spacer = (sender.superview as? UIStackView)?.arrangedSubviews.last,
-            let heightConstraint = spacer.constraints.first {
+        if let heightConstraint = spacer.constraints.first {
             heightConstraint.constant = heightConstraint.constant == 20 ? 100 : 20
         }
     }
