@@ -25,7 +25,7 @@ class DrawerDemoController: DemoController {
                 createButton(title: "Show from leading", action: #selector(showLeftDrawerButtonTapped)),
                 createButton(title: "Show from trailing", action: #selector(showRightDrawerButtonTapped))
             ],
-            itemSpacing: Constants.verticalSpacing,
+            itemSpacing: Constants.DemoControllerConstants.verticalSpacing,
             stretchItems: true
         )
         addDescription(text: "Swipe from the left or right edge of the screen to reveal a drawer interactively")
@@ -257,9 +257,8 @@ class DrawerDemoController: DemoController {
     }
 
     @objc private func hideKeyboardButtonTapped(sender: UIButton) {
-        if let stackView = sender.superview as? UIStackView {
-            let textField = stackView.arrangedSubviews.first(where: { $0 is UITextField })
-            textField?.resignFirstResponder()
+        if let stackView = sender.superview as? UIStackView, let textField = stackView.arrangedSubviews.first(where: { $0 is UITextField }){
+            textField.resignFirstResponder()
         }
     }
 }

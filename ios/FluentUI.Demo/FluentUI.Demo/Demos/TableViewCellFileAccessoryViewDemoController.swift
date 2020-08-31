@@ -20,8 +20,8 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         stackView.addArrangedSubview(settingsView)
 
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: scrollingContainer.topAnchor, constant: Constants.stackViewSpacing),
-            stackView.bottomAnchor.constraint(equalTo: scrollingContainer.bottomAnchor, constant: -Constants.stackViewSpacing),
+            stackView.topAnchor.constraint(equalTo: scrollingContainer.topAnchor, constant: Constants.TableViewCellFileAccessoryViewDemoControllerConstants.stackViewSpacing),
+            stackView.bottomAnchor.constraint(equalTo: scrollingContainer.bottomAnchor, constant: -Constants.TableViewCellFileAccessoryViewDemoControllerConstants.stackViewSpacing),
             stackView.leadingAnchor.constraint(equalTo: scrollingContainer.leadingAnchor)
         ])
 
@@ -45,7 +45,7 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
 
         var layoutConstraints: [NSLayoutConstraint] = []
 
-        for width in Constants.cellWidths {
+        for width in Constants.TableViewCellFileAccessoryViewDemoControllerConstants.cellWidths {
             if !useDynamicWidth {
                 let cellTitle = Label(style: .subhead, colorStyle: .regular)
                 cellTitle.text = "\t\(Int(width))px"
@@ -84,15 +84,7 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         updateAreDocumentsShared()
         updateCellPadding()
     }
-
-    private struct Constants {
-        static let stackViewSpacing: CGFloat = 20
-        static let cellWidths: [CGFloat] = [320, 375, 414, 423, 424, 503, 504, 583, 584, 615, 616, 751, 752, 899, 900, 924, 950, 1000, 1091, 1092, 1270]
-        static let cellPaddingThreshold: CGFloat = 768
-        static let largeCellPadding: CGFloat = 16
-        static let smallCellPadding: CGFloat = 8
-    }
-
+    
     private var accessoryViews: [TableViewCellFileAccessoryView] = []
 
     private lazy var stackView: UIStackView = {
@@ -100,8 +92,7 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.alignment = .leading
-        stackView.spacing = Constants.stackViewSpacing
-
+        stackView.spacing = Constants.TableViewCellFileAccessoryViewDemoControllerConstants.stackViewSpacing
         return stackView
     }()
 
@@ -229,7 +220,7 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
     }
 
     private func updateCellPadding() {
-        let extraPadding = view.frame.width >= Constants.cellPaddingThreshold && useDynamicPadding ? Constants.largeCellPadding : Constants.smallCellPadding
+        let extraPadding = view.frame.width >= Constants.TableViewCellFileAccessoryViewDemoControllerConstants.cellPaddingThreshold && useDynamicPadding ? Constants.TableViewCellFileAccessoryViewDemoControllerConstants.largeCellPadding : Constants.TableViewCellFileAccessoryViewDemoControllerConstants.smallCellPadding
 
         for accessoryView in accessoryViews {
             if let cell = accessoryView.tableViewCell {
@@ -331,7 +322,7 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
 
         let spacingView = UIView(frame: .zero)
         spacingView.translatesAutoresizingMaskIntoConstraints = false
-        spacingView.widthAnchor.constraint(equalToConstant: Constants.stackViewSpacing).isActive = true
+        spacingView.widthAnchor.constraint(equalToConstant: Constants.TableViewCellFileAccessoryViewDemoControllerConstants.stackViewSpacing).isActive = true
         settingsView.addArrangedSubview(spacingView)
 
         let settingViews: [UIView] = [
@@ -354,7 +345,7 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         let verticalSettingsView = UIStackView(frame: .zero)
         verticalSettingsView.translatesAutoresizingMaskIntoConstraints = false
         verticalSettingsView.axis = .vertical
-        verticalSettingsView.spacing = Constants.stackViewSpacing
+        verticalSettingsView.spacing = Constants.TableViewCellFileAccessoryViewDemoControllerConstants.stackViewSpacing
 
         for settingView in settingViews {
             verticalSettingsView.addArrangedSubview(settingView)

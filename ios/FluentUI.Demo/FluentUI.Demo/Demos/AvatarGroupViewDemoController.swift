@@ -66,15 +66,15 @@ class AvatarGroupViewDemoController: DemoController {
         settingsTitle.text = "Settings"
         container.addArrangedSubview(settingsTitle)
 
-        addRow(text: "Avatar count", items: [incrementBadgeButton, decrementBadgeButton], textStyle: .footnote, textWidth: Constants.settingsTextWidth)
+        addRow(text: "Avatar count", items: [incrementBadgeButton, decrementBadgeButton], textStyle: .footnote, textWidth: Constants.AvatarGroupViewDemoControllerConstants.settingsTextWidth)
 
         let backgroundColorSwitch = UISwitch(frame: .zero)
         backgroundColorSwitch.isOn = isUsingAlternateBackgroundColor
         backgroundColorSwitch.addTarget(self, action: #selector(toggleAlternateBackground(switchView:)), for: .valueChanged)
 
-        addRow(text: "Use alternate background color", items: [backgroundColorSwitch], textStyle: .footnote, textWidth: Constants.settingsTextWidth)
-        addRow(text: "Max displayed avatars", items: [maxAvatarsTextField, maxAvatarButton], textStyle: .footnote, textWidth: Constants.settingsTextWidth)
-        addRow(text: "Overflow count", items: [overflowCountTextField, overflowCountButton], textStyle: .footnote, textWidth: Constants.settingsTextWidth)
+        addRow(text: "Use alternate background color", items: [backgroundColorSwitch], textStyle: .footnote, textWidth: Constants.AvatarGroupViewDemoControllerConstants.settingsTextWidth)
+        addRow(text: "Max displayed avatars", items: [maxAvatarsTextField, maxAvatarButton], textStyle: .footnote, textWidth: Constants.AvatarGroupViewDemoControllerConstants.settingsTextWidth)
+        addRow(text: "Overflow count", items: [overflowCountTextField, overflowCountButton], textStyle: .footnote, textWidth: Constants.AvatarGroupViewDemoControllerConstants.settingsTextWidth)
 
         insertLabel(text: "Avatar stack without borders")
         insertAvatarViews(style: .stack, showBorders: false)
@@ -90,13 +90,7 @@ class AvatarGroupViewDemoController: DemoController {
 
         updateBackgroundColor()
     }
-
-    private struct Constants {
-        static let settingsTextWidth: CGFloat = 200
-        static let avatarsTextWidth: CGFloat = 100
-        static let maxTextInputCharCount: Int = 4
-    }
-
+    
     private var avatarGroups: [AvatarGroupView] = []
 
     private var avatarCount: Int = 5 {
@@ -199,7 +193,7 @@ class AvatarGroupViewDemoController: DemoController {
                 trailingConstraint
             ])
 
-            addRow(text: size.description, items: [containerView], textStyle: .footnote, textWidth: Constants.avatarsTextWidth)
+            addRow(text: size.description, items: [containerView], textStyle: .footnote, textWidth: Constants.AvatarGroupViewDemoControllerConstants.avatarsTextWidth)
         }
 
         NSLayoutConstraint.activate(constraints)
@@ -229,7 +223,7 @@ extension AvatarGroupViewDemoController: UITextFieldDelegate {
 
         if shouldChangeCharacters {
             text = text.replacingCharacters(in: stringRange, with: string)
-            shouldChangeCharacters = text.count <= Constants.maxTextInputCharCount
+            shouldChangeCharacters = text.count <= Constants.AvatarGroupViewDemoControllerConstants.maxTextInputCharCount
         }
 
         let button = textField == maxAvatarsTextField ? maxAvatarButton : overflowCountButton

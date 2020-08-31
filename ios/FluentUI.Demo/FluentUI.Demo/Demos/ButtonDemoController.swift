@@ -83,9 +83,9 @@ extension ButtonStyle {
     var image: UIImage? {
         switch self {
         case .primaryFilled, .primaryOutline:
-            return UIImage(named: "Placeholder_24")!
+            return UIImage(named: "Placeholder_24")
         case .secondaryOutline:
-            return UIImage(named: "Placeholder_20")!
+            return UIImage(named: "Placeholder_20")
         case .tertiaryOutline, .borderless:
             return nil
         }

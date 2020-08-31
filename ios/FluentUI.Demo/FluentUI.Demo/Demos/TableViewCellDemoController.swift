@@ -117,7 +117,9 @@ extension TableViewCellDemoController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = sections[indexPath.section]
         let item = section.item
-        let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as! TableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
+            return UITableViewCell()
+        }
         cell.setup(
             title: item.text1,
             subtitle: item.text2,

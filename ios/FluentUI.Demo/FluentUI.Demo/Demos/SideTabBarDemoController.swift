@@ -11,21 +11,14 @@ class SideTabBarDemoController: DemoController {
         view = UIView(frame: .zero)
         container.addArrangedSubview(createButton(title: "Show side tab bar", action: #selector(presentSideTabBar)))
     }
-
-    private struct Constants {
-        static let initialBadgeNumbers: [UInt] = [5, 50, 250, 4, 135]
-        static let initialHigherBadgeNumbers: [UInt] = [1250, 25505, 3050528, 50890, 2304]
-        static let optionsSpacing: CGFloat = 5.0
-    }
-
     private let sideTabBar: SideTabBar = {
         return SideTabBar(frame: .zero)
     }()
 
     private var contentViewController: UIViewController?
 
-    private var badgeNumbers: [UInt] = Constants.initialBadgeNumbers
-    private var higherBadgeNumbers: [UInt] = Constants.initialHigherBadgeNumbers
+    private var badgeNumbers: [UInt] = Constants.SideTabBarDemoControllerConstants.initialBadgeNumbers
+    private var higherBadgeNumbers: [UInt] = Constants.SideTabBarDemoControllerConstants.initialHigherBadgeNumbers
 
     private var showBadgeNumbers: Bool = false {
         didSet {
@@ -79,7 +72,7 @@ class SideTabBarDemoController: DemoController {
         let optionsStackView = UIStackView(frame: .zero)
         optionsStackView.axis = .vertical
         optionsStackView.alignment = .center
-        optionsStackView.spacing = Constants.optionsSpacing
+        optionsStackView.spacing = Constants.SideTabBarDemoControllerConstants.optionsSpacing
         optionsStackView.translatesAutoresizingMaskIntoConstraints = false
         contentViewController.view.addSubview(optionsStackView)
 

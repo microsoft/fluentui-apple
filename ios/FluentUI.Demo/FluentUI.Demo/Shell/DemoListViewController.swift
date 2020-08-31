@@ -60,7 +60,7 @@ class DemoListViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath) as! TableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath) as? TableViewCell else { return UITableViewCell() }
         cell.setup(title: demos[indexPath.row].title, accessoryType: .disclosureIndicator)
         cell.titleNumberOfLinesForLargerDynamicType = 2
         return cell

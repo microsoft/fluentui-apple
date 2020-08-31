@@ -46,35 +46,54 @@ extension OtherCellsDemoController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = sections[indexPath.section]
         let item = section.items[indexPath.row]
-
-        if section.title == "ActionsCell" {
-            let cell = tableView.dequeueReusableCell(withIdentifier: ActionsCell.identifier) as! ActionsCell
-            cell.setup(action1Title: item.text1, action2Title: item.text2, action2Type: .destructive)
-            let isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
-            cell.bottomSeparatorType = isLastInSection ? .full : .inset
-            return cell
+        
+        switch section.title {
+        case "ActionsCell":
+            return setupActionCell(indexPath,item)
+            
+        case "ActivityIndicatorCell":
+            return tableView.dequeueReusableCell(withIdentifier: ActivityIndicatorCell.identifier) as? ActivityIndicatorCell ?? UITableViewCell()
+            
+        case "BooleanCell":
+            return setupBooleanCell(indexPath,item)
+        
+        case "CenteredLabelCell":
+            return setupCenteredLabelCell(item)
+        
+        default:
+            return UITableViewCell()
         }
-
-        if section.title == "ActivityIndicatorCell" {
-            return tableView.dequeueReusableCell(withIdentifier: ActivityIndicatorCell.identifier) as! ActivityIndicatorCell
+    }
+    
+    private func setupActionCell(_ indexPath: IndexPath,_ item: TableViewSampleData.Item) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ActionsCell.identifier) as? ActionsCell else {
+            return UITableViewCell()
         }
-
-        if section.title == "BooleanCell" {
-            let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as! BooleanCell
-            cell.setup(title: item.text1, customView: TableViewSampleData.createCustomView(imageName: item.image, useImageAsTemplate: true), isOn: indexPath.row == 0)
-            cell.onValueChanged = { [unowned self, unowned cell] in
-                self.showAlertForSwitchTapped(isOn: cell.isOn)
-            }
-            return cell
+        cell.setup(action1Title: item.text1, action2Title: item.text2, action2Type: .destructive)
+        let isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
+        cell.bottomSeparatorType = isLastInSection ? .full : .inset
+        return cell
+    }
+    
+    func setupBooleanCell(_ indexPath: IndexPath,_ item: TableViewSampleData.Item) -> UITableViewCell {
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as? BooleanCell else {
+            return UITableViewCell()
         }
-
-        if section.title == "CenteredLabelCell" {
-            let cell = tableView.dequeueReusableCell(withIdentifier: CenteredLabelCell.identifier) as! CenteredLabelCell
-            cell.setup(text: item.text1)
-            return cell
+        cell.setup(title: item.text1, customView: TableViewSampleData.createCustomView(imageName: item.image, useImageAsTemplate: true), isOn: indexPath.row == 0)
+        cell.onValueChanged = { [unowned self, unowned cell] in
+            self.showAlertForSwitchTapped(isOn: cell.isOn)
         }
-
-        return UITableViewCell()
+        return cell
+    }
+    
+    private func setupCenteredLabelCell(_ item: TableViewSampleData.Item) -> UITableViewCell {
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CenteredLabelCell.identifier) as? CenteredLabelCell else {
+            return UITableViewCell()
+        }
+        cell.setup(text: item.text1)
+        return cell
     }
 
     private func showAlertForSwitchTapped(isOn: Bool) {
@@ -90,7 +109,9 @@ extension OtherCellsDemoController: UITableViewDataSource {
 
 extension OtherCellsDemoController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as! TableViewHeaderFooterView
+        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as? TableViewHeaderFooterView else {
+            return nil
+        }
         let section = sections[section]
         header.setup(style: section.headerStyle, title: section.title)
         return header

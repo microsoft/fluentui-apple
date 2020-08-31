@@ -63,7 +63,9 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as! TableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
+            return UITableViewCell()
+        }
         cell.setup(title: TableViewHeaderFooterSampleData.itemTitle)
         var isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
         if tableView.style == .grouped {

@@ -335,7 +335,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         super.viewWillLayoutSubviews()
 
         if showsTopAccessoryView {
-            let showTopAccessoryView = view.frame.size.width >= Constants.topAccessoryViewWidthThreshold
+            let showTopAccessoryView = view.frame.size.width >= Constants.NavigationControllerDemoControllerConstants.topAccessoryViewWidthThreshold
 
             if showTopAccessoryView && navigationItem.accessoryView != nil {
                 let accessoryView = navigationItem.accessoryView as! SearchBar
@@ -358,7 +358,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as! TableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as? TableViewCell else { return UITableViewCell() }
         let imageView = UIImageView(image: UIImage(named: "excelIcon"))
         cell.setup(title: "Cell #\(1 + indexPath.row)", customView: imageView, accessoryType: .disclosureIndicator)
         cell.isInSelectionMode = isInSelectionMode
@@ -463,10 +463,6 @@ extension RootViewController: SearchBarDelegate {
             searchBar.progressSpinner.startAnimating()
         }
     }
-
-    private struct Constants {
-        static let topAccessoryViewWidthThreshold: CGFloat = 768
-    }
 }
 
 // MARK: - ChildViewController
@@ -484,7 +480,9 @@ class ChildViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as! TableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as? TableViewCell else {
+            return UITableViewCell()
+        }
         cell.setup(title: "Child Cell #\(1 + indexPath.row)")
         return cell
     }
@@ -540,7 +538,9 @@ class ModalViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as! TableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as? TableViewCell else {
+            return UITableViewCell()
+        }
         cell.setup(title: "Child Cell #\(1 + indexPath.row)")
         cell.backgroundColor = isGrouped ? Colors.Table.Cell.backgroundGrouped : Colors.Table.Cell.background
         cell.topSeparatorType = isGrouped && indexPath.row == 0 ? .full : .none

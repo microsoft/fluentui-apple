@@ -80,9 +80,7 @@ class TableViewSampleData {
     }
 
     static func createCustomView(imageName: String, useImageAsTemplate: Bool = false) -> UIImageView? {
-        if imageName == "" {
-            return nil
-        }
+        guard !imageName.isEmpty else { return nil }
         var image = UIImage(named: imageName)
         if useImageAsTemplate {
             image = image?.withRenderingMode(.alwaysTemplate)

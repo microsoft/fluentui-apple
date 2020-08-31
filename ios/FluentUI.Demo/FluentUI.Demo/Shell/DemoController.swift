@@ -7,20 +7,13 @@ import FluentUI
 import UIKit
 
 class DemoController: UIViewController {
-    struct Constants {
-        static let margin: CGFloat = 16
-        static let horizontalSpacing: CGFloat = 40
-        static let verticalSpacing: CGFloat = 16
-        static let rowTextWidth: CGFloat = 75
-        static let stackViewSpacing: CGFloat = 10
-    }
 
     class func createVerticalContainer() -> UIStackView {
         let container = UIStackView(frame: .zero)
         container.axis = .vertical
-        container.layoutMargins = UIEdgeInsets(top: Constants.margin, left: Constants.margin, bottom: Constants.margin, right: Constants.margin)
+        container.layoutMargins = UIEdgeInsets(top: Constants.DemoControllerConstants.margin, left: Constants.DemoControllerConstants.margin, bottom: Constants.DemoControllerConstants.margin, right: Constants.DemoControllerConstants.margin)
         container.isLayoutMarginsRelativeArrangement = true
-        container.spacing = Constants.verticalSpacing
+        container.spacing = Constants.DemoControllerConstants.verticalSpacing
         return container
     }
 
@@ -55,7 +48,7 @@ class DemoController: UIViewController {
         container.addArrangedSubview(titleLabel)
     }
 
-    func addRow(text: String = "", items: [UIView], textStyle: TextStyle = .subhead, textWidth: CGFloat = Constants.rowTextWidth, itemSpacing: CGFloat = Constants.horizontalSpacing, stretchItems: Bool = false, centerItems: Bool = false) {
+    func addRow(text: String = "", items: [UIView], textStyle: TextStyle = .subhead, textWidth: CGFloat = Constants.DemoControllerConstants.rowTextWidth, itemSpacing: CGFloat = Constants.DemoControllerConstants.horizontalSpacing, stretchItems: Bool = false, centerItems: Bool = false) {
         let itemsContainer = UIStackView()
         itemsContainer.axis = .vertical
         itemsContainer.alignment = stretchItems ? .fill : (centerItems ? .center : .leading)
@@ -66,7 +59,7 @@ class DemoController: UIViewController {
         itemRow.alignment = .center
         itemRow.spacing = itemSpacing
 
-        if text != "" {
+        if !text.isEmpty {
             let label = Label(style: textStyle, colorStyle: .regular)
             label.text = text
             label.widthAnchor.constraint(equalToConstant: textWidth).isActive = true
@@ -109,7 +102,7 @@ class DemoController: UIViewController {
         let stackView = UIStackView(frame: .zero)
         stackView.axis = .horizontal
         stackView.alignment = .center
-        stackView.spacing = Constants.stackViewSpacing
+        stackView.spacing = Constants.DemoControllerConstants.stackViewSpacing
 
         let label = Label(style: .subhead, colorStyle: .regular)
         label.text = labelText
