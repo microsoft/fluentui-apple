@@ -20,41 +20,42 @@ class CardDemoController: DemoController {
 
             switch style {
             case .announcement:
-                let card = CardView(style: style, title: "Title", subtitle: "Subtitle that can be 2 lines if there isn't enough room", image: demoBackgroundImage, backgroundStyle: .appColor, buttonTitle: "Button Title")
+                let card = CardView(style: style, title: "Title", subtitle: "Subtitle that can be 2 lines if there isn't enough room", image: demoBackgroundImage, colorTheme: .appColor, buttonTitle: "Button Title")
                 card.delegate = self
 
                 addRow(items: [card])
             case .medium:
-                let card = CardView(style: style, title: "Title", subtitle: "Subtitle", icon: demoIcon, image: demoBackgroundImage, backgroundStyle: .appColor)
+                let card = CardView(style: style, title: "Title", subtitle: "Subtitle", icon: demoIcon, image: demoBackgroundImage, colorTheme: .appColor)
                 card.delegate = self
 
                 addRow(items: [card])
             case .small:
-                let card = CardView(style: style, title: "Title", subtitle: "Subtitle", icon: demoIcon, image: demoBackgroundImage, backgroundStyle: .appColor)
+                let card = CardView(style: style, title: "Title", subtitle: "Subtitle", icon: demoIcon, image: demoBackgroundImage, colorTheme: .appColor)
                 card.delegate = self
-                let cardWithCustomBackground = CardView(style: style, title: "Title", subtitle: "Subtitle", icon: demoIcon, image: demoBackgroundImage, backgroundStyle: .custom)
-                cardWithCustomBackground.cardBackgroundColor = Colors.Badge.backgroundWarning
+                let cardWithCustomColors = CardView(style: style, title: "Title", subtitle: "Custom color theme", icon: demoIcon, image: demoBackgroundImage, colorTheme: .custom)
+                cardWithCustomColors.customBorderColor = UIColor(light: .black, dark: .white)
+                cardWithCustomColors.customSubtitleColor = Colors.textPrimary
                 card.delegate = self
 
-                addRow(items: [card, cardWithCustomBackground], itemSpacing: Constants.itemSpacing)
+                addRow(items: [card, cardWithCustomColors], itemSpacing: Constants.itemSpacing)
             case .xSmallHorizontal:
-                let card = CardView(style: style, title: "Title", icon: demoIcon, backgroundStyle: .neutral)
+                let card = CardView(style: style, title: "Title", icon: demoIcon, colorTheme: .neutral)
                 card.delegate = self
-                let cardWithSubtitle = CardView(style: style, title: "Title", subtitle: "Subtitle", icon: demoIcon, backgroundStyle: .appColor)
-                cardWithSubtitle.cardBackgroundColor = Colors.Button.background
+                let cardWithSubtitle = CardView(style: style, title: "Title", subtitle: "Subtitle", icon: demoIcon, colorTheme: .appColor)
+                cardWithSubtitle.customBackgroundColor = Colors.Button.background
                 cardWithSubtitle.delegate = self
-                // Card with a custom background color without setting cardBackgroundColor so the defualt background is used
-                let cardWithLongText = CardView(style: style, title: "Title that is very very very very long", subtitle: "Subtitle that is very very very very long", icon: demoIcon, backgroundStyle: .custom)
+                // Card with a custom background color without setting customBackgroundColor so the defualt background color is used
+                let cardWithLongText = CardView(style: style, title: "Title that is very very very very long", subtitle: "Subtitle that is very very very very long", icon: demoIcon, colorTheme: .custom)
                 cardWithLongText.delegate = self
 
                 addRow(items: [card, cardWithSubtitle], itemSpacing: Constants.itemSpacing)
                 addRow(items: [cardWithLongText])
             case .xSmallVertical:
-                let card = CardView(style: style, title: "Title", icon: demoIcon, backgroundStyle: .appColor)
+                let card = CardView(style: style, title: "Title", icon: demoIcon, colorTheme: .appColor)
                 card.delegate = self
-                let cardWithSubtitle = CardView(style: style, title: "Title that is very very very very long", subtitle: "Subtitle", icon: demoIcon, backgroundStyle: .neutral)
+                let cardWithSubtitle = CardView(style: style, title: "Title that is very very very very long", subtitle: "Subtitle", icon: demoIcon, colorTheme: .neutral)
                 cardWithSubtitle.delegate = self
-                let cardWithLongText = CardView(style: style, title: "Title that is very very very very long", subtitle: "Subtitle that is very very very very long", icon: demoIcon, backgroundStyle: .appColor)
+                let cardWithLongText = CardView(style: style, title: "Title that is very very very very long", subtitle: "Subtitle that is very very very very long", icon: demoIcon, colorTheme: .appColor)
                 cardWithLongText.delegate = self
 
                 addRow(items: [card, cardWithSubtitle], itemSpacing: Constants.itemSpacing)

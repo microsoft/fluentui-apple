@@ -13,8 +13,8 @@ public protocol CardDelegate {
     @objc optional func didTapCard(_ card: CardView)
 }
 
-@objc(MSFCardBackgroundStyle)
-public enum CardBackgroundStyle: Int, CaseIterable {
+@objc(MSFCardColorTheme)
+public enum CardColorTheme: Int, CaseIterable {
     case appColor
     case neutral
     case custom
@@ -61,7 +61,7 @@ public enum CardStyle: Int, CaseIterable {
         case .announcement:
             return NSTextAlignment.center
         default:
-            return NSTextAlignment.left
+            return NSTextAlignment.natural
         }
     }
 
@@ -89,16 +89,16 @@ public enum CardStyle: Int, CaseIterable {
  
  Use `titleNumberOfLines` and `subtitleNumberOfLines`  to set the number of lines the title and subtitle should have respectively. When the string can not fit in the number of lines set, it will get truncated.
  
- Use one of the defined background styles for appColor or a neutral grey color.
- When CardBackgroundStyle.custom is used, a default color will be set unless a background color is provided by setting the `cardBackgroundColor` property.
+ Use one of the defined color themes for an app color theme, or a neutral gray color theme.
+ When CardColorTheme.custom is used, default colors will be set unless a custom color is provided by setting the properties: `customBackgroundColor`, `customTitleColor`, `customSubtitleColor`, `customIconColor`, and
  
  Conform to the `CardDelegate` in order to provide a handler for tap events. All CardView styles are clickable other than announcement, which has a dedicatred button inside the card.
  */
 @objc(MSFCardView)
 open class CardView: UIView {
-    /// delegate to handle user interaction with the CardView
+    /// Delegate to handle user interaction with the CardView
     @objc public weak var delegate: CardDelegate?
-
+    /// The style of the card. Style determines the content views and their relative layout. Setting the `style` will reload the layout constraints
     @objc open var style: CardStyle = .medium {
         didSet {
             if style != oldValue {
@@ -106,6 +106,7 @@ open class CardView: UIView {
             }
         }
     }
+    /// The card's featured image. The image appears at the top of the card
     @objc open var image: UIImage? {
         didSet {
             if image != oldValue {
@@ -115,6 +116,7 @@ open class CardView: UIView {
             }
         }
     }
+    /// The button's title. Announcement is the only card style that has a button
     @objc open var buttonTitle: String? {
         didSet {
             if buttonTitle != oldValue {
@@ -124,6 +126,7 @@ open class CardView: UIView {
             }
         }
     }
+    /// All card styles have a title. Setting `primaryText` will refresh the layout constraints
     @objc open var primaryText: String {
         didSet {
             if primaryText != oldValue {
@@ -132,6 +135,7 @@ open class CardView: UIView {
             }
         }
     }
+    /// Setting `secondaryText` is a way to add/remove the subtitle which will also refresh the layout constraints to adjust to the change
     @objc open var secondaryText: String? {
         didSet {
             if secondaryText != oldValue {
@@ -140,6 +144,7 @@ open class CardView: UIView {
             }
         }
     }
+    /// The card's icon. Announcement is the only card style that doesn't include an icon
     @objc open var icon: UIImage? {
         didSet {
             if icon != oldValue {
@@ -149,13 +154,15 @@ open class CardView: UIView {
             }
         }
     }
-    @objc open var backgroundStyle: CardBackgroundStyle = .neutral {
+    /// The color theme determines the border color, background color, icon tint color, and text color. When using the custom theme, set custom properties to override the defualt color values
+    @objc open var colorTheme: CardColorTheme = .neutral {
         didSet {
-            if backgroundStyle != oldValue {
-                setupBackgroundColor()
+            if colorTheme != oldValue {
+                setupColors()
             }
         }
     }
+    /// Set `titleNumberOfLines` in order to control how many lines the title has. Setting this property will refresh the layout constrinats to adjust to the change
     @objc open var titleNumberOfLines: Int = Constants.titleDefaultNumberOfLines {
         didSet {
             if titleNumberOfLines != oldValue {
@@ -164,6 +171,7 @@ open class CardView: UIView {
             }
         }
     }
+    /// Set `subtitleNumberOfLines` in order to control how many lines the subtitle has. Setting this property will refresh the layout constrinats to adjust to the change
     @objc open var subtitleNumberOfLines: Int = Constants.subtitleDefaultNumberOfLines {
         didSet {
             if subtitleNumberOfLines != oldValue {
@@ -172,10 +180,43 @@ open class CardView: UIView {
             }
         }
     }
-    @objc open var cardBackgroundColor: UIColor = Constants.defualtBackgroundColor {
+    /// Set `customBackgroundColor` in order to set the background color when using the custom color theme
+    @objc open var customBackgroundColor: UIColor = Constants.defaultBackgroundColor {
         didSet {
-            if cardBackgroundColor != oldValue {
-                setupBackgroundColor()
+            if customBackgroundColor != oldValue {
+                setupColors()
+            }
+        }
+    }
+    /// Set `customTitleColor` in order to set the title's text color when using the custom color theme
+    @objc open var customTitleColor: UIColor = Constants.defaultTitleColor {
+        didSet {
+            if customTitleColor != oldValue {
+                setupColors()
+            }
+        }
+    }
+    /// Set `customSubtitleColor` in order to set the subtitle's text color when using the custom color theme
+    @objc open var customSubtitleColor: UIColor = Constants.defaultSubtitleColor {
+        didSet {
+            if customSubtitleColor != oldValue {
+                setupColors()
+            }
+        }
+    }
+    /// Set `customIconTintColor` in order to set the icon's tint color when using the custom color theme
+    @objc open var customIconTintColor: UIColor = Constants.defaultIconTintColor {
+        didSet {
+            if customIconTintColor != oldValue {
+                setupColors()
+            }
+        }
+    }
+    /// Set `customBorderColor` in order to set the border's color when using the custom color theme
+    @objc open var customBorderColor: UIColor = Constants.defaultBorderColor {
+        didSet {
+            if customBorderColor != oldValue {
+                setupColors()
             }
         }
     }
@@ -188,17 +229,23 @@ open class CardView: UIView {
      - Parameter subtitle: The subtitle of the card - optional
      - Parameter icon: The icon of the card - optional
      - Parameter image: The featured image of the card (small, medium, or announcement) - optional
-     - Parameter backgroundStyle: The Card's background style; appColor, neutral, or custom.
+     - Parameter colorTheme: The Card's color theme; appColor, neutral, or custom
      - Parameter buttonTitle: The button's title (announcement type only) - optional
      **/
-    @objc public init(style: CardStyle, title: String, subtitle: String? = nil, icon: UIImage? = nil, image: UIImage? = nil, backgroundStyle: CardBackgroundStyle, buttonTitle: String? = nil) {
+    @objc public init(style: CardStyle,
+                      title: String,
+                      subtitle: String? = nil,
+                      icon: UIImage? = nil,
+                      image: UIImage? = nil,
+                      colorTheme: CardColorTheme,
+                      buttonTitle: String? = nil) {
         self.primaryText = title
         self.style = style
         self.secondaryText = subtitle
         self.icon = icon
         self.image = image
         self.buttonTitle = buttonTitle
-        self.backgroundStyle = backgroundStyle
+        self.colorTheme = colorTheme
 
         super.init(frame: .zero)
 
@@ -213,11 +260,11 @@ open class CardView: UIView {
     private func configureSubviews() {
         translatesAutoresizingMaskIntoConstraints = false
 
-        // view border and background
-        layer.borderColor = Constants.borderColor.cgColor
+        // View border and background
         layer.borderWidth = Constants.borderWidth
         layer.cornerRadius = Constants.borderRadius
-        setupBackgroundColor()
+        layer.borderColor = Constants.defaultBorderColor.cgColor
+        backgroundColor = Constants.defaultBackgroundColor
 
         if style != .announcement {
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleCardTapped(_:)))
@@ -242,6 +289,7 @@ open class CardView: UIView {
         if let icon = icon {
             let iconView = UIImageView(image: icon)
             iconView.translatesAutoresizingMaskIntoConstraints = false
+            iconView.adjustsImageSizeForAccessibilityContentSizeCategory = true
             self.iconView = iconView
             addSubview(iconView)
         }
@@ -272,6 +320,8 @@ open class CardView: UIView {
     open override func layoutSubviews() {
         super.layoutSubviews()
 
+        setupColors()
+
         // Round the top corners to fit the image inside the card
         if let imageView = imageView {
             let roundTopCornersMask = CAShapeLayer()
@@ -282,41 +332,50 @@ open class CardView: UIView {
     }
 
     /// Set up the background color of the card and update the icon and text color if necessary
-    private func setupBackgroundColor() {
-        var color: UIColor = Constants.defualtBackgroundColor
-
-        switch backgroundStyle {
+    private func setupColors() {
+        switch colorTheme {
         case .appColor:
+            primaryLabel.textColor = UIColor(light: .black, dark: Colors.gray100)
+            secondaryLabel.textColor = UIColor(light: Colors.gray600, dark: Colors.gray400)
+            iconView?.tintColor = UIColor(light: Colors.gray600, dark: Colors.gray500)
             if let window = window {
-                color = Colors.primaryTint40(for: window)
-                primaryLabel.textColor = Colors.primaryShade20(for: window)
-                secondaryLabel.textColor = Colors.primaryShade20(for: window)
-                iconView?.tintColor = Colors.primaryShade20(for: window)
+                backgroundColor = UIColor(light: Colors.primaryTint40(for: window), dark: Colors.primaryTint30(for: window))
+                layer.borderColor = UIColor(light: Colors.primaryTint30(for: window), dark: .clear).cgColor
             }
         case .neutral:
-            color = Colors.Button.background // TODO: will be updated to the right value once I have the values from design
+            backgroundColor = Constants.defaultBackgroundColor
+            primaryLabel.textColor = Constants.defaultTitleColor
+            secondaryLabel.textColor = Constants.defaultSubtitleColor
+            iconView?.tintColor = Constants.defaultIconTintColor
+            layer.borderColor = Constants.defaultBorderColor.cgColor
         case .custom:
-            color = cardBackgroundColor
+            backgroundColor = customBackgroundColor
+            primaryLabel.textColor = customTitleColor
+            secondaryLabel.textColor = customSubtitleColor
+            iconView?.tintColor = customIconTintColor
+            layer.borderColor = customBorderColor.cgColor
         }
-
-        self.backgroundColor = color
     }
 
     private struct Constants {
-        static let defualtBackgroundColor: UIColor = Colors.surfacePrimary
+        static let defaultBackgroundColor = UIColor(light: .white, dark: Colors.gray900)
+        static let defaultBorderColor = UIColor(light: Colors.gray100, dark: .clear)
+        static let defaultTitleColor = UIColor(light: Colors.gray900, dark: Colors.gray100)
+        static let defaultSubtitleColor = UIColor(light: Colors.gray500, dark: Colors.gray400)
+        static let defaultIconTintColor = UIColor(light: Colors.gray400, dark: Colors.gray500)
         static let borderWidth: CGFloat = UIScreen.main.devicePixel
         static let borderRadius: CGFloat = 8.0
-        static let borderColor = UIColor(light: Colors.gray100, dark: .clear)
+        static let titleDefaultNumberOfLines: Int = 2
+        static let subtitleDefaultNumberOfLines: Int = 2
         static let horizontalCardPaddingTopBottom: CGFloat = 6.0
         static let verticalCardPaddingBottom: CGFloat = 8.0
         static let verticalCardPaddingTop: CGFloat = 10.0
         static let cardPaddingTrailing: CGFloat = 16.0
         static let xSmallPaddingLeading: CGFloat = 12.0
         static let cardPaddingLeading: CGFloat = 10.0
+        static let cardPaddingLeadingSmall: CGFloat = 8.0
         static let horizontalContentSpacing: CGFloat = 12.0
         static let verticalContentSpacing: CGFloat = 5.0
-        static let titleDefaultNumberOfLines: Int = 2
-        static let subtitleDefaultNumberOfLines: Int = 2
         static let smallContentSpacing: CGFloat = 2.0
         static let largeContentSpacing: CGFloat = 6.0
         static let largeHorizontalPadding: CGFloat = 16.0
@@ -332,18 +391,20 @@ open class CardView: UIView {
     private let primaryLabel: UILabel = {
         let primaryLabel = UILabel()
         primaryLabel.translatesAutoresizingMaskIntoConstraints = false
+        primaryLabel.adjustsFontForContentSizeCategory = true
         primaryLabel.font = TextStyle.subhead.font
         primaryLabel.textColor = Colors.textPrimary
-        primaryLabel.textAlignment = .left
+        primaryLabel.textAlignment = .natural
         return primaryLabel
     }()
 
     private let secondaryLabel: UILabel = {
         let secondaryLabel = UILabel()
         secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
+        secondaryLabel.adjustsFontForContentSizeCategory = true
         secondaryLabel.font = TextStyle.footnote.font
         secondaryLabel.textColor = Colors.textSecondary
-        secondaryLabel.textAlignment = .left
+        secondaryLabel.textAlignment = .natural
         return secondaryLabel
     }()
 
@@ -388,9 +449,8 @@ open class CardView: UIView {
                 layoutConstraints.append(contentsOf: [
                     iconView.widthAnchor.constraint(equalToConstant: style.iconSize.width),
                     iconView.heightAnchor.constraint(equalToConstant: style.iconSize.height),
-                    iconView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.cardPaddingLeading),
-                    iconView.topAnchor.constraint(equalTo: primaryLabel.bottomAnchor, constant: Constants.smallContentSpacing),
-                    iconView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -9.0),
+                    iconView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.cardPaddingLeadingSmall),
+                    iconView.centerYAnchor.constraint(equalTo: secondaryLabel.centerYAnchor),
                     secondaryLabel.leadingAnchor.constraint(equalTo: iconView.trailingAnchor, constant: Constants.smallContentSpacing)
                 ])
             }
@@ -495,6 +555,20 @@ open class CardView: UIView {
         }
 
         NSLayoutConstraint.activate(layoutConstraints)
+    }
+
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if let previousTraitCollection = previousTraitCollection {
+            if previousTraitCollection.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+                setupLayoutConstraints()
+            }
+            if #available(iOS 13, *) {
+             if previousTraitCollection.hasDifferentColorAppearance(comparedTo: traitCollection) {
+                    setupColors()
+                }
+            }
+        }
     }
 
     @objc private func handleCardTapped(_ recognizer: UITapGestureRecognizer) {
