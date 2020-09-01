@@ -1,0 +1,87 @@
+MessagingElementColor:
+  incomingMessageBackground: "#11100e"
+  outgoungMessageBackground: "#11100e"
+  inlineMessageBackground: "#11100e"
+
+AP_ContentChatCell:
+  bubbleColor: [incoming: $Color.gray.g01, outgoing: $EmphasisColor.primary.v900]
+  shouldRevealTimestamp: [incoming: true, outgoing: true]
+  decorationIconColor: $Color.white.normal
+  reactionForegroundColor: [incoming: $Color.white.normal, outgoing: $Color.white.normal]
+  authorLabelTextColorIncoming: [inside: $Color.gray.g06, outside: $Color.gray.g06]
+  authorLabelTextColorOutgoing: [inside: $Color.gray.g06, outside: $Color.gray.g06]
+  timestampTextColorIncoming: [normal: $Color.white.normal, whenOverlaid: $Color.black.normal, whenRevealed: $EmphasisColor.primary.v100]
+  timestampTextColorOutgoing: [normal: $Color.white.normal, whenOverlaid: $Color.black.normal, whenRevealed: $EmphasisColor.primary.v100]
+
+InlineChatCell extends ContentChatCell:
+  labelAlignment: Enum(TextAlignment.left)
+  labelColor: [normal: $Color.gray.g06, highlighted: $Color.gray.g06, disabled: $Color.gray.g04]
+  showIcon: true
+  iconSize: Enum(ViewSize.small)
+  defaultIcon: Icon(MSTeams)
+
+LocationChatCell extends ContentChatCell:
+  insets: [text: "Insets(8dp,0dp,4dp,0dp)", location: "Insets(8dp,8dp,8dp,8dp)"]
+  titleTextColor: [incoming: $Color.white.normal, outgoing: $Color.white.normal]
+  captionTextColor: [incoming: $Color.white.normal, outgoing: $Color.white.normal]
+
+ParticipantHeadsChatCell extends ContentChatCell:
+  layoutAlignment: [incoming: Enum(ViewAlignment.fill), outgoing: Enum(ViewAlignment.fill)]
+  primaryTextColor: $Color.white.normal
+  secondaryTextColor: $Color.white.normal
+  participantsInsets:
+    "vertical = regular and horizontal = regular": Insets(11dp,16dp,11dp,16dp)
+    "default": Insets(8dp,10dp,8dp,10dp)
+
+TextChatCell extends ContentChatCell:
+  textColorIncoming: [normal: $Color.white.normal, highlighted: $Color.white.normal, disabled: $Color.gray.g06]
+  textColorOutgoing: [normal: $Color.white.normal, highlighted: $Color.white.normal, disabled: $Color.white.normal]
+  typeDetectedAttributesTextColor: [incoming: $EmphasisColor.primary.v200, outgoing: $EmphasisColor.primary.v200]
+  textInsets:
+    "vertical = regular and horizontal = regular": Insets(11dp,16dp,11dp,16dp)
+    "default": Insets(8dp,10dp,8dp,10dp)
+
+AP_AttachmentsListView:
+  showsShadow: true
+
+AP_InputBar:
+  separatorLineHeight: 0.0dp
+  backgroundColor: $MessagingElementColor.outgoungMessageBackground
+
+AP_InputBarButtonShelf:
+  backgroundColor: $MessagingElementColor.outgoungMessageBackground
+  separatorLineHeight: 0.0dp
+
+AP_ReactionPickerView:
+  itemColor: $Color.black.normal
+
+AP_ReactionsListView:
+  shouldInheritBackgroundColor: true
+
+AP_TextComposerView:
+  backgroundColor: $MessagingElementColor.outgoungMessageBackground
+  separatorLineColor: $Color.gray.g02
+  borderWidth: 1.0dp
+  cornerRadius: 4.0dp
+  borderColor: $Color.white.overlay20
+  horizontalPadding: [normal: 5.0dp, whenPriority: 5.0dp]
+
+AP_TextView:
+  textColorPlaceholder: [normal: $Color.gray.g06, disabled: $Color.gray.g06]
+  lineFragmentPadding: 0.0dp
+  backgroundColor: $Color.gray.g01
+  horizontalPadding: 5.0dp
+  maximumNumberOfLines: 2
+  textColor: [normal: $Color.white.normal, highlighted: $Color.white.normal, disabled: $Color.gray.g06]
+  mentionAttributesTextColor: [normal: $Color.white.normal, highlighted: $Color.white.normal]
+  mentionAttributesBackgroundColor: [normal: $Color.gray.g03, highlighted: $Color.gray.g03]
+
+AP_TextViewController:
+  backgroundColor: $MessagingElementColor.incomingMessageBackground
+  actionLongTapOnContent: Enum(InteractionBehaviour.showContentOptionsPicker)
+  actionLongTapOnURL: Enum(InteractionBehaviour.showURLOptions)
+  actionTapOnReaction: Enum(InteractionBehaviour.showActionSheetReactionList)
+  actionTapOnURL: Enum(InteractionBehaviour.openURL)
+  actionTapOnDataDetected: Enum(InteractionBehaviour.showDataOptions)
+  actionTapOnMedia: Enum(InteractionBehaviour.openMedia)
+  actionTapOnReactionPicker: Enum(InteractionBehaviour.showActionSheetPicker)

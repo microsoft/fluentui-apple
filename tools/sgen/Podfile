@@ -1,0 +1,20 @@
+platform :osx, '10.11'
+use_frameworks!
+inhibit_all_warnings!
+
+target 'sgen' do
+  pod 'Commander', '~> 0.8'
+  pod 'PathKit', '~> 0.9.2'
+  pod 'xcodeproj', '~> 6.7.0'
+  pod 'Yaml', '~> 3.4.4'
+
+  target 'sgenTests' do
+    inherit! :complete
+  end
+end
+
+pre_install do |installer|
+  installer.analysis_result.specifications.each do |s|
+    s.swift_version = '4.2' unless s.swift_version
+  end
+end

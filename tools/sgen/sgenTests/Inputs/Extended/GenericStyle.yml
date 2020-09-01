@@ -1,0 +1,10 @@
+MessagingElementColor:
+  incomingMessageBackground: $Color.white.normal
+  outgoungMessageBackground: $Color.white.normal
+  inlineMessageBackground: $Color.white.normal
+
+MessagingEnums:
+  ScrollDirection: EnumDef(horizontal, vertical)
+
+CustomTextField extends S.TextField:
+  backgroundColor: $Color.black.normal

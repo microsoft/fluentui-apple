@@ -1,0 +1,75 @@
+AP_AlertController:
+  usesNative: false
+
+AP_Attachment:
+  progressBarColor: $EmphasisColor.primary.normal
+
+AP_BadgeView:
+  showsCountWhenCountOneAndIcon: true
+
+AP_Button:
+  contentEdgeInsets: [text: "Insets(0dp,20dp,0dp,20dp)", icon: "Insets(0dp,0dp,0dp,0dp)"]
+  marginImageText: 10dp
+  height: 32dp
+  width: [min: 96dp, max: 280dp]
+  cornerRadius: 4dp
+  circular: false
+  rounded: false
+  percentageBoundingBoxIcon: $Metric.percentageBoundingBoxIcon
+  font: $Typography.textStyles.subheadline
+
+CircularButton extends Button:
+  rounded: true
+  fixedAspectRatio: true
+  color: [normal: $Color.gray.g02, active: $Color.gray.g02, activeDisabled: $Color.gray.g02, hover: $Color.gray.g02, focus: $Color.gray.g02, disabled: $Color.gray.g06]
+  backgroundColor: [normal: $Color.white.normal, active: $Color.gray.g08, activeDisabled: $Color.gray.g08, hover: $Color.gray.g08, focus: $Color.gray.g08, disabled: $Color.gray.g08]
+  borderColor: [normal: $Color.gray.g02, active: $Color.gray.g02, activeDisabled: $Color.gray.g02, hover: $Color.gray.g02, focus: $Color.white.normal, disabled: $Color.transparent]
+  borderWidth: [normal: 1dp, active: 1dp, activeDisabled: 1dp, hover: 1dp, focus: 1dp, disabled: 1dp]
+
+  primaryColor: [normal: $Color.white.normal, active: $Color.white.normal, activeDisabled: $Color.white.normal, hover: $Color.white.normal, focus: $Color.white.normal, disabled: $Color.gray.g06]
+  primaryBackgroundColor: [normal: $Color.brand.normal, active: $Color.brand.b02, activeDisabled: $Color.brand.b02, hover: $Color.brand.b04, focus: $Color.brand.b02, disabled: $Color.gray.g08]
+  primaryBorderColor: [normal: $Color.transparent, active: $Color.transparent, activeDisabled: $Color.transparent, hover: $Color.transparent, focus: $Color.white.normal, disabled: $Color.transparent]
+  primaryBorderWidth: [normal: 0dp, active: 0dp, activeDisabled: 0dp, hover: 0dp, focus: 0dp, disabled: 0dp]
+
+  destructiveColor: [normal: $Color.white.normal, active: $Color.white.normal, activeDisabled: $Color.white.normal, hover: $Color.white.normal, focus: $Color.white.normal, disabled: $Color.gray.g06]
+  destructiveBackgroundColor: [normal: $Color.red.normal, active: $Color.red.dark, activeDisabled: $Color.red.dark, hover: $Color.red.dark, focus: $Color.red.dark, disabled: $Color.gray.g08]
+  destructiveBorderColor: [normal: $Color.transparent, active: $Color.transparent, activeDisabled: $Color.transparent, hover: $Color.transparent, focus: $Color.white.normal, disabled: $Color.transparent]
+  destructiveBorderWidth: [normal: 0dp, active: 0dp, activeDisabled: 0dp, hover: 0dp, focus: 0dp, disabled: 0dp]
+
+TextButton extends Button:
+  color: [normal: $Color.brand.normal, active: $Color.brand.b02, activeDisabled: $Color.gray.g04, hover: $Color.brand.b02, focus: $Color.brand.b02, disabled: $Color.gray.g04]
+  backgroundColor: [normal: $Color.transparent, active: $Color.transparent, activeDisabled: $Color.transparent, hover: $Color.transparent, focus: $Color.transparent, disabled: $Color.transparent]
+  borderColor: [normal: $Color.transparent, active: $Color.transparent, activeDisabled: $Color.transparent, hover: $Color.transparent, focus: $Color.transparent, disabled: $Color.transparent]
+
+  primaryColor: [normal: $Color.brand.normal, active: $Color.brand.b02, activeDisabled: $Color.gray.g04, hover: $Color.brand.b02, focus: $Color.brand.b02, disabled: $Color.gray.g04]
+  primaryBackgroundColor: [normal: $Color.transparent, active: $Color.transparent, activeDisabled: $Color.transparent, hover: $Color.transparent, focus: $Color.transparent, disabled: $Color.transparent]
+  primaryBorderColor: [normal: $Color.transparent, active: $Color.transparent, activeDisabled: $Color.transparent, hover: $Color.transparent, focus: $Color.transparent, disabled: $Color.transparent]
+  primaryBorderWidth: [normal: 0dp, active: 0dp, activeDisabled: 0dp, hover: 0dp, focus: 0dp, disabled: 0dp]
+
+  destructiveColor: [normal: $Color.red.normal, active: $Color.red.dark, activeDisabled: $Color.red.dark, hover: $Color.red.dark, focus: $Color.red.dark, disabled: $Color.gray.g06]
+  destructiveBackgroundColor: [normal: $Color.transparent, active: $Color.transparent, activeDisabled: $Color.transparent, hover: $Color.transparent, focus: $Color.transparent, disabled: $Color.transparent]
+  destructiveBorderColor: [normal: $Color.transparent, active: $Color.transparent, activeDisabled: $Color.transparent, hover: $Color.transparent, focus: $Color.transparent, disabled: $Color.transparent]
+  destructiveBorderWidth: [normal: 0dp, active: 0dp, activeDisabled: 0dp, hover: 0dp, focus: 0dp, disabled: 0dp]
+
+  borderWidth: [normal: 0dp, active: 0dp, activeDisabled: 0dp, hover: 0dp, focus: 0dp, disabled: 0dp]
+  cornerRadius: 0dp
+
+ActionSheetButton extends Button:
+  color: [normal: $Color.black.normal, active: $Color.gray.g04, activeDisabled: $Color.gray.g04, hover: $Color.black.overlay, focus: $Color.gray.g04, disabled: $Color.gray.g06]
+  backgroundColor: [normal: $Color.transparent, active: $Color.transparent, activeDisabled: $Color.transparent, hover: $Color.transparent, focus: $Color.transparent, disabled: $Color.transparent]
+  borderColor: [normal: $Color.transparent, active: $Color.transparent, activeDisabled: $Color.transparent, hover: $Color.transparent, focus: $Color.transparent, disabled: $Color.transparent]
+  borderWidth: [normal: 0dp, active: 0dp, activeDisabled: 0dp, hover: 0dp, focus: 0dp, disabled: 0dp]
+
+  primaryColor: [normal: $Color.black.normal, active: $Color.gray.g04, activeDisabled: $Color.gray.g04, hover: $Color.black.overlay, focus: $Color.gray.g04, disabled: $Color.gray.g06]
+  primaryBackgroundColor: [normal: $Color.transparent, active: $Color.transparent, activeDisabled: $Color.transparent, hover: $Color.transparent, focus: $Color.transparent, disabled: $Color.transparent]
+  primaryBorderColor: [normal: $Color.transparent, active: $Color.transparent, activeDisabled: $Color.transparent, hover: $Color.transparent, focus: $Color.transparent, disabled: $Color.transparent]
+  primaryBorderWidth: [normal: 0dp, active: 0dp, activeDisabled: 0dp, hover: 0dp, focus: 0dp, disabled: 0dp]
+
+  destructiveColor: [normal: $Color.red.normal, active: $Color.red.dark, activeDisabled: $Color.red.dark, hover: $Color.red.dark, focus: $Color.red.dark, disabled: $Color.gray.g06]
+  destructiveBackgroundColor: [normal: $Color.transparent, active: $Color.transparent, activeDisabled: $Color.transparent, hover: $Color.transparent, focus: $Color.transparent, disabled: $Color.transparent]
+  destructiveBorderColor: [normal: $Color.transparent, active: $Color.transparent, activeDisabled: $Color.transparent, hover: $Color.transparent, focus: $Color.transparent, disabled: $Color.transparent]
+  destructiveBorderWidth: [normal: 0dp, active: 0dp, activeDisabled: 0dp, hover: 0dp, focus: 0dp, disabled: 0dp]
+
+  cornerRadius: 0dp
+  contentAlignment: Enum(ViewAlignment.leading)
+  contentEdgeInsets: [text: "Insets(0dp,5dp,0dp,5dp)", icon: "Insets(0dp,0dp,0dp,0dp)"]

@@ -1,0 +1,37 @@
+PODS:
+  - AEXML (4.3.3)
+  - Commander (0.8.0)
+  - PathKit (0.9.2)
+  - SwiftShell (4.1.2)
+  - xcodeproj (6.7.0):
+    - AEXML (~> 4.3.3)
+    - PathKit (~> 0.9.2)
+    - SwiftShell (>= 4.0.0)
+  - Yaml (3.4.4)
+
+DEPENDENCIES:
+  - Commander (~> 0.8)
+  - PathKit (~> 0.9.2)
+  - xcodeproj (~> 6.7.0)
+  - Yaml (~> 3.4.4)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - AEXML
+    - Commander
+    - PathKit
+    - SwiftShell
+    - xcodeproj
+    - Yaml
+
+SPEC CHECKSUMS:
+  AEXML: 601f41fcaa7bda7605cad153b0f43db9ec006c0f
+  Commander: 6eda7635b133e239faa85bf75dcab88d6fd63aaa
+  PathKit: 273f59a38e3218eb95abd9f6a61730a8bcfd2f06
+  SwiftShell: ef02230ca8eba9afeb072ecf625a1690e8a6025c
+  xcodeproj: eae793317ce7f844b1ec073321be0887bb130572
+  Yaml: 52831fc1d9ac2db4ddf6d7562993457127256ca6
+
+PODFILE CHECKSUM: 14573bf141bbbef202bc86a4adbd65fe17fbb71c
+
+COCOAPODS: 1.6.1

@@ -1,0 +1,16 @@
+import:
+  name: Stardust
+  baseStylePath: ../Inputs/GenericStyle.yml
+  styles:
+    - LightStyle
+    - DarkStyle
+extendedName: App
+namespace: App
+generateBaseStyle: true
+baseStylePath: ../Inputs/Extended/GenericStyle.yml
+inputDir: ../Inputs/Extended/
+inputs:
+  - LightStyle.yml
+  - DarkStyle.yml
+output:
+  path: ../Output/

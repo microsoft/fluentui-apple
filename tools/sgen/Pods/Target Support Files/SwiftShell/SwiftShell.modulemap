@@ -1,0 +1,6 @@
+framework module SwiftShell {
+  umbrella header "SwiftShell-umbrella.h"
+
+  export *
+  module * { export * }
+}

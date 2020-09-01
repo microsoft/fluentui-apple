@@ -1,0 +1,9 @@
+Theme:
+  generic: true
+
+AP_Button:
+  borderWidth: [normal: 1dp]
+
+TextButton extends Button:
+  borderWidth: [normal: 0dp]
+  color: [normal: 10dp]

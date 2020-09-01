@@ -1,0 +1,21 @@
+inputDir: ../Inputs/
+objc: true
+baseStylePath: ../Inputs/GenericStyle.yml
+generateBaseStyle: true
+inputs:
+  - LightStyle.yml
+symbolsFont:
+  inputDir: ../Resources/
+  inputs:
+    - TeamsAssetsUNI-Light.ttf
+  output:
+    link:
+      project: ../../../Stardust/Stardust.xcodeproj
+      target: Stardust
+      group: Resources/Fonts
+    plist: ../../../Stardust/Playground/StardustPlayground/StardustPlayground/Info.plist
+    folderFontForPlist: Frameworks/Stardust.framework/
+  names:
+    - GenericStyle: { light: StardustAssetsUNI-Light, regular: StardustAssetsUNI-Light }
+output:
+  path: ../Output/

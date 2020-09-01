@@ -1,0 +1,61 @@
+MessagingElementColor:
+  incomingMessageBackground: $Color.gray.g08
+  outgoungMessageBackground: $Color.gray.g08
+  inlineMessageBackground: $Color.gray.g08
+
+AP_ContentChatCell:
+  bubbleColor: [incoming: $Color.white.normal, outgoing: $Color.brand.b04]
+  shouldRevealTimestamp: [incoming: true, outgoing: true]
+
+InlineChatCell extends ContentChatCell:
+  labelAlignment: Enum(TextAlignment.left)
+  labelColor: [normal: $Color.gray.g03, highlighted: $Color.gray.g03, disabled: $Color.gray.g04]
+  showIcon: true
+  iconSize: Enum(ViewSize.small)
+  defaultIcon: Icon(MSTeams)
+
+LocationChatCell extends ContentChatCell:
+  insets: [text: "Insets(8dp,0dp,4dp,0dp)", location: "Insets(8dp,8dp,8dp,8dp)"]
+  titleTextColor: [incoming: $Color.black.normal, outgoing: $Color.white.normal]
+  captionTextColor: [incoming: $Color.black.normal, outgoing: $Color.white.normal]
+
+ParticipantHeadsChatCell extends ContentChatCell:
+  layoutAlignment: [incoming: Enum(ViewAlignment.fill), outgoing: Enum(ViewAlignment.fill)]
+  participantsInsets:
+    "vertical = regular and horizontal = regular": Insets(11dp,16dp,11dp,16dp)
+    "default": Insets(8dp,10dp,8dp,10dp)
+
+TextChatCell extends ContentChatCell:
+  typeDetectedAttributesTextColor: [incoming: $Color.brand.normal, outgoing: $EmphasisColor.primary.v50]
+  textInsets:
+    "vertical = regular and horizontal = regular": Insets(11dp,16dp,11dp,16dp)
+    "default": Insets(8dp,10dp,8dp,10dp)
+
+AP_InputBar:
+  backgroundColor: $Color.gray.g08
+  separatorLineHeight: 0.0dp
+
+AP_InputBarButtonShelf:
+  backgroundColor: $Color.gray.g08
+
+AP_ReactionsListView:
+  shouldInheritBackgroundColor: true
+
+AP_TextComposerView:
+  borderWidth: 1.0dp
+  cornerRadius: 4.0dp
+  borderColor: $Color.gray.g08
+  horizontalPadding: [normal: 5dp, whenPriority: 5dp]
+
+AP_TextView:
+  horizontalPadding: 5dp
+  
+AP_TextViewController:
+  backgroundColor: $Color.gray.g08
+  actionLongTapOnContent: Enum(InteractionBehaviour.showContentOptionsPicker)
+  actionLongTapOnURL: Enum(InteractionBehaviour.showURLOptions)
+  actionTapOnReaction: Enum(InteractionBehaviour.showActionSheetReactionList)
+  actionTapOnURL: Enum(InteractionBehaviour.openURL)
+  actionTapOnDataDetected: Enum(InteractionBehaviour.showDataOptions)
+  actionTapOnMedia: Enum(InteractionBehaviour.openMedia)
+  actionTapOnReactionPicker: Enum(InteractionBehaviour.showActionSheetPicker)

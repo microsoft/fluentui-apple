@@ -1,0 +1,6 @@
+framework module Pods_sgen_sgenTests {
+  umbrella header "Pods-sgen-sgenTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
