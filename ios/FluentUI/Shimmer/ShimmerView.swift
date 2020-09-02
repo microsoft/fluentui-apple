@@ -15,11 +15,11 @@ open class ShimmerView: UIView {
     @available(*, deprecated, message: "Use individual properties instead")
     @objc open var shimmerAppearance = ShimmerAppearance() {
         didSet {
-			self.shimmerAlpha = shimmerAppearance.alpha
-			self.shimmerWidth = shimmerAppearance.width
-			self.shimmerAngle = shimmerAppearance.angle
-			self.shimmerSpeed = shimmerAppearance.speed
-			self.shimmerDelay = shimmerAppearance.delay
+			shimmerAlpha = shimmerAppearance.alpha
+			shimmerWidth = shimmerAppearance.width
+			shimmerAngle = shimmerAppearance.angle
+			shimmerSpeed = shimmerAppearance.speed
+			shimmerDelay = shimmerAppearance.delay
 
 			setNeedsLayout()
 		}
@@ -63,11 +63,11 @@ open class ShimmerView: UIView {
 	@available(*, deprecated, message: "Use individual properties instead")
 	@objc open var appearance = ShimmerViewAppearance() {
 		didSet {
-			self.viewTintColor = appearance.tintColor
-			self.cornerRadius = appearance.cornerRadius
-			self.labelCornerRadius = appearance.labelCornerRadius
-			self.usesTextHeightForLabels = appearance.usesTextHeightForLabels
-			self.labelHeight = appearance.labelHeight
+			viewTintColor = appearance.tintColor
+			cornerRadius = appearance.cornerRadius
+			labelCornerRadius = appearance.labelCornerRadius
+			usesTextHeightForLabels = appearance.usesTextHeightForLabels
+			labelHeight = appearance.labelHeight
 
 			setNeedsLayout()
 		}
