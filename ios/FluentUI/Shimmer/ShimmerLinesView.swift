@@ -5,7 +5,7 @@
 
 import UIKit
 
-@available(*, deprecated, renamed: "ShimmerLinesView", message: "Use individual properties instead")
+@available(*, deprecated, renamed: "ShimmerLinesView")
 public typealias MSShimmerLinesView = ShimmerLinesView
 
 /**
