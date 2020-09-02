@@ -5,7 +5,7 @@
 
 import UIKit
 
-@available(*, deprecated, renamed: "ShimmerView")
+@available(*, deprecated, renamed: "ShimmerView", message: "Use individual properties instead")
 public typealias MSShimmerView = ShimmerView
 
 /// View that converts the subviews of a container view into a loading state with the "shimmering" effect
