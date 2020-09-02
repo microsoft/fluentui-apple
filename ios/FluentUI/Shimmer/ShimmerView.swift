@@ -11,19 +11,103 @@ public typealias MSShimmerView = ShimmerView
 /// View that converts the subviews of a container view into a loading state with the "shimmering" effect
 @objc(MSFShimmerView)
 open class ShimmerView: UIView {
-    /// Appearance of the shimmer itself (the animation appearance)
+
+    @available(*, deprecated, message: "Use individual properties instead")
     @objc open var shimmerAppearance = ShimmerAppearance() {
         didSet {
-            setNeedsLayout()
-        }
-    }
+			self.shimmerAlpha = shimmerAppearance.alpha
+			self.shimmerWidth = shimmerAppearance.width
+			self.shimmerAngle = shimmerAppearance.angle
+			self.shimmerSpeed = shimmerAppearance.speed
+			self.shimmerDelay = shimmerAppearance.delay
 
-    /// Properties related to the apperance of the shimmer view itself
-    @objc open var appearance = ShimmerViewAppearance() {
-        didSet {
-            setNeedsLayout()
-        }
-    }
+			setNeedsLayout()
+		}
+	}
+
+	/// The alpha value of the center of the gradient in the animation
+	@objc open var shimmerAlpha: CGFloat = 0.4 {
+		didSet {
+			setNeedsLayout()
+		}
+	}
+
+	/// the wirth of the gradient in the animation
+	@objc open var shimmerWidth: CGFloat = 180 {
+		didSet {
+			setNeedsLayout()
+		}
+	}
+
+	/// Angle of the direction of the gradient, in radian. 0 means horizontal, Pi/2 means vertical.
+	@objc open var shimmerAngle: CGFloat = -(CGFloat.pi / 45.0) {
+		didSet {
+			setNeedsLayout()
+		}
+	}
+
+	/// Speed of the animation, in point/seconds.
+	@objc open var shimmerSpeed: CGFloat = 350 {
+		didSet {
+			setNeedsLayout()
+		}
+	}
+
+	/// Delay between the end of a shimmering animation and the beginning of the next one.
+	@objc open var shimmerDelay: TimeInterval = 0.4 {
+		didSet {
+			setNeedsLayout()
+		}
+	}
+
+	@available(*, deprecated, message: "Use individual properties instead")
+	@objc open var appearance = ShimmerViewAppearance() {
+		didSet {
+			self.viewTintColor = appearance.tintColor
+			self.cornerRadius = appearance.cornerRadius
+			self.labelCornerRadius = appearance.labelCornerRadius
+			self.usesTextHeightForLabels = appearance.usesTextHeightForLabels
+			self.labelHeight = appearance.labelHeight
+
+			setNeedsLayout()
+		}
+	}
+
+	/// Tint color of the view.
+	@objc open var viewTintColor: UIColor = Colors.Shimmer.tint {
+		didSet {
+			setNeedsLayout()
+		}
+	}
+
+	/// Corner radius on each view.
+	@objc open var cornerRadius: CGFloat = 4.0 {
+		didSet {
+			setNeedsLayout()
+		}
+	}
+
+	/// Corner radius on each UILabel. Set to  0 to disable and use default `cornerRadius`.
+	@objc open var labelCornerRadius: CGFloat = 2.0 {
+		didSet {
+			setNeedsLayout()
+		}
+	}
+
+	/// True to enable shimmers to auto-adjust to font height for a UILabel -- this will more accurately reflect the text in the label rect rather than using the bounding box.
+	/// `labelHeight` will take precendence over this property.
+	@objc open var usesTextHeightForLabels: Bool = false {
+		didSet {
+			setNeedsLayout()
+		}
+	}
+
+	/// If greater than 0, a fixed height to use for all UILabels. This will take precedence over `usesTextHeightForLabels`. Set to less than 0 to disable.
+	@objc open var labelHeight: CGFloat = 11 {
+		didSet {
+			setNeedsLayout()
+		}
+	}
 
     /// Optional synchronizer to sync multiple shimmer views
     @objc open weak var animationSynchronizer: AnimationSynchronizerProtocol?
@@ -92,24 +176,24 @@ open class ShimmerView: UIView {
         viewCoverLayers = subviews.filter({ !$0.isHidden && !($0 is ShimmerView) }).map { subview in
             let coverLayer = CALayer()
 
-            let shouldApplyLabelCornerRadius = subview is UILabel && appearance.labelCornerRadius >= 0
-            coverLayer.cornerRadius = shouldApplyLabelCornerRadius ? appearance.labelCornerRadius : appearance.cornerRadius
-            coverLayer.backgroundColor = appearance.tintColor.cgColor
+            let shouldApplyLabelCornerRadius = subview is UILabel && labelCornerRadius >= 0
+            coverLayer.cornerRadius = shouldApplyLabelCornerRadius ? labelCornerRadius : cornerRadius
+            coverLayer.backgroundColor = viewTintColor.cgColor
 
             var coverFrame = subview.frame
             if let label = subview as? UILabel {
-                let labelHeight: CGFloat? = {
-                    if appearance.labelHeight >= 0 {
-                        return appearance.labelHeight
-                    } else if appearance.usesTextHeightForLabels {
+                let viewLabelHeight: CGFloat? = {
+                    if labelHeight >= 0 {
+                        return labelHeight
+                    } else if usesTextHeightForLabels {
                         return label.font.deviceLineHeight
                     }
                     return nil
                 }()
 
-                if let labelHeight = labelHeight {
-                    let delta = coverFrame.height - labelHeight
-                    coverFrame.size.height = labelHeight
+                if let viewLabelHeight = viewLabelHeight {
+                    let delta = coverFrame.height - viewLabelHeight
+                    coverFrame.size.height = viewLabelHeight
                     coverFrame.origin.y += delta / 2
                 }
             }
@@ -123,14 +207,14 @@ open class ShimmerView: UIView {
 
     /// Update the gradient layer that animates to provide the shimmer effect (also updates the animation)
     func updateShimmeringLayer() {
-        let light = UIColor.white.withAlphaComponent(shimmerAppearance.alpha).cgColor
+        let light = UIColor.white.withAlphaComponent(shimmerAlpha).cgColor
         let dark = UIColor.black.cgColor
         let isRTL = effectiveUserInterfaceLayoutDirection == .rightToLeft
 
         shimmeringLayer.colors = [dark, light, dark]
 
         let startPoint = CGPoint(x: 0.0, y: 0.5)
-        let endPoint = CGPoint(x: 1.0, y: 0.5 - tan(shimmerAppearance.angle * (isRTL ? -1 : 1)))
+        let endPoint = CGPoint(x: 1.0, y: 0.5 - tan(shimmerAngle * (isRTL ? -1 : 1)))
         if isRTL {
             shimmeringLayer.startPoint = endPoint
             shimmeringLayer.endPoint = startPoint
@@ -139,7 +223,7 @@ open class ShimmerView: UIView {
             shimmeringLayer.endPoint = endPoint
         }
 
-        let widthPercentage = Float(shimmerAppearance.width / shimmeringLayer.frame.width)
+        let widthPercentage = Float(shimmerWidth / shimmeringLayer.frame.width)
         let locationStart = NSNumber(value: 0.5 - widthPercentage / 2)
         let locationMiddle = NSNumber(value: 0.5)
         let locationEnd = NSNumber(value: 0.5 + widthPercentage / 2)
@@ -162,7 +246,7 @@ open class ShimmerView: UIView {
 
         let animation = CABasicAnimation(keyPath: "locations")
 
-        let widthPercentage = Float(shimmerAppearance.width / shimmeringLayer.frame.width)
+        let widthPercentage = Float(shimmerWidth / shimmeringLayer.frame.width)
 
         let fromLocationStart = NSNumber(value: 0.0)
         let fromLocationMiddle = NSNumber(value: widthPercentage / 2.0)
@@ -176,14 +260,14 @@ open class ShimmerView: UIView {
         animation.fromValue = [fromLocationStart, fromLocationMiddle, fromLocationEnd]
         animation.toValue = [toLocationStart, toLocationMiddle, toLocationEnd]
 
-        let distance = (frame.width + shimmerAppearance.width) / cos(shimmerAppearance.angle)
-        animation.duration = CFTimeInterval(distance / shimmerAppearance.speed)
+        let distance = (frame.width + shimmerWidth) / cos(shimmerAngle)
+        animation.duration = CFTimeInterval(distance / shimmerSpeed)
         animation.fillMode = .forwards
 
         // Add animation (use a group to add a delay between animations)
         let animationGroup = CAAnimationGroup()
         animationGroup.animations = [animation]
-        animationGroup.duration = animation.duration + shimmerAppearance.delay
+        animationGroup.duration = animation.duration + shimmerDelay
         animationGroup.repeatCount = .infinity
         animationGroup.timeOffset = animationSynchronizer?.timeOffset(for: shimmeringLayer) ?? 0
         shimmeringLayer.add(animationGroup, forKey: "shimmering")

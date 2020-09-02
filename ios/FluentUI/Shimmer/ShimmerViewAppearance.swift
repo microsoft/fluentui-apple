@@ -18,6 +18,7 @@ public extension Colors {
 @available(*, deprecated, renamed: "ShimmerViewAppearance")
 public typealias MSShimmerViewAppearance = ShimmerViewAppearance
 
+@available(*, deprecated, message: "Use individual properties on ShimmerView instead")
 @objc(MSFShimmerViewAppearence)
 public class ShimmerViewAppearance: NSObject {
     @objc public let tintColor: UIColor

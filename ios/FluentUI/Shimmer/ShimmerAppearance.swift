@@ -11,6 +11,8 @@ public typealias MSShimmerAppearance = ShimmerAppearance
 /**
  Object describing how a shimmer should look and function.
  */
+
+@available(*, deprecated, message: "Use individual properties on ShimmerView instead")
 @objc(MSFShimmerAppearance)
 public class ShimmerAppearance: NSObject {
     @objc public let alpha: CGFloat
