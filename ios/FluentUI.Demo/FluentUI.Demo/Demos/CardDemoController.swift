@@ -44,7 +44,7 @@ class CardDemoController: DemoController {
                 let cardWithSubtitle = CardView(style: style, title: "Title", subtitle: "Subtitle", icon: demoIcon, colorTheme: .appColor)
                 cardWithSubtitle.customBackgroundColor = Colors.Button.background
                 cardWithSubtitle.delegate = self
-                // Card with a custom background color without setting customBackgroundColor so the defualt background color is used
+                // Card with a custom background color without setting customBackgroundColor so the default background color is used
                 let cardWithLongText = CardView(style: style, title: "Title that is very very very very long", subtitle: "Subtitle that is very very very very long", icon: demoIcon, colorTheme: .custom)
                 cardWithLongText.delegate = self
 

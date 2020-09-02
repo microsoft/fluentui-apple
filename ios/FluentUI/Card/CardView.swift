@@ -65,7 +65,7 @@ public enum CardStyle: Int, CaseIterable {
         }
     }
 
-    var cardMinWidth: CGFloat {
+    var cardDefaultWidth: CGFloat {
         switch self {
         case .medium:
             return 228
@@ -98,14 +98,6 @@ public enum CardStyle: Int, CaseIterable {
 open class CardView: UIView {
     /// Delegate to handle user interaction with the CardView
     @objc public weak var delegate: CardDelegate?
-    /// The style of the card. Style determines the content views and their relative layout. Setting the `style` will reload the layout constraints
-    @objc open var style: CardStyle = .medium {
-        didSet {
-            if style != oldValue {
-                configureSubviews()
-            }
-        }
-    }
     /// The card's featured image. The image appears at the top of the card
     @objc open var image: UIImage? {
         didSet {
@@ -154,7 +146,7 @@ open class CardView: UIView {
             }
         }
     }
-    /// The color theme determines the border color, background color, icon tint color, and text color. When using the custom theme, set custom properties to override the defualt color values
+    /// The color theme determines the border color, background color, icon tint color, and text color. When using the custom theme, set custom properties to override the default color values
     @objc open var colorTheme: CardColorTheme = .neutral {
         didSet {
             if colorTheme != oldValue {
@@ -220,6 +212,51 @@ open class CardView: UIView {
             }
         }
     }
+    /// Set `customXSmallVerticalWidth` in order to set the width of an xSmallVertical card
+    @objc open var customXSmallVerticalWidth: CGFloat = Constants.defaultXSmallVerticalWidth{
+        didSet {
+            if customXSmallVerticalWidth != oldValue && style == .xSmallVertical {
+                setupLayoutConstraints()
+            }
+        }
+    }
+    /// Set `customXSmallHorizontalWidth` in order to set the width of an xSmallHorizontal card
+    @objc open var customXSmallHorizontalWidth: CGFloat = Constants.defaultXSmallHorizontalWidth {
+        didSet {
+            if customXSmallHorizontalWidth != oldValue && style == .xSmallHorizontal {
+                setupLayoutConstraints()
+            }
+        }
+    }
+
+    /// The style of the card. Style determines the content views and their relative layout. Setting the `style` will reload the layout constraints
+    private var style: CardStyle = .xSmallVertical
+
+    private var iconView: UIImageView?
+
+    private var button: UIButton?
+
+    private var imageView: UIImageView?
+
+    private let primaryLabel: UILabel = {
+        let primaryLabel = UILabel()
+        primaryLabel.translatesAutoresizingMaskIntoConstraints = false
+        primaryLabel.adjustsFontForContentSizeCategory = true
+        primaryLabel.font = TextStyle.subhead.font
+        primaryLabel.textColor = Colors.textPrimary
+        primaryLabel.textAlignment = .natural
+        return primaryLabel
+    }()
+
+    private let secondaryLabel: UILabel = {
+        let secondaryLabel = UILabel()
+        secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
+        secondaryLabel.adjustsFontForContentSizeCategory = true
+        secondaryLabel.font = TextStyle.footnote.font
+        secondaryLabel.textColor = Colors.textSecondary
+        secondaryLabel.textAlignment = .natural
+        return secondaryLabel
+    }()
 
     /**
      Initializes `CardView`
@@ -255,6 +292,100 @@ open class CardView: UIView {
     @available(*, unavailable)
     @objc public required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
+    }
+
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+        setupColors()
+    }
+
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+
+        // Round the top corners to fit the image inside the card
+        if let imageView = imageView {
+            let roundTopCornersMask = CAShapeLayer()
+            roundTopCornersMask.path = UIBezierPath(roundedRect: imageView.frame, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: Constants.borderRadius, height: Constants.borderRadius)).cgPath
+            imageView.layer.mask = roundTopCornersMask
+            imageView.layer.masksToBounds = true
+        }
+    }
+
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if let previousTraitCollection = previousTraitCollection {
+            if previousTraitCollection.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+                setupLayoutConstraints()
+            }
+            if #available(iOS 13, *) {
+                if previousTraitCollection.hasDifferentColorAppearance(comparedTo: traitCollection) {
+                    // Update border color
+                    switch colorTheme {
+                    case .appColor:
+                        if let window = window {
+                            layer.borderColor = UIColor(light: Colors.primaryTint30(for: window), dark: .clear).cgColor
+                        }
+                    case .neutral:
+                        layer.borderColor = Constants.defaultBorderColor.cgColor
+                    case .custom:
+                        layer.borderColor = customBorderColor.cgColor
+                    }
+                }
+            }
+        }
+    }
+
+    /// Set up the background color of the card and update the icon and text color if necessary
+    private func setupColors() {
+        switch colorTheme {
+        case .appColor:
+            primaryLabel.textColor = UIColor(light: .black, dark: Colors.gray100)
+            secondaryLabel.textColor = UIColor(light: Colors.gray600, dark: Colors.gray400)
+            iconView?.tintColor = UIColor(light: Colors.gray600, dark: Colors.gray500)
+            if let window = window {
+                backgroundColor = UIColor(light: Colors.primaryTint40(for: window), dark: Colors.primaryTint30(for: window))
+                layer.borderColor = UIColor(light: Colors.primaryTint30(for: window), dark: .clear).cgColor
+            }
+        case .neutral:
+            backgroundColor = Constants.defaultBackgroundColor
+            primaryLabel.textColor = Constants.defaultTitleColor
+            secondaryLabel.textColor = Constants.defaultSubtitleColor
+            iconView?.tintColor = Constants.defaultIconTintColor
+            layer.borderColor = Constants.defaultBorderColor.cgColor
+        case .custom:
+            backgroundColor = customBackgroundColor
+            primaryLabel.textColor = customTitleColor
+            secondaryLabel.textColor = customSubtitleColor
+            iconView?.tintColor = customIconTintColor
+            layer.borderColor = customBorderColor.cgColor
+        }
+    }
+
+    private struct Constants {
+        static let defaultBackgroundColor = UIColor(light: .white, dark: Colors.gray900)
+        static let defaultBorderColor = UIColor(light: Colors.gray100, dark: .clear)
+        static let defaultTitleColor = UIColor(light: Colors.gray900, dark: Colors.gray100)
+        static let defaultSubtitleColor = UIColor(light: Colors.gray500, dark: Colors.gray400)
+        static let defaultIconTintColor = UIColor(light: Colors.gray400, dark: Colors.gray500)
+        static let defaultXSmallHorizontalWidth: CGFloat = 156
+        static let defaultXSmallVerticalWidth: CGFloat = 120
+        static let borderWidth: CGFloat = UIScreen.main.devicePixel
+        static let borderRadius: CGFloat = 8.0
+        static let titleDefaultNumberOfLines: Int = 2
+        static let subtitleDefaultNumberOfLines: Int = 2
+        static let horizontalCardPaddingTopBottom: CGFloat = 6.0
+        static let verticalCardPaddingBottom: CGFloat = 8.0
+        static let verticalCardPaddingTop: CGFloat = 10.0
+        static let cardPaddingTrailing: CGFloat = 16.0
+        static let xSmallPaddingLeading: CGFloat = 12.0
+        static let cardPaddingLeading: CGFloat = 10.0
+        static let cardPaddingLeadingSmall: CGFloat = 8.0
+        static let horizontalContentSpacing: CGFloat = 12.0
+        static let verticalContentSpacing: CGFloat = 5.0
+        static let smallContentSpacing: CGFloat = 2.0
+        static let largeContentSpacing: CGFloat = 6.0
+        static let largeHorizontalPadding: CGFloat = 16.0
+        static let largeVerticalPadding: CGFloat = 14.0
     }
 
     private func configureSubviews() {
@@ -317,97 +448,6 @@ open class CardView: UIView {
         setupLayoutConstraints()
     }
 
-    open override func layoutSubviews() {
-        super.layoutSubviews()
-
-        setupColors()
-
-        // Round the top corners to fit the image inside the card
-        if let imageView = imageView {
-            let roundTopCornersMask = CAShapeLayer()
-            roundTopCornersMask.path = UIBezierPath(roundedRect: imageView.frame, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: Constants.borderRadius, height: Constants.borderRadius)).cgPath
-            imageView.layer.mask = roundTopCornersMask
-            imageView.layer.masksToBounds = true
-        }
-    }
-
-    /// Set up the background color of the card and update the icon and text color if necessary
-    private func setupColors() {
-        switch colorTheme {
-        case .appColor:
-            primaryLabel.textColor = UIColor(light: .black, dark: Colors.gray100)
-            secondaryLabel.textColor = UIColor(light: Colors.gray600, dark: Colors.gray400)
-            iconView?.tintColor = UIColor(light: Colors.gray600, dark: Colors.gray500)
-            if let window = window {
-                backgroundColor = UIColor(light: Colors.primaryTint40(for: window), dark: Colors.primaryTint30(for: window))
-                layer.borderColor = UIColor(light: Colors.primaryTint30(for: window), dark: .clear).cgColor
-            }
-        case .neutral:
-            backgroundColor = Constants.defaultBackgroundColor
-            primaryLabel.textColor = Constants.defaultTitleColor
-            secondaryLabel.textColor = Constants.defaultSubtitleColor
-            iconView?.tintColor = Constants.defaultIconTintColor
-            layer.borderColor = Constants.defaultBorderColor.cgColor
-        case .custom:
-            backgroundColor = customBackgroundColor
-            primaryLabel.textColor = customTitleColor
-            secondaryLabel.textColor = customSubtitleColor
-            iconView?.tintColor = customIconTintColor
-            layer.borderColor = customBorderColor.cgColor
-        }
-    }
-
-    private struct Constants {
-        static let defaultBackgroundColor = UIColor(light: .white, dark: Colors.gray900)
-        static let defaultBorderColor = UIColor(light: Colors.gray100, dark: .clear)
-        static let defaultTitleColor = UIColor(light: Colors.gray900, dark: Colors.gray100)
-        static let defaultSubtitleColor = UIColor(light: Colors.gray500, dark: Colors.gray400)
-        static let defaultIconTintColor = UIColor(light: Colors.gray400, dark: Colors.gray500)
-        static let borderWidth: CGFloat = UIScreen.main.devicePixel
-        static let borderRadius: CGFloat = 8.0
-        static let titleDefaultNumberOfLines: Int = 2
-        static let subtitleDefaultNumberOfLines: Int = 2
-        static let horizontalCardPaddingTopBottom: CGFloat = 6.0
-        static let verticalCardPaddingBottom: CGFloat = 8.0
-        static let verticalCardPaddingTop: CGFloat = 10.0
-        static let cardPaddingTrailing: CGFloat = 16.0
-        static let xSmallPaddingLeading: CGFloat = 12.0
-        static let cardPaddingLeading: CGFloat = 10.0
-        static let cardPaddingLeadingSmall: CGFloat = 8.0
-        static let horizontalContentSpacing: CGFloat = 12.0
-        static let verticalContentSpacing: CGFloat = 5.0
-        static let smallContentSpacing: CGFloat = 2.0
-        static let largeContentSpacing: CGFloat = 6.0
-        static let largeHorizontalPadding: CGFloat = 16.0
-        static let largeVerticalPadding: CGFloat = 14.0
-    }
-
-    private var iconView: UIImageView?
-
-    private var button: UIButton?
-
-    private var imageView: UIImageView?
-
-    private let primaryLabel: UILabel = {
-        let primaryLabel = UILabel()
-        primaryLabel.translatesAutoresizingMaskIntoConstraints = false
-        primaryLabel.adjustsFontForContentSizeCategory = true
-        primaryLabel.font = TextStyle.subhead.font
-        primaryLabel.textColor = Colors.textPrimary
-        primaryLabel.textAlignment = .natural
-        return primaryLabel
-    }()
-
-    private let secondaryLabel: UILabel = {
-        let secondaryLabel = UILabel()
-        secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
-        secondaryLabel.adjustsFontForContentSizeCategory = true
-        secondaryLabel.font = TextStyle.footnote.font
-        secondaryLabel.textColor = Colors.textSecondary
-        secondaryLabel.textAlignment = .natural
-        return secondaryLabel
-    }()
-
     private var layoutConstraints: [NSLayoutConstraint] = []
 
     private func setupLayoutConstraints() {
@@ -417,7 +457,7 @@ open class CardView: UIView {
         }
 
         let titleHeight = primaryLabel.intrinsicContentSize.height
-        let subtitleHeight = secondaryText != nil ? secondaryLabel.intrinsicContentSize.height : 0
+        let subtitleHeight = secondaryText != nil ? secondaryLabel.intrinsicContentSize.height : 0.0
         var height: CGFloat = titleHeight + subtitleHeight
 
         switch style {
@@ -426,8 +466,8 @@ open class CardView: UIView {
             height += (style.imageHeight + Constants.verticalContentSpacing + Constants.verticalCardPaddingBottom)
 
             layoutConstraints.append(contentsOf: [
-                heightAnchor.constraint(greaterThanOrEqualToConstant: height),
-                widthAnchor.constraint(greaterThanOrEqualToConstant: style.cardMinWidth),
+                heightAnchor.constraint(equalToConstant: height),
+                widthAnchor.constraint(equalToConstant: style.cardDefaultWidth),
                 primaryLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.cardPaddingLeading),
                 primaryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.cardPaddingTrailing),
                 secondaryLabel.topAnchor.constraint(equalTo: primaryLabel.bottomAnchor),
@@ -440,7 +480,7 @@ open class CardView: UIView {
                     imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
                     imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
                     imageView.topAnchor.constraint(equalTo: topAnchor),
-                    imageView.heightAnchor.constraint(greaterThanOrEqualToConstant: style.imageHeight),
+                    imageView.heightAnchor.constraint(equalToConstant: style.imageHeight),
                     primaryLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: Constants.verticalContentSpacing)
                 ])
             }
@@ -459,8 +499,8 @@ open class CardView: UIView {
             height += (2 * Constants.horizontalCardPaddingTopBottom)
 
             layoutConstraints.append(contentsOf: [
-                widthAnchor.constraint(greaterThanOrEqualToConstant: style.cardMinWidth),
-                heightAnchor.constraint(greaterThanOrEqualToConstant: height),
+                widthAnchor.constraint(equalToConstant: customXSmallHorizontalWidth),
+                heightAnchor.constraint(equalToConstant: height),
                 primaryLabel.topAnchor.constraint(equalTo: topAnchor, constant: Constants.horizontalCardPaddingTopBottom),
                 primaryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.cardPaddingTrailing)
             ])
@@ -482,6 +522,7 @@ open class CardView: UIView {
                 layoutConstraints.append(contentsOf: [
                     primaryLabel.bottomAnchor.constraint(equalTo: secondaryLabel.topAnchor),
                     secondaryLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constants.horizontalCardPaddingTopBottom),
+                    secondaryLabel.heightAnchor.constraint(equalToConstant: subtitleHeight),
                     secondaryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.cardPaddingTrailing)
                 ])
             } else {
@@ -494,8 +535,8 @@ open class CardView: UIView {
             height += (Constants.verticalCardPaddingTop + style.iconSize.height + Constants.verticalContentSpacing + Constants.verticalCardPaddingBottom)
 
             layoutConstraints.append(contentsOf: [
-                widthAnchor.constraint(greaterThanOrEqualToConstant: style.cardMinWidth),
-                heightAnchor.constraint(greaterThanOrEqualToConstant: height),
+                widthAnchor.constraint(equalToConstant: customXSmallVerticalWidth),
+                heightAnchor.constraint(equalToConstant: height),
                 primaryLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.xSmallPaddingLeading),
                 primaryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.cardPaddingTrailing)
             ])
@@ -527,7 +568,7 @@ open class CardView: UIView {
 
             layoutConstraints.append(contentsOf: [
                 heightAnchor.constraint(greaterThanOrEqualToConstant: height),
-                widthAnchor.constraint(greaterThanOrEqualToConstant: style.cardMinWidth),
+                widthAnchor.constraint(greaterThanOrEqualToConstant: style.cardDefaultWidth),
                 primaryLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.largeHorizontalPadding),
                 primaryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.largeHorizontalPadding),
                 secondaryLabel.topAnchor.constraint(equalTo: primaryLabel.bottomAnchor, constant: Constants.largeContentSpacing),
@@ -555,20 +596,6 @@ open class CardView: UIView {
         }
 
         NSLayoutConstraint.activate(layoutConstraints)
-    }
-
-    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if let previousTraitCollection = previousTraitCollection {
-            if previousTraitCollection.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-                setupLayoutConstraints()
-            }
-            if #available(iOS 13, *) {
-             if previousTraitCollection.hasDifferentColorAppearance(comparedTo: traitCollection) {
-                    setupColors()
-                }
-            }
-        }
     }
 
     @objc private func handleCardTapped(_ recognizer: UITapGestureRecognizer) {
