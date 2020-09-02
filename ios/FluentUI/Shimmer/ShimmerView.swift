@@ -11,181 +11,283 @@ public typealias MSShimmerView = ShimmerView
 /// View that converts the subviews of a container view into a loading state with the "shimmering" effect
 @objc(MSFShimmerView)
 open class ShimmerView: UIView {
-    /// Appearance of the shimmer itself (the animation appearance)
-    @objc open var shimmerAppearance = ShimmerAppearance() {
-        didSet {
-            setNeedsLayout()
-        }
-    }
 
-    /// Properties related to the apperance of the shimmer view itself
-    @objc open var appearance = ShimmerViewAppearance() {
-        didSet {
-            setNeedsLayout()
-        }
-    }
+	@available(*, deprecated, message: "Use individual properties instead")
+	@objc open var shimmerAppearance = ShimmerAppearance() {
+		didSet {
+			shimmerAlpha = shimmerAppearance.alpha
+			shimmerWidth = shimmerAppearance.width
+			shimmerAngle = shimmerAppearance.angle
+			shimmerSpeed = shimmerAppearance.speed
+			shimmerDelay = shimmerAppearance.delay
 
-    /// Optional synchronizer to sync multiple shimmer views
-    @objc open weak var animationSynchronizer: AnimationSynchronizerProtocol?
+			setNeedsLayout()
+		}
+	}
 
-    open override var intrinsicContentSize: CGSize { return bounds.size }
+	/// The alpha value of the center of the gradient in the animation
+	@objc open var shimmerAlpha: CGFloat = defaultAlpha {
+		didSet {
+			setNeedsLayout()
+		}
+	}
 
-    /// Layers covering the subviews of the container
-    var viewCoverLayers = [CALayer]()
+	/// the wirth of the gradient in the animation
+	@objc open var shimmerWidth: CGFloat = defaultWidth {
+		didSet {
+			setNeedsLayout()
+		}
+	}
 
-    /// Layer that slides to provide the "shimmer" effect
-    var shimmeringLayer = CAGradientLayer()
+	/// Angle of the direction of the gradient, in radian. 0 means horizontal, Pi/2 means vertical.
+	@objc open var shimmerAngle: CGFloat = defaultAngle {
+		didSet {
+			setNeedsLayout()
+		}
+	}
 
-    private weak var containerView: UIView?
-    private var excludedViews: [UIView]
+	/// Speed of the animation, in point/seconds.
+	@objc open var shimmerSpeed: CGFloat = defaultSpeed {
+		didSet {
+			setNeedsLayout()
+		}
+	}
 
-    /// Create a shimmer view
-    /// - Parameter containerView: view to convert layout into a shimmer -- each of containerView's first-level subviews will be mirrored
-    /// - Parameter excludedViews: subviews of `containerView` to exclude from shimmer
-    /// - Parameter animationSynchronizer: optional synchronizer to sync multiple shimmer views
-    @objc public init(containerView: UIView? = nil,
-                      excludedViews: [UIView] = [],
-                      animationSynchronizer: AnimationSynchronizerProtocol? = nil) {
-        self.containerView = containerView
-        self.excludedViews = excludedViews
-        self.animationSynchronizer = animationSynchronizer
-        super.init(frame: CGRect(origin: .zero, size: containerView?.bounds.size ?? .zero))
-    }
+	/// Delay between the end of a shimmering animation and the beginning of the next one.
+	@objc open var shimmerDelay: TimeInterval = defaultDelay {
+		didSet {
+			setNeedsLayout()
+		}
+	}
 
-    required public init?(coder: NSCoder) {
-        preconditionFailure("init(coder:) has not been implemented")
-    }
+	@available(*, deprecated, message: "Use individual properties instead")
+	@objc open var appearance = ShimmerViewAppearance() {
+		didSet {
+			viewTintColor = appearance.tintColor
+			cornerRadius = appearance.cornerRadius
+			labelCornerRadius = appearance.labelCornerRadius
+			usesTextHeightForLabels = appearance.usesTextHeightForLabels
+			labelHeight = appearance.labelHeight
 
-    open override func layoutSubviews() {
-        super.layoutSubviews()
+			setNeedsLayout()
+		}
+	}
 
-        updateViewCoverLayers()
+	/// Tint color of the view.
+	@objc open var viewTintColor: UIColor = Colors.Shimmer.tint {
+		didSet {
+			setNeedsLayout()
+		}
+	}
 
-        guard let containerView = containerView else {
-            return
-        }
+	/// Corner radius on each view.
+	@objc open var cornerRadius: CGFloat = defaultCornerRadius {
+		didSet {
+			setNeedsLayout()
+		}
+	}
 
-        shimmeringLayer.frame = CGRect(x: -containerView.frame.width,
-                                       y: 0.0,
-                                       width: containerView.bounds.width + 2 * containerView.frame.width,
-                                       height: containerView.frame.height)
+	/// Corner radius on each UILabel. Set to  0 to disable and use default `cornerRadius`.
+	@objc open var labelCornerRadius: CGFloat = defaultLabelCornerRadius {
+		didSet {
+			setNeedsLayout()
+		}
+	}
 
-        updateShimmeringLayer()
-        updateShimmeringAnimation()
-    }
+	/// True to enable shimmers to auto-adjust to font height for a UILabel -- this will more accurately reflect the text in the label rect rather than using the bounding box.
+	/// `labelHeight` will take precendence over this property.
+	@objc open var usesTextHeightForLabels: Bool = defaultUsesTextHeightForLabels {
+		didSet {
+			setNeedsLayout()
+		}
+	}
 
-    /// Manaully sync with the synchronizer
-    @objc open func syncAnimation() {
-        updateShimmeringAnimation()
-    }
+	/// If greater than 0, a fixed height to use for all UILabels. This will take precedence over `usesTextHeightForLabels`. Set to less than 0 to disable.
+	@objc open var labelHeight: CGFloat = defaultLabelHeight {
+		didSet {
+			setNeedsLayout()
+		}
+	}
 
-    /// Update the frame of each layer covering views in the containerView
-    func updateViewCoverLayers() {
-        guard let containerView = containerView else {
-            return
-        }
+	/// Optional synchronizer to sync multiple shimmer views
+	@objc open weak var animationSynchronizer: AnimationSynchronizerProtocol?
 
-        viewCoverLayers.forEach { $0.removeFromSuperlayer() }
+	open override var intrinsicContentSize: CGSize { return bounds.size }
 
-        let subviews = Set(containerView.subviews).subtracting(Set(excludedViews))
+	/// Layers covering the subviews of the container
+	var viewCoverLayers = [CALayer]()
 
-        viewCoverLayers = subviews.filter({ !$0.isHidden && !($0 is ShimmerView) }).map { subview in
-            let coverLayer = CALayer()
+	/// Layer that slides to provide the "shimmer" effect
+	var shimmeringLayer = CAGradientLayer()
 
-            let shouldApplyLabelCornerRadius = subview is UILabel && appearance.labelCornerRadius >= 0
-            coverLayer.cornerRadius = shouldApplyLabelCornerRadius ? appearance.labelCornerRadius : appearance.cornerRadius
-            coverLayer.backgroundColor = appearance.tintColor.cgColor
+	private weak var containerView: UIView?
+	private var excludedViews: [UIView]
 
-            var coverFrame = subview.frame
-            if let label = subview as? UILabel {
-                let labelHeight: CGFloat? = {
-                    if appearance.labelHeight >= 0 {
-                        return appearance.labelHeight
-                    } else if appearance.usesTextHeightForLabels {
-                        return label.font.deviceLineHeight
-                    }
-                    return nil
-                }()
+	/// Create a shimmer view
+	/// - Parameter containerView: view to convert layout into a shimmer -- each of containerView's first-level subviews will be mirrored
+	/// - Parameter excludedViews: subviews of `containerView` to exclude from shimmer
+	/// - Parameter animationSynchronizer: optional synchronizer to sync multiple shimmer views
+	@objc public init(containerView: UIView? = nil,
+					  excludedViews: [UIView] = [],
+					  animationSynchronizer: AnimationSynchronizerProtocol? = nil) {
+		self.containerView = containerView
+		self.excludedViews = excludedViews
+		self.animationSynchronizer = animationSynchronizer
+		super.init(frame: CGRect(origin: .zero, size: containerView?.bounds.size ?? .zero))
+	}
 
-                if let labelHeight = labelHeight {
-                    let delta = coverFrame.height - labelHeight
-                    coverFrame.size.height = labelHeight
-                    coverFrame.origin.y += delta / 2
-                }
-            }
-            coverLayer.frame = coverFrame
+	required public init?(coder: NSCoder) {
+		preconditionFailure("init(coder:) has not been implemented")
+	}
 
-            return coverLayer
-        }
+	open override func layoutSubviews() {
+		super.layoutSubviews()
 
-        viewCoverLayers.forEach { layer.addSublayer($0) }
-    }
+		updateViewCoverLayers()
 
-    /// Update the gradient layer that animates to provide the shimmer effect (also updates the animation)
-    func updateShimmeringLayer() {
-        let light = UIColor.white.withAlphaComponent(shimmerAppearance.alpha).cgColor
-        let dark = UIColor.black.cgColor
-        let isRTL = effectiveUserInterfaceLayoutDirection == .rightToLeft
+		guard let containerView = containerView else {
+			return
+		}
 
-        shimmeringLayer.colors = [dark, light, dark]
+		shimmeringLayer.frame = CGRect(x: -containerView.frame.width,
+									   y: 0.0,
+									   width: containerView.bounds.width + 2 * containerView.frame.width,
+									   height: containerView.frame.height)
 
-        let startPoint = CGPoint(x: 0.0, y: 0.5)
-        let endPoint = CGPoint(x: 1.0, y: 0.5 - tan(shimmerAppearance.angle * (isRTL ? -1 : 1)))
-        if isRTL {
-            shimmeringLayer.startPoint = endPoint
-            shimmeringLayer.endPoint = startPoint
-        } else {
-            shimmeringLayer.startPoint = startPoint
-            shimmeringLayer.endPoint = endPoint
-        }
+		updateShimmeringLayer()
+		updateShimmeringAnimation()
+	}
 
-        let widthPercentage = Float(shimmerAppearance.width / shimmeringLayer.frame.width)
-        let locationStart = NSNumber(value: 0.5 - widthPercentage / 2)
-        let locationMiddle = NSNumber(value: 0.5)
-        let locationEnd = NSNumber(value: 0.5 + widthPercentage / 2)
+	/// Manaully sync with the synchronizer
+	@objc open func syncAnimation() {
+		updateShimmeringAnimation()
+	}
 
-        let locations = [locationStart, locationMiddle, locationEnd]
-        shimmeringLayer.locations = isRTL ? locations.reversed() : locations
+	/// Update the frame of each layer covering views in the containerView
+	func updateViewCoverLayers() {
+		guard let containerView = containerView else {
+			return
+		}
 
-        layer.mask = shimmeringLayer
+		viewCoverLayers.forEach { $0.removeFromSuperlayer() }
 
-        updateShimmeringAnimation()
-    }
+		let subviews = Set(containerView.subviews).subtracting(Set(excludedViews))
 
-    /// Update the shimmer animation
-    func updateShimmeringAnimation() {
-        if let animationSynchronizer = animationSynchronizer, animationSynchronizer.referenceLayer == nil {
-            animationSynchronizer.referenceLayer = shimmeringLayer
-        }
+		viewCoverLayers = subviews.filter({ !$0.isHidden && !($0 is ShimmerView) }).map { subview in
+			let coverLayer = CALayer()
 
-        shimmeringLayer.removeAnimation(forKey: "shimmering")
+			let shouldApplyLabelCornerRadius = subview is UILabel && labelCornerRadius >= 0
+			coverLayer.cornerRadius = shouldApplyLabelCornerRadius ? labelCornerRadius : cornerRadius
+			coverLayer.backgroundColor = viewTintColor.cgColor
 
-        let animation = CABasicAnimation(keyPath: "locations")
+			var coverFrame = subview.frame
+			if let label = subview as? UILabel {
+				let viewLabelHeight: CGFloat? = {
+					if labelHeight >= 0 {
+						return labelHeight
+					} else if usesTextHeightForLabels {
+						return label.font.deviceLineHeight
+					}
+					return nil
+				}()
 
-        let widthPercentage = Float(shimmerAppearance.width / shimmeringLayer.frame.width)
+				if let viewLabelHeight = viewLabelHeight {
+					let delta = coverFrame.height - viewLabelHeight
+					coverFrame.size.height = viewLabelHeight
+					coverFrame.origin.y += delta / 2
+				}
+			}
+			coverLayer.frame = coverFrame
 
-        let fromLocationStart = NSNumber(value: 0.0)
-        let fromLocationMiddle = NSNumber(value: widthPercentage / 2.0)
-        let fromLocationEnd = NSNumber(value: widthPercentage)
+			return coverLayer
+		}
 
-        let toLocationStart = NSNumber(value: 1.0 - widthPercentage)
-        let toLocationMiddle = NSNumber(value: 1.0 - (widthPercentage / 2.0))
-        let toLocationEnd = NSNumber(value: 1.0)
+		viewCoverLayers.forEach { layer.addSublayer($0) }
+	}
 
-        // Do not flip values from / to for RTL. These are already relative to the layout direction.
-        animation.fromValue = [fromLocationStart, fromLocationMiddle, fromLocationEnd]
-        animation.toValue = [toLocationStart, toLocationMiddle, toLocationEnd]
+	/// Update the gradient layer that animates to provide the shimmer effect (also updates the animation)
+	func updateShimmeringLayer() {
+		let light = UIColor.white.withAlphaComponent(shimmerAlpha).cgColor
+		let dark = UIColor.black.cgColor
+		let isRTL = effectiveUserInterfaceLayoutDirection == .rightToLeft
 
-        let distance = (frame.width + shimmerAppearance.width) / cos(shimmerAppearance.angle)
-        animation.duration = CFTimeInterval(distance / shimmerAppearance.speed)
-        animation.fillMode = .forwards
+		shimmeringLayer.colors = [dark, light, dark]
 
-        // Add animation (use a group to add a delay between animations)
-        let animationGroup = CAAnimationGroup()
-        animationGroup.animations = [animation]
-        animationGroup.duration = animation.duration + shimmerAppearance.delay
-        animationGroup.repeatCount = .infinity
-        animationGroup.timeOffset = animationSynchronizer?.timeOffset(for: shimmeringLayer) ?? 0
-        shimmeringLayer.add(animationGroup, forKey: "shimmering")
-    }
+		let startPoint = CGPoint(x: 0.0, y: 0.5)
+		let endPoint = CGPoint(x: 1.0, y: 0.5 - tan(shimmerAngle * (isRTL ? -1 : 1)))
+		if isRTL {
+			shimmeringLayer.startPoint = endPoint
+			shimmeringLayer.endPoint = startPoint
+		} else {
+			shimmeringLayer.startPoint = startPoint
+			shimmeringLayer.endPoint = endPoint
+		}
+
+		let widthPercentage = Float(shimmerWidth / shimmeringLayer.frame.width)
+		let locationStart = NSNumber(value: 0.5 - widthPercentage / 2)
+		let locationMiddle = NSNumber(value: 0.5)
+		let locationEnd = NSNumber(value: 0.5 + widthPercentage / 2)
+
+		let locations = [locationStart, locationMiddle, locationEnd]
+		shimmeringLayer.locations = isRTL ? locations.reversed() : locations
+
+		layer.mask = shimmeringLayer
+
+		updateShimmeringAnimation()
+	}
+
+	/// Update the shimmer animation
+	func updateShimmeringAnimation() {
+		if let animationSynchronizer = animationSynchronizer, animationSynchronizer.referenceLayer == nil {
+			animationSynchronizer.referenceLayer = shimmeringLayer
+		}
+
+		shimmeringLayer.removeAnimation(forKey: "shimmering")
+
+		let animation = CABasicAnimation(keyPath: "locations")
+
+		let widthPercentage = Float(shimmerWidth / shimmeringLayer.frame.width)
+
+		let fromLocationStart = NSNumber(value: 0.0)
+		let fromLocationMiddle = NSNumber(value: widthPercentage / 2.0)
+		let fromLocationEnd = NSNumber(value: widthPercentage)
+
+		let toLocationStart = NSNumber(value: 1.0 - widthPercentage)
+		let toLocationMiddle = NSNumber(value: 1.0 - (widthPercentage / 2.0))
+		let toLocationEnd = NSNumber(value: 1.0)
+
+		// Do not flip values from / to for RTL. These are already relative to the layout direction.
+		animation.fromValue = [fromLocationStart, fromLocationMiddle, fromLocationEnd]
+		animation.toValue = [toLocationStart, toLocationMiddle, toLocationEnd]
+
+		let distance = (frame.width + shimmerWidth) / cos(shimmerAngle)
+		animation.duration = CFTimeInterval(distance / shimmerSpeed)
+		animation.fillMode = .forwards
+
+		// Add animation (use a group to add a delay between animations)
+		let animationGroup = CAAnimationGroup()
+		animationGroup.animations = [animation]
+		animationGroup.duration = animation.duration + shimmerDelay
+		animationGroup.repeatCount = .infinity
+		animationGroup.timeOffset = animationSynchronizer?.timeOffset(for: shimmeringLayer) ?? 0
+		shimmeringLayer.add(animationGroup, forKey: "shimmering")
+	}
 }
+
+public extension Colors {
+	struct Shimmer {
+		public static var tint = UIColor(light: surfaceTertiary, dark: surfaceQuaternary)
+	}
+}
+
+fileprivate let defaultAlpha: CGFloat = 0.4
+fileprivate let defaultWidth: CGFloat = 180
+fileprivate let defaultAngle: CGFloat = -(CGFloat.pi / 45.0)
+fileprivate let defaultSpeed: CGFloat = 350
+fileprivate let defaultDelay: TimeInterval = 0.4
+
+fileprivate let defaultViewTintColor: UIColor = Colors.Shimmer.tint
+fileprivate let defaultCornerRadius: CGFloat = 4.0
+fileprivate let defaultLabelCornerRadius: CGFloat = 2.0
+fileprivate let defaultUsesTextHeightForLabels: Bool = false
+fileprivate let defaultLabelHeight: CGFloat = 11
