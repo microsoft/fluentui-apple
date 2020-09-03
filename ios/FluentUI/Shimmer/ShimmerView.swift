@@ -306,7 +306,7 @@ open class ShimmerView: UIView {
 	private static let defaultUsesTextHeightForLabels: Bool = false
 	private static let defaultLabelHeight: CGFloat = 11
 
-	private let defaultShimmersLeafViews: Bool = false
+	private static let defaultShimmersLeafViews: Bool = false
 }
 
 public extension Colors {
