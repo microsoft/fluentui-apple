@@ -32,7 +32,7 @@ open class ShimmerView: UIView {
 		}
 	}
 
-	/// the wirth of the gradient in the animation
+	/// the width of the gradient in the animation
 	@objc open var shimmerWidth: CGFloat = defaultWidth {
 		didSet {
 			setNeedsLayout()
@@ -109,6 +109,13 @@ open class ShimmerView: UIView {
 		}
 	}
 
+	/// Determines whether we shimmer the top level subviews, or the leaf nodes of the view heirarchy
+	@objc open var shimmersLeafViews: Bool = defaultShimmersLeafViews {
+		didSet {
+			setNeedsLayout()
+		}
+	}
+
 	/// Optional synchronizer to sync multiple shimmer views
 	@objc open weak var animationSynchronizer: AnimationSynchronizerProtocol?
 
@@ -145,14 +152,12 @@ open class ShimmerView: UIView {
 
 		updateViewCoverLayers()
 
-		guard let containerView = containerView else {
-			return
-		}
+		let viewToCover = containerView ?? self
 
-		shimmeringLayer.frame = CGRect(x: -containerView.frame.width,
+		shimmeringLayer.frame = CGRect(x: -viewToCover.frame.width,
 									   y: 0.0,
-									   width: containerView.bounds.width + 2 * containerView.frame.width,
-									   height: containerView.frame.height)
+									   width: viewToCover.bounds.width + 2 * viewToCover.frame.width,
+									   height: viewToCover.frame.height)
 
 		updateShimmeringLayer()
 		updateShimmeringAnimation()
@@ -165,13 +170,19 @@ open class ShimmerView: UIView {
 
 	/// Update the frame of each layer covering views in the containerView
 	func updateViewCoverLayers() {
-		guard let containerView = containerView else {
-			return
-		}
+		let viewToCover = containerView ?? self
 
 		viewCoverLayers.forEach { $0.removeFromSuperlayer() }
 
-		let subviews = Set(containerView.subviews).subtracting(Set(excludedViews))
+		let subviews: Set<UIView> = {
+			if shimmersLeafViews {
+				var leaves = [UIView]()
+				searchLeaves(in: viewToCover, output: &leaves)
+				return Set(leaves).subtracting(Set(excludedViews))
+			} else {
+				return Set(viewToCover.subviews).subtracting(Set(excludedViews))
+			}
+		}()
 
 		viewCoverLayers = subviews.filter({ !$0.isHidden && !($0 is ShimmerView) }).map { subview in
 			let coverLayer = CALayer()
@@ -180,7 +191,7 @@ open class ShimmerView: UIView {
 			coverLayer.cornerRadius = shouldApplyLabelCornerRadius ? labelCornerRadius : cornerRadius
 			coverLayer.backgroundColor = viewTintColor.cgColor
 
-			var coverFrame = subview.frame
+			var coverFrame = viewToCover.convert(subview.bounds, from: subview)
 			if let label = subview as? UILabel {
 				let viewLabelHeight: CGFloat? = {
 					if labelHeight >= 0 {
@@ -272,6 +283,30 @@ open class ShimmerView: UIView {
 		animationGroup.timeOffset = animationSynchronizer?.timeOffset(for: shimmeringLayer) ?? 0
 		shimmeringLayer.add(animationGroup, forKey: "shimmering")
 	}
+
+	private func searchLeaves(in view: UIView, output: inout [UIView]) {
+		for v in view.subviews {
+			if v.subviews.isEmpty && v != self {
+				output.append(v)
+			} else if !v.isHidden {
+				searchLeaves(in: v, output: &output)
+			}
+		}
+	}
+	
+	private static let defaultAlpha: CGFloat = 0.4
+	private static let defaultWidth: CGFloat = 180
+	private static let defaultAngle: CGFloat = -(CGFloat.pi / 45.0)
+	private static let defaultSpeed: CGFloat = 350
+	private static let defaultDelay: TimeInterval = 0.4
+
+	private static let defaultViewTintColor: UIColor = Colors.Shimmer.tint
+	private static let defaultCornerRadius: CGFloat = 4.0
+	private static let defaultLabelCornerRadius: CGFloat = 2.0
+	private static let defaultUsesTextHeightForLabels: Bool = false
+	private static let defaultLabelHeight: CGFloat = 11
+
+	private let defaultShimmersLeafViews: Bool = false
 }
 
 public extension Colors {
@@ -280,14 +315,4 @@ public extension Colors {
 	}
 }
 
-fileprivate let defaultAlpha: CGFloat = 0.4
-fileprivate let defaultWidth: CGFloat = 180
-fileprivate let defaultAngle: CGFloat = -(CGFloat.pi / 45.0)
-fileprivate let defaultSpeed: CGFloat = 350
-fileprivate let defaultDelay: TimeInterval = 0.4
 
-fileprivate let defaultViewTintColor: UIColor = Colors.Shimmer.tint
-fileprivate let defaultCornerRadius: CGFloat = 4.0
-fileprivate let defaultLabelCornerRadius: CGFloat = 2.0
-fileprivate let defaultUsesTextHeightForLabels: Bool = false
-fileprivate let defaultLabelHeight: CGFloat = 11
