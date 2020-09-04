@@ -119,7 +119,7 @@ open class ShimmerLinesView: ShimmerView {
 
 		viewCoverLayers = newLineLayers
 	}
-	
+
 	@objc private func lineCount(for availableHeight: CGFloat) -> Int {
 		if lineCount == 0 {
 			// Deduce lines count based on available height
@@ -129,6 +129,6 @@ open class ShimmerLinesView: ShimmerView {
 			return lineCount
 		}
 	}
-	
-	
+
+
 }

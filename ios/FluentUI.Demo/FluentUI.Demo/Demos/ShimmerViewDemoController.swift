@@ -48,11 +48,6 @@ class ShimmerViewDemoController: DemoController {
 			return label
 		}
 
-		container.addArrangedSubview(shimmerViewLabel("A ShimmerLinesView needs no containerview or subviews"))
-		container.addArrangedSubview(Separator())
-		container.addArrangedSubview(ShimmerLinesView())
-		container.addArrangedSubview(Separator())
-
 		container.addArrangedSubview(shimmerViewLabel("ShimmerView shimmers all the top level subviews of it's container view"))
 		container.addArrangedSubview(Separator())
 		container.addArrangedSubview(shimmeringContentView(false))
@@ -61,5 +56,12 @@ class ShimmerViewDemoController: DemoController {
 		container.addArrangedSubview(shimmerViewLabel("With shimmersLeafViews set, the ShimmerView will shimmer the labels inside the stackview"))
 		container.addArrangedSubview(Separator())
 		container.addArrangedSubview(shimmeringContentView(true))
+		container.addArrangedSubview(Separator())
+
+		container.addArrangedSubview(shimmerViewLabel("A ShimmerLinesView needs no containerview or subviews, and handles it's own appearance"))
+		container.addArrangedSubview(Separator())
+		container.addArrangedSubview(ShimmerLinesView())
+		container.addArrangedSubview(Separator())
+
 	}
 }
