@@ -8,9 +8,6 @@ import FluentUI
 
 class DemoListViewController: UITableViewController {
 
-    /// Set this to a non-zero value to automatically launch the demo controller at this index when the demo app launches.
-    private var autoLaunchDemoIndex: Int = 0
-
     static func addDemoListTo(window: UIWindow, pushing viewController: UIViewController?) {
         if let colorProvider = window as? ColorProviding {
             Colors.setProvider(provider: colorProvider, for: window)
@@ -59,9 +56,15 @@ class DemoListViewController: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        if autoLaunchDemoIndex != 0 {
-            tableView(tableView, didSelectRowAt: IndexPath(row: autoLaunchDemoIndex - 1, section: 0))
-            autoLaunchDemoIndex = 0
+        if didAutoLaunch {
+            UserDefaults.standard.set(0, forKey: DemoListViewController.lastDemoControllerKey)
+        } else {
+            let lastDemoController = UserDefaults.standard.integer(forKey: DemoListViewController.lastDemoControllerKey)
+            if lastDemoController != 0 {
+                tableView(tableView, didSelectRowAt: IndexPath(row: lastDemoController - 1, section: 0))
+            }
+
+            didAutoLaunch = true
         }
     }
 
@@ -83,7 +86,11 @@ class DemoListViewController: UITableViewController {
         let demoController = demo.controllerClass.init(nibName: nil, bundle: nil)
         demoController.title = demo.title
         navigationController?.pushViewController(demoController, animated: true)
+
+        UserDefaults.standard.set(indexPath.row + 1, forKey: DemoListViewController.lastDemoControllerKey)
     }
 
     let cellReuseIdentifier: String = "TableViewCell"
+    private var didAutoLaunch: Bool = false
+    private static let lastDemoControllerKey: String = "LastDemoController"
 }
