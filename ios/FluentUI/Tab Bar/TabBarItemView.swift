@@ -55,6 +55,11 @@ class TabBarItemView: UIView {
 
         container.addSubview(badgeView)
 
+        if #available(iOS 13.4, *) {
+            let pointerInteraction = UIPointerInteraction(delegate: self)
+            addInteraction(pointerInteraction)
+        }
+
         isAccessibilityElement = true
         updateAccessibilityLabel()
 
@@ -311,5 +316,26 @@ class TabBarItemView: UIView {
         } else {
             accessibilityLabel = item.title
         }
+    }
+}
+
+// MARK: - TabBarItemView UIPointerInteractionDelegate
+
+extension TabBarItemView: UIPointerInteractionDelegate {
+    @available(iOS 13.4, *)
+    func pointerInteraction(_ interaction: UIPointerInteraction, regionFor request: UIPointerRegionRequest, defaultRegion: UIPointerRegion) -> UIPointerRegion? {
+        return UIPointerRegion(rect: bounds.insetBy(dx: -20, dy: -20))
+    }
+
+    @available(iOS 13.4, *)
+    func pointerInteraction(_ interaction: UIPointerInteraction, styleFor region: UIPointerRegion) -> UIPointerStyle? {
+        var pointerStyle: UIPointerStyle?
+
+        if let interactionView = interaction.view {
+            let targetedPreview = UITargetedPreview(view: interactionView)
+            pointerStyle = UIPointerStyle(effect: UIPointerEffect.hover(targetedPreview, preferredTintMode: .overlay, prefersShadow: true, prefersScaledContent: true))
+        }
+
+        return pointerStyle
     }
 }
