@@ -7,9 +7,10 @@ import FluentUI
 import UIKit
 
 class SideTabBarDemoController: DemoController {
-    override func loadView() {
-        view = UIView(frame: .zero)
-        container.addArrangedSubview(createButton(title: "Show side tab bar", action: #selector(presentSideTabBar)))
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        presentSideTabBar()
     }
 
     private struct Constants {
@@ -48,7 +49,7 @@ class SideTabBarDemoController: DemoController {
         return createButton(title: "-", action: #selector(decrementBadgeNumbers))
     }()
 
-    @objc private func presentSideTabBar() {
+    private func presentSideTabBar() {
         let contentViewController = UIViewController(nibName: nil, bundle: nil)
         self.contentViewController = contentViewController
 
@@ -139,7 +140,9 @@ class SideTabBarDemoController: DemoController {
     }
 
     @objc private func dismissSideTabBar() {
-        dismiss(animated: false, completion: nil)
+        dismiss(animated: false) {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
 
     @objc private func toggleAvatarView(switchView: UISwitch) {
