@@ -77,6 +77,14 @@ open class Button: NSButton {
 		if let image = image {
 			self.image = image
 		}
+		
+		if #available(macOS 10.14, *) {
+			if style == .primaryFilled {
+				contentTintColor = .white
+			} else {
+				contentTintColor = primaryColor
+			}
+		}
 	}
 
 	open class override var cellClass: AnyClass? {
@@ -92,13 +100,6 @@ open class Button: NSButton {
 				preconditionFailure("wantsLayer must be set so that the image is rendered on the layer")
 			}
 		}
-		didSet {
-			if let image = image {
-				if image.isTemplate {
-					self.image = image.tint(color: self.textColor)
-				}
-			}
-		}
 	}
 	
 	override public var title: String {
@@ -108,7 +109,13 @@ open class Button: NSButton {
 			}
 		}
 		didSet {
-			self.attributedTitle = NSAttributedString(string: title, attributes: [.foregroundColor : textColor])
+			if #available(macOS 10.14, *) {
+				// Do nothing, contentTintColor will color our text properly
+			} else {
+				if let textColor = contentTintColor {
+					self.attributedTitle = NSAttributedString(string: title, attributes: [.foregroundColor : textColor])
+				}
+			}
 		}
 	}
 	
@@ -177,6 +184,22 @@ open class Button: NSButton {
 			layer.contentsScale = scale
 		}
 	}
+	
+	open override var contentTintColor: NSColor? {
+		get {
+			if style == .primaryFilled {
+				return .white
+			} else {
+				return primaryColor
+			}
+		}
+		set {
+			if #available(macOS 10.14, *) {
+				super.contentTintColor = newValue
+			}
+			needsDisplay = true
+		}
+	}
 
 	/// The primary color of the button, AKA, the fill color in the primaryFilled style, and the outline in the primaryOutline style
 	@objc public var primaryColor: NSColor = defaultPrimaryColor {
@@ -220,10 +243,6 @@ open class Button: NSButton {
 		} else {
 			return disabledColor(for: baseOutlineColor)
 		}
-	}
-
-	private var textColor: NSColor {
-		return style == ButtonStyle.primaryFilled ? .white : primaryColor
 	}
 
 	private var restBackgroundColor: NSColor {
@@ -478,21 +497,4 @@ open class Button: NSButton {
 	private static let hoverBackgroundColorFallbackAlphaComponent:  CGFloat = 0.5
 
 	private static let pressedBackgroundColorFallbackAlphaComponent:  CGFloat = 0.25
-}
-
-extension NSImage {
-	func tint(color: NSColor) -> NSImage {
-		let image = self.copy() as! NSImage
-		image.lockFocus()
-
-		color.set()
-
-		let imageRect = NSRect(origin: NSZeroPoint, size: image.size)
-		imageRect.fill(using: .sourceAtop)
-
-		image.unlockFocus()
-		image.isTemplate = false
-
-		return image
-	}
 }
