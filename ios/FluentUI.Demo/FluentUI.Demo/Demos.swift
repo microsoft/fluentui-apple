@@ -13,6 +13,7 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("BadgeField", BadgeFieldDemoController.self),
     ("BadgeView", BadgeViewDemoController.self),
     ("Button", ButtonDemoController.self),
+    ("Card", CardViewDemoController.self),
     ("Color", ColorDemoController.self),
     ("ContactCollectionView", ContactCollectionViewDemoController.self),
     ("DateTimePicker", DateTimePickerDemoController.self),
