@@ -56,21 +56,15 @@ class DemoListViewController: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        if didAutoLaunch {
-            UserDefaults.standard.set(nil, forKey: DemoListViewController.lastDemoControllerKey)
-        } else {
-            let lastDemoController = UserDefaults.standard.string(forKey: DemoListViewController.lastDemoControllerKey)
-
-            if lastDemoController?.count ?? -1 > 0 {
-                for (index, demo) in demos.enumerated() {
-                    if demo.title == lastDemoController {
-                        tableView(tableView, didSelectRowAt: IndexPath(row: index, section: 0))
-                        break
-                    }
-                }
+        if isFirstLaunch {
+            if let lastDemoController = UserDefaults.standard.string(forKey: DemoListViewController.lastDemoControllerKey),
+                let index = demos.firstIndex(where: { $0.title == lastDemoController }) {
+                tableView(tableView, didSelectRowAt: IndexPath(row: index, section: 0))
             }
 
-            didAutoLaunch = true
+            isFirstLaunch = false
+        } else {
+            UserDefaults.standard.set(nil, forKey: DemoListViewController.lastDemoControllerKey)
         }
     }
 
@@ -97,6 +91,6 @@ class DemoListViewController: UITableViewController {
     }
 
     let cellReuseIdentifier: String = "TableViewCell"
-    private var didAutoLaunch: Bool = false
+    private var isFirstLaunch: Bool = true
     private static let lastDemoControllerKey: String = "LastDemoController"
 }
