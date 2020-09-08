@@ -1488,6 +1488,11 @@ internal class TableViewCellAccessoryView: UIView {
         button.accessibilityLabel = "Accessibility.TableViewCell.MoreActions.Label".localized
         button.accessibilityHint = "Accessibility.TableViewCell.MoreActions.Hint".localized
         button.addTarget(self, action: #selector(handleOnAccessoryTapped), for: .touchUpInside)
+
+        if #available(iOS 13.4, *) {
+            button.isPointerInteractionEnabled = true
+        }
+
         return button
     }()
 
