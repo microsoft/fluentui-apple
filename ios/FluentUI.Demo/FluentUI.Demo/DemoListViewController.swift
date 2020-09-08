@@ -60,10 +60,13 @@ class DemoListViewController: UITableViewController {
             UserDefaults.standard.set(nil, forKey: DemoListViewController.lastDemoControllerKey)
         } else {
             let lastDemoController = UserDefaults.standard.string(forKey: DemoListViewController.lastDemoControllerKey)
-            for (index, demo) in demos.enumerated() {
-                if demo.title == lastDemoController {
-                    tableView(tableView, didSelectRowAt: IndexPath(row: index, section: 0))
-                    break
+
+            if lastDemoController?.count ?? -1 > 0 {
+                for (index, demo) in demos.enumerated() {
+                    if demo.title == lastDemoController {
+                        tableView(tableView, didSelectRowAt: IndexPath(row: index, section: 0))
+                        break
+                    }
                 }
             }
 
