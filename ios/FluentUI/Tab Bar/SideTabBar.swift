@@ -29,6 +29,7 @@ open class SideTabBar: UIView {
 
     /// The avatar view that displays above the top tab bar items.
     /// The avatar view's size class should be AvatarSize.medium.
+    /// Remember to enable pointer interactions on the avatar view if it handles pointer interactions.
     @objc open var avatarView: AvatarView? {
         willSet {
             avatarView?.removeGestureRecognizer(avatarViewGestureRecognizer)

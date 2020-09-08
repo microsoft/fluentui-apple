@@ -616,6 +616,11 @@ open class NavigationBar: UINavigationBar {
                 button.largeContentTitle = item.accessibilityLabel
             }
         }
+
+        if #available(iOS 13.4, *) {
+            button.isPointerInteractionEnabled = true
+        }
+
         return button
     }
 
