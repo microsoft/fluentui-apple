@@ -28,11 +28,11 @@ class DemoListViewController: UITableViewController {
     }
 
     let demos: [(title: String, controllerClass: UIViewController.Type)] = FluentUI_Demo.demos.filter { demo in
-        #if DEBUG
+#if DEBUG
         return true
-        #else
+#else
         return !demo.title.hasPrefix("DEBUG")
-        #endif
+#endif
     }
 
     override func viewDidLoad() {
@@ -53,6 +53,21 @@ class DemoListViewController: UITableViewController {
         tableView.register(TableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if isFirstLaunch {
+            if let lastDemoController = UserDefaults.standard.string(forKey: DemoListViewController.lastDemoControllerKey),
+                let index = demos.firstIndex(where: { $0.title == lastDemoController }) {
+                tableView(tableView, didSelectRowAt: IndexPath(row: index, section: 0))
+            }
+
+            isFirstLaunch = false
+        } else {
+            UserDefaults.standard.set(nil, forKey: DemoListViewController.lastDemoControllerKey)
+        }
+    }
+
     // MARK: Table View
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -71,7 +86,11 @@ class DemoListViewController: UITableViewController {
         let demoController = demo.controllerClass.init(nibName: nil, bundle: nil)
         demoController.title = demo.title
         navigationController?.pushViewController(demoController, animated: true)
+
+        UserDefaults.standard.set(demo.title, forKey: DemoListViewController.lastDemoControllerKey)
     }
 
     let cellReuseIdentifier: String = "TableViewCell"
+    private var isFirstLaunch: Bool = true
+    private static let lastDemoControllerKey: String = "LastDemoController"
 }

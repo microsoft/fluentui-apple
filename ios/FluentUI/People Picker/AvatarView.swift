@@ -271,6 +271,25 @@ open class AvatarView: UIView {
         }
     }
 
+    /// Set to true to enable the pointer interaction on the avatar view, false by default.
+    @objc open var hasPointerInteraction: Bool = false {
+        didSet {
+            if oldValue != hasPointerInteraction {
+                if #available(iOS 13.4, *) {
+                    if hasPointerInteraction {
+                        let pointerInteraction = UIPointerInteraction(delegate: self)
+                        addInteraction(pointerInteraction)
+
+                        self.pointerInteraction = pointerInteraction
+                    } else if let pointerInteraction = pointerInteraction {
+                        removeInteraction(pointerInteraction as! UIPointerInteraction)
+                        self.pointerInteraction = nil
+                    }
+                }
+            }
+        }
+    }
+
     /// Initializes the avatar view with a size and an optional border
     ///
     /// - Parameters:
@@ -468,6 +487,8 @@ open class AvatarView: UIView {
 
     private var presenceImageView: UIImageView?
     private var presenceBorderView: UIView?
+
+    private var pointerInteraction: Any?
 
     private struct Constants {
         static let borderWidth: CGFloat = 2
@@ -800,5 +821,15 @@ class OverflowAvatarView: AvatarView {
         maskLayer.path = path.cgPath
 
         borderView.layer.mask = maskLayer
+    }
+}
+
+// MARK: - AvatarView UIPointerInteractionDelegate
+
+extension AvatarView: UIPointerInteractionDelegate {
+    @available(iOS 13.4, *)
+    public func pointerInteraction(_ interaction: UIPointerInteraction, styleFor region: UIPointerRegion) -> UIPointerStyle? {
+        let pointerEffect = UIPointerEffect.lift(.init(view: self))
+        return UIPointerStyle(effect: pointerEffect, shape: nil)
     }
 }

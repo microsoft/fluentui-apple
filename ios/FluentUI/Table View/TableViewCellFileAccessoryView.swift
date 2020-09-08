@@ -401,6 +401,10 @@ private class FileAccessoryViewActionView: UIButton {
             scalesLargeContentImage = true
             largeContentTitle = action.title
         }
+
+        if #available(iOS 13.4, *) {
+            isPointerInteractionEnabled = true
+        }
     }
 
     @available(*, unavailable)

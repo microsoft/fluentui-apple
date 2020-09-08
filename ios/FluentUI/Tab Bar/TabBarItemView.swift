@@ -55,6 +55,11 @@ class TabBarItemView: UIView {
 
         container.addSubview(badgeView)
 
+        if #available(iOS 13.4, *) {
+            let pointerInteraction = UIPointerInteraction(delegate: self)
+            addInteraction(pointerInteraction)
+        }
+
         isAccessibilityElement = true
         updateAccessibilityLabel()
 
@@ -136,9 +141,6 @@ class TabBarItemView: UIView {
     private var badgeValue: String? {
         didSet {
             if oldValue != badgeValue {
-                badgeView.text = badgeValue
-                badgeView.isHidden = badgeValue == nil
-
                 updateBadgeView()
                 updateAccessibilityLabel()
             }
@@ -232,6 +234,9 @@ class TabBarItemView: UIView {
     }
 
     private func updateBadgeView() {
+        badgeView.text = badgeValue
+        badgeView.isHidden = badgeValue == nil
+
         if badgeValue != nil {
             let maskLayer = CAShapeLayer()
             maskLayer.fillRule = .evenOdd
@@ -311,5 +316,41 @@ class TabBarItemView: UIView {
         } else {
             accessibilityLabel = item.title
         }
+    }
+}
+
+// MARK: - TabBarItemView UIPointerInteractionDelegate
+
+extension TabBarItemView: UIPointerInteractionDelegate {
+    @available(iOS 13.4, *)
+    func pointerInteraction(_ interaction: UIPointerInteraction, styleFor region: UIPointerRegion) -> UIPointerStyle? {
+        let pointerEffect = UIPointerEffect.highlight(.init(view: self))
+
+        var pointerFrame = imageView.frame
+
+        if titleLabel.superview != nil {
+            let titleFrame = titleLabel.frame
+            let originX = min(pointerFrame.minX, titleFrame.minX)
+            let originY = min(pointerFrame.minY, titleFrame.minY)
+
+            pointerFrame = CGRect(x: originX,
+                                  y: originY,
+                                  width: max(pointerFrame.maxX, titleFrame.maxX) - originX,
+                                  height: max(pointerFrame.maxY, titleFrame.maxY) - originY)
+        }
+
+        pointerFrame = pointerFrame.insetBy(dx: PointerConstants.outset, dy: PointerConstants.outset)
+        pointerFrame = convert(pointerFrame, from: container)
+        if let superview = superview {
+            pointerFrame = superview.convert(pointerFrame, from: self)
+        }
+
+        let pointerShape = UIPointerShape.roundedRect(pointerFrame, radius: PointerConstants.cornerRadius)
+        return UIPointerStyle(effect: pointerEffect, shape: pointerShape)
+    }
+
+    private struct PointerConstants {
+        static let cornerRadius: CGFloat = 5
+        static let outset: CGFloat = -5
     }
 }
