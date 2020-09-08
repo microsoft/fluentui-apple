@@ -8,9 +8,6 @@ import FluentUI
 
 class DemoListViewController: UITableViewController {
 
-    /// Set this to a non-zero value to automatically launch the demo controller at this index when the demo app launches.
-    private var autoLaunchDemoIndex: Int = 0
-
     static func addDemoListTo(window: UIWindow, pushing viewController: UIViewController?) {
         if let colorProvider = window as? ColorProviding {
             Colors.setProvider(provider: colorProvider, for: window)
@@ -31,11 +28,11 @@ class DemoListViewController: UITableViewController {
     }
 
     let demos: [(title: String, controllerClass: UIViewController.Type)] = FluentUI_Demo.demos.filter { demo in
-#if DEBUG
+        #if DEBUG
         return true
-#else
+        #else
         return !demo.title.hasPrefix("DEBUG")
-#endif
+        #endif
     }
 
     override func viewDidLoad() {
@@ -54,15 +51,6 @@ class DemoListViewController: UITableViewController {
         tableView.separatorStyle = .none
 
         tableView.register(TableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        if autoLaunchDemoIndex != 0 {
-            tableView(tableView, didSelectRowAt: IndexPath(row: autoLaunchDemoIndex - 1, section: 0))
-            autoLaunchDemoIndex = 0
-        }
     }
 
     // MARK: Table View
