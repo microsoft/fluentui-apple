@@ -57,11 +57,14 @@ class DemoListViewController: UITableViewController {
         super.viewDidAppear(animated)
 
         if didAutoLaunch {
-            UserDefaults.standard.set(0, forKey: DemoListViewController.lastDemoControllerKey)
+            UserDefaults.standard.set(nil, forKey: DemoListViewController.lastDemoControllerKey)
         } else {
-            let lastDemoController = UserDefaults.standard.integer(forKey: DemoListViewController.lastDemoControllerKey)
-            if lastDemoController != 0 {
-                tableView(tableView, didSelectRowAt: IndexPath(row: lastDemoController - 1, section: 0))
+            let lastDemoController = UserDefaults.standard.string(forKey: DemoListViewController.lastDemoControllerKey)
+            for (index, demo) in demos.enumerated() {
+                if demo.title == lastDemoController {
+                    tableView(tableView, didSelectRowAt: IndexPath(row: index, section: 0))
+                    break
+                }
             }
 
             didAutoLaunch = true
@@ -87,7 +90,7 @@ class DemoListViewController: UITableViewController {
         demoController.title = demo.title
         navigationController?.pushViewController(demoController, animated: true)
 
-        UserDefaults.standard.set(indexPath.row + 1, forKey: DemoListViewController.lastDemoControllerKey)
+        UserDefaults.standard.set(demo.title, forKey: DemoListViewController.lastDemoControllerKey)
     }
 
     let cellReuseIdentifier: String = "TableViewCell"
