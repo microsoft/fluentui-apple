@@ -233,6 +233,11 @@ open class SearchBar: UIView {
         clearButton.addTarget(self, action: #selector(SearchBar.clearButtonTapped(sender:)), for: .touchUpInside)
         clearButton.setImage(UIImage.staticImageNamed("search-clear"), for: .normal)
         clearButton.isHidden = true
+
+        if #available(iOS 13.4, *) {
+            clearButton.isPointerInteractionEnabled = true
+        }
+
         return clearButton
     }()
 
@@ -243,9 +248,15 @@ open class SearchBar: UIView {
         button.setTitle("Common.Cancel".localized, for: .normal)
         button.addTarget(self, action: #selector(SearchBar.cancelButtonTapped(sender:)), for: .touchUpInside)
         button.alpha = 0.0
+
         if #available(iOS 13, *) {
             button.showsLargeContentViewer = true
         }
+
+        if #available(iOS 13.4, *) {
+            button.isPointerInteractionEnabled = true
+        }
+
         return button
     }()
 

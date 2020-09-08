@@ -78,7 +78,11 @@ class LargeTitleView: UIView {
         }
     }
 
-    var onAvatarTapped: (() -> Void)? // called in response to a tap on the MSAvatarView
+    var onAvatarTapped: (() -> Void)? { // called in response to a tap on the MSAvatarView
+        didSet {
+            updateAvatarViewPointerInteraction()
+        }
+    }
 
     public func visibleAvatarView() -> UIView? {
         if !showsProfileButton {
@@ -199,6 +203,8 @@ class LargeTitleView: UIView {
         if #available(iOS 13, *) {
             titleButton.showsLargeContentViewer = true
         }
+
+        updateAvatarViewPointerInteraction()
     }
 
     // Declares animation closures used for title expansion/contraction
@@ -248,6 +254,10 @@ class LargeTitleView: UIView {
         contentStackView.spacing = Constants.horizontalSpacing
 
         layoutIfNeeded()
+    }
+
+    private func updateAvatarViewPointerInteraction() {
+        avatarView?.hasPointerInteraction = onAvatarTapped != nil
     }
 
     // MARK: - UIActions

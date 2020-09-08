@@ -7,14 +7,15 @@ import FluentUI
 import UIKit
 
 class SideTabBarDemoController: DemoController {
-    override func loadView() {
-        view = UIView(frame: .zero)
-        container.addArrangedSubview(createButton(title: "Show side tab bar", action: #selector(presentSideTabBar)))
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        presentSideTabBar()
     }
 
     private struct Constants {
-        static let initialBadgeNumbers: [UInt] = [5, 50, 250, 4, 135]
-        static let initialHigherBadgeNumbers: [UInt] = [1250, 25505, 3050528, 50890, 2304]
+        static let initialBadgeNumbers: [UInt] = [5, 50, 250, 4, 65, 135]
+        static let initialHigherBadgeNumbers: [UInt] = [1250, 25505, 3050528, 50890, 2304, 28745]
         static let optionsSpacing: CGFloat = 5.0
     }
 
@@ -48,7 +49,7 @@ class SideTabBarDemoController: DemoController {
         return createButton(title: "-", action: #selector(decrementBadgeNumbers))
     }()
 
-    @objc private func presentSideTabBar() {
+    private func presentSideTabBar() {
         let contentViewController = UIViewController(nibName: nil, bundle: nil)
         self.contentViewController = contentViewController
 
@@ -76,12 +77,16 @@ class SideTabBarDemoController: DemoController {
             TabBarItem(title: "Settings", image: UIImage(named: "Settings_24")!)
         ]
 
+        let contentView = UIView(frame: .zero)
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        contentViewController.view.addSubview(contentView)
+
         let optionsStackView = UIStackView(frame: .zero)
         optionsStackView.axis = .vertical
         optionsStackView.alignment = .center
         optionsStackView.spacing = Constants.optionsSpacing
         optionsStackView.translatesAutoresizingMaskIntoConstraints = false
-        contentViewController.view.addSubview(optionsStackView)
+        contentView.addSubview(optionsStackView)
 
         let showAvatarViewRow = createLabelAndSwitchRow(labelText: "Show Avatar View", switchAction: #selector(toggleAvatarView(switchView:)), isOn: true)
         showAvatarViewRow.translatesAutoresizingMaskIntoConstraints = false
@@ -128,8 +133,12 @@ class SideTabBarDemoController: DemoController {
             sideTabBar.leadingAnchor.constraint(equalTo: contentViewController.view.leadingAnchor),
             sideTabBar.topAnchor.constraint(equalTo: contentViewController.view.topAnchor),
             sideTabBar.bottomAnchor.constraint(equalTo: contentViewController.view.bottomAnchor),
-            optionsStackView.centerXAnchor.constraint(equalTo: contentViewController.view.centerXAnchor),
-            optionsStackView.centerYAnchor.constraint(equalTo: contentViewController.view.centerYAnchor)
+            contentView.leadingAnchor.constraint(equalTo: sideTabBar.trailingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: contentViewController.view.trailingAnchor),
+            contentView.topAnchor.constraint(equalTo: contentViewController.view.topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: contentViewController.view.bottomAnchor),
+            optionsStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            optionsStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
 
         present(contentViewController, animated: false)
@@ -139,7 +148,9 @@ class SideTabBarDemoController: DemoController {
     }
 
     @objc private func dismissSideTabBar() {
-        dismiss(animated: false, completion: nil)
+        dismiss(animated: false) {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
 
     @objc private func toggleAvatarView(switchView: UISwitch) {
@@ -167,6 +178,7 @@ class SideTabBarDemoController: DemoController {
         if show {
             avatarView = AvatarView(avatarSize: .medium, withBorder: false, style: .circle, preferredFallbackImageStyle: .onAccentFilled)
             avatarView!.setup(primaryText: "Kat Larson", secondaryText: "", image: UIImage(named: "avatar_kat_larsson")!)
+            avatarView!.hasPointerInteraction = true
         }
 
         sideTabBar.avatarView = avatarView
@@ -175,7 +187,7 @@ class SideTabBarDemoController: DemoController {
     private func updateBadgeNumbers() {
         var numbers = useHigherBadgeNumbers ? higherBadgeNumbers : badgeNumbers
         if !showBadgeNumbers {
-            numbers = [0, 0, 0, 0, 0]
+            numbers = [0, 0, 0, 0, 0, 0]
         }
 
         sideTabBar.topItems[0].setBadgeNumber(numbers[0])
@@ -183,6 +195,7 @@ class SideTabBarDemoController: DemoController {
         sideTabBar.topItems[2].setBadgeNumber(numbers[2])
         sideTabBar.bottomItems[0].setBadgeNumber(numbers[3])
         sideTabBar.bottomItems[1].setBadgeNumber(numbers[4])
+        sideTabBar.bottomItems[2].setBadgeNumber(numbers[5])
     }
 
     private func updateBadgeButtons() {
