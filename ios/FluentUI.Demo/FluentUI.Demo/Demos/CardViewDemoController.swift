@@ -20,16 +20,16 @@ class CardViewDemoController: DemoController {
             switch style {
             case .horizontal:
                 if let demoIcon = demoIcon {
-                    let card = CardView(style: style, title: "Title", icon: demoIcon, colorTheme: .neutral)
+                    let card = CardView(style: style, title: "Title", icon: demoIcon, colorStyle: .neutral)
                     card.delegate = self
-                    let cardWithSubtitle = CardView(style: style, title: "Title", subtitle: "Subtitle", icon: demoIcon, colorTheme: .appColor)
+                    let cardWithSubtitle = CardView(style: style, title: "Title", subtitle: "Subtitle", icon: demoIcon, colorStyle: .appColor)
                     cardWithSubtitle.customBackgroundColor = Colors.Button.background
                     cardWithSubtitle.delegate = self
-                    let cardWithLongTitle = CardView(style: style, title: "Title that is very very very very long", icon: demoIcon, colorTheme: .appColor)
+                    let cardWithLongTitle = CardView(style: style, title: "Title that is very very very very long", icon: demoIcon, colorStyle: .appColor)
                     cardWithLongTitle.twoLineTitle = true
                     cardWithLongTitle.delegate = self
                     // Card with a custom background color without setting customBackgroundColor so the default background color is used
-                    let cardLongTitleAndSubtitle = CardView(style: style, title: "Title that is very very very very long", subtitle: "Subtitle that is very long", icon: demoIcon, colorTheme: .custom)
+                    let cardLongTitleAndSubtitle = CardView(style: style, title: "Title that is very very very very long", subtitle: "Subtitle that is very long", icon: demoIcon, colorStyle: .custom)
                     cardLongTitleAndSubtitle.delegate = self
 
                     addRow(items: [card, cardWithSubtitle], itemSpacing: Constants.itemSpacing)
@@ -37,14 +37,14 @@ class CardViewDemoController: DemoController {
                 }
             case .vertical:
                 if let demoIcon = demoIcon {
-                    let card = CardView(style: style, title: "Title", icon: demoIcon, colorTheme: .appColor)
+                    let card = CardView(style: style, title: "Title", icon: demoIcon, colorStyle: .appColor)
                     card.delegate = self
-                    let cardWithSubtitle = CardView(style: style, title: "Title", subtitle: "Subtitle", icon: demoIcon, colorTheme: .neutral)
+                    let cardWithSubtitle = CardView(style: style, title: "Title", subtitle: "Subtitle", icon: demoIcon, colorStyle: .neutral)
                     cardWithSubtitle.delegate = self
-                    let cardWithLongTitle = CardView(style: style, title: "Title that is very very very very long", icon: demoIcon, colorTheme: .custom)
+                    let cardWithLongTitle = CardView(style: style, title: "Title that is very very very very long", icon: demoIcon, colorStyle: .custom)
                     cardWithLongTitle.twoLineTitle = true
                     cardWithLongTitle.delegate = self
-                    let cardWithLongTitleAndSubtitle = CardView(style: style, title: "Title that is very very very very long", subtitle: "Subtitle that is very long", icon: demoIcon, colorTheme: .appColor)
+                    let cardWithLongTitleAndSubtitle = CardView(style: style, title: "Title that is very very very very long", subtitle: "Subtitle that is very long", icon: demoIcon, colorStyle: .appColor)
                     cardWithLongTitleAndSubtitle.delegate = self
 
                     addRow(items: [card, cardWithSubtitle], itemSpacing: Constants.itemSpacing)

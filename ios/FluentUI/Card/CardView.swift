@@ -13,9 +13,9 @@ public protocol CardDelegate {
     @objc optional func didTapCard(_ card: CardView)
 }
 
-/// Color theme can be app colors, neutral colors, or custom colors. The theme affects the background, border, title, subtitle and icon colors
-@objc(MSFCardColorTheme)
-public enum CardColorTheme: Int, CaseIterable {
+/// Color style can be app colors, neutral colors, or custom colors. The style affects the background, border, title, subtitle and icon colors
+@objc(MSFCardColorStyle)
+public enum CardColorStyle: Int, CaseIterable {
     case appColor
     case neutral
     case custom
@@ -43,12 +43,12 @@ public enum CardStyle: Int, CaseIterable {
 /**
  `CardView` is a UIView used to display information in a card
  
- A card has a title, an optional subtitle, an icon, a style, and a color theme
+ A card has a title, an optional subtitle, an icon, a style, and a color style
  
  Use `titleNumberOfLines` and `subtitleNumberOfLines`  to set the number of lines the title and subtitle should have respectively. When the string can not fit in the number of lines set, it will get truncated
  
- Use one of the defined color themes for an app color theme, or a neutral gray color theme
- When CardColorTheme.custom is used, default colors will be set unless a custom color is provided by setting the properties: `customBackgroundColor`, `customTitleColor`, `customSubtitleColor`, `customIconTintColor`, and `customBorderColor`
+ Use one of the defined color styles for an app color style, or a neutral gray color style
+ When CardColorStyle.custom is used, default colors will be set unless a custom color is provided by setting the properties: `customBackgroundColor`, `customTitleColor`, `customSubtitleColor`, `customIconTintColor`, and `customBorderColor`
  
  Conform to the `CardDelegate` in order to provide a handler for the card tap event
  */
@@ -56,6 +56,7 @@ public enum CardStyle: Int, CaseIterable {
 open class CardView: UIView {
     /// Delegate to handle user interaction with the CardView
     @objc public weak var delegate: CardDelegate?
+
     /// All card styles have a title. Setting `primaryText` will refresh the layout constraints
     @objc open var primaryText: String {
         didSet {
@@ -65,6 +66,7 @@ open class CardView: UIView {
             }
         }
     }
+
     /// Setting `secondaryText` is a way to add/remove the subtitle which will also refresh the layout constraints to adjust to the change
     @objc open var secondaryText: String? {
         didSet {
@@ -74,6 +76,7 @@ open class CardView: UIView {
             }
         }
     }
+
     /// The card's icon. Announcement is the only card style that doesn't include an icon
     @objc open var icon: UIImage {
         didSet {
@@ -82,14 +85,16 @@ open class CardView: UIView {
             }
         }
     }
-    /// The color theme determines the border color, background color, icon tint color, and text color. When using the custom theme, set custom properties to override the default color values
-    @objc open var colorTheme: CardColorTheme = .neutral {
+
+    /// The color style determines the border color, background color, icon tint color, and text color. When using the custom style, set custom properties to override the default color values
+    @objc open var colorStyle: CardColorStyle = .neutral {
         didSet {
-            if colorTheme != oldValue {
+            if colorStyle != oldValue {
                 setupColors()
             }
         }
     }
+
     /// Set `titleNumberOfLines` in order to control how many lines the title has. Setting this property will refresh the layout constrinats to adjust to the change
     @objc open var twoLineTitle: Bool = false {
         didSet {
@@ -99,7 +104,8 @@ open class CardView: UIView {
             }
         }
     }
-    /// Set `customBackgroundColor` in order to set the background color when using the custom color theme
+
+    /// Set `customBackgroundColor` in order to set the background color when using the custom color style
     @objc open var customBackgroundColor: UIColor = Constants.defaultBackgroundColor {
         didSet {
             if customBackgroundColor != oldValue {
@@ -107,7 +113,8 @@ open class CardView: UIView {
             }
         }
     }
-    /// Set `customTitleColor` in order to set the title's text color when using the custom color theme
+
+    /// Set `customTitleColor` in order to set the title's text color when using the custom color style
     @objc open var customTitleColor: UIColor = Constants.defaultTitleColor {
         didSet {
             if customTitleColor != oldValue {
@@ -115,7 +122,8 @@ open class CardView: UIView {
             }
         }
     }
-    /// Set `customSubtitleColor` in order to set the subtitle's text color when using the custom color theme
+
+    /// Set `customSubtitleColor` in order to set the subtitle's text color when using the custom color style
     @objc open var customSubtitleColor: UIColor = Constants.defaultSubtitleColor {
         didSet {
             if customSubtitleColor != oldValue {
@@ -123,7 +131,8 @@ open class CardView: UIView {
             }
         }
     }
-    /// Set `customIconTintColor` in order to set the icon's tint color when using the custom color theme
+
+    /// Set `customIconTintColor` in order to set the icon's tint color when using the custom color style
     @objc open var customIconTintColor: UIColor = Constants.defaultIconTintColor {
         didSet {
             if customIconTintColor != oldValue {
@@ -131,7 +140,8 @@ open class CardView: UIView {
             }
         }
     }
-    /// Set `customBorderColor` in order to set the border's color when using the custom color theme
+
+    /// Set `customBorderColor` in order to set the border's color when using the custom color style
     @objc open var customBorderColor: UIColor = Constants.defaultBorderColor {
         didSet {
             if customBorderColor != oldValue {
@@ -139,6 +149,7 @@ open class CardView: UIView {
             }
         }
     }
+
     /// Set `customWidth` in order to set the width of the card
     @objc open var customWidth: CGFloat {
         didSet {
@@ -151,10 +162,12 @@ open class CardView: UIView {
     /// The style of the card; vertical or horizontal. Style determines the layout of the content
     private var style: CardStyle = .horizontal
 
+    /// The view of the icon. Appears on top of the text in vertical cards and besides the text in horizontal cards
     private var iconView: UIImageView
 
-    private let primaryLabel: UILabel = {
-        let primaryLabel = UILabel()
+    /// The label for the Card's title
+    private let primaryLabel: Label = {
+        let primaryLabel = Label()
         primaryLabel.translatesAutoresizingMaskIntoConstraints = false
         primaryLabel.adjustsFontForContentSizeCategory = true
         primaryLabel.font = TextStyle.subhead.font
@@ -163,8 +176,9 @@ open class CardView: UIView {
         return primaryLabel
     }()
 
-    private let secondaryLabel: UILabel = {
-        let secondaryLabel = UILabel()
+    /// The label for the Card's subtitle
+    private let secondaryLabel: Label = {
+        let secondaryLabel = Label()
         secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
         secondaryLabel.adjustsFontForContentSizeCategory = true
         secondaryLabel.font = TextStyle.footnote.font
@@ -173,8 +187,15 @@ open class CardView: UIView {
         return secondaryLabel
     }()
 
-    private var sizeCategoryIncrease: Bool = false
-    private var sizeCategoryChanged: Bool = false
+    /// The base height of a vertical Card. It includes the top padding, the content spacing, the icon's height and the bottom padding
+    private var verticalBaseHeight: CGFloat
+
+    /// The base height of a horizontal Card. It includes the top and bottom paddings
+    private var horizontalBaseHeight: CGFloat
+
+    /// The height constraint of the Card. It's updated when the preferred size category changes
+    private var heightConstraint: NSLayoutConstraint
+
     /**
      Initializes `CardView`
      
@@ -182,30 +203,33 @@ open class CardView: UIView {
      - Parameter title: The title of the card
      - Parameter subtitle: The subtitle of the card - optional
      - Parameter icon: The icon of the card
-     - Parameter colorTheme: The Card's color theme; appColor, neutral, or custom
+     - Parameter colorStyle: The Card's color style; appColor, neutral, or custom
      **/
     @objc public init(style: CardStyle,
                       title: String,
                       subtitle: String? = nil,
                       icon: UIImage,
-                      colorTheme: CardColorTheme) {
+                      colorStyle: CardColorStyle) {
         self.primaryText = title
         self.style = style
         self.secondaryText = subtitle
         self.icon = icon
-        self.colorTheme = colorTheme
+        self.colorStyle = colorStyle
         customWidth = style.width
         iconView = UIImageView(image: icon)
+
+        // Initialize the base heights
+        verticalBaseHeight = (Constants.verticalPaddingTop + Constants.iconHeight + Constants.verticalContentSpacing + Constants.verticalPaddingBottom)
+        horizontalBaseHeight = (2 * Constants.horizontalPadding)
+        heightConstraint = NSLayoutConstraint.init()
 
         super.init(frame: .zero)
 
         translatesAutoresizingMaskIntoConstraints = false
 
         // View border and background
-        layer.borderWidth = Constants.borderWidth
+        layer.borderWidth = UIScreen.main.devicePixel
         layer.cornerRadius = Constants.borderRadius
-        layer.borderColor = Constants.defaultBorderColor.cgColor
-        backgroundColor = Constants.defaultBackgroundColor
 
         // Title
         primaryLabel.text = title
@@ -246,14 +270,21 @@ open class CardView: UIView {
         super.traitCollectionDidChange(previousTraitCollection)
         if let previousTraitCollection = previousTraitCollection {
             if previousTraitCollection.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-                sizeCategoryIncrease = previousTraitCollection.preferredContentSizeCategory < traitCollection.preferredContentSizeCategory
-                sizeCategoryChanged = true
-                setupLayoutConstraints()
+                var height = style == .horizontal ? horizontalBaseHeight : verticalBaseHeight
+                let (singleLineHeight, twoLineHeight) = labelHeight(for: traitCollection.preferredContentSizeCategory)
+
+                if twoLineTitle {
+                   height += twoLineHeight
+                } else {
+                    height += 2 * singleLineHeight
+                }
+
+                heightConstraint.constant = height
             }
             if #available(iOS 13, *) {
                 if previousTraitCollection.hasDifferentColorAppearance(comparedTo: traitCollection) {
                     // Update border color
-                    switch colorTheme {
+                    switch colorStyle {
                     case .appColor:
                         if let window = window {
                             layer.borderColor = UIColor(light: Colors.primaryTint30(for: window), dark: .clear).cgColor
@@ -270,7 +301,7 @@ open class CardView: UIView {
 
     /// Set up the background color of the card and update the icon and text color if necessary
     private func setupColors() {
-        switch colorTheme {
+        switch colorStyle {
         case .appColor:
             primaryLabel.textColor = UIColor(light: .black, dark: Colors.gray100)
             secondaryLabel.textColor = UIColor(light: Colors.gray600, dark: Colors.gray400)
@@ -296,12 +327,12 @@ open class CardView: UIView {
 
     private struct Constants {
         static let defaultBackgroundColor = UIColor(light: .white, dark: Colors.gray900)
-        static let defaultBorderColor = UIColor(light: Colors.gray100, dark: .clear)
-        static let defaultTitleColor = UIColor(light: Colors.gray900, dark: Colors.gray100)
-        static let defaultSubtitleColor = UIColor(light: Colors.gray500, dark: Colors.gray400)
-        static let defaultIconTintColor = UIColor(light: Colors.gray400, dark: Colors.gray500)
-        static let iconSize = CGSize(width: 24, height: 24)
-        static let borderWidth: CGFloat = UIScreen.main.devicePixel
+        static let defaultBorderColor = UIColor(light: Colors.dividerOnPrimary, dark: .clear)
+        static let defaultTitleColor: UIColor = Colors.textPrimary
+        static let defaultSubtitleColor: UIColor = Colors.textSecondary
+        static let defaultIconTintColor: UIColor = Colors.iconSecondary
+        static let iconWidth: CGFloat = 24
+        static let iconHeight: CGFloat = 24
         static let borderRadius: CGFloat = 8.0
         static let defaultTitleNumberOfLines: Int = 1
         static let twoLineTitle: Int = 2
@@ -321,85 +352,114 @@ open class CardView: UIView {
     private var layoutConstraints: [NSLayoutConstraint] = []
 
     private func setupLayoutConstraints() {
+        if layoutConstraints.count > 0 {
+            NSLayoutConstraint.deactivate(layoutConstraints)
+            layoutConstraints.removeAll()
+        }
+
         /// The possible text conigurations are:
         /// 1) Single-line Title
         /// 2) Two-line title
         /// 3) Single-line Title + single-line subtitle
-        /// In all cases, the text height is: 2 * title's line height
-        /// Use intrinsic height to support size category changes and the font line height when the string is truncated
-
-        let heightBase: CGFloat = primaryLabel.intrinsicContentSize.height //isStringTruncated(string: primaryText, label: primaryLabel) ? primaryLabel.font.lineHeight : primaryLabel.intrinsicContentSize.height
-        var height: CGFloat = ceil(2 * heightBase)
+        /// In all cases, the text height is: 2 * title's height
+        var height: CGFloat = ceil(2 * primaryLabel.intrinsicContentSize.height)
 
         switch style {
         case .horizontal:
-            // title + subtitle? + icon
-            height += (2 * Constants.horizontalPadding)
+            height += horizontalBaseHeight
 
             layoutConstraints.append(contentsOf: [
-                widthAnchor.constraint(equalToConstant: style.width),
-                heightAnchor.constraint(equalToConstant: height),
-                iconView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.paddingLeading),
-                iconView.widthAnchor.constraint(equalToConstant: Constants.iconSize.width),
-                iconView.heightAnchor.constraint(equalToConstant: Constants.iconSize.height),
                 iconView.centerYAnchor.constraint(equalTo: centerYAnchor),
-                primaryLabel.leadingAnchor.constraint(equalTo: iconView.trailingAnchor, constant: Constants.horizontalContentSpacing),
-                primaryLabel.topAnchor.constraint(equalTo: topAnchor, constant: Constants.horizontalPadding),
-                primaryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.paddingTrailing)
+                primaryLabel.leadingAnchor.constraint(equalTo: iconView.trailingAnchor, constant: Constants.horizontalContentSpacing)
             ])
 
-            if secondaryText != nil {
-                layoutConstraints.append(contentsOf: [
-                    secondaryLabel.leadingAnchor.constraint(equalTo: primaryLabel.leadingAnchor),
-                    secondaryLabel.topAnchor.constraint(equalTo: primaryLabel.bottomAnchor),
-                    secondaryLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constants.horizontalPadding),
-                    secondaryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.paddingTrailing)
-                ])
+            // Center the title vertically if there is no subtitle
+            if secondaryText == nil && !twoLineTitle {
+                layoutConstraints.append(primaryLabel.centerYAnchor.constraint(equalTo: centerYAnchor))
             } else {
-                layoutConstraints.append(contentsOf: [
-                    primaryLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constants.horizontalPadding)
-                ])
+                layoutConstraints.append(primaryLabel.topAnchor.constraint(equalTo: topAnchor, constant: Constants.horizontalPadding))
             }
         case .vertical:
-            // title + subtitle? + icon
-            height += (Constants.verticalPaddingTop + Constants.iconSize.height + Constants.verticalContentSpacing + Constants.verticalPaddingBottom)
-            if twoLineTitle {
-                //height += Constants.multiLineSpacing
-            }
+            height += verticalBaseHeight
 
             layoutConstraints.append(contentsOf: [
-                widthAnchor.constraint(equalToConstant: style.width),
-                heightAnchor.constraint(equalToConstant: height),
                 iconView.topAnchor.constraint(equalTo: topAnchor, constant: Constants.verticalPaddingTop),
-                iconView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.paddingLeading),
-                iconView.widthAnchor.constraint(equalToConstant: Constants.iconSize.width),
-                iconView.heightAnchor.constraint(equalToConstant: Constants.iconSize.height),
                 primaryLabel.topAnchor.constraint(equalTo: iconView.bottomAnchor, constant: Constants.verticalContentSpacing),
-                primaryLabel.leadingAnchor.constraint(equalTo: iconView.leadingAnchor),
-                primaryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.paddingTrailing)
+                primaryLabel.leadingAnchor.constraint(equalTo: iconView.leadingAnchor)
             ])
-            if secondaryText != nil {
-                layoutConstraints.append(contentsOf: [
-                    secondaryLabel.topAnchor.constraint(equalTo: primaryLabel.bottomAnchor),
-                    secondaryLabel.leadingAnchor.constraint(equalTo: iconView.leadingAnchor),
-                    secondaryLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constants.verticalPaddingBottom),
-                    secondaryLabel.trailingAnchor.constraint(equalTo: primaryLabel.trailingAnchor)
-                ])
-            } else {
-                layoutConstraints.append(contentsOf: [
-                    primaryLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constants.verticalPaddingBottom)
-                ])
-            }
+        }
+
+        heightConstraint = heightAnchor.constraint(equalToConstant: height)
+
+        layoutConstraints.append(contentsOf: [
+            widthAnchor.constraint(equalToConstant: style.width),
+            heightConstraint,
+            iconView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.paddingLeading),
+            iconView.widthAnchor.constraint(equalToConstant: Constants.iconWidth),
+            iconView.heightAnchor.constraint(equalToConstant: Constants.iconHeight),
+            primaryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.paddingTrailing)
+        ])
+
+        if secondaryText != nil {
+            layoutConstraints.append(contentsOf: [
+                secondaryLabel.leadingAnchor.constraint(equalTo: primaryLabel.leadingAnchor),
+                secondaryLabel.topAnchor.constraint(equalTo: primaryLabel.bottomAnchor),
+                secondaryLabel.trailingAnchor.constraint(equalTo: primaryLabel.trailingAnchor)
+            ])
         }
 
         NSLayoutConstraint.activate(layoutConstraints)
     }
 
-    private func isStringTruncated(string: String, label: UILabel) -> Bool {
-        return string.preferredSize(for: label.font).width > label.frame.width
-    }
-
     @objc private func handleCardTapped(_ recognizer: UITapGestureRecognizer) {
         delegate?.didTapCard?(self)
+    }
+
+    private func labelHeight(for sizeCategory: UIContentSizeCategory) -> (CGFloat, CGFloat) {
+        var singleLineHeight: CGFloat = 0
+        var twoLineHeight: CGFloat = 0
+
+        switch sizeCategory {
+        case .extraSmall:
+            singleLineHeight = 15
+            twoLineHeight = 30
+        case .small:
+            singleLineHeight = 16
+            twoLineHeight = 34
+        case .medium:
+            singleLineHeight = 17
+            twoLineHeight = 36
+        case .large:
+            singleLineHeight = 18
+            twoLineHeight = 38
+        case .extraLarge:
+            singleLineHeight = 21
+            twoLineHeight = 43
+        case .extraExtraLarge:
+            singleLineHeight = 23
+            twoLineHeight = 47
+        case .extraExtraExtraLarge:
+            singleLineHeight = 26
+            twoLineHeight = 52
+        case .accessibilityMedium:
+            singleLineHeight = 30
+            twoLineHeight = 61
+        case .accessibilityLarge:
+            singleLineHeight = 36
+            twoLineHeight = 72
+        case .accessibilityExtraLarge:
+            singleLineHeight = 43
+            twoLineHeight = 86
+        case .accessibilityExtraExtraLarge:
+            singleLineHeight = 51
+            twoLineHeight = 101
+        case .accessibilityExtraExtraExtraLarge:
+            singleLineHeight = 59
+            twoLineHeight = 117
+        default:
+            break
+        }
+
+        return (singleLineHeight, twoLineHeight)
     }
 }
