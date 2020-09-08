@@ -129,6 +129,4 @@ open class ShimmerLinesView: ShimmerView {
 			return lineCount
 		}
 	}
-
-
 }

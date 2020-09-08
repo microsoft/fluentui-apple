@@ -9,7 +9,7 @@ import FluentUI
 // MARK: TableViewCellDemoController
 
 class TableViewCellDemoController: DemoController {
-    let sections: [TableViewSampleData.Section] = TableViewCellSampleData.sections 
+    let sections: [TableViewSampleData.Section] = TableViewCellSampleData.sections
 
     private var isGrouped: Bool = false {
         didSet {

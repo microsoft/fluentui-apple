@@ -10,14 +10,14 @@ class ShimmerViewDemoController: DemoController {
 		super.viewDidLoad()
 
 		let contentView = { () -> UIStackView in
-			let label1 = UILabel()
+			let label1 = Label()
 			label1.text = "Label 1"
 			label1.setContentHuggingPriority(.defaultHigh, for: .horizontal)
 
-			let label2 = UILabel()
+			let label2 = Label()
 			label2.text = "Label 2"
 
-			let label3 = UILabel()
+			let label3 = Label()
 			label3.text = "label 3"
 
 			let verticalStackView = UIStackView(arrangedSubviews: [label2, label3])
@@ -41,7 +41,7 @@ class ShimmerViewDemoController: DemoController {
 			return containerView
 		}
 
-		let shimmerViewLabel = { (text: String) -> UILabel in
+		let shimmerViewLabel = { (text: String) -> Label in
 			let label = Label(style: .headline)
 			label.numberOfLines = 0
 			label.text = text

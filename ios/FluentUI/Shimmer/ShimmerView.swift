@@ -293,7 +293,7 @@ open class ShimmerView: UIView {
 			}
 		}
 	}
-	
+
 	private static let defaultAlpha: CGFloat = 0.4
 	private static let defaultWidth: CGFloat = 180
 	private static let defaultAngle: CGFloat = -(CGFloat.pi / 45.0)
@@ -314,5 +314,3 @@ public extension Colors {
 		public static var tint = UIColor(light: surfaceTertiary, dark: surfaceQuaternary)
 	}
 }
-
-
