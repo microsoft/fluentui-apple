@@ -188,13 +188,15 @@ open class CardView: UIView {
     }()
 
     /// The base height of a vertical Card. It includes the top padding, the content spacing, the icon's height and the bottom padding
-    private var verticalBaseHeight: CGFloat
+    private let verticalBaseHeight: CGFloat
 
     /// The base height of a horizontal Card. It includes the top and bottom paddings
-    private var horizontalBaseHeight: CGFloat
+    private let horizontalBaseHeight: CGFloat
 
-    /// The height constraint of the Card. It's updated when the preferred size category changes
-    private var heightConstraint: NSLayoutConstraint
+    /// The height constraint of the Card. It's updated when layout constraints are set up and when the preferred size category changes
+    private lazy var heightConstraint: NSLayoutConstraint = {
+        return self.heightAnchor.constraint(equalToConstant: 0)
+    }()
 
     /**
      Initializes `CardView`
@@ -221,7 +223,6 @@ open class CardView: UIView {
         // Initialize the base heights
         verticalBaseHeight = (Constants.verticalPaddingTop + Constants.iconHeight + Constants.verticalContentSpacing + Constants.verticalPaddingBottom)
         horizontalBaseHeight = (2 * Constants.horizontalPadding)
-        heightConstraint = NSLayoutConstraint.init()
 
         super.init(frame: .zero)
 
