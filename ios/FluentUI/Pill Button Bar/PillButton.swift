@@ -48,6 +48,15 @@ public enum PillButtonStyle: Int {
         }
     }
 
+    func hoverBackgroundColor(for window: UIWindow) -> UIColor {
+        switch self {
+        case .outline:
+            return Colors.surfaceQuaternary
+        case .filled:
+            return UIColor(light: Colors.primaryShade20(for: window), dark: Colors.surfaceQuaternary)
+        }
+    }
+
     var titleColor: UIColor {
         switch self {
         case .outline:
@@ -110,8 +119,6 @@ open class PillButton: UIButton {
         static let topInset: CGFloat = 6.0
     }
 
-    private var useCustomBackgroundColor: Bool = false
-
     @objc public let pillBarItem: PillButtonBarItem
 
     @objc public let style: PillButtonStyle
@@ -133,8 +140,7 @@ open class PillButton: UIButton {
     /// Set `backgroundColor` to customize background color of the pill button
     @objc open var customBackgroundColor: UIColor? {
         didSet {
-            useCustomBackgroundColor = true
-            self.backgroundColor = customBackgroundColor
+            updateAppearance()
         }
     }
 
@@ -198,7 +204,12 @@ open class PillButton: UIButton {
                     setTitleColor(style.selectedDisabledTitleColor(for: window), for: .normal)
                 }
             } else {
-                backgroundColor = useCustomBackgroundColor ? customBackgroundColor : style.backgroundColor(for: window)
+                if let customBackgroundColor = customBackgroundColor {
+                    backgroundColor = customBackgroundColor
+                } else {
+                    backgroundColor = style.backgroundColor(for: window)
+                }
+
                 if isEnabled {
                     setTitleColor(style.titleColor, for: .normal)
                 } else {

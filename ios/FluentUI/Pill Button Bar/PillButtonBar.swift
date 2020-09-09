@@ -149,6 +149,11 @@ open class PillButtonBar: UIScrollView {
         super.init(frame: .zero)
         setupScrollView()
         setupStackView()
+
+        if #available(iOS 13.4, *) {
+            let pointerInteraction = UIPointerInteraction(delegate: self)
+            addInteraction(pointerInteraction)
+        }
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -447,6 +452,65 @@ open class PillButtonBar: UIScrollView {
         buttons.forEach { maxHeight = max(maxHeight, $0.frame.size.height) }
         if let heightConstraint = heightConstraint, maxHeight != heightConstraint.constant {
             heightConstraint.constant = maxHeight
+        }
+    }
+}
+
+// MARK: PillButtonBar UIPointerInteractionDelegate
+
+extension PillButtonBar: UIPointerInteractionDelegate {
+    @available(iOS 13.4, *)
+    public func pointerInteraction(_ interaction: UIPointerInteraction, regionFor request: UIPointerRegionRequest, defaultRegion: UIPointerRegion) -> UIPointerRegion? {
+        var region: UIPointerRegion?
+
+        for (index, button) in buttons.enumerated() {
+            if button.isEnabled {
+                var frame = button.frame
+                frame = stackView.convert(frame, to: self)
+
+                if frame.contains(request.location) {
+                    region = UIPointerRegion(rect: frame, identifier: index)
+                    break
+                }
+            }
+        }
+
+        return region
+    }
+
+    @available(iOS 13.4, *)
+    public func pointerInteraction(_ interaction: UIPointerInteraction, styleFor region: UIPointerRegion) -> UIPointerStyle? {
+        let index = region.identifier as! Int
+        if let superview = window, index < buttons.count {
+            let pillButton = buttons[index]
+            let pillButtonFrame = stackView.convert(pillButton.frame, to: superview)
+            let target = UIPreviewTarget(container: superview, center: CGPoint(x: pillButtonFrame.midX, y: pillButtonFrame.midY))
+            let preview = UITargetedPreview(view: pillButton, parameters: UIPreviewParameters(), target: target)
+            let pointerEffect = UIPointerEffect.lift(preview)
+
+            return UIPointerStyle(effect: pointerEffect, shape: nil)
+        }
+
+        return nil
+    }
+
+    @available(iOS 13.4, *)
+    public func pointerInteraction(_ interaction: UIPointerInteraction, willEnter region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
+        let index = region.identifier as! Int
+        if let window = window, customPillButtonBackgroundColor == nil, index < buttons.count {
+            let pillButton = buttons[index]
+            if !pillButton.isSelected {
+                pillButton.customBackgroundColor = pillButton.style.hoverBackgroundColor(for: window)
+            }
+        }
+    }
+
+    @available(iOS 13.4, *)
+    public func pointerInteraction(_ interaction: UIPointerInteraction, willExit region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
+        let index = region.identifier as! Int
+        if customPillButtonBackgroundColor == nil && index < buttons.count {
+            let pillButton = buttons[index]
+            pillButton.customBackgroundColor = nil
         }
     }
 }
