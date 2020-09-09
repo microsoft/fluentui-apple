@@ -187,12 +187,6 @@ open class CardView: UIView {
         return secondaryLabel
     }()
 
-    /// The base height of a vertical Card. It includes the top padding, the content spacing, the icon's height and the bottom padding
-    private let verticalBaseHeight: CGFloat
-
-    /// The base height of a horizontal Card. It includes the top and bottom paddings
-    private let horizontalBaseHeight: CGFloat
-
     /// The height constraint of the Card. It's updated when layout constraints are set up and when the preferred size category changes
     private lazy var heightConstraint: NSLayoutConstraint = {
         return self.heightAnchor.constraint(equalToConstant: 0)
@@ -219,10 +213,6 @@ open class CardView: UIView {
         self.colorStyle = colorStyle
         customWidth = style.width
         iconView = UIImageView(image: icon)
-
-        // Initialize the base heights
-        verticalBaseHeight = (Constants.verticalPaddingTop + Constants.iconHeight + Constants.verticalContentSpacing + Constants.verticalPaddingBottom)
-        horizontalBaseHeight = (2 * Constants.horizontalPadding)
 
         super.init(frame: .zero)
 
@@ -271,7 +261,7 @@ open class CardView: UIView {
         super.traitCollectionDidChange(previousTraitCollection)
         if let previousTraitCollection = previousTraitCollection {
             if previousTraitCollection.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-                var height = style == .horizontal ? horizontalBaseHeight : verticalBaseHeight
+                var height = style == .horizontal ? Constants.horizontalBaseHeight : Constants.verticalBaseHeight
                 let (singleLineHeight, twoLineHeight) = labelHeight(for: traitCollection.preferredContentSizeCategory)
 
                 if twoLineTitle {
@@ -337,7 +327,8 @@ open class CardView: UIView {
         static let borderRadius: CGFloat = 8.0
         static let defaultTitleNumberOfLines: Int = 1
         static let twoLineTitle: Int = 2
-        static let multiLineSpacing: CGFloat = 2.0
+        static let verticalBaseHeight: CGFloat = Constants.verticalPaddingTop + Constants.iconHeight + Constants.verticalContentSpacing + Constants.verticalPaddingBottom
+        static let horizontalBaseHeight: CGFloat = 2 * Constants.horizontalPadding
         // Layout constants
         static let paddingTrailing: CGFloat = 16.0
         static let paddingLeading: CGFloat = 12.0
@@ -367,7 +358,7 @@ open class CardView: UIView {
 
         switch style {
         case .horizontal:
-            height += horizontalBaseHeight
+            height += Constants.horizontalBaseHeight
 
             layoutConstraints.append(contentsOf: [
                 iconView.centerYAnchor.constraint(equalTo: centerYAnchor),
@@ -381,7 +372,7 @@ open class CardView: UIView {
                 layoutConstraints.append(primaryLabel.topAnchor.constraint(equalTo: topAnchor, constant: Constants.horizontalPadding))
             }
         case .vertical:
-            height += verticalBaseHeight
+            height += Constants.verticalBaseHeight
 
             layoutConstraints.append(contentsOf: [
                 iconView.topAnchor.constraint(equalTo: topAnchor, constant: Constants.verticalPaddingTop),
@@ -390,7 +381,7 @@ open class CardView: UIView {
             ])
         }
 
-        heightConstraint = heightAnchor.constraint(equalToConstant: height)
+        heightConstraint.constant = height
 
         layoutConstraints.append(contentsOf: [
             widthAnchor.constraint(equalToConstant: style.width),
