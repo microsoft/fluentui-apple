@@ -481,17 +481,17 @@ extension PillButtonBar: UIPointerInteractionDelegate {
     @available(iOS 13.4, *)
     public func pointerInteraction(_ interaction: UIPointerInteraction, styleFor region: UIPointerRegion) -> UIPointerStyle? {
         let index = region.identifier as! Int
-        if let superview = window, index < buttons.count {
-            let pillButton = buttons[index]
-            let pillButtonFrame = stackView.convert(pillButton.frame, to: superview)
-            let target = UIPreviewTarget(container: superview, center: CGPoint(x: pillButtonFrame.midX, y: pillButtonFrame.midY))
-            let preview = UITargetedPreview(view: pillButton, parameters: UIPreviewParameters(), target: target)
-            let pointerEffect = UIPointerEffect.lift(preview)
-
-            return UIPointerStyle(effect: pointerEffect, shape: nil)
+        guard let superview = window, index < buttons.count else {
+            return nil
         }
 
-        return nil
+        let pillButton = buttons[index]
+        let pillButtonFrame = stackView.convert(pillButton.frame, to: superview)
+        let target = UIPreviewTarget(container: superview, center: CGPoint(x: pillButtonFrame.midX, y: pillButtonFrame.midY))
+        let preview = UITargetedPreview(view: pillButton, parameters: UIPreviewParameters(), target: target)
+        let pointerEffect = UIPointerEffect.lift(preview)
+
+        return UIPointerStyle(effect: pointerEffect, shape: nil)
     }
 
     @available(iOS 13.4, *)
