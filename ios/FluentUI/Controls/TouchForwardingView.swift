@@ -43,7 +43,7 @@ open class TouchForwardingView: UIView {
         var hitTestView = super.hitTest(point, with: event)
 
         // If onPassthroughViewTouches is non-nil then don't pass the touch events to passthroughView view
-        if onPassthroughViewTouches != nil {
+        guard onPassthroughViewTouches == nil else {
             return hitTestView
         }
 
