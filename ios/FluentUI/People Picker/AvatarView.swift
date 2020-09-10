@@ -829,7 +829,15 @@ class OverflowAvatarView: AvatarView {
 extension AvatarView: UIPointerInteractionDelegate {
     @available(iOS 13.4, *)
     public func pointerInteraction(_ interaction: UIPointerInteraction, styleFor region: UIPointerRegion) -> UIPointerStyle? {
-        let pointerEffect = UIPointerEffect.lift(.init(view: self))
+        guard let superview = window else {
+            return nil
+        }
+
+        let frame = superview.convert(bounds, from: self)
+        let target = UIPreviewTarget(container: superview, center: CGPoint(x: frame.midX, y: frame.midY))
+        let preview = UITargetedPreview(view: self, parameters: UIPreviewParameters(), target: target)
+        let pointerEffect = UIPointerEffect.lift(preview)
+
         return UIPointerStyle(effect: pointerEffect, shape: nil)
     }
 }
