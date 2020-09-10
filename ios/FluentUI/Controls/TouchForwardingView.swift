@@ -27,7 +27,7 @@ open class TouchForwardingView: UIView {
             let localPoint = convert(point, to: view)
             if view.point(inside: localPoint, with: event) {
                 if event?.type == .touches {
-                    // If onPassthroughViewTouches is nil then pass the touch events to passthroughView view
+                    // Prevents the underlying (passthrough) view from getting touch events if there's custom code already handling it (onPassthroughViewTouches closure)
                     guard let onPassthroughViewTouches = onPassthroughViewTouches else {
                         return true
                     }
@@ -42,7 +42,7 @@ open class TouchForwardingView: UIView {
     open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         var hitTestView = super.hitTest(point, with: event)
 
-        // If onPassthroughViewTouches is non-nil then don't pass the touch events to passthroughView view
+        // Prevents the underlying (passthrough) view from getting touch events if there's custom code already handling it (onPassthroughViewTouches closure)
         guard onPassthroughViewTouches == nil else {
             return hitTestView
         }
