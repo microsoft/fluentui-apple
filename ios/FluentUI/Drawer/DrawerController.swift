@@ -335,7 +335,7 @@ open class DrawerController: UIViewController {
     @objc open var shouldUseWindowFullWidthInLandscape: Bool = true
 
     /// Limits the full window width to its safe area for `vertical` presentation.
-    @objc open var shouldRespectSafeAreaForWindowFullWidth: Bool = true
+    @objc open var shouldRespectSafeAreaForWindowFullWidth: Bool = false
 
     // Override to provide the preferred size based on specifics of the concrete drawer subclass (see popup menu, for example)
     open var preferredContentWidth: CGFloat { return 0 }
