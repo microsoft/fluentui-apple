@@ -15,6 +15,8 @@
 		1168630622E131CF0088B302 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630322E131CF0088B302 /* TabBarView.swift */; };
 		1168630722E131CF0088B302 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630322E131CF0088B302 /* TabBarView.swift */; };
 		118D9848230BBA2300BC0B72 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D9847230BBA2300BC0B72 /* TabBarItem.swift */; };
+		22EABB1A2509AAD100C4BE72 /* IndeterminateProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EABB192509AAD100C4BE72 /* IndeterminateProgressBarView.swift */; };
+		22EABB1B250A196200C4BE72 /* IndeterminateProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EABB192509AAD100C4BE72 /* IndeterminateProgressBarView.swift */; };
 		497DC2D924185885008D86F8 /* PillButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D724185885008D86F8 /* PillButtonBar.swift */; };
 		497DC2DA24185885008D86F8 /* PillButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D724185885008D86F8 /* PillButtonBar.swift */; };
 		497DC2DB24185885008D86F8 /* PillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D824185885008D86F8 /* PillButton.swift */; };
@@ -297,6 +299,7 @@
 		1168630222E131CF0088B302 /* TabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
 		1168630322E131CF0088B302 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		118D9847230BBA2300BC0B72 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
+		22EABB192509AAD100C4BE72 /* IndeterminateProgressBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarView.swift; sourceTree = "<group>"; };
 		497DC2D724185885008D86F8 /* PillButtonBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBar.swift; sourceTree = "<group>"; };
 		497DC2D824185885008D86F8 /* PillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
 		7D0931C224AAAC8C0072458A /* SideTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideTabBar.swift; sourceTree = "<group>"; };
@@ -702,6 +705,7 @@
 				A5B87B03211E22B70038C37C /* DimmingView.swift */,
 				FDD454ED21405B390006E84E /* DotView.swift */,
 				FD5BBE42214C73CE008964B4 /* EasyTapButton.swift */,
+				22EABB192509AAD100C4BE72 /* IndeterminateProgressBarView.swift */,
 				A589F853211BA03200471C23 /* Label.swift */,
 				A5237ACA21DED7030040BF27 /* ResizingHandleView.swift */,
 				A5F3B145232B1E3700007A4F /* ScrollView.swift */,
@@ -1182,6 +1186,7 @@
 				8FD01183228A82A600D25925 /* SegmentedControl.swift in Sources */,
 				FD41C88722DD13230086F899 /* ShyHeaderController.swift in Sources */,
 				8FD01184228A82A600D25925 /* Separator.swift in Sources */,
+				22EABB1B250A196200C4BE72 /* IndeterminateProgressBarView.swift in Sources */,
 				FD41C89F22DD13230086F899 /* NavigationController.swift in Sources */,
 				8FD01185228A82A600D25925 /* TouchForwardingView.swift in Sources */,
 				8FD01186228A82A600D25925 /* TwoLineTitleView.swift in Sources */,
@@ -1314,6 +1319,7 @@
 				B47B58B822F8E5840078DE38 /* PeoplePicker.swift in Sources */,
 				FD41C89E22DD13230086F899 /* NavigationController.swift in Sources */,
 				FD4F2A20214AE20400C437D6 /* DatePickerController.swift in Sources */,
+				22EABB1A2509AAD100C4BE72 /* IndeterminateProgressBarView.swift in Sources */,
 				B4EF53C3215AF1AB00573E8F /* Persona.swift in Sources */,
 				B45EB790219E310F008646A2 /* BadgeField.swift in Sources */,
 				497DC2D924185885008D86F8 /* PillButtonBar.swift in Sources */,
