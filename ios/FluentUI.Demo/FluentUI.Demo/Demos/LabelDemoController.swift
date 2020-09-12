@@ -26,6 +26,11 @@ class LabelDemoController: DemoController {
 
         container.addArrangedSubview(UIView())  // spacer
 
+        addLabel(text: "Test attributed strings", style: .headline, colorStyle: .regular).textAlignment = .center
+        for colorStyle in TextColorStyle.allCases {
+            addAttributedStringLabel(text: "Test attributed strings", substring: "attributed", style: .footnote, colorStyle: colorStyle)
+        }
+
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
@@ -39,6 +44,21 @@ class LabelDemoController: DemoController {
         }
         container.addArrangedSubview(label)
         return label
+    }
+
+    @discardableResult
+    func addAttributedStringLabel(text: String, substring: String, style: TextStyle, colorStyle: TextColorStyle) -> Label {
+        let label = Label(style: style, colorStyle: colorStyle)
+        label.numberOfLines = 0
+        let range = (text as NSString).range(of: substring)
+        let attributedString = NSMutableAttributedString(string:text)
+
+        attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.red , range: range)
+        label.attributedText = attributedString
+
+        container.addArrangedSubview(label)
+        return label
+
     }
 
     @objc private func handleContentSizeCategoryDidChange() {

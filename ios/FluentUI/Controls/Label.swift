@@ -20,7 +20,7 @@ public enum TextColorStyle: Int, CaseIterable {
     case warning
     case disabled
 
-    public func color(for window: UIWindow) -> UIColor {
+    public func color(for window: UIWindow?) -> UIColor? {
         switch self {
         case .regular:
             return Colors.textPrimary
@@ -29,7 +29,10 @@ public enum TextColorStyle: Int, CaseIterable {
         case .white:
             return .white
         case .primary:
-            return Colors.primary(for: window)
+            let primaryColor = {
+                window != nil ? Colors.primary(for: window!) : Colors.textPrimary
+            }
+            return primaryColor()
         case .error:
             return Colors.error
         case .warning:
@@ -92,7 +95,9 @@ open class Label: UILabel {
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
-        updateTextColor()
+        if self.attributedText == nil {
+            updateTextColor()
+        }
     }
 
     private func initialize() {
@@ -119,10 +124,8 @@ open class Label: UILabel {
     }
 
     private func updateTextColor() {
-        if let window = window {
-            let currentTextColor = _textColor ?? colorStyle.color(for: window)
-            super.textColor = currentTextColor.current
-        }
+        let currentTextColor = _textColor ?? colorStyle.color(for: window)
+        super.textColor = currentTextColor!.current
     }
 
     @objc private func handleContentSizeCategoryDidChange() {
