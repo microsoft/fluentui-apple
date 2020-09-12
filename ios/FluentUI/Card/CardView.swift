@@ -115,7 +115,7 @@ open class CardView: UIView {
     }
 
     /// Set `customTitleColor` in order to set the title's text color when using the custom color style
-    @objc open var customTitleColor: UIColor = Constants.defaultTitleColor {
+    @objc open var customTitleColor: UIColor = Colors.textPrimary {
         didSet {
             if customTitleColor != oldValue {
                 setupColors()
@@ -124,7 +124,7 @@ open class CardView: UIView {
     }
 
     /// Set `customSubtitleColor` in order to set the subtitle's text color when using the custom color style
-    @objc open var customSubtitleColor: UIColor = Constants.defaultSubtitleColor {
+    @objc open var customSubtitleColor: UIColor = Colors.textSecondary {
         didSet {
             if customSubtitleColor != oldValue {
                 setupColors()
@@ -133,7 +133,7 @@ open class CardView: UIView {
     }
 
     /// Set `customIconTintColor` in order to set the icon's tint color when using the custom color style
-    @objc open var customIconTintColor: UIColor = Constants.defaultIconTintColor {
+    @objc open var customIconTintColor: UIColor = Colors.iconSecondary {
         didSet {
             if customIconTintColor != oldValue {
                 setupColors()
@@ -299,9 +299,9 @@ open class CardView: UIView {
             }
         case .neutral:
             backgroundColor = Constants.defaultBackgroundColor
-            primaryLabel.textColor = Constants.defaultTitleColor
-            secondaryLabel.textColor = Constants.defaultSubtitleColor
-            iconView.tintColor = Constants.defaultIconTintColor
+            primaryLabel.textColor = Colors.textPrimary
+            secondaryLabel.textColor = Colors.textSecondary
+            iconView.tintColor = Colors.iconSecondary
             layer.borderColor = Constants.defaultBorderColor.cgColor
         case .custom:
             backgroundColor = customBackgroundColor
@@ -315,9 +315,6 @@ open class CardView: UIView {
     private struct Constants {
         static let defaultBackgroundColor = UIColor(light: .white, dark: Colors.gray900)
         static let defaultBorderColor = UIColor(light: Colors.dividerOnPrimary, dark: .clear)
-        static let defaultTitleColor: UIColor = Colors.textPrimary
-        static let defaultSubtitleColor: UIColor = Colors.textSecondary
-        static let defaultIconTintColor: UIColor = Colors.iconSecondary
         static let iconWidth: CGFloat = 24
         static let iconHeight: CGFloat = 24
         static let borderRadius: CGFloat = 8.0
