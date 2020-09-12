@@ -169,10 +169,8 @@ open class CardView: UIView {
     private let primaryLabel: Label = {
         let primaryLabel = Label()
         primaryLabel.translatesAutoresizingMaskIntoConstraints = false
-        primaryLabel.adjustsFontForContentSizeCategory = true
-        primaryLabel.font = TextStyle.subhead.font
-        primaryLabel.textColor = Colors.textPrimary
-        primaryLabel.textAlignment = .natural
+        primaryLabel.style = .subhead
+        primaryLabel.colorStyle = .primary
         return primaryLabel
     }()
 
@@ -180,10 +178,8 @@ open class CardView: UIView {
     private let secondaryLabel: Label = {
         let secondaryLabel = Label()
         secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
-        secondaryLabel.adjustsFontForContentSizeCategory = true
-        secondaryLabel.font = TextStyle.footnote.font
-        secondaryLabel.textColor = Colors.textSecondary
-        secondaryLabel.textAlignment = .natural
+        secondaryLabel.style = .footnote
+        secondaryLabel.colorStyle = .secondary
         return secondaryLabel
     }()
 
