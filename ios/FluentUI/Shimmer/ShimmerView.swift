@@ -134,9 +134,9 @@ open class ShimmerView: UIView {
 	/// - Parameter containerView: view to convert layout into a shimmer -- each of containerView's first-level subviews will be mirrored
 	/// - Parameter excludedViews: subviews of `containerView` to exclude from shimmer
 	/// - Parameter animationSynchronizer: optional synchronizer to sync multiple shimmer views
-	@objc public init(containerView: UIView? = nil,
-					  excludedViews: [UIView] = [],
-					  animationSynchronizer: AnimationSynchronizerProtocol? = nil) {
+    @objc public init(containerView: UIView? = nil,
+                      excludedViews: [UIView] = [],
+                      animationSynchronizer: AnimationSynchronizerProtocol? = nil) {
 		self.containerView = containerView
 		self.excludedViews = excludedViews
 		self.animationSynchronizer = animationSynchronizer

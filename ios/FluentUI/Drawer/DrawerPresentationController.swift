@@ -25,8 +25,9 @@ class DrawerPresentationController: UIPresentationController {
     private let presentationBackground: DrawerPresentationBackground
 
     init(presentedViewController: UIViewController,
-         presentingViewController:UIViewController?,
-         source: UIViewController, sourceObject: Any?,
+         presentingViewController: UIViewController?,
+         source: UIViewController,
+         sourceObject: Any?,
          presentationOrigin: CGFloat?,
          presentationDirection: DrawerPresentationDirection,
          presentationOffset: CGFloat,

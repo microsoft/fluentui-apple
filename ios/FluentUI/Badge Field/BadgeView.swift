@@ -48,7 +48,7 @@ public extension Colors {
         public static var textError: UIColor = Palette.dangerShade20.color
         public static var textErrorSelected: UIColor = textOnAccent
         public static var textWarning = UIColor(light: Palette.warningShade30.color, dark: Palette.warningPrimary.color)
-        public static var textWarningSelected = UIColor(light: Palette.warningShade30.color, dark: .black)
+        public static var textWarningSelected: UIColor = .black
     }
 }
 
