@@ -428,11 +428,14 @@ private class TableViewHeaderFooterTitleView: UITextView {
     }
 
     override var selectedTextRange: UITextRange? {
-        didSet {
+        get {
             // No need for selection, but we need to keep it selectable in order for links to work
-            if selectedTextRange != nil {
-                selectedTextRange = nil
-            }
+            return nil
+        }
+
+        set {
+            // No-op because we don't want to allow this property to be set.
+            // It should always return nil which indicates there is no current selection (https://developer.apple.com/documentation/uikit/uitextinput/1614541-selectedtextrange)
         }
     }
 }
