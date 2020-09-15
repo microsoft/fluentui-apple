@@ -31,7 +31,7 @@ open class IndeterminateProgressBarView: UIView {
 	open override func layoutSubviews() {
 		super.layoutSubviews()
 		
-		trackLayer.frame = CGRect(x: 0, y: 0, width: frame.width, height: 4.0)
+		trackLayer.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
 		layer.addSublayer(trackLayer)
 	
 		addGradientLayer()
@@ -51,7 +51,7 @@ open class IndeterminateProgressBarView: UIView {
 	}
 	
 	func addGradientLayer() {
-		gradientLayer.frame = CGRect(x: 0, y: 0, width: frame.width/2, height: 4.0)
+		gradientLayer.frame = CGRect(x: 0, y: 0, width: frame.width/2, height: frame.height)
 		gradientLayer.startPoint = CGPoint(x: 0.0, y: 1.0)
 		gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
 		gradientLayer.locations = [0.0, 0.5, 1.0]
