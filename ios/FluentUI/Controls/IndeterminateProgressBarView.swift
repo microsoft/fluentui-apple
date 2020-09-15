@@ -14,10 +14,10 @@ Indeterminate progress bar view
 @objc(MSFIndeterminateProgressBarView)
 open class IndeterminateProgressBarView: UIView {
 	
-	/// Layers covering the subviews of the container
+	/// progressbar's track
 	var trackLayer = CALayer()
 
-	/// Layer that slides to provide the "shimmer" effect
+	/// gradient layer that slides across the track
 	var gradientLayer = CAGradientLayer()
 	
 	@objc override public init(frame: CGRect) {
@@ -32,50 +32,46 @@ open class IndeterminateProgressBarView: UIView {
 		super.layoutSubviews()
 		
 		trackLayer.frame = CGRect(x: 0, y: 0, width: frame.width, height: 4.0)
-		//trackLayer.backgroundColor = UIColor.lightGray.cgColor
 		layer.addSublayer(trackLayer)
-		
+	
 		addGradientLayer()
 		addAnimation()
 	}
 	
+	open override func didMoveToWindow() {
+		super.didMoveToWindow()
+		
+		if let window = window {
+			let lightColor : CGColor = Colors.primary(for: window).withAlphaComponent(0).cgColor
+			let darkColor : CGColor = Colors.primary(for: window).cgColor
+			
+			gradientLayer.colors = [lightColor, darkColor, lightColor]
+			trackLayer.backgroundColor = Colors.gray100.cgColor
+		}
+	}
 	
 	func addGradientLayer() {
-		
-	
-		let lightColor : CGColor = UIColor.blue.withAlphaComponent(0.1).cgColor
-		//let darkColor : CGColor = Colors.primary(for: window)
-		let darkColor : CGColor = UIColor.blue.cgColor
-		
-		gradientLayer.frame = CGRect(x: 0, y: 0, width: frame.width, height: 4.0)
+		gradientLayer.frame = CGRect(x: 0, y: 0, width: frame.width/2, height: 4.0)
 		gradientLayer.startPoint = CGPoint(x: 0.0, y: 1.0)
 		gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
-		gradientLayer.colors = [lightColor, darkColor, lightColor]
 		gradientLayer.locations = [0.0, 0.5, 1.0]
-		gradientLayer.opacity = 0.0
 		layer.addSublayer(gradientLayer)
-
 	}
 
 	func addAnimation() {
-		
 		let groupAnimation = CAAnimationGroup()
 		
 		let position = CABasicAnimation(keyPath: "position.x")
-		position.fromValue = CGPoint.zero
-		position.toValue = frame.width
+		position.fromValue = -frame.width / 2
+		position.toValue = frame.width * 1.5
 		
 		let opacity = CAKeyframeAnimation(keyPath: "opacity")
-		opacity.keyTimes = [0, 0.25, 0.75, 1]
+		opacity.keyTimes = [0, 0.375, 0.625, 1]
 		opacity.values = [0.0, 1.0, 1.0, 0.0]
 		opacity.isRemovedOnCompletion = false
 		opacity.fillMode = CAMediaTimingFillMode.forwards
 		
-		let locations = CABasicAnimation(keyPath: "locations")
-		locations.fromValue = [-1.0, -0.5, 0.0, 0.5]
-		locations.toValue = [1.0, 1.5, 2.0, 2.5]
-		
-		groupAnimation.animations = [opacity, locations]
+		groupAnimation.animations = [opacity, position]
 		groupAnimation.repeatCount = .infinity
 		groupAnimation.duration = 2.5
 		groupAnimation.timingFunction = CAMediaTimingFunction(controlPoints: 0.28, 0.08, 0.72, 0.92)
