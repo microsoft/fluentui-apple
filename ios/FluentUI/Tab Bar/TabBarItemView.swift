@@ -345,12 +345,11 @@ extension TabBarItemView: UIPointerInteractionDelegate {
             pointerFrame = superview.convert(pointerFrame, from: self)
         }
 
-        let pointerShape = UIPointerShape.roundedRect(pointerFrame, radius: PointerConstants.cornerRadius)
+        let pointerShape = UIPointerShape.roundedRect(pointerFrame)
         return UIPointerStyle(effect: pointerEffect, shape: pointerShape)
     }
 
     private struct PointerConstants {
-        static let cornerRadius: CGFloat = 8
         static let outset: CGFloat = -5
     }
 }
