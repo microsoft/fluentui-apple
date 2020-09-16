@@ -309,7 +309,7 @@ extension PopupMenuController: UITableViewDataSource {
         let identifier = String(describing: cellClass)
         tableView.register(cellClass, forCellReuseIdentifier: identifier)
 
-		let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as! (PopupMenuItemTemplateCell & TableViewCell)
+        let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as! (PopupMenuItemTemplateCell & TableViewCell)
         cell.setup(item: item)
         cell.preservesSpaceForImage = itemsHaveImages
 
