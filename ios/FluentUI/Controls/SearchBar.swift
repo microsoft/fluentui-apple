@@ -236,6 +236,10 @@ open class SearchBar: UIView {
 
         if #available(iOS 13.4, *) {
             clearButton.isPointerInteractionEnabled = true
+            clearButton.pointerStyleProvider = { button, effect, shape in
+                let preview = UITargetedPreview(view: button)
+                return UIPointerStyle(effect: .lift(preview))
+            }
         }
 
         return clearButton

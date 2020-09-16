@@ -350,7 +350,7 @@ extension TabBarItemView: UIPointerInteractionDelegate {
     }
 
     private struct PointerConstants {
-        static let cornerRadius: CGFloat = 5
+        static let cornerRadius: CGFloat = 8
         static let outset: CGFloat = -5
     }
 }
