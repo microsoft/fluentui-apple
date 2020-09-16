@@ -40,7 +40,7 @@ open class NavigationBarTopAccessoryViewAttributes: NSObject {
         self.minWidth = minWidth
         super.init()
     }
-	
+
 	public override init() {
 		self.widthMultiplier = 1.0
 		self.maxWidth = .greatestFiniteMagnitude
