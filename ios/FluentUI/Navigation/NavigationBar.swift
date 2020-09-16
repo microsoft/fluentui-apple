@@ -41,11 +41,11 @@ open class NavigationBarTopAccessoryViewAttributes: NSObject {
         super.init()
     }
 
-	public override init() {
-		self.widthMultiplier = 1.0
-		self.maxWidth = .greatestFiniteMagnitude
-		self.minWidth = .zero
-	}
+    public override init() {
+        self.widthMultiplier = 1.0
+        self.maxWidth = .greatestFiniteMagnitude
+        self.minWidth = .zero
+    }
 }
 
 /// Layout attributes for a navigation bar's top search bar.
