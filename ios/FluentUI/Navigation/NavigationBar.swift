@@ -40,12 +40,18 @@ open class NavigationBarTopAccessoryViewAttributes: NSObject {
         self.minWidth = minWidth
         super.init()
     }
+	
+	public override init() {
+		self.widthMultiplier = 1.0
+		self.maxWidth = .greatestFiniteMagnitude
+		self.minWidth = .zero
+	}
 }
 
 /// Layout attributes for a navigation bar's top search bar.
 @objc(MSFNavigationBarTopSearchBarAttributes)
 open class NavigationBarTopSearchBarAttributes: NavigationBarTopAccessoryViewAttributes {
-    @objc public init() {
+    @objc public override init() {
         super.init(widthMultiplier: Constants.widthMultiplier, maxWidth: Constants.viewMaxWidth, minWidth: Constants.viewMinWidth)
     }
 

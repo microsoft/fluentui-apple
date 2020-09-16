@@ -38,7 +38,7 @@ public protocol PopupMenuTemplateItem: AnyObject {
  You can use `UITableViewCell` conforms to this protocol for customization.
 */
 @objc(MSFPopupMenuItemTemplateCell)
-public protocol PopupMenuItemTemplateCell where Self: UITableViewCell {
+public protocol PopupMenuItemTemplateCell {
     /// `PopupMenuController` will notify that one or more items in the list contain image(s)
     @objc var preservesSpaceForImage: Bool { get set }
     /// `PopupMenuController` will notify the custom separatorColor.
