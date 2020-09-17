@@ -84,6 +84,18 @@ open class TableViewCellFileAccessoryView: UIView {
         }
     }
 
+    /// The minimum count of actions.
+    /// If there are fewer actions to display than this count, empty spaces will be reserved for those missing actions.
+    /// This property is useful to align columns between cells that display a different number of actions.
+    /// Setting this value too high could result in a broken layout.
+    @objc public var minimumActionsCount: UInt = 0 {
+        didSet {
+            if oldValue != minimumActionsCount {
+                updateLayout()
+            }
+        }
+    }
+
     @objc public weak var tableViewCell: TableViewCell? {
         didSet {
             updateLayout()
@@ -283,6 +295,25 @@ open class TableViewCellFileAccessoryView: UIView {
         for action in visibleActions.reversed() {
             let actionView = FileAccessoryViewActionView(action: action, window: currentWindow)
             actionsStackView.addArrangedSubview(actionView)
+        }
+
+        if actionsStackView.arrangedSubviews.count < minimumActionsCount {
+            let emptyActionsToAdd = Int(minimumActionsCount) - actionsStackView.arrangedSubviews.count
+            var layoutConstraints: [NSLayoutConstraint] = []
+
+            for _ in 1...emptyActionsToAdd {
+                let emptyView = UIView(frame: .zero)
+                emptyView.translatesAutoresizingMaskIntoConstraints = false
+
+                layoutConstraints.append(contentsOf: [
+                    emptyView.widthAnchor.constraint(equalToConstant: FileAccessoryViewActionView.size.width),
+                    emptyView.heightAnchor.constraint(greaterThanOrEqualToConstant: FileAccessoryViewActionView.size.height)
+                ])
+
+                actionsStackView.insertArrangedSubview(emptyView, at: 0)
+            }
+
+            NSLayoutConstraint.activate(layoutConstraints)
         }
     }
 
