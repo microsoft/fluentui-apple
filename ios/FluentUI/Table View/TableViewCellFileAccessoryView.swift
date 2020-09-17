@@ -86,6 +86,7 @@ open class TableViewCellFileAccessoryView: UIView {
 
     /// The minimum count of actions.
     /// If there are fewer actions to display than this count, empty spaces will be reserved for those missing actions.
+    /// This property is useful to align columns between cells that display a different number of actions.
     /// Setting this value too high could result in a broken layout.
     @objc public var minimumActionsCount: UInt = 0 {
         didSet {
