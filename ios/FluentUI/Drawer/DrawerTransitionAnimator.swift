@@ -29,17 +29,18 @@ class DrawerTransitionAnimator: NSObject {
 
     let presenting: Bool
     let presentationDirection: DrawerPresentationDirection
+    let shadowOffset: CGFloat
 
-    init(presenting: Bool, presentationDirection: DrawerPresentationDirection) {
+	init(presenting: Bool, presentationDirection: DrawerPresentationDirection, shadowOffset: CGFloat) {
         self.presenting = presenting
         self.presentationDirection = presentationDirection
+        self.shadowOffset = shadowOffset
         super.init()
     }
 
     private func presentWithTransitionContext(_ transitionContext: UIViewControllerContextTransitioning, completion: @escaping ((Bool) -> Void)) {
         let presentedView = transitionContext.view(forKey: UITransitionContextViewKey.to)!
         let contentView = presentedView.superview!
-
         presentedView.frame = presentedViewRectDismissed(forContentSize: contentView.bounds.size)
         let sizeChange = Self.sizeChange(forPresentedView: presentedView, presentationDirection: presentationDirection)
         let animationDuration = DrawerTransitionAnimator.animationDuration(forSizeChange: sizeChange)
@@ -48,17 +49,18 @@ class DrawerTransitionAnimator: NSObject {
             transitionContext.isInteractive ? Constants.animationCurveInteractive : Constants.animationCurve
         ]
         UIView.animate(withDuration: animationDuration, delay: 0, options: options, animations: {
-            presentedView.frame = self.presentedViewRectPresented(forContentSize: presentedView.frame.size)
+            presentedView.frame = self.presentedViewRectPresented(forContentSize: contentView.bounds.size)
         }, completion: completion)
     }
 
     private func dismissWithTransitionContext(_ transitionContext: UIViewControllerContextTransitioning, completion: @escaping ((Bool) -> Void)) {
         let presentedView = transitionContext.view(forKey: UITransitionContextViewKey.from)!
-
+        let contentView = presentedView.superview!
+        presentedView.frame = currentRect(for: presentedView)
         let sizeChange = Self.sizeChange(forPresentedView: presentedView, presentationDirection: presentationDirection)
         let animationDuration = DrawerTransitionAnimator.animationDuration(forSizeChange: sizeChange)
         UIView.animate(withDuration: animationDuration, delay: 0.0, options: [.beginFromCurrentState, Constants.animationCurve], animations: {
-            presentedView.frame = self.presentedViewRectDismissed(forContentSize: presentedView.frame.size)
+            presentedView.frame = self.presentedViewRectDismissed(forContentSize: contentView.frame.size)
         }, completion: completion)
     }
 
@@ -66,19 +68,23 @@ class DrawerTransitionAnimator: NSObject {
         var rect = presentedViewRectPresented(forContentSize: contentSize)
         switch presentationDirection {
         case .down:
-            rect.origin.y = -contentSize.height
+            rect.origin.y = -(contentSize.height - shadowOffset)
         case .up:
-            rect.origin.y = contentSize.height
+            rect.origin.y = (contentSize.height - shadowOffset)
         case .fromLeading:
-            rect.origin.x = -contentSize.width
+            rect.origin.x = -(contentSize.width - shadowOffset)
         case .fromTrailing:
-            rect.origin.x = contentSize.width
+            rect.origin.x = (contentSize.width - shadowOffset)
         }
         return rect
     }
 
+	private func currentRect(for presentedView: UIView) -> CGRect {
+        return presentedView.frame.inset(by: DrawerShadowView.shadowOffsetForPresentedView(with: self.presentationDirection, offset: self.shadowOffset))
+    }
+
     private func presentedViewRectPresented(forContentSize contentSize: CGSize) -> CGRect {
-        return CGRect(x: 0, y: 0, width: contentSize.width, height: contentSize.height)
+        return CGRect(x: 0, y: 0, width: contentSize.width, height: contentSize.height).inset(by: DrawerShadowView.shadowOffsetForPresentedView(with: self.presentationDirection, offset: self.shadowOffset))
     }
 }
 

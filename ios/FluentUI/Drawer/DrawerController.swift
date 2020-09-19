@@ -123,6 +123,7 @@ open class DrawerController: UIViewController {
     private struct Constants {
         static let resistanceCoefficient: CGFloat = 0.1
         static let resizingThreshold: CGFloat = 30
+        static let shadowOffset: CGFloat = 8
     }
 
     private enum PresentationStyle: Int {
@@ -385,6 +386,10 @@ open class DrawerController: UIViewController {
         didSet {
             updateContainerViewBottomConstraint()
         }
+    }
+    /// Shadow is required if background is transparent
+    private var shadowOffset: CGFloat {
+        return presentationBackground == .none ? Constants.shadowOffset : 0
     }
     private var containerViewCenterObservation: NSKeyValueObservation?
 
@@ -883,14 +888,14 @@ open class DrawerController: UIViewController {
 extension DrawerController: UIViewControllerTransitioningDelegate {
     public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if presentationStyle(for: source) == .slideover {
-            return DrawerTransitionAnimator(presenting: true, presentationDirection: presentationDirection(for: source.view))
+            return DrawerTransitionAnimator(presenting: true, presentationDirection: presentationDirection(for: source.view), shadowOffset: shadowOffset)
         }
         return nil
     }
 
     public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if let controller = dismissed.presentationController as? DrawerPresentationController {
-            return DrawerTransitionAnimator(presenting: false, presentationDirection: controller.presentationDirection)
+            return DrawerTransitionAnimator(presenting: false, presentationDirection: controller.presentationDirection, shadowOffset: shadowOffset)
         }
         return nil
     }
@@ -920,7 +925,8 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
                                                 presentationBackground: presentationBackground,
                                                 adjustHeightForKeyboard: adjustsHeightForKeyboard,
                                                 shouldUseWindowFullWidthInLandscape: shouldUseWindowFullWidthInLandscape,
-                                                passThroughView: passThroughView)
+                                                passThroughView: passThroughView,
+                                                shadowOffset: shadowOffset)
         case .popover:
             let presentationController = UIPopoverPresentationController(presentedViewController: presented, presenting: presenting)
             presentationController.backgroundColor = backgroundColor

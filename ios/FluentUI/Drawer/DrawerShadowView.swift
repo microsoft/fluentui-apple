@@ -9,7 +9,22 @@ class DrawerShadowView: UIView {
     private struct Constants {
         static let shadowRadius: CGFloat = 4
         static let shadowOffset: CGFloat = 2
-        static let shadowOpacity: Float = 0.05
+        static let shadowOpacity: Float = 0.1
+    }
+
+    static func shadowOffsetForPresentedView(with presentationDirection: DrawerPresentationDirection, offset: CGFloat) -> UIEdgeInsets {
+        var margins: UIEdgeInsets = .zero
+        switch presentationDirection {
+        case .down:
+            margins.bottom = offset
+        case .up:
+            margins.top = offset
+        case .fromLeading:
+            margins.right = offset
+        case .fromTrailing:
+            margins.left = offset
+        }
+        return margins
     }
 
     var owner: UIView? {

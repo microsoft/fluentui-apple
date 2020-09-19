@@ -22,7 +22,8 @@ class DrawerPresentationController: UIPresentationController {
     private let presentationOrigin: CGFloat?
     private let presentationOffset: CGFloat
     private let presentationBackground: DrawerPresentationBackground
-	private weak var passThroughView: UIView?
+    private weak var passThroughView: UIView?
+    private let shadowOffset: CGFloat
 
 	init(presentedViewController: UIViewController,
          presenting presentingViewController: UIViewController?,
@@ -32,7 +33,8 @@ class DrawerPresentationController: UIPresentationController {
          presentationBackground: DrawerPresentationBackground,
          adjustHeightForKeyboard: Bool,
          shouldUseWindowFullWidthInLandscape: Bool,
-         passThroughView: UIView?) {
+         passThroughView: UIView?,
+         shadowOffset: CGFloat) {
         sourceViewController = source
         self.sourceObject = sourceObject
         self.presentationOrigin = presentationOrigin
@@ -41,6 +43,7 @@ class DrawerPresentationController: UIPresentationController {
         self.presentationBackground = presentationBackground
         self.shouldUseWindowFullWidthInLandscape = shouldUseWindowFullWidthInLandscape
         self.passThroughView = passThroughView
+        self.shadowOffset = shadowOffset
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
 
         if adjustHeightForKeyboard {
@@ -169,7 +172,9 @@ class DrawerPresentationController: UIPresentationController {
         case resize
     }
 
-    override var frameOfPresentedViewInContainerView: CGRect { return contentView.frame }
+    // As content view is clipped 'clipsToBounds = true' to prevent any animation bug sliding over the navigation bar, shadow was also getting clipped.
+    // Fix: Shadow offset is added in the presented view and height of content view is also increased by same value. It will make sure shadow is not clipped, keeping presented view's height same.
+    override var frameOfPresentedViewInContainerView: CGRect { return contentView.frame.inset(by: DrawerShadowView.shadowOffsetForPresentedView(with: presentationDirection, offset: shadowOffset)) }
 
     var extraContentSizeEffectWhenCollapsing: ExtraContentSizeEffect = .move
 
@@ -363,6 +368,7 @@ class DrawerPresentationController: UIPresentationController {
             if extraContentSize < 0 && extraContentSizeEffectWhenCollapsing == .move {
                 contentFrame.origin.y += presentationDirection == .down ? extraContentSize : -extraContentSize
             }
+            contentSize.height += shadowOffset
         } else {
             if actualPresentationOffset == 0 {
                 contentSize.width += safeAreaPresentationOffset
@@ -376,6 +382,7 @@ class DrawerPresentationController: UIPresentationController {
             if extraContentSize < 0 && extraContentSizeEffectWhenCollapsing == .move {
                 contentFrame.origin.x += presentationDirection == .fromLeading ? extraContentSize : -extraContentSize
             }
+            contentSize.width += shadowOffset
         }
         contentFrame.size = contentSize
 
