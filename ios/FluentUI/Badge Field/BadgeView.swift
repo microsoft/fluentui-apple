@@ -176,7 +176,6 @@ open class BadgeView: UIView {
         didSet {
             updateBackgroundColor()
             updateLabelTextColor()
-            accessibilityHint = nil
             isUserInteractionEnabled = isActive
         }
     }
