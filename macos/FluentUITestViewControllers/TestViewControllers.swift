@@ -20,4 +20,6 @@ public let testViewControllers = [TestViewController(title: "Avatar View",
 								  TestViewController(title: "Link",
 													 type: TestLinkViewController.self),
 								  TestViewController(title: "Separator",
-													 type: TestSeparatorViewController.self)]
+													 type: TestSeparatorViewController.self),
+								  TestViewController(title: "Color",
+													 type: TestColorViewController.self)]

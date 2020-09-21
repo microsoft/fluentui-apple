@@ -21,6 +21,10 @@
 		8F5368072295F4C10098AC8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368062295F4C10098AC8F /* Assets.xcassets */; };
 		8F53680A2295F4C10098AC8F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368082295F4C10098AC8F /* MainMenu.xib */; };
 		8F79191B24589B4E00C84086 /* FluentUI.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F7918F624589B4E00C84086 /* FluentUI.strings */; };
+		A257F81B2512D9DB002CAA6E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A257F81A2512D9DB002CAA6E /* Assets.xcassets */; };
+		A257F81E2512DE45002CAA6E /* TestColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A257F81C2512DDF7002CAA6E /* TestColorViewController.swift */; };
+		A257F8202512DF3A002CAA6E /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A257F81F2512DF3A002CAA6E /* Colors.swift */; };
+		A257F8242512E899002CAA6E /* NSColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A257F8232512E899002CAA6E /* NSColor+Extensions.swift */; };
 		AC68D3192474863A000DACD1 /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC68D3182474863A000DACD1 /* Link.swift */; };
 		AC7235D82492E0D000D0DCA8 /* FluentUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C96B22295E8D60006561F /* FluentUI.framework */; };
 		AC7235D92492E0D000D0DCA8 /* FluentUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E61C96B22295E8D60006561F /* FluentUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -204,6 +208,10 @@
 		8F79192724589B6D00C84086 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		8F79192924589B6E00C84086 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		8F931A6C22BD593300311764 /* FluentUI_unittest.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_unittest.xcconfig; sourceTree = "<group>"; };
+		A257F81A2512D9DB002CAA6E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../apple/Resources/Assets.xcassets; sourceTree = "<group>"; };
+		A257F81C2512DDF7002CAA6E /* TestColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestColorViewController.swift; sourceTree = "<group>"; };
+		A257F81F2512DF3A002CAA6E /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		A257F8232512E899002CAA6E /* NSColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "NSColor+Extensions.swift"; path = "Extensions/NSColor+Extensions.swift"; sourceTree = "<group>"; };
 		AC68D3182474863A000DACD1 /* Link.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
 		AC97EFE1247541C700DADC99 /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		AC97EFE3247541E100DADC99 /* TestButtonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestButtonViewController.swift; sourceTree = "<group>"; };
@@ -337,6 +345,7 @@
 		E61C96A82295E8D60006561F = {
 			isa = PBXGroup;
 			children = (
+				A257F81A2512D9DB002CAA6E /* Assets.xcassets */,
 				E61C96B42295E8D60006561F /* FluentUI */,
 				8F41CC6E2447B60F0040B851 /* FluentUIResources-macos */,
 				E6A92D2524BEA85900562BCA /* FluentUITestViewControllers */,
@@ -376,6 +385,8 @@
 				E61C96B62295E8D60006561F /* FluentUI-Info.plist */,
 				E61C96B52295E8D60006561F /* FluentUI.h */,
 				8F41CC672447B5580040B851 /* FluentUIResources.swift */,
+				A257F81F2512DF3A002CAA6E /* Colors.swift */,
+				A257F8232512E899002CAA6E /* NSColor+Extensions.swift */,
 			);
 			name = FluentUI;
 			path = ../FluentUI;
@@ -418,6 +429,7 @@
 				E61C96D622987B3C0006561F /* TestLinkViewController.swift */,
 				AC97EFE8247FAB1D00DADC99 /* TestSeparatorViewController.swift */,
 				E6A92D4E24BEAEEA00562BCA /* TestViewControllers.swift */,
+				A257F81C2512DDF7002CAA6E /* TestColorViewController.swift */,
 			);
 			name = FluentUITestViewControllers;
 			path = ../FluentUITestViewControllers;
@@ -674,6 +686,7 @@
 			files = (
 				8F79191B24589B4E00C84086 /* FluentUI.strings in Resources */,
 				8F41CC7D2447B93C0040B851 /* FluentUI.xcassets in Resources */,
+				A257F81B2512D9DB002CAA6E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -734,6 +747,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				804626C622D7908100AFA48C /* CalendarDayButton.swift in Sources */,
+				A257F8202512DF3A002CAA6E /* Colors.swift in Sources */,
+				A257F8242512E899002CAA6E /* NSColor+Extensions.swift in Sources */,
 				80117A8322E0E63E00813D59 /* CalendarHeaderView.swift in Sources */,
 				80117A7F22DCDF6F00813D59 /* CalendarView.swift in Sources */,
 				AC97EFE2247541C700DADC99 /* Button.swift in Sources */,
@@ -761,6 +776,7 @@
 			files = (
 				E6A92D2F24BEA8AC00562BCA /* TestButtonViewController.swift in Sources */,
 				E6A92D2D24BEA8AC00562BCA /* TestSeparatorViewController.swift in Sources */,
+				A257F81E2512DE45002CAA6E /* TestColorViewController.swift in Sources */,
 				E6A92D3024BEA8AC00562BCA /* TestLinkViewController.swift in Sources */,
 				E6A92D2E24BEA8AC00562BCA /* TestAvatarViewController.swift in Sources */,
 				E6A92D4F24BEAEEA00562BCA /* TestViewControllers.swift in Sources */,

@@ -123,6 +123,7 @@
 		8FD011C1228A82A600D25925 /* ActivityIndicatorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E782C221793AB200A7DFCE /* ActivityIndicatorCell.swift */; };
 		8FD011C2228A82A600D25925 /* CenteredLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E782C62179509A00A7DFCE /* CenteredLabelCell.swift */; };
 		8FD011C3228A82A600D25925 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B498141321E424920077B48D /* TableViewCell.swift */; };
+		A257F8192512C72C002CAA6E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A257F8182512C72C002CAA6E /* Assets.xcassets */; };
 		A5237ACB21DED7030040BF27 /* ResizingHandleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5237ACA21DED7030040BF27 /* ResizingHandleView.swift */; };
 		A5237ACD21ED6CA70040BF27 /* DrawerShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5237ACC21ED6CA70040BF27 /* DrawerShadowView.swift */; };
 		A52648DC2316F4F9003342A0 /* BarButtonItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52648DB2316F4F9003342A0 /* BarButtonItems.swift */; };
@@ -311,6 +312,7 @@
 		8AF03E1D24B6BDFB00E6E2A2 /* ContactCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCollectionViewLayout.swift; sourceTree = "<group>"; };
 		8FA3CB5A246B19EA0049E431 /* ColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTests.swift; sourceTree = "<group>"; };
 		8FD01166228A820600D25925 /* libFluentUILib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFluentUILib.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A257F8182512C72C002CAA6E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../apple/Resources/Assets.xcassets; sourceTree = "<group>"; };
 		A5237ACA21DED7030040BF27 /* ResizingHandleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizingHandleView.swift; sourceTree = "<group>"; };
 		A5237ACC21ED6CA70040BF27 /* DrawerShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerShadowView.swift; sourceTree = "<group>"; };
 		A52648DB2316F4F9003342A0 /* BarButtonItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarButtonItems.swift; sourceTree = "<group>"; };
@@ -604,6 +606,7 @@
 		A5CEC14720D980B20016922A = {
 			isa = PBXGroup;
 			children = (
+				A257F8182512C72C002CAA6E /* Assets.xcassets */,
 				A5CEC15320D980B20016922A /* FluentUI */,
 				A5DA88FD226FAA01000A8EA8 /* FluentUI.Resources */,
 				A5CEC15E20D980B30016922A /* FluentUI.Tests */,
@@ -1130,6 +1133,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A257F8192512C72C002CAA6E /* Assets.xcassets in Resources */,
 				A542A9D9226FC01C00204A52 /* Assets.xcassets in Resources */,
 				A542A9D7226FC01100204A52 /* Localizable.strings in Resources */,
 				A542A9D8226FC01700204A52 /* Localizable.stringsdict in Resources */,
