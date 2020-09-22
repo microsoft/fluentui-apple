@@ -97,8 +97,16 @@ public protocol DrawerControllerDelegate: AnyObject {
 
     /// Called when drawer is being dismissed.
     @objc optional func drawerControllerWillDismiss(_ controller: DrawerController)
+    
     /// Called after drawer has been dismissed.
     @objc optional func drawerControllerDidDismiss(_ controller: DrawerController)
+    
+    /**
+     Called when drawer is getting dismissed when user tries to dismiss drawer by tapping in background, using resizing handle or dragging drawer to bottom.
+
+     Use this method to turn off drawer dismiss.
+     */
+    @objc optional func shouldDismissDrawer(_ controller: DrawerController) -> Bool
 }
 
 // MARK: - DrawerController
@@ -558,6 +566,9 @@ open class DrawerController: UIViewController {
     }
 
     open override func accessibilityPerformEscape() -> Bool {
+        if delegate?.shouldDismissDrawer?(self) == false {
+            return false
+        }
         presentingViewController?.dismiss(animated: true)
         return true
     }
@@ -801,14 +812,24 @@ open class DrawerController: UIViewController {
             } else if offset <= -Constants.resizingThreshold {
                 if isExpanded {
                     if originalDrawerHeight + offset <= normalDrawerHeight - Constants.resizingThreshold {
-                        presentingViewController?.dismiss(animated: true)
+                        if delegate?.shouldDismissDrawer?(self) == false {
+                            presentationController.setExtraContentSize(0, updatingLayout: true)
+                            isExpanded = false
+                            delegate?.drawerControllerDidChangeExpandedState?(self)
+                        } else {
+                            presentingViewController?.dismiss(animated: true)
+                        }
                     } else {
                         presentationController.setExtraContentSize(0, updatingLayout: false)
                         isExpanded = false
                         delegate?.drawerControllerDidChangeExpandedState?(self)
                     }
                 } else {
-                    presentingViewController?.dismiss(animated: true)
+                    if delegate?.shouldDismissDrawer?(self) == false {
+                        presentationController.setExtraContentSize(0, updatingLayout: true)
+                    } else {
+                        presentingViewController?.dismiss(animated: true)
+                    }
                 }
             } else {
                 presentationController.setExtraContentSize(0, animated: true)
@@ -895,7 +916,7 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
             if #available(iOS 13.0, *) {
                 useNavigationBarBackgroundColor = (direction.isVertical && source.traitCollection.userInterfaceLevel == .elevated)
             }
-            return DrawerPresentationController(presentedViewController: presented,
+            let drawerPresentationController = DrawerPresentationController(presentedViewController: presented,
                                                 presentingViewController: presenting,
                                                 source: source,
                                                 sourceObject: sourceView ?? barButtonItem,
@@ -906,6 +927,8 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
                                                 adjustHeightForKeyboard: adjustsHeightForKeyboard,
                                                 shouldUseWindowFullWidthInLandscape: shouldUseWindowFullWidthInLandscape,
                                                 shouldRespectSafeAreaForWindowFullWidth: shouldRespectSafeAreaForWindowFullWidth)
+            drawerPresentationController.drawerPresentationDelegate = self
+            return drawerPresentationController
         case .popover:
             let presentationController = UIPopoverPresentationController(presentedViewController: presented, presenting: presenting)
             presentationController.backgroundColor = backgroundColor
@@ -941,5 +964,15 @@ extension DrawerController: UIPopoverPresentationControllerDelegate {
 extension DrawerController: UIGestureRecognizerDelegate {
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return gestureRecognizer == resizingGestureRecognizer && otherGestureRecognizer == contentScrollView?.panGestureRecognizer
+    }
+}
+
+// MARK: - DrawerController: DrawerPresentationDelegate
+
+extension DrawerController: DrawerPresentationDelegate {
+    func backgroundViewTapped() {
+        if delegate?.shouldDismissDrawer?(self) != false {
+            presentingViewController?.dismiss(animated: false)
+        }
     }
 }

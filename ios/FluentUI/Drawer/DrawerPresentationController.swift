@@ -5,6 +5,13 @@
 
 import UIKit
 
+// MARK: - DrawerPresentationDelegate
+
+protocol DrawerPresentationDelegate: AnyObject {
+    /// Called when background view is tapped
+    func backgroundViewTapped()
+}
+
 // MARK: DrawerPresentationController
 
 class DrawerPresentationController: UIPresentationController {
@@ -23,6 +30,8 @@ class DrawerPresentationController: UIPresentationController {
     private let presentationOrigin: CGFloat?
     private let presentationOffset: CGFloat
     private let presentationBackground: DrawerPresentationBackground
+    
+    public weak var drawerPresentationDelegate: DrawerPresentationDelegate?
 
     init(presentedViewController: UIViewController,
          presentingViewController: UIViewController?,
@@ -63,7 +72,7 @@ class DrawerPresentationController: UIPresentationController {
         view.accessibilityTraits = .button
         // Workaround for a bug in iOS: if the resizing handle happens to be in the middle of the backgroundView, VoiceOver will send touch event to it (according to the backgroundView's accessibilityActivationPoint) even though it's not parented in backgroundView or even interactable - this will prevent backgroundView from receiving touch and dismissing controller
         view.onAccessibilityActivate = { [unowned self] in
-            self.presentingViewController.dismiss(animated: true)
+            self.drawerPresentationDelegate?.backgroundViewTapped()
         }
         return view
     }()
@@ -456,7 +465,7 @@ class DrawerPresentationController: UIPresentationController {
     // MARK: Actions
 
     @objc private func handleBackgroundViewTapped(_ recognizer: UITapGestureRecognizer) {
-        presentingViewController.dismiss(animated: true)
+        drawerPresentationDelegate?.backgroundViewTapped()
     }
 
     @objc private func handleKeyboardWillChangeFrame(notification: Notification) {
