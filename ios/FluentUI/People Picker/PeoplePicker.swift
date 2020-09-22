@@ -358,7 +358,7 @@ open class PeoplePicker: BadgeField {
         isShowingPersonaSuggestions = false
     }
 
-    public override func textFieldDidEndEditing(_ textField: UITextField) {
+    open override func textFieldDidEndEditing(_ textField: UITextField) {
         super.textFieldDidEndEditing(textField)
         isShowingPersonaSuggestions = false
     }
