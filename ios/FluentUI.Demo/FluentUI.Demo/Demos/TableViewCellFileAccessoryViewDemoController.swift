@@ -19,10 +19,17 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         scrollingContainer.addSubview(stackView)
         stackView.addArrangedSubview(settingsView)
 
+        var horizontalConstraint: NSLayoutConstraint?
+        if view.effectiveUserInterfaceLayoutDirection == .leftToRight {
+            horizontalConstraint = stackView.leadingAnchor.constraint(equalTo: scrollingContainer.leadingAnchor)
+        } else {
+            horizontalConstraint = stackView.trailingAnchor.constraint(equalTo: scrollingContainer.trailingAnchor)
+        }
+
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: scrollingContainer.topAnchor, constant: Constants.stackViewSpacing),
             stackView.bottomAnchor.constraint(equalTo: scrollingContainer.bottomAnchor, constant: -Constants.stackViewSpacing),
-            stackView.leadingAnchor.constraint(equalTo: scrollingContainer.leadingAnchor)
+            horizontalConstraint!
         ])
 
         reloadCells()

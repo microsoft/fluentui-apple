@@ -413,6 +413,10 @@ open class TableViewCellFileAccessoryView: UIView {
                 }
             }
 
+            if effectiveUserInterfaceLayoutDirection == .rightToLeft {
+                centerOffset = -centerOffset
+            }
+
             dateLabelCenterConstraint.constant = centerOffset
             dateLabelCenterConstraint.isActive = true
 
@@ -432,6 +436,10 @@ open class TableViewCellFileAccessoryView: UIView {
                 if isShowingDate {
                     centerOffset += actionsStackView.spacing / 2
                 }
+            }
+
+            if effectiveUserInterfaceLayoutDirection == .rightToLeft {
+                centerOffset = -centerOffset
             }
 
             sharedStatusCenterConstraint.constant = centerOffset
