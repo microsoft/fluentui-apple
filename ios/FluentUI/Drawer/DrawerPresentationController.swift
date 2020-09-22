@@ -17,6 +17,7 @@ class DrawerPresentationController: UIPresentationController {
     let presentationDirection: DrawerPresentationDirection
 
     private let shouldUseWindowFullWidthInLandscape: Bool
+    private let shouldRespectSafeAreaForWindowFullWidth: Bool
     private let sourceViewController: UIViewController
     private let sourceObject: Any?
     private let presentationOrigin: CGFloat?
@@ -25,14 +26,17 @@ class DrawerPresentationController: UIPresentationController {
     private weak var passThroughView: UIView?
     private let shadowOffset: CGFloat
 
-	init(presentedViewController: UIViewController,
-         presenting presentingViewController: UIViewController?,
-         source: UIViewController, sourceObject: Any?,
-         presentationOrigin: CGFloat?, presentationDirection:
-         DrawerPresentationDirection, presentationOffset: CGFloat,
+    init(presentedViewController: UIViewController,
+         presentingViewController: UIViewController?,
+         source: UIViewController,
+         sourceObject: Any?,
+         presentationOrigin: CGFloat?,
+         presentationDirection: DrawerPresentationDirection,
+         presentationOffset: CGFloat,
          presentationBackground: DrawerPresentationBackground,
          adjustHeightForKeyboard: Bool,
          shouldUseWindowFullWidthInLandscape: Bool,
+         shouldRespectSafeAreaForWindowFullWidth: Bool,
          passThroughView: UIView?,
          shadowOffset: CGFloat) {
         sourceViewController = source
@@ -42,8 +46,10 @@ class DrawerPresentationController: UIPresentationController {
         self.presentationOffset = presentationOffset
         self.presentationBackground = presentationBackground
         self.shouldUseWindowFullWidthInLandscape = shouldUseWindowFullWidthInLandscape
+        self.shouldRespectSafeAreaForWindowFullWidth = shouldRespectSafeAreaForWindowFullWidth
         self.passThroughView = passThroughView
         self.shadowOffset = shadowOffset
+
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
 
         if adjustHeightForKeyboard {
@@ -397,6 +403,12 @@ class DrawerPresentationController: UIPresentationController {
 
         let presentationOffsetMargin = actualPresentationOffset > 0 ? safeAreaPresentationOffset + actualPresentationOffset : 0
         var margins: UIEdgeInsets = .zero
+
+        if presentationDirection.isVertical && shouldRespectSafeAreaForWindowFullWidth {
+            margins.left = containerView.safeAreaInsets.left
+            margins.right = containerView.safeAreaInsets.right
+        }
+
         switch presentationDirection {
         case .down:
             margins.top = presentationOffsetMargin

@@ -19,6 +19,7 @@ class DrawerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show non dismissable", action: #selector(showTopDrawerNotDismissableButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show with no animation", action: #selector(showTopDrawerNotAnimatedButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show from custom base with width on landscape", action: #selector(showTopDrawerCustomOffsetButtonTapped)))
+        container.addArrangedSubview(createButton(title: "Show respecting safe area width", action: #selector(showTopDrawerSafeAreaButtonTapped)))
 
         addTitle(text: "Left/Right Drawer")
         addRow(
@@ -56,7 +57,22 @@ class DrawerDemoController: DemoController {
     }
 
     @discardableResult
-    private func presentDrawer(sourceView: UIView? = nil, barButtonItem: UIBarButtonItem? = nil, presentationOrigin: CGFloat = -1, presentationDirection: DrawerPresentationDirection, presentationStyle: DrawerPresentationStyle = .automatic, presentationOffset: CGFloat = 0, presentationBackground: DrawerPresentationBackground = .black, presentingGesture: UIPanGestureRecognizer? = nil, permittedArrowDirections: UIPopoverArrowDirection = [.left, .right], contentController: UIViewController? = nil, contentView: UIView? = nil, resizingBehavior: DrawerResizingBehavior = .none, adjustHeightForKeyboard: Bool = false, animated: Bool = true, customWidth: Bool = false) -> DrawerController {
+    private func presentDrawer(sourceView: UIView? = nil,
+                               barButtonItem: UIBarButtonItem? = nil,
+                               presentationOrigin: CGFloat = -1,
+                               presentationDirection: DrawerPresentationDirection,
+                               presentationStyle: DrawerPresentationStyle = .automatic,
+                               presentationOffset: CGFloat = 0,
+                               presentationBackground: DrawerPresentationBackground = .black,
+                               presentingGesture: UIPanGestureRecognizer? = nil,
+                               permittedArrowDirections: UIPopoverArrowDirection = [.left, .right],
+                               contentController: UIViewController? = nil,
+                               contentView: UIView? = nil,
+                               resizingBehavior: DrawerResizingBehavior = .none,
+                               adjustHeightForKeyboard: Bool = false,
+                               animated: Bool = true,
+                               customWidth: Bool = false,
+                               respectSafeAreaWidth: Bool = false) -> DrawerController {
         let controller: DrawerController
         if let sourceView = sourceView {
             controller = DrawerController(sourceView: sourceView, sourceRect: sourceView.bounds.insetBy(dx: sourceView.bounds.width / 2, dy: 0), presentationOrigin: presentationOrigin, presentationDirection: presentationDirection)
@@ -73,6 +89,7 @@ class DrawerDemoController: DemoController {
         controller.permittedArrowDirections = permittedArrowDirections
         controller.resizingBehavior = resizingBehavior
         controller.adjustsHeightForKeyboard = adjustHeightForKeyboard
+        controller.shouldRespectSafeAreaForWindowFullWidth = respectSafeAreaWidth
 
         if let contentView = contentView {
             // `preferredContentSize` can be used to specify the preferred size of a drawer,
@@ -135,6 +152,10 @@ class DrawerDemoController: DemoController {
     @objc private func showTopDrawerCustomOffsetButtonTapped(sender: UIButton) {
         let rect = sender.superview!.convert(sender.frame, to: nil)
         presentDrawer(sourceView: sender, presentationOrigin: rect.maxY, presentationDirection: .down, contentView: containerForActionViews(), customWidth: true)
+    }
+
+    @objc private func showTopDrawerSafeAreaButtonTapped(sender: UIButton) {
+        presentDrawer(sourceView: sender, presentationDirection: .down, contentView: containerForActionViews(), resizingBehavior: .dismissOrExpand, respectSafeAreaWidth: true)
     }
 
     @objc private func showLeftDrawerButtonTapped(sender: UIButton) {

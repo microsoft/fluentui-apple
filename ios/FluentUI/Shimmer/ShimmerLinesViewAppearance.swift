@@ -5,12 +5,14 @@
 
 import UIKit
 
-@available(*, deprecated, renamed: "ShimmerLinesViewAppearance")
+@available(*, deprecated, renamed: "ShimmerLinesViewAppearance", message: "Use individual properties instead")
 public typealias MSShimmerLinesViewAppearance = ShimmerLinesViewAppearance
 
 /**
  `ShimmerLinesViewAppearance` describes the appearance of a shimmer view (ie loading content view)
  */
+
+@available(*, deprecated, message: "Use individual properties on ShimmerView instead")
 @objc(MSFShimmerLinesViewAppearance)
 public class ShimmerLinesViewAppearance: NSObject {
     @objc public let lineCount: Int // use 0 if the number of lines should adapt to the available height

@@ -1,8 +1,9 @@
 {
   "images" : [
     {
-      "filename" : "ic_help_24_filled.pdf",
-      "idiom" : "universal"
+      "filename" : "ic_fluent_chevron_left_16_filled.pdf",
+      "idiom" : "universal",
+      "language-direction" : "left-to-right"
     }
   ],
   "info" : {

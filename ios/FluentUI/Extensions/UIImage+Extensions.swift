@@ -5,15 +5,15 @@
 
 import UIKit
 
-extension UIImage {
-    class func staticImageNamed(_ name: String) -> UIImage? {
+@objc public extension UIImage {
+    internal class func staticImageNamed(_ name: String) -> UIImage? {
         guard let image = UIImage(named: name, in: FluentUIFramework.resourceBundle, compatibleWith: nil) else {
             preconditionFailure("Missing image asset with name: \(name)")
         }
         return image
     }
 
-    func image(withPrimaryColor primaryColor: UIColor) -> UIImage {
+    @objc func image(withPrimaryColor primaryColor: UIColor) -> UIImage {
         if #available(iOS 13.0, *) {
             return self.withTintColor(primaryColor, renderingMode: .alwaysOriginal)
         } else {

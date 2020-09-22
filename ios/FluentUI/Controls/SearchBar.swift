@@ -152,6 +152,18 @@ open class SearchBar: UIView {
         static let defaultStyle: Style = .lightContent
     }
 
+    @objc open var hidesNavigationBarDuringSearch: Bool = true {
+        didSet {
+            if oldValue != hidesNavigationBarDuringSearch && isActive {
+                if hidesNavigationBarDuringSearch {
+                    hideNavigationBar(animated: false)
+                } else {
+                    unhideNavigationBar(animated: false)
+                }
+            }
+        }
+    }
+
     @objc open var cornerRadius: CGFloat = Constants.searchTextFieldCornerRadius {
         didSet {
             searchTextField.layer.cornerRadius = cornerRadius
@@ -221,6 +233,15 @@ open class SearchBar: UIView {
         clearButton.addTarget(self, action: #selector(SearchBar.clearButtonTapped(sender:)), for: .touchUpInside)
         clearButton.setImage(UIImage.staticImageNamed("search-clear"), for: .normal)
         clearButton.isHidden = true
+
+        if #available(iOS 13.4, *) {
+            clearButton.isPointerInteractionEnabled = true
+            clearButton.pointerStyleProvider = { button, effect, shape in
+                let preview = UITargetedPreview(view: button)
+                return UIPointerStyle(effect: .lift(preview))
+            }
+        }
+
         return clearButton
     }()
 
@@ -231,9 +252,15 @@ open class SearchBar: UIView {
         button.setTitle("Common.Cancel".localized, for: .normal)
         button.addTarget(self, action: #selector(SearchBar.cancelButtonTapped(sender:)), for: .touchUpInside)
         button.alpha = 0.0
+
         if #available(iOS 13, *) {
             button.showsLargeContentViewer = true
         }
+
+        if #available(iOS 13.4, *) {
+            button.isPointerInteractionEnabled = true
+        }
+
         return button
     }()
 
@@ -268,14 +295,20 @@ open class SearchBar: UIView {
         if isActive {
             return
         }
+
         attributePlaceholderText()
         showCancelButton()
-        originalIsNavigationBarHidden = navigationController?.isNavigationBarHidden ?? false
-        // Using delayed async to work around a bug on iOS when it restores responder status for the text field when controller appears (due to navigation controller's pop action) even though text field resigned responder status before a detail controller was pushed
-        let isTransitioning = navigationController?.transitionCoordinator != nil
-        DispatchQueue.main.asyncAfter(deadline: .now() + (isTransitioning ? Constants.navigationBarTransitionHidingDelay : 0)) {
-            self.navigationController?.setNavigationBarHidden(true, animated: true)
+
+        if hidesNavigationBarDuringSearch {
+            originalIsNavigationBarHidden = navigationController?.isNavigationBarHidden ?? false
+
+            // Using delayed async to work around a bug on iOS when it restores responder status for the text field when controller appears (due to navigation controller's pop action) even though text field resigned responder status before a detail controller was pushed
+            let isTransitioning = navigationController?.transitionCoordinator != nil
+            DispatchQueue.main.asyncAfter(deadline: .now() + (isTransitioning ? Constants.navigationBarTransitionHidingDelay : 0)) {
+                self.hideNavigationBar(animated: true)
+            }
         }
+
         isActive = true
     }
 
@@ -283,13 +316,25 @@ open class SearchBar: UIView {
         if !isActive {
             return
         }
+
         isActive = false
         searchTextField.resignFirstResponder()
         searchTextField.text = nil
         searchTextDidChange(shouldUpdateDelegate: false)
         delegate?.searchBarDidCancel(self)
         hideCancelButton()
-        navigationController?.setNavigationBarHidden(originalIsNavigationBarHidden, animated: true)
+
+        if hidesNavigationBarDuringSearch {
+            unhideNavigationBar(animated: true)
+        }
+    }
+
+    private func hideNavigationBar(animated: Bool) {
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+
+    private func unhideNavigationBar(animated: Bool) {
+        navigationController?.setNavigationBarHidden(originalIsNavigationBarHidden, animated: animated)
     }
 
     private func attributePlaceholderText() {

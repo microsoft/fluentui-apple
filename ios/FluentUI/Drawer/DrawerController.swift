@@ -339,6 +339,9 @@ open class DrawerController: UIViewController {
     /// For `vertical` presentation shown when horizontal size is `.compact`, the content width will be the full width of the presenting window. If set to false, the `preferredContentSize.width` will be used for calculation in landscape mode.
     @objc open var shouldUseWindowFullWidthInLandscape: Bool = true
 
+    /// Limits the full window width to its safe area for `vertical` presentation.
+    @objc open var shouldRespectSafeAreaForWindowFullWidth: Bool = false
+
     // Override to provide the preferred size based on specifics of the concrete drawer subclass (see popup menu, for example)
     open var preferredContentWidth: CGFloat { return 0 }
     open var preferredContentHeight: CGFloat { return 0 }
@@ -916,7 +919,7 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
                 useNavigationBarBackgroundColor = (direction.isVertical && source.traitCollection.userInterfaceLevel == .elevated)
             }
             return DrawerPresentationController(presentedViewController: presented,
-                                                presenting: presenting,
+                                                presentingViewController: presenting,
                                                 source: source,
                                                 sourceObject: sourceView ?? barButtonItem,
                                                 presentationOrigin: presentationOrigin,
@@ -925,6 +928,7 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
                                                 presentationBackground: presentationBackground,
                                                 adjustHeightForKeyboard: adjustsHeightForKeyboard,
                                                 shouldUseWindowFullWidthInLandscape: shouldUseWindowFullWidthInLandscape,
+                                                shouldRespectSafeAreaForWindowFullWidth: shouldRespectSafeAreaForWindowFullWidth,
                                                 passThroughView: passThroughView,
                                                 shadowOffset: shadowOffset)
         case .popover:

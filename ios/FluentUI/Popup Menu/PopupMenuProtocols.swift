@@ -35,10 +35,10 @@ public protocol PopupMenuTemplateItem: AnyObject {
 /**
 `PopupMenuItemTemplateCell` represents a template cell protocol inside `PopupMenuController`.
  The built-in type is `PopupMenuItemCell`.
- You can use `UITableViewCell` conforms to this protocol for customization.
+ If you are making a custom object conform to this protocol, it must be a `UITableViewCell` for the Pop Up Menu to work properly
 */
 @objc(MSFPopupMenuItemTemplateCell)
-public protocol PopupMenuItemTemplateCell where Self: UITableViewCell {
+public protocol PopupMenuItemTemplateCell {
     /// `PopupMenuController` will notify that one or more items in the list contain image(s)
     @objc var preservesSpaceForImage: Bool { get set }
     /// `PopupMenuController` will notify the custom separatorColor.

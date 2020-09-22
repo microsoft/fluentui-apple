@@ -49,9 +49,19 @@ class LargeTitleView: UIView {
         }
     }
 
+    var avatarOverrideFallbackImageStyle: AvatarFallbackImageStyle? {
+        didSet {
+            if let fallbackStyle = avatarOverrideFallbackImageStyle {
+                updateProfileButtonVisibility()
+                [avatarView, smallMorphingAvatarView].forEach { $0?.setup(fallbackStyle: fallbackStyle) }
+            }
+        }
+    }
+
     var style: Style = .light {
         didSet {
             titleButton.setTitleColor(colorForStyle, for: .normal)
+            [avatarView, smallMorphingAvatarView].forEach { $0?.preferredFallbackImageStyle = style == .light ? .primaryFilled : .onAccentFilled }
         }
     }
 
@@ -68,7 +78,23 @@ class LargeTitleView: UIView {
         }
     }
 
-    var onAvatarTapped: (() -> Void)? // called in response to a tap on the MSAvatarView
+    var onAvatarTapped: (() -> Void)? { // called in response to a tap on the MSAvatarView
+        didSet {
+            updateAvatarViewPointerInteraction()
+        }
+    }
+
+    public func visibleAvatarView() -> UIView? {
+        if !showsProfileButton {
+            return nil
+        }
+
+        if smallMorphingAvatarView?.alpha != 0 {
+            return smallMorphingAvatarView
+        }
+
+        return avatarView
+    }
 
     private var colorForStyle: UIColor {
         switch style {
@@ -138,14 +164,15 @@ class LargeTitleView: UIView {
         contain(view: contentStackView, withInsets: UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8))
 
         // default avatar view setup
-        let avatarView = ProfileView(avatarSize: Constants.avatarSize)
+        let preferredFallbackImageStyle: AvatarFallbackImageStyle = style == .light ? .primaryFilled : .onAccentFilled
+        let avatarView = ProfileView(avatarSize: Constants.avatarSize, preferredFallbackImageStyle: preferredFallbackImageStyle)
         avatarView.setup(avatar: avatar)
         avatarView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleAvatarViewTapped)))
         self.avatarView = avatarView
         contentStackView.addArrangedSubview(avatarView)
 
         // small avatar view setup
-        let smallAvatarView = ProfileView(avatarSize: Constants.compactAvatarSize)
+        let smallAvatarView = ProfileView(avatarSize: Constants.compactAvatarSize, preferredFallbackImageStyle: preferredFallbackImageStyle)
         smallAvatarView.setup(avatar: avatar)
         self.smallMorphingAvatarView = smallAvatarView
         smallAvatarView.translatesAutoresizingMaskIntoConstraints = false
@@ -176,6 +203,8 @@ class LargeTitleView: UIView {
         if #available(iOS 13, *) {
             titleButton.showsLargeContentViewer = true
         }
+
+        updateAvatarViewPointerInteraction()
     }
 
     // Declares animation closures used for title expansion/contraction
@@ -227,6 +256,10 @@ class LargeTitleView: UIView {
         layoutIfNeeded()
     }
 
+    private func updateAvatarViewPointerInteraction() {
+        avatarView?.hasPointerInteraction = onAvatarTapped != nil
+    }
+
     // MARK: - UIActions
 
     /// Target for the tap gesture on the avatar view, as it is not a button
@@ -264,7 +297,7 @@ class LargeTitleView: UIView {
     // MARK: - Content Update Methods
 
     private func updateProfileButtonVisibility() {
-        showsProfileButton = !hasLeftBarButtonItems && avatar != nil
+        showsProfileButton = !hasLeftBarButtonItems && (avatar != nil || avatarOverrideFallbackImageStyle != nil)
     }
 
     /// Sets the interface with the provided item's details
