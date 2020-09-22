@@ -172,8 +172,9 @@ class DrawerPresentationController: UIPresentationController {
         case resize
     }
 
-    // As content view is clipped 'clipsToBounds = true' to prevent any animation bug sliding over the navigation bar, shadow was also getting clipped.
+    // Content view is clipped 'clipsToBounds = true' to prevent the drawer from sliding over the navigation bar and for any custom base scenario. But it started clipping shadow of the drawer.
     // Fix: Shadow offset is added in the presented view and height of content view is also increased by same value. It will make sure shadow is not clipped, keeping presented view's height same.
+
     override var frameOfPresentedViewInContainerView: CGRect { return contentView.frame.inset(by: DrawerShadowView.shadowOffsetForPresentedView(with: presentationDirection, offset: shadowOffset)) }
 
     var extraContentSizeEffectWhenCollapsing: ExtraContentSizeEffect = .move

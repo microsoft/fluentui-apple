@@ -888,14 +888,14 @@ open class DrawerController: UIViewController {
 extension DrawerController: UIViewControllerTransitioningDelegate {
     public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if presentationStyle(for: source) == .slideover {
-            return DrawerTransitionAnimator(presenting: true, presentationDirection: presentationDirection(for: source.view), shadowOffset: shadowOffset)
+            return DrawerTransitionAnimator(presenting: true, presentationDirection: presentationDirection(for: source.view), containerOffset: shadowOffset)
         }
         return nil
     }
 
     public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if let controller = dismissed.presentationController as? DrawerPresentationController {
-            return DrawerTransitionAnimator(presenting: false, presentationDirection: controller.presentationDirection, shadowOffset: shadowOffset)
+            return DrawerTransitionAnimator(presenting: false, presentationDirection: controller.presentationDirection, containerOffset: shadowOffset)
         }
         return nil
     }

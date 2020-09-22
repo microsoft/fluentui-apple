@@ -29,12 +29,12 @@ class DrawerTransitionAnimator: NSObject {
 
     let presenting: Bool
     let presentationDirection: DrawerPresentationDirection
-    let shadowOffset: CGFloat
+    let containerOffset: CGFloat
 
-	init(presenting: Bool, presentationDirection: DrawerPresentationDirection, shadowOffset: CGFloat) {
+    init(presenting: Bool, presentationDirection: DrawerPresentationDirection, containerOffset: CGFloat) {
         self.presenting = presenting
         self.presentationDirection = presentationDirection
-        self.shadowOffset = shadowOffset
+        self.containerOffset = containerOffset
         super.init()
     }
 
@@ -68,23 +68,23 @@ class DrawerTransitionAnimator: NSObject {
         var rect = presentedViewRectPresented(forContentSize: contentSize)
         switch presentationDirection {
         case .down:
-            rect.origin.y = -(contentSize.height - shadowOffset)
+            rect.origin.y = -(contentSize.height - containerOffset)
         case .up:
-            rect.origin.y = (contentSize.height - shadowOffset)
+            rect.origin.y = (contentSize.height - containerOffset)
         case .fromLeading:
-            rect.origin.x = -(contentSize.width - shadowOffset)
+            rect.origin.x = -(contentSize.width - containerOffset)
         case .fromTrailing:
-            rect.origin.x = (contentSize.width - shadowOffset)
+            rect.origin.x = (contentSize.width - containerOffset)
         }
         return rect
     }
 
 	private func currentRect(for presentedView: UIView) -> CGRect {
-        return presentedView.frame.inset(by: DrawerShadowView.shadowOffsetForPresentedView(with: self.presentationDirection, offset: self.shadowOffset))
+        return presentedView.frame.inset(by: DrawerShadowView.shadowOffsetForPresentedView(with: self.presentationDirection, offset: self.containerOffset))
     }
 
     private func presentedViewRectPresented(forContentSize contentSize: CGSize) -> CGRect {
-        return CGRect(x: 0, y: 0, width: contentSize.width, height: contentSize.height).inset(by: DrawerShadowView.shadowOffsetForPresentedView(with: self.presentationDirection, offset: self.shadowOffset))
+        return CGRect(x: 0, y: 0, width: contentSize.width, height: contentSize.height).inset(by: DrawerShadowView.shadowOffsetForPresentedView(with: self.presentationDirection, offset: self.containerOffset))
     }
 }
 
