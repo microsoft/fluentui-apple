@@ -957,6 +957,10 @@ extension DrawerController: UIPopoverPresentationControllerDelegate {
     public func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         return .none
     }
+
+    public func popoverPresentationControllerShouldDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) -> Bool {
+        return delegate?.shouldDismissDrawer?(self) != false
+    }
 }
 
 // MARK: - DrawerController: UIGestureRecognizerDelegate
