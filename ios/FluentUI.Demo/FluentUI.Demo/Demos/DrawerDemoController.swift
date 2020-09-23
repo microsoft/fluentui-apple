@@ -307,6 +307,18 @@ extension DrawerDemoController: UITextFieldDelegate {
 
 extension DrawerDemoController: DrawerControllerDelegate {
     func shouldDismissDrawer(_ controller: DrawerController) -> Bool {
+        DispatchQueue.main.async {
+            if self.shouldBlockDrawerDismiss {
+                let alert = UIAlertController(title: "Do you really want to dismiss the drawer?", message: nil, preferredStyle: .alert)
+                controller.present(alert, animated: true)
+                let yesAction = UIAlertAction(title: "Yes", style: .default) { _ in
+                    self.dismiss(animated: true, completion: nil)
+                }
+                let noAction = UIAlertAction(title: "No", style: .cancel)
+                alert.addAction(yesAction)
+                alert.addAction(noAction)
+            }
+        }
         return !shouldBlockDrawerDismiss
     }
 
