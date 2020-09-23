@@ -43,6 +43,8 @@ public protocol BadgeFieldDelegate: AnyObject {
      `badgeFieldShouldReturn` is called only when there's no text in the text field, otherwise `BadgeField` badges the text and doesn't call this.
      */
     @objc optional func badgeFieldShouldReturn(_ badgeField: BadgeField) -> Bool
+    /// This is called to check if we should make badges inactive on textFieldDidEndEditing
+    @objc optional func shouldKeepBadgesActiveOnEndEditing() -> Bool
 }
 
 // MARK: - BadgeField Colors
@@ -1124,8 +1126,13 @@ extension BadgeField: UITextFieldDelegate {
             updateLabelsVisibility()
             badgeFieldDelegate?.badgeFieldDidEndEditing?(self)
         }
-        showAllBadgesForEditing = false
-        isActive = false
+        guard let shouldKeepBadgesActiveOnEndEditing = badgeFieldDelegate?.shouldKeepBadgesActiveOnEndEditing?() else {
+            showAllBadgesForEditing = false
+            isActive = false
+            return
+        }
+        showAllBadgesForEditing = shouldKeepBadgesActiveOnEndEditing
+        isActive = shouldKeepBadgesActiveOnEndEditing
     }
 
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {

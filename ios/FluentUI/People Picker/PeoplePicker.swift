@@ -35,6 +35,9 @@ public protocol PeoplePickerDelegate: BadgeFieldDelegate {
     // Search directory button
     /// Called when the search directory button is tapped.
     @objc optional func peoplePicker(_ peoplePicker: PeoplePicker, searchDirectoryWithCompletion completion: @escaping (_ personas: [Persona], _ success: Bool) -> Void)
+
+    /// Called to check if suggestions are to be hidden on textField endEditing
+    @objc optional func shouldKeepShowingPersonaSuggestionsOnEndEditing() -> Bool
 }
 
 // MARK: - PeoplePicker
@@ -358,9 +361,13 @@ open class PeoplePicker: BadgeField {
         isShowingPersonaSuggestions = false
     }
 
-    open override func textFieldDidEndEditing(_ textField: UITextField) {
+    public override func textFieldDidEndEditing(_ textField: UITextField) {
         super.textFieldDidEndEditing(textField)
-        isShowingPersonaSuggestions = false
+        guard let showPersonaSuggestions = delegate?.shouldKeepShowingPersonaSuggestionsOnEndEditing?() else {
+            isShowingPersonaSuggestions = false
+            return
+        }
+        isShowingPersonaSuggestions = showPersonaSuggestions
     }
 
     // MARK: Badge actions
