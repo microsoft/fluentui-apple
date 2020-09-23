@@ -97,10 +97,10 @@ public protocol DrawerControllerDelegate: AnyObject {
 
     /// Called when drawer is being dismissed.
     @objc optional func drawerControllerWillDismiss(_ controller: DrawerController)
-    
+
     /// Called after drawer has been dismissed.
     @objc optional func drawerControllerDidDismiss(_ controller: DrawerController)
-    
+
     /**
      Called when drawer is getting dismissed when user tries to dismiss drawer by tapping in background, using resizing handle or dragging drawer to bottom.
 
@@ -970,7 +970,7 @@ extension DrawerController: UIGestureRecognizerDelegate {
 // MARK: - DrawerController: DrawerPresentationDelegate
 
 extension DrawerController: DrawerPresentationDelegate {
-    func backgroundViewTapped() {
+    func backgroundViewTapped(_ presentationControler: DrawerPresentationController) {
         if delegate?.shouldDismissDrawer?(self) != false {
             presentingViewController?.dismiss(animated: false)
         }

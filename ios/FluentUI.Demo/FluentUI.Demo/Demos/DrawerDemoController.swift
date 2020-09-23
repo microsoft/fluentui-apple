@@ -9,9 +9,9 @@ import UIKit
 // MARK: DrawerDemoController
 
 class DrawerDemoController: DemoController {
-    
+
     private var shouldBlockDrawerDismiss: Bool = false
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -42,7 +42,7 @@ class DrawerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show always as slideover, resizable", action: #selector(showBottomDrawerCustomContentControllerButtonTapped)))
 
         container.addArrangedSubview(createButton(title: "Show with focusable content", action: #selector(showBottomDrawerFocusableContentButtonTapped)))
-        
+
         container.addArrangedSubview(createButton(title: "Show dismiss blocking drawer", action: #selector(showBottomDrawerBlockingDismissButtonTapped)))
 
         container.addArrangedSubview(UIView())
@@ -178,7 +178,7 @@ class DrawerDemoController: DemoController {
         let rect = sender.superview!.convert(sender.frame, to: nil)
         presentDrawer(sourceView: sender, presentationOrigin: rect.minY, presentationDirection: .up, contentView: containerForActionViews())
     }
-    
+
     @objc private func showBottomDrawerBlockingDismissButtonTapped(sender: UIButton) {
         shouldBlockDrawerDismiss = true
         presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews(), resizingBehavior: .dismissOrExpand)
@@ -309,7 +309,7 @@ extension DrawerDemoController: DrawerControllerDelegate {
     func shouldDismissDrawer(_ controller: DrawerController) -> Bool {
         return !shouldBlockDrawerDismiss
     }
-    
+
     func drawerControllerDidDismiss(_ controller: DrawerController) {
         // reset the flag once drawer gets dismissed
         shouldBlockDrawerDismiss = false
