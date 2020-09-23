@@ -141,6 +141,11 @@ open class ShimmerView: UIView {
 		self.excludedViews = excludedViews
 		self.animationSynchronizer = animationSynchronizer
 		super.init(frame: CGRect(origin: .zero, size: containerView?.bounds.size ?? .zero))
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(syncAnimation),
+                                               name: UIAccessibility.reduceMotionStatusDidChangeNotification,
+                                               object: nil)
 	}
 
 	required public init?(coder: NSCoder) {
@@ -249,11 +254,17 @@ open class ShimmerView: UIView {
 
 	/// Update the shimmer animation
 	func updateShimmeringAnimation() {
+        shimmeringLayer.removeAnimation(forKey: "shimmering")
+
+        // For usability/accessibility reasons, the animation is not added if the user
+        // has the "reduce motion" enabled on the device.
+        guard !UIAccessibility.isReduceMotionEnabled else {
+            return
+        }
+
 		if let animationSynchronizer = animationSynchronizer, animationSynchronizer.referenceLayer == nil {
 			animationSynchronizer.referenceLayer = shimmeringLayer
 		}
-
-		shimmeringLayer.removeAnimation(forKey: "shimmering")
 
 		let animation = CABasicAnimation(keyPath: "locations")
 
