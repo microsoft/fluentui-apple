@@ -777,7 +777,7 @@ open class DrawerController: UIViewController {
             guard let presentationController = presentationController as? DrawerPresentationController else {
                 preconditionFailure("DrawerController cannot handle resizing without DrawerPresentationController")
             }
-            presentationController.setExtraContentSize(0, updatingLayout: true)
+            presentationController.setExtraContentSize(0, updatingLayout: true, animated: animated)
         }
         return false
     }

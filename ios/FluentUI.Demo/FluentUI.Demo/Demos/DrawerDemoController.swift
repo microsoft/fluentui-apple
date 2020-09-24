@@ -10,7 +10,7 @@ import UIKit
 
 class DrawerDemoController: DemoController {
 
-    private var shouldConfirmDrawerDismiss: Bool = false
+    private var shouldConfirmDrawerDismissal: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -180,7 +180,7 @@ class DrawerDemoController: DemoController {
     }
 
     @objc private func showBottomDrawerBlockingDismissButtonTapped(sender: UIButton) {
-        shouldConfirmDrawerDismiss = true
+        shouldConfirmDrawerDismissal = true
         presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews(), resizingBehavior: .dismissOrExpand)
     }
 
@@ -307,7 +307,7 @@ extension DrawerDemoController: UITextFieldDelegate {
 
 extension DrawerDemoController: DrawerControllerDelegate {
     func drawerControllerShouldDismissDrawer(_ controller: DrawerController) -> Bool {
-        if self.shouldConfirmDrawerDismiss {
+        if shouldConfirmDrawerDismissal {
             let alert = UIAlertController(title: "Do you really want to dismiss the drawer?", message: nil, preferredStyle: .alert)
             controller.present(alert, animated: true)
             let yesAction = UIAlertAction(title: "Yes", style: .default) { _ in
@@ -317,11 +317,11 @@ extension DrawerDemoController: DrawerControllerDelegate {
             alert.addAction(yesAction)
             alert.addAction(noAction)
         }
-        return !shouldConfirmDrawerDismiss
+        return !shouldConfirmDrawerDismissal
     }
 
     func drawerControllerDidDismiss(_ controller: DrawerController) {
         // reset the flag once drawer gets dismissed
-        shouldConfirmDrawerDismiss = false
+        shouldConfirmDrawerDismissal = false
     }
 }
