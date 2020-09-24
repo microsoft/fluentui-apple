@@ -102,7 +102,7 @@ public protocol DrawerControllerDelegate: AnyObject {
     @objc optional func drawerControllerDidDismiss(_ controller: DrawerController)
 
     /// Called when drawer is getting dismissed when user tries to dismiss drawer by tapping in background, using resizing handle or dragging drawer to bottom. Use this method to turn off drawer dismiss.
-    @objc optional func shouldDismissDrawer(_ controller: DrawerController) -> Bool
+    @objc optional func drawerControllerShouldDismissDrawer(_ controller: DrawerController) -> Bool
 }
 
 // MARK: - DrawerController
@@ -768,9 +768,10 @@ open class DrawerController: UIViewController {
     ///   - animated: dimiss should happen with animation or not
     ///   - isResizing: flag indicating wheter dismiss is being called due to user resizing the drawer, default is false
     /// - Returns: whether drawer got dismissed or not
+    @discardableResult
     private func dismissPresentingViewController(animated: Bool, isResizing: Bool = false) -> Bool {
-        if delegate?.shouldDismissDrawer?(self) ?? true {
-            presentingViewController?.dismiss(animated: true)
+        if delegate?.drawerControllerShouldDismissDrawer?(self) ?? true {
+            presentingViewController?.dismiss(animated: animated)
             return true
         } else if isResizing {
             guard let presentationController = presentationController as? DrawerPresentationController else {
@@ -822,14 +823,14 @@ open class DrawerController: UIViewController {
             } else if offset <= -Constants.resizingThreshold {
                 if isExpanded {
                     if originalDrawerHeight + offset <= normalDrawerHeight - Constants.resizingThreshold {
-                        _ = dismissPresentingViewController(animated: true, isResizing: true)
+                        dismissPresentingViewController(animated: true, isResizing: true)
                     } else {
                         presentationController.setExtraContentSize(0, updatingLayout: false)
                     }
                     isExpanded = false
                     delegate?.drawerControllerDidChangeExpandedState?(self)
                 } else {
-                    _ = dismissPresentingViewController(animated: true, isResizing: true)
+                    dismissPresentingViewController(animated: true, isResizing: true)
                 }
             } else {
                 presentationController.setExtraContentSize(0, animated: true)
@@ -927,7 +928,7 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
                                                 adjustHeightForKeyboard: adjustsHeightForKeyboard,
                                                 shouldUseWindowFullWidthInLandscape: shouldUseWindowFullWidthInLandscape,
                                                 shouldRespectSafeAreaForWindowFullWidth: shouldRespectSafeAreaForWindowFullWidth)
-            drawerPresentationController.drawerPresentationDelegate = self
+            drawerPresentationController.drawerPresentationControllerDelegate = self
             return drawerPresentationController
         case .popover:
             let presentationController = UIPopoverPresentationController(presentedViewController: presented, presenting: presenting)
@@ -973,8 +974,8 @@ extension DrawerController: UIGestureRecognizerDelegate {
 
 // MARK: - DrawerController: DrawerPresentationDelegate
 
-extension DrawerController: DrawerPresentationDelegate {
-    func backgroundViewTapped(_ presentationControler: DrawerPresentationController) {
-        _ = dismissPresentingViewController(animated: true)
+extension DrawerController: DrawerPresentationControllerDelegate {
+    func drawerPresentationControllerDismissalRequested(_ presentationControler: DrawerPresentationController, animated: Bool) {
+        dismissPresentingViewController(animated: animated)
     }
 }

@@ -10,7 +10,7 @@ import UIKit
 
 class DrawerDemoController: DemoController {
 
-    private var shouldBlockDrawerDismiss: Bool = false
+    private var shouldConfirmDrawerDismiss: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -180,7 +180,7 @@ class DrawerDemoController: DemoController {
     }
 
     @objc private func showBottomDrawerBlockingDismissButtonTapped(sender: UIButton) {
-        shouldBlockDrawerDismiss = true
+        shouldConfirmDrawerDismiss = true
         presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews(), resizingBehavior: .dismissOrExpand)
     }
 
@@ -306,24 +306,22 @@ extension DrawerDemoController: UITextFieldDelegate {
 }
 
 extension DrawerDemoController: DrawerControllerDelegate {
-    func shouldDismissDrawer(_ controller: DrawerController) -> Bool {
-        DispatchQueue.main.async {
-            if self.shouldBlockDrawerDismiss {
-                let alert = UIAlertController(title: "Do you really want to dismiss the drawer?", message: nil, preferredStyle: .alert)
-                controller.present(alert, animated: true)
-                let yesAction = UIAlertAction(title: "Yes", style: .default) { _ in
-                    self.dismiss(animated: true, completion: nil)
-                }
-                let noAction = UIAlertAction(title: "No", style: .cancel)
-                alert.addAction(yesAction)
-                alert.addAction(noAction)
+    func drawerControllerShouldDismissDrawer(_ controller: DrawerController) -> Bool {
+        if self.shouldConfirmDrawerDismiss {
+            let alert = UIAlertController(title: "Do you really want to dismiss the drawer?", message: nil, preferredStyle: .alert)
+            controller.present(alert, animated: true)
+            let yesAction = UIAlertAction(title: "Yes", style: .default) { _ in
+                self.dismiss(animated: true, completion: nil)
             }
+            let noAction = UIAlertAction(title: "No", style: .cancel)
+            alert.addAction(yesAction)
+            alert.addAction(noAction)
         }
-        return !shouldBlockDrawerDismiss
+        return !shouldConfirmDrawerDismiss
     }
 
     func drawerControllerDidDismiss(_ controller: DrawerController) {
         // reset the flag once drawer gets dismissed
-        shouldBlockDrawerDismiss = false
+        shouldConfirmDrawerDismiss = false
     }
 }
