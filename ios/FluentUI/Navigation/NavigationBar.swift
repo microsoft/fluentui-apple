@@ -12,10 +12,12 @@ public extension Colors {
             public static var background: UIColor = NavigationBar.background
             public static var tint: UIColor = NavigationBar.tint
             public static var title: UIColor = NavigationBar.title
+            public static var subtitle: UIColor = NavigationBar.subtitle
         }
         public struct Primary {
             public static var tint = UIColor(light: textOnAccent, dark: System.tint)
             public static var title = UIColor(light: textOnAccent, dark: System.title)
+            public static var subtitle = UIColor(light: textOnAccent, dark: System.subtitle)
         }
     }
 }
@@ -288,6 +290,10 @@ open class NavigationBar: UINavigationBar {
     private var navigationBarStyleObserver: NSKeyValueObservation?
     private var navigationBarShadowObserver: NSKeyValueObservation?
     private var usesLargeTitleObserver: NSKeyValueObservation?
+    private var subtitleObserver: NSKeyValueObservation?
+    private var expandsNavigationBarOnTitleAreaTapObserver: NSKeyValueObservation?
+    private var showsTitleChevronObserver: NSKeyValueObservation?
+    private var showsSubtitleChevronObserver: NSKeyValueObservation?
 
     @objc public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -564,6 +570,18 @@ open class NavigationBar: UINavigationBar {
             self.navigationItemDidUpdate(item)
         }
         usesLargeTitleObserver = navigationItem.observe(\UINavigationItem.usesLargeTitle) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        subtitleObserver = navigationItem.observe(\UINavigationItem.subtitle) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        expandsNavigationBarOnTitleAreaTapObserver = navigationItem.observe(\UINavigationItem.expandsNavigationBarOnTitleAreaTap) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        showsTitleChevronObserver = navigationItem.observe(\UINavigationItem.showsTitleChevron) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        showsSubtitleChevronObserver = navigationItem.observe(\UINavigationItem.showsTitleChevron) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
     }

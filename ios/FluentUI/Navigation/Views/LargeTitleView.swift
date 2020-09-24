@@ -15,12 +15,17 @@ class LargeTitleView: UIView {
 
     private struct Constants {
         static let horizontalSpacing: CGFloat = 10
+        static let subtitleVerticalSpacing: CGFloat = 3
+        static let subtitleHeight: CGFloat = 16
+        static let titleWithSubtitleHeight: CGFloat = 22
 
         static let compactAvatarSize: AvatarSize = .small
         static let avatarSize: AvatarSize = .medium
 
         static let compactTitleFont: UIFont = Fonts.title1
         static let titleFont: UIFont = Fonts.largeTitle
+        static let titleWithSubtitleFont: UIFont = Fonts.headline
+        static let subtitleFont: UIFont = Fonts.caption1
     }
 
     var avatar: Avatar? {
@@ -61,21 +66,32 @@ class LargeTitleView: UIView {
     var style: Style = .light {
         didSet {
             titleButton.setTitleColor(colorForStyle, for: .normal)
+            subtitleButton.setTitleColor(subtitleColorForStyle, for: .normal)
             [avatarView, smallMorphingAvatarView].forEach { $0?.preferredFallbackImageStyle = style == .light ? .primaryFilled : .onAccentFilled }
         }
     }
 
     var titleSize: NavigationBar.ElementSize = .automatic {
         didSet {
+            updateTitleSize()
+        }
+    }
+
+    private func updateTitleSize() {
+        var titleFont = Constants.titleWithSubtitleFont
+
+        if !isSubtitleShown {
             switch titleSize {
             case .automatic:
                 return
             case .contracted:
-                titleButton.titleLabel?.font = Constants.compactTitleFont
+                titleFont = Constants.compactTitleFont
             case .expanded:
-                titleButton.titleLabel?.font = Constants.titleFont
+                titleFont = Constants.titleFont
             }
         }
+
+        titleButton.titleLabel?.font = titleFont
     }
 
     var onAvatarTapped: (() -> Void)? { // called in response to a tap on the MSAvatarView
@@ -105,7 +121,17 @@ class LargeTitleView: UIView {
         }
     }
 
+    private var subtitleColorForStyle: UIColor {
+        switch style {
+        case .light:
+            return Colors.Navigation.Primary.subtitle
+        case .dark:
+            return Colors.Navigation.System.subtitle
+        }
+    }
+
     private var avatarView: ProfileView? // circular view displaying the profile information
+
     // an AvatarView instance that is permanently constrained to the smaller size
     // this view will have its transform property animated to match the normal avatar view
     // this is done to allow for simulate animation of the non-animatable UILabel within MSAvatarView
@@ -114,11 +140,95 @@ class LargeTitleView: UIView {
     private var smallMorphingAvatarViewAnimator: UIViewPropertyAnimator? // responsible for animating the transform of smallMorphingAvatarView
     private var smallAnimatorRunningObserver: NSKeyValueObservation? // observes the running property, done to accomplish a "completion" for a pausesOnCompletion = YES animator
 
-    private let titleButton = UIButton() // button used to display the title of the current navigation item
+    private let titleAreaView = UIView(frame: .zero)
+
+    private lazy var titleStackView: UIStackView = {
+        let stackView = UIStackView(frame: .zero)
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+
+        return stackView
+    }()
+
+    // button used to display the title of the current navigation item
+    private lazy var titleButton: UIButton = {
+        let titleButton = UIButton(frame: .zero)
+        titleButton.translatesAutoresizingMaskIntoConstraints = false
+        titleButton.setTitle(nil, for: .normal)
+        titleButton.titleLabel?.font = Constants.titleFont
+        titleButton.setTitleColor(colorForStyle, for: .normal)
+        titleButton.titleLabel?.textAlignment = .left
+        titleButton.contentHorizontalAlignment = .left
+        titleButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        titleButton.addTarget(self, action: #selector(LargeTitleView.titleButtonTapped(sender:)), for: .touchUpInside)
+        titleButton.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+
+        return titleButton
+    }()
+
+    // button used to display the subtitle of the current navigation item
+    private lazy var subtitleButton: UIButton = {
+        let subtitleButton = UIButton(frame: .zero)
+        subtitleButton.translatesAutoresizingMaskIntoConstraints = false
+        subtitleButton.setTitle(nil, for: .normal)
+        subtitleButton.titleLabel?.font = Constants.subtitleFont
+        subtitleButton.setTitleColor(subtitleColorForStyle, for: .normal)
+        subtitleButton.titleLabel?.textAlignment = .left
+        subtitleButton.contentHorizontalAlignment = .left
+        subtitleButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        subtitleButton.addTarget(self, action: #selector(LargeTitleView.titleButtonTapped(sender:)), for: .touchUpInside) // todo_
+        subtitleButton.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+
+        return subtitleButton
+    }()
+
+    private lazy var titleChevronImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage.staticImageNamed("ic_fluent_chevron_right_16_filled"))
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+
+    private lazy var subtitleChevronImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage.staticImageNamed("ic_fluent_chevron_down_12_regular"))
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
 
     private let contentStackView = UIStackView() // containing stack view
 
     private let tapGesture = UITapGestureRecognizer() // tap used to trigger expansion. Applied to entire navigation bar
+
+    private var isSubtitleShown: Bool = false {
+        didSet {
+            if oldValue != isSubtitleShown {
+                if isSubtitleShown {
+                    titleStackView.removeFromSuperview()
+                    titleAreaView.addSubview(titleStackView)
+                    titleAreaView.addSubview(subtitleButton)
+                    contentStackView.addArrangedSubview(titleAreaView)
+
+                    NSLayoutConstraint.activate(subtitleConstraints)
+                } else {
+                    NSLayoutConstraint.deactivate(subtitleConstraints)
+
+                    titleAreaView.removeFromSuperview()
+                    titleStackView.removeFromSuperview()
+                    subtitleButton.removeFromSuperview()
+                    contentStackView.addArrangedSubview(titleStackView)
+                }
+
+                updateTitleSize()
+            }
+        }
+    }
+
+    private lazy var subtitleConstraints: [NSLayoutConstraint] = {
+        return [titleButton.topAnchor.constraint(equalTo: titleAreaView.topAnchor, constant: Constants.subtitleVerticalSpacing),
+                titleButton.heightAnchor.constraint(equalToConstant: Constants.titleWithSubtitleHeight),
+                titleButton.bottomAnchor.constraint(equalTo: subtitleButton.topAnchor),
+                subtitleButton.heightAnchor.constraint(equalToConstant: Constants.subtitleHeight),
+                titleAreaView.bottomAnchor.constraint(equalTo: subtitleButton.bottomAnchor, constant: Constants.subtitleVerticalSpacing)]
+    }()
 
     private var showsProfileButton: Bool = true { // whether to display the customizable profile button
         didSet {
@@ -186,15 +296,8 @@ class LargeTitleView: UIView {
         smallAvatarView.transform = transform
 
         // title button setup
-        contentStackView.addArrangedSubview(titleButton)
-        titleButton.setTitle(nil, for: .normal)
-        titleButton.titleLabel?.font = Constants.titleFont
-        titleButton.setTitleColor(colorForStyle, for: .normal)
-        titleButton.titleLabel?.textAlignment = .left
-        titleButton.contentHorizontalAlignment = .left
-        titleButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        titleButton.addTarget(self, action: #selector(LargeTitleView.titleButtonTapped(sender:)), for: .touchUpInside)
-        titleButton.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        titleStackView.addArrangedSubview(titleButton)
+        contentStackView.addArrangedSubview(titleStackView)
 
         // tap gesture for entire titleView
         tapGesture.addTarget(self, action: #selector(LargeTitleView.handleTitleViewTapped(sender:)))
@@ -227,7 +330,7 @@ class LargeTitleView: UIView {
     }
 
     private func expansionAnimation() {
-        if titleSize == .automatic {
+        if titleSize == .automatic && !isSubtitleShown {
             titleButton.titleLabel?.font = Constants.titleFont
         }
 
@@ -242,7 +345,7 @@ class LargeTitleView: UIView {
     }
 
     private func contractionAnimation() {
-        if titleSize == .automatic {
+        if titleSize == .automatic && !isSubtitleShown {
             titleButton.titleLabel?.font = Constants.compactTitleFont
         }
 
@@ -306,6 +409,15 @@ class LargeTitleView: UIView {
     func update(with navigationItem: UINavigationItem) {
         hasLeftBarButtonItems = !(navigationItem.leftBarButtonItems?.isEmpty ?? true)
         titleButton.setTitle(navigationItem.title, for: .normal)
+        subtitleButton.setTitle(navigationItem.subtitle, for: .normal)
+
+        isSubtitleShown = navigationItem.subtitle != nil && navigationItem.subtitle!.count > 0
+        respondsToTaps = navigationItem.expandsNavigationBarOnTitleAreaTap
+
+        let isShowingTitleChevron = titleChevronImageView.superview != nil
+        if navigationItem.showsTitleChevron != isShowingTitleChevron {
+            
+        }
     }
 
     // MARK: - Expansion/Contraction Methods

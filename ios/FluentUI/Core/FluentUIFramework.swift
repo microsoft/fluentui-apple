@@ -16,6 +16,7 @@ public extension Colors {
         public static var background = UIColor(light: surfacePrimary, dark: gray900)
         public static var tint: UIColor = iconPrimary
         public static var title: UIColor = textDominant
+        public static var subtitle: UIColor = textSecondary
     }
 
     struct Toolbar {

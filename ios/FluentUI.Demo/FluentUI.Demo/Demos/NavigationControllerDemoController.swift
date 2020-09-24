@@ -34,6 +34,12 @@ class NavigationControllerDemoController: DemoController {
 
         addTitle(text: "Top Accessory View")
         container.addArrangedSubview(createButton(title: "Show with top search bar for large screen width", action: #selector(showWithTopSearchBar)))
+
+        addTitle(text: "Subtitle")
+        container.addArrangedSubview(createButton(title: "Show Primary style with subtitle", action: #selector(showWithSubtitlePrimary)))
+        container.addArrangedSubview(createButton(title: "Show System style with subtitle ", action: #selector(showWithSubtitleSystem)))
+        container.addArrangedSubview(createButton(title: "Show Primary style with subtitle and tap handling", action: #selector(showWithSubtitlePrimaryWithTapHandling)))
+        container.addArrangedSubview(createButton(title: "Show System style with subtitle and tap handling", action: #selector(showWithSubtitleSystemWithTapHandling)))
     }
 
     @objc func showLargeTitle() {
@@ -90,6 +96,22 @@ class NavigationControllerDemoController: DemoController {
         presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), showsTopAccessory: true, contractNavigationBarOnScroll: false)
     }
 
+    @objc func showWithSubtitlePrimary() {
+        presentController(withLargeTitle: true, style: .primary, accessoryView: createAccessoryView(), showSubtitle: true)
+    }
+
+    @objc func showWithSubtitleSystem() {
+        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), showSubtitle: true)
+    }
+
+    @objc func showWithSubtitlePrimaryWithTapHandling() {
+        presentController(withLargeTitle: true, style: .primary, accessoryView: createAccessoryView(), showSubtitle: true, handlesTitleTapEvents: true)
+    }
+
+    @objc func showWithSubtitleSystemWithTapHandling() {
+        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), showSubtitle: true, handlesTitleTapEvents: true)
+    }
+
     @discardableResult
     private func presentController(withLargeTitle useLargeTitle: Bool,
                                    style: NavigationBar.Style = .primary,
@@ -97,7 +119,9 @@ class NavigationControllerDemoController: DemoController {
                                    showsTopAccessory: Bool = false,
                                    contractNavigationBarOnScroll: Bool = true,
                                    showShadow: Bool = true,
-                                   showAvatar: Bool = true) -> NavigationController {
+                                   showAvatar: Bool = true,
+                                   showSubtitle: Bool = false,
+                                   handlesTitleTapEvents: Bool = false) -> NavigationController {
         let content = RootViewController()
         content.navigationItem.usesLargeTitle = useLargeTitle
         content.navigationItem.navigationBarStyle = style
@@ -131,6 +155,15 @@ class NavigationControllerDemoController: DemoController {
             leadingEdgeGesture.edges = view.effectiveUserInterfaceLayoutDirection == .leftToRight ? .left : .right
             leadingEdgeGesture.delegate = self
             controller.view.addGestureRecognizer(leadingEdgeGesture)
+        }
+
+        if showSubtitle {
+            content.navigationItem.subtitle = "Subtitle"
+        }
+
+        if handlesTitleTapEvents {
+            content.navigationItem.showsTitleChevron = true
+            content.navigationItem.showsSubtitleChevron = true
         }
 
         present(controller, animated: false)
@@ -373,6 +406,10 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             if navigationItem.accessoryView == nil {
                 controller.navigationItem.navigationBarStyle = .system
             }
+
+//            controller.navigationItem.usesLargeTitle = true
+            controller.navigationItem.subtitle = "Subtitle" // todo_
+
             navigationController?.pushViewController(controller, animated: true)
         }
     }

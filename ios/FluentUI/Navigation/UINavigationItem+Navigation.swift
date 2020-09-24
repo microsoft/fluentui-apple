@@ -15,6 +15,10 @@ import UIKit
         static var navigationBarShadow: String = "navigationBarShadow"
         static var usesLargeTitle: String = "usesLargeTitle"
         static var customNavigationBarColor: String = "customNavigationBarColor"
+        static var subtitle: String = "subtitle"
+        static var expandsNavigationBarOnTitleAreaTap: String = "expandsNavigationBarOnTitleAreaTap"
+        static var showsTitleChevron: String = "showsTitleChevron"
+        static var showsSubtitleChevron: String = "showsSubtitleChevron"
     }
 
     var accessoryView: UIView? {
@@ -80,6 +84,16 @@ import UIKit
         }
     }
 
+    /// Subtitle that will be displayed below the title in the navigation bar.
+    var subtitle: String? {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.subtitle) as? String
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.subtitle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
     func navigationBarColor(for window: UIWindow) -> UIColor {
         return navigationBarStyle.backgroundColor(for: window, customColor: customNavigationBarColor)
     }
@@ -90,6 +104,36 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.customNavigationBarColor, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
+    /// If the shy header behavior is enabled and this property is set to true, tapping on the title will expand the navigation bar.
+    var expandsNavigationBarOnTitleAreaTap: Bool {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.expandsNavigationBarOnTitleAreaTap) as? Bool ?? true
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.expandsNavigationBarOnTitleAreaTap, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
+    /// If set to true, a chevron will be presented next to the title.
+    var showsTitleChevron: Bool {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.showsTitleChevron) as? Bool ?? false
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.showsTitleChevron, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
+    /// If set to true, a chevron will be presented next to the subtitle.
+    var showsSubtitleChevron: Bool {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.showsSubtitleChevron) as? Bool ?? false
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.showsSubtitleChevron, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 }
