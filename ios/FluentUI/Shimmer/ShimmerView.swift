@@ -32,17 +32,6 @@ public enum ShimmerStyle: Int, CaseIterable {
 			return Colors.Shimmer.tint
 		}
 	}
-	
-	var gradientColors: [CGColor] {
-		let light = UIColor.white.withAlphaComponent(defaultAlphaValue).cgColor
-		let dark = UIColor.black.cgColor
-		switch self {
-		case .concealing:
-			return [light, dark, light]
-		case .revealing:
-			return [dark, light, dark]
-		}
-	}
 }
 
 @available(*, deprecated, renamed: "ShimmerView")
@@ -276,10 +265,11 @@ open class ShimmerView: UIView {
 
 	/// Update the gradient layer that animates to provide the shimmer effect (also updates the animation)
 	func updateShimmeringLayer() {
+		let light = UIColor.white.withAlphaComponent(shimmerAlpha).cgColor
+		let dark = Colors.Shimmer.darkGradient
+		shimmeringLayer.colors = shimmerStyle == .concealing ? [light, dark, light] : [dark, light, dark]
+
 		let isRTL = effectiveUserInterfaceLayoutDirection == .rightToLeft
-
-		shimmeringLayer.colors = shimmerStyle.gradientColors
-
 		let startPoint = CGPoint(x: 0.0, y: 0.5)
 		let endPoint = CGPoint(x: 1.0, y: 0.5 - tan(shimmerAngle * (isRTL ? -1 : 1)))
 		if isRTL {
@@ -370,7 +360,8 @@ open class ShimmerView: UIView {
 
 public extension Colors {
 	struct Shimmer {
-		public static var tint = UIColor(light: surfaceTertiary, dark: surfaceQuaternary)
+		public static var darkGradient = UIColor.black
 		public static var gradientCenter = UIColor.white
+		public static var tint = UIColor(light: surfaceTertiary, dark: surfaceQuaternary)
 	}
 }
