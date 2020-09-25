@@ -360,8 +360,8 @@ open class ShimmerView: UIView {
 
 public extension Colors {
 	struct Shimmer {
-		public static var darkGradient = UIColor.black
-		public static var gradientCenter = UIColor(light: .white, dark: gray950)
-		public static var tint = UIColor(light: surfaceTertiary, dark: surfaceQuaternary)
+		public static var darkGradient: UIColor = .black
+		public static var gradientCenter: UIColor = .init(light: .white, dark: gray950)
+		public static var tint: UIColor = .init(light: surfaceTertiary, dark: surfaceQuaternary)
 	}
 }
