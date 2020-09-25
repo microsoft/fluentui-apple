@@ -40,6 +40,16 @@ class ShimmerViewDemoController: DemoController {
 			containerView.addSubview(shimmerView)
 			return containerView
 		}
+		
+		let shimmeringImageView = { (shimmerStyle: ShimmerStyle) -> UIView in
+			let imageView = UIImageView(image: UIImage(named: "PlaceholderImage")!)
+			let containerView = UIStackView(arrangedSubviews: [imageView])
+			let shimmerView = ShimmerView(containerView: containerView, excludedViews: [], animationSynchronizer: nil, shimmerStyle: shimmerStyle)
+			shimmerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+			shimmerView.shimmerStyle = shimmerStyle
+			containerView.addSubview(shimmerView)
+			return containerView
+		}
 
 		let shimmerViewLabel = { (text: String) -> UILabel in
 			let label = Label(style: .headline)
@@ -53,7 +63,7 @@ class ShimmerViewDemoController: DemoController {
 		container.addArrangedSubview(ShimmerLinesView())
 		container.addArrangedSubview(Separator())
 
-		container.addArrangedSubview(shimmerViewLabel("ShimmerView shimmers all the top level subviews of it's container view"))
+		container.addArrangedSubview(shimmerViewLabel("ShimmerView shimmers all the top level subviews of its container view"))
 		container.addArrangedSubview(Separator())
 		container.addArrangedSubview(shimmeringContentView(false))
 		container.addArrangedSubview(Separator())
@@ -61,5 +71,16 @@ class ShimmerViewDemoController: DemoController {
 		container.addArrangedSubview(shimmerViewLabel("With shimmersLeafViews set, the ShimmerView will shimmer the labels inside the stackview"))
 		container.addArrangedSubview(Separator())
 		container.addArrangedSubview(shimmeringContentView(true))
+		container.addArrangedSubview(Separator())
+
+		container.addArrangedSubview(shimmerViewLabel("Revealing style shimmer on an image: the gradient reveals its container view as it moves"))
+		container.addArrangedSubview(Separator())
+		container.addArrangedSubview(shimmeringImageView(.revealing))
+
+		container.addArrangedSubview(Separator())
+		container.addArrangedSubview(shimmerViewLabel("Concealing style shimmer on an image: the gradient conceals its container view as it moves"))
+		container.addArrangedSubview(Separator())
+		container.addArrangedSubview(shimmeringImageView(.concealing))
+		
 	}
 }
