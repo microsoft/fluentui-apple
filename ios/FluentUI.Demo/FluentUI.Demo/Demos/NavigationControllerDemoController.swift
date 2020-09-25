@@ -38,8 +38,10 @@ class NavigationControllerDemoController: DemoController {
         addTitle(text: "Subtitle")
         container.addArrangedSubview(createButton(title: "Show Primary style with subtitle", action: #selector(showWithSubtitlePrimary)))
         container.addArrangedSubview(createButton(title: "Show System style with subtitle ", action: #selector(showWithSubtitleSystem)))
-        container.addArrangedSubview(createButton(title: "Show Primary style with subtitle and tap handling", action: #selector(showWithSubtitlePrimaryWithTapHandling)))
-        container.addArrangedSubview(createButton(title: "Show System style with subtitle and tap handling", action: #selector(showWithSubtitleSystemWithTapHandling)))
+
+        addTitle(text: "Tap handling")
+        container.addArrangedSubview(createButton(title: "Show with tap handling", action: #selector(showWithTapHandling)))
+        container.addArrangedSubview(createButton(title: "Show with subtitle and tap handling", action: #selector(showWithSubtitleAndTapHandling)))
     }
 
     @objc func showLargeTitle() {
@@ -104,11 +106,11 @@ class NavigationControllerDemoController: DemoController {
         presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), showSubtitle: true)
     }
 
-    @objc func showWithSubtitlePrimaryWithTapHandling() {
-        presentController(withLargeTitle: true, style: .primary, accessoryView: createAccessoryView(), showSubtitle: true, handlesTitleTapEvents: true)
+    @objc func showWithTapHandling() {
+        presentController(withLargeTitle: true, style: .primary, accessoryView: createAccessoryView(), handlesTitleTapEvents: true)
     }
 
-    @objc func showWithSubtitleSystemWithTapHandling() {
+    @objc func showWithSubtitleAndTapHandling() {
         presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), showSubtitle: true, handlesTitleTapEvents: true)
     }
 
@@ -164,6 +166,24 @@ class NavigationControllerDemoController: DemoController {
         if handlesTitleTapEvents {
             content.navigationItem.showsTitleChevron = true
             content.navigationItem.showsSubtitleChevron = true
+
+            content.navigationItem.didTapTitleCallback = { [weak controller] _ in
+                if let controller = controller {
+                    let alert = UIAlertController(title: "Title was tapped", message: nil, preferredStyle: .alert)
+                    let action = UIAlertAction(title: "OK", style: .default)
+                    alert.addAction(action)
+                    controller.present(alert, animated: true)
+                }
+            }
+
+            content.navigationItem.didTapSubtitleCallback = { [weak controller] _ in
+                if let controller = controller {
+                    let alert = UIAlertController(title: "Subtitle was tapped", message: nil, preferredStyle: .alert)
+                    let action = UIAlertAction(title: "OK", style: .default)
+                    alert.addAction(action)
+                    controller.present(alert, animated: true)
+                }
+            }
         }
 
         present(controller, animated: false)
@@ -407,8 +427,11 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 controller.navigationItem.navigationBarStyle = .system
             }
 
-//            controller.navigationItem.usesLargeTitle = true
-            controller.navigationItem.subtitle = "Subtitle" // todo_
+            controller.navigationItem.subtitle = navigationItem.subtitle
+            controller.navigationItem.showsTitleChevron = navigationItem.showsTitleChevron
+            controller.navigationItem.showsSubtitleChevron = navigationItem.showsSubtitleChevron
+            controller.navigationItem.didTapTitleCallback = navigationItem.didTapTitleCallback
+            controller.navigationItem.didTapSubtitleCallback = navigationItem.didTapSubtitleCallback
 
             navigationController?.pushViewController(controller, animated: true)
         }

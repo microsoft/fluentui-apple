@@ -19,6 +19,8 @@ import UIKit
         static var expandsNavigationBarOnTitleAreaTap: String = "expandsNavigationBarOnTitleAreaTap"
         static var showsTitleChevron: String = "showsTitleChevron"
         static var showsSubtitleChevron: String = "showsSubtitleChevron"
+        static var didTapTitleCallback: String = "didTapTitleCallback"
+        static var didTapSubtitleCallback: String = "didTapSubtitleCallback"
     }
 
     var accessoryView: UIView? {
@@ -85,6 +87,7 @@ import UIKit
     }
 
     /// Subtitle that will be displayed below the title in the navigation bar.
+    /// The subtitle only displays when usesLargeTitle is set to true.
     var subtitle: String? {
         get {
             return objc_getAssociatedObject(self, &AssociatedKeys.subtitle) as? String
@@ -134,6 +137,24 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.showsSubtitleChevron, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
+    var didTapTitleCallback: ((_ titleView: UIView) -> Void)? {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.didTapTitleCallback) as? ((_: UIView) -> Void)
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.didTapTitleCallback, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC)
+        }
+    }
+
+    var didTapSubtitleCallback: ((_ subtitleView: UIView) -> Void)? {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.didTapSubtitleCallback) as? ((_: UIView) -> Void)
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.didTapSubtitleCallback, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC)
         }
     }
 }

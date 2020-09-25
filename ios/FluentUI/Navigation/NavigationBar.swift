@@ -247,7 +247,7 @@ open class NavigationBar: UINavigationBar {
         }
     }
 
-    var titleView = LargeTitleView() {
+    var titleView = LargeTitleView(frame: .zero) {
         willSet {
             titleView.removeFromSuperview()
         }
@@ -257,6 +257,15 @@ open class NavigationBar: UINavigationBar {
             titleView.setContentCompressionResistancePriority(.required, for: .horizontal)
         }
     }
+
+    private lazy var centerTitleView: LargeTitleView = {
+        let titleView = LargeTitleView(frame: .zero)
+        titleView.translatesAutoresizingMaskIntoConstraints = false
+        titleView.centersContent = true
+        titleView.titleSize = .automatic
+
+        return titleView
+    }()
 
     private(set) var style: Style = defaultStyle
 
@@ -269,16 +278,7 @@ open class NavigationBar: UINavigationBar {
     private let trailingSpacerView = UIView() //defines the trailing space between the left and right barbuttonitems stack
     private var topAccessoryView: UIView?
     private var topAccessoryViewConstraints: [NSLayoutConstraint] = []
-
-    private var showsLargeTitle: Bool = true {
-        didSet {
-            if showsLargeTitle == oldValue {
-                return
-            }
-            updateAccessibilityElements()
-            updateViewsForLargeTitlePresentation(for: topItem)
-        }
-    }
+    private var showsLargeTitle: Bool = true
 
     private var leftBarButtonItemsObserver: NSKeyValueObservation?
     private var rightBarButtonItemsObserver: NSKeyValueObservation?
@@ -294,6 +294,8 @@ open class NavigationBar: UINavigationBar {
     private var expandsNavigationBarOnTitleAreaTapObserver: NSKeyValueObservation?
     private var showsTitleChevronObserver: NSKeyValueObservation?
     private var showsSubtitleChevronObserver: NSKeyValueObservation?
+    private var didTapTitleCallbackObserver: NSKeyValueObservation?
+    private var didTapSubtitleCallbackObserver: NSKeyValueObservation?
 
     @objc public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -508,8 +510,10 @@ open class NavigationBar: UINavigationBar {
             switch style {
             case .primary, .default, .custom:
                 titleView.style = .light
+                centerTitleView.style = .light
             case .system:
                 titleView.style = .dark
+                centerTitleView.style = .dark
             }
 
             barTintColor = color
@@ -538,6 +542,18 @@ open class NavigationBar: UINavigationBar {
         updateTopAccessoryView(for: navigationItem)
 
         titleView.update(with: navigationItem)
+
+        let hasSubtitle = navigationItem.subtitle != nil && navigationItem.subtitle!.count > 0
+        let hasTitleTapHandling = navigationItem.didTapTitleCallback != nil || navigationItem.showsTitleChevron
+        if !showsLargeTitle && (hasSubtitle || hasTitleTapHandling) {
+            centerTitleView.update(with: navigationItem)
+            navigationItem.titleView = centerTitleView
+        } else {
+            navigationItem.titleView = nil
+        }
+
+        updateViewsForLargeTitlePresentation(for: navigationItem)
+        updateAccessibilityElements()
 
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         updateBarButtonItems(with: navigationItem)
@@ -582,6 +598,12 @@ open class NavigationBar: UINavigationBar {
             self.navigationItemDidUpdate(item)
         }
         showsSubtitleChevronObserver = navigationItem.observe(\UINavigationItem.showsTitleChevron) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        didTapTitleCallbackObserver = navigationItem.observe(\UINavigationItem.didTapTitleCallback) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        didTapSubtitleCallbackObserver = navigationItem.observe(\UINavigationItem.didTapSubtitleCallback) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
     }
@@ -708,6 +730,7 @@ open class NavigationBar: UINavigationBar {
             backgroundView.safelyHide()
             contentStackView.safelyHide()
         }
+
         updateShadow(for: navigationItem)
     }
 
