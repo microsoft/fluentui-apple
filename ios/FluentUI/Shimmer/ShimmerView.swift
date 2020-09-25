@@ -18,20 +18,20 @@ public enum ShimmerStyle: Int, CaseIterable {
     var defaultAlphaValue: CGFloat {
         switch self {
         case .concealing:
-			return 0.4
+            return 0.4
         case .revealing:
-			return 0.6
+           return 0.6
         }
     }
-	
-	var defaultTintColor: UIColor {
-		switch self {
-		case .concealing:
-			return .white
-		case .revealing:
-			return Colors.Shimmer.tint
-		}
-	}
+
+    var defaultTintColor: UIColor {
+        switch self {
+        case .concealing:
+            return .white
+        case .revealing:
+            return Colors.Shimmer.tint
+        }
+    }
 }
 
 @available(*, deprecated, renamed: "ShimmerView")
