@@ -9,29 +9,40 @@ import UIKit
 /// The style affects the default shimmer alpha value and the default shimmer tint color
 @objc(MSFShimmerViewStyle)
 public enum ShimmerStyle: Int, CaseIterable {
-    /// Concealing shimmer: the gradient conceals parts of the subviews as it moves leaving most parts of the subviews unblocked.
-    case concealing
+	/// Concealing shimmer: the gradient conceals parts of the subviews as it moves leaving most parts of the subviews unblocked.
+	case concealing
 
-    /// Revealing shimmer: the gradient reveals parts of the subviews as it moves leaving most parts of the subview blocked.
-    case revealing
+	/// Revealing shimmer: the gradient reveals parts of the subviews as it moves leaving most parts of the subview blocked.
+	case revealing
 
-    var defaultAlphaValue: CGFloat {
-        switch self {
-        case .concealing:
-            return 0.4
-        case .revealing:
-           return 0.6
-        }
-    }
+	var defaultAlphaValue: CGFloat {
+		switch self {
+		case .concealing:
+			return 0.6
+		case .revealing:
+			return 0.4
+		}
+	}
 
-    var defaultTintColor: UIColor {
-        switch self {
-        case .concealing:
-            return .white
-        case .revealing:
-            return Colors.Shimmer.tint
-        }
-    }
+	var defaultTintColor: UIColor {
+		switch self {
+		case .concealing:
+			return Colors.Shimmer.gradientCenter
+		case .revealing:
+			return Colors.Shimmer.tint
+		}
+	}
+	
+	var gradientColors: [CGColor] {
+		let light = UIColor.white.withAlphaComponent(defaultAlphaValue).cgColor
+		let dark = UIColor.black.cgColor
+		switch self {
+		case .concealing:
+			return [light, dark, light]
+		case .revealing:
+			return [dark, light, dark]
+		}
+	}
 }
 
 @available(*, deprecated, renamed: "ShimmerView")
@@ -265,11 +276,9 @@ open class ShimmerView: UIView {
 
 	/// Update the gradient layer that animates to provide the shimmer effect (also updates the animation)
 	func updateShimmeringLayer() {
-		let light = UIColor.white.withAlphaComponent(shimmerAlpha).cgColor
-		let dark = UIColor.black.cgColor
 		let isRTL = effectiveUserInterfaceLayoutDirection == .rightToLeft
 
-		shimmeringLayer.colors = shimmerStyle == .concealing ? [light, dark, light] : [dark, light, dark]
+		shimmeringLayer.colors = shimmerStyle.gradientColors
 
 		let startPoint = CGPoint(x: 0.0, y: 0.5)
 		let endPoint = CGPoint(x: 1.0, y: 0.5 - tan(shimmerAngle * (isRTL ? -1 : 1)))
@@ -362,5 +371,6 @@ open class ShimmerView: UIView {
 public extension Colors {
 	struct Shimmer {
 		public static var tint = UIColor(light: surfaceTertiary, dark: surfaceQuaternary)
+		public static var gradientCenter = UIColor.white
 	}
 }
