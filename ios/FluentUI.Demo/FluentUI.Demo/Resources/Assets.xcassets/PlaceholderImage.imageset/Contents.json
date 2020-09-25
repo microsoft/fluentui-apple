@@ -3,6 +3,16 @@
     {
       "filename" : "PlaceholderImage.pdf",
       "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "PlaceholderImage_dark.pdf",
+      "idiom" : "universal"
     }
   ],
   "info" : {
