@@ -321,8 +321,8 @@ open class AvatarView : NSView {
 	/// Extract the initials to display from a name and email combo, providing a fallback otherwise
 	///
 	/// - Parameters:
-	/// 	- contactName: the name of the contact with the format “<First Name> <Last Name>”
-	/// 	- contactEmail: the name of the contact with the format “<person>@<service>.<domain>"
+	/// 	- name: the name of the contact with the format “<First Name> <Last Name>”
+	/// 	- email: the name of the contact with the format “<person>@<service>.<domain>"
 	///
 	/// - Returns: if a name is passed in, return the first character of the first two names separated
 	/// by a space if the first character is a letter. If no usable name is passed in
@@ -335,8 +335,8 @@ open class AvatarView : NSView {
 	/// Extract the initials to display from a name and email combo
 	///
 	/// - Parameters:
-	/// 	- contactName: the name of the contact with the format “<First Name> <Last Name>”
-	/// 	- contactEmail: the name of the contact with the format “<person>@<service>.<domain>"
+	/// 	- name: the name of the contact with the format “<First Name> <Last Name>”
+	/// 	- email: the name of the contact with the format “<person>@<service>.<domain>"
 	///
 	/// - Returns: if a name is passed in, return the first character of the first two names separated
 	/// by a space if the first character is a letter. If no usable name is passed in
