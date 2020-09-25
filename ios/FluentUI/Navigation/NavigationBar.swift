@@ -267,6 +267,8 @@ open class NavigationBar: UINavigationBar {
         return titleView
     }()
 
+    private var isCenterTitleViewDisplayed: Bool = false
+
     private(set) var style: Style = defaultStyle
 
     let backgroundView = UIView() //used for coloration
@@ -511,11 +513,17 @@ open class NavigationBar: UINavigationBar {
 
             switch style {
             case .primary, .default, .custom:
-                titleView.style = .light
-                centerTitleView.style = .light
+                if isCenterTitleViewDisplayed {
+                    centerTitleView.style = .light
+                } else {
+                    titleView.style = .light
+                }
             case .system:
-                titleView.style = .dark
-                centerTitleView.style = .dark
+                if isCenterTitleViewDisplayed {
+                    centerTitleView.style = .dark
+                } else {
+                    titleView.style = .dark
+                }
             }
 
             barTintColor = color
@@ -538,7 +546,6 @@ open class NavigationBar: UINavigationBar {
     func update(with navigationItem: UINavigationItem) {
         let (actualStyle, actualItem) = actualStyleAndItem(for: navigationItem)
         style = actualStyle
-        updateColors(for: actualItem)
         showsLargeTitle = navigationItem.usesLargeTitle
         updateShadow(for: navigationItem)
         updateTopAccessoryView(for: navigationItem)
@@ -551,10 +558,13 @@ open class NavigationBar: UINavigationBar {
         if !showsLargeTitle && hasTitleCustomization {
             centerTitleView.update(with: navigationItem)
             navigationItem.titleView = centerTitleView
+            isCenterTitleViewDisplayed = true
         } else {
             navigationItem.titleView = nil
+            isCenterTitleViewDisplayed = false
         }
 
+        updateColors(for: actualItem)
         updateViewsForLargeTitlePresentation(for: navigationItem)
         updateAccessibilityElements()
 

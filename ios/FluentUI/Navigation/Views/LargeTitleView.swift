@@ -125,7 +125,12 @@ class LargeTitleView: UIView {
             imageName = useSmallImage ? "ic_fluent_chevron_down_16_filled" : "ic_fluent_chevron_down_24_filled"
         }
 
-        titleChevronButton.setImage(UIImage.staticImageNamed(imageName!), for: .normal)
+        var image = UIImage.staticImageNamed(imageName!)!
+        if titleChevronStyle == .forward && effectiveUserInterfaceLayoutDirection == .rightToLeft {
+            image = image.withHorizontallyFlippedOrientation()
+        }
+
+        titleChevronButton.setImage(image, for: .normal)
     }
 
     var onAvatarTapped: (() -> Void)? { // called in response to a tap on the MSAvatarView
@@ -220,7 +225,6 @@ class LargeTitleView: UIView {
         let button = UIButton(frame: .zero)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(LargeTitleView.titleButtonTapped(sender:)), for: .touchUpInside)
-        button.setImage(UIImage.staticImageNamed("ic_fluent_chevron_right_24_filled"), for: .normal)
         button.adjustsImageWhenHighlighted = false
 
         return button
@@ -260,13 +264,7 @@ class LargeTitleView: UIView {
     private var didTapTitleCallback: ((_ titleView: UIView) -> Void)?
     private var didTapSubtitleCallback: ((_ subtitleView: UIView) -> Void)?
 
-    private var titleChevronStyle: NavigationItemChevronStyle = .forward {
-        didSet {
-            if oldValue != titleChevronStyle {
-                updateTitleChevronButton()
-            }
-        }
-    }
+    private var titleChevronStyle: NavigationItemChevronStyle = .forward
 
     private var isSubtitleShown: Bool = false {
         didSet {
@@ -547,10 +545,17 @@ class LargeTitleView: UIView {
 
         if !subtitleChevronButton.isHidden {
             let imageName = navigationItem.subtitleChevronStyle == .downward ? "ic_fluent_chevron_down_12_regular" : "ic_fluent_chevron_right_12_regular"
-            subtitleChevronButton.setImage(UIImage.staticImageNamed(imageName), for: .normal)
+
+            var image = UIImage.staticImageNamed(imageName)!
+            if navigationItem.subtitleChevronStyle == .forward && effectiveUserInterfaceLayoutDirection == .rightToLeft {
+                image = image.withHorizontallyFlippedOrientation()
+            }
+
+            subtitleChevronButton.setImage(image, for: .normal)
         }
 
         titleChevronStyle = navigationItem.titleChevronStyle
+        updateTitleChevronButton()
     }
 
     // MARK: - Expansion/Contraction Methods
