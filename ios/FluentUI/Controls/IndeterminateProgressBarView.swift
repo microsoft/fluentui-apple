@@ -3,40 +3,19 @@
 //  Licensed under the MIT License.
 //
 
-import UIKit
-
-public typealias MSIndeterminateProgressBarView = IndeterminateProgressBarView
-
 /// Indeterminate progress bar. Since iOS's UIprogressView is always determinate, this is created for handling indeterminate scenarios.
 @objc(MSFIndeterminateProgressBarView)
 open class IndeterminateProgressBarView: UIView {
 
-    private struct Constants {
-        static let animationDuration: TimeInterval = 2.5
-        static let animationKey: String = "progressAnimation"
-        static let animationTimingFunction = CAMediaTimingFunction(controlPoints: 0.28, 0.08, 0.72, 0.92)
-        static let opacityKeyFrame: [NSNumber] = [0, 0.375, 0.625, 1]
-        static let opacityValues: [NSNumber] = [0.0, 1.0, 1.0, 0.0]
-        static let progressBarHeight: CGFloat = 2
-    }
-
-    /// progressbar's track
-    private var trackLayer = CALayer()
-
-    /// gradient layer that slides across the track
-    private var gradientLayer = CAGradientLayer()
-
-    /// The grouped animations that will be applied to the gradient layer
-    private var animationGroup = CAAnimationGroup()
-
     /// The progress bar view should be hidden when animation stops if set to true
     @objc open var hidesWhenStopped: Bool = true
 
-    // Don't modify this directly. Instead, call `startAnimating` and `stopAnimating`
-    @objc(isAnimating) public private(set) var isAnimating: Bool = false
-
     open override var intrinsicContentSize: CGSize {
         return CGSize(width: UIView.noIntrinsicMetric, height: frame.height)
+    }
+
+    open override func sizeThatFits(_ size: CGSize) -> CGSize {
+        return CGSize(width: size.width, height: Constants.progressBarHeight)
     }
 
     @objc public override init(frame: CGRect) {
@@ -67,17 +46,6 @@ open class IndeterminateProgressBarView: UIView {
         updateColor()
     }
 
-    private func updateColor() {
-        if let window = window {
-            let appColor = Colors.primary(for: window)
-            let edgeColor = appColor.withAlphaComponent(0).cgColor
-            let centerColor = appColor.cgColor
-
-            gradientLayer.colors = [edgeColor, centerColor, edgeColor]
-            trackLayer.backgroundColor = Colors.Progress.trackTint.cgColor
-        }
-    }
-
     @objc open func startAnimating() {
         if isAnimating {
             return
@@ -98,6 +66,17 @@ open class IndeterminateProgressBarView: UIView {
             isHidden = true
         }
         gradientLayer.removeAnimation(forKey: Constants.animationKey)
+    }
+
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if #available(iOS 13, *) {
+            if previousTraitCollection?.userInterfaceStyle != traitCollection.userInterfaceStyle {
+                stopAnimating()
+                updateColor()
+                startAnimating()
+            }
+        }
     }
 
     private func addGradientLayer() {
@@ -129,14 +108,35 @@ open class IndeterminateProgressBarView: UIView {
         return groupAnimation
     }
 
-    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if #available(iOS 13, *) {
-            if previousTraitCollection?.userInterfaceStyle != traitCollection.userInterfaceStyle {
-                stopAnimating()
-                updateColor()
-                startAnimating()
-            }
+    private func updateColor() {
+        if let window = window {
+            let appColor = Colors.primary(for: window)
+            let edgeColor = appColor.withAlphaComponent(0).cgColor
+            let centerColor = appColor.cgColor
+
+            gradientLayer.colors = [edgeColor, centerColor, edgeColor]
+            trackLayer.backgroundColor = Colors.Progress.trackTint.cgColor
         }
     }
+
+    private struct Constants {
+        static let animationDuration: TimeInterval = 2.5
+        static let animationKey: String = "progressAnimation"
+        static let animationTimingFunction = CAMediaTimingFunction(controlPoints: 0.28, 0.08, 0.72, 0.92)
+        static let opacityKeyFrame: [NSNumber] = [0, 0.375, 0.625, 1]
+        static let opacityValues: [NSNumber] = [0.0, 1.0, 1.0, 0.0]
+        static let progressBarHeight: CGFloat = 2
+    }
+
+    /// progressbar's track
+    private var trackLayer = CALayer()
+
+    /// gradient layer that slides across the track
+    private var gradientLayer = CAGradientLayer()
+
+    /// The grouped animations that will be applied to the gradient layer
+    private var animationGroup = CAAnimationGroup()
+
+    // Don't modify this directly. Instead, call `startAnimating` and `stopAnimating`
+    @objc(isAnimating) public private(set) var isAnimating: Bool = false
 }
