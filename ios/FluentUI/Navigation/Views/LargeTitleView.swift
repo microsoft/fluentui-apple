@@ -243,18 +243,26 @@ class LargeTitleView: UIView {
         let view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(subtitleButton)
-        view.addSubview(subtitleChevronButton)
 
         NSLayoutConstraint.activate([
-            subtitleChevronButton.centerYAnchor.constraint(equalTo: subtitleButton.centerYAnchor),
             subtitleButton.topAnchor.constraint(equalTo: view.topAnchor),
             subtitleButton.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            subtitleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            subtitleChevronButton.leadingAnchor.constraint(equalTo: subtitleButton.trailingAnchor),
-            subtitleChevronButton.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            subtitleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ])
 
         return view
+    }()
+
+    private lazy var subtitleChevronHiddenConstraint: NSLayoutConstraint = {
+        return subtitleButton.trailingAnchor.constraint(equalTo: subtitleContainerView.trailingAnchor)
+    }()
+
+    private lazy var subtitleChevronShownConstraints: [NSLayoutConstraint] = {
+        return [
+            subtitleChevronButton.centerYAnchor.constraint(equalTo: subtitleButton.centerYAnchor),
+            subtitleChevronButton.leadingAnchor.constraint(equalTo: subtitleButton.trailingAnchor),
+            subtitleChevronButton.trailingAnchor.constraint(equalTo: subtitleContainerView.trailingAnchor)
+        ]
     }()
 
     private let contentStackView = UIStackView() // containing stack view
@@ -540,18 +548,32 @@ class LargeTitleView: UIView {
             }
         }
 
-        subtitleChevronButton.isHidden = navigationItem.subtitleChevronBehavior == .hide ||
-            (navigationItem.subtitleChevronBehavior == .showWhenCallbackAvailable && didTapSubtitleCallback == nil)
+        if isSubtitleShown {
+            let showSubtitleChevronButton = navigationItem.subtitleChevronBehavior == .alwaysShow ||
+                (navigationItem.subtitleChevronBehavior == .showWhenCallbackAvailable && didTapSubtitleCallback != nil)
 
-        if !subtitleChevronButton.isHidden {
-            let imageName = navigationItem.subtitleChevronStyle == .downward ? "ic_fluent_chevron_down_12_regular" : "ic_fluent_chevron_right_12_regular"
+            if showSubtitleChevronButton {
+                subtitleContainerView.addSubview(subtitleChevronButton)
 
-            var image = UIImage.staticImageNamed(imageName)!
-            if navigationItem.subtitleChevronStyle == .forward && effectiveUserInterfaceLayoutDirection == .rightToLeft {
-                image = image.withHorizontallyFlippedOrientation()
+                NSLayoutConstraint.deactivate([subtitleChevronHiddenConstraint])
+                NSLayoutConstraint.activate(subtitleChevronShownConstraints)
+            } else {
+                subtitleChevronButton.removeFromSuperview()
+
+                NSLayoutConstraint.deactivate(subtitleChevronShownConstraints)
+                NSLayoutConstraint.activate([subtitleChevronHiddenConstraint])
             }
 
-            subtitleChevronButton.setImage(image, for: .normal)
+            if showSubtitleChevronButton {
+                let imageName = navigationItem.subtitleChevronStyle == .downward ? "ic_fluent_chevron_down_12_regular" : "ic_fluent_chevron_right_12_regular"
+
+                var image = UIImage.staticImageNamed(imageName)!
+                if navigationItem.subtitleChevronStyle == .forward && effectiveUserInterfaceLayoutDirection == .rightToLeft {
+                    image = image.withHorizontallyFlippedOrientation()
+                }
+
+                subtitleChevronButton.setImage(image, for: .normal)
+            }
         }
 
         titleChevronStyle = navigationItem.titleChevronStyle
