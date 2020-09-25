@@ -11,11 +11,11 @@ Pod::Spec.new do |s|
   
   s.ios.deployment_target = "11.0"
   s.ios.source_files   = "ios/FluentUI/**/*.{swift,h}"
-  s.ios.resource_bundle = { 'FluentUIResources-ios' => "ios/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}" }
-  s.ios.resources = "apple/Resources/**/*.{json,xcassets}"
+  s.ios.resource_bundle = { 'FluentUIResources-ios' => ["ios/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}","apple/Resources/**/*.{json,xcassets}"] }
+
   
   s.osx.deployment_target = "10.13"
   s.osx.source_files   = "macos/FluentUI/**/*.{swift,h}"
-  s.osx.resource_bundle = { 'FluentUIResources-macos' => "macos/FluentUIResources-macos/**/*.{storyboard,xib,xcassets,strings,stringsdict}" }
-  s.osx.resources = "apple/Resources/**/*.{json,xcassets}"
+  s.osx.resource_bundle = { 'FluentUIResources-macos' => ["macos/FluentUIResources-macos/**/*.{storyboard,xib,xcassets,strings,stringsdict}", "apple/Resources/**/*.{json,xcassets}"] }
+
 end

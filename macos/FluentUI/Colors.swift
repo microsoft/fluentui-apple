@@ -7,9 +7,6 @@ import AppKit
 
 // MARK: Colors
 
-@available(*, deprecated, renamed: "Colors")
-public typealias MSColors = Colors
-
 @objc(MSFColors)
 public final class Colors: NSObject {
 	// MARK: - MSFColorPalette
@@ -251,9 +248,6 @@ public final class Colors: NSObject {
 		}
 	}
 	
-	@available(*, deprecated, renamed: "textOnAccent")
-	@objc public static var foregroundOnPrimary: NSColor = textOnAccent
-	
 	// MARK: Physical - grays
 	
 	@objc public static let gray950: NSColor = Palette.gray950.color
@@ -301,55 +295,8 @@ public final class Colors: NSObject {
 	/// Used for hyperlinks
 	@objc public static let communicationBlue: NSColor = Palette.communicationBlue.color
 	
-	// MARK: Base semantic
-	
-	@available(*, deprecated, renamed: "textDisabled")
-	@objc public static let disabled: NSColor = textDisabled
-	
-	/// text color should not be lower than `gray500` in light mode to achieve 4.5:1 minimum contrast ratio in `.white` background
-	/// text color should not be higher than `gray400` in dark mode to achieve 4.5:1 minimum contrast ratio in `.black` background
-	/// when determining high contrast color, add 200 in light mode and substract 200 in dark mode from the default color.
-	
-	/// text color used for main level in the screen. eg. title in dialog, title in navigationbar with `surfacePrimary`, etc
-	@objc public static let textDominant = NSColor(light: gray900, lightHighContrast: .black, dark: .white)
-	/// text color used for titles
-	@objc public static var textPrimary = NSColor(light: gray900, lightHighContrast: .black, dark: gray100, darkHighContrast: .white)
-	/// text color used for subtitles
-	@objc public static let textSecondary = NSColor(light: gray500, lightHighContrast: gray700, dark: gray400, darkHighContrast: gray200)
-	// text color used in disabled state
-	@objc public static let textDisabled = NSColor(light: gray300, lightHighContrast: gray500, dark: gray600, darkHighContrast: gray400)
-	//		/// text appears on top of the surface that uses `Colors.primary` as background color
-	@objc public static let textOnAccent = NSColor(light: .white, dark: .black)
-	
-	/// icon used as call-to-actions without a label attached. They need to reach a minimum contrast ratio 4.5:1 to its background
-	@objc public static let iconPrimary = NSColor(light: gray500, lightHighContrast: gray700, dark: .white)
-	/// icon that are attached to a label and are only used for decorative purposes
-	@objc public static let iconSecondary = NSColor(light: gray400, lightHighContrast: gray600, dark: gray500, darkHighContrast: gray300, darkElevated: gray400)
-	/// icon color used in disabled state
-	@objc public static let iconDisabled = NSColor(light: gray300, lightHighContrast: gray500, dark: gray600, darkHighContrast: gray400)
-	/// icon appears on top of surfaces that uses `Colors.primary` as background color
-	@objc public static let iconOnAccent = NSColor(light: .white, dark: .black)
-	
-	/// In Darkmode, our system use two sets of background colors -- called base and elevated -- to enhance the perception of depath when one dark interface is layered above another.
-	/// The dark base colors are darker, making background interface appear to recede, and the elevate colors are lighter, making foreground interfaces appear to advance
-	
-	@objc public static var surfacePrimary = NSColor(light: .white, dark: .black, darkElevated: gray950)
-	@objc public static let surfaceSecondary = NSColor(light: gray25, dark: gray950, darkElevated: gray900)
-	@objc public static let surfaceTertiary = NSColor(light: gray50, dark: gray900, darkElevated: gray800)
-	/// also used for disabled background color
-	@objc public static let surfaceQuaternary = NSColor(light: gray100, dark: gray600)
-	
-	@objc public static let dividerOnPrimary = NSColor(light: gray100, dark: gray800, darkElevated: gray700)
-	@objc public static let dividerOnSecondary = NSColor(light: gray200, dark: gray700, darkElevated: gray600)
-	@objc public static let dividerOnTertiary = NSColor(light: gray200, dark: gray700, darkElevated: gray600)
-	
 	@objc public static func color(from palette: Palette) -> NSColor {
 		return palette.color
-	}
-	
-	@available(*, unavailable)
-	override init() {
-		super.init()
 	}
 }
 

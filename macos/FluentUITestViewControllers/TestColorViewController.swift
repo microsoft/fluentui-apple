@@ -13,43 +13,38 @@ class TestColorViewController: NSViewController {
 		scrollView.translatesAutoresizingMaskIntoConstraints = false
 		scrollView.hasVerticalScroller = true
 		containerView.addSubview(scrollView)
-		var colorViews = [NSView]()
-		var textViews = [NSView]()
+		
+		let colorsStackView = NSStackView()
+		colorsStackView.translatesAutoresizingMaskIntoConstraints = false
+		colorsStackView.orientation = .vertical
+		colorsStackView.alignment = .leading
 		
 		for color in Colors.Palette.allCases {
 			let colorView = ColorRectView(color: color.color)
 			colorView.invalidateIntrinsicContentSize()
-			colorViews.append(colorView)
 			let textView = NSTextField(labelWithString: color.name)
-			textViews.append(textView)
+			textView.font = .systemFont(ofSize: 18)
+			let rowStackView = NSStackView()
+			rowStackView.orientation = .horizontal
+			rowStackView.spacing = 20.0
+			rowStackView.addArrangedSubview(colorView)
+			rowStackView.addArrangedSubview(textView)
+			colorsStackView.addArrangedSubview(rowStackView)
 		}
-		
-		let colorStackView = NSStackView(views: colorViews)
-		let textStackView = NSStackView(views: textViews)
-		colorStackView.translatesAutoresizingMaskIntoConstraints = false
-		colorStackView.orientation = .vertical
-		textStackView.translatesAutoresizingMaskIntoConstraints = false
-		textStackView.orientation = .vertical
-		textStackView.alignment = .leading
 		
 		let documentView = NSView()
 		documentView.translatesAutoresizingMaskIntoConstraints = false
 		scrollView.documentView = documentView
-		documentView.addSubview(colorStackView)
-		documentView.addSubview(textStackView)
+		documentView.addSubview(colorsStackView)
 		
 		NSLayoutConstraint.activate([
 			containerView.heightAnchor.constraint(equalTo:scrollView.heightAnchor),
 			containerView.widthAnchor.constraint(equalTo:scrollView.widthAnchor),
-			colorStackView.topAnchor.constraint(equalTo: documentView.topAnchor),
-			colorStackView.leadingAnchor.constraint(equalTo: documentView.leadingAnchor, constant: 20.0),
-			colorStackView.trailingAnchor.constraint(equalTo: textStackView.leadingAnchor, constant: -20.0),
-			colorStackView.bottomAnchor.constraint(equalTo: documentView.bottomAnchor),
-			
-			textStackView.topAnchor.constraint(equalTo: documentView.topAnchor),
-			textStackView.leadingAnchor.constraint(equalTo: colorStackView.trailingAnchor),
-			textStackView.trailingAnchor.constraint(equalTo: documentView.trailingAnchor),
-			textStackView.bottomAnchor.constraint(equalTo: documentView.bottomAnchor)
+
+			colorsStackView.topAnchor.constraint(equalTo: documentView.topAnchor, constant: 10.0),
+			colorsStackView.leadingAnchor.constraint(equalTo: documentView.leadingAnchor, constant: 10.0),
+			colorsStackView.trailingAnchor.constraint(equalTo: documentView.trailingAnchor),
+			colorsStackView.bottomAnchor.constraint(equalTo: documentView.bottomAnchor, constant: -10.0)
 		])
 		
 		view = containerView
@@ -68,7 +63,7 @@ class ColorRectView: NSView {
 		self.color = color
 	}
 	override var intrinsicContentSize: CGSize {
-		return CGSize(width: 17, height: 17)
+		return CGSize(width: 40, height: 40)
 	}
 	
 	@available(*, unavailable)
