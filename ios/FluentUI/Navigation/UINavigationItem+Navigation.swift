@@ -5,6 +5,21 @@
 
 import UIKit
 
+/// Chevron style for navigation item titles
+@objc(MSFNavigationItemChevronStyle)
+public enum NavigationItemChevronStyle: Int {
+    case forward
+    case downward
+}
+
+/// Chevron behavior for navigation item titles
+@objc(MSFNavigationItemChevronBehavior)
+public enum NavigationItemChevronBehavior: Int {
+    case hide
+    case alwaysShow
+    case showWhenCallbackAvailable
+}
+
 @objc public extension UINavigationItem {
     private struct AssociatedKeys {
         static var accessoryView: String = "accessoryView"
@@ -17,8 +32,10 @@ import UIKit
         static var customNavigationBarColor: String = "customNavigationBarColor"
         static var subtitle: String = "subtitle"
         static var expandsNavigationBarOnTitleAreaTap: String = "expandsNavigationBarOnTitleAreaTap"
-        static var showsTitleChevron: String = "showsTitleChevron"
-        static var showsSubtitleChevron: String = "showsSubtitleChevron"
+        static var titleChevronStyle: String = "titleChevronStyle"
+        static var titleChevronBehavior: String = "titleChevronBehavior"
+        static var subtitleChevronStyle: String = "subtitleChevronStyle"
+        static var subtitleChevronBehavior: String = "subtitleChevronBehavior"
         static var didTapTitleCallback: String = "didTapTitleCallback"
         static var didTapSubtitleCallback: String = "didTapSubtitleCallback"
     }
@@ -120,23 +137,43 @@ import UIKit
         }
     }
 
-    /// If set to true, a chevron will be presented next to the title.
-    var showsTitleChevron: Bool {
+    /// The chevron style for the navigation bar's title.
+    var titleChevronStyle: NavigationItemChevronStyle {
         get {
-            return objc_getAssociatedObject(self, &AssociatedKeys.showsTitleChevron) as? Bool ?? false
+            return objc_getAssociatedObject(self, &AssociatedKeys.titleChevronStyle) as? NavigationItemChevronStyle ?? .forward
         }
         set {
-            objc_setAssociatedObject(self, &AssociatedKeys.showsTitleChevron, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &AssociatedKeys.titleChevronStyle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 
-    /// If set to true, a chevron will be presented next to the subtitle.
-    var showsSubtitleChevron: Bool {
+    /// The chevron behavior for the navigation bar's title.
+    var titleChevronBehavior: NavigationItemChevronBehavior {
         get {
-            return objc_getAssociatedObject(self, &AssociatedKeys.showsSubtitleChevron) as? Bool ?? false
+            return objc_getAssociatedObject(self, &AssociatedKeys.titleChevronBehavior) as? NavigationItemChevronBehavior ?? .hide
         }
         set {
-            objc_setAssociatedObject(self, &AssociatedKeys.showsSubtitleChevron, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &AssociatedKeys.titleChevronBehavior, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
+    /// The chevron style for the navigation bar's subtitle.
+    var subtitleChevronStyle: NavigationItemChevronStyle {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.subtitleChevronStyle) as? NavigationItemChevronStyle ?? .downward
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.subtitleChevronStyle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
+    /// The chevron behavior for the navigation bar's subtitle.
+    var subtitleChevronBehavior: NavigationItemChevronBehavior {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.subtitleChevronBehavior) as? NavigationItemChevronBehavior ?? .hide
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.subtitleChevronBehavior, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 

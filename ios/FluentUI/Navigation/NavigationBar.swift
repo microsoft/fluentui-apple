@@ -292,8 +292,10 @@ open class NavigationBar: UINavigationBar {
     private var usesLargeTitleObserver: NSKeyValueObservation?
     private var subtitleObserver: NSKeyValueObservation?
     private var expandsNavigationBarOnTitleAreaTapObserver: NSKeyValueObservation?
-    private var showsTitleChevronObserver: NSKeyValueObservation?
-    private var showsSubtitleChevronObserver: NSKeyValueObservation?
+    private var titleChevronStyleObserver: NSKeyValueObservation?
+    private var titleChevronBehaviorObserver: NSKeyValueObservation?
+    private var subtitleChevronStyleObserver: NSKeyValueObservation?
+    private var subtitleChevronBehaviorObserver: NSKeyValueObservation?
     private var didTapTitleCallbackObserver: NSKeyValueObservation?
     private var didTapSubtitleCallbackObserver: NSKeyValueObservation?
 
@@ -543,9 +545,10 @@ open class NavigationBar: UINavigationBar {
 
         titleView.update(with: navigationItem)
 
-        let hasSubtitle = navigationItem.subtitle != nil && navigationItem.subtitle!.count > 0
-        let hasTitleTapHandling = navigationItem.didTapTitleCallback != nil || navigationItem.showsTitleChevron
-        if !showsLargeTitle && (hasSubtitle || hasTitleTapHandling) {
+        var hasTitleCustomization = navigationItem.subtitle != nil && navigationItem.subtitle!.count > 0
+        hasTitleCustomization = hasTitleCustomization || navigationItem.didTapTitleCallback != nil || navigationItem.titleChevronBehavior == .alwaysShow
+
+        if !showsLargeTitle && hasTitleCustomization {
             centerTitleView.update(with: navigationItem)
             navigationItem.titleView = centerTitleView
         } else {
@@ -594,10 +597,16 @@ open class NavigationBar: UINavigationBar {
         expandsNavigationBarOnTitleAreaTapObserver = navigationItem.observe(\UINavigationItem.expandsNavigationBarOnTitleAreaTap) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
-        showsTitleChevronObserver = navigationItem.observe(\UINavigationItem.showsTitleChevron) { [unowned self] item, _ in
+        titleChevronStyleObserver = navigationItem.observe(\UINavigationItem.titleChevronStyle) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
-        showsSubtitleChevronObserver = navigationItem.observe(\UINavigationItem.showsTitleChevron) { [unowned self] item, _ in
+        titleChevronBehaviorObserver = navigationItem.observe(\UINavigationItem.titleChevronBehavior) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        subtitleChevronStyleObserver = navigationItem.observe(\UINavigationItem.subtitleChevronStyle) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        subtitleChevronBehaviorObserver = navigationItem.observe(\UINavigationItem.subtitleChevronBehavior) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
         didTapTitleCallbackObserver = navigationItem.observe(\UINavigationItem.didTapTitleCallback) { [unowned self] item, _ in

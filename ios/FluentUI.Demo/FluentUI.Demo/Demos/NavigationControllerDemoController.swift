@@ -164,8 +164,10 @@ class NavigationControllerDemoController: DemoController {
         }
 
         if handlesTitleTapEvents {
-            content.navigationItem.showsTitleChevron = true
-            content.navigationItem.showsSubtitleChevron = true
+            content.navigationItem.titleChevronStyle = .forward
+            content.navigationItem.titleChevronBehavior = .showWhenCallbackAvailable
+            content.navigationItem.subtitleChevronStyle = .downward
+            content.navigationItem.subtitleChevronBehavior = .showWhenCallbackAvailable
 
             content.navigationItem.didTapTitleCallback = { [weak controller] _ in
                 if let controller = controller {
@@ -428,8 +430,10 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
 
             controller.navigationItem.subtitle = navigationItem.subtitle
-            controller.navigationItem.showsTitleChevron = navigationItem.showsTitleChevron
-            controller.navigationItem.showsSubtitleChevron = navigationItem.showsSubtitleChevron
+            controller.navigationItem.titleChevronStyle = navigationItem.titleChevronStyle
+            controller.navigationItem.titleChevronBehavior = navigationItem.titleChevronBehavior
+            controller.navigationItem.subtitleChevronStyle = navigationItem.subtitleChevronStyle
+            controller.navigationItem.subtitleChevronBehavior = navigationItem.subtitleChevronBehavior
             controller.navigationItem.didTapTitleCallback = navigationItem.didTapTitleCallback
             controller.navigationItem.didTapSubtitleCallback = navigationItem.didTapSubtitleCallback
 

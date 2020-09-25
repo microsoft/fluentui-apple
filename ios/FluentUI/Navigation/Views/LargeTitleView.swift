@@ -116,8 +116,16 @@ class LargeTitleView: UIView {
     }
 
     private func updateTitleChevronButton() {
-        let imageName = (isSubtitleShown || centersContent) ? "ic_fluent_chevron_right_16_filled" : "ic_fluent_chevron_right_24_filled"
-        titleChevronButton.setImage(UIImage.staticImageNamed(imageName), for: .normal)
+        let useSmallImage = isSubtitleShown || centersContent
+        var imageName: String?
+
+        if titleChevronStyle == .forward {
+            imageName = useSmallImage ? "ic_fluent_chevron_right_16_filled" : "ic_fluent_chevron_right_24_filled"
+        } else {
+            imageName = useSmallImage ? "ic_fluent_chevron_down_16_filled" : "ic_fluent_chevron_down_24_filled"
+        }
+
+        titleChevronButton.setImage(UIImage.staticImageNamed(imageName!), for: .normal)
     }
 
     var onAvatarTapped: (() -> Void)? { // called in response to a tap on the MSAvatarView
@@ -222,7 +230,6 @@ class LargeTitleView: UIView {
         let button = UIButton(frame: .zero)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(LargeTitleView.subtitleButtonTapped(sender:)), for: .touchUpInside)
-        button.setImage(UIImage.staticImageNamed("ic_fluent_chevron_down_12_regular"), for: .normal)
         button.adjustsImageWhenHighlighted = false
 
         return button
@@ -252,6 +259,14 @@ class LargeTitleView: UIView {
 
     private var didTapTitleCallback: ((_ titleView: UIView) -> Void)?
     private var didTapSubtitleCallback: ((_ subtitleView: UIView) -> Void)?
+
+    private var titleChevronStyle: NavigationItemChevronStyle = .forward {
+        didSet {
+            if oldValue != titleChevronStyle {
+                updateTitleChevronButton()
+            }
+        }
+    }
 
     private var isSubtitleShown: Bool = false {
         didSet {
@@ -516,16 +531,26 @@ class LargeTitleView: UIView {
         isSubtitleShown = navigationItem.subtitle != nil && navigationItem.subtitle!.count > 0
         expandsOnTaps = navigationItem.expandsNavigationBarOnTitleAreaTap
 
+        let showTitleChevronButton = navigationItem.titleChevronBehavior == .alwaysShow ||
+            (navigationItem.titleChevronBehavior == .showWhenCallbackAvailable && didTapTitleCallback != nil)
         let isShowingTitleChevron = titleChevronButton.superview != nil
-        if navigationItem.showsTitleChevron != isShowingTitleChevron {
-            if navigationItem.showsTitleChevron {
+        if showTitleChevronButton != isShowingTitleChevron {
+            if showTitleChevronButton {
                 titleStackView.addArrangedSubview(titleChevronButton)
             } else {
                 titleChevronButton.removeFromSuperview()
             }
         }
 
-        subtitleChevronButton.isHidden = !navigationItem.showsSubtitleChevron
+        subtitleChevronButton.isHidden = navigationItem.subtitleChevronBehavior == .hide ||
+            (navigationItem.subtitleChevronBehavior == .showWhenCallbackAvailable && didTapSubtitleCallback == nil)
+
+        if !subtitleChevronButton.isHidden {
+            let imageName = navigationItem.subtitleChevronStyle == .downward ? "ic_fluent_chevron_down_12_regular" : "ic_fluent_chevron_right_12_regular"
+            subtitleChevronButton.setImage(UIImage.staticImageNamed(imageName), for: .normal)
+        }
+
+        titleChevronStyle = navigationItem.titleChevronStyle
     }
 
     // MARK: - Expansion/Contraction Methods
