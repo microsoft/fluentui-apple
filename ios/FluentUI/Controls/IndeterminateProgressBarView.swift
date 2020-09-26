@@ -3,6 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+import UIKit
+
 /// Indeterminate progress bar. Since iOS's UIprogressView is always determinate, this is created for handling indeterminate scenarios.
 @objc(MSFIndeterminateProgressBarView)
 open class IndeterminateProgressBarView: UIView {
