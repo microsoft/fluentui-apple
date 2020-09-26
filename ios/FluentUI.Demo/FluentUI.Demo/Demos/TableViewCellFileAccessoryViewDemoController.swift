@@ -19,10 +19,17 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         scrollingContainer.addSubview(stackView)
         stackView.addArrangedSubview(settingsView)
 
+        var horizontalConstraint: NSLayoutConstraint?
+        if view.effectiveUserInterfaceLayoutDirection == .leftToRight {
+            horizontalConstraint = stackView.leadingAnchor.constraint(equalTo: scrollingContainer.leadingAnchor)
+        } else {
+            horizontalConstraint = stackView.trailingAnchor.constraint(equalTo: scrollingContainer.trailingAnchor)
+        }
+
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: scrollingContainer.topAnchor, constant: Constants.stackViewSpacing),
             stackView.bottomAnchor.constraint(equalTo: scrollingContainer.bottomAnchor, constant: -Constants.stackViewSpacing),
-            stackView.leadingAnchor.constraint(equalTo: scrollingContainer.leadingAnchor)
+            horizontalConstraint!
         ])
 
         reloadCells()
@@ -92,6 +99,7 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         static let cellPaddingThreshold: CGFloat = 768
         static let largeCellPadding: CGFloat = 16
         static let smallCellPadding: CGFloat = 8
+        static let plusMinusButtonWidth: CGFloat = 40
     }
 
     private var topAccessoryViews: [TableViewCellFileAccessoryView] = []
@@ -353,6 +361,26 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         }
     }
 
+    private var topActionsOverlap: UInt = 0 {
+        didSet {
+            if oldValue != topActionsOverlap {
+                for accessoryView in topAccessoryViews {
+                    accessoryView.actionsColumnOverlap = topActionsOverlap
+                }
+            }
+        }
+    }
+
+    private var bottomActionsOverlap: UInt = 0 {
+        didSet {
+            if oldValue != bottomActionsOverlap {
+                for accessoryView in bottomAccessoryViews {
+                    accessoryView.actionsColumnOverlap = bottomActionsOverlap
+                }
+            }
+        }
+    }
+
     private lazy var settingsView: UIView = {
         let settingsView = UIStackView(frame: .zero)
         settingsView.axis = .horizontal
@@ -362,8 +390,12 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         spacingView.widthAnchor.constraint(equalToConstant: Constants.stackViewSpacing).isActive = true
         settingsView.addArrangedSubview(spacingView)
 
-        let plusButton = createButton(title: "+", action: #selector(incrementMinimumActionsCount))
-        let minusButton = createButton(title: "-", action: #selector(decrementMinimumActionsCount))
+        let plusMinActionsButton = createPlusMinusButton(plus: true, #selector(incrementMinimumActionsCount))
+        let minusMinActionsButton = createPlusMinusButton(plus: false, #selector(decrementMinimumActionsCount))
+        let plusTopOverlapButton = createPlusMinusButton(plus: true, #selector(incrementTopActionsOverlap))
+        let minusTopOverlapButton = createPlusMinusButton(plus: false, #selector(decrementTopActionsOverlap))
+        let plusBottomOverlapButton = createPlusMinusButton(plus: true, #selector(incrementBottomActionsOverlap))
+        let minusBottomOverlapButton = createPlusMinusButton(plus: false, #selector(decrementBottomActionsOverlap))
 
         let settingViews: [UIView] = [
             createLabelAndSwitchRow(labelText: "Dynamic width", switchAction: #selector(toggleDynamicWidth(switchView:)), isOn: useDynamicWidth),
@@ -371,7 +403,9 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
             createLabelAndSwitchRow(labelText: "Show date", switchAction: #selector(toggleShowDate(switchView:)), isOn: showDate),
             createButton(title: "Choose date", action: #selector(presentDatePicker)),
             createButton(title: "Choose time", action: #selector(presentTimePicker)),
-            createLabelAndViewsRow(labelText: "Minimum actions count", views: [plusButton, minusButton]),
+            createLabelAndViewsRow(labelText: "Minimum actions count", views: [plusMinActionsButton, minusMinActionsButton]),
+            createLabelAndViewsRow(labelText: "Top actions overlap", views: [plusTopOverlapButton, minusTopOverlapButton]),
+            createLabelAndViewsRow(labelText: "Bottom actions overlap", views: [plusBottomOverlapButton, minusBottomOverlapButton]),
             createLabelAndSwitchRow(labelText: "Show shared status", switchAction: #selector(toggleShowSharedStatus(switchView:)), isOn: showSharedStatus),
             createLabelAndSwitchRow(labelText: "Is document shared", switchAction: #selector(toggleAreDocumentsShared(switchView:)), isOn: areDocumentsShared),
             createLabelAndSwitchRow(labelText: "Show keep offline button", switchAction: #selector(toggleShowKeepOffline(switchView:)), isOn: showKeepOfflineAction),
@@ -397,6 +431,12 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
 
         return settingsView
     }()
+
+    private func createPlusMinusButton(plus: Bool, _ selector: Selector) -> UIButton {
+        let button = createButton(title: (plus ? "+" : "-"), action: selector)
+        button.widthAnchor.constraint(equalToConstant: Constants.plusMinusButtonWidth).isActive = true
+        return button
+    }
 
     @objc private func toggleShowDate(switchView: UISwitch) {
         showDate = switchView.isOn
@@ -487,6 +527,26 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
     @objc private func decrementMinimumActionsCount() {
         if minimumActionsCount > 0 {
             minimumActionsCount -= 1
+        }
+    }
+
+    @objc private func incrementTopActionsOverlap() {
+        topActionsOverlap += 1
+    }
+
+    @objc private func decrementTopActionsOverlap() {
+        if topActionsOverlap > 0 {
+            topActionsOverlap -= 1
+        }
+    }
+
+    @objc private func incrementBottomActionsOverlap() {
+        bottomActionsOverlap += 1
+    }
+
+    @objc private func decrementBottomActionsOverlap() {
+        if bottomActionsOverlap > 0 {
+            bottomActionsOverlap -= 1
         }
     }
 

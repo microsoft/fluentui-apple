@@ -96,6 +96,20 @@ open class TableViewCellFileAccessoryView: UIView {
         }
     }
 
+    /// Number of actions that should overlap with the column that comes before the actions column.
+    /// If actionsOffsetCount > 0, this column will reduce its width but keep its content centered as if there
+    /// was no offset. This is particularily useful with actions that are displayed. Reserving an empty slot for
+    /// an action that rarely displays would cause the previous column to look uncentered. This column
+    /// would also look uncentered when the rarely displayed action is displayed. The solution is to
+    /// allow this action to overlap the space reserved for the previous column.
+    @objc public var actionsColumnOverlap: UInt = 0 {
+        didSet {
+            if oldValue != actionsColumnOverlap {
+                updateLayout()
+            }
+        }
+    }
+
     @objc public weak var tableViewCell: TableViewCell? {
         didSet {
             updateLayout()
@@ -189,8 +203,25 @@ open class TableViewCellFileAccessoryView: UIView {
         return label
     }()
 
-    private lazy var dateLabelWidth: NSLayoutConstraint = {
-        return dateLabel.widthAnchor.constraint(equalToConstant: 0)
+    private lazy var dateColumnView: UIView = {
+        let view = UIView(frame: .zero)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(dateLabel)
+
+        NSLayoutConstraint.activate([
+            view.topAnchor.constraint(equalTo: dateLabel.topAnchor),
+            view.bottomAnchor.constraint(equalTo: dateLabel.bottomAnchor)
+        ])
+
+        return view
+    }()
+
+    private lazy var dateColumnWidth: NSLayoutConstraint = {
+        return dateColumnView.widthAnchor.constraint(equalToConstant: 0)
+    }()
+
+    private lazy var dateLabelCenterConstraint: NSLayoutConstraint = {
+        return dateLabel.centerXAnchor.constraint(equalTo: dateColumnView.centerXAnchor)
     }()
 
     private func updateSharedStatus() {
@@ -215,27 +246,31 @@ open class TableViewCellFileAccessoryView: UIView {
         return imageView
     }()
 
+    private lazy var sharedStatusCenteredView: UIView = {
+        let view = UIView(frame: .zero)
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        return view
+    }()
+
     private lazy var sharedStatusView: UIView = {
         let containerView = UIView(frame: .zero)
         containerView.translatesAutoresizingMaskIntoConstraints = false
 
-        let view = UIView(frame: .zero)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        containerView.addSubview(view)
+        containerView.addSubview(sharedStatusCenteredView)
 
-        view.addSubview(sharedStatusImageView)
-        view.addSubview(sharedStatusLabel)
+        sharedStatusCenteredView.addSubview(sharedStatusImageView)
+        sharedStatusCenteredView.addSubview(sharedStatusLabel)
 
         NSLayoutConstraint.activate([
             sharedStatusImageView.widthAnchor.constraint(equalToConstant: Constants.sharedIconSize),
             sharedStatusImageView.heightAnchor.constraint(equalToConstant: Constants.sharedIconSize),
-            sharedStatusImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            sharedStatusImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            sharedStatusImageView.leadingAnchor.constraint(equalTo: sharedStatusCenteredView.leadingAnchor),
+            sharedStatusImageView.centerYAnchor.constraint(equalTo: sharedStatusCenteredView.centerYAnchor),
             sharedStatusLabel.leadingAnchor.constraint(equalTo: sharedStatusImageView.trailingAnchor, constant: Constants.sharedStatusSpacing),
-            sharedStatusLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            sharedStatusLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            sharedStatusLabel.trailingAnchor.constraint(equalTo: sharedStatusCenteredView.trailingAnchor),
+            sharedStatusLabel.centerYAnchor.constraint(equalTo: sharedStatusCenteredView.centerYAnchor),
+            containerView.centerYAnchor.constraint(equalTo: sharedStatusCenteredView.centerYAnchor)
         ])
 
         return containerView
@@ -243,6 +278,10 @@ open class TableViewCellFileAccessoryView: UIView {
 
     private lazy var sharedStatusViewWidth: NSLayoutConstraint = {
         return sharedStatusView.widthAnchor.constraint(equalToConstant: 0)
+    }()
+
+    private lazy var sharedStatusCenterConstraint: NSLayoutConstraint = {
+        return sharedStatusCenteredView.centerXAnchor.constraint(equalTo: sharedStatusView.centerXAnchor)
     }()
 
     private func updateActions() {
@@ -318,7 +357,7 @@ open class TableViewCellFileAccessoryView: UIView {
     }
 
     private func updateDateLabel() {
-        let dateString = date?.displayString(short: (dateLabelWidth.constant < Constants.fullDateMinWidth)) ?? ""
+        let dateString = date?.displayString(short: (dateColumnWidth.constant < Constants.fullDateMinWidth)) ?? ""
         dateLabel.text = dateString
     }
 
@@ -357,11 +396,29 @@ open class TableViewCellFileAccessoryView: UIView {
             }
         }
 
-        dateLabel.removeFromSuperview()
+        let columnLeadingOffset = CGFloat(actionsColumnOverlap) * (FileAccessoryViewActionView.size.width + actionsStackView.spacing)
+
+        dateColumnView.removeFromSuperview()
         if isShowingDate {
-            columnStackView.insertArrangedSubview(dateLabel, at: 0)
-            dateLabelWidth.constant = columnWidth
-            dateLabelWidth.isActive = true
+            columnStackView.insertArrangedSubview(dateColumnView, at: 0)
+            dateColumnWidth.constant = columnWidth
+            dateColumnWidth.isActive = true
+
+            var centerOffset: CGFloat = 0
+            if actionsColumnOverlap > 0 {
+                centerOffset = columnLeadingOffset / 2
+
+                if isShowingSharedStatus {
+                    centerOffset -= actionsStackView.spacing / 2
+                }
+            }
+
+            if effectiveUserInterfaceLayoutDirection == .rightToLeft {
+                centerOffset = -centerOffset
+            }
+
+            dateLabelCenterConstraint.constant = centerOffset
+            dateLabelCenterConstraint.isActive = true
 
             updateDateLabel()
         }
@@ -371,10 +428,26 @@ open class TableViewCellFileAccessoryView: UIView {
             columnStackView.insertArrangedSubview(sharedStatusView, at: (isShowingDate ? 1 : 0))
             sharedStatusViewWidth.constant = columnWidth
             sharedStatusViewWidth.isActive = true
+
+            var centerOffset: CGFloat = 0
+            if actionsColumnOverlap > 0 {
+                centerOffset = columnLeadingOffset / 2
+
+                if isShowingDate {
+                    centerOffset += actionsStackView.spacing / 2
+                }
+            }
+
+            if effectiveUserInterfaceLayoutDirection == .rightToLeft {
+                centerOffset = -centerOffset
+            }
+
+            sharedStatusCenterConstraint.constant = centerOffset
+            sharedStatusCenterConstraint.isActive = true
         }
 
         if isShowingDate && isShowingSharedStatus {
-            columnStackView.setCustomSpacing(0, after: dateLabel)
+            columnStackView.setCustomSpacing(0, after: dateColumnView)
         }
 
         var height: CGFloat = FileAccessoryViewActionView.size.height

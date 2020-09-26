@@ -5,6 +5,13 @@
 
 import UIKit
 
+// MARK: - DrawerPresentationDelegate
+
+protocol DrawerPresentationControllerDelegate: AnyObject {
+    /// Called when the user requests the dismissal of the presentingViewController
+    func drawerPresentationControllerDismissalRequested(_ presentationController: DrawerPresentationController)
+}
+
 // MARK: DrawerPresentationController
 
 class DrawerPresentationController: UIPresentationController {
@@ -25,6 +32,8 @@ class DrawerPresentationController: UIPresentationController {
     private let presentationBackground: DrawerPresentationBackground
     private weak var passThroughView: UIView?
     private let shadowOffset: CGFloat
+
+    public weak var drawerPresentationControllerDelegate: DrawerPresentationControllerDelegate?
 
     init(presentedViewController: UIViewController,
          presentingViewController: UIViewController?,
@@ -74,7 +83,7 @@ class DrawerPresentationController: UIPresentationController {
 
         view.gestureRecognizers = [UITapGestureRecognizer(target: self, action: #selector(handleBackgroundViewTapped(_:)))]
         view.onAccessibilityActivate = { [unowned self] in
-            self.presentingViewController.dismiss(animated: true)
+            self.drawerPresentationControllerDelegate?.drawerPresentationControllerDismissalRequested(self)
         }
         return view
     }()
@@ -473,7 +482,7 @@ class DrawerPresentationController: UIPresentationController {
     // MARK: Actions
 
     @objc private func handleBackgroundViewTapped(_ recognizer: UITapGestureRecognizer) {
-        presentingViewController.dismiss(animated: true)
+        drawerPresentationControllerDelegate?.drawerPresentationControllerDismissalRequested(self)
     }
 
     @objc private func handleKeyboardWillChangeFrame(notification: Notification) {

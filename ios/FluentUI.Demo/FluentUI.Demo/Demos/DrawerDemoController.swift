@@ -9,6 +9,9 @@ import UIKit
 // MARK: DrawerDemoController
 
 class DrawerDemoController: DemoController {
+
+    private var shouldConfirmDrawerDismissal: Bool = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -41,6 +44,8 @@ class DrawerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show always as slideover, resizable", action: #selector(showBottomDrawerCustomContentControllerButtonTapped)))
 
         container.addArrangedSubview(createButton(title: "Show with focusable content", action: #selector(showBottomDrawerFocusableContentButtonTapped)))
+
+        container.addArrangedSubview(createButton(title: "Show dismiss blocking drawer", action: #selector(showBottomDrawerBlockingDismissButtonTapped)))
 
         container.addArrangedSubview(UIView())
 
@@ -76,6 +81,7 @@ class DrawerDemoController: DemoController {
         let controller: DrawerController
         if let sourceView = sourceView {
             controller = DrawerController(sourceView: sourceView, sourceRect: sourceView.bounds.insetBy(dx: sourceView.bounds.width / 2, dy: 0), presentationOrigin: presentationOrigin, presentationDirection: presentationDirection)
+            controller.delegate = self
         } else if let barButtonItem = barButtonItem {
             controller = DrawerController(barButtonItem: barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection)
         } else {
@@ -181,6 +187,11 @@ class DrawerDemoController: DemoController {
     @objc private func showBottomDrawerCustomOffsetButtonTapped(sender: UIButton) {
         let rect = sender.superview!.convert(sender.frame, to: nil)
         presentDrawer(sourceView: sender, presentationOrigin: rect.minY, presentationDirection: .up, contentView: containerForActionViews())
+    }
+
+    @objc private func showBottomDrawerBlockingDismissButtonTapped(sender: UIButton) {
+        shouldConfirmDrawerDismissal = true
+        presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews(), resizingBehavior: .dismissOrExpand)
     }
 
     private var contentControllerOriginalPreferredContentHeight: CGFloat = 0
@@ -301,5 +312,26 @@ extension DrawerDemoController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return false
+    }
+}
+
+extension DrawerDemoController: DrawerControllerDelegate {
+    func drawerControllerShouldDismissDrawer(_ controller: DrawerController) -> Bool {
+        if shouldConfirmDrawerDismissal {
+            let alert = UIAlertController(title: "Do you really want to dismiss the drawer?", message: nil, preferredStyle: .alert)
+            controller.present(alert, animated: true)
+            let yesAction = UIAlertAction(title: "Yes", style: .default) { _ in
+                self.dismiss(animated: true, completion: nil)
+            }
+            let noAction = UIAlertAction(title: "No", style: .cancel)
+            alert.addAction(yesAction)
+            alert.addAction(noAction)
+        }
+        return !shouldConfirmDrawerDismissal
+    }
+
+    func drawerControllerDidDismiss(_ controller: DrawerController) {
+        // reset the flag once drawer gets dismissed
+        shouldConfirmDrawerDismissal = false
     }
 }
