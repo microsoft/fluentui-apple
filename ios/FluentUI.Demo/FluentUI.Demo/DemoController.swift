@@ -10,6 +10,7 @@ class DemoController: UIViewController {
     struct Constants {
         static let margin: CGFloat = 16
         static let horizontalSpacing: CGFloat = 40
+        static let horizontalContainerItemSpacing: CGFloat = 16
         static let verticalSpacing: CGFloat = 16
         static let rowTextWidth: CGFloat = 75
         static let stackViewSpacing: CGFloat = 10
@@ -21,6 +22,14 @@ class DemoController: UIViewController {
         container.layoutMargins = UIEdgeInsets(top: Constants.margin, left: Constants.margin, bottom: Constants.margin, right: Constants.margin)
         container.isLayoutMarginsRelativeArrangement = true
         container.spacing = Constants.verticalSpacing
+        return container
+    }
+
+    class func createHorizontalContainer() -> UIStackView {
+        let container = UIStackView(frame: .zero)
+        container.axis = .horizontal
+        container.distribution = .fillEqually
+        container.spacing = Constants.horizontalContainerItemSpacing
         return container
     }
 

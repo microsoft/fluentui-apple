@@ -19,6 +19,7 @@ class DrawerDemoController: DemoController {
 
         addTitle(text: "Top Drawer")
         container.addArrangedSubview(createButton(title: "Show resizable", action: #selector(showTopDrawerButtonTapped)))
+        container.addArrangedSubview(createButton(title: "Show non dismissable", action: #selector(showTopDrawerNotDismissableButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show with no animation", action: #selector(showTopDrawerNotAnimatedButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show from custom base with width on landscape", action: #selector(showTopDrawerCustomOffsetButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show respecting safe area width", action: #selector(showTopDrawerSafeAreaButtonTapped)))
@@ -36,6 +37,7 @@ class DrawerDemoController: DemoController {
 
         addTitle(text: "Bottom Drawer")
         container.addArrangedSubview(createButton(title: "Show resizable", action: #selector(showBottomDrawerButtonTapped)))
+        container.addArrangedSubview(createButton(title: "Show with underlying interactable content view", action: #selector(showBottomDrawerWithUnderlyingInteractableViewButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show with no animation", action: #selector(showBottomDrawerNotAnimatedButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show from custom base", action: #selector(showBottomDrawerCustomOffsetButtonTapped)))
 
@@ -145,6 +147,10 @@ class DrawerDemoController: DemoController {
         presentDrawer(sourceView: sender, presentationDirection: .down, contentView: containerForActionViews(), resizingBehavior: .dismissOrExpand)
     }
 
+    @objc private func showTopDrawerNotDismissableButtonTapped(sender: UIButton) {
+        presentDrawer(sourceView: sender, presentationDirection: .down, contentView: containerForActionViews(), resizingBehavior: .expand)
+    }
+
     @objc private func showTopDrawerNotAnimatedButtonTapped(sender: UIButton) {
         presentDrawer(sourceView: sender, presentationDirection: .down, contentView: containerForActionViews(), animated: false)
     }
@@ -168,6 +174,10 @@ class DrawerDemoController: DemoController {
 
     @objc private func showBottomDrawerButtonTapped(sender: UIButton) {
         presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews(), resizingBehavior: .dismissOrExpand)
+    }
+
+    @objc private func showBottomDrawerWithUnderlyingInteractableViewButtonTapped(sender: UIButton) {
+        navigationController?.pushViewController(PassThroughDrawerDemoController(), animated: true)
     }
 
     @objc private func showBottomDrawerNotAnimatedButtonTapped(sender: UIButton) {
