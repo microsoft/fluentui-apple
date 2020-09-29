@@ -69,6 +69,16 @@ public extension Colors {
     }
 }
 
+// MARK: - AnimationProtocol
+
+@objc(MSFAnimationProtocol)
+public protocol AnimationProtocol {
+    @objc var hidesWhenStopped: Bool {get set}
+
+    @objc func startAnimating()
+    @objc func stopAnimating()
+}
+
 // MARK: - ActivityIndicatorView
 
 /**
@@ -78,7 +88,7 @@ public extension Colors {
 public typealias MSActivityIndicatorView = ActivityIndicatorView
 
 @objc(MSFActivityIndicatorView)
-open class ActivityIndicatorView: UIView {
+open class ActivityIndicatorView: UIView, AnimationProtocol {
     @objc public static func sizeThatFits(size: ActivityIndicatorViewSize) -> CGSize {
         return CGSize(width: size.sideSize, height: size.sideSize)
     }

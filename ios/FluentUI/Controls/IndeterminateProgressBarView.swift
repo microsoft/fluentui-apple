@@ -7,7 +7,7 @@ import UIKit
 
 /// Indeterminate progress bar. Since iOS's UIprogressView is always determinate, this is created for handling indeterminate scenarios.
 @objc(MSFIndeterminateProgressBarView)
-open class IndeterminateProgressBarView: UIView {
+open class IndeterminateProgressBarView: UIView, AnimationProtocol {
 
     /// The progress bar view should be hidden when animation stops if set to true. The default value is true.
     @objc open var hidesWhenStopped: Bool = true
