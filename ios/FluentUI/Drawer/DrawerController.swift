@@ -14,6 +14,7 @@ public typealias MSDrawerResizingBehavior = DrawerResizingBehavior
 public enum DrawerResizingBehavior: Int {
     case none
     case dismiss
+    case expand
     case dismissOrExpand
 }
 
@@ -126,6 +127,7 @@ open class DrawerController: UIViewController {
     private struct Constants {
         static let resistanceCoefficient: CGFloat = 0.1
         static let resizingThreshold: CGFloat = 30
+        static let shadowOffset: CGFloat = 8
     }
 
     private enum PresentationStyle: Int {
@@ -210,6 +212,9 @@ open class DrawerController: UIViewController {
         }
     }
     @objc open var presentationBackground: DrawerPresentationBackground = .black
+
+    /// Use `passThroughView` to make underlying view interactable. This view can be set from presenting view controller to recieve all the touch events from drawer's presentation background.
+    @objc open weak var passThroughView: UIView?
 
     /**
      Set `presentingGesture` before calling `present` to provide a gesture recognizer that resulted in the presentation of the drawer and to allow this presentation to be interactive.
@@ -388,6 +393,10 @@ open class DrawerController: UIViewController {
         didSet {
             updateContainerViewBottomConstraint()
         }
+    }
+    /// Shadow is required if background is transparent
+    private var shadowOffset: CGFloat {
+        return presentationBackground == .none ? Constants.shadowOffset : 0
     }
     private var containerViewCenterObservation: NSKeyValueObservation?
 
@@ -742,6 +751,20 @@ open class DrawerController: UIViewController {
                 offset = min(offset, 0)
             }
         }
+
+        // This resizingBehavior(expand) avoid the user to dismiss the drawer
+        if resizingBehavior == .expand {
+            // This is to avoid drawer to get dismissed when user drag the drawer from expanded state to normal state
+            if isExpanded {
+                offset = max(offset, -(originalDrawerHeight - normalDrawerHeight))
+            }
+
+            // This is to restrict dismiss behaviour of drawer
+            if !isExpanded && offset < 0 && !mayResizeViaContentScrolling {
+                offset = presentationDirection == .up ? offsetWithResistance(for: offset) : 0
+            }
+        }
+
         if mayResizeViaContentScrolling && offset < 0, let originalContentOffsetY = originalContentOffsetY {
             offset = min(offset + originalContentOffsetY, 0)
         }
@@ -890,14 +913,14 @@ open class DrawerController: UIViewController {
 extension DrawerController: UIViewControllerTransitioningDelegate {
     public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if presentationStyle(for: source) == .slideover {
-            return DrawerTransitionAnimator(presenting: true, presentationDirection: presentationDirection(for: source.view))
+            return DrawerTransitionAnimator(presenting: true, presentationDirection: presentationDirection(for: source.view), containerOffset: shadowOffset)
         }
         return nil
     }
 
     public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if let controller = dismissed.presentationController as? DrawerPresentationController {
-            return DrawerTransitionAnimator(presenting: false, presentationDirection: controller.presentationDirection)
+            return DrawerTransitionAnimator(presenting: false, presentationDirection: controller.presentationDirection, containerOffset: shadowOffset)
         }
         return nil
     }
@@ -927,7 +950,9 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
                                                 presentationBackground: presentationBackground,
                                                 adjustHeightForKeyboard: adjustsHeightForKeyboard,
                                                 shouldUseWindowFullWidthInLandscape: shouldUseWindowFullWidthInLandscape,
-                                                shouldRespectSafeAreaForWindowFullWidth: shouldRespectSafeAreaForWindowFullWidth)
+                                                shouldRespectSafeAreaForWindowFullWidth: shouldRespectSafeAreaForWindowFullWidth,
+                                                passThroughView: passThroughView,
+                                                shadowOffset: shadowOffset)
             drawerPresentationController.drawerPresentationControllerDelegate = self
             return drawerPresentationController
         case .popover:
