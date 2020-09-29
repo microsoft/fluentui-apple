@@ -16,6 +16,7 @@
 		1168630722E131CF0088B302 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630322E131CF0088B302 /* TabBarView.swift */; };
 		118D9848230BBA2300BC0B72 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D9847230BBA2300BC0B72 /* TabBarItem.swift */; };
 		22010B702523CB2D00FF1F10 /* ActivityViewAnimating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22010B6F2523CB2D00FF1F10 /* ActivityViewAnimating.swift */; };
+		22010B752523CEB700FF1F10 /* ActivityViewAnimating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22010B6F2523CB2D00FF1F10 /* ActivityViewAnimating.swift */; };
 		22EABB1A2509AAD100C4BE72 /* IndeterminateProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EABB192509AAD100C4BE72 /* IndeterminateProgressBarView.swift */; };
 		22EABB1B250A196200C4BE72 /* IndeterminateProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EABB192509AAD100C4BE72 /* IndeterminateProgressBarView.swift */; };
 		497DC2D924185885008D86F8 /* PillButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D724185885008D86F8 /* PillButtonBar.swift */; };
@@ -1284,6 +1285,7 @@
 				8FD011BA228A82A600D25925 /* PopupMenuItemCell.swift in Sources */,
 				B4414790228F4D920040E88E /* BooleanCell.swift in Sources */,
 				8FD011BB228A82A600D25925 /* PopupMenuSectionHeaderView.swift in Sources */,
+				22010B752523CEB700FF1F10 /* ActivityViewAnimating.swift in Sources */,
 				8FD011BC228A82A600D25925 /* CardPresentationController.swift in Sources */,
 				56DA1CDB2452361E008D745E /* ShimmerLinesViewAppearance.swift in Sources */,
 				8FD011BD228A82A600D25925 /* CardPresenterNavigationController.swift in Sources */,
