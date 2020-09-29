@@ -78,7 +78,7 @@ public extension Colors {
 public typealias MSActivityIndicatorView = ActivityIndicatorView
 
 @objc(MSFActivityIndicatorView)
-open class ActivityIndicatorView: UIView {
+open class ActivityIndicatorView: UIView, ActivityViewAnimating {
     @objc public static func sizeThatFits(size: ActivityIndicatorViewSize) -> CGSize {
         return CGSize(width: size.sideSize, height: size.sideSize)
     }
