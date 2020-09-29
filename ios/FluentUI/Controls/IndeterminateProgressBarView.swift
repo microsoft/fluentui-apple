@@ -7,7 +7,7 @@ import UIKit
 
 /// Indeterminate progress bar. Since iOS's UIprogressView is always determinate, this is created for handling indeterminate scenarios.
 @objc(MSFIndeterminateProgressBarView)
-open class IndeterminateProgressBarView: UIView, AnimationProtocol {
+open class IndeterminateProgressBarView: UIView, ActivityViewAnimating {
 
     /// The progress bar view should be hidden when animation stops if set to true. The default value is true.
     @objc open var hidesWhenStopped: Bool = true
@@ -46,7 +46,7 @@ open class IndeterminateProgressBarView: UIView, AnimationProtocol {
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
-        updateColor()
+        updateColors()
     }
 
     @objc open func startAnimating() {
@@ -75,7 +75,7 @@ open class IndeterminateProgressBarView: UIView, AnimationProtocol {
         super.traitCollectionDidChange(previousTraitCollection)
         if #available(iOS 13, *) {
             if previousTraitCollection?.userInterfaceStyle != traitCollection.userInterfaceStyle {
-                updateColor()
+                updateColors()
             }
         }
     }
@@ -109,7 +109,7 @@ open class IndeterminateProgressBarView: UIView, AnimationProtocol {
         return groupAnimation
     }
 
-    private func updateColor() {
+    private func updateColors() {
         if let window = window {
             let appColor = Colors.primary(for: window)
             let edgeColor = appColor.withAlphaComponent(0).cgColor
