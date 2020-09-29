@@ -72,27 +72,31 @@ class ShyHeaderController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
-        shyHeaderView.maxHeightChanged = { [unowned self] in
-            self.updatePadding()
+        shyHeaderView.maxHeightChanged = { [weak self] in
+            self?.updatePadding()
         }
 
         loadViewIfNeeded()
         addChildController(contentViewController, containingViewIn: contentContainerView)
         contentViewController.view.fitIntoSuperview(usingConstraints: true)
 
-        contentScrollViewObservation = contentViewController.navigationItem.observe(\.contentScrollView, options: [.new]) { [unowned self] (_, change) in
+        contentScrollViewObservation = contentViewController.navigationItem.observe(\.contentScrollView, options: [.new]) { [weak self] (_, change) in
+            guard let strongSelf = self else {
+                return
+            }
+
             if let newValue = change.newValue {
-                self.contentScrollView = newValue
+                strongSelf.contentScrollView = newValue
             } else {
-                self.contentScrollView = nil
+                strongSelf.contentScrollView = nil
             }
         }
         defer {
             contentScrollView = contentViewController.navigationItem.contentScrollView
         }
 
-        accessoryViewObservation = contentViewController.navigationItem.observe(\UINavigationItem.accessoryView) { [unowned self] item, _ in
-            self.shyHeaderView.accessoryView = item.accessoryView
+        accessoryViewObservation = contentViewController.navigationItem.observe(\UINavigationItem.accessoryView) { [weak self] item, _ in
+            self?.shyHeaderView.accessoryView = item.accessoryView
         }
     }
 
@@ -208,11 +212,11 @@ class ShyHeaderController: UIViewController {
     private func setupNotificationObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleAccessoryExpansionRequested), name: .accessoryExpansionRequested, object: nil)
         // Observing `center` instead of `isHidden` allows us to do our changes along the system animation
-        navigationBarCenterObservation = navigationController?.navigationBar.observe(\.center) { [unowned self] navigationBar, _ in
-            self.shyHeaderView.navigationBarIsHidden = navigationBar.frame.maxY == 0
+        navigationBarCenterObservation = navigationController?.navigationBar.observe(\.center) { [weak self] navigationBar, _ in
+            self?.shyHeaderView.navigationBarIsHidden = navigationBar.frame.maxY == 0
         }
-        navigationBarHeightObservation = msfNavigationController?.msfNavigationBar.observe(\.barHeight) { [unowned self] _, _ in
-            self.updatePadding()
+        navigationBarHeightObservation = msfNavigationController?.msfNavigationBar.observe(\.barHeight) { [weak self] _, _ in
+            self?.updatePadding()
         }
     }
 
@@ -258,8 +262,8 @@ class ShyHeaderController: UIViewController {
         view.backgroundColor = color
         paddingView.backgroundColor = color
 
-        navigationBarColorObservation = item.observe(\.customNavigationBarColor) { [unowned self] item, _ in
-            self.updateBackgroundColor(with: item, window: window)
+        navigationBarColorObservation = item.observe(\.customNavigationBarColor) { [weak self] item, _ in
+            self?.updateBackgroundColor(with: item, window: window)
         }
     }
 

@@ -14,6 +14,7 @@ public typealias MSDrawerResizingBehavior = DrawerResizingBehavior
 public enum DrawerResizingBehavior: Int {
     case none
     case dismiss
+    case expand
     case dismissOrExpand
 }
 
@@ -97,8 +98,12 @@ public protocol DrawerControllerDelegate: AnyObject {
 
     /// Called when drawer is being dismissed.
     @objc optional func drawerControllerWillDismiss(_ controller: DrawerController)
+
     /// Called after drawer has been dismissed.
     @objc optional func drawerControllerDidDismiss(_ controller: DrawerController)
+
+    /// Called when drawer is getting dismissed when user tries to dismiss drawer by tapping in background, using resizing handle or dragging drawer to bottom. Use this method to prevent the drawer from being dismissed in these scenarios.
+    @objc optional func drawerControllerShouldDismissDrawer(_ controller: DrawerController) -> Bool
 }
 
 // MARK: - DrawerController
@@ -122,6 +127,7 @@ open class DrawerController: UIViewController {
     private struct Constants {
         static let resistanceCoefficient: CGFloat = 0.1
         static let resizingThreshold: CGFloat = 30
+        static let shadowOffset: CGFloat = 8
     }
 
     private enum PresentationStyle: Int {
@@ -206,6 +212,9 @@ open class DrawerController: UIViewController {
         }
     }
     @objc open var presentationBackground: DrawerPresentationBackground = .black
+
+    /// Use `passThroughView` to make underlying view interactable. This view can be set from presenting view controller to recieve all the touch events from drawer's presentation background.
+    @objc open weak var passThroughView: UIView?
 
     /**
      Set `presentingGesture` before calling `present` to provide a gesture recognizer that resulted in the presentation of the drawer and to allow this presentation to be interactive.
@@ -385,6 +394,10 @@ open class DrawerController: UIViewController {
             updateContainerViewBottomConstraint()
         }
     }
+    /// Shadow is required if background is transparent
+    private var shadowOffset: CGFloat {
+        return presentationBackground == .none ? Constants.shadowOffset : 0
+    }
     private var containerViewCenterObservation: NSKeyValueObservation?
 
     private var useCustomBackgroundColor: Bool = false
@@ -558,8 +571,7 @@ open class DrawerController: UIViewController {
     }
 
     open override func accessibilityPerformEscape() -> Bool {
-        presentingViewController?.dismiss(animated: true)
-        return true
+        return dismissPresentingViewController(animated: true)
     }
 
     // Change of presentation direction's orientation is not supported
@@ -739,6 +751,20 @@ open class DrawerController: UIViewController {
                 offset = min(offset, 0)
             }
         }
+
+        // This resizingBehavior(expand) avoid the user to dismiss the drawer
+        if resizingBehavior == .expand {
+            // This is to avoid drawer to get dismissed when user drag the drawer from expanded state to normal state
+            if isExpanded {
+                offset = max(offset, -(originalDrawerHeight - normalDrawerHeight))
+            }
+
+            // This is to restrict dismiss behaviour of drawer
+            if !isExpanded && offset < 0 && !mayResizeViaContentScrolling {
+                offset = presentationDirection == .up ? offsetWithResistance(for: offset) : 0
+            }
+        }
+
         if mayResizeViaContentScrolling && offset < 0, let originalContentOffsetY = originalContentOffsetY {
             offset = min(offset + originalContentOffsetY, 0)
         }
@@ -758,6 +784,25 @@ open class DrawerController: UIViewController {
         // Remove over-scroll at the top so that scroll view does not get stuck in a weird state during drawer resizing
         contentScrollView.contentOffset.y = max(-contentScrollView.contentInset.top, contentScrollView.contentOffset.y)
         originalContentOffsetY = contentScrollView.contentOffset.y
+    }
+
+    /// To disimiss presentingViewController
+    /// - Parameters:
+    ///   - animated: dimiss should happen with animation or not
+    ///   - isResizing: flag indicating wheter dismiss is being called due to user resizing the drawer, default is false
+    /// - Returns: whether drawer got dismissed or not
+    @discardableResult
+    private func dismissPresentingViewController(animated: Bool, isResizing: Bool = false) -> Bool {
+        if delegate?.drawerControllerShouldDismissDrawer?(self) ?? true {
+            presentingViewController?.dismiss(animated: animated)
+            return true
+        } else if isResizing {
+            guard let presentationController = presentationController as? DrawerPresentationController else {
+                preconditionFailure("DrawerController cannot handle resizing without DrawerPresentationController")
+            }
+            presentationController.setExtraContentSize(0, updatingLayout: true, animated: animated)
+        }
+        return false
     }
 
     @objc private func handleResizingGesture(gesture: UIPanGestureRecognizer) {
@@ -801,14 +846,14 @@ open class DrawerController: UIViewController {
             } else if offset <= -Constants.resizingThreshold {
                 if isExpanded {
                     if originalDrawerHeight + offset <= normalDrawerHeight - Constants.resizingThreshold {
-                        presentingViewController?.dismiss(animated: true)
+                        dismissPresentingViewController(animated: true, isResizing: true)
                     } else {
                         presentationController.setExtraContentSize(0, updatingLayout: false)
-                        isExpanded = false
-                        delegate?.drawerControllerDidChangeExpandedState?(self)
                     }
+                    isExpanded = false
+                    delegate?.drawerControllerDidChangeExpandedState?(self)
                 } else {
-                    presentingViewController?.dismiss(animated: true)
+                    dismissPresentingViewController(animated: true, isResizing: true)
                 }
             } else {
                 presentationController.setExtraContentSize(0, animated: true)
@@ -868,14 +913,14 @@ open class DrawerController: UIViewController {
 extension DrawerController: UIViewControllerTransitioningDelegate {
     public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if presentationStyle(for: source) == .slideover {
-            return DrawerTransitionAnimator(presenting: true, presentationDirection: presentationDirection(for: source.view))
+            return DrawerTransitionAnimator(presenting: true, presentationDirection: presentationDirection(for: source.view), containerOffset: shadowOffset)
         }
         return nil
     }
 
     public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if let controller = dismissed.presentationController as? DrawerPresentationController {
-            return DrawerTransitionAnimator(presenting: false, presentationDirection: controller.presentationDirection)
+            return DrawerTransitionAnimator(presenting: false, presentationDirection: controller.presentationDirection, containerOffset: shadowOffset)
         }
         return nil
     }
@@ -895,7 +940,7 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
             if #available(iOS 13.0, *) {
                 useNavigationBarBackgroundColor = (direction.isVertical && source.traitCollection.userInterfaceLevel == .elevated)
             }
-            return DrawerPresentationController(presentedViewController: presented,
+            let drawerPresentationController = DrawerPresentationController(presentedViewController: presented,
                                                 presentingViewController: presenting,
                                                 source: source,
                                                 sourceObject: sourceView ?? barButtonItem,
@@ -905,7 +950,11 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
                                                 presentationBackground: presentationBackground,
                                                 adjustHeightForKeyboard: adjustsHeightForKeyboard,
                                                 shouldUseWindowFullWidthInLandscape: shouldUseWindowFullWidthInLandscape,
-                                                shouldRespectSafeAreaForWindowFullWidth: shouldRespectSafeAreaForWindowFullWidth)
+                                                shouldRespectSafeAreaForWindowFullWidth: shouldRespectSafeAreaForWindowFullWidth,
+                                                passThroughView: passThroughView,
+                                                shadowOffset: shadowOffset)
+            drawerPresentationController.drawerPresentationControllerDelegate = self
+            return drawerPresentationController
         case .popover:
             let presentationController = UIPopoverPresentationController(presentedViewController: presented, presenting: presenting)
             presentationController.backgroundColor = backgroundColor
@@ -934,6 +983,10 @@ extension DrawerController: UIPopoverPresentationControllerDelegate {
     public func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         return .none
     }
+
+    public func popoverPresentationControllerShouldDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) -> Bool {
+        return dismissPresentingViewController(animated: true)
+    }
 }
 
 // MARK: - DrawerController: UIGestureRecognizerDelegate
@@ -941,5 +994,13 @@ extension DrawerController: UIPopoverPresentationControllerDelegate {
 extension DrawerController: UIGestureRecognizerDelegate {
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return gestureRecognizer == resizingGestureRecognizer && otherGestureRecognizer == contentScrollView?.panGestureRecognizer
+    }
+}
+
+// MARK: - DrawerController: DrawerPresentationDelegate
+
+extension DrawerController: DrawerPresentationControllerDelegate {
+    func drawerPresentationControllerDismissalRequested(_ presentationControler: DrawerPresentationController) {
+        dismissPresentingViewController(animated: true)
     }
 }
