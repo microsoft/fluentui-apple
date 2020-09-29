@@ -9,7 +9,7 @@ import UIKit
 @objc(MSFIndeterminateProgressBarView)
 open class IndeterminateProgressBarView: UIView {
 
-    /// The progress bar view should be hidden when animation stops if set to true
+    /// The progress bar view should be hidden when animation stops if set to true. The default value is true.
     @objc open var hidesWhenStopped: Bool = true
 
     open override var intrinsicContentSize: CGSize {
@@ -39,6 +39,7 @@ open class IndeterminateProgressBarView: UIView {
         layer.addSublayer(trackLayer)
 
         addGradientLayer()
+        stopAnimating()
         animationGroup = addAnimation()
         startAnimating()
     }
@@ -49,7 +50,7 @@ open class IndeterminateProgressBarView: UIView {
     }
 
     @objc open func startAnimating() {
-        if isAnimating {
+        guard !isAnimating else {
             return
         }
         isAnimating = true
@@ -59,7 +60,7 @@ open class IndeterminateProgressBarView: UIView {
     }
 
     @objc open func stopAnimating() {
-        if !isAnimating {
+        guard isAnimating else {
             return
         }
         isAnimating = false
@@ -74,9 +75,7 @@ open class IndeterminateProgressBarView: UIView {
         super.traitCollectionDidChange(previousTraitCollection)
         if #available(iOS 13, *) {
             if previousTraitCollection?.userInterfaceStyle != traitCollection.userInterfaceStyle {
-                stopAnimating()
                 updateColor()
-                startAnimating()
             }
         }
     }
