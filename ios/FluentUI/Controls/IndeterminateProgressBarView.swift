@@ -12,7 +12,7 @@ open class IndeterminateProgressBarView: UIView, ActivityViewAnimating {
     /// The progress bar view should be hidden when animation stops if set to true. The default value is true.
     @objc open var hidesWhenStopped: Bool = true
 
-    // Don't modify this directly. Instead, call `startAnimating` and `stopAnimating`
+    /// Don't modify this directly. Instead, call `startAnimating` and `stopAnimating`
     @objc(isAnimating) public private(set) var isAnimating: Bool = false
 
     open override var intrinsicContentSize: CGSize {
