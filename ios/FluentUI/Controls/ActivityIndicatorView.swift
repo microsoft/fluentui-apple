@@ -109,7 +109,7 @@ open class ActivityIndicatorView: UIView, ActivityViewAnimating {
             setupLoaderLayer()
         }
     }
-    // Don't modify this directly. Instead, call `startAnimating` and `stopAnimating`
+    /// Don't modify this directly. Instead, call `startAnimating` and `stopAnimating`
     @objc(isAnimating) public private(set) var isAnimating: Bool = false
 
     private var loaderLayer: CAShapeLayer = {
