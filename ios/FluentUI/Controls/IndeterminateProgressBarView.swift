@@ -12,8 +12,11 @@ open class IndeterminateProgressBarView: UIView, ActivityViewAnimating {
     /// The progress bar view should be hidden when animation stops if set to true. The default value is true.
     @objc open var hidesWhenStopped: Bool = true
 
+    // Don't modify this directly. Instead, call `startAnimating` and `stopAnimating`
+    @objc(isAnimating) public private(set) var isAnimating: Bool = false
+
     open override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIView.noIntrinsicMetric, height: frame.height)
+        return CGSize(width: UIView.noIntrinsicMetric, height: Constants.progressBarHeight)
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -22,23 +25,20 @@ open class IndeterminateProgressBarView: UIView, ActivityViewAnimating {
 
     @objc public override init(frame: CGRect) {
         super.init(frame: frame)
-        self.frame.size.height = Constants.progressBarHeight
-        autoresizingMask = .flexibleWidth
         clipsToBounds = true
+        layer.addSublayer(trackLayer)
+        layer.addSublayer(gradientLayer)
     }
 
     required public init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     open override func layoutSubviews() {
         super.layoutSubviews()
 
-        trackLayer.removeFromSuperlayer()
         trackLayer.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.size.height)
-        layer.addSublayer(trackLayer)
-
-        addGradientLayer()
+        updateGradientLayer()
         stopAnimating()
         animationGroup = addAnimation()
         startAnimating()
@@ -80,13 +80,11 @@ open class IndeterminateProgressBarView: UIView, ActivityViewAnimating {
         }
     }
 
-    private func addGradientLayer() {
-        gradientLayer.removeFromSuperlayer()
+    private func updateGradientLayer() {
         gradientLayer.frame = CGRect(x: 0, y: 0, width: frame.width / 2, height: frame.height)
         gradientLayer.startPoint = CGPoint(x: 0.0, y: 1.0)
         gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
         gradientLayer.locations = [0.0, 0.5, 1.0]
-        layer.addSublayer(gradientLayer)
     }
 
     private func addAnimation() -> CAAnimationGroup {
@@ -137,7 +135,4 @@ open class IndeterminateProgressBarView: UIView, ActivityViewAnimating {
 
     /// The grouped animations that will be applied to the gradient layer
     private var animationGroup = CAAnimationGroup()
-
-    // Don't modify this directly. Instead, call `startAnimating` and `stopAnimating`
-    @objc(isAnimating) public private(set) var isAnimating: Bool = false
 }
