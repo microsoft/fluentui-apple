@@ -1,0 +1,10 @@
+objc: true
+#extendedName: TestExtended
+generateBaseStyle: true
+inputDir: ./
+baseStylePath: ./GenericStyle.yml
+inputs:
+  - FluentUIStyle.yml
+  - TeamsStyle.yml
+output:
+  path: ./output/

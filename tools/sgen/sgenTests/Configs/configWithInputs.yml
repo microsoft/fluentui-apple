@@ -1,0 +1,39 @@
+inputDir: ../Inputs/
+objc: true
+baseStylePath: ../Inputs/GenericStyle.yml
+generateFilePerAppearanceProxy: true
+generateBaseStyle: true
+inputs:
+  - LightStyle.yml
+symbolsAsset:
+  inputDir: ../Resources/Assets
+  inputs:
+    - IconAssets.xcassets
+  icons: ./Icon.yml
+  format:
+    - separator: _
+    - name: "^ic_fluent_(\w*)(?:_\w+){2,}$"
+    - size: "^ic_fluent(?:_\w+){1,}_(\w*)(?:_\w+){1,}$"
+    - style: "^ic_fluent(?:_\w+){1,}(?:_\w+){1}_(\w*)$"
+  names:
+    - GenericStyle: IconAssets.xcassets
+  output:
+    link:
+      project: ../../../Stardust/Stardust.xcodeproj
+      target: Stardust
+      group: Resources/Assets
+typography:
+  styles:
+    - largeTitle: { defaultPointSize: 34, maximumPointSize: 38, mapsTo: largeTitle, version: 11 }
+    - title1: { defaultPointSize: 28, maximumPointSize: 32, mapsTo: title1 }
+    - title2: { defaultPointSize: 22, maximumPointSize: 26, mapsTo: title2 }
+    - title3: { defaultPointSize: 20, maximumPointSize: 24, mapsTo: title3 }
+    - headline: { defaultPointSize: 17, maximumPointSize: 21, mapsTo: headline }
+    - body: { defaultPointSize: 17, maximumPointSize: 21, mapsTo: body }
+    - callout: { defaultPointSize: 16, maximumPointSize: 20, mapsTo: callout }
+    - subheadline: { defaultPointSize: 15, maximumPointSize: 19, mapsTo: subheadline }
+    - footnote: { defaultPointSize: 13, maximumPointSize: 17, mapsTo: footnote }
+    - caption1: { defaultPointSize: 12, maximumPointSize: 16, mapsTo: caption1 }
+    - caption2: { defaultPointSize: 11, maximumPointSize: 15, mapsTo: caption2 }
+output:
+  path: ../Output/

@@ -1,0 +1,49 @@
+PrimaryFilledButton extends ButtonVNext:
+  titleFont: "Font(PreferredSystem, subheadline)"
+  hasBorders: false
+  borderWidth: 0dp
+  contentInsets: Insets(16dp,20dp,16dp,20dp)
+  cornerRadius: 0dp
+  borderColor: [standard: "#4F4F95" highlighted: "#4F4F95" disabled: "#4F4F95"]
+  backgroundColor: [standard: "#4F4F95" highlighted: "#4F4F95" disabled: "#4F4F95"]
+  titleColor: [standard: "#4F4F95" highlighted: "#4F4F95" disabled: "#4F4F95"]
+
+PrimaryOutlineButton extends ButtonVNext:
+  titleFont: "Font(PreferredSystem, headline)"
+  hasBorders: true
+  borderWidth: 1dp
+  contentInsets: Insets(16dp,20dp,16dp,20dp)
+  cornerRadius: 0dp
+  borderColor: [standard: "#4F4F95" highlighted: "#4F4F95" disabled: "#4F4F95"]
+  backgroundColor: [standard: "#4F4F95" highlighted: "#4F4F95" disabled: "#4F4F95"]
+  titleColor: [standard: "#4F4F95" highlighted: "#4F4F95" disabled: "#4F4F95"]
+
+SecondaryOutlineButton extends ButtonVNext:
+  titleFont: "Font(PreferredSystem, footnote)"
+  hasBorders: true
+  borderWidth: 1dp
+  contentInsets: Insets(12dp,14dp,12dp,14dp)
+  cornerRadius: 0dp
+  borderColor: [standard: "#4F4F95" highlighted: "#4F4F95" disabled: "#4F4F95"]
+  backgroundColor: [standard: "#4F4F95" highlighted: "#4F4F95" disabled: "#4F4F95"]
+  titleColor: [standard: "#4F4F95" highlighted: "#4F4F95" disabled: "#4F4F95"]
+
+TertiaryOutlineButton extends ButtonVNext:
+  titleFont: "Font(PreferredSystem, footnote)"
+  hasBorders: true
+  borderWidth: 1dp
+  contentInsets: Insets(7dp,9dp,7dp,9dp)
+  cornerRadius: 0dp
+  borderColor: [standard: "#4F4F95" highlighted: "#4F4F95" disabled: "#4F4F95"]
+  backgroundColor: [standard: "#4F4F95" highlighted: "#4F4F95" disabled: "#4F4F95"]
+  titleColor: [standard: "#4F4F95" highlighted: "#4F4F95" disabled: "#4F4F95"]
+
+BorderlessButton extends ButtonVNext:
+  titleFont: "Font(PreferredSystem, subheadline)"
+  hasBorders: false
+  borderWidth: 0dp
+  contentInsets: Insets(7dp,12dp,7dp,12dp)
+  cornerRadius: 0dp
+  borderColor: [standard: "#4F4F95" highlighted: "#4F4F95" disabled: "#4F4F95"]
+  backgroundColor: [standard: "#4F4F95" highlighted: "#4F4F95" disabled: "#4F4F95"]
+  titleColor: [standard: "#4F4F95" highlighted: "#4F4F95" disabled: "#4F4F95"]
