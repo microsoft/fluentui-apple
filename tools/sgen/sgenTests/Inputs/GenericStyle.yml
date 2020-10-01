@@ -1,0 +1,10 @@
+import: [GenericStyleIcon.yml]
+
+Color:
+  test: "#ffffff"
+
+AP_EmptyListView:
+  color: [normal: $Color.test]
+
+InnerEmptyListView extends EmptyListView:
+  color: [normal: "#cccccc"]

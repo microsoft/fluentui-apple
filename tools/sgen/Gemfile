@@ -1,0 +1,16 @@
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
+
+# The bare minimum for building, e.g. in Homebrew
+group :build do
+	gem 'rake', '~> 12.3'
+	gem 'xcpretty'
+end
+
+# For releasing to GitHub
+group :release do
+	gem 'cocoapods'
+	gem 'octokit', '~> 4.13'
+	gem 'plist', '~> 3.5'
+end

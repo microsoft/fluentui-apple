@@ -1,0 +1,6 @@
+framework module XcodeProjCExt {
+  umbrella header "XcodeProjCExt-umbrella.h"
+
+  export *
+  module * { export * }
+}
