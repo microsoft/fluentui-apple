@@ -45,8 +45,8 @@
 		B9450C42DB92C964C77483FF /* Pods_FluentUI_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC7D5AF5DAF7393E14BF5B28 /* Pods_FluentUI_Demo.framework */; };
 		C038992E2359307D00265026 /* TableViewCellShimmerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C038992D2359307D00265026 /* TableViewCellShimmerDemoController.swift */; };
 		C0938E4A235F733100256251 /* ShimmerLinesViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0938E49235F733100256251 /* ShimmerLinesViewDemoController.swift */; };
-		D0F59E3324F4E3A700358DC2 /* PassThroughDrawerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F59E3224F4E3A700358DC2 /* PassThroughDrawerDemoController.swift */; };
 		CCC18C2F2501C75F00BE830E /* CardViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */; };
+		D0F59E3324F4E3A700358DC2 /* PassThroughDrawerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F59E3224F4E3A700358DC2 /* PassThroughDrawerDemoController.swift */; };
 		E6842974247B672000A29C40 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842973247B672000A29C40 /* SceneDelegate.swift */; };
 		E6842996247C350700A29C40 /* DemoColorThemeWindows.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842995247C350700A29C40 /* DemoColorThemeWindows.swift */; };
 		FD41C8F422E28EEB0086F899 /* NavigationControllerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C8F322E28EEB0086F899 /* NavigationControllerDemoController.swift */; };
@@ -111,8 +111,8 @@
 		B4EF66552295F729007FEAB0 /* TableViewHeaderFooterSampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewHeaderFooterSampleData.swift; sourceTree = "<group>"; };
 		C038992D2359307D00265026 /* TableViewCellShimmerDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellShimmerDemoController.swift; sourceTree = "<group>"; };
 		C0938E49235F733100256251 /* ShimmerLinesViewDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShimmerLinesViewDemoController.swift; sourceTree = "<group>"; };
-		D0F59E3224F4E3A700358DC2 /* PassThroughDrawerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassThroughDrawerDemoController.swift; sourceTree = "<group>"; };
 		CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewDemoController.swift; sourceTree = "<group>"; };
+		D0F59E3224F4E3A700358DC2 /* PassThroughDrawerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassThroughDrawerDemoController.swift; sourceTree = "<group>"; };
 		E6842973247B672000A29C40 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E6842995247C350700A29C40 /* DemoColorThemeWindows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoColorThemeWindows.swift; sourceTree = "<group>"; };
 		E6D2996ECAAD9A81A6338783 /* Pods-FluentUI.Demo.dogfood.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluentUI.Demo.dogfood.xcconfig"; path = "Target Support Files/Pods-FluentUI.Demo/Pods-FluentUI.Demo.dogfood.xcconfig"; sourceTree = "<group>"; };
@@ -278,7 +278,7 @@
 				497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */,
 				A5961FA8218A61BB00E2A506 /* PopupMenuDemoController.swift */,
 				FDCF7C8221BF35680058E9E6 /* SegmentedControlDemoController.swift */,
-				C0938E49235F733100256251 /* ShimmerViewDemoController.swift */,
+				C0938E49235F733100256251 /* ShimmerLinesViewDemoController.swift */,
 				11047D2522932DB1001F0F59 /* TabBarViewDemoController.swift */,
 				7DC2FB2A24C0F4FD00367A55 /* TableViewCellFileAccessoryViewDemoController.swift */,
 				B498141521E42C140077B48D /* TableViewCellDemoController.swift */,
@@ -490,7 +490,7 @@
 				A5CEC21220E436F10016922A /* DemoListViewController.swift in Sources */,
 				B498141621E42C140077B48D /* TableViewCellDemoController.swift in Sources */,
 				FDCF7C8321BF35680058E9E6 /* SegmentedControlDemoController.swift in Sources */,
-				C0938E4A235F733100256251 /* ShimmerViewDemoController.swift in Sources */,
+				C0938E4A235F733100256251 /* ShimmerLinesViewDemoController.swift in Sources */,
 				C038992E2359307D00265026 /* TableViewCellShimmerDemoController.swift in Sources */,
 				114CF8B82423E10900D064AA /* ColorDemoController.swift in Sources */,
 				A589F856211BA71000471C23 /* LabelDemoController.swift in Sources */,
@@ -597,6 +597,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -681,6 +682,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -743,6 +745,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
