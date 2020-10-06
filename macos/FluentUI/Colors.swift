@@ -268,30 +268,6 @@ public final class Colors: NSObject {
 	@objc public static let error: NSColor = Palette.dangerPrimary.color
 	@objc public static let warning: NSColor = Palette.warningPrimary.color
 	
-	@objc public static var avatarBackgroundColors: [NSColor] = [
-		Palette.cyanBlue10.color,
-		Palette.red10.color,
-		Palette.magenta20.color,
-		Palette.green10.color,
-		Palette.magentaPink10.color,
-		Palette.cyanBlue20.color,
-		Palette.orange20.color,
-		Palette.cyan20.color,
-		Palette.orangeYellow20.color,
-		Palette.red20.color,
-		Palette.blue10.color,
-		Palette.magenta10.color,
-		Palette.gray40.color,
-		Palette.green20.color,
-		Palette.blueMagenta20.color,
-		Palette.pinkRed10.color,
-		Palette.gray30.color,
-		Palette.blueMagenta30.color,
-		Palette.gray20.color,
-		Palette.cyan30.color,
-		Palette.orange30.color
-	]
-	
 	/// Used for hyperlinks
 	@objc public static let communicationBlue: NSColor = Palette.communicationBlue.color
 	

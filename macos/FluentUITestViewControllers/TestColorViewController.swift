@@ -6,6 +6,11 @@
 import AppKit
 import FluentUI
 
+fileprivate struct Constants {
+	static let colorRowSpacing: CGFloat = 10.0
+	private init() {}
+}
+
 class TestColorViewController: NSViewController {
 	override func loadView() {
 		let containerView = NSView()
@@ -40,11 +45,11 @@ class TestColorViewController: NSViewController {
 		NSLayoutConstraint.activate([
 			containerView.heightAnchor.constraint(equalTo:scrollView.heightAnchor),
 			containerView.widthAnchor.constraint(equalTo:scrollView.widthAnchor),
-
-			colorsStackView.topAnchor.constraint(equalTo: documentView.topAnchor, constant: 10.0),
-			colorsStackView.leadingAnchor.constraint(equalTo: documentView.leadingAnchor, constant: 10.0),
+			
+			colorsStackView.topAnchor.constraint(equalTo: documentView.topAnchor, constant: Constants.colorRowSpacing),
+			colorsStackView.leadingAnchor.constraint(equalTo: documentView.leadingAnchor, constant: Constants.colorRowSpacing),
 			colorsStackView.trailingAnchor.constraint(equalTo: documentView.trailingAnchor),
-			colorsStackView.bottomAnchor.constraint(equalTo: documentView.bottomAnchor, constant: -10.0)
+			colorsStackView.bottomAnchor.constraint(equalTo: documentView.bottomAnchor, constant: -Constants.colorRowSpacing)
 		])
 		
 		view = containerView
