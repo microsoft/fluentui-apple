@@ -26,7 +26,6 @@ class TestColorViewController: NSViewController {
 		
 		for color in Colors.Palette.allCases {
 			let colorView = ColorRectView(color: color.color)
-			colorView.invalidateIntrinsicContentSize()
 			let textView = NSTextField(labelWithString: color.name)
 			textView.font = .systemFont(ofSize: 18)
 			let rowStackView = NSStackView()
@@ -58,10 +57,7 @@ class TestColorViewController: NSViewController {
 
 class ColorRectView: NSView {
 	
-	var color: NSColor = {
-		let color = NSColor()
-		return color
-	}()
+	var color = NSColor()
 	
 	init(color: NSColor) {
 		super.init(frame: .zero)
