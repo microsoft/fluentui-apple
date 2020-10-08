@@ -560,7 +560,7 @@ extension RhsValue: Generatable {
         let colorClass = "UIColor"
         return
             "\(prefix)\(colorClass)"
-                + "(named: \"FluentColors/\(namedColor.colorName ?? "")\", in: FluentUIFramework.resourceBundle, compatibleWith: nil)"
+                + "(named: \"FluentColors/\(namedColor.colorName ?? "")\", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!"
     }
     
     func generateColor(_ prefix: String, color: Rhs.Color) -> String {
