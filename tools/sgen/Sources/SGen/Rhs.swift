@@ -19,6 +19,14 @@ struct Rhs {
         case missingHashMarkAsPrefix, unableToScanHexValue, mismatchedHexStringLength
     }
     
+    class NamedColor {
+        let colorName: String?
+        
+        init(name: String? = nil) {
+            self.colorName = name
+        }
+    }
+    
     class Color {
         
         let red: Float

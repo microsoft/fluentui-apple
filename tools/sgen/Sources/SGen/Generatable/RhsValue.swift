@@ -41,6 +41,9 @@ enum RhsValue {
     /// A font value.
     case font(font: Rhs.Font)
     
+    /// A named color in an asset catalog.
+    case namedColor(namedColor: Rhs.NamedColor)
+    
     /// A color value.
     case color(color: Rhs.Color)
     
@@ -219,6 +222,10 @@ enum RhsValue {
                     return .font(font: Rhs.Font(name: name, textStyle: textStyle, weightAndTraits: components))
                 }
             }
+        } else if let components = argumentsFromString("namedColor", string: string) {
+            assert(components.count == 1, "Not a valid named color. Format: NamedColor(\"AssetCatalogColorName\")")
+            return .namedColor(namedColor: Rhs.NamedColor(name: (components[0])))
+            
         } else if let components = argumentsFromString("color", string: string) {
             assert(components.count == 1, "Not a valid color. Format: \"#rrggbb\" or \"#rrggbbaa\"")
             return .color(color: Rhs.Color(rgba: "#\(components[0])"))
@@ -383,6 +390,7 @@ enum RhsValue {
         case .float(_): return "CGFloat"
         case .boolean(_): return "Bool"
         case .font(font: let font): return font.isSymbolFont ? "String" : "UIFont"
+        case .namedColor(_): return "UIColor"
         case .color(_): return "UIColor"
         case .image(_): return "UIImage"
         case .enumDef(let type, _): return type
@@ -436,6 +444,9 @@ extension RhsValue: Generatable {
             
         case .font(let font):
             return generateFont(prefix, font: font)
+            
+        case .namedColor(let namedColor):
+            return generateNamedColor(prefix, namedColor: namedColor)
             
         case .color(let color):
             return generateColor(prefix, color: color)
@@ -543,6 +554,13 @@ extension RhsValue: Generatable {
             
             return "\(prefix)\(fontClass).font(name: \(fontName), size: \(fontSize), textStyle: \(textStyle), weight: \(fontWeight), traits: \(fontTraits), traitCollection: traitCollection, isScalable: \(isScalable))"
         }
+    }
+    
+    func generateNamedColor(_ prefix: String, namedColor: Rhs.NamedColor) -> String {
+        let colorClass = "UIColor"
+        return
+            "\(prefix)\(colorClass)"
+                + "(named: \"FluentColors/\(namedColor.colorName ?? "")\", in: FluentUIFramework.resourceBundle, compatibleWith: nil)"
     }
     
     func generateColor(_ prefix: String, color: Rhs.Color) -> String {
