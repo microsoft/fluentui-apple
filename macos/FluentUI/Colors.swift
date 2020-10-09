@@ -247,33 +247,6 @@ public final class Colors: NSObject {
 			}
 		}
 	}
-	
-	// MARK: Physical - grays
-	
-	@objc public static let gray950: NSColor = Palette.gray950.color
-	@objc public static let gray900: NSColor = Palette.gray900.color
-	@objc public static let gray800: NSColor = Palette.gray800.color
-	@objc public static let gray700: NSColor = Palette.gray700.color
-	@objc public static let gray600: NSColor = Palette.gray600.color
-	@objc public static let gray500: NSColor = Palette.gray500.color
-	@objc public static let gray400: NSColor = Palette.gray400.color
-	@objc public static let gray300: NSColor = Palette.gray300.color
-	@objc public static let gray200: NSColor = Palette.gray200.color
-	@objc public static let gray100: NSColor = Palette.gray100.color
-	@objc public static let gray50: NSColor = Palette.gray50.color
-	@objc public static let gray25: NSColor = Palette.gray25.color
-	
-	// MARK: Physical - Non-grays
-	
-	@objc public static let error: NSColor = Palette.dangerPrimary.color
-	@objc public static let warning: NSColor = Palette.warningPrimary.color
-	
-	/// Used for hyperlinks
-	@objc public static let communicationBlue: NSColor = Palette.communicationBlue.color
-	
-	@objc public static func color(from palette: Palette) -> NSColor {
-		return palette.color
-	}
 }
 
 /// Make palette enum CaseIterable for unit testing purposes
