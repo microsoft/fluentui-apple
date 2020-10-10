@@ -375,13 +375,13 @@
 			children = (
 				8F250B8A22B3045100142B0E /* AvatarView.swift */,
 				AC97EFE1247541C700DADC99 /* Button.swift */,
+				A257F81F2512DF3A002CAA6E /* Colors.swift */,
 				804626C722D7909200AFA48C /* DatePicker */,
 				AC68D3182474863A000DACD1 /* Link.swift */,
 				AC97EFE6247FA17000DADC99 /* Separator.swift */,
 				E61C96B62295E8D60006561F /* FluentUI-Info.plist */,
 				E61C96B52295E8D60006561F /* FluentUI.h */,
 				8F41CC672447B5580040B851 /* FluentUIResources.swift */,
-				A257F81F2512DF3A002CAA6E /* Colors.swift */,
 			);
 			name = FluentUI;
 			path = ../FluentUI;
@@ -420,11 +420,11 @@
 			children = (
 				8F250B8C22B3062A00142B0E /* TestAvatarViewController.swift */,
 				AC97EFE3247541E100DADC99 /* TestButtonViewController.swift */,
+				A257F81C2512DDF7002CAA6E /* TestColorViewController.swift */,
 				8061BF8222EF957200F2D245 /* TestDatePickerController.swift */,
 				E61C96D622987B3C0006561F /* TestLinkViewController.swift */,
 				AC97EFE8247FAB1D00DADC99 /* TestSeparatorViewController.swift */,
 				E6A92D4E24BEAEEA00562BCA /* TestViewControllers.swift */,
-				A257F81C2512DDF7002CAA6E /* TestColorViewController.swift */,
 			);
 			name = FluentUITestViewControllers;
 			path = ../FluentUITestViewControllers;

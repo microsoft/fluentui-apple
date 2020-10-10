@@ -32,21 +32,21 @@ public final class Colors: NSObject {
 		case magenta20
 		case magenta10
 		case magentaPink10
+		case gray950
+		case gray900
+		case gray800
+		case gray700
+		case gray600
+		case gray500
+		case gray400
+		case gray300
+		case gray200
+		case gray100
+		case gray50
 		case gray40
 		case gray30
-		case gray20
 		case gray25
-		case gray50
-		case gray100
-		case gray200
-		case gray300
-		case gray400
-		case gray500
-		case gray600
-		case gray700
-		case gray800
-		case gray900
-		case gray950
+		case gray20
 		case communicationBlue
 		case communicationBlueTint40
 		case communicationBlueTint30
@@ -134,36 +134,36 @@ public final class Colors: NSObject {
 				return "magenta10"
 			case .magentaPink10:
 				return "magentaPink10"
+			case .gray950:
+				return "gray950"
+			case .gray900:
+				return "gray900"
+			case .gray800:
+				return "gray800"
+			case .gray700:
+				return "gray700"
+			case .gray600:
+				return "gray600"
+			case .gray500:
+				return "gray500"
+			case .gray400:
+				return "gray400"
+			case .gray300:
+				return "gray300"
+			case .gray200:
+				return "gray200"
+			case .gray100:
+				return "gray100"
+			case .gray50:
+				return "gray50"
 			case .gray40:
 				return "gray40"
 			case .gray30:
 				return "gray30"
-			case .gray20:
-				return "gray20"
 			case .gray25:
 				return "gray25"
-			case .gray50:
-				return "gray50"
-			case .gray100:
-				return "gray100"
-			case .gray200:
-				return "gray200"
-			case .gray300:
-				return "gray300"
-			case .gray400:
-				return "gray400"
-			case .gray500:
-				return "gray500"
-			case .gray600:
-				return "gray600"
-			case .gray700:
-				return "gray700"
-			case .gray800:
-				return "gray800"
-			case .gray900:
-				return "gray900"
-			case .gray950:
-				return "gray950"
+			case .gray20:
+				return "gray20"
 			case .communicationBlue:
 				return "communicationBlue"
 			case .communicationBlueTint40:

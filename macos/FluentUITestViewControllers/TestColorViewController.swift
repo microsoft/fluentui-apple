@@ -6,11 +6,6 @@
 import AppKit
 import FluentUI
 
-fileprivate struct Constants {
-	static let colorRowSpacing: CGFloat = 10.0
-	private init() {}
-}
-
 class TestColorViewController: NSViewController {
 	override func loadView() {
 		let containerView = NSView()
@@ -45,10 +40,10 @@ class TestColorViewController: NSViewController {
 			containerView.heightAnchor.constraint(equalTo:scrollView.heightAnchor),
 			containerView.widthAnchor.constraint(equalTo:scrollView.widthAnchor),
 			
-			colorsStackView.topAnchor.constraint(equalTo: documentView.topAnchor, constant: Constants.colorRowSpacing),
-			colorsStackView.leadingAnchor.constraint(equalTo: documentView.leadingAnchor, constant: Constants.colorRowSpacing),
+			colorsStackView.topAnchor.constraint(equalTo: documentView.topAnchor, constant: colorRowSpacing),
+			colorsStackView.leadingAnchor.constraint(equalTo: documentView.leadingAnchor, constant: colorRowSpacing),
 			colorsStackView.trailingAnchor.constraint(equalTo: documentView.trailingAnchor),
-			colorsStackView.bottomAnchor.constraint(equalTo: documentView.bottomAnchor, constant: -Constants.colorRowSpacing)
+			colorsStackView.bottomAnchor.constraint(equalTo: documentView.bottomAnchor, constant: -colorRowSpacing)
 		])
 		
 		view = containerView
@@ -57,11 +52,11 @@ class TestColorViewController: NSViewController {
 
 class ColorRectView: NSView {
 	
-	var color = NSColor()
+	let color: NSColor
 	
 	init(color: NSColor) {
-		super.init(frame: .zero)
 		self.color = color
+		super.init(frame: .zero)
 	}
 	override var intrinsicContentSize: CGSize {
 		return CGSize(width: 40, height: 40)
@@ -73,8 +68,9 @@ class ColorRectView: NSView {
 	}
 	
 	override func draw(_ dirtyRect: NSRect) {
-		super.draw(dirtyRect)
 		color.setFill()
 		bounds.fill()
 	}
 }
+
+fileprivate let colorRowSpacing: CGFloat = 10.0

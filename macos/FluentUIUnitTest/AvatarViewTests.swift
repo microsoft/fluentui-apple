@@ -122,8 +122,6 @@ class AvatarViewTests: XCTestCase {
 		XCTAssertEqual(AvatarView.backgroundColor(for: 3), Colors.Palette.green10.color)
 		XCTAssertEqual(AvatarView.backgroundColor(for: 6), Colors.Palette.orange20.color)
 		XCTAssertEqual(AvatarView.backgroundColor(for: 20), Colors.Palette.orange30.color)
-
-
 	}
 
 	func testHashAlgorithm () {
