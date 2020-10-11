@@ -22,8 +22,9 @@ class TableViewSampleData {
         let footerLinkText: String
         let hasCustomLinkHandler: Bool
         let hasCustomAccessoryView: Bool
+        let isExpandable: Bool
 
-        init(title: String, items: [Item] = [], numberOfLines: Int = 1, hasFullLengthLabelAccessoryView: Bool = false, hasAccessory: Bool = false, accessoryButtonStyle: TableViewHeaderFooterView.AccessoryButtonStyle = .regular, allowsMultipleSelection: Bool = true, headerStyle: TableViewHeaderFooterView.Style = .header, hasFooter: Bool = false, footerText: String = "", footerLinkText: String = "", hasCustomLinkHandler: Bool = false, hasCustomAccessoryView: Bool = false) {
+        init(title: String, items: [Item] = [], numberOfLines: Int = 1, hasFullLengthLabelAccessoryView: Bool = false, hasAccessory: Bool = false, accessoryButtonStyle: TableViewHeaderFooterView.AccessoryButtonStyle = .regular, allowsMultipleSelection: Bool = true, headerStyle: TableViewHeaderFooterView.Style = .header, hasFooter: Bool = false, footerText: String = "", footerLinkText: String = "", hasCustomLinkHandler: Bool = false, hasCustomAccessoryView: Bool = false, isExpandable: Bool = false) {
             self.title = title
             self.items = items
             self.numberOfLines = numberOfLines
@@ -37,6 +38,8 @@ class TableViewSampleData {
             self.footerLinkText = footerLinkText
             self.hasCustomLinkHandler = hasCustomLinkHandler
             self.hasCustomAccessoryView = hasCustomAccessoryView
+            self.isExpandable = isExpandable
+            
         }
     }
 

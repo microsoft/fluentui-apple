@@ -54,10 +54,11 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         case divider
         case dividerHighlighted
         case footer
+        case section //sopleTODO: rename header->secondaryHeader and new section to primaryHeader
 
         func backgroundColor(for window: UIWindow) -> UIColor {
             switch self {
-            case .header, .footer:
+            case .header, .footer, .section:
                 return Colors.Table.HeaderFooter.background
             case .divider:
                 return Colors.Table.HeaderFooter.backgroundDivider
@@ -74,6 +75,8 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
                 return Colors.Table.HeaderFooter.textDivider
             case .dividerHighlighted:
                 return Colors.primary(for: window)
+            case .section:
+                return Colors.textPrimary
             }
         }
     }
@@ -84,7 +87,8 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         static let titleDefaultTopMargin: CGFloat = 24
         static let titleDefaultBottomMargin: CGFloat = 8
         static let titleDividerVerticalMargin: CGFloat = 3
-        static let titleTextStyle: TextStyle = .footnote
+        static let primaryTitleTextStyle: TextStyle = .body
+        static let titleTextStyle: TextStyle = .footnote //titleTextStyle needs to change for the primary/.section title
 
         static let accessoryViewBottomMargin: CGFloat = 2
         static let accessoryViewMarginLeft: CGFloat = 8
@@ -92,7 +96,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     }
 
     @objc public static var identifier: String { return String(describing: self) }
-
+    
     /// The height of the view based on the height of its content.
     ///
     /// - Parameters:
@@ -107,7 +111,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
 
         let verticalMargin: CGFloat
         switch style {
-        case .header, .footer:
+        case .header, .footer, .section:
             verticalMargin = Constants.titleDefaultTopMargin + Constants.titleDefaultBottomMargin
         case .divider, .dividerHighlighted:
             verticalMargin = Constants.titleDividerVerticalMargin * 2
@@ -206,7 +210,13 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     }
 
     private let titleView = TableViewHeaderFooterTitleView()
-
+    
+    private let chevronIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage.staticImageNamed("iOS-chevron-right-20x20")
+        return imageView
+    }()
+    
     private var accessoryView: UIView? = nil {
         didSet {
             oldValue?.removeFromSuperview()
@@ -242,6 +252,11 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
+    
+    @objc open func setup(style: Style, title: String, isExpandable: Bool) {
+        //tap gesture
+        //add chevron
+    }
 
     @objc open func setup(style: Style, title: String, accessoryButtonTitle: String = "") {
         titleView.attributedText = NSAttributedString(string: " ") // to clear attributes
@@ -269,7 +284,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     private func setup(style: Style, accessoryButtonTitle: String) {
         updateTitleViewFont()
         switch style {
-        case .header, .divider, .dividerHighlighted:
+        case .header, .divider, .dividerHighlighted, .section:
             titleView.accessibilityTraits.insert(.header)
         case .footer:
             titleView.accessibilityTraits.remove(.header)
@@ -294,8 +309,8 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         let titleHeight: CGFloat
         let titleYOffset: CGFloat
         switch style {
-        case .header, .footer:
-            titleYOffset = style == .header ? Constants.titleDefaultTopMargin : Constants.titleDefaultBottomMargin
+        case .header, .footer, .section:
+            titleYOffset = style == .footer ? Constants.titleDefaultBottomMargin : Constants.titleDefaultTopMargin
             titleHeight = contentView.frame.height - Constants.titleDefaultTopMargin - Constants.titleDefaultBottomMargin
         case .divider, .dividerHighlighted:
             titleYOffset = Constants.titleDividerVerticalMargin
