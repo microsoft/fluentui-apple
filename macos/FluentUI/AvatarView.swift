@@ -443,20 +443,27 @@ fileprivate extension NSColor {
 
 	/// the table of background colors for the initials views
 	static let avatarBackgroundColors: [NSColor] = [
-		#colorLiteral(red: 0.6, green: 0.71, blue: 0.2, alpha: 1),
-		#colorLiteral(red: 0.42, green: 0.65, blue: 0.91, alpha: 1),
-		#colorLiteral(red: 0.91, green: 0.45, blue: 0.74, alpha: 1),
-		#colorLiteral(red: 0.0, green: 0.64, blue: 0.0, alpha: 1),
-		#colorLiteral(red: 0.12, green: 0.44, blue: 0.27, alpha: 1),
-		#colorLiteral(red: 1.0, green: 0.0, blue: 0.59, alpha: 1),
-		#colorLiteral(red: 0.49, green: 0.22, blue: 0.47, alpha: 1),
-		#colorLiteral(red: 0.38, green: 0.24, blue: 0.73, alpha: 1),
-		#colorLiteral(red: 0.0, green: 0.67, blue: 0.66, alpha: 1),
-		#colorLiteral(red: 0.18, green: 0.54, blue: 0.94, alpha: 1),
-		#colorLiteral(red: 0.17, green: 0.34, blue: 0.59, alpha: 1),
-		#colorLiteral(red: 0.85, green: 0.32, blue: 0.17, alpha: 1),
-		#colorLiteral(red: 0.72, green: 0.11, blue: 0.28, alpha: 1),
-		#colorLiteral(red: 0.93, green: 0.07, blue: 0.07, alpha: 1),
+		Colors.Palette.cyanBlue10.color,
+		Colors.Palette.red10.color,
+		Colors.Palette.magenta20.color,
+		Colors.Palette.green10.color,
+		Colors.Palette.magentaPink10.color,
+		Colors.Palette.cyanBlue20.color,
+		Colors.Palette.orange20.color,
+		Colors.Palette.cyan20.color,
+		Colors.Palette.orangeYellow20.color,
+		Colors.Palette.red20.color,
+		Colors.Palette.blue10.color,
+		Colors.Palette.magenta10.color,
+		Colors.Palette.gray40.color,
+		Colors.Palette.green20.color,
+		Colors.Palette.blueMagenta20.color,
+		Colors.Palette.pinkRed10.color,
+		Colors.Palette.gray30.color,
+		Colors.Palette.blueMagenta30.color,
+		Colors.Palette.gray20.color,
+		Colors.Palette.cyan30.color,
+		Colors.Palette.orange30.color
 	]
 }
 

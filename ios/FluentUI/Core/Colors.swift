@@ -60,18 +60,18 @@ public final class Colors: NSObject {
         case gray40
         case gray30
         case gray20
-        case gray12
-        case gray11
-        case gray10
-        case gray9
-        case gray8
-        case gray7
-        case gray6
-        case gray5
-        case gray4
-        case gray3
-        case gray2
-        case gray1
+        case gray25
+        case gray50
+        case gray100
+        case gray200
+        case gray300
+        case gray400
+        case gray500
+        case gray600
+        case gray700
+        case gray800
+        case gray900
+        case gray950
         case communicationBlue
         case communicationBlueTint40
         case communicationBlueTint30
@@ -165,30 +165,30 @@ public final class Colors: NSObject {
                 return "gray30"
             case .gray20:
                 return "gray20"
-            case .gray12:
-                return "gray12"
-            case .gray11:
-                return "gray11"
-            case .gray10:
-                return "gray10"
-            case .gray9:
-                return "gray9"
-            case .gray8:
-                return "gray8"
-            case .gray7:
-                return "gray7"
-            case .gray6:
-                return "gray6"
-            case .gray5:
-                return "gray5"
-            case .gray4:
-                return "gray4"
-            case .gray3:
-                return "gray3"
-            case .gray2:
-                return "gray2"
-            case .gray1:
-                return "gray1"
+            case .gray25:
+                return "gray25"
+            case .gray50:
+                return "gray50"
+            case .gray100:
+                return "gray100"
+            case .gray200:
+                return "gray200"
+            case .gray300:
+                return "gray300"
+            case .gray400:
+                return "gray400"
+            case .gray500:
+                return "gray500"
+            case .gray600:
+                return "gray600"
+            case .gray700:
+                return "gray700"
+            case .gray800:
+                return "gray800"
+            case .gray900:
+                return "gray900"
+            case .gray950:
+                return "gray950"
             case .communicationBlue:
                 return "communicationBlue"
             case .communicationBlueTint40:
@@ -345,18 +345,18 @@ public final class Colors: NSObject {
 
     // MARK: Physical - grays
 
-    @objc public static let gray950: UIColor = Palette.gray1.color
-    @objc public static let gray900: UIColor = Palette.gray2.color
-    @objc public static let gray800: UIColor = Palette.gray3.color
-    @objc public static let gray700: UIColor = Palette.gray4.color
-    @objc public static let gray600: UIColor = Palette.gray5.color
-    @objc public static let gray500: UIColor = Palette.gray6.color
-    @objc public static let gray400: UIColor = Palette.gray7.color
-    @objc public static let gray300: UIColor = Palette.gray8.color
-    @objc public static let gray200: UIColor = Palette.gray9.color
-    @objc public static let gray100: UIColor = Palette.gray10.color
-    @objc public static let gray50: UIColor = Palette.gray11.color
-    @objc public static let gray25: UIColor = Palette.gray12.color
+    @objc public static let gray950: UIColor = Palette.gray950.color
+    @objc public static let gray900: UIColor = Palette.gray900.color
+    @objc public static let gray800: UIColor = Palette.gray800.color
+    @objc public static let gray700: UIColor = Palette.gray700.color
+    @objc public static let gray600: UIColor = Palette.gray600.color
+    @objc public static let gray500: UIColor = Palette.gray500.color
+    @objc public static let gray400: UIColor = Palette.gray400.color
+    @objc public static let gray300: UIColor = Palette.gray300.color
+    @objc public static let gray200: UIColor = Palette.gray200.color
+    @objc public static let gray100: UIColor = Palette.gray100.color
+    @objc public static let gray50: UIColor = Palette.gray50.color
+    @objc public static let gray25: UIColor = Palette.gray25.color
 
     // MARK: Physical - Non-grays
 
