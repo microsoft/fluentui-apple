@@ -2,6 +2,7 @@ import: [GenericStyleIcon.yml]
 
 Color:
   test: "#ffffff"
+  namedColorTest: NamedColor(colorFromAssetCatalog)
 
 AP_EmptyListView:
   color: [normal: $Color.test]
