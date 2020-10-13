@@ -29,7 +29,7 @@ extension Property: Determinism {
 
 extension Property: Generatable {
     
-    func generate(_ isNested: Bool = false) -> String {
+    func generate(_ isNested: Bool = false, includePrefix: Bool = true) -> String {
         var generated = ""
         if let style = self.style {
             generated = style.generate(true)

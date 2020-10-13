@@ -11,7 +11,7 @@ import Foundation
 extension Condition: Generatable {
     
     /// Generates the code for this right hand side value.
-    func generate(_ nested: Bool = false) -> String {
+    func generate(_ nested: Bool = false, includePrefix: Bool = true) -> String {
         var expressions = [String]()
         for expression in self.expressions {
             

@@ -2,7 +2,15 @@ import: [GenericStyleIcon.yml]
 
 Color:
   test: "#ffffff"
-  namedColorTest: NamedColor(colorFromAssetCatalog)
+  namedColorTest: "NamedColor(colorFromAssetCatalog)"
+  fluentUIColorTest: "FluentUIColor(light: NamedColor(communicationBlue),
+                                    lightHighContrast: #000000,
+                                    lightElevated: $Color.test,
+                                    lightElevatedHighContrast: $Color.test,
+                                    dark: NamedColor(communicationBlue),
+                                    darkHighContrast: #FFFFFF,
+                                    darkElevated: $Colors.namedColorTest,
+                                    darkElevatedHighContrast: $Colors.namedColorTest)"
 
 AP_EmptyListView:
   color: [normal: $Color.test]

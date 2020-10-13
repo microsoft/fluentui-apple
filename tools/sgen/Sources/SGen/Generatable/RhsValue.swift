@@ -41,6 +41,9 @@ enum RhsValue {
     /// A font value.
     case font(font: Rhs.Font)
     
+    /// A FluentUI standard color.
+    case fluentUIColor(fluentUIColor: Rhs.FluentUIColor)
+    
     /// A named color in an asset catalog.
     case namedColor(namedColor: Rhs.NamedColor)
     
@@ -222,8 +225,54 @@ enum RhsValue {
                     return .font(font: Rhs.Font(name: name, textStyle: textStyle, weightAndTraits: components))
                 }
             }
+        } else if let components = argumentsFromString("fluentUIColor", string: string) {
+            assert(components.count >= 1 && components.count <= 8, "Not a valid FluentUI color. Format: FluentUIColor(light: NamedColor(communicationBlue), lightHighContrast: #000000, lightElevated: $Colors.Palette.sample, lightElevatedHighContrast: $Colors.Palette.sampleHC, dark: NamedColor(communicationBlue), darkHighContrast: #FFFFFF, darkElevated: $Colors.Palette.sampleDark, darkElevatedHighContrast: $Colors.Palette.sampleDarkHC)")
+            
+            var light: RhsValue?
+            var lightHighContrast: RhsValue?
+            var lightElevated: RhsValue?
+            var lightElevatedHighContrast: RhsValue?
+            var dark: RhsValue?
+            var darkHighContrast: RhsValue?
+            var darkElevated: RhsValue?
+            var darkElevatedHighContrast: RhsValue?
+            
+            for component in components {
+                let parameter = component.trimmingCharacters(in: .whitespacesAndNewlines)
+                if parameter.hasPrefix("\(Rhs.FluentUIColor.Props.lightKey):") {
+                    light = try? valueFrom(escape(Rhs.FluentUIColor.Props.lightKey, string: parameter))
+                } else if parameter.hasPrefix("\(Rhs.FluentUIColor.Props.lightHighContrastKey):") {
+                    lightHighContrast = try? valueFrom(escape(Rhs.FluentUIColor.Props.lightHighContrastKey, string: parameter))
+                } else if parameter.hasPrefix("\(Rhs.FluentUIColor.Props.lightElevatedKey):") {
+                    lightElevated = try? valueFrom(escape(Rhs.FluentUIColor.Props.lightElevatedKey, string: parameter))
+                } else if parameter.hasPrefix("\(Rhs.FluentUIColor.Props.lightElevatedHighContrastKey):") {
+                    lightElevatedHighContrast = try? valueFrom(escape(Rhs.FluentUIColor.Props.lightElevatedHighContrastKey, string: parameter))
+                } else if parameter.hasPrefix("\(Rhs.FluentUIColor.Props.darkKey):") {
+                    dark = try? valueFrom(escape(Rhs.FluentUIColor.Props.darkKey, string: parameter))
+                } else if parameter.hasPrefix("\(Rhs.FluentUIColor.Props.darkHighContrastKey):") {
+                    darkHighContrast = try? valueFrom(escape(Rhs.FluentUIColor.Props.darkHighContrastKey, string: parameter))
+                } else if parameter.hasPrefix("\(Rhs.FluentUIColor.Props.darkElevatedKey):") {
+                    darkElevated = try? valueFrom(escape(Rhs.FluentUIColor.Props.darkElevatedKey, string: parameter))
+                } else if parameter.hasPrefix("\(Rhs.FluentUIColor.Props.darkElevatedHighContrastKey):") {
+                    darkElevatedHighContrast = try? valueFrom(escape(Rhs.FluentUIColor.Props.darkElevatedHighContrastKey, string: parameter))
+                } else {
+                    fatalError("Invalid FluentUIColor parameter: \(parameter)")
+                }
+            }
+            
+            assert(light != nil, "Light is a required parameter. Format: FluentUIColor(light: #EE4488)")
+            
+            return .fluentUIColor(fluentUIColor: Rhs.FluentUIColor(light: light!,
+                                                                   lightHighContrast:lightHighContrast,
+                                                                   lightElevated: lightElevated,
+                                                                   lightElevatedHighContrast: lightElevatedHighContrast,
+                                                                   dark: dark,
+                                                                   darkHighContrast: darkHighContrast,
+                                                                   darkElevated: darkElevated,
+                                                                   darkElevatedHighContrast: darkElevatedHighContrast))
+            
         } else if let components = argumentsFromString("namedColor", string: string) {
-            assert(components.count == 1, "Not a valid named color. Format: NamedColor(\"AssetCatalogColorName\")")
+            assert(components.count == 1, "Not a valid named color. Format: NamedColor(AssetCatalogColorName)")
             return .namedColor(namedColor: Rhs.NamedColor(name: (components[0])))
             
         } else if let components = argumentsFromString("color", string: string) {
@@ -390,6 +439,7 @@ enum RhsValue {
         case .float(_): return "CGFloat"
         case .boolean(_): return "Bool"
         case .font(font: let font): return font.isSymbolFont ? "String" : "UIFont"
+        case .fluentUIColor(_): return "UIColor"
         case .namedColor(_): return "UIColor"
         case .color(_): return "UIColor"
         case .image(_): return "UIImage"
@@ -428,10 +478,10 @@ class RhsRedirectValue {
 
 extension RhsValue: Generatable {
     
-    func generate(_ isNested: Bool = false) -> String {
+    func generate(_ isNested: Bool = false, includePrefix: Bool = true) -> String {
         let indentationNested = isNested ? "\t\t" : ""
         let indentation = "\n\(indentationNested)\t\t\t"
-        let prefix = isGlobal ? "public " : "\(indentation)return "
+        let prefix = includePrefix ? (isGlobal ? "public " : "\(indentation)return ") : ""
         switch self {
         case .int(let int):
             return generateInt(prefix, int: int)
@@ -445,6 +495,9 @@ extension RhsValue: Generatable {
         case .font(let font):
             return generateFont(prefix, font: font)
             
+        case .fluentUIColor(let fluentUIColor):
+            return generateFluentUIColor(prefix, fluentUIColor: fluentUIColor)
+        
         case .namedColor(let namedColor):
             return generateNamedColor(prefix, namedColor: namedColor)
             
@@ -554,6 +607,20 @@ extension RhsValue: Generatable {
             
             return "\(prefix)\(fontClass).font(name: \(fontName), size: \(fontSize), textStyle: \(textStyle), weight: \(fontWeight), traits: \(fontTraits), traitCollection: traitCollection, isScalable: \(isScalable))"
         }
+    }
+    
+    func generateFluentUIColor(_ prefix: String, fluentUIColor: Rhs.FluentUIColor) -> String {
+        let colorClass = "UIColor"
+        return
+            "\(prefix)\(colorClass)"
+                + "(light: \(fluentUIColor.light.generate(includePrefix: false)),"
+                + " lightHighContrast: \(fluentUIColor.lightHighContrast?.generate(includePrefix: false) ?? "nil"),"
+                + " lightElevated: \(fluentUIColor.lightElevated?.generate(includePrefix: false) ?? "nil"),"
+                + " lightElevatedHighContrast: \(fluentUIColor.lightElevatedHighContrast?.generate(includePrefix: false) ?? "nil"),"
+                + " dark: \(fluentUIColor.dark?.generate(includePrefix: false) ?? "nil"),"
+                + " darkHighContrast: \(fluentUIColor.darkHighContrast?.generate(includePrefix: false) ?? "nil"),"
+                + " darkElevated: \(fluentUIColor.darkElevated?.generate(includePrefix: false) ?? "nil"),"
+                + " darkElevatedHighContrast: \(fluentUIColor.darkElevatedHighContrast?.generate(includePrefix: false) ?? "nil"))"
     }
     
     func generateNamedColor(_ prefix: String, namedColor: Rhs.NamedColor) -> String {
