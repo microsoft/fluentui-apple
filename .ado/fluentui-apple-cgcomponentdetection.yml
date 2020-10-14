@@ -1,0 +1,7 @@
+steps:
+- task: ComponentGovernanceComponentDetection@0
+  inputs:
+    sourceScanPath: ..
+    scanType: 'LogOnly'
+    verbosity: 'Verbose'
+    alertWarningLevel: 'High'
