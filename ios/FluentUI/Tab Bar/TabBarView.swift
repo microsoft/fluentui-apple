@@ -40,11 +40,24 @@ open class TabBarView: UIView {
                 preconditionFailure("tab bar items can't be more than \(Constants.maxTabCount)")
             }
 
+            var previousView: UIView?
+            var customSpacing: CGFloat = 0
+
             for item in items {
-                let tabBarItemView = TabBarItemView(item: item, showsTitle: showsItemTitles)
-                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTabBarItemTapped(_:)))
-                tabBarItemView.addGestureRecognizer(tapGesture)
-                stackView.addArrangedSubview(tabBarItemView)
+                if item.isSpacingItem() {
+                    if let previousView = previousView {
+                        customSpacing += item.emptySpace
+                        stackView.setCustomSpacing(customSpacing, after: previousView)
+                    }
+                } else {
+                    let tabBarItemView = TabBarItemView(item: item, showsTitle: showsItemTitles)
+                    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTabBarItemTapped(_:)))
+                    tabBarItemView.addGestureRecognizer(tapGesture)
+                    stackView.addArrangedSubview(tabBarItemView)
+
+                    previousView = tabBarItemView
+                    customSpacing = 0
+                }
             }
 
             selectedItem = items.first
