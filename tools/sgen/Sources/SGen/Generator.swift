@@ -52,7 +52,7 @@ protocol StylesheetGeneratable {
 }
 
 protocol Generatable {
-    func generate(_ isNested: Bool, includePrefix: Bool) -> String
+    func generate(_ isNested: Bool) -> String
 }
 
 protocol Determinism {

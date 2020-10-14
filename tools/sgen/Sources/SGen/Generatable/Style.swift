@@ -81,7 +81,7 @@ extension Style: Determinism {
 
 extension Style: Generatable {
     
-    public func generate(_ isNested: Bool = false, includePrefix: Bool = true) -> String {
+    public func generate(_ isNested: Bool = false) -> String {
         
         var indentation = isNested ? "\t\t" : "\t"
         if isAnimation {
