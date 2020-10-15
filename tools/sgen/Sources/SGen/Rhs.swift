@@ -19,6 +19,47 @@ struct Rhs {
         case missingHashMarkAsPrefix, unableToScanHexValue, mismatchedHexStringLength
     }
     
+    class FluentUIColor {
+        
+        struct Props {
+            static let lightKey = "light"
+            static let lightHighContrastKey = "lightHighContrast"
+            static let lightElevatedKey = "lightElevated"
+            static let lightElevatedHighContrastKey = "lightElevatedHighContrast"
+            static let darkKey = "dark"
+            static let darkHighContrastKey = "darkHighContrast"
+            static let darkElevatedKey = "darkElevated"
+            static let darkElevatedHighContrastKey = "darkElevatedHighContrast"
+        }
+        
+        var light: RhsValue
+        var lightHighContrast: RhsValue?
+        var lightElevated: RhsValue?
+        var lightElevatedHighContrast: RhsValue?
+        var dark: RhsValue?
+        var darkHighContrast: RhsValue?
+        var darkElevated: RhsValue?
+        var darkElevatedHighContrast: RhsValue?
+        
+        init(light: RhsValue,
+             lightHighContrast: RhsValue? = nil,
+             lightElevated: RhsValue? = nil,
+             lightElevatedHighContrast: RhsValue? = nil,
+             dark: RhsValue? = nil,
+             darkHighContrast: RhsValue? = nil,
+             darkElevated: RhsValue? = nil,
+             darkElevatedHighContrast: RhsValue? = nil) {
+            self.light = light
+            self.lightHighContrast = lightHighContrast
+            self.lightElevated = lightElevated
+            self.lightElevatedHighContrast = lightElevatedHighContrast
+            self.dark = dark
+            self.darkHighContrast = darkHighContrast
+            self.darkElevated = darkElevated
+            self.darkElevatedHighContrast = darkElevatedHighContrast
+        }
+    }
+    
     class NamedColor {
         let colorName: String?
         
