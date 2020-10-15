@@ -453,7 +453,9 @@ open class BadgeField: UIView {
             calculateBadgeFrame(badge: badge, badgeIndex: index, lineIndex: &lineIndex, left: &left, topMargin: 0, boundingWidth: bounds.width)
         }
 
-        if isEditable && isFirstResponder && left + Constants.textFieldMinWidth > boundingWidth {
+        let isFirstResponderOrHasTextFieldContent = isFirstResponder || !textFieldContent.isEmpty
+
+        if isEditable && isFirstResponderOrHasTextFieldContent && left + Constants.textFieldMinWidth > boundingWidth {
             lineIndex += 1
         }
         let textFieldSize = textField.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
