@@ -66,7 +66,9 @@ open class TabBarView: UIView {
 
     @objc public weak var delegate: TabBarViewDelegate?
 
-	/// TODO
+	/// Set the custom spacing after the specified item.
+	/// - Parameter spacing The spacing.
+	/// - Parameter item The item to add spacing after.
 	@objc public func setCustomSpacing(_ spacing: CGFloat, after item: TabBarItem) {
 		if let index = items.firstIndex(of: item) {
 			let view = stackView.arrangedSubviews[index]
