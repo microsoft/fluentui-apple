@@ -453,7 +453,7 @@ open class BadgeField: UIView {
             calculateBadgeFrame(badge: badge, badgeIndex: index, lineIndex: &lineIndex, left: &left, topMargin: 0, boundingWidth: bounds.width)
         }
 
-        let isFirstResponderOrHasTextFieldContent = isFirstResponder || (!isFirstResponder && !textFieldContent.isEmpty)
+        let isFirstResponderOrHasTextFieldContent = isFirstResponder || !textFieldContent.isEmpty
 
         if isEditable && isFirstResponderOrHasTextFieldContent && left + Constants.textFieldMinWidth > boundingWidth {
             lineIndex += 1
