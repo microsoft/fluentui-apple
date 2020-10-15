@@ -65,20 +65,6 @@ open class TabBarItem: NSObject {
                   accessibilityLabelBadgeFormatString: nil)
     }
 
-    /// Initializes `TabBarItem` for inter-item spacing.
-    /// This tab bar item does not have an image or title, it is used to add space between two other tab bar items.
-    @objc public init(emptySpace: CGFloat) {
-        self.image = nil
-        self.selectedImage = nil
-        self.title = ""
-        self.largeContentImage = nil
-        self.landscapeImage = nil
-        self.landscapeSelectedImage = nil
-        self.accessibilityLabelBadgeFormatString = nil
-        self.emptySpace = emptySpace
-        super.init()
-    }
-
     /// Initializes `TabBarItem`
     /// - Parameter title: Used for tabbar item view's label and for its accessibilityLabel.
     /// - Parameter image: Used for tabbar item view's imageView and for its accessibility largeContentImage unless `largeContentImage` is specified.
@@ -101,24 +87,18 @@ open class TabBarItem: NSObject {
         self.landscapeImage = landscapeImage
         self.landscapeSelectedImage = landscapeSelectedImage
         self.accessibilityLabelBadgeFormatString = accessibilityLabelBadgeFormatString
-        self.emptySpace = 0
         super.init()
     }
 
     /// Notification sent when the tab bar item's badge value changes.
     static let badgeValueDidChangeNotification = NSNotification.Name(rawValue: "TabBarItemBadgeValueDidChangeNotification")
 
-    let image: UIImage?
+    let image: UIImage
     let selectedImage: UIImage?
     let landscapeImage: UIImage?
     let landscapeSelectedImage: UIImage?
     let largeContentImage: UIImage?
     let accessibilityLabelBadgeFormatString: String?
-    let emptySpace: CGFloat
-
-    func isSpacingItem() -> Bool {
-        return emptySpace > 0
-    }
 
     func selectedImage(isInPortraitMode: Bool, labelIsHidden: Bool) -> UIImage? {
         if isInPortraitMode {

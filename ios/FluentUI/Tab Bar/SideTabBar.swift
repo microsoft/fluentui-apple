@@ -225,33 +225,20 @@ open class SideTabBar: UIView {
         let showItemTitles = section == .top ? showTopItemTitles : showBottomItemTitles
         var didRestoreSelection = false
 
-        var previousView: UIView?
-        var customSpacing: CGFloat = 0
-
         for item in allItems {
-            if item.isSpacingItem() {
-                if let previousView = previousView {
-                    customSpacing += item.emptySpace
-                    stackView.setCustomSpacing(customSpacing, after: previousView)
-                }
-            } else {
-                let tabBarItemView = TabBarItemView(item: item, showsTitle: showItemTitles, canResizeImage: false)
-                tabBarItemView.translatesAutoresizingMaskIntoConstraints = false
-                tabBarItemView.alwaysShowTitleBelowImage = true
-                tabBarItemView.maxBadgeWidth = Constants.viewWidth / 2 - badgePadding
-                
-                if itemView(with: item, in: section) != nil && section == .top && item == selectedTopItem {
-                    tabBarItemView.isSelected = true
-                    didRestoreSelection = true
-                }
-                
-                let tapGesture = UITapGestureRecognizer(target: self, action: (section == .top) ? #selector(handleTopItemTapped(_:)) : #selector(handleBottomItemTapped(_:)))
-                tabBarItemView.addGestureRecognizer(tapGesture)
-                stackView.addArrangedSubview(tabBarItemView)
+            let tabBarItemView = TabBarItemView(item: item, showsTitle: showItemTitles, canResizeImage: false)
+            tabBarItemView.translatesAutoresizingMaskIntoConstraints = false
+            tabBarItemView.alwaysShowTitleBelowImage = true
+            tabBarItemView.maxBadgeWidth = Constants.viewWidth / 2 - badgePadding
 
-                previousView = tabBarItemView
-                customSpacing = 0
+            if itemView(with: item, in: section) != nil && section == .top && item == selectedTopItem {
+                tabBarItemView.isSelected = true
+                didRestoreSelection = true
             }
+
+            let tapGesture = UITapGestureRecognizer(target: self, action: (section == .top) ? #selector(handleTopItemTapped(_:)) : #selector(handleBottomItemTapped(_:)))
+            tabBarItemView.addGestureRecognizer(tapGesture)
+            stackView.addArrangedSubview(tabBarItemView)
         }
 
         NSLayoutConstraint.activate(constraints)
