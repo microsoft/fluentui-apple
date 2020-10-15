@@ -79,6 +79,14 @@ open class TabBarView: UIView {
 
     @objc public weak var delegate: TabBarViewDelegate?
 
+	/// TODO
+	@objc public func setCustomSpacing(_ spacing: CGFloat, after item: TabBarItem) {
+		if let index = items.firstIndex(of: item) {
+			let view = stackView.arrangedSubviews[index]
+			stackView.setCustomSpacing(spacing, after: view)
+		}
+	}
+
     /// Initializes MSTabBarView
     /// - Parameter showsItemTitles: Determines whether or not to show the titles of the tab ba ritems.
     @objc public init(showsItemTitles: Bool = false) {
