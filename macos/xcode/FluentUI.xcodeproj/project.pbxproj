@@ -8,28 +8,28 @@
 
 /* Begin PBXBuildFile section */
 		2F6759B8251E4C2600210B3C /* SimpleObjCTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6759B7251E4C2600210B3C /* SimpleObjCTest.m */; };
+		53BCB0DB253A72AD00620960 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BCB0DA253A72AD00620960 /* Colors.swift */; };
+		53BCB0E2253A72E000620960 /* FluentUIResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BCB0E1253A72E000620960 /* FluentUIResources.swift */; };
+		53BCB0ED253A75BB00620960 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BCB0EC253A75BB00620960 /* AvatarView.swift */; };
+		53BCB0F4253A75CF00620960 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BCB0F3253A75CF00620960 /* Button.swift */; };
+		53BCB0FB253A75E400620960 /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BCB0FA253A75E400620960 /* Link.swift */; };
+		53BCB102253A75EF00620960 /* Separator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BCB101253A75EF00620960 /* Separator.swift */; };
 		8005007722FB361200CA6343 /* DatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8005007622FB361200CA6343 /* DatePickerControllerTests.swift */; };
 		80117A7F22DCDF6F00813D59 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80117A7E22DCDF6F00813D59 /* CalendarView.swift */; };
 		80117A8322E0E63E00813D59 /* CalendarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80117A8222E0E63E00813D59 /* CalendarHeaderView.swift */; };
 		804626C622D7908100AFA48C /* CalendarDayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804626C522D7908100AFA48C /* CalendarDayButton.swift */; };
 		8061BF7E22EF936800F2D245 /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8061BF7C22EF936700F2D245 /* DatePickerView.swift */; };
 		8061BF7F22EF936800F2D245 /* DatePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8061BF7D22EF936700F2D245 /* DatePickerController.swift */; };
-		8F250B8B22B3045100142B0E /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F250B8A22B3045100142B0E /* AvatarView.swift */; };
-		8F41CC682447B5580040B851 /* FluentUIResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F41CC672447B5580040B851 /* FluentUIResources.swift */; };
 		8F41CC7A2447B8DB0040B851 /* FluentUIResources-macos.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8F41CC6D2447B60F0040B851 /* FluentUIResources-macos.bundle */; };
 		8F5368052295F4BF0098AC8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5368042295F4BF0098AC8F /* AppDelegate.swift */; };
 		8F5368072295F4C10098AC8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368062295F4C10098AC8F /* Assets.xcassets */; };
 		8F53680A2295F4C10098AC8F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368082295F4C10098AC8F /* MainMenu.xib */; };
 		8F79191B24589B4E00C84086 /* FluentUI.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F7918F624589B4E00C84086 /* FluentUI.strings */; };
 		A257F81E2512DE45002CAA6E /* TestColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A257F81C2512DDF7002CAA6E /* TestColorViewController.swift */; };
-		A257F8202512DF3A002CAA6E /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A257F81F2512DF3A002CAA6E /* Colors.swift */; };
 		A257F826251D987E002CAA6E /* FluentUI-macos.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A257F825251D987E002CAA6E /* FluentUI-macos.xcassets */; };
 		A257F828251D988E002CAA6E /* FluentUI-apple.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A257F827251D988E002CAA6E /* FluentUI-apple.xcassets */; };
-		AC68D3192474863A000DACD1 /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC68D3182474863A000DACD1 /* Link.swift */; };
 		AC7235D82492E0D000D0DCA8 /* FluentUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C96B22295E8D60006561F /* FluentUI.framework */; };
 		AC7235D92492E0D000D0DCA8 /* FluentUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E61C96B22295E8D60006561F /* FluentUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		AC97EFE2247541C700DADC99 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC97EFE1247541C700DADC99 /* Button.swift */; };
-		AC97EFE7247FA17000DADC99 /* Separator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC97EFE6247FA17000DADC99 /* Separator.swift */; };
 		E61C96BC2295E8D60006561F /* FluentUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C96B22295E8D60006561F /* FluentUI.framework */; };
 		E61C96C12295E8D60006561F /* AvatarViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61C96C02295E8D60006561F /* AvatarViewTests.swift */; };
 		E61C96CC2295EAC50006561F /* FluentUI.h in Headers */ = {isa = PBXBuildFile; fileRef = E61C96B52295E8D60006561F /* FluentUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -115,6 +115,12 @@
 /* Begin PBXFileReference section */
 		2F6759B6251E4C2600210B3C /* SimpleObjCTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleObjCTest.h; sourceTree = "<group>"; };
 		2F6759B7251E4C2600210B3C /* SimpleObjCTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleObjCTest.m; sourceTree = "<group>"; };
+		53BCB0DA253A72AD00620960 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		53BCB0E1253A72E000620960 /* FluentUIResources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentUIResources.swift; sourceTree = "<group>"; };
+		53BCB0EC253A75BB00620960 /* AvatarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
+		53BCB0F3253A75CF00620960 /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
+		53BCB0FA253A75E400620960 /* Link.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
+		53BCB101253A75EF00620960 /* Separator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Separator.swift; sourceTree = "<group>"; };
 		8005007622FB361200CA6343 /* DatePickerControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerControllerTests.swift; sourceTree = "<group>"; };
 		80117A7E22DCDF6F00813D59 /* CalendarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		80117A8222E0E63E00813D59 /* CalendarHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarHeaderView.swift; sourceTree = "<group>"; };
@@ -122,7 +128,6 @@
 		8061BF7C22EF936700F2D245 /* DatePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
 		8061BF7D22EF936700F2D245 /* DatePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerController.swift; sourceTree = "<group>"; };
 		8061BF8222EF957200F2D245 /* TestDatePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestDatePickerController.swift; sourceTree = "<group>"; };
-		8F250B8A22B3045100142B0E /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		8F250B8C22B3062A00142B0E /* TestAvatarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAvatarViewController.swift; sourceTree = "<group>"; };
 		8F3572322361143B0076FBBE /* FluentUI.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = FluentUI.xctestplan; sourceTree = "<group>"; };
 		8F38AE402303537800F5D7B0 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/MainMenu.strings; sourceTree = "<group>"; };
@@ -153,7 +158,6 @@
 		8F38AE5B230354D200F5D7B0 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		8F38AE5C230354D700F5D7B0 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		8F38AE5D230354DA00F5D7B0 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/MainMenu.strings; sourceTree = "<group>"; };
-		8F41CC672447B5580040B851 /* FluentUIResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentUIResources.swift; sourceTree = "<group>"; };
 		8F41CC6D2447B60F0040B851 /* FluentUIResources-macos.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FluentUIResources-macos.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F41CC6F2447B60F0040B851 /* FluentUIResources-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FluentUIResources-Info.plist"; sourceTree = "<group>"; };
 		8F41CC732447B66A0040B851 /* FluentUI_resources.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_resources.xcconfig; sourceTree = "<group>"; };
@@ -209,13 +213,9 @@
 		8F79192924589B6E00C84086 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		8F931A6C22BD593300311764 /* FluentUI_unittest.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_unittest.xcconfig; sourceTree = "<group>"; };
 		A257F81C2512DDF7002CAA6E /* TestColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestColorViewController.swift; sourceTree = "<group>"; };
-		A257F81F2512DF3A002CAA6E /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		A257F825251D987E002CAA6E /* FluentUI-macos.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "FluentUI-macos.xcassets"; path = "../FluentUIResources-macos/FluentUI-macos.xcassets"; sourceTree = "<group>"; };
 		A257F827251D988E002CAA6E /* FluentUI-apple.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "FluentUI-apple.xcassets"; path = "../../apple/Resources/FluentUI-apple.xcassets"; sourceTree = "<group>"; };
-		AC68D3182474863A000DACD1 /* Link.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
-		AC97EFE1247541C700DADC99 /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		AC97EFE3247541E100DADC99 /* TestButtonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestButtonViewController.swift; sourceTree = "<group>"; };
-		AC97EFE6247FA17000DADC99 /* Separator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Separator.swift; sourceTree = "<group>"; };
 		AC97EFE8247FAB1D00DADC99 /* TestSeparatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSeparatorViewController.swift; sourceTree = "<group>"; };
 		E61C96B22295E8D60006561F /* FluentUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FluentUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E61C96B52295E8D60006561F /* FluentUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FluentUI.h; sourceTree = "<group>"; };
@@ -290,6 +290,47 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		53BCB0D9253A724700620960 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				53BCB0E1253A72E000620960 /* FluentUIResources.swift */,
+				53BCB0DA253A72AD00620960 /* Colors.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		53BCB0E8253A74DF00620960 /* AvatarView */ = {
+			isa = PBXGroup;
+			children = (
+				53BCB0EC253A75BB00620960 /* AvatarView.swift */,
+			);
+			path = AvatarView;
+			sourceTree = "<group>";
+		};
+		53BCB0E9253A74FE00620960 /* Button */ = {
+			isa = PBXGroup;
+			children = (
+				53BCB0F3253A75CF00620960 /* Button.swift */,
+			);
+			path = Button;
+			sourceTree = "<group>";
+		};
+		53BCB0EA253A752400620960 /* Link */ = {
+			isa = PBXGroup;
+			children = (
+				53BCB0FA253A75E400620960 /* Link.swift */,
+			);
+			path = Link;
+			sourceTree = "<group>";
+		};
+		53BCB0EB253A753400620960 /* Separator */ = {
+			isa = PBXGroup;
+			children = (
+				53BCB101253A75EF00620960 /* Separator.swift */,
+			);
+			path = Separator;
+			sourceTree = "<group>";
+		};
 		804626C722D7909200AFA48C /* DatePicker */ = {
 			isa = PBXGroup;
 			children = (
@@ -376,15 +417,14 @@
 		E61C96B42295E8D60006561F /* FluentUI */ = {
 			isa = PBXGroup;
 			children = (
-				8F250B8A22B3045100142B0E /* AvatarView.swift */,
-				AC97EFE1247541C700DADC99 /* Button.swift */,
-				A257F81F2512DF3A002CAA6E /* Colors.swift */,
+				53BCB0E8253A74DF00620960 /* AvatarView */,
+				53BCB0E9253A74FE00620960 /* Button */,
+				53BCB0D9253A724700620960 /* Core */,
 				804626C722D7909200AFA48C /* DatePicker */,
-				AC68D3182474863A000DACD1 /* Link.swift */,
-				AC97EFE6247FA17000DADC99 /* Separator.swift */,
+				53BCB0EA253A752400620960 /* Link */,
+				53BCB0EB253A753400620960 /* Separator */,
 				E61C96B62295E8D60006561F /* FluentUI-Info.plist */,
 				E61C96B52295E8D60006561F /* FluentUI.h */,
-				8F41CC672447B5580040B851 /* FluentUIResources.swift */,
 			);
 			name = FluentUI;
 			path = ../FluentUI;
@@ -745,16 +785,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				804626C622D7908100AFA48C /* CalendarDayButton.swift in Sources */,
-				A257F8202512DF3A002CAA6E /* Colors.swift in Sources */,
+				53BCB0DB253A72AD00620960 /* Colors.swift in Sources */,
+				53BCB102253A75EF00620960 /* Separator.swift in Sources */,
 				80117A8322E0E63E00813D59 /* CalendarHeaderView.swift in Sources */,
+				53BCB0ED253A75BB00620960 /* AvatarView.swift in Sources */,
+				53BCB0FB253A75E400620960 /* Link.swift in Sources */,
 				80117A7F22DCDF6F00813D59 /* CalendarView.swift in Sources */,
-				AC97EFE2247541C700DADC99 /* Button.swift in Sources */,
-				AC97EFE7247FA17000DADC99 /* Separator.swift in Sources */,
-				AC68D3192474863A000DACD1 /* Link.swift in Sources */,
+				53BCB0E2253A72E000620960 /* FluentUIResources.swift in Sources */,
 				8061BF7E22EF936800F2D245 /* DatePickerView.swift in Sources */,
 				8061BF7F22EF936800F2D245 /* DatePickerController.swift in Sources */,
-				8F250B8B22B3045100142B0E /* AvatarView.swift in Sources */,
-				8F41CC682447B5580040B851 /* FluentUIResources.swift in Sources */,
+				53BCB0F4253A75CF00620960 /* Button.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
