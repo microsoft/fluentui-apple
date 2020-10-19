@@ -145,6 +145,7 @@ open class SideTabBar: UIView {
         static let bottomItemSize: CGFloat = 24
         static let badgeTopSectionPadding: CGFloat = 2
         static let badgeBottomSectionPadding: CGFloat = 4
+        static let numberOfTitleLines = 2
     }
 
     private var layoutConstraints: [NSLayoutConstraint] = []
@@ -230,6 +231,7 @@ open class SideTabBar: UIView {
             tabBarItemView.translatesAutoresizingMaskIntoConstraints = false
             tabBarItemView.alwaysShowTitleBelowImage = true
             tabBarItemView.maxBadgeWidth = Constants.viewWidth / 2 - badgePadding
+            tabBarItemView.numberOfTitleLines = Constants.numberOfTitleLines
 
             if itemView(with: item, in: section) != nil && section == .top && item == selectedTopItem {
                 tabBarItemView.isSelected = true
@@ -240,8 +242,6 @@ open class SideTabBar: UIView {
             tabBarItemView.addGestureRecognizer(tapGesture)
             stackView.addArrangedSubview(tabBarItemView)
         }
-
-        NSLayoutConstraint.activate(constraints)
 
         if section == .top && !didRestoreSelection {
             selectedTopItem = allItems.first
