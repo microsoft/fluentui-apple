@@ -153,7 +153,7 @@ open class ShimmerView: UIView {
 			setNeedsLayout()
 		}
 	}
-	
+
 	/// Optional synchronizer to sync multiple shimmer views
 	@objc open weak var animationSynchronizer: AnimationSynchronizerProtocol?
 
@@ -175,7 +175,7 @@ open class ShimmerView: UIView {
     @objc public init(containerView: UIView? = nil,
                       excludedViews: [UIView] = [],
                       animationSynchronizer: AnimationSynchronizerProtocol? = nil,
-		              shimmerStyle: ShimmerStyle = .revealing) {
+                      shimmerStyle: ShimmerStyle = .revealing) {
 		self.containerView = containerView
 		self.excludedViews = excludedViews
 		self.animationSynchronizer = animationSynchronizer
