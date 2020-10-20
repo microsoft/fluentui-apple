@@ -215,6 +215,7 @@ enum RhsValue {
                     let textStyle: String
                     let name: String?
                     let firstComponent = components.removeFirst()
+
                     if Generator.Config.typographyTextStyles.keys.contains(firstComponent) || Rhs.Font.supportedStyles.contains(firstComponent) {
                         textStyle = firstComponent
                         name = nil
@@ -222,7 +223,10 @@ enum RhsValue {
                         textStyle = components.removeFirst()
                         name = firstComponent
                     }
-                    return .font(font: Rhs.Font(name: name, textStyle: textStyle, weightAndTraits: components))
+
+                    let isScalable = (Generator.Config.typographyTextStyles[textStyle]?.isScalable ?? "true") == "true"
+
+                    return .font(font: Rhs.Font(name: name, textStyle: textStyle, weightAndTraits: components, isScalable: isScalable))
                 }
             }
         } else if let components = argumentsFromString("fluentUIColor", string: string) {
@@ -603,7 +607,7 @@ extension RhsValue: Generatable {
             let fontSize = font.fontSize != nil ? "\(font.fontSize!)" : "nil"
             let fontWeight = font.weight ?? "nil"
             let fontTraits = font.traits ?? "[]"
-            let isScalable = font.isScalableFont || font.isSystemPreferred ? "true" : "false"
+            let isScalable = font.isScalableFont
             
             return "\(prefix)\(fontClass).font(name: \(fontName), size: \(fontSize), textStyle: \(textStyle), weight: \(fontWeight), traits: \(fontTraits), traitCollection: traitCollection, isScalable: \(isScalable))"
         }

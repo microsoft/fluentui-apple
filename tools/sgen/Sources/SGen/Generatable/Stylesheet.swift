@@ -820,271 +820,346 @@ extension Stylesheet {
     }
     
     func generateExtensionsHeader() -> String {
-        let visibility = "fileprivate"
+        let visibility = "private"
         var header = ""
 
         if Generator.Config.importStylesheetManagerName != nil {
             return header
         }
-        
-        header += "/// Your view should conform to 'AppearaceProxyComponent'.\n"
-        header += "public protocol AppearaceProxyComponent: class {\n"
-        header += "\tassociatedtype ApperanceProxyType\n"
-        header += "\tvar appearanceProxy: ApperanceProxyType { get }\n"
-        header += "\tvar themeAware: Bool { get set }\n"
-        header += "\tfunc didChangeAppearanceProxy()"
-        header += "\n}\n\n"
-        
-        header += "public extension AppearaceProxyComponent {\n"
-        header += "\tfunc initAppearanceProxy(themeAware: Bool = true) {\n"
-        header += "\t\tself.themeAware = themeAware\n"
-        header += "\t\tdidChangeAppearanceProxy()\n"
-        header += "\t}\n"
-        header += "}\n\n"
-                
+
+        header += """
+/// Your view should conform to 'AppearaceProxyComponent'.
+public protocol AppearaceProxyComponent: class {
+    associatedtype ApperanceProxyType
+    var appearanceProxy: ApperanceProxyType { get }
+    var themeAware: Bool { get set }
+    func didChangeAppearanceProxy()
+}
+
+public extension AppearaceProxyComponent {
+    func initAppearanceProxy(themeAware: Bool = true) {
+        self.themeAware = themeAware
+        didChangeAppearanceProxy()
+    }
+}
+
+
+"""
+
         if hasSymbolFont {
-            header += "public extension \(NamespaceEnums).\(IconicFontStyle) {\n"
-            header += "\tvar name: String {\n"
-            header += "\t\tswitch self {\n"
+            header += """
+public extension \(NamespaceEnums).\(IconicFontStyle) {
+    var name: String {
+        switch self {
+"""
             let cases = IconicWeight.allCases.sorted(by: { $0.rawValue < $1.rawValue }).map({ $0.rawValue }).sorted()
             cases.forEach { enumCase in
-                header += "\t\t\tcase .\(enumCase): return \(Generator.Config.stylesheetManagerName).S.\(IconicFontSectionName).\(enumCase)FontName\n"
+                header += """
+
+        case .\(enumCase):
+            return \(Generator.Config.stylesheetManagerName).S.\(IconicFontSectionName).\(enumCase)FontName
+"""
             }
-            header += "\t\t}\n"
-            header += "\t}\n"
-            header += "}\n"
-            header += "\n"
+
+            header += """
+
         }
-        
+    }
+}
+
+
+"""
+        }
+
         let textStyleType = "\(NamespaceEnums).\(FontTextStyle)"
-        
-        header += "private extension \(textStyleType) {\n"
-        
+
+        header += """
+private extension \(textStyleType) {
+    var style: UIFont.TextStyle? {
+        switch self {
+"""
+
         let textStyleNames = Generator.Config.typographyTextStyles.keys.sorted()
-        header += "\tvar style: UIFont.TextStyle? {\n"
-        header += "\t\tswitch self {\n"
         for enumCase in textStyleNames {
             let info = Generator.Config.typographyTextStyles[enumCase]!
             if let availableVersion = info.version {
-                header += "\t\t\tcase .\(enumCase):\n"
-                header += "\t\t\t\tif #available(iOS \(availableVersion).0, *) {\n"
-                header += "\t\t\t\t\treturn .\(info.mapsTo)\n"
-                header += "\t\t\t\t} else {\n"
-                header += "\t\t\t\t\t return nil\n"
-                header += "\t\t\t\t}\n"
+                header += """
+
+        case .\(enumCase):
+            if #available(iOS \(availableVersion).0, *) {
+                return .\(info.mapsTo)
             } else {
-                header += "\t\t\tcase .\(enumCase): return .\(info.mapsTo)\n"
+                return nil
+            }
+"""
+            } else {
+                header += """
+
+        case .\(enumCase):
+            return .\(info.mapsTo)
+"""
             }
         }
-        header += "\t\t}\n"
-        header += "\t}\n"
-        
-        header += "\tvar defaultPointSize: CGFloat {\n"
-        header += "\t\tswitch self {\n"
-        for enumCase in textStyleNames {
-            let info = Generator.Config.typographyTextStyles[enumCase]!
-            header += "\t\t\tcase .\(enumCase): return \(info.defaultPointSize)\n"
+
+        header += """
+
         }
-        header += "\t\t}\n"
-        header += "\t}\n"
-        
+    }
+
+    var defaultPointSize: CGFloat? {
+        switch self {
+"""
+
         var needsDefaultCase: Bool = false
-        header += "\tvar maximumPointSize: CGFloat? {\n"
-        header += "\t\tswitch self {\n"
         for enumCase in textStyleNames {
             let info = Generator.Config.typographyTextStyles[enumCase]!
-            if let maximumPointSize = info.maximumPointSize {
-                header += "\t\t\tcase .\(enumCase): return \(maximumPointSize)\n"
+            if let defaultPointSize = info.defaultPointSize {
+                header += """
+
+        case .\(enumCase):
+            return \(defaultPointSize)
+"""
             } else {
                 needsDefaultCase = true
             }
         }
-        if needsDefaultCase {
-            header += "\t\t\tdefault: return nil\n"
-        }
-        
-        header += "\t\t}\n"
-        header += "\t}\n"
-        header += "}\n"
-        header += "\n"
-        
-        header += "private let defaultSizes: [UIFont.TextStyle: CGFloat] = {\n"
-        header += "\tvar sizes: [UIFont.TextStyle: CGFloat] = [.caption2: 11,\n"
-        header += "\t.caption1: 12,\n"
-        header += "\t.footnote: 13,\n"
-        header += "\t.subheadline: 15,\n"
-        header += "\t.callout: 16,\n"
-        header += "\t.body: 17,\n"
-        header += "\t.headline: 17,\n"
-        header += "\t.title3: 20,\n"
-        header += "\t.title2: 22,\n"
-        header += "\t.title1: 28]\n"
-        header += "\tif #available(iOS 11.0, *) {\n"
-        header += "\t\tsizes[.largeTitle] = 34\n"
-        header += "\t}\n"
-        header += "\treturn sizes\n"
-        header += "}()\n"
-        header += "\n"
-        
-        header += "fileprivate class StardustFontResponsibleCache: NSObject {\n"
-        header += "\tprivate lazy var cache = [UIFont.FontType: UIFont]()\n"
-        header += "\toverride init() {\n"
-        header += "\t\tsuper.init()\n"
-        header += "\t\tNotificationCenter.default.addObserver(self, selector: #selector(handleApplicationDidReceiveMemoryWarning), name: UIApplication.didReceiveMemoryWarningNotification, object: nil)\n"
-        header += "\t}\n"
-        header += "\topen func clearCache() {\n"
-        header += "\t\tcache.removeAll()\n"
-        header += "\t}\n"
-        header += "\t@objc private func handleApplicationDidReceiveMemoryWarning() {\n"
-        header += "\t\tclearCache()\n"
-        header += "\t}\n"
-        
-        header += "\tfunc font(name: String? = nil, size: CGFloat? = nil, textStyle: \(textStyleType)? = nil, weight: UIFont.Weight? = nil, traits: UIFontDescriptor.SymbolicTraits, traitCollection: UITraitCollection? = nil, isScalable: Bool = true) -> UIFont {\n"
-        header += "\t\tlet key = UIFont.FontType(name: name, size: size, textStyle: textStyle, weight: weight, traits: traits, traitCollection: traitCollection, isScalable: isScalable)\n"
-        header += "\t\tif let font = cache[key] {\n"
-        header += "\t\t\treturn font\n"
-        header += "\t\t} else {\n"
-        header += "\t\t\tvar font: UIFont!\n"
-        header += "\t\t\tvar isAlreadyScalable: Bool = false\n"
-        header += "\t\t\tif let name = name, size != nil || textStyle != nil {\n"
-        header += "\t\t\t\tif let size = size, let customFont = UIFont(name: name, size: size) {\n"
-        header += "\t\t\t\t\tfont = customFont\n"
-        header += "\t\t\t\t} else if let textStyle = textStyle, let nativeTextStyle = textStyle.style {\n"
-        header += "\t\t\t\t\tif #available(iOS 11.0, *) {\n"
-        header += "\t\t\t\t\t\tif let customFont = UIFont(name: name, size: textStyle.defaultPointSize) {\n"
-        header += "\t\t\t\t\t\t\tfont = customFont\n"
-        header += "\t\t\t\t\t\t}\n"
-        header += "\t\t\t\t\t} else {\n"
-        header += "\t\t\t\t\t\tlet fontDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: nativeTextStyle, compatibleWith: traitCollection)\n"
-        header += "\t\t\t\t\t\tlet max = textStyle.maximumPointSize ?? CGFloat.greatestFiniteMagnitude\n"
-        header += "\t\t\t\t\t\tfont = UIFont(name: name, size: min(fontDescriptor.pointSize, max))\n"
-        header += "\t\t\t\t\t}\n"
-        header += "\t\t\t\t}\n"
-        header += "\t\t\t} else if let size = size {\n"
-        header += "\t\t\t\tif let weight = weight {\n"
-        header += "\t\t\t\t\tfont = UIFont.systemFont(ofSize: size, weight: weight)\n"
-        header += "\t\t\t\t} else {\n"
-        header += "\t\t\t\t\tfont = UIFont.systemFont(ofSize: size)\n"
-        header += "\t\t\t\t}\n"
-        header += "\t\t\t} else if let textStyle = textStyle, let nativeTextStyle = textStyle.style {\n"
-        header += "\t\t\t\tif let weight = weight {\n"
-        header += "\t\t\t\t\tif #available(iOS 11.0, *) {\n"
-        header += "\t\t\t\t\t\tfont = UIFont.systemFont(ofSize: textStyle.defaultPointSize, weight: weight)\n"
-        header += "\t\t\t\t\t} else {\n"
-        header += "\t\t\t\t\t\tlet desc = UIFontDescriptor.preferredFontDescriptor(withTextStyle: nativeTextStyle, compatibleWith: traitCollection)\n"
-        header += "\t\t\t\t\t\tlet max = textStyle.maximumPointSize ?? CGFloat.greatestFiniteMagnitude\n"
-        header += "\t\t\t\t\t\tfont = UIFont.systemFont(ofSize: min(desc.pointSize, max), weight: weight)\n"
-        header += "\t\t\t\t\t}\n"
-        header += "\t\t\t\t} else {\n"
-        header += "\t\t\t\t\tif let maximumPointSize = textStyle.maximumPointSize {\n"
-        header += "\t\t\t\t\t\tif #available(iOS 11.0, *) {\n"
-        header += "\t\t\t\t\t\t\tfont = UIFont.preferredFont(forTextStyle: nativeTextStyle, compatibleWith: UITraitCollection(preferredContentSizeCategory: .large))\n"
-        header += "\t\t\t\t\t\t} else {\n"
-        header += "\t\t\t\t\t\t\tisAlreadyScalable = true\n"
-        header += "\t\t\t\t\t\t\tlet fontDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: nativeTextStyle, compatibleWith: UITraitCollection(preferredContentSizeCategory: .large))\n"
-        header += "\t\t\t\t\t\t\tfont = UIFont(descriptor: fontDescriptor, size: min(fontDescriptor.pointSize, maximumPointSize))\n"
-        header += "\t\t\t\t\t\t}\n"
-        header += "\t\t\t\t\t} else {\n"
-        header += "\t\t\t\t\t\tisAlreadyScalable = true\n"
-        header += "\t\t\t\t\t\tfont = UIFont.preferredFont(forTextStyle: nativeTextStyle, compatibleWith: traitCollection)\n"
-        header += "\t\t\t\t\t}\n"
-        header += "\t\t\t\t}\n"
-        header += "\t\t\t}\n"
-        header += "\t\t\tguard font != nil else { fatalError(\"Failed to load the font.\") }\n"
-        header += "\t\t\tif traits.isEmpty == false { font = font.with(traits: traits) }\n"
-        header += "\t\t\tif isScalable && isAlreadyScalable == false {\n"
-        header += "\t\t\t\tif #available(iOS 11.0, *) {\n"
-        header += "\t\t\t\t\tif let nativeTextStyle = textStyle?.style {\n"
-        header += "\t\t\t\t\t\tif let maximumPointSize = textStyle?.maximumPointSize {\n"
-        header += "\t\t\t\t\t\t\tfont = UIFontMetrics(forTextStyle: nativeTextStyle).scaledFont(for: font, maximumPointSize: maximumPointSize, compatibleWith: traitCollection)\n"
-        header += "\t\t\t\t\t\t} else {\n"
-        header += "\t\t\t\t\t\t\tfont = UIFontMetrics(forTextStyle: nativeTextStyle).scaledFont(for: font, compatibleWith: traitCollection)\n"
-        header += "\t\t\t\t\t\t}\n"
-        header += "\t\t\t\t\t} else {\n"
-        header += "\t\t\t\t\t\tfont = UIFontMetrics.default.scaledFont(for: font, compatibleWith: traitCollection)\n"
-        header += "\t\t\t\t\t}\n"
-        header += "\t\t\t\t}\n"
-        header += "\t\t\t}\n"
-        header += "\t\t\tfont.isScalable = isScalable\n"
-        header += "\t\t\tfont.fontType = key\n"
-        header += "\t\t\tcache[key] = font\n"
-        header += "\t\t\treturn font\n"
-        header += "\t\t}\n"
-        header += "\t}\n"
 
-        header += "}\n\n"
-        
-        header += "\(visibility) var __FontTypeHandle: UInt8 = 0\n"
-        header += "\(visibility) extension UIFont {\n"
-        header += "\tstruct FontType: Hashable {\n"
-        header += "\t\tlet name: String?\n"
-        header += "\t\tlet size: CGFloat?\n"
-        header += "\t\tlet textStyle: \(textStyleType)?\n"
-        header += "\t\tlet weight: UIFont.Weight?\n"
-        header += "\t\tlet traits: UIFontDescriptor.SymbolicTraits\n"
-        header += "\t\tlet traitCollection: UITraitCollection?\n"
-        header += "\t\tlet isScalable: Bool\n"
-        header += "\t\tfunc hash(into hasher: inout Hasher) {\n"
-        header += "\t\t\thasher.combine(name)\n"
-        header += "\t\t\thasher.combine(size)\n"
-        header += "\t\t\thasher.combine(textStyle)\n"
-        header += "\t\t\thasher.combine(weight)\n"
-        header += "\t\t\thasher.combine(traits.rawValue)\n"
-        header += "\t\t\thasher.combine(traitCollection)\n"
-        header += "\t\t\thasher.combine(isScalable)\n"
-        header += "\t\t}\n"
-        header += "\t}\n"
-        header += "\tvar fontType: FontType? {\n"
-        header += "\t\tget { return objc_getAssociatedObject(self, &__FontTypeHandle) as? FontType }\n"
-        header += "\t\tset { objc_setAssociatedObject(self, &__FontTypeHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }\n"
-        header += "\t}\n"
-        header += "}\n\n"
-        
-        header += "\(visibility) var __ScalableHandle: UInt8 = 0\n"
-        header += "public extension UIFont {\n"
-        header += "\tprivate static var cache = StardustFontResponsibleCache()\n"
+        if needsDefaultCase {
+            header += """
+        default:
+            return nil"
+"""
+        }
+
+        header += """
+
+        }
+    }
+
+    var maximumPointSize: CGFloat? {
+        switch self {
+"""
+
+        needsDefaultCase = false
+        for enumCase in textStyleNames {
+            let info = Generator.Config.typographyTextStyles[enumCase]!
+            if let maximumPointSize = info.maximumPointSize {
+                header += """
+
+        case .\(enumCase):
+            return \(maximumPointSize)
+"""
+            } else {
+                needsDefaultCase = true
+            }
+        }
+
+        if needsDefaultCase {
+            header += """
+        default:
+            return nil"
+"""
+        }
+
+        header += """
+
+        }
+    }
+}
+
+private let defaultSizes: [UIFont.TextStyle: CGFloat] = {
+    var sizes: [UIFont.TextStyle: CGFloat] = [.body: 17,
+                                              .callout: 16,
+                                              .caption2: 11,
+                                              .caption1: 12,
+                                              .footnote: 13,
+                                              .headline: 17,
+                                              .largeTitle: 34,
+                                              .subheadline: 15,
+                                              .title3: 20,
+                                              .title2: 22,
+                                              .title1: 28]
+    return sizes
+}()
+
+private class FluentUIFontCache: NSObject {
+    private lazy var cache = [UIFont.FontType: UIFont]()
+
+    override init() {
+        super.init()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleApplicationDidReceiveMemoryWarning),
+                                               name: UIApplication.didReceiveMemoryWarningNotification, object: nil)
+    }
+
+    @objc private func handleApplicationDidReceiveMemoryWarning() {
+        cache.removeAll()
+    }
+
+    func font(name: String? = nil,
+              size: CGFloat? = nil,
+              textStyle: \(textStyleType)? = nil,
+              weight: UIFont.Weight? = nil,
+              traits: UIFontDescriptor.SymbolicTraits,
+              traitCollection: UITraitCollection? = nil,
+              isScalable: Bool = true) -> UIFont {
+        let key = UIFont.FontType(name: name,
+                                  size: size,
+                                  textStyle: textStyle,
+                                  weight: weight,
+                                  traits: traits,
+                                  traitCollection: traitCollection,
+                                  isScalable: isScalable)
+        if let font = cache[key] {
+            return font
+        }
+
+        var font: UIFont!
+        var isAlreadyScalable = false
+        let fontSize = size ?? textStyle?.defaultPointSize
+
+        if let name = name, let size = fontSize, let customFontWithSpecificSize = UIFont(name: name, size: size) {
+            font = customFontWithSpecificSize
+        } else if let size = fontSize {
+            if let weight = weight {
+                font = UIFont.systemFont(ofSize: size, weight: weight)
+            } else {
+                font = UIFont.systemFont(ofSize: size)
+            }
+        } else if let nativeTextStyle = textStyle?.style {
+            isAlreadyScalable = isScalable && textStyle?.maximumPointSize == nil
+            font = UIFont.preferredFont(forTextStyle: nativeTextStyle,
+                                        compatibleWith: isScalable ? traitCollection : UITraitCollection(preferredContentSizeCategory: .large))
+        }
+
+        guard font != nil else {
+            fatalError("Failed to load the font.")
+        }
+
+        if !traits.isEmpty {
+            font = font.with(traits: traits)
+        }
+
+        if isScalable && !isAlreadyScalable {
+            if let nativeTextStyle = textStyle?.style {
+                if let maximumPointSize = textStyle?.maximumPointSize {
+                    font = UIFontMetrics(forTextStyle: nativeTextStyle).scaledFont(for: font, maximumPointSize: maximumPointSize, compatibleWith: traitCollection)
+                } else {
+                    font = UIFontMetrics(forTextStyle: nativeTextStyle).scaledFont(for: font, compatibleWith: traitCollection)
+                }
+            } else {
+                font = UIFontMetrics.default.scaledFont(for: font, compatibleWith: traitCollection)
+            }
+        }
+
+        font.isScalable = isScalable
+        font.fontType = key
+        cache[key] = font
+        return font
+    }
+}
+
+\(visibility) var fontTypeHandle: UInt8 = 0
+
+\(visibility) extension UIFont {
+    struct FontType: Hashable {
+        let name: String?
+        let size: CGFloat?
+        let textStyle: \(textStyleType)?
+        let weight: UIFont.Weight?
+        let traits: UIFontDescriptor.SymbolicTraits
+        let traitCollection: UITraitCollection?
+        let isScalable: Bool
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(name)
+            hasher.combine(size)
+            hasher.combine(textStyle)
+            hasher.combine(weight)
+            hasher.combine(traits.rawValue)
+            hasher.combine(traitCollection)
+            hasher.combine(isScalable)
+        }
+    }
+
+    var fontType: FontType? {
+        get { return objc_getAssociatedObject(self, &fontTypeHandle) as? FontType }
+        set { objc_setAssociatedObject(self, &fontTypeHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+    }
+}
+
+\(visibility) var scalableHandle: UInt8 = 0
+
+public extension UIFont {
+    private static var cache = FluentUIFontCache()
+
+"""
 
         if hasSymbolFont {
-            header += "\tconvenience init?(style: \(NamespaceEnums).\(IconicFontStyle), size: CGFloat) {\n"
-            header += "\t\tself.init(name: style.name, size: size)\n"
-            header += "\t}\n\n"
-        }
-        
-        header += "\tfunc with(traits: UIFontDescriptor.SymbolicTraits) -> UIFont {\n"
-        header += "\t\tlet descriptor = fontDescriptor.withSymbolicTraits(traits)\n"
-        header += "\t\treturn UIFont(descriptor: descriptor!, size: 0)\n"
-        header += "\t}\n\n"
-        
-        header += "\tclass func font(name: String? = nil, size: CGFloat? = nil, textStyle: \(textStyleType)? = nil, weight: UIFont.Weight? = nil, traits: UIFontDescriptor.SymbolicTraits, traitCollection: UITraitCollection? = nil, isScalable: Bool = true) -> UIFont {\n"
-        header += "\t\treturn cache.font(name: name, size: size, textStyle: textStyle, weight: weight, traits: traits, traitCollection: traitCollection, isScalable: isScalable)\n"
-        header += "\t}\n\n"
-        
-        header += "\tconvenience init?(name: String, scalable: Bool) {\n"
-        header += "\t\tself.init(name: name, size: 4)\n"
-        header += "\t\tself.isScalable = scalable\n"
-        header += "\t}\n\n"
-        
-        header += "\tvar isScalable: Bool {\n"
-        header += "\t\tget { return objc_getAssociatedObject(self, &__ScalableHandle) as? Bool ?? false }\n"
-        header += "\t\tset { objc_setAssociatedObject(self, &__ScalableHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }\n"
-        header += "\t}\n\n"
-        
-        header += "\tvar textStyle: UIFont.TextStyle? {\n"
-        header += "\t\treturn fontDescriptor.fontAttributes[.textStyle] as? UIFont.TextStyle\n"
-        header += "\t}\n\n"
+            header += """
+    convenience init?(style: \(NamespaceEnums).\(IconicFontStyle), size: CGFloat) {
+        self.init(name: style.name, size: size)
+    }
 
-        header += "\tvar fixedFont: UIFont {\n"
-        header += "\t\tif isScalable == false { return self }\n"
-        header += "\t\tif let fontType = fontType {\n"
-        header += "\t\t\treturn UIFont.font(name: fontType.name, size: fontType.size, textStyle: fontType.textStyle, weight: fontType.weight, traits: fontType.traits, traitCollection: fontType.traitCollection, isScalable: false)\n"
-        header += "\t\t}\n"
-        header += "\t\tguard let textStyle = textStyle, let defaultSize = defaultSizes[textStyle] else { return self }\n"
-        header += "\t\tlet fontDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: textStyle)\n"
-        header += "\t\treturn UIFont(descriptor: fontDescriptor, size: defaultSize)\n"
-        header += "\t}\n\n"
-        
-        header += "}\n\n"
-        
+"""
+        }
+
+        header += """
+    func with(traits: UIFontDescriptor.SymbolicTraits) -> UIFont {
+        let descriptor = fontDescriptor.withSymbolicTraits(traits)
+        return UIFont(descriptor: descriptor!, size: 0)
+    }
+
+    class func font(name: String? = nil,
+                    size: CGFloat? = nil,
+                    textStyle: \(textStyleType)? = nil,
+                    weight: UIFont.Weight? = nil,
+                    traits: UIFontDescriptor.SymbolicTraits,
+                    traitCollection: UITraitCollection? = nil,
+                    isScalable: Bool = true) -> UIFont {
+        return cache.font(name: name,
+                          size: size,
+                          textStyle: textStyle,
+                          weight: weight,
+                          traits: traits,
+                          traitCollection: traitCollection,
+                          isScalable: isScalable)
+    }
+
+    convenience init?(name: String, scalable: Bool) {
+        self.init(name: name, size: 4)
+        self.isScalable = scalable
+    }
+
+    var isScalable: Bool {
+        get { return objc_getAssociatedObject(self, &scalableHandle) as? Bool ?? false }
+        set { objc_setAssociatedObject(self, &scalableHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+    }
+
+    var textStyle: UIFont.TextStyle? {
+        return fontDescriptor.fontAttributes[.textStyle] as? UIFont.TextStyle
+    }
+
+    var fixedFont: UIFont {
+        if isScalable == false {
+            return self
+        }
+
+        if let fontType = fontType {
+            return UIFont.font(name: fontType.name, size: fontType.size, textStyle: fontType.textStyle, weight: fontType.weight, traits: fontType.traits, traitCollection: fontType.traitCollection, isScalable: false)
+        }
+
+        guard let textStyle = textStyle, let defaultSize = defaultSizes[textStyle] else {
+            return self
+        }
+
+        let fontDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: textStyle)
+        return UIFont(descriptor: fontDescriptor, size: defaultSize)
+    }
+}
+
+
+"""
+
         return header
     }
     
@@ -1184,7 +1259,6 @@ extension Stylesheet {
     }
     
     func generateExtensions() -> String {
-        
         let hasNamespace = Generator.Config.importStylesheetManagerName != nil && Generator.Config.namespace != nil
         let namespace = hasNamespace ? "\(Generator.Config.namespace!)." : ""
         let styleToGenerate = styles.filter({ $0.isExtension && ($0.isDependency == false || $0.isDependencyInItsOwnStylesheet) })
