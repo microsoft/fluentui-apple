@@ -211,6 +211,10 @@ open class DrawerController: UIViewController {
             }
         }
     }
+    
+    /// Use`preferredMaximumContentHeight` to make the drawer expand to a specific height. In scenarios where, the provided value is less than the original drawer height or greater than the screen height we revert back to the default behaviour of expanding to the top of the screen.
+    @objc open var preferredMaximumContentHeight: CGFloat = -1
+    
     @objc open var presentationBackground: DrawerPresentationBackground = .black
 
     /// Use `passThroughView` to make underlying view interactable. This view can be set from presenting view controller to recieve all the touch events from drawer's presentation background.
@@ -423,6 +427,19 @@ open class DrawerController: UIViewController {
 
         initialize()
     }
+    
+    @objc public init(sourceView: UIView, sourceRect: CGRect, presentationOrigin: CGFloat = -1, presentationDirection: DrawerPresentationDirection, preferredMaximumHeight: CGFloat)
+    {
+        self.sourceView = sourceView
+        self.sourceRect = sourceRect
+        self.barButtonItem = nil
+        self.presentationOrigin = presentationOrigin == -1 ? nil : presentationOrigin
+        self.presentationDirection = presentationDirection
+        self.preferredMaximumContentHeight = preferredMaximumHeight
+
+        super.init(nibName: nil, bundle: nil)
+        initialize()
+    }
 
     /**
      Initializes `DrawerController` to be presented as a popover from `barButtonItem` on iPad and as a slideover on iPhone/iPad.
@@ -442,6 +459,7 @@ open class DrawerController: UIViewController {
 
         initialize()
     }
+    
 
     public required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
@@ -606,7 +624,8 @@ open class DrawerController: UIViewController {
     private func updatePreferredContentSize(isExpanded: Bool) {
         isPreferredContentSizeBeingChangedInternally = true
         if isExpanded {
-            preferredContentSize.height = UIScreen.main.bounds.height
+            let expandedContentHeight = (preferredMaximumContentHeight < UIScreen.main.bounds.height && preferredMaximumContentHeight > originalDrawerHeight) ? preferredMaximumContentHeight : UIScreen.main.bounds.height
+            preferredContentSize.height = expandedContentHeight
         } else {
             preferredContentSize.height = normalPreferredContentHeight
         }
