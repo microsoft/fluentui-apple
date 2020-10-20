@@ -427,6 +427,10 @@ private class TableViewHeaderFooterTitleView: UITextView {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
+    override func becomeFirstResponder() -> Bool {
+        return false
+    }
+
     override var selectedTextRange: UITextRange? {
         get {
             // No need for selection, but we need to keep it selectable in order for links to work
