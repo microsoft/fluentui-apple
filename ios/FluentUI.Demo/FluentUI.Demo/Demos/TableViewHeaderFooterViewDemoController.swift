@@ -122,9 +122,9 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
     }
     
     private func createCustomLeadingView(section: Int) -> UIView {
-        var image = UIImageView(image: UIImage(named: "Dismiss_24"))
+        var image = UIImageView(image: UIImage(named: "chevron-down-20x20"))
         if collapsedSections[section] == true {
-            image = UIImageView(image: UIImage(named: "New_24"))
+            image = UIImageView(image: UIImage(named: "chevron-right-20x20"))
         }
         return image
     }
