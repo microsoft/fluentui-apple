@@ -496,6 +496,8 @@ open class DrawerController: UIViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.updateResizingHandleView()
+        
+        resizingGestureRecognizer?.isEnabled = false
 
         // if DrawerController is shown in UIPopoverPresentationController then we want to show different darkElevated color
         if !useCustomBackgroundColor {
@@ -723,7 +725,6 @@ open class DrawerController: UIViewController {
            resizingHandleView = nil
            resizingGestureRecognizer = nil
        }
-       resizingGestureRecognizer?.isEnabled = false
     }
 
     private func updateResizingHandleViewAccessibility() {
