@@ -11,8 +11,8 @@ class TableViewHeaderFooterSampleData: TableViewSampleData {
     static let itemTitle: String = "Contoso Survey"
 
     static let groupedSections: [Section] = [
-        Section(title: "Primary Title", headerStyle: .section),
-        Section(title: "Primary Expandable", headerStyle: .section, isExpandable: true),
+        Section(title: "Primary Title", headerStyle: .headerPrimary, hasHandler: true),
+        Section(title: "Primary Expandable", headerStyle: .headerPrimary, hasCustomLeadingView: true, hasHandler: true),
         Section(title: "Default"),
         Section(title: "Default with accessory button", hasAccessory: true),
         Section(title: "Default with primary accessory button", hasAccessory: true, accessoryButtonStyle: .primary),
