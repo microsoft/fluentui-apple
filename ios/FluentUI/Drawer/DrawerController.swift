@@ -253,6 +253,11 @@ open class DrawerController: UIViewController {
             if presentationDirection.isHorizontal && resizingBehavior == .dismissOrExpand {
                 resizingBehavior = .dismiss
             }
+            
+            // If the drawer is already loaded, update the resizing handle when resizing behaviour is changed.
+            if self.isViewLoaded {
+                self.updateResizingHandleView()
+            }
         }
     }
 
@@ -490,23 +495,7 @@ open class DrawerController: UIViewController {
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if canResize {
-            if showsResizingHandle {
-                if resizingHandleView == nil {
-                    resizingHandleView = ResizingHandleView()
-                    resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
-                }
-            } else {
-                resizingHandleView = nil
-            }
-            if resizingGestureRecognizer == nil {
-                resizingGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handleResizingGesture))
-            }
-        } else {
-            resizingHandleView = nil
-            resizingGestureRecognizer = nil
-        }
-        resizingGestureRecognizer?.isEnabled = false
+        self.updateResizingHandleView()
 
         // if DrawerController is shown in UIPopoverPresentationController then we want to show different darkElevated color
         if !useCustomBackgroundColor {
@@ -675,6 +664,7 @@ open class DrawerController: UIViewController {
                 initResizingHandleView()
                 if presentationDirection == .down {
                     containerView.addArrangedSubview(newView)
+                    containerView.layoutIfNeeded()
                 } else {
                     containerView.insertArrangedSubview(newView, at: 0)
                 }
@@ -714,6 +704,26 @@ open class DrawerController: UIViewController {
             resizingHandleView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleResizingHandleViewTap)))
         }
         updateResizingHandleViewAccessibility()
+    }
+    
+    private func updateResizingHandleView() {
+        if canResize {
+           if showsResizingHandle {
+               if resizingHandleView == nil {
+                   resizingHandleView = ResizingHandleView()
+                   resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
+               }
+           } else {
+               resizingHandleView = nil
+           }
+           if resizingGestureRecognizer == nil {
+               resizingGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handleResizingGesture))
+           }
+       } else {
+           resizingHandleView = nil
+           resizingGestureRecognizer = nil
+       }
+       resizingGestureRecognizer?.isEnabled = false
     }
 
     private func updateResizingHandleViewAccessibility() {
