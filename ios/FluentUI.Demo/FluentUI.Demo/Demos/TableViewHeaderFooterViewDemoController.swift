@@ -9,7 +9,7 @@ import FluentUI
 // MARK: TableViewHeaderFooterViewDemoController
 
 class TableViewHeaderFooterViewDemoController: DemoController {
-    private let groupedSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.groupedSections
+    private var groupedSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.groupedSections
     private let plainSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.plainSections
 
     private let segmentedControl: SegmentedControl = {
@@ -19,6 +19,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
     }()
     private lazy var groupedTableView: UITableView = createTableView(style: .grouped)
     private lazy var plainTableView: UITableView = createTableView(style: .plain)
+    private var collapsedSections: [Bool] = [Bool](repeating: false, count: TableViewHeaderFooterSampleData.groupedSections.count)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +39,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
         let tableView = UITableView(frame: .zero, style: style)
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
+        tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: "test")
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = Colors.Table.background
@@ -59,7 +61,12 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return TableViewHeaderFooterSampleData.numberOfItemsInSection
+        if collapsedSections[section] != true {
+            return TableViewHeaderFooterSampleData.numberOfItemsInSection
+        }
+        else {
+            return 0
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -88,11 +95,16 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as! TableViewHeaderFooterView
+        let index = section
         let section = tableView.style == .grouped ? groupedSections[section] : plainSections[section]
+        if section.hasHandler {
+            header.onHeaderViewTapped = { [unowned self] in self.forHeaderTapped(header: header, section: index, icon: createCustomLeadingView(section: index)) }
+        }
+        
         if section.hasCustomAccessoryView {
-            header.setup(style: section.headerStyle, title: section.title, accessoryView: createCustomAccessoryView())
+            header.setup(style: section.headerStyle, title: section.title, accessoryView: createCustomAccessoryView(), leadingView: section.hasCustomLeadingView ? createCustomLeadingView(section: index) : nil)
         } else {
-            header.setup(style: section.headerStyle, title: section.title, accessoryButtonTitle: section.hasAccessory ? "See More" : "")
+            header.setup(style: section.headerStyle, title: section.title, accessoryButtonTitle: section.hasAccessory ? "See More" : "", leadingView: section.hasCustomLeadingView ? createCustomLeadingView(section: index) : nil)
         }
 
         header.titleNumberOfLines = section.numberOfLines
@@ -101,12 +113,20 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
 
         return header
     }
-
+    
     private func createCustomAccessoryView() -> UIView {
         let button = UIButton(type: .system)
         button.setTitle("Custom Accessory", for: .normal)
         button.setTitleColor(.green, for: .normal)
         return button
+    }
+    
+    private func createCustomLeadingView(section: Int) -> UIView {
+        var image = UIImageView(image: UIImage(named: "Dismiss_24"))
+        if collapsedSections[section] == true {
+            image = UIImageView(image: UIImage(named: "New_24"))
+        }
+        return image
     }
 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -142,6 +162,12 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
         present(alert, animated: true)
+    }
+    
+    private func forHeaderTapped(header: TableViewHeaderFooterView, section: Int, icon: UIView) {
+        collapsedSections[section] = collapsedSections[section] != true ? true : false
+        header.isCollapsed = collapsedSections[section]
+        self.groupedTableView.reloadSections(IndexSet(integer: section), with: UITableView.RowAnimation.fade)
     }
 }
 
