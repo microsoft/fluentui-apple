@@ -101,7 +101,7 @@ class DrawerDemoController: DemoController {
         controller.shouldRespectSafeAreaForWindowFullWidth = respectSafeAreaWidth
         
         if let maxDrawerHeight = maxDrawerHeight{
-         controller.preferredMaximumContentHeight = maxDrawerHeight
+         controller.preferredMaximumExpansionHeight = maxDrawerHeight
         }
         
         if let contentView = contentView {

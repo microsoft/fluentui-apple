@@ -212,8 +212,8 @@ open class DrawerController: UIViewController {
         }
     }
     
-    /// Use`preferredMaximumContentHeight` to make the drawer expand to a specific height. In scenarios where, the provided value is less than the original drawer height or greater than the screen height we revert back to the default behaviour of expanding to the top of the screen.
-    @objc open var preferredMaximumContentHeight: CGFloat = -1
+    /// Use`preferredMaximumExpansionHeight` to make the drawer expand to a specific height. In scenarios where, the provided value is less than the original drawer height or greater than the screen height we revert back to the default behaviour of expanding to the top of the screen.
+    @objc open var preferredMaximumExpansionHeight: CGFloat = -1
     
     @objc open var presentationBackground: DrawerPresentationBackground = .black
 
@@ -435,7 +435,7 @@ open class DrawerController: UIViewController {
         self.barButtonItem = nil
         self.presentationOrigin = presentationOrigin == -1 ? nil : presentationOrigin
         self.presentationDirection = presentationDirection
-        self.preferredMaximumContentHeight = preferredMaximumHeight
+        self.preferredMaximumExpansionHeight = preferredMaximumHeight
 
         super.init(nibName: nil, bundle: nil)
         initialize()
@@ -624,7 +624,7 @@ open class DrawerController: UIViewController {
     private func updatePreferredContentSize(isExpanded: Bool) {
         isPreferredContentSizeBeingChangedInternally = true
         if isExpanded {
-            let expandedContentHeight = (preferredMaximumContentHeight < UIScreen.main.bounds.height && preferredMaximumContentHeight > originalDrawerHeight) ? preferredMaximumContentHeight : UIScreen.main.bounds.height
+            let expandedContentHeight = (preferredMaximumExpansionHeight < UIScreen.main.bounds.height && preferredMaximumExpansionHeight > originalDrawerHeight) ? preferredMaximumExpansionHeight : UIScreen.main.bounds.height
             preferredContentSize.height = expandedContentHeight
         } else {
             preferredContentSize.height = normalPreferredContentHeight
