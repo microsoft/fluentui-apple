@@ -255,8 +255,8 @@ open class DrawerController: UIViewController {
             }
             
             // If the drawer is already loaded, update the resizing handle when resizing behaviour is changed.
-            if self.isViewLoaded {
-                self.updateResizingHandleView()
+            if isViewLoaded {
+               updateResizingHandleView()
             }
         }
     }
@@ -495,8 +495,9 @@ open class DrawerController: UIViewController {
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.updateResizingHandleView()
         
+        // Configure the resizing handle view according to resizing behaviour and disable the gesture recogniser(if any) till view actually appears
+        updateResizingHandleView()
         resizingGestureRecognizer?.isEnabled = false
 
         // if DrawerController is shown in UIPopoverPresentationController then we want to show different darkElevated color
