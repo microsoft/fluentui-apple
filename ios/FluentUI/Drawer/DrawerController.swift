@@ -667,6 +667,8 @@ open class DrawerController: UIViewController {
                 initResizingHandleView()
                 if presentationDirection == .down {
                     containerView.addArrangedSubview(newView)
+                    
+                    // Force layout the containerView to avoid unwanted animation of view addition.
                     containerView.layoutIfNeeded()
                 } else {
                     containerView.insertArrangedSubview(newView, at: 0)
