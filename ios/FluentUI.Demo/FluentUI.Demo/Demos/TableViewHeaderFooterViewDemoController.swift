@@ -9,7 +9,7 @@ import FluentUI
 // MARK: TableViewHeaderFooterViewDemoController
 
 class TableViewHeaderFooterViewDemoController: DemoController {
-    private var groupedSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.groupedSections
+    private let groupedSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.groupedSections
     private let plainSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.plainSections
 
     private let segmentedControl: SegmentedControl = {
@@ -98,7 +98,7 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
         let index = section
         let section = tableView.style == .grouped ? groupedSections[section] : plainSections[section]
         if section.hasHandler {
-            header.onHeaderViewTapped = { [unowned self] in self.forHeaderTapped(header: header, section: index, icon: createCustomLeadingView(section: index)) }
+            header.onHeaderViewTapped = { [unowned self] in self.forHeaderTapped(header: header, section: index) }
         }
         
         if section.hasCustomAccessoryView {
@@ -122,9 +122,9 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
     }
     
     private func createCustomLeadingView(section: Int) -> UIView {
-        var image = UIImageView(image: UIImage(named: "Dismiss_24"))
+        var image = UIImageView(image: UIImage(named: "chevron-down-20x20"))
         if collapsedSections[section] == true {
-            image = UIImageView(image: UIImage(named: "New_24"))
+            image = UIImageView(image: UIImage(named: "chevron-right-20x20"))
         }
         return image
     }
@@ -164,7 +164,7 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
         present(alert, animated: true)
     }
     
-    private func forHeaderTapped(header: TableViewHeaderFooterView, section: Int, icon: UIView) {
+    private func forHeaderTapped(header: TableViewHeaderFooterView, section: Int) {
         collapsedSections[section] = collapsedSections[section] != true ? true : false
         header.isCollapsed = collapsedSections[section]
         self.groupedTableView.reloadSections(IndexSet(integer: section), with: UITableView.RowAnimation.fade)
