@@ -82,13 +82,13 @@ class DrawerDemoController: DemoController {
                                animated: Bool = true,
                                customWidth: Bool = false,
                                respectSafeAreaWidth: Bool = false,
-                               maxDrawerHeight: CGFloat? = -1) -> DrawerController {
+                               maxDrawerHeight: CGFloat = -1) -> DrawerController {
         let controller: DrawerController
         if let sourceView = sourceView {
-            controller = DrawerController(sourceView: sourceView, sourceRect: sourceView.bounds.insetBy(dx: sourceView.bounds.width / 2, dy: 0), presentationOrigin: presentationOrigin, presentationDirection: presentationDirection)
+            controller = DrawerController(sourceView: sourceView, sourceRect: sourceView.bounds.insetBy(dx: sourceView.bounds.width / 2, dy: 0), presentationOrigin: presentationOrigin, presentationDirection: presentationDirection, preferredMaximumHeight: maxDrawerHeight)
             controller.delegate = self
         } else if let barButtonItem = barButtonItem {
-            controller = DrawerController(barButtonItem: barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection)
+            controller = DrawerController(barButtonItem: barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection, preferredMaximumHeight: maxDrawerHeight)
         } else {
             preconditionFailure("Presenting a drawer requires either a sourceView or a barButtonItem")
         }
@@ -101,10 +101,6 @@ class DrawerDemoController: DemoController {
         controller.resizingBehavior = resizingBehavior
         controller.adjustsHeightForKeyboard = adjustHeightForKeyboard
         controller.shouldRespectSafeAreaForWindowFullWidth = respectSafeAreaWidth
-
-        if let maxDrawerHeight = maxDrawerHeight {
-         controller.preferredMaximumExpansionHeight = maxDrawerHeight
-        }
 
         if let contentView = contentView {
             // `preferredContentSize` can be used to specify the preferred size of a drawer,

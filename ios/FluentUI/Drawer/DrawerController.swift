@@ -212,9 +212,6 @@ open class DrawerController: UIViewController {
         }
     }
 
-    /// Use`preferredMaximumExpansionHeight` to make the drawer expand to a specific height. In scenarios where, the provided value is less than the original drawer height or greater than the screen height we revert back to the default behaviour of expanding to the top of the screen.
-    @objc open var preferredMaximumExpansionHeight: CGFloat = -1
-
     @objc open var presentationBackground: DrawerPresentationBackground = .black
 
     /// Use `passThroughView` to make underlying view interactable. This view can be set from presenting view controller to recieve all the touch events from drawer's presentation background.
@@ -412,6 +409,8 @@ open class DrawerController: UIViewController {
     private var useCustomBackgroundColor: Bool = false
     /// for iPad split mode, navigation bar has a different dark elevated color, and if it is a `.down` presentation style, match `Colors.NavigationBar.background` elevated color
     private var useNavigationBarBackgroundColor: Bool = false
+    
+    private var preferredMaximumExpansionHeight: CGFloat
 
     /**
      Initializes `DrawerController` to be presented as a popover from `sourceRect` in `sourceView` on iPad and as a slideover on iPhone/iPad.
@@ -420,20 +419,9 @@ open class DrawerController: UIViewController {
      - Parameter sourceRect: The rectangle in the specified view in which to anchor the popover.
      - Parameter presentationOrigin: The offset (in screen coordinates) from which to show a slideover. If not provided it will be calculated automatically: bottom of navigation bar for `.down` presentation and edge of the screen for other presentations.
      - Parameter presentationDirection: The direction of slideover presentation.
+     - Parameter preferredMaximumHeight: The maximum height to which the drawer is preferred to expand
      */
-    @objc public init(sourceView: UIView, sourceRect: CGRect, presentationOrigin: CGFloat = -1, presentationDirection: DrawerPresentationDirection) {
-        self.sourceView = sourceView
-        self.sourceRect = sourceRect
-        self.barButtonItem = nil
-        self.presentationOrigin = presentationOrigin == -1 ? nil : presentationOrigin
-        self.presentationDirection = presentationDirection
-
-        super.init(nibName: nil, bundle: nil)
-
-        initialize()
-    }
-
-    @objc public init(sourceView: UIView, sourceRect: CGRect, presentationOrigin: CGFloat = -1, presentationDirection: DrawerPresentationDirection, preferredMaximumHeight: CGFloat) {
+    @objc public init(sourceView: UIView, sourceRect: CGRect, presentationOrigin: CGFloat = -1, presentationDirection: DrawerPresentationDirection, preferredMaximumHeight: CGFloat = -1) {
         self.sourceView = sourceView
         self.sourceRect = sourceRect
         self.barButtonItem = nil
@@ -442,6 +430,7 @@ open class DrawerController: UIViewController {
         self.preferredMaximumExpansionHeight = preferredMaximumHeight
 
         super.init(nibName: nil, bundle: nil)
+
         initialize()
     }
 
@@ -452,12 +441,13 @@ open class DrawerController: UIViewController {
      - Parameter presentationOrigin: The offset (in screen coordinates) from which to show a slideover. If not provided it will be calculated automatically: bottom of navigation bar for `.down` presentation and edge of the screen for other presentations.
      - Parameter presentationDirection: The direction of slideover presentation.
      */
-    @objc public init(barButtonItem: UIBarButtonItem, presentationOrigin: CGFloat = -1, presentationDirection: DrawerPresentationDirection) {
+    @objc public init(barButtonItem: UIBarButtonItem, presentationOrigin: CGFloat = -1, presentationDirection: DrawerPresentationDirection, preferredMaximumHeight: CGFloat = -1) {
         self.sourceView = nil
         self.sourceRect = nil
         self.barButtonItem = barButtonItem
         self.presentationOrigin = presentationOrigin == -1 ? nil : presentationOrigin
         self.presentationDirection = presentationDirection
+        self.preferredMaximumExpansionHeight = preferredMaximumHeight
 
         super.init(nibName: nil, bundle: nil)
 
@@ -991,9 +981,9 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
                                                 shouldUseWindowFullWidthInLandscape: shouldUseWindowFullWidthInLandscape,
                                                 shouldRespectSafeAreaForWindowFullWidth: shouldRespectSafeAreaForWindowFullWidth,
                                                 passThroughView: passThroughView,
-                                                shadowOffset: shadowOffset)
+                                                shadowOffset: shadowOffset,
+                                                maximumPresentationHeight: preferredMaximumExpansionHeight)
             drawerPresentationController.drawerPresentationControllerDelegate = self
-            drawerPresentationController.preferredMaximumPresentationSize = preferredMaximumExpansionHeight
             return drawerPresentationController
         case .popover:
             let presentationController = UIPopoverPresentationController(presentedViewController: presented, presenting: presenting)
