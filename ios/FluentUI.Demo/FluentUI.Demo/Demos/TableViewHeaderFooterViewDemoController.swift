@@ -39,7 +39,6 @@ class TableViewHeaderFooterViewDemoController: DemoController {
         let tableView = UITableView(frame: .zero, style: style)
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
-        tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: "test")
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = Colors.Table.background
@@ -63,8 +62,7 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if collapsedSections[section] != true {
             return TableViewHeaderFooterSampleData.numberOfItemsInSection
-        }
-        else {
+        } else {
             return 0
         }
     }
@@ -100,7 +98,7 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
         if section.hasHandler {
             header.onHeaderViewTapped = { [unowned self] in self.forHeaderTapped(header: header, section: index) }
         }
-        
+
         if section.hasCustomAccessoryView {
             header.setup(style: section.headerStyle, title: section.title, accessoryView: createCustomAccessoryView(), leadingView: section.hasCustomLeadingView ? createCustomLeadingView(section: index) : nil)
         } else {
@@ -113,14 +111,14 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
 
         return header
     }
-    
+
     private func createCustomAccessoryView() -> UIView {
         let button = UIButton(type: .system)
         button.setTitle("Custom Accessory", for: .normal)
         button.setTitleColor(.green, for: .normal)
         return button
     }
-    
+
     private func createCustomLeadingView(section: Int) -> UIView {
         var image = UIImageView(image: UIImage(named: "chevron-down-20x20"))
         if collapsedSections[section] == true {
@@ -163,11 +161,11 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
         alert.addAction(action)
         present(alert, animated: true)
     }
-    
+
     private func forHeaderTapped(header: TableViewHeaderFooterView, section: Int) {
-        collapsedSections[section] = collapsedSections[section] != true ? true : false
+        collapsedSections[section] = collapsedSections[section] != true
         header.isCollapsed = collapsedSections[section]
-        self.groupedTableView.reloadSections(IndexSet(integer: section), with: UITableView.RowAnimation.fade)
+        groupedTableView.reloadSections(IndexSet(integer: section), with: UITableView.RowAnimation.fade)
     }
 }
 
