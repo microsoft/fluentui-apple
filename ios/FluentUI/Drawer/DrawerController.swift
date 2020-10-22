@@ -616,8 +616,15 @@ open class DrawerController: UIViewController {
     private func updatePreferredContentSize(isExpanded: Bool) {
         isPreferredContentSizeBeingChangedInternally = true
         if isExpanded {
-            let expandedContentHeight = (preferredMaximumExpansionHeight < UIScreen.main.bounds.height && preferredMaximumExpansionHeight >= originalDrawerHeight) ? preferredMaximumExpansionHeight : UIScreen.main.bounds.height
-            preferredContentSize.height = expandedContentHeight
+            if preferredMaximumExpansionHeight != -1 {
+                // Prferred max expansion height is not set.
+                preferredContentSize.height = screenBound
+            } else if preferredMaximumExpansionHeight < screenBound && preferredMaximumExpansionHeight >= originalDrawerHeight {
+                // Preferred max expansion size is in range [originalDrawerHeight, screenBound)
+                preferredContentSize.height = preferredMaximumExpansionHeight
+            } else {
+                preferredContentSize.height = screenBound
+            }
         } else {
             preferredContentSize.height = normalPreferredContentHeight
         }
@@ -674,6 +681,8 @@ open class DrawerController: UIViewController {
     private var resizingHandleIsInteractive: Bool {
         return resizingBehavior == .dismissOrExpand
     }
+    private let screenBound: CGFloat = UIScreen.main.bounds.height
+    
 
     private var canResizeViaContentScrolling: Bool {
         return canResize && presentationDirection == .up
@@ -866,13 +875,7 @@ open class DrawerController: UIViewController {
                     updatePreferredContentSize(isExpanded: extraContentSizeEffect == .resize)
                 }
             }
-        
-            // When a valid 'preferredMaximumExpansionHeight' is provided, restrict the expansion animation to that height.
-            if((preferredMaximumExpansionHeight != -1 && originalDrawerHeight + offset <= preferredMaximumExpansionHeight) || (preferredMaximumExpansionHeight == -1))
-            {
-                presentationController.setExtraContentSize(offset)
-            }
-            
+            presentationController.setExtraContentSize(offset)
         case .ended:
             if offset >= Constants.resizingThreshold {
                 if isExpanded {
@@ -993,6 +996,7 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
                                                 passThroughView: passThroughView,
                                                 shadowOffset: shadowOffset)
             drawerPresentationController.drawerPresentationControllerDelegate = self
+            drawerPresentationController.preferredMaximumPresentationSize = preferredMaximumExpansionHeight
             return drawerPresentationController
         case .popover:
             let presentationController = UIPopoverPresentationController(presentedViewController: presented, presenting: presenting)

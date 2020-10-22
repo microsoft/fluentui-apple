@@ -34,6 +34,8 @@ class DrawerPresentationController: UIPresentationController {
     private let shadowOffset: CGFloat
 
     public weak var drawerPresentationControllerDelegate: DrawerPresentationControllerDelegate?
+    
+    public var preferredMaximumPresentationSize: CGFloat = -1
 
     init(presentedViewController: UIViewController,
          presentingViewController: UIViewController?,
@@ -374,7 +376,11 @@ class DrawerPresentationController: UIPresentationController {
             }
             contentSize.height = min(contentSize.height, contentFrame.height)
             if extraContentSize >= 0 || extraContentSizeEffectWhenCollapsing == .resize {
-                contentSize.height = min(contentSize.height + extraContentSize, contentFrame.height)
+                if preferredMaximumPresentationSize != -1 {
+                    contentSize.height = min(contentSize.height + extraContentSize, preferredMaximumPresentationSize)
+                } else {
+                    contentSize.height = min(contentSize.height + extraContentSize, contentFrame.height)
+                }
             }
 
             contentFrame.origin.x += (contentFrame.width - contentSize.width) / 2

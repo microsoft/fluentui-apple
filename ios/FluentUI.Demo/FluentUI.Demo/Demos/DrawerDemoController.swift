@@ -198,7 +198,7 @@ class DrawerDemoController: DemoController {
     
 
     @objc private func showBottomDrawerWithMaxContentHeightTapped(sender: UIButton) {
-        presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews(drawerHasFlexibleHeight: false), resizingBehavior: .expand, maxDrawerHeight: 350)
+        presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews(drawerHasFlexibleHeight: false), resizingBehavior: .dismissOrExpand, maxDrawerHeight: 350)
     }
     
     @objc private func showBottomDrawerChangingResizingBehaviour(sender: UIButton) {
@@ -318,13 +318,11 @@ class DrawerDemoController: DemoController {
     @objc private func dismissNotAnimatedButtonTapped() {
         dismiss(animated: false)
     }
-    
     @objc private func updateResizingBehaviourButtonTapped(sender: UIButton) {
         guard let drawer = presentedViewController as? DrawerController else {
             return
         }
         let isResizingBehaviourNone = drawer.resizingBehavior == .none
-       
         drawer.resizingBehavior = isResizingBehaviourNone ? .expand : .none
         sender.setTitle(isResizingBehaviourNone ? "Resizing - None" : "Resizing - Expand", for: .normal)
     }
