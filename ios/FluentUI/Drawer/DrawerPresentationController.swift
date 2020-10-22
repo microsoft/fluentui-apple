@@ -145,7 +145,7 @@ class DrawerPresentationController: UIPresentationController {
             // Horizontally presented drawers must be inside containerView in order for device rotation animation to work correctly
             if presentationDirection.isHorizontal {
                 containerView?.addSubview(presentedViewController.view)
-                presentedViewController.view.frame = frameForPresentedViewController(in: contentView.bounds)
+                presentedViewController.view.frame = frameForPresentedViewController(in: frameOfPresentedViewInContainerView)
                 focusElement = containerView
             } else {
                 focusElement = contentView
@@ -303,11 +303,7 @@ class DrawerPresentationController: UIPresentationController {
         contentView.frame = frame
 
         if let presentedView = presentedView {
-            presentedView.frame = frameForPresentedViewController(in: contentView.bounds)
-
-            if presentedView.superview == containerView {
-                presentedView.frame = frameForPresentedViewController(in: frameOfPresentedViewInContainerView)
-            }
+            presentedView.frame = frameForPresentedViewController(in: presentedView.superview == containerView ? frameOfPresentedViewInContainerView : contentView.bounds)
         }
 
         if separator.superview != nil {
@@ -446,9 +442,9 @@ class DrawerPresentationController: UIPresentationController {
                            width: bounds.size.width,
                            height: bounds.size.height)
 
-        // Moves the presented view controller (drawer) down in the content view if it's being dragged towards dismissal.
-        // In case the drawer is being expanded, the content view grows with the gesture extra content size and the
-        // drawer keeps its original offset relative to the content view.
+        // Moves the presented view controller (drawer) towards its presenting base in the content view if it's being dragged to dismissal.
+        // In case the drawer is being expanded, the content view grows with the gesture extra content size and the drawer keeps its
+        // original offset relative to the content view.
         let gestureOffset = extraContentSize < 0 && extraContentSizeEffectWhenCollapsing == .move ? extraContentSize : 0
 
         if presentationDirection.isVertical {
