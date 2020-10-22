@@ -437,10 +437,7 @@ class DrawerPresentationController: UIPresentationController {
     }
 
     private func frameForPresentedViewController(in bounds: CGRect) -> CGRect {
-        var frame = CGRect(x: bounds.origin.x,
-                           y: bounds.origin.y,
-                           width: bounds.size.width,
-                           height: bounds.size.height)
+        var frame = bounds
 
         // Moves the presented view controller (drawer) towards its presenting base in the content view if it's being dragged to dismissal.
         // In case the drawer is being expanded, the content view grows with the gesture extra content size and the drawer keeps its
