@@ -21,15 +21,14 @@ public protocol TableViewHeaderFooterViewDelegate: AnyObject {
 @available(*, deprecated, renamed: "TableViewHeaderFooterView")
 public typealias MSTableViewHeaderFooterView = TableViewHeaderFooterView
 
-/**
- `TableViewHeaderFooterView` is used to present a section header or footer with a `title` and an optional accessory button.
+/// `TableViewHeaderFooterView` is used to present a section header or footer with a `title` and an optional accessory button.
+///
+/// Set the `TableViewHeaderFooterView.Style` of the view to specify its visual style. While the `default` and `headerPrimary` style may be used for headers, the `footer` style, which lays out the `title` near the top of the view, may be used for footers in grouped lists. Use `divider` and `dividerHighlighted` as headers for plain lists.
+///
+/// The optional accessory button should only be used with `default` style headers with the `title` as a single line of text.
+///
+/// Use `titleNumberOfLines` to configure the number of lines for the `title`. Headers generally use the default number of lines of 1 while footers may use a multiple number of lines.
 
- Set the `TableViewHeaderFooterView.Style` of the view to specify its visual style. While the `default` and `headerPrimary` style may be used for headers, the `footer` style, which lays out the `title` near the top of the view, may be used for footers in grouped lists. Use `divider` and `dividerHighlighted` as headers for plain lists.
-
- The optional accessory button should only be used with `default` style headers with the `title` as a single line of text.
-
- Use `titleNumberOfLines` to configure the number of lines for the `title`. Headers generally use the default number of lines of 1 while footers may use a multiple number of lines.
- */
 @objc(MSFTableViewHeaderFooterView)
 open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     @objc(MSFTableViewHeaderFooterViewAccessoryButtonStyle)
@@ -291,7 +290,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         contentView.addSubview(titleView)
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHeaderViewTapped))
-        titleView.addGestureRecognizer(tapGesture)
+        contentView.addGestureRecognizer(tapGesture)
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
