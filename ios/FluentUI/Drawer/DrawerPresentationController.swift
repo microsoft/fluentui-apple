@@ -34,7 +34,7 @@ class DrawerPresentationController: UIPresentationController {
     private let shadowOffset: CGFloat
 
     public weak var drawerPresentationControllerDelegate: DrawerPresentationControllerDelegate?
-    
+
     public var preferredMaximumPresentationSize: CGFloat = -1
 
     init(presentedViewController: UIViewController,

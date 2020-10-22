@@ -101,11 +101,11 @@ class DrawerDemoController: DemoController {
         controller.resizingBehavior = resizingBehavior
         controller.adjustsHeightForKeyboard = adjustHeightForKeyboard
         controller.shouldRespectSafeAreaForWindowFullWidth = respectSafeAreaWidth
-        
-        if let maxDrawerHeight = maxDrawerHeight{
+
+        if let maxDrawerHeight = maxDrawerHeight {
          controller.preferredMaximumExpansionHeight = maxDrawerHeight
         }
-        
+
         if let contentView = contentView {
             // `preferredContentSize` can be used to specify the preferred size of a drawer,
             // but here we just define the width and allow it to calculate height automatically
@@ -158,7 +158,7 @@ class DrawerDemoController: DemoController {
     @objc private func showTopDrawerButtonTapped(sender: UIButton) {
         presentDrawer(sourceView: sender, presentationDirection: .down, contentView: containerForActionViews(), resizingBehavior: .dismissOrExpand)
     }
-    
+
     @objc private func showTopDrawerWithMaxContentHeightTapped(sender: UIButton) {
         presentDrawer(sourceView: sender, presentationDirection: .down, contentView: containerForActionViews(drawerHasFlexibleHeight: false), resizingBehavior: .expand, maxDrawerHeight: 350)
     }
@@ -166,7 +166,7 @@ class DrawerDemoController: DemoController {
     @objc private func showTopDrawerNotDismissableButtonTapped(sender: UIButton) {
         presentDrawer(sourceView: sender, presentationDirection: .down, contentView: containerForActionViews(), resizingBehavior: .expand)
     }
-    
+
     @objc private func showTopDrawerChangingResizingBehaviour(sender: UIButton) {
         presentDrawer(sourceView: sender, presentationDirection: .down, contentView: containerForActionViews(drawerHasFlexibleHeight: true, drawerHasToggleResizingBehaviorButton: true), resizingBehavior: .expand)
     }
@@ -195,12 +195,11 @@ class DrawerDemoController: DemoController {
     @objc private func showBottomDrawerButtonTapped(sender: UIButton) {
         presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews(), resizingBehavior: .dismissOrExpand)
     }
-    
 
     @objc private func showBottomDrawerWithMaxContentHeightTapped(sender: UIButton) {
         presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews(drawerHasFlexibleHeight: false), resizingBehavior: .dismissOrExpand, maxDrawerHeight: 350)
     }
-    
+
     @objc private func showBottomDrawerChangingResizingBehaviour(sender: UIButton) {
         presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews(drawerHasFlexibleHeight: true, drawerHasToggleResizingBehaviorButton: true), resizingBehavior: .expand)
     }

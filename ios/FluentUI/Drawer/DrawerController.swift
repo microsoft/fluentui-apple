@@ -211,10 +211,10 @@ open class DrawerController: UIViewController {
             }
         }
     }
-    
+
     /// Use`preferredMaximumExpansionHeight` to make the drawer expand to a specific height. In scenarios where, the provided value is less than the original drawer height or greater than the screen height we revert back to the default behaviour of expanding to the top of the screen.
     @objc open var preferredMaximumExpansionHeight: CGFloat = -1
-    
+
     @objc open var presentationBackground: DrawerPresentationBackground = .black
 
     /// Use `passThroughView` to make underlying view interactable. This view can be set from presenting view controller to recieve all the touch events from drawer's presentation background.
@@ -257,7 +257,7 @@ open class DrawerController: UIViewController {
             if presentationDirection.isHorizontal && resizingBehavior == .dismissOrExpand {
                 resizingBehavior = .dismiss
             }
-            
+
             // If the drawer is already loaded, update the resizing handle when resizing behaviour is changed.
             if isViewLoaded {
                updateResizingHandleView()
@@ -432,9 +432,8 @@ open class DrawerController: UIViewController {
 
         initialize()
     }
-    
-    @objc public init(sourceView: UIView, sourceRect: CGRect, presentationOrigin: CGFloat = -1, presentationDirection: DrawerPresentationDirection, preferredMaximumHeight: CGFloat)
-    {
+
+    @objc public init(sourceView: UIView, sourceRect: CGRect, presentationOrigin: CGFloat = -1, presentationDirection: DrawerPresentationDirection, preferredMaximumHeight: CGFloat) {
         self.sourceView = sourceView
         self.sourceRect = sourceRect
         self.barButtonItem = nil
@@ -464,7 +463,6 @@ open class DrawerController: UIViewController {
 
         initialize()
     }
-    
 
     public required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
@@ -513,7 +511,7 @@ open class DrawerController: UIViewController {
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         // Configure the resizing handle view according to resizing behaviour and disable the gesture recogniser(if any) till view actually appears
         updateResizingHandleView()
         resizingGestureRecognizer?.isEnabled = false
@@ -682,7 +680,6 @@ open class DrawerController: UIViewController {
         return resizingBehavior == .dismissOrExpand
     }
     private let screenBound: CGFloat = UIScreen.main.bounds.height
-    
 
     private var canResizeViaContentScrolling: Bool {
         return canResize && presentationDirection == .up
@@ -695,7 +692,7 @@ open class DrawerController: UIViewController {
                 initResizingHandleView()
                 if presentationDirection == .down {
                     containerView.addArrangedSubview(newView)
-                    
+
                     // Force layout the containerView to avoid unwanted animation of view addition.
                     containerView.layoutIfNeeded()
                 } else {
@@ -738,7 +735,7 @@ open class DrawerController: UIViewController {
         }
         updateResizingHandleViewAccessibility()
     }
-    
+
     private func updateResizingHandleView() {
         if canResize {
            if showsResizingHandle {
