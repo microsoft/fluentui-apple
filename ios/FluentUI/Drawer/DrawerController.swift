@@ -604,6 +604,7 @@ open class DrawerController: UIViewController {
     private func updatePreferredContentSize(isExpanded: Bool) {
         isPreferredContentSizeBeingChangedInternally = true
         if isExpanded {
+            let screenBound: CGFloat = UIScreen.main.bounds.height
             if preferredMaximumExpansionHeight != -1 {
                 // Prferred max expansion height is not set.
                 preferredContentSize.height = screenBound
@@ -669,7 +670,6 @@ open class DrawerController: UIViewController {
     private var resizingHandleIsInteractive: Bool {
         return resizingBehavior == .dismissOrExpand
     }
-    private let screenBound: CGFloat = UIScreen.main.bounds.height
 
     private var canResizeViaContentScrolling: Bool {
         return canResize && presentationDirection == .up
