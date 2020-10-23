@@ -60,11 +60,7 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if collapsedSections[section] != true {
-            return TableViewHeaderFooterSampleData.numberOfItemsInSection
-        } else {
-            return 0
-        }
+        return collapsedSections[section] ? 0 : TableViewHeaderFooterSampleData.numberOfItemsInSection
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -96,7 +92,7 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
         let index = section
         let section = tableView.style == .grouped ? groupedSections[section] : plainSections[section]
         if section.hasHandler {
-            header.onHeaderViewTapped = { [unowned self] in self.forHeaderTapped(header: header, section: index) }
+            header.onHeaderViewTapped = { [weak self] in self?.forHeaderTapped(header: header, section: index) }
         }
 
         if section.hasCustomAccessoryView {
@@ -120,11 +116,8 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
     }
 
     private func createCustomLeadingView(section: Int) -> UIView {
-        var image = UIImageView(image: UIImage(named: "chevron-down-20x20"))
-        if collapsedSections[section] == true {
-            image = UIImageView(image: UIImage(named: "chevron-right-20x20"))
-        }
-        return image
+        let imageName = collapsedSections[section] ? "chevron-right-20x20" : "chevron-down-20x20"
+        return UIImageView(image: UIImage(named: imageName))
     }
 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -163,7 +156,7 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
     }
 
     private func forHeaderTapped(header: TableViewHeaderFooterView, section: Int) {
-        collapsedSections[section] = collapsedSections[section] != true
+        collapsedSections[section] = !collapsedSections[section]
         header.isCollapsed = collapsedSections[section]
         groupedTableView.reloadSections(IndexSet(integer: section), with: UITableView.RowAnimation.fade)
     }
