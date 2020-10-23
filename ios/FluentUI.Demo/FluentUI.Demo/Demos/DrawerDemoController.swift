@@ -210,7 +210,7 @@ class DrawerDemoController: DemoController {
 
     @objc private func showBottomDrawerCustomOffsetButtonTapped(sender: UIButton) {
         let rect = sender.superview!.convert(sender.frame, to: nil)
-        presentDrawer(sourceView: sender, presentationOrigin: rect.minY, presentationDirection: .up, contentView: containerForActionViews())
+        presentDrawer(sourceView: sender, presentationOrigin: rect.minY, presentationDirection: .up, contentView: containerForActionViews(), resizingBehavior: .dismissOrExpand)
     }
 
     @objc private func showBottomDrawerBlockingDismissButtonTapped(sender: UIButton) {

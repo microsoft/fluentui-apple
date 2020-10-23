@@ -130,7 +130,7 @@ class DrawerPresentationController: UIPresentationController {
         // For animated presentations presented view must be inside contentView to not slide over navigation bar/toolbar
         if presentingViewController.transitionCoordinator?.isAnimated == true {
             // Avoiding content animation due to showing of the keyboard (when presented view contains the first responder)
-            presentedViewController.view.frame = contentView.bounds
+            presentedViewController.view.frame = frameForPresentedViewController(in: contentView.bounds)
             presentedViewController.view.layoutIfNeeded()
 
             contentView.addSubview(presentedViewController.view)
@@ -149,7 +149,7 @@ class DrawerPresentationController: UIPresentationController {
             // Horizontally presented drawers must be inside containerView in order for device rotation animation to work correctly
             if presentationDirection.isHorizontal {
                 containerView?.addSubview(presentedViewController.view)
-                presentedViewController.view.frame = frameOfPresentedViewInContainerView
+                presentedViewController.view.frame = frameForPresentedViewController(in: frameOfPresentedViewInContainerView)
                 focusElement = containerView
             } else {
                 focusElement = contentView
@@ -167,7 +167,7 @@ class DrawerPresentationController: UIPresentationController {
         // For animated presentations presented view must be inside contentView to not slide over navigation bar/toolbar
         if let transitionCoordinator = presentingViewController.transitionCoordinator, transitionCoordinator.isAnimated == true {
             contentView.addSubview(presentedViewController.view)
-            presentedViewController.view.frame = contentView.bounds
+            presentedViewController.view.frame = frameForPresentedViewController(in: contentView.bounds)
 
             transitionCoordinator.animate(alongsideTransition: { _ in
                 self.backgroundView.alpha = 0.0
@@ -305,9 +305,11 @@ class DrawerPresentationController: UIPresentationController {
 
     private func setContentViewFrame(_ frame: CGRect) {
         contentView.frame = frame
-        if let presentedView = presentedView, presentedView.superview == containerView {
-            presentedView.frame = frameOfPresentedViewInContainerView
+
+        if let presentedView = presentedView {
+            presentedView.frame = frameForPresentedViewController(in: presentedView.superview == containerView ? frameOfPresentedViewInContainerView : contentView.bounds)
         }
+
         if separator.superview != nil {
             separator.frame = frameForSeparator(in: contentView.frame, withThickness: separator.frame.height)
         }
@@ -387,9 +389,7 @@ class DrawerPresentationController: UIPresentationController {
             if presentationDirection == .up {
                 contentFrame.origin.y = contentFrame.maxY - contentSize.height
             }
-            if extraContentSize < 0 && extraContentSizeEffectWhenCollapsing == .move {
-                contentFrame.origin.y += presentationDirection == .down ? extraContentSize : -extraContentSize
-            }
+
             contentSize.height += shadowOffset
         } else {
             if actualPresentationOffset == 0 {
@@ -401,9 +401,7 @@ class DrawerPresentationController: UIPresentationController {
             if presentationDirection == .fromTrailing {
                 contentFrame.origin.x = contentFrame.maxX - contentSize.width
             }
-            if extraContentSize < 0 && extraContentSizeEffectWhenCollapsing == .move {
-                contentFrame.origin.x += presentationDirection == .fromLeading ? extraContentSize : -extraContentSize
-            }
+
             contentSize.width += shadowOffset
         }
         contentFrame.size = contentSize
@@ -444,13 +442,24 @@ class DrawerPresentationController: UIPresentationController {
         return margins
     }
 
-    private func frameForSeparator(in bounds: CGRect, withThickness thickness: CGFloat) -> CGRect {
-        var bounds = bounds
-        // Separator should stay fixed even when content view is moving - compensating for move
-        if extraContentSize < 0 && extraContentSizeEffectWhenCollapsing == .move {
-            bounds.origin.y += presentationDirection == .down ? -extraContentSize : extraContentSize
+    private func frameForPresentedViewController(in bounds: CGRect) -> CGRect {
+        var frame = bounds
+
+        // Moves the presented view controller (drawer) towards its presenting base in the content view if it's being dragged to dismissal.
+        // In case the drawer is being expanded, the content view grows with the gesture extra content size and the drawer keeps its
+        // original offset relative to the content view.
+        let gestureOffset = extraContentSize < 0 && extraContentSizeEffectWhenCollapsing == .move ? extraContentSize : 0
+
+        if presentationDirection.isVertical {
+            frame.origin.y += presentationDirection == .down ? gestureOffset - shadowOffset : -gestureOffset + shadowOffset
+        } else {
+            frame.origin.x += presentationDirection == .fromLeading ? gestureOffset - shadowOffset : -gestureOffset + shadowOffset
         }
 
+        return frame
+    }
+
+    private func frameForSeparator(in bounds: CGRect, withThickness thickness: CGFloat) -> CGRect {
         return CGRect(
             x: bounds.minX,
             y: presentationDirection == .down ? bounds.minY : bounds.maxY - thickness,
