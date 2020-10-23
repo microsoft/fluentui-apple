@@ -276,14 +276,17 @@ open class AvatarView: UIView {
         didSet {
             if oldValue != hasPointerInteraction {
                 if #available(iOS 13.4, *) {
-                    if hasPointerInteraction {
-                        let pointerInteraction = UIPointerInteraction(delegate: self)
-                        addInteraction(pointerInteraction)
+                    // Workaround check for beta iOS versions missing the Pointer Interactions API
+                    if arePointerInteractionAPIsAvailable() {
+                        if hasPointerInteraction {
+                            let pointerInteraction = UIPointerInteraction(delegate: self)
+                            addInteraction(pointerInteraction)
 
-                        self.pointerInteraction = pointerInteraction
-                    } else if let pointerInteraction = pointerInteraction {
-                        removeInteraction(pointerInteraction as! UIPointerInteraction)
-                        self.pointerInteraction = nil
+                            self.pointerInteraction = pointerInteraction
+                        } else if let pointerInteraction = pointerInteraction {
+                            removeInteraction(pointerInteraction as! UIPointerInteraction)
+                            self.pointerInteraction = nil
+                        }
                     }
                 }
             }
