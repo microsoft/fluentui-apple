@@ -157,7 +157,6 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
 
     private func forHeaderTapped(header: TableViewHeaderFooterView, section: Int) {
         collapsedSections[section] = !collapsedSections[section]
-        header.isCollapsed = collapsedSections[section]
         groupedTableView.reloadSections(IndexSet(integer: section), with: UITableView.RowAnimation.fade)
     }
 }

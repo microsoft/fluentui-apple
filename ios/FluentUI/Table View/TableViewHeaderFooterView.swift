@@ -141,10 +141,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     ///   - leadingView: An optional custom view that appears near the leading edge of the view.
     /// - Returns: a value representing the calculated preferred width of the view.
     @objc public class func preferredWidth(style: Style, title: String, accessoryView: UIView? = nil, leadingView: UIView? = nil) -> CGFloat {
-        var font = Constants.titleTextStyle.font
-        if style == .headerPrimary {
-            font = Constants.primaryTitleTextStyle.font
-        }
+        let font = style.textFont()
         let titleSize = title.preferredSize(for: font)
 
         var width = Constants.horizontalMargin + titleSize.width + Constants.horizontalMargin
@@ -161,12 +158,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     }
 
     private static func titleLeadingOffset(leadingView: UIView? = nil) -> CGFloat {
-        let leadingViewSpacing: CGFloat
-        if let leadingView = leadingView {
-            leadingViewSpacing = leadingView.frame.width
-        } else {
-            leadingViewSpacing = 0
-        }
+        let leadingViewSpacing = leadingView?.frame.width ?? 0
         return leadingViewSpacing + Constants.horizontalMargin
     }
 
@@ -199,7 +191,6 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     @objc open var onHeaderViewTapped: (() -> Void)?
 
     @objc public weak var delegate: TableViewHeaderFooterViewDelegate?
-    @objc public var isCollapsed: Bool = false
 
     open override var intrinsicContentSize: CGSize {
         return CGSize(
