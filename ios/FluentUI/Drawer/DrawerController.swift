@@ -610,7 +610,7 @@ open class DrawerController: UIViewController {
                 // Preferred max expansion size is in range [originalDrawerHeight, screenHeight)
                 preferredContentSize.height = preferredMaximumExpansionHeight
             } else {
-                preferredContentSize.height = normalPreferredContentHeight
+                preferredContentSize.height = screenHeight
             }
         }
         isPreferredContentSizeBeingChangedInternally = false
