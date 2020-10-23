@@ -380,7 +380,6 @@ class DrawerPresentationController: UIPresentationController {
             }
             contentSize.height = min(contentSize.height, contentFrame.height)
             if extraContentSize >= 0 || extraContentSizeEffectWhenCollapsing == .resize {
-                
                 let maxContentSize = preferredMaximumPresentationSize != -1 ? preferredMaximumPresentationSize : contentFrame.height
                 contentSize.height = min(contentSize.height + extraContentSize, maxContentSize)
             }

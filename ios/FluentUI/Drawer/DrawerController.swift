@@ -409,8 +409,7 @@ open class DrawerController: UIViewController {
     private var useCustomBackgroundColor: Bool = false
     /// for iPad split mode, navigation bar has a different dark elevated color, and if it is a `.down` presentation style, match `Colors.NavigationBar.background` elevated color
     private var useNavigationBarBackgroundColor: Bool = false
-    
-    private var preferredMaximumExpansionHeight: CGFloat
+    private let preferredMaximumExpansionHeight: CGFloat
 
     /**
      Initializes `DrawerController` to be presented as a popover from `sourceRect` in `sourceView` on iPad and as a slideover on iPhone/iPad.
@@ -604,15 +603,15 @@ open class DrawerController: UIViewController {
     private func updatePreferredContentSize(isExpanded: Bool) {
         isPreferredContentSizeBeingChangedInternally = true
         if isExpanded {
-            let screenBound: CGFloat = UIScreen.main.bounds.height
+            let screenHeight: CGFloat = UIScreen.main.bounds.height
             if preferredMaximumExpansionHeight != -1 {
                 // Prferred max expansion height is not set.
-                preferredContentSize.height = screenBound
-            } else if preferredMaximumExpansionHeight < screenBound && preferredMaximumExpansionHeight >= originalDrawerHeight {
+                preferredContentSize.height = screenHeight
+            } else if preferredMaximumExpansionHeight < screenHeight && preferredMaximumExpansionHeight >= originalDrawerHeight {
                 // Preferred max expansion size is in range [originalDrawerHeight, screenBound)
                 preferredContentSize.height = preferredMaximumExpansionHeight
             } else {
-                preferredContentSize.height = screenBound
+                preferredContentSize.height = screenHeight
             }
         } else {
             preferredContentSize.height = normalPreferredContentHeight
