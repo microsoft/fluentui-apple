@@ -19,6 +19,7 @@ class DrawerDemoController: DemoController {
 
         addTitle(text: "Top Drawer")
         container.addArrangedSubview(createButton(title: "Show resizable", action: #selector(showTopDrawerButtonTapped)))
+        container.addArrangedSubview(createButton(title: "Show resizable with max content height", action: #selector(showTopDrawerWithMaxContentHeightTapped)))
         container.addArrangedSubview(createButton(title: "Show non dismissable", action: #selector(showTopDrawerNotDismissableButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show changing resizing behaviour", action: #selector(showTopDrawerChangingResizingBehaviour)))
         container.addArrangedSubview(createButton(title: "Show with no animation", action: #selector(showTopDrawerNotAnimatedButtonTapped)))
@@ -38,6 +39,7 @@ class DrawerDemoController: DemoController {
 
         addTitle(text: "Bottom Drawer")
         container.addArrangedSubview(createButton(title: "Show resizable", action: #selector(showBottomDrawerButtonTapped)))
+        container.addArrangedSubview(createButton(title: "Show resizable with max content height", action: #selector(showBottomDrawerWithMaxContentHeightTapped)))
         container.addArrangedSubview(createButton(title: "Show with underlying interactable content view", action: #selector(showBottomDrawerWithUnderlyingInteractableViewButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show changing resizing behaviour", action: #selector(showBottomDrawerChangingResizingBehaviour)))
         container.addArrangedSubview(createButton(title: "Show with no animation", action: #selector(showBottomDrawerNotAnimatedButtonTapped)))
@@ -79,13 +81,14 @@ class DrawerDemoController: DemoController {
                                adjustHeightForKeyboard: Bool = false,
                                animated: Bool = true,
                                customWidth: Bool = false,
-                               respectSafeAreaWidth: Bool = false) -> DrawerController {
+                               respectSafeAreaWidth: Bool = false,
+                               maxDrawerHeight: CGFloat = -1) -> DrawerController {
         let controller: DrawerController
         if let sourceView = sourceView {
-            controller = DrawerController(sourceView: sourceView, sourceRect: sourceView.bounds.insetBy(dx: sourceView.bounds.width / 2, dy: 0), presentationOrigin: presentationOrigin, presentationDirection: presentationDirection)
+            controller = DrawerController(sourceView: sourceView, sourceRect: sourceView.bounds.insetBy(dx: sourceView.bounds.width / 2, dy: 0), presentationOrigin: presentationOrigin, presentationDirection: presentationDirection, preferredMaximumHeight: maxDrawerHeight)
             controller.delegate = self
         } else if let barButtonItem = barButtonItem {
-            controller = DrawerController(barButtonItem: barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection)
+            controller = DrawerController(barButtonItem: barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection, preferredMaximumHeight: maxDrawerHeight)
         } else {
             preconditionFailure("Presenting a drawer requires either a sourceView or a barButtonItem")
         }
@@ -152,10 +155,14 @@ class DrawerDemoController: DemoController {
         presentDrawer(sourceView: sender, presentationDirection: .down, contentView: containerForActionViews(), resizingBehavior: .dismissOrExpand)
     }
 
+    @objc private func showTopDrawerWithMaxContentHeightTapped(sender: UIButton) {
+        presentDrawer(sourceView: sender, presentationDirection: .down, contentView: containerForActionViews(drawerHasFlexibleHeight: false), resizingBehavior: .expand, maxDrawerHeight: 350)
+    }
+
     @objc private func showTopDrawerNotDismissableButtonTapped(sender: UIButton) {
         presentDrawer(sourceView: sender, presentationDirection: .down, contentView: containerForActionViews(), resizingBehavior: .expand)
     }
-    
+
     @objc private func showTopDrawerChangingResizingBehaviour(sender: UIButton) {
         presentDrawer(sourceView: sender, presentationDirection: .down, contentView: containerForActionViews(drawerHasFlexibleHeight: true, drawerHasToggleResizingBehaviorButton: true), resizingBehavior: .expand)
     }
@@ -183,6 +190,10 @@ class DrawerDemoController: DemoController {
 
     @objc private func showBottomDrawerButtonTapped(sender: UIButton) {
         presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews(), resizingBehavior: .dismissOrExpand)
+    }
+
+    @objc private func showBottomDrawerWithMaxContentHeightTapped(sender: UIButton) {
+        presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews(drawerHasFlexibleHeight: false), resizingBehavior: .dismissOrExpand, maxDrawerHeight: 350)
     }
 
     @objc private func showBottomDrawerChangingResizingBehaviour(sender: UIButton) {
@@ -302,13 +313,11 @@ class DrawerDemoController: DemoController {
     @objc private func dismissNotAnimatedButtonTapped() {
         dismiss(animated: false)
     }
-    
     @objc private func updateResizingBehaviourButtonTapped(sender: UIButton) {
         guard let drawer = presentedViewController as? DrawerController else {
             return
         }
         let isResizingBehaviourNone = drawer.resizingBehavior == .none
-       
         drawer.resizingBehavior = isResizingBehaviourNone ? .expand : .none
         sender.setTitle(isResizingBehaviourNone ? "Resizing - None" : "Resizing - Expand", for: .normal)
     }

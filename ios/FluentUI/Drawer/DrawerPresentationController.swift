@@ -35,6 +35,8 @@ class DrawerPresentationController: UIPresentationController {
 
     public weak var drawerPresentationControllerDelegate: DrawerPresentationControllerDelegate?
 
+    private let preferredMaximumPresentationSize: CGFloat
+
     init(presentedViewController: UIViewController,
          presentingViewController: UIViewController?,
          source: UIViewController,
@@ -47,7 +49,8 @@ class DrawerPresentationController: UIPresentationController {
          shouldUseWindowFullWidthInLandscape: Bool,
          shouldRespectSafeAreaForWindowFullWidth: Bool,
          passThroughView: UIView?,
-         shadowOffset: CGFloat) {
+         shadowOffset: CGFloat,
+         maximumPresentationHeight: CGFloat) {
         sourceViewController = source
         self.sourceObject = sourceObject
         self.presentationOrigin = presentationOrigin
@@ -58,6 +61,7 @@ class DrawerPresentationController: UIPresentationController {
         self.shouldRespectSafeAreaForWindowFullWidth = shouldRespectSafeAreaForWindowFullWidth
         self.passThroughView = passThroughView
         self.shadowOffset = shadowOffset
+        self.preferredMaximumPresentationSize = maximumPresentationHeight
 
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
 
@@ -376,7 +380,8 @@ class DrawerPresentationController: UIPresentationController {
             }
             contentSize.height = min(contentSize.height, contentFrame.height)
             if extraContentSize >= 0 || extraContentSizeEffectWhenCollapsing == .resize {
-                contentSize.height = min(contentSize.height + extraContentSize, contentFrame.height)
+                let maxContentSize = preferredMaximumPresentationSize != -1 ? preferredMaximumPresentationSize : contentFrame.height
+                contentSize.height = min(contentSize.height + extraContentSize, maxContentSize)
             }
 
             contentFrame.origin.x += (contentFrame.width - contentSize.width) / 2
