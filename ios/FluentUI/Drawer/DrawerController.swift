@@ -612,6 +612,8 @@ open class DrawerController: UIViewController {
             } else {
                 preferredContentSize.height = screenHeight
             }
+        } else {
+            preferredContentSize.height = normalPreferredContentHeight
         }
         isPreferredContentSizeBeingChangedInternally = false
     }
