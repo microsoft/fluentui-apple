@@ -112,17 +112,14 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     /// - Returns: a value representing the calculated height of the view.
     @objc public class func height(style: Style, title: String, titleNumberOfLines: Int = 1, containerWidth: CGFloat = .greatestFiniteMagnitude) -> CGFloat {
         let verticalMargin: CGFloat
-        let font: UIFont
+        let font = style.textFont()
         switch style {
         case .header, .footer:
             verticalMargin = Constants.titleDefaultTopMargin + Constants.titleDefaultBottomMargin
-            font = Constants.titleTextStyle.font
         case .headerPrimary:
             verticalMargin = Constants.titleDefaultTopMargin + Constants.titleDefaultBottomMargin
-            font = Constants.primaryTitleTextStyle.font
         case .divider, .dividerHighlighted:
             verticalMargin = Constants.titleDividerVerticalMargin * 2
-            font = Constants.titleTextStyle.font
         }
 
         let titleWidth = containerWidth - (Constants.horizontalMargin + TableViewHeaderFooterView.titleTrailingOffset() + TableViewHeaderFooterView.titleLeadingOffset())
@@ -253,7 +250,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         }
     }
 
-    public var leadingView: UIView? = nil {
+    private var leadingView: UIView? = nil {
         didSet {
             oldValue?.removeFromSuperview()
             if let leadingView = leadingView {
