@@ -678,8 +678,8 @@
 		A5CEC16B20D98EBF0016922A /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				FD599D052134A682008845EE /* AccessibleViewDelegate.swift */,
 				FD77752A219E455A00033D58 /* AccessibilityContainerView.swift */,
+				FD599D052134A682008845EE /* AccessibleViewDelegate.swift */,
 				FDF41ED82141A02200EC527C /* CalendarConfiguration.swift */,
 				A5CEC16C20D98EE70016922A /* Colors.swift */,
 				FD777528219E3F6C00033D58 /* DayOfMonth.swift */,
