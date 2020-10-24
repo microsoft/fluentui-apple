@@ -65,8 +65,11 @@ class TabBarItemView: UIView {
         container.addSubview(badgeView)
 
         if #available(iOS 13.4, *) {
-            let pointerInteraction = UIPointerInteraction(delegate: self)
-            addInteraction(pointerInteraction)
+            // Workaround check for beta iOS versions missing the Pointer Interactions API
+            if arePointerInteractionAPIsAvailable() {
+                let pointerInteraction = UIPointerInteraction(delegate: self)
+                addInteraction(pointerInteraction)
+            }
         }
 
         isAccessibilityElement = true
