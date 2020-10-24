@@ -21,15 +21,11 @@ public protocol TableViewHeaderFooterViewDelegate: AnyObject {
 @available(*, deprecated, renamed: "TableViewHeaderFooterView")
 public typealias MSTableViewHeaderFooterView = TableViewHeaderFooterView
 
-/**
- `TableViewHeaderFooterView` is used to present a section header or footer with a `title` and an optional accessory button.
-
- Set the `TableViewHeaderFooterView.Style` of the view to specify its visual style. While the `default` style may be used for headers, the `footer` style, which lays out the `title` near the top of the view, may be used for footers in grouped lists. Use `divider` and `dividerHighlighted` as headers for plain lists.
-
- The optional accessory button should only be used with `default` style headers with the `title` as a single line of text.
-
- Use `titleNumberOfLines` to configure the number of lines for the `title`. Headers generally use the default number of lines of 1 while footers may use a multiple number of lines.
- */
+/// `TableViewHeaderFooterView` is used to present a section header or footer with a `title` and an optional accessory button.
+/// Set the `TableViewHeaderFooterView.Style` of the view to specify its visual style. The `default` and `headerPrimary` style may be used for headers.
+/// The `footer` style, which lays out the `title` near the top of the view, may be used for footers in grouped lists. Use `divider` and `dividerHighlighted` as headers for plain lists.
+/// The optional accessory button should only be used with `default` style headers with the `title` as a single line of text.
+/// Use `titleNumberOfLines` to configure the number of lines for the `title`. Headers generally use the default number of lines of 1 while footers may use a multiple number of lines.
 @objc(MSFTableViewHeaderFooterView)
 open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     @objc(MSFTableViewHeaderFooterViewAccessoryButtonStyle)
@@ -54,10 +50,11 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         case divider
         case dividerHighlighted
         case footer
+        case headerPrimary
 
         func backgroundColor(for window: UIWindow) -> UIColor {
             switch self {
-            case .header, .footer:
+            case .header, .footer, .headerPrimary:
                 return Colors.Table.HeaderFooter.background
             case .divider:
                 return Colors.Table.HeaderFooter.backgroundDivider
@@ -74,6 +71,17 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
                 return Colors.Table.HeaderFooter.textDivider
             case .dividerHighlighted:
                 return Colors.primary(for: window)
+            case .headerPrimary:
+                return Colors.textPrimary
+            }
+        }
+
+        func textFont() -> UIFont {
+            switch self {
+            case .headerPrimary:
+                return Constants.primaryTitleTextStyle.font
+            case .header, .footer, .divider, .dividerHighlighted:
+                return Constants.titleTextStyle.font
             }
         }
     }
@@ -84,6 +92,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         static let titleDefaultTopMargin: CGFloat = 24
         static let titleDefaultBottomMargin: CGFloat = 8
         static let titleDividerVerticalMargin: CGFloat = 3
+        static let primaryTitleTextStyle: TextStyle = .headline
         static let titleTextStyle: TextStyle = .footnote
 
         static let accessoryViewBottomMargin: CGFloat = 2
@@ -102,16 +111,19 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     ///   - containerWidth: The width of the view's super view (e.g. the table view's width).
     /// - Returns: a value representing the calculated height of the view.
     @objc public class func height(style: Style, title: String, titleNumberOfLines: Int = 1, containerWidth: CGFloat = .greatestFiniteMagnitude) -> CGFloat {
-        let titleWidth = containerWidth - (Constants.horizontalMargin + TableViewHeaderFooterView.titleRightOffset())
-        let titleHeight = title.preferredSize(for: Constants.titleTextStyle.font, width: titleWidth, numberOfLines: titleNumberOfLines).height
-
         let verticalMargin: CGFloat
+        let font = style.textFont()
         switch style {
         case .header, .footer:
+            verticalMargin = Constants.titleDefaultTopMargin + Constants.titleDefaultBottomMargin
+        case .headerPrimary:
             verticalMargin = Constants.titleDefaultTopMargin + Constants.titleDefaultBottomMargin
         case .divider, .dividerHighlighted:
             verticalMargin = Constants.titleDividerVerticalMargin * 2
         }
+
+        let titleWidth = containerWidth - (Constants.horizontalMargin + TableViewHeaderFooterView.titleTrailingOffset() + TableViewHeaderFooterView.titleLeadingOffset())
+        let titleHeight = title.preferredSize(for: font, width: titleWidth, numberOfLines: titleNumberOfLines).height
 
         return verticalMargin + titleHeight
     }
@@ -122,9 +134,11 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     ///   - style: The `TableViewHeaderFooterView.Style` used to set up the view.
     ///   - title: The title string.
     ///   - accessoryView: An optional accessory view that appears near the trailing edge of the view.
+    ///   - leadingView: An optional custom view that appears near the leading edge of the view.
     /// - Returns: a value representing the calculated preferred width of the view.
-    @objc public class func preferredWidth(style: Style, title: String, accessoryView: UIView? = nil) -> CGFloat {
-        let titleSize = title.preferredSize(for: Constants.titleTextStyle.font)
+    @objc public class func preferredWidth(style: Style, title: String, accessoryView: UIView? = nil, leadingView: UIView? = nil) -> CGFloat {
+        let font = style.textFont()
+        let titleSize = title.preferredSize(for: font)
 
         var width = Constants.horizontalMargin + titleSize.width + Constants.horizontalMargin
 
@@ -132,10 +146,19 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
             width += Constants.accessoryViewMarginLeft + accessoryView.frame.width
         }
 
+        if let leadingView = leadingView {
+            width += Constants.accessoryViewMarginLeft + leadingView.frame.width
+        }
+
         return width
     }
 
-    private static func titleRightOffset(accessoryView: UIView? = nil) -> CGFloat {
+    private static func titleLeadingOffset(leadingView: UIView? = nil) -> CGFloat {
+        let leadingViewSpacing = leadingView?.frame.width ?? 0
+        return leadingViewSpacing + Constants.horizontalMargin
+    }
+
+    private static func titleTrailingOffset(accessoryView: UIView? = nil) -> CGFloat {
         let accessoryViewSpacing: CGFloat
         if let accessoryView = accessoryView {
             accessoryViewSpacing = Constants.accessoryViewMarginLeft + accessoryView.frame.width
@@ -161,6 +184,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
 
     /// `onAccessoryButtonTapped` is called when `accessoryButton` is tapped
     @objc open var onAccessoryButtonTapped: (() -> Void)?
+    @objc open var onHeaderViewTapped: (() -> Void)?
 
     @objc public weak var delegate: TableViewHeaderFooterViewDelegate?
 
@@ -169,7 +193,8 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
             width: type(of: self).preferredWidth(
                 style: style,
                 title: titleView.text ?? "",
-                accessoryView: accessoryView
+                accessoryView: accessoryView,
+                leadingView: leadingView
             ),
             height: type(of: self).height(
                 style: style,
@@ -225,6 +250,15 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         }
     }
 
+    private var leadingView: UIView? = nil {
+        didSet {
+            oldValue?.removeFromSuperview()
+            if let leadingView = leadingView {
+                contentView.addSubview(leadingView)
+            }
+        }
+    }
+
     public override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         initialize()
@@ -240,36 +274,40 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
 
         contentView.addSubview(titleView)
 
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHeaderViewTapped))
+        contentView.addGestureRecognizer(tapGesture)
+
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
-    @objc open func setup(style: Style, title: String, accessoryButtonTitle: String = "") {
+    @objc open func setup(style: Style, title: String, accessoryButtonTitle: String = "", leadingView: UIView? = nil) {
         titleView.attributedText = NSAttributedString(string: " ") // to clear attributes
         titleView.text = title
         titleView.isSelectable = false
 
-        setup(style: style, accessoryButtonTitle: accessoryButtonTitle)
+        setup(style: style, accessoryButtonTitle: accessoryButtonTitle, leadingView: leadingView)
     }
 
-    @objc open func setup(style: Style, attributedTitle: NSAttributedString, accessoryButtonTitle: String = "") {
+    @objc open func setup(style: Style, attributedTitle: NSAttributedString, accessoryButtonTitle: String = "", leadingView: UIView? = nil) {
         titleView.attributedText = attributedTitle
         titleView.isSelectable = true
 
-        setup(style: style, accessoryButtonTitle: accessoryButtonTitle)
+        setup(style: style, accessoryButtonTitle: accessoryButtonTitle, leadingView: leadingView)
     }
 
     /// The custom accessory view  be used instead of the accessory button in the trailing edge of this view.
     /// If set, the accessory button (if any) will be replaced by this custom view. Clients are responsible
     /// for the appeareance and behavior of this view, including event handling and accessibility.
-    @objc open func setup(style: Style, title: String, accessoryView: UIView) {
+    @objc open func setup(style: Style, title: String, accessoryView: UIView, leadingView: UIView? = nil) {
         setup(style: style, title: title)
         self.accessoryView = accessoryView
+        self.leadingView = leadingView
     }
 
-    private func setup(style: Style, accessoryButtonTitle: String) {
+    private func setup(style: Style, accessoryButtonTitle: String, leadingView: UIView? = nil) {
         updateTitleViewFont()
         switch style {
-        case .header, .divider, .dividerHighlighted:
+        case .header, .divider, .dividerHighlighted, .headerPrimary:
             titleView.accessibilityTraits.insert(.header)
         case .footer:
             titleView.accessibilityTraits.remove(.header)
@@ -279,6 +317,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         }
 
         accessoryButton = accessoryButtonTitle != "" ? createAccessoryButton(withTitle: accessoryButtonTitle) : nil
+        self.leadingView = leadingView
 
         self.style = style
 
@@ -289,20 +328,33 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         super.layoutSubviews()
 
         accessoryView?.sizeToFit()
+        leadingView?.sizeToFit()
 
-        let titleWidth = contentView.frame.width - (Constants.horizontalMargin + TableViewHeaderFooterView.titleRightOffset(accessoryView: accessoryView))
+        let titleWidth = contentView.frame.width - (TableViewHeaderFooterView.titleTrailingOffset(accessoryView: accessoryView) + TableViewHeaderFooterView.titleLeadingOffset(leadingView: leadingView))
+        var titleXOffset = Constants.horizontalMargin
         let titleHeight: CGFloat
         let titleYOffset: CGFloat
         switch style {
-        case .header, .footer:
-            titleYOffset = style == .header ? Constants.titleDefaultTopMargin : Constants.titleDefaultBottomMargin
+        case .header, .footer, .headerPrimary:
+            titleYOffset = style == .footer ? Constants.titleDefaultBottomMargin : Constants.titleDefaultTopMargin
             titleHeight = contentView.frame.height - Constants.titleDefaultTopMargin - Constants.titleDefaultBottomMargin
         case .divider, .dividerHighlighted:
             titleYOffset = Constants.titleDividerVerticalMargin
             titleHeight = contentView.frame.height - (Constants.titleDividerVerticalMargin * 2)
         }
+
+        if let leadingView = leadingView {
+            let xOffset = Constants.accessoryViewMarginLeft
+            let yOffset = contentView.frame.height - leadingView.frame.height - Constants.titleDefaultBottomMargin
+            leadingView.frame = CGRect(
+                origin: CGPoint(x: xOffset, y: yOffset),
+                size: leadingView.frame.size
+            )
+            titleXOffset += leadingView.frame.width
+        }
+
         titleView.frame = CGRect(
-            x: Constants.horizontalMargin,
+            x: titleXOffset,
             y: titleYOffset,
             width: titleWidth,
             height: titleHeight
@@ -316,7 +368,6 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
                 size: accessoryView.frame.size
             )
         }
-
         contentView.flipSubviewsForRTL()
     }
 
@@ -329,6 +380,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         titleNumberOfLines = 1
 
         onAccessoryButtonTapped = nil
+        onHeaderViewTapped = nil
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -336,7 +388,8 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
             width: type(of: self).preferredWidth(
                 style: style,
                 title: titleView.text ?? "",
-                accessoryView: accessoryView
+                accessoryView: accessoryView,
+                leadingView: leadingView
             ),
             height: type(of: self).height(
                 style: style,
@@ -354,18 +407,22 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     }
 
     private func updateTitleViewFont() {
-        let font = Constants.titleTextStyle.font
-        titleView.font = font
-        // offset text container to center its content
-        let offset = UIScreen.main.roundDownToDevicePixels(abs(font.leading) / 2)
-        titleView.textContainerInset.top = offset
-        titleView.textContainerInset.bottom = -offset
+        if let window = window {
+            let titleFont = style.textFont()
+            titleView.font = titleFont
+            // offset text container to center its content
+            let scale = window.rootViewController?.view.contentScaleFactor ?? window.screen.scale
+            let offset = (floor((abs(titleFont.leading) / 2) * scale) / scale) / 2
+            titleView.textContainerInset.top = offset
+            titleView.textContainerInset.bottom = -offset
+        }
     }
 
     private func updateTitleAndBackgroundColors() {
         if let window = window {
             titleView.textColor = style.textColor(for: window)
             backgroundView?.backgroundColor = style.backgroundColor(for: window)
+            titleView.font = style.textFont()
         }
     }
 
@@ -394,6 +451,10 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
 
     @objc private func handleAccessoryButtonTapped() {
         onAccessoryButtonTapped?()
+    }
+
+    @objc private func handleHeaderViewTapped() {
+        onHeaderViewTapped?()
     }
 }
 
