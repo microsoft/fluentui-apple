@@ -125,7 +125,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'Core_mac' do |core_mac|
     core_mac.platform = :osx
-    core_mac.resource_bundle = { 'FluentUIResources-ios' => ["apple/Resources/**/*.{json,xcassets}",
+    core_mac.resource_bundle = { 'FluentUIResources-macos' => ["apple/Resources/**/*.{json,xcassets}",
                                                              "macos/FluentUIResources-macos/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
     core_mac.source_files = ["macos/FluentUI/Core/**/*.{swift,h}"]
   end
