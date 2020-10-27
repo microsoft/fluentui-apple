@@ -20,20 +20,19 @@
 		804626C622D7908100AFA48C /* CalendarDayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804626C522D7908100AFA48C /* CalendarDayButton.swift */; };
 		8061BF7E22EF936800F2D245 /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8061BF7C22EF936700F2D245 /* DatePickerView.swift */; };
 		8061BF7F22EF936800F2D245 /* DatePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8061BF7D22EF936700F2D245 /* DatePickerController.swift */; };
-		8F41CC7A2447B8DB0040B851 /* FluentUIResources-macos.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8F41CC6D2447B60F0040B851 /* FluentUIResources-macos.bundle */; };
 		8F5368052295F4BF0098AC8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5368042295F4BF0098AC8F /* AppDelegate.swift */; };
 		8F5368072295F4C10098AC8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368062295F4C10098AC8F /* Assets.xcassets */; };
 		8F53680A2295F4C10098AC8F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368082295F4C10098AC8F /* MainMenu.xib */; };
-		8F79191B24589B4E00C84086 /* FluentUI.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F7918F624589B4E00C84086 /* FluentUI.strings */; };
 		A257F81E2512DE45002CAA6E /* TestColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A257F81C2512DDF7002CAA6E /* TestColorViewController.swift */; };
-		A257F826251D987E002CAA6E /* FluentUI-macos.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A257F825251D987E002CAA6E /* FluentUI-macos.xcassets */; };
-		A257F828251D988E002CAA6E /* FluentUI-apple.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A257F827251D988E002CAA6E /* FluentUI-apple.xcassets */; };
 		AC7235D82492E0D000D0DCA8 /* FluentUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C96B22295E8D60006561F /* FluentUI.framework */; };
 		AC7235D92492E0D000D0DCA8 /* FluentUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E61C96B22295E8D60006561F /* FluentUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E61C96BC2295E8D60006561F /* FluentUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E61C96B22295E8D60006561F /* FluentUI.framework */; };
 		E61C96C12295E8D60006561F /* AvatarViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61C96C02295E8D60006561F /* AvatarViewTests.swift */; };
 		E61C96CC2295EAC50006561F /* FluentUI.h in Headers */ = {isa = PBXBuildFile; fileRef = E61C96B52295E8D60006561F /* FluentUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E61C96D322962BC20006561F /* TestControlsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61C96D222962BC20006561F /* TestControlsViewController.swift */; };
+		E6587DBC2547AEDF00B2F56F /* FluentUI-apple.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A257F827251D988E002CAA6E /* FluentUI-apple.xcassets */; };
+		E6587DC72547AEE300B2F56F /* FluentUI-macos.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A257F825251D987E002CAA6E /* FluentUI-macos.xcassets */; };
+		E6587DD22547AEE900B2F56F /* FluentUI.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F7918F624589B4E00C84086 /* FluentUI.strings */; };
 		E660317224BEB46F00A132DB /* TestViewControllerWrappingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E660317124BEB46F00A132DB /* TestViewControllerWrappingView.swift */; };
 		E6A92D2D24BEA8AC00562BCA /* TestSeparatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC97EFE8247FAB1D00DADC99 /* TestSeparatorViewController.swift */; };
 		E6A92D2E24BEA8AC00562BCA /* TestAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F250B8C22B3062A00142B0E /* TestAvatarViewController.swift */; };
@@ -47,13 +46,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		8F41CC7B2447B8F40040B851 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E61C96A92295E8D60006561F /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8F41CC6C2447B60F0040B851;
-			remoteInfo = "FluentUIResources-macos";
-		};
 		8F69C7B3229604A8009F69C0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E61C96A92295E8D60006561F /* Project object */;
@@ -158,9 +150,6 @@
 		8F38AE5B230354D200F5D7B0 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		8F38AE5C230354D700F5D7B0 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		8F38AE5D230354DA00F5D7B0 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/MainMenu.strings; sourceTree = "<group>"; };
-		8F41CC6D2447B60F0040B851 /* FluentUIResources-macos.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FluentUIResources-macos.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8F41CC6F2447B60F0040B851 /* FluentUIResources-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FluentUIResources-Info.plist"; sourceTree = "<group>"; };
-		8F41CC732447B66A0040B851 /* FluentUI_resources.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_resources.xcconfig; sourceTree = "<group>"; };
 		8F5368022295F4BF0098AC8F /* FluentUITestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FluentUITestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F5368042295F4BF0098AC8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8F5368062295F4C10098AC8F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -213,7 +202,7 @@
 		8F79192924589B6E00C84086 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		8F931A6C22BD593300311764 /* FluentUI_unittest.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_unittest.xcconfig; sourceTree = "<group>"; };
 		A257F81C2512DDF7002CAA6E /* TestColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestColorViewController.swift; sourceTree = "<group>"; };
-		A257F825251D987E002CAA6E /* FluentUI-macos.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "FluentUI-macos.xcassets"; path = "../FluentUIResources-macos/FluentUI-macos.xcassets"; sourceTree = "<group>"; };
+		A257F825251D987E002CAA6E /* FluentUI-macos.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "FluentUI-macos.xcassets"; sourceTree = "<group>"; };
 		A257F827251D988E002CAA6E /* FluentUI-apple.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "FluentUI-apple.xcassets"; path = "../../apple/Resources/FluentUI-apple.xcassets"; sourceTree = "<group>"; };
 		AC97EFE3247541E100DADC99 /* TestButtonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestButtonViewController.swift; sourceTree = "<group>"; };
 		AC97EFE8247FAB1D00DADC99 /* TestSeparatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSeparatorViewController.swift; sourceTree = "<group>"; };
@@ -243,13 +232,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		8F41CC6A2447B60F0040B851 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		8F5367FF2295F4BF0098AC8F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -346,8 +328,8 @@
 		8F41CC6E2447B60F0040B851 /* FluentUIResources-macos */ = {
 			isa = PBXGroup;
 			children = (
+				A257F825251D987E002CAA6E /* FluentUI-macos.xcassets */,
 				8F7918F524589B4E00C84086 /* Strings */,
-				8F41CC6F2447B60F0040B851 /* FluentUIResources-Info.plist */,
 			);
 			name = "FluentUIResources-macos";
 			path = "../FluentUIResources-macos";
@@ -385,7 +367,6 @@
 			isa = PBXGroup;
 			children = (
 				A257F827251D988E002CAA6E /* FluentUI-apple.xcassets */,
-				A257F825251D987E002CAA6E /* FluentUI-macos.xcassets */,
 				E61C96B42295E8D60006561F /* FluentUI */,
 				8F41CC6E2447B60F0040B851 /* FluentUIResources-macos */,
 				E6A92D2524BEA85900562BCA /* FluentUITestViewControllers */,
@@ -407,7 +388,6 @@
 				E61C96B22295E8D60006561F /* FluentUI.framework */,
 				E61C96BB2295E8D60006561F /* FluentUIUnitTests.xctest */,
 				8F5368022295F4BF0098AC8F /* FluentUITestApp.app */,
-				8F41CC6D2447B60F0040B851 /* FluentUIResources-macos.bundle */,
 				E6A92D2424BEA85900562BCA /* libFluentUITestViewControllers.a */,
 				E6A92D3624BEA91F00562BCA /* FluentUISwiftUITestApp.app */,
 			);
@@ -450,7 +430,6 @@
 				E61C96D02295FA360006561F /* FluentUI_debug.xcconfig */,
 				E61C96CE2295ED8A0006561F /* FluentUI_framework.xcconfig */,
 				E61C96D12295FA4E0006561F /* FluentUI_release.xcconfig */,
-				8F41CC732447B66A0040B851 /* FluentUI_resources.xcconfig */,
 				E6A92D4C24BEAA0200562BCA /* FluentUI_swiftui_testapp.xcconfig */,
 				8F69C7B22295FABD009F69C0 /* FluentUI_testapp.xcconfig */,
 				E6A92D4D24BEAA0200562BCA /* FluentUI_testviewcontrollers.xcconfig */,
@@ -518,23 +497,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8F41CC6C2447B60F0040B851 /* FluentUIResources-macos */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 8F41CC702447B60F0040B851 /* Build configuration list for PBXNativeTarget "FluentUIResources-macos" */;
-			buildPhases = (
-				8F41CC692447B60F0040B851 /* Sources */,
-				8F41CC6A2447B60F0040B851 /* Frameworks */,
-				8F41CC6B2447B60F0040B851 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "FluentUIResources-macos";
-			productName = "FluentUIResources-macos";
-			productReference = 8F41CC6D2447B60F0040B851 /* FluentUIResources-macos.bundle */;
-			productType = "com.apple.product-type.bundle";
-		};
 		8F5368012295F4BF0098AC8F /* FluentUITestApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8F53680F2295F4C10098AC8F /* Build configuration list for PBXNativeTarget "FluentUITestApp" */;
@@ -567,7 +529,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				8F41CC7C2447B8F40040B851 /* PBXTargetDependency */,
 			);
 			name = FluentUI;
 			productName = FluentUI;
@@ -639,9 +600,6 @@
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Microsoft Corporation";
 				TargetAttributes = {
-					8F41CC6C2447B60F0040B851 = {
-						CreatedOnToolsVersion = 11.4;
-					};
 					8F5368012295F4BF0098AC8F = {
 						CreatedOnToolsVersion = 10.2.1;
 					};
@@ -711,7 +669,6 @@
 				E61C96B12295E8D60006561F /* FluentUI */,
 				E61C96BA2295E8D60006561F /* FluentUITests */,
 				8F5368012295F4BF0098AC8F /* FluentUITestApp */,
-				8F41CC6C2447B60F0040B851 /* FluentUIResources-macos */,
 				E6A92D2324BEA85900562BCA /* FluentUITestViewControllers */,
 				E6A92D3524BEA91F00562BCA /* FluentUISwiftUITestApp */,
 			);
@@ -719,16 +676,6 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		8F41CC6B2447B60F0040B851 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8F79191B24589B4E00C84086 /* FluentUI.strings in Resources */,
-				A257F826251D987E002CAA6E /* FluentUI-macos.xcassets in Resources */,
-				A257F828251D988E002CAA6E /* FluentUI-apple.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		8F5368002295F4BF0098AC8F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -742,7 +689,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8F41CC7A2447B8DB0040B851 /* FluentUIResources-macos.bundle in Resources */,
+				E6587DD22547AEE900B2F56F /* FluentUI.strings in Resources */,
+				E6587DBC2547AEDF00B2F56F /* FluentUI-apple.xcassets in Resources */,
+				E6587DC72547AEE300B2F56F /* FluentUI-macos.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -764,13 +713,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		8F41CC692447B60F0040B851 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		8F5367FE2295F4BF0098AC8F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -835,11 +777,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		8F41CC7C2447B8F40040B851 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8F41CC6C2447B60F0040B851 /* FluentUIResources-macos */;
-			targetProxy = 8F41CC7B2447B8F40040B851 /* PBXContainerItemProxy */;
-		};
 		8F69C7B4229604A8009F69C0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = E61C96B12295E8D60006561F /* FluentUI */;
@@ -963,20 +900,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		8F41CC712447B60F0040B851 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8F41CC732447B66A0040B851 /* FluentUI_resources.xcconfig */;
-			buildSettings = {
-			};
-			name = Debug;
-		};
-		8F41CC722447B60F0040B851 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8F41CC732447B66A0040B851 /* FluentUI_resources.xcconfig */;
-			buildSettings = {
-			};
-			name = Release;
-		};
 		8F53680D2295F4C10098AC8F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8F69C7B22295FABD009F69C0 /* FluentUI_testapp.xcconfig */;
@@ -1066,15 +989,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8F41CC702447B60F0040B851 /* Build configuration list for PBXNativeTarget "FluentUIResources-macos" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				8F41CC712447B60F0040B851 /* Debug */,
-				8F41CC722447B60F0040B851 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		8F53680F2295F4C10098AC8F /* Build configuration list for PBXNativeTarget "FluentUITestApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
