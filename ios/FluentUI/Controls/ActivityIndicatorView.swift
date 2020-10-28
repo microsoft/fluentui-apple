@@ -148,6 +148,7 @@ open class ActivityIndicatorView: UIView, ActivityViewAnimating {
         layer.addSublayer(loaderLayer)
         isHidden = true
         updateView(sideSize: sideSize, strokeThickness: strokeThickness)
+        isAccessibilityElement = true
     }
 
     public required init(coder aDecoder: NSCoder) {
@@ -183,6 +184,25 @@ open class ActivityIndicatorView: UIView, ActivityViewAnimating {
 
         if hidesWhenStopped {
             isHidden = true
+        }
+    }
+
+    private var useCustomAccessibilityLabel: Bool = false
+    open override var accessibilityLabel: String? {
+        get {
+            if useCustomAccessibilityLabel {
+                return super.accessibilityLabel
+            } else {
+                if isAnimating {
+                    return "Accessibility.ActivityIndicator.Animating.label".localized
+                } else {
+                    return "Accessibility.ActivityIndicator.Stopped.label".localized
+                }
+            }
+        }
+        set {
+            super.accessibilityLabel = newValue
+            useCustomAccessibilityLabel = true
         }
     }
 
