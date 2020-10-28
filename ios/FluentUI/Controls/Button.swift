@@ -397,7 +397,7 @@ open class Button: UIButton {
             } else if !isEnabled {
                 borderColor = Colors.Button.borderDisabled
             } else {
-                borderColor = Colors.primaryTint20(for: window)
+                borderColor = Colors.primary(for: window)
             }
             layer.borderColor = borderColor.cgColor
         }
