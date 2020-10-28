@@ -239,6 +239,7 @@ public class HUD: NSObject {
 
     @objc public func update(with caption: String) {
         presentedHUDView?.label.text = caption
+        UIAccessibility.post(notification: .layoutChanged, argument: presentedHUDView)
     }
 
     private func hostWindow(for controller: UIViewController) -> UIWindow? {
