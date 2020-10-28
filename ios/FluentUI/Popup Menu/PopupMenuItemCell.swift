@@ -14,7 +14,7 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
     }
 
     private struct Constants {
-        static let labelVerticalMarginForOneLine: CGFloat = 14
+        static let labelVerticalMarginForOneLine: CGFloat = 15
         static let accessoryImageViewOffset: CGFloat = 5
 
         static let imageViewSize: CustomViewSize = .small
