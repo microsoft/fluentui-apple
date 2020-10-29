@@ -89,7 +89,7 @@ public extension Colors {
             public static var backgroundDivider: UIColor = surfaceSecondary
             public static var text: UIColor = textSecondary
             public static var textDivider: UIColor = textSecondary
-            public static var textLink: UIColor = communicationBlue
+            public static var textLink: UIColor = Palette.communicationBlueShade10.color
         }
         public static var background: UIColor = surfacePrimary
         public static var backgroundGrouped = UIColor(light: surfaceSecondary, dark: surfacePrimary)
