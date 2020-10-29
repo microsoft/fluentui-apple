@@ -864,13 +864,13 @@ open class TableViewCell: UITableViewCell {
         }
     }
 
-    let titleLabel: Label = {
+    public let titleLabel: Label = {
         let label = Label(style: TextStyles.title)
         label.lineBreakMode = .byTruncatingTail
         return label
     }()
 
-    let subtitleLabel: Label = {
+    public let subtitleLabel: Label = {
         let label = Label(style: TextStyles.subtitleTwoLines)
         label.lineBreakMode = .byTruncatingTail
         label.isHidden = true
