@@ -38,7 +38,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
             case .regular:
                 return Colors.Table.HeaderFooter.accessoryButtonText
             case .primary:
-                return Colors.primary(for: window)
+                return UIColor(light: Colors.primaryShade10(for: window), dark: Colors.primary(for: window))
             }
         }
     }
