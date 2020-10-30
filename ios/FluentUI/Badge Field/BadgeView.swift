@@ -262,6 +262,13 @@ open class BadgeView: UIView {
         let labelWidth = max(minLabelWidth, min(maxLabelWidth, fittingLabelWidth))
         label.frame = CGRect(x: size.horizontalPadding, y: size.verticalPadding, width: labelWidth, height: labelHeight)
     }
+    
+    open override var backgroundColor: UIColor? {
+        didSet {
+            super.backgroundColor = .clear
+            updateBackgroundColor()
+        }
+    }
 
     open func reload() {
         label.text = dataSource?.text
