@@ -10,7 +10,7 @@ jobs:
   # Select Xcode 12 beta version
   - template: apple-xcode-select.yml
     parameters:
-      xcode_path_override: '/Applications/Xcode_12_beta.app/Contents/Developer'
+      xcode_path_override: '/Applications/Xcode_12.2.app/Contents/Developer'
 
   # Build and zip the libraries
   - template: fluentui-apple-build-zip.yml
