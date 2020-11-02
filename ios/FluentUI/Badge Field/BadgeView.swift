@@ -38,6 +38,7 @@ public protocol BadgeViewDelegate {
 
 public extension Colors {
     struct Badge {
+        public static var background: UIColor = .clear
         public static var backgroundDisabled = UIColor(light: surfaceSecondary, dark: gray700)
         public static var backgroundError = UIColor(light: Palette.dangerTint40.color, dark: Palette.dangerTint30.color)
         public static var backgroundErrorSelected: UIColor = error
@@ -174,17 +175,21 @@ open class BadgeView: UIView {
 
     @objc open var isActive: Bool = true {
         didSet {
-            updateBackgroundColor()
-            updateLabelTextColor()
+            update()
             isUserInteractionEnabled = isActive
         }
     }
 
     @objc open var isSelected: Bool = false {
         didSet {
-            updateBackgroundColor()
-            updateLabelTextColor()
+            update()
             updateAccessibility()
+        }
+    }
+    
+    open var labelTextColor: UIColor? {
+        didSet {
+            update()
         }
     }
 
@@ -200,8 +205,7 @@ open class BadgeView: UIView {
 
     private var style: Style = .default {
         didSet {
-            updateBackgroundColor()
-            updateLabelTextColor()
+            update()
         }
     }
 
@@ -265,8 +269,9 @@ open class BadgeView: UIView {
     
     open override var backgroundColor: UIColor? {
         didSet {
-            super.backgroundColor = .clear
-            updateBackgroundColor()
+            if backgroundColor != oldValue {
+                update()
+            }
         }
     }
 
@@ -286,8 +291,7 @@ open class BadgeView: UIView {
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
-        updateBackgroundColor()
-        updateLabelTextColor()
+        update()
     }
 
     private func updateAccessibility() {
@@ -299,16 +303,23 @@ open class BadgeView: UIView {
             accessibilityHint = "Accessibility.Select.Hint".localized
         }
     }
+    
+    private func update() {
+        updateBackgroundColor()
+        updateLabelTextColor()
+    }
 
     private func updateBackgroundColor() {
         if let window = window {
-            backgroundView.backgroundColor = backgroundColor(for: window, style: style, selected: isSelected, enabled: isActive)
+            let color = backgroundColor ?? backgroundColor(for: window, style: style, selected: isSelected, enabled: isActive)
+            backgroundView.backgroundColor = color
+            super.backgroundColor = Colors.Badge.background
         }
     }
 
     private func updateLabelTextColor() {
         if let window = window {
-            label.textColor = textColor(for: window, style: style, selected: isSelected, enabled: isActive)
+            label.textColor = labelTextColor ?? textColor(for: window, style: style, selected: isSelected, enabled: isActive)
         }
     }
 
