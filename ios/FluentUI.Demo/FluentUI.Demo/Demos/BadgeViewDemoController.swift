@@ -14,6 +14,7 @@ class BadgeViewDemoController: DemoController {
         addBadgeSection(title: "Error badge", style: .error)
         addBadgeSection(title: "Warning badge", style: .warning)
         addBadgeSection(title: "Disabled badge", style: .default, isEnabled: false)
+        addBadgeSection(title: "Custom badge", style: .default, overrideColor: true)
     }
 
     func createBadge(text: String, style: BadgeView.Style, size: BadgeView.Size, isEnabled: Bool) -> BadgeView {
@@ -23,10 +24,14 @@ class BadgeViewDemoController: DemoController {
         return badge
     }
 
-    func addBadgeSection(title: String, style: BadgeView.Style, isEnabled: Bool = true) {
+    func addBadgeSection(title: String, style: BadgeView.Style, isEnabled: Bool = true, overrideColor: Bool = false) {
         addTitle(text: title)
         for size in BadgeView.Size.allCases.reversed() {
             let badge = createBadge(text: "Kat Larrson", style: style, size: size, isEnabled: isEnabled)
+            if overrideColor {
+                badge.backgroundColor = Colors.Palette.blueMagenta20.color
+                badge.labelTextColor = Colors.Palette.gray50.color
+            }
             addRow(text: size.description, items: [badge])
         }
         container.addArrangedSubview(UIView())
