@@ -194,6 +194,22 @@ open class BadgeView: UIView {
             }
         }
     }
+    
+    open var labelSelectedTextColor: UIColor? {
+        didSet {
+            if labelSelectedTextColor != oldValue {
+                updateColors()
+            }
+        }
+    }
+    
+    open var backgroundSelectedColor: UIColor? {
+        didSet {
+            if backgroundSelectedColor != oldValue {
+                updateColors()
+            }
+        }
+    }
 
     @objc open var minWidth: CGFloat = Constants.defaultMinWidth {
         didSet {
@@ -313,14 +329,16 @@ open class BadgeView: UIView {
 
     private func updateBackgroundColor() {
         if let window = window {
-            backgroundView.backgroundColor = backgroundColor ?? backgroundColor(for: window, style: style, selected: isSelected, enabled: isActive)
+            let customColor = isSelected ? backgroundSelectedColor : backgroundColor
+            backgroundView.backgroundColor = customColor ?? backgroundColor(for: window, style: style, selected: isSelected, enabled: isActive)
             super.backgroundColor = Colors.Badge.background
         }
     }
 
     private func updateLabelTextColor() {
         if let window = window {
-            label.textColor = labelTextColor ?? textColor(for: window, style: style, selected: isSelected, enabled: isActive)
+            let customColor = isSelected ? labelSelectedTextColor : labelTextColor
+            label.textColor = customColor ?? textColor(for: window, style: style, selected: isSelected, enabled: isActive)
         }
     }
 
