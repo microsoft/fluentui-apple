@@ -145,7 +145,7 @@ open class SideTabBar: UIView {
         static let bottomItemSize: CGFloat = 24
         static let badgeTopSectionPadding: CGFloat = 2
         static let badgeBottomSectionPadding: CGFloat = 4
-        static let numberOfTitleLines = 2
+        static let numberOfTitleLines: Int = 2
     }
 
     private var layoutConstraints: [NSLayoutConstraint] = []
