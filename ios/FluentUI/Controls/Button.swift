@@ -313,11 +313,11 @@ open class Button: UIButton {
     }
 
     private func highlightedTitleAndImageColor(for window: UIWindow) -> UIColor {
-        return style == .primaryFilled ? normalTitleAndImageColor(for: window) : Colors.primaryTint20(for: window)
+        return style == .primaryFilled ? Colors.Button.titleWithFilledBackground : Colors.primaryTint20(for: window)
     }
 
     private func disabledTitleAndImageColor(for window: UIWindow) -> UIColor {
-        return style == .primaryFilled ? normalTitleAndImageColor(for: window) : Colors.primaryTint20(for: window)
+        return style == .primaryFilled ? Colors.Button.titleWithFilledBackground : Colors.Button.titleDisabled
     }
 
     private var normalImageTintColor: UIColor?
