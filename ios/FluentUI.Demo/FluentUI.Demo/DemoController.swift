@@ -84,6 +84,7 @@ class DemoController: UIViewController {
 
         items.forEach { itemRow.addArrangedSubview($0) }
         itemsContainer.addArrangedSubview(itemRow)
+        itemRow.accessibilityElements = itemRow.arrangedSubviews
         container.addArrangedSubview(itemsContainer)
     }
 
