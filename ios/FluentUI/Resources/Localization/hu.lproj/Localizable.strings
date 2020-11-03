@@ -4,6 +4,9 @@
 //
 
 // Accessibility
+"Accessibility.ActivityIndicator.Animating.label" = "In progress";
+"Accessibility.ActivityIndicator.Stopped.label" = "Progress halted";
+
 "Accessibility.Alert" = "Értesítés";
 "Accessibility.Dismiss.Label" = "Bezárás";
 "Accessibility.Dismiss.Hint" = "Koppintson duplán a bezáráshoz";

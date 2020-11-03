@@ -4,6 +4,9 @@
 //
 
 // Accessibility
+"Accessibility.ActivityIndicator.Animating.label" = "In progress";
+"Accessibility.ActivityIndicator.Stopped.label" = "Progress halted";
+
 "Accessibility.Alert" = "Upozorenje";
 "Accessibility.Dismiss.Label" = "Odbaci";
 "Accessibility.Dismiss.Hint" = "Dvaput dodirnite da biste odbacili";

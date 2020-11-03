@@ -4,6 +4,9 @@
 //
 
 // Accessibility
+"Accessibility.ActivityIndicator.Animating.label" = "In progress";
+"Accessibility.ActivityIndicator.Stopped.label" = "Progress halted";
+
 "Accessibility.Alert" = "Peringatan";
 "Accessibility.Dismiss.Label" = "Tutup";
 "Accessibility.Dismiss.Hint" = "Ketuk dua kali untuk menutup";
