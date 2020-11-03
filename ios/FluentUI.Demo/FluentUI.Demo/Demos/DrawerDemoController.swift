@@ -9,9 +9,6 @@ import UIKit
 // MARK: DrawerDemoController
 
 class DrawerDemoController: DemoController {
-
-    private var shouldConfirmDrawerDismissal: Bool = false
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -86,13 +83,12 @@ class DrawerDemoController: DemoController {
         let controller: DrawerController
         if let sourceView = sourceView {
             controller = DrawerController(sourceView: sourceView, sourceRect: sourceView.bounds.insetBy(dx: sourceView.bounds.width / 2, dy: 0), presentationOrigin: presentationOrigin, presentationDirection: presentationDirection, preferredMaximumHeight: maxDrawerHeight)
-            controller.delegate = self
         } else if let barButtonItem = barButtonItem {
             controller = DrawerController(barButtonItem: barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection, preferredMaximumHeight: maxDrawerHeight)
         } else {
             preconditionFailure("Presenting a drawer requires either a sourceView or a barButtonItem")
         }
-
+        controller.delegate = self
         controller.presentationStyle = presentationStyle
         controller.presentationOffset = presentationOffset
         controller.presentationBackground = presentationBackground
@@ -127,8 +123,10 @@ class DrawerDemoController: DemoController {
 
         var views = [UIView]()
         if drawerHasFlexibleHeight {
+            let expandButton = createButton(title: "Expand", action: #selector(expandButtonTapped))
+            self.expandButton = expandButton
             views.append(createButton(title: "Change content height", action: #selector(changeContentHeightButtonTapped)))
-            views.append(createButton(title: "Expand", action: #selector(expandButtonTapped)))
+            views.append(expandButton)
         }
         views.append(createButton(title: "Dismiss", action: #selector(dismissButtonTapped)))
         views.append(createButton(title: "Dismiss (no animation)", action: #selector(dismissNotAnimatedButtonTapped)))
@@ -269,12 +267,8 @@ class DrawerDemoController: DemoController {
         textField.delegate = self
         container.addArrangedSubview(textField)
 
-        let button = Button(style: .primaryFilled)
-        button.setTitle("Hide keyboard", for: .normal)
-        button.setContentCompressionResistancePriority(.required, for: .vertical)
-        button.setContentHuggingPriority(.required, for: .vertical)
-        button.addTarget(self, action: #selector(hideKeyboardButtonTapped), for: .touchUpInside)
-        container.addArrangedSubview(button)
+        hideKeyboardButton.addTarget(self, action: #selector(hideKeyboardButtonTapped), for: .touchUpInside)
+        container.addArrangedSubview(hideKeyboardButton)
 
         presentDrawer(sourceView: sender, presentationDirection: .up, permittedArrowDirections: .any, contentController: contentController, resizingBehavior: .dismissOrExpand, adjustHeightForKeyboard: true)
 
@@ -303,7 +297,6 @@ class DrawerDemoController: DemoController {
             return
         }
         drawer.isExpanded = !drawer.isExpanded
-        sender.setTitle(drawer.isExpanded ? "Return to normal" : "Expand", for: .normal)
     }
 
     @objc private func dismissButtonTapped() {
@@ -336,6 +329,17 @@ class DrawerDemoController: DemoController {
             textField?.resignFirstResponder()
         }
     }
+
+    private var shouldConfirmDrawerDismissal: Bool = false
+    private var expandButton: Button?
+
+    private let hideKeyboardButton: Button = {
+        let button = Button(style: .primaryFilled)
+        button.setTitle("Hide keyboard", for: .normal)
+        button.setContentCompressionResistancePriority(.required, for: .vertical)
+        button.setContentHuggingPriority(.required, for: .vertical)
+        return button
+    }()
 }
 
 // MARK: - DrawerDemoController: UITextFieldDelegate
@@ -344,6 +348,14 @@ extension DrawerDemoController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return false
+    }
+
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        hideKeyboardButton.isEnabled = true
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        hideKeyboardButton.isEnabled = false
     }
 }
 
@@ -366,4 +378,11 @@ extension DrawerDemoController: DrawerControllerDelegate {
         // reset the flag once drawer gets dismissed
         shouldConfirmDrawerDismissal = false
     }
+
+    func drawerControllerDidChangeExpandedState(_ controller: DrawerController) {
+        expandButton?.setTitle(controller.isExpanded ? collapseText : expandText, for: .normal)
+    }
 }
+
+fileprivate let collapseText: String = "Return to normal"
+fileprivate let expandText: String = "Expand"
