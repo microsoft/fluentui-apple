@@ -4,6 +4,9 @@
 //
 
 // Accessibility
+"Accessibility.ActivityIndicator.Animating.label" = "In progress";
+"Accessibility.ActivityIndicator.Stopped.label" = "Progress halted";
+
 "Accessibility.Alert" = "Avertizare";
 "Accessibility.Dismiss.Label" = "Îndepărtare";
 "Accessibility.Dismiss.Hint" = "Atingeți de două ori pentru a îndepărta";

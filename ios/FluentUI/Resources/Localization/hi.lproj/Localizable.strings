@@ -4,6 +4,9 @@
 //
 
 // Accessibility
+"Accessibility.ActivityIndicator.Animating.label" = "In progress";
+"Accessibility.ActivityIndicator.Stopped.label" = "Progress halted";
+
 "Accessibility.Alert" = "चेतावनी";
 "Accessibility.Dismiss.Label" = "ख़ारिज करें";
 "Accessibility.Dismiss.Hint" = "ख़ारिज करने के लिए डबल-टैप करें";
