@@ -200,17 +200,33 @@ open class BadgeView: UIView {
         }
     }
     
-    open var labelSelectedTextColor: UIColor? {
+    open var selectedLabelTextColor: UIColor? {
         didSet {
-            if labelSelectedTextColor != oldValue {
+            if selectedLabelTextColor != oldValue {
                 updateColors()
             }
         }
     }
     
-    open var backgroundSelectedColor: UIColor? {
+    open var selectedBackgroundColor: UIColor? {
         didSet {
-            if backgroundSelectedColor != oldValue {
+            if selectedBackgroundColor != oldValue {
+                updateColors()
+            }
+        }
+    }
+    
+    open var disabledBackgroundColor: UIColor? {
+        didSet {
+            if disabledBackgroundColor != oldValue {
+                updateColors()
+            }
+        }
+    }
+    
+    open var disabledLabelTextColor: UIColor? {
+        didSet {
+            if disabledBackgroundColor != oldValue {
                 updateColors()
             }
         }
@@ -334,7 +350,7 @@ open class BadgeView: UIView {
 
     private func updateBackgroundColor() {
         if let window = window {
-            let customColor = isSelected ? backgroundSelectedColor : backgroundColor
+            let customColor = isActive ? (isSelected ? selectedBackgroundColor : backgroundColor) : disabledBackgroundColor
             backgroundView.backgroundColor = customColor ?? backgroundColor(for: window, style: style, selected: isSelected, enabled: isActive)
             super.backgroundColor = Colors.Badge.background
         }
@@ -342,7 +358,7 @@ open class BadgeView: UIView {
 
     private func updateLabelTextColor() {
         if let window = window {
-            let customColor = isSelected ? labelSelectedTextColor : labelTextColor
+            let customColor = isActive ? (isSelected ? selectedLabelTextColor : labelTextColor) : disabledLabelTextColor
             label.textColor = customColor ?? textColor(for: window, style: style, selected: isSelected, enabled: isActive)
         }
     }
