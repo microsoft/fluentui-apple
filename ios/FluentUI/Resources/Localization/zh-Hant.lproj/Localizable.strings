@@ -4,8 +4,8 @@
 //
 
 // Accessibility
-"Accessibility.ActivityIndicator.Animating.label" = "In progress";
-"Accessibility.ActivityIndicator.Stopped.label" = "Progress halted";
+"Accessibility.ActivityIndicator.Animating.label" = "進行中";
+"Accessibility.ActivityIndicator.Stopped.label" = "已暫停進度";
 
 "Accessibility.Alert" = "通知";
 "Accessibility.Dismiss.Label" = "關閉";
