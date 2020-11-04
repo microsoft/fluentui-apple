@@ -4,8 +4,8 @@
 //
 
 // Accessibility
-"Accessibility.ActivityIndicator.Animating.label" = "In progress";
-"Accessibility.ActivityIndicator.Stopped.label" = "Progress halted";
+"Accessibility.ActivityIndicator.Animating.label" = "U tijeku";
+"Accessibility.ActivityIndicator.Stopped.label" = "Zaustavljen napredak";
 
 "Accessibility.Alert" = "Upozorenje";
 "Accessibility.Dismiss.Label" = "Odbaci";

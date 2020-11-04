@@ -4,8 +4,8 @@
 //
 
 // Accessibility
-"Accessibility.ActivityIndicator.Animating.label" = "In progress";
-"Accessibility.ActivityIndicator.Stopped.label" = "Progress halted";
+"Accessibility.ActivityIndicator.Animating.label" = "Đang tiến hành";
+"Accessibility.ActivityIndicator.Stopped.label" = "Tiến độ tạm dừng";
 
 "Accessibility.Alert" = "Cảnh báo";
 "Accessibility.Dismiss.Label" = "Bỏ";
