@@ -4,8 +4,8 @@
 //
 
 // Accessibility
-"Accessibility.ActivityIndicator.Animating.label" = "In progress";
-"Accessibility.ActivityIndicator.Stopped.label" = "Progress halted";
+"Accessibility.ActivityIndicator.Animating.label" = "正在进行";
+"Accessibility.ActivityIndicator.Stopped.label" = "已暂停进度";
 
 "Accessibility.Alert" = "警报";
 "Accessibility.Dismiss.Label" = "关闭";
@@ -187,4 +187,4 @@
 "Presence.Blocked" = "已阻止";
 
 /* AvatarView - Format string for overflow avatar. Format: "+<OverflowCount>". Example: "+5" */
-"AvatarView.OverflowFormat" = "+%@";
+"AvatarView.OverflowFormat" = "还有 %@ 个";

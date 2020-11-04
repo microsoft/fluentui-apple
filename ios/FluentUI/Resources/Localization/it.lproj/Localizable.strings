@@ -4,8 +4,8 @@
 //
 
 // Accessibility
-"Accessibility.ActivityIndicator.Animating.label" = "In progress";
-"Accessibility.ActivityIndicator.Stopped.label" = "Progress halted";
+"Accessibility.ActivityIndicator.Animating.label" = "In corso";
+"Accessibility.ActivityIndicator.Stopped.label" = "Avanzamento interrotto";
 
 "Accessibility.Alert" = "Avviso";
 "Accessibility.Dismiss.Label" = "Ignora";
@@ -187,4 +187,4 @@
 "Presence.Blocked" = "Bloccato";
 
 /* AvatarView - Format string for overflow avatar. Format: "+<OverflowCount>". Example: "+5" */
-"AvatarView.OverflowFormat" = "+%@";
+"AvatarView.OverflowFormat" = "+ %@";
