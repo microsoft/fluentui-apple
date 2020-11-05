@@ -280,6 +280,20 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
+    // MARK: Setup
+
+    /// Sets up the titleView based off of the following parameters:
+    ///
+    /// - Parameters:
+    ///   - style: The `TableViewHeaderFooterView.Style` used to set up the view.
+    ///   - title: The title string.
+    ///   - attributedTitle: Title as an NSAttributedString for additional attributes.
+    ///   - accessoryButtonTitle: Optional accessory button title string.
+    ///   - accessoryView: The optional custom accessory view  be used instead of the accessory button in the trailing edge of this view.
+    ///     If set, the accessory button (if any) will be replaced by this custom view. Clients are responsible
+    ///     for the appeareance and behavior of this view, including event handling and accessibility.
+    ///   - leadingView: An optional custom view that appears near the leading edge of the view.
+
     @objc open func setup(style: Style, title: String, accessoryButtonTitle: String = "") {
         setup(style: style, title: title, accessoryButtonTitle: accessoryButtonTitle, leadingView: nil)
     }
@@ -303,9 +317,6 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         setup(style: style, accessoryButtonTitle: accessoryButtonTitle, leadingView: leadingView)
     }
 
-    /// The custom accessory view  be used instead of the accessory button in the trailing edge of this view.
-    /// If set, the accessory button (if any) will be replaced by this custom view. Clients are responsible
-    /// for the appeareance and behavior of this view, including event handling and accessibility.
     @objc open func setup(style: Style, title: String, accessoryView: UIView) {
         setup(style: style, title: title, accessoryView: accessoryView, leadingView: nil)
     }
@@ -314,6 +325,10 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         setup(style: style, title: title)
         self.accessoryView = accessoryView
         self.leadingView = leadingView
+    }
+
+    @objc open func setup(style: Style, accessoryButtonTitle: String) {
+        setup(style: style, accessoryButtonTitle: accessoryButtonTitle, leadingView: nil)
     }
 
     private func setup(style: Style, accessoryButtonTitle: String, leadingView: UIView? = nil) {
