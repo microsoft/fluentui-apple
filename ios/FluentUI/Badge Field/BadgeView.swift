@@ -115,56 +115,6 @@ open class BadgeView: UIView {
         static let backgroundCornerRadius: CGFloat = 3
     }
 
-    private func backgroundColor(for window: UIWindow, style: Style, selected: Bool, enabled: Bool) -> UIColor {
-        switch style {
-        case .default:
-            if !enabled {
-                return Colors.Badge.backgroundDisabled
-            } else if selected {
-                return Colors.primary(for: window)
-            } else {
-                return Colors.primaryTint40(for: window)
-            }
-        case .warning:
-            if selected {
-                return Colors.Badge.backgroundWarningSelected
-            } else {
-                return Colors.Badge.backgroundWarning
-            }
-        case .error:
-            if selected {
-                return Colors.Badge.backgroundErrorSelected
-            } else {
-                return Colors.Badge.backgroundError
-            }
-        }
-    }
-
-    private func textColor(for window: UIWindow, style: Style, selected: Bool, enabled: Bool) -> UIColor {
-        switch style {
-        case .default:
-            if !enabled {
-                return Colors.Badge.textDisabled
-            } else if selected {
-                return Colors.Badge.textSelected
-            } else {
-                return Colors.primary(for: window)
-            }
-        case .warning:
-            if selected {
-                return Colors.Badge.textWarningSelected
-            } else {
-                return Colors.Badge.textWarning
-            }
-        case .error:
-            if selected {
-                return Colors.Badge.textErrorSelected
-            } else {
-                return Colors.Badge.textError
-            }
-        }
-    }
-
     @objc open var dataSource: BadgeViewDataSource? {
         didSet {
             reload()
@@ -192,41 +142,139 @@ open class BadgeView: UIView {
         }
     }
     
+    private var _labelTextColor: UIColor?
     open var labelTextColor: UIColor? {
-        didSet {
-            if labelTextColor != oldValue {
+        get {
+            if let customLabelTextColor = _labelTextColor {
+                return customLabelTextColor
+            }
+            
+            switch style {
+                case .default:
+                    if let window = window {
+                        return Colors.primary(for: window)
+                    }
+                case .warning:
+                    return Colors.Badge.textWarning
+                case .error:
+                    return Colors.Badge.textError
+            }
+            return nil
+        }
+        set {
+            if labelTextColor != newValue {
+                _labelTextColor = newValue
                 updateColors()
             }
         }
     }
     
-    open var selectedLabelTextColor: UIColor? {
-        didSet {
-            if selectedLabelTextColor != oldValue {
+    private var _selectedLabelTextColor: UIColor?
+    open var selectedLabelTextColor: UIColor {
+        get {
+            if let customSelectedLabelTextColor = _selectedLabelTextColor {
+                return customSelectedLabelTextColor
+            }
+            
+            switch style {
+                case .default:
+                    return Colors.Badge.textSelected
+                case .warning:
+                    return Colors.Badge.textWarningSelected
+                case .error:
+                    return Colors.Badge.textErrorSelected
+            }
+        }
+        set {
+            if selectedLabelTextColor != newValue {
+                _selectedLabelTextColor = newValue
                 updateColors()
             }
         }
     }
     
-    open var selectedBackgroundColor: UIColor? {
-        didSet {
-            if selectedBackgroundColor != oldValue {
-                updateColors()
-            }
-        }
-    }
-    
-    open var disabledBackgroundColor: UIColor? {
-        didSet {
-            if disabledBackgroundColor != oldValue {
-                updateColors()
-            }
-        }
-    }
-    
+    private var _disabledLabelTextColor: UIColor?
     open var disabledLabelTextColor: UIColor? {
-        didSet {
-            if disabledBackgroundColor != oldValue {
+        get {
+            if let customDisabledLabelTextColor = _disabledLabelTextColor {
+                return customDisabledLabelTextColor
+            }
+            return style == .default ? Colors.Badge.textDisabled : (isActive ? self.selectedLabelTextColor : self.labelTextColor)
+        }
+        set {
+            if disabledBackgroundColor != newValue {
+                _disabledLabelTextColor = newValue
+                updateColors()
+            }
+        }
+    }
+    
+    private var _backgroundColor: UIColor?
+    open override var backgroundColor: UIColor? {
+        get {
+            if let customBackgroundColor = _backgroundColor {
+                return customBackgroundColor
+            }
+            
+            switch style {
+                case .default:
+                    if let window = window {
+                        return Colors.primaryTint40(for: window)
+                    }
+                case .warning:
+                    return Colors.Badge.backgroundWarning
+                case .error:
+                    return Colors.Badge.backgroundError
+            }
+            return nil
+        }
+        set {
+            if backgroundColor != newValue {
+                _backgroundColor = newValue
+                updateColors()
+            }
+        }
+    }
+    
+    private var _selectedBackgroundColor: UIColor?
+    open var selectedBackgroundColor: UIColor? {
+        get {
+            if let customSelectedBackgroundColor = _selectedBackgroundColor {
+                return customSelectedBackgroundColor
+            }
+            
+            switch style {
+                case .default:
+                    if let window = window {
+                        return Colors.primary(for: window)
+                    }
+                case .warning:
+                    return Colors.Badge.backgroundWarningSelected
+                case .error:
+                    return Colors.Badge.backgroundErrorSelected
+            }
+            return nil
+        }
+        set {
+            if selectedBackgroundColor != newValue {
+                _selectedBackgroundColor = newValue
+                updateColors()
+            }
+        }
+    }
+    
+    private var _disabledBackgroundColor: UIColor?
+    open var disabledBackgroundColor: UIColor? {
+        get {
+            if let customDisabledBackgroundColor = _disabledBackgroundColor {
+                return customDisabledBackgroundColor
+            }
+            
+            return style == .default ? Colors.Badge.backgroundDisabled : (isActive ? self.selectedBackgroundColor : self.backgroundColor)
+        }
+        set {
+            if disabledBackgroundColor != newValue {
+                _disabledBackgroundColor = newValue
                 updateColors()
             }
         }
@@ -305,14 +353,6 @@ open class BadgeView: UIView {
         let labelWidth = max(minLabelWidth, min(maxLabelWidth, fittingLabelWidth))
         label.frame = CGRect(x: size.horizontalPadding, y: size.verticalPadding, width: labelWidth, height: labelHeight)
     }
-    
-    open override var backgroundColor: UIColor? {
-        didSet {
-            if backgroundColor != oldValue {
-                updateColors()
-            }
-        }
-    }
 
     open func reload() {
         label.text = dataSource?.text
@@ -349,18 +389,12 @@ open class BadgeView: UIView {
     }
 
     private func updateBackgroundColor() {
-        if let window = window {
-            let customColor = isActive ? (isSelected ? selectedBackgroundColor : backgroundColor) : disabledBackgroundColor
-            backgroundView.backgroundColor = customColor ?? backgroundColor(for: window, style: style, selected: isSelected, enabled: isActive)
-            super.backgroundColor = Colors.Badge.background
-        }
+        backgroundView.backgroundColor = isActive ? (isSelected ? selectedBackgroundColor : backgroundColor) : disabledBackgroundColor
+        super.backgroundColor = Colors.Badge.background
     }
 
     private func updateLabelTextColor() {
-        if let window = window {
-            let customColor = isActive ? (isSelected ? selectedLabelTextColor : labelTextColor) : disabledLabelTextColor
-            label.textColor = customColor ?? textColor(for: window, style: style, selected: isSelected, enabled: isActive)
-        }
+        label.textColor = isActive ? (isSelected ? selectedLabelTextColor : labelTextColor) : disabledLabelTextColor
     }
 
     @objc private func badgeTapped() {
