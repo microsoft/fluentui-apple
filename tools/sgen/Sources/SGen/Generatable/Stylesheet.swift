@@ -1089,7 +1089,7 @@ private class FluentUIFontCache: NSObject {
 
 \(visibility) var scalableHandle: UInt8 = 0
 
-public extension UIFont {
+private extension UIFont {
     private static var cache = FluentUIFontCache()
 
 """
