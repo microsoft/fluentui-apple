@@ -66,6 +66,15 @@ public enum AvatarSize: Int, CaseIterable {
         }
     }
 
+    var insideBorder: CGFloat {
+        switch self {
+        case .extraSmall, .small, .medium, .large, .extraLarge:
+            return 2
+        case .extraExtraLarge:
+            return 4
+        }
+    }
+
     var presenceSize: PresenceSize {
         switch self {
         case .extraSmall, .small, .medium:
@@ -373,6 +382,15 @@ open class AvatarView: UIView {
             updateCustomBorder()
         } else if hasBorder {
             updateBorder()
+        }
+
+        if hasCustomBorder || hasBorder {
+            imageView.layer.borderWidth = avatarSize.insideBorder
+            imageView.layer.borderColor = Colors.surfacePrimary.cgColor
+            imageView.layer.masksToBounds = true
+            initialsView.layer.borderWidth = avatarSize.insideBorder
+            initialsView.layer.borderColor = Colors.surfacePrimary.cgColor
+            initialsView.layer.masksToBounds = true
         }
 
         if let fallbackImageStyle = fallbackImageStyle {
@@ -757,9 +775,7 @@ class OverflowAvatarView: AvatarView {
 
         setup(primaryText: overflowCountString, secondaryText: nil, image: nil, convertTextToInitials: false)
         avatarBackgroundColor = .clear
-        initialsView.setFontColor(Colors.gray400)
 
-        borderView.backgroundColor = UIColor(light: Colors.gray200, dark: Colors.gray700)
         addSubview(borderView)
     }
 
@@ -769,6 +785,16 @@ class OverflowAvatarView: AvatarView {
 
     open override func layoutSubviews() {
         super.layoutSubviews()
+
+        initialsView.setFontColor(UIColor(light: Colors.gray500, dark: Colors.gray100))
+        initialsView.setBackgroundColor(UIColor(light: Colors.gray50, dark: Colors.gray600))
+        if hasBorder {
+            borderView.backgroundColor = UIColor(light: Colors.gray200, dark: Colors.gray500)
+            initialsView.layer.borderWidth = avatarSize.insideBorder
+            initialsView.layer.borderColor = Colors.surfacePrimary.cgColor
+        } else {
+            borderView.backgroundColor = UIColor(light: Colors.gray50, dark: Colors.gray600)
+        }
 
         updateBorder()
     }
@@ -796,16 +822,16 @@ class OverflowAvatarView: AvatarView {
         var avatarFrame = bounds
         if hasBorder {
             let borderOffset = Constants.borderSize - borderWidth
-            avatarFrame.origin.x -= borderOffset
-            avatarFrame.origin.y -= borderOffset
-            avatarFrame.size.width += -borderOffset * 2
-            avatarFrame.size.height += -borderOffset * 2
+            avatarFrame.origin.x -= borderOffset * 1.75
+            avatarFrame.origin.y -= borderOffset * 1.75
+            avatarFrame.size.width -= borderOffset / 4
+            avatarFrame.size.height -= borderOffset / 4
 
             if avatarSize == .extraExtraLarge {
                 avatarFrame.origin.x -= Constants.borderSize
                 avatarFrame.origin.y -= Constants.borderSize
-                avatarFrame.size.width -= Constants.extraExtraLargeBorderSize
-                avatarFrame.size.height -= Constants.extraExtraLargeBorderSize
+                avatarFrame.size.width -= Constants.borderSize * 1.5
+                avatarFrame.size.height -= Constants.borderSize * 1.5
             }
         } else {
             let borderSize = avatarSize == .extraExtraLarge ? Constants.extraExtraLargeBorderSize : Constants.borderSize

@@ -183,5 +183,5 @@
 /* Presence - Blocked status */
 "Presence.Blocked" = "Заблокований";
 
-/* AvatarView - Format string for overflow avatar. Format: "+<OverflowCount>". Example: "+5" */
-"AvatarView.OverflowFormat" = "+%@";
+/* AvatarView - Format string for overflow avatar. Format: "<OverflowCount>". Example: "5" */
+"AvatarView.OverflowFormat" = "%@";
