@@ -280,12 +280,20 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
+    @objc open func setup(style: Style, title: String, accessoryButtonTitle: String = "") {
+        setup(style: style, title: title, accessoryButtonTitle: accessoryButtonTitle, leadingView: nil)
+    }
+
     @objc open func setup(style: Style, title: String, accessoryButtonTitle: String = "", leadingView: UIView? = nil) {
         titleView.attributedText = NSAttributedString(string: " ") // to clear attributes
         titleView.text = title
         titleView.isSelectable = false
 
         setup(style: style, accessoryButtonTitle: accessoryButtonTitle, leadingView: leadingView)
+    }
+
+    @objc open func setup(style: Style, attributedTitle: NSAttributedString, accessoryButtonTitle: String = "") {
+        setup(style: style, attributedTitle: attributedTitle, accessoryButtonTitle: accessoryButtonTitle, leadingView: nil)
     }
 
     @objc open func setup(style: Style, attributedTitle: NSAttributedString, accessoryButtonTitle: String = "", leadingView: UIView? = nil) {
@@ -298,6 +306,10 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     /// The custom accessory view  be used instead of the accessory button in the trailing edge of this view.
     /// If set, the accessory button (if any) will be replaced by this custom view. Clients are responsible
     /// for the appeareance and behavior of this view, including event handling and accessibility.
+    @objc open func setup(style: Style, title: String, accessoryView: UIView) {
+        setup(style: style, title: title, accessoryView: accessoryView, leadingView: nil)
+    }
+
     @objc open func setup(style: Style, title: String, accessoryView: UIView, leadingView: UIView? = nil) {
         setup(style: style, title: title)
         self.accessoryView = accessoryView
