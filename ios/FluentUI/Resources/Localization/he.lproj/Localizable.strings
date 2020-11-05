@@ -4,8 +4,8 @@
 //
 
 // Accessibility
-"Accessibility.ActivityIndicator.Animating.label" = "In progress";
-"Accessibility.ActivityIndicator.Stopped.label" = "Progress halted";
+"Accessibility.ActivityIndicator.Animating.label" = "בביצוע";
+"Accessibility.ActivityIndicator.Stopped.label" = "ההתקדמות הופסקה";
 
 "Accessibility.Alert" = "התראה";
 "Accessibility.Dismiss.Label" = "בטל";
