@@ -43,16 +43,18 @@ enum IconicWeight: String, CodingKey, CaseIterable {
 }
 
 struct TypographyInfo {
-    let defaultPointSize: String
+    let defaultPointSize: String?
     let maximumPointSize: String?
     let mapsTo: String
     let version: String?
+    let isScalable: String?
     
     init(dict: [Config.Entry.Typography.SupportedStyleKeys: String]) {
-        self.defaultPointSize = dict[.defaultPointSize]!
+        self.defaultPointSize = dict[.defaultPointSize]
         self.maximumPointSize = dict[.maximumPointSize]
         self.mapsTo = dict[.mapsTo]!
         self.version = dict[.version]
+        self.isScalable = dict[.isScalable]
     }
 }
 

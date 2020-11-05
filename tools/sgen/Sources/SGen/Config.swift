@@ -142,6 +142,7 @@ struct Config {
                 case maximumPointSize
                 case mapsTo
                 case version
+                case isScalable
             }
             
             enum Keys: String, CodingKey {
@@ -588,6 +589,8 @@ extension Config.Entry.Typography {
                                         stringValue = String(intValue)
                                     } else if let doubleValue = value.double {
                                         stringValue = String(doubleValue)
+                                    } else if let boolValue = value.bool {
+                                        stringValue = String(boolValue)
                                     } else {
                                         stringValue = value.string!
                                     }
