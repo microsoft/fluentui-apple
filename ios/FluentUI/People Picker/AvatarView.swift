@@ -23,7 +23,7 @@ public enum AvatarSize: Int, CaseIterable {
     public var font: UIFont {
         switch self {
         case .extraSmall:
-            return UIFont.systemFont(ofSize: 9)
+            return UIFont.systemFont(ofSize: 8)
         case .small:
             return UIFont.systemFont(ofSize: 12)
         case .medium:
@@ -771,7 +771,7 @@ class OverflowAvatarView: AvatarView {
         super.init(avatarSize: avatarSize, withBorder: false, style: .circle, preferredFallbackImageStyle: .outlined)
 
         var overflowCountString = NumberFormatter.localizedString(from: NSNumber(value: overflowCount), number: .none)
-        overflowCountString = String(format: "AvatarView.OverflowFormat".localized, overflowCountString)
+        overflowCountString = String(overflowCountString)
 
         setup(primaryText: overflowCountString, secondaryText: nil, image: nil, convertTextToInitials: false)
         avatarBackgroundColor = .clear
