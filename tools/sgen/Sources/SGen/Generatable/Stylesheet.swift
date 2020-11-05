@@ -1125,11 +1125,6 @@ private extension UIFont {
                           isScalable: isScalable)
     }
 
-    convenience init?(name: String, scalable: Bool) {
-        self.init(name: name, size: 4)
-        self.isScalable = scalable
-    }
-
     var isScalable: Bool {
         get { return objc_getAssociatedObject(self, &scalableHandle) as? Bool ?? false }
         set { objc_setAssociatedObject(self, &scalableHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
