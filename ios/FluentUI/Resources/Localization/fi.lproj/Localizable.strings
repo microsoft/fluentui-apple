@@ -4,8 +4,8 @@
 //
 
 // Accessibility
-"Accessibility.ActivityIndicator.Animating.label" = "In progress";
-"Accessibility.ActivityIndicator.Stopped.label" = "Progress halted";
+"Accessibility.ActivityIndicator.Animating.label" = "Kesken";
+"Accessibility.ActivityIndicator.Stopped.label" = "Tilanne pysäytetty";
 
 "Accessibility.Alert" = "Hälytys";
 "Accessibility.Dismiss.Label" = "Hylkää";

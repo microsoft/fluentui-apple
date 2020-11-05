@@ -4,8 +4,8 @@
 //
 
 // Accessibility
-"Accessibility.ActivityIndicator.Animating.label" = "In progress";
-"Accessibility.ActivityIndicator.Stopped.label" = "Progress halted";
+"Accessibility.ActivityIndicator.Animating.label" = "Em curso";
+"Accessibility.ActivityIndicator.Stopped.label" = "Progresso interrompido";
 
 "Accessibility.Alert" = "Alerta";
 "Accessibility.Dismiss.Label" = "Dispensar";
