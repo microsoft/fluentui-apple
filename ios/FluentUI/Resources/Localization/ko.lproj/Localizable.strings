@@ -4,6 +4,9 @@
 //
 
 // Accessibility
+"Accessibility.ActivityIndicator.Animating.label" = "진행 중";
+"Accessibility.ActivityIndicator.Stopped.label" = "진행이 중지되었습니다";
+
 "Accessibility.Alert" = "알림";
 "Accessibility.Dismiss.Label" = "해제";
 "Accessibility.Dismiss.Hint" = "해제하려면 두 번 탭하세요.";

@@ -4,6 +4,9 @@
 //
 
 // Accessibility
+"Accessibility.ActivityIndicator.Animating.label" = "In progress";
+"Accessibility.ActivityIndicator.Stopped.label" = "Progress halted";
+
 "Accessibility.Alert" = "Waarschuwing";
 "Accessibility.Dismiss.Label" = "Verwijderen";
 "Accessibility.Dismiss.Hint" = "Dubbeltikken om te sluiten";

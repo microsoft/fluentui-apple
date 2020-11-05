@@ -83,11 +83,6 @@ open class ActivityIndicatorView: UIView, ActivityViewAnimating {
         return CGSize(width: size.sideSize, height: size.sideSize)
     }
 
-    private struct Constants {
-        static let rotationAnimationDuration: TimeInterval = 0.7
-        static let rotationAnimationKey: String = "rotationAnimation"
-    }
-
     @objc open var size: ActivityIndicatorViewSize {
         get {
             return ActivityIndicatorViewSize.allCases.first { $0.sideSize == self.sideSize } ?? .medium
@@ -112,33 +107,6 @@ open class ActivityIndicatorView: UIView, ActivityViewAnimating {
     /// Don't modify this directly. Instead, call `startAnimating` and `stopAnimating`
     @objc(isAnimating) public private(set) var isAnimating: Bool = false
 
-    private var loaderLayer: CAShapeLayer = {
-        let shapeLayer = CAShapeLayer()
-        shapeLayer.contentsScale = UIScreen.main.scale
-        shapeLayer.fillColor = UIColor.clear.cgColor
-        shapeLayer.lineCap = .round
-        shapeLayer.lineJoin = .bevel
-        return shapeLayer
-    }()
-    private let loaderRotationAnimation: CABasicAnimation = {
-        let loaderRotationAnimation = CABasicAnimation(keyPath: "transform.rotation")
-
-        loaderRotationAnimation.fromValue = NSNumber(value: 0.0 as Double)
-        loaderRotationAnimation.toValue = NSNumber(value: 2 * Double.pi)
-
-        loaderRotationAnimation.duration = Constants.rotationAnimationDuration
-        loaderRotationAnimation.timingFunction = CAMediaTimingFunction(name: .linear)
-
-        loaderRotationAnimation.isRemovedOnCompletion = false
-        loaderRotationAnimation.repeatCount = .infinity
-        loaderRotationAnimation.fillMode = .forwards
-        loaderRotationAnimation.autoreverses = false
-
-        return loaderRotationAnimation
-    }()
-    private var sideSize: CGFloat = 0
-    private var strokeThickness: CGFloat = 0
-
     @objc public convenience init(size: ActivityIndicatorViewSize) {
         self.init(sideSize: size.sideSize, strokeThickness: size.strokeThickness.rawValue)
     }
@@ -148,6 +116,7 @@ open class ActivityIndicatorView: UIView, ActivityViewAnimating {
         layer.addSublayer(loaderLayer)
         isHidden = true
         updateView(sideSize: sideSize, strokeThickness: strokeThickness)
+        isAccessibilityElement = true
     }
 
     public required init(coder aDecoder: NSCoder) {
@@ -186,6 +155,24 @@ open class ActivityIndicatorView: UIView, ActivityViewAnimating {
         }
     }
 
+    open override var accessibilityLabel: String? {
+        get {
+            if useCustomAccessibilityLabel {
+                return super.accessibilityLabel
+            } else {
+                if isAnimating {
+                    return "Accessibility.ActivityIndicator.Animating.label".localized
+                } else {
+                    return "Accessibility.ActivityIndicator.Stopped.label".localized
+                }
+            }
+        }
+        set {
+            super.accessibilityLabel = newValue
+            useCustomAccessibilityLabel = true
+        }
+    }
+
     open override func layoutSubviews() {
         super.layoutSubviews()
         loaderLayer.position = CGPoint(x: frame.width / 2, y: frame.height / 2)
@@ -221,5 +208,41 @@ open class ActivityIndicatorView: UIView, ActivityViewAnimating {
         setupLoaderLayer()
         sizeToFit()
         invalidateIntrinsicContentSize()
+    }
+
+    private let loaderRotationAnimation: CABasicAnimation = {
+        let loaderRotationAnimation = CABasicAnimation(keyPath: "transform.rotation")
+
+        loaderRotationAnimation.fromValue = NSNumber(value: 0.0 as Double)
+        loaderRotationAnimation.toValue = NSNumber(value: 2 * Double.pi)
+
+        loaderRotationAnimation.duration = Constants.rotationAnimationDuration
+        loaderRotationAnimation.timingFunction = CAMediaTimingFunction(name: .linear)
+
+        loaderRotationAnimation.isRemovedOnCompletion = false
+        loaderRotationAnimation.repeatCount = .infinity
+        loaderRotationAnimation.fillMode = .forwards
+        loaderRotationAnimation.autoreverses = false
+
+        return loaderRotationAnimation
+    }()
+
+    private var loaderLayer: CAShapeLayer = {
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.contentsScale = UIScreen.main.scale
+        shapeLayer.fillColor = UIColor.clear.cgColor
+        shapeLayer.lineCap = .round
+        shapeLayer.lineJoin = .bevel
+        return shapeLayer
+    }()
+
+    private var sideSize: CGFloat = 0
+    private var strokeThickness: CGFloat = 0
+
+    private var useCustomAccessibilityLabel: Bool = false
+
+    private struct Constants {
+        static let rotationAnimationDuration: TimeInterval = 0.7
+        static let rotationAnimationKey: String = "rotationAnimation"
     }
 }

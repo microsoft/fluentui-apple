@@ -4,6 +4,9 @@
 //
 
 // Accessibility
+"Accessibility.ActivityIndicator.Animating.label" = "進行中";
+"Accessibility.ActivityIndicator.Stopped.label" = "已暫停進度";
+
 "Accessibility.Alert" = "通知";
 "Accessibility.Dismiss.Label" = "關閉";
 "Accessibility.Dismiss.Hint" = "點兩下以關閉";

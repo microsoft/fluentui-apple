@@ -9,16 +9,13 @@ import UIKit
 // MARK: DrawerDemoController
 
 class DrawerDemoController: DemoController {
-
-    private var shouldConfirmDrawerDismissal: Bool = false
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Show", style: .plain, target: self, action: #selector(barButtonTapped))
 
         addTitle(text: "Top Drawer")
-        container.addArrangedSubview(createButton(title: "Show resizable", action: #selector(showTopDrawerButtonTapped)))
+        container.addArrangedSubview(createButton(title: "Show resizable with clear background", action: #selector(showTopDrawerButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show resizable with max content height", action: #selector(showTopDrawerWithMaxContentHeightTapped)))
         container.addArrangedSubview(createButton(title: "Show non dismissable", action: #selector(showTopDrawerNotDismissableButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show changing resizing behaviour", action: #selector(showTopDrawerChangingResizingBehaviour)))
@@ -29,8 +26,16 @@ class DrawerDemoController: DemoController {
         addTitle(text: "Left/Right Drawer")
         addRow(
             items: [
-                createButton(title: "Show from leading", action: #selector(showLeftDrawerButtonTapped)),
-                createButton(title: "Show from trailing", action: #selector(showRightDrawerButtonTapped))
+                createButton(title: "Show from leading with clear background", action: #selector(showLeftDrawerClearBackgroundButtonTapped)),
+                createButton(title: "Show from trailing with clear background", action: #selector(showRightDrawerClearBackgroundButtonTapped))
+            ],
+            itemSpacing: Constants.verticalSpacing,
+            stretchItems: true
+        )
+        addRow(
+            items: [
+                createButton(title: "Show from leading with dimmed background", action: #selector(showLeftDrawerDimmedBackgroundButtonTapped)),
+                createButton(title: "Show from trailing with dimmed background", action: #selector(showRightDrawerDimmedBackgroundButtonTapped))
             ],
             itemSpacing: Constants.verticalSpacing,
             stretchItems: true
@@ -45,7 +50,8 @@ class DrawerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show with no animation", action: #selector(showBottomDrawerNotAnimatedButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show from custom base", action: #selector(showBottomDrawerCustomOffsetButtonTapped)))
 
-        container.addArrangedSubview(createButton(title: "Show always as slideover, resizable", action: #selector(showBottomDrawerCustomContentControllerButtonTapped)))
+        container.addArrangedSubview(createButton(title: "Show always as slideover, resizable with dimmed background", action: #selector(showBottomDrawerCustomContentControllerDimmedBackgroundButtonTapped)))
+        container.addArrangedSubview(createButton(title: "Show always as slideover, resizable with clear background", action: #selector(showBottomDrawerCustomContentControllerClearBackgroundButtonTapped)))
 
         container.addArrangedSubview(createButton(title: "Show with focusable content", action: #selector(showBottomDrawerFocusableContentButtonTapped)))
 
@@ -86,13 +92,12 @@ class DrawerDemoController: DemoController {
         let controller: DrawerController
         if let sourceView = sourceView {
             controller = DrawerController(sourceView: sourceView, sourceRect: sourceView.bounds.insetBy(dx: sourceView.bounds.width / 2, dy: 0), presentationOrigin: presentationOrigin, presentationDirection: presentationDirection, preferredMaximumHeight: maxDrawerHeight)
-            controller.delegate = self
         } else if let barButtonItem = barButtonItem {
             controller = DrawerController(barButtonItem: barButtonItem, presentationOrigin: presentationOrigin, presentationDirection: presentationDirection, preferredMaximumHeight: maxDrawerHeight)
         } else {
             preconditionFailure("Presenting a drawer requires either a sourceView or a barButtonItem")
         }
-
+        controller.delegate = self
         controller.presentationStyle = presentationStyle
         controller.presentationOffset = presentationOffset
         controller.presentationBackground = presentationBackground
@@ -119,6 +124,32 @@ class DrawerDemoController: DemoController {
         return controller
     }
 
+    private var contentControllerOriginalPreferredContentHeight: CGFloat = 0
+
+    @objc private func customContentNavigationController(content: UIView) -> UINavigationController {
+        let controller = UIViewController()
+        controller.title = "Resizable slideover drawer"
+        controller.toolbarItems = [
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(title: "Change preferredContentSize", style: .plain, target: self, action: #selector(changePreferredContentSizeButtonTapped)),
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        ]
+
+        controller.view.addSubview(content)
+        content.frame = controller.view.bounds
+        content.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        content.backgroundColor = Colors.NavigationBar.background
+
+        let contentController = UINavigationController(rootViewController: controller)
+        contentController.navigationBar.barTintColor = Colors.NavigationBar.background
+        contentController.toolbar.barTintColor = Colors.Toolbar.background
+        contentController.isToolbarHidden = false
+        contentController.preferredContentSize = CGSize(width: 400, height: 400)
+        contentControllerOriginalPreferredContentHeight = contentController.preferredContentSize.height
+
+        return contentController
+    }
+
     private func actionViews(drawerHasFlexibleHeight: Bool, drawerHasToggleResizingBehaviorButton: Bool) -> [UIView] {
         let spacer = UIView()
         spacer.backgroundColor = .orange
@@ -127,8 +158,10 @@ class DrawerDemoController: DemoController {
 
         var views = [UIView]()
         if drawerHasFlexibleHeight {
+            let expandButton = createButton(title: "Expand", action: #selector(expandButtonTapped))
+            self.expandButton = expandButton
             views.append(createButton(title: "Change content height", action: #selector(changeContentHeightButtonTapped)))
-            views.append(createButton(title: "Expand", action: #selector(expandButtonTapped)))
+            views.append(expandButton)
         }
         views.append(createButton(title: "Dismiss", action: #selector(dismissButtonTapped)))
         views.append(createButton(title: "Dismiss (no animation)", action: #selector(dismissNotAnimatedButtonTapped)))
@@ -152,7 +185,7 @@ class DrawerDemoController: DemoController {
     }
 
     @objc private func showTopDrawerButtonTapped(sender: UIButton) {
-        presentDrawer(sourceView: sender, presentationDirection: .down, contentView: containerForActionViews(), resizingBehavior: .dismissOrExpand)
+        presentDrawer(sourceView: sender, presentationDirection: .down, presentationBackground: .none, contentView: containerForActionViews(), resizingBehavior: .dismissOrExpand)
     }
 
     @objc private func showTopDrawerWithMaxContentHeightTapped(sender: UIButton) {
@@ -180,12 +213,20 @@ class DrawerDemoController: DemoController {
         presentDrawer(sourceView: sender, presentationDirection: .down, contentView: containerForActionViews(), resizingBehavior: .dismissOrExpand, respectSafeAreaWidth: true)
     }
 
-    @objc private func showLeftDrawerButtonTapped(sender: UIButton) {
-        presentDrawer(sourceView: sender, presentationDirection: .fromLeading, contentView: containerForActionViews(drawerHasFlexibleHeight: false), resizingBehavior: .dismiss)
+    @objc private func showLeftDrawerClearBackgroundButtonTapped(sender: UIButton) {
+        presentDrawer(sourceView: sender, presentationDirection: .fromLeading, presentationBackground: .none, contentView: containerForActionViews(drawerHasFlexibleHeight: false), resizingBehavior: .dismiss)
     }
 
-    @objc private func showRightDrawerButtonTapped(sender: UIButton) {
-        presentDrawer(sourceView: sender, presentationDirection: .fromTrailing, contentView: containerForActionViews(drawerHasFlexibleHeight: false), resizingBehavior: .dismiss)
+    @objc private func showLeftDrawerDimmedBackgroundButtonTapped(sender: UIButton) {
+        presentDrawer(sourceView: sender, presentationDirection: .fromLeading, presentationBackground: .black, contentView: containerForActionViews(drawerHasFlexibleHeight: false), resizingBehavior: .dismiss)
+    }
+
+    @objc private func showRightDrawerClearBackgroundButtonTapped(sender: UIButton) {
+        presentDrawer(sourceView: sender, presentationDirection: .fromTrailing, presentationBackground: .none, contentView: containerForActionViews(drawerHasFlexibleHeight: false), resizingBehavior: .dismiss)
+    }
+
+    @objc private func showRightDrawerDimmedBackgroundButtonTapped(sender: UIButton) {
+        presentDrawer(sourceView: sender, presentationDirection: .fromTrailing, presentationBackground: .black, contentView: containerForActionViews(drawerHasFlexibleHeight: false), resizingBehavior: .dismiss)
     }
 
     @objc private func showBottomDrawerButtonTapped(sender: UIButton) {
@@ -218,32 +259,30 @@ class DrawerDemoController: DemoController {
         presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews(), resizingBehavior: .dismissOrExpand)
     }
 
-    private var contentControllerOriginalPreferredContentHeight: CGFloat = 0
+    @objc private func showBottomDrawerCustomContentControllerDimmedBackgroundButtonTapped(sender: UIButton) {
+        showBottomDrawerCustomContentController(sourceView: sender,
+                                                presentationBackground: .black)
+    }
 
-    @objc private func showBottomDrawerCustomContentControllerButtonTapped(sender: UIButton) {
-        let controller = UIViewController()
-        controller.title = "Resizable slideover drawer"
-        controller.toolbarItems = [
-            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(title: "Change preferredContentSize", style: .plain, target: self, action: #selector(changePreferredContentSizeButtonTapped)),
-            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        ]
+    @objc private func showBottomDrawerCustomContentControllerClearBackgroundButtonTapped(sender: UIButton) {
+        showBottomDrawerCustomContentController(sourceView: sender,
+                                                presentationBackground: .none)
+    }
 
+    @objc private func showBottomDrawerCustomContentController(sourceView: UIView,
+                                                               presentationBackground: DrawerPresentationBackground) {
         let personaListView = PersonaListView()
         personaListView.personaList = samplePersonas
-        controller.view.addSubview(personaListView)
-        personaListView.frame = controller.view.bounds
-        personaListView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        personaListView.backgroundColor = Colors.NavigationBar.background
 
-        let contentController = UINavigationController(rootViewController: controller)
-        contentController.navigationBar.barTintColor = Colors.NavigationBar.background
-        contentController.toolbar.barTintColor = Colors.Toolbar.background
-        contentController.isToolbarHidden = false
-        contentController.preferredContentSize = CGSize(width: 400, height: 400)
-        contentControllerOriginalPreferredContentHeight = contentController.preferredContentSize.height
+        let contentController = customContentNavigationController(content: personaListView)
 
-        let drawer = presentDrawer(sourceView: sender, presentationDirection: .up, presentationStyle: .slideover, presentationOffset: 20, presentationBackground: .black, contentController: contentController, resizingBehavior: .dismissOrExpand)
+        let drawer = presentDrawer(sourceView: sourceView,
+                                   presentationDirection: .up,
+                                   presentationStyle: .slideover,
+                                   presentationOffset: 20,
+                                   presentationBackground: presentationBackground,
+                                   contentController: contentController,
+                                   resizingBehavior: .dismissOrExpand)
 
         drawer.resizingHandleViewBackgroundColor = Colors.NavigationBar.background
         drawer.contentScrollView = personaListView
@@ -269,12 +308,8 @@ class DrawerDemoController: DemoController {
         textField.delegate = self
         container.addArrangedSubview(textField)
 
-        let button = Button(style: .primaryFilled)
-        button.setTitle("Hide keyboard", for: .normal)
-        button.setContentCompressionResistancePriority(.required, for: .vertical)
-        button.setContentHuggingPriority(.required, for: .vertical)
-        button.addTarget(self, action: #selector(hideKeyboardButtonTapped), for: .touchUpInside)
-        container.addArrangedSubview(button)
+        hideKeyboardButton.addTarget(self, action: #selector(hideKeyboardButtonTapped), for: .touchUpInside)
+        container.addArrangedSubview(hideKeyboardButton)
 
         presentDrawer(sourceView: sender, presentationDirection: .up, permittedArrowDirections: .any, contentController: contentController, resizingBehavior: .dismissOrExpand, adjustHeightForKeyboard: true)
 
@@ -303,7 +338,6 @@ class DrawerDemoController: DemoController {
             return
         }
         drawer.isExpanded = !drawer.isExpanded
-        sender.setTitle(drawer.isExpanded ? "Return to normal" : "Expand", for: .normal)
     }
 
     @objc private func dismissButtonTapped() {
@@ -336,6 +370,17 @@ class DrawerDemoController: DemoController {
             textField?.resignFirstResponder()
         }
     }
+
+    private var shouldConfirmDrawerDismissal: Bool = false
+    private var expandButton: Button?
+
+    private let hideKeyboardButton: Button = {
+        let button = Button(style: .primaryFilled)
+        button.setTitle("Hide keyboard", for: .normal)
+        button.setContentCompressionResistancePriority(.required, for: .vertical)
+        button.setContentHuggingPriority(.required, for: .vertical)
+        return button
+    }()
 }
 
 // MARK: - DrawerDemoController: UITextFieldDelegate
@@ -344,6 +389,14 @@ extension DrawerDemoController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return false
+    }
+
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        hideKeyboardButton.isEnabled = true
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        hideKeyboardButton.isEnabled = false
     }
 }
 
@@ -366,4 +419,11 @@ extension DrawerDemoController: DrawerControllerDelegate {
         // reset the flag once drawer gets dismissed
         shouldConfirmDrawerDismissal = false
     }
+
+    func drawerControllerDidChangeExpandedState(_ controller: DrawerController) {
+        expandButton?.setTitle(controller.isExpanded ? collapseText : expandText, for: .normal)
+    }
 }
+
+fileprivate let collapseText: String = "Return to normal"
+fileprivate let expandText: String = "Expand"

@@ -4,6 +4,9 @@
 //
 
 // Accessibility
+"Accessibility.ActivityIndicator.Animating.label" = "In corso";
+"Accessibility.ActivityIndicator.Stopped.label" = "Avanzamento interrotto";
+
 "Accessibility.Alert" = "Avviso";
 "Accessibility.Dismiss.Label" = "Ignora";
 "Accessibility.Dismiss.Hint" = "Effettua un doppio tocco per ignorare l'elemento";

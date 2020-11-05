@@ -4,6 +4,9 @@
 //
 
 // Accessibility
+"Accessibility.ActivityIndicator.Animating.label" = "En curso";
+"Accessibility.ActivityIndicator.Stopped.label" = "El progreso se detuvo";
+
 "Accessibility.Alert" = "Alerta";
 "Accessibility.Dismiss.Label" = "Descartar";
 "Accessibility.Dismiss.Hint" = "Pulsa dos veces para descartar";

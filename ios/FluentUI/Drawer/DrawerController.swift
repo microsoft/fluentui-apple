@@ -287,6 +287,7 @@ open class DrawerController: UIViewController {
 
             updateResizingHandleViewAccessibility()
             UIAccessibility.post(notification: .layoutChanged, argument: nil)
+            delegate?.drawerControllerDidChangeExpandedState?(self)
         }
     }
     /**
@@ -868,7 +869,6 @@ open class DrawerController: UIViewController {
                 } else {
                     presentationController.setExtraContentSize(0, updatingLayout: false)
                     isExpanded = true
-                    delegate?.drawerControllerDidChangeExpandedState?(self)
                 }
             } else if offset <= -Constants.resizingThreshold {
                 if isExpanded {
@@ -878,7 +878,6 @@ open class DrawerController: UIViewController {
                         presentationController.setExtraContentSize(0, updatingLayout: false)
                     }
                     isExpanded = false
-                    delegate?.drawerControllerDidChangeExpandedState?(self)
                 } else {
                     dismissPresentingViewController(animated: true, isResizing: true)
                 }

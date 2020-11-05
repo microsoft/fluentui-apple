@@ -4,6 +4,9 @@
 //
 
 // Accessibility
+"Accessibility.ActivityIndicator.Animating.label" = "Igangværende";
+"Accessibility.ActivityIndicator.Stopped.label" = "Status er standset";
+
 "Accessibility.Alert" = "Underretning";
 "Accessibility.Dismiss.Label" = "Afvis";
 "Accessibility.Dismiss.Hint" = "Dobbelttryk for at afvise";

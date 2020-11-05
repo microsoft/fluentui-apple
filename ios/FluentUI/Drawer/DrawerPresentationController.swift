@@ -77,12 +77,15 @@ class DrawerPresentationController: UIPresentationController {
         // Pass the passthrough view in touch forwarding view
         if let passThroughView = self.passThroughView {
             view.passthroughView = passThroughView
+            view.accessibilityElements = [passThroughView]
+        } else {
+            view.isAccessibilityElement = true
+            view.accessibilityLabel = "Accessibility.Dismiss.Label".localized
+            view.accessibilityHint = "Accessibility.Dismiss.Hint".localized
+            view.accessibilityTraits = .button
         }
         view.backgroundColor = .clear
-        view.isAccessibilityElement = true
-        view.accessibilityLabel = "Accessibility.Dismiss.Label".localized
-        view.accessibilityHint = "Accessibility.Dismiss.Hint".localized
-        view.accessibilityTraits = .button
+
         // Workaround for a bug in iOS: if the resizing handle happens to be in the middle of the backgroundView, VoiceOver will send touch event to it (according to the backgroundView's accessibilityActivationPoint) even though it's not parented in backgroundView or even interactable - this will prevent backgroundView from receiving touch and dismissing controller
 
         view.gestureRecognizers = [UITapGestureRecognizer(target: self, action: #selector(handleBackgroundViewTapped(_:)))]
@@ -149,7 +152,7 @@ class DrawerPresentationController: UIPresentationController {
             // Horizontally presented drawers must be inside containerView in order for device rotation animation to work correctly
             if presentationDirection.isHorizontal {
                 containerView?.addSubview(presentedViewController.view)
-                presentedViewController.view.frame = frameForPresentedViewController(in: frameOfPresentedViewInContainerView)
+                presentedViewController.view.frame = frameForPresentedViewController(in: contentView.bounds)
                 focusElement = containerView
             } else {
                 focusElement = contentView
@@ -307,7 +310,7 @@ class DrawerPresentationController: UIPresentationController {
         contentView.frame = frame
 
         if let presentedView = presentedView {
-            presentedView.frame = frameForPresentedViewController(in: presentedView.superview == containerView ? frameOfPresentedViewInContainerView : contentView.bounds)
+            presentedView.frame = frameForPresentedViewController(in: presentedView.superview == containerView ? contentView.frame : contentView.bounds)
         }
 
         if separator.superview != nil {
@@ -375,33 +378,33 @@ class DrawerPresentationController: UIPresentationController {
                 (traitCollection.horizontalSizeClass == .compact && !landscapeMode) {
                 contentSize.width = contentFrame.width
             }
+
             if actualPresentationOffset == 0 && (presentationDirection == .down || keyboardHeight == 0) {
                 contentSize.height += safeAreaPresentationOffset
             }
+
             contentSize.height = min(contentSize.height, contentFrame.height)
             if extraContentSize >= 0 || extraContentSizeEffectWhenCollapsing == .resize {
                 let maxContentSize = preferredMaximumPresentationSize != -1 ? preferredMaximumPresentationSize : contentFrame.height
                 contentSize.height = min(contentSize.height + extraContentSize, maxContentSize)
             }
 
+            contentSize.height += shadowOffset
+
             contentFrame.origin.x += (contentFrame.width - contentSize.width) / 2
             if presentationDirection == .up {
                 contentFrame.origin.y = contentFrame.maxY - contentSize.height
             }
-
-            contentSize.height += shadowOffset
         } else {
             if actualPresentationOffset == 0 {
                 contentSize.width += safeAreaPresentationOffset
             }
-            contentSize.width = min(contentSize.width, contentFrame.width)
+            contentSize.width = min(contentSize.width, contentFrame.width) + shadowOffset
             contentSize.height = contentFrame.height
 
             if presentationDirection == .fromTrailing {
                 contentFrame.origin.x = contentFrame.maxX - contentSize.width
             }
-
-            contentSize.width += shadowOffset
         }
         contentFrame.size = contentSize
 
@@ -450,9 +453,11 @@ class DrawerPresentationController: UIPresentationController {
         let gestureOffset = extraContentSize < 0 && extraContentSizeEffectWhenCollapsing == .move ? extraContentSize : 0
 
         if presentationDirection.isVertical {
-            frame.origin.y += presentationDirection == .down ? gestureOffset - shadowOffset : -gestureOffset + shadowOffset
+            frame.origin.y += presentationDirection == .down ? gestureOffset : -gestureOffset + shadowOffset
+            frame.size.height -= shadowOffset
         } else {
-            frame.origin.x += presentationDirection == .fromLeading ? gestureOffset - shadowOffset : -gestureOffset + shadowOffset
+            frame.origin.x += presentationDirection == .fromLeading ? gestureOffset : -gestureOffset + shadowOffset
+            frame.size.width -= shadowOffset
         }
 
         return frame
