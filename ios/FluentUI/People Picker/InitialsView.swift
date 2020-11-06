@@ -98,6 +98,8 @@ class InitialsView: UIView {
 
         // Initials label
         initialsLabel = UILabel()
+        initialsLabel.adjustsFontSizeToFitWidth = true
+        initialsLabel.minimumScaleFactor = 0.8
         initialsLabel.font = avatarSize.font
         initialsLabel.backgroundColor = UIColor.clear
         initialsLabel.textColor = Colors.Avatar.text
@@ -131,7 +133,11 @@ class InitialsView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        initialsLabel.frame = bounds
+        let width = bounds.width - (avatarSize.insideBorder * 2.5)
+        let height = bounds.height - (avatarSize.insideBorder * 2.5)
+        let x = bounds.origin.x + avatarSize.insideBorder * 1.25
+        let y = bounds.origin.y + avatarSize.insideBorder * 1.25
+        initialsLabel.frame = CGRect(x: x, y: y, width: width, height: height)
     }
 
     func setBackgroundColor(_ color: UIColor) {

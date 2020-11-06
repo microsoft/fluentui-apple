@@ -23,7 +23,7 @@ public enum AvatarSize: Int, CaseIterable {
     public var font: UIFont {
         switch self {
         case .extraSmall:
-            return UIFont.systemFont(ofSize: 8)
+            return UIFont.systemFont(ofSize: 9)
         case .small:
             return UIFont.systemFont(ofSize: 12)
         case .medium:
