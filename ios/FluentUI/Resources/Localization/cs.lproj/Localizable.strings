@@ -4,8 +4,8 @@
 //
 
 // Accessibility
-"Accessibility.ActivityIndicator.Animating.label" = "In progress";
-"Accessibility.ActivityIndicator.Stopped.label" = "Progress halted";
+"Accessibility.ActivityIndicator.Animating.label" = "Probíhá";
+"Accessibility.ActivityIndicator.Stopped.label" = "Průběh zastaven";
 
 "Accessibility.Alert" = "Upozornění";
 "Accessibility.Dismiss.Label" = "Zavřít";
