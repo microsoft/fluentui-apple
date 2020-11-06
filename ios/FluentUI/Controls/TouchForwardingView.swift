@@ -27,33 +27,11 @@ open class TouchForwardingView: UIView {
             let localPoint = convert(point, to: view)
             if view.point(inside: localPoint, with: event) {
                 if event?.type == .touches {
-                    // Prevents the underlying (passthrough) view from getting touch events if there's custom code already handling it (onPassthroughViewTouches closure)
-                    guard let onPassthroughViewTouches = onPassthroughViewTouches else {
-                        return true
-                    }
-                    onPassthroughViewTouches(event)
+                    onPassthroughViewTouches?(event)
                 }
                 return false
             }
         }
         return super.point(inside: point, with: event)
     }
-
-    open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        var hitTestView = super.hitTest(point, with: event)
-
-        // Prevents the underlying (passthrough) view from getting touch events if there's custom code already handling it (onPassthroughViewTouches closure)
-        guard onPassthroughViewTouches == nil else {
-            return hitTestView
-        }
-
-        if let hitView = hitTestView, let passthroughView = passthroughView {
-            let convertedPoint = hitView.convert(point, to: passthroughView)
-            // checking which subview is eligible for the touch event
-            hitTestView = passthroughView.hitTest(convertedPoint, with: event)
-        }
-
-        return hitTestView
-    }
-
 }

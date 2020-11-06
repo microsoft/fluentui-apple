@@ -30,8 +30,6 @@ class DrawerPresentationController: UIPresentationController {
     private let presentationOrigin: CGFloat?
     private let presentationOffset: CGFloat
     private let presentationBackground: DrawerPresentationBackground
-    private weak var passThroughView: UIView?
-    private let shadowOffset: CGFloat
 
     public weak var drawerPresentationControllerDelegate: DrawerPresentationControllerDelegate?
 
@@ -45,9 +43,7 @@ class DrawerPresentationController: UIPresentationController {
          presentationBackground: DrawerPresentationBackground,
          adjustHeightForKeyboard: Bool,
          shouldUseWindowFullWidthInLandscape: Bool,
-         shouldRespectSafeAreaForWindowFullWidth: Bool,
-         passThroughView: UIView?,
-         shadowOffset: CGFloat) {
+         shouldRespectSafeAreaForWindowFullWidth: Bool) {
         sourceViewController = source
         self.sourceObject = sourceObject
         self.presentationOrigin = presentationOrigin
@@ -56,38 +52,30 @@ class DrawerPresentationController: UIPresentationController {
         self.presentationBackground = presentationBackground
         self.shouldUseWindowFullWidthInLandscape = shouldUseWindowFullWidthInLandscape
         self.shouldRespectSafeAreaForWindowFullWidth = shouldRespectSafeAreaForWindowFullWidth
-        self.passThroughView = passThroughView
-        self.shadowOffset = shadowOffset
 
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
+
+        backgroundView.gestureRecognizers = [UITapGestureRecognizer(target: self, action: #selector(handleBackgroundViewTapped(_:)))]
 
         if adjustHeightForKeyboard {
             NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillChangeFrame), name: UIApplication.keyboardWillChangeFrameNotification, object: nil)
         }
     }
 
-    private lazy var backgroundView: UIView = {
     // A transparent view, which if tapped will dismiss the dropdown
+    private lazy var backgroundView: UIView = {
         let view = BackgroundView()
-        view.forwardsTouches = false
-        // Pass the passthrough view in touch forwarding view
-        if let passThroughView = self.passThroughView {
-            view.passthroughView = passThroughView
-        }
         view.backgroundColor = .clear
         view.isAccessibilityElement = true
         view.accessibilityLabel = "Accessibility.Dismiss.Label".localized
         view.accessibilityHint = "Accessibility.Dismiss.Hint".localized
         view.accessibilityTraits = .button
         // Workaround for a bug in iOS: if the resizing handle happens to be in the middle of the backgroundView, VoiceOver will send touch event to it (according to the backgroundView's accessibilityActivationPoint) even though it's not parented in backgroundView or even interactable - this will prevent backgroundView from receiving touch and dismissing controller
-
-        view.gestureRecognizers = [UITapGestureRecognizer(target: self, action: #selector(handleBackgroundViewTapped(_:)))]
         view.onAccessibilityActivate = { [unowned self] in
             self.drawerPresentationControllerDelegate?.drawerPresentationControllerDismissalRequested(self)
         }
         return view
     }()
-
     private lazy var dimmingView: DimmingView = {
         let view = DimmingView(type: presentationBackground.dimmingViewType)
         view.isUserInteractionEnabled = false
@@ -187,10 +175,7 @@ class DrawerPresentationController: UIPresentationController {
         case resize
     }
 
-    // Content view is clipped 'clipsToBounds = true' to prevent the drawer from sliding over the navigation bar and for any custom base scenario. But it started clipping shadow of the drawer.
-    // Fix: Shadow offset is added in the presented view and height of content view is also increased by same value. It will make sure shadow is not clipped, keeping presented view's height same.
-
-    override var frameOfPresentedViewInContainerView: CGRect { return contentView.frame.inset(by: DrawerShadowView.shadowOffsetForPresentedView(with: presentationDirection, offset: shadowOffset)) }
+    override var frameOfPresentedViewInContainerView: CGRect { return contentView.frame }
 
     var extraContentSizeEffectWhenCollapsing: ExtraContentSizeEffect = .move
 
@@ -384,7 +369,6 @@ class DrawerPresentationController: UIPresentationController {
             if extraContentSize < 0 && extraContentSizeEffectWhenCollapsing == .move {
                 contentFrame.origin.y += presentationDirection == .down ? extraContentSize : -extraContentSize
             }
-            contentSize.height += shadowOffset
         } else {
             if actualPresentationOffset == 0 {
                 contentSize.width += safeAreaPresentationOffset
@@ -398,7 +382,6 @@ class DrawerPresentationController: UIPresentationController {
             if extraContentSize < 0 && extraContentSizeEffectWhenCollapsing == .move {
                 contentFrame.origin.x += presentationDirection == .fromLeading ? extraContentSize : -extraContentSize
             }
-            contentSize.width += shadowOffset
         }
         contentFrame.size = contentSize
 
@@ -509,7 +492,7 @@ class DrawerPresentationController: UIPresentationController {
 // MARK: - BackgroundView
 
 // Used for workaround for a bug in iOS: if the resizing handle happens to be in the middle of the backgroundView, VoiceOver will send touch event to it (according to the backgroundView's accessibilityActivationPoint) even though it's not parented in backgroundView or even interactable - this will prevent backgroundView from receiving touch and dismissing controller. This view overrides the default behavior of sending touch event to a view at the activation point and provides a way for custom handling.
-private class BackgroundView: TouchForwardingView {
+private class BackgroundView: UIView {
     var onAccessibilityActivate: (() -> Void)?
 
     override func accessibilityActivate() -> Bool {

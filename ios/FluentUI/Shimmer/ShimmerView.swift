@@ -5,35 +5,6 @@
 
 import UIKit
 
-/// Shimmer style can be either concealing or revealing
-/// The style affects the default shimmer alpha value and the default shimmer tint color
-@objc(MSFShimmerViewStyle)
-public enum ShimmerStyle: Int, CaseIterable {
-	/// Concealing shimmer: the gradient conceals parts of the subviews as it moves leaving most parts of the subviews unblocked.
-	case concealing
-
-	/// Revealing shimmer: the gradient reveals parts of the subviews as it moves leaving most parts of the subview blocked.
-	case revealing
-
-	var defaultAlphaValue: CGFloat {
-		switch self {
-		case .concealing:
-			return 0
-		case .revealing:
-			return 0.4
-		}
-	}
-
-	var defaultTintColor: UIColor {
-		switch self {
-		case .concealing:
-			return Colors.Shimmer.gradientCenter
-		case .revealing:
-			return Colors.Shimmer.tint
-		}
-	}
-}
-
 @available(*, deprecated, renamed: "ShimmerView")
 public typealias MSShimmerView = ShimmerView
 
@@ -54,9 +25,8 @@ open class ShimmerView: UIView {
 		}
 	}
 
-	/// The alpha value of the center of the gradient in the animation if shimmer is revealing shimmer
-	/// The alpha value of the view other than the gradient if shimmer is concealing shimmer
-	@objc open var shimmerAlpha: CGFloat {
+	/// The alpha value of the center of the gradient in the animation
+	@objc open var shimmerAlpha: CGFloat = defaultAlpha {
 		didSet {
 			setNeedsLayout()
 		}
@@ -103,8 +73,7 @@ open class ShimmerView: UIView {
 		}
 	}
 
-	/// Tint color of the view if shimmer is revealing shimmer
-	/// Tint color of the middle of the gradient if shimmer is concealing shimmer
+	/// Tint color of the view.
 	@objc open var viewTintColor: UIColor = Colors.Shimmer.tint {
 		didSet {
 			setNeedsLayout()
@@ -147,13 +116,6 @@ open class ShimmerView: UIView {
 		}
 	}
 
-	/// Determines whether the shimmer is a revealing shimmer or a concealing shimmer
-	@objc open var shimmerStyle: ShimmerStyle {
-		didSet {
-			setNeedsLayout()
-		}
-	}
-	
 	/// Optional synchronizer to sync multiple shimmer views
 	@objc open weak var animationSynchronizer: AnimationSynchronizerProtocol?
 
@@ -174,14 +136,10 @@ open class ShimmerView: UIView {
 	/// - Parameter animationSynchronizer: optional synchronizer to sync multiple shimmer views
     @objc public init(containerView: UIView? = nil,
                       excludedViews: [UIView] = [],
-                      animationSynchronizer: AnimationSynchronizerProtocol? = nil,
-		              shimmerStyle: ShimmerStyle = .revealing) {
+                      animationSynchronizer: AnimationSynchronizerProtocol? = nil) {
 		self.containerView = containerView
 		self.excludedViews = excludedViews
 		self.animationSynchronizer = animationSynchronizer
-		self.shimmerStyle = shimmerStyle
-		self.viewTintColor = shimmerStyle.defaultTintColor
-		self.shimmerAlpha = shimmerStyle.defaultAlphaValue
 		super.init(frame: CGRect(origin: .zero, size: containerView?.bounds.size ?? .zero))
 
         NotificationCenter.default.addObserver(self,
@@ -266,10 +224,11 @@ open class ShimmerView: UIView {
 	/// Update the gradient layer that animates to provide the shimmer effect (also updates the animation)
 	func updateShimmeringLayer() {
 		let light = UIColor.white.withAlphaComponent(shimmerAlpha).cgColor
-		let dark = Colors.Shimmer.darkGradient.cgColor
-		shimmeringLayer.colors = shimmerStyle == .concealing ? [light, dark, light] : [dark, light, dark]
-
+		let dark = UIColor.black.cgColor
 		let isRTL = effectiveUserInterfaceLayoutDirection == .rightToLeft
+
+		shimmeringLayer.colors = [dark, light, dark]
+
 		let startPoint = CGPoint(x: 0.0, y: 0.5)
 		let endPoint = CGPoint(x: 1.0, y: 0.5 - tan(shimmerAngle * (isRTL ? -1 : 1)))
 		if isRTL {
@@ -346,10 +305,13 @@ open class ShimmerView: UIView {
 		}
 	}
 
+	private static let defaultAlpha: CGFloat = 0.4
 	private static let defaultWidth: CGFloat = 180
 	private static let defaultAngle: CGFloat = -(CGFloat.pi / 45.0)
 	private static let defaultSpeed: CGFloat = 350
 	private static let defaultDelay: TimeInterval = 0.4
+
+	private static let defaultViewTintColor: UIColor = Colors.Shimmer.tint
 	private static let defaultCornerRadius: CGFloat = 4.0
 	private static let defaultLabelCornerRadius: CGFloat = 2.0
 	private static let defaultUsesTextHeightForLabels: Bool = false
@@ -360,8 +322,6 @@ open class ShimmerView: UIView {
 
 public extension Colors {
 	struct Shimmer {
-		public static var darkGradient: UIColor = .black
-		public static var gradientCenter: UIColor = .init(light: .white, dark: gray950)
-		public static var tint: UIColor = .init(light: surfaceTertiary, dark: surfaceQuaternary)
+		public static var tint = UIColor(light: surfaceTertiary, dark: surfaceQuaternary)
 	}
 }

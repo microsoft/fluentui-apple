@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2F6759B8251E4C2600210B3C /* SimpleObjCTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6759B7251E4C2600210B3C /* SimpleObjCTest.m */; };
 		8005007722FB361200CA6343 /* DatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8005007622FB361200CA6343 /* DatePickerControllerTests.swift */; };
 		80117A7F22DCDF6F00813D59 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80117A7E22DCDF6F00813D59 /* CalendarView.swift */; };
 		80117A8322E0E63E00813D59 /* CalendarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80117A8222E0E63E00813D59 /* CalendarHeaderView.swift */; };
@@ -111,8 +110,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		2F6759B6251E4C2600210B3C /* SimpleObjCTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleObjCTest.h; sourceTree = "<group>"; };
-		2F6759B7251E4C2600210B3C /* SimpleObjCTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleObjCTest.m; sourceTree = "<group>"; };
 		8005007622FB361200CA6343 /* DatePickerControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerControllerTests.swift; sourceTree = "<group>"; };
 		80117A7E22DCDF6F00813D59 /* CalendarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		80117A8222E0E63E00813D59 /* CalendarHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarHeaderView.swift; sourceTree = "<group>"; };
@@ -390,8 +387,6 @@
 				E61C96C02295E8D60006561F /* AvatarViewTests.swift */,
 				8005007622FB361200CA6343 /* DatePickerControllerTests.swift */,
 				E61C96C22295E8D60006561F /* FluentUIUnitTest-Info.plist */,
-				2F6759B6251E4C2600210B3C /* SimpleObjCTest.h */,
-				2F6759B7251E4C2600210B3C /* SimpleObjCTest.m */,
 			);
 			name = FluentUIUnitTest;
 			path = ../FluentUIUnitTest;
@@ -756,7 +751,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E61C96C12295E8D60006561F /* AvatarViewTests.swift in Sources */,
-				2F6759B8251E4C2600210B3C /* SimpleObjCTest.m in Sources */,
 				8005007722FB361200CA6343 /* DatePickerControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,8 +10,6 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
-    - name: Switch to current version of Xcode
-      run: scripts/xcode_select_current_version.sh
     - name: Publish to CocoaPod register
       env:
         COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
