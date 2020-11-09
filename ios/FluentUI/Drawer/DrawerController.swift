@@ -211,6 +211,7 @@ open class DrawerController: UIViewController {
             }
         }
     }
+
     @objc open var presentationBackground: DrawerPresentationBackground = .black
 
     /// Use `passThroughView` to make underlying view interactable. This view can be set from presenting view controller to recieve all the touch events from drawer's presentation background.
@@ -253,6 +254,11 @@ open class DrawerController: UIViewController {
             if presentationDirection.isHorizontal && resizingBehavior == .dismissOrExpand {
                 resizingBehavior = .dismiss
             }
+
+            // If the drawer is already loaded, update the resizing handle when resizing behaviour is changed.
+            if isViewLoaded {
+               updateResizingHandleView()
+            }
         }
     }
 
@@ -281,6 +287,7 @@ open class DrawerController: UIViewController {
 
             updateResizingHandleViewAccessibility()
             UIAccessibility.post(notification: .layoutChanged, argument: nil)
+            delegate?.drawerControllerDidChangeExpandedState?(self)
         }
     }
     /**
@@ -403,6 +410,7 @@ open class DrawerController: UIViewController {
     private var useCustomBackgroundColor: Bool = false
     /// for iPad split mode, navigation bar has a different dark elevated color, and if it is a `.down` presentation style, match `Colors.NavigationBar.background` elevated color
     private var useNavigationBarBackgroundColor: Bool = false
+    private let preferredMaximumExpansionHeight: CGFloat
 
     /**
      Initializes `DrawerController` to be presented as a popover from `sourceRect` in `sourceView` on iPad and as a slideover on iPhone/iPad.
@@ -411,13 +419,15 @@ open class DrawerController: UIViewController {
      - Parameter sourceRect: The rectangle in the specified view in which to anchor the popover.
      - Parameter presentationOrigin: The offset (in screen coordinates) from which to show a slideover. If not provided it will be calculated automatically: bottom of navigation bar for `.down` presentation and edge of the screen for other presentations.
      - Parameter presentationDirection: The direction of slideover presentation.
+     - Parameter preferredMaximumHeight: The maximum height to which the drawer is preferred to expand
      */
-    @objc public init(sourceView: UIView, sourceRect: CGRect, presentationOrigin: CGFloat = -1, presentationDirection: DrawerPresentationDirection) {
+    @objc public init(sourceView: UIView, sourceRect: CGRect, presentationOrigin: CGFloat = -1, presentationDirection: DrawerPresentationDirection, preferredMaximumHeight: CGFloat = -1) {
         self.sourceView = sourceView
         self.sourceRect = sourceRect
         self.barButtonItem = nil
         self.presentationOrigin = presentationOrigin == -1 ? nil : presentationOrigin
         self.presentationDirection = presentationDirection
+        self.preferredMaximumExpansionHeight = preferredMaximumHeight
 
         super.init(nibName: nil, bundle: nil)
 
@@ -431,12 +441,13 @@ open class DrawerController: UIViewController {
      - Parameter presentationOrigin: The offset (in screen coordinates) from which to show a slideover. If not provided it will be calculated automatically: bottom of navigation bar for `.down` presentation and edge of the screen for other presentations.
      - Parameter presentationDirection: The direction of slideover presentation.
      */
-    @objc public init(barButtonItem: UIBarButtonItem, presentationOrigin: CGFloat = -1, presentationDirection: DrawerPresentationDirection) {
+    @objc public init(barButtonItem: UIBarButtonItem, presentationOrigin: CGFloat = -1, presentationDirection: DrawerPresentationDirection, preferredMaximumHeight: CGFloat = -1) {
         self.sourceView = nil
         self.sourceRect = nil
         self.barButtonItem = barButtonItem
         self.presentationOrigin = presentationOrigin == -1 ? nil : presentationOrigin
         self.presentationDirection = presentationDirection
+        self.preferredMaximumExpansionHeight = preferredMaximumHeight
 
         super.init(nibName: nil, bundle: nil)
 
@@ -490,22 +501,9 @@ open class DrawerController: UIViewController {
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if canResize {
-            if showsResizingHandle {
-                if resizingHandleView == nil {
-                    resizingHandleView = ResizingHandleView()
-                    resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
-                }
-            } else {
-                resizingHandleView = nil
-            }
-            if resizingGestureRecognizer == nil {
-                resizingGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handleResizingGesture))
-            }
-        } else {
-            resizingHandleView = nil
-            resizingGestureRecognizer = nil
-        }
+
+        // Configure the resizing handle view according to resizing behaviour and disable the gesture recogniser(if any) till view actually appears
+        updateResizingHandleView()
         resizingGestureRecognizer?.isEnabled = false
 
         // if DrawerController is shown in UIPopoverPresentationController then we want to show different darkElevated color
@@ -606,7 +604,15 @@ open class DrawerController: UIViewController {
     private func updatePreferredContentSize(isExpanded: Bool) {
         isPreferredContentSizeBeingChangedInternally = true
         if isExpanded {
-            preferredContentSize.height = UIScreen.main.bounds.height
+            let screenHeight: CGFloat = UIScreen.main.bounds.height
+            if preferredMaximumExpansionHeight != -1 &&
+                preferredMaximumExpansionHeight < screenHeight &&
+                preferredMaximumExpansionHeight >= originalDrawerHeight {
+                // Preferred max expansion size is in range [originalDrawerHeight, screenHeight)
+                preferredContentSize.height = preferredMaximumExpansionHeight
+            } else {
+                preferredContentSize.height = screenHeight
+            }
         } else {
             preferredContentSize.height = normalPreferredContentHeight
         }
@@ -675,6 +681,9 @@ open class DrawerController: UIViewController {
                 initResizingHandleView()
                 if presentationDirection == .down {
                     containerView.addArrangedSubview(newView)
+
+                    // Force layout the containerView to avoid unwanted animation of view addition.
+                    containerView.layoutIfNeeded()
                 } else {
                     containerView.insertArrangedSubview(newView, at: 0)
                 }
@@ -714,6 +723,25 @@ open class DrawerController: UIViewController {
             resizingHandleView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleResizingHandleViewTap)))
         }
         updateResizingHandleViewAccessibility()
+    }
+
+    private func updateResizingHandleView() {
+        if canResize {
+           if showsResizingHandle {
+               if resizingHandleView == nil {
+                   resizingHandleView = ResizingHandleView()
+                   resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
+               }
+           } else {
+               resizingHandleView = nil
+           }
+           if resizingGestureRecognizer == nil {
+               resizingGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handleResizingGesture))
+           }
+       } else {
+           resizingHandleView = nil
+           resizingGestureRecognizer = nil
+       }
     }
 
     private func updateResizingHandleViewAccessibility() {
@@ -841,7 +869,6 @@ open class DrawerController: UIViewController {
                 } else {
                     presentationController.setExtraContentSize(0, updatingLayout: false)
                     isExpanded = true
-                    delegate?.drawerControllerDidChangeExpandedState?(self)
                 }
             } else if offset <= -Constants.resizingThreshold {
                 if isExpanded {
@@ -851,7 +878,6 @@ open class DrawerController: UIViewController {
                         presentationController.setExtraContentSize(0, updatingLayout: false)
                     }
                     isExpanded = false
-                    delegate?.drawerControllerDidChangeExpandedState?(self)
                 } else {
                     dismissPresentingViewController(animated: true, isResizing: true)
                 }
@@ -952,7 +978,8 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
                                                 shouldUseWindowFullWidthInLandscape: shouldUseWindowFullWidthInLandscape,
                                                 shouldRespectSafeAreaForWindowFullWidth: shouldRespectSafeAreaForWindowFullWidth,
                                                 passThroughView: passThroughView,
-                                                shadowOffset: shadowOffset)
+                                                shadowOffset: shadowOffset,
+                                                maximumPresentationHeight: preferredMaximumExpansionHeight)
             drawerPresentationController.drawerPresentationControllerDelegate = self
             return drawerPresentationController
         case .popover:

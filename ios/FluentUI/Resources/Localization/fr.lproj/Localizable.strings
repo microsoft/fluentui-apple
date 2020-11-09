@@ -4,6 +4,9 @@
 //
 
 // Accessibility
+"Accessibility.ActivityIndicator.Animating.label" = "En cours";
+"Accessibility.ActivityIndicator.Stopped.label" = "Progrès stoppés";
+
 "Accessibility.Alert" = "Alerte";
 "Accessibility.Dismiss.Label" = "Ignorer";
 "Accessibility.Dismiss.Hint" = "Appuyez deux fois pour masquer";

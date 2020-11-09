@@ -66,6 +66,16 @@ open class TabBarView: UIView {
 
     @objc public weak var delegate: TabBarViewDelegate?
 
+    /// Set the custom spacing after the specified item.
+    /// - Parameter spacing The spacing.
+    /// - Parameter item The item to add spacing after.
+    @objc public func setCustomSpacing(_ spacing: CGFloat, after item: TabBarItem) {
+        if let index = items.firstIndex(of: item), index < stackView.arrangedSubviews.count {
+            let view = stackView.arrangedSubviews[index]
+            stackView.setCustomSpacing(spacing, after: view)
+        }
+    }
+
     /// Initializes MSTabBarView
     /// - Parameter showsItemTitles: Determines whether or not to show the titles of the tab ba ritems.
     @objc public init(showsItemTitles: Bool = false) {

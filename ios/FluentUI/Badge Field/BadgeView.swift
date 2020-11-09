@@ -177,6 +177,11 @@ open class BadgeView: UIView {
             updateBackgroundColor()
             updateLabelTextColor()
             isUserInteractionEnabled = isActive
+            if isActive {
+                accessibilityTraits.remove(.notEnabled)
+            } else {
+                accessibilityTraits.insert(.notEnabled)
+            }
         }
     }
 

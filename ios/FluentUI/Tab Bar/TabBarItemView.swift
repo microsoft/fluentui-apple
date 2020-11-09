@@ -34,6 +34,15 @@ class TabBarItemView: UIView {
                 updateLayout()
             }
         }
+	}
+
+    /// The number of lines for the item's title label.
+    var numberOfTitleLines: Int = 1 {
+        didSet {
+            if oldValue != numberOfTitleLines {
+                titleLabel.numberOfLines = numberOfTitleLines
+            }
+        }
     }
 
     init(item: TabBarItem, showsTitle: Bool, canResizeImage: Bool = true) {
@@ -56,8 +65,11 @@ class TabBarItemView: UIView {
         container.addSubview(badgeView)
 
         if #available(iOS 13.4, *) {
-            let pointerInteraction = UIPointerInteraction(delegate: self)
-            addInteraction(pointerInteraction)
+            // Workaround check for beta iOS versions missing the Pointer Interactions API
+            if arePointerInteractionAPIsAvailable() {
+                let pointerInteraction = UIPointerInteraction(delegate: self)
+                addInteraction(pointerInteraction)
+            }
         }
 
         isAccessibilityElement = true
@@ -70,8 +82,11 @@ class TabBarItemView: UIView {
             scalesLargeContentImage = true
         }
 
-        NSLayoutConstraint.activate([container.centerXAnchor.constraint(equalTo: centerXAnchor),
-                                     container.centerYAnchor.constraint(equalTo: centerYAnchor)])
+        NSLayoutConstraint.activate([
+			container.centerXAnchor.constraint(equalTo: centerXAnchor),
+			container.centerYAnchor.constraint(equalTo: centerYAnchor),
+			container.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor)
+		])
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(badgeValueDidChange),

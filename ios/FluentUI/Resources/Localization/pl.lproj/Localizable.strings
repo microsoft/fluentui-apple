@@ -4,6 +4,9 @@
 //
 
 // Accessibility
+"Accessibility.ActivityIndicator.Animating.label" = "W toku";
+"Accessibility.ActivityIndicator.Stopped.label" = "Postęp wstrzymany";
+
 "Accessibility.Alert" = "Alert";
 "Accessibility.Dismiss.Label" = "Odrzuć";
 "Accessibility.Dismiss.Hint" = "Naciśnij dwukrotnie, aby odrzucić";

@@ -4,6 +4,9 @@
 //
 
 // Accessibility
+"Accessibility.ActivityIndicator.Animating.label" = "Wordt uitgevoerd";
+"Accessibility.ActivityIndicator.Stopped.label" = "Vooruitgang gestopt";
+
 "Accessibility.Alert" = "Waarschuwing";
 "Accessibility.Dismiss.Label" = "Verwijderen";
 "Accessibility.Dismiss.Hint" = "Dubbeltikken om te sluiten";
@@ -184,4 +187,4 @@
 "Presence.Blocked" = "Geblokkeerd";
 
 /* AvatarView - Format string for overflow avatar. Format: "+<OverflowCount>". Example: "+5" */
-"AvatarView.OverflowFormat" = "+%@";
+"AvatarView.OverflowFormat" = "+ %@";

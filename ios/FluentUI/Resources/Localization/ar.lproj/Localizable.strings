@@ -4,6 +4,9 @@
 //
 
 // Accessibility
+"Accessibility.ActivityIndicator.Animating.label" = "قيد التقدم";
+"Accessibility.ActivityIndicator.Stopped.label" = "تم إيقاف التقدم";
+
 "Accessibility.Alert" = "تنبيه";
 "Accessibility.Dismiss.Label" = "تجاهل";
 "Accessibility.Dismiss.Hint" = "اضغط ضغطاً مزدوجاً للتجاهل";

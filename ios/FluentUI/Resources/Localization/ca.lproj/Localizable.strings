@@ -4,6 +4,9 @@
 //
 
 // Accessibility
+"Accessibility.ActivityIndicator.Animating.label" = "En curs";
+"Accessibility.ActivityIndicator.Stopped.label" = "S'ha aturat el progrés";
+
 "Accessibility.Alert" = "Alerta";
 "Accessibility.Dismiss.Label" = "Descarta";
 "Accessibility.Dismiss.Hint" = "Toqueu dues vegades per descartar-ho.";

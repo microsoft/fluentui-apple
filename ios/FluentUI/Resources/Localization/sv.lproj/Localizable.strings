@@ -4,6 +4,9 @@
 //
 
 // Accessibility
+"Accessibility.ActivityIndicator.Animating.label" = "Pågående";
+"Accessibility.ActivityIndicator.Stopped.label" = "Förlopp har stoppats";
+
 "Accessibility.Alert" = "Varning";
 "Accessibility.Dismiss.Label" = "Stäng";
 "Accessibility.Dismiss.Hint" = "Dubbeltryck för att stänga";

@@ -4,6 +4,9 @@
 //
 
 // Accessibility
+"Accessibility.ActivityIndicator.Animating.label" = "進行中";
+"Accessibility.ActivityIndicator.Stopped.label" = "進行状況が停止しました";
+
 "Accessibility.Alert" = "アラート";
 "Accessibility.Dismiss.Label" = "閉じる";
 "Accessibility.Dismiss.Hint" = "ダブルタップして閉じます";

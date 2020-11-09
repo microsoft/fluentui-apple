@@ -4,6 +4,9 @@
 //
 
 // Accessibility
+"Accessibility.ActivityIndicator.Animating.label" = "Devam ediyor";
+"Accessibility.ActivityIndicator.Stopped.label" = "İlerleme durduruldu";
+
 "Accessibility.Alert" = "Uyarı";
 "Accessibility.Dismiss.Label" = "Kapat";
 "Accessibility.Dismiss.Hint" = "Kapatmak için iki kez dokunun";

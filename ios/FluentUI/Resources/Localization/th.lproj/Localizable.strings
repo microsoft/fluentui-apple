@@ -4,6 +4,9 @@
 //
 
 // Accessibility
+"Accessibility.ActivityIndicator.Animating.label" = "กำลังดำเนินการ";
+"Accessibility.ActivityIndicator.Stopped.label" = "หยุดความคืบหน้าแล้ว";
+
 "Accessibility.Alert" = "การแจ้งเตือน";
 "Accessibility.Dismiss.Label" = "ยกเลิก";
 "Accessibility.Dismiss.Hint" = "แตะสองครั้งเพื่อยกเลิก";

@@ -4,6 +4,9 @@
 //
 
 // Accessibility
+"Accessibility.ActivityIndicator.Animating.label" = "בביצוע";
+"Accessibility.ActivityIndicator.Stopped.label" = "ההתקדמות הופסקה";
+
 "Accessibility.Alert" = "התראה";
 "Accessibility.Dismiss.Label" = "בטל";
 "Accessibility.Dismiss.Hint" = "הקש פעמיים כדי לבטל";
@@ -184,4 +187,4 @@
 "Presence.Blocked" = "חסום/ה";
 
 /* AvatarView - Format string for overflow avatar. Format: "+<OverflowCount>". Example: "+5" */
-"AvatarView.OverflowFormat" = "+%@";
+"AvatarView.OverflowFormat" = "ועוד %@";

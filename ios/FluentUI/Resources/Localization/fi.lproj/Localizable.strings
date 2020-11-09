@@ -4,6 +4,9 @@
 //
 
 // Accessibility
+"Accessibility.ActivityIndicator.Animating.label" = "Kesken";
+"Accessibility.ActivityIndicator.Stopped.label" = "Tilanne pysäytetty";
+
 "Accessibility.Alert" = "Hälytys";
 "Accessibility.Dismiss.Label" = "Hylkää";
 "Accessibility.Dismiss.Hint" = "Hylkää kaksoisnapauttamalla";

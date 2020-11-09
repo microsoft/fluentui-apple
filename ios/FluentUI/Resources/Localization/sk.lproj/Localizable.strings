@@ -4,6 +4,9 @@
 //
 
 // Accessibility
+"Accessibility.ActivityIndicator.Animating.label" = "Prebieha";
+"Accessibility.ActivityIndicator.Stopped.label" = "Priebeh sa zastavil";
+
 "Accessibility.Alert" = "Upozornenie";
 "Accessibility.Dismiss.Label" = "Zrušiť";
 "Accessibility.Dismiss.Hint" = "Zrušíte dvojitým ťuknutím";

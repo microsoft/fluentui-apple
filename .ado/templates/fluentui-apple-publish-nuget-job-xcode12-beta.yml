@@ -7,10 +7,10 @@ jobs:
   cancelTimeoutInMinutes: 5 # how much time to give 'run always even if cancelled tasks' before killing them
   
   steps:
-  # Select Xcode 12 beta version
+  # Select Xcode 12.2 beta version
   - template: apple-xcode-select.yml
     parameters:
-      xcode_path_override: '/Applications/Xcode_12_beta.app/Contents/Developer'
+      xcode_path_override: '/Applications/Xcode_12.2.app/Contents/Developer'
 
   # Build and zip the libraries
   - template: fluentui-apple-build-zip.yml

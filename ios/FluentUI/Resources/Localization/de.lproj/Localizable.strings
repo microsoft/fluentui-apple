@@ -4,6 +4,9 @@
 //
 
 // Accessibility
+"Accessibility.ActivityIndicator.Animating.label" = "In Bearbeitung";
+"Accessibility.ActivityIndicator.Stopped.label" = "Bearbeitung angehalten";
+
 "Accessibility.Alert" = "Warnung";
 "Accessibility.Dismiss.Label" = "Schließen";
 "Accessibility.Dismiss.Hint" = "Zum Schließen doppeltippen.";
