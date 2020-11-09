@@ -188,13 +188,10 @@ struct Rhs {
         var fontSize: Float?
         var fontStyle: String?
         var isSymbolFont: Bool = false
+        var isScalableFont: Bool = false
         
         var isSystemPreferred: Bool {
             return fontName?.contains("PreferredSystem") ?? false
-        }
-        
-        var isScalableFont: Bool {
-            return fontStyle != nil
         }
         
         var isSystemFont: Bool {
@@ -202,17 +199,21 @@ struct Rhs {
         }
         
         var systemTextStyle: String? {
-            if isScalableFont == false { return nil }
-            
-            let style = fontStyle!
+            guard let style = fontStyle else {
+                return nil
+            }
+
             assert(Rhs.Font.supportedStyles.contains(style),
                    "\(style) is not a valid system font style. Allowed styles: \(Rhs.Font.supportedStyles)")
-            
+
             return "UIFont.TextStyle.\(style)"
         }
         
         var textStyle: String? {
-            guard let fontStyle = fontStyle, isScalableFont else { return nil }
+            guard let fontStyle = fontStyle else {
+                return nil
+            }
+
             return "\(FontTextStyle)." + fontStyle
         }
         
@@ -241,11 +242,12 @@ struct Rhs {
             self.isSymbolFont = true
         }
         
-        init(name: String? = nil, size: Float? = nil, textStyle: String? = nil, weightAndTraits: [String]? = nil) {
+        init(name: String? = nil, size: Float? = nil, textStyle: String? = nil, weightAndTraits: [String]? = nil, isScalable: Bool = false) {
             self.fontName = name
             self.fontTraits = traits
             self.fontSize = size
             self.fontStyle = textStyle
+            self.isScalableFont = isScalable
          
             if let weightAndTraits = weightAndTraits {
                 if weightAndTraits.count == 2 {
