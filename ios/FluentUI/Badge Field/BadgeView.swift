@@ -199,7 +199,7 @@ open class BadgeView: UIView {
             if let customDisabledLabelTextColor = _disabledLabelTextColor {
                 return customDisabledLabelTextColor
             }
-            return style == .default ? Colors.Badge.textDisabled : (isActive ? self.selectedLabelTextColor : self.labelTextColor)
+            return style == .default ? Colors.Badge.textDisabled : (isSelected ? self.selectedLabelTextColor : self.labelTextColor)
         }
         set {
             if disabledBackgroundColor != newValue {
@@ -270,7 +270,7 @@ open class BadgeView: UIView {
                 return customDisabledBackgroundColor
             }
             
-            return style == .default ? Colors.Badge.backgroundDisabled : (isActive ? self.selectedBackgroundColor : self.backgroundColor)
+            return style == .default ? Colors.Badge.backgroundDisabled : (isSelected ? self.selectedBackgroundColor : self.backgroundColor)
         }
         set {
             if disabledBackgroundColor != newValue {

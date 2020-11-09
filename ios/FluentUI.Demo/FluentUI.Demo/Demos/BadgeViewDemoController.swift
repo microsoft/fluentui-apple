@@ -15,6 +15,7 @@ class BadgeViewDemoController: DemoController {
         addBadgeSection(title: "Warning badge", style: .warning)
         addBadgeSection(title: "Disabled badge", style: .default, isEnabled: false)
         addBadgeSection(title: "Custom badge", style: .default, overrideColor: true)
+        addBadgeSection(title: "Custom disabled badge", style: .default, isEnabled: false, overrideColor: true)
     }
 
     func createBadge(text: String, style: BadgeView.Style, size: BadgeView.Size, isEnabled: Bool) -> BadgeView {
@@ -29,10 +30,17 @@ class BadgeViewDemoController: DemoController {
         for size in BadgeView.Size.allCases.reversed() {
             let badge = createBadge(text: "Kat Larrson", style: style, size: size, isEnabled: isEnabled)
             if overrideColor {
-                badge.backgroundColor = Colors.Palette.blueMagenta20.color
-                badge.selectedBackgroundColor = Colors.Palette.cyanBlue20.color
-                badge.labelTextColor = Colors.Palette.gray50.color
-                badge.disabledBackgroundColor = Colors.Palette.gray100.color
+                
+                if !isEnabled {
+                    badge.disabledBackgroundColor = Colors.Palette.gray100.color
+                    badge.disabledLabelTextColor = Colors.Palette.gray600.color
+                } else {
+                    badge.backgroundColor = Colors.Palette.blueMagenta20.color
+                    badge.selectedBackgroundColor = Colors.Palette.cyanBlue20.color
+                    badge.labelTextColor = Colors.Palette.gray50.color
+                    badge.selectedLabelTextColor = Colors.Palette.gray100.color
+                }
+                
             }
             addRow(text: size.description, items: [badge])
         }
