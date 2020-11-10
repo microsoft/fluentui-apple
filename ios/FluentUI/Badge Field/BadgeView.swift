@@ -141,23 +141,22 @@ open class BadgeView: UIView {
             updateAccessibility()
         }
     }
-    
+
     private var _labelTextColor: UIColor?
     open var labelTextColor: UIColor? {
         get {
             if let customLabelTextColor = _labelTextColor {
                 return customLabelTextColor
             }
-            
             switch style {
-                case .default:
-                    if let window = window {
-                        return Colors.primary(for: window)
-                    }
-                case .warning:
-                    return Colors.Badge.textWarning
-                case .error:
-                    return Colors.Badge.textError
+            case .default:
+                if let window = window {
+                    return Colors.primary(for: window)
+                }
+            case .warning:
+                return Colors.Badge.textWarning
+            case .error:
+                return Colors.Badge.textError
             }
             return nil
         }
@@ -168,21 +167,21 @@ open class BadgeView: UIView {
             }
         }
     }
-    
+
     private var _selectedLabelTextColor: UIColor?
     open var selectedLabelTextColor: UIColor {
         get {
             if let customSelectedLabelTextColor = _selectedLabelTextColor {
                 return customSelectedLabelTextColor
             }
-            
+
             switch style {
-                case .default:
-                    return Colors.Badge.textSelected
-                case .warning:
-                    return Colors.Badge.textWarningSelected
-                case .error:
-                    return Colors.Badge.textErrorSelected
+            case .default:
+                return Colors.Badge.textSelected
+            case .warning:
+                return Colors.Badge.textWarningSelected
+            case .error:
+                return Colors.Badge.textErrorSelected
             }
         }
         set {
@@ -192,7 +191,7 @@ open class BadgeView: UIView {
             }
         }
     }
-    
+
     private var _disabledLabelTextColor: UIColor?
     open var disabledLabelTextColor: UIColor? {
         get {
@@ -208,23 +207,22 @@ open class BadgeView: UIView {
             }
         }
     }
-    
+
     private var _backgroundColor: UIColor?
     open override var backgroundColor: UIColor? {
         get {
             if let customBackgroundColor = _backgroundColor {
                 return customBackgroundColor
             }
-            
             switch style {
-                case .default:
-                    if let window = window {
-                        return Colors.primaryTint40(for: window)
-                    }
-                case .warning:
-                    return Colors.Badge.backgroundWarning
-                case .error:
-                    return Colors.Badge.backgroundError
+            case .default:
+                if let window = window {
+                    return Colors.primaryTint40(for: window)
+                }
+            case .warning:
+                return Colors.Badge.backgroundWarning
+            case .error:
+                return Colors.Badge.backgroundError
             }
             return nil
         }
@@ -235,23 +233,22 @@ open class BadgeView: UIView {
             }
         }
     }
-    
+
     private var _selectedBackgroundColor: UIColor?
     open var selectedBackgroundColor: UIColor? {
         get {
             if let customSelectedBackgroundColor = _selectedBackgroundColor {
                 return customSelectedBackgroundColor
             }
-            
             switch style {
-                case .default:
-                    if let window = window {
-                        return Colors.primary(for: window)
-                    }
-                case .warning:
-                    return Colors.Badge.backgroundWarningSelected
-                case .error:
-                    return Colors.Badge.backgroundErrorSelected
+            case .default:
+                if let window = window {
+                    return Colors.primary(for: window)
+                }
+            case .warning:
+                return Colors.Badge.backgroundWarningSelected
+            case .error:
+                return Colors.Badge.backgroundErrorSelected
             }
             return nil
         }
@@ -262,14 +259,13 @@ open class BadgeView: UIView {
             }
         }
     }
-    
+
     private var _disabledBackgroundColor: UIColor?
     open var disabledBackgroundColor: UIColor? {
         get {
             if let customDisabledBackgroundColor = _disabledBackgroundColor {
                 return customDisabledBackgroundColor
             }
-            
             return style == .default ? Colors.Badge.backgroundDisabled : (isSelected ? self.selectedBackgroundColor : self.backgroundColor)
         }
         set {
@@ -382,7 +378,7 @@ open class BadgeView: UIView {
             accessibilityHint = "Accessibility.Select.Hint".localized
         }
     }
-    
+
     private func updateColors() {
         updateBackgroundColor()
         updateLabelTextColor()
