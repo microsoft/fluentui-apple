@@ -12,10 +12,12 @@ public extension Colors {
             public static var background: UIColor = NavigationBar.background
             public static var tint: UIColor = NavigationBar.tint
             public static var title: UIColor = NavigationBar.title
+            public static var subtitle: UIColor = NavigationBar.subtitle
         }
         public struct Primary {
             public static var tint = UIColor(light: textOnAccent, dark: System.tint)
             public static var title = UIColor(light: textOnAccent, dark: System.title)
+            public static var subtitle = UIColor(light: textOnAccent, dark: System.subtitle)
         }
     }
 }
@@ -111,6 +113,55 @@ open class NavigationBar: UINavigationBar {
 
         func defaultBackgroundColor(for window: UIWindow) -> UIColor {
             return UIColor(light: Colors.primary(for: window), dark: Colors.Navigation.System.background)
+        }
+    }
+
+    @objc(MSFNavigationBarTitleAccessoryType)
+    public enum TitleAccessoryType: Int {
+        case none
+        case disclosure
+        case downArrow
+
+        var largeImage: UIImage? {
+            let image: UIImage?
+            switch self {
+            case .disclosure:
+                image = UIImage.staticImageNamed("ic_fluent_chevron_right_24_filled")
+            case .downArrow:
+                image = UIImage.staticImageNamed("ic_fluent_chevron_down_24_filled")
+            case .none:
+                image = nil
+            }
+
+            return image
+        }
+
+        var mediumImage: UIImage? {
+            let image: UIImage?
+            switch self {
+            case .disclosure:
+                image = UIImage.staticImageNamed("ic_fluent_chevron_right_16_filled")
+            case .downArrow:
+                image = UIImage.staticImageNamed("ic_fluent_chevron_down_16_filled")
+            case .none:
+                image = nil
+            }
+
+            return image
+        }
+
+        var smallImage: UIImage? {
+            let image: UIImage?
+            switch self {
+            case .disclosure:
+                image = UIImage.staticImageNamed("ic_fluent_chevron_right_12_regular")
+            case .downArrow:
+                image = UIImage.staticImageNamed("ic_fluent_chevron_down_12_regular")
+            case .none:
+                image = nil
+            }
+
+            return image
         }
     }
 
@@ -245,7 +296,7 @@ open class NavigationBar: UINavigationBar {
         }
     }
 
-    var titleView = LargeTitleView() {
+    var titleView = LargeTitleView(frame: .zero) {
         willSet {
             titleView.removeFromSuperview()
         }
@@ -255,6 +306,15 @@ open class NavigationBar: UINavigationBar {
             titleView.setContentCompressionResistancePriority(.required, for: .horizontal)
         }
     }
+
+    private lazy var centerTitleView: LargeTitleView = {
+        let titleView = LargeTitleView(frame: .zero)
+        titleView.translatesAutoresizingMaskIntoConstraints = false
+        titleView.centersContent = true
+        titleView.titleSize = .automatic
+
+        return titleView
+    }()
 
     private(set) var style: Style = defaultStyle
 
@@ -268,15 +328,7 @@ open class NavigationBar: UINavigationBar {
     private var topAccessoryView: UIView?
     private var topAccessoryViewConstraints: [NSLayoutConstraint] = []
 
-    private var showsLargeTitle: Bool = true {
-        didSet {
-            if showsLargeTitle == oldValue {
-                return
-            }
-            updateAccessibilityElements()
-            updateViewsForLargeTitlePresentation(for: topItem)
-        }
-    }
+    private var showsLargeTitle: Bool = true
 
     private var leftBarButtonItemsObserver: NSKeyValueObservation?
     private var rightBarButtonItemsObserver: NSKeyValueObservation?
@@ -288,6 +340,12 @@ open class NavigationBar: UINavigationBar {
     private var navigationBarStyleObserver: NSKeyValueObservation?
     private var navigationBarShadowObserver: NSKeyValueObservation?
     private var usesLargeTitleObserver: NSKeyValueObservation?
+    private var subtitleObserver: NSKeyValueObservation?
+    private var expandsNavigationBarOnTitleAreaTapObserver: NSKeyValueObservation?
+    private var titleAccessoryTypeObserver: NSKeyValueObservation?
+    private var subtitleAccessoryTypeObserver: NSKeyValueObservation?
+    private var didTapTitleCallbackObserver: NSKeyValueObservation?
+    private var didTapSubtitleCallbackObserver: NSKeyValueObservation?
 
     @objc public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -502,8 +560,10 @@ open class NavigationBar: UINavigationBar {
             switch style {
             case .primary, .default, .custom:
                 titleView.style = .light
+                centerTitleView.style = .light
             case .system:
                 titleView.style = .dark
+                centerTitleView.style = .dark
             }
 
             barTintColor = color
@@ -532,6 +592,18 @@ open class NavigationBar: UINavigationBar {
         updateTopAccessoryView(for: navigationItem)
 
         titleView.update(with: navigationItem)
+
+        let hasSubtitle = navigationItem.subtitle != nil && navigationItem.subtitle!.count > 0
+        let hasTitleTapHandling = navigationItem.didTapTitleCallback != nil || navigationItem.titleAccessoryType != .none
+        if !showsLargeTitle && (hasSubtitle || hasTitleTapHandling) {
+            centerTitleView.update(with: navigationItem)
+            navigationItem.titleView = centerTitleView
+        } else {
+            navigationItem.titleView = nil
+        }
+
+        updateViewsForLargeTitlePresentation(for: navigationItem)
+        updateAccessibilityElements()
 
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         updateBarButtonItems(with: navigationItem)
@@ -566,16 +638,36 @@ open class NavigationBar: UINavigationBar {
         usesLargeTitleObserver = navigationItem.observe(\UINavigationItem.usesLargeTitle) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
+        subtitleObserver = navigationItem.observe(\UINavigationItem.subtitle) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        expandsNavigationBarOnTitleAreaTapObserver = navigationItem.observe(\UINavigationItem.expandsNavigationBarOnTitleAreaTap) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        titleAccessoryTypeObserver = navigationItem.observe(\UINavigationItem.titleAccessoryType) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        subtitleAccessoryTypeObserver = navigationItem.observe(\UINavigationItem.subtitleAccessoryType) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        didTapTitleCallbackObserver = navigationItem.observe(\UINavigationItem.didTapTitleCallback) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        didTapSubtitleCallbackObserver = navigationItem.observe(\UINavigationItem.didTapSubtitleCallback) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
     }
 
     func actualStyleAndItem(for navigationItem: UINavigationItem) -> (style: Style, item: UINavigationItem) {
         if navigationItem.navigationBarStyle != .default {
             return (navigationItem.navigationBarStyle, navigationItem)
         }
+
         if let items = items?.prefix(while: { $0 != navigationItem }),
             let item = items.last(where: { $0.navigationBarStyle != .default }) {
             return (item.navigationBarStyle, item)
         }
+
         return (NavigationBar.defaultStyle, navigationItem)
     }
 

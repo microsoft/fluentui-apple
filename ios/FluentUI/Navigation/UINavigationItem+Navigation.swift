@@ -15,6 +15,12 @@ import UIKit
         static var navigationBarShadow: String = "navigationBarShadow"
         static var usesLargeTitle: String = "usesLargeTitle"
         static var customNavigationBarColor: String = "customNavigationBarColor"
+        static var subtitle: String = "subtitle"
+        static var expandsNavigationBarOnTitleAreaTap: String = "expandsNavigationBarOnTitleAreaTap"
+        static var titleAccessoryType: String = "titleAccessoryType"
+        static var subtitleAccessoryType: String = "subtitleAccessoryType"
+        static var didTapTitleCallback: String = "didTapTitleCallback"
+        static var didTapSubtitleCallback: String = "didTapSubtitleCallback"
     }
 
     var accessoryView: UIView? {
@@ -23,6 +29,17 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.accessoryView, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
+    /// Subtitle that will be displayed below the title in the navigation bar.
+    /// The subtitle only displays when usesLargeTitle is set to true.
+    var subtitle: String? {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.subtitle) as? String
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.subtitle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 
@@ -90,6 +107,54 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.customNavigationBarColor, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
+    /// If the shy header behavior is enabled and this property is set to true, tapping on the title will expand the navigation bar.
+    var expandsNavigationBarOnTitleAreaTap: Bool {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.expandsNavigationBarOnTitleAreaTap) as? Bool ?? true
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.expandsNavigationBarOnTitleAreaTap, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
+    /// The title's accessory type
+    var titleAccessoryType: NavigationBar.TitleAccessoryType {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.titleAccessoryType) as? NavigationBar.TitleAccessoryType ?? NavigationBar.TitleAccessoryType.none
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.titleAccessoryType, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
+    /// The subtitle's accessory type
+    var subtitleAccessoryType: NavigationBar.TitleAccessoryType {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.subtitleAccessoryType) as? NavigationBar.TitleAccessoryType ?? NavigationBar.TitleAccessoryType.none
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.subtitleAccessoryType, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
+    var didTapTitleCallback: ((_ titleView: UIView) -> Void)? {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.didTapTitleCallback) as? ((_: UIView) -> Void)
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.didTapTitleCallback, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC)
+        }
+    }
+
+    var didTapSubtitleCallback: ((_ subtitleView: UIView) -> Void)? {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.didTapSubtitleCallback) as? ((_: UIView) -> Void)
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.didTapSubtitleCallback, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC)
         }
     }
 }

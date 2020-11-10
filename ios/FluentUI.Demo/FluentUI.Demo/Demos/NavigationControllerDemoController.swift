@@ -34,10 +34,34 @@ class NavigationControllerDemoController: DemoController {
 
         addTitle(text: "Top Accessory View")
         container.addArrangedSubview(createButton(title: "Show with top search bar for large screen width", action: #selector(showWithTopSearchBar)))
+
+        addTitle(text: "Subtitle")
+        container.addArrangedSubview(createButton(title: "Show Primary style with subtitle", action: #selector(showWithSubtitlePrimary)))
+        container.addArrangedSubview(createButton(title: "Show System style with subtitle ", action: #selector(showWithSubtitleSystem)))
+
+        addTitle(text: "Tap handling")
+        container.addArrangedSubview(createButton(title: "Show with tap handling", action: #selector(showWithTapHandling)))
+        container.addArrangedSubview(createButton(title: "Show with subtitle and tap handling", action: #selector(showWithSubtitleAndTapHandling)))
     }
 
     @objc func showLargeTitle() {
         presentController(withLargeTitle: true)
+    }
+
+    @objc func showWithSubtitlePrimary() {
+        presentController(withLargeTitle: true, style: .primary, accessoryView: createAccessoryView(), showSubtitle: true)
+    }
+
+    @objc func showWithSubtitleSystem() {
+        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), showSubtitle: true)
+    }
+
+    @objc func showWithTapHandling() {
+        presentController(withLargeTitle: true, style: .primary, accessoryView: createAccessoryView(), handlesTitleTapEvents: true)
+    }
+
+    @objc func showWithSubtitleAndTapHandling() {
+        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), showSubtitle: true, handlesTitleTapEvents: true)
     }
 
     @objc func showLargeTitleWithShyAccessory() {
@@ -97,7 +121,9 @@ class NavigationControllerDemoController: DemoController {
                                    showsTopAccessory: Bool = false,
                                    contractNavigationBarOnScroll: Bool = true,
                                    showShadow: Bool = true,
-                                   showAvatar: Bool = true) -> NavigationController {
+                                   showAvatar: Bool = true,
+                                   showSubtitle: Bool = false,
+                                   handlesTitleTapEvents: Bool = false) -> NavigationController {
         let content = RootViewController()
         content.navigationItem.usesLargeTitle = useLargeTitle
         content.navigationItem.navigationBarStyle = style
@@ -131,6 +157,33 @@ class NavigationControllerDemoController: DemoController {
             leadingEdgeGesture.edges = view.effectiveUserInterfaceLayoutDirection == .leftToRight ? .left : .right
             leadingEdgeGesture.delegate = self
             controller.view.addGestureRecognizer(leadingEdgeGesture)
+        }
+
+        if showSubtitle {
+            content.navigationItem.subtitle = "Subtitle"
+        }
+
+        if handlesTitleTapEvents {
+            content.navigationItem.titleAccessoryType = .disclosure
+            content.navigationItem.subtitleAccessoryType = .downArrow
+
+            content.navigationItem.didTapTitleCallback = { [weak controller] _ in
+                if let controller = controller {
+                    let alert = UIAlertController(title: "Title was tapped", message: nil, preferredStyle: .alert)
+                    let action = UIAlertAction(title: "OK", style: .default)
+                    alert.addAction(action)
+                    controller.present(alert, animated: true)
+                }
+            }
+
+            content.navigationItem.didTapSubtitleCallback = { [weak controller] _ in
+                if let controller = controller {
+                    let alert = UIAlertController(title: "Subtitle was tapped", message: nil, preferredStyle: .alert)
+                    let action = UIAlertAction(title: "OK", style: .default)
+                    alert.addAction(action)
+                    controller.present(alert, animated: true)
+                }
+            }
         }
 
         present(controller, animated: false)
@@ -373,6 +426,13 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             if navigationItem.accessoryView == nil {
                 controller.navigationItem.navigationBarStyle = .system
             }
+
+            controller.navigationItem.subtitle = navigationItem.subtitle
+            controller.navigationItem.titleAccessoryType = navigationItem.titleAccessoryType
+            controller.navigationItem.subtitleAccessoryType = navigationItem.subtitleAccessoryType
+            controller.navigationItem.didTapTitleCallback = navigationItem.didTapTitleCallback
+            controller.navigationItem.didTapSubtitleCallback = navigationItem.didTapSubtitleCallback
+
             navigationController?.pushViewController(controller, animated: true)
         }
     }
