@@ -341,7 +341,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     /// If `accessoryView` is set, the accessory button (if any) will be replaced by this custom view. Clients are responsible
     /// for the appearance and behavior of both the `accessoryView` and `leadingView`, including event handling and accessibility.
     @objc open func setup(style: Style, title: String, accessoryView: UIView, leadingView: UIView? = nil) {
-        setup(style: style, title: title)
+        setup(style: style, title: title, accessoryButtonTitle: "")
         self.accessoryView = accessoryView
         self.leadingView = leadingView
     }
@@ -351,6 +351,13 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     ///   - accessoryButtonTitle: Optional accessory button title string.
     @objc open func setup(style: Style, accessoryButtonTitle: String) {
         setup(style: style, accessoryButtonTitle: accessoryButtonTitle, leadingView: nil)
+    }
+
+    /// - Parameters:
+    ///   - style: The `TableViewHeaderFooterView.Style` used to set up the view.
+    ///   - title: The title string.
+    @objc open func setup(style: Style, title: String) {
+        setup(style: style, title: title, accessoryButtonTitle: "")
     }
 
     /// - Parameters:
