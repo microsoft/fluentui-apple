@@ -30,14 +30,14 @@ class BadgeViewDemoController: DemoController {
         for size in BadgeView.Size.allCases.reversed() {
             let badge = createBadge(text: "Kat Larrson", style: style, size: size, isEnabled: isEnabled)
             if overrideColor {
-                if !isEnabled {
-                    badge.disabledBackgroundColor = Colors.Palette.gray100.color
-                    badge.disabledLabelTextColor = Colors.Palette.gray600.color
-                } else {
+                if isEnabled {
                     badge.backgroundColor = Colors.Palette.blueMagenta20.color
                     badge.selectedBackgroundColor = Colors.Palette.cyanBlue20.color
                     badge.labelTextColor = Colors.Palette.gray50.color
                     badge.selectedLabelTextColor = Colors.Palette.gray100.color
+                } else {
+                    badge.disabledBackgroundColor = Colors.Palette.gray100.color
+                    badge.disabledLabelTextColor = Colors.Palette.gray600.color
                 }
             }
             addRow(text: size.description, items: [badge])
