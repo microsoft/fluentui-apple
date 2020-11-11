@@ -816,13 +816,10 @@ open class BadgeField: UIView {
         if isIntroductionLabelAccessible() {
             elementsCount += 1
         }
-        
-        if shouldUseConstrainedBadges {
-            elementsCount += constrainedBadges.count
-        } else {
-            elementsCount += badges.count
-        }
-        // texfield for adding additional badges
+
+        elementsCount += shouldUseConstrainedBadges ? constrainedBadges.count : badges.count
+
+        // counting the trailing text field used to add more badges
         elementsCount += 1
         return elementsCount
     }
@@ -832,7 +829,7 @@ open class BadgeField: UIView {
             return labelView
         }
         let offsetIndex = isIntroductionLabelAccessible() ? index - 1 : index
-        
+
         let activeBadges = shouldUseConstrainedBadges ? constrainedBadges : badges
         if offsetIndex < activeBadges.count {
             return activeBadges[offsetIndex]
@@ -844,7 +841,7 @@ open class BadgeField: UIView {
         if element as? UILabel == labelView {
             return 0
         }
-        
+
         let activeBadges = shouldUseConstrainedBadges ? constrainedBadges : badges
         if let badge = element as? BadgeView, let index = activeBadges.firstIndex(of: badge) {
             return isIntroductionLabelAccessible() ? index + 1 : index
