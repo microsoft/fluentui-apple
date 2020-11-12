@@ -78,7 +78,7 @@ open class BadgeField: UIView {
         static let badgeHeight: CGFloat = 26
         static let badgeMarginHorizontal: CGFloat = 5
         static let badgeMarginVertical: CGFloat = 5
-        static let emptyTextFieldString: String = emptyString
+        static let emptyTextFieldString: String = ""
         static let dragAndDropMinimumPressDuration: TimeInterval = 0.2
         static let dragAndDropScaleAnimationDuration: TimeInterval = 0.3
         static let dragAndDropScaleFactor: CGFloat = 1.10
@@ -86,7 +86,6 @@ open class BadgeField: UIView {
         static let labelMarginRight: CGFloat = 5
         static let textStyleFont: UIFont = TextStyle.subhead.font
         static let textFieldMinWidth: CGFloat = 100
-        static let emptyString: String = ""
     }
 
     @objc open var label: String = "" {
