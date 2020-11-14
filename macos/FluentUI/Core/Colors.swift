@@ -247,6 +247,40 @@ public final class Colors: NSObject {
 			}
 		}
 	}
+	
+	// MARK: Primary
+	
+	@objc public var primary: NSColor = Colors.Palette.communicationBlue.color {
+		didSet { }
+	}
+	
+	@objc public var primaryTint10: NSColor = Colors.Palette.communicationBlueTint10.color {
+		didSet { }
+	}
+	
+	@objc public var primaryTint20: NSColor = Colors.Palette.communicationBlueTint20.color {
+		didSet { }
+	}
+	
+	@objc public var primaryTint30: NSColor = Colors.Palette.communicationBlueTint30.color {
+		didSet { }
+	}
+	
+	@objc public var primaryTint40: NSColor = Colors.Palette.communicationBlueTint40.color {
+		didSet { }
+	}
+	
+	@objc public var primaryShade10: NSColor = Colors.Palette.communicationBlueShade10.color {
+		didSet { }
+	}
+	
+	@objc public var primaryShade20: NSColor = Colors.Palette.communicationBlueShade20.color {
+		didSet { }
+	}
+	
+	@objc public var primaryShade30: NSColor = Colors.Palette.communicationBlueShade30.color {
+		didSet { }
+	}
 }
 
 /// Make palette enum CaseIterable for unit testing purposes

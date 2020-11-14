@@ -20,16 +20,27 @@ class TestColorViewController: NSViewController {
 		colorsStackView.alignment = .leading
 		
 		for color in Colors.Palette.allCases {
-			let colorView = ColorRectView(color: color.color)
-			let textView = NSTextField(labelWithString: color.name)
-			textView.font = .systemFont(ofSize: 18)
-			let rowStackView = NSStackView()
-			rowStackView.orientation = .horizontal
-			rowStackView.spacing = 20.0
-			rowStackView.addArrangedSubview(colorView)
-			rowStackView.addArrangedSubview(textView)
-			colorsStackView.addArrangedSubview(rowStackView)
+			colorsStackView.addArrangedSubview(createColorRowStackView(name: color.name, color: color.color))
 		}
+		
+		/// Excel primary colors
+		let color = Colors.init()
+		color.primary = (NSColor(named: "Colors/DemoPrimaryColor"))!
+		colorsStackView.addArrangedSubview(createColorRowStackView(name: "primary", color: color.primary))
+		color.primaryShade10 = (NSColor(named: "Colors/DemoPrimaryShade10Color"))!
+		colorsStackView.addArrangedSubview(createColorRowStackView(name: "primaryShade10", color: color.primaryShade10))
+		color.primaryShade20 = (NSColor(named: "Colors/DemoPrimaryShade20Color"))!
+		colorsStackView.addArrangedSubview(createColorRowStackView(name: "primaryShade20", color: color.primaryShade20))
+		color.primaryShade30 = (NSColor(named: "Colors/DemoPrimaryShade30Color"))!
+		colorsStackView.addArrangedSubview(createColorRowStackView(name: "primaryShade30", color: color.primaryShade30))
+		color.primaryTint10 = (NSColor(named: "Colors/DemoPrimaryTint10Color"))!
+		colorsStackView.addArrangedSubview(createColorRowStackView(name: "primaryTint10", color: color.primaryTint10))
+		color.primaryTint20 = (NSColor(named: "Colors/DemoPrimaryTint20Color"))!
+		colorsStackView.addArrangedSubview(createColorRowStackView(name: "primaryTint20", color: color.primaryTint20))
+		color.primaryTint30 = (NSColor(named: "Colors/DemoPrimaryTint30Color"))!
+		colorsStackView.addArrangedSubview(createColorRowStackView(name: "primaryTint30", color: color.primaryTint30))
+		color.primaryTint40 = (NSColor(named: "Colors/DemoPrimaryTint40Color"))!
+		colorsStackView.addArrangedSubview(createColorRowStackView(name: "primaryTint40", color: color.primaryTint40))
 		
 		let documentView = NSView()
 		documentView.translatesAutoresizingMaskIntoConstraints = false
@@ -47,6 +58,18 @@ class TestColorViewController: NSViewController {
 		])
 		
 		view = containerView
+	}
+
+	private func createColorRowStackView(name: String?, color: NSColor?) -> NSStackView {
+		let rowStackView = NSStackView()
+		let textView = NSTextField(labelWithString: name!)
+		let primaryColorView = ColorRectView(color: color!)
+		textView.font = .systemFont(ofSize: 18)
+		rowStackView.orientation = .horizontal
+		rowStackView.spacing = 20.0
+		rowStackView.addArrangedSubview(primaryColorView)
+		rowStackView.addArrangedSubview(textView)
+		return rowStackView
 	}
 }
 
