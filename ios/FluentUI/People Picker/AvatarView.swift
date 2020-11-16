@@ -66,6 +66,7 @@ public enum AvatarSize: Int, CaseIterable {
         }
     }
 
+    /// Inner stroke lining the avatar view for the border option
     var insideBorder: CGFloat {
         switch self {
         case .extraSmall, .small, .medium, .large, .extraLarge:
@@ -786,16 +787,7 @@ class OverflowAvatarView: AvatarView {
     open override func layoutSubviews() {
         super.layoutSubviews()
 
-        initialsView.setFontColor(UIColor(light: Colors.gray500, dark: Colors.gray100))
-        initialsView.setBackgroundColor(UIColor(light: Colors.gray50, dark: Colors.gray600))
-        if hasBorder {
-            borderView.backgroundColor = UIColor(light: Colors.gray200, dark: Colors.gray500)
-            initialsView.layer.borderWidth = avatarSize.insideBorder
-            initialsView.layer.borderColor = Colors.surfacePrimary.cgColor
-        } else {
-            borderView.backgroundColor = UIColor(light: Colors.gray50, dark: Colors.gray600)
-        }
-
+        updateColors()
         updateBorder()
     }
 
@@ -807,6 +799,18 @@ class OverflowAvatarView: AvatarView {
 
     private let hasBorder: Bool
     private let borderView: UIView
+    
+    private func updateColors() {
+        initialsView.setFontColor(UIColor(light: Colors.gray500, dark: Colors.gray100))
+        initialsView.setBackgroundColor(UIColor(light: Colors.gray50, dark: Colors.gray600))
+        if hasBorder {
+            borderView.backgroundColor = UIColor(light: Colors.gray200, dark: Colors.gray500)
+            initialsView.layer.borderWidth = avatarSize.insideBorder
+            initialsView.layer.borderColor = Colors.surfacePrimary.cgColor
+        } else {
+            borderView.backgroundColor = UIColor(light: Colors.gray50, dark: Colors.gray600)
+        }
+    }
 
     private func updateBorder() {
         let borderWidth = AvatarView.borderWidth(size: avatarSize, hasCustomBorder: false)
@@ -822,16 +826,14 @@ class OverflowAvatarView: AvatarView {
         var avatarFrame = bounds
         if hasBorder {
             let borderOffset = Constants.borderSize - borderWidth
-            avatarFrame.origin.x -= borderOffset * 1.75
-            avatarFrame.origin.y -= borderOffset * 1.75
+            avatarFrame.origin.x = avatarSize.insideBorder
+            avatarFrame.origin.y = avatarSize.insideBorder
             avatarFrame.size.width -= borderOffset / 4
             avatarFrame.size.height -= borderOffset / 4
 
             if avatarSize == .extraExtraLarge {
-                avatarFrame.origin.x -= Constants.borderSize
-                avatarFrame.origin.y -= Constants.borderSize
-                avatarFrame.size.width -= Constants.borderSize * 1.5
-                avatarFrame.size.height -= Constants.borderSize * 1.5
+                avatarFrame.size.width -= Constants.borderSize
+                avatarFrame.size.height -= Constants.borderSize
             }
         } else {
             let borderSize = avatarSize == .extraExtraLarge ? Constants.extraExtraLargeBorderSize : Constants.borderSize
