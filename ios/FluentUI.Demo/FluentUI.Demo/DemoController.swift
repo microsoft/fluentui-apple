@@ -61,6 +61,7 @@ class DemoController: UIViewController {
         let titleLabel = Label(style: .headline)
         titleLabel.text = text
         titleLabel.textAlignment = .center
+        titleLabel.accessibilityTraits.insert(.header)
         container.addArrangedSubview(titleLabel)
     }
 
