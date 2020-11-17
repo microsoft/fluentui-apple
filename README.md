@@ -15,7 +15,7 @@ Fluent UI Apple contains native UIKit and AppKit controls aligned with [Microsof
 
 #### Requirements
 
-- iOS 11+ or macOS 10.13+
+- iOS 11+ or macOS 10.14+
 - Xcode 11+
 - Swift 5.0+
 
