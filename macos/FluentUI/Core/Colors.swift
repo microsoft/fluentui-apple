@@ -250,37 +250,21 @@ public final class Colors: NSObject {
 	
 	// MARK: Primary
 	
-	@objc public var primary: NSColor = Colors.Palette.communicationBlue.color {
-		didSet { }
-	}
+	@objc public static var primary: NSColor = Colors.Palette.communicationBlue.color
 	
-	@objc public var primaryTint10: NSColor = Colors.Palette.communicationBlueTint10.color {
-		didSet { }
-	}
+	@objc public static var primaryTint10: NSColor = Colors.Palette.communicationBlueTint10.color
 	
-	@objc public var primaryTint20: NSColor = Colors.Palette.communicationBlueTint20.color {
-		didSet { }
-	}
+	@objc public static var primaryTint20: NSColor = Colors.Palette.communicationBlueTint20.color
 	
-	@objc public var primaryTint30: NSColor = Colors.Palette.communicationBlueTint30.color {
-		didSet { }
-	}
+	@objc public static var primaryTint30: NSColor = Colors.Palette.communicationBlueTint30.color
 	
-	@objc public var primaryTint40: NSColor = Colors.Palette.communicationBlueTint40.color {
-		didSet { }
-	}
+	@objc public static var primaryTint40: NSColor = Colors.Palette.communicationBlueTint40.color
 	
-	@objc public var primaryShade10: NSColor = Colors.Palette.communicationBlueShade10.color {
-		didSet { }
-	}
+	@objc public static var primaryShade10: NSColor = Colors.Palette.communicationBlueShade10.color
 	
-	@objc public var primaryShade20: NSColor = Colors.Palette.communicationBlueShade20.color {
-		didSet { }
-	}
+	@objc public static var primaryShade20: NSColor = Colors.Palette.communicationBlueShade20.color
 	
-	@objc public var primaryShade30: NSColor = Colors.Palette.communicationBlueShade30.color {
-		didSet { }
-	}
+	@objc public static var primaryShade30: NSColor = Colors.Palette.communicationBlueShade30.color
 }
 
 /// Make palette enum CaseIterable for unit testing purposes

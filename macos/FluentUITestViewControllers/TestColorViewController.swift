@@ -24,23 +24,22 @@ class TestColorViewController: NSViewController {
 		}
 		
 		/// Excel primary colors
-		let color = Colors.init()
-		color.primary = (NSColor(named: "Colors/DemoPrimaryColor"))!
-		colorsStackView.addArrangedSubview(createColorRowStackView(name: "primary", color: color.primary))
-		color.primaryShade10 = (NSColor(named: "Colors/DemoPrimaryShade10Color"))!
-		colorsStackView.addArrangedSubview(createColorRowStackView(name: "primaryShade10", color: color.primaryShade10))
-		color.primaryShade20 = (NSColor(named: "Colors/DemoPrimaryShade20Color"))!
-		colorsStackView.addArrangedSubview(createColorRowStackView(name: "primaryShade20", color: color.primaryShade20))
-		color.primaryShade30 = (NSColor(named: "Colors/DemoPrimaryShade30Color"))!
-		colorsStackView.addArrangedSubview(createColorRowStackView(name: "primaryShade30", color: color.primaryShade30))
-		color.primaryTint10 = (NSColor(named: "Colors/DemoPrimaryTint10Color"))!
-		colorsStackView.addArrangedSubview(createColorRowStackView(name: "primaryTint10", color: color.primaryTint10))
-		color.primaryTint20 = (NSColor(named: "Colors/DemoPrimaryTint20Color"))!
-		colorsStackView.addArrangedSubview(createColorRowStackView(name: "primaryTint20", color: color.primaryTint20))
-		color.primaryTint30 = (NSColor(named: "Colors/DemoPrimaryTint30Color"))!
-		colorsStackView.addArrangedSubview(createColorRowStackView(name: "primaryTint30", color: color.primaryTint30))
-		color.primaryTint40 = (NSColor(named: "Colors/DemoPrimaryTint40Color"))!
-		colorsStackView.addArrangedSubview(createColorRowStackView(name: "primaryTint40", color: color.primaryTint40))
+		Colors.primary = (NSColor(named: "Colors/DemoPrimaryColor"))!
+		colorsStackView.addArrangedSubview(createColorRowStackView(name: "primary", color: Colors.primary))
+		Colors.primaryShade10 = (NSColor(named: "Colors/DemoPrimaryShade10Color"))!
+		colorsStackView.addArrangedSubview(createColorRowStackView(name: "primaryShade10", color: Colors.primaryShade10))
+		Colors.primaryShade20 = (NSColor(named: "Colors/DemoPrimaryShade20Color"))!
+		colorsStackView.addArrangedSubview(createColorRowStackView(name: "primaryShade20", color: Colors.primaryShade20))
+		Colors.primaryShade30 = (NSColor(named: "Colors/DemoPrimaryShade30Color"))!
+		colorsStackView.addArrangedSubview(createColorRowStackView(name: "primaryShade30", color: Colors.primaryShade30))
+		Colors.primaryTint10 = (NSColor(named: "Colors/DemoPrimaryTint10Color"))!
+		colorsStackView.addArrangedSubview(createColorRowStackView(name: "primaryTint10", color: Colors.primaryTint10))
+		Colors.primaryTint20 = (NSColor(named: "Colors/DemoPrimaryTint20Color"))!
+		colorsStackView.addArrangedSubview(createColorRowStackView(name: "primaryTint20", color: Colors.primaryTint20))
+		Colors.primaryTint30 = (NSColor(named: "Colors/DemoPrimaryTint30Color"))!
+		colorsStackView.addArrangedSubview(createColorRowStackView(name: "primaryTint30", color: Colors.primaryTint30))
+		Colors.primaryTint40 = (NSColor(named: "Colors/DemoPrimaryTint40Color"))!
+		colorsStackView.addArrangedSubview(createColorRowStackView(name: "primaryTint40", color: Colors.primaryTint40))
 		
 		let documentView = NSView()
 		documentView.translatesAutoresizingMaskIntoConstraints = false
