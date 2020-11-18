@@ -113,7 +113,7 @@ class InitialsView: UIView {
     }
 
     private struct Constants {
-        /// Adjustment multiplier to accommodate for the innter stroke in `AvatarView` border option.
+        /// Adjustment multiplier to accommodate for the inner stroke in `AvatarView` border option.
         /// `adjustsFontSizeToFitWidth` will not adjust unless text is on or exceeds the containing bounds.
         static let borderAdjustment: CGFloat = 2.5
     }
