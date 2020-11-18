@@ -112,6 +112,12 @@ class InitialsView: UIView {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
+    private struct Constants {
+        /// Adjustment multiplier to accommodate for the innter stroke in `AvatarView` border option.
+        /// `adjustsFontSizeToFitWidth` will not adjust unless text is on or exceeds the containing bounds.
+        static let borderAdjustment: CGFloat = 2.5
+    }
+    
     // MARK: Setup
 
     /// Sets up in the initialsView by displaying initials from a provided primary text or secondary text
@@ -133,10 +139,10 @@ class InitialsView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        let width = bounds.width - (avatarSize.insideBorder * 2.5)
-        let height = bounds.height - (avatarSize.insideBorder * 2.5)
-        let x = bounds.origin.x + avatarSize.insideBorder * 1.25
-        let y = bounds.origin.y + avatarSize.insideBorder * 1.25
+        let width = bounds.width - (avatarSize.insideBorder * Constants.borderAdjustment)
+        let height = bounds.height - (avatarSize.insideBorder * Constants.borderAdjustment)
+        let x = bounds.origin.x + avatarSize.insideBorder * (Constants.borderAdjustment / 2)
+        let y = bounds.origin.y + avatarSize.insideBorder * (Constants.borderAdjustment / 2)
         initialsLabel.frame = CGRect(x: x, y: y, width: width, height: height)
     }
 
