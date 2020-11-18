@@ -386,12 +386,7 @@ open class AvatarView: UIView {
         }
 
         if hasCustomBorder || hasBorder {
-            imageView.layer.borderWidth = avatarSize.insideBorder
-            imageView.layer.borderColor = Colors.surfacePrimary.cgColor
-            imageView.layer.masksToBounds = true
-            initialsView.layer.borderWidth = avatarSize.insideBorder
-            initialsView.layer.borderColor = Colors.surfacePrimary.cgColor
-            initialsView.layer.masksToBounds = true
+            updateInnerStroke()
         }
 
         if let fallbackImageStyle = fallbackImageStyle {
@@ -621,6 +616,15 @@ open class AvatarView: UIView {
 
         borderView.backgroundColor = UIColor(patternImage: image)
     }
+    
+    private func updateInnerStroke() {
+        imageView.layer.borderWidth = avatarSize.insideBorder
+        imageView.layer.borderColor = Colors.surfacePrimary.cgColor
+        imageView.layer.masksToBounds = true
+        initialsView.layer.borderWidth = avatarSize.insideBorder
+        initialsView.layer.borderColor = Colors.surfacePrimary.cgColor
+        initialsView.layer.masksToBounds = true
+    }
 
     private func updatePresenceImage() {
         if isDisplayingPresence() {
@@ -771,8 +775,7 @@ class OverflowAvatarView: AvatarView {
         borderView = UIView(frame: .zero)
         super.init(avatarSize: avatarSize, withBorder: false, style: .circle, preferredFallbackImageStyle: .outlined)
 
-        var overflowCountString = NumberFormatter.localizedString(from: NSNumber(value: overflowCount), number: .none)
-        overflowCountString = String(overflowCountString)
+        let overflowCountString = NumberFormatter.localizedString(from: NSNumber(value: overflowCount), number: .none)
 
         setup(primaryText: overflowCountString, secondaryText: nil, image: nil, convertTextToInitials: false)
         avatarBackgroundColor = .clear
