@@ -4,8 +4,8 @@
 //
 
 // Accessibility
-"Accessibility.ActivityIndicator.Animating.label" = "In progress";
-"Accessibility.ActivityIndicator.Stopped.label" = "Progress halted";
+"Accessibility.ActivityIndicator.Animating.label" = "Pågående";
+"Accessibility.ActivityIndicator.Stopped.label" = "Förlopp har stoppats";
 
 "Accessibility.Alert" = "Varning";
 "Accessibility.Dismiss.Label" = "Stäng";
@@ -98,9 +98,6 @@
 
 /* Accessibility label format string for avatar view. Format: "<Name>, <Presence>". Example: "Kat, Available" */
 "Accessibility.AvatarView.LabelFormat" = "%@, %@";
-
-/* Accessibility hint for a segmented control button */
-"Accessibility.Segmented.Button.Hint" = "Tryck för att gå till %@";
 
 /* Accessibility hint for more actions button */
 "Accessibility.TableViewCell.MoreActions.Hint" = "Dubbeltryck för att visa fler åtgärder";

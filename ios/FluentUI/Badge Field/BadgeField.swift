@@ -78,7 +78,7 @@ open class BadgeField: UIView {
         static let badgeHeight: CGFloat = 26
         static let badgeMarginHorizontal: CGFloat = 5
         static let badgeMarginVertical: CGFloat = 5
-        static let emptyTextFieldString: String = zeroWidthSpace
+        static let emptyTextFieldString: String = ""
         static let dragAndDropMinimumPressDuration: TimeInterval = 0.2
         static let dragAndDropScaleAnimationDuration: TimeInterval = 0.3
         static let dragAndDropScaleFactor: CGFloat = 1.10
@@ -86,7 +86,6 @@ open class BadgeField: UIView {
         static let labelMarginRight: CGFloat = 5
         static let textStyleFont: UIFont = TextStyle.subhead.font
         static let textFieldMinWidth: CGFloat = 100
-        static let zeroWidthSpace: String = "\u{200B}"
     }
 
     @objc open var label: String = "" {
@@ -816,7 +815,10 @@ open class BadgeField: UIView {
         if isIntroductionLabelAccessible() {
             elementsCount += 1
         }
-        elementsCount += badges.count
+
+        elementsCount += shouldUseConstrainedBadges ? constrainedBadges.count : badges.count
+
+        // counting the trailing text field used to add more badges
         elementsCount += 1
         return elementsCount
     }
@@ -826,8 +828,10 @@ open class BadgeField: UIView {
             return labelView
         }
         let offsetIndex = isIntroductionLabelAccessible() ? index - 1 : index
-        if offsetIndex < badges.count {
-            return badges[offsetIndex]
+
+        let activeBadges = shouldUseConstrainedBadges ? constrainedBadges : badges
+        if offsetIndex < activeBadges.count {
+            return activeBadges[offsetIndex]
         }
         return textField
     }
@@ -836,7 +840,9 @@ open class BadgeField: UIView {
         if element as? UILabel == labelView {
             return 0
         }
-        if let badge = element as? BadgeView, let index = badges.firstIndex(of: badge) {
+
+        let activeBadges = shouldUseConstrainedBadges ? constrainedBadges : badges
+        if let badge = element as? BadgeView, let index = activeBadges.firstIndex(of: badge) {
             return isIntroductionLabelAccessible() ? index + 1 : index
         }
         return accessibilityElementCount() - 1

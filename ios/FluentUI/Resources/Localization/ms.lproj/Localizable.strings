@@ -4,8 +4,8 @@
 //
 
 // Accessibility
-"Accessibility.ActivityIndicator.Animating.label" = "In progress";
-"Accessibility.ActivityIndicator.Stopped.label" = "Progress halted";
+"Accessibility.ActivityIndicator.Animating.label" = "Sedang berjalan";
+"Accessibility.ActivityIndicator.Stopped.label" = "Kemajuan dihentikan";
 
 "Accessibility.Alert" = "Isyarat";
 "Accessibility.Dismiss.Label" = "Tolak";
@@ -98,9 +98,6 @@
 
 /* Accessibility label format string for avatar view. Format: "<Name>, <Presence>". Example: "Kat, Available" */
 "Accessibility.AvatarView.LabelFormat" = "%@, %@";
-
-/* Accessibility hint for a segmented control button */
-"Accessibility.Segmented.Button.Hint" = "Ketik untuk pergi ke %@";
 
 /* Accessibility hint for more actions button */
 "Accessibility.TableViewCell.MoreActions.Hint" = "Dwiketik untuk melihat lebih banyak tindakan";

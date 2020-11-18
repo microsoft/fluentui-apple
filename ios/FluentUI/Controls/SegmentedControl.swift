@@ -220,6 +220,8 @@ open class SegmentedControl: UIControl {
         if index <= selectedSegmentIndex {
             _selectedSegmentIndex += 1
         }
+
+        updateAccessibilityHints()
     }
 
     /// Remove the segment at the appropriate index. If there are only 2 segments in the control, or if no segment exists at the index, this method is ignored. If the segment is currently selected, we change the selection
@@ -248,6 +250,8 @@ open class SegmentedControl: UIControl {
         if index <= selectedSegmentIndex {
             _selectedSegmentIndex -= 1
         }
+
+        updateAccessibilityHints()
     }
 
     /// Select segment at index
@@ -368,7 +372,6 @@ open class SegmentedControl: UIControl {
         let button = SegmentedControlButton(style: style)
         button.setTitle(title, for: .normal)
         button.accessibilityLabel = title
-        button.accessibilityHint = String(format: "Accessibility.Segmented.Button.Hint".localized, title)
         button.addTarget(self, action: #selector(handleButtonTap(_:)), for: .touchUpInside)
         return button
     }
@@ -425,6 +428,12 @@ open class SegmentedControl: UIControl {
         case .switch:
             selectionView.frame = button.frame
             selectionView.layer.cornerRadius = selectionView.frame.height / 2
+        }
+    }
+
+    private func updateAccessibilityHints() {
+        for (index, button) in buttons.enumerated() {
+            button.accessibilityHint = String.localizedStringWithFormat("Accessibility.MSPillButtonBar.Hint".localized, index + 1, items.count)
         }
     }
 

@@ -8,6 +8,16 @@ import UIKit
 // MARK: - DrawerPresentationDelegate
 
 protocol DrawerPresentationControllerDelegate: AnyObject {
+    var passThroughView: UIView? { get }
+    var preferredMaximumExpansionHeight: CGFloat { get }
+    var presentationBackground: DrawerPresentationBackground { get }
+    var presentationOffset: CGFloat { get }
+    var presentationOrigin: CGFloat? { get }
+    var shadowOffset: CGFloat { get }
+    var shouldUseWindowFullWidthInLandscape: Bool { get }
+    var shouldRespectSafeAreaForWindowFullWidth: Bool { get }
+    var sourceObject: Any? { get }
+
     /// Called when the user requests the dismissal of the presentingViewController
     func drawerPresentationControllerDismissalRequested(_ presentationController: DrawerPresentationController)
 }
@@ -23,45 +33,17 @@ class DrawerPresentationController: UIPresentationController {
 
     let presentationDirection: DrawerPresentationDirection
 
-    private let shouldUseWindowFullWidthInLandscape: Bool
-    private let shouldRespectSafeAreaForWindowFullWidth: Bool
     private let sourceViewController: UIViewController
-    private let sourceObject: Any?
-    private let presentationOrigin: CGFloat?
-    private let presentationOffset: CGFloat
-    private let presentationBackground: DrawerPresentationBackground
-    private weak var passThroughView: UIView?
-    private let shadowOffset: CGFloat
 
     public weak var drawerPresentationControllerDelegate: DrawerPresentationControllerDelegate?
-
-    private let preferredMaximumPresentationSize: CGFloat
 
     init(presentedViewController: UIViewController,
          presentingViewController: UIViewController?,
          source: UIViewController,
-         sourceObject: Any?,
-         presentationOrigin: CGFloat?,
          presentationDirection: DrawerPresentationDirection,
-         presentationOffset: CGFloat,
-         presentationBackground: DrawerPresentationBackground,
-         adjustHeightForKeyboard: Bool,
-         shouldUseWindowFullWidthInLandscape: Bool,
-         shouldRespectSafeAreaForWindowFullWidth: Bool,
-         passThroughView: UIView?,
-         shadowOffset: CGFloat,
-         maximumPresentationHeight: CGFloat) {
+         adjustHeightForKeyboard: Bool) {
         sourceViewController = source
-        self.sourceObject = sourceObject
-        self.presentationOrigin = presentationOrigin
         self.presentationDirection = presentationDirection
-        self.presentationOffset = presentationOffset
-        self.presentationBackground = presentationBackground
-        self.shouldUseWindowFullWidthInLandscape = shouldUseWindowFullWidthInLandscape
-        self.shouldRespectSafeAreaForWindowFullWidth = shouldRespectSafeAreaForWindowFullWidth
-        self.passThroughView = passThroughView
-        self.shadowOffset = shadowOffset
-        self.preferredMaximumPresentationSize = maximumPresentationHeight
 
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
 
@@ -75,7 +57,7 @@ class DrawerPresentationController: UIPresentationController {
         let view = BackgroundView()
         view.forwardsTouches = false
         // Pass the passthrough view in touch forwarding view
-        if let passThroughView = self.passThroughView {
+        if let passThroughView = drawerPresentationControllerDelegate?.passThroughView {
             view.passthroughView = passThroughView
             view.accessibilityElements = [passThroughView]
         } else {
@@ -96,7 +78,7 @@ class DrawerPresentationController: UIPresentationController {
     }()
 
     private lazy var dimmingView: DimmingView = {
-        let view = DimmingView(type: presentationBackground.dimmingViewType)
+        let view = DimmingView(type: drawerPresentationControllerDelegate?.presentationBackground.dimmingViewType ?? .black)
         view.isUserInteractionEnabled = false
         return view
     }()
@@ -183,7 +165,7 @@ class DrawerPresentationController: UIPresentationController {
             separator.removeFromSuperview()
             removePresentedViewMask()
             shadowView.owner = nil
-            UIAccessibility.post(notification: .screenChanged, argument: sourceObject)
+            UIAccessibility.post(notification: .screenChanged, argument: drawerPresentationControllerDelegate?.sourceObject)
         }
     }
 
@@ -197,18 +179,18 @@ class DrawerPresentationController: UIPresentationController {
     // Content view is clipped 'clipsToBounds = true' to prevent the drawer from sliding over the navigation bar and for any custom base scenario. But it started clipping shadow of the drawer.
     // Fix: Shadow offset is added in the presented view and height of content view is also increased by same value. It will make sure shadow is not clipped, keeping presented view's height same.
 
-    override var frameOfPresentedViewInContainerView: CGRect { return contentView.frame.inset(by: DrawerShadowView.shadowOffsetForPresentedView(with: presentationDirection, offset: shadowOffset)) }
+    override var frameOfPresentedViewInContainerView: CGRect { return contentView.frame.inset(by: DrawerShadowView.shadowOffsetForPresentedView(with: presentationDirection, offset: drawerPresentationControllerDelegate?.shadowOffset ?? 0)) }
 
     var extraContentSizeEffectWhenCollapsing: ExtraContentSizeEffect = .move
 
     private var actualPresentationOffset: CGFloat {
         if presentationDirection.isVertical && traitCollection.horizontalSizeClass == .regular {
-            return presentationOffset
+            return drawerPresentationControllerDelegate?.presentationOffset ?? 0
         }
         return 0
     }
     private var actualPresentationOrigin: CGFloat {
-        if let presentationOrigin = presentationOrigin {
+        if let presentationOrigin = drawerPresentationControllerDelegate?.presentationOrigin {
             return presentationOrigin
         }
 
@@ -372,6 +354,10 @@ class DrawerPresentationController: UIPresentationController {
             landscapeMode = false
         }
 
+        let shadowOffset = drawerPresentationControllerDelegate?.shadowOffset ?? 0
+        let shouldUseWindowFullWidthInLandscape = drawerPresentationControllerDelegate?.shouldUseWindowFullWidthInLandscape ?? true
+        let preferredMaximumPresentationSize = drawerPresentationControllerDelegate?.preferredMaximumExpansionHeight ?? -1
+
         if presentationDirection.isVertical {
             if contentSize.width == 0 ||
                 (traitCollection.userInterfaceIdiom == .phone && landscapeMode && shouldUseWindowFullWidthInLandscape) ||
@@ -419,6 +405,7 @@ class DrawerPresentationController: UIPresentationController {
         let presentationOffsetMargin = actualPresentationOffset > 0 ? safeAreaPresentationOffset + actualPresentationOffset : 0
         var margins: UIEdgeInsets = .zero
 
+        let shouldRespectSafeAreaForWindowFullWidth = drawerPresentationControllerDelegate?.shouldRespectSafeAreaForWindowFullWidth ?? false
         if presentationDirection.isVertical && shouldRespectSafeAreaForWindowFullWidth {
             margins.left = containerView.safeAreaInsets.left
             margins.right = containerView.safeAreaInsets.right
@@ -452,6 +439,7 @@ class DrawerPresentationController: UIPresentationController {
         // original offset relative to the content view.
         let gestureOffset = extraContentSize < 0 && extraContentSizeEffectWhenCollapsing == .move ? extraContentSize : 0
 
+        let shadowOffset = drawerPresentationControllerDelegate?.shadowOffset ?? 0
         if presentationDirection.isVertical {
             frame.origin.y += presentationDirection == .down ? gestureOffset : -gestureOffset + shadowOffset
             frame.size.height -= shadowOffset
