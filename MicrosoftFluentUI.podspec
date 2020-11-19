@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'MicrosoftFluentUI'
-  s.version          = '0.1.18'
+  s.version          = '0.1.20'
   s.summary          = 'Fluent UI is a set of reusable UI controls and tools'
   s.homepage         = "https://www.microsoft.com/design/fluent/#/"
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
@@ -109,7 +109,7 @@ Pod::Spec.new do |s|
 
 # Mac
 
-  s.osx.deployment_target = "10.13"
+  s.osx.deployment_target = "10.14"
 
   s.subspec 'AvatarView_mac' do |avatarview_mac|
     avatarview_mac.platform = :osx

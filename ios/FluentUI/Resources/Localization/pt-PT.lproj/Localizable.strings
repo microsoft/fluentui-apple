@@ -99,9 +99,6 @@
 /* Accessibility label format string for avatar view. Format: "<Name>, <Presence>". Example: "Kat, Available" */
 "Accessibility.AvatarView.LabelFormat" = "%@, %@";
 
-/* Accessibility hint for a segmented control button */
-"Accessibility.Segmented.Button.Hint" = "Toque para ir para %@";
-
 /* Accessibility hint for more actions button */
 "Accessibility.TableViewCell.MoreActions.Hint" = "Faça duplo toque para ver mais ações";
 
@@ -185,6 +182,3 @@
 
 /* Presence - Blocked status */
 "Presence.Blocked" = "Bloqueado";
-
-/* AvatarView - Format string for overflow avatar. Format: "+<OverflowCount>". Example: "+5" */
-"AvatarView.OverflowFormat" = "+%@";

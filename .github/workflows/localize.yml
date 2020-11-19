@@ -26,7 +26,7 @@ jobs:
         TDBUILD_AAD_APPLICATION_CLIENT_SECRET: ${{ secrets.TDBUILD_AAD_APPLICATION_CLIENT_SECRET }}
       run: scripts/localize.sh
     - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v2.7.0
+      uses: peter-evans/create-pull-request@v3.5.0
       with:
         commit-message: Latest localized resource files from Touchdown Build
         title: '[Localization] Localized Resource Files'

@@ -381,11 +381,22 @@ open class DrawerController: UIViewController {
 
     @objc public weak var delegate: DrawerControllerDelegate?
 
+    let presentationOrigin: CGFloat?
+    let presentationDirection: DrawerPresentationDirection
+    let preferredMaximumExpansionHeight: CGFloat
+
+    var sourceObject: Any? {
+        return sourceView ?? barButtonItem
+    }
+
+    /// Shadow is required if background is transparent
+    var shadowOffset: CGFloat {
+        return presentationBackground == .none ? Constants.shadowOffset : 0
+    }
+
     private let sourceView: UIView?
     private let sourceRect: CGRect?
     private let barButtonItem: UIBarButtonItem?
-    private let presentationOrigin: CGFloat?
-    private let presentationDirection: DrawerPresentationDirection
 
     private var isPreferredContentSizeBeingChangedInternally: Bool = false
     private var normalDrawerHeight: CGFloat = 0
@@ -396,21 +407,18 @@ open class DrawerController: UIViewController {
         view.axis = .vertical
         return view
     }()
+
     private var containerViewBottomConstraint: NSLayoutConstraint? {
         didSet {
             updateContainerViewBottomConstraint()
         }
     }
-    /// Shadow is required if background is transparent
-    private var shadowOffset: CGFloat {
-        return presentationBackground == .none ? Constants.shadowOffset : 0
-    }
+    
     private var containerViewCenterObservation: NSKeyValueObservation?
 
     private var useCustomBackgroundColor: Bool = false
     /// for iPad split mode, navigation bar has a different dark elevated color, and if it is a `.down` presentation style, match `Colors.NavigationBar.background` elevated color
     private var useNavigationBarBackgroundColor: Bool = false
-    private let preferredMaximumExpansionHeight: CGFloat
 
     /**
      Initializes `DrawerController` to be presented as a popover from `sourceRect` in `sourceView` on iPad and as a slideover on iPhone/iPad.
@@ -969,17 +977,8 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
             let drawerPresentationController = DrawerPresentationController(presentedViewController: presented,
                                                 presentingViewController: presenting,
                                                 source: source,
-                                                sourceObject: sourceView ?? barButtonItem,
-                                                presentationOrigin: presentationOrigin,
                                                 presentationDirection: direction,
-                                                presentationOffset: presentationOffset,
-                                                presentationBackground: presentationBackground,
-                                                adjustHeightForKeyboard: adjustsHeightForKeyboard,
-                                                shouldUseWindowFullWidthInLandscape: shouldUseWindowFullWidthInLandscape,
-                                                shouldRespectSafeAreaForWindowFullWidth: shouldRespectSafeAreaForWindowFullWidth,
-                                                passThroughView: passThroughView,
-                                                shadowOffset: shadowOffset,
-                                                maximumPresentationHeight: preferredMaximumExpansionHeight)
+                                                adjustHeightForKeyboard: adjustsHeightForKeyboard)
             drawerPresentationController.drawerPresentationControllerDelegate = self
             return drawerPresentationController
         case .popover:

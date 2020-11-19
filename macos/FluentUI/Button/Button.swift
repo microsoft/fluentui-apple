@@ -78,12 +78,10 @@ open class Button: NSButton {
 			self.image = image
 		}
 		
-		if #available(macOS 10.14, *) {
-			if style == .primaryFilled {
-				contentTintColor = .white
-			} else {
-				contentTintColor = primaryColor
-			}
+		if style == .primaryFilled {
+			contentTintColor = .white
+		} else {
+			contentTintColor = primaryColor
 		}
 	}
 
@@ -106,15 +104,6 @@ open class Button: NSButton {
 		willSet {
 			guard wantsLayer == true else {
 				preconditionFailure("wantsLayer must be set so that the title is rendered on the layer")
-			}
-		}
-		didSet {
-			if #available(macOS 10.14, *) {
-				// Do nothing, contentTintColor will color our text properly
-			} else {
-				if let textColor = contentTintColor {
-					self.attributedTitle = NSAttributedString(string: title, attributes: [.foregroundColor : textColor])
-				}
 			}
 		}
 	}
@@ -194,9 +183,7 @@ open class Button: NSButton {
 			}
 		}
 		set {
-			if #available(macOS 10.14, *) {
-				super.contentTintColor = newValue
-			}
+			super.contentTintColor = newValue
 			needsDisplay = true
 		}
 	}
@@ -220,11 +207,7 @@ open class Button: NSButton {
 	}
 
 	private func disabledColor(for color: NSColor) -> NSColor {
-		if #available(macOS 10.14, *) {
-			return color.withSystemEffect(.disabled)
-		} else {
-			return color.withAlphaComponent(Button.disabledColorFallbackAlphaComponent)
-		}
+		return color.withSystemEffect(.disabled)
 	}
 
 	private var trackingArea: NSTrackingArea?
@@ -250,19 +233,11 @@ open class Button: NSButton {
 	}
 
 	private var hoverBackgroundColor: NSColor {
-		if #available(macOS 10.14, *) {
-			return fillColor.withSystemEffect(.rollover)
-		} else {
-			return fillColor.withAlphaComponent(Button.hoverBackgroundColorFallbackAlphaComponent)
-		}
+		return fillColor.withSystemEffect(.rollover)
 	}
 
 	private var pressedBackgroundColor: NSColor {
-		if #available(macOS 10.14, *) {
-			return fillColor.withSystemEffect(.pressed)
-		} else {
-			return fillColor.withAlphaComponent(Button.pressedBackgroundColorFallbackAlphaComponent)
-		}
+		return fillColor.withSystemEffect(.pressed)
 	}
 
 	private var layerBackgroundColor: NSColor {
@@ -280,11 +255,7 @@ open class Button: NSButton {
 	}
 
 	private static var defaultPrimaryColor: NSColor {
-		if #available(macOS 10.14, *) {
-			return .controlAccentColor
-		} else {
-			return .systemBlue
-		}
+		return .controlAccentColor
 	}
 	
 	
@@ -491,10 +462,4 @@ open class Button: NSButton {
 	private static let horizontalEdgePadding:  CGFloat = 12
 
 	private static let outlineColorAlphaComponent:  CGFloat = 0.4
-
-	private static let disabledColorFallbackAlphaComponent:  CGFloat = 0.25
-
-	private static let hoverBackgroundColorFallbackAlphaComponent:  CGFloat = 0.5
-
-	private static let pressedBackgroundColorFallbackAlphaComponent:  CGFloat = 0.25
 }
