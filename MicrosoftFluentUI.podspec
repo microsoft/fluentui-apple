@@ -109,7 +109,7 @@ Pod::Spec.new do |s|
 
 # Mac
 
-  s.osx.deployment_target = "10.13"
+  s.osx.deployment_target = "10.14"
 
   s.subspec 'AvatarView_mac' do |avatarview_mac|
     avatarview_mac.platform = :osx
