@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8FD01165228A820600D25925"
-               BuildableName = "libFluentUILib.a"
+               BuildableName = "libFluentUI.a"
                BlueprintName = "FluentUILib"
                ReferencedContainer = "container:FluentUI.xcodeproj">
             </BuildableReference>
@@ -44,7 +44,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8FD01165228A820600D25925"
-            BuildableName = "libFluentUILib.a"
+            BuildableName = "libFluentUI.a"
             BlueprintName = "FluentUILib"
             ReferencedContainer = "container:FluentUI.xcodeproj">
          </BuildableReference>
@@ -60,7 +60,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8FD01165228A820600D25925"
-            BuildableName = "libFluentUILib.a"
+            BuildableName = "libFluentUI.a"
             BlueprintName = "FluentUILib"
             ReferencedContainer = "container:FluentUI.xcodeproj">
          </BuildableReference>
