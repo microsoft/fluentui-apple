@@ -152,7 +152,7 @@ open class Button: NSButton {
 	open override func updateLayer() {
 		if let layer = layer {
 			layer.borderWidth = Button.borderWidth
-			layer.cornerRadius = self.cornerRadius
+			layer.cornerRadius = Button.cornerRadius
 			layer.backgroundColor = layerBackgroundColor.cgColor
 			layer.borderColor = outlineColor.cgColor
 		}
@@ -234,7 +234,6 @@ open class Button: NSButton {
 	}
 
 	@objc public var restBackgroundColor: NSColor? = nil
-	@objc public var cornerRadius: CGFloat = 3
 	
 	private var hoverBackgroundColor: NSColor {
 		return restBackgroundColor?.withSystemEffect(.rollover) ?? fillColor.withSystemEffect(.rollover)
@@ -458,6 +457,8 @@ open class Button: NSButton {
 
 
 	private static let borderWidth: CGFloat = 1
+	
+	private static let cornerRadius: CGFloat = 3
 
 	private static let verticalEdgePadding: CGFloat = 4
 

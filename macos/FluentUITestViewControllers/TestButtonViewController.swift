@@ -19,7 +19,6 @@ class TestButtonViewController: NSViewController {
 		
 		let customButton = Button(title: "Custom Button")
 		customButton.restBackgroundColor = Colors.Palette.orangeYellow20.color
-		customButton.cornerRadius = 0
 		customButton.contentTintColor = Colors.Palette.warningPrimary.color
 		
 		let buttonsWithTitle: () -> [NSButton] = {
@@ -33,7 +32,6 @@ class TestButtonViewController: NSViewController {
 
 		let customButtonWithImage = Button()
 		customButtonWithImage.restBackgroundColor = Colors.Palette.warningPrimary.color
-		customButtonWithImage.cornerRadius = 5
 		customButtonWithImage.image = NSImage(named: NSImage.stopProgressTemplateName)!
 		customButtonWithImage.contentTintColor = Colors.Palette.red20.color
 		
