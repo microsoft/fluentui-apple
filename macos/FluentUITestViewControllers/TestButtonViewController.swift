@@ -14,21 +14,35 @@ class TestButtonViewController: NSViewController {
 			NSTextField(labelWithString: "Primary Filled"),
 			NSTextField(labelWithString: "Primary Outline"),
 			NSTextField(labelWithString: "Borderless"),
+			NSTextField(labelWithString: "Custom Button"),
 		]
-
+		
+		let customButton = Button(title: "Custom Button")
+		customButton.restBackgroundColor = Colors.Palette.orangeYellow20.color
+		customButton.cornerRadius = 0
+		customButton.contentTintColor = Colors.Palette.warningPrimary.color
+		
 		let buttonsWithTitle: () -> [NSButton] = {
 			return [
 				Button(title: "FluentUI Button", style: .primaryFilled),
 				Button(title: "FluentUI Button", style: .primaryOutline),
 				Button(title: "FluentUI Button", style: .borderless),
+				customButton,
 			]
 		}
 
+		let customButtonWithImage = Button()
+		customButtonWithImage.restBackgroundColor = Colors.Palette.warningPrimary.color
+		customButtonWithImage.cornerRadius = 5
+		customButtonWithImage.image = NSImage(named: NSImage.stopProgressTemplateName)!
+		customButtonWithImage.contentTintColor = Colors.Palette.red20.color
+		
 		let buttonsWithImage: () -> [NSButton] = {
 			return [
 				Button(image: NSImage(named: NSImage.stopProgressTemplateName)!, style: .primaryFilled),
 				Button(image: NSImage(named: NSImage.stopProgressTemplateName)!, style: .primaryOutline),
 				Button(image: NSImage(named: NSImage.stopProgressTemplateName)!, style: .borderless),
+				customButtonWithImage,
 			]
 		}
 		
@@ -41,6 +55,7 @@ class TestButtonViewController: NSViewController {
 				Button(title: "Back", image: leadingArrowImage, imagePosition: .imageLeading, style: .primaryFilled),
 				Button(title: "Skip", image: trailingArrowImage, imagePosition: .imageTrailing, style: .primaryOutline),
 				Button(title: "Back", image: leadingArrowImage, imagePosition: .imageLeading, style: .borderless),
+				Button(title: "Custom Button", image: trailingArrowImage, imagePosition: .imageTrailing, style: .primaryOutline),
 			]
 		}
 		

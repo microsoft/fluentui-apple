@@ -25,7 +25,7 @@ open class Button: NSButton {
 	@objc public init(title: String, style: ButtonStyle = .primaryFilled) {
 		super.init(frame: .zero)
 		initialize(title: title, image: nil, style: style)
-    }
+	}
 
 	/// Initializes a Fluent UI Button with an image, setting the imagePosition to imageOnly
 	/// - Parameters:
@@ -35,7 +35,7 @@ open class Button: NSButton {
 		super.init(frame: .zero)
 		imagePosition = .imageOnly
 		initialize(title: nil, image: image, style: style)
-    }
+	}
 	
 	
 	/// Initializes a Fluent UI Button with a title,  image,  imagePosition, and style
@@ -48,14 +48,14 @@ open class Button: NSButton {
 		super.init(frame: .zero)
 		self.imagePosition = imagePosition
 		initialize(title: title, image: image, style: style)
-    }
+	}
 
 	/// Initializes a Fluent UI Button
 	/// Set style to primaryFilled as default
 	@objc public init() {
 		super.init(frame: .zero)
 		initialize(title: nil, image: nil, style: .primaryFilled)
-    }
+	}
 
 	@available(*, unavailable)
 	required public init?(coder decoder: NSCoder) {
@@ -152,7 +152,7 @@ open class Button: NSButton {
 	open override func updateLayer() {
 		if let layer = layer {
 			layer.borderWidth = Button.borderWidth
-			layer.cornerRadius = Button.cornerRadius
+			layer.cornerRadius = self.cornerRadius
 			layer.backgroundColor = layerBackgroundColor.cgColor
 			layer.borderColor = outlineColor.cgColor
 		}
@@ -201,6 +201,11 @@ open class Button: NSButton {
 	@objc public var style: ButtonStyle = .primaryFilled {
 		didSet {
 			if style != oldValue {
+				if style == .primaryFilled {
+					contentTintColor = .white
+				} else {
+					contentTintColor = primaryColor
+				}
 				needsDisplay = true
 			}
 		}
@@ -228,16 +233,15 @@ open class Button: NSButton {
 		}
 	}
 
-	private var restBackgroundColor: NSColor {
-		return fillColor
-	}
-
+	@objc public var restBackgroundColor: NSColor? = nil
+	@objc public var cornerRadius: CGFloat = 3
+	
 	private var hoverBackgroundColor: NSColor {
-		return fillColor.withSystemEffect(.rollover)
+		return restBackgroundColor?.withSystemEffect(.rollover) ?? fillColor.withSystemEffect(.rollover)
 	}
 
 	private var pressedBackgroundColor: NSColor {
-		return fillColor.withSystemEffect(.pressed)
+		return restBackgroundColor?.withSystemEffect(.pressed) ?? fillColor.withSystemEffect(.pressed)
 	}
 
 	private var layerBackgroundColor: NSColor {
@@ -247,10 +251,10 @@ open class Button: NSButton {
 			} else if mouseEntered {
 				return hoverBackgroundColor
 			} else {
-				return restBackgroundColor
+				return restBackgroundColor == nil ? fillColor : restBackgroundColor!
 			}
 		} else {
-			return disabledColor(for: fillColor)
+			return disabledColor(for: restBackgroundColor ?? fillColor)
 		}
 	}
 
@@ -454,8 +458,6 @@ open class Button: NSButton {
 
 
 	private static let borderWidth: CGFloat = 1
-
-	private static let cornerRadius: CGFloat = 3
 
 	private static let verticalEdgePadding: CGFloat = 4
 
