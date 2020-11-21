@@ -1,0 +1,12 @@
+//
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
+//
+
+DEVELOPMENT_TEAM = UBF8T346G9
+INFOPLIST_FILE = FluentUI.Resources/Info.plist
+INSTALL_PATH = $(LOCAL_LIBRARY_DIR)/Bundles
+PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.FluentUIResources-ios
+PRODUCT_NAME = FluentUIResources-ios
+SKIP_INSTALL = YES
+WRAPPER_EXTENSION = bundle

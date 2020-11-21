@@ -1,0 +1,11 @@
+//
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
+//
+
+CODE_SIGN_STYLE = Automatic
+MTL_FAST_MATH = YES
+OTHER_LDFLAGS = -ObjC
+PRODUCT_NAME = FluentUI
+SKIP_INSTALL = YES
+SWIFT_VERSION = 5.0
