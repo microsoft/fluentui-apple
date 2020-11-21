@@ -41,7 +41,7 @@ open class Button: NSButton {
 	/// Initializes a Fluent UI Button with a title,  image,  imagePosition, and style
 	/// - Parameters:
 	///   - title: String displayed in the button
-	///   - image: The NSImage to diplay in the button
+	///   - image: The NSImage to display in the button
 	///   - imagePosition: The position of the image, relative to the title
 	///   - style: The ButtonStyle, defaulting to primaryFilled
 	@objc public init(title: String, image: NSImage, imagePosition: NSControl.ImagePosition, style: ButtonStyle = .primaryFilled) {
@@ -92,6 +92,7 @@ open class Button: NSButton {
 		set {}
 	}
 	
+	/// Image display in the button
 	override public var image: NSImage? {
 		willSet {
 			guard wantsLayer == true else {
@@ -100,6 +101,7 @@ open class Button: NSButton {
 		}
 	}
 	
+	/// String display in the button
 	override public var title: String {
 		willSet {
 			guard wantsLayer == true else {
@@ -174,6 +176,7 @@ open class Button: NSButton {
 		}
 	}
 	
+	/// Tint color of the button content.
 	open override var contentTintColor: NSColor? {
 		get {
 			if style == .primaryFilled {
@@ -211,6 +214,9 @@ open class Button: NSButton {
 		}
 	}
 
+	/// Background color in rest state. Hover and pressed state colors will adjust accordingly using the systemEffect.
+	@objc public var restBackgroundColor: NSColor? = nil
+	
 	private func disabledColor(for color: NSColor) -> NSColor {
 		return color.withSystemEffect(.disabled)
 	}
@@ -232,8 +238,6 @@ open class Button: NSButton {
 			return disabledColor(for: baseOutlineColor)
 		}
 	}
-
-	@objc public var restBackgroundColor: NSColor? = nil
 	
 	private var hoverBackgroundColor: NSColor {
 		return restBackgroundColor?.withSystemEffect(.rollover) ?? fillColor.withSystemEffect(.rollover)
