@@ -215,7 +215,13 @@ open class Button: NSButton {
 	}
 
 	/// Background color in rest state. Hover and pressed state colors will adjust accordingly using the systemEffect.
-	@objc public var restBackgroundColor: NSColor? = nil
+	@objc public lazy var restBackgroundColor: NSColor  = fillColor {
+		didSet {
+			if restBackgroundColor != oldValue {
+				needsDisplay = true
+			}
+		}
+	}
 	
 	private func disabledColor(for color: NSColor) -> NSColor {
 		return color.withSystemEffect(.disabled)
@@ -240,11 +246,11 @@ open class Button: NSButton {
 	}
 	
 	private var hoverBackgroundColor: NSColor {
-		return restBackgroundColor?.withSystemEffect(.rollover) ?? fillColor.withSystemEffect(.rollover)
+		return restBackgroundColor.withSystemEffect(.rollover)
 	}
 
 	private var pressedBackgroundColor: NSColor {
-		return restBackgroundColor?.withSystemEffect(.pressed) ?? fillColor.withSystemEffect(.pressed)
+		return restBackgroundColor.withSystemEffect(.pressed)
 	}
 
 	private var layerBackgroundColor: NSColor {
@@ -254,10 +260,10 @@ open class Button: NSButton {
 			} else if mouseEntered {
 				return hoverBackgroundColor
 			} else {
-				return restBackgroundColor == nil ? fillColor : restBackgroundColor!
+				return restBackgroundColor
 			}
 		} else {
-			return disabledColor(for: restBackgroundColor ?? fillColor)
+			return disabledColor(for: restBackgroundColor)
 		}
 	}
 
