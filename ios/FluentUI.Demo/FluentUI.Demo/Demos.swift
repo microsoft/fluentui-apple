@@ -33,6 +33,7 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("SideTabBar", SideTabBarDemoController.self),
     ("TabBarView", TabBarViewDemoController.self),
     ("TableViewCell", TableViewCellDemoController.self),
+    ("TableViewCell (vNext)", TableViewCellVnextDemoController.self),
     ("TableViewCellFileAccessoryView", TableViewCellFileAccessoryViewDemoController.self),
     ("TableViewCellShimmer", TableViewCellShimmerDemoController.self),
     ("TableViewHeaderFooterView", TableViewHeaderFooterViewDemoController.self),
