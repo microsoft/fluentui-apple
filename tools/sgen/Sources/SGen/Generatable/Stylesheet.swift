@@ -908,6 +908,7 @@ private extension \(textStyleType) {
 
     var defaultPointSize: CGFloat? {
         switch self {
+
 """
 
         var needsDefaultCase: Bool = false
@@ -927,7 +928,7 @@ private extension \(textStyleType) {
         if needsDefaultCase {
             header += """
         default:
-            return nil"
+            return nil
 """
         }
 
@@ -938,6 +939,7 @@ private extension \(textStyleType) {
 
     var maximumPointSize: CGFloat? {
         switch self {
+
 """
 
         needsDefaultCase = false
@@ -957,7 +959,7 @@ private extension \(textStyleType) {
         if needsDefaultCase {
             header += """
         default:
-            return nil"
+            return nil
 """
         }
 

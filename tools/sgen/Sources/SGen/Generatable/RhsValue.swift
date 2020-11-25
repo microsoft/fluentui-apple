@@ -124,6 +124,18 @@ enum RhsValue {
         }
     }
     
+    static func resolveRedirection(rhs: RhsValue) -> RhsValue? {
+        if rhs.isRedirect == false {
+            return rhs
+        }
+        
+        var redirection = rhs.redirection!
+        if !redirection.hasPrefix("mainProxy()") {
+            redirection = "mainProxy().\(redirection)"
+        }
+        return .redirect(redirection: RhsRedirectValue(redirection: redirection, type: "Any"))
+    }
+    
     static func valueFrom(_ int: Int) -> RhsValue  {
         return .int(int: Int(int))
     }
@@ -244,21 +256,21 @@ enum RhsValue {
             for component in components {
                 let parameter = component.trimmingCharacters(in: .whitespacesAndNewlines)
                 if parameter.hasPrefix("\(Rhs.FluentUIColor.Props.lightKey):") {
-                    light = try? valueFrom(escape(Rhs.FluentUIColor.Props.lightKey, string: parameter))
+                    light = try? resolveRedirection(rhs: valueFrom(escape(Rhs.FluentUIColor.Props.lightKey, string: parameter)))
                 } else if parameter.hasPrefix("\(Rhs.FluentUIColor.Props.lightHighContrastKey):") {
-                    lightHighContrast = try? valueFrom(escape(Rhs.FluentUIColor.Props.lightHighContrastKey, string: parameter))
+                    lightHighContrast = try? resolveRedirection(rhs: valueFrom(escape(Rhs.FluentUIColor.Props.lightHighContrastKey, string: parameter)))
                 } else if parameter.hasPrefix("\(Rhs.FluentUIColor.Props.lightElevatedKey):") {
-                    lightElevated = try? valueFrom(escape(Rhs.FluentUIColor.Props.lightElevatedKey, string: parameter))
+                    lightElevated = try? resolveRedirection(rhs: valueFrom(escape(Rhs.FluentUIColor.Props.lightElevatedKey, string: parameter)))
                 } else if parameter.hasPrefix("\(Rhs.FluentUIColor.Props.lightElevatedHighContrastKey):") {
-                    lightElevatedHighContrast = try? valueFrom(escape(Rhs.FluentUIColor.Props.lightElevatedHighContrastKey, string: parameter))
+                    lightElevatedHighContrast = try? resolveRedirection(rhs: valueFrom(escape(Rhs.FluentUIColor.Props.lightElevatedHighContrastKey, string: parameter)))
                 } else if parameter.hasPrefix("\(Rhs.FluentUIColor.Props.darkKey):") {
-                    dark = try? valueFrom(escape(Rhs.FluentUIColor.Props.darkKey, string: parameter))
+                    dark = try? resolveRedirection(rhs: valueFrom(escape(Rhs.FluentUIColor.Props.darkKey, string: parameter)))
                 } else if parameter.hasPrefix("\(Rhs.FluentUIColor.Props.darkHighContrastKey):") {
-                    darkHighContrast = try? valueFrom(escape(Rhs.FluentUIColor.Props.darkHighContrastKey, string: parameter))
+                    darkHighContrast = try? resolveRedirection(rhs: valueFrom(escape(Rhs.FluentUIColor.Props.darkHighContrastKey, string: parameter)))
                 } else if parameter.hasPrefix("\(Rhs.FluentUIColor.Props.darkElevatedKey):") {
-                    darkElevated = try? valueFrom(escape(Rhs.FluentUIColor.Props.darkElevatedKey, string: parameter))
+                    darkElevated = try? resolveRedirection(rhs: valueFrom(escape(Rhs.FluentUIColor.Props.darkElevatedKey, string: parameter)))
                 } else if parameter.hasPrefix("\(Rhs.FluentUIColor.Props.darkElevatedHighContrastKey):") {
-                    darkElevatedHighContrast = try? valueFrom(escape(Rhs.FluentUIColor.Props.darkElevatedHighContrastKey, string: parameter))
+                    darkElevatedHighContrast = try? resolveRedirection(rhs: valueFrom(escape(Rhs.FluentUIColor.Props.darkElevatedHighContrastKey, string: parameter)))
                 } else {
                     fatalError("Invalid FluentUIColor parameter: \(parameter)")
                 }
