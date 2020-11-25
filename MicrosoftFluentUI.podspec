@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
 
 # iOS
 
-  s.ios.deployment_target = "11.0"
+  s.ios.deployment_target = "13.0"
 
   s.subspec 'Calendar_ios' do |calendar_ios|
     calendar_ios.platform = :ios
