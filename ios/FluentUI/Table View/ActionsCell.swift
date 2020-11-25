@@ -238,7 +238,7 @@ open class ActionsCell: UITableViewCell {
         }
 
     }
-    
+
     private struct Constants {
         static let horizontalSpacing: CGFloat = 16
         static let verticalMargin: CGFloat = 11
