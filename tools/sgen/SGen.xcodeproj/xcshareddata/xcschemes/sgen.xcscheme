@@ -79,24 +79,8 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "config run --config $(PROJECT_DIR)/sgenTests/Configs/configWithInputs.yml"
+            argument = "config run --config $(PROJECT_DIR)/input/StylesheetsConfig.yml"
             isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "config run --config $(PROJECT_DIR)/sgenTests/Configs/configWithImport.yml"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "config run --config $(PROJECT_DIR)/Playground/StardustPlayground/StardustPlayground/StylesheetsConfig.yml"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "config run --config $(PROJECT_DIR)/../Stardust/Playground/StardustPlayground/StardustPlayground/StylesheetsConfig.yml"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "config run --config $(PROJECT_DIR)/StylesheetsConfig.yml"
-            isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
    </LaunchAction>

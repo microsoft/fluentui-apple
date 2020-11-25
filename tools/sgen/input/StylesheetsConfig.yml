@@ -1,0 +1,20 @@
+objc: true
+generateBaseStyle: true
+inputDir: ./
+inputs:
+  - FluentUIStyle.yml
+typography:
+  styles:
+    - largeTitle: { mapsTo: largeTitle }
+    - title1: { mapsTo: title1 }
+    - title2: { mapsTo: title2 }
+    - title3: { mapsTo: title3 }
+    - headline: { mapsTo: headline }
+    - body: { mapsTo: body }
+    - callout: { mapsTo: callout }
+    - subheadline: { mapsTo: subheadline }
+    - footnote: { mapsTo: footnote }
+    - caption1: { mapsTo: caption1 }
+    - caption2: { mapsTo: caption2 }
+output:
+  path: ../output/
