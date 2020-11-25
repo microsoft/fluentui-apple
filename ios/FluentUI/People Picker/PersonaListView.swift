@@ -221,26 +221,6 @@ extension PersonaListView: UITableViewDataSource {
 // MARK: - PersonaListView: UITableViewDelegate
 
 extension PersonaListView: UITableViewDelegate {
-    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let section = Section(rawValue: indexPath.section) else {
-            preconditionFailure("heightForRowAtIndexPath: too many sections")
-        }
-
-        switch section {
-        case .personas:
-            return UITableView.automaticDimension
-        case .searchDirectory:
-            switch searchDirectoryState {
-            case .searching:
-                return ActivityIndicatorCell.defaultHeight
-            case .displayingSearchResults:
-                return CenteredLabelCell.defaultHeight
-            case .idle:
-                return ActionsCell.defaultHeight
-            }
-        }
-    }
-
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Deselecting row affects voice over focus, calling `deselectRowAtIndexPath` before `onPersonaSelected` would help.
         tableView.deselectRow(at: indexPath, animated: false)

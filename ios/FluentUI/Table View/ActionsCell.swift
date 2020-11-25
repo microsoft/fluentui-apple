@@ -48,12 +48,6 @@ open class ActionsCell: UITableViewCell {
         }
     }
 
-    private struct Constants {
-        static let horizontalSpacing: CGFloat = 16
-        static let verticalMargin: CGFloat = 12
-    }
-
-    public static let defaultHeight: CGFloat = 45
     public static let identifier: String = "ActionsCell"
 
     @objc public class func height(action1Title: String, action2Title: String = "", containerWidth: CGFloat) -> CGFloat {
@@ -64,7 +58,7 @@ open class ActionsCell: UITableViewCell {
         let action1TitleHeight = action1Title.preferredSize(for: actionTitleFont, width: width).height
         let action2TitleHeight = action2Title.preferredSize(for: actionTitleFont, width: width).height
 
-        return max(Constants.verticalMargin * 2 + max(action1TitleHeight, action2TitleHeight), defaultHeight)
+        return max(Constants.verticalMargin * 2 + max(action1TitleHeight, action2TitleHeight), Constants.defaultHeight)
     }
 
     @objc public class func preferredWidth(action1Title: String, action2Title: String = "") -> CGFloat {
@@ -243,5 +237,11 @@ open class ActionsCell: UITableViewCell {
             }
         }
 
+    }
+
+    private struct Constants {
+        static let horizontalSpacing: CGFloat = 16
+        static let verticalMargin: CGFloat = 11
+        static let defaultHeight: CGFloat = 48
     }
 }
