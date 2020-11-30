@@ -177,7 +177,7 @@ open class Button: NSButton {
 	}
 	
 	/// Tint color of the button content.
-	open override var contentTintColor: NSColor? {
+	@objc override public var contentTintColor: NSColor? {
 		get {
 			if style == .primaryFilled {
 				return .white
@@ -467,7 +467,7 @@ open class Button: NSButton {
 
 
 	private static let borderWidth: CGFloat = 1
-	
+
 	private static let cornerRadius: CGFloat = 3
 
 	private static let verticalEdgePadding: CGFloat = 4

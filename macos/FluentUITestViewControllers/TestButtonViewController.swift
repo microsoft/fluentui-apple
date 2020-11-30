@@ -97,7 +97,7 @@ class TestButtonViewController: NSViewController {
 		gridView.addColumn(with: buttonsWithImage())
 		gridView.addColumn(with: buttonsWithTitleAndImage())
 		gridView.addColumn(with: disabledButtons())
-		
+
 		let emptyCell = NSGridCell.emptyContentView
 	
 		// Insert the Row Titles as the last step
