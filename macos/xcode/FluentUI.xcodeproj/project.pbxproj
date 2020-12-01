@@ -981,6 +981,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8F69C7B22295FABD009F69C0 /* FluentUI_testapp.xcconfig */;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 			};
 			name = Debug;
 		};
@@ -988,6 +989,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8F69C7B22295FABD009F69C0 /* FluentUI_testapp.xcconfig */;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 			};
 			name = Release;
 		};

@@ -11,6 +11,7 @@ public struct TestViewController: Identifiable {
 	public let type: NSViewController.Type
 }
 
+@available(OSX 10.14, *)
 public let testViewControllers = [TestViewController(title: "Avatar View",
 													 type: TestAvatarViewController.self),
 								  TestViewController(title: "Button",
