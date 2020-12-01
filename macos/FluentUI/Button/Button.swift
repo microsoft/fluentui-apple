@@ -195,7 +195,7 @@ open class Button: NSButton {
 		}
 	}
 
-	/// Title to display in the button.
+	/// Title string to display in the button.
 	override public var title: String {
 		willSet {
 			guard wantsLayer == true else {
