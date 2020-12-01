@@ -186,6 +186,7 @@ open class Button: NSButton {
 		set {}
 	}
 
+	/// Image to display in the button.
 	override public var image: NSImage? {
 		willSet {
 			guard wantsLayer == true else {
@@ -194,6 +195,7 @@ open class Button: NSButton {
 		}
 	}
 
+	/// Title to display in the button.
 	override public var title: String {
 		willSet {
 			guard wantsLayer == true else {

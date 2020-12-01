@@ -48,11 +48,7 @@ open class Separator: NSView {
 	}
 	
 	private static var separatorColor: NSColor {
-		if #available(OSX 10.14, *) {
-			return .separatorColor
-		} else {
-			return.gridColor
-		}
+		return .separatorColor
 	}
 	
 	private static let separatorThickness: CGFloat = 1.0

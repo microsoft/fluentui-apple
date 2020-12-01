@@ -82,11 +82,7 @@ class CalendarDayButton: NSButton {
 				layer?.addSublayer(highlightLayer)
 			})
 			
-			if #available(OSX 10.14, *) {
-				highlightLayer.backgroundColor = customSelectionColor?.cgColor ?? NSColor.controlAccentColor.cgColor
-			} else {
-				highlightLayer.backgroundColor = customSelectionColor?.cgColor ?? NSColor.systemBlue.cgColor
-			}
+			highlightLayer.backgroundColor = customSelectionColor?.cgColor ?? NSColor.controlAccentColor.cgColor
 		case .off:
 			if highlightLayer.superlayer != nil {
 				highlightLayer.removeFromSuperlayer()
@@ -163,7 +159,7 @@ class CalendarDayButton: NSButton {
 	/// - note: Setting this to nil results in using a default color
 	var customSelectionColor: NSColor? {
 		didSet {
-			setNeedsDisplay()
+			needsDisplay = true
 		}
 	}
 	
@@ -286,10 +282,8 @@ class CalendarDayButton: NSButton {
 	
 	private var isDarkMode: Bool {
 		var isInDarkAppearance = false
-		if #available(OSX 10.14, *) {
-			if effectiveAppearance.bestMatch(from: [.darkAqua]) == .darkAqua {
-				isInDarkAppearance  = true
-			}
+		if effectiveAppearance.bestMatch(from: [.darkAqua]) == .darkAqua {
+			isInDarkAppearance  = true
 		}
 		return isInDarkAppearance
 	}

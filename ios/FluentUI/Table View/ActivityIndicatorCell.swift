@@ -13,7 +13,6 @@ public typealias MSActivityIndicatorCell = ActivityIndicatorCell
 @objc(MSFActivityIndicatorCell)
 open class ActivityIndicatorCell: UITableViewCell {
     public static let identifier: String = "ActivityIndicatorCell"
-    public static let defaultHeight: CGFloat = 45
 
     private let activityIndicatorView: ActivityIndicatorView = {
         let activityIndicatorView = ActivityIndicatorView(size: .small)
@@ -42,7 +41,18 @@ open class ActivityIndicatorCell: UITableViewCell {
         activityIndicatorView.startAnimating()
     }
 
+    open override var intrinsicContentSize: CGSize {
+        return sizeThatFits(CGSize(width: CGFloat.infinity, height: .infinity))
+    }
+
+    open override func sizeThatFits(_ size: CGSize) -> CGSize {
+        let maxWidth = size.width != 0 ? size.width : .infinity
+        return CGSize(width: maxWidth, height: ActivityIndicatorCell.defaultHeight)
+    }
+
     open override func setHighlighted(_ highlighted: Bool, animated: Bool) { }
 
     open override func setSelected(_ selected: Bool, animated: Bool) { }
+
+    private static let defaultHeight: CGFloat = 48
 }

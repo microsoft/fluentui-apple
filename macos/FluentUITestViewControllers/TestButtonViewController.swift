@@ -89,6 +89,12 @@ class TestButton: Button {
 	}
 }
 
+func applyCustomFormat(to button: Button) {
+	button.backgroundColor = Colors.Palette.blueMagenta30.color
+	button.contentTintColor = .white
+	button.borderColor = .clear
+}
+
 @available(OSX 10.14, *)
 class TestButtonViewController: NSViewController, NSMenuDelegate {
 	let materialsPopup = NSPopUpButton(frame: NSZeroRect, pullsDown: false)
@@ -141,48 +147,47 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		let largeSecondary = ButtonFormat(size: .large, style: .secondary, accentColor: communicationBlue)
 		let largeAcrylic = ButtonFormat(size: .large, style: .acrylic, accentColor: communicationBlue)
 		let largeBorderless = ButtonFormat(size: .large, style: .borderless, accentColor: communicationBlue)
+		let largeCustom = ButtonFormat(size: .large, style: .none)
 		let smallPrimary = ButtonFormat(size: .small, style: .primary, accentColor: Colors.primary)
 		let smallSecondary = ButtonFormat(size: .small, style: .secondary, accentColor: Colors.primary)
 		let smallAcrylic = ButtonFormat(size: .small, style: .acrylic, accentColor: Colors.primary)
 		let smallBorderless = ButtonFormat(size: .small, style: .borderless, accentColor: Colors.primary)
+		let smallCustom = ButtonFormat(size: .small, style: .none)
+
+		let formats: [ButtonFormat] = [
+			largePrimary,
+			largeSecondary,
+			largeAcrylic,
+			largeBorderless,
+			largeCustom,
+			smallPrimary,
+			smallSecondary,
+			smallAcrylic,
+			smallBorderless,
+			smallCustom,
+		]
 
 		let rowLabels: [NSView] = [
 			NSTextField(labelWithString: "Large Primary"),
 			NSTextField(labelWithString: "Large Secondary"),
 			NSTextField(labelWithString: "Large Acrylic"),
 			NSTextField(labelWithString: "Large Borderless"),
+			NSTextField(labelWithString: "Large Custom"),
 			NSTextField(labelWithString: "Small Primary"),
 			NSTextField(labelWithString: "Small Secondary"),
 			NSTextField(labelWithString: "Small Acrylic"),
 			NSTextField(labelWithString: "Small Borderless"),
+			NSTextField(labelWithString: "Small Custom"),
 		]
 
 		let buttonsWithTitle: () -> [TestButton] = {
-			return [
-				TestButton(title: "FluentUI Button", format: largePrimary),
-				TestButton(title: "FluentUI Button", format: largeSecondary),
-				TestButton(title: "FluentUI Button", format: largeAcrylic),
-				TestButton(title: "FluentUI Button", format: largeBorderless),
-				TestButton(title: "FluentUI Button", format: smallPrimary),
-				TestButton(title: "FluentUI Button", format: smallSecondary),
-				TestButton(title: "FluentUI Button", format: smallAcrylic),
-				TestButton(title: "FluentUI Button", format: smallBorderless),
-			]
+			return formats.map({ TestButton(title: "FluentUI Button", format: $0) })
 		}
 
 		let stopImage = NSImage(named: NSImage.stopProgressTemplateName)!
 
 		let buttonsWithImage: () -> [TestButton] = {
-			return [
-				TestButton(image: stopImage, format: largePrimary),
-				TestButton(image: stopImage, format: largeSecondary),
-				TestButton(image: stopImage, format: largeAcrylic),
-				TestButton(image: stopImage, format: largeBorderless),
-				TestButton(image: stopImage, format: smallPrimary),
-				TestButton(image: stopImage, format: smallSecondary),
-				TestButton(image: stopImage, format: smallAcrylic),
-				TestButton(image: stopImage, format: smallBorderless),
-			]
+			return formats.map({ TestButton(image: stopImage, format: $0) })
 		}
 
 		let leadingArrowImage = NSImage(named: TestButtonViewController.leadingArrow)!
@@ -194,10 +199,12 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 				TestButton(title: "Skip", image: trailingArrowImage, imagePosition: .imageTrailing, format: largeSecondary),
 				TestButton(title: "Back", image: leadingArrowImage, imagePosition: .imageLeft, format: largeAcrylic),
 				TestButton(title: "Skip", image: trailingArrowImage, imagePosition: .imageRight, format: largeBorderless),
+				TestButton(title: "Back", image: leadingArrowImage, imagePosition: .imageLeft, format: largeCustom),
 				TestButton(title: "Skip", image: trailingArrowImage, imagePosition: .imageTrailing, format: smallPrimary),
 				TestButton(title: "Back", image: leadingArrowImage, imagePosition: .imageLeading, format: smallSecondary),
 				TestButton(title: "Skip", image: trailingArrowImage, imagePosition: .imageRight, format: smallAcrylic),
 				TestButton(title: "Back", image: leadingArrowImage, imagePosition: .imageLeft, format: smallBorderless),
+				TestButton(title: "Skip", image: trailingArrowImage, imagePosition: .imageRight, format: smallCustom),
 			]
 		}
 
@@ -210,12 +217,14 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			return [
 				TestButton(title: "Nope", image: stopImage, imagePosition: .imageAbove, format: largePrimary),
 				TestButton(title: "Nope", image: stopImage, imagePosition: .imageBelow, format: largeSecondary),
-				TestButton(title: "Nope", image: stopImage, imagePosition: .imageAbove, format: largeAcrylic),
-				TestButton(title: "Nope", image: stopImage, imagePosition: .imageOverlaps, format: largeBorderless),
+				TestButton(title: "Nope", image: stopImage, imagePosition: .imageOverlaps, format: largeAcrylic),
+				TestButton(title: "Nope", image: stopImage, imagePosition: .imageAbove, format: largeBorderless),
+				TestButton(title: "Nope", image: stopImage, imagePosition: .imageBelow, format: largeCustom),
 				TestButton(title: "Nope", image: stopImage, imagePosition: .imageOverlaps, format: smallPrimary),
 				TestButton(title: "Nope", image: stopImage, imagePosition: .imageAbove, format: smallSecondary),
 				TestButton(title: "Nope", image: stopImage, imagePosition: .imageBelow, format: smallAcrylic),
-				TestButton(title: "Nope", image: stopImage, imagePosition: .imageAbove, format: smallBorderless),
+				TestButton(title: "Nope", image: stopImage, imagePosition: .imageOverlaps, format: smallBorderless),
+				TestButton(title: "Nope", image: stopImage, imagePosition: .imageAbove, format: smallCustom),
 			]
 		}
 
@@ -290,6 +299,12 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			fluentButtonsGrid.bottomAnchor.constraint(equalTo: scrollView.contentView.bottomAnchor),
 			fluentButtonsGrid.leadingAnchor.constraint(equalTo: scrollView.contentView.leadingAnchor),
 		])
+
+		for button in fluentButtons {
+			if button.style == .none {
+				applyCustomFormat(to: button)
+			}
+		}
 
 		view = mainPanel
 	}
