@@ -25,7 +25,7 @@ open class Button: NSButton {
 	@objc public init(title: String, style: ButtonStyle = .primaryFilled) {
 		super.init(frame: .zero)
 		initialize(title: title, image: nil, style: style)
-    }
+	}
 
 	/// Initializes a Fluent UI Button with an image, setting the imagePosition to imageOnly
 	/// - Parameters:
@@ -35,27 +35,27 @@ open class Button: NSButton {
 		super.init(frame: .zero)
 		imagePosition = .imageOnly
 		initialize(title: nil, image: image, style: style)
-    }
+	}
 	
 	
 	/// Initializes a Fluent UI Button with a title,  image,  imagePosition, and style
 	/// - Parameters:
 	///   - title: String displayed in the button
-	///   - image: The NSImage to diplay in the button
+	///   - image: The NSImage to display in the button
 	///   - imagePosition: The position of the image, relative to the title
 	///   - style: The ButtonStyle, defaulting to primaryFilled
 	@objc public init(title: String, image: NSImage, imagePosition: NSControl.ImagePosition, style: ButtonStyle = .primaryFilled) {
 		super.init(frame: .zero)
 		self.imagePosition = imagePosition
 		initialize(title: title, image: image, style: style)
-    }
+	}
 
 	/// Initializes a Fluent UI Button
 	/// Set style to primaryFilled as default
 	@objc public init() {
 		super.init(frame: .zero)
 		initialize(title: nil, image: nil, style: .primaryFilled)
-    }
+	}
 
 	@available(*, unavailable)
 	required public init?(coder decoder: NSCoder) {
@@ -92,6 +92,7 @@ open class Button: NSButton {
 		set {}
 	}
 	
+	/// Image display in the button
 	override public var image: NSImage? {
 		willSet {
 			guard wantsLayer == true else {
@@ -100,6 +101,7 @@ open class Button: NSButton {
 		}
 	}
 	
+	/// String display in the button
 	override public var title: String {
 		willSet {
 			guard wantsLayer == true else {
@@ -174,7 +176,8 @@ open class Button: NSButton {
 		}
 	}
 	
-	open override var contentTintColor: NSColor? {
+	/// Tint color of the button content.
+	@objc override public var contentTintColor: NSColor? {
 		get {
 			if style == .primaryFilled {
 				return .white
@@ -201,11 +204,25 @@ open class Button: NSButton {
 	@objc public var style: ButtonStyle = .primaryFilled {
 		didSet {
 			if style != oldValue {
+				if style == .primaryFilled {
+					contentTintColor = .white
+				} else {
+					contentTintColor = primaryColor
+				}
 				needsDisplay = true
 			}
 		}
 	}
 
+	/// Background color in rest state. Hover and pressed state colors will adjust accordingly using the systemEffect.
+	@objc public lazy var restBackgroundColor: NSColor  = fillColor {
+		didSet {
+			if restBackgroundColor != oldValue {
+				needsDisplay = true
+			}
+		}
+	}
+	
 	private func disabledColor(for color: NSColor) -> NSColor {
 		return color.withSystemEffect(.disabled)
 	}
@@ -227,17 +244,13 @@ open class Button: NSButton {
 			return disabledColor(for: baseOutlineColor)
 		}
 	}
-
-	private var restBackgroundColor: NSColor {
-		return fillColor
-	}
-
+	
 	private var hoverBackgroundColor: NSColor {
-		return fillColor.withSystemEffect(.rollover)
+		return restBackgroundColor.withSystemEffect(.rollover)
 	}
 
 	private var pressedBackgroundColor: NSColor {
-		return fillColor.withSystemEffect(.pressed)
+		return restBackgroundColor.withSystemEffect(.pressed)
 	}
 
 	private var layerBackgroundColor: NSColor {
@@ -250,7 +263,7 @@ open class Button: NSButton {
 				return restBackgroundColor
 			}
 		} else {
-			return disabledColor(for: fillColor)
+			return disabledColor(for: restBackgroundColor)
 		}
 	}
 
