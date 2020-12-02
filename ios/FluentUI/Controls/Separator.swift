@@ -70,15 +70,20 @@ open class Separator: UIView {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
+    /**
+     The default thickness for the separator: one device pixel.
+    */
+    @objc public static var thickness: CGFloat { return UIScreen.main.devicePixel }
+
     private func initialize(style: SeparatorStyle, orientation: SeparatorOrientation) {
         super.backgroundColor = style.color
         self.orientation = orientation
         switch orientation {
         case .horizontal:
-            frame.size.height = UIScreen.main.devicePixel
+            frame.size.height = Separator.thickness
             autoresizingMask = .flexibleWidth
         case .vertical:
-            frame.size.width = UIScreen.main.devicePixel
+            frame.size.width = Separator.thickness
             autoresizingMask = .flexibleHeight
         }
         isAccessibilityElement = false
