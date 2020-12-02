@@ -246,12 +246,8 @@ open class Button: NSButton {
 			if let contentTintColor = contentTintColor {
 				super.contentTintColor = contentTintColor
 			}
-			if let backgroundColor = backgroundColor { 
-				layer.backgroundColor = backgroundColor.cgColor
-			}
-			if let borderColor = borderColor {
-				layer.borderColor = borderColor.cgColor
-			}
+			layer.backgroundColor = backgroundColor?.cgColor
+			layer.borderColor = borderColor?.cgColor
 		}
 	}
 
