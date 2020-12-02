@@ -218,8 +218,7 @@ open class Button: NSButton {
 		mouseDown = down
 		needsDisplay = true
 		if isEnabled {
-			if let linkedPrimary = linkedPrimary
-			{
+			if let linkedPrimary = linkedPrimary {
 				if down {
 					linkedPrimaryOriginalStyle = linkedPrimary.style
 					linkedPrimary.style = self.style
@@ -292,10 +291,11 @@ open class Button: NSButton {
 	@objc public var contentTintColorDisabled: NSColor?
 
 	/// Button foreground text/image color.  Setting this property determines the colors for the resting
-	/// (normal), pressed and disabled states by applying system effects.  The value returned when getting
-	/// this property will depend on which state currently applies to the button.  To set the state-specific
-	/// colors separately, use the `contentTintColorRest`, `contentTintColorPressed`,
-	/// and/or `contentTintColorDisabled` properties.
+	/// (normal), pressed and disabled states by applying system effects, replacing any state-specific
+	/// values previously stored in `contentTintColorRest`, `contentTintColorPressed`,
+	/// and `contentTintColorDisabled`.  The value returned when getting this property will be
+	/// one of these state-specific values, depending on which state currently applies to the button.
+	/// To specify any of these colors independently, set the state-specific properties listed above.
 	open override var contentTintColor: NSColor? {
 		get {
 			if !isEnabled {
@@ -324,10 +324,11 @@ open class Button: NSButton {
 	@objc public var backgroundColorDisabled: NSColor?
 
 	/// Button background fill color.  Setting this property determines the colors for the resting (normal),
-	/// pressed and disabled states by applying system effects.  The value returned when getting this
-	/// property will depend on which state currently applies to the button.  To set the state-specific
-	/// colors separately, use the `backgroundColorRest`, `backgroundColorPressed`, and/or
-	/// `backgroundColorDisabled` properties.
+	/// pressed and disabled states by applying system effects, replacing any state-specific values
+	/// previously stored in `backgroundColorRest` `backgroundColorPressed`, and
+	/// `backgroundColorDisabled`.  The value returned when getting this property will be one of
+	/// these state-specific values, depending on which state currently applies to the button.  To specify
+	/// any of these colors independently, set the state-specific properties listed above.
 	@objc public var backgroundColor: NSColor? {
 		get {
 			if !isEnabled {
@@ -355,10 +356,11 @@ open class Button: NSButton {
 	@objc public var borderColorDisabled: NSColor?
 
 	/// Button border stroke color.  Setting this property determines the colors for the resting (normal),
-	/// pressed and disabled states by applying system effects.  The value returned when getting this
-	/// property will depend on which state currently applies to the button.  To set the state-specific
-	/// colors separately, use the `borderColorRest`, `borderColorPressed`, and/or
-	/// `borderColorDisabled` properties.
+	/// pressed and disabled states by applying system effects, replacing any state-specific values
+	/// previously stored in `borderColorRest`, `borderColorPressed`, and
+	/// `borderColorDisabled`.  The value returned when getting this property will be one of these
+	/// state-specific values, depending on which state currently applies to the button.  To specify any of
+	/// these colors independently, set the state-specific properties listed above.
 	@objc public var borderColor: NSColor? {
 		get {
 			if !isEnabled {
