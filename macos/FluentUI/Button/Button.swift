@@ -40,12 +40,12 @@ public enum ButtonStyle: Int, CaseIterable {
 public struct ButtonFormat {
 	var size: ButtonSize
 	var style: ButtonStyle
-	var accentColor: NSColor?
+	var accentColor: NSColor
 
 	public init(
 		size: ButtonSize = .large,
 		style: ButtonStyle = .primary,
-		accentColor: NSColor? = Colors.primary
+		accentColor: NSColor = Colors.primary
 	)
 	{
 		self.size = size
@@ -78,7 +78,7 @@ open class Button: NSButton {
 	///   - title: String displayed in the button
 	///   - size: The ButtonSize, default .large
 	///   - style: The ButtonStyle, default .primary
-	///   - accentColor: The accent or highlight NSColor, defaulting to the app primary color
+	///   - accentColor: The accent NSColor, defaulting to the app primary color
 	@objc public convenience init(
 		title: String,
 		size: ButtonSize = .large,
@@ -94,7 +94,7 @@ open class Button: NSButton {
 	///   - image: The NSImage to diplay in the button
 	///   - size: The ButtonSize, default .large
 	///   - style: The ButtonStyle, default .primary
-	///   - accentColor: The accent or highlight NSColor, defaulting to the app primary color
+	///   - accentColor: The accent NSColor, defaulting to the app primary color
 	@objc public convenience init(
 		image: NSImage,
 		size: ButtonSize = .large,
@@ -112,7 +112,7 @@ open class Button: NSButton {
 	///   - imagePosition: The position of the image relative to the title, default .imageLeading
 	///   - size: The ButtonSize, default .large
 	///   - style: The ButtonStyle, default .primary
-	///   - accentColor: The accent or highlight NSColor, defaulting to the app primary color
+	///   - accentColor: The accent NSColor, defaulting to the app primary color
 	@objc public convenience init(
 		title: String,
 		image: NSImage,
@@ -383,7 +383,7 @@ open class Button: NSButton {
 	/// This color is used for the background in the primary style, the pressed background in the secondary
 	/// style, and the content tint (i.e. foreground text/image) color in the borderless style.  It is not used
 	/// for the acrylic style.
-	@objc public var accentColor: NSColor? = Colors.primary
+	@objc public var accentColor: NSColor = Colors.primary
 
 	/// Any of several pre-set button styles.  Setting this property to `.none` does nothing.  Setting it to
 	/// any other value determines the content tint (i.e. foreground text/image), background and border
@@ -401,7 +401,7 @@ open class Button: NSButton {
 				contentTintColor = .textColor
 				contentTintColorPressed = ButtonColor.neutralInverted?.withSystemEffect(.pressed)
 				backgroundColor = ButtonColor.neutralBackground2
-				backgroundColorPressed = accentColor?.withSystemEffect(.pressed)
+				backgroundColorPressed = accentColor.withSystemEffect(.pressed)
 				borderColor = ButtonColor.neutralStroke2
 				borderColorPressed = .clear
 			case .acrylic:
