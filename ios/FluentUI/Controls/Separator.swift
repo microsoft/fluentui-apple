@@ -71,7 +71,7 @@ open class Separator: UIView {
     }
 
     /**
-     The default thickness for the separator: one device pixel
+     The default thickness for the separator: one device pixel.
     */
     @objc public static var thickness: CGFloat { return UIScreen.main.devicePixel }
 
