@@ -6,7 +6,6 @@
 import AppKit
 import FluentUI
 
-@available(OSX 10.14, *)
 let effectViewMaterials: [String: NSVisualEffectView.Material] = [
 	"titlebar": .titlebar,
 	"selection": .selection,
@@ -24,7 +23,6 @@ let effectViewMaterials: [String: NSVisualEffectView.Material] = [
 	"underPageBackground": .underPageBackground,
 ]
 
-@available(OSX 10.14, *)
 let backgroundColors: [String: NSColor] = [
 	"textBackgroundColor": .textBackgroundColor,
 	"selectedTextBackgroundColor": .selectedTextBackgroundColor,
@@ -36,7 +34,6 @@ let backgroundColors: [String: NSColor] = [
 	"unemphasizedSelectedContentBackgroundColor": .unemphasizedSelectedContentBackgroundColor,
 ]
 
-@available(OSX 10.14, *)
 let colorSystemEffects: [String: NSColor.SystemEffect] = [
 	"none": .none,
 	"rollover": .rollover,
@@ -67,7 +64,6 @@ class TopClipView: NSClipView {
 	}
 }
 
-@available(OSX 10.14, *)
 class TestButton: Button {
 	public var effect: NSColor.SystemEffect = .none {
 		didSet {
@@ -95,7 +91,6 @@ func applyCustomFormat(to button: Button) {
 	button.borderColor = .clear
 }
 
-@available(OSX 10.14, *)
 class TestButtonViewController: NSViewController, NSMenuDelegate {
 	let materialsPopup = NSPopUpButton(frame: NSZeroRect, pullsDown: false)
 	let backgroundColorsPopup = NSPopUpButton(frame: NSZeroRect, pullsDown: false)

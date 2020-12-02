@@ -71,7 +71,6 @@ class ButtonColor: NSObject {
 // MARK: - Button
 
 /// A fluent styled button, with hover effects and a corner radius.
-@available(OSX 10.14, *)
 @objc(MSFButton)
 open class Button: NSButton {
 	/// Initializes a Fluent UI Button with a title only
