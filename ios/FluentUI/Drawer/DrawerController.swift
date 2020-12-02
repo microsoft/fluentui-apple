@@ -80,6 +80,10 @@ public extension Colors {
         public static var background = UIColor(light: surfacePrimary, dark: surfaceSecondary)
         public static var popoverBackground = UIColor(light: surfacePrimary, dark: surfaceQuaternary)
     }
+
+    // Objective-C support
+    @objc static var drawerBackground: UIColor { return Drawer.background }
+    @objc static var popoverBackground: UIColor { return Drawer.popoverBackground }
 }
 
 // MARK: - DrawerControllerDelegate
