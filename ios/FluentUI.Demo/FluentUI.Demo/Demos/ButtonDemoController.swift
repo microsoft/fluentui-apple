@@ -12,34 +12,34 @@ class ButtonDemoController: DemoController {
 
         container.alignment = .leading
 
-        for style in ButtonStyle.allCases {
+        for style in MSFButtonStyle.allCases {
             addTitle(text: style.description)
 
-            let button = Button(style: style)
+            let button = MSFButton(style: style)
             button.setTitle("Button", for: .normal)
 
-            let disabledButton = Button(style: style)
+            let disabledButton = MSFButton(style: style)
             disabledButton.isEnabled = false
             disabledButton.setTitle("Button", for: .normal)
 
             addRow(items: [button, disabledButton], itemSpacing: 20)
 
             if let image = style.image {
-                let iconButton = Button(style: style)
+                let iconButton = MSFButton(style: style)
                 iconButton.setTitle("Button", for: .normal)
                 iconButton.image = image
 
-                let disabledIconButton = Button(style: style)
+                let disabledIconButton = MSFButton(style: style)
                 disabledIconButton.isEnabled = false
                 disabledIconButton.setTitle("Button", for: .normal)
                 disabledIconButton.image = image
 
                 addRow(items: [iconButton, disabledIconButton], itemSpacing: 20)
 
-                let iconOnlyButton = Button(style: style)
+                let iconOnlyButton = MSFButton(style: style)
                 iconOnlyButton.image = image
 
-                let disabledIconOnlyButton = Button(style: style)
+                let disabledIconOnlyButton = MSFButton(style: style)
                 disabledIconOnlyButton.isEnabled = false
                 disabledIconOnlyButton.image = image
 
@@ -48,14 +48,14 @@ class ButtonDemoController: DemoController {
         }
 
         addTitle(text: "With multi-line title")
-        let button = Button(style: .primaryFilled)
+        let button = MSFButton(style: .primaryFilled)
         button.setTitle("Longer Text Button", for: .normal)
         button.titleLabel?.numberOfLines = 0
 
-        let iconButton = Button(style: .primaryFilled)
+        let iconButton = MSFButton(style: .primaryFilled)
         iconButton.setTitle("Longer Text Button", for: .normal)
         iconButton.titleLabel?.numberOfLines = 0
-        iconButton.image = ButtonStyle.primaryFilled.image
+        iconButton.image = MSFButtonStyle.primaryFilled.image
 
         addRow(items: [button])
         addRow(items: [iconButton])
@@ -64,7 +64,7 @@ class ButtonDemoController: DemoController {
     }
 }
 
-extension ButtonStyle {
+extension MSFButtonStyle {
     var description: String {
         switch self {
         case .primaryFilled:

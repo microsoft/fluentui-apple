@@ -372,10 +372,10 @@ class DrawerDemoController: DemoController {
     }
 
     private var shouldConfirmDrawerDismissal: Bool = false
-    private var expandButton: Button?
+    private var expandButton: MSFButton?
 
-    private let hideKeyboardButton: Button = {
-        let button = Button(style: .primaryFilled)
+    private let hideKeyboardButton: MSFButton = {
+        let button = MSFButton(style: .primaryFilled)
         button.setTitle("Hide keyboard", for: .normal)
         button.setContentCompressionResistancePriority(.required, for: .vertical)
         button.setContentHuggingPriority(.required, for: .vertical)

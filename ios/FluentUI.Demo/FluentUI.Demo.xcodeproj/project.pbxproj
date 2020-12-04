@@ -7,25 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		11047D2622932DB1001F0F59 /* TabBarViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11047D2522932DB1001F0F59 /* TabBarViewDemoController.swift */; };
 		114CF8B82423E10900D064AA /* ColorDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114CF8B72423E10900D064AA /* ColorDemoController.swift */; };
 		22EABB182509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EABB172509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift */; };
 		497DC2DE24185896008D86F8 /* PillButtonBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */; };
-		7D0931C124AAA3D30072458A /* SideTabBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0931C024AAA3D30072458A /* SideTabBarDemoController.swift */; };
-		7D23482A24D89C1C00FBE057 /* AvatarGroupViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D23482924D89C1C00FBE057 /* AvatarGroupViewDemoController.swift */; };
-		7DC2FB2B24C0F4FD00367A55 /* TableViewCellFileAccessoryViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2A24C0F4FD00367A55 /* TableViewCellFileAccessoryViewDemoController.swift */; };
+		53B659B8257AA44F00070405 /* ButtonVnextDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B659B7257AA44F00070405 /* ButtonVnextDemoController.swift */; };
+		53B659C4257AA69E00070405 /* DrawerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DCA75D211E3A92005F4CB7 /* DrawerDemoController.swift */; };
+		53B659C5257AA6AA00070405 /* NavigationControllerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C8F322E28EEB0086F899 /* NavigationControllerDemoController.swift */; };
+		53B659C6257AA6B400070405 /* PopupMenuDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA8218A61BB00E2A506 /* PopupMenuDemoController.swift */; };
+		53B659C7257AA6C300070405 /* TableViewCellFileAccessoryViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2A24C0F4FD00367A55 /* TableViewCellFileAccessoryViewDemoController.swift */; };
+		53B659C8257AA6CA00070405 /* TooltipDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF06121FB941400857267 /* TooltipDemoController.swift */; };
+		53B659C9257AA79200070405 /* PassThroughDrawerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F59E3224F4E3A700358DC2 /* PassThroughDrawerDemoController.swift */; };
+		53F7385F257760B60043071D /* ObjectiveCDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDDD73FB22C6D86B00A9D995 /* ObjectiveCDemoController.m */; };
+		53F7386125776C560043071D /* NotificationViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B6617523A4227300E801DD /* NotificationViewDemoController.swift */; };
+		53F73862257803DE0043071D /* HUDDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E8F65121CD9579008A1598 /* HUDDemoController.swift */; };
+		53F7386325780B330043071D /* SideTabBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0931C024AAA3D30072458A /* SideTabBarDemoController.swift */; };
+		53F7386B257964AB0043071D /* AvatarGroupViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D23482924D89C1C00FBE057 /* AvatarGroupViewDemoController.swift */; };
+		53F7386C25796A6D0043071D /* TabBarViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11047D2522932DB1001F0F59 /* TabBarViewDemoController.swift */; };
+		53F7386E25796D730043071D /* DateTimePickerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7254EC21471A3F002F4069 /* DateTimePickerDemoController.swift */; };
 		8AF03E2024B6BE3100E6E2A2 /* ContactCollectionViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF03E1F24B6BE3100E6E2A2 /* ContactCollectionViewDemoController.swift */; };
 		A589F856211BA71000471C23 /* LabelDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A589F855211BA71000471C23 /* LabelDemoController.swift */; };
 		A591A3F420F429EB001ED23B /* Demos.swift in Sources */ = {isa = PBXBuildFile; fileRef = A591A3F320F429EB001ED23B /* Demos.swift */; };
-		A5961FA9218A61BB00E2A506 /* PopupMenuDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA8218A61BB00E2A506 /* PopupMenuDemoController.swift */; };
-		A5B6617623A4227400E801DD /* NotificationViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B6617523A4227300E801DD /* NotificationViewDemoController.swift */; };
 		A5CEC21020E436F10016922A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC20F20E436F10016922A /* AppDelegate.swift */; };
 		A5CEC21220E436F10016922A /* DemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC21120E436F10016922A /* DemoListViewController.swift */; };
 		A5CEC21920E436F20016922A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5CEC21820E436F20016922A /* Assets.xcassets */; };
 		A5CEC21C20E436F20016922A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5CEC21A20E436F20016922A /* LaunchScreen.storyboard */; };
 		A5CEC22C20E450340016922A /* FluentUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5CEC22A20E44FBF0016922A /* FluentUI.framework */; };
 		A5CEC22D20E450340016922A /* FluentUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A5CEC22A20E44FBF0016922A /* FluentUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		A5DCA75E211E3A92005F4CB7 /* DrawerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DCA75D211E3A92005F4CB7 /* DrawerDemoController.swift */; };
 		A5DCA760211E3B4C005F4CB7 /* DemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DCA75F211E3B4C005F4CB7 /* DemoController.swift */; };
 		B42760DD21488FFA0021A4F7 /* AvatarViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42760DC21488FFA0021A4F7 /* AvatarViewDemoController.swift */; };
 		B441478F228E02540040E88E /* OtherCellsDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B441478E228E02540040E88E /* OtherCellsDemoController.swift */; };
@@ -38,7 +45,6 @@
 		B4C39552227A4AC800539EC2 /* TableViewSampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C39551227A4AC800539EC2 /* TableViewSampleData.swift */; };
 		B4D852D922580661004B1B29 /* ActivityIndicatorViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D852D822580661004B1B29 /* ActivityIndicatorViewDemoController.swift */; };
 		B4D852DB225C010A004B1B29 /* ButtonDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D852DA225C010A004B1B29 /* ButtonDemoController.swift */; };
-		B4E8F65221CD9579008A1598 /* HUDDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E8F65121CD9579008A1598 /* HUDDemoController.swift */; };
 		B4EF53C5215C45C400573E8F /* PersonaListViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF53C4215C45C400573E8F /* PersonaListViewDemoController.swift */; };
 		B4EF66542295F1A8007FEAB0 /* TableViewHeaderFooterViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF66532295F1A8007FEAB0 /* TableViewHeaderFooterViewDemoController.swift */; };
 		B4EF66562295F729007FEAB0 /* TableViewHeaderFooterSampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF66552295F729007FEAB0 /* TableViewHeaderFooterSampleData.swift */; };
@@ -46,14 +52,9 @@
 		C038992E2359307D00265026 /* TableViewCellShimmerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C038992D2359307D00265026 /* TableViewCellShimmerDemoController.swift */; };
 		C0938E4A235F733100256251 /* ShimmerLinesViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0938E49235F733100256251 /* ShimmerLinesViewDemoController.swift */; };
 		CCC18C2F2501C75F00BE830E /* CardViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */; };
-		D0F59E3324F4E3A700358DC2 /* PassThroughDrawerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F59E3224F4E3A700358DC2 /* PassThroughDrawerDemoController.swift */; };
 		E6842974247B672000A29C40 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842973247B672000A29C40 /* SceneDelegate.swift */; };
 		E6842996247C350700A29C40 /* DemoColorThemeWindows.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842995247C350700A29C40 /* DemoColorThemeWindows.swift */; };
-		FD41C8F422E28EEB0086F899 /* NavigationControllerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C8F322E28EEB0086F899 /* NavigationControllerDemoController.swift */; };
-		FD7254ED21471A3F002F4069 /* DateTimePickerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7254EC21471A3F002F4069 /* DateTimePickerDemoController.swift */; };
-		FD7DF06221FB941500857267 /* TooltipDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF06121FB941400857267 /* TooltipDemoController.swift */; };
 		FDCF7C8321BF35680058E9E6 /* SegmentedControlDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCF7C8221BF35680058E9E6 /* SegmentedControlDemoController.swift */; };
-		FDDD73FD22C6D86B00A9D995 /* ObjectiveCDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDDD73FB22C6D86B00A9D995 /* ObjectiveCDemoController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -76,6 +77,7 @@
 		22EABB172509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarDemoController.swift; sourceTree = "<group>"; };
 		3D3224A9AADF58C324059464 /* Pods-FluentUI.Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluentUI.Demo.release.xcconfig"; path = "Target Support Files/Pods-FluentUI.Demo/Pods-FluentUI.Demo.release.xcconfig"; sourceTree = "<group>"; };
 		497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBarDemoController.swift; sourceTree = "<group>"; };
+		53B659B7257AA44F00070405 /* ButtonVnextDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonVnextDemoController.swift; sourceTree = "<group>"; };
 		606D7CD826903286E86B3099 /* Pods-FluentUI.Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluentUI.Demo.debug.xcconfig"; path = "Target Support Files/Pods-FluentUI.Demo/Pods-FluentUI.Demo.debug.xcconfig"; sourceTree = "<group>"; };
 		7D0931C024AAA3D30072458A /* SideTabBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideTabBarDemoController.swift; sourceTree = "<group>"; };
 		7D23482924D89C1C00FBE057 /* AvatarGroupViewDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarGroupViewDemoController.swift; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 				B45EB79121A4D047008646A2 /* BadgeFieldDemoController.swift */,
 				B444D6B72183BA4B0002B4D4 /* BadgeViewDemoController.swift */,
 				B4D852DA225C010A004B1B29 /* ButtonDemoController.swift */,
+				53B659B7257AA44F00070405 /* ButtonVnextDemoController.swift */,
 				114CF8B72423E10900D064AA /* ColorDemoController.swift */,
 				FD7254EC21471A3F002F4069 /* DateTimePickerDemoController.swift */,
 				A5DCA75D211E3A92005F4CB7 /* DrawerDemoController.swift */,
@@ -462,31 +465,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD7DF06221FB941500857267 /* TooltipDemoController.swift in Sources */,
 				B441478F228E02540040E88E /* OtherCellsDemoController.swift in Sources */,
-				A5961FA9218A61BB00E2A506 /* PopupMenuDemoController.swift in Sources */,
+				53B659C5257AA6AA00070405 /* NavigationControllerDemoController.swift in Sources */,
 				B42760DD21488FFA0021A4F7 /* AvatarViewDemoController.swift in Sources */,
-				A5B6617623A4227400E801DD /* NotificationViewDemoController.swift in Sources */,
+				53F7386B257964AB0043071D /* AvatarGroupViewDemoController.swift in Sources */,
+				53B659C4257AA69E00070405 /* DrawerDemoController.swift in Sources */,
 				8AF03E2024B6BE3100E6E2A2 /* ContactCollectionViewDemoController.swift in Sources */,
-				D0F59E3324F4E3A700358DC2 /* PassThroughDrawerDemoController.swift in Sources */,
 				A5DCA760211E3B4C005F4CB7 /* DemoController.swift in Sources */,
-				7D0931C124AAA3D30072458A /* SideTabBarDemoController.swift in Sources */,
 				B45EB79221A4D047008646A2 /* BadgeFieldDemoController.swift in Sources */,
 				B4EF66562295F729007FEAB0 /* TableViewHeaderFooterSampleData.swift in Sources */,
 				B4D852DB225C010A004B1B29 /* ButtonDemoController.swift in Sources */,
-				7D23482A24D89C1C00FBE057 /* AvatarGroupViewDemoController.swift in Sources */,
 				497DC2DE24185896008D86F8 /* PillButtonBarDemoController.swift in Sources */,
 				B4EF53C5215C45C400573E8F /* PersonaListViewDemoController.swift in Sources */,
-				A5DCA75E211E3A92005F4CB7 /* DrawerDemoController.swift in Sources */,
-				FDDD73FD22C6D86B00A9D995 /* ObjectiveCDemoController.m in Sources */,
 				B4414792228F6F740040E88E /* TableViewCellSampleData.swift in Sources */,
+				53F7386125776C560043071D /* NotificationViewDemoController.swift in Sources */,
 				E6842974247B672000A29C40 /* SceneDelegate.swift in Sources */,
-				B4E8F65221CD9579008A1598 /* HUDDemoController.swift in Sources */,
+				53F7386E25796D730043071D /* DateTimePickerDemoController.swift in Sources */,
 				22EABB182509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift in Sources */,
-				FD7254ED21471A3F002F4069 /* DateTimePickerDemoController.swift in Sources */,
 				B4EF66542295F1A8007FEAB0 /* TableViewHeaderFooterViewDemoController.swift in Sources */,
+				53B659C8257AA6CA00070405 /* TooltipDemoController.swift in Sources */,
+				53B659C6257AA6B400070405 /* PopupMenuDemoController.swift in Sources */,
 				CCC18C2F2501C75F00BE830E /* CardViewDemoController.swift in Sources */,
 				B4575C5122FB8B6900EBD0EB /* PeoplePickerDemoController.swift in Sources */,
+				53F7386C25796A6D0043071D /* TabBarViewDemoController.swift in Sources */,
 				A5CEC21220E436F10016922A /* DemoListViewController.swift in Sources */,
 				B498141621E42C140077B48D /* TableViewCellDemoController.swift in Sources */,
 				FDCF7C8321BF35680058E9E6 /* SegmentedControlDemoController.swift in Sources */,
@@ -494,15 +495,18 @@
 				C038992E2359307D00265026 /* TableViewCellShimmerDemoController.swift in Sources */,
 				114CF8B82423E10900D064AA /* ColorDemoController.swift in Sources */,
 				A589F856211BA71000471C23 /* LabelDemoController.swift in Sources */,
-				FD41C8F422E28EEB0086F899 /* NavigationControllerDemoController.swift in Sources */,
-				7DC2FB2B24C0F4FD00367A55 /* TableViewCellFileAccessoryViewDemoController.swift in Sources */,
 				B4D852D922580661004B1B29 /* ActivityIndicatorViewDemoController.swift in Sources */,
 				E6842996247C350700A29C40 /* DemoColorThemeWindows.swift in Sources */,
+				53F7385F257760B60043071D /* ObjectiveCDemoController.m in Sources */,
 				A5CEC21020E436F10016922A /* AppDelegate.swift in Sources */,
 				B4414794228F6FDF0040E88E /* OtherCellsSampleData.swift in Sources */,
+				53F73862257803DE0043071D /* HUDDemoController.swift in Sources */,
+				53B659B8257AA44F00070405 /* ButtonVnextDemoController.swift in Sources */,
 				B444D6B82183BA4B0002B4D4 /* BadgeViewDemoController.swift in Sources */,
 				A591A3F420F429EB001ED23B /* Demos.swift in Sources */,
-				11047D2622932DB1001F0F59 /* TabBarViewDemoController.swift in Sources */,
+				53B659C7257AA6C300070405 /* TableViewCellFileAccessoryViewDemoController.swift in Sources */,
+				53F7386325780B330043071D /* SideTabBarDemoController.swift in Sources */,
+				53B659C9257AA79200070405 /* PassThroughDrawerDemoController.swift in Sources */,
 				B4C39552227A4AC800539EC2 /* TableViewSampleData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

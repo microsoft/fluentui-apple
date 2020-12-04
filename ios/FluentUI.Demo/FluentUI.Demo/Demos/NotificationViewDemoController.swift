@@ -59,7 +59,13 @@ class NotificationViewDemoController: DemoController {
             }
             addTitle(text: variant.displayText)
             container.addArrangedSubview(createNotificationView(forVariant: variant))
-            container.addArrangedSubview(createButton(title: "Show", action: #selector(showNotificationView)))
+
+            let showButton = MSFButtonVnext(style: .secondary, size: .small, action: {
+                self.createNotificationView(forVariant: variant).show(in: self.view) { $0.hide(after: variant.delayForHiding) }
+            })
+            showButton.state.text = "Show"
+            container.addArrangedSubview(showButton.view)
+
             container.alignment = .leading
         }
     }
@@ -85,13 +91,5 @@ class NotificationViewDemoController: DemoController {
             view.setup(style: .neutralBar, message: "This error can be tapped or dismissed with the icon to the right.", action: { [unowned self] in self.showMessage("`Dismiss` tapped") })
         }
         return view
-    }
-
-    @objc private func showNotificationView(sender: UIButton) {
-        guard let index = container.arrangedSubviews.filter({ $0 is UIButton }).firstIndex(of: sender), let variant = Variant(rawValue: index) else {
-            preconditionFailure("showNotificationView is used for a button in the wrong container")
-        }
-
-        createNotificationView(forVariant: variant).show(in: view) { $0.hide(after: variant.delayForHiding) }
     }
 }

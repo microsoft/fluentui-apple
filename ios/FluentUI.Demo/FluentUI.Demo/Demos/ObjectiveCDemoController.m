@@ -10,6 +10,7 @@
 @property (nonatomic) MSFTwoLineTitleView *titleView;
 @property (nonatomic) UIStackView *container;
 @property (nonatomic) UIScrollView *scrollingContainer;
+@property (nonatomic) MSFButtonVnext *testButtonVnext;
 
 @end
 
@@ -37,8 +38,60 @@
         [[self.container widthAnchor] constraintEqualToAnchor:[self.scrollingContainer widthAnchor]],
     ]];
 
+    UILabel *buttonLabel = [[UILabel alloc] init];
+    [buttonLabel setText:@"Button"];
+    [self.container addArrangedSubview:buttonLabel];
+
     MSFButton *testButton = [self createButtonWithTitle:@"Test" action:nil];
     [self.container addArrangedSubview:testButton];
+
+    UILabel *buttonVnextLabel = [[UILabel alloc] init];
+    [buttonVnextLabel setText:@"Button (vNext)"];
+    [self.container addArrangedSubview:buttonVnextLabel];
+
+    _testButtonVnext = [[MSFButtonVnext alloc] initWithStyle:MSFButtonVnextStyleSecondary
+                                                    size:MSFButtonVnextSizeMedium
+                                                  action:^{}];
+    [self resetVnextButton];
+    [self.container addArrangedSubview:[_testButtonVnext view]];
+
+    MSFButton *enableButton = [self createButtonWithTitle:@"Enable Vnext Button" action:@selector(enableVnextButton)];
+    [self.container addArrangedSubview:enableButton];
+
+    MSFButton *disableButton = [self createButtonWithTitle:@"Disable Vnext Button" action:@selector(disableVnextButton)];
+    [self.container addArrangedSubview:disableButton];
+
+    MSFButton *resetButton = [self createButtonWithTitle:@"Reset Vnext Button" action:@selector(resetVnextButton)];
+    [self.container addArrangedSubview:resetButton];
+}
+
+- (void)enableVnextButton {
+    MSFButtonVnextState *state = [self->_testButtonVnext state];
+    [state setText:@"Enabled"];
+    [state setIsDisabled:NO];
+    [state setImage:[UIImage imageNamed:@"Placeholder_20"]];
+}
+
+- (void)disableVnextButton {
+    MSFButtonVnextState *state = [self->_testButtonVnext state];
+    [state setText:@"Disabled"];
+    [state setIsDisabled:YES];
+    [state setImage:nil];
+}
+
+- (void)resetVnextButton {
+    MSFButtonVnextState *state = [self->_testButtonVnext state];
+    [state setText:@"Button VNext"];
+    [state setImage:nil];
+    [state setIsDisabled:NO];
+}
+
+- (MSFButton *)createButtonWithTitle:(NSString *)title action:(SEL)action {
+    MSFButton* button = [[MSFButton alloc] init];
+    button.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    [button setTitle:title forState:UIControlStateNormal];
+    [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
+    return button;
 }
 
 - (UIStackView *)createVerticalContainer {
@@ -55,14 +108,6 @@
     [self.titleView setupWithTitle:self.title subtitle:nil interactivePart:MSFTwoLineTitleViewInteractivePartTitle accessoryType:MSFTwoLineTitleViewAccessoryTypeNone];
     self.titleView.delegate = self;
     self.navigationItem.titleView = self.titleView;
-}
-
-- (MSFButton *)createButtonWithTitle:(NSString *)title action:(SEL)action {
-    MSFButton* button = [[MSFButton alloc] init];
-    button.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-    [button setTitle:title forState:UIControlStateNormal];
-    [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
-    return button;
 }
 
 - (void)addTitleWithText:(NSString*)text {
