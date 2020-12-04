@@ -6,7 +6,6 @@
 import UIKit
 import SwiftUI
 
-@available(iOS 13.0.0, *)
 public class TableViewCellState: ObservableObject {
     @Published var title: String
     @Published var subtitle: String
@@ -18,7 +17,6 @@ public class TableViewCellState: ObservableObject {
     }
 }
 
-@available(iOS 13.0.0, *)
 public struct TableViewCellVnextView: View {
     @ObservedObject var state: TableViewCellState
 
@@ -26,6 +24,8 @@ public struct TableViewCellVnextView: View {
         HStack {
             Image(state.leadingView)
             //adjust image size using token
+//                .padding(.trailing, 10)
+            Spacer()
             VStack(alignment: .leading) {
                 // Font tokens include:
                 //   - text color
@@ -33,14 +33,19 @@ public struct TableViewCellVnextView: View {
                 //   - # of lines
                 Text(state.title)
                 Text(state.subtitle)
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
             }
-            Spacer()
+//            Spacer()
         }
+        .background(Color.blue)
+//        .frame(idealWidth: .infinity)
         //adjust height so it is dynamic to content
     }
 }
 
 @objc(MSFTableViewCellVnext)
+//open class MSFButton: NSObject .KeyValueObservingPublishermake hosting controller a private var
 open class TableViewCellVnext: UIHostingController<TableViewCellVnextView> {
     @objc open var cellTitle: String = "" {
         didSet {
@@ -60,8 +65,10 @@ open class TableViewCellVnext: UIHostingController<TableViewCellVnextView> {
         }
     }
 
-    @objc public init(title: String, cellSubtitle: String = "", cellLeadingView: String = "") {
-        super.init(rootView: TableViewCellVnextView(state: TableViewCellState(title: title, subtitle: cellSubtitle, leadingView: cellLeadingView)))
+    @objc public init(title: String, subtitle: String = "", leadingView: String = "") {
+        super.init(rootView: TableViewCellVnextView(state: TableViewCellState(title: title, subtitle: subtitle, leadingView: leadingView)))
+        self.view.translatesAutoresizingMaskIntoConstraints = false
+        self.view.fitIntoSuperview()
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -69,10 +76,11 @@ open class TableViewCellVnext: UIHostingController<TableViewCellVnextView> {
     }
 }
 
-@available(iOS 13.0.0, *)
 public struct TableViewCellVnext_Previews: PreviewProvider {
     public static var previews: some View {
-        let state = TableViewCellState(title: "This is Title", subtitle: "This is subs", leadingView: "chevron-right-20x20")
+        let state = TableViewCellState(title: "This is Title", subtitle: "", leadingView: "chevron-right-20x20")
         TableViewCellVnextView(state: state)
     }
 }
+
+
