@@ -137,7 +137,7 @@ Opacity:
   opacity96: 0.96f
   none: 1f
 
-AP_MSFButton:
+AP_MSFButtonTokens:
   backgroundColor: [ rest: $Colors.Neutral.clear, hover: $Colors.Neutral.clear, pressed: $Colors.Neutral.clear, selected: $Colors.Neutral.clear, disabled: $Colors.Neutral.clear ]
   borderColor: [ rest: $Colors.Background.brandRest, hover: $Colors.Background.brandHover, pressed: $Colors.Background.brandPressed, selected: $Colors.Background.brandSelected, disabled: $Colors.Background.brandDisabled ]
   borderRadius: [ small: $Border.radius.medium, medium: $Border.radius.large, large: $Border.radius.xlarge ]
@@ -149,15 +149,15 @@ AP_MSFButton:
   textColor: [ rest: $Colors.Foreground.brandRest, hover: $Colors.Foreground.brandHover, pressed: $Colors.Foreground.brandPressed, selected: $Colors.Foreground.brandSelected, disabled: $Colors.Foreground.brandDisabled ]
   textFont: [ small: $Typography.footnote, medium: $Typography.subheadline, large: $Typography.subheadline ]
 
-PrimaryButton extends MSFButton:
+PrimaryButtonTokens extends MSFButtonTokens:
   backgroundColor: [ rest: $Colors.Background.brandRest, hover: $Colors.Background.brandHover, pressed: $Colors.Background.brandPressed, selected: $Colors.Background.brandSelected, disabled: $Colors.Background.brandDisabled ]
   iconColor: [ rest: $Colors.Foreground.neutralInverted, hover: $Colors.Foreground.neutralInverted, pressed: $Colors.Foreground.neutralInverted, selected: $Colors.Foreground.neutralInverted, disabled: $Colors.Foreground.neutralInverted ]
   textColor: [ rest: $Colors.Foreground.neutralInverted, hover: $Colors.Foreground.neutralInverted, pressed: $Colors.Foreground.neutralInverted, selected: $Colors.Foreground.neutralInverted, disabled: $Colors.Foreground.neutralInverted ]
 
-SecondaryButton extends MSFButton:
+SecondaryButtonTokens extends MSFButtonTokens:
   borderColor: [ rest: $Colors.Stroke.brandRest, hover: $Colors.Stroke.brandHover, pressed: $Colors.Stroke.brandPressed, selected: $Colors.Stroke.brandSelected, disabled: $Colors.Stroke.brandDisabled ]
   borderSize: [ small: $Border.size.thin, medium: $Border.size.thin, large: $Border.size.thin ]
 
-GhostButton extends MSFButton:
+GhostButtonTokens extends MSFButtonTokens:
   borderColor: [ rest: $Colors.Neutral.clear, hover: $Colors.Neutral.clear, pressed: $Colors.Neutral.clear, selected: $Colors.Brand.shade10, disabled: $Colors.Neutral.clear ]
 

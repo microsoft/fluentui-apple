@@ -24,12 +24,22 @@ class TabBarViewDemoController: DemoController {
     private let showBadgeNumbersSwitch = UISwitch()
     private let useHigherBadgeNumbersSwitch = UISwitch()
 
-    private lazy var incrementBadgeButton: Button = {
-        return createButton(title: "+", action: #selector(incrementBadgeNumbers))
+    private lazy var incrementBadgeButton: MSFButtonVnext = {
+        let button = MSFButtonVnext(style: .secondary, size: .small, action: {
+            self.incrementBadgeNumbers()
+        })
+        button.state.text = "+"
+
+        return button
     }()
 
-    private lazy var decrementBadgeButton: Button = {
-        return createButton(title: "-", action: #selector(decrementBadgeNumbers))
+    private lazy var decrementBadgeButton: MSFButtonVnext = {
+        let button = MSFButtonVnext(style: .secondary, size: .small, action: {
+            self.decrementBadgeNumbers()
+        })
+        button.state.text = "-"
+
+        return button
     }()
 
     private var badgeNumbers: [UInt] = Constants.initialBadgeNumbers
@@ -47,7 +57,7 @@ class TabBarViewDemoController: DemoController {
         addRow(text: "Use higher badge numbers", items: [useHigherBadgeNumbersSwitch], textWidth: Constants.switchSettingTextWidth)
         useHigherBadgeNumbersSwitch.addTarget(self, action: #selector(handleOnSwitchValueChanged), for: .valueChanged)
 
-        addRow(text: "Modify badge numbers", items: [incrementBadgeButton, decrementBadgeButton], textWidth: Constants.buttonSettingTextWidth)
+        addRow(text: "Modify badge numbers", items: [incrementBadgeButton.view, decrementBadgeButton.view], textWidth: Constants.buttonSettingTextWidth)
 
         setupTabBarView()
         updateBadgeButtons()
@@ -106,8 +116,8 @@ class TabBarViewDemoController: DemoController {
     }
 
     private func updateBadgeButtons() {
-        incrementBadgeButton.isEnabled = showBadgeNumbers
-        decrementBadgeButton.isEnabled = showBadgeNumbers
+        incrementBadgeButton.state.isDisabled = !showBadgeNumbers
+        decrementBadgeButton.state.isDisabled = !showBadgeNumbers
     }
 
     private func modifyBadgeNumbers(increment: Int) {
