@@ -290,7 +290,7 @@ open class Button: NSButton {
 			borderColorDisabled = .clear
 		case .borderless:
 			contentTintColorRest = accentColor
-			contentTintColorPressed = accentColor.withSystemEffect(.disabled)
+			contentTintColorPressed = accentColor.withSystemEffect(.deepPressed)
 			contentTintColorDisabled = ButtonColor.brandForegroundDisabled
 			backgroundColorRest = .clear
 			backgroundColorPressed = .clear
