@@ -112,6 +112,16 @@ open class Button: NSButton {
 		}
 
 		self.format = format
+
+		// Ensure we update backing properties even if high-level style and size
+		// properties have their default values
+		let defaultFormat = ButtonFormat()
+		if style == defaultFormat.style {
+			setColorValues(forStyle: style, accentColor: accentColor)
+		}
+		if size == defaultFormat.size {
+			setSizeParameters(forSize: size)
+		}
 	}
 
 	open class override var cellClass: AnyClass? {
@@ -146,7 +156,14 @@ open class Button: NSButton {
 	/// button takes the accent color highlighting from a nearby primary button. For best results, the
 	/// current button should have the `.secondary` style, the linkedPrimary button should have the
 	/// `.primary` style, and both buttons should have the same accentColor.
-	@objc public var linkedPrimary: Button?
+	@objc public var linkedPrimary: Button? {
+		didSet {
+			guard oldValue != linkedPrimary else {
+				return
+			}
+			linkedPrimaryOriginalStyle = linkedPrimary?.style
+		}
+	}
 
 	private var linkedPrimaryOriginalStyle: ButtonStyle?
 
@@ -161,7 +178,6 @@ open class Button: NSButton {
 				} else {
 					linkedPrimary.style = linkedPrimaryOriginalStyle ?? .primary
 				}
-				linkedPrimary.needsDisplay = true
 			}
 		}
 	}
@@ -178,11 +194,23 @@ open class Button: NSButton {
 		if let layer = layer {
 			layer.borderWidth = Button.borderWidth
 			layer.cornerRadius = cornerRadius
-			if let contentTintColor = contentTintColor {
-				super.contentTintColor = contentTintColor
+			if !isEnabled {
+				layer.backgroundColor = backgroundColorDisabled?.cgColor
+				layer.borderColor = borderColorDisabled?.cgColor
+			} else if mouseDown {
+				layer.backgroundColor = backgroundColorPressed?.cgColor
+				layer.borderColor = borderColorPressed?.cgColor
+			} else {
+				layer.backgroundColor = backgroundColorRest?.cgColor
+				layer.borderColor = borderColorRest?.cgColor
 			}
-			layer.backgroundColor = backgroundColor?.cgColor
-			layer.borderColor = borderColor?.cgColor
+		}
+		if !isEnabled {
+			contentTintColor = contentTintColorDisabled
+		} else if mouseDown {
+			contentTintColor = contentTintColorPressed
+		} else {
+			contentTintColor = contentTintColorRest
 		}
 	}
 
@@ -212,152 +240,89 @@ open class Button: NSButton {
 		}
 		set {
 			self.accentColor = newValue.accentColor
-			self.style = newValue.style  // depends on accentColor
+			self.style = newValue.style
 			self.size = newValue.size
 		}
 	}
 
-	/// Foreground text/image color when button is not pressed or disabled.
-	@objc public var contentTintColorRest: NSColor?
+	/// State-specific colors for foreground, background and border
+	private var contentTintColorRest: NSColor?
+	private var contentTintColorPressed: NSColor?
+	private var contentTintColorDisabled: NSColor?
+	private var backgroundColorRest: NSColor?
+	private var backgroundColorPressed: NSColor?
+	private var backgroundColorDisabled: NSColor?
+	private var borderColorRest: NSColor?
+	private var borderColorPressed: NSColor?
+	private var borderColorDisabled: NSColor?
 
-	/// Foreground text/image color when button is pressed.
-	@objc public var contentTintColorPressed: NSColor?
-
-	/// Foreground text/image color when button is disabled.
-	@objc public var contentTintColorDisabled: NSColor?
-
-	/// Button foreground text/image color.  Setting this property determines the colors for the resting
-	/// (normal), pressed and disabled states by applying system effects, replacing any state-specific
-	/// values previously stored in `contentTintColorRest`, `contentTintColorPressed`,
-	/// and `contentTintColorDisabled`.  The value returned when getting this property will be
-	/// one of these state-specific values, depending on which state currently applies to the button.
-	/// To specify any of these colors independently, set the state-specific properties listed above.
-	open override var contentTintColor: NSColor? {
-		get {
-			if !isEnabled {
-				return contentTintColorDisabled
-			} else if mouseDown {
-				return contentTintColorPressed
-			} else {
-				return contentTintColorRest
-			}
-		}
-		set {
-			contentTintColorRest = newValue
-			contentTintColorPressed = newValue == .clear ? newValue : newValue?.withSystemEffect(.pressed)
-			contentTintColorDisabled = newValue?.withSystemEffect(.disabled)
-			super.contentTintColor = newValue
-		}
-	}
-
-	/// Background fill color when button is not pressed or disabled.
-	@objc public var backgroundColorRest: NSColor?
-
-	/// Background fill color when button is pressed.
-	@objc public var backgroundColorPressed: NSColor?
-
-	/// Background fill color when button is disabled.
-	@objc public var backgroundColorDisabled: NSColor?
-
-	/// Button background fill color.  Setting this property determines the colors for the resting (normal),
-	/// pressed and disabled states by applying system effects, replacing any state-specific values
-	/// previously stored in `backgroundColorRest` `backgroundColorPressed`, and
-	/// `backgroundColorDisabled`.  The value returned when getting this property will be one of
-	/// these state-specific values, depending on which state currently applies to the button.  To specify
-	/// any of these colors independently, set the state-specific properties listed above.
-	@objc public var backgroundColor: NSColor? {
-		get {
-			if !isEnabled {
-				return backgroundColorDisabled
-			} else if mouseDown {
-				return backgroundColorPressed
-			} else {
-				return backgroundColorRest
-			}
-		}
-		set {
-			backgroundColorRest = newValue
-			backgroundColorPressed = newValue == .clear ? newValue : newValue?.withSystemEffect(.pressed)
-			backgroundColorDisabled = newValue?.withSystemEffect(.disabled)
-		}
-	}
-
-	/// Border stroke color when button is not pressed or disabled.
-	@objc public var borderColorRest: NSColor?
-
-	/// Border stroke color when button is pressed.
-	@objc public var borderColorPressed: NSColor?
-
-	/// Border stroke color when button is disabled.
-	@objc public var borderColorDisabled: NSColor?
-
-	/// Button border stroke color.  Setting this property determines the colors for the resting (normal),
-	/// pressed and disabled states by applying system effects, replacing any state-specific values
-	/// previously stored in `borderColorRest`, `borderColorPressed`, and
-	/// `borderColorDisabled`.  The value returned when getting this property will be one of these
-	/// state-specific values, depending on which state currently applies to the button.  To specify any of
-	/// these colors independently, set the state-specific properties listed above.
-	@objc public var borderColor: NSColor? {
-		get {
-			if !isEnabled {
-				return borderColorDisabled
-			} else if mouseDown {
-				return borderColorPressed
-			} else {
-				return borderColorRest
-			}
-		}
-		set {
-			borderColorRest = newValue
-			borderColorPressed = newValue == .clear ? newValue : newValue?.withSystemEffect(.pressed)
-			borderColorDisabled = newValue?.withSystemEffect(.disabled)
+	private func setColorValues(forStyle: ButtonStyle, accentColor: NSColor) {
+		switch forStyle {
+		case .primary:
+			contentTintColorRest = ButtonColor.neutralInverted
+			contentTintColorPressed = ButtonColor.neutralInverted?.withSystemEffect(.pressed)
+			contentTintColorDisabled = ButtonColor.brandForegroundDisabled
+			backgroundColorRest = accentColor
+			backgroundColorPressed = accentColor.withSystemEffect(.pressed)
+			backgroundColorDisabled = ButtonColor.brandBackgroundDisabled
+			borderColorRest = .clear
+			borderColorPressed = .clear
+			borderColorDisabled = .clear
+		case .secondary:
+			contentTintColorRest = .textColor
+			contentTintColorPressed = ButtonColor.neutralInverted?.withSystemEffect(.pressed)
+			contentTintColorDisabled = NSColor.textColor.withSystemEffect(.disabled)
+			backgroundColorRest = ButtonColor.neutralBackground2
+			backgroundColorPressed = accentColor.withSystemEffect(.pressed)
+			backgroundColorDisabled = ButtonColor.neutralBackground2?.withSystemEffect(.disabled)
+			borderColorRest = ButtonColor.neutralStroke2
+			borderColorPressed = .clear
+			borderColorDisabled = ButtonColor.neutralStroke2?.withSystemEffect(.disabled)
+		case .acrylic:
+			contentTintColorRest = ButtonColor.neutralForeground3
+			contentTintColorPressed = ButtonColor.neutralForeground3?.withSystemEffect(.pressed)
+			contentTintColorDisabled = ButtonColor.neutralForeground3?.withSystemEffect(.disabled)
+			backgroundColorRest = ButtonColor.neutralBackground3
+			backgroundColorPressed = ButtonColor.neutralBackground3?.withSystemEffect(.pressed)
+			backgroundColorDisabled = ButtonColor.neutralBackground3?.withSystemEffect(.disabled)
+			borderColorRest = .clear
+			borderColorPressed = .clear
+			borderColorDisabled = .clear
+		case .borderless:
+			contentTintColorRest = accentColor
+			contentTintColorPressed = accentColor.withSystemEffect(.disabled)
+			contentTintColorDisabled = ButtonColor.brandForegroundDisabled
+			backgroundColorRest = .clear
+			backgroundColorPressed = .clear
+			backgroundColorDisabled = .clear
+			borderColorRest = .clear
+			borderColorPressed = .clear
+			borderColorDisabled = .clear
 		}
 	}
 
 	/// This color is used for the background in the primary style, the pressed background in the secondary
 	/// style, and the content tint (i.e. foreground text/image) color in the borderless style.  It is not used
 	/// for the acrylic style.
-	@objc public var accentColor: NSColor = Colors.primary
-
-	/// Any of several pre-set button styles.  Setting this property to `.none` does nothing.  Setting it to
-	/// any other value determines the content tint (i.e. foreground text/image), background and border
-	/// color properties for all button states, discarding any previous values.
-	@objc public var style: ButtonStyle = .primary {
+	@objc public var accentColor: NSColor = Colors.primary {
 		didSet {
-			switch style {
-			case .primary:
-				contentTintColor = ButtonColor.neutralInverted
-				contentTintColorDisabled = ButtonColor.brandForegroundDisabled
-				backgroundColor = accentColor
-				backgroundColorDisabled = ButtonColor.brandBackgroundDisabled
-				borderColor = .clear
-			case .secondary:
-				contentTintColor = .textColor
-				contentTintColorPressed = ButtonColor.neutralInverted?.withSystemEffect(.pressed)
-				backgroundColor = ButtonColor.neutralBackground2
-				backgroundColorPressed = accentColor.withSystemEffect(.pressed)
-				borderColor = ButtonColor.neutralStroke2
-				borderColorPressed = .clear
-			case .acrylic:
-				contentTintColor = ButtonColor.neutralForeground3
-				backgroundColor = ButtonColor.neutralBackground3
-				borderColor = .clear
-			case .borderless:
-				contentTintColor = accentColor
-				contentTintColorDisabled = ButtonColor.brandForegroundDisabled
-				backgroundColor = .clear
-				borderColor = .clear
-			case .none:
-				break
-			@unknown default:
-				break
+			guard oldValue != accentColor else {
+				return
 			}
+			// Recompute relevant state-specific colors appropriate to the style
+			setColorValues(forStyle: style, accentColor: accentColor)
+			needsDisplay = true
 		}
 	}
 
-	private var fontSize: CGFloat = ButtonSizeParameters.large.fontSize {
+	/// Any of several pre-set button styles.  Setting it determines the content tint
+	/// (i.e. foreground text/image), background and border color properties for all button states.
+	@objc public var style: ButtonStyle = .primary {
 		didSet {
-			font = NSFont.systemFont(ofSize:fontSize)
+			guard oldValue != style else {
+				return
+			}
+			setColorValues(forStyle: style, accentColor: accentColor)
 			needsDisplay = true
 		}
 	}
@@ -366,20 +331,27 @@ open class Button: NSButton {
 
 	private static let borderWidth: CGFloat = 1
 
+	private func setSizeParameters(forSize: ButtonSize) {
+		let parameters = ButtonSizeParameters.parameters(forSize: size)
+		font = NSFont.systemFont(ofSize:parameters.fontSize)
+		cornerRadius = parameters.cornerRadius
+		if let cell = cell as? ButtonCell {
+			cell.verticalPadding = parameters.verticalPadding
+			cell.horizontalPadding = parameters.horizontalPadding
+			cell.titleVerticalPositionAdjustment = parameters.titleVerticalPositionAdjustment
+			cell.titleToImageSpacing = parameters.titleToImageSpacing
+			cell.titleToImageVerticalSpacingAdjustment = parameters.titleToImageVerticalSpacingAdjustment
+		}
+	}
+
 	/// Any of several pre-set button sizes.  Determines several factors including font size, corner radius,
 	/// and padding.
 	@objc public var size: ButtonSize = .large {
 		didSet {
-			let parameters = ButtonSizeParameters.parameters(forSize: size)
-			fontSize = parameters.fontSize
-			cornerRadius = parameters.cornerRadius
-			if let cell = cell as? ButtonCell {
-				cell.verticalPadding = parameters.verticalPadding
-				cell.horizontalPadding = parameters.horizontalPadding
-				cell.titleVerticalPositionAdjustment = parameters.titleVerticalPositionAdjustment
-				cell.titleToImageSpacing = parameters.titleToImageSpacing
-				cell.titleToImageVerticalSpacingAdjustment = parameters.titleToImageVerticalSpacingAdjustment
+			guard oldValue != size else {
+				return
 			}
+			setSizeParameters(forSize: size)
 			needsDisplay = true
 		}
 	}
@@ -557,9 +529,6 @@ public enum ButtonSize: Int, CaseIterable {
 /// Indicates what style our button is drawn as
 @objc(MSFButtonStyle)
 public enum ButtonStyle: Int, CaseIterable {
-	/// No defined colors; user to specify.
-	case none
-
 	/// Accent color fill, white text/image.
 	case primary
 
@@ -610,7 +579,7 @@ class ButtonColor: NSObject {
 
 // MARK: - Size Constants
 
-struct ButtonSizeParameters {
+fileprivate struct ButtonSizeParameters {
 	let fontSize: CGFloat
 	let cornerRadius: CGFloat
 	let verticalPadding: CGFloat
