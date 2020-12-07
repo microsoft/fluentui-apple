@@ -5,20 +5,20 @@
 
 import UIKit
 
-// MARK: PillButton Colors
-
-public extension Colors {
-    struct PillButton {
-        public struct Outline {
-            public static var background = UIColor(light: surfaceTertiary, dark: surfaceSecondary)
-            public static var title = UIColor(light: textSecondary, dark: textPrimary)
-            public static var titleSelected = UIColor(light: textOnAccent, dark: textDominant)
-        }
-        public struct Filled {
-            public static var title = UIColor(light: textOnAccent, dark: Outline.title)
-        }
-    }
-}
+//// MARK: PillButton Colors
+//
+//public extension Colors {
+//    struct PillButton {
+//        public struct Outline {
+//            public static var background = UIColor(light: surfaceTertiary, dark: surfaceSecondary)
+//            public static var title = UIColor(light: textSecondary, dark: textPrimary)
+//            public static var titleSelected = UIColor(light: textOnAccent, dark: textDominant)
+//        }
+//        public struct Filled {
+//            public static var title = UIColor(light: textOnAccent, dark: Outline.title)
+//        }
+//    }
+//}
 
 // MARK: - PillButtonStyle
 
@@ -33,9 +33,9 @@ public enum PillButtonStyle: Int {
     func backgroundColor(for window: UIWindow) -> UIColor {
         switch self {
         case .outline:
-            return Colors.PillButton.Outline.background
+            return PillButton.outlineStyleBackgroundColor
         case .filled:
-            return UIColor(light: Colors.primaryShade10(for: window), dark: Colors.PillButton.Outline.background)
+            return UIColor(light: Colors.primaryShade10(for: window), dark: PillButton.outlineStyleBackgroundColor)
         }
     }
 
@@ -60,18 +60,18 @@ public enum PillButtonStyle: Int {
     var titleColor: UIColor {
         switch self {
         case .outline:
-            return Colors.PillButton.Outline.title
+            return PillButton.outlineStyleTitleColor
         case .filled:
-            return Colors.PillButton.Filled.title
+            return PillButton.filledStyleTitleColor
         }
     }
 
     func selectedTitleColor(for window: UIWindow) -> UIColor {
         switch self {
         case .outline:
-            return  Colors.PillButton.Outline.titleSelected
+            return PillButton.outlineStyleTitleSelectedColor
         case .filled:
-            return UIColor(light: Colors.primary(for: window), dark: Colors.PillButton.Outline.titleSelected)
+            return UIColor(light: Colors.primary(for: window), dark: PillButton.outlineStyleTitleSelectedColor)
         }
     }
 
@@ -111,13 +111,13 @@ public typealias MSPillButton = PillButton
 /// An `PillButton` is a button in the shape of a pill that can have two states: on (Selected) and off (not selected)
 @objc(MSFPillButton)
 open class PillButton: UIButton {
-    private struct Constants {
-        static let bottomInset: CGFloat = 6.0
-        static let cornerRadius: CGFloat = 16.0
-        static let font: UIFont = Fonts.button4
-        static let horizontalInset: CGFloat = 16.0
-        static let topInset: CGFloat = 6.0
-    }
+
+    @objc public static let outlineStyleBackgroundColor = UIColor(light: Colors.surfaceTertiary, dark: Colors.surfaceSecondary)
+    @objc public static let outlineStyleTitleColor = UIColor(light: Colors.textSecondary, dark: Colors.textPrimary)
+    @objc public static let outlineStyleTitleSelectedColor = UIColor(light: Colors.textOnAccent, dark: Colors.textDominant)
+    @objc public static let filledStyleTitleColor = UIColor(light: Colors.textOnAccent, dark: outlineStyleTitleColor)
+
+    @objc public static let cornerRadius: CGFloat = 16.0
 
     @objc public let pillBarItem: PillButtonBarItem
 
@@ -163,7 +163,7 @@ open class PillButton: UIButton {
     private func setupView() {
         setTitle(pillBarItem.title, for: .normal)
         titleLabel?.font = Constants.font
-        layer.cornerRadius = Constants.cornerRadius
+        layer.cornerRadius = PillButton.cornerRadius
         clipsToBounds = true
 
         if #available(iOS 13, *) {
@@ -217,5 +217,12 @@ open class PillButton: UIButton {
                 }
             }
         }
+    }
+
+    private struct Constants {
+        static let bottomInset: CGFloat = 6.0
+        static let font: UIFont = Fonts.button4
+        static let horizontalInset: CGFloat = 16.0
+        static let topInset: CGFloat = 6.0
     }
 }
