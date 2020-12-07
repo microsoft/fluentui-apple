@@ -56,7 +56,7 @@ public struct ButtonFormat {
 
 // MARK: - Semantic Colors
 
-@objc(MSFButonColor)
+@objc(MSFButtonColor)
 class ButtonColor: NSObject {
 	public static let brandForegroundDisabled = NSColor(named: "ButtonColors/brandForegroundDisabled", bundle: FluentUIResources.resourceBundle)
 	public static let brandBackgroundDisabled = NSColor(named: "ButtonColors/brandBackgroundDisabled", bundle: FluentUIResources.resourceBundle)
@@ -146,8 +146,7 @@ open class Button: NSButton {
 		image: NSImage? = nil,
 		imagePosition: NSControl.ImagePosition = .imageLeading,
 		format: ButtonFormat = ButtonFormat()
-	)
-	{
+	) {
 		super.init(frame: .zero)
 		isBordered = false
 		wantsLayer = true
@@ -419,13 +418,13 @@ open class Button: NSButton {
 		}
 	}
 
-	private var fontSize: CGFloat = 15 {
+	private var fontSize: CGFloat = ButtonSizeParameters.large.fontSize {
 		willSet {
 			font = NSFont.systemFont(ofSize:newValue)
 		}
 	}
 
-	private var cornerRadius: CGFloat = 6
+	private var cornerRadius: CGFloat = ButtonSizeParameters.large.cornerRadius
 
 	private static let borderWidth: CGFloat = 1
 
@@ -433,29 +432,15 @@ open class Button: NSButton {
 	/// and padding.
 	@objc public var size: ButtonSize = .large {
 		willSet {
-			switch newValue {
-			case .large:
-				fontSize = 15  // line height: 19
-				cornerRadius = 6
-				if let cell = cell as? ButtonCell {
-					cell.verticalPadding = 4.5  // overall height: 28
-					cell.horizontalPadding = 36
-					cell.titleVerticalPositionAdjustment = -0.25
-					cell.titleToImageSpacing = 10
-					cell.titleToImageVerticalSpacingAdjustment = 7
-				}
-			case .small:
-				fontSize = 13  // line height: 17
-				cornerRadius = 5
-				if let cell = cell as? ButtonCell {
-					cell.verticalPadding = 1.5  // overall height: 20
-					cell.horizontalPadding = 14
-					cell.titleVerticalPositionAdjustment = -0.75
-					cell.titleToImageSpacing = 6
-					cell.titleToImageVerticalSpacingAdjustment = 7
-				}
-			@unknown default:
-				break
+			let parameters = ButtonSizeParameters.parameters(forSize: newValue)
+			fontSize = parameters.fontSize
+			cornerRadius = parameters.cornerRadius
+			if let cell = cell as? ButtonCell {
+				cell.verticalPadding = parameters.verticalPadding
+				cell.horizontalPadding = parameters.horizontalPadding
+				cell.titleVerticalPositionAdjustment = parameters.titleVerticalPositionAdjustment
+				cell.titleToImageSpacing = parameters.titleToImageSpacing
+				cell.titleToImageVerticalSpacingAdjustment = parameters.titleToImageVerticalSpacingAdjustment
 			}
 		}
 	}
@@ -618,5 +603,46 @@ class ButtonCell: NSButtonCell {
 			rect.height - (verticalPadding * 2) - verticalInterCellSpacing
 		)
 		return drawingRectWithPadding
+	}
+}
+
+// MARK: - Size Constants
+
+struct ButtonSizeParameters {
+	let fontSize: CGFloat
+	let cornerRadius: CGFloat
+	let verticalPadding: CGFloat
+	let horizontalPadding: CGFloat
+	let titleVerticalPositionAdjustment: CGFloat
+	let titleToImageSpacing: CGFloat
+	let titleToImageVerticalSpacingAdjustment: CGFloat
+
+	static let large = ButtonSizeParameters(
+		fontSize: 15,  // line height: 19
+		cornerRadius: 6,
+		verticalPadding: 4.5,  // overall height: 28
+		horizontalPadding: 36,
+		titleVerticalPositionAdjustment: -0.25,
+		titleToImageSpacing: 10,
+		titleToImageVerticalSpacingAdjustment: 7
+	)
+
+	static let small = ButtonSizeParameters(
+		fontSize: 13,  // line height: 17
+		cornerRadius: 5,
+		verticalPadding: 1.5,  // overall height: 20
+		horizontalPadding: 14,
+		titleVerticalPositionAdjustment: -0.75,
+		titleToImageSpacing: 6,
+		titleToImageVerticalSpacingAdjustment: 7
+	)
+
+	static func parameters(forSize: ButtonSize) -> ButtonSizeParameters {
+		switch forSize {
+		case .large:
+			return .large
+		case .small:
+			return .small
+		}
 	}
 }
