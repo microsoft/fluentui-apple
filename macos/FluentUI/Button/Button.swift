@@ -322,9 +322,9 @@ open class Button: NSButton {
 	/// Any of several pre-set button styles.  Setting this property to `.none` does nothing.  Setting it to
 	/// any other value determines the content tint (i.e. foreground text/image), background and border
 	/// color properties for all button states, discarding any previous values.
-	@objc open var style: ButtonStyle = .primary {
-		willSet {
-			switch newValue {
+	@objc public var style: ButtonStyle = .primary {
+		didSet {
+			switch style {
 			case .primary:
 				contentTintColor = ButtonColor.neutralInverted
 				contentTintColorDisabled = ButtonColor.brandForegroundDisabled
@@ -356,8 +356,9 @@ open class Button: NSButton {
 	}
 
 	private var fontSize: CGFloat = ButtonSizeParameters.large.fontSize {
-		willSet {
-			font = NSFont.systemFont(ofSize:newValue)
+		didSet {
+			font = NSFont.systemFont(ofSize:fontSize)
+			needsDisplay = true
 		}
 	}
 
@@ -368,8 +369,8 @@ open class Button: NSButton {
 	/// Any of several pre-set button sizes.  Determines several factors including font size, corner radius,
 	/// and padding.
 	@objc public var size: ButtonSize = .large {
-		willSet {
-			let parameters = ButtonSizeParameters.parameters(forSize: newValue)
+		didSet {
+			let parameters = ButtonSizeParameters.parameters(forSize: size)
 			fontSize = parameters.fontSize
 			cornerRadius = parameters.cornerRadius
 			if let cell = cell as? ButtonCell {
@@ -379,6 +380,7 @@ open class Button: NSButton {
 				cell.titleToImageSpacing = parameters.titleToImageSpacing
 				cell.titleToImageVerticalSpacingAdjustment = parameters.titleToImageVerticalSpacingAdjustment
 			}
+			needsDisplay = true
 		}
 	}
 }
