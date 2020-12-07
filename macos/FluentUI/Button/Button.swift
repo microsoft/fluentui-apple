@@ -5,69 +5,6 @@
 
 import AppKit
 
-// MARK: - Button Formatting Parameters
-
-/// Indicates the size of the button
-@objc(MSFButtonSize)
-public enum ButtonSize: Int, CaseIterable {
-	case large
-	case small
-}
-
-/// Indicates what style our button is drawn as
-@objc(MSFButtonStyle)
-public enum ButtonStyle: Int, CaseIterable {
-	/// No defined colors; user to specify.
-	case none
-
-	/// Accent color fill, white text/image.
-	case primary
-
-	/// Light mode: white fill, black text/image, light gray outline.
-	/// Dark mode: dark gray fill, white text/image, subtle gray outline.
-	/// Pressed: accent color fill, white text/image, no outline (same as primary style).
-	case secondary
-
-	/// Light mode: light gray fill, black text/image.
-	/// Dark mode: dark gray fill, white text/image.
-	case acrylic
-
-	/// Accent color text/image, no fill or outline.
-	case borderless
-}
-
-/// Combination of all formatting parameters.
-public struct ButtonFormat {
-	var size: ButtonSize
-	var style: ButtonStyle
-	var accentColor: NSColor
-
-	public init(
-		size: ButtonSize = .large,
-		style: ButtonStyle = .primary,
-		accentColor: NSColor = Colors.primary
-	)
-	{
-		self.size = size
-		self.style = style
-		self.accentColor = accentColor
-	}
-}
-
-// MARK: - Semantic Colors
-
-@objc(MSFButtonColor)
-class ButtonColor: NSObject {
-	public static let brandForegroundDisabled = NSColor(named: "ButtonColors/brandForegroundDisabled", bundle: FluentUIResources.resourceBundle)
-	public static let brandBackgroundDisabled = NSColor(named: "ButtonColors/brandBackgroundDisabled", bundle: FluentUIResources.resourceBundle)
-	public static let neutralInverted = NSColor(named: "ButtonColors/neutralInverted", bundle: FluentUIResources.resourceBundle)
-	public static let neutralForeground2 = NSColor(named: "ButtonColors/neutralForeground2", bundle: FluentUIResources.resourceBundle)
-	public static let neutralBackground2 = NSColor(named: "ButtonColors/neutralBackground2", bundle: FluentUIResources.resourceBundle)
-	public static let neutralStroke2 = NSColor(named: "ButtonColors/neutralStroke2", bundle: FluentUIResources.resourceBundle)
-	public static let neutralForeground3 = NSColor(named: "ButtonColors/neutralForeground3", bundle: FluentUIResources.resourceBundle)
-	public static let neutralBackground3 = NSColor(named: "ButtonColors/neutralBackground3", bundle: FluentUIResources.resourceBundle)
-}
-
 // MARK: - Button
 
 /// A fluent styled button, with hover effects and a corner radius.
@@ -604,6 +541,69 @@ class ButtonCell: NSButtonCell {
 		)
 		return drawingRectWithPadding
 	}
+}
+
+// MARK: - Button Formatting Parameters
+
+/// Indicates the size of the button
+@objc(MSFButtonSize)
+public enum ButtonSize: Int, CaseIterable {
+	case large
+	case small
+}
+
+/// Indicates what style our button is drawn as
+@objc(MSFButtonStyle)
+public enum ButtonStyle: Int, CaseIterable {
+	/// No defined colors; user to specify.
+	case none
+
+	/// Accent color fill, white text/image.
+	case primary
+
+	/// Light mode: white fill, black text/image, light gray outline.
+	/// Dark mode: dark gray fill, white text/image, subtle gray outline.
+	/// Pressed: accent color fill, white text/image, no outline (same as primary style).
+	case secondary
+
+	/// Light mode: light gray fill, black text/image.
+	/// Dark mode: dark gray fill, white text/image.
+	case acrylic
+
+	/// Accent color text/image, no fill or outline.
+	case borderless
+}
+
+/// Combination of all formatting parameters.
+public struct ButtonFormat {
+	var size: ButtonSize
+	var style: ButtonStyle
+	var accentColor: NSColor
+
+	public init(
+		size: ButtonSize = .large,
+		style: ButtonStyle = .primary,
+		accentColor: NSColor = Colors.primary
+	)
+	{
+		self.size = size
+		self.style = style
+		self.accentColor = accentColor
+	}
+}
+
+// MARK: - Semantic Color Constants
+
+@objc(MSFButtonColor)
+class ButtonColor: NSObject {
+	public static let brandForegroundDisabled = NSColor(named: "ButtonColors/brandForegroundDisabled", bundle: FluentUIResources.resourceBundle)
+	public static let brandBackgroundDisabled = NSColor(named: "ButtonColors/brandBackgroundDisabled", bundle: FluentUIResources.resourceBundle)
+	public static let neutralInverted = NSColor(named: "ButtonColors/neutralInverted", bundle: FluentUIResources.resourceBundle)
+	public static let neutralForeground2 = NSColor(named: "ButtonColors/neutralForeground2", bundle: FluentUIResources.resourceBundle)
+	public static let neutralBackground2 = NSColor(named: "ButtonColors/neutralBackground2", bundle: FluentUIResources.resourceBundle)
+	public static let neutralStroke2 = NSColor(named: "ButtonColors/neutralStroke2", bundle: FluentUIResources.resourceBundle)
+	public static let neutralForeground3 = NSColor(named: "ButtonColors/neutralForeground3", bundle: FluentUIResources.resourceBundle)
+	public static let neutralBackground3 = NSColor(named: "ButtonColors/neutralBackground3", bundle: FluentUIResources.resourceBundle)
 }
 
 // MARK: - Size Constants
