@@ -149,8 +149,6 @@ open class Button: NSButton {
 		}
 	}
 
-	private var mouseDown = false
-
 	/// While the current Button is pressed, its style is temporarily applied to the linkedPrimary button.
 	/// This emulates an effect seen in the default style of Cocoa buttons, where pressing a secondary
 	/// button takes the accent color highlighting from a nearby primary button. For best results, the
@@ -167,27 +165,41 @@ open class Button: NSButton {
 
 	private var linkedPrimaryOriginalStyle: ButtonStyle?
 
-	private func setMouse(down: Bool) {
-		mouseDown = down
-		needsDisplay = true
-		if isEnabled {
-			if let linkedPrimary = linkedPrimary {
-				if down {
-					linkedPrimaryOriginalStyle = linkedPrimary.style
-					linkedPrimary.style = self.style
-				} else {
-					linkedPrimary.style = linkedPrimaryOriginalStyle ?? .primary
+	private var mouseDown: Bool = false {
+		didSet {
+			guard oldValue != mouseDown else {
+				return
+			}
+			if isEnabled {
+				updateContentTintColor()
+				if let linkedPrimary = linkedPrimary {
+					if mouseDown {
+						linkedPrimaryOriginalStyle = linkedPrimary.style
+						linkedPrimary.style = self.style
+					} else {
+						linkedPrimary.style = linkedPrimaryOriginalStyle ?? .primary
+					}
 				}
 			}
+			needsDisplay = true
 		}
 	}
 
 	open override func mouseDown(with event: NSEvent) {
-		setMouse(down: true)
+		mouseDown = true
 	}
 
 	open override func mouseUp(with event: NSEvent) {
-		setMouse(down: false)
+		mouseDown = false
+	}
+
+	open override var isEnabled: Bool {
+		didSet {
+			guard oldValue != isEnabled else {
+				return
+			}
+			updateContentTintColor()
+		}
 	}
 
 	open override func updateLayer() {
@@ -204,13 +216,6 @@ open class Button: NSButton {
 				layer.backgroundColor = backgroundColorRest?.cgColor
 				layer.borderColor = borderColorRest?.cgColor
 			}
-		}
-		if !isEnabled {
-			contentTintColor = contentTintColorDisabled
-		} else if mouseDown {
-			contentTintColor = contentTintColorPressed
-		} else {
-			contentTintColor = contentTintColorRest
 		}
 	}
 
@@ -256,6 +261,16 @@ open class Button: NSButton {
 	private var borderColorPressed: NSColor?
 	private var borderColorDisabled: NSColor?
 
+	private func updateContentTintColor() {
+		if !isEnabled {
+			contentTintColor = contentTintColorDisabled
+		} else if mouseDown {
+			contentTintColor = contentTintColorPressed
+		} else {
+			contentTintColor = contentTintColorRest
+		}
+	}
+
 	private func setColorValues(forStyle: ButtonStyle, accentColor: NSColor) {
 		switch forStyle {
 		case .primary:
@@ -299,6 +314,7 @@ open class Button: NSButton {
 			borderColorPressed = .clear
 			borderColorDisabled = .clear
 		}
+		updateContentTintColor()
 	}
 
 	/// This color is used for the background in the primary style, the pressed background in the secondary
