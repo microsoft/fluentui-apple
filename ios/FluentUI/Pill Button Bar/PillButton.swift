@@ -5,21 +5,6 @@
 
 import UIKit
 
-//// MARK: PillButton Colors
-//
-//public extension Colors {
-//    struct PillButton {
-//        public struct Outline {
-//            public static var background = UIColor(light: surfaceTertiary, dark: surfaceSecondary)
-//            public static var title = UIColor(light: textSecondary, dark: textPrimary)
-//            public static var titleSelected = UIColor(light: textOnAccent, dark: textDominant)
-//        }
-//        public struct Filled {
-//            public static var title = UIColor(light: textOnAccent, dark: Outline.title)
-//        }
-//    }
-//}
-
 // MARK: - PillButtonStyle
 
 @available(*, deprecated, renamed: "PillButtonStyle")
@@ -112,11 +97,11 @@ public typealias MSPillButton = PillButton
 @objc(MSFPillButton)
 open class PillButton: UIButton {
 
+    /// These PillButton constants  are public so that clients can use these colors and cornerRadius to customize their own views containing PillButtons
     @objc public static let outlineStyleBackgroundColor = UIColor(light: Colors.surfaceTertiary, dark: Colors.surfaceSecondary)
     @objc public static let outlineStyleTitleColor = UIColor(light: Colors.textSecondary, dark: Colors.textPrimary)
     @objc public static let outlineStyleTitleSelectedColor = UIColor(light: Colors.textOnAccent, dark: Colors.textDominant)
     @objc public static let filledStyleTitleColor = UIColor(light: Colors.textOnAccent, dark: outlineStyleTitleColor)
-
     @objc public static let cornerRadius: CGFloat = 16.0
 
     @objc public let pillBarItem: PillButtonBarItem
