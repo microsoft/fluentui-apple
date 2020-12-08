@@ -167,18 +167,16 @@ open class Button: NSButton {
 
 	private var mouseDown: Bool = false {
 		didSet {
-			guard oldValue != mouseDown else {
+			guard isEnabled && oldValue != mouseDown else {
 				return
 			}
-			if isEnabled {
-				updateContentTintColor()
-				if let linkedPrimary = linkedPrimary {
-					if mouseDown {
-						linkedPrimaryOriginalStyle = linkedPrimary.style
-						linkedPrimary.style = self.style
-					} else {
-						linkedPrimary.style = linkedPrimaryOriginalStyle ?? .primary
-					}
+			updateContentTintColor()
+			if let linkedPrimary = linkedPrimary {
+				if mouseDown {
+					linkedPrimaryOriginalStyle = linkedPrimary.style
+					linkedPrimary.style = self.style
+				} else {
+					linkedPrimary.style = linkedPrimaryOriginalStyle ?? .primary
 				}
 			}
 			needsDisplay = true
@@ -203,19 +201,20 @@ open class Button: NSButton {
 	}
 
 	open override func updateLayer() {
-		if let layer = layer {
-			layer.borderWidth = Button.borderWidth
-			layer.cornerRadius = cornerRadius
-			if !isEnabled {
-				layer.backgroundColor = backgroundColorDisabled?.cgColor
-				layer.borderColor = borderColorDisabled?.cgColor
-			} else if mouseDown {
-				layer.backgroundColor = backgroundColorPressed?.cgColor
-				layer.borderColor = borderColorPressed?.cgColor
-			} else {
-				layer.backgroundColor = backgroundColorRest?.cgColor
-				layer.borderColor = borderColorRest?.cgColor
-			}
+		guard let layer = layer else {
+			return
+		}
+		layer.borderWidth = Button.borderWidth
+		layer.cornerRadius = cornerRadius
+		if !isEnabled {
+			layer.backgroundColor = backgroundColorDisabled?.cgColor
+			layer.borderColor = borderColorDisabled?.cgColor
+		} else if mouseDown {
+			layer.backgroundColor = backgroundColorPressed?.cgColor
+			layer.borderColor = borderColorPressed?.cgColor
+		} else {
+			layer.backgroundColor = backgroundColorRest?.cgColor
+			layer.borderColor = borderColorRest?.cgColor
 		}
 	}
 
@@ -351,13 +350,14 @@ open class Button: NSButton {
 		let parameters = ButtonSizeParameters.parameters(forSize: size)
 		font = NSFont.systemFont(ofSize:parameters.fontSize)
 		cornerRadius = parameters.cornerRadius
-		if let cell = cell as? ButtonCell {
-			cell.verticalPadding = parameters.verticalPadding
-			cell.horizontalPadding = parameters.horizontalPadding
-			cell.titleVerticalPositionAdjustment = parameters.titleVerticalPositionAdjustment
-			cell.titleToImageSpacing = parameters.titleToImageSpacing
-			cell.titleToImageVerticalSpacingAdjustment = parameters.titleToImageVerticalSpacingAdjustment
+		guard let cell = cell as? ButtonCell else {
+			return
 		}
+		cell.verticalPadding = parameters.verticalPadding
+		cell.horizontalPadding = parameters.horizontalPadding
+		cell.titleVerticalPositionAdjustment = parameters.titleVerticalPositionAdjustment
+		cell.titleToImageSpacing = parameters.titleToImageSpacing
+		cell.titleToImageVerticalSpacingAdjustment = parameters.titleToImageVerticalSpacingAdjustment
 	}
 
 	/// Any of several pre-set button sizes.  Determines several factors including font size, corner radius,
