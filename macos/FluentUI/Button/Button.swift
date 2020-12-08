@@ -5,94 +5,133 @@
 
 import AppKit
 
-/// Indicates what style our button is drawn as
-@objc(MSFButtonStyle)
-public enum ButtonStyle: Int, CaseIterable {
-	case primaryFilled	// Solid fill color
-	case primaryOutline	// Clear fill color, solid outline
-	case borderless		// Clear fill color, clear outline
-}
-
 // MARK: - Button
 
 /// A fluent styled button, with hover effects and a corner radius.
 @objc(MSFButton)
 open class Button: NSButton {
-	/// Initializes a Fluent UI Button with a title, automatically colored to suit the style
+	/// Initializes a Fluent UI Button with a title only
 	/// - Parameters:
 	///   - title: String displayed in the button
-	///   - style: The ButtonStyle, defaulting to primaryFilled
-	@objc public init(title: String, style: ButtonStyle = .primaryFilled) {
-		super.init(frame: .zero)
-		initialize(title: title, image: nil, style: style)
+	///   - size: The ButtonSize, default .large
+	///   - style: The ButtonStyle, default .primary
+	///   - accentColor: The accent NSColor, defaulting to the app primary color
+	@objc public convenience init(
+		title: String,
+		size: ButtonSize = .large,
+		style: ButtonStyle = .primary,
+		accentColor: NSColor = Colors.primary
+	) {
+		let format = ButtonFormat(size: size, style: style, accentColor: accentColor)
+		self.init(title: title, format: format)
 	}
 
-	/// Initializes a Fluent UI Button with an image, setting the imagePosition to imageOnly
+	/// Initializes a Fluent UI Button with an image only
 	/// - Parameters:
 	///   - image: The NSImage to diplay in the button
-	///   - style: The ButtonStyle, defaulting to primaryFilled
-	@objc public init(image: NSImage, style: ButtonStyle = .primaryFilled) {
-		super.init(frame: .zero)
-		imagePosition = .imageOnly
-		initialize(title: nil, image: image, style: style)
-	}
-	
-	
-	/// Initializes a Fluent UI Button with a title,  image,  imagePosition, and style
-	/// - Parameters:
-	///   - title: String displayed in the button
-	///   - image: The NSImage to display in the button
-	///   - imagePosition: The position of the image, relative to the title
-	///   - style: The ButtonStyle, defaulting to primaryFilled
-	@objc public init(title: String, image: NSImage, imagePosition: NSControl.ImagePosition, style: ButtonStyle = .primaryFilled) {
-		super.init(frame: .zero)
-		self.imagePosition = imagePosition
-		initialize(title: title, image: image, style: style)
+	///   - size: The ButtonSize, default .large
+	///   - style: The ButtonStyle, default .primary
+	///   - accentColor: The accent NSColor, defaulting to the app primary color
+	@objc public convenience init(
+		image: NSImage,
+		size: ButtonSize = .large,
+		style: ButtonStyle = .primary,
+		accentColor: NSColor = Colors.primary
+	) {
+		let format = ButtonFormat(size: size, style: style, accentColor: accentColor)
+		self.init(image: image, format: format)
 	}
 
-	/// Initializes a Fluent UI Button
-	/// Set style to primaryFilled as default
-	@objc public init() {
-		super.init(frame: .zero)
-		initialize(title: nil, image: nil, style: .primaryFilled)
+	/// Initializes a Fluent UI Button with a title and image
+	/// - Parameters:
+	///   - title: String displayed in the button
+	///   - image: The NSImage to diplay in the button
+	///   - imagePosition: The position of the image relative to the title, default .imageLeading
+	///   - size: The ButtonSize, default .large
+	///   - style: The ButtonStyle, default .primary
+	///   - accentColor: The accent NSColor, defaulting to the app primary color
+	@objc public convenience init(
+		title: String,
+		image: NSImage,
+		imagePosition: NSControl.ImagePosition = .imageLeading,
+		size: ButtonSize = .large,
+		style: ButtonStyle = .primary,
+		accentColor: NSColor = Colors.primary
+	) {
+		let format = ButtonFormat(size: size, style: style, accentColor: accentColor)
+		self.init(title: title, image: image, imagePosition: imagePosition, format: format)
+	}
+
+	/// Initializes a Fluent UI Button with no title or image, and with default formatting
+	@objc public convenience init() {
+		self.init()
 	}
 
 	@available(*, unavailable)
 	required public init?(coder decoder: NSCoder) {
 		preconditionFailure()
 	}
-	
-	private func initialize(title: String?, image: NSImage?, style: ButtonStyle = .primaryFilled) {
-		// Do common initialization work
+
+	/// Swift-only designated initializer accepting ButtonFormat struct.
+	/// - Parameters:
+	///   - title: String displayed in the button, default nil
+	///   - image: The NSImage to diplay in the button, default nil
+	///   - imagePosition: The position of the image, relative to the title, default imageLeading
+	///   - format: The ButtonFormat including size, style and accentColor, with all applicable defaults
+	public init(
+		title: String? = nil,
+		image: NSImage? = nil,
+		imagePosition: NSControl.ImagePosition = .imageLeading,
+		format: ButtonFormat = ButtonFormat()
+	) {
+		super.init(frame: .zero)
 		isBordered = false
 		wantsLayer = true
 		layer?.contentsScale = window?.backingScaleFactor ?? 1.0
 
-		self.style = style
+		if let cell = cell as? ButtonCell {
+			// The Button properties `contentTintColorDisabled`,
+			// `backgroundColorDisabled`, and `borderColorDisabled` fully
+			// specify the look of the disabled button, and may already include
+			// a 'disabled' system effect.  Don't apply the effect again on top
+			// of that.
+			cell.imageDimsWhenDisabled = false
+		}
 
 		if let title = title {
 			self.title = title
+			if let image = image {
+				self.image = image
+				self.imagePosition = imagePosition
+			} else {
+				self.imagePosition = .noImage
+			}
+		} else if let image = image {
+			self.image = image
+			self.imagePosition = .imageOnly
 		}
 
-		if let image = image {
-			self.image = image
+		self.format = format
+
+		// Ensure we update backing properties even if high-level style and size
+		// properties have their default values
+		let defaultFormat = ButtonFormat()
+		if style == defaultFormat.style {
+			setColorValues(forStyle: style, accentColor: accentColor)
 		}
-		
-		if style == .primaryFilled {
-			contentTintColor = .white
-		} else {
-			contentTintColor = primaryColor
+		if size == defaultFormat.size {
+			setSizeParameters(forSize: size)
 		}
 	}
 
 	open class override var cellClass: AnyClass? {
 		get {
-			return FluentButtonCell.self
+			return ButtonCell.self
 		}
 		set {}
 	}
-	
-	/// Image display in the button
+
+	/// Image to display in the button.
 	override public var image: NSImage? {
 		willSet {
 			guard wantsLayer == true else {
@@ -100,8 +139,8 @@ open class Button: NSButton {
 			}
 		}
 	}
-	
-	/// String display in the button
+
+	/// Title string to display in the button.
 	override public var title: String {
 		willSet {
 			guard wantsLayer == true else {
@@ -109,54 +148,73 @@ open class Button: NSButton {
 			}
 		}
 	}
-	
-	override public func updateTrackingAreas() {
-		super.updateTrackingAreas()
-		
-		// Remove existing trackingArea
-		if let trackingArea = trackingArea {
-			removeTrackingArea(trackingArea)
-			self.trackingArea = nil
+
+	/// While the current Button is pressed, its style is temporarily applied to the linkedPrimary button.
+	/// This emulates an effect seen in the default style of Cocoa buttons, where pressing a secondary
+	/// button takes the accent color highlighting from a nearby primary button. For best results, the
+	/// current button should have the `.secondary` style, the linkedPrimary button should have the
+	/// `.primary` style, and both buttons should have the same accentColor.
+	@objc public var linkedPrimary: Button? {
+		didSet {
+			guard oldValue != linkedPrimary else {
+				return
+			}
+			linkedPrimaryOriginalStyle = linkedPrimary?.style
 		}
-
-		// Create a new trackingArea
-		let opts: NSTrackingArea.Options = [.mouseEnteredAndExited, .activeAlways]
-		let trackingArea = NSTrackingArea(
-			rect: bounds,
-			options: opts,
-			owner: self,
-			userInfo: nil
-		)
-		addTrackingArea(trackingArea)
-		self.trackingArea = trackingArea
 	}
 
-	open override func mouseEntered(with event: NSEvent) {
-		mouseEntered = true
-		needsDisplay = true
-	}
+	private var linkedPrimaryOriginalStyle: ButtonStyle?
 
-	open override func mouseExited(with event: NSEvent) {
-		mouseEntered = false
-		needsDisplay = true
+	private var mouseDown: Bool = false {
+		didSet {
+			guard isEnabled && oldValue != mouseDown else {
+				return
+			}
+			updateContentTintColor()
+			if let linkedPrimary = linkedPrimary {
+				if mouseDown {
+					linkedPrimaryOriginalStyle = linkedPrimary.style
+					linkedPrimary.style = self.style
+				} else {
+					linkedPrimary.style = linkedPrimaryOriginalStyle ?? .primary
+				}
+			}
+			needsDisplay = true
+		}
 	}
 
 	open override func mouseDown(with event: NSEvent) {
 		mouseDown = true
-		needsDisplay = true
 	}
 
 	open override func mouseUp(with event: NSEvent) {
 		mouseDown = false
-		needsDisplay = true
+	}
+
+	open override var isEnabled: Bool {
+		didSet {
+			guard oldValue != isEnabled else {
+				return
+			}
+			updateContentTintColor()
+		}
 	}
 
 	open override func updateLayer() {
-		if let layer = layer {
-			layer.borderWidth = Button.borderWidth
-			layer.cornerRadius = Button.cornerRadius
-			layer.backgroundColor = layerBackgroundColor.cgColor
-			layer.borderColor = outlineColor.cgColor
+		guard let layer = layer else {
+			return
+		}
+		layer.borderWidth = Button.borderWidth
+		layer.cornerRadius = cornerRadius
+		if !isEnabled {
+			layer.backgroundColor = backgroundColorDisabled?.cgColor
+			layer.borderColor = borderColorDisabled?.cgColor
+		} else if mouseDown {
+			layer.backgroundColor = backgroundColorPressed?.cgColor
+			layer.borderColor = borderColorPressed?.cgColor
+		} else {
+			layer.backgroundColor = backgroundColorRest?.cgColor
+			layer.borderColor = borderColorRest?.cgColor
 		}
 	}
 
@@ -175,304 +233,403 @@ open class Button: NSButton {
 			layer.contentsScale = scale
 		}
 	}
-	
-	/// Tint color of the button content.
-	@objc override public var contentTintColor: NSColor? {
+
+	private var format: ButtonFormat {
 		get {
-			if style == .primaryFilled {
-				return .white
-			} else {
-				return primaryColor
-			}
+			return ButtonFormat(
+				size: self.size,
+				style: self.style,
+				accentColor: self.accentColor
+			)
 		}
 		set {
-			super.contentTintColor = newValue
+			self.accentColor = newValue.accentColor
+			self.style = newValue.style
+			self.size = newValue.size
+		}
+	}
+
+	/// State-specific colors for foreground, background and border
+	private var contentTintColorRest: NSColor?
+	private var contentTintColorPressed: NSColor?
+	private var contentTintColorDisabled: NSColor?
+	private var backgroundColorRest: NSColor?
+	private var backgroundColorPressed: NSColor?
+	private var backgroundColorDisabled: NSColor?
+	private var borderColorRest: NSColor?
+	private var borderColorPressed: NSColor?
+	private var borderColorDisabled: NSColor?
+
+	private func updateContentTintColor() {
+		if !isEnabled {
+			contentTintColor = contentTintColorDisabled
+		} else if mouseDown {
+			contentTintColor = contentTintColorPressed
+		} else {
+			contentTintColor = contentTintColorRest
+		}
+	}
+
+	private func setColorValues(forStyle: ButtonStyle, accentColor: NSColor) {
+		switch forStyle {
+		case .primary:
+			contentTintColorRest = ButtonColor.neutralInverted
+			contentTintColorPressed = ButtonColor.neutralInverted?.withSystemEffect(.pressed)
+			contentTintColorDisabled = ButtonColor.brandForegroundDisabled
+			backgroundColorRest = accentColor
+			backgroundColorPressed = accentColor.withSystemEffect(.pressed)
+			backgroundColorDisabled = ButtonColor.brandBackgroundDisabled
+			borderColorRest = .clear
+			borderColorPressed = .clear
+			borderColorDisabled = .clear
+		case .secondary:
+			contentTintColorRest = .textColor
+			contentTintColorPressed = ButtonColor.neutralInverted?.withSystemEffect(.pressed)
+			contentTintColorDisabled = NSColor.textColor.withSystemEffect(.disabled)
+			backgroundColorRest = ButtonColor.neutralBackground2
+			backgroundColorPressed = accentColor.withSystemEffect(.pressed)
+			backgroundColorDisabled = ButtonColor.neutralBackground2?.withSystemEffect(.disabled)
+			borderColorRest = ButtonColor.neutralStroke2
+			borderColorPressed = .clear
+			borderColorDisabled = ButtonColor.neutralStroke2?.withSystemEffect(.disabled)
+		case .acrylic:
+			contentTintColorRest = ButtonColor.neutralForeground3
+			contentTintColorPressed = ButtonColor.neutralForeground3?.withSystemEffect(.pressed)
+			contentTintColorDisabled = ButtonColor.neutralForeground3?.withSystemEffect(.disabled)
+			backgroundColorRest = ButtonColor.neutralBackground3
+			backgroundColorPressed = ButtonColor.neutralBackground3?.withSystemEffect(.pressed)
+			backgroundColorDisabled = ButtonColor.neutralBackground3?.withSystemEffect(.disabled)
+			borderColorRest = .clear
+			borderColorPressed = .clear
+			borderColorDisabled = .clear
+		case .borderless:
+			contentTintColorRest = accentColor
+			contentTintColorPressed = accentColor.withSystemEffect(.deepPressed)
+			contentTintColorDisabled = ButtonColor.brandForegroundDisabled
+			backgroundColorRest = .clear
+			backgroundColorPressed = .clear
+			backgroundColorDisabled = .clear
+			borderColorRest = .clear
+			borderColorPressed = .clear
+			borderColorDisabled = .clear
+		}
+		updateContentTintColor()
+	}
+
+	/// This color is used for the background in the primary style, the pressed background in the secondary
+	/// style, and the content tint (i.e. foreground text/image) color in the borderless style.  It is not used
+	/// for the acrylic style.
+	@objc public var accentColor: NSColor = Colors.primary {
+		didSet {
+			guard oldValue != accentColor else {
+				return
+			}
+			// Recompute relevant state-specific colors appropriate to the style
+			setColorValues(forStyle: style, accentColor: accentColor)
 			needsDisplay = true
 		}
 	}
 
-	/// The primary color of the button, AKA, the fill color in the primaryFilled style, and the outline in the primaryOutline style
-	@objc public var primaryColor: NSColor = defaultPrimaryColor {
+	/// Any of several pre-set button styles.  Setting it determines the content tint
+	/// (i.e. foreground text/image), background and border color properties for all button states.
+	@objc public var style: ButtonStyle = .primary {
 		didSet {
-			if primaryColor != oldValue {
-				needsDisplay = true
+			guard oldValue != style else {
+				return
 			}
+			setColorValues(forStyle: style, accentColor: accentColor)
+			needsDisplay = true
 		}
 	}
 
-	/// The primary style of the button
-	@objc public var style: ButtonStyle = .primaryFilled {
-		didSet {
-			if style != oldValue {
-				if style == .primaryFilled {
-					contentTintColor = .white
-				} else {
-					contentTintColor = primaryColor
-				}
-				needsDisplay = true
-			}
-		}
-	}
-
-	/// Background color in rest state. Hover and pressed state colors will adjust accordingly using the systemEffect.
-	@objc public lazy var restBackgroundColor: NSColor  = fillColor {
-		didSet {
-			if restBackgroundColor != oldValue {
-				needsDisplay = true
-			}
-		}
-	}
-	
-	private func disabledColor(for color: NSColor) -> NSColor {
-		return color.withSystemEffect(.disabled)
-	}
-
-	private var trackingArea: NSTrackingArea?
-
-	private var mouseEntered = false
-	private var mouseDown = false
-
-	private var fillColor: NSColor {
-		return style == ButtonStyle.primaryFilled ? primaryColor : .clear
-	}
-
-	private var outlineColor: NSColor {
-		let baseOutlineColor = style == ButtonStyle.primaryOutline ? primaryColor.withAlphaComponent(Button.outlineColorAlphaComponent) : .clear
-		if isEnabled {
-			return baseOutlineColor
-		} else {
-			return disabledColor(for: baseOutlineColor)
-		}
-	}
-	
-	private var hoverBackgroundColor: NSColor {
-		return restBackgroundColor.withSystemEffect(.rollover)
-	}
-
-	private var pressedBackgroundColor: NSColor {
-		return restBackgroundColor.withSystemEffect(.pressed)
-	}
-
-	private var layerBackgroundColor: NSColor {
-		if isEnabled {
-			if mouseDown {
-				return pressedBackgroundColor
-			} else if mouseEntered {
-				return hoverBackgroundColor
-			} else {
-				return restBackgroundColor
-			}
-		} else {
-			return disabledColor(for: restBackgroundColor)
-		}
-	}
-
-	private static var defaultPrimaryColor: NSColor {
-		return .controlAccentColor
-	}
-	
-	
-	class FluentButtonCell : NSButtonCell {
-		override func imageRect(forBounds rect: NSRect) -> NSRect {
-			let isRTL = NSApp.userInterfaceLayoutDirection == .rightToLeft
-			let imageRect = super.imageRect(forBounds: rect)
-			let titleSize = title.size(withAttributes: [.font: font as Any])
-			let imageSize = image?.size ?? NSZeroSize
-			
-			var x = imageRect.origin.x
-			var y = imageRect.origin.y
-			var width = imageRect.size.width
-			var height = imageRect.size.height
-			
-			switch imagePosition {
-			case .noImage:
-				x = 0
-				y = 0
-				width = 0
-				height = 0
-				break
-			case .imageOnly:
-				x = Button.horizontalEdgePadding
-				y = Button.verticalEdgePadding
-				width = rect.width - (Button.horizontalEdgePadding * 2)
-				height = rect.height - (Button.verticalEdgePadding * 2)
-			case .imageLeft:
-				x = Button.horizontalEdgePadding
-				y = Button.verticalEdgePadding
-				width = imageSize.width
-				height = imageSize.height
-				break
-			case .imageRight:
-				x = titleSize.width + Button.titleAndImageRectInterspacing + Button.horizontalEdgePadding
-				y = Button.verticalEdgePadding
-				width = imageSize.width
-				height = imageSize.height
-				break
-			case .imageBelow:
-				x = (rect.width - imageSize.width) / 2
-				y = Button.verticalEdgePadding + titleSize.height + Button.titleAndImageRectInterspacing
-				width = imageSize.width
-				height = imageSize.height
-				break
-			case .imageAbove:
-				x = (rect.width - imageSize.width) / 2
-				y = Button.verticalEdgePadding
-				width = imageSize.width
-				height = imageSize.height
-				break
-			case .imageOverlaps:
-				x = Button.horizontalEdgePadding
-				y = Button.verticalEdgePadding
-				width = rect.width - (Button.horizontalEdgePadding * 2)
-				height = rect.height - (Button.verticalEdgePadding * 2)
-				break;
-			case .imageLeading:
-				x = isRTL ? titleSize.width + Button.titleAndImageRectInterspacing + Button.horizontalEdgePadding : Button.horizontalEdgePadding
-				y = Button.verticalEdgePadding
-				width = imageSize.width
-				height = imageSize.height
-				break
-			case .imageTrailing:
-				x = isRTL ? Button.horizontalEdgePadding : titleSize.width + Button.titleAndImageRectInterspacing + Button.horizontalEdgePadding
-				y = Button.verticalEdgePadding
-				width = imageSize.width
-				height = imageSize.height
-				break
-			@unknown default:
-				break
-			}
-
-			return NSMakeRect(x, y, width, height)
-		}
-
-		override func titleRect(forBounds rect: NSRect) -> NSRect {
-			let isRTL = NSApp.userInterfaceLayoutDirection == .rightToLeft
-			let titleRect = super.titleRect(forBounds: rect);
-			let titleSize = title.size(withAttributes: [.font: font as Any])
-			
-			var x = titleRect.origin.x
-			var y = titleRect.origin.y
-			var width = titleRect.size.width
-			var height = titleRect.size.height
-			
-			let imageSize = image?.size ?? NSZeroSize
-						
-			switch imagePosition {
-			case .noImage:
-				x = Button.horizontalEdgePadding
-				y = Button.verticalEdgePadding
-				width = rect.width - (Button.horizontalEdgePadding * 2)
-				height = rect.height - (Button.verticalEdgePadding * 2)
-				break
-			case .imageOnly:
-				x = 0
-				y = 0
-				width = 0
-				height = 0
-				break
-			case .imageLeft:
-				x = Button.horizontalEdgePadding + imageSize.width + Button.titleAndImageRectInterspacing
-				y = Button.verticalEdgePadding
-				width = titleSize.width
-				height = titleSize.height
-				break
-			case .imageRight:
-				x = Button.horizontalEdgePadding
-				y = Button.verticalEdgePadding
-				width = titleSize.width
-				height = titleSize.height
-				break
-			case .imageBelow:
-				x = (rect.width - titleSize.width) / 2
-				y = Button.verticalEdgePadding
-				width =	titleSize.width
-				height = titleSize.height
-				break
-			case .imageAbove:
-				x = (rect.width - titleSize.width) / 2
-				y = Button.verticalEdgePadding + imageSize.height + Button.titleAndImageRectInterspacing
-				width =	titleSize.width
-				height = titleSize.height
-				break
-			case .imageOverlaps:
-				x = Button.horizontalEdgePadding
-				y = Button.verticalEdgePadding
-				width = rect.width - (Button.horizontalEdgePadding * 2)
-				height = rect.height - (Button.verticalEdgePadding * 2)
-				break;
-			case .imageLeading:
-				x = isRTL ? Button.horizontalEdgePadding : Button.horizontalEdgePadding + imageSize.width + Button.titleAndImageRectInterspacing
-				y = Button.verticalEdgePadding
-				width = titleSize.width
-				height = titleSize.height
-				break
-			case .imageTrailing:
-				x = isRTL ? Button.horizontalEdgePadding + imageSize.width + Button.titleAndImageRectInterspacing : Button.horizontalEdgePadding
-				y = Button.verticalEdgePadding
-				width = titleSize.width
-				height = titleSize.height
-				break
-			@unknown default:
-				break
-			}
-
-			return NSMakeRect(x, y, width, height)
-		}
-
-		override func drawingRect(forBounds rect: NSRect) -> NSRect {
-			
-			var horizontalInterCellSpacing: CGFloat = 0
-			var verticalInterCellSpacing: CGFloat = 0
-			switch imagePosition {
-			
-			case .noImage:
-				break
-			case .imageOnly:
-				break
-			case .imageLeft:
-				horizontalInterCellSpacing = Button.titleAndImageRectInterspacing
-				break
-			case .imageRight:
-				horizontalInterCellSpacing = Button.titleAndImageRectInterspacing
-				break
-			case .imageBelow:
-				verticalInterCellSpacing = Button.titleAndImageRectInterspacing
-				break
-			case .imageAbove:
-				verticalInterCellSpacing = Button.titleAndImageRectInterspacing
-				break
-			case .imageOverlaps:
-				break
-			case .imageLeading:
-				horizontalInterCellSpacing = Button.titleAndImageRectInterspacing
-				break
-			case .imageTrailing:
-				horizontalInterCellSpacing = Button.titleAndImageRectInterspacing
-				break
-			@unknown default:
-				break
-			}
-
-			let drawingRectWithPadding = NSMakeRect(
-				0,
-				0,
-				rect.width - (Button.horizontalEdgePadding * 2) - horizontalInterCellSpacing,
-				rect.height - (Button.verticalEdgePadding * 2) - verticalInterCellSpacing
-			)
-			return drawingRectWithPadding
-		}
-	}
-
-	private static let titleAndImageRectInterspacing: CGFloat = 8
-
+	private var cornerRadius: CGFloat = ButtonSizeParameters.large.cornerRadius
 
 	private static let borderWidth: CGFloat = 1
 
-	private static let cornerRadius: CGFloat = 3
+	private func setSizeParameters(forSize: ButtonSize) {
+		let parameters = ButtonSizeParameters.parameters(forSize: size)
+		font = NSFont.systemFont(ofSize:parameters.fontSize)
+		cornerRadius = parameters.cornerRadius
+		guard let cell = cell as? ButtonCell else {
+			return
+		}
+		cell.verticalPadding = parameters.verticalPadding
+		cell.horizontalPadding = parameters.horizontalPadding
+		cell.titleVerticalPositionAdjustment = parameters.titleVerticalPositionAdjustment
+		cell.titleToImageSpacing = parameters.titleToImageSpacing
+		cell.titleToImageVerticalSpacingAdjustment = parameters.titleToImageVerticalSpacingAdjustment
+	}
 
-	private static let verticalEdgePadding: CGFloat = 4
+	/// Any of several pre-set button sizes.  Determines several factors including font size, corner radius,
+	/// and padding.
+	@objc public var size: ButtonSize = .large {
+		didSet {
+			guard oldValue != size else {
+				return
+			}
+			setSizeParameters(forSize: size)
+			needsDisplay = true
+		}
+	}
+}
 
-	private static let horizontalEdgePadding:  CGFloat = 12
+// MARK: - ButtonCell
 
-	private static let outlineColorAlphaComponent:  CGFloat = 0.4
+class ButtonCell: NSButtonCell {
+	fileprivate var verticalPadding: CGFloat = 0
+	fileprivate var horizontalPadding: CGFloat = 0
+	fileprivate var titleVerticalPositionAdjustment: CGFloat = 0
+	fileprivate var titleToImageSpacing: CGFloat = 0
+	fileprivate var titleToImageVerticalSpacingAdjustment: CGFloat = 0
+
+	override func imageRect(forBounds rect: NSRect) -> NSRect {
+		guard let image = image else {
+			return NSZeroRect
+		}
+
+		let isRTL = NSApp.userInterfaceLayoutDirection == .rightToLeft
+		let imageRect = super.imageRect(forBounds: rect)
+		let titleSize = title.size(withAttributes: [.font: font as Any])
+		let imageSize = image.size
+
+		var x = imageRect.origin.x
+		var y = imageRect.origin.y
+		var width = imageRect.size.width
+		var height = imageRect.size.height
+
+		switch imagePosition {
+		case .noImage:
+			x = 0
+			y = 0
+			width = 0
+			height = 0
+		case .imageOnly, .imageOverlaps:
+			x = horizontalPadding
+			y = verticalPadding
+			width = rect.width - (horizontalPadding * 2)
+			height = rect.height - (verticalPadding * 2)
+		case .imageLeft:
+			x = horizontalPadding
+			y = (rect.height - imageSize.height) / 2
+			width = imageSize.width
+			height = imageSize.height
+		case .imageLeading:
+			x = isRTL ? titleSize.width + titleToImageSpacing + horizontalPadding : horizontalPadding
+			y = (rect.height - imageSize.height) / 2
+			width = imageSize.width
+			height = imageSize.height
+		case .imageRight:
+			x = titleSize.width + titleToImageSpacing + horizontalPadding
+			y = (rect.height - imageSize.height) / 2
+			width = imageSize.width
+			height = imageSize.height
+		case .imageTrailing:
+			x = isRTL ? horizontalPadding : titleSize.width + titleToImageSpacing + horizontalPadding
+			y = (rect.height - imageSize.height) / 2
+			width = imageSize.width
+			height = imageSize.height
+		case .imageBelow:
+			x = (rect.width - imageSize.width) / 2
+			y = (rect.height - imageSize.height + titleSize.height + titleToImageSpacing - titleToImageVerticalSpacingAdjustment) / 2
+			width = imageSize.width
+			height = imageSize.height
+		case .imageAbove:
+			x = (rect.width - imageSize.width) / 2
+			y = (rect.height - imageSize.height - titleSize.height - titleToImageSpacing + titleToImageVerticalSpacingAdjustment) / 2
+			width = imageSize.width
+			height = imageSize.height
+		@unknown default:
+			break
+		}
+
+		return NSMakeRect(x, y, width, height)
+	}
+
+	override func titleRect(forBounds rect: NSRect) -> NSRect {
+		guard let font = font else {
+			return NSZeroRect
+		}
+
+		let isRTL = NSApp.userInterfaceLayoutDirection == .rightToLeft
+		let titleRect = super.titleRect(forBounds: rect);
+		let titleSize = title.size(withAttributes: [.font: font])
+		let imageSize = image?.size ?? NSZeroSize
+
+		var x = titleRect.origin.x
+		var y = titleRect.origin.y
+		var width = titleRect.size.width
+		var height = titleRect.size.height
+
+		switch imagePosition {
+		case .imageOnly:
+			x = 0
+			y = 0
+			width = 0
+			height = 0
+		case .noImage, .imageOverlaps:
+			x = horizontalPadding
+			y = verticalPadding + titleVerticalPositionAdjustment
+			width = rect.width - (horizontalPadding * 2)
+			height = rect.height - (verticalPadding * 2)
+		case .imageLeft:
+			x = horizontalPadding + imageSize.width + titleToImageSpacing
+			y = verticalPadding + titleVerticalPositionAdjustment
+			width = titleSize.width
+			height = rect.height - (verticalPadding * 2)
+		case .imageLeading:
+			x = isRTL ? horizontalPadding : horizontalPadding + imageSize.width + titleToImageSpacing
+			y = verticalPadding + titleVerticalPositionAdjustment
+			width = titleSize.width
+			height = rect.height - (verticalPadding * 2)
+		case .imageRight:
+			x = horizontalPadding
+			y = verticalPadding + titleVerticalPositionAdjustment
+			width = titleSize.width
+			height = rect.height - (verticalPadding * 2)
+		case .imageTrailing:
+			x = isRTL ? horizontalPadding + imageSize.width + titleToImageSpacing : horizontalPadding
+			y = verticalPadding + titleVerticalPositionAdjustment
+			width = titleSize.width
+			height = rect.height - (verticalPadding * 2)
+		case .imageBelow:
+			x = (rect.width - titleSize.width) / 2
+			y = (rect.height - titleSize.height - imageSize.height - titleToImageSpacing) / 2 + titleVerticalPositionAdjustment
+			width = titleSize.width
+			height = titleSize.height
+		case .imageAbove:
+			x = (rect.width - titleSize.width) / 2
+			y = (rect.height - titleSize.height + imageSize.height + titleToImageSpacing) / 2 + titleVerticalPositionAdjustment
+			width = titleSize.width
+			height = titleSize.height
+		@unknown default:
+			break
+		}
+
+		return NSMakeRect(x, y, width, height)
+	}
+
+	override func drawingRect(forBounds rect: NSRect) -> NSRect {
+		var horizontalInterCellSpacing: CGFloat = 0
+		var verticalInterCellSpacing: CGFloat = 0
+
+		switch imagePosition {
+		case .imageLeft, .imageLeading, .imageRight, .imageTrailing:
+			horizontalInterCellSpacing = titleToImageSpacing
+		case .imageBelow, .imageAbove:
+			verticalInterCellSpacing = titleToImageSpacing
+		case .noImage, .imageOnly, .imageOverlaps:
+			break
+		@unknown default:
+			break
+		}
+
+		let drawingRectWithPadding = NSMakeRect(
+			0,
+			0,
+			rect.width - (horizontalPadding * 2) - horizontalInterCellSpacing,
+			rect.height - (verticalPadding * 2) - verticalInterCellSpacing
+		)
+		return drawingRectWithPadding
+	}
+}
+
+// MARK: - Button Formatting Parameters
+
+/// Indicates the size of the button
+@objc(MSFButtonSize)
+public enum ButtonSize: Int, CaseIterable {
+	case large
+	case small
+}
+
+/// Indicates what style our button is drawn as
+@objc(MSFButtonStyle)
+public enum ButtonStyle: Int, CaseIterable {
+	/// Accent color fill, white text/image.
+	case primary
+
+	/// Light mode: white fill, black text/image, light gray outline.
+	/// Dark mode: dark gray fill, white text/image, subtle gray outline.
+	/// Pressed: accent color fill, white text/image, no outline (same as primary style).
+	case secondary
+
+	/// Light mode: light gray fill, black text/image.
+	/// Dark mode: dark gray fill, white text/image.
+	case acrylic
+
+	/// Accent color text/image, no fill or outline.
+	case borderless
+}
+
+/// Combination of all formatting parameters.
+public struct ButtonFormat {
+	var size: ButtonSize
+	var style: ButtonStyle
+	var accentColor: NSColor
+
+	public init(
+		size: ButtonSize = .large,
+		style: ButtonStyle = .primary,
+		accentColor: NSColor = Colors.primary
+	)
+	{
+		self.size = size
+		self.style = style
+		self.accentColor = accentColor
+	}
+}
+
+// MARK: - Semantic Color Constants
+
+@objc(MSFButtonColor)
+class ButtonColor: NSObject {
+	public static let brandForegroundDisabled = NSColor(named: "ButtonColors/brandForegroundDisabled", bundle: FluentUIResources.resourceBundle)
+	public static let brandBackgroundDisabled = NSColor(named: "ButtonColors/brandBackgroundDisabled", bundle: FluentUIResources.resourceBundle)
+	public static let neutralInverted = NSColor(named: "ButtonColors/neutralInverted", bundle: FluentUIResources.resourceBundle)
+	public static let neutralForeground2 = NSColor(named: "ButtonColors/neutralForeground2", bundle: FluentUIResources.resourceBundle)
+	public static let neutralBackground2 = NSColor(named: "ButtonColors/neutralBackground2", bundle: FluentUIResources.resourceBundle)
+	public static let neutralStroke2 = NSColor(named: "ButtonColors/neutralStroke2", bundle: FluentUIResources.resourceBundle)
+	public static let neutralForeground3 = NSColor(named: "ButtonColors/neutralForeground3", bundle: FluentUIResources.resourceBundle)
+	public static let neutralBackground3 = NSColor(named: "ButtonColors/neutralBackground3", bundle: FluentUIResources.resourceBundle)
+}
+
+// MARK: - Size Constants
+
+fileprivate struct ButtonSizeParameters {
+	let fontSize: CGFloat
+	let cornerRadius: CGFloat
+	let verticalPadding: CGFloat
+	let horizontalPadding: CGFloat
+	let titleVerticalPositionAdjustment: CGFloat
+	let titleToImageSpacing: CGFloat
+	let titleToImageVerticalSpacingAdjustment: CGFloat
+
+	static let large = ButtonSizeParameters(
+		fontSize: 15,  // line height: 19
+		cornerRadius: 6,
+		verticalPadding: 4.5,  // overall height: 28
+		horizontalPadding: 36,
+		titleVerticalPositionAdjustment: -0.25,
+		titleToImageSpacing: 10,
+		titleToImageVerticalSpacingAdjustment: 7
+	)
+
+	static let small = ButtonSizeParameters(
+		fontSize: 13,  // line height: 17
+		cornerRadius: 5,
+		verticalPadding: 1.5,  // overall height: 20
+		horizontalPadding: 14,
+		titleVerticalPositionAdjustment: -0.75,
+		titleToImageSpacing: 6,
+		titleToImageVerticalSpacingAdjustment: 7
+	)
+
+	static func parameters(forSize: ButtonSize) -> ButtonSizeParameters {
+		switch forSize {
+		case .large:
+			return .large
+		case .small:
+			return .small
+		}
+	}
 }
