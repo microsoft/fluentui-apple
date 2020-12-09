@@ -2380,6 +2380,281 @@ extension StylesheetManagerTheming {
 		}
 
 	}
+	//MARK: - MSFListTokens
+	public var _MSFListTokens: MSFListTokensAppearanceProxy?
+	open func MSFListTokensStyle() -> MSFListTokensAppearanceProxy {
+		if let override = _MSFListTokens { return override }
+			return MSFListTokensAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+		}
+	public var MSFListTokens: MSFListTokensAppearanceProxy {
+		get { return self.MSFListTokensStyle() }
+		set { _MSFListTokens = newValue }
+	}
+	@objc(MSFListTokensAppearanceProxy) @objcMembers open class MSFListTokensAppearanceProxy: NSObject {
+		public let mainProxy: () -> FluentUIStyle
+		public init(proxy: @escaping () -> FluentUIStyle) {
+			self.mainProxy = proxy
+		}
+
+		//MARK: backgroundColor 
+		public var _backgroundColor: UIColor?
+		open func backgroundColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _backgroundColor { return override }
+			return mainProxy().Colors.Background.neutral1Property(traitCollection)
+			}
+		public var backgroundColor: UIColor {
+			get { return self.backgroundColorProperty() }
+			set { _backgroundColor = newValue }
+		}
+
+		//MARK: borderColor 
+		public var _borderColor: UIColor?
+		open func borderColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _borderColor { return override }
+			return mainProxy().Colors.Stroke.neutral1Property(traitCollection)
+			}
+		public var borderColor: UIColor {
+			get { return self.borderColorProperty() }
+			set { _borderColor = newValue }
+		}
+
+		//MARK: borderSize 
+		public var _borderSize: CGFloat?
+		open func borderSizeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _borderSize { return override }
+			return mainProxy().Border.size.thinProperty(traitCollection)
+			}
+		public var borderSize: CGFloat {
+			get { return self.borderSizeProperty() }
+			set { _borderSize = newValue }
+		}
+
+		//MARK: - iconColor
+		public var _iconColor: iconColorAppearanceProxy?
+		open func iconColorStyle() -> iconColorAppearanceProxy {
+			if let override = _iconColor { return override }
+				return iconColorAppearanceProxy(proxy: mainProxy)
+			}
+		public var iconColor: iconColorAppearanceProxy {
+			get { return self.iconColorStyle() }
+			set { _iconColor = newValue }
+		}
+		@objc(MSFListTokensIconColorAppearanceProxy) @objcMembers open class iconColorAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: disclosure 
+			public var _disclosure: UIColor?
+			open func disclosureProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _disclosure { return override }
+					return mainProxy().Colors.Foreground.neutral4Property(traitCollection)
+				}
+			public var disclosure: UIColor {
+				get { return self.disclosureProperty() }
+				set { _disclosure = newValue }
+			}
+
+			//MARK: iconOnly 
+			public var _iconOnly: UIColor?
+			open func iconOnlyProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _iconOnly { return override }
+					return mainProxy().Colors.Foreground.neutral3Property(traitCollection)
+				}
+			public var iconOnly: UIColor {
+				get { return self.iconOnlyProperty() }
+				set { _iconOnly = newValue }
+			}
+
+			//MARK: withLabel 
+			public var _withLabel: UIColor?
+			open func withLabelProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _withLabel { return override }
+					return mainProxy().Colors.Foreground.neutral4Property(traitCollection)
+				}
+			public var withLabel: UIColor {
+				get { return self.withLabelProperty() }
+				set { _withLabel = newValue }
+			}
+		}
+
+
+		//MARK: - iconSize
+		public var _iconSize: iconSizeAppearanceProxy?
+		open func iconSizeStyle() -> iconSizeAppearanceProxy {
+			if let override = _iconSize { return override }
+				return iconSizeAppearanceProxy(proxy: mainProxy)
+			}
+		public var iconSize: iconSizeAppearanceProxy {
+			get { return self.iconSizeStyle() }
+			set { _iconSize = newValue }
+		}
+		@objc(MSFListTokensIconSizeAppearanceProxy) @objcMembers open class iconSizeAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: disclosure 
+			public var _disclosure: CGFloat?
+			open func disclosureProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _disclosure { return override }
+					return mainProxy().Icon.size.smallProperty(traitCollection)
+				}
+			public var disclosure: CGFloat {
+				get { return self.disclosureProperty() }
+				set { _disclosure = newValue }
+			}
+
+			//MARK: icon 
+			public var _icon: CGFloat?
+			open func iconProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _icon { return override }
+					return mainProxy().Icon.size.mediumProperty(traitCollection)
+				}
+			public var icon: CGFloat {
+				get { return self.iconProperty() }
+				set { _icon = newValue }
+			}
+
+			//MARK: persona 
+			public var _persona: CGFloat?
+			open func personaProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _persona { return override }
+					return mainProxy().Icon.size.smallProperty(traitCollection)
+				}
+			public var persona: CGFloat {
+				get { return self.personaProperty() }
+				set { _persona = newValue }
+			}
+		}
+
+
+		//MARK: - interspace
+		public var _interspace: interspaceAppearanceProxy?
+		open func interspaceStyle() -> interspaceAppearanceProxy {
+			if let override = _interspace { return override }
+				return interspaceAppearanceProxy(proxy: mainProxy)
+			}
+		public var interspace: interspaceAppearanceProxy {
+			get { return self.interspaceStyle() }
+			set { _interspace = newValue }
+		}
+		@objc(MSFListTokensInterspaceAppearanceProxy) @objcMembers open class interspaceAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: button 
+			public var _button: CGFloat?
+			open func buttonProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _button { return override }
+					return mainProxy().Spacing.xSmallProperty(traitCollection)
+				}
+			public var button: CGFloat {
+				get { return self.buttonProperty() }
+				set { _button = newValue }
+			}
+
+			//MARK: disclosure 
+			public var _disclosure: CGFloat?
+			open func disclosureProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _disclosure { return override }
+					return mainProxy().Spacing.xxSmallProperty(traitCollection)
+				}
+			public var disclosure: CGFloat {
+				get { return self.disclosureProperty() }
+				set { _disclosure = newValue }
+			}
+
+			//MARK: icon 
+			public var _icon: CGFloat?
+			open func iconProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _icon { return override }
+					return mainProxy().Spacing.mediumProperty(traitCollection)
+				}
+			public var icon: CGFloat {
+				get { return self.iconProperty() }
+				set { _icon = newValue }
+			}
+		}
+
+
+		//MARK: padding 
+		public var _padding: CGFloat?
+		open func paddingProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _padding { return override }
+			return mainProxy().Spacing.mediumProperty(traitCollection)
+			}
+		public var padding: CGFloat {
+			get { return self.paddingProperty() }
+			set { _padding = newValue }
+		}
+
+		//MARK: subtitleFont 
+		public var _subtitleFont: UIFont?
+		open func subtitleFontProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
+			if let override = _subtitleFont { return override }
+			return mainProxy().Typography.subheadlineProperty(traitCollection)
+			}
+		public var subtitleFont: UIFont {
+			get { return self.subtitleFontProperty() }
+			set { _subtitleFont = newValue }
+		}
+
+		//MARK: - textColor
+		public var _textColor: textColorAppearanceProxy?
+		open func textColorStyle() -> textColorAppearanceProxy {
+			if let override = _textColor { return override }
+				return textColorAppearanceProxy(proxy: mainProxy)
+			}
+		public var textColor: textColorAppearanceProxy {
+			get { return self.textColorStyle() }
+			set { _textColor = newValue }
+		}
+		@objc(MSFListTokensTextColorAppearanceProxy) @objcMembers open class textColorAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: leading 
+			public var _leading: UIColor?
+			open func leadingProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _leading { return override }
+					return mainProxy().Colors.Foreground.neutral1Property(traitCollection)
+				}
+			public var leading: UIColor {
+				get { return self.leadingProperty() }
+				set { _leading = newValue }
+			}
+
+			//MARK: trailing 
+			public var _trailing: UIColor?
+			open func trailingProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _trailing { return override }
+					return mainProxy().Colors.Foreground.neutral3Property(traitCollection)
+				}
+			public var trailing: UIColor {
+				get { return self.trailingProperty() }
+				set { _trailing = newValue }
+			}
+		}
+
+
+		//MARK: textFont 
+		public var _textFont: UIFont?
+		open func textFontProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
+			if let override = _textFont { return override }
+			return mainProxy().Typography.bodyProperty(traitCollection)
+			}
+		public var textFont: UIFont {
+			get { return self.textFontProperty() }
+			set { _textFont = newValue }
+		}
+	}
 	//MARK: - Opacity
 	public var _Opacity: OpacityAppearanceProxy?
 	open func OpacityStyle() -> OpacityAppearanceProxy {
@@ -2855,6 +3130,17 @@ extension StylesheetManagerTheming {
 			self.mainProxy = proxy
 		}
 
+		//MARK: body 
+		public var _body: UIFont?
+		open func bodyProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
+			if let override = _body { return override }
+			return UIFont.font(name: nil, size: nil, textStyle: S.FontTextStyle.body, weight: nil, traits: [], traitCollection: traitCollection, isScalable: true)
+			}
+		public var body: UIFont {
+			get { return self.bodyProperty() }
+			set { _body = newValue }
+		}
+
 		//MARK: footnote 
 		public var _footnote: UIFont?
 		open func footnoteProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
@@ -2922,6 +3208,54 @@ extension MSFButtonTokens: AppearaceProxyComponent {
 			}
 
 			return StylesheetManager.stylesheet(FluentUIStyle.shared()).MSFButtonTokens
+		}
+		set {
+			objc_setAssociatedObject(self, &__ApperanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+			didChangeAppearanceProxy()
+		}
+	}
+
+	public var themeAware: Bool {
+		get {
+			guard let proxy = objc_getAssociatedObject(self, &__ThemeAwareHandle) as? Bool else { return true }
+			return proxy
+		}
+		set {
+			objc_setAssociatedObject(self, &__ThemeAwareHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+			isObservingDidChangeTheme = newValue
+		}
+	}
+
+	fileprivate var isObservingDidChangeTheme: Bool {
+		get {
+			guard let observing = objc_getAssociatedObject(self, &__ObservingDidChangeThemeHandle) as? Bool else { return false }
+			return observing
+		}
+		set {
+			if newValue == isObservingDidChangeTheme { return }
+			if newValue {
+				NotificationCenter.default.addObserver(self, selector: #selector(didChangeAppearanceProxy), name: Notification.Name.didChangeTheme, object: nil)
+			} else {
+				NotificationCenter.default.removeObserver(self, name: Notification.Name.didChangeTheme, object: nil)
+			}
+			objc_setAssociatedObject(self, &__ObservingDidChangeThemeHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+		}
+	}
+}
+
+extension MSFListTokens: AppearaceProxyComponent {
+
+	public typealias ApperanceProxyType = FluentUIStyle.MSFListTokensAppearanceProxy
+	public var appearanceProxy: ApperanceProxyType {
+		get {
+			if let proxy = objc_getAssociatedObject(self, &__ApperanceProxyHandle) as? ApperanceProxyType {
+				if !themeAware { return proxy }
+
+
+				return proxy
+			}
+
+			return StylesheetManager.stylesheet(FluentUIStyle.shared()).MSFListTokens
 		}
 		set {
 			objc_setAssociatedObject(self, &__ApperanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
