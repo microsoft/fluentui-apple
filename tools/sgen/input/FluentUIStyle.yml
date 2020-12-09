@@ -102,6 +102,7 @@ Colors:
     - brandDisabled: "FluentUIColor(light: $Colors.Neutral.grey88, dark: $Colors.Neutral.grey84)"
 
 Typography:
+  body: "Font(body)"
   subheadline: "Font(subheadline)"
   footnote: "Font(footnote)"
 
@@ -161,3 +162,14 @@ SecondaryButtonTokens extends MSFButtonTokens:
 GhostButtonTokens extends MSFButtonTokens:
   borderColor: [ rest: $Colors.Neutral.clear, hover: $Colors.Neutral.clear, pressed: $Colors.Neutral.clear, selected: $Colors.Brand.shade10, disabled: $Colors.Neutral.clear ]
 
+AP_MSFListTokens:
+  backgroundColor: $Colors.Background.neutral1
+  borderColor: $Colors.Stroke.neutral1
+  borderSize: $Border.size.thin
+  padding: $Spacing.medium
+  textFont: $Typography.body
+  subtitleFont: $Typography.subheadline
+  iconColor: [ iconOnly: $Colors.Foreground.neutral3, withLabel: $Colors.Foreground.neutral4, disclosure: $Colors.Foreground.neutral4 ]
+  textColor: [leading: $Colors.Foreground.neutral1, trailing: $Colors.Foreground.neutral3 ]
+  iconSize: [ icon: $Icon.size.medium, persona: $Icon.size.small, disclosure: $Icon.size.small]
+  interspace: [ button: $Spacing.xSmall, icon: $Spacing.medium, disclosure: $Spacing.xxSmall ]
