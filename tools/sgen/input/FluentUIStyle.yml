@@ -110,8 +110,8 @@ Border:
   size: [ none: 0pt, thin: 1pt, thick: 2pt, thicker: 4pt, thickest: 6pt ]
 
 Icon:
-  style: EnumDef(regular, filled)
   size: [ xxxSmall: 10pt, xxSmall: 12pt, xSmall: 16pt, small: 20pt, medium: 24pt, large: 28pt, xlarge: 36pt, xxlarge: 40pt, xxxlarge: 48pt ]
+  style: EnumDef(regular, filled)
 
 Spacing:
   none: 0pt
@@ -136,6 +136,46 @@ Opacity:
   opacity88: 0.88f
   opacity96: 0.96f
   none: 1f
+
+AP_AvatarTokens:
+  backgroundDefaultColor: "#EDACB1"
+  borderRadius: [ xSmall: $Border.radius.none, small: $Border.radius.none, medium: $Border.radius.none, large: $Border.radius.none, xlarge: $Border.radius.none, xxlarge: $Border.radius.none ]
+  foregroundDefaultColor: "#6E0911"
+  presenceIconSize: [ xSmall: 0pt, small: $Icon.size.xxxSmall, medium: $Icon.size.xxxSmall, large: $Icon.size.xxSmall, xlarge: $Icon.size.xSmall, xxlarge: $Icon.size.small ]
+  presenceIconOutlineColor: $Colors.Background.neutral1
+  presenceIconOutlineThickness: [ xSmall: $Border.size.none, small: $Border.size.thick, medium: $Border.size.thick, large: $Border.size.thick, xlarge: $Border.size.thick, xxlarge: $Border.size.thick ]
+  ringDefaultColor: "#C50F1F"
+  ringGapColor: $Colors.Background.neutral1
+  ringInnerGap: [ xSmall: $Border.size.thick, small: $Border.size.thick, medium: $Border.size.thick, large: $Border.size.thick, xlarge: $Border.size.thick, xxlarge: $Border.size.thicker ]
+  ringThickness: [ xSmall: $Border.size.thin, small: $Border.size.thin, medium: $Border.size.thick, large: $Border.size.thick, xlarge: $Border.size.thick, xxlarge: $Border.size.thicker ]
+  ringOuterGap: [ xSmall: $Border.size.thick, small: $Border.size.thick, medium: $Border.size.thick, large: $Border.size.thick, xlarge: $Border.size.thick, xxlarge: $Border.size.thicker ]
+  size: [ xSmall: 16pt, small: 24pt, medium: 32pt, large: 40pt, xlarge: 52pt, xxlarge: 72pt ]
+  textFont: [ xSmall: "Font(9px, regular)", small: "Font(12px, regular)", medium: "Font(13px, regular)", large: "Font(15px, regular)", xlarge: "Font(20px, regular)", xxlarge: "Font(28px, medium)" ]
+
+NoRingAvatarTokens extends AvatarTokens:
+  ringInnerGap: [ xSmall: $Border.size.none, small: $Border.size.none, medium: $Border.size.none, large: $Border.size.none, xlarge: $Border.size.none, xxlarge: $Border.size.none ]
+  ringThickness: [ xSmall: $Border.size.none, small: $Border.size.none, medium: $Border.size.none, large: $Border.size.none, xlarge: $Border.size.none, xxlarge: $Border.size.none ]
+  ringOuterGap: [ xSmall: $Border.size.none, small: $Border.size.none, medium: $Border.size.none, large: $Border.size.none, xlarge: $Border.size.none, xxlarge: $Border.size.none ]
+  ringDefaultColor: $Colors.Neutral.clear
+
+UnauthenticatedAvatarTokens extends AvatarTokens:
+  backgroundDefaultColor: $Colors.Background.neutral4
+  foregroundDefaultColor: $Colors.Foreground.neutral3
+  ringDefaultColor: $Colors.Background.neutralDisabled
+
+OverflowAvatarTokens extends AvatarTokens:
+  backgroundDefaultColor: $Colors.Background.neutral4
+  foregroundDefaultColor: $Colors.Foreground.neutral3
+  ringDefaultColor: $Colors.Neutral.clear
+  ringInnerGap: [ xSmall: $Border.size.none, small: $Border.size.none, medium: $Border.size.none, large: $Border.size.none, xlarge: $Border.size.none, xxlarge: $Border.size.none ]
+  ringThickness: [ xSmall: $Border.size.none, small: $Border.size.none, medium: $Border.size.none, large: $Border.size.none, xlarge: $Border.size.none, xxlarge: $Border.size.none ]
+  ringOuterGap: [ xSmall: $Border.size.none, small: $Border.size.none, medium: $Border.size.none, large: $Border.size.none, xlarge: $Border.size.none, xxlarge: $Border.size.none ]
+
+GroupAvatarTokens extends AvatarTokens:
+  borderRadius: [ xSmall: $Border.radius.small, small: $Border.radius.medium, medium: $Border.radius.medium, large: $Border.radius.large, xlarge: $Border.radius.large, xxlarge: $Border.radius.xlarge ]
+  ringInnerGap: [ xSmall: $Border.size.none, small: $Border.size.none, medium: $Border.size.none, large: $Border.size.none, xlarge: $Border.size.none, xxlarge: $Border.size.none ]
+  ringThickness: [ xSmall: $Border.size.none, small: $Border.size.none, medium: $Border.size.none, large: $Border.size.none, xlarge: $Border.size.none, xxlarge: $Border.size.none ]
+  ringOuterGap: [ xSmall: $Border.size.none, small: $Border.size.none, medium: $Border.size.none, large: $Border.size.none, xlarge: $Border.size.none, xxlarge: $Border.size.none ]
 
 AP_MSFButtonTokens:
   backgroundColor: [ rest: $Colors.Neutral.clear, hover: $Colors.Neutral.clear, pressed: $Colors.Neutral.clear, selected: $Colors.Neutral.clear, disabled: $Colors.Neutral.clear ]
