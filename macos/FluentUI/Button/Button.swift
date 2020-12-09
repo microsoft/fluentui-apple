@@ -368,6 +368,7 @@ open class Button: NSButton {
 				return
 			}
 			setSizeParameters(forSize: size)
+			invalidateIntrinsicContentSize()
 			needsDisplay = true
 		}
 	}
