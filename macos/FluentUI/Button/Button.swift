@@ -368,6 +368,7 @@ open class Button: NSButton {
 				return
 			}
 			setSizeParameters(forSize: size)
+			invalidateIntrinsicContentSize()
 			needsDisplay = true
 		}
 	}
@@ -563,9 +564,9 @@ public enum ButtonStyle: Int, CaseIterable {
 
 /// Combination of all formatting parameters.
 public struct ButtonFormat {
-	var size: ButtonSize
-	var style: ButtonStyle
-	var accentColor: NSColor
+	public var size: ButtonSize
+	public var style: ButtonStyle
+	public var accentColor: NSColor
 
 	public init(
 		size: ButtonSize = .large,
