@@ -89,6 +89,16 @@ Colors:
     - brandSelected: "FluentUIColor(light: $Colors.Brand.shade20, dark: $Colors.Brand.shade20)"
     - brandDisabled: "FluentUIColor(light: $Colors.Neutral.grey74, dark: $Colors.Neutral.grey36)"
 
+  Presence:
+    - available: "NamedColor(presenceAvailable)"
+    - away: "NamedColor(presenceAway)"
+    - blocked: "NamedColor(presenceBlocked)"
+    - busy: "NamedColor(presenceBusy)"
+    - doNotDisturb: "NamedColor(presenceDnd)"
+    - offline: "NamedColor(presenceOffline)"
+    - outOfOffice: "NamedColor(presenceOof)"
+    - unknown: "NamedColor(presenceUnknown)"
+
   Stroke:
     - neutral1: "FluentUIColor(light: $Colors.Neutral.grey94, lightHighContrast: $Colors.Neutral.grey38, dark: $Colors.Neutral.grey24, darkHighContrast: $Colors.Neutral.grey68, darkElevated: $Colors.Neutral.grey32)"
     - neutral2: "FluentUIColor(light: $Colors.Neutral.grey88, lightHighContrast: $Colors.Neutral.grey38, dark: $Colors.Neutral.grey32, darkHighContrast: $Colors.Neutral.grey68, darkElevated: $Colors.Neutral.grey36)"

@@ -2197,6 +2197,112 @@ extension StylesheetManagerTheming {
 		}
 
 
+		//MARK: - Presence
+		public var _Presence: PresenceAppearanceProxy?
+		open func PresenceStyle() -> PresenceAppearanceProxy {
+			if let override = _Presence { return override }
+				return PresenceAppearanceProxy(proxy: mainProxy)
+			}
+		public var Presence: PresenceAppearanceProxy {
+			get { return self.PresenceStyle() }
+			set { _Presence = newValue }
+		}
+		@objc(ColorsPresenceAppearanceProxy) @objcMembers open class PresenceAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: available 
+			public var _available: UIColor?
+			open func availableProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _available { return override }
+					return UIColor(named: "FluentColors/presenceAvailable", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				}
+			public var available: UIColor {
+				get { return self.availableProperty() }
+				set { _available = newValue }
+			}
+
+			//MARK: away 
+			public var _away: UIColor?
+			open func awayProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _away { return override }
+					return UIColor(named: "FluentColors/presenceAway", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				}
+			public var away: UIColor {
+				get { return self.awayProperty() }
+				set { _away = newValue }
+			}
+
+			//MARK: blocked 
+			public var _blocked: UIColor?
+			open func blockedProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _blocked { return override }
+					return UIColor(named: "FluentColors/presenceBlocked", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				}
+			public var blocked: UIColor {
+				get { return self.blockedProperty() }
+				set { _blocked = newValue }
+			}
+
+			//MARK: busy 
+			public var _busy: UIColor?
+			open func busyProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _busy { return override }
+					return UIColor(named: "FluentColors/presenceBusy", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				}
+			public var busy: UIColor {
+				get { return self.busyProperty() }
+				set { _busy = newValue }
+			}
+
+			//MARK: doNotDisturb 
+			public var _doNotDisturb: UIColor?
+			open func doNotDisturbProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _doNotDisturb { return override }
+					return UIColor(named: "FluentColors/presenceDnd", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				}
+			public var doNotDisturb: UIColor {
+				get { return self.doNotDisturbProperty() }
+				set { _doNotDisturb = newValue }
+			}
+
+			//MARK: offline 
+			public var _offline: UIColor?
+			open func offlineProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _offline { return override }
+					return UIColor(named: "FluentColors/presenceOffline", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				}
+			public var offline: UIColor {
+				get { return self.offlineProperty() }
+				set { _offline = newValue }
+			}
+
+			//MARK: outOfOffice 
+			public var _outOfOffice: UIColor?
+			open func outOfOfficeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _outOfOffice { return override }
+					return UIColor(named: "FluentColors/presenceOof", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				}
+			public var outOfOffice: UIColor {
+				get { return self.outOfOfficeProperty() }
+				set { _outOfOffice = newValue }
+			}
+
+			//MARK: unknown 
+			public var _unknown: UIColor?
+			open func unknownProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _unknown { return override }
+					return UIColor(named: "FluentColors/presenceUnknown", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				}
+			public var unknown: UIColor {
+				get { return self.unknownProperty() }
+				set { _unknown = newValue }
+			}
+		}
+
+
 		//MARK: - Stroke
 		public var _Stroke: StrokeAppearanceProxy?
 		open func StrokeStyle() -> StrokeAppearanceProxy {

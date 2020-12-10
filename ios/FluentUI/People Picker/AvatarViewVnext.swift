@@ -39,35 +39,35 @@ public enum AvatarVnextPresence: Int, CaseIterable {
     case unknown
     case blocked
 
-    public func color() -> UIColor? {
-        var color: UIColor?
+    public func color() -> Color {
+        var color = UIColor.clear
 
         switch self {
         case .none:
             break
         case .available:
-            color = Colors.Palette.presenceAvailable.color
+            color = StylesheetManager.S.Colors.Presence.available
         case .away:
-            color = Colors.Palette.presenceAway.color
+            color = StylesheetManager.S.Colors.Presence.away
         case .busy:
-            color = Colors.Palette.presenceBusy.color
+            color = StylesheetManager.S.Colors.Presence.busy
         case .doNotDisturb:
-            color = Colors.Palette.presenceDnd.color
+            color = StylesheetManager.S.Colors.Presence.doNotDisturb
         case .outOfOffice:
-            color = Colors.Palette.presenceOof.color
+            color = StylesheetManager.S.Colors.Presence.outOfOffice
         case .offline:
-            color = Colors.Palette.presenceOffline.color
+            color = StylesheetManager.S.Colors.Presence.offline
         case .unknown:
-            color = Colors.Palette.presenceUnknown.color
+            color = StylesheetManager.S.Colors.Presence.unknown
         case .blocked:
-            color = Colors.Palette.presenceBlocked.color
+            color = StylesheetManager.S.Colors.Presence.blocked
         }
 
-        return color
+        return Color(color)
     }
 
-    public func image() -> UIImage? {
-        var imageName: String?
+    public func image() -> Image {
+        var imageName = ""
 
         switch self {
         case .none:
@@ -90,12 +90,8 @@ public enum AvatarVnextPresence: Int, CaseIterable {
             imageName = "ic_fluent_presence_blocked_16_regular"
         }
 
-        var image: UIImage?
-        if let imageName = imageName {
-            image = UIImage.staticImageNamed(imageName)
-        }
-
-        return image
+        return Image(imageName,
+                     bundle: FluentUIFramework.resourceBundle)
     }
 }
 
@@ -301,10 +297,10 @@ public struct AvatarVnextView: View {
                                                     AnyView(Circle()
                                                                 .foregroundColor(Color(tokens.presenceOutlineColor))
                                                                 .frame(width: presenceIconOutlineSize, height: presenceIconOutlineSize, alignment: .center)
-                                                                .overlay(Image(uiImage: presence.image()!)
+                                                                .overlay(presence.image()
                                                                             .resizable()
                                                                             .frame(width: presenceIconSize, height: presenceIconSize, alignment: .center)
-                                                                            .foregroundColor(Color(presence.color()!)))
+                                                                            .foregroundColor(presence.color()))
                                                                 .frame(width: presenceIconFrameSide, height: presenceIconFrameSide, alignment: .bottomTrailing)
                                                     )
                                                     :
