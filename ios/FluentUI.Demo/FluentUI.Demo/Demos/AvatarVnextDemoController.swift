@@ -62,6 +62,8 @@ class AvatarVnextDemoController: DemoController {
             let unauthenticatedAvatar = createAvatarView(size: size,
                                                          name: nil,
                                                          style: .unauthenticated)
+
+            avatarViewsUnauthenticated.append(unauthenticatedAvatar.1)
             addRow(text: size.description, items: [unauthenticatedAvatar.1.view], textStyle: .footnote, textWidth: 100)
         }
 
@@ -104,6 +106,10 @@ class AvatarVnextDemoController: DemoController {
                 for avatarView in avatarViewsWithInitials {
                     avatarView.state.shouldUseOpaqueBorders = isUsingOpaqueBorders
                 }
+
+                for avatarView in avatarViewsUnauthenticated {
+                    avatarView.state.shouldUseOpaqueBorders = isUsingOpaqueBorders
+                }
             }
         }
     }
@@ -143,6 +149,7 @@ class AvatarVnextDemoController: DemoController {
 
     private var avatarViewsWithImages: [AvatarVnext] = []
     private var avatarViewsWithInitials: [AvatarVnext] = []
+    private var avatarViewsUnauthenticated: [AvatarVnext] = []
 
     private func createSection(withTitle title: String,
                                name: String,
