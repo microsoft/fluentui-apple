@@ -302,6 +302,749 @@ extension StylesheetManagerTheming {
 		 struct __ { static let _sharedInstance = FluentUIStyle() }
 		return __._sharedInstance
 	}
+	//MARK: - AvatarTokens
+	public var _AvatarTokens: AvatarTokensAppearanceProxy?
+	open func AvatarTokensStyle() -> AvatarTokensAppearanceProxy {
+		if let override = _AvatarTokens { return override }
+			return AvatarTokensAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+		}
+	public var AvatarTokens: AvatarTokensAppearanceProxy {
+		get { return self.AvatarTokensStyle() }
+		set { _AvatarTokens = newValue }
+	}
+	@objc(AvatarTokensAppearanceProxy) @objcMembers open class AvatarTokensAppearanceProxy: NSObject {
+		public let mainProxy: () -> FluentUIStyle
+		public init(proxy: @escaping () -> FluentUIStyle) {
+			self.mainProxy = proxy
+		}
+
+		//MARK: backgroundDefaultColor 
+		public var _backgroundDefaultColor: UIColor?
+		open func backgroundDefaultColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _backgroundDefaultColor { return override }
+			return UIColor(red: 0.92941177, green: 0.6745098, blue: 0.69411767, alpha: 1.0)
+			}
+		public var backgroundDefaultColor: UIColor {
+			get { return self.backgroundDefaultColorProperty() }
+			set { _backgroundDefaultColor = newValue }
+		}
+
+		//MARK: - borderRadius
+		public var _borderRadius: borderRadiusAppearanceProxy?
+		open func borderRadiusStyle() -> borderRadiusAppearanceProxy {
+			if let override = _borderRadius { return override }
+				return borderRadiusAppearanceProxy(proxy: mainProxy)
+			}
+		public var borderRadius: borderRadiusAppearanceProxy {
+			get { return self.borderRadiusStyle() }
+			set { _borderRadius = newValue }
+		}
+		@objc(AvatarTokensBorderRadiusAppearanceProxy) @objcMembers open class borderRadiusAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: large 
+			public var _large: CGFloat?
+			open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _large { return override }
+					return mainProxy().Border.radius.noneProperty(traitCollection)
+				}
+			public var large: CGFloat {
+				get { return self.largeProperty() }
+				set { _large = newValue }
+			}
+
+			//MARK: medium 
+			public var _medium: CGFloat?
+			open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _medium { return override }
+					return mainProxy().Border.radius.noneProperty(traitCollection)
+				}
+			public var medium: CGFloat {
+				get { return self.mediumProperty() }
+				set { _medium = newValue }
+			}
+
+			//MARK: small 
+			public var _small: CGFloat?
+			open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _small { return override }
+					return mainProxy().Border.radius.noneProperty(traitCollection)
+				}
+			public var small: CGFloat {
+				get { return self.smallProperty() }
+				set { _small = newValue }
+			}
+
+			//MARK: xSmall 
+			public var _xSmall: CGFloat?
+			open func xSmallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xSmall { return override }
+					return mainProxy().Border.radius.noneProperty(traitCollection)
+				}
+			public var xSmall: CGFloat {
+				get { return self.xSmallProperty() }
+				set { _xSmall = newValue }
+			}
+
+			//MARK: xlarge 
+			public var _xlarge: CGFloat?
+			open func xlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xlarge { return override }
+					return mainProxy().Border.radius.noneProperty(traitCollection)
+				}
+			public var xlarge: CGFloat {
+				get { return self.xlargeProperty() }
+				set { _xlarge = newValue }
+			}
+
+			//MARK: xxlarge 
+			public var _xxlarge: CGFloat?
+			open func xxlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xxlarge { return override }
+					return mainProxy().Border.radius.noneProperty(traitCollection)
+				}
+			public var xxlarge: CGFloat {
+				get { return self.xxlargeProperty() }
+				set { _xxlarge = newValue }
+			}
+		}
+
+
+		//MARK: foregroundDefaultColor 
+		public var _foregroundDefaultColor: UIColor?
+		open func foregroundDefaultColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _foregroundDefaultColor { return override }
+			return UIColor(red: 0.43137255, green: 0.03529412, blue: 0.06666667, alpha: 1.0)
+			}
+		public var foregroundDefaultColor: UIColor {
+			get { return self.foregroundDefaultColorProperty() }
+			set { _foregroundDefaultColor = newValue }
+		}
+
+		//MARK: presenceIconOutlineColor 
+		public var _presenceIconOutlineColor: UIColor?
+		open func presenceIconOutlineColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _presenceIconOutlineColor { return override }
+			return mainProxy().Colors.Background.neutral1Property(traitCollection)
+			}
+		public var presenceIconOutlineColor: UIColor {
+			get { return self.presenceIconOutlineColorProperty() }
+			set { _presenceIconOutlineColor = newValue }
+		}
+
+		//MARK: - presenceIconOutlineThickness
+		public var _presenceIconOutlineThickness: presenceIconOutlineThicknessAppearanceProxy?
+		open func presenceIconOutlineThicknessStyle() -> presenceIconOutlineThicknessAppearanceProxy {
+			if let override = _presenceIconOutlineThickness { return override }
+				return presenceIconOutlineThicknessAppearanceProxy(proxy: mainProxy)
+			}
+		public var presenceIconOutlineThickness: presenceIconOutlineThicknessAppearanceProxy {
+			get { return self.presenceIconOutlineThicknessStyle() }
+			set { _presenceIconOutlineThickness = newValue }
+		}
+		@objc(AvatarTokensPresenceIconOutlineThicknessAppearanceProxy) @objcMembers open class presenceIconOutlineThicknessAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: large 
+			public var _large: CGFloat?
+			open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _large { return override }
+					return mainProxy().Border.size.thickProperty(traitCollection)
+				}
+			public var large: CGFloat {
+				get { return self.largeProperty() }
+				set { _large = newValue }
+			}
+
+			//MARK: medium 
+			public var _medium: CGFloat?
+			open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _medium { return override }
+					return mainProxy().Border.size.thickProperty(traitCollection)
+				}
+			public var medium: CGFloat {
+				get { return self.mediumProperty() }
+				set { _medium = newValue }
+			}
+
+			//MARK: small 
+			public var _small: CGFloat?
+			open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _small { return override }
+					return mainProxy().Border.size.thickProperty(traitCollection)
+				}
+			public var small: CGFloat {
+				get { return self.smallProperty() }
+				set { _small = newValue }
+			}
+
+			//MARK: xSmall 
+			public var _xSmall: CGFloat?
+			open func xSmallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xSmall { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+			public var xSmall: CGFloat {
+				get { return self.xSmallProperty() }
+				set { _xSmall = newValue }
+			}
+
+			//MARK: xlarge 
+			public var _xlarge: CGFloat?
+			open func xlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xlarge { return override }
+					return mainProxy().Border.size.thickProperty(traitCollection)
+				}
+			public var xlarge: CGFloat {
+				get { return self.xlargeProperty() }
+				set { _xlarge = newValue }
+			}
+
+			//MARK: xxlarge 
+			public var _xxlarge: CGFloat?
+			open func xxlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xxlarge { return override }
+					return mainProxy().Border.size.thickProperty(traitCollection)
+				}
+			public var xxlarge: CGFloat {
+				get { return self.xxlargeProperty() }
+				set { _xxlarge = newValue }
+			}
+		}
+
+
+		//MARK: - presenceIconSize
+		public var _presenceIconSize: presenceIconSizeAppearanceProxy?
+		open func presenceIconSizeStyle() -> presenceIconSizeAppearanceProxy {
+			if let override = _presenceIconSize { return override }
+				return presenceIconSizeAppearanceProxy(proxy: mainProxy)
+			}
+		public var presenceIconSize: presenceIconSizeAppearanceProxy {
+			get { return self.presenceIconSizeStyle() }
+			set { _presenceIconSize = newValue }
+		}
+		@objc(AvatarTokensPresenceIconSizeAppearanceProxy) @objcMembers open class presenceIconSizeAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: large 
+			public var _large: CGFloat?
+			open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _large { return override }
+					return mainProxy().Icon.size.xxSmallProperty(traitCollection)
+				}
+			public var large: CGFloat {
+				get { return self.largeProperty() }
+				set { _large = newValue }
+			}
+
+			//MARK: medium 
+			public var _medium: CGFloat?
+			open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _medium { return override }
+					return mainProxy().Icon.size.xxxSmallProperty(traitCollection)
+				}
+			public var medium: CGFloat {
+				get { return self.mediumProperty() }
+				set { _medium = newValue }
+			}
+
+			//MARK: small 
+			public var _small: CGFloat?
+			open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _small { return override }
+					return mainProxy().Icon.size.xxxSmallProperty(traitCollection)
+				}
+			public var small: CGFloat {
+				get { return self.smallProperty() }
+				set { _small = newValue }
+			}
+
+			//MARK: xSmall 
+			public var _xSmall: CGFloat?
+			open func xSmallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xSmall { return override }
+					return CGFloat(0.0)
+				}
+			public var xSmall: CGFloat {
+				get { return self.xSmallProperty() }
+				set { _xSmall = newValue }
+			}
+
+			//MARK: xlarge 
+			public var _xlarge: CGFloat?
+			open func xlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xlarge { return override }
+					return mainProxy().Icon.size.xSmallProperty(traitCollection)
+				}
+			public var xlarge: CGFloat {
+				get { return self.xlargeProperty() }
+				set { _xlarge = newValue }
+			}
+
+			//MARK: xxlarge 
+			public var _xxlarge: CGFloat?
+			open func xxlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xxlarge { return override }
+					return mainProxy().Icon.size.smallProperty(traitCollection)
+				}
+			public var xxlarge: CGFloat {
+				get { return self.xxlargeProperty() }
+				set { _xxlarge = newValue }
+			}
+		}
+
+
+		//MARK: ringDefaultColor 
+		public var _ringDefaultColor: UIColor?
+		open func ringDefaultColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _ringDefaultColor { return override }
+			return UIColor(red: 0.77254903, green: 0.05882353, blue: 0.12156863, alpha: 1.0)
+			}
+		public var ringDefaultColor: UIColor {
+			get { return self.ringDefaultColorProperty() }
+			set { _ringDefaultColor = newValue }
+		}
+
+		//MARK: ringGapColor 
+		public var _ringGapColor: UIColor?
+		open func ringGapColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _ringGapColor { return override }
+			return mainProxy().Colors.Background.neutral1Property(traitCollection)
+			}
+		public var ringGapColor: UIColor {
+			get { return self.ringGapColorProperty() }
+			set { _ringGapColor = newValue }
+		}
+
+		//MARK: - ringInnerGap
+		public var _ringInnerGap: ringInnerGapAppearanceProxy?
+		open func ringInnerGapStyle() -> ringInnerGapAppearanceProxy {
+			if let override = _ringInnerGap { return override }
+				return ringInnerGapAppearanceProxy(proxy: mainProxy)
+			}
+		public var ringInnerGap: ringInnerGapAppearanceProxy {
+			get { return self.ringInnerGapStyle() }
+			set { _ringInnerGap = newValue }
+		}
+		@objc(AvatarTokensRingInnerGapAppearanceProxy) @objcMembers open class ringInnerGapAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: large 
+			public var _large: CGFloat?
+			open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _large { return override }
+					return mainProxy().Border.size.thickProperty(traitCollection)
+				}
+			public var large: CGFloat {
+				get { return self.largeProperty() }
+				set { _large = newValue }
+			}
+
+			//MARK: medium 
+			public var _medium: CGFloat?
+			open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _medium { return override }
+					return mainProxy().Border.size.thickProperty(traitCollection)
+				}
+			public var medium: CGFloat {
+				get { return self.mediumProperty() }
+				set { _medium = newValue }
+			}
+
+			//MARK: small 
+			public var _small: CGFloat?
+			open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _small { return override }
+					return mainProxy().Border.size.thickProperty(traitCollection)
+				}
+			public var small: CGFloat {
+				get { return self.smallProperty() }
+				set { _small = newValue }
+			}
+
+			//MARK: xSmall 
+			public var _xSmall: CGFloat?
+			open func xSmallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xSmall { return override }
+					return mainProxy().Border.size.thickProperty(traitCollection)
+				}
+			public var xSmall: CGFloat {
+				get { return self.xSmallProperty() }
+				set { _xSmall = newValue }
+			}
+
+			//MARK: xlarge 
+			public var _xlarge: CGFloat?
+			open func xlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xlarge { return override }
+					return mainProxy().Border.size.thickProperty(traitCollection)
+				}
+			public var xlarge: CGFloat {
+				get { return self.xlargeProperty() }
+				set { _xlarge = newValue }
+			}
+
+			//MARK: xxlarge 
+			public var _xxlarge: CGFloat?
+			open func xxlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xxlarge { return override }
+					return mainProxy().Border.size.thickerProperty(traitCollection)
+				}
+			public var xxlarge: CGFloat {
+				get { return self.xxlargeProperty() }
+				set { _xxlarge = newValue }
+			}
+		}
+
+
+		//MARK: - ringOuterGap
+		public var _ringOuterGap: ringOuterGapAppearanceProxy?
+		open func ringOuterGapStyle() -> ringOuterGapAppearanceProxy {
+			if let override = _ringOuterGap { return override }
+				return ringOuterGapAppearanceProxy(proxy: mainProxy)
+			}
+		public var ringOuterGap: ringOuterGapAppearanceProxy {
+			get { return self.ringOuterGapStyle() }
+			set { _ringOuterGap = newValue }
+		}
+		@objc(AvatarTokensRingOuterGapAppearanceProxy) @objcMembers open class ringOuterGapAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: large 
+			public var _large: CGFloat?
+			open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _large { return override }
+					return mainProxy().Border.size.thickProperty(traitCollection)
+				}
+			public var large: CGFloat {
+				get { return self.largeProperty() }
+				set { _large = newValue }
+			}
+
+			//MARK: medium 
+			public var _medium: CGFloat?
+			open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _medium { return override }
+					return mainProxy().Border.size.thickProperty(traitCollection)
+				}
+			public var medium: CGFloat {
+				get { return self.mediumProperty() }
+				set { _medium = newValue }
+			}
+
+			//MARK: small 
+			public var _small: CGFloat?
+			open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _small { return override }
+					return mainProxy().Border.size.thickProperty(traitCollection)
+				}
+			public var small: CGFloat {
+				get { return self.smallProperty() }
+				set { _small = newValue }
+			}
+
+			//MARK: xSmall 
+			public var _xSmall: CGFloat?
+			open func xSmallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xSmall { return override }
+					return mainProxy().Border.size.thickProperty(traitCollection)
+				}
+			public var xSmall: CGFloat {
+				get { return self.xSmallProperty() }
+				set { _xSmall = newValue }
+			}
+
+			//MARK: xlarge 
+			public var _xlarge: CGFloat?
+			open func xlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xlarge { return override }
+					return mainProxy().Border.size.thickProperty(traitCollection)
+				}
+			public var xlarge: CGFloat {
+				get { return self.xlargeProperty() }
+				set { _xlarge = newValue }
+			}
+
+			//MARK: xxlarge 
+			public var _xxlarge: CGFloat?
+			open func xxlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xxlarge { return override }
+					return mainProxy().Border.size.thickerProperty(traitCollection)
+				}
+			public var xxlarge: CGFloat {
+				get { return self.xxlargeProperty() }
+				set { _xxlarge = newValue }
+			}
+		}
+
+
+		//MARK: - ringThickness
+		public var _ringThickness: ringThicknessAppearanceProxy?
+		open func ringThicknessStyle() -> ringThicknessAppearanceProxy {
+			if let override = _ringThickness { return override }
+				return ringThicknessAppearanceProxy(proxy: mainProxy)
+			}
+		public var ringThickness: ringThicknessAppearanceProxy {
+			get { return self.ringThicknessStyle() }
+			set { _ringThickness = newValue }
+		}
+		@objc(AvatarTokensRingThicknessAppearanceProxy) @objcMembers open class ringThicknessAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: large 
+			public var _large: CGFloat?
+			open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _large { return override }
+					return mainProxy().Border.size.thickProperty(traitCollection)
+				}
+			public var large: CGFloat {
+				get { return self.largeProperty() }
+				set { _large = newValue }
+			}
+
+			//MARK: medium 
+			public var _medium: CGFloat?
+			open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _medium { return override }
+					return mainProxy().Border.size.thickProperty(traitCollection)
+				}
+			public var medium: CGFloat {
+				get { return self.mediumProperty() }
+				set { _medium = newValue }
+			}
+
+			//MARK: small 
+			public var _small: CGFloat?
+			open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _small { return override }
+					return mainProxy().Border.size.thinProperty(traitCollection)
+				}
+			public var small: CGFloat {
+				get { return self.smallProperty() }
+				set { _small = newValue }
+			}
+
+			//MARK: xSmall 
+			public var _xSmall: CGFloat?
+			open func xSmallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xSmall { return override }
+					return mainProxy().Border.size.thinProperty(traitCollection)
+				}
+			public var xSmall: CGFloat {
+				get { return self.xSmallProperty() }
+				set { _xSmall = newValue }
+			}
+
+			//MARK: xlarge 
+			public var _xlarge: CGFloat?
+			open func xlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xlarge { return override }
+					return mainProxy().Border.size.thickProperty(traitCollection)
+				}
+			public var xlarge: CGFloat {
+				get { return self.xlargeProperty() }
+				set { _xlarge = newValue }
+			}
+
+			//MARK: xxlarge 
+			public var _xxlarge: CGFloat?
+			open func xxlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xxlarge { return override }
+					return mainProxy().Border.size.thickerProperty(traitCollection)
+				}
+			public var xxlarge: CGFloat {
+				get { return self.xxlargeProperty() }
+				set { _xxlarge = newValue }
+			}
+		}
+
+
+		//MARK: - size
+		public var _size: sizeAppearanceProxy?
+		open func sizeStyle() -> sizeAppearanceProxy {
+			if let override = _size { return override }
+				return sizeAppearanceProxy(proxy: mainProxy)
+			}
+		public var size: sizeAppearanceProxy {
+			get { return self.sizeStyle() }
+			set { _size = newValue }
+		}
+		@objc(AvatarTokensSizeAppearanceProxy) @objcMembers open class sizeAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: large 
+			public var _large: CGFloat?
+			open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _large { return override }
+					return CGFloat(40.0)
+				}
+			public var large: CGFloat {
+				get { return self.largeProperty() }
+				set { _large = newValue }
+			}
+
+			//MARK: medium 
+			public var _medium: CGFloat?
+			open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _medium { return override }
+					return CGFloat(32.0)
+				}
+			public var medium: CGFloat {
+				get { return self.mediumProperty() }
+				set { _medium = newValue }
+			}
+
+			//MARK: small 
+			public var _small: CGFloat?
+			open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _small { return override }
+					return CGFloat(24.0)
+				}
+			public var small: CGFloat {
+				get { return self.smallProperty() }
+				set { _small = newValue }
+			}
+
+			//MARK: xSmall 
+			public var _xSmall: CGFloat?
+			open func xSmallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xSmall { return override }
+					return CGFloat(16.0)
+				}
+			public var xSmall: CGFloat {
+				get { return self.xSmallProperty() }
+				set { _xSmall = newValue }
+			}
+
+			//MARK: xlarge 
+			public var _xlarge: CGFloat?
+			open func xlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xlarge { return override }
+					return CGFloat(52.0)
+				}
+			public var xlarge: CGFloat {
+				get { return self.xlargeProperty() }
+				set { _xlarge = newValue }
+			}
+
+			//MARK: xxlarge 
+			public var _xxlarge: CGFloat?
+			open func xxlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xxlarge { return override }
+					return CGFloat(72.0)
+				}
+			public var xxlarge: CGFloat {
+				get { return self.xxlargeProperty() }
+				set { _xxlarge = newValue }
+			}
+		}
+
+
+		//MARK: - textFont
+		public var _textFont: textFontAppearanceProxy?
+		open func textFontStyle() -> textFontAppearanceProxy {
+			if let override = _textFont { return override }
+				return textFontAppearanceProxy(proxy: mainProxy)
+			}
+		public var textFont: textFontAppearanceProxy {
+			get { return self.textFontStyle() }
+			set { _textFont = newValue }
+		}
+		@objc(AvatarTokensTextFontAppearanceProxy) @objcMembers open class textFontAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: large 
+			public var _large: UIFont?
+			open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
+				if let override = _large { return override }
+					return UIFont.font(name: nil, size: 15.0, textStyle: nil, weight: UIFont.Weight.regular, traits: [], traitCollection: traitCollection, isScalable: false)
+				}
+			public var large: UIFont {
+				get { return self.largeProperty() }
+				set { _large = newValue }
+			}
+
+			//MARK: medium 
+			public var _medium: UIFont?
+			open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
+				if let override = _medium { return override }
+					return UIFont.font(name: nil, size: 13.0, textStyle: nil, weight: UIFont.Weight.regular, traits: [], traitCollection: traitCollection, isScalable: false)
+				}
+			public var medium: UIFont {
+				get { return self.mediumProperty() }
+				set { _medium = newValue }
+			}
+
+			//MARK: small 
+			public var _small: UIFont?
+			open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
+				if let override = _small { return override }
+					return UIFont.font(name: nil, size: 12.0, textStyle: nil, weight: UIFont.Weight.regular, traits: [], traitCollection: traitCollection, isScalable: false)
+				}
+			public var small: UIFont {
+				get { return self.smallProperty() }
+				set { _small = newValue }
+			}
+
+			//MARK: xSmall 
+			public var _xSmall: UIFont?
+			open func xSmallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
+				if let override = _xSmall { return override }
+					return UIFont.font(name: nil, size: 9.0, textStyle: nil, weight: UIFont.Weight.regular, traits: [], traitCollection: traitCollection, isScalable: false)
+				}
+			public var xSmall: UIFont {
+				get { return self.xSmallProperty() }
+				set { _xSmall = newValue }
+			}
+
+			//MARK: xlarge 
+			public var _xlarge: UIFont?
+			open func xlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
+				if let override = _xlarge { return override }
+					return UIFont.font(name: nil, size: 20.0, textStyle: nil, weight: UIFont.Weight.regular, traits: [], traitCollection: traitCollection, isScalable: false)
+				}
+			public var xlarge: UIFont {
+				get { return self.xlargeProperty() }
+				set { _xlarge = newValue }
+			}
+
+			//MARK: xxlarge 
+			public var _xxlarge: UIFont?
+			open func xxlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
+				if let override = _xxlarge { return override }
+					return UIFont.font(name: nil, size: 28.0, textStyle: nil, weight: UIFont.Weight.medium, traits: [], traitCollection: traitCollection, isScalable: false)
+				}
+			public var xxlarge: UIFont {
+				get { return self.xxlargeProperty() }
+				set { _xxlarge = newValue }
+			}
+		}
+
+	}
 	//MARK: - Border
 	public var _Border: BorderAppearanceProxy?
 	open func BorderStyle() -> BorderAppearanceProxy {
@@ -1454,6 +2197,112 @@ extension StylesheetManagerTheming {
 		}
 
 
+		//MARK: - Presence
+		public var _Presence: PresenceAppearanceProxy?
+		open func PresenceStyle() -> PresenceAppearanceProxy {
+			if let override = _Presence { return override }
+				return PresenceAppearanceProxy(proxy: mainProxy)
+			}
+		public var Presence: PresenceAppearanceProxy {
+			get { return self.PresenceStyle() }
+			set { _Presence = newValue }
+		}
+		@objc(ColorsPresenceAppearanceProxy) @objcMembers open class PresenceAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: available 
+			public var _available: UIColor?
+			open func availableProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _available { return override }
+					return UIColor(named: "FluentColors/presenceAvailable", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				}
+			public var available: UIColor {
+				get { return self.availableProperty() }
+				set { _available = newValue }
+			}
+
+			//MARK: away 
+			public var _away: UIColor?
+			open func awayProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _away { return override }
+					return UIColor(named: "FluentColors/presenceAway", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				}
+			public var away: UIColor {
+				get { return self.awayProperty() }
+				set { _away = newValue }
+			}
+
+			//MARK: blocked 
+			public var _blocked: UIColor?
+			open func blockedProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _blocked { return override }
+					return UIColor(named: "FluentColors/presenceBlocked", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				}
+			public var blocked: UIColor {
+				get { return self.blockedProperty() }
+				set { _blocked = newValue }
+			}
+
+			//MARK: busy 
+			public var _busy: UIColor?
+			open func busyProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _busy { return override }
+					return UIColor(named: "FluentColors/presenceBusy", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				}
+			public var busy: UIColor {
+				get { return self.busyProperty() }
+				set { _busy = newValue }
+			}
+
+			//MARK: doNotDisturb 
+			public var _doNotDisturb: UIColor?
+			open func doNotDisturbProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _doNotDisturb { return override }
+					return UIColor(named: "FluentColors/presenceDnd", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				}
+			public var doNotDisturb: UIColor {
+				get { return self.doNotDisturbProperty() }
+				set { _doNotDisturb = newValue }
+			}
+
+			//MARK: offline 
+			public var _offline: UIColor?
+			open func offlineProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _offline { return override }
+					return UIColor(named: "FluentColors/presenceOffline", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				}
+			public var offline: UIColor {
+				get { return self.offlineProperty() }
+				set { _offline = newValue }
+			}
+
+			//MARK: outOfOffice 
+			public var _outOfOffice: UIColor?
+			open func outOfOfficeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _outOfOffice { return override }
+					return UIColor(named: "FluentColors/presenceOof", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				}
+			public var outOfOffice: UIColor {
+				get { return self.outOfOfficeProperty() }
+				set { _outOfOffice = newValue }
+			}
+
+			//MARK: unknown 
+			public var _unknown: UIColor?
+			open func unknownProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _unknown { return override }
+					return UIColor(named: "FluentColors/presenceUnknown", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				}
+			public var unknown: UIColor {
+				get { return self.unknownProperty() }
+				set { _unknown = newValue }
+			}
+		}
+
+
 		//MARK: - Stroke
 		public var _Stroke: StrokeAppearanceProxy?
 		open func StrokeStyle() -> StrokeAppearanceProxy {
@@ -1629,6 +2478,198 @@ extension StylesheetManagerTheming {
 			override open func selectedProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
 				if let override = _selected { return override }
 					return mainProxy().Colors.Brand.shade10Property(traitCollection)
+				}
+		}
+
+	}
+	//MARK: - GroupAvatarTokens
+	public var _GroupAvatarTokens: GroupAvatarTokensAppearanceProxy?
+	open func GroupAvatarTokensStyle() -> GroupAvatarTokensAppearanceProxy {
+		if let override = _GroupAvatarTokens { return override }
+			return GroupAvatarTokensAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+		}
+	public var GroupAvatarTokens: GroupAvatarTokensAppearanceProxy {
+		get { return self.GroupAvatarTokensStyle() }
+		set { _GroupAvatarTokens = newValue }
+	}
+	@objc(GroupAvatarTokensAppearanceProxy) @objcMembers open class GroupAvatarTokensAppearanceProxy: AvatarTokensAppearanceProxy {
+
+		//MARK: - GroupAvatarTokensborderRadius
+		override open func borderRadiusStyle() -> AvatarTokensAppearanceProxy.borderRadiusAppearanceProxy {
+			if let override = _borderRadius { return override }
+				return GroupAvatarTokensborderRadiusAppearanceProxy(proxy: mainProxy)
+			}
+		@objc(GroupAvatarTokensBorderRadiusAppearanceProxy) @objcMembers open class GroupAvatarTokensborderRadiusAppearanceProxy: AvatarTokensAppearanceProxy.borderRadiusAppearanceProxy {
+
+			//MARK: large 
+			override open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _large { return override }
+					return mainProxy().Border.radius.largeProperty(traitCollection)
+				}
+
+			//MARK: medium 
+			override open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _medium { return override }
+					return mainProxy().Border.radius.mediumProperty(traitCollection)
+				}
+
+			//MARK: small 
+			override open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _small { return override }
+					return mainProxy().Border.radius.mediumProperty(traitCollection)
+				}
+
+			//MARK: xSmall 
+			override open func xSmallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xSmall { return override }
+					return mainProxy().Border.radius.smallProperty(traitCollection)
+				}
+
+			//MARK: xlarge 
+			override open func xlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xlarge { return override }
+					return mainProxy().Border.radius.largeProperty(traitCollection)
+				}
+
+			//MARK: xxlarge 
+			override open func xxlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xxlarge { return override }
+					return mainProxy().Border.radius.xlargeProperty(traitCollection)
+				}
+		}
+
+
+		//MARK: - GroupAvatarTokensringInnerGap
+		override open func ringInnerGapStyle() -> AvatarTokensAppearanceProxy.ringInnerGapAppearanceProxy {
+			if let override = _ringInnerGap { return override }
+				return GroupAvatarTokensringInnerGapAppearanceProxy(proxy: mainProxy)
+			}
+		@objc(GroupAvatarTokensRingInnerGapAppearanceProxy) @objcMembers open class GroupAvatarTokensringInnerGapAppearanceProxy: AvatarTokensAppearanceProxy.ringInnerGapAppearanceProxy {
+
+			//MARK: large 
+			override open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _large { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: medium 
+			override open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _medium { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: small 
+			override open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _small { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: xSmall 
+			override open func xSmallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xSmall { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: xlarge 
+			override open func xlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xlarge { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: xxlarge 
+			override open func xxlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xxlarge { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+		}
+
+
+		//MARK: - GroupAvatarTokensringOuterGap
+		override open func ringOuterGapStyle() -> AvatarTokensAppearanceProxy.ringOuterGapAppearanceProxy {
+			if let override = _ringOuterGap { return override }
+				return GroupAvatarTokensringOuterGapAppearanceProxy(proxy: mainProxy)
+			}
+		@objc(GroupAvatarTokensRingOuterGapAppearanceProxy) @objcMembers open class GroupAvatarTokensringOuterGapAppearanceProxy: AvatarTokensAppearanceProxy.ringOuterGapAppearanceProxy {
+
+			//MARK: large 
+			override open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _large { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: medium 
+			override open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _medium { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: small 
+			override open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _small { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: xSmall 
+			override open func xSmallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xSmall { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: xlarge 
+			override open func xlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xlarge { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: xxlarge 
+			override open func xxlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xxlarge { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+		}
+
+
+		//MARK: - GroupAvatarTokensringThickness
+		override open func ringThicknessStyle() -> AvatarTokensAppearanceProxy.ringThicknessAppearanceProxy {
+			if let override = _ringThickness { return override }
+				return GroupAvatarTokensringThicknessAppearanceProxy(proxy: mainProxy)
+			}
+		@objc(GroupAvatarTokensRingThicknessAppearanceProxy) @objcMembers open class GroupAvatarTokensringThicknessAppearanceProxy: AvatarTokensAppearanceProxy.ringThicknessAppearanceProxy {
+
+			//MARK: large 
+			override open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _large { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: medium 
+			override open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _medium { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: small 
+			override open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _small { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: xSmall 
+			override open func xSmallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xSmall { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: xlarge 
+			override open func xlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xlarge { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: xxlarge 
+			override open func xxlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xxlarge { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
 				}
 		}
 
@@ -2380,6 +3421,159 @@ extension StylesheetManagerTheming {
 		}
 
 	}
+	//MARK: - NoRingAvatarTokens
+	public var _NoRingAvatarTokens: NoRingAvatarTokensAppearanceProxy?
+	open func NoRingAvatarTokensStyle() -> NoRingAvatarTokensAppearanceProxy {
+		if let override = _NoRingAvatarTokens { return override }
+			return NoRingAvatarTokensAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+		}
+	public var NoRingAvatarTokens: NoRingAvatarTokensAppearanceProxy {
+		get { return self.NoRingAvatarTokensStyle() }
+		set { _NoRingAvatarTokens = newValue }
+	}
+	@objc(NoRingAvatarTokensAppearanceProxy) @objcMembers open class NoRingAvatarTokensAppearanceProxy: AvatarTokensAppearanceProxy {
+
+		//MARK: ringDefaultColor 
+		override open func ringDefaultColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _ringDefaultColor { return override }
+			return mainProxy().Colors.Neutral.clearProperty(traitCollection)
+			}
+
+		//MARK: - NoRingAvatarTokensringInnerGap
+		override open func ringInnerGapStyle() -> AvatarTokensAppearanceProxy.ringInnerGapAppearanceProxy {
+			if let override = _ringInnerGap { return override }
+				return NoRingAvatarTokensringInnerGapAppearanceProxy(proxy: mainProxy)
+			}
+		@objc(NoRingAvatarTokensRingInnerGapAppearanceProxy) @objcMembers open class NoRingAvatarTokensringInnerGapAppearanceProxy: AvatarTokensAppearanceProxy.ringInnerGapAppearanceProxy {
+
+			//MARK: large 
+			override open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _large { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: medium 
+			override open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _medium { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: small 
+			override open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _small { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: xSmall 
+			override open func xSmallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xSmall { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: xlarge 
+			override open func xlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xlarge { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: xxlarge 
+			override open func xxlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xxlarge { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+		}
+
+
+		//MARK: - NoRingAvatarTokensringOuterGap
+		override open func ringOuterGapStyle() -> AvatarTokensAppearanceProxy.ringOuterGapAppearanceProxy {
+			if let override = _ringOuterGap { return override }
+				return NoRingAvatarTokensringOuterGapAppearanceProxy(proxy: mainProxy)
+			}
+		@objc(NoRingAvatarTokensRingOuterGapAppearanceProxy) @objcMembers open class NoRingAvatarTokensringOuterGapAppearanceProxy: AvatarTokensAppearanceProxy.ringOuterGapAppearanceProxy {
+
+			//MARK: large 
+			override open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _large { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: medium 
+			override open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _medium { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: small 
+			override open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _small { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: xSmall 
+			override open func xSmallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xSmall { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: xlarge 
+			override open func xlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xlarge { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: xxlarge 
+			override open func xxlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xxlarge { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+		}
+
+
+		//MARK: - NoRingAvatarTokensringThickness
+		override open func ringThicknessStyle() -> AvatarTokensAppearanceProxy.ringThicknessAppearanceProxy {
+			if let override = _ringThickness { return override }
+				return NoRingAvatarTokensringThicknessAppearanceProxy(proxy: mainProxy)
+			}
+		@objc(NoRingAvatarTokensRingThicknessAppearanceProxy) @objcMembers open class NoRingAvatarTokensringThicknessAppearanceProxy: AvatarTokensAppearanceProxy.ringThicknessAppearanceProxy {
+
+			//MARK: large 
+			override open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _large { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: medium 
+			override open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _medium { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: small 
+			override open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _small { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: xSmall 
+			override open func xSmallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xSmall { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: xlarge 
+			override open func xlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xlarge { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: xxlarge 
+			override open func xxlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xxlarge { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+		}
+
+	}
 	//MARK: - Opacity
 	public var _Opacity: OpacityAppearanceProxy?
 	open func OpacityStyle() -> OpacityAppearanceProxy {
@@ -2494,6 +3688,171 @@ extension StylesheetManagerTheming {
 			get { return self.opacity96Property() }
 			set { _opacity96 = newValue }
 		}
+	}
+	//MARK: - OverflowAvatarTokens
+	public var _OverflowAvatarTokens: OverflowAvatarTokensAppearanceProxy?
+	open func OverflowAvatarTokensStyle() -> OverflowAvatarTokensAppearanceProxy {
+		if let override = _OverflowAvatarTokens { return override }
+			return OverflowAvatarTokensAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+		}
+	public var OverflowAvatarTokens: OverflowAvatarTokensAppearanceProxy {
+		get { return self.OverflowAvatarTokensStyle() }
+		set { _OverflowAvatarTokens = newValue }
+	}
+	@objc(OverflowAvatarTokensAppearanceProxy) @objcMembers open class OverflowAvatarTokensAppearanceProxy: AvatarTokensAppearanceProxy {
+
+		//MARK: backgroundDefaultColor 
+		override open func backgroundDefaultColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _backgroundDefaultColor { return override }
+			return mainProxy().Colors.Background.neutral4Property(traitCollection)
+			}
+
+		//MARK: foregroundDefaultColor 
+		override open func foregroundDefaultColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _foregroundDefaultColor { return override }
+			return mainProxy().Colors.Foreground.neutral3Property(traitCollection)
+			}
+
+		//MARK: ringDefaultColor 
+		override open func ringDefaultColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _ringDefaultColor { return override }
+			return mainProxy().Colors.Neutral.clearProperty(traitCollection)
+			}
+
+		//MARK: - OverflowAvatarTokensringInnerGap
+		override open func ringInnerGapStyle() -> AvatarTokensAppearanceProxy.ringInnerGapAppearanceProxy {
+			if let override = _ringInnerGap { return override }
+				return OverflowAvatarTokensringInnerGapAppearanceProxy(proxy: mainProxy)
+			}
+		@objc(OverflowAvatarTokensRingInnerGapAppearanceProxy) @objcMembers open class OverflowAvatarTokensringInnerGapAppearanceProxy: AvatarTokensAppearanceProxy.ringInnerGapAppearanceProxy {
+
+			//MARK: large 
+			override open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _large { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: medium 
+			override open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _medium { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: small 
+			override open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _small { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: xSmall 
+			override open func xSmallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xSmall { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: xlarge 
+			override open func xlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xlarge { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: xxlarge 
+			override open func xxlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xxlarge { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+		}
+
+
+		//MARK: - OverflowAvatarTokensringOuterGap
+		override open func ringOuterGapStyle() -> AvatarTokensAppearanceProxy.ringOuterGapAppearanceProxy {
+			if let override = _ringOuterGap { return override }
+				return OverflowAvatarTokensringOuterGapAppearanceProxy(proxy: mainProxy)
+			}
+		@objc(OverflowAvatarTokensRingOuterGapAppearanceProxy) @objcMembers open class OverflowAvatarTokensringOuterGapAppearanceProxy: AvatarTokensAppearanceProxy.ringOuterGapAppearanceProxy {
+
+			//MARK: large 
+			override open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _large { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: medium 
+			override open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _medium { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: small 
+			override open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _small { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: xSmall 
+			override open func xSmallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xSmall { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: xlarge 
+			override open func xlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xlarge { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: xxlarge 
+			override open func xxlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xxlarge { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+		}
+
+
+		//MARK: - OverflowAvatarTokensringThickness
+		override open func ringThicknessStyle() -> AvatarTokensAppearanceProxy.ringThicknessAppearanceProxy {
+			if let override = _ringThickness { return override }
+				return OverflowAvatarTokensringThicknessAppearanceProxy(proxy: mainProxy)
+			}
+		@objc(OverflowAvatarTokensRingThicknessAppearanceProxy) @objcMembers open class OverflowAvatarTokensringThicknessAppearanceProxy: AvatarTokensAppearanceProxy.ringThicknessAppearanceProxy {
+
+			//MARK: large 
+			override open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _large { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: medium 
+			override open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _medium { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: small 
+			override open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _small { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: xSmall 
+			override open func xSmallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xSmall { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: xlarge 
+			override open func xlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xlarge { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+
+			//MARK: xxlarge 
+			override open func xxlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _xxlarge { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+		}
+
 	}
 	//MARK: - PrimaryButtonTokens
 	public var _PrimaryButtonTokens: PrimaryButtonTokensAppearanceProxy?
@@ -2877,6 +4236,36 @@ extension StylesheetManagerTheming {
 			set { _subheadline = newValue }
 		}
 	}
+	//MARK: - UnauthenticatedAvatarTokens
+	public var _UnauthenticatedAvatarTokens: UnauthenticatedAvatarTokensAppearanceProxy?
+	open func UnauthenticatedAvatarTokensStyle() -> UnauthenticatedAvatarTokensAppearanceProxy {
+		if let override = _UnauthenticatedAvatarTokens { return override }
+			return UnauthenticatedAvatarTokensAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+		}
+	public var UnauthenticatedAvatarTokens: UnauthenticatedAvatarTokensAppearanceProxy {
+		get { return self.UnauthenticatedAvatarTokensStyle() }
+		set { _UnauthenticatedAvatarTokens = newValue }
+	}
+	@objc(UnauthenticatedAvatarTokensAppearanceProxy) @objcMembers open class UnauthenticatedAvatarTokensAppearanceProxy: AvatarTokensAppearanceProxy {
+
+		//MARK: backgroundDefaultColor 
+		override open func backgroundDefaultColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _backgroundDefaultColor { return override }
+			return mainProxy().Colors.Background.neutral4Property(traitCollection)
+			}
+
+		//MARK: foregroundDefaultColor 
+		override open func foregroundDefaultColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _foregroundDefaultColor { return override }
+			return mainProxy().Colors.Foreground.neutral3Property(traitCollection)
+			}
+
+		//MARK: ringDefaultColor 
+		override open func ringDefaultColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _ringDefaultColor { return override }
+			return mainProxy().Colors.Background.neutralDisabledProperty(traitCollection)
+			}
+	}
 	//MARK: - __TextStyle
 	public var ___TextStyle: __TextStyleAppearanceProxy?
 	open func __TextStyleStyle() -> __TextStyleAppearanceProxy {
@@ -2898,6 +4287,66 @@ extension StylesheetManagerTheming {
 fileprivate var __ApperanceProxyHandle: UInt8 = 0
 fileprivate var __ThemeAwareHandle: UInt8 = 0
 fileprivate var __ObservingDidChangeThemeHandle: UInt8 = 0
+
+extension AvatarTokens: AppearaceProxyComponent {
+
+	public typealias ApperanceProxyType = FluentUIStyle.AvatarTokensAppearanceProxy
+	public var appearanceProxy: ApperanceProxyType {
+		get {
+			if let proxy = objc_getAssociatedObject(self, &__ApperanceProxyHandle) as? ApperanceProxyType {
+				if !themeAware { return proxy }
+
+				if let proxyString = Optional(String(reflecting: type(of: proxy))), proxyString.hasPrefix("Stardust") == false {
+					return proxy
+				}
+
+				if proxy is FluentUIStyle.GroupAvatarTokensAppearanceProxy {
+					return StylesheetManager.stylesheet(FluentUIStyle.shared()).GroupAvatarTokens
+				} else if proxy is FluentUIStyle.NoRingAvatarTokensAppearanceProxy {
+					return StylesheetManager.stylesheet(FluentUIStyle.shared()).NoRingAvatarTokens
+				} else if proxy is FluentUIStyle.OverflowAvatarTokensAppearanceProxy {
+					return StylesheetManager.stylesheet(FluentUIStyle.shared()).OverflowAvatarTokens
+				} else if proxy is FluentUIStyle.UnauthenticatedAvatarTokensAppearanceProxy {
+					return StylesheetManager.stylesheet(FluentUIStyle.shared()).UnauthenticatedAvatarTokens
+				}
+				return proxy
+			}
+
+			return StylesheetManager.stylesheet(FluentUIStyle.shared()).AvatarTokens
+		}
+		set {
+			objc_setAssociatedObject(self, &__ApperanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+			didChangeAppearanceProxy()
+		}
+	}
+
+	public var themeAware: Bool {
+		get {
+			guard let proxy = objc_getAssociatedObject(self, &__ThemeAwareHandle) as? Bool else { return true }
+			return proxy
+		}
+		set {
+			objc_setAssociatedObject(self, &__ThemeAwareHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+			isObservingDidChangeTheme = newValue
+		}
+	}
+
+	fileprivate var isObservingDidChangeTheme: Bool {
+		get {
+			guard let observing = objc_getAssociatedObject(self, &__ObservingDidChangeThemeHandle) as? Bool else { return false }
+			return observing
+		}
+		set {
+			if newValue == isObservingDidChangeTheme { return }
+			if newValue {
+				NotificationCenter.default.addObserver(self, selector: #selector(didChangeAppearanceProxy), name: Notification.Name.didChangeTheme, object: nil)
+			} else {
+				NotificationCenter.default.removeObserver(self, name: Notification.Name.didChangeTheme, object: nil)
+			}
+			objc_setAssociatedObject(self, &__ObservingDidChangeThemeHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+		}
+	}
+}
 
 extension MSFButtonTokens: AppearaceProxyComponent {
 
