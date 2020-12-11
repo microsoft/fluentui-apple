@@ -148,6 +148,7 @@ public struct MSFButtonViewButtonStyle: ButtonStyle {
                 }
         }
         .padding(tokens.padding)
+        .frame(maxWidth: .infinity)
         .foregroundColor(Color(isDisabled ? tokens.disabledTitleColor :
                                 (isPressed ? tokens.highlightedTitleColor : tokens.titleColor)))
                     .background((tokens.borderSize > 0) ?
@@ -180,7 +181,7 @@ public struct MSFButtonView: View {
         Button(action: action, label: {})
             .buttonStyle(MSFButtonViewButtonStyle(targetButton: self))
             .disabled(state.isDisabled)
-            .fixedSize()
+            .frame(maxWidth: .infinity)
     }
 }
 
@@ -188,7 +189,7 @@ public struct MSFButtonView: View {
 /// UIKit wrapper that exposes the SwiftUI Button implementation
 open class MSFButtonVnext: NSObject {
 
-    private var hostingController: UIHostingController<MSFButtonView>
+    public var hostingController: UIHostingController<MSFButtonView>
 
     @objc open var view: UIView {
         return hostingController.view

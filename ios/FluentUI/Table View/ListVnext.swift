@@ -125,15 +125,13 @@
                   Spacer()
               }
           }
-          //Frame modifier is a temporary fix for constraint issue. This should be removed in the future.
-          .frame(width: 400, height: 250, alignment: .center)
       }
   }
 
   @objc(MSFListVnext)
   open class MSFListVnext: NSObject {
 
-      private var hostingController: UIHostingController<MSFListView>
+      public var hostingController: UIHostingController<MSFListView>
 
       @objc open var view: UIView {
           return hostingController.view

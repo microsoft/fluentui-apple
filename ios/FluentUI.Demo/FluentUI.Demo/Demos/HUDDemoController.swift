@@ -6,58 +6,57 @@
 import FluentUI
 import UIKit
 
-class HUDDemoController: DemoController {
+class HUDDemoController: VXTViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        container.alignment = .leading
         let showActivityButton = MSFButtonVnext(style: .secondary, size: .small, action: {
             self.showActivityHUD()
         })
         showActivityButton.state.text = "Show activity HUD"
-        container.addArrangedSubview(showActivityButton.view)
+        add(showActivityButton.hostingController)
 
         let showSuccessButton = MSFButtonVnext(style: .secondary, size: .small, action: {
             self.showSuccessHUD()
         })
         showSuccessButton.state.text = "Show success HUD"
-        container.addArrangedSubview(showSuccessButton.view)
+        add(showSuccessButton.hostingController)
 
         let showFailureButton = MSFButtonVnext(style: .secondary, size: .small, action: {
             self.showFailureHUD()
         })
         showFailureButton.state.text = "Show failure HUD"
-        container.addArrangedSubview(showFailureButton.view)
+        add(showFailureButton.hostingController)
 
         let showCustomButton = MSFButtonVnext(style: .secondary, size: .small, action: {
             self.showCustomHUD()
         })
         showCustomButton.state.text = "Show custom HUD"
-        container.addArrangedSubview(showCustomButton.view)
+        add(showCustomButton.hostingController)
 
         let showCustomNonBlockingButton = MSFButtonVnext(style: .secondary, size: .small, action: {
             self.showCustomNonBlockingHUD()
         })
         showCustomNonBlockingButton.state.text = "Show custom non-blocking HUD"
-        container.addArrangedSubview(showCustomNonBlockingButton.view)
+        add(showCustomNonBlockingButton.hostingController)
 
         let showNolabelButton = MSFButtonVnext(style: .secondary, size: .small, action: {
             self.showNoLabelHUD()
         })
         showNolabelButton.state.text = "Show HUD with no label"
-        container.addArrangedSubview(showNolabelButton.view)
+        add(showNolabelButton.hostingController)
 
         let showGestureButton = MSFButtonVnext(style: .secondary, size: .small, action: {
             self.showGestureHUD()
         })
         showGestureButton.state.text = "Show HUD with tap gesture callback"
-        container.addArrangedSubview(showGestureButton.view)
+        add(showGestureButton.hostingController)
 
         let showUpdatingButton = MSFButtonVnext(style: .secondary, size: .small, action: {
             self.showUpdateHUD()
         })
         showUpdatingButton.state.text = "Show HUD with updating caption"
-        container.addArrangedSubview(showUpdatingButton.view)
+        add(showUpdatingButton.hostingController)
     }
 
     @objc private func showActivityHUD() {

@@ -1,38 +1,39 @@
-  //
-  //  Copyright (c) Microsoft Corporation. All rights reserved.
-  //  Licensed under the MIT License.
-  //
+//
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
+//
 
-  import FluentUI
+import FluentUI
   import UIKit
 
-  class ListVnextDemoController: DemoController {
-      override func viewDidLoad() {
-          super.viewDidLoad()
-          container.alignment = .leading
-          let sections: [TableViewSampleData.Section] = TableViewCellSampleData.sections
-          var section: TableViewCellSampleData.Section
-          var cell: TableViewCellSampleData.Item
-          let numSections = sections.count - 1
+  class ListVnextDemoController: VXTViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-          var list: MSFListVnext
-          var listItem: MSFListItem
-          var listItems: [MSFListItem]
-          let style = MSFListAccessoryVnextStyle.iconOnly
-          let size = MSFListAccessoryVnextSize.icon
+        let sections: [TableViewSampleData.Section] = TableViewCellSampleData.sections
+        var section: TableViewCellSampleData.Section
+        var cell: TableViewCellSampleData.Item
+        let numSections = sections.count - 1
 
-          for count in 0...numSections {
-              section = sections[count]
-              cell = section.item
-              listItem = MSFListItem()
-              listItem.title = cell.text1
-              listItem.subtitle = cell.text2
-              listItem.leadingView = cell.image
-              listItems = [listItem, listItem, listItem, listItem, listItem]
-              list = MSFListVnext(cells: listItems, style: style, size: size)
-              addRow(items: [list.view])
-          }
+        var list: MSFListVnext?
+        var listItem: MSFListItem
+        var listItems: [MSFListItem]
+        let style = MSFListAccessoryVnextStyle.iconOnly
+        let size = MSFListAccessoryVnextSize.icon
 
-          container.addArrangedSubview(UIView())
-      }
+        for count in 0...numSections {
+            section = sections[count]
+            cell = section.item
+            listItem = MSFListItem()
+            listItem.title = cell.text1
+            listItem.subtitle = cell.text2
+            listItem.leadingView = cell.image
+            listItems = [listItem, listItem, listItem, listItem, listItem]
+            list = MSFListVnext(cells: listItems, style: style, size: size)
+
+            if let controller = list?.hostingController {
+                add(controller)
+            }
+        }
+    }
   }
