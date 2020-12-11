@@ -24,8 +24,13 @@ class AvatarVnextDemoController: DemoController {
                                                             switchAction: #selector(toggleAlternateBackground(switchView:)),
                                                             isOn: isUsingAlternateBackgroundColor)
 
+        let opaqueBorderSettingView = createLabelAndSwitchRow(labelText: "Use opaque borders",
+                                                            switchAction: #selector(toggleOpaqueBorders(switchView:)),
+                                                            isOn: isUsingOpaqueBorders)
+
         addRow(items: [backgroundSettingView])
         addRow(items: [showPresenceSettingView])
+        addRow(items: [opaqueBorderSettingView])
 
         createSection(withTitle: "Circle style for person",
                       name: "Kat Larrson",
@@ -89,6 +94,20 @@ class AvatarVnextDemoController: DemoController {
         }
     }
 
+    private var isUsingOpaqueBorders: Bool = false {
+        didSet {
+            if oldValue != isUsingOpaqueBorders {
+                for avatarView in avatarViewsWithImages {
+                    avatarView.state.shouldUseOpaqueBorders = isUsingOpaqueBorders
+                }
+
+                for avatarView in avatarViewsWithInitials {
+                    avatarView.state.shouldUseOpaqueBorders = isUsingOpaqueBorders
+                }
+            }
+        }
+    }
+
     private lazy var presenceIterator = AvatarVnextPresence.allCases.makeIterator()
 
     private func nextPresence() -> AvatarVnextPresence {
@@ -112,6 +131,10 @@ class AvatarVnextDemoController: DemoController {
 
     @objc private func toggleAlternateBackground(switchView: UISwitch) {
         isUsingAlternateBackgroundColor = switchView.isOn
+    }
+
+    @objc private func toggleOpaqueBorders(switchView: UISwitch) {
+        isUsingOpaqueBorders = switchView.isOn
     }
 
     private func updateBackgroundColor() {

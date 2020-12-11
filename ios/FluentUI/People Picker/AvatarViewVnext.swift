@@ -105,6 +105,7 @@ public class AvatarVnextState: NSObject, ObservableObject {
     @objc @Published public var backgroundColor: UIColor?
     @objc @Published public var foregroundColor: UIColor?
     @objc @Published public var presence: AvatarVnextPresence = .none
+    @objc @Published public var shouldUseOpaqueBorders: Bool = false
 }
 
 /// Representation of design tokens to buttons at runtime which interfaces with the Design Token System auto-generated code.
@@ -232,6 +233,11 @@ public struct AvatarVnextView: View {
     }
 
     public var body: some View {
+        let style = tokens.style
+        let presence = state.presence
+        let shouldDisplayPresence = presence != .none
+        let shouldUseOpaqueBorders = state.shouldUseOpaqueBorders
+
         let avatarImageSize: CGFloat = tokens.avatarSize!
         let ringInnerGapSize: CGFloat = avatarImageSize + (tokens.ringInnerGap * 2)
         let ringSize: CGFloat = ringInnerGapSize + (tokens.ringThickness * 2)
@@ -244,14 +250,18 @@ public struct AvatarVnextView: View {
         let ringInnerGapHypotenuse: CGFloat = sqrt(2 * pow(ringInnerGapRadius, 2))
         let presenceIconHypotenuse: CGFloat = sqrt(2 * pow(presenceIconOutlineSize / 2, 2))
         let presenceFrameHypotenuse: CGFloat = ringInnerGapHypotenuse + ringInnerGapRadius + presenceIconHypotenuse
-        let presenceIconFrameSide: CGFloat = sqrt(pow(presenceFrameHypotenuse, 2) / 2)
+        let presenceIconFrameSideRelativeToInnerRing: CGFloat = sqrt(pow(presenceFrameHypotenuse, 2) / 2)
+
+        // Creates positioning coordinates for the presence cutout (enabling the transparency of the presence icon)
+        let outerGapAndRingThicknesCombined: CGFloat = tokens.ringOuterGap + tokens.ringThickness
+        let presenceIconFrameDiffRelativeToOuterRing: CGFloat = ringOuterGapSize - (presenceIconFrameSideRelativeToInnerRing + outerGapAndRingThicknesCombined)
+        let presenceCutoutOriginCoordinates: CGFloat = ringOuterGapSize - presenceIconFrameDiffRelativeToOuterRing - presenceIconOutlineSize
+        let presenceIconFrameSideRelativeToOuterRing: CGFloat = presenceIconFrameSideRelativeToInnerRing + outerGapAndRingThicknesCombined
 
         let ringColor = state.ringColor ?? tokens.ringDefaultColor!
         let backgroundColor = state.backgroundColor ?? tokens.backgroundDefaultColor!
         let foregroundColor = state.foregroundColor ?? tokens.foregroundDefaultColor!
 
-        let presence = state.presence
-        let style = tokens.style
         let initialsString: String = ((style == .overflow) ? state.primaryText ?? "" : InitialsView.initialsText(fromPrimaryText: state.primaryText,
                                                                                                                  secondaryText: state.secondaryText))
         let shouldUseDefaultImage = (state.image == nil && initialsString.isEmpty && style != .overflow)
@@ -277,7 +287,7 @@ public struct AvatarVnextView: View {
                 .cornerRadius(tokens.borderRadius)
         } else {
             Circle()
-                .foregroundColor(Color(tokens.ringGapColor))
+                .foregroundColor(shouldUseOpaqueBorders ? Color(tokens.ringGapColor) : Color.clear)
                 .frame(width: ringOuterGapSize, height: ringOuterGapSize, alignment: .center)
                 .overlay(Circle()
                             .foregroundColor(Color(ringColor))
@@ -293,22 +303,38 @@ public struct AvatarVnextView: View {
                                                                 .clipShape(Circle()),
                                                              alignment: .center)
                                         )
-                                        .overlay((presence != .none) ?
-                                                    AnyView(Circle()
-                                                                .foregroundColor(Color(tokens.presenceOutlineColor))
-                                                                .frame(width: presenceIconOutlineSize, height: presenceIconOutlineSize, alignment: .center)
-                                                                .overlay(presence.image()
-                                                                            .resizable()
-                                                                            .frame(width: presenceIconSize, height: presenceIconSize, alignment: .center)
-                                                                            .foregroundColor(presence.color()))
-                                                                .frame(width: presenceIconFrameSide, height: presenceIconFrameSide, alignment: .bottomTrailing)
-                                                    )
-                                                    :
-                                                    AnyView(EmptyView()),
-                                                 alignment: .topLeading)
                             ),
                          alignment: .center)
+                .mask(presenceCutoutMask(targetFrameRect: CGRect(x: 0,
+                                                                 y: 0,
+                                                                 width: ringOuterGapSize,
+                                                                 height: ringOuterGapSize),
+                                         cutoutFrameRect: CGRect(x: presenceCutoutOriginCoordinates,
+                                                                 y: presenceCutoutOriginCoordinates,
+                                                                 width: presenceIconOutlineSize,
+                                                                 height: presenceIconOutlineSize))
+                        .fill(style: FillStyle(eoFill: shouldDisplayPresence)))
+                .overlay(shouldDisplayPresence ?
+                            AnyView(Circle()
+                                        .foregroundColor(shouldUseOpaqueBorders ? Color(tokens.ringGapColor) : Color.clear)
+                                        .frame(width: presenceIconOutlineSize, height: presenceIconOutlineSize, alignment: .center)
+                                        .overlay(presence.image()
+                                                    .resizable()
+                                                    .frame(width: presenceIconSize, height: presenceIconSize, alignment: .center)
+                                                    .foregroundColor(presence.color()))
+                                        .frame(width: presenceIconFrameSideRelativeToOuterRing, height: presenceIconFrameSideRelativeToOuterRing, alignment: .bottomTrailing)
+                            )
+                            :
+                            AnyView(EmptyView()),
+                         alignment: .topLeading)
         }
+    }
+
+    func presenceCutoutMask(targetFrameRect: CGRect, cutoutFrameRect: CGRect) -> Path {
+        var cutoutFrame = Rectangle().path(in: targetFrameRect)
+        cutoutFrame.addPath(Circle().path(in: cutoutFrameRect))
+
+        return cutoutFrame
     }
 }
 
