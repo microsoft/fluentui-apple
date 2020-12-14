@@ -146,6 +146,7 @@ public struct MSFButtonViewButtonStyle: ButtonStyle {
                         .font(Font(tokens.textFont))
                         .fontWeight(.medium)
                         .multilineTextAlignment(.center)
+                        .fixedSize()
                 }
         }
         .padding(tokens.padding)
