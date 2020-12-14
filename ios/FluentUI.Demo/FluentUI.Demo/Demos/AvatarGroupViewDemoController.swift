@@ -113,7 +113,10 @@ class AvatarGroupViewDemoController: DemoController {
         backgroundColorSwitch.addTarget(self, action: #selector(toggleAlternateBackground(switchView:)), for: .valueChanged)
 
         addRow(text: "Use alternate background color", items: [backgroundColorSwitch], textStyle: .footnote, textWidth: Constants.settingsTextWidth)
+
+        maxAvatarButton.view.widthAnchor.constraint(equalToConstant: 50).isActive = true
         addRow(text: "Max displayed avatars", items: [UIStackView(arrangedSubviews: [maxAvatarsTextField, maxAvatarButton.view])], textStyle: .footnote, textWidth: Constants.settingsTextWidth)
+        overflowCountButton.view.widthAnchor.constraint(equalToConstant: 50).isActive = true
         addRow(text: "Overflow count", items: [UIStackView(arrangedSubviews: [overflowCountTextField, overflowCountButton.view])], textStyle: .footnote, textWidth: Constants.settingsTextWidth)
 
         insertLabel(text: "Avatar stack without borders")
