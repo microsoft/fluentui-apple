@@ -15,17 +15,44 @@ class AvatarGroupViewDemoController: DemoController {
         reloadAvatarViews()
     }
 
-    private lazy var incrementBadgeButton: MSFButton = {
-        return createButton(title: "+", action: #selector(incrementBadgeNumbers))
+    private lazy var incrementBadgeButton: MSFButtonVnext = {
+        return createButton(title: "+", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            if strongSelf.avatarCount < samplePersonas.count {
+                strongSelf.avatarCount += 1
+            }
+        })
     }()
 
-    private lazy var decrementBadgeButton: MSFButton = {
-        return createButton(title: "-", action: #selector(decrementBadgeNumbers))
+    private lazy var decrementBadgeButton: MSFButtonVnext = {
+        return createButton(title: "-", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            if strongSelf.avatarCount > 1 {
+                strongSelf.avatarCount -= 1
+            }
+        })
     }()
 
-    private lazy var maxAvatarButton: MSFButton = {
-        let button = createButton(title: "Set", action: #selector(maxAvatarButtonWasPressed))
-        button.isEnabled = false
+    private lazy var maxAvatarButton: MSFButtonVnext = {
+        let button = createButton(title: "Set", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            if let text = strongSelf.maxAvatarsTextField.text, let count = UInt(text) {
+                strongSelf.maxDisplayedAvatars = count
+                strongSelf.maxAvatarButton.state.isDisabled = true
+            }
+
+            strongSelf.maxAvatarsTextField.resignFirstResponder()
+        })
+        button.state.isDisabled = true
 
         return button
     }()
@@ -39,9 +66,20 @@ class AvatarGroupViewDemoController: DemoController {
         return textField
     }()
 
-    private lazy var overflowCountButton: MSFButton = {
-        let button = createButton(title: "Set", action: #selector(overflowCountButtonWasPressed))
-        button.isEnabled = false
+    private lazy var overflowCountButton: MSFButtonVnext = {
+        let button = createButton(title: "Set", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            if let text = strongSelf.overflowCountTextField.text, let count = UInt(text) {
+                strongSelf.overflowCount = count
+                strongSelf.overflowCountButton.state.isDisabled = true
+            }
+
+            strongSelf.overflowCountTextField.resignFirstResponder()
+        })
+        button.state.isDisabled = true
 
         return button
     }()
@@ -66,15 +104,17 @@ class AvatarGroupViewDemoController: DemoController {
         settingsTitle.text = "Settings"
         container.addArrangedSubview(settingsTitle)
 
-        addRow(text: "Avatar count", items: [incrementBadgeButton, decrementBadgeButton], textStyle: .footnote, textWidth: Constants.settingsTextWidth)
+        let avatarCountButtonsStackView = UIStackView(arrangedSubviews: [incrementBadgeButton.view, decrementBadgeButton.view])
+        avatarCountButtonsStackView.spacing = 30
+        addRow(text: "Avatar count", items: [avatarCountButtonsStackView], textStyle: .footnote, textWidth: Constants.settingsTextWidth)
 
         let backgroundColorSwitch = UISwitch(frame: .zero)
         backgroundColorSwitch.isOn = isUsingAlternateBackgroundColor
         backgroundColorSwitch.addTarget(self, action: #selector(toggleAlternateBackground(switchView:)), for: .valueChanged)
 
         addRow(text: "Use alternate background color", items: [backgroundColorSwitch], textStyle: .footnote, textWidth: Constants.settingsTextWidth)
-        addRow(text: "Max displayed avatars", items: [maxAvatarsTextField, maxAvatarButton], textStyle: .footnote, textWidth: Constants.settingsTextWidth)
-        addRow(text: "Overflow count", items: [overflowCountTextField, overflowCountButton], textStyle: .footnote, textWidth: Constants.settingsTextWidth)
+        addRow(text: "Max displayed avatars", items: [UIStackView(arrangedSubviews: [maxAvatarsTextField, maxAvatarButton.view])], textStyle: .footnote, textWidth: Constants.settingsTextWidth)
+        addRow(text: "Overflow count", items: [UIStackView(arrangedSubviews: [overflowCountTextField, overflowCountButton.view])], textStyle: .footnote, textWidth: Constants.settingsTextWidth)
 
         insertLabel(text: "Avatar stack without borders")
         insertAvatarViews(style: .stack, showBorders: false)
@@ -105,18 +145,6 @@ class AvatarGroupViewDemoController: DemoController {
         }
     }
 
-    @objc private func incrementBadgeNumbers() {
-        if avatarCount < samplePersonas.count {
-            avatarCount += 1
-        }
-    }
-
-    @objc private func decrementBadgeNumbers() {
-        if avatarCount > 1 {
-            avatarCount -= 1
-        }
-    }
-
     private var isUsingAlternateBackgroundColor: Bool = false {
         didSet {
             updateBackgroundColor()
@@ -143,15 +171,6 @@ class AvatarGroupViewDemoController: DemoController {
         }
     }
 
-    @objc private func maxAvatarButtonWasPressed() {
-        if let text = maxAvatarsTextField.text, let count = UInt(text) {
-            maxDisplayedAvatars = count
-            maxAvatarButton.isEnabled = false
-        }
-
-        maxAvatarsTextField.resignFirstResponder()
-    }
-
     private var overflowCount: UInt = 0 {
         didSet {
             if oldValue != overflowCount {
@@ -162,15 +181,6 @@ class AvatarGroupViewDemoController: DemoController {
                 }
             }
         }
-    }
-
-    @objc private func overflowCountButtonWasPressed() {
-        if let text = overflowCountTextField.text, let count = UInt(text) {
-            overflowCount = count
-            overflowCountButton.isEnabled = false
-        }
-
-        overflowCountTextField.resignFirstResponder()
     }
 
     private func insertAvatarViews(style: AvatarGroupViewStyle, showBorders: Bool) {
@@ -235,12 +245,12 @@ extension AvatarGroupViewDemoController: UITextFieldDelegate {
         let button = textField == maxAvatarsTextField ? maxAvatarButton : overflowCountButton
         if let count = UInt(text) {
             if textField == maxAvatarsTextField {
-                button.isEnabled = count > 0 && count != maxDisplayedAvatars
+                button.state.isDisabled = count <= 0 || count == maxDisplayedAvatars
             } else {
-                button.isEnabled = count != overflowCount
+                button.state.isDisabled = count == overflowCount
             }
         } else {
-            button.isEnabled = false
+            button.state.isDisabled = true
         }
 
         return shouldChangeCharacters

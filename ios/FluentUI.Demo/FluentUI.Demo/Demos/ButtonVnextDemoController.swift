@@ -16,27 +16,36 @@ class ButtonVnextDemoController: DemoController {
             for style in MSFButtonVnextStyle.allCases {
                 addDescription(text: "\(style.description) style:", textAlignment: .natural)
 
-                let button = MSFButtonVnext(style: style, size: size) {
-                    self.didPressButton()
-                }
+                let button = MSFButtonVnext(style: style, size: size, action: { [weak self] _ in
+                    guard let strongSelf = self else {
+                        return
+                    }
+
+                    strongSelf.didPressButton()
+                })
                 button.state.text = "Button"
 
-                let disabledButton = MSFButtonVnext(style: style, size: size) {
-                    self.didPressButton()
-                }
+                let disabledButton = MSFButtonVnext(style: style, size: size, action: { [weak self] _ in
+                    guard let strongSelf = self else {
+                        return
+                        
+                    }
+
+                    strongSelf.didPressButton()
+                })
                 disabledButton.state.text = "Button"
                 disabledButton.state.isDisabled = true
 
                 addRow(items: [button.view, disabledButton.view], itemSpacing: 20)
 
                 if let image = style.image {
-                    let iconButton = MSFButtonVnext(style: style, size: size) {
+                    let iconButton = MSFButtonVnext(style: style, size: size) {_ in
                         self.didPressButton()
                     }
                     iconButton.state.text = "Button"
                     iconButton.state.image = image
 
-                    let disabledIconButton = MSFButtonVnext(style: style, size: size) {
+                    let disabledIconButton = MSFButtonVnext(style: style, size: size) {_ in
                         self.didPressButton()
                     }
                     disabledIconButton.state.isDisabled = true
@@ -45,14 +54,24 @@ class ButtonVnextDemoController: DemoController {
 
                     addRow(items: [iconButton.view, disabledIconButton.view], itemSpacing: 20)
 
-                    let iconOnlyButton = MSFButtonVnext(style: style, size: size) {
-                        self.didPressButton()
-                    }
+                    let iconOnlyButton = MSFButtonVnext(style: style, size: size, action: { [weak self] _ in
+                        guard let strongSelf = self else {
+                            return
+                            
+                        }
+
+                        strongSelf.didPressButton()
+                    })
                     iconOnlyButton.state.image = image
 
-                    let disabledIconOnlyButton = MSFButtonVnext(style: style, size: size) {
-                        self.didPressButton()
-                    }
+                    let disabledIconOnlyButton = MSFButtonVnext(style: style, size: size, action: { [weak self] _ in
+                        guard let strongSelf = self else {
+                            return
+                            
+                        }
+
+                        strongSelf.didPressButton()
+                    })
                     disabledIconOnlyButton.state.isDisabled = true
                     disabledIconOnlyButton.state.image = image
 
