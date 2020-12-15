@@ -206,9 +206,9 @@
 		CCC18C2C2501B22F00BE830E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC18C2B2501B22F00BE830E /* CardView.swift */; };
 		CCC18C2D2501B22F00BE830E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC18C2B2501B22F00BE830E /* CardView.swift */; };
 		FC414E1F258876FB00069E73 /* CommandBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E1E258876FB00069E73 /* CommandBar.swift */; };
-		FC414E252588798000069E73 /* CommandBarButtonGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E242588798000069E73 /* CommandBarButtonGroup.swift */; };
+		FC414E252588798000069E73 /* CommandBarButtonGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */; };
 		FC414E2B25887A4B00069E73 /* CommandBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E2A25887A4B00069E73 /* CommandBarButton.swift */; };
-		FC414E3125887CBD00069E73 /* CommandBarConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E3025887CBD00069E73 /* CommandBarConfiguration.swift */; };
+		FC414E3125887CBD00069E73 /* CommandBarAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E3025887CBD00069E73 /* CommandBarAppearance.swift */; };
 		FD053A352224CA33009B6378 /* DatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */; };
 		FD0D29D62151A3D700E8655E /* CardPresenterNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0D29D52151A3D700E8655E /* CardPresenterNavigationController.swift */; };
 		FD1FAE1B2272464B00A5DBA4 /* GenericDateTimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1FAE1A2272464B00A5DBA4 /* GenericDateTimePicker.swift */; };
@@ -404,9 +404,9 @@
 		C0EAAEAC2347E1DF00C7244E /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
 		CCC18C2B2501B22F00BE830E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		FC414E1E258876FB00069E73 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
-		FC414E242588798000069E73 /* CommandBarButtonGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarButtonGroup.swift; sourceTree = "<group>"; };
+		FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarButtonGroupView.swift; sourceTree = "<group>"; };
 		FC414E2A25887A4B00069E73 /* CommandBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarButton.swift; sourceTree = "<group>"; };
-		FC414E3025887CBD00069E73 /* CommandBarConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarConfiguration.swift; sourceTree = "<group>"; };
+		FC414E3025887CBD00069E73 /* CommandBarAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarAppearance.swift; sourceTree = "<group>"; };
 		FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerControllerTests.swift; sourceTree = "<group>"; };
 		FD0D29D52151A3D700E8655E /* CardPresenterNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPresenterNavigationController.swift; sourceTree = "<group>"; };
 		FD1FAE1A2272464B00A5DBA4 /* GenericDateTimePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericDateTimePicker.swift; sourceTree = "<group>"; };
@@ -671,8 +671,8 @@
 				CCC18C2A2501B1A900BE830E /* Card */,
 				B4F118EA21C8270F00855942 /* Badge Field */,
 				FDFB8AE921361C860046850A /* Calendar */,
-				A5CEC22F20E451990016922A /* Controls */,
 				FC414E1D258876D400069E73 /* Command Bar */,
+				A5CEC22F20E451990016922A /* Controls */,
 				A5CEC16B20D98EBF0016922A /* Core */,
 				FD599D0021347FA0008845EE /* Date Time Pickers */,
 				A5B87AF2211E13D00038C37C /* Drawer */,
@@ -867,9 +867,9 @@
 			isa = PBXGroup;
 			children = (
 				FC414E1E258876FB00069E73 /* CommandBar.swift */,
-				FC414E3025887CBD00069E73 /* CommandBarConfiguration.swift */,
+				FC414E3025887CBD00069E73 /* CommandBarAppearance.swift */,
 				FC414E2A25887A4B00069E73 /* CommandBarButton.swift */,
-				FC414E242588798000069E73 /* CommandBarButtonGroup.swift */,
+				FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */,
 			);
 			path = "Command Bar";
 			sourceTree = "<group>";
@@ -1370,7 +1370,7 @@
 				A5B87AF8211E16370038C37C /* DrawerPresentationController.swift in Sources */,
 				FD36F1A9216C0A6900CECBC6 /* CardPresentationController.swift in Sources */,
 				B426613E214731D100E25423 /* InitialsView.swift in Sources */,
-				FC414E252588798000069E73 /* CommandBarButtonGroup.swift in Sources */,
+				FC414E252588798000069E73 /* CommandBarButtonGroupView.swift in Sources */,
 				A5B87B02211E20B50038C37C /* UIScreen+Extension.swift in Sources */,
 				FD77752D219E62E100033D58 /* DateTimePickerViewLayout.swift in Sources */,
 				FD7DF05C21FA7F5000857267 /* Tooltip.swift in Sources */,
@@ -1389,7 +1389,7 @@
 				537315B325438B15001FD14C /* iOS13_4_compatibility.swift in Sources */,
 				FDFB8AF121361C9D0046850A /* CalendarViewDayMonthCell.swift in Sources */,
 				B47B58B822F8E5840078DE38 /* PeoplePicker.swift in Sources */,
-				FC414E3125887CBD00069E73 /* CommandBarConfiguration.swift in Sources */,
+				FC414E3125887CBD00069E73 /* CommandBarAppearance.swift in Sources */,
 				FD41C89E22DD13230086F899 /* NavigationController.swift in Sources */,
 				FD4F2A20214AE20400C437D6 /* DatePickerController.swift in Sources */,
 				22EABB1A2509AAD100C4BE72 /* IndeterminateProgressBarView.swift in Sources */,

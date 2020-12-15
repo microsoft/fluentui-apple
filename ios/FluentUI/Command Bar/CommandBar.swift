@@ -5,6 +5,19 @@
 
 import UIKit
 
+public typealias CommandBarItemGroup = [CommandBarItem]
+
+open class CommandBarItem: NSObject {
+    public var iconImage: UIImage?
+
+    public init(iconImage: UIImage?, accessbilityLabel: String?) {
+        self.iconImage = iconImage
+        super.init()
+
+        self.accessibilityLabel = accessbilityLabel
+    }
+}
+
 public class CommandBar: UIView {
     // Hierarchy:
     //
@@ -19,7 +32,7 @@ public class CommandBar: UIView {
 
     // MARK: Public Properties
 
-    public var buttonBackgroundStyle: CommandBarButton.BackgroundStyle = .default {
+    var buttonBackgroundStyle: CommandBarButton.BackgroundStyle = .default {
         didSet {
             buttonGroups.forEach { $0.buttonBackgroundStyle = buttonBackgroundStyle }
         }
@@ -28,7 +41,18 @@ public class CommandBar: UIView {
     // MARK: Private Properties
 
     private let barApperance: CommandBarAppearance
-    private let buttonGroups: [CommandBarButtonGroup]
+    private let itemGroups: [CommandBarItemGroup]
+
+    private lazy var itemsToButtonsMap: [CommandBarItem: CommandBarButton] =
+        Dictionary(uniqueKeysWithValues:
+                    itemGroups
+                    .flatMap { $0 }
+                    .map { item in
+                        let button = CommandBarButton(configuration: item, appearance: barApperance.buttonAppearance)
+                        button.addTarget(self, action: #selector(handleCommandButtonTapped(_:)), for: .touchUpInside)
+
+                        return (item, button)
+                    })
 
     // MARK: - Views and Layers
 
@@ -88,6 +112,18 @@ public class CommandBar: UIView {
         return stackView
     }()
 
+    private lazy var buttonGroups: [CommandBarButtonGroupView] = {
+        itemGroups.map { items in
+            CommandBarButtonGroupView(buttons: items.compactMap { item in
+                guard let button = itemsToButtonsMap[item] else {
+                    fatalError("Button is not initialized in commandsToButtons")
+                }
+
+                return button
+            })
+        }
+    }()
+
     private let containerMaskLayer: CAGradientLayer = {
         let layer = CAGradientLayer()
         layer.colors = [UIColor.clear, UIColor.white].map { $0.cgColor }
@@ -100,9 +136,9 @@ public class CommandBar: UIView {
 
     // MARK: - Init
 
-    public init(appearance: CommandBarAppearance, buttonGroups: [CommandBarButtonGroup]) {
+    public init(appearance: CommandBarAppearance, itemGroups: [CommandBarItemGroup]) {
         self.barApperance = appearance
-        self.buttonGroups = buttonGroups
+        self.itemGroups = itemGroups
 
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
@@ -147,5 +183,9 @@ private extension CommandBar {
             containerView.leadingAnchor.constraint(equalTo: leadingAnchor),
             trailingAnchor.constraint(equalTo: containerView.trailingAnchor)
         ])
+    }
+
+    @objc func handleCommandButtonTapped(_ sender: CommandBarButton) {
+
     }
 }

@@ -5,9 +5,9 @@
 
 import UIKit
 
-public class CommandBarButton: UIButton {
+class CommandBarButton: UIButton {
     /// Background color style, either 'default' or 'brighter'
-    public enum BackgroundStyle {
+    enum BackgroundStyle {
         /// Default background
         case `default`
         /// In light mode, if the toolbar behind buttons is blurred,
@@ -25,7 +25,7 @@ public class CommandBarButton: UIButton {
     let appearance: CommandBarButtonAppearance
     private let configuration: CommandBarItem
 
-    public override var isHighlighted: Bool {
+    override var isHighlighted: Bool {
         didSet {
             alpha = isHighlighted ? Constants.highlightedAlpha : Constants.defaultAlpha
         }
