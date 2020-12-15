@@ -258,6 +258,7 @@ public struct AvatarVnextView: View {
         let presenceCutoutOriginCoordinates: CGFloat = ringOuterGapSize - presenceIconFrameDiffRelativeToOuterRing - presenceIconOutlineSize
         let presenceIconFrameSideRelativeToOuterRing: CGFloat = presenceIconFrameSideRelativeToInnerRing + outerGapAndRingThicknesCombined
 
+        let ringGapColor = shouldUseOpaqueBorders ? Color(tokens.ringGapColor) : Color.clear
         let ringColor = state.ringColor ?? tokens.ringDefaultColor!
         let backgroundColor = state.backgroundColor ?? tokens.backgroundDefaultColor!
         let foregroundColor = state.foregroundColor ?? tokens.foregroundDefaultColor!
@@ -287,13 +288,22 @@ public struct AvatarVnextView: View {
                 .cornerRadius(tokens.borderRadius)
         } else {
             Circle()
-                .foregroundColor(shouldUseOpaqueBorders ? Color(tokens.ringGapColor) : Color.clear)
+                .foregroundColor(ringGapColor)
                 .frame(width: ringOuterGapSize, height: ringOuterGapSize, alignment: .center)
                 .overlay(Circle()
                             .foregroundColor(Color(ringColor))
                             .frame(width: ringSize, height: ringSize, alignment: .center)
+                            .mask(circularCutoutMask(targetFrameRect: CGRect(x: 0,
+                                                                             y: 0,
+                                                                             width: ringSize,
+                                                                             height: ringSize),
+                                                     cutoutFrameRect: CGRect(x: tokens.ringThickness,
+                                                                             y: tokens.ringThickness,
+                                                                             width: ringInnerGapSize,
+                                                                             height: ringInnerGapSize))
+                                    .fill(style: FillStyle(eoFill: !shouldUseOpaqueBorders)))
                             .overlay(Circle()
-                                        .foregroundColor(Color(tokens.ringGapColor))
+                                        .foregroundColor(ringGapColor)
                                         .frame(width: ringInnerGapSize, height: ringInnerGapSize, alignment: .center)
                                         .overlay(Circle()
                                                     .foregroundColor(Color(backgroundColor))
@@ -303,9 +313,10 @@ public struct AvatarVnextView: View {
                                                                 .clipShape(Circle()),
                                                              alignment: .center)
                                         )
-                            ),
+                            )
+                         ,
                          alignment: .center)
-                .mask(presenceCutoutMask(targetFrameRect: CGRect(x: 0,
+                .mask(circularCutoutMask(targetFrameRect: CGRect(x: 0,
                                                                  y: 0,
                                                                  width: ringOuterGapSize,
                                                                  height: ringOuterGapSize),
@@ -330,7 +341,7 @@ public struct AvatarVnextView: View {
         }
     }
 
-    func presenceCutoutMask(targetFrameRect: CGRect, cutoutFrameRect: CGRect) -> Path {
+    func circularCutoutMask(targetFrameRect: CGRect, cutoutFrameRect: CGRect) -> Path {
         var cutoutFrame = Rectangle().path(in: targetFrameRect)
         cutoutFrame.addPath(Circle().path(in: cutoutFrameRect))
 
