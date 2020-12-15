@@ -23,7 +23,7 @@ class CommandBarButton: UIButton {
     }
 
     let appearance: CommandBarButtonAppearance
-    private let configuration: CommandBarItem
+    let item: CommandBarItem
 
     override var isHighlighted: Bool {
         didSet {
@@ -31,8 +31,8 @@ class CommandBarButton: UIButton {
         }
     }
 
-    init(configuration: CommandBarItem, appearance: CommandBarButtonAppearance) {
-        self.configuration = configuration
+    init(item: CommandBarItem, appearance: CommandBarButtonAppearance) {
+        self.item = item
         self.appearance = appearance
 
         super.init(frame: .zero)
@@ -43,9 +43,9 @@ class CommandBarButton: UIButton {
         backgroundColor = appearance.backgroundColor
 
         widthAnchor.constraint(equalToConstant: Constants.buttonWidth).isActive = true
-        setImage(configuration.iconImage, for: .normal)
+        setImage(item.iconImage, for: .normal)
 
-        accessibilityLabel = configuration.accessibilityLabel
+        accessibilityLabel = item.accessibilityLabel
     }
 
     required init?(coder: NSCoder) {
@@ -65,8 +65,10 @@ class CommandBarButton: UIButton {
         }
     }
 
-    func setSelected(_ isSelected: Bool) {
-        self.isSelected = isSelected
+    func updateState() {
+        isEnabled = item.isEnabled
+        isSelected = item.isSelected
+
         tintColor = isSelected ? appearance.highlightedTintColor : appearance.tintColor
         setTitleColor(tintColor, for: .normal)
         updateBackgroundColor()

@@ -5,19 +5,6 @@
 
 import UIKit
 
-public typealias CommandBarItemGroup = [CommandBarItem]
-
-open class CommandBarItem: NSObject {
-    public var iconImage: UIImage?
-
-    public init(iconImage: UIImage?, accessbilityLabel: String?) {
-        self.iconImage = iconImage
-        super.init()
-
-        self.accessibilityLabel = accessbilityLabel
-    }
-}
-
 public class CommandBar: UIView {
     // Hierarchy:
     //
@@ -38,6 +25,8 @@ public class CommandBar: UIView {
         }
     }
 
+    public weak var delegate: CommandBarDelegate?
+
     // MARK: Private Properties
 
     private let barApperance: CommandBarAppearance
@@ -48,7 +37,7 @@ public class CommandBar: UIView {
                     itemGroups
                     .flatMap { $0 }
                     .map { item in
-                        let button = CommandBarButton(configuration: item, appearance: barApperance.buttonAppearance)
+                        let button = CommandBarButton(item: item, appearance: barApperance.buttonAppearance)
                         button.addTarget(self, action: #selector(handleCommandButtonTapped(_:)), for: .touchUpInside)
 
                         return (item, button)
@@ -144,6 +133,7 @@ public class CommandBar: UIView {
         translatesAutoresizingMaskIntoConstraints = false
 
         configureHierarchy()
+        updateState()
     }
 
     required init?(coder: NSCoder) {
@@ -160,6 +150,14 @@ public class CommandBar: UIView {
         super.layoutSubviews()
 
         containerMaskLayer.frame = containerView.bounds
+    }
+
+    // MARK: - Public methods
+
+    public func updateState() {
+        for button in itemsToButtonsMap.values {
+            button.updateState()
+        }
     }
 }
 
@@ -186,6 +184,26 @@ private extension CommandBar {
     }
 
     @objc func handleCommandButtonTapped(_ sender: CommandBarButton) {
+        let newSelected = !sender.item.isSelected
 
+        guard let delegate = delegate else {
+            sender.item.isSelected = newSelected
+            sender.updateState()
+
+            return
+        }
+
+        guard newSelected ? delegate.commandBar(self, shouldSelectItem: sender.item) : delegate.commandBar(self, shouldDeselectItem: sender.item) else {
+            return
+        }
+
+        sender.item.isSelected = newSelected
+        sender.updateState()
+
+        if newSelected {
+            delegate.commandBar(self, didSelectItem: sender.item)
+        } else {
+            delegate.commandBar(self, didDeselectItem: sender.item)
+        }
     }
 }
