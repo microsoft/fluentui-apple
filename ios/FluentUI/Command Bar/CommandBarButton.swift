@@ -60,12 +60,11 @@ private extension CommandBarButton {
             return
         }
 
-        tintColor = appearance.tintColor
-        setTitleColor(tintColor, for: .normal)
-
         if isSelected {
+            tintColor = appearance.highlightedTintColor
             backgroundColor = appearance.highlightedBackgroundColor
         } else {
+            tintColor = appearance.tintColor
             backgroundColor = appearance.backgroundColor
         }
     }

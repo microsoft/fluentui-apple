@@ -251,6 +251,8 @@ private extension CommandBar {
             containerLeadingConstraint,
             containerTrailingConstraint
         ])
+
+        stackView.layoutIfNeeded()
     }
 
     func button(forItem item: CommandBarItem, isFixed: Bool = false) -> CommandBarButton {
@@ -270,7 +272,7 @@ private extension CommandBar {
         }
 
         if trailingButton != nil {
-            let trailingOffset = max(0, scrollView.contentSize.width - scrollView.frame.width - scrollView.contentOffset.x)
+            let trailingOffset = max(0, stackView.frame.width - scrollView.frame.width - scrollView.contentOffset.x)
             let percentage = min(1, trailingOffset / scrollView.contentInset.right)
             locations[2] = 1 - Constants.fadeViewWidth / containerView.frame.width * percentage
         }

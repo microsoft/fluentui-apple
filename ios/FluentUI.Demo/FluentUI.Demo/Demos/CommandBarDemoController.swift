@@ -87,6 +87,14 @@ class CommandBarDemoController: DemoController {
         }
     }
 
+    let textField: UITextField = {
+        let textField = UITextField()
+        textField.backgroundColor = Colors.Navigation.System.background
+        textField.placeholder = "Text Field"
+
+        return textField
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         container.layoutMargins.right = 0
@@ -133,6 +141,13 @@ class CommandBarDemoController: DemoController {
         fixedButtonCommandBar.backgroundColor = Colors.Navigation.System.background
         fixedButtonCommandBar.delegate = self
         container.addArrangedSubview(fixedButtonCommandBar)
+
+        container.addArrangedSubview(createLabelWithText("In Input Accessory View"))
+
+        let accessoryCommandBar = CommandBar(appearance: CommandBarAppearance(), itemGroups: itemGroups, trailingItem: Item(command: .keyboard))
+        accessoryCommandBar.delegate = self
+        textField.inputAccessoryView = accessoryCommandBar
+        container.addArrangedSubview(textField)
     }
 
     func createLabelWithText(_ text: String = "") -> Label {
@@ -145,6 +160,17 @@ class CommandBarDemoController: DemoController {
 
 extension CommandBarDemoController: CommandBarDelegate {
     func commandBar(_ commandBar: CommandBar, didSelectItem item: CommandBarItem) {
-        print("Did select command \((item as! Item).command)")
+        guard let item = item as? Item else {
+            fatalError("Invalid item type")
+        }
+
+        print("Did select command \(item.command)")
+
+        switch item.command {
+        case .keyboard:
+            textField.resignFirstResponder()
+        default:
+            break
+        }
     }
 }
