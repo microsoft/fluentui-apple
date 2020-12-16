@@ -92,32 +92,50 @@ class PassThroughDrawerDemoController: DemoController {
         var views = [UIView]()
         if drawerHasFlexibleHeight {
             let container = DemoController.createHorizontalContainer()
-            container.addArrangedSubview(createButton(title: "Change content height", action: #selector(changeContentHeightButtonTapped)))
-            container.addArrangedSubview(createButton(title: "Expand", action: #selector(expandButtonTapped)))
+            container.addArrangedSubview(createButton(title: "Change content height", action: { [weak self] _ in
+                guard let strongSelf = self else {
+                    return
+                }
+
+                if let heightConstraint = strongSelf.spacer.constraints.first {
+                    heightConstraint.constant = heightConstraint.constant == 20 ? 100 : 20
+                }
+            }).view)
+
+            container.addArrangedSubview(createButton(title: "Expand", action: { [weak self] sender in
+                guard let strongSelf = self else {
+                    return
+                }
+
+                guard let drawer = strongSelf.presentedViewController as? DrawerController else {
+                    return
+                }
+                drawer.isExpanded = !drawer.isExpanded
+                sender.state.text = drawer.isExpanded ? "Return to normal" : "Expand"
+            }).view)
             views.append(container)
         }
+
         let container = DemoController.createHorizontalContainer()
-        container.addArrangedSubview(createButton(title: "Dismiss", action: #selector(dismissButtonTapped)))
-        container.addArrangedSubview(createButton(title: "Dismiss (no animation)", action: #selector(dismissNotAnimatedButtonTapped)))
+        container.addArrangedSubview(createButton(title: "Dismiss", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.dismiss(animated: true)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Dismiss (no animation)", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.dismiss(animated: false)
+        }).view)
+
         views.append(container)
         views.append(spacer)
         return views
-    }
-
-    @objc private func expandButtonTapped(sender: UIButton) {
-        guard let drawer = presentedViewController as? DrawerController else {
-            return
-        }
-        drawer.isExpanded = !drawer.isExpanded
-        sender.setTitle(drawer.isExpanded ? "Return to normal" : "Expand", for: .normal)
-    }
-
-    @objc private func dismissButtonTapped() {
-        dismiss(animated: true)
-    }
-
-    @objc private func dismissNotAnimatedButtonTapped() {
-        dismiss(animated: false)
     }
 
     @objc private func changePreferredContentSizeButtonTapped() {
@@ -125,12 +143,6 @@ class PassThroughDrawerDemoController: DemoController {
             var size = contentController.preferredContentSize
             size.height = size.height == contentControllerOriginalPreferredContentHeight ? 500 : 400
             contentController.preferredContentSize = size
-        }
-    }
-
-    @objc private func changeContentHeightButtonTapped(sender: UIButton) {
-        if let heightConstraint = spacer.constraints.first {
-            heightConstraint.constant = heightConstraint.constant == 20 ? 100 : 20
         }
     }
 

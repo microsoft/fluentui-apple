@@ -15,27 +15,136 @@ class DrawerDemoController: DemoController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Show", style: .plain, target: self, action: #selector(barButtonTapped))
 
         addTitle(text: "Top Drawer")
-        container.addArrangedSubview(createButton(title: "Show resizable with clear background", action: #selector(showTopDrawerButtonTapped)))
-        container.addArrangedSubview(createButton(title: "Show resizable with max content height", action: #selector(showTopDrawerWithMaxContentHeightTapped)))
-        container.addArrangedSubview(createButton(title: "Show non dismissable", action: #selector(showTopDrawerNotDismissableButtonTapped)))
-        container.addArrangedSubview(createButton(title: "Show changing resizing behaviour", action: #selector(showTopDrawerChangingResizingBehaviour)))
-        container.addArrangedSubview(createButton(title: "Show with no animation", action: #selector(showTopDrawerNotAnimatedButtonTapped)))
-        container.addArrangedSubview(createButton(title: "Show from custom base with width on landscape", action: #selector(showTopDrawerCustomOffsetButtonTapped)))
-        container.addArrangedSubview(createButton(title: "Show respecting safe area width", action: #selector(showTopDrawerSafeAreaButtonTapped)))
+
+        container.addArrangedSubview(createButton(title: "Show resizable with clear background", action: { [weak self] sender in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.presentDrawer(sourceView: sender.view,
+                                     presentationDirection: .down,
+                                     presentationBackground: .none,
+                                     contentView: strongSelf.containerForActionViews(),
+                                     resizingBehavior: .dismissOrExpand)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show resizable with max content height", action: { [weak self] sender in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.presentDrawer(sourceView: sender.view,
+                                     presentationDirection: .down,
+                                     contentView: strongSelf.containerForActionViews(drawerHasFlexibleHeight: false),
+                                     resizingBehavior: .expand,
+                                     maxDrawerHeight: 350)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show non dismissable", action: { [weak self] sender in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.presentDrawer(sourceView: sender.view,
+                                     presentationDirection: .down,
+                                     contentView: strongSelf.containerForActionViews(),
+                                     resizingBehavior: .expand)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show changing resizing behaviour", action: { [weak self] sender in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.presentDrawer(sourceView: sender.view,
+                                     presentationDirection: .down,
+                                     contentView: strongSelf.containerForActionViews(drawerHasFlexibleHeight: true,
+                                                                                     drawerHasToggleResizingBehaviorButton: true),
+                                     resizingBehavior: .expand)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show with no animation", action: { [weak self] sender in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.presentDrawer(sourceView: sender.view,
+                                     presentationDirection: .down,
+                                     contentView: strongSelf.containerForActionViews(),
+                                     animated: false)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show from custom base with width on landscape", action: { [weak self] sender in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let buttonView = sender.view
+            let rect = buttonView.superview!.convert(buttonView.frame, to: nil)
+            strongSelf.presentDrawer(sourceView: buttonView,
+                                     presentationOrigin: rect.maxY,
+                                     presentationDirection: .down,
+                                     contentView: strongSelf.containerForActionViews(),
+                                     customWidth: true)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show respecting safe area width", action: { [weak self] sender in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.presentDrawer(sourceView: sender.view,
+                                     presentationDirection: .down,
+                                     contentView: strongSelf.containerForActionViews(),
+                                     resizingBehavior: .dismissOrExpand,
+                                     respectSafeAreaWidth: true)
+        }).view)
 
         addTitle(text: "Left/Right Drawer")
         addRow(
             items: [
-                createButton(title: "Show from leading with clear background", action: #selector(showLeftDrawerClearBackgroundButtonTapped)),
-                createButton(title: "Show from trailing with clear background", action: #selector(showRightDrawerClearBackgroundButtonTapped))
+                createButton(title: "Show from leading with clear background", action: { [weak self] sender in
+                    guard let strongSelf = self else {
+                        return
+                    }
+
+                    strongSelf.presentDrawer(sourceView: sender.view,
+                                             presentationDirection: .fromLeading,
+                                             presentationBackground: .none,
+                                             contentView: strongSelf.containerForActionViews(drawerHasFlexibleHeight: false),
+                                             resizingBehavior: .dismiss)
+                }).view,
+                createButton(title: "Show from trailing with clear background", action: { [weak self] sender in
+                    guard let strongSelf = self else {
+                        return
+                    }
+
+                    strongSelf.presentDrawer(sourceView: sender.view,
+                                             presentationDirection: .fromTrailing,
+                                             presentationBackground: .none,
+                                             contentView: strongSelf.containerForActionViews(drawerHasFlexibleHeight: false),
+                                             resizingBehavior: .dismiss)
+                }).view
             ],
             itemSpacing: Constants.verticalSpacing,
             stretchItems: true
         )
         addRow(
             items: [
-                createButton(title: "Show from leading with dimmed background", action: #selector(showLeftDrawerDimmedBackgroundButtonTapped)),
-                createButton(title: "Show from trailing with dimmed background", action: #selector(showRightDrawerDimmedBackgroundButtonTapped))
+                createButton(title: "Show from leading with dimmed background", action: { [weak self] sender in
+                    guard let strongSelf = self else {
+                        return
+                    }
+
+                    strongSelf.presentDrawer(sourceView: sender.view, presentationDirection: .fromLeading, presentationBackground: .black, contentView: strongSelf.containerForActionViews(drawerHasFlexibleHeight: false), resizingBehavior: .dismiss)
+                }).view,
+                createButton(title: "Show from trailing with dimmed background", action: { [weak self] sender in
+                    guard let strongSelf = self else {
+                        return
+                    }
+
+                    strongSelf.presentDrawer(sourceView: sender.view, presentationDirection: .fromTrailing, presentationBackground: .black, contentView: strongSelf.containerForActionViews(drawerHasFlexibleHeight: false), resizingBehavior: .dismiss)
+                }).view
             ],
             itemSpacing: Constants.verticalSpacing,
             stretchItems: true
@@ -43,19 +152,137 @@ class DrawerDemoController: DemoController {
         addDescription(text: "Swipe from the left or right edge of the screen to reveal a drawer interactively")
 
         addTitle(text: "Bottom Drawer")
-        container.addArrangedSubview(createButton(title: "Show resizable", action: #selector(showBottomDrawerButtonTapped)))
-        container.addArrangedSubview(createButton(title: "Show resizable with max content height", action: #selector(showBottomDrawerWithMaxContentHeightTapped)))
-        container.addArrangedSubview(createButton(title: "Show with underlying interactable content view", action: #selector(showBottomDrawerWithUnderlyingInteractableViewButtonTapped)))
-        container.addArrangedSubview(createButton(title: "Show changing resizing behaviour", action: #selector(showBottomDrawerChangingResizingBehaviour)))
-        container.addArrangedSubview(createButton(title: "Show with no animation", action: #selector(showBottomDrawerNotAnimatedButtonTapped)))
-        container.addArrangedSubview(createButton(title: "Show from custom base", action: #selector(showBottomDrawerCustomOffsetButtonTapped)))
 
-        container.addArrangedSubview(createButton(title: "Show always as slideover, resizable with dimmed background", action: #selector(showBottomDrawerCustomContentControllerDimmedBackgroundButtonTapped)))
-        container.addArrangedSubview(createButton(title: "Show always as slideover, resizable with clear background", action: #selector(showBottomDrawerCustomContentControllerClearBackgroundButtonTapped)))
+        container.addArrangedSubview(createButton(title: "Show resizable", action: { [weak self] sender in
+            guard let strongSelf = self else {
+                return
+            }
 
-        container.addArrangedSubview(createButton(title: "Show with focusable content", action: #selector(showBottomDrawerFocusableContentButtonTapped)))
+            strongSelf.presentDrawer(sourceView: sender.view,
+                                     presentationDirection: .up,
+                                     contentView: strongSelf.containerForActionViews(),
+                                     resizingBehavior: .dismissOrExpand)
+        }).view)
 
-        container.addArrangedSubview(createButton(title: "Show dismiss blocking drawer", action: #selector(showBottomDrawerBlockingDismissButtonTapped)))
+        container.addArrangedSubview(createButton(title: "Show resizable with max content height", action: { [weak self] sender in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.presentDrawer(sourceView: sender.view,
+                                     presentationDirection: .up,
+                                     contentView: strongSelf.containerForActionViews(drawerHasFlexibleHeight: false),
+                                     resizingBehavior: .dismissOrExpand,
+                                     maxDrawerHeight: 350)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show with underlying interactable content view", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.navigationController?.pushViewController(PassThroughDrawerDemoController(), animated: true)
+        }).view)
+        container.addArrangedSubview(createButton(title: "Show changing resizing behaviour", action: { [weak self] sender in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.presentDrawer(sourceView: sender.view,
+                                     presentationDirection: .up,
+                                     contentView: strongSelf.containerForActionViews(drawerHasFlexibleHeight: true,
+                                                                                     drawerHasToggleResizingBehaviorButton: true),
+                                     resizingBehavior: .expand)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show with no animation", action: { [weak self] sender in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.presentDrawer(sourceView: sender.view,
+                                     presentationDirection: .up,
+                                     contentView: strongSelf.containerForActionViews(),
+                                     animated: false)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show from custom base", action: { [weak self] sender in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let buttonView = sender.view
+            let rect = buttonView.superview!.convert(buttonView.frame, to: nil)
+            strongSelf.presentDrawer(sourceView: buttonView,
+                                     presentationOrigin: rect.minY,
+                                     presentationDirection: .up,
+                                     contentView: strongSelf.containerForActionViews(),
+                                     resizingBehavior: .dismissOrExpand)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show always as slideover, resizable with dimmed background", action: { [weak self] sender in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showBottomDrawerCustomContentController(sourceView: sender.view, presentationBackground: .black)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show always as slideover, resizable with clear background", action: { [weak self] sender in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showBottomDrawerCustomContentController(sourceView: sender.view, presentationBackground: .none)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show with focusable content", action: { [weak self] sender in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let contentController = UIViewController()
+
+            let container = UIStackView()
+            container.axis = .vertical
+            container.isLayoutMarginsRelativeArrangement = true
+            container.layoutMargins = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+            container.spacing = 10
+            container.translatesAutoresizingMaskIntoConstraints = false
+            contentController.view.addSubview(container)
+            NSLayoutConstraint.activate([container.topAnchor.constraint(equalTo: contentController.view.topAnchor),
+                                         container.heightAnchor.constraint(equalTo: contentController.view.heightAnchor),
+                                         container.leadingAnchor.constraint(equalTo: contentController.view.leadingAnchor),
+                                         container.widthAnchor.constraint(equalTo: contentController.view.widthAnchor)])
+
+            let textField = UITextField()
+            textField.text = "Some focusable content"
+            textField.delegate = self
+            container.addArrangedSubview(textField)
+
+            container.addArrangedSubview(strongSelf.hideKeyboardButton.view)
+
+            strongSelf.presentDrawer(sourceView: sender.view,
+                                     presentationDirection: .up,
+                                     permittedArrowDirections: .any,
+                                     contentController: contentController,
+                                     resizingBehavior: .dismissOrExpand,
+                                     adjustHeightForKeyboard: true)
+
+            textField.becomeFirstResponder()
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show dismiss blocking drawer", action: { [weak self] sender in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.shouldConfirmDrawerDismissal = true
+            strongSelf.presentDrawer(sourceView: sender.view,
+                                     presentationDirection: .up,
+                                     contentView: strongSelf.containerForActionViews(),
+                                     resizingBehavior: .dismissOrExpand)
+        }).view)
 
         container.addArrangedSubview(UIView())
 
@@ -158,15 +385,57 @@ class DrawerDemoController: DemoController {
 
         var views = [UIView]()
         if drawerHasFlexibleHeight {
-            let expandButton = createButton(title: "Expand", action: #selector(expandButtonTapped))
+            let expandButton = createButton(title: "Expand", action: { [weak self] _ in
+                guard let strongSelf = self else {
+                    return
+                }
+
+                guard let drawer = strongSelf.presentedViewController as? DrawerController else {
+                    return
+                }
+                drawer.isExpanded = !drawer.isExpanded
+            })
+
             self.expandButton = expandButton
-            views.append(createButton(title: "Change content height", action: #selector(changeContentHeightButtonTapped)))
-            views.append(expandButton)
+            views.append(createButton(title: "Change content height", action: { sender in
+                if let spacer = (sender.view.superview as? UIStackView)?.arrangedSubviews.last,
+                    let heightConstraint = spacer.constraints.first {
+                    heightConstraint.constant = heightConstraint.constant == 20 ? 100 : 20
+                }
+            }).view)
+            views.append(expandButton.view)
         }
-        views.append(createButton(title: "Dismiss", action: #selector(dismissButtonTapped)))
-        views.append(createButton(title: "Dismiss (no animation)", action: #selector(dismissNotAnimatedButtonTapped)))
+
+        views.append(createButton(title: "Dismiss", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.dismiss(animated: true)
+        }).view)
+
+        views.append(createButton(title: "Dismiss (no animation)", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.dismiss(animated: false)
+        }).view)
+
         if drawerHasToggleResizingBehaviorButton {
-            views.append(createButton(title: "Resizing - None", action: #selector(updateResizingBehaviourButtonTapped)))
+            views.append(createButton(title: "Resizing - None", action: { [weak self] sender in
+                guard let strongSelf = self else {
+                    return
+                }
+
+                guard let drawer = strongSelf.presentedViewController as? DrawerController else {
+                    return
+                }
+
+                let isResizingBehaviourNone = drawer.resizingBehavior == .none
+                drawer.resizingBehavior = isResizingBehaviourNone ? .expand : .none
+                sender.state.text = isResizingBehaviourNone ? "Resizing - None" : "Resizing - Expand"
+            }).view)
         }
         views.append(spacer)
         return views
@@ -181,92 +450,10 @@ class DrawerDemoController: DemoController {
     }
 
     @objc private func barButtonTapped(sender: UIBarButtonItem) {
-        presentDrawer(barButtonItem: sender, presentationDirection: .down, permittedArrowDirections: .any, contentView: containerForActionViews())
-    }
-
-    @objc private func showTopDrawerButtonTapped(sender: UIButton) {
-        presentDrawer(sourceView: sender, presentationDirection: .down, presentationBackground: .none, contentView: containerForActionViews(), resizingBehavior: .dismissOrExpand)
-    }
-
-    @objc private func showTopDrawerWithMaxContentHeightTapped(sender: UIButton) {
-        presentDrawer(sourceView: sender, presentationDirection: .down, contentView: containerForActionViews(drawerHasFlexibleHeight: false), resizingBehavior: .expand, maxDrawerHeight: 350)
-    }
-
-    @objc private func showTopDrawerNotDismissableButtonTapped(sender: UIButton) {
-        presentDrawer(sourceView: sender, presentationDirection: .down, contentView: containerForActionViews(), resizingBehavior: .expand)
-    }
-
-    @objc private func showTopDrawerChangingResizingBehaviour(sender: UIButton) {
-        presentDrawer(sourceView: sender, presentationDirection: .down, contentView: containerForActionViews(drawerHasFlexibleHeight: true, drawerHasToggleResizingBehaviorButton: true), resizingBehavior: .expand)
-    }
-
-    @objc private func showTopDrawerNotAnimatedButtonTapped(sender: UIButton) {
-        presentDrawer(sourceView: sender, presentationDirection: .down, contentView: containerForActionViews(), animated: false)
-    }
-
-    @objc private func showTopDrawerCustomOffsetButtonTapped(sender: UIButton) {
-        let rect = sender.superview!.convert(sender.frame, to: nil)
-        presentDrawer(sourceView: sender, presentationOrigin: rect.maxY, presentationDirection: .down, contentView: containerForActionViews(), customWidth: true)
-    }
-
-    @objc private func showTopDrawerSafeAreaButtonTapped(sender: UIButton) {
-        presentDrawer(sourceView: sender, presentationDirection: .down, contentView: containerForActionViews(), resizingBehavior: .dismissOrExpand, respectSafeAreaWidth: true)
-    }
-
-    @objc private func showLeftDrawerClearBackgroundButtonTapped(sender: UIButton) {
-        presentDrawer(sourceView: sender, presentationDirection: .fromLeading, presentationBackground: .none, contentView: containerForActionViews(drawerHasFlexibleHeight: false), resizingBehavior: .dismiss)
-    }
-
-    @objc private func showLeftDrawerDimmedBackgroundButtonTapped(sender: UIButton) {
-        presentDrawer(sourceView: sender, presentationDirection: .fromLeading, presentationBackground: .black, contentView: containerForActionViews(drawerHasFlexibleHeight: false), resizingBehavior: .dismiss)
-    }
-
-    @objc private func showRightDrawerClearBackgroundButtonTapped(sender: UIButton) {
-        presentDrawer(sourceView: sender, presentationDirection: .fromTrailing, presentationBackground: .none, contentView: containerForActionViews(drawerHasFlexibleHeight: false), resizingBehavior: .dismiss)
-    }
-
-    @objc private func showRightDrawerDimmedBackgroundButtonTapped(sender: UIButton) {
-        presentDrawer(sourceView: sender, presentationDirection: .fromTrailing, presentationBackground: .black, contentView: containerForActionViews(drawerHasFlexibleHeight: false), resizingBehavior: .dismiss)
-    }
-
-    @objc private func showBottomDrawerButtonTapped(sender: UIButton) {
-        presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews(), resizingBehavior: .dismissOrExpand)
-    }
-
-    @objc private func showBottomDrawerWithMaxContentHeightTapped(sender: UIButton) {
-        presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews(drawerHasFlexibleHeight: false), resizingBehavior: .dismissOrExpand, maxDrawerHeight: 350)
-    }
-
-    @objc private func showBottomDrawerChangingResizingBehaviour(sender: UIButton) {
-        presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews(drawerHasFlexibleHeight: true, drawerHasToggleResizingBehaviorButton: true), resizingBehavior: .expand)
-    }
-
-    @objc private func showBottomDrawerWithUnderlyingInteractableViewButtonTapped(sender: UIButton) {
-        navigationController?.pushViewController(PassThroughDrawerDemoController(), animated: true)
-    }
-
-    @objc private func showBottomDrawerNotAnimatedButtonTapped(sender: UIButton) {
-        presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews(), animated: false)
-    }
-
-    @objc private func showBottomDrawerCustomOffsetButtonTapped(sender: UIButton) {
-        let rect = sender.superview!.convert(sender.frame, to: nil)
-        presentDrawer(sourceView: sender, presentationOrigin: rect.minY, presentationDirection: .up, contentView: containerForActionViews(), resizingBehavior: .dismissOrExpand)
-    }
-
-    @objc private func showBottomDrawerBlockingDismissButtonTapped(sender: UIButton) {
-        shouldConfirmDrawerDismissal = true
-        presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews(), resizingBehavior: .dismissOrExpand)
-    }
-
-    @objc private func showBottomDrawerCustomContentControllerDimmedBackgroundButtonTapped(sender: UIButton) {
-        showBottomDrawerCustomContentController(sourceView: sender,
-                                                presentationBackground: .black)
-    }
-
-    @objc private func showBottomDrawerCustomContentControllerClearBackgroundButtonTapped(sender: UIButton) {
-        showBottomDrawerCustomContentController(sourceView: sender,
-                                                presentationBackground: .none)
+        presentDrawer(barButtonItem: sender,
+                      presentationDirection: .down,
+                      permittedArrowDirections: .any,
+                      contentView: containerForActionViews())
     }
 
     @objc private func showBottomDrawerCustomContentController(sourceView: UIView,
@@ -288,34 +475,6 @@ class DrawerDemoController: DemoController {
         drawer.contentScrollView = personaListView
     }
 
-    @objc private func showBottomDrawerFocusableContentButtonTapped(sender: UIButton) {
-        let contentController = UIViewController()
-
-        let container = UIStackView()
-        container.axis = .vertical
-        container.isLayoutMarginsRelativeArrangement = true
-        container.layoutMargins = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
-        container.spacing = 10
-        container.translatesAutoresizingMaskIntoConstraints = false
-        contentController.view.addSubview(container)
-        NSLayoutConstraint.activate([container.topAnchor.constraint(equalTo: contentController.view.topAnchor),
-                                     container.heightAnchor.constraint(equalTo: contentController.view.heightAnchor),
-                                     container.leadingAnchor.constraint(equalTo: contentController.view.leadingAnchor),
-                                     container.widthAnchor.constraint(equalTo: contentController.view.widthAnchor)])
-
-        let textField = UITextField()
-        textField.text = "Some focusable content"
-        textField.delegate = self
-        container.addArrangedSubview(textField)
-
-        hideKeyboardButton.addTarget(self, action: #selector(hideKeyboardButtonTapped), for: .touchUpInside)
-        container.addArrangedSubview(hideKeyboardButton)
-
-        presentDrawer(sourceView: sender, presentationDirection: .up, permittedArrowDirections: .any, contentController: contentController, resizingBehavior: .dismissOrExpand, adjustHeightForKeyboard: true)
-
-        textField.becomeFirstResponder()
-    }
-
     @objc private func handleScreenEdgePan(gesture: UIScreenEdgePanGestureRecognizer) {
         guard gesture.state == .began else {
             return
@@ -323,37 +482,11 @@ class DrawerDemoController: DemoController {
 
         let leadingEdge: UIRectEdge = view.effectiveUserInterfaceLayoutDirection == .leftToRight ? .left : .right
 
-        presentDrawer(sourceView: view, presentationDirection: gesture.edges == leadingEdge ? .fromLeading : .fromTrailing, presentingGesture: gesture, contentView: containerForActionViews(drawerHasFlexibleHeight: false), resizingBehavior: .dismiss)
-    }
-
-    @objc private func changeContentHeightButtonTapped(sender: UIButton) {
-        if let spacer = (sender.superview as? UIStackView)?.arrangedSubviews.last,
-            let heightConstraint = spacer.constraints.first {
-            heightConstraint.constant = heightConstraint.constant == 20 ? 100 : 20
-        }
-    }
-
-    @objc private func expandButtonTapped(sender: UIButton) {
-        guard let drawer = presentedViewController as? DrawerController else {
-            return
-        }
-        drawer.isExpanded = !drawer.isExpanded
-    }
-
-    @objc private func dismissButtonTapped() {
-        dismiss(animated: true)
-    }
-
-    @objc private func dismissNotAnimatedButtonTapped() {
-        dismiss(animated: false)
-    }
-    @objc private func updateResizingBehaviourButtonTapped(sender: UIButton) {
-        guard let drawer = presentedViewController as? DrawerController else {
-            return
-        }
-        let isResizingBehaviourNone = drawer.resizingBehavior == .none
-        drawer.resizingBehavior = isResizingBehaviourNone ? .expand : .none
-        sender.setTitle(isResizingBehaviourNone ? "Resizing - None" : "Resizing - Expand", for: .normal)
+        presentDrawer(sourceView: view,
+                      presentationDirection: gesture.edges == leadingEdge ? .fromLeading : .fromTrailing,
+                      presentingGesture: gesture,
+                      contentView: containerForActionViews(drawerHasFlexibleHeight: false),
+                      resizingBehavior: .dismiss)
     }
 
     @objc private func changePreferredContentSizeButtonTapped() {
@@ -364,21 +497,17 @@ class DrawerDemoController: DemoController {
         }
     }
 
-    @objc private func hideKeyboardButtonTapped(sender: UIButton) {
-        if let stackView = sender.superview as? UIStackView {
-            let textField = stackView.arrangedSubviews.first(where: { $0 is UITextField })
-            textField?.resignFirstResponder()
-        }
-    }
-
     private var shouldConfirmDrawerDismissal: Bool = false
-    private var expandButton: MSFButton?
+    private var expandButton: MSFButtonVnext?
 
-    private let hideKeyboardButton: MSFButton = {
-        let button = MSFButton(style: .primaryFilled)
-        button.setTitle("Hide keyboard", for: .normal)
-        button.setContentCompressionResistancePriority(.required, for: .vertical)
-        button.setContentHuggingPriority(.required, for: .vertical)
+    private let hideKeyboardButton: MSFButtonVnext = {
+        let button = MSFButtonVnext(style: .primary, size: .large) { sender in
+            if let stackView = sender.view.superview as? UIStackView {
+                let textField = stackView.arrangedSubviews.first(where: { $0 is UITextField })
+                textField?.resignFirstResponder()
+            }
+        }
+        button.state.text = "Hide keyboard"
         return button
     }()
 }
@@ -392,11 +521,11 @@ extension DrawerDemoController: UITextFieldDelegate {
     }
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        hideKeyboardButton.isEnabled = true
+        hideKeyboardButton.state.isDisabled = false
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        hideKeyboardButton.isEnabled = false
+        hideKeyboardButton.state.isDisabled = true
     }
 }
 
@@ -421,7 +550,7 @@ extension DrawerDemoController: DrawerControllerDelegate {
     }
 
     func drawerControllerDidChangeExpandedState(_ controller: DrawerController) {
-        expandButton?.setTitle(controller.isExpanded ? collapseText : expandText, for: .normal)
+        expandButton?.state.text = controller.isExpanded ? collapseText : expandText
     }
 }
 

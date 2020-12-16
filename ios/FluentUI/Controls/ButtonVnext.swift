@@ -145,20 +145,23 @@ public struct MSFButtonViewButtonStyle: ButtonStyle {
                     Text(text)
                         .font(Font(tokens.textFont))
                         .fontWeight(.medium)
+                        .multilineTextAlignment(.center)
                 }
         }
         .padding(tokens.padding)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .foregroundColor(Color(isDisabled ? tokens.disabledTitleColor :
                                 (isPressed ? tokens.highlightedTitleColor : tokens.titleColor)))
                     .background((tokens.borderSize > 0) ?
                         AnyView(RoundedRectangle(cornerRadius: tokens.borderRadius)
-                            .strokeBorder(lineWidth: tokens.borderSize, antialiased: false)
-                            .foregroundColor(Color(isDisabled ? tokens.disabledBorderColor :
-                                                    (isPressed ? tokens.highlightedBorderColor : tokens.borderColor))))
+                                    .strokeBorder(lineWidth: tokens.borderSize, antialiased: false)
+                                    .foregroundColor(Color(isDisabled ? tokens.disabledBorderColor :
+                                                            (isPressed ? tokens.highlightedBorderColor : tokens.borderColor)))
+                                    .contentShape(Rectangle()))
                                     :
                         AnyView(RoundedRectangle(cornerRadius: tokens.borderRadius)
-                            .fill(Color(isDisabled ? tokens.disabledBackgroundColor :
-                                            (isPressed ? tokens.highlightedBackgroundColor : tokens.backgroundColor)))))
+                                    .fill(Color(isDisabled ? tokens.disabledBackgroundColor :
+                                                    (isPressed ? tokens.highlightedBackgroundColor : tokens.backgroundColor)))))
     }
 }
 
@@ -180,7 +183,7 @@ public struct MSFButtonView: View {
         Button(action: action, label: {})
             .buttonStyle(MSFButtonViewButtonStyle(targetButton: self))
             .disabled(state.isDisabled)
-            .fixedSize()
+            .frame(maxWidth: .infinity)
     }
 }
 
@@ -188,7 +191,9 @@ public struct MSFButtonView: View {
 /// UIKit wrapper that exposes the SwiftUI Button implementation
 open class MSFButtonVnext: NSObject {
 
-    private var hostingController: UIHostingController<MSFButtonView>
+    private var hostingController: UIHostingController<MSFButtonView>!
+
+    @objc open var action: ((_ sender: MSFButtonVnext) -> Void)?
 
     @objc open var view: UIView {
         return hostingController.view
@@ -200,11 +205,20 @@ open class MSFButtonVnext: NSObject {
 
     @objc public init(style: MSFButtonVnextStyle = .secondary,
                       size: MSFButtonVnextSize = .large,
-                      action: @escaping () -> Void) {
-        self.hostingController = UIHostingController(rootView: MSFButtonView(action: action,
-                                                                             style: style,
-                                                                             size: size))
+                      action: ((_ sender: MSFButtonVnext) -> Void)?) {
         super.init()
+        initialize(style: style, size: size, action: action)
+    }
+
+    private func initialize(style: MSFButtonVnextStyle = .secondary,
+                            size: MSFButtonVnextSize = .large,
+                            action: ((_ sender: MSFButtonVnext) -> Void)?) {
+        self.action = action
+        self.hostingController = UIHostingController(rootView: MSFButtonView(action: {
+            self.action?(self)
+        },
+        style: style,
+        size: size))
         self.view.backgroundColor = UIColor.clear
     }
 }

@@ -50,8 +50,8 @@
     [self.container addArrangedSubview:buttonVnextLabel];
 
     _testButtonVnext = [[MSFButtonVnext alloc] initWithStyle:MSFButtonVnextStyleSecondary
-                                                    size:MSFButtonVnextSizeMedium
-                                                  action:^{}];
+                                                        size:MSFButtonVnextSizeMedium
+                                                      action:^(MSFButtonVnext *sender) {}];
     [self resetVnextButton];
     [self.container addArrangedSubview:[_testButtonVnext view]];
 

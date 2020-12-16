@@ -10,51 +10,82 @@ class HUDDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        container.alignment = .leading
-        let showActivityButton = MSFButtonVnext(style: .secondary, size: .small, action: {
-            self.showActivityHUD()
+        let showActivityButton = MSFButtonVnext(style: .secondary, size: .small, action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showActivityHUD()
         })
         showActivityButton.state.text = "Show activity HUD"
         container.addArrangedSubview(showActivityButton.view)
 
-        let showSuccessButton = MSFButtonVnext(style: .secondary, size: .small, action: {
-            self.showSuccessHUD()
+        let showSuccessButton = MSFButtonVnext(style: .secondary, size: .small, action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showSuccessHUD()
         })
         showSuccessButton.state.text = "Show success HUD"
         container.addArrangedSubview(showSuccessButton.view)
 
-        let showFailureButton = MSFButtonVnext(style: .secondary, size: .small, action: {
-            self.showFailureHUD()
+        let showFailureButton = MSFButtonVnext(style: .secondary, size: .small, action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showFailureHUD()
         })
         showFailureButton.state.text = "Show failure HUD"
         container.addArrangedSubview(showFailureButton.view)
 
-        let showCustomButton = MSFButtonVnext(style: .secondary, size: .small, action: {
-            self.showCustomHUD()
+        let showCustomButton = MSFButtonVnext(style: .secondary, size: .small, action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showCustomHUD()
         })
         showCustomButton.state.text = "Show custom HUD"
         container.addArrangedSubview(showCustomButton.view)
 
-        let showCustomNonBlockingButton = MSFButtonVnext(style: .secondary, size: .small, action: {
-            self.showCustomNonBlockingHUD()
+        let showCustomNonBlockingButton = MSFButtonVnext(style: .secondary, size: .small, action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showCustomNonBlockingHUD()
         })
         showCustomNonBlockingButton.state.text = "Show custom non-blocking HUD"
         container.addArrangedSubview(showCustomNonBlockingButton.view)
 
-        let showNolabelButton = MSFButtonVnext(style: .secondary, size: .small, action: {
-            self.showNoLabelHUD()
+        let showNolabelButton = MSFButtonVnext(style: .secondary, size: .small, action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showNoLabelHUD()
         })
         showNolabelButton.state.text = "Show HUD with no label"
         container.addArrangedSubview(showNolabelButton.view)
 
-        let showGestureButton = MSFButtonVnext(style: .secondary, size: .small, action: {
-            self.showGestureHUD()
+        let showGestureButton = MSFButtonVnext(style: .secondary, size: .small, action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showGestureHUD()
         })
         showGestureButton.state.text = "Show HUD with tap gesture callback"
         container.addArrangedSubview(showGestureButton.view)
 
-        let showUpdatingButton = MSFButtonVnext(style: .secondary, size: .small, action: {
-            self.showUpdateHUD()
+        let showUpdatingButton = MSFButtonVnext(style: .secondary, size: .small, action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showUpdateHUD()
         })
         showUpdatingButton.state.text = "Show HUD with updating caption"
         container.addArrangedSubview(showUpdatingButton.view)
