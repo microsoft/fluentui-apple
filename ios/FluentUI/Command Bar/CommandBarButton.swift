@@ -6,24 +6,9 @@
 import UIKit
 
 class CommandBarButton: UIButton {
-    /// Background color style, either 'default' or 'brighter'
-    enum BackgroundStyle {
-        /// Default background
-        case `default`
-        /// In light mode, if the toolbar behind buttons is blurred,
-        /// the button background will be invisible
-        /// In that case, we change it to a special color
-        case bright
-    }
-
-    var backgroundStyle: BackgroundStyle = .default {
-        didSet {
-            updateBackgroundColor()
-        }
-    }
-
-    let appearance: CommandBarButtonAppearance
     let item: CommandBarItem
+
+    private var currentApperance: CommandBarButtonAppearance?
 
     override var isHighlighted: Bool {
         didSet {
@@ -33,14 +18,11 @@ class CommandBarButton: UIButton {
 
     init(item: CommandBarItem, appearance: CommandBarButtonAppearance) {
         self.item = item
-        self.appearance = appearance
 
         super.init(frame: .zero)
 
         translatesAutoresizingMaskIntoConstraints = false
-        tintColor = appearance.tintColor
-        setTitleColor(tintColor, for: .normal)
-        backgroundColor = appearance.backgroundColor
+        updateAppearance(appearance)
 
         widthAnchor.constraint(equalToConstant: Constants.buttonWidth).isActive = true
         setImage(item.iconImage, for: .normal)
@@ -52,26 +34,17 @@ class CommandBarButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func updateBackgroundColor() {
-        if isSelected {
-            backgroundColor = appearance.highlightedBackgroundColor
-        } else {
-            switch backgroundStyle {
-            case .default:
-                backgroundColor = appearance.backgroundColor
-            case .bright:
-                backgroundColor = appearance.brightBackgroundColor
-            }
-        }
+    func updateAppearance(_ appearance: CommandBarButtonAppearance) {
+        currentApperance = appearance
+
+        updateStyleIfPossible()
     }
 
     func updateState() {
         isEnabled = item.isEnabled
         isSelected = item.isSelected
 
-        tintColor = isSelected ? appearance.highlightedTintColor : appearance.tintColor
-        setTitleColor(tintColor, for: .normal)
-        updateBackgroundColor()
+        updateStyleIfPossible()
     }
 }
 
@@ -80,5 +53,20 @@ private extension CommandBarButton {
         static let highlightedAlpha: CGFloat = 0.5
         static let defaultAlpha: CGFloat = 1.0
         static let buttonWidth: CGFloat = 40
+    }
+
+    func updateStyleIfPossible() {
+        guard let appearance = currentApperance else {
+            return
+        }
+
+        tintColor = appearance.tintColor
+        setTitleColor(tintColor, for: .normal)
+
+        if isSelected {
+            backgroundColor = appearance.highlightedBackgroundColor
+        } else {
+            backgroundColor = appearance.backgroundColor
+        }
     }
 }

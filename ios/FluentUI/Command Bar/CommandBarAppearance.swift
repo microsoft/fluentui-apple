@@ -10,20 +10,17 @@ public struct CommandBarButtonAppearance {
     public var backgroundColor: UIColor
     public var highlightedTintColor: UIColor
     public var highlightedBackgroundColor: UIColor
-    public var brightBackgroundColor: UIColor
 
     public init(
         tintColor: UIColor = Defaults.tintColor,
         backgroundColor: UIColor = Defaults.backgroundColor,
         highlightedTintColor: UIColor = Defaults.highlightedTintColor,
-        highlightedBackgroundColor: UIColor = Defaults.highlightedBackgroundColor,
-        brightBackgroundColor: UIColor = Defaults.brightBackgroundColor
+        highlightedBackgroundColor: UIColor = Defaults.highlightedBackgroundColor
     ) {
         self.tintColor = tintColor
         self.backgroundColor = backgroundColor
         self.highlightedTintColor = highlightedTintColor
         self.highlightedBackgroundColor = highlightedBackgroundColor
-        self.brightBackgroundColor = brightBackgroundColor
     }
 
     public enum Defaults {
@@ -31,7 +28,6 @@ public struct CommandBarButtonAppearance {
         public static let backgroundColor: UIColor = Colors.surfaceSecondary
         public static let highlightedTintColor = UIColor(light: Colors.communicationBlue, dark: .black)
         public static let highlightedBackgroundColor = UIColor(light: UIColor(red: 224 / 255, green: 238 / 255, blue: 249 / 255, alpha: 1), dark: Colors.communicationBlue)
-        public static let brightBackgroundColor = UIColor(light: .white, dark: Colors.gray800)
     }
 }
 

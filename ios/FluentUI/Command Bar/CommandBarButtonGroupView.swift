@@ -8,12 +8,6 @@ import UIKit
 class CommandBarButtonGroupView: UIView {
     let buttons: [CommandBarButton]
 
-    var buttonBackgroundStyle: CommandBarButton.BackgroundStyle = .default {
-        didSet {
-            buttons.forEach { $0.backgroundStyle = buttonBackgroundStyle }
-        }
-    }
-
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: buttons)
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -40,6 +34,10 @@ class CommandBarButtonGroupView: UIView {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func updateAppearance(_ appearance: CommandBarButtonAppearance) {
+        buttons.forEach { $0.updateAppearance(appearance) }
     }
 }
 

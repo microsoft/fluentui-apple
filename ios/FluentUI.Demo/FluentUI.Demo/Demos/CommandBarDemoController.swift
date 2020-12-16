@@ -28,6 +28,8 @@ class CommandBarDemoController: DemoController {
         case numberList
         case link
 
+        case keyboard
+
         var iconImage: UIImage? {
             switch self {
             case .add:
@@ -60,14 +62,16 @@ class CommandBarDemoController: DemoController {
                 return UIImage(named: "Text Number List LTR_24_Regular")
             case .link:
                 return UIImage(named: "Link_24_Regular")
+            case .keyboard:
+                return UIImage(named: "Keyboard Dock_24_Regular")
             }
         }
 
         var isPersistSelection: Bool {
             switch self {
-            case .arrowUndo, .arrowRedo:
+            case .add, .mention, .calendar, .arrowUndo, .arrowRedo, .copy, .delete, .link, .keyboard:
                 return false
-            default:
+            case .textBold, .textItalic, .textUnderline, .textStrikethrough, .checklist, .bulletList, .numberList:
                 return true
             }
         }
@@ -76,10 +80,10 @@ class CommandBarDemoController: DemoController {
     class Item: CommandBarItem {
         let command: Command
 
-        init(command: Command) {
+        init(command: Command, isEnabled: Bool = true, isSelected: Bool = false) {
             self.command = command
 
-            super.init(iconImage: command.iconImage, isPersistSelection: command.isPersistSelection)
+            super.init(iconImage: command.iconImage, isEnabled: isEnabled, isSelected: isSelected, isPersistSelection: command.isPersistSelection)
         }
     }
 
@@ -116,10 +120,26 @@ class CommandBarDemoController: DemoController {
             ]
         ]
 
-        let commandBar = CommandBar(appearance: CommandBarAppearance(), itemGroups: itemGroups)
-        commandBar.backgroundColor = Colors.Navigation.System.background
-        commandBar.delegate = self
-        container.addArrangedSubview(commandBar)
+        container.addArrangedSubview(createLabelWithText("Default"))
+
+        let defaultCommandBar = CommandBar(appearance: CommandBarAppearance(), itemGroups: itemGroups)
+        defaultCommandBar.backgroundColor = Colors.Navigation.System.background
+        defaultCommandBar.delegate = self
+        container.addArrangedSubview(defaultCommandBar)
+
+        container.addArrangedSubview(createLabelWithText("With Fixed Button"))
+
+        let fixedButtonCommandBar = CommandBar(appearance: CommandBarAppearance(), itemGroups: itemGroups, trailingItem: Item(command: .keyboard))
+        fixedButtonCommandBar.backgroundColor = Colors.Navigation.System.background
+        fixedButtonCommandBar.delegate = self
+        container.addArrangedSubview(fixedButtonCommandBar)
+    }
+
+    func createLabelWithText(_ text: String = "") -> Label {
+        let label = Label(style: .subhead, colorStyle: .regular)
+        label.text = text
+        label.textAlignment = .center
+        return label
     }
 }
 
