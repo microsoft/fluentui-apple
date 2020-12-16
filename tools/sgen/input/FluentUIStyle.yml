@@ -138,7 +138,7 @@ Spacing:
   xxxlarge: 48pt
   xxxxlarge: 72pt
 
-Opacity: 
+Opacity:
   opacity8: 0.8f
   opacity16: 0.16f
   opacity24: 0.24f
@@ -148,6 +148,13 @@ Opacity:
   opacity88: 0.88f
   opacity96: 0.96f
   none: 1f
+
+Shadow:
+    Blur:
+    - light12: 28pt
+
+    Depth:
+    - shadow28: [ 0pt, 14pt ]
 
 AP_AvatarTokens:
   backgroundDefaultColor: "FluentUIColor(light: $Colors.Neutral.white, dark: $Colors.Brand.primary)"
@@ -254,3 +261,9 @@ AP_MSFListTokens:
 
 IconOnlyListTokens extends MSFListTokens:
   iconColor: $Colors.Foreground.neutral3
+
+AP_DrawerTokens:
+  shadowColor: $Colors.Neutral.black
+  shadowOpacity: $Opacity.opacity24
+  shadowBlur:   $Shadow.Blur.light12
+  shadowDepth: $Shadow.Depth.shadow28

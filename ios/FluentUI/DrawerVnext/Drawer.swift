@@ -14,17 +14,24 @@ public class DrawerState: NSObject, ObservableObject {
     @objc @Published public var backgroundDimmed: Bool = false
 }
 
-public class DrawerToken: ObservableObject {
-    @Published public var shadowColor: UIColor!
+public class DrawerTokens: ObservableObject {
+
+    @Published public var shadowColor: Color! = Color.black
+    @Published public var shadowOpacity: Double! = 0.24
+    @Published public var shadowBlur: CGFloat! = 28
+    @Published public var shadowDepth: [CGFloat]! =  [0, 14.0] // x,y axis
 
     public init() {
-        //self.themeAware = true
+        self.themeAware = true
         didChangeAppearanceProxy()
     }
 
     @objc open func didChangeAppearanceProxy() {
-//        var appearanceProxy: ApperanceProxyType
-//        shadowColor = appearanceProxy.shadowColor.rest
+        let appearanceProxy = StylesheetManager.S.DrawerTokens
+        shadowColor = Color(appearanceProxy.shadowColor)
+        shadowOpacity = Double(appearanceProxy.shadowOpacity)
+        shadowBlur = appearanceProxy.shadowBlur
+        shadowDepth = appearanceProxy.shadowDepth
     }
 }
 
@@ -45,7 +52,7 @@ public class DrawerToken: ObservableObject {
 public struct Drawer<Content: View>: View {
 
     @ObservedObject var state: DrawerState
-    @ObservedObject var tokens: DrawerToken
+    @ObservedObject var tokens: DrawerTokens
 
     var backgroundLayerColor: Color! = Color.black
     private var backgroundLayerOpacity: Double! {
@@ -53,57 +60,66 @@ public struct Drawer<Content: View>: View {
     }
     var backgroundLayerAnimation: Animation! = Animation.default
 
+    var percentWidthOfContent: CGFloat! = 0.9
+
     // content view on top of
     public var content: Content
 
     // `ivar` to keep track of dragged offset
     @State private var draggedOffsetWidth: CGFloat?
-
-    private var offset: CGFloat {
+    private func computedOffset(screenSize: CGSize) -> CGFloat {
 
         if let draggedOffsetWidth = draggedOffsetWidth {
             return draggedOffsetWidth
         }
 
         var width = CGFloat.zero
+        let contentWidth = screenSize.width * percentWidthOfContent
         if !state.isExpanded { // if closed then hidden behind the screen
-            width = -openDrawerWidth
+            width = state.presentationDirection == .left ? -contentWidth : contentWidth
         }
 
-        return state.presentationDirection == .left ? width : -width
+        return width
     }
 
-    // percentage of space occupied by drawer when open
-    private var openDrawerWidth: CGFloat {
-        return UIScreen.main.bounds.width * 0.9
-    }
+//    // percentage of space occupied by drawer when open
+//    private var openDrawerWidth: CGFloat {
+//        return UIScreen.main.bounds.width * 0.9
+//    }
 
     public init(content: Content) {
         self.content = content
-        self.tokens = DrawerToken()
-        self.state = DrawerState()
+        tokens = DrawerTokens()
+        state = DrawerState()
     }
 
     public var body: some View {
-        HStack {
 
-            if state.presentationDirection == .right {
-                Spacer()
-            }
+        GeometryReader { reader in
+            HStack {
 
-            content
-                .frame(width: openDrawerWidth)
-                .offset(x: offset)
-                .animation(backgroundLayerAnimation)
+                if state.presentationDirection == .right {
+                    Spacer()
+                }
 
-            if state.presentationDirection == .left {
-                Spacer()
-            }
+                content
+                    .frame(width: reader.size.width * percentWidthOfContent)
+                    .shadow(color: tokens.shadowColor.opacity(state.isExpanded ? tokens.shadowOpacity : 0),
+                            radius: tokens.shadowBlur,
+                            x: tokens.shadowDepth[0],
+                            y: tokens.shadowDepth[1])
+                    .offset(x: computedOffset(screenSize: reader.size))
+                    .animation(backgroundLayerAnimation)
 
-        }.onTapGesture {
-            state.isExpanded.toggle()
-        }.background(state.isExpanded ? backgroundLayerColor.opacity(backgroundLayerOpacity) : Color.clear)
-        .gesture(drag)
+                if state.presentationDirection == .left {
+                    Spacer()
+                }
+
+            }.onTapGesture {
+                state.isExpanded.toggle()
+            }.background(state.isExpanded ? backgroundLayerColor.opacity(backgroundLayerOpacity) : Color.clear)
+            .gesture(drag)
+        }
     }
 
     var drag: some Gesture {
@@ -117,7 +133,7 @@ public struct Drawer<Content: View>: View {
             }
             .onEnded { _ in
                 if let draggedOffsetWidth = draggedOffsetWidth {
-                    if abs(draggedOffsetWidth) < openDrawerWidth / 4 {
+                    if abs(draggedOffsetWidth) < 270 / 4 {
                         state.isExpanded = true
                     } else {
                         state.isExpanded = false

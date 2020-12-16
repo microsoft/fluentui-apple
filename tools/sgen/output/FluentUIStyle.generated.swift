@@ -2499,6 +2499,66 @@ extension StylesheetManagerTheming {
 		}
 
 	}
+	//MARK: - DrawerTokens
+	public var _DrawerTokens: DrawerTokensAppearanceProxy?
+	open func DrawerTokensStyle() -> DrawerTokensAppearanceProxy {
+		if let override = _DrawerTokens { return override }
+			return DrawerTokensAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+		}
+	public var DrawerTokens: DrawerTokensAppearanceProxy {
+		get { return self.DrawerTokensStyle() }
+		set { _DrawerTokens = newValue }
+	}
+	@objc(DrawerTokensAppearanceProxy) @objcMembers open class DrawerTokensAppearanceProxy: NSObject {
+		public let mainProxy: () -> FluentUIStyle
+		public init(proxy: @escaping () -> FluentUIStyle) {
+			self.mainProxy = proxy
+		}
+
+		//MARK: shadowBlur 
+		public var _shadowBlur: CGFloat?
+		open func shadowBlurProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _shadowBlur { return override }
+			return mainProxy().Shadow.Blur.light12Property(traitCollection)
+			}
+		public var shadowBlur: CGFloat {
+			get { return self.shadowBlurProperty() }
+			set { _shadowBlur = newValue }
+		}
+
+		//MARK: shadowColor 
+		public var _shadowColor: UIColor?
+		open func shadowColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _shadowColor { return override }
+			return mainProxy().Colors.Neutral.blackProperty(traitCollection)
+			}
+		public var shadowColor: UIColor {
+			get { return self.shadowColorProperty() }
+			set { _shadowColor = newValue }
+		}
+
+		//MARK: shadowDepth 
+		public var _shadowDepth: [CGFloat]?
+		open func shadowDepthProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> [CGFloat] {
+			if let override = _shadowDepth { return override }
+			return mainProxy().Shadow.Depth.shadow28Property(traitCollection)
+			}
+		public var shadowDepth: [CGFloat] {
+			get { return self.shadowDepthProperty() }
+			set { _shadowDepth = newValue }
+		}
+
+		//MARK: shadowOpacity 
+		public var _shadowOpacity: CGFloat?
+		open func shadowOpacityProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _shadowOpacity { return override }
+			return mainProxy().Opacity.opacity24Property(traitCollection)
+			}
+		public var shadowOpacity: CGFloat {
+			get { return self.shadowOpacityProperty() }
+			set { _shadowOpacity = newValue }
+		}
+	}
 	//MARK: - GhostButtonTokens
 	public var _GhostButtonTokens: GhostButtonTokensAppearanceProxy?
 	open func GhostButtonTokensStyle() -> GhostButtonTokensAppearanceProxy {
@@ -4091,6 +4151,82 @@ extension StylesheetManagerTheming {
 		}
 
 	}
+	//MARK: - Shadow
+	public var _Shadow: ShadowAppearanceProxy?
+	open func ShadowStyle() -> ShadowAppearanceProxy {
+		if let override = _Shadow { return override }
+			return ShadowAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+		}
+	public var Shadow: ShadowAppearanceProxy {
+		get { return self.ShadowStyle() }
+		set { _Shadow = newValue }
+	}
+	@objc(ShadowAppearanceProxy) @objcMembers open class ShadowAppearanceProxy: NSObject {
+		public let mainProxy: () -> FluentUIStyle
+		public init(proxy: @escaping () -> FluentUIStyle) {
+			self.mainProxy = proxy
+		}
+
+		//MARK: - Blur
+		public var _Blur: BlurAppearanceProxy?
+		open func BlurStyle() -> BlurAppearanceProxy {
+			if let override = _Blur { return override }
+				return BlurAppearanceProxy(proxy: mainProxy)
+			}
+		public var Blur: BlurAppearanceProxy {
+			get { return self.BlurStyle() }
+			set { _Blur = newValue }
+		}
+		@objc(ShadowBlurAppearanceProxy) @objcMembers open class BlurAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: light12 
+			public var _light12: CGFloat?
+			open func light12Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _light12 { return override }
+					return CGFloat(28.0)
+				}
+			public var light12: CGFloat {
+				get { return self.light12Property() }
+				set { _light12 = newValue }
+			}
+		}
+
+
+		//MARK: - Depth
+		public var _Depth: DepthAppearanceProxy?
+		open func DepthStyle() -> DepthAppearanceProxy {
+			if let override = _Depth { return override }
+				return DepthAppearanceProxy(proxy: mainProxy)
+			}
+		public var Depth: DepthAppearanceProxy {
+			get { return self.DepthStyle() }
+			set { _Depth = newValue }
+		}
+		@objc(ShadowDepthAppearanceProxy) @objcMembers open class DepthAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shadow28 
+			public var _shadow28: [CGFloat]?
+			open func shadow28Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> [CGFloat] {
+				if let override = _shadow28 { return override }
+					return [
+			CGFloat(0.0), 
+			CGFloat(14.0)]
+				}
+			public var shadow28: [CGFloat] {
+				get { return self.shadow28Property() }
+				set { _shadow28 = newValue }
+			}
+		}
+
+	}
 	//MARK: - Spacing
 	public var _Spacing: SpacingAppearanceProxy?
 	open func SpacingStyle() -> SpacingAppearanceProxy {
@@ -4337,6 +4473,54 @@ extension AvatarTokens: AppearaceProxyComponent {
 			}
 
 			return StylesheetManager.stylesheet(FluentUIStyle.shared()).AvatarTokens
+		}
+		set {
+			objc_setAssociatedObject(self, &__ApperanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+			didChangeAppearanceProxy()
+		}
+	}
+
+	public var themeAware: Bool {
+		get {
+			guard let proxy = objc_getAssociatedObject(self, &__ThemeAwareHandle) as? Bool else { return true }
+			return proxy
+		}
+		set {
+			objc_setAssociatedObject(self, &__ThemeAwareHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+			isObservingDidChangeTheme = newValue
+		}
+	}
+
+	fileprivate var isObservingDidChangeTheme: Bool {
+		get {
+			guard let observing = objc_getAssociatedObject(self, &__ObservingDidChangeThemeHandle) as? Bool else { return false }
+			return observing
+		}
+		set {
+			if newValue == isObservingDidChangeTheme { return }
+			if newValue {
+				NotificationCenter.default.addObserver(self, selector: #selector(didChangeAppearanceProxy), name: Notification.Name.didChangeTheme, object: nil)
+			} else {
+				NotificationCenter.default.removeObserver(self, name: Notification.Name.didChangeTheme, object: nil)
+			}
+			objc_setAssociatedObject(self, &__ObservingDidChangeThemeHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+		}
+	}
+}
+
+extension DrawerTokens: AppearaceProxyComponent {
+
+	public typealias ApperanceProxyType = FluentUIStyle.DrawerTokensAppearanceProxy
+	public var appearanceProxy: ApperanceProxyType {
+		get {
+			if let proxy = objc_getAssociatedObject(self, &__ApperanceProxyHandle) as? ApperanceProxyType {
+				if !themeAware { return proxy }
+
+
+				return proxy
+			}
+
+			return StylesheetManager.stylesheet(FluentUIStyle.shared()).DrawerTokens
 		}
 		set {
 			objc_setAssociatedObject(self, &__ApperanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
