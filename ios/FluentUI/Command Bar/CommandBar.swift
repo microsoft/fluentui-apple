@@ -25,8 +25,6 @@ public class CommandBar: UIView {
 
     private let barAppearance: CommandBarAppearance
     private let itemGroups: [CommandBarItemGroup]
-    private let leadingItem: CommandBarItem?
-    private let trailingItem: CommandBarItem?
 
     private lazy var itemsToButtonsMap: [CommandBarItem: CommandBarButton] = {
         let allButtons = itemGroups.flatMap({ $0 }).map({ button(forItem: $0) }) +
@@ -108,21 +106,8 @@ public class CommandBar: UIView {
         }
     }()
 
-    private lazy var leadingButton: CommandBarButton? = {
-        guard let leftItem = leadingItem else {
-            return nil
-        }
-
-        return button(forItem: leftItem, isFixed: true)
-    }()
-
-    private lazy var trailingButton: CommandBarButton? = {
-        guard let rightItem = trailingItem else {
-            return nil
-        }
-
-        return button(forItem: rightItem, isFixed: true)
-    }()
+    private var leadingButton: CommandBarButton?
+    private var trailingButton: CommandBarButton?
 
     private let containerMaskLayer: CAGradientLayer = {
         let layer = CAGradientLayer()
@@ -139,10 +124,16 @@ public class CommandBar: UIView {
     public init(appearance: CommandBarAppearance, itemGroups: [CommandBarItemGroup], leadingItem: CommandBarItem? = nil, trailingItem: CommandBarItem? = nil) {
         self.barAppearance = appearance
         self.itemGroups = itemGroups
-        self.leadingItem = leadingItem
-        self.trailingItem = trailingItem
 
         super.init(frame: .zero)
+
+        if let leadingItem = leadingItem {
+            self.leadingButton = button(forItem: leadingItem, isFixed: true)
+        }
+        if let trailingItem = trailingItem {
+            self.trailingButton = button(forItem: trailingItem, isFixed: true)
+        }
+
         translatesAutoresizingMaskIntoConstraints = false
 
         configureHierarchy()
