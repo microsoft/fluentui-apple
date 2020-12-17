@@ -10,10 +10,11 @@ import SwiftUI
 /// Pre-defined styles of the avatar
 public enum AvatarVnextStyle: Int, CaseIterable {
     case `default`
-    case noring
-    case unauthenticated
-    case overflow
+    case accent
     case group
+    case outlined
+    case outlinedPrimary
+    case overflow
 }
 
 @objc(MSFAvatarVnextSize)
@@ -105,7 +106,8 @@ public class AvatarVnextState: NSObject, ObservableObject {
     @objc @Published public var backgroundColor: UIColor?
     @objc @Published public var foregroundColor: UIColor?
     @objc @Published public var presence: AvatarVnextPresence = .none
-    @objc @Published public var shouldUseOpaqueBorders: Bool = false
+    @objc @Published public var isRingVisible: Bool = false
+    @objc @Published public var isTransparent: Bool = true
 }
 
 /// Representation of design tokens to buttons at runtime which interfaces with the Design Token System auto-generated code.
@@ -125,11 +127,26 @@ public class AvatarTokens: ObservableObject {
     @Published public var presenceIconOutlineThickness: CGFloat!
     @Published public var presenceOutlineColor: UIColor!
 
+    @Published public var backgroundCalculatedColorOptions: [UIColor]!
     @Published public var backgroundDefaultColor: UIColor!
     @Published public var foregroundDefaultColor: UIColor!
+    @Published public var textColor: UIColor!
 
-    public var style: AvatarVnextStyle!
-    public var size: AvatarVnextSize!
+    public var style: AvatarVnextStyle {
+        didSet {
+            if oldValue != style {
+                didChangeAppearanceProxy()
+            }
+        }
+    }
+
+    public var size: AvatarVnextSize {
+        didSet {
+            if oldValue != size {
+                didChangeAppearanceProxy()
+            }
+        }
+    }
 
     public init(style: AvatarVnextStyle,
                 size: AvatarVnextSize) {
@@ -144,12 +161,14 @@ public class AvatarTokens: ObservableObject {
         var appearanceProxy: ApperanceProxyType
 
         switch style {
-        case .default, .none:
+        case .default:
             appearanceProxy = StylesheetManager.S.AvatarTokens
-        case .noring:
-            appearanceProxy = StylesheetManager.S.NoRingAvatarTokens
-        case .unauthenticated:
-            appearanceProxy = StylesheetManager.S.UnauthenticatedAvatarTokens
+        case .accent:
+            appearanceProxy = StylesheetManager.S.AccentAvatarTokens
+        case .outlined:
+            appearanceProxy = StylesheetManager.S.OutlinedAvatarTokens
+        case .outlinedPrimary:
+            appearanceProxy = StylesheetManager.S.OutlinedPrimaryAvatarTokens
         case .overflow:
             appearanceProxy = StylesheetManager.S.OverflowAvatarTokens
         case .group:
@@ -160,7 +179,9 @@ public class AvatarTokens: ObservableObject {
         ringGapColor = appearanceProxy.ringGapColor
         presenceOutlineColor = appearanceProxy.presenceIconOutlineColor
         backgroundDefaultColor = appearanceProxy.backgroundDefaultColor
+        backgroundCalculatedColorOptions = appearanceProxy.textCalculatedBackgroundColors
         foregroundDefaultColor = appearanceProxy.foregroundDefaultColor
+        textColor = appearanceProxy.textColor
 
         switch size {
         case .xsmall:
@@ -190,7 +211,7 @@ public class AvatarTokens: ObservableObject {
             presenceIconSize = appearanceProxy.presenceIconSize.medium
             presenceIconOutlineThickness = appearanceProxy.presenceIconOutlineThickness.medium
             textFont = appearanceProxy.textFont.medium
-        case .large, .none:
+        case .large:
             avatarSize = appearanceProxy.size.large
             borderRadius = appearanceProxy.borderRadius.large
             ringThickness = appearanceProxy.ringThickness.large
@@ -236,12 +257,19 @@ public struct AvatarVnextView: View {
         let style = tokens.style
         let presence = state.presence
         let shouldDisplayPresence = presence != .none
-        let shouldUseOpaqueBorders = state.shouldUseOpaqueBorders
+        let isRingVisible = state.isRingVisible
+        let isTransparent = state.isTransparent
+        let initialsString: String = ((style == .overflow) ? state.primaryText ?? "" : InitialsView.initialsText(fromPrimaryText: state.primaryText,
+                                                                                                                 secondaryText: state.secondaryText))
+        let shouldUseCalculatedBackgroundColor = !initialsString.isEmpty && style != .overflow
 
+        let ringInnerGap: CGFloat = isRingVisible ? tokens.ringInnerGap : 0
+        let ringThickness: CGFloat = isRingVisible ? tokens.ringThickness : 0
+        let ringOuterGap: CGFloat = isRingVisible ? tokens.ringOuterGap : 0
         let avatarImageSize: CGFloat = tokens.avatarSize!
-        let ringInnerGapSize: CGFloat = avatarImageSize + (tokens.ringInnerGap * 2)
-        let ringSize: CGFloat = ringInnerGapSize + (tokens.ringThickness * 2)
-        let ringOuterGapSize: CGFloat = ringSize + (tokens.ringOuterGap * 2)
+        let ringInnerGapSize: CGFloat = avatarImageSize + (ringInnerGap * 2)
+        let ringSize: CGFloat = ringInnerGapSize + ( ringThickness * 2)
+        let ringOuterGapSize: CGFloat = ringSize + (ringOuterGap * 2)
         let presenceIconSize: CGFloat = tokens.presenceIconSize!
         let presenceIconOutlineSize: CGFloat = presenceIconSize + (tokens.presenceIconOutlineThickness * 2)
 
@@ -253,22 +281,26 @@ public struct AvatarVnextView: View {
         let presenceIconFrameSideRelativeToInnerRing: CGFloat = sqrt(pow(presenceFrameHypotenuse, 2) / 2)
 
         // Creates positioning coordinates for the presence cutout (enabling the transparency of the presence icon)
-        let outerGapAndRingThicknesCombined: CGFloat = tokens.ringOuterGap + tokens.ringThickness
+        let outerGapAndRingThicknesCombined: CGFloat = ringOuterGap + ringThickness
         let presenceIconFrameDiffRelativeToOuterRing: CGFloat = ringOuterGapSize - (presenceIconFrameSideRelativeToInnerRing + outerGapAndRingThicknesCombined)
         let presenceCutoutOriginCoordinates: CGFloat = ringOuterGapSize - presenceIconFrameDiffRelativeToOuterRing - presenceIconOutlineSize
         let presenceIconFrameSideRelativeToOuterRing: CGFloat = presenceIconFrameSideRelativeToInnerRing + outerGapAndRingThicknesCombined
 
-        let ringGapColor = shouldUseOpaqueBorders ? Color(tokens.ringGapColor) : Color.clear
-        let ringColor = state.ringColor ?? tokens.ringDefaultColor!
-        let backgroundColor = state.backgroundColor ?? tokens.backgroundDefaultColor!
         let foregroundColor = state.foregroundColor ?? tokens.foregroundDefaultColor!
+        let backgroundColor = state.backgroundColor ?? ( !shouldUseCalculatedBackgroundColor ?
+                                                            tokens.backgroundDefaultColor! :
+                                                            InitialsView.initialsBackgroundColor(fromPrimaryText: state.primaryText,
+                                                                                                 secondaryText: state.secondaryText,
+                                                                                                 colorOptions: tokens.backgroundCalculatedColorOptions))
+        let ringGapColor = isTransparent ? Color.clear : Color(tokens.ringGapColor)
+        let ringColor = !isRingVisible ? Color.clear : Color(state.ringColor ?? ( !shouldUseCalculatedBackgroundColor ?
+                                                                                    tokens.ringDefaultColor! :
+                                                                                    backgroundColor))
 
-        let initialsString: String = ((style == .overflow) ? state.primaryText ?? "" : InitialsView.initialsText(fromPrimaryText: state.primaryText,
-                                                                                                                 secondaryText: state.secondaryText))
         let shouldUseDefaultImage = (state.image == nil && initialsString.isEmpty && style != .overflow)
-        let avatarImage: UIImage? = ((style == .unauthenticated) ? UIImage.staticImageNamed("person_48_regular") :
+        let avatarImage: UIImage? = ((style == .outlined || style == .outlinedPrimary) ? UIImage.staticImageNamed("person_48_regular") :
                                         (shouldUseDefaultImage ? UIImage.staticImageNamed("person_48_filled") : state.image))
-        let avatarImageSizeRatio: CGFloat = (style == .unauthenticated || shouldUseDefaultImage) ? 0.7 : 1
+        let avatarImageSizeRatio: CGFloat = (shouldUseDefaultImage) ? 0.7 : 1
 
         let avatarContent = (avatarImage != nil) ?
             AnyView(Image(uiImage: avatarImage!)
@@ -276,7 +308,7 @@ public struct AvatarVnextView: View {
                         .foregroundColor(Color(foregroundColor)))
             :
             AnyView(Text(initialsString)
-                        .foregroundColor(Color(foregroundColor))
+                        .foregroundColor(Color(tokens.textColor))
                         .font(Font(tokens.textFont)))
 
         if tokens.style == .group {
@@ -291,17 +323,17 @@ public struct AvatarVnextView: View {
                 .foregroundColor(ringGapColor)
                 .frame(width: ringOuterGapSize, height: ringOuterGapSize, alignment: .center)
                 .overlay(Circle()
-                            .foregroundColor(Color(ringColor))
+                            .foregroundColor(ringColor)
                             .frame(width: ringSize, height: ringSize, alignment: .center)
                             .mask(circularCutoutMask(targetFrameRect: CGRect(x: 0,
                                                                              y: 0,
                                                                              width: ringSize,
                                                                              height: ringSize),
-                                                     cutoutFrameRect: CGRect(x: tokens.ringThickness,
-                                                                             y: tokens.ringThickness,
+                                                     cutoutFrameRect: CGRect(x: ringThickness,
+                                                                             y: ringThickness,
                                                                              width: ringInnerGapSize,
                                                                              height: ringInnerGapSize))
-                                    .fill(style: FillStyle(eoFill: !shouldUseOpaqueBorders)))
+                                    .fill(style: FillStyle(eoFill: isTransparent)))
                             .overlay(Circle()
                                         .foregroundColor(ringGapColor)
                                         .frame(width: ringInnerGapSize, height: ringInnerGapSize, alignment: .center)
@@ -327,7 +359,7 @@ public struct AvatarVnextView: View {
                         .fill(style: FillStyle(eoFill: shouldDisplayPresence)))
                 .overlay(shouldDisplayPresence ?
                             AnyView(Circle()
-                                        .foregroundColor(shouldUseOpaqueBorders ? Color(tokens.ringGapColor) : Color.clear)
+                                        .foregroundColor(isTransparent ? Color.clear : Color(tokens.ringGapColor))
                                         .frame(width: presenceIconOutlineSize, height: presenceIconOutlineSize, alignment: .center)
                                         .overlay(presence.image()
                                                     .resizable()
@@ -347,6 +379,14 @@ public struct AvatarVnextView: View {
 
         return cutoutFrame
     }
+
+    public func setStyle(style: AvatarVnextStyle) {
+        tokens.style = style
+    }
+
+    public func setSize(size: AvatarVnextSize) {
+        tokens.size = size
+    }
 }
 
 @objc(MSFAvatarVnext)
@@ -360,7 +400,15 @@ open class AvatarVnext: NSObject {
     }
 
     @objc open var state: AvatarVnextState {
-        return self.hostingController.rootView.state
+        return hostingController.rootView.state
+    }
+
+    @objc open func setStyle(style: AvatarVnextStyle) {
+        hostingController.rootView.setStyle(style: style)
+    }
+
+    @objc open func setSize(size: AvatarVnextSize) {
+        hostingController.rootView.setSize(size: size)
     }
 
     @objc public init(style: AvatarVnextStyle = .default,

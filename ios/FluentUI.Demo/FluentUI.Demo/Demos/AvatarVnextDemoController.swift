@@ -7,72 +7,103 @@ import FluentUI
 import UIKit
 
 class AvatarVnextDemoController: DemoController {
-    enum BorderStyle: Int {
-    case noBorder
-    case defaultBorder
-    case colorfulBorder
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let showPresenceSettingView = createLabelAndSwitchRow(labelText: "Show presence",
-                                                              switchAction: #selector(toggleShowPresence(switchView:)),
-                                                              isOn: isShowingPresence)
 
         let backgroundSettingView = createLabelAndSwitchRow(labelText: "Use alternate background color",
                                                             switchAction: #selector(toggleAlternateBackground(switchView:)),
                                                             isOn: isUsingAlternateBackgroundColor)
-
-        let opaqueBorderSettingView = createLabelAndSwitchRow(labelText: "Use opaque borders",
-                                                            switchAction: #selector(toggleOpaqueBorders(switchView:)),
-                                                            isOn: isUsingOpaqueBorders)
-
         addRow(items: [backgroundSettingView])
+
+        let transparencySettingView = createLabelAndSwitchRow(labelText: "Do not use transparency",
+                                                              switchAction: #selector(toggleOpaqueBorders(switchView:)),
+                                                              isOn: !isTransparent)
+        addRow(items: [transparencySettingView])
+
+        let showPresenceSettingView = createLabelAndSwitchRow(labelText: "Show presence",
+                                                              switchAction: #selector(toggleShowPresence(switchView:)),
+                                                              isOn: isShowingPresence)
         addRow(items: [showPresenceSettingView])
-        addRow(items: [opaqueBorderSettingView])
 
-        createSection(withTitle: "Circle style for person",
-                      name: "Kat Larrson",
-                      image: UIImage(named: "avatar_kat_larsson")!,
-                      style: .noring)
+        let showRingsSettingView = createLabelAndSwitchRow(labelText: "Show rings",
+                                                           switchAction: #selector(toggleShowRings(switchView:)),
+                                                           isOn: isShowingRings)
+        addRow(items: [showRingsSettingView])
 
-        createSection(withTitle: "Square style for group",
-                      name: "NorthWind Traders",
-                      image: UIImage(named: "site")!,
-                      style: .group)
+        addTitle(text: "Default style")
+        for size in AvatarVnextSize.allCases.reversed() {
+            let name = "Kat Larrson"
+            let imageAvatar = createAvatarView(size: size,
+                                               name: name,
+                                               image: UIImage(named: "avatar_kat_larsson")!,
+                                               style: .default)
+            avatarViews.append(imageAvatar)
 
-        createSection(withTitle: "Circle style with border",
-                      name: "Kat Larrson",
-                      image: UIImage(named: "avatar_kat_larsson")!,
-                      style: .default,
-                      borderStyle: .defaultBorder)
+            let initialsAvatar = createAvatarView(size: size,
+                                                  name: name,
+                                                  style: .default)
+            avatarViews.append(initialsAvatar)
 
-        addTitle(text: "Fallback Images")
+            addRow(text: size.description, items: [imageAvatar.view, initialsAvatar.view], textStyle: .footnote, textWidth: 100)
+        }
+
+        addTitle(text: "Fallback (default style and accent style)")
         for size in AvatarVnextSize.allCases.reversed() {
             let phoneNumber = "+1 (425) 123 4567"
-            let fallbackImageAvatar = createAvatarView(size: size,
-                                                       name: phoneNumber,
-                                                       style: .noring)
-            addRow(text: size.description, items: [fallbackImageAvatar.1.view], textStyle: .footnote, textWidth: 100)
+            let defaultAvatar = createAvatarView(size: size,
+                                                 name: phoneNumber,
+                                                 style: .default)
+            avatarViews.append(defaultAvatar)
+
+            let accentAvatar = createAvatarView(size: size,
+                                                name: phoneNumber,
+                                                style: .accent)
+            avatarViews.append(accentAvatar)
+
+            addRow(text: size.description, items: [defaultAvatar.view, accentAvatar.view], textStyle: .footnote, textWidth: 100)
         }
 
-        addTitle(text: "Unauthenticated")
+        addTitle(text: "Fallback (outlined style and outlinedPrimary style)")
         for size in AvatarVnextSize.allCases.reversed() {
-            let unauthenticatedAvatar = createAvatarView(size: size,
-                                                         name: nil,
-                                                         style: .unauthenticated)
+            let phoneNumber = "+1 (425) 123 4567"
+            let outlinedAvatar = createAvatarView(size: size,
+                                                  name: phoneNumber,
+                                                  style: .outlined)
+            avatarViews.append(outlinedAvatar)
 
-            avatarViewsUnauthenticated.append(unauthenticatedAvatar.1)
-            addRow(text: size.description, items: [unauthenticatedAvatar.1.view], textStyle: .footnote, textWidth: 100)
+            let outlinedPrimaryAvatar = createAvatarView(size: size,
+                                                         name: phoneNumber,
+                                                         style: .outlinedPrimary)
+            avatarViews.append(outlinedPrimaryAvatar)
+
+            addRow(text: size.description, items: [outlinedAvatar.view, outlinedPrimaryAvatar.view], textStyle: .footnote, textWidth: 100)
         }
 
-        addTitle(text: "Overflow")
+        addTitle(text: "Group style")
+        for size in AvatarVnextSize.allCases.reversed() {
+            let name = "NorthWind Traders"
+            let imageAvatar = createAvatarView(size: size,
+                                               name: name,
+                                               image: UIImage(named: "site")!,
+                                               style: .group)
+            avatarViews.append(imageAvatar)
+
+            let initialsAvatar = createAvatarView(size: size,
+                                                  name: name,
+                                                  style: .group)
+            avatarViews.append(initialsAvatar)
+
+            addRow(text: size.description, items: [imageAvatar.view, initialsAvatar.view], textStyle: .footnote, textWidth: 100)
+        }
+
+        addTitle(text: "Overflow style")
         for size in AvatarVnextSize.allCases.reversed() {
             let overflowAvatar = createAvatarView(size: size,
                                                   name: "20",
                                                   style: .overflow)
-            addRow(text: size.description, items: [overflowAvatar.1.view], textStyle: .footnote, textWidth: 100)
+            avatarViews.append(overflowAvatar)
+
+            addRow(text: size.description, items: [overflowAvatar.view], textStyle: .footnote, textWidth: 100)
         }
     }
 
@@ -85,30 +116,28 @@ class AvatarVnextDemoController: DemoController {
     private var isShowingPresence: Bool = false {
         didSet {
             if oldValue != isShowingPresence {
-                for avatarView in avatarViewsWithImages {
+                for avatarView in avatarViews {
                     avatarView.state.presence = isShowingPresence ? nextPresence() : .none
-                }
-
-                for avatarView in avatarViewsWithInitials {
-                    avatarView.state.presence = isShowingPresence ? nextPresence()  : .none
                 }
             }
         }
     }
 
-    private var isUsingOpaqueBorders: Bool = false {
+    private var isShowingRings: Bool = false {
         didSet {
-            if oldValue != isUsingOpaqueBorders {
-                for avatarView in avatarViewsWithImages {
-                    avatarView.state.shouldUseOpaqueBorders = isUsingOpaqueBorders
+            if oldValue != isShowingRings {
+                for avatarView in avatarViews {
+                    avatarView.state.isRingVisible = isShowingRings
                 }
+            }
+        }
+    }
 
-                for avatarView in avatarViewsWithInitials {
-                    avatarView.state.shouldUseOpaqueBorders = isUsingOpaqueBorders
-                }
-
-                for avatarView in avatarViewsUnauthenticated {
-                    avatarView.state.shouldUseOpaqueBorders = isUsingOpaqueBorders
+    private var isTransparent: Bool = true {
+        didSet {
+            if oldValue != isTransparent {
+                for avatarView in avatarViews {
+                    avatarView.state.isTransparent = isTransparent
                 }
             }
         }
@@ -135,57 +164,34 @@ class AvatarVnextDemoController: DemoController {
         isShowingPresence = switchView.isOn
     }
 
+    @objc private func toggleShowRings(switchView: UISwitch) {
+        isShowingRings = switchView.isOn
+    }
+
     @objc private func toggleAlternateBackground(switchView: UISwitch) {
         isUsingAlternateBackgroundColor = switchView.isOn
     }
 
     @objc private func toggleOpaqueBorders(switchView: UISwitch) {
-        isUsingOpaqueBorders = switchView.isOn
+        isTransparent = !switchView.isOn
     }
 
     private func updateBackgroundColor() {
         view.backgroundColor = isUsingAlternateBackgroundColor ? UIColor(light: Colors.gray100, dark: Colors.gray600) : Colors.surfacePrimary
     }
 
-    private var avatarViewsWithImages: [AvatarVnext] = []
-    private var avatarViewsWithInitials: [AvatarVnext] = []
-    private var avatarViewsUnauthenticated: [AvatarVnext] = []
-
-    private func createSection(withTitle title: String,
-                               name: String,
-                               image: UIImage,
-                               style: AvatarVnextStyle,
-                               borderStyle: BorderStyle = .noBorder) {
-        addTitle(text: title)
-
-        for size in AvatarVnextSize.allCases.reversed() {
-            let imageAvatar = createAvatarView(size: size,
-                                               name: name,
-                                               image: image,
-                                               style: style)
-            avatarViewsWithImages.append(imageAvatar.1)
-
-            let initialsAvatar = createAvatarView(size: size,
-                                                  name: name,
-                                                  style: style)
-            avatarViewsWithInitials.append(initialsAvatar.1)
-
-            addRow(text: size.description, items: [imageAvatar.0, initialsAvatar.0], textStyle: .footnote, textWidth: 100)
-        }
-
-        container.addArrangedSubview(UIView())
-    }
+    private var avatarViews: [AvatarVnext] = []
 
     private func createAvatarView(size: AvatarVnextSize,
                                   name: String? = nil,
                                   image: UIImage? = nil,
-                                  style: AvatarVnextStyle) -> (UIView, AvatarVnext) {
+                                  style: AvatarVnextStyle) -> AvatarVnext {
         let avatarView = AvatarVnext(style: style,
                                      size: size)
         avatarView.state.primaryText = name
         avatarView.state.image = image
 
-        return (avatarView.view, avatarView)
+        return avatarView
     }
 }
 
