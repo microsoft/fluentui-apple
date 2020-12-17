@@ -8,26 +8,18 @@ import UIKit
 public struct CommandBarButtonAppearance {
     public var tintColor: UIColor
     public var backgroundColor: UIColor
-    public var highlightedTintColor: UIColor
-    public var highlightedBackgroundColor: UIColor
 
     public init(
         tintColor: UIColor = Defaults.tintColor,
-        backgroundColor: UIColor = Defaults.backgroundColor,
-        highlightedTintColor: UIColor = Defaults.highlightedTintColor,
-        highlightedBackgroundColor: UIColor = Defaults.highlightedBackgroundColor
+        backgroundColor: UIColor = Defaults.backgroundColor
     ) {
         self.tintColor = tintColor
         self.backgroundColor = backgroundColor
-        self.highlightedTintColor = highlightedTintColor
-        self.highlightedBackgroundColor = highlightedBackgroundColor
     }
 
     public enum Defaults {
         public static let tintColor: UIColor = Colors.gray400
         public static let backgroundColor: UIColor = Colors.surfaceSecondary
-        public static let highlightedTintColor = UIColor(light: Colors.communicationBlue, dark: .black)
-        public static let highlightedBackgroundColor = UIColor(light: UIColor(red: 224 / 255, green: 238 / 255, blue: 249 / 255, alpha: 1), dark: Colors.communicationBlue)
     }
 }
 
@@ -35,20 +27,17 @@ public struct CommandBarAppearance {
     public var buttonSpacing: CGFloat
     public var insets: UIEdgeInsets
     public var contentHeight: CGFloat?
-    public var isHeightConstrainedToToolbarHeight: Bool
     public var buttonAppearance: CommandBarButtonAppearance
 
     public init(
         buttonSpacing: CGFloat = Defaults.buttonSpacing,
         insets: UIEdgeInsets = Defaults.insets,
         contentHeight: CGFloat? = Defaults.contentHeight,
-        isHeightConstrainedToToolbarHeight: Bool = Defaults.isHeightConstrainedToToolbarHeight,
         buttonAppearance: CommandBarButtonAppearance = CommandBarButtonAppearance()
     ) {
         self.buttonSpacing = buttonSpacing
         self.insets = insets
         self.contentHeight = contentHeight
-        self.isHeightConstrainedToToolbarHeight = isHeightConstrainedToToolbarHeight
         self.buttonAppearance = buttonAppearance
     }
 
@@ -56,6 +45,5 @@ public struct CommandBarAppearance {
         public static let buttonSpacing: CGFloat = 10.0
         public static let insets = UIEdgeInsets(top: 9.0, left: 10.0, bottom: 9.0, right: 10.0)
         public static let contentHeight: CGFloat = 36.0
-        public static let isHeightConstrainedToToolbarHeight: Bool = false
     }
 }

@@ -55,14 +55,30 @@ private extension CommandBarButton {
         static let buttonWidth: CGFloat = 40
     }
 
+    var selectedTitleColor: UIColor {
+        guard let window = window else {
+            return Colors.communicationBlue
+        }
+
+        return Colors.primary(for: window)
+    }
+
+    var selectedBackgroundColor: UIColor {
+        guard let window = window else {
+            return Colors.Palette.communicationBlueTint30.color
+        }
+
+        return Colors.primaryTint30(for: window)
+    }
+
     func updateStyleIfPossible() {
         guard let appearance = currentApperance else {
             return
         }
 
         if isSelected {
-            tintColor = appearance.highlightedTintColor
-            backgroundColor = appearance.highlightedBackgroundColor
+            tintColor = selectedTitleColor
+            backgroundColor = selectedBackgroundColor
         } else {
             tintColor = appearance.tintColor
             backgroundColor = appearance.backgroundColor
