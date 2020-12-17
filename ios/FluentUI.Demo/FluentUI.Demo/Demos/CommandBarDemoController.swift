@@ -33,37 +33,37 @@ class CommandBarDemoController: DemoController {
         var iconImage: UIImage? {
             switch self {
             case .add:
-                return UIImage(named: "Add_24_Regular")
+                return UIImage(named: "add24Regular")
             case .mention:
-                return UIImage(named: "Mention_24_Regular")
+                return UIImage(named: "mention24Regular")
             case .calendar:
-                return UIImage(named: "Calendar_24_Regular")
+                return UIImage(named: "calendar24Regular")
             case .textBold:
-                return UIImage(named: "Text Bold_24_Regular")
+                return UIImage(named: "textBold24Regular")
             case .textItalic:
-                return UIImage(named: "Text Italic_24_Regular")
+                return UIImage(named: "textItalic24Regular")
             case .textUnderline:
-                return UIImage(named: "Text Underline_24_Regular")
+                return UIImage(named: "textUnderline24Regular")
             case .textStrikethrough:
-                return UIImage(named: "Text Strikethrough_24_Regular")
+                return UIImage(named: "textStrikethrough24Regular")
             case .arrowUndo:
-                return UIImage(named: "Arrow Undo_24_Regular")
+                return UIImage(named: "arrowUndo24Regular")
             case .arrowRedo:
-                return UIImage(named: "Arrow Redo_24_Filled")
+                return UIImage(named: "arrowRedo24Filled")
             case .copy:
-                return UIImage(named: "Copy_24_Regular")
+                return UIImage(named: "copy24Regular")
             case .delete:
-                return UIImage(named: "Delete_24_Regular")
+                return UIImage(named: "delete24Regular")
             case .checklist:
-                return UIImage(named: "Text Checklist List LTR_24_Regular")
+                return UIImage(named: "textChecklistListLtr24Regular")
             case .bulletList:
-                return UIImage(named: "Text Bullet List_24_Regular")
+                return UIImage(named: "textBulletList24Regular")
             case .numberList:
-                return UIImage(named: "Text Number List LTR_24_Regular")
+                return UIImage(named: "textNumberListLtr24Regular")
             case .link:
-                return UIImage(named: "Link_24_Regular")
+                return UIImage(named: "link24Regular")
             case .keyboard:
-                return UIImage(named: "Keyboard Dock_24_Regular")
+                return UIImage(named: "keyboardDock24Regular")
             }
         }
 
