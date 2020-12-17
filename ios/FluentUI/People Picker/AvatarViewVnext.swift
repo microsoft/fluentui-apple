@@ -75,7 +75,7 @@ public enum AvatarVnextPresence: Int, CaseIterable {
         case .away:
             imageName = isOutOfOffice ? "ic_fluent_presence_oof_16_regular" : "ic_fluent_presence_away_16_filled"
         case .busy:
-            imageName = isOutOfOffice ? "ic_fluent_presence_offline_16_regular" : "ic_fluent_presence_busy_16_filled"
+            imageName = isOutOfOffice ? "ic_fluent_presence_unknown_16_regular" : "ic_fluent_presence_busy_16_filled"
         case .doNotDisturb:
             imageName = isOutOfOffice ? "ic_fluent_presence_dnd_16_regular" : "ic_fluent_presence_dnd_16_filled"
         case .offline:
