@@ -33,14 +33,13 @@ public enum AvatarVnextPresence: Int, CaseIterable {
     case none
     case available
     case away
+    case blocked
     case busy
     case doNotDisturb
-    case outOfOffice
     case offline
     case unknown
-    case blocked
 
-    public func color() -> Color {
+    public func color(isOutOfOffice: Bool) -> Color {
         var color = UIColor.clear
 
         switch self {
@@ -49,46 +48,42 @@ public enum AvatarVnextPresence: Int, CaseIterable {
         case .available:
             color = StylesheetManager.S.Colors.Presence.available
         case .away:
-            color = StylesheetManager.S.Colors.Presence.away
+            color = isOutOfOffice ? StylesheetManager.S.Colors.Presence.outOfOffice : StylesheetManager.S.Colors.Presence.away
         case .busy:
             color = StylesheetManager.S.Colors.Presence.busy
-        case .doNotDisturb:
-            color = StylesheetManager.S.Colors.Presence.doNotDisturb
-        case .outOfOffice:
-            color = StylesheetManager.S.Colors.Presence.outOfOffice
-        case .offline:
-            color = StylesheetManager.S.Colors.Presence.offline
-        case .unknown:
-            color = StylesheetManager.S.Colors.Presence.unknown
         case .blocked:
             color = StylesheetManager.S.Colors.Presence.blocked
+        case .doNotDisturb:
+            color = StylesheetManager.S.Colors.Presence.doNotDisturb
+        case .offline:
+            color = isOutOfOffice ? StylesheetManager.S.Colors.Presence.outOfOffice : StylesheetManager.S.Colors.Presence.offline
+        case .unknown:
+            color = StylesheetManager.S.Colors.Presence.unknown
         }
 
         return Color(color)
     }
 
-    public func image() -> Image {
+    public func image(isOutOfOffice: Bool) -> Image {
         var imageName = ""
 
         switch self {
         case .none:
             break
         case .available:
-            imageName = "ic_fluent_presence_available_16_filled"
+            imageName = isOutOfOffice ? "ic_fluent_presence_available_16_regular" : "ic_fluent_presence_available_16_filled"
         case .away:
-            imageName = "ic_fluent_presence_away_16_filled"
+            imageName = isOutOfOffice ? "ic_fluent_presence_oof_16_regular" : "ic_fluent_presence_away_16_filled"
         case .busy:
-            imageName = "ic_fluent_presence_busy_16_filled"
-        case .doNotDisturb:
-            imageName = "ic_fluent_presence_dnd_16_filled"
-        case .outOfOffice:
-            imageName = "ic_fluent_presence_oof_16_regular"
-        case .offline:
-            imageName = "ic_fluent_presence_offline_16_regular"
-        case .unknown:
-            imageName = "ic_fluent_presence_unknown_16_regular"
+            imageName = isOutOfOffice ? "ic_fluent_presence_unknown_16_regular" : "ic_fluent_presence_busy_16_filled"
         case .blocked:
             imageName = "ic_fluent_presence_blocked_16_regular"
+        case .doNotDisturb:
+            imageName = isOutOfOffice ? "ic_fluent_presence_dnd_16_regular" : "ic_fluent_presence_dnd_16_filled"
+        case .offline:
+            imageName = isOutOfOffice ? "ic_fluent_presence_oof_16_regular" : "ic_fluent_presence_offline_16_regular"
+        case .unknown:
+            imageName = "ic_fluent_presence_unknown_16_regular"
         }
 
         return Image(imageName,
@@ -108,6 +103,7 @@ public class AvatarVnextState: NSObject, ObservableObject {
     @objc @Published public var presence: AvatarVnextPresence = .none
     @objc @Published public var isRingVisible: Bool = false
     @objc @Published public var isTransparent: Bool = true
+    @objc @Published public var isOutOfOffice: Bool = false
 }
 
 /// Representation of design tokens to buttons at runtime which interfaces with the Design Token System auto-generated code.
@@ -259,6 +255,7 @@ public struct AvatarVnextView: View {
         let shouldDisplayPresence = presence != .none
         let isRingVisible = state.isRingVisible
         let isTransparent = state.isTransparent
+        let isOutOfOffice = state.isOutOfOffice
         let initialsString: String = ((style == .overflow) ? state.primaryText ?? "" : InitialsView.initialsText(fromPrimaryText: state.primaryText,
                                                                                                                  secondaryText: state.secondaryText))
         let shouldUseCalculatedBackgroundColor = !initialsString.isEmpty && style != .overflow
@@ -361,10 +358,10 @@ public struct AvatarVnextView: View {
                             AnyView(Circle()
                                         .foregroundColor(isTransparent ? Color.clear : Color(tokens.ringGapColor))
                                         .frame(width: presenceIconOutlineSize, height: presenceIconOutlineSize, alignment: .center)
-                                        .overlay(presence.image()
+                                        .overlay(presence.image(isOutOfOffice: isOutOfOffice)
                                                     .resizable()
                                                     .frame(width: presenceIconSize, height: presenceIconSize, alignment: .center)
-                                                    .foregroundColor(presence.color()))
+                                                    .foregroundColor(presence.color(isOutOfOffice: isOutOfOffice)))
                                         .frame(width: presenceIconFrameSideRelativeToOuterRing, height: presenceIconFrameSideRelativeToOuterRing, alignment: .bottomTrailing)
                             )
                             :
