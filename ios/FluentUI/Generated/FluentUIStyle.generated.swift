@@ -320,6 +320,12 @@ extension StylesheetManagerTheming {
 			if let override = _foregroundDefaultColor { return override }
 			return mainProxy().Icon.accentColorProperty(traitCollection)
 			}
+
+		//MARK: ringDefaultColor 
+		override open func ringDefaultColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _ringDefaultColor { return override }
+			return mainProxy().Colors.Brand.shade10Property(traitCollection)
+			}
 	}
 	//MARK: - AvatarTokens
 	public var _AvatarTokens: AvatarTokensAppearanceProxy?
@@ -626,7 +632,7 @@ extension StylesheetManagerTheming {
 		public var _ringDefaultColor: UIColor?
 		open func ringDefaultColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
 			if let override = _ringDefaultColor { return override }
-			return mainProxy().Colors.Background.neutralDisabledProperty(traitCollection)
+			return mainProxy().Colors.Brand.tint10Property(traitCollection)
 			}
 		public var ringDefaultColor: UIColor {
 			get { return self.ringDefaultColorProperty() }
@@ -3497,6 +3503,12 @@ extension StylesheetManagerTheming {
 			if let override = _foregroundDefaultColor { return override }
 			return UIColor(light: mainProxy().Colors.Neutral.grey42Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Neutral.grey78Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
+
+		//MARK: ringDefaultColor 
+		override open func ringDefaultColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _ringDefaultColor { return override }
+			return mainProxy().Colors.Background.neutralDisabledProperty(traitCollection)
+			}
 	}
 	//MARK: - OutlinedPrimaryAvatarTokens
 	public var _OutlinedPrimaryAvatarTokens: OutlinedPrimaryAvatarTokensAppearanceProxy?
@@ -3521,6 +3533,12 @@ extension StylesheetManagerTheming {
 			if let override = _foregroundDefaultColor { return override }
 			return UIColor(light: mainProxy().Colors.Brand.primaryProperty(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Neutral.grey78Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
+
+		//MARK: ringDefaultColor 
+		override open func ringDefaultColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _ringDefaultColor { return override }
+			return UIColor(light: mainProxy().Colors.Brand.tint10Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Neutral.grey78Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			}
 	}
 	//MARK: - OverflowAvatarTokens
 	public var _OverflowAvatarTokens: OverflowAvatarTokensAppearanceProxy?
@@ -3544,6 +3562,12 @@ extension StylesheetManagerTheming {
 		override open func foregroundDefaultColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
 			if let override = _foregroundDefaultColor { return override }
 			return mainProxy().Colors.Foreground.neutral3Property(traitCollection)
+			}
+
+		//MARK: ringDefaultColor 
+		override open func ringDefaultColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _ringDefaultColor { return override }
+			return mainProxy().Colors.Background.neutralDisabledProperty(traitCollection)
 			}
 
 		//MARK: textColor 

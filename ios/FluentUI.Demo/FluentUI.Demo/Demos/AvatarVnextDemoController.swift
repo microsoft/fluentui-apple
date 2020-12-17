@@ -51,8 +51,8 @@ class AvatarVnextDemoController: DemoController {
         for size in AvatarVnextSize.allCases.reversed() {
             let phoneNumber = "+1 (425) 123 4567"
             let defaultAvatar = createAvatarView(size: size,
-                                                       name: phoneNumber,
-                                                       style: .default)
+                                                 name: phoneNumber,
+                                                 style: .default)
             avatarViews.append(defaultAvatar)
 
             let accentAvatar = createAvatarView(size: size,

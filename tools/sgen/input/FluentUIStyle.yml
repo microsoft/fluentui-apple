@@ -154,7 +154,7 @@ AP_AvatarTokens:
   presenceIconSize: [ xSmall: 0pt, small: $Icon.size.xxxSmall, medium: $Icon.size.xxxSmall, large: $Icon.size.xxSmall, xlarge: $Icon.size.xSmall, xxlarge: $Icon.size.small ]
   presenceIconOutlineColor: $Colors.Background.neutral1
   presenceIconOutlineThickness: [ xSmall: $Border.size.none, small: $Border.size.thick, medium: $Border.size.thick, large: $Border.size.thick, xlarge: $Border.size.thick, xxlarge: $Border.size.thick ]
-  ringDefaultColor: $Colors.Background.neutralDisabled
+  ringDefaultColor: $Colors.Brand.tint10
   ringGapColor: $Colors.Background.neutral1
   ringInnerGap: [ xSmall: $Border.size.thick, small: $Border.size.thick, medium: $Border.size.thick, large: $Border.size.thick, xlarge: $Border.size.thick, xxlarge: $Border.size.thicker ]
   ringThickness: [ xSmall: $Border.size.thin, small: $Border.size.thin, medium: $Border.size.thick, large: $Border.size.thick, xlarge: $Border.size.thick, xxlarge: $Border.size.thicker ]
@@ -187,6 +187,7 @@ AP_AvatarTokens:
 AccentAvatarTokens extends AvatarTokens:
   backgroundDefaultColor: $Colors.Brand.primary
   foregroundDefaultColor: $Icon.accentColor
+  ringDefaultColor: $Colors.Brand.shade10
 
 GroupAvatarTokens extends AvatarTokens:
   borderRadius: [ xSmall: $Border.radius.small, small: $Border.radius.medium, medium: $Border.radius.medium, large: $Border.radius.large, xlarge: $Border.radius.large, xxlarge: $Border.radius.xlarge ]
@@ -194,15 +195,18 @@ GroupAvatarTokens extends AvatarTokens:
 OutlinedAvatarTokens extends AvatarTokens:
   backgroundDefaultColor: "FluentUIColor(light: $Colors.Neutral.grey94, dark: $Colors.Neutral.grey26)"
   foregroundDefaultColor: "FluentUIColor(light: $Colors.Neutral.grey42, dark: $Colors.Neutral.grey78)"
+  ringDefaultColor: $Colors.Background.neutralDisabled
 
 OutlinedPrimaryAvatarTokens extends AvatarTokens:
   backgroundDefaultColor: "FluentUIColor(light: $Colors.Brand.tint40, dark: $Colors.Neutral.grey26)"
   foregroundDefaultColor: "FluentUIColor(light: $Colors.Brand.primary, dark: $Colors.Neutral.grey78)"
+  ringDefaultColor: "FluentUIColor(light: $Colors.Brand.tint10, dark: $Colors.Neutral.grey78)"
 
 OverflowAvatarTokens extends AvatarTokens:
   backgroundDefaultColor: $Colors.Background.neutral4
   foregroundDefaultColor: $Colors.Foreground.neutral3
   textColor: $Colors.Foreground.neutral3
+  ringDefaultColor: $Colors.Background.neutralDisabled
 
 AP_MSFButtonTokens:
   backgroundColor: [ rest: $Colors.Neutral.clear, hover: $Colors.Neutral.clear, pressed: $Colors.Neutral.clear, selected: $Colors.Neutral.clear, disabled: $Colors.Neutral.clear ]
