@@ -25,6 +25,11 @@ class AvatarVnextDemoController: DemoController {
                                                               isOn: isShowingPresence)
         addRow(items: [showPresenceSettingView])
 
+        let outOfOfficeSettingView = createLabelAndSwitchRow(labelText: "Out Of Office",
+                                                             switchAction: #selector(toggleOutOfOffice(switchView:)),
+                                                             isOn: isOutOfOffice)
+        addRow(items: [outOfOfficeSettingView])
+
         let showRingsSettingView = createLabelAndSwitchRow(labelText: "Show rings",
                                                            switchAction: #selector(toggleShowRings(switchView:)),
                                                            isOn: isShowingRings)
@@ -123,6 +128,16 @@ class AvatarVnextDemoController: DemoController {
         }
     }
 
+    private var isOutOfOffice: Bool = false {
+        didSet {
+            if oldValue != isOutOfOffice {
+                for avatarView in avatarViews {
+                    avatarView.state.isOutOfOffice = isOutOfOffice
+                }
+            }
+        }
+    }
+
     private var isShowingRings: Bool = false {
         didSet {
             if oldValue != isShowingRings {
@@ -162,6 +177,10 @@ class AvatarVnextDemoController: DemoController {
 
     @objc private func toggleShowPresence(switchView: UISwitch) {
         isShowingPresence = switchView.isOn
+    }
+
+    @objc private func toggleOutOfOffice(switchView: UISwitch) {
+        isOutOfOffice = switchView.isOn
     }
 
     @objc private func toggleShowRings(switchView: UISwitch) {

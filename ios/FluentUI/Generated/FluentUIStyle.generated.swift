@@ -2303,6 +2303,17 @@ extension StylesheetManagerTheming {
 				set { _away = newValue }
 			}
 
+			//MARK: awayOutOfOffice 
+			public var _awayOutOfOffice: UIColor?
+			open func awayOutOfOfficeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _awayOutOfOffice { return override }
+					return UIColor(named: "FluentColors/presenceOof", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				}
+			public var awayOutOfOffice: UIColor {
+				get { return self.awayOutOfOfficeProperty() }
+				set { _awayOutOfOffice = newValue }
+			}
+
 			//MARK: blocked 
 			public var _blocked: UIColor?
 			open func blockedProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
@@ -2347,15 +2358,15 @@ extension StylesheetManagerTheming {
 				set { _offline = newValue }
 			}
 
-			//MARK: outOfOffice 
-			public var _outOfOffice: UIColor?
-			open func outOfOfficeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _outOfOffice { return override }
+			//MARK: offlineOutOfOffice 
+			public var _offlineOutOfOffice: UIColor?
+			open func offlineOutOfOfficeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _offlineOutOfOffice { return override }
 					return UIColor(named: "FluentColors/presenceOof", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
 				}
-			public var outOfOffice: UIColor {
-				get { return self.outOfOfficeProperty() }
-				set { _outOfOffice = newValue }
+			public var offlineOutOfOffice: UIColor {
+				get { return self.offlineOutOfOfficeProperty() }
+				set { _offlineOutOfOffice = newValue }
 			}
 
 			//MARK: unknown 

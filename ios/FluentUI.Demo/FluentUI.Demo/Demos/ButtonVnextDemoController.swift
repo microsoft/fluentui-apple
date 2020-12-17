@@ -28,7 +28,6 @@ class ButtonVnextDemoController: DemoController {
                 let disabledButton = MSFButtonVnext(style: style, size: size, action: { [weak self] _ in
                     guard let strongSelf = self else {
                         return
-                        
                     }
 
                     strongSelf.didPressButton()
@@ -57,7 +56,6 @@ class ButtonVnextDemoController: DemoController {
                     let iconOnlyButton = MSFButtonVnext(style: style, size: size, action: { [weak self] _ in
                         guard let strongSelf = self else {
                             return
-                            
                         }
 
                         strongSelf.didPressButton()
@@ -67,7 +65,6 @@ class ButtonVnextDemoController: DemoController {
                     let disabledIconOnlyButton = MSFButtonVnext(style: style, size: size, action: { [weak self] _ in
                         guard let strongSelf = self else {
                             return
-                            
                         }
 
                         strongSelf.didPressButton()
