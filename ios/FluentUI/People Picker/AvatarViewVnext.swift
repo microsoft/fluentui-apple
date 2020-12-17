@@ -48,7 +48,7 @@ public enum AvatarVnextPresence: Int, CaseIterable {
         case .available:
             color = StylesheetManager.S.Colors.Presence.available
         case .away:
-            color = isOutOfOffice ? StylesheetManager.S.Colors.Presence.awayOutOfOffice : StylesheetManager.S.Colors.Presence.away
+            color = isOutOfOffice ? StylesheetManager.S.Colors.Presence.outOfOffice : StylesheetManager.S.Colors.Presence.away
         case .busy:
             color = StylesheetManager.S.Colors.Presence.busy
         case .blocked:
@@ -56,7 +56,7 @@ public enum AvatarVnextPresence: Int, CaseIterable {
         case .doNotDisturb:
             color = StylesheetManager.S.Colors.Presence.doNotDisturb
         case .offline:
-            color = isOutOfOffice ? StylesheetManager.S.Colors.Presence.offlineOutOfOffice : StylesheetManager.S.Colors.Presence.offline
+            color = isOutOfOffice ? StylesheetManager.S.Colors.Presence.outOfOffice : StylesheetManager.S.Colors.Presence.offline
         case .unknown:
             color = StylesheetManager.S.Colors.Presence.unknown
         }

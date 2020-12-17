@@ -92,12 +92,11 @@ Colors:
   Presence:
     - available: "NamedColor(presenceAvailable)"
     - away: "NamedColor(presenceAway)"
-    - awayOutOfOffice: "NamedColor(presenceOof)"
     - blocked: "NamedColor(presenceBlocked)"
     - busy: "NamedColor(presenceBusy)"
     - doNotDisturb: "NamedColor(presenceDnd)"
     - offline: "NamedColor(presenceOffline)"
-    - offlineOutOfOffice: "NamedColor(presenceOof)"
+    - outOfOffice: "NamedColor(presenceOof)"
     - unknown: "NamedColor(presenceUnknown)"
 
   Stroke:
