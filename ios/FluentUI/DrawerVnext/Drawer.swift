@@ -16,10 +16,10 @@ public class DrawerState: NSObject, ObservableObject {
 
 public class DrawerTokens: ObservableObject {
 
-    @Published public var shadowColor: Color! = Color.black
-    @Published public var shadowOpacity: Double! = 0.24
-    @Published public var shadowBlur: CGFloat! = 28
-    @Published public var shadowDepth: [CGFloat]! =  [0, 14.0] // x,y axis
+    @Published public var shadowColor: Color!
+    @Published public var shadowOpacity: Double!
+    @Published public var shadowBlur: CGFloat!
+    @Published public var shadowDepth: [CGFloat]! // x,y axis
 
     public init() {
         self.themeAware = true
@@ -54,13 +54,14 @@ public struct Drawer<Content: View>: View {
     @ObservedObject var state: DrawerState
     @ObservedObject var tokens: DrawerTokens
 
-    var backgroundLayerColor: Color! = Color.black
-    private var backgroundLayerOpacity: Double! {
+    private let backgroundLayerColor: Color = .black
+    private var backgroundLayerOpacity: Double {
         return state.backgroundDimmed ? 0.5 : 0
     }
-    var backgroundLayerAnimation: Animation! = Animation.default
+    private let backgroundLayerAnimation: Animation = .default
 
-    var percentWidthOfContent: CGFloat! = 0.9
+    private let percentWidthOfContent: CGFloat = 0.9
+    private let percentSnapWidthOfScreen: CGFloat = 0.225
 
     // content view on top of
     public var content: Content
@@ -82,11 +83,6 @@ public struct Drawer<Content: View>: View {
         return width
     }
 
-//    // percentage of space occupied by drawer when open
-//    private var openDrawerWidth: CGFloat {
-//        return UIScreen.main.bounds.width * 0.9
-//    }
-
     public init(content: Content) {
         self.content = content
         tokens = DrawerTokens()
@@ -94,14 +90,11 @@ public struct Drawer<Content: View>: View {
     }
 
     public var body: some View {
-
         GeometryReader { reader in
             HStack {
-
                 if state.presentationDirection == .right {
                     Spacer()
                 }
-
                 content
                     .frame(width: reader.size.width * percentWidthOfContent)
                     .shadow(color: tokens.shadowColor.opacity(state.isExpanded ? tokens.shadowOpacity : 0),
@@ -114,18 +107,16 @@ public struct Drawer<Content: View>: View {
                 if state.presentationDirection == .left {
                     Spacer()
                 }
-
-            }.onTapGesture {
-                state.isExpanded.toggle()
-            }.background(state.isExpanded ? backgroundLayerColor.opacity(backgroundLayerOpacity) : Color.clear)
-            .gesture(drag)
+            }
+            .onTapGesture { state.isExpanded.toggle() }
+            .background(state.isExpanded ? backgroundLayerColor.opacity(backgroundLayerOpacity) : Color.clear)
+            .gesture(dragGesture(snapWidth: reader.size.width * percentSnapWidthOfScreen))
         }
     }
 
-    var drag: some Gesture {
+    private func dragGesture(snapWidth: CGFloat) -> some Gesture {
         DragGesture()
             .onChanged { value in
-
                 let withinDragBounds = state.presentationDirection == .left ? value.translation.width < 0 : value.translation.width > 0
                 if withinDragBounds {
                     draggedOffsetWidth = value.translation.width
@@ -133,7 +124,7 @@ public struct Drawer<Content: View>: View {
             }
             .onEnded { _ in
                 if let draggedOffsetWidth = draggedOffsetWidth {
-                    if abs(draggedOffsetWidth) < 270 / 4 {
+                    if abs(draggedOffsetWidth) < snapWidth {
                         state.isExpanded = true
                     } else {
                         state.isExpanded = false
@@ -144,63 +135,12 @@ public struct Drawer<Content: View>: View {
     }
 }
 
-@objc(VXTDrawerController)
+/**
+ `DrawerHost` is UIKit wrapper required to host UIViewController as content.
+ */
+public struct DrawerHost {
 
-/// UIKit wrapper that exposes the SwiftUI Button implementation
-open class VXTDrawerController: NSObject {
-
-    private var hostingController: UIHostingController<DrawerShimView>
-
-    @objc open var view: UIView {
-        return hostingController.view
-    }
-
-    @objc open var drawerState: DrawerState {
-        return self.hostingController.rootView.drawerState
-    }
-
-    @objc public init(contentView: UIView, presentationController: UIViewController) {
-        self.hostingController = UIHostingController(rootView: DrawerShimView(contentView: contentView, controller: presentationController))
-        super.init()
-    }
-
-    struct DrawerContentView: UIViewRepresentable {
-
-        private var contentView: UIView
-
-        init(contentView: UIView) {
-            self.contentView = contentView
-        }
-
-        func makeUIView(context: Context) -> UIView {
-            return contentView
-        }
-
-        func updateUIView(_ uiView: UIView, context: Context) {}
-
-        typealias UIViewType = UIView
-
-    }
-
-    struct DrawerPresentationViewController: UIViewControllerRepresentable {
-
-        private var presentationController: UIViewController
-
-        init(controller: UIViewController) {
-            self.presentationController = controller
-        }
-
-        func makeUIViewController(context: Context) -> UIViewController {
-            return presentationController
-        }
-
-        func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
-
-        typealias UIViewControllerType = UIViewController
-
-    }
-
-    struct DrawerShimView: View {
+    public struct DrawerShimView: View {
 
         private var drawer: Drawer<DrawerContentView>
         private var presentationController: DrawerPresentationViewController
@@ -214,11 +154,64 @@ open class VXTDrawerController: NSObject {
             presentationController = DrawerPresentationViewController(controller: controller)
         }
 
-        var body: some View {
+        public var body: some View {
             ZStack {
                 presentationController
-                drawer
+                drawer.edgesIgnoringSafeArea(.all)
             }
         }
+    }
+
+    public struct DrawerContentView: UIViewRepresentable {
+
+        private var contentView: UIView
+
+        init(contentView: UIView) {
+            self.contentView = contentView
+        }
+
+        public func makeUIView(context: Context) -> UIView {
+            return contentView
+        }
+
+        public func updateUIView(_ uiView: UIView, context: Context) {}
+
+        public typealias UIViewType = UIView
+    }
+
+    public struct DrawerPresentationViewController: UIViewControllerRepresentable {
+
+        private var presentationController: UIViewController
+
+        init(controller: UIViewController) {
+            self.presentationController = controller
+        }
+
+        public func makeUIViewController(context: Context) -> UIViewController {
+            return presentationController
+        }
+
+        public func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+
+        public typealias UIViewControllerType = UIViewController
+    }
+}
+
+@objc(MSFDrawerVnext)
+
+/// UIKit wrapper that exposes the SwiftUI Drawer implementation
+open class MSFDrawerVnext: UIHostingController<DrawerHost.DrawerShimView> {
+
+    @objc open var drawerState: DrawerState {
+        return self.rootView.drawerState
+    }
+
+    @objc public init(contentView: UIView, presentationController: UIViewController) {
+        super.init(rootView: DrawerHost.DrawerShimView(contentView: contentView,
+                                                       controller: presentationController))
+    }
+
+    @objc required dynamic public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
 }

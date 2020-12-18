@@ -417,7 +417,6 @@ open class DrawerController: UIViewController {
             updateContainerViewBottomConstraint()
         }
     }
-
     private var containerViewCenterObservation: NSKeyValueObservation?
 
     private var useCustomBackgroundColor: Bool = false

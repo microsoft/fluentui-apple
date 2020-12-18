@@ -130,52 +130,39 @@ public protocol DrawerPresentationDelegate: AnyObject {
 
 // MARK: VNTDrawerDemoController
 
-class DrawerVnextDemoController: DemoController, DrawerPresentationDelegate {
+extension MSFDrawerVnext: DrawerPresentationDelegate {
 
-    private var drawerController: VXTDrawerController?
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+    @objc public override convenience init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         let presentationController = DrawerPresentingController()
+
+        self.init(contentView: DrawerContentController().containerForActionViews(),
+                  presentationController: presentationController)
+
         presentationController.delegate = self
 
-        let controller = VXTDrawerController(contentView: DrawerContentController().containerForActionViews(),
-                                             presentationController: presentationController)
-        container.addArrangedSubview(controller.view)
-        self.drawerController = controller
-
-        controller.view.translatesAutoresizingMaskIntoConstraints = false
-        container.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            controller.view.heightAnchor.constraint(equalTo: view.heightAnchor),
-            controller.view.widthAnchor.constraint(equalTo: view.widthAnchor),
-            controller.view.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            controller.view.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
     }
 
-    func showLeftDrawerClearBackgroundSelected() {
-        drawerController?.drawerState.backgroundDimmed = false
-        drawerController?.drawerState.presentationDirection = .left
-        drawerController?.drawerState.isExpanded.toggle()
+    public func showLeftDrawerClearBackgroundSelected() {
+        self.drawerState.backgroundDimmed = false
+        self.drawerState.presentationDirection = .left
+        self.drawerState.isExpanded.toggle()
     }
 
-    func showLeftDrawerDimmedBackgroundSelected() {
-        drawerController?.drawerState.backgroundDimmed = true
-        drawerController?.drawerState.presentationDirection = .left
-        drawerController?.drawerState.isExpanded.toggle()
+    public func showLeftDrawerDimmedBackgroundSelected() {
+        self.drawerState.backgroundDimmed = true
+        self.drawerState.presentationDirection = .left
+        self.drawerState.isExpanded.toggle()
     }
 
-    func showRightDrawerClearBackgroundSelected() {
-        drawerController?.drawerState.backgroundDimmed = false
-        drawerController?.drawerState.presentationDirection = .right
-        drawerController?.drawerState.isExpanded.toggle()
+    public func showRightDrawerClearBackgroundSelected() {
+        self.drawerState.backgroundDimmed = false
+        self.drawerState.presentationDirection = .right
+        self.drawerState.isExpanded.toggle()
     }
 
-    func showRightDrawerDimmedBackgroundSelected() {
-        drawerController?.drawerState.backgroundDimmed = true
-        drawerController?.drawerState.presentationDirection = .right
-        drawerController?.drawerState.isExpanded.toggle()
+    public func showRightDrawerDimmedBackgroundSelected() {
+        self.drawerState.backgroundDimmed = true
+        self.drawerState.presentationDirection = .right
+        self.drawerState.isExpanded.toggle()
     }
 }
