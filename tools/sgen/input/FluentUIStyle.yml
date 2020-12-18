@@ -103,8 +103,9 @@ Colors:
 
 Typography:
   body: "Font(body)"
-  subheadline: "Font(subheadline)"
+  caption1: "Font(caption1)"
   footnote: "Font(footnote)"
+  subheadline: "Font(subheadline)"
 
 Border:
   radius: [ none: 0pt, small: 2pt, medium: 4pt, large: 8pt, xlarge: 12pt ]
@@ -163,13 +164,20 @@ GhostButtonTokens extends MSFButtonTokens:
   borderColor: [ rest: $Colors.Neutral.clear, hover: $Colors.Neutral.clear, pressed: $Colors.Neutral.clear, selected: $Colors.Brand.shade10, disabled: $Colors.Neutral.clear ]
 
 AP_MSFListTokens:
-  backgroundColor: $Colors.Background.neutral1
+  backgroundColor: [ rest: $Colors.Background.neutral1, pressed: $Colors.Background.neutral5 ]
   borderColor: $Colors.Stroke.neutral1
   borderSize: $Border.size.thin
-  padding: $Spacing.medium
-  textFont: $Typography.body
-  subtitleFont: $Typography.subheadline
-  iconColor: [ iconOnly: $Colors.Foreground.neutral3, withLabel: $Colors.Foreground.neutral4, disclosure: $Colors.Foreground.neutral4 ]
-  textColor: [leading: $Colors.Foreground.neutral1, trailing: $Colors.Foreground.neutral3 ]
-  iconSize: [ icon: $Icon.size.medium, persona: $Icon.size.small, disclosure: $Icon.size.small]
-  interspace: [ button: $Spacing.xSmall, icon: $Spacing.medium, disclosure: $Spacing.xxSmall ]
+  disclosureIconForegroundColor: $Colors.Foreground.neutral3
+  disclosureInterspace: $Spacing.xxSmall
+  disclosureSize: $Icon.size.small
+  horizontalCellPadding: $Spacing.medium
+  iconColor: $Colors.Foreground.neutral4
+  iconInterspace: $Spacing.medium
+  iconSize: [ icon: $Icon.size.medium, largeIcon: $Icon.size.xxlarge ]
+  labelColor: $Colors.Foreground.neutral1
+  sublabelColor: $Colors.Foreground.neutral3
+  textFont: [ label: $Typography.body, subLabel: $Typography.caption1 ]
+  trailingItemForegroundColor: $Colors.Foreground.neutral3
+
+IconOnlyListTokens extends MSFListTokens:
+  iconColor: $Colors.Foreground.neutral3

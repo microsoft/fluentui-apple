@@ -1766,6 +1766,24 @@ extension StylesheetManagerTheming {
 		}
 
 	}
+	//MARK: - IconOnlyListTokens
+	public var _IconOnlyListTokens: IconOnlyListTokensAppearanceProxy?
+	open func IconOnlyListTokensStyle() -> IconOnlyListTokensAppearanceProxy {
+		if let override = _IconOnlyListTokens { return override }
+			return IconOnlyListTokensAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+		}
+	public var IconOnlyListTokens: IconOnlyListTokensAppearanceProxy {
+		get { return self.IconOnlyListTokensStyle() }
+		set { _IconOnlyListTokens = newValue }
+	}
+	@objc(IconOnlyListTokensAppearanceProxy) @objcMembers open class IconOnlyListTokensAppearanceProxy: MSFListTokensAppearanceProxy {
+
+		//MARK: iconColor 
+		override open func iconColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _iconColor { return override }
+			return mainProxy().Colors.Foreground.neutral3Property(traitCollection)
+			}
+	}
 	//MARK: - MSFButtonTokens
 	public var _MSFButtonTokens: MSFButtonTokensAppearanceProxy?
 	open func MSFButtonTokensStyle() -> MSFButtonTokensAppearanceProxy {
@@ -2396,16 +2414,45 @@ extension StylesheetManagerTheming {
 			self.mainProxy = proxy
 		}
 
-		//MARK: backgroundColor 
-		public var _backgroundColor: UIColor?
-		open func backgroundColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+		//MARK: - backgroundColor
+		public var _backgroundColor: backgroundColorAppearanceProxy?
+		open func backgroundColorStyle() -> backgroundColorAppearanceProxy {
 			if let override = _backgroundColor { return override }
-			return mainProxy().Colors.Background.neutral1Property(traitCollection)
+				return backgroundColorAppearanceProxy(proxy: mainProxy)
 			}
-		public var backgroundColor: UIColor {
-			get { return self.backgroundColorProperty() }
+		public var backgroundColor: backgroundColorAppearanceProxy {
+			get { return self.backgroundColorStyle() }
 			set { _backgroundColor = newValue }
 		}
+		@objc(MSFListTokensBackgroundColorAppearanceProxy) @objcMembers open class backgroundColorAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: pressed 
+			public var _pressed: UIColor?
+			open func pressedProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _pressed { return override }
+					return mainProxy().Colors.Background.neutral5Property(traitCollection)
+				}
+			public var pressed: UIColor {
+				get { return self.pressedProperty() }
+				set { _pressed = newValue }
+			}
+
+			//MARK: rest 
+			public var _rest: UIColor?
+			open func restProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _rest { return override }
+					return mainProxy().Colors.Background.neutral1Property(traitCollection)
+				}
+			public var rest: UIColor {
+				get { return self.restProperty() }
+				set { _rest = newValue }
+			}
+		}
+
 
 		//MARK: borderColor 
 		public var _borderColor: UIColor?
@@ -2429,56 +2476,71 @@ extension StylesheetManagerTheming {
 			set { _borderSize = newValue }
 		}
 
-		//MARK: - iconColor
-		public var _iconColor: iconColorAppearanceProxy?
-		open func iconColorStyle() -> iconColorAppearanceProxy {
-			if let override = _iconColor { return override }
-				return iconColorAppearanceProxy(proxy: mainProxy)
+		//MARK: disclosureIconForegroundColor 
+		public var _disclosureIconForegroundColor: UIColor?
+		open func disclosureIconForegroundColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _disclosureIconForegroundColor { return override }
+			return mainProxy().Colors.Foreground.neutral3Property(traitCollection)
 			}
-		public var iconColor: iconColorAppearanceProxy {
-			get { return self.iconColorStyle() }
+		public var disclosureIconForegroundColor: UIColor {
+			get { return self.disclosureIconForegroundColorProperty() }
+			set { _disclosureIconForegroundColor = newValue }
+		}
+
+		//MARK: disclosureInterspace 
+		public var _disclosureInterspace: CGFloat?
+		open func disclosureInterspaceProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _disclosureInterspace { return override }
+			return mainProxy().Spacing.xxSmallProperty(traitCollection)
+			}
+		public var disclosureInterspace: CGFloat {
+			get { return self.disclosureInterspaceProperty() }
+			set { _disclosureInterspace = newValue }
+		}
+
+		//MARK: disclosureSize 
+		public var _disclosureSize: CGFloat?
+		open func disclosureSizeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _disclosureSize { return override }
+			return mainProxy().Icon.size.smallProperty(traitCollection)
+			}
+		public var disclosureSize: CGFloat {
+			get { return self.disclosureSizeProperty() }
+			set { _disclosureSize = newValue }
+		}
+
+		//MARK: horizontalCellPadding 
+		public var _horizontalCellPadding: CGFloat?
+		open func horizontalCellPaddingProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _horizontalCellPadding { return override }
+			return mainProxy().Spacing.mediumProperty(traitCollection)
+			}
+		public var horizontalCellPadding: CGFloat {
+			get { return self.horizontalCellPaddingProperty() }
+			set { _horizontalCellPadding = newValue }
+		}
+
+		//MARK: iconColor 
+		public var _iconColor: UIColor?
+		open func iconColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _iconColor { return override }
+			return mainProxy().Colors.Foreground.neutral4Property(traitCollection)
+			}
+		public var iconColor: UIColor {
+			get { return self.iconColorProperty() }
 			set { _iconColor = newValue }
 		}
-		@objc(MSFListTokensIconColorAppearanceProxy) @objcMembers open class iconColorAppearanceProxy: NSObject {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
 
-			//MARK: disclosure 
-			public var _disclosure: UIColor?
-			open func disclosureProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _disclosure { return override }
-					return mainProxy().Colors.Foreground.neutral4Property(traitCollection)
-				}
-			public var disclosure: UIColor {
-				get { return self.disclosureProperty() }
-				set { _disclosure = newValue }
+		//MARK: iconInterspace 
+		public var _iconInterspace: CGFloat?
+		open func iconInterspaceProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _iconInterspace { return override }
+			return mainProxy().Spacing.mediumProperty(traitCollection)
 			}
-
-			//MARK: iconOnly 
-			public var _iconOnly: UIColor?
-			open func iconOnlyProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _iconOnly { return override }
-					return mainProxy().Colors.Foreground.neutral3Property(traitCollection)
-				}
-			public var iconOnly: UIColor {
-				get { return self.iconOnlyProperty() }
-				set { _iconOnly = newValue }
-			}
-
-			//MARK: withLabel 
-			public var _withLabel: UIColor?
-			open func withLabelProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _withLabel { return override }
-					return mainProxy().Colors.Foreground.neutral4Property(traitCollection)
-				}
-			public var withLabel: UIColor {
-				get { return self.withLabelProperty() }
-				set { _withLabel = newValue }
-			}
+		public var iconInterspace: CGFloat {
+			get { return self.iconInterspaceProperty() }
+			set { _iconInterspace = newValue }
 		}
-
 
 		//MARK: - iconSize
 		public var _iconSize: iconSizeAppearanceProxy?
@@ -2496,17 +2558,6 @@ extension StylesheetManagerTheming {
 				self.mainProxy = proxy
 			}
 
-			//MARK: disclosure 
-			public var _disclosure: CGFloat?
-			open func disclosureProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _disclosure { return override }
-					return mainProxy().Icon.size.smallProperty(traitCollection)
-				}
-			public var disclosure: CGFloat {
-				get { return self.disclosureProperty() }
-				set { _disclosure = newValue }
-			}
-
 			//MARK: icon 
 			public var _icon: CGFloat?
 			open func iconProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
@@ -2518,141 +2569,90 @@ extension StylesheetManagerTheming {
 				set { _icon = newValue }
 			}
 
-			//MARK: persona 
-			public var _persona: CGFloat?
-			open func personaProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _persona { return override }
-					return mainProxy().Icon.size.smallProperty(traitCollection)
+			//MARK: largeIcon 
+			public var _largeIcon: CGFloat?
+			open func largeIconProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _largeIcon { return override }
+					return mainProxy().Icon.size.xxlargeProperty(traitCollection)
 				}
-			public var persona: CGFloat {
-				get { return self.personaProperty() }
-				set { _persona = newValue }
+			public var largeIcon: CGFloat {
+				get { return self.largeIconProperty() }
+				set { _largeIcon = newValue }
 			}
 		}
 
 
-		//MARK: - interspace
-		public var _interspace: interspaceAppearanceProxy?
-		open func interspaceStyle() -> interspaceAppearanceProxy {
-			if let override = _interspace { return override }
-				return interspaceAppearanceProxy(proxy: mainProxy)
+		//MARK: labelColor 
+		public var _labelColor: UIColor?
+		open func labelColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _labelColor { return override }
+			return mainProxy().Colors.Foreground.neutral1Property(traitCollection)
 			}
-		public var interspace: interspaceAppearanceProxy {
-			get { return self.interspaceStyle() }
-			set { _interspace = newValue }
-		}
-		@objc(MSFListTokensInterspaceAppearanceProxy) @objcMembers open class interspaceAppearanceProxy: NSObject {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			//MARK: button 
-			public var _button: CGFloat?
-			open func buttonProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _button { return override }
-					return mainProxy().Spacing.xSmallProperty(traitCollection)
-				}
-			public var button: CGFloat {
-				get { return self.buttonProperty() }
-				set { _button = newValue }
-			}
-
-			//MARK: disclosure 
-			public var _disclosure: CGFloat?
-			open func disclosureProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _disclosure { return override }
-					return mainProxy().Spacing.xxSmallProperty(traitCollection)
-				}
-			public var disclosure: CGFloat {
-				get { return self.disclosureProperty() }
-				set { _disclosure = newValue }
-			}
-
-			//MARK: icon 
-			public var _icon: CGFloat?
-			open func iconProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _icon { return override }
-					return mainProxy().Spacing.mediumProperty(traitCollection)
-				}
-			public var icon: CGFloat {
-				get { return self.iconProperty() }
-				set { _icon = newValue }
-			}
+		public var labelColor: UIColor {
+			get { return self.labelColorProperty() }
+			set { _labelColor = newValue }
 		}
 
-
-		//MARK: padding 
-		public var _padding: CGFloat?
-		open func paddingProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-			if let override = _padding { return override }
-			return mainProxy().Spacing.mediumProperty(traitCollection)
+		//MARK: sublabelColor 
+		public var _sublabelColor: UIColor?
+		open func sublabelColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _sublabelColor { return override }
+			return mainProxy().Colors.Foreground.neutral3Property(traitCollection)
 			}
-		public var padding: CGFloat {
-			get { return self.paddingProperty() }
-			set { _padding = newValue }
+		public var sublabelColor: UIColor {
+			get { return self.sublabelColorProperty() }
+			set { _sublabelColor = newValue }
 		}
 
-		//MARK: subtitleFont 
-		public var _subtitleFont: UIFont?
-		open func subtitleFontProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
-			if let override = _subtitleFont { return override }
-			return mainProxy().Typography.subheadlineProperty(traitCollection)
-			}
-		public var subtitleFont: UIFont {
-			get { return self.subtitleFontProperty() }
-			set { _subtitleFont = newValue }
-		}
-
-		//MARK: - textColor
-		public var _textColor: textColorAppearanceProxy?
-		open func textColorStyle() -> textColorAppearanceProxy {
-			if let override = _textColor { return override }
-				return textColorAppearanceProxy(proxy: mainProxy)
-			}
-		public var textColor: textColorAppearanceProxy {
-			get { return self.textColorStyle() }
-			set { _textColor = newValue }
-		}
-		@objc(MSFListTokensTextColorAppearanceProxy) @objcMembers open class textColorAppearanceProxy: NSObject {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			//MARK: leading 
-			public var _leading: UIColor?
-			open func leadingProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _leading { return override }
-					return mainProxy().Colors.Foreground.neutral1Property(traitCollection)
-				}
-			public var leading: UIColor {
-				get { return self.leadingProperty() }
-				set { _leading = newValue }
-			}
-
-			//MARK: trailing 
-			public var _trailing: UIColor?
-			open func trailingProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _trailing { return override }
-					return mainProxy().Colors.Foreground.neutral3Property(traitCollection)
-				}
-			public var trailing: UIColor {
-				get { return self.trailingProperty() }
-				set { _trailing = newValue }
-			}
-		}
-
-
-		//MARK: textFont 
-		public var _textFont: UIFont?
-		open func textFontProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
+		//MARK: - textFont
+		public var _textFont: textFontAppearanceProxy?
+		open func textFontStyle() -> textFontAppearanceProxy {
 			if let override = _textFont { return override }
-			return mainProxy().Typography.bodyProperty(traitCollection)
+				return textFontAppearanceProxy(proxy: mainProxy)
 			}
-		public var textFont: UIFont {
-			get { return self.textFontProperty() }
+		public var textFont: textFontAppearanceProxy {
+			get { return self.textFontStyle() }
 			set { _textFont = newValue }
+		}
+		@objc(MSFListTokensTextFontAppearanceProxy) @objcMembers open class textFontAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: label 
+			public var _label: UIFont?
+			open func labelProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
+				if let override = _label { return override }
+					return mainProxy().Typography.bodyProperty(traitCollection)
+				}
+			public var label: UIFont {
+				get { return self.labelProperty() }
+				set { _label = newValue }
+			}
+
+			//MARK: subLabel 
+			public var _subLabel: UIFont?
+			open func subLabelProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
+				if let override = _subLabel { return override }
+					return mainProxy().Typography.caption1Property(traitCollection)
+				}
+			public var subLabel: UIFont {
+				get { return self.subLabelProperty() }
+				set { _subLabel = newValue }
+			}
+		}
+
+
+		//MARK: trailingItemForegroundColor 
+		public var _trailingItemForegroundColor: UIColor?
+		open func trailingItemForegroundColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _trailingItemForegroundColor { return override }
+			return mainProxy().Colors.Foreground.neutral3Property(traitCollection)
+			}
+		public var trailingItemForegroundColor: UIColor {
+			get { return self.trailingItemForegroundColorProperty() }
+			set { _trailingItemForegroundColor = newValue }
 		}
 	}
 	//MARK: - Opacity
@@ -3141,6 +3141,17 @@ extension StylesheetManagerTheming {
 			set { _body = newValue }
 		}
 
+		//MARK: caption1 
+		public var _caption1: UIFont?
+		open func caption1Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
+			if let override = _caption1 { return override }
+			return UIFont.font(name: nil, size: nil, textStyle: S.FontTextStyle.caption1, weight: nil, traits: [], traitCollection: traitCollection, isScalable: true)
+			}
+		public var caption1: UIFont {
+			get { return self.caption1Property() }
+			set { _caption1 = newValue }
+		}
+
 		//MARK: footnote 
 		public var _footnote: UIFont?
 		open func footnoteProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
@@ -3251,7 +3262,13 @@ extension MSFListTokens: AppearaceProxyComponent {
 			if let proxy = objc_getAssociatedObject(self, &__ApperanceProxyHandle) as? ApperanceProxyType {
 				if !themeAware { return proxy }
 
+				if let proxyString = Optional(String(reflecting: type(of: proxy))), proxyString.hasPrefix("Stardust") == false {
+					return proxy
+				}
 
+				if proxy is FluentUIStyle.IconOnlyListTokensAppearanceProxy {
+					return StylesheetManager.stylesheet(FluentUIStyle.shared()).IconOnlyListTokens
+				}
 				return proxy
 			}
 

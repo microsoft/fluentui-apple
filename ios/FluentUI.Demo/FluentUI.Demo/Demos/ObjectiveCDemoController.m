@@ -63,6 +63,24 @@
 
     MSFButton *resetButton = [self createButtonWithTitle:@"Reset Vnext Button" action:@selector(resetVnextButton)];
     [self.container addArrangedSubview:resetButton];
+    
+    UILabel *listVnextLabel = [[UILabel alloc] init];
+    [listVnextLabel setText:@"List (vNext)"];
+    [self.container addArrangedSubview:listVnextLabel];
+    
+    MSFListVnextCell *listCell1 = [[MSFListVnextCell alloc] init];
+    listCell1.title = @"Sample Title1";
+    MSFListVnextCell *listCell2 = [[MSFListVnextCell alloc] init];
+    listCell2.title = @"Sample Title2";
+    listCell2.subtitle = @"Sample Subtitle2";
+    MSFListVnextCell *listCell3 = [[MSFListVnextCell alloc] init];
+    listCell3.title = @"Sample Title3";
+    listCell3.subtitle = @"Sample Subtitle3";
+    listCell3.leadingView = [UIImage imageNamed:@"excelIcon"];
+    NSArray *cells = @[listCell1, listCell2, listCell3];
+    
+    MSFListVnext *list = [[MSFListVnext alloc] initWithCells:cells layoutType:MSFListCellVnextHeightTwoLines iconStyle:MSFListIconVnextStyleNone];
+    [self.container addArrangedSubview:[list view]];
 }
 
 - (void)enableVnextButton {
