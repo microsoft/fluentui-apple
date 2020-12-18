@@ -35,11 +35,10 @@ class CommandBarButton: UIButton {
         super.init(frame: .zero)
 
         translatesAutoresizingMaskIntoConstraints = false
-
-        widthAnchor.constraint(equalToConstant: Constants.buttonWidth).isActive = true
         setImage(item.iconImage, for: .normal)
 
         accessibilityLabel = item.accessibilityLabel
+        contentEdgeInsets = Constants.contentEdgeInsets
 
         updateState()
     }
@@ -56,7 +55,7 @@ class CommandBarButton: UIButton {
 
 private extension CommandBarButton {
     struct Constants {
-        static let buttonWidth: CGFloat = 40
+        static let contentEdgeInsets = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
         static let normalTintColor: UIColor = Colors.textPrimary
         static let normalBackgroundColor = UIColor(light: Colors.gray50, dark: Colors.gray600)
         static let highlightedBackgroundColor = UIColor(light: Colors.gray100, dark: Colors.gray900)

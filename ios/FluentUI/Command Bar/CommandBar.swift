@@ -23,7 +23,6 @@ public class CommandBar: UIView {
 
     // MARK: Private Properties
 
-    private let barAppearance: CommandBarAppearance
     private let itemGroups: [CommandBarItemGroup]
 
     private lazy var itemsToButtonsMap: [CommandBarItem: CommandBarButton] = {
@@ -58,9 +57,9 @@ public class CommandBar: UIView {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentInset = UIEdgeInsets(
             top: 0,
-            left: leadingButton == nil ? barAppearance.insets.left : barAppearance.buttonSpacing - Constants.horizontalButtonInset,
+            left: leadingButton == nil ? Constants.insets.left : Constants.buttonSpacing - Constants.horizontalButtonInset,
             bottom: 0,
-            right: trailingButton == nil ? barAppearance.insets.right : barAppearance.buttonSpacing - Constants.horizontalButtonInset
+            right: trailingButton == nil ? Constants.insets.right : Constants.buttonSpacing - Constants.horizontalButtonInset
         )
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
@@ -85,11 +84,7 @@ public class CommandBar: UIView {
 
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.spacing = barAppearance.buttonSpacing
-
-        if let height = barAppearance.contentHeight {
-            stackView.heightAnchor.constraint(equalToConstant: height).isActive = true
-        }
+        stackView.spacing = Constants.buttonSpacing
 
         return stackView
     }()
@@ -121,8 +116,7 @@ public class CommandBar: UIView {
 
     // MARK: - Init
 
-    public init(appearance: CommandBarAppearance, itemGroups: [CommandBarItemGroup], leadingItem: CommandBarItem? = nil, trailingItem: CommandBarItem? = nil) {
-        self.barAppearance = appearance
+    public init(itemGroups: [CommandBarItemGroup], leadingItem: CommandBarItem? = nil, trailingItem: CommandBarItem? = nil) {
         self.itemGroups = itemGroups
 
         super.init(frame: .zero)
@@ -180,7 +174,8 @@ private extension CommandBar {
     struct Constants {
         static let fadeViewWidth: CGFloat = 24
         static let horizontalButtonInset: CGFloat = 4
-        static let fixedButtonApperance = CommandBarButtonAppearance(backgroundColor: .clear)
+        static let buttonSpacing: CGFloat = 16.0
+        static let insets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
     }
 
     func configureHierarchy() {
@@ -193,7 +188,7 @@ private extension CommandBar {
                 leftButton.centerYAnchor.constraint(equalTo: centerYAnchor),
 
                 leftButton.topAnchor.constraint(equalTo: containerView.topAnchor),
-                leftButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: barAppearance.insets.left),
+                leftButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.insets.left),
                 containerView.bottomAnchor.constraint(equalTo: leftButton.bottomAnchor)
             ])
         }
@@ -206,7 +201,7 @@ private extension CommandBar {
 
                 rightButton.topAnchor.constraint(equalTo: containerView.topAnchor),
                 containerView.bottomAnchor.constraint(equalTo: rightButton.bottomAnchor),
-                trailingAnchor.constraint(equalTo: rightButton.trailingAnchor, constant: barAppearance.insets.right)
+                trailingAnchor.constraint(equalTo: rightButton.trailingAnchor, constant: Constants.insets.right)
             ])
         }
 
@@ -230,8 +225,8 @@ private extension CommandBar {
         NSLayoutConstraint.activate([
             containerView.centerYAnchor.constraint(equalTo: centerYAnchor),
 
-            containerView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: barAppearance.insets.top),
-            bottomAnchor.constraint(greaterThanOrEqualTo: containerView.bottomAnchor, constant: barAppearance.insets.bottom),
+            containerView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: Constants.insets.top),
+            bottomAnchor.constraint(greaterThanOrEqualTo: containerView.bottomAnchor, constant: Constants.insets.bottom),
 
             containerLeadingConstraint,
             containerTrailingConstraint

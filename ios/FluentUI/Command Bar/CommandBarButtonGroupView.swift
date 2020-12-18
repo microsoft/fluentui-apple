@@ -30,6 +30,7 @@ class CommandBarButtonGroupView: UIView {
         }
 
         configureHierarchy()
+        applyInsets()
     }
 
     required init?(coder: NSCoder) {
@@ -41,6 +42,7 @@ private extension CommandBarButtonGroupView {
     struct Constants {
         static let cornerRadius: CGFloat = 8
         static let buttonPadding: CGFloat = 2
+        static let leftRightBuffer: CGFloat = 2
     }
 
     func configureHierarchy() {
@@ -51,5 +53,10 @@ private extension CommandBarButtonGroupView {
             bottomAnchor.constraint(equalTo: stackView.bottomAnchor),
             trailingAnchor.constraint(equalTo: stackView.trailingAnchor)
         ])
+    }
+
+    func applyInsets() {
+        buttons.first?.contentEdgeInsets.left += Constants.leftRightBuffer
+        buttons.last?.contentEdgeInsets.right += Constants.leftRightBuffer
     }
 }

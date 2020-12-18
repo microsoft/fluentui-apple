@@ -130,21 +130,21 @@ class CommandBarDemoController: DemoController {
 
         container.addArrangedSubview(createLabelWithText("Default"))
 
-        let defaultCommandBar = CommandBar(appearance: CommandBarAppearance(), itemGroups: itemGroups)
+        let defaultCommandBar = CommandBar(itemGroups: itemGroups)
         defaultCommandBar.backgroundColor = Colors.Navigation.System.background
         defaultCommandBar.delegate = self
         container.addArrangedSubview(defaultCommandBar)
 
         container.addArrangedSubview(createLabelWithText("With Fixed Button"))
 
-        let fixedButtonCommandBar = CommandBar(appearance: CommandBarAppearance(), itemGroups: itemGroups, trailingItem: Item(command: .keyboard))
+        let fixedButtonCommandBar = CommandBar(itemGroups: itemGroups, trailingItem: Item(command: .keyboard))
         fixedButtonCommandBar.backgroundColor = Colors.Navigation.System.background
         fixedButtonCommandBar.delegate = self
         container.addArrangedSubview(fixedButtonCommandBar)
 
         container.addArrangedSubview(createLabelWithText("In Input Accessory View"))
 
-        let accessoryCommandBar = CommandBar(appearance: CommandBarAppearance(), itemGroups: itemGroups, trailingItem: Item(command: .keyboard))
+        let accessoryCommandBar = CommandBar(itemGroups: itemGroups, trailingItem: Item(command: .keyboard))
         accessoryCommandBar.delegate = self
         textField.inputAccessoryView = accessoryCommandBar
         container.addArrangedSubview(textField)
