@@ -164,12 +164,6 @@ public class CommandBar: UIView {
             button.updateState()
         }
     }
-
-    public func updateButtonGroupsAppearance(_ appearance: CommandBarButtonAppearance) {
-        for buttonGroup in buttonGroups {
-            buttonGroup.updateAppearance(appearance)
-        }
-    }
 }
 
 // MARK: - Scroll view delegate
@@ -247,7 +241,7 @@ private extension CommandBar {
     }
 
     func button(forItem item: CommandBarItem, isFixed: Bool = false) -> CommandBarButton {
-        let button = CommandBarButton(item: item, appearance: isFixed ? Constants.fixedButtonApperance : barAppearance.buttonAppearance)
+        let button = CommandBarButton(item: item, isFixed: isFixed)
         button.addTarget(self, action: #selector(handleCommandButtonTapped(_:)), for: .touchUpInside)
 
         return button

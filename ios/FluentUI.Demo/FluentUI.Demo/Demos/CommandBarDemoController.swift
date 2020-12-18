@@ -103,7 +103,7 @@ class CommandBarDemoController: DemoController {
         let itemGroups: [CommandBarItemGroup] = [
             [
                 Item(command: .add),
-                Item(command: .mention),
+                Item(command: .mention, isEnabled: false),
                 Item(command: .calendar)
             ],
             [

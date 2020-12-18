@@ -8,54 +8,61 @@ import UIKit
 class CommandBarButton: UIButton {
     let item: CommandBarItem
 
-    private var currentApperance: CommandBarButtonAppearance?
+    private let isFixed: Bool
 
     override var isHighlighted: Bool {
         didSet {
-            alpha = isHighlighted ? Constants.highlightedAlpha : Constants.defaultAlpha
+            updateStyle()
         }
     }
 
-    init(item: CommandBarItem, appearance: CommandBarButtonAppearance) {
+    override var isSelected: Bool {
+        didSet {
+            updateStyle()
+        }
+    }
+
+    override var isEnabled: Bool {
+        didSet {
+            updateStyle()
+        }
+    }
+
+    init(item: CommandBarItem, isFixed: Bool = false) {
         self.item = item
+        self.isFixed = isFixed
 
         super.init(frame: .zero)
 
         translatesAutoresizingMaskIntoConstraints = false
-        updateAppearance(appearance)
 
         widthAnchor.constraint(equalToConstant: Constants.buttonWidth).isActive = true
         setImage(item.iconImage, for: .normal)
 
         accessibilityLabel = item.accessibilityLabel
+
+        updateState()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func updateAppearance(_ appearance: CommandBarButtonAppearance) {
-        currentApperance = appearance
-
-        updateStyleIfPossible()
-    }
-
     func updateState() {
         isEnabled = item.isEnabled
-        isSelected = item.isSelected
-
-        updateStyleIfPossible()
+        isSelected = !isFixed && item.isSelected
     }
 }
 
 private extension CommandBarButton {
     struct Constants {
-        static let highlightedAlpha: CGFloat = 0.5
-        static let defaultAlpha: CGFloat = 1.0
         static let buttonWidth: CGFloat = 40
+        static let normalTintColor: UIColor = Colors.textPrimary
+        static let normalBackgroundColor = UIColor(light: Colors.gray50, dark: Colors.gray600)
+        static let highlightedBackgroundColor = UIColor(light: Colors.gray100, dark: Colors.gray900)
     }
 
-    var selectedTitleColor: UIColor {
+    var selectedTintColor: UIColor {
         guard let window = window else {
             return Colors.communicationBlue
         }
@@ -71,17 +78,19 @@ private extension CommandBarButton {
         return Colors.primaryTint30(for: window)
     }
 
-    func updateStyleIfPossible() {
-        guard let appearance = currentApperance else {
-            return
-        }
+    func updateStyle() {
+        tintColor = isSelected ? selectedTintColor : Constants.normalTintColor
 
-        if isSelected {
-            tintColor = selectedTitleColor
-            backgroundColor = selectedBackgroundColor
+        if isFixed {
+            backgroundColor = .clear
         } else {
-            tintColor = appearance.tintColor
-            backgroundColor = appearance.backgroundColor
+            if isSelected {
+                backgroundColor = selectedBackgroundColor
+            } else if isHighlighted {
+                backgroundColor = Constants.highlightedBackgroundColor
+            } else {
+                backgroundColor = Constants.normalBackgroundColor
+            }
         }
     }
 }

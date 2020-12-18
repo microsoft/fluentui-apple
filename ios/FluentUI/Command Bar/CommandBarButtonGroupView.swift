@@ -35,10 +35,6 @@ class CommandBarButtonGroupView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    func updateAppearance(_ appearance: CommandBarButtonAppearance) {
-        buttons.forEach { $0.updateAppearance(appearance) }
-    }
 }
 
 private extension CommandBarButtonGroupView {
