@@ -5,7 +5,8 @@
 
 import UIKit
 
-public class CommandBar: UIView {
+@objc(MSFCommandBar)
+open class CommandBar: UIView {
     // Hierarchy:
     //
     // closeButton
@@ -19,7 +20,7 @@ public class CommandBar: UIView {
 
     // MARK: Public Properties
 
-    public weak var delegate: CommandBarDelegate?
+    @objc public weak var delegate: CommandBarDelegate?
 
     // MARK: Private Properties
 
@@ -134,7 +135,8 @@ public class CommandBar: UIView {
         updateButtonsState()
     }
 
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -153,7 +155,7 @@ public class CommandBar: UIView {
 
     // MARK: - Public methods
 
-    public func updateButtonsState() {
+    @objc public func updateButtonsState() {
         for button in itemsToButtonsMap.values {
             button.updateState()
         }
@@ -263,24 +265,23 @@ private extension CommandBar {
     @objc func handleCommandButtonTapped(_ sender: CommandBarButton) {
         let newSelected = !sender.item.isSelected
 
-        guard let delegate = delegate else {
-            sender.item.isSelected = newSelected
-            sender.updateState()
-
-            return
-        }
-
-        guard newSelected ? delegate.commandBar(self, shouldSelectItem: sender.item) : delegate.commandBar(self, shouldDeselectItem: sender.item) else {
-            return
+        if newSelected {
+            if !(delegate?.commandBar?(self, shouldSelectItem: sender.item) ?? true) {
+                return
+            }
+        } else {
+            if !(delegate?.commandBar?(self, shouldDeselectItem: sender.item) ?? true) {
+                return
+            }
         }
 
         sender.item.isSelected = newSelected
         sender.updateState()
 
         if newSelected {
-            delegate.commandBar(self, didSelectItem: sender.item)
+            delegate?.commandBar?(self, didSelectItem: sender.item)
         } else {
-            delegate.commandBar(self, didDeselectItem: sender.item)
+            delegate?.commandBar?(self, didDeselectItem: sender.item)
         }
     }
 }
