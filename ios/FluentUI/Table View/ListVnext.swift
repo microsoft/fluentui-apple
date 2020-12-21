@@ -13,13 +13,17 @@ public class MSFListVnextCell: NSObject, ObservableObject, Identifiable {
     @objc @Published public var leadingView: UIImage?
     @objc @Published public var title: String = ""
     @objc @Published public var subtitle: String?
-    @objc @Published public var lineLimit: Int = 1
+    @objc @Published public var trailingView: TableViewCellAccessoryType = .none
+    @objc @Published public var titleLineLimit: Int = 1
+    @objc @Published public var subtitleLineLimit: Int = 1
+    @objc @Published public var handler: (() -> Void)?
 }
 
 ///Properties that make up list content
 @objc(MSFListVnextState)
 public class MSFListVnextState: NSObject, ObservableObject {
     @objc @Published public var sectionTitle: String?
+    @objc @Published public var hasBorder: Bool = false
 }
 
 @objc(MSFListIconVnextStyle)
@@ -112,33 +116,36 @@ public class MSFListTokens: ObservableObject {
 }
 
 public struct MSFListView: View {
-    @ObservedObject var tokens: MSFListTokens
     var cells: [MSFListVnextCell]
-    var state: MSFListVnextState
+    @ObservedObject var state: MSFListVnextState
+    @ObservedObject var tokens: MSFListTokens
 
     public init(cells: [MSFListVnextCell],
                 layoutType: MSFListCellVnextLayoutType,
                 iconStyle: MSFListIconVnextStyle) {
+        self.cells = cells
         self.state = MSFListVnextState()
         self.tokens = MSFListTokens(layoutType: layoutType, iconStyle: iconStyle)
-        self.cells = cells
+
     }
 
     public var body: some View {
         List {
-            ForEach(cells) { item in
+            ForEach(cells, id: \.self) { item in
                 MSFListCellView(cell: item, tokens: tokens)
+                    .onTapGesture(perform: item.handler ?? {})
             }
-            .listRowInsets(EdgeInsets())
+            .border(state.hasBorder ? Color(tokens.borderColor) : Color.clear, width: state.hasBorder ? tokens.borderSize : 0)
             .frame(minHeight: tokens.layoutType.height)
+            .listRowInsets(EdgeInsets())
         }
-        .frame(width: .infinity, height: .infinity)
+        .frame(width: UIScreen.main.bounds.width, height: 300)
         .environment(\.defaultMinListRowHeight, 0)
     }
 }
 
-/// View for List Cells
 extension MSFListView {
+    /// View for List Cells
     struct MSFListCellView: View {
         var cell: MSFListVnextCell
         var tokens: MSFListTokens
@@ -149,29 +156,42 @@ extension MSFListView {
         }
 
         var body: some View {
-            HStack {
+            HStack(spacing: 0) {
                 if let leadingView = cell.leadingView {
                     Image(uiImage: leadingView)
                         .resizable()
                         .frame(width: tokens.iconSize, height: tokens.iconSize)
+                        .padding(.trailing, tokens.iconInterspace)
                 }
                 VStack(alignment: .leading) {
                     if let title = cell.title {
                         Text(title)
-                            .lineLimit(cell.lineLimit)
                             .font(Font(tokens.textFont))
                             .foregroundColor(Color(tokens.leadingTextColor))
+                            .lineLimit(cell.titleLineLimit)
                     }
                     if let subtitle = cell.subtitle {
                         if subtitle != "" {
                             Text(subtitle)
-                                .lineLimit(cell.lineLimit)
                                 .font(Font(tokens.subtitleFont))
                                 .foregroundColor(Color(tokens.subtitleColor))
+                                .lineLimit(cell.titleLineLimit)
                         }
                     }
                 }
                 Spacer()
+                ZStack(alignment: .trailing) {
+                    if let trailingView = cell.trailingView {
+                        if trailingView != .none {
+                            Image(uiImage: trailingView.icon!)
+                                .resizable()
+                                .foregroundColor(Color(trailingView == .disclosureIndicator ? tokens.disclosureIconForegroundColor : tokens.trailingItemForegroundColor))
+                                .frame(width: trailingView == .disclosureIndicator ? tokens.disclosureSize : tokens.iconSize,
+                                       height: trailingView == .disclosureIndicator ? tokens.disclosureSize : tokens.iconSize)
+                                .padding(.leading, trailingView == .disclosureIndicator ? tokens.disclosureInterspace : tokens.iconInterspace)
+                        }
+                    }
+                }
             }
             .padding(.leading, tokens.horizontalCellPadding)
             .padding(.trailing, tokens.horizontalCellPadding)
@@ -190,6 +210,10 @@ open class MSFListVnext: NSObject {
 
     @objc open var state: MSFListVnextState {
         return hostingController.rootView.state
+    }
+
+    @objc open var cells: [MSFListVnextCell] {
+        return hostingController.rootView.cells
     }
 
     @objc public init(cells: [MSFListVnextCell],

@@ -76,7 +76,9 @@
     MSFListVnextCell *listCell3 = [[MSFListVnextCell alloc] init];
     listCell3.title = @"Sample Title3";
     listCell3.subtitle = @"Sample Subtitle3";
-    listCell3.leadingView = [UIImage imageNamed:@"excelIcon"];
+    UIImage *image = [UIImage imageNamed:@"excelIcon"];
+    listCell3.leadingView = image;
+    listCell3.trailingView = MSFTableViewCellAccessoryTypeDisclosureIndicator;
     NSArray *cells = @[listCell1, listCell2, listCell3];
     
     MSFListVnext *list = [[MSFListVnext alloc] initWithCells:cells layoutType:MSFListCellVnextHeightTwoLines iconStyle:MSFListIconVnextStyleNone];

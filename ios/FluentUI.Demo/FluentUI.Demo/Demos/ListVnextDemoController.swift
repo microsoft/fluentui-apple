@@ -14,6 +14,7 @@ class ListVnextDemoController: DemoController {
         var section: TableViewCellSampleData.Section
         var cell: TableViewCellSampleData.Item
         let numSections = sections.count - 1
+        let numRows = TableViewCellSampleData.numberOfItemsInSection - 1
 
         var list: MSFListVnext
         var listItem: MSFListVnextCell
@@ -22,16 +23,41 @@ class ListVnextDemoController: DemoController {
 
         for count in 0...numSections {
             section = sections[count]
-            cell = section.item
-            listItem = MSFListVnextCell()
-            listItem.title = cell.text1
-            listItem.subtitle = cell.text2
-            listItem.leadingView = UIImage(named: cell.image)
-            listItems = [listItem, listItem, listItem, listItem, listItem]
-            list = MSFListVnext(cells: listItems, layoutType: updateLayout(subtitle: listItem.subtitle), iconStyle: iconStyle)
+
+            listItems = []
+            for row in 0...numRows {
+                cell = section.item
+                listItem = MSFListVnextCell()
+                listItem.handler = showAlertForCellTapped
+                listItem.title = cell.text1
+                listItem.subtitle = cell.text2
+                listItem.leadingView = UIImage(named: cell.image)
+                listItem.trailingView = accessoryType(for: row)
+                listItems.append(listItem)
+            }
+
+            list = MSFListVnext(cells: listItems, layoutType: updateLayout(subtitle: listItems[0].subtitle), iconStyle: iconStyle)
             addRow(items: [list.view])
         }
         container.addArrangedSubview(UIView())
+    }
+
+    private func accessoryType(for indexPath: Int) -> TableViewCellAccessoryType {
+        // Demo accessory types based on indexPath row
+        switch indexPath {
+        case 0:
+            return .none
+        case 1:
+            return .disclosureIndicator
+        case 2:
+            return .detailButton
+        case 3:
+            return .checkmark
+        case 4:
+            return .none
+        default:
+            return .none
+        }
     }
 
     private func updateLayout(subtitle: String?) -> MSFListCellVnextLayoutType {
@@ -40,5 +66,14 @@ class ListVnextDemoController: DemoController {
         } else {
             return MSFListCellVnextLayoutType.oneLine
         }
+    }
+
+    func showAlertForCellTapped() {
+        let alert = UIAlertController(title: "A cell was pressed",
+                                      message: nil,
+                                      preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(action)
+        present(alert, animated: true)
     }
 }
