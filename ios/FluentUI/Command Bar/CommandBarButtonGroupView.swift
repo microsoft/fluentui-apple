@@ -8,15 +8,6 @@ import UIKit
 class CommandBarButtonGroupView: UIView {
     let buttons: [CommandBarButton]
 
-    private lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: buttons)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        stackView.spacing = Constants.buttonPadding
-
-        return stackView
-    }()
-
     init(buttons: [CommandBarButton]) {
         self.buttons = buttons
 
@@ -24,7 +15,7 @@ class CommandBarButtonGroupView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
 
         clipsToBounds = true
-        layer.cornerRadius = Constants.cornerRadius
+        layer.cornerRadius = CommandBarButtonGroupView.cornerRadius
         if #available(iOS 13, *) {
             layer.cornerCurve = .continuous
         }
@@ -33,18 +24,22 @@ class CommandBarButtonGroupView: UIView {
         applyInsets()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    private lazy var stackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: buttons)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.spacing = CommandBarButtonGroupView.buttonPadding
+
+        return stackView
+    }()
 }
 
 private extension CommandBarButtonGroupView {
-    struct Constants {
-        static let cornerRadius: CGFloat = 8
-        static let buttonPadding: CGFloat = 2
-        static let leftRightBuffer: CGFloat = 2
-    }
-
     func configureHierarchy() {
         addSubview(stackView)
         NSLayoutConstraint.activate([
@@ -56,7 +51,11 @@ private extension CommandBarButtonGroupView {
     }
 
     func applyInsets() {
-        buttons.first?.contentEdgeInsets.left += Constants.leftRightBuffer
-        buttons.last?.contentEdgeInsets.right += Constants.leftRightBuffer
+        buttons.first?.contentEdgeInsets.left += CommandBarButtonGroupView.leftRightBuffer
+        buttons.last?.contentEdgeInsets.right += CommandBarButtonGroupView.leftRightBuffer
     }
+
+    static let cornerRadius: CGFloat = 8
+    static let buttonPadding: CGFloat = 2
+    static let leftRightBuffer: CGFloat = 2
 }

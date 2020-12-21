@@ -8,8 +8,6 @@ import UIKit
 class CommandBarButton: UIButton {
     let item: CommandBarItem
 
-    private let isFixed: Bool
-
     override var isHighlighted: Bool {
         didSet {
             updateStyle()
@@ -38,11 +36,12 @@ class CommandBarButton: UIButton {
         setImage(item.iconImage, for: .normal)
 
         accessibilityLabel = item.accessibilityLabel
-        contentEdgeInsets = Constants.contentEdgeInsets
+        contentEdgeInsets = CommandBarButton.contentEdgeInsets
 
         updateState()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -51,16 +50,11 @@ class CommandBarButton: UIButton {
         isEnabled = item.isEnabled
         isSelected = !isFixed && item.isSelected
     }
+
+    private let isFixed: Bool
 }
 
 private extension CommandBarButton {
-    struct Constants {
-        static let contentEdgeInsets = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
-        static let normalTintColor: UIColor = Colors.textPrimary
-        static let normalBackgroundColor = UIColor(light: Colors.gray50, dark: Colors.gray600)
-        static let highlightedBackgroundColor = UIColor(light: Colors.gray100, dark: Colors.gray900)
-    }
-
     var selectedTintColor: UIColor {
         guard let window = window else {
             return Colors.communicationBlue
@@ -78,7 +72,7 @@ private extension CommandBarButton {
     }
 
     func updateStyle() {
-        tintColor = isSelected ? selectedTintColor : Constants.normalTintColor
+        tintColor = isSelected ? selectedTintColor : CommandBarButton.normalTintColor
 
         if isFixed {
             backgroundColor = .clear
@@ -86,10 +80,15 @@ private extension CommandBarButton {
             if isSelected {
                 backgroundColor = selectedBackgroundColor
             } else if isHighlighted {
-                backgroundColor = Constants.highlightedBackgroundColor
+                backgroundColor = CommandBarButton.highlightedBackgroundColor
             } else {
-                backgroundColor = Constants.normalBackgroundColor
+                backgroundColor = CommandBarButton.normalBackgroundColor
             }
         }
     }
+
+    static let contentEdgeInsets = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
+    static let normalTintColor: UIColor = Colors.textPrimary
+    static let normalBackgroundColor = UIColor(light: Colors.gray50, dark: Colors.gray600)
+    static let highlightedBackgroundColor = UIColor(light: Colors.gray100, dark: Colors.gray900)
 }

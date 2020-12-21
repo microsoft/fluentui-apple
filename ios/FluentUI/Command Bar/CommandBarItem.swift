@@ -8,17 +8,6 @@ import UIKit
 public typealias CommandBarItemGroup = [CommandBarItem]
 
 open class CommandBarItem: NSObject {
-    public var iconImage: UIImage?
-    public var isEnabled: Bool
-    public var isSelected: Bool {
-        didSet {
-            if isSelected, !isPersistSelection {
-                isSelected = false
-            }
-        }
-    }
-    public var isPersistSelection: Bool
-
     public init(
         iconImage: UIImage?,
         isEnabled: Bool = true,
@@ -35,4 +24,15 @@ open class CommandBarItem: NSObject {
 
         self.accessibilityLabel = accessbilityLabel
     }
+
+    public var iconImage: UIImage?
+    public var isEnabled: Bool
+    public var isSelected: Bool {
+        didSet {
+            if isSelected, !isPersistSelection {
+                isSelected = false
+            }
+        }
+    }
+    public var isPersistSelection: Bool
 }

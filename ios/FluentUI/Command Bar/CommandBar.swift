@@ -18,12 +18,52 @@ open class CommandBar: UIView {
     // |  |  |  |--stackView
     // |  |  |  |  |--buttons (fill scrollView content)
 
-    // MARK: Public Properties
+    // MARK: - Public methods
+    public init(itemGroups: [CommandBarItemGroup], leadingItem: CommandBarItem? = nil, trailingItem: CommandBarItem? = nil) {
+        self.itemGroups = itemGroups
 
+        super.init(frame: .zero)
+
+        if let leadingItem = leadingItem {
+            self.leadingButton = button(forItem: leadingItem, isFixed: true)
+        }
+        if let trailingItem = trailingItem {
+            self.trailingButton = button(forItem: trailingItem, isFixed: true)
+        }
+
+        translatesAutoresizingMaskIntoConstraints = false
+
+        configureHierarchy()
+        updateButtonsState()
+    }
+
+    @available(*, unavailable)
+    public required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    @objc public func updateButtonsState() {
+        for button in itemsToButtonsMap.values {
+            button.updateState()
+        }
+    }
+
+    // MARK: Public properties
     @objc public weak var delegate: CommandBarDelegate?
 
-    // MARK: Private Properties
+    // MARK: Overrides
+    public override var intrinsicContentSize: CGSize {
+        .zero
+    }
 
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+
+        containerMaskLayer.frame = containerView.bounds
+        updateContainerMask()
+    }
+
+    // MARK: - Private properties
     private let itemGroups: [CommandBarItemGroup]
 
     private lazy var itemsToButtonsMap: [CommandBarItem: CommandBarButton] = {
@@ -35,8 +75,7 @@ open class CommandBar: UIView {
                             .map { ($0.item, $0) })
     }()
 
-    // MARK: - Views and Layers
-
+    // MARK: Views and Layers
     private lazy var containerView: UIView = {
         let containerView = UIView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
@@ -58,9 +97,9 @@ open class CommandBar: UIView {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentInset = UIEdgeInsets(
             top: 0,
-            left: leadingButton == nil ? Constants.insets.left : Constants.buttonSpacing - Constants.horizontalButtonInset,
+            left: leadingButton == nil ? CommandBar.insets.left : CommandBar.buttonSpacing - CommandBar.horizontalButtonInset,
             bottom: 0,
-            right: trailingButton == nil ? Constants.insets.right : Constants.buttonSpacing - Constants.horizontalButtonInset
+            right: trailingButton == nil ? CommandBar.insets.right : CommandBar.buttonSpacing - CommandBar.horizontalButtonInset
         )
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
@@ -85,7 +124,7 @@ open class CommandBar: UIView {
 
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.spacing = Constants.buttonSpacing
+        stackView.spacing = CommandBar.buttonSpacing
 
         return stackView
     }()
@@ -114,72 +153,17 @@ open class CommandBar: UIView {
 
         return layer
     }()
-
-    // MARK: - Init
-
-    public init(itemGroups: [CommandBarItemGroup], leadingItem: CommandBarItem? = nil, trailingItem: CommandBarItem? = nil) {
-        self.itemGroups = itemGroups
-
-        super.init(frame: .zero)
-
-        if let leadingItem = leadingItem {
-            self.leadingButton = button(forItem: leadingItem, isFixed: true)
-        }
-        if let trailingItem = trailingItem {
-            self.trailingButton = button(forItem: trailingItem, isFixed: true)
-        }
-
-        translatesAutoresizingMaskIntoConstraints = false
-
-        configureHierarchy()
-        updateButtonsState()
-    }
-
-    @available(*, unavailable)
-    public required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    public override var intrinsicContentSize: CGSize {
-        .zero
-    }
-
-    // MARK: Overrides
-
-    public override func layoutSubviews() {
-        super.layoutSubviews()
-
-        containerMaskLayer.frame = containerView.bounds
-        updateContainerMask()
-    }
-
-    // MARK: - Public methods
-
-    @objc public func updateButtonsState() {
-        for button in itemsToButtonsMap.values {
-            button.updateState()
-        }
-    }
 }
 
 // MARK: - Scroll view delegate
-
 extension CommandBar: UIScrollViewDelegate {
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         updateContainerMask()
     }
 }
 
-// MARK: - Private methods
-
+// MARK: - Private members
 private extension CommandBar {
-    struct Constants {
-        static let fadeViewWidth: CGFloat = 24
-        static let horizontalButtonInset: CGFloat = 4
-        static let buttonSpacing: CGFloat = 16.0
-        static let insets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
-    }
-
     func configureHierarchy() {
         addSubview(containerView)
 
@@ -190,7 +174,7 @@ private extension CommandBar {
                 leftButton.centerYAnchor.constraint(equalTo: centerYAnchor),
 
                 leftButton.topAnchor.constraint(equalTo: containerView.topAnchor),
-                leftButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.insets.left),
+                leftButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: CommandBar.insets.left),
                 containerView.bottomAnchor.constraint(equalTo: leftButton.bottomAnchor)
             ])
         }
@@ -203,14 +187,14 @@ private extension CommandBar {
 
                 rightButton.topAnchor.constraint(equalTo: containerView.topAnchor),
                 containerView.bottomAnchor.constraint(equalTo: rightButton.bottomAnchor),
-                trailingAnchor.constraint(equalTo: rightButton.trailingAnchor, constant: Constants.insets.right)
+                trailingAnchor.constraint(equalTo: rightButton.trailingAnchor, constant: CommandBar.insets.right)
             ])
         }
 
         // Button container layout constrants
         let containerLeadingConstraint: NSLayoutConstraint = {
             if let leftButton = leadingButton {
-                return containerView.leadingAnchor.constraint(equalTo: leftButton.trailingAnchor, constant: Constants.horizontalButtonInset)
+                return containerView.leadingAnchor.constraint(equalTo: leftButton.trailingAnchor, constant: CommandBar.horizontalButtonInset)
             } else {
                 return containerView.leadingAnchor.constraint(equalTo: leadingAnchor)
             }
@@ -218,7 +202,7 @@ private extension CommandBar {
 
         let containerTrailingConstraint: NSLayoutConstraint = {
             if let rightButton = trailingButton {
-                return rightButton.leadingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: Constants.horizontalButtonInset)
+                return rightButton.leadingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: CommandBar.horizontalButtonInset)
             } else {
                 return trailingAnchor.constraint(equalTo: containerView.trailingAnchor)
             }
@@ -227,8 +211,8 @@ private extension CommandBar {
         NSLayoutConstraint.activate([
             containerView.centerYAnchor.constraint(equalTo: centerYAnchor),
 
-            containerView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: Constants.insets.top),
-            bottomAnchor.constraint(greaterThanOrEqualTo: containerView.bottomAnchor, constant: Constants.insets.bottom),
+            containerView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: CommandBar.insets.top),
+            bottomAnchor.constraint(greaterThanOrEqualTo: containerView.bottomAnchor, constant: CommandBar.insets.bottom),
 
             containerLeadingConstraint,
             containerTrailingConstraint
@@ -250,13 +234,13 @@ private extension CommandBar {
         if leadingButton != nil {
             let leadingOffset = max(0, scrollView.contentOffset.x)
             let percentage = min(1, leadingOffset / scrollView.contentInset.left)
-            locations[1] = Constants.fadeViewWidth / containerView.frame.width * percentage
+            locations[1] = CommandBar.fadeViewWidth / containerView.frame.width * percentage
         }
 
         if trailingButton != nil {
             let trailingOffset = max(0, stackView.frame.width - scrollView.frame.width - scrollView.contentOffset.x)
             let percentage = min(1, trailingOffset / scrollView.contentInset.right)
-            locations[2] = 1 - Constants.fadeViewWidth / containerView.frame.width * percentage
+            locations[2] = 1 - CommandBar.fadeViewWidth / containerView.frame.width * percentage
         }
 
         containerMaskLayer.locations = locations.map { NSNumber(value: Float($0)) }
@@ -284,4 +268,9 @@ private extension CommandBar {
             delegate?.commandBar?(self, didDeselectItem: sender.item)
         }
     }
+
+    static let fadeViewWidth: CGFloat = 24
+    static let horizontalButtonInset: CGFloat = 4
+    static let buttonSpacing: CGFloat = 16.0
+    static let insets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
 }
