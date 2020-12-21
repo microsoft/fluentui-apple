@@ -219,6 +219,14 @@ private extension CommandBar {
         ])
 
         stackView.layoutIfNeeded()
+
+        if UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft {
+            // Flip the scroll view to flip scrolling direction. Flip its content back because it's already in RTL.
+            let flipTransform = CGAffineTransform(scaleX: -1, y: 1)
+            scrollView.transform = flipTransform
+            stackView.transform = flipTransform
+            containerMaskLayer.setAffineTransform(flipTransform)
+        }
     }
 
     func button(forItem item: CommandBarItem, isFixed: Bool = false) -> CommandBarButton {
