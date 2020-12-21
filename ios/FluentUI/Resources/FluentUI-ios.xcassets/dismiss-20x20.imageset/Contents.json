@@ -1,15 +1,16 @@
 {
-  "images" : [
+  "images": [
     {
-      "idiom" : "universal",
-      "filename" : "ic_fluent_dismiss_20_regular.pdf"
+      "filename": "ic_fluent_dismiss_20_filled.pdf",
+      "idiom": "universal"
     }
   ],
-  "info" : {
-    "version" : 1,
-    "author" : "xcode"
+  "info": {
+    "author": "xcode",
+    "version": 1
   },
-  "properties" : {
-    "template-rendering-intent" : "template"
+  "properties": {
+    "preserves-vector-representation": true,
+    "template-rendering-intent": "template"
   }
 }
