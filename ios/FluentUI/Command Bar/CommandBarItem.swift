@@ -27,6 +27,8 @@ open class CommandBarItem: NSObject {
 
     public var iconImage: UIImage?
     public var isEnabled: Bool
+
+    /// If `isPersistSelection` is `true`, this value would be changed to reflect the selection state of the button. Setting this value before providing to `CommandBar` would set the initial selection state.
     public var isSelected: Bool {
         didSet {
             if isSelected, !isPersistSelection {
@@ -34,5 +36,7 @@ open class CommandBarItem: NSObject {
             }
         }
     }
+
+    /// Whether the selection state is persisted. If this is set to `false`, the button would be deselected immediately after selection.
     public var isPersistSelection: Bool
 }

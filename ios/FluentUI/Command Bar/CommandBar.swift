@@ -5,11 +5,16 @@
 
 import UIKit
 
+/**
+ `CommandBar` is a horizontal scrollable list of icon buttons divided by groups.
+ Provide `itemGroups` in `init` to set the buttons in the scrollable area. Optional `leadingItem` and `trailingItem` add fixed buttons in leading and trailing positions. Each `CommandBarItem` will be represented as a button.
+ Set the `delegate` property to determine whether a button can be selected and deselected, and listen to selection changes.
+ */
 @objc(MSFCommandBar)
 open class CommandBar: UIView {
     // Hierarchy:
     //
-    // closeButton
+    // leadingButton
     // containerView
     // |--layer.mask -> containerMaskLayer (fill containerView)
     // |--subviews
@@ -17,8 +22,10 @@ open class CommandBar: UIView {
     // |  |  |--subviews
     // |  |  |  |--stackView
     // |  |  |  |  |--buttons (fill scrollView content)
+    // trailingButton
 
     // MARK: - Public methods
+
     public init(itemGroups: [CommandBarItemGroup], leadingItem: CommandBarItem? = nil, trailingItem: CommandBarItem? = nil) {
         self.itemGroups = itemGroups
 
@@ -42,6 +49,7 @@ open class CommandBar: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    /// Apply `isEnabled` and `isSelected` state from `CommandBarItem` to the buttons
     @objc public func updateButtonsState() {
         for button in itemsToButtonsMap.values {
             button.updateState()
@@ -49,9 +57,11 @@ open class CommandBar: UIView {
     }
 
     // MARK: Public properties
+
     @objc public weak var delegate: CommandBarDelegate?
 
     // MARK: Overrides
+
     public override var intrinsicContentSize: CGSize {
         .zero
     }
@@ -60,22 +70,22 @@ open class CommandBar: UIView {
         super.layoutSubviews()
 
         containerMaskLayer.frame = containerView.bounds
-        updateContainerMask()
+        updateShadow()
     }
 
     // MARK: - Private properties
+
     private let itemGroups: [CommandBarItemGroup]
 
     private lazy var itemsToButtonsMap: [CommandBarItem: CommandBarButton] = {
         let allButtons = itemGroups.flatMap({ $0 }).map({ button(forItem: $0) }) +
             [leadingButton, trailingButton].compactMap({ $0 })
 
-        return Dictionary(uniqueKeysWithValues:
-                            allButtons
-                            .map { ($0.item, $0) })
+        return Dictionary(uniqueKeysWithValues: allButtons.map { ($0.item, $0) })
     }()
 
     // MARK: Views and Layers
+
     private lazy var containerView: UIView = {
         let containerView = UIView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
@@ -120,7 +130,7 @@ open class CommandBar: UIView {
     }()
 
     private lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: buttonGroups)
+        let stackView = UIStackView(arrangedSubviews: buttonGroupViews)
 
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
@@ -129,7 +139,7 @@ open class CommandBar: UIView {
         return stackView
     }()
 
-    private lazy var buttonGroups: [CommandBarButtonGroupView] = {
+    private lazy var buttonGroupViews: [CommandBarButtonGroupView] = {
         itemGroups.map { items in
             CommandBarButtonGroupView(buttons: items.compactMap { item in
                 guard let button = itemsToButtonsMap[item] else {
@@ -145,24 +155,27 @@ open class CommandBar: UIView {
     private var trailingButton: CommandBarButton?
 
     private let containerMaskLayer: CAGradientLayer = {
+        // A mask layer using alpha color channel.
         let layer = CAGradientLayer()
         layer.colors = [UIColor.clear, UIColor.white, UIColor.white, UIColor.clear].map { $0.cgColor }
         layer.startPoint = CGPoint(x: 0, y: 0.5)
         layer.endPoint = CGPoint(x: 1, y: 0.5)
-        layer.locations = [0, 0, 1]
+        layer.locations = [0, 0, 1] // Initially the entire layer is white color, so the view is not masked.
 
         return layer
     }()
 }
 
 // MARK: - Scroll view delegate
+
 extension CommandBar: UIScrollViewDelegate {
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        updateContainerMask()
+        updateShadow()
     }
 }
 
 // MARK: - Private members
+
 private extension CommandBar {
     func configureHierarchy() {
         addSubview(containerView)
@@ -179,7 +192,6 @@ private extension CommandBar {
 
         if let trailingButton = trailingButton {
             addSubview(trailingButton)
-
             NSLayoutConstraint.activate([
                 trailingButton.topAnchor.constraint(equalTo: containerView.topAnchor),
                 containerView.bottomAnchor.constraint(equalTo: trailingButton.bottomAnchor),
@@ -205,10 +217,8 @@ private extension CommandBar {
         }()
 
         NSLayoutConstraint.activate([
-            containerView.centerYAnchor.constraint(equalTo: centerYAnchor),
-
-            containerView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: CommandBar.insets.top),
-            bottomAnchor.constraint(greaterThanOrEqualTo: containerView.bottomAnchor, constant: CommandBar.insets.bottom),
+            containerView.topAnchor.constraint(equalTo: topAnchor, constant: CommandBar.insets.top),
+            bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: CommandBar.insets.bottom),
 
             containerLeadingConstraint,
             containerTrailingConstraint
@@ -217,7 +227,7 @@ private extension CommandBar {
         stackView.layoutIfNeeded()
 
         if UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft {
-            // Flip the scroll view to flip scrolling direction. Flip its content back because it's already in RTL.
+            // Flip the scroll view to invert scrolling direction. Flip its content back because it's already in RTL.
             let flipTransform = CGAffineTransform(scaleX: -1, y: 1)
             scrollView.transform = flipTransform
             stackView.transform = flipTransform
@@ -232,7 +242,7 @@ private extension CommandBar {
         return button
     }
 
-    func updateContainerMask() {
+    func updateShadow() {
         var locations: [CGFloat] = [0, 0, 1]
 
         if leadingButton != nil {
