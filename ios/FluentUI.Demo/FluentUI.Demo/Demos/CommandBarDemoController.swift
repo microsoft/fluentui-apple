@@ -85,6 +85,13 @@ class CommandBarDemoController: DemoController {
 
             super.init(iconImage: command.iconImage, isEnabled: isEnabled, isSelected: isSelected, isPersistSelection: command.isPersistSelection)
         }
+
+        @available(iOS 14.0, *)
+        init(command: Command, isEnabled: Bool = true, isSelected: Bool = false, menu: UIMenu, showsMenuAsPrimaryAction: Bool = false) {
+            self.command = command
+
+            super.init(iconImage: command.iconImage, isEnabled: isEnabled, isSelected: isSelected, isPersistSelection: command.isPersistSelection, menu: menu, showsMenuAsPrimaryAction: showsMenuAsPrimaryAction)
+        }
     }
 
     let textField: UITextField = {
@@ -99,6 +106,7 @@ class CommandBarDemoController: DemoController {
         super.viewDidLoad()
         container.layoutMargins.right = 0
         container.layoutMargins.left = 0
+        view.backgroundColor = Colors.surfaceSecondary
 
         let itemGroups: [CommandBarItemGroup] = [
             [
@@ -127,6 +135,14 @@ class CommandBarDemoController: DemoController {
                 Item(command: .link)
             ]
         ]
+
+        if #available(iOS 14.0, *) {
+            // Copy item
+            let copyItem = itemGroups[3][0]
+            copyItem.menu = UIMenu(children: [UIAction(title: "Copy Image", image: UIImage(named: "copy24Regular"), handler: { _ in }),
+                                              UIAction(title: "Copy Text", image: UIImage(named: "text24Regular"), handler: { _ in })])
+            copyItem.showsMenuAsPrimaryAction = true
+        }
 
         container.addArrangedSubview(createLabelWithText("Default"))
 

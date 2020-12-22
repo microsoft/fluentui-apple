@@ -38,6 +38,11 @@ class CommandBarButton: UIButton {
         accessibilityLabel = item.accessibilityLabel
         contentEdgeInsets = CommandBarButton.contentEdgeInsets
 
+        if #available(iOS 14.0, *) {
+            menu = item.menu
+            showsMenuAsPrimaryAction = item.showsMenuAsPrimaryAction
+        }
+
         updateState()
     }
 

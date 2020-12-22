@@ -25,6 +25,28 @@ open class CommandBarItem: NSObject {
         self.accessibilityLabel = accessbilityLabel
     }
 
+    @available(iOS 14.0, *)
+    public init(
+        iconImage: UIImage?,
+        isEnabled: Bool = true,
+        isSelected: Bool = false,
+        isPersistSelection: Bool = true,
+        menu: UIMenu,
+        showsMenuAsPrimaryAction: Bool = false,
+        accessbilityLabel: String? = nil
+    ) {
+        self.iconImage = iconImage
+        self.isEnabled = isEnabled
+        self.isSelected = isSelected
+        self.isPersistSelection = isPersistSelection
+
+        super.init()
+
+        self.menu = menu
+        self.showsMenuAsPrimaryAction = showsMenuAsPrimaryAction
+        self.accessibilityLabel = accessbilityLabel
+    }
+
     public var iconImage: UIImage?
     public var isEnabled: Bool
 
@@ -39,4 +61,10 @@ open class CommandBarItem: NSObject {
 
     /// Whether the selection state is persisted. If this is set to `false`, the button would be deselected immediately after selection.
     public var isPersistSelection: Bool
+
+    @available(iOS 14.0, *)
+    public lazy var menu: UIMenu? = nil // Only lazy property can be used with @available
+
+    @available(iOS 14.0, *)
+    public lazy var showsMenuAsPrimaryAction: Bool = false
 }
