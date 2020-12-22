@@ -9,9 +9,26 @@ import SwiftUI
 @objc(DrawerState)
 
 public class DrawerState: NSObject, ObservableObject {
+    weak var delegate: DrawerStateDelegate?
     @objc @Published public var presentationDirection: DrawerDirection = .left
-    @objc @Published public var isExpanded: Bool = false
+    @objc @Published public var isExpanded: Bool = false {
+        didSet {
+            if isExpanded {
+                delegate?.drawerDidExpand?()
+            } else {
+                delegate?.drawerDidCollapsed?()
+            }
+        }
+    }
     @objc @Published public var backgroundDimmed: Bool = false
+}
+
+@objc(DrawerStateDelegate)
+
+// State delegate is currently required to notify hosting viewcontroller about expansion
+protocol DrawerStateDelegate: AnyObject {
+    @objc optional func drawerDidExpand()
+    @objc optional func drawerDidCollapsed()
 }
 
 public class DrawerTokens: ObservableObject {
@@ -108,7 +125,6 @@ public struct Drawer<Content: View>: View {
                     Spacer()
                 }
             }
-            .onTapGesture { state.isExpanded.toggle() }
             .background(state.isExpanded ? backgroundLayerColor.opacity(backgroundLayerOpacity) : Color.clear)
             .gesture(dragGesture(snapWidth: reader.size.width * percentSnapWidthOfScreen))
         }
@@ -138,57 +154,37 @@ public struct Drawer<Content: View>: View {
 /**
  `DrawerHost` is UIKit wrapper required to host UIViewController as content.
  */
-public struct DrawerHost {
+public struct DrawerModal {
 
     public struct DrawerShimView: View {
 
-        private var drawer: Drawer<DrawerContentView>
-        private var presentationController: DrawerPresentationViewController
+        private var drawer: Drawer<DrawerContentViewController>
 
         public var drawerState: DrawerState {
             return drawer.state
         }
 
-        init(contentView: UIView, controller: UIViewController) {
-            drawer = Drawer(content: DrawerContentView(contentView: contentView))
-            presentationController = DrawerPresentationViewController(controller: controller)
+        init(contentViewController: UIViewController) {
+            drawer = Drawer(content: DrawerContentViewController(contentViewController: contentViewController))
         }
 
         public var body: some View {
             ZStack {
-                presentationController
                 drawer.edgesIgnoringSafeArea(.all)
             }
         }
     }
 
-    public struct DrawerContentView: UIViewRepresentable {
+    public struct DrawerContentViewController: UIViewControllerRepresentable {
 
-        private var contentView: UIView
+        private var contentView: UIViewController
 
-        init(contentView: UIView) {
-            self.contentView = contentView
-        }
-
-        public func makeUIView(context: Context) -> UIView {
-            return contentView
-        }
-
-        public func updateUIView(_ uiView: UIView, context: Context) {}
-
-        public typealias UIViewType = UIView
-    }
-
-    public struct DrawerPresentationViewController: UIViewControllerRepresentable {
-
-        private var presentationController: UIViewController
-
-        init(controller: UIViewController) {
-            self.presentationController = controller
+        init(contentViewController: UIViewController) {
+            self.contentView = contentViewController
         }
 
         public func makeUIViewController(context: Context) -> UIViewController {
-            return presentationController
+            return contentView
         }
 
         public func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
@@ -200,18 +196,71 @@ public struct DrawerHost {
 @objc(MSFDrawerVnext)
 
 /// UIKit wrapper that exposes the SwiftUI Drawer implementation
-open class MSFDrawerVnext: UIHostingController<DrawerHost.DrawerShimView> {
+open class DrawerVnext: UIHostingController<DrawerModal.DrawerShimView> {
 
     @objc open var drawerState: DrawerState {
         return self.rootView.drawerState
     }
 
-    @objc public init(contentView: UIView, presentationController: UIViewController) {
-        super.init(rootView: DrawerHost.DrawerShimView(contentView: contentView,
-                                                       controller: presentationController))
+    @objc public init(contentViewController: UIViewController) {
+        super.init(rootView: DrawerModal.DrawerShimView(contentViewController: contentViewController))
+        transitioningDelegate = self
+        drawerState.delegate = self
+        view.backgroundColor = .clear
+        modalPresentationStyle = .overFullScreen
     }
 
     @objc required dynamic public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+}
+
+extension DrawerVnext: DrawerStateDelegate {
+    // two way binding if state is changed
+    func drawerDidCollapsed() {
+        dismiss(animated: true)
+    }
+}
+
+extension DrawerVnext: UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
+    public func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+        return 0
+    }
+
+    public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+
+        let fromView = transitionContext.viewController(forKey: .from)!.view!
+        let toView = transitionContext.viewController(forKey: .to)!.view!
+
+        let isPresentingDrawer = toView == view
+
+        let drawerView = isPresentingDrawer ? toView : fromView
+
+        // delegate animation to swiftui by changing state
+        if isPresentingDrawer {
+            transitionContext.containerView.addSubview(drawerView)
+            drawerView.frame = UIScreen.main.bounds
+            // Added a static interval as currently swiftui doesn't have an animation completion callback
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
+                if let strongSelf = self {
+                    strongSelf.drawerState.isExpanded = isPresentingDrawer
+                }
+                transitionContext.completeTransition(true)
+            }
+        } else {
+            self.drawerState.isExpanded = isPresentingDrawer
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+                drawerView.removeFromSuperview()
+                transitionContext.completeTransition(true)
+            }
+        }
+    }
+
+    public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return self
+    }
+
+    public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return self
     }
 }

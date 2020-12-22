@@ -40,6 +40,11 @@ class DrawerContentController: DemoController {
     @objc private func dismissNotAnimatedButtonTapped() {
         dismiss(animated: false)
     }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view = containerForActionViews()
+    }
 }
 
 extension UIStackView {
@@ -51,9 +56,9 @@ extension UIStackView {
     }
 }
 
-class DrawerPresentingController: DemoController {
+class DrawerVnextDemoController: DemoController {
 
-    public weak var delegate: DrawerPresentationDelegate?
+    private var drawerController: DrawerVnext?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,22 +94,40 @@ class DrawerPresentingController: DemoController {
         let trailingEdgeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleScreenEdgePan))
         trailingEdgeGesture.edges = view.effectiveUserInterfaceLayoutDirection == .leftToRight ? .right : .left
         view.addGestureRecognizer(trailingEdgeGesture)
+
+        drawerController = DrawerVnext(contentViewController: DrawerContentController())
     }
 
-    @objc private func showLeftDrawerClearBackgroundButtonTapped(sender: UIButton) {
-        delegate?.showLeftDrawerClearBackgroundSelected()
+    @objc private func showLeftDrawerClearBackgroundButtonTapped() {
+        if let drawerController = drawerController {
+            drawerController.drawerState.backgroundDimmed = false
+            drawerController.drawerState.presentationDirection = .left
+            present(drawerController, animated: true, completion: nil)
+        }
     }
 
-    @objc private func showLeftDrawerDimmedBackgroundButtonTapped(sender: UIButton) {
-        delegate?.showLeftDrawerDimmedBackgroundSelected()
+    @objc private func showLeftDrawerDimmedBackgroundButtonTapped() {
+        if let drawerController = drawerController {
+            drawerController.drawerState.backgroundDimmed = true
+            drawerController.drawerState.presentationDirection = .left
+            present(drawerController, animated: true, completion: nil)
+        }
     }
 
-    @objc private func showRightDrawerClearBackgroundButtonTapped(sender: UIButton) {
-        delegate?.showRightDrawerClearBackgroundSelected()
+    @objc private func showRightDrawerClearBackgroundButtonTapped() {
+        if let drawerController = drawerController {
+            drawerController.drawerState.backgroundDimmed = false
+            drawerController.drawerState.presentationDirection = .right
+            present(drawerController, animated: true, completion: nil)
+        }
     }
 
-    @objc private func showRightDrawerDimmedBackgroundButtonTapped(sender: UIButton) {
-        delegate?.showRightDrawerDimmedBackgroundSelected()
+    @objc private func showRightDrawerDimmedBackgroundButtonTapped() {
+        if let drawerController = drawerController {
+            drawerController.drawerState.backgroundDimmed = true
+            drawerController.drawerState.presentationDirection = .right
+            present(drawerController, animated: true, completion: nil)
+        }
     }
 
     @objc private func handleScreenEdgePan(gesture: UIScreenEdgePanGestureRecognizer) {
@@ -114,55 +137,9 @@ class DrawerPresentingController: DemoController {
 
         let leadingEdge: UIRectEdge = view.effectiveUserInterfaceLayoutDirection == .leftToRight ? .left : .right
         if leadingEdge == .left {
-            delegate?.showLeftDrawerDimmedBackgroundSelected()
+            self.showLeftDrawerDimmedBackgroundButtonTapped()
         } else {
-            delegate?.showRightDrawerDimmedBackgroundSelected()
+            self.showRightDrawerDimmedBackgroundButtonTapped()
         }
-    }
-}
-
-public protocol DrawerPresentationDelegate: AnyObject {
-    func showLeftDrawerClearBackgroundSelected()
-    func showLeftDrawerDimmedBackgroundSelected()
-    func showRightDrawerClearBackgroundSelected()
-    func showRightDrawerDimmedBackgroundSelected()
-}
-
-// MARK: VNTDrawerDemoController
-
-extension MSFDrawerVnext: DrawerPresentationDelegate {
-
-    @objc public override convenience init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        let presentationController = DrawerPresentingController()
-
-        self.init(contentView: DrawerContentController().containerForActionViews(),
-                  presentationController: presentationController)
-
-        presentationController.delegate = self
-
-    }
-
-    public func showLeftDrawerClearBackgroundSelected() {
-        self.drawerState.backgroundDimmed = false
-        self.drawerState.presentationDirection = .left
-        self.drawerState.isExpanded.toggle()
-    }
-
-    public func showLeftDrawerDimmedBackgroundSelected() {
-        self.drawerState.backgroundDimmed = true
-        self.drawerState.presentationDirection = .left
-        self.drawerState.isExpanded.toggle()
-    }
-
-    public func showRightDrawerClearBackgroundSelected() {
-        self.drawerState.backgroundDimmed = false
-        self.drawerState.presentationDirection = .right
-        self.drawerState.isExpanded.toggle()
-    }
-
-    public func showRightDrawerDimmedBackgroundSelected() {
-        self.drawerState.backgroundDimmed = true
-        self.drawerState.presentationDirection = .right
-        self.drawerState.isExpanded.toggle()
     }
 }
