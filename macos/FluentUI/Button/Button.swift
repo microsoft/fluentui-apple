@@ -188,6 +188,7 @@ open class Button: NSButton {
 	}
 
 	open override func mouseUp(with event: NSEvent) {
+		_ = target?.perform(action, with: event)
 		mouseDown = false
 	}
 
