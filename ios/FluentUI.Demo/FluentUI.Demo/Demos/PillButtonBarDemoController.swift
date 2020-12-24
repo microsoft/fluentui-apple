@@ -36,7 +36,7 @@ class PillButtonBarDemoController: DemoController {
 
         container.addArrangedSubview(createLabelWithText("Filled With Custom Pills Background"))
         addRow(items: [createLabelWithText("Enable/Disable pills in custom Filled Pill Bar"), disableCustomFilledSwitchView], itemSpacing: 20, centerItems: true)
-        let customBar = createBar(items: items, style: .filled, useCustomPillsBackground: true)
+        let customBar = createBar(items: items, style: .filled, useCustomPillsColors: true)
         container.addArrangedSubview(customBar)
         self.customBar = customBar
         container.addArrangedSubview(UIView())
@@ -82,8 +82,13 @@ class PillButtonBarDemoController: DemoController {
         }
     }
 
-    func createBar(items: [PillButtonBarItem], style: PillButtonStyle = .outline, centerAligned: Bool = false, disabledItems: Bool = false, useCustomPillsBackground: Bool = false) -> UIView {
-        let bar = PillButtonBar(pillButtonStyle: style, pillButtonBackgroundColor: useCustomPillsBackground ? Colors.Palette.communicationBlueShade30.color : nil)
+    func createBar(items: [PillButtonBarItem], style: PillButtonStyle = .outline, centerAligned: Bool = false, disabledItems: Bool = false, useCustomPillsColors: Bool = false) -> UIView {
+        let pillButtonBackgroundColor = useCustomPillsColors ? Colors.Palette.communicationBlueShade10.color : nil
+        let pillSelectedButtonBackgroundColor = useCustomPillsColors ? Colors.Palette.communicationBlueShade30.color : nil
+        let pillButtonTextColor = useCustomPillsColors ? Colors.Palette.red20.color : nil
+        let pillSelectedButtontextColor = useCustomPillsColors ? Colors.Palette.pinkRed10.color : nil
+
+        let bar = PillButtonBar(pillButtonStyle: style, pillButtonBackgroundColor: pillButtonBackgroundColor, selectedPillButtonBackgroundColor: pillSelectedButtonBackgroundColor, pillButtonTextColor: pillButtonTextColor, selectedPillButtonTextColor: pillSelectedButtontextColor)
         bar.items = items
         _ = bar.selectItem(atIndex: 0)
         bar.barDelegate = self
