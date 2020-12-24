@@ -116,6 +116,9 @@ open class PillButtonBar: UIScrollView {
     }()
 
     private var customPillButtonBackgroundColor: UIColor?
+    private var customSelectedPillButtonBackgroundColor: UIColor?
+    private var customPillButtonTextColor: UIColor?
+    private var customSelectedPillButtonTextColor: UIColor?
 
     private var leadingConstraint: NSLayoutConstraint?
 
@@ -143,7 +146,7 @@ open class PillButtonBar: UIScrollView {
         self.init(pillButtonStyle: pillButtonStyle, pillButtonBackgroundColor: nil)
     }
 
-    @objc public init(pillButtonStyle: PillButtonStyle = .outline, pillButtonBackgroundColor: UIColor? = nil) {
+    @objc public init(pillButtonStyle: PillButtonStyle = .outline, pillButtonBackgroundColor: UIColor? = nil, selectedPillButtonBackgroundColor: UIColor? = nil, pillButtonTextColor: UIColor? = nil, selectedPillButtonTextColor: UIColor? = nil) {
         self.pillButtonStyle = pillButtonStyle
         self.customPillButtonBackgroundColor = pillButtonBackgroundColor
         super.init(frame: .zero)
@@ -239,6 +242,18 @@ open class PillButtonBar: UIScrollView {
             button.accessibilityHint = String(format: "Accessibility.MSPillButtonBar.Hint".localized, index + 1, items.count)
             if let customButtonBackgroundColor = self.customPillButtonBackgroundColor {
                 button.customBackgroundColor = customButtonBackgroundColor
+            }
+            
+            if let customSelectedButtonBackgroundColor = self.customSelectedPillButtonBackgroundColor {
+                button.customSelectedBackgroundColor = customSelectedButtonBackgroundColor
+            }
+            
+            if let customButtonTextColor = self.customPillButtonTextColor {
+                button.customTextColor = customButtonTextColor
+            }
+            
+            if let customSelectedButtonTextColor = self.customSelectedPillButtonTextColor {
+                button.customSelectedTextColor = customSelectedButtonTextColor
             }
         }
     }

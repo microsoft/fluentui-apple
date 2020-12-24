@@ -128,6 +128,27 @@ open class PillButton: UIButton {
             updateAppearance()
         }
     }
+    
+    /// Set `selectedBackgroundColor` to customize background color of the pill button
+    @objc open var customSelectedBackgroundColor: UIColor? {
+        didSet {
+            updateAppearance()
+        }
+    }
+    
+    /// Set `textColor` to customize background color of the pill button
+    @objc open var customTextColor: UIColor? {
+        didSet {
+            updateAppearance()
+        }
+    }
+    
+    /// Set `selectedTextColor` to customize background color of the pill button
+    @objc open var customSelectedTextColor: UIColor? {
+        didSet {
+            updateAppearance()
+        }
+    }
 
     @objc public init(pillBarItem: PillButtonBarItem, style: PillButtonStyle = .outline) {
         self.pillBarItem = pillBarItem
@@ -182,8 +203,17 @@ open class PillButton: UIButton {
         if let window = window {
             if isSelected {
                 if isEnabled {
-                    backgroundColor = style.selectedBackgroundColor(for: window)
-                    setTitleColor(style.selectedTitleColor(for: window), for: .normal)
+                    if let customSelectedBackgroundColor = customSelectedBackgroundColor {
+                        backgroundColor = customSelectedBackgroundColor
+                    } else {
+                        backgroundColor = style.selectedBackgroundColor(for: window)
+                    }
+                    
+                    if let customSelectedTextColor = customSelectedTextColor {
+                        setTitleColor(customSelectedTextColor, for: .normal)
+                    } else {
+                        setTitleColor(style.selectedTitleColor(for: window), for: .normal)
+                    }
                 } else {
                     backgroundColor = style.selectedDisabledBackgroundColor(for: window)
                     setTitleColor(style.selectedDisabledTitleColor(for: window), for: .normal)
@@ -196,7 +226,11 @@ open class PillButton: UIButton {
                 }
 
                 if isEnabled {
-                    setTitleColor(style.titleColor, for: .normal)
+                    if let customTextColor = customTextColor {
+                        setTitleColor(customTextColor, for: .normal)
+                    } else {
+                        setTitleColor(style.titleColor, for: .normal)
+                    }
                 } else {
                     setTitleColor(style.disabledTitleColor(for: window), for: .disabled)
                 }
