@@ -361,7 +361,7 @@ open class ShimmerView: UIView {
 public extension Colors {
     struct Shimmer {
         public static var darkGradient: UIColor = .black
-        public static var gradientCenter: UIColor = .init(light: .white, dark: gray950)
-        public static var tint: UIColor = Colors.Palette.gray400.color
+        public static var gradientCenter = UIColor(light: .white, dark: gray950)
+        public static var tint = UIColor(light: surfaceTertiary, lightHighContrast: Colors.Palette.gray400.color, dark: surfaceQuaternary, darkHighContrast: Colors.Palette.gray400.color)
     }
 }
