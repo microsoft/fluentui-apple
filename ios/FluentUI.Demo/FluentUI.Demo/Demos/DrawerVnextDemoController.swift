@@ -137,9 +137,9 @@ class DrawerVnextDemoController: DemoController {
 
         let leadingEdge: UIRectEdge = view.effectiveUserInterfaceLayoutDirection == .leftToRight ? .left : .right
         if leadingEdge == .left {
-            self.showLeftDrawerDimmedBackgroundButtonTapped()
-        } else {
             self.showRightDrawerDimmedBackgroundButtonTapped()
+        } else {
+            self.showLeftDrawerClearBackgroundButtonTapped()
         }
     }
 }

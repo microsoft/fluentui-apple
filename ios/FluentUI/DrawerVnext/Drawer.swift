@@ -107,26 +107,30 @@ public struct Drawer<Content: View>: View {
     }
 
     public var body: some View {
-        GeometryReader { reader in
+        GeometryReader { proxy in
             HStack {
                 if state.presentationDirection == .right {
-                    Spacer()
+                    InteractiveSpacer().onTapGesture {
+                        state.isExpanded.toggle()
+                    }
                 }
                 content
-                    .frame(width: reader.size.width * percentWidthOfContent)
+                    .frame(width: proxy.portraitOrientationAgnosticSize().width * percentWidthOfContent)
                     .shadow(color: tokens.shadowColor.opacity(state.isExpanded ? tokens.shadowOpacity : 0),
                             radius: tokens.shadowBlur,
                             x: tokens.shadowDepth[0],
                             y: tokens.shadowDepth[1])
-                    .offset(x: computedOffset(screenSize: reader.size))
+                    .offset(x: computedOffset(screenSize: proxy.portraitOrientationAgnosticSize()))
                     .animation(backgroundLayerAnimation)
 
                 if state.presentationDirection == .left {
-                    Spacer()
+                    InteractiveSpacer().onTapGesture {
+                        state.isExpanded.toggle()
+                    }
                 }
             }
             .background(state.isExpanded ? backgroundLayerColor.opacity(backgroundLayerOpacity) : Color.clear)
-            .gesture(dragGesture(snapWidth: reader.size.width * percentSnapWidthOfScreen))
+            .gesture(dragGesture(snapWidth: proxy.portraitOrientationAgnosticSize().width * percentSnapWidthOfScreen))
         }
     }
 
@@ -148,6 +152,25 @@ public struct Drawer<Content: View>: View {
                     self.draggedOffsetWidth = nil
                 }
             }
+    }
+}
+
+extension GeometryProxy {
+    func portraitOrientationAgnosticSize() -> CGSize {
+        let isPortraitMode = self.size.width < self.size.height
+        if isPortraitMode {
+            return CGSize(width: self.size.width, height: self.size.height)
+        } else {
+            return CGSize(width: self.size.height, height: self.size.width)
+        }
+    }
+}
+
+public struct InteractiveSpacer: View {
+    public var body: some View {
+        ZStack {
+            Color.black.opacity(0.001)
+        }
     }
 }
 
