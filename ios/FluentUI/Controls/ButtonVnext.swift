@@ -55,13 +55,20 @@ public class MSFButtonTokens: ObservableObject {
     @Published public var disabledBackgroundColor: UIColor!
     @Published public var disabledIconColor: UIColor!
 
-    var style: MSFButtonVnextStyle!
-    var size: MSFButtonVnextSize!
+    var style: MSFButtonVnextStyle
+    var size: MSFButtonVnextSize
+    var theme: FluentUIStyle {
+        didSet {
+            didChangeAppearanceProxy()
+        }
+    }
 
     public init(style: MSFButtonVnextStyle,
-                size: MSFButtonVnextSize) {
+                size: MSFButtonVnextSize
+    ) {
         self.style = style
         self.size = size
+        self.theme = ThemeKey.defaultValue
         self.themeAware = true
 
         didChangeAppearanceProxy()
@@ -72,13 +79,11 @@ public class MSFButtonTokens: ObservableObject {
 
         switch style {
         case .primary:
-            appearanceProxy = StylesheetManager.S.PrimaryButtonTokens
+            appearanceProxy = theme.PrimaryButtonTokens
         case .secondary:
-            appearanceProxy = StylesheetManager.S.SecondaryButtonTokens
+            appearanceProxy = theme.SecondaryButtonTokens
         case .ghost:
-            appearanceProxy = StylesheetManager.S.GhostButtonTokens
-        case .none:
-            appearanceProxy = StylesheetManager.S.MSFButtonTokens
+            appearanceProxy = theme.GhostButtonTokens
         }
 
         titleColor = appearanceProxy.textColor.rest
@@ -97,7 +102,7 @@ public class MSFButtonTokens: ObservableObject {
         disabledIconColor = appearanceProxy.iconColor.disabled
 
         switch size {
-        case .large, .none:
+        case .large:
             borderRadius = appearanceProxy.borderRadius.large
             borderSize = appearanceProxy.borderSize.large
             iconSize = appearanceProxy.iconSize.large
@@ -142,17 +147,17 @@ public struct MSFButtonViewButtonStyle: ButtonStyle {
                 }
 
             if let text = state.text {
-                    Text(text)
-                        .font(Font(tokens.textFont))
-                        .fontWeight(.medium)
-                        .multilineTextAlignment(.center)
+                Text(text)
+                    .font(Font(tokens.textFont))
+                    .fontWeight(.medium)
+                    .multilineTextAlignment(.center)
                 }
         }
         .padding(tokens.padding)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .foregroundColor(Color(isDisabled ? tokens.disabledTitleColor :
                                 (isPressed ? tokens.highlightedTitleColor : tokens.titleColor)))
-                    .background((tokens.borderSize > 0) ?
+        .background((tokens.borderSize > 0) ?
                         AnyView(RoundedRectangle(cornerRadius: tokens.borderRadius)
                                     .strokeBorder(lineWidth: tokens.borderSize, antialiased: false)
                                     .foregroundColor(Color(isDisabled ? tokens.disabledBorderColor :
@@ -168,15 +173,18 @@ public struct MSFButtonViewButtonStyle: ButtonStyle {
 /// View that represents the button
 public struct MSFButtonView: View {
     var action: () -> Void
+    var windowProvider: FluentUIWindowProvider?
     @ObservedObject var tokens: MSFButtonTokens
     @ObservedObject var state: MSFButtonVnextState
+    @Environment(\.theme) var theme: FluentUIStyle
 
     public init(action: @escaping () -> Void,
                 style: MSFButtonVnextStyle,
-                size: MSFButtonVnextSize) {
+                size: MSFButtonVnextSize
+    ) {
         self.action = action
-        self.tokens = MSFButtonTokens(style: style, size: size)
         self.state = MSFButtonVnextState()
+        self.tokens = MSFButtonTokens(style: style, size: size)
     }
 
     public var body: some View {
@@ -184,41 +192,94 @@ public struct MSFButtonView: View {
             .buttonStyle(MSFButtonViewButtonStyle(targetButton: self))
             .disabled(state.isDisabled)
             .frame(maxWidth: .infinity)
+            .onAppear {
+                // Uses the window theme if available unless there is a theme explicitly overriden
+                // through an environment value for the hierarchy that it is contained in.
+                if let window = windowProvider?.window, theme == ThemeKey.defaultValue {
+                    self.tokens.theme = StylesheetManager.stylesheet(for: window)
+                } else {
+                    self.tokens.theme = theme
+                }
+            }
     }
 }
 
 @objc(MSFButtonVnext)
 /// UIKit wrapper that exposes the SwiftUI Button implementation
-open class MSFButtonVnext: NSObject {
+open class MSFButtonVnext: NSObject, FluentUIWindowProvider {
 
-    private var hostingController: UIHostingController<MSFButtonView>!
+    private var hostingController: UIHostingController<AnyView>!
+
+    private var buttonView: MSFButtonView!
 
     @objc open var action: ((_ sender: MSFButtonVnext) -> Void)?
+
+    @objc open var state: MSFButtonVnextState {
+        return self.buttonView.state
+    }
 
     @objc open var view: UIView {
         return hostingController.view
     }
 
-    @objc open var state: MSFButtonVnextState {
-        return self.hostingController.rootView.state
+    public var window: UIWindow? {
+        return self.view.window
+    }
+
+    @objc public convenience init(style: MSFButtonVnextStyle = .secondary,
+                                  size: MSFButtonVnextSize = .large,
+                                  action: ((_ sender: MSFButtonVnext) -> Void)?) {
+        self.init(style: style,
+                  size: size,
+                  action: action,
+                  theme: nil)
     }
 
     @objc public init(style: MSFButtonVnextStyle = .secondary,
                       size: MSFButtonVnextSize = .large,
-                      action: ((_ sender: MSFButtonVnext) -> Void)?) {
+                      action: ((_ sender: MSFButtonVnext) -> Void)?,
+                      theme: FluentUIStyle? = nil) {
         super.init()
-        initialize(style: style, size: size, action: action)
+        initialize(style: style,
+                   size: size,
+                   action: action,
+                   theme: theme)
     }
 
     private func initialize(style: MSFButtonVnextStyle = .secondary,
                             size: MSFButtonVnextSize = .large,
-                            action: ((_ sender: MSFButtonVnext) -> Void)?) {
+                            action: ((_ sender: MSFButtonVnext) -> Void)?,
+                            theme: FluentUIStyle? = nil) {
         self.action = action
-        self.hostingController = UIHostingController(rootView: MSFButtonView(action: {
+        buttonView = MSFButtonView(action: {
             self.action?(self)
         },
         style: style,
-        size: size))
+        size: size)
+        buttonView.windowProvider = self
+
+        self.hostingController = UIHostingController(rootView: theme != nil ? AnyView(buttonView.usingTheme(theme!)) : AnyView(buttonView))
         self.view.backgroundColor = UIColor.clear
+    }
+}
+
+public protocol FluentUIWindowProvider {
+    var window: UIWindow? { get }
+}
+
+private struct ThemeKey: EnvironmentKey {
+    static var defaultValue: FluentUIStyle = StylesheetManager.S
+}
+
+extension EnvironmentValues {
+    var theme: FluentUIStyle {
+        get { self[ThemeKey.self] }
+        set { self[ThemeKey.self] = newValue }
+    }
+}
+
+extension View {
+    func usingTheme(_ theme: FluentUIStyle) -> some View {
+        environment(\.theme, theme)
     }
 }

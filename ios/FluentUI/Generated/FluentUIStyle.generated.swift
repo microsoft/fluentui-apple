@@ -258,6 +258,19 @@ extension StylesheetManagerTheming {
 }
 
 @objcMembers public class StylesheetManager: NSObject, StylesheetManagerTheming {
+    private static var stylesheetsMap = NSMapTable<UIWindow, FluentUIStyle>(keyOptions: .weakMemory, valueOptions: .strongMemory)
+
+    public class func stylesheet(for window: UIWindow) -> FluentUIStyle {
+        if let stylesheet = stylesheetsMap.object(forKey: window) {
+            return stylesheet
+        }
+
+        let newStylesheet = FluentUIStyle()
+        stylesheetsMap.setObject(newStylesheet, forKey: window)
+
+        return newStylesheet
+    }
+
 	dynamic public class func stylesheet(_ stylesheet: FluentUIStyle) -> FluentUIStyle {
 		return currentTheme()
 	}
@@ -301,7 +314,7 @@ extension StylesheetManagerTheming {
 	public var _AccentAvatarTokens: AccentAvatarTokensAppearanceProxy?
 	open func AccentAvatarTokensStyle() -> AccentAvatarTokensAppearanceProxy {
 		if let override = _AccentAvatarTokens { return override }
-			return AccentAvatarTokensAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+			return AccentAvatarTokensAppearanceProxy(proxy: { return self })
 		}
 	public var AccentAvatarTokens: AccentAvatarTokensAppearanceProxy {
 		get { return self.AccentAvatarTokensStyle() }
@@ -331,7 +344,7 @@ extension StylesheetManagerTheming {
 	public var _AvatarTokens: AvatarTokensAppearanceProxy?
 	open func AvatarTokensStyle() -> AvatarTokensAppearanceProxy {
 		if let override = _AvatarTokens { return override }
-			return AvatarTokensAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+			return AvatarTokensAppearanceProxy(proxy: { return self })
 		}
 	public var AvatarTokens: AvatarTokensAppearanceProxy {
 		get { return self.AvatarTokensStyle() }
@@ -1117,7 +1130,7 @@ extension StylesheetManagerTheming {
 	public var _Border: BorderAppearanceProxy?
 	open func BorderStyle() -> BorderAppearanceProxy {
 		if let override = _Border { return override }
-			return BorderAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+			return BorderAppearanceProxy(proxy: { return self })
 		}
 	public var Border: BorderAppearanceProxy {
 		get { return self.BorderStyle() }
@@ -1279,7 +1292,7 @@ extension StylesheetManagerTheming {
 	public var _Colors: ColorsAppearanceProxy?
 	open func ColorsStyle() -> ColorsAppearanceProxy {
 		if let override = _Colors { return override }
-			return ColorsAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+			return ColorsAppearanceProxy(proxy: { return self })
 		}
 	public var Colors: ColorsAppearanceProxy {
 		get { return self.ColorsStyle() }
@@ -2503,7 +2516,7 @@ extension StylesheetManagerTheming {
 	public var _GhostButtonTokens: GhostButtonTokensAppearanceProxy?
 	open func GhostButtonTokensStyle() -> GhostButtonTokensAppearanceProxy {
 		if let override = _GhostButtonTokens { return override }
-			return GhostButtonTokensAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+			return GhostButtonTokensAppearanceProxy(proxy: { return self })
 		}
 	public var GhostButtonTokens: GhostButtonTokensAppearanceProxy {
 		get { return self.GhostButtonTokensStyle() }
@@ -2554,7 +2567,7 @@ extension StylesheetManagerTheming {
 	public var _GroupAvatarTokens: GroupAvatarTokensAppearanceProxy?
 	open func GroupAvatarTokensStyle() -> GroupAvatarTokensAppearanceProxy {
 		if let override = _GroupAvatarTokens { return override }
-			return GroupAvatarTokensAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+			return GroupAvatarTokensAppearanceProxy(proxy: { return self })
 		}
 	public var GroupAvatarTokens: GroupAvatarTokensAppearanceProxy {
 		get { return self.GroupAvatarTokensStyle() }
@@ -2611,7 +2624,7 @@ extension StylesheetManagerTheming {
 	public var _Icon: IconAppearanceProxy?
 	open func IconStyle() -> IconAppearanceProxy {
 		if let override = _Icon { return override }
-			return IconAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+			return IconAppearanceProxy(proxy: { return self })
 		}
 	public var Icon: IconAppearanceProxy {
 		get { return self.IconStyle() }
@@ -2755,7 +2768,7 @@ extension StylesheetManagerTheming {
 	public var _MSFButtonTokens: MSFButtonTokensAppearanceProxy?
 	open func MSFButtonTokensStyle() -> MSFButtonTokensAppearanceProxy {
 		if let override = _MSFButtonTokens { return override }
-			return MSFButtonTokensAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+			return MSFButtonTokensAppearanceProxy(proxy: { return self })
 		}
 	public var MSFButtonTokens: MSFButtonTokensAppearanceProxy {
 		get { return self.MSFButtonTokensStyle() }
@@ -3369,7 +3382,7 @@ extension StylesheetManagerTheming {
 	public var _Opacity: OpacityAppearanceProxy?
 	open func OpacityStyle() -> OpacityAppearanceProxy {
 		if let override = _Opacity { return override }
-			return OpacityAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+			return OpacityAppearanceProxy(proxy: { return self })
 		}
 	public var Opacity: OpacityAppearanceProxy {
 		get { return self.OpacityStyle() }
@@ -3484,7 +3497,7 @@ extension StylesheetManagerTheming {
 	public var _OutlinedAvatarTokens: OutlinedAvatarTokensAppearanceProxy?
 	open func OutlinedAvatarTokensStyle() -> OutlinedAvatarTokensAppearanceProxy {
 		if let override = _OutlinedAvatarTokens { return override }
-			return OutlinedAvatarTokensAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+			return OutlinedAvatarTokensAppearanceProxy(proxy: { return self })
 		}
 	public var OutlinedAvatarTokens: OutlinedAvatarTokensAppearanceProxy {
 		get { return self.OutlinedAvatarTokensStyle() }
@@ -3514,7 +3527,7 @@ extension StylesheetManagerTheming {
 	public var _OutlinedPrimaryAvatarTokens: OutlinedPrimaryAvatarTokensAppearanceProxy?
 	open func OutlinedPrimaryAvatarTokensStyle() -> OutlinedPrimaryAvatarTokensAppearanceProxy {
 		if let override = _OutlinedPrimaryAvatarTokens { return override }
-			return OutlinedPrimaryAvatarTokensAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+			return OutlinedPrimaryAvatarTokensAppearanceProxy(proxy: { return self })
 		}
 	public var OutlinedPrimaryAvatarTokens: OutlinedPrimaryAvatarTokensAppearanceProxy {
 		get { return self.OutlinedPrimaryAvatarTokensStyle() }
@@ -3544,7 +3557,7 @@ extension StylesheetManagerTheming {
 	public var _OverflowAvatarTokens: OverflowAvatarTokensAppearanceProxy?
 	open func OverflowAvatarTokensStyle() -> OverflowAvatarTokensAppearanceProxy {
 		if let override = _OverflowAvatarTokens { return override }
-			return OverflowAvatarTokensAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+			return OverflowAvatarTokensAppearanceProxy(proxy: { return self })
 		}
 	public var OverflowAvatarTokens: OverflowAvatarTokensAppearanceProxy {
 		get { return self.OverflowAvatarTokensStyle() }
@@ -3580,7 +3593,7 @@ extension StylesheetManagerTheming {
 	public var _PrimaryButtonTokens: PrimaryButtonTokensAppearanceProxy?
 	open func PrimaryButtonTokensStyle() -> PrimaryButtonTokensAppearanceProxy {
 		if let override = _PrimaryButtonTokens { return override }
-			return PrimaryButtonTokensAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+			return PrimaryButtonTokensAppearanceProxy(proxy: { return self })
 		}
 	public var PrimaryButtonTokens: PrimaryButtonTokensAppearanceProxy {
 		get { return self.PrimaryButtonTokensStyle() }
@@ -3709,7 +3722,7 @@ extension StylesheetManagerTheming {
 	public var _SecondaryButtonTokens: SecondaryButtonTokensAppearanceProxy?
 	open func SecondaryButtonTokensStyle() -> SecondaryButtonTokensAppearanceProxy {
 		if let override = _SecondaryButtonTokens { return override }
-			return SecondaryButtonTokensAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+			return SecondaryButtonTokensAppearanceProxy(proxy: { return self })
 		}
 	public var SecondaryButtonTokens: SecondaryButtonTokensAppearanceProxy {
 		get { return self.SecondaryButtonTokensStyle() }
@@ -3787,7 +3800,7 @@ extension StylesheetManagerTheming {
 	public var _Spacing: SpacingAppearanceProxy?
 	open func SpacingStyle() -> SpacingAppearanceProxy {
 		if let override = _Spacing { return override }
-			return SpacingAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+			return SpacingAppearanceProxy(proxy: { return self })
 		}
 	public var Spacing: SpacingAppearanceProxy {
 		get { return self.SpacingStyle() }
@@ -3924,7 +3937,7 @@ extension StylesheetManagerTheming {
 	public var _Typography: TypographyAppearanceProxy?
 	open func TypographyStyle() -> TypographyAppearanceProxy {
 		if let override = _Typography { return override }
-			return TypographyAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+			return TypographyAppearanceProxy(proxy: { return self })
 		}
 	public var Typography: TypographyAppearanceProxy {
 		get { return self.TypographyStyle() }
@@ -3962,7 +3975,7 @@ extension StylesheetManagerTheming {
 	public var ___TextStyle: __TextStyleAppearanceProxy?
 	open func __TextStyleStyle() -> __TextStyleAppearanceProxy {
 		if let override = ___TextStyle { return override }
-			return __TextStyleAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+			return __TextStyleAppearanceProxy(proxy: { return self })
 		}
 	public var __TextStyle: __TextStyleAppearanceProxy {
 		get { return self.__TextStyleStyle() }

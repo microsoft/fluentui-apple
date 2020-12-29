@@ -8,6 +8,8 @@ import UIKit
 @available(iOS 13.0, *)
 class SceneDelegate: UIResponder, UIWindowSceneDelegate, ColorThemeHosting {
     var window: UIWindow?
+    var colorProvider = DemoColorThemeGreenWindow()
+
     weak var windowScene: UIWindowScene?
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         windowScene = scene as? UIWindowScene
@@ -19,5 +21,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, ColorThemeHosting {
         DemoListViewController.addDemoListTo(window: newWindow, pushing: viewController)
         window = newWindow
 
+        Colors.setProvider(provider: colorProvider, for: window!)
     }
 }

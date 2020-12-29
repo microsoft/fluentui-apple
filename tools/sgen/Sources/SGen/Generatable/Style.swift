@@ -135,11 +135,11 @@ extension Style: Generatable {
                 if isNested && isNestedInExternal.0 == false {
                     injectedProxy = "proxy: mainProxy"
                 } else if isExternalOverride || (isInjected && extendsStylesheetName != nil)  {
-                    injectedProxy = "proxy: { return \(namespace)\(extendsStylesheetName!).shared() }"
+                    injectedProxy = "proxy: { return self }"
                 } else if isNestedInExternal.isOverride {
-                    injectedProxy = "proxy: { return \(namespace)\(belongsToStylesheetName!).shared() }"
+                    injectedProxy = "proxy: { return self }"
                 } else {
-                    injectedProxy = "proxy: { return \(belongsToStylesheetName!).shared() }"
+                    injectedProxy = "proxy: { return self }"
                 }
                 
                 wrapper +=
