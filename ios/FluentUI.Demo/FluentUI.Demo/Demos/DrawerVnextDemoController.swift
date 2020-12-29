@@ -18,8 +18,16 @@ class DrawerContentController: DemoController {
         spacer.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
 
         var views = [UIView]()
-        views.append(createButton(title: "Dismiss", action: #selector(dismissButtonTapped)))
-        views.append(createButton(title: "Dismiss (no animation)", action: #selector(dismissNotAnimatedButtonTapped)))
+        views.append(createButton(title: "Dismiss", action: { [weak self ] _ in
+            if let strongSelf = self {
+                strongSelf.dismissButtonTapped()
+            }
+        }).view)
+        views.append(createButton(title: "Dismiss (no animation)", action: { [weak self ] _ in
+            if let strongSelf = self {
+                strongSelf.dismissNotAnimatedButtonTapped()
+            }
+        }).view)
         views.append(spacer)
         return views
     }
@@ -66,16 +74,32 @@ class DrawerVnextDemoController: DemoController {
         addTitle(text: "Left/Right Drawer")
         addRow(
             items: [
-                createButton(title: "Show from leading with clear background", action: #selector(showLeftDrawerClearBackgroundButtonTapped)),
-                createButton(title: "Show from trailing with clear background", action: #selector(showRightDrawerClearBackgroundButtonTapped))
+                createButton(title: "Show from leading with clear background", action: { [weak self ] _ in
+                    if let strongSelf = self {
+                        strongSelf.showLeftDrawerClearBackgroundButtonTapped()
+                    }
+                }).view,
+                createButton(title: "Show from trailing with clear background", action: { [weak self ] _ in
+                    if let strongSelf = self {
+                        strongSelf.showRightDrawerClearBackgroundButtonTapped()
+                    }
+                }).view
             ],
             itemSpacing: Constants.verticalSpacing,
             stretchItems: true
         )
         addRow(
             items: [
-                createButton(title: "Show from leading with dimmed background", action: #selector(showLeftDrawerDimmedBackgroundButtonTapped)),
-                createButton(title: "Show from trailing with dimmed background", action: #selector(showRightDrawerDimmedBackgroundButtonTapped))
+                createButton(title: "Show from leading with dimmed background", action: { [weak self ] _ in
+                    if let strongSelf = self {
+                        strongSelf.showLeftDrawerDimmedBackgroundButtonTapped()
+                    }
+                }).view,
+                createButton(title: "Show from trailing with dimmed background", action: { [weak self ] _ in
+                    if let strongSelf = self {
+                        strongSelf.showRightDrawerDimmedBackgroundButtonTapped()
+                    }
+                }).view
             ],
             itemSpacing: Constants.verticalSpacing,
             stretchItems: true
