@@ -7,16 +7,16 @@ import UIKit
 import SwiftUI
 
 ///Properties that make up cell content
-@objc(MSFListVnextCell)
-public class MSFListVnextCell: NSObject, ObservableObject, Identifiable {
+@objc(MSFListVnextCellData)
+public class MSFListVnextCellData: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
-    @objc @Published public var leadingView: UIImage?
+    @objc @Published public var leadingIcon: UIImage?
     @objc @Published public var title: String = ""
     @objc @Published public var subtitle: String?
-    @objc @Published public var trailingView: TableViewCellAccessoryType = .none
+    @objc @Published public var trailingIcon: MSFListAccessoryType = .none
     @objc @Published public var titleLineLimit: Int = 1
     @objc @Published public var subtitleLineLimit: Int = 1
-    @objc @Published public var handler: (() -> Void)?
+    @objc public var onTapAction: (() -> Void)?
 }
 
 ///Properties that make up list content
@@ -31,6 +31,31 @@ public class MSFListVnextState: NSObject, ObservableObject {
 public enum MSFListIconVnextStyle: Int, CaseIterable {
     case none
     case iconOnly
+    case large
+}
+
+@objc(MSFListAccessoryType)
+/// Pre-defined types of icons
+public enum MSFListAccessoryType: Int, CaseIterable {
+    case none
+    case disclosure
+    case detailButton
+    case checkmark
+
+    var icon: UIImage? {
+        let icon: UIImage?
+        switch self {
+        case .none:
+            icon = nil
+        case .disclosure:
+            icon = UIImage.staticImageNamed("iOS-chevron-right-20x20")
+        case .detailButton:
+            icon = UIImage.staticImageNamed("more-24x24")
+        case .checkmark:
+            icon = UIImage.staticImageNamed("checkmark-24x24")
+        }
+        return icon
+    }
 }
 
 @objc(MSFListCellVnextHeight)
@@ -69,7 +94,7 @@ public class MSFListTokens: ObservableObject {
     @Published public var horizontalCellPadding: CGFloat!
     @Published public var iconInterspace: CGFloat!
     @Published public var iconSize: CGFloat!
-    @Published public var largeIconSize: CGFloat!
+//    @Published public var largeIconSize: CGFloat!
     @Published public var subtitleFont: UIFont!
     @Published public var textFont: UIFont!
 
@@ -108,57 +133,66 @@ public class MSFListTokens: ObservableObject {
         disclosureSize = appearanceProxy.disclosureSize
         horizontalCellPadding = appearanceProxy.horizontalCellPadding
         iconInterspace = appearanceProxy.iconInterspace
-        iconSize = appearanceProxy.iconSize.icon
-        largeIconSize = appearanceProxy.iconSize.largeIcon
-        subtitleFont = appearanceProxy.textFont.subLabel
-        textFont = appearanceProxy.textFont.label
+        iconSize = iconStyle == MSFListIconVnextStyle.large ? appearanceProxy.iconSize.large : appearanceProxy.iconSize.default
+        subtitleFont = appearanceProxy.sublabelFont
+        textFont = appearanceProxy.labelFont
     }
 }
 
 public struct MSFListView: View {
-    var cells: [MSFListVnextCell]
     @ObservedObject var state: MSFListVnextState
     @ObservedObject var tokens: MSFListTokens
+    var cells: [MSFListVnextCellData]
 
-    public init(cells: [MSFListVnextCell],
+    public init(cells: [MSFListVnextCellData],
                 layoutType: MSFListCellVnextLayoutType,
                 iconStyle: MSFListIconVnextStyle) {
-        self.cells = cells
         self.state = MSFListVnextState()
         self.tokens = MSFListTokens(layoutType: layoutType, iconStyle: iconStyle)
-
+        self.cells = cells
     }
 
     public var body: some View {
         List {
+            if state.sectionTitle != nil {
+                if #available(iOS 14.0, *) {
+                    Section(header: Header(title: state.sectionTitle ?? "", tokens: tokens)) {}
+                        .textCase(.none)
+                        .listRowInsets(EdgeInsets())
+                        .padding(.leading, tokens.horizontalCellPadding)
+                        .padding(.trailing, tokens.horizontalCellPadding)
+                        .background(Color.white)
+                } else {
+                    Section(header: Text(state.sectionTitle ?? "")) {}
+                }
+            }
             ForEach(cells, id: \.self) { item in
                 MSFListCellView(cell: item, tokens: tokens)
-                    .onTapGesture(perform: item.handler ?? {})
+                    .border(state.hasBorder ? Color(tokens.borderColor) : Color.clear, width: state.hasBorder ? tokens.borderSize : 0)
+                    .fixedSize()
             }
-            .border(state.hasBorder ? Color(tokens.borderColor) : Color.clear, width: state.hasBorder ? tokens.borderSize : 0)
-            .frame(minHeight: tokens.layoutType.height)
-            .listRowInsets(EdgeInsets())
         }
-        .frame(width: UIScreen.main.bounds.width, height: 300)
         .environment(\.defaultMinListRowHeight, 0)
+        .frame(width: .infinity)
     }
 }
 
 extension MSFListView {
     /// View for List Cells
     struct MSFListCellView: View {
-        var cell: MSFListVnextCell
+        var cell: MSFListVnextCellData
         var tokens: MSFListTokens
+        @State var isTapped: Bool = false
 
-        init(cell: MSFListVnextCell, tokens: MSFListTokens) {
+        init(cell: MSFListVnextCellData, tokens: MSFListTokens) {
             self.cell = cell
             self.tokens = tokens
         }
 
         var body: some View {
             HStack(spacing: 0) {
-                if let leadingView = cell.leadingView {
-                    Image(uiImage: leadingView)
+                if let leadingIcon = cell.leadingIcon {
+                    Image(uiImage: leadingIcon)
                         .resizable()
                         .frame(width: tokens.iconSize, height: tokens.iconSize)
                         .padding(.trailing, tokens.iconInterspace)
@@ -180,21 +214,58 @@ extension MSFListView {
                     }
                 }
                 Spacer()
-                ZStack(alignment: .trailing) {
-                    if let trailingView = cell.trailingView {
-                        if trailingView != .none {
-                            Image(uiImage: trailingView.icon!)
+                HStack {
+                    if let trailingIcon = cell.trailingIcon {
+                        if trailingIcon != .none {
+                            let isDisclosure = trailingIcon == .disclosure
+                            let disclosureSize = tokens.disclosureSize
+                            let iconSize = tokens.iconSize
+                            Image(uiImage: trailingIcon.icon!)
                                 .resizable()
-                                .foregroundColor(Color(trailingView == .disclosureIndicator ? tokens.disclosureIconForegroundColor : tokens.trailingItemForegroundColor))
-                                .frame(width: trailingView == .disclosureIndicator ? tokens.disclosureSize : tokens.iconSize,
-                                       height: trailingView == .disclosureIndicator ? tokens.disclosureSize : tokens.iconSize)
-                                .padding(.leading, trailingView == .disclosureIndicator ? tokens.disclosureInterspace : tokens.iconInterspace)
+                                .foregroundColor(Color(isDisclosure ? tokens.disclosureIconForegroundColor : tokens.trailingItemForegroundColor))
+                                .frame(width: isDisclosure ? disclosureSize : iconSize,
+                                       height: isDisclosure ? disclosureSize : iconSize)
+                                .padding(.leading, isDisclosure ? tokens.disclosureInterspace : tokens.iconInterspace)
                         }
                     }
                 }
             }
+            .contentShape(Rectangle())
             .padding(.leading, tokens.horizontalCellPadding)
             .padding(.trailing, tokens.horizontalCellPadding)
+            .frame(minHeight: tokens.layoutType.height)
+            .listRowInsets(EdgeInsets())
+            .background(isTapped ? Color(tokens.highlightedBackgroundColor) : Color.clear)
+            .onTapGesture(perform: cell.onTapAction ?? {})
+            .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
+                        .onChanged { _ in
+                            isTapped = true
+                        }
+                        .onEnded { _ in
+                            isTapped = false
+                        }
+            )
+        }
+    }
+
+    struct Header: View {
+        let title: String
+        var tokens: MSFListTokens
+
+        init(title: String, tokens: MSFListTokens) {
+            self.title = title
+            self.tokens = tokens
+        }
+
+        var body: some View {
+            GeometryReader { _ in
+                HStack(spacing: 0) {
+                    Text(title)
+                        .font(Font(tokens.subtitleFont))
+                        .foregroundColor(Color(tokens.subtitleColor))
+                    Spacer()
+                }
+            }
         }
     }
 }
@@ -212,11 +283,11 @@ open class MSFListVnext: NSObject {
         return hostingController.rootView.state
     }
 
-    @objc open var cells: [MSFListVnextCell] {
+    @objc open var cells: [MSFListVnextCellData] {
         return hostingController.rootView.cells
     }
 
-    @objc public init(cells: [MSFListVnextCell],
+    @objc public init(cells: [MSFListVnextCellData],
                       layoutType: MSFListCellVnextLayoutType,
                       iconStyle: MSFListIconVnextStyle) {
         self.hostingController = UIHostingController(rootView: MSFListView(cells: cells, layoutType: layoutType, iconStyle: iconStyle))

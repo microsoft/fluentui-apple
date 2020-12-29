@@ -15,40 +15,45 @@ class ListVnextDemoController: DemoController {
         var cell: TableViewCellSampleData.Item
         let numSections = sections.count - 1
         let numRows = TableViewCellSampleData.numberOfItemsInSection - 1
+        var indexPath = IndexPath(row: 0, section: 0)
 
         var list: MSFListVnext
-        var listItem: MSFListVnextCell
-        var listItems: [MSFListVnextCell]
+        var listItem: MSFListVnextCellData
+        var listItems: [MSFListVnextCellData]
         let iconStyle = MSFListIconVnextStyle.none
 
-        for count in 0...numSections {
-            section = sections[count]
+        for sectionCount in 0...numSections {
+            section = sections[sectionCount]
 
             listItems = []
             for row in 0...numRows {
                 cell = section.item
-                listItem = MSFListVnextCell()
-                listItem.handler = showAlertForCellTapped
+                listItem = MSFListVnextCellData()
                 listItem.title = cell.text1
                 listItem.subtitle = cell.text2
-                listItem.leadingView = UIImage(named: cell.image)
-                listItem.trailingView = accessoryType(for: row)
+                listItem.leadingIcon = UIImage(named: cell.image)
+                listItem.trailingIcon = accessoryType(for: row)
+                listItem.onTapAction = {
+                    indexPath.row = row
+                    indexPath.section = sectionCount
+                    self.showAlertForCellTapped(indexPath: indexPath)
+                }
                 listItems.append(listItem)
             }
 
             list = MSFListVnext(cells: listItems, layoutType: updateLayout(subtitle: listItems[0].subtitle), iconStyle: iconStyle)
+            list.state.sectionTitle = section.title
             addRow(items: [list.view])
         }
         container.addArrangedSubview(UIView())
     }
 
-    private func accessoryType(for indexPath: Int) -> TableViewCellAccessoryType {
-        // Demo accessory types based on indexPath row
+    private func accessoryType(for indexPath: Int) -> MSFListAccessoryType {
         switch indexPath {
         case 0:
             return .none
         case 1:
-            return .disclosureIndicator
+            return .disclosure
         case 2:
             return .detailButton
         case 3:
@@ -68,8 +73,9 @@ class ListVnextDemoController: DemoController {
         }
     }
 
-    func showAlertForCellTapped() {
-        let alert = UIAlertController(title: "A cell was pressed",
+    private func showAlertForCellTapped(indexPath: IndexPath) {
+        let title = TableViewCellSampleData.sections[indexPath.section].title
+        let alert = UIAlertController(title: "Row #\(indexPath.row + 1) in the \(title) section has been pressed.",
                                       message: nil,
                                       preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)

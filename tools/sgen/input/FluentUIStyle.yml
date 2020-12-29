@@ -173,10 +173,11 @@ AP_MSFListTokens:
   horizontalCellPadding: $Spacing.medium
   iconColor: $Colors.Foreground.neutral4
   iconInterspace: $Spacing.medium
-  iconSize: [ icon: $Icon.size.medium, largeIcon: $Icon.size.xxlarge ]
+  iconSize: [ default: $Icon.size.medium, large: $Icon.size.xxlarge ]
   labelColor: $Colors.Foreground.neutral1
+  labelFont: $Typography.body
   sublabelColor: $Colors.Foreground.neutral3
-  textFont: [ label: $Typography.body, subLabel: $Typography.caption1 ]
+  sublabelFont: $Typography.caption1
   trailingItemForegroundColor: $Colors.Foreground.neutral3
 
 IconOnlyListTokens extends MSFListTokens:

@@ -150,7 +150,7 @@ public struct MSFButtonViewButtonStyle: ButtonStyle {
         .padding(tokens.padding)
         .foregroundColor(Color(isDisabled ? tokens.disabledTitleColor :
                                 (isPressed ? tokens.highlightedTitleColor : tokens.titleColor)))
-                    .background((tokens.borderSize > 0) ?
+        .background((tokens.borderSize > 0) ?
                         AnyView(RoundedRectangle(cornerRadius: tokens.borderRadius)
                             .strokeBorder(lineWidth: tokens.borderSize, antialiased: false)
                             .foregroundColor(Color(isDisabled ? tokens.disabledBorderColor :

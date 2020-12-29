@@ -68,17 +68,17 @@
     [listVnextLabel setText:@"List (vNext)"];
     [self.container addArrangedSubview:listVnextLabel];
     
-    MSFListVnextCell *listCell1 = [[MSFListVnextCell alloc] init];
+    MSFListVnextCellData *listCell1 = [[MSFListVnextCellData alloc] init];
     listCell1.title = @"Sample Title1";
-    MSFListVnextCell *listCell2 = [[MSFListVnextCell alloc] init];
+    MSFListVnextCellData *listCell2 = [[MSFListVnextCellData alloc] init];
     listCell2.title = @"Sample Title2";
     listCell2.subtitle = @"Sample Subtitle2";
-    MSFListVnextCell *listCell3 = [[MSFListVnextCell alloc] init];
+    MSFListVnextCellData *listCell3 = [[MSFListVnextCellData alloc] init];
     listCell3.title = @"Sample Title3";
     listCell3.subtitle = @"Sample Subtitle3";
     UIImage *image = [UIImage imageNamed:@"excelIcon"];
-    listCell3.leadingView = image;
-    listCell3.trailingView = MSFTableViewCellAccessoryTypeDisclosureIndicator;
+    listCell3.leadingIcon = image;
+    listCell3.trailingIcon = MSFListAccessoryTypeDisclosure;
     NSArray *cells = @[listCell1, listCell2, listCell3];
     
     MSFListVnext *list = [[MSFListVnext alloc] initWithCells:cells layoutType:MSFListCellVnextHeightTwoLines iconStyle:MSFListIconVnextStyleNone];

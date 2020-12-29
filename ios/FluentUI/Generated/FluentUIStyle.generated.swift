@@ -2558,26 +2558,26 @@ extension StylesheetManagerTheming {
 				self.mainProxy = proxy
 			}
 
-			//MARK: icon 
-			public var _icon: CGFloat?
-			open func iconProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _icon { return override }
+			//MARK: default 
+			public var _default: CGFloat?
+			open func defaultProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _default { return override }
 					return mainProxy().Icon.size.mediumProperty(traitCollection)
 				}
-			public var icon: CGFloat {
-				get { return self.iconProperty() }
-				set { _icon = newValue }
+			public var `default`: CGFloat {
+				get { return self.defaultProperty() }
+				set { _default = newValue }
 			}
 
-			//MARK: largeIcon 
-			public var _largeIcon: CGFloat?
-			open func largeIconProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _largeIcon { return override }
+			//MARK: large 
+			public var _large: CGFloat?
+			open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _large { return override }
 					return mainProxy().Icon.size.xxlargeProperty(traitCollection)
 				}
-			public var largeIcon: CGFloat {
-				get { return self.largeIconProperty() }
-				set { _largeIcon = newValue }
+			public var large: CGFloat {
+				get { return self.largeProperty() }
+				set { _large = newValue }
 			}
 		}
 
@@ -2593,6 +2593,17 @@ extension StylesheetManagerTheming {
 			set { _labelColor = newValue }
 		}
 
+		//MARK: labelFont 
+		public var _labelFont: UIFont?
+		open func labelFontProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
+			if let override = _labelFont { return override }
+			return mainProxy().Typography.bodyProperty(traitCollection)
+			}
+		public var labelFont: UIFont {
+			get { return self.labelFontProperty() }
+			set { _labelFont = newValue }
+		}
+
 		//MARK: sublabelColor 
 		public var _sublabelColor: UIColor?
 		open func sublabelColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
@@ -2604,45 +2615,16 @@ extension StylesheetManagerTheming {
 			set { _sublabelColor = newValue }
 		}
 
-		//MARK: - textFont
-		public var _textFont: textFontAppearanceProxy?
-		open func textFontStyle() -> textFontAppearanceProxy {
-			if let override = _textFont { return override }
-				return textFontAppearanceProxy(proxy: mainProxy)
+		//MARK: sublabelFont 
+		public var _sublabelFont: UIFont?
+		open func sublabelFontProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
+			if let override = _sublabelFont { return override }
+			return mainProxy().Typography.caption1Property(traitCollection)
 			}
-		public var textFont: textFontAppearanceProxy {
-			get { return self.textFontStyle() }
-			set { _textFont = newValue }
+		public var sublabelFont: UIFont {
+			get { return self.sublabelFontProperty() }
+			set { _sublabelFont = newValue }
 		}
-		@objc(MSFListTokensTextFontAppearanceProxy) @objcMembers open class textFontAppearanceProxy: NSObject {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			//MARK: label 
-			public var _label: UIFont?
-			open func labelProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
-				if let override = _label { return override }
-					return mainProxy().Typography.bodyProperty(traitCollection)
-				}
-			public var label: UIFont {
-				get { return self.labelProperty() }
-				set { _label = newValue }
-			}
-
-			//MARK: subLabel 
-			public var _subLabel: UIFont?
-			open func subLabelProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
-				if let override = _subLabel { return override }
-					return mainProxy().Typography.caption1Property(traitCollection)
-				}
-			public var subLabel: UIFont {
-				get { return self.subLabelProperty() }
-				set { _subLabel = newValue }
-			}
-		}
-
 
 		//MARK: trailingItemForegroundColor 
 		public var _trailingItemForegroundColor: UIColor?
