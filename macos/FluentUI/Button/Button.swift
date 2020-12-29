@@ -185,11 +185,14 @@ open class Button: NSButton {
 
 	open override func mouseDown(with event: NSEvent) {
 		mouseDown = true
+		super.mouseDown(with: event)
+		/// mouseUp doesn't register when super.mouseDown is called
+		self.mouseUp(with: event)
 	}
 
 	open override func mouseUp(with event: NSEvent) {
-		_ = target?.perform(action, with: event)
 		mouseDown = false
+		super.mouseUp(with: event)
 	}
 
 	open override var isEnabled: Bool {
