@@ -10,7 +10,9 @@ import SwiftUI
 
 public class DrawerState: NSObject, ObservableObject {
     weak var delegate: DrawerStateDelegate?
+    // presentation direction sets the direction for drawer slide out
     @objc @Published public var presentationDirection: DrawerDirection = .left
+    // state to expand/collpase drawer
     @objc @Published public var isExpanded: Bool = false {
         didSet {
             if isExpanded {
@@ -20,6 +22,7 @@ public class DrawerState: NSObject, ObservableObject {
             }
         }
     }
+    // if set to true background is dimmed or else by default is clear
     @objc @Published public var backgroundDimmed: Bool = false
 }
 
@@ -173,6 +176,45 @@ public struct InteractiveSpacer: View {
         }
     }
 }
+
+// Mark - Drawer Preview SwiftUI
+
+struct DrawerContent: View {
+    var body: some View {
+        ZStack {
+            Color.red
+            Text("Tap outside to collapse.")
+        }
+    }
+}
+
+struct DrawerPreview: View {
+    var drawer = Drawer(content: DrawerContent())
+    var body: some View {
+        ZStack {
+            NavigationView {
+                EmptyView()
+                    .navigationBarTitle(Text("Drawer Background"))
+                    .navigationBarItems(leading: Button(action: {
+                        drawer.state.isExpanded.toggle()
+                    }, label: {
+                        Image(systemName: "sidebar.left")
+                    })).background(Color.blue)
+            }
+            drawer
+        }
+    }
+}
+
+#if DEBUG
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        DrawerPreview()
+    }
+}
+#endif
+
+// Mark - Drawer UIKit 
 
 /**
  `DrawerHost` is UIKit wrapper required to host UIViewController as content.
