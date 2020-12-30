@@ -180,7 +180,7 @@ public struct MSFListView: View {
             }
         }
         .environment(\.defaultMinListRowHeight, 0)
-        .frame(width: UIScreen.main.bounds.width, height: 300)
+        .frame(width: .infinity)
     }
 }
 
