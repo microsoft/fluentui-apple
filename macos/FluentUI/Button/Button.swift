@@ -388,7 +388,7 @@ class ButtonCell: NSButtonCell {
 			return NSZeroRect
 		}
 
-		let isRTL = NSApp.userInterfaceLayoutDirection == .rightToLeft
+		let layoutDirectionSign : CGFloat = NSApp.userInterfaceLayoutDirection == .rightToLeft ? -1 : 1
 		let titleSize = title.size(withAttributes: [.font: font as Any])
 		let imageSize = image.size
 
@@ -406,11 +406,11 @@ class ButtonCell: NSButtonCell {
 		case .imageLeft:
 			x -= xOffsetFromTitle
 		case .imageLeading:
-			x -= (isRTL ? -1 : 1) * xOffsetFromTitle
+			x -= xOffsetFromTitle * layoutDirectionSign
 		case .imageRight:
 			x += xOffsetFromTitle
 		case .imageTrailing:
-			x += (isRTL ? -1 : 1) * xOffsetFromTitle
+			x += xOffsetFromTitle * layoutDirectionSign
 		case .imageBelow:
 			y += yOffsetFromTitle
 		case .imageAbove:
@@ -427,7 +427,7 @@ class ButtonCell: NSButtonCell {
 			return NSZeroRect
 		}
 
-		let isRTL = NSApp.userInterfaceLayoutDirection == .rightToLeft
+		let layoutDirectionSign : CGFloat = NSApp.userInterfaceLayoutDirection == .rightToLeft ? -1 : 1
 		let titleSize = title.size(withAttributes: [.font: font])
 		let imageSize = image?.size ?? NSZeroSize
 
@@ -445,11 +445,11 @@ class ButtonCell: NSButtonCell {
 		case .imageLeft:
 			x += xOffsetFromImage
 		case .imageLeading:
-			x += (isRTL ? -1 : 1) * xOffsetFromImage
+			x += xOffsetFromImage * layoutDirectionSign
 		case .imageRight:
 			x -= xOffsetFromImage
 		case .imageTrailing:
-			x -= (isRTL ? -1 : 1) * xOffsetFromImage
+			x -= xOffsetFromImage * layoutDirectionSign
 		case .imageBelow:
 			y -= yOffsetFromImage
 		case .imageAbove:
