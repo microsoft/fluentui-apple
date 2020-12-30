@@ -40,8 +40,17 @@ let buttonStates: [String] = [
 	"disabled",
 ]
 
-let buttonMinimumWidth : CGFloat = 180
-let buttonMinimumHeight : CGFloat = 100
+let widths: [String: CGFloat] = [
+	"natural": 0,
+	"oversized (180)": 180,
+	"undersized (50)": 50,
+]
+
+let heights: [String: CGFloat] = [
+	"natural": 0,
+	"oversized (100)": 100,
+	"undersized (10)": 10,
+]
 
 class VibrantScrollView: NSScrollView {
 	override var allowsVibrancy: Bool {
@@ -69,9 +78,9 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 	let materialsPopup = NSPopUpButton(frame: NSZeroRect, pullsDown: false)
 	let backgroundColorsPopup = NSPopUpButton(frame: NSZeroRect, pullsDown: false)
 	let buttonStatesPopup = NSPopUpButton(frame: NSZeroRect, pullsDown: false)
-	let widthCheckbox = NSButton(checkboxWithTitle: "Constrain Width ≥ \(buttonMinimumWidth)", target: nil, action: nil)
+	let widthPopup = NSPopUpButton(frame: NSZeroRect, pullsDown: false)
 	var widthConstraints : [NSLayoutConstraint] = []
-	let heightCheckbox = NSButton(checkboxWithTitle:"Constrain Height ≥ \(buttonMinimumHeight)", target: nil, action: nil)
+	let heightPopup = NSPopUpButton(frame: NSZeroRect, pullsDown: false)
 	var heightConstraints : [NSLayoutConstraint] = []
 	let scrollView = VibrantScrollView()
 	let materialPane = NSVisualEffectView()
@@ -96,26 +105,30 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		buttonStatesPopup.target = self
 		buttonStatesPopup.action = #selector(TestButtonViewController.stateChanged)
 
-		widthCheckbox.target = self
-		widthCheckbox.action = #selector(TestButtonViewController.widthCheckboxChanged)
+		widthPopup.addItems(withTitles: widths.keys.sorted())
+		widthPopup.selectItem(withTitle: "natural")
+		widthPopup.menu?.delegate = self
+		widthPopup.target = self
+		widthPopup.action = #selector(TestButtonViewController.widthConstraintsChanged)
 
-		heightCheckbox.target = self
-		heightCheckbox.action = #selector(TestButtonViewController.heightCheckboxChanged)
+		heightPopup.addItems(withTitles: heights.keys.sorted())
+		heightPopup.selectItem(withTitle: "natural")
+		heightPopup.menu?.delegate = self
+		heightPopup.target = self
+		heightPopup.action = #selector(TestButtonViewController.heightConstraintsChanged)
 
 		let tools = [
 			[NSTextField(labelWithString: "Pane Material:"), materialsPopup],
 			[NSTextField(labelWithString: "Pane Color:"), backgroundColorsPopup],
 			[NSTextField(labelWithString: "Button State:"), buttonStatesPopup],
-			[widthCheckbox],
-			[heightCheckbox],
+			[NSTextField(labelWithString: "Button Width:"), widthPopup],
+			[NSTextField(labelWithString: "Button Height:"), heightPopup],
 		]
 
 		let toolsGrid = NSGridView(views: tools)
 		toolsGrid.translatesAutoresizingMaskIntoConstraints = false
 		toolsGrid.setContentHuggingPriority(.defaultHigh, for: .horizontal)
 		toolsGrid.setContentHuggingPriority(.defaultHigh, for: .vertical)
-		toolsGrid.mergeCells(inHorizontalRange: NSMakeRange(0, 2), verticalRange: NSMakeRange(3, 1))
-		toolsGrid.mergeCells(inHorizontalRange: NSMakeRange(0, 2), verticalRange: NSMakeRange(4, 1))
 
 		// Pad left and right sides using the row/column spacing
 		toolsGrid.insertColumn(at: 0, with: [])
@@ -327,28 +340,24 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		}
 	}
 
-	@objc func widthCheckboxChanged() {
-		if widthConstraints.isEmpty {
-			widthConstraints.append(contentsOf: fluentButtons.map({ ($0 as Button).widthAnchor.constraint(greaterThanOrEqualToConstant:buttonMinimumWidth) }))
-		}
-		if widthCheckbox.state == .on
-		{
-			NSLayoutConstraint.activate(widthConstraints)
-		} else {
-			NSLayoutConstraint.deactivate(widthConstraints)
-		}
+	@objc func widthConstraintsChanged() {
+		guard let title = widthPopup.titleOfSelectedItem else { return }
+		guard let width = widths[title] else { return }
+		NSLayoutConstraint.deactivate(widthConstraints)
+		widthConstraints.removeAll()
+		guard width != 0 else { return }
+		widthConstraints.append(contentsOf: fluentButtons.map({ ($0 as Button).widthAnchor.constraint(equalToConstant:width) }))
+		NSLayoutConstraint.activate(widthConstraints)
 	}
 
-	@objc func heightCheckboxChanged() {
-		if heightConstraints.isEmpty {
-			heightConstraints.append(contentsOf: fluentButtons.map({ ($0 as Button).heightAnchor.constraint(greaterThanOrEqualToConstant:buttonMinimumHeight) }))
-		}
-		if heightCheckbox.state == .on
-		{
-			NSLayoutConstraint.activate(heightConstraints)
-		} else {
-			NSLayoutConstraint.deactivate(heightConstraints)
-		}
+	@objc func heightConstraintsChanged() {
+		guard let title = heightPopup.titleOfSelectedItem else { return }
+		guard let height = heights[title] else { return }
+		NSLayoutConstraint.deactivate(heightConstraints)
+		heightConstraints.removeAll()
+		guard height != 0 else { return }
+		heightConstraints.append(contentsOf: fluentButtons.map({ ($0 as Button).heightAnchor.constraint(equalToConstant:height) }))
+		NSLayoutConstraint.activate(heightConstraints)
 	}
 
 	@objc func buttonPressed() {
