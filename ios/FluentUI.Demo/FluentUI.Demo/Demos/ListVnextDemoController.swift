@@ -54,10 +54,10 @@ class ListVnextDemoController: DemoController {
         let demoControllerView: UIView = self.view
         demoControllerView.addSubview(listView)
 
-        NSLayoutConstraint.activate([demoControllerView.topAnchor.constraint(equalTo: listView.topAnchor),
-                                     demoControllerView.bottomAnchor.constraint(equalTo: listView.bottomAnchor),
-                                     demoControllerView.leadingAnchor.constraint(equalTo: listView.leadingAnchor),
-                                     demoControllerView.trailingAnchor.constraint(equalTo: listView.trailingAnchor)])
+        NSLayoutConstraint.activate([demoControllerView.safeAreaLayoutGuide.topAnchor.constraint(equalTo: listView.topAnchor),
+                                     demoControllerView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: listView.bottomAnchor),
+                                     demoControllerView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: listView.leadingAnchor),
+                                     demoControllerView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: listView.trailingAnchor)])
     }
 
     private func accessoryType(for indexPath: Int) -> MSFListAccessoryType {
