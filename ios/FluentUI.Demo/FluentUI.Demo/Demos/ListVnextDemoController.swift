@@ -9,6 +9,7 @@ import UIKit
 class ListVnextDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
+
         let sections: [TableViewSampleData.Section] = TableViewCellSampleData.sections
         var section: TableViewCellSampleData.Section
         var cell: TableViewCellSampleData.Item
@@ -46,7 +47,17 @@ class ListVnextDemoController: DemoController {
             listData.append(listSection)
         }
         list = MSFListVnext(sections: listData, iconStyle: iconStyle)
-        container.addArrangedSubview(list.view)
+
+        let listView = list.view
+        listView.translatesAutoresizingMaskIntoConstraints = false
+
+        let demoControllerView: UIView = self.view
+        demoControllerView.addSubview(listView)
+
+        NSLayoutConstraint.activate([demoControllerView.topAnchor.constraint(equalTo: listView.topAnchor),
+                                     demoControllerView.bottomAnchor.constraint(equalTo: listView.bottomAnchor),
+                                     demoControllerView.leadingAnchor.constraint(equalTo: listView.leadingAnchor),
+                                     demoControllerView.trailingAnchor.constraint(equalTo: listView.trailingAnchor)])
     }
 
     private func accessoryType(for indexPath: Int) -> MSFListAccessoryType {
