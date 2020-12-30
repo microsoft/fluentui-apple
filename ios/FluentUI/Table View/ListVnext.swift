@@ -6,36 +6,16 @@
 import UIKit
 import SwiftUI
 
-///Properties that make up cell content
-@objc(MSFListVnextCellData)
-public class MSFListVnextCellData: NSObject, ObservableObject, Identifiable {
-    public var id = UUID()
-    @objc @Published public var leadingIcon: UIImage?
-    @objc @Published public var title: String = ""
-    @objc @Published public var subtitle: String?
-    @objc @Published public var trailingIcon: MSFListAccessoryType = .none
-    @objc @Published public var titleLineLimit: Int = 1
-    @objc @Published public var subtitleLineLimit: Int = 1
-    @objc public var onTapAction: (() -> Void)?
-}
-
-///Properties that make up list content
-@objc(MSFListVnextState)
-public class MSFListVnextState: NSObject, ObservableObject {
-    @objc @Published public var sectionTitle: String?
-    @objc @Published public var hasBorder: Bool = false
-}
-
-@objc(MSFListIconVnextStyle)
 /// Pre-defined styles of icons
+@objc(MSFListIconVnextStyle)
 public enum MSFListIconVnextStyle: Int, CaseIterable {
     case none
     case iconOnly
     case large
 }
 
-@objc(MSFListAccessoryType)
 /// Pre-defined types of icons
+@objc(MSFListAccessoryType)
 public enum MSFListAccessoryType: Int, CaseIterable {
     case none
     case disclosure
@@ -56,6 +36,34 @@ public enum MSFListAccessoryType: Int, CaseIterable {
         }
         return icon
     }
+}
+
+///Properties that make up cell content
+@objc(MSFListVnextCellData)
+public class MSFListVnextCellData: NSObject, ObservableObject, Identifiable {
+    public var id = UUID()
+    @objc @Published public var leadingIcon: UIImage?
+    @objc @Published public var title: String = ""
+    @objc @Published public var subtitle: String?
+    @objc @Published public var trailingIcon: MSFListAccessoryType = .none
+    @objc @Published public var titleLineLimit: Int = 1
+    @objc @Published public var subtitleLineLimit: Int = 1
+    @objc public var onTapAction: (() -> Void)?
+}
+
+///Properties that make up section content
+@objc(MSFListVnextSectionData)
+public class MSFListVnextSectionData: NSObject, ObservableObject, Identifiable {
+    public var id = UUID()
+    @objc @Published public var cells: [MSFListVnextCellData] = []
+    @objc @Published public var title: String?
+    @objc @Published public var layoutType: MSFListCellVnextLayoutType = .oneLine
+}
+
+///Properties that make up list content
+@objc(MSFListVnextState)
+public class MSFListVnextState: NSObject, ObservableObject {
+    @objc @Published public var hasBorder: Bool = false
 }
 
 @objc(MSFListCellVnextHeight)
@@ -94,15 +102,12 @@ public class MSFListTokens: ObservableObject {
     @Published public var horizontalCellPadding: CGFloat!
     @Published public var iconInterspace: CGFloat!
     @Published public var iconSize: CGFloat!
-//    @Published public var largeIconSize: CGFloat!
     @Published public var subtitleFont: UIFont!
     @Published public var textFont: UIFont!
 
     var iconStyle: MSFListIconVnextStyle!
-    var layoutType: MSFListCellVnextLayoutType!
 
-    public init(layoutType: MSFListCellVnextLayoutType, iconStyle: MSFListIconVnextStyle) {
-        self.layoutType = layoutType
+    public init(iconStyle: MSFListIconVnextStyle) {
         self.iconStyle = iconStyle
         self.themeAware = true
 
@@ -142,45 +147,47 @@ public class MSFListTokens: ObservableObject {
 public struct MSFListView: View {
     @ObservedObject var state: MSFListVnextState
     @ObservedObject var tokens: MSFListTokens
-    var cells: [MSFListVnextCellData]
+    var sections: [MSFListVnextSectionData]
 
-    public init(cells: [MSFListVnextCellData],
-                layoutType: MSFListCellVnextLayoutType,
+    public init(sections: [MSFListVnextSectionData],
                 iconStyle: MSFListIconVnextStyle) {
+        self.sections = sections
         self.state = MSFListVnextState()
-        self.tokens = MSFListTokens(layoutType: layoutType, iconStyle: iconStyle)
-        self.cells = cells
+        self.tokens = MSFListTokens(iconStyle: iconStyle)
     }
 
     public var body: some View {
         List {
-            if state.sectionTitle != nil {
-                if #available(iOS 14.0, *) {
-                    Section(header: Header(title: state.sectionTitle ?? "", tokens: tokens)) {}
-                        .textCase(.none)
-                        .listRowInsets(EdgeInsets())
-                        .padding(.leading, tokens.horizontalCellPadding)
-                        .padding(.trailing, tokens.horizontalCellPadding)
-                        .background(Color(tokens.backgroundColor))
-                } else {
-                    Text(state.sectionTitle ?? "")
-                        .listRowInsets(EdgeInsets(
-                                top: 0,
-                                leading: tokens.horizontalCellPadding,
-                                bottom: tokens.horizontalCellPadding / 2,
-                                trailing: tokens.horizontalCellPadding))
-                        .font(Font(tokens.subtitleFont))
-                        .foregroundColor(Color(tokens.subtitleColor))
+            ForEach(sections, id: \.self) { section in
+                if section.title != nil {
+                    if #available(iOS 14.0, *) {
+                        Section(header: Header(title: section.title ?? "", tokens: tokens)) {}
+                            .textCase(.none)
+                            .listRowInsets(EdgeInsets())
+                            .padding(.top, tokens.horizontalCellPadding / 2)
+                            .padding(.leading, tokens.horizontalCellPadding)
+                            .padding(.trailing, tokens.horizontalCellPadding)
+                            .background(Color(tokens.backgroundColor))
+                    } else {
+                        Text(section.title ?? "")
+                            .listRowInsets(EdgeInsets(
+                                    top: tokens.horizontalCellPadding / 2,
+                                    leading: tokens.horizontalCellPadding,
+                                    bottom: tokens.horizontalCellPadding / 2,
+                                    trailing: tokens.horizontalCellPadding))
+                            .font(Font(tokens.subtitleFont))
+                            .foregroundColor(Color(tokens.subtitleColor))
+                    }
                 }
-            }
-            ForEach(cells, id: \.self) { item in
-                MSFListCellView(cell: item, tokens: tokens)
-                    .border(state.hasBorder ? Color(tokens.borderColor) : Color.clear, width: state.hasBorder ? tokens.borderSize : 0)
-                    .frame(maxWidth: .infinity)
+                ForEach(section.cells, id: \.self) { cell in
+                    MSFListCellView(cell: cell, layoutType: section.layoutType, tokens: tokens)
+                        .border(state.hasBorder ? Color(tokens.borderColor) : Color.clear, width: state.hasBorder ? tokens.borderSize : 0)
+                        .frame(maxWidth: .infinity)
+                }
             }
         }
         .environment(\.defaultMinListRowHeight, 0)
-        .frame(width: .infinity)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
@@ -188,11 +195,12 @@ extension MSFListView {
     /// View for List Cells
     struct MSFListCellView: View {
         var cell: MSFListVnextCellData
+        var layoutType: MSFListCellVnextLayoutType
         var tokens: MSFListTokens
-        @State var isTapped: Bool = false
 
-        init(cell: MSFListVnextCellData, tokens: MSFListTokens) {
+        init(cell: MSFListVnextCellData, layoutType: MSFListCellVnextLayoutType, tokens: MSFListTokens) {
             self.cell = cell
+            self.layoutType = layoutType
             self.tokens = tokens
         }
 
@@ -239,16 +247,17 @@ extension MSFListView {
                     }
                 }
             })
-            .buttonStyle(ListCellButton(tokens: tokens))
+            .buttonStyle(ListCellButton(tokens: tokens, layoutType: layoutType))
         }
     }
 
     struct ListCellButton: ButtonStyle {
         let tokens: MSFListTokens
+        let layoutType: MSFListCellVnextLayoutType
         func makeBody(configuration: Self.Configuration) -> some View {
             return configuration.label
                 .contentShape(Rectangle())
-                .frame(minHeight: tokens.layoutType.height)
+                .frame(minHeight: layoutType.height)
                 .listRowInsets(EdgeInsets())
                 .padding(.leading, tokens.horizontalCellPadding)
                 .padding(.trailing, tokens.horizontalCellPadding)
@@ -292,14 +301,13 @@ open class MSFListVnext: NSObject {
         return hostingController.rootView.state
     }
 
-    @objc open var cells: [MSFListVnextCellData] {
-        return hostingController.rootView.cells
+    @objc open var sections: [MSFListVnextSectionData] {
+        return hostingController.rootView.sections
     }
 
-    @objc public init(cells: [MSFListVnextCellData],
-                      layoutType: MSFListCellVnextLayoutType,
+    @objc public init(sections: [MSFListVnextSectionData],
                       iconStyle: MSFListIconVnextStyle) {
-        self.hostingController = UIHostingController(rootView: MSFListView(cells: cells, layoutType: layoutType, iconStyle: iconStyle))
+        self.hostingController = UIHostingController(rootView: MSFListView(sections: sections, iconStyle: iconStyle))
         super.init()
     }
 }

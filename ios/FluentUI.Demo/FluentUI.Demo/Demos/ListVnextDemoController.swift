@@ -9,7 +9,6 @@ import UIKit
 class ListVnextDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        container.alignment = .leading
         let sections: [TableViewSampleData.Section] = TableViewCellSampleData.sections
         var section: TableViewCellSampleData.Section
         var cell: TableViewCellSampleData.Item
@@ -18,34 +17,36 @@ class ListVnextDemoController: DemoController {
         var indexPath = IndexPath(row: 0, section: 0)
 
         var list: MSFListVnext
-        var listItem: MSFListVnextCellData
-        var listItems: [MSFListVnextCellData]
+        var listCell: MSFListVnextCellData
+        var listSection: MSFListVnextSectionData
+        var listData: [MSFListVnextSectionData] = []
         let iconStyle = MSFListIconVnextStyle.none
 
         for sectionCount in 0...numSections {
             section = sections[sectionCount]
 
-            listItems = []
+            listSection = MSFListVnextSectionData()
+            listSection.title = section.title
+            listSection.cells = []
             for row in 0...numRows {
                 cell = section.item
-                listItem = MSFListVnextCellData()
-                listItem.title = cell.text1
-                listItem.subtitle = cell.text2
-                listItem.leadingIcon = UIImage(named: cell.image)
-                listItem.trailingIcon = accessoryType(for: row)
-                listItem.onTapAction = {
+                listCell = MSFListVnextCellData()
+                listCell.title = cell.text1
+                listCell.subtitle = cell.text2
+                listCell.leadingIcon = UIImage(named: cell.image)
+                listCell.trailingIcon = accessoryType(for: row)
+                listCell.onTapAction = {
                     indexPath.row = row
                     indexPath.section = sectionCount
                     self.showAlertForCellTapped(indexPath: indexPath)
                 }
-                listItems.append(listItem)
+                listSection.cells.append(listCell)
             }
-
-            list = MSFListVnext(cells: listItems, layoutType: updateLayout(subtitle: listItems[0].subtitle), iconStyle: iconStyle)
-            list.state.sectionTitle = section.title
-            addRow(items: [list.view])
+            listSection.layoutType = updateLayout(subtitle: listSection.cells[0].subtitle)
+            listData.append(listSection)
         }
-        container.addArrangedSubview(UIView())
+        list = MSFListVnext(sections: listData, iconStyle: iconStyle)
+        container.addArrangedSubview(list.view)
     }
 
     private func accessoryType(for indexPath: Int) -> MSFListAccessoryType {

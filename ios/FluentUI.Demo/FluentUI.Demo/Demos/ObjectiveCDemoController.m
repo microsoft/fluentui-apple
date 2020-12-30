@@ -79,9 +79,13 @@
     UIImage *image = [UIImage imageNamed:@"excelIcon"];
     listCell3.leadingIcon = image;
     listCell3.trailingIcon = MSFListAccessoryTypeDisclosure;
-    NSArray *cells = @[listCell1, listCell2, listCell3];
     
-    MSFListVnext *list = [[MSFListVnext alloc] initWithCells:cells layoutType:MSFListCellVnextHeightTwoLines iconStyle:MSFListIconVnextStyleNone];
+    MSFListVnextSectionData *section = [[MSFListVnextSectionData alloc] init];
+    section.layoutType = MSFListCellVnextHeightTwoLines;
+    section.cells = @[listCell1, listCell2, listCell3];
+    NSArray *sections = @[section];
+
+    MSFListVnext *list = [[MSFListVnext alloc] initWithSections:sections iconStyle:MSFListIconVnextStyleNone];
     [self.container addArrangedSubview:[list view]];
 }
 
