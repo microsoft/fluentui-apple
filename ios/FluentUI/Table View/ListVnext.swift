@@ -161,19 +161,26 @@ public struct MSFListView: View {
                         .listRowInsets(EdgeInsets())
                         .padding(.leading, tokens.horizontalCellPadding)
                         .padding(.trailing, tokens.horizontalCellPadding)
-                        .background(Color.white)
+                        .background(Color(tokens.backgroundColor))
                 } else {
-                    Section(header: Text(state.sectionTitle ?? "")) {}
+                    Text(state.sectionTitle ?? "")
+                        .listRowInsets(EdgeInsets(
+                                top: 0,
+                                leading: tokens.horizontalCellPadding,
+                                bottom: tokens.horizontalCellPadding / 2,
+                                trailing: tokens.horizontalCellPadding))
+                        .font(Font(tokens.subtitleFont))
+                        .foregroundColor(Color(tokens.subtitleColor))
                 }
             }
             ForEach(cells, id: \.self) { item in
                 MSFListCellView(cell: item, tokens: tokens)
                     .border(state.hasBorder ? Color(tokens.borderColor) : Color.clear, width: state.hasBorder ? tokens.borderSize : 0)
-                    .fixedSize()
+                    .frame(maxWidth: .infinity)
             }
         }
         .environment(\.defaultMinListRowHeight, 0)
-        .frame(width: .infinity)
+        .frame(width: UIScreen.main.bounds.width, height: 300)
     }
 }
 
@@ -190,64 +197,66 @@ extension MSFListView {
         }
 
         var body: some View {
-            HStack(spacing: 0) {
-                if let leadingIcon = cell.leadingIcon {
-                    Image(uiImage: leadingIcon)
-                        .resizable()
-                        .frame(width: tokens.iconSize, height: tokens.iconSize)
-                        .padding(.trailing, tokens.iconInterspace)
-                }
-                VStack(alignment: .leading) {
-                    if let title = cell.title {
-                        Text(title)
-                            .font(Font(tokens.textFont))
-                            .foregroundColor(Color(tokens.leadingTextColor))
-                            .lineLimit(cell.titleLineLimit)
+            Button(action: cell.onTapAction ?? {}, label: {
+                HStack(spacing: 0) {
+                    if let leadingIcon = cell.leadingIcon {
+                        Image(uiImage: leadingIcon)
+                            .resizable()
+                            .frame(width: tokens.iconSize, height: tokens.iconSize)
+                            .padding(.trailing, tokens.iconInterspace)
                     }
-                    if let subtitle = cell.subtitle {
-                        if subtitle != "" {
-                            Text(subtitle)
-                                .font(Font(tokens.subtitleFont))
-                                .foregroundColor(Color(tokens.subtitleColor))
+                    VStack(alignment: .leading) {
+                        if let title = cell.title {
+                            Text(title)
+                                .font(Font(tokens.textFont))
+                                .foregroundColor(Color(tokens.leadingTextColor))
                                 .lineLimit(cell.titleLineLimit)
                         }
-                    }
-                }
-                Spacer()
-                HStack {
-                    if let trailingIcon = cell.trailingIcon {
-                        if trailingIcon != .none {
-                            let isDisclosure = trailingIcon == .disclosure
-                            let disclosureSize = tokens.disclosureSize
-                            let iconSize = tokens.iconSize
-                            Image(uiImage: trailingIcon.icon!)
-                                .resizable()
-                                .foregroundColor(Color(isDisclosure ? tokens.disclosureIconForegroundColor : tokens.trailingItemForegroundColor))
-                                .frame(width: isDisclosure ? disclosureSize : iconSize,
-                                       height: isDisclosure ? disclosureSize : iconSize)
-                                .padding(.leading, isDisclosure ? tokens.disclosureInterspace : tokens.iconInterspace)
+                        if let subtitle = cell.subtitle {
+                            if subtitle != "" {
+                                Text(subtitle)
+                                    .font(Font(tokens.subtitleFont))
+                                    .foregroundColor(Color(tokens.subtitleColor))
+                                    .lineLimit(cell.titleLineLimit)
+                            }
                         }
                     }
+                    Spacer()
+                    HStack {
+                        if let trailingIcon = cell.trailingIcon {
+                            if trailingIcon != .none {
+                                let isDisclosure = trailingIcon == .disclosure
+                                let disclosureSize = tokens.disclosureSize
+                                let iconSize = tokens.iconSize
+                                Image(uiImage: trailingIcon.icon!)
+                                    .resizable()
+                                    .foregroundColor(Color(isDisclosure ? tokens.disclosureIconForegroundColor : tokens.trailingItemForegroundColor))
+                                    .frame(width: isDisclosure ? disclosureSize : iconSize,
+                                           height: isDisclosure ? disclosureSize : iconSize)
+                                    .padding(.leading, isDisclosure ? tokens.disclosureInterspace : tokens.iconInterspace)
+                            }
+                        }
+                    }
                 }
-            }
-            .contentShape(Rectangle())
-            .padding(.leading, tokens.horizontalCellPadding)
-            .padding(.trailing, tokens.horizontalCellPadding)
-            .frame(minHeight: tokens.layoutType.height)
-            .listRowInsets(EdgeInsets())
-            .background(isTapped ? Color(tokens.highlightedBackgroundColor) : Color.clear)
-            .onTapGesture(perform: cell.onTapAction ?? {})
-            .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
-                        .onChanged { _ in
-                            isTapped = true
-                        }
-                        .onEnded { _ in
-                            isTapped = false
-                        }
-            )
+            })
+            .buttonStyle(ListCellButton(tokens: tokens))
         }
     }
 
+    struct ListCellButton: ButtonStyle {
+        let tokens: MSFListTokens
+        func makeBody(configuration: Self.Configuration) -> some View {
+            return configuration.label
+                .contentShape(Rectangle())
+                .frame(minHeight: tokens.layoutType.height)
+                .listRowInsets(EdgeInsets())
+                .padding(.leading, tokens.horizontalCellPadding)
+                .padding(.trailing, tokens.horizontalCellPadding)
+                .background(configuration.isPressed ? Color(tokens.highlightedBackgroundColor) : Color.clear)
+        }
+    }
+
+    /// View for List Header (availble for iOS 14.0+)
     struct Header: View {
         let title: String
         var tokens: MSFListTokens
