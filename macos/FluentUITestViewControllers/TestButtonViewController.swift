@@ -40,6 +40,9 @@ let buttonStates: [String] = [
 	"disabled",
 ]
 
+let buttonMinimumWidth : CGFloat = 180
+let buttonMinimumHeight : CGFloat = 100
+
 class VibrantScrollView: NSScrollView {
 	override var allowsVibrancy: Bool {
 		// Allow view to pick up effect of NSVisualEffectView material
@@ -66,6 +69,10 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 	let materialsPopup = NSPopUpButton(frame: NSZeroRect, pullsDown: false)
 	let backgroundColorsPopup = NSPopUpButton(frame: NSZeroRect, pullsDown: false)
 	let buttonStatesPopup = NSPopUpButton(frame: NSZeroRect, pullsDown: false)
+	let widthCheckbox = NSButton(checkboxWithTitle: "Constrain Width ≥ \(buttonMinimumWidth)", target: nil, action: nil)
+	var widthConstraints : [NSLayoutConstraint] = []
+	let heightCheckbox = NSButton(checkboxWithTitle:"Constrain Height ≥ \(buttonMinimumHeight)", target: nil, action: nil)
+	var heightConstraints : [NSLayoutConstraint] = []
 	let scrollView = VibrantScrollView()
 	let materialPane = NSVisualEffectView()
 	var fluentButtons: [Button] = []
@@ -89,16 +96,26 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		buttonStatesPopup.target = self
 		buttonStatesPopup.action = #selector(TestButtonViewController.stateChanged)
 
+		widthCheckbox.target = self
+		widthCheckbox.action = #selector(TestButtonViewController.widthCheckboxChanged)
+
+		heightCheckbox.target = self
+		heightCheckbox.action = #selector(TestButtonViewController.heightCheckboxChanged)
+
 		let tools = [
 			[NSTextField(labelWithString: "Pane Material:"), materialsPopup],
 			[NSTextField(labelWithString: "Pane Color:"), backgroundColorsPopup],
 			[NSTextField(labelWithString: "Button State:"), buttonStatesPopup],
+			[widthCheckbox],
+			[heightCheckbox],
 		]
 
 		let toolsGrid = NSGridView(views: tools)
 		toolsGrid.translatesAutoresizingMaskIntoConstraints = false
 		toolsGrid.setContentHuggingPriority(.defaultHigh, for: .horizontal)
 		toolsGrid.setContentHuggingPriority(.defaultHigh, for: .vertical)
+		toolsGrid.mergeCells(inHorizontalRange: NSMakeRange(0, 2), verticalRange: NSMakeRange(3, 1))
+		toolsGrid.mergeCells(inHorizontalRange: NSMakeRange(0, 2), verticalRange: NSMakeRange(4, 1))
 
 		// Pad left and right sides using the row/column spacing
 		toolsGrid.insertColumn(at: 0, with: [])
@@ -147,7 +164,7 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		]
 
 		let buttonsWithTitle: () -> [Button] = {
-			return formats.map({ Button(title: "FluentUI Button", format: $0) })
+			return formats.map({ Button(title: "Button", format: $0) })
 		}
 
 		let stopImage = NSImage(named: NSImage.stopProgressTemplateName)!
@@ -213,6 +230,11 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			}
 			fluentButtons.append(contentsOf: newColumn)
 			fluentButtonsGrid.addColumn(with: newColumn)
+		}
+
+		for button in fluentButtons {
+			button.target = self
+			button.action = #selector(buttonPressed)
 		}
 
 		// Insert column headers atop the grid of sample controls
@@ -303,6 +325,34 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			}
 			button.linkedPrimary = originalLinkedPrimary
 		}
+	}
+
+	@objc func widthCheckboxChanged() {
+		if widthConstraints.isEmpty {
+			widthConstraints.append(contentsOf: fluentButtons.map({ ($0 as Button).widthAnchor.constraint(greaterThanOrEqualToConstant:buttonMinimumWidth) }))
+		}
+		if widthCheckbox.state == .on
+		{
+			NSLayoutConstraint.activate(widthConstraints)
+		} else {
+			NSLayoutConstraint.deactivate(widthConstraints)
+		}
+	}
+
+	@objc func heightCheckboxChanged() {
+		if heightConstraints.isEmpty {
+			heightConstraints.append(contentsOf: fluentButtons.map({ ($0 as Button).heightAnchor.constraint(greaterThanOrEqualToConstant:buttonMinimumHeight) }))
+		}
+		if heightCheckbox.state == .on
+		{
+			NSLayoutConstraint.activate(heightConstraints)
+		} else {
+			NSLayoutConstraint.deactivate(heightConstraints)
+		}
+	}
+
+	@objc func buttonPressed() {
+		print("Button pressed")
 	}
 
 	private static let leadingArrow = "ic_fluent_chevron_left_16_filled"

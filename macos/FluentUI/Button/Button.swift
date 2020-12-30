@@ -410,22 +410,22 @@ class ButtonCell: NSButtonCell {
 			width = rect.width - (horizontalPadding * 2)
 			height = rect.height - (verticalPadding * 2)
 		case .imageLeft:
-			x = horizontalPadding
+			x = (rect.width - imageSize.width - titleSize.width - titleToImageSpacing) / 2
 			y = (rect.height - imageSize.height) / 2
 			width = imageSize.width
 			height = imageSize.height
 		case .imageLeading:
-			x = isRTL ? titleSize.width + titleToImageSpacing + horizontalPadding : horizontalPadding
+			x = isRTL ? (rect.width - imageSize.width + titleSize.width + titleToImageSpacing) / 2 / 2 : (rect.width - imageSize.width - titleSize.width - titleToImageSpacing) / 2
 			y = (rect.height - imageSize.height) / 2
 			width = imageSize.width
 			height = imageSize.height
 		case .imageRight:
-			x = titleSize.width + titleToImageSpacing + horizontalPadding
+			x = (rect.width - imageSize.width + titleSize.width + titleToImageSpacing) / 2
 			y = (rect.height - imageSize.height) / 2
 			width = imageSize.width
 			height = imageSize.height
 		case .imageTrailing:
-			x = isRTL ? horizontalPadding : titleSize.width + titleToImageSpacing + horizontalPadding
+			x = isRTL ? (rect.width - imageSize.width - titleSize.width - titleToImageSpacing) / 2 : (rect.width - imageSize.width + titleSize.width + titleToImageSpacing) / 2
 			y = (rect.height - imageSize.height) / 2
 			width = imageSize.width
 			height = imageSize.height
@@ -473,22 +473,22 @@ class ButtonCell: NSButtonCell {
 			width = rect.width - (horizontalPadding * 2)
 			height = rect.height - (verticalPadding * 2)
 		case .imageLeft:
-			x = horizontalPadding + imageSize.width + titleToImageSpacing
+			x = (rect.width - titleSize.width + imageSize.width + titleToImageSpacing) / 2
 			y = verticalPadding + titleVerticalPositionAdjustment
 			width = titleSize.width
 			height = rect.height - (verticalPadding * 2)
 		case .imageLeading:
-			x = isRTL ? horizontalPadding : horizontalPadding + imageSize.width + titleToImageSpacing
+			x = isRTL ? (rect.width - titleSize.width - imageSize.width - titleToImageSpacing) / 2 : (rect.width - titleSize.width + imageSize.width + titleToImageSpacing) / 2
 			y = verticalPadding + titleVerticalPositionAdjustment
 			width = titleSize.width
 			height = rect.height - (verticalPadding * 2)
 		case .imageRight:
-			x = horizontalPadding
+			x = (rect.width - titleSize.width - imageSize.width - titleToImageSpacing) / 2
 			y = verticalPadding + titleVerticalPositionAdjustment
 			width = titleSize.width
 			height = rect.height - (verticalPadding * 2)
 		case .imageTrailing:
-			x = isRTL ? horizontalPadding + imageSize.width + titleToImageSpacing : horizontalPadding
+			x = isRTL ? (rect.width - titleSize.width + imageSize.width + titleToImageSpacing) / 2 : (rect.width - titleSize.width - imageSize.width - titleToImageSpacing) / 2
 			y = verticalPadding + titleVerticalPositionAdjustment
 			width = titleSize.width
 			height = rect.height - (verticalPadding * 2)
