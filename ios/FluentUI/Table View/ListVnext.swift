@@ -252,7 +252,7 @@ extension MSFListView {
                 .listRowInsets(EdgeInsets())
                 .padding(.leading, tokens.horizontalCellPadding)
                 .padding(.trailing, tokens.horizontalCellPadding)
-                .background(configuration.isPressed ? Color(tokens.highlightedBackgroundColor) : Color.clear)
+                .background(configuration.isPressed ? Color(tokens.highlightedBackgroundColor) : Color(tokens.backgroundColor))
         }
     }
 
