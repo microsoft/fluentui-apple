@@ -507,7 +507,10 @@ private class FileAccessoryViewActionView: UIButton {
         }
 
         if #available(iOS 13.4, *) {
-            isPointerInteractionEnabled = true
+            // Workaround check for beta iOS versions missing the Pointer Interactions API
+            if arePointerInteractionAPIsAvailable() {
+                isPointerInteractionEnabled = true
+            }
         }
     }
 

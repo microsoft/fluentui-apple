@@ -1490,7 +1490,10 @@ internal class TableViewCellAccessoryView: UIView {
         button.addTarget(self, action: #selector(handleOnAccessoryTapped), for: .touchUpInside)
 
         if #available(iOS 13.4, *) {
-            button.isPointerInteractionEnabled = true
+            // Workaround check for beta iOS versions missing the Pointer Interactions API
+            if arePointerInteractionAPIsAvailable() {
+                button.isPointerInteractionEnabled = true
+            }
         }
 
         return button

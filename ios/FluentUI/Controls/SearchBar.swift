@@ -235,10 +235,13 @@ open class SearchBar: UIView {
         clearButton.isHidden = true
 
         if #available(iOS 13.4, *) {
-            clearButton.isPointerInteractionEnabled = true
-            clearButton.pointerStyleProvider = { button, effect, shape in
-                let preview = UITargetedPreview(view: button)
-                return UIPointerStyle(effect: .lift(preview))
+            // Workaround check for beta iOS versions missing the Pointer Interactions API
+            if arePointerInteractionAPIsAvailable() {
+                clearButton.isPointerInteractionEnabled = true
+                clearButton.pointerStyleProvider = { button, effect, shape in
+                    let preview = UITargetedPreview(view: button)
+                    return UIPointerStyle(effect: .lift(preview))
+                }
             }
         }
 
@@ -258,7 +261,10 @@ open class SearchBar: UIView {
         }
 
         if #available(iOS 13.4, *) {
-            button.isPointerInteractionEnabled = true
+            // Workaround check for beta iOS versions missing the Pointer Interactions API
+            if arePointerInteractionAPIsAvailable() {
+                button.isPointerInteractionEnabled = true
+            }
         }
 
         return button
