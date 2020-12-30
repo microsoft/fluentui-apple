@@ -36,16 +36,81 @@ class DateTimePickerDemoController: DemoController {
         dateLabel.adjustsFontSizeToFitWidth = true
 
         container.addArrangedSubview(dateLabel)
-        container.addArrangedSubview(createButton(title: "Show date picker", action: #selector(presentDatePicker)))
-        container.addArrangedSubview(createButton(title: "Show date time picker", action: #selector(presentDateTimePicker)))
-        container.addArrangedSubview(createButton(title: "Show date range picker (paged)", action: #selector(presentDateRangePicker)))
-        container.addArrangedSubview(createButton(title: "Show date range picker (tabbed)", action: #selector(presentTabbedDateRangePicker)))
-        container.addArrangedSubview(createButton(title: "Show date time range picker", action: #selector(presentDateTimeRangePicker)))
-        container.addArrangedSubview(createButton(title: "Show picker with custom subtitles or tabs", action: #selector(presentCustomSubtitlePicker)))
+        container.addArrangedSubview(createButton(title: "Show date picker", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.dateTimePicker.present(from: strongSelf, with: .date, startDate: strongSelf.startDate ?? Date(), datePickerType: strongSelf.datePickerType)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show date time picker", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.dateTimePicker.present(from: strongSelf, with: .dateTime, startDate: strongSelf.startDate ?? Date(), datePickerType: strongSelf.datePickerType)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show date range picker (paged)", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let startDate = strongSelf.startDate ?? Date()
+            let endDate = strongSelf.endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
+            strongSelf.dateTimePicker.present(from: strongSelf, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: strongSelf.datePickerType)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show date range picker (tabbed)", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let startDate = strongSelf.startDate ?? Date()
+            let endDate = strongSelf.endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
+            strongSelf.dateTimePicker.present(from: strongSelf, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: strongSelf.datePickerType, dateRangePresentation: .tabbed)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show date time range picker", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let startDate = strongSelf.startDate ?? Date()
+            let endDate = strongSelf.endDate ?? Calendar.current.date(byAdding: .hour, value: 1, to: startDate) ?? startDate
+            strongSelf.dateTimePicker.present(from: strongSelf, with: .dateTimeRange, startDate: startDate, endDate: endDate, datePickerType: strongSelf.datePickerType)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show picker with custom subtitles or tabs", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let startDate = strongSelf.startDate ?? Date()
+            let endDate = strongSelf.endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
+            let titles: DateTimePicker.Titles
+            if strongSelf.datePickerType == .calendar && !UIAccessibility.isVoiceOverRunning {
+                titles = .with(startSubtitle: "Assignment Date", endSubtitle: "Due Date")
+            } else {
+                titles = .with(startTab: "Assignment Date", endTab: "Due Date")
+            }
+            strongSelf.dateTimePicker.present(from: strongSelf, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: strongSelf.datePickerType, titles: titles)
+        }).view)
+
         container.addArrangedSubview(UIView())
         container.addArrangedSubview(createDatePickerTypeUI())
         container.addArrangedSubview(createValidationUI())
-        container.addArrangedSubview(createButton(title: "Reset selected dates", action: #selector(resetDates)))
+
+        container.addArrangedSubview(createButton(title: "Reset selected dates", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.startDate = nil
+            strongSelf.endDate = nil
+            strongSelf.dateLabel.text = "No date selected"
+        }).view)
     }
 
     func createDatePickerTypeUI() -> UIStackView {
@@ -77,50 +142,6 @@ class DateTimePickerDemoController: DemoController {
         validationRow.addArrangedSubview(validationLabel)
         validationRow.addArrangedSubview(validationSwitch)
         return validationRow
-    }
-
-    @objc func presentDatePicker() {
-        dateTimePicker.present(from: self, with: .date, startDate: startDate ?? Date(), datePickerType: datePickerType)
-    }
-
-    @objc func presentDateTimePicker() {
-        dateTimePicker.present(from: self, with: .dateTime, startDate: startDate ?? Date(), datePickerType: datePickerType)
-    }
-
-    @objc func presentDateRangePicker() {
-        let startDate = self.startDate ?? Date()
-        let endDate = self.endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
-        dateTimePicker.present(from: self, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: datePickerType)
-    }
-
-    @objc func presentTabbedDateRangePicker() {
-        let startDate = self.startDate ?? Date()
-        let endDate = self.endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
-        dateTimePicker.present(from: self, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: datePickerType, dateRangePresentation: .tabbed)
-    }
-
-    @objc func presentDateTimeRangePicker() {
-        let startDate = self.startDate ?? Date()
-        let endDate = self.endDate ?? Calendar.current.date(byAdding: .hour, value: 1, to: startDate) ?? startDate
-        dateTimePicker.present(from: self, with: .dateTimeRange, startDate: startDate, endDate: endDate, datePickerType: datePickerType)
-    }
-
-    @objc func presentCustomSubtitlePicker() {
-        let startDate = self.startDate ?? Date()
-        let endDate = self.endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
-        let titles: DateTimePicker.Titles
-        if datePickerType == .calendar && !UIAccessibility.isVoiceOverRunning {
-            titles = .with(startSubtitle: "Assignment Date", endSubtitle: "Due Date")
-        } else {
-            titles = .with(startTab: "Assignment Date", endTab: "Due Date")
-        }
-        dateTimePicker.present(from: self, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: datePickerType, titles: titles)
-    }
-
-    @objc func resetDates() {
-        startDate = nil
-        endDate = nil
-        dateLabel.text = "No date selected"
     }
 }
 

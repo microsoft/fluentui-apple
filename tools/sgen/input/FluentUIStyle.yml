@@ -89,6 +89,16 @@ Colors:
     - brandSelected: "FluentUIColor(light: $Colors.Brand.shade20, dark: $Colors.Brand.shade20)"
     - brandDisabled: "FluentUIColor(light: $Colors.Neutral.grey74, dark: $Colors.Neutral.grey36)"
 
+  Presence:
+    - available: "NamedColor(presenceAvailable)"
+    - away: "NamedColor(presenceAway)"
+    - blocked: "NamedColor(presenceBlocked)"
+    - busy: "NamedColor(presenceBusy)"
+    - doNotDisturb: "NamedColor(presenceDnd)"
+    - offline: "NamedColor(presenceOffline)"
+    - outOfOffice: "NamedColor(presenceOof)"
+    - unknown: "NamedColor(presenceUnknown)"
+
   Stroke:
     - neutral1: "FluentUIColor(light: $Colors.Neutral.grey94, lightHighContrast: $Colors.Neutral.grey38, dark: $Colors.Neutral.grey24, darkHighContrast: $Colors.Neutral.grey68, darkElevated: $Colors.Neutral.grey32)"
     - neutral2: "FluentUIColor(light: $Colors.Neutral.grey88, lightHighContrast: $Colors.Neutral.grey38, dark: $Colors.Neutral.grey32, darkHighContrast: $Colors.Neutral.grey68, darkElevated: $Colors.Neutral.grey36)"
@@ -112,8 +122,8 @@ Border:
   size: [ none: 0pt, thin: 1pt, thick: 2pt, thicker: 4pt, thickest: 6pt ]
 
 Icon:
-  style: EnumDef(regular, filled)
   size: [ xxxSmall: 10pt, xxSmall: 12pt, xSmall: 16pt, small: 20pt, medium: 24pt, large: 28pt, xlarge: 36pt, xxlarge: 40pt, xxxlarge: 48pt ]
+  accentColor: "FluentUIColor(light: $Colors.Neutral.white, dark: $Colors.Neutral.black)"
 
 Spacing:
   none: 0pt
@@ -138,6 +148,67 @@ Opacity:
   opacity88: 0.88f
   opacity96: 0.96f
   none: 1f
+
+AP_AvatarTokens:
+  backgroundDefaultColor: "FluentUIColor(light: $Colors.Neutral.white, dark: $Colors.Brand.primary)"
+  borderRadius: [ xSmall: $Border.radius.none, small: $Border.radius.none, medium: $Border.radius.none, large: $Border.radius.none, xlarge: $Border.radius.none, xxlarge: $Border.radius.none ]
+  foregroundDefaultColor: "FluentUIColor(light: $Colors.Brand.primary, dark: $Icon.accentColor)"
+  presenceIconSize: [ xSmall: 0pt, small: $Icon.size.xxxSmall, medium: $Icon.size.xxxSmall, large: $Icon.size.xxSmall, xlarge: $Icon.size.xSmall, xxlarge: $Icon.size.small ]
+  presenceIconOutlineColor: $Colors.Background.neutral1
+  presenceIconOutlineThickness: [ xSmall: $Border.size.none, small: $Border.size.thick, medium: $Border.size.thick, large: $Border.size.thick, xlarge: $Border.size.thick, xxlarge: $Border.size.thick ]
+  ringDefaultColor: $Colors.Brand.tint10
+  ringGapColor: $Colors.Background.neutral1
+  ringInnerGap: [ xSmall: $Border.size.thick, small: $Border.size.thick, medium: $Border.size.thick, large: $Border.size.thick, xlarge: $Border.size.thick, xxlarge: $Border.size.thicker ]
+  ringThickness: [ xSmall: $Border.size.thin, small: $Border.size.thin, medium: $Border.size.thick, large: $Border.size.thick, xlarge: $Border.size.thick, xxlarge: $Border.size.thicker ]
+  ringOuterGap: [ xSmall: $Border.size.thick, small: $Border.size.thick, medium: $Border.size.thick, large: $Border.size.thick, xlarge: $Border.size.thick, xxlarge: $Border.size.thicker ]
+  size: [ xSmall: 16pt, small: 24pt, medium: 32pt, large: 40pt, xlarge: 52pt, xxlarge: 72pt ]
+  textCalculatedBackgroundColors: [ "NamedColor(cyanBlue10)", 
+                                    "NamedColor(red10)",
+                                    "NamedColor(magenta20)",
+                                    "NamedColor(green10)",
+                                    "NamedColor(magentaPink10)",
+                                    "NamedColor(cyanBlue20)",
+                                    "NamedColor(orange20)",
+                                    "NamedColor(cyan20)",
+                                    "NamedColor(orangeYellow20)",
+                                    "NamedColor(red20)",
+                                    "NamedColor(blue10)",
+                                    "NamedColor(magenta10)",
+                                    "NamedColor(gray40)",
+                                    "NamedColor(green20)",
+                                    "NamedColor(blueMagenta20)",
+                                    "NamedColor(pinkRed10)",
+                                    "NamedColor(gray30)",
+                                    "NamedColor(blueMagenta30)",
+                                    "NamedColor(gray20)",
+                                    "NamedColor(cyan30)",
+                                    "NamedColor(orange30)" ]
+  textColor: $Colors.Foreground.neutralInverted
+  textFont: [ xSmall: "Font(9px, regular)", small: "Font(12px, regular)", medium: "Font(13px, regular)", large: "Font(15px, regular)", xlarge: "Font(20px, regular)", xxlarge: "Font(28px, medium)" ]
+
+AccentAvatarTokens extends AvatarTokens:
+  backgroundDefaultColor: $Colors.Brand.primary
+  foregroundDefaultColor: $Icon.accentColor
+  ringDefaultColor: $Colors.Brand.shade10
+
+GroupAvatarTokens extends AvatarTokens:
+  borderRadius: [ xSmall: $Border.radius.small, small: $Border.radius.medium, medium: $Border.radius.medium, large: $Border.radius.large, xlarge: $Border.radius.large, xxlarge: $Border.radius.xlarge ]
+
+OutlinedAvatarTokens extends AvatarTokens:
+  backgroundDefaultColor: "FluentUIColor(light: $Colors.Neutral.grey94, dark: $Colors.Neutral.grey26)"
+  foregroundDefaultColor: "FluentUIColor(light: $Colors.Neutral.grey42, dark: $Colors.Neutral.grey78)"
+  ringDefaultColor: $Colors.Background.neutralDisabled
+
+OutlinedPrimaryAvatarTokens extends AvatarTokens:
+  backgroundDefaultColor: "FluentUIColor(light: $Colors.Brand.tint40, dark: $Colors.Neutral.grey26)"
+  foregroundDefaultColor: "FluentUIColor(light: $Colors.Brand.primary, dark: $Colors.Neutral.grey78)"
+  ringDefaultColor: "FluentUIColor(light: $Colors.Brand.tint10, dark: $Colors.Neutral.grey78)"
+
+OverflowAvatarTokens extends AvatarTokens:
+  backgroundDefaultColor: $Colors.Background.neutral4
+  foregroundDefaultColor: $Colors.Foreground.neutral3
+  textColor: $Colors.Foreground.neutral3
+  ringDefaultColor: $Colors.Background.neutralDisabled
 
 AP_MSFButtonTokens:
   backgroundColor: [ rest: $Colors.Neutral.clear, hover: $Colors.Neutral.clear, pressed: $Colors.Neutral.clear, selected: $Colors.Neutral.clear, disabled: $Colors.Neutral.clear ]

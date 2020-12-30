@@ -35,10 +35,116 @@ class PopupMenuDemoController: DemoController {
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         ]
 
-        container.addArrangedSubview(createButton(title: "Show with sections", action: #selector(showTopMenuWithSectionsButtonTapped)))
-        container.addArrangedSubview(createButton(title: "Show with scrollable items and no icons", action: #selector(showTopMenuWithScrollableItemsButtonTapped)))
-        container.addArrangedSubview(createButton(title: "Show items with custom colors", action: #selector(showCustomColorsButtonTapped)))
-        container.addArrangedSubview(createButton(title: "Show items without dismissal after being tapped", action: #selector(showNoDismissalItemsButtonTapped)))
+        container.addArrangedSubview(createButton(title: "Show with sections", action: { [weak self] sender in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let buttonView = sender.view
+            let controller = PopupMenuController(sourceView: buttonView, sourceRect: buttonView.bounds, presentationDirection: .down)
+
+            controller.addSections([
+                PopupMenuSection(title: "Canada", items: [
+                    PopupMenuItem(imageName: "Montreal", generateSelectedImage: false, title: "Montréal", subtitle: "Québec"),
+                    PopupMenuItem(imageName: "Toronto", generateSelectedImage: false, title: "Toronto", subtitle: "Ontario"),
+                    PopupMenuItem(imageName: "Vancouver", generateSelectedImage: false, title: "Vancouver", subtitle: "British Columbia")
+                ]),
+                PopupMenuSection(title: "United States", items: [
+                    PopupMenuItem(imageName: "Las Vegas", generateSelectedImage: false, title: "Las Vegas", subtitle: "Nevada"),
+                    PopupMenuItem(imageName: "Phoenix", generateSelectedImage: false, title: "Phoenix", subtitle: "Arizona"),
+                    PopupMenuItem(imageName: "San Francisco", generateSelectedImage: false, title: "San Francisco", subtitle: "California"),
+                    PopupMenuItem(imageName: "Seattle", generateSelectedImage: false, title: "Seattle", subtitle: "Washington")
+                ])
+            ])
+
+            controller.selectedItemIndexPath = strongSelf.cityIndexPath
+            controller.onDismiss = { [unowned controller] in
+                strongSelf.cityIndexPath = controller.selectedItemIndexPath
+            }
+
+            strongSelf.present(controller, animated: true)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show with scrollable items and no icons", action: { [weak self] sender in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let buttonView = sender.view
+            let controller = PopupMenuController(sourceView: buttonView, sourceRect: buttonView.bounds, presentationDirection: .down)
+
+            let items = samplePersonas.map { PopupMenuItem(title: !$0.name.isEmpty ? $0.name : $0.email) }
+            controller.addItems(items)
+
+            strongSelf.present(controller, animated: true)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show items with custom colors", action: { [weak self] sender in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let buttonView = sender.view
+            let controller = PopupMenuController(sourceView: buttonView, sourceRect: buttonView.bounds, presentationDirection: .down)
+
+            let items = [
+                PopupMenuItem(image: UIImage(named: "agenda-24x24"), title: "Agenda", isSelected: strongSelf.calendarLayout == .agenda, onSelected: { strongSelf.calendarLayout = .agenda }),
+                PopupMenuItem(image: UIImage(named: "day-view-24x24"), title: "Day", isSelected: strongSelf.calendarLayout == .day, onSelected: { strongSelf.calendarLayout = .day }),
+                PopupMenuItem(image: UIImage(named: "3-day-view-24x24"), title: "3-Day", isEnabled: false, isSelected: strongSelf.calendarLayout == .threeDay, onSelected: { strongSelf.calendarLayout = .threeDay })
+            ]
+
+            let menuBackgroundColor: UIColor = .darkGray
+
+            for item in items {
+                item.titleColor = .white
+                item.titleSelectedColor = .white
+                item.imageSelectedColor = .white
+                item.accessoryCheckmarkColor = .white
+                item.backgroundColor = menuBackgroundColor
+            }
+
+            controller.addItems(items)
+
+            controller.backgroundColor = menuBackgroundColor
+            controller.resizingHandleViewBackgroundColor = menuBackgroundColor
+            controller.separatorColor = .lightGray
+
+            strongSelf.present(controller, animated: true)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show items without dismissal after being tapped", action: { [weak self] sender in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let buttonView = sender.view
+            let controller = PopupMenuController(sourceView: buttonView, sourceRect: buttonView.bounds, presentationDirection: .down)
+
+            let items = [
+                PopupMenuItem(image: UIImage(named: "agenda-24x24"), title: "Agenda", isSelected: strongSelf.calendarLayout == .agenda, executes: .onSelectionWithoutDismissal, onSelected: { strongSelf.calendarLayout = .agenda }),
+                PopupMenuItem(image: UIImage(named: "day-view-24x24"), title: "Day", isSelected: strongSelf.calendarLayout == .day, executes: .onSelectionWithoutDismissal, onSelected: { strongSelf.calendarLayout = .day }),
+                PopupMenuItem(image: UIImage(named: "3-day-view-24x24"), title: "3-Day", isEnabled: false, isSelected: strongSelf.calendarLayout == .threeDay, executes: .onSelectionWithoutDismissal, onSelected: { strongSelf.calendarLayout = .threeDay })
+            ]
+
+            let menuBackgroundColor: UIColor = .darkGray
+
+            for item in items {
+                item.titleColor = .white
+                item.titleSelectedColor = .white
+                item.imageSelectedColor = .white
+                item.accessoryCheckmarkColor = .white
+                item.backgroundColor = menuBackgroundColor
+            }
+
+            controller.addItems(items)
+
+            controller.backgroundColor = menuBackgroundColor
+            controller.resizingHandleViewBackgroundColor = menuBackgroundColor
+            controller.separatorColor = .lightGray
+
+            strongSelf.present(controller, animated: true)
+        }).view)
+
         container.addArrangedSubview(UIView())
         addTitle(text: "Show with...")
     }
@@ -94,96 +200,6 @@ class PopupMenuDemoController: DemoController {
             PopupMenuItem(title: "Week (no icon)", isSelected: calendarLayout == .week, onSelected: { self.calendarLayout = .week }),
             PopupMenuItem(image: UIImage(named: "month-view-24x24"), title: "Month", isSelected: calendarLayout == .month, onSelected: { self.calendarLayout = .month })
         ])
-
-        present(controller, animated: true)
-    }
-
-    @objc private func showTopMenuWithSectionsButtonTapped(sender: UIButton) {
-        let controller = PopupMenuController(sourceView: sender, sourceRect: sender.bounds, presentationDirection: .down)
-
-        controller.addSections([
-            PopupMenuSection(title: "Canada", items: [
-                PopupMenuItem(imageName: "Montreal", generateSelectedImage: false, title: "Montréal", subtitle: "Québec"),
-                PopupMenuItem(imageName: "Toronto", generateSelectedImage: false, title: "Toronto", subtitle: "Ontario"),
-                PopupMenuItem(imageName: "Vancouver", generateSelectedImage: false, title: "Vancouver", subtitle: "British Columbia")
-            ]),
-            PopupMenuSection(title: "United States", items: [
-                PopupMenuItem(imageName: "Las Vegas", generateSelectedImage: false, title: "Las Vegas", subtitle: "Nevada"),
-                PopupMenuItem(imageName: "Phoenix", generateSelectedImage: false, title: "Phoenix", subtitle: "Arizona"),
-                PopupMenuItem(imageName: "San Francisco", generateSelectedImage: false, title: "San Francisco", subtitle: "California"),
-                PopupMenuItem(imageName: "Seattle", generateSelectedImage: false, title: "Seattle", subtitle: "Washington")
-            ])
-        ])
-
-        controller.selectedItemIndexPath = cityIndexPath
-        controller.onDismiss = { [unowned controller] in
-            self.cityIndexPath = controller.selectedItemIndexPath
-        }
-
-        present(controller, animated: true)
-    }
-
-    @objc private func showTopMenuWithScrollableItemsButtonTapped(sender: UIButton) {
-        let controller = PopupMenuController(sourceView: sender, sourceRect: sender.bounds, presentationDirection: .down)
-
-        let items = samplePersonas.map { PopupMenuItem(title: !$0.name.isEmpty ? $0.name : $0.email) }
-        controller.addItems(items)
-
-        present(controller, animated: true)
-    }
-
-    @objc private func showCustomColorsButtonTapped(sender: UIButton) {
-        let controller = PopupMenuController(sourceView: sender, sourceRect: sender.bounds, presentationDirection: .down)
-
-        let items = [
-            PopupMenuItem(image: UIImage(named: "agenda-24x24"), title: "Agenda", isSelected: calendarLayout == .agenda, onSelected: { self.calendarLayout = .agenda }),
-            PopupMenuItem(image: UIImage(named: "day-view-24x24"), title: "Day", isSelected: calendarLayout == .day, onSelected: { self.calendarLayout = .day }),
-            PopupMenuItem(image: UIImage(named: "3-day-view-24x24"), title: "3-Day", isEnabled: false, isSelected: calendarLayout == .threeDay, onSelected: { self.calendarLayout = .threeDay })
-        ]
-
-        let menuBackgroundColor: UIColor = .darkGray
-
-        for item in items {
-            item.titleColor = .white
-            item.titleSelectedColor = .white
-            item.imageSelectedColor = .white
-            item.accessoryCheckmarkColor = .white
-            item.backgroundColor = menuBackgroundColor
-        }
-
-        controller.addItems(items)
-
-        controller.backgroundColor = menuBackgroundColor
-        controller.resizingHandleViewBackgroundColor = menuBackgroundColor
-        controller.separatorColor = .lightGray
-
-        present(controller, animated: true)
-    }
-
-    @objc private func showNoDismissalItemsButtonTapped(sender: UIButton) {
-        let controller = PopupMenuController(sourceView: sender, sourceRect: sender.bounds, presentationDirection: .down)
-
-        let items = [
-            PopupMenuItem(image: UIImage(named: "agenda-24x24"), title: "Agenda", isSelected: calendarLayout == .agenda, executes: .onSelectionWithoutDismissal, onSelected: { self.calendarLayout = .agenda }),
-            PopupMenuItem(image: UIImage(named: "day-view-24x24"), title: "Day", isSelected: calendarLayout == .day, executes: .onSelectionWithoutDismissal, onSelected: { self.calendarLayout = .day }),
-            PopupMenuItem(image: UIImage(named: "3-day-view-24x24"), title: "3-Day", isEnabled: false, isSelected: calendarLayout == .threeDay, executes: .onSelectionWithoutDismissal, onSelected: { self.calendarLayout = .threeDay })
-        ]
-
-        let menuBackgroundColor: UIColor = .darkGray
-
-        for item in items {
-            item.titleColor = .white
-            item.titleSelectedColor = .white
-            item.imageSelectedColor = .white
-            item.accessoryCheckmarkColor = .white
-            item.backgroundColor = menuBackgroundColor
-        }
-
-        controller.addItems(items)
-
-        controller.backgroundColor = menuBackgroundColor
-        controller.resizingHandleViewBackgroundColor = menuBackgroundColor
-        controller.separatorColor = .lightGray
 
         present(controller, animated: true)
     }

@@ -390,22 +390,84 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         spacingView.widthAnchor.constraint(equalToConstant: Constants.stackViewSpacing).isActive = true
         settingsView.addArrangedSubview(spacingView)
 
-        let plusMinActionsButton = createPlusMinusButton(plus: true, #selector(incrementMinimumActionsCount))
-        let minusMinActionsButton = createPlusMinusButton(plus: false, #selector(decrementMinimumActionsCount))
-        let plusTopOverlapButton = createPlusMinusButton(plus: true, #selector(incrementTopActionsOverlap))
-        let minusTopOverlapButton = createPlusMinusButton(plus: false, #selector(decrementTopActionsOverlap))
-        let plusBottomOverlapButton = createPlusMinusButton(plus: true, #selector(incrementBottomActionsOverlap))
-        let minusBottomOverlapButton = createPlusMinusButton(plus: false, #selector(decrementBottomActionsOverlap))
+        let plusMinActionsButton = createPlusMinusButton(plus: true, action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.minimumActionsCount += 1
+        })
+        let minusMinActionsButton = createPlusMinusButton(plus: false, action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            if strongSelf.minimumActionsCount > 0 {
+                strongSelf.minimumActionsCount -= 1
+            }
+        })
+        let actionsButtonsStackView = UIStackView(arrangedSubviews: [plusMinActionsButton, minusMinActionsButton])
+        actionsButtonsStackView.spacing = 10
+
+        let plusTopOverlapButton = createPlusMinusButton(plus: true, action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.topActionsOverlap += 1
+        })
+        let minusTopOverlapButton = createPlusMinusButton(plus: false, action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            if strongSelf.topActionsOverlap > 0 {
+                strongSelf.topActionsOverlap -= 1
+            }
+        })
+        let topOverlapButtonsStackView = UIStackView(arrangedSubviews: [plusTopOverlapButton, minusTopOverlapButton])
+        topOverlapButtonsStackView.spacing = 10
+
+        let plusBottomOverlapButton = createPlusMinusButton(plus: true, action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.bottomActionsOverlap += 1
+        })
+        let minusBottomOverlapButton = createPlusMinusButton(plus: false, action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            if strongSelf.bottomActionsOverlap > 0 {
+                strongSelf.bottomActionsOverlap -= 1
+            }
+        })
+        let bottomOverlapButtonsStackView = UIStackView(arrangedSubviews: [plusBottomOverlapButton, minusBottomOverlapButton])
+        bottomOverlapButtonsStackView.spacing = 10
 
         let settingViews: [UIView] = [
             createLabelAndSwitchRow(labelText: "Dynamic width", switchAction: #selector(toggleDynamicWidth(switchView:)), isOn: useDynamicWidth),
             createLabelAndSwitchRow(labelText: "Dynamic padding", switchAction: #selector(toggleDynamicPadding(switchView:)), isOn: useDynamicPadding),
             createLabelAndSwitchRow(labelText: "Show date", switchAction: #selector(toggleShowDate(switchView:)), isOn: showDate),
-            createButton(title: "Choose date", action: #selector(presentDatePicker)),
-            createButton(title: "Choose time", action: #selector(presentTimePicker)),
-            createLabelAndViewsRow(labelText: "Minimum actions count", views: [plusMinActionsButton, minusMinActionsButton]),
-            createLabelAndViewsRow(labelText: "Top actions overlap", views: [plusTopOverlapButton, minusTopOverlapButton]),
-            createLabelAndViewsRow(labelText: "Bottom actions overlap", views: [plusBottomOverlapButton, minusBottomOverlapButton]),
+            createButton(title: "Choose date", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+                strongSelf.dateTimePicker.present(from: strongSelf, with: .date, startDate: Date(), endDate: nil, datePickerType: .components)
+            }).view,
+            createButton(title: "Choose time", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+                strongSelf.dateTimePicker.present(from: strongSelf, with: .dateTime, startDate: Date(), endDate: nil, datePickerType: .components)
+            }).view,
+            createLabelAndViewsRow(labelText: "Minimum actions count", views: [actionsButtonsStackView]),
+            createLabelAndViewsRow(labelText: "Top actions overlap", views: [topOverlapButtonsStackView]),
+            createLabelAndViewsRow(labelText: "Bottom actions overlap", views: [bottomOverlapButtonsStackView]),
             createLabelAndSwitchRow(labelText: "Show shared status", switchAction: #selector(toggleShowSharedStatus(switchView:)), isOn: showSharedStatus),
             createLabelAndSwitchRow(labelText: "Is document shared", switchAction: #selector(toggleAreDocumentsShared(switchView:)), isOn: areDocumentsShared),
             createLabelAndSwitchRow(labelText: "Show keep offline button", switchAction: #selector(toggleShowKeepOffline(switchView:)), isOn: showKeepOfflineAction),
@@ -432,8 +494,8 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         return settingsView
     }()
 
-    private func createPlusMinusButton(plus: Bool, _ selector: Selector) -> UIButton {
-        let button = createButton(title: (plus ? "+" : "-"), action: selector)
+    private func createPlusMinusButton(plus: Bool, action: ((_ sender: MSFButtonVnext) -> Void)?) -> UIView {
+        let button = createButton(title: (plus ? "+" : "-"), action: action).view
         button.widthAnchor.constraint(equalToConstant: Constants.plusMinusButtonWidth).isActive = true
         return button
     }
@@ -443,14 +505,6 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
     }
 
     private let dateTimePicker = DateTimePicker()
-
-    @objc func presentDatePicker() {
-        dateTimePicker.present(from: self, with: .date, startDate: Date(), endDate: nil, datePickerType: .components)
-    }
-
-    @objc func presentTimePicker() {
-        dateTimePicker.present(from: self, with: .dateTime, startDate: Date(), endDate: nil, datePickerType: .components)
-    }
 
     @objc private func toggleDynamicWidth(switchView: UISwitch) {
         useDynamicWidth = switchView.isOn
@@ -518,36 +572,6 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
 
     @objc private func handleKeepOfflineAction() {
         displayActionAlert(title: "Keep offline")
-    }
-
-    @objc private func incrementMinimumActionsCount() {
-        minimumActionsCount += 1
-    }
-
-    @objc private func decrementMinimumActionsCount() {
-        if minimumActionsCount > 0 {
-            minimumActionsCount -= 1
-        }
-    }
-
-    @objc private func incrementTopActionsOverlap() {
-        topActionsOverlap += 1
-    }
-
-    @objc private func decrementTopActionsOverlap() {
-        if topActionsOverlap > 0 {
-            topActionsOverlap -= 1
-        }
-    }
-
-    @objc private func incrementBottomActionsOverlap() {
-        bottomActionsOverlap += 1
-    }
-
-    @objc private func decrementBottomActionsOverlap() {
-        if bottomActionsOverlap > 0 {
-            bottomActionsOverlap -= 1
-        }
     }
 
     private func displayActionAlert(title: String) {

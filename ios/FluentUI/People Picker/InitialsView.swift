@@ -12,7 +12,7 @@ import UIKit
  The initials are generated from a provided primary text (e.g. a name) or secondary text (e.g. an email address) and placed as a label above a colored background.
  */
 class InitialsView: UIView {
-    private static func initialsBackgroundColor(fromPrimaryText primaryText: String?, secondaryText: String?) -> UIColor {
+    static func initialsBackgroundColor(fromPrimaryText primaryText: String?, secondaryText: String?, colorOptions: [UIColor]? = nil) -> UIColor {
         // Set the color based on the primary text and secondary text
         var combined: String
         if let secondaryText = secondaryText, let primaryText = primaryText, secondaryText.count > 0 {
@@ -23,7 +23,7 @@ class InitialsView: UIView {
             combined = ""
         }
 
-        let colors = Colors.avatarBackgroundColors
+        let colors = colorOptions ?? Colors.avatarBackgroundColors
         let combinedHashable = combined as NSString
         let hashCode = Int(abs(javaHashCode(combinedHashable)))
         return colors[hashCode % colors.count]

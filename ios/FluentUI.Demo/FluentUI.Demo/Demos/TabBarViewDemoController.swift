@@ -10,8 +10,8 @@ class TabBarViewDemoController: DemoController {
     private enum Constants {
         static let initialBadgeNumbers: [UInt] = [5, 50, 250]
         static let initialHigherBadgeNumbers: [UInt] = [1250, 25505, 3050528]
-        static let switchSettingTextWidth: CGFloat = 180
-        static let buttonSettingTextWidth: CGFloat = 150
+        static let switchSettingTextWidth: CGFloat = 200
+        static let buttonSettingTextWidth: CGFloat = 170
     }
 
     private var tabBarView: TabBarView?
@@ -25,8 +25,12 @@ class TabBarViewDemoController: DemoController {
     private let useHigherBadgeNumbersSwitch = UISwitch()
 
     private lazy var incrementBadgeButton: MSFButtonVnext = {
-        let button = MSFButtonVnext(style: .secondary, size: .small, action: {
-            self.incrementBadgeNumbers()
+        let button = MSFButtonVnext(style: .secondary, size: .small, action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.incrementBadgeNumbers()
         })
         button.state.text = "+"
 
@@ -34,8 +38,12 @@ class TabBarViewDemoController: DemoController {
     }()
 
     private lazy var decrementBadgeButton: MSFButtonVnext = {
-        let button = MSFButtonVnext(style: .secondary, size: .small, action: {
-            self.decrementBadgeNumbers()
+        let button = MSFButtonVnext(style: .secondary, size: .small, action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.decrementBadgeNumbers()
         })
         button.state.text = "-"
 
@@ -57,7 +65,9 @@ class TabBarViewDemoController: DemoController {
         addRow(text: "Use higher badge numbers", items: [useHigherBadgeNumbersSwitch], textWidth: Constants.switchSettingTextWidth)
         useHigherBadgeNumbersSwitch.addTarget(self, action: #selector(handleOnSwitchValueChanged), for: .valueChanged)
 
-        addRow(text: "Modify badge numbers", items: [incrementBadgeButton.view, decrementBadgeButton.view], textWidth: Constants.buttonSettingTextWidth)
+        let buttonsStackView = UIStackView(arrangedSubviews: [incrementBadgeButton.view, decrementBadgeButton.view])
+        buttonsStackView.spacing = 20
+        addRow(text: "Modify badge numbers", items: [buttonsStackView], textWidth: Constants.buttonSettingTextWidth)
 
         setupTabBarView()
         updateBadgeButtons()

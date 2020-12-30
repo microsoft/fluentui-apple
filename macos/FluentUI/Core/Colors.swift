@@ -237,7 +237,7 @@ public final class Colors: NSObject {
 			case .presenceBusy:
 				return "presenceBusy"
 			case .presenceDnd:
-				return "presenceOffline"
+				return "presenceDnd"
 			case .presenceOffline:
 				return "presenceOffline"
 			case .presenceOof:

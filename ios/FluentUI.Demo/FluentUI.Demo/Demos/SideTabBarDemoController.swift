@@ -41,12 +41,24 @@ class SideTabBarDemoController: DemoController {
         }
     }
 
-    private lazy var incrementBadgeButton: MSFButton = {
-        return createButton(title: "+", action: #selector(incrementBadgeNumbers))
+    private lazy var incrementBadgeButton: MSFButtonVnext = {
+        return createButton(title: "+", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.modifyBadgeNumbers(increment: 1)
+        })
     }()
 
-    private lazy var decrementBadgeButton: MSFButton = {
-        return createButton(title: "-", action: #selector(decrementBadgeNumbers))
+    private lazy var decrementBadgeButton: MSFButtonVnext = {
+        return createButton(title: "-", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.modifyBadgeNumbers(increment: -1)
+        })
     }()
 
     private func presentSideTabBar() {
@@ -117,17 +129,21 @@ class SideTabBarDemoController: DemoController {
         useHigherBadgeNumbersView.translatesAutoresizingMaskIntoConstraints = false
         optionsStackView.addArrangedSubview(useHigherBadgeNumbersView)
 
-        let modifyBadgeNumbersView = createLabelAndViewsRow(labelText: "Modify badge numbers", views: [incrementBadgeButton, decrementBadgeButton])
+        let badgeNumberButtonsStackView = UIStackView(arrangedSubviews: [incrementBadgeButton.view, decrementBadgeButton.view])
+        badgeNumberButtonsStackView.spacing = 20
+        let modifyBadgeNumbersView = createLabelAndViewsRow(labelText: "Modify badge numbers", views: [badgeNumberButtonsStackView])
         modifyBadgeNumbersView.translatesAutoresizingMaskIntoConstraints = false
         optionsStackView.addArrangedSubview(modifyBadgeNumbersView)
 
-        let button = MSFButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.textAlignment = .center
-        button.titleLabel?.numberOfLines = 0
-        button.setTitle("Dismiss", for: .normal)
-        button.addTarget(self, action: #selector(dismissSideTabBar), for: .touchUpInside)
-        optionsStackView.addArrangedSubview(button)
+        optionsStackView.addArrangedSubview(createButton(title: "Dismiss", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.dismiss(animated: false) {
+                strongSelf.navigationController?.popViewController(animated: true)
+            }
+        }).view)
 
         NSLayoutConstraint.activate([
             sideTabBar.leadingAnchor.constraint(equalTo: contentViewController.view.leadingAnchor),
@@ -145,12 +161,6 @@ class SideTabBarDemoController: DemoController {
 
         updateBadgeNumbers()
         updateBadgeButtons()
-    }
-
-    @objc private func dismissSideTabBar() {
-        dismiss(animated: false) {
-            self.navigationController?.popViewController(animated: true)
-        }
     }
 
     @objc private func toggleAvatarView(switchView: UISwitch) {
@@ -199,8 +209,8 @@ class SideTabBarDemoController: DemoController {
     }
 
     private func updateBadgeButtons() {
-        incrementBadgeButton.isEnabled = showBadgeNumbers
-        decrementBadgeButton.isEnabled = showBadgeNumbers
+        incrementBadgeButton.state.isDisabled = !showBadgeNumbers
+        decrementBadgeButton.state.isDisabled = !showBadgeNumbers
     }
 
     private func modifyBadgeNumbers(increment: Int) {
@@ -221,14 +231,6 @@ class SideTabBarDemoController: DemoController {
         }
 
         updateBadgeNumbers()
-    }
-
-    @objc private func incrementBadgeNumbers() {
-        modifyBadgeNumbers(increment: 1)
-    }
-
-    @objc private func decrementBadgeNumbers() {
-        modifyBadgeNumbers(increment: -1)
     }
 }
 
