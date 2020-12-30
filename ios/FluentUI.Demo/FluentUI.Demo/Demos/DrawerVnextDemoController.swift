@@ -64,7 +64,7 @@ extension UIStackView {
     }
 }
 
-class DrawerVnextDemoController: DemoController {
+class DrawerVnextDemoController: DemoController, DrawerVnextControllerDelegate {
 
     private var drawerController: DrawerVnext?
 
@@ -120,6 +120,7 @@ class DrawerVnextDemoController: DemoController {
         view.addGestureRecognizer(trailingEdgeGesture)
 
         drawerController = DrawerVnext(contentViewController: DrawerContentController())
+        drawerController?.delegate = self
     }
 
     @objc private func showLeftDrawerClearBackgroundButtonTapped() {
@@ -165,5 +166,9 @@ class DrawerVnextDemoController: DemoController {
         } else {
             self.showLeftDrawerClearBackgroundButtonTapped()
         }
+    }
+
+    @objc func drawerDidChangeExpandedState(state: DrawerState, controller: UIViewController) {
+        print("drawer state changed : \(state.isExpanded)")
     }
 }
