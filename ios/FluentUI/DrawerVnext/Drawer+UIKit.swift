@@ -53,9 +53,7 @@ extension DrawerVnext: UIViewControllerTransitioningDelegate, UIViewControllerAn
 
 // MARK: DrawerModal
 
-/**
- `DrawerModal` is SwiftUI wrapper classes that embeds a UIViewController used to host UIKit content as a SwiftUI componenet
- */
+/// `DrawerModal` is SwiftUI wrapper classes that embeds a UIViewController used to host UIKit content as a SwiftUI componenet
 public struct DrawerModal {
 
     public struct DrawerShimView: View {
@@ -107,15 +105,11 @@ public struct DrawerModal {
 
 @objc(MSFDrawerVnextControllerDelegate)
 public protocol DrawerVnextControllerDelegate: AnyObject {
-    /**
-     Called when a user opens/closes the drawer  to change its expanded state. Use `isExpanded` property to get the current state.
-     */
+    /// Called when a user opens/closes the drawer  to change its expanded state. Use `isExpanded` property to get the current state.
     @objc optional func drawerDidChangeExpandedState(state: DrawerState, controller: UIViewController)
 }
 
-/**
- ` DrawerVnext` is UIKit wrapper that exposes the SwiftUI Drawer implementation
- */
+/// ` DrawerVnext` is UIKit wrapper that exposes the SwiftUI Drawer implementation
 @objc(MSFDrawerVnext)
 open class DrawerVnext: UIHostingController<DrawerModal.DrawerShimView> {
 

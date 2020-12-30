@@ -6,8 +6,8 @@
 import SwiftUI
 
 public extension Drawer {
-    /// called when drawer is collapsed/expanded.
-    /// - Parameter isExpanded: Bool if true means drawer is open
+    /// Custom modifier for adding a callback placeholder when drawer's state is changed
+    /// - Parameter didChangedState: closure executed with drawer is expanded or collapsed
     /// - Returns: Drawer
     func didChangedState(_ didChangedState: @escaping DrawerStateChangedCompletionBlock) -> Drawer {
         let drawerState = state

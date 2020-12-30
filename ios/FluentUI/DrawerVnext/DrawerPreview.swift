@@ -29,6 +29,9 @@ struct DrawerPreview: View {
             }
             drawer
                 .didChangedState { value in
+                    withAnimation {
+                        drawer.viewModel.expand = value
+                    }
                     print("drawer isExpanded: \(value)")
                 }
         }

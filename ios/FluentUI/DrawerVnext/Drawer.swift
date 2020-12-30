@@ -7,42 +7,36 @@ import SwiftUI
 
 // MARK: State
 
-/*
- `DrawerState` assist to configure drawer functional properties via UIKit components.
- */
+/// `DrawerState` assist to configure drawer functional properties via UIKit components.
 @objc(DrawerState)
 public class DrawerState: NSObject, ObservableObject {
 
     /// A callback executed when the drawer is expanded/collapsed
     public var onStateChange: (DrawerStateChangedCompletionBlock)?
 
-    /*
-     Set `isExpanded` to `true` to maximize the drawer's width to fill the device screen horizontally minus the safe areas. Set to `false` to restore it to the normal size.
-     */
+    /// Set `isExpanded` to `true` to maximize the drawer's width to fill the device screen horizontally minus the safe areas.
+    /// Set to `false` to restore it to the normal size.
     @objc @Published public var isExpanded: Bool = false {
         didSet {
             onStateChange?(isExpanded)
         }
     }
-
     @objc @Published public var presentationDirection: DrawerDirection = .left
 
-    /*
-     Set `backgroundDimmed` to `true` to dim the spacer area between drawer and base view. If set to `false` it restores to `clear` color
-     */
+    /// Set `backgroundDimmed` to `true` to dim the spacer area between drawer and base view.
+    /// If set to `false` it restores to `clear` color
     @objc @Published public var backgroundDimmed: Bool = false
 }
 
 public typealias DrawerStateChangedCompletionBlock = (_ isExpanded: Bool) -> Void
 
+/// `DrawerAnimationModel` use the below properties to animate drawer components
 @objc(DrawerViewModel)
 public class DrawerAnimationModel: NSObject, ObservableObject {
     @Published public var expand: Bool = false
 }
 
-/*
- `DrawerTokens` assist to configure drawer apperance via UIKit components.
- */
+/// `DrawerTokens` assist to configure drawer apperance via UIKit components.
 public class DrawerTokens: ObservableObject {
 
     @Published public var shadowColor: Color!
@@ -73,11 +67,10 @@ public class DrawerTokens: ObservableObject {
 
 // MARK: Drawer
 
-/**
- `Drawer` is used to present a content that is currently in hideout mode when collapsed and when expanded is used to present content view partially either on the left or right.
- `Drawer`  support horizontal axis and is expanded by default from left side of the screen unless explicitly specified
- Set `Content` to provide content for the drawer.
- */
+
+/// `Drawer` is used to present a content that is currently in hideout mode when collapsed and when expanded is used to present content view partially either on the left or right.
+/// `Drawer`  support horizontal axis and is expanded by default from left side of the screen unless explicitly specified
+///  Set `Content` to provide content for the drawer.
 public struct Drawer<Content: View>: View {
 
     // content view on top of `Drawer`
