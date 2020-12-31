@@ -91,6 +91,7 @@ class ButtonVnextDemoController: DemoController {
         radius.large = 0
         radius.xlarge = 0
         border.radius = radius
+
         overridingTheme.Border = border
         overridingTheme.Colors = colorAP
 
@@ -126,6 +127,12 @@ class ButtonVnextDemoController: DemoController {
     }
 
     func didPressButton() {
+        // Temporary change to exercise the scenario where the color provider is set
+        // and all teh Vnext controls are refreshed accordingly.
+        if let window = self.view.window {
+            Colors.setProvider(provider: SceneDelegate.colorProvider, for: window)
+        }
+
         let alert = UIAlertController(title: "A button was pressed",
                                       message: nil,
                                       preferredStyle: .alert)

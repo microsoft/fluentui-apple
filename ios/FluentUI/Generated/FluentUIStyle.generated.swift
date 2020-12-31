@@ -260,15 +260,13 @@ extension StylesheetManagerTheming {
 @objcMembers public class StylesheetManager: NSObject, StylesheetManagerTheming {
     private static var stylesheetsMap = NSMapTable<UIWindow, FluentUIStyle>(keyOptions: .weakMemory, valueOptions: .strongMemory)
 
-    public class func stylesheet(for window: UIWindow) -> FluentUIStyle {
-        if let stylesheet = stylesheetsMap.object(forKey: window) {
-            return stylesheet
-        }
+    public class func stylesheet(for window: UIWindow?) -> FluentUIStyle? {
+        return stylesheetsMap.object(forKey: window)
+    }
 
-        let newStylesheet = FluentUIStyle()
-        stylesheetsMap.setObject(newStylesheet, forKey: window)
-
-        return newStylesheet
+    public class func setStylesheet(stylesheet: FluentUIStyle, for window: UIWindow) {
+        stylesheetsMap.setObject(stylesheet, forKey: window)
+        NotificationCenter.default.post(name: .didChangeTheme, object: nil)
     }
 
 	dynamic public class func stylesheet(_ stylesheet: FluentUIStyle) -> FluentUIStyle {

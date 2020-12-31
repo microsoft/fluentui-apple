@@ -277,7 +277,7 @@ public final class Colors: NSObject {
         colorProvidersMap.setObject(provider, forKey: window)
 
         // Reflect the ColorProviding implementation in the FluentUI Vnext stylesheet for this window
-        let stylesheet = StylesheetManager.stylesheet(for: window)
+        let stylesheet = FluentUIStyle()
         let colors = stylesheet.Colors
         let brandColors = colors.Brand
         brandColors.primary = primary(for: window)
@@ -290,6 +290,7 @@ public final class Colors: NSObject {
         brandColors.shade30 = primaryShade30(for: window)
         colors.Brand = brandColors
         stylesheet.Colors = colors
+        StylesheetManager.setStylesheet(stylesheet: stylesheet, for: window)
     }
 
     // MARK: Primary

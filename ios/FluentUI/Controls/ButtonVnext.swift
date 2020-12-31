@@ -33,6 +33,8 @@ public class MSFButtonVnextState: NSObject, ObservableObject {
 /// Representation of design tokens to buttons at runtime which interfaces with the Design Token System auto-generated code.
 /// Updating these properties causes the SwiftUI button to update its view automatically.
 public class MSFButtonTokens: ObservableObject {
+    var windowProvider: FluentUIWindowProvider?
+
     @Published public var borderRadius: CGFloat!
     @Published public var borderSize: CGFloat!
     @Published public var iconSize: CGFloat!
@@ -57,15 +59,11 @@ public class MSFButtonTokens: ObservableObject {
 
     var style: MSFButtonVnextStyle
     var size: MSFButtonVnextSize
-    var theme: FluentUIStyle {
-        didSet {
-            didChangeAppearanceProxy()
-        }
-    }
+    var theme: FluentUIStyle
+    var isThemeOverriden: Bool = false
 
     public init(style: MSFButtonVnextStyle,
-                size: MSFButtonVnextSize
-    ) {
+                size: MSFButtonVnextSize) {
         self.style = style
         self.size = size
         self.theme = ThemeKey.defaultValue
@@ -74,7 +72,25 @@ public class MSFButtonTokens: ObservableObject {
         didChangeAppearanceProxy()
     }
 
+    public func overrideTheme(theme: FluentUIStyle) {
+        self.theme = theme
+        self.isThemeOverriden = true
+        didChangeAppearanceProxy()
+    }
+
+    public func refresh() {
+        didChangeAppearanceProxy()
+    }
+
     @objc open func didChangeAppearanceProxy() {
+        // Uses the window theme if available unless there is a theme explicitly overriden
+        // through the View's environment value for the hierarchy that it is contained in.
+        if !isThemeOverriden,
+           let window = windowProvider?.window,
+           let windowTheme = StylesheetManager.stylesheet(for: window) {
+            theme = windowTheme
+        }
+
         var appearanceProxy: ApperanceProxyType
 
         switch style {
@@ -173,15 +189,13 @@ public struct MSFButtonViewButtonStyle: ButtonStyle {
 /// View that represents the button
 public struct MSFButtonView: View {
     var action: () -> Void
-    var windowProvider: FluentUIWindowProvider?
     @ObservedObject var tokens: MSFButtonTokens
     @ObservedObject var state: MSFButtonVnextState
     @Environment(\.theme) var theme: FluentUIStyle
 
     public init(action: @escaping () -> Void,
                 style: MSFButtonVnextStyle,
-                size: MSFButtonVnextSize
-    ) {
+                size: MSFButtonVnextSize) {
         self.action = action
         self.state = MSFButtonVnextState()
         self.tokens = MSFButtonTokens(style: style, size: size)
@@ -193,12 +207,15 @@ public struct MSFButtonView: View {
             .disabled(state.isDisabled)
             .frame(maxWidth: .infinity)
             .onAppear {
-                // Uses the window theme if available unless there is a theme explicitly overriden
-                // through an environment value for the hierarchy that it is contained in.
-                if let window = windowProvider?.window, theme == ThemeKey.defaultValue {
-                    self.tokens.theme = StylesheetManager.stylesheet(for: window)
+                // When environment values are available through the view hierarchy:
+                //  - If we get a non-default theme through the environment values,
+                //    we use to override the theme from this view and its hierarchy.
+                //  - Otherwise we just refresh the tokens to reflect the theme
+                //    associated with the window that this View belongs to.
+                if theme == ThemeKey.defaultValue {
+                    self.tokens.refresh()
                 } else {
-                    self.tokens.theme = theme
+                    self.tokens.overrideTheme(theme: theme)
                 }
             }
     }
@@ -256,9 +273,9 @@ open class MSFButtonVnext: NSObject, FluentUIWindowProvider {
         },
         style: style,
         size: size)
-        buttonView.windowProvider = self
 
         self.hostingController = UIHostingController(rootView: theme != nil ? AnyView(buttonView.usingTheme(theme!)) : AnyView(buttonView))
+        buttonView.tokens.windowProvider = self
         self.view.backgroundColor = UIColor.clear
     }
 }
