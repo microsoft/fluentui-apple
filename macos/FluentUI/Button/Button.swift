@@ -401,6 +401,10 @@ class ButtonCell: NSButtonCell {
 		var yOffsetSign = 0
 
 		switch imagePosition {
+		case .noImage:
+			preconditionFailure(".noImage case is covered by guard return")
+		case .imageOnly, .imageOverlaps:
+			break
 		case .imageLeft:
 			xOffsetSign = -1
 		case .imageLeading:
@@ -413,9 +417,6 @@ class ButtonCell: NSButtonCell {
 			yOffsetSign = 1
 		case .imageAbove:
 			yOffsetSign = -1
-		case .noImage, .imageOnly, .imageOverlaps:
-			// .noImage case is covered by guard return at top
-			break
 		@unknown default:
 			break
 		}
@@ -450,6 +451,10 @@ class ButtonCell: NSButtonCell {
 		var yOffsetSign = 0
 
 		switch imagePosition {
+		case .imageOnly:
+			preconditionFailure(".imageOnly case is covered by guard return")
+		case .noImage, .imageOverlaps:
+			break
 		case .imageLeft:
 			xOffsetSign = 1
 		case .imageLeading:
@@ -462,9 +467,6 @@ class ButtonCell: NSButtonCell {
 			yOffsetSign = -1
 		case .imageAbove:
 			yOffsetSign = 1
-		case .noImage, .imageOnly, .imageOverlaps:
-			// .imageOnly case is covered by guard return at top
-			break
 		@unknown default:
 			break
 		}
