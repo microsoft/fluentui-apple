@@ -40,6 +40,18 @@ let buttonStates: [String] = [
 	"disabled",
 ]
 
+let widths: [String: CGFloat] = [
+	"natural": 0,
+	"oversized (180)": 180,
+	"undersized (50)": 50,
+]
+
+let heights: [String: CGFloat] = [
+	"natural": 0,
+	"oversized (100)": 100,
+	"undersized (10)": 10,
+]
+
 class VibrantScrollView: NSScrollView {
 	override var allowsVibrancy: Bool {
 		// Allow view to pick up effect of NSVisualEffectView material
@@ -66,33 +78,46 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 	let materialsPopup = NSPopUpButton(frame: NSZeroRect, pullsDown: false)
 	let backgroundColorsPopup = NSPopUpButton(frame: NSZeroRect, pullsDown: false)
 	let buttonStatesPopup = NSPopUpButton(frame: NSZeroRect, pullsDown: false)
+	let widthPopup = NSPopUpButton(frame: NSZeroRect, pullsDown: false)
+	var widthConstraints : [NSLayoutConstraint] = []
+	let heightPopup = NSPopUpButton(frame: NSZeroRect, pullsDown: false)
+	var heightConstraints : [NSLayoutConstraint] = []
 	let scrollView = VibrantScrollView()
 	let materialPane = NSVisualEffectView()
 	var fluentButtons: [Button] = []
 
 	override func loadView() {
 		materialsPopup.addItems(withTitles: effectViewMaterials.keys.sorted())
-		materialsPopup.selectItem(withTitle: "contentBackground")
 		materialsPopup.menu?.delegate = self
 		materialsPopup.target = self
 		materialsPopup.action = #selector(TestButtonViewController.materialChanged)
 
 		backgroundColorsPopup.addItems(withTitles: backgroundColors.keys.sorted())
-		backgroundColorsPopup.selectItem(withTitle: "controlBackgroundColor")
 		backgroundColorsPopup.menu?.delegate = self
 		backgroundColorsPopup.target = self
 		backgroundColorsPopup.action = #selector(TestButtonViewController.backgroundColorChanged)
 
 		buttonStatesPopup.addItems(withTitles: buttonStates)
-		buttonStatesPopup.selectItem(withTitle: "rest")
 		buttonStatesPopup.menu?.delegate = self
 		buttonStatesPopup.target = self
 		buttonStatesPopup.action = #selector(TestButtonViewController.stateChanged)
+
+		widthPopup.addItems(withTitles: widths.keys.sorted())
+		widthPopup.menu?.delegate = self
+		widthPopup.target = self
+		widthPopup.action = #selector(TestButtonViewController.widthConstraintsChanged)
+
+		heightPopup.addItems(withTitles: heights.keys.sorted())
+		heightPopup.menu?.delegate = self
+		heightPopup.target = self
+		heightPopup.action = #selector(TestButtonViewController.heightConstraintsChanged)
 
 		let tools = [
 			[NSTextField(labelWithString: "Pane Material:"), materialsPopup],
 			[NSTextField(labelWithString: "Pane Color:"), backgroundColorsPopup],
 			[NSTextField(labelWithString: "Button State:"), buttonStatesPopup],
+			[NSTextField(labelWithString: "Button Width:"), widthPopup],
+			[NSTextField(labelWithString: "Button Height:"), heightPopup],
 		]
 
 		let toolsGrid = NSGridView(views: tools)
@@ -147,7 +172,7 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		]
 
 		let buttonsWithTitle: () -> [Button] = {
-			return formats.map({ Button(title: "FluentUI Button", format: $0) })
+			return formats.map({ Button(title: "Button", format: $0) })
 		}
 
 		let stopImage = NSImage(named: NSImage.stopProgressTemplateName)!
@@ -213,6 +238,11 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			}
 			fluentButtons.append(contentsOf: newColumn)
 			fluentButtonsGrid.addColumn(with: newColumn)
+		}
+
+		for button in fluentButtons {
+			button.target = self
+			button.action = #selector(buttonPressed)
 		}
 
 		// Insert column headers atop the grid of sample controls
@@ -303,6 +333,30 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			}
 			button.linkedPrimary = originalLinkedPrimary
 		}
+	}
+
+	@objc func widthConstraintsChanged() {
+		guard let title = widthPopup.titleOfSelectedItem else { return }
+		guard let width = widths[title] else { return }
+		NSLayoutConstraint.deactivate(widthConstraints)
+		widthConstraints.removeAll()
+		guard width != 0 else { return }
+		widthConstraints.append(contentsOf: fluentButtons.map({ ($0 as Button).widthAnchor.constraint(equalToConstant:width) }))
+		NSLayoutConstraint.activate(widthConstraints)
+	}
+
+	@objc func heightConstraintsChanged() {
+		guard let title = heightPopup.titleOfSelectedItem else { return }
+		guard let height = heights[title] else { return }
+		NSLayoutConstraint.deactivate(heightConstraints)
+		heightConstraints.removeAll()
+		guard height != 0 else { return }
+		heightConstraints.append(contentsOf: fluentButtons.map({ ($0 as Button).heightAnchor.constraint(equalToConstant:height) }))
+		NSLayoutConstraint.activate(heightConstraints)
+	}
+
+	@objc func buttonPressed() {
+		print("Button pressed")
 	}
 
 	private static let leadingArrow = "ic_fluent_chevron_left_16_filled"
