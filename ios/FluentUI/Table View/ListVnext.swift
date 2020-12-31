@@ -14,7 +14,7 @@ public enum MSFListIconVnextStyle: Int, CaseIterable {
     case large
 }
 
-/// Pre-defined types of icons
+/// Pre-defined accessory types
 @objc(MSFListAccessoryType)
 public enum MSFListAccessoryType: Int, CaseIterable {
     case none
