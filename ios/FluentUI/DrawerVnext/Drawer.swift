@@ -42,7 +42,8 @@ public class DrawerTokens: ObservableObject {
     @Published public var shadowColor: Color!
     @Published public var shadowOpacity: Double!
     @Published public var shadowBlur: CGFloat!
-    @Published public var shadowDepth: [CGFloat]! // x,y axis
+    @Published public var shadowDepthX: CGFloat!
+    @Published public var shadowDepthY: CGFloat!
 
     public init() {
         self.themeAware = true
@@ -54,7 +55,8 @@ public class DrawerTokens: ObservableObject {
         shadowColor = Color(appearanceProxy.shadowColor)
         shadowOpacity = Double(appearanceProxy.shadowOpacity)
         shadowBlur = appearanceProxy.shadowBlur
-        shadowDepth = appearanceProxy.shadowDepth
+        shadowDepthX = appearanceProxy.shadowX
+        shadowDepthY = appearanceProxy.shadowY
     }
 }
 
@@ -66,7 +68,6 @@ public class DrawerTokens: ObservableObject {
 }
 
 // MARK: Drawer
-
 
 /// `Drawer` is used to present a content that is currently in hideout mode when collapsed and when expanded is used to present content view partially either on the left or right.
 /// `Drawer`  support horizontal axis and is expanded by default from left side of the screen unless explicitly specified
@@ -123,8 +124,8 @@ public struct Drawer<Content: View>: View {
                     .frame(width: proxy.portraitOrientationAgnosticSize().width * percentWidthOfContent)
                     .shadow(color: tokens.shadowColor.opacity(state.isExpanded ? tokens.shadowOpacity : 0),
                             radius: tokens.shadowBlur,
-                            x: tokens.shadowDepth[0],
-                            y: tokens.shadowDepth[1])
+                            x: tokens.shadowDepthX,
+                            y: tokens.shadowDepthY)
                     .offset(x: computedOffset(screenSize: proxy.portraitOrientationAgnosticSize()))
 
                 if state.presentationDirection == .left {

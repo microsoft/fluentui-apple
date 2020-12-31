@@ -150,11 +150,7 @@ Opacity:
   none: 1f
 
 Shadow:
-    Blur:
-    - light12: 28pt
-
-    Depth:
-    - shadow28: [ 0pt, 14pt ]
+    shadow28: [ blur: 28pt, color: $Colors.Neutral.black, opacity: $Opacity.opacity24, x: 0pt, y: 14pt ]
 
 AP_AvatarTokens:
   backgroundDefaultColor: "FluentUIColor(light: $Colors.Neutral.white, dark: $Colors.Brand.primary)"
@@ -169,7 +165,7 @@ AP_AvatarTokens:
   ringThickness: [ xSmall: $Border.size.thin, small: $Border.size.thin, medium: $Border.size.thick, large: $Border.size.thick, xlarge: $Border.size.thick, xxlarge: $Border.size.thicker ]
   ringOuterGap: [ xSmall: $Border.size.thick, small: $Border.size.thick, medium: $Border.size.thick, large: $Border.size.thick, xlarge: $Border.size.thick, xxlarge: $Border.size.thicker ]
   size: [ xSmall: 16pt, small: 24pt, medium: 32pt, large: 40pt, xlarge: 52pt, xxlarge: 72pt ]
-  textCalculatedBackgroundColors: [ "NamedColor(cyanBlue10)", 
+  textCalculatedBackgroundColors: [ "NamedColor(cyanBlue10)",
                                     "NamedColor(red10)",
                                     "NamedColor(magenta20)",
                                     "NamedColor(green10)",
@@ -263,7 +259,8 @@ IconOnlyListTokens extends MSFListTokens:
   iconColor: $Colors.Foreground.neutral3
 
 AP_DrawerTokens:
-  shadowColor: $Colors.Neutral.black
-  shadowOpacity: $Opacity.opacity24
-  shadowBlur:   $Shadow.Blur.light12
-  shadowDepth: $Shadow.Depth.shadow28
+  shadowColor: $Shadow.shadow28.color
+  shadowOpacity: $Shadow.shadow28.opacity
+  shadowBlur: $Shadow.shadow28.blur
+  shadowX: $Shadow.shadow28.x
+  shadowY: $Shadow.shadow28.y
