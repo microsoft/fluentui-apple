@@ -384,78 +384,98 @@ class ButtonCell: NSButtonCell {
 	fileprivate var titleToImageVerticalSpacingAdjustment: CGFloat = 0
 
 	override func imageRect(forBounds rect: NSRect) -> NSRect {
-		guard let image = image else {
+		guard
+			let image = image,
+			let controlView = controlView,
+			imagePosition != .noImage
+		else {
 			return NSZeroRect
 		}
 
-		let layoutDirectionSign : CGFloat = NSApp.userInterfaceLayoutDirection == .rightToLeft ? -1 : 1
+		let layoutDirectionSign = controlView.userInterfaceLayoutDirection == .rightToLeft ? -1 : 1
 		let titleSize = title.size(withAttributes: [.font: font as Any])
 		let imageSize = image.size
+
+		// Image is either centered, or offset from center by the title
+		var xOffsetSign = 0
+		var yOffsetSign = 0
+
+		switch imagePosition {
+		case .imageLeft:
+			xOffsetSign = -1
+		case .imageLeading:
+			xOffsetSign = -layoutDirectionSign
+		case .imageRight:
+			xOffsetSign = 1
+		case .imageTrailing:
+			xOffsetSign = layoutDirectionSign
+		case .imageBelow:
+			yOffsetSign = 1
+		case .imageAbove:
+			yOffsetSign = -1
+		case .noImage, .imageOnly, .imageOverlaps:
+			// .noImage case is covered by guard return at top
+			break
+		@unknown default:
+			break
+		}
 
 		var x = (rect.width - imageSize.width) / 2
 		var y = (rect.height - imageSize.height) / 2
 
-		let xOffsetFromTitle = (titleSize.width + titleToImageSpacing) / 2
-		let yOffsetFromTitle = (titleSize.height + titleToImageSpacing - titleToImageVerticalSpacingAdjustment) / 2
-
-		switch imagePosition {
-		case .noImage:
-			return NSZeroRect
-		case .imageOnly, .imageOverlaps:
-			break
-		case .imageLeft:
-			x -= xOffsetFromTitle
-		case .imageLeading:
-			x -= xOffsetFromTitle * layoutDirectionSign
-		case .imageRight:
-			x += xOffsetFromTitle
-		case .imageTrailing:
-			x += xOffsetFromTitle * layoutDirectionSign
-		case .imageBelow:
-			y += yOffsetFromTitle
-		case .imageAbove:
-			y -= yOffsetFromTitle
-		@unknown default:
-			break
+		if xOffsetSign != 0 {
+			x += CGFloat(xOffsetSign) * (titleSize.width + titleToImageSpacing) / 2
+		} else if yOffsetSign != 0 {
+			y += CGFloat(yOffsetSign) * (titleSize.height + titleToImageSpacing - titleToImageVerticalSpacingAdjustment) / 2
 		}
 
 		return NSMakeRect(x, y, imageSize.width, imageSize.height)
 	}
 
 	override func titleRect(forBounds rect: NSRect) -> NSRect {
-		guard let font = font else {
+		guard
+			let font = font,
+			let controlView = controlView,
+			imagePosition != .imageOnly
+		else {
 			return NSZeroRect
 		}
 
-		let layoutDirectionSign : CGFloat = NSApp.userInterfaceLayoutDirection == .rightToLeft ? -1 : 1
+		let layoutDirectionSign = controlView.userInterfaceLayoutDirection == .rightToLeft ? -1 : 1
 		let titleSize = title.size(withAttributes: [.font: font])
 		let imageSize = image?.size ?? NSZeroSize
+
+		// Title is either centered, or offset from center by the image
+		var xOffsetSign = 0
+		var yOffsetSign = 0
+
+		switch imagePosition {
+		case .imageLeft:
+			xOffsetSign = 1
+		case .imageLeading:
+			xOffsetSign = layoutDirectionSign
+		case .imageRight:
+			xOffsetSign = -1
+		case .imageTrailing:
+			xOffsetSign = -layoutDirectionSign
+		case .imageBelow:
+			yOffsetSign = -1
+		case .imageAbove:
+			yOffsetSign = 1
+		case .noImage, .imageOnly, .imageOverlaps:
+			// .imageOnly case is covered by guard return at top
+			break
+		@unknown default:
+			break
+		}
 
 		var x = (rect.width - titleSize.width) / 2
 		var y = (rect.height - titleSize.height) / 2 + titleVerticalPositionAdjustment
 
-		let xOffsetFromImage = (imageSize.width + titleToImageSpacing) / 2
-		let yOffsetFromImage = (imageSize.height + titleToImageSpacing) / 2
-
-		switch imagePosition {
-		case .imageOnly:
-			return NSZeroRect
-		case .noImage, .imageOverlaps:
-			break
-		case .imageLeft:
-			x += xOffsetFromImage
-		case .imageLeading:
-			x += xOffsetFromImage * layoutDirectionSign
-		case .imageRight:
-			x -= xOffsetFromImage
-		case .imageTrailing:
-			x -= xOffsetFromImage * layoutDirectionSign
-		case .imageBelow:
-			y -= yOffsetFromImage
-		case .imageAbove:
-			y += yOffsetFromImage
-		@unknown default:
-			break
+		if xOffsetSign != 0 {
+			x += CGFloat(xOffsetSign) * (imageSize.width + titleToImageSpacing) / 2
+		} else if yOffsetSign != 0 {
+			y += CGFloat(yOffsetSign) * (imageSize.height + titleToImageSpacing) / 2
 		}
 
 		return NSMakeRect(x, y, titleSize.width, titleSize.height)

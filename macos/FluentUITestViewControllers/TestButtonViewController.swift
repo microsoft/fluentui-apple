@@ -88,31 +88,26 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 
 	override func loadView() {
 		materialsPopup.addItems(withTitles: effectViewMaterials.keys.sorted())
-		materialsPopup.selectItem(withTitle: "contentBackground")
 		materialsPopup.menu?.delegate = self
 		materialsPopup.target = self
 		materialsPopup.action = #selector(TestButtonViewController.materialChanged)
 
 		backgroundColorsPopup.addItems(withTitles: backgroundColors.keys.sorted())
-		backgroundColorsPopup.selectItem(withTitle: "controlBackgroundColor")
 		backgroundColorsPopup.menu?.delegate = self
 		backgroundColorsPopup.target = self
 		backgroundColorsPopup.action = #selector(TestButtonViewController.backgroundColorChanged)
 
 		buttonStatesPopup.addItems(withTitles: buttonStates)
-		buttonStatesPopup.selectItem(withTitle: "rest")
 		buttonStatesPopup.menu?.delegate = self
 		buttonStatesPopup.target = self
 		buttonStatesPopup.action = #selector(TestButtonViewController.stateChanged)
 
 		widthPopup.addItems(withTitles: widths.keys.sorted())
-		widthPopup.selectItem(withTitle: "natural")
 		widthPopup.menu?.delegate = self
 		widthPopup.target = self
 		widthPopup.action = #selector(TestButtonViewController.widthConstraintsChanged)
 
 		heightPopup.addItems(withTitles: heights.keys.sorted())
-		heightPopup.selectItem(withTitle: "natural")
 		heightPopup.menu?.delegate = self
 		heightPopup.target = self
 		heightPopup.action = #selector(TestButtonViewController.heightConstraintsChanged)
