@@ -1275,73 +1275,6 @@ extension StylesheetManagerTheming {
 		}
 
 	}
-	//MARK: - Cell
-	public var _Cell: CellAppearanceProxy?
-	open func CellStyle() -> CellAppearanceProxy {
-		if let override = _Cell { return override }
-			return CellAppearanceProxy(proxy: { return FluentUIStyle.shared() })
-		}
-	public var Cell: CellAppearanceProxy {
-		get { return self.CellStyle() }
-		set { _Cell = newValue }
-	}
-	@objc(CellAppearanceProxy) @objcMembers open class CellAppearanceProxy: NSObject {
-		public let mainProxy: () -> FluentUIStyle
-		public init(proxy: @escaping () -> FluentUIStyle) {
-			self.mainProxy = proxy
-		}
-
-		//MARK: - height
-		public var _height: heightAppearanceProxy?
-		open func heightStyle() -> heightAppearanceProxy {
-			if let override = _height { return override }
-				return heightAppearanceProxy(proxy: mainProxy)
-			}
-		public var height: heightAppearanceProxy {
-			get { return self.heightStyle() }
-			set { _height = newValue }
-		}
-		@objc(CellHeightAppearanceProxy) @objcMembers open class heightAppearanceProxy: NSObject {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			//MARK: oneLine 
-			public var _oneLine: CGFloat?
-			open func oneLineProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _oneLine { return override }
-					return CGFloat(48.0)
-				}
-			public var oneLine: CGFloat {
-				get { return self.oneLineProperty() }
-				set { _oneLine = newValue }
-			}
-
-			//MARK: threeLines 
-			public var _threeLines: CGFloat?
-			open func threeLinesProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _threeLines { return override }
-					return CGFloat(84.0)
-				}
-			public var threeLines: CGFloat {
-				get { return self.threeLinesProperty() }
-				set { _threeLines = newValue }
-			}
-
-			//MARK: twoLines 
-			public var _twoLines: CGFloat?
-			open func twoLinesProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _twoLines { return override }
-					return CGFloat(64.0)
-				}
-			public var twoLines: CGFloat {
-				get { return self.twoLinesProperty() }
-				set { _twoLines = newValue }
-			}
-		}
-
-	}
 	//MARK: - Colors
 	public var _Colors: ColorsAppearanceProxy?
 	open func ColorsStyle() -> ColorsAppearanceProxy {
@@ -3548,7 +3481,7 @@ extension StylesheetManagerTheming {
 			public var _oneLine: CGFloat?
 			open func oneLineProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
 				if let override = _oneLine { return override }
-					return mainProxy().Cell.height.oneLineProperty(traitCollection)
+					return CGFloat(48.0)
 				}
 			public var oneLine: CGFloat {
 				get { return self.oneLineProperty() }
@@ -3559,7 +3492,7 @@ extension StylesheetManagerTheming {
 			public var _threeLines: CGFloat?
 			open func threeLinesProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
 				if let override = _threeLines { return override }
-					return mainProxy().Cell.height.threeLinesProperty(traitCollection)
+					return CGFloat(84.0)
 				}
 			public var threeLines: CGFloat {
 				get { return self.threeLinesProperty() }
@@ -3570,7 +3503,7 @@ extension StylesheetManagerTheming {
 			public var _twoLines: CGFloat?
 			open func twoLinesProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
 				if let override = _twoLines { return override }
-					return mainProxy().Cell.height.twoLinesProperty(traitCollection)
+					return CGFloat(64.0)
 				}
 			public var twoLines: CGFloat {
 				get { return self.twoLinesProperty() }
