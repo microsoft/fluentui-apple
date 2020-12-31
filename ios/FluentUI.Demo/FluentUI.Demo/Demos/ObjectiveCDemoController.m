@@ -79,14 +79,23 @@
     UIImage *image = [UIImage imageNamed:@"excelIcon"];
     listCell3.leadingIcon = image;
     listCell3.trailingIcon = MSFListAccessoryTypeDisclosure;
-    
+    [listCell3 setOnTapAction:^{
+        [self showAlertForCellTapped:@"Sample Title3"];
+    }];
+
     MSFListVnextSectionData *section = [[MSFListVnextSectionData alloc] init];
     section.layoutType = MSFListCellVnextHeightTwoLines;
     section.cells = @[listCell1, listCell2, listCell3];
     NSArray *sections = @[section];
 
     MSFListVnext *list = [[MSFListVnext alloc] initWithSections:sections iconStyle:MSFListIconVnextStyleNone];
+
+    UIView *listView = [list view];
+    listView.translatesAutoresizingMaskIntoConstraints = false;
+
     [self.container addArrangedSubview:[list view]];
+    
+    [[[listView heightAnchor] constraintEqualToConstant:200] setActive:YES];
 }
 
 - (void)enableVnextButton {
@@ -116,6 +125,13 @@
     [button setTitle:title forState:UIControlStateNormal];
     [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
     return button;
+}
+
+- (void)showAlertForCellTapped:(NSString *)title {
+    NSString *message = [NSString stringWithFormat:@"%@ was pressed", title];
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+    [self presentViewController:alert animated:true completion:nil];
 }
 
 - (UIStackView *)createVerticalContainer {

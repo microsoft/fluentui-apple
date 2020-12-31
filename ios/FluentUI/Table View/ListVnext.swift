@@ -247,11 +247,11 @@ extension MSFListView {
                     }
                 }
             })
-            .buttonStyle(ListCellButton(tokens: tokens, layoutType: layoutType))
+            .buttonStyle(ListCellButtonStyle(tokens: tokens, layoutType: layoutType))
         }
     }
 
-    struct ListCellButton: ButtonStyle {
+    struct ListCellButtonStyle: ButtonStyle {
         let tokens: MSFListTokens
         let layoutType: MSFListCellVnextLayoutType
         func makeBody(configuration: Self.Configuration) -> some View {
