@@ -53,52 +53,22 @@ extension DrawerVnext: UIViewControllerTransitioningDelegate, UIViewControllerAn
 
 // MARK: DrawerModal
 
-/// `DrawerModal` is SwiftUI wrapper classes that embeds a UIViewController used to host UIKit content as a SwiftUI componenet
-public struct DrawerModal {
+/// `DrawerContentViewController` is SwiftUI wrapper classes that embeds a UIViewController used to host UIKit content as a SwiftUI componenet
+public struct DrawerContentViewController: UIViewControllerRepresentable {
 
-    public struct DrawerShimView: View {
+    private var contentView: UIViewController
 
-        private var drawer: Drawer<DrawerContentViewController>
-
-        // convenience callback from underlying drawer controller
-        public var notifyDrawerStateChange: (DrawerStateChangedCompletionBlock)?
-        public var drawerState: DrawerState {
-            return drawer.state
-        }
-
-        init(contentViewController: UIViewController) {
-            drawer = Drawer(content: DrawerContentViewController(contentViewController: contentViewController))
-        }
-
-        public var body: some View {
-            ZStack {
-                drawer
-                    .didChangedState { value in
-                        withAnimation {
-                            drawer.viewModel.expand = value
-                        }
-                    }
-                    .edgesIgnoringSafeArea(.all)
-            }
-        }
+    init(contentViewController: UIViewController) {
+        self.contentView = contentViewController
     }
 
-    public struct DrawerContentViewController: UIViewControllerRepresentable {
-
-        private var contentView: UIViewController
-
-        init(contentViewController: UIViewController) {
-            self.contentView = contentViewController
-        }
-
-        public func makeUIViewController(context: Context) -> UIViewController {
-            return contentView
-        }
-
-        public func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
-
-        public typealias UIViewControllerType = UIViewController
+    public func makeUIViewController(context: Context) -> UIViewController {
+        return contentView
     }
+
+    public func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+
+    public typealias UIViewControllerType = UIViewController
 }
 
 // MARK: DrawerVnext
@@ -106,25 +76,25 @@ public struct DrawerModal {
 @objc(MSFDrawerVnextControllerDelegate)
 public protocol DrawerVnextControllerDelegate: AnyObject {
     /// Called when a user opens/closes the drawer  to change its expanded state. Use `isExpanded` property to get the current state.
-    @objc optional func drawerDidChangeExpandedState(state: DrawerState, controller: UIViewController)
+    @objc optional func drawerDidChangeState(state: DrawerState, controller: UIViewController)
 }
 
 /// ` DrawerVnext` is UIKit wrapper that exposes the SwiftUI Drawer implementation
 @objc(MSFDrawerVnext)
-open class DrawerVnext: UIHostingController<DrawerModal.DrawerShimView> {
+open class DrawerVnext: UIHostingController<Drawer<DrawerContentViewController>> {
 
-    private var drawerShimView: DrawerModal.DrawerShimView
+    private var drawer: Drawer<DrawerContentViewController>
 
     public weak var delegate: DrawerVnextControllerDelegate?
 
     @objc open var drawerState: DrawerState {
-        return self.rootView.drawerState
+        return self.rootView.state
     }
 
     @objc public init(contentViewController: UIViewController) {
-        let drawerShimView = DrawerModal.DrawerShimView(contentViewController: contentViewController)
-        self.drawerShimView = drawerShimView
-        super.init(rootView: drawerShimView)
+        let drawer = Drawer(content: DrawerContentViewController(contentViewController: contentViewController))
+        self.drawer = drawer
+        super.init(rootView: drawer)
 
         transitioningDelegate = self
         view.backgroundColor = .clear
@@ -134,16 +104,19 @@ open class DrawerVnext: UIHostingController<DrawerModal.DrawerShimView> {
     }
 
     @objc required dynamic public init?(coder aDecoder: NSCoder) {
-        let drawerShimView = DrawerModal.DrawerShimView(contentViewController: UIViewController())
-        self.drawerShimView = drawerShimView
+        let drawer = Drawer(content: DrawerContentViewController(contentViewController: UIViewController()))
+        self.drawer = drawer
         super.init(coder: aDecoder)
     }
 
     private func addDelegateNotification() {
-        self.drawerShimView.notifyDrawerStateChange = { [weak self] _ in
+        self.drawer = self.drawer.didChangedState({ [weak self] isExpanded in
             if let strongSelf = self {
-                strongSelf.delegate?.drawerDidChangeExpandedState?(state: strongSelf.drawerState, controller: strongSelf)
+                strongSelf.delegate?.drawerDidChangeState?(state: strongSelf.drawerState, controller: strongSelf)
+                if !isExpanded {
+                    strongSelf.dismiss(animated: true, completion: nil)
+                }
             }
-        }
+        })
     }
 }

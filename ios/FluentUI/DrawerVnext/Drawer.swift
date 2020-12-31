@@ -5,7 +5,14 @@
 
 import SwiftUI
 
-// MARK: State
+// MARK: - Drawer Model
+
+@objc public enum DrawerDirection: Int, CaseIterable {
+    /// Drawer originates from left
+    case left
+    /// Drawer originates from right
+    case right
+}
 
 /// `DrawerState` assist to configure drawer functional properties via UIKit components.
 @objc(DrawerState)
@@ -30,11 +37,7 @@ public class DrawerState: NSObject, ObservableObject {
 
 public typealias DrawerStateChangedCompletionBlock = (_ isExpanded: Bool) -> Void
 
-/// `DrawerAnimationModel` use the below properties to animate drawer components
-@objc(DrawerViewModel)
-public class DrawerAnimationModel: NSObject, ObservableObject {
-    @Published public var expand: Bool = false
-}
+// MARK: - Drawer Token
 
 /// `DrawerTokens` assist to configure drawer apperance via UIKit components.
 public class DrawerTokens: ObservableObject {
@@ -60,16 +63,9 @@ public class DrawerTokens: ObservableObject {
     }
 }
 
-@objc public enum DrawerDirection: Int, CaseIterable {
-    /// Drawer animated right from a left base
-    case left
-    /// Drawer animated right from a right base
-    case right
-}
+// MARK: - Drawer
 
-// MARK: Drawer
-
-/// `Drawer` is used to present a content that is currently in hideout mode when collapsed and when expanded is used to present content view partially either on the left or right.
+/// `Drawer` is used to present a overlay a content partially on another view.
 /// `Drawer`  support horizontal axis and is expanded by default from left side of the screen unless explicitly specified
 ///  Set `Content` to provide content for the drawer.
 public struct Drawer<Content: View>: View {
@@ -83,64 +79,45 @@ public struct Drawer<Content: View>: View {
     // configure the apperance of drawer
     @ObservedObject public var tokens = DrawerTokens()
 
-    @ObservedObject public var viewModel = DrawerAnimationModel()
-
-    private let backgroundLayerColor: Color = .black
-    private var backgroundLayerOpacity: Double {
-        return state.backgroundDimmed ? 0.5 : 0
-    }
-    private let backgroundLayerAnimation: Animation = .default
-
-    private let percentWidthOfContent: CGFloat = 0.9
-    private let percentSnapWidthOfScreen: CGFloat = 0.225
-
-    // `ivar` to keep track of dragged offset
+    // keep track of dragged offset
     @State internal var draggedOffsetWidth: CGFloat?
-    private func computedOffset(screenSize: CGSize) -> CGFloat {
 
-        if let draggedOffsetWidth = draggedOffsetWidth {
-            return draggedOffsetWidth
-        }
-
-        var width = CGFloat.zero
-        let contentWidth = screenSize.width * percentWidthOfContent
-        if !viewModel.expand { // if closed then hidden behind the screen
-            width = state.presentationDirection == .left ? -contentWidth : contentWidth
-        }
-
-        return width
-    }
+    // internal drawer state
+    @State internal var isDrawerOpen: Bool = false
 
     public var body: some View {
         GeometryReader { proxy in
-            HStack {
-                if state.presentationDirection == .right {
-                    InteractiveSpacer().onTapGesture {
-                        state.isExpanded.toggle()
-                    }
+            SlideOverPanel(
+                content: content,
+                isOpen: $isDrawerOpen,
+                preferredContentOffset: $draggedOffsetWidth)
+                .backgroundOpactiy(backgroundLayerOpacity)
+                .direction(slideOutDirection)
+                .width(proxy.portraitOrientationAgnosticSize().width)
+                .performOnBackgroundTap {
+                    state.isExpanded.toggle()
                 }
-
-                content
-                    .frame(width: proxy.portraitOrientationAgnosticSize().width * percentWidthOfContent)
-                    .shadow(color: tokens.shadowColor.opacity(state.isExpanded ? tokens.shadowOpacity : 0),
-                            radius: tokens.shadowBlur,
-                            x: tokens.shadowDepthX,
-                            y: tokens.shadowDepthY)
-                    .offset(x: computedOffset(screenSize: proxy.portraitOrientationAgnosticSize()))
-
-                if state.presentationDirection == .left {
-                    InteractiveSpacer().onTapGesture {
-                        state.isExpanded.toggle()
+                .onReceive(state.$isExpanded, perform: { value in
+                    withAnimation {
+                        self.isDrawerOpen = value
+                        self.draggedOffsetWidth = nil // drag ends
                     }
-                }
-            }
-            .background(state.isExpanded ? backgroundLayerColor.opacity(backgroundLayerOpacity) : Color.clear)
-            .gesture(dragGesture(snapWidth: proxy.portraitOrientationAgnosticSize().width * percentSnapWidthOfScreen))
+                })
+                .gesture(dragGesture(screenWidth: proxy.portraitOrientationAgnosticSize().width))
         }
+        .edgesIgnoringSafeArea(.all)
+    }
+
+    private var backgroundLayerOpacity: Double {
+        return state.backgroundDimmed ? 0.5 : 0
+    }
+
+    private var slideOutDirection: SlideOverDirection {
+        return state.presentationDirection == .left ? .left : .right
     }
 }
 
-// MARK: Utilieties + Helpers
+// MARK: - Utility + Helpers
 
 extension GeometryProxy {
     func portraitOrientationAgnosticSize() -> CGSize {
@@ -153,12 +130,41 @@ extension GeometryProxy {
     }
 }
 
-// MARK: Composite View
+// MARK: - Previews
 
-public struct InteractiveSpacer: View {
-    public var body: some View {
+import SwiftUI
+
+struct DrawerContent: View {
+    var body: some View {
         ZStack {
-            Color.black.opacity(0.001)
+            Color.red
+            Text("Tap outside to collapse.")
         }
     }
 }
+
+struct DrawerPreview: View {
+    var drawer = Drawer(content: DrawerContent())
+    var body: some View {
+        ZStack {
+            NavigationView {
+                EmptyView()
+                    .navigationBarTitle(Text("Drawer Background"))
+                    .navigationBarItems(leading: Button(action: {
+                        drawer.state.isExpanded.toggle()
+                    }, label: {
+                        Image(systemName: "sidebar.left")
+                    })).background(Color.blue)
+            }
+            drawer
+        }
+    }
+}
+
+#if DEBUG
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        DrawerPreview()
+    }
+}
+#endif

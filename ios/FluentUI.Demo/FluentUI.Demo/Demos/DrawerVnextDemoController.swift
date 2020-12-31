@@ -168,7 +168,7 @@ class DrawerVnextDemoController: DemoController, DrawerVnextControllerDelegate {
         }
     }
 
-    @objc func drawerDidChangeExpandedState(state: DrawerState, controller: UIViewController) {
+    @objc func drawerDidChangeState(state: DrawerState, controller: UIViewController) {
         print("drawer state changed : \(state.isExpanded)")
     }
 }

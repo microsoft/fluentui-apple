@@ -6,7 +6,7 @@
 import SwiftUI
 
 internal extension Drawer {
-    func dragGesture(snapWidth: CGFloat) -> some Gesture {
+    func dragGesture(screenWidth: CGFloat) -> some Gesture {
         DragGesture()
             .onChanged { value in
                 let withinDragBounds = state.presentationDirection == .left ? value.translation.width < 0 : value.translation.width > 0
@@ -16,13 +16,16 @@ internal extension Drawer {
             }
             .onEnded { _ in
                 if let draggedOffsetWidth = draggedOffsetWidth {
-                    if abs(draggedOffsetWidth) < snapWidth {
+                    if abs(draggedOffsetWidth) < screenWidth * gestureSnapWidthRatio() {
                         state.isExpanded = true
                     } else {
                         state.isExpanded = false
                     }
-                    self.draggedOffsetWidth = nil
                 }
             }
+    }
+
+    private func gestureSnapWidthRatio() -> CGFloat {
+        return 0.225
     }
 }
