@@ -38,7 +38,7 @@ public enum MSFListAccessoryType: Int, CaseIterable {
     }
 }
 
-///Properties that make up cell content
+/// Properties that make up cell content
 @objc(MSFListVnextCellData)
 public class MSFListVnextCellData: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
@@ -51,19 +51,20 @@ public class MSFListVnextCellData: NSObject, ObservableObject, Identifiable {
     @objc public var onTapAction: (() -> Void)?
 }
 
-///Properties that make up section content
+/// Properties that make up section content
 @objc(MSFListVnextSectionData)
 public class MSFListVnextSectionData: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
     @objc @Published public var cells: [MSFListVnextCellData] = []
     @objc @Published public var title: String?
+    @objc @Published public var hasBorder: Bool = false
     @objc @Published public var layoutType: MSFListCellVnextLayoutType = .oneLine
 }
 
-///Properties that make up list content
+/// Properties that make up list content
 @objc(MSFListVnextState)
 public class MSFListVnextState: NSObject, ObservableObject {
-    @objc @Published public var hasBorder: Bool = false
+    @objc @Published public var sections: [MSFListVnextSectionData] = []
 }
 
 @objc(MSFListCellVnextHeight)
@@ -147,16 +148,16 @@ public class MSFListTokens: ObservableObject {
 public struct MSFListView: View {
     @ObservedObject var state: MSFListVnextState
     @ObservedObject var tokens: MSFListTokens
-    var sections: [MSFListVnextSectionData]
 
     public init(sections: [MSFListVnextSectionData],
                 iconStyle: MSFListIconVnextStyle) {
-        self.sections = sections
         self.state = MSFListVnextState()
         self.tokens = MSFListTokens(iconStyle: iconStyle)
+        self.state.sections = sections
     }
 
     public var body: some View {
+        let sections = state.sections
         List {
             ForEach(sections, id: \.self) { section in
                 if section.title != nil {
@@ -181,7 +182,7 @@ public struct MSFListView: View {
                 }
                 ForEach(section.cells, id: \.self) { cell in
                     MSFListCellView(cell: cell, layoutType: section.layoutType, tokens: tokens)
-                        .border(state.hasBorder ? Color(tokens.borderColor) : Color.clear, width: state.hasBorder ? tokens.borderSize : 0)
+                        .border(section.hasBorder ? Color(tokens.borderColor) : Color.clear, width: section.hasBorder ? tokens.borderSize : 0)
                         .frame(maxWidth: .infinity)
                 }
             }
@@ -220,13 +221,11 @@ extension MSFListView {
                                 .foregroundColor(Color(tokens.leadingTextColor))
                                 .lineLimit(cell.titleLineLimit)
                         }
-                        if let subtitle = cell.subtitle {
-                            if subtitle != "" {
+                        if let subtitle = cell.subtitle, !subtitle.isEmpty {
                                 Text(subtitle)
                                     .font(Font(tokens.subtitleFont))
                                     .foregroundColor(Color(tokens.subtitleColor))
                                     .lineLimit(cell.titleLineLimit)
-                            }
                         }
                     }
                     Spacer()
@@ -299,10 +298,6 @@ open class MSFListVnext: NSObject {
 
     @objc open var state: MSFListVnextState {
         return hostingController.rootView.state
-    }
-
-    @objc open var sections: [MSFListVnextSectionData] {
-        return hostingController.rootView.sections
     }
 
     @objc public init(sections: [MSFListVnextSectionData],
