@@ -265,6 +265,11 @@ extension StylesheetManagerTheming {
         return stylesheetsMap.object(forKey: window)
     }
 
+    public class func removeStylesheet(for window: UIWindow) {
+        stylesheetsMap.removeObject(forKey: window)
+        NotificationCenter.default.post(name: .didChangeTheme, object: nil)
+    }
+
     public class func setStylesheet(stylesheet: FluentUIStyle, for window: UIWindow) {
         stylesheetsMap.setObject(stylesheet, forKey: window)
         NotificationCenter.default.post(name: .didChangeTheme, object: nil)

@@ -32,9 +32,7 @@ public class MSFButtonVnextState: NSObject, ObservableObject {
 
 /// Representation of design tokens to buttons at runtime which interfaces with the Design Token System auto-generated code.
 /// Updating these properties causes the SwiftUI button to update its view automatically.
-public class MSFButtonTokens: ObservableObject {
-    var windowProvider: FluentUIWindowProvider?
-
+public class MSFButtonTokens: MSFTokensBase, ObservableObject {
     @Published public var borderRadius: CGFloat!
     @Published public var borderSize: CGFloat!
     @Published public var iconSize: CGFloat!
@@ -59,47 +57,33 @@ public class MSFButtonTokens: ObservableObject {
 
     var style: MSFButtonVnextStyle
     var size: MSFButtonVnextSize
-    var theme: FluentUIStyle
-    var isThemeOverriden: Bool = false
 
     public init(style: MSFButtonVnextStyle,
                 size: MSFButtonVnextSize) {
         self.style = style
         self.size = size
-        self.theme = ThemeKey.defaultValue
+
+        super.init()
+
         self.themeAware = true
-
-        didChangeAppearanceProxy()
-    }
-
-    public func overrideTheme(theme: FluentUIStyle) {
-        self.theme = theme
-        self.isThemeOverriden = true
-        didChangeAppearanceProxy()
-    }
-
-    public func refresh() {
-        didChangeAppearanceProxy()
+        updateForCurrentTheme()
     }
 
     @objc open func didChangeAppearanceProxy() {
-        // Uses the window theme if available unless there is a theme explicitly overriden
-        // through the View's environment value for the hierarchy that it is contained in.
-        if !isThemeOverriden,
-           let window = windowProvider?.window,
-           let windowTheme = StylesheetManager.stylesheet(for: window) {
-            theme = windowTheme
-        }
+        updateForCurrentTheme()
+    }
 
+    public override func updateForCurrentTheme() {
+        let currentTheme = theme
         var appearanceProxy: AppearanceProxyType
 
         switch style {
         case .primary:
-            appearanceProxy = theme.PrimaryButtonTokens
+            appearanceProxy = currentTheme.PrimaryButtonTokens
         case .secondary:
-            appearanceProxy = theme.SecondaryButtonTokens
+            appearanceProxy = currentTheme.SecondaryButtonTokens
         case .ghost:
-            appearanceProxy = theme.GhostButtonTokens
+            appearanceProxy = currentTheme.GhostButtonTokens
         }
 
         titleColor = appearanceProxy.textColor.rest
@@ -213,9 +197,9 @@ public struct MSFButtonView: View {
                 //  - Otherwise we just refresh the tokens to reflect the theme
                 //    associated with the window that this View belongs to.
                 if theme == ThemeKey.defaultValue {
-                    self.tokens.refresh()
+                    self.tokens.updateForCurrentTheme()
                 } else {
-                    self.tokens.overrideTheme(theme: theme)
+                    self.tokens.theme = theme
                 }
             }
     }
@@ -277,26 +261,5 @@ open class MSFButtonVnext: NSObject, FluentUIWindowProvider {
         self.hostingController = UIHostingController(rootView: theme != nil ? AnyView(buttonView.usingTheme(theme!)) : AnyView(buttonView))
         buttonView.tokens.windowProvider = self
         self.view.backgroundColor = UIColor.clear
-    }
-}
-
-public protocol FluentUIWindowProvider {
-    var window: UIWindow? { get }
-}
-
-private struct ThemeKey: EnvironmentKey {
-    static var defaultValue: FluentUIStyle = StylesheetManager.S
-}
-
-extension EnvironmentValues {
-    var theme: FluentUIStyle {
-        get { self[ThemeKey.self] }
-        set { self[ThemeKey.self] = newValue }
-    }
-}
-
-extension View {
-    func usingTheme(_ theme: FluentUIStyle) -> some View {
-        environment(\.theme, theme)
     }
 }

@@ -77,62 +77,10 @@ class ButtonVnextDemoController: DemoController {
             }
         }
 
-        addTitle(text: "Theme overriding")
-        let overridingTheme = FluentUIStyle()
-        let colorAP = overridingTheme.Colors
-        let brandAP = colorAP.Brand
-        brandAP.primary = .purple
-        colorAP.Brand = brandAP
-
-        let border = overridingTheme.Border
-        let radius = border.radius
-        radius.small = 0
-        radius.medium = 0
-        radius.large = 0
-        radius.xlarge = 0
-        border.radius = radius
-
-        overridingTheme.Border = border
-        overridingTheme.Colors = colorAP
-
-        for style in MSFButtonVnextStyle.allCases {
-            let customThemeButton = MSFButtonVnext(style: style,
-                                                   size: .medium,
-                                                   action: { [weak self] _ in
-                                                    guard let strongSelf = self else {
-                                                        return
-                                                    }
-                                                    strongSelf.didPressButton()
-                                                   },
-                                                   theme: overridingTheme)
-            customThemeButton.state.text = "Button"
-            customThemeButton.state.image = style.image
-
-            let disabledCstomThemeButton = MSFButtonVnext(style: style,
-                                                          size: .medium,
-                                                          action: { [weak self] _ in
-                                                            guard let strongSelf = self else {
-                                                                return
-                                                            }
-                                                            strongSelf.didPressButton()
-                                                          },
-                                                          theme: overridingTheme)
-            disabledCstomThemeButton.state.text = "Button"
-            disabledCstomThemeButton.state.isDisabled = true
-
-            addRow(items: [customThemeButton.view, disabledCstomThemeButton.view], itemSpacing: 20)
-        }
-
         container.addArrangedSubview(UIView())
     }
 
     func didPressButton() {
-        // Temporary change to exercise the scenario where the color provider is set
-        // and all teh Vnext controls are refreshed accordingly.
-        if let window = self.view.window {
-            Colors.setProvider(provider: SceneDelegate.colorProvider, for: window)
-        }
-
         let alert = UIAlertController(title: "A button was pressed",
                                       message: nil,
                                       preferredStyle: .alert)

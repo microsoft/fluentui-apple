@@ -276,7 +276,7 @@ public final class Colors: NSObject {
     @objc public static func setProvider(provider: ColorProviding, for window: UIWindow) {
         colorProvidersMap.setObject(provider, forKey: window)
 
-        // Reflect the ColorProviding implementation in the FluentUI Vnext stylesheet for this window
+        // Reflect the ColorProviding implementation in the FluentUI Vnext stylesheet override for this window
         let stylesheet = FluentUIStyle()
         let colors = stylesheet.Colors
         let brandColors = colors.Brand
