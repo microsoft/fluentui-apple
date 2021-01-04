@@ -247,7 +247,16 @@ public final class Colors: NSObject {
 			}
 		}
 	}
-	
+
+	/// Allows Objective-C to get `NSColor` objects from `Palette` values.
+	/// - Parameter paletteValue: The `Palette` enum value.
+	/// - Returns: The `NSColor` for the given `paletteValue`.
+	/// # Example #
+	/// `NSColor *communicationBlue = [MSFColors paletteColor:MSFColorsPaletteCommunicationBlue];`
+	@objc public func paletteColor(_ paletteValue: Palette) -> NSColor {
+		return paletteValue.color
+	}
+
 	// MARK: Primary
 	
 	@objc public static var primary: NSColor = Colors.Palette.communicationBlue.color
