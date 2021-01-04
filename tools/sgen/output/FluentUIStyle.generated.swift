@@ -2515,6 +2515,28 @@ extension StylesheetManagerTheming {
 			self.mainProxy = proxy
 		}
 
+		//MARK: backgroundClearColor 
+		public var _backgroundClearColor: UIColor?
+		open func backgroundClearColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _backgroundClearColor { return override }
+			return mainProxy().Colors.Neutral.clearProperty(traitCollection)
+			}
+		public var backgroundClearColor: UIColor {
+			get { return self.backgroundClearColorProperty() }
+			set { _backgroundClearColor = newValue }
+		}
+
+		//MARK: backgroundDimmedColor 
+		public var _backgroundDimmedColor: UIColor?
+		open func backgroundDimmedColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _backgroundDimmedColor { return override }
+			return mainProxy().Colors.Neutral.blackProperty(traitCollection)
+			}
+		public var backgroundDimmedColor: UIColor {
+			get { return self.backgroundDimmedColorProperty() }
+			set { _backgroundDimmedColor = newValue }
+		}
+
 		//MARK: shadowBlur 
 		public var _shadowBlur: CGFloat?
 		open func shadowBlurProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {

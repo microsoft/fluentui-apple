@@ -72,38 +72,34 @@ class DrawerVnextDemoController: DemoController, DrawerVnextControllerDelegate {
         super.viewDidLoad()
 
         addTitle(text: "Left/Right Drawer")
-        addRow(
-            items: [
-                createButton(title: "Show from leading with clear background", action: { [weak self ] _ in
-                    if let strongSelf = self {
-                        strongSelf.showLeftDrawerClearBackgroundButtonTapped()
-                    }
-                }).view,
-                createButton(title: "Show from trailing with clear background", action: { [weak self ] _ in
-                    if let strongSelf = self {
-                        strongSelf.showRightDrawerClearBackgroundButtonTapped()
-                    }
-                }).view
-            ],
-            itemSpacing: Constants.verticalSpacing,
-            stretchItems: true
-        )
-        addRow(
-            items: [
-                createButton(title: "Show from leading with dimmed background", action: { [weak self ] _ in
-                    if let strongSelf = self {
-                        strongSelf.showLeftDrawerDimmedBackgroundButtonTapped()
-                    }
-                }).view,
-                createButton(title: "Show from trailing with dimmed background", action: { [weak self ] _ in
-                    if let strongSelf = self {
-                        strongSelf.showRightDrawerDimmedBackgroundButtonTapped()
-                    }
-                }).view
-            ],
-            itemSpacing: Constants.verticalSpacing,
-            stretchItems: true
-        )
+        addRow(items: [
+            createButton(title: "Show from leading with clear background", action: { [weak self ] _ in
+                if let strongSelf = self {
+                    strongSelf.showLeftDrawerClearBackgroundButtonTapped()
+                }
+            }).view,
+            createButton(title: "Show from trailing with clear background", action: { [weak self ] _ in
+                if let strongSelf = self {
+                    strongSelf.showRightDrawerClearBackgroundButtonTapped()
+                }
+            }).view
+        ],
+        itemSpacing: Constants.verticalSpacing,
+        stretchItems: true)
+        addRow(items: [
+            createButton(title: "Show from leading with dimmed background", action: { [weak self ] _ in
+                if let strongSelf = self {
+                    strongSelf.showLeftDrawerDimmedBackgroundButtonTapped()
+                }
+            }).view,
+            createButton(title: "Show from trailing with dimmed background", action: { [weak self ] _ in
+                if let strongSelf = self {
+                    strongSelf.showRightDrawerDimmedBackgroundButtonTapped()
+                }
+            }).view
+        ],
+        itemSpacing: Constants.verticalSpacing,
+        stretchItems: true)
         addDescription(text: "Swipe from the left or right edge of the screen to reveal a drawer interactively")
 
         container.addArrangedSubview(UIView())

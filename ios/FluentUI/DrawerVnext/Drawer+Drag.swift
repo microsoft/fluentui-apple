@@ -6,6 +6,7 @@
 import SwiftUI
 
 internal extension Drawer {
+
     func dragGesture(screenWidth: CGFloat) -> some Gesture {
         DragGesture()
             .onChanged { value in

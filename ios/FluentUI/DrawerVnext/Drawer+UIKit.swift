@@ -51,27 +51,7 @@ extension DrawerVnext: UIViewControllerTransitioningDelegate, UIViewControllerAn
     }
 }
 
-// MARK: DrawerModal
-
-/// `DrawerContentViewController` is SwiftUI wrapper classes that embeds a UIViewController used to host UIKit content as a SwiftUI componenet
-public struct DrawerContentViewController: UIViewControllerRepresentable {
-
-    private var contentView: UIViewController
-
-    init(contentViewController: UIViewController) {
-        self.contentView = contentViewController
-    }
-
-    public func makeUIViewController(context: Context) -> UIViewController {
-        return contentView
-    }
-
-    public func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
-
-    public typealias UIViewControllerType = UIViewController
-}
-
-// MARK: DrawerVnext
+// MARK: - DrawerVnext
 
 @objc(MSFDrawerVnextControllerDelegate)
 public protocol DrawerVnextControllerDelegate: AnyObject {
@@ -110,7 +90,7 @@ open class DrawerVnext: UIHostingController<Drawer<DrawerContentViewController>>
     }
 
     private func addDelegateNotification() {
-        self.drawer = self.drawer.didChangedState({ [weak self] isExpanded in
+        self.drawer = self.drawer.didChangeState({ [weak self] isExpanded in
             if let strongSelf = self {
                 strongSelf.delegate?.drawerDidChangeState?(state: strongSelf.drawerState, controller: strongSelf)
                 if !isExpanded {
@@ -119,4 +99,22 @@ open class DrawerVnext: UIHostingController<Drawer<DrawerContentViewController>>
             }
         })
     }
+}
+
+/// `DrawerContentViewController` is SwiftUI wrapper classes that embeds a UIViewController used to host UIKit content as a SwiftUI componenet
+public struct DrawerContentViewController: UIViewControllerRepresentable {
+
+    private var contentView: UIViewController
+
+    init(contentViewController: UIViewController) {
+        self.contentView = contentViewController
+    }
+
+    public func makeUIViewController(context: Context) -> UIViewController {
+        return contentView
+    }
+
+    public func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+
+    public typealias UIViewControllerType = UIViewController
 }

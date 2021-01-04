@@ -47,6 +47,8 @@ public class DrawerTokens: ObservableObject {
     @Published public var shadowBlur: CGFloat!
     @Published public var shadowDepthX: CGFloat!
     @Published public var shadowDepthY: CGFloat!
+    @Published public var backgroundDimmedColor: Color!
+    @Published public var backgroundClearColor: Color!
 
     public init() {
         self.themeAware = true
@@ -60,6 +62,8 @@ public class DrawerTokens: ObservableObject {
         shadowBlur = appearanceProxy.shadowBlur
         shadowDepthX = appearanceProxy.shadowX
         shadowDepthY = appearanceProxy.shadowY
+        backgroundClearColor = Color(appearanceProxy.backgroundClearColor)
+        backgroundDimmedColor = Color(appearanceProxy.backgroundDimmedColor)
     }
 }
 
@@ -95,7 +99,7 @@ public struct Drawer<Content: View>: View {
                 .direction(slideOutDirection)
                 .width(proxy.portraitOrientationAgnosticSize().width)
                 .performOnBackgroundTap {
-                    state.isExpanded.toggle()
+                    state.isExpanded = false
                 }
                 .onReceive(state.$isExpanded, perform: { value in
                     withAnimation {
@@ -131,8 +135,6 @@ extension GeometryProxy {
 }
 
 // MARK: - Previews
-
-import SwiftUI
 
 struct DrawerContent: View {
     var body: some View {

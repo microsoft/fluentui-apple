@@ -259,6 +259,8 @@ IconOnlyListTokens extends MSFListTokens:
   iconColor: $Colors.Foreground.neutral3
 
 AP_DrawerTokens:
+  backgroundClearColor: $Colors.Neutral.clear
+  backgroundDimmedColor: $Colors.Neutral.black
   shadowColor: $Shadow.shadow28.color
   shadowOpacity: $Shadow.shadow28.opacity
   shadowBlur: $Shadow.shadow28.blur

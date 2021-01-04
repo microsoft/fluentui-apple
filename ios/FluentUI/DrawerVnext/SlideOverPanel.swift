@@ -1,9 +1,6 @@
 //
-//  SlideOutPanel.swift
-//  FluentUI
-//
-//  Created by Kunal Balani on 12/30/20.
-//  Copyright © 2020 Microsoft Corporation. All rights reserved.
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
 //
 
 import SwiftUI
@@ -43,14 +40,13 @@ struct SlideOverPanel<Content: View>: View {
     // configure the apperance of drawer
     @ObservedObject public var tokens = DrawerTokens()
 
-    private let backgroundLayerColor: Color = .black
-
     private let contentWidthSizeRatio: CGFloat = 0.9
 
     public var body: some View {
         HStack {
             if direction == .right {
-                InteractiveSpacer().onTapGesture (count: 1, perform: actionOnBackgroundTap ?? {})
+                InteractiveSpacer(defaultBackgroundColor: $tokens.backgroundClearColor)
+                    .onTapGesture (count: 1, perform: actionOnBackgroundTap ?? {})
             }
 
             content
@@ -62,15 +58,17 @@ struct SlideOverPanel<Content: View>: View {
                 .offset(x: resolvedContentOffset())
 
             if direction == .left {
-                InteractiveSpacer().onTapGesture (count: 1, perform: actionOnBackgroundTap ?? {})
+                InteractiveSpacer(defaultBackgroundColor: $tokens.backgroundClearColor)
+                    .onTapGesture (count: 1, perform: actionOnBackgroundTap ?? {})
             }
         }
-        .background(isOpen ? backgroundLayerColor.opacity(backgroundLayerOpacity) : Color.clear)
+        .background(isOpen ? tokens.backgroundDimmedColor.opacity(backgroundLayerOpacity) : tokens.backgroundClearColor)
     }
 
     private func resolvedContentOffset() -> CGFloat {
         // override offset if required
-        if let preferredContentWidth = preferredContentOffset {  // parent view wants to take over primarily to conform to user drag gesture
+        if let preferredContentWidth = preferredContentOffset {
+            // parent view wants to take over primarily to conform user drag gesture
             return preferredContentWidth
         }
 
@@ -98,9 +96,12 @@ struct SlideOverPanel<Content: View>: View {
 // MARK: - Composite View
 
 public struct InteractiveSpacer: View {
+    
+    @Binding public var defaultBackgroundColor: Color
+
     public var body: some View {
         ZStack {
-            Color.black.opacity(0.001)
+            defaultBackgroundColor
         }
     }
 }
