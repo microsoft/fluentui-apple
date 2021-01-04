@@ -33,6 +33,9 @@ public class DrawerState: NSObject, ObservableObject {
     /// Set `backgroundDimmed` to `true` to dim the spacer area between drawer and base view.
     /// If set to `false` it restores to `clear` color
     @objc @Published public var backgroundDimmed: Bool = false
+
+    /// anitmation duration when drawer is collapsed/expanded
+    @objc @Published public var animationDuration: Double = 0.0
 }
 
 public typealias DrawerStateChangedCompletionBlock = (_ isExpanded: Bool) -> Void
@@ -102,11 +105,15 @@ public struct Drawer<Content: View>: View {
                     state.isExpanded = false
                 }
                 .onReceive(state.$isExpanded, perform: { value in
-                    withAnimation {
+                    withAnimation(.easeInOut(duration: state.animationDuration)) {
                         self.isDrawerOpen = value
-                        self.draggedOffsetWidth = nil // drag ends
+                        // drag ends
+                        self.draggedOffsetWidth = nil
                     }
                 })
+                .onDisappear {
+                    self.state.isExpanded = false
+                }
                 .gesture(dragGesture(screenWidth: proxy.portraitOrientationAgnosticSize().width))
         }
         .edgesIgnoringSafeArea(.all)

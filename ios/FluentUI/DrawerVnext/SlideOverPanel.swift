@@ -96,7 +96,6 @@ struct SlideOverPanel<Content: View>: View {
 // MARK: - Composite View
 
 public struct InteractiveSpacer: View {
-    
     @Binding public var defaultBackgroundColor: Color
 
     public var body: some View {

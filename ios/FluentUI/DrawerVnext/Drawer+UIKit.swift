@@ -9,8 +9,17 @@ import SwiftUI
 // MARK: Drawer + UIViewControllerTransitioningDelegate
 
 extension DrawerVnext: UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
+
+    enum Constant {
+        static let linearAnimationDuration: TimeInterval = 0.25
+        static let disabledAnimationDuration: TimeInterval = 0
+    }
+
     public func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 0
+        if let isAnimationAssisted = transitionContext?.isAnimated, isAnimationAssisted == true {
+            return Constant.linearAnimationDuration
+        }
+        return Constant.disabledAnimationDuration
     }
 
     public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
@@ -22,12 +31,13 @@ extension DrawerVnext: UIViewControllerTransitioningDelegate, UIViewControllerAn
 
         let drawerView = isPresentingDrawer ? toView : fromView
 
+        drawerState.animationDuration = transitionDuration(using: transitionContext)
+
         // delegate animation to swiftui by changing state
         if isPresentingDrawer {
             transitionContext.containerView.addSubview(drawerView)
             drawerView.frame = UIScreen.main.bounds
-            // Added a static interval as currently swiftui doesn't have an animation completion callback
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + drawerState.animationDuration) { [weak self] in
                 if let strongSelf = self {
                     strongSelf.drawerState.isExpanded = isPresentingDrawer
                 }
@@ -35,7 +45,7 @@ extension DrawerVnext: UIViewControllerTransitioningDelegate, UIViewControllerAn
             }
         } else {
             self.drawerState.isExpanded = isPresentingDrawer
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + drawerState.animationDuration) {
                 drawerView.removeFromSuperview()
                 transitionContext.completeTransition(true)
             }
