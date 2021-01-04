@@ -78,7 +78,7 @@
     listCell3.subtitle = @"Sample Subtitle3";
     UIImage *image = [UIImage imageNamed:@"excelIcon"];
     listCell3.leadingIcon = image;
-    listCell3.trailingIcon = MSFListAccessoryTypeDisclosure;
+    listCell3.accessoryType = MSFListAccessoryTypeDisclosure;
     [listCell3 setOnTapAction:^{
         [self showAlertForCellTapped:@"Sample Title3"];
     }];

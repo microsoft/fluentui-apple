@@ -45,7 +45,7 @@ public class MSFListVnextCellData: NSObject, ObservableObject, Identifiable {
     @objc @Published public var leadingIcon: UIImage?
     @objc @Published public var title: String = ""
     @objc @Published public var subtitle: String?
-    @objc @Published public var trailingIcon: MSFListAccessoryType = .none
+    @objc @Published public var accessoryType: MSFListAccessoryType = .none
     @objc @Published public var titleLineLimit: Int = 1
     @objc @Published public var subtitleLineLimit: Int = 1
     @objc public var onTapAction: (() -> Void)?
@@ -160,9 +160,9 @@ public struct MSFListView: View {
         let sections = state.sections
         List {
             ForEach(sections, id: \.self) { section in
-                if section.title != nil {
+                if let sectionTitle = section.title {
                     if #available(iOS 14.0, *) {
-                        Section(header: Header(title: section.title ?? "", tokens: tokens)) {}
+                        Section(header: Header(title: sectionTitle, tokens: tokens)) {}
                             .textCase(.none)
                             .listRowInsets(EdgeInsets())
                             .padding(.top, tokens.horizontalCellPadding / 2)
@@ -170,16 +170,17 @@ public struct MSFListView: View {
                             .padding(.trailing, tokens.horizontalCellPadding)
                             .background(Color(tokens.backgroundColor))
                     } else {
-                        Text(section.title ?? "")
+                        Text(sectionTitle)
                             .listRowInsets(EdgeInsets(
-                                    top: tokens.horizontalCellPadding / 2,
-                                    leading: tokens.horizontalCellPadding,
-                                    bottom: tokens.horizontalCellPadding / 2,
-                                    trailing: tokens.horizontalCellPadding))
+                                            top: tokens.horizontalCellPadding / 2,
+                                            leading: tokens.horizontalCellPadding,
+                                            bottom: tokens.horizontalCellPadding / 2,
+                                            trailing: tokens.horizontalCellPadding))
                             .font(Font(tokens.subtitleFont))
                             .foregroundColor(Color(tokens.subtitleColor))
                     }
                 }
+
                 ForEach(section.cells, id: \.self) { cell in
                     MSFListCellView(cell: cell, layoutType: section.layoutType, tokens: tokens)
                         .border(section.hasBorder ? Color(tokens.borderColor) : Color.clear, width: section.hasBorder ? tokens.borderSize : 0)
@@ -230,18 +231,16 @@ extension MSFListView {
                     }
                     Spacer()
                     HStack {
-                        if let trailingIcon = cell.trailingIcon {
-                            if trailingIcon != .none {
-                                let isDisclosure = trailingIcon == .disclosure
-                                let disclosureSize = tokens.disclosureSize
-                                let iconSize = tokens.iconSize
-                                Image(uiImage: trailingIcon.icon!)
-                                    .resizable()
-                                    .foregroundColor(Color(isDisclosure ? tokens.disclosureIconForegroundColor : tokens.trailingItemForegroundColor))
-                                    .frame(width: isDisclosure ? disclosureSize : iconSize,
-                                           height: isDisclosure ? disclosureSize : iconSize)
-                                    .padding(.leading, isDisclosure ? tokens.disclosureInterspace : tokens.iconInterspace)
-                            }
+                        if let accessoryType = cell.accessoryType, accessoryType != .none, let accessoryIcon = accessoryType.icon {
+                            let isDisclosure = accessoryType == .disclosure
+                            let disclosureSize = tokens.disclosureSize
+                            let iconSize = tokens.iconSize
+                            Image(uiImage: accessoryIcon)
+                                .resizable()
+                                .foregroundColor(Color(isDisclosure ? tokens.disclosureIconForegroundColor : tokens.trailingItemForegroundColor))
+                                .frame(width: isDisclosure ? disclosureSize : iconSize,
+                                       height: isDisclosure ? disclosureSize : iconSize)
+                                .padding(.leading, isDisclosure ? tokens.disclosureInterspace : tokens.iconInterspace)
                         }
                     }
                 }

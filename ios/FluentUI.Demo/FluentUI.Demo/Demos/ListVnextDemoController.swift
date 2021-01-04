@@ -10,11 +10,9 @@ class ListVnextDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let sections: [TableViewSampleData.Section] = TableViewCellSampleData.sections
+        let sections = TableViewCellSampleData.sections
         var section: TableViewCellSampleData.Section
         var cell: TableViewCellSampleData.Item
-        let numSections = sections.count - 1
-        let numRows = TableViewCellSampleData.numberOfItemsInSection - 1
         var indexPath = IndexPath(row: 0, section: 0)
 
         var list: MSFListVnext
@@ -23,28 +21,28 @@ class ListVnextDemoController: DemoController {
         var listData: [MSFListVnextSectionData] = []
         let iconStyle = MSFListIconVnextStyle.none
 
-        for sectionCount in 0...numSections {
-            section = sections[sectionCount]
+        for sectionIndex in 0...sections.count - 1 {
+            section = sections[sectionIndex]
 
             listSection = MSFListVnextSectionData()
             listSection.title = section.title
             listSection.cells = []
-            for row in 0...numRows {
+            for rowIndex in 0...TableViewCellSampleData.numberOfItemsInSection - 1 {
                 cell = section.item
                 listCell = MSFListVnextCellData()
                 listCell.title = cell.text1
                 listCell.subtitle = cell.text2
                 listCell.leadingIcon = UIImage(named: cell.image)
-                listCell.trailingIcon = accessoryType(for: row)
+                listCell.accessoryType = accessoryType(for: rowIndex)
                 listCell.onTapAction = {
-                    indexPath.row = row
-                    indexPath.section = sectionCount
+                    indexPath.row = rowIndex
+                    indexPath.section = sectionIndex
                     self.showAlertForCellTapped(indexPath: indexPath)
                 }
                 listSection.cells.append(listCell)
             }
             listSection.layoutType = updateLayout(subtitle: listSection.cells[0].subtitle)
-            listData.append(listSection)
+             listData.append(listSection)
         }
         list = MSFListVnext(sections: listData, iconStyle: iconStyle)
 
