@@ -844,8 +844,8 @@ extension Stylesheet {
         header += """
 /// Your view should conform to 'AppearaceProxyComponent'.
 public protocol AppearaceProxyComponent: class {
-    associatedtype ApperanceProxyType
-    var appearanceProxy: ApperanceProxyType { get }
+    associatedtype AppearanceProxyType
+    var appearanceProxy: AppearanceProxyType { get }
     var themeAware: Bool { get set }
     func didChangeAppearanceProxy()
 }
@@ -1281,7 +1281,7 @@ private extension UIFont {
         var extensions = "\n"
 
         let visibility = "fileprivate"
-        extensions += "\(visibility) var __ApperanceProxyHandle: UInt8 = 0\n"
+        extensions += "\(visibility) var __AppearanceProxyHandle: UInt8 = 0\n"
         extensions += "\(visibility) var __ThemeAwareHandle: UInt8 = 0\n"
         extensions += "\(visibility) var __ObservingDidChangeThemeHandle: UInt8 = 0\n"
         
@@ -1321,12 +1321,12 @@ private extension UIFont {
             
             extensions += "\nextension \(style.name): AppearaceProxyComponent {\n\n"
             extensions +=
-                "\t\(visibility) typealias ApperanceProxyType = "
+                "\t\(visibility) typealias AppearanceProxyType = "
                 + "\(namespace)\(name).\(style.name)AppearanceProxy\n"
-            extensions += "\t\(visibility) var appearanceProxy: ApperanceProxyType {\n"
+            extensions += "\t\(visibility) var appearanceProxy: AppearanceProxyType {\n"
             extensions += "\t\tget {\n"
             
-            extensions += "\t\t\tif let proxy = objc_getAssociatedObject(self, &__ApperanceProxyHandle) as? ApperanceProxyType {\n"
+            extensions += "\t\t\tif let proxy = objc_getAssociatedObject(self, &__AppearanceProxyHandle) as? AppearanceProxyType {\n"
             extensions += "\t\t\t\tif !themeAware { return proxy }\n\n"
             
             if Generator.Config.importStylesheetManagerName == nil && sortedStatements.count > 0 {
@@ -1351,7 +1351,7 @@ private extension UIFont {
             extensions += "\t\t}\n"
             extensions += "\t\tset {\n"
             extensions +=
-                "\t\t\tobjc_setAssociatedObject(self, &__ApperanceProxyHandle, newValue,"
+                "\t\t\tobjc_setAssociatedObject(self, &__AppearanceProxyHandle, newValue,"
                 + " .OBJC_ASSOCIATION_RETAIN_NONATOMIC)\n"
             extensions += "\t\t\tdidChangeAppearanceProxy()\n"
             extensions += "\t\t}\n"

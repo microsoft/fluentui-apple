@@ -91,7 +91,7 @@ public class MSFButtonTokens: ObservableObject {
             theme = windowTheme
         }
 
-        var appearanceProxy: ApperanceProxyType
+        var appearanceProxy: AppearanceProxyType
 
         switch style {
         case .primary:

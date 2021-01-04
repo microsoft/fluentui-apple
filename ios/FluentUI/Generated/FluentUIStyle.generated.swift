@@ -11,8 +11,8 @@ public class Application {
 
 /// Your view should conform to 'AppearaceProxyComponent'.
 public protocol AppearaceProxyComponent: class {
-    associatedtype ApperanceProxyType
-    var appearanceProxy: ApperanceProxyType { get }
+    associatedtype AppearanceProxyType
+    var appearanceProxy: AppearanceProxyType { get }
     var themeAware: Bool { get set }
     func didChangeAppearanceProxy()
 }
@@ -3987,16 +3987,16 @@ extension StylesheetManagerTheming {
 	}
 
 }
-fileprivate var __ApperanceProxyHandle: UInt8 = 0
+fileprivate var __AppearanceProxyHandle: UInt8 = 0
 fileprivate var __ThemeAwareHandle: UInt8 = 0
 fileprivate var __ObservingDidChangeThemeHandle: UInt8 = 0
 
 extension AvatarTokens: AppearaceProxyComponent {
 
-	public typealias ApperanceProxyType = FluentUIStyle.AvatarTokensAppearanceProxy
-	public var appearanceProxy: ApperanceProxyType {
+	public typealias AppearanceProxyType = FluentUIStyle.AvatarTokensAppearanceProxy
+	public var appearanceProxy: AppearanceProxyType {
 		get {
-			if let proxy = objc_getAssociatedObject(self, &__ApperanceProxyHandle) as? ApperanceProxyType {
+			if let proxy = objc_getAssociatedObject(self, &__AppearanceProxyHandle) as? AppearanceProxyType {
 				if !themeAware { return proxy }
 
 				if let proxyString = Optional(String(reflecting: type(of: proxy))), proxyString.hasPrefix("Stardust") == false {
@@ -4020,7 +4020,7 @@ extension AvatarTokens: AppearaceProxyComponent {
 			return StylesheetManager.stylesheet(FluentUIStyle.shared()).AvatarTokens
 		}
 		set {
-			objc_setAssociatedObject(self, &__ApperanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+			objc_setAssociatedObject(self, &__AppearanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
 			didChangeAppearanceProxy()
 		}
 	}
@@ -4055,10 +4055,10 @@ extension AvatarTokens: AppearaceProxyComponent {
 
 extension MSFButtonTokens: AppearaceProxyComponent {
 
-	public typealias ApperanceProxyType = FluentUIStyle.MSFButtonTokensAppearanceProxy
-	public var appearanceProxy: ApperanceProxyType {
+	public typealias AppearanceProxyType = FluentUIStyle.MSFButtonTokensAppearanceProxy
+	public var appearanceProxy: AppearanceProxyType {
 		get {
-			if let proxy = objc_getAssociatedObject(self, &__ApperanceProxyHandle) as? ApperanceProxyType {
+			if let proxy = objc_getAssociatedObject(self, &__AppearanceProxyHandle) as? AppearanceProxyType {
 				if !themeAware { return proxy }
 
 				if let proxyString = Optional(String(reflecting: type(of: proxy))), proxyString.hasPrefix("Stardust") == false {
@@ -4078,7 +4078,7 @@ extension MSFButtonTokens: AppearaceProxyComponent {
 			return StylesheetManager.stylesheet(FluentUIStyle.shared()).MSFButtonTokens
 		}
 		set {
-			objc_setAssociatedObject(self, &__ApperanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+			objc_setAssociatedObject(self, &__AppearanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
 			didChangeAppearanceProxy()
 		}
 	}

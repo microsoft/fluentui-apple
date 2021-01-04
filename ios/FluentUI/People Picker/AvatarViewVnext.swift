@@ -154,7 +154,7 @@ public class AvatarTokens: ObservableObject {
     }
 
     @objc open func didChangeAppearanceProxy() {
-        var appearanceProxy: ApperanceProxyType
+        var appearanceProxy: AppearanceProxyType
 
         switch style {
         case .default:
