@@ -244,12 +244,12 @@ public extension Notification.Name {
 }
 
 protocol StylesheetManagerTheming {
-	static func currentTheme() -> FluentUIStyle
+	static func defaultTheme() -> FluentUIStyle
 	func themeInit()
 }
 
 extension StylesheetManagerTheming {
-	static func currentTheme() -> FluentUIStyle {
+	static func defaultTheme() -> FluentUIStyle {
 		return FluentUIStyle.shared()
 	}
 	func themeInit() {
@@ -258,6 +258,7 @@ extension StylesheetManagerTheming {
 }
 
 @objcMembers public class StylesheetManager: NSObject, StylesheetManagerTheming {
+
     private static var stylesheetsMap = NSMapTable<UIWindow, FluentUIStyle>(keyOptions: .weakMemory, valueOptions: .strongMemory)
 
     public class func stylesheet(for window: UIWindow?) -> FluentUIStyle? {
@@ -269,15 +270,14 @@ extension StylesheetManagerTheming {
         NotificationCenter.default.post(name: .didChangeTheme, object: nil)
     }
 
-	dynamic public class func stylesheet(_ stylesheet: FluentUIStyle) -> FluentUIStyle {
-		return currentTheme()
-	}
+    dynamic public class func stylesheet(_ stylesheet: FluentUIStyle) -> FluentUIStyle {
+        return defaultTheme()
+    }
 
-	public static let `default` = StylesheetManager()
-	public static var S: FluentUIStyle {
-		return currentTheme()
-	}
-
+    public static let `default` = StylesheetManager()
+    public static var S: FluentUIStyle {
+        return defaultTheme()
+    }
 	private override init() {
 		super.init()
 		themeInit()

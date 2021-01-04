@@ -665,12 +665,12 @@ extension Stylesheet {
             }
             
             header += "protocol \(themeProtocolName) {\n"
-            header += "\tstatic func currentTheme() -> \(namespace)\(baseStyleName.name)\n"
+            header += "\tstatic func defaultTheme() -> \(namespace)\(baseStyleName.name)\n"
             header += "\tfunc themeInit()\n"
             header += "}\n\n"
             
             header += "extension \(themeProtocolName) {\n"
-            header += "\tstatic func currentTheme() -> \(namespace)\(baseStyleName.name) {\n"
+            header += "\tstatic func defaultTheme() -> \(namespace)\(baseStyleName.name) {\n"
             header += "\t\treturn \(namespace)\(baseStyleName.name).shared()\n"
             header += "\t}\n"
             header += "\tfunc themeInit() {\n"
@@ -681,15 +681,30 @@ extension Stylesheet {
             let prefix = Generator.Config.objcGeneration ? "@objcMembers " : ""
             let prefixMethod = Generator.Config.objcGeneration ? "" : "@objc "
             let superclass = Generator.Config.objcGeneration ? "NSObject, " : ""
-            header += "\(prefix)public class \(Generator.Config.stylesheetManagerName): \(superclass)\(themeProtocolName) {\n"
-            header +=
-            "\t\(prefixMethod)dynamic public class func stylesheet(_ stylesheet: \(namespace)\(baseStyleName.name)) -> \(namespace)\(baseStyleName.name) {\n"
-            header += "\t\treturn currentTheme()\n"
-            header += "\t}\n\n"
-            header += "\tpublic static let `default` = \(Generator.Config.stylesheetManagerName)()\n"
-            header += "\tpublic static var S: \(namespace)\(baseStyleName.name) {\n"
-            header += "\t\treturn currentTheme()\n"
-            header += "\t}\n\n"
+            header += """
+\(prefix)public class \(Generator.Config.stylesheetManagerName): \(superclass)\(themeProtocolName) {
+
+    private static var stylesheetsMap = NSMapTable<UIWindow, \(namespace)\(baseStyleName.name)>(keyOptions: .weakMemory, valueOptions: .strongMemory)
+
+    public class func stylesheet(for window: UIWindow?) -> \(namespace)\(baseStyleName.name)? {
+        return stylesheetsMap.object(forKey: window)
+    }
+
+    public class func setStylesheet(stylesheet: \(namespace)\(baseStyleName.name), for window: UIWindow) {
+        stylesheetsMap.setObject(stylesheet, forKey: window)
+        NotificationCenter.default.post(name: .didChangeTheme, object: nil)
+    }
+
+    \(prefixMethod)dynamic public class func stylesheet(_ stylesheet: \(namespace)\(baseStyleName.name)) -> \(namespace)\(baseStyleName.name) {
+        return defaultTheme()
+    }
+
+    public static let `default` = \(Generator.Config.stylesheetManagerName)()
+    public static var S: \(namespace)\(baseStyleName.name) {
+        return defaultTheme()
+    }
+
+"""
 
             if Generator.Config.importStylesheetManagerName == nil {
                 let override = Generator.Config.objcGeneration ? "override " : ""
@@ -701,7 +716,6 @@ extension Stylesheet {
                 header += "\t}\n"
             }
             header += "}\n\n"
-            
         } else {
             Generator.Config.hasGeneratedStylesheetManager = true
             
@@ -739,7 +753,7 @@ extension Stylesheet {
                 header += "fileprivate var __ThemeHandle: UInt8 = 0\n\n"
             }
             header += "public extension \(Generator.Config.stylesheetManagerName) {\n"
-            header += "\tstatic func currentTheme() -> \(namespace)\(baseStyleName.name) {\n"
+            header += "\tstatic func defaultTheme() -> \(namespace)\(baseStyleName.name) {\n"
             header += "\t\treturn \(Generator.Config.stylesheetManagerName).default.theme.stylesheet\n"
             header += "\t}\n\n"
             
