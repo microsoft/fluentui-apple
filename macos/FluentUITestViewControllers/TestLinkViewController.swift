@@ -8,9 +8,11 @@ import FluentUI
 
 class TestLinkViewController: NSViewController {
 	override func loadView() {
-		let linkWithNoHover = Link(title: "Link", url: NSURL(string: "https://github.com/microsoft/fluentui-apple")!)
+		let url = NSURL(string: "https://github.com/microsoft/fluentui-apple")
+
+		let linkWithNoHover = Link(title: "Link", url: url)
 		
-		let linkWithHover = Link(title: "Link with hover effects", url: NSURL(string: "https://github.com/microsoft/fluentui-apple")!)
+		let linkWithHover = Link(title: "Link with hover effects", url: url)
 		linkWithHover.showsUnderlineWhileMouseInside = true
 		
 		let linkWithHoverAndNoURL = Link(title: "Link with hover effects and no URL")
