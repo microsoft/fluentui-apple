@@ -183,49 +183,6 @@ open class Button: NSButton {
 		}
 	}
 
-	private var trackingArea: NSTrackingArea?
-	
-	override public func updateTrackingAreas() {
-		super.updateTrackingAreas()
-
-		if let trackingArea = trackingArea {
-			removeTrackingArea(trackingArea)
-			self.trackingArea = nil
-		}
-
-		let opts: NSTrackingArea.Options = [.mouseEnteredAndExited, .activeAlways]
-		let trackingArea = NSTrackingArea(rect: bounds, options: opts, owner: self, userInfo: nil)
-		addTrackingArea(trackingArea)
-		self.trackingArea = trackingArea
-	}
-
-	open override func mouseDown(with event: NSEvent) {
-		var pressed = true
-		var nextEvent:NSEvent
-		var mouseInRect = true
-
-		mouseDown = true
-		while (pressed) {
-			nextEvent = (self.window?.nextEvent(matching: NSEvent.EventTypeMask(rawValue: NSEvent.EventTypeMask.RawValue(NX_LMOUSEUPMASK | NX_MOUSEEXITEDMASK | NX_MOUSEENTEREDMASK))))!
-			
-			switch nextEvent.type {
-			case NSEvent.EventType.leftMouseUp:
-				/// send action if cursor is inside the button
-				if mouseInRect {
-					self.sendAction(action, to: target)
-				}
-				pressed = false
-				mouseDown = false
-			case NSEvent.EventType.mouseExited:
-				mouseInRect = false
-			case NSEvent.EventType.mouseEntered:
-				mouseInRect = true
-			default: // ignore other events
-				break
-			}
-		}
-	}
-
 	open override var isEnabled: Bool {
 		didSet {
 			guard oldValue != isEnabled else {
