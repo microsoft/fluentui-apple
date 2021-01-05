@@ -42,7 +42,7 @@ class ListVnextDemoController: DemoController {
                 listSection.cells.append(listCell)
             }
             listSection.layoutType = updateLayout(subtitle: listSection.cells[0].subtitle)
-             listData.append(listSection)
+            listData.append(listSection)
         }
         list = MSFListVnext(sections: listData, iconStyle: iconStyle)
 
@@ -76,7 +76,7 @@ class ListVnextDemoController: DemoController {
     }
 
     private func updateLayout(subtitle: String?) -> MSFListCellVnextLayoutType {
-        if subtitle != "" {
+        if let subtitle = subtitle, !subtitle.isEmpty {
             return MSFListCellVnextLayoutType.twoLines
         } else {
             return MSFListCellVnextLayoutType.oneLine

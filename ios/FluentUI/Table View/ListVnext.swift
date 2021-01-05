@@ -73,17 +73,6 @@ public enum MSFListCellVnextLayoutType: Int, CaseIterable {
     case oneLine
     case twoLines
     case threeLines
-
-    var height: CGFloat {
-        switch self {
-        case .oneLine:
-            return 48
-        case .twoLines:
-            return 64
-        case .threeLines:
-            return 84
-        }
-    }
 }
 
 public class MSFListTokens: ObservableObject {
@@ -98,6 +87,9 @@ public class MSFListTokens: ObservableObject {
     @Published public var highlightedBackgroundColor: UIColor!
 
     @Published public var borderSize: CGFloat!
+    @Published public var cellHeightOneLine: CGFloat!
+    @Published public var cellHeightTwoLines: CGFloat!
+    @Published public var cellHeightThreeLines: CGFloat!
     @Published public var disclosureInterspace: CGFloat!
     @Published public var disclosureSize: CGFloat!
     @Published public var horizontalCellPadding: CGFloat!
@@ -135,11 +127,14 @@ public class MSFListTokens: ObservableObject {
         highlightedBackgroundColor = appearanceProxy.backgroundColor.pressed
 
         borderSize = appearanceProxy.borderSize
+        cellHeightOneLine = appearanceProxy.cellHeight.oneLine
+        cellHeightTwoLines = appearanceProxy.cellHeight.twoLines
+        cellHeightThreeLines = appearanceProxy.cellHeight.threeLines
         disclosureInterspace = appearanceProxy.disclosureInterspace
         disclosureSize = appearanceProxy.disclosureSize
         horizontalCellPadding = appearanceProxy.horizontalCellPadding
         iconInterspace = appearanceProxy.iconInterspace
-        iconSize = iconStyle == MSFListIconVnextStyle.large ? appearanceProxy.iconSize.large : appearanceProxy.iconSize.default
+        iconSize = iconStyle == .large ? appearanceProxy.iconSize.large : appearanceProxy.iconSize.default
         subtitleFont = appearanceProxy.sublabelFont
         textFont = appearanceProxy.labelFont
     }
@@ -253,9 +248,18 @@ extension MSFListView {
         let tokens: MSFListTokens
         let layoutType: MSFListCellVnextLayoutType
         func makeBody(configuration: Self.Configuration) -> some View {
+            let height: CGFloat
+            switch layoutType {
+            case .oneLine:
+                height = tokens.cellHeightOneLine
+            case .twoLines:
+                height = tokens.cellHeightTwoLines
+            case .threeLines:
+                height = tokens.cellHeightThreeLines
+            }
             return configuration.label
                 .contentShape(Rectangle())
-                .frame(minHeight: layoutType.height)
+                .frame(minHeight: height)
                 .listRowInsets(EdgeInsets())
                 .padding(.leading, tokens.horizontalCellPadding)
                 .padding(.trailing, tokens.horizontalCellPadding)
