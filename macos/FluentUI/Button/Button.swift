@@ -183,6 +183,14 @@ open class Button: NSButton {
 		}
 	}
 
+	open override func mouseDown(with event: NSEvent) {
+		mouseDown = true
+	}
+
+	open override func mouseUp(with event: NSEvent) {
+		mouseDown = false
+	}
+
 	open override var isEnabled: Bool {
 		didSet {
 			guard oldValue != isEnabled else {
