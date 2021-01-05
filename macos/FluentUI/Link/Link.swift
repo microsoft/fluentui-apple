@@ -96,6 +96,11 @@ open class Link: NSButton {
 		self.trackingArea = trackingArea
 	}
 	
+	open override func mouseDown(with event: NSEvent) {
+		super.mouseDown(with: event)
+		updateTitle()
+	}
+
 	open override func mouseEntered(with event: NSEvent) {
 		mouseInside = true
 		updateTitle()
@@ -125,7 +130,8 @@ open class Link: NSButton {
 }
 
 fileprivate let linkAttributes: [NSAttributedString.Key: Any] = [
-	.foregroundColor: NSColor.linkColor
+	.foregroundColor: NSColor.linkColor,
+	.underlineStyle: NSUnderlineStyle()
 ]
 
 fileprivate let underlinedLinkAttributes: [NSAttributedString.Key: Any] = [
