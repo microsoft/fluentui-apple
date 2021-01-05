@@ -252,9 +252,9 @@ public final class Colors: NSObject {
 	/// - Parameter paletteValue: The `Palette` enum value.
 	/// - Returns: The `NSColor` for the given `paletteValue`.
 	/// # Example #
-	/// `NSColor *communicationBlue = [MSFColors paletteColor:MSFColorsPaletteCommunicationBlue];`
-	@objc public func paletteColor(_ paletteValue: Palette) -> NSColor {
-		return paletteValue.color
+	/// `NSColor *communicationBlue = [MSFColors paletteColor:MSFColorPaletteCommunicationBlue];`
+	@objc public static func colorFrom(_ palette: Palette) -> NSColor {
+		return palette.color
 	}
 
 	// MARK: Primary
