@@ -166,11 +166,10 @@ public struct MSFListView: View {
                             .background(Color(tokens.backgroundColor))
                     } else {
                         Text(sectionTitle)
-                            .listRowInsets(EdgeInsets(
-                                            top: tokens.horizontalCellPadding / 2,
-                                            leading: tokens.horizontalCellPadding,
-                                            bottom: tokens.horizontalCellPadding / 2,
-                                            trailing: tokens.horizontalCellPadding))
+                            .listRowInsets(EdgeInsets(top: tokens.horizontalCellPadding / 2,
+                                                      leading: tokens.horizontalCellPadding,
+                                                      bottom: tokens.horizontalCellPadding / 2,
+                                                      trailing: tokens.horizontalCellPadding))
                             .font(Font(tokens.subtitleFont))
                             .foregroundColor(Color(tokens.subtitleColor))
                     }
