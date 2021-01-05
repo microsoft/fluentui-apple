@@ -108,7 +108,7 @@ public class AvatarVnextState: NSObject, ObservableObject {
 
 /// Representation of design tokens to buttons at runtime which interfaces with the Design Token System auto-generated code.
 /// Updating these properties causes the SwiftUI button to update its view automatically.
-public class AvatarTokens: ObservableObject {
+public class AvatarTokens: MSFTokensBase, ObservableObject {
     @Published public var avatarSize: CGFloat!
     @Published public var borderRadius: CGFloat!
     @Published public var textFont: UIFont!
@@ -131,7 +131,7 @@ public class AvatarTokens: ObservableObject {
     public var style: AvatarVnextStyle {
         didSet {
             if oldValue != style {
-                didChangeAppearanceProxy()
+                updateForCurrentTheme()
             }
         }
     }
@@ -139,7 +139,7 @@ public class AvatarTokens: ObservableObject {
     public var size: AvatarVnextSize {
         didSet {
             if oldValue != size {
-                didChangeAppearanceProxy()
+                updateForCurrentTheme()
             }
         }
     }
@@ -148,27 +148,31 @@ public class AvatarTokens: ObservableObject {
                 size: AvatarVnextSize) {
         self.style = style
         self.size = size
+
+        super.init()
+
         self.themeAware = true
 
-        didChangeAppearanceProxy()
+        updateForCurrentTheme()
     }
 
-    @objc open func didChangeAppearanceProxy() {
+    public override func updateForCurrentTheme() {
+        let currentTheme = theme
         var appearanceProxy: AppearanceProxyType
 
         switch style {
         case .default:
-            appearanceProxy = StylesheetManager.S.AvatarTokens
+            appearanceProxy = currentTheme.AvatarTokens
         case .accent:
-            appearanceProxy = StylesheetManager.S.AccentAvatarTokens
+            appearanceProxy = currentTheme.AccentAvatarTokens
         case .outlined:
-            appearanceProxy = StylesheetManager.S.OutlinedAvatarTokens
+            appearanceProxy = currentTheme.OutlinedAvatarTokens
         case .outlinedPrimary:
-            appearanceProxy = StylesheetManager.S.OutlinedPrimaryAvatarTokens
+            appearanceProxy = currentTheme.OutlinedPrimaryAvatarTokens
         case .overflow:
-            appearanceProxy = StylesheetManager.S.OverflowAvatarTokens
+            appearanceProxy = currentTheme.OverflowAvatarTokens
         case .group:
-            appearanceProxy = StylesheetManager.S.GroupAvatarTokens
+            appearanceProxy = currentTheme.GroupAvatarTokens
         }
 
         ringDefaultColor = appearanceProxy.ringDefaultColor
@@ -236,10 +240,15 @@ public class AvatarTokens: ObservableObject {
             textFont = appearanceProxy.textFont.xxlarge
         }
     }
+
+    @objc open func didChangeAppearanceProxy() {
+        updateForCurrentTheme()
+    }
 }
 
 /// View that represents the avatar
 public struct AvatarVnextView: View {
+    @Environment(\.theme) var theme: FluentUIStyle
     @ObservedObject var tokens: AvatarTokens
     @ObservedObject var state: AvatarVnextState
 
@@ -308,66 +317,79 @@ public struct AvatarVnextView: View {
                         .foregroundColor(Color(tokens.textColor))
                         .font(Font(tokens.textFont)))
 
-        if tokens.style == .group {
-            avatarContent
-                .background(Rectangle()
-                                .frame(width: tokens.avatarSize, height: tokens.avatarSize, alignment: .center)
-                                .foregroundColor(Color(backgroundColor)))
-                .frame(width: tokens.avatarSize, height: tokens.avatarSize, alignment: .center)
-                .cornerRadius(tokens.borderRadius)
-        } else {
-            Circle()
-                .foregroundColor(ringGapColor)
-                .frame(width: ringOuterGapSize, height: ringOuterGapSize, alignment: .center)
-                .overlay(Circle()
-                            .foregroundColor(ringColor)
-                            .frame(width: ringSize, height: ringSize, alignment: .center)
-                            .mask(circularCutoutMask(targetFrameRect: CGRect(x: 0,
-                                                                             y: 0,
-                                                                             width: ringSize,
-                                                                             height: ringSize),
-                                                     cutoutFrameRect: CGRect(x: ringThickness,
-                                                                             y: ringThickness,
-                                                                             width: ringInnerGapSize,
-                                                                             height: ringInnerGapSize))
-                                    .fill(style: FillStyle(eoFill: isTransparent)))
-                            .overlay(Circle()
-                                        .foregroundColor(ringGapColor)
-                                        .frame(width: ringInnerGapSize, height: ringInnerGapSize, alignment: .center)
-                                        .overlay(Circle()
-                                                    .foregroundColor(Color(backgroundColor))
-                                                    .frame(width: avatarImageSize, height: avatarImageSize, alignment: .center)
-                                                    .overlay(avatarContent
-                                                                .frame(width: avatarImageSize * avatarImageSizeRatio, height: avatarImageSize * avatarImageSizeRatio, alignment: .center)
-                                                                .clipShape(Circle()),
-                                                             alignment: .center)
-                                        )
-                            )
-                         ,
-                         alignment: .center)
-                .mask(circularCutoutMask(targetFrameRect: CGRect(x: 0,
-                                                                 y: 0,
-                                                                 width: ringOuterGapSize,
-                                                                 height: ringOuterGapSize),
-                                         cutoutFrameRect: CGRect(x: presenceCutoutOriginCoordinates,
-                                                                 y: presenceCutoutOriginCoordinates,
-                                                                 width: presenceIconOutlineSize,
-                                                                 height: presenceIconOutlineSize))
-                        .fill(style: FillStyle(eoFill: shouldDisplayPresence)))
-                .overlay(shouldDisplayPresence ?
-                            AnyView(Circle()
-                                        .foregroundColor(isTransparent ? Color.clear : Color(tokens.ringGapColor))
-                                        .frame(width: presenceIconOutlineSize, height: presenceIconOutlineSize, alignment: .center)
-                                        .overlay(presence.image(isOutOfOffice: isOutOfOffice)
-                                                    .resizable()
-                                                    .frame(width: presenceIconSize, height: presenceIconSize, alignment: .center)
-                                                    .foregroundColor(presence.color(isOutOfOffice: isOutOfOffice)))
-                                        .frame(width: presenceIconFrameSideRelativeToOuterRing, height: presenceIconFrameSideRelativeToOuterRing, alignment: .bottomTrailing)
-                            )
-                            :
-                            AnyView(EmptyView()),
-                         alignment: .topLeading)
-        }
+        let bodyView = tokens.style == .group ?
+        AnyView(avatarContent
+                    .background(Rectangle()
+                                    .frame(width: tokens.avatarSize, height: tokens.avatarSize, alignment: .center)
+                                    .foregroundColor(Color(backgroundColor)))
+                    .frame(width: tokens.avatarSize, height: tokens.avatarSize, alignment: .center)
+                    .cornerRadius(tokens.borderRadius))
+            :
+        AnyView(Circle()
+                    .foregroundColor(ringGapColor)
+                    .frame(width: ringOuterGapSize, height: ringOuterGapSize, alignment: .center)
+                    .overlay(Circle()
+                                .foregroundColor(ringColor)
+                                .frame(width: ringSize, height: ringSize, alignment: .center)
+                                .mask(circularCutoutMask(targetFrameRect: CGRect(x: 0,
+                                                                                 y: 0,
+                                                                                 width: ringSize,
+                                                                                 height: ringSize),
+                                                         cutoutFrameRect: CGRect(x: ringThickness,
+                                                                                 y: ringThickness,
+                                                                                 width: ringInnerGapSize,
+                                                                                 height: ringInnerGapSize))
+                                        .fill(style: FillStyle(eoFill: isTransparent)))
+                                .overlay(Circle()
+                                            .foregroundColor(ringGapColor)
+                                            .frame(width: ringInnerGapSize, height: ringInnerGapSize, alignment: .center)
+                                            .overlay(Circle()
+                                                        .foregroundColor(Color(backgroundColor))
+                                                        .frame(width: avatarImageSize, height: avatarImageSize, alignment: .center)
+                                                        .overlay(avatarContent
+                                                                    .frame(width: avatarImageSize * avatarImageSizeRatio, height: avatarImageSize * avatarImageSizeRatio, alignment: .center)
+                                                                    .clipShape(Circle()),
+                                                                 alignment: .center)
+                                            )
+                                )
+                             ,
+                             alignment: .center)
+                    .mask(circularCutoutMask(targetFrameRect: CGRect(x: 0,
+                                                                     y: 0,
+                                                                     width: ringOuterGapSize,
+                                                                     height: ringOuterGapSize),
+                                             cutoutFrameRect: CGRect(x: presenceCutoutOriginCoordinates,
+                                                                     y: presenceCutoutOriginCoordinates,
+                                                                     width: presenceIconOutlineSize,
+                                                                     height: presenceIconOutlineSize))
+                            .fill(style: FillStyle(eoFill: shouldDisplayPresence)))
+                    .overlay(shouldDisplayPresence ?
+                                AnyView(Circle()
+                                            .foregroundColor(isTransparent ? Color.clear : Color(tokens.ringGapColor))
+                                            .frame(width: presenceIconOutlineSize, height: presenceIconOutlineSize, alignment: .center)
+                                            .overlay(presence.image(isOutOfOffice: isOutOfOffice)
+                                                        .resizable()
+                                                        .frame(width: presenceIconSize, height: presenceIconSize, alignment: .center)
+                                                        .foregroundColor(presence.color(isOutOfOffice: isOutOfOffice)))
+                                            .frame(width: presenceIconFrameSideRelativeToOuterRing, height: presenceIconFrameSideRelativeToOuterRing, alignment: .bottomTrailing)
+                                )
+                                :
+                                AnyView(EmptyView()),
+                             alignment: .topLeading))
+
+        return bodyView
+            .onAppear {
+                // When environment values are available through the view hierarchy:
+                //  - If we get a non-default theme through the environment values,
+                //    we use to override the theme from this view and its hierarchy.
+                //  - Otherwise we just refresh the tokens to reflect the theme
+                //    associated with the window that this View belongs to.
+                if theme == ThemeKey.defaultValue {
+                    self.tokens.updateForCurrentTheme()
+                } else {
+                    self.tokens.theme = theme
+                }
+            }
     }
 
     func circularCutoutMask(targetFrameRect: CGRect, cutoutFrameRect: CGRect) -> Path {
@@ -388,31 +410,49 @@ public struct AvatarVnextView: View {
 
 @objc(MSFAvatarVnext)
 /// UIKit wrapper that exposes the SwiftUI Button implementation
-open class AvatarVnext: NSObject {
+open class AvatarVnext: NSObject, FluentUIWindowProvider {
 
-    private var hostingController: UIHostingController<AvatarVnextView>
+    private var hostingController: UIHostingController<AnyView>!
+
+    private var avatarview: AvatarVnextView!
 
     @objc open var view: UIView {
         return hostingController.view
     }
 
     @objc open var state: AvatarVnextState {
-        return hostingController.rootView.state
+        return self.avatarview.state
+    }
+
+    public var window: UIWindow? {
+        return self.view.window
     }
 
     @objc open func setStyle(style: AvatarVnextStyle) {
-        hostingController.rootView.setStyle(style: style)
+        self.avatarview.setStyle(style: style)
     }
 
     @objc open func setSize(size: AvatarVnextSize) {
-        hostingController.rootView.setSize(size: size)
+        self.avatarview.setSize(size: size)
+    }
+
+    @objc public convenience init(style: AvatarVnextStyle = .default,
+                                  size: AvatarVnextSize = .large) {
+        self.init(style: style,
+                  size: size,
+                  theme: nil)
     }
 
     @objc public init(style: AvatarVnextStyle = .default,
-                      size: AvatarVnextSize = .large) {
-        self.hostingController = UIHostingController(rootView: AvatarVnextView(style: style,
-                                                                               size: size))
+                      size: AvatarVnextSize = .large,
+                      theme: FluentUIStyle? = nil) {
+        self.avatarview = AvatarVnextView(style: style,
+                                           size: size)
+        self.hostingController = UIHostingController(rootView: theme != nil ? AnyView(avatarview.usingTheme(theme!)) : AnyView(avatarview))
+
         super.init()
+
+        avatarview.tokens.windowProvider = self
         self.view.backgroundColor = UIColor.clear
     }
 }

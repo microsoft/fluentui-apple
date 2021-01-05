@@ -173,9 +173,9 @@ public struct MSFButtonViewButtonStyle: ButtonStyle {
 /// View that represents the button
 public struct MSFButtonView: View {
     var action: () -> Void
+    @Environment(\.theme) var theme: FluentUIStyle
     @ObservedObject var tokens: MSFButtonTokens
     @ObservedObject var state: MSFButtonVnextState
-    @Environment(\.theme) var theme: FluentUIStyle
 
     public init(action: @escaping () -> Void,
                 style: MSFButtonVnextStyle,
