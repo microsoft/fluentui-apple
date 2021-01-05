@@ -103,11 +103,7 @@ class TooltipDemoController: DemoController {
             Tooltip.shared.show(with: "This is a very long, offset message.", for: sender.view, preferredArrowDirection: .left, screenMargins: margins)
         }).view
 
-        let bottomRightButton = createButton(title: "", action: { [weak self] sender in
-            guard let strongSelf = self else {
-                return
-            }
-
+        let bottomRightButton = createButton(title: "", action: { sender in
             Tooltip.shared.show(with: "This is an offset tooltip.", for: sender.view)
         }).view
 
