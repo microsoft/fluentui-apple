@@ -2526,6 +2526,17 @@ extension StylesheetManagerTheming {
 			set { _backgroundClearColor = newValue }
 		}
 
+		//MARK: backgroundClearOpacity 
+		public var _backgroundClearOpacity: CGFloat?
+		open func backgroundClearOpacityProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _backgroundClearOpacity { return override }
+			return mainProxy().Opacity.clearProperty(traitCollection)
+			}
+		public var backgroundClearOpacity: CGFloat {
+			get { return self.backgroundClearOpacityProperty() }
+			set { _backgroundClearOpacity = newValue }
+		}
+
 		//MARK: backgroundDimmedColor 
 		public var _backgroundDimmedColor: UIColor?
 		open func backgroundDimmedColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
@@ -2535,6 +2546,17 @@ extension StylesheetManagerTheming {
 		public var backgroundDimmedColor: UIColor {
 			get { return self.backgroundDimmedColorProperty() }
 			set { _backgroundDimmedColor = newValue }
+		}
+
+		//MARK: backgroundDimmedOpacity 
+		public var _backgroundDimmedOpacity: CGFloat?
+		open func backgroundDimmedOpacityProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _backgroundDimmedOpacity { return override }
+			return mainProxy().Opacity.opacity64Property(traitCollection)
+			}
+		public var backgroundDimmedOpacity: CGFloat {
+			get { return self.backgroundDimmedOpacityProperty() }
+			set { _backgroundDimmedOpacity = newValue }
 		}
 
 		//MARK: shadowBlur 
@@ -3780,6 +3802,17 @@ extension StylesheetManagerTheming {
 		public let mainProxy: () -> FluentUIStyle
 		public init(proxy: @escaping () -> FluentUIStyle) {
 			self.mainProxy = proxy
+		}
+
+		//MARK: clear 
+		public var _clear: CGFloat?
+		open func clearProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _clear { return override }
+			return CGFloat(0.0)
+			}
+		public var clear: CGFloat {
+			get { return self.clearProperty() }
+			set { _clear = newValue }
 		}
 
 		//MARK: none 

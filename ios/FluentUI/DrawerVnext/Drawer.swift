@@ -50,6 +50,8 @@ public class DrawerTokens: ObservableObject {
     @Published public var shadowDepthY: CGFloat!
     @Published public var backgroundDimmedColor: Color!
     @Published public var backgroundClearColor: Color!
+    @Published public var backgroundDimmedOpacity: CGFloat!
+    @Published public var backgroundClearOpacity: CGFloat!
 
     public init() {
         self.themeAware = true
@@ -65,6 +67,8 @@ public class DrawerTokens: ObservableObject {
         shadowDepthY = appearanceProxy.shadowY
         backgroundClearColor = Color(appearanceProxy.backgroundClearColor)
         backgroundDimmedColor = Color(appearanceProxy.backgroundDimmedColor)
+        backgroundDimmedOpacity = appearanceProxy.backgroundDimmedOpacity
+        backgroundClearOpacity = appearanceProxy.backgroundClearOpacity
     }
 }
 
@@ -118,7 +122,7 @@ public struct Drawer<Content: View>: View {
     }
 
     private var backgroundLayerOpacity: Double {
-        return state.backgroundDimmed ? 0.5 : 0
+        return Double(state.backgroundDimmed ? tokens.backgroundDimmedOpacity : tokens.backgroundClearOpacity)
     }
 
     private var slideOutDirection: SlideOverDirection {

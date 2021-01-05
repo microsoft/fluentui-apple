@@ -148,6 +148,7 @@ Opacity:
   opacity88: 0.88f
   opacity96: 0.96f
   none: 1f
+  clear: 0.0f
 
 Shadow:
     shadow28: [ blur: 28pt, color: $Colors.Neutral.black, opacity: $Opacity.opacity24, x: 0pt, y: 14pt ]
@@ -259,6 +260,8 @@ IconOnlyListTokens extends MSFListTokens:
   iconColor: $Colors.Foreground.neutral3
 
 AP_DrawerTokens:
+  backgroundDimmedOpacity: $Opacity.opacity64
+  backgroundClearOpacity: $Opacity.clear
   backgroundClearColor: $Colors.Neutral.clear
   backgroundDimmedColor: $Colors.Neutral.black
   shadowColor: $Shadow.shadow28.color
