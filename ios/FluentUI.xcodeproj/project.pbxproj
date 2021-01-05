@@ -211,6 +211,8 @@
 		C0EAAEAD2347E1DF00C7244E /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EAAEAC2347E1DF00C7244E /* ShimmerView.swift */; };
 		CCC18C2C2501B22F00BE830E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC18C2B2501B22F00BE830E /* CardView.swift */; };
 		CCC18C2D2501B22F00BE830E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC18C2B2501B22F00BE830E /* CardView.swift */; };
+		EC8EA6A92580D80100F191CE /* ListVnext.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EA6A82580D80100F191CE /* ListVnext.swift */; };
+		EC8EA6AA2580D80100F191CE /* ListVnext.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EA6A82580D80100F191CE /* ListVnext.swift */; };
 		FD053A352224CA33009B6378 /* DatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */; };
 		FD0D29D62151A3D700E8655E /* CardPresenterNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0D29D52151A3D700E8655E /* CardPresenterNavigationController.swift */; };
 		FD1FAE1B2272464B00A5DBA4 /* GenericDateTimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1FAE1A2272464B00A5DBA4 /* GenericDateTimePicker.swift */; };
@@ -408,6 +410,7 @@
 		C0A0D76C233AEF6C00F432FD /* ShimmerLinesViewAppearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShimmerLinesViewAppearance.swift; sourceTree = "<group>"; };
 		C0EAAEAC2347E1DF00C7244E /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
 		CCC18C2B2501B22F00BE830E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		EC8EA6A82580D80100F191CE /* ListVnext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListVnext.swift; sourceTree = "<group>"; };
 		FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerControllerTests.swift; sourceTree = "<group>"; };
 		FD0D29D52151A3D700E8655E /* CardPresenterNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPresenterNavigationController.swift; sourceTree = "<group>"; };
 		FD1FAE1A2272464B00A5DBA4 /* GenericDateTimePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericDateTimePicker.swift; sourceTree = "<group>"; };
@@ -823,6 +826,7 @@
 				7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */,
 				B498141321E424920077B48D /* TableViewCell.swift */,
 				B4EF66502294A664007FEAB0 /* TableViewHeaderFooterView.swift */,
+				EC8EA6A82580D80100F191CE /* ListVnext.swift */,
 			);
 			path = "Table View";
 			sourceTree = "<group>";
@@ -1224,6 +1228,7 @@
 				1168630722E131CF0088B302 /* TabBarView.swift in Sources */,
 				8FD01172228A82A600D25925 /* CalendarViewDataSource.swift in Sources */,
 				8FD01173228A82A600D25925 /* CalendarViewLayout.swift in Sources */,
+				EC8EA6AA2580D80100F191CE /* ListVnext.swift in Sources */,
 				8FD01174228A82A600D25925 /* CalendarViewDayCell.swift in Sources */,
 				8FD01175228A82A600D25925 /* CalendarViewDayMonthCell.swift in Sources */,
 				8FD01176228A82A600D25925 /* CalendarViewDayMonthYearCell.swift in Sources */,
@@ -1363,6 +1368,7 @@
 				1168630622E131CF0088B302 /* TabBarView.swift in Sources */,
 				FD599D082134AB0E008845EE /* CalendarViewWeekdayHeadingView.swift in Sources */,
 				FDFB8AF321361C9D0046850A /* CalendarViewDayMonthYearCell.swift in Sources */,
+				EC8EA6A92580D80100F191CE /* ListVnext.swift in Sources */,
 				A5961F9D218A254D00E2A506 /* PopupMenuController.swift in Sources */,
 				FD56FD92219123FE0023C7EA /* DateTimePickerViewComponentTableView.swift in Sources */,
 				B4E782C521793BB900A7DFCE /* ActivityIndicatorView.swift in Sources */,

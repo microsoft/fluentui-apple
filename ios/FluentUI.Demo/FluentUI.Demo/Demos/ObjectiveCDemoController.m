@@ -63,6 +63,47 @@
 
     MSFButton *resetButton = [self createButtonWithTitle:@"Reset Vnext Button" action:@selector(resetVnextButton)];
     [self.container addArrangedSubview:resetButton];
+    
+    UILabel *listVnextLabel = [[UILabel alloc] init];
+    [listVnextLabel setText:@"List (vNext)"];
+    [self.container addArrangedSubview:listVnextLabel];
+    
+    MSFListVnextCellData *listCell1 = [[MSFListVnextCellData alloc] init];
+    [listCell1 setTitle:@"SampleTitle1"];
+    [listCell1 setOnTapAction:^{
+        [self showAlertForCellTapped:@"SampleTitle1"];
+    }];
+
+    MSFListVnextCellData *listCell2 = [[MSFListVnextCellData alloc] init];
+    [listCell2 setTitle:@"SampleTitle2"];
+    [listCell2 setSubtitle:@"SampleTitle2"];
+    [listCell2 setOnTapAction:^{
+        [self showAlertForCellTapped:@"SampleTitle2"];
+    }];
+
+    MSFListVnextCellData *listCell3 = [[MSFListVnextCellData alloc] init];
+    [listCell3 setTitle:@"SampleTitle3"];
+    [listCell3 setSubtitle:@"SampleTitle3"];
+    UIImage *image = [UIImage imageNamed:@"excelIcon"];
+    [listCell3 setLeadingIcon:image];
+    [listCell3 setAccessoryType:MSFListAccessoryTypeDisclosure];
+    [listCell3 setOnTapAction:^{
+        [self showAlertForCellTapped:@"Sample Title3"];
+    }];
+
+    MSFListVnextSectionData *section = [[MSFListVnextSectionData alloc] init];
+    [section setLayoutType:MSFListCellVnextHeightTwoLines];
+    [section setCells:@[listCell1, listCell2, listCell3]];
+    NSArray *sections = @[section];
+
+    MSFListVnext *list = [[MSFListVnext alloc] initWithSections:sections iconStyle:MSFListIconVnextStyleNone];
+
+    UIView *listView = [list view];
+    listView.translatesAutoresizingMaskIntoConstraints = false;
+
+    [self.container addArrangedSubview:[list view]];
+
+    [[[listView heightAnchor] constraintEqualToConstant:200] setActive:YES];
 }
 
 - (void)enableVnextButton {
@@ -92,6 +133,15 @@
     [button setTitle:title forState:UIControlStateNormal];
     [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
     return button;
+}
+
+- (void)showAlertForCellTapped:(NSString *)title {
+    NSString *message = [NSString stringWithFormat:@"%@ was pressed", title];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
+                                                                   message:message
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+    [self presentViewController:alert animated:true completion:nil];
 }
 
 - (UIStackView *)createVerticalContainer {

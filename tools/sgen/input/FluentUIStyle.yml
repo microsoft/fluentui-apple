@@ -112,8 +112,10 @@ Colors:
     - brandDisabled: "FluentUIColor(light: $Colors.Neutral.grey88, dark: $Colors.Neutral.grey84)"
 
 Typography:
-  subheadline: "Font(subheadline)"
+  body: "Font(body)"
+  caption1: "Font(caption1)"
   footnote: "Font(footnote)"
+  subheadline: "Font(subheadline)"
 
 Border:
   radius: [ none: 0pt, small: 2pt, medium: 4pt, large: 8pt, xlarge: 12pt ]
@@ -232,3 +234,23 @@ SecondaryButtonTokens extends MSFButtonTokens:
 GhostButtonTokens extends MSFButtonTokens:
   borderColor: [ rest: $Colors.Neutral.clear, hover: $Colors.Neutral.clear, pressed: $Colors.Neutral.clear, selected: $Colors.Brand.shade10, disabled: $Colors.Neutral.clear ]
 
+AP_MSFListTokens:
+  backgroundColor: [ rest: $Colors.Background.neutral1, pressed: $Colors.Background.neutral5 ]
+  borderColor: $Colors.Stroke.neutral1
+  borderSize: $Border.size.thin
+  cellHeight: [ oneLine: 48pt, twoLines: 64pt, threeLines: 84pt ]
+  disclosureIconForegroundColor: $Colors.Foreground.neutral3
+  disclosureInterspace: $Spacing.xxSmall
+  disclosureSize: $Icon.size.small
+  horizontalCellPadding: $Spacing.medium
+  iconColor: $Colors.Foreground.neutral4
+  iconInterspace: $Spacing.medium
+  iconSize: [ default: $Icon.size.medium, large: $Icon.size.xxlarge ]
+  labelColor: $Colors.Foreground.neutral1
+  labelFont: $Typography.body
+  sublabelColor: $Colors.Foreground.neutral3
+  sublabelFont: $Typography.caption1
+  trailingItemForegroundColor: $Colors.Foreground.neutral3
+
+IconOnlyListTokens extends MSFListTokens:
+  iconColor: $Colors.Foreground.neutral3
