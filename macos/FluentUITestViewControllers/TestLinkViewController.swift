@@ -23,7 +23,11 @@ class TestLinkViewController: NSViewController {
 		linkWithOverridenTargetAction.target = self
 		linkWithOverridenTargetAction.action = #selector(displayAlert)
 		
-		let containerView = NSStackView(views: [linkWithNoHover, linkWithHover, linkWithHoverAndNoURL, linkWithOverridenTargetAction])
+		let linkWithCustomFontAndColor = Link(title: "Link with custom font and color  ❯", url: url)
+		linkWithCustomFontAndColor.font = NSFont.systemFont(ofSize:12.0, weight:NSFont.Weight.semibold)
+		linkWithCustomFontAndColor.contentTintColor = .textColor
+
+		let containerView = NSStackView(views: [linkWithNoHover, linkWithHover, linkWithHoverAndNoURL, linkWithOverridenTargetAction, linkWithCustomFontAndColor])
 		containerView.edgeInsets = NSEdgeInsets(top: 100, left: 100, bottom: 100, right: 100)
 		containerView.orientation = .vertical
 		containerView.distribution = .gravityAreas

@@ -46,6 +46,7 @@ open class Link: NSButton {
 
 		alignment = .natural
 		isBordered = false
+		contentTintColor = .linkColor
 		target = self
 		action = #selector(linkClicked)
 		updateTitle()
@@ -130,11 +131,9 @@ open class Link: NSButton {
 }
 
 fileprivate let linkAttributes: [NSAttributedString.Key: Any] = [
-	.foregroundColor: NSColor.linkColor,
 	.underlineStyle: NSUnderlineStyle()
 ]
 
 fileprivate let underlinedLinkAttributes: [NSAttributedString.Key: Any] = [
-	.foregroundColor: NSColor.linkColor,
 	.underlineStyle: NSUnderlineStyle.single.rawValue
 ]
