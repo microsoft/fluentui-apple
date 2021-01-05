@@ -97,23 +97,23 @@ open class Link: NSButton {
 	}
 	
 	open override func mouseEntered(with event: NSEvent) {
-		mouseEntered = true
+		mouseInside = true
 		updateTitle()
 	}
 
 	open override func mouseExited(with event: NSEvent) {
-		mouseEntered = false
+		mouseInside = false
 		updateTitle()
 	}
 
-	private var mouseEntered = false
+	private var mouseInside = false
 	
 	open override func resetCursorRects() {
 		addCursorRect(bounds, cursor: .pointingHand)
 	}
 	
 	private func updateTitle() {
-		let titleAttributes = (showsUnderlineWhileMouseInside && mouseEntered) ? underlinedLinkAttributes: linkAttributes
+		let titleAttributes = (showsUnderlineWhileMouseInside && mouseInside) ? underlinedLinkAttributes: linkAttributes
 		self.attributedTitle = NSAttributedString(string: title, attributes: titleAttributes)
 	}
 	
