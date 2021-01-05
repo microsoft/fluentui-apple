@@ -106,13 +106,15 @@ class DrawerVnextDemoController: DemoController, DrawerVnextControllerDelegate {
 
         // Screen edge gestures to interactively present side drawers
 
+        let isLeadingEdgeLeftToRight = view.effectiveUserInterfaceLayoutDirection == .leftToRight
+
         let leadingEdgeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleScreenEdgePan))
-        leadingEdgeGesture.edges = view.effectiveUserInterfaceLayoutDirection == .leftToRight ? .left : .right
+        leadingEdgeGesture.edges = isLeadingEdgeLeftToRight ? .left : .right
         view.addGestureRecognizer(leadingEdgeGesture)
         navigationController?.navigationController?.interactivePopGestureRecognizer?.require(toFail: leadingEdgeGesture)
 
         let trailingEdgeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleScreenEdgePan))
-        trailingEdgeGesture.edges = view.effectiveUserInterfaceLayoutDirection == .leftToRight ? .right : .left
+        trailingEdgeGesture.edges = isLeadingEdgeLeftToRight ? .right : .left
         view.addGestureRecognizer(trailingEdgeGesture)
 
         drawerController = DrawerVnext(contentViewController: DrawerContentController())
@@ -121,32 +123,32 @@ class DrawerVnextDemoController: DemoController, DrawerVnextControllerDelegate {
 
     @objc private func showLeftDrawerClearBackgroundButtonTapped() {
         if let drawerController = drawerController {
-            drawerController.drawerState.backgroundDimmed = false
-            drawerController.drawerState.presentationDirection = .left
+            drawerController.state.backgroundDimmed = false
+            drawerController.state.presentationDirection = .left
             present(drawerController, animated: true, completion: nil)
         }
     }
 
     @objc private func showLeftDrawerDimmedBackgroundButtonTapped() {
         if let drawerController = drawerController {
-            drawerController.drawerState.backgroundDimmed = true
-            drawerController.drawerState.presentationDirection = .left
+            drawerController.state.backgroundDimmed = true
+            drawerController.state.presentationDirection = .left
             present(drawerController, animated: true, completion: nil)
         }
     }
 
     @objc private func showRightDrawerClearBackgroundButtonTapped() {
         if let drawerController = drawerController {
-            drawerController.drawerState.backgroundDimmed = false
-            drawerController.drawerState.presentationDirection = .right
+            drawerController.state.backgroundDimmed = false
+            drawerController.state.presentationDirection = .right
             present(drawerController, animated: true, completion: nil)
         }
     }
 
     @objc private func showRightDrawerDimmedBackgroundButtonTapped() {
         if let drawerController = drawerController {
-            drawerController.drawerState.backgroundDimmed = true
-            drawerController.drawerState.presentationDirection = .right
+            drawerController.state.backgroundDimmed = true
+            drawerController.state.presentationDirection = .right
             present(drawerController, animated: true, completion: nil)
         }
     }
@@ -156,8 +158,7 @@ class DrawerVnextDemoController: DemoController, DrawerVnextControllerDelegate {
             return
         }
 
-        let leadingEdge: UIRectEdge = view.effectiveUserInterfaceLayoutDirection == .leftToRight ? .left : .right
-        if leadingEdge == .left {
+        if view.effectiveUserInterfaceLayoutDirection == .leftToRight {
             self.showRightDrawerDimmedBackgroundButtonTapped()
         } else {
             self.showLeftDrawerClearBackgroundButtonTapped()

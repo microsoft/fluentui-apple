@@ -31,21 +31,21 @@ extension DrawerVnext: UIViewControllerTransitioningDelegate, UIViewControllerAn
 
         let drawerView = isPresentingDrawer ? toView : fromView
 
-        drawerState.animationDuration = transitionDuration(using: transitionContext)
+        state.animationDuration = transitionDuration(using: transitionContext)
 
         // delegate animation to swiftui by changing state
         if isPresentingDrawer {
             transitionContext.containerView.addSubview(drawerView)
             drawerView.frame = UIScreen.main.bounds
-            DispatchQueue.main.asyncAfter(deadline: .now() + drawerState.animationDuration) { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + state.animationDuration) { [weak self] in
                 if let strongSelf = self {
-                    strongSelf.drawerState.isExpanded = isPresentingDrawer
+                    strongSelf.state.isExpanded = isPresentingDrawer
                 }
                 transitionContext.completeTransition(true)
             }
         } else {
-            self.drawerState.isExpanded = isPresentingDrawer
-            DispatchQueue.main.asyncAfter(deadline: .now() + drawerState.animationDuration) {
+            self.state.isExpanded = isPresentingDrawer
+            DispatchQueue.main.asyncAfter(deadline: .now() + state.animationDuration) {
                 drawerView.removeFromSuperview()
                 transitionContext.completeTransition(true)
             }
@@ -77,7 +77,7 @@ open class DrawerVnext: UIHostingController<Drawer<DrawerContentViewController>>
 
     public weak var delegate: DrawerVnextControllerDelegate?
 
-    @objc open var drawerState: DrawerState {
+    @objc open var state: DrawerState {
         return self.rootView.state
     }
 
@@ -100,10 +100,10 @@ open class DrawerVnext: UIHostingController<Drawer<DrawerContentViewController>>
     }
 
     private func addDelegateNotification() {
-        self.drawer = self.drawer.didChangeState({ [weak self] isExpanded in
+        self.drawer = self.drawer.didChangeState({ [weak self] in
             if let strongSelf = self {
-                strongSelf.delegate?.drawerDidChangeState?(state: strongSelf.drawerState, controller: strongSelf)
-                if !isExpanded {
+                strongSelf.delegate?.drawerDidChangeState?(state: strongSelf.state, controller: strongSelf)
+                if !strongSelf.drawer.state.isExpanded {
                     strongSelf.dismiss(animated: true, completion: nil)
                 }
             }

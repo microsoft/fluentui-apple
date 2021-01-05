@@ -9,7 +9,7 @@ public extension Drawer {
     /// Custom modifier for adding a callback placeholder when drawer's state is changed
     /// - Parameter `didChangeState`: closure executed with drawer is expanded or collapsed
     /// - Returns: `Drawer`
-    func didChangeState(_ didChangeState: @escaping DrawerStateChangedCompletionBlock) -> Drawer {
+    func didChangeState(_ didChangeState: @escaping () -> Void) -> Drawer {
         let drawerState = state
         drawerState.onStateChange = didChangeState
         return Drawer(content: content,

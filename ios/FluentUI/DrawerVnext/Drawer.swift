@@ -19,13 +19,13 @@ import SwiftUI
 public class DrawerState: NSObject, ObservableObject {
 
     /// A callback executed when the drawer is expanded/collapsed
-    public var onStateChange: (DrawerStateChangedCompletionBlock)?
+    public var onStateChange: (() -> Void)?
 
     /// Set `isExpanded` to `true` to maximize the drawer's width to fill the device screen horizontally minus the safe areas.
     /// Set to `false` to restore it to the normal size.
     @objc @Published public var isExpanded: Bool = false {
         didSet {
-            onStateChange?(isExpanded)
+            onStateChange?()
         }
     }
     @objc @Published public var presentationDirection: DrawerDirection = .left
@@ -37,8 +37,6 @@ public class DrawerState: NSObject, ObservableObject {
     /// anitmation duration when drawer is collapsed/expanded
     @objc @Published public var animationDuration: Double = 0.0
 }
-
-public typealias DrawerStateChangedCompletionBlock = (_ isExpanded: Bool) -> Void
 
 // MARK: - Drawer Token
 
@@ -90,13 +88,13 @@ public struct Drawer<Content: View>: View {
     @State internal var draggedOffsetWidth: CGFloat?
 
     // internal drawer state
-    @State internal var isDrawerOpen: Bool = false
+    @State internal var isContentPresented: Bool = false
 
     public var body: some View {
         GeometryReader { proxy in
             SlideOverPanel(
                 content: content,
-                isOpen: $isDrawerOpen,
+                isOpen: $isContentPresented,
                 preferredContentOffset: $draggedOffsetWidth)
                 .backgroundOpactiy(backgroundLayerOpacity)
                 .direction(slideOutDirection)
@@ -106,13 +104,13 @@ public struct Drawer<Content: View>: View {
                 }
                 .onReceive(state.$isExpanded, perform: { value in
                     withAnimation(.easeInOut(duration: state.animationDuration)) {
-                        self.isDrawerOpen = value
+                        isContentPresented = value
                         // drag ends
-                        self.draggedOffsetWidth = nil
+                        draggedOffsetWidth = nil
                     }
                 })
                 .onDisappear {
-                    self.state.isExpanded = false
+                    state.isExpanded = false
                 }
                 .gesture(dragGesture(screenWidth: proxy.portraitOrientationAgnosticSize().width))
         }
