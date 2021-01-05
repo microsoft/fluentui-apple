@@ -12,27 +12,20 @@ open class Link: NSButton {
 	/// Initializes a hyperlink with a title and an underlying URL that opens when clicked
 	/// - Parameters:
 	///   - title: The visible text of the link that the user sees.
-	///   - url: The URL that is opened when the link is clicked
-	@objc public init(title: String, url: NSURL) {
-		self.url = url
-		super.init(frame: .zero)
-		self.title = title
-		initialize()
+	///   - url: The URL that is opened when the link is clicked.
+	@objc public convenience init(title: String, url: NSURL) {
+		self.init(frame: .zero, title: title, url: url)
 	}
 	
 	/// Initializes a hyperlink with a title and no URL, useful if you plan to override the Target/Action
 	/// - Parameters:
 	///   - title: The visible text of the link that the user sees.
-	@objc public init(title: String) {
-		super.init(frame: .zero)
-		self.title = title
-		initialize()
+	@objc public convenience init(title: String) {
+		self.init(frame: .zero, title: title, url: nil)
 	}
 	
-	@objc public override init(frame frameRect: NSRect) {
-		super.init(frame: frameRect)
-		self.title = ""
-		initialize()
+	@objc public override convenience init(frame frameRect: NSRect) {
+		self.init(frame: frameRect, title: "", url: nil)
 	}
 	
 	@available(*, unavailable)
@@ -40,7 +33,17 @@ open class Link: NSButton {
 		preconditionFailure()
 	}
 	
-	private func initialize() {
+	/// Designated initializer.
+	/// - Parameters:
+	///   - frame: The position and size of this view in the superview's coordinate system.
+	///   - title: The visible text of the link that the user sees.
+	///   - url: The URL that is opened when the link is clicked.
+	public init(frame: NSRect = .zero, title: String = "", url: NSURL? = nil)
+	{
+		super.init(frame: frame)
+		self.title = title
+		self.url = url
+
 		alignment = .natural
 		isBordered = false
 		target = self
