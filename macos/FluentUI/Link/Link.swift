@@ -113,7 +113,7 @@ open class Link: NSButton {
 	}
 	
 	private func updateTitle() {
-		let titleAttributes = (showsUnderlineWhileMouseInside && mouseEntered) ? underlinedlinkAttributes: linkAttributes
+		let titleAttributes = (showsUnderlineWhileMouseInside && mouseEntered) ? underlinedLinkAttributes: linkAttributes
 		self.attributedTitle = NSAttributedString(string: title, attributes: titleAttributes)
 	}
 	
@@ -128,7 +128,7 @@ fileprivate let linkAttributes: [NSAttributedString.Key: Any] = [
 	.foregroundColor: NSColor.linkColor
 ]
 
-fileprivate let underlinedlinkAttributes: [NSAttributedString.Key: Any] = [
+fileprivate let underlinedLinkAttributes: [NSAttributedString.Key: Any] = [
 	.foregroundColor: NSColor.linkColor,
 	.underlineStyle: NSUnderlineStyle.single.rawValue
 ]
