@@ -310,9 +310,7 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			button.linkedPrimary = originalLinkedPrimary
 		}
 	}
-	@objc private func clickedOn() {
-		NSLog("button clicked")
-	}
+
 	private static let leadingArrow = "ic_fluent_chevron_left_16_filled"
 	private static let trailingArrow = "ic_fluent_chevron_right_16_filled"
 	private  static let nonTemplateImage = "ic_fluent_non_template_24_filled"
