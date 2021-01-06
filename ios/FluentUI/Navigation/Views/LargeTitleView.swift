@@ -189,6 +189,7 @@ class LargeTitleView: UIView {
         contentStackView.addArrangedSubview(titleButton)
         titleButton.setTitle(nil, for: .normal)
         titleButton.titleLabel?.font = Constants.titleFont
+        titleButton.titleLabel?.accessibilityTraits = .header
         titleButton.setTitleColor(colorForStyle, for: .normal)
         titleButton.titleLabel?.textAlignment = .left
         titleButton.contentHorizontalAlignment = .left
