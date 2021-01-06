@@ -432,7 +432,7 @@ public final class Colors: NSObject {
     @objc public static let dividerOnSecondary = UIColor(light: gray200, dark: gray700, darkElevated: gray600)
     @objc public static let dividerOnTertiary = UIColor(light: gray200, dark: gray700, darkElevated: gray600)
 
-    @objc public static func color(from palette: Palette) -> UIColor {
+	@objc(colorFromPalette:) public static func color(from palette: Palette) -> UIColor {
         return palette.color
     }
 
