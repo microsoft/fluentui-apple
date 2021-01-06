@@ -64,7 +64,7 @@ open class Button: NSButton {
 
 	/// Initializes a Fluent UI Button with no title or image, and with default formatting
 	@objc public convenience init() {
-		self.init()
+		self.init(title: nil, image: nil, imagePosition: .imageLeading, format: ButtonFormat())
 	}
 
 	@available(*, unavailable)
@@ -100,17 +100,15 @@ open class Button: NSButton {
 
 		if let title = title {
 			self.title = title
-			if let image = image {
-				self.image = image
-				self.imagePosition = imagePosition
-			} else {
-				self.imagePosition = .noImage
-			}
-		} else if let image = image {
+		} else {
+			/// NSButton defaults title to "Button"
+			self.title = ""
+		}
+		if let image = image {
 			self.image = image
-			self.imagePosition = .imageOnly
 		}
 
+		self.imagePosition = imagePosition
 		self.format = format
 
 		// Ensure we update backing properties even if high-level style and size
@@ -133,6 +131,10 @@ open class Button: NSButton {
 
 	/// Image to display in the button.
 	override public var image: NSImage? {
+		didSet{
+			/// force image to render as a template image
+			image?.isTemplate = true
+		}
 		willSet {
 			guard wantsLayer == true else {
 				preconditionFailure("wantsLayer must be set so that the image is rendered on the layer")
@@ -397,6 +399,16 @@ class ButtonCell: NSButtonCell {
 		var y = imageRect.origin.y
 		var width = imageRect.size.width
 		var height = imageRect.size.height
+
+		if title.count == 0 {
+			if imageRect.size != NSZeroRect.size {
+				imagePosition = .imageOnly
+			}
+		} else {
+			if imageRect.size == NSZeroRect.size {
+				imagePosition = .noImage
+			}
+		}
 
 		switch imagePosition {
 		case .noImage:
