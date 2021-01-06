@@ -28,14 +28,15 @@ public class DrawerState: NSObject, ObservableObject {
             onStateChange?()
         }
     }
-    @objc @Published public var presentationDirection: DrawerDirection = .left
+
+    @objc public var presentationDirection: DrawerDirection = .left
 
     /// Set `backgroundDimmed` to `true` to dim the spacer area between drawer and base view.
     /// If set to `false` it restores to `clear` color
     @objc @Published public var backgroundDimmed: Bool = false
 
     /// anitmation duration when drawer is collapsed/expanded
-    @objc @Published public var animationDuration: Double = 0.0
+    @objc public var animationDuration: Double = 0.0
 }
 
 // MARK: - Drawer Token

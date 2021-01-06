@@ -46,7 +46,7 @@ struct SlideOverPanel<Content: View>: View {
         HStack {
             if direction == .right {
                 InteractiveSpacer(defaultBackgroundColor: $tokens.backgroundClearColor)
-                    .onTapGesture (count: 1, perform: actionOnBackgroundTap ?? {})
+                    .onTapGesture (perform: actionOnBackgroundTap ?? {})
             }
 
             content
@@ -59,7 +59,7 @@ struct SlideOverPanel<Content: View>: View {
 
             if direction == .left {
                 InteractiveSpacer(defaultBackgroundColor: $tokens.backgroundClearColor)
-                    .onTapGesture (count: 1, perform: actionOnBackgroundTap ?? {})
+                    .onTapGesture (perform: actionOnBackgroundTap ?? {})
             }
         }
         .background(isOpen ? tokens.backgroundDimmedColor.opacity(backgroundLayerOpacity) : tokens.backgroundClearColor)
@@ -101,7 +101,7 @@ public struct InteractiveSpacer: View {
     public var body: some View {
         ZStack {
             defaultBackgroundColor
-        }
+        }.contentShape(Rectangle())
     }
 }
 
