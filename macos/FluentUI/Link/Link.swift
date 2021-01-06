@@ -47,6 +47,7 @@ open class Link: NSButton {
 		alignment = .natural
 		isBordered = false
 		contentTintColor = .linkColor
+		setButtonType(.momentaryChange)
 		target = self
 		action = #selector(linkClicked)
 		updateTitle()
@@ -97,16 +98,6 @@ open class Link: NSButton {
 		self.trackingArea = trackingArea
 	}
 	
-	open override func mouseDown(with event: NSEvent) {
-		super.mouseDown(with: event)
-
-		// Updating the title here mitigates cases where the title disappears
-		// when the link is clicked.  This has been known to happen when the
-		// action is overridden and raises a modal dialog, as in
-		// `linkWithOverridenTargetAction` from TestLinkViewController.swift.
-		updateTitle()
-	}
-
 	open override func mouseEntered(with event: NSEvent) {
 		mouseInside = true
 		updateTitle()
@@ -135,9 +126,7 @@ open class Link: NSButton {
 	}
 }
 
-fileprivate let linkAttributes: [NSAttributedString.Key: Any] = [
-	.underlineStyle: NSUnderlineStyle()  // NSUnderlineStyleNone (no Swift equivalent)
-]
+fileprivate let linkAttributes: [NSAttributedString.Key: Any] = [:]
 
 fileprivate let underlinedLinkAttributes: [NSAttributedString.Key: Any] = [
 	.underlineStyle: NSUnderlineStyle.single.rawValue
