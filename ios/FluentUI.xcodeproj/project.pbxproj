@@ -20,9 +20,7 @@
 		22EABB1A2509AAD100C4BE72 /* IndeterminateProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EABB192509AAD100C4BE72 /* IndeterminateProgressBarView.swift */; };
 		22EABB1B250A196200C4BE72 /* IndeterminateProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EABB192509AAD100C4BE72 /* IndeterminateProgressBarView.swift */; };
 		3F11A47A2587F97500D3BEBC /* Drawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F11A4792587F97500D3BEBC /* Drawer.swift */; };
-		3F80051B259AD9CB004DDB8B /* Drawer+Drag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F80051A259AD9CB004DDB8B /* Drawer+Drag.swift */; };
 		3F800525259AE20C004DDB8B /* Drawer+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F800524259AE20C004DDB8B /* Drawer+UIKit.swift */; };
-		3F80052F259AEA8F004DDB8B /* Drawer+Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F80052E259AEA8F004DDB8B /* Drawer+Modifiers.swift */; };
 		3F800547259D5D6D004DDB8B /* SlideOverPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F800546259D5D6D004DDB8B /* SlideOverPanel.swift */; };
 		3F800564259DA182004DDB8B /* SideOverPanel+Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F800563259DA182004DDB8B /* SideOverPanel+Modifiers.swift */; };
 		497DC2D924185885008D86F8 /* PillButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D724185885008D86F8 /* PillButtonBar.swift */; };
@@ -323,9 +321,7 @@
 		22010B6F2523CB2D00FF1F10 /* ActivityViewAnimating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewAnimating.swift; sourceTree = "<group>"; };
 		22EABB192509AAD100C4BE72 /* IndeterminateProgressBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarView.swift; sourceTree = "<group>"; };
 		3F11A4792587F97500D3BEBC /* Drawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Drawer.swift; sourceTree = "<group>"; };
-		3F80051A259AD9CB004DDB8B /* Drawer+Drag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Drawer+Drag.swift"; sourceTree = "<group>"; };
 		3F800524259AE20C004DDB8B /* Drawer+UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Drawer+UIKit.swift"; sourceTree = "<group>"; };
-		3F80052E259AEA8F004DDB8B /* Drawer+Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Drawer+Modifiers.swift"; sourceTree = "<group>"; };
 		3F800546259D5D6D004DDB8B /* SlideOverPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideOverPanel.swift; sourceTree = "<group>"; };
 		3F800563259DA182004DDB8B /* SideOverPanel+Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SideOverPanel+Modifiers.swift"; sourceTree = "<group>"; };
 		497DC2D724185885008D86F8 /* PillButtonBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBar.swift; sourceTree = "<group>"; };
@@ -585,8 +581,6 @@
 				3F11A4792587F97500D3BEBC /* Drawer.swift */,
 				3F800546259D5D6D004DDB8B /* SlideOverPanel.swift */,
 				3F800563259DA182004DDB8B /* SideOverPanel+Modifiers.swift */,
-				3F80051A259AD9CB004DDB8B /* Drawer+Drag.swift */,
-				3F80052E259AEA8F004DDB8B /* Drawer+Modifiers.swift */,
 				3F800524259AE20C004DDB8B /* Drawer+UIKit.swift */,
 			);
 			path = DrawerVnext;
@@ -1498,8 +1492,6 @@
 				FDF41EDB2141A23B00EC527C /* UIViewController+Extensions.swift in Sources */,
 				FD56FD95219131430023C7EA /* DateTimePickerView.swift in Sources */,
 				FDA1AF8C21484625001AE720 /* BlurringView.swift in Sources */,
-				3F80052F259AEA8F004DDB8B /* Drawer+Modifiers.swift in Sources */,
-				3F80051B259AD9CB004DDB8B /* Drawer+Drag.swift in Sources */,
 				A5961FA1218A25C400E2A506 /* PopupMenuSection.swift in Sources */,
 				A5B87AF6211E16370038C37C /* DrawerController.swift in Sources */,
 				FD41C89622DD13230086F899 /* NavigationBar.swift in Sources */,

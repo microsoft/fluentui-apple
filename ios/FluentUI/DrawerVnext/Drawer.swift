@@ -89,20 +89,22 @@ public struct Drawer<Content: View>: View {
     @ObservedObject public var tokens = DrawerTokens()
 
     // keep track of dragged offset
-    @State internal var draggedOffsetWidth: CGFloat?
+    @State internal var horizontalDragOffset: CGFloat?
 
     // internal drawer state
     @State internal var isContentPresented: Bool = false
+
+    private let gestureSnapWidthRatio: CGFloat = 0.225
 
     public var body: some View {
         GeometryReader { proxy in
             SlideOverPanel(
                 content: content,
                 isOpen: $isContentPresented,
-                preferredContentOffset: $draggedOffsetWidth)
+                preferredContentOffset: $horizontalDragOffset)
                 .backgroundOpactiy(backgroundLayerOpacity)
                 .direction(slideOutDirection)
-                .width(proxy.portraitOrientationAgnosticSize().width)
+                .width(sizeInCurrentOrientation(proxy).width)
                 .performOnBackgroundTap {
                     state.isExpanded = false
                 }
@@ -110,13 +112,13 @@ public struct Drawer<Content: View>: View {
                     withAnimation(.easeInOut(duration: state.animationDuration)) {
                         isContentPresented = value
                         // drag ends
-                        draggedOffsetWidth = nil
+                        horizontalDragOffset = nil
                     }
                 })
                 .onDisappear {
                     state.isExpanded = false
                 }
-                .gesture(dragGesture(screenWidth: proxy.portraitOrientationAgnosticSize().width))
+                .gesture(dragGesture(screenWidth: sizeInCurrentOrientation(proxy).width))
         }
         .edgesIgnoringSafeArea(.all)
     }
@@ -128,17 +130,43 @@ public struct Drawer<Content: View>: View {
     private var slideOutDirection: SlideOverDirection {
         return state.presentationDirection == .left ? .left : .right
     }
-}
 
-// MARK: - Utility + Helpers
+    private func dragGesture(screenWidth: CGFloat) -> some Gesture {
+        DragGesture()
+            .onChanged { value in
+                let withinDragBounds = state.presentationDirection == .left ? value.translation.width < 0 : value.translation.width > 0
+                if withinDragBounds {
+                    horizontalDragOffset = value.translation.width
+                }
+            }
+            .onEnded { _ in
+                if let horizontalDragOffset = horizontalDragOffset {
+                    if abs(horizontalDragOffset) < screenWidth * gestureSnapWidthRatio {
+                        state.isExpanded = true
+                    } else {
+                        state.isExpanded = false
+                    }
+                }
+            }
+    }
 
-extension GeometryProxy {
-    func portraitOrientationAgnosticSize() -> CGSize {
-        let isPortraitMode = self.size.width < self.size.height
-        if isPortraitMode {
-            return CGSize(width: self.size.width, height: self.size.height)
+    /// Custom modifier for adding a callback placeholder when drawer's state is changed
+    /// - Parameter `didChangeState`: closure executed with drawer is expanded or collapsed
+    /// - Returns: `Drawer`
+    func didChangeState(_ didChangeState: @escaping () -> Void) -> Drawer {
+        let drawerState = state
+        drawerState.onStateChange = didChangeState
+        return Drawer(content: content,
+                      state: drawerState,
+                      tokens: tokens,
+                      horizontalDragOffset: horizontalDragOffset)
+    }
+
+    private func sizeInCurrentOrientation(_ proxy: GeometryProxy) -> CGSize {
+        if proxy.size.width < proxy.size.height {
+            return CGSize(width: proxy.size.width, height: proxy.size.height)
         } else {
-            return CGSize(width: self.size.height, height: self.size.width)
+            return CGSize(width: proxy.size.height, height: proxy.size.width)
         }
     }
 }

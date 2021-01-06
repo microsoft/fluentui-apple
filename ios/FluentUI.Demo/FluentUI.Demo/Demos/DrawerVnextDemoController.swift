@@ -37,8 +37,15 @@ class DrawerContentController: DemoController {
         for view in actionViews() {
             container.addArrangedSubview(view)
         }
-        container.addBackground(color: Colors.surfacePrimary)
+        addBackgroundColor(container, color: Colors.surfacePrimary)
         return container
+    }
+
+    private func addBackgroundColor(_ stackview: UIStackView, color: UIColor) {
+        let subView = UIView(frame: stackview.bounds)
+        subView.backgroundColor = color
+        subView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        stackview.insertSubview(subView, at: 0)
     }
 
     @objc private func dismissButtonTapped() {
@@ -52,15 +59,6 @@ class DrawerContentController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view = containerForActionViews()
-    }
-}
-
-extension UIStackView {
-    func addBackground(color: UIColor) {
-        let subView = UIView(frame: bounds)
-        subView.backgroundColor = color
-        subView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        insertSubview(subView, at: 0)
     }
 }
 
@@ -163,9 +161,5 @@ class DrawerVnextDemoController: DemoController, DrawerVnextControllerDelegate {
         } else {
             self.showLeftDrawerClearBackgroundButtonTapped()
         }
-    }
-
-    @objc func drawerDidChangeState(state: DrawerState, controller: UIViewController) {
-        print("drawer state changed : \(state.isExpanded)")
     }
 }
