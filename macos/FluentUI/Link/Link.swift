@@ -99,6 +99,11 @@ open class Link: NSButton {
 	
 	open override func mouseDown(with event: NSEvent) {
 		super.mouseDown(with: event)
+
+		// Updating the title here mitigates cases where the title disappears
+		// when the link is clicked.  This has been known to happen when the
+		// action is overridden and raises a modal dialog, as in
+		// `linkWithOverridenTargetAction` from TestLinkViewController.swift.
 		updateTitle()
 	}
 
@@ -131,7 +136,7 @@ open class Link: NSButton {
 }
 
 fileprivate let linkAttributes: [NSAttributedString.Key: Any] = [
-	.underlineStyle: NSUnderlineStyle()
+	.underlineStyle: 0  // NSUnderlineStyleNone (no Swift equivalent)
 ]
 
 fileprivate let underlinedLinkAttributes: [NSAttributedString.Key: Any] = [
