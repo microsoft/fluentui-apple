@@ -2499,6 +2499,121 @@ extension StylesheetManagerTheming {
 		}
 
 	}
+	//MARK: - DrawerTokens
+	public var _DrawerTokens: DrawerTokensAppearanceProxy?
+	open func DrawerTokensStyle() -> DrawerTokensAppearanceProxy {
+		if let override = _DrawerTokens { return override }
+			return DrawerTokensAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+		}
+	public var DrawerTokens: DrawerTokensAppearanceProxy {
+		get { return self.DrawerTokensStyle() }
+		set { _DrawerTokens = newValue }
+	}
+	@objc(DrawerTokensAppearanceProxy) @objcMembers open class DrawerTokensAppearanceProxy: NSObject {
+		public let mainProxy: () -> FluentUIStyle
+		public init(proxy: @escaping () -> FluentUIStyle) {
+			self.mainProxy = proxy
+		}
+
+		//MARK: backgroundClearColor 
+		public var _backgroundClearColor: UIColor?
+		open func backgroundClearColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _backgroundClearColor { return override }
+			return mainProxy().Colors.Neutral.clearProperty(traitCollection)
+			}
+		public var backgroundClearColor: UIColor {
+			get { return self.backgroundClearColorProperty() }
+			set { _backgroundClearColor = newValue }
+		}
+
+		//MARK: backgroundClearOpacity 
+		public var _backgroundClearOpacity: CGFloat?
+		open func backgroundClearOpacityProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _backgroundClearOpacity { return override }
+			return mainProxy().Opacity.clearProperty(traitCollection)
+			}
+		public var backgroundClearOpacity: CGFloat {
+			get { return self.backgroundClearOpacityProperty() }
+			set { _backgroundClearOpacity = newValue }
+		}
+
+		//MARK: backgroundDimmedColor 
+		public var _backgroundDimmedColor: UIColor?
+		open func backgroundDimmedColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _backgroundDimmedColor { return override }
+			return mainProxy().Colors.Neutral.blackProperty(traitCollection)
+			}
+		public var backgroundDimmedColor: UIColor {
+			get { return self.backgroundDimmedColorProperty() }
+			set { _backgroundDimmedColor = newValue }
+		}
+
+		//MARK: backgroundDimmedOpacity 
+		public var _backgroundDimmedOpacity: CGFloat?
+		open func backgroundDimmedOpacityProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _backgroundDimmedOpacity { return override }
+			return mainProxy().Opacity.opacity64Property(traitCollection)
+			}
+		public var backgroundDimmedOpacity: CGFloat {
+			get { return self.backgroundDimmedOpacityProperty() }
+			set { _backgroundDimmedOpacity = newValue }
+		}
+
+		//MARK: shadowBlur 
+		public var _shadowBlur: CGFloat?
+		open func shadowBlurProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _shadowBlur { return override }
+			return mainProxy().Shadow.shadow28.blurProperty(traitCollection)
+			}
+		public var shadowBlur: CGFloat {
+			get { return self.shadowBlurProperty() }
+			set { _shadowBlur = newValue }
+		}
+
+		//MARK: shadowColor 
+		public var _shadowColor: UIColor?
+		open func shadowColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _shadowColor { return override }
+			return mainProxy().Shadow.shadow28.colorProperty(traitCollection)
+			}
+		public var shadowColor: UIColor {
+			get { return self.shadowColorProperty() }
+			set { _shadowColor = newValue }
+		}
+
+		//MARK: shadowOpacity 
+		public var _shadowOpacity: CGFloat?
+		open func shadowOpacityProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _shadowOpacity { return override }
+			return mainProxy().Shadow.shadow28.opacityProperty(traitCollection)
+			}
+		public var shadowOpacity: CGFloat {
+			get { return self.shadowOpacityProperty() }
+			set { _shadowOpacity = newValue }
+		}
+
+		//MARK: shadowX 
+		public var _shadowX: CGFloat?
+		open func shadowXProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _shadowX { return override }
+			return mainProxy().Shadow.shadow28.xProperty(traitCollection)
+			}
+		public var shadowX: CGFloat {
+			get { return self.shadowXProperty() }
+			set { _shadowX = newValue }
+		}
+
+		//MARK: shadowY 
+		public var _shadowY: CGFloat?
+		open func shadowYProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _shadowY { return override }
+			return mainProxy().Shadow.shadow28.yProperty(traitCollection)
+			}
+		public var shadowY: CGFloat {
+			get { return self.shadowYProperty() }
+			set { _shadowY = newValue }
+		}
+	}
 	//MARK: - GhostButtonTokens
 	public var _GhostButtonTokens: GhostButtonTokensAppearanceProxy?
 	open func GhostButtonTokensStyle() -> GhostButtonTokensAppearanceProxy {
@@ -3689,6 +3804,17 @@ extension StylesheetManagerTheming {
 			self.mainProxy = proxy
 		}
 
+		//MARK: clear 
+		public var _clear: CGFloat?
+		open func clearProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _clear { return override }
+			return CGFloat(0.0)
+			}
+		public var clear: CGFloat {
+			get { return self.clearProperty() }
+			set { _clear = newValue }
+		}
+
 		//MARK: none 
 		public var _none: CGFloat?
 		open func noneProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
@@ -4091,6 +4217,95 @@ extension StylesheetManagerTheming {
 		}
 
 	}
+	//MARK: - Shadow
+	public var _Shadow: ShadowAppearanceProxy?
+	open func ShadowStyle() -> ShadowAppearanceProxy {
+		if let override = _Shadow { return override }
+			return ShadowAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+		}
+	public var Shadow: ShadowAppearanceProxy {
+		get { return self.ShadowStyle() }
+		set { _Shadow = newValue }
+	}
+	@objc(ShadowAppearanceProxy) @objcMembers open class ShadowAppearanceProxy: NSObject {
+		public let mainProxy: () -> FluentUIStyle
+		public init(proxy: @escaping () -> FluentUIStyle) {
+			self.mainProxy = proxy
+		}
+
+		//MARK: - shadow28
+		public var _shadow28: shadow28AppearanceProxy?
+		open func shadow28Style() -> shadow28AppearanceProxy {
+			if let override = _shadow28 { return override }
+				return shadow28AppearanceProxy(proxy: mainProxy)
+			}
+		public var shadow28: shadow28AppearanceProxy {
+			get { return self.shadow28Style() }
+			set { _shadow28 = newValue }
+		}
+		@objc(ShadowShadow28AppearanceProxy) @objcMembers open class shadow28AppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: blur 
+			public var _blur: CGFloat?
+			open func blurProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _blur { return override }
+					return CGFloat(28.0)
+				}
+			public var blur: CGFloat {
+				get { return self.blurProperty() }
+				set { _blur = newValue }
+			}
+
+			//MARK: color 
+			public var _color: UIColor?
+			open func colorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _color { return override }
+					return mainProxy().Colors.Neutral.blackProperty(traitCollection)
+				}
+			public var color: UIColor {
+				get { return self.colorProperty() }
+				set { _color = newValue }
+			}
+
+			//MARK: opacity 
+			public var _opacity: CGFloat?
+			open func opacityProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _opacity { return override }
+					return mainProxy().Opacity.opacity24Property(traitCollection)
+				}
+			public var opacity: CGFloat {
+				get { return self.opacityProperty() }
+				set { _opacity = newValue }
+			}
+
+			//MARK: x 
+			public var _x: CGFloat?
+			open func xProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _x { return override }
+					return CGFloat(0.0)
+				}
+			public var x: CGFloat {
+				get { return self.xProperty() }
+				set { _x = newValue }
+			}
+
+			//MARK: y 
+			public var _y: CGFloat?
+			open func yProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _y { return override }
+					return CGFloat(14.0)
+				}
+			public var y: CGFloat {
+				get { return self.yProperty() }
+				set { _y = newValue }
+			}
+		}
+
+	}
 	//MARK: - Spacing
 	public var _Spacing: SpacingAppearanceProxy?
 	open func SpacingStyle() -> SpacingAppearanceProxy {
@@ -4337,6 +4552,54 @@ extension AvatarTokens: AppearaceProxyComponent {
 			}
 
 			return StylesheetManager.stylesheet(FluentUIStyle.shared()).AvatarTokens
+		}
+		set {
+			objc_setAssociatedObject(self, &__ApperanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+			didChangeAppearanceProxy()
+		}
+	}
+
+	public var themeAware: Bool {
+		get {
+			guard let proxy = objc_getAssociatedObject(self, &__ThemeAwareHandle) as? Bool else { return true }
+			return proxy
+		}
+		set {
+			objc_setAssociatedObject(self, &__ThemeAwareHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+			isObservingDidChangeTheme = newValue
+		}
+	}
+
+	fileprivate var isObservingDidChangeTheme: Bool {
+		get {
+			guard let observing = objc_getAssociatedObject(self, &__ObservingDidChangeThemeHandle) as? Bool else { return false }
+			return observing
+		}
+		set {
+			if newValue == isObservingDidChangeTheme { return }
+			if newValue {
+				NotificationCenter.default.addObserver(self, selector: #selector(didChangeAppearanceProxy), name: Notification.Name.didChangeTheme, object: nil)
+			} else {
+				NotificationCenter.default.removeObserver(self, name: Notification.Name.didChangeTheme, object: nil)
+			}
+			objc_setAssociatedObject(self, &__ObservingDidChangeThemeHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+		}
+	}
+}
+
+extension DrawerTokens: AppearaceProxyComponent {
+
+	public typealias ApperanceProxyType = FluentUIStyle.DrawerTokensAppearanceProxy
+	public var appearanceProxy: ApperanceProxyType {
+		get {
+			if let proxy = objc_getAssociatedObject(self, &__ApperanceProxyHandle) as? ApperanceProxyType {
+				if !themeAware { return proxy }
+
+
+				return proxy
+			}
+
+			return StylesheetManager.stylesheet(FluentUIStyle.shared()).DrawerTokens
 		}
 		set {
 			objc_setAssociatedObject(self, &__ApperanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
