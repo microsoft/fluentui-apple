@@ -136,7 +136,7 @@ open class Link: NSButton {
 }
 
 fileprivate let linkAttributes: [NSAttributedString.Key: Any] = [
-	.underlineStyle: 0  // NSUnderlineStyleNone (no Swift equivalent)
+	.underlineStyle: NSUnderlineStyle()  // NSUnderlineStyleNone (no Swift equivalent)
 ]
 
 fileprivate let underlinedLinkAttributes: [NSAttributedString.Key: Any] = [
