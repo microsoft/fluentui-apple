@@ -421,9 +421,6 @@ extension DrawerDemoController: DrawerControllerDelegate {
     }
 
     func drawerControllerDidChangeExpandedState(_ controller: DrawerController) {
-        expandButton?.setTitle(controller.isExpanded ? collapseText : expandText, for: .normal)
+        expandButton?.setTitle(controller.isExpanded ? "Return to normal" : "Expand", for: .normal)
     }
 }
-
-fileprivate let collapseText: String = "Return to normal"
-fileprivate let expandText: String = "Expand"
