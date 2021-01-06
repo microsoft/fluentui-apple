@@ -117,7 +117,7 @@ class InitialsView: UIView {
         /// `adjustsFontSizeToFitWidth` will not adjust unless text is on or exceeds the containing bounds.
         static let borderAdjustment: CGFloat = 2.5
     }
-    
+
     // MARK: Setup
 
     /// Sets up in the initialsView by displaying initials from a provided primary text or secondary text
