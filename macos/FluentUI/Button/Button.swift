@@ -88,6 +88,7 @@ open class Button: NSButton {
 		isBordered = false
 		wantsLayer = true
 		layer?.contentsScale = window?.backingScaleFactor ?? 1.0
+		setButtonType(.momentaryChange)
 
 		if let cell = cell as? ButtonCell {
 			// The Button properties `contentTintColorDisabled`,
@@ -185,9 +186,7 @@ open class Button: NSButton {
 
 	open override func mouseDown(with event: NSEvent) {
 		mouseDown = true
-	}
-
-	open override func mouseUp(with event: NSEvent) {
+		super.mouseDown(with: event)
 		mouseDown = false
 	}
 
