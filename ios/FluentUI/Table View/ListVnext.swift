@@ -42,7 +42,6 @@ public enum MSFListAccessoryType: Int, CaseIterable {
 @objc(MSFListVnextCellData)
 public class MSFListVnextCellData: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
-//    @objc @Published public var leadingIcon: UIImage?
     @objc @Published public var leadingIcon: UIView?
     @objc @Published public var title: String = ""
     @objc @Published public var subtitle: String?

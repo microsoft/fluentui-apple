@@ -31,7 +31,7 @@ class ListVnextDemoController: DemoController {
 
         var avatar: AvatarVnext
 
-        ///AvatarView section
+        /// AvatarView section
         listSection = MSFListVnextSectionData()
         listSection.title = "AvatarView Section"
         listSection.cells = []
@@ -48,7 +48,7 @@ class ListVnextDemoController: DemoController {
         listSection.layoutType = MSFListCellVnextLayoutType.twoLines
         listData.append(listSection)
 
-        ///TableViewCell Sample Data Sections
+        /// TableViewCell Sample Data Sections
         for sectionIndex in 0...sections.count - 1 {
             section = sections[sectionIndex]
 
