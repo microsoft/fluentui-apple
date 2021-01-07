@@ -21,6 +21,34 @@ class ListVnextDemoController: DemoController {
         var listData: [MSFListVnextSectionData] = []
         let iconStyle = MSFListIconVnextStyle.none
 
+        let samplePersonas: [PersonaData] = [
+            PersonaData(name: "Kat Larrson", email: "kat.larrson@contoso.com", subtitle: "Designer", avatarImage: UIImage(named: "avatar_kat_larsson"), color: Colors.Palette.cyanBlue10.color),
+            PersonaData(name: "Kristin Patterson", email: "kristin.patterson@contoso.com", subtitle: "Software Engineer", color: Colors.Palette.red10.color),
+            PersonaData(name: "Ashley McCarthy", avatarImage: UIImage(named: "avatar_ashley_mccarthy"), color: Colors.Palette.magenta20.color),
+            PersonaData(name: "Allan Munger", email: "allan.munger@contoso.com", subtitle: "Designer", avatarImage: UIImage(named: "avatar_allan_munger"), color: Colors.Palette.green10.color),
+            PersonaData(name: "Amanda Brady", subtitle: "Program Manager", avatarImage: UIImage(named: "avatar_amanda_brady"), color: Colors.Palette.magentaPink10.color)
+        ]
+
+        var avatar: AvatarVnext
+
+        ///AvatarView section
+        listSection = MSFListVnextSectionData()
+        listSection.title = "AvatarView Section"
+        listSection.cells = []
+        for index in 0...samplePersonas.count - 1 {
+            listCell = MSFListVnextCellData()
+            avatar = createAvatarView(size: .medium,
+                                      name: samplePersonas[index].name,
+                                      image: samplePersonas[index].avatarImage,
+                                      style: .default)
+            listCell.title = avatar.state.primaryText ?? ""
+            listCell.leadingIcon = avatar.view
+            listSection.cells.append(listCell)
+        }
+        listSection.layoutType = MSFListCellVnextLayoutType.twoLines
+        listData.append(listSection)
+
+        ///TableViewCell Sample Data Sections
         for sectionIndex in 0...sections.count - 1 {
             section = sections[sectionIndex]
 
@@ -32,7 +60,7 @@ class ListVnextDemoController: DemoController {
                 listCell = MSFListVnextCellData()
                 listCell.title = cell.text1
                 listCell.subtitle = cell.text2
-                listCell.leadingIcon = UIImage(named: cell.image)
+                listCell.leadingIcon = createCustomView(imageName: cell.image)
                 listCell.accessoryType = accessoryType(for: rowIndex)
                 listCell.onTapAction = {
                     indexPath.row = rowIndex
@@ -44,6 +72,7 @@ class ListVnextDemoController: DemoController {
             listSection.layoutType = updateLayout(subtitle: listSection.cells[0].subtitle)
             listData.append(listSection)
         }
+
         list = MSFListVnext(sections: listData, iconStyle: iconStyle)
 
         let listView = list.view
@@ -56,6 +85,32 @@ class ListVnextDemoController: DemoController {
                                      demoControllerView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: listView.bottomAnchor),
                                      demoControllerView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: listView.leadingAnchor),
                                      demoControllerView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: listView.trailingAnchor)])
+    }
+
+    private func createAvatarView(size: AvatarVnextSize,
+                                  name: String? = nil,
+                                  image: UIImage? = nil,
+                                  style: AvatarVnextStyle) -> AvatarVnext {
+        let avatarView = AvatarVnext(style: style,
+                                     size: size)
+        avatarView.state.primaryText = name
+        avatarView.state.image = image
+
+        return avatarView
+    }
+
+    private func createCustomView(imageName: String, useImageAsTemplate: Bool = false) -> UIImageView? {
+        if imageName == "" {
+            return nil
+        }
+        var image = UIImage(named: imageName)
+        if useImageAsTemplate {
+            image = image?.withRenderingMode(.alwaysTemplate)
+        }
+        let customView = UIImageView(image: image)
+        customView.contentMode = .scaleAspectFit
+        customView.tintColor = Colors.Table.Cell.image
+        return customView
     }
 
     private func accessoryType(for indexPath: Int) -> MSFListAccessoryType {

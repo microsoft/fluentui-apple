@@ -42,7 +42,8 @@ public enum MSFListAccessoryType: Int, CaseIterable {
 @objc(MSFListVnextCellData)
 public class MSFListVnextCellData: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
-    @objc @Published public var leadingIcon: UIImage?
+//    @objc @Published public var leadingIcon: UIImage?
+    @objc @Published public var leadingIcon: UIView?
     @objc @Published public var title: String = ""
     @objc @Published public var subtitle: String?
     @objc @Published public var accessoryType: MSFListAccessoryType = .none
@@ -204,8 +205,7 @@ extension MSFListView {
             Button(action: cell.onTapAction ?? {}, label: {
                 HStack(spacing: 0) {
                     if let leadingIcon = cell.leadingIcon {
-                        Image(uiImage: leadingIcon)
-                            .resizable()
+                        UIViewWrapper(leadingIcon)
                             .frame(width: tokens.iconSize, height: tokens.iconSize)
                             .padding(.trailing, tokens.iconInterspace)
                     }
@@ -286,6 +286,25 @@ extension MSFListView {
                 }
             }
         }
+    }
+}
+
+/// Generic UIView wrapper
+struct UIViewWrapper: UIViewRepresentable {
+
+    var makeView: () -> UIView
+
+    init(_ makeView: @escaping @autoclosure () -> UIView) {
+        self.makeView = makeView
+    }
+
+    func makeUIView(context: Context) -> UIView {
+        makeView()
+    }
+
+    func updateUIView(_ view: UIView, context: Context) {
+        view.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        view.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
     }
 }
 
