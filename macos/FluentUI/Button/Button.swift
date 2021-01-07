@@ -131,10 +131,6 @@ open class Button: NSButton {
 
 	/// Image to display in the button.
 	override public var image: NSImage? {
-		didSet{
-			/// force image to render as a template image
-			image?.isTemplate = true
-		}
 		willSet {
 			guard wantsLayer == true else {
 				preconditionFailure("wantsLayer must be set so that the image is rendered on the layer")
