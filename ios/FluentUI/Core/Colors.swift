@@ -281,64 +281,139 @@ public final class Colors: NSObject {
 
     /// Use these funcs to grab a color customized by a ColorProviding object for a specific window.. If no colorProvider exists for the window, falls back to deprecated singleton theme color
     @objc public static func primary(for window: UIWindow) -> UIColor {
-        return colorProvidersMap.object(forKey: window)?.primaryColor(for: window) ?? primary
+        return colorProvidersMap.object(forKey: window)?.primaryColor(for: window) ?? FallbackThemeColor.primary
     }
 
     @objc public static func primaryTint10(for window: UIWindow) -> UIColor {
-        return colorProvidersMap.object(forKey: window)?.primaryTint10Color(for: window) ?? primaryTint10
+        return colorProvidersMap.object(forKey: window)?.primaryTint10Color(for: window) ?? FallbackThemeColor.primaryTint10
     }
 
     @objc public static func primaryTint20(for window: UIWindow) -> UIColor {
-        return colorProvidersMap.object(forKey: window)?.primaryTint20Color(for: window) ?? primaryTint20
+        return colorProvidersMap.object(forKey: window)?.primaryTint20Color(for: window) ?? FallbackThemeColor.primaryTint20
     }
 
     @objc public static func primaryTint30(for window: UIWindow) -> UIColor {
-        return colorProvidersMap.object(forKey: window)?.primaryTint30Color(for: window) ?? primaryTint30
+        return colorProvidersMap.object(forKey: window)?.primaryTint30Color(for: window) ?? FallbackThemeColor.primaryTint30
     }
 
     @objc public static func primaryTint40(for window: UIWindow) -> UIColor {
-        return colorProvidersMap.object(forKey: window)?.primaryTint40Color(for: window) ?? primaryTint40
+        return colorProvidersMap.object(forKey: window)?.primaryTint40Color(for: window) ?? FallbackThemeColor.primaryTint40
     }
 
     @objc public static func primaryShade10(for window: UIWindow) -> UIColor {
-        return colorProvidersMap.object(forKey: window)?.primaryShade10Color(for: window) ?? primaryShade10
+        return colorProvidersMap.object(forKey: window)?.primaryShade10Color(for: window) ?? FallbackThemeColor.primaryShade10
     }
 
     @objc public static func primaryShade20(for window: UIWindow) -> UIColor {
-        return colorProvidersMap.object(forKey: window)?.primaryShade20Color(for: window) ?? primaryShade20
+        return colorProvidersMap.object(forKey: window)?.primaryShade20Color(for: window) ?? FallbackThemeColor.primaryShade20
     }
 
     @objc public static func primaryShade30(for window: UIWindow) -> UIColor {
-        return colorProvidersMap.object(forKey: window)?.primaryShade30Color(for: window) ?? primaryShade30
+        return colorProvidersMap.object(forKey: window)?.primaryShade30Color(for: window) ?? FallbackThemeColor.primaryShade30
     }
 
     private static var colorProvidersMap = NSMapTable<UIWindow, ColorProviding>(keyOptions: .weakMemory, valueOptions: .weakMemory)
 
+    /// A namespace for holding fallback theme colors (empty enum is an uninhabited type)
+    private enum FallbackThemeColor {
+        static var primary: UIColor = communicationBlue
+
+        static var primaryTint10: UIColor = Palette.communicationBlueTint10.color
+
+        static var primaryTint20: UIColor = Palette.communicationBlueTint20.color
+
+        static var primaryTint30: UIColor = Palette.communicationBlueTint30.color
+
+        static var primaryTint40: UIColor = Palette.communicationBlueTint40.color
+
+        static var primaryShade10: UIColor = Palette.communicationBlueShade10.color
+
+        static var primaryShade20: UIColor = Palette.communicationBlueShade20.color
+
+        static var primaryShade30: UIColor = Palette.communicationBlueShade30.color
+    }
+
     /// Customization of primary colors should happen through the ColorProviding protocol rather than this singleton. Doing so
     /// will allow hosts of fluentui controls to simultaneously host different experiences with different themes
     @available(*, deprecated, renamed: "setProvider(_:forWindow:)")
-    @objc public static var primary: UIColor = communicationBlue
+    @objc public static var primary: UIColor {
+        get {
+            return FallbackThemeColor.primary
+        }
+        set {
+            FallbackThemeColor.primary = newValue
+        }
+    }
 
     @available(*, deprecated, renamed: "setProvider(_:forWindow:)")
-    @objc public static var primaryTint10: UIColor = Palette.communicationBlueTint10.color
+    @objc public static var primaryTint10: UIColor {
+        get {
+            return FallbackThemeColor.primaryTint10
+        }
+        set {
+            FallbackThemeColor.primaryTint10 = newValue
+        }
+    }
 
     @available(*, deprecated, renamed: "setProvider(_:forWindow:)")
-    @objc public static var primaryTint20: UIColor = Palette.communicationBlueTint20.color
+    @objc public static var primaryTint20: UIColor {
+        get {
+            return FallbackThemeColor.primaryTint20
+        }
+        set {
+            FallbackThemeColor.primaryTint20 = newValue
+        }
+    }
 
     @available(*, deprecated, renamed: "setProvider(_:forWindow:)")
-    @objc public static var primaryTint30: UIColor = Palette.communicationBlueTint30.color
+    @objc public static var primaryTint30: UIColor {
+        get {
+            return FallbackThemeColor.primaryTint30
+        }
+        set {
+            FallbackThemeColor.primaryTint30 = newValue
+        }
+    }
 
     @available(*, deprecated, renamed: "setProvider(_:forWindow:)")
-    @objc public static var primaryTint40: UIColor = Palette.communicationBlueTint40.color
+    @objc public static var primaryTint40: UIColor {
+        get {
+            return FallbackThemeColor.primaryTint40
+        }
+        set {
+            FallbackThemeColor.primaryTint40 = newValue
+        }
+    }
 
     @available(*, deprecated, renamed: "setProvider(_:forWindow:)")
-    @objc public static var primaryShade10: UIColor = Palette.communicationBlueShade10.color
+    @objc public static var primaryShade10: UIColor {
+        get {
+            return FallbackThemeColor.primaryShade10
+        }
+        set {
+            FallbackThemeColor.primaryShade10 = newValue
+        }
+    }
 
     @available(*, deprecated, renamed: "setProvider(_:forWindow:)")
-    @objc public static var primaryShade20: UIColor = Palette.communicationBlueShade20.color
+    @objc public static var primaryShade20: UIColor {
+        get {
+            return FallbackThemeColor.primaryShade20
+        }
+        set {
+            FallbackThemeColor.primaryShade20 = newValue
+        }
+    }
 
     @available(*, deprecated, renamed: "setProvider(_:forWindow:)")
-    @objc public static var primaryShade30: UIColor = Palette.communicationBlueShade30.color
+    @objc public static var primaryShade30: UIColor {
+        get {
+            return FallbackThemeColor.primaryShade30
+        }
+        set {
+            FallbackThemeColor.primaryShade30 = newValue
+        }
+    }
 
     @available(*, deprecated, renamed: "textOnAccent")
     @objc public static var foregroundOnPrimary: UIColor = textOnAccent
@@ -432,7 +507,7 @@ public final class Colors: NSObject {
     @objc public static let dividerOnSecondary = UIColor(light: gray200, dark: gray700, darkElevated: gray600)
     @objc public static let dividerOnTertiary = UIColor(light: gray200, dark: gray700, darkElevated: gray600)
 
-    @objc public static func color(from palette: Palette) -> UIColor {
+	@objc(colorFromPalette:) public static func color(from palette: Palette) -> UIColor {
         return palette.color
     }
 
