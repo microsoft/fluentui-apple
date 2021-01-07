@@ -146,7 +146,11 @@ open class PillButtonBar: UIScrollView {
         self.init(pillButtonStyle: pillButtonStyle, pillButtonBackgroundColor: nil)
     }
 
-    @objc public init(pillButtonStyle: PillButtonStyle = .outline, pillButtonBackgroundColor: UIColor? = nil, selectedPillButtonBackgroundColor: UIColor? = nil, pillButtonTextColor: UIColor? = nil, selectedPillButtonTextColor: UIColor? = nil) {
+    @objc public init(pillButtonStyle: PillButtonStyle = .outline,
+                      pillButtonBackgroundColor: UIColor? = nil,
+                      selectedPillButtonBackgroundColor: UIColor? = nil,
+                      pillButtonTextColor: UIColor? = nil,
+                      selectedPillButtonTextColor: UIColor? = nil) {
         self.pillButtonStyle = pillButtonStyle
         self.customPillButtonBackgroundColor = pillButtonBackgroundColor
         self.customSelectedPillButtonBackgroundColor = selectedPillButtonBackgroundColor

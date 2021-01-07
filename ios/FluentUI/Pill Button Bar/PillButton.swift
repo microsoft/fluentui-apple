@@ -203,34 +203,17 @@ open class PillButton: UIButton {
         if let window = window {
             if isSelected {
                 if isEnabled {
-                    if let customSelectedBackgroundColor = customSelectedBackgroundColor {
-                        backgroundColor = customSelectedBackgroundColor
-                    } else {
-                        backgroundColor = style.selectedBackgroundColor(for: window)
-                    }
-                    
-                    if let customSelectedTextColor = customSelectedTextColor {
-                        setTitleColor(customSelectedTextColor, for: .normal)
-                    } else {
-                        setTitleColor(style.selectedTitleColor(for: window), for: .normal)
-                    }
+                    backgroundColor = customSelectedBackgroundColor ?? style.selectedBackgroundColor(for: window)
+                    setTitleColor(customSelectedTextColor ?? style.selectedTitleColor(for: window), for: .normal)
                 } else {
                     backgroundColor = style.selectedDisabledBackgroundColor(for: window)
                     setTitleColor(style.selectedDisabledTitleColor(for: window), for: .normal)
                 }
             } else {
-                if let customBackgroundColor = customBackgroundColor {
-                    backgroundColor = customBackgroundColor
-                } else {
-                    backgroundColor = style.backgroundColor(for: window)
-                }
+                backgroundColor = customBackgroundColor ?? style.backgroundColor(for: window)
 
                 if isEnabled {
-                    if let customTextColor = customTextColor {
-                        setTitleColor(customTextColor, for: .normal)
-                    } else {
-                        setTitleColor(style.titleColor, for: .normal)
-                    }
+                    setTitleColor(customTextColor ?? style.titleColor, for: .normal)
                 } else {
                     setTitleColor(style.disabledTitleColor(for: window), for: .disabled)
                 }
