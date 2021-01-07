@@ -128,21 +128,21 @@ open class PillButton: UIButton {
             updateAppearance()
         }
     }
-    
+
     /// Set `selectedBackgroundColor` to customize background color of the pill button
     @objc open var customSelectedBackgroundColor: UIColor? {
         didSet {
             updateAppearance()
         }
     }
-    
+
     /// Set `textColor` to customize background color of the pill button
     @objc open var customTextColor: UIColor? {
         didSet {
             updateAppearance()
         }
     }
-    
+
     /// Set `selectedTextColor` to customize background color of the pill button
     @objc open var customSelectedTextColor: UIColor? {
         didSet {
