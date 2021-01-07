@@ -250,15 +250,15 @@ open class PillButtonBar: UIScrollView {
             if let customButtonBackgroundColor = self.customPillButtonBackgroundColor {
                 button.customBackgroundColor = customButtonBackgroundColor
             }
-            
+
             if let customSelectedButtonBackgroundColor = self.customSelectedPillButtonBackgroundColor {
                 button.customSelectedBackgroundColor = customSelectedButtonBackgroundColor
             }
-            
+
             if let customButtonTextColor = self.customPillButtonTextColor {
                 button.customTextColor = customButtonTextColor
             }
-            
+
             if let customSelectedButtonTextColor = self.customSelectedPillButtonTextColor {
                 button.customSelectedTextColor = customSelectedButtonTextColor
             }
