@@ -42,7 +42,7 @@ public enum MSFListAccessoryType: Int, CaseIterable {
 @objc(MSFListVnextCellData)
 public class MSFListVnextCellData: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
-    @objc @Published public var leadingIcon: UIView?
+    @objc @Published public var leadingView: UIView?
     @objc @Published public var title: String = ""
     @objc @Published public var subtitle: String?
     @objc @Published public var accessoryType: MSFListAccessoryType = .none
@@ -203,8 +203,8 @@ extension MSFListView {
         var body: some View {
             Button(action: cell.onTapAction ?? {}, label: {
                 HStack(spacing: 0) {
-                    if let leadingIcon = cell.leadingIcon {
-                        UIViewWrapper(leadingIcon)
+                    if let leadingView = cell.leadingView {
+                        UIViewWrapper(leadingView)
                             .frame(width: tokens.iconSize, height: tokens.iconSize)
                             .padding(.trailing, tokens.iconInterspace)
                     }

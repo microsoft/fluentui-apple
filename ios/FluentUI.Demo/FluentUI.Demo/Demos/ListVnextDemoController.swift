@@ -42,7 +42,7 @@ class ListVnextDemoController: DemoController {
                                       image: samplePersonas[index].avatarImage,
                                       style: .default)
             listCell.title = avatar.state.primaryText ?? ""
-            listCell.leadingIcon = avatar.view
+            listCell.leadingView = avatar.view
             listSection.cells.append(listCell)
         }
         listSection.layoutType = MSFListCellVnextLayoutType.twoLines
@@ -60,7 +60,7 @@ class ListVnextDemoController: DemoController {
                 listCell = MSFListVnextCellData()
                 listCell.title = cell.text1
                 listCell.subtitle = cell.text2
-                listCell.leadingIcon = createCustomView(imageName: cell.image)
+                listCell.leadingView = createCustomView(imageName: cell.image)
                 listCell.accessoryType = accessoryType(for: rowIndex)
                 listCell.onTapAction = {
                     indexPath.row = rowIndex
