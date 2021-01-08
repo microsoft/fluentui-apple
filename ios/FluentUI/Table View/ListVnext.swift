@@ -75,7 +75,7 @@ public enum MSFListCellVnextLayoutType: Int, CaseIterable {
     case threeLines
 }
 
-public class MSFListTokens: ObservableObject {
+public class MSFListTokens: MSFTokensBase, ObservableObject {
     @Published public var backgroundColor: UIColor!
     @Published public var borderColor: UIColor!
     @Published public var disclosureIconForegroundColor: UIColor!
@@ -102,18 +102,25 @@ public class MSFListTokens: ObservableObject {
 
     public init(iconStyle: MSFListIconVnextStyle) {
         self.iconStyle = iconStyle
-        self.themeAware = true
 
-        didChangeAppearanceProxy()
+        super.init()
+
+        self.themeAware = true
+        updateForCurrentTheme()
     }
 
     @objc open func didChangeAppearanceProxy() {
+        updateForCurrentTheme()
+    }
+
+    public override func updateForCurrentTheme() {
+        let currentTheme = theme
         let appearanceProxy: AppearanceProxyType
 
         if iconStyle == MSFListIconVnextStyle.iconOnly {
-            appearanceProxy = StylesheetManager.S.IconOnlyListTokens
+            appearanceProxy = currentTheme.IconOnlyListTokens
         } else {
-            appearanceProxy = StylesheetManager.S.MSFListTokens
+            appearanceProxy = currentTheme.MSFListTokens
         }
 
         backgroundColor = appearanceProxy.backgroundColor.rest
@@ -141,6 +148,7 @@ public class MSFListTokens: ObservableObject {
 }
 
 public struct MSFListView: View {
+    @Environment(\.theme) var theme: FluentUIStyle
     @ObservedObject var state: MSFListVnextState
     @ObservedObject var tokens: MSFListTokens
 
@@ -176,7 +184,9 @@ public struct MSFListView: View {
                 }
 
                 ForEach(section.cells, id: \.self) { cell in
-                    MSFListCellView(cell: cell, layoutType: section.layoutType, tokens: tokens)
+                    MSFListCellView(cell: cell,
+                                    layoutType: section.layoutType,
+                                    tokens: tokens)
                         .border(section.hasBorder ? Color(tokens.borderColor) : Color.clear, width: section.hasBorder ? tokens.borderSize : 0)
                         .frame(maxWidth: .infinity)
                 }
@@ -184,6 +194,18 @@ public struct MSFListView: View {
         }
         .environment(\.defaultMinListRowHeight, 0)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .onAppear {
+            // When environment values are available through the view hierarchy:
+            //  - If we get a non-default theme through the environment values,
+            //    we use to override the theme from this view and its hierarchy.
+            //  - Otherwise we just refresh the tokens to reflect the theme
+            //    associated with the window that this View belongs to.
+            if theme == ThemeKey.defaultValue {
+                self.tokens.updateForCurrentTheme()
+            } else {
+                self.tokens.theme = theme
+            }
+        }
     }
 }
 
@@ -192,7 +214,7 @@ extension MSFListView {
     struct MSFListCellView: View {
         var cell: MSFListVnextCellData
         var layoutType: MSFListCellVnextLayoutType
-        var tokens: MSFListTokens
+        @ObservedObject var tokens: MSFListTokens
 
         init(cell: MSFListVnextCellData, layoutType: MSFListCellVnextLayoutType, tokens: MSFListTokens) {
             self.cell = cell
@@ -246,6 +268,7 @@ extension MSFListView {
     struct ListCellButtonStyle: ButtonStyle {
         let tokens: MSFListTokens
         let layoutType: MSFListCellVnextLayoutType
+
         func makeBody(configuration: Self.Configuration) -> some View {
             let height: CGFloat
             switch layoutType {
@@ -290,21 +313,41 @@ extension MSFListView {
 }
 
 @objc(MSFListVnext)
-open class MSFListVnext: NSObject {
+open class MSFListVnext: NSObject, FluentUIWindowProvider {
 
-    private var hostingController: UIHostingController<MSFListView>
+    @objc public init(sections: [MSFListVnextSectionData],
+                      iconStyle: MSFListIconVnextStyle,
+                      theme: FluentUIStyle? = nil) {
+        listView = MSFListView(sections: sections,
+                               iconStyle: iconStyle)
+        hostingController = UIHostingController(rootView: theme != nil ? AnyView(listView.usingTheme(theme!)) : AnyView(listView))
+
+        super.init()
+
+        listView.tokens.windowProvider = self
+        view.backgroundColor = UIColor.clear
+    }
+
+    @objc public convenience init(sections: [MSFListVnextSectionData],
+                                  iconStyle: MSFListIconVnextStyle) {
+        self.init(sections: sections,
+                  iconStyle: iconStyle,
+                  theme: nil)
+    }
 
     @objc open var view: UIView {
         return hostingController.view
     }
 
     @objc open var state: MSFListVnextState {
-        return hostingController.rootView.state
+        return listView.state
     }
 
-    @objc public init(sections: [MSFListVnextSectionData],
-                      iconStyle: MSFListIconVnextStyle) {
-        self.hostingController = UIHostingController(rootView: MSFListView(sections: sections, iconStyle: iconStyle))
-        super.init()
+    public var window: UIWindow? {
+        return self.view.window
     }
+
+    private var hostingController: UIHostingController<AnyView>!
+
+    private var listView: MSFListView!
 }
