@@ -71,21 +71,25 @@ public protocol DrawerVnextControllerDelegate: AnyObject {
 
 /// ` DrawerVnext` is UIKit wrapper that exposes the SwiftUI Drawer implementation
 @objc(MSFDrawerVnext)
-open class DrawerVnext: UIHostingController<Drawer<DrawerContentViewController>> {
+open class DrawerVnext: UIHostingController<AnyView>, FluentUIWindowProvider {
 
-    private var drawer: Drawer<DrawerContentViewController>
+    public var window: UIWindow? {
+        return self.view.window
+    }
 
     public weak var delegate: DrawerVnextControllerDelegate?
 
     @objc open var state: DrawerState {
-        return self.rootView.state
+        return self.drawer.state
     }
 
-    @objc public init(contentViewController: UIViewController) {
+    @objc public init(contentViewController: UIViewController,
+                      theme: FluentUIStyle? = nil) {
         let drawer = Drawer(content: DrawerContentViewController(contentViewController: contentViewController))
         self.drawer = drawer
-        super.init(rootView: drawer)
+        super.init(rootView: theme != nil ? AnyView(drawer.usingTheme(theme!)) : AnyView(drawer))
 
+        drawer.tokens.windowProvider = self
         transitioningDelegate = self
         view.backgroundColor = .clear
         modalPresentationStyle = .overFullScreen
@@ -93,11 +97,18 @@ open class DrawerVnext: UIHostingController<Drawer<DrawerContentViewController>>
         addDelegateNotification()
     }
 
+    @objc public convenience init(contentViewController: UIViewController) {
+        self.init(contentViewController: contentViewController,
+                  theme: nil)
+    }
+
     @objc required dynamic public init?(coder aDecoder: NSCoder) {
         let drawer = Drawer(content: DrawerContentViewController(contentViewController: UIViewController()))
         self.drawer = drawer
         super.init(coder: aDecoder)
     }
+
+    private var drawer: Drawer<DrawerContentViewController>
 
     private func addDelegateNotification() {
         self.drawer = self.drawer.didChangeState({ [weak self] in

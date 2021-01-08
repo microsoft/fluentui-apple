@@ -42,7 +42,7 @@ public class DrawerState: NSObject, ObservableObject {
 // MARK: - Drawer Token
 
 /// `DrawerTokens` assist to configure drawer apperance via UIKit components.
-public class DrawerTokens: ObservableObject {
+public class DrawerTokens: MSFTokensBase, ObservableObject {
 
     @Published public var shadowColor: Color!
     @Published public var shadowOpacity: Double!
@@ -54,13 +54,20 @@ public class DrawerTokens: ObservableObject {
     @Published public var backgroundDimmedOpacity: CGFloat!
     @Published public var backgroundClearOpacity: CGFloat!
 
-    public init() {
+    public override init() {
+        super.init()
+
         self.themeAware = true
-        didChangeAppearanceProxy()
+        updateForCurrentTheme()
     }
 
     @objc open func didChangeAppearanceProxy() {
-        let appearanceProxy = StylesheetManager.S.DrawerTokens
+        updateForCurrentTheme()
+    }
+
+    public override func updateForCurrentTheme() {
+        let appearanceProxy = theme.DrawerTokens
+
         shadowColor = Color(appearanceProxy.shadowColor)
         shadowOpacity = Double(appearanceProxy.shadowOpacity)
         shadowBlur = appearanceProxy.shadowBlur
@@ -83,6 +90,8 @@ public struct Drawer<Content: View>: View {
     // content view on top of `Drawer`
     public var content: Content
 
+    @Environment(\.theme) var theme: FluentUIStyle
+
     // configure the behavior of drawer
     @ObservedObject public var state = DrawerState()
 
@@ -102,7 +111,8 @@ public struct Drawer<Content: View>: View {
             SlideOverPanel(
                 content: content,
                 isOpen: $isContentPresented,
-                preferredContentOffset: $horizontalDragOffset)
+                preferredContentOffset: $horizontalDragOffset,
+                tokens: tokens)
                 .backgroundOpactiy(backgroundLayerOpacity)
                 .direction(slideOutDirection)
                 .width(sizeInCurrentOrientation(proxy).width)
@@ -122,6 +132,18 @@ public struct Drawer<Content: View>: View {
                 .gesture(dragGesture(screenWidth: sizeInCurrentOrientation(proxy).width))
         }
         .edgesIgnoringSafeArea(.all)
+        .onAppear {
+            // When environment values are available through the view hierarchy:
+            //  - If we get a non-default theme through the environment values,
+            //    we use to override the theme from this view and its hierarchy.
+            //  - Otherwise we just refresh the tokens to reflect the theme
+            //    associated with the window that this View belongs to.
+            if theme == ThemeKey.defaultValue {
+                self.tokens.updateForCurrentTheme()
+            } else {
+                self.tokens.theme = theme
+            }
+        }
     }
 
     private var backgroundLayerOpacity: Double {

@@ -38,7 +38,7 @@ struct SlideOverPanel<Content: View>: View {
     @Binding internal var preferredContentOffset: CGFloat?
 
     // configure the apperance of drawer
-    @ObservedObject public var tokens = DrawerTokens()
+    @ObservedObject public var tokens: DrawerTokens
 
     private let contentWidthSizeRatio: CGFloat = 0.9
 
@@ -118,7 +118,8 @@ struct SlideOverPanelLeft_Previews: PreviewProvider {
                 backgroundLayerOpacity: 0.5,
                 direction: .left,
                 isOpen: Binding.constant(true),
-                preferredContentOffset: Binding.constant(nil))
+                preferredContentOffset: Binding.constant(nil),
+                tokens: DrawerTokens())
         }
     }
 }
@@ -134,7 +135,8 @@ struct SlideOverPanelRight_Previews: PreviewProvider {
                 backgroundLayerOpacity: 0.5,
                 direction: .right,
                 isOpen: Binding.constant(true),
-                preferredContentOffset: Binding.constant(nil))
+                preferredContentOffset: Binding.constant(nil),
+                tokens: DrawerTokens())
         }
     }
 }
@@ -150,7 +152,8 @@ struct SlideOverPanelCollapsed_Previews: PreviewProvider {
                 backgroundLayerOpacity: 0.5,
                 direction: .left,
                 isOpen: Binding.constant(false),
-                preferredContentOffset: Binding.constant(nil))
+                preferredContentOffset: Binding.constant(nil),
+                tokens: DrawerTokens())
         }
     }
 }
