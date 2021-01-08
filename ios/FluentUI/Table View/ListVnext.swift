@@ -108,7 +108,7 @@ public class MSFListTokens: ObservableObject {
     }
 
     @objc open func didChangeAppearanceProxy() {
-        let appearanceProxy: ApperanceProxyType
+        let appearanceProxy: AppearanceProxyType
 
         if iconStyle == MSFListIconVnextStyle.iconOnly {
             appearanceProxy = StylesheetManager.S.IconOnlyListTokens

@@ -2518,7 +2518,7 @@ extension StylesheetManagerTheming {
 	public var _DrawerTokens: DrawerTokensAppearanceProxy?
 	open func DrawerTokensStyle() -> DrawerTokensAppearanceProxy {
 		if let override = _DrawerTokens { return override }
-			return DrawerTokensAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+			return DrawerTokensAppearanceProxy(proxy: { return self })
 		}
 	public var DrawerTokens: DrawerTokensAppearanceProxy {
 		get { return self.DrawerTokensStyle() }
@@ -2885,7 +2885,7 @@ extension StylesheetManagerTheming {
 	public var _IconOnlyListTokens: IconOnlyListTokensAppearanceProxy?
 	open func IconOnlyListTokensStyle() -> IconOnlyListTokensAppearanceProxy {
 		if let override = _IconOnlyListTokens { return override }
-			return IconOnlyListTokensAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+			return IconOnlyListTokensAppearanceProxy(proxy: { return self })
 		}
 	public var IconOnlyListTokens: IconOnlyListTokensAppearanceProxy {
 		get { return self.IconOnlyListTokensStyle() }
@@ -3517,7 +3517,7 @@ extension StylesheetManagerTheming {
 	public var _MSFListTokens: MSFListTokensAppearanceProxy?
 	open func MSFListTokensStyle() -> MSFListTokensAppearanceProxy {
 		if let override = _MSFListTokens { return override }
-			return MSFListTokensAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+			return MSFListTokensAppearanceProxy(proxy: { return self })
 		}
 	public var MSFListTokens: MSFListTokensAppearanceProxy {
 		get { return self.MSFListTokensStyle() }
@@ -4236,7 +4236,7 @@ extension StylesheetManagerTheming {
 	public var _Shadow: ShadowAppearanceProxy?
 	open func ShadowStyle() -> ShadowAppearanceProxy {
 		if let override = _Shadow { return override }
-			return ShadowAppearanceProxy(proxy: { return FluentUIStyle.shared() })
+			return ShadowAppearanceProxy(proxy: { return self })
 		}
 	public var Shadow: ShadowAppearanceProxy {
 		get { return self.ShadowStyle() }
@@ -4604,10 +4604,10 @@ extension AvatarTokens: AppearaceProxyComponent {
 
 extension DrawerTokens: AppearaceProxyComponent {
 
-	public typealias ApperanceProxyType = FluentUIStyle.DrawerTokensAppearanceProxy
-	public var appearanceProxy: ApperanceProxyType {
+	public typealias AppearanceProxyType = FluentUIStyle.DrawerTokensAppearanceProxy
+	public var appearanceProxy: AppearanceProxyType {
 		get {
-			if let proxy = objc_getAssociatedObject(self, &__ApperanceProxyHandle) as? ApperanceProxyType {
+			if let proxy = objc_getAssociatedObject(self, &__AppearanceProxyHandle) as? AppearanceProxyType {
 				if !themeAware { return proxy }
 
 
@@ -4617,7 +4617,7 @@ extension DrawerTokens: AppearaceProxyComponent {
 			return StylesheetManager.stylesheet(FluentUIStyle.shared()).DrawerTokens
 		}
 		set {
-			objc_setAssociatedObject(self, &__ApperanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+			objc_setAssociatedObject(self, &__AppearanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
 			didChangeAppearanceProxy()
 		}
 	}
@@ -4710,10 +4710,10 @@ extension MSFButtonTokens: AppearaceProxyComponent {
 
 extension MSFListTokens: AppearaceProxyComponent {
 
-	public typealias ApperanceProxyType = FluentUIStyle.MSFListTokensAppearanceProxy
-	public var appearanceProxy: ApperanceProxyType {
+	public typealias AppearanceProxyType = FluentUIStyle.MSFListTokensAppearanceProxy
+	public var appearanceProxy: AppearanceProxyType {
 		get {
-			if let proxy = objc_getAssociatedObject(self, &__ApperanceProxyHandle) as? ApperanceProxyType {
+			if let proxy = objc_getAssociatedObject(self, &__AppearanceProxyHandle) as? AppearanceProxyType {
 				if !themeAware { return proxy }
 
 				if let proxyString = Optional(String(reflecting: type(of: proxy))), proxyString.hasPrefix("Stardust") == false {
@@ -4729,7 +4729,7 @@ extension MSFListTokens: AppearaceProxyComponent {
 			return StylesheetManager.stylesheet(FluentUIStyle.shared()).MSFListTokens
 		}
 		set {
-			objc_setAssociatedObject(self, &__ApperanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+			objc_setAssociatedObject(self, &__AppearanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
 			didChangeAppearanceProxy()
 		}
 	}
