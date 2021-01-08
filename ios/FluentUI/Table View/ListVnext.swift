@@ -204,7 +204,7 @@ extension MSFListView {
             Button(action: cell.onTapAction ?? {}, label: {
                 HStack(spacing: 0) {
                     if let leadingView = cell.leadingView {
-                        UIViewWrapper(leadingView)
+                        UIViewAdapter(leadingView)
                             .frame(width: tokens.iconSize, height: tokens.iconSize)
                             .padding(.trailing, tokens.iconInterspace)
                     }

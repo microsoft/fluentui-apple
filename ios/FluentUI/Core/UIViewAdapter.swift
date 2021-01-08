@@ -7,7 +7,7 @@ import UIKit
 import SwiftUI
 
 /// This is a generic UIView wrapper to allow SwiftUI  to use views from non-SwiftUI environments.
-struct UIViewWrapper: UIViewRepresentable {
+struct UIViewAdapter: UIViewRepresentable {
 
     var makeView: () -> UIView
 
