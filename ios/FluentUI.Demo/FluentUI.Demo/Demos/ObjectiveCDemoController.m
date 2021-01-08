@@ -84,8 +84,8 @@
     MSFListVnextCellData *listCell3 = [[MSFListVnextCellData alloc] init];
     [listCell3 setTitle:@"SampleTitle3"];
     [listCell3 setSubtitle:@"SampleTitle3"];
-    UIImage *image = [UIImage imageNamed:@"excelIcon"];
-    [listCell3 setLeadingIcon:image];
+    UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"excelIcon"]] ;
+    [listCell3 setLeadingView:image];
     [listCell3 setAccessoryType:MSFListAccessoryTypeDisclosure];
     [listCell3 setOnTapAction:^{
         [self showAlertForCellTapped:@"Sample Title3"];
