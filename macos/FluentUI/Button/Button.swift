@@ -74,7 +74,7 @@ open class Button: NSButton {
 
 	/// Swift-only designated initializer accepting ButtonFormat struct.
 	/// - Parameters:
-	///   - title: String displayed in the button, default nil
+	///   - title: String displayed in the button, default empty string
 	///   - image: The NSImage to diplay in the button, default nil
 	///   - imagePosition: The position of the image, relative to the title, default imageLeading
 	///   - format: The ButtonFormat including size, style and accentColor, with all applicable defaults
@@ -376,10 +376,10 @@ class ButtonCell: NSButtonCell {
 		guard
 			let image = image,
 			let controlView = controlView,
-			image.size != NSZeroRect.size,
+			image.size != .zero,
 			imagePosition != .noImage
 		else {
-			return NSZeroRect
+			return .zero
 		}
 
 		let layoutDirectionSign = controlView.userInterfaceLayoutDirection == .rightToLeft ? -1 : 1
@@ -424,7 +424,7 @@ class ButtonCell: NSButtonCell {
 			y += CGFloat(yOffsetSign) * (titleSize.height + titleToImageSpacing - titleToImageVerticalSpacingAdjustment) / 2
 		}
 
-		return NSMakeRect(x, y, imageSize.width, imageSize.height)
+		return NSRect(x: x, y: y, width: imageSize.width, height: imageSize.height)
 	}
 
 	override func titleRect(forBounds rect: NSRect) -> NSRect {
@@ -434,16 +434,16 @@ class ButtonCell: NSButtonCell {
 			title.count > 0,
 			imagePosition != .imageOnly
 		else {
-			return NSZeroRect
-		}
-
-		if image?.size == NSZeroRect.size {
-			imagePosition = .noImage
+			return .zero
 		}
 
 		let layoutDirectionSign = controlView.userInterfaceLayoutDirection == .rightToLeft ? -1 : 1
 		let titleSize = title.size(withAttributes: [.font: font])
-		let imageSize = image?.size ?? NSZeroSize
+		let imageSize = image?.size ?? .zero
+
+		if imageSize == .zero {
+			imagePosition = .noImage
+		}
 
 		// Title is either centered, or offset from center by the image
 		var xOffsetSign = 0
@@ -479,31 +479,25 @@ class ButtonCell: NSButtonCell {
 			y += CGFloat(yOffsetSign) * (imageSize.height + titleToImageSpacing) / 2
 		}
 
-		return NSMakeRect(x, y, titleSize.width, titleSize.height)
+		return NSRect(x: x, y: y, width: titleSize.width, height: titleSize.height)
 	}
 
 	override func drawingRect(forBounds rect: NSRect) -> NSRect {
-		var horizontalInterCellSpacing: CGFloat = 0
-		var verticalInterCellSpacing: CGFloat = 0
+		var width = rect.width - (horizontalPadding * 2)
+		var height = rect.height - (verticalPadding * 2)
 
 		switch imagePosition {
 		case .imageLeft, .imageLeading, .imageRight, .imageTrailing:
-			horizontalInterCellSpacing = titleToImageSpacing
+			width -= titleToImageSpacing
 		case .imageBelow, .imageAbove:
-			verticalInterCellSpacing = titleToImageSpacing
+			height -= titleToImageSpacing
 		case .noImage, .imageOnly, .imageOverlaps:
 			break
 		@unknown default:
 			break
 		}
 
-		let drawingRectWithPadding = NSMakeRect(
-			0,
-			0,
-			rect.width - (horizontalPadding * 2) - horizontalInterCellSpacing,
-			rect.height - (verticalPadding * 2) - verticalInterCellSpacing
-		)
-		return drawingRectWithPadding
+		return NSRect(x: 0, y: 0, width: width, height: height)
 	}
 }
 
