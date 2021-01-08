@@ -184,15 +184,9 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		let leadingArrowImage = NSImage(named: TestButtonViewController.leadingArrow)!
 		let trailingArrowImage = NSImage(named: TestButtonViewController.trailingArrow)!
 
-		let customButton = Button()
-		customButton.title = "Custom Button"
-		customButton.image = NSImage(named: TestButtonViewController.nonTemplateImage)!
-		customButton.accentColor = communicationBlue
-		customButton.size = .large
-		customButton.style = .primary
 		let buttonsWithTitleAndImageHorizontal: () -> [Button] = {
 			return [
-				customButton,
+				Button(title: "Back", image: leadingArrowImage, imagePosition: .imageLeading, format: largePrimary),
 				Button(title: "Skip", image: trailingArrowImage, imagePosition: .imageTrailing, format: largeSecondary),
 				Button(title: "Back", image: leadingArrowImage, imagePosition: .imageLeft, format: largeAcrylic),
 				Button(title: "Skip", image: trailingArrowImage, imagePosition: .imageRight, format: largeBorderless),
@@ -367,7 +361,6 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 
 	private static let leadingArrow = "ic_fluent_chevron_left_16_filled"
 	private static let trailingArrow = "ic_fluent_chevron_right_16_filled"
-	private  static let nonTemplateImage = "ic_fluent_non_template_24_filled"
 
 	private static let gridViewRowSpacing: CGFloat = 20
 	private static let gridViewColumnSpacing: CGFloat = 20

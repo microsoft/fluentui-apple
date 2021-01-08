@@ -64,7 +64,7 @@ open class Button: NSButton {
 
 	/// Initializes a Fluent UI Button with no title or image, and with default formatting
 	@objc public convenience init() {
-		self.init(title: nil, image: nil, imagePosition: .imageLeading, format: ButtonFormat())
+		self.init(title: "", image: nil, imagePosition: .imageLeading, format: ButtonFormat())
 	}
 
 	@available(*, unavailable)
@@ -79,7 +79,7 @@ open class Button: NSButton {
 	///   - imagePosition: The position of the image, relative to the title, default imageLeading
 	///   - format: The ButtonFormat including size, style and accentColor, with all applicable defaults
 	public init(
-		title: String? = nil,
+		title: String = "",
 		image: NSImage? = nil,
 		imagePosition: NSControl.ImagePosition = .imageLeading,
 		format: ButtonFormat = ButtonFormat()
@@ -99,16 +99,8 @@ open class Button: NSButton {
 			cell.imageDimsWhenDisabled = false
 		}
 
-		if let title = title {
-			self.title = title
-		} else {
-			/// NSButton defaults title to "Button"
-			self.title = ""
-		}
-		if let image = image {
-			self.image = image
-		}
-
+		self.title = title
+		self.image = image
 		self.imagePosition = imagePosition
 		self.format = format
 
@@ -384,6 +376,7 @@ class ButtonCell: NSButtonCell {
 		guard
 			let image = image,
 			let controlView = controlView,
+			image.size != NSZeroRect.size,
 			imagePosition != .noImage
 		else {
 			return NSZeroRect
@@ -398,13 +391,7 @@ class ButtonCell: NSButtonCell {
 		var yOffsetSign = 0
 
 		if title.count == 0 {
-			if imageRect.size != NSZeroRect.size {
-				imagePosition = .imageOnly
-			}
-		} else {
-			if imageRect.size == NSZeroRect.size {
-				imagePosition = .noImage
-			}
+			imagePosition = .imageOnly
 		}
 
 		switch imagePosition {
@@ -444,9 +431,14 @@ class ButtonCell: NSButtonCell {
 		guard
 			let font = font,
 			let controlView = controlView,
+			title.count > 0,
 			imagePosition != .imageOnly
 		else {
 			return NSZeroRect
+		}
+
+		if image?.size == NSZeroRect.size {
+			imagePosition = .noImage
 		}
 
 		let layoutDirectionSign = controlView.userInterfaceLayoutDirection == .rightToLeft ? -1 : 1
