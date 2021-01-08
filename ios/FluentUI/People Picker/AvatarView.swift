@@ -616,7 +616,7 @@ open class AvatarView: UIView {
 
         borderView.backgroundColor = UIColor(patternImage: image)
     }
-    
+
     private func updateInnerStroke() {
         imageView.layer.borderWidth = avatarSize.insideBorder
         imageView.layer.borderColor = Colors.surfacePrimary.cgColor
@@ -802,7 +802,7 @@ class OverflowAvatarView: AvatarView {
 
     private let hasBorder: Bool
     private let borderView: UIView
-    
+
     private func updateColors() {
         initialsView.setFontColor(UIColor(light: Colors.gray500, dark: Colors.gray100))
         initialsView.setBackgroundColor(UIColor(light: Colors.gray50, dark: Colors.gray600))

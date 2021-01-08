@@ -64,7 +64,7 @@ open class Button: NSButton {
 
 	/// Initializes a Fluent UI Button with no title or image, and with default formatting
 	@objc public convenience init() {
-		self.init()
+		self.init(title: "", image: nil, imagePosition: .imageLeading, format: ButtonFormat())
 	}
 
 	@available(*, unavailable)
@@ -79,7 +79,7 @@ open class Button: NSButton {
 	///   - imagePosition: The position of the image, relative to the title, default imageLeading
 	///   - format: The ButtonFormat including size, style and accentColor, with all applicable defaults
 	public init(
-		title: String? = nil,
+		title: String = "",
 		image: NSImage? = nil,
 		imagePosition: NSControl.ImagePosition = .imageLeading,
 		format: ButtonFormat = ButtonFormat()
@@ -88,6 +88,7 @@ open class Button: NSButton {
 		isBordered = false
 		wantsLayer = true
 		layer?.contentsScale = window?.backingScaleFactor ?? 1.0
+		setButtonType(.momentaryChange)
 
 		if let cell = cell as? ButtonCell {
 			// The Button properties `contentTintColorDisabled`,
@@ -98,19 +99,9 @@ open class Button: NSButton {
 			cell.imageDimsWhenDisabled = false
 		}
 
-		if let title = title {
-			self.title = title
-			if let image = image {
-				self.image = image
-				self.imagePosition = imagePosition
-			} else {
-				self.imagePosition = .noImage
-			}
-		} else if let image = image {
-			self.image = image
-			self.imagePosition = .imageOnly
-		}
-
+		self.title = title
+		self.image = image
+		self.imagePosition = imagePosition
 		self.format = format
 
 		// Ensure we update backing properties even if high-level style and size
@@ -132,7 +123,7 @@ open class Button: NSButton {
 	}
 
 	/// Image to display in the button.
-	override public var image: NSImage? {
+	open override var image: NSImage? {
 		willSet {
 			guard wantsLayer == true else {
 				preconditionFailure("wantsLayer must be set so that the image is rendered on the layer")
@@ -185,9 +176,7 @@ open class Button: NSButton {
 
 	open override func mouseDown(with event: NSEvent) {
 		mouseDown = true
-	}
-
-	open override func mouseUp(with event: NSEvent) {
+		super.mouseDown(with: event)
 		mouseDown = false
 	}
 
@@ -387,6 +376,7 @@ class ButtonCell: NSButtonCell {
 		guard
 			let image = image,
 			let controlView = controlView,
+			image.size != NSZeroRect.size,
 			imagePosition != .noImage
 		else {
 			return NSZeroRect
@@ -399,6 +389,10 @@ class ButtonCell: NSButtonCell {
 		// Image is either centered, or offset from center by the title
 		var xOffsetSign = 0
 		var yOffsetSign = 0
+
+		if title.count == 0 {
+			imagePosition = .imageOnly
+		}
 
 		switch imagePosition {
 		case .noImage:
@@ -437,9 +431,14 @@ class ButtonCell: NSButtonCell {
 		guard
 			let font = font,
 			let controlView = controlView,
+			title.count > 0,
 			imagePosition != .imageOnly
 		else {
 			return NSZeroRect
+		}
+
+		if image?.size == NSZeroRect.size {
+			imagePosition = .noImage
 		}
 
 		let layoutDirectionSign = controlView.userInterfaceLayoutDirection == .rightToLeft ? -1 : 1

@@ -129,6 +129,27 @@ open class PillButton: UIButton {
         }
     }
 
+    /// Set `selectedBackgroundColor` to customize background color of the pill button
+    @objc open var customSelectedBackgroundColor: UIColor? {
+        didSet {
+            updateAppearance()
+        }
+    }
+
+    /// Set `textColor` to customize background color of the pill button
+    @objc open var customTextColor: UIColor? {
+        didSet {
+            updateAppearance()
+        }
+    }
+
+    /// Set `selectedTextColor` to customize background color of the pill button
+    @objc open var customSelectedTextColor: UIColor? {
+        didSet {
+            updateAppearance()
+        }
+    }
+
     @objc public init(pillBarItem: PillButtonBarItem, style: PillButtonStyle = .outline) {
         self.pillBarItem = pillBarItem
         self.style = style
@@ -182,21 +203,17 @@ open class PillButton: UIButton {
         if let window = window {
             if isSelected {
                 if isEnabled {
-                    backgroundColor = style.selectedBackgroundColor(for: window)
-                    setTitleColor(style.selectedTitleColor(for: window), for: .normal)
+                    backgroundColor = customSelectedBackgroundColor ?? style.selectedBackgroundColor(for: window)
+                    setTitleColor(customSelectedTextColor ?? style.selectedTitleColor(for: window), for: .normal)
                 } else {
                     backgroundColor = style.selectedDisabledBackgroundColor(for: window)
                     setTitleColor(style.selectedDisabledTitleColor(for: window), for: .normal)
                 }
             } else {
-                if let customBackgroundColor = customBackgroundColor {
-                    backgroundColor = customBackgroundColor
-                } else {
-                    backgroundColor = style.backgroundColor(for: window)
-                }
+                backgroundColor = customBackgroundColor ?? style.backgroundColor(for: window)
 
                 if isEnabled {
-                    setTitleColor(style.titleColor, for: .normal)
+                    setTitleColor(customTextColor ?? style.titleColor, for: .normal)
                 } else {
                     setTitleColor(style.disabledTitleColor(for: window), for: .disabled)
                 }
