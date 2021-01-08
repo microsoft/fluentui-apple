@@ -288,25 +288,6 @@ extension MSFListView {
     }
 }
 
-/// Generic UIView wrapper
-struct UIViewWrapper: UIViewRepresentable {
-
-    var makeView: () -> UIView
-
-    init(_ makeView: @escaping @autoclosure () -> UIView) {
-        self.makeView = makeView
-    }
-
-    func makeUIView(context: Context) -> UIView {
-        makeView()
-    }
-
-    func updateUIView(_ view: UIView, context: Context) {
-        view.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        view.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
-    }
-}
-
 @objc(MSFListVnext)
 open class MSFListVnext: NSObject {
 
