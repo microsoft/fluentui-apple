@@ -11,6 +11,7 @@
 		22EABB182509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EABB172509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift */; };
 		3F8A30ED25801F89003743A9 /* DrawerVnextDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8A30EC25801F89003743A9 /* DrawerVnextDemoController.swift */; };
 		497DC2DE24185896008D86F8 /* PillButtonBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */; };
+		532854F825A3C70C0042C3B9 /* ThemingVnextDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532854F725A3C70C0042C3B9 /* ThemingVnextDemoController.swift */; };
 		53B659B8257AA44F00070405 /* ButtonVnextDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B659B7257AA44F00070405 /* ButtonVnextDemoController.swift */; };
 		53B659C4257AA69E00070405 /* DrawerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DCA75D211E3A92005F4CB7 /* DrawerDemoController.swift */; };
 		53B659C5257AA6AA00070405 /* NavigationControllerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C8F322E28EEB0086F899 /* NavigationControllerDemoController.swift */; };
@@ -81,6 +82,7 @@
 		3D3224A9AADF58C324059464 /* Pods-FluentUI.Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluentUI.Demo.release.xcconfig"; path = "Target Support Files/Pods-FluentUI.Demo/Pods-FluentUI.Demo.release.xcconfig"; sourceTree = "<group>"; };
 		3F8A30EC25801F89003743A9 /* DrawerVnextDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerVnextDemoController.swift; sourceTree = "<group>"; };
 		497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBarDemoController.swift; sourceTree = "<group>"; };
+		532854F725A3C70C0042C3B9 /* ThemingVnextDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemingVnextDemoController.swift; sourceTree = "<group>"; };
 		53B659B7257AA44F00070405 /* ButtonVnextDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonVnextDemoController.swift; sourceTree = "<group>"; };
 		53EA0FA1257ED8AF00899357 /* AvatarVnextDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarVnextDemoController.swift; sourceTree = "<group>"; };
 		606D7CD826903286E86B3099 /* Pods-FluentUI.Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluentUI.Demo.debug.xcconfig"; path = "Target Support Files/Pods-FluentUI.Demo/Pods-FluentUI.Demo.debug.xcconfig"; sourceTree = "<group>"; };
@@ -266,6 +268,7 @@
 		A5CEC23220E452B80016922A /* Demos */ = {
 			isa = PBXGroup;
 			children = (
+				532854F725A3C70C0042C3B9 /* ThemingVnextDemoController.swift */,
 				B4D852D822580661004B1B29 /* ActivityIndicatorViewDemoController.swift */,
 				7D23482924D89C1C00FBE057 /* AvatarGroupViewDemoController.swift */,
 				B42760DC21488FFA0021A4F7 /* AvatarViewDemoController.swift */,
@@ -488,6 +491,7 @@
 				B4EF53C5215C45C400573E8F /* PersonaListViewDemoController.swift in Sources */,
 				B4414792228F6F740040E88E /* TableViewCellSampleData.swift in Sources */,
 				53F7386125776C560043071D /* NotificationViewDemoController.swift in Sources */,
+				532854F825A3C70C0042C3B9 /* ThemingVnextDemoController.swift in Sources */,
 				E6842974247B672000A29C40 /* SceneDelegate.swift in Sources */,
 				53EA0FA2257ED8AF00899357 /* AvatarVnextDemoController.swift in Sources */,
 				53F7386E25796D730043071D /* DateTimePickerDemoController.swift in Sources */,

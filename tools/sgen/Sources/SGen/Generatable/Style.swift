@@ -134,14 +134,9 @@ extension Style: Generatable {
                 let injectedProxy: String
                 if isNested && isNestedInExternal.0 == false {
                     injectedProxy = "proxy: mainProxy"
-                } else if isExternalOverride || (isInjected && extendsStylesheetName != nil)  {
-                    injectedProxy = "proxy: { return \(namespace)\(extendsStylesheetName!).shared() }"
-                } else if isNestedInExternal.isOverride {
-                    injectedProxy = "proxy: { return \(namespace)\(belongsToStylesheetName!).shared() }"
                 } else {
-                    injectedProxy = "proxy: { return \(belongsToStylesheetName!).shared() }"
+                    injectedProxy = "proxy: { return self }"
                 }
-                
                 wrapper +=
                 "\n\(indentation)\(override)\(visibility) func \(name)Style() -> \(returnClass) {"
                 wrapper += "\n\(indentation)\tif let override = _\(name) { return override }"

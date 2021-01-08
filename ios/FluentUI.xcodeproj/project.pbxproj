@@ -27,6 +27,8 @@
 		497DC2DA24185885008D86F8 /* PillButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D724185885008D86F8 /* PillButtonBar.swift */; };
 		497DC2DB24185885008D86F8 /* PillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D824185885008D86F8 /* PillButton.swift */; };
 		497DC2DC24185885008D86F8 /* PillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D824185885008D86F8 /* PillButton.swift */; };
+		532854FA25A3DD680042C3B9 /* ThemingVnext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532854F925A3DD680042C3B9 /* ThemingVnext.swift */; };
+		532854FF25A3DD6D0042C3B9 /* ThemingVnext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532854F925A3DD680042C3B9 /* ThemingVnext.swift */; };
 		537315B325438B15001FD14C /* iOS13_4_compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537315B225438B15001FD14C /* iOS13_4_compatibility.swift */; };
 		537315B425438B15001FD14C /* iOS13_4_compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537315B225438B15001FD14C /* iOS13_4_compatibility.swift */; };
 		53B659BA257AA50200070405 /* ButtonVnext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B659B9257AA50200070405 /* ButtonVnext.swift */; };
@@ -326,6 +328,7 @@
 		3F800563259DA182004DDB8B /* SideOverPanel+Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SideOverPanel+Modifiers.swift"; sourceTree = "<group>"; };
 		497DC2D724185885008D86F8 /* PillButtonBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBar.swift; sourceTree = "<group>"; };
 		497DC2D824185885008D86F8 /* PillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
+		532854F925A3DD680042C3B9 /* ThemingVnext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemingVnext.swift; sourceTree = "<group>"; };
 		537315B225438B15001FD14C /* iOS13_4_compatibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOS13_4_compatibility.swift; sourceTree = "<group>"; };
 		53B659B9257AA50200070405 /* ButtonVnext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonVnext.swift; sourceTree = "<group>"; };
 		53BCB0CD253A4E8C00620960 /* Obscurable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Obscurable.swift; sourceTree = "<group>"; };
@@ -741,6 +744,7 @@
 		A5CEC16B20D98EBF0016922A /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				532854F925A3DD680042C3B9 /* ThemingVnext.swift */,
 				FD77752A219E455A00033D58 /* AccessibilityContainerView.swift */,
 				FD599D052134A682008845EE /* AccessibleViewDelegate.swift */,
 				FDF41ED82141A02200EC527C /* CalendarConfiguration.swift */,
@@ -1254,6 +1258,7 @@
 				8FD01176228A82A600D25925 /* CalendarViewDayMonthYearCell.swift in Sources */,
 				8FD01177228A82A600D25925 /* CalendarViewDayTodayCell.swift in Sources */,
 				A52648DD2316F4F9003342A0 /* BarButtonItems.swift in Sources */,
+				532854FF25A3DD6D0042C3B9 /* ThemingVnext.swift in Sources */,
 				FD26DBD22298B3630011178B /* TooltipView.swift in Sources */,
 				8FD01178228A82A600D25925 /* CalendarViewMonthBannerView.swift in Sources */,
 				8FD01179228A82A600D25925 /* CalendarViewWeekdayHeadingView.swift in Sources */,
@@ -1394,6 +1399,7 @@
 				B4E782C521793BB900A7DFCE /* ActivityIndicatorView.swift in Sources */,
 				A52648DC2316F4F9003342A0 /* BarButtonItems.swift in Sources */,
 				FD5BBE41214C6AF3008964B4 /* TwoLineTitleView.swift in Sources */,
+				532854FA25A3DD680042C3B9 /* ThemingVnext.swift in Sources */,
 				A5B87AF1211BD4380038C37C /* UIFont+Extension.swift in Sources */,
 				FD41C89C22DD13230086F899 /* SearchBar.swift in Sources */,
 				A5B87AF8211E16370038C37C /* DrawerPresentationController.swift in Sources */,

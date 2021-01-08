@@ -39,6 +39,7 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("TableViewCellFileAccessoryView", TableViewCellFileAccessoryViewDemoController.self),
     ("TableViewCellShimmer", TableViewCellShimmerDemoController.self),
     ("TableViewHeaderFooterView", TableViewHeaderFooterViewDemoController.self),
+    ("Theming (vNext)", ThemingVnextDemoController.self),
     ("Tooltip", TooltipDemoController.self),
     ("Other cells", OtherCellsDemoController.self),
     ("DEBUG: Objective-C Demos", ObjectiveCDemoController.self)

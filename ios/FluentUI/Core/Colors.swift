@@ -275,6 +275,22 @@ public final class Colors: NSObject {
 
     @objc public static func setProvider(provider: ColorProviding, for window: UIWindow) {
         colorProvidersMap.setObject(provider, forKey: window)
+
+        // Reflect the ColorProviding implementation in the FluentUI Vnext stylesheet override for this window
+        let stylesheet = FluentUIStyle()
+        let colors = stylesheet.Colors
+        let brandColors = colors.Brand
+        brandColors.primary = primary(for: window)
+        brandColors.tint10 = primaryTint10(for: window)
+        brandColors.tint20 = primaryTint20(for: window)
+        brandColors.tint30 = primaryTint30(for: window)
+        brandColors.tint40 = primaryTint40(for: window)
+        brandColors.shade10 = primaryShade10(for: window)
+        brandColors.shade20 = primaryShade20(for: window)
+        brandColors.shade30 = primaryShade30(for: window)
+        colors.Brand = brandColors
+        stylesheet.Colors = colors
+        StylesheetManager.setStylesheet(stylesheet: stylesheet, for: window)
     }
 
     // MARK: Primary
