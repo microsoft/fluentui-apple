@@ -223,7 +223,7 @@ open class Button: NSButton {
 		}
 	}
 
-	private var format: ButtonFormat {
+	public var format: ButtonFormat {
 		get {
 			return ButtonFormat(
 				size: self.size,
