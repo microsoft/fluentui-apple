@@ -345,6 +345,8 @@ open class AvatarView: UIView {
 
         super.init(frame: containerView.frame)
 
+        self.accessibilityTraits = .image
+
         addSubview(containerView)
     }
 
@@ -744,7 +746,6 @@ open class AvatarView: UIView {
     // MARK: Accessibility
 
     open override var isAccessibilityElement: Bool { get { return true } set { } }
-    open override var accessibilityTraits: UIAccessibilityTraits { get { return .image } set { } }
 
     open override var accessibilityLabel: String? {
         get {
