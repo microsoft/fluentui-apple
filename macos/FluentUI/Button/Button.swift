@@ -366,11 +366,13 @@ open class Button: NSButton {
 // MARK: - ButtonCell
 
 class ButtonCell: NSButtonCell {
-	fileprivate var verticalPadding: CGFloat = 0
-	fileprivate var horizontalPadding: CGFloat = 0
-	fileprivate var titleVerticalPositionAdjustment: CGFloat = 0
-	fileprivate var titleToImageSpacing: CGFloat = 0
-	fileprivate var titleToImageVerticalSpacingAdjustment: CGFloat = 0
+	var verticalPadding: CGFloat = 0
+	var horizontalPadding: CGFloat = 0
+	var titleVerticalPositionAdjustment: CGFloat = 0
+	var titleToImageSpacing: CGFloat = 0
+	var titleToImageVerticalSpacingAdjustment: CGFloat = 0
+
+	let OnePointSize = NSSize(width: 1, height: 1)
 
 	override func imageRect(forBounds rect: NSRect) -> NSRect {
 		guard
@@ -575,7 +577,7 @@ class ButtonColor: NSObject {
 
 // MARK: - Size Constants
 
-fileprivate struct ButtonSizeParameters {
+private struct ButtonSizeParameters {
 	let fontSize: CGFloat
 	let cornerRadius: CGFloat
 	let verticalPadding: CGFloat
@@ -614,4 +616,3 @@ fileprivate struct ButtonSizeParameters {
 	}
 }
 
-fileprivate let OnePointSize = NSSize(width: 1, height: 1)
