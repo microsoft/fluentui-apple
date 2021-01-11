@@ -345,7 +345,7 @@ open class AvatarView: UIView {
 
         super.init(frame: containerView.frame)
 
-        self.accessibilityTraits = .image
+        accessibilityTraits = .image
 
         addSubview(containerView)
     }
