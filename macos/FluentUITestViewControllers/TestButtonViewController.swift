@@ -326,17 +326,16 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 
 	@objc func stateChanged() {
 		let state = buttonStatesPopup.titleOfSelectedItem
-		let emptyEvent = NSEvent()
 		for button in fluentButtons {
 			let originalLinkedPrimary = button.linkedPrimary
 			button.linkedPrimary = nil
 			switch state {
 			case "rest":
 				button.isEnabled = true
-				button.mouseUp(with: emptyEvent)
+				button.isPressed = false
 			case "pressed":
 				button.isEnabled = true
-				button.mouseDown(with: emptyEvent)
+				button.isPressed = true
 			case "disabled":
 				button.isEnabled = false
 			default:

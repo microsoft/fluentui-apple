@@ -156,14 +156,14 @@ open class Button: NSButton {
 
 	private var linkedPrimaryOriginalStyle: ButtonStyle?
 
-	private var mouseDown: Bool = false {
+	public var isPressed: Bool = false {
 		didSet {
-			guard isEnabled && oldValue != mouseDown else {
+			guard isEnabled && oldValue != isPressed else {
 				return
 			}
 			updateContentTintColor()
 			if let linkedPrimary = linkedPrimary {
-				if mouseDown {
+				if isPressed {
 					linkedPrimaryOriginalStyle = linkedPrimary.style
 					linkedPrimary.style = self.style
 				} else {
@@ -175,9 +175,9 @@ open class Button: NSButton {
 	}
 
 	open override func mouseDown(with event: NSEvent) {
-		mouseDown = true
+		isPressed = true
 		super.mouseDown(with: event)
-		mouseDown = false
+		isPressed = false
 	}
 
 	open override var isEnabled: Bool {
@@ -198,7 +198,7 @@ open class Button: NSButton {
 		if !isEnabled {
 			layer.backgroundColor = backgroundColorDisabled?.cgColor
 			layer.borderColor = borderColorDisabled?.cgColor
-		} else if mouseDown {
+		} else if isPressed {
 			layer.backgroundColor = backgroundColorPressed?.cgColor
 			layer.borderColor = borderColorPressed?.cgColor
 		} else {
@@ -252,7 +252,7 @@ open class Button: NSButton {
 	private func updateContentTintColor() {
 		if !isEnabled {
 			contentTintColor = contentTintColorDisabled
-		} else if mouseDown {
+		} else if isPressed {
 			contentTintColor = contentTintColorPressed
 		} else {
 			contentTintColor = contentTintColorRest
