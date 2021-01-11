@@ -1019,7 +1019,7 @@
 				A5CEC14D20D980B20016922A /* Frameworks */,
 				A5CEC14E20D980B20016922A /* Headers */,
 				A5CEC14F20D980B20016922A /* Resources */,
-				FD256C59218392B800EC9588 /* ShellScript */,
+				FD256C59218392B800EC9588 /* Run swiftlint */,
 			);
 			buildRules = (
 			);
@@ -1177,13 +1177,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		FD256C59218392B800EC9588 /* ShellScript */ = {
+		FD256C59218392B800EC9588 /* Run swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Run swiftlint";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;

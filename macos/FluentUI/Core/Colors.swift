@@ -10,7 +10,7 @@ import AppKit
 @objc(MSFColors)
 public final class Colors: NSObject {
 	// MARK: - MSFColorPalette
-	
+
 	/// colors defined in asset catalog
 	@objc(MSFColorPalette)
 	public enum Palette: Int {
@@ -87,7 +87,7 @@ public final class Colors: NSObject {
 		case presenceOffline
 		case presenceOof
 		case presenceUnknown
-		
+
 		public var color: NSColor {
 			if let fluentColor = NSColor(named: "FluentColors/" + self.name, bundle: FluentUIResources.resourceBundle) {
 				return fluentColor
@@ -95,7 +95,7 @@ public final class Colors: NSObject {
 				preconditionFailure("invalid fluent color")
 			}
 		}
-		
+
 		public var name: String {
 			switch self {
 			case .pinkRed10:
@@ -258,21 +258,21 @@ public final class Colors: NSObject {
 	}
 
 	// MARK: Primary
-	
+
 	@objc public static var primary: NSColor = Colors.Palette.communicationBlue.color
-	
+
 	@objc public static var primaryTint10: NSColor = Colors.Palette.communicationBlueTint10.color
-	
+
 	@objc public static var primaryTint20: NSColor = Colors.Palette.communicationBlueTint20.color
-	
+
 	@objc public static var primaryTint30: NSColor = Colors.Palette.communicationBlueTint30.color
-	
+
 	@objc public static var primaryTint40: NSColor = Colors.Palette.communicationBlueTint40.color
-	
+
 	@objc public static var primaryShade10: NSColor = Colors.Palette.communicationBlueShade10.color
-	
+
 	@objc public static var primaryShade20: NSColor = Colors.Palette.communicationBlueShade20.color
-	
+
 	@objc public static var primaryShade30: NSColor = Colors.Palette.communicationBlueShade30.color
 }
 

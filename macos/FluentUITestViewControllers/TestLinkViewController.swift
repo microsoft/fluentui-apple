@@ -11,20 +11,20 @@ class TestLinkViewController: NSViewController {
 		let url = NSURL(string: "https://github.com/microsoft/fluentui-apple")
 
 		let linkWithNoHover = Link(title: "Link", url: url)
-		
+
 		let linkWithHover = Link(title: "Link with hover effects", url: url)
 		linkWithHover.showsUnderlineWhileMouseInside = true
-		
+
 		let linkWithHoverAndNoURL = Link(title: "Link with hover effects and no URL")
 		linkWithHoverAndNoURL.showsUnderlineWhileMouseInside = true
-		
+
 		let linkWithOverridenTargetAction = Link(title: "Link with overridden Target/Action")
 		linkWithOverridenTargetAction.showsUnderlineWhileMouseInside = true
 		linkWithOverridenTargetAction.target = self
 		linkWithOverridenTargetAction.action = #selector(displayAlert)
-		
+
 		let linkWithCustomFontAndColor = Link(title: "Link with custom font and color  ❯", url: url)
-		linkWithCustomFontAndColor.font = NSFont.systemFont(ofSize:12.0, weight:NSFont.Weight.semibold)
+		linkWithCustomFontAndColor.font = NSFont.systemFont(ofSize: 12.0, weight: NSFont.Weight.semibold)
 		linkWithCustomFontAndColor.contentTintColor = .textColor
 
 		let containerView = NSStackView(views: [linkWithNoHover, linkWithHover, linkWithHoverAndNoURL, linkWithOverridenTargetAction, linkWithCustomFontAndColor])
@@ -33,7 +33,7 @@ class TestLinkViewController: NSViewController {
 		containerView.distribution = .gravityAreas
 		view = containerView
 	}
-	
+
 	@objc private func displayAlert() {
 		let alert = NSAlert()
 		alert.messageText = "Alert"
