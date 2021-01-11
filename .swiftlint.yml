@@ -164,6 +164,9 @@ whitelist_rules:
   # Delegates should be weak to avoid reference cycles.
   - weak_delegate
 
+included:
+  - ${LINTPATH}
+
 excluded: # paths to ignore during linting. Takes precedence over `included`.
   - Pods
 explicit_type_interface: # requires type annotation on everything but local variables and constants
