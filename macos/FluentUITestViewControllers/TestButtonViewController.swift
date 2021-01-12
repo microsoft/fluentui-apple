@@ -317,6 +317,19 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 	@objc func imagePositionChanged() {
 		let imagePosition = imagePositions[imagePositionsPopup.titleOfSelectedItem!]!
 		for button in fluentButtons {
+			// The test app exposed cases where a button with no image has its
+			// imagePosition set to .imageOnly or .imageOverlaps, then back to
+			// something else.  An invisible 1-pixel image gets assigned to the
+			// button, having an NSCustomImageRep with no drawing delegate.  Detect
+			// and remove this image so it doesn't offset the title.
+			if let image = button.image {
+				if let imageRep = image.representations.first as? NSCustomImageRep {
+					if imageRep.delegate == nil && image.size == TestButtonViewController.onePointSize {
+						button.image = nil
+					}
+				}
+			}
+
 			button.imagePosition = imagePosition
 			if let cell = button.cell as? NSButtonCell {
 				cell.imagePosition = imagePosition
@@ -370,6 +383,8 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 	}
 
 	private static let nonTemplateImage = "ic_fluent_non_template_24_filled"
+
+	private static let onePointSize = NSSize(width: 1, height: 1)
 
 	private static let gridViewRowSpacing: CGFloat = 20
 	private static let gridViewColumnSpacing: CGFloat = 20

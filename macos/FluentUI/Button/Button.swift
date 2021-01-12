@@ -372,8 +372,6 @@ class ButtonCell: NSButtonCell {
 	var titleToImageSpacing: CGFloat = 0
 	var titleToImageVerticalSpacingAdjustment: CGFloat = 0
 
-	let OnePointSize = NSSize(width: 1, height: 1)
-
 	override func imageRect(forBounds rect: NSRect) -> NSRect {
 		guard
 			let image = image,
@@ -382,18 +380,6 @@ class ButtonCell: NSButtonCell {
 			imagePosition != .noImage
 		else {
 			return .zero
-		}
-
-		// The test app exposed cases where a button with no image has its
-		// imagePosition set to .imageOnly or .imageOverlaps, then back to
-		// something else.  An invisible 1-pixel image gets assigned to the
-		// button, having an NSCustomImageRep with no drawing delegate.  Detect
-		// and remove this image so it doesn't offset the title.
-		if let imageRep = image.representations.first as? NSCustomImageRep {
-			if imageRep.delegate == nil && image.size == OnePointSize {
-				self.image = nil
-				return .zero
-			}
 		}
 
 		let layoutDirectionSign = controlView.userInterfaceLayoutDirection == .rightToLeft ? -1 : 1
