@@ -5,91 +5,91 @@
 
 import AppKit
 
-fileprivate struct Constants {
-	
+private struct Constants {
+
 	/// Bottom margin of the header view
 	static let headerBottomMargin: CGFloat = 5.0
-	
+
 	/// Bottom margin of the calendar view
 	static let calendarBottomMargin: CGFloat = 10.0
-	
+
 	/// Default background color of the view
-	static let backgroundColor: NSColor = NSColor.white
-	
+	static let backgroundColor: NSColor = .white
+
 	/// Duration of one page scroll animation
 	static let pageScrollAnimationDuration: Double = 0.2
-	
+
 	/// Background color of the text date picker
 	static var textDatePickerBackgroundColor: NSColor {
 		return NSColor.systemGray.withAlphaComponent(0.3)
 	}
-	
+
 	/// Corner radius of the text date picker
 	static let textDatePickerCornerRadius: CGFloat = 2.0
-	
+
 	/// Date formatter template for the header month-year label
-	static let headerDateFormatterTemplate = "MMMM yyyy"
-	
+	static let headerDateFormatterTemplate: String = "MMMM yyyy"
+
 	/// The padding that's used when hasEdgePadding is true
 	static let edgePadding: CGFloat = 10.0
-	
+
 	private init() {}
 }
 
 class DatePickerView: NSView {
-	
+
 	/// Initializes the date picker view using the given style.
 	///
 	/// - Parameter style: Style of the date picker (date only or date + time)
 	init(style: DatePickerStyle) {
 		self.style = style
-		
+
 		super.init(frame: .zero)
-		
+
 		translatesAutoresizingMaskIntoConstraints = false
-		
+
 		containerStackView.translatesAutoresizingMaskIntoConstraints = false
 		containerStackView.orientation = .vertical
 		containerStackView.distribution = .gravityAreas
 		containerStackView.spacing = 0
 		containerStackView.setHuggingPriority(.required, for: .vertical)
-		
+
 		// lower than .required to ensure that the text date picker does not get stretched
 		containerStackView.setHuggingPriority(.defaultHigh, for: .horizontal)
-		
+
 		self.addSubview(containerStackView)
 		containerStackView.addView(headerView, in: .center)
 		containerStackView.addView(monthClipView, in: .center)
 		containerStackView.addView(textDatePicker, in: .center)
-		
+
 		monthClipView.translatesAutoresizingMaskIntoConstraints = false
 		monthClipView.wantsLayer = true
 		monthClipView.addSubview(calendarView)
-		
+
 		let padding = hasEdgePadding ? Constants.edgePadding : 0.0
 		containerStackView.edgeInsets = NSEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
-		
+
 		containerStackView.setCustomSpacing(Constants.headerBottomMargin, after: headerView)
 		containerStackView.setCustomSpacing(Constants.calendarBottomMargin, after: monthClipView)
-		
+
 		NSLayoutConstraint.activate([
 			containerStackView.topAnchor.constraint(equalTo: topAnchor),
 			containerStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
 			containerStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
 			containerStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-			
+
 			headerView.widthAnchor.constraint(equalTo: monthClipView.widthAnchor),
 			monthClipView.widthAnchor.constraint(equalTo: calendarView.widthAnchor),
-			monthClipView.heightAnchor.constraint(equalTo: calendarView.heightAnchor),
+			monthClipView.heightAnchor.constraint(equalTo: calendarView.heightAnchor)
 		])
-		
+
 		headerView.delegate = self
 		calendarView.delegate = self
-		
+
 		textDatePicker.target = self
 		textDatePicker.action = #selector(onTextDatePickerChange)
 		textDatePicker.setContentHuggingPriority(.required, for: .horizontal)
-		
+
 		// Accessibility
 		setAccessibilityElement(true)
 		setAccessibilityRole(.group)
@@ -99,15 +99,15 @@ class DatePickerView: NSView {
 			bundle: FluentUIResources.resourceBundle,
 			comment: ""
 		))
-		
+
 		updateTextDatePicker()
 	}
-	
+
 	@available(*, unavailable)
 	required init?(coder decoder: NSCoder) {
 		preconditionFailure()
 	}
-	
+
 	/// Scrolls in the leading direction
 	func scrollToLeading() {
 		if userInterfaceLayoutDirection == .leftToRight {
@@ -116,7 +116,7 @@ class DatePickerView: NSView {
 			animateInDirection(.right)
 		}
 	}
-	
+
 	/// Scrolls in the trailing direction
 	func scrollToTrailing() {
 		if userInterfaceLayoutDirection == .leftToRight {
@@ -125,7 +125,7 @@ class DatePickerView: NSView {
 			animateInDirection(.left)
 		}
 	}
-	
+
 	/// Refreshes the date picker using the latest data from the dataSource
 	func refresh() {
 		updateHeader()
@@ -133,19 +133,19 @@ class DatePickerView: NSView {
 		updateHighlights()
 		updateTextDatePicker()
 	}
-	
+
 	/// Updates the displayed selection without doing a full refresh
 	func updateSelection() {
 		updateHighlights()
-		
+
 		if let dataSource = dataSource {
 			textDatePicker.dateValue = dataSource.selectedDateTime
 		}
 	}
-	
+
 	/// The date picker view's delegate
 	weak var delegate: DatePickerViewDelegate?
-	
+
 	/// The object that provides the calendar data
 	weak var dataSource: DatePickerViewDataSource? {
 		didSet {
@@ -157,17 +157,17 @@ class DatePickerView: NSView {
 			refresh()
 		}
 	}
-	
+
 	/// Current style of the date picker (date/date+time)
 	var style: DatePickerStyle {
 		didSet {
 			updateTextDatePicker()
 		}
 	}
-	
+
 	/// True if currently animating to a new month
 	var isAnimating: Bool = false
-	
+
 	/// The custom color of the selected buttons of the CalendarView
 	/// - note: Setting this to nil results in using a default color
 	var customSelectionColor: NSColor? {
@@ -175,7 +175,7 @@ class DatePickerView: NSView {
 			calendarView.customSelectionColor = customSelectionColor
 		}
 	}
-	
+
 	/// Enables padding around the date picker view.
 	var hasEdgePadding: Bool = false {
 		didSet {
@@ -186,7 +186,7 @@ class DatePickerView: NSView {
 			containerStackView.edgeInsets = NSEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
 		}
 	}
-	
+
 	/// Indicates whether the text date picker is displayed
 	var hasTextField: Bool {
 		get {
@@ -199,25 +199,25 @@ class DatePickerView: NSView {
 			textDatePicker.isHidden = !newValue
 		}
 	}
-	
+
 	/// DateFormatter used to generate strings for the header label
 	private let dateFormatter: DateFormatter = {
 		let dateFormatter = DateFormatter()
 		dateFormatter.timeStyle = .none
 		dateFormatter.setLocalizedDateFormatFromTemplate(Constants.headerDateFormatterTemplate)
-		
+
 		return dateFormatter
 	}()
-	
+
 	/// Internal storage of the CalendarHeaderView
-	private let headerView: CalendarHeaderView = CalendarHeaderView()
-	
+	private let headerView = CalendarHeaderView()
+
 	/// Internal storage of the view that clips calendarStackView to only show one month
 	private let monthClipView = NSView()
-	
+
 	/// Internal storage of the CalendarView
 	private var calendarView = CalendarView()
-	
+
 	/// Internal storage of the textual NSDatePicker
 	private let textDatePicker: NSDatePicker = {
 		let textDatePicker = NSDatePicker()
@@ -229,10 +229,10 @@ class DatePickerView: NSView {
 		textDatePicker.layer?.cornerRadius = Constants.textDatePickerCornerRadius
 		return textDatePicker
 	}()
-	
+
 	/// Internal storage of the main container stack view
 	private let containerStackView = NSStackView()
-	
+
 	/// Notifies the delegate of the new date/dateTime selection
 	/// Called on any change to the textual date picker
 	///
@@ -245,17 +245,17 @@ class DatePickerView: NSView {
 			delegate?.datePicker(self, didSelectDateTime: sender.dateValue)
 		}
 	}
-	
+
 	/// Updates the header view using the data source
 	private func updateHeader() {
 		guard let dataSource = dataSource else {
 			return
 		}
-		
+
 		headerView.weekdayStrings = Array(zip(dataSource.shortWeekdays, dataSource.longWeekdays))
 		headerView.monthYearLabel.stringValue = dateFormatter.string(from: dataSource.visibleRange.first)
 	}
-	
+
 	/// Uses the data source to retrieve all the dates for the calendar view and displays them
 	private func updateCalendarView() {
 		guard let dataSource = dataSource else {
@@ -263,16 +263,16 @@ class DatePickerView: NSView {
 		}
 		calendarView.update(with: dataSource.paddedDays)
 	}
-	
+
 	/// Updates the highlighted button in the center calendar view using the delegate
 	private func updateHighlights() {
 		let buttonViews = calendarView.buttonViews
-		
+
 		for button in buttonViews {
 			button.state = delegate?.datePicker(self, shouldHighlightButton: button) ?? false ? .on : .off
 		}
 	}
-	
+
 	/// Updates the text date picker using the current style and data source
 	private func updateTextDatePicker() {
 		switch style {
@@ -281,19 +281,19 @@ class DatePickerView: NSView {
 		case .dateTime:
 			textDatePicker.datePickerElements = [.yearMonthDay, .hourMinute]
 		}
-		
+
 		guard let dataSource = dataSource else {
 			return
 		}
-		
+
 		if textDatePicker.calendar != dataSource.calendar {
 			textDatePicker.calendar = dataSource.calendar
 			textDatePicker.locale = dataSource.calendar.locale
 		}
-		
+
 		textDatePicker.dateValue = dataSource.selectedDateTime
 	}
-	
+
 	/// Animates to the current month in the given direction.
 	/// Note: Changing the direction param does not affect what month will be shown in the new CalendarView.
 	/// 	This method just gets the days that should currently be visible from the datasource,
@@ -306,7 +306,7 @@ class DatePickerView: NSView {
 			return
 		}
 		updateHeader()
-		
+
 		isAnimating = true
 		let scrollOffset: CGFloat
 		switch direction {
@@ -315,7 +315,7 @@ class DatePickerView: NSView {
 		case .right:
 			scrollOffset = calendarView.frame.width
 		}
-		
+
 		let nextCalendarView = CalendarView()
 		nextCalendarView.delegate = self
 		nextCalendarView.customSelectionColor = customSelectionColor
@@ -323,7 +323,7 @@ class DatePickerView: NSView {
 		nextCalendarView.frame.origin.x += scrollOffset
 		nextCalendarView.update(with: dataSource.paddedDays)
 		monthClipView.addSubview(nextCalendarView)
-		
+
 		NSAnimationContext.runAnimationGroup({ context in
 			if NSWorkspace.shared.accessibilityDisplayShouldReduceMotion {
 				context.duration = 0.0
@@ -342,7 +342,7 @@ class DatePickerView: NSView {
 			self.isAnimating = false
 		})
 	}
-	
+
 	private enum AnimationDirection {
 		case left
 		case right
@@ -350,7 +350,7 @@ class DatePickerView: NSView {
 }
 
 extension DatePickerView: CalendarViewDelegate {
-	
+
 	/// Propagates date selection to the delegate if the view isn't animating.
 	///
 	/// - Parameters:
@@ -360,13 +360,13 @@ extension DatePickerView: CalendarViewDelegate {
 		guard !isAnimating else {
 			return
 		}
-		
+
 		delegate?.datePicker(self, didSelectDate: date)
 	}
 }
 
 extension DatePickerView: CalendarHeaderViewDelegate {
-	
+
 	/// Passes a leading header button press down to the delegate if the view is not animating
 	///
 	/// - Parameters:
@@ -381,7 +381,7 @@ extension DatePickerView: CalendarHeaderViewDelegate {
 			delegate?.datePickerDidPressPrevious(self)
 		}
 	}
-	
+
 	/// Passes a trailing header button press down to the delegate if the view is not animating
 	///
 	/// - Parameters:
@@ -396,7 +396,7 @@ extension DatePickerView: CalendarHeaderViewDelegate {
 			delegate?.datePickerDidPressNext(self)
 		}
 	}
-	
+
 	/// Completes the ongoing paging animation and executes the given completion handler.
 	/// - Parameter completionHandler: The closure to be called after the current animation completes.
 	private func completePagingAnimation(completionHandler: @escaping () -> Void) {
@@ -410,33 +410,33 @@ extension DatePickerView: CalendarHeaderViewDelegate {
 }
 
 protocol DatePickerViewDelegate: AnyObject {
-	
+
 	/// Tells the delegate that a new date was selected.
 	///
 	/// - Parameters:
 	///   - datePicker: The date picker that sent the message.
 	///   - date: The date that was selected.
 	func datePicker(_ datePicker: DatePickerView, didSelectDate date: Date)
-	
+
 	/// Tells the delegate that a new date and time was selected.
 	///
 	/// - Parameters:
 	///   - datePicker: The date picker that sent the message.
 	///   - date: The date and time that was selected.
 	func datePicker(_ datePicker: DatePickerView, didSelectDateTime date: Date)
-	
+
 	/// Tells the delegate that the next month button was pressed.
 	///
 	/// - Parameters:
 	///   - datePicker: The date picker that sent the message.
 	func datePickerDidPressNext(_ datePicker: DatePickerView)
-	
+
 	/// Tells the delegate that the previous month button was pressed.
 	///
 	/// - Parameters:
 	///   - datePicker: The date picker that sent the message.
 	func datePickerDidPressPrevious(_ datePicker: DatePickerView)
-	
+
 	/// Asks the delegate whether a given calendar day button should be highlighted.
 	///
 	/// - Parameters:
@@ -448,40 +448,40 @@ protocol DatePickerViewDelegate: AnyObject {
 
 /// Default delegate implementation
 extension DatePickerViewDelegate {
-	
+
 	func datePicker(_ datePicker: DatePickerView, didSelectDate date: Date) {}
-	
+
 	func datePicker(_ datePicker: DatePickerView, didSelectDateTime date: Date) {}
-	
+
 	func datePickerDidPressNext(_ datePicker: DatePickerView) {}
-	
+
 	func datePickerDidPressPrevious(_ datePicker: DatePickerView) {}
-	
+
 	func datePicker(_ datePicker: DatePickerView, shouldHighlightButton button: CalendarDayButton) -> Bool {
 		return false
 	}
 }
 
 protocol DatePickerViewDataSource: AnyObject {
-	
+
 	/// Currently selected date
 	var selectedDate: Date { get }
-	
+
 	/// Currently selected date and time
 	var selectedDateTime: Date { get }
-	
+
 	/// Currently visible date range
 	var visibleRange: (first: Date, last: Date) { get }
-	
+
 	/// All current month days, possibly padded by days from the previous and next month to align with the calendar grid
 	var paddedDays: PaddedCalendarDays { get }
-	
+
 	/// Calendar that's currently being used
 	var calendar: Calendar { get }
-	
+
 	/// List of short weekday labels in the order to be displayed
 	var shortWeekdays: [String] { get }
-	
+
 	/// List of long weekday labels in the order to be displayed
 	var longWeekdays: [String] { get }
 }
