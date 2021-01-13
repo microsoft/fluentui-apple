@@ -115,7 +115,7 @@ open class Button: NSButton {
 		}
 	}
 
-	open class override var cellClass: AnyClass? {
+	open override class var cellClass: AnyClass? {
 		get {
 			return ButtonCell.self
 		}
@@ -132,7 +132,7 @@ open class Button: NSButton {
 	}
 
 	/// Title string to display in the button.
-	override public var title: String {
+	public override var title: String {
 		willSet {
 			guard wantsLayer == true else {
 				preconditionFailure("wantsLayer must be set so that the title is rendered on the layer")
@@ -171,6 +171,7 @@ open class Button: NSButton {
 				}
 			}
 			needsDisplay = true
+
 		}
 	}
 
@@ -207,7 +208,7 @@ open class Button: NSButton {
 		}
 	}
 
-	override public var wantsUpdateLayer: Bool {
+	public override var wantsUpdateLayer: Bool {
 		return true
 	}
 
@@ -337,7 +338,7 @@ open class Button: NSButton {
 
 	private func setSizeParameters(forSize: ButtonSize) {
 		let parameters = ButtonSizeParameters.parameters(forSize: size)
-		font = NSFont.systemFont(ofSize:parameters.fontSize)
+		font = NSFont.systemFont(ofSize: parameters.fontSize)
 		cornerRadius = parameters.cornerRadius
 		guard let cell = cell as? ButtonCell else {
 			return
@@ -376,10 +377,10 @@ class ButtonCell: NSButtonCell {
 		guard
 			let image = image,
 			let controlView = controlView,
-			image.size != NSZeroRect.size,
+			image.size != NSRect.zero.size,
 			imagePosition != .noImage
 		else {
-			return NSZeroRect
+			return NSRect.zero
 		}
 
 		let layoutDirectionSign = controlView.userInterfaceLayoutDirection == .rightToLeft ? -1 : 1
@@ -424,7 +425,7 @@ class ButtonCell: NSButtonCell {
 			y += CGFloat(yOffsetSign) * (titleSize.height + titleToImageSpacing - titleToImageVerticalSpacingAdjustment) / 2
 		}
 
-		return NSMakeRect(x, y, imageSize.width, imageSize.height)
+		return NSRect(x: x, y: y, width: imageSize.width, height: imageSize.height)
 	}
 
 	override func titleRect(forBounds rect: NSRect) -> NSRect {
@@ -434,16 +435,16 @@ class ButtonCell: NSButtonCell {
 			title.count > 0,
 			imagePosition != .imageOnly
 		else {
-			return NSZeroRect
+			return NSRect.zero
 		}
 
-		if image?.size == NSZeroRect.size {
+		if image?.size == NSRect.zero.size {
 			imagePosition = .noImage
 		}
 
 		let layoutDirectionSign = controlView.userInterfaceLayoutDirection == .rightToLeft ? -1 : 1
 		let titleSize = title.size(withAttributes: [.font: font])
-		let imageSize = image?.size ?? NSZeroSize
+		let imageSize = image?.size ?? NSSize.zero
 
 		// Title is either centered, or offset from center by the image
 		var xOffsetSign = 0
@@ -479,7 +480,7 @@ class ButtonCell: NSButtonCell {
 			y += CGFloat(yOffsetSign) * (imageSize.height + titleToImageSpacing) / 2
 		}
 
-		return NSMakeRect(x, y, titleSize.width, titleSize.height)
+		return NSRect(x: x, y: y, width: titleSize.width, height: titleSize.height)
 	}
 
 	override func drawingRect(forBounds rect: NSRect) -> NSRect {
@@ -497,12 +498,7 @@ class ButtonCell: NSButtonCell {
 			break
 		}
 
-		let drawingRectWithPadding = NSMakeRect(
-			0,
-			0,
-			rect.width - (horizontalPadding * 2) - horizontalInterCellSpacing,
-			rect.height - (verticalPadding * 2) - verticalInterCellSpacing
-		)
+		let drawingRectWithPadding = NSRect(x: 0, y: 0, width: rect.width - (horizontalPadding * 2) - horizontalInterCellSpacing, height: rect.height - (verticalPadding * 2) - verticalInterCellSpacing)
 		return drawingRectWithPadding
 	}
 }
@@ -545,8 +541,7 @@ public struct ButtonFormat {
 		size: ButtonSize = .large,
 		style: ButtonStyle = .primary,
 		accentColor: NSColor = Colors.primary
-	)
-	{
+	) {
 		self.size = size
 		self.style = style
 		self.accentColor = accentColor
@@ -569,7 +564,7 @@ class ButtonColor: NSObject {
 
 // MARK: - Size Constants
 
-fileprivate struct ButtonSizeParameters {
+private struct ButtonSizeParameters {
 	let fontSize: CGFloat
 	let cornerRadius: CGFloat
 	let verticalPadding: CGFloat

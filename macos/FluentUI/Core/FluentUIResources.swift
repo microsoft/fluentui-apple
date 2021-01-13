@@ -9,13 +9,13 @@ import AppKit
 public class FluentUIResources: NSObject {
 	/// The bundle of the FluentUI framework
 	static var bundle: Bundle { return Bundle(for: self) }
-	
+
 	/// The resource bundle contained within the FluentUI framework
 	@objc public static let resourceBundle: Bundle = {
 		guard let url = bundle.resourceURL?.appendingPathComponent("FluentUIResources-macos.bundle", isDirectory: true), let bundle = Bundle(url: url) else {
 			preconditionFailure("FluentUI resource bundle is not found")
 		}
-		
+
 		return bundle
 	}()
 }
