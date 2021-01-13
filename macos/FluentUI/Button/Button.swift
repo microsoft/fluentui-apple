@@ -563,13 +563,13 @@ class ButtonColor: NSObject {
 // MARK: - Size Constants
 
 private struct ButtonSizeParameters {
-	let fontSize: CGFloat
-	let cornerRadius: CGFloat
-	let verticalPadding: CGFloat
-	let horizontalPadding: CGFloat
-	let titleVerticalPositionAdjustment: CGFloat
-	let titleToImageSpacing: CGFloat
-	let titleToImageVerticalSpacingAdjustment: CGFloat
+	fileprivate let fontSize: CGFloat
+	fileprivate let cornerRadius: CGFloat
+	fileprivate let verticalPadding: CGFloat
+	fileprivate let horizontalPadding: CGFloat
+	fileprivate let titleVerticalPositionAdjustment: CGFloat
+	fileprivate let titleToImageSpacing: CGFloat
+	fileprivate let titleToImageVerticalSpacingAdjustment: CGFloat
 
 	static let large = ButtonSizeParameters(
 		fontSize: 15,  // line height: 19
