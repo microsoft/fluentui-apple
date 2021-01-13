@@ -20,7 +20,7 @@ let effectViewMaterials: [String: NSVisualEffectView.Material] = [
 	"toolTip": .toolTip,
 	"contentBackground": .contentBackground,
 	"underWindowBackground": .underWindowBackground,
-	"underPageBackground": .underPageBackground,
+	"underPageBackground": .underPageBackground
 ]
 
 let backgroundColors: [String: NSColor] = [
@@ -31,7 +31,7 @@ let backgroundColors: [String: NSColor] = [
 	"controlBackgroundColor": .controlBackgroundColor,
 	"underPageBackgroundColor": .underPageBackgroundColor,
 	"selectedContentBackgroundColor": .selectedContentBackgroundColor,
-	"unemphasizedSelectedContentBackgroundColor": .unemphasizedSelectedContentBackgroundColor,
+	"unemphasizedSelectedContentBackgroundColor": .unemphasizedSelectedContentBackgroundColor
 ]
 
 let imagePositions: [String: NSControl.ImagePosition] = [
@@ -43,26 +43,26 @@ let imagePositions: [String: NSControl.ImagePosition] = [
 	"imageOverlaps": .imageOverlaps,
 	"imageRight": .imageRight,
 	"imageTrailing": .imageTrailing,
-	"noImage": .noImage,
+	"noImage": .noImage
 ]
 let defaultImagePosition = "imageLeading"
 
 let buttonStates: [String] = [
 	"rest",
 	"pressed",
-	"disabled",
+	"disabled"
 ]
 
 let widths: [String: CGFloat] = [
 	"natural": 0,
 	"oversized (180)": 180,
-	"undersized (30)": 30,
+	"undersized (30)": 30
 ]
 
 let heights: [String: CGFloat] = [
 	"natural": 0,
 	"oversized (100)": 100,
-	"undersized (10)": 10,
+	"undersized (10)": 10
 ]
 
 class VibrantScrollView: NSScrollView {
@@ -93,9 +93,9 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 	let imagePositionsPopup = NSPopUpButton(frame: .zero, pullsDown: false)
 	let buttonStatesPopup = NSPopUpButton(frame: .zero, pullsDown: false)
 	let widthPopup = NSPopUpButton(frame: .zero, pullsDown: false)
-	var widthConstraints : [NSLayoutConstraint] = []
+	var widthConstraints: [NSLayoutConstraint] = []
 	let heightPopup = NSPopUpButton(frame: .zero, pullsDown: false)
-	var heightConstraints : [NSLayoutConstraint] = []
+	var heightConstraints: [NSLayoutConstraint] = []
 	let scrollView = VibrantScrollView()
 	let materialPane = NSVisualEffectView()
 	var fluentButtons: [Button] = []
@@ -138,7 +138,7 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			[NSTextField(labelWithString: "Image Position:"), imagePositionsPopup],
 			[NSTextField(labelWithString: "Button State:"), buttonStatesPopup],
 			[NSTextField(labelWithString: "Button Width:"), widthPopup],
-			[NSTextField(labelWithString: "Button Height:"), heightPopup],
+			[NSTextField(labelWithString: "Button Height:"), heightPopup]
 		]
 
 		let toolsGrid = NSGridView(views: tools)
@@ -174,7 +174,7 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			smallPrimary,
 			smallSecondary,
 			smallAcrylic,
-			smallBorderless,
+			smallBorderless
 		]
 
 		let rowLabels: [NSView] = [
@@ -186,7 +186,7 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			NSTextField(labelWithString: "Small Primary"),
 			NSTextField(labelWithString: "Small Secondary"),
 			NSTextField(labelWithString: "Small Acrylic"),
-			NSTextField(labelWithString: "Small Borderless"),
+			NSTextField(labelWithString: "Small Borderless")
 		]
 
 		// Parameters for buttons in "Custom" row
@@ -226,10 +226,10 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		let buttonColumns = [
 			buttonsWithTitle(),
 			buttonsWithTitleAndImage(),
-			buttonsWithImage(),
+			buttonsWithImage()
 		]
 		for newColumn in buttonColumns {
-			var nearestPrimary: Button? = nil
+			var nearestPrimary: Button?
 			for button in newColumn {
 				switch button.style {
 				case .primary:
@@ -252,7 +252,7 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			NSGridCell.emptyContentView,
 			NSTextField(labelWithString: "Title"),
 			NSTextField(labelWithString: "Title & Image"),
-			NSTextField(labelWithString: "Image"),
+			NSTextField(labelWithString: "Image")
 		]
 		fluentButtonsGrid.insertRow(at: 0, with: columnLabels)
 
@@ -287,7 +287,7 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			materialPane.topAnchor.constraint(equalTo: scrollView.topAnchor),
 			materialPane.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
 			fluentButtonsGrid.bottomAnchor.constraint(equalTo: scrollView.contentView.bottomAnchor),
-			fluentButtonsGrid.leadingAnchor.constraint(equalTo: scrollView.contentView.leadingAnchor),
+			fluentButtonsGrid.leadingAnchor.constraint(equalTo: scrollView.contentView.leadingAnchor)
 		])
 
 		view = mainPanel
@@ -359,22 +359,34 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 	}
 
 	@objc func widthConstraintsChanged() {
-		guard let title = widthPopup.titleOfSelectedItem else { return }
-		guard let width = widths[title] else { return }
+		guard let title = widthPopup.titleOfSelectedItem else {
+			return
+		}
+		guard let width = widths[title] else {
+			return
+		}
 		NSLayoutConstraint.deactivate(widthConstraints)
 		widthConstraints.removeAll()
-		guard width != 0 else { return }
-		widthConstraints.append(contentsOf: fluentButtons.map({ ($0 as Button).widthAnchor.constraint(equalToConstant:width) }))
+		guard width != 0 else {
+			return
+		}
+		widthConstraints.append(contentsOf: fluentButtons.map({ ($0 as Button).widthAnchor.constraint(equalToConstant: width) }))
 		NSLayoutConstraint.activate(widthConstraints)
 	}
 
 	@objc func heightConstraintsChanged() {
-		guard let title = heightPopup.titleOfSelectedItem else { return }
-		guard let height = heights[title] else { return }
+		guard let title = heightPopup.titleOfSelectedItem else {
+			return
+		}
+		guard let height = heights[title] else {
+			return
+		}
 		NSLayoutConstraint.deactivate(heightConstraints)
 		heightConstraints.removeAll()
-		guard height != 0 else { return }
-		heightConstraints.append(contentsOf: fluentButtons.map({ ($0 as Button).heightAnchor.constraint(equalToConstant:height) }))
+		guard height != 0 else {
+			return
+		}
+		heightConstraints.append(contentsOf: fluentButtons.map({ ($0 as Button).heightAnchor.constraint(equalToConstant: height) }))
 		NSLayoutConstraint.activate(heightConstraints)
 	}
 
@@ -382,7 +394,7 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		print("Button pressed")
 	}
 
-	private static let nonTemplateImage = "ic_fluent_non_template_24_filled"
+	private static let nonTemplateImage: String = "ic_fluent_non_template_24_filled"
 
 	private static let onePointSize = NSSize(width: 1, height: 1)
 

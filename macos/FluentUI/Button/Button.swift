@@ -115,7 +115,7 @@ open class Button: NSButton {
 		}
 	}
 
-	open class override var cellClass: AnyClass? {
+	open override class var cellClass: AnyClass? {
 		get {
 			return ButtonCell.self
 		}
@@ -132,7 +132,7 @@ open class Button: NSButton {
 	}
 
 	/// Title string to display in the button.
-	override public var title: String {
+	public override var title: String {
 		willSet {
 			guard wantsLayer == true else {
 				preconditionFailure("wantsLayer must be set so that the title is rendered on the layer")
@@ -207,7 +207,7 @@ open class Button: NSButton {
 		}
 	}
 
-	override public var wantsUpdateLayer: Bool {
+	public override var wantsUpdateLayer: Bool {
 		return true
 	}
 
@@ -337,7 +337,7 @@ open class Button: NSButton {
 
 	private func setSizeParameters(forSize: ButtonSize) {
 		let parameters = ButtonSizeParameters.parameters(forSize: size)
-		font = NSFont.systemFont(ofSize:parameters.fontSize)
+		font = NSFont.systemFont(ofSize: parameters.fontSize)
 		cornerRadius = parameters.cornerRadius
 		guard let cell = cell as? ButtonCell else {
 			return
@@ -539,8 +539,7 @@ public struct ButtonFormat {
 		size: ButtonSize = .large,
 		style: ButtonStyle = .primary,
 		accentColor: NSColor = Colors.primary
-	)
-	{
+	) {
 		self.size = size
 		self.style = style
 		self.accentColor = accentColor
@@ -601,4 +600,3 @@ private struct ButtonSizeParameters {
 		}
 	}
 }
-
