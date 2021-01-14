@@ -74,7 +74,7 @@ open class Button: NSButton {
 
 	/// Swift-only designated initializer accepting ButtonFormat struct.
 	/// - Parameters:
-	///   - title: String displayed in the button, default nil
+	///   - title: String displayed in the button, default empty string
 	///   - image: The NSImage to diplay in the button, default nil
 	///   - imagePosition: The position of the image, relative to the title, default imageLeading
 	///   - format: The ButtonFormat including size, style and accentColor, with all applicable defaults
@@ -156,14 +156,14 @@ open class Button: NSButton {
 
 	private var linkedPrimaryOriginalStyle: ButtonStyle?
 
-	private var mouseDown: Bool = false {
+	public var isPressed: Bool = false {
 		didSet {
-			guard isEnabled && oldValue != mouseDown else {
+			guard isEnabled && oldValue != isPressed else {
 				return
 			}
 			updateContentTintColor()
 			if let linkedPrimary = linkedPrimary {
-				if mouseDown {
+				if isPressed {
 					linkedPrimaryOriginalStyle = linkedPrimary.style
 					linkedPrimary.style = self.style
 				} else {
@@ -171,14 +171,13 @@ open class Button: NSButton {
 				}
 			}
 			needsDisplay = true
-
 		}
 	}
 
 	open override func mouseDown(with event: NSEvent) {
-		mouseDown = true
+		isPressed = true
 		super.mouseDown(with: event)
-		mouseDown = false
+		isPressed = false
 	}
 
 	open override var isEnabled: Bool {
@@ -199,7 +198,7 @@ open class Button: NSButton {
 		if !isEnabled {
 			layer.backgroundColor = backgroundColorDisabled?.cgColor
 			layer.borderColor = borderColorDisabled?.cgColor
-		} else if mouseDown {
+		} else if isPressed {
 			layer.backgroundColor = backgroundColorPressed?.cgColor
 			layer.borderColor = borderColorPressed?.cgColor
 		} else {
@@ -224,7 +223,7 @@ open class Button: NSButton {
 		}
 	}
 
-	private var format: ButtonFormat {
+	public var format: ButtonFormat {
 		get {
 			return ButtonFormat(
 				size: self.size,
@@ -253,7 +252,7 @@ open class Button: NSButton {
 	private func updateContentTintColor() {
 		if !isEnabled {
 			contentTintColor = contentTintColorDisabled
-		} else if mouseDown {
+		} else if isPressed {
 			contentTintColor = contentTintColorPressed
 		} else {
 			contentTintColor = contentTintColorRest
@@ -367,20 +366,20 @@ open class Button: NSButton {
 // MARK: - ButtonCell
 
 class ButtonCell: NSButtonCell {
-	fileprivate var verticalPadding: CGFloat = 0
-	fileprivate var horizontalPadding: CGFloat = 0
-	fileprivate var titleVerticalPositionAdjustment: CGFloat = 0
-	fileprivate var titleToImageSpacing: CGFloat = 0
-	fileprivate var titleToImageVerticalSpacingAdjustment: CGFloat = 0
+	var verticalPadding: CGFloat = 0
+	var horizontalPadding: CGFloat = 0
+	var titleVerticalPositionAdjustment: CGFloat = 0
+	var titleToImageSpacing: CGFloat = 0
+	var titleToImageVerticalSpacingAdjustment: CGFloat = 0
 
 	override func imageRect(forBounds rect: NSRect) -> NSRect {
 		guard
 			let image = image,
 			let controlView = controlView,
-			image.size != NSRect.zero.size,
+			image.size != .zero,
 			imagePosition != .noImage
 		else {
-			return NSRect.zero
+			return .zero
 		}
 
 		let layoutDirectionSign = controlView.userInterfaceLayoutDirection == .rightToLeft ? -1 : 1
@@ -435,16 +434,16 @@ class ButtonCell: NSButtonCell {
 			title.count > 0,
 			imagePosition != .imageOnly
 		else {
-			return NSRect.zero
-		}
-
-		if image?.size == NSRect.zero.size {
-			imagePosition = .noImage
+			return .zero
 		}
 
 		let layoutDirectionSign = controlView.userInterfaceLayoutDirection == .rightToLeft ? -1 : 1
 		let titleSize = title.size(withAttributes: [.font: font])
-		let imageSize = image?.size ?? NSSize.zero
+		let imageSize = image?.size ?? .zero
+
+		if imageSize == .zero {
+			imagePosition = .noImage
+		}
 
 		// Title is either centered, or offset from center by the image
 		var xOffsetSign = 0
@@ -484,22 +483,21 @@ class ButtonCell: NSButtonCell {
 	}
 
 	override func drawingRect(forBounds rect: NSRect) -> NSRect {
-		var horizontalInterCellSpacing: CGFloat = 0
-		var verticalInterCellSpacing: CGFloat = 0
+		var width = rect.width - (horizontalPadding * 2)
+		var height = rect.height - (verticalPadding * 2)
 
 		switch imagePosition {
 		case .imageLeft, .imageLeading, .imageRight, .imageTrailing:
-			horizontalInterCellSpacing = titleToImageSpacing
+			width -= titleToImageSpacing
 		case .imageBelow, .imageAbove:
-			verticalInterCellSpacing = titleToImageSpacing
+			height -= titleToImageSpacing
 		case .noImage, .imageOnly, .imageOverlaps:
 			break
 		@unknown default:
 			break
 		}
 
-		let drawingRectWithPadding = NSRect(x: 0, y: 0, width: rect.width - (horizontalPadding * 2) - horizontalInterCellSpacing, height: rect.height - (verticalPadding * 2) - verticalInterCellSpacing)
-		return drawingRectWithPadding
+		return NSRect(x: 0, y: 0, width: width, height: height)
 	}
 }
 
@@ -565,13 +563,13 @@ class ButtonColor: NSObject {
 // MARK: - Size Constants
 
 private struct ButtonSizeParameters {
-	let fontSize: CGFloat
-	let cornerRadius: CGFloat
-	let verticalPadding: CGFloat
-	let horizontalPadding: CGFloat
-	let titleVerticalPositionAdjustment: CGFloat
-	let titleToImageSpacing: CGFloat
-	let titleToImageVerticalSpacingAdjustment: CGFloat
+	fileprivate let fontSize: CGFloat
+	fileprivate let cornerRadius: CGFloat
+	fileprivate let verticalPadding: CGFloat
+	fileprivate let horizontalPadding: CGFloat
+	fileprivate let titleVerticalPositionAdjustment: CGFloat
+	fileprivate let titleToImageSpacing: CGFloat
+	fileprivate let titleToImageVerticalSpacingAdjustment: CGFloat
 
 	static let large = ButtonSizeParameters(
 		fontSize: 15,  // line height: 19
