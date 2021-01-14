@@ -214,7 +214,7 @@ OverflowAvatarTokens extends AvatarTokens:
   textColor: $Colors.Foreground.neutral3
   ringDefaultColor: $Colors.Background.neutralDisabled
 
-AP_MSFButtonTokens:
+AP_ButtonTokens:
   backgroundColor: [ rest: $Colors.Neutral.clear, hover: $Colors.Neutral.clear, pressed: $Colors.Neutral.clear, selected: $Colors.Neutral.clear, disabled: $Colors.Neutral.clear ]
   borderColor: [ rest: $Colors.Background.brandRest, hover: $Colors.Background.brandHover, pressed: $Colors.Background.brandPressed, selected: $Colors.Background.brandSelected, disabled: $Colors.Background.brandDisabled ]
   borderRadius: [ small: $Border.radius.medium, medium: $Border.radius.large, large: $Border.radius.xlarge ]
@@ -226,19 +226,19 @@ AP_MSFButtonTokens:
   textColor: [ rest: $Colors.Foreground.brandRest, hover: $Colors.Foreground.brandHover, pressed: $Colors.Foreground.brandPressed, selected: $Colors.Foreground.brandSelected, disabled: $Colors.Foreground.brandDisabled ]
   textFont: [ small: $Typography.footnote, medium: $Typography.subheadline, large: $Typography.subheadline ]
 
-PrimaryButtonTokens extends MSFButtonTokens:
+PrimaryButtonTokens extends ButtonTokens:
   backgroundColor: [ rest: $Colors.Background.brandRest, hover: $Colors.Background.brandHover, pressed: $Colors.Background.brandPressed, selected: $Colors.Background.brandSelected, disabled: $Colors.Background.brandDisabled ]
   iconColor: [ rest: $Colors.Foreground.neutralInverted, hover: $Colors.Foreground.neutralInverted, pressed: $Colors.Foreground.neutralInverted, selected: $Colors.Foreground.neutralInverted, disabled: $Colors.Foreground.neutralInverted ]
   textColor: [ rest: $Colors.Foreground.neutralInverted, hover: $Colors.Foreground.neutralInverted, pressed: $Colors.Foreground.neutralInverted, selected: $Colors.Foreground.neutralInverted, disabled: $Colors.Foreground.neutralInverted ]
 
-SecondaryButtonTokens extends MSFButtonTokens:
+SecondaryButtonTokens extends ButtonTokens:
   borderColor: [ rest: $Colors.Stroke.brandRest, hover: $Colors.Stroke.brandHover, pressed: $Colors.Stroke.brandPressed, selected: $Colors.Stroke.brandSelected, disabled: $Colors.Stroke.brandDisabled ]
   borderSize: [ small: $Border.size.thin, medium: $Border.size.thin, large: $Border.size.thin ]
 
-GhostButtonTokens extends MSFButtonTokens:
+GhostButtonTokens extends ButtonTokens:
   borderColor: [ rest: $Colors.Neutral.clear, hover: $Colors.Neutral.clear, pressed: $Colors.Neutral.clear, selected: $Colors.Brand.shade10, disabled: $Colors.Neutral.clear ]
 
-AP_MSFListTokens:
+AP_ListTokens:
   backgroundColor: [ rest: $Colors.Background.neutral1, pressed: $Colors.Background.neutral5 ]
   borderColor: $Colors.Stroke.neutral1
   borderSize: $Border.size.thin
@@ -256,7 +256,7 @@ AP_MSFListTokens:
   sublabelFont: $Typography.caption1
   trailingItemForegroundColor: $Colors.Foreground.neutral3
 
-IconOnlyListTokens extends MSFListTokens:
+IconOnlyListTokens extends ListTokens:
   iconColor: $Colors.Foreground.neutral3
 
 AP_DrawerTokens:

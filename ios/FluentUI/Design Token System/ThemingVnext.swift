@@ -13,7 +13,7 @@ public protocol FluentUIWindowProvider {
 }
 
 /// Base class for all Tokens class. It provides the logic of computing the correct theme to be used by a given control.
-public class MSFTokensBase {
+public class TokensBase {
     var windowProvider: FluentUIWindowProvider?
 
     /// Used to retrieve the correct theme instance based on the following order of precedence:

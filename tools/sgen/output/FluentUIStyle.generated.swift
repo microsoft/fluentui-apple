@@ -1290,6 +1290,620 @@ extension StylesheetManagerTheming {
 		}
 
 	}
+	//MARK: - ButtonTokens
+	public var _ButtonTokens: ButtonTokensAppearanceProxy?
+	open func ButtonTokensStyle() -> ButtonTokensAppearanceProxy {
+		if let override = _ButtonTokens { return override }
+			return ButtonTokensAppearanceProxy(proxy: { return self })
+		}
+	public var ButtonTokens: ButtonTokensAppearanceProxy {
+		get { return self.ButtonTokensStyle() }
+		set { _ButtonTokens = newValue }
+	}
+	@objc(ButtonTokensAppearanceProxy) @objcMembers open class ButtonTokensAppearanceProxy: NSObject {
+		public let mainProxy: () -> FluentUIStyle
+		public init(proxy: @escaping () -> FluentUIStyle) {
+			self.mainProxy = proxy
+		}
+
+		//MARK: - backgroundColor
+		public var _backgroundColor: backgroundColorAppearanceProxy?
+		open func backgroundColorStyle() -> backgroundColorAppearanceProxy {
+			if let override = _backgroundColor { return override }
+				return backgroundColorAppearanceProxy(proxy: mainProxy)
+			}
+		public var backgroundColor: backgroundColorAppearanceProxy {
+			get { return self.backgroundColorStyle() }
+			set { _backgroundColor = newValue }
+		}
+		@objc(ButtonTokensBackgroundColorAppearanceProxy) @objcMembers open class backgroundColorAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: disabled 
+			public var _disabled: UIColor?
+			open func disabledProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _disabled { return override }
+					return mainProxy().Colors.Neutral.clearProperty(traitCollection)
+				}
+			public var disabled: UIColor {
+				get { return self.disabledProperty() }
+				set { _disabled = newValue }
+			}
+
+			//MARK: hover 
+			public var _hover: UIColor?
+			open func hoverProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _hover { return override }
+					return mainProxy().Colors.Neutral.clearProperty(traitCollection)
+				}
+			public var hover: UIColor {
+				get { return self.hoverProperty() }
+				set { _hover = newValue }
+			}
+
+			//MARK: pressed 
+			public var _pressed: UIColor?
+			open func pressedProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _pressed { return override }
+					return mainProxy().Colors.Neutral.clearProperty(traitCollection)
+				}
+			public var pressed: UIColor {
+				get { return self.pressedProperty() }
+				set { _pressed = newValue }
+			}
+
+			//MARK: rest 
+			public var _rest: UIColor?
+			open func restProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _rest { return override }
+					return mainProxy().Colors.Neutral.clearProperty(traitCollection)
+				}
+			public var rest: UIColor {
+				get { return self.restProperty() }
+				set { _rest = newValue }
+			}
+
+			//MARK: selected 
+			public var _selected: UIColor?
+			open func selectedProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _selected { return override }
+					return mainProxy().Colors.Neutral.clearProperty(traitCollection)
+				}
+			public var selected: UIColor {
+				get { return self.selectedProperty() }
+				set { _selected = newValue }
+			}
+		}
+
+
+		//MARK: - borderColor
+		public var _borderColor: borderColorAppearanceProxy?
+		open func borderColorStyle() -> borderColorAppearanceProxy {
+			if let override = _borderColor { return override }
+				return borderColorAppearanceProxy(proxy: mainProxy)
+			}
+		public var borderColor: borderColorAppearanceProxy {
+			get { return self.borderColorStyle() }
+			set { _borderColor = newValue }
+		}
+		@objc(ButtonTokensBorderColorAppearanceProxy) @objcMembers open class borderColorAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: disabled 
+			public var _disabled: UIColor?
+			open func disabledProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _disabled { return override }
+					return mainProxy().Colors.Background.brandDisabledProperty(traitCollection)
+				}
+			public var disabled: UIColor {
+				get { return self.disabledProperty() }
+				set { _disabled = newValue }
+			}
+
+			//MARK: hover 
+			public var _hover: UIColor?
+			open func hoverProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _hover { return override }
+					return mainProxy().Colors.Background.brandHoverProperty(traitCollection)
+				}
+			public var hover: UIColor {
+				get { return self.hoverProperty() }
+				set { _hover = newValue }
+			}
+
+			//MARK: pressed 
+			public var _pressed: UIColor?
+			open func pressedProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _pressed { return override }
+					return mainProxy().Colors.Background.brandPressedProperty(traitCollection)
+				}
+			public var pressed: UIColor {
+				get { return self.pressedProperty() }
+				set { _pressed = newValue }
+			}
+
+			//MARK: rest 
+			public var _rest: UIColor?
+			open func restProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _rest { return override }
+					return mainProxy().Colors.Background.brandRestProperty(traitCollection)
+				}
+			public var rest: UIColor {
+				get { return self.restProperty() }
+				set { _rest = newValue }
+			}
+
+			//MARK: selected 
+			public var _selected: UIColor?
+			open func selectedProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _selected { return override }
+					return mainProxy().Colors.Background.brandSelectedProperty(traitCollection)
+				}
+			public var selected: UIColor {
+				get { return self.selectedProperty() }
+				set { _selected = newValue }
+			}
+		}
+
+
+		//MARK: - borderRadius
+		public var _borderRadius: borderRadiusAppearanceProxy?
+		open func borderRadiusStyle() -> borderRadiusAppearanceProxy {
+			if let override = _borderRadius { return override }
+				return borderRadiusAppearanceProxy(proxy: mainProxy)
+			}
+		public var borderRadius: borderRadiusAppearanceProxy {
+			get { return self.borderRadiusStyle() }
+			set { _borderRadius = newValue }
+		}
+		@objc(ButtonTokensBorderRadiusAppearanceProxy) @objcMembers open class borderRadiusAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: large 
+			public var _large: CGFloat?
+			open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _large { return override }
+					return mainProxy().Border.radius.xlargeProperty(traitCollection)
+				}
+			public var large: CGFloat {
+				get { return self.largeProperty() }
+				set { _large = newValue }
+			}
+
+			//MARK: medium 
+			public var _medium: CGFloat?
+			open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _medium { return override }
+					return mainProxy().Border.radius.largeProperty(traitCollection)
+				}
+			public var medium: CGFloat {
+				get { return self.mediumProperty() }
+				set { _medium = newValue }
+			}
+
+			//MARK: small 
+			public var _small: CGFloat?
+			open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _small { return override }
+					return mainProxy().Border.radius.mediumProperty(traitCollection)
+				}
+			public var small: CGFloat {
+				get { return self.smallProperty() }
+				set { _small = newValue }
+			}
+		}
+
+
+		//MARK: - borderSize
+		public var _borderSize: borderSizeAppearanceProxy?
+		open func borderSizeStyle() -> borderSizeAppearanceProxy {
+			if let override = _borderSize { return override }
+				return borderSizeAppearanceProxy(proxy: mainProxy)
+			}
+		public var borderSize: borderSizeAppearanceProxy {
+			get { return self.borderSizeStyle() }
+			set { _borderSize = newValue }
+		}
+		@objc(ButtonTokensBorderSizeAppearanceProxy) @objcMembers open class borderSizeAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: large 
+			public var _large: CGFloat?
+			open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _large { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+			public var large: CGFloat {
+				get { return self.largeProperty() }
+				set { _large = newValue }
+			}
+
+			//MARK: medium 
+			public var _medium: CGFloat?
+			open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _medium { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+			public var medium: CGFloat {
+				get { return self.mediumProperty() }
+				set { _medium = newValue }
+			}
+
+			//MARK: small 
+			public var _small: CGFloat?
+			open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _small { return override }
+					return mainProxy().Border.size.noneProperty(traitCollection)
+				}
+			public var small: CGFloat {
+				get { return self.smallProperty() }
+				set { _small = newValue }
+			}
+		}
+
+
+		//MARK: - iconColor
+		public var _iconColor: iconColorAppearanceProxy?
+		open func iconColorStyle() -> iconColorAppearanceProxy {
+			if let override = _iconColor { return override }
+				return iconColorAppearanceProxy(proxy: mainProxy)
+			}
+		public var iconColor: iconColorAppearanceProxy {
+			get { return self.iconColorStyle() }
+			set { _iconColor = newValue }
+		}
+		@objc(ButtonTokensIconColorAppearanceProxy) @objcMembers open class iconColorAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: disabled 
+			public var _disabled: UIColor?
+			open func disabledProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _disabled { return override }
+					return mainProxy().Colors.Foreground.brandDisabledProperty(traitCollection)
+				}
+			public var disabled: UIColor {
+				get { return self.disabledProperty() }
+				set { _disabled = newValue }
+			}
+
+			//MARK: hover 
+			public var _hover: UIColor?
+			open func hoverProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _hover { return override }
+					return mainProxy().Colors.Foreground.brandHoverProperty(traitCollection)
+				}
+			public var hover: UIColor {
+				get { return self.hoverProperty() }
+				set { _hover = newValue }
+			}
+
+			//MARK: pressed 
+			public var _pressed: UIColor?
+			open func pressedProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _pressed { return override }
+					return mainProxy().Colors.Foreground.brandPressedProperty(traitCollection)
+				}
+			public var pressed: UIColor {
+				get { return self.pressedProperty() }
+				set { _pressed = newValue }
+			}
+
+			//MARK: rest 
+			public var _rest: UIColor?
+			open func restProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _rest { return override }
+					return mainProxy().Colors.Foreground.brandRestProperty(traitCollection)
+				}
+			public var rest: UIColor {
+				get { return self.restProperty() }
+				set { _rest = newValue }
+			}
+
+			//MARK: selected 
+			public var _selected: UIColor?
+			open func selectedProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _selected { return override }
+					return mainProxy().Colors.Foreground.brandSelectedProperty(traitCollection)
+				}
+			public var selected: UIColor {
+				get { return self.selectedProperty() }
+				set { _selected = newValue }
+			}
+		}
+
+
+		//MARK: - iconSize
+		public var _iconSize: iconSizeAppearanceProxy?
+		open func iconSizeStyle() -> iconSizeAppearanceProxy {
+			if let override = _iconSize { return override }
+				return iconSizeAppearanceProxy(proxy: mainProxy)
+			}
+		public var iconSize: iconSizeAppearanceProxy {
+			get { return self.iconSizeStyle() }
+			set { _iconSize = newValue }
+		}
+		@objc(ButtonTokensIconSizeAppearanceProxy) @objcMembers open class iconSizeAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: large 
+			public var _large: CGFloat?
+			open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _large { return override }
+					return mainProxy().Icon.size.smallProperty(traitCollection)
+				}
+			public var large: CGFloat {
+				get { return self.largeProperty() }
+				set { _large = newValue }
+			}
+
+			//MARK: medium 
+			public var _medium: CGFloat?
+			open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _medium { return override }
+					return mainProxy().Icon.size.smallProperty(traitCollection)
+				}
+			public var medium: CGFloat {
+				get { return self.mediumProperty() }
+				set { _medium = newValue }
+			}
+
+			//MARK: small 
+			public var _small: CGFloat?
+			open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _small { return override }
+					return mainProxy().Icon.size.xSmallProperty(traitCollection)
+				}
+			public var small: CGFloat {
+				get { return self.smallProperty() }
+				set { _small = newValue }
+			}
+		}
+
+
+		//MARK: - interspace
+		public var _interspace: interspaceAppearanceProxy?
+		open func interspaceStyle() -> interspaceAppearanceProxy {
+			if let override = _interspace { return override }
+				return interspaceAppearanceProxy(proxy: mainProxy)
+			}
+		public var interspace: interspaceAppearanceProxy {
+			get { return self.interspaceStyle() }
+			set { _interspace = newValue }
+		}
+		@objc(ButtonTokensInterspaceAppearanceProxy) @objcMembers open class interspaceAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: large 
+			public var _large: CGFloat?
+			open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _large { return override }
+					return mainProxy().Spacing.xSmallProperty(traitCollection)
+				}
+			public var large: CGFloat {
+				get { return self.largeProperty() }
+				set { _large = newValue }
+			}
+
+			//MARK: medium 
+			public var _medium: CGFloat?
+			open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _medium { return override }
+					return mainProxy().Spacing.xSmallProperty(traitCollection)
+				}
+			public var medium: CGFloat {
+				get { return self.mediumProperty() }
+				set { _medium = newValue }
+			}
+
+			//MARK: small 
+			public var _small: CGFloat?
+			open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _small { return override }
+					return mainProxy().Spacing.xxSmallProperty(traitCollection)
+				}
+			public var small: CGFloat {
+				get { return self.smallProperty() }
+				set { _small = newValue }
+			}
+		}
+
+
+		//MARK: - padding
+		public var _padding: paddingAppearanceProxy?
+		open func paddingStyle() -> paddingAppearanceProxy {
+			if let override = _padding { return override }
+				return paddingAppearanceProxy(proxy: mainProxy)
+			}
+		public var padding: paddingAppearanceProxy {
+			get { return self.paddingStyle() }
+			set { _padding = newValue }
+		}
+		@objc(ButtonTokensPaddingAppearanceProxy) @objcMembers open class paddingAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: large 
+			public var _large: CGFloat?
+			open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _large { return override }
+					return mainProxy().Spacing.largeProperty(traitCollection)
+				}
+			public var large: CGFloat {
+				get { return self.largeProperty() }
+				set { _large = newValue }
+			}
+
+			//MARK: medium 
+			public var _medium: CGFloat?
+			open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _medium { return override }
+					return mainProxy().Spacing.smallProperty(traitCollection)
+				}
+			public var medium: CGFloat {
+				get { return self.mediumProperty() }
+				set { _medium = newValue }
+			}
+
+			//MARK: small 
+			public var _small: CGFloat?
+			open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _small { return override }
+					return mainProxy().Spacing.xSmallProperty(traitCollection)
+				}
+			public var small: CGFloat {
+				get { return self.smallProperty() }
+				set { _small = newValue }
+			}
+		}
+
+
+		//MARK: - textColor
+		public var _textColor: textColorAppearanceProxy?
+		open func textColorStyle() -> textColorAppearanceProxy {
+			if let override = _textColor { return override }
+				return textColorAppearanceProxy(proxy: mainProxy)
+			}
+		public var textColor: textColorAppearanceProxy {
+			get { return self.textColorStyle() }
+			set { _textColor = newValue }
+		}
+		@objc(ButtonTokensTextColorAppearanceProxy) @objcMembers open class textColorAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: disabled 
+			public var _disabled: UIColor?
+			open func disabledProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _disabled { return override }
+					return mainProxy().Colors.Foreground.brandDisabledProperty(traitCollection)
+				}
+			public var disabled: UIColor {
+				get { return self.disabledProperty() }
+				set { _disabled = newValue }
+			}
+
+			//MARK: hover 
+			public var _hover: UIColor?
+			open func hoverProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _hover { return override }
+					return mainProxy().Colors.Foreground.brandHoverProperty(traitCollection)
+				}
+			public var hover: UIColor {
+				get { return self.hoverProperty() }
+				set { _hover = newValue }
+			}
+
+			//MARK: pressed 
+			public var _pressed: UIColor?
+			open func pressedProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _pressed { return override }
+					return mainProxy().Colors.Foreground.brandPressedProperty(traitCollection)
+				}
+			public var pressed: UIColor {
+				get { return self.pressedProperty() }
+				set { _pressed = newValue }
+			}
+
+			//MARK: rest 
+			public var _rest: UIColor?
+			open func restProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _rest { return override }
+					return mainProxy().Colors.Foreground.brandRestProperty(traitCollection)
+				}
+			public var rest: UIColor {
+				get { return self.restProperty() }
+				set { _rest = newValue }
+			}
+
+			//MARK: selected 
+			public var _selected: UIColor?
+			open func selectedProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _selected { return override }
+					return mainProxy().Colors.Foreground.brandSelectedProperty(traitCollection)
+				}
+			public var selected: UIColor {
+				get { return self.selectedProperty() }
+				set { _selected = newValue }
+			}
+		}
+
+
+		//MARK: - textFont
+		public var _textFont: textFontAppearanceProxy?
+		open func textFontStyle() -> textFontAppearanceProxy {
+			if let override = _textFont { return override }
+				return textFontAppearanceProxy(proxy: mainProxy)
+			}
+		public var textFont: textFontAppearanceProxy {
+			get { return self.textFontStyle() }
+			set { _textFont = newValue }
+		}
+		@objc(ButtonTokensTextFontAppearanceProxy) @objcMembers open class textFontAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: large 
+			public var _large: UIFont?
+			open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
+				if let override = _large { return override }
+					return mainProxy().Typography.subheadlineProperty(traitCollection)
+				}
+			public var large: UIFont {
+				get { return self.largeProperty() }
+				set { _large = newValue }
+			}
+
+			//MARK: medium 
+			public var _medium: UIFont?
+			open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
+				if let override = _medium { return override }
+					return mainProxy().Typography.subheadlineProperty(traitCollection)
+				}
+			public var medium: UIFont {
+				get { return self.mediumProperty() }
+				set { _medium = newValue }
+			}
+
+			//MARK: small 
+			public var _small: UIFont?
+			open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
+				if let override = _small { return override }
+					return mainProxy().Typography.footnoteProperty(traitCollection)
+				}
+			public var small: UIFont {
+				get { return self.smallProperty() }
+				set { _small = newValue }
+			}
+		}
+
+	}
 	//MARK: - Colors
 	public var _Colors: ColorsAppearanceProxy?
 	open func ColorsStyle() -> ColorsAppearanceProxy {
@@ -2639,14 +3253,14 @@ extension StylesheetManagerTheming {
 		get { return self.GhostButtonTokensStyle() }
 		set { _GhostButtonTokens = newValue }
 	}
-	@objc(GhostButtonTokensAppearanceProxy) @objcMembers open class GhostButtonTokensAppearanceProxy: MSFButtonTokensAppearanceProxy {
+	@objc(GhostButtonTokensAppearanceProxy) @objcMembers open class GhostButtonTokensAppearanceProxy: ButtonTokensAppearanceProxy {
 
 		//MARK: - GhostButtonTokensborderColor
-		override open func borderColorStyle() -> MSFButtonTokensAppearanceProxy.borderColorAppearanceProxy {
+		override open func borderColorStyle() -> ButtonTokensAppearanceProxy.borderColorAppearanceProxy {
 			if let override = _borderColor { return override }
 				return GhostButtonTokensborderColorAppearanceProxy(proxy: mainProxy)
 			}
-		@objc(GhostButtonTokensBorderColorAppearanceProxy) @objcMembers open class GhostButtonTokensborderColorAppearanceProxy: MSFButtonTokensAppearanceProxy.borderColorAppearanceProxy {
+		@objc(GhostButtonTokensBorderColorAppearanceProxy) @objcMembers open class GhostButtonTokensborderColorAppearanceProxy: ButtonTokensAppearanceProxy.borderColorAppearanceProxy {
 
 			//MARK: disabled 
 			override open func disabledProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
@@ -2891,7 +3505,7 @@ extension StylesheetManagerTheming {
 		get { return self.IconOnlyListTokensStyle() }
 		set { _IconOnlyListTokens = newValue }
 	}
-	@objc(IconOnlyListTokensAppearanceProxy) @objcMembers open class IconOnlyListTokensAppearanceProxy: MSFListTokensAppearanceProxy {
+	@objc(IconOnlyListTokensAppearanceProxy) @objcMembers open class IconOnlyListTokensAppearanceProxy: ListTokensAppearanceProxy {
 
 		//MARK: iconColor 
 		override open func iconColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
@@ -2899,17 +3513,17 @@ extension StylesheetManagerTheming {
 			return mainProxy().Colors.Foreground.neutral3Property(traitCollection)
 			}
 	}
-	//MARK: - MSFButtonTokens
-	public var _MSFButtonTokens: MSFButtonTokensAppearanceProxy?
-	open func MSFButtonTokensStyle() -> MSFButtonTokensAppearanceProxy {
-		if let override = _MSFButtonTokens { return override }
-			return MSFButtonTokensAppearanceProxy(proxy: { return self })
+	//MARK: - ListTokens
+	public var _ListTokens: ListTokensAppearanceProxy?
+	open func ListTokensStyle() -> ListTokensAppearanceProxy {
+		if let override = _ListTokens { return override }
+			return ListTokensAppearanceProxy(proxy: { return self })
 		}
-	public var MSFButtonTokens: MSFButtonTokensAppearanceProxy {
-		get { return self.MSFButtonTokensStyle() }
-		set { _MSFButtonTokens = newValue }
+	public var ListTokens: ListTokensAppearanceProxy {
+		get { return self.ListTokensStyle() }
+		set { _ListTokens = newValue }
 	}
-	@objc(MSFButtonTokensAppearanceProxy) @objcMembers open class MSFButtonTokensAppearanceProxy: NSObject {
+	@objc(ListTokensAppearanceProxy) @objcMembers open class ListTokensAppearanceProxy: NSObject {
 		public let mainProxy: () -> FluentUIStyle
 		public init(proxy: @escaping () -> FluentUIStyle) {
 			self.mainProxy = proxy
@@ -2925,621 +3539,7 @@ extension StylesheetManagerTheming {
 			get { return self.backgroundColorStyle() }
 			set { _backgroundColor = newValue }
 		}
-		@objc(MSFButtonTokensBackgroundColorAppearanceProxy) @objcMembers open class backgroundColorAppearanceProxy: NSObject {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			//MARK: disabled 
-			public var _disabled: UIColor?
-			open func disabledProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _disabled { return override }
-					return mainProxy().Colors.Neutral.clearProperty(traitCollection)
-				}
-			public var disabled: UIColor {
-				get { return self.disabledProperty() }
-				set { _disabled = newValue }
-			}
-
-			//MARK: hover 
-			public var _hover: UIColor?
-			open func hoverProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _hover { return override }
-					return mainProxy().Colors.Neutral.clearProperty(traitCollection)
-				}
-			public var hover: UIColor {
-				get { return self.hoverProperty() }
-				set { _hover = newValue }
-			}
-
-			//MARK: pressed 
-			public var _pressed: UIColor?
-			open func pressedProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _pressed { return override }
-					return mainProxy().Colors.Neutral.clearProperty(traitCollection)
-				}
-			public var pressed: UIColor {
-				get { return self.pressedProperty() }
-				set { _pressed = newValue }
-			}
-
-			//MARK: rest 
-			public var _rest: UIColor?
-			open func restProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _rest { return override }
-					return mainProxy().Colors.Neutral.clearProperty(traitCollection)
-				}
-			public var rest: UIColor {
-				get { return self.restProperty() }
-				set { _rest = newValue }
-			}
-
-			//MARK: selected 
-			public var _selected: UIColor?
-			open func selectedProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _selected { return override }
-					return mainProxy().Colors.Neutral.clearProperty(traitCollection)
-				}
-			public var selected: UIColor {
-				get { return self.selectedProperty() }
-				set { _selected = newValue }
-			}
-		}
-
-
-		//MARK: - borderColor
-		public var _borderColor: borderColorAppearanceProxy?
-		open func borderColorStyle() -> borderColorAppearanceProxy {
-			if let override = _borderColor { return override }
-				return borderColorAppearanceProxy(proxy: mainProxy)
-			}
-		public var borderColor: borderColorAppearanceProxy {
-			get { return self.borderColorStyle() }
-			set { _borderColor = newValue }
-		}
-		@objc(MSFButtonTokensBorderColorAppearanceProxy) @objcMembers open class borderColorAppearanceProxy: NSObject {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			//MARK: disabled 
-			public var _disabled: UIColor?
-			open func disabledProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _disabled { return override }
-					return mainProxy().Colors.Background.brandDisabledProperty(traitCollection)
-				}
-			public var disabled: UIColor {
-				get { return self.disabledProperty() }
-				set { _disabled = newValue }
-			}
-
-			//MARK: hover 
-			public var _hover: UIColor?
-			open func hoverProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _hover { return override }
-					return mainProxy().Colors.Background.brandHoverProperty(traitCollection)
-				}
-			public var hover: UIColor {
-				get { return self.hoverProperty() }
-				set { _hover = newValue }
-			}
-
-			//MARK: pressed 
-			public var _pressed: UIColor?
-			open func pressedProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _pressed { return override }
-					return mainProxy().Colors.Background.brandPressedProperty(traitCollection)
-				}
-			public var pressed: UIColor {
-				get { return self.pressedProperty() }
-				set { _pressed = newValue }
-			}
-
-			//MARK: rest 
-			public var _rest: UIColor?
-			open func restProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _rest { return override }
-					return mainProxy().Colors.Background.brandRestProperty(traitCollection)
-				}
-			public var rest: UIColor {
-				get { return self.restProperty() }
-				set { _rest = newValue }
-			}
-
-			//MARK: selected 
-			public var _selected: UIColor?
-			open func selectedProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _selected { return override }
-					return mainProxy().Colors.Background.brandSelectedProperty(traitCollection)
-				}
-			public var selected: UIColor {
-				get { return self.selectedProperty() }
-				set { _selected = newValue }
-			}
-		}
-
-
-		//MARK: - borderRadius
-		public var _borderRadius: borderRadiusAppearanceProxy?
-		open func borderRadiusStyle() -> borderRadiusAppearanceProxy {
-			if let override = _borderRadius { return override }
-				return borderRadiusAppearanceProxy(proxy: mainProxy)
-			}
-		public var borderRadius: borderRadiusAppearanceProxy {
-			get { return self.borderRadiusStyle() }
-			set { _borderRadius = newValue }
-		}
-		@objc(MSFButtonTokensBorderRadiusAppearanceProxy) @objcMembers open class borderRadiusAppearanceProxy: NSObject {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			//MARK: large 
-			public var _large: CGFloat?
-			open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _large { return override }
-					return mainProxy().Border.radius.xlargeProperty(traitCollection)
-				}
-			public var large: CGFloat {
-				get { return self.largeProperty() }
-				set { _large = newValue }
-			}
-
-			//MARK: medium 
-			public var _medium: CGFloat?
-			open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _medium { return override }
-					return mainProxy().Border.radius.largeProperty(traitCollection)
-				}
-			public var medium: CGFloat {
-				get { return self.mediumProperty() }
-				set { _medium = newValue }
-			}
-
-			//MARK: small 
-			public var _small: CGFloat?
-			open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _small { return override }
-					return mainProxy().Border.radius.mediumProperty(traitCollection)
-				}
-			public var small: CGFloat {
-				get { return self.smallProperty() }
-				set { _small = newValue }
-			}
-		}
-
-
-		//MARK: - borderSize
-		public var _borderSize: borderSizeAppearanceProxy?
-		open func borderSizeStyle() -> borderSizeAppearanceProxy {
-			if let override = _borderSize { return override }
-				return borderSizeAppearanceProxy(proxy: mainProxy)
-			}
-		public var borderSize: borderSizeAppearanceProxy {
-			get { return self.borderSizeStyle() }
-			set { _borderSize = newValue }
-		}
-		@objc(MSFButtonTokensBorderSizeAppearanceProxy) @objcMembers open class borderSizeAppearanceProxy: NSObject {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			//MARK: large 
-			public var _large: CGFloat?
-			open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _large { return override }
-					return mainProxy().Border.size.noneProperty(traitCollection)
-				}
-			public var large: CGFloat {
-				get { return self.largeProperty() }
-				set { _large = newValue }
-			}
-
-			//MARK: medium 
-			public var _medium: CGFloat?
-			open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _medium { return override }
-					return mainProxy().Border.size.noneProperty(traitCollection)
-				}
-			public var medium: CGFloat {
-				get { return self.mediumProperty() }
-				set { _medium = newValue }
-			}
-
-			//MARK: small 
-			public var _small: CGFloat?
-			open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _small { return override }
-					return mainProxy().Border.size.noneProperty(traitCollection)
-				}
-			public var small: CGFloat {
-				get { return self.smallProperty() }
-				set { _small = newValue }
-			}
-		}
-
-
-		//MARK: - iconColor
-		public var _iconColor: iconColorAppearanceProxy?
-		open func iconColorStyle() -> iconColorAppearanceProxy {
-			if let override = _iconColor { return override }
-				return iconColorAppearanceProxy(proxy: mainProxy)
-			}
-		public var iconColor: iconColorAppearanceProxy {
-			get { return self.iconColorStyle() }
-			set { _iconColor = newValue }
-		}
-		@objc(MSFButtonTokensIconColorAppearanceProxy) @objcMembers open class iconColorAppearanceProxy: NSObject {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			//MARK: disabled 
-			public var _disabled: UIColor?
-			open func disabledProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _disabled { return override }
-					return mainProxy().Colors.Foreground.brandDisabledProperty(traitCollection)
-				}
-			public var disabled: UIColor {
-				get { return self.disabledProperty() }
-				set { _disabled = newValue }
-			}
-
-			//MARK: hover 
-			public var _hover: UIColor?
-			open func hoverProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _hover { return override }
-					return mainProxy().Colors.Foreground.brandHoverProperty(traitCollection)
-				}
-			public var hover: UIColor {
-				get { return self.hoverProperty() }
-				set { _hover = newValue }
-			}
-
-			//MARK: pressed 
-			public var _pressed: UIColor?
-			open func pressedProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _pressed { return override }
-					return mainProxy().Colors.Foreground.brandPressedProperty(traitCollection)
-				}
-			public var pressed: UIColor {
-				get { return self.pressedProperty() }
-				set { _pressed = newValue }
-			}
-
-			//MARK: rest 
-			public var _rest: UIColor?
-			open func restProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _rest { return override }
-					return mainProxy().Colors.Foreground.brandRestProperty(traitCollection)
-				}
-			public var rest: UIColor {
-				get { return self.restProperty() }
-				set { _rest = newValue }
-			}
-
-			//MARK: selected 
-			public var _selected: UIColor?
-			open func selectedProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _selected { return override }
-					return mainProxy().Colors.Foreground.brandSelectedProperty(traitCollection)
-				}
-			public var selected: UIColor {
-				get { return self.selectedProperty() }
-				set { _selected = newValue }
-			}
-		}
-
-
-		//MARK: - iconSize
-		public var _iconSize: iconSizeAppearanceProxy?
-		open func iconSizeStyle() -> iconSizeAppearanceProxy {
-			if let override = _iconSize { return override }
-				return iconSizeAppearanceProxy(proxy: mainProxy)
-			}
-		public var iconSize: iconSizeAppearanceProxy {
-			get { return self.iconSizeStyle() }
-			set { _iconSize = newValue }
-		}
-		@objc(MSFButtonTokensIconSizeAppearanceProxy) @objcMembers open class iconSizeAppearanceProxy: NSObject {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			//MARK: large 
-			public var _large: CGFloat?
-			open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _large { return override }
-					return mainProxy().Icon.size.smallProperty(traitCollection)
-				}
-			public var large: CGFloat {
-				get { return self.largeProperty() }
-				set { _large = newValue }
-			}
-
-			//MARK: medium 
-			public var _medium: CGFloat?
-			open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _medium { return override }
-					return mainProxy().Icon.size.smallProperty(traitCollection)
-				}
-			public var medium: CGFloat {
-				get { return self.mediumProperty() }
-				set { _medium = newValue }
-			}
-
-			//MARK: small 
-			public var _small: CGFloat?
-			open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _small { return override }
-					return mainProxy().Icon.size.xSmallProperty(traitCollection)
-				}
-			public var small: CGFloat {
-				get { return self.smallProperty() }
-				set { _small = newValue }
-			}
-		}
-
-
-		//MARK: - interspace
-		public var _interspace: interspaceAppearanceProxy?
-		open func interspaceStyle() -> interspaceAppearanceProxy {
-			if let override = _interspace { return override }
-				return interspaceAppearanceProxy(proxy: mainProxy)
-			}
-		public var interspace: interspaceAppearanceProxy {
-			get { return self.interspaceStyle() }
-			set { _interspace = newValue }
-		}
-		@objc(MSFButtonTokensInterspaceAppearanceProxy) @objcMembers open class interspaceAppearanceProxy: NSObject {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			//MARK: large 
-			public var _large: CGFloat?
-			open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _large { return override }
-					return mainProxy().Spacing.xSmallProperty(traitCollection)
-				}
-			public var large: CGFloat {
-				get { return self.largeProperty() }
-				set { _large = newValue }
-			}
-
-			//MARK: medium 
-			public var _medium: CGFloat?
-			open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _medium { return override }
-					return mainProxy().Spacing.xSmallProperty(traitCollection)
-				}
-			public var medium: CGFloat {
-				get { return self.mediumProperty() }
-				set { _medium = newValue }
-			}
-
-			//MARK: small 
-			public var _small: CGFloat?
-			open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _small { return override }
-					return mainProxy().Spacing.xxSmallProperty(traitCollection)
-				}
-			public var small: CGFloat {
-				get { return self.smallProperty() }
-				set { _small = newValue }
-			}
-		}
-
-
-		//MARK: - padding
-		public var _padding: paddingAppearanceProxy?
-		open func paddingStyle() -> paddingAppearanceProxy {
-			if let override = _padding { return override }
-				return paddingAppearanceProxy(proxy: mainProxy)
-			}
-		public var padding: paddingAppearanceProxy {
-			get { return self.paddingStyle() }
-			set { _padding = newValue }
-		}
-		@objc(MSFButtonTokensPaddingAppearanceProxy) @objcMembers open class paddingAppearanceProxy: NSObject {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			//MARK: large 
-			public var _large: CGFloat?
-			open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _large { return override }
-					return mainProxy().Spacing.largeProperty(traitCollection)
-				}
-			public var large: CGFloat {
-				get { return self.largeProperty() }
-				set { _large = newValue }
-			}
-
-			//MARK: medium 
-			public var _medium: CGFloat?
-			open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _medium { return override }
-					return mainProxy().Spacing.smallProperty(traitCollection)
-				}
-			public var medium: CGFloat {
-				get { return self.mediumProperty() }
-				set { _medium = newValue }
-			}
-
-			//MARK: small 
-			public var _small: CGFloat?
-			open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _small { return override }
-					return mainProxy().Spacing.xSmallProperty(traitCollection)
-				}
-			public var small: CGFloat {
-				get { return self.smallProperty() }
-				set { _small = newValue }
-			}
-		}
-
-
-		//MARK: - textColor
-		public var _textColor: textColorAppearanceProxy?
-		open func textColorStyle() -> textColorAppearanceProxy {
-			if let override = _textColor { return override }
-				return textColorAppearanceProxy(proxy: mainProxy)
-			}
-		public var textColor: textColorAppearanceProxy {
-			get { return self.textColorStyle() }
-			set { _textColor = newValue }
-		}
-		@objc(MSFButtonTokensTextColorAppearanceProxy) @objcMembers open class textColorAppearanceProxy: NSObject {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			//MARK: disabled 
-			public var _disabled: UIColor?
-			open func disabledProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _disabled { return override }
-					return mainProxy().Colors.Foreground.brandDisabledProperty(traitCollection)
-				}
-			public var disabled: UIColor {
-				get { return self.disabledProperty() }
-				set { _disabled = newValue }
-			}
-
-			//MARK: hover 
-			public var _hover: UIColor?
-			open func hoverProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _hover { return override }
-					return mainProxy().Colors.Foreground.brandHoverProperty(traitCollection)
-				}
-			public var hover: UIColor {
-				get { return self.hoverProperty() }
-				set { _hover = newValue }
-			}
-
-			//MARK: pressed 
-			public var _pressed: UIColor?
-			open func pressedProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _pressed { return override }
-					return mainProxy().Colors.Foreground.brandPressedProperty(traitCollection)
-				}
-			public var pressed: UIColor {
-				get { return self.pressedProperty() }
-				set { _pressed = newValue }
-			}
-
-			//MARK: rest 
-			public var _rest: UIColor?
-			open func restProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _rest { return override }
-					return mainProxy().Colors.Foreground.brandRestProperty(traitCollection)
-				}
-			public var rest: UIColor {
-				get { return self.restProperty() }
-				set { _rest = newValue }
-			}
-
-			//MARK: selected 
-			public var _selected: UIColor?
-			open func selectedProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _selected { return override }
-					return mainProxy().Colors.Foreground.brandSelectedProperty(traitCollection)
-				}
-			public var selected: UIColor {
-				get { return self.selectedProperty() }
-				set { _selected = newValue }
-			}
-		}
-
-
-		//MARK: - textFont
-		public var _textFont: textFontAppearanceProxy?
-		open func textFontStyle() -> textFontAppearanceProxy {
-			if let override = _textFont { return override }
-				return textFontAppearanceProxy(proxy: mainProxy)
-			}
-		public var textFont: textFontAppearanceProxy {
-			get { return self.textFontStyle() }
-			set { _textFont = newValue }
-		}
-		@objc(MSFButtonTokensTextFontAppearanceProxy) @objcMembers open class textFontAppearanceProxy: NSObject {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			//MARK: large 
-			public var _large: UIFont?
-			open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
-				if let override = _large { return override }
-					return mainProxy().Typography.subheadlineProperty(traitCollection)
-				}
-			public var large: UIFont {
-				get { return self.largeProperty() }
-				set { _large = newValue }
-			}
-
-			//MARK: medium 
-			public var _medium: UIFont?
-			open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
-				if let override = _medium { return override }
-					return mainProxy().Typography.subheadlineProperty(traitCollection)
-				}
-			public var medium: UIFont {
-				get { return self.mediumProperty() }
-				set { _medium = newValue }
-			}
-
-			//MARK: small 
-			public var _small: UIFont?
-			open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
-				if let override = _small { return override }
-					return mainProxy().Typography.footnoteProperty(traitCollection)
-				}
-			public var small: UIFont {
-				get { return self.smallProperty() }
-				set { _small = newValue }
-			}
-		}
-
-	}
-	//MARK: - MSFListTokens
-	public var _MSFListTokens: MSFListTokensAppearanceProxy?
-	open func MSFListTokensStyle() -> MSFListTokensAppearanceProxy {
-		if let override = _MSFListTokens { return override }
-			return MSFListTokensAppearanceProxy(proxy: { return self })
-		}
-	public var MSFListTokens: MSFListTokensAppearanceProxy {
-		get { return self.MSFListTokensStyle() }
-		set { _MSFListTokens = newValue }
-	}
-	@objc(MSFListTokensAppearanceProxy) @objcMembers open class MSFListTokensAppearanceProxy: NSObject {
-		public let mainProxy: () -> FluentUIStyle
-		public init(proxy: @escaping () -> FluentUIStyle) {
-			self.mainProxy = proxy
-		}
-
-		//MARK: - backgroundColor
-		public var _backgroundColor: backgroundColorAppearanceProxy?
-		open func backgroundColorStyle() -> backgroundColorAppearanceProxy {
-			if let override = _backgroundColor { return override }
-				return backgroundColorAppearanceProxy(proxy: mainProxy)
-			}
-		public var backgroundColor: backgroundColorAppearanceProxy {
-			get { return self.backgroundColorStyle() }
-			set { _backgroundColor = newValue }
-		}
-		@objc(MSFListTokensBackgroundColorAppearanceProxy) @objcMembers open class backgroundColorAppearanceProxy: NSObject {
+		@objc(ListTokensBackgroundColorAppearanceProxy) @objcMembers open class backgroundColorAppearanceProxy: NSObject {
 			public let mainProxy: () -> FluentUIStyle
 			public init(proxy: @escaping () -> FluentUIStyle) {
 				self.mainProxy = proxy
@@ -3601,7 +3601,7 @@ extension StylesheetManagerTheming {
 			get { return self.cellHeightStyle() }
 			set { _cellHeight = newValue }
 		}
-		@objc(MSFListTokensCellHeightAppearanceProxy) @objcMembers open class cellHeightAppearanceProxy: NSObject {
+		@objc(ListTokensCellHeightAppearanceProxy) @objcMembers open class cellHeightAppearanceProxy: NSObject {
 			public let mainProxy: () -> FluentUIStyle
 			public init(proxy: @escaping () -> FluentUIStyle) {
 				self.mainProxy = proxy
@@ -3718,7 +3718,7 @@ extension StylesheetManagerTheming {
 			get { return self.iconSizeStyle() }
 			set { _iconSize = newValue }
 		}
-		@objc(MSFListTokensIconSizeAppearanceProxy) @objcMembers open class iconSizeAppearanceProxy: NSObject {
+		@objc(ListTokensIconSizeAppearanceProxy) @objcMembers open class iconSizeAppearanceProxy: NSObject {
 			public let mainProxy: () -> FluentUIStyle
 			public init(proxy: @escaping () -> FluentUIStyle) {
 				self.mainProxy = proxy
@@ -4035,14 +4035,14 @@ extension StylesheetManagerTheming {
 		get { return self.PrimaryButtonTokensStyle() }
 		set { _PrimaryButtonTokens = newValue }
 	}
-	@objc(PrimaryButtonTokensAppearanceProxy) @objcMembers open class PrimaryButtonTokensAppearanceProxy: MSFButtonTokensAppearanceProxy {
+	@objc(PrimaryButtonTokensAppearanceProxy) @objcMembers open class PrimaryButtonTokensAppearanceProxy: ButtonTokensAppearanceProxy {
 
 		//MARK: - PrimaryButtonTokensbackgroundColor
-		override open func backgroundColorStyle() -> MSFButtonTokensAppearanceProxy.backgroundColorAppearanceProxy {
+		override open func backgroundColorStyle() -> ButtonTokensAppearanceProxy.backgroundColorAppearanceProxy {
 			if let override = _backgroundColor { return override }
 				return PrimaryButtonTokensbackgroundColorAppearanceProxy(proxy: mainProxy)
 			}
-		@objc(PrimaryButtonTokensBackgroundColorAppearanceProxy) @objcMembers open class PrimaryButtonTokensbackgroundColorAppearanceProxy: MSFButtonTokensAppearanceProxy.backgroundColorAppearanceProxy {
+		@objc(PrimaryButtonTokensBackgroundColorAppearanceProxy) @objcMembers open class PrimaryButtonTokensbackgroundColorAppearanceProxy: ButtonTokensAppearanceProxy.backgroundColorAppearanceProxy {
 
 			//MARK: disabled 
 			override open func disabledProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
@@ -4077,11 +4077,11 @@ extension StylesheetManagerTheming {
 
 
 		//MARK: - PrimaryButtonTokensiconColor
-		override open func iconColorStyle() -> MSFButtonTokensAppearanceProxy.iconColorAppearanceProxy {
+		override open func iconColorStyle() -> ButtonTokensAppearanceProxy.iconColorAppearanceProxy {
 			if let override = _iconColor { return override }
 				return PrimaryButtonTokensiconColorAppearanceProxy(proxy: mainProxy)
 			}
-		@objc(PrimaryButtonTokensIconColorAppearanceProxy) @objcMembers open class PrimaryButtonTokensiconColorAppearanceProxy: MSFButtonTokensAppearanceProxy.iconColorAppearanceProxy {
+		@objc(PrimaryButtonTokensIconColorAppearanceProxy) @objcMembers open class PrimaryButtonTokensiconColorAppearanceProxy: ButtonTokensAppearanceProxy.iconColorAppearanceProxy {
 
 			//MARK: disabled 
 			override open func disabledProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
@@ -4116,11 +4116,11 @@ extension StylesheetManagerTheming {
 
 
 		//MARK: - PrimaryButtonTokenstextColor
-		override open func textColorStyle() -> MSFButtonTokensAppearanceProxy.textColorAppearanceProxy {
+		override open func textColorStyle() -> ButtonTokensAppearanceProxy.textColorAppearanceProxy {
 			if let override = _textColor { return override }
 				return PrimaryButtonTokenstextColorAppearanceProxy(proxy: mainProxy)
 			}
-		@objc(PrimaryButtonTokensTextColorAppearanceProxy) @objcMembers open class PrimaryButtonTokenstextColorAppearanceProxy: MSFButtonTokensAppearanceProxy.textColorAppearanceProxy {
+		@objc(PrimaryButtonTokensTextColorAppearanceProxy) @objcMembers open class PrimaryButtonTokenstextColorAppearanceProxy: ButtonTokensAppearanceProxy.textColorAppearanceProxy {
 
 			//MARK: disabled 
 			override open func disabledProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
@@ -4164,14 +4164,14 @@ extension StylesheetManagerTheming {
 		get { return self.SecondaryButtonTokensStyle() }
 		set { _SecondaryButtonTokens = newValue }
 	}
-	@objc(SecondaryButtonTokensAppearanceProxy) @objcMembers open class SecondaryButtonTokensAppearanceProxy: MSFButtonTokensAppearanceProxy {
+	@objc(SecondaryButtonTokensAppearanceProxy) @objcMembers open class SecondaryButtonTokensAppearanceProxy: ButtonTokensAppearanceProxy {
 
 		//MARK: - SecondaryButtonTokensborderColor
-		override open func borderColorStyle() -> MSFButtonTokensAppearanceProxy.borderColorAppearanceProxy {
+		override open func borderColorStyle() -> ButtonTokensAppearanceProxy.borderColorAppearanceProxy {
 			if let override = _borderColor { return override }
 				return SecondaryButtonTokensborderColorAppearanceProxy(proxy: mainProxy)
 			}
-		@objc(SecondaryButtonTokensBorderColorAppearanceProxy) @objcMembers open class SecondaryButtonTokensborderColorAppearanceProxy: MSFButtonTokensAppearanceProxy.borderColorAppearanceProxy {
+		@objc(SecondaryButtonTokensBorderColorAppearanceProxy) @objcMembers open class SecondaryButtonTokensborderColorAppearanceProxy: ButtonTokensAppearanceProxy.borderColorAppearanceProxy {
 
 			//MARK: disabled 
 			override open func disabledProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
@@ -4206,11 +4206,11 @@ extension StylesheetManagerTheming {
 
 
 		//MARK: - SecondaryButtonTokensborderSize
-		override open func borderSizeStyle() -> MSFButtonTokensAppearanceProxy.borderSizeAppearanceProxy {
+		override open func borderSizeStyle() -> ButtonTokensAppearanceProxy.borderSizeAppearanceProxy {
 			if let override = _borderSize { return override }
 				return SecondaryButtonTokensborderSizeAppearanceProxy(proxy: mainProxy)
 			}
-		@objc(SecondaryButtonTokensBorderSizeAppearanceProxy) @objcMembers open class SecondaryButtonTokensborderSizeAppearanceProxy: MSFButtonTokensAppearanceProxy.borderSizeAppearanceProxy {
+		@objc(SecondaryButtonTokensBorderSizeAppearanceProxy) @objcMembers open class SecondaryButtonTokensborderSizeAppearanceProxy: ButtonTokensAppearanceProxy.borderSizeAppearanceProxy {
 
 			//MARK: large 
 			override open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
@@ -4602,6 +4602,64 @@ extension AvatarTokens: AppearaceProxyComponent {
 	}
 }
 
+extension ButtonTokens: AppearaceProxyComponent {
+
+	public typealias AppearanceProxyType = FluentUIStyle.ButtonTokensAppearanceProxy
+	public var appearanceProxy: AppearanceProxyType {
+		get {
+			if let proxy = objc_getAssociatedObject(self, &__AppearanceProxyHandle) as? AppearanceProxyType {
+				if !themeAware { return proxy }
+
+				if let proxyString = Optional(String(reflecting: type(of: proxy))), proxyString.hasPrefix("Stardust") == false {
+					return proxy
+				}
+
+				if proxy is FluentUIStyle.GhostButtonTokensAppearanceProxy {
+					return StylesheetManager.stylesheet(FluentUIStyle.shared()).GhostButtonTokens
+				} else if proxy is FluentUIStyle.PrimaryButtonTokensAppearanceProxy {
+					return StylesheetManager.stylesheet(FluentUIStyle.shared()).PrimaryButtonTokens
+				} else if proxy is FluentUIStyle.SecondaryButtonTokensAppearanceProxy {
+					return StylesheetManager.stylesheet(FluentUIStyle.shared()).SecondaryButtonTokens
+				}
+				return proxy
+			}
+
+			return StylesheetManager.stylesheet(FluentUIStyle.shared()).ButtonTokens
+		}
+		set {
+			objc_setAssociatedObject(self, &__AppearanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+			didChangeAppearanceProxy()
+		}
+	}
+
+	public var themeAware: Bool {
+		get {
+			guard let proxy = objc_getAssociatedObject(self, &__ThemeAwareHandle) as? Bool else { return true }
+			return proxy
+		}
+		set {
+			objc_setAssociatedObject(self, &__ThemeAwareHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+			isObservingDidChangeTheme = newValue
+		}
+	}
+
+	fileprivate var isObservingDidChangeTheme: Bool {
+		get {
+			guard let observing = objc_getAssociatedObject(self, &__ObservingDidChangeThemeHandle) as? Bool else { return false }
+			return observing
+		}
+		set {
+			if newValue == isObservingDidChangeTheme { return }
+			if newValue {
+				NotificationCenter.default.addObserver(self, selector: #selector(didChangeAppearanceProxy), name: Notification.Name.didChangeTheme, object: nil)
+			} else {
+				NotificationCenter.default.removeObserver(self, name: Notification.Name.didChangeTheme, object: nil)
+			}
+			objc_setAssociatedObject(self, &__ObservingDidChangeThemeHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+		}
+	}
+}
+
 extension DrawerTokens: AppearaceProxyComponent {
 
 	public typealias AppearanceProxyType = FluentUIStyle.DrawerTokensAppearanceProxy
@@ -4650,67 +4708,9 @@ extension DrawerTokens: AppearaceProxyComponent {
 	}
 }
 
-extension MSFButtonTokens: AppearaceProxyComponent {
+extension ListTokens: AppearaceProxyComponent {
 
-	public typealias AppearanceProxyType = FluentUIStyle.MSFButtonTokensAppearanceProxy
-	public var appearanceProxy: AppearanceProxyType {
-		get {
-			if let proxy = objc_getAssociatedObject(self, &__AppearanceProxyHandle) as? AppearanceProxyType {
-				if !themeAware { return proxy }
-
-				if let proxyString = Optional(String(reflecting: type(of: proxy))), proxyString.hasPrefix("Stardust") == false {
-					return proxy
-				}
-
-				if proxy is FluentUIStyle.GhostButtonTokensAppearanceProxy {
-					return StylesheetManager.stylesheet(FluentUIStyle.shared()).GhostButtonTokens
-				} else if proxy is FluentUIStyle.PrimaryButtonTokensAppearanceProxy {
-					return StylesheetManager.stylesheet(FluentUIStyle.shared()).PrimaryButtonTokens
-				} else if proxy is FluentUIStyle.SecondaryButtonTokensAppearanceProxy {
-					return StylesheetManager.stylesheet(FluentUIStyle.shared()).SecondaryButtonTokens
-				}
-				return proxy
-			}
-
-			return StylesheetManager.stylesheet(FluentUIStyle.shared()).MSFButtonTokens
-		}
-		set {
-			objc_setAssociatedObject(self, &__AppearanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-			didChangeAppearanceProxy()
-		}
-	}
-
-	public var themeAware: Bool {
-		get {
-			guard let proxy = objc_getAssociatedObject(self, &__ThemeAwareHandle) as? Bool else { return true }
-			return proxy
-		}
-		set {
-			objc_setAssociatedObject(self, &__ThemeAwareHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-			isObservingDidChangeTheme = newValue
-		}
-	}
-
-	fileprivate var isObservingDidChangeTheme: Bool {
-		get {
-			guard let observing = objc_getAssociatedObject(self, &__ObservingDidChangeThemeHandle) as? Bool else { return false }
-			return observing
-		}
-		set {
-			if newValue == isObservingDidChangeTheme { return }
-			if newValue {
-				NotificationCenter.default.addObserver(self, selector: #selector(didChangeAppearanceProxy), name: Notification.Name.didChangeTheme, object: nil)
-			} else {
-				NotificationCenter.default.removeObserver(self, name: Notification.Name.didChangeTheme, object: nil)
-			}
-			objc_setAssociatedObject(self, &__ObservingDidChangeThemeHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-		}
-	}
-}
-
-extension MSFListTokens: AppearaceProxyComponent {
-
-	public typealias AppearanceProxyType = FluentUIStyle.MSFListTokensAppearanceProxy
+	public typealias AppearanceProxyType = FluentUIStyle.ListTokensAppearanceProxy
 	public var appearanceProxy: AppearanceProxyType {
 		get {
 			if let proxy = objc_getAssociatedObject(self, &__AppearanceProxyHandle) as? AppearanceProxyType {
@@ -4726,7 +4726,7 @@ extension MSFListTokens: AppearaceProxyComponent {
 				return proxy
 			}
 
-			return StylesheetManager.stylesheet(FluentUIStyle.shared()).MSFListTokens
+			return StylesheetManager.stylesheet(FluentUIStyle.shared()).ListTokens
 		}
 		set {
 			objc_setAssociatedObject(self, &__AppearanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
