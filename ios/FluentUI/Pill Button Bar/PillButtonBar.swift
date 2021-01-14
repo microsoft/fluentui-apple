@@ -143,7 +143,20 @@ open class PillButtonBar: UIScrollView {
     }
 
     @objc public convenience init(pillButtonStyle: PillButtonStyle = .outline) {
-        self.init(pillButtonStyle: pillButtonStyle, pillButtonBackgroundColor: nil)
+        self.init(pillButtonStyle: pillButtonStyle,
+                  pillButtonBackgroundColor: nil,
+                  selectedPillButtonBackgroundColor: nil,
+                  pillButtonTextColor: nil,
+                  selectedPillButtonTextColor: nil)
+    }
+
+    @objc public convenience init(pillButtonStyle: PillButtonStyle = .outline,
+                                  pillButtonBackgroundColor: UIColor? = nil) {
+        self.init(pillButtonStyle: pillButtonStyle,
+                  pillButtonBackgroundColor: pillButtonBackgroundColor,
+                  selectedPillButtonBackgroundColor: nil,
+                  pillButtonTextColor: nil,
+                  selectedPillButtonTextColor: nil)
     }
 
     @objc public init(pillButtonStyle: PillButtonStyle = .outline,

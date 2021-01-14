@@ -37,7 +37,7 @@ open class CenteredLabelCell: UITableViewCell {
     /// Set up the cell with text to be displayed in the centered label
     ///
     /// - Parameter text: The text to be displayed
-    open func setup(text: String) {
+    @objc open func setup(text: String) {
         label.text = text
         setNeedsLayout()
     }

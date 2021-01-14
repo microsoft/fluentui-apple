@@ -20,7 +20,7 @@ let effectViewMaterials: [String: NSVisualEffectView.Material] = [
 	"toolTip": .toolTip,
 	"contentBackground": .contentBackground,
 	"underWindowBackground": .underWindowBackground,
-	"underPageBackground": .underPageBackground,
+	"underPageBackground": .underPageBackground
 ]
 
 let backgroundColors: [String: NSColor] = [
@@ -31,25 +31,25 @@ let backgroundColors: [String: NSColor] = [
 	"controlBackgroundColor": .controlBackgroundColor,
 	"underPageBackgroundColor": .underPageBackgroundColor,
 	"selectedContentBackgroundColor": .selectedContentBackgroundColor,
-	"unemphasizedSelectedContentBackgroundColor": .unemphasizedSelectedContentBackgroundColor,
+	"unemphasizedSelectedContentBackgroundColor": .unemphasizedSelectedContentBackgroundColor
 ]
 
 let buttonStates: [String] = [
 	"rest",
 	"pressed",
-	"disabled",
+	"disabled"
 ]
 
 let widths: [String: CGFloat] = [
 	"natural": 0,
 	"oversized (180)": 180,
-	"undersized (50)": 50,
+	"undersized (50)": 50
 ]
 
 let heights: [String: CGFloat] = [
 	"natural": 0,
 	"oversized (100)": 100,
-	"undersized (10)": 10,
+	"undersized (10)": 10
 ]
 
 class VibrantScrollView: NSScrollView {
@@ -75,13 +75,13 @@ class TopClipView: NSClipView {
 }
 
 class TestButtonViewController: NSViewController, NSMenuDelegate {
-	let materialsPopup = NSPopUpButton(frame: NSZeroRect, pullsDown: false)
-	let backgroundColorsPopup = NSPopUpButton(frame: NSZeroRect, pullsDown: false)
-	let buttonStatesPopup = NSPopUpButton(frame: NSZeroRect, pullsDown: false)
-	let widthPopup = NSPopUpButton(frame: NSZeroRect, pullsDown: false)
-	var widthConstraints : [NSLayoutConstraint] = []
-	let heightPopup = NSPopUpButton(frame: NSZeroRect, pullsDown: false)
-	var heightConstraints : [NSLayoutConstraint] = []
+	let materialsPopup = NSPopUpButton(frame: NSRect.zero, pullsDown: false)
+	let backgroundColorsPopup = NSPopUpButton(frame: NSRect.zero, pullsDown: false)
+	let buttonStatesPopup = NSPopUpButton(frame: NSRect.zero, pullsDown: false)
+	let widthPopup = NSPopUpButton(frame: NSRect.zero, pullsDown: false)
+	var widthConstraints: [NSLayoutConstraint] = []
+	let heightPopup = NSPopUpButton(frame: NSRect.zero, pullsDown: false)
+	var heightConstraints: [NSLayoutConstraint] = []
 	let scrollView = VibrantScrollView()
 	let materialPane = NSVisualEffectView()
 	var fluentButtons: [Button] = []
@@ -117,7 +117,7 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			[NSTextField(labelWithString: "Pane Color:"), backgroundColorsPopup],
 			[NSTextField(labelWithString: "Button State:"), buttonStatesPopup],
 			[NSTextField(labelWithString: "Button Width:"), widthPopup],
-			[NSTextField(labelWithString: "Button Height:"), heightPopup],
+			[NSTextField(labelWithString: "Button Height:"), heightPopup]
 		]
 
 		let toolsGrid = NSGridView(views: tools)
@@ -155,7 +155,7 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			smallSecondary,
 			smallAcrylic,
 			smallBorderless,
-			smallCustom,
+			smallCustom
 		]
 
 		let rowLabels: [NSView] = [
@@ -168,7 +168,7 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			NSTextField(labelWithString: "Small Secondary"),
 			NSTextField(labelWithString: "Small Acrylic"),
 			NSTextField(labelWithString: "Small Borderless"),
-			NSTextField(labelWithString: "Small Custom"),
+			NSTextField(labelWithString: "Small Custom")
 		]
 
 		let buttonsWithTitle: () -> [Button] = {
@@ -195,7 +195,7 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 				Button(title: "Back", image: leadingArrowImage, imagePosition: .imageLeading, format: smallSecondary),
 				Button(title: "Skip", image: trailingArrowImage, imagePosition: .imageRight, format: smallAcrylic),
 				Button(title: "Back", image: leadingArrowImage, imagePosition: .imageLeft, format: smallBorderless),
-				Button(title: "Skip", image: trailingArrowImage, imagePosition: .imageRight, format: smallCustom),
+				Button(title: "Skip", image: trailingArrowImage, imagePosition: .imageRight, format: smallCustom)
 			]
 		}
 
@@ -210,7 +210,7 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 				Button(title: "Nope", image: stopImage, imagePosition: .imageAbove, format: smallSecondary),
 				Button(title: "Nope", image: stopImage, imagePosition: .imageBelow, format: smallAcrylic),
 				Button(title: "Nope", image: stopImage, imagePosition: .imageOverlaps, format: smallBorderless),
-				Button(title: "Nope", image: stopImage, imagePosition: .imageAbove, format: smallCustom),
+				Button(title: "Nope", image: stopImage, imagePosition: .imageAbove, format: smallCustom)
 			]
 		}
 
@@ -224,10 +224,10 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			buttonsWithTitle(),
 			buttonsWithImage(),
 			buttonsWithTitleAndImageHorizontal(),
-			buttonsWithTitleAndImageVertical(),
+			buttonsWithTitleAndImageVertical()
 		]
 		for newColumn in buttonColumns {
-			var nearestPrimary: Button? = nil
+			var nearestPrimary: Button?
 			for button in newColumn {
 				switch button.style {
 				case .primary:
@@ -286,7 +286,7 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			materialPane.topAnchor.constraint(equalTo: scrollView.topAnchor),
 			materialPane.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
 			fluentButtonsGrid.bottomAnchor.constraint(equalTo: scrollView.contentView.bottomAnchor),
-			fluentButtonsGrid.leadingAnchor.constraint(equalTo: scrollView.contentView.leadingAnchor),
+			fluentButtonsGrid.leadingAnchor.constraint(equalTo: scrollView.contentView.leadingAnchor)
 		])
 
 		view = mainPanel
@@ -336,22 +336,34 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 	}
 
 	@objc func widthConstraintsChanged() {
-		guard let title = widthPopup.titleOfSelectedItem else { return }
-		guard let width = widths[title] else { return }
+		guard let title = widthPopup.titleOfSelectedItem else {
+			return
+		}
+		guard let width = widths[title] else {
+			return
+		}
 		NSLayoutConstraint.deactivate(widthConstraints)
 		widthConstraints.removeAll()
-		guard width != 0 else { return }
-		widthConstraints.append(contentsOf: fluentButtons.map({ ($0 as Button).widthAnchor.constraint(equalToConstant:width) }))
+		guard width != 0 else {
+			return
+		}
+		widthConstraints.append(contentsOf: fluentButtons.map({ ($0 as Button).widthAnchor.constraint(equalToConstant: width) }))
 		NSLayoutConstraint.activate(widthConstraints)
 	}
 
 	@objc func heightConstraintsChanged() {
-		guard let title = heightPopup.titleOfSelectedItem else { return }
-		guard let height = heights[title] else { return }
+		guard let title = heightPopup.titleOfSelectedItem else {
+			return
+		}
+		guard let height = heights[title] else {
+			return
+		}
 		NSLayoutConstraint.deactivate(heightConstraints)
 		heightConstraints.removeAll()
-		guard height != 0 else { return }
-		heightConstraints.append(contentsOf: fluentButtons.map({ ($0 as Button).heightAnchor.constraint(equalToConstant:height) }))
+		guard height != 0 else {
+			return
+		}
+		heightConstraints.append(contentsOf: fluentButtons.map({ ($0 as Button).heightAnchor.constraint(equalToConstant: height) }))
 		NSLayoutConstraint.activate(heightConstraints)
 	}
 
@@ -359,8 +371,8 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		print("Button pressed")
 	}
 
-	private static let leadingArrow = "ic_fluent_chevron_left_16_filled"
-	private static let trailingArrow = "ic_fluent_chevron_right_16_filled"
+	private static let leadingArrow: String = "ic_fluent_chevron_left_16_filled"
+	private static let trailingArrow: String = "ic_fluent_chevron_right_16_filled"
 
 	private static let gridViewRowSpacing: CGFloat = 20
 	private static let gridViewColumnSpacing: CGFloat = 20

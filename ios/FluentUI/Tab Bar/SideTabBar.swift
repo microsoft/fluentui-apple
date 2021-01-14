@@ -25,7 +25,13 @@ public protocol SideTabBarDelegate {
 @objc(MSFSideTabBar)
 open class SideTabBar: UIView {
     /// Delegate to handle user interactions in the side tab bar.
-    @objc public weak var delegate: SideTabBarDelegate?
+    @objc public weak var delegate: SideTabBarDelegate? {
+        didSet {
+            if let avatarView = avatarView {
+                avatarView.accessibilityTraits = delegate != nil ? .button : .image
+            }
+        }
+    }
 
     /// The avatar view that displays above the top tab bar items.
     /// The avatar view's size class should be AvatarSize.medium.
@@ -39,7 +45,12 @@ open class SideTabBar: UIView {
             if let avatarView = avatarView {
                 avatarView.avatarSize = .medium
                 avatarView.translatesAutoresizingMaskIntoConstraints = false
+                avatarView.overrideAccessibilityLabel = "Accessibility.LargeTitle.ProfileView".localized
                 addSubview(avatarView)
+
+                if delegate != nil {
+                    avatarView.accessibilityTraits = .button
+                }
 
                 avatarView.addGestureRecognizer(avatarViewGestureRecognizer)
             }

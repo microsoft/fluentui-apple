@@ -11,7 +11,7 @@ class TestSeparatorViewController: NSViewController {
 		let containerView = NSStackView(frame: .zero)
 		containerView.addView(Separator(orientation: .horizontal), in: .center)
 		containerView.addView(NSTextField(labelWithString: "Separators are used to divide content"), in: .center)
-		
+
 		containerView.addView(Separator(orientation: .horizontal), in: .center)
 
 		containerView.addView(NSStackView(views: [
@@ -25,11 +25,11 @@ class TestSeparatorViewController: NSViewController {
 		]), in: .center)
 
 		containerView.addView(Separator(orientation: .horizontal), in: .center)
-		
+
 		containerView.addView(NSTextField(labelWithString: "They can be created in both orientations"), in: .center)
 
 		containerView.addView(Separator(orientation: .horizontal), in: .center)
-		
+
 		containerView.orientation = .vertical
 		containerView.distribution = .gravityAreas
 		view = containerView
