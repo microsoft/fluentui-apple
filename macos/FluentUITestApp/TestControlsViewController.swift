@@ -6,8 +6,8 @@
 import AppKit
 import FluentUITestViewControllers
 
-fileprivate struct Constants {
-	static let previousSelectionIndexUserDefaultsKey = "FluentUITestApp.previousSelectionIndexUserDefaultsKey"
+private struct Constants {
+	static let previousSelectionIndexUserDefaultsKey: String = "FluentUITestApp.previousSelectionIndexUserDefaultsKey"
 	static let rowHeight: CGFloat = 44.0
 	static let textFieldLeadingPadding: CGFloat = 5.0
 	private init() {}
@@ -16,7 +16,7 @@ fileprivate struct Constants {
 /// Master-detail view controller to implement a playground for testing various controls.
 /// To add a control, add it and the type of its NSViewController to "controls"
 class TestControlsViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
-	
+
 	override func loadView() {
 		controlListView.usesAlternatingRowBackgroundColors = true
 		controlListView.dataSource = self
@@ -43,7 +43,7 @@ class TestControlsViewController: NSViewController, NSTableViewDelegate, NSTable
 	func numberOfRows(in tableView: NSTableView) -> Int {
 		return testViewControllers.count
 	}
-	
+
 	func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
 		let textField = NSTextField(labelWithString: testViewControllers[row].title)
 		textField.translatesAutoresizingMaskIntoConstraints = false
@@ -52,10 +52,10 @@ class TestControlsViewController: NSViewController, NSTableViewDelegate, NSTable
 		NSLayoutConstraint.activate([textField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.textFieldLeadingPadding),
 									 textField.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 									 textField.centerYAnchor.constraint(equalTo: view.centerYAnchor)])
-		
+
 		return view
 	}
-	
+
 	func tableViewSelectionDidChange(_ notification: Notification) {
 		controlDetailViewController = testViewControllers[controlListView.selectedRow].type.init(nibName: nil, bundle: nil)
 		UserDefaults.standard.set(controlListView.selectedRow, forKey: Constants.previousSelectionIndexUserDefaultsKey)
@@ -77,9 +77,9 @@ class TestControlsViewController: NSViewController, NSTableViewDelegate, NSTable
 			}
 		}
 	}
-	
+
 	private let controlListView = NSTableView(frame: .zero)
-	
+
 	private lazy var stackView: NSStackView = {
 		let dividerView = NSView(frame: .zero)
 		dividerView.wantsLayer = true
