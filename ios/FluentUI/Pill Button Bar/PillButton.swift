@@ -14,33 +14,6 @@ public typealias MSPillButton = PillButton
 @objc(MSFPillButton)
 open class PillButton: UIButton {
 
-    @objc public static let cornerRadius: CGFloat = 16.0
-
-    @objc public let pillBarItem: PillButtonBarItem
-
-    @objc public let style: PillButtonStyle
-
-    public override var isSelected: Bool {
-        didSet {
-            updateAppearance()
-            updateAccessibilityTraits()
-        }
-    }
-
-    public override var isEnabled: Bool {
-        didSet {
-            updateAppearance()
-            updateAccessibilityTraits()
-        }
-    }
-
-    public override var isHighlighted: Bool {
-        didSet {
-            updateAppearance()
-            updateAccessibilityTraits()
-        }
-    }
-
     /// Set `backgroundColor` to customize background color of the pill button
     @objc open var customBackgroundColor: UIColor? {
         didSet {
@@ -69,6 +42,11 @@ open class PillButton: UIButton {
         }
     }
 
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateAppearance()
+    }
+
     @objc public init(pillBarItem: PillButtonBarItem, style: PillButtonStyle = .primary) {
         self.pillBarItem = pillBarItem
         self.style = style
@@ -76,13 +54,34 @@ open class PillButton: UIButton {
         setupView()
     }
 
+    @objc public static let cornerRadius: CGFloat = 16.0
+
+    @objc public let pillBarItem: PillButtonBarItem
+
+    @objc public let style: PillButtonStyle
+
     public required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
-        updateAppearance()
+    public override var isSelected: Bool {
+        didSet {
+            updateAppearance()
+            updateAccessibilityTraits()
+        }
+    }
+
+    public override var isEnabled: Bool {
+        didSet {
+            updateAppearance()
+            updateAccessibilityTraits()
+        }
+    }
+
+    public override var isHighlighted: Bool {
+        didSet {
+            updateAppearance()
+        }
     }
 
     private func setupView() {

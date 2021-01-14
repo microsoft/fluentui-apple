@@ -123,6 +123,7 @@ public extension PillButton {
     }
 
     // MARK: selected highlighted state
+
     static func selectedHighlightedBackgroundColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .onBrand:
