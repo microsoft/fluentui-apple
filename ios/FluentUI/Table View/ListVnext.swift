@@ -48,6 +48,7 @@ public class MSFListVnextCellData: NSObject, ObservableObject, Identifiable {
     @objc @Published public var accessoryType: MSFListAccessoryType = .none
     @objc @Published public var titleLineLimit: Int = 1
     @objc @Published public var subtitleLineLimit: Int = 1
+    @objc @Published public var children: [MSFListVnextCellData]?
     @objc public var onTapAction: (() -> Void)?
 }
 
@@ -214,6 +215,7 @@ extension MSFListView {
     struct MSFListCellView: View {
         var cell: MSFListVnextCellData
         var layoutType: MSFListCellVnextLayoutType
+        @State private var isExpanded: Bool = false
         @ObservedObject var tokens: MSFListTokens
 
         init(cell: MSFListVnextCellData, layoutType: MSFListCellVnextLayoutType, tokens: MSFListTokens) {
@@ -223,7 +225,13 @@ extension MSFListView {
         }
 
         var body: some View {
-            Button(action: cell.onTapAction ?? {}, label: {
+            Button(action: cell.onTapAction ?? {
+                if cell.children != nil {
+                    withAnimation {
+                        isExpanded.toggle()
+                    }
+                }
+            }, label: {
                 HStack(spacing: 0) {
                     if let leadingView = cell.leadingView {
                         UIViewAdapter(leadingView)
@@ -261,6 +269,15 @@ extension MSFListView {
                 }
             })
             .buttonStyle(ListCellButtonStyle(tokens: tokens, layoutType: layoutType))
+            if let children = cell.children, isExpanded == true {
+                ForEach(children, id: \.self) { child in
+                    MSFListCellView(cell: child,
+                                    layoutType: layoutType,
+                                    tokens: tokens)
+                        .frame(maxWidth: .infinity)
+                        .padding(.leading, (tokens.horizontalCellPadding + tokens.iconSize))
+                }
+            }
         }
     }
 

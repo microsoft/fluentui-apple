@@ -29,6 +29,21 @@ class ListVnextDemoController: DemoController {
             PersonaData(name: "Amanda Brady", subtitle: "Program Manager", avatarImage: UIImage(named: "avatar_amanda_brady"), color: Colors.Palette.magentaPink10.color)
         ]
 
+        var subchildren: [MSFListVnextCellData] = []
+        for index in 0...2 {
+            listCell = MSFListVnextCellData()
+            listCell.title = "Subchild #\(index)"
+            subchildren.append(listCell)
+        }
+
+        var children: [MSFListVnextCellData] = []
+        for index in 0...2 {
+            listCell = MSFListVnextCellData()
+            listCell.title = "Child #\(index)"
+            children.append(listCell)
+        }
+        children[0].children = subchildren
+
         var avatar: AvatarVnext
 
         /// AvatarView section
@@ -43,9 +58,10 @@ class ListVnextDemoController: DemoController {
                                       style: .default)
             listCell.title = avatar.state.primaryText ?? ""
             listCell.leadingView = avatar.view
+            listCell.children = children
             listSection.cells.append(listCell)
         }
-        listSection.layoutType = MSFListCellVnextLayoutType.twoLines
+        listSection.layoutType = MSFListCellVnextLayoutType.oneLine
         listData.append(listSection)
 
         /// TableViewCell Sample Data Sections
