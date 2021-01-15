@@ -92,7 +92,7 @@
     }];
 
     MSFListVnextSectionData *section = [[MSFListVnextSectionData alloc] init];
-    [section setLayoutType:MSFListCellVnextHeightTwoLines];
+    [section setLayoutType:MSFListCellVnextLayoutTypeTwoLines];
     [section setCells:@[listCell1, listCell2, listCell3]];
     NSArray *sections = @[section];
 

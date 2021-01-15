@@ -6,8 +6,7 @@
 import UIKit
 import SwiftUI
 
-@objc(MSFAvatarVnextPresence)
-public enum AvatarVnextPresence: Int, CaseIterable {
+@objc public enum MSFAvatarVnextPresence: Int, CaseIterable {
     case none
     case available
     case away
@@ -69,16 +68,15 @@ public enum AvatarVnextPresence: Int, CaseIterable {
     }
 }
 
-@objc(MSFAvatarVnextState)
 /// Properties available to customize the state of the avatar
-public class AvatarVnextState: NSObject, ObservableObject {
+@objc public class MSFAvatarVnextState: NSObject, ObservableObject {
     @objc @Published public var image: UIImage?
     @objc @Published public var primaryText: String?
     @objc @Published public var secondaryText: String?
     @objc @Published public var ringColor: UIColor?
     @objc @Published public var backgroundColor: UIColor?
     @objc @Published public var foregroundColor: UIColor?
-    @objc @Published public var presence: AvatarVnextPresence = .none
+    @objc @Published public var presence: MSFAvatarVnextPresence = .none
     @objc @Published public var isRingVisible: Bool = false
     @objc @Published public var isTransparent: Bool = true
     @objc @Published public var isOutOfOffice: Bool = false
@@ -87,13 +85,13 @@ public class AvatarVnextState: NSObject, ObservableObject {
 /// View that represents the avatar
 public struct AvatarVnextView: View {
     @Environment(\.theme) var theme: FluentUIStyle
-    @ObservedObject var tokens: AvatarTokens
-    @ObservedObject var state: AvatarVnextState
+    @ObservedObject var tokens: MSFAvatarTokens
+    @ObservedObject var state: MSFAvatarVnextState
 
-    public init(style: AvatarVnextStyle,
-                size: AvatarVnextSize) {
-        self.tokens = AvatarTokens(style: style, size: size)
-        self.state = AvatarVnextState()
+    public init(style: MSFAvatarVnextStyle,
+                size: MSFAvatarVnextSize) {
+        self.tokens = MSFAvatarTokens(style: style, size: size)
+        self.state = MSFAvatarVnextState()
     }
 
     public var body: some View {
@@ -237,18 +235,17 @@ public struct AvatarVnextView: View {
         return cutoutFrame
     }
 
-    public func setStyle(style: AvatarVnextStyle) {
+    public func setStyle(style: MSFAvatarVnextStyle) {
         tokens.style = style
     }
 
-    public func setSize(size: AvatarVnextSize) {
+    public func setSize(size: MSFAvatarVnextSize) {
         tokens.size = size
     }
 }
 
-@objc(MSFAvatarVnext)
 /// UIKit wrapper that exposes the SwiftUI Button implementation
-open class AvatarVnext: NSObject, FluentUIWindowProvider {
+@objc open class MSFAvatarVnext: NSObject, FluentUIWindowProvider {
 
     private var hostingController: UIHostingController<AnyView>!
 
@@ -258,7 +255,7 @@ open class AvatarVnext: NSObject, FluentUIWindowProvider {
         return hostingController.view
     }
 
-    @objc open var state: AvatarVnextState {
+    @objc open var state: MSFAvatarVnextState {
         return self.avatarview.state
     }
 
@@ -266,23 +263,23 @@ open class AvatarVnext: NSObject, FluentUIWindowProvider {
         return self.view.window
     }
 
-    @objc open func setStyle(style: AvatarVnextStyle) {
+    @objc open func setStyle(style: MSFAvatarVnextStyle) {
         self.avatarview.setStyle(style: style)
     }
 
-    @objc open func setSize(size: AvatarVnextSize) {
+    @objc open func setSize(size: MSFAvatarVnextSize) {
         self.avatarview.setSize(size: size)
     }
 
-    @objc public convenience init(style: AvatarVnextStyle = .default,
-                                  size: AvatarVnextSize = .large) {
+    @objc public convenience init(style: MSFAvatarVnextStyle = .default,
+                                  size: MSFAvatarVnextSize = .large) {
         self.init(style: style,
                   size: size,
                   theme: nil)
     }
 
-    @objc public init(style: AvatarVnextStyle = .default,
-                      size: AvatarVnextSize = .large,
+    @objc public init(style: MSFAvatarVnextStyle = .default,
+                      size: MSFAvatarVnextSize = .large,
                       theme: FluentUIStyle? = nil) {
         self.avatarview = AvatarVnextView(style: style,
                                            size: size)

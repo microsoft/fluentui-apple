@@ -36,7 +36,7 @@ class AvatarVnextDemoController: DemoController {
         addRow(items: [showRingsSettingView])
 
         addTitle(text: "Default style")
-        for size in AvatarVnextSize.allCases.reversed() {
+        for size in MSFAvatarVnextSize.allCases.reversed() {
             let name = "Kat Larrson"
             let imageAvatar = createAvatarView(size: size,
                                                name: name,
@@ -53,7 +53,7 @@ class AvatarVnextDemoController: DemoController {
         }
 
         addTitle(text: "Fallback (default style and accent style)")
-        for size in AvatarVnextSize.allCases.reversed() {
+        for size in MSFAvatarVnextSize.allCases.reversed() {
             let phoneNumber = "+1 (425) 123 4567"
             let defaultAvatar = createAvatarView(size: size,
                                                  name: phoneNumber,
@@ -69,7 +69,7 @@ class AvatarVnextDemoController: DemoController {
         }
 
         addTitle(text: "Fallback (outlined style and outlinedPrimary style)")
-        for size in AvatarVnextSize.allCases.reversed() {
+        for size in MSFAvatarVnextSize.allCases.reversed() {
             let phoneNumber = "+1 (425) 123 4567"
             let outlinedAvatar = createAvatarView(size: size,
                                                   name: phoneNumber,
@@ -85,7 +85,7 @@ class AvatarVnextDemoController: DemoController {
         }
 
         addTitle(text: "Group style")
-        for size in AvatarVnextSize.allCases.reversed() {
+        for size in MSFAvatarVnextSize.allCases.reversed() {
             let name = "NorthWind Traders"
             let imageAvatar = createAvatarView(size: size,
                                                name: name,
@@ -102,7 +102,7 @@ class AvatarVnextDemoController: DemoController {
         }
 
         addTitle(text: "Overflow style")
-        for size in AvatarVnextSize.allCases.reversed() {
+        for size in MSFAvatarVnextSize.allCases.reversed() {
             let overflowAvatar = createAvatarView(size: size,
                                                   name: "20",
                                                   style: .overflow)
@@ -158,13 +158,13 @@ class AvatarVnextDemoController: DemoController {
         }
     }
 
-    private lazy var presenceIterator = AvatarVnextPresence.allCases.makeIterator()
+    private lazy var presenceIterator = MSFAvatarVnextPresence.allCases.makeIterator()
 
-    private func nextPresence() -> AvatarVnextPresence {
+    private func nextPresence() -> MSFAvatarVnextPresence {
         var presence = presenceIterator.next()
 
         if presence == nil {
-            presenceIterator = AvatarVnextPresence.allCases.makeIterator()
+            presenceIterator = MSFAvatarVnextPresence.allCases.makeIterator()
             presence = presenceIterator.next()
         }
 
@@ -199,13 +199,13 @@ class AvatarVnextDemoController: DemoController {
         view.backgroundColor = isUsingAlternateBackgroundColor ? UIColor(light: Colors.gray100, dark: Colors.gray600) : Colors.surfacePrimary
     }
 
-    private var avatarViews: [AvatarVnext] = []
+    private var avatarViews: [MSFAvatarVnext] = []
 
-    private func createAvatarView(size: AvatarVnextSize,
+    private func createAvatarView(size: MSFAvatarVnextSize,
                                   name: String? = nil,
                                   image: UIImage? = nil,
-                                  style: AvatarVnextStyle) -> AvatarVnext {
-        let avatarView = AvatarVnext(style: style,
+                                  style: MSFAvatarVnextStyle) -> MSFAvatarVnext {
+        let avatarView = MSFAvatarVnext(style: style,
                                      size: size)
         avatarView.state.primaryText = name
         avatarView.state.image = image
@@ -214,7 +214,7 @@ class AvatarVnextDemoController: DemoController {
     }
 }
 
-extension AvatarVnextSize {
+extension MSFAvatarVnextSize {
     var description: String {
         switch self {
         case .xsmall:

@@ -7,16 +7,14 @@ import UIKit
 import SwiftUI
 
 /// Pre-defined styles of icons
-@objc(MSFListIconVnextStyle)
-public enum MSFListIconVnextStyle: Int, CaseIterable {
+@objc public enum MSFListIconVnextStyle: Int, CaseIterable {
     case none
     case iconOnly
     case large
 }
 
 /// Pre-defined accessory types
-@objc(MSFListAccessoryType)
-public enum MSFListAccessoryType: Int, CaseIterable {
+@objc public enum MSFListAccessoryType: Int, CaseIterable {
     case none
     case disclosure
     case detailButton
@@ -38,7 +36,7 @@ public enum MSFListAccessoryType: Int, CaseIterable {
     }
 }
 
-public class ListTokens: TokensBase, ObservableObject {
+public class MSFListTokens: MSFTokensBase, ObservableObject {
     @Published public var backgroundColor: UIColor!
     @Published public var borderColor: UIColor!
     @Published public var disclosureIconForegroundColor: UIColor!
@@ -81,9 +79,9 @@ public class ListTokens: TokensBase, ObservableObject {
         let appearanceProxy: AppearanceProxyType
 
         if iconStyle == MSFListIconVnextStyle.iconOnly {
-            appearanceProxy = currentTheme.IconOnlyListTokens
+            appearanceProxy = currentTheme.MSFIconOnlyListTokens
         } else {
-            appearanceProxy = currentTheme.ListTokens
+            appearanceProxy = currentTheme.MSFListTokens
         }
 
         backgroundColor = appearanceProxy.backgroundColor.rest

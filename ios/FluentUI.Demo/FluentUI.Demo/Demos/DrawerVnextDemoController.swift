@@ -62,9 +62,9 @@ class DrawerContentController: DemoController {
     }
 }
 
-class DrawerVnextDemoController: DemoController, DrawerVnextControllerDelegate {
+class DrawerVnextDemoController: DemoController, MSFDrawerVnextControllerDelegate {
 
-    private var drawerController: DrawerVnext?
+    private var drawerController: MSFDrawerVnext?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -115,7 +115,7 @@ class DrawerVnextDemoController: DemoController, DrawerVnextControllerDelegate {
         trailingEdgeGesture.edges = isLeadingEdgeLeftToRight ? .right : .left
         view.addGestureRecognizer(trailingEdgeGesture)
 
-        drawerController = DrawerVnext(contentViewController: DrawerContentController())
+        drawerController = MSFDrawerVnext(contentViewController: DrawerContentController())
         drawerController?.delegate = self
     }
 

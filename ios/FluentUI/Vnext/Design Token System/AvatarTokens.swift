@@ -6,9 +6,8 @@
 import UIKit
 import SwiftUI
 
-@objc(AvatarVnextStyle)
 /// Pre-defined styles of the avatar
-public enum AvatarVnextStyle: Int, CaseIterable {
+@objc public enum MSFAvatarVnextStyle: Int, CaseIterable {
     case `default`
     case accent
     case group
@@ -17,9 +16,8 @@ public enum AvatarVnextStyle: Int, CaseIterable {
     case overflow
 }
 
-@objc(MSFAvatarVnextSize)
 /// Pre-defined sizes of the avatar
-public enum AvatarVnextSize: Int, CaseIterable {
+@objc public enum MSFAvatarVnextSize: Int, CaseIterable {
     case xsmall
     case small
     case medium
@@ -30,7 +28,7 @@ public enum AvatarVnextSize: Int, CaseIterable {
 
 /// Representation of design tokens to buttons at runtime which interfaces with the Design Token System auto-generated code.
 /// Updating these properties causes the SwiftUI button to update its view automatically.
-public class AvatarTokens: TokensBase, ObservableObject {
+public class MSFAvatarTokens: MSFTokensBase, ObservableObject {
     @Published public var avatarSize: CGFloat!
     @Published public var borderRadius: CGFloat!
     @Published public var textFont: UIFont!
@@ -50,7 +48,7 @@ public class AvatarTokens: TokensBase, ObservableObject {
     @Published public var foregroundDefaultColor: UIColor!
     @Published public var textColor: UIColor!
 
-    public var style: AvatarVnextStyle {
+    public var style: MSFAvatarVnextStyle {
         didSet {
             if oldValue != style {
                 updateForCurrentTheme()
@@ -58,7 +56,7 @@ public class AvatarTokens: TokensBase, ObservableObject {
         }
     }
 
-    public var size: AvatarVnextSize {
+    public var size: MSFAvatarVnextSize {
         didSet {
             if oldValue != size {
                 updateForCurrentTheme()
@@ -66,8 +64,8 @@ public class AvatarTokens: TokensBase, ObservableObject {
         }
     }
 
-    public init(style: AvatarVnextStyle,
-                size: AvatarVnextSize) {
+    public init(style: MSFAvatarVnextStyle,
+                size: MSFAvatarVnextSize) {
         self.style = style
         self.size = size
 
@@ -84,17 +82,17 @@ public class AvatarTokens: TokensBase, ObservableObject {
 
         switch style {
         case .default:
-            appearanceProxy = currentTheme.AvatarTokens
+            appearanceProxy = currentTheme.MSFAvatarTokens
         case .accent:
-            appearanceProxy = currentTheme.AccentAvatarTokens
+            appearanceProxy = currentTheme.MSFAccentAvatarTokens
         case .outlined:
-            appearanceProxy = currentTheme.OutlinedAvatarTokens
+            appearanceProxy = currentTheme.MSFOutlinedAvatarTokens
         case .outlinedPrimary:
-            appearanceProxy = currentTheme.OutlinedPrimaryAvatarTokens
+            appearanceProxy = currentTheme.MSFOutlinedPrimaryAvatarTokens
         case .overflow:
-            appearanceProxy = currentTheme.OverflowAvatarTokens
+            appearanceProxy = currentTheme.MSFOverflowAvatarTokens
         case .group:
-            appearanceProxy = currentTheme.GroupAvatarTokens
+            appearanceProxy = currentTheme.MSFGroupAvatarTokens
         }
 
         ringDefaultColor = appearanceProxy.ringDefaultColor

@@ -7,8 +7,7 @@ import UIKit
 import SwiftUI
 
 /// Properties that make up cell content
-@objc(MSFListVnextCellData)
-public class MSFListVnextCellData: NSObject, ObservableObject, Identifiable {
+@objc public class MSFListVnextCellData: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
     @objc @Published public var leadingView: UIView?
     @objc @Published public var title: String = ""
@@ -20,8 +19,7 @@ public class MSFListVnextCellData: NSObject, ObservableObject, Identifiable {
 }
 
 /// Properties that make up section content
-@objc(MSFListVnextSectionData)
-public class MSFListVnextSectionData: NSObject, ObservableObject, Identifiable {
+@objc public class MSFListVnextSectionData: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
     @objc @Published public var cells: [MSFListVnextCellData] = []
     @objc @Published public var title: String?
@@ -30,14 +28,12 @@ public class MSFListVnextSectionData: NSObject, ObservableObject, Identifiable {
 }
 
 /// Properties that make up list content
-@objc(MSFListVnextState)
-public class MSFListVnextState: NSObject, ObservableObject {
+@objc public class MSFListVnextState: NSObject, ObservableObject {
     @objc @Published public var sections: [MSFListVnextSectionData] = []
 }
 
-@objc(MSFListCellVnextHeight)
 /// Pre-defined layout heights of cells
-public enum MSFListCellVnextLayoutType: Int, CaseIterable {
+@objc public enum MSFListCellVnextLayoutType: Int, CaseIterable {
     case oneLine
     case twoLines
     case threeLines
@@ -46,12 +42,12 @@ public enum MSFListCellVnextLayoutType: Int, CaseIterable {
 public struct MSFListView: View {
     @Environment(\.theme) var theme: FluentUIStyle
     @ObservedObject var state: MSFListVnextState
-    @ObservedObject var tokens: ListTokens
+    @ObservedObject var tokens: MSFListTokens
 
     public init(sections: [MSFListVnextSectionData],
                 iconStyle: MSFListIconVnextStyle) {
         self.state = MSFListVnextState()
-        self.tokens = ListTokens(iconStyle: iconStyle)
+        self.tokens = MSFListTokens(iconStyle: iconStyle)
         self.state.sections = sections
     }
 
@@ -110,9 +106,9 @@ extension MSFListView {
     struct MSFListCellView: View {
         var cell: MSFListVnextCellData
         var layoutType: MSFListCellVnextLayoutType
-        @ObservedObject var tokens: ListTokens
+        @ObservedObject var tokens: MSFListTokens
 
-        init(cell: MSFListVnextCellData, layoutType: MSFListCellVnextLayoutType, tokens: ListTokens) {
+        init(cell: MSFListVnextCellData, layoutType: MSFListCellVnextLayoutType, tokens: MSFListTokens) {
             self.cell = cell
             self.layoutType = layoutType
             self.tokens = tokens
@@ -161,7 +157,7 @@ extension MSFListView {
     }
 
     struct ListCellButtonStyle: ButtonStyle {
-        let tokens: ListTokens
+        let tokens: MSFListTokens
         let layoutType: MSFListCellVnextLayoutType
 
         func makeBody(configuration: Self.Configuration) -> some View {
@@ -187,9 +183,9 @@ extension MSFListView {
     /// View for List Header (availble for iOS 14.0+)
     struct Header: View {
         let title: String
-        var tokens: ListTokens
+        var tokens: MSFListTokens
 
-        init(title: String, tokens: ListTokens) {
+        init(title: String, tokens: MSFListTokens) {
             self.title = title
             self.tokens = tokens
         }
@@ -207,8 +203,7 @@ extension MSFListView {
     }
 }
 
-@objc(MSFListVnext)
-open class MSFListVnext: NSObject, FluentUIWindowProvider {
+@objc open class MSFListVnext: NSObject, FluentUIWindowProvider {
 
     @objc public init(sections: [MSFListVnextSectionData],
                       iconStyle: MSFListIconVnextStyle,

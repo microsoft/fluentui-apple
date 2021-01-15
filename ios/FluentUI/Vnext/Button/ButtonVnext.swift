@@ -6,9 +6,8 @@
 import UIKit
 import SwiftUI
 
-@objc(MSFButtonVnextState)
 /// Properties available to customize the state of the button
-public class MSFButtonVnextState: NSObject, ObservableObject {
+@objc public class MSFButtonVnextState: NSObject, ObservableObject {
     @objc @Published public var image: UIImage?
     @objc @Published public var isDisabled: Bool = false
     @objc @Published public var text: String?
@@ -61,7 +60,7 @@ public struct MSFButtonViewButtonStyle: ButtonStyle {
 public struct MSFButtonView: View {
     var action: () -> Void
     @Environment(\.theme) var theme: FluentUIStyle
-    @ObservedObject var tokens: ButtonTokens
+    @ObservedObject var tokens: MSFButtonTokens
     @ObservedObject var state: MSFButtonVnextState
 
     public init(action: @escaping () -> Void,
@@ -69,7 +68,7 @@ public struct MSFButtonView: View {
                 size: MSFButtonVnextSize) {
         self.action = action
         self.state = MSFButtonVnextState()
-        self.tokens = ButtonTokens(style: style, size: size)
+        self.tokens = MSFButtonTokens(style: style, size: size)
     }
 
     public var body: some View {
@@ -92,9 +91,8 @@ public struct MSFButtonView: View {
     }
 }
 
-@objc(MSFButtonVnext)
 /// UIKit wrapper that exposes the SwiftUI Button implementation
-open class MSFButtonVnext: NSObject, FluentUIWindowProvider {
+@objc open class MSFButtonVnext: NSObject, FluentUIWindowProvider {
 
     private var hostingController: UIHostingController<AnyView>!
 

@@ -6,17 +6,15 @@
 import UIKit
 import SwiftUI
 
-@objc(MSFButtonVnextStyle)
 /// Pre-defined styles of the button
-public enum MSFButtonVnextStyle: Int, CaseIterable {
+@objc public enum MSFButtonVnextStyle: Int, CaseIterable {
     case primary
     case secondary
     case ghost
 }
 
-@objc(MSFButtonVnextSize)
 /// Pre-defined sizes of the button
-public enum MSFButtonVnextSize: Int, CaseIterable {
+@objc public enum MSFButtonVnextSize: Int, CaseIterable {
     case small
     case medium
     case large
@@ -24,7 +22,7 @@ public enum MSFButtonVnextSize: Int, CaseIterable {
 
 /// Representation of design tokens to buttons at runtime which interfaces with the Design Token System auto-generated code.
 /// Updating these properties causes the SwiftUI button to update its view automatically.
-public class ButtonTokens: TokensBase, ObservableObject {
+public class MSFButtonTokens: MSFTokensBase, ObservableObject {
     @Published public var borderRadius: CGFloat!
     @Published public var borderSize: CGFloat!
     @Published public var iconSize: CGFloat!
@@ -71,11 +69,11 @@ public class ButtonTokens: TokensBase, ObservableObject {
 
         switch style {
         case .primary:
-            appearanceProxy = currentTheme.PrimaryButtonTokens
+            appearanceProxy = currentTheme.MSFPrimaryButtonTokens
         case .secondary:
-            appearanceProxy = currentTheme.SecondaryButtonTokens
+            appearanceProxy = currentTheme.MSFSecondaryButtonTokens
         case .ghost:
-            appearanceProxy = currentTheme.GhostButtonTokens
+            appearanceProxy = currentTheme.MSFGhostButtonTokens
         }
 
         titleColor = appearanceProxy.textColor.rest
