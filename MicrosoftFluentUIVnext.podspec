@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
-  s.name             = 'MicrosoftFluentUI'
-  s.version          = '0.2.0'
+  s.name             = 'MicrosoftFluentUIVnext'
+  s.version          = '0.0.1'
   s.summary          = 'Fluent UI is a set of reusable UI controls and tools'
   s.homepage         = "https://www.microsoft.com/design/fluent/#/"
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
@@ -35,7 +35,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'Avatar_ios' do |avatar_ios|
     avatar_ios.platform = :ios
-    avatar_ios.dependency 'MicrosoftFluentUI/Core_ios'
+    avatar_ios.dependency 'MicrosoftFluentUIVnext/Core_ios'
     avatar_ios.source_files = ["ios/FluentUI/AvatarVnext/**/*.{swift,h}",
                                "ios/FluentUI/People Picker/Avatar.swift",
                                "ios/FluentUI/People Picker/AvatarView.swift",
@@ -45,19 +45,19 @@ Pod::Spec.new do |s|
 
   s.subspec 'Button_ios' do |button_ios|
     button_ios.platform = :ios
-    button_ios.dependency 'MicrosoftFluentUI/Core_ios'
+    button_ios.dependency 'MicrosoftFluentUIVnext/Core_ios'
     button_ios.source_files = ["ios/FluentUI/ButtonVnext/**/*.{swift,h}"]
   end
 
   s.subspec 'Drawer_ios' do |drawer_ios|
     drawer_ios.platform = :ios
-    drawer_ios.dependency 'MicrosoftFluentUI/Core_ios'
+    drawer_ios.dependency 'MicrosoftFluentUIVnext/Core_ios'
     drawer_ios.source_files = ["ios/FluentUI/DrawerVnext/**/*.{swift,h}"]
   end
 
   s.subspec 'List_ios' do |list_ios|
     list_ios.platform = :ios
-    list_ios.dependency 'MicrosoftFluentUI/Core_ios'
+    list_ios.dependency 'MicrosoftFluentUIVnext/Core_ios'
     list_ios.source_files = ["ios/FluentUI/ListVnext/**/*.{swift,h}"]
   end
 
