@@ -16,7 +16,7 @@ public struct UIViewAdapter: UIViewRepresentable {
     }
 
     public func makeUIView(context: Context) -> UIView {
-        makeView()
+        return UIStackView(arrangedSubviews: [makeView()])
     }
 
     public func updateUIView(_ view: UIView, context: Context) {

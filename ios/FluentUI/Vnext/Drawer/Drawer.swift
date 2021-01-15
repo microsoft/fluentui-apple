@@ -158,7 +158,7 @@ public struct MSFDrawerView<Content: View>: View {
     @Environment(\.theme) var theme: FluentUIStyle
 
     /// Internal panel state
-    @State internal var panelTransitionState: SlideOverTransitionState = .collapsed
+    @State internal var panelTransitionState: MSFSlideOverTransitionState = .collapsed
 
     /// Transition percent, whem set to max value the panel is expaned
     /// Range [0,1]

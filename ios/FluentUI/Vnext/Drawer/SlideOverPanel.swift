@@ -12,7 +12,7 @@ import SwiftUI
     case right
 }
 
-enum SlideOverTransitionState: Int, CaseIterable {
+@objc enum MSFSlideOverTransitionState: Int, CaseIterable {
     /// Panel is expanded and content view is available for interaction
     case expanded
     /// Panel is collapsed and background view is available for interaction
@@ -48,7 +48,7 @@ struct MSFSlideOverPanel<Content: View>: View {
     internal var direction: MSFDrawerSlideOverDirection = .left
 
     /// Interactive state of panel
-    @Binding internal var transitionState: SlideOverTransitionState
+    @Binding internal var transitionState: MSFSlideOverTransitionState
 
     var body: some View {
         HStack {
@@ -172,7 +172,7 @@ struct SlideOverPanelLeft_Previews: PreviewProvider {
                 content: MockContent(),
                 backgroundDimmed: true,
                 direction: .left,
-                transitionState: Binding.constant(SlideOverTransitionState.expanded))
+                transitionState: Binding.constant(MSFSlideOverTransitionState.expanded))
         }
     }
 }
@@ -189,7 +189,7 @@ struct SlideOverPanelRight_Previews: PreviewProvider {
                 content: MockContent(),
                 backgroundDimmed: true,
                 direction: .right,
-                transitionState: Binding.constant(SlideOverTransitionState.expanded))
+                transitionState: Binding.constant(MSFSlideOverTransitionState.expanded))
         }
     }
 }
@@ -206,7 +206,7 @@ struct SlideOverPanelInTransition_Previews: PreviewProvider {
                 content: MockContent(),
                 backgroundDimmed: true,
                 direction: .left,
-                transitionState: Binding.constant(SlideOverTransitionState.inTransisiton))
+                transitionState: Binding.constant(MSFSlideOverTransitionState.inTransisiton))
         }
     }
 }
@@ -222,7 +222,7 @@ struct SlideOverPanelCollapsed_Previews: PreviewProvider {
                 content: MockContent(),
                 backgroundDimmed: true,
                 direction: .left,
-                transitionState: Binding.constant(SlideOverTransitionState.collapsed))
+                transitionState: Binding.constant(MSFSlideOverTransitionState.collapsed))
         }
     }
 }
