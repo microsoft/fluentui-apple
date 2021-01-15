@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0AF14BF225A7FCE300A90572 /* UIViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF14BF125A7FCE300A90572 /* UIViewAdapter.swift */; };
-		0AF14BF325A7FCE300A90572 /* UIViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF14BF125A7FCE300A90572 /* UIViewAdapter.swift */; };
+		0AF14BF225A7FCE300A90572 /* UIKit+SwiftUI_interoperability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF14BF125A7FCE300A90572 /* UIKit+SwiftUI_interoperability.swift */; };
+		0AF14BF325A7FCE300A90572 /* UIKit+SwiftUI_interoperability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF14BF125A7FCE300A90572 /* UIKit+SwiftUI_interoperability.swift */; };
 		0BCEFADE2485FEC00088CEE5 /* PopupMenuProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */; };
 		0BCEFAE1248650F10088CEE5 /* PopupMenuProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */; };
 		11104BCE233ACA9500CCB232 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D9847230BBA2300BC0B72 /* TabBarItem.swift */; };
@@ -330,7 +330,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0AF14BF125A7FCE300A90572 /* UIViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewAdapter.swift; sourceTree = "<group>"; };
+		0AF14BF125A7FCE300A90572 /* UIKit+SwiftUI_interoperability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIKit+SwiftUI_interoperability.swift"; sourceTree = "<group>"; };
 		0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuProtocols.swift; sourceTree = "<group>"; };
 		1168630222E131CF0088B302 /* TabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
 		1168630322E131CF0088B302 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
@@ -778,6 +778,7 @@
 				A5CEC16B20D98EBF0016922A /* Core */,
 				FD599D0021347FA0008845EE /* Date Time Pickers */,
 				A5B87AF2211E13D00038C37C /* Drawer */,
+				3F11A4782587F97500D3BEBC /* DrawerVnext */,
 				A5B87AED211BCA4A0038C37C /* Extensions */,
 				B483323121CC71700022B4CC /* HUD */,
 				FD41C86D22DD12A20086F899 /* Navigation */,
@@ -821,6 +822,7 @@
 				A5CEC16E20D98F340016922A /* Fonts.swift */,
 				537315B225438B15001FD14C /* iOS13_4_compatibility.swift */,
 				FD41C8C022DD48E60086F899 /* Operators.swift */,
+				0AF14BF125A7FCE300A90572 /* UIKit+SwiftUI_interoperability.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1338,7 +1340,7 @@
 				53BCB0CF253A4E8D00620960 /* Obscurable.swift in Sources */,
 				53EA0F98257EC20800899357 /* AvatarVnext.swift in Sources */,
 				8FD0117D228A82A600D25925 /* Button.swift in Sources */,
-				0AF14BF325A7FCE300A90572 /* UIViewAdapter.swift in Sources */,
+				0AF14BF325A7FCE300A90572 /* UIKit+SwiftUI_interoperability.swift in Sources */,
 				FD41C8BF22DD47120086F899 /* UINavigationItem+Navigation.swift in Sources */,
 				8FD0117E228A82A600D25925 /* DimmingView.swift in Sources */,
 				8FD0117F228A82A600D25925 /* DotView.swift in Sources */,
@@ -1569,7 +1571,7 @@
 				C0938E46235F66E300256251 /* ShimmerViewAppearance.swift in Sources */,
 				C0A0D76F233AEF6C00F432FD /* ShimmerLinesViewAppearance.swift in Sources */,
 				FD256C5B2183B90B00EC9588 /* DatePickerSelectionManager.swift in Sources */,
-				0AF14BF225A7FCE300A90572 /* UIViewAdapter.swift in Sources */,
+				0AF14BF225A7FCE300A90572 /* UIKit+SwiftUI_interoperability.swift in Sources */,
 				A5CEC23120E451D00016922A /* Button.swift in Sources */,
 				3F800564259DA182004DDB8B /* SideOverPanel+Modifiers.swift in Sources */,
 				FDF41EDB2141A23B00EC527C /* UIViewController+Extensions.swift in Sources */,

@@ -156,10 +156,13 @@ class DrawerVnextDemoController: DemoController, MSFDrawerVnextControllerDelegat
             return
         }
 
-        if view.effectiveUserInterfaceLayoutDirection == .leftToRight {
-            self.showRightDrawerDimmedBackgroundButtonTapped()
-        } else {
-            self.showLeftDrawerClearBackgroundButtonTapped()
+        let isLeadingEdgeLeftToRight = view.effectiveUserInterfaceLayoutDirection == .leftToRight
+
+        if let drawerController = drawerController {
+            drawerController.state.backgroundDimmed = true
+            drawerController.state.presentingGesture = gesture
+            drawerController.state.presentationDirection = isLeadingEdgeLeftToRight ? .right : .left
+            present(drawerController, animated: true, completion: nil)
         }
     }
 }
