@@ -67,12 +67,14 @@
     UILabel *listVnextLabel = [[UILabel alloc] init];
     [listVnextLabel setText:@"List (vNext)"];
     [self.container addArrangedSubview:listVnextLabel];
-    
+
+    MSFListVnextCellData *childCell = [[MSFListVnextCellData alloc] init];
+    [childCell setTitle:@"SampleTitle1"];
+    NSArray *children = [NSArray arrayWithObject:childCell];
+
     MSFListVnextCellData *listCell1 = [[MSFListVnextCellData alloc] init];
     [listCell1 setTitle:@"SampleTitle1"];
-    [listCell1 setOnTapAction:^{
-        [self showAlertForCellTapped:@"SampleTitle1"];
-    }];
+    [listCell1 setChildren:children];
 
     MSFListVnextCellData *listCell2 = [[MSFListVnextCellData alloc] init];
     [listCell2 setTitle:@"SampleTitle2"];
@@ -103,7 +105,7 @@
 
     [self.container addArrangedSubview:[list view]];
 
-    [[[listView heightAnchor] constraintEqualToConstant:200] setActive:YES];
+    [[[listView heightAnchor] constraintEqualToConstant:250] setActive:YES];
 }
 
 - (void)enableVnextButton {
