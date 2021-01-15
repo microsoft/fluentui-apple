@@ -29,18 +29,18 @@ Pod::Spec.new do |s|
                              "ios/FluentUI/Extensions/UIFont+Extension.swift",
                              "ios/FluentUI/Extensions/UIImage+Extensions.swift",
                              "ios/FluentUI/Extensions/UIScreen+Extension.swift",
-                             "ios/FluentUI/Vnext/Design Token System/**/*.{swift,h}",
-                             "ios/FluentUI/Vnext/Core/**/*.{swift,h}"]
+                             "ios/FluentUI/Vnext/Core/**/*.{swift,h}",
+                             "ios/FluentUI/Vnext/Design Token System/**/*.{swift,h}"]
   end
 
   s.subspec 'Avatar_ios' do |avatar_ios|
     avatar_ios.platform = :ios
     avatar_ios.dependency 'MicrosoftFluentUIVnext/Core_ios'
-    avatar_ios.source_files = ["ios/FluentUI/Vnext/Avatar/**/*.{swift,h}",
-                               "ios/FluentUI/People Picker/Avatar.swift",
+    avatar_ios.source_files = ["ios/FluentUI/People Picker/Avatar.swift",
                                "ios/FluentUI/People Picker/AvatarView.swift",
                                "ios/FluentUI/People Picker/InitialsView.swift",
-                               "ios/FluentUI/People Picker/Presence.swift"]
+                               "ios/FluentUI/People Picker/Presence.swift",
+                               "ios/FluentUI/Vnext/Avatar/**/*.{swift,h}"]
   end
 
   s.subspec 'Button_ios' do |button_ios|
