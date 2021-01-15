@@ -34,6 +34,19 @@ let backgroundColors: [String: NSColor] = [
 	"unemphasizedSelectedContentBackgroundColor": .unemphasizedSelectedContentBackgroundColor
 ]
 
+let imagePositions: [String: NSControl.ImagePosition] = [
+	"imageAbove": .imageAbove,
+	"imageBelow": .imageBelow,
+	"imageLeading": .imageLeading,
+	"imageLeft": .imageLeft,
+	"imageOnly": .imageOnly,
+	"imageOverlaps": .imageOverlaps,
+	"imageRight": .imageRight,
+	"imageTrailing": .imageTrailing,
+	"noImage": .noImage
+]
+let defaultImagePosition = "imageLeading"
+
 let buttonStates: [String] = [
 	"rest",
 	"pressed",
@@ -43,7 +56,7 @@ let buttonStates: [String] = [
 let widths: [String: CGFloat] = [
 	"natural": 0,
 	"oversized (180)": 180,
-	"undersized (50)": 50
+	"undersized (30)": 30
 ]
 
 let heights: [String: CGFloat] = [
@@ -75,12 +88,13 @@ class TopClipView: NSClipView {
 }
 
 class TestButtonViewController: NSViewController, NSMenuDelegate {
-	let materialsPopup = NSPopUpButton(frame: NSRect.zero, pullsDown: false)
-	let backgroundColorsPopup = NSPopUpButton(frame: NSRect.zero, pullsDown: false)
-	let buttonStatesPopup = NSPopUpButton(frame: NSRect.zero, pullsDown: false)
-	let widthPopup = NSPopUpButton(frame: NSRect.zero, pullsDown: false)
+	let materialsPopup = NSPopUpButton(frame: .zero, pullsDown: false)
+	let backgroundColorsPopup = NSPopUpButton(frame: .zero, pullsDown: false)
+	let imagePositionsPopup = NSPopUpButton(frame: .zero, pullsDown: false)
+	let buttonStatesPopup = NSPopUpButton(frame: .zero, pullsDown: false)
+	let widthPopup = NSPopUpButton(frame: .zero, pullsDown: false)
 	var widthConstraints: [NSLayoutConstraint] = []
-	let heightPopup = NSPopUpButton(frame: NSRect.zero, pullsDown: false)
+	let heightPopup = NSPopUpButton(frame: .zero, pullsDown: false)
 	var heightConstraints: [NSLayoutConstraint] = []
 	let scrollView = VibrantScrollView()
 	let materialPane = NSVisualEffectView()
@@ -96,6 +110,12 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		backgroundColorsPopup.menu?.delegate = self
 		backgroundColorsPopup.target = self
 		backgroundColorsPopup.action = #selector(TestButtonViewController.backgroundColorChanged)
+
+		imagePositionsPopup.addItems(withTitles: imagePositions.keys.sorted())
+		imagePositionsPopup.selectItem(withTitle: defaultImagePosition)
+		imagePositionsPopup.menu?.delegate = self
+		imagePositionsPopup.target = self
+		imagePositionsPopup.action = #selector(TestButtonViewController.imagePositionChanged)
 
 		buttonStatesPopup.addItems(withTitles: buttonStates)
 		buttonStatesPopup.menu?.delegate = self
@@ -115,6 +135,7 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		let tools = [
 			[NSTextField(labelWithString: "Pane Material:"), materialsPopup],
 			[NSTextField(labelWithString: "Pane Color:"), backgroundColorsPopup],
+			[NSTextField(labelWithString: "Image Position:"), imagePositionsPopup],
 			[NSTextField(labelWithString: "Button State:"), buttonStatesPopup],
 			[NSTextField(labelWithString: "Button Width:"), widthPopup],
 			[NSTextField(labelWithString: "Button Height:"), heightPopup]
@@ -138,80 +159,62 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		let largeSecondary = ButtonFormat(size: .large, style: .secondary, accentColor: communicationBlue)
 		let largeAcrylic = ButtonFormat(size: .large, style: .acrylic, accentColor: communicationBlue)
 		let largeBorderless = ButtonFormat(size: .large, style: .borderless, accentColor: communicationBlue)
-		let largeCustom = ButtonFormat(size: .large, style: .primary, accentColor: Colors.Palette.blueMagenta30.color)
 		let smallPrimary = ButtonFormat(size: .small, style: .primary, accentColor: Colors.primary)
 		let smallSecondary = ButtonFormat(size: .small, style: .secondary, accentColor: Colors.primary)
 		let smallAcrylic = ButtonFormat(size: .small, style: .acrylic, accentColor: Colors.primary)
 		let smallBorderless = ButtonFormat(size: .small, style: .borderless, accentColor: Colors.primary)
-		let smallCustom = ButtonFormat(size: .small, style: .primary, accentColor: Colors.Palette.blueMagenta30.color)
 
+		let title = "Stop"
+		let image = NSImage(named: NSImage.stopProgressTemplateName)!
 		let formats: [ButtonFormat] = [
 			largePrimary,
 			largeSecondary,
 			largeAcrylic,
 			largeBorderless,
-			largeCustom,
 			smallPrimary,
 			smallSecondary,
 			smallAcrylic,
-			smallBorderless,
-			smallCustom
+			smallBorderless
 		]
 
 		let rowLabels: [NSView] = [
+			NSTextField(labelWithString: "Custom"),
 			NSTextField(labelWithString: "Large Primary"),
 			NSTextField(labelWithString: "Large Secondary"),
 			NSTextField(labelWithString: "Large Acrylic"),
 			NSTextField(labelWithString: "Large Borderless"),
-			NSTextField(labelWithString: "Large Custom"),
 			NSTextField(labelWithString: "Small Primary"),
 			NSTextField(labelWithString: "Small Secondary"),
 			NSTextField(labelWithString: "Small Acrylic"),
-			NSTextField(labelWithString: "Small Borderless"),
-			NSTextField(labelWithString: "Small Custom")
+			NSTextField(labelWithString: "Small Borderless")
 		]
 
+		// Parameters for buttons in "Custom" row
+		let customTitle = "Atom"
+		let customImage = NSImage(named: TestButtonViewController.nonTemplateImage)!
+		customImage.isTemplate = true
+		let customFormat = ButtonFormat(size: .large, style: .primary, accentColor: Colors.Palette.blueMagenta30.color)
+
 		let buttonsWithTitle: () -> [Button] = {
-			return formats.map({ Button(title: "Button", format: $0) })
+			let customButton = Button()
+			customButton.title = customTitle
+			customButton.format = customFormat
+			return [customButton] + formats.map({ Button(title: title, format: $0) })
 		}
 
-		let stopImage = NSImage(named: NSImage.stopProgressTemplateName)!
+		let buttonsWithTitleAndImage: () -> [Button] = {
+			let customButton = Button()
+			customButton.title = customTitle
+			customButton.image = customImage
+			customButton.format = customFormat
+			return [customButton] + formats.map({ Button(title: title, image: image, format: $0) })
+		}
 
 		let buttonsWithImage: () -> [Button] = {
-			return formats.map({ Button(image: stopImage, format: $0) })
-		}
-
-		let leadingArrowImage = NSImage(named: TestButtonViewController.leadingArrow)!
-		let trailingArrowImage = NSImage(named: TestButtonViewController.trailingArrow)!
-
-		let buttonsWithTitleAndImageHorizontal: () -> [Button] = {
-			return [
-				Button(title: "Back", image: leadingArrowImage, imagePosition: .imageLeading, format: largePrimary),
-				Button(title: "Skip", image: trailingArrowImage, imagePosition: .imageTrailing, format: largeSecondary),
-				Button(title: "Back", image: leadingArrowImage, imagePosition: .imageLeft, format: largeAcrylic),
-				Button(title: "Skip", image: trailingArrowImage, imagePosition: .imageRight, format: largeBorderless),
-				Button(title: "Back", image: leadingArrowImage, imagePosition: .imageLeft, format: largeCustom),
-				Button(title: "Skip", image: trailingArrowImage, imagePosition: .imageTrailing, format: smallPrimary),
-				Button(title: "Back", image: leadingArrowImage, imagePosition: .imageLeading, format: smallSecondary),
-				Button(title: "Skip", image: trailingArrowImage, imagePosition: .imageRight, format: smallAcrylic),
-				Button(title: "Back", image: leadingArrowImage, imagePosition: .imageLeft, format: smallBorderless),
-				Button(title: "Skip", image: trailingArrowImage, imagePosition: .imageRight, format: smallCustom)
-			]
-		}
-
-		let buttonsWithTitleAndImageVertical: () -> [Button] = {
-			return [
-				Button(title: "Nope", image: stopImage, imagePosition: .imageAbove, format: largePrimary),
-				Button(title: "Nope", image: stopImage, imagePosition: .imageBelow, format: largeSecondary),
-				Button(title: "Nope", image: stopImage, imagePosition: .imageOverlaps, format: largeAcrylic),
-				Button(title: "Nope", image: stopImage, imagePosition: .imageAbove, format: largeBorderless),
-				Button(title: "Nope", image: stopImage, imagePosition: .imageBelow, format: largeCustom),
-				Button(title: "Nope", image: stopImage, imagePosition: .imageOverlaps, format: smallPrimary),
-				Button(title: "Nope", image: stopImage, imagePosition: .imageAbove, format: smallSecondary),
-				Button(title: "Nope", image: stopImage, imagePosition: .imageBelow, format: smallAcrylic),
-				Button(title: "Nope", image: stopImage, imagePosition: .imageOverlaps, format: smallBorderless),
-				Button(title: "Nope", image: stopImage, imagePosition: .imageAbove, format: smallCustom)
-			]
+			let customButton = Button()
+			customButton.image = customImage
+			customButton.format = customFormat
+			return [customButton] + formats.map({ Button(image: image, format: $0) })
 		}
 
 		let fluentButtonsGrid = NSGridView(frame: .zero)
@@ -222,9 +225,8 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		fluentButtonsGrid.addColumn(with: rowLabels)
 		let buttonColumns = [
 			buttonsWithTitle(),
-			buttonsWithImage(),
-			buttonsWithTitleAndImageHorizontal(),
-			buttonsWithTitleAndImageVertical()
+			buttonsWithTitleAndImage(),
+			buttonsWithImage()
 		]
 		for newColumn in buttonColumns {
 			var nearestPrimary: Button?
@@ -249,9 +251,8 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		let columnLabels: [NSView] = [
 			NSGridCell.emptyContentView,
 			NSTextField(labelWithString: "Title"),
-			NSTextField(labelWithString: "Image"),
-			NSTextField(labelWithString: "Title & Image Horizontal"),
-			NSTextField(labelWithString: "Title & Image Vertical")
+			NSTextField(labelWithString: "Title & Image"),
+			NSTextField(labelWithString: "Image")
 		]
 		fluentButtonsGrid.insertRow(at: 0, with: columnLabels)
 
@@ -313,19 +314,41 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		scrollView.backgroundColor = color
 	}
 
+	@objc func imagePositionChanged() {
+		let imagePosition = imagePositions[imagePositionsPopup.titleOfSelectedItem!]!
+		for button in fluentButtons {
+			// The test app exposed cases where a button with no image has its
+			// imagePosition set to .imageOnly or .imageOverlaps, then back to
+			// something else.  An invisible 1-pixel image gets assigned to the
+			// button, having an NSCustomImageRep with no drawing delegate.  Detect
+			// and remove this image so it doesn't offset the title.
+			if let image = button.image {
+				if let imageRep = image.representations.first as? NSCustomImageRep {
+					if imageRep.delegate == nil && image.size == TestButtonViewController.onePointSize {
+						button.image = nil
+					}
+				}
+			}
+
+			button.imagePosition = imagePosition
+			if let cell = button.cell as? NSButtonCell {
+				cell.imagePosition = imagePosition
+			}
+		}
+	}
+
 	@objc func stateChanged() {
 		let state = buttonStatesPopup.titleOfSelectedItem
-		let emptyEvent = NSEvent()
 		for button in fluentButtons {
 			let originalLinkedPrimary = button.linkedPrimary
 			button.linkedPrimary = nil
 			switch state {
 			case "rest":
 				button.isEnabled = true
-				button.mouseUp(with: emptyEvent)
+				button.isPressed = false
 			case "pressed":
 				button.isEnabled = true
-				button.mouseDown(with: emptyEvent)
+				button.isPressed = true
 			case "disabled":
 				button.isEnabled = false
 			default:
@@ -371,8 +394,9 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		print("Button pressed")
 	}
 
-	private static let leadingArrow: String = "ic_fluent_chevron_left_16_filled"
-	private static let trailingArrow: String = "ic_fluent_chevron_right_16_filled"
+	private static let nonTemplateImage: String = "ic_fluent_non_template_24_filled"
+
+	private static let onePointSize = NSSize(width: 1, height: 1)
 
 	private static let gridViewRowSpacing: CGFloat = 20
 	private static let gridViewColumnSpacing: CGFloat = 20
