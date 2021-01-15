@@ -8,7 +8,7 @@ import SwiftUI
 
 // MARK: Drawer + UIViewControllerTransitioningDelegate
 
-extension DrawerVnext: UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
+extension MSFDrawerVnext: UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
 
     enum Constant {
         static let linearAnimationDuration: TimeInterval = 0.25
@@ -63,29 +63,28 @@ extension DrawerVnext: UIViewControllerTransitioningDelegate, UIViewControllerAn
 
 // MARK: - DrawerVnext
 
-@objc(MSFDrawerVnextControllerDelegate)
-public protocol DrawerVnextControllerDelegate: AnyObject {
+@objc public protocol MSFDrawerVnextControllerDelegate: AnyObject {
     /// Called when a user opens/closes the drawer  to change its expanded state. Use `isExpanded` property to get the current state.
-    @objc optional func drawerDidChangeState(state: DrawerState, controller: UIViewController)
+    @objc optional func drawerDidChangeState(state: MSFDrawerState, controller: UIViewController)
 }
 
 /// ` DrawerVnext` is UIKit wrapper that exposes the SwiftUI Drawer implementation
 @objc(MSFDrawerVnext)
-open class DrawerVnext: UIHostingController<AnyView>, FluentUIWindowProvider {
+open class MSFDrawerVnext: UIHostingController<AnyView>, FluentUIWindowProvider {
 
     public var window: UIWindow? {
         return self.view.window
     }
 
-    public weak var delegate: DrawerVnextControllerDelegate?
+    public weak var delegate: MSFDrawerVnextControllerDelegate?
 
-    @objc open var state: DrawerState {
+    @objc open var state: MSFDrawerState {
         return self.drawer.state
     }
 
     @objc public init(contentViewController: UIViewController,
                       theme: FluentUIStyle? = nil) {
-        let drawer = Drawer(content: DrawerContentViewController(contentViewController: contentViewController))
+        let drawer = MSFDrawerView(content: DrawerContentViewController(contentViewController: contentViewController))
         self.drawer = drawer
         super.init(rootView: theme != nil ? AnyView(drawer.usingTheme(theme!)) : AnyView(drawer))
 
@@ -103,12 +102,12 @@ open class DrawerVnext: UIHostingController<AnyView>, FluentUIWindowProvider {
     }
 
     @objc required dynamic public init?(coder aDecoder: NSCoder) {
-        let drawer = Drawer(content: DrawerContentViewController(contentViewController: UIViewController()))
+        let drawer = MSFDrawerView(content: DrawerContentViewController(contentViewController: UIViewController()))
         self.drawer = drawer
         super.init(coder: aDecoder)
     }
 
-    private var drawer: Drawer<DrawerContentViewController>
+    private var drawer: MSFDrawerView<DrawerContentViewController>
 
     private func addDelegateNotification() {
         self.drawer = self.drawer.didChangeState({ [weak self] in

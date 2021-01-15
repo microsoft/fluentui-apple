@@ -36,15 +36,15 @@ class ThemingVnextDemoController: DemoController {
 
         addRow(items: [customThemeButton.view, disabledCstomThemeButton.view], itemSpacing: 20)
 
-        let avatarAccent = AvatarVnext(style: .accent, size: .xlarge)
+        let avatarAccent = MSFAvatarVnext(style: .accent, size: .xlarge)
         avatarAccent.state.isRingVisible = true
         avatarAccent.state.presence = .available
 
-        let avatarDefault = AvatarVnext(style: .default, size: .xlarge)
+        let avatarDefault = MSFAvatarVnext(style: .default, size: .xlarge)
         avatarDefault.state.isRingVisible = true
         avatarDefault.state.presence = .busy
 
-        let avatarOutlinedPrimary = AvatarVnext(style: .outlinedPrimary, size: .xlarge)
+        let avatarOutlinedPrimary = MSFAvatarVnext(style: .outlinedPrimary, size: .xlarge)
         avatarOutlinedPrimary.state.isRingVisible = true
         avatarOutlinedPrimary.state.presence = .away
 
@@ -101,19 +101,19 @@ class ThemingVnextDemoController: DemoController {
 
         addRow(items: [customThemeButtonPrimary.view, customThemeButtonSecondary.view, customThemeButtonGhost.view], itemSpacing: 20)
 
-        let customThemeAvatarAccent = AvatarVnext(style: .accent,
+        let customThemeAvatarAccent = MSFAvatarVnext(style: .accent,
                                                   size: .xlarge,
                                                   theme: overridingTheme)
         customThemeAvatarAccent.state.isRingVisible = true
         customThemeAvatarAccent.state.presence = .available
 
-        let customThemeAvatarDefault = AvatarVnext(style: .default,
+        let customThemeAvatarDefault = MSFAvatarVnext(style: .default,
                                                    size: .xlarge,
                                                    theme: overridingTheme)
         customThemeAvatarDefault.state.isRingVisible = true
         customThemeAvatarDefault.state.presence = .busy
 
-        let customThemeAvatarOutlinedPrimary = AvatarVnext(style: .outlinedPrimary,
+        let customThemeAvatarOutlinedPrimary = MSFAvatarVnext(style: .outlinedPrimary,
                                                            size: .xlarge,
                                                            theme: overridingTheme)
         customThemeAvatarOutlinedPrimary.state.isRingVisible = true

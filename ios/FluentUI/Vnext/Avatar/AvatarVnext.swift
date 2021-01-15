@@ -6,30 +6,7 @@
 import UIKit
 import SwiftUI
 
-@objc(AvatarVnextStyle)
-/// Pre-defined styles of the avatar
-public enum AvatarVnextStyle: Int, CaseIterable {
-    case `default`
-    case accent
-    case group
-    case outlined
-    case outlinedPrimary
-    case overflow
-}
-
-@objc(MSFAvatarVnextSize)
-/// Pre-defined sizes of the avatar
-public enum AvatarVnextSize: Int, CaseIterable {
-    case xsmall
-    case small
-    case medium
-    case large
-    case xlarge
-    case xxlarge
-}
-
-@objc(MSFAvatarVnextPresence)
-public enum AvatarVnextPresence: Int, CaseIterable {
+@objc public enum MSFAvatarVnextPresence: Int, CaseIterable {
     case none
     case available
     case away
@@ -91,171 +68,30 @@ public enum AvatarVnextPresence: Int, CaseIterable {
     }
 }
 
-@objc(MSFAvatarVnextState)
 /// Properties available to customize the state of the avatar
-public class AvatarVnextState: NSObject, ObservableObject {
+@objc public class MSFAvatarVnextState: NSObject, ObservableObject {
     @objc @Published public var image: UIImage?
     @objc @Published public var primaryText: String?
     @objc @Published public var secondaryText: String?
     @objc @Published public var ringColor: UIColor?
     @objc @Published public var backgroundColor: UIColor?
     @objc @Published public var foregroundColor: UIColor?
-    @objc @Published public var presence: AvatarVnextPresence = .none
+    @objc @Published public var presence: MSFAvatarVnextPresence = .none
     @objc @Published public var isRingVisible: Bool = false
     @objc @Published public var isTransparent: Bool = true
     @objc @Published public var isOutOfOffice: Bool = false
 }
 
-/// Representation of design tokens to buttons at runtime which interfaces with the Design Token System auto-generated code.
-/// Updating these properties causes the SwiftUI button to update its view automatically.
-public class AvatarTokens: MSFTokensBase, ObservableObject {
-    @Published public var avatarSize: CGFloat!
-    @Published public var borderRadius: CGFloat!
-    @Published public var textFont: UIFont!
-
-    @Published public var ringDefaultColor: UIColor!
-    @Published public var ringGapColor: UIColor!
-    @Published public var ringThickness: CGFloat!
-    @Published public var ringInnerGap: CGFloat!
-    @Published public var ringOuterGap: CGFloat!
-
-    @Published public var presenceIconSize: CGFloat!
-    @Published public var presenceIconOutlineThickness: CGFloat!
-    @Published public var presenceOutlineColor: UIColor!
-
-    @Published public var backgroundCalculatedColorOptions: [UIColor]!
-    @Published public var backgroundDefaultColor: UIColor!
-    @Published public var foregroundDefaultColor: UIColor!
-    @Published public var textColor: UIColor!
-
-    public var style: AvatarVnextStyle {
-        didSet {
-            if oldValue != style {
-                updateForCurrentTheme()
-            }
-        }
-    }
-
-    public var size: AvatarVnextSize {
-        didSet {
-            if oldValue != size {
-                updateForCurrentTheme()
-            }
-        }
-    }
-
-    public init(style: AvatarVnextStyle,
-                size: AvatarVnextSize) {
-        self.style = style
-        self.size = size
-
-        super.init()
-
-        self.themeAware = true
-
-        updateForCurrentTheme()
-    }
-
-    public override func updateForCurrentTheme() {
-        let currentTheme = theme
-        var appearanceProxy: AppearanceProxyType
-
-        switch style {
-        case .default:
-            appearanceProxy = currentTheme.AvatarTokens
-        case .accent:
-            appearanceProxy = currentTheme.AccentAvatarTokens
-        case .outlined:
-            appearanceProxy = currentTheme.OutlinedAvatarTokens
-        case .outlinedPrimary:
-            appearanceProxy = currentTheme.OutlinedPrimaryAvatarTokens
-        case .overflow:
-            appearanceProxy = currentTheme.OverflowAvatarTokens
-        case .group:
-            appearanceProxy = currentTheme.GroupAvatarTokens
-        }
-
-        ringDefaultColor = appearanceProxy.ringDefaultColor
-        ringGapColor = appearanceProxy.ringGapColor
-        presenceOutlineColor = appearanceProxy.presenceIconOutlineColor
-        backgroundDefaultColor = appearanceProxy.backgroundDefaultColor
-        backgroundCalculatedColorOptions = appearanceProxy.textCalculatedBackgroundColors
-        foregroundDefaultColor = appearanceProxy.foregroundDefaultColor
-        textColor = appearanceProxy.textColor
-
-        switch size {
-        case .xsmall:
-            avatarSize = appearanceProxy.size.xSmall
-            borderRadius = appearanceProxy.borderRadius.xSmall
-            ringThickness = appearanceProxy.ringThickness.xSmall
-            ringInnerGap = appearanceProxy.ringInnerGap.xSmall
-            ringOuterGap = appearanceProxy.ringOuterGap.xSmall
-            presenceIconSize = appearanceProxy.presenceIconSize.xSmall
-            presenceIconOutlineThickness = appearanceProxy.presenceIconOutlineThickness.xSmall
-            textFont = appearanceProxy.textFont.xSmall
-        case .small:
-            avatarSize = appearanceProxy.size.small
-            borderRadius = appearanceProxy.borderRadius.small
-            ringThickness = appearanceProxy.ringThickness.small
-            ringInnerGap = appearanceProxy.ringInnerGap.small
-            ringOuterGap = appearanceProxy.ringOuterGap.small
-            presenceIconSize = appearanceProxy.presenceIconSize.small
-            presenceIconOutlineThickness = appearanceProxy.presenceIconOutlineThickness.small
-            textFont = appearanceProxy.textFont.small
-        case .medium:
-            avatarSize = appearanceProxy.size.medium
-            borderRadius = appearanceProxy.borderRadius.medium
-            ringThickness = appearanceProxy.ringThickness.medium
-            ringInnerGap = appearanceProxy.ringInnerGap.medium
-            ringOuterGap = appearanceProxy.ringOuterGap.medium
-            presenceIconSize = appearanceProxy.presenceIconSize.medium
-            presenceIconOutlineThickness = appearanceProxy.presenceIconOutlineThickness.medium
-            textFont = appearanceProxy.textFont.medium
-        case .large:
-            avatarSize = appearanceProxy.size.large
-            borderRadius = appearanceProxy.borderRadius.large
-            ringThickness = appearanceProxy.ringThickness.large
-            ringInnerGap = appearanceProxy.ringInnerGap.large
-            ringOuterGap = appearanceProxy.ringOuterGap.large
-            presenceIconSize = appearanceProxy.presenceIconSize.large
-            presenceIconOutlineThickness = appearanceProxy.presenceIconOutlineThickness.large
-            textFont = appearanceProxy.textFont.large
-        case .xlarge:
-            avatarSize = appearanceProxy.size.xlarge
-            borderRadius = appearanceProxy.borderRadius.xlarge
-            ringThickness = appearanceProxy.ringThickness.xlarge
-            ringInnerGap = appearanceProxy.ringInnerGap.xlarge
-            ringOuterGap = appearanceProxy.ringOuterGap.xlarge
-            presenceIconSize = appearanceProxy.presenceIconSize.xlarge
-            presenceIconOutlineThickness = appearanceProxy.presenceIconOutlineThickness.xlarge
-            textFont = appearanceProxy.textFont.xlarge
-        case .xxlarge:
-            avatarSize = appearanceProxy.size.xxlarge
-            borderRadius = appearanceProxy.borderRadius.xxlarge
-            ringThickness = appearanceProxy.ringThickness.xxlarge
-            ringInnerGap = appearanceProxy.ringInnerGap.xxlarge
-            ringOuterGap = appearanceProxy.ringOuterGap.xxlarge
-            presenceIconSize = appearanceProxy.presenceIconSize.xxlarge
-            presenceIconOutlineThickness = appearanceProxy.presenceIconOutlineThickness.xxlarge
-            textFont = appearanceProxy.textFont.xxlarge
-        }
-    }
-
-    @objc open func didChangeAppearanceProxy() {
-        updateForCurrentTheme()
-    }
-}
-
 /// View that represents the avatar
 public struct AvatarVnextView: View {
     @Environment(\.theme) var theme: FluentUIStyle
-    @ObservedObject var tokens: AvatarTokens
-    @ObservedObject var state: AvatarVnextState
+    @ObservedObject var tokens: MSFAvatarTokens
+    @ObservedObject var state: MSFAvatarVnextState
 
-    public init(style: AvatarVnextStyle,
-                size: AvatarVnextSize) {
-        self.tokens = AvatarTokens(style: style, size: size)
-        self.state = AvatarVnextState()
+    public init(style: MSFAvatarVnextStyle,
+                size: MSFAvatarVnextSize) {
+        self.tokens = MSFAvatarTokens(style: style, size: size)
+        self.state = MSFAvatarVnextState()
     }
 
     public var body: some View {
@@ -399,18 +235,17 @@ public struct AvatarVnextView: View {
         return cutoutFrame
     }
 
-    public func setStyle(style: AvatarVnextStyle) {
+    public func setStyle(style: MSFAvatarVnextStyle) {
         tokens.style = style
     }
 
-    public func setSize(size: AvatarVnextSize) {
+    public func setSize(size: MSFAvatarVnextSize) {
         tokens.size = size
     }
 }
 
-@objc(MSFAvatarVnext)
 /// UIKit wrapper that exposes the SwiftUI Button implementation
-open class AvatarVnext: NSObject, FluentUIWindowProvider {
+@objc open class MSFAvatarVnext: NSObject, FluentUIWindowProvider {
 
     private var hostingController: UIHostingController<AnyView>!
 
@@ -420,7 +255,7 @@ open class AvatarVnext: NSObject, FluentUIWindowProvider {
         return hostingController.view
     }
 
-    @objc open var state: AvatarVnextState {
+    @objc open var state: MSFAvatarVnextState {
         return self.avatarview.state
     }
 
@@ -428,23 +263,23 @@ open class AvatarVnext: NSObject, FluentUIWindowProvider {
         return self.view.window
     }
 
-    @objc open func setStyle(style: AvatarVnextStyle) {
+    @objc open func setStyle(style: MSFAvatarVnextStyle) {
         self.avatarview.setStyle(style: style)
     }
 
-    @objc open func setSize(size: AvatarVnextSize) {
+    @objc open func setSize(size: MSFAvatarVnextSize) {
         self.avatarview.setSize(size: size)
     }
 
-    @objc public convenience init(style: AvatarVnextStyle = .default,
-                                  size: AvatarVnextSize = .large) {
+    @objc public convenience init(style: MSFAvatarVnextStyle = .default,
+                                  size: MSFAvatarVnextSize = .large) {
         self.init(style: style,
                   size: size,
                   theme: nil)
     }
 
-    @objc public init(style: AvatarVnextStyle = .default,
-                      size: AvatarVnextSize = .large,
+    @objc public init(style: MSFAvatarVnextStyle = .default,
+                      size: MSFAvatarVnextSize = .large,
                       theme: FluentUIStyle? = nil) {
         self.avatarview = AvatarVnextView(style: style,
                                            size: size)

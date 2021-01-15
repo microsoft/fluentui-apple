@@ -7,16 +7,15 @@ import SwiftUI
 
 // MARK: - Drawer Model
 
-@objc public enum DrawerDirection: Int, CaseIterable {
+@objc public enum MSFDrawerDirection: Int, CaseIterable {
     /// Drawer originates from left
     case left
     /// Drawer originates from right
     case right
 }
 
-/// `DrawerState` assist to configure drawer functional properties via UIKit components.
-@objc(DrawerState)
-public class DrawerState: NSObject, ObservableObject {
+/// `MSFDrawerState` assist to configure drawer functional properties via UIKit components.
+@objc public class MSFDrawerState: NSObject, ObservableObject {
 
     /// A callback executed when the drawer is expanded/collapsed
     public var onStateChange: (() -> Void)?
@@ -29,7 +28,7 @@ public class DrawerState: NSObject, ObservableObject {
         }
     }
 
-    @objc public var presentationDirection: DrawerDirection = .left
+    @objc public var presentationDirection: MSFDrawerDirection = .left
 
     /// Set `backgroundDimmed` to `true` to dim the spacer area between drawer and base view.
     /// If set to `false` it restores to `clear` color
@@ -39,53 +38,12 @@ public class DrawerState: NSObject, ObservableObject {
     @objc public var animationDuration: Double = 0.0
 }
 
-// MARK: - Drawer Token
-
-/// `DrawerTokens` assist to configure drawer apperance via UIKit components.
-public class DrawerTokens: MSFTokensBase, ObservableObject {
-
-    @Published public var shadowColor: Color!
-    @Published public var shadowOpacity: Double!
-    @Published public var shadowBlur: CGFloat!
-    @Published public var shadowDepthX: CGFloat!
-    @Published public var shadowDepthY: CGFloat!
-    @Published public var backgroundDimmedColor: Color!
-    @Published public var backgroundClearColor: Color!
-    @Published public var backgroundDimmedOpacity: CGFloat!
-    @Published public var backgroundClearOpacity: CGFloat!
-
-    public override init() {
-        super.init()
-
-        self.themeAware = true
-        updateForCurrentTheme()
-    }
-
-    @objc open func didChangeAppearanceProxy() {
-        updateForCurrentTheme()
-    }
-
-    public override func updateForCurrentTheme() {
-        let appearanceProxy = theme.DrawerTokens
-
-        shadowColor = Color(appearanceProxy.shadowColor)
-        shadowOpacity = Double(appearanceProxy.shadowOpacity)
-        shadowBlur = appearanceProxy.shadowBlur
-        shadowDepthX = appearanceProxy.shadowX
-        shadowDepthY = appearanceProxy.shadowY
-        backgroundClearColor = Color(appearanceProxy.backgroundClearColor)
-        backgroundDimmedColor = Color(appearanceProxy.backgroundDimmedColor)
-        backgroundDimmedOpacity = appearanceProxy.backgroundDimmedOpacity
-        backgroundClearOpacity = appearanceProxy.backgroundClearOpacity
-    }
-}
-
 // MARK: - Drawer
 
-/// `Drawer` is used to present a overlay a content partially on another view.
-/// `Drawer`  support horizontal axis and is expanded by default from left side of the screen unless explicitly specified
+/// `MSFDrawerView` is used to present a overlay a content partially on another view.
+/// `MSFDrawerView`  support horizontal axis and is expanded by default from left side of the screen unless explicitly specified
 ///  Set `Content` to provide content for the drawer.
-public struct Drawer<Content: View>: View {
+public struct MSFDrawerView<Content: View>: View {
 
     // content view on top of `Drawer`
     public var content: Content
@@ -93,10 +51,10 @@ public struct Drawer<Content: View>: View {
     @Environment(\.theme) var theme: FluentUIStyle
 
     // configure the behavior of drawer
-    @ObservedObject public var state = DrawerState()
+    @ObservedObject public var state = MSFDrawerState()
 
     // configure the apperance of drawer
-    @ObservedObject public var tokens = DrawerTokens()
+    @ObservedObject public var tokens = MSFDrawerTokens()
 
     // keep track of dragged offset
     @State internal var horizontalDragOffset: CGFloat?
@@ -108,11 +66,10 @@ public struct Drawer<Content: View>: View {
 
     public var body: some View {
         GeometryReader { proxy in
-            SlideOverPanel(
-                content: content,
-                isOpen: $isContentPresented,
-                preferredContentOffset: $horizontalDragOffset,
-                tokens: tokens)
+            MSFSlideOverPanel(content: content,
+                              isOpen: $isContentPresented,
+                              preferredContentOffset: $horizontalDragOffset,
+                              tokens: tokens)
                 .backgroundOpactiy(backgroundLayerOpacity)
                 .direction(slideOutDirection)
                 .width(sizeInCurrentOrientation(proxy).width)
@@ -150,7 +107,7 @@ public struct Drawer<Content: View>: View {
         return Double(state.backgroundDimmed ? tokens.backgroundDimmedOpacity : tokens.backgroundClearOpacity)
     }
 
-    private var slideOutDirection: SlideOverDirection {
+    private var slideOutDirection: MSFDrawerSlideOverDirection {
         return state.presentationDirection == .left ? .left : .right
     }
 
@@ -176,13 +133,13 @@ public struct Drawer<Content: View>: View {
     /// Custom modifier for adding a callback placeholder when drawer's state is changed
     /// - Parameter `didChangeState`: closure executed with drawer is expanded or collapsed
     /// - Returns: `Drawer`
-    func didChangeState(_ didChangeState: @escaping () -> Void) -> Drawer {
+    func didChangeState(_ didChangeState: @escaping () -> Void) -> MSFDrawerView {
         let drawerState = state
         drawerState.onStateChange = didChangeState
-        return Drawer(content: content,
-                      state: drawerState,
-                      tokens: tokens,
-                      horizontalDragOffset: horizontalDragOffset)
+        return MSFDrawerView(content: content,
+                             state: drawerState,
+                             tokens: tokens,
+                             horizontalDragOffset: horizontalDragOffset)
     }
 
     private func sizeInCurrentOrientation(_ proxy: GeometryProxy) -> CGSize {
@@ -196,7 +153,7 @@ public struct Drawer<Content: View>: View {
 
 // MARK: - Previews
 
-struct DrawerContent: View {
+struct MSFDrawerContent: View {
     var body: some View {
         ZStack {
             Color.red
@@ -205,8 +162,8 @@ struct DrawerContent: View {
     }
 }
 
-struct DrawerPreview: View {
-    var drawer = Drawer(content: DrawerContent())
+struct MSFDrawerPreview: View {
+    var drawer = MSFDrawerView(content: MSFDrawerContent())
     var body: some View {
         ZStack {
             NavigationView {
@@ -226,7 +183,7 @@ struct DrawerPreview: View {
 #if DEBUG
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        DrawerPreview()
+        MSFDrawerPreview()
     }
 }
 #endif
