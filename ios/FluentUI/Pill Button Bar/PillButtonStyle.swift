@@ -12,8 +12,12 @@ public typealias MSPillButtonStyle = PillButtonStyle
 
 @objc(MSFPillButtonStyle)
 public enum PillButtonStyle: Int {
-    case onBrand
+    /// primary: the default style of PillButton; use this style in conjunction with a neutral or white background.
     case primary
+
+    /// onBrand: use this style in conjunction with branded background where the background features
+    /// a prominent brand color in light mode and a muted gray in dark mode.
+    case onBrand
 }
 
 // MARK: PillButton colors
@@ -26,29 +30,28 @@ public extension PillButton {
     static func normalBackgroundColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
         let defaultColor = UIColor(light: Colors.surfaceTertiary, dark: Colors.surfaceSecondary)
         switch style {
-        case .onBrand:
-            return UIColor(light: Colors.primaryShade10(for: window), dark: defaultColor)
         case .primary:
             return defaultColor
+        case .onBrand:
+            return UIColor(light: Colors.primaryShade10(for: window), dark: defaultColor)
         }
     }
 
     static func titleColor(for style: PillButtonStyle) -> UIColor {
         switch style {
-        case .onBrand:
-            return UIColor(light: Colors.textOnAccent, dark: Colors.textPrimary)
         case .primary:
             return UIColor(light: Colors.textSecondary, dark: Colors.textPrimary)
-
+        case .onBrand:
+            return UIColor(light: Colors.textOnAccent, dark: Colors.textPrimary)
         }
     }
 
     static func hoverBackgroundColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
         switch style {
-        case .onBrand:
-            return UIColor(light: Colors.primaryShade20(for: window), dark: Colors.surfaceQuaternary)
         case .primary:
             return Colors.surfaceQuaternary
+        case .onBrand:
+            return UIColor(light: Colors.primaryShade20(for: window), dark: Colors.surfaceQuaternary)
         }
     }
  
@@ -56,19 +59,19 @@ public extension PillButton {
 
     static func selectedBackgroundColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
         switch style {
-        case .onBrand:
-            return UIColor(light: Colors.surfacePrimary, dark: Colors.surfaceQuaternary)
         case .primary:
             return Colors.primary(for: window)
+        case .onBrand:
+            return UIColor(light: Colors.surfacePrimary, dark: Colors.surfaceQuaternary)
         }
     }
 
     static func selectedTitleColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
         switch style {
-        case .onBrand:
-            return UIColor(light: Colors.primary(for: window), dark: Colors.textDominant)
         case .primary:
             return Colors.textOnAccent
+        case .onBrand:
+            return UIColor(light: Colors.primary(for: window), dark: Colors.textDominant)
         }
     }
 
@@ -76,19 +79,19 @@ public extension PillButton {
 
     static func disabledBackgroundColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
         switch style {
-        case .onBrand:
-            return UIColor(light: Colors.primaryShade10(for: window), dark: normalBackgroundColor(for: window, for: style))
         case .primary:
             return normalBackgroundColor(for: window, for: style)
+        case .onBrand:
+            return UIColor(light: Colors.primaryShade10(for: window), dark: normalBackgroundColor(for: window, for: style))
         }
     }
     
     static func disabledTitleColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
         switch style {
-        case .onBrand:
-            return UIColor(light: Colors.primaryTint10(for: window), dark: Colors.textDisabled)
         case .primary:
             return Colors.textDisabled
+        case .onBrand:
+            return UIColor(light: Colors.primaryTint10(for: window), dark: Colors.textDisabled)
         }
     }
 
@@ -96,19 +99,19 @@ public extension PillButton {
 
     static func selectedDisabledBackgroundColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
         switch style {
-        case .onBrand:
-            return UIColor(light: Colors.surfacePrimary, dark: Colors.surfaceQuaternary)
         case .primary:
             return Colors.surfaceQuaternary
+        case .onBrand:
+            return UIColor(light: Colors.surfacePrimary, dark: Colors.surfaceQuaternary)
         }
     }
 
     static func selectedDisabledTitleColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
         switch style {
-        case .onBrand:
-            return UIColor(light: Colors.primaryTint20(for: window), dark: Colors.gray500)
         case .primary:
             return UIColor(light: Colors.surfacePrimary, dark: Colors.gray500)
+        case .onBrand:
+            return UIColor(light: Colors.primaryTint20(for: window), dark: Colors.gray500)
         }
     }
 
@@ -126,19 +129,19 @@ public extension PillButton {
 
     static func selectedHighlightedBackgroundColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
         switch style {
-        case .onBrand:
-            return UIColor(light: Colors.surfaceSecondary, dark: Colors.gray700)
         case .primary:
             return UIColor(light: Colors.primaryTint10(for: window), dark: Colors.primaryTint20(for: window))
+        case .onBrand:
+            return UIColor(light: Colors.surfaceSecondary, dark: Colors.gray700)
         }
     }
 
     static func selectedHighlightedTitleColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
         switch style {
-        case .onBrand:
-            return UIColor(light: Colors.primaryTint10(for: window), dark: Colors.textDominant)
         case .primary:
             return selectedTitleColor(for: window, for: style)
+        case .onBrand:
+            return UIColor(light: Colors.primaryTint10(for: window), dark: Colors.textDominant)
         }
     }
 }
