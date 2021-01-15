@@ -147,7 +147,7 @@ public struct MSFDrawerView<Content: View>: View {
     /// Custom modifier for adding a callback placeholder when drawer's state is changed
     /// - Parameter `didChangeState`: closure executed with drawer is expanded or collapsed
     /// - Returns: `Drawer`
-    func didChangeState(_ didChangeState: @escaping () -> Void) -> Drawer {
+    func didChangeState(_ didChangeState: @escaping () -> Void) -> MSFDrawerView {
         let drawerState = state
         drawerState.onStateChange = didChangeState
         return MSFDrawerView(content: content,
