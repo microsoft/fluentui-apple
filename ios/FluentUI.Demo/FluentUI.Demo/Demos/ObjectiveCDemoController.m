@@ -69,7 +69,7 @@
     [self.container addArrangedSubview:listVnextLabel];
 
     MSFListVnextCellData *childCell = [[MSFListVnextCellData alloc] init];
-    [childCell setTitle:@"SampleTitle1"];
+    [childCell setTitle:@"Child Cell"];
     NSArray *children = [NSArray arrayWithObject:childCell];
 
     MSFListVnextCellData *listCell1 = [[MSFListVnextCellData alloc] init];

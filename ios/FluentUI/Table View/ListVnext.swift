@@ -49,6 +49,7 @@ public class MSFListVnextCellData: NSObject, ObservableObject, Identifiable {
     @objc @Published public var titleLineLimit: Int = 1
     @objc @Published public var subtitleLineLimit: Int = 1
     @objc @Published public var children: [MSFListVnextCellData]?
+    @objc @Published public var isExpanded: Bool = false
     @objc public var onTapAction: (() -> Void)?
 }
 
@@ -162,18 +163,49 @@ public struct MSFListView: View {
 
     public var body: some View {
         let sections = state.sections
-        List {
-            ForEach(sections, id: \.self) { section in
-                if let sectionTitle = section.title {
-                    if #available(iOS 14.0, *) {
-                        Section(header: Header(title: sectionTitle, tokens: tokens)) {}
-                            .textCase(.none)
-                            .listRowInsets(EdgeInsets())
-                            .padding(.top, tokens.horizontalCellPadding / 2)
-                            .padding(.leading, tokens.horizontalCellPadding)
-                            .padding(.trailing, tokens.horizontalCellPadding)
-                            .background(Color(tokens.backgroundColor))
-                    } else {
+        if #available(iOS 14.0, *) {
+            ScrollView {
+                VStack(spacing: 0) {
+                    ForEach(sections, id: \.self) { section in
+                        if let sectionTitle = section.title {
+                            Section(header: Header(title: sectionTitle, tokens: tokens)) {}
+                                .textCase(.none)
+                                .listRowInsets(EdgeInsets())
+                                .padding(.top, tokens.horizontalCellPadding / 2)
+                                .padding(.leading, tokens.horizontalCellPadding)
+                                .padding(.trailing, tokens.horizontalCellPadding)
+                                .padding(.bottom, tokens.horizontalCellPadding / 2)
+                                .background(Color(tokens.backgroundColor))
+                        }
+
+                        ForEach(section.cells, id: \.self) { cell in
+                            MSFListCellView(cell: cell,
+                                            layoutType: section.layoutType,
+                                            tokens: tokens)
+                                .border(section.hasBorder ? Color(tokens.borderColor) : Color.clear, width: section.hasBorder ? tokens.borderSize : 0)
+                                .frame(maxWidth: .infinity)
+                        }
+                    }
+                }
+            }
+            .environment(\.defaultMinListRowHeight, 0)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .onAppear {
+                // When environment values are available through the view hierarchy:
+                //  - If we get a non-default theme through the environment values,
+                //    we use to override the theme from this view and its hierarchy.
+                //  - Otherwise we just refresh the tokens to reflect the theme
+                //    associated with the window that this View belongs to.
+                if theme == ThemeKey.defaultValue {
+                    self.tokens.updateForCurrentTheme()
+                } else {
+                    self.tokens.theme = theme
+                }
+            }
+        } else {
+            List {
+                ForEach(sections, id: \.self) { section in
+                    if let sectionTitle = section.title {
                         Text(sectionTitle)
                             .listRowInsets(EdgeInsets(top: tokens.horizontalCellPadding / 2,
                                                       leading: tokens.horizontalCellPadding,
@@ -182,29 +214,33 @@ public struct MSFListView: View {
                             .font(Font(tokens.subtitleFont))
                             .foregroundColor(Color(tokens.subtitleColor))
                     }
-                }
 
-                ForEach(section.cells, id: \.self) { cell in
-                    MSFListCellView(cell: cell,
-                                    layoutType: section.layoutType,
-                                    tokens: tokens)
-                        .border(section.hasBorder ? Color(tokens.borderColor) : Color.clear, width: section.hasBorder ? tokens.borderSize : 0)
-                        .frame(maxWidth: .infinity)
+                    ForEach(section.cells, id: \.self) { cell in
+                        MSFListCellView(cell: cell,
+                                        layoutType: section.layoutType,
+                                        tokens: tokens)
+                            .border(section.hasBorder ? Color(tokens.borderColor) : Color.clear, width: section.hasBorder ? tokens.borderSize : 0)
+                            .frame(maxWidth: .infinity)
+                    }
                 }
             }
-        }
-        .environment(\.defaultMinListRowHeight, 0)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .onAppear {
-            // When environment values are available through the view hierarchy:
-            //  - If we get a non-default theme through the environment values,
-            //    we use to override the theme from this view and its hierarchy.
-            //  - Otherwise we just refresh the tokens to reflect the theme
-            //    associated with the window that this View belongs to.
-            if theme == ThemeKey.defaultValue {
-                self.tokens.updateForCurrentTheme()
-            } else {
-                self.tokens.theme = theme
+            .environment(\.defaultMinListRowHeight, 0)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .onAppear {
+                UITableView.appearance().separatorStyle = .none
+                // When environment values are available through the view hierarchy:
+                //  - If we get a non-default theme through the environment values,
+                //    we use to override the theme from this view and its hierarchy.
+                //  - Otherwise we just refresh the tokens to reflect the theme
+                //    associated with the window that this View belongs to.
+                if theme == ThemeKey.defaultValue {
+                    self.tokens.updateForCurrentTheme()
+                } else {
+                    self.tokens.theme = theme
+                }
+            }
+            .onDisappear {
+               UITableView.appearance().separatorStyle = .singleLine
             }
         }
     }
@@ -215,13 +251,14 @@ extension MSFListView {
     struct MSFListCellView: View {
         var cell: MSFListVnextCellData
         var layoutType: MSFListCellVnextLayoutType
-        @State private var isExpanded: Bool = false
+        @State var isExpanded: Bool
         @ObservedObject var tokens: MSFListTokens
 
         init(cell: MSFListVnextCellData, layoutType: MSFListCellVnextLayoutType, tokens: MSFListTokens) {
             self.cell = cell
             self.layoutType = layoutType
             self.tokens = tokens
+            _isExpanded = State(initialValue: cell.isExpanded)
         }
 
         var body: some View {
