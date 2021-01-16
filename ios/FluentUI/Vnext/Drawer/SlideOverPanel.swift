@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-@objc enum SlideOverDirection: Int, CaseIterable {
+@objc enum MSFDrawerSlideOverDirection: Int, CaseIterable {
     /// Drawer animated right from a left base
     case left
     /// Drawer animated right from a right base
@@ -14,7 +14,7 @@ import SwiftUI
 
 /// SlidePanel in the drawer's horizontal layer that expands and collapsed on x axis of the drawer.
 /// `View` consist of content view placed on top on panel and transparent background layer
-struct SlideOverPanel<Content: View>: View {
+struct MSFSlideOverPanel<Content: View>: View {
 
     // Width occupied by content and spacer combined
     internal var slideOutPanelWidth: CGFloat = UIScreen.main.bounds.width
@@ -29,7 +29,7 @@ struct SlideOverPanel<Content: View>: View {
     internal var backgroundLayerOpacity: Double = 0.0
 
     // slide out direction
-    internal var direction: SlideOverDirection = .left
+    internal var direction: MSFDrawerSlideOverDirection = .left
 
     // content is visible when set to `true`
     @Binding internal var isOpen: Bool
@@ -38,14 +38,14 @@ struct SlideOverPanel<Content: View>: View {
     @Binding internal var preferredContentOffset: CGFloat?
 
     // configure the apperance of drawer
-    @ObservedObject public var tokens: DrawerTokens
+    @ObservedObject public var tokens: MSFDrawerTokens
 
     private let contentWidthSizeRatio: CGFloat = 0.9
 
     public var body: some View {
         HStack {
             if direction == .right {
-                InteractiveSpacer(defaultBackgroundColor: $tokens.backgroundClearColor)
+                MSFInteractiveSpacer(defaultBackgroundColor: $tokens.backgroundClearColor)
                     .onTapGesture (perform: actionOnBackgroundTap ?? {})
             }
 
@@ -58,7 +58,7 @@ struct SlideOverPanel<Content: View>: View {
                 .offset(x: resolvedContentOffset())
 
             if direction == .left {
-                InteractiveSpacer(defaultBackgroundColor: $tokens.backgroundClearColor)
+                MSFInteractiveSpacer(defaultBackgroundColor: $tokens.backgroundClearColor)
                     .onTapGesture (perform: actionOnBackgroundTap ?? {})
             }
         }
@@ -95,7 +95,7 @@ struct SlideOverPanel<Content: View>: View {
 
 // MARK: - Composite View
 
-public struct InteractiveSpacer: View {
+public struct MSFInteractiveSpacer: View {
     @Binding public var defaultBackgroundColor: Color
 
     public var body: some View {
@@ -111,15 +111,14 @@ struct SlideOverPanelLeft_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             MockBackgroundView()
-            SlideOverPanel<MockContent>(
-                slideOutPanelWidth: UIScreen.main.bounds.width,
-                actionOnBackgroundTap: nil,
-                content: MockContent(),
-                backgroundLayerOpacity: 0.5,
-                direction: .left,
-                isOpen: Binding.constant(true),
-                preferredContentOffset: Binding.constant(nil),
-                tokens: DrawerTokens())
+            MSFSlideOverPanel<MockContent>(slideOutPanelWidth: UIScreen.main.bounds.width,
+                                           actionOnBackgroundTap: nil,
+                                           content: MockContent(),
+                                           backgroundLayerOpacity: 0.5,
+                                           direction: .left,
+                                           isOpen: Binding.constant(true),
+                                           preferredContentOffset: Binding.constant(nil),
+                                           tokens: MSFDrawerTokens())
         }
     }
 }
@@ -128,15 +127,14 @@ struct SlideOverPanelRight_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             MockBackgroundView()
-            SlideOverPanel<MockContent>(
-                slideOutPanelWidth: UIScreen.main.bounds.width,
-                actionOnBackgroundTap: nil,
-                content: MockContent(),
-                backgroundLayerOpacity: 0.5,
-                direction: .right,
-                isOpen: Binding.constant(true),
-                preferredContentOffset: Binding.constant(nil),
-                tokens: DrawerTokens())
+            MSFSlideOverPanel<MockContent>(slideOutPanelWidth: UIScreen.main.bounds.width,
+                                           actionOnBackgroundTap: nil,
+                                           content: MockContent(),
+                                           backgroundLayerOpacity: 0.5,
+                                           direction: .right,
+                                           isOpen: Binding.constant(true),
+                                           preferredContentOffset: Binding.constant(nil),
+                                           tokens: MSFDrawerTokens())
         }
     }
 }
@@ -145,15 +143,14 @@ struct SlideOverPanelCollapsed_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             MockBackgroundView()
-            SlideOverPanel<MockContent>(
-                slideOutPanelWidth: UIScreen.main.bounds.width,
-                actionOnBackgroundTap: nil,
-                content: MockContent(),
-                backgroundLayerOpacity: 0.5,
-                direction: .left,
-                isOpen: Binding.constant(false),
-                preferredContentOffset: Binding.constant(nil),
-                tokens: DrawerTokens())
+            MSFSlideOverPanel<MockContent>(slideOutPanelWidth: UIScreen.main.bounds.width,
+                                           actionOnBackgroundTap: nil,
+                                           content: MockContent(),
+                                           backgroundLayerOpacity: 0.5,
+                                           direction: .left,
+                                           isOpen: Binding.constant(false),
+                                           preferredContentOffset: Binding.constant(nil),
+                                           tokens: MSFDrawerTokens())
         }
     }
 }

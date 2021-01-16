@@ -8,7 +8,7 @@ import AppKit
 /// A visual Avatar icon for a user, cropped to a circle that either displays the user's
 /// image if available or the user's initials if an image is not available
 @objc(MSFAvatarView)
-open class AvatarView : NSView {
+open class AvatarView: NSView {
 	/// Initializes the avatar view with a name, email, image, and size. If
 	/// an image is provided, the avatar view will show the image. If no image is
 	/// provided but a name is provided, the avatar view will show the initials of
@@ -23,10 +23,10 @@ open class AvatarView : NSView {
 	/// 	- contactEmail: the name of the contact with the
 	///				format “<person>@<service>.<domain>”
 	/// 	- contactImage: the image of the contact
-	@objc public init(avatarSize: CGFloat,
-					  contactName: String? = nil,
-					  contactEmail: String? = nil,
-					  contactImage: NSImage? = nil) {
+    @objc public init(avatarSize: CGFloat,
+                      contactName: String? = nil,
+                      contactEmail: String? = nil,
+                      contactImage: NSImage? = nil) {
 
 		// Prefer contactEmail to contactName for uniqueness
 		avatarBackgroundColor = AvatarView.backgroundColor(for: AvatarView.colorIndex(for: contactEmail ?? contactName ?? ""))
@@ -34,9 +34,9 @@ open class AvatarView : NSView {
 		self.contactEmail = contactEmail
 		self.contactImage = contactImage
 		self.avatarSize = avatarSize
-		
+
 		displayStyle = contactImage == nil ? .initials : .image
-		
+
 		super.init(frame: .zero)
 
 		wantsLayer = true
@@ -51,20 +51,20 @@ open class AvatarView : NSView {
 		let widthConstraint = widthAnchor.constraint(equalToConstant: avatarSize)
 		let heightConstraint = heightAnchor.constraint(equalToConstant: avatarSize)
 		NSLayoutConstraint.activate([widthConstraint, heightConstraint])
-		
+
 		self.widthConstraint = widthConstraint
 		self.heightConstraint = heightConstraint
 
 		updateViewStyle()
 		updateAvatarViewContents()
 	}
-	
+
 	@available(*, unavailable)
 	required public init?(coder decoder: NSCoder) {
 		preconditionFailure()
 	}
 
-	override open func updateLayer() {
+	open override func updateLayer() {
 		CATransaction.begin()
 		defer {
 			CATransaction.commit()
@@ -140,18 +140,18 @@ open class AvatarView : NSView {
 
 			let textFieldFont = font(forCircleDiameter: avatarSize)
 			initialsTextField.font = textFieldFont
-			
+
 			// This constraint will only exist if we're using the sizing view approach to center our initials
 			initialsSizingViewHeightConstraint?.constant = ceil(textFieldFont.capHeight)
 		}
 	}
-	
+
 	/// The width constraint giving this view its size
 	private var widthConstraint: NSLayoutConstraint?
-	
+
 	/// The height constraint giving this view its size
 	private var heightConstraint: NSLayoutConstraint?
-	
+
 	/// The height constraint for the initials sizing view which should update on font size changes
 	private var initialsSizingViewHeightConstraint: NSLayoutConstraint?
 
@@ -189,12 +189,12 @@ open class AvatarView : NSView {
 
 		let textView = initialsTextField
 		initialsView.addSubview(textView)
-		
+
 		var constraints = [
 			textView.leadingAnchor.constraint(equalTo: initialsView.leadingAnchor),
-			textView.trailingAnchor.constraint(equalTo: initialsView.trailingAnchor),
+			textView.trailingAnchor.constraint(equalTo: initialsView.trailingAnchor)
 		]
-		
+
 		// If we have a font, use that to accurately center the initials, not letting diacritics and descenders/ascenders
 		// impact the centering
 		let capHeight = font(forCircleDiameter: avatarSize).capHeight
@@ -210,14 +210,14 @@ open class AvatarView : NSView {
 			initialsTextSizingView.trailingAnchor.constraint(equalTo: textView.trailingAnchor),
 			initialsTextSizingView.centerYAnchor.constraint(equalTo: initialsView.centerYAnchor),
 			initialsTextSizingView.bottomAnchor.constraint(equalTo: textView.firstBaselineAnchor),
-			initialsSizingViewHeightConstraint,
+			initialsSizingViewHeightConstraint
 		])
 
 		NSLayoutConstraint.activate(constraints)
 
 		return initialsView
 	}()
-	
+
 	/// The text field used for displaying the initials within the initialsView
 	private lazy var initialsTextField: NSTextField = {
 		let textView = NSTextField(labelWithString: AvatarView.initialsWithFallback(name: contactName, email: contactEmail))
@@ -229,7 +229,7 @@ open class AvatarView : NSView {
 		textView.backgroundColor = avatarBackgroundColor
 		return textView
 	}()
-	
+
 	/// The view that draws the outline stroke around the edge of the AvatarView
 	private lazy var outlineView: NSView = {
 		let outlineView = NSView()
@@ -238,18 +238,18 @@ open class AvatarView : NSView {
 		outlineView.layer?.addSublayer(outlineLayer)
 		return outlineView
 	}()
-	
+
 	/// Update this view to use the proper style when switching from Image to Initials or vice-versa
 	private func updateViewStyle() {
 		let currentView = self.currentView()
 		let accessibilityRingView = self.outlineView
-		
+
 		// Replace all existing subviews with the proper ones, ensuring the correct z-ordering
 		subviews = [
 			currentView,
-			accessibilityRingView,
+			accessibilityRingView
 		]
-		
+
 		let constraints = [
 			currentView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
 			currentView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
@@ -258,9 +258,9 @@ open class AvatarView : NSView {
 			accessibilityRingView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
 			accessibilityRingView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
 			accessibilityRingView.topAnchor.constraint(equalTo: self.topAnchor),
-			accessibilityRingView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+			accessibilityRingView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
 		]
-		
+
 		NSLayoutConstraint.activate(constraints)
 	}
 
@@ -275,7 +275,7 @@ open class AvatarView : NSView {
 			return contactImageView
 		}
 	}
-	
+
 	/// Update avatar view contents based on the latest values in properties
 	private func updateAvatarViewContents() {
 		// Set up accessibility values if we have any information to return
@@ -290,7 +290,7 @@ open class AvatarView : NSView {
 			setAccessibilityLabel(nil)
 			setAccessibilityRole(.unknown)
 		}
-		
+
 		initialsTextField.stringValue = AvatarView.initialsWithFallback(name: contactName, email: contactEmail)
 		avatarBackgroundColor = AvatarView.backgroundColor(for: AvatarView.colorIndex(for: contactEmail ?? contactName ?? ""))
 	}
@@ -310,11 +310,11 @@ open class AvatarView : NSView {
 	static let fontSizeScalingDefault: CGFloat = 0.4
 
 	/// fall back to this text in the initials view when no usable name or email is provided
-	static let fallbackInitial = "#"
+	static let fallbackInitial: String = "#"
 
 	/// the maximum number of initials to be displayed when we don't have an image
-	static let maximumNumberOfInitials = 2
-	
+	static let maximumNumberOfInitials: Int = 2
+
 	/// the color used for the outline view
 	static let outlineColor = NSColor(named: "AvatarView/outlineColor", bundle: FluentUIResources.resourceBundle)!
 
@@ -342,8 +342,8 @@ open class AvatarView : NSView {
 	/// by a space if the first character is a letter. If no usable name is passed in
 	/// return the first character of the email address passed in. If no usable email address is passed
 	/// in, return nil.
-	@objc static public func initials(name: String?, email: String?) -> String? {
-		var initials: String? = nil
+	@objc public static func initials(name: String?, email: String?) -> String? {
+		var initials: String?
 
 		// Create a character set that includes standard whitespace and newlines as well as the zero width space
 		var whitespaceNewlineAndZeroWidthSpace = CharacterSet.whitespacesAndNewlines
@@ -381,7 +381,7 @@ open class AvatarView : NSView {
 	/// - note: the returned index is not limited to any size and should not be considered safe for indexing into an array without
 	/// first checking the size of the array in question
 	@objc(colorIndexForIdentifyingString:)
-	static public func colorIndex(for identifyingString: String) -> Int {
+	public static func colorIndex(for identifyingString: String) -> Int {
 		return identifyingString.utf16.enumerated().reversed().reduce(0) { (hashCode, enumeratedCodePoints) -> Int in
 			// upcast our UInt16s to standard Ints as that's how the hashing algorithm works in other codebases
 			let integerCodePoint = Int(enumeratedCodePoints.element)
@@ -393,7 +393,7 @@ open class AvatarView : NSView {
 }
 
 /// The various display styles of the Avatar View
-fileprivate enum DisplayStyle {
+private enum DisplayStyle {
 	/// Display the initials extracted via `initials(name: String?, email: String?)` inside a colorful circular background
 	case initials
 	/// Display the user's image cropped to a circular shape
@@ -405,7 +405,7 @@ fileprivate enum DisplayStyle {
 /// - Parameter diameter: the diameter of the circle for which to determine a font size
 /// - Returns: the appropriate font size to fit within a circle of the given size
 /// - note: font sizes will be rounded to the nearest 0.5 point for rendering fidelity
-fileprivate func fontSize(forCircleDiameter diameter: CGFloat) -> CGFloat {
+private func fontSize(forCircleDiameter diameter: CGFloat) -> CGFloat {
 	return floor(diameter * AvatarView.fontSizeScalingDefault * 2) / 2
 }
 
@@ -415,7 +415,7 @@ fileprivate func fontSize(forCircleDiameter diameter: CGFloat) -> CGFloat {
 ///   - diameter: the diameter of the circle for which to return a font
 /// - Returns: the appropriate font
 /// - note: the font size is handled by `fontSize`
-fileprivate func font(forCircleDiameter diameter: CGFloat) -> NSFont {
+private func font(forCircleDiameter diameter: CGFloat) -> NSFont {
 	return NSFont.systemFont(ofSize: fontSize(forCircleDiameter: diameter))
 }
 
@@ -439,7 +439,7 @@ fileprivate extension NSColor {
 	///
 	/// - note: this value doesn't change for dark mode by design as our default background color table
 	/// only provides colors designed to be used with white text, even on dark mode
-	static let initialsViewTextColor = NSColor.white
+    static let initialsViewTextColor: NSColor = .white
 
 	/// the table of background colors for the initials views
 	static let avatarBackgroundColors: [NSColor] = [

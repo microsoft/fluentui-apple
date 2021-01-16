@@ -160,25 +160,25 @@
 "MSDateTimePicker.EndDate" = "Sluttdato";
 
 /* Presence - Available status */
-"Presence.Available" = "Available";
+"Presence.Available" = "Tilgjengelig";
 
 /* Presence - Away status */
-"Presence.Away" = "Away";
+"Presence.Away" = "Borte";
 
 /* Presence - Busy status */
-"Presence.Busy" = "Busy";
+"Presence.Busy" = "Opptatt";
 
 /* Presence - Do not disturb status */
-"Presence.DND" = "Do not disturb";
+"Presence.DND" = "Ikke forstyrr";
 
 /* Presence - Out of office status */
-"Presence.OOF" = "Out of office";
+"Presence.OOF" = "Borte fra kontoret";
 
 /* Presence - Offline status */
-"Presence.Offline" = "Offline";
+"Presence.Offline" = "Frakoblet";
 
 /* Presence - Unknown status */
-"Presence.Unknown" = "Unknown";
+"Presence.Unknown" = "Ukjent";
 
 /* Presence - Blocked status */
-"Presence.Blocked" = "Blocked";
+"Presence.Blocked" = "Blokkert";

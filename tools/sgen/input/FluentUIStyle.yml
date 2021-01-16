@@ -153,7 +153,7 @@ Opacity:
 Shadow:
     shadow28: [ blur: 28pt, color: $Colors.Neutral.black, opacity: $Opacity.opacity24, x: 0pt, y: 14pt ]
 
-AP_AvatarTokens:
+AP_MSFAvatarTokens:
   backgroundDefaultColor: "FluentUIColor(light: $Colors.Neutral.white, dark: $Colors.Brand.primary)"
   borderRadius: [ xSmall: $Border.radius.none, small: $Border.radius.none, medium: $Border.radius.none, large: $Border.radius.none, xlarge: $Border.radius.none, xxlarge: $Border.radius.none ]
   foregroundDefaultColor: "FluentUIColor(light: $Colors.Brand.primary, dark: $Icon.accentColor)"
@@ -190,25 +190,25 @@ AP_AvatarTokens:
   textColor: $Colors.Foreground.neutralInverted
   textFont: [ xSmall: "Font(9px, regular)", small: "Font(12px, regular)", medium: "Font(13px, regular)", large: "Font(15px, regular)", xlarge: "Font(20px, regular)", xxlarge: "Font(28px, medium)" ]
 
-AccentAvatarTokens extends AvatarTokens:
+MSFAccentAvatarTokens extends MSFAvatarTokens:
   backgroundDefaultColor: $Colors.Brand.primary
   foregroundDefaultColor: $Icon.accentColor
   ringDefaultColor: $Colors.Brand.shade10
 
-GroupAvatarTokens extends AvatarTokens:
+MSFGroupAvatarTokens extends MSFAvatarTokens:
   borderRadius: [ xSmall: $Border.radius.small, small: $Border.radius.medium, medium: $Border.radius.medium, large: $Border.radius.large, xlarge: $Border.radius.large, xxlarge: $Border.radius.xlarge ]
 
-OutlinedAvatarTokens extends AvatarTokens:
+MSFOutlinedAvatarTokens extends MSFAvatarTokens:
   backgroundDefaultColor: "FluentUIColor(light: $Colors.Neutral.grey94, dark: $Colors.Neutral.grey26)"
   foregroundDefaultColor: "FluentUIColor(light: $Colors.Neutral.grey42, dark: $Colors.Neutral.grey78)"
   ringDefaultColor: $Colors.Background.neutralDisabled
 
-OutlinedPrimaryAvatarTokens extends AvatarTokens:
+MSFOutlinedPrimaryAvatarTokens extends MSFAvatarTokens:
   backgroundDefaultColor: "FluentUIColor(light: $Colors.Brand.tint40, dark: $Colors.Neutral.grey26)"
   foregroundDefaultColor: "FluentUIColor(light: $Colors.Brand.primary, dark: $Colors.Neutral.grey78)"
   ringDefaultColor: "FluentUIColor(light: $Colors.Brand.tint10, dark: $Colors.Neutral.grey78)"
 
-OverflowAvatarTokens extends AvatarTokens:
+MSFOverflowAvatarTokens extends MSFAvatarTokens:
   backgroundDefaultColor: $Colors.Background.neutral4
   foregroundDefaultColor: $Colors.Foreground.neutral3
   textColor: $Colors.Foreground.neutral3
@@ -226,16 +226,16 @@ AP_MSFButtonTokens:
   textColor: [ rest: $Colors.Foreground.brandRest, hover: $Colors.Foreground.brandHover, pressed: $Colors.Foreground.brandPressed, selected: $Colors.Foreground.brandSelected, disabled: $Colors.Foreground.brandDisabled ]
   textFont: [ small: $Typography.footnote, medium: $Typography.subheadline, large: $Typography.subheadline ]
 
-PrimaryButtonTokens extends MSFButtonTokens:
+MSFPrimaryButtonTokens extends MSFButtonTokens:
   backgroundColor: [ rest: $Colors.Background.brandRest, hover: $Colors.Background.brandHover, pressed: $Colors.Background.brandPressed, selected: $Colors.Background.brandSelected, disabled: $Colors.Background.brandDisabled ]
   iconColor: [ rest: $Colors.Foreground.neutralInverted, hover: $Colors.Foreground.neutralInverted, pressed: $Colors.Foreground.neutralInverted, selected: $Colors.Foreground.neutralInverted, disabled: $Colors.Foreground.neutralInverted ]
   textColor: [ rest: $Colors.Foreground.neutralInverted, hover: $Colors.Foreground.neutralInverted, pressed: $Colors.Foreground.neutralInverted, selected: $Colors.Foreground.neutralInverted, disabled: $Colors.Foreground.neutralInverted ]
 
-SecondaryButtonTokens extends MSFButtonTokens:
+MSFSecondaryButtonTokens extends MSFButtonTokens:
   borderColor: [ rest: $Colors.Stroke.brandRest, hover: $Colors.Stroke.brandHover, pressed: $Colors.Stroke.brandPressed, selected: $Colors.Stroke.brandSelected, disabled: $Colors.Stroke.brandDisabled ]
   borderSize: [ small: $Border.size.thin, medium: $Border.size.thin, large: $Border.size.thin ]
 
-GhostButtonTokens extends MSFButtonTokens:
+MSFGhostButtonTokens extends MSFButtonTokens:
   borderColor: [ rest: $Colors.Neutral.clear, hover: $Colors.Neutral.clear, pressed: $Colors.Neutral.clear, selected: $Colors.Brand.shade10, disabled: $Colors.Neutral.clear ]
 
 AP_MSFListTokens:
@@ -256,10 +256,10 @@ AP_MSFListTokens:
   sublabelFont: $Typography.caption1
   trailingItemForegroundColor: $Colors.Foreground.neutral3
 
-IconOnlyListTokens extends MSFListTokens:
+MSFIconOnlyListTokens extends MSFListTokens:
   iconColor: $Colors.Foreground.neutral3
 
-AP_DrawerTokens:
+AP_MSFDrawerTokens:
   backgroundDimmedOpacity: $Opacity.opacity64
   backgroundClearOpacity: $Opacity.clear
   backgroundClearColor: $Colors.Neutral.clear
