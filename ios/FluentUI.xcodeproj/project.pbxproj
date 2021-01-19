@@ -72,6 +72,8 @@
 		7DC2FB2924C0ED1700367A55 /* TableViewCellFileAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */; };
 		7DC2FB2D24D209E800367A55 /* Presence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2C24D209E300367A55 /* Presence.swift */; };
 		7DC2FB2E24D209E800367A55 /* Presence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2C24D209E300367A55 /* Presence.swift */; };
+		86AF4F7525AFC746005D4253 /* PillButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AF4F7425AFC746005D4253 /* PillButtonStyle.swift */; };
+		86AF4F8225B0F85A005D4253 /* PillButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AF4F7425AFC746005D4253 /* PillButtonStyle.swift */; };
 		8A01C86F248FFC5300C971F3 /* ContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A01C86E248FFC5300C971F3 /* ContactView.swift */; };
 		8ACE4D3524E31ADA00B9D0EB /* ContactCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF03E1B24B6BDBD00E6E2A2 /* ContactCollectionViewCell.swift */; };
 		8ACE4D3624E31B1C00B9D0EB /* ContactCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF03E1924B6BD4700E6E2A2 /* ContactCollectionView.swift */; };
@@ -365,6 +367,7 @@
 		7D23482624D88DDF00FBE057 /* AvatarGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGroupView.swift; sourceTree = "<group>"; };
 		7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellFileAccessoryView.swift; sourceTree = "<group>"; };
 		7DC2FB2C24D209E300367A55 /* Presence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presence.swift; sourceTree = "<group>"; };
+		86AF4F7425AFC746005D4253 /* PillButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillButtonStyle.swift; sourceTree = "<group>"; };
 		8A01C86E248FFC5300C971F3 /* ContactView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactView.swift; sourceTree = "<group>"; };
 		8AF03E1924B6BD4700E6E2A2 /* ContactCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCollectionView.swift; sourceTree = "<group>"; };
 		8AF03E1B24B6BDBD00E6E2A2 /* ContactCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -614,6 +617,7 @@
 			children = (
 				497DC2D824185885008D86F8 /* PillButton.swift */,
 				497DC2D724185885008D86F8 /* PillButtonBar.swift */,
+				86AF4F7425AFC746005D4253 /* PillButtonStyle.swift */,
 			);
 			path = "Pill Button Bar";
 			sourceTree = "<group>";
@@ -1413,6 +1417,7 @@
 				7D23482824D88DE700FBE057 /* AvatarGroupView.swift in Sources */,
 				8FD011B0228A82A600D25925 /* HUD.swift in Sources */,
 				8ACE4D3824E31B4700B9D0EB /* ContactView.swift in Sources */,
+				86AF4F8225B0F85A005D4253 /* PillButtonStyle.swift in Sources */,
 				8FD011B1228A82A600D25925 /* HUDView.swift in Sources */,
 				8FD011B2228A82A600D25925 /* AvatarView.swift in Sources */,
 				A5F3B147232B1E3700007A4F /* ScrollView.swift in Sources */,
@@ -1566,6 +1571,7 @@
 				C0A0D76F233AEF6C00F432FD /* ShimmerLinesViewAppearance.swift in Sources */,
 				FD256C5B2183B90B00EC9588 /* DatePickerSelectionManager.swift in Sources */,
 				A5CEC23120E451D00016922A /* Button.swift in Sources */,
+				86AF4F7525AFC746005D4253 /* PillButtonStyle.swift in Sources */,
 				FDF41EDB2141A23B00EC527C /* UIViewController+Extensions.swift in Sources */,
 				FD56FD95219131430023C7EA /* DateTimePickerView.swift in Sources */,
 				FDA1AF8C21484625001AE720 /* BlurringView.swift in Sources */,
