@@ -74,6 +74,7 @@
 
     MSFListVnextCellData *listCell1 = [[MSFListVnextCellData alloc] init];
     [listCell1 setTitle:@"SampleTitle1"];
+    [listCell1 setIsExpanded:TRUE];
     [listCell1 setChildren:children];
 
     MSFListVnextCellData *listCell2 = [[MSFListVnextCellData alloc] init];
