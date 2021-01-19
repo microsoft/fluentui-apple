@@ -33,18 +33,20 @@ extension MSFDrawerVnext: UIViewControllerTransitioningDelegate, UIViewControlle
 
         state.animationDuration = transitionDuration(using: transitionContext)
 
-        // delegate animation to swiftui by changing state
+        // Delegate animation to swiftui by changing state
         if isPresentingDrawer {
             transitionContext.containerView.addSubview(drawerView)
             drawerView.frame = UIScreen.main.bounds
             DispatchQueue.main.asyncAfter(deadline: .now() + state.animationDuration) { [weak self] in
                 if let strongSelf = self {
-                    strongSelf.state.isExpanded = isPresentingDrawer
+                    if !strongSelf.drawer.isPresentationGestureActive {
+                        strongSelf.state.isExpanded = true
+                    }
                 }
                 transitionContext.completeTransition(true)
             }
         } else {
-            self.state.isExpanded = isPresentingDrawer
+            self.state.isExpanded = false
             DispatchQueue.main.asyncAfter(deadline: .now() + state.animationDuration) {
                 drawerView.removeFromSuperview()
                 transitionContext.completeTransition(true)
@@ -76,15 +78,19 @@ open class MSFDrawerVnext: UIHostingController<AnyView>, FluentUIWindowProvider 
         return self.view.window
     }
 
+    /// Set this delegate to recieve updates when drawer's state changes
+    /// @see `DrawerVnextControllerDelegate`
     public weak var delegate: MSFDrawerVnextControllerDelegate?
 
+    /// Represents the drawer's state with properties to configure its behavior.
+    /// @see `DrawerState`
     @objc open var state: MSFDrawerState {
         return self.drawer.state
     }
 
     @objc public init(contentViewController: UIViewController,
                       theme: FluentUIStyle? = nil) {
-        let drawer = MSFDrawerView(content: DrawerContentViewController(contentViewController: contentViewController))
+        let drawer = MSFDrawerView(content: UIViewControllerAdapter(contentViewController))
         self.drawer = drawer
         super.init(rootView: theme != nil ? AnyView(drawer.usingTheme(theme!)) : AnyView(drawer))
 
@@ -102,39 +108,24 @@ open class MSFDrawerVnext: UIHostingController<AnyView>, FluentUIWindowProvider 
     }
 
     @objc required dynamic public init?(coder aDecoder: NSCoder) {
-        let drawer = MSFDrawerView(content: DrawerContentViewController(contentViewController: UIViewController()))
+        let drawer = MSFDrawerView(content: UIViewControllerAdapter(UIViewController()))
         self.drawer = drawer
         super.init(coder: aDecoder)
     }
 
-    private var drawer: MSFDrawerView<DrawerContentViewController>
+    private var drawer: MSFDrawerView<UIViewControllerAdapter>
 
     private func addDelegateNotification() {
         self.drawer = self.drawer.didChangeState({ [weak self] in
             if let strongSelf = self {
+                guard let isDrawerExpanded = strongSelf.drawer.state.isExpanded else {
+                    return
+                }
                 strongSelf.delegate?.drawerDidChangeState?(state: strongSelf.state, controller: strongSelf)
-                if !strongSelf.drawer.state.isExpanded {
+                if !isDrawerExpanded {
                     strongSelf.dismiss(animated: true, completion: nil)
                 }
             }
         })
     }
-}
-
-/// `DrawerContentViewController` is SwiftUI wrapper classes that embeds a UIViewController used to host UIKit content as a SwiftUI componenet
-public struct DrawerContentViewController: UIViewControllerRepresentable {
-
-    private var contentView: UIViewController
-
-    init(contentViewController: UIViewController) {
-        self.contentView = contentViewController
-    }
-
-    public func makeUIViewController(context: Context) -> UIViewController {
-        return contentView
-    }
-
-    public func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
-
-    public typealias UIViewControllerType = UIViewController
 }

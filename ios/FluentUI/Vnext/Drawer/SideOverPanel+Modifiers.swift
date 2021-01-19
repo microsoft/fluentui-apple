@@ -6,73 +6,73 @@
 import SwiftUI
 
 extension MSFSlideOverPanel {
-    /// Modifier to update cummulative width of the panel. 
+    /// Modifier to update cummulative width of the panel.
     /// - Parameter `width`:  defaults to screen size
-    /// - Returns: `SlideOverPanel`
+    /// - Returns: `MSFSlideOverPanel`
     func width(_ width: CGFloat) -> MSFSlideOverPanel {
-        return MSFSlideOverPanel(slideOutPanelWidth: width,
+        return MSFSlideOverPanel(percentTransition: $percentTransition,
+                                 tokens: tokens,
+                                 slideOutPanelWidth: width,
                                  actionOnBackgroundTap: actionOnBackgroundTap,
                                  content: content,
-                                 backgroundLayerOpacity: backgroundLayerOpacity,
+                                 backgroundDimmed: backgroundDimmed,
                                  direction: direction,
-                                 isOpen: $isOpen,
-                                 preferredContentOffset: $preferredContentOffset,
-                                 tokens: tokens)
+                                 transitionState: $transitionState)
     }
 
     /// Update or replace content on panel
     /// - Parameter `drawerContent`: View to replace content
-    /// - Returns: `SlideOverPanel`
+    /// - Returns: `MSFSlideOverPanel`
     func withContent(_ drawerContent: Content) -> MSFSlideOverPanel {
-        return MSFSlideOverPanel(slideOutPanelWidth: slideOutPanelWidth,
+        return MSFSlideOverPanel(percentTransition: $percentTransition,
+                                 tokens: tokens,
+                                 slideOutPanelWidth: slideOutPanelWidth,
                                  actionOnBackgroundTap: actionOnBackgroundTap,
                                  content: drawerContent,
-                                 backgroundLayerOpacity: backgroundLayerOpacity,
+                                 backgroundDimmed: backgroundDimmed,
                                  direction: direction,
-                                 isOpen: $isOpen,
-                                 preferredContentOffset: $preferredContentOffset,
-                                 tokens: tokens)
+                                 transitionState: $transitionState)
     }
 
     /// Add action or callback to be executed when background view is Tapped
     /// - Parameter `performOnBackgroundTap`:  defaults to no-op
-    /// - Returns: `SlideOverPanel`
+    /// - Returns: `MSFSlideOverPanel`
     func performOnBackgroundTap(_ performOnBackgroundTap: (() -> Void)?) -> MSFSlideOverPanel {
-        return MSFSlideOverPanel(slideOutPanelWidth: slideOutPanelWidth,
+        return MSFSlideOverPanel(percentTransition: $percentTransition,
+                                 tokens: tokens,
+                                 slideOutPanelWidth: slideOutPanelWidth,
                                  actionOnBackgroundTap: performOnBackgroundTap,
                                  content: content,
-                                 backgroundLayerOpacity: backgroundLayerOpacity,
+                                 backgroundDimmed: backgroundDimmed,
                                  direction: direction,
-                                 isOpen: $isOpen,
-                                 preferredContentOffset: $preferredContentOffset,
-                                 tokens: tokens)
+                                 transitionState: $transitionState)
     }
 
     /// Add opacity to background view
     /// - Parameter `opacity`: defaults to clear with no opacity
-    /// - Returns: `SlideOverPanel`
-    func backgroundOpactiy(_ opacity: Double) -> MSFSlideOverPanel {
-        return MSFSlideOverPanel(slideOutPanelWidth: slideOutPanelWidth,
+    /// - Returns: `MSFSlideOverPanel`
+    func isBackgroundDimmed(_ value: Bool) -> MSFSlideOverPanel {
+        return MSFSlideOverPanel(percentTransition: $percentTransition,
+                                 tokens: tokens,
+                                 slideOutPanelWidth: slideOutPanelWidth,
                                  actionOnBackgroundTap: actionOnBackgroundTap,
                                  content: content,
-                                 backgroundLayerOpacity: opacity,
+                                 backgroundDimmed: value,
                                  direction: direction,
-                                 isOpen: $isOpen,
-                                 preferredContentOffset: $preferredContentOffset,
-                                 tokens: tokens)
+                                 transitionState: $transitionState)
     }
 
     /// Change opening direction for slideout
     /// - Parameter `direction`: defaults to left
-    /// - Returns: `SlideOverPanel`
+    /// - Returns: `MSFSlideOverPanel`
     func direction(_ slideOutDirection: MSFDrawerSlideOverDirection) -> MSFSlideOverPanel {
-        return MSFSlideOverPanel(slideOutPanelWidth: slideOutPanelWidth,
+        return MSFSlideOverPanel(percentTransition: $percentTransition,
+                                 tokens: tokens,
+                                 slideOutPanelWidth: slideOutPanelWidth,
                                  actionOnBackgroundTap: actionOnBackgroundTap,
                                  content: content,
-                                 backgroundLayerOpacity: backgroundLayerOpacity,
+                                 backgroundDimmed: backgroundDimmed,
                                  direction: slideOutDirection,
-                                 isOpen: $isOpen,
-                                 preferredContentOffset: $preferredContentOffset,
-                                 tokens: tokens)
+                                 transitionState: $transitionState)
     }
 }
