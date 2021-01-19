@@ -60,7 +60,7 @@ class ListVnextDemoController: DemoController {
         children[0].children = subchildren
         children[0].isExpanded = true
         children[1].onTapAction = {
-            self.showAlertForAvatarTapped(name: samplePersonas[1].name)
+            self.showAlertForAvatarTapped(name: samplePersonas[3].name)
         }
 
         /// Custom Leading View with collapsible children items
