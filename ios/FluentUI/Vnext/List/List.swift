@@ -15,6 +15,7 @@ import SwiftUI
     @objc @Published public var accessoryType: MSFListAccessoryType = .none
     @objc @Published public var titleLineLimit: Int = 1
     @objc @Published public var subtitleLineLimit: Int = 1
+    @objc @Published public var layoutType: MSFListCellVnextLayoutType = .oneLine
     @objc public var onTapAction: (() -> Void)?
 }
 
@@ -24,7 +25,6 @@ import SwiftUI
     @objc @Published public var cells: [MSFListVnextCellData] = []
     @objc @Published public var title: String?
     @objc @Published public var hasBorder: Bool = false
-    @objc @Published public var layoutType: MSFListCellVnextLayoutType = .oneLine
 }
 
 /// Properties that make up list content
@@ -77,7 +77,6 @@ public struct MSFListView: View {
 
                 ForEach(section.cells, id: \.self) { cell in
                     MSFListCellView(cell: cell,
-                                    layoutType: section.layoutType,
                                     tokens: tokens)
                         .border(section.hasBorder ? Color(tokens.borderColor) : Color.clear, width: section.hasBorder ? tokens.borderSize : 0)
                         .frame(maxWidth: .infinity)
@@ -105,12 +104,10 @@ extension MSFListView {
     /// View for List Cells
     struct MSFListCellView: View {
         var cell: MSFListVnextCellData
-        var layoutType: MSFListCellVnextLayoutType
         @ObservedObject var tokens: MSFListTokens
 
-        init(cell: MSFListVnextCellData, layoutType: MSFListCellVnextLayoutType, tokens: MSFListTokens) {
+        init(cell: MSFListVnextCellData, tokens: MSFListTokens) {
             self.cell = cell
-            self.layoutType = layoutType
             self.tokens = tokens
         }
 
@@ -152,7 +149,7 @@ extension MSFListView {
                     }
                 }
             })
-            .buttonStyle(ListCellButtonStyle(tokens: tokens, layoutType: layoutType))
+            .buttonStyle(ListCellButtonStyle(tokens: tokens, layoutType: cell.layoutType))
         }
     }
 
