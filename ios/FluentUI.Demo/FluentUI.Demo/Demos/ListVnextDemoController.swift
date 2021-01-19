@@ -43,9 +43,9 @@ class ListVnextDemoController: DemoController {
                                       style: .default)
             listCell.title = avatar.state.primaryText ?? ""
             listCell.leadingView = avatar.view
+            listCell.layoutType = MSFListCellVnextLayoutType.twoLines
             listSection.cells.append(listCell)
         }
-        listSection.layoutType = MSFListCellVnextLayoutType.twoLines
         listData.append(listSection)
 
         /// TableViewCell Sample Data Sections
@@ -62,6 +62,7 @@ class ListVnextDemoController: DemoController {
                 listCell.subtitle = cell.text2
                 listCell.leadingView = createCustomView(imageName: cell.image)
                 listCell.accessoryType = accessoryType(for: rowIndex)
+                listCell.layoutType = updateLayout(subtitle: listCell.subtitle)
                 listCell.onTapAction = {
                     indexPath.row = rowIndex
                     indexPath.section = sectionIndex
@@ -69,7 +70,6 @@ class ListVnextDemoController: DemoController {
                 }
                 listSection.cells.append(listCell)
             }
-            listSection.layoutType = updateLayout(subtitle: listSection.cells[0].subtitle)
             listData.append(listSection)
         }
 
