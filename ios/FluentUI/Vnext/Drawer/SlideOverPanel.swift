@@ -59,7 +59,7 @@ struct MSFSlideOverPanel<Content: View>: View {
 
             content
                 .frame(width: contentWidth)
-                .shadow(color: resolvedShadowColor,
+                .shadow(color: shadowColor,
                         radius: tokens.shadowBlur,
                         x: tokens.shadowDepthX,
                         y: tokens.shadowDepthY)
@@ -70,7 +70,7 @@ struct MSFSlideOverPanel<Content: View>: View {
                     .onTapGesture (perform: actionOnBackgroundTap ?? {})
             }
         }
-        .background(resolvedBackgroundColor)
+        .background(backgroundColor)
     }
 
     private let contentWidthSizeRatio: CGFloat = 0.9
@@ -99,7 +99,7 @@ struct MSFSlideOverPanel<Content: View>: View {
         }
     }
 
-    private var resolvedBackgroundColor: Color {
+    private var backgroundColor: Color {
         guard backgroundDimmed else {
             return tokens.backgroundClearColor
         }
@@ -107,7 +107,7 @@ struct MSFSlideOverPanel<Content: View>: View {
         return tokens.backgroundDimmedColor.opacity(opacity)
     }
 
-    private var resolvedShadowColor: Color {
+    private var shadowColor: Color {
         let opacity = resolvedPanelStateValue(0.0, tokens.shadowOpacity)
         return tokens.shadowColor.opacity(opacity)
     }
@@ -131,18 +131,18 @@ struct MSFSlideOverPanel<Content: View>: View {
         return slideOutPanelWidth * contentWidthSizeRatio
     }
 
-    private func resolvedPanelStateValue(_ clear: Double, _ opaque: Double) -> Double {
+    private func resolvedPanelStateValue(_ minValue: Double, _ maxValue: Double) -> Double {
         switch transitionState {
         case .collapsed:
-            return clear
+            return minValue
         case .expanded:
-            return opaque
+            return maxValue
         case .inTransisiton:
             if let percent = percentTransition {
-                return opaque * percent
+                return maxValue * percent
             }
         }
-        return clear
+        return minValue
     }
 }
 
@@ -164,15 +164,14 @@ struct SlideOverPanelLeft_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             MockBackgroundView()
-            MSFSlideOverPanel<MockContent>(
-                percentTransition: Binding.constant(0),
-                tokens: MSFDrawerTokens(),
-                slideOutPanelWidth: UIScreen.main.bounds.width,
-                actionOnBackgroundTap: nil,
-                content: MockContent(),
-                backgroundDimmed: true,
-                direction: .left,
-                transitionState: Binding.constant(MSFSlideOverTransitionState.expanded))
+            MSFSlideOverPanel<MockContent>(percentTransition: Binding.constant(0),
+                                           tokens: MSFDrawerTokens(),
+                                           slideOutPanelWidth: UIScreen.main.bounds.width,
+                                           actionOnBackgroundTap: nil,
+                                           content: MockContent(),
+                                           backgroundDimmed: true,
+                                           direction: .left,
+                                           transitionState: Binding.constant(MSFSlideOverTransitionState.expanded))
         }
     }
 }
@@ -181,15 +180,14 @@ struct SlideOverPanelRight_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             MockBackgroundView()
-            MSFSlideOverPanel<MockContent>(
-                percentTransition: Binding.constant(0),
-                tokens: MSFDrawerTokens(),
-                slideOutPanelWidth: UIScreen.main.bounds.width,
-                actionOnBackgroundTap: nil,
-                content: MockContent(),
-                backgroundDimmed: true,
-                direction: .right,
-                transitionState: Binding.constant(MSFSlideOverTransitionState.expanded))
+            MSFSlideOverPanel<MockContent>(percentTransition: Binding.constant(0),
+                                           tokens: MSFDrawerTokens(),
+                                           slideOutPanelWidth: UIScreen.main.bounds.width,
+                                           actionOnBackgroundTap: nil,
+                                           content: MockContent(),
+                                           backgroundDimmed: true,
+                                           direction: .right,
+                                           transitionState: Binding.constant(MSFSlideOverTransitionState.expanded))
         }
     }
 }
@@ -198,15 +196,14 @@ struct SlideOverPanelInTransition_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             MockBackgroundView()
-            MSFSlideOverPanel<MockContent>(
-                percentTransition: Binding.constant(0.4),
-                tokens: MSFDrawerTokens(),
-                slideOutPanelWidth: UIScreen.main.bounds.width,
-                actionOnBackgroundTap: nil,
-                content: MockContent(),
-                backgroundDimmed: true,
-                direction: .left,
-                transitionState: Binding.constant(MSFSlideOverTransitionState.inTransisiton))
+            MSFSlideOverPanel<MockContent>(percentTransition: Binding.constant(0.4),
+                                           tokens: MSFDrawerTokens(),
+                                           slideOutPanelWidth: UIScreen.main.bounds.width,
+                                           actionOnBackgroundTap: nil,
+                                           content: MockContent(),
+                                           backgroundDimmed: true,
+                                           direction: .left,
+                                           transitionState: Binding.constant(MSFSlideOverTransitionState.inTransisiton))
         }
     }
 }
@@ -215,14 +212,13 @@ struct SlideOverPanelCollapsed_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             MockBackgroundView()
-            MSFSlideOverPanel<MockContent>(
-                percentTransition: Binding.constant(100),
-                tokens: MSFDrawerTokens(), slideOutPanelWidth: UIScreen.main.bounds.width,
-                actionOnBackgroundTap: nil,
-                content: MockContent(),
-                backgroundDimmed: true,
-                direction: .left,
-                transitionState: Binding.constant(MSFSlideOverTransitionState.collapsed))
+            MSFSlideOverPanel<MockContent>(percentTransition: Binding.constant(100),
+                                           tokens: MSFDrawerTokens(), slideOutPanelWidth: UIScreen.main.bounds.width,
+                                           actionOnBackgroundTap: nil,
+                                           content: MockContent(),
+                                           backgroundDimmed: true,
+                                           direction: .left,
+                                           transitionState: Binding.constant(MSFSlideOverTransitionState.collapsed))
         }
     }
 }
