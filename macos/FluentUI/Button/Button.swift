@@ -23,7 +23,7 @@ open class Button: NSButton {
 		accentColor: NSColor = Colors.primary
 	) {
 		let format = ButtonFormat(size: size, style: style, accentColor: accentColor)
-		self.init(title: title, format: format)
+		self.init(title: title, imagePosition: .noImage, format: format)
 	}
 
 	/// Initializes a Fluent UI Button with an image only
@@ -39,7 +39,7 @@ open class Button: NSButton {
 		accentColor: NSColor = Colors.primary
 	) {
 		let format = ButtonFormat(size: size, style: style, accentColor: accentColor)
-		self.init(image: image, format: format)
+		self.init(image: image, imagePosition: .imageOnly, format: format)
 	}
 
 	/// Initializes a Fluent UI Button with a title and image
