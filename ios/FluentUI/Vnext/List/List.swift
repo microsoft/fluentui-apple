@@ -17,6 +17,7 @@ import SwiftUI
     @objc @Published public var subtitleLineLimit: Int = 1
     @objc @Published public var children: [MSFListVnextCellData]?
     @objc @Published public var isExpanded: Bool = false
+    @objc @Published public var layoutType: MSFListCellVnextLayoutType = .oneLine
     @objc public var onTapAction: (() -> Void)?
 }
 
@@ -26,7 +27,6 @@ import SwiftUI
     @objc @Published public var cells: [MSFListVnextCellData] = []
     @objc @Published public var title: String?
     @objc @Published public var hasBorder: Bool = false
-    @objc @Published public var layoutType: MSFListCellVnextLayoutType = .oneLine
 }
 
 /// Properties that make up list content
@@ -72,7 +72,6 @@ public struct MSFListView: View {
 
                         ForEach(section.cells, id: \.self) { cell in
                             MSFListCellView(cell: cell,
-                                            layoutType: section.layoutType,
                                             tokens: tokens)
                                 .border(section.hasBorder ? Color(tokens.borderColor) : Color.clear, width: section.hasBorder ? tokens.borderSize : 0)
                                 .frame(maxWidth: .infinity)
@@ -109,13 +108,11 @@ public struct MSFListView: View {
 
                     ForEach(section.cells, id: \.self) { cell in
                         MSFListCellView(cell: cell,
-                                        layoutType: section.layoutType,
                                         tokens: tokens)
                             .border(section.hasBorder ? Color(tokens.borderColor) : Color.clear, width: section.hasBorder ? tokens.borderSize : 0)
                             .frame(maxWidth: .infinity)
                     }
                 }
-            }
             .environment(\.defaultMinListRowHeight, 0)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .onAppear {
@@ -134,30 +131,27 @@ public struct MSFListView: View {
             .onDisappear {
                UITableView.appearance().separatorStyle = .singleLine
             }
-        }
+            }
     }
+}
 }
 
 extension MSFListView {
     /// View for List Cells
     struct MSFListCellView: View {
-        var cell: MSFListVnextCellData
-        var layoutType: MSFListCellVnextLayoutType
-        @State var isExpanded: Bool
+        @ObservedObject var cell: MSFListVnextCellData
         @ObservedObject var tokens: MSFListTokens
 
-        init(cell: MSFListVnextCellData, layoutType: MSFListCellVnextLayoutType, tokens: MSFListTokens) {
+        init(cell: MSFListVnextCellData, tokens: MSFListTokens) {
             self.cell = cell
-            self.layoutType = layoutType
             self.tokens = tokens
-            _isExpanded = State(initialValue: cell.isExpanded)
         }
 
         var body: some View {
             Button(action: cell.onTapAction ?? {
                 if cell.children != nil {
                     withAnimation {
-                        isExpanded.toggle()
+                        cell.isExpanded.toggle()
                     }
                 }
             }, label: {
@@ -197,11 +191,10 @@ extension MSFListView {
                     }
                 }
             })
-            .buttonStyle(ListCellButtonStyle(tokens: tokens, layoutType: layoutType))
-            if let children = cell.children, isExpanded == true {
+            .buttonStyle(ListCellButtonStyle(tokens: tokens, layoutType: cell.layoutType))
+            if let children = cell.children, cell.isExpanded == true {
                 ForEach(children, id: \.self) { child in
                     MSFListCellView(cell: child,
-                                    layoutType: layoutType,
                                     tokens: tokens)
                         .frame(maxWidth: .infinity)
                         .padding(.leading, (tokens.horizontalCellPadding + tokens.iconSize))

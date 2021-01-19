@@ -79,6 +79,7 @@
     MSFListVnextCellData *listCell2 = [[MSFListVnextCellData alloc] init];
     [listCell2 setTitle:@"SampleTitle2"];
     [listCell2 setSubtitle:@"SampleTitle2"];
+    [listCell2 setLayoutType:MSFListCellVnextLayoutTypeTwoLines];
     [listCell2 setOnTapAction:^{
         [self showAlertForCellTapped:@"SampleTitle2"];
     }];
@@ -89,12 +90,12 @@
     UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"excelIcon"]] ;
     [listCell3 setLeadingView:image];
     [listCell3 setAccessoryType:MSFListAccessoryTypeDisclosure];
+    [listCell3 setLayoutType:MSFListCellVnextLayoutTypeTwoLines];
     [listCell3 setOnTapAction:^{
         [self showAlertForCellTapped:@"Sample Title3"];
     }];
 
     MSFListVnextSectionData *section = [[MSFListVnextSectionData alloc] init];
-    [section setLayoutType:MSFListCellVnextLayoutTypeTwoLines];
     [section setCells:@[listCell1, listCell2, listCell3]];
     NSArray *sections = @[section];
 

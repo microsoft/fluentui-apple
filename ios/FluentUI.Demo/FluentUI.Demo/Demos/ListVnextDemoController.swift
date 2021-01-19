@@ -33,15 +33,21 @@ class ListVnextDemoController: DemoController {
 
         /// Subchildren list items
         var subchildren: [MSFListVnextCellData] = []
-        for index in 0...2 {
-            listCell = MSFListVnextCellData()
-            listCell.title = "Subchild #\(index)"
-            subchildren.append(listCell)
+        listCell = MSFListVnextCellData()
+        avatar = createAvatarView(size: .medium,
+                                  name: samplePersonas[4].name,
+                                  image: samplePersonas[4].avatarImage,
+                                  style: .default)
+        listCell.title = avatar.state.primaryText ?? ""
+        listCell.leadingView = avatar.view
+        listCell.onTapAction = {
+            self.showAlertForAvatarTapped(name: samplePersonas[4].name)
         }
+        subchildren.append(listCell)
 
         /// Children list items
-        var children1: [MSFListVnextCellData] = []
-        for index in 2...4 {
+        var children: [MSFListVnextCellData] = []
+        for index in 2...3 {
             listCell = MSFListVnextCellData()
             avatar = createAvatarView(size: .medium,
                                       name: samplePersonas[index].name,
@@ -49,22 +55,13 @@ class ListVnextDemoController: DemoController {
                                       style: .default)
             listCell.title = avatar.state.primaryText ?? ""
             listCell.leadingView = avatar.view
-            children1.append(listCell)
+            children.append(listCell)
         }
-        children1[0].children = subchildren
-
-        var children2: [MSFListVnextCellData] = []
-        for index in 2...4 {
-            listCell = MSFListVnextCellData()
-            avatar = createAvatarView(size: .medium,
-                                      name: samplePersonas[index].name,
-                                      image: samplePersonas[index].avatarImage,
-                                      style: .default)
-            listCell.title = avatar.state.primaryText ?? ""
-            listCell.leadingView = avatar.view
-            children2.append(listCell)
+        children[0].children = subchildren
+        children[0].isExpanded = true
+        children[1].onTapAction = {
+            self.showAlertForAvatarTapped(name: samplePersonas[1].name)
         }
-        children2[0].children = subchildren
 
         /// Custom Leading View with collapsible children items
         listSection = MSFListVnextSectionData()
@@ -78,12 +75,14 @@ class ListVnextDemoController: DemoController {
                                       style: .default)
             listCell.title = avatar.state.primaryText ?? ""
             listCell.leadingView = avatar.view
-            listCell.children = children1
+            listCell.layoutType = MSFListCellVnextLayoutType.twoLines
             listSection.cells.append(listCell)
         }
-        listSection.cells[0].children = children1
-        listSection.cells[1].children = children2
-        listSection.layoutType = MSFListCellVnextLayoutType.oneLine
+        listSection.cells[0].children = children
+        listSection.cells[0].isExpanded = true
+        listSection.cells[1].onTapAction = {
+            self.showAlertForAvatarTapped(name: samplePersonas[1].name)
+        }
         listData.append(listSection)
 
         /// TableViewCell Sample Data Sections
@@ -100,6 +99,7 @@ class ListVnextDemoController: DemoController {
                 listCell.subtitle = cell.text2
                 listCell.leadingView = createCustomView(imageName: cell.image)
                 listCell.accessoryType = accessoryType(for: rowIndex)
+                listCell.layoutType = updateLayout(subtitle: listCell.subtitle)
                 listCell.onTapAction = {
                     indexPath.row = rowIndex
                     indexPath.section = sectionIndex
@@ -107,7 +107,6 @@ class ListVnextDemoController: DemoController {
                 }
                 listSection.cells.append(listCell)
             }
-            listSection.layoutType = updateLayout(subtitle: listSection.cells[0].subtitle)
             listData.append(listSection)
         }
 
@@ -179,6 +178,15 @@ class ListVnextDemoController: DemoController {
     private func showAlertForCellTapped(indexPath: IndexPath) {
         let title = TableViewCellSampleData.sections[indexPath.section].title
         let alert = UIAlertController(title: "Row #\(indexPath.row + 1) in the \(title) section has been pressed.",
+                                      message: nil,
+                                      preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(action)
+        present(alert, animated: true)
+    }
+
+    private func showAlertForAvatarTapped(name: String) {
+        let alert = UIAlertController(title: "\(name) selected.",
                                       message: nil,
                                       preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)

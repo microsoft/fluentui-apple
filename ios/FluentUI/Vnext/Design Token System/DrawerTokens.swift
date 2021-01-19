@@ -15,8 +15,8 @@ public class MSFDrawerTokens: MSFTokensBase, ObservableObject {
     @Published public var shadowDepthY: CGFloat!
     @Published public var backgroundDimmedColor: Color!
     @Published public var backgroundClearColor: Color!
-    @Published public var backgroundDimmedOpacity: CGFloat!
-    @Published public var backgroundClearOpacity: CGFloat!
+    @Published public var backgroundDimmedOpacity: Double!
+    @Published public var backgroundClearOpacity: Double!
 
     public override init() {
         super.init()
@@ -39,7 +39,7 @@ public class MSFDrawerTokens: MSFTokensBase, ObservableObject {
         shadowDepthY = appearanceProxy.shadowY
         backgroundClearColor = Color(appearanceProxy.backgroundClearColor)
         backgroundDimmedColor = Color(appearanceProxy.backgroundDimmedColor)
-        backgroundDimmedOpacity = appearanceProxy.backgroundDimmedOpacity
-        backgroundClearOpacity = appearanceProxy.backgroundClearOpacity
+        backgroundDimmedOpacity = Double(appearanceProxy.backgroundDimmedOpacity)
+        backgroundClearOpacity = Double(appearanceProxy.backgroundClearOpacity)
     }
 }
