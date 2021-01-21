@@ -180,8 +180,6 @@ extension CommandBarDemoController: CommandBarDelegate {
             fatalError("Invalid item type")
         }
 
-        print("Did select command \(item.command)")
-
         switch item.command {
         case .keyboard:
             textField.resignFirstResponder()

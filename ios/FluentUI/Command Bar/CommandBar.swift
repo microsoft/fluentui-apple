@@ -5,6 +5,14 @@
 
 import UIKit
 
+@objc(MSFCommandBarDelegate)
+public protocol CommandBarDelegate: AnyObject {
+    @objc optional func commandBar(_ commandBar: CommandBar, shouldSelectItem item: CommandBarItem) -> Bool
+    @objc optional func commandBar(_ commandBar: CommandBar, didSelectItem item: CommandBarItem)
+    @objc optional func commandBar(_ commandBar: CommandBar, shouldDeselectItem item: CommandBarItem) -> Bool
+    @objc optional func commandBar(_ commandBar: CommandBar, didDeselectItem item: CommandBarItem)
+}
+
 /**
  `CommandBar` is a horizontal scrollable list of icon buttons divided by groups.
  Provide `itemGroups` in `init` to set the buttons in the scrollable area. Optional `leadingItem` and `trailingItem` add fixed buttons in leading and trailing positions. Each `CommandBarItem` will be represented as a button.
@@ -32,10 +40,10 @@ open class CommandBar: UIView {
         super.init(frame: .zero)
 
         if let leadingItem = leadingItem {
-            self.leadingButton = button(forItem: leadingItem, isFixed: true)
+            self.leadingButton = button(forItem: leadingItem, isPersistSelection: false)
         }
         if let trailingItem = trailingItem {
-            self.trailingButton = button(forItem: trailingItem, isFixed: true)
+            self.trailingButton = button(forItem: trailingItem, isPersistSelection: false)
         }
 
         translatesAutoresizingMaskIntoConstraints = false
@@ -180,7 +188,7 @@ private extension CommandBar {
     func configureHierarchy() {
         addSubview(containerView)
 
-        // Left and right button layout constrants
+        // Left and right button layout constraints
         if let leadingButton = leadingButton {
             addSubview(leadingButton)
             NSLayoutConstraint.activate([
@@ -199,7 +207,7 @@ private extension CommandBar {
             ])
         }
 
-        // Button container layout constrants
+        // Button container layout constraints
         let containerLeadingConstraint: NSLayoutConstraint = {
             if let leadingButton = leadingButton {
                 return containerView.leadingAnchor.constraint(equalTo: leadingButton.trailingAnchor, constant: CommandBar.fixedButtonSpacing)
@@ -235,8 +243,8 @@ private extension CommandBar {
         }
     }
 
-    func button(forItem item: CommandBarItem, isFixed: Bool = false) -> CommandBarButton {
-        let button = CommandBarButton(item: item, isFixed: isFixed)
+    func button(forItem item: CommandBarItem, isPersistSelection: Bool = true) -> CommandBarButton {
+        let button = CommandBarButton(item: item, isPersistSelection: isPersistSelection)
         button.addTarget(self, action: #selector(handleCommandButtonTapped(_:)), for: .touchUpInside)
 
         return button

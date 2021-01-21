@@ -26,9 +26,9 @@ class CommandBarButton: UIButton {
         }
     }
 
-    init(item: CommandBarItem, isFixed: Bool = false) {
+    init(item: CommandBarItem, isPersistSelection: Bool = true) {
         self.item = item
-        self.isFixed = isFixed
+        self.isPersistSelection = isPersistSelection
 
         super.init(frame: .zero)
 
@@ -53,10 +53,10 @@ class CommandBarButton: UIButton {
 
     func updateState() {
         isEnabled = item.isEnabled
-        isSelected = !isFixed && item.isSelected
+        isSelected = isPersistSelection && item.isSelected
     }
 
-    private let isFixed: Bool
+    private let isPersistSelection: Bool
 }
 
 private extension CommandBarButton {
@@ -79,7 +79,7 @@ private extension CommandBarButton {
     func updateStyle() {
         tintColor = isSelected ? selectedTintColor : CommandBarButton.normalTintColor
 
-        if isFixed {
+        if !isPersistSelection {
             backgroundColor = .clear
         } else {
             if isSelected {
