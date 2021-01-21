@@ -180,11 +180,27 @@ extension CommandBarDemoController: CommandBarDelegate {
             fatalError("Invalid item type")
         }
 
+        let alert = UIAlertController(title: "Did select command \(item.command)", message: nil, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(action)
+        present(alert, animated: true)
+
         switch item.command {
         case .keyboard:
             textField.resignFirstResponder()
         default:
             break
         }
+    }
+
+    func commandBar(_ commandBar: CommandBar, didDeselectItem item: CommandBarItem) {
+        guard let item = item as? Item else {
+            fatalError("Invalid item type")
+        }
+
+        let alert = UIAlertController(title: "Did deselect command \(item.command)", message: nil, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(action)
+        present(alert, animated: true)
     }
 }
