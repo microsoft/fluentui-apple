@@ -7,8 +7,9 @@ import UIKit
 
 public typealias CommandBarItemGroup = [CommandBarItem]
 
+@objc(MSFCommandBarItem)
 open class CommandBarItem: NSObject {
-    public init(
+    @objc public init(
         iconImage: UIImage?,
         isEnabled: Bool = true,
         isSelected: Bool = false,
@@ -26,7 +27,7 @@ open class CommandBarItem: NSObject {
     }
 
     @available(iOS 14.0, *)
-    public init(
+    @objc public init(
         iconImage: UIImage?,
         isEnabled: Bool = true,
         isSelected: Bool = false,
@@ -47,11 +48,11 @@ open class CommandBarItem: NSObject {
         self.accessibilityLabel = accessbilityLabel
     }
 
-    public var iconImage: UIImage?
-    public var isEnabled: Bool
+    @objc public var iconImage: UIImage?
+    @objc public var isEnabled: Bool
 
     /// If `isPersistSelection` is `true`, this value would be changed to reflect the selection state of the button. Setting this value before providing to `CommandBar` would set the initial selection state.
-    public var isSelected: Bool {
+    @objc public var isSelected: Bool {
         didSet {
             if isSelected, !isPersistSelection {
                 isSelected = false
@@ -60,11 +61,11 @@ open class CommandBarItem: NSObject {
     }
 
     /// Whether the selection state is persisted. If this is set to `false`, the button would be deselected immediately after selection.
-    public var isPersistSelection: Bool
+    @objc public var isPersistSelection: Bool
 
     @available(iOS 14.0, *)
-    public lazy var menu: UIMenu? = nil // Only lazy property can be used with @available
+    @objc public lazy var menu: UIMenu? = nil // Only lazy property can be used with @available
 
     @available(iOS 14.0, *)
-    public lazy var showsMenuAsPrimaryAction: Bool = false
+    @objc public lazy var showsMenuAsPrimaryAction: Bool = false
 }

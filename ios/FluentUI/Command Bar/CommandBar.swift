@@ -34,7 +34,7 @@ open class CommandBar: UIView {
 
     // MARK: - Public methods
 
-    public init(itemGroups: [CommandBarItemGroup], leadingItem: CommandBarItem? = nil, trailingItem: CommandBarItem? = nil) {
+    @objc public init(itemGroups: [CommandBarItemGroup], leadingItem: CommandBarItem? = nil, trailingItem: CommandBarItem? = nil) {
         self.itemGroups = itemGroups
 
         super.init(frame: .zero)
@@ -194,7 +194,12 @@ private extension CommandBar {
             NSLayoutConstraint.activate([
                 leadingButton.topAnchor.constraint(equalTo: containerView.topAnchor),
                 leadingButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: CommandBar.fixedButtonSpacing),
-                containerView.bottomAnchor.constraint(equalTo: leadingButton.bottomAnchor)
+                containerView.bottomAnchor.constraint(equalTo: leadingButton.bottomAnchor),
+                containerView.leadingAnchor.constraint(equalTo: leadingButton.trailingAnchor, constant: CommandBar.fixedButtonSpacing)
+            ])
+        } else {
+            NSLayoutConstraint.activate([
+                containerView.leadingAnchor.constraint(equalTo: leadingAnchor)
             ])
         }
 
@@ -202,34 +207,19 @@ private extension CommandBar {
             addSubview(trailingButton)
             NSLayoutConstraint.activate([
                 trailingButton.topAnchor.constraint(equalTo: containerView.topAnchor),
+                trailingButton.leadingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: CommandBar.fixedButtonSpacing),
                 containerView.bottomAnchor.constraint(equalTo: trailingButton.bottomAnchor),
                 trailingAnchor.constraint(equalTo: trailingButton.trailingAnchor, constant: CommandBar.fixedButtonSpacing)
             ])
+        } else {
+            NSLayoutConstraint.activate([
+              trailingAnchor.constraint(equalTo: containerView.trailingAnchor)
+            ])
         }
-
-        // Button container layout constraints
-        let containerLeadingConstraint: NSLayoutConstraint = {
-            if let leadingButton = leadingButton {
-                return containerView.leadingAnchor.constraint(equalTo: leadingButton.trailingAnchor, constant: CommandBar.fixedButtonSpacing)
-            } else {
-                return containerView.leadingAnchor.constraint(equalTo: leadingAnchor)
-            }
-        }()
-
-        let containerTrailingConstraint: NSLayoutConstraint = {
-            if let trailingButton = trailingButton {
-                return trailingButton.leadingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: CommandBar.fixedButtonSpacing)
-            } else {
-                return trailingAnchor.constraint(equalTo: containerView.trailingAnchor)
-            }
-        }()
 
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: topAnchor, constant: CommandBar.insets.top),
-            bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: CommandBar.insets.bottom),
-
-            containerLeadingConstraint,
-            containerTrailingConstraint
+            bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: CommandBar.insets.bottom)
         ])
 
         stackView.layoutIfNeeded()
