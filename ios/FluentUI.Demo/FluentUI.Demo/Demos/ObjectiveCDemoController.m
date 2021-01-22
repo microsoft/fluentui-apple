@@ -68,36 +68,36 @@
     [listVnextLabel setText:@"List (vNext)"];
     [self.container addArrangedSubview:listVnextLabel];
     
-    MSFListVnextCellData *listCell1 = [[MSFListVnextCellData alloc] init];
+    MSFListCellData *listCell1 = [[MSFListCellData alloc] init];
     [listCell1 setTitle:@"SampleTitle1"];
     [listCell1 setOnTapAction:^{
         [self showAlertForCellTapped:@"SampleTitle1"];
     }];
 
-    MSFListVnextCellData *listCell2 = [[MSFListVnextCellData alloc] init];
+    MSFListCellData *listCell2 = [[MSFListCellData alloc] init];
     [listCell2 setTitle:@"SampleTitle2"];
     [listCell2 setSubtitle:@"SampleTitle2"];
-    [listCell2 setLayoutType:MSFListCellVnextLayoutTypeTwoLines];
+    [listCell2 setLayoutType:MSFListCellLayoutTypeTwoLines];
     [listCell2 setOnTapAction:^{
         [self showAlertForCellTapped:@"SampleTitle2"];
     }];
 
-    MSFListVnextCellData *listCell3 = [[MSFListVnextCellData alloc] init];
+    MSFListCellData *listCell3 = [[MSFListCellData alloc] init];
     [listCell3 setTitle:@"SampleTitle3"];
     [listCell3 setSubtitle:@"SampleTitle3"];
     UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"excelIcon"]] ;
     [listCell3 setLeadingView:image];
     [listCell3 setAccessoryType:MSFListAccessoryTypeDisclosure];
-    [listCell3 setLayoutType:MSFListCellVnextLayoutTypeTwoLines];
+    [listCell3 setLayoutType:MSFListCellLayoutTypeTwoLines];
     [listCell3 setOnTapAction:^{
         [self showAlertForCellTapped:@"Sample Title3"];
     }];
 
-    MSFListVnextSectionData *section = [[MSFListVnextSectionData alloc] init];
+    MSFListSectionData *section = [[MSFListSectionData alloc] init];
     [section setCells:@[listCell1, listCell2, listCell3]];
     NSArray *sections = @[section];
 
-    MSFListVnext *list = [[MSFListVnext alloc] initWithSections:sections iconStyle:MSFListIconVnextStyleNone];
+    MSFList *list = [[MSFList alloc] initWithSections:sections iconStyle:MSFListIconStyleNone];
 
     UIView *listView = [list view];
     listView.translatesAutoresizingMaskIntoConstraints = false;
