@@ -651,11 +651,20 @@
 			children = (
 				5354009725B0C5F70047DC47 /* Avatar */,
 				5354009825B0C6120047DC47 /* Button */,
+				5354019625BB49CA0047DC47 /* Core */,
 				5364A0E82575A6570038F206 /* Design Token System */,
 				3F4FB96C25B25E04008AB7CC /* Drawer */,
 				5354009925B0C64F0047DC47 /* List */,
 			);
 			path = Vnext;
+			sourceTree = "<group>";
+		};
+		5354019625BB49CA0047DC47 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				3F4FB92C25B25843008AB7CC /* UIKit+SwiftUI_interoperability.swift */,
+			);
+			path = Core;
 			sourceTree = "<group>";
 		};
 		5364A0E82575A6570038F206 /* Design Token System */ = {
@@ -817,7 +826,6 @@
 				A5CEC16E20D98F340016922A /* Fonts.swift */,
 				537315B225438B15001FD14C /* iOS13_4_compatibility.swift */,
 				FD41C8C022DD48E60086F899 /* Operators.swift */,
-				3F4FB92C25B25843008AB7CC /* UIKit+SwiftUI_interoperability.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
