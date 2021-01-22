@@ -16,9 +16,9 @@ class ListVnextDemoController: DemoController {
         var indexPath = IndexPath(row: 0, section: 0)
 
         var list: MSFListVnext
-        var listCell: MSFListVnextCellData
-        var listSection: MSFListVnextSectionData
-        var listData: [MSFListVnextSectionData] = []
+        var listCell: MSFListVnextCellState
+        var listSection: MSFListVnextSectionState
+        var listData: [MSFListVnextSectionState] = []
         let iconStyle = MSFListIconVnextStyle.none
 
         let samplePersonas: [PersonaData] = [
@@ -32,8 +32,8 @@ class ListVnextDemoController: DemoController {
         var avatar: MSFAvatarVnext
 
         /// Subchildren list items
-        var subchildren: [MSFListVnextCellData] = []
-        listCell = MSFListVnextCellData()
+        var subchildren: [MSFListVnextCellState] = []
+        listCell = MSFListVnextCellState()
         avatar = createAvatarView(size: .medium,
                                   name: samplePersonas[4].name,
                                   image: samplePersonas[4].avatarImage,
@@ -46,9 +46,9 @@ class ListVnextDemoController: DemoController {
         subchildren.append(listCell)
 
         /// Children list items
-        var children: [MSFListVnextCellData] = []
+        var children: [MSFListVnextCellState] = []
         for index in 2...3 {
-            listCell = MSFListVnextCellData()
+            listCell = MSFListVnextCellState()
             avatar = createAvatarView(size: .medium,
                                       name: samplePersonas[index].name,
                                       image: samplePersonas[index].avatarImage,
@@ -64,18 +64,17 @@ class ListVnextDemoController: DemoController {
         }
 
         /// Custom Leading View with collapsible children items
-        listSection = MSFListVnextSectionData()
+        listSection = MSFListVnextSectionState()
         listSection.title = "AvatarView Section"
         listSection.cells = []
         for index in 0...1 {
-            listCell = MSFListVnextCellData()
+            listCell = MSFListVnextCellState()
             avatar = createAvatarView(size: .medium,
                                       name: samplePersonas[index].name,
                                       image: samplePersonas[index].avatarImage,
                                       style: .default)
             listCell.title = avatar.state.primaryText ?? ""
             listCell.leadingView = avatar.view
-            listCell.layoutType = MSFListCellVnextLayoutType.twoLines
             listSection.cells.append(listCell)
         }
         listSection.cells[0].children = children
@@ -89,12 +88,12 @@ class ListVnextDemoController: DemoController {
         for sectionIndex in 0...sections.count - 1 {
             section = sections[sectionIndex]
 
-            listSection = MSFListVnextSectionData()
+            listSection = MSFListVnextSectionState()
             listSection.title = section.title
             listSection.cells = []
             for rowIndex in 0...TableViewCellSampleData.numberOfItemsInSection - 1 {
                 cell = section.item
-                listCell = MSFListVnextCellData()
+                listCell = MSFListVnextCellState()
                 listCell.title = cell.text1
                 listCell.subtitle = cell.text2
                 listCell.leadingView = createCustomView(imageName: cell.image)
