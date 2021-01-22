@@ -13,13 +13,13 @@ public typealias MSPersonaCell = PersonaCell
 @objc(MSFPersonaCell)
 open class PersonaCell: TableViewCell {
     private struct Constants {
-        static let avatarSize: AvatarSize = .large
+        static let avatarSize: AvatarLegacySize = .large
     }
 
     open override var customViewSize: TableViewCell.CustomViewSize { get { return .medium } set { } }
 
-    private let avatarView: AvatarView = {
-        let avatarView = AvatarView(avatarSize: Constants.avatarSize, preferredFallbackImageStyle: .onAccentFilled)
+    private let avatarView: AvatarLegacyView = {
+        let avatarView = AvatarLegacyView(avatarSize: Constants.avatarSize, preferredFallbackImageStyle: .onAccentFilled)
         avatarView.accessibilityElementsHidden = true
         return avatarView
     }()

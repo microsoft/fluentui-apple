@@ -7,12 +7,9 @@ import UIKit
 
 // MARK: - AvatarSize
 
-@available(*, deprecated, renamed: "AvatarSize")
-public typealias MSAvatarSize = AvatarSize
-
 /// `AvatarSize` detemines the size, font, and corner radius for `AvatarView`
-@objc(MSFAvatarSize)
-public enum AvatarSize: Int, CaseIterable {
+@objc(MSFAvatarLegacySize)
+public enum AvatarLegacySize: Int, CaseIterable {
     case extraSmall
     case small
     case medium
@@ -54,7 +51,7 @@ public enum AvatarSize: Int, CaseIterable {
         }
     }
 
-    /// only used for `MSAvatarView` with `MSAvatarStyle.square`
+    /// only used for `MSAvatarLegacyView` with `MSAvatarLegacyStyle.square`
     var squareCornerRadius: CGFloat {
         switch self {
         case .extraSmall, .small, .medium:
@@ -118,21 +115,18 @@ public enum AvatarSize: Int, CaseIterable {
     }
 }
 
-// MARK: - AvatarStyle
+// MARK: - AvatarLegacyStyle
 
-@available(*, deprecated, renamed: "AvatarStyle")
-public typealias MSAvatarStyle = AvatarStyle
-
-@objc(MSFAvatarStyle)
-public enum AvatarStyle: Int {
+@objc(MSFAvatarLegacyStyle)
+public enum AvatarLegacyStyle: Int {
     case circle
     case square
 }
 
-// MARK: - AvatarFallbackImageStyle
+// MARK: - AvatarLegacyFallbackImageStyle
 
-@objc(MSFAvatarFallbackImageStyle)
-public enum AvatarFallbackImageStyle: Int {
+@objc(MSFAvatarLegacyFallbackImageStyle)
+public enum AvatarLegacyFallbackImageStyle: Int {
     case onAccentFilled
     case outlined
     case primaryFilled
@@ -164,7 +158,7 @@ public enum AvatarFallbackImageStyle: Int {
         }
     }
 
-    func imageName(size: AvatarSize) -> String {
+    func imageName(size: AvatarLegacySize) -> String {
         let personImageSize = size.personImageSize
         switch self {
         case .outlined, .primaryOutlined:
@@ -187,18 +181,15 @@ public extension Colors {
 
 // MARK: - AvatarView
 
-@available(*, deprecated, renamed: "AvatarView")
-public typealias MSAvatarView = AvatarView
-
 /**
  `AvatarView` is used to present an image or initials view representing an entity such as a person.
  If an image is provided the image is presented in either a circular or a square view based on the `AvatarStyle` provided with the initials view presented as a fallback.
  The initials used in the initials view are generated from the provided primary text (e.g. a name) or secondary text (e.g. an email address) used to initialize the avatar view.
  To show fallback person icon image, `AvatarFallbackImageStyle` can be passed in `setup()`.
  */
-@objc(MSFAvatarView)
-open class AvatarView: UIView {
-    @objc open var avatarSize: AvatarSize {
+@objc(MSFAvatarLegacyView)
+open class AvatarLegacyView: UIView {
+    @objc open var avatarSize: AvatarLegacySize {
         didSet {
             updatePresenceImage()
 
@@ -233,7 +224,7 @@ open class AvatarView: UIView {
         }
     }
 
-    @objc open var style: AvatarStyle {
+    @objc open var style: AvatarLegacyStyle {
         didSet {
             if style != oldValue {
                 updatePresenceImage()
@@ -271,7 +262,7 @@ open class AvatarView: UIView {
     @objc open var overrideAccessibilityLabel: String?
 
     /// Used when avatarView doesn't have image or can't generate initials string
-    @objc open var preferredFallbackImageStyle: AvatarFallbackImageStyle = .outlined {
+    @objc open var preferredFallbackImageStyle: AvatarLegacyFallbackImageStyle = .outlined {
         didSet {
             if preferredFallbackImageStyle != oldValue {
                 if let fallbackImageStyle = fallbackImageStyle, fallbackImageStyle == oldValue {
@@ -309,7 +300,7 @@ open class AvatarView: UIView {
     ///   - avatarSize: The AvatarSize to configure the avatar view with
     ///   - hasBorder: Boolean describing whether or not to show a border around the avatarView
     ///   - style: The `MSAvatarStyle` to indicate whether the avatar should be displayed as a circle or a square
-    @objc public convenience init(avatarSize: AvatarSize, withBorder hasBorder: Bool = false, style: AvatarStyle = .circle) {
+    @objc public convenience init(avatarSize: AvatarLegacySize, withBorder hasBorder: Bool = false, style: AvatarLegacyStyle = .circle) {
         self.init(avatarSize: avatarSize, withBorder: hasBorder, style: style, preferredFallbackImageStyle: .outlined)
     }
 
@@ -320,7 +311,7 @@ open class AvatarView: UIView {
     ///   - hasBorder: Boolean describing whether or not to show a border around the avatarView
     ///   - style: The `MSAvatarStyle` to indicate whether the avatar should be displayed as a circle or a square
     ///   - preferredFallbackImageStyle: `AvatarFallbackImageStyle` used when avatarView doesn't have an image or can't show initials text
-    @objc public init(avatarSize: AvatarSize, withBorder hasBorder: Bool = false, style: AvatarStyle = .circle, preferredFallbackImageStyle: AvatarFallbackImageStyle = .outlined) {
+    @objc public init(avatarSize: AvatarLegacySize, withBorder hasBorder: Bool = false, style: AvatarLegacyStyle = .circle, preferredFallbackImageStyle: AvatarLegacyFallbackImageStyle = .outlined) {
         self.avatarSize = avatarSize
         self.style = style
         self.hasBorder = hasBorder
@@ -464,7 +455,7 @@ open class AvatarView: UIView {
     /// - Parameters:
     ///   - fallbackStyle: The image style to be displayed
     ///   - presence: The presence state
-    @objc public func setup(fallbackStyle: AvatarFallbackImageStyle, presence: Presence = .none) {
+    @objc public func setup(fallbackStyle: AvatarLegacyFallbackImageStyle, presence: Presence = .none) {
         primaryText = nil
         secondaryText = nil
         self.presence = presence
@@ -474,12 +465,12 @@ open class AvatarView: UIView {
 
     var borderWidth: CGFloat {
         get {
-            return AvatarView.borderWidth(size: avatarSize, hasCustomBorder: hasCustomBorder)
+            return AvatarLegacyView.borderWidth(size: avatarSize, hasCustomBorder: hasCustomBorder)
         }
         set { }
     }
 
-    static func borderWidth(size: AvatarSize, hasCustomBorder: Bool) -> CGFloat {
+    static func borderWidth(size: AvatarLegacySize, hasCustomBorder: Bool) -> CGFloat {
         var borderWidth: CGFloat = 0
         if hasCustomBorder {
             borderWidth = Constants.customBorderWidth
@@ -492,7 +483,7 @@ open class AvatarView: UIView {
 
     private var hasBorder: Bool = false
     private var hasCustomBorder: Bool = false
-    private var fallbackImageStyle: AvatarFallbackImageStyle?
+    private var fallbackImageStyle: AvatarLegacyFallbackImageStyle?
     private var customBorderImageSize: CGSize = .zero
     private var primaryText: String?
     private var secondaryText: String?
@@ -525,7 +516,7 @@ open class AvatarView: UIView {
         let primaryText: String?
         let secondaryText: String?
 
-        init(avatarView: AvatarView) {
+        init(avatarView: AvatarLegacyView) {
             self.primaryText = avatarView.primaryText
             self.secondaryText = avatarView.secondaryText
         }
@@ -709,7 +700,7 @@ open class AvatarView: UIView {
         }
     }
 
-    private func updateImageViewWithFallbackImage(style: AvatarFallbackImageStyle = .primaryFilled) {
+    private func updateImageViewWithFallbackImage(style: AvatarLegacyFallbackImageStyle = .primaryFilled) {
         let imageName = style.imageName(size: avatarSize)
         if let image = UIImage.staticImageNamed(imageName) {
             let containerSize = avatarSize.size
@@ -768,10 +759,10 @@ open class AvatarView: UIView {
     }
 }
 
-// MARK: - OverflowAvatarView
+// MARK: - OverflowAvatarLegacyView
 
-class OverflowAvatarView: AvatarView {
-    @objc public init(overflowCount: UInt, avatarSize: AvatarSize, withBorder hasBorder: Bool = false) {
+class OverflowAvatarLegacyView: AvatarLegacyView {
+    @objc public init(overflowCount: UInt, avatarSize: AvatarLegacySize, withBorder hasBorder: Bool = false) {
         self.hasBorder = hasBorder
         borderView = UIView(frame: .zero)
         super.init(avatarSize: avatarSize, withBorder: false, style: .circle, preferredFallbackImageStyle: .outlined)
@@ -817,7 +808,7 @@ class OverflowAvatarView: AvatarView {
     }
 
     private func updateBorder() {
-        let borderWidth = AvatarView.borderWidth(size: avatarSize, hasCustomBorder: false)
+        let borderWidth = AvatarLegacyView.borderWidth(size: avatarSize, hasCustomBorder: false)
         borderView.frame = hasBorder ? bounds.insetBy(dx: -borderWidth, dy: -borderWidth) : bounds
         borderView.layer.cornerRadius = cornerRadius(for: borderView.frame.width)
 
@@ -859,9 +850,9 @@ class OverflowAvatarView: AvatarView {
     }
 }
 
-// MARK: - AvatarView UIPointerInteractionDelegate
+// MARK: - AvatarLegacyView UIPointerInteractionDelegate
 
-extension AvatarView: UIPointerInteractionDelegate {
+extension AvatarLegacyView: UIPointerInteractionDelegate {
     @available(iOS 13.4, *)
     public func pointerInteraction(_ interaction: UIPointerInteraction, styleFor region: UIPointerRegion) -> UIPointerStyle? {
         guard let superview = window else {
