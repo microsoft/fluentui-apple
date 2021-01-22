@@ -7,7 +7,7 @@ import UIKit
 import SwiftUI
 
 /// Pre-defined styles of the avatar
-@objc public enum MSFAvatarVnextStyle: Int, CaseIterable {
+@objc public enum MSFAvatarStyle: Int, CaseIterable {
     case `default`
     case accent
     case group
@@ -17,7 +17,7 @@ import SwiftUI
 }
 
 /// Pre-defined sizes of the avatar
-@objc public enum MSFAvatarVnextSize: Int, CaseIterable {
+@objc public enum MSFAvatarSize: Int, CaseIterable {
     case xsmall
     case small
     case medium
@@ -48,7 +48,7 @@ public class MSFAvatarTokens: MSFTokensBase, ObservableObject {
     @Published public var foregroundDefaultColor: UIColor!
     @Published public var textColor: UIColor!
 
-    public var style: MSFAvatarVnextStyle {
+    public var style: MSFAvatarStyle {
         didSet {
             if oldValue != style {
                 updateForCurrentTheme()
@@ -56,7 +56,7 @@ public class MSFAvatarTokens: MSFTokensBase, ObservableObject {
         }
     }
 
-    public var size: MSFAvatarVnextSize {
+    public var size: MSFAvatarSize {
         didSet {
             if oldValue != size {
                 updateForCurrentTheme()
@@ -64,8 +64,8 @@ public class MSFAvatarTokens: MSFTokensBase, ObservableObject {
         }
     }
 
-    public init(style: MSFAvatarVnextStyle,
-                size: MSFAvatarVnextSize) {
+    public init(style: MSFAvatarStyle,
+                size: MSFAvatarSize) {
         self.style = style
         self.size = size
 

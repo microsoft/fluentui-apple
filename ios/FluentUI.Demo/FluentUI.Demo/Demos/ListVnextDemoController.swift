@@ -29,7 +29,7 @@ class ListVnextDemoController: DemoController {
             PersonaData(name: "Amanda Brady", subtitle: "Program Manager", avatarImage: UIImage(named: "avatar_amanda_brady"), color: Colors.Palette.magentaPink10.color)
         ]
 
-        var avatar: MSFAvatarVnext
+        var avatar: MSFAvatar
 
         /// AvatarView section
         listSection = MSFListVnextSectionData()
@@ -87,11 +87,11 @@ class ListVnextDemoController: DemoController {
                                      demoControllerView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: listView.trailingAnchor)])
     }
 
-    private func createAvatarView(size: MSFAvatarVnextSize,
+    private func createAvatarView(size: MSFAvatarSize,
                                   name: String? = nil,
                                   image: UIImage? = nil,
-                                  style: MSFAvatarVnextStyle) -> MSFAvatarVnext {
-        let avatarView = MSFAvatarVnext(style: style,
+                                  style: MSFAvatarStyle) -> MSFAvatar {
+        let avatarView = MSFAvatar(style: style,
                                         size: size)
         avatarView.state.primaryText = name
         avatarView.state.image = image

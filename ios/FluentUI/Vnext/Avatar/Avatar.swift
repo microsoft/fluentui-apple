@@ -6,7 +6,7 @@
 import UIKit
 import SwiftUI
 
-@objc public enum MSFAvatarVnextPresence: Int, CaseIterable {
+@objc public enum MSFAvatarPresence: Int, CaseIterable {
     case none
     case available
     case away
@@ -69,29 +69,29 @@ import SwiftUI
 }
 
 /// Properties available to customize the state of the avatar
-@objc public class MSFAvatarVnextState: NSObject, ObservableObject {
+@objc public class MSFAvatarState: NSObject, ObservableObject {
     @objc @Published public var image: UIImage?
     @objc @Published public var primaryText: String?
     @objc @Published public var secondaryText: String?
     @objc @Published public var ringColor: UIColor?
     @objc @Published public var backgroundColor: UIColor?
     @objc @Published public var foregroundColor: UIColor?
-    @objc @Published public var presence: MSFAvatarVnextPresence = .none
+    @objc @Published public var presence: MSFAvatarPresence = .none
     @objc @Published public var isRingVisible: Bool = false
     @objc @Published public var isTransparent: Bool = true
     @objc @Published public var isOutOfOffice: Bool = false
 }
 
 /// View that represents the avatar
-public struct AvatarVnextView: View {
+public struct AvatarView: View {
     @Environment(\.theme) var theme: FluentUIStyle
     @ObservedObject var tokens: MSFAvatarTokens
-    @ObservedObject var state: MSFAvatarVnextState
+    @ObservedObject var state: MSFAvatarState
 
-    public init(style: MSFAvatarVnextStyle,
-                size: MSFAvatarVnextSize) {
+    public init(style: MSFAvatarStyle,
+                size: MSFAvatarSize) {
         self.tokens = MSFAvatarTokens(style: style, size: size)
-        self.state = MSFAvatarVnextState()
+        self.state = MSFAvatarState()
     }
 
     public var body: some View {
@@ -235,27 +235,27 @@ public struct AvatarVnextView: View {
         return cutoutFrame
     }
 
-    public func setStyle(style: MSFAvatarVnextStyle) {
+    public func setStyle(style: MSFAvatarStyle) {
         tokens.style = style
     }
 
-    public func setSize(size: MSFAvatarVnextSize) {
+    public func setSize(size: MSFAvatarSize) {
         tokens.size = size
     }
 }
 
 /// UIKit wrapper that exposes the SwiftUI Button implementation
-@objc open class MSFAvatarVnext: NSObject, FluentUIWindowProvider {
+@objc open class MSFAvatar: NSObject, FluentUIWindowProvider {
 
     private var hostingController: UIHostingController<AnyView>!
 
-    private var avatarview: AvatarVnextView!
+    private var avatarview: AvatarView!
 
     @objc open var view: UIView {
         return hostingController.view
     }
 
-    @objc open var state: MSFAvatarVnextState {
+    @objc open var state: MSFAvatarState {
         return self.avatarview.state
     }
 
@@ -263,25 +263,25 @@ public struct AvatarVnextView: View {
         return self.view.window
     }
 
-    @objc open func setStyle(style: MSFAvatarVnextStyle) {
+    @objc open func setStyle(style: MSFAvatarStyle) {
         self.avatarview.setStyle(style: style)
     }
 
-    @objc open func setSize(size: MSFAvatarVnextSize) {
+    @objc open func setSize(size: MSFAvatarSize) {
         self.avatarview.setSize(size: size)
     }
 
-    @objc public convenience init(style: MSFAvatarVnextStyle = .default,
-                                  size: MSFAvatarVnextSize = .large) {
+    @objc public convenience init(style: MSFAvatarStyle = .default,
+                                  size: MSFAvatarSize = .large) {
         self.init(style: style,
                   size: size,
                   theme: nil)
     }
 
-    @objc public init(style: MSFAvatarVnextStyle = .default,
-                      size: MSFAvatarVnextSize = .large,
+    @objc public init(style: MSFAvatarStyle = .default,
+                      size: MSFAvatarSize = .large,
                       theme: FluentUIStyle? = nil) {
-        self.avatarview = AvatarVnextView(style: style,
+        self.avatarview = AvatarView(style: style,
                                            size: size)
         self.hostingController = UIHostingController(rootView: theme != nil ? AnyView(avatarview.usingTheme(theme!)) : AnyView(avatarview))
 

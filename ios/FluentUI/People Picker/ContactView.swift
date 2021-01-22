@@ -21,7 +21,7 @@ open class ContactView: UIControl {
         case large
         case small
 
-        var avatarSize: AvatarSize {
+        var avatarSize: AvatarLegacySize {
             switch self {
             case .large:
                 return .extraExtraLarge
@@ -92,7 +92,7 @@ open class ContactView: UIControl {
     }
 
     private init(title: String?, subtitle: String?, identifier: String?, size: Size = .large) {
-        avatarView = AvatarView(avatarSize: size.avatarSize, withBorder: false, style: .circle, preferredFallbackImageStyle: .onAccentFilled)
+        avatarView = AvatarLegacyView(avatarSize: size.avatarSize, withBorder: false, style: .circle, preferredFallbackImageStyle: .onAccentFilled)
         labelContainer = UIView(frame: .zero)
         titleLabel = UILabel(frame: .zero)
         pressedStateOverlay = UIView(frame: .zero)
@@ -125,7 +125,7 @@ open class ContactView: UIControl {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    private let avatarView: AvatarView
+    private let avatarView: AvatarLegacyView
     private var titleLabel: UILabel
     private var subtitleLabel: UILabel?
     private var labelContainer: UIView

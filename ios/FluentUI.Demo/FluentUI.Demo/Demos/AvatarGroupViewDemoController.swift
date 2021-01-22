@@ -189,7 +189,7 @@ class AvatarGroupViewDemoController: DemoController {
     private func insertAvatarViews(style: AvatarGroupViewStyle, showBorders: Bool) {
         var constraints: [NSLayoutConstraint] = []
 
-        for size in AvatarSize.allCases.reversed() {
+        for size in AvatarLegacySize.allCases.reversed() {
             let containerView = UIView(frame: .zero)
 
             let avatarGroupView = AvatarGroupView(avatars: Array(samplePersonas.prefix(avatarCount)),

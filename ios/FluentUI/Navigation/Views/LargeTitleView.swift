@@ -16,8 +16,8 @@ class LargeTitleView: UIView {
     private struct Constants {
         static let horizontalSpacing: CGFloat = 10
 
-        static let compactAvatarSize: AvatarSize = .small
-        static let avatarSize: AvatarSize = .medium
+        static let compactAvatarSize: AvatarLegacySize = .small
+        static let avatarSize: AvatarLegacySize = .medium
 
         static let compactTitleFont: UIFont = Fonts.title1
         static let titleFont: UIFont = Fonts.largeTitle
@@ -49,7 +49,7 @@ class LargeTitleView: UIView {
         }
     }
 
-    var avatarOverrideFallbackImageStyle: AvatarFallbackImageStyle? {
+    var avatarOverrideFallbackImageStyle: AvatarLegacyFallbackImageStyle? {
         didSet {
             if let fallbackStyle = avatarOverrideFallbackImageStyle {
                 updateProfileButtonVisibility()
@@ -164,7 +164,7 @@ class LargeTitleView: UIView {
         contain(view: contentStackView, withInsets: UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8))
 
         // default avatar view setup
-        let preferredFallbackImageStyle: AvatarFallbackImageStyle = style == .light ? .primaryFilled : .onAccentFilled
+        let preferredFallbackImageStyle: AvatarLegacyFallbackImageStyle = style == .light ? .primaryFilled : .onAccentFilled
         let avatarView = ProfileView(avatarSize: Constants.avatarSize, preferredFallbackImageStyle: preferredFallbackImageStyle)
         avatarView.setup(avatar: avatar)
         avatarView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleAvatarViewTapped)))
@@ -383,7 +383,7 @@ extension NSNotification.Name {
 
 // MARK: - ProfileView
 
-private class ProfileView: AvatarView {
+private class ProfileView: AvatarLegacyView {
     var customAccessibilityLabel: String?
     override var accessibilityLabel: String? {
         get {
