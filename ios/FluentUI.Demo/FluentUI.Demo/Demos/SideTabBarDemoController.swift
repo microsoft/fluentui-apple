@@ -41,7 +41,7 @@ class SideTabBarDemoController: DemoController {
         }
     }
 
-    private lazy var incrementBadgeButton: MSFButtonVnext = {
+    private lazy var incrementBadgeButton: MSFButton = {
         return createButton(title: "+", action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
@@ -51,7 +51,7 @@ class SideTabBarDemoController: DemoController {
         })
     }()
 
-    private lazy var decrementBadgeButton: MSFButtonVnext = {
+    private lazy var decrementBadgeButton: MSFButton = {
         return createButton(title: "-", action: { [weak self] _ in
             guard let strongSelf = self else {
                 return

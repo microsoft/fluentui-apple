@@ -15,7 +15,7 @@ class AvatarGroupViewDemoController: DemoController {
         reloadAvatarViews()
     }
 
-    private lazy var incrementBadgeButton: MSFButtonVnext = {
+    private lazy var incrementBadgeButton: MSFButton = {
         return createButton(title: "+", action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
@@ -27,7 +27,7 @@ class AvatarGroupViewDemoController: DemoController {
         })
     }()
 
-    private lazy var decrementBadgeButton: MSFButtonVnext = {
+    private lazy var decrementBadgeButton: MSFButton = {
         return createButton(title: "-", action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
@@ -39,7 +39,7 @@ class AvatarGroupViewDemoController: DemoController {
         })
     }()
 
-    private lazy var maxAvatarButton: MSFButtonVnext = {
+    private lazy var maxAvatarButton: MSFButton = {
         let button = createButton(title: "Set", action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
@@ -66,7 +66,7 @@ class AvatarGroupViewDemoController: DemoController {
         return textField
     }()
 
-    private lazy var overflowCountButton: MSFButtonVnext = {
+    private lazy var overflowCountButton: MSFButton = {
         let button = createButton(title: "Set", action: { [weak self] _ in
             guard let strongSelf = self else {
                 return

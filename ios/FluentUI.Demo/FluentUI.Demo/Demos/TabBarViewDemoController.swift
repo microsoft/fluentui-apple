@@ -24,8 +24,8 @@ class TabBarViewDemoController: DemoController {
     private let showBadgeNumbersSwitch = UISwitch()
     private let useHigherBadgeNumbersSwitch = UISwitch()
 
-    private lazy var incrementBadgeButton: MSFButtonVnext = {
-        let button = MSFButtonVnext(style: .secondary, size: .small, action: { [weak self] _ in
+    private lazy var incrementBadgeButton: MSFButton = {
+        let button = MSFButton(style: .secondary, size: .small, action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
             }
@@ -37,8 +37,8 @@ class TabBarViewDemoController: DemoController {
         return button
     }()
 
-    private lazy var decrementBadgeButton: MSFButtonVnext = {
-        let button = MSFButtonVnext(style: .secondary, size: .small, action: { [weak self] _ in
+    private lazy var decrementBadgeButton: MSFButton = {
+        let button = MSFButton(style: .secondary, size: .small, action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
             }

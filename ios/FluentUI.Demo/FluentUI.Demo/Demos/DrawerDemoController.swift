@@ -498,10 +498,10 @@ class DrawerDemoController: DemoController {
     }
 
     private var shouldConfirmDrawerDismissal: Bool = false
-    private var expandButton: MSFButtonVnext?
+    private var expandButton: MSFButton?
 
-    private let hideKeyboardButton: MSFButtonVnext = {
-        let button = MSFButtonVnext(style: .primary, size: .large) { sender in
+    private let hideKeyboardButton: MSFButton = {
+        let button = MSFButton(style: .primary, size: .large) { sender in
             if let stackView = sender.view.superview as? UIStackView {
                 let textField = stackView.arrangedSubviews.first(where: { $0 is UITextField })
                 textField?.resignFirstResponder()

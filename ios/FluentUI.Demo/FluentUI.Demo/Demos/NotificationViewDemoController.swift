@@ -60,7 +60,7 @@ class NotificationViewDemoController: DemoController {
             addTitle(text: variant.displayText)
             container.addArrangedSubview(createNotificationView(forVariant: variant))
 
-            let showButton = MSFButtonVnext(style: .secondary, size: .small, action: { [weak self] _ in
+            let showButton = MSFButton(style: .secondary, size: .small, action: { [weak self] _ in
                 guard let strongSelf = self else {
                     return
                 }

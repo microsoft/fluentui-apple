@@ -14,7 +14,7 @@ class ThemingVnextDemoController: DemoController {
         addTitle(text: "Default / Current window theme")
         addDescription(text: "The default theme is defined by the FluentUIStyle class. The client app can override any of its properties and associate it to a specific UIWindow instance.")
 
-        let customThemeButton = MSFButtonVnext(style: .primary,
+        let customThemeButton = MSFButton(style: .primary,
                                                size: .medium,
                                                action: { [weak self] _ in
                                                 guard let strongSelf = self else {
@@ -24,7 +24,7 @@ class ThemingVnextDemoController: DemoController {
                                                })
         customThemeButton.state.text = "Override theme for current window"
 
-        let disabledCstomThemeButton = MSFButtonVnext(style: .secondary,
+        let disabledCstomThemeButton = MSFButton(style: .secondary,
                                                       size: .medium,
                                                       action: { [weak self] _ in
                                                         guard let strongSelf = self else {
@@ -79,21 +79,21 @@ class ThemingVnextDemoController: DemoController {
         overridingTheme.Border = border
         overridingTheme.Colors = colorAP
 
-        let customThemeButtonPrimary = MSFButtonVnext(style: .primary,
+        let customThemeButtonPrimary = MSFButton(style: .primary,
                                                       size: .medium,
                                                       action: nil,
                                                       theme: overridingTheme)
         customThemeButtonPrimary.state.text = "Button"
         customThemeButtonPrimary.state.image = UIImage(named: "Placeholder_24")!
 
-        let customThemeButtonSecondary = MSFButtonVnext(style: .secondary,
+        let customThemeButtonSecondary = MSFButton(style: .secondary,
                                                         size: .medium,
                                                         action: nil,
                                                         theme: overridingTheme)
         customThemeButtonSecondary.state.text = "Button"
         customThemeButtonSecondary.state.image = UIImage(named: "Placeholder_24")!
 
-        let customThemeButtonGhost = MSFButtonVnext(style: .ghost,
+        let customThemeButtonGhost = MSFButton(style: .ghost,
                                                     size: .medium,
                                                     action: nil,
                                                     theme: overridingTheme)
