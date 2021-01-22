@@ -7,7 +7,7 @@ import UIKit
 import SwiftUI
 
 /// Properties that make up cell content
-@objc public class MSFListVnextCellData: NSObject, ObservableObject, Identifiable {
+@objc public class MSFListCellData: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
     @objc @Published public var leadingView: UIView?
     @objc @Published public var title: String = ""
@@ -15,25 +15,25 @@ import SwiftUI
     @objc @Published public var accessoryType: MSFListAccessoryType = .none
     @objc @Published public var titleLineLimit: Int = 1
     @objc @Published public var subtitleLineLimit: Int = 1
-    @objc @Published public var layoutType: MSFListCellVnextLayoutType = .oneLine
+    @objc @Published public var layoutType: MSFListCellLayoutType = .oneLine
     @objc public var onTapAction: (() -> Void)?
 }
 
 /// Properties that make up section content
-@objc public class MSFListVnextSectionData: NSObject, ObservableObject, Identifiable {
+@objc public class MSFListSectionData: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
-    @objc @Published public var cells: [MSFListVnextCellData] = []
+    @objc @Published public var cells: [MSFListCellData] = []
     @objc @Published public var title: String?
     @objc @Published public var hasBorder: Bool = false
 }
 
 /// Properties that make up list content
-@objc public class MSFListVnextState: NSObject, ObservableObject {
-    @objc @Published public var sections: [MSFListVnextSectionData] = []
+@objc public class MSFListState: NSObject, ObservableObject {
+    @objc @Published public var sections: [MSFListSectionData] = []
 }
 
 /// Pre-defined layout heights of cells
-@objc public enum MSFListCellVnextLayoutType: Int, CaseIterable {
+@objc public enum MSFListCellLayoutType: Int, CaseIterable {
     case oneLine
     case twoLines
     case threeLines
@@ -41,12 +41,12 @@ import SwiftUI
 
 public struct MSFListView: View {
     @Environment(\.theme) var theme: FluentUIStyle
-    @ObservedObject var state: MSFListVnextState
+    @ObservedObject var state: MSFListState
     @ObservedObject var tokens: MSFListTokens
 
-    public init(sections: [MSFListVnextSectionData],
-                iconStyle: MSFListIconVnextStyle) {
-        self.state = MSFListVnextState()
+    public init(sections: [MSFListSectionData],
+                iconStyle: MSFListIconStyle) {
+        self.state = MSFListState()
         self.tokens = MSFListTokens(iconStyle: iconStyle)
         self.state.sections = sections
     }
@@ -103,10 +103,10 @@ public struct MSFListView: View {
 extension MSFListView {
     /// View for List Cells
     struct MSFListCellView: View {
-        var cell: MSFListVnextCellData
+        var cell: MSFListCellData
         @ObservedObject var tokens: MSFListTokens
 
-        init(cell: MSFListVnextCellData, tokens: MSFListTokens) {
+        init(cell: MSFListCellData, tokens: MSFListTokens) {
             self.cell = cell
             self.tokens = tokens
         }
@@ -155,7 +155,7 @@ extension MSFListView {
 
     struct ListCellButtonStyle: ButtonStyle {
         let tokens: MSFListTokens
-        let layoutType: MSFListCellVnextLayoutType
+        let layoutType: MSFListCellLayoutType
 
         func makeBody(configuration: Self.Configuration) -> some View {
             let height: CGFloat
@@ -200,10 +200,10 @@ extension MSFListView {
     }
 }
 
-@objc open class MSFListVnext: NSObject, FluentUIWindowProvider {
+@objc open class MSFList: NSObject, FluentUIWindowProvider {
 
-    @objc public init(sections: [MSFListVnextSectionData],
-                      iconStyle: MSFListIconVnextStyle,
+    @objc public init(sections: [MSFListSectionData],
+                      iconStyle: MSFListIconStyle,
                       theme: FluentUIStyle? = nil) {
         listView = MSFListView(sections: sections,
                                iconStyle: iconStyle)
@@ -215,8 +215,8 @@ extension MSFListView {
         view.backgroundColor = UIColor.clear
     }
 
-    @objc public convenience init(sections: [MSFListVnextSectionData],
-                                  iconStyle: MSFListIconVnextStyle) {
+    @objc public convenience init(sections: [MSFListSectionData],
+                                  iconStyle: MSFListIconStyle) {
         self.init(sections: sections,
                   iconStyle: iconStyle,
                   theme: nil)
@@ -226,7 +226,7 @@ extension MSFListView {
         return hostingController.view
     }
 
-    @objc open var state: MSFListVnextState {
+    @objc open var state: MSFListState {
         return listView.state
     }
 

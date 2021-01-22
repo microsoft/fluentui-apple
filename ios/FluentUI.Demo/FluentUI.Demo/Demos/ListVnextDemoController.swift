@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-class ListVnextDemoController: DemoController {
+class ListDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -15,11 +15,11 @@ class ListVnextDemoController: DemoController {
         var cell: TableViewCellSampleData.Item
         var indexPath = IndexPath(row: 0, section: 0)
 
-        var list: MSFListVnext
-        var listCell: MSFListVnextCellData
-        var listSection: MSFListVnextSectionData
-        var listData: [MSFListVnextSectionData] = []
-        let iconStyle = MSFListIconVnextStyle.none
+        var list: MSFList
+        var listCell: MSFListCellData
+        var listSection: MSFListSectionData
+        var listData: [MSFListSectionData] = []
+        let iconStyle = MSFListIconStyle.none
 
         let samplePersonas: [PersonaData] = [
             PersonaData(name: "Kat Larrson", email: "kat.larrson@contoso.com", subtitle: "Designer", avatarImage: UIImage(named: "avatar_kat_larsson"), color: Colors.Palette.cyanBlue10.color),
@@ -32,18 +32,18 @@ class ListVnextDemoController: DemoController {
         var avatar: MSFAvatar
 
         /// AvatarView section
-        listSection = MSFListVnextSectionData()
+        listSection = MSFListSectionData()
         listSection.title = "AvatarView Section"
         listSection.cells = []
         for index in 0...samplePersonas.count - 1 {
-            listCell = MSFListVnextCellData()
+            listCell = MSFListCellData()
             avatar = createAvatarView(size: .medium,
                                       name: samplePersonas[index].name,
                                       image: samplePersonas[index].avatarImage,
                                       style: .default)
             listCell.title = avatar.state.primaryText ?? ""
             listCell.leadingView = avatar.view
-            listCell.layoutType = MSFListCellVnextLayoutType.twoLines
+            listCell.layoutType = MSFListCellLayoutType.twoLines
             listSection.cells.append(listCell)
         }
         listData.append(listSection)
@@ -52,12 +52,12 @@ class ListVnextDemoController: DemoController {
         for sectionIndex in 0...sections.count - 1 {
             section = sections[sectionIndex]
 
-            listSection = MSFListVnextSectionData()
+            listSection = MSFListSectionData()
             listSection.title = section.title
             listSection.cells = []
             for rowIndex in 0...TableViewCellSampleData.numberOfItemsInSection - 1 {
                 cell = section.item
-                listCell = MSFListVnextCellData()
+                listCell = MSFListCellData()
                 listCell.title = cell.text1
                 listCell.subtitle = cell.text2
                 listCell.leadingView = createCustomView(imageName: cell.image)
@@ -73,7 +73,7 @@ class ListVnextDemoController: DemoController {
             listData.append(listSection)
         }
 
-        list = MSFListVnext(sections: listData, iconStyle: iconStyle)
+        list = MSFList(sections: listData, iconStyle: iconStyle)
 
         let listView = list.view
         listView.translatesAutoresizingMaskIntoConstraints = false
@@ -130,11 +130,11 @@ class ListVnextDemoController: DemoController {
         }
     }
 
-    private func updateLayout(subtitle: String?) -> MSFListCellVnextLayoutType {
+    private func updateLayout(subtitle: String?) -> MSFListCellLayoutType {
         if let subtitle = subtitle, !subtitle.isEmpty {
-            return MSFListCellVnextLayoutType.twoLines
+            return MSFListCellLayoutType.twoLines
         } else {
-            return MSFListCellVnextLayoutType.oneLine
+            return MSFListCellLayoutType.oneLine
         }
     }
 
