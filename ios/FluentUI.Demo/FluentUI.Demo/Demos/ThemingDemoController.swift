@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-class ThemingVnextDemoController: DemoController {
+class ThemingDemoController: DemoController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

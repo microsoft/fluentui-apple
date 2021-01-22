@@ -91,7 +91,7 @@ public extension Colors {
 @available(*, deprecated, renamed: "DrawerControllerDelegate")
 public typealias MSDrawerControllerDelegate = DrawerControllerDelegate
 
-@objc(MSFDrawerControllerDelegate)
+@objc(MSFDrawerControllerLegacyDelegate)
 public protocol DrawerControllerDelegate: AnyObject {
     /**
      Called when a user resizes the drawer enough to change its expanded state. Use `isExpanded` property to get the current state.

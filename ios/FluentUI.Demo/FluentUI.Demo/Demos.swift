@@ -9,8 +9,9 @@ import UIKit
 let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("Avatar (Vnext)", AvatarDemoController.self),
     ("Button (Vnext)", ButtonDemoController.self),
-    ("Drawer (Vnext)", DrawerVnextDemoController.self),
+    ("Drawer (Vnext)", DrawerDemoController.self),
     ("List (Vnext)", ListVnextDemoController.self),
+    ("Theming (vNext)", ThemingDemoController.self),
     ("ActivityIndicatorView", ActivityIndicatorViewDemoController.self),
     ("AvatarGroupView", AvatarGroupViewDemoController.self),
     ("AvatarView", AvatarLegacyViewDemoController.self),
@@ -21,7 +22,7 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("Color", ColorDemoController.self),
     ("ContactCollectionView", ContactCollectionViewDemoController.self),
     ("DateTimePicker", DateTimePickerDemoController.self),
-    ("DrawerController", DrawerDemoController.self),
+    ("DrawerController", DrawerLegacyDemoController.self),
     ("HUD", HUDDemoController.self),
     ("IndeterminateProgressBar", IndeterminateProgressBarDemoController.self),
     ("Label", LabelDemoController.self),
@@ -39,7 +40,6 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("TableViewCellFileAccessoryView", TableViewCellFileAccessoryViewDemoController.self),
     ("TableViewCellShimmer", TableViewCellShimmerDemoController.self),
     ("TableViewHeaderFooterView", TableViewHeaderFooterViewDemoController.self),
-    ("Theming (vNext)", ThemingVnextDemoController.self),
     ("Tooltip", TooltipDemoController.self),
     ("Other cells", OtherCellsDemoController.self),
     ("DEBUG: Objective-C Demos", ObjectiveCDemoController.self)

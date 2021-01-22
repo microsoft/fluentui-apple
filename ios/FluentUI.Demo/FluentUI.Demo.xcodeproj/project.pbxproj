@@ -9,12 +9,12 @@
 /* Begin PBXBuildFile section */
 		114CF8B82423E10900D064AA /* ColorDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114CF8B72423E10900D064AA /* ColorDemoController.swift */; };
 		22EABB182509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EABB172509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift */; };
-		3F8A30ED25801F89003743A9 /* DrawerVnextDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8A30EC25801F89003743A9 /* DrawerVnextDemoController.swift */; };
+		3F8A30ED25801F89003743A9 /* DrawerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8A30EC25801F89003743A9 /* DrawerDemoController.swift */; };
 		497DC2DE24185896008D86F8 /* PillButtonBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */; };
-		532854F825A3C70C0042C3B9 /* ThemingVnextDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532854F725A3C70C0042C3B9 /* ThemingVnextDemoController.swift */; };
+		532854F825A3C70C0042C3B9 /* ThemingDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532854F725A3C70C0042C3B9 /* ThemingDemoController.swift */; };
 		535401CC25BB4FEA0047DC47 /* AvatarLegacyDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535401CB25BB4FEA0047DC47 /* AvatarLegacyDemoController.swift */; };
 		53B659B8257AA44F00070405 /* ButtonDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B659B7257AA44F00070405 /* ButtonDemoController.swift */; };
-		53B659C4257AA69E00070405 /* DrawerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DCA75D211E3A92005F4CB7 /* DrawerDemoController.swift */; };
+		53B659C4257AA69E00070405 /* DrawerLegacyDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DCA75D211E3A92005F4CB7 /* DrawerLegacyDemoController.swift */; };
 		53B659C5257AA6AA00070405 /* NavigationControllerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C8F322E28EEB0086F899 /* NavigationControllerDemoController.swift */; };
 		53B659C6257AA6B400070405 /* PopupMenuDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA8218A61BB00E2A506 /* PopupMenuDemoController.swift */; };
 		53B659C7257AA6C300070405 /* TableViewCellFileAccessoryViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2A24C0F4FD00367A55 /* TableViewCellFileAccessoryViewDemoController.swift */; };
@@ -80,9 +80,9 @@
 		114CF8B72423E10900D064AA /* ColorDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorDemoController.swift; sourceTree = "<group>"; };
 		22EABB172509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarDemoController.swift; sourceTree = "<group>"; };
 		3D3224A9AADF58C324059464 /* Pods-FluentUI.Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluentUI.Demo.release.xcconfig"; path = "Target Support Files/Pods-FluentUI.Demo/Pods-FluentUI.Demo.release.xcconfig"; sourceTree = "<group>"; };
-		3F8A30EC25801F89003743A9 /* DrawerVnextDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerVnextDemoController.swift; sourceTree = "<group>"; };
+		3F8A30EC25801F89003743A9 /* DrawerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerDemoController.swift; sourceTree = "<group>"; };
 		497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBarDemoController.swift; sourceTree = "<group>"; };
-		532854F725A3C70C0042C3B9 /* ThemingVnextDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemingVnextDemoController.swift; sourceTree = "<group>"; };
+		532854F725A3C70C0042C3B9 /* ThemingDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemingDemoController.swift; sourceTree = "<group>"; };
 		535401CB25BB4FEA0047DC47 /* AvatarLegacyDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarLegacyDemoController.swift; sourceTree = "<group>"; };
 		53B659B7257AA44F00070405 /* ButtonDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonDemoController.swift; sourceTree = "<group>"; };
 		53EA0FA1257ED8AF00899357 /* AvatarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarDemoController.swift; sourceTree = "<group>"; };
@@ -102,7 +102,7 @@
 		A5CEC21B20E436F20016922A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A5CEC21D20E436F20016922A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A5CEC22A20E44FBF0016922A /* FluentUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FluentUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A5DCA75D211E3A92005F4CB7 /* DrawerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerDemoController.swift; sourceTree = "<group>"; };
+		A5DCA75D211E3A92005F4CB7 /* DrawerLegacyDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerLegacyDemoController.swift; sourceTree = "<group>"; };
 		A5DCA75F211E3B4C005F4CB7 /* DemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoController.swift; sourceTree = "<group>"; };
 		B441478E228E02540040E88E /* OtherCellsDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherCellsDemoController.swift; sourceTree = "<group>"; };
 		B4414791228F6F740040E88E /* TableViewCellSampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellSampleData.swift; sourceTree = "<group>"; };
@@ -268,44 +268,44 @@
 		A5CEC23220E452B80016922A /* Demos */ = {
 			isa = PBXGroup;
 			children = (
-				532854F725A3C70C0042C3B9 /* ThemingVnextDemoController.swift */,
+				53EA0FA1257ED8AF00899357 /* AvatarDemoController.swift */,
+				53B659B7257AA44F00070405 /* ButtonDemoController.swift */,
+				3F8A30EC25801F89003743A9 /* DrawerDemoController.swift */,
+				EC8EA6AF2580D82A00F191CE /* ListVnextDemoController.swift */,
+				532854F725A3C70C0042C3B9 /* ThemingDemoController.swift */,
 				B4D852D822580661004B1B29 /* ActivityIndicatorViewDemoController.swift */,
 				7D23482924D89C1C00FBE057 /* AvatarGroupViewDemoController.swift */,
 				535401CB25BB4FEA0047DC47 /* AvatarLegacyDemoController.swift */,
-				53EA0FA1257ED8AF00899357 /* AvatarDemoController.swift */,
 				B45EB79121A4D047008646A2 /* BadgeFieldDemoController.swift */,
 				B444D6B72183BA4B0002B4D4 /* BadgeViewDemoController.swift */,
 				B4D852DA225C010A004B1B29 /* ButtonLegacyDemoController.swift */,
-				53B659B7257AA44F00070405 /* ButtonDemoController.swift */,
+				CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */,
 				114CF8B72423E10900D064AA /* ColorDemoController.swift */,
+				8AF03E1F24B6BE3100E6E2A2 /* ContactCollectionViewDemoController.swift */,
 				FD7254EC21471A3F002F4069 /* DateTimePickerDemoController.swift */,
-				A5DCA75D211E3A92005F4CB7 /* DrawerDemoController.swift */,
+				A5DCA75D211E3A92005F4CB7 /* DrawerLegacyDemoController.swift */,
 				B4E8F65121CD9579008A1598 /* HUDDemoController.swift */,
-				A589F855211BA71000471C23 /* LabelDemoController.swift */,
 				22EABB172509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift */,
+				A589F855211BA71000471C23 /* LabelDemoController.swift */,
 				FD41C8F322E28EEB0086F899 /* NavigationControllerDemoController.swift */,
-				7D0931C024AAA3D30072458A /* SideTabBarDemoController.swift */,
 				A5B6617523A4227300E801DD /* NotificationViewDemoController.swift */,
+				FDDD73FC22C6D86B00A9D995 /* ObjectiveCDemoController.h */,
+				FDDD73FB22C6D86B00A9D995 /* ObjectiveCDemoController.m */,
+				B441478E228E02540040E88E /* OtherCellsDemoController.swift */,
+				D0F59E3224F4E3A700358DC2 /* PassThroughDrawerDemoController.swift */,
 				B4575C5022FB8B6900EBD0EB /* PeoplePickerDemoController.swift */,
 				B4EF53C4215C45C400573E8F /* PersonaListViewDemoController.swift */,
 				497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */,
 				A5961FA8218A61BB00E2A506 /* PopupMenuDemoController.swift */,
 				FDCF7C8221BF35680058E9E6 /* SegmentedControlDemoController.swift */,
 				C0938E49235F733100256251 /* ShimmerLinesViewDemoController.swift */,
+				7D0931C024AAA3D30072458A /* SideTabBarDemoController.swift */,
 				11047D2522932DB1001F0F59 /* TabBarViewDemoController.swift */,
 				7DC2FB2A24C0F4FD00367A55 /* TableViewCellFileAccessoryViewDemoController.swift */,
 				B498141521E42C140077B48D /* TableViewCellDemoController.swift */,
 				C038992D2359307D00265026 /* TableViewCellShimmerDemoController.swift */,
 				B4EF66532295F1A8007FEAB0 /* TableViewHeaderFooterViewDemoController.swift */,
 				FD7DF06121FB941400857267 /* TooltipDemoController.swift */,
-				FDDD73FC22C6D86B00A9D995 /* ObjectiveCDemoController.h */,
-				FDDD73FB22C6D86B00A9D995 /* ObjectiveCDemoController.m */,
-				B441478E228E02540040E88E /* OtherCellsDemoController.swift */,
-				8AF03E1F24B6BE3100E6E2A2 /* ContactCollectionViewDemoController.swift */,
-				D0F59E3224F4E3A700358DC2 /* PassThroughDrawerDemoController.swift */,
-				CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */,
-				EC8EA6AF2580D82A00F191CE /* ListVnextDemoController.swift */,
-				3F8A30EC25801F89003743A9 /* DrawerVnextDemoController.swift */,
 			);
 			path = Demos;
 			sourceTree = "<group>";
@@ -480,7 +480,7 @@
 				B441478F228E02540040E88E /* OtherCellsDemoController.swift in Sources */,
 				53B659C5257AA6AA00070405 /* NavigationControllerDemoController.swift in Sources */,
 				53F7386B257964AB0043071D /* AvatarGroupViewDemoController.swift in Sources */,
-				53B659C4257AA69E00070405 /* DrawerDemoController.swift in Sources */,
+				53B659C4257AA69E00070405 /* DrawerLegacyDemoController.swift in Sources */,
 				8AF03E2024B6BE3100E6E2A2 /* ContactCollectionViewDemoController.swift in Sources */,
 				A5DCA760211E3B4C005F4CB7 /* DemoController.swift in Sources */,
 				B45EB79221A4D047008646A2 /* BadgeFieldDemoController.swift in Sources */,
@@ -491,7 +491,7 @@
 				B4EF53C5215C45C400573E8F /* PersonaListViewDemoController.swift in Sources */,
 				B4414792228F6F740040E88E /* TableViewCellSampleData.swift in Sources */,
 				53F7386125776C560043071D /* NotificationViewDemoController.swift in Sources */,
-				532854F825A3C70C0042C3B9 /* ThemingVnextDemoController.swift in Sources */,
+				532854F825A3C70C0042C3B9 /* ThemingDemoController.swift in Sources */,
 				E6842974247B672000A29C40 /* SceneDelegate.swift in Sources */,
 				53EA0FA2257ED8AF00899357 /* AvatarDemoController.swift in Sources */,
 				53F7386E25796D730043071D /* DateTimePickerDemoController.swift in Sources */,
@@ -514,7 +514,7 @@
 				E6842996247C350700A29C40 /* DemoColorThemeWindows.swift in Sources */,
 				53F7385F257760B60043071D /* ObjectiveCDemoController.m in Sources */,
 				A5CEC21020E436F10016922A /* AppDelegate.swift in Sources */,
-				3F8A30ED25801F89003743A9 /* DrawerVnextDemoController.swift in Sources */,
+				3F8A30ED25801F89003743A9 /* DrawerDemoController.swift in Sources */,
 				B4414794228F6FDF0040E88E /* OtherCellsSampleData.swift in Sources */,
 				53F73862257803DE0043071D /* HUDDemoController.swift in Sources */,
 				53B659B8257AA44F00070405 /* ButtonDemoController.swift in Sources */,
