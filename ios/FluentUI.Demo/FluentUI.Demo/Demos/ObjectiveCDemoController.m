@@ -10,7 +10,7 @@
 @property (nonatomic) MSFTwoLineTitleView *titleView;
 @property (nonatomic) UIStackView *container;
 @property (nonatomic) UIScrollView *scrollingContainer;
-@property (nonatomic) MSFButtonVnext *testButtonVnext;
+@property (nonatomic) MSFButton *testButton;
 
 @end
 
@@ -42,26 +42,26 @@
     [buttonLabel setText:@"Button"];
     [self.container addArrangedSubview:buttonLabel];
 
-    MSFButton *testButton = [self createButtonWithTitle:@"Test" action:nil];
+    MSFButtonLegacy *testButton = [self createButtonWithTitle:@"Test" action:nil];
     [self.container addArrangedSubview:testButton];
 
     UILabel *buttonVnextLabel = [[UILabel alloc] init];
-    [buttonVnextLabel setText:@"Button (vNext)"];
+    [buttonVnextLabel setText:@"Button (Vnext)"];
     [self.container addArrangedSubview:buttonVnextLabel];
 
-    _testButtonVnext = [[MSFButtonVnext alloc] initWithStyle:MSFButtonVnextStyleSecondary
-                                                        size:MSFButtonVnextSizeMedium
-                                                      action:^(MSFButtonVnext *sender) {}];
-    [self resetVnextButton];
-    [self.container addArrangedSubview:[_testButtonVnext view]];
+    _testButton = [[MSFButton alloc] initWithStyle:MSFButtonStyleSecondary
+                                              size:MSFButtonSizeMedium
+                                            action:^(MSFButton *sender) {}];
+    [self resetButton];
+    [self.container addArrangedSubview:[_testButton view]];
 
-    MSFButton *enableButton = [self createButtonWithTitle:@"Enable Vnext Button" action:@selector(enableVnextButton)];
+    MSFButtonLegacy *enableButton = [self createButtonWithTitle:@"Enable Button" action:@selector(enableButton)];
     [self.container addArrangedSubview:enableButton];
 
-    MSFButton *disableButton = [self createButtonWithTitle:@"Disable Vnext Button" action:@selector(disableVnextButton)];
+    MSFButtonLegacy *disableButton = [self createButtonWithTitle:@"Disable Button" action:@selector(disableButton)];
     [self.container addArrangedSubview:disableButton];
 
-    MSFButton *resetButton = [self createButtonWithTitle:@"Reset Vnext Button" action:@selector(resetVnextButton)];
+    MSFButtonLegacy *resetButton = [self createButtonWithTitle:@"Reset Button" action:@selector(resetButton)];
     [self.container addArrangedSubview:resetButton];
     
     UILabel *listVnextLabel = [[UILabel alloc] init];
@@ -107,29 +107,29 @@
     [[[listView heightAnchor] constraintEqualToConstant:200] setActive:YES];
 }
 
-- (void)enableVnextButton {
-    MSFButtonVnextState *state = [self->_testButtonVnext state];
+- (void)enableButton {
+    MSFButtonState *state = [self->_testButton state];
     [state setText:@"Enabled"];
     [state setIsDisabled:NO];
     [state setImage:[UIImage imageNamed:@"Placeholder_20"]];
 }
 
-- (void)disableVnextButton {
-    MSFButtonVnextState *state = [self->_testButtonVnext state];
+- (void)disableButton {
+    MSFButtonState *state = [self->_testButton state];
     [state setText:@"Disabled"];
     [state setIsDisabled:YES];
     [state setImage:nil];
 }
 
-- (void)resetVnextButton {
-    MSFButtonVnextState *state = [self->_testButtonVnext state];
-    [state setText:@"Button VNext"];
+- (void)resetButton {
+    MSFButtonState *state = [self->_testButton state];
+    [state setText:@"Button (Vnext)"];
     [state setImage:nil];
     [state setIsDisabled:NO];
 }
 
-- (MSFButton *)createButtonWithTitle:(NSString *)title action:(SEL)action {
-    MSFButton* button = [[MSFButton alloc] init];
+- (MSFButtonLegacy *)createButtonWithTitle:(NSString *)title action:(SEL)action {
+    MSFButtonLegacy* button = [[MSFButtonLegacy alloc] init];
     button.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     [button setTitle:title forState:UIControlStateNormal];
     [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];

@@ -38,8 +38,8 @@ class DemoController: UIViewController {
 
     var allowsContentToScroll: Bool { return true }
 
-    func createButton(title: String, action: (( MSFButtonVnext) -> Void)?) -> MSFButtonVnext {
-        let button = MSFButtonVnext(style: .secondary, size: .small, action: action)
+    func createButton(title: String, action: (( MSFButton) -> Void)?) -> MSFButton {
+        let button = MSFButton(style: .secondary, size: .small, action: action)
         button.state.text = title
         return button
     }

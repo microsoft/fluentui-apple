@@ -7,14 +7,14 @@ import UIKit
 import SwiftUI
 
 /// Pre-defined styles of the button
-@objc public enum MSFButtonVnextStyle: Int, CaseIterable {
+@objc public enum MSFButtonStyle: Int, CaseIterable {
     case primary
     case secondary
     case ghost
 }
 
 /// Pre-defined sizes of the button
-@objc public enum MSFButtonVnextSize: Int, CaseIterable {
+@objc public enum MSFButtonSize: Int, CaseIterable {
     case small
     case medium
     case large
@@ -45,11 +45,11 @@ public class MSFButtonTokens: MSFTokensBase, ObservableObject {
     @Published public var disabledBackgroundColor: UIColor!
     @Published public var disabledIconColor: UIColor!
 
-    var style: MSFButtonVnextStyle
-    var size: MSFButtonVnextSize
+    var style: MSFButtonStyle
+    var size: MSFButtonSize
 
-    public init(style: MSFButtonVnextStyle,
-                size: MSFButtonVnextSize) {
+    public init(style: MSFButtonStyle,
+                size: MSFButtonSize) {
         self.style = style
         self.size = size
 
