@@ -143,13 +143,13 @@ class ThemingDemoController: DemoController {
             colors.Brand = brandColors
             stylesheet.Colors = colors
 
-            StylesheetManager.setStylesheet(stylesheet: stylesheet, for: window)
+            FluentUIThemeManager.setStylesheet(stylesheet: stylesheet, for: window)
         }
     }
 
     func didPressResetThemeButton() {
         if let window = self.view.window {
-            StylesheetManager.removeStylesheet(for: window)
+            FluentUIThemeManager.removeStylesheet(for: window)
         }
     }
 }

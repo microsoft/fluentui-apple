@@ -30,7 +30,7 @@ public class MSFTokensBase {
             if let overridenTheme = _theme {
                 theme = overridenTheme
             } else if  let window = windowProvider?.window,
-                    let windowTheme = StylesheetManager.stylesheet(for: window) {
+                    let windowTheme = FluentUIThemeManager.stylesheet(for: window) {
                 theme = windowTheme
             }
 
@@ -54,7 +54,7 @@ public class MSFTokensBase {
 // MARK: Theme SwiftUI Environment Value
 
 struct ThemeKey: EnvironmentKey {
-    static var defaultValue: FluentUIStyle = StylesheetManager.S
+    static var defaultValue: FluentUIStyle = FluentUIThemeManager.S
 }
 
 extension EnvironmentValues {

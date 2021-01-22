@@ -15,10 +15,10 @@ let FontTextStyleSectionName = "__TextStyle"
 let TypographyStyle = "Typography"
 let SymbolNamePlaceholder = "-"
 let NamespaceEnums = "S"
-let LibraryName = "Stardust"
+let LibraryName = "FluentUI"
 let IconNameKey = "name"
 let IconEnum = "IconSymbol"
-let StylesheetManagerName = "StylesheetManager"
+let StylesheetManagerName = "FluentUIThemeManager"
 let EnumCaseNone = "none"
 
 enum IconSupportedKeys: String, CodingKey {

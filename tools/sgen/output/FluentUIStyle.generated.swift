@@ -239,15 +239,15 @@ private extension UIFont {
 }
 
 public extension Notification.Name {
-	static let didChangeTheme = Notification.Name("Stardust.stylesheet.theme")
+	static let didChangeTheme = Notification.Name("FluentUI.stylesheet.theme")
 }
 
-protocol StylesheetManagerTheming {
+protocol FluentUIThemeManagerTheming {
 	static func defaultTheme() -> FluentUIStyle
 	func themeInit()
 }
 
-extension StylesheetManagerTheming {
+extension FluentUIThemeManagerTheming {
 	static func defaultTheme() -> FluentUIStyle {
 		return FluentUIStyle.shared()
 	}
@@ -256,7 +256,7 @@ extension StylesheetManagerTheming {
 	}
 }
 
-@objcMembers public class StylesheetManager: NSObject, StylesheetManagerTheming {
+@objcMembers public class FluentUIThemeManager: NSObject, FluentUIThemeManagerTheming {
 
     private static var stylesheetsMap = NSMapTable<UIWindow, FluentUIStyle>(keyOptions: .weakMemory, valueOptions: .strongMemory)
 
@@ -278,7 +278,7 @@ extension StylesheetManagerTheming {
         return defaultTheme()
     }
 
-    public static let `default` = StylesheetManager()
+    public static let `default` = FluentUIThemeManager()
     public static var S: FluentUIStyle {
         return defaultTheme()
     }
@@ -4548,25 +4548,25 @@ extension MSFAvatarTokens: AppearaceProxyComponent {
 			if let proxy = objc_getAssociatedObject(self, &__AppearanceProxyHandle) as? AppearanceProxyType {
 				if !themeAware { return proxy }
 
-				if let proxyString = Optional(String(reflecting: type(of: proxy))), proxyString.hasPrefix("Stardust") == false {
+				if let proxyString = Optional(String(reflecting: type(of: proxy))), proxyString.hasPrefix("FluentUI") == false {
 					return proxy
 				}
 
 				if proxy is FluentUIStyle.MSFAccentAvatarTokensAppearanceProxy {
-					return StylesheetManager.stylesheet(FluentUIStyle.shared()).MSFAccentAvatarTokens
+					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFAccentAvatarTokens
 				} else if proxy is FluentUIStyle.MSFGroupAvatarTokensAppearanceProxy {
-					return StylesheetManager.stylesheet(FluentUIStyle.shared()).MSFGroupAvatarTokens
+					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFGroupAvatarTokens
 				} else if proxy is FluentUIStyle.MSFOutlinedAvatarTokensAppearanceProxy {
-					return StylesheetManager.stylesheet(FluentUIStyle.shared()).MSFOutlinedAvatarTokens
+					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFOutlinedAvatarTokens
 				} else if proxy is FluentUIStyle.MSFOutlinedPrimaryAvatarTokensAppearanceProxy {
-					return StylesheetManager.stylesheet(FluentUIStyle.shared()).MSFOutlinedPrimaryAvatarTokens
+					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFOutlinedPrimaryAvatarTokens
 				} else if proxy is FluentUIStyle.MSFOverflowAvatarTokensAppearanceProxy {
-					return StylesheetManager.stylesheet(FluentUIStyle.shared()).MSFOverflowAvatarTokens
+					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFOverflowAvatarTokens
 				}
 				return proxy
 			}
 
-			return StylesheetManager.stylesheet(FluentUIStyle.shared()).MSFAvatarTokens
+			return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFAvatarTokens
 		}
 		set {
 			objc_setAssociatedObject(self, &__AppearanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
@@ -4610,21 +4610,21 @@ extension MSFButtonTokens: AppearaceProxyComponent {
 			if let proxy = objc_getAssociatedObject(self, &__AppearanceProxyHandle) as? AppearanceProxyType {
 				if !themeAware { return proxy }
 
-				if let proxyString = Optional(String(reflecting: type(of: proxy))), proxyString.hasPrefix("Stardust") == false {
+				if let proxyString = Optional(String(reflecting: type(of: proxy))), proxyString.hasPrefix("FluentUI") == false {
 					return proxy
 				}
 
 				if proxy is FluentUIStyle.MSFGhostButtonTokensAppearanceProxy {
-					return StylesheetManager.stylesheet(FluentUIStyle.shared()).MSFGhostButtonTokens
+					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFGhostButtonTokens
 				} else if proxy is FluentUIStyle.MSFPrimaryButtonTokensAppearanceProxy {
-					return StylesheetManager.stylesheet(FluentUIStyle.shared()).MSFPrimaryButtonTokens
+					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFPrimaryButtonTokens
 				} else if proxy is FluentUIStyle.MSFSecondaryButtonTokensAppearanceProxy {
-					return StylesheetManager.stylesheet(FluentUIStyle.shared()).MSFSecondaryButtonTokens
+					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFSecondaryButtonTokens
 				}
 				return proxy
 			}
 
-			return StylesheetManager.stylesheet(FluentUIStyle.shared()).MSFButtonTokens
+			return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFButtonTokens
 		}
 		set {
 			objc_setAssociatedObject(self, &__AppearanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
@@ -4672,7 +4672,7 @@ extension MSFDrawerTokens: AppearaceProxyComponent {
 				return proxy
 			}
 
-			return StylesheetManager.stylesheet(FluentUIStyle.shared()).MSFDrawerTokens
+			return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFDrawerTokens
 		}
 		set {
 			objc_setAssociatedObject(self, &__AppearanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
@@ -4716,17 +4716,17 @@ extension MSFListTokens: AppearaceProxyComponent {
 			if let proxy = objc_getAssociatedObject(self, &__AppearanceProxyHandle) as? AppearanceProxyType {
 				if !themeAware { return proxy }
 
-				if let proxyString = Optional(String(reflecting: type(of: proxy))), proxyString.hasPrefix("Stardust") == false {
+				if let proxyString = Optional(String(reflecting: type(of: proxy))), proxyString.hasPrefix("FluentUI") == false {
 					return proxy
 				}
 
 				if proxy is FluentUIStyle.MSFIconOnlyListTokensAppearanceProxy {
-					return StylesheetManager.stylesheet(FluentUIStyle.shared()).MSFIconOnlyListTokens
+					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFIconOnlyListTokens
 				}
 				return proxy
 			}
 
-			return StylesheetManager.stylesheet(FluentUIStyle.shared()).MSFListTokens
+			return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFListTokens
 		}
 		set {
 			objc_setAssociatedObject(self, &__AppearanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
