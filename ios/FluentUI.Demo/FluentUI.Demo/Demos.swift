@@ -13,7 +13,7 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("List (Vnext)", ListVnextDemoController.self),
     ("ActivityIndicatorView", ActivityIndicatorViewDemoController.self),
     ("AvatarGroupView", AvatarGroupViewDemoController.self),
-    ("AvatarView", AvatarViewLegacyDemoController.self),
+    ("AvatarView", AvatarLegacyViewDemoController.self),
     ("BadgeField", BadgeFieldDemoController.self),
     ("BadgeView", BadgeViewDemoController.self),
     ("Button", ButtonDemoController.self),

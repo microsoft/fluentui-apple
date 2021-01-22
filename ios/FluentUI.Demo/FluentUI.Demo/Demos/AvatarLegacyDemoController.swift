@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-class AvatarViewLegacyDemoController: DemoController {
+class AvatarLegacyViewDemoController: DemoController {
     enum BorderStyle: Int {
     case noBorder
     case defaultBorder
