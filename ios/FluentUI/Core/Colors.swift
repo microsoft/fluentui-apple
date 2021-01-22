@@ -290,7 +290,7 @@ public final class Colors: NSObject {
         brandColors.shade30 = primaryShade30(for: window)
         colors.Brand = brandColors
         stylesheet.Colors = colors
-        StylesheetManager.setStylesheet(stylesheet: stylesheet, for: window)
+        FluentUIThemeManager.setStylesheet(stylesheet: stylesheet, for: window)
     }
 
     // MARK: Primary
