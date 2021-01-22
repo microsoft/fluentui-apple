@@ -59,11 +59,11 @@ struct MSFSlideOverPanel<Content: View>: View {
 
             content
                 .frame(width: contentWidth)
+                .offset(x: resolvedContentOffset)
                 .shadow(color: shadowColor,
                         radius: tokens.shadowBlur,
                         x: tokens.shadowDepthX,
                         y: tokens.shadowDepthY)
-                .offset(x: resolvedContentOffset)
 
             if direction == .left {
                 MSFInteractiveSpacer(defaultBackgroundColor: $tokens.backgroundClearColor)
