@@ -455,7 +455,7 @@ open class NavigationBar: UINavigationBar {
 
     /// Override the avatarView with fallbackImageStyle rather than using avatar data
     /// - Parameter fallbackImageStyle: image style used in  avatarView
-    @objc open func overrideAvatar(with fallbackImageStyle: AvatarFallbackImageStyle) {
+    @objc open func overrideAvatar(with fallbackImageStyle: AvatarLegacyFallbackImageStyle) {
         titleView.avatarOverrideFallbackImageStyle = fallbackImageStyle
     }
 

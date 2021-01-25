@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-class ThemingVnextDemoController: DemoController {
+class ThemingDemoController: DemoController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -14,37 +14,37 @@ class ThemingVnextDemoController: DemoController {
         addTitle(text: "Default / Current window theme")
         addDescription(text: "The default theme is defined by the FluentUIStyle class. The client app can override any of its properties and associate it to a specific UIWindow instance.")
 
-        let customThemeButton = MSFButtonVnext(style: .primary,
-                                               size: .medium,
-                                               action: { [weak self] _ in
+        let overrideThemeButton = MSFButton(style: .primary,
+                                            size: .medium,
+                                            action: { [weak self] _ in
                                                 guard let strongSelf = self else {
                                                     return
                                                 }
                                                 strongSelf.didPressOverrideThemeButton()
-                                               })
-        customThemeButton.state.text = "Override theme for current window"
+                                            })
+        overrideThemeButton.state.text = "Override theme for current window"
 
-        let disabledCstomThemeButton = MSFButtonVnext(style: .secondary,
-                                                      size: .medium,
-                                                      action: { [weak self] _ in
-                                                        guard let strongSelf = self else {
-                                                            return
-                                                        }
-                                                        strongSelf.didPressResetThemeButton()
-                                                      })
-        disabledCstomThemeButton.state.text = "Reset theme for current window"
+        let resetThemeButton = MSFButton(style: .secondary,
+                                         size: .medium,
+                                         action: { [weak self] _ in
+                                            guard let strongSelf = self else {
+                                                return
+                                            }
+                                            strongSelf.didPressResetThemeButton()
+                                         })
+        resetThemeButton.state.text = "Reset theme for current window"
 
-        addRow(items: [customThemeButton.view, disabledCstomThemeButton.view], itemSpacing: 20)
+        addRow(items: [overrideThemeButton.view, resetThemeButton.view], itemSpacing: 20)
 
-        let avatarAccent = MSFAvatarVnext(style: .accent, size: .xlarge)
+        let avatarAccent = MSFAvatar(style: .accent, size: .xlarge)
         avatarAccent.state.isRingVisible = true
         avatarAccent.state.presence = .available
 
-        let avatarDefault = MSFAvatarVnext(style: .default, size: .xlarge)
+        let avatarDefault = MSFAvatar(style: .default, size: .xlarge)
         avatarDefault.state.isRingVisible = true
         avatarDefault.state.presence = .busy
 
-        let avatarOutlinedPrimary = MSFAvatarVnext(style: .outlinedPrimary, size: .xlarge)
+        let avatarOutlinedPrimary = MSFAvatar(style: .outlinedPrimary, size: .xlarge)
         avatarOutlinedPrimary.state.isRingVisible = true
         avatarOutlinedPrimary.state.presence = .away
 
@@ -79,21 +79,21 @@ class ThemingVnextDemoController: DemoController {
         overridingTheme.Border = border
         overridingTheme.Colors = colorAP
 
-        let customThemeButtonPrimary = MSFButtonVnext(style: .primary,
+        let customThemeButtonPrimary = MSFButton(style: .primary,
                                                       size: .medium,
                                                       action: nil,
                                                       theme: overridingTheme)
         customThemeButtonPrimary.state.text = "Button"
         customThemeButtonPrimary.state.image = UIImage(named: "Placeholder_24")!
 
-        let customThemeButtonSecondary = MSFButtonVnext(style: .secondary,
+        let customThemeButtonSecondary = MSFButton(style: .secondary,
                                                         size: .medium,
                                                         action: nil,
                                                         theme: overridingTheme)
         customThemeButtonSecondary.state.text = "Button"
         customThemeButtonSecondary.state.image = UIImage(named: "Placeholder_24")!
 
-        let customThemeButtonGhost = MSFButtonVnext(style: .ghost,
+        let customThemeButtonGhost = MSFButton(style: .ghost,
                                                     size: .medium,
                                                     action: nil,
                                                     theme: overridingTheme)
@@ -101,19 +101,19 @@ class ThemingVnextDemoController: DemoController {
 
         addRow(items: [customThemeButtonPrimary.view, customThemeButtonSecondary.view, customThemeButtonGhost.view], itemSpacing: 20)
 
-        let customThemeAvatarAccent = MSFAvatarVnext(style: .accent,
+        let customThemeAvatarAccent = MSFAvatar(style: .accent,
                                                   size: .xlarge,
                                                   theme: overridingTheme)
         customThemeAvatarAccent.state.isRingVisible = true
         customThemeAvatarAccent.state.presence = .available
 
-        let customThemeAvatarDefault = MSFAvatarVnext(style: .default,
+        let customThemeAvatarDefault = MSFAvatar(style: .default,
                                                    size: .xlarge,
                                                    theme: overridingTheme)
         customThemeAvatarDefault.state.isRingVisible = true
         customThemeAvatarDefault.state.presence = .busy
 
-        let customThemeAvatarOutlinedPrimary = MSFAvatarVnext(style: .outlinedPrimary,
+        let customThemeAvatarOutlinedPrimary = MSFAvatar(style: .outlinedPrimary,
                                                            size: .xlarge,
                                                            theme: overridingTheme)
         customThemeAvatarOutlinedPrimary.state.isRingVisible = true
@@ -143,13 +143,13 @@ class ThemingVnextDemoController: DemoController {
             colors.Brand = brandColors
             stylesheet.Colors = colors
 
-            StylesheetManager.setStylesheet(stylesheet: stylesheet, for: window)
+            FluentUIThemeManager.setStylesheet(stylesheet: stylesheet, for: window)
         }
     }
 
     func didPressResetThemeButton() {
         if let window = self.view.window {
-            StylesheetManager.removeStylesheet(for: window)
+            FluentUIThemeManager.removeStylesheet(for: window)
         }
     }
 }

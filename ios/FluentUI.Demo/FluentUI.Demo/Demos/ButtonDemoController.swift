@@ -7,86 +7,121 @@ import FluentUI
 import UIKit
 
 class ButtonDemoController: DemoController {
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        container.alignment = .leading
+        for size in MSFButtonSize.allCases {
+            addTitle(text: "\(size.description.capitalized) size")
+            for style in MSFButtonStyle.allCases {
+                addDescription(text: "\(style.description) style:", textAlignment: .natural)
 
-        for style in MSFButtonStyle.allCases {
-            addTitle(text: style.description)
+                let button = MSFButton(style: style, size: size, action: { [weak self] _ in
+                    guard let strongSelf = self else {
+                        return
+                    }
 
-            let button = MSFButton(style: style)
-            button.setTitle("Button", for: .normal)
+                    strongSelf.didPressButton()
+                })
+                button.state.text = "Button"
 
-            let disabledButton = MSFButton(style: style)
-            disabledButton.isEnabled = false
-            disabledButton.setTitle("Button", for: .normal)
+                let disabledButton = MSFButton(style: style, size: size, action: { [weak self] _ in
+                    guard let strongSelf = self else {
+                        return
+                    }
 
-            addRow(items: [button, disabledButton], itemSpacing: 20)
+                    strongSelf.didPressButton()
+                })
+                disabledButton.state.text = "Button"
+                disabledButton.state.isDisabled = true
 
-            if let image = style.image {
-                let iconButton = MSFButton(style: style)
-                iconButton.setTitle("Button", for: .normal)
-                iconButton.image = image
+                addRow(items: [button.view, disabledButton.view], itemSpacing: 20)
 
-                let disabledIconButton = MSFButton(style: style)
-                disabledIconButton.isEnabled = false
-                disabledIconButton.setTitle("Button", for: .normal)
-                disabledIconButton.image = image
+                if let image = style.image {
+                    let iconButton = MSFButton(style: style, size: size) {_ in
+                        self.didPressButton()
+                    }
+                    iconButton.state.text = "Button"
+                    iconButton.state.image = image
 
-                addRow(items: [iconButton, disabledIconButton], itemSpacing: 20)
+                    let disabledIconButton = MSFButton(style: style, size: size) {_ in
+                        self.didPressButton()
+                    }
+                    disabledIconButton.state.isDisabled = true
+                    disabledIconButton.state.text = "Button"
+                    disabledIconButton.state.image = image
 
-                let iconOnlyButton = MSFButton(style: style)
-                iconOnlyButton.image = image
+                    addRow(items: [iconButton.view, disabledIconButton.view], itemSpacing: 20)
 
-                let disabledIconOnlyButton = MSFButton(style: style)
-                disabledIconOnlyButton.isEnabled = false
-                disabledIconOnlyButton.image = image
+                    let iconOnlyButton = MSFButton(style: style, size: size, action: { [weak self] _ in
+                        guard let strongSelf = self else {
+                            return
+                        }
 
-                addRow(items: [iconOnlyButton, disabledIconOnlyButton], itemSpacing: 20)
+                        strongSelf.didPressButton()
+                    })
+                    iconOnlyButton.state.image = image
+
+                    let disabledIconOnlyButton = MSFButton(style: style, size: size, action: { [weak self] _ in
+                        guard let strongSelf = self else {
+                            return
+                        }
+
+                        strongSelf.didPressButton()
+                    })
+                    disabledIconOnlyButton.state.isDisabled = true
+                    disabledIconOnlyButton.state.image = image
+
+                    addRow(items: [iconOnlyButton.view, disabledIconOnlyButton.view], itemSpacing: 20)
+                }
             }
         }
 
-        addTitle(text: "With multi-line title")
-        let button = MSFButton(style: .primaryFilled)
-        button.setTitle("Longer Text Button", for: .normal)
-        button.titleLabel?.numberOfLines = 0
-
-        let iconButton = MSFButton(style: .primaryFilled)
-        iconButton.setTitle("Longer Text Button", for: .normal)
-        iconButton.titleLabel?.numberOfLines = 0
-        iconButton.image = MSFButtonStyle.primaryFilled.image
-
-        addRow(items: [button])
-        addRow(items: [iconButton])
-
         container.addArrangedSubview(UIView())
+    }
+
+    func didPressButton() {
+        let alert = UIAlertController(title: "A button was pressed",
+                                      message: nil,
+                                      preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(action)
+        present(alert, animated: true)
+    }
+}
+
+extension MSFButtonSize {
+    var description: String {
+        switch self {
+        case .large:
+            return "large"
+        case .medium:
+            return "medium"
+        case .small:
+            return "small"
+        }
     }
 }
 
 extension MSFButtonStyle {
     var description: String {
         switch self {
-        case .primaryFilled:
-            return "Primary filled"
-        case .primaryOutline:
-            return "Primary outline"
-        case .secondaryOutline:
-            return "Secondary outline"
-        case .tertiaryOutline:
-            return "Tertiary outline"
-        case .borderless:
-            return "Borderless"
+        case .primary:
+            return "Primary"
+        case .secondary:
+            return "Secondary"
+        case .ghost:
+            return "Ghost"
         }
     }
 
     var image: UIImage? {
         switch self {
-        case .primaryFilled, .primaryOutline:
+        case .primary:
             return UIImage(named: "Placeholder_24")!
-        case .secondaryOutline:
+        case .secondary:
             return UIImage(named: "Placeholder_20")!
-        case .tertiaryOutline, .borderless:
+        case .ghost:
             return nil
         }
     }

@@ -142,7 +142,7 @@ open class PillButtonBar: UIScrollView {
         }
     }
 
-    @objc public convenience init(pillButtonStyle: PillButtonStyle = .outline) {
+    @objc public convenience init(pillButtonStyle: PillButtonStyle = .primary) {
         self.init(pillButtonStyle: pillButtonStyle,
                   pillButtonBackgroundColor: nil,
                   selectedPillButtonBackgroundColor: nil,
@@ -150,7 +150,7 @@ open class PillButtonBar: UIScrollView {
                   selectedPillButtonTextColor: nil)
     }
 
-    @objc public convenience init(pillButtonStyle: PillButtonStyle = .outline,
+    @objc public convenience init(pillButtonStyle: PillButtonStyle = .primary,
                                   pillButtonBackgroundColor: UIColor? = nil) {
         self.init(pillButtonStyle: pillButtonStyle,
                   pillButtonBackgroundColor: pillButtonBackgroundColor,
@@ -159,7 +159,7 @@ open class PillButtonBar: UIScrollView {
                   selectedPillButtonTextColor: nil)
     }
 
-    @objc public init(pillButtonStyle: PillButtonStyle = .outline,
+    @objc public init(pillButtonStyle: PillButtonStyle = .primary,
                       pillButtonBackgroundColor: UIColor? = nil,
                       selectedPillButtonBackgroundColor: UIColor? = nil,
                       pillButtonTextColor: UIColor? = nil,
@@ -538,7 +538,7 @@ extension PillButtonBar: UIPointerInteractionDelegate {
         if let window = window, customPillButtonBackgroundColor == nil, index < buttons.count {
             let pillButton = buttons[index]
             if !pillButton.isSelected {
-                pillButton.customBackgroundColor = pillButton.style.hoverBackgroundColor(for: window)
+                pillButton.customBackgroundColor = PillButton.hoverBackgroundColor(for: window, for: pillButton.style)
             }
         }
     }

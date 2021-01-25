@@ -7,7 +7,7 @@ import UIKit
 import SwiftUI
 
 /// Pre-defined styles of icons
-@objc public enum MSFListIconVnextStyle: Int, CaseIterable {
+@objc public enum MSFListIconStyle: Int, CaseIterable {
     case none
     case iconOnly
     case large
@@ -59,9 +59,9 @@ public class MSFListTokens: MSFTokensBase, ObservableObject {
     @Published public var subtitleFont: UIFont!
     @Published public var textFont: UIFont!
 
-    var iconStyle: MSFListIconVnextStyle!
+    var iconStyle: MSFListIconStyle!
 
-    public init(iconStyle: MSFListIconVnextStyle) {
+    public init(iconStyle: MSFListIconStyle) {
         self.iconStyle = iconStyle
 
         super.init()
@@ -78,7 +78,7 @@ public class MSFListTokens: MSFTokensBase, ObservableObject {
         let currentTheme = theme
         let appearanceProxy: AppearanceProxyType
 
-        if iconStyle == MSFListIconVnextStyle.iconOnly {
+        if iconStyle == MSFListIconStyle.iconOnly {
             appearanceProxy = currentTheme.MSFIconOnlyListTokens
         } else {
             appearanceProxy = currentTheme.MSFListTokens

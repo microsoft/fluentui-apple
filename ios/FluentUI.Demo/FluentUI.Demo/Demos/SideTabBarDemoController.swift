@@ -41,7 +41,7 @@ class SideTabBarDemoController: DemoController {
         }
     }
 
-    private lazy var incrementBadgeButton: MSFButtonVnext = {
+    private lazy var incrementBadgeButton: MSFButton = {
         return createButton(title: "+", action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
@@ -51,7 +51,7 @@ class SideTabBarDemoController: DemoController {
         })
     }()
 
-    private lazy var decrementBadgeButton: MSFButtonVnext = {
+    private lazy var decrementBadgeButton: MSFButton = {
         return createButton(title: "-", action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
@@ -184,9 +184,9 @@ class SideTabBarDemoController: DemoController {
     }
 
     private func showAvatarView(_ show: Bool) {
-        var avatarView: AvatarView?
+        var avatarView: AvatarLegacyView?
         if show {
-            avatarView = AvatarView(avatarSize: .medium, withBorder: false, style: .circle, preferredFallbackImageStyle: .onAccentFilled)
+            avatarView = AvatarLegacyView(avatarSize: .medium, withBorder: false, style: .circle, preferredFallbackImageStyle: .onAccentFilled)
             avatarView!.setup(primaryText: "Kat Larson", secondaryText: "", image: UIImage(named: "avatar_kat_larsson")!)
             avatarView!.hasPointerInteraction = true
         }

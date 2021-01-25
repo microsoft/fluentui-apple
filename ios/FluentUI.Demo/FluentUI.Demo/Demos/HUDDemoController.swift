@@ -10,7 +10,7 @@ class HUDDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let showActivityButton = MSFButtonVnext(style: .secondary, size: .small, action: { [weak self] _ in
+        let showActivityButton = MSFButton(style: .secondary, size: .small, action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
             }
@@ -20,7 +20,7 @@ class HUDDemoController: DemoController {
         showActivityButton.state.text = "Show activity HUD"
         container.addArrangedSubview(showActivityButton.view)
 
-        let showSuccessButton = MSFButtonVnext(style: .secondary, size: .small, action: { [weak self] _ in
+        let showSuccessButton = MSFButton(style: .secondary, size: .small, action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
             }
@@ -30,7 +30,7 @@ class HUDDemoController: DemoController {
         showSuccessButton.state.text = "Show success HUD"
         container.addArrangedSubview(showSuccessButton.view)
 
-        let showFailureButton = MSFButtonVnext(style: .secondary, size: .small, action: { [weak self] _ in
+        let showFailureButton = MSFButton(style: .secondary, size: .small, action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
             }
@@ -40,7 +40,7 @@ class HUDDemoController: DemoController {
         showFailureButton.state.text = "Show failure HUD"
         container.addArrangedSubview(showFailureButton.view)
 
-        let showCustomButton = MSFButtonVnext(style: .secondary, size: .small, action: { [weak self] _ in
+        let showCustomButton = MSFButton(style: .secondary, size: .small, action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
             }
@@ -50,7 +50,7 @@ class HUDDemoController: DemoController {
         showCustomButton.state.text = "Show custom HUD"
         container.addArrangedSubview(showCustomButton.view)
 
-        let showCustomNonBlockingButton = MSFButtonVnext(style: .secondary, size: .small, action: { [weak self] _ in
+        let showCustomNonBlockingButton = MSFButton(style: .secondary, size: .small, action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
             }
@@ -60,7 +60,7 @@ class HUDDemoController: DemoController {
         showCustomNonBlockingButton.state.text = "Show custom non-blocking HUD"
         container.addArrangedSubview(showCustomNonBlockingButton.view)
 
-        let showNolabelButton = MSFButtonVnext(style: .secondary, size: .small, action: { [weak self] _ in
+        let showNolabelButton = MSFButton(style: .secondary, size: .small, action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
             }
@@ -70,7 +70,7 @@ class HUDDemoController: DemoController {
         showNolabelButton.state.text = "Show HUD with no label"
         container.addArrangedSubview(showNolabelButton.view)
 
-        let showGestureButton = MSFButtonVnext(style: .secondary, size: .small, action: { [weak self] _ in
+        let showGestureButton = MSFButton(style: .secondary, size: .small, action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
             }
@@ -80,7 +80,7 @@ class HUDDemoController: DemoController {
         showGestureButton.state.text = "Show HUD with tap gesture callback"
         container.addArrangedSubview(showGestureButton.view)
 
-        let showUpdatingButton = MSFButtonVnext(style: .secondary, size: .small, action: { [weak self] _ in
+        let showUpdatingButton = MSFButton(style: .secondary, size: .small, action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
             }

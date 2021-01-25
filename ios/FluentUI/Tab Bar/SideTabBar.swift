@@ -17,7 +17,7 @@ public protocol SideTabBarDelegate {
     /// Called after the avatar view is tapped in the side tab bar.
     /// - Parameter sideTabBar: The side tab bar.
     /// - Parameter avatarView: The avatar view.
-    @objc optional func sideTabBar(_ sideTabBar: SideTabBar, didActivate avatarView: AvatarView)
+    @objc optional func sideTabBar(_ sideTabBar: SideTabBar, didActivate avatarView: AvatarLegacyView)
 }
 
 /// View for a vertical side tab bar that can be used for app navigation.
@@ -36,7 +36,7 @@ open class SideTabBar: UIView {
     /// The avatar view that displays above the top tab bar items.
     /// The avatar view's size class should be AvatarSize.medium.
     /// Remember to enable pointer interactions on the avatar view if it handles pointer interactions.
-    @objc open var avatarView: AvatarView? {
+    @objc open var avatarView: AvatarLegacyView? {
         willSet {
             avatarView?.removeGestureRecognizer(avatarViewGestureRecognizer)
             avatarView?.removeFromSuperview()

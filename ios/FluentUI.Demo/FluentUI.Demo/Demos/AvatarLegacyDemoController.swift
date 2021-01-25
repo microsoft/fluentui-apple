@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-class AvatarViewDemoController: DemoController {
+class AvatarLegacyViewDemoController: DemoController {
     enum BorderStyle: Int {
     case noBorder
     case defaultBorder
@@ -51,7 +51,7 @@ class AvatarViewDemoController: DemoController {
                       borderStyle: .defaultBorder)
 
         addTitle(text: "Fallback Images")
-        for size in AvatarSize.allCases.reversed() {
+        for size in AvatarLegacySize.allCases.reversed() {
             let phoneNumber = "+1 (425) 123 4567"
             let primaryFilledAvatar = createAvatarView(size: size, name: phoneNumber, style: .circle, preferredFallbackImageStyle: .primaryFilled)
             let onAccentFilledAvatar = createAvatarView(size: size, name: phoneNumber, style: .circle, preferredFallbackImageStyle: .onAccentFilled)
@@ -59,14 +59,14 @@ class AvatarViewDemoController: DemoController {
         }
 
         addTitle(text: "Unauthenticated")
-        for size in AvatarSize.allCases.reversed() {
+        for size in AvatarLegacySize.allCases.reversed() {
             let accessibilityLabel = "Signed Out"
-            let grayAvatarView = AvatarView(avatarSize: size, withBorder: false, style: .circle)
+            let grayAvatarView = AvatarLegacyView(avatarSize: size, withBorder: false, style: .circle)
             grayAvatarView.setup(fallbackStyle: .outlined)
             grayAvatarView.translatesAutoresizingMaskIntoConstraints = false
             grayAvatarView.overrideAccessibilityLabel = accessibilityLabel
 
-            let primaryAvatarView = AvatarView(avatarSize: size, withBorder: false, style: .circle)
+            let primaryAvatarView = AvatarLegacyView(avatarSize: size, withBorder: false, style: .circle)
             primaryAvatarView.setup(fallbackStyle: .primaryOutlined)
             primaryAvatarView.translatesAutoresizingMaskIntoConstraints = false
             primaryAvatarView.overrideAccessibilityLabel = accessibilityLabel
@@ -136,13 +136,13 @@ class AvatarViewDemoController: DemoController {
         view.backgroundColor = isUsingAlternateBackgroundColor ? UIColor(light: Colors.gray100, dark: Colors.gray600) : Colors.surfacePrimary
     }
 
-    private var avatarViewsWithImages: [AvatarView] = []
-    private var avatarViewsWithInitials: [AvatarView] = []
+    private var avatarViewsWithImages: [AvatarLegacyView] = []
+    private var avatarViewsWithInitials: [AvatarLegacyView] = []
 
-    private func createSection(withTitle title: String, name: String, image: UIImage, style: AvatarStyle, borderStyle: BorderStyle = .noBorder) {
+    private func createSection(withTitle title: String, name: String, image: UIImage, style: AvatarLegacyStyle, borderStyle: BorderStyle = .noBorder) {
         addTitle(text: title)
 
-        for size in AvatarSize.allCases.reversed() {
+        for size in AvatarLegacySize.allCases.reversed() {
             let imageAvatar = createAvatarView(size: size, name: name, image: image, style: style, borderStyle: borderStyle)
             avatarViewsWithImages.append(imageAvatar.1)
 
@@ -155,8 +155,8 @@ class AvatarViewDemoController: DemoController {
         container.addArrangedSubview(UIView())
     }
 
-    private func createAvatarView(size: AvatarSize, name: String? = nil, image: UIImage? = nil, style: AvatarStyle, borderStyle: BorderStyle = .noBorder, preferredFallbackImageStyle: AvatarFallbackImageStyle = .onAccentFilled) -> (UIView, AvatarView) {
-        let avatarView = AvatarView(avatarSize: size, withBorder: borderStyle != .noBorder, style: style, preferredFallbackImageStyle: preferredFallbackImageStyle)
+    private func createAvatarView(size: AvatarLegacySize, name: String? = nil, image: UIImage? = nil, style: AvatarLegacyStyle, borderStyle: BorderStyle = .noBorder, preferredFallbackImageStyle: AvatarLegacyFallbackImageStyle = .onAccentFilled) -> (UIView, AvatarLegacyView) {
+        let avatarView = AvatarLegacyView(avatarSize: size, withBorder: borderStyle != .noBorder, style: style, preferredFallbackImageStyle: preferredFallbackImageStyle)
         if borderStyle == .colorfulBorder, let customBorderImage = colorfulImageForFrame() {
             avatarView.customBorderImage = customBorderImage
         }
@@ -165,7 +165,7 @@ class AvatarViewDemoController: DemoController {
 
         let avatarContainer = UIView()
         avatarContainer.addSubview(avatarView)
-        avatarContainer.widthAnchor.constraint(equalToConstant: AvatarSize.extraExtraLarge.size.width).isActive = true
+        avatarContainer.widthAnchor.constraint(equalToConstant: AvatarLegacySize.extraExtraLarge.size.width).isActive = true
         avatarContainer.heightAnchor.constraint(equalToConstant: avatarView.frame.height).isActive = true
 
         return (avatarContainer, avatarView)
@@ -204,7 +204,7 @@ class AvatarViewDemoController: DemoController {
     }
 }
 
-extension AvatarSize {
+extension AvatarLegacySize {
     var description: String {
         switch self {
         case .extraSmall:

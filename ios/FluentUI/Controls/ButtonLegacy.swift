@@ -5,10 +5,10 @@
 
 import UIKit
 
-// MARK: MSFButtonStyle
+// MARK: MSFButtonLegacyStyle
 
-@objc(MSFButtonStyle)
-public enum MSFButtonStyle: Int, CaseIterable {
+@objc(MSFButtonLegacyStyle)
+public enum MSFButtonLegacyStyle: Int, CaseIterable {
     case primaryFilled
     case primaryOutline
     case secondaryOutline
@@ -92,13 +92,13 @@ public extension Colors {
 
 /// By default, `titleLabel`'s `adjustsFontForContentSizeCategory` is set to true to automatically update its font when device's content size category changes
 @IBDesignable
-@objc(MSFButton)
-open class MSFButton: UIButton {
+@objc(MSFButtonLegacy)
+open class MSFButtonLegacy: UIButton {
     private struct Constants {
         static let borderWidth: CGFloat = 1
     }
 
-    @objc open var style: MSFButtonStyle = .secondaryOutline {
+    @objc open var style: MSFButtonLegacyStyle = .secondaryOutline {
         didSet {
             if style != oldValue {
                 update()
@@ -179,7 +179,7 @@ open class MSFButton: UIButton {
         return rect
     }
 
-    @objc public init(style: MSFButtonStyle = .secondaryOutline) {
+    @objc public init(style: MSFButtonLegacyStyle = .secondaryOutline) {
         self.style = style
         super.init(frame: .zero)
         initialize()

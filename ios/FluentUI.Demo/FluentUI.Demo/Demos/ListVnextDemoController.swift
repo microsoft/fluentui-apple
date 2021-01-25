@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-class ListVnextDemoController: DemoController {
+class ListDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -15,11 +15,11 @@ class ListVnextDemoController: DemoController {
         var cell: TableViewCellSampleData.Item
         var indexPath = IndexPath(row: 0, section: 0)
 
-        var list: MSFListVnext
-        var listCell: MSFListVnextCellState
-        var listSection: MSFListVnextSectionState
-        var listData: [MSFListVnextSectionState] = []
-        let iconStyle = MSFListIconVnextStyle.none
+        var list: MSFList
+        var listCell: MSFListCellState
+        var listSection: MSFListSectionState
+        var listData: [MSFListSectionState] = []
+        let iconStyle = MSFListIconStyle.none
 
         let samplePersonas: [PersonaData] = [
             PersonaData(name: "Kat Larrson", email: "kat.larrson@contoso.com", subtitle: "Designer", avatarImage: UIImage(named: "avatar_kat_larsson"), color: Colors.Palette.cyanBlue10.color),
@@ -29,11 +29,11 @@ class ListVnextDemoController: DemoController {
             PersonaData(name: "Amanda Brady", subtitle: "Program Manager", avatarImage: UIImage(named: "avatar_amanda_brady"), color: Colors.Palette.magentaPink10.color)
         ]
 
-        var avatar: MSFAvatarVnext
+        var avatar: MSFAvatar
 
         /// Subchildren list items
-        var subchildren: [MSFListVnextCellState] = []
-        listCell = MSFListVnextCellState()
+        var subchildren: [MSFListCellState] = []
+        listCell = MSFListCellState()
         avatar = createAvatarView(size: .medium,
                                   name: samplePersonas[4].name,
                                   image: samplePersonas[4].avatarImage,
@@ -46,9 +46,9 @@ class ListVnextDemoController: DemoController {
         subchildren.append(listCell)
 
         /// Children list items
-        var children: [MSFListVnextCellState] = []
+        var children: [MSFListCellState] = []
         for index in 2...3 {
-            listCell = MSFListVnextCellState()
+            listCell = MSFListCellState()
             avatar = createAvatarView(size: .medium,
                                       name: samplePersonas[index].name,
                                       image: samplePersonas[index].avatarImage,
@@ -64,11 +64,11 @@ class ListVnextDemoController: DemoController {
         }
 
         /// Custom Leading View with collapsible children items
-        listSection = MSFListVnextSectionState()
+        listSection = MSFListSectionState()
         listSection.title = "AvatarView Section"
         listSection.cells = []
         for index in 0...1 {
-            listCell = MSFListVnextCellState()
+            listCell = MSFListCellState()
             avatar = createAvatarView(size: .medium,
                                       name: samplePersonas[index].name,
                                       image: samplePersonas[index].avatarImage,
@@ -88,12 +88,12 @@ class ListVnextDemoController: DemoController {
         for sectionIndex in 0...sections.count - 1 {
             section = sections[sectionIndex]
 
-            listSection = MSFListVnextSectionState()
+            listSection = MSFListSectionState()
             listSection.title = section.title
             listSection.cells = []
             for rowIndex in 0...TableViewCellSampleData.numberOfItemsInSection - 1 {
                 cell = section.item
-                listCell = MSFListVnextCellState()
+                listCell = MSFListCellState()
                 listCell.title = cell.text1
                 listCell.subtitle = cell.text2
                 listCell.leadingView = createCustomView(imageName: cell.image)
@@ -109,7 +109,7 @@ class ListVnextDemoController: DemoController {
             listData.append(listSection)
         }
 
-        list = MSFListVnext(sections: listData, iconStyle: iconStyle)
+        list = MSFList(sections: listData, iconStyle: iconStyle)
 
         let listView = list.view
         listView.translatesAutoresizingMaskIntoConstraints = false
@@ -123,11 +123,11 @@ class ListVnextDemoController: DemoController {
                                      demoControllerView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: listView.trailingAnchor)])
     }
 
-    private func createAvatarView(size: MSFAvatarVnextSize,
+    private func createAvatarView(size: MSFAvatarSize,
                                   name: String? = nil,
                                   image: UIImage? = nil,
-                                  style: MSFAvatarVnextStyle) -> MSFAvatarVnext {
-        let avatarView = MSFAvatarVnext(style: style,
+                                  style: MSFAvatarStyle) -> MSFAvatar {
+        let avatarView = MSFAvatar(style: style,
                                         size: size)
         avatarView.state.primaryText = name
         avatarView.state.image = image
@@ -166,11 +166,11 @@ class ListVnextDemoController: DemoController {
         }
     }
 
-    private func updateLayout(subtitle: String?) -> MSFListCellVnextLayoutType {
+    private func updateLayout(subtitle: String?) -> MSFListCellLayoutType {
         if let subtitle = subtitle, !subtitle.isEmpty {
-            return MSFListCellVnextLayoutType.twoLines
+            return MSFListCellLayoutType.twoLines
         } else {
-            return MSFListCellVnextLayoutType.oneLine
+            return MSFListCellLayoutType.oneLine
         }
     }
 

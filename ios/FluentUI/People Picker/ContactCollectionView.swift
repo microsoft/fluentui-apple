@@ -32,7 +32,7 @@ open class ContactCollectionView: UICollectionView {
             }
         }
 
-        var avatarSize: AvatarSize {
+        var avatarSize: AvatarLegacySize {
             switch self {
             case .large:
                 return .extraExtraLarge

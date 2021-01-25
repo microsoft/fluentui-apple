@@ -8,7 +8,7 @@ import SwiftUI
 
 // MARK: Drawer + UIViewControllerTransitioningDelegate
 
-extension MSFDrawerVnext: UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
+extension MSFDrawer: UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
 
     enum Constant {
         static let linearAnimationDuration: TimeInterval = 0.25
@@ -63,24 +63,24 @@ extension MSFDrawerVnext: UIViewControllerTransitioningDelegate, UIViewControlle
     }
 }
 
-// MARK: - DrawerVnext
+// MARK: - Drawer
 
-@objc public protocol MSFDrawerVnextControllerDelegate: AnyObject {
+@objc public protocol MSFDrawerControllerDelegate: AnyObject {
     /// Called when a user opens/closes the drawer  to change its expanded state. Use `isExpanded` property to get the current state.
     @objc optional func drawerDidChangeState(state: MSFDrawerState, controller: UIViewController)
 }
 
-/// ` DrawerVnext` is UIKit wrapper that exposes the SwiftUI Drawer implementation
-@objc(MSFDrawerVnext)
-open class MSFDrawerVnext: UIHostingController<AnyView>, FluentUIWindowProvider {
+/// ` Drawer` is UIKit wrapper that exposes the SwiftUI Drawer implementation
+@objc(MSFDrawer)
+open class MSFDrawer: UIHostingController<AnyView>, FluentUIWindowProvider {
 
     public var window: UIWindow? {
         return self.view.window
     }
 
     /// Set this delegate to recieve updates when drawer's state changes
-    /// @see `DrawerVnextControllerDelegate`
-    public weak var delegate: MSFDrawerVnextControllerDelegate?
+    /// @see `DrawerControllerDelegate`
+    public weak var delegate: MSFDrawerControllerDelegate?
 
     /// Represents the drawer's state with properties to configure its behavior.
     /// @see `DrawerState`

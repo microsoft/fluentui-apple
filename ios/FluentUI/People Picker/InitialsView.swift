@@ -78,7 +78,7 @@ class InitialsView: UIView {
         return hash
     }
 
-    public var avatarSize: AvatarSize {
+    public var avatarSize: AvatarLegacySize {
         didSet {
             frame.size = avatarSize.size
             initialsLabel.font = avatarSize.font
@@ -92,7 +92,7 @@ class InitialsView: UIView {
     /// Initializes the initials view and sizes it with AvatarSize
     ///
     /// - Parameter avatarSize: The AvatarSize to size the initials view with
-    init(avatarSize: AvatarSize) {
+    init(avatarSize: AvatarLegacySize) {
         self.avatarSize = avatarSize
         super.init(frame: CGRect(origin: .zero, size: avatarSize.size))
 

@@ -7,7 +7,7 @@ import UIKit
 import SwiftUI
 
 /// Properties available to customize the state of the button
-@objc public class MSFButtonVnextState: NSObject, ObservableObject {
+@objc public class MSFButtonState: NSObject, ObservableObject {
     @objc @Published public var image: UIImage?
     @objc @Published public var isDisabled: Bool = false
     @objc @Published public var text: String?
@@ -61,13 +61,13 @@ public struct MSFButtonView: View {
     var action: () -> Void
     @Environment(\.theme) var theme: FluentUIStyle
     @ObservedObject var tokens: MSFButtonTokens
-    @ObservedObject var state: MSFButtonVnextState
+    @ObservedObject var state: MSFButtonState
 
     public init(action: @escaping () -> Void,
-                style: MSFButtonVnextStyle,
-                size: MSFButtonVnextSize) {
+                style: MSFButtonStyle,
+                size: MSFButtonSize) {
         self.action = action
-        self.state = MSFButtonVnextState()
+        self.state = MSFButtonState()
         self.tokens = MSFButtonTokens(style: style, size: size)
     }
 
@@ -92,15 +92,15 @@ public struct MSFButtonView: View {
 }
 
 /// UIKit wrapper that exposes the SwiftUI Button implementation
-@objc open class MSFButtonVnext: NSObject, FluentUIWindowProvider {
+@objc open class MSFButton: NSObject, FluentUIWindowProvider {
 
     private var hostingController: UIHostingController<AnyView>!
 
     private var buttonView: MSFButtonView!
 
-    @objc open var action: ((_ sender: MSFButtonVnext) -> Void)?
+    @objc open var action: ((_ sender: MSFButton) -> Void)?
 
-    @objc open var state: MSFButtonVnextState {
+    @objc open var state: MSFButtonState {
         return self.buttonView.state
     }
 
@@ -112,18 +112,18 @@ public struct MSFButtonView: View {
         return self.view.window
     }
 
-    @objc public convenience init(style: MSFButtonVnextStyle = .secondary,
-                                  size: MSFButtonVnextSize = .large,
-                                  action: ((_ sender: MSFButtonVnext) -> Void)?) {
+    @objc public convenience init(style: MSFButtonStyle = .secondary,
+                                  size: MSFButtonSize = .large,
+                                  action: ((_ sender: MSFButton) -> Void)?) {
         self.init(style: style,
                   size: size,
                   action: action,
                   theme: nil)
     }
 
-    @objc public init(style: MSFButtonVnextStyle = .secondary,
-                      size: MSFButtonVnextSize = .large,
-                      action: ((_ sender: MSFButtonVnext) -> Void)?,
+    @objc public init(style: MSFButtonStyle = .secondary,
+                      size: MSFButtonSize = .large,
+                      action: ((_ sender: MSFButton) -> Void)?,
                       theme: FluentUIStyle? = nil) {
         super.init()
         initialize(style: style,
@@ -132,9 +132,9 @@ public struct MSFButtonView: View {
                    theme: theme)
     }
 
-    private func initialize(style: MSFButtonVnextStyle = .secondary,
-                            size: MSFButtonVnextSize = .large,
-                            action: ((_ sender: MSFButtonVnext) -> Void)?,
+    private func initialize(style: MSFButtonStyle = .secondary,
+                            size: MSFButtonSize = .large,
+                            action: ((_ sender: MSFButton) -> Void)?,
                             theme: FluentUIStyle? = nil) {
         self.action = action
         buttonView = MSFButtonView(action: {

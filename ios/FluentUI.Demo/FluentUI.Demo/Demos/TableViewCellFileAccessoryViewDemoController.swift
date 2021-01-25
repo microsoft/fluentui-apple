@@ -494,7 +494,7 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         return settingsView
     }()
 
-    private func createPlusMinusButton(plus: Bool, action: ((_ sender: MSFButtonVnext) -> Void)?) -> UIView {
+    private func createPlusMinusButton(plus: Bool, action: ((_ sender: MSFButton) -> Void)?) -> UIView {
         let button = createButton(title: (plus ? "+" : "-"), action: action).view
         button.widthAnchor.constraint(equalToConstant: Constants.plusMinusButtonWidth).isActive = true
         return button
