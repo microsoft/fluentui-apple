@@ -14,27 +14,27 @@ class ThemingDemoController: DemoController {
         addTitle(text: "Default / Current window theme")
         addDescription(text: "The default theme is defined by the FluentUIStyle class. The client app can override any of its properties and associate it to a specific UIWindow instance.")
 
-        let customThemeButton = MSFButton(style: .primary,
-                                               size: .medium,
-                                               action: { [weak self] _ in
+        let overrideThemeButton = MSFButton(style: .primary,
+                                            size: .medium,
+                                            action: { [weak self] _ in
                                                 guard let strongSelf = self else {
                                                     return
                                                 }
                                                 strongSelf.didPressOverrideThemeButton()
-                                               })
-        customThemeButton.state.text = "Override theme for current window"
+                                            })
+        overrideThemeButton.state.text = "Override theme for current window"
 
-        let disabledCstomThemeButton = MSFButton(style: .secondary,
-                                                      size: .medium,
-                                                      action: { [weak self] _ in
-                                                        guard let strongSelf = self else {
-                                                            return
-                                                        }
-                                                        strongSelf.didPressResetThemeButton()
-                                                      })
-        disabledCstomThemeButton.state.text = "Reset theme for current window"
+        let resetThemeButton = MSFButton(style: .secondary,
+                                         size: .medium,
+                                         action: { [weak self] _ in
+                                            guard let strongSelf = self else {
+                                                return
+                                            }
+                                            strongSelf.didPressResetThemeButton()
+                                         })
+        resetThemeButton.state.text = "Reset theme for current window"
 
-        addRow(items: [customThemeButton.view, disabledCstomThemeButton.view], itemSpacing: 20)
+        addRow(items: [overrideThemeButton.view, resetThemeButton.view], itemSpacing: 20)
 
         let avatarAccent = MSFAvatar(style: .accent, size: .xlarge)
         avatarAccent.state.isRingVisible = true

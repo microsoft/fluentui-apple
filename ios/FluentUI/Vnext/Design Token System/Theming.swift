@@ -54,7 +54,9 @@ public class MSFTokensBase {
 // MARK: Theme SwiftUI Environment Value
 
 struct ThemeKey: EnvironmentKey {
-    static var defaultValue: FluentUIStyle = FluentUIThemeManager.S
+    static var defaultValue: FluentUIStyle {
+        return FluentUIThemeManager.S
+    }
 }
 
 extension EnvironmentValues {
