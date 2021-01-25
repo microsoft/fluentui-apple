@@ -70,8 +70,10 @@ public struct MSFListView: View {
                                             hasDividers: hasDividers)
                                 .frame(maxWidth: .infinity)
                         }
-                        Divider()
-                            .background(Color(tokens.borderColor))
+                        if section.hasDividers {
+                            Divider()
+                                .background(Color(tokens.borderColor))
+                        }
                     }
                 }
             }
@@ -95,7 +97,7 @@ public struct MSFListView: View {
 extension MSFListView {
     /// View for List Cells
     struct MSFListCellView: View {
-        var cell: MSFListCellState
+        @ObservedObject var cell: MSFListCellState
         @ObservedObject var tokens: MSFListTokens
         var hasDividers: Bool
 
@@ -152,7 +154,7 @@ extension MSFListView {
             .buttonStyle(ListCellButtonStyle(tokens: tokens, layoutType: cell.layoutType))
             if hasDividers {
                 Divider()
-                    .padding(.leading, (tokens.horizontalCellPadding + tokens.iconSize + tokens.iconInterspace))
+                    .padding(.leading, cell.leadingView != nil ? (tokens.horizontalCellPadding + tokens.iconSize + tokens.iconInterspace) : tokens.horizontalCellPadding)
             }
             if let children = cell.children, cell.isExpanded == true {
                 ForEach(children, id: \.self) { child in
