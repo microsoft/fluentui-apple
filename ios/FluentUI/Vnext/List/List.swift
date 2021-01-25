@@ -59,18 +59,7 @@ public struct MSFListView: View {
                 VStack(spacing: 0) {
                     ForEach(sections, id: \.self) { section in
                         if let sectionTitle = section.title {
-                            HStack(spacing: 0) {
-                                Text(sectionTitle)
-                                    .font(Font(tokens.subtitleFont))
-                                    .foregroundColor(Color(tokens.subtitleColor))
-                                    .listRowInsets(EdgeInsets())
-                                    .padding(.top, tokens.horizontalCellPadding / 2)
-                                    .padding(.leading, tokens.horizontalCellPadding)
-                                    .padding(.trailing, tokens.horizontalCellPadding)
-                                    .padding(.bottom, tokens.horizontalCellPadding / 2)
-                                Spacer()
-                            }
-                            .background(Color(tokens.backgroundColor))
+                            Header(title: sectionTitle, tokens: tokens)
                         }
 
                         ForEach(section.cells.indices, id: \.self) { index in
@@ -212,14 +201,18 @@ extension MSFListView {
         }
 
         var body: some View {
-            GeometryReader { _ in
-                HStack(spacing: 0) {
-                    Text(title)
-                        .font(Font(tokens.subtitleFont))
-                        .foregroundColor(Color(tokens.subtitleColor))
-                    Spacer()
-                }
+            HStack(spacing: 0) {
+                Text(title)
+                    .font(Font(tokens.subtitleFont))
+                    .foregroundColor(Color(tokens.subtitleColor))
+                    .listRowInsets(EdgeInsets())
+                    .padding(.top, tokens.horizontalCellPadding / 2)
+                    .padding(.leading, tokens.horizontalCellPadding)
+                    .padding(.trailing, tokens.horizontalCellPadding)
+                    .padding(.bottom, tokens.horizontalCellPadding / 2)
+                Spacer()
             }
+            .background(Color(tokens.backgroundColor))
         }
     }
 }
