@@ -63,9 +63,9 @@ public struct MSFListView: View {
                         }
 
                         ForEach(section.cells.indices, id: \.self) { index in
-                            let cell = section.cells[index]
-                            let hasDividers = (index < section.cells.count - 1 && section.hasDividers) || (section.hasDividers && (cell.children != nil))
-                            MSFListCellView(cell: cell,
+                            let cellState = section.cells[index]
+                            let hasDividers = (index < section.cells.count - 1 && section.hasDividers) || (section.hasDividers && (cellState.children != nil))
+                            MSFListCellView(state: cellState,
                                             tokens: tokens,
                                             hasDividers: hasDividers)
                                 .frame(maxWidth: .infinity)
@@ -97,47 +97,47 @@ public struct MSFListView: View {
 extension MSFListView {
     /// View for List Cells
     struct MSFListCellView: View {
-        @ObservedObject var cell: MSFListCellState
+        @ObservedObject var state: MSFListCellState
         @ObservedObject var tokens: MSFListTokens
         var hasDividers: Bool
 
-        init(cell: MSFListCellState, tokens: MSFListTokens, hasDividers: Bool = false) {
-            self.cell = cell
+        init(state: MSFListCellState, tokens: MSFListTokens, hasDividers: Bool = false) {
+            self.state = state
             self.tokens = tokens
             self.hasDividers = hasDividers
         }
 
         var body: some View {
-            Button(action: cell.onTapAction ?? {
-                if cell.children != nil {
+            Button(action: state.onTapAction ?? {
+                if state.children != nil {
                     withAnimation {
-                        cell.isExpanded.toggle()
+                        state.isExpanded.toggle()
                     }
                 }
             }, label: {
                 HStack(spacing: 0) {
-                    if let leadingView = cell.leadingView {
+                    if let leadingView = state.leadingView {
                         UIViewAdapter(leadingView)
                             .frame(width: tokens.iconSize, height: tokens.iconSize)
                             .padding(.trailing, tokens.iconInterspace)
                     }
                     VStack(alignment: .leading) {
-                        if let title = cell.title {
+                        if let title = state.title {
                             Text(title)
                                 .font(Font(tokens.textFont))
                                 .foregroundColor(Color(tokens.leadingTextColor))
-                                .lineLimit(cell.titleLineLimit)
+                                .lineLimit(state.titleLineLimit)
                         }
-                        if let subtitle = cell.subtitle, !subtitle.isEmpty {
+                        if let subtitle = state.subtitle, !subtitle.isEmpty {
                                 Text(subtitle)
                                     .font(Font(tokens.subtitleFont))
                                     .foregroundColor(Color(tokens.subtitleColor))
-                                    .lineLimit(cell.titleLineLimit)
+                                    .lineLimit(state.titleLineLimit)
                         }
                     }
                     Spacer()
                     HStack {
-                        if let accessoryType = cell.accessoryType, accessoryType != .none, let accessoryIcon = accessoryType.icon {
+                        if let accessoryType = state.accessoryType, accessoryType != .none, let accessoryIcon = accessoryType.icon {
                             let isDisclosure = accessoryType == .disclosure
                             let disclosureSize = tokens.disclosureSize
                             let iconSize = tokens.iconSize
@@ -151,14 +151,14 @@ extension MSFListView {
                     }
                 }
             })
-            .buttonStyle(ListCellButtonStyle(tokens: tokens, layoutType: cell.layoutType))
+            .buttonStyle(ListCellButtonStyle(tokens: tokens, layoutType: state.layoutType))
             if hasDividers {
                 Divider()
-                    .padding(.leading, cell.leadingView != nil ? (tokens.horizontalCellPadding + tokens.iconSize + tokens.iconInterspace) : tokens.horizontalCellPadding)
+                    .padding(.leading, state.leadingView != nil ? (tokens.horizontalCellPadding + tokens.iconSize + tokens.iconInterspace) : tokens.horizontalCellPadding)
             }
-            if let children = cell.children, cell.isExpanded == true {
+            if let children = state.children, state.isExpanded == true {
                 ForEach(children, id: \.self) { child in
-                    MSFListCellView(cell: child,
+                    MSFListCellView(state: child,
                                     tokens: tokens,
                                     hasDividers: hasDividers)
                         .frame(maxWidth: .infinity)
