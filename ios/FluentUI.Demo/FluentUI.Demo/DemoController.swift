@@ -34,7 +34,7 @@ class DemoController: UIViewController {
     }
 
     let container: UIStackView = createVerticalContainer()
-    let scrollingContainer = ScrollView(frame: .zero)
+    let scrollingContainer = MSFScrollView(frame: .zero)
 
     var allowsContentToScroll: Bool { return true }
 

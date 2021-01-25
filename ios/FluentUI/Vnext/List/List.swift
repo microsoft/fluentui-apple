@@ -7,7 +7,7 @@ import UIKit
 import SwiftUI
 
 /// Properties that make up cell content
-@objc public class MSFListCellData: NSObject, ObservableObject, Identifiable {
+@objc public class MSFListCellState: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
     @objc @Published public var leadingView: UIView?
     @objc @Published public var title: String = ""
@@ -15,21 +15,23 @@ import SwiftUI
     @objc @Published public var accessoryType: MSFListAccessoryType = .none
     @objc @Published public var titleLineLimit: Int = 1
     @objc @Published public var subtitleLineLimit: Int = 1
+    @objc @Published public var children: [MSFListCellState]?
+    @objc @Published public var isExpanded: Bool = false
     @objc @Published public var layoutType: MSFListCellLayoutType = .oneLine
     @objc public var onTapAction: (() -> Void)?
 }
 
 /// Properties that make up section content
-@objc public class MSFListSectionData: NSObject, ObservableObject, Identifiable {
+@objc public class MSFListSectionState: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
-    @objc @Published public var cells: [MSFListCellData] = []
+    @objc @Published public var cells: [MSFListCellState] = []
     @objc @Published public var title: String?
-    @objc @Published public var hasBorder: Bool = false
+    @objc @Published public var hasDividers: Bool = false
 }
 
 /// Properties that make up list content
 @objc public class MSFListState: NSObject, ObservableObject {
-    @objc @Published public var sections: [MSFListSectionData] = []
+    @objc @Published public var sections: [MSFListSectionState] = []
 }
 
 /// Pre-defined layout heights of cells
@@ -44,7 +46,7 @@ public struct MSFListView: View {
     @ObservedObject var state: MSFListState
     @ObservedObject var tokens: MSFListTokens
 
-    public init(sections: [MSFListSectionData],
+    public init(sections: [MSFListSectionState],
                 iconStyle: MSFListIconStyle) {
         self.state = MSFListState()
         self.tokens = MSFListTokens(iconStyle: iconStyle)
@@ -53,89 +55,89 @@ public struct MSFListView: View {
 
     public var body: some View {
         let sections = state.sections
-        List {
-            ForEach(sections, id: \.self) { section in
-                if let sectionTitle = section.title {
-                    if #available(iOS 14.0, *) {
-                        Section(header: Header(title: sectionTitle, tokens: tokens)) {}
-                            .textCase(.none)
-                            .listRowInsets(EdgeInsets())
-                            .padding(.top, tokens.horizontalCellPadding / 2)
-                            .padding(.leading, tokens.horizontalCellPadding)
-                            .padding(.trailing, tokens.horizontalCellPadding)
-                            .background(Color(tokens.backgroundColor))
-                    } else {
-                        Text(sectionTitle)
-                            .listRowInsets(EdgeInsets(top: tokens.horizontalCellPadding / 2,
-                                                      leading: tokens.horizontalCellPadding,
-                                                      bottom: tokens.horizontalCellPadding / 2,
-                                                      trailing: tokens.horizontalCellPadding))
-                            .font(Font(tokens.subtitleFont))
-                            .foregroundColor(Color(tokens.subtitleColor))
+            ScrollView {
+                VStack(spacing: 0) {
+                    ForEach(sections, id: \.self) { section in
+                        if let sectionTitle = section.title {
+                            Header(title: sectionTitle, tokens: tokens)
+                        }
+
+                        ForEach(section.cells.indices, id: \.self) { index in
+                            let cellState = section.cells[index]
+                            let hasDividers = (index < section.cells.count - 1 && section.hasDividers) || (section.hasDividers && (cellState.children != nil))
+                            MSFListCellView(state: cellState,
+                                            tokens: tokens,
+                                            hasDividers: hasDividers)
+                                .frame(maxWidth: .infinity)
+                        }
+                        if section.hasDividers {
+                            Divider()
+                                .background(Color(tokens.borderColor))
+                        }
                     }
                 }
-
-                ForEach(section.cells, id: \.self) { cell in
-                    MSFListCellView(cell: cell,
-                                    tokens: tokens)
-                        .border(section.hasBorder ? Color(tokens.borderColor) : Color.clear, width: section.hasBorder ? tokens.borderSize : 0)
-                        .frame(maxWidth: .infinity)
+            }
+            .environment(\.defaultMinListRowHeight, 0)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .onAppear {
+                // When environment values are available through the view hierarchy:
+                //  - If we get a non-default theme through the environment values,
+                //    we use to override the theme from this view and its hierarchy.
+                //  - Otherwise we just refresh the tokens to reflect the theme
+                //    associated with the window that this View belongs to.
+                if theme == ThemeKey.defaultValue {
+                    self.tokens.updateForCurrentTheme()
+                } else {
+                    self.tokens.theme = theme
                 }
             }
-        }
-        .environment(\.defaultMinListRowHeight, 0)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .onAppear {
-            // When environment values are available through the view hierarchy:
-            //  - If we get a non-default theme through the environment values,
-            //    we use to override the theme from this view and its hierarchy.
-            //  - Otherwise we just refresh the tokens to reflect the theme
-            //    associated with the window that this View belongs to.
-            if theme == ThemeKey.defaultValue {
-                self.tokens.updateForCurrentTheme()
-            } else {
-                self.tokens.theme = theme
-            }
-        }
     }
 }
 
 extension MSFListView {
     /// View for List Cells
     struct MSFListCellView: View {
-        var cell: MSFListCellData
+        @ObservedObject var state: MSFListCellState
         @ObservedObject var tokens: MSFListTokens
+        var hasDividers: Bool
 
-        init(cell: MSFListCellData, tokens: MSFListTokens) {
-            self.cell = cell
+        init(state: MSFListCellState, tokens: MSFListTokens, hasDividers: Bool = false) {
+            self.state = state
             self.tokens = tokens
+            self.hasDividers = hasDividers
         }
 
         var body: some View {
-            Button(action: cell.onTapAction ?? {}, label: {
+            Button(action: state.onTapAction ?? {
+                if state.children != nil {
+                    withAnimation {
+                        state.isExpanded.toggle()
+                    }
+                }
+            }, label: {
                 HStack(spacing: 0) {
-                    if let leadingView = cell.leadingView {
+                    if let leadingView = state.leadingView {
                         UIViewAdapter(leadingView)
                             .frame(width: tokens.iconSize, height: tokens.iconSize)
                             .padding(.trailing, tokens.iconInterspace)
                     }
                     VStack(alignment: .leading) {
-                        if let title = cell.title {
+                        if let title = state.title {
                             Text(title)
                                 .font(Font(tokens.textFont))
                                 .foregroundColor(Color(tokens.leadingTextColor))
-                                .lineLimit(cell.titleLineLimit)
+                                .lineLimit(state.titleLineLimit)
                         }
-                        if let subtitle = cell.subtitle, !subtitle.isEmpty {
+                        if let subtitle = state.subtitle, !subtitle.isEmpty {
                                 Text(subtitle)
                                     .font(Font(tokens.subtitleFont))
                                     .foregroundColor(Color(tokens.subtitleColor))
-                                    .lineLimit(cell.titleLineLimit)
+                                    .lineLimit(state.titleLineLimit)
                         }
                     }
                     Spacer()
                     HStack {
-                        if let accessoryType = cell.accessoryType, accessoryType != .none, let accessoryIcon = accessoryType.icon {
+                        if let accessoryType = state.accessoryType, accessoryType != .none, let accessoryIcon = accessoryType.icon {
                             let isDisclosure = accessoryType == .disclosure
                             let disclosureSize = tokens.disclosureSize
                             let iconSize = tokens.iconSize
@@ -149,7 +151,20 @@ extension MSFListView {
                     }
                 }
             })
-            .buttonStyle(ListCellButtonStyle(tokens: tokens, layoutType: cell.layoutType))
+            .buttonStyle(ListCellButtonStyle(tokens: tokens, layoutType: state.layoutType))
+            if hasDividers {
+                Divider()
+                    .padding(.leading, state.leadingView != nil ? (tokens.horizontalCellPadding + tokens.iconSize + tokens.iconInterspace) : tokens.horizontalCellPadding)
+            }
+            if let children = state.children, state.isExpanded == true {
+                ForEach(children, id: \.self) { child in
+                    MSFListCellView(state: child,
+                                    tokens: tokens,
+                                    hasDividers: hasDividers)
+                        .frame(maxWidth: .infinity)
+                        .padding(.leading, (tokens.horizontalCellPadding + tokens.iconSize))
+                }
+            }
         }
     }
 
@@ -188,21 +203,25 @@ extension MSFListView {
         }
 
         var body: some View {
-            GeometryReader { _ in
-                HStack(spacing: 0) {
-                    Text(title)
-                        .font(Font(tokens.subtitleFont))
-                        .foregroundColor(Color(tokens.subtitleColor))
-                    Spacer()
-                }
+            HStack(spacing: 0) {
+                Text(title)
+                    .font(Font(tokens.subtitleFont))
+                    .foregroundColor(Color(tokens.subtitleColor))
+                    .listRowInsets(EdgeInsets())
+                    .padding(.top, tokens.horizontalCellPadding / 2)
+                    .padding(.leading, tokens.horizontalCellPadding)
+                    .padding(.trailing, tokens.horizontalCellPadding)
+                    .padding(.bottom, tokens.horizontalCellPadding / 2)
+                Spacer()
             }
+            .background(Color(tokens.backgroundColor))
         }
     }
 }
 
 @objc open class MSFList: NSObject, FluentUIWindowProvider {
 
-    @objc public init(sections: [MSFListSectionData],
+    @objc public init(sections: [MSFListSectionState],
                       iconStyle: MSFListIconStyle,
                       theme: FluentUIStyle? = nil) {
         listView = MSFListView(sections: sections,
@@ -215,7 +234,7 @@ extension MSFListView {
         view.backgroundColor = UIColor.clear
     }
 
-    @objc public convenience init(sections: [MSFListSectionData],
+    @objc public convenience init(sections: [MSFListSectionState],
                                   iconStyle: MSFListIconStyle) {
         self.init(sections: sections,
                   iconStyle: iconStyle,

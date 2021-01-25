@@ -67,14 +67,17 @@
     UILabel *listVnextLabel = [[UILabel alloc] init];
     [listVnextLabel setText:@"List (vNext)"];
     [self.container addArrangedSubview:listVnextLabel];
-    
-    MSFListCellData *listCell1 = [[MSFListCellData alloc] init];
-    [listCell1 setTitle:@"SampleTitle1"];
-    [listCell1 setOnTapAction:^{
-        [self showAlertForCellTapped:@"SampleTitle1"];
-    }];
 
-    MSFListCellData *listCell2 = [[MSFListCellData alloc] init];
+    MSFListCellState *childCell = [[MSFListCellState alloc] init];
+    [childCell setTitle:@"Child Cell"];
+    NSArray *children = [NSArray arrayWithObject:childCell];
+
+    MSFListCellState *listCell1 = [[MSFListCellState alloc] init];
+    [listCell1 setTitle:@"SampleTitle1"];
+    [listCell1 setIsExpanded:TRUE];
+    [listCell1 setChildren:children];
+
+    MSFListCellState *listCell2 = [[MSFListCellState alloc] init];
     [listCell2 setTitle:@"SampleTitle2"];
     [listCell2 setSubtitle:@"SampleTitle2"];
     [listCell2 setLayoutType:MSFListCellLayoutTypeTwoLines];
@@ -82,7 +85,7 @@
         [self showAlertForCellTapped:@"SampleTitle2"];
     }];
 
-    MSFListCellData *listCell3 = [[MSFListCellData alloc] init];
+    MSFListCellState *listCell3 = [[MSFListCellState alloc] init];
     [listCell3 setTitle:@"SampleTitle3"];
     [listCell3 setSubtitle:@"SampleTitle3"];
     UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"excelIcon"]] ;
@@ -93,7 +96,7 @@
         [self showAlertForCellTapped:@"Sample Title3"];
     }];
 
-    MSFListSectionData *section = [[MSFListSectionData alloc] init];
+    MSFListSectionState *section = [[MSFListSectionState alloc] init];
     [section setCells:@[listCell1, listCell2, listCell3]];
     NSArray *sections = @[section];
 
@@ -104,7 +107,7 @@
 
     [self.container addArrangedSubview:[list view]];
 
-    [[[listView heightAnchor] constraintEqualToConstant:200] setActive:YES];
+    [[[listView heightAnchor] constraintEqualToConstant:250] setActive:YES];
 }
 
 - (void)enableButton {

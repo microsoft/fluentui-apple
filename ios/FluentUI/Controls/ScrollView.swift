@@ -11,13 +11,9 @@ protocol ScrollableContainerView: AnyObject {
     func makeFirstResponderVisible()
 }
 
-@available(*, deprecated, renamed: "ScrollView")
-public typealias MSScrollView = ScrollView
-
 /// `UIScrollView` subclass that automatically adjusts content insets when keyboard is shown/hidden to make sure scrollable area is always visible. Also provides methods to scroll any subview (or first responder if it's a subview) to visible area.
 @available(iOSApplicationExtension, unavailable)
-@objc(MSFScrollView)
-open class ScrollView: UIScrollView, ScrollableContainerView {
+@objc open class MSFScrollView: UIScrollView, ScrollableContainerView {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         initialize()
