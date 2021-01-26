@@ -20,20 +20,6 @@ extension MSFSlideOverPanel {
                                  transitionState: $transitionState)
     }
 
-    /// Update or replace content on panel
-    /// - Parameter `drawerContent`: View to replace content
-    /// - Returns: `MSFSlideOverPanel`
-    func withContent(_ drawerContent: Content) -> MSFSlideOverPanel {
-        return MSFSlideOverPanel(percentTransition: $percentTransition,
-                                 tokens: tokens,
-                                 slideOutPanelWidth: slideOutPanelWidth,
-                                 actionOnBackgroundTap: actionOnBackgroundTap,
-                                 content: drawerContent,
-                                 backgroundDimmed: backgroundDimmed,
-                                 direction: direction,
-                                 transitionState: $transitionState)
-    }
-
     /// Add action or callback to be executed when background view is Tapped
     /// - Parameter `performOnBackgroundTap`:  defaults to no-op
     /// - Returns: `MSFSlideOverPanel`
@@ -73,6 +59,21 @@ extension MSFSlideOverPanel {
                                  content: content,
                                  backgroundDimmed: backgroundDimmed,
                                  direction: slideOutDirection,
+                                 transitionState: $transitionState)
+    }
+
+    /// Add action or callback to be executed transition is completed
+    /// - Parameter `animationCompletion`:  defaults to no-op
+    /// - Returns: `MSFSlideOverPanel`
+    func transitionCompletion(_ action: (() -> Void)?) -> MSFSlideOverPanel {
+        return MSFSlideOverPanel(percentTransition: $percentTransition,
+                                 tokens: tokens,
+                                 slideOutPanelWidth: slideOutPanelWidth,
+                                 actionOnBackgroundTap: actionOnBackgroundTap,
+                                 transitionCompletion: action,
+                                 content: content,
+                                 backgroundDimmed: backgroundDimmed,
+                                 direction: direction,
                                  transitionState: $transitionState)
     }
 }

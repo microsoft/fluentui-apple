@@ -38,6 +38,9 @@ struct MSFSlideOverPanel<Content: View>: View {
     /// Action executed with background transperent view is tapped
     internal var actionOnBackgroundTap: (() -> Void)?
 
+    /// Action executed with transiton state is completed
+    internal var transitionCompletion: (() -> Void)?
+
     /// Content view is visible when slide over panel is expanded
     internal var content: Content
 
@@ -68,6 +71,7 @@ struct MSFSlideOverPanel<Content: View>: View {
                         radius: tokens.shadow2Blur,
                         x: tokens.shadow2DepthX,
                         y: tokens.shadow2DepthY)
+                .animationCompletion(value: Double(resolvedContentOffset), completion: transitionCompletion)
 
             if direction == .left {
                 MSFInteractiveSpacer(defaultBackgroundColor: $tokens.backgroundClearColor)

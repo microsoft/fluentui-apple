@@ -6,63 +6,6 @@
 import UIKit
 import SwiftUI
 
-// MARK: Drawer + UIViewControllerTransitioningDelegate
-
-extension MSFDrawer: UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
-
-    enum Constant {
-        static let linearAnimationDuration: TimeInterval = 0.25
-        static let disabledAnimationDuration: TimeInterval = 0
-    }
-
-    public func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        if let isAnimationAssisted = transitionContext?.isAnimated, isAnimationAssisted == true {
-            return Constant.linearAnimationDuration
-        }
-        return Constant.disabledAnimationDuration
-    }
-
-    public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-
-        let fromView = transitionContext.viewController(forKey: .from)!.view!
-        let toView = transitionContext.viewController(forKey: .to)!.view!
-
-        let isPresentingDrawer = toView == view
-
-        let drawerView = isPresentingDrawer ? toView : fromView
-
-        state.animationDuration = transitionDuration(using: transitionContext)
-
-        // Delegate animation to swiftui by changing state
-        if isPresentingDrawer {
-            transitionContext.containerView.addSubview(drawerView)
-            drawerView.frame = UIScreen.main.bounds
-            DispatchQueue.main.asyncAfter(deadline: .now() + state.animationDuration) { [weak self] in
-                if let strongSelf = self {
-                    if !strongSelf.drawer.isPresentationGestureActive {
-                        strongSelf.state.isExpanded = true
-                    }
-                }
-                transitionContext.completeTransition(true)
-            }
-        } else {
-            self.state.isExpanded = false
-            DispatchQueue.main.asyncAfter(deadline: .now() + state.animationDuration) {
-                drawerView.removeFromSuperview()
-                transitionContext.completeTransition(true)
-            }
-        }
-    }
-
-    public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return self
-    }
-
-    public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return self
-    }
-}
-
 // MARK: - Drawer
 
 @objc public protocol MSFDrawerControllerDelegate: AnyObject {
@@ -88,6 +31,8 @@ open class MSFDrawer: UIHostingController<AnyView>, FluentUIWindowProvider {
         return self.drawer.state
     }
 
+    private var drawer: MSFDrawerView<UIViewControllerAdapter>
+
     @objc public init(contentViewController: UIViewController,
                       theme: FluentUIStyle? = nil) {
         let drawer = MSFDrawerView(content: UIViewControllerAdapter(contentViewController))
@@ -95,11 +40,11 @@ open class MSFDrawer: UIHostingController<AnyView>, FluentUIWindowProvider {
         super.init(rootView: theme != nil ? AnyView(drawer.usingTheme(theme!)) : AnyView(drawer))
 
         drawer.tokens.windowProvider = self
-        transitioningDelegate = self
         view.backgroundColor = .clear
         modalPresentationStyle = .overFullScreen
+        transitioningDelegate = self
 
-        addDelegateNotification()
+        state.didChangeState = stateChangeCompletion()
     }
 
     @objc public convenience init(contentViewController: UIViewController) {
@@ -113,19 +58,93 @@ open class MSFDrawer: UIHostingController<AnyView>, FluentUIWindowProvider {
         super.init(coder: aDecoder)
     }
 
-    private var drawer: MSFDrawerView<UIViewControllerAdapter>
+    private var executeTransisitonHandler: (() -> Void)?
 
-    private func addDelegateNotification() {
-        self.drawer = self.drawer.didChangeState({ [weak self] in
+    private var transitionInProgress: Bool = false
+
+    private func stateChangeCompletion() -> ((Bool?) -> Void) {
+        return { [weak self]  _ in
             if let strongSelf = self {
-                guard let isDrawerExpanded = strongSelf.drawer.state.isExpanded else {
-                    return
-                }
-                strongSelf.delegate?.drawerDidChangeState?(state: strongSelf.state, controller: strongSelf)
-                if !isDrawerExpanded {
-                    strongSelf.dismiss(animated: true, completion: nil)
+                strongSelf.notifyStateChange()
+                strongSelf.dimissHostingViewIfRequired()
+                strongSelf.executeTransisitonHandler?()
+            }
+        }
+    }
+
+    private func notifyStateChange() {
+        guard state.isExpanded != nil else {
+            return
+        }
+        delegate?.drawerDidChangeState?(state: state, controller: self)
+    }
+
+    private func dimissHostingViewIfRequired() {
+        guard drawer.state.isExpanded == false else {
+            return
+        }
+
+        dismiss(animated: false, completion: nil)
+    }
+}
+
+// MARK: Drawer + UIViewControllerTransitioningDelegate
+
+extension MSFDrawer: UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
+
+    enum Constant {
+        static let linearAnimationDuration: TimeInterval = 0.25
+        static let disabledAnimationDuration: TimeInterval = 0
+    }
+
+    public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return self
+    }
+
+    public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return self
+    }
+
+    public func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+        if let isAnimationAssisted = transitionContext?.isAnimated, isAnimationAssisted == true {
+            return Constant.linearAnimationDuration
+        }
+        return Constant.disabledAnimationDuration
+    }
+
+    public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+
+        let fromView = transitionContext.viewController(forKey: .from)!.view!
+        let toView = transitionContext.viewController(forKey: .to)!.view!
+
+        let isPresentingDrawer = toView == view
+
+        let drawerView = isPresentingDrawer ? toView : fromView
+
+        state.animationDuration = transitionDuration(using: transitionContext)
+
+        // Delegate animation to swiftui by changing state
+        if isPresentingDrawer {
+            transitionContext.containerView.addSubview(drawerView)
+            drawerView.frame = UIScreen.main.bounds
+            if !drawer.isPresentationGestureActive {
+                state.isExpanded = true
+            }
+            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+        } else {
+            state.isExpanded = false
+            transitionInProgress = true
+            executeTransisitonHandler = { [weak self] in
+                if let strongSelf = self {
+                    guard strongSelf.state.isExpanded == false, strongSelf.transitionInProgress == true else {
+                        // verify state after transition is completed
+                        return
+                    }
+                    drawerView.removeFromSuperview()
+                    transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+                    strongSelf.transitionInProgress = false
                 }
             }
-        })
+        }
     }
 }

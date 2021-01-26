@@ -17,16 +17,12 @@ import SwiftUI
 /// `MSFDrawerState` assist to configure drawer functional properties via UIKit components.
 @objc public class MSFDrawerState: NSObject, ObservableObject {
 
-    /// A callback executed when the drawer is expanded/collapsed
-    public var onStateChange: (() -> Void)?
+    /// A callback executed after the drawer is expanded/collapsed
+    public var didChangeState: ((Bool?) -> Void)?
 
     /// Set `isExpanded` to `true` to maximize the drawer's width to fill the device screen horizontally minus the safe areas.
     /// Set to `false` to restore it to the normal size.
-    @Published public var isExpanded: Bool? {
-        didSet {
-            onStateChange?()
-        }
-    }
+    @Published public var isExpanded: Bool?
 
     @objc public var presentationDirection: MSFDrawerDirection = .left
 
@@ -95,6 +91,9 @@ public struct MSFDrawerView<Content: View>: View {
                 .performOnBackgroundTap {
                     state.isExpanded = false
                 }
+                .transitionCompletion {
+                    state.didChangeState?(state.isExpanded)
+                }
                 .onReceive(state.$isExpanded, perform: { value in
                     guard let value = value else {
                         return
@@ -142,17 +141,6 @@ public struct MSFDrawerView<Content: View>: View {
                 self.tokens.theme = theme
             }
         }
-    }
-
-    /// Custom modifier for adding a callback placeholder when drawer's state is changed
-    /// - Parameter `didChangeState`: closure executed with drawer is expanded or collapsed
-    /// - Returns: `Drawer`
-    func didChangeState(_ didChangeState: @escaping () -> Void) -> MSFDrawerView {
-        let drawerState = state
-        drawerState.onStateChange = didChangeState
-        return MSFDrawerView(content: content,
-                      state: drawerState,
-                      tokens: tokens)
     }
 
     @Environment(\.theme) var theme: FluentUIStyle
