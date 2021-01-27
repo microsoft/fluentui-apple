@@ -586,7 +586,7 @@ private struct ButtonSizeParameters {
 		cornerRadius: 5,
 		verticalPadding: 1.5,  // overall height: 20
 		horizontalPadding: 14,
-		titleVerticalPositionAdjustment: -0.75,
+		titleVerticalPositionAdjustment: 0,
 		titleToImageSpacing: 6,
 		titleToImageVerticalSpacingAdjustment: 7
 	)
