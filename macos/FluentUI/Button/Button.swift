@@ -424,7 +424,12 @@ class ButtonCell: NSButtonCell {
 			y += CGFloat(yOffsetSign) * (titleSize.height + titleToImageSpacing - titleToImageVerticalSpacingAdjustment) / 2
 		}
 
-		return NSRect(x: x.rounded(.towardZero), y: y.rounded(.towardZero), width: ceil(imageSize.width), height: ceil(imageSize.height))
+		return NSRect(
+			x: x.rounded(.towardZero),
+			y: y.rounded(.towardZero),
+			width: imageSize.width.rounded(.toNearestOrAwayFromZero),
+			height: imageSize.height.rounded(.toNearestOrAwayFromZero)
+		)
 	}
 
 	override func titleRect(forBounds rect: NSRect) -> NSRect {
@@ -479,7 +484,12 @@ class ButtonCell: NSButtonCell {
 			y += CGFloat(yOffsetSign) * (imageSize.height + titleToImageSpacing) / 2
 		}
 
-		return NSRect(x: x.rounded(.towardZero), y: y.rounded(.towardZero), width: ceil(titleSize.width), height: ceil(titleSize.height))
+		return NSRect(
+			x: x.rounded(.towardZero),
+			y: y.rounded(.towardZero),
+			width: titleSize.width.rounded(.toNearestOrAwayFromZero),
+			height: titleSize.height.rounded(.toNearestOrAwayFromZero)
+		)
 	}
 
 	override func drawingRect(forBounds rect: NSRect) -> NSRect {
