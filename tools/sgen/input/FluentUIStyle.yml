@@ -141,6 +141,7 @@ Spacing:
 Opacity:
   opacity8: 0.8f
   opacity16: 0.16f
+  opacity20: 0.20f
   opacity24: 0.24f
   opacity32: 0.32f
   opacity64: 0.64f
@@ -150,8 +151,9 @@ Opacity:
   none: 1f
   clear: 0.0f
 
-Shadow:
-    shadow28: [ blur: 28pt, color: $Colors.Neutral.black, opacity: $Opacity.opacity24, x: 0pt, y: 14pt ]
+Shadow28:
+    shadow1: [ blur: 28pt, color: $Colors.Neutral.black, opacity: $Opacity.opacity24, x: 0pt, y: 14pt ]
+    shadow2: [ blur: 8pt, color: $Colors.Neutral.clear, opacity: $Opacity.opacity20, x: 0pt, y: 0pt ]
 
 AP_MSFAvatarTokens:
   backgroundDefaultColor: "FluentUIColor(light: $Colors.Neutral.white, dark: $Colors.Brand.primary)"
@@ -264,8 +266,8 @@ AP_MSFDrawerTokens:
   backgroundClearOpacity: $Opacity.clear
   backgroundClearColor: $Colors.Neutral.clear
   backgroundDimmedColor: $Colors.Neutral.black
-  shadowColor: $Shadow.shadow28.color
-  shadowOpacity: $Shadow.shadow28.opacity
-  shadowBlur: $Shadow.shadow28.blur
-  shadowX: $Shadow.shadow28.x
-  shadowY: $Shadow.shadow28.y
+  shadowColor: [ $Shadow28.shadow1.color, $Shadow28.shadow2.color]
+  shadowOpacity: [ $Shadow28.shadow1.opacity, $Shadow28.shadow2.opacity]
+  shadowBlur: [ $Shadow28.shadow1.blur, $Shadow28.shadow2.blur]
+  shadowOffsetX: [ $Shadow28.shadow1.x, $Shadow28.shadow2.x]
+  shadowOffsetY: [ $Shadow28.shadow1.y, $Shadow28.shadow2.y]

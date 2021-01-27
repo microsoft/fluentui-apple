@@ -8,11 +8,11 @@ import SwiftUI
 /// `DrawerTokens` assist to configure drawer apperance via UIKit components.
 public class MSFDrawerTokens: MSFTokensBase, ObservableObject {
 
-    @Published public var shadowColor: Color!
-    @Published public var shadowOpacity: Double!
-    @Published public var shadowBlur: CGFloat!
-    @Published public var shadowDepthX: CGFloat!
-    @Published public var shadowDepthY: CGFloat!
+    @Published public var shadowColor: [Color]!
+    @Published public var shadowOpacity: [Double]!
+    @Published public var shadowBlur: [CGFloat]!
+    @Published public var shadowDepthX: [CGFloat]!
+    @Published public var shadowDepthY: [CGFloat]!
     @Published public var backgroundDimmedColor: Color!
     @Published public var backgroundClearColor: Color!
     @Published public var backgroundDimmedOpacity: Double!
@@ -32,11 +32,11 @@ public class MSFDrawerTokens: MSFTokensBase, ObservableObject {
     public override func updateForCurrentTheme() {
         let appearanceProxy = theme.MSFDrawerTokens
 
-        shadowColor = Color(appearanceProxy.shadowColor)
-        shadowOpacity = Double(appearanceProxy.shadowOpacity)
+        shadowColor = appearanceProxy.shadowColor.map({Color($0)})
+        shadowOpacity = appearanceProxy.shadowOpacity.map({Double($0)})
         shadowBlur = appearanceProxy.shadowBlur
-        shadowDepthX = appearanceProxy.shadowX
-        shadowDepthY = appearanceProxy.shadowY
+        shadowDepthX = appearanceProxy.shadowOffsetX
+        shadowDepthY = appearanceProxy.shadowOffsetY
         backgroundClearColor = Color(appearanceProxy.backgroundClearColor)
         backgroundDimmedColor = Color(appearanceProxy.backgroundDimmedColor)
         backgroundDimmedOpacity = Double(appearanceProxy.backgroundDimmedOpacity)
