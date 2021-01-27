@@ -236,6 +236,10 @@
 		CCC18C2D2501B22F00BE830E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC18C2B2501B22F00BE830E /* CardView.swift */; };
 		EC8EA6A92580D80100F191CE /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EA6A82580D80100F191CE /* List.swift */; };
 		EC8EA6AA2580D80100F191CE /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EA6A82580D80100F191CE /* List.swift */; };
+		ECD9B85A25C21DA300CB211B /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD9B85925C21DA300CB211B /* ListCell.swift */; };
+		ECD9B85B25C21DA300CB211B /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD9B85925C21DA300CB211B /* ListCell.swift */; };
+		ECD9B86125C22A3B00CB211B /* ListHeaderFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD9B86025C22A3B00CB211B /* ListHeaderFooter.swift */; };
+		ECD9B86225C22A3B00CB211B /* ListHeaderFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD9B86025C22A3B00CB211B /* ListHeaderFooter.swift */; };
 		FD053A352224CA33009B6378 /* DatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */; };
 		FD0D29D62151A3D700E8655E /* CardPresenterNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0D29D52151A3D700E8655E /* CardPresenterNavigationController.swift */; };
 		FD1FAE1B2272464B00A5DBA4 /* GenericDateTimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1FAE1A2272464B00A5DBA4 /* GenericDateTimePicker.swift */; };
@@ -445,6 +449,8 @@
 		C0EAAEAC2347E1DF00C7244E /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
 		CCC18C2B2501B22F00BE830E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		EC8EA6A82580D80100F191CE /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
+		ECD9B85925C21DA300CB211B /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
+		ECD9B86025C22A3B00CB211B /* ListHeaderFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListHeaderFooter.swift; sourceTree = "<group>"; };
 		FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerControllerTests.swift; sourceTree = "<group>"; };
 		FD0D29D52151A3D700E8655E /* CardPresenterNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPresenterNavigationController.swift; sourceTree = "<group>"; };
 		FD1FAE1A2272464B00A5DBA4 /* GenericDateTimePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericDateTimePicker.swift; sourceTree = "<group>"; };
@@ -642,6 +648,8 @@
 			isa = PBXGroup;
 			children = (
 				EC8EA6A82580D80100F191CE /* List.swift */,
+				ECD9B85925C21DA300CB211B /* ListCell.swift */,
+				ECD9B86025C22A3B00CB211B /* ListHeaderFooter.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -1390,6 +1398,7 @@
 				A5B6617423A41E2900E801DD /* NotificationView.swift in Sources */,
 				A56CE7B722E68A7800AA77EE /* UIColor+Extensions.swift in Sources */,
 				8FD01195228A82A600D25925 /* DateTimePickerViewComponent.swift in Sources */,
+				ECD9B85B25C21DA300CB211B /* ListCell.swift in Sources */,
 				8FD01196228A82A600D25925 /* DateTimePickerViewComponentCell.swift in Sources */,
 				637F92732501637200B5B085 /* PersonaBadgeViewDataSource.swift in Sources */,
 				8FD01197228A82A600D25925 /* DateTimePickerViewComponentTableView.swift in Sources */,
@@ -1427,6 +1436,7 @@
 				8FD011B0228A82A600D25925 /* HUD.swift in Sources */,
 				8ACE4D3824E31B4700B9D0EB /* ContactView.swift in Sources */,
 				86AF4F8225B0F85A005D4253 /* PillButtonStyle.swift in Sources */,
+				ECD9B86225C22A3B00CB211B /* ListHeaderFooter.swift in Sources */,
 				8FD011B1228A82A600D25925 /* HUDView.swift in Sources */,
 				A5F3B147232B1E3700007A4F /* ScrollView.swift in Sources */,
 				8FD011B3228A82A600D25925 /* InitialsView.swift in Sources */,
@@ -1505,6 +1515,7 @@
 				FD41C88422DD13230086F899 /* ContentScrollViewTraits.swift in Sources */,
 				FD97580F2191118E00B67319 /* DateTimePickerViewComponentCell.swift in Sources */,
 				A5B6617323A41E2900E801DD /* NotificationView.swift in Sources */,
+				ECD9B85A25C21DA300CB211B /* ListCell.swift in Sources */,
 				FD41C88622DD13230086F899 /* ShyHeaderController.swift in Sources */,
 				537315B325438B15001FD14C /* iOS13_4_compatibility.swift in Sources */,
 				FDFB8AF121361C9D0046850A /* CalendarViewDayMonthCell.swift in Sources */,
@@ -1525,6 +1536,7 @@
 				C0938E44235E8ED500256251 /* AnimationSynchronizer.swift in Sources */,
 				B483323521DEA8D70022B4CC /* HUD.swift in Sources */,
 				3F4FB92D25B25843008AB7CC /* UIKit+SwiftUI_interoperability.swift in Sources */,
+				ECD9B86125C22A3B00CB211B /* ListHeaderFooter.swift in Sources */,
 				A5B87B06211E23650038C37C /* UIView+Extensions.swift in Sources */,
 				7D0931C324AAAC9B0072458A /* SideTabBar.swift in Sources */,
 				FDCF7C7F21BB56740058E9E6 /* SegmentedControl.swift in Sources */,
