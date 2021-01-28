@@ -143,7 +143,10 @@ Opacity:
   opacity16: 0.16f
   opacity20: 0.20f
   opacity24: 0.24f
+  opacity28: 0.28f
   opacity32: 0.32f
+  opacity40: 0.40f
+  opacity48: 0.48f
   opacity64: 0.64f
   opacity72: 0.72f
   opacity88: 0.88f
@@ -152,7 +155,12 @@ Opacity:
   clear: 0.0f
 
 Shadow:
+    shadow2: [ blur1: 2pt, color1: $Colors.Neutral.clear, opacity1: $Opacity.opacity28, x1: 0pt, y1: 1pt, blur2: 2pt, color2: $Colors.Neutral.clear, opacity2: $Opacity.opacity20, x2: 0pt, y2: 0pt ]
+    shadow4: [ blur1: 4pt, color1: $Colors.Neutral.black, opacity1: $Opacity.opacity28, x1: 0pt, y1: 2pt, blur2: 2pt, color2: $Colors.Neutral.clear, opacity2: $Opacity.opacity20, x2: 0pt, y2: 0pt ]
+    shadow8: [ blur1: 8pt, color1: $Colors.Neutral.black, opacity1: $Opacity.opacity28, x1: 0pt, y1: 4pt, blur2: 8pt, color2: $Colors.Neutral.clear, opacity2: $Opacity.opacity20, x2: 0pt, y2: 0pt ]
+    shadow16: [ blur1: 16pt, color1: $Colors.Neutral.black, opacity1: $Opacity.opacity24, x1: 0pt, y1: 8pt, blur2: 8pt, color2: $Colors.Neutral.clear, opacity2: $Opacity.opacity20, x2: 0pt, y2: 0pt ]
     shadow28: [ blur1: 28pt, color1: $Colors.Neutral.black, opacity1: $Opacity.opacity24, x1: 0pt, y1: 14pt, blur2: 8pt, color2: $Colors.Neutral.clear, opacity2: $Opacity.opacity20, x2: 0pt, y2: 0pt ]
+    shadow64: [ blur1: 64pt, color1: $Colors.Neutral.black, opacity1: $Opacity.opacity48, x1: 0pt, y1: 32pt, blur2: 8pt, color2: $Colors.Neutral.clear, opacity2: $Opacity.opacity40, x2: 0pt, y2: 0pt ]
 
 AP_MSFAvatarTokens:
   backgroundDefaultColor: "FluentUIColor(light: $Colors.Neutral.white, dark: $Colors.Brand.primary)"
