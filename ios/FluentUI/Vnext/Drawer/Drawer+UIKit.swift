@@ -31,11 +31,6 @@ open class MSFDrawer: UIHostingController<AnyView>, FluentUIWindowProvider {
         return self.drawer.state
     }
 
-    enum Constant {
-        static let linearAnimationDuration: TimeInterval = 0.25
-        static let disabledAnimationDuration: TimeInterval = 0
-    }
-
     private var drawer: MSFDrawerView<UIViewControllerAdapter>
 
     @objc public init(contentViewController: UIViewController,
@@ -93,6 +88,11 @@ open class MSFDrawer: UIHostingController<AnyView>, FluentUIWindowProvider {
 // MARK: Drawer + UIViewControllerTransitioningDelegate
 
 extension MSFDrawer: UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
+
+    enum Constant {
+        static let linearAnimationDuration: TimeInterval = 0.25
+        static let disabledAnimationDuration: TimeInterval = 0
+    }
 
     public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return self
