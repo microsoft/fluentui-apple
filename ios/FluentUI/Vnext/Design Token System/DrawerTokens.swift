@@ -8,11 +8,16 @@ import SwiftUI
 /// `DrawerTokens` assist to configure drawer apperance via UIKit components.
 public class MSFDrawerTokens: MSFTokensBase, ObservableObject {
 
-    @Published public var shadowColor: [Color]!
-    @Published public var shadowOpacity: [Double]!
-    @Published public var shadowBlur: [CGFloat]!
-    @Published public var shadowDepthX: [CGFloat]!
-    @Published public var shadowDepthY: [CGFloat]!
+    @Published public var shadow1Color: Color!
+    @Published public var shadow1Opacity: Double!
+    @Published public var shadow1Blur: CGFloat!
+    @Published public var shadow1DepthX: CGFloat!
+    @Published public var shadow1DepthY: CGFloat!
+    @Published public var shadow2Color: Color!
+    @Published public var shadow2Opacity: Double!
+    @Published public var shadow2Blur: CGFloat!
+    @Published public var shadow2DepthX: CGFloat!
+    @Published public var shadow2DepthY: CGFloat!
     @Published public var backgroundDimmedColor: Color!
     @Published public var backgroundClearColor: Color!
     @Published public var backgroundDimmedOpacity: Double!
@@ -32,11 +37,16 @@ public class MSFDrawerTokens: MSFTokensBase, ObservableObject {
     public override func updateForCurrentTheme() {
         let appearanceProxy = theme.MSFDrawerTokens
 
-        shadowColor = appearanceProxy.shadowColor.map({Color($0)})
-        shadowOpacity = appearanceProxy.shadowOpacity.map({Double($0)})
-        shadowBlur = appearanceProxy.shadowBlur
-        shadowDepthX = appearanceProxy.shadowOffsetX
-        shadowDepthY = appearanceProxy.shadowOffsetY
+        shadow1Color = Color(appearanceProxy.shadow1Color)
+        shadow1Opacity = Double(appearanceProxy.shadow1Opacity)
+        shadow1Blur = appearanceProxy.shadow1Blur
+        shadow1DepthX = appearanceProxy.shadow1OffsetX
+        shadow1DepthY = appearanceProxy.shadow1OffsetY
+        shadow2Color = Color(appearanceProxy.shadow2Color)
+        shadow2Opacity = Double(appearanceProxy.shadow2Opacity)
+        shadow2Blur = appearanceProxy.shadow2Blur
+        shadow2DepthX = appearanceProxy.shadow2OffsetX
+        shadow2DepthY = appearanceProxy.shadow2OffsetY
         backgroundClearColor = Color(appearanceProxy.backgroundClearColor)
         backgroundDimmedColor = Color(appearanceProxy.backgroundDimmedColor)
         backgroundDimmedOpacity = Double(appearanceProxy.backgroundDimmedOpacity)

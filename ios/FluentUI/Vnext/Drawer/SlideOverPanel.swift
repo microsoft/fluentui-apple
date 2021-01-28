@@ -60,14 +60,14 @@ struct MSFSlideOverPanel<Content: View>: View {
             content
                 .frame(width: contentWidth)
                 .offset(x: resolvedContentOffset)
-                .shadow(color: shadowColor[0],
-                        radius: tokens.shadowBlur[0],
-                        x: tokens.shadowDepthX[0],
-                        y: tokens.shadowDepthY[0])
-                .shadow(color: shadowColor[1],
-                        radius: tokens.shadowBlur[1],
-                        x: tokens.shadowDepthX[1],
-                        y: tokens.shadowDepthY[1])
+                .shadow(color: shadowColor(true),
+                        radius: tokens.shadow1Blur,
+                        x: tokens.shadow1DepthX,
+                        y: tokens.shadow1DepthY)
+                .shadow(color: shadowColor(false),
+                        radius: tokens.shadow2Blur,
+                        x: tokens.shadow2DepthX,
+                        y: tokens.shadow2DepthY)
 
             if direction == .left {
                 MSFInteractiveSpacer(defaultBackgroundColor: $tokens.backgroundClearColor)
@@ -111,12 +111,6 @@ struct MSFSlideOverPanel<Content: View>: View {
         return tokens.backgroundDimmedColor.opacity(opacity)
     }
 
-    private var shadowColor: [Color] {
-        let opacity1 = resolvedPanelStateValue(0.0, tokens.shadowOpacity[0])
-        let opacity2 = resolvedPanelStateValue(0.0, tokens.shadowOpacity[1])
-        return [tokens.shadowColor[0].opacity(opacity1), tokens.shadowColor[1].opacity(opacity2)]
-    }
-
     private var percentTransistionOffset: CGFloat {
         // Override offset if required
         if let percentDriveTransition = percentTransition {
@@ -148,6 +142,12 @@ struct MSFSlideOverPanel<Content: View>: View {
             }
         }
         return minValue
+    }
+
+    private func shadowColor(_ isPrimary: Bool = true) -> Color {
+        let opacity = resolvedPanelStateValue(0.0, isPrimary ? tokens.shadow1Opacity : tokens.shadow2Opacity)
+        let color: Color = isPrimary ? tokens.shadow1Color : tokens.shadow2Color
+        return color.opacity(opacity)
     }
 }
 

@@ -3332,69 +3332,114 @@ extension FluentUIThemeManagerTheming {
 			set { _backgroundDimmedOpacity = newValue }
 		}
 
-		//MARK: shadowBlur 
-		public var _shadowBlur: [CGFloat]?
-		open func shadowBlurProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> [CGFloat] {
-			if let override = _shadowBlur { return override }
-			return [
-			mainProxy().Shadow28.shadow1.blurProperty(traitCollection), 
-			mainProxy().Shadow28.shadow2.blurProperty(traitCollection)]
+		//MARK: shadow1Blur 
+		public var _shadow1Blur: CGFloat?
+		open func shadow1BlurProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _shadow1Blur { return override }
+			return mainProxy().Shadow.shadow28.blur1Property(traitCollection)
 			}
-		public var shadowBlur: [CGFloat] {
-			get { return self.shadowBlurProperty() }
-			set { _shadowBlur = newValue }
+		public var shadow1Blur: CGFloat {
+			get { return self.shadow1BlurProperty() }
+			set { _shadow1Blur = newValue }
 		}
 
-		//MARK: shadowColor 
-		public var _shadowColor: [UIColor]?
-		open func shadowColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> [UIColor] {
-			if let override = _shadowColor { return override }
-			return [
-			mainProxy().Shadow28.shadow1.colorProperty(traitCollection), 
-			mainProxy().Shadow28.shadow2.colorProperty(traitCollection)]
+		//MARK: shadow1Color 
+		public var _shadow1Color: UIColor?
+		open func shadow1ColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _shadow1Color { return override }
+			return mainProxy().Shadow.shadow28.color1Property(traitCollection)
 			}
-		public var shadowColor: [UIColor] {
-			get { return self.shadowColorProperty() }
-			set { _shadowColor = newValue }
+		public var shadow1Color: UIColor {
+			get { return self.shadow1ColorProperty() }
+			set { _shadow1Color = newValue }
 		}
 
-		//MARK: shadowOffsetX 
-		public var _shadowOffsetX: [CGFloat]?
-		open func shadowOffsetXProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> [CGFloat] {
-			if let override = _shadowOffsetX { return override }
-			return [
-			mainProxy().Shadow28.shadow1.xProperty(traitCollection), 
-			mainProxy().Shadow28.shadow2.xProperty(traitCollection)]
+		//MARK: shadow1OffsetX 
+		public var _shadow1OffsetX: CGFloat?
+		open func shadow1OffsetXProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _shadow1OffsetX { return override }
+			return mainProxy().Shadow.shadow28.x1Property(traitCollection)
 			}
-		public var shadowOffsetX: [CGFloat] {
-			get { return self.shadowOffsetXProperty() }
-			set { _shadowOffsetX = newValue }
+		public var shadow1OffsetX: CGFloat {
+			get { return self.shadow1OffsetXProperty() }
+			set { _shadow1OffsetX = newValue }
 		}
 
-		//MARK: shadowOffsetY 
-		public var _shadowOffsetY: [CGFloat]?
-		open func shadowOffsetYProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> [CGFloat] {
-			if let override = _shadowOffsetY { return override }
-			return [
-			mainProxy().Shadow28.shadow1.yProperty(traitCollection), 
-			mainProxy().Shadow28.shadow2.yProperty(traitCollection)]
+		//MARK: shadow1OffsetY 
+		public var _shadow1OffsetY: CGFloat?
+		open func shadow1OffsetYProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _shadow1OffsetY { return override }
+			return mainProxy().Shadow.shadow28.y1Property(traitCollection)
 			}
-		public var shadowOffsetY: [CGFloat] {
-			get { return self.shadowOffsetYProperty() }
-			set { _shadowOffsetY = newValue }
+		public var shadow1OffsetY: CGFloat {
+			get { return self.shadow1OffsetYProperty() }
+			set { _shadow1OffsetY = newValue }
 		}
 
-		//MARK: shadowOpacity 
-		public var _shadowOpacity: [CGFloat]?
-		open func shadowOpacityProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> [CGFloat] {
-			if let override = _shadowOpacity { return override }
-			return [
-			mainProxy().Shadow28.shadow1.opacityProperty(traitCollection), 
-			mainProxy().Shadow28.shadow2.opacityProperty(traitCollection)]
+		//MARK: shadow1Opacity 
+		public var _shadow1Opacity: CGFloat?
+		open func shadow1OpacityProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _shadow1Opacity { return override }
+			return mainProxy().Shadow.shadow28.opacity1Property(traitCollection)
 			}
-		public var shadowOpacity: [CGFloat] {
-			get { return self.shadowOpacityProperty() }
-			set { _shadowOpacity = newValue }
+		public var shadow1Opacity: CGFloat {
+			get { return self.shadow1OpacityProperty() }
+			set { _shadow1Opacity = newValue }
+		}
+
+		//MARK: shadow2Blur 
+		public var _shadow2Blur: CGFloat?
+		open func shadow2BlurProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _shadow2Blur { return override }
+			return mainProxy().Shadow.shadow28.blur2Property(traitCollection)
+			}
+		public var shadow2Blur: CGFloat {
+			get { return self.shadow2BlurProperty() }
+			set { _shadow2Blur = newValue }
+		}
+
+		//MARK: shadow2Color 
+		public var _shadow2Color: UIColor?
+		open func shadow2ColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _shadow2Color { return override }
+			return mainProxy().Shadow.shadow28.color2Property(traitCollection)
+			}
+		public var shadow2Color: UIColor {
+			get { return self.shadow2ColorProperty() }
+			set { _shadow2Color = newValue }
+		}
+
+		//MARK: shadow2OffsetX 
+		public var _shadow2OffsetX: CGFloat?
+		open func shadow2OffsetXProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _shadow2OffsetX { return override }
+			return mainProxy().Shadow.shadow28.x2Property(traitCollection)
+			}
+		public var shadow2OffsetX: CGFloat {
+			get { return self.shadow2OffsetXProperty() }
+			set { _shadow2OffsetX = newValue }
+		}
+
+		//MARK: shadow2OffsetY 
+		public var _shadow2OffsetY: CGFloat?
+		open func shadow2OffsetYProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _shadow2OffsetY { return override }
+			return mainProxy().Shadow.shadow28.y2Property(traitCollection)
+			}
+		public var shadow2OffsetY: CGFloat {
+			get { return self.shadow2OffsetYProperty() }
+			set { _shadow2OffsetY = newValue }
+		}
+
+		//MARK: shadow2Opacity 
+		public var _shadow2Opacity: CGFloat?
+		open func shadow2OpacityProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _shadow2Opacity { return override }
+			return mainProxy().Shadow.shadow28.opacity2Property(traitCollection)
+			}
+		public var shadow2Opacity: CGFloat {
+			get { return self.shadow2OpacityProperty() }
+			set { _shadow2Opacity = newValue }
 		}
 	}
 	//MARK: - MSFGhostButtonTokens
@@ -4253,164 +4298,146 @@ extension FluentUIThemeManagerTheming {
 			set { _opacity96 = newValue }
 		}
 	}
-	//MARK: - Shadow28
-	public var _Shadow28: Shadow28AppearanceProxy?
-	open func Shadow28Style() -> Shadow28AppearanceProxy {
-		if let override = _Shadow28 { return override }
-			return Shadow28AppearanceProxy(proxy: { return self })
+	//MARK: - Shadow
+	public var _Shadow: ShadowAppearanceProxy?
+	open func ShadowStyle() -> ShadowAppearanceProxy {
+		if let override = _Shadow { return override }
+			return ShadowAppearanceProxy(proxy: { return self })
 		}
-	public var Shadow28: Shadow28AppearanceProxy {
-		get { return self.Shadow28Style() }
-		set { _Shadow28 = newValue }
+	public var Shadow: ShadowAppearanceProxy {
+		get { return self.ShadowStyle() }
+		set { _Shadow = newValue }
 	}
-	@objc(Shadow28AppearanceProxy) @objcMembers open class Shadow28AppearanceProxy: NSObject {
+	@objc(ShadowAppearanceProxy) @objcMembers open class ShadowAppearanceProxy: NSObject {
 		public let mainProxy: () -> FluentUIStyle
 		public init(proxy: @escaping () -> FluentUIStyle) {
 			self.mainProxy = proxy
 		}
 
-		//MARK: - shadow1
-		public var _shadow1: shadow1AppearanceProxy?
-		open func shadow1Style() -> shadow1AppearanceProxy {
-			if let override = _shadow1 { return override }
-				return shadow1AppearanceProxy(proxy: mainProxy)
+		//MARK: - shadow28
+		public var _shadow28: shadow28AppearanceProxy?
+		open func shadow28Style() -> shadow28AppearanceProxy {
+			if let override = _shadow28 { return override }
+				return shadow28AppearanceProxy(proxy: mainProxy)
 			}
-		public var shadow1: shadow1AppearanceProxy {
-			get { return self.shadow1Style() }
-			set { _shadow1 = newValue }
+		public var shadow28: shadow28AppearanceProxy {
+			get { return self.shadow28Style() }
+			set { _shadow28 = newValue }
 		}
-		@objc(Shadow28Shadow1AppearanceProxy) @objcMembers open class shadow1AppearanceProxy: NSObject {
+		@objc(ShadowShadow28AppearanceProxy) @objcMembers open class shadow28AppearanceProxy: NSObject {
 			public let mainProxy: () -> FluentUIStyle
 			public init(proxy: @escaping () -> FluentUIStyle) {
 				self.mainProxy = proxy
 			}
 
-			//MARK: blur 
-			public var _blur: CGFloat?
-			open func blurProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _blur { return override }
+			//MARK: blur1 
+			public var _blur1: CGFloat?
+			open func blur1Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _blur1 { return override }
 					return CGFloat(28.0)
 				}
-			public var blur: CGFloat {
-				get { return self.blurProperty() }
-				set { _blur = newValue }
+			public var blur1: CGFloat {
+				get { return self.blur1Property() }
+				set { _blur1 = newValue }
 			}
 
-			//MARK: color 
-			public var _color: UIColor?
-			open func colorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _color { return override }
-					return mainProxy().Colors.Neutral.blackProperty(traitCollection)
-				}
-			public var color: UIColor {
-				get { return self.colorProperty() }
-				set { _color = newValue }
-			}
-
-			//MARK: opacity 
-			public var _opacity: CGFloat?
-			open func opacityProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _opacity { return override }
-					return mainProxy().Opacity.opacity24Property(traitCollection)
-				}
-			public var opacity: CGFloat {
-				get { return self.opacityProperty() }
-				set { _opacity = newValue }
-			}
-
-			//MARK: x 
-			public var _x: CGFloat?
-			open func xProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _x { return override }
-					return CGFloat(0.0)
-				}
-			public var x: CGFloat {
-				get { return self.xProperty() }
-				set { _x = newValue }
-			}
-
-			//MARK: y 
-			public var _y: CGFloat?
-			open func yProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _y { return override }
-					return CGFloat(14.0)
-				}
-			public var y: CGFloat {
-				get { return self.yProperty() }
-				set { _y = newValue }
-			}
-		}
-
-
-		//MARK: - shadow2
-		public var _shadow2: shadow2AppearanceProxy?
-		open func shadow2Style() -> shadow2AppearanceProxy {
-			if let override = _shadow2 { return override }
-				return shadow2AppearanceProxy(proxy: mainProxy)
-			}
-		public var shadow2: shadow2AppearanceProxy {
-			get { return self.shadow2Style() }
-			set { _shadow2 = newValue }
-		}
-		@objc(Shadow28Shadow2AppearanceProxy) @objcMembers open class shadow2AppearanceProxy: NSObject {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			//MARK: blur 
-			public var _blur: CGFloat?
-			open func blurProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _blur { return override }
+			//MARK: blur2 
+			public var _blur2: CGFloat?
+			open func blur2Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _blur2 { return override }
 					return CGFloat(8.0)
 				}
-			public var blur: CGFloat {
-				get { return self.blurProperty() }
-				set { _blur = newValue }
+			public var blur2: CGFloat {
+				get { return self.blur2Property() }
+				set { _blur2 = newValue }
 			}
 
-			//MARK: color 
-			public var _color: UIColor?
-			open func colorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _color { return override }
+			//MARK: color1 
+			public var _color1: UIColor?
+			open func color1Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _color1 { return override }
+					return mainProxy().Colors.Neutral.blackProperty(traitCollection)
+				}
+			public var color1: UIColor {
+				get { return self.color1Property() }
+				set { _color1 = newValue }
+			}
+
+			//MARK: color2 
+			public var _color2: UIColor?
+			open func color2Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _color2 { return override }
 					return mainProxy().Colors.Neutral.clearProperty(traitCollection)
 				}
-			public var color: UIColor {
-				get { return self.colorProperty() }
-				set { _color = newValue }
+			public var color2: UIColor {
+				get { return self.color2Property() }
+				set { _color2 = newValue }
 			}
 
-			//MARK: opacity 
-			public var _opacity: CGFloat?
-			open func opacityProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _opacity { return override }
+			//MARK: opacity1 
+			public var _opacity1: CGFloat?
+			open func opacity1Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _opacity1 { return override }
+					return mainProxy().Opacity.opacity24Property(traitCollection)
+				}
+			public var opacity1: CGFloat {
+				get { return self.opacity1Property() }
+				set { _opacity1 = newValue }
+			}
+
+			//MARK: opacity2 
+			public var _opacity2: CGFloat?
+			open func opacity2Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _opacity2 { return override }
 					return mainProxy().Opacity.opacity20Property(traitCollection)
 				}
-			public var opacity: CGFloat {
-				get { return self.opacityProperty() }
-				set { _opacity = newValue }
+			public var opacity2: CGFloat {
+				get { return self.opacity2Property() }
+				set { _opacity2 = newValue }
 			}
 
-			//MARK: x 
-			public var _x: CGFloat?
-			open func xProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _x { return override }
+			//MARK: x1 
+			public var _x1: CGFloat?
+			open func x1Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _x1 { return override }
 					return CGFloat(0.0)
 				}
-			public var x: CGFloat {
-				get { return self.xProperty() }
-				set { _x = newValue }
+			public var x1: CGFloat {
+				get { return self.x1Property() }
+				set { _x1 = newValue }
 			}
 
-			//MARK: y 
-			public var _y: CGFloat?
-			open func yProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _y { return override }
+			//MARK: x2 
+			public var _x2: CGFloat?
+			open func x2Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _x2 { return override }
 					return CGFloat(0.0)
 				}
-			public var y: CGFloat {
-				get { return self.yProperty() }
-				set { _y = newValue }
+			public var x2: CGFloat {
+				get { return self.x2Property() }
+				set { _x2 = newValue }
+			}
+
+			//MARK: y1 
+			public var _y1: CGFloat?
+			open func y1Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _y1 { return override }
+					return CGFloat(14.0)
+				}
+			public var y1: CGFloat {
+				get { return self.y1Property() }
+				set { _y1 = newValue }
+			}
+
+			//MARK: y2 
+			public var _y2: CGFloat?
+			open func y2Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _y2 { return override }
+					return CGFloat(0.0)
+				}
+			public var y2: CGFloat {
+				get { return self.y2Property() }
+				set { _y2 = newValue }
 			}
 		}
 
