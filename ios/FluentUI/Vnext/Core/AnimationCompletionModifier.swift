@@ -45,7 +45,7 @@ struct AnimationCompletionModifier: AnimatableModifier {
 extension View {
 
     // callback when animation is completed
-    func animationCompletion(value: Double, completion: (() -> Void)?) -> ModifiedContent<Self, AnimationCompletionModifier> {
+    func onAnimationComplete(value: Double, completion: (() -> Void)?) -> ModifiedContent<Self, AnimationCompletionModifier> {
         return modifier(AnimationCompletionModifier(value: value, completion: completion ?? {}))
     }
 }

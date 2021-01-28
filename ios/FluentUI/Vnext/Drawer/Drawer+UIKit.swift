@@ -31,6 +31,11 @@ open class MSFDrawer: UIHostingController<AnyView>, FluentUIWindowProvider {
         return self.drawer.state
     }
 
+    enum Constant {
+        static let linearAnimationDuration: TimeInterval = 0.25
+        static let disabledAnimationDuration: TimeInterval = 0
+    }
+
     private var drawer: MSFDrawerView<UIViewControllerAdapter>
 
     @objc public init(contentViewController: UIViewController,
@@ -44,7 +49,7 @@ open class MSFDrawer: UIHostingController<AnyView>, FluentUIWindowProvider {
         modalPresentationStyle = .overFullScreen
         transitioningDelegate = self
 
-        state.didChangeState = stateChangeCompletion()
+        state.onStateChange = stateChangeCompletion()
     }
 
     @objc public convenience init(contentViewController: UIViewController) {
@@ -58,7 +63,7 @@ open class MSFDrawer: UIHostingController<AnyView>, FluentUIWindowProvider {
         super.init(coder: aDecoder)
     }
 
-    private var executeTransisitonHandler: (() -> Void)?
+    private var transitionHandler: (() -> Void)?
 
     private var transitionInProgress: Bool = false
 
@@ -67,15 +72,12 @@ open class MSFDrawer: UIHostingController<AnyView>, FluentUIWindowProvider {
             if let strongSelf = self {
                 strongSelf.notifyStateChange()
                 strongSelf.dimissHostingViewIfRequired()
-                strongSelf.executeTransisitonHandler?()
+                strongSelf.transitionHandler?()
             }
         }
     }
 
     private func notifyStateChange() {
-        guard state.isExpanded != nil else {
-            return
-        }
         delegate?.drawerDidChangeState?(state: state, controller: self)
     }
 
@@ -91,11 +93,6 @@ open class MSFDrawer: UIHostingController<AnyView>, FluentUIWindowProvider {
 // MARK: Drawer + UIViewControllerTransitioningDelegate
 
 extension MSFDrawer: UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
-
-    enum Constant {
-        static let linearAnimationDuration: TimeInterval = 0.25
-        static let disabledAnimationDuration: TimeInterval = 0
-    }
 
     public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return self
@@ -123,18 +120,26 @@ extension MSFDrawer: UIViewControllerTransitioningDelegate, UIViewControllerAnim
 
         state.animationDuration = transitionDuration(using: transitionContext)
 
-        // Delegate animation to swiftui by changing state
+///       The presentation of drawer happens in two steps
+///        1. Present the hosting view (trasnparent) without animation
+///        2. Expand drawer view with animation (depending on the client's preference)
+///        The animation is delegated to swiftUI framework instead of UIKit. The intent of overriding `UIViewControllerTransitioningDelegate` is to provide UIKit client interfaces
         if isPresentingDrawer {
-            transitionContext.containerView.addSubview(drawerView)
-            drawerView.frame = UIScreen.main.bounds
-            if !drawer.isPresentationGestureActive {
-                state.isExpanded = true
-            }
-            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+            UIView.animate(withDuration: Constant.disabledAnimationDuration, animations: {
+                transitionContext.containerView.addSubview(drawerView)
+                drawerView.frame = UIScreen.main.bounds
+            }, completion: { [weak self] _ in
+                if let strongSelf = self {
+                    if !(strongSelf.drawer.isPresentationGestureActive) {
+                        strongSelf.state.isExpanded = true
+                    }
+                    transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+                }
+            })
         } else {
             state.isExpanded = false
             transitionInProgress = true
-            executeTransisitonHandler = { [weak self] in
+            transitionHandler = { [weak self] in
                 if let strongSelf = self {
                     guard strongSelf.state.isExpanded == false, strongSelf.transitionInProgress == true else {
                         // verify state after transition is completed

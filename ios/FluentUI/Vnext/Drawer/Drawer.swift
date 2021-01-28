@@ -18,11 +18,11 @@ import SwiftUI
 @objc public class MSFDrawerState: NSObject, ObservableObject {
 
     /// A callback executed after the drawer is expanded/collapsed
-    public var didChangeState: ((Bool?) -> Void)?
+    public var onStateChange: ((Bool?) -> Void)?
 
     /// Set `isExpanded` to `true` to maximize the drawer's width to fill the device screen horizontally minus the safe areas.
     /// Set to `false` to restore it to the normal size.
-    @Published public var isExpanded: Bool?
+    @Published public var isExpanded: Bool = false
 
     @objc public var presentationDirection: MSFDrawerDirection = .left
 
@@ -92,12 +92,9 @@ public struct MSFDrawerView<Content: View>: View {
                     state.isExpanded = false
                 }
                 .transitionCompletion {
-                    state.didChangeState?(state.isExpanded)
+                    state.onStateChange?(state.isExpanded)
                 }
                 .onReceive(state.$isExpanded, perform: { value in
-                    guard let value = value else {
-                        return
-                    }
                     withAnimation(presentationAnimation) {
                         if value {
                             panelTransitionState = .expanded
@@ -233,7 +230,7 @@ struct MSFDrawerPreview: View {
                 EmptyView()
                     .navigationBarTitle(Text("Drawer Background"))
                     .navigationBarItems(leading: Button(action: {
-                        drawer.state.isExpanded?.toggle()
+                        drawer.state.isExpanded.toggle()
                     }, label: {
                         Image(systemName: "sidebar.left")
                     })).background(Color.blue)
