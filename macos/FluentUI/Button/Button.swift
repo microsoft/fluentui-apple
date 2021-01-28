@@ -427,8 +427,8 @@ class ButtonCell: NSButtonCell {
 		return NSRect(
 			x: x.rounded(.towardZero),
 			y: y.rounded(.towardZero),
-			width: imageSize.width.rounded(.toNearestOrAwayFromZero),
-			height: imageSize.height.rounded(.toNearestOrAwayFromZero)
+			width: imageSize.width.rounded(.awayFromZero),
+			height: imageSize.height.rounded(.awayFromZero)
 		)
 	}
 
@@ -487,8 +487,8 @@ class ButtonCell: NSButtonCell {
 		return NSRect(
 			x: x.rounded(.towardZero),
 			y: y.rounded(.towardZero),
-			width: titleSize.width.rounded(.toNearestOrAwayFromZero),
-			height: titleSize.height.rounded(.toNearestOrAwayFromZero)
+			width: titleSize.width.rounded(.awayFromZero),
+			height: titleSize.height.rounded(.awayFromZero)
 		)
 	}
 
