@@ -89,7 +89,7 @@ open class MSFDrawer: UIHostingController<AnyView>, FluentUIWindowProvider {
 
 extension MSFDrawer: UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
 
-    enum Constant {
+    private enum  Constant {
         static let linearAnimationDuration: TimeInterval = 0.25
         static let disabledAnimationDuration: TimeInterval = 0
     }
@@ -120,21 +120,22 @@ extension MSFDrawer: UIViewControllerTransitioningDelegate, UIViewControllerAnim
 
         state.animationDuration = transitionDuration(using: transitionContext)
 
-///       The presentation of drawer happens in two steps
-///        1. Present the hosting view (trasnparent) without animation
-///        2. Expand drawer view with animation (depending on the client's preference)
-///        The animation is delegated to swiftUI framework instead of UIKit. The intent of overriding `UIViewControllerTransitioningDelegate` is to provide UIKit client interfaces
+//       The presentation of drawer happens in two steps
+//        1. Present the hosting view (trasnparent) without animation
+//        2. Expand drawer view with animation (depending on the client's preference)
+//        The animation is delegated to swiftUI framework instead of UIKit. The intent of overriding `UIViewControllerTransitioningDelegate` is to provide UIKit client interfaces
         if isPresentingDrawer {
             UIView.animate(withDuration: Constant.disabledAnimationDuration, animations: {
                 transitionContext.containerView.addSubview(drawerView)
                 drawerView.frame = UIScreen.main.bounds
             }, completion: { [weak self] _ in
-                if let strongSelf = self {
-                    if !(strongSelf.drawer.isPresentationGestureActive) {
-                        strongSelf.state.isExpanded = true
-                    }
-                    transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+                guard let strongSelf = self else {
+                    return
                 }
+                if !(strongSelf.drawer.isPresentationGestureActive) {
+                    strongSelf.state.isExpanded = true
+                }
+                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
             })
         } else {
             state.isExpanded = false
