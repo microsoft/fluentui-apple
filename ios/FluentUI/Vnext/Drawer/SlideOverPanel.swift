@@ -107,7 +107,19 @@ struct MSFSlideOverPanel<Content: View>: View {
         guard backgroundDimmed else {
             return tokens.backgroundClearColor
         }
-        return tokens.backgroundDimmedColor
+
+        // animate opacity
+        var opacity: Double = 0.0
+        switch transitionState {
+        case .collapsed:
+            opacity = 0
+        case .expanded:
+            opacity = 1
+        case .inTransisiton:
+            opacity = percentTransition ?? 0
+        }
+
+        return tokens.backgroundDimmedColor.opacity(opacity)
     }
 
     private var percentTransistionOffset: CGFloat {
