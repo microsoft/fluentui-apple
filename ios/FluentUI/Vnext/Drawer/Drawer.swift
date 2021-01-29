@@ -75,7 +75,7 @@ public struct MSFDrawerView<Content: View>: View {
         }
 
         let state = gesture.state
-        return state == .none || state == .began
+        return state == .began || state == .changed
     }
 
     public var body: some View {
@@ -92,6 +92,9 @@ public struct MSFDrawerView<Content: View>: View {
                     state.isExpanded = false
                 }
                 .transitionCompletion {
+                    guard isPresentationGestureActive == false else {
+                        return
+                    }
                     state.onStateChange?(state.isExpanded)
                 }
                 .onReceive(state.$isExpanded, perform: { value in
