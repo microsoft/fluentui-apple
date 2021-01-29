@@ -9,19 +9,15 @@ import SwiftUI
 public class MSFDrawerTokens: MSFTokensBase, ObservableObject {
 
     @Published public var shadow1Color: Color!
-    @Published public var shadow1Opacity: Double!
     @Published public var shadow1Blur: CGFloat!
     @Published public var shadow1DepthX: CGFloat!
     @Published public var shadow1DepthY: CGFloat!
     @Published public var shadow2Color: Color!
-    @Published public var shadow2Opacity: Double!
     @Published public var shadow2Blur: CGFloat!
     @Published public var shadow2DepthX: CGFloat!
     @Published public var shadow2DepthY: CGFloat!
     @Published public var backgroundDimmedColor: Color!
     @Published public var backgroundClearColor: Color!
-    @Published public var backgroundDimmedOpacity: Double!
-    @Published public var backgroundClearOpacity: Double!
 
     public override init() {
         super.init()
@@ -38,18 +34,14 @@ public class MSFDrawerTokens: MSFTokensBase, ObservableObject {
         let appearanceProxy = theme.MSFDrawerTokens
 
         shadow1Color = Color(appearanceProxy.shadow1Color)
-        shadow1Opacity = Double(appearanceProxy.shadow1Opacity)
         shadow1Blur = appearanceProxy.shadow1Blur
         shadow1DepthX = appearanceProxy.shadow1OffsetX
         shadow1DepthY = appearanceProxy.shadow1OffsetY
         shadow2Color = Color(appearanceProxy.shadow2Color)
-        shadow2Opacity = Double(appearanceProxy.shadow2Opacity)
         shadow2Blur = appearanceProxy.shadow2Blur
         shadow2DepthX = appearanceProxy.shadow2OffsetX
         shadow2DepthY = appearanceProxy.shadow2OffsetY
         backgroundClearColor = Color(appearanceProxy.backgroundClearColor)
         backgroundDimmedColor = Color(appearanceProxy.backgroundDimmedColor)
-        backgroundDimmedOpacity = Double(appearanceProxy.backgroundDimmedOpacity)
-        backgroundClearOpacity = Double(appearanceProxy.backgroundClearOpacity)
     }
 }

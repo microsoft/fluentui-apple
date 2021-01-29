@@ -107,8 +107,7 @@ struct MSFSlideOverPanel<Content: View>: View {
         guard backgroundDimmed else {
             return tokens.backgroundClearColor
         }
-        let opacity = resolvedPanelStateValue(tokens.backgroundClearOpacity, tokens.backgroundDimmedOpacity)
-        return tokens.backgroundDimmedColor.opacity(opacity)
+        return tokens.backgroundDimmedColor
     }
 
     private var percentTransistionOffset: CGFloat {
@@ -145,9 +144,7 @@ struct MSFSlideOverPanel<Content: View>: View {
     }
 
     private func shadowColor(_ isPrimary: Bool = true) -> Color {
-        let opacity = resolvedPanelStateValue(0.0, isPrimary ? tokens.shadow1Opacity : tokens.shadow2Opacity)
-        let color: Color = isPrimary ? tokens.shadow1Color : tokens.shadow2Color
-        return color.opacity(opacity)
+        return isPrimary ? tokens.shadow1Color : tokens.shadow2Color
     }
 }
 
