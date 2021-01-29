@@ -54,7 +54,7 @@ public extension PillButton {
             return UIColor(light: Colors.primaryShade20(for: window), dark: Colors.surfaceQuaternary)
         }
     }
- 
+
     // MARK: selected state
 
     static func selectedBackgroundColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
@@ -85,7 +85,7 @@ public extension PillButton {
             return UIColor(light: Colors.primaryShade10(for: window), dark: normalBackgroundColor(for: window, for: style))
         }
     }
-    
+
     static func disabledTitleColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
