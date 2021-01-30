@@ -175,10 +175,10 @@ class SideTabBarDemoController: DemoController {
 
     private func showAvatarView(_ show: Bool) {
         var avatarView: AvatarView?
-        if show {
+        if let image = UIImage(named: "avatar_kat_larsson"), show {
             avatarView = AvatarView(avatarSize: .medium, withBorder: false, style: .circle, preferredFallbackImageStyle: .onAccentFilled)
-            avatarView!.setup(primaryText: "Kat Larson", secondaryText: "", image: UIImage(named: "avatar_kat_larsson")!)
-            avatarView!.hasPointerInteraction = true
+            avatarView?.setup(primaryText: "Kat Larson", secondaryText: "", image: image)
+            avatarView?.hasPointerInteraction = true
         }
 
         sideTabBar.avatarView = avatarView
@@ -239,13 +239,13 @@ extension SideTabBarDemoController: SideTabBarDelegate {
         let alert = UIAlertController(title: "\(item.title) was selected", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
-        contentViewController!.present(alert, animated: true)
+        contentViewController?.present(alert, animated: true)
     }
 
     func sideTabBar(_ sideTabBar: SideTabBar, didActivate avatarView: AvatarView) {
         let alert = UIAlertController(title: "Avatar view was tapped", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
-        contentViewController!.present(alert, animated: true)
+        contentViewController?.present(alert, animated: true)
     }
 }

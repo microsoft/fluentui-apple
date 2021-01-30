@@ -350,7 +350,7 @@ open class PeoplePicker: BadgeField {
 
     override func textFieldTextChanged() {
         super.textFieldTextChanged()
-        let textFieldHasContent = textFieldContent != ""
+        let textFieldHasContent = !textFieldContent.isEmpty
         isShowingPersonaSuggestions = textFieldHasContent
         if textFieldHasContent {
             getSuggestedPersonas()

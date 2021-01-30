@@ -189,7 +189,7 @@ extension PersonaListView: UITableViewDataSource {
 
         switch section {
         case .personas:
-            let cell = dequeueReusableCell(withIdentifier: PersonaCell.identifier, for: indexPath) as! PersonaCell
+            guard let cell = dequeueReusableCell(withIdentifier: PersonaCell.identifier, for: indexPath) as? PersonaCell else { return UITableViewCell() }
             let persona = personaList[indexPath.row]
             cell.setup(persona: persona, accessoryType: accessoryType)
             cell.backgroundColor = .clear
@@ -198,16 +198,22 @@ extension PersonaListView: UITableViewDataSource {
         case .searchDirectory:
             switch searchDirectoryState {
             case .searching:
-                let cell = dequeueReusableCell(withIdentifier: ActivityIndicatorCell.identifier, for: indexPath) as! ActivityIndicatorCell
+                guard let cell = dequeueReusableCell(withIdentifier: ActivityIndicatorCell.identifier, for: indexPath) as? ActivityIndicatorCell else {
+                    return UITableViewCell()
+                }
                 cell.hideSystemSeparator()
                 return cell
             case .displayingSearchResults:
-                let cell = dequeueReusableCell(withIdentifier: CenteredLabelCell.identifier, for: indexPath) as! CenteredLabelCell
+                guard let cell = dequeueReusableCell(withIdentifier: CenteredLabelCell.identifier, for: indexPath) as? CenteredLabelCell else {
+                    return UITableViewCell()
+                }
                 cell.setup(text: searchResultText)
                 cell.hideSystemSeparator()
                 return cell
             case .idle:
-                let cell = dequeueReusableCell(withIdentifier: ActionsCell.identifier, for: indexPath) as! ActionsCell
+                guard let cell = dequeueReusableCell(withIdentifier: ActionsCell.identifier, for: indexPath) as? ActionsCell else {
+                    return UITableViewCell()
+                }
                 cell.setup(action1Title: "MSPersonaListView.SearchDirectory".localized)
                 cell.action1Button.addTarget(self, action: #selector(searchDirectoryButtonTapped), for: .touchUpInside)
                 cell.accessibilityTraits = .button

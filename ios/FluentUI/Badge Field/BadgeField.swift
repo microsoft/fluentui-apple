@@ -705,7 +705,7 @@ open class BadgeField: UIView {
     // MARK: Text field
 
     @objc open var textFieldContent: String {
-        return textField.text!.trimmed()
+        return textField.text?.trimmed() ?? ""
     }
 
     @objc open func resetTextFieldContent() {
@@ -869,7 +869,7 @@ open class BadgeField: UIView {
             return
         }
 
-        let draggedBadge = gesture.view as! BadgeView
+        guard let draggedBadge = gesture.view as? BadgeView else { return }
         switch gesture.state {
         case .began:
             // Already dragging another badge: cancel this new gesture
@@ -931,7 +931,7 @@ open class BadgeField: UIView {
         // Dragging window becomes front window
         draggingWindow.isHidden = false
         // Move dragged badge to main window
-        draggedBadge!.frame = convert(draggedBadge!.frame, to: containingWindow)
+        draggedBadge?.frame = convert(draggedBadge!.frame, to: containingWindow)
         draggingWindow.addSubview(draggedBadge!)
         // Animate scale
         UIView.animate(withDuration: Constants.dragAndDropScaleAnimationDuration) {

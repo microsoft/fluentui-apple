@@ -299,17 +299,21 @@ private class SelectionOverlayView: UIView {
             circleView = DotView()
         }
 
-        setupView(circleView!)
-        circleView!.color = activeColor
+        if let circleView = circleView {
+            setupView(circleView)
+            circleView.color = activeColor
+        }
     }
 
     private func setupSquareView() {
         if squareView == nil {
             squareView = UIView()
         }
-
-        setupView(squareView!)
-        squareView!.backgroundColor = activeColor
+    
+        if let squareView = squareView {
+            setupView(squareView)
+            squareView.backgroundColor = activeColor
+        }
     }
 
     private func setupView(_ view: UIView) {

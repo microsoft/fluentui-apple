@@ -139,16 +139,16 @@ class ColorDemoController: UIViewController {
     @objc private func segmentedControlValueChanged(sender: Any) {
         if let segmentedControl = sender as? SegmentedControl {
             let windowType = colorProviderThemedWindowTypes[segmentedControl.selectedSegmentIndex].windowType
-            let colorThemeHost: ColorThemeHosting
+            let colorThemeHost: ColorThemeHosting?
             if #available(iOS 13, *) {
-                colorThemeHost = view.window?.windowScene?.delegate as! ColorThemeHosting
+                colorThemeHost = view.window?.windowScene?.delegate as? ColorThemeHosting
             } else {
-                colorThemeHost = UIApplication.shared.delegate as! ColorThemeHosting
+                colorThemeHost = UIApplication.shared.delegate as? ColorThemeHosting
             }
 
             if let navigationController = navigationController {
                 navigationController.popViewController(animated: false)
-                colorThemeHost.updateToWindowWith(type: windowType, pushing: self)
+                colorThemeHost?.updateToWindowWith(type: windowType, pushing: self)
             }
         }
     }
@@ -162,9 +162,9 @@ class ColorDemoController: UIViewController {
 
 extension ColorDemoController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as! TableViewHeaderFooterView
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as? TableViewHeaderFooterView
         let section = sections[section]
-        header.setup(style: .header, title: section.text)
+        header?.setup(style: .header, title: section.text)
         return header
     }
 }
@@ -181,7 +181,9 @@ extension ColorDemoController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as! TableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
+            return UITableViewCell()
+        }
 
         let section = sections[indexPath.section]
         let colorView = section.colorViews[indexPath.row]

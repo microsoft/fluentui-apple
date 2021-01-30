@@ -9,11 +9,11 @@ import FluentUI
 class DemoListViewController: UITableViewController {
 
     static func addDemoListTo(window: UIWindow, pushing viewController: UIViewController?) {
-        if let colorProvider = window as? ColorProviding {
+        if let colorProvider = window as? ColorProviding, let primaryColor = colorProvider.primaryColor(for: window) {
             Colors.setProvider(provider: colorProvider, for: window)
-            FluentUIFramework.initializeAppearance(with: colorProvider.primaryColor(for: window)!, whenContainedInInstancesOf: [type(of: window)])
+            FluentUIFramework.initializeAppearance(with: primaryColor, whenContainedInInstancesOf: [type(of: window)])
         } else {
-            FluentUIFramework.initializeAppearance()
+            FluentUIFramework.initializeAppearance(with: Colors.primary(for: window))
         }
 
         let demoListViewController = DemoListViewController(nibName: nil, bundle: nil)
@@ -37,9 +37,13 @@ class DemoListViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        guard let title = FluentUIFramework.bundle.object(forInfoDictionaryKey: "CFBundleExecutable") as? String else { 
+            return assertionFailure("CFBundleExecutable is nil")
+        }
         let titleView = TwoLineTitleView()
         titleView.setup(
-            title: FluentUIFramework.bundle.object(forInfoDictionaryKey: "CFBundleExecutable") as! String,
+            title: title,
             subtitle: FluentUIFramework.bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
         )
         navigationItem.titleView = titleView
@@ -75,7 +79,9 @@ class DemoListViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath) as! TableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath) as? TableViewCell else {
+            return UITableViewCell()
+        }
         cell.setup(title: demos[indexPath.row].title, accessoryType: .disclosureIndicator)
         cell.titleNumberOfLinesForLargerDynamicType = 2
         return cell

@@ -48,19 +48,22 @@ extension OtherCellsDemoController: UITableViewDataSource {
         let item = section.items[indexPath.row]
 
         if section.title == "ActionsCell" {
-            let cell = tableView.dequeueReusableCell(withIdentifier: ActionsCell.identifier) as! ActionsCell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ActionsCell.identifier) as? ActionsCell else {
+                return UITableViewCell()
+            }
             cell.setup(action1Title: item.text1, action2Title: item.text2, action2Type: .destructive)
             let isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
             cell.bottomSeparatorType = isLastInSection ? .full : .inset
             return cell
         }
 
-        if section.title == "ActivityIndicatorCell" {
-            return tableView.dequeueReusableCell(withIdentifier: ActivityIndicatorCell.identifier) as! ActivityIndicatorCell
+        if let cell = tableView.dequeueReusableCell(withIdentifier: ActivityIndicatorCell.identifier) as? ActivityIndicatorCell,
+           section.title == "ActivityIndicatorCell" {
+            return cell
         }
 
         if section.title == "BooleanCell" {
-            let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as! BooleanCell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as? BooleanCell else { return UITableViewCell() }
             cell.setup(title: item.text1, customView: TableViewSampleData.createCustomView(imageName: item.image, useImageAsTemplate: true), isOn: indexPath.row == 0)
             cell.onValueChanged = { [unowned self, unowned cell] in
                 self.showAlertForSwitchTapped(isOn: cell.isOn)
@@ -69,7 +72,9 @@ extension OtherCellsDemoController: UITableViewDataSource {
         }
 
         if section.title == "CenteredLabelCell" {
-            let cell = tableView.dequeueReusableCell(withIdentifier: CenteredLabelCell.identifier) as! CenteredLabelCell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: CenteredLabelCell.identifier) as? CenteredLabelCell else {
+                return UITableViewCell()
+            }
             cell.setup(text: item.text1)
             return cell
         }
@@ -90,9 +95,9 @@ extension OtherCellsDemoController: UITableViewDataSource {
 
 extension OtherCellsDemoController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as! TableViewHeaderFooterView
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as? TableViewHeaderFooterView
         let section = sections[section]
-        header.setup(style: section.headerStyle, title: section.title)
+        header?.setup(style: section.headerStyle, title: section.title)
         return header
     }
 

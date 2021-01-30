@@ -88,8 +88,8 @@ open class ContactCollectionView: UICollectionView {
     open weak var contactCollectionViewDelegate: ContactCollectionViewDelegate? {
         didSet {
             if oldValue == nil && contactCollectionViewDelegate != nil {
-                let cells = visibleCells as! [ContactCollectionViewCell]
-                for cell in cells {
+                let cells = visibleCells as? [ContactCollectionViewCell]
+                for cell in cells ?? [] {
                     cell.contactView?.contactViewDelegate = self
                 }
             }
@@ -176,11 +176,13 @@ extension ContactCollectionView: UICollectionViewDataSource {
     }
 
     @objc public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContactCollectionViewCell.identifier, for: indexPath) as! ContactCollectionViewCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContactCollectionViewCell.identifier, for: indexPath) as? ContactCollectionViewCell else { 
+            return UICollectionViewCell()
+        }
         cell.setup(contact: personas[indexPath.item], size: size.contactViewSize)
 
         if contactCollectionViewDelegate != nil {
-            cell.contactView!.contactViewDelegate = self
+            cell.contactView?.contactViewDelegate = self
         }
 
         contactViewToIndexMap[cell.contactView!] = indexPath.item
