@@ -6,13 +6,6 @@
 import UIKit
 import SwiftUI
 
-/// Pre-defined styles of icons
-@objc public enum MSFListIconStyle: Int, CaseIterable {
-    case none
-    case iconOnly
-    case large
-}
-
 /// Pre-defined accessory types
 @objc public enum MSFListAccessoryType: Int, CaseIterable {
     case none
@@ -55,15 +48,12 @@ public class MSFListTokens: MSFTokensBase, ObservableObject {
     @Published public var disclosureSize: CGFloat!
     @Published public var horizontalCellPadding: CGFloat!
     @Published public var iconInterspace: CGFloat!
-    @Published public var iconSize: CGFloat!
+    @Published public var iconDefaultSize: CGFloat!
+    @Published public var iconLargeSize: CGFloat!
     @Published public var subtitleFont: UIFont!
     @Published public var textFont: UIFont!
 
-    var iconStyle: MSFListIconStyle!
-
-    public init(iconStyle: MSFListIconStyle) {
-        self.iconStyle = iconStyle
-
+    public override init() {
         super.init()
 
         self.themeAware = true
@@ -76,13 +66,7 @@ public class MSFListTokens: MSFTokensBase, ObservableObject {
 
     public override func updateForCurrentTheme() {
         let currentTheme = theme
-        let appearanceProxy: AppearanceProxyType
-
-        if iconStyle == MSFListIconStyle.iconOnly {
-            appearanceProxy = currentTheme.MSFIconOnlyListTokens
-        } else {
-            appearanceProxy = currentTheme.MSFListTokens
-        }
+        let appearanceProxy = currentTheme.MSFListTokens
 
         backgroundColor = appearanceProxy.backgroundColor.rest
         borderColor = appearanceProxy.borderColor
@@ -102,7 +86,8 @@ public class MSFListTokens: MSFTokensBase, ObservableObject {
         disclosureSize = appearanceProxy.disclosureSize
         horizontalCellPadding = appearanceProxy.horizontalCellPadding
         iconInterspace = appearanceProxy.iconInterspace
-        iconSize = iconStyle == .large ? appearanceProxy.iconSize.large : appearanceProxy.iconSize.default
+        iconDefaultSize = appearanceProxy.iconSize.default
+        iconLargeSize = appearanceProxy.iconSize.large
         subtitleFont = appearanceProxy.sublabelFont
         textFont = appearanceProxy.labelFont
     }

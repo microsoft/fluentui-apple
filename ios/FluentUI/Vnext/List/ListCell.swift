@@ -10,11 +10,13 @@ import SwiftUI
 @objc public class MSFListCellState: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
     @objc @Published public var leadingView: UIView?
+    @objc @Published public var isLargeIcon: Bool = false
     @objc @Published public var title: String = ""
     @objc @Published public var subtitle: String?
+    @objc @Published public var trailingView: UIView?
     @objc @Published public var accessoryType: MSFListAccessoryType = .none
-    @objc @Published public var titleLineLimit: Int = 1
-    @objc @Published public var subtitleLineLimit: Int = 1
+    @objc @Published public var titleLineLimit: Int = 0
+    @objc @Published public var subtitleLineLimit: Int = 0
     @objc @Published public var children: [MSFListCellState]?
     @objc @Published public var isExpanded: Bool = false
     @objc @Published public var layoutType: MSFListCellLayoutType = .oneLine
@@ -49,36 +51,43 @@ struct MSFListCellView: View {
             }
         }, label: {
             HStack(spacing: 0) {
+                let defaultIconSize = tokens.iconDefaultSize
+                let hasTitle = !state.title.isEmpty
                 if let leadingView = state.leadingView {
                     UIViewAdapter(leadingView)
-                        .frame(width: tokens.iconSize, height: tokens.iconSize)
+                        .foregroundColor(Color(hasTitle ? tokens.backgroundColor : tokens.trailingItemForegroundColor))
+                        .frame(width: state.isLargeIcon ? tokens.iconLargeSize : defaultIconSize, height: state.isLargeIcon ? tokens.iconLargeSize : defaultIconSize)
                         .padding(.trailing, tokens.iconInterspace)
                 }
-                VStack(alignment: .leading) {
-                    if let title = state.title {
-                        Text(title)
+                VStack(alignment: .leading, spacing: 0) {
+                    if hasTitle {
+                        Text(state.title)
                             .font(Font(tokens.textFont))
                             .foregroundColor(Color(tokens.leadingTextColor))
-                            .lineLimit(state.titleLineLimit)
+                            .lineLimit(state.titleLineLimit == 0 ? nil : state.titleLineLimit)
                     }
                     if let subtitle = state.subtitle, !subtitle.isEmpty {
-                            Text(subtitle)
-                                .font(Font(tokens.subtitleFont))
-                                .foregroundColor(Color(tokens.subtitleColor))
-                                .lineLimit(state.titleLineLimit)
+                        Text(subtitle)
+                            .font(Font(tokens.subtitleFont))
+                            .foregroundColor(Color(tokens.subtitleColor))
+                            .lineLimit(state.subtitleLineLimit == 0 ? nil : state.subtitleLineLimit)
                     }
                 }
                 Spacer()
-                HStack {
+                if let trailingView = state.trailingView {
+                    UIViewAdapter(trailingView)
+                        .foregroundColor(Color(hasTitle ? tokens.backgroundColor : tokens.trailingItemForegroundColor))
+                        .frame(height: defaultIconSize)
+                        .fixedSize()
+                }
+                HStack(spacing: 0) {
                     if let accessoryType = state.accessoryType, accessoryType != .none, let accessoryIcon = accessoryType.icon {
                         let isDisclosure = accessoryType == .disclosure
                         let disclosureSize = tokens.disclosureSize
-                        let iconSize = tokens.iconSize
                         Image(uiImage: accessoryIcon)
                             .resizable()
                             .foregroundColor(Color(isDisclosure ? tokens.disclosureIconForegroundColor : tokens.trailingItemForegroundColor))
-                            .frame(width: isDisclosure ? disclosureSize : iconSize,
-                                    height: isDisclosure ? disclosureSize : iconSize)
+                            .frame(width: isDisclosure ? disclosureSize : defaultIconSize, height: isDisclosure ? disclosureSize : defaultIconSize)
                             .padding(.leading, isDisclosure ? tokens.disclosureInterspace : tokens.iconInterspace)
                     }
                 }
@@ -86,8 +95,9 @@ struct MSFListCellView: View {
         })
         .buttonStyle(ListCellButtonStyle(tokens: tokens, layoutType: state.layoutType))
         if hasDividers {
+            let padding = tokens.horizontalCellPadding + (state.leadingView != nil ? (state.isLargeIcon ? tokens.iconLargeSize : tokens.iconDefaultSize) + tokens.iconInterspace : 0)
             Divider()
-                .padding(.leading, state.leadingView != nil ? (tokens.horizontalCellPadding + tokens.iconSize + tokens.iconInterspace) : tokens.horizontalCellPadding)
+                .padding(.leading, padding)
         }
         if let children = state.children, state.isExpanded == true {
             ForEach(children, id: \.self) { child in
@@ -95,7 +105,7 @@ struct MSFListCellView: View {
                                 tokens: tokens,
                                 hasDividers: hasDividers)
                     .frame(maxWidth: .infinity)
-                    .padding(.leading, (tokens.horizontalCellPadding + tokens.iconSize))
+                    .padding(.leading, (tokens.horizontalCellPadding + tokens.iconDefaultSize))
             }
         }
     }
@@ -117,10 +127,12 @@ struct ListCellButtonStyle: ButtonStyle {
         }
         return configuration.label
             .contentShape(Rectangle())
-            .frame(minHeight: height)
             .listRowInsets(EdgeInsets())
+            .padding(.top, tokens.horizontalCellPadding / 2)
+            .padding(.bottom, tokens.horizontalCellPadding / 2)
             .padding(.leading, tokens.horizontalCellPadding)
             .padding(.trailing, tokens.horizontalCellPadding)
+            .frame(minHeight: height)
             .background(configuration.isPressed ? Color(tokens.highlightedBackgroundColor) : Color(tokens.backgroundColor))
     }
 }
