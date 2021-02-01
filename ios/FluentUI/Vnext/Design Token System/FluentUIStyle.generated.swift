@@ -735,6 +735,79 @@ extension FluentUIThemeManagerTheming {
 		}
 
 
+		//MARK: - Elevation
+		public var _Elevation: ElevationAppearanceProxy?
+		open func ElevationStyle() -> ElevationAppearanceProxy {
+			if let override = _Elevation { return override }
+				return ElevationAppearanceProxy(proxy: mainProxy)
+			}
+		public var Elevation: ElevationAppearanceProxy {
+			get { return self.ElevationStyle() }
+			set { _Elevation = newValue }
+		}
+		@objc(ColorsElevationAppearanceProxy) @objcMembers open class ElevationAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: highElevation 
+			public var _highElevation: UIColor?
+			open func highElevationProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _highElevation { return override }
+					return UIColor(light: mainProxy().Colors.Shadow.opacity40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Shadow.opacity60Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+				}
+			public var highElevation: UIColor {
+				get { return self.highElevationProperty() }
+				set { _highElevation = newValue }
+			}
+
+			//MARK: highElevation1 
+			public var _highElevation1: UIColor?
+			open func highElevation1Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _highElevation1 { return override }
+					return UIColor(light: mainProxy().Colors.Shadow.opacity24Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Shadow.opacity48Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+				}
+			public var highElevation1: UIColor {
+				get { return self.highElevation1Property() }
+				set { _highElevation1 = newValue }
+			}
+
+			//MARK: highElevation2 
+			public var _highElevation2: UIColor?
+			open func highElevation2Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _highElevation2 { return override }
+					return UIColor(light: mainProxy().Colors.Shadow.opacity20Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Shadow.opacity40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+				}
+			public var highElevation2: UIColor {
+				get { return self.highElevation2Property() }
+				set { _highElevation2 = newValue }
+			}
+
+			//MARK: lowElevation1 
+			public var _lowElevation1: UIColor?
+			open func lowElevation1Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _lowElevation1 { return override }
+					return UIColor(light: mainProxy().Colors.Shadow.opacity14Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Shadow.opacity28Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+				}
+			public var lowElevation1: UIColor {
+				get { return self.lowElevation1Property() }
+				set { _lowElevation1 = newValue }
+			}
+
+			//MARK: lowElevation2 
+			public var _lowElevation2: UIColor?
+			open func lowElevation2Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _lowElevation2 { return override }
+					return UIColor(light: mainProxy().Colors.Shadow.opacity12Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Shadow.opacity20Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+				}
+			public var lowElevation2: UIColor {
+				get { return self.lowElevation2Property() }
+				set { _lowElevation2 = newValue }
+			}
+		}
+
+
 		//MARK: - Foreground
 		public var _Foreground: ForegroundAppearanceProxy?
 		open func ForegroundStyle() -> ForegroundAppearanceProxy {
@@ -1570,6 +1643,134 @@ extension FluentUIThemeManagerTheming {
 		}
 
 
+		//MARK: - Shadow
+		public var _Shadow: ShadowAppearanceProxy?
+		open func ShadowStyle() -> ShadowAppearanceProxy {
+			if let override = _Shadow { return override }
+				return ShadowAppearanceProxy(proxy: mainProxy)
+			}
+		public var Shadow: ShadowAppearanceProxy {
+			get { return self.ShadowStyle() }
+			set { _Shadow = newValue }
+		}
+		@objc(ColorsShadowAppearanceProxy) @objcMembers open class ShadowAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: clear 
+			public var _clear: UIColor?
+			open func clearProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _clear { return override }
+					return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0)
+				}
+			public var clear: UIColor {
+				get { return self.clearProperty() }
+				set { _clear = newValue }
+			}
+
+			//MARK: opacity12 
+			public var _opacity12: UIColor?
+			open func opacity12Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _opacity12 { return override }
+					return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.01)
+				}
+			public var opacity12: UIColor {
+				get { return self.opacity12Property() }
+				set { _opacity12 = newValue }
+			}
+
+			//MARK: opacity14 
+			public var _opacity14: UIColor?
+			open func opacity14Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _opacity14 { return override }
+					return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.24)
+				}
+			public var opacity14: UIColor {
+				get { return self.opacity14Property() }
+				set { _opacity14 = newValue }
+			}
+
+			//MARK: opacity20 
+			public var _opacity20: UIColor?
+			open func opacity20Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _opacity20 { return override }
+					return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.33)
+				}
+			public var opacity20: UIColor {
+				get { return self.opacity20Property() }
+				set { _opacity20 = newValue }
+			}
+
+			//MARK: opacity24 
+			public var _opacity24: UIColor?
+			open func opacity24Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _opacity24 { return override }
+					return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.03)
+				}
+			public var opacity24: UIColor {
+				get { return self.opacity24Property() }
+				set { _opacity24 = newValue }
+			}
+
+			//MARK: opacity28 
+			public var _opacity28: UIColor?
+			open func opacity28Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _opacity28 { return override }
+					return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.47)
+				}
+			public var opacity28: UIColor {
+				get { return self.opacity28Property() }
+				set { _opacity28 = newValue }
+			}
+
+			//MARK: opacity40 
+			public var _opacity40: UIColor?
+			open func opacity40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _opacity40 { return override }
+					return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.66)
+				}
+			public var opacity40: UIColor {
+				get { return self.opacity40Property() }
+				set { _opacity40 = newValue }
+			}
+
+			//MARK: opacity48 
+			public var _opacity48: UIColor?
+			open func opacity48Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _opacity48 { return override }
+					return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.07)
+				}
+			public var opacity48: UIColor {
+				get { return self.opacity48Property() }
+				set { _opacity48 = newValue }
+			}
+
+			//MARK: opacity60 
+			public var _opacity60: UIColor?
+			open func opacity60Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _opacity60 { return override }
+					return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.99)
+				}
+			public var opacity60: UIColor {
+				get { return self.opacity60Property() }
+				set { _opacity60 = newValue }
+			}
+
+			//MARK: opaque 
+			public var _opaque: UIColor?
+			open func opaqueProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _opaque { return override }
+					return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0)
+				}
+			public var opaque: UIColor {
+				get { return self.opaqueProperty() }
+				set { _opaque = newValue }
+			}
+		}
+
+
 		//MARK: - Stroke
 		public var _Stroke: StrokeAppearanceProxy?
 		open func StrokeStyle() -> StrokeAppearanceProxy {
@@ -1697,77 +1898,6 @@ extension FluentUIThemeManagerTheming {
 			}
 		}
 
-	}
-	//MARK: - ElevationOpacity
-	public var _ElevationOpacity: ElevationOpacityAppearanceProxy?
-	open func ElevationOpacityStyle() -> ElevationOpacityAppearanceProxy {
-		if let override = _ElevationOpacity { return override }
-			return ElevationOpacityAppearanceProxy(proxy: { return self })
-		}
-	public var ElevationOpacity: ElevationOpacityAppearanceProxy {
-		get { return self.ElevationOpacityStyle() }
-		set { _ElevationOpacity = newValue }
-	}
-	@objc(ElevationOpacityAppearanceProxy) @objcMembers open class ElevationOpacityAppearanceProxy: NSObject {
-		public let mainProxy: () -> FluentUIStyle
-		public init(proxy: @escaping () -> FluentUIStyle) {
-			self.mainProxy = proxy
-		}
-
-		//MARK: highElevation 
-		public var _highElevation: UIColor?
-		open func highElevationProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-			if let override = _highElevation { return override }
-			return UIColor(light: mainProxy().ShadowOpacity.opacity40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().ShadowOpacity.opacity60Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-		public var highElevation: UIColor {
-			get { return self.highElevationProperty() }
-			set { _highElevation = newValue }
-		}
-
-		//MARK: highElevation1 
-		public var _highElevation1: UIColor?
-		open func highElevation1Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-			if let override = _highElevation1 { return override }
-			return UIColor(light: mainProxy().ShadowOpacity.opacity24Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().ShadowOpacity.opacity48Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-		public var highElevation1: UIColor {
-			get { return self.highElevation1Property() }
-			set { _highElevation1 = newValue }
-		}
-
-		//MARK: highElevation2 
-		public var _highElevation2: UIColor?
-		open func highElevation2Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-			if let override = _highElevation2 { return override }
-			return UIColor(light: mainProxy().ShadowOpacity.opacity20Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().ShadowOpacity.opacity40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-		public var highElevation2: UIColor {
-			get { return self.highElevation2Property() }
-			set { _highElevation2 = newValue }
-		}
-
-		//MARK: lowElevation1 
-		public var _lowElevation1: UIColor?
-		open func lowElevation1Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-			if let override = _lowElevation1 { return override }
-			return UIColor(light: mainProxy().ShadowOpacity.opacity14Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().ShadowOpacity.opacity28Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-		public var lowElevation1: UIColor {
-			get { return self.lowElevation1Property() }
-			set { _lowElevation1 = newValue }
-		}
-
-		//MARK: lowElevation2 
-		public var _lowElevation2: UIColor?
-		open func lowElevation2Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-			if let override = _lowElevation2 { return override }
-			return UIColor(light: mainProxy().ShadowOpacity.opacity12Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().ShadowOpacity.opacity20Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-		public var lowElevation2: UIColor {
-			get { return self.lowElevation2Property() }
-			set { _lowElevation2 = newValue }
-		}
 	}
 	//MARK: - Icon
 	public var _Icon: IconAppearanceProxy?
@@ -3374,7 +3504,7 @@ extension FluentUIThemeManagerTheming {
 		public var _backgroundDimmedColor: UIColor?
 		open func backgroundDimmedColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
 			if let override = _backgroundDimmedColor { return override }
-			return mainProxy().ElevationOpacity.highElevationProperty(traitCollection)
+			return mainProxy().Colors.Elevation.highElevationProperty(traitCollection)
 			}
 		public var backgroundDimmedColor: UIColor {
 			get { return self.backgroundDimmedColorProperty() }
@@ -4372,7 +4502,7 @@ extension FluentUIThemeManagerTheming {
 			public var _color1: UIColor?
 			open func color1Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
 				if let override = _color1 { return override }
-					return mainProxy().ElevationOpacity.lowElevation1Property(traitCollection)
+					return mainProxy().Colors.Elevation.lowElevation1Property(traitCollection)
 				}
 			public var color1: UIColor {
 				get { return self.color1Property() }
@@ -4383,7 +4513,7 @@ extension FluentUIThemeManagerTheming {
 			public var _color2: UIColor?
 			open func color2Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
 				if let override = _color2 { return override }
-					return mainProxy().ElevationOpacity.lowElevation2Property(traitCollection)
+					return mainProxy().Colors.Elevation.lowElevation2Property(traitCollection)
 				}
 			public var color2: UIColor {
 				get { return self.color2Property() }
@@ -4478,7 +4608,7 @@ extension FluentUIThemeManagerTheming {
 			public var _color1: UIColor?
 			open func color1Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
 				if let override = _color1 { return override }
-					return mainProxy().ElevationOpacity.lowElevation1Property(traitCollection)
+					return mainProxy().Colors.Elevation.lowElevation1Property(traitCollection)
 				}
 			public var color1: UIColor {
 				get { return self.color1Property() }
@@ -4489,7 +4619,7 @@ extension FluentUIThemeManagerTheming {
 			public var _color2: UIColor?
 			open func color2Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
 				if let override = _color2 { return override }
-					return mainProxy().ElevationOpacity.lowElevation2Property(traitCollection)
+					return mainProxy().Colors.Elevation.lowElevation2Property(traitCollection)
 				}
 			public var color2: UIColor {
 				get { return self.color2Property() }
@@ -4584,7 +4714,7 @@ extension FluentUIThemeManagerTheming {
 			public var _color1: UIColor?
 			open func color1Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
 				if let override = _color1 { return override }
-					return mainProxy().ElevationOpacity.highElevation1Property(traitCollection)
+					return mainProxy().Colors.Elevation.highElevation1Property(traitCollection)
 				}
 			public var color1: UIColor {
 				get { return self.color1Property() }
@@ -4595,7 +4725,7 @@ extension FluentUIThemeManagerTheming {
 			public var _color2: UIColor?
 			open func color2Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
 				if let override = _color2 { return override }
-					return mainProxy().ElevationOpacity.highElevation2Property(traitCollection)
+					return mainProxy().Colors.Elevation.highElevation2Property(traitCollection)
 				}
 			public var color2: UIColor {
 				get { return self.color2Property() }
@@ -4690,7 +4820,7 @@ extension FluentUIThemeManagerTheming {
 			public var _color1: UIColor?
 			open func color1Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
 				if let override = _color1 { return override }
-					return mainProxy().ElevationOpacity.lowElevation1Property(traitCollection)
+					return mainProxy().Colors.Elevation.lowElevation1Property(traitCollection)
 				}
 			public var color1: UIColor {
 				get { return self.color1Property() }
@@ -4701,7 +4831,7 @@ extension FluentUIThemeManagerTheming {
 			public var _color2: UIColor?
 			open func color2Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
 				if let override = _color2 { return override }
-					return mainProxy().ElevationOpacity.lowElevation2Property(traitCollection)
+					return mainProxy().Colors.Elevation.lowElevation2Property(traitCollection)
 				}
 			public var color2: UIColor {
 				get { return self.color2Property() }
@@ -4796,7 +4926,7 @@ extension FluentUIThemeManagerTheming {
 			public var _color1: UIColor?
 			open func color1Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
 				if let override = _color1 { return override }
-					return mainProxy().ElevationOpacity.highElevation1Property(traitCollection)
+					return mainProxy().Colors.Elevation.highElevation1Property(traitCollection)
 				}
 			public var color1: UIColor {
 				get { return self.color1Property() }
@@ -4807,7 +4937,7 @@ extension FluentUIThemeManagerTheming {
 			public var _color2: UIColor?
 			open func color2Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
 				if let override = _color2 { return override }
-					return mainProxy().ElevationOpacity.highElevation2Property(traitCollection)
+					return mainProxy().Colors.Elevation.highElevation2Property(traitCollection)
 				}
 			public var color2: UIColor {
 				get { return self.color2Property() }
@@ -4902,7 +5032,7 @@ extension FluentUIThemeManagerTheming {
 			public var _color1: UIColor?
 			open func color1Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
 				if let override = _color1 { return override }
-					return mainProxy().ElevationOpacity.lowElevation1Property(traitCollection)
+					return mainProxy().Colors.Elevation.lowElevation1Property(traitCollection)
 				}
 			public var color1: UIColor {
 				get { return self.color1Property() }
@@ -4913,7 +5043,7 @@ extension FluentUIThemeManagerTheming {
 			public var _color2: UIColor?
 			open func color2Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
 				if let override = _color2 { return override }
-					return mainProxy().ElevationOpacity.lowElevation2Property(traitCollection)
+					return mainProxy().Colors.Elevation.lowElevation2Property(traitCollection)
 				}
 			public var color2: UIColor {
 				get { return self.color2Property() }
@@ -4965,132 +5095,6 @@ extension FluentUIThemeManagerTheming {
 			}
 		}
 
-	}
-	//MARK: - ShadowOpacity
-	public var _ShadowOpacity: ShadowOpacityAppearanceProxy?
-	open func ShadowOpacityStyle() -> ShadowOpacityAppearanceProxy {
-		if let override = _ShadowOpacity { return override }
-			return ShadowOpacityAppearanceProxy(proxy: { return self })
-		}
-	public var ShadowOpacity: ShadowOpacityAppearanceProxy {
-		get { return self.ShadowOpacityStyle() }
-		set { _ShadowOpacity = newValue }
-	}
-	@objc(ShadowOpacityAppearanceProxy) @objcMembers open class ShadowOpacityAppearanceProxy: NSObject {
-		public let mainProxy: () -> FluentUIStyle
-		public init(proxy: @escaping () -> FluentUIStyle) {
-			self.mainProxy = proxy
-		}
-
-		//MARK: clear 
-		public var _clear: UIColor?
-		open func clearProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-			if let override = _clear { return override }
-			return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0)
-			}
-		public var clear: UIColor {
-			get { return self.clearProperty() }
-			set { _clear = newValue }
-		}
-
-		//MARK: opacity12 
-		public var _opacity12: UIColor?
-		open func opacity12Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-			if let override = _opacity12 { return override }
-			return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.01)
-			}
-		public var opacity12: UIColor {
-			get { return self.opacity12Property() }
-			set { _opacity12 = newValue }
-		}
-
-		//MARK: opacity14 
-		public var _opacity14: UIColor?
-		open func opacity14Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-			if let override = _opacity14 { return override }
-			return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.24)
-			}
-		public var opacity14: UIColor {
-			get { return self.opacity14Property() }
-			set { _opacity14 = newValue }
-		}
-
-		//MARK: opacity20 
-		public var _opacity20: UIColor?
-		open func opacity20Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-			if let override = _opacity20 { return override }
-			return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.33)
-			}
-		public var opacity20: UIColor {
-			get { return self.opacity20Property() }
-			set { _opacity20 = newValue }
-		}
-
-		//MARK: opacity24 
-		public var _opacity24: UIColor?
-		open func opacity24Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-			if let override = _opacity24 { return override }
-			return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.03)
-			}
-		public var opacity24: UIColor {
-			get { return self.opacity24Property() }
-			set { _opacity24 = newValue }
-		}
-
-		//MARK: opacity28 
-		public var _opacity28: UIColor?
-		open func opacity28Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-			if let override = _opacity28 { return override }
-			return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.47)
-			}
-		public var opacity28: UIColor {
-			get { return self.opacity28Property() }
-			set { _opacity28 = newValue }
-		}
-
-		//MARK: opacity40 
-		public var _opacity40: UIColor?
-		open func opacity40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-			if let override = _opacity40 { return override }
-			return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.66)
-			}
-		public var opacity40: UIColor {
-			get { return self.opacity40Property() }
-			set { _opacity40 = newValue }
-		}
-
-		//MARK: opacity48 
-		public var _opacity48: UIColor?
-		open func opacity48Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-			if let override = _opacity48 { return override }
-			return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.07)
-			}
-		public var opacity48: UIColor {
-			get { return self.opacity48Property() }
-			set { _opacity48 = newValue }
-		}
-
-		//MARK: opacity60 
-		public var _opacity60: UIColor?
-		open func opacity60Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-			if let override = _opacity60 { return override }
-			return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.99)
-			}
-		public var opacity60: UIColor {
-			get { return self.opacity60Property() }
-			set { _opacity60 = newValue }
-		}
-
-		//MARK: opaque 
-		public var _opaque: UIColor?
-		open func opaqueProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-			if let override = _opaque { return override }
-			return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0)
-			}
-		public var opaque: UIColor {
-			get { return self.opaqueProperty() }
-			set { _opaque = newValue }
-		}
 	}
 	//MARK: - Spacing
 	public var _Spacing: SpacingAppearanceProxy?
