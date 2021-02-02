@@ -75,6 +75,13 @@ Colors:
     - brandPressed: "FluentUIColor(light: $Colors.Brand.shade30, dark: $Colors.Brand.shade30)"
     - brandSelected: "FluentUIColor(light: $Colors.Brand.shade20, dark: $Colors.Brand.shade20)"
     - brandDisabled: "FluentUIColor(light: $Colors.Neutral.grey88, dark: $Colors.Neutral.grey84)"
+    
+  Elevation:
+    - lowElevation1: "FluentUIColor(light: $Colors.Shadow.opacity14, dark: $Colors.Shadow.opacity28)"
+    - lowElevation2: "FluentUIColor(light: $Colors.Shadow.opacity12, dark: $Colors.Shadow.opacity20)"
+    - highElevation1: "FluentUIColor(light: $Colors.Shadow.opacity24, dark: $Colors.Shadow.opacity48)"
+    - highElevation2: "FluentUIColor(light: $Colors.Shadow.opacity20, dark: $Colors.Shadow.opacity40)"
+    - highElevation: "FluentUIColor(light: $Colors.Shadow.opacity40, dark: $Colors.Shadow.opacity60)"
 
   Foreground:
     - neutral1: "FluentUIColor(light: $Colors.Neutral.grey14, lightHighContrast: $Colors.Neutral.black, dark: $Colors.Neutral.white)"
@@ -110,6 +117,18 @@ Colors:
     - brandPressed: "FluentUIColor(light: $Colors.Brand.shade30, dark: $Colors.Brand.shade30)"
     - brandSelected: "FluentUIColor(light: $Colors.Brand.shade20, dark: $Colors.Brand.shade20)"
     - brandDisabled: "FluentUIColor(light: $Colors.Neutral.grey88, dark: $Colors.Neutral.grey84)"
+    
+  Shadow:
+    - clear: "#00000000"
+    - opacity12: "#0000001F"
+    - opacity14: "#00000024"
+    - opacity20: "#00000033"
+    - opacity24: "#0000003D"
+    - opacity28: "#00000047"
+    - opacity40: "#00000066"
+    - opacity48: "#0000007A"
+    - opacity60: "#00000099"
+    - opaque: "#000000FF"
 
 Typography:
   body: "Font(body)"
@@ -149,9 +168,14 @@ Opacity:
   opacity96: 0.96f
   none: 1f
   clear: 0.0f
-
+  
 Shadow:
-    shadow28: [ blur: 28pt, color: $Colors.Neutral.black, opacity: $Opacity.opacity24, x: 0pt, y: 14pt ]
+    shadow2: [ blur1: 2pt, color1: $Colors.Elevation.lowElevation1, x1: 0pt, y1: 1pt, blur2: 2pt, color2: $Colors.Elevation.lowElevation2, x2: 0pt, y2: 0pt ]
+    shadow4: [ blur1: 4pt, color1: $Colors.Elevation.lowElevation1, x1: 0pt, y1: 2pt, blur2: 2pt, color2: $Colors.Elevation.lowElevation2, x2: 0pt, y2: 0pt ]
+    shadow8: [ blur1: 8pt, color1: $Colors.Elevation.lowElevation1, x1: 0pt, y1: 4pt, blur2: 8pt, color2: $Colors.Elevation.lowElevation2, x2: 0pt, y2: 0pt ]
+    shadow16: [ blur1: 16pt, color1: $Colors.Elevation.lowElevation1, x1: 0pt, y1: 8pt, blur2: 8pt, color2: $Colors.Elevation.lowElevation2, x2: 0pt, y2: 0pt ]
+    shadow28: [ blur1: 28pt, color1: $Colors.Elevation.highElevation1, x1: 0pt, y1: 14pt, blur2: 8pt, color2: $Colors.Elevation.highElevation2, x2: 0pt, y2: 0pt ]
+    shadow64: [ blur1: 64pt, color1: $Colors.Elevation.highElevation1, x1: 0pt, y1: 32pt, blur2: 8pt, color2: $Colors.Elevation.highElevation2, x2: 0pt, y2: 0pt ]
 
 AP_MSFAvatarTokens:
   backgroundDefaultColor: "FluentUIColor(light: $Colors.Neutral.white, dark: $Colors.Brand.primary)"
@@ -260,12 +284,13 @@ MSFIconOnlyListTokens extends MSFListTokens:
   iconColor: $Colors.Foreground.neutral3
 
 AP_MSFDrawerTokens:
-  backgroundDimmedOpacity: $Opacity.opacity64
-  backgroundClearOpacity: $Opacity.clear
   backgroundClearColor: $Colors.Neutral.clear
-  backgroundDimmedColor: $Colors.Neutral.black
-  shadowColor: $Shadow.shadow28.color
-  shadowOpacity: $Shadow.shadow28.opacity
-  shadowBlur: $Shadow.shadow28.blur
-  shadowX: $Shadow.shadow28.x
-  shadowY: $Shadow.shadow28.y
+  backgroundDimmedColor: $Colors.Elevation.highElevation
+  shadow1Color: $Shadow.shadow28.color1
+  shadow1Blur: $Shadow.shadow28.blur1
+  shadow1OffsetX: $Shadow.shadow28.x1
+  shadow1OffsetY: $Shadow.shadow28.y1
+  shadow2Color: $Shadow.shadow28.color2
+  shadow2Blur: $Shadow.shadow28.blur2
+  shadow2OffsetX: $Shadow.shadow28.x2
+  shadow2OffsetY: $Shadow.shadow28.y2

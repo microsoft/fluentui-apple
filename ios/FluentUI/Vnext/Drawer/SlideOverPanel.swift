@@ -60,10 +60,14 @@ struct MSFSlideOverPanel<Content: View>: View {
             content
                 .frame(width: contentWidth)
                 .offset(x: resolvedContentOffset)
-                .shadow(color: shadowColor,
-                        radius: tokens.shadowBlur,
-                        x: tokens.shadowDepthX,
-                        y: tokens.shadowDepthY)
+                .shadow(color: tokens.shadow1Color,
+                        radius: tokens.shadow1Blur,
+                        x: tokens.shadow1DepthX,
+                        y: tokens.shadow1DepthY)
+                .shadow(color: tokens.shadow2Color,
+                        radius: tokens.shadow2Blur,
+                        x: tokens.shadow2DepthX,
+                        y: tokens.shadow2DepthY)
 
             if direction == .left {
                 MSFInteractiveSpacer(defaultBackgroundColor: $tokens.backgroundClearColor)
@@ -103,13 +107,19 @@ struct MSFSlideOverPanel<Content: View>: View {
         guard backgroundDimmed else {
             return tokens.backgroundClearColor
         }
-        let opacity = resolvedPanelStateValue(tokens.backgroundClearOpacity, tokens.backgroundDimmedOpacity)
-        return tokens.backgroundDimmedColor.opacity(opacity)
-    }
 
-    private var shadowColor: Color {
-        let opacity = resolvedPanelStateValue(0.0, tokens.shadowOpacity)
-        return tokens.shadowColor.opacity(opacity)
+        // animate opacity
+        var opacity: Double = 0.0
+        switch transitionState {
+        case .collapsed:
+            opacity = 0
+        case .expanded:
+            opacity = 1
+        case .inTransisiton:
+            opacity = percentTransition ?? 0
+        }
+
+        return tokens.backgroundDimmedColor.opacity(opacity)
     }
 
     private var percentTransistionOffset: CGFloat {
