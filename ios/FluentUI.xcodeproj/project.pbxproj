@@ -19,6 +19,7 @@
 		22010B752523CEB700FF1F10 /* ActivityViewAnimating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22010B6F2523CB2D00FF1F10 /* ActivityViewAnimating.swift */; };
 		22EABB1A2509AAD100C4BE72 /* IndeterminateProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EABB192509AAD100C4BE72 /* IndeterminateProgressBarView.swift */; };
 		22EABB1B250A196200C4BE72 /* IndeterminateProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EABB192509AAD100C4BE72 /* IndeterminateProgressBarView.swift */; };
+		3F37B51425C8DB0E007EE062 /* AnimationCompletionModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDF1C9325C0C066000ED4F3 /* AnimationCompletionModifier.swift */; };
 		3F4FB92D25B25843008AB7CC /* UIKit+SwiftUI_interoperability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB92C25B25843008AB7CC /* UIKit+SwiftUI_interoperability.swift */; };
 		3F4FB92E25B25843008AB7CC /* UIKit+SwiftUI_interoperability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB92C25B25843008AB7CC /* UIKit+SwiftUI_interoperability.swift */; };
 		3F4FB96125B25D51008AB7CC /* DrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF3211E16360038C37C /* DrawerController.swift */; };
@@ -1329,6 +1330,7 @@
 				535400E525B16D7D0047DC47 /* DrawerTokens.swift in Sources */,
 				8FD0116E228A82A600D25925 /* BadgeField.swift in Sources */,
 				8FD0116F228A82A600D25925 /* BadgeStringExtractor.swift in Sources */,
+				3F37B51425C8DB0E007EE062 /* AnimationCompletionModifier.swift in Sources */,
 				8FD01170228A82A600D25925 /* BadgeView.swift in Sources */,
 				8FD01171228A82A600D25925 /* CalendarView.swift in Sources */,
 				1168630722E131CF0088B302 /* TabBarView.swift in Sources */,

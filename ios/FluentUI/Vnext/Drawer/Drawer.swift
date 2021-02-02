@@ -92,7 +92,7 @@ public struct MSFDrawerView<Content: View>: View {
                     state.isExpanded = false
                 }
                 .transitionCompletion {
-                    guard isPresentationGestureActive == false else {
+                    guard !isPresentationGestureActive else {
                         return
                     }
                     state.onStateChange?(state.isExpanded)

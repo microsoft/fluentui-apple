@@ -77,7 +77,7 @@ open class MSFDrawer: UIHostingController<AnyView>, FluentUIWindowProvider {
     }
 
     private func dimissHostingViewIfRequired() {
-        guard drawer.state.isExpanded == false else {
+        guard !drawer.state.isExpanded else {
             return
         }
 
@@ -103,7 +103,7 @@ extension MSFDrawer: UIViewControllerTransitioningDelegate, UIViewControllerAnim
     }
 
     public func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        if let isAnimationAssisted = transitionContext?.isAnimated, isAnimationAssisted == true {
+        if let isAnimationAssisted = transitionContext?.isAnimated, isAnimationAssisted {
             return Constant.linearAnimationDuration
         }
         return Constant.disabledAnimationDuration
@@ -120,10 +120,10 @@ extension MSFDrawer: UIViewControllerTransitioningDelegate, UIViewControllerAnim
 
         state.animationDuration = transitionDuration(using: transitionContext)
 
-//       The presentation of drawer happens in two steps
-//        1. Present the hosting view (trasnparent) without animation
-//        2. Expand drawer view with animation (depending on the client's preference)
-//        The animation is delegated to swiftUI framework instead of UIKit. The intent of overriding `UIViewControllerTransitioningDelegate` is to provide UIKit client interfaces
+        // The presentation of drawer happens in two steps
+        //     1. Present the hosting view (trasnparent) without animation
+        //     2. Expand drawer view with animation (depending on the client's preference)
+        // The animation is delegated to swiftUI framework instead of UIKit. The intent of overriding `UIViewControllerTransitioningDelegate` is to provide UIKit client interfaces
         if isPresentingDrawer {
             UIView.animate(withDuration: Constant.disabledAnimationDuration, animations: {
                 transitionContext.containerView.addSubview(drawerView)
@@ -141,15 +141,14 @@ extension MSFDrawer: UIViewControllerTransitioningDelegate, UIViewControllerAnim
             state.isExpanded = false
             transitionInProgress = true
             transitionHandler = { [weak self] in
-                if let strongSelf = self {
-                    guard strongSelf.state.isExpanded == false, strongSelf.transitionInProgress == true else {
-                        // verify state after transition is completed
-                        return
-                    }
-                    drawerView.removeFromSuperview()
-                    transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
-                    strongSelf.transitionInProgress = false
+                guard let strongSelf = self,
+                      !strongSelf.state.isExpanded,
+                      strongSelf.transitionInProgress else {
+                    return
                 }
+                drawerView.removeFromSuperview()
+                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+                strongSelf.transitionInProgress = false
             }
         }
     }

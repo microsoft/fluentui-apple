@@ -37,14 +37,14 @@ struct AnimationCompletionModifier: AnimatableModifier {
     }
 
     func body(content: Content) -> some View {
-        /// do not modify content here, this is only for observing values during animation
+        // do not modify content here, this is only for observing values during animation
         return content
     }
 }
 
 extension View {
 
-    // callback when animation is completed
+    /// callback when animation is completed
     func onAnimationComplete(value: Double, completion: (() -> Void)?) -> ModifiedContent<Self, AnimationCompletionModifier> {
         return modifier(AnimationCompletionModifier(value: value, completion: completion ?? {}))
     }
