@@ -98,7 +98,9 @@ extension MSFDrawer: UIViewControllerTransitioningDelegate, UIViewControllerAnim
         return self
     }
 
-    public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    public func animationController(forPresented presented: UIViewController,
+                                    presenting: UIViewController,
+                                    source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return self
     }
 

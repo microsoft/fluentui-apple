@@ -20,10 +20,10 @@ struct AnimationCompletionModifier: AnimatableModifier {
 
     private var completion: () -> Void
 
-    init(value: Double, completion: @escaping () -> Void) {
+    init(targetValue: Double, completion: @escaping () -> Void) {
         self.completion = completion
-        self.animatableData = value
-        valueOnCompletion = value
+        self.animatableData = targetValue
+        valueOnCompletion = targetValue
     }
 
     private func animationDidComplete() {
@@ -44,8 +44,8 @@ struct AnimationCompletionModifier: AnimatableModifier {
 
 extension View {
 
-    /// callback when animation is completed
+    /// Allows a closure to be executed upon animation completion.
     func onAnimationComplete(value: Double, completion: (() -> Void)?) -> ModifiedContent<Self, AnimationCompletionModifier> {
-        return modifier(AnimationCompletionModifier(value: value, completion: completion ?? {}))
+        return modifier(AnimationCompletionModifier(targetValue: value, completion: completion ?? {}))
     }
 }
