@@ -45,6 +45,7 @@ public class MSFAvatarTokens: MSFTokensBase, ObservableObject {
 
     @Published public var backgroundCalculatedColorOptions: [UIColor]!
     @Published public var backgroundDefaultColor: UIColor!
+    @Published public var foregroundCalculatedColorOptions: [UIColor]!
     @Published public var foregroundDefaultColor: UIColor!
     @Published public var textColor: UIColor!
 
@@ -101,7 +102,7 @@ public class MSFAvatarTokens: MSFTokensBase, ObservableObject {
         backgroundDefaultColor = appearanceProxy.backgroundDefaultColor
         backgroundCalculatedColorOptions = appearanceProxy.textCalculatedBackgroundColors
         foregroundDefaultColor = appearanceProxy.foregroundDefaultColor
-        textColor = appearanceProxy.textColor
+        foregroundCalculatedColorOptions = appearanceProxy.textCalculatedForegroundColors
 
         switch size {
         case .xsmall:

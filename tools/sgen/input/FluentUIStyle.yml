@@ -190,28 +190,66 @@ AP_MSFAvatarTokens:
   ringThickness: [ xSmall: $Border.size.thin, small: $Border.size.thin, medium: $Border.size.thick, large: $Border.size.thick, xlarge: $Border.size.thick, xxlarge: $Border.size.thicker ]
   ringOuterGap: [ xSmall: $Border.size.thick, small: $Border.size.thick, medium: $Border.size.thick, large: $Border.size.thick, xlarge: $Border.size.thick, xxlarge: $Border.size.thicker ]
   size: [ xSmall: 16pt, small: 24pt, medium: 32pt, large: 40pt, xlarge: 52pt, xxlarge: 72pt ]
-  textCalculatedBackgroundColors: [ "NamedColor(cyanBlue10)",
-                                    "NamedColor(red10)",
-                                    "NamedColor(magenta20)",
-                                    "NamedColor(green10)",
-                                    "NamedColor(magentaPink10)",
-                                    "NamedColor(cyanBlue20)",
-                                    "NamedColor(orange20)",
-                                    "NamedColor(cyan20)",
-                                    "NamedColor(orangeYellow20)",
-                                    "NamedColor(red20)",
-                                    "NamedColor(blue10)",
-                                    "NamedColor(magenta10)",
-                                    "NamedColor(gray40)",
-                                    "NamedColor(green20)",
-                                    "NamedColor(blueMagenta20)",
-                                    "NamedColor(pinkRed10)",
-                                    "NamedColor(gray30)",
-                                    "NamedColor(blueMagenta30)",
-                                    "NamedColor(gray20)",
-                                    "NamedColor(cyan30)",
-                                    "NamedColor(orange30)" ]
-  textColor: $Colors.Foreground.neutralInverted
+  textCalculatedBackgroundColors: [ "FluentUIColor(light: #D69BA5, dark: #420610)",
+                                    "FluentUIColor(light: #EDACB1, dark: #6E0911)",
+                                    "FluentUIColor(light: #F1BBBD, dark: #751D20)",
+                                    "FluentUIColor(light: #EFC4AD, dark: #712D09)",
+                                    "FluentUIColor(light: #FFDDB3, dark: #8F4F00)",
+                                    "FluentUIColor(light: #F9E2AE, dark: #835C00)",
+                                    "FluentUIColor(light: #EDDEA6, dark: #6D5700)",
+                                    "FluentUIColor(light: #E0CFA2, dark: #563F06)",
+                                    "FluentUIColor(light: #DDC3B0, dark: #50301A)",
+                                    "FluentUIColor(light: #BDDA9B, dark: #294903)",
+                                    "FluentUIColor(light: #A8F0CD, dark: #00723B)",
+                                    "FluentUIColor(light: #9AD39A, dark: #063C06)",
+                                    "FluentUIColor(light: #A6E8ED, dark: #00656D)",
+                                    "FluentUIColor(light: #9BD9DB, dark: #02494C)",
+                                    "FluentUIColor(light: #95C8D4, dark: #00333F)",
+                                    "FluentUIColor(light: #A9D3F2, dark: #004377)",
+                                    "FluentUIColor(light: #9ABFDD, dark: #002B4F)",
+                                    "FluentUIColor(light: #C7D1FA, dark: #2C3C85)",
+                                    "FluentUIColor(light: #A3B2E9, dark: #001665)",
+                                    "FluentUIColor(light: #D2CCF8, dark: #403582)",
+                                    "FluentUIColor(light: #C6B1DE, dark: #341A51)",
+                                    "FluentUIColor(light: #DAA7E0, dark: #4D0D56)",
+                                    "FluentUIColor(light: #E7BFED, dark: #63276D)",
+                                    "FluentUIColor(light: #F7C0E3, dark: #7F215D)",
+                                    "FluentUIColor(light: #ECA5D1, dark: #6B0042)",
+                                    "FluentUIColor(light: #D696C0, dark: #43002C)",
+                                    "FluentUIColor(light: #D7D5D4, dark: #454241)",
+                                    "FluentUIColor(light: #CECCCB, dark: #333231)",
+                                    "FluentUIColor(light: #CDD5D8, dark: #3A4346)",
+                                    "FluentUIColor(light: #BCC3C7, dark: #1F2427)" ]
+  textCalculatedForegroundColors: [ "FluentUIColor(light: #420610, dark: #D69BA5)",
+                                    "FluentUIColor(light: #6E0911, dark: #EDACB1)",
+                                    "FluentUIColor(light: #751D20, dark: #F1BBBD)",
+                                    "FluentUIColor(light: #712D09, dark: #EFC4AD)",
+                                    "FluentUIColor(light: #8F4F00, dark: #FFDDB3)",
+                                    "FluentUIColor(light: #835C00, dark: #F9E2AE)",
+                                    "FluentUIColor(light: #6D5700, dark: #EDDEA6)",
+                                    "FluentUIColor(light: #563F06, dark: #E0CFA2)",
+                                    "FluentUIColor(light: #50301A, dark: #DDC3B0)",
+                                    "FluentUIColor(light: #294903, dark: #BDDA9B)",
+                                    "FluentUIColor(light: #00723B, dark: #A8F0CD)",
+                                    "FluentUIColor(light: #063C06, dark: #9AD39A)",
+                                    "FluentUIColor(light: #00656D, dark: #A6E8ED)",
+                                    "FluentUIColor(light: #02494C, dark: #9BD9DB)",
+                                    "FluentUIColor(light: #00333F, dark: #95C8D4)",
+                                    "FluentUIColor(light: #004377, dark: #A9D3F2)",
+                                    "FluentUIColor(light: #002B4F, dark: #9ABFDD)",
+                                    "FluentUIColor(light: #2C3C85, dark: #C7D1FA)",
+                                    "FluentUIColor(light: #001665, dark: #A3B2E9)",
+                                    "FluentUIColor(light: #403582, dark: #D2CCF8)",
+                                    "FluentUIColor(light: #341A51, dark: #C6B1DE)",
+                                    "FluentUIColor(light: #4D0D56, dark: #DAA7E0)",
+                                    "FluentUIColor(light: #63276D, dark: #E7BFED)",
+                                    "FluentUIColor(light: #7F215D, dark: #F7C0E3)",
+                                    "FluentUIColor(light: #6B0042, dark: #ECA5D1)",
+                                    "FluentUIColor(light: #43002C, dark: #D696C0)",
+                                    "FluentUIColor(light: #454241, dark: #D7D5D4)",
+                                    "FluentUIColor(light: #333231, dark: #CECCCB)",
+                                    "FluentUIColor(light: #3A4346, dark: #CDD5D8)",
+                                    "FluentUIColor(light: #1F2427, dark: #BCC3C7)" ]
   textFont: [ xSmall: "Font(9px, regular)", small: "Font(12px, regular)", medium: "Font(13px, regular)", large: "Font(15px, regular)", xlarge: "Font(20px, regular)", xxlarge: "Font(28px, medium)" ]
 
 MSFAccentAvatarTokens extends MSFAvatarTokens:
@@ -235,7 +273,6 @@ MSFOutlinedPrimaryAvatarTokens extends MSFAvatarTokens:
 MSFOverflowAvatarTokens extends MSFAvatarTokens:
   backgroundDefaultColor: $Colors.Background.neutral4
   foregroundDefaultColor: $Colors.Foreground.neutral3
-  textColor: $Colors.Foreground.neutral3
   ringDefaultColor: $Colors.Background.neutralDisabled
 
 AP_MSFButtonTokens:

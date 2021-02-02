@@ -103,7 +103,7 @@ public struct AvatarView: View {
         let isOutOfOffice = state.isOutOfOffice
         let initialsString: String = ((style == .overflow) ? state.primaryText ?? "" : InitialsView.initialsText(fromPrimaryText: state.primaryText,
                                                                                                                  secondaryText: state.secondaryText))
-        let shouldUseCalculatedBackgroundColor = !initialsString.isEmpty && style != .overflow
+        let shouldUseCalculatedColors = !initialsString.isEmpty && style != .overflow
 
         let ringInnerGap: CGFloat = isRingVisible ? tokens.ringInnerGap : 0
         let ringThickness: CGFloat = isRingVisible ? tokens.ringThickness : 0
@@ -128,14 +128,18 @@ public struct AvatarView: View {
         let presenceCutoutOriginCoordinates: CGFloat = ringOuterGapSize - presenceIconFrameDiffRelativeToOuterRing - presenceIconOutlineSize
         let presenceIconFrameSideRelativeToOuterRing: CGFloat = presenceIconFrameSideRelativeToInnerRing + outerGapAndRingThicknesCombined
 
-        let foregroundColor = state.foregroundColor ?? tokens.foregroundDefaultColor!
-        let backgroundColor = state.backgroundColor ?? ( !shouldUseCalculatedBackgroundColor ?
+        let foregroundColor = state.foregroundColor ?? ( !shouldUseCalculatedColors ?
+                                                            tokens.foregroundDefaultColor! :
+                                                            InitialsView.initialsBackgroundColor(fromPrimaryText: state.primaryText,
+                                                                                                 secondaryText: state.secondaryText,
+                                                                                                 colorOptions: tokens.foregroundCalculatedColorOptions))
+        let backgroundColor = state.backgroundColor ?? ( !shouldUseCalculatedColors ?
                                                             tokens.backgroundDefaultColor! :
                                                             InitialsView.initialsBackgroundColor(fromPrimaryText: state.primaryText,
                                                                                                  secondaryText: state.secondaryText,
                                                                                                  colorOptions: tokens.backgroundCalculatedColorOptions))
         let ringGapColor = isTransparent ? Color.clear : Color(tokens.ringGapColor)
-        let ringColor = !isRingVisible ? Color.clear : Color(state.ringColor ?? ( !shouldUseCalculatedBackgroundColor ?
+        let ringColor = !isRingVisible ? Color.clear : Color(state.ringColor ?? ( !shouldUseCalculatedColors ?
                                                                                     tokens.ringDefaultColor! :
                                                                                     backgroundColor))
 
@@ -150,7 +154,7 @@ public struct AvatarView: View {
                         .foregroundColor(Color(foregroundColor)))
             :
             AnyView(Text(initialsString)
-                        .foregroundColor(Color(tokens.textColor))
+                        .foregroundColor(Color(foregroundColor))
                         .font(Font(tokens.textFont)))
 
         let bodyView = tokens.style == .group ?

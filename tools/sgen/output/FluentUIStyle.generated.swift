@@ -2737,42 +2737,81 @@ extension FluentUIThemeManagerTheming {
 		open func textCalculatedBackgroundColorsProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> [UIColor] {
 			if let override = _textCalculatedBackgroundColors { return override }
 			return [
-			UIColor(named: "FluentColors/cyanBlue10", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, 
-			UIColor(named: "FluentColors/red10", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, 
-			UIColor(named: "FluentColors/magenta20", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, 
-			UIColor(named: "FluentColors/green10", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, 
-			UIColor(named: "FluentColors/magentaPink10", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, 
-			UIColor(named: "FluentColors/cyanBlue20", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, 
-			UIColor(named: "FluentColors/orange20", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, 
-			UIColor(named: "FluentColors/cyan20", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, 
-			UIColor(named: "FluentColors/orangeYellow20", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, 
-			UIColor(named: "FluentColors/red20", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, 
-			UIColor(named: "FluentColors/blue10", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, 
-			UIColor(named: "FluentColors/magenta10", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, 
-			UIColor(named: "FluentColors/gray40", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, 
-			UIColor(named: "FluentColors/green20", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, 
-			UIColor(named: "FluentColors/blueMagenta20", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, 
-			UIColor(named: "FluentColors/pinkRed10", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, 
-			UIColor(named: "FluentColors/gray30", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, 
-			UIColor(named: "FluentColors/blueMagenta30", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, 
-			UIColor(named: "FluentColors/gray20", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, 
-			UIColor(named: "FluentColors/cyan30", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, 
-			UIColor(named: "FluentColors/orange30", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!]
+			UIColor(light: UIColor(red: 0.8392157, green: 0.60784316, blue: 0.64705884, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.25882354, green: 0.023529412, blue: 0.0627451, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.92941177, green: 0.6745098, blue: 0.69411767, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.43137255, green: 0.03529412, blue: 0.06666667, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.94509804, green: 0.73333335, blue: 0.7411765, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.45882353, green: 0.11372549, blue: 0.1254902, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.9372549, green: 0.76862746, blue: 0.6784314, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.44313726, green: 0.1764706, blue: 0.03529412, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 1.0, green: 0.8666667, blue: 0.7019608, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.56078434, green: 0.30980393, blue: 0.0, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.9764706, green: 0.8862745, blue: 0.68235296, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.5137255, green: 0.36078432, blue: 0.0, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.92941177, green: 0.87058824, blue: 0.6509804, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.42745098, green: 0.34117648, blue: 0.0, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.8784314, green: 0.8117647, blue: 0.63529414, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.3372549, green: 0.24705882, blue: 0.023529412, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.8666667, green: 0.7647059, blue: 0.6901961, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.3137255, green: 0.1882353, blue: 0.101960786, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.7411765, green: 0.85490197, blue: 0.60784316, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.16078432, green: 0.28627452, blue: 0.011764706, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.65882355, green: 0.9411765, blue: 0.8039216, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.0, green: 0.44705883, blue: 0.23137255, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.6039216, green: 0.827451, blue: 0.6039216, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.023529412, green: 0.23529412, blue: 0.023529412, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.6509804, green: 0.9098039, blue: 0.92941177, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.0, green: 0.39607844, blue: 0.42745098, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.60784316, green: 0.8509804, blue: 0.85882354, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.007843138, green: 0.28627452, blue: 0.29803923, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.58431375, green: 0.78431374, blue: 0.83137256, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.0, green: 0.2, blue: 0.24705882, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.6627451, green: 0.827451, blue: 0.9490196, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.0, green: 0.2627451, blue: 0.46666667, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.6039216, green: 0.7490196, blue: 0.8666667, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.0, green: 0.16862746, blue: 0.30980393, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.78039217, green: 0.81960785, blue: 0.98039216, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.17254902, green: 0.23529412, blue: 0.52156866, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.6392157, green: 0.69803923, blue: 0.9137255, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.0, green: 0.08627451, blue: 0.39607844, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.8235294, green: 0.8, blue: 0.972549, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.2509804, green: 0.20784314, blue: 0.50980395, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.7764706, green: 0.69411767, blue: 0.87058824, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.20392157, green: 0.101960786, blue: 0.31764707, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.85490197, green: 0.654902, blue: 0.8784314, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.3019608, green: 0.050980393, blue: 0.3372549, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.90588236, green: 0.7490196, blue: 0.92941177, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.3882353, green: 0.15294118, blue: 0.42745098, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.96862745, green: 0.7529412, blue: 0.8901961, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.49803922, green: 0.12941177, blue: 0.3647059, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.9254902, green: 0.64705884, blue: 0.81960785, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.41960785, green: 0.0, blue: 0.25882354, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.8392157, green: 0.5882353, blue: 0.7529412, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.2627451, green: 0.0, blue: 0.17254902, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.84313726, green: 0.8352941, blue: 0.83137256, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.27058825, green: 0.25882354, blue: 0.25490198, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.80784315, green: 0.8, blue: 0.79607844, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.2, green: 0.19607843, blue: 0.19215687, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.8039216, green: 0.8352941, blue: 0.84705883, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.22745098, green: 0.2627451, blue: 0.27450982, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.7372549, green: 0.7647059, blue: 0.78039217, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.12156863, green: 0.14117648, blue: 0.15294118, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)]
 			}
 		public var textCalculatedBackgroundColors: [UIColor] {
 			get { return self.textCalculatedBackgroundColorsProperty() }
 			set { _textCalculatedBackgroundColors = newValue }
 		}
 
-		//MARK: textColor 
-		public var _textColor: UIColor?
-		open func textColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-			if let override = _textColor { return override }
-			return mainProxy().Colors.Foreground.neutralInvertedProperty(traitCollection)
+		//MARK: textCalculatedForegroundColors 
+		public var _textCalculatedForegroundColors: [UIColor]?
+		open func textCalculatedForegroundColorsProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> [UIColor] {
+			if let override = _textCalculatedForegroundColors { return override }
+			return [
+			UIColor(light: UIColor(red: 0.25882354, green: 0.023529412, blue: 0.0627451, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.8392157, green: 0.60784316, blue: 0.64705884, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.43137255, green: 0.03529412, blue: 0.06666667, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.92941177, green: 0.6745098, blue: 0.69411767, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.45882353, green: 0.11372549, blue: 0.1254902, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.94509804, green: 0.73333335, blue: 0.7411765, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.44313726, green: 0.1764706, blue: 0.03529412, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.9372549, green: 0.76862746, blue: 0.6784314, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.56078434, green: 0.30980393, blue: 0.0, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 1.0, green: 0.8666667, blue: 0.7019608, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.5137255, green: 0.36078432, blue: 0.0, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.9764706, green: 0.8862745, blue: 0.68235296, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.42745098, green: 0.34117648, blue: 0.0, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.92941177, green: 0.87058824, blue: 0.6509804, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.3372549, green: 0.24705882, blue: 0.023529412, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.8784314, green: 0.8117647, blue: 0.63529414, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.3137255, green: 0.1882353, blue: 0.101960786, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.8666667, green: 0.7647059, blue: 0.6901961, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.16078432, green: 0.28627452, blue: 0.011764706, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.7411765, green: 0.85490197, blue: 0.60784316, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.0, green: 0.44705883, blue: 0.23137255, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.65882355, green: 0.9411765, blue: 0.8039216, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.023529412, green: 0.23529412, blue: 0.023529412, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.6039216, green: 0.827451, blue: 0.6039216, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.0, green: 0.39607844, blue: 0.42745098, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.6509804, green: 0.9098039, blue: 0.92941177, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.007843138, green: 0.28627452, blue: 0.29803923, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.60784316, green: 0.8509804, blue: 0.85882354, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.0, green: 0.2, blue: 0.24705882, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.58431375, green: 0.78431374, blue: 0.83137256, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.0, green: 0.2627451, blue: 0.46666667, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.6627451, green: 0.827451, blue: 0.9490196, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.0, green: 0.16862746, blue: 0.30980393, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.6039216, green: 0.7490196, blue: 0.8666667, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.17254902, green: 0.23529412, blue: 0.52156866, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.78039217, green: 0.81960785, blue: 0.98039216, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.0, green: 0.08627451, blue: 0.39607844, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.6392157, green: 0.69803923, blue: 0.9137255, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.2509804, green: 0.20784314, blue: 0.50980395, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.8235294, green: 0.8, blue: 0.972549, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.20392157, green: 0.101960786, blue: 0.31764707, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.7764706, green: 0.69411767, blue: 0.87058824, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.3019608, green: 0.050980393, blue: 0.3372549, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.85490197, green: 0.654902, blue: 0.8784314, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.3882353, green: 0.15294118, blue: 0.42745098, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.90588236, green: 0.7490196, blue: 0.92941177, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.49803922, green: 0.12941177, blue: 0.3647059, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.96862745, green: 0.7529412, blue: 0.8901961, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.41960785, green: 0.0, blue: 0.25882354, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.9254902, green: 0.64705884, blue: 0.81960785, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.2627451, green: 0.0, blue: 0.17254902, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.8392157, green: 0.5882353, blue: 0.7529412, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.27058825, green: 0.25882354, blue: 0.25490198, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.84313726, green: 0.8352941, blue: 0.83137256, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.2, green: 0.19607843, blue: 0.19215687, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.80784315, green: 0.8, blue: 0.79607844, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.22745098, green: 0.2627451, blue: 0.27450982, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.8039216, green: 0.8352941, blue: 0.84705883, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: UIColor(red: 0.12156863, green: 0.14117648, blue: 0.15294118, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.7372549, green: 0.7647059, blue: 0.78039217, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)]
 			}
-		public var textColor: UIColor {
-			get { return self.textColorProperty() }
-			set { _textColor = newValue }
+		public var textCalculatedForegroundColors: [UIColor] {
+			get { return self.textCalculatedForegroundColorsProperty() }
+			set { _textCalculatedForegroundColors = newValue }
 		}
 
 		//MARK: - textFont
@@ -4103,12 +4142,6 @@ extension FluentUIThemeManagerTheming {
 		override open func ringDefaultColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
 			if let override = _ringDefaultColor { return override }
 			return mainProxy().Colors.Background.neutralDisabledProperty(traitCollection)
-			}
-
-		//MARK: textColor 
-		override open func textColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-			if let override = _textColor { return override }
-			return mainProxy().Colors.Foreground.neutral3Property(traitCollection)
 			}
 	}
 	//MARK: - MSFPrimaryButtonTokens
