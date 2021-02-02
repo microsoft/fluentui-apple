@@ -47,7 +47,6 @@ public class MSFAvatarTokens: MSFTokensBase, ObservableObject {
     @Published public var backgroundDefaultColor: UIColor!
     @Published public var foregroundCalculatedColorOptions: [UIColor]!
     @Published public var foregroundDefaultColor: UIColor!
-    @Published public var textColor: UIColor!
 
     public var style: MSFAvatarStyle {
         didSet {
