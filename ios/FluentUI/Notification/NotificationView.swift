@@ -48,8 +48,17 @@ open class NotificationView: UIView {
         case primaryBar
         case primaryOutlineBar
         case neutralBar
+        case dangerToast
+        case warningToast
 
-        var isToast: Bool { self == .primaryToast || self == .neutralToast }
+        var isToast: Bool {
+            switch self {
+            case .primaryBar, .primaryOutlineBar, .neutralBar:
+                return false
+            case .primaryToast, .neutralToast, .dangerToast, .warningToast:
+                return true
+            }
+        }
 
         func backgroundColor(for window: UIWindow) -> UIColor {
             switch self {
@@ -63,6 +72,10 @@ open class NotificationView: UIView {
                 return Colors.Notification.PrimaryOutlineBar.background
             case .neutralBar:
                 return Colors.Notification.NeutralBar.background
+            case .dangerToast:
+                return UIColor(light: Colors.Palette.dangerTint40.color, dark: Colors.Palette.dangerPrimary.color)
+            case .warningToast:
+                return UIColor(light: Colors.Palette.warningTint40.color, dark: Colors.Palette.warningPrimary.color)
             }
         }
         func foregroundColor(for window: UIWindow) -> UIColor {
@@ -77,6 +90,10 @@ open class NotificationView: UIView {
                 return UIColor(light: Colors.primary(for: window), dark: Colors.textPrimary)
             case .neutralBar:
                 return Colors.Notification.NeutralBar.foreground
+            case .dangerToast:
+                return UIColor(light: Colors.Palette.dangerShade20.color, dark: .black)
+            case .warningToast:
+                return UIColor(light: Colors.Palette.warningShade30.color, dark: .black)
             }
         }
 
