@@ -266,7 +266,9 @@
 				B45EB79121A4D047008646A2 /* BadgeFieldDemoController.swift */,
 				B444D6B72183BA4B0002B4D4 /* BadgeViewDemoController.swift */,
 				B4D852DA225C010A004B1B29 /* ButtonDemoController.swift */,
+				CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */,
 				114CF8B72423E10900D064AA /* ColorDemoController.swift */,
+				8AF03E1F24B6BE3100E6E2A2 /* ContactCollectionViewDemoController.swift */,
 				FD7254EC21471A3F002F4069 /* DateTimePickerDemoController.swift */,
 				A5DCA75D211E3A92005F4CB7 /* DrawerDemoController.swift */,
 				B4E8F65121CD9579008A1598 /* HUDDemoController.swift */,
@@ -275,6 +277,10 @@
 				FD41C8F322E28EEB0086F899 /* NavigationControllerDemoController.swift */,
 				7D0931C024AAA3D30072458A /* SideTabBarDemoController.swift */,
 				A5B6617523A4227300E801DD /* NotificationViewDemoController.swift */,
+				FDDD73FC22C6D86B00A9D995 /* ObjectiveCDemoController.h */,
+				FDDD73FB22C6D86B00A9D995 /* ObjectiveCDemoController.m */,
+				B441478E228E02540040E88E /* OtherCellsDemoController.swift */,
+				D0F59E3224F4E3A700358DC2 /* PassThroughDrawerDemoController.swift */,
 				B4575C5022FB8B6900EBD0EB /* PeoplePickerDemoController.swift */,
 				B4EF53C4215C45C400573E8F /* PersonaListViewDemoController.swift */,
 				497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */,
@@ -288,12 +294,6 @@
 				C038992D2359307D00265026 /* TableViewCellShimmerDemoController.swift */,
 				B4EF66532295F1A8007FEAB0 /* TableViewHeaderFooterViewDemoController.swift */,
 				FD7DF06121FB941400857267 /* TooltipDemoController.swift */,
-				FDDD73FC22C6D86B00A9D995 /* ObjectiveCDemoController.h */,
-				FDDD73FB22C6D86B00A9D995 /* ObjectiveCDemoController.m */,
-				B441478E228E02540040E88E /* OtherCellsDemoController.swift */,
-				8AF03E1F24B6BE3100E6E2A2 /* ContactCollectionViewDemoController.swift */,
-				D0F59E3224F4E3A700358DC2 /* PassThroughDrawerDemoController.swift */,
-				CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */,
 			);
 			path = Demos;
 			sourceTree = "<group>";
