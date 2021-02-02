@@ -119,6 +119,16 @@ class DrawerDemoController: DemoController, MSFDrawerControllerDelegate {
         drawerController?.delegate = self
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
+
     @objc private func showLeftDrawerClearBackgroundButtonTapped() {
         if let drawerController = drawerController {
             drawerController.state.backgroundDimmed = false
@@ -156,12 +166,15 @@ class DrawerDemoController: DemoController, MSFDrawerControllerDelegate {
             return
         }
 
-        let isLeadingEdgeLeftToRight = view.effectiveUserInterfaceLayoutDirection == .leftToRight
+        var isleftPresentation = gesture.velocity(in: view).x > 0
+        if view.effectiveUserInterfaceLayoutDirection == .rightToLeft {
+            isleftPresentation.toggle()
+        }
 
         if let drawerController = drawerController {
             drawerController.state.backgroundDimmed = true
             drawerController.state.presentingGesture = gesture
-            drawerController.state.presentationDirection = isLeadingEdgeLeftToRight ? .right : .left
+            drawerController.state.presentationDirection = isleftPresentation ? .left : .right
             present(drawerController, animated: true, completion: nil)
         }
     }

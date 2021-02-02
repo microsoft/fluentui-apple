@@ -19,6 +19,7 @@
 		22010B752523CEB700FF1F10 /* ActivityViewAnimating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22010B6F2523CB2D00FF1F10 /* ActivityViewAnimating.swift */; };
 		22EABB1A2509AAD100C4BE72 /* IndeterminateProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EABB192509AAD100C4BE72 /* IndeterminateProgressBarView.swift */; };
 		22EABB1B250A196200C4BE72 /* IndeterminateProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EABB192509AAD100C4BE72 /* IndeterminateProgressBarView.swift */; };
+		3F37B51425C8DB0E007EE062 /* AnimationCompletionModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDF1C9325C0C066000ED4F3 /* AnimationCompletionModifier.swift */; };
 		3F4FB92D25B25843008AB7CC /* UIKit+SwiftUI_interoperability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB92C25B25843008AB7CC /* UIKit+SwiftUI_interoperability.swift */; };
 		3F4FB92E25B25843008AB7CC /* UIKit+SwiftUI_interoperability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB92C25B25843008AB7CC /* UIKit+SwiftUI_interoperability.swift */; };
 		3F4FB96125B25D51008AB7CC /* DrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF3211E16360038C37C /* DrawerController.swift */; };
@@ -32,6 +33,7 @@
 		3F4FB97625B25E04008AB7CC /* Drawer+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB96F25B25E04008AB7CC /* Drawer+UIKit.swift */; };
 		3F4FB97725B25E04008AB7CC /* SideOverPanel+Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB97025B25E04008AB7CC /* SideOverPanel+Modifiers.swift */; };
 		3F4FB97825B25E04008AB7CC /* SideOverPanel+Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB97025B25E04008AB7CC /* SideOverPanel+Modifiers.swift */; };
+		3FDF1C9425C0C066000ED4F3 /* AnimationCompletionModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDF1C9325C0C066000ED4F3 /* AnimationCompletionModifier.swift */; };
 		497DC2D924185885008D86F8 /* PillButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D724185885008D86F8 /* PillButtonBar.swift */; };
 		497DC2DA24185885008D86F8 /* PillButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D724185885008D86F8 /* PillButtonBar.swift */; };
 		497DC2DB24185885008D86F8 /* PillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D824185885008D86F8 /* PillButton.swift */; };
@@ -348,6 +350,7 @@
 		3F4FB96E25B25E04008AB7CC /* SlideOverPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideOverPanel.swift; sourceTree = "<group>"; };
 		3F4FB96F25B25E04008AB7CC /* Drawer+UIKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Drawer+UIKit.swift"; sourceTree = "<group>"; };
 		3F4FB97025B25E04008AB7CC /* SideOverPanel+Modifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SideOverPanel+Modifiers.swift"; sourceTree = "<group>"; };
+		3FDF1C9325C0C066000ED4F3 /* AnimationCompletionModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationCompletionModifier.swift; sourceTree = "<group>"; };
 		497DC2D724185885008D86F8 /* PillButtonBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBar.swift; sourceTree = "<group>"; };
 		497DC2D824185885008D86F8 /* PillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
 		532854F925A3DD680042C3B9 /* Theming.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theming.swift; sourceTree = "<group>"; };
@@ -671,6 +674,7 @@
 			isa = PBXGroup;
 			children = (
 				3F4FB92C25B25843008AB7CC /* UIKit+SwiftUI_interoperability.swift */,
+				3FDF1C9325C0C066000ED4F3 /* AnimationCompletionModifier.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1326,6 +1330,7 @@
 				535400E525B16D7D0047DC47 /* DrawerTokens.swift in Sources */,
 				8FD0116E228A82A600D25925 /* BadgeField.swift in Sources */,
 				8FD0116F228A82A600D25925 /* BadgeStringExtractor.swift in Sources */,
+				3F37B51425C8DB0E007EE062 /* AnimationCompletionModifier.swift in Sources */,
 				8FD01170228A82A600D25925 /* BadgeView.swift in Sources */,
 				8FD01171228A82A600D25925 /* CalendarView.swift in Sources */,
 				1168630722E131CF0088B302 /* TabBarView.swift in Sources */,
@@ -1614,6 +1619,7 @@
 				A559BB7E212B6D100055E107 /* String+Extension.swift in Sources */,
 				535401D425BB53590047DC47 /* AvatarView.swift in Sources */,
 				A5961FA5218A260500E2A506 /* PopupMenuSectionHeaderView.swift in Sources */,
+				3FDF1C9425C0C066000ED4F3 /* AnimationCompletionModifier.swift in Sources */,
 				5354008D25B0C19C0047DC47 /* ListTokens.swift in Sources */,
 				FD56FD9A2194E50D0023C7EA /* DateTimePickerController.swift in Sources */,
 				A5F3B146232B1E3700007A4F /* ScrollView.swift in Sources */,
