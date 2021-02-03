@@ -50,6 +50,7 @@
 		535401D925BB535A0047DC47 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42661412148568800E25423 /* AvatarView.swift */; };
 		5354020325BB6A750047DC47 /* ButtonLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC23020E451D00016922A /* ButtonLegacy.swift */; };
 		5354020825BB6A760047DC47 /* ButtonLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC23020E451D00016922A /* ButtonLegacy.swift */; };
+		535AD63425CA815C000F1421 /* AvatarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535AD62E25CA8156000F1421 /* AvatarTests.swift */; };
 		537315B325438B15001FD14C /* iOS13_4_compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537315B225438B15001FD14C /* iOS13_4_compatibility.swift */; };
 		537315B425438B15001FD14C /* iOS13_4_compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537315B225438B15001FD14C /* iOS13_4_compatibility.swift */; };
 		53B659BA257AA50200070405 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B659B9257AA50200070405 /* Button.swift */; };
@@ -355,6 +356,7 @@
 		5354008725B0C19C0047DC47 /* ButtonTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonTokens.swift; sourceTree = "<group>"; };
 		5354008825B0C19C0047DC47 /* DrawerTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawerTokens.swift; sourceTree = "<group>"; };
 		5354008925B0C19C0047DC47 /* ListTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTokens.swift; sourceTree = "<group>"; };
+		535AD62E25CA8156000F1421 /* AvatarTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarTests.swift; sourceTree = "<group>"; };
 		537315B225438B15001FD14C /* iOS13_4_compatibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOS13_4_compatibility.swift; sourceTree = "<group>"; };
 		53B659B9257AA50200070405 /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		53BCB0CD253A4E8C00620960 /* Obscurable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Obscurable.swift; sourceTree = "<group>"; };
@@ -814,6 +816,7 @@
 		A5CEC15E20D980B30016922A /* FluentUI.Tests */ = {
 			isa = PBXGroup;
 			children = (
+				535AD62E25CA8156000F1421 /* AvatarTests.swift */,
 				8FA3CB5A246B19EA0049E431 /* ColorTests.swift */,
 				FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */,
 				A5CEC15F20D980B30016922A /* FluentUITests.swift */,
@@ -1632,6 +1635,7 @@
 			files = (
 				A5CEC16020D980B30016922A /* FluentUITests.swift in Sources */,
 				8FA3CB5B246B19EA0049E431 /* ColorTests.swift in Sources */,
+				535AD63425CA815C000F1421 /* AvatarTests.swift in Sources */,
 				FD053A352224CA33009B6378 /* DatePickerControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
