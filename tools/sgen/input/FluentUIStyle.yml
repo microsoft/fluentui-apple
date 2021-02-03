@@ -181,7 +181,7 @@ AP_MSFAvatarTokens:
   backgroundDefaultColor: "FluentUIColor(light: $Colors.Neutral.white, dark: $Colors.Brand.primary)"
   borderRadius: [ xSmall: $Border.radius.none, small: $Border.radius.none, medium: $Border.radius.none, large: $Border.radius.none, xlarge: $Border.radius.none, xxlarge: $Border.radius.none ]
   foregroundDefaultColor: "FluentUIColor(light: $Colors.Brand.primary, dark: $Icon.accentColor)"
-  presenceIconSize: [ xSmall: 0pt, small: $Icon.size.xxxSmall, medium: $Icon.size.xxxSmall, large: $Icon.size.xxSmall, xlarge: $Icon.size.xSmall, xxlarge: $Icon.size.small ]
+  presenceIconSize: [ xSmall: 0pt, small: $Icon.size.xxxSmall, medium: $Icon.size.xxxSmall, large: $Icon.size.xxSmall, xlarge: $Icon.size.xxSmall, xxlarge: $Icon.size.small ]
   presenceIconOutlineColor: $Colors.Background.neutral1
   presenceIconOutlineThickness: [ xSmall: $Border.size.none, small: $Border.size.thick, medium: $Border.size.thick, large: $Border.size.thick, xlarge: $Border.size.thick, xxlarge: $Border.size.thick ]
   ringDefaultColor: $Colors.Brand.tint10

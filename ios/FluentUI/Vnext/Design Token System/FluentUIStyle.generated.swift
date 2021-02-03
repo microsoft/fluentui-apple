@@ -2354,7 +2354,7 @@ extension FluentUIThemeManagerTheming {
 			public var _xlarge: CGFloat?
 			open func xlargeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
 				if let override = _xlarge { return override }
-					return mainProxy().Icon.size.xSmallProperty(traitCollection)
+					return mainProxy().Icon.size.xxSmallProperty(traitCollection)
 				}
 			public var xlarge: CGFloat {
 				get { return self.xlargeProperty() }
