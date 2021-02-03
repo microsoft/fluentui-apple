@@ -10,6 +10,8 @@ class NotificationViewDemoController: DemoController {
         case primaryToast
         case primaryToastWithImageAndTitle
         case neutralToast
+        case dangerToast
+        case warningToast
         case primaryBar
         case primaryOutlineBar
         case neutralBar
@@ -24,6 +26,10 @@ class NotificationViewDemoController: DemoController {
                 return "Primary Toast with image and title"
             case .neutralToast:
                 return "Neutral Toast"
+            case .dangerToast:
+                return "Danger Toast"
+            case .warningToast:
+                return "Warning Toast"
             case .primaryBar:
                 return "Primary Bar"
             case .primaryOutlineBar:
@@ -34,6 +40,7 @@ class NotificationViewDemoController: DemoController {
                 return "Persistent Bar with Action"
             case .persistentBarWithCancel:
                 return "Persistent Bar with Cancel"
+
             }
         }
 
@@ -85,6 +92,10 @@ class NotificationViewDemoController: DemoController {
             view.setup(style: .primaryToast, title: "Kat's iPhoneX", message: "Listen to Emails • 7 mins", image: UIImage(named: "play-in-circle-24x24"), action: { [unowned self] in self.showMessage("`Dismiss` tapped") }, messageAction: { [unowned self] in self.showMessage("`Listen to emails` tapped") })
         case .neutralToast:
             view.setup(style: .neutralToast, message: "Some items require you to sign in to view them", actionTitle: "Sign in", action: { [unowned self] in self.showMessage("`Sign in` tapped") })
+        case .dangerToast:
+            view.setup(style: .dangerToast, message: "There was a problem, and your recent changes may not have saved", actionTitle: "Retry", action: { [unowned self] in self.showMessage("`Retry` tapped") })
+        case .warningToast:
+            view.setup(style: .warningToast, message: "Read Only")
         case .primaryBar:
             view.setup(style: .primaryBar, message: "Updating...")
         case .primaryOutlineBar:
