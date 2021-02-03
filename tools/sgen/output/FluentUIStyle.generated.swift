@@ -490,6 +490,46 @@ extension FluentUIThemeManagerTheming {
 			self.mainProxy = proxy
 		}
 
+		//MARK: - Anchor
+		public var _Anchor: AnchorAppearanceProxy?
+		open func AnchorStyle() -> AnchorAppearanceProxy {
+			if let override = _Anchor { return override }
+				return AnchorAppearanceProxy(proxy: mainProxy)
+			}
+		public var Anchor: AnchorAppearanceProxy {
+			get { return self.AnchorStyle() }
+			set { _Anchor = newValue }
+		}
+		@objc(ColorsAnchorAppearanceProxy) @objcMembers open class AnchorAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.12156863, green: 0.14117648, blue: 0.15294118, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.7372549, green: 0.7647059, blue: 0.78039217, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
+			}
+		}
+
+
 		//MARK: - Background
 		public var _Background: BackgroundAppearanceProxy?
 		open func BackgroundStyle() -> BackgroundAppearanceProxy {
@@ -629,6 +669,86 @@ extension FluentUIThemeManagerTheming {
 		}
 
 
+		//MARK: - Beige
+		public var _Beige: BeigeAppearanceProxy?
+		open func BeigeStyle() -> BeigeAppearanceProxy {
+			if let override = _Beige { return override }
+				return BeigeAppearanceProxy(proxy: mainProxy)
+			}
+		public var Beige: BeigeAppearanceProxy {
+			get { return self.BeigeStyle() }
+			set { _Beige = newValue }
+		}
+		@objc(ColorsBeigeAppearanceProxy) @objcMembers open class BeigeAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.27058825, green: 0.25882354, blue: 0.25490198, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.84313726, green: 0.8352941, blue: 0.83137256, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
+			}
+		}
+
+
+		//MARK: - Blue
+		public var _Blue: BlueAppearanceProxy?
+		open func BlueStyle() -> BlueAppearanceProxy {
+			if let override = _Blue { return override }
+				return BlueAppearanceProxy(proxy: mainProxy)
+			}
+		public var Blue: BlueAppearanceProxy {
+			get { return self.BlueStyle() }
+			set { _Blue = newValue }
+		}
+		@objc(ColorsBlueAppearanceProxy) @objcMembers open class BlueAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.0, green: 0.2627451, blue: 0.46666667, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.6627451, green: 0.827451, blue: 0.9490196, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
+			}
+		}
+
+
 		//MARK: - Brand
 		public var _Brand: BrandAppearanceProxy?
 		open func BrandStyle() -> BrandAppearanceProxy {
@@ -727,6 +847,246 @@ extension FluentUIThemeManagerTheming {
 			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
 				if let override = _tint40 { return override }
 					return UIColor(light: UIColor(red: 0.9372549, green: 0.9647059, blue: 0.9882353, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.03529412, green: 0.17254902, blue: 0.2784314, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
+			}
+		}
+
+
+		//MARK: - Brass
+		public var _Brass: BrassAppearanceProxy?
+		open func BrassStyle() -> BrassAppearanceProxy {
+			if let override = _Brass { return override }
+				return BrassAppearanceProxy(proxy: mainProxy)
+			}
+		public var Brass: BrassAppearanceProxy {
+			get { return self.BrassStyle() }
+			set { _Brass = newValue }
+		}
+		@objc(ColorsBrassAppearanceProxy) @objcMembers open class BrassAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.3372549, green: 0.24705882, blue: 0.023529412, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.8784314, green: 0.8117647, blue: 0.63529414, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
+			}
+		}
+
+
+		//MARK: - Brown
+		public var _Brown: BrownAppearanceProxy?
+		open func BrownStyle() -> BrownAppearanceProxy {
+			if let override = _Brown { return override }
+				return BrownAppearanceProxy(proxy: mainProxy)
+			}
+		public var Brown: BrownAppearanceProxy {
+			get { return self.BrownStyle() }
+			set { _Brown = newValue }
+		}
+		@objc(ColorsBrownAppearanceProxy) @objcMembers open class BrownAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.3137255, green: 0.1882353, blue: 0.101960786, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.8666667, green: 0.7647059, blue: 0.6901961, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
+			}
+		}
+
+
+		//MARK: - Cornflower
+		public var _Cornflower: CornflowerAppearanceProxy?
+		open func CornflowerStyle() -> CornflowerAppearanceProxy {
+			if let override = _Cornflower { return override }
+				return CornflowerAppearanceProxy(proxy: mainProxy)
+			}
+		public var Cornflower: CornflowerAppearanceProxy {
+			get { return self.CornflowerStyle() }
+			set { _Cornflower = newValue }
+		}
+		@objc(ColorsCornflowerAppearanceProxy) @objcMembers open class CornflowerAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.17254902, green: 0.23529412, blue: 0.52156866, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.78039217, green: 0.81960785, blue: 0.98039216, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
+			}
+		}
+
+
+		//MARK: - Cranberry
+		public var _Cranberry: CranberryAppearanceProxy?
+		open func CranberryStyle() -> CranberryAppearanceProxy {
+			if let override = _Cranberry { return override }
+				return CranberryAppearanceProxy(proxy: mainProxy)
+			}
+		public var Cranberry: CranberryAppearanceProxy {
+			get { return self.CranberryStyle() }
+			set { _Cranberry = newValue }
+		}
+		@objc(ColorsCranberryAppearanceProxy) @objcMembers open class CranberryAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.43137255, green: 0.03529412, blue: 0.06666667, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.92941177, green: 0.6745098, blue: 0.69411767, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
+			}
+		}
+
+
+		//MARK: - DarkGreen
+		public var _DarkGreen: DarkGreenAppearanceProxy?
+		open func DarkGreenStyle() -> DarkGreenAppearanceProxy {
+			if let override = _DarkGreen { return override }
+				return DarkGreenAppearanceProxy(proxy: mainProxy)
+			}
+		public var DarkGreen: DarkGreenAppearanceProxy {
+			get { return self.DarkGreenStyle() }
+			set { _DarkGreen = newValue }
+		}
+		@objc(ColorsDarkGreenAppearanceProxy) @objcMembers open class DarkGreenAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.023529412, green: 0.23529412, blue: 0.023529412, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.6039216, green: 0.827451, blue: 0.6039216, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
+			}
+		}
+
+
+		//MARK: - DarkRed
+		public var _DarkRed: DarkRedAppearanceProxy?
+		open func DarkRedStyle() -> DarkRedAppearanceProxy {
+			if let override = _DarkRed { return override }
+				return DarkRedAppearanceProxy(proxy: mainProxy)
+			}
+		public var DarkRed: DarkRedAppearanceProxy {
+			get { return self.DarkRedStyle() }
+			set { _DarkRed = newValue }
+		}
+		@objc(ColorsDarkRedAppearanceProxy) @objcMembers open class DarkRedAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.25882354, green: 0.023529412, blue: 0.0627451, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.8392157, green: 0.60784316, blue: 0.64705884, alpha: 1.0)
 				}
 			public var tint40: UIColor {
 				get { return self.tint40Property() }
@@ -943,6 +1303,406 @@ extension FluentUIThemeManagerTheming {
 			public var neutralInverted: UIColor {
 				get { return self.neutralInvertedProperty() }
 				set { _neutralInverted = newValue }
+			}
+		}
+
+
+		//MARK: - Forest
+		public var _Forest: ForestAppearanceProxy?
+		open func ForestStyle() -> ForestAppearanceProxy {
+			if let override = _Forest { return override }
+				return ForestAppearanceProxy(proxy: mainProxy)
+			}
+		public var Forest: ForestAppearanceProxy {
+			get { return self.ForestStyle() }
+			set { _Forest = newValue }
+		}
+		@objc(ColorsForestAppearanceProxy) @objcMembers open class ForestAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.16078432, green: 0.28627452, blue: 0.011764706, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.7411765, green: 0.85490197, blue: 0.60784316, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
+			}
+		}
+
+
+		//MARK: - Gold
+		public var _Gold: GoldAppearanceProxy?
+		open func GoldStyle() -> GoldAppearanceProxy {
+			if let override = _Gold { return override }
+				return GoldAppearanceProxy(proxy: mainProxy)
+			}
+		public var Gold: GoldAppearanceProxy {
+			get { return self.GoldStyle() }
+			set { _Gold = newValue }
+		}
+		@objc(ColorsGoldAppearanceProxy) @objcMembers open class GoldAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.42745098, green: 0.34117648, blue: 0.0, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.92941177, green: 0.87058824, blue: 0.6509804, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
+			}
+		}
+
+
+		//MARK: - Grape
+		public var _Grape: GrapeAppearanceProxy?
+		open func GrapeStyle() -> GrapeAppearanceProxy {
+			if let override = _Grape { return override }
+				return GrapeAppearanceProxy(proxy: mainProxy)
+			}
+		public var Grape: GrapeAppearanceProxy {
+			get { return self.GrapeStyle() }
+			set { _Grape = newValue }
+		}
+		@objc(ColorsGrapeAppearanceProxy) @objcMembers open class GrapeAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.3019608, green: 0.050980393, blue: 0.3372549, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.85490197, green: 0.654902, blue: 0.8784314, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
+			}
+		}
+
+
+		//MARK: - Lavender
+		public var _Lavender: LavenderAppearanceProxy?
+		open func LavenderStyle() -> LavenderAppearanceProxy {
+			if let override = _Lavender { return override }
+				return LavenderAppearanceProxy(proxy: mainProxy)
+			}
+		public var Lavender: LavenderAppearanceProxy {
+			get { return self.LavenderStyle() }
+			set { _Lavender = newValue }
+		}
+		@objc(ColorsLavenderAppearanceProxy) @objcMembers open class LavenderAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.2509804, green: 0.20784314, blue: 0.50980395, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.8235294, green: 0.8, blue: 0.972549, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
+			}
+		}
+
+
+		//MARK: - LightTeal
+		public var _LightTeal: LightTealAppearanceProxy?
+		open func LightTealStyle() -> LightTealAppearanceProxy {
+			if let override = _LightTeal { return override }
+				return LightTealAppearanceProxy(proxy: mainProxy)
+			}
+		public var LightTeal: LightTealAppearanceProxy {
+			get { return self.LightTealStyle() }
+			set { _LightTeal = newValue }
+		}
+		@objc(ColorsLightTealAppearanceProxy) @objcMembers open class LightTealAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.0, green: 0.39607844, blue: 0.42745098, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.6509804, green: 0.9098039, blue: 0.92941177, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
+			}
+		}
+
+
+		//MARK: - Lilac
+		public var _Lilac: LilacAppearanceProxy?
+		open func LilacStyle() -> LilacAppearanceProxy {
+			if let override = _Lilac { return override }
+				return LilacAppearanceProxy(proxy: mainProxy)
+			}
+		public var Lilac: LilacAppearanceProxy {
+			get { return self.LilacStyle() }
+			set { _Lilac = newValue }
+		}
+		@objc(ColorsLilacAppearanceProxy) @objcMembers open class LilacAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.3882353, green: 0.15294118, blue: 0.42745098, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.90588236, green: 0.7490196, blue: 0.92941177, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
+			}
+		}
+
+
+		//MARK: - Magenta
+		public var _Magenta: MagentaAppearanceProxy?
+		open func MagentaStyle() -> MagentaAppearanceProxy {
+			if let override = _Magenta { return override }
+				return MagentaAppearanceProxy(proxy: mainProxy)
+			}
+		public var Magenta: MagentaAppearanceProxy {
+			get { return self.MagentaStyle() }
+			set { _Magenta = newValue }
+		}
+		@objc(ColorsMagentaAppearanceProxy) @objcMembers open class MagentaAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.41960785, green: 0.0, blue: 0.25882354, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.9254902, green: 0.64705884, blue: 0.81960785, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
+			}
+		}
+
+
+		//MARK: - Marigold
+		public var _Marigold: MarigoldAppearanceProxy?
+		open func MarigoldStyle() -> MarigoldAppearanceProxy {
+			if let override = _Marigold { return override }
+				return MarigoldAppearanceProxy(proxy: mainProxy)
+			}
+		public var Marigold: MarigoldAppearanceProxy {
+			get { return self.MarigoldStyle() }
+			set { _Marigold = newValue }
+		}
+		@objc(ColorsMarigoldAppearanceProxy) @objcMembers open class MarigoldAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.5137255, green: 0.36078432, blue: 0.0, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.9764706, green: 0.8862745, blue: 0.68235296, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
+			}
+		}
+
+
+		//MARK: - Mink
+		public var _Mink: MinkAppearanceProxy?
+		open func MinkStyle() -> MinkAppearanceProxy {
+			if let override = _Mink { return override }
+				return MinkAppearanceProxy(proxy: mainProxy)
+			}
+		public var Mink: MinkAppearanceProxy {
+			get { return self.MinkStyle() }
+			set { _Mink = newValue }
+		}
+		@objc(ColorsMinkAppearanceProxy) @objcMembers open class MinkAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.2, green: 0.19607843, blue: 0.19215687, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.80784315, green: 0.8, blue: 0.79607844, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
+			}
+		}
+
+
+		//MARK: - Navy
+		public var _Navy: NavyAppearanceProxy?
+		open func NavyStyle() -> NavyAppearanceProxy {
+			if let override = _Navy { return override }
+				return NavyAppearanceProxy(proxy: mainProxy)
+			}
+		public var Navy: NavyAppearanceProxy {
+			get { return self.NavyStyle() }
+			set { _Navy = newValue }
+		}
+		@objc(ColorsNavyAppearanceProxy) @objcMembers open class NavyAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.0, green: 0.08627451, blue: 0.39607844, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.6392157, green: 0.69803923, blue: 0.9137255, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
 			}
 		}
 
@@ -1537,6 +2297,166 @@ extension FluentUIThemeManagerTheming {
 		}
 
 
+		//MARK: - Peach
+		public var _Peach: PeachAppearanceProxy?
+		open func PeachStyle() -> PeachAppearanceProxy {
+			if let override = _Peach { return override }
+				return PeachAppearanceProxy(proxy: mainProxy)
+			}
+		public var Peach: PeachAppearanceProxy {
+			get { return self.PeachStyle() }
+			set { _Peach = newValue }
+		}
+		@objc(ColorsPeachAppearanceProxy) @objcMembers open class PeachAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.56078434, green: 0.30980393, blue: 0.0, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 1.0, green: 0.8666667, blue: 0.7019608, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
+			}
+		}
+
+
+		//MARK: - Pink
+		public var _Pink: PinkAppearanceProxy?
+		open func PinkStyle() -> PinkAppearanceProxy {
+			if let override = _Pink { return override }
+				return PinkAppearanceProxy(proxy: mainProxy)
+			}
+		public var Pink: PinkAppearanceProxy {
+			get { return self.PinkStyle() }
+			set { _Pink = newValue }
+		}
+		@objc(ColorsPinkAppearanceProxy) @objcMembers open class PinkAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.49803922, green: 0.12941177, blue: 0.3647059, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.96862745, green: 0.7529412, blue: 0.8901961, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
+			}
+		}
+
+
+		//MARK: - Platinum
+		public var _Platinum: PlatinumAppearanceProxy?
+		open func PlatinumStyle() -> PlatinumAppearanceProxy {
+			if let override = _Platinum { return override }
+				return PlatinumAppearanceProxy(proxy: mainProxy)
+			}
+		public var Platinum: PlatinumAppearanceProxy {
+			get { return self.PlatinumStyle() }
+			set { _Platinum = newValue }
+		}
+		@objc(ColorsPlatinumAppearanceProxy) @objcMembers open class PlatinumAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.22745098, green: 0.2627451, blue: 0.27450982, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.8039216, green: 0.8352941, blue: 0.84705883, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
+			}
+		}
+
+
+		//MARK: - Plum
+		public var _Plum: PlumAppearanceProxy?
+		open func PlumStyle() -> PlumAppearanceProxy {
+			if let override = _Plum { return override }
+				return PlumAppearanceProxy(proxy: mainProxy)
+			}
+		public var Plum: PlumAppearanceProxy {
+			get { return self.PlumStyle() }
+			set { _Plum = newValue }
+		}
+		@objc(ColorsPlumAppearanceProxy) @objcMembers open class PlumAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.2627451, green: 0.0, blue: 0.17254902, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.8392157, green: 0.5882353, blue: 0.7529412, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
+			}
+		}
+
+
 		//MARK: - Presence
 		public var _Presence: PresenceAppearanceProxy?
 		open func PresenceStyle() -> PresenceAppearanceProxy {
@@ -1639,6 +2559,206 @@ extension FluentUIThemeManagerTheming {
 			public var unknown: UIColor {
 				get { return self.unknownProperty() }
 				set { _unknown = newValue }
+			}
+		}
+
+
+		//MARK: - Pumpkin
+		public var _Pumpkin: PumpkinAppearanceProxy?
+		open func PumpkinStyle() -> PumpkinAppearanceProxy {
+			if let override = _Pumpkin { return override }
+				return PumpkinAppearanceProxy(proxy: mainProxy)
+			}
+		public var Pumpkin: PumpkinAppearanceProxy {
+			get { return self.PumpkinStyle() }
+			set { _Pumpkin = newValue }
+		}
+		@objc(ColorsPumpkinAppearanceProxy) @objcMembers open class PumpkinAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.44313726, green: 0.1764706, blue: 0.03529412, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.9372549, green: 0.76862746, blue: 0.6784314, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
+			}
+		}
+
+
+		//MARK: - Purple
+		public var _Purple: PurpleAppearanceProxy?
+		open func PurpleStyle() -> PurpleAppearanceProxy {
+			if let override = _Purple { return override }
+				return PurpleAppearanceProxy(proxy: mainProxy)
+			}
+		public var Purple: PurpleAppearanceProxy {
+			get { return self.PurpleStyle() }
+			set { _Purple = newValue }
+		}
+		@objc(ColorsPurpleAppearanceProxy) @objcMembers open class PurpleAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.20392157, green: 0.101960786, blue: 0.31764707, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.7764706, green: 0.69411767, blue: 0.87058824, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
+			}
+		}
+
+
+		//MARK: - Red
+		public var _Red: RedAppearanceProxy?
+		open func RedStyle() -> RedAppearanceProxy {
+			if let override = _Red { return override }
+				return RedAppearanceProxy(proxy: mainProxy)
+			}
+		public var Red: RedAppearanceProxy {
+			get { return self.RedStyle() }
+			set { _Red = newValue }
+		}
+		@objc(ColorsRedAppearanceProxy) @objcMembers open class RedAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.45882353, green: 0.11372549, blue: 0.1254902, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.94509804, green: 0.73333335, blue: 0.7411765, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
+			}
+		}
+
+
+		//MARK: - RoyalBlue
+		public var _RoyalBlue: RoyalBlueAppearanceProxy?
+		open func RoyalBlueStyle() -> RoyalBlueAppearanceProxy {
+			if let override = _RoyalBlue { return override }
+				return RoyalBlueAppearanceProxy(proxy: mainProxy)
+			}
+		public var RoyalBlue: RoyalBlueAppearanceProxy {
+			get { return self.RoyalBlueStyle() }
+			set { _RoyalBlue = newValue }
+		}
+		@objc(ColorsRoyalBlueAppearanceProxy) @objcMembers open class RoyalBlueAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.0, green: 0.16862746, blue: 0.30980393, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.6039216, green: 0.7490196, blue: 0.8666667, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
+			}
+		}
+
+
+		//MARK: - Seafoam
+		public var _Seafoam: SeafoamAppearanceProxy?
+		open func SeafoamStyle() -> SeafoamAppearanceProxy {
+			if let override = _Seafoam { return override }
+				return SeafoamAppearanceProxy(proxy: mainProxy)
+			}
+		public var Seafoam: SeafoamAppearanceProxy {
+			get { return self.SeafoamStyle() }
+			set { _Seafoam = newValue }
+		}
+		@objc(ColorsSeafoamAppearanceProxy) @objcMembers open class SeafoamAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.0, green: 0.44705883, blue: 0.23137255, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.65882355, green: 0.9411765, blue: 0.8039216, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
 			}
 		}
 
@@ -1771,6 +2891,46 @@ extension FluentUIThemeManagerTheming {
 		}
 
 
+		//MARK: - Steel
+		public var _Steel: SteelAppearanceProxy?
+		open func SteelStyle() -> SteelAppearanceProxy {
+			if let override = _Steel { return override }
+				return SteelAppearanceProxy(proxy: mainProxy)
+			}
+		public var Steel: SteelAppearanceProxy {
+			get { return self.SteelStyle() }
+			set { _Steel = newValue }
+		}
+		@objc(ColorsSteelAppearanceProxy) @objcMembers open class SteelAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.0, green: 0.2, blue: 0.24705882, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.58431375, green: 0.78431374, blue: 0.83137256, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
+			}
+		}
+
+
 		//MARK: - Stroke
 		public var _Stroke: StrokeAppearanceProxy?
 		open func StrokeStyle() -> StrokeAppearanceProxy {
@@ -1895,6 +3055,46 @@ extension FluentUIThemeManagerTheming {
 			public var neutralDisabled: UIColor {
 				get { return self.neutralDisabledProperty() }
 				set { _neutralDisabled = newValue }
+			}
+		}
+
+
+		//MARK: - Teal
+		public var _Teal: TealAppearanceProxy?
+		open func TealStyle() -> TealAppearanceProxy {
+			if let override = _Teal { return override }
+				return TealAppearanceProxy(proxy: mainProxy)
+			}
+		public var Teal: TealAppearanceProxy {
+			get { return self.TealStyle() }
+			set { _Teal = newValue }
+		}
+		@objc(ColorsTealAppearanceProxy) @objcMembers open class TealAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: shade30 
+			public var _shade30: UIColor?
+			open func shade30Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _shade30 { return override }
+					return UIColor(red: 0.007843138, green: 0.28627452, blue: 0.29803923, alpha: 1.0)
+				}
+			public var shade30: UIColor {
+				get { return self.shade30Property() }
+				set { _shade30 = newValue }
+			}
+
+			//MARK: tint40 
+			public var _tint40: UIColor?
+			open func tint40Property(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _tint40 { return override }
+					return UIColor(red: 0.60784316, green: 0.8509804, blue: 0.85882354, alpha: 1.0)
+				}
+			public var tint40: UIColor {
+				get { return self.tint40Property() }
+				set { _tint40 = newValue }
 			}
 		}
 
@@ -2737,36 +3937,36 @@ extension FluentUIThemeManagerTheming {
 		open func textCalculatedBackgroundColorsProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> [UIColor] {
 			if let override = _textCalculatedBackgroundColors { return override }
 			return [
-			UIColor(light: UIColor(red: 0.8392157, green: 0.60784316, blue: 0.64705884, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.25882354, green: 0.023529412, blue: 0.0627451, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.92941177, green: 0.6745098, blue: 0.69411767, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.43137255, green: 0.03529412, blue: 0.06666667, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.94509804, green: 0.73333335, blue: 0.7411765, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.45882353, green: 0.11372549, blue: 0.1254902, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.9372549, green: 0.76862746, blue: 0.6784314, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.44313726, green: 0.1764706, blue: 0.03529412, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 1.0, green: 0.8666667, blue: 0.7019608, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.56078434, green: 0.30980393, blue: 0.0, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.9764706, green: 0.8862745, blue: 0.68235296, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.5137255, green: 0.36078432, blue: 0.0, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.92941177, green: 0.87058824, blue: 0.6509804, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.42745098, green: 0.34117648, blue: 0.0, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.8784314, green: 0.8117647, blue: 0.63529414, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.3372549, green: 0.24705882, blue: 0.023529412, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.8666667, green: 0.7647059, blue: 0.6901961, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.3137255, green: 0.1882353, blue: 0.101960786, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.7411765, green: 0.85490197, blue: 0.60784316, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.16078432, green: 0.28627452, blue: 0.011764706, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.65882355, green: 0.9411765, blue: 0.8039216, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.0, green: 0.44705883, blue: 0.23137255, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.6039216, green: 0.827451, blue: 0.6039216, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.023529412, green: 0.23529412, blue: 0.023529412, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.6509804, green: 0.9098039, blue: 0.92941177, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.0, green: 0.39607844, blue: 0.42745098, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.60784316, green: 0.8509804, blue: 0.85882354, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.007843138, green: 0.28627452, blue: 0.29803923, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.58431375, green: 0.78431374, blue: 0.83137256, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.0, green: 0.2, blue: 0.24705882, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.6627451, green: 0.827451, blue: 0.9490196, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.0, green: 0.2627451, blue: 0.46666667, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.6039216, green: 0.7490196, blue: 0.8666667, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.0, green: 0.16862746, blue: 0.30980393, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.78039217, green: 0.81960785, blue: 0.98039216, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.17254902, green: 0.23529412, blue: 0.52156866, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.6392157, green: 0.69803923, blue: 0.9137255, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.0, green: 0.08627451, blue: 0.39607844, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.8235294, green: 0.8, blue: 0.972549, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.2509804, green: 0.20784314, blue: 0.50980395, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.7764706, green: 0.69411767, blue: 0.87058824, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.20392157, green: 0.101960786, blue: 0.31764707, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.85490197, green: 0.654902, blue: 0.8784314, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.3019608, green: 0.050980393, blue: 0.3372549, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.90588236, green: 0.7490196, blue: 0.92941177, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.3882353, green: 0.15294118, blue: 0.42745098, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.96862745, green: 0.7529412, blue: 0.8901961, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.49803922, green: 0.12941177, blue: 0.3647059, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.9254902, green: 0.64705884, blue: 0.81960785, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.41960785, green: 0.0, blue: 0.25882354, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.8392157, green: 0.5882353, blue: 0.7529412, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.2627451, green: 0.0, blue: 0.17254902, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.84313726, green: 0.8352941, blue: 0.83137256, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.27058825, green: 0.25882354, blue: 0.25490198, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.80784315, green: 0.8, blue: 0.79607844, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.2, green: 0.19607843, blue: 0.19215687, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.8039216, green: 0.8352941, blue: 0.84705883, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.22745098, green: 0.2627451, blue: 0.27450982, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.7372549, green: 0.7647059, blue: 0.78039217, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.12156863, green: 0.14117648, blue: 0.15294118, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)]
+			UIColor(light: mainProxy().Colors.DarkRed.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.DarkRed.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Cranberry.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Cranberry.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Red.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Red.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Pumpkin.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Pumpkin.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Peach.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Peach.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Marigold.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Marigold.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Gold.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Gold.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Brass.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brass.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Brown.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brown.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Forest.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Forest.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Seafoam.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Seafoam.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.DarkGreen.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.DarkGreen.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.LightTeal.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.LightTeal.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Teal.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Teal.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Steel.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Steel.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Blue.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Blue.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.RoyalBlue.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.RoyalBlue.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Cornflower.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Cornflower.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Navy.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Navy.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Lavender.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Lavender.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Purple.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Purple.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Grape.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Grape.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Lilac.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Lilac.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Pink.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Pink.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Magenta.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Magenta.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Plum.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Plum.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Beige.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Beige.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Mink.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Mink.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Platinum.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Platinum.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Anchor.tint40Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Anchor.shade30Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)]
 			}
 		public var textCalculatedBackgroundColors: [UIColor] {
 			get { return self.textCalculatedBackgroundColorsProperty() }
@@ -2778,36 +3978,36 @@ extension FluentUIThemeManagerTheming {
 		open func textCalculatedForegroundColorsProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> [UIColor] {
 			if let override = _textCalculatedForegroundColors { return override }
 			return [
-			UIColor(light: UIColor(red: 0.25882354, green: 0.023529412, blue: 0.0627451, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.8392157, green: 0.60784316, blue: 0.64705884, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.43137255, green: 0.03529412, blue: 0.06666667, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.92941177, green: 0.6745098, blue: 0.69411767, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.45882353, green: 0.11372549, blue: 0.1254902, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.94509804, green: 0.73333335, blue: 0.7411765, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.44313726, green: 0.1764706, blue: 0.03529412, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.9372549, green: 0.76862746, blue: 0.6784314, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.56078434, green: 0.30980393, blue: 0.0, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 1.0, green: 0.8666667, blue: 0.7019608, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.5137255, green: 0.36078432, blue: 0.0, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.9764706, green: 0.8862745, blue: 0.68235296, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.42745098, green: 0.34117648, blue: 0.0, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.92941177, green: 0.87058824, blue: 0.6509804, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.3372549, green: 0.24705882, blue: 0.023529412, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.8784314, green: 0.8117647, blue: 0.63529414, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.3137255, green: 0.1882353, blue: 0.101960786, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.8666667, green: 0.7647059, blue: 0.6901961, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.16078432, green: 0.28627452, blue: 0.011764706, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.7411765, green: 0.85490197, blue: 0.60784316, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.0, green: 0.44705883, blue: 0.23137255, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.65882355, green: 0.9411765, blue: 0.8039216, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.023529412, green: 0.23529412, blue: 0.023529412, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.6039216, green: 0.827451, blue: 0.6039216, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.0, green: 0.39607844, blue: 0.42745098, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.6509804, green: 0.9098039, blue: 0.92941177, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.007843138, green: 0.28627452, blue: 0.29803923, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.60784316, green: 0.8509804, blue: 0.85882354, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.0, green: 0.2, blue: 0.24705882, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.58431375, green: 0.78431374, blue: 0.83137256, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.0, green: 0.2627451, blue: 0.46666667, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.6627451, green: 0.827451, blue: 0.9490196, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.0, green: 0.16862746, blue: 0.30980393, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.6039216, green: 0.7490196, blue: 0.8666667, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.17254902, green: 0.23529412, blue: 0.52156866, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.78039217, green: 0.81960785, blue: 0.98039216, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.0, green: 0.08627451, blue: 0.39607844, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.6392157, green: 0.69803923, blue: 0.9137255, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.2509804, green: 0.20784314, blue: 0.50980395, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.8235294, green: 0.8, blue: 0.972549, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.20392157, green: 0.101960786, blue: 0.31764707, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.7764706, green: 0.69411767, blue: 0.87058824, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.3019608, green: 0.050980393, blue: 0.3372549, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.85490197, green: 0.654902, blue: 0.8784314, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.3882353, green: 0.15294118, blue: 0.42745098, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.90588236, green: 0.7490196, blue: 0.92941177, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.49803922, green: 0.12941177, blue: 0.3647059, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.96862745, green: 0.7529412, blue: 0.8901961, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.41960785, green: 0.0, blue: 0.25882354, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.9254902, green: 0.64705884, blue: 0.81960785, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.2627451, green: 0.0, blue: 0.17254902, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.8392157, green: 0.5882353, blue: 0.7529412, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.27058825, green: 0.25882354, blue: 0.25490198, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.84313726, green: 0.8352941, blue: 0.83137256, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.2, green: 0.19607843, blue: 0.19215687, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.80784315, green: 0.8, blue: 0.79607844, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.22745098, green: 0.2627451, blue: 0.27450982, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.8039216, green: 0.8352941, blue: 0.84705883, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: UIColor(red: 0.12156863, green: 0.14117648, blue: 0.15294118, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.7372549, green: 0.7647059, blue: 0.78039217, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)]
+			UIColor(light: mainProxy().Colors.DarkRed.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.DarkRed.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Cranberry.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Cranberry.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Red.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Red.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Pumpkin.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Pumpkin.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Peach.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Peach.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Marigold.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Marigold.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Gold.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Gold.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Brass.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brass.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Brown.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brown.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Forest.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Forest.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Seafoam.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Seafoam.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.DarkGreen.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.DarkGreen.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.LightTeal.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.LightTeal.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Teal.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Teal.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Steel.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Steel.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Blue.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Blue.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.RoyalBlue.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.RoyalBlue.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Cornflower.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Cornflower.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Navy.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Navy.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Lavender.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Lavender.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Purple.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Purple.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Grape.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Grape.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Lilac.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Lilac.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Pink.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Pink.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Magenta.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Magenta.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Plum.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Plum.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Beige.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Beige.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Mink.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Mink.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Platinum.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Platinum.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
+			UIColor(light: mainProxy().Colors.Anchor.shade30Property(traitCollection), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Anchor.tint40Property(traitCollection), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)]
 			}
 		public var textCalculatedForegroundColors: [UIColor] {
 			get { return self.textCalculatedForegroundColorsProperty() }
