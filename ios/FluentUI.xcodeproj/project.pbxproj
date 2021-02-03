@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A03B96C25CB55E9007A749F /* ListHeaderFooterTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A03B96B25CB55E9007A749F /* ListHeaderFooterTokens.swift */; };
+		0A03B96D25CB55E9007A749F /* ListHeaderFooterTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A03B96B25CB55E9007A749F /* ListHeaderFooterTokens.swift */; };
 		0BCEFADE2485FEC00088CEE5 /* PopupMenuProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */; };
 		0BCEFAE1248650F10088CEE5 /* PopupMenuProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */; };
 		11104BCE233ACA9500CCB232 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D9847230BBA2300BC0B72 /* TabBarItem.swift */; };
@@ -340,6 +342,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A03B96B25CB55E9007A749F /* ListHeaderFooterTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListHeaderFooterTokens.swift; sourceTree = "<group>"; };
 		0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuProtocols.swift; sourceTree = "<group>"; };
 		1168630222E131CF0088B302 /* TabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
 		1168630322E131CF0088B302 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
@@ -689,6 +692,7 @@
 				5354008825B0C19C0047DC47 /* DrawerTokens.swift */,
 				53F738482575A8240043071D /* FluentUIStyle.generated.swift */,
 				5354008925B0C19C0047DC47 /* ListTokens.swift */,
+				0A03B96B25CB55E9007A749F /* ListHeaderFooterTokens.swift */,
 				532854F925A3DD680042C3B9 /* Theming.swift */,
 			);
 			path = "Design Token System";
@@ -1390,6 +1394,7 @@
 				A5F3B14A232B1F9700007A4F /* UIResponder+Extensions.swift in Sources */,
 				3F4FB92E25B25843008AB7CC /* UIKit+SwiftUI_interoperability.swift in Sources */,
 				8FD0118B228A82A600D25925 /* CalendarConfiguration.swift in Sources */,
+				0A03B96D25CB55E9007A749F /* ListHeaderFooterTokens.swift in Sources */,
 				8FD0118C228A82A600D25925 /* DayOfMonth.swift in Sources */,
 				8FD0118E228A82A600D25925 /* FluentUIFramework.swift in Sources */,
 				8FD0118F228A82A600D25925 /* DateTimePicker.swift in Sources */,
@@ -1563,6 +1568,7 @@
 				B444D6B62183A9740002B4D4 /* BadgeView.swift in Sources */,
 				FD7254E72146E946002F4069 /* CalendarViewDayCell.swift in Sources */,
 				A589F854211BA03200471C23 /* Label.swift in Sources */,
+				0A03B96C25CB55E9007A749F /* ListHeaderFooterTokens.swift in Sources */,
 				A56CE7B622E68A7800AA77EE /* UIColor+Extensions.swift in Sources */,
 				A5237ACB21DED7030040BF27 /* ResizingHandleView.swift in Sources */,
 				B4E782C72179509A00A7DFCE /* CenteredLabelCell.swift in Sources */,

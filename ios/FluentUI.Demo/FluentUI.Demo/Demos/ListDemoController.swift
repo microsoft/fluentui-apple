@@ -91,6 +91,7 @@ class ListDemoController: DemoController {
             listSection = MSFListSectionState()
             listSection.title = section.title
             listSection.cells = []
+            listSection.style = MSFListHeaderFooterStyle.header
             for rowIndex in 0...TableViewCellSampleData.numberOfItemsInSection - 1 {
                 cell = section.item
                 listCell = MSFListCellState()

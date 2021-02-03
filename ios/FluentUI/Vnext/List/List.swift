@@ -10,6 +10,7 @@ import SwiftUI
 @objc public class MSFListSectionState: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
     @objc @Published public var cells: [MSFListCellState] = []
+    @objc @Published public var style: MSFListHeaderFooterStyle = .header
     @objc @Published public var title: String?
     @objc @Published public var hasDividers: Bool = false
 }
@@ -36,8 +37,8 @@ public struct MSFListView: View {
             ScrollView {
                 VStack(spacing: 0) {
                     ForEach(sections, id: \.self) { section in
-                        if let sectionTitle = section.title {
-                            Header(title: sectionTitle, tokens: tokens)
+                        if section.title != nil {
+                            Header(state: section)
                         }
 
                         ForEach(section.cells.indices, id: \.self) { index in

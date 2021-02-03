@@ -254,6 +254,7 @@ Typography:
   body: "Font(body)"
   caption1: "Font(caption1)"
   footnote: "Font(footnote)"
+  headline: "Font(headline)"
   subheadline: "Font(subheadline)"
 
 Border:
@@ -439,6 +440,12 @@ AP_MSFListTokens:
 
 MSFIconOnlyListTokens extends MSFListTokens:
   iconColor: $Colors.Foreground.neutral3
+  
+AP_MSFListHeaderFooterTokens:
+  backgroundColor: [ rest: $Colors.Background.neutral1, highlighted: $Colors.Background.neutral5 ]
+  textColor: [ default: $Colors.Foreground.neutral3, bolded: $Colors.Foreground.neutral1 ]
+  textFont: [ default: $Typography.caption1, bolded: $Typography.headline ]
+  horizontalCellPadding: $Spacing.medium
 
 AP_MSFDrawerTokens:
   backgroundClearColor: $Colors.Neutral.clear

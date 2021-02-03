@@ -4964,6 +4964,153 @@ extension FluentUIThemeManagerTheming {
 			return mainProxy().Colors.Foreground.neutral3Property(traitCollection)
 			}
 	}
+	//MARK: - MSFListHeaderFooterTokens
+	public var _MSFListHeaderFooterTokens: MSFListHeaderFooterTokensAppearanceProxy?
+	open func MSFListHeaderFooterTokensStyle() -> MSFListHeaderFooterTokensAppearanceProxy {
+		if let override = _MSFListHeaderFooterTokens { return override }
+			return MSFListHeaderFooterTokensAppearanceProxy(proxy: { return self })
+		}
+	public var MSFListHeaderFooterTokens: MSFListHeaderFooterTokensAppearanceProxy {
+		get { return self.MSFListHeaderFooterTokensStyle() }
+		set { _MSFListHeaderFooterTokens = newValue }
+	}
+	@objc(MSFListHeaderFooterTokensAppearanceProxy) @objcMembers open class MSFListHeaderFooterTokensAppearanceProxy: NSObject {
+		public let mainProxy: () -> FluentUIStyle
+		public init(proxy: @escaping () -> FluentUIStyle) {
+			self.mainProxy = proxy
+		}
+
+		//MARK: - backgroundColor
+		public var _backgroundColor: backgroundColorAppearanceProxy?
+		open func backgroundColorStyle() -> backgroundColorAppearanceProxy {
+			if let override = _backgroundColor { return override }
+				return backgroundColorAppearanceProxy(proxy: mainProxy)
+			}
+		public var backgroundColor: backgroundColorAppearanceProxy {
+			get { return self.backgroundColorStyle() }
+			set { _backgroundColor = newValue }
+		}
+		@objc(MSFListHeaderFooterTokensBackgroundColorAppearanceProxy) @objcMembers open class backgroundColorAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: highlighted 
+			public var _highlighted: UIColor?
+			open func highlightedProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _highlighted { return override }
+					return mainProxy().Colors.Background.neutral5Property(traitCollection)
+				}
+			public var highlighted: UIColor {
+				get { return self.highlightedProperty() }
+				set { _highlighted = newValue }
+			}
+
+			//MARK: rest 
+			public var _rest: UIColor?
+			open func restProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _rest { return override }
+					return mainProxy().Colors.Background.neutral1Property(traitCollection)
+				}
+			public var rest: UIColor {
+				get { return self.restProperty() }
+				set { _rest = newValue }
+			}
+		}
+
+
+		//MARK: horizontalCellPadding 
+		public var _horizontalCellPadding: CGFloat?
+		open func horizontalCellPaddingProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _horizontalCellPadding { return override }
+			return mainProxy().Spacing.mediumProperty(traitCollection)
+			}
+		public var horizontalCellPadding: CGFloat {
+			get { return self.horizontalCellPaddingProperty() }
+			set { _horizontalCellPadding = newValue }
+		}
+
+		//MARK: - textColor
+		public var _textColor: textColorAppearanceProxy?
+		open func textColorStyle() -> textColorAppearanceProxy {
+			if let override = _textColor { return override }
+				return textColorAppearanceProxy(proxy: mainProxy)
+			}
+		public var textColor: textColorAppearanceProxy {
+			get { return self.textColorStyle() }
+			set { _textColor = newValue }
+		}
+		@objc(MSFListHeaderFooterTokensTextColorAppearanceProxy) @objcMembers open class textColorAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: bolded 
+			public var _bolded: UIColor?
+			open func boldedProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _bolded { return override }
+					return mainProxy().Colors.Foreground.neutral1Property(traitCollection)
+				}
+			public var bolded: UIColor {
+				get { return self.boldedProperty() }
+				set { _bolded = newValue }
+			}
+
+			//MARK: default 
+			public var _default: UIColor?
+			open func defaultProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _default { return override }
+					return mainProxy().Colors.Foreground.neutral3Property(traitCollection)
+				}
+			public var `default`: UIColor {
+				get { return self.defaultProperty() }
+				set { _default = newValue }
+			}
+		}
+
+
+		//MARK: - textFont
+		public var _textFont: textFontAppearanceProxy?
+		open func textFontStyle() -> textFontAppearanceProxy {
+			if let override = _textFont { return override }
+				return textFontAppearanceProxy(proxy: mainProxy)
+			}
+		public var textFont: textFontAppearanceProxy {
+			get { return self.textFontStyle() }
+			set { _textFont = newValue }
+		}
+		@objc(MSFListHeaderFooterTokensTextFontAppearanceProxy) @objcMembers open class textFontAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: bolded 
+			public var _bolded: UIFont?
+			open func boldedProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
+				if let override = _bolded { return override }
+					return mainProxy().Typography.headlineProperty(traitCollection)
+				}
+			public var bolded: UIFont {
+				get { return self.boldedProperty() }
+				set { _bolded = newValue }
+			}
+
+			//MARK: default 
+			public var _default: UIFont?
+			open func defaultProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
+				if let override = _default { return override }
+					return mainProxy().Typography.caption1Property(traitCollection)
+				}
+			public var `default`: UIFont {
+				get { return self.defaultProperty() }
+				set { _default = newValue }
+			}
+		}
+
+	}
 	//MARK: - MSFListTokens
 	public var _MSFListTokens: MSFListTokensAppearanceProxy?
 	open func MSFListTokensStyle() -> MSFListTokensAppearanceProxy {
@@ -6515,6 +6662,17 @@ extension FluentUIThemeManagerTheming {
 			set { _footnote = newValue }
 		}
 
+		//MARK: headline 
+		public var _headline: UIFont?
+		open func headlineProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
+			if let override = _headline { return override }
+			return UIFont.font(name: nil, size: nil, textStyle: S.FontTextStyle.headline, weight: nil, traits: [], traitCollection: traitCollection, isScalable: true)
+			}
+		public var headline: UIFont {
+			get { return self.headlineProperty() }
+			set { _headline = newValue }
+		}
+
 		//MARK: subheadline 
 		public var _subheadline: UIFont?
 		open func subheadlineProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
@@ -6681,6 +6839,54 @@ extension MSFDrawerTokens: AppearaceProxyComponent {
 			}
 
 			return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFDrawerTokens
+		}
+		set {
+			objc_setAssociatedObject(self, &__AppearanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+			didChangeAppearanceProxy()
+		}
+	}
+
+	public var themeAware: Bool {
+		get {
+			guard let proxy = objc_getAssociatedObject(self, &__ThemeAwareHandle) as? Bool else { return true }
+			return proxy
+		}
+		set {
+			objc_setAssociatedObject(self, &__ThemeAwareHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+			isObservingDidChangeTheme = newValue
+		}
+	}
+
+	fileprivate var isObservingDidChangeTheme: Bool {
+		get {
+			guard let observing = objc_getAssociatedObject(self, &__ObservingDidChangeThemeHandle) as? Bool else { return false }
+			return observing
+		}
+		set {
+			if newValue == isObservingDidChangeTheme { return }
+			if newValue {
+				NotificationCenter.default.addObserver(self, selector: #selector(didChangeAppearanceProxy), name: Notification.Name.didChangeTheme, object: nil)
+			} else {
+				NotificationCenter.default.removeObserver(self, name: Notification.Name.didChangeTheme, object: nil)
+			}
+			objc_setAssociatedObject(self, &__ObservingDidChangeThemeHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+		}
+	}
+}
+
+extension MSFListHeaderFooterTokens: AppearaceProxyComponent {
+
+	public typealias AppearanceProxyType = FluentUIStyle.MSFListHeaderFooterTokensAppearanceProxy
+	public var appearanceProxy: AppearanceProxyType {
+		get {
+			if let proxy = objc_getAssociatedObject(self, &__AppearanceProxyHandle) as? AppearanceProxyType {
+				if !themeAware { return proxy }
+
+
+				return proxy
+			}
+
+			return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFListHeaderFooterTokens
 		}
 		set {
 			objc_setAssociatedObject(self, &__AppearanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)

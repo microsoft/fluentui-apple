@@ -6,26 +6,27 @@
 import UIKit
 import SwiftUI
 
-/// View for List Header (availble for iOS 14.0+)
 struct Header: View {
-    let title: String
-    var tokens: MSFListTokens
+    let state: MSFListSectionState
+    var tokens: MSFListHeaderFooterTokens
 
-    init(title: String, tokens: MSFListTokens) {
-        self.title = title
-        self.tokens = tokens
+    init(state: MSFListSectionState) {
+        self.state = state
+        self.tokens = MSFListHeaderFooterTokens(style: state.style)
     }
 
     var body: some View {
         HStack(spacing: 0) {
-            Text(title)
-                .font(Font(tokens.subtitleFont))
-                .foregroundColor(Color(tokens.subtitleColor))
-                .listRowInsets(EdgeInsets())
-                .padding(.top, tokens.horizontalCellPadding / 2)
-                .padding(.leading, tokens.horizontalCellPadding)
-                .padding(.trailing, tokens.horizontalCellPadding)
-                .padding(.bottom, tokens.horizontalCellPadding / 2)
+            if let title = state.title {
+                Text(title)
+                    .font(Font(tokens.textFont))
+                    .foregroundColor(Color(tokens.textColor))
+                    .listRowInsets(EdgeInsets())
+                    .padding(.top, tokens.horizontalCellPadding / 2)
+                    .padding(.leading, tokens.horizontalCellPadding)
+                    .padding(.trailing, tokens.horizontalCellPadding)
+                    .padding(.bottom, tokens.horizontalCellPadding / 2)
+            }
             Spacer()
         }
         .background(Color(tokens.backgroundColor))
