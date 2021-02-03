@@ -9,6 +9,126 @@ Colors:
     - tint30: "FluentUIColor(light: #DEECF9, dark: #043862)"
     - tint40: "FluentUIColor(light: #EFF6FC, dark: #092C47)"
 
+  DarkRed:
+    - shade30: "#420610"
+    - tint40: "#D69BA5"
+
+  Cranberry:
+    - shade30: "#6E0911"
+    - tint40: "#EDACB1"
+
+  Red:
+    - shade30: "#751D20"
+    - tint40: "#F1BBBD"
+
+  Pumpkin:
+    - shade30: "#712D09"
+    - tint40: "#EFC4AD"
+
+  Peach:
+    - shade30: "#8F4F00"
+    - tint40: "#FFDDB3"
+
+  Marigold:
+    - shade30: "#835C00"
+    - tint40: "#F9E2AE"
+
+  Gold:
+    - shade30: "#6D5700"
+    - tint40: "#EDDEA6"
+
+  Brass:
+    - shade30: "#563F06"
+    - tint40: "#E0CFA2"
+
+  Brown:
+    - shade30: "#50301A"
+    - tint40: "#DDC3B0"
+
+  Forest:
+    - shade30: "#294903"
+    - tint40: "#BDDA9B"
+
+  Seafoam:
+    - shade30: "#00723B"
+    - tint40: "#A8F0CD"
+
+  DarkGreen:
+    - shade30: "#063C06"
+    - tint40: "#9AD39A"
+
+  LightTeal:
+    - shade30: "#00656D"
+    - tint40: "#A6E8ED"
+
+  Teal:
+    - shade30: "#02494C"
+    - tint40: "#9BD9DB"
+
+  Steel:
+    - shade30: "#00333F"
+    - tint40: "#95C8D4"
+
+  Blue:
+    - shade30: "#004377"
+    - tint40: "#A9D3F2"
+
+  RoyalBlue:
+    - shade30: "#002B4F"
+    - tint40: "#9ABFDD"
+
+  Cornflower:
+    - shade30: "#2C3C85"
+    - tint40: "#C7D1FA"
+
+  Navy:
+    - shade30: "#001665"
+    - tint40: "#A3B2E9"
+
+  Lavender:
+    - shade30: "#403582"
+    - tint40: "#D2CCF8"
+
+  Purple:
+    - shade30: "#341A51"
+    - tint40: "#C6B1DE"
+
+  Grape:
+    - shade30: "#4D0D56"
+    - tint40: "#DAA7E0"
+
+  Lilac:
+    - shade30: "#63276D"
+    - tint40: "#E7BFED"
+
+  Pink:
+    - shade30: "#7F215D"
+    - tint40: "#F7C0E3"
+
+  Magenta:
+    - shade30: "#6B0042"
+    - tint40: "#ECA5D1"
+
+  Plum:
+    - shade30: "#43002C"
+    - tint40: "#D696C0"
+
+  Beige:
+    - shade30: "#454241"
+    - tint40: "#D7D5D4"
+
+  Mink:
+    - shade30: "#333231"
+    - tint40: "#CECCCB"
+
+  Platinum:
+    - shade30: "#3A4346"
+    - tint40: "#CDD5D8"
+
+  Anchor:
+    - shade30: "#1F2427"
+    - tint40: "#BCC3C7"
+
   Neutral:
     - clear: "#00000000"
     - black: "#000000"
@@ -190,28 +310,66 @@ AP_MSFAvatarTokens:
   ringThickness: [ xSmall: $Border.size.thin, small: $Border.size.thin, medium: $Border.size.thick, large: $Border.size.thick, xlarge: $Border.size.thick, xxlarge: $Border.size.thicker ]
   ringOuterGap: [ xSmall: $Border.size.thick, small: $Border.size.thick, medium: $Border.size.thick, large: $Border.size.thick, xlarge: $Border.size.thick, xxlarge: $Border.size.thicker ]
   size: [ xSmall: 16pt, small: 24pt, medium: 32pt, large: 40pt, xlarge: 52pt, xxlarge: 72pt ]
-  textCalculatedBackgroundColors: [ "NamedColor(cyanBlue10)",
-                                    "NamedColor(red10)",
-                                    "NamedColor(magenta20)",
-                                    "NamedColor(green10)",
-                                    "NamedColor(magentaPink10)",
-                                    "NamedColor(cyanBlue20)",
-                                    "NamedColor(orange20)",
-                                    "NamedColor(cyan20)",
-                                    "NamedColor(orangeYellow20)",
-                                    "NamedColor(red20)",
-                                    "NamedColor(blue10)",
-                                    "NamedColor(magenta10)",
-                                    "NamedColor(gray40)",
-                                    "NamedColor(green20)",
-                                    "NamedColor(blueMagenta20)",
-                                    "NamedColor(pinkRed10)",
-                                    "NamedColor(gray30)",
-                                    "NamedColor(blueMagenta30)",
-                                    "NamedColor(gray20)",
-                                    "NamedColor(cyan30)",
-                                    "NamedColor(orange30)" ]
-  textColor: $Colors.Foreground.neutralInverted
+  textCalculatedBackgroundColors: [ "FluentUIColor(light: $Colors.DarkRed.tint40, dark: $Colors.DarkRed.shade30)",
+                                    "FluentUIColor(light: $Colors.Cranberry.tint40, dark: $Colors.Cranberry.shade30)",
+                                    "FluentUIColor(light: $Colors.Red.tint40, dark: $Colors.Red.shade30)",
+                                    "FluentUIColor(light: $Colors.Pumpkin.tint40, dark: $Colors.Pumpkin.shade30)",
+                                    "FluentUIColor(light: $Colors.Peach.tint40, dark: $Colors.Peach.shade30)",
+                                    "FluentUIColor(light: $Colors.Marigold.tint40, dark: $Colors.Marigold.shade30)",
+                                    "FluentUIColor(light: $Colors.Gold.tint40, dark: $Colors.Gold.shade30)",
+                                    "FluentUIColor(light: $Colors.Brass.tint40, dark: $Colors.Brass.shade30)",
+                                    "FluentUIColor(light: $Colors.Brown.tint40, dark: $Colors.Brown.shade30)",
+                                    "FluentUIColor(light: $Colors.Forest.tint40, dark: $Colors.Forest.shade30)",
+                                    "FluentUIColor(light: $Colors.Seafoam.tint40, dark: $Colors.Seafoam.shade30)",
+                                    "FluentUIColor(light: $Colors.DarkGreen.tint40, dark: $Colors.DarkGreen.shade30)",
+                                    "FluentUIColor(light: $Colors.LightTeal.tint40, dark: $Colors.LightTeal.shade30)",
+                                    "FluentUIColor(light: $Colors.Teal.tint40, dark: $Colors.Teal.shade30)",
+                                    "FluentUIColor(light: $Colors.Steel.tint40, dark: $Colors.Steel.shade30)",
+                                    "FluentUIColor(light: $Colors.Blue.tint40, dark: $Colors.Blue.shade30)",
+                                    "FluentUIColor(light: $Colors.RoyalBlue.tint40, dark: $Colors.RoyalBlue.shade30)",
+                                    "FluentUIColor(light: $Colors.Cornflower.tint40, dark: $Colors.Cornflower.shade30)",
+                                    "FluentUIColor(light: $Colors.Navy.tint40, dark: $Colors.Navy.shade30)",
+                                    "FluentUIColor(light: $Colors.Lavender.tint40, dark: $Colors.Lavender.shade30)",
+                                    "FluentUIColor(light: $Colors.Purple.tint40, dark: $Colors.Purple.shade30)",
+                                    "FluentUIColor(light: $Colors.Grape.tint40, dark: $Colors.Grape.shade30)",
+                                    "FluentUIColor(light: $Colors.Lilac.tint40, dark: $Colors.Lilac.shade30)",
+                                    "FluentUIColor(light: $Colors.Pink.tint40, dark: $Colors.Pink.shade30)",
+                                    "FluentUIColor(light: $Colors.Magenta.tint40, dark: $Colors.Magenta.shade30)",
+                                    "FluentUIColor(light: $Colors.Plum.tint40, dark: $Colors.Plum.shade30)",
+                                    "FluentUIColor(light: $Colors.Beige.tint40, dark: $Colors.Beige.shade30)",
+                                    "FluentUIColor(light: $Colors.Mink.tint40, dark: $Colors.Mink.shade30)",
+                                    "FluentUIColor(light: $Colors.Platinum.tint40, dark: $Colors.Platinum.shade30)",
+                                    "FluentUIColor(light: $Colors.Anchor.tint40, dark: $Colors.Anchor.shade30)" ]
+  textCalculatedForegroundColors: [ "FluentUIColor(light: $Colors.DarkRed.shade30, dark: $Colors.DarkRed.tint40)",
+                                    "FluentUIColor(light: $Colors.Cranberry.shade30, dark: $Colors.Cranberry.tint40)",
+                                    "FluentUIColor(light: $Colors.Red.shade30, dark: $Colors.Red.tint40)",
+                                    "FluentUIColor(light: $Colors.Pumpkin.shade30, dark: $Colors.Pumpkin.tint40)",
+                                    "FluentUIColor(light: $Colors.Peach.shade30, dark: $Colors.Peach.tint40)",
+                                    "FluentUIColor(light: $Colors.Marigold.shade30, dark: $Colors.Marigold.tint40)",
+                                    "FluentUIColor(light: $Colors.Gold.shade30, dark: $Colors.Gold.tint40)",
+                                    "FluentUIColor(light: $Colors.Brass.shade30, dark: $Colors.Brass.tint40)",
+                                    "FluentUIColor(light: $Colors.Brown.shade30, dark: $Colors.Brown.tint40)",
+                                    "FluentUIColor(light: $Colors.Forest.shade30, dark: $Colors.Forest.tint40)",
+                                    "FluentUIColor(light: $Colors.Seafoam.shade30, dark: $Colors.Seafoam.tint40)",
+                                    "FluentUIColor(light: $Colors.DarkGreen.shade30, dark: $Colors.DarkGreen.tint40)",
+                                    "FluentUIColor(light: $Colors.LightTeal.shade30, dark: $Colors.LightTeal.tint40)",
+                                    "FluentUIColor(light: $Colors.Teal.shade30, dark: $Colors.Teal.tint40)",
+                                    "FluentUIColor(light: $Colors.Steel.shade30, dark: $Colors.Steel.tint40)",
+                                    "FluentUIColor(light: $Colors.Blue.shade30, dark: $Colors.Blue.tint40)",
+                                    "FluentUIColor(light: $Colors.RoyalBlue.shade30, dark: $Colors.RoyalBlue.tint40)",
+                                    "FluentUIColor(light: $Colors.Cornflower.shade30, dark: $Colors.Cornflower.tint40)",
+                                    "FluentUIColor(light: $Colors.Navy.shade30, dark: $Colors.Navy.tint40)",
+                                    "FluentUIColor(light: $Colors.Lavender.shade30, dark: $Colors.Lavender.tint40)",
+                                    "FluentUIColor(light: $Colors.Purple.shade30, dark: $Colors.Purple.tint40)",
+                                    "FluentUIColor(light: $Colors.Grape.shade30, dark: $Colors.Grape.tint40)",
+                                    "FluentUIColor(light: $Colors.Lilac.shade30, dark: $Colors.Lilac.tint40)",
+                                    "FluentUIColor(light: $Colors.Pink.shade30, dark: $Colors.Pink.tint40)",
+                                    "FluentUIColor(light: $Colors.Magenta.shade30, dark: $Colors.Magenta.tint40)",
+                                    "FluentUIColor(light: $Colors.Plum.shade30, dark: $Colors.Plum.tint40)",
+                                    "FluentUIColor(light: $Colors.Beige.shade30, dark: $Colors.Beige.tint40)",
+                                    "FluentUIColor(light: $Colors.Mink.shade30, dark: $Colors.Mink.tint40)",
+                                    "FluentUIColor(light: $Colors.Platinum.shade30, dark: $Colors.Platinum.tint40)",
+                                    "FluentUIColor(light: $Colors.Anchor.shade30, dark: $Colors.Anchor.tint40)" ]
   textFont: [ xSmall: "Font(9px, regular)", small: "Font(12px, regular)", medium: "Font(13px, regular)", large: "Font(15px, regular)", xlarge: "Font(20px, regular)", xxlarge: "Font(28px, medium)" ]
 
 MSFAccentAvatarTokens extends MSFAvatarTokens:
@@ -235,7 +393,6 @@ MSFOutlinedPrimaryAvatarTokens extends MSFAvatarTokens:
 MSFOverflowAvatarTokens extends MSFAvatarTokens:
   backgroundDefaultColor: $Colors.Background.neutral4
   foregroundDefaultColor: $Colors.Foreground.neutral3
-  textColor: $Colors.Foreground.neutral3
   ringDefaultColor: $Colors.Background.neutralDisabled
 
 AP_MSFButtonTokens:
