@@ -56,6 +56,7 @@ public class MSFListTokens: MSFTokensBase, ObservableObject {
     @Published public var horizontalCellPadding: CGFloat!
     @Published public var iconInterspace: CGFloat!
     @Published public var iconSize: CGFloat!
+
     @Published public var subtitleFont: UIFont!
     @Published public var textFont: UIFont!
 

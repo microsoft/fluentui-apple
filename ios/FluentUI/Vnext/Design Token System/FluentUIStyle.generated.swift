@@ -5031,85 +5031,27 @@ extension FluentUIThemeManagerTheming {
 			set { _horizontalCellPadding = newValue }
 		}
 
-		//MARK: - textColor
-		public var _textColor: textColorAppearanceProxy?
-		open func textColorStyle() -> textColorAppearanceProxy {
+		//MARK: textColor 
+		public var _textColor: UIColor?
+		open func textColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
 			if let override = _textColor { return override }
-				return textColorAppearanceProxy(proxy: mainProxy)
+			return mainProxy().Colors.Foreground.neutral3Property(traitCollection)
 			}
-		public var textColor: textColorAppearanceProxy {
-			get { return self.textColorStyle() }
+		public var textColor: UIColor {
+			get { return self.textColorProperty() }
 			set { _textColor = newValue }
 		}
-		@objc(MSFListHeaderFooterTokensTextColorAppearanceProxy) @objcMembers open class textColorAppearanceProxy: NSObject {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
 
-			//MARK: bolded 
-			public var _bolded: UIColor?
-			open func boldedProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _bolded { return override }
-					return mainProxy().Colors.Foreground.neutral1Property(traitCollection)
-				}
-			public var bolded: UIColor {
-				get { return self.boldedProperty() }
-				set { _bolded = newValue }
-			}
-
-			//MARK: default 
-			public var _default: UIColor?
-			open func defaultProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _default { return override }
-					return mainProxy().Colors.Foreground.neutral3Property(traitCollection)
-				}
-			public var `default`: UIColor {
-				get { return self.defaultProperty() }
-				set { _default = newValue }
-			}
-		}
-
-
-		//MARK: - textFont
-		public var _textFont: textFontAppearanceProxy?
-		open func textFontStyle() -> textFontAppearanceProxy {
+		//MARK: textFont 
+		public var _textFont: UIFont?
+		open func textFontProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
 			if let override = _textFont { return override }
-				return textFontAppearanceProxy(proxy: mainProxy)
+			return mainProxy().Typography.caption1Property(traitCollection)
 			}
-		public var textFont: textFontAppearanceProxy {
-			get { return self.textFontStyle() }
+		public var textFont: UIFont {
+			get { return self.textFontProperty() }
 			set { _textFont = newValue }
 		}
-		@objc(MSFListHeaderFooterTokensTextFontAppearanceProxy) @objcMembers open class textFontAppearanceProxy: NSObject {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			//MARK: bolded 
-			public var _bolded: UIFont?
-			open func boldedProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
-				if let override = _bolded { return override }
-					return mainProxy().Typography.headlineProperty(traitCollection)
-				}
-			public var bolded: UIFont {
-				get { return self.boldedProperty() }
-				set { _bolded = newValue }
-			}
-
-			//MARK: default 
-			public var _default: UIFont?
-			open func defaultProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
-				if let override = _default { return override }
-					return mainProxy().Typography.caption1Property(traitCollection)
-				}
-			public var `default`: UIFont {
-				get { return self.defaultProperty() }
-				set { _default = newValue }
-			}
-		}
-
 	}
 	//MARK: - MSFListTokens
 	public var _MSFListTokens: MSFListTokensAppearanceProxy?
@@ -5619,6 +5561,30 @@ extension FluentUIThemeManagerTheming {
 				}
 		}
 
+	}
+	//MARK: - MSFPrimaryHeaderListTokens
+	public var _MSFPrimaryHeaderListTokens: MSFPrimaryHeaderListTokensAppearanceProxy?
+	open func MSFPrimaryHeaderListTokensStyle() -> MSFPrimaryHeaderListTokensAppearanceProxy {
+		if let override = _MSFPrimaryHeaderListTokens { return override }
+			return MSFPrimaryHeaderListTokensAppearanceProxy(proxy: { return self })
+		}
+	public var MSFPrimaryHeaderListTokens: MSFPrimaryHeaderListTokensAppearanceProxy {
+		get { return self.MSFPrimaryHeaderListTokensStyle() }
+		set { _MSFPrimaryHeaderListTokens = newValue }
+	}
+	@objc(MSFPrimaryHeaderListTokensAppearanceProxy) @objcMembers open class MSFPrimaryHeaderListTokensAppearanceProxy: MSFListHeaderFooterTokensAppearanceProxy {
+
+		//MARK: textColor 
+		override open func textColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+			if let override = _textColor { return override }
+			return mainProxy().Colors.Foreground.neutral1Property(traitCollection)
+			}
+
+		//MARK: textFont 
+		override open func textFontProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
+			if let override = _textFont { return override }
+			return mainProxy().Typography.headlineProperty(traitCollection)
+			}
 	}
 	//MARK: - MSFSecondaryButtonTokens
 	public var _MSFSecondaryButtonTokens: MSFSecondaryButtonTokensAppearanceProxy?
@@ -6882,7 +6848,13 @@ extension MSFListHeaderFooterTokens: AppearaceProxyComponent {
 			if let proxy = objc_getAssociatedObject(self, &__AppearanceProxyHandle) as? AppearanceProxyType {
 				if !themeAware { return proxy }
 
+				if let proxyString = Optional(String(reflecting: type(of: proxy))), proxyString.hasPrefix("FluentUI") == false {
+					return proxy
+				}
 
+				if proxy is FluentUIStyle.MSFPrimaryHeaderListTokensAppearanceProxy {
+					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFPrimaryHeaderListTokens
+				}
 				return proxy
 			}
 

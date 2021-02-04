@@ -7,6 +7,7 @@ import UIKit
 import SwiftUI
 
 struct Header: View {
+    @Environment(\.theme) var theme: FluentUIStyle
     let state: MSFListSectionState
     var tokens: MSFListHeaderFooterTokens
 
@@ -22,13 +23,22 @@ struct Header: View {
                     .font(Font(tokens.textFont))
                     .foregroundColor(Color(tokens.textColor))
                     .listRowInsets(EdgeInsets())
-                    .padding(.top, tokens.horizontalCellPadding / 2)
-                    .padding(.leading, tokens.horizontalCellPadding)
-                    .padding(.trailing, tokens.horizontalCellPadding)
-                    .padding(.bottom, tokens.horizontalCellPadding / 2)
+                    .padding(EdgeInsets(top: tokens.horizontalCellPadding / 2, leading: tokens.horizontalCellPadding, bottom: tokens.horizontalCellPadding / 2, trailing: tokens.horizontalCellPadding))
             }
             Spacer()
         }
         .background(Color(tokens.backgroundColor))
+        .onAppear {
+            // When environment values are available through the view hierarchy:
+            //  - If we get a non-default theme through the environment values,
+            //    we use to override the theme from this view and its hierarchy.
+            //  - Otherwise we just refresh the tokens to reflect the theme
+            //    associated with the window that this View belongs to.
+            if theme == ThemeKey.defaultValue {
+                self.tokens.updateForCurrentTheme()
+            } else {
+                self.tokens.theme = theme
+            }
+        }
     }
 }

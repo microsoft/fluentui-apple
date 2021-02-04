@@ -8,8 +8,8 @@ import SwiftUI
 
 /// HeaderFooter styles
 @objc public enum MSFListHeaderFooterStyle: Int, CaseIterable {
-    case header
-    case headerBolded
+    case headerPrimary
+    case headerSecondary
 }
 
 public class MSFListHeaderFooterTokens: MSFTokensBase, ObservableObject {
@@ -37,17 +37,17 @@ public class MSFListHeaderFooterTokens: MSFTokensBase, ObservableObject {
 
     public override func updateForCurrentTheme() {
         let currentTheme = theme
-        let appearanceProxy = currentTheme.MSFListHeaderFooterTokens
+        let appearanceProxy: AppearanceProxyType
         
         switch style {
-        case .header:
-            textColor = appearanceProxy.textColor.default
-            textFont = appearanceProxy.textFont.default
-        case .headerBolded, .none:
-            textColor = appearanceProxy.textColor.bolded
-            textFont = appearanceProxy.textFont.bolded
+        case .headerSecondary:
+            appearanceProxy = currentTheme.MSFListHeaderFooterTokens
+        case .headerPrimary, .none:
+            appearanceProxy = currentTheme.MSFPrimaryHeaderListTokens
         }
 
+        textColor = appearanceProxy.textColor
+        textFont = appearanceProxy.textFont
         backgroundColor = appearanceProxy.backgroundColor.rest
         horizontalCellPadding = appearanceProxy.horizontalCellPadding
     }

@@ -10,7 +10,7 @@ import SwiftUI
 @objc public class MSFListSectionState: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
     @objc @Published public var cells: [MSFListCellState] = []
-    @objc @Published public var style: MSFListHeaderFooterStyle = .header
+    @objc @Published public var style: MSFListHeaderFooterStyle = .headerPrimary
     @objc @Published public var title: String?
     @objc @Published public var hasDividers: Bool = false
 }
