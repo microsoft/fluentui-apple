@@ -37,10 +37,8 @@ class CommandBarButtonGroupView: UIView {
 
         return stackView
     }()
-}
 
-private extension CommandBarButtonGroupView {
-    func configureHierarchy() {
+    private func configureHierarchy() {
         addSubview(stackView)
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor),
@@ -50,12 +48,12 @@ private extension CommandBarButtonGroupView {
         ])
     }
 
-    func applyInsets() {
+    private func applyInsets() {
         buttons.first?.contentEdgeInsets.left += CommandBarButtonGroupView.leftRightBuffer
         buttons.last?.contentEdgeInsets.right += CommandBarButtonGroupView.leftRightBuffer
     }
 
-    static let cornerRadius: CGFloat = 8
-    static let buttonPadding: CGFloat = 2
-    static let leftRightBuffer: CGFloat = 2
+    private static let cornerRadius: CGFloat = 8
+    private static let buttonPadding: CGFloat = 2
+    private static let leftRightBuffer: CGFloat = 2
 }

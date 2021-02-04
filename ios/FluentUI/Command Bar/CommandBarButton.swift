@@ -57,10 +57,8 @@ class CommandBarButton: UIButton {
     }
 
     private let isPersistSelection: Bool
-}
 
-private extension CommandBarButton {
-    var selectedTintColor: UIColor {
+    private var selectedTintColor: UIColor {
         guard let window = window else {
             return Colors.communicationBlue
         }
@@ -68,7 +66,7 @@ private extension CommandBarButton {
         return Colors.primary(for: window)
     }
 
-    var selectedBackgroundColor: UIColor {
+    private var selectedBackgroundColor: UIColor {
         guard let window = window else {
             return Colors.Palette.communicationBlueTint30.color
         }
@@ -76,7 +74,7 @@ private extension CommandBarButton {
         return Colors.primaryTint30(for: window)
     }
 
-    func updateStyle() {
+    private func updateStyle() {
         tintColor = isSelected ? selectedTintColor : CommandBarButton.normalTintColor
 
         if !isPersistSelection {
@@ -92,8 +90,8 @@ private extension CommandBarButton {
         }
     }
 
-    static let contentEdgeInsets = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
-    static let normalTintColor: UIColor = Colors.textPrimary
-    static let normalBackgroundColor = UIColor(light: Colors.gray50, dark: Colors.gray600)
-    static let highlightedBackgroundColor = UIColor(light: Colors.gray100, dark: Colors.gray900)
+    private static let contentEdgeInsets = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
+    private static let normalTintColor: UIColor = Colors.textPrimary
+    private static let normalBackgroundColor = UIColor(light: Colors.gray50, dark: Colors.gray600)
+    private static let highlightedBackgroundColor = UIColor(light: Colors.gray100, dark: Colors.gray900)
 }

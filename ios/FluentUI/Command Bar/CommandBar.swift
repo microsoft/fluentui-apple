@@ -172,20 +172,8 @@ open class CommandBar: UIView {
 
         return layer
     }()
-}
 
-// MARK: - Scroll view delegate
-
-extension CommandBar: UIScrollViewDelegate {
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        updateShadow()
-    }
-}
-
-// MARK: - Private members
-
-private extension CommandBar {
-    func configureHierarchy() {
+    private func configureHierarchy() {
         addSubview(containerView)
 
         // Left and right button layout constraints
@@ -213,7 +201,7 @@ private extension CommandBar {
             ])
         } else {
             NSLayoutConstraint.activate([
-              trailingAnchor.constraint(equalTo: containerView.trailingAnchor)
+                trailingAnchor.constraint(equalTo: containerView.trailingAnchor)
             ])
         }
 
@@ -233,14 +221,14 @@ private extension CommandBar {
         }
     }
 
-    func button(forItem item: CommandBarItem, isPersistSelection: Bool = true) -> CommandBarButton {
+    private func button(forItem item: CommandBarItem, isPersistSelection: Bool = true) -> CommandBarButton {
         let button = CommandBarButton(item: item, isPersistSelection: isPersistSelection)
         button.addTarget(self, action: #selector(handleCommandButtonTapped(_:)), for: .touchUpInside)
 
         return button
     }
 
-    func updateShadow() {
+    private func updateShadow() {
         var locations: [CGFloat] = [0, 0, 1]
 
         if leadingButton != nil {
@@ -258,7 +246,7 @@ private extension CommandBar {
         containerMaskLayer.locations = locations.map { NSNumber(value: Float($0)) }
     }
 
-    @objc func handleCommandButtonTapped(_ sender: CommandBarButton) {
+    @objc private func handleCommandButtonTapped(_ sender: CommandBarButton) {
         let newSelected = !sender.item.isSelected
 
         if newSelected {
@@ -281,8 +269,16 @@ private extension CommandBar {
         }
     }
 
-    static let fadeViewWidth: CGFloat = 16.0
-    static let buttonGroupSpacing: CGFloat = 16.0
-    static let fixedButtonSpacing: CGFloat = 2.0
-    static let insets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
+    private static let fadeViewWidth: CGFloat = 16.0
+    private static let buttonGroupSpacing: CGFloat = 16.0
+    private static let fixedButtonSpacing: CGFloat = 2.0
+    private static let insets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
+}
+
+// MARK: - Scroll view delegate
+
+extension CommandBar: UIScrollViewDelegate {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        updateShadow()
+    }
 }
