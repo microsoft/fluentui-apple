@@ -96,6 +96,7 @@ class CommandBarDemoController: DemoController {
 
     let textField: UITextField = {
         let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = Colors.Navigation.System.background
         textField.placeholder = "Text Field"
 
@@ -125,7 +126,6 @@ class CommandBarDemoController: DemoController {
                 Item(command: .arrowRedo)
             ],
             [
-                Item(command: .copy),
                 Item(command: .delete)
             ],
             [
@@ -153,17 +153,28 @@ class CommandBarDemoController: DemoController {
 
         container.addArrangedSubview(createLabelWithText("With Fixed Button"))
 
-        let fixedButtonCommandBar = CommandBar(itemGroups: itemGroups, trailingItem: Item(command: .keyboard))
+        let fixedButtonCommandBar = CommandBar(itemGroups: itemGroups, leadingItem: Item(command: .copy), trailingItem: Item(command: .keyboard))
         fixedButtonCommandBar.backgroundColor = Colors.Navigation.System.background
         fixedButtonCommandBar.delegate = self
         container.addArrangedSubview(fixedButtonCommandBar)
 
         container.addArrangedSubview(createLabelWithText("In Input Accessory View"))
 
+        let textFieldContainer = UIView()
+        textFieldContainer.backgroundColor = Colors.Navigation.System.background
+        textFieldContainer.addSubview(textField)
+        NSLayoutConstraint.activate([
+            textField.topAnchor.constraint(equalTo: textFieldContainer.topAnchor, constant: 16.0),
+            textField.leadingAnchor.constraint(equalTo: textFieldContainer.leadingAnchor, constant: 16.0),
+            textFieldContainer.bottomAnchor.constraint(equalTo: textField.bottomAnchor, constant: 16.0),
+            textFieldContainer.trailingAnchor.constraint(equalTo: textField.trailingAnchor, constant: 16.0)
+        ])
+
+        container.addArrangedSubview(textFieldContainer)
+
         let accessoryCommandBar = CommandBar(itemGroups: itemGroups, trailingItem: Item(command: .keyboard))
         accessoryCommandBar.delegate = self
         textField.inputAccessoryView = accessoryCommandBar
-        container.addArrangedSubview(textField)
     }
 
     func createLabelWithText(_ text: String = "") -> Label {
@@ -180,16 +191,14 @@ extension CommandBarDemoController: CommandBarDelegate {
             fatalError("Invalid item type")
         }
 
-        let alert = UIAlertController(title: "Did select command \(item.command)", message: nil, preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default)
-        alert.addAction(action)
-        present(alert, animated: true)
-
         switch item.command {
         case .keyboard:
             textField.resignFirstResponder()
         default:
-            break
+            let alert = UIAlertController(title: "Did select command \(item.command)", message: nil, preferredStyle: .alert)
+            let action = UIAlertAction(title: "OK", style: .default)
+            alert.addAction(action)
+            present(alert, animated: true)
         }
     }
 
