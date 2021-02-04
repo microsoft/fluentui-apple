@@ -53,7 +53,7 @@ class CommandBarButtonGroupView: UIView {
         buttons.last?.contentEdgeInsets.right += CommandBarButtonGroupView.leftRightBuffer
     }
 
-    private static let cornerRadius: CGFloat = 8
-    private static let buttonPadding: CGFloat = 2
-    private static let leftRightBuffer: CGFloat = 2
+    private static let cornerRadius: CGFloat = 8.0
+    private static let buttonPadding: CGFloat = 2.0
+    private static let leftRightBuffer: CGFloat = 2.0
 }
