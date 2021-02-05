@@ -101,7 +101,7 @@ class ListDemoController: DemoController {
                 listCell.titleLineLimit = section.numberOfLines
                 listCell.subtitleLineLimit = section.numberOfLines
                 listCell.leadingView = createCustomView(imageName: cell.image)
-                listCell.trailingView = section.hasAccessory ? TableViewCellSampleData.customAccessoryView : nil
+                listCell.trailingView = section.hasAccessory ? createCustomView(imageName: cell.image) : nil
                 listCell.accessoryType = accessoryType(for: rowIndex)
                 listCell.layoutType = updateLayout(subtitle: listCell.subtitle)
                 listCell.onTapAction = {

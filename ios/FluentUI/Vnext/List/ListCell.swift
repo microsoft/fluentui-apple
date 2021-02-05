@@ -9,11 +9,11 @@ import SwiftUI
 /// Properties that make up cell content
 @objc public class MSFListCellState: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
-    @objc @Published public var leadingView: UIView?
+    @objc @Published public var leadingView: UIView? // Supporting square views only
     @objc @Published public var isLargeIcon: Bool = false
     @objc @Published public var title: String = ""
     @objc @Published public var subtitle: String?
-    @objc @Published public var trailingView: UIView?
+    @objc @Published public var trailingView: UIView? // Supporting square views only
     @objc @Published public var accessoryType: MSFListAccessoryType = .none
     @objc @Published public var titleLineLimit: Int = 0
     @objc @Published public var subtitleLineLimit: Int = 0
@@ -77,7 +77,7 @@ struct MSFListCellView: View {
                 if let trailingView = state.trailingView {
                     UIViewAdapter(trailingView)
                         .foregroundColor(Color(hasTitle ? tokens.backgroundColor : tokens.trailingItemForegroundColor))
-                        .frame(height: defaultIconSize)
+                        .frame(width: defaultIconSize, height: defaultIconSize)
                         .fixedSize()
                 }
                 HStack(spacing: 0) {
