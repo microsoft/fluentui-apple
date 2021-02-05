@@ -441,7 +441,7 @@ AP_MSFListTokens:
 MSFIconOnlyListTokens extends MSFListTokens:
   iconColor: $Colors.Foreground.neutral3
   
-AP_MSFListHeaderFooterTokens:
+AP_MSFHeaderFooterTokens:
   backgroundColor: [ default: $Colors.Background.neutral1, divider: $Colors.Background.neutral5 ]
   headerHeight: [ default: $Spacing.xxxlarge, divider: $Spacing.xlarge ]
   horizontalHeaderPadding: $Spacing.medium
@@ -449,7 +449,7 @@ AP_MSFListHeaderFooterTokens:
   textFont: $Typography.caption1
   topHeaderPadding: $Spacing.xlarge
 
-MSFPrimaryHeaderListTokens extends MSFListHeaderFooterTokens:
+MSFPrimaryHeaderTokens extends MSFListHeaderFooterTokens:
   textColor: $Colors.Foreground.neutral1
   textFont: $Typography.headline
   topHeaderPadding: $Spacing.medium
