@@ -22,12 +22,16 @@ struct Header: View {
                 Text(title)
                     .font(Font(tokens.textFont))
                     .foregroundColor(Color(tokens.textColor))
-                    .listRowInsets(EdgeInsets())
-                    .padding(EdgeInsets(top: tokens.horizontalCellPadding / 2, leading: tokens.horizontalCellPadding, bottom: tokens.horizontalCellPadding / 2, trailing: tokens.horizontalCellPadding))
             }
             Spacer()
         }
         .background(Color(tokens.backgroundColor))
+        .listRowInsets(EdgeInsets())
+        .frame(minHeight: tokens.headerHeight)
+        .padding(EdgeInsets(top: tokens.topHeaderPadding,
+                            leading: tokens.horizontalHeaderPadding,
+                            bottom: tokens.horizontalHeaderPadding / 2,
+                            trailing: tokens.horizontalHeaderPadding))
         .onAppear {
             // When environment values are available through the view hierarchy:
             //  - If we get a non-default theme through the environment values,

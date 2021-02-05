@@ -16,7 +16,9 @@ public class MSFListHeaderFooterTokens: MSFTokensBase, ObservableObject {
     @Published public var backgroundColor: UIColor!
     @Published public var textColor: UIColor!
 
-    @Published public var horizontalCellPadding: CGFloat!
+    @Published public var headerHeight: CGFloat!
+    @Published public var horizontalHeaderPadding: CGFloat!
+    @Published public var topHeaderPadding: CGFloat!
 
     @Published public var textFont: UIFont!
 
@@ -48,7 +50,9 @@ public class MSFListHeaderFooterTokens: MSFTokensBase, ObservableObject {
 
         textColor = appearanceProxy.textColor
         textFont = appearanceProxy.textFont
-        backgroundColor = appearanceProxy.backgroundColor.rest
-        horizontalCellPadding = appearanceProxy.horizontalCellPadding
+        backgroundColor = appearanceProxy.backgroundColor.default
+        headerHeight = appearanceProxy.headerHeight.default
+        horizontalHeaderPadding = appearanceProxy.horizontalHeaderPadding
+        topHeaderPadding = appearanceProxy.topHeaderPadding
     }
 }

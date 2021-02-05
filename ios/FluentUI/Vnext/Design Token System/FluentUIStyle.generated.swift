@@ -4996,39 +4996,79 @@ extension FluentUIThemeManagerTheming {
 				self.mainProxy = proxy
 			}
 
-			//MARK: highlighted 
-			public var _highlighted: UIColor?
-			open func highlightedProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _highlighted { return override }
-					return mainProxy().Colors.Background.neutral5Property(traitCollection)
-				}
-			public var highlighted: UIColor {
-				get { return self.highlightedProperty() }
-				set { _highlighted = newValue }
-			}
-
-			//MARK: rest 
-			public var _rest: UIColor?
-			open func restProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _rest { return override }
+			//MARK: default 
+			public var _default: UIColor?
+			open func defaultProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _default { return override }
 					return mainProxy().Colors.Background.neutral1Property(traitCollection)
 				}
-			public var rest: UIColor {
-				get { return self.restProperty() }
-				set { _rest = newValue }
+			public var `default`: UIColor {
+				get { return self.defaultProperty() }
+				set { _default = newValue }
+			}
+
+			//MARK: divider 
+			public var _divider: UIColor?
+			open func dividerProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+				if let override = _divider { return override }
+					return mainProxy().Colors.Background.neutral5Property(traitCollection)
+				}
+			public var divider: UIColor {
+				get { return self.dividerProperty() }
+				set { _divider = newValue }
 			}
 		}
 
 
-		//MARK: horizontalCellPadding 
-		public var _horizontalCellPadding: CGFloat?
-		open func horizontalCellPaddingProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-			if let override = _horizontalCellPadding { return override }
+		//MARK: - headerHeight
+		public var _headerHeight: headerHeightAppearanceProxy?
+		open func headerHeightStyle() -> headerHeightAppearanceProxy {
+			if let override = _headerHeight { return override }
+				return headerHeightAppearanceProxy(proxy: mainProxy)
+			}
+		public var headerHeight: headerHeightAppearanceProxy {
+			get { return self.headerHeightStyle() }
+			set { _headerHeight = newValue }
+		}
+		@objc(MSFListHeaderFooterTokensHeaderHeightAppearanceProxy) @objcMembers open class headerHeightAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: default 
+			public var _default: CGFloat?
+			open func defaultProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _default { return override }
+					return mainProxy().Spacing.xxxlargeProperty(traitCollection)
+				}
+			public var `default`: CGFloat {
+				get { return self.defaultProperty() }
+				set { _default = newValue }
+			}
+
+			//MARK: divider 
+			public var _divider: CGFloat?
+			open func dividerProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _divider { return override }
+					return mainProxy().Spacing.xlargeProperty(traitCollection)
+				}
+			public var divider: CGFloat {
+				get { return self.dividerProperty() }
+				set { _divider = newValue }
+			}
+		}
+
+
+		//MARK: horizontalHeaderPadding 
+		public var _horizontalHeaderPadding: CGFloat?
+		open func horizontalHeaderPaddingProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _horizontalHeaderPadding { return override }
 			return mainProxy().Spacing.mediumProperty(traitCollection)
 			}
-		public var horizontalCellPadding: CGFloat {
-			get { return self.horizontalCellPaddingProperty() }
-			set { _horizontalCellPadding = newValue }
+		public var horizontalHeaderPadding: CGFloat {
+			get { return self.horizontalHeaderPaddingProperty() }
+			set { _horizontalHeaderPadding = newValue }
 		}
 
 		//MARK: textColor 
@@ -5051,6 +5091,17 @@ extension FluentUIThemeManagerTheming {
 		public var textFont: UIFont {
 			get { return self.textFontProperty() }
 			set { _textFont = newValue }
+		}
+
+		//MARK: topHeaderPadding 
+		public var _topHeaderPadding: CGFloat?
+		open func topHeaderPaddingProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _topHeaderPadding { return override }
+			return mainProxy().Spacing.xlargeProperty(traitCollection)
+			}
+		public var topHeaderPadding: CGFloat {
+			get { return self.topHeaderPaddingProperty() }
+			set { _topHeaderPadding = newValue }
 		}
 	}
 	//MARK: - MSFListTokens
@@ -5584,6 +5635,12 @@ extension FluentUIThemeManagerTheming {
 		override open func textFontProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
 			if let override = _textFont { return override }
 			return mainProxy().Typography.headlineProperty(traitCollection)
+			}
+
+		//MARK: topHeaderPadding 
+		override open func topHeaderPaddingProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _topHeaderPadding { return override }
+			return mainProxy().Spacing.mediumProperty(traitCollection)
 			}
 	}
 	//MARK: - MSFSecondaryButtonTokens
