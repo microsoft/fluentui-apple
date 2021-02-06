@@ -25,11 +25,11 @@ import SwiftUI
 ///
 @objc public class MSFListCellState: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
-    @objc @Published public var leadingView: UIView? // Supporting square views only
+    @objc @Published public var leadingView: UIView?
     @objc @Published public var leadingViewSize: MSFListCellLeadingViewSize = .medium
     @objc @Published public var title: String = ""
     @objc @Published public var subtitle: String?
-    @objc @Published public var trailingView: UIView? // Supporting square views only
+    @objc @Published public var trailingView: UIView?
     @objc @Published public var accessoryType: MSFListAccessoryType = .none
     @objc @Published public var titleLineLimit: Int = 0
     @objc @Published public var subtitleLineLimit: Int = 0
