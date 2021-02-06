@@ -96,7 +96,7 @@ class ListDemoController: DemoController {
                 listCell.title = cell.text1
                 listCell.subtitle = cell.text2
                 if let subtitle = listCell.subtitle, !subtitle.isEmpty {
-                    listCell.isLargeIcon = true
+                    listCell.leadingViewSize = MSFListCellLeadingViewSize.large
                 }
                 listCell.titleLineLimit = section.numberOfLines
                 listCell.subtitleLineLimit = section.numberOfLines

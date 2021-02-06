@@ -43,7 +43,6 @@ public struct MSFListView: View {
                             let cellState = section.cells[index]
                             let hasDividers = (index < section.cells.count - 1 && section.hasDividers) || (section.hasDividers && (cellState.children != nil))
                             MSFListCellView(state: cellState,
-                                            tokens: tokens,
                                             hasDividers: hasDividers)
                                 .frame(maxWidth: .infinity)
                         }
@@ -71,6 +70,7 @@ public struct MSFListView: View {
     }
 }
 
+/// UIKit wrapper that exposes the SwiftUI List implementation
 @objc open class MSFList: NSObject, FluentUIWindowProvider {
 
     @objc public init(sections: [MSFListSectionState],

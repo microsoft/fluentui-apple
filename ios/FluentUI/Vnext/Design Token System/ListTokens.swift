@@ -6,6 +6,12 @@
 import UIKit
 import SwiftUI
 
+/// Pre-defined styles of icons
+@objc public enum MSFListCellLeadingViewSize: Int, CaseIterable {
+    case small
+    case medium
+    case large
+}
 /// Pre-defined accessory types
 @objc public enum MSFListAccessoryType: Int, CaseIterable {
     case none
@@ -32,26 +38,14 @@ import SwiftUI
 public class MSFListTokens: MSFTokensBase, ObservableObject {
     @Published public var backgroundColor: UIColor!
     @Published public var borderColor: UIColor!
-    @Published public var disclosureIconForegroundColor: UIColor!
-    @Published public var iconColor: UIColor!
-    @Published public var leadingTextColor: UIColor!
     @Published public var subtitleColor: UIColor!
-    @Published public var trailingItemForegroundColor: UIColor!
 
     @Published public var highlightedBackgroundColor: UIColor!
 
     @Published public var borderSize: CGFloat!
-    @Published public var cellHeightOneLine: CGFloat!
-    @Published public var cellHeightTwoLines: CGFloat!
-    @Published public var cellHeightThreeLines: CGFloat!
-    @Published public var disclosureInterspace: CGFloat!
-    @Published public var disclosureSize: CGFloat!
     @Published public var horizontalCellPadding: CGFloat!
-    @Published public var iconInterspace: CGFloat!
-    @Published public var iconDefaultSize: CGFloat!
-    @Published public var iconLargeSize: CGFloat!
+
     @Published public var subtitleFont: UIFont!
-    @Published public var textFont: UIFont!
 
     public override init() {
         super.init()
@@ -70,9 +64,75 @@ public class MSFListTokens: MSFTokensBase, ObservableObject {
 
         backgroundColor = appearanceProxy.backgroundColor.rest
         borderColor = appearanceProxy.borderColor
+        subtitleColor = appearanceProxy.sublabelColor
+
+        highlightedBackgroundColor = appearanceProxy.backgroundColor.pressed
+
+        borderSize = appearanceProxy.borderSize
+        horizontalCellPadding = appearanceProxy.horizontalCellPadding
+
+        subtitleFont = appearanceProxy.sublabelFont
+    }
+}
+
+public class MSFListCellTokens: MSFTokensBase, ObservableObject {
+    @Published public var backgroundColor: UIColor!
+    @Published public var borderColor: UIColor!
+    @Published public var disclosureIconForegroundColor: UIColor!
+    @Published public var leadingTextColor: UIColor!
+    @Published public var leadingViewColor: UIColor!
+    @Published public var subtitleColor: UIColor!
+    @Published public var trailingItemForegroundColor: UIColor!
+
+    @Published public var highlightedBackgroundColor: UIColor!
+
+    @Published public var borderSize: CGFloat!
+    @Published public var cellHeightOneLine: CGFloat!
+    @Published public var cellHeightTwoLines: CGFloat!
+    @Published public var cellHeightThreeLines: CGFloat!
+    @Published public var disclosureInterspace: CGFloat!
+    @Published public var disclosureSize: CGFloat!
+    @Published public var horizontalCellPadding: CGFloat!
+    @Published public var iconInterspace: CGFloat!
+    @Published public var leadingViewSize: CGFloat!
+    @Published public var trailingItemSize: CGFloat!
+
+    @Published public var subtitleFont: UIFont!
+    @Published public var textFont: UIFont!
+    
+    var cellLeadingViewSize: MSFListCellLeadingViewSize!
+
+    public init(cellLeadingViewSize: MSFListCellLeadingViewSize) {
+        self.cellLeadingViewSize = cellLeadingViewSize
+
+        super.init()
+
+        self.themeAware = true
+        updateForCurrentTheme()
+    }
+
+    @objc open func didChangeAppearanceProxy() {
+        updateForCurrentTheme()
+    }
+
+    public override func updateForCurrentTheme() {
+        let currentTheme = theme
+        var appearanceProxy: AppearanceProxyType = currentTheme.MSFListCellTokens
+
+        switch cellLeadingViewSize {
+        case .small:
+            appearanceProxy = currentTheme.MSFListCellSmallTokens
+        case .medium, .none:
+            appearanceProxy = currentTheme.MSFListCellTokens
+        case .large:
+            appearanceProxy = currentTheme.MSFListCellLargeTokens
+        }
+
+        backgroundColor = appearanceProxy.backgroundColor.rest
+        borderColor = appearanceProxy.borderColor
         disclosureIconForegroundColor = appearanceProxy.disclosureIconForegroundColor
-        iconColor = appearanceProxy.iconColor
         leadingTextColor = appearanceProxy.labelColor
+        leadingViewColor = appearanceProxy.leadingViewColor
         subtitleColor = appearanceProxy.sublabelColor
         trailingItemForegroundColor = appearanceProxy.trailingItemForegroundColor
 
@@ -86,8 +146,9 @@ public class MSFListTokens: MSFTokensBase, ObservableObject {
         disclosureSize = appearanceProxy.disclosureSize
         horizontalCellPadding = appearanceProxy.horizontalCellPadding
         iconInterspace = appearanceProxy.iconInterspace
-        iconDefaultSize = appearanceProxy.iconSize.default
-        iconLargeSize = appearanceProxy.iconSize.large
+        leadingViewSize = appearanceProxy.leadingViewSize
+        trailingItemSize = appearanceProxy.trailingItemSize
+
         subtitleFont = appearanceProxy.sublabelFont
         textFont = appearanceProxy.labelFont
     }

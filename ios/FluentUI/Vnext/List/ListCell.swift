@@ -6,11 +6,27 @@
 import UIKit
 import SwiftUI
 
-/// Properties that make up cell content
+
+/// `MSFListCellState` contains properties that make up a cell content.
+///
+/// `title` is the first line of text, subsequently followed by `subtitle` on the second line.
+/// Set line limits for text using `titleLineLimit` and `subtitleLineLimit`.
+///
+/// `leadingView` and `trailingView` allows any custom views. Currently only supports square views (width & height must be the same).
+/// `leadingViewSize` can be specified using `MSFListCellLeadingViewSize`.
+///
+/// Set `accessoryType` using the variations specified in `MSFListAccessoryType`. This is displayed in the very trailing end of a cell.
+///
+/// `children`: define nested cells. `isExpanded` will determine if the children are initially expanded or collapsed.
+///
+/// `layoutType`:  override the default cell height.
+///
+/// `onTapAction`: perform an action on a cell tap.
+///
 @objc public class MSFListCellState: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
     @objc @Published public var leadingView: UIView? // Supporting square views only
-    @objc @Published public var isLargeIcon: Bool = false
+    @objc @Published public var leadingViewSize: MSFListCellLeadingViewSize = .medium
     @objc @Published public var title: String = ""
     @objc @Published public var subtitle: String?
     @objc @Published public var trailingView: UIView? // Supporting square views only
@@ -33,13 +49,13 @@ import SwiftUI
 /// View for List Cells
 struct MSFListCellView: View {
     @ObservedObject var state: MSFListCellState
-    @ObservedObject var tokens: MSFListTokens
+    @ObservedObject var tokens: MSFListCellTokens
     var hasDividers: Bool
 
-    init(state: MSFListCellState, tokens: MSFListTokens, hasDividers: Bool = false) {
+    init(state: MSFListCellState, hasDividers: Bool = false) {
         self.state = state
-        self.tokens = tokens
         self.hasDividers = hasDividers
+        self.tokens = MSFListCellTokens(cellLeadingViewSize: state.leadingViewSize)
     }
 
     var body: some View {
@@ -51,12 +67,11 @@ struct MSFListCellView: View {
             }
         }, label: {
             HStack(spacing: 0) {
-                let defaultIconSize = tokens.iconDefaultSize
                 let hasTitle = !state.title.isEmpty
                 if let leadingView = state.leadingView {
                     UIViewAdapter(leadingView)
                         .foregroundColor(Color(hasTitle ? tokens.backgroundColor : tokens.trailingItemForegroundColor))
-                        .frame(width: state.isLargeIcon ? tokens.iconLargeSize : defaultIconSize, height: state.isLargeIcon ? tokens.iconLargeSize : defaultIconSize)
+                        .frame(width: tokens.leadingViewSize, height: tokens.leadingViewSize)
                         .padding(.trailing, tokens.iconInterspace)
                 }
                 VStack(alignment: .leading, spacing: 0) {
@@ -77,7 +92,7 @@ struct MSFListCellView: View {
                 if let trailingView = state.trailingView {
                     UIViewAdapter(trailingView)
                         .foregroundColor(Color(hasTitle ? tokens.backgroundColor : tokens.trailingItemForegroundColor))
-                        .frame(width: defaultIconSize, height: defaultIconSize)
+                        .frame(width: tokens.trailingItemSize, height: tokens.trailingItemSize)
                         .fixedSize()
                 }
                 HStack(spacing: 0) {
@@ -87,7 +102,7 @@ struct MSFListCellView: View {
                         Image(uiImage: accessoryIcon)
                             .resizable()
                             .foregroundColor(Color(isDisclosure ? tokens.disclosureIconForegroundColor : tokens.trailingItemForegroundColor))
-                            .frame(width: isDisclosure ? disclosureSize : defaultIconSize, height: isDisclosure ? disclosureSize : defaultIconSize)
+                            .frame(width: isDisclosure ? disclosureSize : tokens.trailingItemSize, height: isDisclosure ? disclosureSize : tokens.trailingItemSize)
                             .padding(.leading, isDisclosure ? tokens.disclosureInterspace : tokens.iconInterspace)
                     }
                 }
@@ -95,24 +110,23 @@ struct MSFListCellView: View {
         })
         .buttonStyle(ListCellButtonStyle(tokens: tokens, layoutType: state.layoutType))
         if hasDividers {
-            let padding = tokens.horizontalCellPadding + (state.leadingView != nil ? (state.isLargeIcon ? tokens.iconLargeSize : tokens.iconDefaultSize) + tokens.iconInterspace : 0)
+            let padding = tokens.horizontalCellPadding + (state.leadingView != nil ? (tokens.leadingViewSize + tokens.iconInterspace) : 0)
             Divider()
                 .padding(.leading, padding)
         }
         if let children = state.children, state.isExpanded == true {
             ForEach(children, id: \.self) { child in
                 MSFListCellView(state: child,
-                                tokens: tokens,
                                 hasDividers: hasDividers)
                     .frame(maxWidth: .infinity)
-                    .padding(.leading, (tokens.horizontalCellPadding + tokens.iconDefaultSize))
+                    .padding(.leading, (tokens.horizontalCellPadding + tokens.leadingViewSize))
             }
         }
     }
 }
 
 struct ListCellButtonStyle: ButtonStyle {
-    let tokens: MSFListTokens
+    let tokens: MSFListCellTokens
     let layoutType: MSFListCellLayoutType
 
     func makeBody(configuration: Self.Configuration) -> some View {
@@ -127,11 +141,10 @@ struct ListCellButtonStyle: ButtonStyle {
         }
         return configuration.label
             .contentShape(Rectangle())
-            .listRowInsets(EdgeInsets())
-            .padding(.top, tokens.horizontalCellPadding / 2)
-            .padding(.bottom, tokens.horizontalCellPadding / 2)
-            .padding(.leading, tokens.horizontalCellPadding)
-            .padding(.trailing, tokens.horizontalCellPadding)
+            .padding(EdgeInsets(top: tokens.horizontalCellPadding / 2,
+                                leading: tokens.horizontalCellPadding,
+                                bottom: tokens.horizontalCellPadding / 2,
+                                trailing: tokens.horizontalCellPadding))
             .frame(minHeight: height)
             .background(configuration.isPressed ? Color(tokens.highlightedBackgroundColor) : Color(tokens.backgroundColor))
     }
