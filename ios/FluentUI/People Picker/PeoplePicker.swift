@@ -198,15 +198,16 @@ open class PeoplePicker: BadgeField {
         }
 
         personaListView.searchDirectoryState = .idle
-        delegate?.peoplePickerDidShowPersonaSuggestions?(self)
         setNeedsLayout()
+        layoutIfNeeded()
+        delegate?.peoplePickerDidShowPersonaSuggestions?(self)
     }
 
     /// Hides personaSuggestionsView
     @objc open func hidePersonaSuggestions() {
         personaSuggestionsView.removeFromSuperview()
-        delegate?.peoplePickerDidHidePersonaSuggestions?(self)
         containingViewBoundsObservation = nil
+        delegate?.peoplePickerDidHidePersonaSuggestions?(self)
     }
 
     private func layoutPersonaSuggestions() {
