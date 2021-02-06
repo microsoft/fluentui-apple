@@ -96,4 +96,8 @@ extension PeoplePickerDemoController: PeoplePickerDelegate {
             completion(personas, true)
         }
     }
+
+    func peoplePickerDidHidePersonaSuggestions(_ peoplePicker: PeoplePicker) {
+        UIAccessibility.post(notification: .screenChanged, argument: peoplePicker.badges.last)
+    }
 }
