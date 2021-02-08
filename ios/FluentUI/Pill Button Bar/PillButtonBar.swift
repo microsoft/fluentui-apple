@@ -518,8 +518,7 @@ extension PillButtonBar: UIPointerInteractionDelegate {
 
     @available(iOS 13.4, *)
     public func pointerInteraction(_ interaction: UIPointerInteraction, styleFor region: UIPointerRegion) -> UIPointerStyle? {
-        guard let index = region.identifier as? Int else { return nil }
-        guard let superview = window, index < buttons.count else {
+        guard let superview = window, let index = region.identifier as? Int, index < buttons.count else {
             return nil
         }
 
@@ -534,7 +533,9 @@ extension PillButtonBar: UIPointerInteractionDelegate {
 
     @available(iOS 13.4, *)
     public func pointerInteraction(_ interaction: UIPointerInteraction, willEnter region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
-        guard let index = region.identifier as? Int else { return }
+        guard let index = region.identifier as? Int else {
+            return
+        }
         if let window = window, customPillButtonBackgroundColor == nil, index < buttons.count {
             let pillButton = buttons[index]
             if !pillButton.isSelected {
@@ -545,7 +546,9 @@ extension PillButtonBar: UIPointerInteractionDelegate {
 
     @available(iOS 13.4, *)
     public func pointerInteraction(_ interaction: UIPointerInteraction, willExit region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
-        guard let index = region.identifier as? Int else { return }
+        guard let index = region.identifier as? Int else {
+            return
+        }
         if customPillButtonBackgroundColor == nil && index < buttons.count {
             let pillButton = buttons[index]
             pillButton.customBackgroundColor = nil

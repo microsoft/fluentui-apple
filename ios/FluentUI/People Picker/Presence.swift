@@ -77,7 +77,7 @@ public enum Presence: Int, CaseIterable {
            let color = color {
             image = staticImageNamed.image(withPrimaryColor: color)
         }
-        
+
         return image
     }
 

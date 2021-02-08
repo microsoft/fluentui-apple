@@ -23,7 +23,7 @@ class TableViewCellShimmerDemoController: TableViewCellDemoController {
         let section = sections[indexPath.section]
         let item = section.item
 
-        guard let cell = super.tableView(tableView, cellForRowAt: indexPath) as? TableViewCell else { 
+        guard let cell = super.tableView(tableView, cellForRowAt: indexPath) as? TableViewCell else {
             return UITableViewCell()
         }
 

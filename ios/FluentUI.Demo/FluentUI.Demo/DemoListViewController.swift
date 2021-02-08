@@ -37,8 +37,8 @@ class DemoListViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        guard let title = FluentUIFramework.bundle.object(forInfoDictionaryKey: "CFBundleExecutable") as? String else { 
+
+        guard let title = FluentUIFramework.bundle.object(forInfoDictionaryKey: "CFBundleExecutable") as? String else {
             return assertionFailure("CFBundleExecutable is nil")
         }
         let titleView = TwoLineTitleView()

@@ -309,7 +309,7 @@ private class SelectionOverlayView: UIView {
         if squareView == nil {
             squareView = UIView()
         }
-    
+
         if let squareView = squareView {
             setupView(squareView)
             squareView.backgroundColor = activeColor

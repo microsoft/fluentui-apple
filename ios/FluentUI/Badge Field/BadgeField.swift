@@ -869,7 +869,9 @@ open class BadgeField: UIView {
             return
         }
 
-        guard let draggedBadge = gesture.view as? BadgeView else { return }
+        guard let draggedBadge = gesture.view as? BadgeView else {
+            return
+        }
         switch gesture.state {
         case .began:
             // Already dragging another badge: cancel this new gesture

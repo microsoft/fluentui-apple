@@ -189,7 +189,9 @@ extension PersonaListView: UITableViewDataSource {
 
         switch section {
         case .personas:
-            guard let cell = dequeueReusableCell(withIdentifier: PersonaCell.identifier, for: indexPath) as? PersonaCell else { return UITableViewCell() }
+            guard let cell = dequeueReusableCell(withIdentifier: PersonaCell.identifier, for: indexPath) as? PersonaCell else {
+                return UITableViewCell()
+            }
             let persona = personaList[indexPath.row]
             cell.setup(persona: persona, accessoryType: accessoryType)
             cell.backgroundColor = .clear

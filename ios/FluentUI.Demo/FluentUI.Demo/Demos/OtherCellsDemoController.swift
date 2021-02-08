@@ -63,7 +63,9 @@ extension OtherCellsDemoController: UITableViewDataSource {
         }
 
         if section.title == "BooleanCell" {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as? BooleanCell else { return UITableViewCell() }
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as? BooleanCell else {
+                return UITableViewCell()
+            }
             cell.setup(title: item.text1, customView: TableViewSampleData.createCustomView(imageName: item.image, useImageAsTemplate: true), isOn: indexPath.row == 0)
             cell.onValueChanged = { [unowned self, unowned cell] in
                 self.showAlertForSwitchTapped(isOn: cell.isOn)

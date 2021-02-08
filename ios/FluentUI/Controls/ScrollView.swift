@@ -94,7 +94,7 @@ open class ScrollView: UIScrollView, ScrollableContainerView {
         guard let container = superview else {
             return
         }
-        
+
         if let userInfo = notification.userInfo,
            var keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             keyboardFrame = container.convert(keyboardFrame, from: nil)
