@@ -205,7 +205,9 @@ class DrawerDemoController: DemoController {
     }
 
     @objc private func showTopDrawerCustomOffsetButtonTapped(sender: UIButton) {
-        let rect = sender.superview!.convert(sender.frame, to: nil)
+        guard let rect = sender.superview?.convert(sender.frame, to: nil) else {
+            return
+        }
         presentDrawer(sourceView: sender, presentationOrigin: rect.maxY, presentationDirection: .down, contentView: containerForActionViews(), customWidth: true)
     }
 
@@ -250,7 +252,9 @@ class DrawerDemoController: DemoController {
     }
 
     @objc private func showBottomDrawerCustomOffsetButtonTapped(sender: UIButton) {
-        let rect = sender.superview!.convert(sender.frame, to: nil)
+        guard let rect = sender.superview?.convert(sender.frame, to: nil) else {
+            return
+        }
         presentDrawer(sourceView: sender, presentationOrigin: rect.minY, presentationDirection: .up, contentView: containerForActionViews(), resizingBehavior: .dismissOrExpand)
     }
 

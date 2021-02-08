@@ -64,7 +64,9 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as! TableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
+            return UITableViewCell()
+        }
         cell.setup(title: TableViewHeaderFooterSampleData.itemTitle)
         var isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
         if tableView.style == .grouped {
@@ -88,22 +90,22 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as! TableViewHeaderFooterView
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as? TableViewHeaderFooterView
         let index = section
         let section = tableView.style == .grouped ? groupedSections[section] : plainSections[section]
-        if section.hasHandler {
+        if let header = header, section.hasHandler {
             header.onHeaderViewTapped = { [weak self] in self?.forHeaderTapped(header: header, section: index) }
         }
 
         if section.hasCustomAccessoryView {
-            header.setup(style: section.headerStyle, title: section.title, accessoryView: createCustomAccessoryView(), leadingView: section.hasCustomLeadingView ? createCustomLeadingView(section: index) : nil)
+            header?.setup(style: section.headerStyle, title: section.title, accessoryView: createCustomAccessoryView(), leadingView: section.hasCustomLeadingView ? createCustomLeadingView(section: index) : nil)
         } else {
-            header.setup(style: section.headerStyle, title: section.title, accessoryButtonTitle: section.hasAccessory ? "See More" : "", leadingView: section.hasCustomLeadingView ? createCustomLeadingView(section: index) : nil)
+            header?.setup(style: section.headerStyle, title: section.title, accessoryButtonTitle: section.hasAccessory ? "See More" : "", leadingView: section.hasCustomLeadingView ? createCustomLeadingView(section: index) : nil)
         }
 
-        header.titleNumberOfLines = section.numberOfLines
-        header.accessoryButtonStyle = section.accessoryButtonStyle
-        header.onAccessoryButtonTapped = { [unowned self] in self.showAlertForAccessoryTapped(title: section.title) }
+        header?.titleNumberOfLines = section.numberOfLines
+        header?.accessoryButtonStyle = section.accessoryButtonStyle
+        header?.onAccessoryButtonTapped = { [weak self] in self?.showAlertForAccessoryTapped(title: section.title) }
 
         return header
     }
@@ -122,23 +124,23 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         if tableView.style == .grouped && groupedSections[section].hasFooter {
-            let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as! TableViewHeaderFooterView
+            let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as? TableViewHeaderFooterView
             let section = groupedSections[section]
             if section.footerLinkText.isEmpty {
-                footer.setup(style: .footer, title: section.footerText)
+                footer?.setup(style: .footer, title: section.footerText)
             } else {
                 let title = NSMutableAttributedString(string: section.footerText)
                 let range = (title.string as NSString).range(of: section.footerLinkText)
                 if range.location != -1 {
                     title.addAttribute(.link, value: "https://github.com/microsoft/fluentui-apple", range: range)
                 }
-                footer.setup(style: .footer, attributedTitle: title)
+                footer?.setup(style: .footer, attributedTitle: title)
 
                 if section.hasCustomLinkHandler {
-                    footer.delegate = self
+                    footer?.delegate = self
                 }
             }
-            footer.titleNumberOfLines = section.numberOfLines
+            footer?.titleNumberOfLines = section.numberOfLines
             return footer
         }
         return nil
