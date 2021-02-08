@@ -238,7 +238,7 @@ open class SearchBar: UIView {
             // Workaround check for beta iOS versions missing the Pointer Interactions API
             if arePointerInteractionAPIsAvailable() {
                 clearButton.isPointerInteractionEnabled = true
-                clearButton.pointerStyleProvider = { button, effect, shape in
+                clearButton.pointerStyleProvider = { button, effect, _ in
                     let preview = UITargetedPreview(view: button)
                     return UIPointerStyle(effect: .lift(preview))
                 }

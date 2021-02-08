@@ -117,8 +117,9 @@ extension DateTimePickerViewComponent: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = dataSource.itemStringRepresentation(forRowAtIndex: indexPath.row)
-        let cell = tableView.dequeueReusableCell(withIdentifier: DateTimePickerViewComponentCell.identifier) as! DateTimePickerViewComponentCell
-
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: DateTimePickerViewComponentCell.identifier) as? DateTimePickerViewComponentCell else {
+            return UITableViewCell()
+        }
         cell.textLabel?.text = item
         if indexPath.row == self.tableView.middleIndexPath?.row {
             previousSelectedIndexPath = indexPath

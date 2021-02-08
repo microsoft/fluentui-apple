@@ -376,7 +376,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
             titleView.isAccessibilityElement = true
         }
 
-        accessoryButton = accessoryButtonTitle != "" ? createAccessoryButton(withTitle: accessoryButtonTitle) : nil
+        accessoryButton = !accessoryButtonTitle.isEmpty ? createAccessoryButton(withTitle: accessoryButtonTitle) : nil
         self.leadingView = leadingView
 
         self.style = style

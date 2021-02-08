@@ -145,18 +145,21 @@ class PillButtonBarDemoController: DemoController {
     }
 
     @objc private func toggleOnBrandPills(switchView: UISwitch) {
-        let pillBar = self.onBrandBar?.subviews[0] as! PillButtonBar
-        togglePills(pillBar: pillBar, enable: switchView.isOn)
+        if let pillBar = self.onBrandBar?.subviews.first as? PillButtonBar {
+            togglePills(pillBar: pillBar, enable: switchView.isOn)
+        }
     }
 
     @objc private func toggleCustomOnBrandPills(switchView: UISwitch) {
-        let pillBar = self.customBar?.subviews[0] as! PillButtonBar
-        togglePills(pillBar: pillBar, enable: switchView.isOn)
+        if let pillBar = self.customBar?.subviews.first as? PillButtonBar {
+            togglePills(pillBar: pillBar, enable: switchView.isOn)
+        }
     }
 
     @objc private func togglePrimaryPills(switchView: UISwitch) {
-        let pillBar = self.primaryBar?.subviews[0] as! PillButtonBar
-        togglePills(pillBar: pillBar, enable: switchView.isOn)
+        if let pillBar = self.primaryBar?.subviews.first as? PillButtonBar {
+            togglePills(pillBar: pillBar, enable: switchView.isOn)
+        }
     }
 
     private var onBrandBar: UIView?

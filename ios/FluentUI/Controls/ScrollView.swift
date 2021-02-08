@@ -91,20 +91,22 @@ protocol ScrollableContainerView: AnyObject {
             return
         }
 
-        var keyboardFrame = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
-        keyboardFrame = container.convert(keyboardFrame, from: nil)
+        if let userInfo = notification.userInfo,
+           var keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            keyboardFrame = container.convert(keyboardFrame, from: nil)
 
-        if originalBottomContentInset == nil {
-            originalBottomContentInset = contentInset.bottom
-        }
-        let bottomInset = max(originalBottomContentInset, frame.maxY - keyboardFrame.minY)
-        if contentInset.bottom != bottomInset {
-            contentInset.bottom = bottomInset
-            scrollIndicatorInsets.bottom = bottomInset
+            if originalBottomContentInset == nil {
+                originalBottomContentInset = contentInset.bottom
+            }
+            let bottomInset = max(originalBottomContentInset, frame.maxY - keyboardFrame.minY)
+            if contentInset.bottom != bottomInset {
+                contentInset.bottom = bottomInset
+                scrollIndicatorInsets.bottom = bottomInset
 
-            if bottomInset != 0 {
-                UIView.performWithoutAnimation {
-                    makeFirstResponderVisible()
+                if bottomInset != 0 {
+                    UIView.performWithoutAnimation {
+                        makeFirstResponderVisible()
+                    }
                 }
             }
         }

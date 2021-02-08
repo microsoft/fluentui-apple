@@ -72,8 +72,10 @@ public enum Presence: Int, CaseIterable {
         }
 
         var image: UIImage?
-        if let imageName = imageName {
-            image = UIImage.staticImageNamed(imageName)!.image(withPrimaryColor: color!)
+        if let imageName = imageName,
+           let staticImageNamed = UIImage.staticImageNamed(imageName),
+           let color = color {
+            image = staticImageNamed.image(withPrimaryColor: color)
         }
 
         return image
