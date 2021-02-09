@@ -37,14 +37,14 @@ import SwiftUI
 
 public class MSFListTokens: MSFTokensBase, ObservableObject {
     @Published public var backgroundColor: UIColor!
-    @Published public var borderColor: UIColor!
-    @Published public var subtitleColor: UIColor!
-
     @Published public var highlightedBackgroundColor: UIColor!
 
+    @Published public var borderColor: UIColor!
     @Published public var borderSize: CGFloat!
+
     @Published public var horizontalCellPadding: CGFloat!
 
+    @Published public var subtitleColor: UIColor!
     @Published public var subtitleFont: UIFont!
 
     public override init() {
@@ -63,14 +63,14 @@ public class MSFListTokens: MSFTokensBase, ObservableObject {
         let appearanceProxy = currentTheme.MSFListTokens
 
         backgroundColor = appearanceProxy.backgroundColor.rest
-        borderColor = appearanceProxy.borderColor
-        subtitleColor = appearanceProxy.sublabelColor
-
         highlightedBackgroundColor = appearanceProxy.backgroundColor.pressed
 
+        borderColor = appearanceProxy.borderColor
         borderSize = appearanceProxy.borderSize
+
         horizontalCellPadding = appearanceProxy.horizontalCellPadding
 
+        subtitleColor = appearanceProxy.sublabelColor
         subtitleFont = appearanceProxy.sublabelFont
     }
 }
@@ -99,7 +99,7 @@ public class MSFListCellTokens: MSFTokensBase, ObservableObject {
 
     @Published public var subtitleFont: UIFont!
     @Published public var textFont: UIFont!
-    
+
     var cellLeadingViewSize: MSFListCellLeadingViewSize!
 
     public init(cellLeadingViewSize: MSFListCellLeadingViewSize) {

@@ -6,7 +6,6 @@
 import UIKit
 import SwiftUI
 
-
 /// `MSFListCellState` contains properties that make up a cell content.
 ///
 /// `title` is the first line of text, subsequently followed by `subtitle` on the second line.
@@ -52,10 +51,13 @@ struct MSFListCellView: View {
     @ObservedObject var tokens: MSFListCellTokens
     var hasDividers: Bool
 
-    init(state: MSFListCellState, hasDividers: Bool = false) {
+    init(state: MSFListCellState, hasDividers: Bool = false, windowProvider: FluentUIWindowProvider?) {
         self.state = state
         self.hasDividers = hasDividers
         self.tokens = MSFListCellTokens(cellLeadingViewSize: state.leadingViewSize)
+        if let windowProvider = windowProvider {
+            self.tokens.windowProvider = windowProvider
+        }
     }
 
     var body: some View {
@@ -117,7 +119,8 @@ struct MSFListCellView: View {
         if let children = state.children, state.isExpanded == true {
             ForEach(children, id: \.self) { child in
                 MSFListCellView(state: child,
-                                hasDividers: hasDividers)
+                                hasDividers: hasDividers,
+                                windowProvider: tokens.windowProvider)
                     .frame(maxWidth: .infinity)
                     .padding(.leading, (tokens.horizontalCellPadding + tokens.leadingViewSize))
             }
