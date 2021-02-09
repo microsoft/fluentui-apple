@@ -88,7 +88,7 @@
     MSFListCellState *listCell3 = [[MSFListCellState alloc] init];
     [listCell3 setTitle:@"SampleTitle3"];
     [listCell3 setSubtitle:@"SampleTitle3"];
-    UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"excelIcon"]] ;
+    UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"excelIcon"]];
     [listCell3 setLeadingView:image];
     [listCell3 setAccessoryType:MSFListAccessoryTypeDisclosure];
     [listCell3 setLayoutType:MSFListCellLayoutTypeTwoLines];
@@ -100,7 +100,7 @@
     [section setCells:@[listCell1, listCell2, listCell3]];
     NSArray *sections = @[section];
 
-    MSFList *list = [[MSFList alloc] initWithSections:sections iconStyle:MSFListIconStyleNone];
+    MSFList *list = [[MSFList alloc] initWithSections:sections];
 
     UIView *listView = [list view];
     listView.translatesAutoresizingMaskIntoConstraints = false;

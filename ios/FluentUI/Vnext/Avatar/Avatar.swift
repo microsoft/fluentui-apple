@@ -248,7 +248,7 @@ public struct AvatarView: View {
     }
 }
 
-/// UIKit wrapper that exposes the SwiftUI Button implementation
+/// UIKit wrapper that exposes the SwiftUI Avatar implementation
 @objc open class MSFAvatar: NSObject, FluentUIWindowProvider {
 
     private var hostingController: UIHostingController<AnyView>!
