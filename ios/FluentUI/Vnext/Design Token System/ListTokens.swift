@@ -100,7 +100,7 @@ public class MSFListCellTokens: MSFTokensBase, ObservableObject {
     @Published public var subtitleFont: UIFont!
     @Published public var textFont: UIFont!
 
-    var cellLeadingViewSize: MSFListCellLeadingViewSize!
+    @Published public var cellLeadingViewSize: MSFListCellLeadingViewSize!
 
     public init(cellLeadingViewSize: MSFListCellLeadingViewSize) {
         self.cellLeadingViewSize = cellLeadingViewSize

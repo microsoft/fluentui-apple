@@ -55,9 +55,7 @@ struct MSFListCellView: View {
         self.state = state
         self.hasDividers = hasDividers
         self.tokens = MSFListCellTokens(cellLeadingViewSize: state.leadingViewSize)
-        if let windowProvider = windowProvider {
-            self.tokens.windowProvider = windowProvider
-        }
+        self.tokens.windowProvider = windowProvider
     }
 
     var body: some View {
