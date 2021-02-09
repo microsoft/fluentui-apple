@@ -13,14 +13,8 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
         let searchBarNoAutocorrect = buildSearchBar(autocorrectionType: .no, placeholderText: "no autocorrect")
         let searchBarAutocorrect = buildSearchBar(autocorrectionType: .yes, placeholderText: "autocorrect")
 
-        container.addArrangedSubview(UIView())  // spacer
-        container.addArrangedSubview(UIView())  // spacer
         container.addArrangedSubview(searchBarNoAutocorrect)
-        container.addArrangedSubview(UIView())  // spacer
-        container.addArrangedSubview(UIView())  // spacer
         container.addArrangedSubview(searchBarAutocorrect)
-        container.addArrangedSubview(UIView())  // spacer
-        container.addArrangedSubview(UIView())  // spacer
     }
 
     func buildSearchBar(autocorrectionType: UITextAutocorrectionType, placeholderText: String) -> SearchBar {
