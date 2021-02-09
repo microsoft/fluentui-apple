@@ -69,6 +69,71 @@ class DrawerDemoController: DemoController, MSFDrawerControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Show", style: .plain, target: self, action: #selector(showTopDrawerButtonTapped))
+
+        addTitle(text: "Top Drawer")
+
+        container.addArrangedSubview(createButton(title: "Show resizable with clear background", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showTopDrawerButtonTapped()
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show resizable with max content height", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showTopDrawerButtonTapped()
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show non dismissable", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showTopDrawerButtonTapped()
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show changing resizing behaviour", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showTopDrawerButtonTapped()
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show with no animation", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showTopDrawerButtonTapped()
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show from custom base with width on landscape", action: { [weak self] sender in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let buttonView = sender.view
+            guard let rect = buttonView.superview?.convert(buttonView.frame, to: nil) else {
+                return
+            }
+
+            strongSelf.showTopDrawerButtonTapped()
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show respecting safe area width", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showTopDrawerButtonTapped()
+        }).view)
+
         addTitle(text: "Left/Right Drawer")
         addRow(items: [
             createButton(title: "Show from leading with clear background", action: { [weak self ] _ in
@@ -100,6 +165,92 @@ class DrawerDemoController: DemoController, MSFDrawerControllerDelegate {
         stretchItems: true)
         addDescription(text: "Swipe from the left or right edge of the screen to reveal a drawer interactively")
 
+        addTitle(text: "Bottom Drawer")
+
+        container.addArrangedSubview(createButton(title: "Show resizable", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showBottomDrawerButtonTapped()
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show resizable with max content height", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showBottomDrawerButtonTapped()
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show with underlying interactable content view", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.navigationController?.pushViewController(PassThroughDrawerDemoController(), animated: true)
+        }).view)
+        container.addArrangedSubview(createButton(title: "Show changing resizing behaviour", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showBottomDrawerButtonTapped()
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show with no animation", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showBottomDrawerButtonTapped()
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show from custom base", action: { [weak self] sender in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let buttonView = sender.view
+            guard let rect = buttonView.superview?.convert(buttonView.frame, to: nil) else {
+                return
+            }
+
+            strongSelf.showBottomDrawerButtonTapped()
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show always as slideover, resizable with dimmed background", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showBottomDrawerButtonTapped()
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show always as slideover, resizable with clear background", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showBottomDrawerButtonTapped()
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show with focusable content", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showBottomDrawerButtonTapped()
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show dismiss blocking drawer", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showBottomDrawerButtonTapped()
+        }).view)
+
         container.addArrangedSubview(UIView())
 
         // Screen edge gestures to interactively present side drawers
@@ -129,7 +280,7 @@ class DrawerDemoController: DemoController, MSFDrawerControllerDelegate {
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
 
-    @objc private func showLeftDrawerClearBackgroundButtonTapped() {
+    private func showLeftDrawerClearBackgroundButtonTapped() {
         if let drawerController = drawerController {
             drawerController.state.backgroundDimmed = false
             drawerController.state.presentationDirection = .left
@@ -137,7 +288,7 @@ class DrawerDemoController: DemoController, MSFDrawerControllerDelegate {
         }
     }
 
-    @objc private func showLeftDrawerDimmedBackgroundButtonTapped() {
+    private func showLeftDrawerDimmedBackgroundButtonTapped() {
         if let drawerController = drawerController {
             drawerController.state.backgroundDimmed = true
             drawerController.state.presentationDirection = .left
@@ -145,7 +296,7 @@ class DrawerDemoController: DemoController, MSFDrawerControllerDelegate {
         }
     }
 
-    @objc private func showRightDrawerClearBackgroundButtonTapped() {
+    private func showRightDrawerClearBackgroundButtonTapped() {
         if let drawerController = drawerController {
             drawerController.state.backgroundDimmed = false
             drawerController.state.presentationDirection = .right
@@ -153,10 +304,26 @@ class DrawerDemoController: DemoController, MSFDrawerControllerDelegate {
         }
     }
 
-    @objc private func showRightDrawerDimmedBackgroundButtonTapped() {
+    private func showRightDrawerDimmedBackgroundButtonTapped() {
         if let drawerController = drawerController {
             drawerController.state.backgroundDimmed = true
             drawerController.state.presentationDirection = .right
+            present(drawerController, animated: true, completion: nil)
+        }
+    }
+
+    @objc private func showTopDrawerButtonTapped() {
+        if let drawerController = drawerController {
+            drawerController.state.backgroundDimmed = true
+            drawerController.state.presentationDirection = .top
+            present(drawerController, animated: true, completion: nil)
+        }
+    }
+
+    private func showBottomDrawerButtonTapped() {
+        if let drawerController = drawerController {
+            drawerController.state.backgroundDimmed = true
+            drawerController.state.presentationDirection = .bottom
             present(drawerController, animated: true, completion: nil)
         }
     }

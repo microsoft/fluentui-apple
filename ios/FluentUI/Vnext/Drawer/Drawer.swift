@@ -5,15 +5,6 @@
 
 import SwiftUI
 
-// MARK: - Drawer Model
-
-@objc public enum MSFDrawerDirection: Int, CaseIterable {
-    /// Drawer originates from left
-    case left
-    /// Drawer originates from right
-    case right
-}
-
 /// `MSFDrawerState` assist to configure drawer functional properties via UIKit components.
 @objc public class MSFDrawerState: NSObject, ObservableObject {
 
@@ -80,13 +71,13 @@ public struct MSFDrawerView<Content: View>: View {
 
     public var body: some View {
         GeometryReader { proxy in
-            MSFSlideOverPanel(
+            MSFBasePanel(
                 percentTransition: $panelTransitionPercent,
                 tokens: tokens,
                 content: content,
                 transitionState: $panelTransitionState)
                 .isBackgroundDimmed(state.backgroundDimmed)
-                .direction(slideOutDirection)
+                .direction(state.presentationDirection)
                 .width(sizeInCurrentOrientation(proxy).width)
                 .performOnBackgroundTap {
                     state.isExpanded = false
@@ -146,7 +137,7 @@ public struct MSFDrawerView<Content: View>: View {
     @Environment(\.theme) var theme: FluentUIStyle
 
     /// Internal panel state
-    @State internal var panelTransitionState: MSFSlideOverTransitionState = .collapsed
+    @State internal var panelTransitionState: MSFDrawerTransitionState = .collapsed
 
     /// Transition percent, whem set to max value the panel is expaned
     /// Range [0,1]
@@ -159,16 +150,12 @@ public struct MSFDrawerView<Content: View>: View {
         return Animation.easeInOut(duration: state.animationDuration)
     }
 
-    private var slideOutDirection: MSFDrawerSlideOverDirection {
-        return state.presentationDirection == .left ? .left : .right
-    }
-
     private func dragGesture(screenWidth: CGFloat) -> some Gesture {
         DragGesture()
             .onChanged { value in
                 let delta = value.startLocation.x - value.location.x
-                let isDragInReverseDirection = slideOutDirection == .right && delta > 0 ||
-                     slideOutDirection == .left && delta < 0
+                let isDragInReverseDirection = state.presentationDirection == .right && delta > 0 ||
+                    state.presentationDirection == .left && delta < 0
                 guard !isDragInReverseDirection else {
                     return
                 }

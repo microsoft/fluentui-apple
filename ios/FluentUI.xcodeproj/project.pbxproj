@@ -26,10 +26,15 @@
 		3F4FB96625B25D54008AB7CC /* DrawerPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF5211E16360038C37C /* DrawerPresentationController.swift */; };
 		3F4FB96725B25D57008AB7CC /* DrawerTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF4211E16360038C37C /* DrawerTransitionAnimator.swift */; };
 		3F4FB97225B25E04008AB7CC /* Drawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB96D25B25E04008AB7CC /* Drawer.swift */; };
-		3F4FB97425B25E04008AB7CC /* SlideOverPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB96E25B25E04008AB7CC /* SlideOverPanel.swift */; };
+		3F4FB97325B25E04008AB7CC /* BasePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB96E25B25E04008AB7CC /* BasePanel.swift */; };
+		3F4FB97425B25E04008AB7CC /* BasePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB96E25B25E04008AB7CC /* BasePanel.swift */; };
+		3F4FB97525B25E04008AB7CC /* Drawer+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB96F25B25E04008AB7CC /* Drawer+UIKit.swift */; };
 		3F4FB97625B25E04008AB7CC /* Drawer+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB96F25B25E04008AB7CC /* Drawer+UIKit.swift */; };
-		3F4FB97825B25E04008AB7CC /* SideOverPanel+Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB97025B25E04008AB7CC /* SideOverPanel+Modifiers.swift */; };
+		3F4FB97725B25E04008AB7CC /* BasePanel+Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB97025B25E04008AB7CC /* BasePanel+Modifiers.swift */; };
+		3F4FB97825B25E04008AB7CC /* BasePanel+Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB97025B25E04008AB7CC /* BasePanel+Modifiers.swift */; };
 		3FDF1C9425C0C066000ED4F3 /* AnimationCompletionModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDF1C9325C0C066000ED4F3 /* AnimationCompletionModifier.swift */; };
+		3FEC61C125CC912F00598CEE /* PanelCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEC61C025CC912F00598CEE /* PanelCommon.swift */; };
+		3FEC61C225CC912F00598CEE /* PanelCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEC61C025CC912F00598CEE /* PanelCommon.swift */; };
 		497DC2D924185885008D86F8 /* PillButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D724185885008D86F8 /* PillButtonBar.swift */; };
 		497DC2DA24185885008D86F8 /* PillButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D724185885008D86F8 /* PillButtonBar.swift */; };
 		497DC2DB24185885008D86F8 /* PillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D824185885008D86F8 /* PillButton.swift */; };
@@ -365,10 +370,11 @@
 		22EABB192509AAD100C4BE72 /* IndeterminateProgressBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarView.swift; sourceTree = "<group>"; };
 		3F4FB92C25B25843008AB7CC /* UIKit+SwiftUI_interoperability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIKit+SwiftUI_interoperability.swift"; sourceTree = "<group>"; };
 		3F4FB96D25B25E04008AB7CC /* Drawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Drawer.swift; sourceTree = "<group>"; };
-		3F4FB96E25B25E04008AB7CC /* SlideOverPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideOverPanel.swift; sourceTree = "<group>"; };
+		3F4FB96E25B25E04008AB7CC /* BasePanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasePanel.swift; sourceTree = "<group>"; };
 		3F4FB96F25B25E04008AB7CC /* Drawer+UIKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Drawer+UIKit.swift"; sourceTree = "<group>"; };
-		3F4FB97025B25E04008AB7CC /* SideOverPanel+Modifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SideOverPanel+Modifiers.swift"; sourceTree = "<group>"; };
+		3F4FB97025B25E04008AB7CC /* BasePanel+Modifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BasePanel+Modifiers.swift"; sourceTree = "<group>"; };
 		3FDF1C9325C0C066000ED4F3 /* AnimationCompletionModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationCompletionModifier.swift; sourceTree = "<group>"; };
+		3FEC61C025CC912F00598CEE /* PanelCommon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelCommon.swift; sourceTree = "<group>"; };
 		497DC2D724185885008D86F8 /* PillButtonBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBar.swift; sourceTree = "<group>"; };
 		497DC2D824185885008D86F8 /* PillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
 		53224E6525DF473C0063FBDB /* MSFListCellTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFListCellTokens.generated.swift; sourceTree = "<group>"; };
@@ -647,6 +653,9 @@
 				53224E6625DF473C0063FBDB /* MSFDrawerTokens.generated.swift */,
 				3F4FB96E25B25E04008AB7CC /* SlideOverPanel.swift */,
 				3F4FB97025B25E04008AB7CC /* SideOverPanel+Modifiers.swift */,
+				3FEC61C025CC912F00598CEE /* PanelCommon.swift */,
+				3F4FB96E25B25E04008AB7CC /* BasePanel.swift */,
+				3F4FB97025B25E04008AB7CC /* BasePanel+Modifiers.swift */,
 			);
 			path = Drawer;
 			sourceTree = "<group>";
@@ -1374,6 +1383,7 @@
 				8FD01172228A82A600D25925 /* CalendarViewDataSource.swift in Sources */,
 				8FD01173228A82A600D25925 /* CalendarViewLayout.swift in Sources */,
 				EC8EA6AA2580D80100F191CE /* List.swift in Sources */,
+				3FEC61C225CC912F00598CEE /* PanelCommon.swift in Sources */,
 				8FD01174228A82A600D25925 /* CalendarViewDayCell.swift in Sources */,
 				8FD01175228A82A600D25925 /* CalendarViewDayMonthCell.swift in Sources */,
 				8FD01176228A82A600D25925 /* CalendarViewDayMonthYearCell.swift in Sources */,
@@ -1495,7 +1505,7 @@
 				56DA1CD824523611008D745E /* ShimmerView.swift in Sources */,
 				8FD011B4228A82A600D25925 /* PersonaCell.swift in Sources */,
 				8FD011B5228A82A600D25925 /* PersonaListView.swift in Sources */,
-				3F4FB97825B25E04008AB7CC /* SideOverPanel+Modifiers.swift in Sources */,
+				3F4FB97825B25E04008AB7CC /* BasePanel+Modifiers.swift in Sources */,
 				497DC2DA24185885008D86F8 /* PillButtonBar.swift in Sources */,
 				5320362525D4803600DE9E1D /* CommandBarButton.swift in Sources */,
 				8ACE4D3524E31ADA00B9D0EB /* ContactCollectionViewCell.swift in Sources */,
@@ -1506,7 +1516,8 @@
 				8FD011B8228A82A600D25925 /* PopupMenuItem.swift in Sources */,
 				53224E7F25DF474C0063FBDB /* ButtonTokens.swift in Sources */,
 				8FD011B9228A82A600D25925 /* PopupMenuSection.swift in Sources */,
-				3F4FB97425B25E04008AB7CC /* SlideOverPanel.swift in Sources */,
+				3F4FB97425B25E04008AB7CC /* BasePanel.swift in Sources */,
+				A5B87AF6211E16370038C37C /* DrawerController.swift in Sources */,
 				FD41C8B622DD3EA20086F899 /* NSLayoutConstraint+Extensions.swift in Sources */,
 				8FD011BA228A82A600D25925 /* PopupMenuItemCell.swift in Sources */,
 				B4414790228F4D920040E88E /* BooleanCell.swift in Sources */,
@@ -1530,6 +1541,7 @@
 			files = (
 				B46D3F91215056940029772C /* CharacterSet+Extension.swift in Sources */,
 				A5961FA3218A25D100E2A506 /* PopupMenuItemCell.swift in Sources */,
+				3F4FB97725B25E04008AB7CC /* BasePanel+Modifiers.swift in Sources */,
 				FD599D0221348439008845EE /* CalendarView.swift in Sources */,
 				53224EE525DFB6290063FBDB /* Drawer+UIKit.swift in Sources */,
 				A559BB83212B7D870055E107 /* FluentUIFramework.swift in Sources */,
@@ -1598,6 +1610,7 @@
 				53224EE625DFB6290063FBDB /* SlideOverPanel.swift in Sources */,
 				A5961FA7218A2E4500E2A506 /* UIImage+Extensions.swift in Sources */,
 				B4BA27882319DC0D0001563C /* PersonaBadgeViewDataSource.swift in Sources */,
+				3FEC61C125CC912F00598CEE /* PanelCommon.swift in Sources */,
 				8A01C86F248FFC5300C971F3 /* ContactView.swift in Sources */,
 				FD7DF06021FA83C900857267 /* TooltipPositionController.swift in Sources */,
 				FD56FD94219128BF0023C7EA /* DateTimePickerViewDataSource.swift in Sources */,
@@ -1682,6 +1695,7 @@
 				B46D3F9D215985AC0029772C /* PersonaListView.swift in Sources */,
 				53224EE825DFB6290063FBDB /* DrawerTokens.swift in Sources */,
 				7DC2FB2824C0ED1600367A55 /* TableViewCellFileAccessoryView.swift in Sources */,
+				3F4FB97325B25E04008AB7CC /* BasePanel.swift in Sources */,
 				A5DCA76421224026005F4CB7 /* Separator.swift in Sources */,
 				FD599D062134A682008845EE /* AccessibleViewDelegate.swift in Sources */,
 			);
