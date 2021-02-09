@@ -1367,11 +1367,6 @@ open class TableViewCell: UITableViewCell {
     }
 
     private func initAccessibilityForAccessoryType() {
-        if _accessoryType == .disclosureIndicator || _accessoryType == .detailButton {
-            accessibilityTraits.insert(.button)
-        } else {
-            accessibilityTraits.remove(.button)
-        }
         if _accessoryType == .checkmark || isSelected {
             accessibilityTraits.insert(.selected)
         } else {
@@ -1380,6 +1375,8 @@ open class TableViewCell: UITableViewCell {
     }
 
     private func updateAccessibility() {
+        accessibilityTraits.insert(.button)
+
         if isEnabled {
             accessibilityTraits.remove(.notEnabled)
         } else {
