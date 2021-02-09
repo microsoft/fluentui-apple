@@ -32,6 +32,7 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("PersonaListView", PersonaListViewDemoController.self),
     ("PillButtonBar", PillButtonBarDemoController.self),
     ("PopupMenuController", PopupMenuDemoController.self),
+    ("SearchBar", SearchBarDemoController.self),
     ("SegmentedControl", SegmentedControlDemoController.self),
     ("ShimmerView", ShimmerViewDemoController.self),
     ("SideTabBar", SideTabBarDemoController.self),
