@@ -26,23 +26,23 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
         searchBar.autocorrectionType = autocorrectionType
         return searchBar
     }
-    
+
     // MARK: SearchBarDelegate
-    
+
     func searchBarDidBeginEditing(_ searchBar: SearchBar) {
     }
-    
+
     func searchBar(_ searchBar: SearchBar, didUpdateSearchText newSearchText: String?) {
         searchBar.placeholderText = newSearchText ?? "search"
     }
-    
+
     func searchBarDidFinishEditing(_ searchBar: SearchBar) {
     }
-    
+
     func searchBarDidCancel(_ searchBar: SearchBar) {
         searchBar.progressSpinner.stopAnimating()
     }
-    
+
     func searchBarDidRequestSearch(_ searchBar: SearchBar) {
         searchBar.progressSpinner.startAnimating()
     }
