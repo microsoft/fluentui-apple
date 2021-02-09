@@ -3495,42 +3495,6 @@ extension FluentUIThemeManagerTheming {
 		}
 
 	}
-	//MARK: - MSFListCellLargeTokens
-	public var _MSFListCellLargeTokens: MSFListCellLargeTokensAppearanceProxy?
-	open func MSFListCellLargeTokensStyle() -> MSFListCellLargeTokensAppearanceProxy {
-		if let override = _MSFListCellLargeTokens { return override }
-			return MSFListCellLargeTokensAppearanceProxy(proxy: { return self })
-		}
-	public var MSFListCellLargeTokens: MSFListCellLargeTokensAppearanceProxy {
-		get { return self.MSFListCellLargeTokensStyle() }
-		set { _MSFListCellLargeTokens = newValue }
-	}
-	@objc(MSFListCellLargeTokensAppearanceProxy) @objcMembers open class MSFListCellLargeTokensAppearanceProxy: MSFListCellTokensAppearanceProxy {
-
-		//MARK: leadingViewSize 
-		override open func leadingViewSizeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-			if let override = _leadingViewSize { return override }
-			return mainProxy().Icon.size.xxlargeProperty(traitCollection)
-			}
-	}
-	//MARK: - MSFListCellSmallTokens
-	public var _MSFListCellSmallTokens: MSFListCellSmallTokensAppearanceProxy?
-	open func MSFListCellSmallTokensStyle() -> MSFListCellSmallTokensAppearanceProxy {
-		if let override = _MSFListCellSmallTokens { return override }
-			return MSFListCellSmallTokensAppearanceProxy(proxy: { return self })
-		}
-	public var MSFListCellSmallTokens: MSFListCellSmallTokensAppearanceProxy {
-		get { return self.MSFListCellSmallTokensStyle() }
-		set { _MSFListCellSmallTokens = newValue }
-	}
-	@objc(MSFListCellSmallTokensAppearanceProxy) @objcMembers open class MSFListCellSmallTokensAppearanceProxy: MSFListCellTokensAppearanceProxy {
-
-		//MARK: leadingViewSize 
-		override open func leadingViewSizeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-			if let override = _leadingViewSize { return override }
-			return mainProxy().Icon.size.xSmallProperty(traitCollection)
-			}
-	}
 	//MARK: - MSFListCellTokens
 	public var _MSFListCellTokens: MSFListCellTokensAppearanceProxy?
 	open func MSFListCellTokensStyle() -> MSFListCellTokensAppearanceProxy {
@@ -3748,16 +3712,56 @@ extension FluentUIThemeManagerTheming {
 			set { _leadingViewColor = newValue }
 		}
 
-		//MARK: leadingViewSize 
-		public var _leadingViewSize: CGFloat?
-		open func leadingViewSizeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+		//MARK: - leadingViewSize
+		public var _leadingViewSize: leadingViewSizeAppearanceProxy?
+		open func leadingViewSizeStyle() -> leadingViewSizeAppearanceProxy {
 			if let override = _leadingViewSize { return override }
-			return mainProxy().Icon.size.mediumProperty(traitCollection)
+				return leadingViewSizeAppearanceProxy(proxy: mainProxy)
 			}
-		public var leadingViewSize: CGFloat {
-			get { return self.leadingViewSizeProperty() }
+		public var leadingViewSize: leadingViewSizeAppearanceProxy {
+			get { return self.leadingViewSizeStyle() }
 			set { _leadingViewSize = newValue }
 		}
+		@objc(MSFListCellTokensLeadingViewSizeAppearanceProxy) @objcMembers open class leadingViewSizeAppearanceProxy: NSObject {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			//MARK: large 
+			public var _large: CGFloat?
+			open func largeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _large { return override }
+					return mainProxy().Icon.size.xxlargeProperty(traitCollection)
+				}
+			public var large: CGFloat {
+				get { return self.largeProperty() }
+				set { _large = newValue }
+			}
+
+			//MARK: medium 
+			public var _medium: CGFloat?
+			open func mediumProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _medium { return override }
+					return mainProxy().Icon.size.mediumProperty(traitCollection)
+				}
+			public var medium: CGFloat {
+				get { return self.mediumProperty() }
+				set { _medium = newValue }
+			}
+
+			//MARK: small 
+			public var _small: CGFloat?
+			open func smallProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+				if let override = _small { return override }
+					return mainProxy().Icon.size.xSmallProperty(traitCollection)
+				}
+			public var small: CGFloat {
+				get { return self.smallProperty() }
+				set { _small = newValue }
+			}
+		}
+
 
 		//MARK: sublabelColor 
 		public var _sublabelColor: UIColor?
@@ -4827,15 +4831,7 @@ extension MSFListCellTokens: AppearaceProxyComponent {
 			if let proxy = objc_getAssociatedObject(self, &__AppearanceProxyHandle) as? AppearanceProxyType {
 				if !themeAware { return proxy }
 
-				if let proxyString = Optional(String(reflecting: type(of: proxy))), proxyString.hasPrefix("FluentUI") == false {
-					return proxy
-				}
 
-				if proxy is FluentUIStyle.MSFListCellLargeTokensAppearanceProxy {
-					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFListCellLargeTokens
-				} else if proxy is FluentUIStyle.MSFListCellSmallTokensAppearanceProxy {
-					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFListCellSmallTokens
-				}
 				return proxy
 			}
 

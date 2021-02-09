@@ -117,15 +117,15 @@ public class MSFListCellTokens: MSFTokensBase, ObservableObject {
 
     public override func updateForCurrentTheme() {
         let currentTheme = theme
-        var appearanceProxy: AppearanceProxyType = currentTheme.MSFListCellTokens
+        let appearanceProxy: AppearanceProxyType = currentTheme.MSFListCellTokens
 
         switch cellLeadingViewSize {
         case .small:
-            appearanceProxy = currentTheme.MSFListCellSmallTokens
+            leadingViewSize = appearanceProxy.leadingViewSize.small
         case .medium, .none:
-            appearanceProxy = currentTheme.MSFListCellTokens
+            leadingViewSize = appearanceProxy.leadingViewSize.medium
         case .large:
-            appearanceProxy = currentTheme.MSFListCellLargeTokens
+            leadingViewSize = appearanceProxy.leadingViewSize.large
         }
 
         backgroundColor = appearanceProxy.backgroundColor.rest
@@ -146,7 +146,6 @@ public class MSFListCellTokens: MSFTokensBase, ObservableObject {
         disclosureSize = appearanceProxy.disclosureSize
         horizontalCellPadding = appearanceProxy.horizontalCellPadding
         iconInterspace = appearanceProxy.iconInterspace
-        leadingViewSize = appearanceProxy.leadingViewSize
         trailingItemSize = appearanceProxy.trailingItemSize
 
         subtitleFont = appearanceProxy.sublabelFont

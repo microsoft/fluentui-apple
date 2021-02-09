@@ -259,17 +259,11 @@ AP_MSFListCellTokens:
   labelColor: $Colors.Foreground.neutral1
   labelFont: $Typography.body
   leadingViewColor: $Colors.Foreground.neutral4
-  leadingViewSize: $Icon.size.medium
+  leadingViewSize: [ small: $Icon.size.xSmall, medium: $Icon.size.medium, large: $Icon.size.xxlarge]
   sublabelColor: $Colors.Foreground.neutral3
   sublabelFont: $Typography.caption1
   trailingItemForegroundColor: $Colors.Foreground.neutral3
   trailingItemSize: $Icon.size.medium
-
-MSFListCellSmallTokens extends MSFListCellTokens:
-  leadingViewSize: $Icon.size.xSmall
-
-MSFListCellLargeTokens extends MSFListCellTokens:
-  leadingViewSize: $Icon.size.xxlarge
 
 AP_MSFDrawerTokens:
   backgroundDimmedOpacity: $Opacity.opacity64
