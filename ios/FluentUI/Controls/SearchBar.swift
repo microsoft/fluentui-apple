@@ -302,6 +302,14 @@ open class SearchBar: UIView {
         updateColorsForStyle()
     }
 
+    open override var intrinsicContentSize: CGSize {
+        return sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+    }
+
+    open override func sizeThatFits(_ size: CGSize) -> CGSize {
+        return CGSize(width: size.width, height: Constants.searchTextFieldBackgroundHeight)
+    }
+
     private func startSearch() {
         if isActive {
             return
