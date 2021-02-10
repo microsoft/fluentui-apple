@@ -37,8 +37,8 @@ public struct MSFListView: View {
             ScrollView {
                 VStack(spacing: 0) {
                     ForEach(sections, id: \.self) { section in
-                        if section.title != nil {
-                            Header(state: section)
+                        if let sectionTitle = section.title, !sectionTitle.isEmpty {
+                            Header(state: section, windowProvider: tokens.windowProvider)
                         }
 
                         ForEach(section.cells.indices, id: \.self) { index in

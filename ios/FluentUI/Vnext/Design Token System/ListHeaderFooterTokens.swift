@@ -40,7 +40,7 @@ public class MSFListHeaderFooterTokens: MSFTokensBase, ObservableObject {
     public override func updateForCurrentTheme() {
         let currentTheme = theme
         let appearanceProxy: AppearanceProxyType
-        
+
         switch style {
         case .headerSecondary:
             appearanceProxy = currentTheme.MSFListHeaderFooterTokens

@@ -8,17 +8,18 @@ import SwiftUI
 
 struct Header: View {
     @Environment(\.theme) var theme: FluentUIStyle
-    let state: MSFListSectionState
-    var tokens: MSFListHeaderFooterTokens
+    @ObservedObject var state: MSFListSectionState
+    @ObservedObject var tokens: MSFListHeaderFooterTokens
 
-    init(state: MSFListSectionState) {
+    init(state: MSFListSectionState, windowProvider: FluentUIWindowProvider?) {
         self.state = state
         self.tokens = MSFListHeaderFooterTokens(style: state.style)
+        self.tokens.windowProvider = windowProvider
     }
 
     var body: some View {
         HStack(spacing: 0) {
-            if let title = state.title {
+            if let title = state.title, !title.isEmpty {
                 Text(title)
                     .font(Font(tokens.textFont))
                     .foregroundColor(Color(tokens.textColor))
@@ -26,12 +27,12 @@ struct Header: View {
             Spacer()
         }
         .background(Color(tokens.backgroundColor))
-        .listRowInsets(EdgeInsets())
-        .frame(minHeight: tokens.headerHeight)
         .padding(EdgeInsets(top: tokens.topHeaderPadding,
                             leading: tokens.horizontalHeaderPadding,
                             bottom: tokens.horizontalHeaderPadding / 2,
                             trailing: tokens.horizontalHeaderPadding))
+        .listRowInsets(EdgeInsets())
+        .frame(minHeight: tokens.headerHeight)
         .onAppear {
             // When environment values are available through the view hierarchy:
             //  - If we get a non-default theme through the environment values,
