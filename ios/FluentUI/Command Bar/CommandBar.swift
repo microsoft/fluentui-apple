@@ -5,14 +5,6 @@
 
 import UIKit
 
-@objc(MSFCommandBarDelegate)
-public protocol CommandBarDelegate: AnyObject {
-    @objc optional func commandBar(_ commandBar: CommandBar, shouldSelectItem item: CommandBarItem) -> Bool
-    @objc optional func commandBar(_ commandBar: CommandBar, didSelectItem item: CommandBarItem)
-    @objc optional func commandBar(_ commandBar: CommandBar, shouldDeselectItem item: CommandBarItem) -> Bool
-    @objc optional func commandBar(_ commandBar: CommandBar, didDeselectItem item: CommandBarItem)
-}
-
 /**
  `CommandBar` is a horizontal scrollable list of icon buttons divided by groups.
  Provide `itemGroups` in `init` to set the buttons in the scrollable area. Optional `leadingItem` and `trailingItem` add fixed buttons in leading and trailing positions. Each `CommandBarItem` will be represented as a button.
@@ -63,10 +55,6 @@ open class CommandBar: UIView {
             button.updateState()
         }
     }
-
-    // MARK: Public properties
-
-    @objc public weak var delegate: CommandBarDelegate?
 
     // MARK: Overrides
 
@@ -247,26 +235,8 @@ open class CommandBar: UIView {
     }
 
     @objc private func handleCommandButtonTapped(_ sender: CommandBarButton) {
-        let newSelected = !sender.item.isSelected
-
-        if newSelected {
-            if !(delegate?.commandBar?(self, shouldSelectItem: sender.item) ?? true) {
-                return
-            }
-        } else {
-            if !(delegate?.commandBar?(self, shouldDeselectItem: sender.item) ?? true) {
-                return
-            }
-        }
-
-        sender.item.isSelected = newSelected
+        sender.item.handleTapped()
         sender.updateState()
-
-        if newSelected {
-            delegate?.commandBar?(self, didSelectItem: sender.item)
-        } else {
-            delegate?.commandBar?(self, didDeselectItem: sender.item)
-        }
     }
 
     private static let fadeViewWidth: CGFloat = 16.0

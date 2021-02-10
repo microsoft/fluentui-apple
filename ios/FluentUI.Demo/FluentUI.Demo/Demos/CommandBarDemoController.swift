@@ -77,23 +77,6 @@ class CommandBarDemoController: DemoController {
         }
     }
 
-    class Item: CommandBarItem {
-        let command: Command
-
-        init(command: Command, isEnabled: Bool = true, isSelected: Bool = false) {
-            self.command = command
-
-            super.init(iconImage: command.iconImage, isEnabled: isEnabled, isSelected: isSelected, isPersistSelection: command.isPersistSelection)
-        }
-
-        @available(iOS 14.0, *)
-        init(command: Command, isEnabled: Bool = true, isSelected: Bool = false, menu: UIMenu, showsMenuAsPrimaryAction: Bool = false) {
-            self.command = command
-
-            super.init(iconImage: command.iconImage, isEnabled: isEnabled, isSelected: isSelected, isPersistSelection: command.isPersistSelection, menu: menu, showsMenuAsPrimaryAction: showsMenuAsPrimaryAction)
-        }
-    }
-
     let textField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -109,32 +92,40 @@ class CommandBarDemoController: DemoController {
         container.layoutMargins.left = 0
         view.backgroundColor = Colors.surfaceSecondary
 
-        let itemGroups: [CommandBarItemGroup] = [
+        let commandGroups: [[Command]] = [
             [
-                Item(command: .add),
-                Item(command: .mention, isEnabled: false),
-                Item(command: .calendar)
+                .add,
+                .mention,
+                .calendar
             ],
             [
-                Item(command: .textBold),
-                Item(command: .textItalic),
-                Item(command: .textUnderline),
-                Item(command: .textStrikethrough)
+                .textBold,
+                .textItalic,
+                .textUnderline,
+                .textStrikethrough
             ],
             [
-                Item(command: .arrowUndo),
-                Item(command: .arrowRedo)
+                .arrowUndo,
+                .arrowRedo
             ],
             [
-                Item(command: .delete)
+                .delete
             ],
             [
-                Item(command: .checklist),
-                Item(command: .bulletList),
-                Item(command: .numberList),
-                Item(command: .link)
+                .checklist,
+                .bulletList,
+                .numberList,
+                .link
             ]
         ]
+
+        let itemGroups: [CommandBarItemGroup] = commandGroups.map { commandGroup in
+            commandGroup.map { command in
+                newItem(for: command)
+            }
+        }
+
+        itemGroups[0][1].isEnabled = false
 
         if #available(iOS 14.0, *) {
             // Copy item
@@ -148,14 +139,12 @@ class CommandBarDemoController: DemoController {
 
         let defaultCommandBar = CommandBar(itemGroups: itemGroups)
         defaultCommandBar.backgroundColor = Colors.Navigation.System.background
-        defaultCommandBar.delegate = self
         container.addArrangedSubview(defaultCommandBar)
 
         container.addArrangedSubview(createLabelWithText("With Fixed Button"))
 
-        let fixedButtonCommandBar = CommandBar(itemGroups: itemGroups, leadingItem: Item(command: .copy), trailingItem: Item(command: .keyboard))
+        let fixedButtonCommandBar = CommandBar(itemGroups: itemGroups, leadingItem: newItem(for: .copy), trailingItem: newItem(for: .keyboard))
         fixedButtonCommandBar.backgroundColor = Colors.Navigation.System.background
-        fixedButtonCommandBar.delegate = self
         container.addArrangedSubview(fixedButtonCommandBar)
 
         container.addArrangedSubview(createLabelWithText("In Input Accessory View"))
@@ -172,8 +161,7 @@ class CommandBarDemoController: DemoController {
 
         container.addArrangedSubview(textFieldContainer)
 
-        let accessoryCommandBar = CommandBar(itemGroups: itemGroups, trailingItem: Item(command: .keyboard))
-        accessoryCommandBar.delegate = self
+        let accessoryCommandBar = CommandBar(itemGroups: itemGroups, trailingItem: newItem(for: .keyboard))
         textField.inputAccessoryView = accessoryCommandBar
     }
 
@@ -183,33 +171,33 @@ class CommandBarDemoController: DemoController {
         label.textAlignment = .center
         return label
     }
-}
 
-extension CommandBarDemoController: CommandBarDelegate {
-    func commandBar(_ commandBar: CommandBar, didSelectItem item: CommandBarItem) {
-        guard let item = item as? Item else {
-            fatalError("Invalid item type")
+    func newItem(for command: Command, isEnabled: Bool = true, isSelected: Bool = false) -> CommandBarItem {
+        CommandBarItem(
+            iconImage: command.iconImage,
+            isEnabled: isEnabled,
+            isSelected: isSelected,
+            itemTappedHandler: { [weak self] (item) in
+                self?.handleCommandItemTapped(command: command, item: item)
+            }
+        )
+    }
+
+    func handleCommandItemTapped(command: Command, item: CommandBarItem) {
+        if command.isPersistSelection {
+            item.isSelected.toggle()
         }
 
-        switch item.command {
+        let isSelected = item.isSelected || !command.isPersistSelection
+
+        switch command {
         case .keyboard:
             textField.resignFirstResponder()
         default:
-            let alert = UIAlertController(title: "Did select command \(item.command)", message: nil, preferredStyle: .alert)
+            let alert = UIAlertController(title: "Did \(isSelected ? "select" : "deselect") command \(command)", message: nil, preferredStyle: .alert)
             let action = UIAlertAction(title: "OK", style: .default)
             alert.addAction(action)
             present(alert, animated: true)
         }
-    }
-
-    func commandBar(_ commandBar: CommandBar, didDeselectItem item: CommandBarItem) {
-        guard let item = item as? Item else {
-            fatalError("Invalid item type")
-        }
-
-        let alert = UIAlertController(title: "Did deselect command \(item.command)", message: nil, preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default)
-        alert.addAction(action)
-        present(alert, animated: true)
     }
 }
