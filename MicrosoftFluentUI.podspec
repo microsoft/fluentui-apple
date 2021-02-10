@@ -27,6 +27,12 @@ Pod::Spec.new do |s|
     card_ios.source_files = ["ios/FluentUI/Card/**/*.{swift,h}"]
   end
 
+  s.subspec 'CommandBar_ios' do |commandbar_ios|
+    commandbar_ios.platform = :ios
+    commandbar_ios.dependency 'MicrosoftFluentUI/Core_ios'
+    commandbar_ios.source_files = ["ios/FluentUI/Command Bar/**/*.{swift,h}"]
+  end
+
   s.subspec 'Controls_ios' do |controls_ios|
     controls_ios.platform = :ios
     controls_ios.dependency 'MicrosoftFluentUI/Core_ios'
