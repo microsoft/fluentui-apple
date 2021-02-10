@@ -24,10 +24,9 @@ public struct MSFListView: View {
     @ObservedObject var state: MSFListState
     @ObservedObject var tokens: MSFListTokens
 
-    public init(sections: [MSFListSectionState],
-                iconStyle: MSFListIconStyle) {
+    public init(sections: [MSFListSectionState]) {
         self.state = MSFListState()
-        self.tokens = MSFListTokens(iconStyle: iconStyle)
+        self.tokens = MSFListTokens()
         self.state.sections = sections
     }
 
@@ -44,8 +43,8 @@ public struct MSFListView: View {
                             let cellState = section.cells[index]
                             let hasDividers = (index < section.cells.count - 1 && section.hasDividers) || (section.hasDividers && (cellState.children != nil))
                             MSFListCellView(state: cellState,
-                                            tokens: tokens,
-                                            hasDividers: hasDividers)
+                                            hasDividers: hasDividers,
+                                            windowProvider: tokens.windowProvider)
                                 .frame(maxWidth: .infinity)
                         }
                         if section.hasDividers {
@@ -72,13 +71,12 @@ public struct MSFListView: View {
     }
 }
 
+/// UIKit wrapper that exposes the SwiftUI List implementation
 @objc open class MSFList: NSObject, FluentUIWindowProvider {
 
     @objc public init(sections: [MSFListSectionState],
-                      iconStyle: MSFListIconStyle,
                       theme: FluentUIStyle? = nil) {
-        listView = MSFListView(sections: sections,
-                               iconStyle: iconStyle)
+        listView = MSFListView(sections: sections)
         hostingController = UIHostingController(rootView: theme != nil ? AnyView(listView.usingTheme(theme!)) : AnyView(listView))
 
         super.init()
@@ -87,10 +85,8 @@ public struct MSFListView: View {
         view.backgroundColor = UIColor.clear
     }
 
-    @objc public convenience init(sections: [MSFListSectionState],
-                                  iconStyle: MSFListIconStyle) {
+    @objc public convenience init(sections: [MSFListSectionState]) {
         self.init(sections: sections,
-                  iconStyle: iconStyle,
                   theme: nil)
     }
 
