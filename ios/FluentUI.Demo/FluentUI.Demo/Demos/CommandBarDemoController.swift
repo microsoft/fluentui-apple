@@ -80,6 +80,15 @@ class CommandBarDemoController: DemoController {
             }
         }
 
+        var titleFont: UIFont? {
+            switch self {
+            case .textStyle:
+                return TextStyle.body.font
+            default:
+                return nil
+            }
+        }
+
         var isPersistSelection: Bool {
             switch self {
             case .add, .mention, .calendar, .arrowUndo, .arrowRedo, .copy, .delete, .link, .keyboard, .textStyle:
@@ -228,6 +237,7 @@ class CommandBarDemoController: DemoController {
         CommandBarItem(
             iconImage: command.iconImage,
             title: command.title,
+            titleFont: command.titleFont,
             isEnabled: isEnabled,
             isSelected: isSelected,
             itemTappedHandler: { [weak self] (item) in
