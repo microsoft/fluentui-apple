@@ -309,7 +309,9 @@ extension PopupMenuController: UITableViewDataSource {
         let identifier = String(describing: cellClass)
         tableView.register(cellClass, forCellReuseIdentifier: identifier)
 
-        let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as! (PopupMenuItemTemplateCell & TableViewCell)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? (PopupMenuItemTemplateCell & TableViewCell) else {
+            return UITableViewCell()
+        }
         cell.setup(item: item)
         cell.preservesSpaceForImage = itemsHaveImages
 
@@ -341,8 +343,8 @@ extension PopupMenuController: UITableViewDelegate {
         if !PopupMenuSectionHeaderView.isHeaderVisible(for: section) {
             return nil
         }
-        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: PopupMenuSectionHeaderView.identifier) as! PopupMenuSectionHeaderView
-        headerView.setup(section: section)
+        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: PopupMenuSectionHeaderView.identifier) as? PopupMenuSectionHeaderView
+        headerView?.setup(section: section)
         return headerView
     }
 

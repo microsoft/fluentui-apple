@@ -4,12 +4,11 @@
 //
 
 import AppKit
-fileprivate struct Constants {
+private struct Constants {
 	private init() {}
 	static let initialWindowWidth: CGFloat = 800
 	static let initialWindowHeight: CGFloat = 600
 }
-
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -23,4 +22,3 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		window.makeKeyAndOrderFront(nil)
 	}
 }
-

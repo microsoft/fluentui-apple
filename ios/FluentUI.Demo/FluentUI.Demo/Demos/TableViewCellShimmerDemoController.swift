@@ -23,7 +23,9 @@ class TableViewCellShimmerDemoController: TableViewCellDemoController {
         let section = sections[indexPath.section]
         let item = section.item
 
-        let cell = super.tableView(tableView, cellForRowAt: indexPath) as! TableViewCell
+        guard let cell = super.tableView(tableView, cellForRowAt: indexPath) as? TableViewCell else {
+            return UITableViewCell()
+        }
 
         // fill with spaces representing the text that would go in each cell
         // double the character count because spaces take up much less horizontal space than

@@ -205,7 +205,9 @@ class DrawerDemoController: DemoController {
     }
 
     @objc private func showTopDrawerCustomOffsetButtonTapped(sender: UIButton) {
-        let rect = sender.superview!.convert(sender.frame, to: nil)
+        guard let rect = sender.superview?.convert(sender.frame, to: nil) else {
+            return
+        }
         presentDrawer(sourceView: sender, presentationOrigin: rect.maxY, presentationDirection: .down, contentView: containerForActionViews(), customWidth: true)
     }
 
@@ -250,7 +252,9 @@ class DrawerDemoController: DemoController {
     }
 
     @objc private func showBottomDrawerCustomOffsetButtonTapped(sender: UIButton) {
-        let rect = sender.superview!.convert(sender.frame, to: nil)
+        guard let rect = sender.superview?.convert(sender.frame, to: nil) else {
+            return
+        }
         presentDrawer(sourceView: sender, presentationOrigin: rect.minY, presentationDirection: .up, contentView: containerForActionViews(), resizingBehavior: .dismissOrExpand)
     }
 
@@ -421,9 +425,6 @@ extension DrawerDemoController: DrawerControllerDelegate {
     }
 
     func drawerControllerDidChangeExpandedState(_ controller: DrawerController) {
-        expandButton?.setTitle(controller.isExpanded ? collapseText : expandText, for: .normal)
+        expandButton?.setTitle(controller.isExpanded ? "Return to normal" : "Expand", for: .normal)
     }
 }
-
-fileprivate let collapseText: String = "Return to normal"
-fileprivate let expandText: String = "Expand"

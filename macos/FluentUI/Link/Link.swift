@@ -8,49 +8,53 @@ import AppKit
 /// A lightweight hyperlink control
 @objc(MSFLink)
 open class Link: NSButton {
-	
+
 	/// Initializes a hyperlink with a title and an underlying URL that opens when clicked
 	/// - Parameters:
 	///   - title: The visible text of the link that the user sees.
-	///   - url: The URL that is opened when the link is clicked
-	@objc public init(title: String, url: NSURL) {
-		self.url = url
-		super.init(frame: .zero)
-		self.title = title
-		initialize()
+	///   - url: The URL that is opened when the link is clicked.
+	@objc public convenience init(title: String, url: NSURL) {
+		self.init(frame: .zero, title: title, url: url)
 	}
-	
+
 	/// Initializes a hyperlink with a title and no URL, useful if you plan to override the Target/Action
 	/// - Parameters:
 	///   - title: The visible text of the link that the user sees.
-	@objc public init(title: String) {
-		super.init(frame: .zero)
-		self.title = title
-		initialize()
+	@objc public convenience init(title: String) {
+		self.init(frame: .zero, title: title, url: nil)
 	}
-	
-	@objc public override init(frame frameRect: NSRect) {
-		super.init(frame: frameRect)
-		self.title = ""
-		initialize()
+
+	@objc public override convenience init(frame frameRect: NSRect) {
+		self.init(frame: frameRect, title: "", url: nil)
 	}
-	
+
 	@available(*, unavailable)
 	required public init?(coder decoder: NSCoder) {
 		preconditionFailure()
 	}
-	
-	private func initialize() {
+
+	/// Designated initializer.
+	/// - Parameters:
+	///   - frame: The position and size of this view in the superview's coordinate system.
+	///   - title: The visible text of the link that the user sees.
+	///   - url: The URL that is opened when the link is clicked.
+	public init(frame: NSRect = .zero, title: String = "", url: NSURL? = nil) {
+		super.init(frame: frame)
+		self.title = title
+		self.url = url
+
 		alignment = .natural
 		isBordered = false
+		contentTintColor = .linkColor
+		setButtonType(.momentaryChange)
 		target = self
 		action = #selector(linkClicked)
 		updateTitle()
 	}
-	
+
 	/// The URL that is opened when the link is clicked
 	@objc public var url: NSURL?
-	
+
 	@objc public var showsUnderlineWhileMouseInside: Bool = false {
 		didSet {
 			guard oldValue != showsUnderlineWhileMouseInside else {
@@ -59,7 +63,7 @@ open class Link: NSButton {
 			updateTitle()
 		}
 	}
-	
+
 	/// The text displayed on the control, stylized to look like a hyperlink
 	open override var title: String {
 		didSet {
@@ -69,10 +73,10 @@ open class Link: NSButton {
 			updateTitle()
 		}
 	}
-	
+
 	private var trackingArea: NSTrackingArea?
-	
-	override public func updateTrackingAreas() {
+
+	public override func updateTrackingAreas() {
 		super.updateTrackingAreas()
 
 		// Remove existing trackingArea
@@ -92,28 +96,28 @@ open class Link: NSButton {
 		addTrackingArea(trackingArea)
 		self.trackingArea = trackingArea
 	}
-	
+
 	open override func mouseEntered(with event: NSEvent) {
-		mouseEntered = true
+		mouseInside = true
 		updateTitle()
 	}
 
 	open override func mouseExited(with event: NSEvent) {
-		mouseEntered = false
+		mouseInside = false
 		updateTitle()
 	}
 
-	private var mouseEntered = false
-	
+	private var mouseInside: Bool = false
+
 	open override func resetCursorRects() {
 		addCursorRect(bounds, cursor: .pointingHand)
 	}
-	
+
 	private func updateTitle() {
-		let titleAttributes = (showsUnderlineWhileMouseInside && mouseEntered) ? underlinedlinkAttributes: linkAttributes
+		let titleAttributes = (showsUnderlineWhileMouseInside && mouseInside) ? underlinedLinkAttributes: linkAttributes
 		self.attributedTitle = NSAttributedString(string: title, attributes: titleAttributes)
 	}
-	
+
 	@objc private func linkClicked() {
 		if let url = url {
 			NSWorkspace.shared.open(url as URL)
@@ -121,11 +125,8 @@ open class Link: NSButton {
 	}
 }
 
-fileprivate let linkAttributes: [NSAttributedString.Key: Any] = [
-	.foregroundColor: NSColor.linkColor
-]
+private let linkAttributes: [NSAttributedString.Key: Any] = [:]
 
-fileprivate let underlinedlinkAttributes: [NSAttributedString.Key: Any] = [
-	.foregroundColor: NSColor.linkColor,
+private let underlinedLinkAttributes: [NSAttributedString.Key: Any] = [
 	.underlineStyle: NSUnderlineStyle.single.rawValue
 ]

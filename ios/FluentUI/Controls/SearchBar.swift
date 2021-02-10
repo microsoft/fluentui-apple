@@ -218,6 +218,11 @@ open class SearchBar: UIView {
         return textField
     }()
 
+    @objc open var autocorrectionType: UITextAutocorrectionType {
+        get { return searchTextField.autocorrectionType }
+        set { searchTextField.autocorrectionType = newValue }
+    }
+
     // a "searchTextField" in native iOS is comprised of an inset Magnifying Glass image followed by an inset textfield.
     // backgroundview is used to achive an inset textfield
     private lazy var searchTextFieldBackgroundView: UIView = {
@@ -235,10 +240,13 @@ open class SearchBar: UIView {
         clearButton.isHidden = true
 
         if #available(iOS 13.4, *) {
-            clearButton.isPointerInteractionEnabled = true
-            clearButton.pointerStyleProvider = { button, effect, shape in
-                let preview = UITargetedPreview(view: button)
-                return UIPointerStyle(effect: .lift(preview))
+            // Workaround check for beta iOS versions missing the Pointer Interactions API
+            if arePointerInteractionAPIsAvailable() {
+                clearButton.isPointerInteractionEnabled = true
+                clearButton.pointerStyleProvider = { button, effect, _ in
+                    let preview = UITargetedPreview(view: button)
+                    return UIPointerStyle(effect: .lift(preview))
+                }
             }
         }
 
@@ -258,7 +266,10 @@ open class SearchBar: UIView {
         }
 
         if #available(iOS 13.4, *) {
-            button.isPointerInteractionEnabled = true
+            // Workaround check for beta iOS versions missing the Pointer Interactions API
+            if arePointerInteractionAPIsAvailable() {
+                button.isPointerInteractionEnabled = true
+            }
         }
 
         return button
@@ -289,6 +300,14 @@ open class SearchBar: UIView {
     open override func didMoveToWindow() {
         super.didMoveToWindow()
         updateColorsForStyle()
+    }
+
+    open override var intrinsicContentSize: CGSize {
+        return sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+    }
+
+    open override func sizeThatFits(_ size: CGSize) -> CGSize {
+        return CGSize(width: size.width, height: Constants.searchTextFieldBackgroundHeight)
     }
 
     private func startSearch() {

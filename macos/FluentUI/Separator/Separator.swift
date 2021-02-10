@@ -14,7 +14,7 @@ public enum SeparatorOrientation: Int {
 @objc(MSFSeparator)
 open class Separator: NSView {
 	private let orientation: SeparatorOrientation
-	
+
 	/// Initializes a separator in the specified orientation
 	/// - Parameter orientation: The orientation of the separator, vertical or horizontal
 	@objc public init(orientation: SeparatorOrientation) {
@@ -27,7 +27,7 @@ open class Separator: NSView {
 	required public init?(coder aDecoder: NSCoder) {
 		preconditionFailure()
 	}
-	
+
 	open override var wantsUpdateLayer: Bool {
 		return true
 	}
@@ -37,7 +37,7 @@ open class Separator: NSView {
 			layer.backgroundColor = Separator.separatorColor.cgColor
 		}
 	}
-	
+
 	open override var intrinsicContentSize: CGSize {
 		switch orientation {
 		case .horizontal:
@@ -46,10 +46,10 @@ open class Separator: NSView {
 			return CGSize(width: Separator.separatorThickness, height: NSView.noIntrinsicMetric)
 		}
 	}
-	
+
 	private static var separatorColor: NSColor {
 		return .separatorColor
 	}
-	
+
 	private static let separatorThickness: CGFloat = 1.0
 }

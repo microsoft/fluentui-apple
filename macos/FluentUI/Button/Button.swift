@@ -64,7 +64,7 @@ open class Button: NSButton {
 
 	/// Initializes a Fluent UI Button with no title or image, and with default formatting
 	@objc public convenience init() {
-		self.init()
+		self.init(title: "", image: nil, imagePosition: .imageLeading, format: ButtonFormat())
 	}
 
 	@available(*, unavailable)
@@ -74,12 +74,12 @@ open class Button: NSButton {
 
 	/// Swift-only designated initializer accepting ButtonFormat struct.
 	/// - Parameters:
-	///   - title: String displayed in the button, default nil
+	///   - title: String displayed in the button, default empty string
 	///   - image: The NSImage to diplay in the button, default nil
 	///   - imagePosition: The position of the image, relative to the title, default imageLeading
 	///   - format: The ButtonFormat including size, style and accentColor, with all applicable defaults
 	public init(
-		title: String? = nil,
+		title: String = "",
 		image: NSImage? = nil,
 		imagePosition: NSControl.ImagePosition = .imageLeading,
 		format: ButtonFormat = ButtonFormat()
@@ -88,6 +88,7 @@ open class Button: NSButton {
 		isBordered = false
 		wantsLayer = true
 		layer?.contentsScale = window?.backingScaleFactor ?? 1.0
+		setButtonType(.momentaryChange)
 
 		if let cell = cell as? ButtonCell {
 			// The Button properties `contentTintColorDisabled`,
@@ -98,19 +99,9 @@ open class Button: NSButton {
 			cell.imageDimsWhenDisabled = false
 		}
 
-		if let title = title {
-			self.title = title
-			if let image = image {
-				self.image = image
-				self.imagePosition = imagePosition
-			} else {
-				self.imagePosition = .noImage
-			}
-		} else if let image = image {
-			self.image = image
-			self.imagePosition = .imageOnly
-		}
-
+		self.title = title
+		self.image = image
+		self.imagePosition = imagePosition
 		self.format = format
 
 		// Ensure we update backing properties even if high-level style and size
@@ -124,7 +115,7 @@ open class Button: NSButton {
 		}
 	}
 
-	open class override var cellClass: AnyClass? {
+	open override class var cellClass: AnyClass? {
 		get {
 			return ButtonCell.self
 		}
@@ -132,7 +123,7 @@ open class Button: NSButton {
 	}
 
 	/// Image to display in the button.
-	override public var image: NSImage? {
+	open override var image: NSImage? {
 		willSet {
 			guard wantsLayer == true else {
 				preconditionFailure("wantsLayer must be set so that the image is rendered on the layer")
@@ -141,7 +132,7 @@ open class Button: NSButton {
 	}
 
 	/// Title string to display in the button.
-	override public var title: String {
+	public override var title: String {
 		willSet {
 			guard wantsLayer == true else {
 				preconditionFailure("wantsLayer must be set so that the title is rendered on the layer")
@@ -165,14 +156,14 @@ open class Button: NSButton {
 
 	private var linkedPrimaryOriginalStyle: ButtonStyle?
 
-	private var mouseDown: Bool = false {
+	public var isPressed: Bool = false {
 		didSet {
-			guard isEnabled && oldValue != mouseDown else {
+			guard isEnabled && oldValue != isPressed else {
 				return
 			}
 			updateContentTintColor()
 			if let linkedPrimary = linkedPrimary {
-				if mouseDown {
+				if isPressed {
 					linkedPrimaryOriginalStyle = linkedPrimary.style
 					linkedPrimary.style = self.style
 				} else {
@@ -184,11 +175,9 @@ open class Button: NSButton {
 	}
 
 	open override func mouseDown(with event: NSEvent) {
-		mouseDown = true
-	}
-
-	open override func mouseUp(with event: NSEvent) {
-		mouseDown = false
+		isPressed = true
+		super.mouseDown(with: event)
+		isPressed = false
 	}
 
 	open override var isEnabled: Bool {
@@ -209,7 +198,7 @@ open class Button: NSButton {
 		if !isEnabled {
 			layer.backgroundColor = backgroundColorDisabled?.cgColor
 			layer.borderColor = borderColorDisabled?.cgColor
-		} else if mouseDown {
+		} else if isPressed {
 			layer.backgroundColor = backgroundColorPressed?.cgColor
 			layer.borderColor = borderColorPressed?.cgColor
 		} else {
@@ -218,7 +207,7 @@ open class Button: NSButton {
 		}
 	}
 
-	override public var wantsUpdateLayer: Bool {
+	public override var wantsUpdateLayer: Bool {
 		return true
 	}
 
@@ -234,7 +223,7 @@ open class Button: NSButton {
 		}
 	}
 
-	private var format: ButtonFormat {
+	public var format: ButtonFormat {
 		get {
 			return ButtonFormat(
 				size: self.size,
@@ -263,7 +252,7 @@ open class Button: NSButton {
 	private func updateContentTintColor() {
 		if !isEnabled {
 			contentTintColor = contentTintColorDisabled
-		} else if mouseDown {
+		} else if isPressed {
 			contentTintColor = contentTintColorPressed
 		} else {
 			contentTintColor = contentTintColorRest
@@ -348,7 +337,7 @@ open class Button: NSButton {
 
 	private func setSizeParameters(forSize: ButtonSize) {
 		let parameters = ButtonSizeParameters.parameters(forSize: size)
-		font = NSFont.systemFont(ofSize:parameters.fontSize)
+		font = NSFont.systemFont(ofSize: parameters.fontSize)
 		cornerRadius = parameters.cornerRadius
 		guard let cell = cell as? ButtonCell else {
 			return
@@ -377,160 +366,148 @@ open class Button: NSButton {
 // MARK: - ButtonCell
 
 class ButtonCell: NSButtonCell {
-	fileprivate var verticalPadding: CGFloat = 0
-	fileprivate var horizontalPadding: CGFloat = 0
-	fileprivate var titleVerticalPositionAdjustment: CGFloat = 0
-	fileprivate var titleToImageSpacing: CGFloat = 0
-	fileprivate var titleToImageVerticalSpacingAdjustment: CGFloat = 0
+	var verticalPadding: CGFloat = 0
+	var horizontalPadding: CGFloat = 0
+	var titleVerticalPositionAdjustment: CGFloat = 0
+	var titleToImageSpacing: CGFloat = 0
+	var titleToImageVerticalSpacingAdjustment: CGFloat = 0
 
 	override func imageRect(forBounds rect: NSRect) -> NSRect {
-		guard let image = image else {
-			return NSZeroRect
+		guard
+			let image = image,
+			let controlView = controlView,
+			image.size != .zero,
+			imagePosition != .noImage
+		else {
+			return .zero
 		}
 
-		let isRTL = NSApp.userInterfaceLayoutDirection == .rightToLeft
-		let imageRect = super.imageRect(forBounds: rect)
+		let layoutDirectionSign = controlView.userInterfaceLayoutDirection == .rightToLeft ? -1 : 1
 		let titleSize = title.size(withAttributes: [.font: font as Any])
 		let imageSize = image.size
 
-		var x = imageRect.origin.x
-		var y = imageRect.origin.y
-		var width = imageRect.size.width
-		var height = imageRect.size.height
+		// Image is either centered, or offset from center by the title
+		var xOffsetSign = 0
+		var yOffsetSign = 0
+
+		if title.count == 0 {
+			imagePosition = .imageOnly
+		}
 
 		switch imagePosition {
 		case .noImage:
-			x = 0
-			y = 0
-			width = 0
-			height = 0
+			preconditionFailure(".noImage case is covered by guard return")
 		case .imageOnly, .imageOverlaps:
-			x = horizontalPadding
-			y = verticalPadding
-			width = rect.width - (horizontalPadding * 2)
-			height = rect.height - (verticalPadding * 2)
+			break
 		case .imageLeft:
-			x = horizontalPadding
-			y = (rect.height - imageSize.height) / 2
-			width = imageSize.width
-			height = imageSize.height
+			xOffsetSign = -1
 		case .imageLeading:
-			x = isRTL ? titleSize.width + titleToImageSpacing + horizontalPadding : horizontalPadding
-			y = (rect.height - imageSize.height) / 2
-			width = imageSize.width
-			height = imageSize.height
+			xOffsetSign = -layoutDirectionSign
 		case .imageRight:
-			x = titleSize.width + titleToImageSpacing + horizontalPadding
-			y = (rect.height - imageSize.height) / 2
-			width = imageSize.width
-			height = imageSize.height
+			xOffsetSign = 1
 		case .imageTrailing:
-			x = isRTL ? horizontalPadding : titleSize.width + titleToImageSpacing + horizontalPadding
-			y = (rect.height - imageSize.height) / 2
-			width = imageSize.width
-			height = imageSize.height
+			xOffsetSign = layoutDirectionSign
 		case .imageBelow:
-			x = (rect.width - imageSize.width) / 2
-			y = (rect.height - imageSize.height + titleSize.height + titleToImageSpacing - titleToImageVerticalSpacingAdjustment) / 2
-			width = imageSize.width
-			height = imageSize.height
+			yOffsetSign = 1
 		case .imageAbove:
-			x = (rect.width - imageSize.width) / 2
-			y = (rect.height - imageSize.height - titleSize.height - titleToImageSpacing + titleToImageVerticalSpacingAdjustment) / 2
-			width = imageSize.width
-			height = imageSize.height
+			yOffsetSign = -1
 		@unknown default:
 			break
 		}
 
-		return NSMakeRect(x, y, width, height)
+		var x = (rect.width - imageSize.width) / 2
+		var y = (rect.height - imageSize.height) / 2
+
+		if xOffsetSign != 0 {
+			x += CGFloat(xOffsetSign) * (titleSize.width + titleToImageSpacing) / 2
+		} else if yOffsetSign != 0 {
+			y += CGFloat(yOffsetSign) * (titleSize.height + titleToImageSpacing - titleToImageVerticalSpacingAdjustment) / 2
+		}
+
+		return NSRect(
+			x: x.rounded(.towardZero),
+			y: y.rounded(.towardZero),
+			width: imageSize.width.rounded(.awayFromZero),
+			height: imageSize.height.rounded(.awayFromZero)
+		)
 	}
 
 	override func titleRect(forBounds rect: NSRect) -> NSRect {
-		guard let font = font else {
-			return NSZeroRect
+		guard
+			let font = font,
+			let controlView = controlView,
+			title.count > 0,
+			imagePosition != .imageOnly
+		else {
+			return .zero
 		}
 
-		let isRTL = NSApp.userInterfaceLayoutDirection == .rightToLeft
-		let titleRect = super.titleRect(forBounds: rect);
+		let layoutDirectionSign = controlView.userInterfaceLayoutDirection == .rightToLeft ? -1 : 1
 		let titleSize = title.size(withAttributes: [.font: font])
-		let imageSize = image?.size ?? NSZeroSize
+		let imageSize = image?.size ?? .zero
 
-		var x = titleRect.origin.x
-		var y = titleRect.origin.y
-		var width = titleRect.size.width
-		var height = titleRect.size.height
+		if imageSize == .zero {
+			imagePosition = .noImage
+		}
+
+		// Title is either centered, or offset from center by the image
+		var xOffsetSign = 0
+		var yOffsetSign = 0
 
 		switch imagePosition {
 		case .imageOnly:
-			x = 0
-			y = 0
-			width = 0
-			height = 0
+			preconditionFailure(".imageOnly case is covered by guard return")
 		case .noImage, .imageOverlaps:
-			x = horizontalPadding
-			y = verticalPadding + titleVerticalPositionAdjustment
-			width = rect.width - (horizontalPadding * 2)
-			height = rect.height - (verticalPadding * 2)
+			break
 		case .imageLeft:
-			x = horizontalPadding + imageSize.width + titleToImageSpacing
-			y = verticalPadding + titleVerticalPositionAdjustment
-			width = titleSize.width
-			height = rect.height - (verticalPadding * 2)
+			xOffsetSign = 1
 		case .imageLeading:
-			x = isRTL ? horizontalPadding : horizontalPadding + imageSize.width + titleToImageSpacing
-			y = verticalPadding + titleVerticalPositionAdjustment
-			width = titleSize.width
-			height = rect.height - (verticalPadding * 2)
+			xOffsetSign = layoutDirectionSign
 		case .imageRight:
-			x = horizontalPadding
-			y = verticalPadding + titleVerticalPositionAdjustment
-			width = titleSize.width
-			height = rect.height - (verticalPadding * 2)
+			xOffsetSign = -1
 		case .imageTrailing:
-			x = isRTL ? horizontalPadding + imageSize.width + titleToImageSpacing : horizontalPadding
-			y = verticalPadding + titleVerticalPositionAdjustment
-			width = titleSize.width
-			height = rect.height - (verticalPadding * 2)
+			xOffsetSign = -layoutDirectionSign
 		case .imageBelow:
-			x = (rect.width - titleSize.width) / 2
-			y = (rect.height - titleSize.height - imageSize.height - titleToImageSpacing) / 2 + titleVerticalPositionAdjustment
-			width = titleSize.width
-			height = titleSize.height
+			yOffsetSign = -1
 		case .imageAbove:
-			x = (rect.width - titleSize.width) / 2
-			y = (rect.height - titleSize.height + imageSize.height + titleToImageSpacing) / 2 + titleVerticalPositionAdjustment
-			width = titleSize.width
-			height = titleSize.height
+			yOffsetSign = 1
 		@unknown default:
 			break
 		}
 
-		return NSMakeRect(x, y, width, height)
+		var x = (rect.width - titleSize.width) / 2
+		var y = (rect.height - titleSize.height) / 2 + titleVerticalPositionAdjustment
+
+		if xOffsetSign != 0 {
+			x += CGFloat(xOffsetSign) * (imageSize.width + titleToImageSpacing) / 2
+		} else if yOffsetSign != 0 {
+			y += CGFloat(yOffsetSign) * (imageSize.height + titleToImageSpacing) / 2
+		}
+
+		return NSRect(
+			x: x.rounded(.towardZero),
+			y: y.rounded(.towardZero),
+			width: titleSize.width.rounded(.awayFromZero),
+			height: titleSize.height.rounded(.awayFromZero)
+		)
 	}
 
 	override func drawingRect(forBounds rect: NSRect) -> NSRect {
-		var horizontalInterCellSpacing: CGFloat = 0
-		var verticalInterCellSpacing: CGFloat = 0
+		var width = rect.width - (horizontalPadding * 2)
+		var height = rect.height - (verticalPadding * 2)
 
 		switch imagePosition {
 		case .imageLeft, .imageLeading, .imageRight, .imageTrailing:
-			horizontalInterCellSpacing = titleToImageSpacing
+			width -= titleToImageSpacing
 		case .imageBelow, .imageAbove:
-			verticalInterCellSpacing = titleToImageSpacing
+			height -= titleToImageSpacing
 		case .noImage, .imageOnly, .imageOverlaps:
 			break
 		@unknown default:
 			break
 		}
 
-		let drawingRectWithPadding = NSMakeRect(
-			0,
-			0,
-			rect.width - (horizontalPadding * 2) - horizontalInterCellSpacing,
-			rect.height - (verticalPadding * 2) - verticalInterCellSpacing
-		)
-		return drawingRectWithPadding
+		return NSRect(x: 0, y: 0, width: floor(width), height: floor(height))
 	}
 }
 
@@ -572,8 +549,7 @@ public struct ButtonFormat {
 		size: ButtonSize = .large,
 		style: ButtonStyle = .primary,
 		accentColor: NSColor = Colors.primary
-	)
-	{
+	) {
 		self.size = size
 		self.style = style
 		self.accentColor = accentColor
@@ -596,14 +572,14 @@ class ButtonColor: NSObject {
 
 // MARK: - Size Constants
 
-fileprivate struct ButtonSizeParameters {
-	let fontSize: CGFloat
-	let cornerRadius: CGFloat
-	let verticalPadding: CGFloat
-	let horizontalPadding: CGFloat
-	let titleVerticalPositionAdjustment: CGFloat
-	let titleToImageSpacing: CGFloat
-	let titleToImageVerticalSpacingAdjustment: CGFloat
+private struct ButtonSizeParameters {
+	fileprivate let fontSize: CGFloat
+	fileprivate let cornerRadius: CGFloat
+	fileprivate let verticalPadding: CGFloat
+	fileprivate let horizontalPadding: CGFloat
+	fileprivate let titleVerticalPositionAdjustment: CGFloat
+	fileprivate let titleToImageSpacing: CGFloat
+	fileprivate let titleToImageVerticalSpacingAdjustment: CGFloat
 
 	static let large = ButtonSizeParameters(
 		fontSize: 15,  // line height: 19
@@ -620,7 +596,7 @@ fileprivate struct ButtonSizeParameters {
 		cornerRadius: 5,
 		verticalPadding: 1.5,  // overall height: 20
 		horizontalPadding: 14,
-		titleVerticalPositionAdjustment: -0.75,
+		titleVerticalPositionAdjustment: 0,
 		titleToImageSpacing: 6,
 		titleToImageVerticalSpacingAdjustment: 7
 	)

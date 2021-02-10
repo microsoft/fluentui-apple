@@ -293,8 +293,8 @@ open class AvatarView: UIView {
                             addInteraction(pointerInteraction)
 
                             self.pointerInteraction = pointerInteraction
-                        } else if let pointerInteraction = pointerInteraction {
-                            removeInteraction(pointerInteraction as! UIPointerInteraction)
+                        } else if let pointerInteraction = pointerInteraction as? UIPointerInteraction {
+                            removeInteraction(pointerInteraction)
                             self.pointerInteraction = nil
                         }
                     }
@@ -344,6 +344,8 @@ open class AvatarView: UIView {
         containerView.addSubview(imageView)
 
         super.init(frame: containerView.frame)
+
+        accessibilityTraits = .image
 
         addSubview(containerView)
     }
@@ -616,7 +618,7 @@ open class AvatarView: UIView {
 
         borderView.backgroundColor = UIColor(patternImage: image)
     }
-    
+
     private func updateInnerStroke() {
         imageView.layer.borderWidth = avatarSize.insideBorder
         imageView.layer.borderColor = Colors.surfacePrimary.cgColor
@@ -633,21 +635,21 @@ open class AvatarView: UIView {
                 presenceBorderView = UIView(frame: .zero)
 
                 let presenceBorderColor = UIColor(named: "presenceBorder", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
-                presenceBorderView!.backgroundColor = presenceBorderColor
+                presenceBorderView?.backgroundColor = presenceBorderColor
 
                 addSubview(presenceBorderView!)
                 addSubview(presenceImageView!)
             }
 
-            presenceBorderView!.isHidden = !useOpaquePresenceBorder
+            presenceBorderView?.isHidden = !useOpaquePresenceBorder
 
             let image = presence.image(size: avatarSize.presenceSize)
             if let image = image {
-                presenceImageView!.image = image
+                presenceImageView?.image = image
             }
         } else if presenceImageView != nil {
-            presenceImageView!.removeFromSuperview()
-            presenceBorderView!.removeFromSuperview()
+            presenceImageView?.removeFromSuperview()
+            presenceBorderView?.removeFromSuperview()
             presenceImageView = nil
             presenceBorderView = nil
         }
@@ -744,7 +746,6 @@ open class AvatarView: UIView {
     // MARK: Accessibility
 
     open override var isAccessibilityElement: Bool { get { return true } set { } }
-    open override var accessibilityTraits: UIAccessibilityTraits { get { return .image } set { } }
 
     open override var accessibilityLabel: String? {
         get {
@@ -802,7 +803,7 @@ class OverflowAvatarView: AvatarView {
 
     private let hasBorder: Bool
     private let borderView: UIView
-    
+
     private func updateColors() {
         initialsView.setFontColor(UIColor(light: Colors.gray500, dark: Colors.gray100))
         initialsView.setBackgroundColor(UIColor(light: Colors.gray50, dark: Colors.gray600))
