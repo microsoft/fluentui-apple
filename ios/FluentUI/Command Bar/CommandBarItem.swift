@@ -13,12 +13,16 @@ open class CommandBarItem: NSObject {
 
     @objc public init(
         iconImage: UIImage?,
+        title: String? = nil,
+        titleFont: UIFont? = nil,
         isEnabled: Bool = true,
         isSelected: Bool = false,
         itemTappedHandler: @escaping ItemTappedHandler = defaultItemTappedHandler,
         accessbilityLabel: String? = nil
     ) {
         self.iconImage = iconImage
+        self.title = title
+        self.titleFont = titleFont
         self.isEnabled = isEnabled
         self.isSelected = isSelected
         self.itemTappedHandler = itemTappedHandler
@@ -31,6 +35,8 @@ open class CommandBarItem: NSObject {
     @available(iOS 14.0, *)
     @objc public init(
         iconImage: UIImage?,
+        title: String? = nil,
+        titleFont: UIFont? = nil,
         isEnabled: Bool = true,
         isSelected: Bool = false,
         itemTappedHandler: @escaping ItemTappedHandler = defaultItemTappedHandler,
@@ -39,6 +45,8 @@ open class CommandBarItem: NSObject {
         accessbilityLabel: String? = nil
     ) {
         self.iconImage = iconImage
+        self.title = title
+        self.titleFont = titleFont
         self.isEnabled = isEnabled
         self.isSelected = isSelected
         self.itemTappedHandler = itemTappedHandler
@@ -51,6 +59,12 @@ open class CommandBarItem: NSObject {
     }
 
     @objc public var iconImage: UIImage?
+
+    /// Title for the item. Only valid when `iconImage` is `nil`.
+    @objc public var title: String?
+
+    @objc public var titleFont: UIFont?
+
     @objc public var isEnabled: Bool
 
     /// If `isPersistSelection` is `true`, this value would be changed to reflect the selection state of the button. Setting this value before providing to `CommandBar` would set the initial selection state.

@@ -30,6 +30,8 @@ class CommandBarDemoController: DemoController {
 
         case keyboard
 
+        case textStyle
+
         var iconImage: UIImage? {
             switch self {
             case .add:
@@ -64,15 +66,62 @@ class CommandBarDemoController: DemoController {
                 return UIImage(named: "link24Regular")
             case .keyboard:
                 return UIImage(named: "keyboardDock24Regular")
+            case .textStyle:
+                return nil
+            }
+        }
+
+        var title: String? {
+            switch self {
+            case .textStyle:
+                return TextStyle.body.textRepresentation
+            default:
+                return nil
             }
         }
 
         var isPersistSelection: Bool {
             switch self {
-            case .add, .mention, .calendar, .arrowUndo, .arrowRedo, .copy, .delete, .link, .keyboard:
+            case .add, .mention, .calendar, .arrowUndo, .arrowRedo, .copy, .delete, .link, .keyboard, .textStyle:
                 return false
             case .textBold, .textItalic, .textUnderline, .textStrikethrough, .checklist, .bulletList, .numberList:
                 return true
+            }
+        }
+    }
+
+    enum TextStyle: String {
+        case body
+        case subhead
+        case title
+
+        var textRepresentation: String {
+            rawValue.capitalized
+        }
+
+        var font: UIFont {
+            switch self {
+            case .body:
+                return .systemFont(ofSize: 15, weight: .regular)
+            case .subhead:
+                return .systemFont(ofSize: 15, weight: .bold)
+            case .title:
+                return .systemFont(ofSize: 20, weight: .bold)
+            }
+        }
+
+        static func next(for textRepresentation: String?) -> TextStyle {
+            guard let rawValue = textRepresentation?.lowercased(), let textStyle = TextStyle(rawValue: rawValue) else {
+                return .body
+            }
+
+            switch textStyle {
+            case .body:
+                return .title
+            case .subhead:
+                return .body
+            case .title:
+                return .subhead
             }
         }
     }
@@ -97,6 +146,9 @@ class CommandBarDemoController: DemoController {
                 .add,
                 .mention,
                 .calendar
+            ],
+            [
+                .textStyle
             ],
             [
                 .textBold,
@@ -175,6 +227,7 @@ class CommandBarDemoController: DemoController {
     func newItem(for command: Command, isEnabled: Bool = true, isSelected: Bool = false) -> CommandBarItem {
         CommandBarItem(
             iconImage: command.iconImage,
+            title: command.title,
             isEnabled: isEnabled,
             isSelected: isSelected,
             itemTappedHandler: { [weak self] (item) in
@@ -193,6 +246,10 @@ class CommandBarDemoController: DemoController {
         switch command {
         case .keyboard:
             textField.resignFirstResponder()
+        case .textStyle:
+            let textStyle = TextStyle.next(for: item.title)
+            item.title = textStyle.textRepresentation
+            item.titleFont = textStyle.font
         default:
             let alert = UIAlertController(title: "Did \(isSelected ? "select" : "deselect") command \(command)", message: nil, preferredStyle: .alert)
             let action = UIAlertAction(title: "OK", style: .default)

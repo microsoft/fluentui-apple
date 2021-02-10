@@ -54,6 +54,13 @@ class CommandBarButton: UIButton {
     func updateState() {
         isEnabled = item.isEnabled
         isSelected = isPersistSelection && item.isSelected
+
+        if item.iconImage == nil {
+            setTitle(item.title, for: .normal)
+            if let font = item.titleFont {
+                titleLabel?.font = font
+            }
+        }
     }
 
     private let isPersistSelection: Bool
@@ -76,6 +83,7 @@ class CommandBarButton: UIButton {
 
     private func updateStyle() {
         tintColor = isSelected ? selectedTintColor : CommandBarButton.normalTintColor
+        setTitleColor(tintColor, for: .normal)
 
         if !isPersistSelection {
             backgroundColor = .clear
