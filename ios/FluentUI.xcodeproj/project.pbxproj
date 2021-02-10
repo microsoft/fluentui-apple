@@ -23,6 +23,10 @@
 		497DC2DA24185885008D86F8 /* PillButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D724185885008D86F8 /* PillButtonBar.swift */; };
 		497DC2DB24185885008D86F8 /* PillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D824185885008D86F8 /* PillButton.swift */; };
 		497DC2DC24185885008D86F8 /* PillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D824185885008D86F8 /* PillButton.swift */; };
+		5320362525D4803600DE9E1D /* CommandBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E2A25887A4B00069E73 /* CommandBarButton.swift */; };
+		5320362625D4803600DE9E1D /* CommandBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E4E2588B65C00069E73 /* CommandBarItem.swift */; };
+		5320362725D4803600DE9E1D /* CommandBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E1E258876FB00069E73 /* CommandBar.swift */; };
+		5320362825D4803600DE9E1D /* CommandBarButtonGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */; };
 		537315B325438B15001FD14C /* iOS13_4_compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537315B225438B15001FD14C /* iOS13_4_compatibility.swift */; };
 		537315B425438B15001FD14C /* iOS13_4_compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537315B225438B15001FD14C /* iOS13_4_compatibility.swift */; };
 		53BCB0CE253A4E8D00620960 /* Obscurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BCB0CD253A4E8C00620960 /* Obscurable.swift */; };
@@ -1252,6 +1256,7 @@
 				537315B425438B15001FD14C /* iOS13_4_compatibility.swift in Sources */,
 				56DA1CDC24523624008D745E /* ShimmerAppearance.swift in Sources */,
 				8FD01183228A82A600D25925 /* SegmentedControl.swift in Sources */,
+				5320362825D4803600DE9E1D /* CommandBarButtonGroupView.swift in Sources */,
 				FD41C88722DD13230086F899 /* ShyHeaderController.swift in Sources */,
 				8FD01184228A82A600D25925 /* Separator.swift in Sources */,
 				22EABB1B250A196200C4BE72 /* IndeterminateProgressBarView.swift in Sources */,
@@ -1289,6 +1294,7 @@
 				8FD01198228A82A600D25925 /* DateTimePickerViewDataSource.swift in Sources */,
 				8FD01199228A82A600D25925 /* DateTimePickerViewLayout.swift in Sources */,
 				FD41C8C222DD48E60086F899 /* Operators.swift in Sources */,
+				5320362625D4803600DE9E1D /* CommandBarItem.swift in Sources */,
 				8FD0119A228A82A600D25925 /* DrawerController.swift in Sources */,
 				7DC2FB2924C0ED1700367A55 /* TableViewCellFileAccessoryView.swift in Sources */,
 				8FD0119B228A82A600D25925 /* DrawerPresentationController.swift in Sources */,
@@ -1319,6 +1325,7 @@
 				8ACE4D3824E31B4700B9D0EB /* ContactView.swift in Sources */,
 				8FD011B1228A82A600D25925 /* HUDView.swift in Sources */,
 				8FD011B2228A82A600D25925 /* AvatarView.swift in Sources */,
+				5320362725D4803600DE9E1D /* CommandBar.swift in Sources */,
 				A5F3B147232B1E3700007A4F /* ScrollView.swift in Sources */,
 				8FD011B3228A82A600D25925 /* InitialsView.swift in Sources */,
 				FD41C89722DD13230086F899 /* NavigationBar.swift in Sources */,
@@ -1326,6 +1333,7 @@
 				8FD011B4228A82A600D25925 /* PersonaCell.swift in Sources */,
 				8FD011B5228A82A600D25925 /* PersonaListView.swift in Sources */,
 				497DC2DA24185885008D86F8 /* PillButtonBar.swift in Sources */,
+				5320362525D4803600DE9E1D /* CommandBarButton.swift in Sources */,
 				8ACE4D3524E31ADA00B9D0EB /* ContactCollectionViewCell.swift in Sources */,
 				8FD011B6228A82A600D25925 /* Persona.swift in Sources */,
 				11104BCE233ACA9500CCB232 /* TabBarItem.swift in Sources */,
