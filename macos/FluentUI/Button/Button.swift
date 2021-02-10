@@ -211,6 +211,13 @@ open class Button: NSButton {
 		return true
 	}
 
+	open override func drawFocusRingMask() {
+		// Ensure we draw the focus ring around the entire button bounds
+		// rather than just around the image or title.
+		let path = NSBezierPath(roundedRect: bounds, xRadius: cornerRadius, yRadius: cornerRadius)
+		path.fill()
+	}
+
 	open override func viewDidChangeBackingProperties() {
 		super.viewDidChangeBackingProperties()
 
