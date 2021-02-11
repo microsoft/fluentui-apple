@@ -126,6 +126,15 @@ open class Link: NSButton {
 		}
 	}
 
+	private let cornerRadius: CGFloat = 2
+
+	open override func drawFocusRingMask() {
+		// Ensure we draw the focus ring around the entire link bounds
+		// rather than just around the image if the link contains one.
+		let path = NSBezierPath(roundedRect: bounds, xRadius: cornerRadius, yRadius: cornerRadius)
+		path.fill()
+	}
+
 	private func updateTitle() {
 		let titleAttributes = (isEnabled && showsUnderlineWhileMouseInside && mouseInside) ? underlinedLinkAttributes: linkAttributes
 		self.attributedTitle = NSAttributedString(string: title, attributes: titleAttributes)
