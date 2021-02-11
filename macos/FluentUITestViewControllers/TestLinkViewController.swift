@@ -29,7 +29,7 @@ class TestLinkViewController: NSViewController {
 		customLink.font = NSFont.systemFont(ofSize: 12.0, weight: NSFont.Weight.semibold)
 		customLink.contentTintColor = .textColor
 		customLink.image = NSImage(named: NSImage.goRightTemplateName)!
-		customLink.imagePosition = .imageLeading
+		customLink.imagePosition = .imageTrailing
 
 		disabledLink.showsUnderlineWhileMouseInside = true
 		disabledLink.isEnabled = false
