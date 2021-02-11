@@ -12,7 +12,7 @@ import UIKit
  The initials are generated from a provided primary text (e.g. a name) or secondary text (e.g. an email address) and placed as a label above a colored background.
  */
 class InitialsView: UIView {
-    private static func initialsBackgroundColor(fromPrimaryText primaryText: String?, secondaryText: String?) -> UIColor {
+    private static func initialsColorSet(fromPrimaryText primaryText: String?, secondaryText: String?) -> ColorSet {
         // Set the color based on the primary text and secondary text
         var combined: String
         if let secondaryText = secondaryText, let primaryText = primaryText, secondaryText.count > 0 {
@@ -23,7 +23,7 @@ class InitialsView: UIView {
             combined = ""
         }
 
-        let colors = Colors.avatarBackgroundColors
+        let colors = Colors.avatarColors
         let combinedHashable = combined as NSString
         let hashCode = Int(abs(javaHashCode(combinedHashable)))
         return colors[hashCode % colors.count]
@@ -127,14 +127,18 @@ class InitialsView: UIView {
     ///   - secondaryText: The secondary text to use to display the initials if name isn't provided (e.g. an email address)
     public func setup(primaryText: String?, secondaryText: String?) {
         initialsLabel.text = InitialsView.initialsText(fromPrimaryText: primaryText, secondaryText: secondaryText)
-        setBackgroundColor(InitialsView.initialsBackgroundColor(fromPrimaryText: primaryText, secondaryText: secondaryText))
+        let colorSet = InitialsView.initialsColorSet(fromPrimaryText: primaryText, secondaryText: secondaryText)
+        setFontColor(colorSet.foreground)
+        setBackgroundColor(colorSet.background)
     }
 
     /// Sets up the initialsView with the provided initials text.
     /// - Parameter initialsText: the initials text.
     public func setup(initialsText: String?) {
         initialsLabel.text = initialsText
-        setBackgroundColor(InitialsView.initialsBackgroundColor(fromPrimaryText: initialsText, secondaryText: nil))
+        let colorSet = InitialsView.initialsColorSet(fromPrimaryText: initialsText, secondaryText: nil)
+        setFontColor(colorSet.foreground)
+        setBackgroundColor(colorSet.background)
     }
 
     override func layoutSubviews() {
