@@ -5153,17 +5153,6 @@ extension FluentUIThemeManagerTheming {
 			set { _borderColor = newValue }
 		}
 
-		//MARK: borderSize 
-		public var _borderSize: CGFloat?
-		open func borderSizeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-			if let override = _borderSize { return override }
-			return mainProxy().Border.size.thinProperty(traitCollection)
-			}
-		public var borderSize: CGFloat {
-			get { return self.borderSizeProperty() }
-			set { _borderSize = newValue }
-		}
-
 		//MARK: - cellHeight
 		public var _cellHeight: cellHeightAppearanceProxy?
 		open func cellHeightStyle() -> cellHeightAppearanceProxy {
@@ -5463,28 +5452,6 @@ extension FluentUIThemeManagerTheming {
 		public var borderColor: UIColor {
 			get { return self.borderColorProperty() }
 			set { _borderColor = newValue }
-		}
-
-		//MARK: borderSize 
-		public var _borderSize: CGFloat?
-		open func borderSizeProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-			if let override = _borderSize { return override }
-			return mainProxy().Border.size.thinProperty(traitCollection)
-			}
-		public var borderSize: CGFloat {
-			get { return self.borderSizeProperty() }
-			set { _borderSize = newValue }
-		}
-
-		//MARK: horizontalCellPadding 
-		public var _horizontalCellPadding: CGFloat?
-		open func horizontalCellPaddingProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-			if let override = _horizontalCellPadding { return override }
-			return mainProxy().Spacing.mediumProperty(traitCollection)
-			}
-		public var horizontalCellPadding: CGFloat {
-			get { return self.horizontalCellPaddingProperty() }
-			set { _horizontalCellPadding = newValue }
 		}
 	}
 	//MARK: - MSFOutlinedAvatarTokens

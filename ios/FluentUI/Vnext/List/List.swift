@@ -42,9 +42,7 @@ public struct MSFListView: View {
 
                         ForEach(section.cells.indices, id: \.self) { index in
                             let cellState = section.cells[index]
-                            let hasDividers = (index < section.cells.count - 1 && section.hasDividers) || (section.hasDividers && (cellState.children != nil))
                             MSFListCellView(state: cellState,
-                                            hasDividers: hasDividers,
                                             windowProvider: tokens.windowProvider)
                                 .frame(maxWidth: .infinity)
                         }

@@ -22,7 +22,7 @@ public class MSFHeaderFooterTokens: MSFTokensBase, ObservableObject {
 
     @Published public var textFont: UIFont!
 
-    var style: MSFHeaderFooterStyle!
+    @Published public var style: MSFHeaderFooterStyle!
 
     public init(style: MSFHeaderFooterStyle) {
         self.style = style
