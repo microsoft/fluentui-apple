@@ -4962,95 +4962,48 @@ extension FluentUIThemeManagerTheming {
 			self.mainProxy = proxy
 		}
 
-		//MARK: - backgroundColor
-		public var _backgroundColor: backgroundColorAppearanceProxy?
-		open func backgroundColorStyle() -> backgroundColorAppearanceProxy {
+		//MARK: backgroundColor 
+		public var _backgroundColor: UIColor?
+		open func backgroundColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
 			if let override = _backgroundColor { return override }
-				return backgroundColorAppearanceProxy(proxy: mainProxy)
+			return mainProxy().Colors.Background.neutral1Property(traitCollection)
 			}
-		public var backgroundColor: backgroundColorAppearanceProxy {
-			get { return self.backgroundColorStyle() }
+		public var backgroundColor: UIColor {
+			get { return self.backgroundColorProperty() }
 			set { _backgroundColor = newValue }
 		}
-		@objc(MSFHeaderFooterTokensBackgroundColorAppearanceProxy) @objcMembers open class backgroundColorAppearanceProxy: NSObject {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
 
-			//MARK: default 
-			public var _default: UIColor?
-			open func defaultProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _default { return override }
-					return mainProxy().Colors.Background.neutral1Property(traitCollection)
-				}
-			public var `default`: UIColor {
-				get { return self.defaultProperty() }
-				set { _default = newValue }
+		//MARK: bottomPadding 
+		public var _bottomPadding: CGFloat?
+		open func bottomPaddingProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _bottomPadding { return override }
+			return mainProxy().Spacing.xSmallProperty(traitCollection)
 			}
-
-			//MARK: divider 
-			public var _divider: UIColor?
-			open func dividerProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-				if let override = _divider { return override }
-					return mainProxy().Colors.Background.neutral5Property(traitCollection)
-				}
-			public var divider: UIColor {
-				get { return self.dividerProperty() }
-				set { _divider = newValue }
-			}
+		public var bottomPadding: CGFloat {
+			get { return self.bottomPaddingProperty() }
+			set { _bottomPadding = newValue }
 		}
 
-
-		//MARK: - headerHeight
-		public var _headerHeight: headerHeightAppearanceProxy?
-		open func headerHeightStyle() -> headerHeightAppearanceProxy {
+		//MARK: headerHeight 
+		public var _headerHeight: CGFloat?
+		open func headerHeightProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
 			if let override = _headerHeight { return override }
-				return headerHeightAppearanceProxy(proxy: mainProxy)
+			return mainProxy().Spacing.xxxlargeProperty(traitCollection)
 			}
-		public var headerHeight: headerHeightAppearanceProxy {
-			get { return self.headerHeightStyle() }
+		public var headerHeight: CGFloat {
+			get { return self.headerHeightProperty() }
 			set { _headerHeight = newValue }
 		}
-		@objc(MSFHeaderFooterTokensHeaderHeightAppearanceProxy) @objcMembers open class headerHeightAppearanceProxy: NSObject {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
 
-			//MARK: default 
-			public var _default: CGFloat?
-			open func defaultProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _default { return override }
-					return mainProxy().Spacing.xxxlargeProperty(traitCollection)
-				}
-			public var `default`: CGFloat {
-				get { return self.defaultProperty() }
-				set { _default = newValue }
-			}
-
-			//MARK: divider 
-			public var _divider: CGFloat?
-			open func dividerProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-				if let override = _divider { return override }
-					return mainProxy().Spacing.xlargeProperty(traitCollection)
-				}
-			public var divider: CGFloat {
-				get { return self.dividerProperty() }
-				set { _divider = newValue }
-			}
-		}
-
-
-		//MARK: horizontalHeaderPadding 
-		public var _horizontalHeaderPadding: CGFloat?
-		open func horizontalHeaderPaddingProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-			if let override = _horizontalHeaderPadding { return override }
+		//MARK: leadingPadding 
+		public var _leadingPadding: CGFloat?
+		open func leadingPaddingProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _leadingPadding { return override }
 			return mainProxy().Spacing.mediumProperty(traitCollection)
 			}
-		public var horizontalHeaderPadding: CGFloat {
-			get { return self.horizontalHeaderPaddingProperty() }
-			set { _horizontalHeaderPadding = newValue }
+		public var leadingPadding: CGFloat {
+			get { return self.leadingPaddingProperty() }
+			set { _leadingPadding = newValue }
 		}
 
 		//MARK: textColor 
@@ -5075,15 +5028,26 @@ extension FluentUIThemeManagerTheming {
 			set { _textFont = newValue }
 		}
 
-		//MARK: topHeaderPadding 
-		public var _topHeaderPadding: CGFloat?
-		open func topHeaderPaddingProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-			if let override = _topHeaderPadding { return override }
+		//MARK: topPadding 
+		public var _topPadding: CGFloat?
+		open func topPaddingProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _topPadding { return override }
 			return mainProxy().Spacing.xlargeProperty(traitCollection)
 			}
-		public var topHeaderPadding: CGFloat {
-			get { return self.topHeaderPaddingProperty() }
-			set { _topHeaderPadding = newValue }
+		public var topPadding: CGFloat {
+			get { return self.topPaddingProperty() }
+			set { _topPadding = newValue }
+		}
+
+		//MARK: trailingPadding 
+		public var _trailingPadding: CGFloat?
+		open func trailingPaddingProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _trailingPadding { return override }
+			return mainProxy().Spacing.mediumProperty(traitCollection)
+			}
+		public var trailingPadding: CGFloat {
+			get { return self.trailingPaddingProperty() }
+			set { _trailingPadding = newValue }
 		}
 	}
 	//MARK: - MSFListCellTokens
@@ -5697,9 +5661,9 @@ extension FluentUIThemeManagerTheming {
 			return mainProxy().Typography.headlineProperty(traitCollection)
 			}
 
-		//MARK: topHeaderPadding 
-		override open func topHeaderPaddingProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
-			if let override = _topHeaderPadding { return override }
+		//MARK: topPadding 
+		override open func topPaddingProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+			if let override = _topPadding { return override }
 			return mainProxy().Spacing.mediumProperty(traitCollection)
 			}
 	}

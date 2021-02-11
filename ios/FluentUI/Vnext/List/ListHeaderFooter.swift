@@ -27,10 +27,10 @@ struct Header: View {
             Spacer()
         }
         .background(Color(tokens.backgroundColor))
-        .padding(EdgeInsets(top: tokens.topHeaderPadding,
-                            leading: tokens.horizontalHeaderPadding,
-                            bottom: tokens.horizontalHeaderPadding / 2,
-                            trailing: tokens.horizontalHeaderPadding))
+        .padding(EdgeInsets(top: tokens.topPadding,
+                            leading: tokens.leadingPadding,
+                            bottom: tokens.bottomPadding,
+                            trailing: tokens.trailingPadding))
         .listRowInsets(EdgeInsets())
         .frame(minHeight: tokens.headerHeight)
         .onAppear {

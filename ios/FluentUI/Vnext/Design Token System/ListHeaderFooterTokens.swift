@@ -17,8 +17,10 @@ public class MSFHeaderFooterTokens: MSFTokensBase, ObservableObject {
     @Published public var textColor: UIColor!
 
     @Published public var headerHeight: CGFloat!
-    @Published public var horizontalHeaderPadding: CGFloat!
-    @Published public var topHeaderPadding: CGFloat!
+    @Published public var topPadding: CGFloat!
+    @Published public var leadingPadding: CGFloat!
+    @Published public var bottomPadding: CGFloat!
+    @Published public var trailingPadding: CGFloat!
 
     @Published public var textFont: UIFont!
 
@@ -52,7 +54,9 @@ public class MSFHeaderFooterTokens: MSFTokensBase, ObservableObject {
         textFont = appearanceProxy.textFont
         backgroundColor = appearanceProxy.backgroundColor.default
         headerHeight = appearanceProxy.headerHeight.default
-        horizontalHeaderPadding = appearanceProxy.horizontalHeaderPadding
-        topHeaderPadding = appearanceProxy.topHeaderPadding
+        topPadding = appearanceProxy.topPadding
+        leadingPadding = appearanceProxy.leadingPadding
+        bottomPadding = appearanceProxy.bottomPadding
+        trailingPadding = appearanceProxy.trailingPadding
     }
 }

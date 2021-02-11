@@ -443,17 +443,19 @@ AP_MSFListCellTokens:
   trailingItemSize: $Icon.size.medium
 
 AP_MSFHeaderFooterTokens:
-  backgroundColor: [ default: $Colors.Background.neutral1, divider: $Colors.Background.neutral5 ]
-  headerHeight: [ default: $Spacing.xxxlarge, divider: $Spacing.xlarge ]
-  horizontalHeaderPadding: $Spacing.medium
+  backgroundColor: $Colors.Background.neutral1
+  headerHeight: $Spacing.xxxlarge
+  topPadding: $Spacing.xlarge
+  leadingPadding: $Spacing.medium
+  bottomPadding: $Spacing.xSmall
+  trailingPadding: $Spacing.medium
   textColor: $Colors.Foreground.neutral3
   textFont: $Typography.caption1
-  topHeaderPadding: $Spacing.xlarge
 
 MSFPrimaryHeaderTokens extends MSFHeaderFooterTokens:
   textColor: $Colors.Foreground.neutral1
   textFont: $Typography.headline
-  topHeaderPadding: $Spacing.medium
+  topPadding: $Spacing.medium
 
 AP_MSFDrawerTokens:
   backgroundClearColor: $Colors.Neutral.clear
