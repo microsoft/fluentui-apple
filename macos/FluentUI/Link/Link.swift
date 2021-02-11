@@ -116,9 +116,7 @@ open class Link: NSButton {
 		set {
 			super.isEnabled = newValue
 			self.window?.invalidateCursorRects(for: self)
-			if !newValue {
-				mouseExited(with: NSEvent())
-			}
+			updateTitle()
 		}
 	}
 
