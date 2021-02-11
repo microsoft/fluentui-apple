@@ -7,10 +7,12 @@ import AppKit
 import FluentUI
 
 class TestLinkViewController: NSViewController {
+	let disabledLink = Link(title: "Disabled link with hover effects")
+
 	override func loadView() {
 		let url = NSURL(string: "https://github.com/microsoft/fluentui-apple")
 
-		let linkWithNoHover = Link(title: "Link", url: url)
+		let linkWithNoUnderline = Link(title: "Link", url: url)
 
 		let linkWithHover = Link(title: "Link with hover effects", url: url)
 		linkWithHover.showsUnderlineWhileMouseInside = true
@@ -27,11 +29,33 @@ class TestLinkViewController: NSViewController {
 		linkWithCustomFontAndColor.font = NSFont.systemFont(ofSize: 12.0, weight: NSFont.Weight.semibold)
 		linkWithCustomFontAndColor.contentTintColor = .textColor
 
-		let containerView = NSStackView(views: [linkWithNoHover, linkWithHover, linkWithHoverAndNoURL, linkWithOverridenTargetAction, linkWithCustomFontAndColor])
+		disabledLink.showsUnderlineWhileMouseInside = true
+		disabledLink.isEnabled = false
+		disabledLink.target = self
+		disabledLink.action = #selector(toggleLink)
+
+		let toggleDisabledLink = Link(title: "Toggle disabled link")
+		toggleDisabledLink.showsUnderlineWhileMouseInside = true
+		toggleDisabledLink.target = self
+		toggleDisabledLink.action = #selector(toggleLink)
+
+		let containerView = NSStackView(views: [
+			linkWithNoUnderline,
+			linkWithHover,
+			linkWithHoverAndNoURL,
+			linkWithOverridenTargetAction,
+			linkWithCustomFontAndColor,
+			disabledLink,
+			toggleDisabledLink
+		])
 		containerView.edgeInsets = NSEdgeInsets(top: 100, left: 100, bottom: 100, right: 100)
 		containerView.orientation = .vertical
 		containerView.distribution = .gravityAreas
 		view = containerView
+	}
+
+	@objc private func toggleLink() {
+		disabledLink.isEnabled = !disabledLink.isEnabled
 	}
 
 	@objc private func displayAlert() {

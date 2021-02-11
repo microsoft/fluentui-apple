@@ -39,6 +39,66 @@ public final class Colors: NSObject {
     /// colors defined in asset catalog
     @objc(MSFColorPalette)
     public enum Palette: Int {
+        case anchorShade30
+        case anchorTint40
+        case beigeShade30
+        case beigeTint40
+        case blueShade30
+        case blueTint40
+        case brassShade30
+        case brassTint40
+        case brownShade30
+        case brownTint40
+        case cornFlowerShade30
+        case cornFlowerTint40
+        case cranberryShade30
+        case cranberryTint40
+        case darkGreenShade30
+        case darkGreenTint40
+        case darkRedShade30
+        case darkRedTint40
+        case forestShade30
+        case forestTint40
+        case goldShade30
+        case goldTint40
+        case grapeShade30
+        case grapeTint40
+        case lavenderShade30
+        case lavenderTint40
+        case lightTealShade30
+        case lightTealTint40
+        case lilacShade30
+        case lilacTint40
+        case magentaShade30
+        case magentaTint40
+        case marigoldShade30
+        case marigoldTint40
+        case minkShade30
+        case minkTint40
+        case navyShade30
+        case navyTint40
+        case peachShade30
+        case peachTint40
+        case pinkShade30
+        case pinkTint40
+        case platinumShade30
+        case platinumTint40
+        case plumShade30
+        case plumTint40
+        case pumpkinShade30
+        case pumpkinTint40
+        case purpleShade30
+        case purpleTint40
+        case redShade30
+        case redTint40
+        case royalBlueShade30
+        case royalBlueTint40
+        case seafoamShade30
+        case seafoamTint40
+        case steelShade30
+        case steelTint40
+        case tealShade30
+        case tealTint40
         case pinkRed10
         case red20
         case red10
@@ -123,6 +183,126 @@ public final class Colors: NSObject {
 
         public var name: String {
             switch self {
+            case .anchorShade30:
+                return "anchorShade30"
+            case .anchorTint40:
+                return "anchorTint40"
+            case .beigeShade30:
+                return "beigeShade30"
+            case .beigeTint40:
+                return "beigeTint40"
+            case .blueShade30:
+                return "blueShade30"
+            case .blueTint40:
+                return "blueTint40"
+            case .brassShade30:
+                return "brassShade30"
+            case .brassTint40:
+                return "brassTint40"
+            case .brownShade30:
+                return "brownShade30"
+            case .brownTint40:
+                return "brownTint40"
+            case .cornFlowerShade30:
+                return "cornFlowerShade30"
+            case .cornFlowerTint40:
+                return "cornFlowerTint40"
+            case .cranberryShade30:
+                return "cranberryShade30"
+            case .cranberryTint40:
+                return "cranberryTint40"
+            case .darkGreenShade30:
+                return "darkGreenShade30"
+            case .darkGreenTint40:
+                return "darkGreenTint40"
+            case .darkRedShade30:
+                return "darkRedShade30"
+            case .darkRedTint40:
+                return "darkRedTint40"
+            case .forestShade30:
+                return "forestShade30"
+            case .forestTint40:
+                return "forestTint40"
+            case .goldShade30:
+                return "goldShade30"
+            case .goldTint40:
+                return "goldTint40"
+            case .grapeShade30:
+                return "grapeShade30"
+            case .grapeTint40:
+                return "grapeTint40"
+            case .lavenderShade30:
+                return "lavenderShade30"
+            case .lavenderTint40:
+                return "lavenderTint40"
+            case .lightTealShade30:
+                return "lightTealShade30"
+            case .lightTealTint40:
+                return "lightTealTint40"
+            case .lilacShade30:
+                return "lilacShade30"
+            case .lilacTint40:
+                return "lilacTint40"
+            case .magentaShade30:
+                return "magentaShade30"
+            case .magentaTint40:
+                return "magentaTint40"
+            case .marigoldShade30:
+                return "marigoldShade30"
+            case .marigoldTint40:
+                return "marigoldTint40"
+            case .minkShade30:
+                return "minkShade30"
+            case .minkTint40:
+                return "minkTint40"
+            case .navyShade30:
+                return "navyShade30"
+            case .navyTint40:
+                return "navyTint40"
+            case .peachShade30:
+                return "peachShade30"
+            case .peachTint40:
+                return "peachTint40"
+            case .pinkShade30:
+                return "pinkShade30"
+            case .pinkTint40:
+                return "pinkTint40"
+            case .platinumShade30:
+                return "platinumShade30"
+            case .platinumTint40:
+                return "platinumTint40"
+            case .plumShade30:
+                return "plumShade30"
+            case .plumTint40:
+                return "plumTint40"
+            case .pumpkinShade30:
+                return "pumpkinShade30"
+            case .pumpkinTint40:
+                return "pumpkinTint40"
+            case .purpleShade30:
+                return "purpleShade30"
+            case .purpleTint40:
+                return "purpleTint40"
+            case .redShade30:
+                return "redShade30"
+            case .redTint40:
+                return "redTint40"
+            case .royalBlueShade30:
+                return "royalBlueShade30"
+            case .royalBlueTint40:
+                return "royalBlueTint40"
+            case .seafoamShade30:
+                return "seafoamShade30"
+            case .seafoamTint40:
+                return "seafoamTint40"
+            case .steelShade30:
+                return "steelShade30"
+            case .steelTint40:
+                return "steelTint40"
+            case .tealShade30:
+                return "tealShade30"
+            case .tealTint40:
+                return "tealTint40"
             case .pinkRed10:
                 return "pinkRed10"
             case .red20:
@@ -454,28 +634,67 @@ public final class Colors: NSObject {
     @objc public static let error: UIColor = Palette.dangerPrimary.color
     @objc public static let warning: UIColor = Palette.warningPrimary.color
 
-    @objc public static var avatarBackgroundColors: [UIColor] = [
-        Palette.cyanBlue10.color,
-        Palette.red10.color,
-        Palette.magenta20.color,
-        Palette.green10.color,
-        Palette.magentaPink10.color,
-        Palette.cyanBlue20.color,
-        Palette.orange20.color,
-        Palette.cyan20.color,
-        Palette.orangeYellow20.color,
-        Palette.red20.color,
-        Palette.blue10.color,
-        Palette.magenta10.color,
-        Palette.gray40.color,
-        Palette.green20.color,
-        Palette.blueMagenta20.color,
-        Palette.pinkRed10.color,
-        Palette.gray30.color,
-        Palette.blueMagenta30.color,
-        Palette.gray20.color,
-        Palette.cyan30.color,
-        Palette.orange30.color
+    @objc public static var avatarColors: [ColorSet] = [
+        ColorSet(background: UIColor(light: Palette.darkRedTint40.color, dark: Palette.darkRedShade30.color),
+                 foreground: UIColor(light: Palette.darkRedShade30.color, dark: Palette.darkRedTint40.color)),
+        ColorSet(background: UIColor(light: Palette.cranberryTint40.color, dark: Palette.cranberryShade30.color),
+                 foreground: UIColor(light: Palette.cranberryShade30.color, dark: Palette.cranberryTint40.color)),
+        ColorSet(background: UIColor(light: Palette.redTint40.color, dark: Palette.redShade30.color),
+                 foreground: UIColor(light: Palette.redShade30.color, dark: Palette.redTint40.color)),
+        ColorSet(background: UIColor(light: Palette.pumpkinTint40.color, dark: Palette.pumpkinShade30.color),
+                 foreground: UIColor(light: Palette.pumpkinShade30.color, dark: Palette.pumpkinTint40.color)),
+        ColorSet(background: UIColor(light: Palette.peachTint40.color, dark: Palette.peachShade30.color),
+                 foreground: UIColor(light: Palette.peachShade30.color, dark: Palette.peachTint40.color)),
+        ColorSet(background: UIColor(light: Palette.marigoldTint40.color, dark: Palette.marigoldShade30.color),
+                 foreground: UIColor(light: Palette.marigoldShade30.color, dark: Palette.marigoldTint40.color)),
+        ColorSet(background: UIColor(light: Palette.goldTint40.color, dark: Palette.goldShade30.color),
+                 foreground: UIColor(light: Palette.goldShade30.color, dark: Palette.goldTint40.color)),
+        ColorSet(background: UIColor(light: Palette.brassTint40.color, dark: Palette.brassShade30.color),
+                 foreground: UIColor(light: Palette.brassShade30.color, dark: Palette.brassTint40.color)),
+        ColorSet(background: UIColor(light: Palette.brownTint40.color, dark: Palette.brownShade30.color),
+                 foreground: UIColor(light: Palette.brownShade30.color, dark: Palette.brownTint40.color)),
+        ColorSet(background: UIColor(light: Palette.forestTint40.color, dark: Palette.forestShade30.color),
+                 foreground: UIColor(light: Palette.forestShade30.color, dark: Palette.forestTint40.color)),
+        ColorSet(background: UIColor(light: Palette.seafoamTint40.color, dark: Palette.seafoamShade30.color),
+                 foreground: UIColor(light: Palette.seafoamShade30.color, dark: Palette.seafoamTint40.color)),
+        ColorSet(background: UIColor(light: Palette.darkGreenTint40.color, dark: Palette.darkGreenShade30.color),
+                 foreground: UIColor(light: Palette.darkGreenShade30.color, dark: Palette.darkGreenTint40.color)),
+        ColorSet(background: UIColor(light: Palette.lightTealTint40.color, dark: Palette.lightTealShade30.color),
+                 foreground: UIColor(light: Palette.lightTealShade30.color, dark: Palette.lightTealTint40.color)),
+        ColorSet(background: UIColor(light: Palette.tealTint40.color, dark: Palette.tealShade30.color),
+                 foreground: UIColor(light: Palette.tealShade30.color, dark: Palette.tealTint40.color)),
+        ColorSet(background: UIColor(light: Palette.steelTint40.color, dark: Palette.steelShade30.color),
+                 foreground: UIColor(light: Palette.steelShade30.color, dark: Palette.steelTint40.color)),
+        ColorSet(background: UIColor(light: Palette.blueTint40.color, dark: Palette.blueShade30.color),
+                 foreground: UIColor(light: Palette.blueShade30.color, dark: Palette.blueTint40.color)),
+        ColorSet(background: UIColor(light: Palette.royalBlueTint40.color, dark: Palette.royalBlueShade30.color),
+                 foreground: UIColor(light: Palette.royalBlueShade30.color, dark: Palette.royalBlueTint40.color)),
+        ColorSet(background: UIColor(light: Palette.cornFlowerTint40.color, dark: Palette.cornFlowerShade30.color),
+                 foreground: UIColor(light: Palette.cornFlowerShade30.color, dark: Palette.cornFlowerTint40.color)),
+        ColorSet(background: UIColor(light: Palette.navyTint40.color, dark: Palette.navyShade30.color),
+                 foreground: UIColor(light: Palette.navyShade30.color, dark: Palette.navyTint40.color)),
+        ColorSet(background: UIColor(light: Palette.lavenderTint40.color, dark: Palette.lavenderShade30.color),
+                 foreground: UIColor(light: Palette.lavenderShade30.color, dark: Palette.lavenderTint40.color)),
+        ColorSet(background: UIColor(light: Palette.purpleTint40.color, dark: Palette.purpleShade30.color),
+                 foreground: UIColor(light: Palette.purpleShade30.color, dark: Palette.purpleTint40.color)),
+        ColorSet(background: UIColor(light: Palette.grapeTint40.color, dark: Palette.grapeShade30.color),
+                 foreground: UIColor(light: Palette.grapeShade30.color, dark: Palette.grapeTint40.color)),
+        ColorSet(background: UIColor(light: Palette.lilacTint40.color, dark: Palette.lilacShade30.color),
+                 foreground: UIColor(light: Palette.lilacShade30.color, dark: Palette.lilacTint40.color)),
+        ColorSet(background: UIColor(light: Palette.pinkTint40.color, dark: Palette.pinkShade30.color),
+                 foreground: UIColor(light: Palette.pinkShade30.color, dark: Palette.pinkTint40.color)),
+        ColorSet(background: UIColor(light: Palette.magentaTint40.color, dark: Palette.magentaShade30.color),
+                 foreground: UIColor(light: Palette.magentaShade30.color, dark: Palette.magentaTint40.color)),
+        ColorSet(background: UIColor(light: Palette.plumTint40.color, dark: Palette.plumShade30.color),
+                 foreground: UIColor(light: Palette.plumShade30.color, dark: Palette.plumTint40.color)),
+        ColorSet(background: UIColor(light: Palette.beigeTint40.color, dark: Palette.beigeShade30.color),
+                 foreground: UIColor(light: Palette.beigeShade30.color, dark: Palette.beigeTint40.color)),
+        ColorSet(background: UIColor(light: Palette.minkTint40.color, dark: Palette.minkShade30.color),
+                 foreground: UIColor(light: Palette.minkShade30.color, dark: Palette.minkTint40.color)),
+        ColorSet(background: UIColor(light: Palette.platinumTint40.color, dark: Palette.platinumShade30.color),
+                 foreground: UIColor(light: Palette.platinumShade30.color, dark: Palette.platinumTint40.color)),
+        ColorSet(background: UIColor(light: Palette.anchorTint40.color, dark: Palette.anchorShade30.color),
+                 foreground: UIColor(light: Palette.anchorShade30.color, dark: Palette.anchorTint40.color))
     ]
 
     /// Used for hyperlinks
@@ -530,6 +749,17 @@ public final class Colors: NSObject {
     @available(*, unavailable)
     override init() {
         super.init()
+    }
+}
+
+@objc(MSFColorSet)
+open class ColorSet: NSObject {
+    public let background: UIColor
+    public let foreground: UIColor
+
+    public init(background: UIColor, foreground: UIColor) {
+        self.background = background
+        self.foreground = foreground
     }
 }
 

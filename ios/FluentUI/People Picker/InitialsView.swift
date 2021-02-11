@@ -12,8 +12,7 @@ import UIKit
  The initials are generated from a provided primary text (e.g. a name) or secondary text (e.g. an email address) and placed as a label above a colored background.
  */
 class InitialsView: UIView {
-    static func initialsBackgroundColor(fromPrimaryText primaryText: String?, secondaryText: String?, colorOptions: [UIColor]? = nil) -> UIColor {
-        // Set the color based on the primary text and secondary text
+    static func initialsHashCode(fromPrimaryText primaryText: String?, secondaryText: String?) -> Int {
         var combined: String
         if let secondaryText = secondaryText, let primaryText = primaryText, secondaryText.count > 0 {
             combined = primaryText + secondaryText
@@ -23,10 +22,24 @@ class InitialsView: UIView {
             combined = ""
         }
 
-        let colors = colorOptions ?? Colors.avatarBackgroundColors
         let combinedHashable = combined as NSString
-        let hashCode = Int(abs(javaHashCode(combinedHashable)))
+        return Int(abs(javaHashCode(combinedHashable)))
+    }
+
+    static func initialsCalculatedColor(fromPrimaryText primaryText: String?, secondaryText: String?, colorOptions: [UIColor]? = nil) -> UIColor {
+        guard let colors = colorOptions else {
+            return .black
+        }
+
+        // Set the color based on the primary text and secondary text
+        let hashCode = initialsHashCode(fromPrimaryText: primaryText, secondaryText: secondaryText)
         return colors[hashCode % colors.count]
+    }
+
+    private static func initialsColorSet(fromPrimaryText primaryText: String?, secondaryText: String?) -> ColorSet {
+        let hashCode = initialsHashCode(fromPrimaryText: primaryText, secondaryText: secondaryText)
+        let colorSets = Colors.avatarColors
+        return colorSets[hashCode % colorSets.count]
     }
 
     static func initialsText(fromPrimaryText primaryText: String?, secondaryText: String?) -> String {
@@ -127,14 +140,18 @@ class InitialsView: UIView {
     ///   - secondaryText: The secondary text to use to display the initials if name isn't provided (e.g. an email address)
     public func setup(primaryText: String?, secondaryText: String?) {
         initialsLabel.text = InitialsView.initialsText(fromPrimaryText: primaryText, secondaryText: secondaryText)
-        setBackgroundColor(InitialsView.initialsBackgroundColor(fromPrimaryText: primaryText, secondaryText: secondaryText))
+        let colorSet = InitialsView.initialsColorSet(fromPrimaryText: primaryText, secondaryText: secondaryText)
+        setFontColor(colorSet.foreground)
+        setBackgroundColor(colorSet.background)
     }
 
     /// Sets up the initialsView with the provided initials text.
     /// - Parameter initialsText: the initials text.
     public func setup(initialsText: String?) {
         initialsLabel.text = initialsText
-        setBackgroundColor(InitialsView.initialsBackgroundColor(fromPrimaryText: initialsText, secondaryText: nil))
+        let colorSet = InitialsView.initialsColorSet(fromPrimaryText: initialsText, secondaryText: nil)
+        setFontColor(colorSet.foreground)
+        setBackgroundColor(colorSet.background)
     }
 
     override func layoutSubviews() {
