@@ -25,9 +25,11 @@ class TestLinkViewController: NSViewController {
 		linkWithOverridenTargetAction.target = self
 		linkWithOverridenTargetAction.action = #selector(displayAlert)
 
-		let linkWithCustomFontAndColor = Link(title: "Link with custom font and color  ❯", url: url)
-		linkWithCustomFontAndColor.font = NSFont.systemFont(ofSize: 12.0, weight: NSFont.Weight.semibold)
-		linkWithCustomFontAndColor.contentTintColor = .textColor
+		let customLink = Link(title: "Link with custom font, color and image", url: url)
+		customLink.font = NSFont.systemFont(ofSize: 12.0, weight: NSFont.Weight.semibold)
+		customLink.contentTintColor = .textColor
+		customLink.image = NSImage(named: NSImage.goRightTemplateName)!
+		customLink.imagePosition = .imageTrailing
 
 		disabledLink.showsUnderlineWhileMouseInside = true
 		disabledLink.isEnabled = false
@@ -44,7 +46,7 @@ class TestLinkViewController: NSViewController {
 			linkWithHover,
 			linkWithHoverAndNoURL,
 			linkWithOverridenTargetAction,
-			linkWithCustomFontAndColor,
+			customLink,
 			disabledLink,
 			toggleDisabledLink
 		])
