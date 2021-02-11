@@ -44,9 +44,6 @@ public class MSFListTokens: MSFTokensBase, ObservableObject {
 
     @Published public var horizontalCellPadding: CGFloat!
 
-    @Published public var subtitleColor: UIColor!
-    @Published public var subtitleFont: UIFont!
-
     public override init() {
         super.init()
 
@@ -69,9 +66,6 @@ public class MSFListTokens: MSFTokensBase, ObservableObject {
         borderSize = appearanceProxy.borderSize
 
         horizontalCellPadding = appearanceProxy.horizontalCellPadding
-
-        subtitleColor = appearanceProxy.sublabelColor
-        subtitleFont = appearanceProxy.sublabelFont
     }
 }
 

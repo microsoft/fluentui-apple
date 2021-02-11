@@ -425,8 +425,6 @@ AP_MSFListTokens:
   borderColor: $Colors.Stroke.neutral1
   borderSize: $Border.size.thin
   horizontalCellPadding: $Spacing.medium
-  sublabelColor: $Colors.Foreground.neutral3
-  sublabelFont: $Typography.caption1
 
 AP_MSFListCellTokens:
   backgroundColor: [ rest: $Colors.Background.neutral1, pressed: $Colors.Background.neutral5 ]
@@ -455,7 +453,7 @@ AP_MSFHeaderFooterTokens:
   textFont: $Typography.caption1
   topHeaderPadding: $Spacing.xlarge
 
-MSFPrimaryHeaderTokens extends MSFListHeaderFooterTokens:
+MSFPrimaryHeaderTokens extends MSFHeaderFooterTokens:
   textColor: $Colors.Foreground.neutral1
   textFont: $Typography.headline
   topHeaderPadding: $Spacing.medium

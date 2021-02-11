@@ -5486,28 +5486,6 @@ extension FluentUIThemeManagerTheming {
 			get { return self.horizontalCellPaddingProperty() }
 			set { _horizontalCellPadding = newValue }
 		}
-
-		//MARK: sublabelColor 
-		public var _sublabelColor: UIColor?
-		open func sublabelColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
-			if let override = _sublabelColor { return override }
-			return mainProxy().Colors.Foreground.neutral3Property(traitCollection)
-			}
-		public var sublabelColor: UIColor {
-			get { return self.sublabelColorProperty() }
-			set { _sublabelColor = newValue }
-		}
-
-		//MARK: sublabelFont 
-		public var _sublabelFont: UIFont?
-		open func sublabelFontProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
-			if let override = _sublabelFont { return override }
-			return mainProxy().Typography.caption1Property(traitCollection)
-			}
-		public var sublabelFont: UIFont {
-			get { return self.sublabelFontProperty() }
-			set { _sublabelFont = newValue }
-		}
 	}
 	//MARK: - MSFOutlinedAvatarTokens
 	public var _MSFOutlinedAvatarTokens: MSFOutlinedAvatarTokensAppearanceProxy?
@@ -5738,40 +5716,25 @@ extension FluentUIThemeManagerTheming {
 		get { return self.MSFPrimaryHeaderTokensStyle() }
 		set { _MSFPrimaryHeaderTokens = newValue }
 	}
-	@objc(MSFPrimaryHeaderTokensAppearanceProxy) @objcMembers open class MSFPrimaryHeaderTokensAppearanceProxy: MSFListHeaderFooterTokensAppearanceProxy {
+	@objc(MSFPrimaryHeaderTokensAppearanceProxy) @objcMembers open class MSFPrimaryHeaderTokensAppearanceProxy: MSFHeaderFooterTokensAppearanceProxy {
 
 		//MARK: textColor 
-		public var _textColor: UIColor?
-		open func textColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
+		override open func textColorProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIColor {
 			if let override = _textColor { return override }
 			return mainProxy().Colors.Foreground.neutral1Property(traitCollection)
 			}
-		public var textColor: UIColor {
-			get { return self.textColorProperty() }
-			set { _textColor = newValue }
-		}
 
 		//MARK: textFont 
-		public var _textFont: UIFont?
-		open func textFontProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
+		override open func textFontProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> UIFont {
 			if let override = _textFont { return override }
 			return mainProxy().Typography.headlineProperty(traitCollection)
 			}
-		public var textFont: UIFont {
-			get { return self.textFontProperty() }
-			set { _textFont = newValue }
-		}
 
 		//MARK: topHeaderPadding 
-		public var _topHeaderPadding: CGFloat?
-		open func topHeaderPaddingProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
+		override open func topHeaderPaddingProperty(_ traitCollection: UITraitCollection? = UIScreen.main.traitCollection) -> CGFloat {
 			if let override = _topHeaderPadding { return override }
 			return mainProxy().Spacing.mediumProperty(traitCollection)
 			}
-		public var topHeaderPadding: CGFloat {
-			get { return self.topHeaderPaddingProperty() }
-			set { _topHeaderPadding = newValue }
-		}
 	}
 	//MARK: - MSFSecondaryButtonTokens
 	public var _MSFSecondaryButtonTokens: MSFSecondaryButtonTokensAppearanceProxy?
@@ -7035,7 +6998,13 @@ extension MSFHeaderFooterTokens: AppearaceProxyComponent {
 			if let proxy = objc_getAssociatedObject(self, &__AppearanceProxyHandle) as? AppearanceProxyType {
 				if !themeAware { return proxy }
 
+				if let proxyString = Optional(String(reflecting: type(of: proxy))), proxyString.hasPrefix("FluentUI") == false {
+					return proxy
+				}
 
+				if proxy is FluentUIStyle.MSFPrimaryHeaderTokensAppearanceProxy {
+					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFPrimaryHeaderTokens
+				}
 				return proxy
 			}
 

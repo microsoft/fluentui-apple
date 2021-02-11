@@ -7,12 +7,12 @@ import UIKit
 import SwiftUI
 
 /// HeaderFooter styles
-@objc public enum MSFListHeaderFooterStyle: Int, CaseIterable {
+@objc public enum MSFHeaderFooterStyle: Int, CaseIterable {
     case headerPrimary
     case headerSecondary
 }
 
-public class MSFListHeaderFooterTokens: MSFTokensBase, ObservableObject {
+public class MSFHeaderFooterTokens: MSFTokensBase, ObservableObject {
     @Published public var backgroundColor: UIColor!
     @Published public var textColor: UIColor!
 
@@ -22,9 +22,9 @@ public class MSFListHeaderFooterTokens: MSFTokensBase, ObservableObject {
 
     @Published public var textFont: UIFont!
 
-    var style: MSFListHeaderFooterStyle!
+    var style: MSFHeaderFooterStyle!
 
-    public init(style: MSFListHeaderFooterStyle) {
+    public init(style: MSFHeaderFooterStyle) {
         self.style = style
 
         super.init()
@@ -43,9 +43,9 @@ public class MSFListHeaderFooterTokens: MSFTokensBase, ObservableObject {
 
         switch style {
         case .headerSecondary:
-            appearanceProxy = currentTheme.MSFListHeaderFooterTokens
+            appearanceProxy = currentTheme.MSFHeaderFooterTokens
         case .headerPrimary, .none:
-            appearanceProxy = currentTheme.MSFPrimaryHeaderListTokens
+            appearanceProxy = currentTheme.MSFPrimaryHeaderTokens
         }
 
         textColor = appearanceProxy.textColor

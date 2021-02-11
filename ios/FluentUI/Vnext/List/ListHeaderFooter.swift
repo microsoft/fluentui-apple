@@ -9,11 +9,11 @@ import SwiftUI
 struct Header: View {
     @Environment(\.theme) var theme: FluentUIStyle
     @ObservedObject var state: MSFListSectionState
-    @ObservedObject var tokens: MSFListHeaderFooterTokens
+    @ObservedObject var tokens: MSFHeaderFooterTokens
 
     init(state: MSFListSectionState, windowProvider: FluentUIWindowProvider?) {
         self.state = state
-        self.tokens = MSFListHeaderFooterTokens(style: state.style)
+        self.tokens = MSFHeaderFooterTokens(style: state.style)
         self.tokens.windowProvider = windowProvider
     }
 
