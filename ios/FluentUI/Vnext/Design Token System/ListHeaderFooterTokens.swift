@@ -52,8 +52,8 @@ public class MSFHeaderFooterTokens: MSFTokensBase, ObservableObject {
 
         textColor = appearanceProxy.textColor
         textFont = appearanceProxy.textFont
-        backgroundColor = appearanceProxy.backgroundColor.default
-        headerHeight = appearanceProxy.headerHeight.default
+        backgroundColor = appearanceProxy.backgroundColor
+        headerHeight = appearanceProxy.headerHeight
         topPadding = appearanceProxy.topPadding
         leadingPadding = appearanceProxy.leadingPadding
         bottomPadding = appearanceProxy.bottomPadding
