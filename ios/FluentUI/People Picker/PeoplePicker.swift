@@ -39,6 +39,12 @@ public protocol PeoplePickerDelegate: BadgeFieldDelegate {
     /// This is called to check if suggestions are to be hidden on textField endEditing event.
     /// If not implemented, the default value assumed is false.
     @objc optional func peoplePickerShouldKeepShowingPersonaSuggestionsOnEndEditing(_ peoplePicker: PeoplePicker) -> Bool
+
+    /// Called when the PersonaListView is shown.
+    @objc optional func peoplePickerDidShowPersonaSuggestions(_ peoplePicker: PeoplePicker)
+
+    /// Called when the PersonaListView is hidden.
+    @objc optional func peoplePickerDidHidePersonaSuggestions(_ peoplePicker: PeoplePicker)
 }
 
 // MARK: - PeoplePicker
@@ -192,14 +198,16 @@ open class PeoplePicker: BadgeField {
         }
 
         personaListView.searchDirectoryState = .idle
-
         setNeedsLayout()
+        layoutIfNeeded()
+        delegate?.peoplePickerDidShowPersonaSuggestions?(self)
     }
 
     /// Hides personaSuggestionsView
     @objc open func hidePersonaSuggestions() {
         personaSuggestionsView.removeFromSuperview()
         containingViewBoundsObservation = nil
+        delegate?.peoplePickerDidHidePersonaSuggestions?(self)
     }
 
     private func layoutPersonaSuggestions() {
@@ -350,7 +358,7 @@ open class PeoplePicker: BadgeField {
 
     override func textFieldTextChanged() {
         super.textFieldTextChanged()
-        let textFieldHasContent = textFieldContent != ""
+        let textFieldHasContent = !textFieldContent.isEmpty
         isShowingPersonaSuggestions = textFieldHasContent
         if textFieldHasContent {
             getSuggestedPersonas()

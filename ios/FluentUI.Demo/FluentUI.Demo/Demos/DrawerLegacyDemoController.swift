@@ -80,7 +80,10 @@ class DrawerLegacyDemoController: DemoController {
             }
 
             let buttonView = sender.view
-            let rect = buttonView.superview!.convert(buttonView.frame, to: nil)
+            guard let rect = buttonView.superview?.convert(buttonView.frame, to: nil) else {
+                return
+            }
+
             strongSelf.presentDrawer(sourceView: buttonView,
                                      presentationOrigin: rect.maxY,
                                      presentationDirection: .down,
@@ -212,7 +215,10 @@ class DrawerLegacyDemoController: DemoController {
             }
 
             let buttonView = sender.view
-            let rect = buttonView.superview!.convert(buttonView.frame, to: nil)
+            guard let rect = buttonView.superview?.convert(buttonView.frame, to: nil) else {
+                return
+            }
+
             strongSelf.presentDrawer(sourceView: buttonView,
                                      presentationOrigin: rect.minY,
                                      presentationDirection: .up,

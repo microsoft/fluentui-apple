@@ -19,7 +19,6 @@ class ListDemoController: DemoController {
         var listCell: MSFListCellState
         var listSection: MSFListSectionState
         var listData: [MSFListSectionState] = []
-        let iconStyle = MSFListIconStyle.none
 
         let samplePersonas: [PersonaData] = [
             PersonaData(name: "Kat Larrson", email: "kat.larrson@contoso.com", subtitle: "Designer", avatarImage: UIImage(named: "avatar_kat_larsson"), color: Colors.Palette.cyanBlue10.color),
@@ -98,7 +97,13 @@ class ListDemoController: DemoController {
                 listCell = MSFListCellState()
                 listCell.title = cell.text1
                 listCell.subtitle = cell.text2
+                if let subtitle = listCell.subtitle, !subtitle.isEmpty {
+                    listCell.leadingViewSize = MSFListCellLeadingViewSize.large
+                }
+                listCell.titleLineLimit = section.numberOfLines
+                listCell.subtitleLineLimit = section.numberOfLines
                 listCell.leadingView = createCustomView(imageName: cell.image)
+                listCell.trailingView = section.hasAccessory ? createCustomView(imageName: cell.image) : nil
                 listCell.accessoryType = accessoryType(for: rowIndex)
                 listCell.layoutType = updateLayout(subtitle: listCell.subtitle)
                 listCell.onTapAction = {
@@ -107,11 +112,12 @@ class ListDemoController: DemoController {
                     self.showAlertForCellTapped(indexPath: indexPath)
                 }
                 listSection.cells.append(listCell)
+                listSection.hasDividers = true
             }
             listData.append(listSection)
         }
 
-        list = MSFList(sections: listData, iconStyle: iconStyle)
+        list = MSFList(sections: listData)
 
         let listView = list.view
         listView.translatesAutoresizingMaskIntoConstraints = false

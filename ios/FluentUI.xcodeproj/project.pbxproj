@@ -55,6 +55,10 @@
 		5354020325BB6A750047DC47 /* ButtonLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC23020E451D00016922A /* ButtonLegacy.swift */; };
 		5354020825BB6A760047DC47 /* ButtonLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC23020E451D00016922A /* ButtonLegacy.swift */; };
 		535AD63425CA815C000F1421 /* AvatarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535AD62E25CA8156000F1421 /* AvatarTests.swift */; };
+		5320362525D4803600DE9E1D /* CommandBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E2A25887A4B00069E73 /* CommandBarButton.swift */; };
+		5320362625D4803600DE9E1D /* CommandBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E4E2588B65C00069E73 /* CommandBarItem.swift */; };
+		5320362725D4803600DE9E1D /* CommandBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E1E258876FB00069E73 /* CommandBar.swift */; };
+		5320362825D4803600DE9E1D /* CommandBarButtonGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */; };
 		537315B325438B15001FD14C /* iOS13_4_compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537315B225438B15001FD14C /* iOS13_4_compatibility.swift */; };
 		537315B425438B15001FD14C /* iOS13_4_compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537315B225438B15001FD14C /* iOS13_4_compatibility.swift */; };
 		53B659BA257AA50200070405 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B659B9257AA50200070405 /* Button.swift */; };
@@ -245,6 +249,10 @@
 		ECD9B85B25C21DA300CB211B /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD9B85925C21DA300CB211B /* ListCell.swift */; };
 		ECD9B86125C22A3B00CB211B /* ListHeaderFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD9B86025C22A3B00CB211B /* ListHeaderFooter.swift */; };
 		ECD9B86225C22A3B00CB211B /* ListHeaderFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD9B86025C22A3B00CB211B /* ListHeaderFooter.swift */; };
+		FC414E1F258876FB00069E73 /* CommandBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E1E258876FB00069E73 /* CommandBar.swift */; };
+		FC414E252588798000069E73 /* CommandBarButtonGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */; };
+		FC414E2B25887A4B00069E73 /* CommandBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E2A25887A4B00069E73 /* CommandBarButton.swift */; };
+		FC414E4F2588B65C00069E73 /* CommandBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E4E2588B65C00069E73 /* CommandBarItem.swift */; };
 		FD053A352224CA33009B6378 /* DatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */; };
 		FD0D29D62151A3D700E8655E /* CardPresenterNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0D29D52151A3D700E8655E /* CardPresenterNavigationController.swift */; };
 		FD1FAE1B2272464B00A5DBA4 /* GenericDateTimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1FAE1A2272464B00A5DBA4 /* GenericDateTimePicker.swift */; };
@@ -459,6 +467,10 @@
 		EC8EA6A82580D80100F191CE /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		ECD9B85925C21DA300CB211B /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		ECD9B86025C22A3B00CB211B /* ListHeaderFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListHeaderFooter.swift; sourceTree = "<group>"; };
+		FC414E1E258876FB00069E73 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
+		FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarButtonGroupView.swift; sourceTree = "<group>"; };
+		FC414E2A25887A4B00069E73 /* CommandBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarButton.swift; sourceTree = "<group>"; };
+		FC414E4E2588B65C00069E73 /* CommandBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarItem.swift; sourceTree = "<group>"; };
 		FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerControllerTests.swift; sourceTree = "<group>"; };
 		FD0D29D52151A3D700E8655E /* CardPresenterNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPresenterNavigationController.swift; sourceTree = "<group>"; };
 		FD1FAE1A2272464B00A5DBA4 /* GenericDateTimePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericDateTimePicker.swift; sourceTree = "<group>"; };
@@ -797,6 +809,7 @@
 				CCC18C2A2501B1A900BE830E /* Card */,
 				B4F118EA21C8270F00855942 /* Badge Field */,
 				FDFB8AE921361C860046850A /* Calendar */,
+				FC414E1D258876D400069E73 /* Command Bar */,
 				A5CEC22F20E451990016922A /* Controls */,
 				A5CEC16B20D98EBF0016922A /* Core */,
 				FD599D0021347FA0008845EE /* Date Time Pickers */,
@@ -988,6 +1001,17 @@
 				CCC18C2B2501B22F00BE830E /* CardView.swift */,
 			);
 			path = Card;
+			sourceTree = "<group>";
+		};
+		FC414E1D258876D400069E73 /* Command Bar */ = {
+			isa = PBXGroup;
+			children = (
+				FC414E1E258876FB00069E73 /* CommandBar.swift */,
+				FC414E4E2588B65C00069E73 /* CommandBarItem.swift */,
+				FC414E2A25887A4B00069E73 /* CommandBarButton.swift */,
+				FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */,
+			);
+			path = "Command Bar";
 			sourceTree = "<group>";
 		};
 		FD256C5C2183D77900EC9588 /* Views */ = {
@@ -1377,6 +1401,7 @@
 				537315B425438B15001FD14C /* iOS13_4_compatibility.swift in Sources */,
 				56DA1CDC24523624008D745E /* ShimmerAppearance.swift in Sources */,
 				8FD01183228A82A600D25925 /* SegmentedControl.swift in Sources */,
+				5320362825D4803600DE9E1D /* CommandBarButtonGroupView.swift in Sources */,
 				FD41C88722DD13230086F899 /* ShyHeaderController.swift in Sources */,
 				53F7384A2575A8240043071D /* FluentUIStyle.generated.swift in Sources */,
 				8FD01184228A82A600D25925 /* Separator.swift in Sources */,
@@ -1419,6 +1444,7 @@
 				8FD01199228A82A600D25925 /* DateTimePickerViewLayout.swift in Sources */,
 				53B659BF257AA50E00070405 /* Button.swift in Sources */,
 				FD41C8C222DD48E60086F899 /* Operators.swift in Sources */,
+				5320362625D4803600DE9E1D /* CommandBarItem.swift in Sources */,
 				8FD0119A228A82A600D25925 /* DrawerController.swift in Sources */,
 				7DC2FB2924C0ED1700367A55 /* TableViewCellFileAccessoryView.swift in Sources */,
 				8FD0119B228A82A600D25925 /* DrawerPresentationController.swift in Sources */,
@@ -1451,6 +1477,8 @@
 				86AF4F8225B0F85A005D4253 /* PillButtonStyle.swift in Sources */,
 				ECD9B86225C22A3B00CB211B /* ListHeaderFooter.swift in Sources */,
 				8FD011B1228A82A600D25925 /* HUDView.swift in Sources */,
+				8FD011B2228A82A600D25925 /* AvatarView.swift in Sources */,
+				5320362725D4803600DE9E1D /* CommandBar.swift in Sources */,
 				A5F3B147232B1E3700007A4F /* ScrollView.swift in Sources */,
 				8FD011B3228A82A600D25925 /* InitialsView.swift in Sources */,
 				FD41C89722DD13230086F899 /* NavigationBar.swift in Sources */,
@@ -1459,6 +1487,7 @@
 				8FD011B5228A82A600D25925 /* PersonaListView.swift in Sources */,
 				3F4FB97825B25E04008AB7CC /* SideOverPanel+Modifiers.swift in Sources */,
 				497DC2DA24185885008D86F8 /* PillButtonBar.swift in Sources */,
+				5320362525D4803600DE9E1D /* CommandBarButton.swift in Sources */,
 				8ACE4D3524E31ADA00B9D0EB /* ContactCollectionViewCell.swift in Sources */,
 				8FD011B6228A82A600D25925 /* Persona.swift in Sources */,
 				11104BCE233ACA9500CCB232 /* TabBarItem.swift in Sources */,
@@ -1512,6 +1541,7 @@
 				FD36F1A9216C0A6900CECBC6 /* CardPresentationController.swift in Sources */,
 				B426613E214731D100E25423 /* InitialsView.swift in Sources */,
 				3F4FB97125B25E04008AB7CC /* Drawer.swift in Sources */,
+				FC414E252588798000069E73 /* CommandBarButtonGroupView.swift in Sources */,
 				A5B87B02211E20B50038C37C /* UIScreen+Extension.swift in Sources */,
 				FD77752D219E62E100033D58 /* DateTimePickerViewLayout.swift in Sources */,
 				FD7DF05C21FA7F5000857267 /* Tooltip.swift in Sources */,
@@ -1601,15 +1631,18 @@
 				A5F3B149232B1F9700007A4F /* UIResponder+Extensions.swift in Sources */,
 				C0EAAEAD2347E1DF00C7244E /* ShimmerView.swift in Sources */,
 				C0938E46235F66E300256251 /* ShimmerViewAppearance.swift in Sources */,
+				FC414E1F258876FB00069E73 /* CommandBar.swift in Sources */,
 				C0A0D76F233AEF6C00F432FD /* ShimmerLinesViewAppearance.swift in Sources */,
 				FD256C5B2183B90B00EC9588 /* DatePickerSelectionManager.swift in Sources */,
 				86AF4F7525AFC746005D4253 /* PillButtonStyle.swift in Sources */,
 				FDF41EDB2141A23B00EC527C /* UIViewController+Extensions.swift in Sources */,
+				FC414E4F2588B65C00069E73 /* CommandBarItem.swift in Sources */,
 				FD56FD95219131430023C7EA /* DateTimePickerView.swift in Sources */,
 				FDA1AF8C21484625001AE720 /* BlurringView.swift in Sources */,
 				A5961FA1218A25C400E2A506 /* PopupMenuSection.swift in Sources */,
 				FD41C89622DD13230086F899 /* NavigationBar.swift in Sources */,
 				A5CEC16D20D98EE70016922A /* Colors.swift in Sources */,
+				FC414E2B25887A4B00069E73 /* CommandBarButton.swift in Sources */,
 				FD0D29D62151A3D700E8655E /* CardPresenterNavigationController.swift in Sources */,
 				8AF03E1C24B6BDBD00E6E2A2 /* ContactCollectionViewCell.swift in Sources */,
 				FD4F2A1B2148937100C437D6 /* PageCardPresenterController.swift in Sources */,

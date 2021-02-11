@@ -175,8 +175,7 @@ class NavigationControllerDemoController: DemoController {
             content.allowsCellSelection = true
         }
 
-        if accessoryView != nil {
-            let searchBarView = accessoryView as! SearchBar
+        if let searchBarView = accessoryView as? SearchBar {
             searchBarView.delegate = content
         }
 
@@ -392,14 +391,11 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if showsTopAccessoryView {
             let showTopAccessoryView = view.frame.size.width >= Constants.topAccessoryViewWidthThreshold
 
-            if showTopAccessoryView && navigationItem.accessoryView != nil {
-                let accessoryView = navigationItem.accessoryView as! SearchBar
+            if let accessoryView = navigationItem.accessoryView as? SearchBar, showTopAccessoryView {
                 accessoryView.hidesNavigationBarDuringSearch = false
-
                 navigationItem.accessoryView = nil
                 navigationItem.topAccessoryView = accessoryView
-            } else if !showTopAccessoryView && navigationItem.topAccessoryView != nil {
-                let accessoryView = navigationItem.topAccessoryView as! SearchBar
+            } else if let accessoryView = navigationItem.topAccessoryView as? SearchBar, !showTopAccessoryView {
                 accessoryView.hidesNavigationBarDuringSearch = true
 
                 navigationItem.topAccessoryView = nil
@@ -413,7 +409,9 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as! TableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as? TableViewCell else {
+            return UITableViewCell()
+        }
         let imageView = UIImageView(image: UIImage(named: "excelIcon"))
         cell.setup(title: "Cell #\(1 + indexPath.row)", customView: imageView, accessoryType: .disclosureIndicator)
         cell.isInSelectionMode = isInSelectionMode
@@ -539,7 +537,9 @@ class ChildViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as! TableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as? TableViewCell else {
+            return UITableViewCell()
+        }
         cell.setup(title: "Child Cell #\(1 + indexPath.row)")
         return cell
     }
@@ -595,7 +595,9 @@ class ModalViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as! TableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as? TableViewCell else {
+            return UITableViewCell()
+        }
         cell.setup(title: "Child Cell #\(1 + indexPath.row)")
         cell.backgroundColor = isGrouped ? Colors.Table.Cell.backgroundGrouped : Colors.Table.Cell.background
         cell.topSeparatorType = isGrouped && indexPath.row == 0 ? .full : .none
@@ -607,8 +609,8 @@ class ModalViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as! TableViewHeaderFooterView
-        header.setup(style: .header, title: "Section Header")
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as? TableViewHeaderFooterView
+        header?.setup(style: .header, title: "Section Header")
         return header
     }
 

@@ -73,7 +73,7 @@ class DemoController: UIViewController {
         itemRow.alignment = .center
         itemRow.spacing = itemSpacing
 
-        if text != "" {
+        if !text.isEmpty {
             let label = Label(style: textStyle, colorStyle: .regular)
             label.text = text
             label.widthAnchor.constraint(equalToConstant: textWidth).isActive = true

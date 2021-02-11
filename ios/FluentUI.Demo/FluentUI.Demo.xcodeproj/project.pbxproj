@@ -10,6 +10,7 @@
 		114CF8B82423E10900D064AA /* ColorDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114CF8B72423E10900D064AA /* ColorDemoController.swift */; };
 		22EABB182509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EABB172509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift */; };
 		3F8A30ED25801F89003743A9 /* DrawerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8A30EC25801F89003743A9 /* DrawerDemoController.swift */; };
+		2F0A96FC25CA047100EF9736 /* SearchBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0A96FB25CA047100EF9736 /* SearchBarDemoController.swift */; };
 		497DC2DE24185896008D86F8 /* PillButtonBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */; };
 		532854F825A3C70C0042C3B9 /* ThemingDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532854F725A3C70C0042C3B9 /* ThemingDemoController.swift */; };
 		535401CC25BB4FEA0047DC47 /* AvatarLegacyDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535401CB25BB4FEA0047DC47 /* AvatarLegacyDemoController.swift */; };
@@ -58,6 +59,10 @@
 		E6842974247B672000A29C40 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842973247B672000A29C40 /* SceneDelegate.swift */; };
 		E6842996247C350700A29C40 /* DemoColorThemeWindows.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842995247C350700A29C40 /* DemoColorThemeWindows.swift */; };
 		EC8EA6B02580D82A00F191CE /* ListDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EA6AF2580D82A00F191CE /* ListDemoController.swift */; };
+		FC414E3725888BC300069E73 /* CommandBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E3625888BC300069E73 /* CommandBarDemoController.swift */; };
+		FD41C8F422E28EEB0086F899 /* NavigationControllerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C8F322E28EEB0086F899 /* NavigationControllerDemoController.swift */; };
+		FD7254ED21471A3F002F4069 /* DateTimePickerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7254EC21471A3F002F4069 /* DateTimePickerDemoController.swift */; };
+		FD7DF06221FB941500857267 /* TooltipDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF06121FB941400857267 /* TooltipDemoController.swift */; };
 		FDCF7C8321BF35680058E9E6 /* SegmentedControlDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCF7C8221BF35680058E9E6 /* SegmentedControlDemoController.swift */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +84,7 @@
 		11047D2522932DB1001F0F59 /* TabBarViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewDemoController.swift; sourceTree = "<group>"; };
 		114CF8B72423E10900D064AA /* ColorDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorDemoController.swift; sourceTree = "<group>"; };
 		22EABB172509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarDemoController.swift; sourceTree = "<group>"; };
+		2F0A96FB25CA047100EF9736 /* SearchBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBarDemoController.swift; sourceTree = "<group>"; };
 		3D3224A9AADF58C324059464 /* Pods-FluentUI.Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluentUI.Demo.release.xcconfig"; path = "Target Support Files/Pods-FluentUI.Demo/Pods-FluentUI.Demo.release.xcconfig"; sourceTree = "<group>"; };
 		3F8A30EC25801F89003743A9 /* DrawerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerDemoController.swift; sourceTree = "<group>"; };
 		497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBarDemoController.swift; sourceTree = "<group>"; };
@@ -127,6 +133,7 @@
 		E6D2996ECAAD9A81A6338783 /* Pods-FluentUI.Demo.dogfood.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluentUI.Demo.dogfood.xcconfig"; path = "Target Support Files/Pods-FluentUI.Demo/Pods-FluentUI.Demo.dogfood.xcconfig"; sourceTree = "<group>"; };
 		EC7D5AF5DAF7393E14BF5B28 /* Pods_FluentUI_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FluentUI_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC8EA6AF2580D82A00F191CE /* ListDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDemoController.swift; sourceTree = "<group>"; };
+		FC414E3625888BC300069E73 /* CommandBarDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarDemoController.swift; sourceTree = "<group>"; };
 		FD41C8F322E28EEB0086F899 /* NavigationControllerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllerDemoController.swift; sourceTree = "<group>"; };
 		FD6AE76C225679A4002CFDFE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		FD6AE76E225679A7002CFDFE /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -279,8 +286,10 @@
 				B45EB79121A4D047008646A2 /* BadgeFieldDemoController.swift */,
 				B444D6B72183BA4B0002B4D4 /* BadgeViewDemoController.swift */,
 				B4D852DA225C010A004B1B29 /* ButtonLegacyDemoController.swift */,
+				B4D852DA225C010A004B1B29 /* ButtonDemoController.swift */,
 				CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */,
 				114CF8B72423E10900D064AA /* ColorDemoController.swift */,
+				FC414E3625888BC300069E73 /* CommandBarDemoController.swift */,
 				8AF03E1F24B6BE3100E6E2A2 /* ContactCollectionViewDemoController.swift */,
 				FD7254EC21471A3F002F4069 /* DateTimePickerDemoController.swift */,
 				A5DCA75D211E3A92005F4CB7 /* DrawerLegacyDemoController.swift */,
@@ -297,6 +306,7 @@
 				B4EF53C4215C45C400573E8F /* PersonaListViewDemoController.swift */,
 				497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */,
 				A5961FA8218A61BB00E2A506 /* PopupMenuDemoController.swift */,
+				2F0A96FB25CA047100EF9736 /* SearchBarDemoController.swift */,
 				FDCF7C8221BF35680058E9E6 /* SegmentedControlDemoController.swift */,
 				C0938E49235F733100256251 /* ShimmerLinesViewDemoController.swift */,
 				7D0931C024AAA3D30072458A /* SideTabBarDemoController.swift */,
@@ -483,6 +493,8 @@
 				53B659C4257AA69E00070405 /* DrawerLegacyDemoController.swift in Sources */,
 				8AF03E2024B6BE3100E6E2A2 /* ContactCollectionViewDemoController.swift in Sources */,
 				A5DCA760211E3B4C005F4CB7 /* DemoController.swift in Sources */,
+				7D0931C124AAA3D30072458A /* SideTabBarDemoController.swift in Sources */,
+				FC414E3725888BC300069E73 /* CommandBarDemoController.swift in Sources */,
 				B45EB79221A4D047008646A2 /* BadgeFieldDemoController.swift in Sources */,
 				535401CC25BB4FEA0047DC47 /* AvatarLegacyDemoController.swift in Sources */,
 				B4EF66562295F729007FEAB0 /* TableViewHeaderFooterSampleData.swift in Sources */,
@@ -499,6 +511,7 @@
 				B4EF66542295F1A8007FEAB0 /* TableViewHeaderFooterViewDemoController.swift in Sources */,
 				53B659C8257AA6CA00070405 /* TooltipDemoController.swift in Sources */,
 				53B659C6257AA6B400070405 /* PopupMenuDemoController.swift in Sources */,
+				2F0A96FC25CA047100EF9736 /* SearchBarDemoController.swift in Sources */,
 				CCC18C2F2501C75F00BE830E /* CardViewDemoController.swift in Sources */,
 				B4575C5122FB8B6900EBD0EB /* PeoplePickerDemoController.swift in Sources */,
 				53F7386C25796A6D0043071D /* TabBarViewDemoController.swift in Sources */,

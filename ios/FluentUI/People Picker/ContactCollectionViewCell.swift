@@ -25,10 +25,10 @@ class ContactCollectionViewCell: UICollectionViewCell {
             contactView = ContactView(identifier: identifier, size: size)
         }
 
-        contactView!.translatesAutoresizingMaskIntoConstraints = false
+        contactView?.translatesAutoresizingMaskIntoConstraints = false
 
         if let avatarImage = persona.avatarImage {
-            contactView!.avatarImage = avatarImage
+            contactView?.avatarImage = avatarImage
         }
 
         contentView.addSubview(contactView!)

@@ -218,6 +218,11 @@ open class SearchBar: UIView {
         return textField
     }()
 
+    @objc open var autocorrectionType: UITextAutocorrectionType {
+        get { return searchTextField.autocorrectionType }
+        set { searchTextField.autocorrectionType = newValue }
+    }
+
     // a "searchTextField" in native iOS is comprised of an inset Magnifying Glass image followed by an inset textfield.
     // backgroundview is used to achive an inset textfield
     private lazy var searchTextFieldBackgroundView: UIView = {
@@ -238,7 +243,7 @@ open class SearchBar: UIView {
             // Workaround check for beta iOS versions missing the Pointer Interactions API
             if arePointerInteractionAPIsAvailable() {
                 clearButton.isPointerInteractionEnabled = true
-                clearButton.pointerStyleProvider = { button, effect, shape in
+                clearButton.pointerStyleProvider = { button, effect, _ in
                     let preview = UITargetedPreview(view: button)
                     return UIPointerStyle(effect: .lift(preview))
                 }
@@ -295,6 +300,14 @@ open class SearchBar: UIView {
     open override func didMoveToWindow() {
         super.didMoveToWindow()
         updateColorsForStyle()
+    }
+
+    open override var intrinsicContentSize: CGSize {
+        return sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+    }
+
+    open override func sizeThatFits(_ size: CGSize) -> CGSize {
+        return CGSize(width: size.width, height: Constants.searchTextFieldBackgroundHeight)
     }
 
     private func startSearch() {

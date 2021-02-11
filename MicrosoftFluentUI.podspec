@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'MicrosoftFluentUI'
-  s.version          = '0.1.25'
+  s.version          = '0.1.26'
   s.summary          = 'Fluent UI is a set of reusable UI controls and tools'
   s.homepage         = "https://www.microsoft.com/design/fluent/#/"
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
@@ -25,6 +25,12 @@ Pod::Spec.new do |s|
     card_ios.platform = :ios
     card_ios.dependency 'MicrosoftFluentUI/Controls_ios'
     card_ios.source_files = ["ios/FluentUI/Card/**/*.{swift,h}"]
+  end
+
+  s.subspec 'CommandBar_ios' do |commandbar_ios|
+    commandbar_ios.platform = :ios
+    commandbar_ios.dependency 'MicrosoftFluentUI/Core_ios'
+    commandbar_ios.source_files = ["ios/FluentUI/Command Bar/**/*.{swift,h}"]
   end
 
   s.subspec 'Controls_ios' do |controls_ios|
