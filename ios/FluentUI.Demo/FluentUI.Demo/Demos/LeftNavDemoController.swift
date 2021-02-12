@@ -7,8 +7,6 @@ import FluentUI
 import UIKit
 import SwiftUI
 
-// MARK: DrawerContentController
-
 class LeftNavDemoController: DemoController, MSFDrawerControllerDelegate {
 
     override func viewDidLoad() {
