@@ -31,7 +31,6 @@ struct Header: View {
                             leading: tokens.leadingPadding,
                             bottom: tokens.bottomPadding,
                             trailing: tokens.trailingPadding))
-        .listRowInsets(EdgeInsets())
         .frame(minHeight: tokens.headerHeight)
         .onAppear {
             // When environment values are available through the view hierarchy:
