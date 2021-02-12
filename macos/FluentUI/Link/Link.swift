@@ -9,6 +9,50 @@ import AppKit
 @objc(MSFLink)
 open class Link: NSButton {
 
+	/// The text displayed on the control, stylized to look like a hyperlink
+	open override var title: String {
+		didSet {
+			guard oldValue != title else {
+				return
+			}
+			updateTitle()
+		}
+	}
+
+	open override func mouseEntered(with event: NSEvent) {
+		mouseInside = true
+		updateTitle()
+	}
+
+	open override func mouseExited(with event: NSEvent) {
+		mouseInside = false
+		updateTitle()
+	}
+
+	open override var isEnabled: Bool {
+		get {
+			return super.isEnabled
+		}
+		set {
+			super.isEnabled = newValue
+			self.window?.invalidateCursorRects(for: self)
+			updateTitle()
+		}
+	}
+
+	open override func resetCursorRects() {
+		if isEnabled {
+			addCursorRect(bounds, cursor: .pointingHand)
+		}
+	}
+
+	open override func drawFocusRingMask() {
+		// Ensure we draw the focus ring around the entire link bounds
+		// rather than just around the image if the link contains one.
+		let path = NSBezierPath(roundedRect: bounds, xRadius: cornerRadius, yRadius: cornerRadius)
+		path.fill()
+	}
+
 	/// Initializes a hyperlink with a title and an underlying URL that opens when clicked
 	/// - Parameters:
 	///   - title: The visible text of the link that the user sees.
@@ -64,18 +108,6 @@ open class Link: NSButton {
 		}
 	}
 
-	/// The text displayed on the control, stylized to look like a hyperlink
-	open override var title: String {
-		didSet {
-			guard oldValue != title else {
-				return
-			}
-			updateTitle()
-		}
-	}
-
-	private var trackingArea: NSTrackingArea?
-
 	public override func updateTrackingAreas() {
 		super.updateTrackingAreas()
 
@@ -97,34 +129,11 @@ open class Link: NSButton {
 		self.trackingArea = trackingArea
 	}
 
-	open override func mouseEntered(with event: NSEvent) {
-		mouseInside = true
-		updateTitle()
-	}
-
-	open override func mouseExited(with event: NSEvent) {
-		mouseInside = false
-		updateTitle()
-	}
+	private var trackingArea: NSTrackingArea?
 
 	private var mouseInside: Bool = false
 
-	open override var isEnabled: Bool {
-		get {
-			return super.isEnabled
-		}
-		set {
-			super.isEnabled = newValue
-			self.window?.invalidateCursorRects(for: self)
-			updateTitle()
-		}
-	}
-
-	open override func resetCursorRects() {
-		if isEnabled {
-			addCursorRect(bounds, cursor: .pointingHand)
-		}
-	}
+	private let cornerRadius: CGFloat = 2
 
 	private func updateTitle() {
 		let titleAttributes = (isEnabled && showsUnderlineWhileMouseInside && mouseInside) ? underlinedLinkAttributes: linkAttributes
