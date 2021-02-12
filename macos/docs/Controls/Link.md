@@ -52,6 +52,6 @@ link.action = #selector(displayAlert)
 ### Control Name
 `Link` in Swift, `MSFLink` in Objective-C
 ### Source Code
-[Link.swift](https://github.com/microsoft/fluentui-apple/blob/main/macos/FluentUI/Link.swift)
+[Link.swift](https://github.com/microsoft/fluentui-apple/blob/main/macos/FluentUI/Link/Link.swift)
 ### Sample Code
-[TestLinkViewController.swift](https://github.com/microsoft/fluentui-apple/blob/main/macos/FluentUITestApp/TestLinkViewController.swift)
+[TestLinkViewController.swift](https://github.com/microsoft/fluentui-apple/blob/main/macos/FluentUITestViewControllers/TestLinkViewController.swift)
