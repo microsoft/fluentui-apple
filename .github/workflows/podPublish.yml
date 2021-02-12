@@ -6,7 +6,7 @@ on:
 
 jobs:
   Pod-Publish:
-    if: github.event.base_ref == 'refs/heads/master'
+    if: github.event.base_ref == 'refs/heads/main'
     runs-on: macOS-10.15
     
     steps:
