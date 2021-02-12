@@ -3,7 +3,7 @@ name: Localize
 on: 
   push:
     branches:
-      - master
+      - main
     paths:
       - '**.strings'
       - '**.stringsdict'
