@@ -25,12 +25,11 @@ import SwiftUI
 
 /// 'MSFPanelContent' is the functional protocol  for `Drawer` content. It can be configured via any axis as desired
 protocol MSFPanelContent {
+    /// content size ratio when drawer is expanded, usually set by client
+    var preferredContentSize: CGSize { get set }
 
-    /// default content size ratio (percentage of drawer size occupied) when drawer is expanded, valid range [0,1]
-    var contentSizeRatio: CGSize { get }
-
-    /// size of the base panel
-    var size: CGSize { get set }
+    /// cummulative size of the panel including the spacer and content
+    var panelSize: CGSize { get set }
 
     /// Action executed with background transperent view is tapped
     var actionOnBackgroundTap: (() -> Void)? { get  set}
@@ -55,7 +54,6 @@ protocol MSFPanelContent {
 
 /// BasePanel is the model layer for `Drawer`. It can be configured via any axis as desired
 protocol MSFPanelTransition {
-
     /// Action executed with transiton state is completed
     var transitionCompletion: (() -> Void)? { get set }
 
@@ -66,10 +64,10 @@ protocol MSFPanelTransition {
     /// state representating drawer's visibility of content.
     var transitionState: MSFDrawerTransitionState { get set }
 
-    /// offset for panel state, dependent of the `transitionState`
-    var contentOffset: CGFloat { get }
+    /// offset for panel state, computed property based of the `transitionState`
+    var contentOffset: CGVector { get }
 
-    /// background color for `transitionState`
+    /// computed property background color based of the `transitionState`
     var backgroundColor: Color { get }
 }
 

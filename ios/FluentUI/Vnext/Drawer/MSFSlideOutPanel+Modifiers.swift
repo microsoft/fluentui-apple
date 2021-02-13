@@ -5,16 +5,16 @@
 
 import SwiftUI
 
-extension MSFBasePanel {
+extension MSFSlideOutPanel {
     /// Modifier to update cummulative width of the panel.
     /// - Parameter `width`:  defaults to screen size
     /// - Returns: `MSFSlideOverPanel`
-    func width(_ width: CGFloat) -> MSFBasePanel {
-        return MSFBasePanel(percentTransition: $percentTransition,
+    func width(_ width: CGFloat) -> MSFSlideOutPanel {
+        return MSFSlideOutPanel(percentTransition: $percentTransition,
                                  tokens: tokens,
                                  content: content,
                                  transitionState: $transitionState,
-                                 size: CGSize(width: width, height: size.height),
+                                 panelSize: CGSize(width: width, height: panelSize.height),
                                  actionOnBackgroundTap: actionOnBackgroundTap,
                                  backgroundDimmed: backgroundDimmed,
                                  direction: direction,
@@ -24,12 +24,12 @@ extension MSFBasePanel {
     /// Add action or callback to be executed when background view is Tapped
     /// - Parameter `performOnBackgroundTap`:  defaults to no-op
     /// - Returns: `MSFSlideOverPanel`
-    func performOnBackgroundTap(_ performOnBackgroundTap: (() -> Void)?) -> MSFBasePanel {
-        return MSFBasePanel(percentTransition: $percentTransition,
+    func performOnBackgroundTap(_ performOnBackgroundTap: (() -> Void)?) -> MSFSlideOutPanel {
+        return MSFSlideOutPanel(percentTransition: $percentTransition,
                             tokens: tokens,
                             content: content,
                             transitionState: $transitionState,
-                            size: size,
+                            panelSize: panelSize,
                             actionOnBackgroundTap: performOnBackgroundTap,
                             backgroundDimmed: backgroundDimmed,
                             direction: direction,
@@ -39,12 +39,12 @@ extension MSFBasePanel {
     /// Add opacity to background view
     /// - Parameter `opacity`: defaults to clear with no opacity
     /// - Returns: `MSFSlideOverPanel`
-    func isBackgroundDimmed(_ value: Bool) -> MSFBasePanel {
-        return MSFBasePanel(percentTransition: $percentTransition,
+    func isBackgroundDimmed(_ value: Bool) -> MSFSlideOutPanel {
+        return MSFSlideOutPanel(percentTransition: $percentTransition,
                             tokens: tokens,
                             content: content,
                             transitionState: $transitionState,
-                            size: size,
+                            panelSize: panelSize,
                             actionOnBackgroundTap: actionOnBackgroundTap,
                             backgroundDimmed: value,
                             direction: direction,
@@ -54,12 +54,12 @@ extension MSFBasePanel {
     /// Change opening direction for slideout
     /// - Parameter `direction`: defaults to left
     /// - Returns: `MSFSlideOverPanel`
-    func direction(_ slideOutDirection: MSFDrawerDirection) -> MSFBasePanel {
-        return MSFBasePanel(percentTransition: $percentTransition,
+    func direction(_ slideOutDirection: MSFDrawerDirection) -> MSFSlideOutPanel {
+        return MSFSlideOutPanel(percentTransition: $percentTransition,
                             tokens: tokens,
                             content: content,
                             transitionState: $transitionState,
-                            size: size,
+                            panelSize: panelSize,
                             actionOnBackgroundTap: actionOnBackgroundTap,
                             backgroundDimmed: backgroundDimmed,
                             direction: slideOutDirection,
@@ -69,12 +69,12 @@ extension MSFBasePanel {
     /// Add action or callback to be executed transition is completed
     /// - Parameter `animationCompletion`:  defaults to no-op
     /// - Returns: `MSFSlideOverPanel`
-    func transitionCompletion(_ action: (() -> Void)?) -> MSFBasePanel {
-        return MSFBasePanel(percentTransition: $percentTransition,
+    func transitionCompletion(_ action: (() -> Void)?) -> MSFSlideOutPanel {
+        return MSFSlideOutPanel(percentTransition: $percentTransition,
                             tokens: tokens,
                             content: content,
                             transitionState: $transitionState,
-                            size: size,
+                            panelSize: panelSize,
                             actionOnBackgroundTap: actionOnBackgroundTap,
                             backgroundDimmed: backgroundDimmed,
                             direction: direction,

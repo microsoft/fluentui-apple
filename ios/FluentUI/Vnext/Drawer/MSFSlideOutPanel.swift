@@ -5,11 +5,10 @@
 
 import SwiftUI
 
-/// `MSFBasePanel` in the drawer's  undelrying layer that expands and collapsed on x/y axis of the drawer.
+/// `MSFSlideOutPanel` in the drawer's  undelrying layer that expands and collapsed on x/y axis of the drawer.
 /// `View` consist of content view placed on top on panel and transparent background layer
 // MARK: - Base Panel
-struct MSFBasePanel<Content: View>: View, MSFPanelContent, MSFPanelTransition {
-
+struct MSFSlideOutPanel<Content: View>: View, MSFPanelContent, MSFPanelTransition {
     /// Only effective when panel is in transition, valid range [0,1]
     @Binding public var percentTransition: Double?
 
@@ -22,11 +21,11 @@ struct MSFBasePanel<Content: View>: View, MSFPanelContent, MSFPanelTransition {
     /// Interactive state of panel
     @Binding var transitionState: MSFDrawerTransitionState
 
-    /// default content size ratio (percentage of drawer size occupied) when drawer is expanded, valid range [0,1]
-    var contentSizeRatio: CGSize {  return CGSize(width: 0.9, height: 0.5) }
+    /// content size defaults to fixed width and height
+    var preferredContentSize = CGSize(width: 360, height: 400)
 
     /// size of the base panel
-    var size: CGSize = UIScreen.main.bounds.size
+    var panelSize: CGSize = UIScreen.main.bounds.size
 
     /// Action executed with background transperent view is tapped
     var actionOnBackgroundTap: (() -> Void)?
@@ -49,7 +48,7 @@ struct MSFBasePanel<Content: View>: View, MSFPanelContent, MSFPanelTransition {
 
             content
                 .frame(width: contentWidth, height: contentHeight)
-                .offset(x: contentOffset)
+                .offset(x: contentOffset.dx, y: contentOffset.dy)
                 .shadow(color: tokens.shadow1Color,
                         radius: tokens.shadow1Blur,
                         x: tokens.shadow1DepthX,
@@ -58,7 +57,7 @@ struct MSFBasePanel<Content: View>: View, MSFPanelContent, MSFPanelTransition {
                         radius: tokens.shadow2Blur,
                         x: tokens.shadow2DepthX,
                         y: tokens.shadow2DepthY)
-                .onAnimationComplete(value: Double(contentOffset), completion: transitionCompletion)
+                .onAnimationComplete(value: valueObserved, completion: transitionCompletion)
 
             if direction == .left || direction == .top {
                 MSFInteractiveSpacer(defaultBackgroundColor: $tokens.backgroundClearColor)
@@ -71,31 +70,27 @@ struct MSFBasePanel<Content: View>: View, MSFPanelContent, MSFPanelTransition {
 
     /// Read-only property for contentWidth to resize content size use `contentSizeRatio` instead
     var contentWidth: CGFloat {
-        return  size.width * (direction.isVertical() ?  contentSizeRatio.width : 1)
+        return direction.isVertical() ? preferredContentSize.width : panelSize.width
     }
 
     /// Read-only property for contentHeight to resize content size use `contentSizeRatio` instead
     var contentHeight: CGFloat {
-        return  size.height * (direction.isVertical() ? 1 : contentSizeRatio.height)
+        return direction.isVertical() ? panelSize.height : preferredContentSize.height
     }
 
-    var contentOffset: CGFloat {
+    var contentOffset: CGVector {
 
-        var offset: CGFloat
+        var delta = CGVector.zero
         switch transitionState {
         case .collapsed:
-            offset = collapsedContentOffset
+            delta = collapsedContentOffset
         case .expanded:
-            offset = expandedContentOffset
+            delta = expandedContentOffset
         case .inTransisiton:
-            offset = percentTransistionOffset
+            delta = percentTransistionOffset
         }
 
-        if direction == .left {
-            return -offset
-        } else {
-            return offset
-        }
+        return delta
     }
 
     var backgroundColor: Color {
@@ -117,27 +112,43 @@ struct MSFBasePanel<Content: View>: View, MSFPanelContent, MSFPanelTransition {
         return tokens.backgroundDimmedColor.opacity(opacity)
     }
 
-    var percentTransistionOffset: CGFloat {
-        // Override offset if required
-        if let percentDriveTransition = percentTransition {
-            // parent view wants to take over primarily to conform user drag gesture
-            if percentDriveTransition >= 0 && percentDriveTransition <= 1 {
-                return expandedContentOffset + collapsedContentOffset * CGFloat(1 - percentDriveTransition)
-            }
+    private var percentTransistionOffset: CGVector {
+        var delta = CGVector.zero
+
+        guard let percentDriveTransition = percentTransition, percentDriveTransition >= 0 && percentDriveTransition <= 1 else {
+            return delta
         }
-        return CGFloat.zero
-    }
 
-    var expandedContentOffset: CGFloat {
-        return CGSize.zero.width
-    }
-
-    var collapsedContentOffset: CGFloat {
+        let floatPercent = CGFloat(1 - percentDriveTransition)
         if direction.isVertical() {
-            return size.width * contentSizeRatio.width
+            delta = CGVector (dx: expandedContentOffset.dx + collapsedContentOffset.dx * floatPercent,
+                              dy: delta.dy)
         } else {
-            return size.height * contentSizeRatio.height
+            delta = CGVector (dx: delta.dx,
+                              dy: expandedContentOffset.dy + collapsedContentOffset.dy * floatPercent)
         }
+        return delta
+    }
+
+    private var expandedContentOffset: CGVector {
+        return CGVector.zero
+    }
+
+    private var collapsedContentOffset: CGVector {
+        switch direction {
+        case .left:
+            return CGVector(dx: -1 * preferredContentSize.width, dy: CGFloat.zero)
+        case .right:
+            return CGVector(dx: preferredContentSize.width, dy: CGFloat.zero)
+        case .bottom:
+            return CGVector(dx: CGFloat.zero, dy: preferredContentSize.height)
+        case .top:
+            return CGVector(dx: CGFloat.zero, dy: -1 * preferredContentSize.height)
+        }
+    }
+
+    private var valueObserved: Double {
+        return Double(direction.isVertical() ? contentOffset.dx : contentOffset.dy)
     }
 }
 
@@ -147,7 +158,7 @@ struct BasePanelLeft_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             MockBackgroundView()
-            MSFBasePanel<MockContent>(percentTransition: Binding.constant(nil),
+            MSFSlideOutPanel<MockContent>(percentTransition: Binding.constant(nil),
                                       tokens: MSFDrawerTokens(),
                                       content: MockContent(),
                                       transitionState: Binding.constant(MSFDrawerTransitionState.expanded),
@@ -163,7 +174,7 @@ struct BasePanelRight_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             MockBackgroundView()
-            MSFBasePanel<MockContent>(percentTransition: Binding.constant(nil),
+            MSFSlideOutPanel<MockContent>(percentTransition: Binding.constant(nil),
                                       tokens: MSFDrawerTokens(),
                                       content: MockContent(),
                                       transitionState: Binding.constant(MSFDrawerTransitionState.expanded),
@@ -179,7 +190,7 @@ struct BasePanelInTransition_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             MockBackgroundView()
-            MSFBasePanel<MockContent>(percentTransition: Binding.constant(0.4),
+            MSFSlideOutPanel<MockContent>(percentTransition: Binding.constant(0.4),
                                       tokens: MSFDrawerTokens(),
                                       content: MockContent(),
                                       transitionState: Binding.constant(MSFDrawerTransitionState.inTransisiton),
@@ -195,7 +206,7 @@ struct BasePanelCollapsed_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             MockBackgroundView()
-            MSFBasePanel<MockContent>(percentTransition: Binding.constant(nil),
+            MSFSlideOutPanel<MockContent>(percentTransition: Binding.constant(nil),
                                       tokens: MSFDrawerTokens(),
                                       content: MockContent(),
                                       transitionState: Binding.constant(MSFDrawerTransitionState.collapsed),
@@ -211,7 +222,7 @@ struct BasePanelTop_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             MockBackgroundView()
-            MSFBasePanel<MockContent>(percentTransition: Binding.constant(nil),
+            MSFSlideOutPanel<MockContent>(percentTransition: Binding.constant(nil),
                                       tokens: MSFDrawerTokens(),
                                       content: MockContent(),
                                       transitionState: Binding.constant(MSFDrawerTransitionState.expanded),

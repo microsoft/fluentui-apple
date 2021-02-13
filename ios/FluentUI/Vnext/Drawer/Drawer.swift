@@ -71,7 +71,7 @@ public struct MSFDrawerView<Content: View>: View {
 
     public var body: some View {
         GeometryReader { proxy in
-            MSFBasePanel(
+            MSFSlideOutPanel(
                 percentTransition: $panelTransitionPercent,
                 tokens: tokens,
                 content: content,
