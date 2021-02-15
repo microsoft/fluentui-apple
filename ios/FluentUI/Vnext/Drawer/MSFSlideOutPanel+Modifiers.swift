@@ -9,12 +9,12 @@ extension MSFSlideOutPanel {
     /// Modifier to update cummulative width of the panel.
     /// - Parameter `width`:  defaults to screen size
     /// - Returns: `MSFSlideOverPanel`
-    func width(_ width: CGFloat) -> MSFSlideOutPanel {
+    func size(_ size: CGSize) -> MSFSlideOutPanel {
         return MSFSlideOutPanel(percentTransition: $percentTransition,
                                  tokens: tokens,
                                  content: content,
                                  transitionState: $transitionState,
-                                 panelSize: CGSize(width: width, height: panelSize.height),
+                                 panelSize: size,
                                  actionOnBackgroundTap: actionOnBackgroundTap,
                                  backgroundDimmed: backgroundDimmed,
                                  direction: direction,

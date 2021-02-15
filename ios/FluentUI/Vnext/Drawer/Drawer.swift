@@ -78,7 +78,7 @@ public struct MSFDrawerView<Content: View>: View {
                 transitionState: $panelTransitionState)
                 .isBackgroundDimmed(state.backgroundDimmed)
                 .direction(state.presentationDirection)
-                .width(sizeInCurrentOrientation(proxy).width)
+                .size(proxy.size)
                 .performOnBackgroundTap {
                     state.isExpanded = false
                 }
@@ -104,14 +104,14 @@ public struct MSFDrawerView<Content: View>: View {
                 .onDisappear {
                     state.isExpanded = false
                 }
-                .gesture(dragGesture(screenWidth: sizeInCurrentOrientation(proxy).width))
+                .gesture(dragGesture(screenWidth: proxy.size.width))
                 .onReceive(state.$translation) { value in
                     if let translation = value {
                         switch translation.state {
                         case .ended:
                             endTransition()
                         default:
-                            let maxOffset = sizeInCurrentOrientation(proxy).width
+                            let maxOffset = proxy.size.width
                             let velocity = translation.point.x
                             let percent = Double(abs (velocity / maxOffset))
                             updateTransition(percent, isAnimated: true)
@@ -189,14 +189,6 @@ public struct MSFDrawerView<Content: View>: View {
             state.isExpanded = inverse
         } else {
             state.isExpanded = !inverse
-        }
-    }
-
-    private func sizeInCurrentOrientation(_ proxy: GeometryProxy) -> CGSize {
-        if proxy.size.width < proxy.size.height {
-            return CGSize(width: proxy.size.width, height: proxy.size.height)
-        } else {
-            return CGSize(width: proxy.size.height, height: proxy.size.width)
         }
     }
 }

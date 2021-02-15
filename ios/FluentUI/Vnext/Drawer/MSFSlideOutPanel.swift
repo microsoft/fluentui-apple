@@ -89,7 +89,6 @@ struct MSFSlideOutPanel<Content: View>: View, MSFPanelContent, MSFPanelTransitio
         case .inTransisiton:
             delta = percentTransistionOffset
         }
-
         return delta
     }
 
