@@ -307,9 +307,8 @@ open class BadgeView: UIView {
         super.init(frame: .zero)
 
         backgroundView.layer.cornerRadius = Constants.backgroundCornerRadius
-        if #available(iOS 13.0, *) {
-            backgroundView.layer.cornerCurve = .continuous
-        }
+        backgroundView.layer.cornerCurve = .continuous
+
         addSubview(backgroundView)
 
         label.lineBreakMode = .byTruncatingMiddle

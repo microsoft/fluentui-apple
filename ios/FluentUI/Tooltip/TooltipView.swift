@@ -66,9 +66,8 @@ class TooltipView: UIView {
     private let backgroundView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = backgroundCornerRadius
-        if #available(iOS 13.0, *) {
-            view.layer.cornerCurve = .continuous
-        }
+        view.layer.cornerCurve = .continuous
+
         return view
     }()
 

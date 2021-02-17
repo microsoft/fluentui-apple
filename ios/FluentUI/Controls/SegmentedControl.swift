@@ -155,17 +155,15 @@ open class SegmentedControl: UIControl {
 
     private let backgroundView: UIView = {
         let view = UIView()
-        if #available(iOS 13.0, *) {
-            view.layer.cornerCurve = .continuous
-        }
+        view.layer.cornerCurve = .continuous
+
         return view
     }()
     private var buttons = [SegmentedControlButton]()
     private let selectionView: UIView = {
         let view = UIView()
-        if #available(iOS 13.0, *) {
-            view.layer.cornerCurve = .continuous
-        }
+        view.layer.cornerCurve = .continuous
+
         return view
     }()
     private let bottomSeparator = Separator()

@@ -200,9 +200,7 @@ class LargeTitleView: UIView {
         tapGesture.addTarget(self, action: #selector(LargeTitleView.handleTitleViewTapped(sender:)))
         addGestureRecognizer(tapGesture)
 
-        if #available(iOS 13, *) {
-            titleButton.showsLargeContentViewer = true
-        }
+        titleButton.showsLargeContentViewer = true
 
         updateAvatarViewPointerInteraction()
     }

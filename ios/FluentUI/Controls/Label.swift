@@ -104,9 +104,6 @@ open class Label: UILabel {
         adjustsFontForContentSizeCategory = true
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
-        if #available(iOS 13, *) { } else {
-            NotificationCenter.default.addObserver(self, selector: #selector(handleDarkerSystemColorsStatusDidChange), name: UIAccessibility.darkerSystemColorsStatusDidChangeNotification, object: nil)
-        }
     }
 
     private func updateFont() {
@@ -129,9 +126,5 @@ open class Label: UILabel {
         if adjustsFontForContentSizeCategory {
             updateFont()
         }
-    }
-
-    @objc private func handleDarkerSystemColorsStatusDidChange() {
-        updateTextColor()
     }
 }

@@ -97,9 +97,7 @@ open class TabBarView: UIView {
                                      topBorderLine.leadingAnchor.constraint(equalTo: leadingAnchor),
                                      topBorderLine.trailingAnchor.constraint(equalTo: trailingAnchor)])
 
-        if #available(iOS 13, *) {
-            addInteraction(UILargeContentViewerInteraction())
-        }
+        addInteraction(UILargeContentViewerInteraction())
 
         accessibilityTraits = .tabBar
         updateHeight()
@@ -139,9 +137,8 @@ open class TabBarView: UIView {
 
     private let backgroundView: UIVisualEffectView = {
         var style = UIBlurEffect.Style.regular
-        if #available(iOS 13, *) {
-            style = .systemChromeMaterial
-        }
+        style = .systemChromeMaterial
+
         return UIVisualEffectView(effect: UIBlurEffect(style: style))
     }()
 

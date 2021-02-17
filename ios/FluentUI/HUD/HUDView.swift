@@ -77,9 +77,7 @@ class HUDView: UIView {
         backgroundColor = Colors.HUD.background
         layer.cornerRadius = Constants.backgroundCornerRadius
         layer.masksToBounds = true
-        if #available(iOS 13.0, *) {
-            layer.cornerCurve = .continuous
-        }
+        layer.cornerCurve = .continuous
 
         container.addArrangedSubview(indicatorView)
 

@@ -14,17 +14,6 @@ import UIKit
     }
 
     @objc func image(withPrimaryColor primaryColor: UIColor) -> UIImage {
-        if #available(iOS 13.0, *) {
-            return self.withTintColor(primaryColor, renderingMode: .alwaysOriginal)
-        } else {
-            let size = self.size
-            let renderer = UIGraphicsImageRenderer(size: size)
-            let coloredImage = renderer.image { (context) in
-                primaryColor.setFill()
-                context.fill(CGRect(origin: .zero, size: size))
-                self.draw(at: .zero, blendMode: .destinationIn, alpha: 1.0)
-            }
-            return coloredImage.withRenderingMode(.alwaysOriginal)
-        }
+        return self.withTintColor(primaryColor, renderingMode: .alwaysOriginal)
     }
 }

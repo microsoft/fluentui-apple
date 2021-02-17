@@ -212,9 +212,8 @@ open class SearchBar: UIView {
         textField.enablesReturnKeyAutomatically = true
         textField.accessibilityTraits = .searchField
         textField.addTarget(self, action: #selector(searchTextFieldValueDidChange(_:)), for: .editingChanged)
-        if #available(iOS 13, *) {
-            textField.showsLargeContentViewer = true
-        }
+        textField.showsLargeContentViewer = true
+
         return textField
     }()
 
@@ -260,10 +259,7 @@ open class SearchBar: UIView {
         button.setTitle("Common.Cancel".localized, for: .normal)
         button.addTarget(self, action: #selector(SearchBar.cancelButtonTapped(sender:)), for: .touchUpInside)
         button.alpha = 0.0
-
-        if #available(iOS 13, *) {
-            button.showsLargeContentViewer = true
-        }
+        button.showsLargeContentViewer = true
 
         if #available(iOS 13.4, *) {
             // Workaround check for beta iOS versions missing the Pointer Interactions API
@@ -369,9 +365,7 @@ open class SearchBar: UIView {
     // MARK: - Layout Construction
 
     private func setupLayout() {
-        if #available(iOS 13, *) {
-            addInteraction(UILargeContentViewerInteraction())
-        }
+        addInteraction(UILargeContentViewerInteraction())
 
         // Autolayout is more efficent if all constraints are activated simultaneously
         var constraints = [NSLayoutConstraint]()

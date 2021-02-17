@@ -520,9 +520,8 @@ open class NotificationView: UIView {
     private func updateForStyle() {
         clipsToBounds = !style.needsSeparator
         layer.cornerRadius = style.cornerRadius
-        if #available(iOS 13.0, *) {
-            layer.cornerCurve = .continuous
-        }
+        layer.cornerCurve = .continuous
+
         separator.isHidden = !style.needsSeparator
 
         updateWindowSpecificColors()
