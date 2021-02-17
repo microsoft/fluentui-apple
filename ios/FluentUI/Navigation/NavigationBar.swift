@@ -309,9 +309,7 @@ open class NavigationBar: UINavigationBar {
         setupContentStackView()
         contentStackView.isLayoutMarginsRelativeArrangement = true
         updateContentStackViewMargins(forExpandedContent: true)
-        if #available(iOS 13, *) {
-            contentStackView.addInteraction(UILargeContentViewerInteraction())
-        }
+        contentStackView.addInteraction(UILargeContentViewerInteraction())
 
         //leftBarButtonItemsStackView: layout priorities are slightly lower to make sure titleView has the highest priority in horizontal spacing
         contentStackView.addArrangedSubview(leftBarButtonItemsStackView)
@@ -612,15 +610,14 @@ open class NavigationBar: UINavigationBar {
         button.accessibilityIdentifier = item.accessibilityIdentifier
         button.accessibilityLabel = item.accessibilityLabel
         button.accessibilityHint = item.accessibilityHint
-        if #available(iOS 13, *) {
-            button.showsLargeContentViewer = true
-            if let customLargeContentSizeImage = item.largeContentSizeImage {
-                button.largeContentImage = customLargeContentSizeImage
-            }
+        button.showsLargeContentViewer = true
 
-            if item.title == nil {
-                button.largeContentTitle = item.accessibilityLabel
-            }
+        if let customLargeContentSizeImage = item.largeContentSizeImage {
+            button.largeContentImage = customLargeContentSizeImage
+        }
+
+        if item.title == nil {
+            button.largeContentTitle = item.accessibilityLabel
         }
 
         if #available(iOS 13.4, *) {

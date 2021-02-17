@@ -275,26 +275,25 @@
 			isa = PBXGroup;
 			children = (
 				53EA0FA1257ED8AF00899357 /* AvatarDemoController.swift */,
-				53B659B7257AA44F00070405 /* ButtonDemoController.swift */,
-				3F8A30EC25801F89003743A9 /* DrawerDemoController.swift */,
-				EC8EA6AF2580D82A00F191CE /* ListDemoController.swift */,
-				532854F725A3C70C0042C3B9 /* ThemingDemoController.swift */,
 				B4D852D822580661004B1B29 /* ActivityIndicatorViewDemoController.swift */,
 				7D23482924D89C1C00FBE057 /* AvatarGroupViewDemoController.swift */,
 				535401CB25BB4FEA0047DC47 /* AvatarLegacyDemoController.swift */,
 				B45EB79121A4D047008646A2 /* BadgeFieldDemoController.swift */,
 				B444D6B72183BA4B0002B4D4 /* BadgeViewDemoController.swift */,
+				53B659B7257AA44F00070405 /* ButtonDemoController.swift */,
 				B4D852DA225C010A004B1B29 /* ButtonLegacyDemoController.swift */,
 				CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */,
 				114CF8B72423E10900D064AA /* ColorDemoController.swift */,
 				FC414E3625888BC300069E73 /* CommandBarDemoController.swift */,
 				8AF03E1F24B6BE3100E6E2A2 /* ContactCollectionViewDemoController.swift */,
 				FD7254EC21471A3F002F4069 /* DateTimePickerDemoController.swift */,
+				3F8A30EC25801F89003743A9 /* DrawerDemoController.swift */,
 				A5DCA75D211E3A92005F4CB7 /* DrawerLegacyDemoController.swift */,
 				B4E8F65121CD9579008A1598 /* HUDDemoController.swift */,
 				22EABB172509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift */,
 				A589F855211BA71000471C23 /* LabelDemoController.swift */,
 				53224AC125D65D220063FBDB /* LeftNavDemoController.swift */,
+				EC8EA6AF2580D82A00F191CE /* ListDemoController.swift */,
 				FD41C8F322E28EEB0086F899 /* NavigationControllerDemoController.swift */,
 				A5B6617523A4227300E801DD /* NotificationViewDemoController.swift */,
 				FDDD73FC22C6D86B00A9D995 /* ObjectiveCDemoController.h */,
@@ -314,6 +313,7 @@
 				B498141521E42C140077B48D /* TableViewCellDemoController.swift */,
 				C038992D2359307D00265026 /* TableViewCellShimmerDemoController.swift */,
 				B4EF66532295F1A8007FEAB0 /* TableViewHeaderFooterViewDemoController.swift */,
+				532854F725A3C70C0042C3B9 /* ThemingDemoController.swift */,
 				FD7DF06121FB941400857267 /* TooltipDemoController.swift */,
 			);
 			path = Demos;
@@ -360,7 +360,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0940;
-				LastUpgradeCheck = 1120;
+				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = "Microsoft Corporation";
 				TargetAttributes = {
 					A5CEC20B20E436F10016922A = {
@@ -617,6 +617,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -703,6 +704,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -766,6 +768,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;

@@ -197,9 +197,7 @@ open class MSFButtonLegacy: UIButton {
 
     open func initialize() {
         layer.cornerRadius = style.cornerRadius
-        if #available(iOS 13.0, *) {
-            layer.cornerCurve = .continuous
-        }
+        layer.cornerCurve = .continuous
 
         titleLabel?.font = style.titleFont
         titleLabel?.adjustsFontForContentSizeCategory = true
@@ -208,10 +206,9 @@ open class MSFButtonLegacy: UIButton {
 
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        if #available(iOS 13, *) {
-            if previousTraitCollection?.userInterfaceStyle != traitCollection.userInterfaceStyle {
-                updateBorderColor()
-            }
+
+        if previousTraitCollection?.userInterfaceStyle != traitCollection.userInterfaceStyle {
+            updateBorderColor()
         }
     }
 

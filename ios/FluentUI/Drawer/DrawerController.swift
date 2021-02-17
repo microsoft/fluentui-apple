@@ -488,9 +488,7 @@ open class DrawerController: UIViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = backgroundColor
-        if #available(iOS 13.0, *) {
-            view.layer.cornerCurve = .continuous
-        }
+        view.layer.cornerCurve = .continuous
         view.isAccessibilityElement = false
 
         containerView.translatesAutoresizingMaskIntoConstraints = false
@@ -976,9 +974,9 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
         switch presentationStyle(for: source) {
         case .slideover:
             let direction = presentationDirection(for: source.view)
-            if #available(iOS 13.0, *) {
-                useNavigationBarBackgroundColor = (direction.isVertical && source.traitCollection.userInterfaceLevel == .elevated)
-            }
+
+            useNavigationBarBackgroundColor = (direction.isVertical && source.traitCollection.userInterfaceLevel == .elevated)
+
             let drawerPresentationController = DrawerPresentationController(presentedViewController: presented,
                                                 presentingViewController: presenting,
                                                 source: source,

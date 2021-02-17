@@ -13,13 +13,7 @@ import UIKit
 
     /// Returns self on iOS 13 and later. For older iOS versions returns self for Regular Contrast mode or a specific color for Increased Contrast mode if it's defined either for this color or for one of its ancestors.
     var current: UIColor {
-        if #available(iOS 13, *) {
-            return self
-        }
-        if !UIAccessibility.isDarkerSystemColorsEnabled {
-            return self
-        }
-        return lightHighContrast ?? light?.current ?? self
+        return self
     }
 
     private var light: UIColor? {
@@ -40,36 +34,27 @@ import UIKit
     }
 
     convenience init(light: UIColor, lightHighContrast: UIColor? = nil, lightElevated: UIColor? = nil, lightElevatedHighContrast: UIColor? = nil, dark: UIColor? = nil, darkHighContrast: UIColor? = nil, darkElevated: UIColor? = nil, darkElevatedHighContrast: UIColor? = nil) {
-        if #available(iOS 13, *) {
-            self.init { traits -> UIColor in
-                let getColorForContrast = { (default: UIColor?, highContrast: UIColor?) -> UIColor? in
-                    if traits.accessibilityContrast == .high, let color = highContrast {
-                        return color
-                    }
-                    return `default`
-                }
-
-                let getColor = { (default: UIColor?, highContrast: UIColor?, elevated: UIColor?, elevatedHighContrast: UIColor?) -> UIColor? in
-                    if traits.userInterfaceLevel == .elevated,
-                        let color = getColorForContrast(elevated, elevatedHighContrast) {
-                        return color
-                    }
-                    return getColorForContrast(`default`, highContrast)
-                }
-
-                if traits.userInterfaceStyle == .dark,
-                    let color = getColor(dark, darkHighContrast, darkElevated, darkElevatedHighContrast) {
+        self.init { traits -> UIColor in
+            let getColorForContrast = { (default: UIColor?, highContrast: UIColor?) -> UIColor? in
+                if traits.accessibilityContrast == .high, let color = highContrast {
                     return color
                 }
-                return getColor(light, lightHighContrast, lightElevated, lightElevatedHighContrast)!
+                return `default`
             }
-            return
-        }
 
-        self.init(cgColor: light.cgColor)
-        self.light = light
-        if let lightHighContrast = lightHighContrast {
-            self.lightHighContrast = lightHighContrast
+            let getColor = { (default: UIColor?, highContrast: UIColor?, elevated: UIColor?, elevatedHighContrast: UIColor?) -> UIColor? in
+                if traits.userInterfaceLevel == .elevated,
+                    let color = getColorForContrast(elevated, elevatedHighContrast) {
+                    return color
+                }
+                return getColorForContrast(`default`, highContrast)
+            }
+
+            if traits.userInterfaceStyle == .dark,
+                let color = getColor(dark, darkHighContrast, darkElevated, darkElevatedHighContrast) {
+                return color
+            }
+            return getColor(light, lightHighContrast, lightElevated, lightElevatedHighContrast)!
         }
     }
 }

@@ -90,11 +90,9 @@ open class PillButton: UIButton {
         layer.cornerRadius = PillButton.cornerRadius
         clipsToBounds = true
 
-        if #available(iOS 13, *) {
-            layer.cornerCurve = .continuous
-            largeContentTitle = titleLabel?.text
-            showsLargeContentViewer = true
-        }
+        layer.cornerCurve = .continuous
+        largeContentTitle = titleLabel?.text
+        showsLargeContentViewer = true
 
         contentEdgeInsets = UIEdgeInsets(top: Constants.topInset,
                                          left: Constants.horizontalInset,

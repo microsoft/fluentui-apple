@@ -25,7 +25,6 @@ class ColorTests: XCTestCase {
     ///  - Dark mode:
     ///    - Background: shade30
     ///    - Foreground: tint40
-    @available(iOS 13.0, *)
     func testAvatarColorsMatch() {
         let lightModeTraitCollection = UITraitCollection(userInterfaceStyle: .light)
         let darkModeTraitCollection = UITraitCollection(userInterfaceStyle: .dark)

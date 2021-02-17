@@ -422,9 +422,8 @@ open class PillButtonBar: UIScrollView {
 
         showsVerticalScrollIndicator = false
         showsHorizontalScrollIndicator = false
-        if #available(iOS 13, *) {
-            addInteraction(UILargeContentViewerInteraction())
-        }
+
+        addInteraction(UILargeContentViewerInteraction())
     }
 
     private func setupStackView() {

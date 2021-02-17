@@ -120,9 +120,7 @@ open class SideTabBar: UIView {
         addSubview(topStackView)
         addSubview(bottomStackView)
 
-        if #available(iOS 13, *) {
-            addInteraction(UILargeContentViewerInteraction())
-        }
+        addInteraction(UILargeContentViewerInteraction())
 
         accessibilityTraits = .tabBar
 
@@ -164,9 +162,7 @@ open class SideTabBar: UIView {
 
     private let backgroundView: UIVisualEffectView = {
         var style = UIBlurEffect.Style.regular
-        if #available(iOS 13, *) {
-            style = .systemChromeMaterial
-        }
+        style = .systemChromeMaterial
 
         return UIVisualEffectView(effect: UIBlurEffect(style: style))
     }()

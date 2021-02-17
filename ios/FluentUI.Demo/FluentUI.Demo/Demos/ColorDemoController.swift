@@ -139,12 +139,7 @@ class ColorDemoController: UIViewController {
     @objc private func segmentedControlValueChanged(sender: Any) {
         if let segmentedControl = sender as? SegmentedControl {
             let windowType = colorProviderThemedWindowTypes[segmentedControl.selectedSegmentIndex].windowType
-            let colorThemeHost: ColorThemeHosting?
-            if #available(iOS 13, *) {
-                colorThemeHost = view.window?.windowScene?.delegate as? ColorThemeHosting
-            } else {
-                colorThemeHost = UIApplication.shared.delegate as? ColorThemeHosting
-            }
+            let colorThemeHost = view.window?.windowScene?.delegate as? ColorThemeHosting
 
             if let navigationController = navigationController {
                 navigationController.popViewController(animated: false)

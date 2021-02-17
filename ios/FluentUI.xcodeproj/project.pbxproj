@@ -38,6 +38,10 @@
 		497DC2DA24185885008D86F8 /* PillButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D724185885008D86F8 /* PillButtonBar.swift */; };
 		497DC2DB24185885008D86F8 /* PillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D824185885008D86F8 /* PillButton.swift */; };
 		497DC2DC24185885008D86F8 /* PillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D824185885008D86F8 /* PillButton.swift */; };
+		5320362525D4803600DE9E1D /* CommandBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E2A25887A4B00069E73 /* CommandBarButton.swift */; };
+		5320362625D4803600DE9E1D /* CommandBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E4E2588B65C00069E73 /* CommandBarItem.swift */; };
+		5320362725D4803600DE9E1D /* CommandBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E1E258876FB00069E73 /* CommandBar.swift */; };
+		5320362825D4803600DE9E1D /* CommandBarButtonGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */; };
 		532854FA25A3DD680042C3B9 /* Theming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532854F925A3DD680042C3B9 /* Theming.swift */; };
 		532854FF25A3DD6D0042C3B9 /* Theming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532854F925A3DD680042C3B9 /* Theming.swift */; };
 		5354008A25B0C19C0047DC47 /* AvatarTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5354008625B0C19C0047DC47 /* AvatarTokens.swift */; };
@@ -53,10 +57,6 @@
 		5354020325BB6A750047DC47 /* ButtonLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC23020E451D00016922A /* ButtonLegacy.swift */; };
 		5354020825BB6A760047DC47 /* ButtonLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC23020E451D00016922A /* ButtonLegacy.swift */; };
 		535AD63425CA815C000F1421 /* AvatarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535AD62E25CA8156000F1421 /* AvatarTests.swift */; };
-		5320362525D4803600DE9E1D /* CommandBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E2A25887A4B00069E73 /* CommandBarButton.swift */; };
-		5320362625D4803600DE9E1D /* CommandBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E4E2588B65C00069E73 /* CommandBarItem.swift */; };
-		5320362725D4803600DE9E1D /* CommandBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E1E258876FB00069E73 /* CommandBar.swift */; };
-		5320362825D4803600DE9E1D /* CommandBarButtonGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */; };
 		537315B325438B15001FD14C /* iOS13_4_compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537315B225438B15001FD14C /* iOS13_4_compatibility.swift */; };
 		537315B425438B15001FD14C /* iOS13_4_compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537315B225438B15001FD14C /* iOS13_4_compatibility.swift */; };
 		53B659BA257AA50200070405 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B659B9257AA50200070405 /* Button.swift */; };
@@ -628,8 +628,8 @@
 			isa = PBXGroup;
 			children = (
 				3F4FB96D25B25E04008AB7CC /* Drawer.swift */,
-				3F4FB96E25B25E04008AB7CC /* SlideOverPanel.swift */,
 				3F4FB96F25B25E04008AB7CC /* Drawer+UIKit.swift */,
+				3F4FB96E25B25E04008AB7CC /* SlideOverPanel.swift */,
 				3F4FB97025B25E04008AB7CC /* SideOverPanel+Modifiers.swift */,
 			);
 			path = Drawer;
@@ -687,8 +687,8 @@
 		5354019625BB49CA0047DC47 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				3F4FB92C25B25843008AB7CC /* UIKit+SwiftUI_interoperability.swift */,
 				3FDF1C9325C0C066000ED4F3 /* AnimationCompletionModifier.swift */,
+				3F4FB92C25B25843008AB7CC /* UIKit+SwiftUI_interoperability.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1227,7 +1227,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1020;
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = "Microsoft Corporation";
 				TargetAttributes = {
 					8FD01165228A820600D25925 = {
@@ -1472,7 +1472,6 @@
 				86AF4F8225B0F85A005D4253 /* PillButtonStyle.swift in Sources */,
 				ECD9B86225C22A3B00CB211B /* ListHeaderFooter.swift in Sources */,
 				8FD011B1228A82A600D25925 /* HUDView.swift in Sources */,
-				8FD011B2228A82A600D25925 /* AvatarView.swift in Sources */,
 				5320362725D4803600DE9E1D /* CommandBar.swift in Sources */,
 				A5F3B147232B1E3700007A4F /* ScrollView.swift in Sources */,
 				8FD011B3228A82A600D25925 /* InitialsView.swift in Sources */,
@@ -1815,6 +1814,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 53FC90F525673626008A06FD /* FluentUI_release.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 			};
 			name = Dogfood;
 		};
@@ -1836,6 +1836,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 53FC90F625673626008A06FD /* FluentUI_debug.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 			};
 			name = Debug;
 		};
@@ -1843,6 +1844,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 53FC90F525673626008A06FD /* FluentUI_release.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 			};
 			name = Release;
 		};

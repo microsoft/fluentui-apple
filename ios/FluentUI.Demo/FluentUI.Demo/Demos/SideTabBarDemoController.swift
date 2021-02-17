@@ -244,7 +244,7 @@ extension SideTabBarDemoController: SideTabBarDelegate {
         contentViewController?.present(alert, animated: true)
     }
 
-    func sideTabBar(_ sideTabBar: SideTabBar, didActivate avatarView: AvatarView) {
+    func sideTabBar(_ sideTabBar: SideTabBar, didActivate avatarView: AvatarLegacyView) {
         let alert = UIAlertController(title: "Avatar view was tapped", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)

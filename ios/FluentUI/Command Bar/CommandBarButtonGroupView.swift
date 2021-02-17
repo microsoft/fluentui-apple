@@ -16,9 +16,7 @@ class CommandBarButtonGroupView: UIView {
 
         clipsToBounds = true
         layer.cornerRadius = CommandBarButtonGroupView.cornerRadius
-        if #available(iOS 13, *) {
-            layer.cornerCurve = .continuous
-        }
+        layer.cornerCurve = .continuous
 
         configureHierarchy()
         applyInsets()
