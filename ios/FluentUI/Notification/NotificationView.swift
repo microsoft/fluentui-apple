@@ -73,9 +73,9 @@ open class NotificationView: UIView {
             case .neutralBar:
                 return Colors.Notification.NeutralBar.background
             case .dangerToast:
-                return UIColor(light: Colors.Palette.dangerTint40.color, dark: Colors.Palette.dangerPrimary.color)
+                return UIColor(light: Colors.Palette.redTint60.color, dark: Colors.Palette.redShade40.color)
             case .warningToast:
-                return UIColor(light: Colors.Palette.warningTint40.color, dark: Colors.Palette.warningPrimary.color)
+                return UIColor(light: Colors.Palette.yellowTint50.color, dark: Colors.Palette.yellowShade40.color)
             }
         }
         func foregroundColor(for window: UIWindow) -> UIColor {
@@ -91,9 +91,9 @@ open class NotificationView: UIView {
             case .neutralBar:
                 return Colors.Notification.NeutralBar.foreground
             case .dangerToast:
-                return UIColor(light: Colors.Palette.dangerShade20.color, dark: .black)
+                return UIColor(light: Colors.Palette.redShade10.color, dark: Colors.Palette.redTint20.color)
             case .warningToast:
-                return UIColor(light: Colors.Palette.warningShade30.color, dark: .black)
+                return UIColor(light: Colors.Palette.yellowShade50.color, dark: Colors.Palette.yellowTint20.color)
             }
         }
 

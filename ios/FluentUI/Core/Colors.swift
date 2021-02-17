@@ -89,8 +89,12 @@ public final class Colors: NSObject {
         case pumpkinTint40
         case purpleShade30
         case purpleTint40
+        case redShade10
         case redShade30
+        case redShade40
+        case redTint20
         case redTint40
+        case redTint60
         case royalBlueShade30
         case royalBlueTint40
         case seafoamShade30
@@ -99,6 +103,10 @@ public final class Colors: NSObject {
         case steelTint40
         case tealShade30
         case tealTint40
+        case yellowShade40
+        case yellowShade50
+        case yellowTint20
+        case yellowTint50
         case pinkRed10
         case red20
         case red10
@@ -283,10 +291,18 @@ public final class Colors: NSObject {
                 return "purpleShade30"
             case .purpleTint40:
                 return "purpleTint40"
+            case .redShade10:
+                return "redShade10"
             case .redShade30:
                 return "redShade30"
+            case .redShade40:
+                return "redShade40"
+            case .redTint20:
+                return "redTint20"
             case .redTint40:
                 return "redTint40"
+            case .redTint60:
+                return "redTint60"
             case .royalBlueShade30:
                 return "royalBlueShade30"
             case .royalBlueTint40:
@@ -303,6 +319,14 @@ public final class Colors: NSObject {
                 return "tealShade30"
             case .tealTint40:
                 return "tealTint40"
+            case .yellowShade40:
+                return "yellowShade40"
+            case .yellowShade50:
+                return "yellowShade50"
+            case .yellowTint20:
+                return "yellowTint20"
+            case .yellowTint50:
+                return "yellowTint50"
             case .pinkRed10:
                 return "pinkRed10"
             case .red20:
