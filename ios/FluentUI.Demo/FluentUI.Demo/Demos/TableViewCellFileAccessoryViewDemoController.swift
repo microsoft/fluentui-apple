@@ -168,14 +168,12 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         }
 
         if showErrorAction && !(!top && !showErrorOnBottomCellAction) {
-            if #available(iOS 13.0, *) {
-                let action = FileAccessoryViewAction(title: "Error",
-                                                     image: UIImage(named: "ic_fluent_warning_24_regular")!,
-                                                     target: self,
-                                                     action: #selector(handleErrorAction),
-                                                     canHide: false)
-                actions.append(action)
-            }
+            let action = FileAccessoryViewAction(title: "Error",
+                                                 image: UIImage(named: "ic_fluent_warning_24_regular")!,
+                                                 target: self,
+                                                 action: #selector(handleErrorAction),
+                                                 canHide: false)
+            actions.append(action)
         }
 
         return actions

@@ -1099,7 +1099,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1020;
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = "Microsoft Corporation";
 				TargetAttributes = {
 					8FD01165228A820600D25925 = {
@@ -1650,6 +1650,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 53FC90F525673626008A06FD /* FluentUI_release.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 			};
 			name = Dogfood;
 		};
@@ -1671,6 +1672,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 53FC90F625673626008A06FD /* FluentUI_debug.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 			};
 			name = Debug;
 		};
@@ -1678,6 +1680,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 53FC90F525673626008A06FD /* FluentUI_release.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 			};
 			name = Release;
 		};

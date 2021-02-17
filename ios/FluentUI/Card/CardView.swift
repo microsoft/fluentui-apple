@@ -268,19 +268,18 @@ open class CardView: UIView {
 
                 heightConstraint.constant = height
             }
-            if #available(iOS 13, *) {
-                if previousTraitCollection.hasDifferentColorAppearance(comparedTo: traitCollection) {
-                    // Update border color
-                    switch colorStyle {
-                    case .appColor:
-                        if let window = window {
-                            layer.borderColor = UIColor(light: Colors.primaryTint30(for: window), dark: .clear).cgColor
-                        }
-                    case .neutral:
-                        layer.borderColor = Constants.defaultBorderColor.cgColor
-                    case .custom:
-                        layer.borderColor = customBorderColor.cgColor
+
+            if previousTraitCollection.hasDifferentColorAppearance(comparedTo: traitCollection) {
+                // Update border color
+                switch colorStyle {
+                case .appColor:
+                    if let window = window {
+                        layer.borderColor = UIColor(light: Colors.primaryTint30(for: window), dark: .clear).cgColor
                     }
+                case .neutral:
+                    layer.borderColor = Constants.defaultBorderColor.cgColor
+                case .custom:
+                    layer.borderColor = customBorderColor.cgColor
                 }
             }
         }

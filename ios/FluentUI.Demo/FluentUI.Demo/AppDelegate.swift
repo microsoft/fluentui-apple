@@ -18,18 +18,13 @@ private let appCenterSecret = app_center_secret_to_be_supplied_before_building
 #endif
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, ColorThemeHosting {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: UIApplicationDelegate
 
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        if #available(iOS 13, *) {
-            // Configured in Scene Delegate
-        } else {
-            updateToWindowWith(type: DemoColorThemeDefaultWindow.self, pushing: nil)
-        }
 
         #if DOGFOOD
         MSAppCenter.start(appCenterSecret, withServices: [
@@ -40,13 +35,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ColorThemeHosting {
         #endif
 
         return true
-    }
-
-    // MARK: ColorThemeHosting
-
-    func updateToWindowWith(type: UIWindow.Type, pushing viewController: UIViewController?) {
-        let newWindow = type.init(frame: UIScreen.main.bounds)
-        DemoListViewController.addDemoListTo(window: newWindow, pushing: viewController)
-        window = newWindow
     }
 }

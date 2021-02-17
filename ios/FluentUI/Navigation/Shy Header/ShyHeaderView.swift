@@ -157,11 +157,7 @@ class ShyHeaderView: UIView {
     private var needsShadow: Bool {
         switch navigationBarShadow {
         case .automatic:
-            var needsShadow = navigationBarStyle == .system
-            if #available(iOS 13, *) {
-                needsShadow = needsShadow && traitCollection.userInterfaceStyle != .dark
-            }
-            return needsShadow
+            return navigationBarStyle == .system && traitCollection.userInterfaceStyle != .dark
         case .alwaysHidden:
             return false
         }
@@ -194,9 +190,7 @@ class ShyHeaderView: UIView {
         addSubview(contentStackView)
         contentStackView.fitIntoSuperview(usingConstraints: true)
         updateContentInsets()
-        if #available(iOS 13, *) {
-            contentStackView.addInteraction(UILargeContentViewerInteraction())
-        }
+        contentStackView.addInteraction(UILargeContentViewerInteraction())
     }
 
     private func initShadow() {

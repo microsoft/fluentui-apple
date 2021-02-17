@@ -75,12 +75,10 @@ class TabBarItemView: UIView {
         isAccessibilityElement = true
         updateAccessibilityLabel()
 
-        if #available(iOS 13, *) {
-            self.largeContentImage = item.largeContentImage ?? item.image
-            largeContentTitle = item.title
-            showsLargeContentViewer = true
-            scalesLargeContentImage = true
-        }
+        self.largeContentImage = item.largeContentImage ?? item.image
+        largeContentTitle = item.title
+        showsLargeContentViewer = true
+        scalesLargeContentImage = true
 
         NSLayoutConstraint.activate([
 			container.centerXAnchor.constraint(equalTo: centerXAnchor),
