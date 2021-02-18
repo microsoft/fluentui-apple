@@ -105,7 +105,8 @@ open class ScrollView: UIScrollView, ScrollableContainerView {
             let bottomInset = max(originalBottomContentInset, frame.maxY - keyboardFrame.minY)
             if contentInset.bottom != bottomInset {
                 contentInset.bottom = bottomInset
-                scrollIndicatorInsets.bottom = bottomInset
+                horizontalScrollIndicatorInsets.bottom = bottomInset
+                verticalScrollIndicatorInsets.bottom = bottomInset
 
                 if bottomInset != 0 {
                     UIView.performWithoutAnimation {
