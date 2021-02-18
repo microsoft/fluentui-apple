@@ -24,6 +24,10 @@ import SwiftUI
     /// Anitmation duration when drawer is collapsed/expanded
     @objc public var animationDuration: Double = 0.0
 
+    /// Parameter presentationOrigin: The offset (in screen coordinates) from which to show a slideover.
+    /// If not provided it will be calculated automatically: bottom of navigation bar for `.down` presentation and edge of the screen for other presentations.
+    @objc public var presentationOrigin: CGPoint = .zero
+
     /// Override this value to explicity set drag offset for the drawer
     @Published public var translation: (state: UIGestureRecognizer.State, point: CGPoint)?
 
@@ -104,6 +108,7 @@ public struct MSFDrawerView<Content: View>: View {
                 .onDisappear {
                     state.isExpanded = false
                 }
+                .offset(x: state.presentationOrigin.x, y: state.presentationOrigin.y)
                 .gesture(dragGesture(screenWidth: proxy.size.width))
                 .onReceive(state.$translation) { value in
                     if let translation = value {

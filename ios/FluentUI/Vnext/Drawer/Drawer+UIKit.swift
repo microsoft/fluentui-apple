@@ -47,11 +47,6 @@ open class MSFDrawer: UIHostingController<AnyView>, FluentUIWindowProvider {
         state.onStateChange = stateChangeCompletion()
     }
 
-    @objc public convenience init(contentViewController: UIViewController) {
-        self.init(contentViewController: contentViewController,
-                  theme: nil)
-    }
-
     @objc required dynamic public init?(coder aDecoder: NSCoder) {
         let drawer = MSFDrawerView(content: UIViewControllerAdapter(UIViewController()))
         self.drawer = drawer
@@ -122,6 +117,16 @@ extension MSFDrawer: UIViewControllerTransitioningDelegate, UIViewControllerAnim
 
         state.animationDuration = transitionDuration(using: transitionContext)
 
+        if state.presentationDirection == .top {
+            let presentationHeight = navigationBarOrigin(sourceViewController: transitionContext.viewController(forKey: .from)!,
+                                                         containerView: transitionContext.containerView)
+            if let presentationHeight = presentationHeight {
+                state.presentationOrigin = CGPoint(x: CGFloat.zero, y: presentationHeight)
+            }
+        } else {
+            state.presentationOrigin = CGPoint.zero
+        }
+
         // The presentation of drawer happens in two steps
         //     1. Present the hosting view (trasnparent) without animation
         //     2. Expand drawer view with animation (depending on the client's preference)
@@ -153,5 +158,23 @@ extension MSFDrawer: UIViewControllerTransitioningDelegate, UIViewControllerAnim
                 strongSelf.transitionInProgress = false
             }
         }
+    }
+}
+
+// MARK: - Drawer + Presentation
+
+extension UIViewController {
+    // returns `nil` if navigation bar isn't present or hidden
+    internal func navigationBarOrigin(sourceViewController: UIViewController, containerView: UIView) -> CGFloat? {
+        var controller = sourceViewController.navigationController
+        if controller == nil { controller = sourceViewController as? UINavigationController }
+        while let navigationController = controller {
+            let navigationBar = navigationController.navigationBar
+            if !navigationBar.isHidden, let navigationBarParent = navigationBar.superview {
+                return navigationBarParent.convert(navigationBar.frame, to: containerView).maxY
+            }
+            controller = navigationController.navigationController
+        }
+        return nil
     }
 }

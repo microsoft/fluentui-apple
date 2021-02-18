@@ -32,6 +32,8 @@
 		3F4FB97625B25E04008AB7CC /* Drawer+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB96F25B25E04008AB7CC /* Drawer+UIKit.swift */; };
 		3F4FB97725B25E04008AB7CC /* MSFSlideOutPanel+Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB97025B25E04008AB7CC /* MSFSlideOutPanel+Modifiers.swift */; };
 		3F4FB97825B25E04008AB7CC /* MSFSlideOutPanel+Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB97025B25E04008AB7CC /* MSFSlideOutPanel+Modifiers.swift */; };
+		3FACBF3725DDB84E00EFD969 /* MSFSlideOutPanelElevation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FACBF3625DDB84E00EFD969 /* MSFSlideOutPanelElevation.swift */; };
+		3FACBF3825DDB84E00EFD969 /* MSFSlideOutPanelElevation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FACBF3625DDB84E00EFD969 /* MSFSlideOutPanelElevation.swift */; };
 		3FDF1C9425C0C066000ED4F3 /* AnimationCompletionModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDF1C9325C0C066000ED4F3 /* AnimationCompletionModifier.swift */; };
 		3FEC61C125CC912F00598CEE /* PanelCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEC61C025CC912F00598CEE /* PanelCommon.swift */; };
 		3FEC61C225CC912F00598CEE /* PanelCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEC61C025CC912F00598CEE /* PanelCommon.swift */; };
@@ -373,6 +375,7 @@
 		3F4FB96E25B25E04008AB7CC /* MSFSlideOutPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFSlideOutPanel.swift; sourceTree = "<group>"; };
 		3F4FB96F25B25E04008AB7CC /* Drawer+UIKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Drawer+UIKit.swift"; sourceTree = "<group>"; };
 		3F4FB97025B25E04008AB7CC /* MSFSlideOutPanel+Modifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MSFSlideOutPanel+Modifiers.swift"; sourceTree = "<group>"; };
+		3FACBF3625DDB84E00EFD969 /* MSFSlideOutPanelElevation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFSlideOutPanelElevation.swift; sourceTree = "<group>"; };
 		3FDF1C9325C0C066000ED4F3 /* AnimationCompletionModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationCompletionModifier.swift; sourceTree = "<group>"; };
 		3FEC61C025CC912F00598CEE /* PanelCommon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelCommon.swift; sourceTree = "<group>"; };
 		497DC2D724185885008D86F8 /* PillButtonBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBar.swift; sourceTree = "<group>"; };
@@ -656,7 +659,10 @@
 				3FEC61C025CC912F00598CEE /* PanelCommon.swift */,
 				3F4FB96E25B25E04008AB7CC /* MSFSlideOutPanel.swift */,
 				3F4FB96F25B25E04008AB7CC /* Drawer+UIKit.swift */,
+				3F4FB96E25B25E04008AB7CC /* MSFSlideOutPanel.swift */,
 				3F4FB97025B25E04008AB7CC /* MSFSlideOutPanel+Modifiers.swift */,
+				3FACBF3625DDB84E00EFD969 /* MSFSlideOutPanelElevation.swift */,
+				3FEC61C025CC912F00598CEE /* PanelCommon.swift */,
 			);
 			path = Drawer;
 			sourceTree = "<group>";
@@ -1437,6 +1443,7 @@
 				3F4FB92E25B25843008AB7CC /* UIKit+SwiftUI_interoperability.swift in Sources */,
 				8FD0118B228A82A600D25925 /* CalendarConfiguration.swift in Sources */,
 				8FD0118C228A82A600D25925 /* DayOfMonth.swift in Sources */,
+				3FACBF3825DDB84E00EFD969 /* MSFSlideOutPanelElevation.swift in Sources */,
 				8FD0118E228A82A600D25925 /* FluentUIFramework.swift in Sources */,
 				8FD0118F228A82A600D25925 /* DateTimePicker.swift in Sources */,
 				FD41C88922DD13230086F899 /* ShyHeaderView.swift in Sources */,
@@ -1696,6 +1703,7 @@
 				B46D3F9D215985AC0029772C /* PersonaListView.swift in Sources */,
 				53224EE825DFB6290063FBDB /* DrawerTokens.swift in Sources */,
 				7DC2FB2824C0ED1600367A55 /* TableViewCellFileAccessoryView.swift in Sources */,
+				3FACBF3725DDB84E00EFD969 /* MSFSlideOutPanelElevation.swift in Sources */,
 				3F4FB97325B25E04008AB7CC /* MSFSlideOutPanel.swift in Sources */,
 				A5DCA76421224026005F4CB7 /* Separator.swift in Sources */,
 				FD599D062134A682008845EE /* AccessibleViewDelegate.swift in Sources */,

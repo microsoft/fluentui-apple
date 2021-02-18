@@ -18,7 +18,7 @@ import SwiftUI
     case top
 
     /// determines if direction is along x-axis
-    func isVertical() -> Bool {
+    func isHorizontal() -> Bool {
         return self == .left || self == .right
     }
 }

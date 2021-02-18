@@ -64,7 +64,8 @@ class DrawerContentController: DemoController {
 
 class DrawerDemoController: DemoController, MSFDrawerControllerDelegate {
 
-    private var drawerController: MSFDrawer?
+    private var verticalDrawerController: MSFDrawer?
+    private var horizontalDrawerController: MSFDrawer?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -266,8 +267,10 @@ class DrawerDemoController: DemoController, MSFDrawerControllerDelegate {
         trailingEdgeGesture.edges = isLeadingEdgeLeftToRight ? .right : .left
         view.addGestureRecognizer(trailingEdgeGesture)
 
-        drawerController = MSFDrawer(contentViewController: DrawerContentController())
-        drawerController?.delegate = self
+        horizontalDrawerController = MSFDrawer(contentViewController: DrawerContentController())
+        horizontalDrawerController?.delegate = self
+        verticalDrawerController = MSFDrawer(contentViewController: DrawerContentController())
+        verticalDrawerController?.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -281,7 +284,7 @@ class DrawerDemoController: DemoController, MSFDrawerControllerDelegate {
     }
 
     private func showLeftDrawerClearBackgroundButtonTapped() {
-        if let drawerController = drawerController {
+        if let drawerController = horizontalDrawerController {
             drawerController.state.backgroundDimmed = false
             drawerController.state.presentationDirection = .left
             present(drawerController, animated: true, completion: nil)
@@ -289,7 +292,7 @@ class DrawerDemoController: DemoController, MSFDrawerControllerDelegate {
     }
 
     private func showLeftDrawerDimmedBackgroundButtonTapped() {
-        if let drawerController = drawerController {
+        if let drawerController = horizontalDrawerController {
             drawerController.state.backgroundDimmed = true
             drawerController.state.presentationDirection = .left
             present(drawerController, animated: true, completion: nil)
@@ -297,7 +300,7 @@ class DrawerDemoController: DemoController, MSFDrawerControllerDelegate {
     }
 
     private func showRightDrawerClearBackgroundButtonTapped() {
-        if let drawerController = drawerController {
+        if let drawerController = horizontalDrawerController {
             drawerController.state.backgroundDimmed = false
             drawerController.state.presentationDirection = .right
             present(drawerController, animated: true, completion: nil)
@@ -305,7 +308,7 @@ class DrawerDemoController: DemoController, MSFDrawerControllerDelegate {
     }
 
     private func showRightDrawerDimmedBackgroundButtonTapped() {
-        if let drawerController = drawerController {
+        if let drawerController = horizontalDrawerController {
             drawerController.state.backgroundDimmed = true
             drawerController.state.presentationDirection = .right
             present(drawerController, animated: true, completion: nil)
@@ -313,16 +316,16 @@ class DrawerDemoController: DemoController, MSFDrawerControllerDelegate {
     }
 
     @objc private func showTopDrawerButtonTapped() {
-        if let drawerController = drawerController {
-            drawerController.state.backgroundDimmed = true
+        if let drawerController = verticalDrawerController {
+            drawerController.state.backgroundDimmed = false
             drawerController.state.presentationDirection = .top
             present(drawerController, animated: true, completion: nil)
         }
     }
 
     private func showBottomDrawerButtonTapped() {
-        if let drawerController = drawerController {
-            drawerController.state.backgroundDimmed = true
+        if let drawerController = verticalDrawerController {
+            drawerController.state.backgroundDimmed = false
             drawerController.state.presentationDirection = .bottom
             present(drawerController, animated: true, completion: nil)
         }
@@ -338,7 +341,7 @@ class DrawerDemoController: DemoController, MSFDrawerControllerDelegate {
             isleftPresentation.toggle()
         }
 
-        if let drawerController = drawerController {
+        if let drawerController = horizontalDrawerController {
             drawerController.state.backgroundDimmed = true
             drawerController.state.presentingGesture = gesture
             drawerController.state.presentationDirection = isleftPresentation ? .left : .right
