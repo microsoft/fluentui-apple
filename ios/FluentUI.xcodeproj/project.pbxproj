@@ -196,7 +196,6 @@
 		A5B6617323A41E2900E801DD /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B6617223A41E2900E801DD /* NotificationView.swift */; };
 		A5B6617423A41E2900E801DD /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B6617223A41E2900E801DD /* NotificationView.swift */; };
 		A5B87AF1211BD4380038C37C /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF0211BD4380038C37C /* UIFont+Extension.swift */; };
-		A5B87AF6211E16370038C37C /* DrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF3211E16360038C37C /* DrawerController.swift */; };
 		A5B87B02211E20B50038C37C /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87B01211E20B50038C37C /* UIScreen+Extension.swift */; };
 		A5B87B04211E22B70038C37C /* DimmingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87B03211E22B70038C37C /* DimmingView.swift */; };
 		A5B87B06211E23650038C37C /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87B05211E23650038C37C /* UIView+Extensions.swift */; };
@@ -1489,7 +1488,6 @@
 				8FD011B8228A82A600D25925 /* PopupMenuItem.swift in Sources */,
 				8FD011B9228A82A600D25925 /* PopupMenuSection.swift in Sources */,
 				3F4FB97425B25E04008AB7CC /* SlideOverPanel.swift in Sources */,
-				A5B87AF6211E16370038C37C /* DrawerController.swift in Sources */,
 				FD41C8B622DD3EA20086F899 /* NSLayoutConstraint+Extensions.swift in Sources */,
 				8FD011BA228A82A600D25925 /* PopupMenuItemCell.swift in Sources */,
 				B4414790228F4D920040E88E /* BooleanCell.swift in Sources */,

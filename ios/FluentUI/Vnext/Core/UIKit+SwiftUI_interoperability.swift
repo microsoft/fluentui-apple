@@ -16,12 +16,20 @@ public struct UIViewAdapter: UIViewRepresentable {
     }
 
     public func makeUIView(context: Context) -> UIView {
+        // Wrapping the view passed on a StackView is a workaround for a hang that occurs
+        // on iOS 13 when the view passed directly comes from a UIHostingController.view
+        // property. (e.g. using the MSFAvatar.view property).
         return UIStackView(arrangedSubviews: [makeView()])
     }
 
     public func updateUIView(_ view: UIView, context: Context) {
-        view.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        view.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        // This logic should be removed wnce the "wrapping in a UIStackView" workaround is removed.
+        guard let stackView = view as? UIStackView else {
+            return
+        }
+
+        stackView.removeAllSubviews()
+        stackView.addArrangedSubview(makeView())
     }
 }
 
