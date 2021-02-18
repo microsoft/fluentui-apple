@@ -125,6 +125,7 @@ class LeftNavMenuViewController: UIViewController {
 
         let resetStatusCell = MSFListCellState()
         resetStatusCell.title = "Reset status"
+        resetStatusCell.leadingViewSize = .small
         let resetStatusImageView = UIImageView(image: UIImage(named: "ic_fluent_arrow_sync_24_regular"))
         resetStatusImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
         resetStatusCell.leadingView = resetStatusImageView
@@ -134,7 +135,6 @@ class LeftNavMenuViewController: UIViewController {
         statusCellChildren.append(resetStatusCell)
 
         statusCell.title = LeftNavPresence.available.cellTitle()
-        statusCell.leadingViewSize = .small
         let statusImageView = LeftNavPresence.available.imageView()
         statusImageView.tintColor = FluentUIThemeManager.S.Colors.Presence.available
         statusCell.leadingView = statusImageView
