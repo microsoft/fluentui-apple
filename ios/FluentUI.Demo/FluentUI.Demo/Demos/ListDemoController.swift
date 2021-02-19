@@ -105,9 +105,6 @@ class ListDemoController: DemoController {
                 listCell.trailingView = section.hasAccessory ? createCustomView(imageName: cell.image) : nil
                 listCell.accessoryType = accessoryType(for: rowIndex)
                 listCell.layoutType = updateLayout(subtitle: listCell.subtitle)
-                if rowIndex != TableViewCellSampleData.numberOfItemsInSection - 1 {
-                    listCell.hasDivider = true
-                }
                 listCell.onTapAction = {
                     indexPath.row = rowIndex
                     indexPath.section = sectionIndex

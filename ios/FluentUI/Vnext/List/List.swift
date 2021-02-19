@@ -32,7 +32,7 @@ public struct MSFListView: View {
     }
 
     public var body: some View {
-        let sections = state.sections
+        let sections = self.dividers(state.sections)
             ScrollView {
                 VStack(spacing: 0) {
                     ForEach(sections, id: \.self) { section in
@@ -67,6 +67,21 @@ public struct MSFListView: View {
                     self.tokens.theme = theme
                 }
             }
+    }
+
+    private func dividers(_ sections: [MSFListSectionState]) -> [MSFListSectionState] {
+        var cells: [MSFListCellState]
+        var hasDividers: Bool
+        for sectionIndex in 0...sections.count - 1 {
+            cells = sections[sectionIndex].cells
+            hasDividers = sections[sectionIndex].hasDividers
+            for cellIndex in 0...cells.count - 1 {
+                if cellIndex != cells.count - 1 {
+                    cells[cellIndex].hasDivider = hasDividers
+                }
+            }
+        }
+        return sections
     }
 }
 
