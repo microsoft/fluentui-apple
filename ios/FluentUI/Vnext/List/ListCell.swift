@@ -27,19 +27,20 @@ import SwiftUI
     @objc @Published public var leadingView: UIView?
     @objc @Published public var leadingViewSize: MSFListCellLeadingViewSize = .medium
     @objc @Published public var title: String = ""
-    @objc @Published public var subtitle: String?
+    @objc @Published public var subtitle: String = ""
     @objc @Published public var trailingView: UIView?
     @objc @Published public var accessoryType: MSFListAccessoryType = .none
     @objc @Published public var titleLineLimit: Int = 0
     @objc @Published public var subtitleLineLimit: Int = 0
     @objc @Published public var children: [MSFListCellState]?
     @objc @Published public var isExpanded: Bool = false
-    @objc @Published public var layoutType: MSFListCellLayoutType = .oneLine
+    @objc @Published public var layoutType: MSFListCellLayoutType = .none
     @objc public var onTapAction: (() -> Void)?
 }
 
 /// Pre-defined layout heights of cells
 @objc public enum MSFListCellLayoutType: Int, CaseIterable {
+    case none
     case oneLine
     case twoLines
     case threeLines
@@ -81,8 +82,8 @@ struct MSFListCellView: View {
                             .foregroundColor(Color(tokens.leadingTextColor))
                             .lineLimit(state.titleLineLimit == 0 ? nil : state.titleLineLimit)
                     }
-                    if let subtitle = state.subtitle, !subtitle.isEmpty {
-                        Text(subtitle)
+                    if !state.subtitle.isEmpty {
+                        Text(state.subtitle)
                             .font(Font(tokens.subtitleFont))
                             .foregroundColor(Color(tokens.subtitleColor))
                             .lineLimit(state.subtitleLineLimit == 0 ? nil : state.subtitleLineLimit)
@@ -108,7 +109,7 @@ struct MSFListCellView: View {
                 }
             }
         })
-        .buttonStyle(ListCellButtonStyle(tokens: tokens, layoutType: state.layoutType))
+        .buttonStyle(ListCellButtonStyle(tokens: tokens, state: state))
         if hasDividers {
             let padding = tokens.horizontalCellPadding + (state.leadingView != nil ? (tokens.leadingViewSize + tokens.iconInterspace) : 0)
             Divider()
@@ -128,11 +129,13 @@ struct MSFListCellView: View {
 
 struct ListCellButtonStyle: ButtonStyle {
     let tokens: MSFListCellTokens
-    let layoutType: MSFListCellLayoutType
+    let state: MSFListCellState
 
     func makeBody(configuration: Self.Configuration) -> some View {
         let height: CGFloat
-        switch layoutType {
+        switch state.layoutType {
+        case .none:
+            height = !state.subtitle.isEmpty ? tokens.cellHeightTwoLines : tokens.cellHeightOneLine
         case .oneLine:
             height = tokens.cellHeightOneLine
         case .twoLines:
