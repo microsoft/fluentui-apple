@@ -433,7 +433,7 @@ class Stylesheet {
 // MARK: - Determinism
 
 extension Stylesheet: Determinism {
-    func ensureDeterminism() -> Stylesheet {
+    @discardableResult func ensureDeterminism() -> Stylesheet {
         styles = styles.compactMap({ $0.ensureDeterminism() }).sorted(by: { $0.name < $1.name })
         animations = animations.compactMap({ $0.ensureDeterminism() }).sorted(by: { $0.name < $1.name })
         return self
@@ -504,7 +504,7 @@ extension Stylesheet: Generatable {
                 let objc = Generator.Config.objcGeneration ? "@objc(STR\(self.name)) @objcMembers " : ""
 
                 stylesheet += "/// Entry point for the app stylesheet\n"
-                stylesheet += "\(objc)public class \(self.name)\(superclass) {\n\n"
+                stylesheet += "\(objc)open class \(self.name)\(superclass) {\n\n"
                 
                 let override = superclassName != nil ? "override " : ""
                 stylesheet += "\tpublic \(override)class func shared() -> \(self.name) {\n"
@@ -518,12 +518,10 @@ extension Stylesheet: Generatable {
             }
 
             for style in styles {
-                if style.isDependency && isDependencyOfOtherStylesheet {
-                    style.isDependencyInItsOwnStylesheet = true
-                }
-                stylesheet += style.generate()
-                
-                if style.isDependencyInItsOwnStylesheet {
+                if !style.isDependency
+                    || ((style.isExtension && style.name == self.name ) || (!style.isExtension && style.superclassName == self.name)) {
+                    style.isDependencyInItsOwnStylesheet = style.isDependency && isDependencyOfOtherStylesheet
+                    stylesheet += style.generate()
                     style.isDependencyInItsOwnStylesheet = false
                 }
             }
@@ -839,7 +837,6 @@ extension Stylesheet {
     }
     
     func generateExtensionsHeader() -> String {
-        let visibility = "private"
         var header = ""
 
         if Generator.Config.importStylesheetManagerName != nil {
@@ -1080,9 +1077,9 @@ private class FluentUIFontCache: NSObject {
     }
 }
 
-\(visibility) var fontTypeHandle: UInt8 = 0
+var fontTypeHandle: UInt8 = 0
 
-\(visibility) extension UIFont {
+extension UIFont {
     struct FontType: Hashable {
         let name: String?
         let size: CGFloat?
@@ -1108,9 +1105,9 @@ private class FluentUIFontCache: NSObject {
     }
 }
 
-\(visibility) var scalableHandle: UInt8 = 0
+var scalableHandle: UInt8 = 0
 
-private extension UIFont {
+extension UIFont {
     private static var cache = FluentUIFontCache()
 
 """

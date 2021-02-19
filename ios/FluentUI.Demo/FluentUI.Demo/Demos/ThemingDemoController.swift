@@ -55,30 +55,7 @@ class ThemingDemoController: DemoController {
         addTitle(text: "Theme overriding")
         addDescription(text: "A theme can also be applied to a specific control or SwiftUI view hierarichy. This has the highest priority for the controls.")
 
-        let overridingTheme = FluentUIStyle()
-        let colorAP = overridingTheme.Colors
-        let brandAP = colorAP.Brand
-        brandAP.primary = UIColor(red: 0.384, green: 0.392, blue: 0.655, alpha: 1.0)
-        brandAP.tint10 = UIColor(red: 0.651, green: 0.655, blue: 0.863, alpha: 1.0)
-        brandAP.tint20 = UIColor(red: 0.741, green: 0.741, blue: 0.902, alpha: 1.0)
-        brandAP.tint30 = UIColor(red: 0.226, green: 0.226, blue: 0.246, alpha: 1.0)
-        brandAP.tint40 = UIColor(red: 0.898, green: 0.898, blue: 0.945, alpha: 1.0)
-        brandAP.shade10 = UIColor(red: 0.345, green: 0.353, blue: 0.588, alpha: 1.0)
-        brandAP.shade20 = UIColor(red: 0.275, green: 0.278, blue: 0.459, alpha: 1.0)
-        brandAP.shade30 = UIColor(red: 0.200, green: 0.204, blue: 0.290, alpha: 1.0)
-        colorAP.Brand = brandAP
-
-        let border = overridingTheme.Border
-        let radius = border.radius
-        radius.small = 0
-        radius.medium = 0
-        radius.large = 0
-        radius.xlarge = 0
-        border.radius = radius
-
-        overridingTheme.Border = border
-        overridingTheme.Colors = colorAP
-
+        let overridingTheme = CustomStyle()
         let customThemeButtonPrimary = MSFButton(style: .primary,
                                                       size: .medium,
                                                       action: nil,
@@ -126,23 +103,9 @@ class ThemingDemoController: DemoController {
 
     func didPressOverrideThemeButton() {
         if let window = self.view.window {
-            let greenTheme = DemoColorThemeGreenWindow()
-            let stylesheet = FluentUIStyle()
-            let colors = stylesheet.Colors
-            let brandColors = colors.Brand
-
-            brandColors.primary = greenTheme.primaryColor(for: window)!
-            brandColors.tint10 = greenTheme.primaryTint10Color(for: window)!
-            brandColors.tint20 = greenTheme.primaryTint20Color(for: window)!
-            brandColors.tint30 = greenTheme.primaryTint30Color(for: window)!
-            brandColors.tint40 = greenTheme.primaryTint40Color(for: window)!
-            brandColors.shade10 = greenTheme.primaryShade10Color(for: window)!
-            brandColors.shade20 = greenTheme.primaryShade20Color(for: window)!
-            brandColors.shade30 = greenTheme.primaryShade30Color(for: window)!
-
-            colors.Brand = brandColors
-            stylesheet.Colors = colors
-
+            let greenThemeColorProviding = DemoColorThemeGreenWindow()
+            let stylesheet = ColorProvidingStyle(colorProviding: greenThemeColorProviding,
+                                                 window: window)
             FluentUIThemeManager.setStylesheet(stylesheet: stylesheet, for: window)
         }
     }
@@ -150,6 +113,80 @@ class ThemingDemoController: DemoController {
     func didPressResetThemeButton() {
         if let window = self.view.window {
             FluentUIThemeManager.removeStylesheet(for: window)
+        }
+    }
+}
+
+open class CustomStyle: FluentUIStyle {
+    open override var Colors: FluentUIStyle.ColorsAppearanceProxy {
+        return FluentUIStyleCustomColorsAppearanceProxy(proxy: { return self })
+    }
+
+    open override var Border: FluentUIStyle.BorderAppearanceProxy {
+        return CustomBorderAppearanceProxy(proxy: { return self })
+    }
+
+    open class FluentUIStyleCustomColorsAppearanceProxy: FluentUIStyle.ColorsAppearanceProxy {
+        open override var Brand: FluentUIStyle.ColorsAppearanceProxy.BrandAppearanceProxy {
+            return CustomBrandAppearanceProxy(proxy: self.mainProxy)
+        }
+    }
+
+    open class CustomBrandAppearanceProxy: FluentUIStyle.ColorsAppearanceProxy.BrandAppearanceProxy {
+        open override var primary: UIColor {
+            return UIColor(red: 0.384, green: 0.392, blue: 0.655, alpha: 1.0)
+        }
+
+        open override var tint10: UIColor {
+            return UIColor(red: 0.651, green: 0.655, blue: 0.863, alpha: 1.0)
+        }
+
+        open override var tint20: UIColor {
+            return UIColor(red: 0.741, green: 0.741, blue: 0.902, alpha: 1.0)
+        }
+
+        open override var tint30: UIColor {
+            return UIColor(red: 0.226, green: 0.226, blue: 0.246, alpha: 1.0)
+        }
+
+        open override var tint40: UIColor {
+            return UIColor(red: 0.898, green: 0.898, blue: 0.945, alpha: 1.0)
+        }
+
+        open override var shade10: UIColor {
+            return UIColor(red: 0.345, green: 0.353, blue: 0.588, alpha: 1.0)
+        }
+
+        open override var shade20: UIColor {
+            return UIColor(red: 0.275, green: 0.278, blue: 0.459, alpha: 1.0)
+        }
+
+        open override var shade30: UIColor {
+            return UIColor(red: 0.200, green: 0.204, blue: 0.290, alpha: 1.0)
+        }
+    }
+
+    open class CustomBorderAppearanceProxy: FluentUIStyle.BorderAppearanceProxy {
+        open override var radius: FluentUIStyle.BorderAppearanceProxy.radiusAppearanceProxy {
+            return CustomRadiusAppearanceProxy(proxy: self.mainProxy)
+        }
+    }
+
+    open class CustomRadiusAppearanceProxy: FluentUIStyle.BorderAppearanceProxy.radiusAppearanceProxy {
+        open override var small: CGFloat {
+            return 0.0
+        }
+
+        open override var medium: CGFloat {
+            return 0.0
+        }
+
+        open override var large: CGFloat {
+            return 0.0
+        }
+
+        open override var xlarge: CGFloat {
+            return 0.0
         }
     }
 }

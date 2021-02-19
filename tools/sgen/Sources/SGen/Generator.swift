@@ -156,11 +156,22 @@ struct Generator  {
             
         }
         if Config.generateFilePerAppearanceProxy {
+            var stylesToRemove = [Style]()
             styles.filter({ $0.isExtension }).forEach { style in
-                let stylesheet = Stylesheet(name: style.name, styles: [style], animations: [Style]())
+                // Include subclasses of the current appearance proxy
+                var stylesheetStyles = styles.filter({ $0.superclassName == style.name })
+                stylesheetStyles.append(style)
+                stylesToRemove.append(contentsOf: stylesheetStyles)
+                
+                let stylesheet = Stylesheet(name: style.name, styles: stylesheetStyles, animations: [Style]())
                 dependencies.append(stylesheet)
             }
-            styles = styles.filter({ $0.isExtension == false })
+            
+            styles = styles.filter({ style in
+                return !stylesToRemove.contains(where: { styleToBeRemoved in
+                    return style.name == styleToBeRemoved.name
+                })
+            })
         }
         
         var actualSymbolFont = symbolFont
@@ -309,6 +320,7 @@ extension Generator: StylesheetGeneratable {
                 dependency.styles = dependency.styles + stylesheet.styles
                 dependency.prepareGenerator()
                 dependency.styles = styles
+                dependency.ensureDeterminism()
                 let additionalGeneratable = generatable.first(where: { Path($0.url.path).lastComponentWithoutExtension == stylesheet.name })
                 var additionalGenerable: String = ""
                 if let onAdditional = additionalGeneratable?.onAdditional, let additionalString = onAdditional(dependency.name)?.generatedCode {
