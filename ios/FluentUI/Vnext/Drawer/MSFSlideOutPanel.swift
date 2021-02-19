@@ -5,10 +5,18 @@
 
 import SwiftUI
 
+private struct Constants {
+    static let maxContentSize = CGSize(width: 360, height: 400)
+    static let contentSizeWidthRatio: CGFloat = 0.9
+    static let contentSizeHeightRatio: CGFloat = 0.5
+    static let cornerRadius: CGFloat = 20
+}
+
 /// `MSFSlideOutPanel` in the drawer's  undelrying layer that expands and collapsed on x/y axis of the drawer.
 /// `View` consist of content view placed on top on panel and transparent background layer
 // MARK: - Base Panel
 struct MSFSlideOutPanel<Content: View>: View, MSFPanelContent, MSFPanelTransition {
+
     /// Only effective when panel is in transition, valid range [0,1]
     @Binding public var percentTransition: Double?
 
@@ -22,7 +30,19 @@ struct MSFSlideOutPanel<Content: View>: View, MSFPanelContent, MSFPanelTransitio
     @Binding var transitionState: MSFDrawerTransitionState
 
     /// content size defaults to fixed width and height
-    var preferredContentSize = CGSize(width: 360, height: 400)
+    var preferredContentSize: CGSize {
+        var preferredWidth = panelSize.width * Constants.contentSizeWidthRatio
+        if preferredWidth >= Constants.maxContentSize.width {
+            preferredWidth = Constants.maxContentSize.width
+        }
+
+        var preferredHeight = panelSize.height * Constants.contentSizeHeightRatio
+        if preferredHeight >= Constants.maxContentSize.height {
+            preferredHeight = Constants.maxContentSize.height
+        }
+        
+        return CGSize(width: preferredWidth, height: preferredHeight)
+    }
 
     /// size of the base panel
     var panelSize: CGSize = UIScreen.main.bounds.size
@@ -47,9 +67,10 @@ struct MSFSlideOutPanel<Content: View>: View, MSFPanelContent, MSFPanelTransitio
             }
 
             content
-                .elevation(with: tokens, alignment: direction)
                 .frame(width: contentWidth, height: contentHeight)
                 .offset(x: contentOffset.dx, y: contentOffset.dy)
+                .cornerRadius(Constants.cornerRadius, direction: direction)
+                .elevation(with: tokens, alignment: direction)
                 .onAnimationComplete(value: valueObserved, completion: transitionCompletion)
 
             if direction == .left || direction == .top {

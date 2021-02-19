@@ -25,9 +25,6 @@ import SwiftUI
 
 /// 'MSFPanelContent' is the functional protocol  for `Drawer` content. It can be configured via any axis as desired
 protocol MSFPanelContent {
-    /// content size ratio when drawer is expanded, usually set by client
-    var preferredContentSize: CGSize { get set }
-
     /// cummulative size of the panel including the spacer and content
     var panelSize: CGSize { get set }
 

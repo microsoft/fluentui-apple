@@ -7,65 +7,13 @@ import FluentUI
 import UIKit
 import SwiftUI
 
-// MARK: DrawerContentController
+// MARK: - DrawerDemoController
 
-class DrawerContentController: DemoController {
-
-    public func actionViews() -> [UIView] {
-        let spacer = UIView()
-        spacer.backgroundColor = .orange
-        spacer.layer.borderWidth = 1
-        spacer.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
-
-        var views = [UIView]()
-        views.append(createButton(title: "Dismiss", action: { [weak self ] _ in
-            if let strongSelf = self {
-                strongSelf.dismissButtonTapped()
-            }
-        }).view)
-        views.append(createButton(title: "Dismiss (no animation)", action: { [weak self ] _ in
-            if let strongSelf = self {
-                strongSelf.dismissNotAnimatedButtonTapped()
-            }
-        }).view)
-        views.append(spacer)
-        return views
-    }
-
-    public func containerForActionViews() -> UIView {
-        let container = DemoController.createVerticalContainer()
-        for view in actionViews() {
-            container.addArrangedSubview(view)
-        }
-        addBackgroundColor(container, color: Colors.surfacePrimary)
-        return container
-    }
-
-    private func addBackgroundColor(_ stackview: UIStackView, color: UIColor) {
-        let subView = UIView(frame: stackview.bounds)
-        subView.backgroundColor = color
-        subView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        stackview.insertSubview(subView, at: 0)
-    }
-
-    @objc private func dismissButtonTapped() {
-        dismiss(animated: true)
-    }
-
-    @objc private func dismissNotAnimatedButtonTapped() {
-        dismiss(animated: false)
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view = containerForActionViews()
-    }
-}
-
-class DrawerDemoController: DemoController, MSFDrawerControllerDelegate {
+class DrawerDemoController: DemoController {
 
     private var verticalDrawerController: MSFDrawer?
     private var horizontalDrawerController: MSFDrawer?
+    var verticalContentController: DrawerVerticalContentController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -267,10 +215,14 @@ class DrawerDemoController: DemoController, MSFDrawerControllerDelegate {
         trailingEdgeGesture.edges = isLeadingEdgeLeftToRight ? .right : .left
         view.addGestureRecognizer(trailingEdgeGesture)
 
-        horizontalDrawerController = MSFDrawer(contentViewController: DrawerContentController())
+        horizontalDrawerController = MSFDrawer(contentViewController: DrawerHorizontalContentController())
         horizontalDrawerController?.delegate = self
-        verticalDrawerController = MSFDrawer(contentViewController: DrawerContentController())
-        verticalDrawerController?.delegate = self
+
+        self.verticalContentController = DrawerVerticalContentController()
+        if let containerController = self.verticalContentController {
+            verticalDrawerController = MSFDrawer(contentViewController: containerController)
+            verticalDrawerController?.delegate = self
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -347,5 +299,161 @@ class DrawerDemoController: DemoController, MSFDrawerControllerDelegate {
             drawerController.state.presentationDirection = isleftPresentation ? .left : .right
             present(drawerController, animated: true, completion: nil)
         }
+    }
+}
+
+extension DrawerDemoController: MSFDrawerControllerDelegate {
+    @objc func drawerDidChangeState(state: MSFDrawerState, controller: UIViewController) {
+        if let controller = verticalContentController {
+            controller.expandButton?.state.text = state.isExpanded ? "Return to normal" : "Expand"
+        }
+    }
+
+}
+
+// MARK: DrawerContentController
+
+class DrawerHorizontalContentController: DemoController {
+
+    public func actionViews() -> [UIView] {
+        let spacer = UIView()
+        spacer.backgroundColor = .orange
+        spacer.layer.borderWidth = 1
+        spacer.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
+
+        var views = [UIView]()
+        views.append(createButton(title: "Dismiss", action: { [weak self ] _ in
+            if let strongSelf = self {
+                strongSelf.dismissButtonTapped()
+            }
+        }).view)
+        views.append(createButton(title: "Dismiss (no animation)", action: { [weak self ] _ in
+            if let strongSelf = self {
+                strongSelf.dismissNotAnimatedButtonTapped()
+            }
+        }).view)
+        views.append(spacer)
+        return views
+    }
+
+    public func containerForActionViews() -> UIView {
+        let container = DemoController.createVerticalContainer()
+        for view in actionViews() {
+            container.addArrangedSubview(view)
+        }
+        addBackgroundColor(container, color: Colors.surfacePrimary)
+        return container
+    }
+
+    private func addBackgroundColor(_ stackview: UIStackView, color: UIColor) {
+        let subView = UIView(frame: stackview.bounds)
+        subView.backgroundColor = color
+        subView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        stackview.insertSubview(subView, at: 0)
+    }
+
+    @objc private func dismissButtonTapped() {
+        dismiss(animated: true)
+    }
+
+    @objc private func dismissNotAnimatedButtonTapped() {
+        dismiss(animated: false)
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view = containerForActionViews()
+    }
+}
+
+class DrawerVerticalContentController: DemoController {
+
+    public var expandButton: MSFButton?
+    public var drawerHasFlexibleHeight: Bool = true
+    public var drawerHasToggleResizingBehaviorButton: Bool = true
+
+    private func actionViews() -> [UIView] {
+        let spacer = UIView()
+        spacer.backgroundColor = .orange
+        spacer.layer.borderWidth = 1
+        spacer.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
+
+        var views = [UIView]()
+        if drawerHasFlexibleHeight {
+            let expandButton = createButton(title: "Expand", action: { [weak self] _ in
+                guard let strongSelf = self else {
+                    return
+                }
+
+                guard let drawer = strongSelf.presentedViewController as? DrawerController else {
+                    return
+                }
+                drawer.isExpanded = !drawer.isExpanded
+            })
+
+            self.expandButton = expandButton
+            views.append(createButton(title: "Change content height", action: { sender in
+                if let spacer = (sender.view.superview as? UIStackView)?.arrangedSubviews.last,
+                    let heightConstraint = spacer.constraints.first {
+                    heightConstraint.constant = heightConstraint.constant == 20 ? 100 : 20
+                }
+            }).view)
+            views.append(expandButton.view)
+        }
+
+        views.append(createButton(title: "Dismiss", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.dismiss(animated: true)
+        }).view)
+
+        views.append(createButton(title: "Dismiss (no animation)", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.dismiss(animated: false)
+        }).view)
+
+        if drawerHasToggleResizingBehaviorButton {
+            views.append(createButton(title: "Resizing - None", action: { [weak self] sender in
+                guard let strongSelf = self else {
+                    return
+                }
+
+                guard let drawer = strongSelf.presentedViewController as? DrawerController else {
+                    return
+                }
+
+                let isResizingBehaviourNone = drawer.resizingBehavior == .none
+                drawer.resizingBehavior = isResizingBehaviourNone ? .expand : .none
+                sender.state.text = isResizingBehaviourNone ? "Resizing - None" : "Resizing - Expand"
+            }).view)
+        }
+        views.append(spacer)
+        return views
+    }
+
+    public func containerForActionViews() -> UIView {
+        let container = DemoController.createVerticalContainer()
+        for view in actionViews() {
+            container.addArrangedSubview(view)
+        }
+        addBackgroundColor(container, color: Colors.surfacePrimary)
+        return container
+    }
+
+    private func addBackgroundColor(_ stackview: UIStackView, color: UIColor) {
+        let subView = UIView(frame: stackview.bounds)
+        subView.backgroundColor = color
+        subView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        stackview.insertSubview(subView, at: 0)
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view = containerForActionViews()
     }
 }

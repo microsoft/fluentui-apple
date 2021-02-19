@@ -5,6 +5,8 @@
 
 import SwiftUI
 
+// MARK: - CA Layer
+
 struct MSFSlideOutPanelElevation: ViewModifier {
     var direction: MSFDrawerDirection
     var tokens: MSFDrawerTokens
@@ -49,11 +51,37 @@ struct MSFSlideOutPanelElevation: ViewModifier {
     }
 }
 
-// MARK: - View Modifiers
+struct RoundedCorner: Shape {
+
+    var radius: CGFloat = .infinity
+    var direction: MSFDrawerDirection = .left
+
+    var corners: UIRectCorner {
+        switch direction {
+        case .top:
+            return [.bottomLeft, .bottomRight]
+        case .bottom:
+            return [.topLeft, .topRight]
+        default:
+            return []
+        }
+    }
+    
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        return Path(path.cgPath)
+    }
+}
+
+// MARK: - View Exensions
 
 extension View {
     /// Custom elevation for the pandel
     func elevation(with tokens: MSFDrawerTokens, alignment: MSFDrawerDirection) -> some View {
         self.modifier(MSFSlideOutPanelElevation(direction: alignment, tokens: tokens))
+    }
+
+    func cornerRadius(_ radius: CGFloat, direction: MSFDrawerDirection) -> some View {
+        clipShape( RoundedCorner(radius: radius, direction: direction) )
     }
 }
