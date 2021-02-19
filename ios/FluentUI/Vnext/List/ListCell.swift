@@ -34,13 +34,13 @@ import SwiftUI
     @objc @Published public var subtitleLineLimit: Int = 0
     @objc @Published public var children: [MSFListCellState]?
     @objc @Published public var isExpanded: Bool = false
-    @objc @Published public var layoutType: MSFListCellLayoutType = .none
+    @objc @Published public var layoutType: MSFListCellLayoutType = .automatic
     @objc public var onTapAction: (() -> Void)?
 }
 
 /// Pre-defined layout heights of cells
 @objc public enum MSFListCellLayoutType: Int, CaseIterable {
-    case none
+    case automatic
     case oneLine
     case twoLines
     case threeLines
@@ -134,7 +134,7 @@ struct ListCellButtonStyle: ButtonStyle {
     func makeBody(configuration: Self.Configuration) -> some View {
         let height: CGFloat
         switch state.layoutType {
-        case .none:
+        case .automatic:
             height = !state.subtitle.isEmpty ? tokens.cellHeightTwoLines : tokens.cellHeightOneLine
         case .oneLine:
             height = tokens.cellHeightOneLine
