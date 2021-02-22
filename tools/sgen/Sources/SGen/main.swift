@@ -219,7 +219,7 @@ extension Config.Entry {
                     if isBaseStyle {
                         
                         // UIImage extensions
-                        generateString += "//MARK: - UIImage\n\n"
+                        generateString += "// MARK: - UIImage\n\n"
                         generateString += "private class IconsBundleCheck {}\n"
                         generateString += "\n"
                         generateString += "\(objc)public extension UIImage {\n"
@@ -271,7 +271,7 @@ extension Config.Entry {
                             iconFileContent += "\(tab.yml)\(enumName): \(StylesheetGrammar.Primitive.enumDef.rawValue)(\(enumCases))\n"
                             
                             // We create an extension to return the resourceString of each of the enum
-                            generateString += "//MARK: - \(NamespaceEnums).\(enumName)\n\n"
+                            generateString += "// MARK: - \(NamespaceEnums).\(enumName)\n\n"
                             generateString += "fileprivate extension \(NamespaceEnums).\(enumName) {\n"
                             generateString += "\(tab.swift)var \(ResourceString): String {\n"
                             generateString += "\(tab.swift)\(tab.swift)switch self {\n"
@@ -299,7 +299,7 @@ extension Config.Entry {
                         
                         // Extension for Symbol
                         let iconSymbolEnum = NamespaceEnums + "." + IconEnum
-                        generateString += "//MARK: - \(iconSymbolEnum) \n\n"
+                        generateString += "// MARK: - \(iconSymbolEnum) \n\n"
                         generateString += "extension \(iconSymbolEnum) {\n"
                         generateString += "\n"
                         

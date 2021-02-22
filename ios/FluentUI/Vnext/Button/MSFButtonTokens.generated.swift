@@ -5,7 +5,7 @@ import UIKit
 /// Entry point for the app stylesheet
 extension FluentUIStyle {
 
-	//MARK: - MSFButtonTokens
+	// MARK: - MSFButtonTokens
 	open var MSFButtonTokens: MSFButtonTokensAppearanceProxy {
 		return MSFButtonTokensAppearanceProxy(proxy: { return self })
 	}
@@ -15,7 +15,7 @@ extension FluentUIStyle {
 			self.mainProxy = proxy
 		}
 
-		//MARK: - backgroundColor
+		// MARK: - backgroundColor
 		open var backgroundColor: backgroundColorAppearanceProxy {
 			return backgroundColorAppearanceProxy(proxy: mainProxy)
 		}
@@ -25,34 +25,34 @@ extension FluentUIStyle {
 				self.mainProxy = proxy
 			}
 
-			//MARK: disabled 
-			open var disabled: UIColor { 
-					return mainProxy().Colors.Neutral.clear 
+			// MARK: - disabled 
+			open var disabled: UIColor {
+				return mainProxy().Colors.Neutral.clear
 			}
 
-			//MARK: hover 
-			open var hover: UIColor { 
-					return mainProxy().Colors.Neutral.clear 
+			// MARK: - hover 
+			open var hover: UIColor {
+				return mainProxy().Colors.Neutral.clear
 			}
 
-			//MARK: pressed 
-			open var pressed: UIColor { 
-					return mainProxy().Colors.Neutral.clear 
+			// MARK: - pressed 
+			open var pressed: UIColor {
+				return mainProxy().Colors.Neutral.clear
 			}
 
-			//MARK: rest 
-			open var rest: UIColor { 
-					return mainProxy().Colors.Neutral.clear 
+			// MARK: - rest 
+			open var rest: UIColor {
+				return mainProxy().Colors.Neutral.clear
 			}
 
-			//MARK: selected 
-			open var selected: UIColor { 
-					return mainProxy().Colors.Neutral.clear 
+			// MARK: - selected 
+			open var selected: UIColor {
+				return mainProxy().Colors.Neutral.clear
 			}
 		}
 
 
-		//MARK: - borderColor
+		// MARK: - borderColor
 		open var borderColor: borderColorAppearanceProxy {
 			return borderColorAppearanceProxy(proxy: mainProxy)
 		}
@@ -62,34 +62,34 @@ extension FluentUIStyle {
 				self.mainProxy = proxy
 			}
 
-			//MARK: disabled 
-			open var disabled: UIColor { 
-					return mainProxy().Colors.Background.brandDisabled 
+			// MARK: - disabled 
+			open var disabled: UIColor {
+				return mainProxy().Colors.Background.brandDisabled
 			}
 
-			//MARK: hover 
-			open var hover: UIColor { 
-					return mainProxy().Colors.Background.brandHover 
+			// MARK: - hover 
+			open var hover: UIColor {
+				return mainProxy().Colors.Background.brandHover
 			}
 
-			//MARK: pressed 
-			open var pressed: UIColor { 
-					return mainProxy().Colors.Background.brandPressed 
+			// MARK: - pressed 
+			open var pressed: UIColor {
+				return mainProxy().Colors.Background.brandPressed
 			}
 
-			//MARK: rest 
-			open var rest: UIColor { 
-					return mainProxy().Colors.Background.brandRest 
+			// MARK: - rest 
+			open var rest: UIColor {
+				return mainProxy().Colors.Background.brandRest
 			}
 
-			//MARK: selected 
-			open var selected: UIColor { 
-					return mainProxy().Colors.Background.brandSelected 
+			// MARK: - selected 
+			open var selected: UIColor {
+				return mainProxy().Colors.Background.brandSelected
 			}
 		}
 
 
-		//MARK: - borderRadius
+		// MARK: - borderRadius
 		open var borderRadius: borderRadiusAppearanceProxy {
 			return borderRadiusAppearanceProxy(proxy: mainProxy)
 		}
@@ -99,24 +99,24 @@ extension FluentUIStyle {
 				self.mainProxy = proxy
 			}
 
-			//MARK: large 
-			open var large: CGFloat { 
-					return mainProxy().Border.radius.xlarge 
+			// MARK: - large 
+			open var large: CGFloat {
+				return mainProxy().Border.radius.xlarge
 			}
 
-			//MARK: medium 
-			open var medium: CGFloat { 
-					return mainProxy().Border.radius.large 
+			// MARK: - medium 
+			open var medium: CGFloat {
+				return mainProxy().Border.radius.large
 			}
 
-			//MARK: small 
-			open var small: CGFloat { 
-					return mainProxy().Border.radius.medium 
+			// MARK: - small 
+			open var small: CGFloat {
+				return mainProxy().Border.radius.medium
 			}
 		}
 
 
-		//MARK: - borderSize
+		// MARK: - borderSize
 		open var borderSize: borderSizeAppearanceProxy {
 			return borderSizeAppearanceProxy(proxy: mainProxy)
 		}
@@ -126,24 +126,24 @@ extension FluentUIStyle {
 				self.mainProxy = proxy
 			}
 
-			//MARK: large 
-			open var large: CGFloat { 
-					return mainProxy().Border.size.none 
+			// MARK: - large 
+			open var large: CGFloat {
+				return mainProxy().Border.size.none
 			}
 
-			//MARK: medium 
-			open var medium: CGFloat { 
-					return mainProxy().Border.size.none 
+			// MARK: - medium 
+			open var medium: CGFloat {
+				return mainProxy().Border.size.none
 			}
 
-			//MARK: small 
-			open var small: CGFloat { 
-					return mainProxy().Border.size.none 
+			// MARK: - small 
+			open var small: CGFloat {
+				return mainProxy().Border.size.none
 			}
 		}
 
 
-		//MARK: - iconColor
+		// MARK: - iconColor
 		open var iconColor: iconColorAppearanceProxy {
 			return iconColorAppearanceProxy(proxy: mainProxy)
 		}
@@ -153,34 +153,34 @@ extension FluentUIStyle {
 				self.mainProxy = proxy
 			}
 
-			//MARK: disabled 
-			open var disabled: UIColor { 
-					return mainProxy().Colors.Foreground.brandDisabled 
+			// MARK: - disabled 
+			open var disabled: UIColor {
+				return mainProxy().Colors.Foreground.brandDisabled
 			}
 
-			//MARK: hover 
-			open var hover: UIColor { 
-					return mainProxy().Colors.Foreground.brandHover 
+			// MARK: - hover 
+			open var hover: UIColor {
+				return mainProxy().Colors.Foreground.brandHover
 			}
 
-			//MARK: pressed 
-			open var pressed: UIColor { 
-					return mainProxy().Colors.Foreground.brandPressed 
+			// MARK: - pressed 
+			open var pressed: UIColor {
+				return mainProxy().Colors.Foreground.brandPressed
 			}
 
-			//MARK: rest 
-			open var rest: UIColor { 
-					return mainProxy().Colors.Foreground.brandRest 
+			// MARK: - rest 
+			open var rest: UIColor {
+				return mainProxy().Colors.Foreground.brandRest
 			}
 
-			//MARK: selected 
-			open var selected: UIColor { 
-					return mainProxy().Colors.Foreground.brandSelected 
+			// MARK: - selected 
+			open var selected: UIColor {
+				return mainProxy().Colors.Foreground.brandSelected
 			}
 		}
 
 
-		//MARK: - iconSize
+		// MARK: - iconSize
 		open var iconSize: iconSizeAppearanceProxy {
 			return iconSizeAppearanceProxy(proxy: mainProxy)
 		}
@@ -190,24 +190,24 @@ extension FluentUIStyle {
 				self.mainProxy = proxy
 			}
 
-			//MARK: large 
-			open var large: CGFloat { 
-					return mainProxy().Icon.size.small 
+			// MARK: - large 
+			open var large: CGFloat {
+				return mainProxy().Icon.size.small
 			}
 
-			//MARK: medium 
-			open var medium: CGFloat { 
-					return mainProxy().Icon.size.small 
+			// MARK: - medium 
+			open var medium: CGFloat {
+				return mainProxy().Icon.size.small
 			}
 
-			//MARK: small 
-			open var small: CGFloat { 
-					return mainProxy().Icon.size.xSmall 
+			// MARK: - small 
+			open var small: CGFloat {
+				return mainProxy().Icon.size.xSmall
 			}
 		}
 
 
-		//MARK: - interspace
+		// MARK: - interspace
 		open var interspace: interspaceAppearanceProxy {
 			return interspaceAppearanceProxy(proxy: mainProxy)
 		}
@@ -217,24 +217,24 @@ extension FluentUIStyle {
 				self.mainProxy = proxy
 			}
 
-			//MARK: large 
-			open var large: CGFloat { 
-					return mainProxy().Spacing.xSmall 
+			// MARK: - large 
+			open var large: CGFloat {
+				return mainProxy().Spacing.xSmall
 			}
 
-			//MARK: medium 
-			open var medium: CGFloat { 
-					return mainProxy().Spacing.xSmall 
+			// MARK: - medium 
+			open var medium: CGFloat {
+				return mainProxy().Spacing.xSmall
 			}
 
-			//MARK: small 
-			open var small: CGFloat { 
-					return mainProxy().Spacing.xxSmall 
+			// MARK: - small 
+			open var small: CGFloat {
+				return mainProxy().Spacing.xxSmall
 			}
 		}
 
 
-		//MARK: - padding
+		// MARK: - padding
 		open var padding: paddingAppearanceProxy {
 			return paddingAppearanceProxy(proxy: mainProxy)
 		}
@@ -244,24 +244,24 @@ extension FluentUIStyle {
 				self.mainProxy = proxy
 			}
 
-			//MARK: large 
-			open var large: CGFloat { 
-					return mainProxy().Spacing.large 
+			// MARK: - large 
+			open var large: CGFloat {
+				return mainProxy().Spacing.large
 			}
 
-			//MARK: medium 
-			open var medium: CGFloat { 
-					return mainProxy().Spacing.small 
+			// MARK: - medium 
+			open var medium: CGFloat {
+				return mainProxy().Spacing.small
 			}
 
-			//MARK: small 
-			open var small: CGFloat { 
-					return mainProxy().Spacing.xSmall 
+			// MARK: - small 
+			open var small: CGFloat {
+				return mainProxy().Spacing.xSmall
 			}
 		}
 
 
-		//MARK: - textColor
+		// MARK: - textColor
 		open var textColor: textColorAppearanceProxy {
 			return textColorAppearanceProxy(proxy: mainProxy)
 		}
@@ -271,34 +271,34 @@ extension FluentUIStyle {
 				self.mainProxy = proxy
 			}
 
-			//MARK: disabled 
-			open var disabled: UIColor { 
-					return mainProxy().Colors.Foreground.brandDisabled 
+			// MARK: - disabled 
+			open var disabled: UIColor {
+				return mainProxy().Colors.Foreground.brandDisabled
 			}
 
-			//MARK: hover 
-			open var hover: UIColor { 
-					return mainProxy().Colors.Foreground.brandHover 
+			// MARK: - hover 
+			open var hover: UIColor {
+				return mainProxy().Colors.Foreground.brandHover
 			}
 
-			//MARK: pressed 
-			open var pressed: UIColor { 
-					return mainProxy().Colors.Foreground.brandPressed 
+			// MARK: - pressed 
+			open var pressed: UIColor {
+				return mainProxy().Colors.Foreground.brandPressed
 			}
 
-			//MARK: rest 
-			open var rest: UIColor { 
-					return mainProxy().Colors.Foreground.brandRest 
+			// MARK: - rest 
+			open var rest: UIColor {
+				return mainProxy().Colors.Foreground.brandRest
 			}
 
-			//MARK: selected 
-			open var selected: UIColor { 
-					return mainProxy().Colors.Foreground.brandSelected 
+			// MARK: - selected 
+			open var selected: UIColor {
+				return mainProxy().Colors.Foreground.brandSelected
 			}
 		}
 
 
-		//MARK: - textFont
+		// MARK: - textFont
 		open var textFont: textFontAppearanceProxy {
 			return textFontAppearanceProxy(proxy: mainProxy)
 		}
@@ -308,225 +308,225 @@ extension FluentUIStyle {
 				self.mainProxy = proxy
 			}
 
-			//MARK: large 
-			open var large: UIFont { 
-					return mainProxy().Typography.subheadline 
+			// MARK: - large 
+			open var large: UIFont {
+				return mainProxy().Typography.subheadline
 			}
 
-			//MARK: medium 
-			open var medium: UIFont { 
-					return mainProxy().Typography.subheadline 
+			// MARK: - medium 
+			open var medium: UIFont {
+				return mainProxy().Typography.subheadline
 			}
 
-			//MARK: small 
-			open var small: UIFont { 
-					return mainProxy().Typography.footnote 
+			// MARK: - small 
+			open var small: UIFont {
+				return mainProxy().Typography.footnote
 			}
 		}
 
 	}
-	//MARK: - MSFGhostButtonTokens
+	// MARK: - MSFGhostButtonTokens
 	open var MSFGhostButtonTokens: MSFGhostButtonTokensAppearanceProxy {
 		return MSFGhostButtonTokensAppearanceProxy(proxy: { return self })
 	}
 	open class MSFGhostButtonTokensAppearanceProxy: MSFButtonTokensAppearanceProxy {
 
-		//MARK: - MSFGhostButtonTokensborderColor
+		// MARK: - MSFGhostButtonTokensborderColor
 		open override var borderColor: MSFGhostButtonTokensborderColorAppearanceProxy {
 			return MSFGhostButtonTokensborderColorAppearanceProxy(proxy: mainProxy)
 		}
 		open class MSFGhostButtonTokensborderColorAppearanceProxy: MSFButtonTokensAppearanceProxy.borderColorAppearanceProxy {
 
-			//MARK: disabled 
-			open override var disabled: UIColor { 
-					return mainProxy().Colors.Neutral.clear 
+			// MARK: - disabled 
+			open override var disabled: UIColor {
+				return mainProxy().Colors.Neutral.clear
 			}
 
-			//MARK: hover 
-			open override var hover: UIColor { 
-					return mainProxy().Colors.Neutral.clear 
+			// MARK: - hover 
+			open override var hover: UIColor {
+				return mainProxy().Colors.Neutral.clear
 			}
 
-			//MARK: pressed 
-			open override var pressed: UIColor { 
-					return mainProxy().Colors.Neutral.clear 
+			// MARK: - pressed 
+			open override var pressed: UIColor {
+				return mainProxy().Colors.Neutral.clear
 			}
 
-			//MARK: rest 
-			open override var rest: UIColor { 
-					return mainProxy().Colors.Neutral.clear 
+			// MARK: - rest 
+			open override var rest: UIColor {
+				return mainProxy().Colors.Neutral.clear
 			}
 
-			//MARK: selected 
-			open override var selected: UIColor { 
-					return mainProxy().Colors.Brand.shade10 
+			// MARK: - selected 
+			open override var selected: UIColor {
+				return mainProxy().Colors.Brand.shade10
 			}
 		}
 
 	}
-	//MARK: - MSFPrimaryButtonTokens
+	// MARK: - MSFPrimaryButtonTokens
 	open var MSFPrimaryButtonTokens: MSFPrimaryButtonTokensAppearanceProxy {
 		return MSFPrimaryButtonTokensAppearanceProxy(proxy: { return self })
 	}
 	open class MSFPrimaryButtonTokensAppearanceProxy: MSFButtonTokensAppearanceProxy {
 
-		//MARK: - MSFPrimaryButtonTokensbackgroundColor
+		// MARK: - MSFPrimaryButtonTokensbackgroundColor
 		open override var backgroundColor: MSFPrimaryButtonTokensbackgroundColorAppearanceProxy {
 			return MSFPrimaryButtonTokensbackgroundColorAppearanceProxy(proxy: mainProxy)
 		}
 		open class MSFPrimaryButtonTokensbackgroundColorAppearanceProxy: MSFButtonTokensAppearanceProxy.backgroundColorAppearanceProxy {
 
-			//MARK: disabled 
-			open override var disabled: UIColor { 
-					return mainProxy().Colors.Background.brandDisabled 
+			// MARK: - disabled 
+			open override var disabled: UIColor {
+				return mainProxy().Colors.Background.brandDisabled
 			}
 
-			//MARK: hover 
-			open override var hover: UIColor { 
-					return mainProxy().Colors.Background.brandHover 
+			// MARK: - hover 
+			open override var hover: UIColor {
+				return mainProxy().Colors.Background.brandHover
 			}
 
-			//MARK: pressed 
-			open override var pressed: UIColor { 
-					return mainProxy().Colors.Background.brandPressed 
+			// MARK: - pressed 
+			open override var pressed: UIColor {
+				return mainProxy().Colors.Background.brandPressed
 			}
 
-			//MARK: rest 
-			open override var rest: UIColor { 
-					return mainProxy().Colors.Background.brandRest 
+			// MARK: - rest 
+			open override var rest: UIColor {
+				return mainProxy().Colors.Background.brandRest
 			}
 
-			//MARK: selected 
-			open override var selected: UIColor { 
-					return mainProxy().Colors.Background.brandSelected 
+			// MARK: - selected 
+			open override var selected: UIColor {
+				return mainProxy().Colors.Background.brandSelected
 			}
 		}
 
 
-		//MARK: - MSFPrimaryButtonTokensiconColor
+		// MARK: - MSFPrimaryButtonTokensiconColor
 		open override var iconColor: MSFPrimaryButtonTokensiconColorAppearanceProxy {
 			return MSFPrimaryButtonTokensiconColorAppearanceProxy(proxy: mainProxy)
 		}
 		open class MSFPrimaryButtonTokensiconColorAppearanceProxy: MSFButtonTokensAppearanceProxy.iconColorAppearanceProxy {
 
-			//MARK: disabled 
-			open override var disabled: UIColor { 
-					return mainProxy().Colors.Foreground.neutralInverted 
+			// MARK: - disabled 
+			open override var disabled: UIColor {
+				return mainProxy().Colors.Foreground.neutralInverted
 			}
 
-			//MARK: hover 
-			open override var hover: UIColor { 
-					return mainProxy().Colors.Foreground.neutralInverted 
+			// MARK: - hover 
+			open override var hover: UIColor {
+				return mainProxy().Colors.Foreground.neutralInverted
 			}
 
-			//MARK: pressed 
-			open override var pressed: UIColor { 
-					return mainProxy().Colors.Foreground.neutralInverted 
+			// MARK: - pressed 
+			open override var pressed: UIColor {
+				return mainProxy().Colors.Foreground.neutralInverted
 			}
 
-			//MARK: rest 
-			open override var rest: UIColor { 
-					return mainProxy().Colors.Foreground.neutralInverted 
+			// MARK: - rest 
+			open override var rest: UIColor {
+				return mainProxy().Colors.Foreground.neutralInverted
 			}
 
-			//MARK: selected 
-			open override var selected: UIColor { 
-					return mainProxy().Colors.Foreground.neutralInverted 
+			// MARK: - selected 
+			open override var selected: UIColor {
+				return mainProxy().Colors.Foreground.neutralInverted
 			}
 		}
 
 
-		//MARK: - MSFPrimaryButtonTokenstextColor
+		// MARK: - MSFPrimaryButtonTokenstextColor
 		open override var textColor: MSFPrimaryButtonTokenstextColorAppearanceProxy {
 			return MSFPrimaryButtonTokenstextColorAppearanceProxy(proxy: mainProxy)
 		}
 		open class MSFPrimaryButtonTokenstextColorAppearanceProxy: MSFButtonTokensAppearanceProxy.textColorAppearanceProxy {
 
-			//MARK: disabled 
-			open override var disabled: UIColor { 
-					return mainProxy().Colors.Foreground.neutralInverted 
+			// MARK: - disabled 
+			open override var disabled: UIColor {
+				return mainProxy().Colors.Foreground.neutralInverted
 			}
 
-			//MARK: hover 
-			open override var hover: UIColor { 
-					return mainProxy().Colors.Foreground.neutralInverted 
+			// MARK: - hover 
+			open override var hover: UIColor {
+				return mainProxy().Colors.Foreground.neutralInverted
 			}
 
-			//MARK: pressed 
-			open override var pressed: UIColor { 
-					return mainProxy().Colors.Foreground.neutralInverted 
+			// MARK: - pressed 
+			open override var pressed: UIColor {
+				return mainProxy().Colors.Foreground.neutralInverted
 			}
 
-			//MARK: rest 
-			open override var rest: UIColor { 
-					return mainProxy().Colors.Foreground.neutralInverted 
+			// MARK: - rest 
+			open override var rest: UIColor {
+				return mainProxy().Colors.Foreground.neutralInverted
 			}
 
-			//MARK: selected 
-			open override var selected: UIColor { 
-					return mainProxy().Colors.Foreground.neutralInverted 
+			// MARK: - selected 
+			open override var selected: UIColor {
+				return mainProxy().Colors.Foreground.neutralInverted
 			}
 		}
 
 	}
-	//MARK: - MSFSecondaryButtonTokens
+	// MARK: - MSFSecondaryButtonTokens
 	open var MSFSecondaryButtonTokens: MSFSecondaryButtonTokensAppearanceProxy {
 		return MSFSecondaryButtonTokensAppearanceProxy(proxy: { return self })
 	}
 	open class MSFSecondaryButtonTokensAppearanceProxy: MSFButtonTokensAppearanceProxy {
 
-		//MARK: - MSFSecondaryButtonTokensborderColor
+		// MARK: - MSFSecondaryButtonTokensborderColor
 		open override var borderColor: MSFSecondaryButtonTokensborderColorAppearanceProxy {
 			return MSFSecondaryButtonTokensborderColorAppearanceProxy(proxy: mainProxy)
 		}
 		open class MSFSecondaryButtonTokensborderColorAppearanceProxy: MSFButtonTokensAppearanceProxy.borderColorAppearanceProxy {
 
-			//MARK: disabled 
-			open override var disabled: UIColor { 
-					return mainProxy().Colors.Stroke.brandDisabled 
+			// MARK: - disabled 
+			open override var disabled: UIColor {
+				return mainProxy().Colors.Stroke.brandDisabled
 			}
 
-			//MARK: hover 
-			open override var hover: UIColor { 
-					return mainProxy().Colors.Stroke.brandHover 
+			// MARK: - hover 
+			open override var hover: UIColor {
+				return mainProxy().Colors.Stroke.brandHover
 			}
 
-			//MARK: pressed 
-			open override var pressed: UIColor { 
-					return mainProxy().Colors.Stroke.brandPressed 
+			// MARK: - pressed 
+			open override var pressed: UIColor {
+				return mainProxy().Colors.Stroke.brandPressed
 			}
 
-			//MARK: rest 
-			open override var rest: UIColor { 
-					return mainProxy().Colors.Stroke.brandRest 
+			// MARK: - rest 
+			open override var rest: UIColor {
+				return mainProxy().Colors.Stroke.brandRest
 			}
 
-			//MARK: selected 
-			open override var selected: UIColor { 
-					return mainProxy().Colors.Stroke.brandSelected 
+			// MARK: - selected 
+			open override var selected: UIColor {
+				return mainProxy().Colors.Stroke.brandSelected
 			}
 		}
 
 
-		//MARK: - MSFSecondaryButtonTokensborderSize
+		// MARK: - MSFSecondaryButtonTokensborderSize
 		open override var borderSize: MSFSecondaryButtonTokensborderSizeAppearanceProxy {
 			return MSFSecondaryButtonTokensborderSizeAppearanceProxy(proxy: mainProxy)
 		}
 		open class MSFSecondaryButtonTokensborderSizeAppearanceProxy: MSFButtonTokensAppearanceProxy.borderSizeAppearanceProxy {
 
-			//MARK: large 
-			open override var large: CGFloat { 
-					return mainProxy().Border.size.thin 
+			// MARK: - large 
+			open override var large: CGFloat {
+				return mainProxy().Border.size.thin
 			}
 
-			//MARK: medium 
-			open override var medium: CGFloat { 
-					return mainProxy().Border.size.thin 
+			// MARK: - medium 
+			open override var medium: CGFloat {
+				return mainProxy().Border.size.thin
 			}
 
-			//MARK: small 
-			open override var small: CGFloat { 
-					return mainProxy().Border.size.thin 
+			// MARK: - small 
+			open override var small: CGFloat {
+				return mainProxy().Border.size.thin
 			}
 		}
 

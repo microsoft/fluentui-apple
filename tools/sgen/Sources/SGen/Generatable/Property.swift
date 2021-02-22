@@ -36,11 +36,11 @@ extension Property: Generatable {
         } else if let rhs = self.rhs, !rhs.isGlobal {
             var method = ""
             let indentation = isNested ? "\t\t\t" : "\t\t"
-            method += "\n\n\(indentation)//MARK: \(self.key) "
+            method += "\n\n\(indentation)// MARK: - \(self.key) "
             
             let visibility = isOverridable ? "open" : "fileprivate"
             let overrideString = isOverride ? " override" : ""
-            method += "\n\(indentation)\(visibility)\(overrideString) var \(key): \(rhs.returnValue()) { \(rhs.generate(isNested)) \n\(indentation)}"
+            method += "\n\(indentation)\(visibility)\(overrideString) var \(key): \(rhs.returnValue()) {\(rhs.generate(isNested))\n\(indentation)}"
             
             generated = method
         }

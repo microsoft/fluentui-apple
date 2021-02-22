@@ -5,28 +5,28 @@ import UIKit
 /// Entry point for the app stylesheet
 extension FluentUIStyle {
 
-	//MARK: - MSFAccentAvatarTokens
+	// MARK: - MSFAccentAvatarTokens
 	open var MSFAccentAvatarTokens: MSFAccentAvatarTokensAppearanceProxy {
 		return MSFAccentAvatarTokensAppearanceProxy(proxy: { return self })
 	}
 	open class MSFAccentAvatarTokensAppearanceProxy: MSFAvatarTokensAppearanceProxy {
 
-		//MARK: backgroundDefaultColor 
-		open override var backgroundDefaultColor: UIColor { 
-			return mainProxy().Colors.Brand.primary 
+		// MARK: - backgroundDefaultColor 
+		open override var backgroundDefaultColor: UIColor {
+			return mainProxy().Colors.Brand.primary
 		}
 
-		//MARK: foregroundDefaultColor 
-		open override var foregroundDefaultColor: UIColor { 
-			return mainProxy().Icon.accentColor 
+		// MARK: - foregroundDefaultColor 
+		open override var foregroundDefaultColor: UIColor {
+			return mainProxy().Icon.accentColor
 		}
 
-		//MARK: ringDefaultColor 
-		open override var ringDefaultColor: UIColor { 
-			return mainProxy().Colors.Brand.shade10 
+		// MARK: - ringDefaultColor 
+		open override var ringDefaultColor: UIColor {
+			return mainProxy().Colors.Brand.shade10
 		}
 	}
-	//MARK: - MSFAvatarTokens
+	// MARK: - MSFAvatarTokens
 	open var MSFAvatarTokens: MSFAvatarTokensAppearanceProxy {
 		return MSFAvatarTokensAppearanceProxy(proxy: { return self })
 	}
@@ -36,12 +36,12 @@ extension FluentUIStyle {
 			self.mainProxy = proxy
 		}
 
-		//MARK: backgroundDefaultColor 
-		open var backgroundDefaultColor: UIColor { 
-			return UIColor(light: mainProxy().Colors.Neutral.white, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.primary, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil) 
+		// MARK: - backgroundDefaultColor 
+		open var backgroundDefaultColor: UIColor {
+			return UIColor(light: mainProxy().Colors.Neutral.white, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.primary, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
-		//MARK: - borderRadius
+		// MARK: - borderRadius
 		open var borderRadius: borderRadiusAppearanceProxy {
 			return borderRadiusAppearanceProxy(proxy: mainProxy)
 		}
@@ -51,49 +51,49 @@ extension FluentUIStyle {
 				self.mainProxy = proxy
 			}
 
-			//MARK: large 
-			open var large: CGFloat { 
-					return mainProxy().Border.radius.none 
+			// MARK: - large 
+			open var large: CGFloat {
+				return mainProxy().Border.radius.none
 			}
 
-			//MARK: medium 
-			open var medium: CGFloat { 
-					return mainProxy().Border.radius.none 
+			// MARK: - medium 
+			open var medium: CGFloat {
+				return mainProxy().Border.radius.none
 			}
 
-			//MARK: small 
-			open var small: CGFloat { 
-					return mainProxy().Border.radius.none 
+			// MARK: - small 
+			open var small: CGFloat {
+				return mainProxy().Border.radius.none
 			}
 
-			//MARK: xSmall 
-			open var xSmall: CGFloat { 
-					return mainProxy().Border.radius.none 
+			// MARK: - xSmall 
+			open var xSmall: CGFloat {
+				return mainProxy().Border.radius.none
 			}
 
-			//MARK: xlarge 
-			open var xlarge: CGFloat { 
-					return mainProxy().Border.radius.none 
+			// MARK: - xlarge 
+			open var xlarge: CGFloat {
+				return mainProxy().Border.radius.none
 			}
 
-			//MARK: xxlarge 
-			open var xxlarge: CGFloat { 
-					return mainProxy().Border.radius.none 
+			// MARK: - xxlarge 
+			open var xxlarge: CGFloat {
+				return mainProxy().Border.radius.none
 			}
 		}
 
 
-		//MARK: foregroundDefaultColor 
-		open var foregroundDefaultColor: UIColor { 
-			return UIColor(light: mainProxy().Colors.Brand.primary, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Icon.accentColor, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil) 
+		// MARK: - foregroundDefaultColor 
+		open var foregroundDefaultColor: UIColor {
+			return UIColor(light: mainProxy().Colors.Brand.primary, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Icon.accentColor, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
-		//MARK: presenceIconOutlineColor 
-		open var presenceIconOutlineColor: UIColor { 
-			return mainProxy().Colors.Background.neutral1 
+		// MARK: - presenceIconOutlineColor 
+		open var presenceIconOutlineColor: UIColor {
+			return mainProxy().Colors.Background.neutral1
 		}
 
-		//MARK: - presenceIconOutlineThickness
+		// MARK: - presenceIconOutlineThickness
 		open var presenceIconOutlineThickness: presenceIconOutlineThicknessAppearanceProxy {
 			return presenceIconOutlineThicknessAppearanceProxy(proxy: mainProxy)
 		}
@@ -103,39 +103,39 @@ extension FluentUIStyle {
 				self.mainProxy = proxy
 			}
 
-			//MARK: large 
-			open var large: CGFloat { 
-					return mainProxy().Border.size.thick 
+			// MARK: - large 
+			open var large: CGFloat {
+				return mainProxy().Border.size.thick
 			}
 
-			//MARK: medium 
-			open var medium: CGFloat { 
-					return mainProxy().Border.size.thick 
+			// MARK: - medium 
+			open var medium: CGFloat {
+				return mainProxy().Border.size.thick
 			}
 
-			//MARK: small 
-			open var small: CGFloat { 
-					return mainProxy().Border.size.thick 
+			// MARK: - small 
+			open var small: CGFloat {
+				return mainProxy().Border.size.thick
 			}
 
-			//MARK: xSmall 
-			open var xSmall: CGFloat { 
-					return mainProxy().Border.size.none 
+			// MARK: - xSmall 
+			open var xSmall: CGFloat {
+				return mainProxy().Border.size.none
 			}
 
-			//MARK: xlarge 
-			open var xlarge: CGFloat { 
-					return mainProxy().Border.size.thick 
+			// MARK: - xlarge 
+			open var xlarge: CGFloat {
+				return mainProxy().Border.size.thick
 			}
 
-			//MARK: xxlarge 
-			open var xxlarge: CGFloat { 
-					return mainProxy().Border.size.thick 
+			// MARK: - xxlarge 
+			open var xxlarge: CGFloat {
+				return mainProxy().Border.size.thick
 			}
 		}
 
 
-		//MARK: - presenceIconSize
+		// MARK: - presenceIconSize
 		open var presenceIconSize: presenceIconSizeAppearanceProxy {
 			return presenceIconSizeAppearanceProxy(proxy: mainProxy)
 		}
@@ -145,49 +145,49 @@ extension FluentUIStyle {
 				self.mainProxy = proxy
 			}
 
-			//MARK: large 
-			open var large: CGFloat { 
-					return mainProxy().Icon.size.xxSmall 
+			// MARK: - large 
+			open var large: CGFloat {
+				return mainProxy().Icon.size.xxSmall
 			}
 
-			//MARK: medium 
-			open var medium: CGFloat { 
-					return mainProxy().Icon.size.xxxSmall 
+			// MARK: - medium 
+			open var medium: CGFloat {
+				return mainProxy().Icon.size.xxxSmall
 			}
 
-			//MARK: small 
-			open var small: CGFloat { 
-					return mainProxy().Icon.size.xxxSmall 
+			// MARK: - small 
+			open var small: CGFloat {
+				return mainProxy().Icon.size.xxxSmall
 			}
 
-			//MARK: xSmall 
-			open var xSmall: CGFloat { 
-					return CGFloat(0.0) 
+			// MARK: - xSmall 
+			open var xSmall: CGFloat {
+				return CGFloat(0.0)
 			}
 
-			//MARK: xlarge 
-			open var xlarge: CGFloat { 
-					return mainProxy().Icon.size.xxSmall 
+			// MARK: - xlarge 
+			open var xlarge: CGFloat {
+				return mainProxy().Icon.size.xxSmall
 			}
 
-			//MARK: xxlarge 
-			open var xxlarge: CGFloat { 
-					return mainProxy().Icon.size.small 
+			// MARK: - xxlarge 
+			open var xxlarge: CGFloat {
+				return mainProxy().Icon.size.small
 			}
 		}
 
 
-		//MARK: ringDefaultColor 
-		open var ringDefaultColor: UIColor { 
-			return mainProxy().Colors.Brand.tint10 
+		// MARK: - ringDefaultColor 
+		open var ringDefaultColor: UIColor {
+			return mainProxy().Colors.Brand.tint10
 		}
 
-		//MARK: ringGapColor 
-		open var ringGapColor: UIColor { 
-			return mainProxy().Colors.Background.neutral1 
+		// MARK: - ringGapColor 
+		open var ringGapColor: UIColor {
+			return mainProxy().Colors.Background.neutral1
 		}
 
-		//MARK: - ringInnerGap
+		// MARK: - ringInnerGap
 		open var ringInnerGap: ringInnerGapAppearanceProxy {
 			return ringInnerGapAppearanceProxy(proxy: mainProxy)
 		}
@@ -197,39 +197,39 @@ extension FluentUIStyle {
 				self.mainProxy = proxy
 			}
 
-			//MARK: large 
-			open var large: CGFloat { 
-					return mainProxy().Border.size.thick 
+			// MARK: - large 
+			open var large: CGFloat {
+				return mainProxy().Border.size.thick
 			}
 
-			//MARK: medium 
-			open var medium: CGFloat { 
-					return mainProxy().Border.size.thick 
+			// MARK: - medium 
+			open var medium: CGFloat {
+				return mainProxy().Border.size.thick
 			}
 
-			//MARK: small 
-			open var small: CGFloat { 
-					return mainProxy().Border.size.thick 
+			// MARK: - small 
+			open var small: CGFloat {
+				return mainProxy().Border.size.thick
 			}
 
-			//MARK: xSmall 
-			open var xSmall: CGFloat { 
-					return mainProxy().Border.size.thick 
+			// MARK: - xSmall 
+			open var xSmall: CGFloat {
+				return mainProxy().Border.size.thick
 			}
 
-			//MARK: xlarge 
-			open var xlarge: CGFloat { 
-					return mainProxy().Border.size.thick 
+			// MARK: - xlarge 
+			open var xlarge: CGFloat {
+				return mainProxy().Border.size.thick
 			}
 
-			//MARK: xxlarge 
-			open var xxlarge: CGFloat { 
-					return mainProxy().Border.size.thicker 
+			// MARK: - xxlarge 
+			open var xxlarge: CGFloat {
+				return mainProxy().Border.size.thicker
 			}
 		}
 
 
-		//MARK: - ringOuterGap
+		// MARK: - ringOuterGap
 		open var ringOuterGap: ringOuterGapAppearanceProxy {
 			return ringOuterGapAppearanceProxy(proxy: mainProxy)
 		}
@@ -239,39 +239,39 @@ extension FluentUIStyle {
 				self.mainProxy = proxy
 			}
 
-			//MARK: large 
-			open var large: CGFloat { 
-					return mainProxy().Border.size.thick 
+			// MARK: - large 
+			open var large: CGFloat {
+				return mainProxy().Border.size.thick
 			}
 
-			//MARK: medium 
-			open var medium: CGFloat { 
-					return mainProxy().Border.size.thick 
+			// MARK: - medium 
+			open var medium: CGFloat {
+				return mainProxy().Border.size.thick
 			}
 
-			//MARK: small 
-			open var small: CGFloat { 
-					return mainProxy().Border.size.thick 
+			// MARK: - small 
+			open var small: CGFloat {
+				return mainProxy().Border.size.thick
 			}
 
-			//MARK: xSmall 
-			open var xSmall: CGFloat { 
-					return mainProxy().Border.size.thick 
+			// MARK: - xSmall 
+			open var xSmall: CGFloat {
+				return mainProxy().Border.size.thick
 			}
 
-			//MARK: xlarge 
-			open var xlarge: CGFloat { 
-					return mainProxy().Border.size.thick 
+			// MARK: - xlarge 
+			open var xlarge: CGFloat {
+				return mainProxy().Border.size.thick
 			}
 
-			//MARK: xxlarge 
-			open var xxlarge: CGFloat { 
-					return mainProxy().Border.size.thicker 
+			// MARK: - xxlarge 
+			open var xxlarge: CGFloat {
+				return mainProxy().Border.size.thicker
 			}
 		}
 
 
-		//MARK: - ringThickness
+		// MARK: - ringThickness
 		open var ringThickness: ringThicknessAppearanceProxy {
 			return ringThicknessAppearanceProxy(proxy: mainProxy)
 		}
@@ -281,39 +281,39 @@ extension FluentUIStyle {
 				self.mainProxy = proxy
 			}
 
-			//MARK: large 
-			open var large: CGFloat { 
-					return mainProxy().Border.size.thick 
+			// MARK: - large 
+			open var large: CGFloat {
+				return mainProxy().Border.size.thick
 			}
 
-			//MARK: medium 
-			open var medium: CGFloat { 
-					return mainProxy().Border.size.thick 
+			// MARK: - medium 
+			open var medium: CGFloat {
+				return mainProxy().Border.size.thick
 			}
 
-			//MARK: small 
-			open var small: CGFloat { 
-					return mainProxy().Border.size.thin 
+			// MARK: - small 
+			open var small: CGFloat {
+				return mainProxy().Border.size.thin
 			}
 
-			//MARK: xSmall 
-			open var xSmall: CGFloat { 
-					return mainProxy().Border.size.thin 
+			// MARK: - xSmall 
+			open var xSmall: CGFloat {
+				return mainProxy().Border.size.thin
 			}
 
-			//MARK: xlarge 
-			open var xlarge: CGFloat { 
-					return mainProxy().Border.size.thick 
+			// MARK: - xlarge 
+			open var xlarge: CGFloat {
+				return mainProxy().Border.size.thick
 			}
 
-			//MARK: xxlarge 
-			open var xxlarge: CGFloat { 
-					return mainProxy().Border.size.thicker 
+			// MARK: - xxlarge 
+			open var xxlarge: CGFloat {
+				return mainProxy().Border.size.thicker
 			}
 		}
 
 
-		//MARK: - size
+		// MARK: - size
 		open var size: sizeAppearanceProxy {
 			return sizeAppearanceProxy(proxy: mainProxy)
 		}
@@ -323,40 +323,40 @@ extension FluentUIStyle {
 				self.mainProxy = proxy
 			}
 
-			//MARK: large 
-			open var large: CGFloat { 
-					return CGFloat(40.0) 
+			// MARK: - large 
+			open var large: CGFloat {
+				return CGFloat(40.0)
 			}
 
-			//MARK: medium 
-			open var medium: CGFloat { 
-					return CGFloat(32.0) 
+			// MARK: - medium 
+			open var medium: CGFloat {
+				return CGFloat(32.0)
 			}
 
-			//MARK: small 
-			open var small: CGFloat { 
-					return CGFloat(24.0) 
+			// MARK: - small 
+			open var small: CGFloat {
+				return CGFloat(24.0)
 			}
 
-			//MARK: xSmall 
-			open var xSmall: CGFloat { 
-					return CGFloat(16.0) 
+			// MARK: - xSmall 
+			open var xSmall: CGFloat {
+				return CGFloat(16.0)
 			}
 
-			//MARK: xlarge 
-			open var xlarge: CGFloat { 
-					return CGFloat(52.0) 
+			// MARK: - xlarge 
+			open var xlarge: CGFloat {
+				return CGFloat(52.0)
 			}
 
-			//MARK: xxlarge 
-			open var xxlarge: CGFloat { 
-					return CGFloat(72.0) 
+			// MARK: - xxlarge 
+			open var xxlarge: CGFloat {
+				return CGFloat(72.0)
 			}
 		}
 
 
-		//MARK: textCalculatedBackgroundColors 
-		open var textCalculatedBackgroundColors: [UIColor] { 
+		// MARK: - textCalculatedBackgroundColors 
+		open var textCalculatedBackgroundColors: [UIColor] {
 			return [
 			UIColor(light: mainProxy().Colors.DarkRed.tint40, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.DarkRed.shade30, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
 			UIColor(light: mainProxy().Colors.Cranberry.tint40, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Cranberry.shade30, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
@@ -387,11 +387,11 @@ extension FluentUIStyle {
 			UIColor(light: mainProxy().Colors.Beige.tint40, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Beige.shade30, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
 			UIColor(light: mainProxy().Colors.Mink.tint40, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Mink.shade30, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
 			UIColor(light: mainProxy().Colors.Platinum.tint40, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Platinum.shade30, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: mainProxy().Colors.Anchor.tint40, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Anchor.shade30, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)] 
+			UIColor(light: mainProxy().Colors.Anchor.tint40, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Anchor.shade30, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)]
 		}
 
-		//MARK: textCalculatedForegroundColors 
-		open var textCalculatedForegroundColors: [UIColor] { 
+		// MARK: - textCalculatedForegroundColors 
+		open var textCalculatedForegroundColors: [UIColor] {
 			return [
 			UIColor(light: mainProxy().Colors.DarkRed.shade30, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.DarkRed.tint40, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
 			UIColor(light: mainProxy().Colors.Cranberry.shade30, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Cranberry.tint40, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
@@ -422,10 +422,10 @@ extension FluentUIStyle {
 			UIColor(light: mainProxy().Colors.Beige.shade30, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Beige.tint40, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
 			UIColor(light: mainProxy().Colors.Mink.shade30, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Mink.tint40, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
 			UIColor(light: mainProxy().Colors.Platinum.shade30, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Platinum.tint40, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil), 
-			UIColor(light: mainProxy().Colors.Anchor.shade30, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Anchor.tint40, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)] 
+			UIColor(light: mainProxy().Colors.Anchor.shade30, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Anchor.tint40, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)]
 		}
 
-		//MARK: - textFont
+		// MARK: - textFont
 		open var textFont: textFontAppearanceProxy {
 			return textFontAppearanceProxy(proxy: mainProxy)
 		}
@@ -435,143 +435,143 @@ extension FluentUIStyle {
 				self.mainProxy = proxy
 			}
 
-			//MARK: large 
-			open var large: UIFont { 
-					return UIFont.font(name: nil, size: 15.0, textStyle: nil, weight: UIFont.Weight.regular, traits: [], isScalable: false) 
+			// MARK: - large 
+			open var large: UIFont {
+				return UIFont.font(name: nil, size: 15.0, textStyle: nil, weight: UIFont.Weight.regular, traits: [], isScalable: false)
 			}
 
-			//MARK: medium 
-			open var medium: UIFont { 
-					return UIFont.font(name: nil, size: 13.0, textStyle: nil, weight: UIFont.Weight.regular, traits: [], isScalable: false) 
+			// MARK: - medium 
+			open var medium: UIFont {
+				return UIFont.font(name: nil, size: 13.0, textStyle: nil, weight: UIFont.Weight.regular, traits: [], isScalable: false)
 			}
 
-			//MARK: small 
-			open var small: UIFont { 
-					return UIFont.font(name: nil, size: 12.0, textStyle: nil, weight: UIFont.Weight.regular, traits: [], isScalable: false) 
+			// MARK: - small 
+			open var small: UIFont {
+				return UIFont.font(name: nil, size: 12.0, textStyle: nil, weight: UIFont.Weight.regular, traits: [], isScalable: false)
 			}
 
-			//MARK: xSmall 
-			open var xSmall: UIFont { 
-					return UIFont.font(name: nil, size: 9.0, textStyle: nil, weight: UIFont.Weight.regular, traits: [], isScalable: false) 
+			// MARK: - xSmall 
+			open var xSmall: UIFont {
+				return UIFont.font(name: nil, size: 9.0, textStyle: nil, weight: UIFont.Weight.regular, traits: [], isScalable: false)
 			}
 
-			//MARK: xlarge 
-			open var xlarge: UIFont { 
-					return UIFont.font(name: nil, size: 20.0, textStyle: nil, weight: UIFont.Weight.regular, traits: [], isScalable: false) 
+			// MARK: - xlarge 
+			open var xlarge: UIFont {
+				return UIFont.font(name: nil, size: 20.0, textStyle: nil, weight: UIFont.Weight.regular, traits: [], isScalable: false)
 			}
 
-			//MARK: xxlarge 
-			open var xxlarge: UIFont { 
-					return UIFont.font(name: nil, size: 28.0, textStyle: nil, weight: UIFont.Weight.medium, traits: [], isScalable: false) 
+			// MARK: - xxlarge 
+			open var xxlarge: UIFont {
+				return UIFont.font(name: nil, size: 28.0, textStyle: nil, weight: UIFont.Weight.medium, traits: [], isScalable: false)
 			}
 		}
 
 	}
-	//MARK: - MSFGroupAvatarTokens
+	// MARK: - MSFGroupAvatarTokens
 	open var MSFGroupAvatarTokens: MSFGroupAvatarTokensAppearanceProxy {
 		return MSFGroupAvatarTokensAppearanceProxy(proxy: { return self })
 	}
 	open class MSFGroupAvatarTokensAppearanceProxy: MSFAvatarTokensAppearanceProxy {
 
-		//MARK: - MSFGroupAvatarTokensborderRadius
+		// MARK: - MSFGroupAvatarTokensborderRadius
 		open override var borderRadius: MSFGroupAvatarTokensborderRadiusAppearanceProxy {
 			return MSFGroupAvatarTokensborderRadiusAppearanceProxy(proxy: mainProxy)
 		}
 		open class MSFGroupAvatarTokensborderRadiusAppearanceProxy: MSFAvatarTokensAppearanceProxy.borderRadiusAppearanceProxy {
 
-			//MARK: large 
-			open override var large: CGFloat { 
-					return mainProxy().Border.radius.large 
+			// MARK: - large 
+			open override var large: CGFloat {
+				return mainProxy().Border.radius.large
 			}
 
-			//MARK: medium 
-			open override var medium: CGFloat { 
-					return mainProxy().Border.radius.medium 
+			// MARK: - medium 
+			open override var medium: CGFloat {
+				return mainProxy().Border.radius.medium
 			}
 
-			//MARK: small 
-			open override var small: CGFloat { 
-					return mainProxy().Border.radius.medium 
+			// MARK: - small 
+			open override var small: CGFloat {
+				return mainProxy().Border.radius.medium
 			}
 
-			//MARK: xSmall 
-			open override var xSmall: CGFloat { 
-					return mainProxy().Border.radius.small 
+			// MARK: - xSmall 
+			open override var xSmall: CGFloat {
+				return mainProxy().Border.radius.small
 			}
 
-			//MARK: xlarge 
-			open override var xlarge: CGFloat { 
-					return mainProxy().Border.radius.large 
+			// MARK: - xlarge 
+			open override var xlarge: CGFloat {
+				return mainProxy().Border.radius.large
 			}
 
-			//MARK: xxlarge 
-			open override var xxlarge: CGFloat { 
-					return mainProxy().Border.radius.xlarge 
+			// MARK: - xxlarge 
+			open override var xxlarge: CGFloat {
+				return mainProxy().Border.radius.xlarge
 			}
 		}
 
 	}
-	//MARK: - MSFOutlinedAvatarTokens
+	// MARK: - MSFOutlinedAvatarTokens
 	open var MSFOutlinedAvatarTokens: MSFOutlinedAvatarTokensAppearanceProxy {
 		return MSFOutlinedAvatarTokensAppearanceProxy(proxy: { return self })
 	}
 	open class MSFOutlinedAvatarTokensAppearanceProxy: MSFAvatarTokensAppearanceProxy {
 
-		//MARK: backgroundDefaultColor 
-		open override var backgroundDefaultColor: UIColor { 
-			return UIColor(light: mainProxy().Colors.Neutral.grey94, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Neutral.grey26, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil) 
+		// MARK: - backgroundDefaultColor 
+		open override var backgroundDefaultColor: UIColor {
+			return UIColor(light: mainProxy().Colors.Neutral.grey94, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Neutral.grey26, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
-		//MARK: foregroundDefaultColor 
-		open override var foregroundDefaultColor: UIColor { 
-			return UIColor(light: mainProxy().Colors.Neutral.grey42, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Neutral.grey78, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil) 
+		// MARK: - foregroundDefaultColor 
+		open override var foregroundDefaultColor: UIColor {
+			return UIColor(light: mainProxy().Colors.Neutral.grey42, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Neutral.grey78, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
-		//MARK: ringDefaultColor 
-		open override var ringDefaultColor: UIColor { 
-			return mainProxy().Colors.Background.neutralDisabled 
+		// MARK: - ringDefaultColor 
+		open override var ringDefaultColor: UIColor {
+			return mainProxy().Colors.Background.neutralDisabled
 		}
 	}
-	//MARK: - MSFOutlinedPrimaryAvatarTokens
+	// MARK: - MSFOutlinedPrimaryAvatarTokens
 	open var MSFOutlinedPrimaryAvatarTokens: MSFOutlinedPrimaryAvatarTokensAppearanceProxy {
 		return MSFOutlinedPrimaryAvatarTokensAppearanceProxy(proxy: { return self })
 	}
 	open class MSFOutlinedPrimaryAvatarTokensAppearanceProxy: MSFAvatarTokensAppearanceProxy {
 
-		//MARK: backgroundDefaultColor 
-		open override var backgroundDefaultColor: UIColor { 
-			return UIColor(light: mainProxy().Colors.Brand.tint40, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Neutral.grey26, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil) 
+		// MARK: - backgroundDefaultColor 
+		open override var backgroundDefaultColor: UIColor {
+			return UIColor(light: mainProxy().Colors.Brand.tint40, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Neutral.grey26, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
-		//MARK: foregroundDefaultColor 
-		open override var foregroundDefaultColor: UIColor { 
-			return UIColor(light: mainProxy().Colors.Brand.primary, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Neutral.grey78, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil) 
+		// MARK: - foregroundDefaultColor 
+		open override var foregroundDefaultColor: UIColor {
+			return UIColor(light: mainProxy().Colors.Brand.primary, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Neutral.grey78, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
-		//MARK: ringDefaultColor 
-		open override var ringDefaultColor: UIColor { 
-			return UIColor(light: mainProxy().Colors.Brand.tint10, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Neutral.grey78, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil) 
+		// MARK: - ringDefaultColor 
+		open override var ringDefaultColor: UIColor {
+			return UIColor(light: mainProxy().Colors.Brand.tint10, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Neutral.grey78, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 	}
-	//MARK: - MSFOverflowAvatarTokens
+	// MARK: - MSFOverflowAvatarTokens
 	open var MSFOverflowAvatarTokens: MSFOverflowAvatarTokensAppearanceProxy {
 		return MSFOverflowAvatarTokensAppearanceProxy(proxy: { return self })
 	}
 	open class MSFOverflowAvatarTokensAppearanceProxy: MSFAvatarTokensAppearanceProxy {
 
-		//MARK: backgroundDefaultColor 
-		open override var backgroundDefaultColor: UIColor { 
-			return mainProxy().Colors.Background.neutral4 
+		// MARK: - backgroundDefaultColor 
+		open override var backgroundDefaultColor: UIColor {
+			return mainProxy().Colors.Background.neutral4
 		}
 
-		//MARK: foregroundDefaultColor 
-		open override var foregroundDefaultColor: UIColor { 
-			return mainProxy().Colors.Foreground.neutral3 
+		// MARK: - foregroundDefaultColor 
+		open override var foregroundDefaultColor: UIColor {
+			return mainProxy().Colors.Foreground.neutral3
 		}
 
-		//MARK: ringDefaultColor 
-		open override var ringDefaultColor: UIColor { 
-			return mainProxy().Colors.Background.neutralDisabled 
+		// MARK: - ringDefaultColor 
+		open override var ringDefaultColor: UIColor {
+			return mainProxy().Colors.Background.neutralDisabled
 		}
 	}
 

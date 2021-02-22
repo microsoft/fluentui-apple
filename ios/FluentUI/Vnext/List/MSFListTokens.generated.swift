@@ -5,7 +5,7 @@ import UIKit
 /// Entry point for the app stylesheet
 extension FluentUIStyle {
 
-	//MARK: - MSFListTokens
+	// MARK: - MSFListTokens
 	open var MSFListTokens: MSFListTokensAppearanceProxy {
 		return MSFListTokensAppearanceProxy(proxy: { return self })
 	}
@@ -15,34 +15,34 @@ extension FluentUIStyle {
 			self.mainProxy = proxy
 		}
 
-		//MARK: backgroundColor 
-		open var backgroundColor: UIColor { 
-			return mainProxy().Colors.Background.neutral1 
+		// MARK: - backgroundColor 
+		open var backgroundColor: UIColor {
+			return mainProxy().Colors.Background.neutral1
 		}
 
-		//MARK: borderColor 
-		open var borderColor: UIColor { 
-			return mainProxy().Colors.Stroke.neutral1 
+		// MARK: - borderColor 
+		open var borderColor: UIColor {
+			return mainProxy().Colors.Stroke.neutral1
 		}
 
-		//MARK: borderSize 
-		open var borderSize: CGFloat { 
-			return mainProxy().Border.size.thin 
+		// MARK: - borderSize 
+		open var borderSize: CGFloat {
+			return mainProxy().Border.size.thin
 		}
 
-		//MARK: horizontalCellPadding 
-		open var horizontalCellPadding: CGFloat { 
-			return mainProxy().Spacing.medium 
+		// MARK: - horizontalCellPadding 
+		open var horizontalCellPadding: CGFloat {
+			return mainProxy().Spacing.medium
 		}
 
-		//MARK: sublabelColor 
-		open var sublabelColor: UIColor { 
-			return mainProxy().Colors.Foreground.neutral3 
+		// MARK: - sublabelColor 
+		open var sublabelColor: UIColor {
+			return mainProxy().Colors.Foreground.neutral3
 		}
 
-		//MARK: sublabelFont 
-		open var sublabelFont: UIFont { 
-			return mainProxy().Typography.caption1 
+		// MARK: - sublabelFont 
+		open var sublabelFont: UIFont {
+			return mainProxy().Typography.caption1
 		}
 	}
 

@@ -1455,7 +1455,7 @@ extension UIFont {
     func generateAnimator() -> String {
         let indentation = "\t"
         var wrapper = indentation
-        wrapper += "//MARK: - \(animatorName!)"
+        wrapper += "// MARK: - \(animatorName!)"
         
         let baseStylesheetName = Generator.Stylesheets.filter({ $0.superclassName == nil }).first!.name
         let isOverridable = superclassName == nil

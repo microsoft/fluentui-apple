@@ -5,7 +5,7 @@ import UIKit
 /// Entry point for the app stylesheet
 extension FluentUIStyle {
 
-	//MARK: - MSFListCellTokens
+	// MARK: - MSFListCellTokens
 	open var MSFListCellTokens: MSFListCellTokensAppearanceProxy {
 		return MSFListCellTokensAppearanceProxy(proxy: { return self })
 	}
@@ -15,7 +15,7 @@ extension FluentUIStyle {
 			self.mainProxy = proxy
 		}
 
-		//MARK: - backgroundColor
+		// MARK: - backgroundColor
 		open var backgroundColor: backgroundColorAppearanceProxy {
 			return backgroundColorAppearanceProxy(proxy: mainProxy)
 		}
@@ -25,29 +25,29 @@ extension FluentUIStyle {
 				self.mainProxy = proxy
 			}
 
-			//MARK: pressed 
-			open var pressed: UIColor { 
-					return mainProxy().Colors.Background.neutral5 
+			// MARK: - pressed 
+			open var pressed: UIColor {
+				return mainProxy().Colors.Background.neutral5
 			}
 
-			//MARK: rest 
-			open var rest: UIColor { 
-					return mainProxy().Colors.Background.neutral1 
+			// MARK: - rest 
+			open var rest: UIColor {
+				return mainProxy().Colors.Background.neutral1
 			}
 		}
 
 
-		//MARK: borderColor 
-		open var borderColor: UIColor { 
-			return mainProxy().Colors.Stroke.neutral1 
+		// MARK: - borderColor 
+		open var borderColor: UIColor {
+			return mainProxy().Colors.Stroke.neutral1
 		}
 
-		//MARK: borderSize 
-		open var borderSize: CGFloat { 
-			return mainProxy().Border.size.thin 
+		// MARK: - borderSize 
+		open var borderSize: CGFloat {
+			return mainProxy().Border.size.thin
 		}
 
-		//MARK: - cellHeight
+		// MARK: - cellHeight
 		open var cellHeight: cellHeightAppearanceProxy {
 			return cellHeightAppearanceProxy(proxy: mainProxy)
 		}
@@ -57,64 +57,64 @@ extension FluentUIStyle {
 				self.mainProxy = proxy
 			}
 
-			//MARK: oneLine 
-			open var oneLine: CGFloat { 
-					return CGFloat(48.0) 
+			// MARK: - oneLine 
+			open var oneLine: CGFloat {
+				return CGFloat(48.0)
 			}
 
-			//MARK: threeLines 
-			open var threeLines: CGFloat { 
-					return CGFloat(84.0) 
+			// MARK: - threeLines 
+			open var threeLines: CGFloat {
+				return CGFloat(84.0)
 			}
 
-			//MARK: twoLines 
-			open var twoLines: CGFloat { 
-					return CGFloat(64.0) 
+			// MARK: - twoLines 
+			open var twoLines: CGFloat {
+				return CGFloat(64.0)
 			}
 		}
 
 
-		//MARK: disclosureIconForegroundColor 
-		open var disclosureIconForegroundColor: UIColor { 
-			return mainProxy().Colors.Foreground.neutral3 
+		// MARK: - disclosureIconForegroundColor 
+		open var disclosureIconForegroundColor: UIColor {
+			return mainProxy().Colors.Foreground.neutral3
 		}
 
-		//MARK: disclosureInterspace 
-		open var disclosureInterspace: CGFloat { 
-			return mainProxy().Spacing.xxSmall 
+		// MARK: - disclosureInterspace 
+		open var disclosureInterspace: CGFloat {
+			return mainProxy().Spacing.xxSmall
 		}
 
-		//MARK: disclosureSize 
-		open var disclosureSize: CGFloat { 
-			return mainProxy().Icon.size.small 
+		// MARK: - disclosureSize 
+		open var disclosureSize: CGFloat {
+			return mainProxy().Icon.size.small
 		}
 
-		//MARK: horizontalCellPadding 
-		open var horizontalCellPadding: CGFloat { 
-			return mainProxy().Spacing.medium 
+		// MARK: - horizontalCellPadding 
+		open var horizontalCellPadding: CGFloat {
+			return mainProxy().Spacing.medium
 		}
 
-		//MARK: iconInterspace 
-		open var iconInterspace: CGFloat { 
-			return mainProxy().Spacing.medium 
+		// MARK: - iconInterspace 
+		open var iconInterspace: CGFloat {
+			return mainProxy().Spacing.medium
 		}
 
-		//MARK: labelColor 
-		open var labelColor: UIColor { 
-			return mainProxy().Colors.Foreground.neutral1 
+		// MARK: - labelColor 
+		open var labelColor: UIColor {
+			return mainProxy().Colors.Foreground.neutral1
 		}
 
-		//MARK: labelFont 
-		open var labelFont: UIFont { 
-			return mainProxy().Typography.body 
+		// MARK: - labelFont 
+		open var labelFont: UIFont {
+			return mainProxy().Typography.body
 		}
 
-		//MARK: leadingViewColor 
-		open var leadingViewColor: UIColor { 
-			return mainProxy().Colors.Foreground.neutral4 
+		// MARK: - leadingViewColor 
+		open var leadingViewColor: UIColor {
+			return mainProxy().Colors.Foreground.neutral4
 		}
 
-		//MARK: - leadingViewSize
+		// MARK: - leadingViewSize
 		open var leadingViewSize: leadingViewSizeAppearanceProxy {
 			return leadingViewSizeAppearanceProxy(proxy: mainProxy)
 		}
@@ -124,41 +124,41 @@ extension FluentUIStyle {
 				self.mainProxy = proxy
 			}
 
-			//MARK: large 
-			open var large: CGFloat { 
-					return mainProxy().Icon.size.xxlarge 
+			// MARK: - large 
+			open var large: CGFloat {
+				return mainProxy().Icon.size.xxlarge
 			}
 
-			//MARK: medium 
-			open var medium: CGFloat { 
-					return mainProxy().Icon.size.medium 
+			// MARK: - medium 
+			open var medium: CGFloat {
+				return mainProxy().Icon.size.medium
 			}
 
-			//MARK: small 
-			open var small: CGFloat { 
-					return mainProxy().Icon.size.xSmall 
+			// MARK: - small 
+			open var small: CGFloat {
+				return mainProxy().Icon.size.xSmall
 			}
 		}
 
 
-		//MARK: sublabelColor 
-		open var sublabelColor: UIColor { 
-			return mainProxy().Colors.Foreground.neutral3 
+		// MARK: - sublabelColor 
+		open var sublabelColor: UIColor {
+			return mainProxy().Colors.Foreground.neutral3
 		}
 
-		//MARK: sublabelFont 
-		open var sublabelFont: UIFont { 
-			return mainProxy().Typography.caption1 
+		// MARK: - sublabelFont 
+		open var sublabelFont: UIFont {
+			return mainProxy().Typography.caption1
 		}
 
-		//MARK: trailingItemForegroundColor 
-		open var trailingItemForegroundColor: UIColor { 
-			return mainProxy().Colors.Foreground.neutral3 
+		// MARK: - trailingItemForegroundColor 
+		open var trailingItemForegroundColor: UIColor {
+			return mainProxy().Colors.Foreground.neutral3
 		}
 
-		//MARK: trailingItemSize 
-		open var trailingItemSize: CGFloat { 
-			return mainProxy().Icon.size.medium 
+		// MARK: - trailingItemSize 
+		open var trailingItemSize: CGFloat {
+			return mainProxy().Icon.size.medium
 		}
 	}
 

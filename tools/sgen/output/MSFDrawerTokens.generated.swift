@@ -5,7 +5,7 @@ import UIKit
 /// Entry point for the app stylesheet
 extension FluentUIStyle {
 
-	//MARK: - MSFDrawerTokens
+	// MARK: - MSFDrawerTokens
 	open var MSFDrawerTokens: MSFDrawerTokensAppearanceProxy {
 		return MSFDrawerTokensAppearanceProxy(proxy: { return self })
 	}
@@ -15,54 +15,54 @@ extension FluentUIStyle {
 			self.mainProxy = proxy
 		}
 
-		//MARK: backgroundClearColor 
-		open var backgroundClearColor: UIColor { 
-			return mainProxy().Colors.Neutral.clear 
+		// MARK: - backgroundClearColor 
+		open var backgroundClearColor: UIColor {
+			return mainProxy().Colors.Neutral.clear
 		}
 
-		//MARK: backgroundDimmedColor 
-		open var backgroundDimmedColor: UIColor { 
-			return mainProxy().Colors.Elevation.highElevation 
+		// MARK: - backgroundDimmedColor 
+		open var backgroundDimmedColor: UIColor {
+			return mainProxy().Colors.Elevation.highElevation
 		}
 
-		//MARK: shadow1Blur 
-		open var shadow1Blur: CGFloat { 
-			return mainProxy().Shadow.shadow28.blur1 
+		// MARK: - shadow1Blur 
+		open var shadow1Blur: CGFloat {
+			return mainProxy().Shadow.shadow28.blur1
 		}
 
-		//MARK: shadow1Color 
-		open var shadow1Color: UIColor { 
-			return mainProxy().Shadow.shadow28.color1 
+		// MARK: - shadow1Color 
+		open var shadow1Color: UIColor {
+			return mainProxy().Shadow.shadow28.color1
 		}
 
-		//MARK: shadow1OffsetX 
-		open var shadow1OffsetX: CGFloat { 
-			return mainProxy().Shadow.shadow28.x1 
+		// MARK: - shadow1OffsetX 
+		open var shadow1OffsetX: CGFloat {
+			return mainProxy().Shadow.shadow28.x1
 		}
 
-		//MARK: shadow1OffsetY 
-		open var shadow1OffsetY: CGFloat { 
-			return mainProxy().Shadow.shadow28.y1 
+		// MARK: - shadow1OffsetY 
+		open var shadow1OffsetY: CGFloat {
+			return mainProxy().Shadow.shadow28.y1
 		}
 
-		//MARK: shadow2Blur 
-		open var shadow2Blur: CGFloat { 
-			return mainProxy().Shadow.shadow28.blur2 
+		// MARK: - shadow2Blur 
+		open var shadow2Blur: CGFloat {
+			return mainProxy().Shadow.shadow28.blur2
 		}
 
-		//MARK: shadow2Color 
-		open var shadow2Color: UIColor { 
-			return mainProxy().Shadow.shadow28.color2 
+		// MARK: - shadow2Color 
+		open var shadow2Color: UIColor {
+			return mainProxy().Shadow.shadow28.color2
 		}
 
-		//MARK: shadow2OffsetX 
-		open var shadow2OffsetX: CGFloat { 
-			return mainProxy().Shadow.shadow28.x2 
+		// MARK: - shadow2OffsetX 
+		open var shadow2OffsetX: CGFloat {
+			return mainProxy().Shadow.shadow28.x2
 		}
 
-		//MARK: shadow2OffsetY 
-		open var shadow2OffsetY: CGFloat { 
-			return mainProxy().Shadow.shadow28.y2 
+		// MARK: - shadow2OffsetY 
+		open var shadow2OffsetY: CGFloat {
+			return mainProxy().Shadow.shadow28.y2
 		}
 	}
 

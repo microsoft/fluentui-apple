@@ -89,9 +89,9 @@ extension Style: Generatable {
         }
         var wrapper = isNested ? "\n\n" + indentation : indentation
         if let nestedOverrideName = nestedInfo.overrideName {
-            wrapper += "//MARK: - \(nestedOverrideName)"
+            wrapper += "// MARK: - \(nestedOverrideName)"
         } else {
-            wrapper += "//MARK: - \(name)"
+            wrapper += "// MARK: - \(name)"
         }
                 
         var superclass = Generator.Config.objcGeneration ? ": NSObject" : ""

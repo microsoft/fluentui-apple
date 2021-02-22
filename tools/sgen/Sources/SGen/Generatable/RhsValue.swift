@@ -495,8 +495,8 @@ class RhsRedirectValue {
 extension RhsValue: Generatable {
     
     func generate(_ isNested: Bool = false, includePrefix: Bool = true) -> String {
-        let indentationNested = isNested ? "\t\t" : ""
-        let indentation = "\n\(indentationNested)\t\t\t"
+        let indentationNested = isNested ? "\t\t" : "\t"
+        let indentation = "\n\(indentationNested)\t\t"
         let prefix = includePrefix ? (isGlobal ? "public " : "\(indentation)return ") : ""
         switch self {
         case .int(let int):
