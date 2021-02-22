@@ -29,8 +29,7 @@ Pod::Spec.new do |s|
                              "ios/FluentUI/Extensions/UIFont+Extension.swift",
                              "ios/FluentUI/Extensions/UIImage+Extensions.swift",
                              "ios/FluentUI/Extensions/UIScreen+Extension.swift",
-                             "ios/FluentUI/Vnext/Core/**/*.{swift,h}",
-                             "ios/FluentUI/Vnext/Design Token System/**/*.{swift,h}"]
+                             "ios/FluentUI/Vnext/Core/**/*.{swift,h}"]
   end
 
   s.subspec 'Avatar_ios' do |avatar_ios|

@@ -27,6 +27,84 @@ public protocol ColorProviding {
     @objc func primaryShade30Color(for window: UIWindow) -> UIColor?
 }
 
+open class ColorProvidingStyle: FluentUIStyle {
+
+    public init(colorProviding: ColorProviding,
+                window: UIWindow) {
+
+        self.colorProviding = colorProviding
+        self.window = window
+
+        super.init()
+    }
+
+    open override var Colors: FluentUIStyle.ColorsAppearanceProxy {
+        return ColorProvidingColorsAppearanceProxy(proxy: { return self })
+    }
+
+    open class ColorProvidingColorsAppearanceProxy: FluentUIStyle.ColorsAppearanceProxy {
+
+        init(proxy: @escaping () -> ColorProvidingStyle) {
+
+            self.colorProvidingProxy = proxy()
+
+            super.init(proxy: proxy)
+        }
+
+        open override var Brand: FluentUIStyle.ColorsAppearanceProxy.BrandAppearanceProxy {
+            return ColorProvidingBrandAppearanceProxy(proxy: { return self.colorProvidingProxy })
+        }
+
+        private var colorProvidingProxy: ColorProvidingStyle
+    }
+
+    open class ColorProvidingBrandAppearanceProxy: FluentUIStyle.ColorsAppearanceProxy.BrandAppearanceProxy {
+
+        init(proxy: @escaping () -> ColorProvidingStyle) {
+
+            self.colorProvidingProxy = proxy()
+
+            super.init(proxy: proxy)
+        }
+
+        open override var primary: UIColor {
+            return colorProvidingProxy.colorProviding.primaryColor(for: colorProvidingProxy.window) ?? super.primary
+        }
+
+        open override var tint10: UIColor {
+            return colorProvidingProxy.colorProviding.primaryTint10Color(for: colorProvidingProxy.window) ?? super.tint10
+        }
+
+        open override var tint20: UIColor {
+            return colorProvidingProxy.colorProviding.primaryTint20Color(for: colorProvidingProxy.window) ?? super.tint20
+        }
+
+        open override var tint30: UIColor {
+            return colorProvidingProxy.colorProviding.primaryTint30Color(for: colorProvidingProxy.window) ?? super.tint30
+        }
+
+        open override var tint40: UIColor {
+            return colorProvidingProxy.colorProviding.primaryTint40Color(for: colorProvidingProxy.window) ?? super.tint40
+        }
+
+        open override var shade10: UIColor {
+            return colorProvidingProxy.colorProviding.primaryShade10Color(for: colorProvidingProxy.window) ?? super.shade10
+        }
+
+        open override var shade20: UIColor {
+            return colorProvidingProxy.colorProviding.primaryShade20Color(for: colorProvidingProxy.window) ?? super.shade20
+        }
+
+        open override var shade30: UIColor {
+            return colorProvidingProxy.colorProviding.primaryShade30Color(for: colorProvidingProxy.window) ?? super.shade30
+        }
+
+        private var colorProvidingProxy: ColorProvidingStyle
+    }
+
+    private var window: UIWindow
+    private var colorProviding: ColorProviding
+}
 // MARK: Colors
 
 @available(*, deprecated, renamed: "Colors")
@@ -457,20 +535,10 @@ public final class Colors: NSObject {
         colorProvidersMap.setObject(provider, forKey: window)
 
         // Reflect the ColorProviding implementation in the FluentUI Vnext stylesheet override for this window
-        let stylesheet = FluentUIStyle()
-        let colors = stylesheet.Colors
-        let brandColors = colors.Brand
-        brandColors.primary = primary(for: window)
-        brandColors.tint10 = primaryTint10(for: window)
-        brandColors.tint20 = primaryTint20(for: window)
-        brandColors.tint30 = primaryTint30(for: window)
-        brandColors.tint40 = primaryTint40(for: window)
-        brandColors.shade10 = primaryShade10(for: window)
-        brandColors.shade20 = primaryShade20(for: window)
-        brandColors.shade30 = primaryShade30(for: window)
-        colors.Brand = brandColors
-        stylesheet.Colors = colors
-        FluentUIThemeManager.setStylesheet(stylesheet: stylesheet, for: window)
+        let stylesheet = ColorProvidingStyle(colorProviding: provider,
+                                             window: window)
+        FluentUIThemeManager.setStylesheet(stylesheet: stylesheet,
+                                           for: window)
     }
 
     // MARK: Primary

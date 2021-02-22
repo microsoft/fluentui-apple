@@ -495,8 +495,8 @@ class RhsRedirectValue {
 extension RhsValue: Generatable {
     
     func generate(_ isNested: Bool = false, includePrefix: Bool = true) -> String {
-        let indentationNested = isNested ? "\t\t" : ""
-        let indentation = "\n\(indentationNested)\t\t\t"
+        let indentationNested = isNested ? "\t\t" : "\t"
+        let indentation = "\n\(indentationNested)\t\t"
         let prefix = includePrefix ? (isGlobal ? "public " : "\(indentation)return ") : ""
         switch self {
         case .int(let int):
@@ -621,7 +621,7 @@ extension RhsValue: Generatable {
             let fontTraits = font.traits ?? "[]"
             let isScalable = font.isScalableFont
             
-            return "\(prefix)\(fontClass).font(name: \(fontName), size: \(fontSize), textStyle: \(textStyle), weight: \(fontWeight), traits: \(fontTraits), traitCollection: traitCollection, isScalable: \(isScalable))"
+            return "\(prefix)\(fontClass).font(name: \(fontName), size: \(fontSize), textStyle: \(textStyle), weight: \(fontWeight), traits: \(fontTraits), isScalable: \(isScalable))"
         }
     }
     
@@ -684,7 +684,7 @@ extension RhsValue: Generatable {
     }
     
     func generateRedirection(_ prefix: String, redirection: RhsRedirectValue) -> String {
-        return "\(prefix)\(redirection.redirection)Property(traitCollection)"
+        return "\(prefix)\(redirection.redirection)"
     }
     
     func generateEnumDef(_ prefix: String, type: String, names: [String]) -> String {

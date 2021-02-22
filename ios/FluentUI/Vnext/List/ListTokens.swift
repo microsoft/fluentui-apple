@@ -37,7 +37,6 @@ import SwiftUI
 
 public class MSFListTokens: MSFTokensBase, ObservableObject {
     @Published public var backgroundColor: UIColor!
-    @Published public var highlightedBackgroundColor: UIColor!
 
     @Published public var borderColor: UIColor!
     @Published public var borderSize: CGFloat!
@@ -62,8 +61,7 @@ public class MSFListTokens: MSFTokensBase, ObservableObject {
         let currentTheme = theme
         let appearanceProxy = currentTheme.MSFListTokens
 
-        backgroundColor = appearanceProxy.backgroundColor.rest
-        highlightedBackgroundColor = appearanceProxy.backgroundColor.pressed
+        backgroundColor = appearanceProxy.backgroundColor
 
         borderColor = appearanceProxy.borderColor
         borderSize = appearanceProxy.borderSize

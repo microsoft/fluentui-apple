@@ -33,35 +33,15 @@ extension Property: Generatable {
         var generated = ""
         if let style = self.style {
             generated = style.generate(true)
-        } else if let rhs = self.rhs, rhs.isGlobal == false {
-            
+        } else if let rhs = self.rhs, !rhs.isGlobal {
             var method = ""
             let indentation = isNested ? "\t\t\t" : "\t\t"
-            method += "\n\n\(indentation)//MARK: \(self.key) "
+            method += "\n\n\(indentation)// MARK: - \(self.key) "
             
-            if !isOverride {
-                let visibility = isOverridable ? "public" : "fileprivate"
-                method += "\n\(indentation)\(visibility) var _\(key): \(rhs.returnValue())?"
-            }
+            let visibility = isOverridable ? "open" : "fileprivate"
+            let overrideString = isOverride ? " override" : ""
+            method += "\n\(indentation)\(visibility)\(overrideString) var \(key): \(rhs.returnValue()) {\(rhs.generate(isNested))\n\(indentation)}"
             
-            // Options.
-            let screen = "UIScreen.main"
-            let methodArgs = "_ traitCollection: UITraitCollection? = \(screen).traitCollection"
-            let override = isOverride ? "override " : ""
-            let visibility = isOverridable ? "open" : "public"
-            
-            method +=
-            "\n\(indentation)\(override)\(visibility) func \(key)Property(\(methodArgs)) -> \(rhs.returnValue()) {"
-            method += "\n\(indentation)\tif let override = _\(key) { return override }"
-            method += "\(rhs.generate(isNested))"
-            method += "\n\(indentation)\t}"
-            
-            if !isOverride {
-                method += "\n\(indentation)public var \(key == "default" ? "`\(key)`" : key): \(rhs.returnValue()) {"
-                method += "\n\(indentation)\tget { return self.\(key)Property() }"
-                method += "\n\(indentation)\tset { _\(key) = newValue }"
-                method += "\n\(indentation)}"
-            }
             generated = method
         }
         return generated

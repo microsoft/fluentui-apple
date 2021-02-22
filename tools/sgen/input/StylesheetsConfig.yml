@@ -1,5 +1,6 @@
-objc: true
+objc: false
 generateBaseStyle: true
+generateFilePerAppearanceProxy: true
 inputDir: ./
 inputs:
   - FluentUIStyle.yml

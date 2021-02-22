@@ -73,7 +73,7 @@ class Style {
 }
 
 extension Style: Determinism {
-    func ensureDeterminism() -> Style {
+    @discardableResult func ensureDeterminism() -> Style {
         properties = properties.compactMap({ $0.ensureDeterminism() }).sorted(by: { $0.key < $1.key })
         return self
     }
@@ -89,9 +89,9 @@ extension Style: Generatable {
         }
         var wrapper = isNested ? "\n\n" + indentation : indentation
         if let nestedOverrideName = nestedInfo.overrideName {
-            wrapper += "//MARK: - \(nestedOverrideName)"
+            wrapper += "// MARK: - \(nestedOverrideName)"
         } else {
-            wrapper += "//MARK: - \(name)"
+            wrapper += "// MARK: - \(name)"
         }
                 
         var superclass = Generator.Config.objcGeneration ? ": NSObject" : ""
@@ -120,42 +120,27 @@ extension Style: Generatable {
         let staticModifier = isNested ? "" : " static"
         let variableVisibility = !isNested ? "public" : visibility
         let styleClass = nestedInfo.isOverride ? "\(nestedInfo.overrideName!)AppearanceProxy" : "\(name)AppearanceProxy"
-        let returnClass = styleClass
         
-        if isDependencyInItsOwnStylesheet == false {
+        if isDependency || !isDependencyInItsOwnStylesheet {
             if nestedInfo.isOverride || isNestedOverridable {
-                let visibility = "open"
                 let override = nestedInfo.isOverride ? "override " : ""
-                let returnClass = nestedInfo.isOverride ? String(nestedReturn[nestedReturn.index(nestedReturn.startIndex, offsetBy: 2)...]) : returnClass
+                wrapper += "\n\(indentation)open \(override)var \(name): \(styleClass)"
                 
-                if isNestedOverridable && !nestedInfo.isOverride {
-                    wrapper += "\n\(indentation)public var _\(name): \(styleClass)?"
-                }
                 let injectedProxy: String
                 if isNested && isNestedInExternal.0 == false {
                     injectedProxy = "proxy: mainProxy"
                 } else {
                     injectedProxy = "proxy: { return self }"
                 }
-                wrapper +=
-                "\n\(indentation)\(override)\(visibility) func \(name)Style() -> \(returnClass) {"
-                wrapper += "\n\(indentation)\tif let override = _\(name) { return override }"
-                wrapper += "\n\(indentation)\t\treturn \(styleClass)(\(injectedProxy))"
-                wrapper += "\n\(indentation)\t}"
                 
-                if isNestedOverridable && !nestedInfo.isOverride {
-                    wrapper += "\n\(indentation)public var \(name): \(styleClass) {"
-                    wrapper += "\n\(indentation)\tget { return self.\(name)Style() }"
-                    wrapper += "\n\(indentation)\tset { _\(name) = newValue }"
-                    wrapper += "\n\(indentation)}"
-                }
+                wrapper += " {\n\(indentation)\treturn \(styleClass)(\(injectedProxy))"
+                wrapper += "\n\(indentation)}"
             } else {
                 wrapper += "\n\(indentation)\(objc)\(variableVisibility)\(staticModifier) let \(name) = \(name)AppearanceProxy()"
             }
         }
         
-        
-        if isDependency == false || isDependencyInItsOwnStylesheet {
+        if !isDependency || isDependencyInItsOwnStylesheet {
             let superclassDeclaration = nestedInfo.isOverride ? nestedSuperclass : superclass
             
             wrapper += "\n\(indentation)\(objc)\(visibility) class \(styleClass)\(superclassDeclaration) {"

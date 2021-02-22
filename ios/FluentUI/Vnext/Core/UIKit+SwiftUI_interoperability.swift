@@ -28,7 +28,9 @@ public struct UIViewAdapter: UIViewRepresentable {
             return
         }
 
-        stackView.removeAllSubviews()
+        for view in stackView.arrangedSubviews {
+            view.removeFromSuperview()
+        }
         stackView.addArrangedSubview(makeView())
     }
 }
