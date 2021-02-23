@@ -165,6 +165,9 @@ extension MSFDrawer: UIViewControllerTransitioningDelegate, UIViewControllerAnim
     }
 
     private func checkAndApplyCustomOffset(using transitionContext: UIViewControllerContextTransitioning) {
+        guard state.presentationOrigin == .zero else {
+            return
+        }
         if state.presentationDirection == .top {
             let sourceViewController = transitionContext.viewController(forKey: .from)!
             let containerView = transitionContext.containerView
@@ -174,8 +177,6 @@ extension MSFDrawer: UIViewControllerTransitioningDelegate, UIViewControllerAnim
             if let presentationHeight = presentationHeight {
                 state.presentationOrigin = CGPoint(x: CGFloat.zero, y: presentationHeight)
             }
-        } else {
-            state.presentationOrigin = CGPoint.zero
         }
     }
 

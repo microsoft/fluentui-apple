@@ -22,65 +22,21 @@ class DrawerDemoController: DemoController {
 
         addTitle(text: "Top Drawer")
 
-        container.addArrangedSubview(createButton(title: "Show resizable with clear background", action: { [weak self] _ in
+        container.addArrangedSubview(createButton(title: "Show with animation", action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
             }
 
             strongSelf.showTopDrawerButtonTapped()
         }).view)
-
-        container.addArrangedSubview(createButton(title: "Show resizable with max content height", action: { [weak self] _ in
-            guard let strongSelf = self else {
-                return
-            }
-
-            strongSelf.showTopDrawerButtonTapped()
-        }).view)
-
-        container.addArrangedSubview(createButton(title: "Show non dismissable", action: { [weak self] _ in
-            guard let strongSelf = self else {
-                return
-            }
-
-            strongSelf.showTopDrawerButtonTapped()
-        }).view)
-
-        container.addArrangedSubview(createButton(title: "Show changing resizing behaviour", action: { [weak self] _ in
-            guard let strongSelf = self else {
-                return
-            }
-
-            strongSelf.showTopDrawerButtonTapped()
-        }).view)
-
-        container.addArrangedSubview(createButton(title: "Show with no animation", action: { [weak self] _ in
-            guard let strongSelf = self else {
-                return
-            }
-
-            strongSelf.showTopDrawerButtonTapped()
-        }).view)
-
         container.addArrangedSubview(createButton(title: "Show from custom base with width on landscape", action: { [weak self] sender in
             guard let strongSelf = self else {
                 return
             }
 
             let buttonView = sender.view
-            guard let rect = buttonView.superview?.convert(buttonView.frame, to: nil) else {
-                return
-            }
-
-            strongSelf.showTopDrawerButtonTapped()
-        }).view)
-
-        container.addArrangedSubview(createButton(title: "Show respecting safe area width", action: { [weak self] _ in
-            guard let strongSelf = self else {
-                return
-            }
-
-            strongSelf.showTopDrawerButtonTapped()
+            let rect = buttonView.superview!.convert(buttonView.frame, to: nil)
+            strongSelf.showTopDrawerButtonTapped(presentationHeight: rect.maxY)
         }).view)
 
         addTitle(text: "Left/Right Drawer")
@@ -116,83 +72,7 @@ class DrawerDemoController: DemoController {
 
         addTitle(text: "Bottom Drawer")
 
-        container.addArrangedSubview(createButton(title: "Show resizable", action: { [weak self] _ in
-            guard let strongSelf = self else {
-                return
-            }
-
-            strongSelf.showBottomDrawerButtonTapped()
-        }).view)
-
-        container.addArrangedSubview(createButton(title: "Show resizable with max content height", action: { [weak self] _ in
-            guard let strongSelf = self else {
-                return
-            }
-
-            strongSelf.showBottomDrawerButtonTapped()
-        }).view)
-
-        container.addArrangedSubview(createButton(title: "Show with underlying interactable content view", action: { [weak self] _ in
-            guard let strongSelf = self else {
-                return
-            }
-
-            strongSelf.navigationController?.pushViewController(PassThroughDrawerDemoController(), animated: true)
-        }).view)
-        container.addArrangedSubview(createButton(title: "Show changing resizing behaviour", action: { [weak self] _ in
-            guard let strongSelf = self else {
-                return
-            }
-
-            strongSelf.showBottomDrawerButtonTapped()
-        }).view)
-
-        container.addArrangedSubview(createButton(title: "Show with no animation", action: { [weak self] _ in
-            guard let strongSelf = self else {
-                return
-            }
-
-            strongSelf.showBottomDrawerButtonTapped()
-        }).view)
-
-        container.addArrangedSubview(createButton(title: "Show from custom base", action: { [weak self] sender in
-            guard let strongSelf = self else {
-                return
-            }
-
-            let buttonView = sender.view
-            guard let rect = buttonView.superview?.convert(buttonView.frame, to: nil) else {
-                return
-            }
-
-            strongSelf.showBottomDrawerButtonTapped()
-        }).view)
-
-        container.addArrangedSubview(createButton(title: "Show always as slideover, resizable with dimmed background", action: { [weak self] _ in
-            guard let strongSelf = self else {
-                return
-            }
-
-            strongSelf.showBottomDrawerButtonTapped()
-        }).view)
-
-        container.addArrangedSubview(createButton(title: "Show always as slideover, resizable with clear background", action: { [weak self] _ in
-            guard let strongSelf = self else {
-                return
-            }
-
-            strongSelf.showBottomDrawerButtonTapped()
-        }).view)
-
-        container.addArrangedSubview(createButton(title: "Show with focusable content", action: { [weak self] _ in
-            guard let strongSelf = self else {
-                return
-            }
-
-            strongSelf.showBottomDrawerButtonTapped()
-        }).view)
-
-        container.addArrangedSubview(createButton(title: "Show dismiss blocking drawer", action: { [weak self] _ in
+        container.addArrangedSubview(createButton(title: "Show with animation", action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
             }
@@ -221,7 +101,6 @@ class DrawerDemoController: DemoController {
         self.verticalContentController = DrawerVerticalContentController()
         if let containerController = self.verticalContentController {
             verticalDrawerController = MSFDrawer(contentViewController: containerController)
-            verticalDrawerController?.shouldUseSystemLayoutContentSize = true
             verticalDrawerController?.delegate = self
         }
     }
@@ -268,17 +147,21 @@ class DrawerDemoController: DemoController {
         }
     }
 
-    @objc private func showTopDrawerButtonTapped() {
+    @objc private func showTopDrawerButtonTapped(presentationHeight: CGFloat = -1) {
         if let drawerController = verticalDrawerController {
-            drawerController.state.backgroundDimmed = false
+            drawerController.state.backgroundDimmed = true
             drawerController.state.presentationDirection = .top
+            
+            if presentationHeight != -1 {
+                drawerController.state.presentationOrigin = CGPoint(x: .zero, y: presentationHeight)
+            }
             present(drawerController, animated: true, completion: nil)
         }
     }
 
     private func showBottomDrawerButtonTapped() {
         if let drawerController = verticalDrawerController {
-            drawerController.state.backgroundDimmed = false
+            drawerController.state.backgroundDimmed = true
             drawerController.state.presentationDirection = .bottom
             present(drawerController, animated: true, completion: nil)
         }
@@ -365,8 +248,6 @@ class DrawerHorizontalContentController: DemoController {
 
 class DrawerVerticalContentController: DemoController {
 
-    public var drawerHasFlexibleHeight: Bool = true
-
     private func actionViews() -> [UIView] {
         let spacer = UIView()
         spacer.backgroundColor = .orange
@@ -374,14 +255,6 @@ class DrawerVerticalContentController: DemoController {
         spacer.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
 
         var views = [UIView]()
-        if drawerHasFlexibleHeight {
-            views.append(createButton(title: "Change content height", action: { sender in
-                if let spacer = (sender.view.superview as? UIStackView)?.arrangedSubviews.last,
-                    let heightConstraint = spacer.constraints.first {
-                    heightConstraint.constant = heightConstraint.constant == 20 ? 100 : 20
-                }
-            }).view)
-        }
 
         views.append(createButton(title: "Dismiss", action: { [weak self] _ in
             guard let strongSelf = self else {

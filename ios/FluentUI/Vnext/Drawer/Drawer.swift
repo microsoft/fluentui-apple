@@ -15,7 +15,11 @@ import SwiftUI
     /// Set to `false` to restore it to the normal size.
     @Published public var isExpanded: Bool = false
 
-    @objc public var presentationDirection: MSFDrawerDirection = .left
+    @objc public var presentationDirection: MSFDrawerDirection = .left {
+        didSet {
+            presentationOrigin = .zero
+        }
+    }
 
     /// Set `backgroundDimmed` to `true` to dim the spacer area between drawer and base view.
     /// If set to `false` it restores to `clear` color
