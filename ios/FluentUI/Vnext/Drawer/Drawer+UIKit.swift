@@ -33,18 +33,30 @@ open class MSFDrawer: UIHostingController<AnyView>, FluentUIWindowProvider {
 
     private var drawer: MSFDrawerView<UIViewControllerAdapter>
 
+    public var shouldUseSystemLayoutContentSize: Bool = false
+
     @objc public init(contentViewController: UIViewController,
                       theme: FluentUIStyle? = nil) {
         let drawer = MSFDrawerView(content: UIViewControllerAdapter(contentViewController))
         self.drawer = drawer
         super.init(rootView: theme != nil ? AnyView(drawer.usingTheme(theme!)) : AnyView(drawer))
 
-        drawer.tokens.windowProvider = self
+        self.drawer.tokens.windowProvider = self
+        self.drawer.content.updateViewController = {[weak self] controller in
+                guard let strongSelf = self else {
+                    return
+                }
+                strongSelf.updateLayoutIfNecessary(contentView: controller.view)
+        }
         view.backgroundColor = .clear
         modalPresentationStyle = .overFullScreen
         transitioningDelegate = self
 
         state.onStateChange = stateChangeCompletion()
+    }
+
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
     }
 
     @objc required dynamic public init?(coder aDecoder: NSCoder) {
@@ -117,15 +129,7 @@ extension MSFDrawer: UIViewControllerTransitioningDelegate, UIViewControllerAnim
 
         state.animationDuration = transitionDuration(using: transitionContext)
 
-        if state.presentationDirection == .top {
-            let presentationHeight = navigationBarOrigin(sourceViewController: transitionContext.viewController(forKey: .from)!,
-                                                         containerView: transitionContext.containerView)
-            if let presentationHeight = presentationHeight {
-                state.presentationOrigin = CGPoint(x: CGFloat.zero, y: presentationHeight)
-            }
-        } else {
-            state.presentationOrigin = CGPoint.zero
-        }
+        checkAndApplyCustomOffset(using: transitionContext)
 
         // The presentation of drawer happens in two steps
         //     1. Present the hosting view (trasnparent) without animation
@@ -157,6 +161,29 @@ extension MSFDrawer: UIViewControllerTransitioningDelegate, UIViewControllerAnim
                 transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
                 strongSelf.transitionInProgress = false
             }
+        }
+    }
+
+    private func checkAndApplyCustomOffset(using transitionContext: UIViewControllerContextTransitioning) {
+        if state.presentationDirection == .top {
+            let sourceViewController = transitionContext.viewController(forKey: .from)!
+            let containerView = transitionContext.containerView
+
+            let presentationHeight = navigationBarOrigin(sourceViewController: sourceViewController,
+                                                         containerView: containerView)
+            if let presentationHeight = presentationHeight {
+                state.presentationOrigin = CGPoint(x: CGFloat.zero, y: presentationHeight)
+            }
+        } else {
+            state.presentationOrigin = CGPoint.zero
+        }
+    }
+
+    private func updateLayoutIfNecessary(contentView: UIView) {
+        if shouldUseSystemLayoutContentSize {
+            var contentSize = contentView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+            contentSize = CGRect(origin: .zero, size: contentSize).inset(by: contentView.safeAreaInsets).size
+            state.contentSize = contentSize
         }
     }
 }

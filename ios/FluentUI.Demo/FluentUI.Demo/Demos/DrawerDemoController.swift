@@ -221,6 +221,7 @@ class DrawerDemoController: DemoController {
         self.verticalContentController = DrawerVerticalContentController()
         if let containerController = self.verticalContentController {
             verticalDrawerController = MSFDrawer(contentViewController: containerController)
+            verticalDrawerController?.shouldUseSystemLayoutContentSize = true
             verticalDrawerController?.delegate = self
         }
     }
@@ -304,11 +305,7 @@ class DrawerDemoController: DemoController {
 
 extension DrawerDemoController: MSFDrawerControllerDelegate {
     @objc func drawerDidChangeState(state: MSFDrawerState, controller: UIViewController) {
-        if let controller = verticalContentController {
-            controller.expandButton?.state.text = state.isExpanded ? "Return to normal" : "Expand"
-        }
     }
-
 }
 
 // MARK: DrawerContentController
@@ -368,9 +365,7 @@ class DrawerHorizontalContentController: DemoController {
 
 class DrawerVerticalContentController: DemoController {
 
-    public var expandButton: MSFButton?
     public var drawerHasFlexibleHeight: Bool = true
-    public var drawerHasToggleResizingBehaviorButton: Bool = true
 
     private func actionViews() -> [UIView] {
         let spacer = UIView()
@@ -380,25 +375,12 @@ class DrawerVerticalContentController: DemoController {
 
         var views = [UIView]()
         if drawerHasFlexibleHeight {
-            let expandButton = createButton(title: "Expand", action: { [weak self] _ in
-                guard let strongSelf = self else {
-                    return
-                }
-
-                guard let drawer = strongSelf.presentedViewController as? DrawerController else {
-                    return
-                }
-                drawer.isExpanded = !drawer.isExpanded
-            })
-
-            self.expandButton = expandButton
             views.append(createButton(title: "Change content height", action: { sender in
                 if let spacer = (sender.view.superview as? UIStackView)?.arrangedSubviews.last,
                     let heightConstraint = spacer.constraints.first {
                     heightConstraint.constant = heightConstraint.constant == 20 ? 100 : 20
                 }
             }).view)
-            views.append(expandButton.view)
         }
 
         views.append(createButton(title: "Dismiss", action: { [weak self] _ in
@@ -416,22 +398,6 @@ class DrawerVerticalContentController: DemoController {
 
             strongSelf.dismiss(animated: false)
         }).view)
-
-        if drawerHasToggleResizingBehaviorButton {
-            views.append(createButton(title: "Resizing - None", action: { [weak self] sender in
-                guard let strongSelf = self else {
-                    return
-                }
-
-                guard let drawer = strongSelf.presentedViewController as? DrawerController else {
-                    return
-                }
-
-                let isResizingBehaviourNone = drawer.resizingBehavior == .none
-                drawer.resizingBehavior = isResizingBehaviourNone ? .expand : .none
-                sender.state.text = isResizingBehaviourNone ? "Resizing - None" : "Resizing - Expand"
-            }).view)
-        }
         views.append(spacer)
         return views
     }

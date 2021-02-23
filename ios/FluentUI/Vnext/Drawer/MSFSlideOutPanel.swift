@@ -6,10 +6,10 @@
 import SwiftUI
 
 private struct Constants {
-    static let maxContentSize = CGSize(width: 360, height: 400)
-    static let contentSizeWidthRatio: CGFloat = 0.9
-    static let contentSizeHeightRatio: CGFloat = 0.5
+    static let defaultContentSize = CGSize(width: 360, height: 400)
     static let cornerRadius: CGFloat = 20
+    static let initialContentWidthPercent: CGFloat = 0.9
+    static let initialContentHeightPercent: CGFloat = 0.5
 }
 
 /// `MSFSlideOutPanel` in the drawer's  undelrying layer that expands and collapsed on x/y axis of the drawer.
@@ -29,19 +29,30 @@ struct MSFSlideOutPanel<Content: View>: View, MSFPanelContent, MSFPanelTransitio
     /// Interactive state of panel
     @Binding var transitionState: MSFDrawerTransitionState
 
-    /// content size defaults to fixed width and height
-    var preferredContentSize: CGSize {
-        var preferredWidth = panelSize.width * Constants.contentSizeWidthRatio
-        if preferredWidth >= Constants.maxContentSize.width {
-            preferredWidth = Constants.maxContentSize.width
-        }
+    /// content size set by client
+    var intrinsicContentSize: CGSize?
 
-        var preferredHeight = panelSize.height * Constants.contentSizeHeightRatio
-        if preferredHeight >= Constants.maxContentSize.height {
-            preferredHeight = Constants.maxContentSize.height
+    /// content size the panel's attempt to set if within bounds
+    var preferredContentSize: CGSize {
+        get {
+            if let contentSize = intrinsicContentSize, contentSize != .zero {
+                return contentSize
+            } else {
+                var preferredWidth = panelSize.width * Constants.initialContentWidthPercent
+                if preferredWidth >= Constants.defaultContentSize.width {
+                    preferredWidth = Constants.defaultContentSize.width
+                }
+
+                var preferredHeight = panelSize.height * Constants.initialContentHeightPercent
+                if preferredHeight >= Constants.defaultContentSize.height {
+                    preferredHeight = Constants.defaultContentSize.height
+                }
+                return CGSize(width: preferredWidth, height: preferredHeight)            }
+        } set {
+            if preferredContentSize != newValue {
+                intrinsicContentSize = newValue
+            }
         }
-        
-        return CGSize(width: preferredWidth, height: preferredHeight)
     }
 
     /// size of the base panel

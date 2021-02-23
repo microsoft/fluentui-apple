@@ -21,6 +21,9 @@ import SwiftUI
     /// If set to `false` it restores to `clear` color
     @objc @Published public var backgroundDimmed: Bool = false
 
+    /// Updates the content size with default animation, work for vertical direction only
+    @Published public var contentSize: CGSize?
+
     /// Anitmation duration when drawer is collapsed/expanded
     @objc public var animationDuration: Double = 0.0
 
@@ -92,6 +95,9 @@ public struct MSFDrawerView<Content: View>: View {
                     }
                     state.onStateChange?(state.isExpanded)
                 }
+                .contentSize(drawerContentSize)
+                .offset(x: state.presentationOrigin.x, y: state.presentationOrigin.y)
+                .gesture(dragGesture(screenWidth: proxy.size.width))
                 .onReceive(state.$isExpanded, perform: { value in
                     withAnimation(presentationAnimation) {
                         if value {
@@ -105,11 +111,17 @@ public struct MSFDrawerView<Content: View>: View {
                         panelTransitionPercent = nil
                     }
                 })
+                .onReceive(state.$contentSize, perform: { value in
+                    guard let value = value else {
+                        return
+                    }
+                    withAnimation(presentationAnimation) {
+                        drawerContentSize = value
+                    }
+                })
                 .onDisappear {
                     state.isExpanded = false
                 }
-                .offset(x: state.presentationOrigin.x, y: state.presentationOrigin.y)
-                .gesture(dragGesture(screenWidth: proxy.size.width))
                 .onReceive(state.$translation) { value in
                     if let translation = value {
                         switch translation.state {
@@ -147,6 +159,9 @@ public struct MSFDrawerView<Content: View>: View {
     /// Transition percent, whem set to max value the panel is expaned
     /// Range [0,1]
     @State internal var panelTransitionPercent: Double? = 0.0
+
+    /// tracks drawer content size
+    @State internal var drawerContentSize: CGSize = .zero
 
     /// Threshold if exceeded the transition state is toggled
     private let horizontalGestureThreshold: Double = 0.225
