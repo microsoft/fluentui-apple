@@ -72,12 +72,9 @@ public struct MSFListView: View {
     private func updateCellDividers() -> [MSFListSectionState] {
         state.sections.forEach { section in
             section.cells.forEach { cell in
-                if cell != section.cells.last {
-                    cell.hasDivider = false
-                } else {
-                    cell.hasDivider = section.hasDividers
-                }
+                cell.hasDivider = section.hasDividers
             }
+            section.cells.last?.hasDivider = false
         }
         return state.sections
     }
