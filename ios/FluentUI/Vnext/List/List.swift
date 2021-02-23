@@ -10,6 +10,7 @@ import SwiftUI
 @objc public class MSFListSectionState: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
     @objc @Published public var cells: [MSFListCellState] = []
+    @objc @Published public var style: MSFHeaderFooterStyle = .headerPrimary
     @objc @Published public var title: String?
     @objc @Published public var hasDividers: Bool = false
 }
@@ -31,19 +32,17 @@ public struct MSFListView: View {
     }
 
     public var body: some View {
-        let sections = state.sections
+        let sections = self.updateCellDividers()
             ScrollView {
                 VStack(spacing: 0) {
                     ForEach(sections, id: \.self) { section in
-                        if let sectionTitle = section.title {
-                            Header(title: sectionTitle, tokens: tokens)
+                        if let sectionTitle = section.title, !sectionTitle.isEmpty {
+                            Header(state: section, windowProvider: tokens.windowProvider)
                         }
 
                         ForEach(section.cells.indices, id: \.self) { index in
                             let cellState = section.cells[index]
-                            let hasDividers = (index < section.cells.count - 1 && section.hasDividers) || (section.hasDividers && (cellState.children != nil))
                             MSFListCellView(state: cellState,
-                                            hasDividers: hasDividers,
                                             windowProvider: tokens.windowProvider)
                                 .frame(maxWidth: .infinity)
                         }
@@ -68,6 +67,19 @@ public struct MSFListView: View {
                     self.tokens.theme = theme
                 }
             }
+    }
+
+    private func updateCellDividers() -> [MSFListSectionState] {
+        state.sections.forEach { section in
+            section.cells.forEach { cell in
+                if cell != section.cells.last {
+                    cell.hasDivider = false
+                } else {
+                    cell.hasDivider = section.hasDividers
+                }
+            }
+        }
+        return state.sections
     }
 }
 

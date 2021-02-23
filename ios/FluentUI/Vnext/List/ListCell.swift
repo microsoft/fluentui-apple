@@ -35,6 +35,7 @@ import SwiftUI
     @objc @Published public var children: [MSFListCellState]?
     @objc @Published public var isExpanded: Bool = false
     @objc @Published public var layoutType: MSFListCellLayoutType = .automatic
+    @objc @Published public var hasDivider: Bool = false
     @objc public var onTapAction: (() -> Void)?
 }
 
@@ -50,11 +51,9 @@ import SwiftUI
 struct MSFListCellView: View {
     @ObservedObject var state: MSFListCellState
     @ObservedObject var tokens: MSFListCellTokens
-    var hasDividers: Bool
 
-    init(state: MSFListCellState, hasDividers: Bool = false, windowProvider: FluentUIWindowProvider?) {
+    init(state: MSFListCellState, windowProvider: FluentUIWindowProvider?) {
         self.state = state
-        self.hasDividers = hasDividers
         self.tokens = MSFListCellTokens(cellLeadingViewSize: state.leadingViewSize)
         self.tokens.windowProvider = windowProvider
     }
@@ -110,7 +109,7 @@ struct MSFListCellView: View {
             }
         })
         .buttonStyle(ListCellButtonStyle(tokens: tokens, state: state))
-        if hasDividers {
+        if state.hasDivider {
             let padding = tokens.horizontalCellPadding + (state.leadingView != nil ? (tokens.leadingViewSize + tokens.iconInterspace) : 0)
             Divider()
                 .padding(.leading, padding)
@@ -118,7 +117,6 @@ struct MSFListCellView: View {
         if let children = state.children, state.isExpanded == true {
             ForEach(children, id: \.self) { child in
                 MSFListCellView(state: child,
-                                hasDividers: hasDividers,
                                 windowProvider: tokens.windowProvider)
                     .frame(maxWidth: .infinity)
                     .padding(.leading, (tokens.horizontalCellPadding + tokens.leadingViewSize))

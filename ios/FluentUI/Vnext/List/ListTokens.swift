@@ -37,14 +37,9 @@ import SwiftUI
 
 public class MSFListTokens: MSFTokensBase, ObservableObject {
     @Published public var backgroundColor: UIColor!
+    @Published public var highlightedBackgroundColor: UIColor!
 
     @Published public var borderColor: UIColor!
-    @Published public var borderSize: CGFloat!
-
-    @Published public var horizontalCellPadding: CGFloat!
-
-    @Published public var subtitleColor: UIColor!
-    @Published public var subtitleFont: UIFont!
 
     public override init() {
         super.init()
@@ -61,15 +56,10 @@ public class MSFListTokens: MSFTokensBase, ObservableObject {
         let currentTheme = theme
         let appearanceProxy = currentTheme.MSFListTokens
 
-        backgroundColor = appearanceProxy.backgroundColor
+        backgroundColor = appearanceProxy.backgroundColor.rest
+        highlightedBackgroundColor = appearanceProxy.backgroundColor.pressed
 
         borderColor = appearanceProxy.borderColor
-        borderSize = appearanceProxy.borderSize
-
-        horizontalCellPadding = appearanceProxy.horizontalCellPadding
-
-        subtitleColor = appearanceProxy.sublabelColor
-        subtitleFont = appearanceProxy.sublabelFont
     }
 }
 
@@ -84,7 +74,6 @@ public class MSFListCellTokens: MSFTokensBase, ObservableObject {
 
     @Published public var highlightedBackgroundColor: UIColor!
 
-    @Published public var borderSize: CGFloat!
     @Published public var cellHeightOneLine: CGFloat!
     @Published public var cellHeightTwoLines: CGFloat!
     @Published public var cellHeightThreeLines: CGFloat!
@@ -136,7 +125,6 @@ public class MSFListCellTokens: MSFTokensBase, ObservableObject {
 
         highlightedBackgroundColor = appearanceProxy.backgroundColor.pressed
 
-        borderSize = appearanceProxy.borderSize
         cellHeightOneLine = appearanceProxy.cellHeight.oneLine
         cellHeightTwoLines = appearanceProxy.cellHeight.twoLines
         cellHeightThreeLines = appearanceProxy.cellHeight.threeLines

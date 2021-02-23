@@ -254,6 +254,7 @@ Typography:
   body: "Font(body)"
   caption1: "Font(caption1)"
   footnote: "Font(footnote)"
+  headline: "Font(headline)"
   subheadline: "Font(subheadline)"
 
 Border:
@@ -420,17 +421,12 @@ MSFGhostButtonTokens extends MSFButtonTokens:
   borderColor: [ rest: $Colors.Neutral.clear, hover: $Colors.Neutral.clear, pressed: $Colors.Neutral.clear, selected: $Colors.Brand.shade10, disabled: $Colors.Neutral.clear ]
 
 AP_MSFListTokens:
-  backgroundColor: $Colors.Background.neutral1
+  backgroundColor: [ rest: $Colors.Background.neutral1, pressed: $Colors.Background.neutral5 ]
   borderColor: $Colors.Stroke.neutral1
-  borderSize: $Border.size.thin
-  horizontalCellPadding: $Spacing.medium
-  sublabelColor: $Colors.Foreground.neutral3
-  sublabelFont: $Typography.caption1
 
 AP_MSFListCellTokens:
   backgroundColor: [ rest: $Colors.Background.neutral1, pressed: $Colors.Background.neutral5 ]
   borderColor: $Colors.Stroke.neutral1
-  borderSize: $Border.size.thin
   cellHeight: [ oneLine: 48pt, twoLines: 64pt, threeLines: 84pt ]
   disclosureIconForegroundColor: $Colors.Foreground.neutral3
   disclosureInterspace: $Spacing.xxSmall
@@ -440,11 +436,26 @@ AP_MSFListCellTokens:
   labelColor: $Colors.Foreground.neutral1
   labelFont: $Typography.body
   leadingViewColor: $Colors.Foreground.neutral4
-  leadingViewSize: [ small: $Icon.size.xSmall, medium: $Icon.size.medium, large: $Icon.size.xxlarge]
+  leadingViewSize: [ small: $Icon.size.xSmall, medium: $Icon.size.medium, large: $Icon.size.xxlarge ]
   sublabelColor: $Colors.Foreground.neutral3
   sublabelFont: $Typography.caption1
   trailingItemForegroundColor: $Colors.Foreground.neutral3
   trailingItemSize: $Icon.size.medium
+
+AP_MSFHeaderFooterTokens:
+  backgroundColor: $Colors.Background.neutral1
+  headerHeight: $Spacing.xxxlarge
+  topPadding: $Spacing.xlarge
+  leadingPadding: $Spacing.medium
+  bottomPadding: $Spacing.xSmall
+  trailingPadding: $Spacing.medium
+  textColor: $Colors.Foreground.neutral3
+  textFont: $Typography.caption1
+
+MSFPrimaryHeaderTokens extends MSFHeaderFooterTokens:
+  textColor: $Colors.Foreground.neutral1
+  textFont: $Typography.headline
+  topPadding: $Spacing.medium
 
 AP_MSFDrawerTokens:
   backgroundClearColor: $Colors.Neutral.clear
