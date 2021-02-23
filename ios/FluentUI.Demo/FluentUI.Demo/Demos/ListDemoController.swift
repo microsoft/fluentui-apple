@@ -95,7 +95,7 @@ class ListDemoController: DemoController {
                 listCell = MSFListCellState()
                 listCell.title = cell.text1
                 listCell.subtitle = cell.text2
-                if let subtitle = listCell.subtitle, !subtitle.isEmpty {
+                if !listCell.subtitle.isEmpty {
                     listCell.leadingViewSize = MSFListCellLeadingViewSize.large
                 }
                 listCell.titleLineLimit = section.numberOfLines
@@ -103,7 +103,6 @@ class ListDemoController: DemoController {
                 listCell.leadingView = createCustomView(imageName: cell.image)
                 listCell.trailingView = section.hasAccessory ? createCustomView(imageName: cell.image) : nil
                 listCell.accessoryType = accessoryType(for: rowIndex)
-                listCell.layoutType = updateLayout(subtitle: listCell.subtitle)
                 listCell.onTapAction = {
                     indexPath.row = rowIndex
                     indexPath.section = sectionIndex
@@ -169,14 +168,6 @@ class ListDemoController: DemoController {
             return .none
         default:
             return .none
-        }
-    }
-
-    private func updateLayout(subtitle: String?) -> MSFListCellLayoutType {
-        if let subtitle = subtitle, !subtitle.isEmpty {
-            return MSFListCellLayoutType.twoLines
-        } else {
-            return MSFListCellLayoutType.oneLine
         }
     }
 
