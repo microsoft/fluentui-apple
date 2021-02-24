@@ -11,6 +11,7 @@ protocol ScrollableContainerView: AnyObject {
     func makeFirstResponderVisible()
 }
 
+@available(iOSApplicationExtension, unavailable)
 @available(*, deprecated, renamed: "ScrollView")
 public typealias MSScrollView = ScrollView
 

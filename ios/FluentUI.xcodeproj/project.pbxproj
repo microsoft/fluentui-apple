@@ -1658,6 +1658,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 53FC90F825673626008A06FD /* FluentUI_framework.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 			};
 			name = Dogfood;
 		};
@@ -1688,6 +1689,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 53FC90F825673626008A06FD /* FluentUI_framework.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 			};
 			name = Debug;
 		};
@@ -1695,6 +1697,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 53FC90F825673626008A06FD /* FluentUI_framework.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 			};
 			name = Release;
 		};

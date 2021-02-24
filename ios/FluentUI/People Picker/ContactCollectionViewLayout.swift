@@ -103,7 +103,7 @@ class ContactCollectionViewLayout: UICollectionViewFlowLayout {
     }
 
     private func sizeForItemAt(indexPath: IndexPath) -> CGSize {
-        let itemHeight = UIApplication.shared.preferredContentSizeCategory.contactHeight(size: size.contactViewSize)
+        let itemHeight = UIScreen.main.traitCollection.preferredContentSizeCategory.contactHeight(size: size.contactViewSize)
         return CGSize(width: size.width, height: itemHeight)
     }
 
