@@ -64,7 +64,7 @@ class ListDemoController: DemoController {
 
         /// Custom Leading View with collapsible children items
         listSection = MSFListSectionState()
-        listSection.title = "AvatarView Section"
+        listSection.title = "Avatar Section"
         listSection.cells = []
         for index in 0...1 {
             listCell = MSFListCellState()

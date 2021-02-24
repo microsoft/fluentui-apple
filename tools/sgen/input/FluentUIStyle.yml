@@ -421,7 +421,6 @@ MSFGhostButtonTokens extends MSFButtonTokens:
   borderColor: [ rest: $Colors.Neutral.clear, hover: $Colors.Neutral.clear, pressed: $Colors.Neutral.clear, selected: $Colors.Brand.shade10, disabled: $Colors.Neutral.clear ]
 
 AP_MSFListTokens:
-  backgroundColor: [ rest: $Colors.Background.neutral1, pressed: $Colors.Background.neutral5 ]
   borderColor: $Colors.Stroke.neutral1
 
 AP_MSFListCellTokens:

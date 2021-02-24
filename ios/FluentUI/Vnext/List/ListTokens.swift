@@ -36,9 +36,6 @@ import SwiftUI
 }
 
 public class MSFListTokens: MSFTokensBase, ObservableObject {
-    @Published public var backgroundColor: UIColor!
-    @Published public var highlightedBackgroundColor: UIColor!
-
     @Published public var borderColor: UIColor!
 
     public override init() {
@@ -55,9 +52,6 @@ public class MSFListTokens: MSFTokensBase, ObservableObject {
     public override func updateForCurrentTheme() {
         let currentTheme = theme
         let appearanceProxy = currentTheme.MSFListTokens
-
-        backgroundColor = appearanceProxy.backgroundColor.rest
-        highlightedBackgroundColor = appearanceProxy.backgroundColor.pressed
 
         borderColor = appearanceProxy.borderColor
     }

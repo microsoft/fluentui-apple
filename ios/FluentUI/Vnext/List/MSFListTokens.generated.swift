@@ -15,28 +15,6 @@ extension FluentUIStyle {
 			self.mainProxy = proxy
 		}
 
-		// MARK: - backgroundColor
-		open var backgroundColor: backgroundColorAppearanceProxy {
-			return backgroundColorAppearanceProxy(proxy: mainProxy)
-		}
-		open class backgroundColorAppearanceProxy {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			// MARK: - pressed 
-			open var pressed: UIColor {
-				return mainProxy().Colors.Background.neutral5
-			}
-
-			// MARK: - rest 
-			open var rest: UIColor {
-				return mainProxy().Colors.Background.neutral1
-			}
-		}
-
-
 		// MARK: - borderColor 
 		open var borderColor: UIColor {
 			return mainProxy().Colors.Stroke.neutral1
