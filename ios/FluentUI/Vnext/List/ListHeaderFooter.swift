@@ -26,12 +26,12 @@ struct Header: View {
             }
             Spacer()
         }
-        .background(Color(tokens.backgroundColor))
         .padding(EdgeInsets(top: tokens.topPadding,
                             leading: tokens.leadingPadding,
                             bottom: tokens.bottomPadding,
                             trailing: tokens.trailingPadding))
         .frame(minHeight: tokens.headerHeight)
+        .background(Color(tokens.backgroundColor))
         .onAppear {
             // When environment values are available through the view hierarchy:
             //  - If we get a non-default theme through the environment values,
