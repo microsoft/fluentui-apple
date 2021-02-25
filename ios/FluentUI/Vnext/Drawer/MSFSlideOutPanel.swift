@@ -78,9 +78,9 @@ struct MSFSlideOutPanel<Content: View>: View, MSFPanelContent, MSFPanelTransitio
             }
 
             content
+                .cornerRadius(Constants.cornerRadius, direction: direction)
                 .frame(width: contentWidth, height: contentHeight)
                 .offset(x: contentOffset.dx, y: contentOffset.dy)
-                .cornerRadius(Constants.cornerRadius, direction: direction)
                 .elevation(with: tokens, alignment: direction)
                 .onAnimationComplete(value: valueObserved, completion: transitionCompletion)
 
