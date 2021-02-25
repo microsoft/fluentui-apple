@@ -111,7 +111,7 @@ open class ContactCollectionView: UICollectionView {
     }
 
     @objc private func updateHeightConstraint() {
-        let height = UIScreen.main.traitCollection.preferredContentSizeCategory.contactHeight(size: size.contactViewSize) + 2 * Constants.verticalInset
+        let height = traitCollection.preferredContentSizeCategory.contactHeight(size: size.contactViewSize) + 2 * Constants.verticalInset
         heightConstraint.constant = height
     }
 

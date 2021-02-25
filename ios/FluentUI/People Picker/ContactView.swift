@@ -41,7 +41,7 @@ open class ContactView: UIControl {
 
         var width: CGFloat {
             var width = avatarSize.size.width
-            switch UIScreen.main.traitCollection.preferredContentSizeCategory {
+            switch UITraitCollection.current.preferredContentSizeCategory {
             case .accessibilityMedium:
                 width += 20
             case .accessibilityLarge:
@@ -200,7 +200,7 @@ open class ContactView: UIControl {
     }
 
     private func updateLabelHeight() {
-        let contactHeight = UIScreen.main.traitCollection.preferredContentSizeCategory.contactHeight(size: size)
+        let contactHeight = traitCollection.preferredContentSizeCategory.contactHeight(size: size)
         labelHeightConstraint.constant = contactHeight - size.avatarSize.size.height - Constants.spacingBetweenAvatarAndLabelContainer
     }
 

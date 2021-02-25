@@ -378,7 +378,7 @@ open class TableViewCellFileAccessoryView: UIView {
         let availableColumnSpace = cellSize.width - reservedCellSpace - width
         let columnMinWidth = Constants.columnMinWidth + Constants.columnSpacing
         let canShowFirstColumn = cellSize.width >= Constants.layoutBreakPoints[4] && availableColumnSpace > columnMinWidth
-        let canShowSecondColumn = cellSize.width >= Constants.layoutBreakPoints[5] && availableColumnSpace > 2 * columnMinWidth && UIScreen.main.traitCollection.preferredContentSizeCategory.canShowSharedStatus
+        let canShowSecondColumn = cellSize.width >= Constants.layoutBreakPoints[5] && availableColumnSpace > 2 * columnMinWidth && traitCollection.preferredContentSizeCategory.canShowSharedStatus
         let isShowingDate = canShowFirstColumn && date != nil
         let isShowingSharedStatus = showSharedStatus && (canShowSecondColumn || (canShowFirstColumn && !isShowingDate))
 
