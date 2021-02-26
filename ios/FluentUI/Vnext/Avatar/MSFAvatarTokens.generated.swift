@@ -38,7 +38,7 @@ extension FluentUIStyle {
 
 		// MARK: - backgroundDefaultColor 
 		open var backgroundDefaultColor: UIColor {
-			return UIColor(light: mainProxy().Colors.Neutral.white, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.primary, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			return UIColor(light: UIColor(named: "FluentColors/white", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.primary, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
 		// MARK: - borderRadius
@@ -519,12 +519,12 @@ extension FluentUIStyle {
 
 		// MARK: - backgroundDefaultColor 
 		open override var backgroundDefaultColor: UIColor {
-			return UIColor(light: mainProxy().Colors.Neutral.grey94, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Neutral.grey26, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			return UIColor(light: UIColor(named: "FluentColors/grey94", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey26", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
 		// MARK: - foregroundDefaultColor 
 		open override var foregroundDefaultColor: UIColor {
-			return UIColor(light: mainProxy().Colors.Neutral.grey42, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Neutral.grey78, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			return UIColor(light: UIColor(named: "FluentColors/grey42", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey78", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
 		// MARK: - ringDefaultColor 
@@ -540,17 +540,17 @@ extension FluentUIStyle {
 
 		// MARK: - backgroundDefaultColor 
 		open override var backgroundDefaultColor: UIColor {
-			return UIColor(light: mainProxy().Colors.Brand.tint40, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Neutral.grey26, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			return UIColor(light: mainProxy().Colors.Brand.tint40, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey26", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
 		// MARK: - foregroundDefaultColor 
 		open override var foregroundDefaultColor: UIColor {
-			return UIColor(light: mainProxy().Colors.Brand.primary, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Neutral.grey78, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			return UIColor(light: mainProxy().Colors.Brand.primary, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey78", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
 		// MARK: - ringDefaultColor 
 		open override var ringDefaultColor: UIColor {
-			return UIColor(light: mainProxy().Colors.Brand.tint10, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Neutral.grey78, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			return UIColor(light: mainProxy().Colors.Brand.tint10, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey78", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 	}
 	// MARK: - MSFOverflowAvatarTokens
