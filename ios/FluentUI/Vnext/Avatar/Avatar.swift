@@ -66,6 +66,27 @@ import SwiftUI
         return Image(imageName,
                      bundle: FluentUIFramework.resourceBundle)
     }
+
+    public func string() -> String? {
+        switch self {
+        case .none:
+            return nil
+        case .available:
+            return "Presence.Available".localized
+        case .away:
+            return "Presence.Away".localized
+        case .busy:
+            return "Presence.Busy".localized
+        case .blocked:
+            return "Presence.Blocked".localized
+        case .doNotDisturb:
+            return "Presence.DND".localized
+        case .offline:
+            return "Presence.Offline".localized
+        case .unknown:
+            return "Presence.Unknown".localized
+        }
+    }
 }
 
 /// Properties available to customize the state of the avatar
@@ -217,7 +238,22 @@ public struct AvatarView: View {
                                 AnyView(EmptyView()),
                              alignment: .topLeading))
 
+        let accessibilityLabel: String = {
+            if let overriddenAccessibilityLabel = state.accessibilityLabel {
+                return overriddenAccessibilityLabel
+            }
+
+            let defaultAccessibilityText = state.primaryText ?? state.secondaryText ?? ""
+            return (state.isOutOfOffice ?
+                        String.localizedStringWithFormat("Accessibility.AvatarView.LabelFormat".localized, defaultAccessibilityText, "Presence.OOF".localized) :
+                        defaultAccessibilityText)
+        }()
+
         return bodyView
+            .accessibilityElement(children: .ignore)
+            .accessibility(addTraits: .isImage)
+            .accessibility(label: Text(accessibilityLabel))
+            .accessibility(value: Text(presence.string() ?? ""))
             .onAppear {
                 // When environment values are available through the view hierarchy:
                 //  - If we get a non-default theme through the environment values,
