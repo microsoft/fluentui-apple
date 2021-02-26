@@ -14,10 +14,10 @@ import SwiftUI
 }
 
 /// ButtonStyle which configures the Button View according to its state and design tokens.
-public struct MSFButtonViewButtonStyle: ButtonStyle {
+struct MSFButtonViewButtonStyle: ButtonStyle {
     var targetButton: MSFButtonView
 
-    public func makeBody(configuration: Self.Configuration) -> some View {
+    func makeBody(configuration: Self.Configuration) -> some View {
         let tokens = targetButton.tokens
         let state = targetButton.state
         let isDisabled = state.isDisabled
@@ -94,10 +94,6 @@ public struct MSFButtonView: View {
 /// UIKit wrapper that exposes the SwiftUI Button implementation
 @objc open class MSFButton: NSObject, FluentUIWindowProvider {
 
-    private var hostingController: UIHostingController<AnyView>!
-
-    private var buttonView: MSFButtonView!
-
     @objc open var action: ((_ sender: MSFButton) -> Void)?
 
     @objc open var state: MSFButtonState {
@@ -106,10 +102,6 @@ public struct MSFButtonView: View {
 
     @objc open var view: UIView {
         return hostingController.view
-    }
-
-    public var window: UIWindow? {
-        return self.view.window
     }
 
     @objc public convenience init(style: MSFButtonStyle = .secondary,
@@ -147,4 +139,12 @@ public struct MSFButtonView: View {
         buttonView.tokens.windowProvider = self
         self.view.backgroundColor = UIColor.clear
     }
+
+    var window: UIWindow? {
+        return self.view.window
+    }
+
+    private var hostingController: UIHostingController<AnyView>!
+
+    private var buttonView: MSFButtonView!
 }

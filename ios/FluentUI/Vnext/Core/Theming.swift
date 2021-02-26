@@ -8,12 +8,12 @@ import SwiftUI
 
 /// Defintes the interface for a object that is in the view hierarchy and provides its associated UIWindow
 /// that can be used by the tokens class to retrieve a theme override for that UIWindow if it exists.
-public protocol FluentUIWindowProvider {
+protocol FluentUIWindowProvider {
     var window: UIWindow? { get }
 }
 
 /// Base class for all Tokens class. It provides the logic of computing the correct theme to be used by a given control.
-public class MSFTokensBase {
+class MSFTokensBase {
     var windowProvider: FluentUIWindowProvider?
 
     /// Used to retrieve the correct theme instance based on the following order of precedence:

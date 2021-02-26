@@ -7,7 +7,7 @@ import UIKit
 import SwiftUI
 
 /// This is a generic UIView wrapper to allow SwiftUI to use views from non-SwiftUI environments.
-public struct UIViewAdapter: UIViewRepresentable {
+struct UIViewAdapter: UIViewRepresentable {
 
     var makeView: () -> UIView
 
@@ -15,14 +15,14 @@ public struct UIViewAdapter: UIViewRepresentable {
         self.makeView = makeView
     }
 
-    public func makeUIView(context: Context) -> UIView {
+    func makeUIView(context: Context) -> UIView {
         // Wrapping the view passed on a StackView is a workaround for a hang that occurs
         // on iOS 13 when the view passed directly comes from a UIHostingController.view
         // property. (e.g. using the MSFAvatar.view property).
         return UIStackView(arrangedSubviews: [makeView()])
     }
 
-    public func updateUIView(_ view: UIView, context: Context) {
+    func updateUIView(_ view: UIView, context: Context) {
         // This logic should be removed wnce the "wrapping in a UIStackView" workaround is removed.
         guard let stackView = view as? UIStackView else {
             return
@@ -36,7 +36,7 @@ public struct UIViewAdapter: UIViewRepresentable {
 }
 
 /// This is a generic UIViewController wrapper to allow SwiftUI to use views from non-SwiftUI environments.
-public struct UIViewControllerAdapter: UIViewControllerRepresentable {
+struct UIViewControllerAdapter: UIViewControllerRepresentable {
 
     var makeViewController: () -> UIViewController
 
@@ -50,5 +50,5 @@ public struct UIViewControllerAdapter: UIViewControllerRepresentable {
 
     public func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
 
-    public typealias UIViewControllerType = UIViewController
+    typealias UIViewControllerType = UIViewController
 }

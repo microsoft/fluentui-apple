@@ -6,7 +6,7 @@
 import SwiftUI
 
 /// `DrawerTokens` assist to configure drawer apperance via UIKit components.
-public class MSFDrawerTokens: MSFTokensBase, ObservableObject {
+class MSFDrawerTokens: MSFTokensBase, ObservableObject {
 
     @Published public var shadow1Color: Color!
     @Published public var shadow1Blur: CGFloat!
@@ -19,7 +19,7 @@ public class MSFDrawerTokens: MSFTokensBase, ObservableObject {
     @Published public var backgroundDimmedColor: Color!
     @Published public var backgroundClearColor: Color!
 
-    public override init() {
+    override init() {
         super.init()
 
         self.themeAware = true
@@ -30,7 +30,7 @@ public class MSFDrawerTokens: MSFTokensBase, ObservableObject {
         updateForCurrentTheme()
     }
 
-    public override func updateForCurrentTheme() {
+    override func updateForCurrentTheme() {
         let appearanceProxy = theme.MSFDrawerTokens
 
         shadow1Color = Color(appearanceProxy.shadow1Color)
