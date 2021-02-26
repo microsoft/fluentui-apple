@@ -245,7 +245,7 @@ public struct AvatarView: View {
 
             let defaultAccessibilityText = state.primaryText ?? state.secondaryText ?? ""
             return (state.isOutOfOffice ?
-                        String(format: "Accessibility.AvatarView.LabelFormat".localized, defaultAccessibilityText, "Presence.OOF".localized) :
+                        String.localizedStringWithFormat("Accessibility.AvatarView.LabelFormat".localized, defaultAccessibilityText, "Presence.OOF".localized) :
                         defaultAccessibilityText)
         }()
 
