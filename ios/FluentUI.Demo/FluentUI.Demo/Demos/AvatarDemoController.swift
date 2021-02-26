@@ -106,6 +106,8 @@ class AvatarDemoController: DemoController {
             let overflowAvatar = createAvatarView(size: size,
                                                   name: "20",
                                                   style: .overflow)
+            overflowAvatar.state.accessibilityLabel = "20 more contacts"
+
             avatarViews.append(overflowAvatar)
 
             addRow(text: size.description, items: [overflowAvatar.view], textStyle: .footnote, textWidth: 100)
