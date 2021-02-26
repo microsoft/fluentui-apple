@@ -16,7 +16,7 @@ import SwiftUI
     case offline
     case unknown
 
-    public func color(isOutOfOffice: Bool) -> Color {
+    func color(isOutOfOffice: Bool) -> Color {
         var color = UIColor.clear
 
         switch self {
@@ -41,7 +41,7 @@ import SwiftUI
         return Color(color)
     }
 
-    public func image(isOutOfOffice: Bool) -> Image {
+    func image(isOutOfOffice: Bool) -> Image {
         var imageName = ""
 
         switch self {
@@ -232,7 +232,7 @@ public struct AvatarView: View {
             }
     }
 
-    func circularCutoutMask(targetFrameRect: CGRect, cutoutFrameRect: CGRect) -> Path {
+    private func circularCutoutMask(targetFrameRect: CGRect, cutoutFrameRect: CGRect) -> Path {
         var cutoutFrame = Rectangle().path(in: targetFrameRect)
         cutoutFrame.addPath(Circle().path(in: cutoutFrameRect))
 
@@ -251,20 +251,12 @@ public struct AvatarView: View {
 /// UIKit wrapper that exposes the SwiftUI Avatar implementation
 @objc open class MSFAvatar: NSObject, FluentUIWindowProvider {
 
-    private var hostingController: UIHostingController<AnyView>!
-
-    private var avatarview: AvatarView!
-
     @objc open var view: UIView {
         return hostingController.view
     }
 
     @objc open var state: MSFAvatarState {
         return self.avatarview.state
-    }
-
-    public var window: UIWindow? {
-        return self.view.window
     }
 
     @objc open func setStyle(style: MSFAvatarStyle) {
@@ -294,4 +286,12 @@ public struct AvatarView: View {
         avatarview.tokens.windowProvider = self
         self.view.backgroundColor = UIColor.clear
     }
+
+    var window: UIWindow? {
+        return self.view.window
+    }
+
+    private var hostingController: UIHostingController<AnyView>!
+
+    private var avatarview: AvatarView!
 }
