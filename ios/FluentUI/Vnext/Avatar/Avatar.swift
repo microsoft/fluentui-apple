@@ -68,7 +68,6 @@ import SwiftUI
     }
 
     public func string() -> String? {
-
         switch self {
         case .none:
             return nil
@@ -240,8 +239,8 @@ public struct AvatarView: View {
                              alignment: .topLeading))
 
         let accessibilityLabel: String = {
-            if let overridenAccessibilityLabel = state.accessibilityLabel {
-                return overridenAccessibilityLabel
+            if let overriddenAccessibilityLabel = state.accessibilityLabel {
+                return overriddenAccessibilityLabel
             }
 
             let defaultAccessibilityText = state.primaryText ?? state.secondaryText ?? ""
