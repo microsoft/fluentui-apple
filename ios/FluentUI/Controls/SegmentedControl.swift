@@ -88,10 +88,9 @@ open class SegmentedControl: UIControl {
             switch self {
             case .tabs:
                 return Colors.SegmentedControl.Tabs.selectionDisabled
-            case .primaryPill:
+            case .primaryPill,
+                 .onBrandPill:
                 return Colors.SegmentedControl.PrimaryPill.selectionDisabled
-            case .onBrandPill:
-                return Colors.SegmentedControl.OnBrandPill.selectionDisabled
             }
         }
         var segmentTextColor: UIColor {
@@ -136,23 +135,15 @@ open class SegmentedControl: UIControl {
         }
 
         var segmentTextStyle: TextStyle {
-            switch self {
-            case .tabs:
-                return .subhead
-            case .primaryPill:
-                return .subhead
-            case .onBrandPill:
-                return .subhead
-            }
+            return .subhead
         }
         
         var selectionChangeAnimationDuration: TimeInterval {
             switch self {
             case .tabs:
                 return 0.12
-            case .primaryPill:
-                return 0.2
-            case .onBrandPill:
+            case .primaryPill,
+                 .onBrandPill:
                 return 0.2
             }
         }
@@ -205,9 +196,7 @@ open class SegmentedControl: UIControl {
     private let bottomSeparator = Separator()
     private let containerView: UIView = {
         let view = UIView()
-        if #available(iOS 13.0, *) {
-            view.layer.cornerCurve = .continuous
-        }
+        view.layer.cornerCurve = .continuous
         return view
     }()
 
@@ -257,9 +246,7 @@ open class SegmentedControl: UIControl {
             // Selection view must be under buttons
             containerView.addSubview(selectionView)
             addButtons(titles: items)
-            if #available(iOS 13, *) {
-                containerView.addInteraction(UILargeContentViewerInteraction())
-            }
+            containerView.addInteraction(UILargeContentViewerInteraction())
             addSubview(containerView)
         }
         if style == .tabs {
@@ -488,11 +475,8 @@ open class SegmentedControl: UIControl {
         let button = PillButton(pillBarItem: PillButtonBarItem(title: title), style: pillStyle)
         button.setTitle(title, for: .normal)
         button.accessibilityLabel = title
-        if #available(iOS 13, *) {
-            button.layer.cornerCurve = .continuous
-            button.largeContentTitle = button.titleLabel?.text
-            button.showsLargeContentViewer = true;
-        }
+        button.largeContentTitle = button.titleLabel?.text
+        button.showsLargeContentViewer = true;
         button.addTarget(self, action: #selector(handleButtonTap(_:)), for: .touchUpInside)
 
         // set the pill background to transparent to let the selection view show through
@@ -563,10 +547,8 @@ open class SegmentedControl: UIControl {
                 width: button.frame.width,
                 height: Constants.selectionBarHeight
             )
-        case .primaryPill:
-            selectionView.frame = button.frame
-            selectionView.layer.cornerRadius = selectionView.frame.height / 2
-        case .onBrandPill:
+        case .primaryPill,
+             .onBrandPill:
             selectionView.frame = button.frame
             selectionView.layer.cornerRadius = selectionView.frame.height / 2
         }
@@ -584,10 +566,8 @@ open class SegmentedControl: UIControl {
             case .tabs:
                 selectionView.backgroundColor = isEnabled ? style.selectionColor(for: window) : style.selectionColorDisabled
                 backgroundView.backgroundColor = isEnabled ? style.backgroundColor(for: window) : style.backgroundColorDisabled(for: window)
-            case .primaryPill:
-                selectionView.backgroundColor = customSegmentedControlSelectedButtonBackgroundColor ?? (isEnabled ? style.selectionColor(for: window) : style.selectionColorDisabled)
-                backgroundView.backgroundColor = customSegmentedControlBackgroundColor ?? (isEnabled ? style.backgroundColor(for: window) : style.backgroundColorDisabled(for: window))
-            case .onBrandPill:
+            case .primaryPill,
+                 .onBrandPill:
                 selectionView.backgroundColor = customSegmentedControlSelectedButtonBackgroundColor ?? (isEnabled ? style.selectionColor(for: window) : style.selectionColorDisabled)
                 backgroundView.backgroundColor = customSegmentedControlBackgroundColor ?? (isEnabled ? style.backgroundColor(for: window) : style.backgroundColorDisabled(for: window))
             }
