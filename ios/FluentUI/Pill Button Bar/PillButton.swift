@@ -156,7 +156,7 @@ open class PillButton: UIButton {
 
     private struct Constants {
         static let bottomInset: CGFloat = 6.0
-        static let font: UIFont = Fonts.button4
+        static let font = UIFont.systemFont(ofSize: 16, weight: .regular)
         static let horizontalInset: CGFloat = 16.0
         static let topInset: CGFloat = 6.0
     }

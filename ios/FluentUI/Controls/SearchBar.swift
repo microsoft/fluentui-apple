@@ -143,9 +143,6 @@ open class SearchBar: UIView {
         static let clearButtonTrailingInset: CGFloat = 10
         static let cancelButtonLeadingInset: CGFloat = 8.0
 
-        static let searchTextFieldTextStyle: TextStyle = .bodyUnscaled
-        static let cancelButtonTextStyle: TextStyle = .bodyUnscaled
-
         static let cancelButtonShowHideAnimationDuration: TimeInterval = 0.25
         static let navigationBarTransitionHidingDelay: TimeInterval = 0.5
 
@@ -206,7 +203,7 @@ open class SearchBar: UIView {
     // user interaction point
     private lazy var searchTextField: UITextField = {
         let textField = UITextField()
-        textField.font = Constants.searchTextFieldTextStyle.font
+        textField.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         textField.delegate = self
         textField.returnKeyType = .search
         textField.enablesReturnKeyAutomatically = true
@@ -255,7 +252,7 @@ open class SearchBar: UIView {
     // hidden when the textfield is not active
     private lazy var cancelButton: UIButton = {
         let button = UIButton(type: .system)
-        button.titleLabel?.font = Constants.cancelButtonTextStyle.font
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         button.setTitle("Common.Cancel".localized, for: .normal)
         button.addTarget(self, action: #selector(SearchBar.cancelButtonTapped(sender:)), for: .touchUpInside)
         button.alpha = 0.0
