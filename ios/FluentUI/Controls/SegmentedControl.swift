@@ -88,8 +88,7 @@ open class SegmentedControl: UIControl {
             switch self {
             case .tabs:
                 return Colors.SegmentedControl.Tabs.selectionDisabled
-            case .primaryPill,
-                 .onBrandPill:
+            case .primaryPill, .onBrandPill:
                 return Colors.SegmentedControl.PrimaryPill.selectionDisabled
             }
         }
@@ -137,13 +136,12 @@ open class SegmentedControl: UIControl {
         var segmentTextStyle: TextStyle {
             return .subhead
         }
-        
+
         var selectionChangeAnimationDuration: TimeInterval {
             switch self {
             case .tabs:
                 return 0.12
-            case .primaryPill,
-                 .onBrandPill:
+            case .primaryPill, .onBrandPill:
                 return 0.2
             }
         }
@@ -151,7 +149,7 @@ open class SegmentedControl: UIControl {
 
     private struct Constants {
         static let selectionBarHeight: CGFloat = 1.5
-        static let pillHorizontalInset: CGFloat = 16;
+        static let pillHorizontalInset: CGFloat = 16
     }
 
     open override var isEnabled: Bool {
@@ -241,7 +239,7 @@ open class SegmentedControl: UIControl {
 
         super.init(frame: .zero)
 
-        if (style == .primaryPill || style == .onBrandPill) {
+        if style == .primaryPill || style == .onBrandPill {
             containerView.addSubview(backgroundView)
             // Selection view must be under buttons
             containerView.addSubview(selectionView)
@@ -273,8 +271,7 @@ open class SegmentedControl: UIControl {
         let button = style == .tabs ? createTabButton(withTitle: title) : createSwitchButton(withTitle: title)
         buttons.insert(button, at: index)
         // TODO: Add option for animated addition?
-        if style == .tabs
-        {
+        if style == .tabs {
             addSubview(button)
         } else {
             containerView.addSubview(button)
@@ -364,8 +361,7 @@ open class SegmentedControl: UIControl {
         var leftOffset: CGFloat = 0
         for (index, button) in buttons.enumerated() {
             if segmentsHaveEqualWidth {
-                if (style == .tabs)
-                {
+                if style == .tabs {
                     rightOffset = UIScreen.main.roundToDevicePixels(CGFloat(index + 1) / CGFloat(buttons.count) * frame.width)
                 } else {
                     var suggestedWidth: CGFloat = frame.width
@@ -449,7 +445,7 @@ open class SegmentedControl: UIControl {
 
         return buttons[index] as UIView
     }
-    
+
     private func addButtons(titles: [String]) {
         // Create buttons
         for (index, title) in titles.enumerated() {
@@ -476,7 +472,7 @@ open class SegmentedControl: UIControl {
         button.setTitle(title, for: .normal)
         button.accessibilityLabel = title
         button.largeContentTitle = button.titleLabel?.text
-        button.showsLargeContentViewer = true;
+        button.showsLargeContentViewer = true
         button.addTarget(self, action: #selector(handleButtonTap(_:)), for: .touchUpInside)
 
         // set the pill background to transparent to let the selection view show through
@@ -521,7 +517,7 @@ open class SegmentedControl: UIControl {
     private func layoutContainerView() {
         var frame = bounds
         frame = frame.inset(by: UIEdgeInsets(top: 0, left: Constants.pillHorizontalInset, bottom: 0, right: Constants.pillHorizontalInset))
-        containerView.frame = frame;
+        containerView.frame = frame
     }
 
     private func updateButton(at index: Int, isSelected: Bool) {
@@ -547,8 +543,7 @@ open class SegmentedControl: UIControl {
                 width: button.frame.width,
                 height: Constants.selectionBarHeight
             )
-        case .primaryPill,
-             .onBrandPill:
+        case .primaryPill, .onBrandPill:
             selectionView.frame = button.frame
             selectionView.layer.cornerRadius = selectionView.frame.height / 2
         }
@@ -566,8 +561,7 @@ open class SegmentedControl: UIControl {
             case .tabs:
                 selectionView.backgroundColor = isEnabled ? style.selectionColor(for: window) : style.selectionColorDisabled
                 backgroundView.backgroundColor = isEnabled ? style.backgroundColor(for: window) : style.backgroundColorDisabled(for: window)
-            case .primaryPill,
-                 .onBrandPill:
+            case .primaryPill, .onBrandPill:
                 selectionView.backgroundColor = customSegmentedControlSelectedButtonBackgroundColor ?? (isEnabled ? style.selectionColor(for: window) : style.selectionColorDisabled)
                 backgroundView.backgroundColor = customSegmentedControlBackgroundColor ?? (isEnabled ? style.backgroundColor(for: window) : style.backgroundColorDisabled(for: window))
             }

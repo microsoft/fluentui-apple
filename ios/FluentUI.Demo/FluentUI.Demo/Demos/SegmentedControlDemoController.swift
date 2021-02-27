@@ -62,7 +62,7 @@ class SegmentedControlDemoController: DemoController {
         disabledPrimarySegmentedControl.selectedSegmentIndex = 1
         container.addArrangedSubview(disabledPrimarySegmentedControl)
         container.addArrangedSubview(UIView())
-        
+
         addTitle(text: "On Brand Pill")
 
         let onBrandSegmentedControl = SegmentedControl(items: Array(segmentTitles.prefix(2)), style: .onBrandPill)
