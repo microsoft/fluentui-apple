@@ -10,26 +10,26 @@ import UIKit
 public extension Colors {
     struct SegmentedControl {
         struct Tabs {
-            public static let background: UIColor = NavigationBar.background
-            public static let backgroundDisabled: UIColor = background
-            public static let segmentText: UIColor = textSecondary
-            public static let segmentTextDisabled: UIColor = surfaceQuaternary
-            public static let segmentTextSelectedAndDisabled: UIColor = textDisabled
-            public static let selectionDisabled: UIColor = textDisabled
+            static let background: UIColor = NavigationBar.background
+            static let backgroundDisabled: UIColor = background
+            static let segmentText: UIColor = textSecondary
+            static let segmentTextDisabled: UIColor = surfaceQuaternary
+            static let segmentTextSelectedAndDisabled: UIColor = textDisabled
+            static let selectionDisabled: UIColor = textDisabled
         }
 
         struct PrimaryPill {
-            public static let background = UIColor(light: surfaceTertiary, dark: surfaceSecondary)
-            public static let backgroundDisabled: UIColor = background
-            public static let segmentText = UIColor(light: textSecondary, dark: textPrimary)
-            public static let selectionDisabled: UIColor = surfaceQuaternary
+            static let background = UIColor(light: surfaceTertiary, dark: surfaceSecondary)
+            static let backgroundDisabled: UIColor = background
+            static let segmentText = UIColor(light: textSecondary, dark: textPrimary)
+            static let selectionDisabled: UIColor = surfaceQuaternary
         }
 
         struct OnBrandPill {
-            public static let background = UIColor(light: surfaceTertiary, dark: surfaceSecondary)
-            public static let backgroundDisabled: UIColor = background
-            public static let segmentText = UIColor(light: textOnAccent, dark: textPrimary)
-            public static let selection = UIColor(light: surfacePrimary, dark: surfaceQuaternary)
+            static let background = UIColor(light: surfaceTertiary, dark: surfaceSecondary)
+            static let backgroundDisabled: UIColor = background
+            static let segmentText = UIColor(light: textOnAccent, dark: textPrimary)
+            static let selection = UIColor(light: surfacePrimary, dark: surfaceQuaternary)
         }
     }
 }
