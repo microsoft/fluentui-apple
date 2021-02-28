@@ -29,30 +29,18 @@ struct MSFSlideOutPanel<Content: View>: View, MSFPanelContent, MSFPanelTransitio
     /// Interactive state of panel
     @Binding var transitionState: MSFDrawerTransitionState
 
-    /// content size set by client
-    var intrinsicContentSize: CGSize?
-
     /// content size the panel's attempt to set if within bounds
     var preferredContentSize: CGSize {
-        get {
-            if let contentSize = intrinsicContentSize, contentSize != .zero {
-                return contentSize
-            } else {
-                var preferredWidth = panelSize.width * Constants.initialContentWidthPercent
-                if preferredWidth >= Constants.defaultContentSize.width {
-                    preferredWidth = Constants.defaultContentSize.width
-                }
-
-                var preferredHeight = panelSize.height * Constants.initialContentHeightPercent
-                if preferredHeight >= Constants.defaultContentSize.height {
-                    preferredHeight = Constants.defaultContentSize.height
-                }
-                return CGSize(width: preferredWidth, height: preferredHeight)            }
-        } set {
-            if preferredContentSize != newValue {
-                intrinsicContentSize = newValue
-            }
+        var preferredWidth = panelSize.width * Constants.initialContentWidthPercent
+        if preferredWidth >= Constants.defaultContentSize.width {
+            preferredWidth = Constants.defaultContentSize.width
         }
+
+        var preferredHeight = panelSize.height * Constants.initialContentHeightPercent
+        if preferredHeight >= Constants.defaultContentSize.height {
+            preferredHeight = Constants.defaultContentSize.height
+        }
+        return CGSize(width: preferredWidth, height: preferredHeight)
     }
 
     /// size of the base panel
@@ -79,8 +67,9 @@ struct MSFSlideOutPanel<Content: View>: View, MSFPanelContent, MSFPanelTransitio
 
             content
                 .cornerRadius(Constants.cornerRadius, direction: direction)
-                .frame(width: contentWidth, height: contentHeight)
                 .offset(x: contentOffset.dx, y: contentOffset.dy)
+                .frame(width: contentWidth, height: contentHeight)
+                .cornerRadius(Constants.cornerRadius, direction: direction)
                 .elevation(with: tokens, alignment: direction)
                 .onAnimationComplete(value: valueObserved, completion: transitionCompletion)
 

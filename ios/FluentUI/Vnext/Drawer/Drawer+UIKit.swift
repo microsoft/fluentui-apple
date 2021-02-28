@@ -33,8 +33,6 @@ open class MSFDrawer: UIHostingController<AnyView>, FluentUIWindowProvider {
 
     private var drawer: MSFDrawerView<UIViewControllerAdapter>
 
-    public var shouldUseSystemLayoutContentSize: Bool = false
-
     @objc public init(contentViewController: UIViewController,
                       theme: FluentUIStyle? = nil) {
         let drawer = MSFDrawerView(content: UIViewControllerAdapter(contentViewController))
@@ -42,12 +40,7 @@ open class MSFDrawer: UIHostingController<AnyView>, FluentUIWindowProvider {
         super.init(rootView: theme != nil ? AnyView(drawer.usingTheme(theme!)) : AnyView(drawer))
 
         self.drawer.tokens.windowProvider = self
-        self.drawer.content.updateViewController = {[weak self] controller in
-                guard let strongSelf = self else {
-                    return
-                }
-                strongSelf.updateLayoutIfNecessary(contentView: controller.view)
-        }
+
         view.backgroundColor = .clear
         modalPresentationStyle = .overFullScreen
         transitioningDelegate = self
@@ -177,14 +170,6 @@ extension MSFDrawer: UIViewControllerTransitioningDelegate, UIViewControllerAnim
             if let presentationHeight = presentationHeight {
                 state.presentationOrigin = CGPoint(x: CGFloat.zero, y: presentationHeight)
             }
-        }
-    }
-
-    private func updateLayoutIfNecessary(contentView: UIView) {
-        if shouldUseSystemLayoutContentSize {
-            var contentSize = contentView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-            contentSize = CGRect(origin: .zero, size: contentSize).inset(by: contentView.safeAreaInsets).size
-            state.contentSize = contentSize
         }
     }
 }

@@ -36,10 +36,9 @@ public struct UIViewAdapter: UIViewRepresentable {
 }
 
 /// This is a generic UIViewController wrapper to allow SwiftUI to use views from non-SwiftUI environments.
-final class UIViewControllerAdapter: UIViewControllerRepresentable {
+public struct UIViewControllerAdapter: UIViewControllerRepresentable {
 
     var makeViewController: () -> UIViewController
-    var updateViewController: ((UIViewController) -> Void)?
 
     init(_ makeViewController: @escaping @autoclosure () -> UIViewController) {
         self.makeViewController = makeViewController
@@ -49,11 +48,7 @@ final class UIViewControllerAdapter: UIViewControllerRepresentable {
         return makeViewController()
     }
 
-    public func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-        if let updateViewController = updateViewController {
-            updateViewController(uiViewController)
-        }
-    }
+    public func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
 
     public typealias UIViewControllerType = UIViewController
 }

@@ -25,9 +25,6 @@ import SwiftUI
     /// If set to `false` it restores to `clear` color
     @objc @Published public var backgroundDimmed: Bool = false
 
-    /// Updates the content size with default animation, work for vertical direction only
-    @Published public var contentSize: CGSize?
-
     /// Anitmation duration when drawer is collapsed/expanded
     @objc public var animationDuration: Double = 0.0
 
@@ -99,7 +96,6 @@ public struct MSFDrawerView<Content: View>: View {
                     }
                     state.onStateChange?(state.isExpanded)
                 }
-                .contentSize(drawerContentSize)
                 .offset(x: state.presentationOrigin.x, y: state.presentationOrigin.y)
                 .gesture(dragGesture(screenWidth: proxy.size.width))
                 .onReceive(state.$isExpanded, perform: { value in
@@ -113,14 +109,6 @@ public struct MSFDrawerView<Content: View>: View {
                     if !isPresentationGestureActive {
                         // end drag
                         panelTransitionPercent = nil
-                    }
-                })
-                .onReceive(state.$contentSize, perform: { value in
-                    guard let value = value else {
-                        return
-                    }
-                    withAnimation(presentationAnimation) {
-                        drawerContentSize = value
                     }
                 })
                 .onDisappear {
@@ -165,7 +153,7 @@ public struct MSFDrawerView<Content: View>: View {
     @State internal var panelTransitionPercent: Double? = 0.0
 
     /// tracks drawer content size
-    @State internal var drawerContentSize: CGSize = .zero
+    @State internal var drawerSize: CGSize = .zero
 
     /// Threshold if exceeded the transition state is toggled
     private let horizontalGestureThreshold: Double = 0.225

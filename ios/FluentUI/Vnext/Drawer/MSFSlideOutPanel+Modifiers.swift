@@ -14,29 +14,11 @@ extension MSFSlideOutPanel {
                                  tokens: tokens,
                                  content: content,
                                  transitionState: $transitionState,
-                                 intrinsicContentSize: intrinsicContentSize,
                                  panelSize: size,
                                  actionOnBackgroundTap: actionOnBackgroundTap,
                                  backgroundDimmed: backgroundDimmed,
                                  direction: direction,
                                  transitionCompletion: transitionCompletion)
-    }
-
-    /// Modifier to update content size of the panel.
-    /// - Parameter `contentSize`:  defaults preset values
-    /// - Returns: `MSFSlideOverPanel`
-    func contentSize(_ size: CGSize) -> MSFSlideOutPanel {
-        return MSFSlideOutPanel(percentTransition: $percentTransition,
-                                 tokens: tokens,
-                                 content: content,
-                                 transitionState: $transitionState,
-                                 intrinsicContentSize: size,
-                                 panelSize: panelSize,
-                                 actionOnBackgroundTap: actionOnBackgroundTap,
-                                 backgroundDimmed: backgroundDimmed,
-                                 direction: direction,
-                                 transitionCompletion: transitionCompletion)
-
     }
 
     /// Add action or callback to be executed when background view is Tapped
@@ -47,7 +29,6 @@ extension MSFSlideOutPanel {
                             tokens: tokens,
                             content: content,
                             transitionState: $transitionState,
-                            intrinsicContentSize: intrinsicContentSize,
                             panelSize: panelSize,
                             actionOnBackgroundTap: performOnBackgroundTap,
                             backgroundDimmed: backgroundDimmed,
@@ -63,7 +44,6 @@ extension MSFSlideOutPanel {
                             tokens: tokens,
                             content: content,
                             transitionState: $transitionState,
-                            intrinsicContentSize: intrinsicContentSize,
                             panelSize: panelSize,
                             actionOnBackgroundTap: actionOnBackgroundTap,
                             backgroundDimmed: value,
@@ -79,7 +59,6 @@ extension MSFSlideOutPanel {
                             tokens: tokens,
                             content: content,
                             transitionState: $transitionState,
-                            intrinsicContentSize: intrinsicContentSize,
                             panelSize: panelSize,
                             actionOnBackgroundTap: actionOnBackgroundTap,
                             backgroundDimmed: backgroundDimmed,
@@ -95,7 +74,6 @@ extension MSFSlideOutPanel {
                             tokens: tokens,
                             content: content,
                             transitionState: $transitionState,
-                            intrinsicContentSize: intrinsicContentSize,
                             panelSize: panelSize,
                             actionOnBackgroundTap: actionOnBackgroundTap,
                             backgroundDimmed: backgroundDimmed,
