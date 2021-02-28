@@ -17,7 +17,7 @@ public enum AvatarLegacySize: Int, CaseIterable {
     case extraLarge
     case extraExtraLarge
 
-    public var font: UIFont {
+    var font: UIFont {
         switch self {
         case .extraSmall:
             return UIFont.systemFont(ofSize: 9)
@@ -34,7 +34,7 @@ public enum AvatarLegacySize: Int, CaseIterable {
         }
     }
 
-    public var size: CGSize {
+    var size: CGSize {
         switch self {
         case .extraSmall:
             return CGSize(width: 16, height: 16)
@@ -171,11 +171,11 @@ public enum AvatarLegacyFallbackImageStyle: Int {
 
 // MARK: - Avatar Colors
 
-public extension Colors {
+extension Colors {
     struct Avatar {
         // Should use physical color because this text is shown on physical avatar background
-        public static var text: UIColor = textOnAccent
-        public static var border = UIColor(light: .white, dark: gray900, darkElevated: gray800)
+        static var text: UIColor = textOnAccent
+        static var border = UIColor(light: .white, dark: gray900, darkElevated: gray800)
     }
 }
 

@@ -76,9 +76,9 @@ public enum DrawerPresentationBackground: Int {
 // MARK: - Drawer Color
 
 public extension Colors {
-    struct Drawer {
-        public static var background = UIColor(light: surfacePrimary, dark: surfaceSecondary)
-        public static var popoverBackground = UIColor(light: surfacePrimary, dark: surfaceQuaternary)
+    private struct Drawer {
+        static var background = UIColor(light: surfacePrimary, dark: surfaceSecondary)
+        static var popoverBackground = UIColor(light: surfacePrimary, dark: surfaceQuaternary)
     }
 
     // Objective-C support
@@ -140,7 +140,7 @@ open class DrawerController: UIViewController {
     }
 
     /// Set `backgroundColor` to customize background color of the drawer
-    @objc open var backgroundColor: UIColor = Colors.Drawer.background {
+    @objc open var backgroundColor: UIColor = Colors.drawerBackground {
         didSet {
             useCustomBackgroundColor = true
             view.backgroundColor = backgroundColor
@@ -519,11 +519,11 @@ open class DrawerController: UIViewController {
         // if DrawerController is shown in UIPopoverPresentationController then we want to show different darkElevated color
         if !useCustomBackgroundColor {
             if presentationController is UIPopoverPresentationController {
-                backgroundColor = Colors.Drawer.popoverBackground
+                backgroundColor = Colors.popoverBackground
             } else if useNavigationBarBackgroundColor {
                 backgroundColor = Colors.NavigationBar.background
             } else {
-                backgroundColor = Colors.Drawer.background
+                backgroundColor = Colors.drawerBackground
             }
         }
     }

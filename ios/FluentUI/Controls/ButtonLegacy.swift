@@ -15,7 +15,7 @@ public enum MSFButtonLegacyStyle: Int, CaseIterable {
     case tertiaryOutline
     case borderless
 
-    public var contentEdgeInsets: UIEdgeInsets {
+    var contentEdgeInsets: UIEdgeInsets {
         switch self {
         case .primaryFilled, .primaryOutline:
             return UIEdgeInsets(top: 16, left: 20, bottom: 16, right: 20)
@@ -78,13 +78,13 @@ public enum MSFButtonLegacyStyle: Int, CaseIterable {
 
 // MARK: - Button Colors
 
-public extension Colors {
+private extension Colors {
     struct Button {
-        public static var background: UIColor = .clear
-        public static var backgroundFilledDisabled: UIColor = surfaceQuaternary
-        public static var borderDisabled: UIColor = surfaceQuaternary
-        public static var titleDisabled: UIColor = textDisabled
-        public static var titleWithFilledBackground: UIColor = textOnAccent
+        static var background: UIColor = .clear
+        static var backgroundFilledDisabled: UIColor = surfaceQuaternary
+        static var borderDisabled: UIColor = surfaceQuaternary
+        static var titleDisabled: UIColor = textDisabled
+        static var titleWithFilledBackground: UIColor = textOnAccent
     }
 }
 

@@ -310,8 +310,8 @@ open class ContactView: UIControl {
 
 // MARK: Contact Colors
 
-public extension Colors {
+private extension Colors {
     struct Contact {
-        public static let pressedState: UIColor = Colors.gray200.withAlphaComponent(0.6)
+        static let pressedState: UIColor = Colors.gray200.withAlphaComponent(0.6)
     }
 }

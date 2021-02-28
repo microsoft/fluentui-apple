@@ -6,7 +6,7 @@
 import QuartzCore
 import UIKit
 
-public extension CALayer {
+extension CALayer {
     var isAnimating: Bool { return animationKeys()?.isEmpty == false }
 
     var roundedCorners: UIRectCorner {

@@ -42,7 +42,7 @@ open class ColorProvidingStyle: FluentUIStyle {
         return ColorProvidingColorsAppearanceProxy(proxy: { return self })
     }
 
-    open class ColorProvidingColorsAppearanceProxy: FluentUIStyle.ColorsAppearanceProxy {
+    class ColorProvidingColorsAppearanceProxy: FluentUIStyle.ColorsAppearanceProxy {
 
         init(proxy: @escaping () -> ColorProvidingStyle) {
 
@@ -58,7 +58,7 @@ open class ColorProvidingStyle: FluentUIStyle {
         private var colorProvidingProxy: ColorProvidingStyle
     }
 
-    open class ColorProvidingBrandAppearanceProxy: FluentUIStyle.ColorsAppearanceProxy.BrandAppearanceProxy {
+    class ColorProvidingBrandAppearanceProxy: FluentUIStyle.ColorsAppearanceProxy.BrandAppearanceProxy {
 
         init(proxy: @escaping () -> ColorProvidingStyle) {
 
@@ -702,7 +702,7 @@ public final class Colors: NSObject {
     @objc public static let error: UIColor = Palette.dangerPrimary.color
     @objc public static let warning: UIColor = Palette.warningPrimary.color
 
-    @objc public static var avatarColors: [ColorSet] = [
+    static var avatarColors: [ColorSet] = [
         ColorSet(background: UIColor(light: Palette.darkRedTint40.color, dark: Palette.darkRedShade30.color),
                  foreground: UIColor(light: Palette.darkRedShade30.color, dark: Palette.darkRedTint40.color)),
         ColorSet(background: UIColor(light: Palette.cranberryTint40.color, dark: Palette.cranberryShade30.color),
@@ -820,8 +820,7 @@ public final class Colors: NSObject {
     }
 }
 
-@objc(MSFColorSet)
-open class ColorSet: NSObject {
+class ColorSet: NSObject {
     public let background: UIColor
     public let foreground: UIColor
 

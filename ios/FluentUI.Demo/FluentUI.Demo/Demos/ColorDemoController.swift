@@ -112,7 +112,7 @@ class ColorDemoController: UIViewController {
 
         view = UIView(frame: .zero)
         view.addSubview(stackView)
-        view.backgroundColor = Colors.Table.background
+        view.backgroundColor = Colors.tableBackground
 
         let safeAreaLayoutGuide = view.safeAreaLayoutGuide
 

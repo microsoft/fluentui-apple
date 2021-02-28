@@ -7,21 +7,21 @@ import UIKit
 
 // MARK: SegmentedControl Colors
 
-public extension Colors {
+private extension Colors {
     struct SegmentedControl {
-        public struct Tabs {
-            public static var background: UIColor = NavigationBar.background
-            public static var backgroundDisabled: UIColor = background
-            public static var segmentText: UIColor = textSecondary
-            public static var segmentTextDisabled: UIColor = surfaceQuaternary
-            public static var segmentTextSelectedAndDisabled: UIColor = textDisabled
-            public static var selectionDisabled: UIColor = textDisabled
+        struct Tabs {
+            static var background: UIColor = NavigationBar.background
+            static var backgroundDisabled: UIColor = background
+            static var segmentText: UIColor = textSecondary
+            static var segmentTextDisabled: UIColor = surfaceQuaternary
+            static var segmentTextSelectedAndDisabled: UIColor = textDisabled
+            static var selectionDisabled: UIColor = textDisabled
         }
 
-        public struct Switch {
-            public static var segmentText = UIColor(light: textOnAccent, dark: textPrimary)
-            public static var selection = UIColor(light: Colors.surfacePrimary, dark: Colors.surfaceQuaternary)
-            public static var selectionDisabled: UIColor = selection
+        struct Switch {
+            static var segmentText = UIColor(light: textOnAccent, dark: textPrimary)
+            static var selection = UIColor(light: Colors.surfacePrimary, dark: Colors.surfaceQuaternary)
+            static var selectionDisabled: UIColor = selection
         }
     }
 }

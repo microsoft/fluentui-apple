@@ -50,11 +50,11 @@ public protocol BadgeFieldDelegate: AnyObject {
 
 // MARK: - BadgeField Colors
 
-public extension Colors {
+private extension Colors {
     struct BadgeField {
-        public static var background: UIColor = surfacePrimary
-        public static var label: UIColor = textSecondary
-        public static var placeholder: UIColor = textSecondary
+        static var background: UIColor = surfacePrimary
+        static var label: UIColor = textSecondary
+        static var placeholder: UIColor = textSecondary
     }
 }
 
