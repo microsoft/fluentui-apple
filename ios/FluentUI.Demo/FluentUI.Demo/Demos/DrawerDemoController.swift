@@ -151,7 +151,6 @@ class DrawerDemoController: DemoController {
         if let drawerController = verticalDrawerController {
             drawerController.state.backgroundDimmed = true
             drawerController.state.presentationDirection = .top
-            
             if presentationHeight != -1 {
                 drawerController.state.presentationOrigin = CGPoint(x: .zero, y: presentationHeight)
             }
