@@ -103,6 +103,7 @@ public extension Colors {
     @objc static var tableBackgroundGrouped: UIColor { return Table.backgroundGrouped }
     @objc static var tableCellBackground: UIColor { return Table.Cell.background }
     @objc static var tableCellBackgroundGrouped: UIColor { return Table.Cell.backgroundGrouped }
+    @objc static var tableCellBackgroundSelected: UIColor { return Table.Cell.backgroundSelected }
     @objc static var tableCellImage: UIColor { return Table.Cell.image }
 }
 

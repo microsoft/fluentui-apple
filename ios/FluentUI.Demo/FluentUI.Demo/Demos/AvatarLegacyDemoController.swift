@@ -165,7 +165,7 @@ class AvatarLegacyViewDemoController: DemoController {
 
         let avatarContainer = UIView()
         avatarContainer.addSubview(avatarView)
-        avatarContainer.widthAnchor.constraint(equalToConstant: 72).isActive = true
+        avatarContainer.widthAnchor.constraint(equalToConstant: AvatarLegacySize.extraExtraLarge.size.width).isActive = true
         avatarContainer.heightAnchor.constraint(equalToConstant: avatarView.frame.height).isActive = true
 
         return (avatarContainer, avatarView)

@@ -78,7 +78,7 @@ public enum MSFButtonLegacyStyle: Int, CaseIterable {
 
 // MARK: - Button Colors
 
-private extension Colors {
+public extension Colors {
     struct Button {
         static var background: UIColor = .clear
         static var backgroundFilledDisabled: UIColor = surfaceQuaternary

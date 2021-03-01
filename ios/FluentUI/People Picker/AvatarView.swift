@@ -34,7 +34,7 @@ public enum AvatarLegacySize: Int, CaseIterable {
         }
     }
 
-    var size: CGSize {
+    public var size: CGSize {
         switch self {
         case .extraSmall:
             return CGSize(width: 16, height: 16)
