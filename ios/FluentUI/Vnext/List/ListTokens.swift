@@ -93,6 +93,9 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
     @Published public var disclosureSize: CGFloat!
     @Published public var horizontalCellPadding: CGFloat!
     @Published public var iconInterspace: CGFloat!
+    @Published public var labelAccessoryInterspace: CGFloat!
+    @Published public var titleAccessorySize: CGFloat!
+    @Published public var subtitleAccessorySize: CGFloat!
     @Published public var leadingViewSize: CGFloat!
     @Published public var trailingItemSize: CGFloat!
 
@@ -145,6 +148,9 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
         disclosureSize = appearanceProxy.disclosureSize
         horizontalCellPadding = appearanceProxy.horizontalCellPadding
         iconInterspace = appearanceProxy.iconInterspace
+        labelAccessoryInterspace = appearanceProxy.labelAccessoryInterspace
+        titleAccessorySize = appearanceProxy.labelAccessorySize.title
+        subtitleAccessorySize = appearanceProxy.labelAccessorySize.subtitle
         trailingItemSize = appearanceProxy.trailingItemSize
 
         subtitleFont = appearanceProxy.sublabelFont

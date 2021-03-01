@@ -99,6 +99,33 @@ extension FluentUIStyle {
 			return mainProxy().Spacing.medium
 		}
 
+		// MARK: - labelAccessoryInterspace 
+		open var labelAccessoryInterspace: CGFloat {
+			return CGFloat(8.0)
+		}
+
+		// MARK: - labelAccessorySize
+		open var labelAccessorySize: labelAccessorySizeAppearanceProxy {
+			return labelAccessorySizeAppearanceProxy(proxy: mainProxy)
+		}
+		open class labelAccessorySizeAppearanceProxy {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			// MARK: - subtitle 
+			open var subtitle: CGFloat {
+				return mainProxy().Icon.size.xxSmall
+			}
+
+			// MARK: - title 
+			open var title: CGFloat {
+				return mainProxy().Icon.size.xSmall
+			}
+		}
+
+
 		// MARK: - labelColor 
 		open var labelColor: UIColor {
 			return mainProxy().Colors.Foreground.neutral1
