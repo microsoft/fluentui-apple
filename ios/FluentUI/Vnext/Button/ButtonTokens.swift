@@ -22,7 +22,7 @@ import SwiftUI
 
 /// Representation of design tokens to buttons at runtime which interfaces with the Design Token System auto-generated code.
 /// Updating these properties causes the SwiftUI button to update its view automatically.
-public class MSFButtonTokens: MSFTokensBase, ObservableObject {
+class MSFButtonTokens: MSFTokensBase, ObservableObject {
     @Published public var borderRadius: CGFloat!
     @Published public var borderSize: CGFloat!
     @Published public var iconSize: CGFloat!
@@ -48,8 +48,8 @@ public class MSFButtonTokens: MSFTokensBase, ObservableObject {
     var style: MSFButtonStyle
     var size: MSFButtonSize
 
-    public init(style: MSFButtonStyle,
-                size: MSFButtonSize) {
+    init(style: MSFButtonStyle,
+         size: MSFButtonSize) {
         self.style = style
         self.size = size
 
@@ -63,7 +63,7 @@ public class MSFButtonTokens: MSFTokensBase, ObservableObject {
         updateForCurrentTheme()
     }
 
-    public override func updateForCurrentTheme() {
+    override func updateForCurrentTheme() {
         let currentTheme = theme
         var appearanceProxy: AppearanceProxyType
 

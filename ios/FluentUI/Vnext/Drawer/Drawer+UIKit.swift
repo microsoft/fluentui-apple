@@ -17,21 +17,15 @@ import SwiftUI
 @objc(MSFDrawer)
 open class MSFDrawer: UIHostingController<AnyView>, FluentUIWindowProvider {
 
-    public var window: UIWindow? {
-        return self.view.window
-    }
-
-    /// Set this delegate to recieve updates when drawer's state changes
-    /// @see `DrawerControllerDelegate`
-    public weak var delegate: MSFDrawerControllerDelegate?
-
     /// Represents the drawer's state with properties to configure its behavior.
     /// @see `DrawerState`
     @objc open var state: MSFDrawerState {
         return self.drawer.state
     }
 
-    private var drawer: MSFDrawerView<UIViewControllerAdapter>
+    /// Set this delegate to recieve updates when drawer's state changes
+    /// @see `DrawerControllerDelegate`
+    public weak var delegate: MSFDrawerControllerDelegate?
 
     @objc public init(contentViewController: UIViewController,
                       theme: FluentUIStyle? = nil) {
@@ -57,6 +51,12 @@ open class MSFDrawer: UIHostingController<AnyView>, FluentUIWindowProvider {
         self.drawer = drawer
         super.init(coder: aDecoder)
     }
+
+    var window: UIWindow? {
+        return self.view.window
+    }
+
+    private var drawer: MSFDrawerView<UIViewControllerAdapter>
 
     private var transitionHandler: (() -> Void)?
 

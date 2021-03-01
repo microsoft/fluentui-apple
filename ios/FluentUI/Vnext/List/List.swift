@@ -107,7 +107,7 @@ public struct MSFListView: View {
         return listView.state
     }
 
-    public var window: UIWindow? {
+    var window: UIWindow? {
         return self.view.window
     }
 

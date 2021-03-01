@@ -27,27 +27,27 @@ extension FluentUIStyle {
 
 			// MARK: - disabled 
 			open var disabled: UIColor {
-				return mainProxy().Colors.Neutral.clear
+				return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
 			}
 
 			// MARK: - hover 
 			open var hover: UIColor {
-				return mainProxy().Colors.Neutral.clear
+				return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
 			}
 
 			// MARK: - pressed 
 			open var pressed: UIColor {
-				return mainProxy().Colors.Neutral.clear
+				return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
 			}
 
 			// MARK: - rest 
 			open var rest: UIColor {
-				return mainProxy().Colors.Neutral.clear
+				return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
 			}
 
 			// MARK: - selected 
 			open var selected: UIColor {
-				return mainProxy().Colors.Neutral.clear
+				return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
 			}
 		}
 
@@ -339,22 +339,22 @@ extension FluentUIStyle {
 
 			// MARK: - disabled 
 			open override var disabled: UIColor {
-				return mainProxy().Colors.Neutral.clear
+				return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
 			}
 
 			// MARK: - hover 
 			open override var hover: UIColor {
-				return mainProxy().Colors.Neutral.clear
+				return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
 			}
 
 			// MARK: - pressed 
 			open override var pressed: UIColor {
-				return mainProxy().Colors.Neutral.clear
+				return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
 			}
 
 			// MARK: - rest 
 			open override var rest: UIColor {
-				return mainProxy().Colors.Neutral.clear
+				return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
 			}
 
 			// MARK: - selected 

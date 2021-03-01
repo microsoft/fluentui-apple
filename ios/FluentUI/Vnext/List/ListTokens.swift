@@ -12,6 +12,7 @@ import SwiftUI
     case medium
     case large
 }
+
 /// Pre-defined accessory types
 @objc public enum MSFListAccessoryType: Int, CaseIterable {
     case none
@@ -35,10 +36,10 @@ import SwiftUI
     }
 }
 
-public class MSFListTokens: MSFTokensBase, ObservableObject {
+class MSFListTokens: MSFTokensBase, ObservableObject {
     @Published public var borderColor: UIColor!
 
-    public override init() {
+    override init() {
         super.init()
 
         self.themeAware = true
@@ -49,7 +50,7 @@ public class MSFListTokens: MSFTokensBase, ObservableObject {
         updateForCurrentTheme()
     }
 
-    public override func updateForCurrentTheme() {
+    override func updateForCurrentTheme() {
         let currentTheme = theme
         let appearanceProxy = currentTheme.MSFListTokens
 
@@ -57,7 +58,7 @@ public class MSFListTokens: MSFTokensBase, ObservableObject {
     }
 }
 
-public class MSFListCellTokens: MSFTokensBase, ObservableObject {
+class MSFListCellTokens: MSFTokensBase, ObservableObject {
     @Published public var backgroundColor: UIColor!
     @Published public var borderColor: UIColor!
     @Published public var disclosureIconForegroundColor: UIColor!
@@ -83,7 +84,7 @@ public class MSFListCellTokens: MSFTokensBase, ObservableObject {
 
     @Published public var cellLeadingViewSize: MSFListCellLeadingViewSize!
 
-    public init(cellLeadingViewSize: MSFListCellLeadingViewSize) {
+    init(cellLeadingViewSize: MSFListCellLeadingViewSize) {
         self.cellLeadingViewSize = cellLeadingViewSize
 
         super.init()
@@ -96,7 +97,7 @@ public class MSFListCellTokens: MSFTokensBase, ObservableObject {
         updateForCurrentTheme()
     }
 
-    public override func updateForCurrentTheme() {
+    override func updateForCurrentTheme() {
         let currentTheme = theme
         let appearanceProxy: AppearanceProxyType = currentTheme.MSFListCellTokens
 

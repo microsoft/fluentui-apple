@@ -63,10 +63,10 @@ public struct MSFDrawerView<Content: View>: View {
     public var content: Content
 
     /// Configure the behavior of drawer
-    @ObservedObject public var state = MSFDrawerState()
+    @ObservedObject var state = MSFDrawerState()
 
     /// Configure the apperance of drawer
-    @ObservedObject public var tokens = MSFDrawerTokens()
+    @ObservedObject var tokens = MSFDrawerTokens()
 
     /// Flag is set when pangesture is started
     public var isPresentationGestureActive: Bool {

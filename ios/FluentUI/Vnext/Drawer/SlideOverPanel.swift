@@ -27,31 +27,31 @@ struct MSFSlideOverPanel<Content: View>: View {
 
     /// Only effective when panel is in transition, valid range [0,1]
     /// @see `SlideOverTransitionState`
-    @Binding public var percentTransition: Double?
+    @Binding var percentTransition: Double?
 
     /// Configure the apperance of drawer
-    @ObservedObject public var tokens = MSFDrawerTokens()
+    @ObservedObject var tokens = MSFDrawerTokens()
 
     /// Width occupied by content and spacer combined
-    internal var slideOutPanelWidth: CGFloat = UIScreen.main.bounds.width
+    var slideOutPanelWidth: CGFloat = UIScreen.main.bounds.width
 
     /// Action executed with background transperent view is tapped
-    internal var actionOnBackgroundTap: (() -> Void)?
+    var actionOnBackgroundTap: (() -> Void)?
 
     /// Action executed with transiton state is completed
-    internal var transitionCompletion: (() -> Void)?
+    var transitionCompletion: (() -> Void)?
 
     /// Content view is visible when slide over panel is expanded
-    internal var content: Content
+    var content: Content
 
     /// If set to `true` then token with dimmed bacground value is used
-    internal var backgroundDimmed: Bool = false
+    var backgroundDimmed: Bool = false
 
     /// Slide out direction
-    internal var direction: MSFDrawerSlideOverDirection = .left
+    var direction: MSFDrawerSlideOverDirection = .left
 
     /// Interactive state of panel
-    @Binding internal var transitionState: MSFSlideOverTransitionState
+    @Binding var transitionState: MSFSlideOverTransitionState
 
     var body: some View {
         HStack {
@@ -162,7 +162,7 @@ struct MSFSlideOverPanel<Content: View>: View {
 
 // MARK: - Composite View
 
-public struct MSFInteractiveSpacer: View {
+struct MSFInteractiveSpacer: View {
     @Binding public var defaultBackgroundColor: Color
 
     public var body: some View {

@@ -28,7 +28,7 @@ import SwiftUI
 
 /// Representation of design tokens to buttons at runtime which interfaces with the Design Token System auto-generated code.
 /// Updating these properties causes the SwiftUI button to update its view automatically.
-public class MSFAvatarTokens: MSFTokensBase, ObservableObject {
+class MSFAvatarTokens: MSFTokensBase, ObservableObject {
     @Published public var avatarSize: CGFloat!
     @Published public var borderRadius: CGFloat!
     @Published public var textFont: UIFont!
@@ -48,7 +48,7 @@ public class MSFAvatarTokens: MSFTokensBase, ObservableObject {
     @Published public var foregroundCalculatedColorOptions: [UIColor]!
     @Published public var foregroundDefaultColor: UIColor!
 
-    public var style: MSFAvatarStyle {
+    var style: MSFAvatarStyle {
         didSet {
             if oldValue != style {
                 updateForCurrentTheme()
@@ -56,7 +56,7 @@ public class MSFAvatarTokens: MSFTokensBase, ObservableObject {
         }
     }
 
-    public var size: MSFAvatarSize {
+    var size: MSFAvatarSize {
         didSet {
             if oldValue != size {
                 updateForCurrentTheme()
@@ -64,8 +64,8 @@ public class MSFAvatarTokens: MSFTokensBase, ObservableObject {
         }
     }
 
-    public init(style: MSFAvatarStyle,
-                size: MSFAvatarSize) {
+    init(style: MSFAvatarStyle,
+         size: MSFAvatarSize) {
         self.style = style
         self.size = size
 
@@ -76,7 +76,7 @@ public class MSFAvatarTokens: MSFTokensBase, ObservableObject {
         updateForCurrentTheme()
     }
 
-    public override func updateForCurrentTheme() {
+    override func updateForCurrentTheme() {
         let currentTheme = theme
         var appearanceProxy: AppearanceProxyType
 

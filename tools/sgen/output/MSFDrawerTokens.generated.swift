@@ -17,7 +17,7 @@ extension FluentUIStyle {
 
 		// MARK: - backgroundClearColor 
 		open var backgroundClearColor: UIColor {
-			return mainProxy().Colors.Neutral.clear
+			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
 		}
 
 		// MARK: - backgroundDimmedColor 

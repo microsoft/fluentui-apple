@@ -16,7 +16,7 @@ import SwiftUI
     case offline
     case unknown
 
-    public func color(isOutOfOffice: Bool) -> Color {
+    func color(isOutOfOffice: Bool) -> Color {
         var color = UIColor.clear
 
         switch self {
@@ -41,7 +41,7 @@ import SwiftUI
         return Color(color)
     }
 
-    public func image(isOutOfOffice: Bool) -> Image {
+    func image(isOutOfOffice: Bool) -> Image {
         var imageName = ""
 
         switch self {
@@ -65,6 +65,27 @@ import SwiftUI
 
         return Image(imageName,
                      bundle: FluentUIFramework.resourceBundle)
+    }
+
+    public func string() -> String? {
+        switch self {
+        case .none:
+            return nil
+        case .available:
+            return "Presence.Available".localized
+        case .away:
+            return "Presence.Away".localized
+        case .busy:
+            return "Presence.Busy".localized
+        case .blocked:
+            return "Presence.Blocked".localized
+        case .doNotDisturb:
+            return "Presence.DND".localized
+        case .offline:
+            return "Presence.Offline".localized
+        case .unknown:
+            return "Presence.Unknown".localized
+        }
     }
 }
 
@@ -217,7 +238,22 @@ public struct AvatarView: View {
                                 AnyView(EmptyView()),
                              alignment: .topLeading))
 
+        let accessibilityLabel: String = {
+            if let overriddenAccessibilityLabel = state.accessibilityLabel {
+                return overriddenAccessibilityLabel
+            }
+
+            let defaultAccessibilityText = state.primaryText ?? state.secondaryText ?? ""
+            return (state.isOutOfOffice ?
+                        String.localizedStringWithFormat("Accessibility.AvatarView.LabelFormat".localized, defaultAccessibilityText, "Presence.OOF".localized) :
+                        defaultAccessibilityText)
+        }()
+
         return bodyView
+            .accessibilityElement(children: .ignore)
+            .accessibility(addTraits: .isImage)
+            .accessibility(label: Text(accessibilityLabel))
+            .accessibility(value: Text(presence.string() ?? ""))
             .onAppear {
                 // When environment values are available through the view hierarchy:
                 //  - If we get a non-default theme through the environment values,
@@ -232,7 +268,7 @@ public struct AvatarView: View {
             }
     }
 
-    func circularCutoutMask(targetFrameRect: CGRect, cutoutFrameRect: CGRect) -> Path {
+    private func circularCutoutMask(targetFrameRect: CGRect, cutoutFrameRect: CGRect) -> Path {
         var cutoutFrame = Rectangle().path(in: targetFrameRect)
         cutoutFrame.addPath(Circle().path(in: cutoutFrameRect))
 
@@ -251,20 +287,12 @@ public struct AvatarView: View {
 /// UIKit wrapper that exposes the SwiftUI Avatar implementation
 @objc open class MSFAvatar: NSObject, FluentUIWindowProvider {
 
-    private var hostingController: UIHostingController<AnyView>!
-
-    private var avatarview: AvatarView!
-
     @objc open var view: UIView {
         return hostingController.view
     }
 
     @objc open var state: MSFAvatarState {
         return self.avatarview.state
-    }
-
-    public var window: UIWindow? {
-        return self.view.window
     }
 
     @objc open func setStyle(style: MSFAvatarStyle) {
@@ -294,4 +322,12 @@ public struct AvatarView: View {
         avatarview.tokens.windowProvider = self
         self.view.backgroundColor = UIColor.clear
     }
+
+    var window: UIWindow? {
+        return self.view.window
+    }
+
+    private var hostingController: UIHostingController<AnyView>!
+
+    private var avatarview: AvatarView!
 }
