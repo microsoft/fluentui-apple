@@ -77,8 +77,7 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
     @Published public var horizontalCellPadding: CGFloat!
     @Published public var iconInterspace: CGFloat!
     @Published public var labelAccessoryInterspace: CGFloat!
-    @Published public var titleAccessorySize: CGFloat!
-    @Published public var subtitleAccessorySize: CGFloat!
+    @Published public var labelAccessorySize: CGFloat!
     @Published public var leadingViewSize: CGFloat!
     @Published public var trailingItemSize: CGFloat!
 
@@ -131,8 +130,7 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
         horizontalCellPadding = appearanceProxy.horizontalCellPadding
         iconInterspace = appearanceProxy.iconInterspace
         labelAccessoryInterspace = appearanceProxy.labelAccessoryInterspace
-        titleAccessorySize = appearanceProxy.labelAccessorySize
-        subtitleAccessorySize = appearanceProxy.sublabelAccessorySize
+        labelAccessorySize = appearanceProxy.labelAccessorySize
         trailingItemSize = appearanceProxy.trailingItemSize
 
         subtitleFont = appearanceProxy.sublabelFont

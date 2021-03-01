@@ -101,7 +101,7 @@ extension FluentUIStyle {
 
 		// MARK: - labelAccessorySize 
 		open var labelAccessorySize: CGFloat {
-			return mainProxy().Icon.size.xSmall
+			return mainProxy().Icon.size.xxSmall
 		}
 
 		// MARK: - labelColor 

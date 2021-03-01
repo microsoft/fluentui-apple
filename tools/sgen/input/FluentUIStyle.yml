@@ -259,7 +259,7 @@ AP_MSFListCellTokens:
   horizontalCellPadding: $Spacing.medium
   iconInterspace: $Spacing.medium
   labelAccessoryInterspace: $Spacing.xSmall
-  labelAccessorySize: $Icon.size.xSmall
+  labelAccessorySize: $Icon.size.xxSmall
   labelColor: $Colors.Foreground.neutral1
   labelFont: $Typography.body
   leadingViewColor: $Colors.Foreground.neutral4

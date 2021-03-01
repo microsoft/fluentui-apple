@@ -76,6 +76,7 @@ struct MSFListCellView: View {
             HStack(spacing: 0) {
                 let hasTitle = !state.title.isEmpty
                 let labelAccessoryInterspace = tokens.labelAccessoryInterspace
+                let labelAccessorySize = tokens.labelAccessorySize
 
                 if let leadingView = state.leadingView {
                     UIViewAdapter(leadingView)
@@ -88,7 +89,7 @@ struct MSFListCellView: View {
                     HStack(spacing: 0) {
                         if let titleLeadingAccessoryView = state.titleLeadingAccessoryView {
                             UIViewAdapter(titleLeadingAccessoryView)
-                                .frame(width: tokens.titleAccessorySize, height: tokens.titleAccessorySize)
+                                .frame(width: labelAccessorySize, height: labelAccessorySize)
                                 .padding(.trailing, labelAccessoryInterspace)
                         }
                         if hasTitle {
@@ -99,7 +100,7 @@ struct MSFListCellView: View {
                         }
                         if let titleTrailingAccessoryView = state.titleTrailingAccessoryView {
                             UIViewAdapter(titleTrailingAccessoryView)
-                                .frame(width: tokens.titleAccessorySize, height: tokens.titleAccessorySize)
+                                .frame(width: labelAccessorySize, height: labelAccessorySize)
                                 .padding(.leading, labelAccessoryInterspace)
                         }
                     }
@@ -107,7 +108,7 @@ struct MSFListCellView: View {
                     HStack(spacing: 0) {
                         if let subtitleLeadingAccessoryView = state.subtitleLeadingAccessoryView {
                             UIViewAdapter(subtitleLeadingAccessoryView)
-                                .frame(width: tokens.subtitleAccessorySize, height: tokens.subtitleAccessorySize)
+                                .frame(width: labelAccessorySize, height: labelAccessorySize)
                                 .padding(.trailing, labelAccessoryInterspace)
                         }
                         if !state.subtitle.isEmpty {
@@ -118,7 +119,7 @@ struct MSFListCellView: View {
                         }
                         if let subtitleTrailingAccessoryView = state.subtitleTrailingAccessoryView {
                             UIViewAdapter(subtitleTrailingAccessoryView)
-                                .frame(width: tokens.subtitleAccessorySize, height: tokens.subtitleAccessorySize)
+                                .frame(width: labelAccessorySize, height: labelAccessorySize)
                                 .padding(.leading, labelAccessoryInterspace)
                         }
                     }
