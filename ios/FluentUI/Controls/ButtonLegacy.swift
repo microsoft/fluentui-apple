@@ -81,10 +81,10 @@ public enum MSFButtonLegacyStyle: Int, CaseIterable {
 public extension Colors {
     struct Button {
         static var background: UIColor = .clear
-        static var backgroundFilledDisabled: UIColor = surfaceQuaternary
+        public static var backgroundFilledDisabled: UIColor = surfaceQuaternary
         static var borderDisabled: UIColor = surfaceQuaternary
         static var titleDisabled: UIColor = textDisabled
-        static var titleWithFilledBackground: UIColor = textOnAccent
+        public static var titleWithFilledBackground: UIColor = textOnAccent
     }
 }
 
