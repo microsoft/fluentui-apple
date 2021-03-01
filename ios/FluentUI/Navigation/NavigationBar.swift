@@ -6,16 +6,16 @@
 import UIKit
 
 // MARK: Navigation Colors
-extension Colors {
+public extension Colors {
     struct Navigation {
         struct System {
             static var background: UIColor = NavigationBar.background
             static var tint: UIColor = NavigationBar.tint
             static var title: UIColor = NavigationBar.title
         }
-        struct Primary {
-            static var tint = UIColor(light: textOnAccent, dark: System.tint)
-            static var title = UIColor(light: textOnAccent, dark: System.title)
+        public struct Primary {
+            public static var tint = UIColor(light: textOnAccent, dark: System.tint)
+            public static var title = UIColor(light: textOnAccent, dark: System.title)
         }
     }
 }
