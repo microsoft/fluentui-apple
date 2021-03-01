@@ -149,8 +149,8 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
         horizontalCellPadding = appearanceProxy.horizontalCellPadding
         iconInterspace = appearanceProxy.iconInterspace
         labelAccessoryInterspace = appearanceProxy.labelAccessoryInterspace
-        titleAccessorySize = appearanceProxy.labelAccessorySize.title
-        subtitleAccessorySize = appearanceProxy.labelAccessorySize.subtitle
+        titleAccessorySize = appearanceProxy.labelAccessorySize
+        subtitleAccessorySize = appearanceProxy.sublabelAccessorySize
         trailingItemSize = appearanceProxy.trailingItemSize
 
         subtitleFont = appearanceProxy.sublabelFont

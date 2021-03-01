@@ -101,30 +101,13 @@ extension FluentUIStyle {
 
 		// MARK: - labelAccessoryInterspace 
 		open var labelAccessoryInterspace: CGFloat {
-			return CGFloat(8.0)
+			return mainProxy().Spacing.xSmall
 		}
 
-		// MARK: - labelAccessorySize
-		open var labelAccessorySize: labelAccessorySizeAppearanceProxy {
-			return labelAccessorySizeAppearanceProxy(proxy: mainProxy)
+		// MARK: - labelAccessorySize 
+		open var labelAccessorySize: CGFloat {
+			return mainProxy().Icon.size.xSmall
 		}
-		open class labelAccessorySizeAppearanceProxy {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			// MARK: - subtitle 
-			open var subtitle: CGFloat {
-				return mainProxy().Icon.size.xxSmall
-			}
-
-			// MARK: - title 
-			open var title: CGFloat {
-				return mainProxy().Icon.size.xSmall
-			}
-		}
-
 
 		// MARK: - labelColor 
 		open var labelColor: UIColor {
@@ -167,6 +150,11 @@ extension FluentUIStyle {
 			}
 		}
 
+
+		// MARK: - sublabelAccessorySize 
+		open var sublabelAccessorySize: CGFloat {
+			return mainProxy().Icon.size.xxSmall
+		}
 
 		// MARK: - sublabelColor 
 		open var sublabelColor: UIColor {
