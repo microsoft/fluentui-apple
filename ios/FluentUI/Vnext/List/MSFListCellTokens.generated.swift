@@ -42,11 +42,6 @@ extension FluentUIStyle {
 			return mainProxy().Colors.Stroke.neutral1
 		}
 
-		// MARK: - borderSize 
-		open var borderSize: CGFloat {
-			return mainProxy().Border.size.thin
-		}
-
 		// MARK: - cellHeight
 		open var cellHeight: cellHeightAppearanceProxy {
 			return cellHeightAppearanceProxy(proxy: mainProxy)

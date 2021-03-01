@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0AE9A4BE25E5A9AE00281E0C /* HeaderFooterTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE9A4BD25E5A9AE00281E0C /* HeaderFooterTokens.swift */; };
+		0AE9A4BF25E5A9AE00281E0C /* HeaderFooterTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE9A4BD25E5A9AE00281E0C /* HeaderFooterTokens.swift */; };
+		0AE9A4C525E5A9DD00281E0C /* MSFHeaderFooterTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE9A4C425E5A9DD00281E0C /* MSFHeaderFooterTokens.generated.swift */; };
+		0AE9A4C625E5A9DD00281E0C /* MSFHeaderFooterTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE9A4C425E5A9DD00281E0C /* MSFHeaderFooterTokens.generated.swift */; };
 		0BCEFADE2485FEC00088CEE5 /* PopupMenuProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */; };
 		0BCEFAE1248650F10088CEE5 /* PopupMenuProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */; };
 		11104BCE233ACA9500CCB232 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D9847230BBA2300BC0B72 /* TabBarItem.swift */; };
@@ -357,6 +361,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0AE9A4BD25E5A9AE00281E0C /* HeaderFooterTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderFooterTokens.swift; sourceTree = "<group>"; };
+		0AE9A4C425E5A9DD00281E0C /* MSFHeaderFooterTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFHeaderFooterTokens.generated.swift; sourceTree = "<group>"; };
 		0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuProtocols.swift; sourceTree = "<group>"; };
 		1168630222E131CF0088B302 /* TabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
 		1168630322E131CF0088B302 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
@@ -688,8 +694,10 @@
 				ECD9B85925C21DA300CB211B /* ListCell.swift */,
 				ECD9B86025C22A3B00CB211B /* ListHeaderFooter.swift */,
 				5354008925B0C19C0047DC47 /* ListTokens.swift */,
-				53224E6525DF473C0063FBDB /* MSFListCellTokens.generated.swift */,
+				0AE9A4BD25E5A9AE00281E0C /* HeaderFooterTokens.swift */,
 				53224E6825DF473D0063FBDB /* MSFListTokens.generated.swift */,
+				53224E6525DF473C0063FBDB /* MSFListCellTokens.generated.swift */,
+				0AE9A4C425E5A9DD00281E0C /* MSFHeaderFooterTokens.generated.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -1386,6 +1394,7 @@
 				7D0931C424AAAC9C0072458A /* SideTabBar.swift in Sources */,
 				53224E8025DF474C0063FBDB /* MSFListTokens.generated.swift in Sources */,
 				FD26DBD12298B3610011178B /* TooltipPositionController.swift in Sources */,
+				0AE9A4C625E5A9DD00281E0C /* MSFHeaderFooterTokens.generated.swift in Sources */,
 				FD26DBD02298B35F0011178B /* Tooltip.swift in Sources */,
 				3F4FB97225B25E04008AB7CC /* Drawer.swift in Sources */,
 				8ACE4D3624E31B1C00B9D0EB /* ContactCollectionView.swift in Sources */,
@@ -1481,6 +1490,7 @@
 				7DC2FB2E24D209E800367A55 /* Presence.swift in Sources */,
 				8FD011AD228A82A600D25925 /* UITableViewCell+Extension.swift in Sources */,
 				8FD011AE228A82A600D25925 /* UIView+Extensions.swift in Sources */,
+				0AE9A4BF25E5A9AE00281E0C /* HeaderFooterTokens.swift in Sources */,
 				8FD011AF228A82A600D25925 /* UIViewController+Extensions.swift in Sources */,
 				7D23482824D88DE700FBE057 /* AvatarGroupView.swift in Sources */,
 				8FD011B0228A82A600D25925 /* HUD.swift in Sources */,
@@ -1549,6 +1559,7 @@
 				53224E6D25DF473D0063FBDB /* MSFListTokens.generated.swift in Sources */,
 				FD36F1A9216C0A6900CECBC6 /* CardPresentationController.swift in Sources */,
 				B426613E214731D100E25423 /* InitialsView.swift in Sources */,
+				0AE9A4C525E5A9DD00281E0C /* MSFHeaderFooterTokens.generated.swift in Sources */,
 				53224ED725DFB6160063FBDB /* MSFAvatarTokens.generated.swift in Sources */,
 				FC414E252588798000069E73 /* CommandBarButtonGroupView.swift in Sources */,
 				A5B87B02211E20B50038C37C /* UIScreen+Extension.swift in Sources */,
@@ -1644,6 +1655,7 @@
 				C0EAAEAD2347E1DF00C7244E /* ShimmerView.swift in Sources */,
 				C0938E46235F66E300256251 /* ShimmerViewAppearance.swift in Sources */,
 				FC414E1F258876FB00069E73 /* CommandBar.swift in Sources */,
+				0AE9A4BE25E5A9AE00281E0C /* HeaderFooterTokens.swift in Sources */,
 				C0A0D76F233AEF6C00F432FD /* ShimmerLinesViewAppearance.swift in Sources */,
 				FD256C5B2183B90B00EC9588 /* DatePickerSelectionManager.swift in Sources */,
 				86AF4F7525AFC746005D4253 /* PillButtonStyle.swift in Sources */,
