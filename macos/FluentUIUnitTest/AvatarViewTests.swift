@@ -115,13 +115,16 @@ class AvatarViewTests: XCTestCase {
 		XCTAssertNil(noNameNoEmailAvatar.toolTip)
 	}
 
-	func testBackgroundColors () {
+	func testAvatarColors () {
 		// Cherry pick a few known values and test them
-		XCTAssertEqual(AvatarView.backgroundColor(for: 0), Colors.Palette.cyanBlue10.color)
-		XCTAssertEqual(AvatarView.backgroundColor(for: 2), Colors.Palette.magenta20.color)
-		XCTAssertEqual(AvatarView.backgroundColor(for: 3), Colors.Palette.green10.color)
-		XCTAssertEqual(AvatarView.backgroundColor(for: 6), Colors.Palette.orange20.color)
-		XCTAssertEqual(AvatarView.backgroundColor(for: 20), Colors.Palette.orange30.color)
+		XCTAssertTrue(AvatarView.colorSet(for: 0).background == Colors.Palette.darkRedTint40.color ||
+						AvatarView.colorSet(for: 0).background == Colors.Palette.darkRedShade30.color)
+		XCTAssertTrue(AvatarView.colorSet(for: 0).foreground == Colors.Palette.darkRedShade30.color ||
+						AvatarView.colorSet(for: 0).foreground == Colors.Palette.darkRedTint40.color)
+		XCTAssertTrue(AvatarView.colorSet(for: 29).background == Colors.Palette.anchorTint40.color ||
+						AvatarView.colorSet(for: 29).background == Colors.Palette.anchorShade30.color)
+		XCTAssertTrue(AvatarView.colorSet(for: 29).foreground == Colors.Palette.anchorShade30.color ||
+						AvatarView.colorSet(for: 29).foreground == Colors.Palette.anchorTint40.color)
 	}
 
 	func testHashAlgorithm () {

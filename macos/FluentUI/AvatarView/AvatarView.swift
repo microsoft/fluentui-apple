@@ -29,7 +29,9 @@ open class AvatarView: NSView {
                       contactImage: NSImage? = nil) {
 
 		// Prefer contactEmail to contactName for uniqueness
-		avatarBackgroundColor = AvatarView.backgroundColor(for: AvatarView.colorIndex(for: contactEmail ?? contactName ?? ""))
+		let colorSet = AvatarView.colorSet(for: AvatarView.colorIndex(for: contactEmail ?? contactName ?? ""))
+		avatarBackgroundColor = colorSet.background
+		initialsFontColor = colorSet.foreground
 		self.contactName = contactName
 		self.contactEmail = contactEmail
 		self.contactImage = contactImage
@@ -86,6 +88,18 @@ open class AvatarView: NSView {
 			}
 			needsDisplay = true
 			initialsTextField.backgroundColor = avatarBackgroundColor
+		}
+	}
+	
+	/// The initials font color of the avatar view when no image is provided.
+	/// Setting this property will override the default provided color.
+	@objc open var initialsFontColor: NSColor {
+		didSet {
+			guard oldValue != initialsFontColor else {
+				return
+			}
+			needsDisplay = true
+			initialsTextField.textColor = initialsFontColor
 		}
 	}
 
@@ -224,7 +238,7 @@ open class AvatarView: NSView {
 		textView.alignment = .center
 		textView.translatesAutoresizingMaskIntoConstraints = false
 		textView.font = font(forCircleDiameter: avatarSize)
-		textView.textColor = .initialsViewTextColor
+		textView.textColor = initialsFontColor
 		textView.drawsBackground = true
 		textView.backgroundColor = avatarBackgroundColor
 		return textView
@@ -292,7 +306,9 @@ open class AvatarView: NSView {
 		}
 
 		initialsTextField.stringValue = AvatarView.initialsWithFallback(name: contactName, email: contactEmail)
-		avatarBackgroundColor = AvatarView.backgroundColor(for: AvatarView.colorIndex(for: contactEmail ?? contactName ?? ""))
+		let colorSet = AvatarView.colorSet(for: AvatarView.colorIndex(for: contactEmail ?? contactName ?? ""))
+		avatarBackgroundColor = colorSet.background
+		initialsFontColor = colorSet.foreground
 	}
 
 	/// Get the color associated with a given index
@@ -301,8 +317,8 @@ open class AvatarView: NSView {
 	/// - returns: the color table entry for the given index
 	///
 	/// - note: Internal visibility exists only for unit testing
-	@objc public static func backgroundColor(for index: Int) -> NSColor {
-		let avatarBackgroundColors = NSColor.avatarBackgroundColors
+	@objc public static func colorSet(for index: Int) -> ColorSet {
+		let avatarBackgroundColors = NSColor.avatarColors
 		return avatarBackgroundColors[index % avatarBackgroundColors.count]
 	}
 
@@ -436,34 +452,69 @@ fileprivate extension Unicode.Scalar {
 
 fileprivate extension NSColor {
 	/// the text color of the text in the initials view
-	///
-	/// - note: this value doesn't change for dark mode by design as our default background color table
-	/// only provides colors designed to be used with white text, even on dark mode
-    static let initialsViewTextColor: NSColor = .white
 
 	/// the table of background colors for the initials views
-	static let avatarBackgroundColors: [NSColor] = [
-		Colors.Palette.cyanBlue10.color,
-		Colors.Palette.red10.color,
-		Colors.Palette.magenta20.color,
-		Colors.Palette.green10.color,
-		Colors.Palette.magentaPink10.color,
-		Colors.Palette.cyanBlue20.color,
-		Colors.Palette.orange20.color,
-		Colors.Palette.cyan20.color,
-		Colors.Palette.orangeYellow20.color,
-		Colors.Palette.red20.color,
-		Colors.Palette.blue10.color,
-		Colors.Palette.magenta10.color,
-		Colors.Palette.gray40.color,
-		Colors.Palette.green20.color,
-		Colors.Palette.blueMagenta20.color,
-		Colors.Palette.pinkRed10.color,
-		Colors.Palette.gray30.color,
-		Colors.Palette.blueMagenta30.color,
-		Colors.Palette.gray20.color,
-		Colors.Palette.cyan30.color,
-		Colors.Palette.orange30.color
+	static let avatarColors: [ColorSet] = [
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.darkRedTint40.color, dark: Colors.Palette.darkRedShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.darkRedShade30.color, dark: Colors.Palette.darkRedTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.cranberryTint40.color, dark: Colors.Palette.cranberryShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.cranberryShade30.color, dark: Colors.Palette.cranberryTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.redTint40.color, dark: Colors.Palette.redShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.redShade30.color, dark: Colors.Palette.redTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.pumpkinTint40.color, dark: Colors.Palette.pumpkinShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.pumpkinShade30.color, dark: Colors.Palette.pumpkinTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.peachTint40.color, dark: Colors.Palette.peachShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.peachShade30.color, dark: Colors.Palette.peachTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.marigoldTint40.color, dark: Colors.Palette.marigoldShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.marigoldShade30.color, dark: Colors.Palette.marigoldTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.goldTint40.color, dark: Colors.Palette.goldShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.goldShade30.color, dark: Colors.Palette.goldTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.brassTint40.color, dark: Colors.Palette.brassShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.brassShade30.color, dark: Colors.Palette.brassTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.brownTint40.color, dark: Colors.Palette.brownShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.brownShade30.color, dark: Colors.Palette.brownTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.forestTint40.color, dark: Colors.Palette.forestShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.forestShade30.color, dark: Colors.Palette.forestTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.seafoamTint40.color, dark: Colors.Palette.seafoamShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.seafoamShade30.color, dark: Colors.Palette.seafoamTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.darkGreenTint40.color, dark: Colors.Palette.darkGreenShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.darkGreenShade30.color, dark: Colors.Palette.darkGreenTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.lightTealTint40.color, dark: Colors.Palette.lightTealShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.lightTealShade30.color, dark: Colors.Palette.lightTealTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.tealTint40.color, dark: Colors.Palette.tealShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.tealShade30.color, dark: Colors.Palette.tealTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.steelTint40.color, dark: Colors.Palette.steelShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.steelShade30.color, dark: Colors.Palette.steelTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.blueTint40.color, dark: Colors.Palette.blueShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.blueShade30.color, dark: Colors.Palette.blueTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.royalBlueTint40.color, dark: Colors.Palette.royalBlueShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.royalBlueShade30.color, dark: Colors.Palette.royalBlueTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.cornFlowerTint40.color, dark: Colors.Palette.cornFlowerShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.cornFlowerShade30.color, dark: Colors.Palette.cornFlowerTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.navyTint40.color, dark: Colors.Palette.navyShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.navyShade30.color, dark: Colors.Palette.navyTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.lavenderTint40.color, dark: Colors.Palette.lavenderShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.lavenderShade30.color, dark: Colors.Palette.lavenderTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.purpleTint40.color, dark: Colors.Palette.purpleShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.purpleShade30.color, dark: Colors.Palette.purpleTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.grapeTint40.color, dark: Colors.Palette.grapeShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.grapeShade30.color, dark: Colors.Palette.grapeTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.lilacTint40.color, dark: Colors.Palette.lilacShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.lilacShade30.color, dark: Colors.Palette.lilacTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.pinkTint40.color, dark: Colors.Palette.pinkShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.pinkShade30.color, dark: Colors.Palette.pinkTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.magentaTint40.color, dark: Colors.Palette.magentaShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.magentaShade30.color, dark: Colors.Palette.magentaTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.plumTint40.color, dark: Colors.Palette.plumShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.plumShade30.color, dark: Colors.Palette.plumTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.beigeTint40.color, dark: Colors.Palette.beigeShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.beigeShade30.color, dark: Colors.Palette.beigeTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.minkTint40.color, dark: Colors.Palette.minkShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.minkShade30.color, dark: Colors.Palette.minkTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.platinumTint40.color, dark: Colors.Palette.platinumShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.platinumShade30.color, dark: Colors.Palette.platinumTint40.color)),
+		ColorSet(background: NSColor.getColor(light: Colors.Palette.anchorTint40.color, dark: Colors.Palette.anchorShade30.color),
+				 foreground: NSColor.getColor(light: Colors.Palette.anchorShade30.color, dark: Colors.Palette.anchorTint40.color))
 	]
 }
 
@@ -478,5 +529,28 @@ fileprivate extension CGPath {
 	/// - note: this can't be an initializer since Swift doesn't allow CF/CG types to have convenience initialer extensions
 	static func circularPath(withCircleDiameter diameter: CGFloat) -> CGPath {
 		return CGPath(ellipseIn: NSRect(x: 0, y: 0, width: diameter, height: diameter), transform: nil)
+	}
+}
+
+fileprivate extension NSColor {
+	enum InterfaceStyle: String {
+	   case dark, light
+
+		init() {
+			var type: InterfaceStyle = .light
+			let isDarkMode = NSApplication.shared.effectiveAppearance.bestMatch(from: [.darkAqua]) == .darkAqua
+			if isDarkMode {
+				type = .dark
+			}
+			self = type
+		}
+	}
+
+	static func getColor(light: NSColor, dark: NSColor) -> NSColor {
+		let currentStyle = InterfaceStyle()
+		if currentStyle == .light {
+			return light
+		}
+		return dark
 	}
 }
