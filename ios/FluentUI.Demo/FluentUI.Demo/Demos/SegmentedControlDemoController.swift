@@ -90,9 +90,7 @@ class SegmentedControlDemoController: DemoController {
         backgroundView.addSubview(pillControl)
         container.addArrangedSubview(backgroundView)
         let margins = UIEdgeInsets(top: 16.0, left: 0, bottom: 16.0, right: 0)
-        var constraints = [backgroundView.leadingAnchor.constraint(equalTo: pillControl.leadingAnchor, constant: margins.left),
-                           backgroundView.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -margins.right),
-                           backgroundView.topAnchor.constraint(equalTo: pillControl.topAnchor, constant: -margins.top),
+        var constraints = [backgroundView.topAnchor.constraint(equalTo: pillControl.topAnchor, constant: -margins.top),
                            backgroundView.bottomAnchor.constraint(equalTo: pillControl.bottomAnchor, constant: margins.bottom)]
         if equalSegments {
             constraints.append(pillControl.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor))

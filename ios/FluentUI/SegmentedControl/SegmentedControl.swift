@@ -2,11 +2,9 @@
 //  Copyright (c) Microsoft Corporation. All rights reserved.
 //  Licensed under the MIT License.
 //
-
 import UIKit
 
 // MARK: SegmentedControl Colors
-
 public extension Colors {
     struct SegmentedControl {
         struct Tabs {
@@ -35,7 +33,6 @@ public extension Colors {
 }
 
 // MARK: SegmentedControl
-
 @available(*, deprecated, renamed: "SegmentedControl")
 public typealias MSSegmentedControl = SegmentedControl
 
@@ -588,7 +585,6 @@ open class SegmentedControl: UIControl {
 }
 
 // MARK: - SegmentedControlButton
-
 private class SegmentedControlButton: UIButton {
     private struct Constants {
         static let contentEdgeInsets = UIEdgeInsets(top: 11, left: 12, bottom: 13, right: 12)

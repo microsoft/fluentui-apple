@@ -78,7 +78,6 @@
 		8FD01180228A82A600D25925 /* EasyTapButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5BBE42214C73CE008964B4 /* EasyTapButton.swift */; };
 		8FD01181228A82A600D25925 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = A589F853211BA03200471C23 /* Label.swift */; };
 		8FD01182228A82A600D25925 /* ResizingHandleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5237ACA21DED7030040BF27 /* ResizingHandleView.swift */; };
-		8FD01183228A82A600D25925 /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCF7C7E21BB56740058E9E6 /* SegmentedControl.swift */; };
 		8FD01184228A82A600D25925 /* Separator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DCA76321224026005F4CB7 /* Separator.swift */; };
 		8FD01185228A82A600D25925 /* TouchForwardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B483323621DEB5A00022B4CC /* TouchForwardingView.swift */; };
 		8FD01186228A82A600D25925 /* TwoLineTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5BBE40214C6AF3008964B4 /* TwoLineTitleView.swift */; };
@@ -211,6 +210,7 @@
 		C0EAAEAD2347E1DF00C7244E /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EAAEAC2347E1DF00C7244E /* ShimmerView.swift */; };
 		CCC18C2C2501B22F00BE830E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC18C2B2501B22F00BE830E /* CardView.swift */; };
 		CCC18C2D2501B22F00BE830E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC18C2B2501B22F00BE830E /* CardView.swift */; };
+		ECEBA8FC25EDF3380048EE24 /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */; };
 		FC414E1F258876FB00069E73 /* CommandBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E1E258876FB00069E73 /* CommandBar.swift */; };
 		FC414E252588798000069E73 /* CommandBarButtonGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */; };
 		FC414E2B25887A4B00069E73 /* CommandBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E2A25887A4B00069E73 /* CommandBarButton.swift */; };
@@ -277,7 +277,6 @@
 		FD9DA7B6232C33A80013E41B /* UIViewController+Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9DA7B4232C33A80013E41B /* UIViewController+Navigation.swift */; };
 		FDA1AF8C21484625001AE720 /* BlurringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA1AF8B21484625001AE720 /* BlurringView.swift */; };
 		FDA1AF91214871B5001AE720 /* CardTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA1AF90214871B5001AE720 /* CardTransitionAnimator.swift */; };
-		FDCF7C7F21BB56740058E9E6 /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCF7C7E21BB56740058E9E6 /* SegmentedControl.swift */; };
 		FDD454EE21405B390006E84E /* DotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD454ED21405B390006E84E /* DotView.swift */; };
 		FDF41ED92141A02200EC527C /* CalendarConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF41ED82141A02200EC527C /* CalendarConfiguration.swift */; };
 		FDF41EDB2141A23B00EC527C /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF41EDA2141A23B00EC527C /* UIViewController+Extensions.swift */; };
@@ -410,6 +409,7 @@
 		C0A0D76C233AEF6C00F432FD /* ShimmerLinesViewAppearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShimmerLinesViewAppearance.swift; sourceTree = "<group>"; };
 		C0EAAEAC2347E1DF00C7244E /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
 		CCC18C2B2501B22F00BE830E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		FC414E1E258876FB00069E73 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
 		FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarButtonGroupView.swift; sourceTree = "<group>"; };
 		FC414E2A25887A4B00069E73 /* CommandBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarButton.swift; sourceTree = "<group>"; };
@@ -529,7 +529,6 @@
 		FDA1AF8B21484625001AE720 /* BlurringView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurringView.swift; sourceTree = "<group>"; };
 		FDA1AF90214871B5001AE720 /* CardTransitionAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTransitionAnimator.swift; sourceTree = "<group>"; };
 		FDA1AF9221487225001AE720 /* CardPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPresentationController.swift; sourceTree = "<group>"; };
-		FDCF7C7E21BB56740058E9E6 /* SegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		FDD454ED21405B390006E84E /* DotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DotView.swift; sourceTree = "<group>"; };
 		FDF41ED82141A02200EC527C /* CalendarConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarConfiguration.swift; sourceTree = "<group>"; };
 		FDF41EDA2141A23B00EC527C /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
@@ -692,6 +691,7 @@
 				497DC2D62418585D008D86F8 /* Pill Button Bar */,
 				A5961F9B218A251E00E2A506 /* Popup Menu */,
 				FD7254EE2147382D002F4069 /* Presenters */,
+				ECEBA8F625EDEFF70048EE24 /* SegmentedControl */,
 				C0A0D75D233AEA9900F432FD /* Shimmer */,
 				1168630122E131A20088B302 /* Tab Bar */,
 				B444D6B421825B510002B4D4 /* Table View */,
@@ -764,7 +764,6 @@
 				A5237ACA21DED7030040BF27 /* ResizingHandleView.swift */,
 				A5F3B145232B1E3700007A4F /* ScrollView.swift */,
 				FD41C87E22DD13230086F899 /* SearchBar.swift */,
-				FDCF7C7E21BB56740058E9E6 /* SegmentedControl.swift */,
 				A5DCA76321224026005F4CB7 /* Separator.swift */,
 				B483323621DEB5A00022B4CC /* TouchForwardingView.swift */,
 				FD5BBE40214C6AF3008964B4 /* TwoLineTitleView.swift */,
@@ -869,6 +868,14 @@
 				CCC18C2B2501B22F00BE830E /* CardView.swift */,
 			);
 			path = Card;
+			sourceTree = "<group>";
+		};
+		ECEBA8F625EDEFF70048EE24 /* SegmentedControl */ = {
+			isa = PBXGroup;
+			children = (
+				ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */,
+			);
+			path = SegmentedControl;
 			sourceTree = "<group>";
 		};
 		FC414E1D258876D400069E73 /* Command Bar */ = {
@@ -1260,7 +1267,6 @@
 				8FD01182228A82A600D25925 /* ResizingHandleView.swift in Sources */,
 				537315B425438B15001FD14C /* iOS13_4_compatibility.swift in Sources */,
 				56DA1CDC24523624008D745E /* ShimmerAppearance.swift in Sources */,
-				8FD01183228A82A600D25925 /* SegmentedControl.swift in Sources */,
 				5320362825D4803600DE9E1D /* CommandBarButtonGroupView.swift in Sources */,
 				FD41C88722DD13230086F899 /* ShyHeaderController.swift in Sources */,
 				8FD01184228A82A600D25925 /* Separator.swift in Sources */,
@@ -1418,7 +1424,6 @@
 				B483323521DEA8D70022B4CC /* HUD.swift in Sources */,
 				A5B87B06211E23650038C37C /* UIView+Extensions.swift in Sources */,
 				7D0931C324AAAC9B0072458A /* SideTabBar.swift in Sources */,
-				FDCF7C7F21BB56740058E9E6 /* SegmentedControl.swift in Sources */,
 				A5961FA7218A2E4500E2A506 /* UIImage+Extensions.swift in Sources */,
 				B4BA27882319DC0D0001563C /* PersonaBadgeViewDataSource.swift in Sources */,
 				8A01C86F248FFC5300C971F3 /* ContactView.swift in Sources */,
@@ -1470,6 +1475,7 @@
 				FD256C5B2183B90B00EC9588 /* DatePickerSelectionManager.swift in Sources */,
 				A5CEC23120E451D00016922A /* Button.swift in Sources */,
 				86AF4F7525AFC746005D4253 /* PillButtonStyle.swift in Sources */,
+				ECEBA8FC25EDF3380048EE24 /* SegmentedControl.swift in Sources */,
 				FDF41EDB2141A23B00EC527C /* UIViewController+Extensions.swift in Sources */,
 				FC414E4F2588B65C00069E73 /* CommandBarItem.swift in Sources */,
 				FD56FD95219131430023C7EA /* DateTimePickerView.swift in Sources */,
