@@ -28,10 +28,7 @@
 		3F4FB97225B25E04008AB7CC /* Drawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB96D25B25E04008AB7CC /* Drawer.swift */; };
 		3F4FB97325B25E04008AB7CC /* MSFSlideOutPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB96E25B25E04008AB7CC /* MSFSlideOutPanel.swift */; };
 		3F4FB97425B25E04008AB7CC /* MSFSlideOutPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB96E25B25E04008AB7CC /* MSFSlideOutPanel.swift */; };
-		3F4FB97525B25E04008AB7CC /* Drawer+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB96F25B25E04008AB7CC /* Drawer+UIKit.swift */; };
 		3F4FB97625B25E04008AB7CC /* Drawer+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB96F25B25E04008AB7CC /* Drawer+UIKit.swift */; };
-		3F4FB97725B25E04008AB7CC /* MSFSlideOutPanel+Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB97025B25E04008AB7CC /* MSFSlideOutPanel+Modifiers.swift */; };
-		3F4FB97825B25E04008AB7CC /* MSFSlideOutPanel+Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB97025B25E04008AB7CC /* MSFSlideOutPanel+Modifiers.swift */; };
 		3FACBF3725DDB84E00EFD969 /* MSFSlideOutPanelElevation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FACBF3625DDB84E00EFD969 /* MSFSlideOutPanelElevation.swift */; };
 		3FACBF3825DDB84E00EFD969 /* MSFSlideOutPanelElevation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FACBF3625DDB84E00EFD969 /* MSFSlideOutPanelElevation.swift */; };
 		3FDF1C9425C0C066000ED4F3 /* AnimationCompletionModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDF1C9325C0C066000ED4F3 /* AnimationCompletionModifier.swift */; };
@@ -66,10 +63,9 @@
 		53224EDF25DFB61D0063FBDB /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B659B9257AA50200070405 /* Button.swift */; };
 		53224EE425DFB6290063FBDB /* Drawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB96D25B25E04008AB7CC /* Drawer.swift */; };
 		53224EE525DFB6290063FBDB /* Drawer+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB96F25B25E04008AB7CC /* Drawer+UIKit.swift */; };
-		53224EE625DFB6290063FBDB /* SlideOverPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB96E25B25E04008AB7CC /* SlideOverPanel.swift */; };
+		53224EE625DFB6290063FBDB /* MSFSlideOutPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB96E25B25E04008AB7CC /* MSFSlideOutPanel.swift */; };
 		53224EE725DFB6290063FBDB /* MSFDrawerTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53224E6625DF473C0063FBDB /* MSFDrawerTokens.generated.swift */; };
 		53224EE825DFB6290063FBDB /* DrawerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5354008825B0C19C0047DC47 /* DrawerTokens.swift */; };
-		53224EE925DFB6290063FBDB /* SideOverPanel+Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FB97025B25E04008AB7CC /* SideOverPanel+Modifiers.swift */; };
 		532854FA25A3DD680042C3B9 /* Theming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532854F925A3DD680042C3B9 /* Theming.swift */; };
 		5354008D25B0C19C0047DC47 /* ListTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5354008925B0C19C0047DC47 /* ListTokens.swift */; };
 		535401D425BB53590047DC47 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42661412148568800E25423 /* AvatarView.swift */; };
@@ -374,7 +370,6 @@
 		3F4FB96D25B25E04008AB7CC /* Drawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Drawer.swift; sourceTree = "<group>"; };
 		3F4FB96E25B25E04008AB7CC /* MSFSlideOutPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFSlideOutPanel.swift; sourceTree = "<group>"; };
 		3F4FB96F25B25E04008AB7CC /* Drawer+UIKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Drawer+UIKit.swift"; sourceTree = "<group>"; };
-		3F4FB97025B25E04008AB7CC /* MSFSlideOutPanel+Modifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MSFSlideOutPanel+Modifiers.swift"; sourceTree = "<group>"; };
 		3FACBF3625DDB84E00EFD969 /* MSFSlideOutPanelElevation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFSlideOutPanelElevation.swift; sourceTree = "<group>"; };
 		3FDF1C9325C0C066000ED4F3 /* AnimationCompletionModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationCompletionModifier.swift; sourceTree = "<group>"; };
 		3FEC61C025CC912F00598CEE /* PanelCommon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelCommon.swift; sourceTree = "<group>"; };
@@ -651,16 +646,10 @@
 			isa = PBXGroup;
 			children = (
 				3F4FB96D25B25E04008AB7CC /* Drawer.swift */,
-				3F4FB96F25B25E04008AB7CC /* Drawer+UIKit.swift */,
 				5354008825B0C19C0047DC47 /* DrawerTokens.swift */,
 				53224E6625DF473C0063FBDB /* MSFDrawerTokens.generated.swift */,
-				3F4FB96E25B25E04008AB7CC /* SlideOverPanel.swift */,
-				3F4FB97025B25E04008AB7CC /* SideOverPanel+Modifiers.swift */,
-				3FEC61C025CC912F00598CEE /* PanelCommon.swift */,
-				3F4FB96E25B25E04008AB7CC /* MSFSlideOutPanel.swift */,
 				3F4FB96F25B25E04008AB7CC /* Drawer+UIKit.swift */,
 				3F4FB96E25B25E04008AB7CC /* MSFSlideOutPanel.swift */,
-				3F4FB97025B25E04008AB7CC /* MSFSlideOutPanel+Modifiers.swift */,
 				3FACBF3625DDB84E00EFD969 /* MSFSlideOutPanelElevation.swift */,
 				3FEC61C025CC912F00598CEE /* PanelCommon.swift */,
 			);
@@ -1513,7 +1502,6 @@
 				56DA1CD824523611008D745E /* ShimmerView.swift in Sources */,
 				8FD011B4228A82A600D25925 /* PersonaCell.swift in Sources */,
 				8FD011B5228A82A600D25925 /* PersonaListView.swift in Sources */,
-				3F4FB97825B25E04008AB7CC /* MSFSlideOutPanel+Modifiers.swift in Sources */,
 				497DC2DA24185885008D86F8 /* PillButtonBar.swift in Sources */,
 				5320362525D4803600DE9E1D /* CommandBarButton.swift in Sources */,
 				8ACE4D3524E31ADA00B9D0EB /* ContactCollectionViewCell.swift in Sources */,
@@ -1525,7 +1513,6 @@
 				53224E7F25DF474C0063FBDB /* ButtonTokens.swift in Sources */,
 				8FD011B9228A82A600D25925 /* PopupMenuSection.swift in Sources */,
 				3F4FB97425B25E04008AB7CC /* MSFSlideOutPanel.swift in Sources */,
-				A5B87AF6211E16370038C37C /* DrawerController.swift in Sources */,
 				FD41C8B622DD3EA20086F899 /* NSLayoutConstraint+Extensions.swift in Sources */,
 				8FD011BA228A82A600D25925 /* PopupMenuItemCell.swift in Sources */,
 				B4414790228F4D920040E88E /* BooleanCell.swift in Sources */,
@@ -1549,7 +1536,6 @@
 			files = (
 				B46D3F91215056940029772C /* CharacterSet+Extension.swift in Sources */,
 				A5961FA3218A25D100E2A506 /* PopupMenuItemCell.swift in Sources */,
-				3F4FB97725B25E04008AB7CC /* MSFSlideOutPanel+Modifiers.swift in Sources */,
 				FD599D0221348439008845EE /* CalendarView.swift in Sources */,
 				53224EE525DFB6290063FBDB /* Drawer+UIKit.swift in Sources */,
 				A559BB83212B7D870055E107 /* FluentUIFramework.swift in Sources */,
@@ -1615,7 +1601,7 @@
 				A5B87B06211E23650038C37C /* UIView+Extensions.swift in Sources */,
 				7D0931C324AAAC9B0072458A /* SideTabBar.swift in Sources */,
 				FDCF7C7F21BB56740058E9E6 /* SegmentedControl.swift in Sources */,
-				53224EE625DFB6290063FBDB /* SlideOverPanel.swift in Sources */,
+				53224EE625DFB6290063FBDB /* MSFSlideOutPanel.swift in Sources */,
 				A5961FA7218A2E4500E2A506 /* UIImage+Extensions.swift in Sources */,
 				B4BA27882319DC0D0001563C /* PersonaBadgeViewDataSource.swift in Sources */,
 				3FEC61C125CC912F00598CEE /* PanelCommon.swift in Sources */,
@@ -1643,7 +1629,6 @@
 				FD777529219E3F6C00033D58 /* DayOfMonth.swift in Sources */,
 				FD1FAE1B2272464B00A5DBA4 /* GenericDateTimePicker.swift in Sources */,
 				A54D97DA217A5FC10072681A /* CALayer+Extensions.swift in Sources */,
-				53224EE925DFB6290063FBDB /* SideOverPanel+Modifiers.swift in Sources */,
 				B483323721DEB5A00022B4CC /* TouchForwardingView.swift in Sources */,
 				FD41C8A022DD13230086F899 /* NavigationAnimator.swift in Sources */,
 				53224E6A25DF473D0063FBDB /* MSFListCellTokens.generated.swift in Sources */,

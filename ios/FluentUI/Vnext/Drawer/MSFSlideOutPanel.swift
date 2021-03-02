@@ -93,17 +93,14 @@ struct MSFSlideOutPanel<Content: View>: View, MSFPanelContent, MSFPanelTransitio
     }
 
     var contentOffset: CGVector {
-
-        var delta = CGVector.zero
         switch transitionState {
         case .collapsed:
-            delta = collapsedContentOffset
+            return collapsedContentOffset
         case .expanded:
-            delta = expandedContentOffset
+            return expandedContentOffset
         case .inTransisiton:
-            delta = percentTransistionOffset
+            return percentTransistionOffset
         }
-        return delta
     }
 
     var backgroundColor: Color {
@@ -171,14 +168,15 @@ struct BasePanelLeft_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             MockBackgroundView()
-            MSFSlideOutPanel<MockContent>(percentTransition: Binding.constant(nil),
-                                      tokens: MSFDrawerTokens(),
-                                      content: MockContent(),
-                                      transitionState: Binding.constant(MSFDrawerTransitionState.expanded),
-                                      actionOnBackgroundTap: nil,
-                                      backgroundDimmed: true,
-                                      direction: .left,
-                                      transitionCompletion: nil)
+            MSFSlideOutPanel<MockContent>(
+                percentTransition: Binding.constant(nil),
+                tokens: MSFDrawerTokens(),
+                content: MockContent(),
+                transitionState: Binding.constant(MSFDrawerTransitionState.expanded),
+                actionOnBackgroundTap: nil,
+                backgroundDimmed: true,
+                direction: .left,
+                transitionCompletion: nil)
         }
     }
 }
@@ -187,14 +185,15 @@ struct BasePanelRight_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             MockBackgroundView()
-            MSFSlideOutPanel<MockContent>(percentTransition: Binding.constant(nil),
-                                      tokens: MSFDrawerTokens(),
-                                      content: MockContent(),
-                                      transitionState: Binding.constant(MSFDrawerTransitionState.expanded),
-                                      actionOnBackgroundTap: nil,
-                                      backgroundDimmed: true,
-                                      direction: .right,
-                                      transitionCompletion: nil)
+            MSFSlideOutPanel<MockContent>(
+                percentTransition: Binding.constant(nil),
+                tokens: MSFDrawerTokens(),
+                content: MockContent(),
+                transitionState: Binding.constant(MSFDrawerTransitionState.expanded),
+                actionOnBackgroundTap: nil,
+                backgroundDimmed: true,
+                direction: .right,
+                transitionCompletion: nil)
         }
     }
 }
@@ -203,14 +202,15 @@ struct BasePanelInTransition_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             MockBackgroundView()
-            MSFSlideOutPanel<MockContent>(percentTransition: Binding.constant(0.4),
-                                      tokens: MSFDrawerTokens(),
-                                      content: MockContent(),
-                                      transitionState: Binding.constant(MSFDrawerTransitionState.inTransisiton),
-                                      actionOnBackgroundTap: nil,
-                                      backgroundDimmed: true,
-                                      direction: .left,
-                                      transitionCompletion: nil)
+            MSFSlideOutPanel<MockContent>(
+                percentTransition: Binding.constant(0.4),
+                tokens: MSFDrawerTokens(),
+                content: MockContent(),
+                transitionState: Binding.constant(MSFDrawerTransitionState.inTransisiton),
+                actionOnBackgroundTap: nil,
+                backgroundDimmed: true,
+                direction: .left,
+                transitionCompletion: nil)
         }
     }
 }
@@ -219,14 +219,15 @@ struct BasePanelCollapsed_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             MockBackgroundView()
-            MSFSlideOutPanel<MockContent>(percentTransition: Binding.constant(nil),
-                                      tokens: MSFDrawerTokens(),
-                                      content: MockContent(),
-                                      transitionState: Binding.constant(MSFDrawerTransitionState.collapsed),
-                                      actionOnBackgroundTap: nil,
-                                      backgroundDimmed: true,
-                                      direction: .left,
-                                      transitionCompletion: nil)
+            MSFSlideOutPanel<MockContent>(
+                percentTransition: Binding.constant(nil),
+                tokens: MSFDrawerTokens(),
+                content: MockContent(),
+                transitionState: Binding.constant(MSFDrawerTransitionState.collapsed),
+                actionOnBackgroundTap: nil,
+                backgroundDimmed: true,
+                direction: .left,
+                transitionCompletion: nil)
         }
     }
 }
@@ -235,14 +236,15 @@ struct BasePanelTop_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             MockBackgroundView()
-            MSFSlideOutPanel<MockContent>(percentTransition: Binding.constant(nil),
-                                      tokens: MSFDrawerTokens(),
-                                      content: MockContent(),
-                                      transitionState: Binding.constant(MSFDrawerTransitionState.expanded),
-                                      actionOnBackgroundTap: nil,
-                                      backgroundDimmed: true,
-                                      direction: .top,
-                                      transitionCompletion: nil)
+            MSFSlideOutPanel<MockContent>(
+                percentTransition: Binding.constant(nil),
+                tokens: MSFDrawerTokens(),
+                content: MockContent(),
+                transitionState: Binding.constant(MSFDrawerTransitionState.expanded),
+                actionOnBackgroundTap: nil,
+                backgroundDimmed: true,
+                direction: .top,
+                transitionCompletion: nil)
         }
     }
 }
