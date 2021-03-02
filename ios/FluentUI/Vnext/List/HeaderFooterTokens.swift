@@ -12,7 +12,7 @@ import SwiftUI
     case headerSecondary
 }
 
-public class MSFHeaderFooterTokens: MSFTokensBase, ObservableObject {
+class MSFHeaderFooterTokens: MSFTokensBase, ObservableObject {
     @Published public var backgroundColor: UIColor!
     @Published public var textColor: UIColor!
 
@@ -26,7 +26,7 @@ public class MSFHeaderFooterTokens: MSFTokensBase, ObservableObject {
 
     @Published public var style: MSFHeaderFooterStyle!
 
-    public init(style: MSFHeaderFooterStyle) {
+    init(style: MSFHeaderFooterStyle) {
         self.style = style
 
         super.init()

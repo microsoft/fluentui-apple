@@ -11,6 +11,9 @@ import SwiftUI
 /// `title` is the first line of text, subsequently followed by `subtitle` on the second line.
 /// Set line limits for text using `titleLineLimit` and `subtitleLineLimit`.
 ///
+/// Any label`AccessoryView` property is a custom view at the leading/trailing end of a label, including the title or subtitle.
+/// Currently only supports square views (width & height must be the same).
+///
 /// `leadingView` and `trailingView` allows any custom views. Currently only supports square views (width & height must be the same).
 /// `leadingViewSize` can be specified using `MSFListCellLeadingViewSize`.
 ///
@@ -28,6 +31,10 @@ import SwiftUI
     @objc @Published public var leadingViewSize: MSFListCellLeadingViewSize = .medium
     @objc @Published public var title: String = ""
     @objc @Published public var subtitle: String = ""
+    @objc @Published public var titleLeadingAccessoryView: UIView?
+    @objc @Published public var titleTrailingAccessoryView: UIView?
+    @objc @Published public var subtitleLeadingAccessoryView: UIView?
+    @objc @Published public var subtitleTrailingAccessoryView: UIView?
     @objc @Published public var trailingView: UIView?
     @objc @Published public var accessoryType: MSFListAccessoryType = .none
     @objc @Published public var titleLineLimit: Int = 0
@@ -68,33 +75,65 @@ struct MSFListCellView: View {
         }, label: {
             HStack(spacing: 0) {
                 let hasTitle = !state.title.isEmpty
+                let labelAccessoryInterspace = tokens.labelAccessoryInterspace
+                let labelAccessorySize = tokens.labelAccessorySize
+
                 if let leadingView = state.leadingView {
                     UIViewAdapter(leadingView)
                         .foregroundColor(Color(hasTitle ? tokens.backgroundColor : tokens.trailingItemForegroundColor))
                         .frame(width: tokens.leadingViewSize, height: tokens.leadingViewSize)
                         .padding(.trailing, tokens.iconInterspace)
                 }
+
                 VStack(alignment: .leading, spacing: 0) {
-                    if hasTitle {
-                        Text(state.title)
-                            .font(Font(tokens.textFont))
-                            .foregroundColor(Color(tokens.leadingTextColor))
-                            .lineLimit(state.titleLineLimit == 0 ? nil : state.titleLineLimit)
+                    HStack(spacing: 0) {
+                        if let titleLeadingAccessoryView = state.titleLeadingAccessoryView {
+                            UIViewAdapter(titleLeadingAccessoryView)
+                                .frame(width: labelAccessorySize, height: labelAccessorySize)
+                                .padding(.trailing, labelAccessoryInterspace)
+                        }
+                        if hasTitle {
+                            Text(state.title)
+                                .font(Font(tokens.textFont))
+                                .foregroundColor(Color(tokens.leadingTextColor))
+                                .lineLimit(state.titleLineLimit == 0 ? nil : state.titleLineLimit)
+                        }
+                        if let titleTrailingAccessoryView = state.titleTrailingAccessoryView {
+                            UIViewAdapter(titleTrailingAccessoryView)
+                                .frame(width: labelAccessorySize, height: labelAccessorySize)
+                                .padding(.leading, labelAccessoryInterspace)
+                        }
                     }
-                    if !state.subtitle.isEmpty {
-                        Text(state.subtitle)
-                            .font(Font(tokens.subtitleFont))
-                            .foregroundColor(Color(tokens.subtitleColor))
-                            .lineLimit(state.subtitleLineLimit == 0 ? nil : state.subtitleLineLimit)
+
+                    HStack(spacing: 0) {
+                        if let subtitleLeadingAccessoryView = state.subtitleLeadingAccessoryView {
+                            UIViewAdapter(subtitleLeadingAccessoryView)
+                                .frame(width: labelAccessorySize, height: labelAccessorySize)
+                                .padding(.trailing, labelAccessoryInterspace)
+                        }
+                        if !state.subtitle.isEmpty {
+                            Text(state.subtitle)
+                                .font(Font(tokens.subtitleFont))
+                                .foregroundColor(Color(tokens.subtitleColor))
+                                .lineLimit(state.subtitleLineLimit == 0 ? nil : state.subtitleLineLimit)
+                        }
+                        if let subtitleTrailingAccessoryView = state.subtitleTrailingAccessoryView {
+                            UIViewAdapter(subtitleTrailingAccessoryView)
+                                .frame(width: labelAccessorySize, height: labelAccessorySize)
+                                .padding(.leading, labelAccessoryInterspace)
+                        }
                     }
                 }
+
                 Spacer()
+
                 if let trailingView = state.trailingView {
                     UIViewAdapter(trailingView)
                         .foregroundColor(Color(hasTitle ? tokens.backgroundColor : tokens.trailingItemForegroundColor))
                         .frame(width: tokens.trailingItemSize, height: tokens.trailingItemSize)
                         .fixedSize()
                 }
+
                 HStack(spacing: 0) {
                     if let accessoryType = state.accessoryType, accessoryType != .none, let accessoryIcon = accessoryType.icon {
                         let isDisclosure = accessoryType == .disclosure
@@ -109,12 +148,14 @@ struct MSFListCellView: View {
             }
         })
         .buttonStyle(ListCellButtonStyle(tokens: tokens, state: state))
+
         if state.hasDivider {
             let padding = tokens.horizontalCellPadding + (state.leadingView != nil ? (tokens.leadingViewSize + tokens.iconInterspace) : 0)
             Divider()
                 .overlay(Color(tokens.borderColor))
                 .padding(.leading, padding)
         }
+
         if let children = state.children, state.isExpanded == true {
             ForEach(children, id: \.self) { child in
                 MSFListCellView(state: child,

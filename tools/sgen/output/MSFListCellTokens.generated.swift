@@ -94,6 +94,16 @@ extension FluentUIStyle {
 			return mainProxy().Spacing.medium
 		}
 
+		// MARK: - labelAccessoryInterspace 
+		open var labelAccessoryInterspace: CGFloat {
+			return mainProxy().Spacing.xSmall
+		}
+
+		// MARK: - labelAccessorySize 
+		open var labelAccessorySize: CGFloat {
+			return mainProxy().Icon.size.xxSmall
+		}
+
 		// MARK: - labelColor 
 		open var labelColor: UIColor {
 			return mainProxy().Colors.Foreground.neutral1

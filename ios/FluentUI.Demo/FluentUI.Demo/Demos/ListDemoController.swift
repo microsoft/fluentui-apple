@@ -14,6 +14,7 @@ class ListDemoController: DemoController {
         var section: TableViewCellSampleData.Section
         var cell: TableViewCellSampleData.Item
         var indexPath = IndexPath(row: 0, section: 0)
+        var showsLabelAccessoryView: Bool
 
         var list: MSFList
         var listCell: MSFListCellState
@@ -85,6 +86,7 @@ class ListDemoController: DemoController {
 
         /// TableViewCell Sample Data Sections
         for sectionIndex in 0...sections.count - 1 {
+            indexPath.section = sectionIndex
             section = sections[sectionIndex]
 
             listSection = MSFListSectionState()
@@ -92,13 +94,21 @@ class ListDemoController: DemoController {
             listSection.cells = []
             listSection.style = MSFHeaderFooterStyle.headerSecondary
             for rowIndex in 0...TableViewCellSampleData.numberOfItemsInSection - 1 {
+                indexPath.row = rowIndex
+                showsLabelAccessoryView = TableViewCellSampleData.hasLabelAccessoryViews(at: indexPath)
                 cell = section.item
                 listCell = MSFListCellState()
                 listCell.title = cell.text1
                 listCell.subtitle = cell.text2
                 if !listCell.subtitle.isEmpty {
                     listCell.leadingViewSize = MSFListCellLeadingViewSize.large
+                    listCell.subtitleLeadingAccessoryView = showsLabelAccessoryView ? createCustomView(imageName: "success-12x12") : nil
+                    listCell.subtitleTrailingAccessoryView = showsLabelAccessoryView ? createCustomView(imageName: "chevron-down-20x20") : nil
                 }
+
+                listCell.titleLeadingAccessoryView = showsLabelAccessoryView ? createCustomView(imageName: "ic_fluent_presence_available_16_filled") : nil
+                listCell.titleTrailingAccessoryView = showsLabelAccessoryView ? createCustomView(imageName: "chevron-right-20x20") : nil
+
                 listCell.titleLineLimit = section.numberOfLines
                 listCell.subtitleLineLimit = section.numberOfLines
                 listCell.leadingView = createCustomView(imageName: cell.image)
