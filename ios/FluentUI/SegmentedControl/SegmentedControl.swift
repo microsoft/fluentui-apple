@@ -446,7 +446,7 @@ open class SegmentedControl: UIControl {
     }
 
     /// Used to retrieve the view from the segment at the specified index
-    @objc open func segmentView(at index: Int) -> UIView? {
+    open func segmentView(at index: Int) -> UIView? {
         guard index <= buttons.count else {
             return nil
         }
