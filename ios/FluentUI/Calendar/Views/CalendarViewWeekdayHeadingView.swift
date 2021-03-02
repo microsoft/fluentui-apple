@@ -94,7 +94,8 @@ class CalendarViewWeekdayHeadingView: UIView {
             let label = UILabel()
             label.textAlignment = .center
             label.text = weekdaySymbol
-            label.font = Fonts.caption1
+            label.font = Fonts.caption1.withSize(12)
+            label.showsLargeContentViewer = true
 
             switch headerStyle {
             case .light:

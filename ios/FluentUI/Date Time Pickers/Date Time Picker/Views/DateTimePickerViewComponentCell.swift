@@ -18,22 +18,20 @@ public extension Colors {
 /// TableViewCell representing the cell of component view (should be used only by DateTimePickerViewComponent and not instantiated on its own)
 class DateTimePickerViewComponentCell: UITableViewCell {
     private struct Constants {
-        static let baseHeight: CGFloat = 45
-        static let verticalPadding: CGFloat = 12
+        static let baseHeight: CGFloat = 52
         static let normalTextStyle: TextStyle = .body
-        static let emphasizedTextStyle: TextStyle = .headline
+        static let fixedFontSize: CGFloat = 17
         static let normalTextColor: UIColor = Colors.DateTimePicker.text
     }
 
     static let identifier: String = "DateTimePickerViewComponentCell"
 
     class var idealHeight: CGFloat {
-        return max(Constants.verticalPadding * 2 + Constants.normalTextStyle.font.deviceLineHeight, Constants.baseHeight)
+        return Constants.baseHeight
     }
 
     var emphasized: Bool = false {
         didSet {
-            textLabel?.font = (emphasized ? Constants.emphasizedTextStyle: Constants.normalTextStyle).font
             updateTextLabelColor()
         }
     }
@@ -44,8 +42,9 @@ class DateTimePickerViewComponentCell: UITableViewCell {
         backgroundColor = nil
 
         textLabel?.textAlignment = .center
-        textLabel?.font = Constants.normalTextStyle.font
+        textLabel?.font = Constants.normalTextStyle.font.withSize(Constants.fixedFontSize)
         textLabel?.textColor = Constants.normalTextColor
+        textLabel?.showsLargeContentViewer = true
     }
 
     required init?(coder aDecoder: NSCoder) {
