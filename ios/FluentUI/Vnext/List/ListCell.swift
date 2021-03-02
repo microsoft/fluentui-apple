@@ -31,14 +31,18 @@ import SwiftUI
     @objc @Published public var leadingViewSize: MSFListCellLeadingViewSize = .medium
     @objc @Published public var title: String = ""
     @objc @Published public var subtitle: String = ""
+    @objc @Published public var footnote: String = ""
     @objc @Published public var titleLeadingAccessoryView: UIView?
     @objc @Published public var titleTrailingAccessoryView: UIView?
     @objc @Published public var subtitleLeadingAccessoryView: UIView?
     @objc @Published public var subtitleTrailingAccessoryView: UIView?
+    @objc @Published public var footnoteLeadingAccessoryView: UIView?
+    @objc @Published public var footnoteTrailingAccessoryView: UIView?
     @objc @Published public var trailingView: UIView?
     @objc @Published public var accessoryType: MSFListAccessoryType = .none
     @objc @Published public var titleLineLimit: Int = 0
     @objc @Published public var subtitleLineLimit: Int = 0
+    @objc @Published public var footnoteLineLimit: Int = 0
     @objc @Published public var children: [MSFListCellState]?
     @objc @Published public var isExpanded: Bool = false
     @objc @Published public var layoutType: MSFListCellLayoutType = .automatic
@@ -119,6 +123,25 @@ struct MSFListCellView: View {
                         }
                         if let subtitleTrailingAccessoryView = state.subtitleTrailingAccessoryView {
                             UIViewAdapter(subtitleTrailingAccessoryView)
+                                .frame(width: labelAccessorySize, height: labelAccessorySize)
+                                .padding(.leading, labelAccessoryInterspace)
+                        }
+                    }
+
+                    HStack(spacing: 0) {
+                        if let footnoteLeadingAccessoryView = state.footnoteLeadingAccessoryView {
+                            UIViewAdapter(footnoteLeadingAccessoryView)
+                                .frame(width: labelAccessorySize, height: labelAccessorySize)
+                                .padding(.trailing, labelAccessoryInterspace)
+                        }
+                        if !state.footnote.isEmpty {
+                            Text(state.footnote)
+                                .font(Font(tokens.subtitleFont)) //fix
+                                .foregroundColor(Color(tokens.subtitleColor)) //fix
+                                .lineLimit(state.footnoteLineLimit == 0 ? nil : state.footnoteLineLimit)
+                        }
+                        if let footnoteTrailingAccessoryView = state.footnoteTrailingAccessoryView {
+                            UIViewAdapter(footnoteTrailingAccessoryView)
                                 .frame(width: labelAccessorySize, height: labelAccessorySize)
                                 .padding(.leading, labelAccessoryInterspace)
                         }
