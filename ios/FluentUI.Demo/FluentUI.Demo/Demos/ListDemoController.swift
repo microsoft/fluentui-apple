@@ -65,7 +65,7 @@ class ListDemoController: DemoController {
 
         /// Custom Leading View with collapsible children items
         listSection = MSFListSectionState()
-        listSection.title = "AvatarView Section"
+        listSection.title = "Avatar Section"
         listSection.cells = []
         for index in 0...1 {
             listCell = MSFListCellState()
@@ -92,6 +92,7 @@ class ListDemoController: DemoController {
             listSection = MSFListSectionState()
             listSection.title = section.title
             listSection.cells = []
+            listSection.style = MSFHeaderFooterStyle.headerSecondary
             for rowIndex in 0...TableViewCellSampleData.numberOfItemsInSection - 1 {
                 indexPath.row = rowIndex
                 showsLabelAccessoryView = TableViewCellSampleData.hasLabelAccessoryViews(at: indexPath)

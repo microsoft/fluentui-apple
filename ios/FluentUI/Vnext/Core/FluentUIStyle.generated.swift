@@ -1348,6 +1348,11 @@ open class FluentUIStyle: NSObject {
 			return UIFont.font(name: nil, size: nil, textStyle: S.FontTextStyle.footnote, weight: nil, traits: [], isScalable: true)
 		}
 
+		// MARK: - headline 
+		open var headline: UIFont {
+			return UIFont.font(name: nil, size: nil, textStyle: S.FontTextStyle.headline, weight: nil, traits: [], isScalable: true)
+		}
+
 		// MARK: - subheadline 
 		open var subheadline: UIFont {
 			return UIFont.font(name: nil, size: nil, textStyle: S.FontTextStyle.subheadline, weight: nil, traits: [], isScalable: true)
