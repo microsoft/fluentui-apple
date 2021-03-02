@@ -264,7 +264,6 @@ AP_MSFListCellTokens:
   labelFont: $Typography.body
   leadingViewColor: $Colors.Foreground.neutral4
   leadingViewSize: [ small: $Icon.size.xSmall, medium: $Icon.size.medium, large: $Icon.size.xxlarge ]
-  sublabelAccessorySize: $Icon.size.xxSmall
   sublabelColor: $Colors.Foreground.neutral3
   sublabelFont: $Typography.caption1
   trailingItemForegroundColor: $Colors.Foreground.neutral3

@@ -146,11 +146,6 @@ extension FluentUIStyle {
 		}
 
 
-		// MARK: - sublabelAccessorySize 
-		open var sublabelAccessorySize: CGFloat {
-			return mainProxy().Icon.size.xxSmall
-		}
-
 		// MARK: - sublabelColor 
 		open var sublabelColor: UIColor {
 			return mainProxy().Colors.Foreground.neutral3
