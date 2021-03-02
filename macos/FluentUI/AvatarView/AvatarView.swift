@@ -90,7 +90,7 @@ open class AvatarView: NSView {
 			initialsTextField.backgroundColor = avatarBackgroundColor
 		}
 	}
-	
+
 	/// The initials font color of the avatar view when no image is provided.
 	/// Setting this property will override the default provided color.
 	@objc open var initialsFontColor: NSColor {
@@ -529,28 +529,5 @@ fileprivate extension CGPath {
 	/// - note: this can't be an initializer since Swift doesn't allow CF/CG types to have convenience initialer extensions
 	static func circularPath(withCircleDiameter diameter: CGFloat) -> CGPath {
 		return CGPath(ellipseIn: NSRect(x: 0, y: 0, width: diameter, height: diameter), transform: nil)
-	}
-}
-
-fileprivate extension NSColor {
-	enum InterfaceStyle: String {
-	   case dark, light
-
-		init() {
-			var type: InterfaceStyle = .light
-			let isDarkMode = NSApplication.shared.effectiveAppearance.bestMatch(from: [.darkAqua]) == .darkAqua
-			if isDarkMode {
-				type = .dark
-			}
-			self = type
-		}
-	}
-
-	static func getColor(light: NSColor, dark: NSColor) -> NSColor {
-		let currentStyle = InterfaceStyle()
-		if currentStyle == .light {
-			return light
-		}
-		return dark
 	}
 }
