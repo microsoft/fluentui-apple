@@ -211,6 +211,7 @@
 		CCC18C2C2501B22F00BE830E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC18C2B2501B22F00BE830E /* CardView.swift */; };
 		CCC18C2D2501B22F00BE830E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC18C2B2501B22F00BE830E /* CardView.swift */; };
 		ECEBA8FC25EDF3380048EE24 /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */; };
+		ECEBA90125EECB7D0048EE24 /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */; };
 		FC414E1F258876FB00069E73 /* CommandBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E1E258876FB00069E73 /* CommandBar.swift */; };
 		FC414E252588798000069E73 /* CommandBarButtonGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */; };
 		FC414E2B25887A4B00069E73 /* CommandBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E2A25887A4B00069E73 /* CommandBarButton.swift */; };
@@ -1335,6 +1336,7 @@
 				8FD011B0228A82A600D25925 /* HUD.swift in Sources */,
 				8ACE4D3824E31B4700B9D0EB /* ContactView.swift in Sources */,
 				86AF4F8225B0F85A005D4253 /* PillButtonStyle.swift in Sources */,
+				ECEBA90125EECB7D0048EE24 /* SegmentedControl.swift in Sources */,
 				8FD011B1228A82A600D25925 /* HUDView.swift in Sources */,
 				8FD011B2228A82A600D25925 /* AvatarView.swift in Sources */,
 				5320362725D4803600DE9E1D /* CommandBar.swift in Sources */,

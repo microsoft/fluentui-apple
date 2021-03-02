@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/huwilkes/fluentui-apple/ios/FluentUI/Presenters/SegmentedControl.swift">
-   </FileRef>
-   <FileRef
       location = "group:FluentUI.xcodeproj">
    </FileRef>
    <FileRef
