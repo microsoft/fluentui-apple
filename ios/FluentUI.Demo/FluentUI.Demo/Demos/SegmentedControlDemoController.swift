@@ -88,15 +88,20 @@ class SegmentedControlDemoController: DemoController {
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         pillControl.translatesAutoresizingMaskIntoConstraints = false
         backgroundView.addSubview(pillControl)
-        let margins = UIEdgeInsets(top: 16.0, left: 0, bottom: 16.0, right: 0.0)
-        let constraints = [pillControl.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor, constant: margins.left),
-                           pillControl.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -margins.right),
-                           pillControl.topAnchor.constraint(equalTo: backgroundView.topAnchor, constant: margins.top),
-                           pillControl.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -margins.bottom)]
+        container.addArrangedSubview(backgroundView)
+        let margins = UIEdgeInsets(top: 16.0, left: 0, bottom: 16.0, right: 0)
+        var constraints = [backgroundView.leadingAnchor.constraint(equalTo: pillControl.leadingAnchor, constant: margins.left),
+                           backgroundView.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -margins.right),
+                           backgroundView.topAnchor.constraint(equalTo: pillControl.topAnchor, constant: -margins.top),
+                           backgroundView.bottomAnchor.constraint(equalTo: pillControl.bottomAnchor, constant: margins.bottom)]
+        if equalSegments {
+            constraints.append(pillControl.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor))
+        }
 
         NSLayoutConstraint.activate(constraints)
 
-        container.addArrangedSubview(backgroundView)
-        controlLabels[pillControl] = addDescription(text: "", textAlignment: .center)
+        if enabled {
+            controlLabels[pillControl] = addDescription(text: "", textAlignment: .center)
+        }
     }
 }

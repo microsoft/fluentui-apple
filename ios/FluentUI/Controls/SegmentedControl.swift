@@ -367,12 +367,12 @@ open class SegmentedControl: UIControl {
                 if style == .tabs {
                     rightOffset = screen.roundToDevicePixels(CGFloat(index + 1) / CGFloat(buttons.count) * frame.width)
                 } else {
-                    var suggestedWidth: CGFloat = frame.width
+                    var suggestedWidth = frame.width
 
                     if let windowWidth = window?.frame.width {
                         suggestedWidth = windowWidth
                     }
-                    // for iPad regular width size, pill styles might look too wide
+                    // for iPad regular full width pill styles might look too wide
                     if traitCollection.userInterfaceIdiom == .pad {
                         suggestedWidth = max(suggestedWidth / 2, 375.0)
                     } else {
@@ -396,7 +396,9 @@ open class SegmentedControl: UIControl {
 
         bottomSeparator.frame = CGRect(x: 0, y: frame.height - bottomSeparator.frame.height, width: frame.width, height: bottomSeparator.frame.height)
 
-        layoutPillContainerView()
+        if style != .tabs {
+            layoutPillContainerView()
+        }
         layoutSelectionView()
         layoutBackgroundView()
 
@@ -405,6 +407,11 @@ open class SegmentedControl: UIControl {
 
     open override var intrinsicContentSize: CGSize {
         return sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+    }
+
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        layoutSubviews()
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -441,7 +448,8 @@ open class SegmentedControl: UIControl {
         invalidateIntrinsicContentSize()
     }
 
-    @objc open func getViewForButton(at index: Int) -> UIView? {
+    /// Used to retrieve the view from the segment at the specified index
+    @objc open func segmentView(at index: Int) -> UIView? {
         guard index <= buttons.count else {
             return nil
         }
@@ -507,7 +515,6 @@ open class SegmentedControl: UIControl {
 
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         var constraints = [NSLayoutConstraint]()
-        constraints.append(contentsOf: backgroundView.constraints)
         constraints.append(contentsOf: [
             backgroundView.leadingAnchor.constraint(equalTo: buttons.first?.leadingAnchor ?? self.leadingAnchor),
             backgroundView.trailingAnchor.constraint(equalTo: buttons.last?.trailingAnchor ?? self.trailingAnchor),
@@ -520,7 +527,16 @@ open class SegmentedControl: UIControl {
     private func layoutPillContainerView() {
         var frame = bounds
         frame = frame.inset(by: UIEdgeInsets(top: 0, left: Constants.pillHorizontalInset, bottom: 0, right: Constants.pillHorizontalInset))
-        pillContainerView.frame = frame    }
+        pillContainerView.frame = frame
+        pillContainerView.translatesAutoresizingMaskIntoConstraints = false
+        var constraints = [NSLayoutConstraint]()
+        constraints.append(contentsOf: [
+            self.leadingAnchor.constraint(equalTo: pillContainerView.leadingAnchor),
+            self.trailingAnchor.constraint(equalTo: pillContainerView.trailingAnchor),
+            pillContainerView.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, constant: 2 * Constants.pillHorizontalInset)
+        ])
+        NSLayoutConstraint.activate(constraints)
+    }
 
     private func updateButton(at index: Int, isSelected: Bool) {
         guard index <= buttons.count else {
