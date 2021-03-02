@@ -122,10 +122,11 @@ open class TwoLineTitleView: UIView {
         return interactivePart == .title ? accessoryType : .none
     }
 
-    private lazy var titleButtonLabel: UILabel = {
-        let label = UILabel()
+    private lazy var titleButtonLabel: Label = {
+        let label = Label()
         label.lineBreakMode = .byTruncatingTail
-        label.font = Fonts.headlineUnscaled
+        label.style = .headline
+        label.maxFontSize = 17
         label.textAlignment = .center
         return label
     }()
@@ -137,12 +138,11 @@ open class TwoLineTitleView: UIView {
         return interactivePart == .subtitle ? accessoryType : .none
     }
 
-    private lazy var subtitleButtonLabel: UILabel = {
-        let label = UILabel()
+    private lazy var subtitleButtonLabel: Label = {
+        let label = Label()
         label.lineBreakMode = .byTruncatingMiddle
-        label.font = Fonts.footnoteUnscaled
-        label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.8
+        label.style = .caption1
+        label.maxFontSize = 12
         return label
     }()
 

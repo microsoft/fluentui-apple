@@ -19,8 +19,8 @@ class LargeTitleView: UIView {
         static let compactAvatarSize: AvatarSize = .small
         static let avatarSize: AvatarSize = .medium
 
-        static let compactTitleFont: UIFont = Fonts.title1
-        static let titleFont: UIFont = Fonts.largeTitle
+        static let compactTitleFont = Fonts.title1.withSize(26)
+        static let titleFont = Fonts.largeTitle.withSize(30)
     }
 
     var avatar: Avatar? {
