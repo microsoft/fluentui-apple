@@ -327,7 +327,9 @@ open class TableViewCellFileAccessoryView: UIView {
 
         // If the window is not available yet, default to a random window.
         // This method will eventually get called once the view is installed in a window.
-        let currentWindow = window ?? UIApplication.shared.windows.first!
+        guard let currentWindow = window else {
+            return
+        }
         for action in visibleActions.reversed() {
             let actionView = FileAccessoryViewActionView(action: action, window: currentWindow)
             actionsStackView.addArrangedSubview(actionView)
@@ -376,7 +378,7 @@ open class TableViewCellFileAccessoryView: UIView {
         let availableColumnSpace = cellSize.width - reservedCellSpace - width
         let columnMinWidth = Constants.columnMinWidth + Constants.columnSpacing
         let canShowFirstColumn = cellSize.width >= Constants.layoutBreakPoints[4] && availableColumnSpace > columnMinWidth
-        let canShowSecondColumn = cellSize.width >= Constants.layoutBreakPoints[5] && availableColumnSpace > 2 * columnMinWidth && UIApplication.shared.preferredContentSizeCategory.canShowSharedStatus
+        let canShowSecondColumn = cellSize.width >= Constants.layoutBreakPoints[5] && availableColumnSpace > 2 * columnMinWidth && traitCollection.preferredContentSizeCategory.canShowSharedStatus
         let isShowingDate = canShowFirstColumn && date != nil
         let isShowingSharedStatus = showSharedStatus && (canShowSecondColumn || (canShowFirstColumn && !isShowingDate))
 
