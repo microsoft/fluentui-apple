@@ -17,6 +17,7 @@ Pod::Spec.new do |s|
   s.subspec 'Calendar_ios' do |calendar_ios|
     calendar_ios.platform = :ios
     calendar_ios.dependency 'MicrosoftFluentUI/Presenters_ios'
+    calendar_ios.dependency 'MicrosoftFluentUI/SegmentedControl_ios'
     calendar_ios.source_files = ["ios/FluentUI/Calendar/**/*.{swift,h}",
                                  "ios/FluentUI/Date Time Pickers/**/*.{swift,h}"]
   end
@@ -86,6 +87,13 @@ Pod::Spec.new do |s|
     presenters_ios.platform = :ios
     presenters_ios.dependency 'MicrosoftFluentUI/Controls_ios'
     presenters_ios.source_files = ["ios/FluentUI/Presenters/**/*.{swift,h}"]
+  end
+  
+  s.subspec 'SegmentedControl_ios' do |segmentedcontrol_ios|
+  	segmentedcontrol_ios.platform = :ios
+  	segmentedcontrol_ios.dependency 'MicrosoftFluentUI/Controls_ios'
+  	segmentedcontrol_ios.dependency 'MicrosoftFluentUI/PillButtonBar_ios'
+  	segmentedcontrol_ios.source_files = ["ios/FluentUI/SegmentedControl/**/*.{swift,h}"]
   end
 
   s.subspec 'Shimmer_ios' do |shimmer_ios|
