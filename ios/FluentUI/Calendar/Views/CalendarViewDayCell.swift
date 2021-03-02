@@ -55,6 +55,7 @@ class CalendarViewDayCell: UICollectionViewCell {
         static let borderWidth: CGFloat = UIScreen.main.devicePixel
         static let dotDiameter: CGFloat = 4.0
         static let fadedVisualStateAlphaMultiplier: CGFloat = 0.2
+        static let maximumFontSize: CGFloat = 33.0
     }
 
     class var identifier: String { return "CalendarViewDayCell" }
@@ -93,7 +94,7 @@ class CalendarViewDayCell: UICollectionViewCell {
         selectionOverlayView.isUserInteractionEnabled = false
 
         dateLabel = UILabel(frame: .zero)
-        dateLabel.font = Fonts.body.withSize(17)
+        dateLabel.font = UIFontMetrics.default.scaledFont(for: Fonts.body, maximumPointSize: Constants.maximumFontSize)
         dateLabel.textAlignment = .center
         dateLabel.textColor = Colors.Calendar.Day.textPrimary
         dateLabel.showsLargeContentViewer = true

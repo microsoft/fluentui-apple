@@ -47,11 +47,11 @@ class CalendarViewDayTodayCell: CalendarViewDayCell {
 
     private func configureFontColor() {
         if isHighlighted || isSelected {
-            dateLabel.font = Fonts.body.withSize(17)
+            dateLabel.font = UIFontMetrics.default.scaledFont(for: Fonts.body, maximumPointSize: Constants.maximumFontSize)
             dateLabel.textColor = Colors.Calendar.Day.textSelected
             dateLabel.showsLargeContentViewer = true
         } else {
-            dateLabel.font = Fonts.headline
+            dateLabel.font = UIFontMetrics(forTextStyle: .headline).scaledFont(for: Fonts.headline, maximumPointSize: Constants.maximumFontSize)
             switch textStyle {
             case .primary:
                 dateLabel.textColor = Colors.Calendar.Day.textPrimary
