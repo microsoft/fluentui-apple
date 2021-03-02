@@ -60,9 +60,10 @@ class CalendarViewDayMonthCell: CalendarViewDayCell {
 
     override init(frame: CGRect) {
         monthLabel = UILabel(frame: CGRect.zero)
-        monthLabel.font = Fonts.caption1
+        monthLabel.font = Fonts.caption1.withSize(12)
         monthLabel.textAlignment = .center
         monthLabel.textColor = Colors.Calendar.Day.textPrimary
+        monthLabel.showsLargeContentViewer = true
 
         super.init(frame: frame)
 

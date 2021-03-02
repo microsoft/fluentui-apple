@@ -47,6 +47,7 @@ class CalendarView: UIView {
         addSubview(weekdayHeadingView)
         addSubview(collectionView)
         addSubview(collectionViewSeparator)
+        addInteraction(UILargeContentViewerInteraction())
 
         if headerStyle == .light {
             addSubview(headingViewSeparator)
