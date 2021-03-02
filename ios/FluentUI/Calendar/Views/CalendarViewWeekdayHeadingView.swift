@@ -18,7 +18,7 @@ class CalendarViewWeekdayHeadingView: UIView {
             static let compactHeight: CGFloat = 26.0
             static let regularHeight: CGFloat = 48.0
         }
-        
+
         static let maximumFontSize: CGFloat = 26.0
     }
 
