@@ -88,12 +88,12 @@ Pod::Spec.new do |s|
     presenters_ios.dependency 'MicrosoftFluentUI/Controls_ios'
     presenters_ios.source_files = ["ios/FluentUI/Presenters/**/*.{swift,h}"]
   end
-  
+
   s.subspec 'SegmentedControl_ios' do |segmentedcontrol_ios|
-  	segmentedcontrol_ios.platform = :ios
-  	segmentedcontrol_ios.dependency 'MicrosoftFluentUI/Controls_ios'
-  	segmentedcontrol_ios.dependency 'MicrosoftFluentUI/PillButtonBar_ios'
-  	segmentedcontrol_ios.source_files = ["ios/FluentUI/SegmentedControl/**/*.{swift,h}"]
+    segmentedcontrol_ios.platform = :ios
+    segmentedcontrol_ios.dependency 'MicrosoftFluentUI/Controls_ios'
+    segmentedcontrol_ios.dependency 'MicrosoftFluentUI/PillButtonBar_ios'
+    segmentedcontrol_ios.source_files = ["ios/FluentUI/SegmentedControl/**/*.{swift,h}"]
   end
 
   s.subspec 'Shimmer_ios' do |shimmer_ios|
