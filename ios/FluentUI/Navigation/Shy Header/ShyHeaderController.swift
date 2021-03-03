@@ -77,7 +77,11 @@ class ShyHeaderController: UIViewController {
         }
 
         loadViewIfNeeded()
-        addChildController(contentViewController, containingViewIn: contentContainerView)
+
+        addChild(contentViewController)
+        contentContainerView.addSubview(contentViewController.view)
+        contentViewController.didMove(toParent: self)
+
         contentViewController.view.fitIntoSuperview(usingConstraints: true)
 
         contentScrollViewObservation = contentViewController.navigationItem.observe(\.contentScrollView, options: [.new]) { [weak self] (_, change) in
@@ -241,7 +245,7 @@ class ShyHeaderController: UIViewController {
 
         // if the originator is a VC, make sure it belongs to this heirarchy
         if let originatorVC = expansionRequestOriginator as? UIViewController {
-            guard originatorVC == contentViewController || contentViewController.isAncestor(ofViewController: originatorVC) else {
+            guard originatorVC == contentViewController || isViewControllerAncestor(contentViewController, ofViewController: originatorVC) else {
                 return false
             }
         }
@@ -543,6 +547,18 @@ class ShyHeaderController: UIViewController {
                             self.updateHeader(with: 1.0, expanding: true)
             }, completion: nil)
         }
+    }
+
+    private func isViewControllerAncestor(_ ancestorViewController: UIViewController, ofViewController descendantViewController: UIViewController) -> Bool {
+        for child in ancestorViewController.children {
+            if child == descendantViewController {
+                return true
+            }
+            if isViewControllerAncestor(child, ofViewController: descendantViewController) {
+                return true
+            }
+        }
+        return false
     }
 
     private func shyBehaviorCalculationsShouldProceed(inScrollView scrollView: UIScrollView) -> Bool {

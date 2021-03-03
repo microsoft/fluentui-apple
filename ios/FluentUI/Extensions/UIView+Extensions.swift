@@ -6,17 +6,6 @@
 import UIKit
 
 extension UIView {
-    var directionalSafeAreaInsets: NSDirectionalEdgeInsets {
-        let insets = safeAreaInsets
-        let isRTL = effectiveUserInterfaceLayoutDirection == .rightToLeft
-        return NSDirectionalEdgeInsets(
-            top: insets.top,
-            leading: isRTL ? insets.right : insets.left,
-            bottom: insets.bottom,
-            trailing: isRTL ? insets.left : insets.right
-        )
-    }
-
     func fitIntoSuperview(usingConstraints: Bool = false, usingLeadingTrailing: Bool = true, margins: UIEdgeInsets = .zero, autoWidth: Bool = false, autoHeight: Bool = false) {
         guard let superview = superview else {
             return
@@ -52,16 +41,6 @@ extension UIView {
 
     func fitIntoSuperview() {
         fitIntoSuperview(usingConstraints: false, usingLeadingTrailing: true, margins: .zero, autoWidth: false, autoHeight: false)
-    }
-
-    func layer(withRoundedCorners corners: UIRectCorner, radius: CGFloat) -> CALayer {
-        let layer = CAShapeLayer()
-        layer.path = UIBezierPath(
-            roundedRect: bounds,
-            byRoundingCorners: corners,
-            cornerRadii: CGSize(width: radius, height: radius)
-        ).cgPath
-        return layer
     }
 
     func centerInSuperview(horizontally: Bool = true, vertically: Bool = true) {
@@ -127,68 +106,6 @@ extension UIView {
         subviews.forEach { (subview) in
             subview.removeFromSuperview()
         }
-    }
-}
-
-// MARK: - Show/Hide safety methods
-
-// UIView.isHidden has a bug where a series of repeated calls with the same parameter can "glitch" the view into a permanent shown/hidden state
-// i.e. repeatedly trying to hide a UIView that is already in the hidden state
-// by adding a check to the isHidden property prior to setting, we avoid such problematic scenarios
-extension UIView {
-    /// Sets the isHidden property to false, if the UIView is already hidden
-    func safelyShow() {
-        guard self.isHidden == true else {
-            return
-        }
-        self.isHidden = false
-    }
-
-    /// Sets the isHidden property to true, if the UIView is already showing
-    func safelyHide() {
-        guard self.isHidden == false else {
-            return
-        }
-        self.isHidden = true
-    }
-}
-
-// MARK: - Animatable Show/Hide
-
-extension UIView {
-    /// isHidden is not an animatable property
-    /// this method uses the alpha property, which is animatable
-    ///
-    /// - Parameter duration: duration of the show animation
-    func animatedShow(duration: Double) {
-        self.animatedShow(duration: duration, completion: nil)
-    }
-
-    /// isHidden is not an animatable property
-    /// this method uses the alpha property, which is animatable
-    ///
-    /// - Parameter duration: duration of the hide animation
-    func animatedHide(duration: Double) {
-        animatedHide(duration: duration, completion: nil)
-    }
-
-    func animatedShow(duration: Double, completion: (() -> Void)?) {
-        self.alpha = 0.0
-        self.safelyShow()
-        UIView.animate(withDuration: duration, animations: {
-            self.alpha = 1.0
-        }, completion: { (_) in
-            completion?()
-        })
-    }
-
-    func animatedHide(duration: Double, completion: (() -> Void)?) {
-        UIView.animate(withDuration: duration, animations: {
-            self.alpha = 0.0
-        }, completion: { (_) in
-            self.safelyHide()
-            completion?()
-        })
     }
 }
 

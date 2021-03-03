@@ -162,10 +162,14 @@ open class DrawerController: UIViewController {
             }
 
             if let oldContentController = oldValue {
-                removeChildController(oldContentController)
+                oldContentController.willMove(toParent: nil)
+                oldContentController.view.removeFromSuperview()
+                oldContentController.removeFromParent()
             }
             if let contentController = contentController {
-                addChildController(contentController, containingViewIn: containerView)
+                addChild(contentController)
+                containerView.addArrangedSubview(contentController.view)
+                contentController.didMove(toParent: self)
             }
         }
     }
