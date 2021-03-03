@@ -5,21 +5,6 @@
 
 import UIKit
 
-// MARK: Navigation Colors
-public extension Colors {
-    struct Navigation {
-        public struct System {
-            public static var background: UIColor = NavigationBar.background
-            public static var tint: UIColor = NavigationBar.tint
-            public static var title: UIColor = NavigationBar.title
-        }
-        public struct Primary {
-            public static var tint = UIColor(light: textOnAccent, dark: System.tint)
-            public static var title = UIColor(light: textOnAccent, dark: System.title)
-        }
-    }
-}
-
 // MARK: - NavigationBarTopAccessoryViewAttributes
 
 /// Layout attributes for a navigation bar's top accessory view.
@@ -683,12 +668,26 @@ open class NavigationBar: UINavigationBar {
     // MARK: Large/Normal Title handling
 
     private func updateViewsForLargeTitlePresentation(for navigationItem: UINavigationItem?) {
+        // UIView.isHidden has a bug where a series of repeated calls with the same parameter can "glitch" the view into a permanent shown/hidden state
+        // i.e. repeatedly trying to hide a UIView that is already in the hidden state
+        // by adding a check to the isHidden property prior to setting, we avoid such problematic scenarios
         if showsLargeTitle {
-            backgroundView.safelyShow()
-            contentStackView.safelyShow()
+            if backgroundView.isHidden {
+                backgroundView.isHidden = false
+            }
+
+            if contentStackView.isHidden {
+                contentStackView.isHidden = false
+            }
+
         } else {
-            backgroundView.safelyHide()
-            contentStackView.safelyHide()
+            if !backgroundView.isHidden {
+                backgroundView.isHidden = true
+            }
+
+            if !contentStackView.isHidden {
+                contentStackView.isHidden = true
+            }
         }
         updateShadow(for: navigationItem)
     }
