@@ -3,6 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+import Foundation
+
 // MARK: - Date
 
 @available(*, deprecated, renamed: "DateStringCompactness")
