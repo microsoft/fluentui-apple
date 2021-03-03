@@ -20,7 +20,6 @@ Pod::Spec.new do |s|
     activity_ios.source_files = ["ios/FluentUI/Activity/**/*.{swift,h}"]
   end
 
-
   s.subspec 'Button_ios' do |button_ios|
     button_ios.platform = :ios
     button_ios.dependency 'MicrosoftFluentUI/Core_ios'
