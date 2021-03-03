@@ -198,7 +198,7 @@ struct ListCellButtonStyle: ButtonStyle {
         let height: CGFloat
         switch state.layoutType {
         case .automatic:
-            height = !state.subtitle.isEmpty ? tokens.cellHeightTwoLines : tokens.cellHeightOneLine
+            height = !state.footnote.isEmpty ? tokens.cellHeightThreeLines : (!state.subtitle.isEmpty ? tokens.cellHeightTwoLines : tokens.cellHeightOneLine)
         case .oneLine:
             height = tokens.cellHeightOneLine
         case .twoLines:
