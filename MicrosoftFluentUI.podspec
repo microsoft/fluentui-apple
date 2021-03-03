@@ -14,9 +14,16 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = "11.0"
 
+  s.subspec 'Avatar_ios' do |avatar_ios|
+    avatar_ios.platform = :ios
+    avatar_ios.dependency 'MicrosoftFluentUI/Core_ios'
+    avatar_ios.source_files = ["ios/FluentUI/Avatar/**/*.{swift,h}"]
+  end
+
   s.subspec 'Calendar_ios' do |calendar_ios|
     calendar_ios.platform = :ios
     calendar_ios.dependency 'MicrosoftFluentUI/Presenters_ios'
+    calendar_ios.dependency 'MicrosoftFluentUI/TwoLineTitle_ios'
     calendar_ios.source_files = ["ios/FluentUI/Calendar/**/*.{swift,h}",
                                  "ios/FluentUI/Date Time Pickers/**/*.{swift,h}"]
   end
@@ -38,8 +45,6 @@ Pod::Spec.new do |s|
     controls_ios.dependency 'MicrosoftFluentUI/Core_ios'
     controls_ios.source_files = ["ios/FluentUI/Badge Field/**/*.{swift,h}",
                                  "ios/FluentUI/Controls/**/*.{swift,h}",
-                                 "ios/FluentUI/Navigation/**/*.{swift,h}",
-                                 "ios/FluentUI/People Picker/**/*.{swift,h}",
                                  "ios/FluentUI/Table View/**/*.{swift,h}"]
   end
 
@@ -64,10 +69,25 @@ Pod::Spec.new do |s|
     hud_ios.source_files = ["ios/FluentUI/HUD/**/*.{swift,h}"]
   end
 
+  s.subspec 'Navigation_ios' do |navigation_ios|
+    navigation_ios.platform = :ios    
+    navigation_ios.dependency 'MicrosoftFluentUI/Avatar_ios'
+    navigation_ios.dependency 'MicrosoftFluentUI/Controls_ios'
+    navigation_ios.dependency 'MicrosoftFluentUI/TwoLineTitle_ios'
+    navigation_ios.source_files = ["ios/FluentUI/Navigation/**/*.{swift,h}"]
+  end
+
   s.subspec 'Notification_ios' do |notification_ios|
     notification_ios.platform = :ios
     notification_ios.dependency 'MicrosoftFluentUI/Controls_ios'
     notification_ios.source_files = ["ios/FluentUI/Notification/**/*.{swift,h}"]
+  end
+
+  s.subspec 'PeoplePicker_ios' do |peoplepicker_ios|
+    peoplepicker_ios.platform = :ios
+    peoplepicker_ios.dependency 'MicrosoftFluentUI/Avatar_ios'
+    peoplepicker_ios.dependency 'MicrosoftFluentUI/Controls_ios'
+    peoplepicker_ios.source_files = ["ios/FluentUI/People Picker/**/*.{swift,h}"]
   end
 
   s.subspec 'PillButtonBar_ios' do |pillbuttonbar_ios|
@@ -97,6 +117,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'TabBar_ios' do |tabbar_ios|
     tabbar_ios.platform = :ios
+    tabbar_ios.dependency 'MicrosoftFluentUI/Avatar_ios'
     tabbar_ios.dependency 'MicrosoftFluentUI/Controls_ios'
     tabbar_ios.source_files = ["ios/FluentUI/Tab Bar/**/*.{swift,h}"]
   end
@@ -105,6 +126,12 @@ Pod::Spec.new do |s|
     tooltip_ios.platform = :ios
     tooltip_ios.dependency 'MicrosoftFluentUI/Controls_ios'
     tooltip_ios.source_files = ["ios/FluentUI/Tooltip/**/*.{swift,h}"]
+  end
+  
+  s.subspec 'TwoLineTitle_ios' do |twolinetitle_ios|
+    twolinetitle_ios.platform = :ios
+    twolinetitle_ios.dependency 'MicrosoftFluentUI/Core_ios'
+    twolinetitle_ios.source_files = ["ios/FluentUI/TwoLineTitle/**/*.{swift,h}"]
   end
 
   s.subspec 'Utilities_ios' do |utilities_ios|

@@ -15,9 +15,21 @@ public protocol TwoLineTitleViewDelegate: AnyObject {
     func twoLineTitleViewDidTapOnTitle(_ twoLineTitleView: TwoLineTitleView)
 }
 
-// MARK: - TwoLineTitle Colors
-
 public extension Colors {
+    // MARK: Navigation Colors
+    struct Navigation {
+        public struct System {
+            public static var background: UIColor = NavigationBar.background
+            public static var tint: UIColor = NavigationBar.tint
+            public static var title: UIColor = NavigationBar.title
+        }
+        public struct Primary {
+            public static var tint = UIColor(light: textOnAccent, dark: System.tint)
+            public static var title = UIColor(light: textOnAccent, dark: System.title)
+        }
+    }
+
+    // MARK: - TwoLineTitle Colors
     struct TwoLineTitle {
         // light style is used Navigation.Primary.background. Dark style is used for Navigation.System.background
         public static var titleDark: UIColor = Navigation.System.title

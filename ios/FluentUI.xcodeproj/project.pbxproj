@@ -612,6 +612,7 @@
 				A5B87AF0211BD4380038C37C /* UIFont+Extension.swift */,
 				A5961FA6218A2E4500E2A506 /* UIImage+Extensions.swift */,
 				A5B87B01211E20B50038C37C /* UIScreen+Extension.swift */,
+				FD41C8B122DD3BB70086F899 /* UIScrollView+Extensions.swift */,
 				A5B87B05211E23650038C37C /* UIView+Extensions.swift */,
 			);
 			path = Extensions;
@@ -656,6 +657,7 @@
 		A5CEC15320D980B20016922A /* FluentUI */ = {
 			isa = PBXGroup;
 			children = (
+				C77A047A25F00759001B3EB6 /* Avatar */,
 				CCC18C2A2501B1A900BE830E /* Card */,
 				B4F118EA21C8270F00855942 /* Badge Field */,
 				FDFB8AE921361C860046850A /* Calendar */,
@@ -675,6 +677,7 @@
 				C0A0D75D233AEA9900F432FD /* Shimmer */,
 				1168630122E131A20088B302 /* Tab Bar */,
 				B444D6B421825B510002B4D4 /* Table View */,
+				C77A047F25F00B4C001B3EB6 /* TwoLineTitle */,
 				FD7DF05A21FA7F3200857267 /* Tooltip */,
 				C0938E42235E8EAF00256251 /* Utilities */,
 				A5CEC17020D996120016922A /* Resources */,
@@ -731,17 +734,13 @@
 				FDA1AF8B21484625001AE720 /* BlurringView.swift */,
 				A5CEC23020E451D00016922A /* Button.swift */,
 				A5B87B03211E22B70038C37C /* DimmingView.swift */,
-				FDD454ED21405B390006E84E /* DotView.swift */,
-				FD5BBE42214C73CE008964B4 /* EasyTapButton.swift */,
 				22EABB192509AAD100C4BE72 /* IndeterminateProgressBarView.swift */,
 				A589F853211BA03200471C23 /* Label.swift */,
 				53BCB0CD253A4E8C00620960 /* Obscurable.swift */,
 				A5237ACA21DED7030040BF27 /* ResizingHandleView.swift */,
-				FD41C87E22DD13230086F899 /* SearchBar.swift */,
 				FDCF7C7E21BB56740058E9E6 /* SegmentedControl.swift */,
 				A5DCA76321224026005F4CB7 /* Separator.swift */,
 				B483323621DEB5A00022B4CC /* TouchForwardingView.swift */,
-				FD5BBE40214C6AF3008964B4 /* TwoLineTitleView.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -766,20 +765,15 @@
 		B426613C214731AC00E25423 /* People Picker */ = {
 			isa = PBXGroup;
 			children = (
-				A578C4A12321CFD6002D5C40 /* Avatar.swift */,
 				7D23482624D88DDF00FBE057 /* AvatarGroupView.swift */,
-				B42661412148568800E25423 /* AvatarView.swift */,
-				B426613D214731D100E25423 /* InitialsView.swift */,
 				B47B58B722F8E5840078DE38 /* PeoplePicker.swift */,
 				8A01C86E248FFC5300C971F3 /* ContactView.swift */,
 				B4BA27872319DC0D0001563C /* PersonaBadgeViewDataSource.swift */,
 				B46D3F922151D95F0029772C /* PersonaCell.swift */,
 				B46D3F9C215985AC0029772C /* PersonaListView.swift */,
-				B4EF53C2215AF1AB00573E8F /* Persona.swift */,
 				8AF03E1924B6BD4700E6E2A2 /* ContactCollectionView.swift */,
 				8AF03E1B24B6BDBD00E6E2A2 /* ContactCollectionViewCell.swift */,
 				8AF03E1D24B6BDFB00E6E2A2 /* ContactCollectionViewLayout.swift */,
-				7DC2FB2C24D209E300367A55 /* Presence.swift */,
 			);
 			path = "People Picker";
 			sourceTree = "<group>";
@@ -838,6 +832,27 @@
 			path = Shimmer;
 			sourceTree = "<group>";
 		};
+		C77A047A25F00759001B3EB6 /* Avatar */ = {
+			isa = PBXGroup;
+			children = (
+				A578C4A12321CFD6002D5C40 /* Avatar.swift */,
+				B42661412148568800E25423 /* AvatarView.swift */,
+				B426613D214731D100E25423 /* InitialsView.swift */,
+				B4EF53C2215AF1AB00573E8F /* Persona.swift */,
+				7DC2FB2C24D209E300367A55 /* Presence.swift */,
+			);
+			path = Avatar;
+			sourceTree = "<group>";
+		};
+		C77A047F25F00B4C001B3EB6 /* TwoLineTitle */ = {
+			isa = PBXGroup;
+			children = (
+				FD5BBE42214C73CE008964B4 /* EasyTapButton.swift */,
+				FD5BBE40214C6AF3008964B4 /* TwoLineTitleView.swift */,
+			);
+			path = TwoLineTitle;
+			sourceTree = "<group>";
+		};
 		CCC18C2A2501B1A900BE830E /* Card */ = {
 			isa = PBXGroup;
 			children = (
@@ -860,6 +875,7 @@
 		FD256C5C2183D77900EC9588 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				FDD454ED21405B390006E84E /* DotView.swift */,
 				FDFB8AEE21361C9D0046850A /* CalendarViewDayCell.swift */,
 				FDFB8AED21361C9D0046850A /* CalendarViewDayMonthCell.swift */,
 				FDFB8AEF21361C9D0046850A /* CalendarViewDayMonthYearCell.swift */,
@@ -876,7 +892,6 @@
 				FD41C87F22DD13230086F899 /* NavigationController.swift */,
 				FD41C87B22DD13230086F899 /* NavigationBar.swift */,
 				FD41C8BD22DD47120086F899 /* UINavigationItem+Navigation.swift */,
-				FD41C8B122DD3BB70086F899 /* UIScrollView+Extensions.swift */,
 				FD9DA7B4232C33A80013E41B /* UIViewController+Navigation.swift */,
 				FD41C87222DD13230086F899 /* Helpers */,
 				FD41C86F22DD13230086F899 /* Shy Header */,
@@ -906,6 +921,7 @@
 		FD41C87922DD13230086F899 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				FD41C87E22DD13230086F899 /* SearchBar.swift */,
 				FD41C87A22DD13230086F899 /* LargeTitleView.swift */,
 			);
 			path = Views;
