@@ -733,6 +733,7 @@
 				A5B87AF0211BD4380038C37C /* UIFont+Extension.swift */,
 				A5961FA6218A2E4500E2A506 /* UIImage+Extensions.swift */,
 				A5B87B01211E20B50038C37C /* UIScreen+Extension.swift */,
+				FD41C8B122DD3BB70086F899 /* UIScrollView+Extensions.swift */,
 				A5B87B05211E23650038C37C /* UIView+Extensions.swift */,
 			);
 			path = Extensions;
@@ -996,7 +997,6 @@
 				FD41C87B22DD13230086F899 /* NavigationBar.swift */,
 				FD41C87E22DD13230086F899 /* SearchBar.swift */,
 				FD41C8BD22DD47120086F899 /* UINavigationItem+Navigation.swift */,
-				FD41C8B122DD3BB70086F899 /* UIScrollView+Extensions.swift */,
 				FD9DA7B4232C33A80013E41B /* UIViewController+Navigation.swift */,
 				FD41C87222DD13230086F899 /* Helpers */,
 				FD41C86F22DD13230086F899 /* Shy Header */,
