@@ -53,7 +53,6 @@ Pod::Spec.new do |s|
 
   s.subspec 'Card_ios' do |card_ios|
     card_ios.platform = :ios
-    card_ios.dependency 'MicrosoftFluentUI/Controls_ios'
     card_ios.dependency 'MicrosoftFluentUI/Label_ios'
     card_ios.dependency 'MicrosoftFluentUI/Separator_ios'
     card_ios.source_files = ["ios/FluentUI/Card/**/*.{swift,h}"]
@@ -63,12 +62,6 @@ Pod::Spec.new do |s|
     commandbar_ios.platform = :ios
     commandbar_ios.dependency 'MicrosoftFluentUI/Core_ios'
     commandbar_ios.source_files = ["ios/FluentUI/Command Bar/**/*.{swift,h}"]
-  end
-
-  s.subspec 'Controls_ios' do |controls_ios|
-    controls_ios.platform = :ios
-    controls_ios.dependency 'MicrosoftFluentUI/Core_ios'
-    controls_ios.source_files = ["ios/FluentUI/Controls/**/*.{swift,h}"]
   end
 
   s.subspec 'Core_ios' do |core_ios|
@@ -82,16 +75,17 @@ Pod::Spec.new do |s|
 
   s.subspec 'Drawer_ios' do |drawer_ios|
     drawer_ios.platform = :ios
-    drawer_ios.dependency 'MicrosoftFluentUI/Controls_ios'
+    drawer_ios.dependency 'MicrosoftFluentUI/Obscurable_ios'
     drawer_ios.dependency 'MicrosoftFluentUI/Separator_ios'
+    drawer_ios.dependency 'MicrosoftFluentUI/Touchforwardingview_ios'  
     drawer_ios.source_files = ["ios/FluentUI/Drawer/**/*.{swift,h}"]
   end
 
   s.subspec 'HUD_ios' do |hud_ios|
     hud_ios.platform = :ios
     hud_ios.dependency 'MicrosoftFluentUI/Activity_ios'
-    hud_ios.dependency 'MicrosoftFluentUI/Controls_ios'
     hud_ios.dependency 'MicrosoftFluentUI/Label_ios'
+    hud_ios.dependency 'MicrosoftFluentUI/Touchforwardingview_ios'  
     hud_ios.source_files = ["ios/FluentUI/HUD/**/*.{swift,h}"]
   end
 
@@ -105,7 +99,6 @@ Pod::Spec.new do |s|
     navigation_ios.platform = :ios    
     navigation_ios.dependency 'MicrosoftFluentUI/Activity_ios'
     navigation_ios.dependency 'MicrosoftFluentUI/Avatar_ios'
-    navigation_ios.dependency 'MicrosoftFluentUI/Controls_ios'
     navigation_ios.dependency 'MicrosoftFluentUI/TwoLineTitle_ios'
     navigation_ios.dependency 'MicrosoftFluentUI/Separator_ios'
     navigation_ios.source_files = ["ios/FluentUI/Navigation/**/*.{swift,h}"]
@@ -113,10 +106,16 @@ Pod::Spec.new do |s|
 
   s.subspec 'Notification_ios' do |notification_ios|
     notification_ios.platform = :ios
-    notification_ios.dependency 'MicrosoftFluentUI/Controls_ios'
     notification_ios.dependency 'MicrosoftFluentUI/Label_ios'
+    notification_ios.dependency 'MicrosoftFluentUI/Obscurable_ios'
     notification_ios.dependency 'MicrosoftFluentUI/Separator_ios'
     notification_ios.source_files = ["ios/FluentUI/Notification/**/*.{swift,h}"]
+  end
+
+  s.subspec 'Obscurable_ios' do |obscurable_ios|
+    obscurable_ios.platform = :ios
+    obscurable_ios.dependency 'MicrosoftFluentUI/Core_ios'
+    obscurable_ios.source_files = ["ios/FluentUI/Obscurable/**/*.{swift,h}"]
   end
 
   s.subspec 'OtherCells_ios' do |othercells_ios|
@@ -130,7 +129,6 @@ Pod::Spec.new do |s|
     peoplepicker_ios.platform = :ios
     peoplepicker_ios.dependency 'MicrosoftFluentUI/Avatar_ios'
     peoplepicker_ios.dependency 'MicrosoftFluentUI/BadgeField_ios'
-    peoplepicker_ios.dependency 'MicrosoftFluentUI/Controls_ios'
     peoplepicker_ios.dependency 'MicrosoftFluentUI/OtherCells_ios'
     peoplepicker_ios.source_files = ["ios/FluentUI/People Picker/**/*.{swift,h}"]
   end
@@ -150,7 +148,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'Presenters_ios' do |presenters_ios|
     presenters_ios.platform = :ios
-    presenters_ios.dependency 'MicrosoftFluentUI/Controls_ios'
+    presenters_ios.dependency 'MicrosoftFluentUI/Obscurable_ios'
     presenters_ios.source_files = ["ios/FluentUI/Presenters/**/*.{swift,h}"]
   end
 
@@ -191,11 +189,16 @@ Pod::Spec.new do |s|
 
   s.subspec 'Tooltip_ios' do |tooltip_ios|
     tooltip_ios.platform = :ios
-    tooltip_ios.dependency 'MicrosoftFluentUI/Controls_ios'
     tooltip_ios.dependency 'MicrosoftFluentUI/Label_ios'   
+    tooltip_ios.dependency 'MicrosoftFluentUI/Touchforwardingview_ios'  
     tooltip_ios.source_files = ["ios/FluentUI/Tooltip/**/*.{swift,h}"]
   end
-  
+
+  s.subspec 'Touchforwardingview_ios' do |touchforwardingview_ios|
+    touchforwardingview_ios.platform = :ios
+    touchforwardingview_ios.source_files = ["ios/FluentUI/TouchForwardingView/**/*.{swift,h}"]
+  end
+
   s.subspec 'TwoLineTitle_ios' do |twolinetitle_ios|
     twolinetitle_ios.platform = :ios
     twolinetitle_ios.dependency 'MicrosoftFluentUI/Core_ios'
