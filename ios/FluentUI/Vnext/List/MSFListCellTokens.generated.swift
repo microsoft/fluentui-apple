@@ -84,6 +84,11 @@ extension FluentUIStyle {
 			return mainProxy().Icon.size.small
 		}
 
+		// MARK: - footnoteFont 
+		open var footnoteFont: UIFont {
+			return mainProxy().Typography.caption1
+		}
+
 		// MARK: - horizontalCellPadding 
 		open var horizontalCellPadding: CGFloat {
 			return mainProxy().Spacing.medium
@@ -153,7 +158,7 @@ extension FluentUIStyle {
 
 		// MARK: - sublabelFont 
 		open var sublabelFont: UIFont {
-			return mainProxy().Typography.caption1
+			return mainProxy().Typography.subheadline
 		}
 
 		// MARK: - trailingItemForegroundColor 

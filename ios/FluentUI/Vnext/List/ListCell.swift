@@ -8,10 +8,10 @@ import SwiftUI
 
 /// `MSFListCellState` contains properties that make up a cell content.
 ///
-/// `title` is the first line of text, subsequently followed by `subtitle` on the second line.
-/// Set line limits for text using `titleLineLimit` and `subtitleLineLimit`.
+/// `title` is the first line of text, subsequently followed by `subtitle` on the second line and `footnote` on the third line.
+/// Set line limits for text using `titleLineLimit`, `subtitleLineLimit`, and `footnoteLineLimit`.
 ///
-/// Any label`AccessoryView` property is a custom view at the leading/trailing end of a label, including the title or subtitle.
+/// Any label`AccessoryView` property is a custom view at the leading/trailing end of a label, including the title, subtitle, or footnote.
 /// Currently only supports square views (width & height must be the same).
 ///
 /// `leadingView` and `trailingView` allows any custom views. Currently only supports square views (width & height must be the same).
@@ -117,8 +117,8 @@ struct MSFListCellView: View {
                         }
                         if !state.subtitle.isEmpty {
                             Text(state.subtitle)
-                                .font(Font(tokens.subtitleFont))
-                                .foregroundColor(Color(tokens.subtitleColor))
+                                .font(Font(state.footnote.isEmpty ? tokens.footnoteFont : tokens.subtitleFont))
+                                .foregroundColor(Color(tokens.sublabelColor))
                                 .lineLimit(state.subtitleLineLimit == 0 ? nil : state.subtitleLineLimit)
                         }
                         if let subtitleTrailingAccessoryView = state.subtitleTrailingAccessoryView {
@@ -136,8 +136,8 @@ struct MSFListCellView: View {
                         }
                         if !state.footnote.isEmpty {
                             Text(state.footnote)
-                                .font(Font(tokens.subtitleFont)) //fix
-                                .foregroundColor(Color(tokens.subtitleColor)) //fix
+                                .font(Font(tokens.footnoteFont))
+                                .foregroundColor(Color(tokens.sublabelColor))
                                 .lineLimit(state.footnoteLineLimit == 0 ? nil : state.footnoteLineLimit)
                         }
                         if let footnoteTrailingAccessoryView = state.footnoteTrailingAccessoryView {

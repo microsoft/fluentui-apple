@@ -100,6 +100,7 @@ class ListDemoController: DemoController {
                 listCell = MSFListCellState()
                 listCell.title = cell.text1
                 listCell.subtitle = cell.text2
+                listCell.footnote = cell.text3
                 if !listCell.subtitle.isEmpty {
                     listCell.leadingViewSize = MSFListCellLeadingViewSize.large
                     listCell.subtitleLeadingAccessoryView = showsLabelAccessoryView ? createCustomView(imageName: "success-12x12") : nil
@@ -111,6 +112,7 @@ class ListDemoController: DemoController {
 
                 listCell.titleLineLimit = section.numberOfLines
                 listCell.subtitleLineLimit = section.numberOfLines
+                listCell.footnoteLineLimit = section.numberOfLines
                 listCell.leadingView = createCustomView(imageName: cell.image)
                 listCell.trailingView = section.hasAccessory ? createCustomView(imageName: cell.image) : nil
                 listCell.accessoryType = accessoryType(for: rowIndex)

@@ -256,7 +256,6 @@ AP_MSFListCellTokens:
   disclosureIconForegroundColor: $Colors.Foreground.neutral3
   disclosureInterspace: $Spacing.xxSmall
   disclosureSize: $Icon.size.small
-  footnoteColor: $Colors.Foreground.neutral3
   footnoteFont: $Typography.caption1
   horizontalCellPadding: $Spacing.medium
   iconInterspace: $Spacing.medium

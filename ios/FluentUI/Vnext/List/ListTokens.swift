@@ -64,7 +64,7 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
     @Published public var disclosureIconForegroundColor: UIColor!
     @Published public var leadingTextColor: UIColor!
     @Published public var leadingViewColor: UIColor!
-    @Published public var subtitleColor: UIColor!
+    @Published public var sublabelColor: UIColor!
     @Published public var trailingItemForegroundColor: UIColor!
 
     @Published public var highlightedBackgroundColor: UIColor!
@@ -81,6 +81,7 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
     @Published public var leadingViewSize: CGFloat!
     @Published public var trailingItemSize: CGFloat!
 
+    @Published public var footnoteFont: UIFont!
     @Published public var subtitleFont: UIFont!
     @Published public var textFont: UIFont!
 
@@ -117,7 +118,7 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
         disclosureIconForegroundColor = appearanceProxy.disclosureIconForegroundColor
         leadingTextColor = appearanceProxy.labelColor
         leadingViewColor = appearanceProxy.leadingViewColor
-        subtitleColor = appearanceProxy.sublabelColor
+        sublabelColor = appearanceProxy.sublabelColor
         trailingItemForegroundColor = appearanceProxy.trailingItemForegroundColor
 
         highlightedBackgroundColor = appearanceProxy.backgroundColor.pressed
@@ -133,6 +134,7 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
         labelAccessorySize = appearanceProxy.labelAccessorySize
         trailingItemSize = appearanceProxy.trailingItemSize
 
+        footnoteFont = appearanceProxy.footnoteFont
         subtitleFont = appearanceProxy.sublabelFont
         textFont = appearanceProxy.labelFont
     }
