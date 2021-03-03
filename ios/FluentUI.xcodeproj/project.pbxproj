@@ -224,6 +224,8 @@
 		C0EAAEAD2347E1DF00C7244E /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EAAEAC2347E1DF00C7244E /* ShimmerView.swift */; };
 		C77A04B725F03DD1001B3EB6 /* String+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04B625F03DD1001B3EB6 /* String+Date.swift */; };
 		C77A04B825F03DD1001B3EB6 /* String+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04B625F03DD1001B3EB6 /* String+Date.swift */; };
+		C77A04ED25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */; };
+		C77A04EE25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */; };
 		CCC18C2C2501B22F00BE830E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC18C2B2501B22F00BE830E /* CardView.swift */; };
 		ECEBA8FC25EDF3380048EE24 /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */; };
 		FC414E1F258876FB00069E73 /* CommandBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E1E258876FB00069E73 /* CommandBar.swift */; };
@@ -405,6 +407,7 @@
 		C0A0D76C233AEF6C00F432FD /* ShimmerLinesViewAppearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShimmerLinesViewAppearance.swift; sourceTree = "<group>"; };
 		C0EAAEAC2347E1DF00C7244E /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
 		C77A04B625F03DD1001B3EB6 /* String+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Date.swift"; sourceTree = "<group>"; };
+		C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+CellFileAccessoryView.swift"; sourceTree = "<group>"; };
 		CCC18C2B2501B22F00BE830E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		FC414E1E258876FB00069E73 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
@@ -798,6 +801,7 @@
 				FD41C86D22DD12A20086F899 /* Navigation */,
 				A5B6617123A41DEC00E801DD /* Notification */,
 				5314DFF925F008F10099271A /* Obscurable */,
+				C77A04EB25F0469C001B3EB6 /* Other Cells */,
 				B426613C214731AC00E25423 /* People Picker */,
 				497DC2D62418585D008D86F8 /* Pill Button Bar */,
 				A5961F9B218A251E00E2A506 /* Popup Menu */,
@@ -899,11 +903,6 @@
 		B444D6B421825B510002B4D4 /* Table View */ = {
 			isa = PBXGroup;
 			children = (
-				B4E782C02176AD5E00A7DFCE /* ActionsCell.swift */,
-				B4E782C221793AB200A7DFCE /* ActivityIndicatorCell.swift */,
-				B441478C228CDA130040E88E /* BooleanCell.swift */,
-				B4E782C62179509A00A7DFCE /* CenteredLabelCell.swift */,
-				7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */,
 				B498141321E424920077B48D /* TableViewCell.swift */,
 				B4EF66502294A664007FEAB0 /* TableViewHeaderFooterView.swift */,
 				B444D6B02181403C0002B4D4 /* UITableViewCell+Extension.swift */,
@@ -948,6 +947,19 @@
 				C0A0D76A233AEF6C00F432FD /* ShimmerAppearance.swift */,
 			);
 			path = Shimmer;
+			sourceTree = "<group>";
+		};
+		C77A04EB25F0469C001B3EB6 /* Other Cells */ = {
+			isa = PBXGroup;
+			children = (
+				B4E782C02176AD5E00A7DFCE /* ActionsCell.swift */,
+				B4E782C221793AB200A7DFCE /* ActivityIndicatorCell.swift */,
+				B441478C228CDA130040E88E /* BooleanCell.swift */,
+				B4E782C62179509A00A7DFCE /* CenteredLabelCell.swift */,
+				7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */,
+				C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */,
+			);
+			path = "Other Cells";
 			sourceTree = "<group>";
 		};
 		CCC18C2A2501B1A900BE830E /* Card */ = {
@@ -1428,6 +1440,7 @@
 				5314E11725F015EA0099271A /* PersonaCell.swift in Sources */,
 				5314E23025F022C80099271A /* UIScrollView+Extensions.swift in Sources */,
 				5314E16925F017940099271A /* SegmentedControl.swift in Sources */,
+				C77A04EE25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift in Sources */,
 				5314E09E25F00FE20099271A /* DotView.swift in Sources */,
 				5314E1A525F01A7C0099271A /* TableViewCell.swift in Sources */,
 				5314E09525F00FA30099271A /* DimmingView.swift in Sources */,
@@ -1567,6 +1580,7 @@
 				C0938E46235F66E300256251 /* ShimmerViewAppearance.swift in Sources */,
 				FC414E1F258876FB00069E73 /* CommandBar.swift in Sources */,
 				C0A0D76F233AEF6C00F432FD /* ShimmerLinesViewAppearance.swift in Sources */,
+				C77A04ED25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift in Sources */,
 				FD256C5B2183B90B00EC9588 /* DatePickerSelectionManager.swift in Sources */,
 				A5CEC23120E451D00016922A /* Button.swift in Sources */,
 				86AF4F7525AFC746005D4253 /* PillButtonStyle.swift in Sources */,
