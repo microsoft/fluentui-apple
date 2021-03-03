@@ -781,6 +781,7 @@
 		A5CEC15320D980B20016922A /* FluentUI */ = {
 			isa = PBXGroup;
 			children = (
+				C77A04F325F04CFB001B3EB6 /* Avatar */,
 				5314E00325F009B70099271A /* ActivityViewAnimating */,
 				5314DFEB25F002240099271A /* ActivityIndicator */,
 				5314DFF625F0079B0099271A /* BarButtonItems */,
@@ -882,20 +883,14 @@
 		B426613C214731AC00E25423 /* People Picker */ = {
 			isa = PBXGroup;
 			children = (
-				A578C4A12321CFD6002D5C40 /* Avatar.swift */,
-				7D23482624D88DDF00FBE057 /* AvatarGroupView.swift */,
-				B42661412148568800E25423 /* AvatarView.swift */,
-				B426613D214731D100E25423 /* InitialsView.swift */,
 				B47B58B722F8E5840078DE38 /* PeoplePicker.swift */,
 				8A01C86E248FFC5300C971F3 /* ContactView.swift */,
 				B4BA27872319DC0D0001563C /* PersonaBadgeViewDataSource.swift */,
 				B46D3F922151D95F0029772C /* PersonaCell.swift */,
 				B46D3F9C215985AC0029772C /* PersonaListView.swift */,
-				B4EF53C2215AF1AB00573E8F /* Persona.swift */,
 				8AF03E1924B6BD4700E6E2A2 /* ContactCollectionView.swift */,
 				8AF03E1B24B6BDBD00E6E2A2 /* ContactCollectionViewCell.swift */,
 				8AF03E1D24B6BDFB00E6E2A2 /* ContactCollectionViewLayout.swift */,
-				7DC2FB2C24D209E300367A55 /* Presence.swift */,
 			);
 			path = "People Picker";
 			sourceTree = "<group>";
@@ -960,6 +955,19 @@
 				C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */,
 			);
 			path = "Other Cells";
+			sourceTree = "<group>";
+		};
+		C77A04F325F04CFB001B3EB6 /* Avatar */ = {
+			isa = PBXGroup;
+			children = (
+				A578C4A12321CFD6002D5C40 /* Avatar.swift */,
+				7D23482624D88DDF00FBE057 /* AvatarGroupView.swift */,
+				B42661412148568800E25423 /* AvatarView.swift */,
+				B426613D214731D100E25423 /* InitialsView.swift */,
+				B4EF53C2215AF1AB00573E8F /* Persona.swift */,
+				7DC2FB2C24D209E300367A55 /* Presence.swift */,
+			);
+			path = Avatar;
 			sourceTree = "<group>";
 		};
 		CCC18C2A2501B1A900BE830E /* Card */ = {

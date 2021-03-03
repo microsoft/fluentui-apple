@@ -14,6 +14,12 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = "13.0"
 
+  s.subspec 'Avatar_ios' do |avatar_ios|
+    avatar_ios.platform = :ios
+    avatar_ios.dependency 'MicrosoftFluentUI/Core_ios'
+    avatar_ios.source_files = ["ios/FluentUI/Avatar/**/*.{swift,h}"]
+  end
+
   s.subspec 'ActivityViewAnimating_ios' do |activityviewanimating_ios|
     activityviewanimating_ios.platform = :ios
     activityviewanimating_ios.dependency 'MicrosoftFluentUI/Core_ios'
@@ -122,7 +128,7 @@ Pod::Spec.new do |s|
   s.subspec 'Navigation_ios' do |navigation_ios|
     navigation_ios.platform = :ios
     navigation_ios.dependency 'MicrosoftFluentUI/ActivityIndicator_ios'
-    navigation_ios.dependency 'MicrosoftFluentUI/PeoplePicker_ios'
+    navigation_ios.dependency 'MicrosoftFluentUI/Avatar_ios'
     navigation_ios.dependency 'MicrosoftFluentUI/Separator_ios'
     navigation_ios.dependency 'MicrosoftFluentUI/TwoLineTitleView_ios'
     navigation_ios.source_files = ["ios/FluentUI/Navigation/**/*.{swift,h}"]
@@ -152,6 +158,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'PeoplePicker_ios' do |peoplepicker_ios|
     peoplepicker_ios.platform = :ios
+    peoplepicker_ios.dependency 'MicrosoftFluentUI/Avatar_ios'
     peoplepicker_ios.dependency 'MicrosoftFluentUI/BadgeField_ios'
     peoplepicker_ios.dependency 'MicrosoftFluentUI/Separator_ios'
     peoplepicker_ios.dependency 'MicrosoftFluentUI/OtherCells_ios'
@@ -213,8 +220,8 @@ Pod::Spec.new do |s|
 
   s.subspec 'TabBar_ios' do |tabbar_ios|
     tabbar_ios.platform = :ios
+    tabbar_ios.dependency 'MicrosoftFluentUI/Avatar_ios'
     tabbar_ios.dependency 'MicrosoftFluentUI/Label_ios'
-    tabbar_ios.dependency 'MicrosoftFluentUI/PeoplePicker_ios'
     tabbar_ios.dependency 'MicrosoftFluentUI/Separator_ios'
     tabbar_ios.source_files = ["ios/FluentUI/Tab Bar/**/*.{swift,h}"]
   end
