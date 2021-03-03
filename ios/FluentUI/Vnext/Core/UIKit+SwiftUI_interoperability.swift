@@ -10,16 +10,22 @@ import SwiftUI
 struct UIViewAdapter: UIViewRepresentable {
 
     var makeView: () -> UIView
+    let foregroundColor: UIColor?
 
-    init(_ makeView: @escaping @autoclosure () -> UIView) {
+    init(_ makeView: @escaping @autoclosure () -> UIView, foregroundColor: UIColor? = nil) {
         self.makeView = makeView
+        self.foregroundColor = foregroundColor
     }
 
     func makeUIView(context: Context) -> UIView {
+        let view = makeView()
+        if let color = foregroundColor {
+            view.tintColor = color
+        }
         // Wrapping the view passed on a StackView is a workaround for a hang that occurs
         // on iOS 13 when the view passed directly comes from a UIHostingController.view
         // property. (e.g. using the MSFAvatar.view property).
-        return UIStackView(arrangedSubviews: [makeView()])
+        return UIStackView(arrangedSubviews: [view])
     }
 
     func updateUIView(_ view: UIView, context: Context) {

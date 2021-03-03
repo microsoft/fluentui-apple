@@ -253,7 +253,7 @@ AP_MSFListCellTokens:
   backgroundColor: [ rest: $Colors.Background.neutral1, pressed: $Colors.Background.neutral5 ]
   borderColor: $Colors.Stroke.neutral1
   cellHeight: [ oneLine: 48pt, twoLines: 64pt, threeLines: 84pt ]
-  disclosureIconForegroundColor: $Colors.Foreground.neutral3
+  disclosureIconForegroundColor: $Colors.Foreground.neutral4
   disclosureInterspace: $Spacing.xxSmall
   disclosureSize: $Icon.size.small
   footnoteFont: $Typography.caption1

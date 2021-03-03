@@ -71,7 +71,7 @@ extension FluentUIStyle {
 
 		// MARK: - disclosureIconForegroundColor 
 		open var disclosureIconForegroundColor: UIColor {
-			return mainProxy().Colors.Foreground.neutral3
+			return mainProxy().Colors.Foreground.neutral4
 		}
 
 		// MARK: - disclosureInterspace 
