@@ -3,7 +3,6 @@
 //  Licensed under the MIT License.
 //
 
-import Foundation
 import AppKit
 
 private let kAppleInterfaceStyle = "AppleInterfaceStyle"
@@ -12,6 +11,16 @@ public extension NSAppearance {
 
 	/// Pseudo algorithm picked up from https://developer.apple.com/forums/thread/118974
 	var isDarkMode: Bool {
+		#if DEBUG
+		     // Included for unit testing
+			if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil {
+				if self.bestMatch(from: [.darkAqua, .aqua]) == .darkAqua {
+					return true
+				} else {
+					return false
+				}
+			}
+		#endif
 		if #available(OSX 10.15, *) {
 			let appearanceDescription = NSApplication.shared.effectiveAppearance.debugDescription.lowercased()
 			if appearanceDescription.contains("dark") {
@@ -28,31 +37,29 @@ public extension NSAppearance {
 	}
 }
 
-@objc(MSFDynamicColor)
-public class DynamicColor: NSObject {
+class ColorSet: NSObject {
+	public let background: DynamicColor
+	public let foreground: DynamicColor
 
-	private let background: NSColor
-	private let foreground: NSColor
-
-	public init(background: NSColor, foreground: NSColor) {
+	public init(background: DynamicColor, foreground: DynamicColor) {
 		self.background = background
 		self.foreground = foreground
 	}
+}
 
-	/// resolves color based on theme
-	func resolvedForegroundColor(_ appearance: NSAppearance = NSAppearance.current) -> NSColor {
-		if appearance.isDarkMode {
-			return self.background
-		}
-		return self.foreground
+class DynamicColor: NSObject {
+
+	private let light: NSColor
+	private let dark: NSColor
+
+	public init(light: NSColor, dark: NSColor) {
+		self.light = light
+		self.dark = dark
 	}
 
 	/// resolves color based on theme
-	func resolvedBackgroundColor(_ appearance: NSAppearance = NSAppearance.current) -> NSColor {
-		if appearance.isDarkMode {
-			return self.foreground
-		}
-		return self.background
+	func resolvedColor(_ appearance: NSAppearance = NSAppearance.current) -> NSColor {
+		return appearance.isDarkMode ? self.dark : self.light
 	}
 
 	public override func isEqual(_ object: Any?) -> Bool {
@@ -60,6 +67,6 @@ public class DynamicColor: NSObject {
 		guard let dynamicColor = color else {
 			return false
 		}
-		return dynamicColor.background.isEqual(self.background) && dynamicColor.foreground.isEqual(self.foreground)
+		return dynamicColor.light.isEqual(self.light) && dynamicColor.dark.isEqual(self.dark)
 	}
 }

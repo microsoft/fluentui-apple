@@ -30,8 +30,8 @@ open class AvatarView: NSView {
 
 		// Prefer contactEmail to contactName for uniqueness
 		let color = AvatarView.getColor(for: AvatarView.colorIndex(for: contactEmail ?? contactName ?? ""))
-		avatarBackgroundColor = color.resolvedBackgroundColor()
-		initialsFontColor = color.resolvedForegroundColor()
+		avatarBackgroundColor = color.background.resolvedColor()
+		initialsFontColor = color.foreground.resolvedColor()
 		self.contactName = contactName
 		self.contactEmail = contactEmail
 		self.contactImage = contactImage
@@ -314,8 +314,8 @@ open class AvatarView: NSView {
 
 	private func updateAppearance(_ appreance: NSAppearance = NSAppearance.current) {
 		let color = AvatarView.getColor(for: AvatarView.colorIndex(for: contactEmail ?? contactName ?? ""))
-		avatarBackgroundColor = color.resolvedBackgroundColor(appreance)
-		initialsFontColor = color.resolvedForegroundColor(appreance)
+		avatarBackgroundColor = color.background.resolvedColor(appreance)
+		initialsFontColor = color.foreground.resolvedColor(appreance)
 	}
 
 	/// Get the color associated with a given index
@@ -324,7 +324,7 @@ open class AvatarView: NSView {
 	/// - returns: the color table entry for the given index
 	///
 	/// - note: Internal visibility exists only for unit testing
-	@objc public static func getColor(for index: Int) -> DynamicColor {
+	@objc static func getColor(for index: Int) -> ColorSet {
 		let avatarBackgroundColors = NSColor.avatarColors
 		return avatarBackgroundColors[index % avatarBackgroundColors.count]
 	}
@@ -415,17 +415,16 @@ open class AvatarView: NSView {
 
 	open override func viewWillMove(toWindow newWindow: NSWindow?) {
 		super.viewWillMove(toWindow: newWindow)
-		if let window = newWindow {
-			appearanceObserver = window.observe(\.effectiveAppearance) { [weak self] (window, value) in
-				guard let strongSelf = self else {
-					return
-				}
-				print("window \(window), value:\(value)")
 
-				strongSelf.updateAppearance(window.appearance ?? NSAppearance.current)
-			}
-		} else {
+		guard let window = newWindow else {
 			appearanceObserver = nil
+			return
+		}
+		appearanceObserver = window.observe(\.effectiveAppearance) { [weak self] (window, _) in
+			guard let strongSelf = self else {
+				return
+			}
+			strongSelf.updateAppearance(window.appearance ?? NSAppearance.current)
 		}
 	}
 }
@@ -472,41 +471,71 @@ fileprivate extension Unicode.Scalar {
 	static let zeroWidthSpace = Unicode.Scalar(0x200B)!
 }
 
-fileprivate extension NSColor {
+extension NSColor {
 	/// the text color of the text in the initials view
 
 	/// the table of background colors for the initials views
-	static let avatarColors: [DynamicColor] = [
-		DynamicColor(background: Colors.Palette.darkRedTint40.color, foreground: Colors.Palette.darkRedShade30.color),
-		DynamicColor(background: Colors.Palette.cranberryTint40.color, foreground: Colors.Palette.cranberryShade30.color),
-		DynamicColor(background: Colors.Palette.redTint40.color, foreground: Colors.Palette.redShade30.color),
-		DynamicColor(background: Colors.Palette.pumpkinTint40.color, foreground: Colors.Palette.pumpkinShade30.color),
-		DynamicColor(background: Colors.Palette.peachTint40.color, foreground: Colors.Palette.peachShade30.color),
-		DynamicColor(background: Colors.Palette.marigoldTint40.color, foreground: Colors.Palette.marigoldShade30.color),
-		DynamicColor(background: Colors.Palette.goldTint40.color, foreground: Colors.Palette.goldShade30.color),
-		DynamicColor(background: Colors.Palette.brassTint40.color, foreground: Colors.Palette.brassShade30.color),
-		DynamicColor(background: Colors.Palette.brownTint40.color, foreground: Colors.Palette.brownShade30.color),
-		DynamicColor(background: Colors.Palette.forestTint40.color, foreground: Colors.Palette.forestShade30.color),
-		DynamicColor(background: Colors.Palette.seafoamTint40.color, foreground: Colors.Palette.seafoamShade30.color),
-		DynamicColor(background: Colors.Palette.darkGreenTint40.color, foreground: Colors.Palette.darkGreenShade30.color),
-		DynamicColor(background: Colors.Palette.lightTealTint40.color, foreground: Colors.Palette.lightTealShade30.color),
-		DynamicColor(background: Colors.Palette.tealTint40.color, foreground: Colors.Palette.tealShade30.color),
-		DynamicColor(background: Colors.Palette.steelTint40.color, foreground: Colors.Palette.steelShade30.color),
-		DynamicColor(background: Colors.Palette.blueTint40.color, foreground: Colors.Palette.blueShade30.color),
-		DynamicColor(background: Colors.Palette.royalBlueTint40.color, foreground: Colors.Palette.royalBlueShade30.color),
-		DynamicColor(background: Colors.Palette.cornFlowerTint40.color, foreground: Colors.Palette.cornFlowerShade30.color),
-		DynamicColor(background: Colors.Palette.navyTint40.color, foreground: Colors.Palette.navyShade30.color),
-		DynamicColor(background: Colors.Palette.lavenderTint40.color, foreground: Colors.Palette.lavenderShade30.color),
-		DynamicColor(background: Colors.Palette.purpleTint40.color, foreground: Colors.Palette.purpleShade30.color),
-		DynamicColor(background: Colors.Palette.grapeTint40.color, foreground: Colors.Palette.grapeShade30.color),
-		DynamicColor(background: Colors.Palette.lilacTint40.color, foreground: Colors.Palette.lilacShade30.color),
-		DynamicColor(background: Colors.Palette.pinkTint40.color, foreground: Colors.Palette.pinkShade30.color),
-		DynamicColor(background: Colors.Palette.magentaTint40.color, foreground: Colors.Palette.magentaShade30.color),
-		DynamicColor(background: Colors.Palette.plumTint40.color, foreground: Colors.Palette.plumShade30.color),
-		DynamicColor(background: Colors.Palette.beigeTint40.color, foreground: Colors.Palette.beigeShade30.color),
-		DynamicColor(background: Colors.Palette.minkTint40.color, foreground: Colors.Palette.minkShade30.color),
-		DynamicColor(background: Colors.Palette.platinumTint40.color, foreground: Colors.Palette.platinumShade30.color),
-		DynamicColor(background: Colors.Palette.anchorTint40.color, foreground: Colors.Palette.anchorShade30.color)
+	static let avatarColors: [ColorSet] = [
+		ColorSet(background: DynamicColor(light: Colors.Palette.darkRedTint40.color, dark: Colors.Palette.darkRedShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.darkRedShade30.color, dark: Colors.Palette.darkRedTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.cranberryTint40.color, dark: Colors.Palette.cranberryShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.cranberryShade30.color, dark: Colors.Palette.cranberryTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.redTint40.color, dark: Colors.Palette.redShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.redShade30.color, dark: Colors.Palette.redTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.pumpkinTint40.color, dark: Colors.Palette.pumpkinShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.pumpkinShade30.color, dark: Colors.Palette.pumpkinTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.peachTint40.color, dark: Colors.Palette.peachShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.peachShade30.color, dark: Colors.Palette.peachTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.marigoldTint40.color, dark: Colors.Palette.marigoldShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.marigoldShade30.color, dark: Colors.Palette.marigoldTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.goldTint40.color, dark: Colors.Palette.goldShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.goldShade30.color, dark: Colors.Palette.goldTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.brassTint40.color, dark: Colors.Palette.brassShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.brassShade30.color, dark: Colors.Palette.brassTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.brownTint40.color, dark: Colors.Palette.brownShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.brownShade30.color, dark: Colors.Palette.brownTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.forestTint40.color, dark: Colors.Palette.forestShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.forestShade30.color, dark: Colors.Palette.forestTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.seafoamTint40.color, dark: Colors.Palette.seafoamShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.seafoamShade30.color, dark: Colors.Palette.seafoamTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.darkGreenTint40.color, dark: Colors.Palette.darkGreenShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.darkGreenShade30.color, dark: Colors.Palette.darkGreenTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.lightTealTint40.color, dark: Colors.Palette.lightTealShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.lightTealShade30.color, dark: Colors.Palette.lightTealTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.tealTint40.color, dark: Colors.Palette.tealShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.tealShade30.color, dark: Colors.Palette.tealTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.steelTint40.color, dark: Colors.Palette.steelShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.steelShade30.color, dark: Colors.Palette.steelTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.blueTint40.color, dark: Colors.Palette.blueShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.blueShade30.color, dark: Colors.Palette.blueTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.royalBlueTint40.color, dark: Colors.Palette.royalBlueShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.royalBlueShade30.color, dark: Colors.Palette.royalBlueTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.cornFlowerTint40.color, dark: Colors.Palette.cornFlowerShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.cornFlowerShade30.color, dark: Colors.Palette.cornFlowerTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.navyTint40.color, dark: Colors.Palette.navyShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.navyShade30.color, dark: Colors.Palette.navyTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.lavenderTint40.color, dark: Colors.Palette.lavenderShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.lavenderShade30.color, dark: Colors.Palette.lavenderTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.purpleTint40.color, dark: Colors.Palette.purpleShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.purpleShade30.color, dark: Colors.Palette.purpleTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.grapeTint40.color, dark: Colors.Palette.grapeShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.grapeShade30.color, dark: Colors.Palette.grapeTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.lilacTint40.color, dark: Colors.Palette.lilacShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.lilacShade30.color, dark: Colors.Palette.lilacTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.pinkTint40.color, dark: Colors.Palette.pinkShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.pinkShade30.color, dark: Colors.Palette.pinkTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.magentaTint40.color, dark: Colors.Palette.magentaShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.magentaShade30.color, dark: Colors.Palette.magentaTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.plumTint40.color, dark: Colors.Palette.plumShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.plumShade30.color, dark: Colors.Palette.plumTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.beigeTint40.color, dark: Colors.Palette.beigeShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.beigeShade30.color, dark: Colors.Palette.beigeTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.minkTint40.color, dark: Colors.Palette.minkShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.minkShade30.color, dark: Colors.Palette.minkTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.platinumTint40.color, dark: Colors.Palette.platinumShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.platinumShade30.color, dark: Colors.Palette.platinumTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.anchorTint40.color, dark: Colors.Palette.anchorShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.anchorShade30.color, dark: Colors.Palette.anchorTint40.color))
 	]
 }
 
