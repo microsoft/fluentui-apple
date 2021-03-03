@@ -660,8 +660,9 @@
 			children = (
 				C77A048025F0106E001B3EB6 /* Activity */,
 				C77A047A25F00759001B3EB6 /* Avatar */,
-				CCC18C2A2501B1A900BE830E /* Card */,
+				C77A049525F02427001B3EB6 /* Button */,
 				B4F118EA21C8270F00855942 /* Badge Field */,
+				CCC18C2A2501B1A900BE830E /* Card */,
 				FDFB8AE921361C860046850A /* Calendar */,
 				FC414E1D258876D400069E73 /* Command Bar */,
 				A5CEC22F20E451990016922A /* Controls */,
@@ -734,9 +735,7 @@
 		A5CEC22F20E451990016922A /* Controls */ = {
 			isa = PBXGroup;
 			children = (
-				A52648DB2316F4F9003342A0 /* BarButtonItems.swift */,
 				FDA1AF8B21484625001AE720 /* BlurringView.swift */,
-				A5CEC23020E451D00016922A /* Button.swift */,
 				A5B87B03211E22B70038C37C /* DimmingView.swift */,
 				53BCB0CD253A4E8C00620960 /* Obscurable.swift */,
 				B483323621DEB5A00022B4CC /* TouchForwardingView.swift */,
@@ -893,6 +892,14 @@
 			path = SegmentedControl;
 			sourceTree = "<group>";
 		};
+		C77A049525F02427001B3EB6 /* Button */ = {
+			isa = PBXGroup;
+			children = (
+				A5CEC23020E451D00016922A /* Button.swift */,
+			);
+			path = Button;
+			sourceTree = "<group>";
+		};
 		CCC18C2A2501B1A900BE830E /* Card */ = {
 			isa = PBXGroup;
 			children = (
@@ -1027,6 +1034,7 @@
 		FD97580521910FE800B67319 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A52648DB2316F4F9003342A0 /* BarButtonItems.swift */,
 				FD9758062191118D00B67319 /* DateTimePickerView.swift */,
 				FD9758092191118E00B67319 /* DateTimePickerViewComponent.swift */,
 				FD97580A2191118E00B67319 /* DateTimePickerViewComponentCell.swift */,
