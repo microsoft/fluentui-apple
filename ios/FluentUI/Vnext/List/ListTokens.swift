@@ -62,7 +62,7 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
     @Published public var backgroundColor: UIColor!
     @Published public var borderColor: UIColor!
     @Published public var disclosureIconForegroundColor: UIColor!
-    @Published public var leadingTextColor: UIColor!
+    @Published public var leadinglabelColor: UIColor!
     @Published public var leadingViewColor: UIColor!
     @Published public var sublabelColor: UIColor!
     @Published public var trailingItemForegroundColor: UIColor!
@@ -82,8 +82,8 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
     @Published public var trailingItemSize: CGFloat!
 
     @Published public var footnoteFont: UIFont!
-    @Published public var subtitleFont: UIFont!
-    @Published public var textFont: UIFont!
+    @Published public var sublabelFont: UIFont!
+    @Published public var labelFont: UIFont!
 
     @Published public var cellLeadingViewSize: MSFListCellLeadingViewSize!
 
@@ -116,7 +116,7 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
         backgroundColor = appearanceProxy.backgroundColor.rest
         borderColor = appearanceProxy.borderColor
         disclosureIconForegroundColor = appearanceProxy.disclosureIconForegroundColor
-        leadingTextColor = appearanceProxy.labelColor
+        leadinglabelColor = appearanceProxy.labelColor
         leadingViewColor = appearanceProxy.leadingViewColor
         sublabelColor = appearanceProxy.sublabelColor
         trailingItemForegroundColor = appearanceProxy.trailingItemForegroundColor
@@ -135,7 +135,7 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
         trailingItemSize = appearanceProxy.trailingItemSize
 
         footnoteFont = appearanceProxy.footnoteFont
-        subtitleFont = appearanceProxy.sublabelFont
-        textFont = appearanceProxy.labelFont
+        sublabelFont = appearanceProxy.sublabelFont
+        labelFont = appearanceProxy.labelFont
     }
 }

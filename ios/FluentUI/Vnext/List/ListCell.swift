@@ -97,12 +97,12 @@ struct MSFListCellView: View {
                         }
                         if hasTitle {
                             Text(state.title)
-                                .font(Font(tokens.textFont))
-                                .foregroundColor(Color(tokens.leadingTextColor))
+                                .font(Font(tokens.labelFont))
+                                .foregroundColor(Color(tokens.leadinglabelColor))
                                 .lineLimit(state.titleLineLimit == 0 ? nil : state.titleLineLimit)
                         }
                         if let titleTrailingAccessoryView = state.titleTrailingAccessoryView {
-                            UIViewAdapter(titleTrailingAccessoryView, foregroundColor: tokens.leadingTextColor)
+                            UIViewAdapter(titleTrailingAccessoryView, foregroundColor: tokens.leadinglabelColor)
                                 .frame(width: labelAccessorySize, height: labelAccessorySize)
                                 .padding(.leading, labelAccessoryInterspace)
                         }
@@ -116,7 +116,7 @@ struct MSFListCellView: View {
                         }
                         if !state.subtitle.isEmpty {
                             Text(state.subtitle)
-                                .font(Font(state.footnote.isEmpty ? tokens.footnoteFont : tokens.subtitleFont))
+                                .font(Font(state.footnote.isEmpty ? tokens.footnoteFont : tokens.sublabelFont))
                                 .foregroundColor(Color(tokens.sublabelColor))
                                 .lineLimit(state.subtitleLineLimit == 0 ? nil : state.subtitleLineLimit)
                         }
