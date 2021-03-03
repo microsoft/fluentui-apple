@@ -456,16 +456,5 @@ public final class Colors: NSObject {
 	@objc public static var primaryShade30: NSColor = Colors.Palette.communicationBlueShade30.color
 }
 
-@objc(MSFColorSet)
-open class ColorSet: NSObject {
-	public let background: NSColor
-	public let foreground: NSColor
-
-	public init(background: NSColor, foreground: NSColor) {
-		self.background = background
-		self.foreground = foreground
-	}
-}
-
 /// Make palette enum CaseIterable for unit testing purposes
 extension Colors.Palette: CaseIterable {}

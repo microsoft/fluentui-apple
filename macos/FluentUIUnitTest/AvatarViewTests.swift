@@ -117,14 +117,10 @@ class AvatarViewTests: XCTestCase {
 
 	func testAvatarColors () {
 		// Cherry pick a few known values and test them
-		XCTAssertTrue(AvatarView.colorSet(for: 0).background == Colors.Palette.darkRedTint40.color ||
-						AvatarView.colorSet(for: 0).background == Colors.Palette.darkRedShade30.color)
-		XCTAssertTrue(AvatarView.colorSet(for: 0).foreground == Colors.Palette.darkRedShade30.color ||
-						AvatarView.colorSet(for: 0).foreground == Colors.Palette.darkRedTint40.color)
-		XCTAssertTrue(AvatarView.colorSet(for: 29).background == Colors.Palette.anchorTint40.color ||
-						AvatarView.colorSet(for: 29).background == Colors.Palette.anchorShade30.color)
-		XCTAssertTrue(AvatarView.colorSet(for: 29).foreground == Colors.Palette.anchorShade30.color ||
-						AvatarView.colorSet(for: 29).foreground == Colors.Palette.anchorTint40.color)
+		XCTAssertEqual(AvatarView.getColor(for: 0),
+					   DynamicColor(background: Colors.Palette.darkRedTint40.color, foreground: Colors.Palette.darkRedShade30.color))
+		XCTAssertEqual(AvatarView.getColor(for: 29),
+					   DynamicColor(background: Colors.Palette.anchorTint40.color, foreground: Colors.Palette.anchorShade30.color))
 	}
 
 	func testHashAlgorithm () {
