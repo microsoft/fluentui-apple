@@ -5,8 +5,6 @@
 
 import AppKit
 
-private let kAppleInterfaceStyle = "AppleInterfaceStyle"
-
 extension NSAppearance {
 	var isDarkMode: Bool {
 		return self.bestMatch(from: [.darkAqua, .aqua]) == .darkAqua
