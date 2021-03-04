@@ -120,7 +120,7 @@ class AvatarViewTests: XCTestCase {
 		let lightModeAppearnce = NSAppearance(named: .aqua)!
 		let darkModeAppearance = NSAppearance(named: .darkAqua)!
 
-		for (index, colorSet) in NSColor.avatarColors.enumerated() {
+		for (index, colorSet) in AvatarView.avatarColors.enumerated() {
 			let bgColor = colorSet.background
 			let fgColor = colorSet.foreground
 			let bgLightColor = bgColor.resolvedColor(lightModeAppearnce)

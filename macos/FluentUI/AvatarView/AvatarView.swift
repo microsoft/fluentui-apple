@@ -309,7 +309,7 @@ open class AvatarView: NSView {
 		}
 
 		initialsTextField.stringValue = AvatarView.initialsWithFallback(name: contactName, email: contactEmail)
-		updateAppearance()
+		updateAppearance(self.window?.effectiveAppearance)
 	}
 
 	private func updateAppearance(_ appearance: NSAppearance? = nil) {
@@ -325,7 +325,7 @@ open class AvatarView: NSView {
 	///
 	/// - note: Internal visibility exists only for unit testing
 	@objc static func getColor(for index: Int) -> ColorSet {
-		let avatarBackgroundColors = NSColor.avatarColors
+		let avatarBackgroundColors = AvatarView.avatarColors
 		return avatarBackgroundColors[index % avatarBackgroundColors.count]
 	}
 
@@ -471,7 +471,7 @@ fileprivate extension Unicode.Scalar {
 	static let zeroWidthSpace = Unicode.Scalar(0x200B)!
 }
 
-extension NSColor {
+extension AvatarView {
 	/// the text color of the text in the initials view
 
 	/// the table of background colors for the initials views
