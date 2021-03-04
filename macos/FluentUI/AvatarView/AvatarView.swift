@@ -312,10 +312,10 @@ open class AvatarView: NSView {
 		updateAppearance()
 	}
 
-	private func updateAppearance(_ appreance: NSAppearance = NSAppearance.current) {
+	private func updateAppearance(_ appearance: NSAppearance = NSAppearance.current) {
 		let color = AvatarView.getColor(for: AvatarView.colorIndex(for: contactEmail ?? contactName ?? ""))
-		avatarBackgroundColor = color.background.resolvedColor(appreance)
-		initialsFontColor = color.foreground.resolvedColor(appreance)
+		avatarBackgroundColor = color.background.resolvedColor(appearance)
+		initialsFontColor = color.foreground.resolvedColor(appearance)
 	}
 
 	/// Get the color associated with a given index
