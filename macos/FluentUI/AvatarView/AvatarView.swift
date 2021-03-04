@@ -473,7 +473,7 @@ fileprivate extension Unicode.Scalar {
 
 extension AvatarView {
 	/// Table of background and text colors for the AvatarView
-		static let avatarColors: [ColorSet] = [
+	static let avatarColors: [ColorSet] = [
 		ColorSet(background: DynamicColor(light: Colors.Palette.darkRedTint40.color, dark: Colors.Palette.darkRedShade30.color),
 				 foreground: DynamicColor(light: Colors.Palette.darkRedShade30.color, dark: Colors.Palette.darkRedTint40.color)),
 		ColorSet(background: DynamicColor(light: Colors.Palette.cranberryTint40.color, dark: Colors.Palette.cranberryShade30.color),
