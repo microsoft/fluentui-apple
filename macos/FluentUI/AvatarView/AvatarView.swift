@@ -309,7 +309,7 @@ open class AvatarView: NSView {
 		}
 
 		initialsTextField.stringValue = AvatarView.initialsWithFallback(name: contactName, email: contactEmail)
-		updateAppearance(self.window?.effectiveAppearance)
+		updateAppearance(window?.effectiveAppearance)
 	}
 
 	private func updateAppearance(_ appearance: NSAppearance? = nil) {

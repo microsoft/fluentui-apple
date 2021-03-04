@@ -35,8 +35,10 @@ class DynamicColor: NSObject {
 
 	/// resolves color based on theme
 	func resolvedColor(_ appearance: NSAppearance? = nil) -> NSColor {
-		let effectiveAppearance = appearance ?? NSApplication.shared.effectiveAppearance
-		return effectiveAppearance.isDarkMode ? self.dark : self.light
+		guard let appearance = appearance else {
+			return self.light
+		}
+		return appearance.isDarkMode ? self.dark : self.light
 	}
 
 	public override func isEqual(_ object: Any?) -> Bool {
