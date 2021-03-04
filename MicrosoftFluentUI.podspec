@@ -155,7 +155,6 @@ Pod::Spec.new do |s|
     othercells_ios.source_files = ["ios/FluentUI/Other Cells/**/*.{swift,h}"]
   end
 
-
   s.subspec 'PeoplePicker_ios' do |peoplepicker_ios|
     peoplepicker_ios.platform = :ios
     peoplepicker_ios.dependency 'MicrosoftFluentUI/Avatar_ios'
