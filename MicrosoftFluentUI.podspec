@@ -1,11 +1,11 @@
 Pod::Spec.new do |s|
   s.name             = 'MicrosoftFluentUI'
-  s.version          = '0.1.28'
+  s.version          = '0.1.29'
   s.summary          = 'Fluent UI is a set of reusable UI controls and tools'
   s.homepage         = "https://www.microsoft.com/design/fluent/#/"
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { "Microsoft" => "fluentuinativeowners@microsoft.com"}
-  s.source       = { :git => "https://github.com/microsoft/fluentui-apple.git", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/microsoft/fluentui-apple.git", :branch => "main_0.1", :tag => "#{s.version}_main_0.1" }
   s.swift_version = "5.0"
   s.module_name = 'FluentUI'
 
@@ -154,7 +154,6 @@ Pod::Spec.new do |s|
     othercells_ios.dependency 'MicrosoftFluentUI/TableView_ios'
     othercells_ios.source_files = ["ios/FluentUI/Other Cells/**/*.{swift,h}"]
   end
-
 
   s.subspec 'PeoplePicker_ios' do |peoplepicker_ios|
     peoplepicker_ios.platform = :ios
