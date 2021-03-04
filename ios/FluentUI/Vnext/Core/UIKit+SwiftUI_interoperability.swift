@@ -17,11 +17,10 @@ struct UIViewAdapter: UIViewRepresentable {
     }
 
     func makeUIView(context: Context) -> UIView {
-        let view = makeView()
         // Wrapping the view passed on a StackView is a workaround for a hang that occurs
         // on iOS 13 when the view passed directly comes from a UIHostingController.view
         // property. (e.g. using the MSFAvatar.view property).
-        return UIStackView(arrangedSubviews: [view])
+        return UIStackView(arrangedSubviews: [makeView()])
     }
 
     func updateUIView(_ view: UIView, context: Context) {
