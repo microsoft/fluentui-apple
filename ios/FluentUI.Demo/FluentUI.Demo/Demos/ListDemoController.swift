@@ -103,12 +103,12 @@ class ListDemoController: DemoController {
                 listCell.footnote = cell.text3
                 if !listCell.subtitle.isEmpty {
                     listCell.leadingViewSize = MSFListCellLeadingViewSize.large
-                    listCell.subtitleLeadingAccessoryView = showsLabelAccessoryView ? createCustomView(imageName: "success-12x12") : nil
-                    listCell.subtitleTrailingAccessoryView = showsLabelAccessoryView ? createCustomView(imageName: "chevron-down-20x20") : nil
+                    listCell.subtitleLeadingAccessoryView = showsLabelAccessoryView ? createCustomView(imageName: "success-12x12", imageType: "subtitle") : nil
+                    listCell.subtitleTrailingAccessoryView = showsLabelAccessoryView ? createCustomView(imageName: "chevron-down-20x20", imageType: "subtitle") : nil
                 }
 
-                listCell.titleLeadingAccessoryView = showsLabelAccessoryView ? createCustomView(imageName: "ic_fluent_presence_available_16_filled") : nil
-                listCell.titleTrailingAccessoryView = showsLabelAccessoryView ? createCustomView(imageName: "chevron-right-20x20") : nil
+                listCell.titleLeadingAccessoryView = showsLabelAccessoryView ? createCustomView(imageName: "ic_fluent_presence_available_16_filled", imageType: "title") : nil
+                listCell.titleTrailingAccessoryView = showsLabelAccessoryView ? createCustomView(imageName: "chevron-right-20x20", imageType: "title") : nil
 
                 listCell.titleLineLimit = section.numberOfLines
                 listCell.subtitleLineLimit = section.numberOfLines
@@ -153,7 +153,7 @@ class ListDemoController: DemoController {
         return avatarView
     }
 
-    private func createCustomView(imageName: String, useImageAsTemplate: Bool = false) -> UIImageView? {
+    private func createCustomView(imageName: String, useImageAsTemplate: Bool = false, imageType: String = "") -> UIImageView? {
         if imageName == "" {
             return nil
         }
@@ -163,7 +163,14 @@ class ListDemoController: DemoController {
         }
         let customView = UIImageView(image: image)
         customView.contentMode = .scaleAspectFit
-        customView.tintColor = Colors.Table.Cell.image
+        switch imageType {
+        case "title":
+            customView.tintColor = Colors.Table.Cell.title
+        case "subtitle":
+            customView.tintColor = Colors.Table.Cell.subtitle
+        default:
+            customView.tintColor = Colors.Table.Cell.image
+        }
         return customView
     }
 

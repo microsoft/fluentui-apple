@@ -84,7 +84,6 @@ struct MSFListCellView: View {
 
                 if let leadingView = state.leadingView {
                     UIViewAdapter(leadingView)
-                        .foregroundColor(hasTitle ? tokens.backgroundColor : tokens.trailingItemForegroundColor)
                         .frame(width: tokens.leadingViewSize, height: tokens.leadingViewSize)
                         .padding(.trailing, tokens.iconInterspace)
                 }
@@ -104,7 +103,6 @@ struct MSFListCellView: View {
                         }
                         if let titleTrailingAccessoryView = state.titleTrailingAccessoryView {
                             UIViewAdapter(titleTrailingAccessoryView)
-                                .foregroundColor(tokens.labelColor)
                                 .frame(width: labelAccessorySize, height: labelAccessorySize)
                                 .padding(.leading, labelAccessoryInterspace)
                         }
@@ -124,7 +122,6 @@ struct MSFListCellView: View {
                         }
                         if let subtitleTrailingAccessoryView = state.subtitleTrailingAccessoryView {
                             UIViewAdapter(subtitleTrailingAccessoryView)
-                                .foregroundColor(tokens.sublabelColor)
                                 .frame(width: labelAccessorySize, height: labelAccessorySize)
                                 .padding(.leading, labelAccessoryInterspace)
                         }
@@ -154,7 +151,6 @@ struct MSFListCellView: View {
 
                 if let trailingView = state.trailingView {
                     UIViewAdapter(trailingView)
-                        .foregroundColor(hasTitle ? tokens.backgroundColor : tokens.trailingItemForegroundColor)
                         .frame(width: tokens.trailingItemSize, height: tokens.trailingItemSize)
                         .fixedSize()
                 }

@@ -10,7 +10,6 @@ import SwiftUI
 struct UIViewAdapter: UIViewRepresentable {
 
     var makeView: () -> UIView
-    private var tintColor: UIColor?
 
     init(_ makeView: @escaping @autoclosure () -> UIView) {
         self.makeView = makeView
@@ -24,9 +23,6 @@ struct UIViewAdapter: UIViewRepresentable {
     }
 
     func updateUIView(_ view: UIView, context: Context) {
-        if let tintColor = tintColor {
-            view.tintColor = tintColor
-        }
         // This logic should be removed wnce the "wrapping in a UIStackView" workaround is removed.
         guard let stackView = view as? UIStackView else {
             return
@@ -36,15 +32,6 @@ struct UIViewAdapter: UIViewRepresentable {
             view.removeFromSuperview()
         }
         stackView.addArrangedSubview(makeView())
-    }
-}
-
-extension UIViewAdapter {
-    func foregroundColor(_ color: UIColor) -> Self {
-        var view = self
-        view.tintColor = color
-        view.makeView().tintColor = color
-        return view
     }
 }
 
