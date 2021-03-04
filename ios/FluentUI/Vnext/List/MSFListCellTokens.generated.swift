@@ -71,7 +71,7 @@ extension FluentUIStyle {
 
 		// MARK: - disclosureIconForegroundColor 
 		open var disclosureIconForegroundColor: UIColor {
-			return mainProxy().Colors.Foreground.neutral3
+			return mainProxy().Colors.Foreground.neutral4
 		}
 
 		// MARK: - disclosureInterspace 
@@ -82,6 +82,11 @@ extension FluentUIStyle {
 		// MARK: - disclosureSize 
 		open var disclosureSize: CGFloat {
 			return mainProxy().Icon.size.small
+		}
+
+		// MARK: - footnoteFont 
+		open var footnoteFont: UIFont {
+			return mainProxy().Typography.caption1
 		}
 
 		// MARK: - horizontalCellPadding 
@@ -153,7 +158,7 @@ extension FluentUIStyle {
 
 		// MARK: - sublabelFont 
 		open var sublabelFont: UIFont {
-			return mainProxy().Typography.caption1
+			return mainProxy().Typography.subheadline
 		}
 
 		// MARK: - trailingItemForegroundColor 

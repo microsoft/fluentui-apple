@@ -62,9 +62,9 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
     @Published public var backgroundColor: UIColor!
     @Published public var borderColor: UIColor!
     @Published public var disclosureIconForegroundColor: UIColor!
-    @Published public var leadingTextColor: UIColor!
+    @Published public var labelColor: UIColor!
     @Published public var leadingViewColor: UIColor!
-    @Published public var subtitleColor: UIColor!
+    @Published public var sublabelColor: UIColor!
     @Published public var trailingItemForegroundColor: UIColor!
 
     @Published public var highlightedBackgroundColor: UIColor!
@@ -81,8 +81,9 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
     @Published public var leadingViewSize: CGFloat!
     @Published public var trailingItemSize: CGFloat!
 
-    @Published public var subtitleFont: UIFont!
-    @Published public var textFont: UIFont!
+    @Published public var footnoteFont: UIFont!
+    @Published public var sublabelFont: UIFont!
+    @Published public var labelFont: UIFont!
 
     @Published public var cellLeadingViewSize: MSFListCellLeadingViewSize!
 
@@ -115,9 +116,9 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
         backgroundColor = appearanceProxy.backgroundColor.rest
         borderColor = appearanceProxy.borderColor
         disclosureIconForegroundColor = appearanceProxy.disclosureIconForegroundColor
-        leadingTextColor = appearanceProxy.labelColor
+        labelColor = appearanceProxy.labelColor
         leadingViewColor = appearanceProxy.leadingViewColor
-        subtitleColor = appearanceProxy.sublabelColor
+        sublabelColor = appearanceProxy.sublabelColor
         trailingItemForegroundColor = appearanceProxy.trailingItemForegroundColor
 
         highlightedBackgroundColor = appearanceProxy.backgroundColor.pressed
@@ -133,7 +134,8 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
         labelAccessorySize = appearanceProxy.labelAccessorySize
         trailingItemSize = appearanceProxy.trailingItemSize
 
-        subtitleFont = appearanceProxy.sublabelFont
-        textFont = appearanceProxy.labelFont
+        footnoteFont = appearanceProxy.footnoteFont
+        sublabelFont = appearanceProxy.sublabelFont
+        labelFont = appearanceProxy.labelFont
     }
 }
