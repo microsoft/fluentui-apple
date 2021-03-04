@@ -7,28 +7,20 @@ import AppKit
 
 private let kAppleInterfaceStyle = "AppleInterfaceStyle"
 
-public extension NSAppearance {
+extension NSAppearance {
 
 	/// Pseudo algorithm picked up from https://developer.apple.com/forums/thread/118974
 	var isDarkMode: Bool {
 		// Included for unit testing
 		if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil {
-			if self.bestMatch(from: [.darkAqua, .aqua]) == .darkAqua {
-				return true
-			} else {
-				return false
-			}
+			return self.bestMatch(from: [.darkAqua, .aqua]) == .darkAqua
 		}
 		if #available(OSX 10.15, *) {
 			let appearanceDescription = NSApplication.shared.effectiveAppearance.debugDescription.lowercased()
-			if appearanceDescription.contains("dark") {
-				return true
-			}
+			return appearanceDescription.contains("dark")
 		} else if #available(OSX 10.14, *) {
 			if let appleInterfaceStyle = UserDefaults.standard.object(forKey: kAppleInterfaceStyle) as? String {
-				if appleInterfaceStyle.lowercased().contains("dark") {
-					return true
-				}
+				return appleInterfaceStyle.lowercased().contains("dark")
 			}
 		}
 		return false
@@ -61,8 +53,7 @@ class DynamicColor: NSObject {
 	}
 
 	public override func isEqual(_ object: Any?) -> Bool {
-		let color = object as? DynamicColor
-		guard let dynamicColor = color else {
+		guard let dynamicColor = object as? DynamicColor else {
 			return false
 		}
 		return dynamicColor.light.isEqual(self.light) && dynamicColor.dark.isEqual(self.dark)
