@@ -7,8 +7,6 @@ import QuartzCore
 import UIKit
 
 public extension CALayer {
-    var isAnimating: Bool { return animationKeys()?.isEmpty == false }
-
     var roundedCorners: UIRectCorner {
         var corners: UIRectCorner = []
         if maskedCorners.contains(.layerMinXMinYCorner) {
