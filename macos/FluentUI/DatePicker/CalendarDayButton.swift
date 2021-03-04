@@ -279,7 +279,7 @@ class CalendarDayButton: NSButton {
 						   constant: CalendarDayButton.dualModeMargin)
 
 	private var isDarkMode: Bool {
-		return NSAppearance.current.isDarkMode
+		return NSApplication.shared.effectiveAppearance.isDarkMode
 	}
 
 	/// Layer used to draw the selected day highlight

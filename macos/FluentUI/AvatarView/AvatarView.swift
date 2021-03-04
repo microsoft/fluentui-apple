@@ -312,7 +312,7 @@ open class AvatarView: NSView {
 		updateAppearance()
 	}
 
-	private func updateAppearance(_ appearance: NSAppearance = NSAppearance.current) {
+	private func updateAppearance(_ appearance: NSAppearance? = nil) {
 		let color = AvatarView.getColor(for: AvatarView.colorIndex(for: contactEmail ?? contactName ?? ""))
 		avatarBackgroundColor = color.background.resolvedColor(appearance)
 		initialsFontColor = color.foreground.resolvedColor(appearance)
@@ -424,7 +424,7 @@ open class AvatarView: NSView {
 			guard let strongSelf = self else {
 				return
 			}
-			strongSelf.updateAppearance(window.appearance ?? NSAppearance.current)
+			strongSelf.updateAppearance(window.effectiveAppearance)
 		}
 	}
 }
