@@ -472,7 +472,6 @@ fileprivate extension Unicode.Scalar {
 }
 
 extension AvatarView {
-	/// the text color of the text in the initials view
 
 	/// the table of background colors for the initials views
 	static let avatarColors: [ColorSet] = [
