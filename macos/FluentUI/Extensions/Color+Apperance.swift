@@ -11,16 +11,14 @@ public extension NSAppearance {
 
 	/// Pseudo algorithm picked up from https://developer.apple.com/forums/thread/118974
 	var isDarkMode: Bool {
-		#if DEBUG
-		     // Included for unit testing
-			if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil {
-				if self.bestMatch(from: [.darkAqua, .aqua]) == .darkAqua {
-					return true
-				} else {
-					return false
-				}
+		// Included for unit testing
+		if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil {
+			if self.bestMatch(from: [.darkAqua, .aqua]) == .darkAqua {
+				return true
+			} else {
+				return false
 			}
-		#endif
+		}
 		if #available(OSX 10.15, *) {
 			let appearanceDescription = NSApplication.shared.effectiveAppearance.debugDescription.lowercased()
 			if appearanceDescription.contains("dark") {
