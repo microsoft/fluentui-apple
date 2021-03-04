@@ -62,7 +62,7 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
     @Published public var backgroundColor: UIColor!
     @Published public var borderColor: UIColor!
     @Published public var disclosureIconForegroundColor: UIColor!
-    @Published public var leadinglabelColor: UIColor!
+    @Published public var labelColor: UIColor!
     @Published public var leadingViewColor: UIColor!
     @Published public var sublabelColor: UIColor!
     @Published public var trailingItemForegroundColor: UIColor!
@@ -116,7 +116,7 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
         backgroundColor = appearanceProxy.backgroundColor.rest
         borderColor = appearanceProxy.borderColor
         disclosureIconForegroundColor = appearanceProxy.disclosureIconForegroundColor
-        leadinglabelColor = appearanceProxy.labelColor
+        labelColor = appearanceProxy.labelColor
         leadingViewColor = appearanceProxy.leadingViewColor
         sublabelColor = appearanceProxy.sublabelColor
         trailingItemForegroundColor = appearanceProxy.trailingItemForegroundColor
