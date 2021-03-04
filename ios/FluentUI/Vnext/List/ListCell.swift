@@ -171,7 +171,8 @@ struct MSFListCellView: View {
         .buttonStyle(ListCellButtonStyle(tokens: tokens, state: state))
 
         if state.hasDivider {
-            let padding = tokens.horizontalCellPadding + (state.leadingView != nil ? (tokens.leadingViewSize + tokens.iconInterspace) : 0)
+            let padding = tokens.horizontalCellPadding +
+                (state.leadingView != nil ? (tokens.leadingViewSize + tokens.iconInterspace) : 0)
             Divider()
                 .overlay(Color(tokens.borderColor))
                 .padding(.leading, padding)
@@ -196,7 +197,8 @@ struct ListCellButtonStyle: ButtonStyle {
         let height: CGFloat
         switch state.layoutType {
         case .automatic:
-            height = !state.footnote.isEmpty ? tokens.cellHeightThreeLines : (!state.subtitle.isEmpty ? tokens.cellHeightTwoLines : tokens.cellHeightOneLine)
+            height = !state.footnote.isEmpty ? tokens.cellHeightThreeLines :
+                (!state.subtitle.isEmpty ? tokens.cellHeightTwoLines : tokens.cellHeightOneLine)
         case .oneLine:
             height = tokens.cellHeightOneLine
         case .twoLines:

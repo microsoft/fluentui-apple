@@ -153,7 +153,9 @@ class ListDemoController: DemoController {
         return avatarView
     }
 
-    private func createCustomView(imageName: String, useImageAsTemplate: Bool = false, imageType: String = "") -> UIImageView? {
+    private func createCustomView(imageName: String,
+                                  useImageAsTemplate: Bool = false,
+                                  imageType: String = "") -> UIImageView? {
         if imageName == "" {
             return nil
         }
