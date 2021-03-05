@@ -154,7 +154,7 @@ open class SegmentedControl: UIControl {
 
     private struct Constants {
         static let selectionBarHeight: CGFloat = 1.5
-        static let pillHorizontalInset: CGFloat = 16
+        static let pillContainerHorizontalInset: CGFloat = 16
         static let pillButtonInsets = UIEdgeInsets(top: 6, left: 16, bottom: 6, right: 16)
         static let pillButtonCornerRadius: CGFloat = 16
     }
