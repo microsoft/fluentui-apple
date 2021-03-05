@@ -265,8 +265,9 @@ Pod::Spec.new do |s|
   s.subspec 'AvatarView_mac' do |avatarview_mac|
     avatarview_mac.platform = :osx
     avatarview_mac.dependency 'MicrosoftFluentUI/Core_mac'
-    avatarview_mac.source_files = ["macos/FluentUI/AvatarView/**/*.{swift,h}",
-                                   "macos/FluentUI/Extensions/**/*.{swift,h}"]
+    avatarview_mac.dependency 'MicrosoftFluentUI/AppearanceExtension_mac'
+    avatarview_mac.dependency 'MicrosoftFluentUI/DynamicColor_mac'
+    avatarview_mac.source_files = ["macos/FluentUI/AvatarView/**/*.{swift,h}"]
   end
 
   s.subspec 'Button_mac' do |button_mac|
@@ -282,11 +283,21 @@ Pod::Spec.new do |s|
     core_mac.source_files = ["macos/FluentUI/Core/**/*.{swift,h}"]
   end
 
+  s.subspec 'AppearanceExtension_mac' do |appearanceextension_mac|
+    appearanceextension_mac.platform = :osx
+    appearanceextension_mac.source_files = ["macos/FluentUI/AppearanceExtensions/**/*.{swift,h}"]
+  end
+
+  s.subspec 'DynamicColor_mac' do |dynamiccolor_mac|
+    dynamiccolor_mac.platform = :osx
+    dynamiccolor_mac.source_files = ["macos/FluentUI/DynamicColor/**/*.{swift,h}"]
+  end
+
   s.subspec 'DatePicker_mac' do |datepicker_mac|
     datepicker_mac.platform = :osx
     datepicker_mac.dependency 'MicrosoftFluentUI/Core_mac'
-    datepicker_mac.source_files = ["macos/FluentUI/DatePicker/**/*.{swift,h}",
-                                    "macos/FluentUI/Extensions/Apperance+Theme.swift"]
+    datepicker_mac.dependency 'MicrosoftFluentUI/DynamicColor_mac'
+    datepicker_mac.source_files = ["macos/FluentUI/DatePicker/**/*.{swift,h}"]
   end
 
   s.subspec 'Link_mac' do |link_mac|
