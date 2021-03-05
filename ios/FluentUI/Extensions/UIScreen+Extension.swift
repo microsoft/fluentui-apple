@@ -8,7 +8,7 @@ import UIKit
 public extension UIScreen {
     var devicePixel: CGFloat { return 1 / scale }
 
-    func roundToDevicePixels(_ value: CGFloat) -> CGFloat {
+    internal func roundToDevicePixels(_ value: CGFloat) -> CGFloat {
         /*
          Round to 3 digits after floating point to better match the device rounding on 3x devices.
          Avoids a situation where calculated size is smaller than screen size by a difference in 4th+ position after floaing point.
@@ -19,11 +19,11 @@ public extension UIScreen {
         return ceil(ceil(value * scale) / scale * 1000) / 1000
     }
 
-    func roundDownToDevicePixels(_ value: CGFloat) -> CGFloat {
+    internal func roundDownToDevicePixels(_ value: CGFloat) -> CGFloat {
         return floor(value * scale) / scale
     }
 
-    func middleOrigin(_ containerSizeValue: CGFloat, containedSizeValue: CGFloat) -> CGFloat {
+    internal func middleOrigin(_ containerSizeValue: CGFloat, containedSizeValue: CGFloat) -> CGFloat {
         return roundDownToDevicePixels((containerSizeValue - containedSizeValue) / 2.0)
     }
 }

@@ -6,10 +6,10 @@
 import UIKit
 
 // MARK: DateTimePicker Colors
-public extension Colors {
+extension Colors {
   struct DateTimePicker {
-      public static var background: UIColor = Calendar.background
-      public static var text: UIColor = textSecondary
+      static var background: UIColor = Calendar.background
+      static var text: UIColor = textSecondary
   }
 }
 

@@ -138,7 +138,7 @@ class CommandBarDemoController: DemoController {
     let textField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.backgroundColor = Colors.Navigation.System.background
+        textField.backgroundColor = Colors.navigationBarBackground
         textField.placeholder = "Text Field"
 
         return textField
@@ -199,19 +199,19 @@ class CommandBarDemoController: DemoController {
         container.addArrangedSubview(createLabelWithText("Default"))
 
         let defaultCommandBar = CommandBar(itemGroups: itemGroups)
-        defaultCommandBar.backgroundColor = Colors.Navigation.System.background
+        defaultCommandBar.backgroundColor = Colors.navigationBarBackground
         container.addArrangedSubview(defaultCommandBar)
 
         container.addArrangedSubview(createLabelWithText("With Fixed Button"))
 
         let fixedButtonCommandBar = CommandBar(itemGroups: itemGroups, leadingItem: newItem(for: .copy), trailingItem: newItem(for: .keyboard))
-        fixedButtonCommandBar.backgroundColor = Colors.Navigation.System.background
+        fixedButtonCommandBar.backgroundColor = Colors.navigationBarBackground
         container.addArrangedSubview(fixedButtonCommandBar)
 
         container.addArrangedSubview(createLabelWithText("In Input Accessory View"))
 
         let textFieldContainer = UIView()
-        textFieldContainer.backgroundColor = Colors.Navigation.System.background
+        textFieldContainer.backgroundColor = Colors.navigationBarBackground
         textFieldContainer.addSubview(textField)
         NSLayoutConstraint.activate([
             textField.topAnchor.constraint(equalTo: textFieldContainer.topAnchor, constant: 16.0),

@@ -24,9 +24,9 @@ public typealias MSDimmingView = DimmingView
 
 @objc(MSFDimmingView)
 open class DimmingView: UIView {
-    public struct Constants {
-        public static let blackAlpha: CGFloat = 0.4
-        public static let whiteAlpha: CGFloat = 0.5
+    private struct Constants {
+        static let blackAlpha: CGFloat = 0.4
+        static let whiteAlpha: CGFloat = 0.5
     }
 
     private var type: DimmingViewType

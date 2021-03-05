@@ -8,19 +8,19 @@ import UIKit
 // MARK: Colors
 
 public extension Colors {
-     struct Progress {
-        public static var trackTint = UIColor(light: surfaceQuaternary, dark: surfaceTertiary)
+    internal struct Progress {
+        static var trackTint = UIColor(light: surfaceQuaternary, dark: surfaceTertiary)
     }
 
-    struct NavigationBar {
-        public static var background = UIColor(light: surfacePrimary, dark: gray900)
-        public static var tint: UIColor = iconPrimary
-        public static var title: UIColor = textDominant
+    internal struct NavigationBar {
+        static var background = UIColor(light: surfacePrimary, dark: gray900)
+        static var tint: UIColor = iconPrimary
+        static var title: UIColor = textDominant
     }
 
-    struct Toolbar {
-        public static var background: UIColor = NavigationBar.background
-        public static var tint: UIColor = NavigationBar.tint
+    internal struct Toolbar {
+        static var background: UIColor = NavigationBar.background
+        static var tint: UIColor = NavigationBar.tint
     }
 
     // Objective-C support

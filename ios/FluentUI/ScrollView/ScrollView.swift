@@ -24,7 +24,7 @@ protocol ScrollableContainerView: AnyObject {
         initialize()
     }
 
-    open func initialize() {
+    private func initialize() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
 
@@ -36,7 +36,7 @@ protocol ScrollableContainerView: AnyObject {
         }
     }
 
-    open var internalSubviews: [UIView] {
+    private var internalSubviews: [UIView] {
         var result = [UIView]()
         if let scrollIndicator = horizontalScrollIndicator {
             result.append(scrollIndicator)
@@ -46,10 +46,10 @@ protocol ScrollableContainerView: AnyObject {
         }
         return result
     }
-    var horizontalScrollIndicator: UIView? {
+    private var horizontalScrollIndicator: UIView? {
         return value(forKey: "horizontalScrollIndicator") as? UIView
     }
-    var verticalScrollIndicator: UIView? {
+    private var verticalScrollIndicator: UIView? {
         return value(forKey: "verticalScrollIndicator") as? UIView
     }
 
@@ -58,13 +58,13 @@ protocol ScrollableContainerView: AnyObject {
         initialize()
     }
 
-    open func makeFirstResponderVisible() {
+    func makeFirstResponderVisible() {
         if let firstResponder = UIResponder.firstResponder as? UIView, firstResponder.isDescendant(of: self) {
             makeSubviewVisible(firstResponder)
         }
     }
 
-    open func makeSubviewVisible(_ view: UIView) {
+    func makeSubviewVisible(_ view: UIView) {
         layoutIfNeeded()
         let container = containerForView(view)
         let rect = convert(container.frame, from: container.superview)

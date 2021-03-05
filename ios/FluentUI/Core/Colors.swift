@@ -42,7 +42,7 @@ open class ColorProvidingStyle: FluentUIStyle {
         return ColorProvidingColorsAppearanceProxy(proxy: { return self })
     }
 
-    open class ColorProvidingColorsAppearanceProxy: FluentUIStyle.ColorsAppearanceProxy {
+    class ColorProvidingColorsAppearanceProxy: FluentUIStyle.ColorsAppearanceProxy {
 
         init(proxy: @escaping () -> ColorProvidingStyle) {
 
@@ -58,7 +58,7 @@ open class ColorProvidingStyle: FluentUIStyle {
         private var colorProvidingProxy: ColorProvidingStyle
     }
 
-    open class ColorProvidingBrandAppearanceProxy: FluentUIStyle.ColorsAppearanceProxy.BrandAppearanceProxy {
+    class ColorProvidingBrandAppearanceProxy: FluentUIStyle.ColorsAppearanceProxy.BrandAppearanceProxy {
 
         init(proxy: @escaping () -> ColorProvidingStyle) {
 

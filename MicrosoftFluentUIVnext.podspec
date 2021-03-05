@@ -35,10 +35,10 @@ Pod::Spec.new do |s|
   s.subspec 'Avatar_ios' do |avatar_ios|
     avatar_ios.platform = :ios
     avatar_ios.dependency 'MicrosoftFluentUIVnext/Core_ios'
-    avatar_ios.source_files = ["ios/FluentUI/People Picker/AvatarData.swift",
-                               "ios/FluentUI/People Picker/AvatarView.swift",
-                               "ios/FluentUI/People Picker/InitialsView.swift",
-                               "ios/FluentUI/People Picker/Presence.swift",
+    avatar_ios.source_files = ["ios/FluentUI/Avatar/AvatarData.swift",
+                               "ios/FluentUI/Avatar/AvatarView.swift",
+                               "ios/FluentUI/Avatar/InitialsView.swift",
+                               "ios/FluentUI/Avatar/Presence.swift",
                                "ios/FluentUI/Vnext/Avatar/**/*.{swift,h}"]
   end
 

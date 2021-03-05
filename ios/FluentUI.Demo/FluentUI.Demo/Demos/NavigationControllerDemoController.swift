@@ -551,7 +551,7 @@ class ModalViewController: UITableViewController {
             return UITableViewCell()
         }
         cell.setup(title: "Child Cell #\(1 + indexPath.row)")
-        cell.backgroundColor = isGrouped ? Colors.Table.Cell.backgroundGrouped : Colors.Table.Cell.background
+        cell.backgroundColor = isGrouped ? Colors.tableCellBackgroundGrouped : Colors.tableCellBackground
         cell.topSeparatorType = isGrouped && indexPath.row == 0 ? .full : .none
         return cell
     }
@@ -572,7 +572,7 @@ class ModalViewController: UITableViewController {
     }
 
     private func updateTableView() {
-        tableView.backgroundColor = isGrouped ? Colors.Table.backgroundGrouped : Colors.Table.background
+        tableView.backgroundColor = isGrouped ? Colors.tableBackgroundGrouped : Colors.tableBackground
         tableView.reloadData()
     }
 }
@@ -598,6 +598,6 @@ class CustomGradient {
         }
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return UIColor(light: image != nil ? UIColor(patternImage: image!) : endColor, dark: Colors.Navigation.System.background)
+        return UIColor(light: image != nil ? UIColor(patternImage: image!) : endColor, dark: Colors.navigationBarBackground)
     }
 }

@@ -5,7 +5,8 @@
 import UIKit
 
 // MARK: SegmentedControl Colors
-public extension Colors {
+
+private extension Colors {
     struct SegmentedControl {
         struct Tabs {
             static let background: UIColor = NavigationBar.background
