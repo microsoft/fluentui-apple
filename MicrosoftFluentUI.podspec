@@ -199,7 +199,6 @@ Pod::Spec.new do |s|
 
   s.subspec 'SegmentedControl_ios' do |segmentedcontrol_ios|
     segmentedcontrol_ios.platform = :ios
-    segmentedcontrol_ios.dependency 'MicrosoftFluentUI/PillButtonBar_ios'
     segmentedcontrol_ios.dependency 'MicrosoftFluentUI/Separator_ios'
     segmentedcontrol_ios.source_files = ["ios/FluentUI/SegmentedControl/**/*.{swift,h}"]
   end
