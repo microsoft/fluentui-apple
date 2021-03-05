@@ -265,7 +265,7 @@ Pod::Spec.new do |s|
   s.subspec 'AvatarView_mac' do |avatarview_mac|
     avatarview_mac.platform = :osx
     avatarview_mac.dependency 'MicrosoftFluentUI/Core_mac'
-    avatarview_mac.dependency 'MicrosoftFluentUI/AppearanceExtension_mac'
+    avatarview_mac.dependency 'MicrosoftFluentUI/Appearance_mac'
     avatarview_mac.dependency 'MicrosoftFluentUI/DynamicColor_mac'
     avatarview_mac.source_files = ["macos/FluentUI/AvatarView/**/*.{swift,h}"]
   end
@@ -283,9 +283,9 @@ Pod::Spec.new do |s|
     core_mac.source_files = ["macos/FluentUI/Core/**/*.{swift,h}"]
   end
 
-  s.subspec 'AppearanceExtension_mac' do |appearanceextension_mac|
-    appearanceextension_mac.platform = :osx
-    appearanceextension_mac.source_files = ["macos/FluentUI/AppearanceExtensions/**/*.{swift,h}"]
+  s.subspec 'Appearance_mac' do |appearance_mac|
+    appearance_mac.platform = :osx
+    appearance_mac.source_files = ["macos/FluentUI/Appearance/**/*.{swift,h}"]
   end
 
   s.subspec 'DynamicColor_mac' do |dynamiccolor_mac|
