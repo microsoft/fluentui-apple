@@ -278,7 +278,8 @@ Pod::Spec.new do |s|
     core_mac.platform = :osx
     core_mac.resource_bundle = { 'FluentUIResources-macos' => ["apple/Resources/**/*.{json,xcassets}",
                                                              "macos/FluentUIResources-macos/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
-    core_mac.source_files = ["macos/FluentUI/Core/**/*.{swift,h}"]
+    core_mac.source_files = ["macos/FluentUI/Core/**/*.{swift,h}",
+                              "macos/FluentUI/Extensions/**/*.{swift,h}"]
   end
 
   s.subspec 'DatePicker_mac' do |datepicker_mac|
