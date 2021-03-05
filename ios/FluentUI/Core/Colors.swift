@@ -702,6 +702,7 @@ public final class Colors: NSObject {
     @objc public static let error: UIColor = Palette.dangerPrimary.color
     @objc public static let warning: UIColor = Palette.warningPrimary.color
 
+<<<<<<< HEAD
     static var avatarColors: [ColorSet] = [
         ColorSet(background: UIColor(light: Palette.darkRedTint40.color, dark: Palette.darkRedShade30.color),
                  foreground: UIColor(light: Palette.darkRedShade30.color, dark: Palette.darkRedTint40.color)),
@@ -765,6 +766,8 @@ public final class Colors: NSObject {
                  foreground: UIColor(light: Palette.anchorShade30.color, dark: Palette.anchorTint40.color))
     ]
 
+=======
+>>>>>>> fafd715ae3d4cf999bfadea17285811bc949c04c
     /// Used for hyperlinks
     @objc public static let communicationBlue: UIColor = Palette.communicationBlue.color
 
@@ -820,6 +823,7 @@ public final class Colors: NSObject {
     }
 }
 
+<<<<<<< HEAD
 class ColorSet: NSObject {
     public let background: UIColor
     public let foreground: UIColor
@@ -830,5 +834,7 @@ class ColorSet: NSObject {
     }
 }
 
+=======
+>>>>>>> fafd715ae3d4cf999bfadea17285811bc949c04c
 /// Make palette enum CaseIterable for unit testing purposes
 extension Colors.Palette: CaseIterable {}

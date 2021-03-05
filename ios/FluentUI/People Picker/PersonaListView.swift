@@ -155,7 +155,7 @@ open class PersonaListView: UITableView {
         // Call searchDirectoryDelegate and show result text on completion
         searchDirectoryDelegate?.personaListSearchDirectory(self, completion: { success in
             if success {
-                self.searchResultText = "%d results found from directory".localized.formatted(with: self.personaList.count)
+                self.searchResultText = String(format: "%d results found from directory".localized, self.personaList.count)
             }
         })
         searchDirectoryState = .idle

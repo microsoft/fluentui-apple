@@ -10,31 +10,24 @@ public typealias MSFonts = Fonts
 
 @objc(MSFFonts)
 public final class Fonts: NSObject {
-    /// Bold 30pt - Does not scale automatically with Dynamic Type
-    @objc public static let largeTitle = UIFont.systemFont(ofSize: 30, weight: .bold)
-    /// Bold 26pt - Does not scale automatically with Dynamic Type
-    @objc public static let title1 = UIFont.systemFont(ofSize: 26, weight: .bold)
+    /// Bold 34pt
+    @objc public static var largeTitle: UIFont { return preferredFont(forTextStyle: .largeTitle, weight: .bold) }
+    /// Bold 28 pt
+    @objc public static var title1: UIFont { return preferredFont(forTextStyle: .title1, weight: .bold) }
     /// Semibold 22pt
     @objc public static var title2: UIFont { return preferredFont(forTextStyle: .title2, weight: .semibold) }
     /// Semibold 17pt
     @objc public static var headline: UIFont { return .preferredFont(forTextStyle: .headline) }
-    @objc public static var headlineUnscaled: UIFont { return .preferredFont(forTextStyle: .headline, compatibleWith: UITraitCollection(preferredContentSizeCategory: .large)) }
     /// Regular 17pt
     @objc public static var body: UIFont { return .preferredFont(forTextStyle: .body) }
-    @objc public static var bodyUnscaled: UIFont { return .preferredFont(forTextStyle: .body, compatibleWith: UITraitCollection(preferredContentSizeCategory: .large)) }
     /// Regular 15pt
     @objc public static var subhead: UIFont { return .preferredFont(forTextStyle: .subheadline) }
     /// Regular 13pt
     @objc public static var footnote: UIFont { return .preferredFont(forTextStyle: .footnote) }
-    @objc public static var footnoteUnscaled: UIFont { return .preferredFont(forTextStyle: .footnote, compatibleWith: UITraitCollection(preferredContentSizeCategory: .large)) }
     /// Medium 15pt
     @objc public static var button1: UIFont { return preferredFont(forTextStyle: .subheadline, weight: .medium) }
     /// Medium 13pt
     @objc public static var button2: UIFont { return preferredFont(forTextStyle: .footnote, weight: .medium) }
-    /// Medium 10pt - Does not scale automatically with Dynamic Type
-    @objc public static let button3 = UIFont.systemFont(ofSize: 10, weight: .medium)
-    /// Medium 16pt - Does not scale automatically with Dynamic Type
-    @objc public static let button4 = UIFont.systemFont(ofSize: 16, weight: .regular)
     /// Regular 12pt
     @objc public static var caption1: UIFont { return .preferredFont(forTextStyle: .caption1) }
     /// Regular 11pt
@@ -66,15 +59,11 @@ public enum TextStyle: Int, CaseIterable {
     case title1
     case title2
     case headline
-    case headlineUnscaled
     case body
-    case bodyUnscaled
     case subhead
     case footnote
-    case footnoteUnscaled
     case button1
     case button2
-    case button3
     case caption1
     case caption2
 
@@ -88,24 +77,16 @@ public enum TextStyle: Int, CaseIterable {
             return Fonts.title2
         case .headline:
             return Fonts.headline
-        case .headlineUnscaled:
-            return Fonts.headlineUnscaled
         case .body:
             return Fonts.body
-        case .bodyUnscaled:
-            return Fonts.bodyUnscaled
         case .subhead:
             return Fonts.subhead
         case .footnote:
             return Fonts.footnote
-        case .footnoteUnscaled:
-            return Fonts.footnoteUnscaled
         case .button1:
             return Fonts.button1
         case .button2:
             return Fonts.button2
-        case .button3:
-            return Fonts.button3
         case .caption1:
             return Fonts.caption1
         case .caption2:

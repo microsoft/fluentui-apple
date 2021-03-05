@@ -15,9 +15,28 @@ public protocol TwoLineTitleViewDelegate: AnyObject {
     func twoLineTitleViewDidTapOnTitle(_ twoLineTitleView: TwoLineTitleView)
 }
 
+<<<<<<< HEAD:ios/FluentUI/Controls/TwoLineTitleView.swift
 // MARK: - TwoLineTitle Colors
 
 private extension Colors {
+=======
+public extension Colors {
+
+    // MARK: Navigation Colors
+    struct Navigation {
+        public struct System {
+            public static var background: UIColor = NavigationBar.background
+            public static var tint: UIColor = NavigationBar.tint
+            public static var title: UIColor = NavigationBar.title
+        }
+        public struct Primary {
+            public static var tint = UIColor(light: textOnAccent, dark: System.tint)
+            public static var title = UIColor(light: textOnAccent, dark: System.title)
+        }
+    }
+
+    // MARK: - TwoLineTitle Colors
+>>>>>>> fafd715ae3d4cf999bfadea17285811bc949c04c:ios/FluentUI/TwoLineTitleView/TwoLineTitleView.swift
     struct TwoLineTitle {
         // light style is used Navigation.Primary.background. Dark style is used for Navigation.System.background
         static var titleDark: UIColor = Navigation.System.title
@@ -122,10 +141,11 @@ open class TwoLineTitleView: UIView {
         return interactivePart == .title ? accessoryType : .none
     }
 
-    private lazy var titleButtonLabel: UILabel = {
-        let label = UILabel()
+    private lazy var titleButtonLabel: Label = {
+        let label = Label()
         label.lineBreakMode = .byTruncatingTail
-        label.font = Fonts.headlineUnscaled
+        label.style = .headline
+        label.maxFontSize = 17
         label.textAlignment = .center
         return label
     }()
@@ -137,12 +157,11 @@ open class TwoLineTitleView: UIView {
         return interactivePart == .subtitle ? accessoryType : .none
     }
 
-    private lazy var subtitleButtonLabel: UILabel = {
-        let label = UILabel()
+    private lazy var subtitleButtonLabel: Label = {
+        let label = Label()
         label.lineBreakMode = .byTruncatingMiddle
-        label.font = Fonts.footnoteUnscaled
-        label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.8
+        label.style = .caption1
+        label.maxFontSize = 12
         return label
     }()
 

@@ -37,15 +37,7 @@ import SwiftUI
 }
 
 class MSFListTokens: MSFTokensBase, ObservableObject {
-    @Published public var backgroundColor: UIColor!
-
     @Published public var borderColor: UIColor!
-    @Published public var borderSize: CGFloat!
-
-    @Published public var horizontalCellPadding: CGFloat!
-
-    @Published public var subtitleColor: UIColor!
-    @Published public var subtitleFont: UIFont!
 
     override init() {
         super.init()
@@ -62,15 +54,7 @@ class MSFListTokens: MSFTokensBase, ObservableObject {
         let currentTheme = theme
         let appearanceProxy = currentTheme.MSFListTokens
 
-        backgroundColor = appearanceProxy.backgroundColor
-
         borderColor = appearanceProxy.borderColor
-        borderSize = appearanceProxy.borderSize
-
-        horizontalCellPadding = appearanceProxy.horizontalCellPadding
-
-        subtitleColor = appearanceProxy.sublabelColor
-        subtitleFont = appearanceProxy.sublabelFont
     }
 }
 
@@ -78,14 +62,13 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
     @Published public var backgroundColor: UIColor!
     @Published public var borderColor: UIColor!
     @Published public var disclosureIconForegroundColor: UIColor!
-    @Published public var leadingTextColor: UIColor!
+    @Published public var labelColor: UIColor!
     @Published public var leadingViewColor: UIColor!
-    @Published public var subtitleColor: UIColor!
+    @Published public var sublabelColor: UIColor!
     @Published public var trailingItemForegroundColor: UIColor!
 
     @Published public var highlightedBackgroundColor: UIColor!
 
-    @Published public var borderSize: CGFloat!
     @Published public var cellHeightOneLine: CGFloat!
     @Published public var cellHeightTwoLines: CGFloat!
     @Published public var cellHeightThreeLines: CGFloat!
@@ -93,11 +76,14 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
     @Published public var disclosureSize: CGFloat!
     @Published public var horizontalCellPadding: CGFloat!
     @Published public var iconInterspace: CGFloat!
+    @Published public var labelAccessoryInterspace: CGFloat!
+    @Published public var labelAccessorySize: CGFloat!
     @Published public var leadingViewSize: CGFloat!
     @Published public var trailingItemSize: CGFloat!
 
-    @Published public var subtitleFont: UIFont!
-    @Published public var textFont: UIFont!
+    @Published public var footnoteFont: UIFont!
+    @Published public var sublabelFont: UIFont!
+    @Published public var labelFont: UIFont!
 
     @Published public var cellLeadingViewSize: MSFListCellLeadingViewSize!
 
@@ -130,14 +116,13 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
         backgroundColor = appearanceProxy.backgroundColor.rest
         borderColor = appearanceProxy.borderColor
         disclosureIconForegroundColor = appearanceProxy.disclosureIconForegroundColor
-        leadingTextColor = appearanceProxy.labelColor
+        labelColor = appearanceProxy.labelColor
         leadingViewColor = appearanceProxy.leadingViewColor
-        subtitleColor = appearanceProxy.sublabelColor
+        sublabelColor = appearanceProxy.sublabelColor
         trailingItemForegroundColor = appearanceProxy.trailingItemForegroundColor
 
         highlightedBackgroundColor = appearanceProxy.backgroundColor.pressed
 
-        borderSize = appearanceProxy.borderSize
         cellHeightOneLine = appearanceProxy.cellHeight.oneLine
         cellHeightTwoLines = appearanceProxy.cellHeight.twoLines
         cellHeightThreeLines = appearanceProxy.cellHeight.threeLines
@@ -145,9 +130,12 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
         disclosureSize = appearanceProxy.disclosureSize
         horizontalCellPadding = appearanceProxy.horizontalCellPadding
         iconInterspace = appearanceProxy.iconInterspace
+        labelAccessoryInterspace = appearanceProxy.labelAccessoryInterspace
+        labelAccessorySize = appearanceProxy.labelAccessorySize
         trailingItemSize = appearanceProxy.trailingItemSize
 
-        subtitleFont = appearanceProxy.sublabelFont
-        textFont = appearanceProxy.labelFont
+        footnoteFont = appearanceProxy.footnoteFont
+        sublabelFont = appearanceProxy.sublabelFont
+        labelFont = appearanceProxy.labelFont
     }
 }

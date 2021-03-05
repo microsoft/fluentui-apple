@@ -77,6 +77,7 @@ class DateTimePickerView: UIControl {
         layer.addSublayer(gradientLayer)
         addSubview(selectionTopSeparator)
         addSubview(selectionBottomSeparator)
+        addInteraction(UILargeContentViewerInteraction())
 
         backgroundColor = Colors.DateTimePicker.background
 
