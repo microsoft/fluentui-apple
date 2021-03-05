@@ -416,7 +416,7 @@ open class SegmentedControl: UIControl {
                     if traitCollection.userInterfaceIdiom == .pad {
                         suggestedWidth = max(suggestedWidth / 2, 375.0)
                     } else {
-                        var insets = 2 * Constants.pillHorizontalInset
+                        var insets = 2 * Constants.pillContainerHorizontalInset
                         if let window = window {
                             insets += window.safeAreaInsets.left + window.safeAreaInsets.right
                         }
@@ -555,7 +555,7 @@ open class SegmentedControl: UIControl {
 
     private func layoutPillContainerView() {
         var frame = bounds
-        frame = frame.inset(by: UIEdgeInsets(top: 0, left: Constants.pillHorizontalInset, bottom: 0, right: Constants.pillHorizontalInset))
+        frame = frame.inset(by: UIEdgeInsets(top: 0, left: Constants.pillContainerHorizontalInset, bottom: 0, right: Constants.pillContainerHorizontalInset))
         pillContainerView.frame = frame
     }
 
@@ -574,7 +574,7 @@ open class SegmentedControl: UIControl {
             constraints.append(contentsOf: [
                 self.leadingAnchor.constraint(equalTo: pillContainerView.leadingAnchor),
                 self.trailingAnchor.constraint(equalTo: pillContainerView.trailingAnchor),
-                pillContainerView.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, constant: 2 * Constants.pillHorizontalInset),
+                pillContainerView.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, constant: 2 * Constants.pillContainerHorizontalInset),
 
                 pillMaskedLabelsContainerView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor),
                 pillMaskedLabelsContainerView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor),
