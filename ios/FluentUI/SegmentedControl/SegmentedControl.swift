@@ -5,25 +5,8 @@
 import UIKit
 
 // MARK: SegmentedControl Colors
-<<<<<<< HEAD:ios/FluentUI/Controls/SegmentedControl.swift
 
 private extension Colors {
-    struct SegmentedControl {
-        struct Tabs {
-            static var background: UIColor = NavigationBar.background
-            static var backgroundDisabled: UIColor = background
-            static var segmentText: UIColor = textSecondary
-            static var segmentTextDisabled: UIColor = surfaceQuaternary
-            static var segmentTextSelectedAndDisabled: UIColor = textDisabled
-            static var selectionDisabled: UIColor = textDisabled
-        }
-
-        struct Switch {
-            static var segmentText = UIColor(light: textOnAccent, dark: textPrimary)
-            static var selection = UIColor(light: Colors.surfacePrimary, dark: Colors.surfaceQuaternary)
-            static var selectionDisabled: UIColor = selection
-=======
-public extension Colors {
     struct SegmentedControl {
         struct Tabs {
             static let background: UIColor = NavigationBar.background
@@ -46,7 +29,6 @@ public extension Colors {
             static let backgroundDisabled: UIColor = background
             static let segmentText = UIColor(light: textOnAccent, dark: textPrimary)
             static let selection = UIColor(light: surfacePrimary, dark: surfaceQuaternary)
->>>>>>> fafd715ae3d4cf999bfadea17285811bc949c04c:ios/FluentUI/SegmentedControl/SegmentedControl.swift
         }
     }
 }

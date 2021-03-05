@@ -165,18 +165,15 @@ class ListDemoController: DemoController {
         }
         let customView = UIImageView(image: image)
         customView.contentMode = .scaleAspectFit
-<<<<<<< HEAD
-        customView.tintColor = Colors.tableCellImage
-=======
+
         switch imageType {
         case "title":
-            customView.tintColor = Colors.Table.Cell.title
+            customView.tintColor = Colors.textPrimary
         case "subtitle":
-            customView.tintColor = Colors.Table.Cell.subtitle
+            customView.tintColor = Colors.textSecondary
         default:
-            customView.tintColor = Colors.Table.Cell.image
+            customView.tintColor = Colors.iconSecondary
         }
->>>>>>> fafd715ae3d4cf999bfadea17285811bc949c04c
         return customView
     }
 

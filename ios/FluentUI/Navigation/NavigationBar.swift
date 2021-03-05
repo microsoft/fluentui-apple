@@ -5,24 +5,6 @@
 
 import UIKit
 
-<<<<<<< HEAD
-// MARK: Navigation Colors
-public extension Colors {
-    struct Navigation {
-        struct System {
-            static var background: UIColor = NavigationBar.background
-            static var tint: UIColor = NavigationBar.tint
-            static var title: UIColor = NavigationBar.title
-        }
-        public struct Primary {
-            public static var tint = UIColor(light: textOnAccent, dark: System.tint)
-            public static var title = UIColor(light: textOnAccent, dark: System.title)
-        }
-    }
-}
-
-=======
->>>>>>> fafd715ae3d4cf999bfadea17285811bc949c04c
 // MARK: - NavigationBarTopAccessoryViewAttributes
 
 /// Layout attributes for a navigation bar's top accessory view.

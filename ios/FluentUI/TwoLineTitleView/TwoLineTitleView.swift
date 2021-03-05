@@ -15,12 +15,7 @@ public protocol TwoLineTitleViewDelegate: AnyObject {
     func twoLineTitleViewDidTapOnTitle(_ twoLineTitleView: TwoLineTitleView)
 }
 
-<<<<<<< HEAD:ios/FluentUI/Controls/TwoLineTitleView.swift
-// MARK: - TwoLineTitle Colors
-
-private extension Colors {
-=======
-public extension Colors {
+extension Colors {
 
     // MARK: Navigation Colors
     struct Navigation {
@@ -36,7 +31,6 @@ public extension Colors {
     }
 
     // MARK: - TwoLineTitle Colors
->>>>>>> fafd715ae3d4cf999bfadea17285811bc949c04c:ios/FluentUI/TwoLineTitleView/TwoLineTitleView.swift
     struct TwoLineTitle {
         // light style is used Navigation.Primary.background. Dark style is used for Navigation.System.background
         static var titleDark: UIColor = Navigation.System.title
