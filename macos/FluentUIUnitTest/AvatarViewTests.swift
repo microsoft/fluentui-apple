@@ -115,13 +115,27 @@ class AvatarViewTests: XCTestCase {
 		XCTAssertNil(noNameNoEmailAvatar.toolTip)
 	}
 
-	func testBackgroundColors () {
-		// Cherry pick a few known values and test them
-		XCTAssertEqual(AvatarView.backgroundColor(for: 0), Colors.Palette.cyanBlue10.color)
-		XCTAssertEqual(AvatarView.backgroundColor(for: 2), Colors.Palette.magenta20.color)
-		XCTAssertEqual(AvatarView.backgroundColor(for: 3), Colors.Palette.green10.color)
-		XCTAssertEqual(AvatarView.backgroundColor(for: 6), Colors.Palette.orange20.color)
-		XCTAssertEqual(AvatarView.backgroundColor(for: 20), Colors.Palette.orange30.color)
+	func testAvatarColors () {
+		// Verify if light and dark mode are interchangable
+		let lightModeAppearnce = NSAppearance(named: .aqua)!
+		let darkModeAppearance = NSAppearance(named: .darkAqua)!
+
+		for (index, colorSet) in AvatarView.avatarColors.enumerated() {
+			let bgColor = colorSet.background
+			let fgColor = colorSet.foreground
+			let bgLightColor = bgColor.resolvedColor(lightModeAppearnce)
+			let bgDarkColor = bgColor.resolvedColor(darkModeAppearance)
+			let fgLightColor = fgColor.resolvedColor(lightModeAppearnce)
+			let fgDarkColor = fgColor.resolvedColor(darkModeAppearance)
+
+			XCTAssertEqual(bgLightColor,
+						   fgDarkColor,
+						   "Index \(index): Background color in light mode does not match Foreground color in dark mode.")
+
+			XCTAssertEqual(bgDarkColor,
+						   fgLightColor,
+						   "Index \(index): Background color in dark mode does not match Foreground color in light mode.")
+		}
 	}
 
 	func testHashAlgorithm () {

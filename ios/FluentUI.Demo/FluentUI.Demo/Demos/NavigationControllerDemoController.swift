@@ -160,7 +160,6 @@ class NavigationControllerDemoController: DemoController {
         content.navigationItem.accessoryView = accessoryView
         content.navigationItem.topAccessoryViewAttributes = NavigationBarTopSearchBarAttributes()
         content.navigationItem.contentScrollView = contractNavigationBarOnScroll ? content.tableView : nil
-        content.showsTabs = !showShadow
         content.showsTopAccessoryView = showsTopAccessory
 
         if style == .custom {
@@ -239,50 +238,13 @@ extension NavigationControllerDemoController: UIGestureRecognizerDelegate {
 // MARK: - RootViewController
 
 class RootViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    var container: UIStackView { return view as! UIStackView }
     private(set) lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
+        tableView.register(BooleanCell.self, forCellReuseIdentifier: BooleanCell.identifier)
         return tableView
-    }()
-
-    private(set) lazy var searchProgressSpinnerSwitchView: UIView = {
-        let itemRow = UIStackView()
-        itemRow.axis = .horizontal
-        itemRow.distribution = .equalCentering
-        itemRow.alignment = .leading
-        itemRow.isLayoutMarginsRelativeArrangement = true
-        itemRow.layoutMargins = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
-        itemRow.translatesAutoresizingMaskIntoConstraints = false
-
-        let searchSpinnerSwitchLabel = Label(style: .subhead, colorStyle: .regular)
-        searchSpinnerSwitchLabel.text = "Show spinner while using the search bar"
-        itemRow.addArrangedSubview(searchSpinnerSwitchLabel)
-
-        let searchSpinnerSwitch = UISwitch()
-        searchSpinnerSwitch.isOn = true
-        searchSpinnerSwitch.addTarget(self, action: #selector(shouldShowSearchSpinner(switchView:)), for: .valueChanged)
-
-        itemRow.addArrangedSubview(searchSpinnerSwitchLabel)
-        itemRow.addArrangedSubview(searchSpinnerSwitch)
-
-        let itemsContainer = UIView()
-        itemsContainer.backgroundColor = Colors.tableBackground
-        itemsContainer.addSubview(itemRow)
-        itemsContainer.translatesAutoresizingMaskIntoConstraints = false
-
-        NSLayoutConstraint.activate([
-            itemsContainer.topAnchor.constraint(equalTo: itemRow.topAnchor),
-            itemsContainer.bottomAnchor.constraint(equalTo: itemRow.bottomAnchor),
-            itemsContainer.leadingAnchor.constraint(equalTo: itemRow.leadingAnchor),
-            itemsContainer.trailingAnchor.constraint(equalTo: itemRow.trailingAnchor),
-            searchSpinnerSwitchLabel.centerYAnchor.constraint(equalTo: itemsContainer.centerYAnchor),
-            searchSpinnerSwitch.centerYAnchor.constraint(equalTo: itemsContainer.centerYAnchor)
-        ])
-
-        return itemsContainer
     }()
 
     var showSearchProgressSpinner: Bool = true
@@ -290,14 +252,6 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var allowsCellSelection: Bool = false {
         didSet {
             updateRightBarButtonItems()
-        }
-    }
-
-    var showsTabs: Bool = false {
-        didSet {
-            if showsTabs != oldValue {
-                segmentedControl = showsTabs ? SegmentedControl(items: ["Unread", "All"]) : nil
-            }
         }
     }
 
@@ -321,15 +275,6 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     private var navigationBarFrameObservation: NSKeyValueObservation?
 
-    private var segmentedControl: SegmentedControl? {
-        didSet {
-            oldValue?.removeFromSuperview()
-            if let segmentedControl = segmentedControl {
-                container.insertArrangedSubview(segmentedControl, at: 0)
-            }
-        }
-    }
-
     private let tabBarView: TabBarView = {
         let tabBarView = TabBarView()
         tabBarView.items = [
@@ -340,19 +285,12 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return tabBarView
     }()
 
-    override func loadView() {
-        let container = UIStackView()
-        container.axis = .vertical
-        view = container
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        if navigationItem.accessoryView != nil {
-            container.addArrangedSubview(searchProgressSpinnerSwitchView)
-        }
 
-        container.addArrangedSubview(tableView)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tableView)
+
         updateNavigationTitle()
         updateLeftBarButtonItems()
         updateRightBarButtonItems()
@@ -361,6 +299,10 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         view.addSubview(tabBarView)
 
         let tabBarViewConstraints = [
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tabBarView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tabBarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tabBarView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
@@ -409,11 +351,23 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.row == 0 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier, for: indexPath) as? BooleanCell else {
+                return UITableViewCell()
+            }
+            cell.setup(title: "Show spinner while using the search bar", isOn: true)
+            cell.titleNumberOfLines = 0
+            cell.onValueChanged = { [weak self, weak cell] in
+                self?.shouldShowSearchSpinner(isOn: cell?.isOn ?? false)
+            }
+            return cell
+        }
+
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as? TableViewCell else {
             return UITableViewCell()
         }
         let imageView = UIImageView(image: UIImage(named: "excelIcon"))
-        cell.setup(title: "Cell #\(1 + indexPath.row)", customView: imageView, accessoryType: .disclosureIndicator)
+        cell.setup(title: "Cell #\(indexPath.row)", customView: imageView, accessoryType: .disclosureIndicator)
         cell.isInSelectionMode = isInSelectionMode
         return cell
     }
@@ -469,8 +423,8 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
 
-    @objc private func shouldShowSearchSpinner(switchView: UISwitch) {
-        showSearchProgressSpinner = switchView.isOn
+    @objc private func shouldShowSearchSpinner(isOn: Bool) {
+        showSearchProgressSpinner = isOn
     }
 
     @objc private func dismissSelf() {
@@ -486,14 +440,12 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         isInSelectionMode = true
         msfNavigationController?.contractNavigationBar(animated: true)
         msfNavigationController?.allowResizeOfNavigationBarOnScroll = false
-        container.removeArrangedSubview(searchProgressSpinnerSwitchView)
     }
 
     @objc private func dismissSelectionMode() {
         isInSelectionMode = false
         msfNavigationController?.allowResizeOfNavigationBarOnScroll = true
         msfNavigationController?.expandNavigationBar(animated: true)
-        container.insertArrangedSubview(searchProgressSpinnerSwitchView, at: 0 /* index */)
     }
 }
 
