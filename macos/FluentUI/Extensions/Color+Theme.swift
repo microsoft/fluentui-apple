@@ -5,12 +5,6 @@
 
 import AppKit
 
-extension NSAppearance {
-	var isDarkMode: Bool {
-		return self.bestMatch(from: [.darkAqua, .aqua]) == .darkAqua
-	}
-}
-
 class ColorSet: NSObject {
 	public let background: DynamicColor
 	public let foreground: DynamicColor

@@ -265,7 +265,8 @@ Pod::Spec.new do |s|
   s.subspec 'AvatarView_mac' do |avatarview_mac|
     avatarview_mac.platform = :osx
     avatarview_mac.dependency 'MicrosoftFluentUI/Core_mac'
-    avatarview_mac.source_files = ["macos/FluentUI/AvatarView/**/*.{swift,h}"]
+    avatarview_mac.source_files = ["macos/FluentUI/AvatarView/**/*.{swift,h}",
+                                   "macos/FluentUI/Extensions/**/*.{swift,h}"]
   end
 
   s.subspec 'Button_mac' do |button_mac|
@@ -278,14 +279,14 @@ Pod::Spec.new do |s|
     core_mac.platform = :osx
     core_mac.resource_bundle = { 'FluentUIResources-macos' => ["apple/Resources/**/*.{json,xcassets}",
                                                              "macos/FluentUIResources-macos/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
-    core_mac.source_files = ["macos/FluentUI/Core/**/*.{swift,h}",
-                              "macos/FluentUI/Extensions/**/*.{swift,h}"]
+    core_mac.source_files = ["macos/FluentUI/Core/**/*.{swift,h}"]
   end
 
   s.subspec 'DatePicker_mac' do |datepicker_mac|
     datepicker_mac.platform = :osx
     datepicker_mac.dependency 'MicrosoftFluentUI/Core_mac'
-    datepicker_mac.source_files = ["macos/FluentUI/DatePicker/**/*.{swift,h}"]
+    datepicker_mac.source_files = ["macos/FluentUI/DatePicker/**/*.{swift,h}",
+                                    "macos/FluentUI/Extensions/Apperance+Theme.swift"]
   end
 
   s.subspec 'Link_mac' do |link_mac|

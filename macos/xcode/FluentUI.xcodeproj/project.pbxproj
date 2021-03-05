@@ -8,7 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2F6759B8251E4C2600210B3C /* SimpleObjCTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6759B7251E4C2600210B3C /* SimpleObjCTest.m */; };
-		3F1B016625EDC6E200EE262E /* Color+Apperance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1B016525EDC6E200EE262E /* Color+Apperance.swift */; };
+		3F1B016625EDC6E200EE262E /* Color+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1B016525EDC6E200EE262E /* Color+Theme.swift */; };
+		3F2506C225F2B8860049ED54 /* Apperance+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2506C125F2B8860049ED54 /* Apperance+Theme.swift */; };
 		53BCB0DB253A72AD00620960 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BCB0DA253A72AD00620960 /* Colors.swift */; };
 		53BCB0E2253A72E000620960 /* FluentUIResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BCB0E1253A72E000620960 /* FluentUIResources.swift */; };
 		53BCB0ED253A75BB00620960 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BCB0EC253A75BB00620960 /* AvatarView.swift */; };
@@ -116,7 +117,8 @@
 /* Begin PBXFileReference section */
 		2F6759B6251E4C2600210B3C /* SimpleObjCTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleObjCTest.h; sourceTree = "<group>"; };
 		2F6759B7251E4C2600210B3C /* SimpleObjCTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleObjCTest.m; sourceTree = "<group>"; };
-		3F1B016525EDC6E200EE262E /* Color+Apperance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Apperance.swift"; sourceTree = "<group>"; };
+		3F1B016525EDC6E200EE262E /* Color+Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Theme.swift"; sourceTree = "<group>"; };
+		3F2506C125F2B8860049ED54 /* Apperance+Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Apperance+Theme.swift"; sourceTree = "<group>"; };
 		53BCB0DA253A72AD00620960 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		53BCB0E1253A72E000620960 /* FluentUIResources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentUIResources.swift; sourceTree = "<group>"; };
 		53BCB0EC253A75BB00620960 /* AvatarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
@@ -295,7 +297,8 @@
 		3F1B016425EDC6C400EE262E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				3F1B016525EDC6E200EE262E /* Color+Apperance.swift */,
+				3F2506C125F2B8860049ED54 /* Apperance+Theme.swift */,
+				3F1B016525EDC6E200EE262E /* Color+Theme.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -822,11 +825,12 @@
 				53BCB102253A75EF00620960 /* Separator.swift in Sources */,
 				80117A8322E0E63E00813D59 /* CalendarHeaderView.swift in Sources */,
 				53BCB0ED253A75BB00620960 /* AvatarView.swift in Sources */,
+				3F2506C225F2B8860049ED54 /* Apperance+Theme.swift in Sources */,
 				53BCB0FB253A75E400620960 /* Link.swift in Sources */,
 				80117A7F22DCDF6F00813D59 /* CalendarView.swift in Sources */,
 				53BCB0E2253A72E000620960 /* FluentUIResources.swift in Sources */,
 				8061BF7E22EF936800F2D245 /* DatePickerView.swift in Sources */,
-				3F1B016625EDC6E200EE262E /* Color+Apperance.swift in Sources */,
+				3F1B016625EDC6E200EE262E /* Color+Theme.swift in Sources */,
 				8061BF7F22EF936800F2D245 /* DatePickerController.swift in Sources */,
 				53BCB0F4253A75CF00620960 /* Button.swift in Sources */,
 			);
