@@ -156,6 +156,7 @@ open class SegmentedControl: UIControl {
         static let selectionBarHeight: CGFloat = 1.5
         static let pillHorizontalInset: CGFloat = 16
         static let pillButtonInsets = UIEdgeInsets(top: 6, left: 16, bottom: 6, right: 16)
+        static let pillButtonCornerRadius: CGFloat = 16
     }
 
     open override var isEnabled: Bool {
@@ -210,11 +211,13 @@ open class SegmentedControl: UIControl {
     private let pillContainerView: UIView = {
         let view = UIView()
         view.layer.cornerCurve = .continuous
+
         return view
     }()
     private let pillMaskedLabelsContainerView: UIView = {
         let view = UIView()
         view.layer.cornerCurve = .continuous
+
         return view
     }()
     private var pillMaskedLabels = [UILabel]()
@@ -260,7 +263,15 @@ open class SegmentedControl: UIControl {
 
         super.init(frame: .zero)
 
-        if style == .primaryPill || style == .onBrandPill {
+        switch style {
+        case .tabs:
+            addSubview(backgroundView)
+            addButtons(titles: items)
+            // Separator must be over buttons and selection view on top of everything
+            addSubview(bottomSeparator)
+            addSubview(selectionView)
+        case .primaryPill, .onBrandPill:
+            backgroundView.layer.cornerRadius = Constants.pillButtonCornerRadius
             pillContainerView.addSubview(backgroundView)
             selectionView.backgroundColor = .black
             pillContainerView.addSubview(selectionView)
@@ -268,16 +279,12 @@ open class SegmentedControl: UIControl {
             pillMaskedLabelsContainerView.isUserInteractionEnabled = false
             pillContainerView.addSubview(pillMaskedLabelsContainerView)
             addButtons(titles: items)
+            // We need to add pillMaskedLabelsContainerView to the container view
+            // before the buttons in order to activate the label constraints, but
+            // we want pillMaskedLabelsContainerView to show above the buttons.
             pillContainerView.bringSubviewToFront(pillMaskedLabelsContainerView)
             pillContainerView.addInteraction(UILargeContentViewerInteraction())
             addSubview(pillContainerView)
-        }
-        if style == .tabs {
-            addSubview(backgroundView)
-            addButtons(titles: items)
-            // Separator must be over buttons and selection view on top of everything
-            addSubview(bottomSeparator)
-            addSubview(selectionView)
         }
 
         setupLayoutConstraints()
@@ -295,12 +302,13 @@ open class SegmentedControl: UIControl {
     @objc open func insertSegment(withTitle title: String, at index: Int) {
         items.insert(title, at: index)
 
-        var button = UIButton()
+        let button: UIButton
         // TODO: Add option for animated addition?
-        if style == .tabs {
+        switch style {
+        case .tabs:
             button = createTabButton(withTitle: title)
             addSubview(button)
-        } else {
+        case .primaryPill, .onBrandPill:
             button = createSwitchButton(withTitle: title)
             pillContainerView.addSubview(button)
             addMaskedPillLabel(over: button, at: index)
@@ -395,9 +403,10 @@ open class SegmentedControl: UIControl {
         for (index, button) in buttons.enumerated() {
             let screen = window?.windowScene?.screen ?? UIScreen.main
             if shouldSetEqualWidthForSegments {
-                if style == .tabs {
+                switch style {
+                case .tabs:
                     rightOffset = screen.roundToDevicePixels(CGFloat(index + 1) / CGFloat(buttons.count) * frame.width)
-                } else {
+                case .primaryPill, .onBrandPill:
                     var suggestedWidth = frame.width
 
                     if let windowWidth = window?.frame.width {
@@ -431,7 +440,6 @@ open class SegmentedControl: UIControl {
             layoutPillContainerView()
         }
         layoutSelectionView()
-        layoutBackgroundView()
 
         flipSubviewsForRTL()
     }
@@ -517,7 +525,6 @@ open class SegmentedControl: UIControl {
         button.titleLabel?.font = style.segmentTextFont
         button.addTarget(self, action: #selector(handleButtonTap(_:)), for: .touchUpInside)
         button.contentEdgeInsets = Constants.pillButtonInsets
-
         return button
     }
 
@@ -529,16 +536,14 @@ open class SegmentedControl: UIControl {
         pillMaskedLabelsContainerView.addSubview(maskedLabel)
         pillMaskedLabels.insert(maskedLabel, at: index)
 
-        var constraints = [NSLayoutConstraint]()
         if let buttonTitle = button.titleLabel {
-            constraints.append(contentsOf: [
+            NSLayoutConstraint.activate([
                 buttonTitle.leadingAnchor.constraint(equalTo: maskedLabel.leadingAnchor),
                 buttonTitle.trailingAnchor.constraint(equalTo: maskedLabel.trailingAnchor),
                 buttonTitle.topAnchor.constraint(equalTo: maskedLabel.topAnchor),
                 buttonTitle.bottomAnchor.constraint(equalTo: maskedLabel.bottomAnchor)
                 ])
         }
-        NSLayoutConstraint.activate(constraints)
     }
 
     @objc private func handleButtonTap(_ sender: UIButton) {
@@ -546,11 +551,6 @@ open class SegmentedControl: UIControl {
             selectSegment(at: index, animated: isAnimated)
             sendActions(for: .valueChanged)
         }
-    }
-
-    private func layoutBackgroundView() {
-        let cornerRadius = style.backgroundHasRoundedCorners ? bounds.height / 2 : 0
-        backgroundView.layer.cornerRadius = cornerRadius
     }
 
     private func layoutPillContainerView() {
@@ -610,7 +610,7 @@ open class SegmentedControl: UIControl {
             )
         case .primaryPill, .onBrandPill:
             selectionView.frame = button.frame
-            selectionView.layer.cornerRadius = selectionView.frame.height / 2
+            selectionView.layer.cornerRadius = Constants.pillButtonCornerRadius
         }
     }
 
