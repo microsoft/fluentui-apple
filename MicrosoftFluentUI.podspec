@@ -81,8 +81,7 @@ Pod::Spec.new do |s|
                                                              "ios/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
     core_ios.source_files = ["ios/FluentUI/Configuration/**/*.{swift,h}",
                              "ios/FluentUI/Core/**/*.{swift,h}",
-                             "ios/FluentUI/Extensions/**/*.{swift,h}",
-                             "ios/FluentUI/Vnext/Core/FluentUIStyle.generated.swift"]
+                             "ios/FluentUI/Extensions/**/*.{swift,h}"]
   end
 
   s.subspec 'DotView_ios' do |dotview_ios|
