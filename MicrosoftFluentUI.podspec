@@ -290,6 +290,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'DynamicColor_mac' do |dynamiccolor_mac|
     dynamiccolor_mac.platform = :osx
+    button_mac.dependency 'MicrosoftFluentUI/Appearance_mac'
     dynamiccolor_mac.source_files = ["macos/FluentUI/DynamicColor/**/*.{swift,h}"]
   end
 
