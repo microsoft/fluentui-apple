@@ -290,7 +290,7 @@ Pod::Spec.new do |s|
   s.subspec 'DatePicker_mac' do |datepicker_mac|
     datepicker_mac.platform = :osx
     datepicker_mac.dependency 'MicrosoftFluentUI/Core_mac'
-    datepicker_mac.dependency 'MicrosoftFluentUI/DynamicColor_mac'
+    datepicker_mac.dependency 'MicrosoftFluentUI/Appearance_mac'
     datepicker_mac.source_files = ["macos/FluentUI/DatePicker/**/*.{swift,h}"]
   end
 
