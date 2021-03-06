@@ -19,8 +19,9 @@ class LargeTitleView: UIView {
         static let compactAvatarSize: AvatarLegacySize = .small
         static let avatarSize: AvatarLegacySize = .medium
 
-        static let compactTitleFont = Fonts.title1.withSize(26)
-        static let titleFont = Fonts.largeTitle.withSize(30)
+        // Once we are iOS 14 minimum, we can use Fonts.largeTitle.withSize() function instead
+        static let compactTitleFont = UIFont.systemFont(ofSize: 26, weight: .bold)
+        static let titleFont = UIFont.systemFont(ofSize: 30, weight: .bold)
     }
 
     var avatar: Avatar? {
