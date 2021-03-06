@@ -415,6 +415,7 @@ open class AvatarView: NSView {
 
 	open override func viewWillMove(toWindow newWindow: NSWindow?) {
 		super.viewWillMove(toWindow: newWindow)
+		updateAppearance(newWindow?.effectiveAppearance)
 
 		guard let window = newWindow else {
 			appearanceObserver = nil
