@@ -220,7 +220,7 @@ public class HUD: NSObject {
             presentedHUDView.transform = CGAffineTransform(scaleX: Constants.hideAnimationScale, y: Constants.hideAnimationScale)
         }
 
-        let completion = { (finished: Bool) in
+        let completion = { (_ finished: Bool) in
             guard presentedHUDView === presentedHUDView else {
                 // HUD has been shown before it finished being hidden
                 return
