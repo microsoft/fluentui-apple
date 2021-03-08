@@ -4,9 +4,13 @@ on:
   push:
     branches:
       - main
+      - main_0.1
+      - vnext-prototype
   pull_request:
     branches:
       - main
+      - main_0.1
+      - vnext-prototype
 
 jobs:
   xcodebuild:
