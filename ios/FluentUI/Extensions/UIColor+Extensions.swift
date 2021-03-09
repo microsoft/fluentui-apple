@@ -35,14 +35,14 @@ import UIKit
 
     convenience init(light: UIColor, lightHighContrast: UIColor? = nil, lightElevated: UIColor? = nil, lightElevatedHighContrast: UIColor? = nil, dark: UIColor? = nil, darkHighContrast: UIColor? = nil, darkElevated: UIColor? = nil, darkElevatedHighContrast: UIColor? = nil) {
         self.init { traits -> UIColor in
-            let getColorForContrast = { (default: UIColor?, highContrast: UIColor?) -> UIColor? in
+            let getColorForContrast = { (_ default: UIColor?, highContrast: UIColor?) -> UIColor? in
                 if traits.accessibilityContrast == .high, let color = highContrast {
                     return color
                 }
                 return `default`
             }
 
-            let getColor = { (default: UIColor?, highContrast: UIColor?, elevated: UIColor?, elevatedHighContrast: UIColor?) -> UIColor? in
+            let getColor = { (_ default: UIColor?, highContrast: UIColor?, elevated: UIColor?, elevatedHighContrast: UIColor?) -> UIColor? in
                 if traits.userInterfaceLevel == .elevated,
                     let color = getColorForContrast(elevated, elevatedHighContrast) {
                     return color

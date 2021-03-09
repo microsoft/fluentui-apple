@@ -77,4 +77,8 @@ else
 	echo "CI Build Succeeded"
 fi
 
+echo "Pod lib lint"
+POD_LINT_SCRIPT='scripts/podliblint.sh'
+$POD_LINT_SCRIPT
+
 exit $EXIT_CODE
