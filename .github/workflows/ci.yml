@@ -39,5 +39,5 @@ jobs:
       run: scripts/xcode_select_current_version.sh
     - name: scripts/xcodebuild_wrapper.sh ${{ matrix.build_command }}
       run: scripts/xcodebuild_wrapper.sh ${{ matrix.build_command }}
-    - script: pod lib lint
-      displayName: pod lib lint
+    - name: pod lib lint
+      run: scripts/podliblint.sh
