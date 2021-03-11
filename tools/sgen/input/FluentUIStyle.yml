@@ -273,6 +273,7 @@ AP_MSFListCellTokens:
 
 MSFPersonaTokens extends MSFListCellTokens:
   cellHeight: [ twoLines: 84pt]
+  footnoteFont: $Typography.footnote
   iconInterspace: $Spacing.small
   labelAccessoryInterspace: $Spacing.xxxSmall
   labelAccessorySize: $Icon.size.xSmall

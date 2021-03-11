@@ -195,6 +195,11 @@ extension FluentUIStyle {
 		}
 
 
+		// MARK: - footnoteFont 
+		open override var footnoteFont: UIFont {
+			return mainProxy().Typography.footnote
+		}
+
 		// MARK: - iconInterspace 
 		open override var iconInterspace: CGFloat {
 			return mainProxy().Spacing.small
