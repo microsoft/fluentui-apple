@@ -21,6 +21,9 @@ Colors:
     - brandPressed: "FluentUIColor(light: $Colors.Brand.shade30, dark: $Colors.Brand.shade30)"
     - brandSelected: "FluentUIColor(light: $Colors.Brand.shade20, dark: $Colors.Brand.shade20)"
     - brandDisabled: "FluentUIColor(light: NamedColor(grey88), dark: NamedColor(grey84))"
+    - surfacePrimary: "FluentUIColor(light: NamedColor(white), dark: NamedColor(black), darkElevated: NamedColor(gray950))"
+    - surfaceSecondary: "FluentUIColor(light: NamedColor(gray25), dark: NamedColor(gray950), darkElevated: NamedColor(gray900))"
+    - surfaceQuaternary: "FluentUIColor(light: NamedColor(gray100), dark: NamedColor(gray600))"
 
   Elevation:
     - lowElevation1: "FluentUIColor(light: $Colors.Shadow.opacity14, dark: $Colors.Shadow.opacity28)"
@@ -320,9 +323,13 @@ MSFPrimaryHeaderTokens extends MSFHeaderFooterTokens:
   textFont: $Typography.headline
   topPadding: $Spacing.medium
 
-AP_MSFDrawerTokens:
+AP_DrawerTokens:
   backgroundClearColor: NamedColor(clear)
   backgroundDimmedColor: $Colors.Elevation.highElevation
+  drawerContentBackground: "FluentUIColor(light: $Colors.Background.surfacePrimary, dark: $Colors.Background.surfaceSecondary)"
+  popoverContentBackground: "FluentUIColor(light: $Colors.Background.surfacePrimary, dark: $Colors.Background.surfaceQuaternary)"
+  navigationBarBackground: "FluentUIColor(light: $Colors.Background.surfacePrimary, dark: NamedColor(gray900))"
+  resizingHandleViewBackgroundColor: NamedColor(clear)
   shadow1Color: $Shadow.shadow28.color1
   shadow1Blur: $Shadow.shadow28.blur1
   shadow1OffsetX: $Shadow.shadow28.x1
@@ -331,3 +338,9 @@ AP_MSFDrawerTokens:
   shadow2Blur: $Shadow.shadow28.blur2
   shadow2OffsetX: $Shadow.shadow28.x2
   shadow2OffsetY: $Shadow.shadow28.y2
+  minMargin: [horizontal: 44pt, vertical: 20pt]
+  cornerRadius: 14pt
+  dropShadowRadius: 4pt
+  dropShadowOffset: 2pt
+  dropShadowOpacity: 0.05f
+  verticalShadowOffset: 8pt

@@ -6,11 +6,6 @@
 import UIKit
 
 class DrawerShadowView: UIView {
-    private struct Constants {
-        static let shadowRadius: CGFloat = 4
-        static let shadowOffset: CGFloat = 2
-        static let shadowOpacity: Float = 0.05
-    }
 
     static func shadowOffsetForPresentedView(with presentationDirection: DrawerPresentationDirection, offset: CGFloat) -> UIEdgeInsets {
         var margins: UIEdgeInsets = .zero
@@ -73,9 +68,9 @@ class DrawerShadowView: UIView {
     }
 
     func updateApperance() {
-        layer.shadowRadius = Constants.shadowRadius
+        layer.shadowRadius = drawerToken.dropShadowRadius
         layer.shadowOffset = shadowOffset(for: shadowDirection)
-        layer.shadowOpacity = Constants.shadowOpacity
+        layer.shadowOpacity = drawerToken.dropShadowOpacity
     }
 
     override func didMoveToSuperview() {
@@ -102,13 +97,13 @@ class DrawerShadowView: UIView {
         if let shadowDirection = shadowDirection {
             switch shadowDirection {
             case .down:
-                offset.height = Constants.shadowOffset
+                offset.height = drawerToken.dropShadowOffset
             case .up:
-                offset.height = -Constants.shadowOffset
+                offset.height = -drawerToken.dropShadowOffset
             case .fromLeading:
-                offset.width = Constants.shadowOffset
+                offset.width = drawerToken.dropShadowOffset
             case .fromTrailing:
-                offset.width = -Constants.shadowOffset
+                offset.width = -drawerToken.dropShadowOffset
             }
         }
         return offset

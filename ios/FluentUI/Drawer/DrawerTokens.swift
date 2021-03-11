@@ -8,16 +8,27 @@ import SwiftUI
 /// `DrawerTokens` assist to configure drawer apperance via UIKit components.
 class DrawerTokens: MSFTokensBase, ObservableObject {
 
-    public var shadow1Color: Color!
+    public var shadow1Color: UIColor!
     public var shadow1Blur: CGFloat!
     public var shadow1DepthX: CGFloat!
     public var shadow1DepthY: CGFloat!
-    public var shadow2Color: Color!
+    public var shadow2Color: UIColor!
     public var shadow2Blur: CGFloat!
     public var shadow2DepthX: CGFloat!
     public var shadow2DepthY: CGFloat!
-    public var backgroundDimmedColor: Color!
-    public var backgroundClearColor: Color!
+    public var backgroundDimmedColor: UIColor!
+    public var backgroundClearColor: UIColor!
+    public var drawerContentBackground: UIColor!
+    public var popoverContentBackground: UIColor!
+    public var navigationBarBackground: UIColor!
+    public var resizingHandleViewBackgroundColor: UIColor!
+    public var cornerRadius: CGFloat!
+    public var dropShadowRadius: CGFloat!
+    public var dropShadowOffset: CGFloat!
+    public var dropShadowOpacity: Float!
+    public var minHorizontalMargin: CGFloat!
+    public var minVerticalMargin: CGFloat!
+    public var verticalShadowOffset: CGFloat!
 
     /// callback for theme change
     public var themeChanged: (() -> Void)?
@@ -39,15 +50,26 @@ class DrawerTokens: MSFTokensBase, ObservableObject {
     override func updateForCurrentTheme() {
         let appearanceProxy = theme.DrawerTokens
 
-        shadow1Color = Color(appearanceProxy.shadow1Color)
+        shadow1Color = appearanceProxy.shadow1Color
         shadow1Blur = appearanceProxy.shadow1Blur
         shadow1DepthX = appearanceProxy.shadow1OffsetX
         shadow1DepthY = appearanceProxy.shadow1OffsetY
-        shadow2Color = Color(appearanceProxy.shadow2Color)
+        shadow2Color = appearanceProxy.shadow2Color
         shadow2Blur = appearanceProxy.shadow2Blur
         shadow2DepthX = appearanceProxy.shadow2OffsetX
         shadow2DepthY = appearanceProxy.shadow2OffsetY
-        backgroundClearColor = Color(appearanceProxy.backgroundClearColor)
-        backgroundDimmedColor = Color(appearanceProxy.backgroundDimmedColor)
+        backgroundClearColor = appearanceProxy.backgroundClearColor
+        backgroundDimmedColor = appearanceProxy.backgroundDimmedColor
+        drawerContentBackground = appearanceProxy.drawerContentBackground
+        popoverContentBackground = appearanceProxy.popoverContentBackground
+        navigationBarBackground = appearanceProxy.navigationBarBackground
+        resizingHandleViewBackgroundColor = appearanceProxy.resizingHandleViewBackgroundColor
+        cornerRadius = appearanceProxy.cornerRadius
+        dropShadowRadius = appearanceProxy.dropShadowRadius
+        dropShadowOffset = appearanceProxy.dropShadowOffset
+        dropShadowOpacity = Float(appearanceProxy.dropShadowOpacity)
+        minHorizontalMargin = appearanceProxy.minMargin.horizontal
+        minVerticalMargin = appearanceProxy.minMargin.vertical
+        verticalShadowOffset = appearanceProxy.verticalShadowOffset
     }
 }

@@ -25,11 +25,6 @@ protocol DrawerPresentationControllerDelegate: AnyObject {
 // MARK: DrawerPresentationController
 
 class DrawerPresentationController: UIPresentationController {
-    private struct Constants {
-        static let cornerRadius: CGFloat = 14
-        static let minHorizontalMargin: CGFloat = 44
-        static let minVerticalMargin: CGFloat = 20
-    }
 
     let presentationDirection: DrawerPresentationDirection
 
@@ -422,18 +417,18 @@ class DrawerPresentationController: UIPresentationController {
         switch presentationDirection {
         case .down:
             margins.top = presentationOffsetMargin
-            margins.bottom = max(Constants.minVerticalMargin, containerView.safeAreaInsets.bottom)
+            margins.bottom = max(drawerToken.minVerticalMargin, containerView.safeAreaInsets.bottom)
         case .up:
-            margins.top = max(Constants.minVerticalMargin, containerView.safeAreaInsets.top)
+            margins.top = max(drawerToken.minVerticalMargin, containerView.safeAreaInsets.top)
             margins.bottom = presentationOffsetMargin
             if actualPresentationOffset == 0 && keyboardHeight > 0 {
                 margins.bottom += safeAreaPresentationOffset
             }
         case .fromLeading:
             margins.left = presentationOffsetMargin
-            margins.right = max(Constants.minHorizontalMargin, containerView.safeAreaInsets.right)
+            margins.right = max(drawerToken.minHorizontalMargin, containerView.safeAreaInsets.right)
         case .fromTrailing:
-            margins.left = max(Constants.minHorizontalMargin, containerView.safeAreaInsets.left)
+            margins.left = max(drawerToken.minHorizontalMargin, containerView.safeAreaInsets.left)
             margins.right = presentationOffsetMargin
         }
         return margins
@@ -487,7 +482,7 @@ class DrawerPresentationController: UIPresentationController {
 
         presentedView?.layer.masksToBounds = true
         presentedView?.layer.maskedCorners = maskedCorners
-        presentedView?.layer.cornerRadius = Constants.cornerRadius
+        presentedView?.layer.cornerRadius = drawerToken.cornerRadius
     }
 
     private func removePresentedViewMask() {
