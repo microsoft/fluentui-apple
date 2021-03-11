@@ -7,7 +7,7 @@ import FluentUI
 import UIKit
 import SwiftUI
 
-class LeftNavDemoController: DemoController, MSFDrawerControllerDelegate {
+class LeftNavDemoController: DemoController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,11 +15,12 @@ class LeftNavDemoController: DemoController, MSFDrawerControllerDelegate {
         addTitle(text: "Left navigation control")
         addDescription(text: "The LeftNav control is built from a composition of the Avatar, Drawer and List controls.")
 
-        container.addArrangedSubview(createButton(title: "Show Left Navigation Menu", action: { [weak self ] _ in
+        let sender = createButton(title: "Show Left Navigation Menu", action: { [weak self ] _ in
             if let strongSelf = self {
                 strongSelf.showLeftNavButtonTapped()
             }
-        }).view)
+        }).view
+        container.addArrangedSubview(sender)
 
         let isLeadingEdgeLeftToRight = view.effectiveUserInterfaceLayoutDirection == .leftToRight
 
@@ -28,12 +29,17 @@ class LeftNavDemoController: DemoController, MSFDrawerControllerDelegate {
         view.addGestureRecognizer(leadingEdgeGesture)
         navigationController?.navigationController?.interactivePopGestureRecognizer?.require(toFail: leadingEdgeGesture)
 
-        drawerController = MSFDrawer(contentViewController: LeftNavMenuViewController(menuAction: {
+        let lefNavController = LeftNavMenuViewController(menuAction: {
             self.showMessage("Menu item selected.")
-        }))
-        drawerController.delegate = self
-        drawerController.state.presentingGesture = leadingEdgeGesture
-        drawerController.state.backgroundDimmed = true
+        })
+        drawerController = DrawerController(sourceView: sender,
+                                            sourceRect: sender.bounds,
+                                            presentationDirection: .fromLeading)
+        drawerController.presentationBackground = .black
+        drawerController.preferredContentSize.width = 360
+        drawerController.resizingBehavior = .dismiss
+        drawerController.contentView = lefNavController.view
+        drawerController.presentingGesture = leadingEdgeGesture
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -46,7 +52,7 @@ class LeftNavDemoController: DemoController, MSFDrawerControllerDelegate {
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
 
-    private var drawerController: MSFDrawer!
+    private var drawerController: DrawerController!
 
     @objc private func showLeftNavButtonTapped() {
         present(drawerController, animated: true, completion: nil)

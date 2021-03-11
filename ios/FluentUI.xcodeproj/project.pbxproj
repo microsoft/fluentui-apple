@@ -19,6 +19,10 @@
 		118D9848230BBA2300BC0B72 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D9847230BBA2300BC0B72 /* TabBarItem.swift */; };
 		22010B702523CB2D00FF1F10 /* ActivityViewAnimating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22010B6F2523CB2D00FF1F10 /* ActivityViewAnimating.swift */; };
 		22EABB1A2509AAD100C4BE72 /* IndeterminateProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EABB192509AAD100C4BE72 /* IndeterminateProgressBarView.swift */; };
+		3FC2EDB325F9EA2D007AA0F8 /* DrawerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC2EDB125F9EA2D007AA0F8 /* DrawerTokens.swift */; };
+		3FC2EDB425F9EA2D007AA0F8 /* DrawerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC2EDB125F9EA2D007AA0F8 /* DrawerTokens.swift */; };
+		3FC2EDB525F9EA2D007AA0F8 /* DrawerTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC2EDB225F9EA2D007AA0F8 /* DrawerTokens.generated.swift */; };
+		3FC2EDB625F9EA2D007AA0F8 /* DrawerTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC2EDB225F9EA2D007AA0F8 /* DrawerTokens.generated.swift */; };
 		497DC2D924185885008D86F8 /* PillButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D724185885008D86F8 /* PillButtonBar.swift */; };
 		497DC2DB24185885008D86F8 /* PillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D824185885008D86F8 /* PillButton.swift */; };
 		5314E00425F00A300099271A /* ActivityViewAnimating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22010B6F2523CB2D00FF1F10 /* ActivityViewAnimating.swift */; };
@@ -150,18 +154,6 @@
 		5314E2F525F025C60099271A /* CalendarConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF41ED82141A02200EC527C /* CalendarConfiguration.swift */; };
 		5314E30225F0260E0099271A /* AccessibilityContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77752A219E455A00033D58 /* AccessibilityContainerView.swift */; };
 		5314E30325F0260E0099271A /* AccessibleViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD599D052134A682008845EE /* AccessibleViewDelegate.swift */; };
-		536AEF3F25F1EC0300A36206 /* Drawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF2325F1EC0300A36206 /* Drawer.swift */; };
-		536AEF4025F1EC0300A36206 /* Drawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF2325F1EC0300A36206 /* Drawer.swift */; };
-		536AEF4125F1EC0300A36206 /* SlideOverPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF2425F1EC0300A36206 /* SlideOverPanel.swift */; };
-		536AEF4225F1EC0300A36206 /* SlideOverPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF2425F1EC0300A36206 /* SlideOverPanel.swift */; };
-		536AEF4325F1EC0300A36206 /* Drawer+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF2525F1EC0300A36206 /* Drawer+UIKit.swift */; };
-		536AEF4425F1EC0300A36206 /* Drawer+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF2525F1EC0300A36206 /* Drawer+UIKit.swift */; };
-		536AEF4525F1EC0300A36206 /* SideOverPanel+Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF2625F1EC0300A36206 /* SideOverPanel+Modifiers.swift */; };
-		536AEF4625F1EC0300A36206 /* SideOverPanel+Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF2625F1EC0300A36206 /* SideOverPanel+Modifiers.swift */; };
-		536AEF4725F1EC0300A36206 /* MSFDrawerTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF2725F1EC0300A36206 /* MSFDrawerTokens.generated.swift */; };
-		536AEF4825F1EC0300A36206 /* MSFDrawerTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF2725F1EC0300A36206 /* MSFDrawerTokens.generated.swift */; };
-		536AEF4925F1EC0300A36206 /* DrawerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF2825F1EC0300A36206 /* DrawerTokens.swift */; };
-		536AEF4A25F1EC0300A36206 /* DrawerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF2825F1EC0300A36206 /* DrawerTokens.swift */; };
 		536AEF4B25F1EC0300A36206 /* FluentUIStyle.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF2A25F1EC0300A36206 /* FluentUIStyle.generated.swift */; };
 		536AEF4C25F1EC0300A36206 /* FluentUIStyle.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF2A25F1EC0300A36206 /* FluentUIStyle.generated.swift */; };
 		536AEF4D25F1EC0300A36206 /* UIKit+SwiftUI_interoperability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF2B25F1EC0300A36206 /* UIKit+SwiftUI_interoperability.swift */; };
@@ -379,14 +371,10 @@
 		118D9847230BBA2300BC0B72 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		22010B6F2523CB2D00FF1F10 /* ActivityViewAnimating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewAnimating.swift; sourceTree = "<group>"; };
 		22EABB192509AAD100C4BE72 /* IndeterminateProgressBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarView.swift; sourceTree = "<group>"; };
+		3FC2EDB125F9EA2D007AA0F8 /* DrawerTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawerTokens.swift; sourceTree = "<group>"; };
+		3FC2EDB225F9EA2D007AA0F8 /* DrawerTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawerTokens.generated.swift; sourceTree = "<group>"; };
 		497DC2D724185885008D86F8 /* PillButtonBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBar.swift; sourceTree = "<group>"; };
 		497DC2D824185885008D86F8 /* PillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
-		536AEF2325F1EC0300A36206 /* Drawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Drawer.swift; sourceTree = "<group>"; };
-		536AEF2425F1EC0300A36206 /* SlideOverPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideOverPanel.swift; sourceTree = "<group>"; };
-		536AEF2525F1EC0300A36206 /* Drawer+UIKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Drawer+UIKit.swift"; sourceTree = "<group>"; };
-		536AEF2625F1EC0300A36206 /* SideOverPanel+Modifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SideOverPanel+Modifiers.swift"; sourceTree = "<group>"; };
-		536AEF2725F1EC0300A36206 /* MSFDrawerTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFDrawerTokens.generated.swift; sourceTree = "<group>"; };
-		536AEF2825F1EC0300A36206 /* DrawerTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawerTokens.swift; sourceTree = "<group>"; };
 		536AEF2A25F1EC0300A36206 /* FluentUIStyle.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentUIStyle.generated.swift; sourceTree = "<group>"; };
 		536AEF2B25F1EC0300A36206 /* UIKit+SwiftUI_interoperability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIKit+SwiftUI_interoperability.swift"; sourceTree = "<group>"; };
 		536AEF2C25F1EC0300A36206 /* Theming.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theming.swift; sourceTree = "<group>"; };
@@ -796,6 +784,7 @@
 			isa = PBXGroup;
 			children = (
 				536AEF3B25F1EC0300A36206 /* Avatar */,
+				536AEF2925F1EC0300A36206 /* Core */,
 				536AEF2E25F1EC0300A36206 /* Button */,
 				536AEF2925F1EC0300A36206 /* Core */,
 				536AEF2225F1EC0300A36206 /* Drawer */,
@@ -803,19 +792,6 @@
 				536AEF3225F1EC0300A36206 /* List */,
 			);
 			path = Vnext;
-			sourceTree = "<group>";
-		};
-		536AEF2225F1EC0300A36206 /* Drawer */ = {
-			isa = PBXGroup;
-			children = (
-				536AEF2325F1EC0300A36206 /* Drawer.swift */,
-				536AEF2425F1EC0300A36206 /* SlideOverPanel.swift */,
-				536AEF2525F1EC0300A36206 /* Drawer+UIKit.swift */,
-				536AEF2625F1EC0300A36206 /* SideOverPanel+Modifiers.swift */,
-				536AEF2725F1EC0300A36206 /* MSFDrawerTokens.generated.swift */,
-				536AEF2825F1EC0300A36206 /* DrawerTokens.swift */,
-			);
-			path = Drawer;
 			sourceTree = "<group>";
 		};
 		536AEF2925F1EC0300A36206 /* Core */ = {
@@ -923,6 +899,8 @@
 				A5B87AF5211E16360038C37C /* DrawerPresentationController.swift */,
 				A5B87AF4211E16360038C37C /* DrawerTransitionAnimator.swift */,
 				A5237ACC21ED6CA70040BF27 /* DrawerShadowView.swift */,
+				3FC2EDB225F9EA2D007AA0F8 /* DrawerTokens.generated.swift */,
+				3FC2EDB125F9EA2D007AA0F8 /* DrawerTokens.swift */,
 			);
 			path = Drawer;
 			sourceTree = "<group>";
@@ -1543,6 +1521,7 @@
 				5314E12B25F016230099271A /* PillButtonBar.swift in Sources */,
 				5314E07E25F00F1A0099271A /* DateTimePickerView.swift in Sources */,
 				5314E07625F00F160099271A /* DateTimePickerController.swift in Sources */,
+				3FC2EDB625F9EA2D007AA0F8 /* DrawerTokens.generated.swift in Sources */,
 				5314E11325F015EA0099271A /* Persona.swift in Sources */,
 				536AEF6425F1EC0300A36206 /* List.swift in Sources */,
 				5314E14525F016860099271A /* CardPresentationController.swift in Sources */,
@@ -1586,12 +1565,10 @@
 				5314E19525F019650099271A /* TabBarItemView.swift in Sources */,
 				5314E03C25F00E3D0099271A /* BadgeField.swift in Sources */,
 				5314E05B25F00EF50099271A /* CalendarView.swift in Sources */,
-				536AEF4625F1EC0300A36206 /* SideOverPanel+Modifiers.swift in Sources */,
 				5314E28125F0240D0099271A /* DateComponents+Extensions.swift in Sources */,
 				536AEF5025F1EC0300A36206 /* Theming.swift in Sources */,
 				5314E07025F00F140099271A /* DatePickerController.swift in Sources */,
 				5314E12025F015EA0099271A /* ContactView.swift in Sources */,
-				536AEF4025F1EC0300A36206 /* Drawer.swift in Sources */,
 				5314E11C25F015EA0099271A /* AvatarView.swift in Sources */,
 				5314E0AA25F010070099271A /* DrawerShadowView.swift in Sources */,
 				5314E0E725F012C00099271A /* UINavigationItem+Navigation.swift in Sources */,
@@ -1607,9 +1584,6 @@
 				5314E2D125F0251E0099271A /* iOS13_4_compatibility.swift in Sources */,
 				5314E11425F015EA0099271A /* AvatarData.swift in Sources */,
 				5314E14E25F016CD0099271A /* ResizingHandleView.swift in Sources */,
-				536AEF4225F1EC0300A36206 /* SlideOverPanel.swift in Sources */,
-				536AEF4825F1EC0300A36206 /* MSFDrawerTokens.generated.swift in Sources */,
-				536AEF4425F1EC0300A36206 /* Drawer+UIKit.swift in Sources */,
 				536AEF5E25F1EC0300A36206 /* ListCell.swift in Sources */,
 				5314E1A625F01A7C0099271A /* BooleanCell.swift in Sources */,
 				5314E0BC25F0106F0099271A /* HUDView.swift in Sources */,
@@ -1687,8 +1661,8 @@
 				5314E05A25F00EF50099271A /* CalendarViewLayout.swift in Sources */,
 				536AEF5425F1EC0300A36206 /* MSFButtonTokens.generated.swift in Sources */,
 				0ACD82122620451F0035CD9F /* MSFPersonaViewTokens.generated.swift in Sources */,
+				3FC2EDB425F9EA2D007AA0F8 /* DrawerTokens.swift in Sources */,
 				5314E1B025F01A980099271A /* Tooltip.swift in Sources */,
-				536AEF4A25F1EC0300A36206 /* DrawerTokens.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1713,6 +1687,7 @@
 				FD41C89C22DD13230086F899 /* SearchBar.swift in Sources */,
 				A5B87AF8211E16370038C37C /* DrawerPresentationController.swift in Sources */,
 				FD36F1A9216C0A6900CECBC6 /* CardPresentationController.swift in Sources */,
+				3FC2EDB525F9EA2D007AA0F8 /* DrawerTokens.generated.swift in Sources */,
 				B426613E214731D100E25423 /* InitialsView.swift in Sources */,
 				536AEF6325F1EC0300A36206 /* List.swift in Sources */,
 				FC414E252588798000069E73 /* CommandBarButtonGroupView.swift in Sources */,
@@ -1757,12 +1732,10 @@
 				B483323521DEA8D70022B4CC /* HUD.swift in Sources */,
 				C708B056260A86FA007190FA /* SegmentPillButton.swift in Sources */,
 				A5B87B06211E23650038C37C /* UIView+Extensions.swift in Sources */,
-				536AEF4525F1EC0300A36206 /* SideOverPanel+Modifiers.swift in Sources */,
 				7D0931C324AAAC9B0072458A /* SideTabBar.swift in Sources */,
 				536AEF4F25F1EC0300A36206 /* Theming.swift in Sources */,
 				A5961FA7218A2E4500E2A506 /* UIImage+Extensions.swift in Sources */,
 				B4BA27882319DC0D0001563C /* PersonaBadgeViewDataSource.swift in Sources */,
-				536AEF3F25F1EC0300A36206 /* Drawer.swift in Sources */,
 				8A01C86F248FFC5300C971F3 /* ContactView.swift in Sources */,
 				FD7DF06021FA83C900857267 /* TooltipPositionController.swift in Sources */,
 				FD56FD94219128BF0023C7EA /* DateTimePickerViewDataSource.swift in Sources */,
@@ -1778,9 +1751,6 @@
 				A578C4A22321CFD6002D5C40 /* AvatarData.swift in Sources */,
 				B444D6B62183A9740002B4D4 /* BadgeView.swift in Sources */,
 				FD7254E72146E946002F4069 /* CalendarViewDayCell.swift in Sources */,
-				536AEF4125F1EC0300A36206 /* SlideOverPanel.swift in Sources */,
-				536AEF4725F1EC0300A36206 /* MSFDrawerTokens.generated.swift in Sources */,
-				536AEF4325F1EC0300A36206 /* Drawer+UIKit.swift in Sources */,
 				536AEF5D25F1EC0300A36206 /* ListCell.swift in Sources */,
 				A589F854211BA03200471C23 /* Label.swift in Sources */,
 				A56CE7B622E68A7800AA77EE /* UIColor+Extensions.swift in Sources */,
@@ -1857,8 +1827,8 @@
 				A5DCA76421224026005F4CB7 /* Separator.swift in Sources */,
 				536AEF5325F1EC0300A36206 /* MSFButtonTokens.generated.swift in Sources */,
 				0ACD82112620451F0035CD9F /* MSFPersonaViewTokens.generated.swift in Sources */,
+				3FC2EDB325F9EA2D007AA0F8 /* DrawerTokens.swift in Sources */,
 				FD599D062134A682008845EE /* AccessibleViewDelegate.swift in Sources */,
-				536AEF4925F1EC0300A36206 /* DrawerTokens.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

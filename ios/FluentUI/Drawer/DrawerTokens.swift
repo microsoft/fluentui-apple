@@ -6,18 +6,21 @@
 import SwiftUI
 
 /// `DrawerTokens` assist to configure drawer apperance via UIKit components.
-class MSFDrawerTokens: MSFTokensBase, ObservableObject {
+class DrawerTokens: MSFTokensBase, ObservableObject {
 
-    @Published public var shadow1Color: Color!
-    @Published public var shadow1Blur: CGFloat!
-    @Published public var shadow1DepthX: CGFloat!
-    @Published public var shadow1DepthY: CGFloat!
-    @Published public var shadow2Color: Color!
-    @Published public var shadow2Blur: CGFloat!
-    @Published public var shadow2DepthX: CGFloat!
-    @Published public var shadow2DepthY: CGFloat!
-    @Published public var backgroundDimmedColor: Color!
-    @Published public var backgroundClearColor: Color!
+    public var shadow1Color: Color!
+    public var shadow1Blur: CGFloat!
+    public var shadow1DepthX: CGFloat!
+    public var shadow1DepthY: CGFloat!
+    public var shadow2Color: Color!
+    public var shadow2Blur: CGFloat!
+    public var shadow2DepthX: CGFloat!
+    public var shadow2DepthY: CGFloat!
+    public var backgroundDimmedColor: Color!
+    public var backgroundClearColor: Color!
+
+    /// callback for theme change
+    public var themeChanged: (() -> Void)?
 
     override init() {
         super.init()
@@ -28,10 +31,13 @@ class MSFDrawerTokens: MSFTokensBase, ObservableObject {
 
     @objc open func didChangeAppearanceProxy() {
         updateForCurrentTheme()
+        if let themeChanged = themeChanged {
+            themeChanged()
+        }
     }
 
     override func updateForCurrentTheme() {
-        let appearanceProxy = theme.MSFDrawerTokens
+        let appearanceProxy = theme.DrawerTokens
 
         shadow1Color = Color(appearanceProxy.shadow1Color)
         shadow1Blur = appearanceProxy.shadow1Blur

@@ -41,10 +41,11 @@ class DrawerPresentationController: UIPresentationController {
          presentingViewController: UIViewController?,
          source: UIViewController,
          presentationDirection: DrawerPresentationDirection,
-         adjustHeightForKeyboard: Bool) {
+         adjustHeightForKeyboard: Bool,
+         drawerToken: DrawerTokens) {
         sourceViewController = source
         self.presentationDirection = presentationDirection
-
+        self.drawerToken = drawerToken
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
 
         if adjustHeightForKeyboard {
@@ -87,10 +88,12 @@ class DrawerPresentationController: UIPresentationController {
     // Shadow behind presented view (cannot be done on presented view itself because it's masked)
     private lazy var shadowView: DrawerShadowView = {
         // Uses function initializer to workaround a Swift compiler bug in Xcode 10.1
-        return DrawerShadowView(shadowDirection: actualPresentationOffset == 0 ? presentationDirection : nil)
+        return DrawerShadowView(shadowDirection: actualPresentationOffset == 0 ? presentationDirection : nil, token: drawerToken)
     }()
     // Imitates the bottom shadow of navigation bar or top shadow of toolbar because original ones are hidden by presented view
     private lazy var separator = Separator(style: .shadow)
+    // Token for drawer stylesheet
+    private var drawerToken: DrawerTokens
 
     // MARK: Presentation
 
@@ -286,6 +289,11 @@ class DrawerPresentationController: UIPresentationController {
             setContentViewFrame(newFrame)
             isUpdatingContentViewFrame = false
         }
+    }
+
+    func updateApperance() {
+        shadowView.updateApperance()
+        backgroundView.backgroundColor = .clear
     }
 
     private func setContentViewFrame(_ frame: CGRect) {

@@ -45,11 +45,15 @@ class DrawerShadowView: UIView {
 
     private var animationDuration: TimeInterval = 0
 
-    init(shadowDirection: DrawerPresentationDirection?) {
+    private var shadowDirection: DrawerPresentationDirection?
+
+    private var drawerToken: DrawerTokens
+
+    init(shadowDirection: DrawerPresentationDirection?, token: DrawerTokens) {
+        self.drawerToken = token
         super.init(frame: .zero)
-        layer.shadowRadius = Constants.shadowRadius
-        layer.shadowOffset = shadowOffset(for: shadowDirection)
-        layer.shadowOpacity = Constants.shadowOpacity
+        self.shadowDirection = shadowDirection
+        updateApperance()
         isAccessibilityElement = false
         isUserInteractionEnabled = false
     }
@@ -66,6 +70,12 @@ class DrawerShadowView: UIView {
         animationDuration = duration
         animations()
         animationDuration = 0
+    }
+
+    func updateApperance() {
+        layer.shadowRadius = Constants.shadowRadius
+        layer.shadowOffset = shadowOffset(for: shadowDirection)
+        layer.shadowOpacity = Constants.shadowOpacity
     }
 
     override func didMoveToSuperview() {
