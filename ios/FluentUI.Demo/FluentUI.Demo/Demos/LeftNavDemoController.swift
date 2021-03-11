@@ -80,9 +80,6 @@ class LeftNavMenuViewController: UIViewController {
         super.viewDidLoad()
 
         view = leftNavView
-        leftNavAvatar.state.presence = .available
-        leftNavAvatar.state.primaryText = "Kat Larrson"
-        leftNavAvatar.state.image = UIImage(named: "avatar_kat_larsson")
     }
 
     var menuAction: (() -> Void)?
@@ -181,6 +178,7 @@ class LeftNavMenuViewController: UIViewController {
         let orgAvatar = MSFAvatar(style: .group, size: .large)
         orgAvatar.state.primaryText = "Kat Larrson"
         microsoftAccountCell.leadingView = orgAvatar.view
+        microsoftAccountCell.leadingViewSize = .large
 
         let msaAccountCell = MSFListCellState()
         msaAccountCell.layoutType = .twoLines
@@ -189,6 +187,7 @@ class LeftNavMenuViewController: UIViewController {
         let msaAvatar = MSFAvatar(style: .group, size: .large)
         msaAvatar.state.primaryText = "kat.larrson@live.com"
         msaAccountCell.leadingView = msaAvatar.view
+        msaAccountCell.leadingViewSize = .large
 
         let addAccountCell = MSFListCellState()
         addAccountCell.title = "Add Account"
@@ -206,48 +205,29 @@ class LeftNavMenuViewController: UIViewController {
 
     private var leftNavMenuList = MSFList(sections: [])
 
-    private var leftNavAccountLabelsView: UIView {
-        let nameLabel = UILabel()
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
-        nameLabel.text = "Kat Larrson"
-
-        let titleLabel = UILabel()
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.font = UIFont.preferredFont(forTextStyle: .caption2)
-        titleLabel.textColor = .darkGray
-        titleLabel.text = "Designer"
-
-        let labelsStackView = UIStackView(arrangedSubviews: [nameLabel, titleLabel])
-        labelsStackView.translatesAutoresizingMaskIntoConstraints = false
-        labelsStackView.axis = .vertical
-        labelsStackView.spacing = Constant.verticalSpacing
-
-        return labelsStackView
-    }
-
     private var leftNavAccountView: UIView {
-        let avatarView = leftNavAvatar.view
-        avatarView.translatesAutoresizingMaskIntoConstraints = false
-        let labelsView = leftNavAccountLabelsView
+        leftNavAvatar.state.presence = .available
+        leftNavAvatar.state.primaryText = "Kat Larrson"
+        leftNavAvatar.state.secondaryText = "Designer"
+        leftNavAvatar.state.image = UIImage(named: "avatar_kat_larsson")
+        let chevron = UIImageView(image: UIImage(named: "ic_fluent_ios_chevron_right_20_filled"))
+        chevron.tintColor = Colors.Table.Cell.title
+        let state = MSFPersonaCellState(persona: leftNavAvatar, titleTrailingAccessoryView: chevron)
+        let persona = MSFListPersona(state: state)
 
-        let chevronImageView = UIImageView(image: UIImage(named: "ic_fluent_ios_chevron_right_20_filled"))
-        chevronImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
-        chevronImageView.translatesAutoresizingMaskIntoConstraints = false
+        let personaView = UIStackView(arrangedSubviews: [persona.view])
+
+        personaView.translatesAutoresizingMaskIntoConstraints = false
+        personaView.axis = .vertical
+        personaView.spacing = Constant.verticalSpacing
 
         let accountView = UIView()
-        accountView.addSubview(avatarView)
-        accountView.addSubview(labelsView)
-        accountView.addSubview(chevronImageView)
+        accountView.addSubview(personaView)
 
         accountView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            avatarView.leadingAnchor.constraint(equalTo: accountView.leadingAnchor, constant: Constant.margin),
-            avatarView.centerYAnchor.constraint(equalTo: accountView.centerYAnchor),
-            labelsView.centerYAnchor.constraint(equalTo: avatarView.centerYAnchor),
-            labelsView.leadingAnchor.constraint(equalTo: avatarView.trailingAnchor, constant: Constant.margin),
-            chevronImageView.leadingAnchor.constraint(equalTo: labelsView.trailingAnchor),
-            chevronImageView.topAnchor.constraint(equalTo: labelsView.topAnchor, constant: Constant.verticalSpacing)
+            personaView.leadingAnchor.constraint(equalTo: accountView.leadingAnchor),
+            personaView.trailingAnchor.constraint(equalTo: accountView.trailingAnchor)
         ])
 
         return accountView
@@ -268,7 +248,7 @@ class LeftNavMenuViewController: UIViewController {
         contentView.addSubview(accountView)
         contentView.addSubview(menuListView)
 
-        NSLayoutConstraint.activate([accountView.heightAnchor.constraint(equalToConstant: 100),
+        NSLayoutConstraint.activate([accountView.heightAnchor.constraint(equalToConstant: 84),
                                      contentView.topAnchor.constraint(equalTo: accountView.topAnchor),
                                      contentView.leadingAnchor.constraint(equalTo: accountView.leadingAnchor),
                                      contentView.trailingAnchor.constraint(equalTo: accountView.trailingAnchor),

@@ -6,6 +6,14 @@
 import UIKit
 import SwiftUI
 
+@objc public protocol PersonaCellProtocol {
+    var leadingView: UIView? { get }
+    var title: String { get }
+    var subtitle: String { get }
+    var titleTrailingAccessoryView: UIView? { get }
+    var subtitleTrailingAccessoryView: UIView? { get }
+}
+
 /// `MSFListCellState` contains properties that make up a cell content.
 ///
 /// `title` is the first line of text, subsequently followed by `subtitle` on the second line and `footnote` on the third line.
@@ -63,9 +71,9 @@ struct MSFListCellView: View {
     @ObservedObject var state: MSFListCellState
     @ObservedObject var tokens: MSFListCellTokens
 
-    init(state: MSFListCellState, windowProvider: FluentUIWindowProvider?) {
+    init(state: MSFListCellState, style: MSFListCellStyle = .normal, windowProvider: FluentUIWindowProvider?) {
         self.state = state
-        self.tokens = MSFListCellTokens(cellLeadingViewSize: state.leadingViewSize)
+        self.tokens = MSFListCellTokens(cellLeadingViewSize: state.leadingViewSize, style: style)
         self.tokens.windowProvider = windowProvider
     }
 
@@ -81,6 +89,7 @@ struct MSFListCellView: View {
                 let hasTitle = !state.title.isEmpty
                 let labelAccessoryInterspace = tokens.labelAccessoryInterspace
                 let labelAccessorySize = tokens.labelAccessorySize
+                let sublabelAccessorySize = tokens.sublabelAccessorySize
 
                 if let leadingView = state.leadingView {
                     UIViewAdapter(leadingView)
@@ -111,7 +120,7 @@ struct MSFListCellView: View {
                     HStack(spacing: 0) {
                         if let subtitleLeadingAccessoryView = state.subtitleLeadingAccessoryView {
                             UIViewAdapter(subtitleLeadingAccessoryView)
-                                .frame(width: labelAccessorySize, height: labelAccessorySize)
+                                .frame(width: sublabelAccessorySize, height: sublabelAccessorySize)
                                 .padding(.trailing, labelAccessoryInterspace)
                         }
                         if !state.subtitle.isEmpty {
@@ -122,7 +131,7 @@ struct MSFListCellView: View {
                         }
                         if let subtitleTrailingAccessoryView = state.subtitleTrailingAccessoryView {
                             UIViewAdapter(subtitleTrailingAccessoryView)
-                                .frame(width: labelAccessorySize, height: labelAccessorySize)
+                                .frame(width: sublabelAccessorySize, height: sublabelAccessorySize)
                                 .padding(.leading, labelAccessoryInterspace)
                         }
                     }
@@ -215,4 +224,65 @@ struct ListCellButtonStyle: ButtonStyle {
             .frame(minHeight: height)
             .background(configuration.isPressed ? Color(tokens.highlightedBackgroundColor) : Color(tokens.backgroundColor))
     }
+}
+
+@objc public class MSFPersonaCellState: NSObject, ObservableObject, PersonaCellProtocol {
+    @objc @Published public var leadingView: UIView?
+    @objc @Published public var title: String
+    @objc @Published public var subtitle: String
+    @objc @Published public var persona: MSFAvatar?
+    @objc @Published public var titleTrailingAccessoryView: UIView?
+    @objc @Published public var subtitleTrailingAccessoryView: UIView?
+
+    @objc public init(persona: MSFAvatar?,
+                      titleTrailingAccessoryView: UIView? = nil,
+                      subtitleTrailingAccessoryView: UIView? = nil) {
+        self.title = persona?.state.primaryText ?? ""
+        self.subtitle = persona?.state.secondaryText ?? ""
+        self.leadingView = persona?.view
+        self.titleTrailingAccessoryView = titleTrailingAccessoryView
+        self.subtitleTrailingAccessoryView = subtitleTrailingAccessoryView
+    }
+}
+/// UIKit wrapper that exposes the SwiftUI Persona Cell implementation
+@objc open class MSFListPersona: NSObject, FluentUIWindowProvider {
+
+    @objc public init(state: MSFPersonaCellState,
+                      theme: FluentUIStyle? = nil) {
+        let cell = MSFListCellState()
+        cell.title = state.title
+        cell.subtitle = state.subtitle
+        cell.leadingView = state.leadingView
+        cell.titleTrailingAccessoryView = state.titleTrailingAccessoryView
+        cell.subtitleTrailingAccessoryView = state.subtitleTrailingAccessoryView
+
+        personaView = MSFListCellView(state: cell, style: MSFListCellStyle.persona, windowProvider: nil)
+        hostingController = UIHostingController(rootView: theme != nil ? AnyView(personaView.usingTheme(theme!)) : AnyView(personaView))
+
+        super.init()
+
+        personaView.tokens.windowProvider = self
+        view.backgroundColor = UIColor.clear
+    }
+
+    @objc public convenience init(state: MSFPersonaCellState) {
+        self.init(state: state,
+                  theme: nil)
+    }
+
+    @objc open var view: UIView {
+        return hostingController.view
+    }
+
+    @objc open var state: MSFListCellState {
+        return personaView.state
+    }
+
+    var window: UIWindow? {
+        return self.view.window
+    }
+
+    private var hostingController: UIHostingController<AnyView>!
+
+    private var personaView: MSFListCellView!
 }
