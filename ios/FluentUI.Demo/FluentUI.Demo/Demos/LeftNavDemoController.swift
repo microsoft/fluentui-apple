@@ -212,7 +212,7 @@ class LeftNavMenuViewController: UIViewController {
         leftNavAvatar.state.image = UIImage(named: "avatar_kat_larsson")
 
         let chevron = UIImageView(image: UIImage(named: "ic_fluent_ios_chevron_right_20_filled"))
-        chevron.tintColor = Colors.Table.Cell.title
+        chevron.tintColor = Colors.textPrimary
 
         let personaState = MSFPersonaCellState()
         personaState.leadingView = leftNavAvatar.view
