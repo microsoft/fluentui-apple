@@ -228,21 +228,10 @@ struct ListCellButtonStyle: ButtonStyle {
 
 @objc public class MSFPersonaCellState: NSObject, ObservableObject, PersonaCellProtocol {
     @objc @Published public var leadingView: UIView?
-    @objc @Published public var title: String
-    @objc @Published public var subtitle: String
-    @objc @Published public var persona: MSFAvatar?
+    @objc @Published public var title: String = ""
+    @objc @Published public var subtitle: String = ""
     @objc @Published public var titleTrailingAccessoryView: UIView?
     @objc @Published public var subtitleTrailingAccessoryView: UIView?
-
-    @objc public init(persona: MSFAvatar?,
-                      titleTrailingAccessoryView: UIView? = nil,
-                      subtitleTrailingAccessoryView: UIView? = nil) {
-        self.title = persona?.state.primaryText ?? ""
-        self.subtitle = persona?.state.secondaryText ?? ""
-        self.leadingView = persona?.view
-        self.titleTrailingAccessoryView = titleTrailingAccessoryView
-        self.subtitleTrailingAccessoryView = subtitleTrailingAccessoryView
-    }
 }
 /// UIKit wrapper that exposes the SwiftUI Persona Cell implementation
 @objc open class MSFListPersona: NSObject, FluentUIWindowProvider {

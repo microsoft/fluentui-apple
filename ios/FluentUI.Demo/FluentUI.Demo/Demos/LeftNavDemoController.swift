@@ -210,10 +210,16 @@ class LeftNavMenuViewController: UIViewController {
         leftNavAvatar.state.primaryText = "Kat Larrson"
         leftNavAvatar.state.secondaryText = "Designer"
         leftNavAvatar.state.image = UIImage(named: "avatar_kat_larsson")
+
         let chevron = UIImageView(image: UIImage(named: "ic_fluent_ios_chevron_right_20_filled"))
         chevron.tintColor = Colors.Table.Cell.title
-        let state = MSFPersonaCellState(persona: leftNavAvatar, titleTrailingAccessoryView: chevron)
-        let persona = MSFListPersona(state: state)
+
+        let personaState = MSFPersonaCellState()
+        personaState.leadingView = leftNavAvatar.view
+        personaState.title = leftNavAvatar.state.primaryText ?? ""
+        personaState.subtitle = leftNavAvatar.state.secondaryText ?? ""
+        personaState.titleTrailingAccessoryView = chevron
+        let persona = MSFListPersona(state: personaState)
 
         let personaView = UIStackView(arrangedSubviews: [persona.view])
 
