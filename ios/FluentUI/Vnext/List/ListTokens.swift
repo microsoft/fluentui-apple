@@ -6,6 +6,12 @@
 import UIKit
 import SwiftUI
 
+/// Pre-defined styles of cells
+@objc public enum MSFListCellStyle: Int, CaseIterable {
+    case normal
+    case persona
+}
+
 /// Pre-defined styles of icons
 @objc public enum MSFListCellLeadingViewSize: Int, CaseIterable {
     case small
@@ -79,6 +85,7 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
     @Published public var labelAccessoryInterspace: CGFloat!
     @Published public var labelAccessorySize: CGFloat!
     @Published public var leadingViewSize: CGFloat!
+    @Published public var sublabelAccessorySize: CGFloat!
     @Published public var trailingItemSize: CGFloat!
 
     @Published public var footnoteFont: UIFont!
@@ -86,9 +93,11 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
     @Published public var labelFont: UIFont!
 
     @Published public var cellLeadingViewSize: MSFListCellLeadingViewSize!
+    @Published public var style: MSFListCellStyle!
 
-    init(cellLeadingViewSize: MSFListCellLeadingViewSize) {
+    init(cellLeadingViewSize: MSFListCellLeadingViewSize, style: MSFListCellStyle) {
         self.cellLeadingViewSize = cellLeadingViewSize
+        self.style = style
 
         super.init()
 
@@ -102,15 +111,22 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
 
     override func updateForCurrentTheme() {
         let currentTheme = theme
-        let appearanceProxy: AppearanceProxyType = currentTheme.MSFListCellTokens
+        let appearanceProxy: AppearanceProxyType
 
-        switch cellLeadingViewSize {
-        case .small:
-            leadingViewSize = appearanceProxy.leadingViewSize.small
-        case .medium, .none:
+        switch style {
+        case .normal, .none:
+            appearanceProxy = currentTheme.MSFListCellTokens
+            switch cellLeadingViewSize {
+            case .small:
+                leadingViewSize = appearanceProxy.leadingViewSize.small
+            case .medium, .none:
+                leadingViewSize = appearanceProxy.leadingViewSize.medium
+            case .large:
+                leadingViewSize = appearanceProxy.leadingViewSize.large
+            }
+        case .persona:
+            appearanceProxy = currentTheme.MSFPersonaTokens
             leadingViewSize = appearanceProxy.leadingViewSize.medium
-        case .large:
-            leadingViewSize = appearanceProxy.leadingViewSize.large
         }
 
         backgroundColor = appearanceProxy.backgroundColor.rest
@@ -132,6 +148,7 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
         iconInterspace = appearanceProxy.iconInterspace
         labelAccessoryInterspace = appearanceProxy.labelAccessoryInterspace
         labelAccessorySize = appearanceProxy.labelAccessorySize
+        sublabelAccessorySize = appearanceProxy.sublabelAccessorySize
         trailingItemSize = appearanceProxy.trailingItemSize
 
         footnoteFont = appearanceProxy.footnoteFont

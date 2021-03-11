@@ -290,11 +290,22 @@ AP_MSFListCellTokens:
   labelColor: $Colors.Foreground.neutral1
   labelFont: $Typography.body
   leadingViewColor: $Colors.Foreground.neutral4
-  leadingViewSize: [ small: $Icon.size.xSmall, medium: $Icon.size.medium, large: $Icon.size.xxLarge ]
+  leadingViewSize: [ small: $Icon.size.xSmall, medium: $Icon.size.medium, large: $Icon.size.xxlarge ]
+  sublabelAccessorySize: $Icon.size.xxSmall
   sublabelColor: $Colors.Foreground.neutral3
   sublabelFont: $Typography.subheadline
   trailingItemForegroundColor: $Colors.Foreground.neutral3
   trailingItemSize: $Icon.size.medium
+
+MSFPersonaTokens extends MSFListCellTokens:
+  cellHeight: [ twoLines: 84pt]
+  footnoteFont: $Typography.footnote
+  iconInterspace: $Spacing.small
+  labelAccessoryInterspace: $Spacing.xxxSmall
+  labelAccessorySize: $Icon.size.xSmall
+  labelFont: $Typography.headline
+  leadingViewSize: [ medium: 52pt ]
+  sublabelColor: $Colors.Foreground.neutral1
 
 AP_MSFHeaderFooterTokens:
   backgroundColor: $Colors.Background.neutral1
