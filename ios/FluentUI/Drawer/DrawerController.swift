@@ -114,7 +114,8 @@ public protocol DrawerControllerDelegate: AnyObject {
 public typealias MSDrawerController = DrawerController
 
 @objc(MSFDrawerController)
-open class DrawerController: UIViewController {
+open class DrawerController: UIViewController, FluentUIWindowProvider {
+
     private struct Constants {
         static let resistanceCoefficient: CGFloat = 0.1
         static let resizingThreshold: CGFloat = 30
@@ -417,7 +418,7 @@ open class DrawerController: UIViewController {
     /// token to modify drawer apperance
     private static let drawerToken = DrawerTokens()
 
-    /**
+     /**
      Initializes `DrawerController` to be presented as a popover from `sourceRect` in `sourceView` on iPad and as a slideover on iPhone/iPad.
 
      - Parameter sourceView: The view containing the anchor rectangle for the popover.
@@ -502,15 +503,14 @@ open class DrawerController: UIViewController {
         }
 
         DrawerController.drawerToken.themeChanged = { [weak self] in
+            /// override defualt theme
+            //DrawerController.drawerToken.theme = theme
             guard let strongSelf = self else {
                 return
             }
-            guard let presentationController = (strongSelf.presentationController as? DrawerPresentationController) else {
-                return
-            }
             strongSelf.updateAppearance()
-            presentationController.updateApperance()
         }
+        DrawerController.drawerToken.windowProvider = self
     }
 
     open override func viewWillAppear(_ animated: Bool) {
@@ -763,18 +763,27 @@ open class DrawerController: UIViewController {
     }
 
     private func updateAppearance() {
+        let drawerToken = DrawerController.drawerToken
         view.backgroundColor = backgroundColor
         resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
         // if DrawerController is shown in UIPopoverPresentationController then we want to show different darkElevated color
         if !useCustomBackgroundColor {
             if presentationController is UIPopoverPresentationController {
-                backgroundColor = DrawerController.drawerToken.popoverContentBackground
+                backgroundColor = drawerToken.popoverContentBackground
             } else if useNavigationBarBackgroundColor {
-                backgroundColor = DrawerController.drawerToken.navigationBarBackground
+                backgroundColor = drawerToken.navigationBarBackground
             } else {
-                backgroundColor = DrawerController.drawerToken.drawerContentBackground
+                backgroundColor = drawerToken.drawerContentBackground
             }
         }
+        guard let presentationController = (presentationController as? DrawerPresentationController) else {
+            return
+        }
+        presentationController.updateApperance()
+    }
+
+    var window: UIWindow? {
+        return self.view.window
     }
 
     private func offset(forResizingGesture gesture: UIPanGestureRecognizer) -> CGFloat {

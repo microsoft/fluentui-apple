@@ -42,12 +42,13 @@ class DrawerTokens: MSFTokensBase, ObservableObject {
 
     @objc open func didChangeAppearanceProxy() {
         updateForCurrentTheme()
-        if let themeChanged = themeChanged {
-            themeChanged()
-        }
     }
 
     override func updateForCurrentTheme() {
+        if let themeChanged = themeChanged {
+            themeChanged()
+        }
+
         let appearanceProxy = theme.DrawerTokens
 
         shadow1Color = appearanceProxy.shadow1Color

@@ -119,6 +119,7 @@ class DrawerPresentationController: UIPresentationController {
             contentView.addSubview(presentedViewController.view)
         }
         setPresentedViewMask()
+        updateApperance()
 
         backgroundView.alpha = 0.0
         presentingViewController.transitionCoordinator?.animate(alongsideTransition: { _ in
@@ -288,7 +289,9 @@ class DrawerPresentationController: UIPresentationController {
 
     func updateApperance() {
         shadowView.updateApperance()
-        backgroundView.backgroundColor = .clear
+        dimmingView.dimmedBlackColor = drawerToken.backgroundDimmedColor
+        dimmingView.dimmedClearColor = drawerToken.backgroundClearColor
+        backgroundView.backgroundColor = drawerToken.backgroundClearColor
     }
 
     private func setContentViewFrame(_ frame: CGRect) {
