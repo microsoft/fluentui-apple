@@ -5,7 +5,8 @@
 
 import AppKit
 
-class ColorSet: NSObject {
+@objc(MSFColorSet)
+public class ColorSet: NSObject {
 	public let background: DynamicColor
 	public let foreground: DynamicColor
 
@@ -15,7 +16,8 @@ class ColorSet: NSObject {
 	}
 }
 
-class DynamicColor: NSObject {
+@objc(MSFDynamicColor)
+public class DynamicColor: NSObject {
 
 	private let light: NSColor
 	private let dark: NSColor
