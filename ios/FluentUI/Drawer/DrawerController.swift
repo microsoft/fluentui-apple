@@ -506,8 +506,6 @@ open class DrawerController: UIViewController, FluentUIWindowProvider {
         }
 
         DrawerController.drawerToken.themeChanged = { [weak self] in
-            /// override defualt theme
-            //DrawerController.drawerToken.theme = theme
             guard let strongSelf = self else {
                 return
             }

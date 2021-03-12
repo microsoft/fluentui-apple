@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-// MARK: DrawerLegacyDemoController
+// MARK: DrawerDemoController
 
 class DrawerDemoController: DemoController {
     override func viewDidLoad() {
@@ -518,7 +518,7 @@ class DrawerDemoController: DemoController {
     }()
 }
 
-// MARK: - DrawerLegacyDemoController: UITextFieldDelegate
+// MARK: - DrawerDemoController: UITextFieldDelegate
 
 extension DrawerDemoController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

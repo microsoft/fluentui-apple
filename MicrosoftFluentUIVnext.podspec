@@ -48,12 +48,6 @@ Pod::Spec.new do |s|
     button_ios.source_files = ["ios/FluentUI/Vnext/Button/**/*.{swift,h}"]
   end
 
-  s.subspec 'Drawer_ios' do |drawer_ios|
-    drawer_ios.platform = :ios
-    drawer_ios.dependency 'MicrosoftFluentUIVnext/Core_ios'
-    drawer_ios.source_files = ["ios/FluentUI/Vnext/Drawer/**/*.{swift,h}"]
-  end
-
   s.subspec 'List_ios' do |list_ios|
     list_ios.platform = :ios
     list_ios.dependency 'MicrosoftFluentUIVnext/Core_ios'
