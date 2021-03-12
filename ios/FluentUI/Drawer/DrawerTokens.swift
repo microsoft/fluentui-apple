@@ -29,6 +29,7 @@ class DrawerTokens: MSFTokensBase, ObservableObject {
     public var minHorizontalMargin: CGFloat!
     public var minVerticalMargin: CGFloat!
     public var verticalShadowOffset: CGFloat!
+    public var horizontalShadowOffset: CGFloat!
 
     /// callback for theme change
     public var themeChanged: (() -> Void)?
@@ -72,5 +73,6 @@ class DrawerTokens: MSFTokensBase, ObservableObject {
         minHorizontalMargin = appearanceProxy.minMargin.horizontal
         minVerticalMargin = appearanceProxy.minMargin.vertical
         verticalShadowOffset = appearanceProxy.verticalShadowOffset
+        horizontalShadowOffset = appearanceProxy.horizontalShadowOffset
     }
 }

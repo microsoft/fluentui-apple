@@ -344,3 +344,4 @@ AP_DrawerTokens:
   dropShadowOffset: 2pt
   dropShadowOpacity: 0.05f
   verticalShadowOffset: 8pt
+  horizontalShadowOffset: 14pt

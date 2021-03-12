@@ -50,6 +50,11 @@ extension FluentUIStyle {
 			return CGFloat(4.0)
 		}
 
+		// MARK: - horizontalShadowOffset 
+		open var horizontalShadowOffset: CGFloat {
+			return CGFloat(14.0)
+		}
+
 		// MARK: - minMargin
 		open var minMargin: minMarginAppearanceProxy {
 			return minMarginAppearanceProxy(proxy: mainProxy)
