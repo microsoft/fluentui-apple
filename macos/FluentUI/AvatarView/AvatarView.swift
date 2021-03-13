@@ -324,7 +324,8 @@ open class AvatarView: NSView {
 	/// - returns: the color table entry for the given index
 	///
 	/// - note: Internal visibility exists only for unit testing
-	@objc static func getColor(for index: Int) -> ColorSet {
+	@objc(getcolorForIndex:)
+	public static func getColor(for index: Int) -> ColorSet {
 		let avatarBackgroundColors = AvatarView.avatarColors
 		return avatarBackgroundColors[index % avatarBackgroundColors.count]
 	}
