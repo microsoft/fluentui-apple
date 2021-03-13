@@ -26,10 +26,12 @@ class TableViewHeaderFooterViewDemoController: DemoController {
 
         container.heightAnchor.constraint(equalTo: scrollingContainer.heightAnchor).isActive = true
         container.layoutMargins = .zero
+        container.spacing = 0
 
         navigationController?.navigationBar.shadowImage = UIImage()
         container.addArrangedSubview(segmentedControl)
         container.setCustomSpacing(8, after: segmentedControl)
+        container.backgroundColor = Colors.NavigationBar.background
 
         let separator = Separator(style: .shadow, orientation: .horizontal)
         container.addArrangedSubview(separator)

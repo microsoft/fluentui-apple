@@ -105,6 +105,8 @@ class ColorDemoController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
+        tableView.allowsSelection = false
+        tableView.backgroundColor = Colors.Table.background
 
         let separator = Separator(style: .shadow, orientation: .horizontal)
         let stackView = UIStackView(arrangedSubviews: [segmentedControl, separator, tableView])
@@ -114,15 +116,13 @@ class ColorDemoController: UIViewController {
 
         view = UIView(frame: .zero)
         view.addSubview(stackView)
-        view.backgroundColor = Colors.Table.background
-
-        let safeAreaLayoutGuide = view.safeAreaLayoutGuide
+        view.backgroundColor = Colors.NavigationBar.background
 
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-            stackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            stackView.topAnchor.constraint(equalTo: view.topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 
