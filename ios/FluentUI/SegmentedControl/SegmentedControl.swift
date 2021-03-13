@@ -17,15 +17,15 @@ public extension Colors {
         }
 
         struct PrimaryPill {
-            static let background = UIColor(light: surfaceTertiary, dark: surfaceSecondary)
+            static let background = UIColor(light: surfaceTertiary, dark: gray950)
             static let backgroundDisabled: UIColor = background
             static let segmentText = UIColor(light: textSecondary, dark: textPrimary)
             static let selectionDisabled: UIColor = surfaceQuaternary
         }
 
         struct OnBrandPill {
-            static let background = UIColor(light: surfaceTertiary, dark: surfaceSecondary)
-            static let backgroundDisabled: UIColor = background
+            static let background = PrimaryPill.background
+            static let backgroundDisabled: UIColor = PrimaryPill.backgroundDisabled
             static let segmentText = UIColor(light: textOnAccent, dark: textPrimary)
             static let selection = UIColor(light: surfacePrimary, dark: surfaceQuaternary)
             static let selectionDisabled = UIColor(light: Colors.surfacePrimary, dark: Colors.surfaceQuaternary)
@@ -183,7 +183,11 @@ open class SegmentedControl: UIControl {
     private var customSelectedSegmentedControlButtonTextColor: UIColor?
 
     private var items = [String]()
-    private let style: Style
+    internal var style: Style {
+        didSet {
+            updateWindowSpecificColors()
+        }
+    }
 
     // Hierarchy for pill styles:
     //
@@ -422,7 +426,7 @@ open class SegmentedControl: UIControl {
             bottomSeparator.frame = CGRect(x: 0, y: frame.height - bottomSeparator.frame.height, width: frame.width, height: bottomSeparator.frame.height)
         }
 
-        flipSubviewsForRTL()        
+        flipSubviewsForRTL()
         layoutSelectionView()
     }
 

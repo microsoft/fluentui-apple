@@ -25,15 +25,24 @@ class TableViewHeaderFooterViewDemoController: DemoController {
         super.viewDidLoad()
 
         container.heightAnchor.constraint(equalTo: scrollingContainer.heightAnchor).isActive = true
-        container.layoutMargins = UIEdgeInsets(top: 16, left: 0, bottom: 0, right: 0)
-        container.spacing = 0
+        container.layoutMargins = .zero
 
+        navigationController?.navigationBar.shadowImage = UIImage()
         container.addArrangedSubview(segmentedControl)
-        container.setCustomSpacing(16, after: segmentedControl)
+        container.setCustomSpacing(8, after: segmentedControl)
+
+        let separator = Separator(style: .shadow, orientation: .horizontal)
+        container.addArrangedSubview(separator)
+
         container.addArrangedSubview(groupedTableView)
         container.addArrangedSubview(plainTableView)
 
         updateActiveTabContent()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        navigationController?.navigationBar.shadowImage = nil
     }
 
     func createTableView(style: UITableView.Style) -> UITableView {

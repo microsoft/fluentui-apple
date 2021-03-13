@@ -20,6 +20,7 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
         static let idealRowCount: Int = 7
         static let idealWidth: CGFloat = 320
         static let titleButtonWidth: CGFloat = 160
+        static let verticalPaddingFromSegmentControl: CGFloat = 4.0
     }
 
     var startDate: Date {
@@ -115,6 +116,9 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
 
         if let segmentedControl = segmentedControl {
             view.addSubview(segmentedControl)
+            // Hide default bottom border of navigation bar
+            navigationController?.navigationBar.shadowImage = UIImage()
+            view.backgroundColor = Colors.Toolbar.background
         }
         view.addSubview(dateTimePickerView)
         initNavigationBar()
@@ -122,10 +126,12 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        var verticalOffset: CGFloat = 0
         if let segmentedControl = segmentedControl {
             segmentedControl.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: segmentedControl.intrinsicContentSize.height)
+            verticalOffset = segmentedControl.frame.height + Constants.verticalPaddingFromSegmentControl
         }
-        let verticalOffset = segmentedControl?.frame.height ?? 0
+
         dateTimePickerView.frame = CGRect(x: 0, y: verticalOffset, width: view.frame.width, height: view.frame.height - verticalOffset)
     }
 
@@ -150,7 +156,7 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
             titles = [customStartTabTitle ?? "MSDateTimePicker.StartDate".localized,
                       customEndTabTitle ?? "MSDateTimePicker.EndDate".localized]
         }
-        segmentedControl = SegmentedControl(items: titles, style: .onBrandPill)
+        segmentedControl = SegmentedControl(items: titles, style: traitCollection.userInterfaceStyle == .dark ? .onBrandPill : .primaryPill)
         segmentedControl?.addTarget(self, action: #selector(handleDidSelectStartEnd(_:)), for: .valueChanged)
     }
 
@@ -208,9 +214,13 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
 
 extension DateTimePickerController: CardPresentable {
     func idealSize() -> CGSize {
+        var extraHeight: CGFloat = 0
+        if let segmentedControlHeight = segmentedControl?.frame.height {
+            extraHeight = segmentedControlHeight + Constants.verticalPaddingFromSegmentControl
+        }
         return CGSize(
             width: Constants.idealWidth,
-            height: DateTimePickerViewLayout.height(forRowCount: Constants.idealRowCount) + (segmentedControl?.frame.height ?? 0)
+            height: DateTimePickerViewLayout.height(forRowCount: Constants.idealRowCount) + extraHeight
         )
     }
 }
