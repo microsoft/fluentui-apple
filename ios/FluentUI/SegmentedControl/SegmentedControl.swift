@@ -171,6 +171,7 @@ open class SegmentedControl: UIControl {
     @objc public var isAnimated: Bool = true
     @objc public var numberOfSegments: Int { return items.count }
     @objc public var shouldSetEqualWidthForSegments: Bool = true
+    public var shouldUseWindowWidth: Bool = true
     @objc public var selectedSegmentIndex: Int {
         get { return _selectedSegmentIndex }
         set { selectSegment(at: newValue, animated: false) }
@@ -409,17 +410,14 @@ open class SegmentedControl: UIControl {
                 case .primaryPill, .onBrandPill:
                     var suggestedWidth = frame.width
 
-                    if let windowWidth = window?.frame.width {
+                    if shouldUseWindowWidth, let windowWidth = window?.safeAreaLayoutGuide.layoutFrame.width {
                         suggestedWidth = windowWidth
                     }
                     // for iPad regular full width pill styles might look too wide
                     if traitCollection.userInterfaceIdiom == .pad {
                         suggestedWidth = max(suggestedWidth / 2, 375.0)
                     } else {
-                        var insets = 2 * Constants.pillContainerHorizontalInset
-                        if let window = window {
-                            insets += window.safeAreaInsets.left + window.safeAreaInsets.right
-                        }
+                        let insets = 2 * Constants.pillContainerHorizontalInset
                         suggestedWidth -= insets
                     }
                     suggestedWidth = ceil(suggestedWidth)

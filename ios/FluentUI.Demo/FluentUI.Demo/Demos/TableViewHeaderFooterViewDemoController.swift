@@ -13,7 +13,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
     private let plainSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.plainSections
 
     private let segmentedControl: SegmentedControl = {
-        let segmentedControl = SegmentedControl(items: TableViewHeaderFooterSampleData.tabTitles)
+        let segmentedControl = SegmentedControl(items: TableViewHeaderFooterSampleData.tabTitles, style: .primaryPill)
         segmentedControl.addTarget(self, action: #selector(updateActiveTabContent), for: .valueChanged)
         return segmentedControl
     }()
@@ -25,10 +25,11 @@ class TableViewHeaderFooterViewDemoController: DemoController {
         super.viewDidLoad()
 
         container.heightAnchor.constraint(equalTo: scrollingContainer.heightAnchor).isActive = true
-        container.layoutMargins = .zero
+        container.layoutMargins = UIEdgeInsets(top: 16, left: 0, bottom: 0, right: 0)
         container.spacing = 0
 
         container.addArrangedSubview(segmentedControl)
+        container.setCustomSpacing(16, after: segmentedControl)
         container.addArrangedSubview(groupedTableView)
         container.addArrangedSubview(plainTableView)
 

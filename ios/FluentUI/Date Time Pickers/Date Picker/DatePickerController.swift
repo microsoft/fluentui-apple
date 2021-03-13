@@ -211,7 +211,7 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
     private func initSegmentedControl() {
         let titles = [customStartTabTitle ?? "MSDateTimePicker.StartDate".localized,
                       customEndTabTitle ?? "MSDateTimePicker.EndDate".localized]
-        segmentedControl = SegmentedControl(items: titles)
+        segmentedControl = SegmentedControl(items: titles, style: .onBrandPill)
         segmentedControl?.addTarget(self, action: #selector(handleDidSelectStartEnd(_:)), for: .valueChanged)
     }
 
