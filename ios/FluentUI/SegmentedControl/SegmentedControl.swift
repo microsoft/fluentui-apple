@@ -24,7 +24,7 @@ public extension Colors {
         }
 
         struct OnBrandPill {
-            static let background = PrimaryPill.background
+            static let background: UIColor = PrimaryPill.background
             static let backgroundDisabled: UIColor = PrimaryPill.backgroundDisabled
             static let segmentText = UIColor(light: textOnAccent, dark: textPrimary)
             static let selection = UIColor(light: surfacePrimary, dark: surfaceQuaternary)
