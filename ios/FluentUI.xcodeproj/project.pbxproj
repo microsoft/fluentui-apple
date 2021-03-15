@@ -222,6 +222,8 @@
 		C0A0D76E233AEF6C00F432FD /* ShimmerLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A0D76B233AEF6C00F432FD /* ShimmerLinesView.swift */; };
 		C0A0D76F233AEF6C00F432FD /* ShimmerLinesViewAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A0D76C233AEF6C00F432FD /* ShimmerLinesViewAppearance.swift */; };
 		C0EAAEAD2347E1DF00C7244E /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EAAEAC2347E1DF00C7244E /* ShimmerView.swift */; };
+		C73C78D925FFC44000635804 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73C78D825FFC44000635804 /* BottomSheetViewController.swift */; };
+		C73C78DA25FFC44000635804 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73C78D825FFC44000635804 /* BottomSheetViewController.swift */; };
 		C77A04B725F03DD1001B3EB6 /* String+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04B625F03DD1001B3EB6 /* String+Date.swift */; };
 		C77A04B825F03DD1001B3EB6 /* String+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04B625F03DD1001B3EB6 /* String+Date.swift */; };
 		C77A04ED25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */; };
@@ -406,6 +408,7 @@
 		C0A0D76B233AEF6C00F432FD /* ShimmerLinesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShimmerLinesView.swift; sourceTree = "<group>"; };
 		C0A0D76C233AEF6C00F432FD /* ShimmerLinesViewAppearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShimmerLinesViewAppearance.swift; sourceTree = "<group>"; };
 		C0EAAEAC2347E1DF00C7244E /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
+		C73C78D825FFC44000635804 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
 		C77A04B625F03DD1001B3EB6 /* String+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Date.swift"; sourceTree = "<group>"; };
 		C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+CellFileAccessoryView.swift"; sourceTree = "<group>"; };
 		CCC18C2B2501B22F00BE830E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
@@ -785,6 +788,7 @@
 				5314E00325F009B70099271A /* ActivityViewAnimating */,
 				5314DFEB25F002240099271A /* ActivityIndicator */,
 				5314DFF625F0079B0099271A /* BarButtonItems */,
+				C73C78D725FFC41400635804 /* BottomSheet */,
 				5314DFEC25F0029C0099271A /* Button */,
 				CCC18C2A2501B1A900BE830E /* Card */,
 				B4F118EA21C8270F00855942 /* Badge Field */,
@@ -942,6 +946,14 @@
 				C0A0D76A233AEF6C00F432FD /* ShimmerAppearance.swift */,
 			);
 			path = Shimmer;
+			sourceTree = "<group>";
+		};
+		C73C78D725FFC41400635804 /* BottomSheet */ = {
+			isa = PBXGroup;
+			children = (
+				C73C78D825FFC44000635804 /* BottomSheetViewController.swift */,
+			);
+			path = BottomSheet;
 			sourceTree = "<group>";
 		};
 		C77A04EB25F0469C001B3EB6 /* Other Cells */ = {
@@ -1373,6 +1385,7 @@
 				5314E08B25F00F2D0099271A /* CommandBarItem.swift in Sources */,
 				5314E06225F00EFD0099271A /* CalendarViewDayTodayCell.swift in Sources */,
 				5314E08025F00F1A0099271A /* DateTimePickerViewComponent.swift in Sources */,
+				C73C78DA25FFC44000635804 /* BottomSheetViewController.swift in Sources */,
 				5314E06325F00EFD0099271A /* CalendarViewDayMonthYearCell.swift in Sources */,
 				5314E1A225F01A7C0099271A /* ActivityIndicatorCell.swift in Sources */,
 				5314E11F25F015EA0099271A /* InitialsView.swift in Sources */,
@@ -1513,6 +1526,7 @@
 				497DC2DB24185885008D86F8 /* PillButton.swift in Sources */,
 				8AF03E1E24B6BDFB00E6E2A2 /* ContactCollectionViewLayout.swift in Sources */,
 				53BCB0CE253A4E8D00620960 /* Obscurable.swift in Sources */,
+				C73C78D925FFC44000635804 /* BottomSheetViewController.swift in Sources */,
 				FD41C8BE22DD47120086F899 /* UINavigationItem+Navigation.swift in Sources */,
 				7DC2FB2D24D209E800367A55 /* Presence.swift in Sources */,
 				B4E782C12176AD5E00A7DFCE /* ActionsCell.swift in Sources */,
