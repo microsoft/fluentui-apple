@@ -31,7 +31,7 @@ struct Header: View {
                             bottom: tokens.bottomPadding,
                             trailing: tokens.trailingPadding))
         .frame(minHeight: tokens.headerHeight)
-        .background(Color(tokens.backgroundColor))
+        .background(Color(state.backgroundColor ?? tokens.backgroundColor))
         .onAppear {
             // When environment values are available through the view hierarchy:
             //  - If we get a non-default theme through the environment values,

@@ -49,6 +49,8 @@ import SwiftUI
     @objc @Published public var footnoteTrailingAccessoryView: UIView?
     @objc @Published public var trailingView: UIView?
     @objc @Published public var accessoryType: MSFListAccessoryType = .none
+    @objc @Published public var cellBackgroundColor: UIColor?
+    @objc @Published public var cellBackgroundHighlightedColor: UIColor?
     @objc @Published public var titleLineLimit: Int = 0
     @objc @Published public var subtitleLineLimit: Int = 0
     @objc @Published public var footnoteLineLimit: Int = 0
@@ -229,6 +231,13 @@ struct ListCellButtonStyle: ButtonStyle {
                                 bottom: tokens.horizontalCellPadding / 2,
                                 trailing: tokens.horizontalCellPadding))
             .frame(minHeight: height)
-            .background(configuration.isPressed ? Color(tokens.highlightedBackgroundColor) : Color(tokens.backgroundColor))
+            .background(backgroundColor(configuration.isPressed))
+    }
+
+    private func backgroundColor(_ isPressed: Bool = false) -> Color {
+        if isPressed {
+            return Color(state.cellBackgroundHighlightedColor ?? tokens.highlightedBackgroundColor)
+        }
+        return Color(state.cellBackgroundColor ?? tokens.backgroundColor)
     }
 }
