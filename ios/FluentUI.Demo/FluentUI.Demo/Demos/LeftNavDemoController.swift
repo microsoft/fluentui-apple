@@ -15,12 +15,12 @@ class LeftNavDemoController: DemoController {
         addTitle(text: "Left navigation control")
         addDescription(text: "The LeftNav control is built from a composition of the Avatar, Drawer and List controls.")
 
-        let sender = createButton(title: "Show Left Navigation Menu", action: { [weak self ] _ in
+        let navigationButton = createButton(title: "Show Left Navigation Menu", action: { [weak self ] _ in
             if let strongSelf = self {
                 strongSelf.showLeftNavButtonTapped()
             }
         }).view
-        container.addArrangedSubview(sender)
+        container.addArrangedSubview(navigationButton)
 
         let isLeadingEdgeLeftToRight = view.effectiveUserInterfaceLayoutDirection == .leftToRight
 
@@ -32,8 +32,8 @@ class LeftNavDemoController: DemoController {
         let lefNavController = LeftNavMenuViewController(menuAction: {
             self.showMessage("Menu item selected.")
         })
-        drawerController = DrawerController(sourceView: sender,
-                                            sourceRect: sender.bounds,
+        drawerController = DrawerController(sourceView: navigationButton,
+                                            sourceRect: navigationButton.bounds,
                                             presentationDirection: .fromLeading)
         drawerController.presentationBackground = .black
         drawerController.preferredContentSize.width = 360

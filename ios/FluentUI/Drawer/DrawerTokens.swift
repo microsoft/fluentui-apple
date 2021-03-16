@@ -3,10 +3,8 @@
 //  Licensed under the MIT License.
 //
 
-import SwiftUI
-
 /// `DrawerTokens` assist to configure drawer apperance via UIKit components.
-class DrawerTokens: MSFTokensBase, ObservableObject {
+class DrawerTokens: MSFTokensBase {
 
     public var shadow1Color: UIColor!
     public var shadow1Blur: CGFloat!
