@@ -323,7 +323,7 @@ MSFPrimaryHeaderTokens extends MSFHeaderFooterTokens:
   textFont: $Typography.headline
   topPadding: $Spacing.medium
 
-AP_DrawerTokens:
+AP_MSFDrawerTokens:
   backgroundClearColor: NamedColor(clear)
   backgroundDimmedColor: $Colors.Elevation.highElevation
   drawerContentBackground: "FluentUIColor(light: $Colors.Background.neutral1, dark: $Colors.Background.neutral3)"

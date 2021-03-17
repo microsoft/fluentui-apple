@@ -25,6 +25,73 @@ extension FluentUIStyle {
 			return mainProxy().Colors.Elevation.highElevation
 		}
 
+		// MARK: - cornerRadius 
+		open var cornerRadius: CGFloat {
+			return CGFloat(14.0)
+		}
+
+		// MARK: - drawerContentBackground 
+		open var drawerContentBackground: UIColor {
+			return UIColor(light: mainProxy().Colors.Background.neutral1, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Background.neutral3, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+		}
+
+		// MARK: - dropShadowOffset 
+		open var dropShadowOffset: CGFloat {
+			return CGFloat(2.0)
+		}
+
+		// MARK: - dropShadowOpacity 
+		open var dropShadowOpacity: CGFloat {
+			return CGFloat(0.05)
+		}
+
+		// MARK: - dropShadowRadius 
+		open var dropShadowRadius: CGFloat {
+			return CGFloat(4.0)
+		}
+
+		// MARK: - horizontalShadowOffset 
+		open var horizontalShadowOffset: CGFloat {
+			return CGFloat(14.0)
+		}
+
+		// MARK: - minMargin
+		open var minMargin: minMarginAppearanceProxy {
+			return minMarginAppearanceProxy(proxy: mainProxy)
+		}
+		open class minMarginAppearanceProxy {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			// MARK: - horizontal 
+			open var horizontal: CGFloat {
+				return CGFloat(44.0)
+			}
+
+			// MARK: - vertical 
+			open var vertical: CGFloat {
+				return CGFloat(20.0)
+			}
+		}
+
+
+		// MARK: - navigationBarBackground 
+		open var navigationBarBackground: UIColor {
+			return UIColor(light: mainProxy().Colors.Background.surfacePrimary, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/gray900", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+		}
+
+		// MARK: - popoverContentBackground 
+		open var popoverContentBackground: UIColor {
+			return UIColor(light: mainProxy().Colors.Background.surfacePrimary, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Background.surfaceQuaternary, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+		}
+
+		// MARK: - resizingHandleViewBackgroundColor 
+		open var resizingHandleViewBackgroundColor: UIColor {
+			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+		}
+
 		// MARK: - shadow1Blur 
 		open var shadow1Blur: CGFloat {
 			return mainProxy().Shadow.shadow28.blur1
@@ -63,6 +130,11 @@ extension FluentUIStyle {
 		// MARK: - shadow2OffsetY 
 		open var shadow2OffsetY: CGFloat {
 			return mainProxy().Shadow.shadow28.y2
+		}
+
+		// MARK: - verticalShadowOffset 
+		open var verticalShadowOffset: CGFloat {
+			return CGFloat(8.0)
 		}
 	}
 

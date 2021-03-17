@@ -5,11 +5,11 @@ import UIKit
 /// Entry point for the app stylesheet
 extension FluentUIStyle {
 
-	// MARK: - DrawerTokens
-	open var DrawerTokens: DrawerTokensAppearanceProxy {
-		return DrawerTokensAppearanceProxy(proxy: { return self })
+	// MARK: - MSFDrawerTokens
+	open var MSFDrawerTokens: MSFDrawerTokensAppearanceProxy {
+		return MSFDrawerTokensAppearanceProxy(proxy: { return self })
 	}
-	open class DrawerTokensAppearanceProxy {
+	open class MSFDrawerTokensAppearanceProxy {
 		public let mainProxy: () -> FluentUIStyle
 		public init(proxy: @escaping () -> FluentUIStyle) {
 			self.mainProxy = proxy
@@ -143,9 +143,9 @@ fileprivate var __AppearanceProxyHandle: UInt8 = 0
 fileprivate var __ThemeAwareHandle: UInt8 = 0
 fileprivate var __ObservingDidChangeThemeHandle: UInt8 = 0
 
-extension DrawerTokens: AppearaceProxyComponent {
+extension MSFDrawerTokens: AppearaceProxyComponent {
 
-	public typealias AppearanceProxyType = FluentUIStyle.DrawerTokensAppearanceProxy
+	public typealias AppearanceProxyType = FluentUIStyle.MSFDrawerTokensAppearanceProxy
 	public var appearanceProxy: AppearanceProxyType {
 		get {
 			if let proxy = objc_getAssociatedObject(self, &__AppearanceProxyHandle) as? AppearanceProxyType {
@@ -155,7 +155,7 @@ extension DrawerTokens: AppearaceProxyComponent {
 				return proxy
 			}
 
-			return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).DrawerTokens
+			return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFDrawerTokens
 		}
 		set {
 			objc_setAssociatedObject(self, &__AppearanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)

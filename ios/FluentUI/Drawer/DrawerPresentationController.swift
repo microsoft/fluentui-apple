@@ -37,7 +37,7 @@ class DrawerPresentationController: UIPresentationController {
          source: UIViewController,
          presentationDirection: DrawerPresentationDirection,
          adjustHeightForKeyboard: Bool,
-         drawerTokens: DrawerTokens) {
+         drawerTokens: MSFDrawerTokens) {
         sourceViewController = source
         self.presentationDirection = presentationDirection
         self.drawerTokens = drawerTokens
@@ -88,7 +88,7 @@ class DrawerPresentationController: UIPresentationController {
     // Imitates the bottom shadow of navigation bar or top shadow of toolbar because original ones are hidden by presented view
     private lazy var separator = Separator(style: .shadow)
     // Token for drawer stylesheet
-    private var drawerTokens: DrawerTokens
+    private var drawerTokens: MSFDrawerTokens
 
     // MARK: Presentation
 

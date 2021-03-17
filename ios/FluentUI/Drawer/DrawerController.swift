@@ -419,7 +419,7 @@ open class DrawerController: UIViewController, FluentUIWindowProvider {
     /// for iPad split mode, navigation bar has a different dark elevated color, and if it is a `.down` presentation style, match `Colors.NavigationBar.background` elevated color
     private var useNavigationBarBackgroundColor: Bool = false
     /// token to modify drawer apperance
-    private static let drawerTokens = DrawerTokens()
+    private static let drawerTokens = MSFDrawerTokens()
 
      /**
      Initializes `DrawerController` to be presented as a popover from `sourceRect` in `sourceView` on iPad and as a slideover on iPhone/iPad.

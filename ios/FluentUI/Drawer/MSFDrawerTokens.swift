@@ -4,7 +4,7 @@
 //
 
 /// `DrawerTokens` assist to configure drawer apperance via UIKit components.
-class DrawerTokens: MSFTokensBase {
+class MSFDrawerTokens: MSFTokensBase {
 
     public var shadow1Color: UIColor!
     public var shadow1Blur: CGFloat!
@@ -48,7 +48,7 @@ class DrawerTokens: MSFTokensBase {
             themeChanged()
         }
 
-        let appearanceProxy = theme.DrawerTokens
+        let appearanceProxy = theme.MSFDrawerTokens
 
         shadow1Color = appearanceProxy.shadow1Color
         shadow1Blur = appearanceProxy.shadow1Blur
