@@ -79,7 +79,7 @@ extension FluentUIStyle {
 
 		// MARK: - navigationBarBackground 
 		open var navigationBarBackground: UIColor {
-			return UIColor(light: mainProxy().Colors.Background.surfacePrimary, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/gray900", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			return UIColor(light: mainProxy().Colors.Background.surfacePrimary, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey14", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
 		// MARK: - popoverContentBackground 
