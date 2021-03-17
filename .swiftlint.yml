@@ -1,4 +1,4 @@
-whitelist_rules:
+only_rules:
   # Delegate protocols should be class-only so they can be weakly referenced.
   - class_delegate_protocol
 
@@ -169,6 +169,8 @@ included: # paths to include during linting. `--path` is ignored if present.
 
 excluded: # paths to ignore during linting. Takes precedence over `included`.
   - Pods
+  - ${EXCLUDELINTPATH}
+
 explicit_type_interface: # requires type annotation on everything but local variables and constants
   excluded:
     - local

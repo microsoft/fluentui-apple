@@ -41,3 +41,5 @@ jobs:
       run: scripts/xcodebuild_wrapper.sh ${{ matrix.build_command }}
     - name: pod lib lint
       run: scripts/podliblint.sh
+    - name: validation
+      run: scripts/validation.sh
