@@ -1,4 +1,4 @@
-whitelist_rules:
+only_rules:
   # Delegate protocols should be class-only so they can be weakly referenced.
   - class_delegate_protocol
 
