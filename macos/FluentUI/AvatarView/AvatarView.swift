@@ -324,10 +324,23 @@ open class AvatarView: NSView {
 	/// - returns: the color table entry for the given index
 	///
 	/// - note: Internal visibility exists only for unit testing
-	@objc(getcolorForIndex:)
+	@objc(getColorForIndex:)
 	public static func getColor(for index: Int) -> ColorSet {
 		let avatarBackgroundColors = AvatarView.avatarColors
 		return avatarBackgroundColors[index % avatarBackgroundColors.count]
+	}
+
+	/// Get the legacy color associated with a given index
+	/// - parameter index: the index into the color table
+	///
+	/// - returns: the color table entry for the given index
+	///
+	/// - note: API method avaiable for legacy support only, This will be removed in future release
+	@objc(getLegacyBackgroundColorForIndex:)
+	@available(*, deprecated, message: "Use getColorForIndex instead")
+	public static func getLegacyColor(for index: Int) -> NSColor {
+		let legacyAvatarBackgroundColors = AvatarView.legacyAvatarViewBackgroundColor
+		return legacyAvatarBackgroundColors[index % legacyAvatarBackgroundColors.count]
 	}
 
 	/// the font size in the initials view will be scaled to this fraction of the avatarSize passed in
@@ -474,6 +487,31 @@ fileprivate extension Unicode.Scalar {
 }
 
 extension AvatarView {
+
+	static let legacyAvatarViewBackgroundColor: [NSColor] = [
+		Colors.Palette.cyanBlue10.color,
+		Colors.Palette.red10.color,
+		Colors.Palette.magenta20.color,
+		Colors.Palette.green10.color,
+		Colors.Palette.magentaPink10.color,
+		Colors.Palette.cyanBlue20.color,
+		Colors.Palette.orange20.color,
+		Colors.Palette.cyan20.color,
+		Colors.Palette.orangeYellow20.color,
+		Colors.Palette.red20.color,
+		Colors.Palette.blue10.color,
+		Colors.Palette.magenta10.color,
+		Colors.Palette.gray40.color,
+		Colors.Palette.green20.color,
+		Colors.Palette.blueMagenta20.color,
+		Colors.Palette.pinkRed10.color,
+		Colors.Palette.gray30.color,
+		Colors.Palette.blueMagenta30.color,
+		Colors.Palette.gray20.color,
+		Colors.Palette.cyan30.color,
+		Colors.Palette.orange30.color
+	]
+
 	/// Table of background and text colors for the AvatarView
 	static let avatarColors: [ColorSet] = [
 		ColorSet(background: DynamicColor(light: Colors.Palette.darkRedTint40.color, dark: Colors.Palette.darkRedShade30.color),
