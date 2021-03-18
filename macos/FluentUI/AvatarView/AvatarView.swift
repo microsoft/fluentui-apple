@@ -339,8 +339,8 @@ open class AvatarView: NSView {
 	@objc(getLegacyBackgroundColorForIndex:)
 	@available(*, deprecated, message: "Use getColorForIndex instead")
 	public static func getLegacyColor(for index: Int) -> NSColor {
-		let avatarBackgroundColors = AvatarView.legacyAvatarViewBackgroundColor
-		return avatarBackgroundColors[index % avatarBackgroundColors.count]
+		let legacyAvatarBackgroundColors = AvatarView.legacyAvatarViewBackgroundColor
+		return legacyAvatarBackgroundColors[index % legacyAvatarBackgroundColors.count]
 	}
 
 	/// the font size in the initials view will be scaled to this fraction of the avatarSize passed in
