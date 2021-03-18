@@ -7,8 +7,8 @@ import AppKit
 
 @objc(MSFColorSet)
 public class ColorSet: NSObject {
-	public let background: DynamicColor
-	public let foreground: DynamicColor
+	@objc public let background: DynamicColor
+	@objc public let foreground: DynamicColor
 
 	public init(background: DynamicColor, foreground: DynamicColor) {
 		self.background = background
@@ -19,8 +19,8 @@ public class ColorSet: NSObject {
 @objc(MSFDynamicColor)
 public class DynamicColor: NSObject {
 
-	private let light: NSColor
-	private let dark: NSColor
+	@objc public let light: NSColor
+	@objc public let dark: NSColor
 
 	public init(light: NSColor, dark: NSColor) {
 		self.light = light
@@ -28,7 +28,7 @@ public class DynamicColor: NSObject {
 	}
 
 	/// resolves color based on theme
-	func resolvedColor(_ appearance: NSAppearance? = nil) -> NSColor {
+	@objc func resolvedColor(_ appearance: NSAppearance? = nil) -> NSColor {
 		guard let appearance = appearance else {
 			return self.light
 		}
