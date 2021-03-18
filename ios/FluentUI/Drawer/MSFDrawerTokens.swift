@@ -3,7 +3,8 @@
 //  Licensed under the MIT License.
 //
 
-import Foundation
+import UIKit
+import SwiftUI
 
 /// `DrawerTokens` assist to configure drawer apperance via UIKit components.
 class MSFDrawerTokens: MSFTokensBase {
