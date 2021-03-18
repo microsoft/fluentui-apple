@@ -20,6 +20,7 @@
 		22010B702523CB2D00FF1F10 /* ActivityViewAnimating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22010B6F2523CB2D00FF1F10 /* ActivityViewAnimating.swift */; };
 		22EABB1A2509AAD100C4BE72 /* IndeterminateProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EABB192509AAD100C4BE72 /* IndeterminateProgressBarView.swift */; };
 		3F40E8EE2601CD4500C43730 /* MSFDrawerTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40E8ED2601CD4400C43730 /* MSFDrawerTokens.generated.swift */; };
+		3F82A4B12604069100CAC666 /* MSFDrawerTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40E8ED2601CD4400C43730 /* MSFDrawerTokens.generated.swift */; };
 		3FC2EDB325F9EA2D007AA0F8 /* MSFDrawerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC2EDB125F9EA2D007AA0F8 /* MSFDrawerTokens.swift */; };
 		3FC2EDB425F9EA2D007AA0F8 /* MSFDrawerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC2EDB125F9EA2D007AA0F8 /* MSFDrawerTokens.swift */; };
 		497DC2D924185885008D86F8 /* PillButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D724185885008D86F8 /* PillButtonBar.swift */; };
@@ -1556,6 +1557,7 @@
 				5314E26625F023B20099271A /* UIColor+Extensions.swift in Sources */,
 				5314E30225F0260E0099271A /* AccessibilityContainerView.swift in Sources */,
 				536AEF6E25F1EC0300A36206 /* AvatarTokens.swift in Sources */,
+				3F82A4B12604069100CAC666 /* MSFDrawerTokens.generated.swift in Sources */,
 				536AEF6225F1EC0300A36206 /* ListHeaderFooter.swift in Sources */,
 				8FD01188228A82A600D25925 /* Colors.swift in Sources */,
 				5314E0F325F012C80099271A /* ShyHeaderController.swift in Sources */,
