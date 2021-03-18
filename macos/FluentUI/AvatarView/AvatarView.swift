@@ -335,7 +335,7 @@ open class AvatarView: NSView {
 	///
 	/// - returns: the color table entry for the given index
 	///
-	/// - note: Internal visibility exists only for unit testing
+	/// - note: API method avaiable for legacy support only, This will be removed in future release
 	@objc(getLegacyBackgroundColorForIndex:)
 	@available(*, deprecated, message: "Use getColorForIndex instead")
 	public static func getLegacyColor(for index: Int) -> NSColor {
