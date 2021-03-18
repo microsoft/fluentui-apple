@@ -105,33 +105,43 @@ class ColorDemoController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
+        tableView.allowsSelection = false
+        tableView.backgroundColor = Colors.tableBackground
 
-        let stackView = UIStackView(arrangedSubviews: [segmentedControl, tableView])
+        let separator = Separator(style: .shadow, orientation: .horizontal)
+        let stackView = UIStackView(arrangedSubviews: [segmentedControl, separator, tableView])
+        stackView.setCustomSpacing(8, after: segmentedControl)
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
 
         view = UIView(frame: .zero)
         view.addSubview(stackView)
-        view.backgroundColor = Colors.tableBackground
 
-        let safeAreaLayoutGuide = view.safeAreaLayoutGuide
+        view.backgroundColor = Colors.navigationBarBackground
 
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-            stackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            stackView.topAnchor.constraint(equalTo: view.topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        navigationController?.navigationBar.shadowImage = UIImage()
         if let window = view.window {
             segmentedControl.selectedSegmentIndex = colorProviderThemedWindowTypes.firstIndex(where: { return window.isKind(of: $0.windowType) }) ?? 0
         }
     }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.shadowImage = nil
+    }
+
     private lazy var segmentedControl: SegmentedControl = {
-        let segmentedControl = SegmentedControl(items: colorProviderThemedWindowTypes.map({ return $0.name }), style: .tabs)
+        let segmentedControl = SegmentedControl(items: colorProviderThemedWindowTypes.map({ return $0.name }), style: .primaryPill)
         segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(sender:)), for: .valueChanged)
         return segmentedControl
     }()

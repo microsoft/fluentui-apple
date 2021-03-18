@@ -22,6 +22,7 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
         // TODO: Make title button width dynamic
         static let titleButtonWidth: CGFloat = 160
         static let calendarHeightStyle: CalendarViewHeightStyle = .extraTall
+        static let verticalPaddingFromSegmentControl: CGFloat = 4.0
     }
 
     var startDate = Date() {
@@ -157,6 +158,7 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
 
         if let segmentedControl = segmentedControl {
             view.addSubview(segmentedControl)
+            view.backgroundColor = Colors.Toolbar.background
         }
         view.addSubview(calendarView)
 
@@ -168,30 +170,34 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
 
         scrollToFocusDate(animated: false)
 
-        if segmentedControl == nil {
-            // Hide default bottom border of navigation bar
-            navigationController?.navigationBar.shadowImage = UIImage()
-        }
+        // Hide default bottom border of navigation bar
+        navigationController?.navigationBar.shadowImage = UIImage()
     }
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
-        var calendarFrame = view.bounds
+        var verticalOffset: CGFloat = 0
         if let segmentedControl = segmentedControl {
-            var frame = calendarFrame
-            frame.size.height = segmentedControl.intrinsicContentSize.height
-            calendarFrame = calendarFrame.inset(by: UIEdgeInsets(top: frame.height, left: 0, bottom: 0, right: 0))
-
-            segmentedControl.frame = frame
+            segmentedControl.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: segmentedControl.intrinsicContentSize.height)
+            verticalOffset = segmentedControl.frame.height + Constants.verticalPaddingFromSegmentControl
         }
-        calendarView.frame = calendarFrame
+
+        calendarView.frame = CGRect(x: 0, y: verticalOffset, width: view.frame.width, height: view.frame.height - verticalOffset)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if let window = view.window {
             navigationItem.rightBarButtonItem?.tintColor = UIColor(light: Colors.primary(for: window), dark: Colors.textDominant)
+        }
+    }
+
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if let segmentedControl = segmentedControl, previousTraitCollection?.userInterfaceStyle != traitCollection.userInterfaceStyle {
+            segmentedControl.style = (traitCollection.userInterfaceStyle == .dark) ? .onBrandPill : .primaryPill
         }
     }
 
@@ -211,7 +217,8 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
     private func initSegmentedControl() {
         let titles = [customStartTabTitle ?? "MSDateTimePicker.StartDate".localized,
                       customEndTabTitle ?? "MSDateTimePicker.EndDate".localized]
-        segmentedControl = SegmentedControl(items: titles)
+        segmentedControl = SegmentedControl(items: titles,
+                                            style: traitCollection.userInterfaceStyle == .dark ? .onBrandPill : .primaryPill)
         segmentedControl?.addTarget(self, action: #selector(handleDidSelectStartEnd(_:)), for: .valueChanged)
     }
 
@@ -476,9 +483,13 @@ extension DatePickerController: CalendarViewStyleDataSource {
 
 extension DatePickerController: CardPresentable {
     func idealSize() -> CGSize {
+        var extraHeight: CGFloat = 0
+        if let segmentedControlHeight = segmentedControl?.frame.height {
+            extraHeight = segmentedControlHeight + Constants.verticalPaddingFromSegmentControl
+        }
         return CGSize(
             width: Constants.idealWidth,
-            height: calendarView.height(for: Constants.calendarHeightStyle, in: view.bounds) + (segmentedControl?.frame.height ?? 0)
+            height: calendarView.height(for: Constants.calendarHeightStyle, in: view.bounds) + extraHeight
         )
     }
 }
