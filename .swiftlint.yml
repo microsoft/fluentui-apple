@@ -166,10 +166,12 @@ only_rules:
 
 included: # paths to include during linting. `--path` is ignored if present.
   - ${LINTPATH}
+  - ios
+  - macos
 
 excluded: # paths to ignore during linting. Takes precedence over `included`.
   - Pods
-  - ${EXCLUDELINTPATH}
+  - tools
 
 explicit_type_interface: # requires type annotation on everything but local variables and constants
   excluded:
