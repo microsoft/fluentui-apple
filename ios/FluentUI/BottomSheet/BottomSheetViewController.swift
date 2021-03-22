@@ -24,6 +24,7 @@ open class BottomSheetViewController: UIViewController {
         self.contentViewController = contentViewController
         super.init(nibName: nil, bundle: nil)
         addChild(contentViewController)
+        contentViewController.didMove(toParent: self)
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -33,9 +34,11 @@ open class BottomSheetViewController: UIViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOpacity = 0.2
-        view.layer.shadowRadius = 4
+        view.backgroundColor = Colors.NavigationBar.background
+
+        view.layer.shadowColor = Constants.Shadow.color
+        view.layer.shadowOpacity = Constants.Shadow.opacity
+        view.layer.shadowRadius = Constants.Shadow.radius
 
         view.addGestureRecognizer(gestureRecognizer)
 
@@ -79,10 +82,10 @@ open class BottomSheetViewController: UIViewController {
                 targetFrame = windowFrame
         case .expand:
             // todo right size
-            targetFrame = CGRect(x: 0, y: (windowFrame.height - 200), width: windowFrame.width, height: 200)
+            targetFrame = CGRect(x: 0, y: (windowFrame.height - Constants.collapsedHeight), width: windowFrame.width, height: Constants.collapsedHeight)
         }
 
-        animator = UIViewPropertyAnimator(duration: 0.25, curve: .easeIn, animations: { [weak self] in
+        animator = UIViewPropertyAnimator(duration: Constants.animationDuration, curve: .linear, animations: { [weak self] in
             self?.view.frame = targetFrame
         })
     }
@@ -95,7 +98,7 @@ open class BottomSheetViewController: UIViewController {
         let futureState: BottomSheetViewState
         switch currentState {
         case .expand:
-            if verticalPos >= windowHeight / 2 || velocity > 250 {
+            if verticalPos >= windowHeight / 2 || velocity > Constants.velocityThreshold {
                 shouldReverse = false
                 futureState = .collapse
             } else {
@@ -103,7 +106,7 @@ open class BottomSheetViewController: UIViewController {
                 futureState = .expand
             }
         case .collapse:
-            if verticalPos <= -windowHeight / 2 || velocity <= -250 {
+            if verticalPos <= -windowHeight / 2 || velocity <= -1 * Constants.velocityThreshold {
                 shouldReverse = false
                 futureState = .expand
             } else {
@@ -116,6 +119,10 @@ open class BottomSheetViewController: UIViewController {
         animator?.addCompletion { [weak self] _ in
             self?.currentState = futureState
             self?.gestureRecognizer.isEnabled = true
+
+            // when the bottomsheet drawer is expanded, we don't want the UIViews behind the sheet to be accessible.
+            self?.view.accessibilityViewIsModal = self?.currentState == .expand
+            UIAccessibility.post(notification: .layoutChanged, argument: nil)
         }
         animator?.continueAnimation(withTimingParameters: nil, durationFactor: 0)
     }
@@ -125,11 +132,25 @@ open class BottomSheetViewController: UIViewController {
            return
         }
 
-        var progress = -1 * verticalPos / (view.center.y + verticalPos)
+        let windowHeight = view.window?.frame.height ?? 0
+        var progress = -1 * verticalPos / (windowHeight - Constants.collapsedHeight)
+
         if currentState == .expand {
             progress *= -1
         }
 
         animator?.fractionComplete = progress
+    }
+
+    private struct Constants {
+        static let animationDuration: TimeInterval = 0.5
+        static let collapsedHeight: CGFloat = 200
+        static let velocityThreshold: CGFloat = 250
+
+        struct Shadow {
+            static let color: CGColor = UIColor.black.cgColor
+            static let opacity: Float = 0.2
+            static let radius: CGFloat = 4
+        }
     }
 }

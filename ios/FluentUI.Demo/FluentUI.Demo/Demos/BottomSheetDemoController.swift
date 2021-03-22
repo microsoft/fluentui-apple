@@ -45,6 +45,7 @@ class BottomSheetDemoController: DemoController {
 
         if let bottomSheet = bottomSheetViewController {
             addChild(bottomSheet)
+            bottomSheet.didMove(toParent: self)
             view.addSubview(bottomSheet.view)
             bottomSheet.view.frame = CGRect(x: 0, y: view.frame.height - 200, width: view.frame.width, height: 200)
         }
@@ -54,7 +55,6 @@ class BottomSheetDemoController: DemoController {
 class TabButtonViewController: UIViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .yellow
 
         let button = Button(style: .primaryFilled)
         button.setTitle("Longer Text Button", for: .normal)
@@ -65,7 +65,7 @@ class TabButtonViewController: UIViewController {
 
         NSLayoutConstraint.activate([
             button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            button.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20),
+            button.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20)
         ])
     }
 }
