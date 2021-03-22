@@ -197,4 +197,3 @@ modifier_order:
 type_name:
   min_length: 3
   max_length: 50
-swiftlint_version: 0.43.1
