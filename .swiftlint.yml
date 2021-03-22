@@ -1,4 +1,4 @@
-only_rules:
+whitelist_rules:
   # Delegate protocols should be class-only so they can be weakly referenced.
   - class_delegate_protocol
 
@@ -99,7 +99,9 @@ only_rules:
   - redundant_string_enum_value
 
   # Properties, variables, and constants should not have redundant type annotation
-  - redundant_type_annotation
+  # This rule is currently disabled because it invokes false warnings for Bools
+  # Gitgub issue filed with swiftlint https://github.com/realm/SwiftLint/issues/3578
+  # - redundant_type_annotation
 
   # Returning Void in a function declaration is redundant.
   - redundant_void_return
@@ -195,3 +197,4 @@ modifier_order:
 type_name:
   min_length: 3
   max_length: 50
+swiftlint_version: 0.43.1
