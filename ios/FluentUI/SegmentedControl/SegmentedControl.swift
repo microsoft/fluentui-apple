@@ -133,6 +133,15 @@ open class SegmentedControl: UIControl {
             }
         }
 
+        func segmentUnreadDotColor(for window: UIWindow) -> UIColor {
+            switch self {
+            case .primaryPill:
+                return UIColor(light: Colors.primary(for: window), dark: Colors.textPrimary)
+            case .tabs, .onBrandPill:
+                return Colors.SegmentedControl.OnBrandPill.segmentText
+            }
+        }
+
         var segmentTextFont: UIFont {
             switch self {
             case .tabs:
@@ -521,7 +530,7 @@ open class SegmentedControl: UIControl {
     }
 
     private func createSwitchButton(withTitle title: String) -> UIButton {
-        let button = UIButton()
+        let button = SegmentedSwitchButton()
         button.setTitle(title, for: .normal)
         button.accessibilityLabel = title
         button.largeContentTitle = title
@@ -655,6 +664,10 @@ open class SegmentedControl: UIControl {
                     } else {
                             button.setTitleColor(style.segmentTextColorDisabled(for: window), for: .normal)
                     }
+
+                    if let switchButton = button as? SegmentedSwitchButton {
+                        switchButton.unreadDotColor = style.segmentUnreadDotColor(for: window)
+                    }
                 }
             }
         }
@@ -698,5 +711,60 @@ private class SegmentedControlButton: UIButton {
 
     @objc private func updateFont() {
         titleLabel?.font = SegmentedControl.Style.tabs.segmentTextFont
+    }
+}
+
+private class SegmentedSwitchButton: UIButton {
+    var isUnread: Bool = false {
+        didSet {
+            if oldValue != isUnread {
+                if isUnread {
+                    self.layer.addSublayer(unreadDotLayer)
+                } else {
+                    unreadDotLayer.removeFromSuperlayer()
+                }
+            }
+        }
+    }
+
+    var unreadDotColor: UIColor = Colors.gray100
+
+    override var isSelected: Bool {
+        didSet {
+            if oldValue != isSelected && isSelected == true {
+                isUnread = false
+            }
+        }
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        updateUnreadDot()
+    }
+
+    private let unreadDotLayer: CALayer = {
+        let unreadDotLayer = CALayer()
+        unreadDotLayer.bounds.size = CGSize(width: Constants.unreadDotSize, height: Constants.unreadDotSize)
+        unreadDotLayer.cornerRadius = Constants.unreadDotSize / 2
+        return unreadDotLayer
+    }()
+
+    private func updateUnreadDot() {
+        if isUnread {
+            let anchor = self.titleLabel?.frame ?? .zero
+            let xPos: CGFloat
+            if effectiveUserInterfaceLayoutDirection == .leftToRight {
+                xPos = anchor.maxX + Constants.unreadDotOffset.x
+            } else {
+                xPos = anchor.minX - Constants.unreadDotOffset.x - Constants.unreadDotSize
+            }
+            unreadDotLayer.frame.origin = CGPoint(x: xPos, y: anchor.minY + Constants.unreadDotOffset.y)
+            unreadDotLayer.backgroundColor = unreadDotColor.cgColor
+        }
+    }
+
+    private struct Constants {
+        static let unreadDotOffset = CGPoint(x: 4, y: 3)
+        static let unreadDotSize: CGFloat = 6
     }
 }
