@@ -40,10 +40,11 @@ open class TabBarView: UIView {
                 preconditionFailure("tab bar items can't be more than \(Constants.maxTabCount)")
             }
 
-            for item in items {
+            for (index, item) in items.enumerated() {
                 let tabBarItemView = TabBarItemView(item: item, showsTitle: showsItemTitles)
                 let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTabBarItemTapped(_:)))
                 tabBarItemView.addGestureRecognizer(tapGesture)
+                tabBarItemView.accessibilityHint = String(format: "Accessibility.TabBarItemView.Hint".localized, index + 1, numberOfItems)
                 stackView.addArrangedSubview(tabBarItemView)
             }
 
