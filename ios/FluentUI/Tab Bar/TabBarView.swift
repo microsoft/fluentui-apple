@@ -44,7 +44,11 @@ open class TabBarView: UIView {
                 let tabBarItemView = TabBarItemView(item: item, showsTitle: showsItemTitles)
                 let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTabBarItemTapped(_:)))
                 tabBarItemView.addGestureRecognizer(tapGesture)
-                tabBarItemView.accessibilityHint = String(format: "Accessibility.TabBarItemView.Hint".localized, index + 1, numberOfItems)
+
+                // seems like iOS 14 `.tabBar` accessibilityTrait doesn't seem to read out the index automatically
+                if #available(iOS 14.0, *) {
+                    tabBarItemView.accessibilityHint = String(format: "Accessibility.TabBarItemView.Hint".localized, index + 1, numberOfItems)
+                }
                 stackView.addArrangedSubview(tabBarItemView)
             }
 

@@ -233,12 +233,17 @@ open class SideTabBar: UIView {
         let showItemTitles = section == .top ? showTopItemTitles : showBottomItemTitles
         var didRestoreSelection = false
 
-        for item in allItems {
+        for (index, item) in allItems.enumerated() {
             let tabBarItemView = TabBarItemView(item: item, showsTitle: showItemTitles, canResizeImage: false)
             tabBarItemView.translatesAutoresizingMaskIntoConstraints = false
             tabBarItemView.alwaysShowTitleBelowImage = true
             tabBarItemView.maxBadgeWidth = Constants.viewWidth / 2 - badgePadding
             tabBarItemView.numberOfTitleLines = Constants.numberOfTitleLines
+
+            // seems like iOS 14 `.tabBar` accessibilityTrait doesn't seem to read out the index automatically
+            if #available(iOS 14.0, *) {
+                tabBarItemView.accessibilityHint = String(format: "Accessibility.TabBarItemView.Hint".localized, index + 1, numberOfItems)
+            }
 
             if itemView(with: item, in: section) != nil && section == .top && item == selectedTopItem {
                 tabBarItemView.isSelected = true
