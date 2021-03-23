@@ -36,10 +36,10 @@ public extension Colors {
 /// Used for SegmentedControl array of views
 @objc(MSFSegmentItem)
 public class SegmentItem: NSObject {
-    public var title: String
-    
+    public let title: String
+
     /// This value will determine whether or not to show dot next to the pill button label
-    public var isUnread: Bool{
+    public var isUnread: Bool {
        didSet {
            if oldValue != isUnread {
                NotificationCenter.default.post(name: SegmentItem.isUnreadValueDidChangeNotification, object: self)
