@@ -33,30 +33,6 @@ public extension Colors {
     }
 }
 
-/// Used for SegmentedControl array of views
-@objc(MSFSegmentItem)
-public class SegmentItem: NSObject {
-    public let title: String
-
-    /// This value will determine whether or not to show dot next to the pill button label
-    public var isUnread: Bool {
-       didSet {
-           if oldValue != isUnread {
-               NotificationCenter.default.post(name: SegmentItem.isUnreadValueDidChangeNotification, object: self)
-           }
-       }
-   }
-
-    @objc public init(title: String, isUnread: Bool = false) {
-        self.title = title
-        self.isUnread = isUnread
-        super.init()
-    }
-
-    /// Notification sent when item's `isUnread` value changes.
-    static let isUnreadValueDidChangeNotification = NSNotification.Name(rawValue: "SegmentItemisUnreadValueDidChangeNotification")
-}
-
 // MARK: SegmentedControl
 @available(*, deprecated, renamed: "SegmentedControl")
 public typealias MSSegmentedControl = SegmentedControl
@@ -545,7 +521,7 @@ open class SegmentedControl: UIControl {
     }
 
     private func createPillButton(withItem item: SegmentItem) -> UIButton {
-        let button = SegmentedPillButton(withItem: item)
+        let button = SegmentPillButton(withItem: item)
         button.addTarget(self, action: #selector(handleButtonTap(_:)), for: .touchUpInside)
         return button
     }
@@ -674,7 +650,7 @@ open class SegmentedControl: UIControl {
                             button.setTitleColor(style.segmentTextColorDisabled(for: window), for: .normal)
                     }
 
-                    if let switchButton = button as? SegmentedPillButton {
+                    if let switchButton = button as? SegmentPillButton {
                         switchButton.unreadDotColor = style.segmentUnreadDotColor(for: window)
                     }
                 }
@@ -720,94 +696,5 @@ private class SegmentedControlButton: UIButton {
 
     @objc private func updateFont() {
         titleLabel?.font = TextStyle.subhead.font
-    }
-}
-
-private class SegmentedPillButton: UIButton {
-    var isUnreadDotVisible: Bool = false {
-        didSet {
-            if oldValue != isUnreadDotVisible {
-                if isUnreadDotVisible {
-                    self.layer.addSublayer(unreadDotLayer)
-                } else {
-                    unreadDotLayer.removeFromSuperlayer()
-                }
-            }
-        }
-    }
-
-    var unreadDotColor: UIColor = Colors.gray100
-
-    override var isSelected: Bool {
-        didSet {
-            if oldValue != isSelected && isSelected == true {
-                item.isUnread = false
-                updateUnreadDot()
-            }
-        }
-    }
-
-    init(withItem item: SegmentItem) {
-        self.item = item
-        super.init(frame: .zero)
-
-        self.contentEdgeInsets = Constants.insets
-
-        let title = item.title
-        self.setTitle(title, for: .normal)
-        self.accessibilityLabel = title
-        self.largeContentTitle = title
-        self.showsLargeContentViewer = true
-        self.titleLabel?.font = UIFont.systemFont(ofSize: Constants.fontSize)
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(isUnreadValueDidChange),
-                                               name: SegmentItem.isUnreadValueDidChangeNotification,
-                                               object: item)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        updateUnreadDot()
-    }
-
-    private let item: SegmentItem
-
-    private let unreadDotLayer: CALayer = {
-        let unreadDotLayer = CALayer()
-        unreadDotLayer.bounds.size = CGSize(width: Constants.unreadDotSize, height: Constants.unreadDotSize)
-        unreadDotLayer.cornerRadius = Constants.unreadDotSize / 2
-        return unreadDotLayer
-    }()
-
-    @objc private func isUnreadValueDidChange() {
-        isUnreadDotVisible = item.isUnread
-        setNeedsLayout()
-    }
-
-    private func updateUnreadDot() {
-        isUnreadDotVisible = item.isUnread
-        if isUnreadDotVisible {
-            let anchor = self.titleLabel?.frame ?? .zero
-            let xPos: CGFloat
-            if effectiveUserInterfaceLayoutDirection == .leftToRight {
-                xPos = anchor.maxX + Constants.unreadDotOffset.x
-            } else {
-                xPos = anchor.minX - Constants.unreadDotOffset.x - Constants.unreadDotSize
-            }
-            unreadDotLayer.frame.origin = CGPoint(x: xPos, y: anchor.minY + Constants.unreadDotOffset.y)
-            unreadDotLayer.backgroundColor = unreadDotColor.cgColor
-        }
-    }
-
-    private struct Constants {
-        static let fontSize: CGFloat = 16
-        static let unreadDotOffset = CGPoint(x: 4, y: 3)
-        static let unreadDotSize: CGFloat = 6
-        static let insets = UIEdgeInsets(top: 6, left: 16, bottom: 6, right: 16)
     }
 }

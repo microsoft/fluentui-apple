@@ -222,6 +222,10 @@
 		C0A0D76E233AEF6C00F432FD /* ShimmerLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A0D76B233AEF6C00F432FD /* ShimmerLinesView.swift */; };
 		C0A0D76F233AEF6C00F432FD /* ShimmerLinesViewAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A0D76C233AEF6C00F432FD /* ShimmerLinesViewAppearance.swift */; };
 		C0EAAEAD2347E1DF00C7244E /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EAAEAC2347E1DF00C7244E /* ShimmerView.swift */; };
+		C708B04C260A8696007190FA /* SegmentItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C708B04B260A8696007190FA /* SegmentItem.swift */; };
+		C708B056260A86FA007190FA /* SegmentPillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C708B055260A86FA007190FA /* SegmentPillButton.swift */; };
+		C708B05F260A8778007190FA /* SegmentPillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C708B055260A86FA007190FA /* SegmentPillButton.swift */; };
+		C708B064260A87F7007190FA /* SegmentItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C708B04B260A8696007190FA /* SegmentItem.swift */; };
 		C77A04B725F03DD1001B3EB6 /* String+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04B625F03DD1001B3EB6 /* String+Date.swift */; };
 		C77A04B825F03DD1001B3EB6 /* String+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04B625F03DD1001B3EB6 /* String+Date.swift */; };
 		C77A04ED25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */; };
@@ -406,6 +410,8 @@
 		C0A0D76B233AEF6C00F432FD /* ShimmerLinesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShimmerLinesView.swift; sourceTree = "<group>"; };
 		C0A0D76C233AEF6C00F432FD /* ShimmerLinesViewAppearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShimmerLinesViewAppearance.swift; sourceTree = "<group>"; };
 		C0EAAEAC2347E1DF00C7244E /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
+		C708B04B260A8696007190FA /* SegmentItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentItem.swift; sourceTree = "<group>"; };
+		C708B055260A86FA007190FA /* SegmentPillButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentPillButton.swift; sourceTree = "<group>"; };
 		C77A04B625F03DD1001B3EB6 /* String+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Date.swift"; sourceTree = "<group>"; };
 		C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+CellFileAccessoryView.swift"; sourceTree = "<group>"; };
 		CCC18C2B2501B22F00BE830E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
@@ -982,6 +988,8 @@
 			isa = PBXGroup;
 			children = (
 				ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */,
+				C708B04B260A8696007190FA /* SegmentItem.swift */,
+				C708B055260A86FA007190FA /* SegmentPillButton.swift */,
 			);
 			path = SegmentedControl;
 			sourceTree = "<group>";
@@ -1380,6 +1388,7 @@
 				5314E12A25F016230099271A /* PillButton.swift in Sources */,
 				5314E01F25F00D080099271A /* Button.swift in Sources */,
 				5314E0E525F012C00099271A /* NavigationBar.swift in Sources */,
+				C708B064260A87F7007190FA /* SegmentItem.swift in Sources */,
 				5314E14325F016860099271A /* CardTransitionAnimator.swift in Sources */,
 				5314E0F825F012CB0099271A /* LargeTitleView.swift in Sources */,
 				5314E13725F016370099271A /* PopupMenuProtocols.swift in Sources */,
@@ -1388,6 +1397,7 @@
 				5314E2EC25F025710099271A /* DayOfMonth.swift in Sources */,
 				5314E0B325F010400099271A /* EasyTapButton.swift in Sources */,
 				5314E19625F019650099271A /* TabBarView.swift in Sources */,
+				C708B05F260A8778007190FA /* SegmentPillButton.swift in Sources */,
 				5314E11925F015EA0099271A /* ContactCollectionView.swift in Sources */,
 				5314E13525F016370099271A /* PopupMenuItemCell.swift in Sources */,
 				5314E2A025F024860099271A /* NSLayoutConstraint+Extensions.swift in Sources */,
@@ -1521,6 +1531,7 @@
 				FD41C88422DD13230086F899 /* ContentScrollViewTraits.swift in Sources */,
 				FD97580F2191118E00B67319 /* DateTimePickerViewComponentCell.swift in Sources */,
 				A5B6617323A41E2900E801DD /* NotificationView.swift in Sources */,
+				C708B04C260A8696007190FA /* SegmentItem.swift in Sources */,
 				FD41C88622DD13230086F899 /* ShyHeaderController.swift in Sources */,
 				537315B325438B15001FD14C /* iOS13_4_compatibility.swift in Sources */,
 				FDFB8AF121361C9D0046850A /* CalendarViewDayMonthCell.swift in Sources */,
@@ -1538,6 +1549,7 @@
 				FD41C89422DD13230086F899 /* LargeTitleView.swift in Sources */,
 				C0938E44235E8ED500256251 /* AnimationSynchronizer.swift in Sources */,
 				B483323521DEA8D70022B4CC /* HUD.swift in Sources */,
+				C708B056260A86FA007190FA /* SegmentPillButton.swift in Sources */,
 				A5B87B06211E23650038C37C /* UIView+Extensions.swift in Sources */,
 				7D0931C324AAAC9B0072458A /* SideTabBar.swift in Sources */,
 				A5961FA7218A2E4500E2A506 /* UIImage+Extensions.swift in Sources */,
