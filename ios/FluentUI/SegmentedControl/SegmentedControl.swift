@@ -37,13 +37,24 @@ public extension Colors {
 @objc(MSFSegmentItem)
 public class SegmentItem: NSObject {
     public var title: String
-    public var isUnread: Bool
+    
+    /// This value will determine whether or not to show dot next to the pill button label
+    public var isUnread: Bool{
+       didSet {
+           if oldValue != isUnread {
+               NotificationCenter.default.post(name: SegmentItem.isUnreadValueDidChangeNotification, object: self)
+           }
+       }
+   }
 
     @objc public init(title: String, isUnread: Bool = false) {
         self.title = title
         self.isUnread = isUnread
         super.init()
     }
+
+    /// Notification sent when item's `isUnread` value changes.
+    static let isUnreadValueDidChangeNotification = NSNotification.Name(rawValue: "SegmentItemisUnreadValueDidChangeNotification")
 }
 
 // MARK: SegmentedControl
@@ -748,6 +759,11 @@ private class SegmentedPillButton: UIButton {
         self.largeContentTitle = title
         self.showsLargeContentViewer = true
         self.titleLabel?.font = UIFont.systemFont(ofSize: Constants.fontSize)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(isUnreadValueDidChange),
+                                               name: SegmentItem.isUnreadValueDidChangeNotification,
+                                               object: item)
     }
 
     required init?(coder: NSCoder) {
@@ -767,6 +783,11 @@ private class SegmentedPillButton: UIButton {
         unreadDotLayer.cornerRadius = Constants.unreadDotSize / 2
         return unreadDotLayer
     }()
+
+    @objc private func isUnreadValueDidChange() {
+        isUnreadDotVisible = item.isUnread
+        setNeedsLayout()
+    }
 
     private func updateUnreadDot() {
         isUnreadDotVisible = item.isUnread
