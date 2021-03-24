@@ -212,7 +212,7 @@ open class BottomSheetViewController: UIViewController {
     }
 
     private struct Constants {
-        static let animationDuration: TimeInterval = 0.5
+        static let animationDuration: TimeInterval = 0.25
         static let collapsedHeight: CGFloat = 200
         static let velocityThreshold: CGFloat = 250
         static let cornerRadius: CGFloat = 14
