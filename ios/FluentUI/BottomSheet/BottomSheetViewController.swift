@@ -19,10 +19,19 @@ open class BottomSheetViewController: UIViewController {
         view.axis = .vertical
         return view
     }()
-    private lazy var gestureRecognizer: UIPanGestureRecognizer = {
+    private lazy var panGestureRecognizer: UIPanGestureRecognizer = {
         let recognizer = UIPanGestureRecognizer()
         recognizer.addTarget(self, action: #selector(handlePan))
         return recognizer
+    }()
+
+    private lazy var resizingHandleView: ResizingHandleView = {
+        let resizingHandleView = ResizingHandleView()
+        resizingHandleView.isAccessibilityElement = true
+        resizingHandleView.accessibilityTraits = .button
+        resizingHandleView.isUserInteractionEnabled = true
+        resizingHandleView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleResizingHandleViewTap)))
+        return resizingHandleView
     }()
 
     @objc public init(with contentViewController: UIViewController) {
@@ -47,9 +56,8 @@ open class BottomSheetViewController: UIViewController {
         view.layer.cornerRadius = Constants.cornerRadius
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
 
-        view.addGestureRecognizer(gestureRecognizer)
+        view.addGestureRecognizer(panGestureRecognizer)
 
-        let resizingHandleView = ResizingHandleView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.addArrangedSubview(resizingHandleView)
         containerView.addArrangedSubview(contentViewController.view)
@@ -60,7 +68,45 @@ open class BottomSheetViewController: UIViewController {
             containerView.topAnchor.constraint(equalTo: view.topAnchor),
             containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+
+        updateResizingHandleViewAccessibility()
     }
+
+// MARK: animator setup
+    private func setupAnimator() {
+        if let window = self.view.window {
+            let targetFrame: CGRect
+            var windowFrame = window.frame
+            switch currentState {
+            case .collapse:
+                    windowFrame.size.height -= window.safeAreaInsets.top
+                    windowFrame.origin.y = window.safeAreaInsets.top
+                    targetFrame = windowFrame
+            case .expand:
+                // todo right size
+                targetFrame = CGRect(x: 0, y: (windowFrame.height - Constants.collapsedHeight), width: windowFrame.width, height: Constants.collapsedHeight)
+            }
+
+            animator = UIViewPropertyAnimator(duration: Constants.animationDuration, curve: .linear, animations: { [weak self] in
+                self?.view.frame = targetFrame
+            })
+        }
+    }
+
+    private func addAnimatorCompletion(to futureState: BottomSheetViewState, completion: (() -> Void)? = nil) {
+        animator?.addCompletion { [weak self] _ in
+            self?.currentState = futureState
+
+            // when the bottomsheet drawer is expanded, we don't want the UIViews behind the sheet to be accessible.
+            self?.view.accessibilityViewIsModal = self?.currentState == .expand
+            self?.updateResizingHandleViewAccessibility()
+            UIAccessibility.post(notification: .layoutChanged, argument: nil)
+
+            completion?()
+        }
+    }
+
+// MARK: pan gesture utilities
 
     @objc private func handlePan(gesture: UIPanGestureRecognizer) {
         let positionInSuperview = gesture.translation(in: view.superview)
@@ -83,28 +129,11 @@ open class BottomSheetViewController: UIViewController {
            return
         }
 
-        if let window = self.view.window {
-            let targetFrame: CGRect
-            var windowFrame = window.frame
-
-            switch currentState {
-            case .collapse:
-                    windowFrame.size.height -= window.safeAreaInsets.top
-                    windowFrame.origin.y = window.safeAreaInsets.top
-                    targetFrame = windowFrame
-            case .expand:
-                // todo right size
-                targetFrame = CGRect(x: 0, y: (windowFrame.height - Constants.collapsedHeight), width: windowFrame.width, height: Constants.collapsedHeight)
-            }
-
-            animator = UIViewPropertyAnimator(duration: Constants.animationDuration, curve: .linear, animations: { [weak self] in
-                self?.view.frame = targetFrame
-            })
-        }
+        setupAnimator()
     }
 
     private func panningStop(in verticalPos: CGFloat, velocity: CGFloat) {
-        gestureRecognizer.isEnabled = false
+        panGestureRecognizer.isEnabled = false
 
         let windowHeight = view.window?.frame.height ?? 0
         let shouldReverse: Bool
@@ -129,14 +158,9 @@ open class BottomSheetViewController: UIViewController {
         }
 
         animator?.isReversed = shouldReverse
-        animator?.addCompletion { [weak self] _ in
-            self?.currentState = futureState
-            self?.gestureRecognizer.isEnabled = true
-
-            // when the bottomsheet drawer is expanded, we don't want the UIViews behind the sheet to be accessible.
-            self?.view.accessibilityViewIsModal = self?.currentState == .expand
-            UIAccessibility.post(notification: .layoutChanged, argument: nil)
-        }
+        addAnimatorCompletion(to: futureState, completion: { [weak self] in
+            self?.panGestureRecognizer.isEnabled = true
+        })
         animator?.continueAnimation(withTimingParameters: nil, durationFactor: 0)
     }
 
@@ -155,6 +179,38 @@ open class BottomSheetViewController: UIViewController {
         animator?.fractionComplete = progress
     }
 
+// MARK: Resize Handle utilities
+
+    @objc private func handleResizingHandleViewTap(gesture: UITapGestureRecognizer) {
+        if animator?.isRunning ?? false {
+            return
+        }
+
+        if gesture.state == .recognized {
+            let futureState: BottomSheetViewState
+            switch currentState {
+            case .collapse:
+                futureState = .expand
+            case .expand:
+                futureState = .collapse
+            }
+
+            setupAnimator()
+            addAnimatorCompletion(to: futureState)
+            animator?.startAnimation()
+        }
+    }
+
+    private func updateResizingHandleViewAccessibility() {
+        if currentState == .expand {
+            resizingHandleView.accessibilityLabel = "Accessibility.Drawer.ResizingHandle.Label.Collapse".localized
+            resizingHandleView.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Collapse".localized
+        } else {
+            resizingHandleView.accessibilityLabel = "Accessibility.Drawer.ResizingHandle.Label.Expand".localized
+            resizingHandleView.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Expand".localized
+        }
+    }
+
     private struct Constants {
         static let animationDuration: TimeInterval = 0.5
         static let collapsedHeight: CGFloat = 200
@@ -163,7 +219,7 @@ open class BottomSheetViewController: UIViewController {
 
         struct Shadow {
             static let color: CGColor = UIColor.black.cgColor
-            static let opacity: Float = 0.2
+            static let opacity: Float = 0.05
             static let radius: CGFloat = 4
         }
     }
