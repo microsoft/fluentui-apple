@@ -14,6 +14,11 @@ open class BottomSheetViewController: UIViewController {
     private var animator: UIViewPropertyAnimator?
     private var contentViewController: UIViewController
     private var currentState: BottomSheetViewState = .collapse
+    private let containerView: UIStackView = {
+        let view = UIStackView()
+        view.axis = .vertical
+        return view
+    }()
     private lazy var gestureRecognizer: UIPanGestureRecognizer = {
         let recognizer = UIPanGestureRecognizer()
         recognizer.addTarget(self, action: #selector(handlePan))
@@ -39,19 +44,22 @@ open class BottomSheetViewController: UIViewController {
         view.layer.shadowColor = Constants.Shadow.color
         view.layer.shadowOpacity = Constants.Shadow.opacity
         view.layer.shadowRadius = Constants.Shadow.radius
+        view.layer.cornerRadius = Constants.cornerRadius
+        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
 
         view.addGestureRecognizer(gestureRecognizer)
 
-        if let contentView = contentViewController.view {
-            contentView.translatesAutoresizingMaskIntoConstraints = false
-            view.addSubview(contentViewController.view)
-            NSLayoutConstraint.activate([
-                contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                contentView.topAnchor.constraint(equalTo: view.topAnchor),
-                contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            ])
-        }
+        let resizingHandleView = ResizingHandleView()
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.addArrangedSubview(resizingHandleView)
+        containerView.addArrangedSubview(contentViewController.view)
+        view.addSubview(containerView)
+        NSLayoutConstraint.activate([
+            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            containerView.topAnchor.constraint(equalTo: view.topAnchor),
+            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 
     @objc private func handlePan(gesture: UIPanGestureRecognizer) {
@@ -146,6 +154,7 @@ open class BottomSheetViewController: UIViewController {
         static let animationDuration: TimeInterval = 0.5
         static let collapsedHeight: CGFloat = 200
         static let velocityThreshold: CGFloat = 250
+        static let cornerRadius: CGFloat = 14
 
         struct Shadow {
             static let color: CGColor = UIColor.black.cgColor
