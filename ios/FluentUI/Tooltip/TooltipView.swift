@@ -27,8 +27,6 @@ class TooltipView: UIView {
 
         static let paddingHorizontal: CGFloat = 13
         static let totalPaddingVertical: CGFloat = 12
-
-        static let maxLines: Int = 3
     }
 
     static let backgroundCornerRadius: CGFloat = 8
@@ -56,7 +54,7 @@ class TooltipView: UIView {
 
     private static func messageLabelSizeThatFits(_ size: CGSize, message: String) -> CGSize {
         let boundingWidth = min(Constants.maximumWidth, size.width) - 2 * Constants.paddingHorizontal
-        return message.preferredSize(for: Constants.messageLabelTextStyle.font, width: boundingWidth, numberOfLines: Constants.maxLines)
+        return message.preferredSize(for: Constants.messageLabelTextStyle.font, width: boundingWidth)
     }
 
     let positionController: TooltipPositionController
@@ -78,7 +76,7 @@ class TooltipView: UIView {
     private let messageLabel: UILabel = {
         let label = Label(style: Constants.messageLabelTextStyle)
         label.textColor = Colors.Tooltip.text
-        label.numberOfLines = Constants.maxLines
+        label.numberOfLines = 0
         return label
     }()
 
