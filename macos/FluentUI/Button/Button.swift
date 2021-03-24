@@ -104,7 +104,6 @@ open class Button: NSButton {
 		self.imagePosition = imagePosition
 		self.format = format
 		self.buttonState = ButtonState.normal
-//		self.imagesForButtonState = [ButtonState: NSImage]()
 		if image != nil {
 			addImage(forButtonState: self.buttonState!, image: self.image!)
 		}
