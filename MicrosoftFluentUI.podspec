@@ -44,6 +44,12 @@ Pod::Spec.new do |s|
     barbuttonitems_ios.source_files = ["ios/FluentUI/BarButtonItems/**/*.{swift,h}"]
   end
 
+  s.subspec 'BottomSheet_ios' do |bottomsheet_ios|
+    bottomsheet_ios.platform = :ios
+    bottomsheet_ios.dependency 'MicrosoftFluentUI/Core_ios'
+    bottomsheet_ios.source_files = ["ios/FluentUI/BottomSheet/**/*.{swift,h}"]
+  end
+
   s.subspec 'Button_ios' do |button_ios|
     button_ios.platform = :ios
     button_ios.dependency 'MicrosoftFluentUI/Core_ios'
