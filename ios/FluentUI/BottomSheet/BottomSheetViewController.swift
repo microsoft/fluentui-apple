@@ -83,19 +83,24 @@ open class BottomSheetViewController: UIViewController {
            return
         }
 
-        let targetFrame: CGRect
-        let windowFrame = self.view.window?.frame ?? .zero
-        switch currentState {
-        case .collapse:
-                targetFrame = windowFrame
-        case .expand:
-            // todo right size
-            targetFrame = CGRect(x: 0, y: (windowFrame.height - Constants.collapsedHeight), width: windowFrame.width, height: Constants.collapsedHeight)
-        }
+        if let window = self.view.window {
+            let targetFrame: CGRect
+            var windowFrame = window.frame
 
-        animator = UIViewPropertyAnimator(duration: Constants.animationDuration, curve: .linear, animations: { [weak self] in
-            self?.view.frame = targetFrame
-        })
+            switch currentState {
+            case .collapse:
+                    windowFrame.size.height -= window.safeAreaInsets.top
+                    windowFrame.origin.y = window.safeAreaInsets.top
+                    targetFrame = windowFrame
+            case .expand:
+                // todo right size
+                targetFrame = CGRect(x: 0, y: (windowFrame.height - Constants.collapsedHeight), width: windowFrame.width, height: Constants.collapsedHeight)
+            }
+
+            animator = UIViewPropertyAnimator(duration: Constants.animationDuration, curve: .linear, animations: { [weak self] in
+                self?.view.frame = targetFrame
+            })
+        }
     }
 
     private func panningStop(in verticalPos: CGFloat, velocity: CGFloat) {

@@ -269,6 +269,7 @@
 				B42760DC21488FFA0021A4F7 /* AvatarViewDemoController.swift */,
 				B45EB79121A4D047008646A2 /* BadgeFieldDemoController.swift */,
 				B444D6B72183BA4B0002B4D4 /* BadgeViewDemoController.swift */,
+				C787C13626059615008261DF /* BottomSheetDemoController.swift */,
 				B4D852DA225C010A004B1B29 /* ButtonDemoController.swift */,
 				CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */,
 				114CF8B72423E10900D064AA /* ColorDemoController.swift */,
@@ -299,7 +300,6 @@
 				C038992D2359307D00265026 /* TableViewCellShimmerDemoController.swift */,
 				B4EF66532295F1A8007FEAB0 /* TableViewHeaderFooterViewDemoController.swift */,
 				FD7DF06121FB941400857267 /* TooltipDemoController.swift */,
-				C787C13626059615008261DF /* BottomSheetDemoController.swift */,
 			);
 			path = Demos;
 			sourceTree = "<group>";
