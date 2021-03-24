@@ -193,6 +193,10 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		let customTitle = "Atom"
 		let customImage = NSImage(named: TestButtonViewController.nonTemplateImage)!
 		customImage.isTemplate = true
+		let imageForSelectedState = NSImage(named: NSImage.actionTemplateName)!
+		imageForSelectedState.isTemplate = true
+		let imageForDisabledState = NSImage(named: NSImage.bookmarksTemplateName)!
+		imageForDisabledState.isTemplate = true
 		let customFormat = ButtonFormat(size: .large, style: .primary, accentColor: Colors.Palette.blueMagenta30.color)
 
 		let buttonsWithTitle: () -> [Button] = {
@@ -207,6 +211,8 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			customButton.title = customTitle
 			customButton.image = customImage
 			customButton.format = customFormat
+			customButton.addImage(forButtonState: ButtonState.selected, image: imageForSelectedState)
+			customButton.addImage(forButtonState: ButtonState.disabled, image: imageForDisabledState)
 			return [customButton] + formats.map({ Button(title: title, image: image, format: $0) })
 		}
 
@@ -214,6 +220,8 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			let customButton = Button()
 			customButton.image = customImage
 			customButton.format = customFormat
+			customButton.addImage(forButtonState: ButtonState.selected, image: imageForSelectedState)
+			customButton.addImage(forButtonState: ButtonState.disabled, image: imageForDisabledState)
 			return [customButton] + formats.map({ Button(image: image, format: $0) })
 		}
 
