@@ -10,7 +10,18 @@ enum BottomSheetViewState {
     case collapse
 }
 
-open class BottomSheetViewController: UIViewController {
+@objc(MSFBottomSheetViewControllerDelegate)
+public protocol BottomSheetViewControllerDelegate: AnyObject {
+    /// Called when drawer is being expanded.
+    @objc optional func bottomSheetViewControllerDidExpand(_ controller: BottomSheetViewController)
+
+    /// Called when drawer is being collapsed.
+    @objc optional func bottomSheetViewControllerDidCollapse(_ controller: BottomSheetViewController)
+}
+
+public class BottomSheetViewController: UIViewController {
+    @objc public weak var delegate: BottomSheetViewControllerDelegate?
+
     private var animator: UIViewPropertyAnimator?
     private var contentViewController: UIViewController
     private var currentState: BottomSheetViewState = .collapse
@@ -95,14 +106,21 @@ open class BottomSheetViewController: UIViewController {
 
     private func addAnimatorCompletion(to futureState: BottomSheetViewState, completion: (() -> Void)? = nil) {
         animator?.addCompletion { [weak self] _ in
-            self?.currentState = futureState
+            if let currentBottomSheetViewController = self {
+                currentBottomSheetViewController.currentState = futureState
 
-            // when the bottomsheet drawer is expanded, we don't want the UIViews behind the sheet to be accessible.
-            self?.view.accessibilityViewIsModal = self?.currentState == .expand
-            self?.updateResizingHandleViewAccessibility()
-            UIAccessibility.post(notification: .layoutChanged, argument: nil)
+                // when the bottomsheet drawer is expanded, we don't want the UIViews behind the sheet to be accessible.
+                currentBottomSheetViewController.view.accessibilityViewIsModal = futureState == .expand
+                currentBottomSheetViewController.updateResizingHandleViewAccessibility()
+                UIAccessibility.post(notification: .layoutChanged, argument: nil)
 
-            completion?()
+                completion?()
+                if futureState == .expand {
+                    currentBottomSheetViewController.delegate?.bottomSheetViewControllerDidExpand?(currentBottomSheetViewController)
+                } else {
+                    currentBottomSheetViewController.delegate?.bottomSheetViewControllerDidCollapse?(currentBottomSheetViewController)
+                }
+            }
         }
     }
 
