@@ -3,7 +3,7 @@
 //  Licensed under the MIT License.
 //
 
-import Foundation
+import UIKit
 
 enum BottomSheetViewState {
     case expand
