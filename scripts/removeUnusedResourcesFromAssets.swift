@@ -12,7 +12,6 @@ if CommandLine.arguments.count != 3 {
                     notContainedIn: usedResources)
 }
 
-
 /// Builds a set of resource entries relative to the root of an .xcassets folder based on contents of the .xcfilelist files in the project.
 /// - Parameter rootPath: Root path of the project. A search for .resources.xcfilelist files will be performed to build the resource entry list.
 /// - Returns: A set containing the combination of all resource entries in the .resources.xcfilelist found in the project.
@@ -27,7 +26,7 @@ func findUsedResources(in rootPath: String) -> Set<String> {
                                                             options: [.skipsHiddenFiles, .skipsPackageDescendants]) {
         for case let fileURL as URL in filesEnumerator {
             do {
-                let fileAttributes = try fileURL.resourceValues(forKeys:[.isRegularFileKey])
+                let fileAttributes = try fileURL.resourceValues(forKeys: [.isRegularFileKey])
                 let filePath = fileURL.relativePath
 
                 if fileAttributes.isRegularFile! &&
@@ -56,7 +55,6 @@ func findUsedResources(in rootPath: String) -> Set<String> {
     return usedResources
 }
 
-
 /// Iterates through all folders in a given .xcassets file and removes the .colorset or .imageset folders that are not contained in the used resources set.
 /// - Parameters:
 ///   - xcassetsPath: Root path of the .xcassets file.
@@ -72,18 +70,18 @@ func removeResources(from xcassetsPath: String, notContainedIn usedResourcesSet:
                                                                   options: [.skipsHiddenFiles, .skipsPackageDescendants]) {
         for case let directoryURL as URL in directoriesEnumerator {
             do {
-                let directoryAttributes = try directoryURL.resourceValues(forKeys:[.isDirectoryKey])
+                let directoryAttributes = try directoryURL.resourceValues(forKeys: [.isDirectoryKey])
                 let dirExtension = directoryURL.pathExtension
 
                 if directoryAttributes.isDirectory! && resourceExtensions.contains(dirExtension) {
-                    let fileEntry = directoryURL.relativePath.withoutPrefix(xcassetsRelativePath).withoutPrefix("/")
-                    let shouldBeKept = usedResourcesSet.contains(fileEntry)
+                    let directoryEntry = directoryURL.relativePath.withoutPrefix(xcassetsRelativePath).withoutPrefix("/")
+                    let shouldBeKept = usedResourcesSet.contains(directoryEntry)
 
-                    if (!shouldBeKept) {
+                    if !shouldBeKept {
                         try FileManager.default.removeItem(at: directoryURL)
                     }
 
-                    print(" - \(fileEntry) (\(shouldBeKept ? "kept" : "removed"))")
+                    print(" - \(directoryEntry) (\(shouldBeKept ? "kept" : "removed"))")
                 }
             } catch {
                 print(error, directoryURL)
