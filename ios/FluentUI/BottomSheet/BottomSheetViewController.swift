@@ -68,6 +68,7 @@ public class BottomSheetViewController: UIViewController {
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
 
         view.addGestureRecognizer(panGestureRecognizer)
+        panGestureRecognizer.delegate = self
 
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.addArrangedSubview(resizingHandleView)
@@ -240,5 +241,20 @@ public class BottomSheetViewController: UIViewController {
             static let opacity: Float = 0.05
             static let radius: CGFloat = 4
         }
+    }
+}
+
+extension BottomSheetViewController: UIGestureRecognizerDelegate {
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        let shouldRecognizeSimultaneously = false
+        if let contentView = otherGestureRecognizer.view {
+            if let scrollView = contentView as? UIScrollView {
+                // If scroll view has reached the bottom or top bring the bottom sheet pan in action too.
+                if scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height) || (scrollView.contentOffset.y <= 0) {
+                    return true
+                }
+            }
+        }
+        return shouldRecognizeSimultaneously
     }
 }
