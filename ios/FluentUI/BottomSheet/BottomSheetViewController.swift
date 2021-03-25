@@ -131,7 +131,7 @@ public class BottomSheetViewController: UIViewController {
                 // when the bottomsheet drawer is expanded, we don't want the UIViews behind the sheet to be accessible.
                 currentBottomSheetViewController.view.accessibilityViewIsModal = futureState == .expand
                 currentBottomSheetViewController.updateResizingHandleViewAccessibility()
-                UIAccessibility.post(notification: .layoutChanged, argument: nil)
+                UIAccessibility.post(notification: .layoutChanged, argument: currentBottomSheetViewController.resizingHandleView)
 
                 completion?()
                 if futureState == .expand {
