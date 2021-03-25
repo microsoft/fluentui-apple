@@ -25,6 +25,7 @@ public class BottomSheetViewController: UIViewController {
     private var animator: UIViewPropertyAnimator?
     private var contentViewController: UIViewController
     private var currentState: BottomSheetViewState = .collapse
+    private var collapsedHeight: CGFloat = 200
     private let containerView: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
@@ -55,6 +56,14 @@ public class BottomSheetViewController: UIViewController {
     public required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
+    
+// MARK: public methods
+    @objc public func setCollapsedHeight(height: CGFloat)
+    {
+        collapsedHeight = height
+    }
+    
+// MARK: Lifecycle methods
 
     open override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,7 +91,30 @@ public class BottomSheetViewController: UIViewController {
 
         updateResizingHandleViewAccessibility()
     }
+    
+    public override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        if animator != nil {
+            // panning started, don't update the height
+            return
+        }
+        updateHeight()
+    }
 
+// MARK: private helpers
+    
+    private func updateHeight(){
+        // update the view layout for collapsed mode
+        if currentState == .collapse
+        {
+            if let window = self.view.window {
+                let windowFrame = window.frame
+                view.frame = CGRect(x: 0, y: (windowFrame.height - collapsedHeight), width: windowFrame.width, height: collapsedHeight)
+                view.layoutIfNeeded()
+            }
+        }
+    }
+    
 // MARK: animator setup
     private func setupAnimator() {
         if let window = self.view.window {
@@ -95,7 +127,7 @@ public class BottomSheetViewController: UIViewController {
                     targetFrame = windowFrame
             case .expand:
                 // todo right size
-                targetFrame = CGRect(x: 0, y: (windowFrame.height - Constants.collapsedHeight), width: windowFrame.width, height: Constants.collapsedHeight)
+                targetFrame = CGRect(x: 0, y: (windowFrame.height - collapsedHeight), width: windowFrame.width, height: collapsedHeight)
             }
 
             animator = UIViewPropertyAnimator(duration: Constants.animationDuration, curve: .linear, animations: { [weak self] in
@@ -188,7 +220,7 @@ public class BottomSheetViewController: UIViewController {
         }
 
         let windowHeight = view.window?.frame.height ?? 0
-        var progress = -1 * verticalPos / (windowHeight - Constants.collapsedHeight)
+        var progress = -1 * verticalPos / (windowHeight - collapsedHeight)
 
         if currentState == .expand {
             progress *= -1
@@ -231,7 +263,6 @@ public class BottomSheetViewController: UIViewController {
 
     private struct Constants {
         static let animationDuration: TimeInterval = 0.25
-        static let collapsedHeight: CGFloat = 200
         static let velocityThreshold: CGFloat = 250
         static let cornerRadius: CGFloat = 14
 
