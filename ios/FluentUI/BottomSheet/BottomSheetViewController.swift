@@ -30,6 +30,13 @@ public class BottomSheetViewController: UIViewController {
         view.axis = .vertical
         return view
     }()
+
+    private lazy var dimmingView: DimmingView = {
+        let view = DimmingView(type: .black)
+        view.isUserInteractionEnabled = false
+        return view
+    }()
+
     private lazy var panGestureRecognizer: UIPanGestureRecognizer = {
         let recognizer = UIPanGestureRecognizer()
         recognizer.addTarget(self, action: #selector(handlePan))
@@ -83,23 +90,33 @@ public class BottomSheetViewController: UIViewController {
         updateResizingHandleViewAccessibility()
     }
 
+    open override func viewDidDisappear(_ animated: Bool) {
+        removeDimmingView()
+        super.viewDidDisappear(animated)
+    }
+
 // MARK: animator setup
     private func setupAnimator() {
         if let window = self.view.window {
             let targetFrame: CGRect
             var windowFrame = window.frame
+            let futureDimmingViewAlpha: CGFloat
             switch currentState {
             case .collapse:
-                    windowFrame.size.height -= window.safeAreaInsets.top
-                    windowFrame.origin.y = window.safeAreaInsets.top
-                    targetFrame = windowFrame
+                windowFrame.size.height -= window.safeAreaInsets.top
+                windowFrame.origin.y = window.safeAreaInsets.top
+                targetFrame = windowFrame
+                setupDimmingView()
+                futureDimmingViewAlpha = 1
             case .expand:
                 // todo right size
                 targetFrame = CGRect(x: 0, y: (windowFrame.height - Constants.collapsedHeight), width: windowFrame.width, height: Constants.collapsedHeight)
+                futureDimmingViewAlpha = 0
             }
 
             animator = UIViewPropertyAnimator(duration: Constants.animationDuration, curve: .linear, animations: { [weak self] in
                 self?.view.frame = targetFrame
+                self?.dimmingView.alpha = futureDimmingViewAlpha
             })
         }
     }
@@ -118,6 +135,7 @@ public class BottomSheetViewController: UIViewController {
                 if futureState == .expand {
                     currentBottomSheetViewController.delegate?.bottomSheetViewControllerDidExpand?(currentBottomSheetViewController)
                 } else {
+                    currentBottomSheetViewController.removeDimmingView()
                     currentBottomSheetViewController.delegate?.bottomSheetViewControllerDidCollapse?(currentBottomSheetViewController)
                 }
             }
@@ -227,6 +245,25 @@ public class BottomSheetViewController: UIViewController {
             resizingHandleView.accessibilityLabel = "Accessibility.Drawer.ResizingHandle.Label.Expand".localized
             resizingHandleView.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Expand".localized
         }
+    }
+
+// MARK: Dimming View utilities
+    private func setupDimmingView() {
+        if let rootView = view.superview {
+            dimmingView.translatesAutoresizingMaskIntoConstraints = false
+            rootView.insertSubview(dimmingView, belowSubview: view)
+            NSLayoutConstraint.activate([
+                dimmingView.leadingAnchor.constraint(equalTo: rootView.leadingAnchor),
+                dimmingView.trailingAnchor.constraint(equalTo: rootView.trailingAnchor),
+                dimmingView.topAnchor.constraint(equalTo: rootView.topAnchor),
+                dimmingView.bottomAnchor.constraint(equalTo: rootView.bottomAnchor)
+            ])
+            dimmingView.alpha = 0
+        }
+    }
+
+    private func removeDimmingView() {
+        dimmingView.removeFromSuperview()
     }
 
     private struct Constants {
