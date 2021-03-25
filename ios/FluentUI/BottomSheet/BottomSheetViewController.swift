@@ -22,7 +22,11 @@ public protocol BottomSheetViewControllerDelegate: AnyObject {
 public class BottomSheetViewController: UIViewController {
     @objc public weak var delegate: BottomSheetViewControllerDelegate?
     /// bottom sheet's view height in collapsed mode.
-    @objc public var collapsedHeight: CGFloat = 200
+    @objc public var collapsedHeight: CGFloat = 200 {
+        didSet {
+            updateHeight()
+        }
+    }
 
     private var animator: UIViewPropertyAnimator?
     private var contentViewController: UIViewController
