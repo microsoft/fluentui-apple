@@ -72,6 +72,7 @@ public class BottomSheetViewController: UIViewController {
         view.layer.shadowOpacity = Constants.Shadow.opacity
         view.layer.shadowRadius = Constants.Shadow.radius
         view.layer.cornerRadius = Constants.cornerRadius
+        view.layer.cornerCurve = .continuous
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
 
         view.addGestureRecognizer(panGestureRecognizer)
