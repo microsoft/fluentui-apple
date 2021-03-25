@@ -87,7 +87,7 @@ class SegmentPillButton: UIButton {
 
     private struct Constants {
         static let fontSize: CGFloat = 16
-        static let unreadDotOffset = CGPoint(x: 4, y: 3)
+        static let unreadDotOffset = CGPoint(x: 6, y: 3)
         static let unreadDotSize: CGFloat = 6
         static let insets = UIEdgeInsets(top: 6, left: 16, bottom: 6, right: 16)
     }
