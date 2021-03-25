@@ -18,6 +18,9 @@ jobs:
     strategy:
       fail-fast: true
     steps:
+    - uses: actions/checkout@v2
+    - name: Switch to current version of Xcode
+      run: scripts/xcode_select_current_version.sh
     - name: pod lib lint
       run: scripts/podliblint.sh
     - name: validation
