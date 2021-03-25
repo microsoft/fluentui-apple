@@ -1,11 +1,11 @@
 Pod::Spec.new do |s|
   s.name             = 'MicrosoftFluentUI'
-  s.version          = '0.0.12'
+  s.version          = '0.0.13'
   s.summary          = 'Fluent UI is a set of reusable UI controls and tools'
   s.homepage         = "https://www.microsoft.com/design/fluent/#/"
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { "Microsoft" => "fluentuinativeowners@microsoft.com"}
-  s.source       = { :git => "https://github.com/rdeassis/fluentui-apple.git", :branch => 'rdeassis/cocoapodsGranularResources', :tag => "0.0.12_Test" }
+  s.source       = { :git => "https://github.com/rdeassis/fluentui-apple.git", :branch => 'rdeassis/cocoapodsGranularResources', :tag => "0.0.13_Test" }
   s.swift_version = "5.0"
   s.module_name = 'FluentUI'
 
@@ -83,7 +83,7 @@ Pod::Spec.new do |s|
                                                              "ios/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
     core_ios.script_phase = { :name => 'Optimize resource bundle',
                               :script => 'echo "\n\nRemoving unused resources from FluentUI-ios.xcassets...\n\n"
-swift ${LOCROOT}/../scripts/removeUnusedResourcesFromAssets.swift ${LOCROOT}/FluentUI/Resources/FluentUI-ios.xcassets ${LOCROOT}
+xcrun --sdk macosx swift ${LOCROOT}/MicrosoftFluentUI/scripts/removeUnusedResourcesFromAssets.swift ${LOCROOT}/MicrosoftFluentUI/ios/FluentUI/Resources/FluentUI-ios.xcassets ${LOCROOT}/MicrosoftFluentUI/ios
 
 echo "\n\nRebuilding resource bundle target...\n\n"
 xcodebuild -project ${PROJECT_FILE_PATH} -target "MicrosoftFluentUI-FluentUIResources-ios" -sdk ${PLATFORM_NAME} -configuration ${CONFIGURATION} CONFIGURATION_BUILD_DIR=${BUILT_PRODUCTS_DIR}',

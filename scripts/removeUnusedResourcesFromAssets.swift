@@ -80,7 +80,7 @@ func removeResources(from xcassetsPath: String, notContainedIn usedResourcesSet:
                     let shouldBeKept = usedResourcesSet.contains(fileEntry)
 
                     if (!shouldBeKept) {
-//                        try FileManager.default.removeItem(at: directoryURL)
+                        try FileManager.default.removeItem(at: directoryURL)
                     }
 
                     print(" - \(fileEntry) (\(shouldBeKept ? "kept" : "removed"))")
