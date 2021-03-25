@@ -13,6 +13,15 @@ on:
       - vnext-prototype
 
 jobs:
+  validation:
+    runs-on: macos-10.15
+    strategy:
+      fail-fast: true
+    steps:
+    - name: pod lib lint
+      run: scripts/podliblint.sh
+    - name: validation
+      run: scripts/validation.sh
   xcodebuild:
     runs-on: macos-10.15
     strategy:
@@ -39,7 +48,3 @@ jobs:
       run: scripts/xcode_select_current_version.sh
     - name: scripts/xcodebuild_wrapper.sh ${{ matrix.build_command }}
       run: scripts/xcodebuild_wrapper.sh ${{ matrix.build_command }}
-    - name: pod lib lint
-      run: scripts/podliblint.sh
-    - name: validation
-      run: scripts/validation.sh
