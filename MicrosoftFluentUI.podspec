@@ -82,11 +82,11 @@ Pod::Spec.new do |s|
     core_ios.resource_bundle = { 'FluentUIResources-ios' => ["apple/Resources/**/*.{json,xcassets}",
                                                              "ios/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
     core_ios.script_phase = { :name => 'Optimize resource bundle',
-                              :script => 'echo "\n\nRemoving unused resources from FluentUI-ios.xcassets...\n\n"
+                              :script => 'echo "=== Removing unused resources from FluentUI-ios.xcassets ==="
 xcrun --sdk macosx swift ${LOCROOT}/MicrosoftFluentUI/scripts/removeUnusedResourcesFromAssets.swift ${LOCROOT}/MicrosoftFluentUI/ios/FluentUI/Resources/FluentUI-ios.xcassets ${LOCROOT}/MicrosoftFluentUI/ios
 
-echo "\n\nRebuilding resource bundle target...\n\n"
-xcodebuild -project ${PROJECT_FILE_PATH} -target "MicrosoftFluentUI-FluentUIResources-ios" -sdk ${PLATFORM_NAME} -configuration ${CONFIGURATION} CONFIGURATION_BUILD_DIR=${BUILT_PRODUCTS_DIR}',
+echo "=== Rebuilding resource bundle target ==="
+xcodebuild -project ${PROJECT_FILE_PATH} -target "MicrosoftFluentUI-FluentUIResources-ios" -sdk ${PLATFORM_NAME} -configuration ${CONFIGURATION} CONFIGURATION_BUILD_DIR=${CONFIGURATION_BUILD_DIR} BUILD_ROOT=${BUILD_ROOT} BUILT_PRODUCTS_DIR=${BUILT_PRODUCTS_DIR} ${ACTION}',
                               :execution_position => :before_compile }
     core_ios.preserve_paths = ["ios/FluentUI/Core/Core.resources.xcfilelist",
                                "scripts/removeUnusedResourcesFromAssets.swift"]
