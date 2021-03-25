@@ -21,6 +21,7 @@ public protocol BottomSheetViewControllerDelegate: AnyObject {
 
 public class BottomSheetViewController: UIViewController {
     @objc public weak var delegate: BottomSheetViewControllerDelegate?
+    /// bottom sheet's view height in collapsed mode.
     @objc public var collapsedHeight: CGFloat = 200
 
     private var animator: UIViewPropertyAnimator?
@@ -85,7 +86,7 @@ public class BottomSheetViewController: UIViewController {
 
         updateResizingHandleViewAccessibility()
     }
-    
+
     public override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         if animator?.state == .active {
@@ -96,11 +97,9 @@ public class BottomSheetViewController: UIViewController {
     }
 
 // MARK: private helpers
-    
-    private func updateHeight(){
+    private func updateHeight() {
         // update the view layout for collapsed mode
-        if currentState == .collapse
-        {
+        if currentState == .collapse {
             if let window = self.view.window {
                 view.frame = targetCollapseFrame(with: window)
                 view.layoutIfNeeded()
@@ -108,8 +107,7 @@ public class BottomSheetViewController: UIViewController {
         }
     }
 
-    private func targetCollapseFrame(with window:UIWindow)->CGRect
-    {
+    private func targetCollapseFrame(with window: UIWindow) -> CGRect {
         let windowFrame = window.frame
         return CGRect(x: 0, y: (windowFrame.height - collapsedHeight), width: windowFrame.width, height: collapsedHeight)
     }
