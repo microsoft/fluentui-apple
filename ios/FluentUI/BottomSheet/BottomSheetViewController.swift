@@ -56,7 +56,7 @@ public class BottomSheetViewController: UIViewController {
     public required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
-    
+
 // MARK: Lifecycle methods
 
     open override func viewDidLoad() {
@@ -92,7 +92,6 @@ public class BottomSheetViewController: UIViewController {
             // panning started, don't update the height
             return
         }
-        
         updateHeight()
     }
 
@@ -108,13 +107,13 @@ public class BottomSheetViewController: UIViewController {
             }
         }
     }
-    
+
     private func targetCollapseFrame(with window:UIWindow)->CGRect
     {
         let windowFrame = window.frame
         return CGRect(x: 0, y: (windowFrame.height - collapsedHeight), width: windowFrame.width, height: collapsedHeight)
     }
-    
+
 // MARK: animator setup
     private func setupAnimator() {
         if let window = self.view.window {
