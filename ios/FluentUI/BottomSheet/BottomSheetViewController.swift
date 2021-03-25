@@ -246,15 +246,11 @@ public class BottomSheetViewController: UIViewController {
 
 extension BottomSheetViewController: UIGestureRecognizerDelegate {
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        let shouldRecognizeSimultaneously = false
-        if let contentView = otherGestureRecognizer.view {
-            if let scrollView = contentView as? UIScrollView {
-                // If scroll view has reached the bottom or top bring the bottom sheet pan in action too.
-                if scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height) || (scrollView.contentOffset.y <= 0) {
-                    return true
-                }
-            }
+        if let _ = otherGestureRecognizer as? UIPanGestureRecognizer, let scrollView = otherGestureRecognizer.view as? UIScrollView, scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height) || (scrollView.contentOffset.y <= 0) {
+            // If scroll view has reached the bottom or top bring the bottom sheet pan in action too.
+            return true
+        } else {
+            return false
         }
-        return shouldRecognizeSimultaneously
     }
 }
