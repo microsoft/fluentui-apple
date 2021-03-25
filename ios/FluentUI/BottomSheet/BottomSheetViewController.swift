@@ -55,13 +55,6 @@ public class BottomSheetViewController: UIViewController {
     public required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
-	
-	open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-		super.traitCollectionDidChange(previousTraitCollection)
-		if previousTraitCollection?.horizontalSizeClass != traitCollection.horizontalSizeClass || previousTraitCollection?.verticalSizeClass != traitCollection.verticalSizeClass {
-			// update code
-		}
-	}
 
     open override func viewDidLoad() {
         super.viewDidLoad()
