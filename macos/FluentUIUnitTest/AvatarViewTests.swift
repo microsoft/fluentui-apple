@@ -139,11 +139,23 @@ class AvatarViewTests: XCTestCase {
 	}
 
 	func testHashAlgorithm () {
-		XCTAssertEqual(AvatarView.colorIndex(for: "Annie.Lindqvist@example.com"), 5881)
-		XCTAssertEqual(AvatarView.colorIndex(for: "Maor.Sharett@example.com"), 9659)
-		XCTAssertEqual(AvatarView.colorIndex(for: "email@example.com"), 1874)
-		XCTAssertEqual(AvatarView.colorIndex(for: "happy@example.com"), 1690)
-		XCTAssertEqual(AvatarView.colorIndex(for: "Kat Larrson"), 11264)
-		XCTAssertEqual(AvatarView.colorIndex(for: ""), 0)
+		var colorSet = AvatarView.getInitialsColorSet(fromPrimaryText: "", secondaryText: "Annie.Lindqvist@example.com")
+		XCTAssertEqual(colorSet.background, DynamicColor(light: Colors.Palette.seafoamTint40.color, dark: Colors.Palette.seafoamShade30.color))
+		XCTAssertEqual(colorSet.foreground, DynamicColor(light: Colors.Palette.seafoamShade30.color, dark: Colors.Palette.seafoamTint40.color))
+		colorSet = AvatarView.getInitialsColorSet(fromPrimaryText: "", secondaryText: "Maor.Sharett@example.com")
+		XCTAssertEqual(colorSet.background, DynamicColor(light: Colors.Palette.cornFlowerTint40.color, dark: Colors.Palette.cornFlowerShade30.color))
+		XCTAssertEqual(colorSet.foreground, DynamicColor(light: Colors.Palette.cornFlowerShade30.color, dark: Colors.Palette.cornFlowerTint40.color))
+		colorSet = AvatarView.getInitialsColorSet(fromPrimaryText: "", secondaryText: "email@example.com")
+		XCTAssertEqual(colorSet.background, DynamicColor(light: Colors.Palette.brassTint40.color, dark: Colors.Palette.brassShade30.color))
+		XCTAssertEqual(colorSet.foreground, DynamicColor(light: Colors.Palette.brassShade30.color, dark: Colors.Palette.brassTint40.color))
+		colorSet = AvatarView.getInitialsColorSet(fromPrimaryText: "", secondaryText: "happy@example.com")
+		XCTAssertEqual(colorSet.background, DynamicColor(light: Colors.Palette.lavenderTint40.color, dark: Colors.Palette.lavenderShade30.color))
+		XCTAssertEqual(colorSet.foreground, DynamicColor(light: Colors.Palette.lavenderShade30.color, dark: Colors.Palette.lavenderTint40.color))
+		colorSet = AvatarView.getInitialsColorSet(fromPrimaryText: "", secondaryText: "Kat Larrson")
+		XCTAssertEqual(colorSet.background, DynamicColor(light: Colors.Palette.grapeTint40.color, dark: Colors.Palette.grapeShade30.color))
+		XCTAssertEqual(colorSet.foreground, DynamicColor(light: Colors.Palette.grapeShade30.color, dark: Colors.Palette.grapeTint40.color))
+		colorSet = AvatarView.getInitialsColorSet(fromPrimaryText: "", secondaryText: "")
+		XCTAssertEqual(colorSet.background, DynamicColor(light: Colors.Palette.darkRedTint40.color, dark: Colors.Palette.darkRedShade30.color))
+		XCTAssertEqual(colorSet.foreground, DynamicColor(light: Colors.Palette.darkRedShade30.color, dark: Colors.Palette.darkRedTint40.color))
 	}
 }
