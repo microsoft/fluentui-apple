@@ -21,10 +21,17 @@ public protocol BottomSheetViewControllerDelegate: AnyObject {
 
 public class BottomSheetViewController: UIViewController {
     @objc public weak var delegate: BottomSheetViewControllerDelegate?
-    /// bottom sheet's view height in collapsed mode.
+    /// BottomSheetViewController's view height in collapsed mode.
     @objc public var collapsedHeight: CGFloat = Constants.collapsedHeight {
         didSet {
-            updateHeight()
+            updateFrame()
+        }
+    }
+
+    /// BottomSheetViewController's view width in iPad when horizontal size is regular
+    @objc public var contentWidth: CGFloat = Constants.contentWidth {
+        didSet {
+            updateFrame()
         }
     }
 
@@ -81,7 +88,6 @@ public class BottomSheetViewController: UIViewController {
         view.layer.shadowRadius = Constants.Shadow.radius
         view.layer.cornerRadius = Constants.cornerRadius
         view.layer.cornerCurve = .continuous
-        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
 
         view.addGestureRecognizer(panGestureRecognizer)
         panGestureRecognizer.delegate = self
@@ -106,18 +112,18 @@ public class BottomSheetViewController: UIViewController {
             // panning started, don't update the height
             return
         }
-        updateHeight()
+        updateFrame()
     }
 
 // MARK: private helpers
-    private func updateHeight() {
+    private func updateFrame() {
         // update the view layout for collapsed mode
         if currentState == .collapse {
             if let window = view.window {
                 let suggestionFrame = targetCollapseFrame(with: window)
                 if suggestionFrame != view.frame {
                     view.frame = suggestionFrame
-                    view.layoutIfNeeded()
+                    view.setNeedsLayout()
                 }
             }
         }
@@ -126,7 +132,25 @@ public class BottomSheetViewController: UIViewController {
     private func targetCollapseFrame(with window: UIWindow) -> CGRect {
         let windowFrame = window.frame
         let adjustedCollapseHeight = collapsedHeight + window.safeAreaInsets.bottom
+
+        if traitCollection.userInterfaceIdiom == .pad, traitCollection.horizontalSizeClass == .regular {
+            return CGRect(x: floor((windowFrame.width - contentWidth) / 2), y: windowFrame.height - adjustedCollapseHeight - Constants.verticalInsetBottom, width: contentWidth, height: collapsedHeight)
+        }
+
         return CGRect(x: 0, y: (windowFrame.height - adjustedCollapseHeight), width: windowFrame.width, height: adjustedCollapseHeight)
+    }
+
+    private func targetExpandFrame(with window: UIWindow) -> CGRect {
+        var targetFrame = window.frame
+        targetFrame.origin.y = window.safeAreaInsets.top
+        targetFrame.size.height -= window.safeAreaInsets.top
+
+        if traitCollection.userInterfaceIdiom == .pad, traitCollection.horizontalSizeClass == .regular {
+            targetFrame.size.height -= Constants.verticalInsetBottom
+            return CGRect(x: floor((targetFrame.width - contentWidth) / 2), y: targetFrame.origin.y, width: contentWidth, height: targetFrame.size.height)
+        }
+
+        return targetFrame
     }
 
     open override func viewDidDisappear(_ animated: Bool) {
@@ -138,13 +162,10 @@ public class BottomSheetViewController: UIViewController {
     private func setupAnimator() {
         if let window = self.view.window {
             let targetFrame: CGRect
-            var windowFrame = window.frame
             let futureDimmingViewAlpha: CGFloat
             switch currentState {
             case .collapse:
-                windowFrame.size.height -= window.safeAreaInsets.top
-                windowFrame.origin.y = window.safeAreaInsets.top
-                targetFrame = windowFrame
+                targetFrame = targetExpandFrame(with: window)
                 setupDimmingView()
                 futureDimmingViewAlpha = 1
             case .expand:
@@ -306,7 +327,9 @@ public class BottomSheetViewController: UIViewController {
 
     private struct Constants {
         static let animationDuration: TimeInterval = 0.25
-        static let collapsedHeight: CGFloat = ResizingHandleView.height + 48
+        static let collapsedHeight: CGFloat = ResizingHandleView.height + 56
+        static let contentWidth: CGFloat = 500
+        static let verticalInsetBottom: CGFloat = 4
         static let velocityThreshold: CGFloat = 250
         static let cornerRadius: CGFloat = 14
 
