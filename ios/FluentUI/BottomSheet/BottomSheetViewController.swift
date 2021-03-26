@@ -122,9 +122,10 @@ public class BottomSheetViewController: UIViewController {
 
     private func targetCollapseFrame(with window: UIWindow) -> CGRect {
         let windowFrame = window.frame
-        return CGRect(x: 0, y: (windowFrame.height - collapsedHeight), width: windowFrame.width, height: collapsedHeight)
+        let adjustedCollapseHeight = collapsedHeight + window.safeAreaInsets.bottom
+        return CGRect(x: 0, y: (windowFrame.height - adjustedCollapseHeight), width: windowFrame.width, height: adjustedCollapseHeight)
     }
-  
+
     open override func viewDidDisappear(_ animated: Bool) {
         removeDimmingView()
         super.viewDidDisappear(animated)
@@ -158,7 +159,9 @@ public class BottomSheetViewController: UIViewController {
     private func addAnimatorCompletion(to futureState: BottomSheetViewState, completion: (() -> Void)? = nil) {
         animator?.addCompletion { [weak self] _ in
             if let currentBottomSheetViewController = self {
+                currentBottomSheetViewController.panGestureRecognizer.isEnabled = true
                 currentBottomSheetViewController.currentState = futureState
+                currentBottomSheetViewController.view.layoutIfNeeded()
 
                 // when the bottomsheet drawer is expanded, we don't want the UIViews behind the sheet to be accessible.
                 currentBottomSheetViewController.view.accessibilityViewIsModal = futureState == .expand
@@ -228,9 +231,7 @@ public class BottomSheetViewController: UIViewController {
         }
 
         animator?.isReversed = shouldReverse
-        addAnimatorCompletion(to: futureState, completion: { [weak self] in
-            self?.panGestureRecognizer.isEnabled = true
-        })
+        addAnimatorCompletion(to: futureState, completion: nil)
         animator?.continueAnimation(withTimingParameters: nil, durationFactor: 0)
     }
 
@@ -302,7 +303,7 @@ public class BottomSheetViewController: UIViewController {
 
     private struct Constants {
         static let animationDuration: TimeInterval = 0.25
-        static let collapsedHeight: CGFloat = 200
+        static let collapsedHeight: CGFloat = ResizingHandleView.height + 48
         static let velocityThreshold: CGFloat = 250
         static let cornerRadius: CGFloat = 14
 

@@ -54,10 +54,11 @@ class BottomSheetDemoController: DemoController {
 class TabButtonViewController: UICollectionViewController {
     @objc public init() {
         let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.minimumInteritemSpacing = 20
-        flowLayout.itemSize = CGSize(width: 48, height: 48)
+        flowLayout.minimumLineSpacing = 32
+        flowLayout.minimumInteritemSpacing = 12
+        flowLayout.itemSize = CGSize(width: 64, height: 48)
         flowLayout.sectionInsetReference = .fromSafeArea
-        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
+        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
 
         super.init(collectionViewLayout: flowLayout)
         collectionView.backgroundColor = .clear
@@ -99,7 +100,7 @@ class TabButtonViewController: UICollectionViewController {
             self?.collectionView.deselectItem(at: indexPath, animated: false)
         })
         alert.addAction(action)
-        present(alert, animated: true)
+        view.window?.rootViewController?.present(alert, animated: true)
     }
 }
 
@@ -116,17 +117,15 @@ class TabCollectionViewCell: UICollectionViewCell {
     }
 
     func setup(with item: TabBarItem) {
+        tabItemView?.removeFromSuperview()
         tabItemView = TabBarItemView(item: item, showsTitle: true, canResizeImage: false)
 
         if let itemView = tabItemView {
             itemView.alwaysShowTitleBelowImage = true
             addSubview(itemView)
             itemView.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([itemView.topAnchor.constraint(equalTo: topAnchor),
-                                         itemView.bottomAnchor.constraint(equalTo: bottomAnchor),
-                                         itemView.leadingAnchor.constraint(equalTo: leadingAnchor),
-                                         itemView.trailingAnchor.constraint(equalTo: trailingAnchor)
-            ])
+            NSLayoutConstraint.activate([itemView.centerYAnchor.constraint(equalTo: centerYAnchor),
+                                         itemView.centerXAnchor.constraint(equalTo: centerXAnchor)])
         }
     }
 }
