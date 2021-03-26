@@ -21,6 +21,12 @@ public protocol BottomSheetViewControllerDelegate: AnyObject {
 
 public class BottomSheetViewController: UIViewController {
     @objc public weak var delegate: BottomSheetViewControllerDelegate?
+    /// bottom sheet's view height in collapsed mode.
+    @objc public var collapsedHeight: CGFloat = Constants.collapsedHeight {
+        didSet {
+            updateHeight()
+        }
+    }
 
     private var animator: UIViewPropertyAnimator?
     private var contentViewController: UIViewController
@@ -63,6 +69,8 @@ public class BottomSheetViewController: UIViewController {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
+// MARK: Lifecycle methods
+
     open override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -92,6 +100,31 @@ public class BottomSheetViewController: UIViewController {
         updateResizingHandleViewAccessibility()
     }
 
+    public override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        if animator?.state == .active {
+            // panning started, don't update the height
+            return
+        }
+        updateHeight()
+    }
+
+// MARK: private helpers
+    private func updateHeight() {
+        // update the view layout for collapsed mode
+        if currentState == .collapse {
+            if let window = self.view.window {
+                view.frame = targetCollapseFrame(with: window)
+                view.layoutIfNeeded()
+            }
+        }
+    }
+
+    private func targetCollapseFrame(with window: UIWindow) -> CGRect {
+        let windowFrame = window.frame
+        return CGRect(x: 0, y: (windowFrame.height - collapsedHeight), width: windowFrame.width, height: collapsedHeight)
+    }
+  
     open override func viewDidDisappear(_ animated: Bool) {
         removeDimmingView()
         super.viewDidDisappear(animated)
@@ -111,8 +144,7 @@ public class BottomSheetViewController: UIViewController {
                 setupDimmingView()
                 futureDimmingViewAlpha = 1
             case .expand:
-                // todo right size
-                targetFrame = CGRect(x: 0, y: (windowFrame.height - Constants.collapsedHeight), width: windowFrame.width, height: Constants.collapsedHeight)
+                targetFrame = targetCollapseFrame(with: window)
                 futureDimmingViewAlpha = 0
             }
 
@@ -208,7 +240,7 @@ public class BottomSheetViewController: UIViewController {
         }
 
         let windowHeight = view.window?.frame.height ?? 0
-        var progress = -1 * verticalPos / (windowHeight - Constants.collapsedHeight)
+        var progress = -1 * verticalPos / (windowHeight - collapsedHeight)
 
         if currentState == .expand {
             progress *= -1
