@@ -36,7 +36,6 @@ class BottomSheetDemoController: DemoController {
         if let bottomSheet = bottomSheetViewController, let navController = navigationController {
             if let rootview = navController.view {
                 rootview.addSubview(bottomSheet.view)
-                bottomSheet.view.frame = CGRect(x: 0, y: rootview.frame.height - 200, width: rootview.frame.width, height: 200)
             }
         }
     }
