@@ -22,7 +22,7 @@ public protocol BottomSheetViewControllerDelegate: AnyObject {
 public class BottomSheetViewController: UIViewController {
     @objc public weak var delegate: BottomSheetViewControllerDelegate?
     /// bottom sheet's view height in collapsed mode.
-    @objc public var collapsedHeight: CGFloat = 200 {
+    @objc public var collapsedHeight: CGFloat = Constants.collapsedHeight {
         didSet {
             updateHeight()
         }
@@ -302,6 +302,7 @@ public class BottomSheetViewController: UIViewController {
 
     private struct Constants {
         static let animationDuration: TimeInterval = 0.25
+        static let collapsedHeight: CGFloat = 200
         static let velocityThreshold: CGFloat = 250
         static let cornerRadius: CGFloat = 14
 
