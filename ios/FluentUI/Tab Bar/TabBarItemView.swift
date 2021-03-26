@@ -5,10 +5,10 @@
 
 import UIKit
 
-class TabBarItemView: UIView {
+public class TabBarItemView: UIView {
     let item: TabBarItem
 
-    var isSelected: Bool = false {
+    public var isSelected: Bool = false {
         didSet {
             titleLabel.isHighlighted = isSelected
             imageView.isHighlighted = isSelected
@@ -28,7 +28,7 @@ class TabBarItemView: UIView {
 
     /// If set to true, the item's title will always show below the image.
     /// Otherwise, depending on the traitCollection, the title will be displayed either below or to the side of the image.
-    var alwaysShowTitleBelowImage: Bool = false {
+    public var alwaysShowTitleBelowImage: Bool = false {
         didSet {
             if oldValue != alwaysShowTitleBelowImage {
                 updateLayout()
@@ -45,7 +45,7 @@ class TabBarItemView: UIView {
         }
     }
 
-    init(item: TabBarItem, showsTitle: Bool, canResizeImage: Bool = true) {
+    public init(item: TabBarItem, showsTitle: Bool, canResizeImage: Bool = true) {
         self.canResizeImage = canResizeImage
         self.item = item
         self.suggestImageSize = Constants.portraitImageSize
@@ -99,7 +99,7 @@ class TabBarItemView: UIView {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
 
         // Need to layout container subviews now, otherwise imageView's frame will get updated later
@@ -119,14 +119,14 @@ class TabBarItemView: UIView {
         return size
     }
 
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         if previousTraitCollection?.horizontalSizeClass != traitCollection.horizontalSizeClass || previousTraitCollection?.verticalSizeClass != traitCollection.verticalSizeClass {
             updateLayout()
         }
     }
 
-    override func didMoveToWindow() {
+    public override func didMoveToWindow() {
         super.didMoveToWindow()
         updateColors()
     }
@@ -338,7 +338,7 @@ class TabBarItemView: UIView {
 
 extension TabBarItemView: UIPointerInteractionDelegate {
     @available(iOS 13.4, *)
-    func pointerInteraction(_ interaction: UIPointerInteraction, styleFor region: UIPointerRegion) -> UIPointerStyle? {
+    public func pointerInteraction(_ interaction: UIPointerInteraction, styleFor region: UIPointerRegion) -> UIPointerStyle? {
         let pointerEffect = UIPointerEffect.highlight(.init(view: self))
 
         var pointerFrame = imageView.frame

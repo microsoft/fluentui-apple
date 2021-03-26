@@ -52,80 +52,82 @@ class BottomSheetDemoController: DemoController {
     private var bottomSheetViewController: BottomSheetViewController?
 }
 
-class TabButtonViewController: UIViewController {
-    open override func viewDidLoad() {
-        super.viewDidLoad()
+class TabButtonViewController: UICollectionViewController {
+    @objc public init() {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.minimumInteritemSpacing = 20
+        flowLayout.itemSize = CGSize(width: 48, height: 48)
+        flowLayout.sectionInsetReference = .fromSafeArea
+        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
 
-        view.addSubview(container)
-
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        container.addArrangedSubview(tableView)
-
-        NSLayoutConstraint.activate([
-            container.topAnchor.constraint(equalTo: view.topAnchor),
-            container.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            container.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            container.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
+        super.init(collectionViewLayout: flowLayout)
+        collectionView.backgroundColor = .clear
+        collectionView.register(TabCollectionViewCell.self, forCellWithReuseIdentifier: TabCollectionViewCell.identifier)
     }
 
-    private lazy var container: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.distribution = .fillProportionally
-        return stackView
-    }()
-
-    private lazy var tableView: UITableView = createTableView()
-
-    func createTableView() -> UITableView {
-        let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
-        tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.separatorStyle = .none
-        tableView.backgroundColor = .clear
-        return tableView
-    }
-}
-
-// MARK: - TabButtonViewController: UITableViewDataSource
-
-extension TabButtonViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
-            return UITableViewCell()
-        }
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 50
+    }
 
-        cell.setup(title: TableViewHeaderFooterSampleData.itemTitle)
-        let isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
-        cell.bottomSeparatorType = isLastInSection ? .full : .inset
-
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TabCollectionViewCell.identifier, for: indexPath as IndexPath)
+        let item = TabBarItem(title: "Option \(indexPath.row + 1)", image: UIImage(named: "Home_28")!, selectedImage: UIImage(named: "Home_Selected_28")!)
+        (cell as? TabCollectionViewCell)?.setup(with: item)
         return cell
     }
-}
 
-// MARK: - TabButtonViewController: UITableViewDelegate
-
-extension TabButtonViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as? TableViewHeaderFooterView
-        header?.setup(style: .header, title: "Header for Section \(section + 1)")
-
-        return header
+    override func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
+        cell?.isSelected = true
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+    override func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
+        cell?.isSelected = false
+    }
+
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let alert = UIAlertController(title: "\(indexPath.row + 1) was tapped", message: nil, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: { [weak self] _ in
+            self?.collectionView.deselectItem(at: indexPath, animated: false)
+        })
+        alert.addAction(action)
+        present(alert, animated: true)
+    }
+}
+
+class TabCollectionViewCell: UICollectionViewCell {
+    static var identifier: String { return String(describing: self) }
+    var tabItemView: TabBarItemView?
+
+    override var isSelected: Bool {
+        didSet {
+            if oldValue != isSelected {
+                tabItemView?.isSelected = isSelected
+            }
+        }
+    }
+
+    func setup(with item: TabBarItem) {
+        tabItemView = TabBarItemView(item: item, showsTitle: true, canResizeImage: false)
+
+        if let itemView = tabItemView {
+            itemView.alwaysShowTitleBelowImage = true
+            addSubview(itemView)
+            itemView.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([itemView.topAnchor.constraint(equalTo: topAnchor),
+                                         itemView.bottomAnchor.constraint(equalTo: bottomAnchor),
+                                         itemView.leadingAnchor.constraint(equalTo: leadingAnchor),
+                                         itemView.trailingAnchor.constraint(equalTo: trailingAnchor)
+            ])
+        }
     }
 }
