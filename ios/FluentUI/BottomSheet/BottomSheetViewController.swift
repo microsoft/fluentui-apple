@@ -117,14 +117,17 @@ public class BottomSheetViewController: UIViewController {
 
 // MARK: private helpers
     private func updateFrame() {
-        // update the view layout for collapsed mode
-        if currentState == .collapse {
-            if let window = view.window {
-                let suggestionFrame = targetCollapseFrame(with: window)
-                if suggestionFrame != view.frame {
-                    view.frame = suggestionFrame
-                    view.setNeedsLayout()
-                }
+        if let window = view.window {
+            let suggestionFrame: CGRect
+            if currentState == .collapse {
+                suggestionFrame = targetCollapseFrame(with: window)
+            } else {
+                suggestionFrame = targetExpandFrame(with: window)
+            }
+
+            if suggestionFrame != view.frame {
+                view.frame = suggestionFrame
+                view.setNeedsLayout()
             }
         }
     }
