@@ -95,7 +95,10 @@ extension String {
     /// - Parameter prefix: The prefix to be removed.
     /// - Returns: The resulting string without the prefix.
     func withoutPrefix(_ prefix: String) -> String {
-        guard self.hasPrefix(prefix) else { return self }
+        guard self.hasPrefix(prefix) else {
+            return self
+        }
+
         return String(self.dropFirst(prefix.count))
     }
 }
