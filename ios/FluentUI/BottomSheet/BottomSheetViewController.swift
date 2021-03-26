@@ -113,9 +113,12 @@ public class BottomSheetViewController: UIViewController {
     private func updateHeight() {
         // update the view layout for collapsed mode
         if currentState == .collapse {
-            if let window = self.view.window {
-                view.frame = targetCollapseFrame(with: window)
-                view.layoutIfNeeded()
+            if let window = view.window {
+                let suggestionFrame = targetCollapseFrame(with: window)
+                if suggestionFrame != view.frame {
+                    view.frame = suggestionFrame
+                    view.layoutIfNeeded()
+                }
             }
         }
     }
