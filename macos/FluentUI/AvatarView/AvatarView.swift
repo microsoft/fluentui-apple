@@ -357,7 +357,7 @@ open class AvatarView: NSView {
 	///
 	/// - note: API method avaiable for legacy support only, This will be removed in future release
 	@objc(getLegacyBackgroundColorForIndex:)
-	@available(*, deprecated, message: "Use getColorForIndex instead")
+	@available(*, deprecated, message: "Use getInitialsColorSetFromPrimaryText:secondaryText: instead")
 	public static func getLegacyColor(for index: Int) -> NSColor {
 		let legacyAvatarBackgroundColors = AvatarView.legacyAvatarViewBackgroundColor
 		return legacyAvatarBackgroundColors[index % legacyAvatarBackgroundColors.count]
@@ -432,7 +432,7 @@ open class AvatarView: NSView {
 	@objc(getInitialsColorSetFromPrimaryText:secondaryText:)
 	public static func getInitialsColorSet(fromPrimaryText primaryText: String?, secondaryText: String?) -> ColorSet {
 		// Set the color based on the primary text and secondary text
-		var combined: String
+		let combined: String
 		if let secondaryText = secondaryText, let primaryText = primaryText, secondaryText.count > 0 {
 			combined = primaryText + secondaryText
 		} else if let primaryText = primaryText {
