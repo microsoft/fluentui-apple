@@ -20,7 +20,9 @@ func findUsedResources(in rootPath: String) -> Set<String> {
     let resourceFileSuffix = ".resources.xcfilelist"
     var usedResources: Set<String> = []
 
+#if VERBOSE_OUTPUT
     print("Parsing *\(resourceFileSuffix) files in path \(rootURL)")
+#endif
     if let filesEnumerator = FileManager.default.enumerator(at: rootURL,
                                                             includingPropertiesForKeys: [.isRegularFileKey],
                                                             options: [.skipsHiddenFiles, .skipsPackageDescendants]) {
@@ -32,7 +34,9 @@ func findUsedResources(in rootPath: String) -> Set<String> {
                 if fileAttributes.isRegularFile! &&
                     filePath.hasSuffix(resourceFileSuffix) {
 
+#if VERBOSE_OUTPUT
                     print("\nUsed resources in file: \(filePath)")
+#endif
 
                     do {
                         let resourceFileListContents = try String(contentsOf: fileURL)
@@ -40,7 +44,9 @@ func findUsedResources(in rootPath: String) -> Set<String> {
                         for entry in resourceFileListContents.split(separator: "\n") {
                             let resourceFileEntry = entry.trimmingCharacters(in: .whitespacesAndNewlines)
                             usedResources.insert(resourceFileEntry)
+#if VERBOSE_OUTPUT
                             print("- \(resourceFileEntry)")
+#endif
                         }
                     } catch {
                         fatalError("Failed to read contents resource file: \(filePath) \nError: \(error)")
@@ -64,7 +70,10 @@ func removeResources(from xcassetsPath: String, notContainedIn usedResourcesSet:
     let xcassetsURL = URL(fileURLWithPath: xcassetsPath)
     let xcassetsRelativePath = xcassetsURL.relativePath
 
+#if VERBOSE_OUTPUT
     print("\n\nProcessing resources of xcassets in path: \(xcassetsPath)")
+#endif
+
     if let directoriesEnumerator = FileManager.default.enumerator(at: xcassetsURL,
                                                                   includingPropertiesForKeys: [.isDirectoryKey],
                                                                   options: [.skipsHiddenFiles, .skipsPackageDescendants]) {
@@ -80,8 +89,9 @@ func removeResources(from xcassetsPath: String, notContainedIn usedResourcesSet:
                     if !shouldBeKept {
                         try FileManager.default.removeItem(at: directoryURL)
                     }
-
+#if VERBOSE_OUTPUT
                     print(" - \(directoryEntry) (\(shouldBeKept ? "kept" : "removed"))")
+#endif
                 }
             } catch {
                 print(error, directoryURL)
