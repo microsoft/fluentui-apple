@@ -23,7 +23,7 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("CommandBar", CommandBarDemoController.self),
     ("ContactCollectionView", ContactCollectionViewDemoController.self),
     ("DateTimePicker", DateTimePickerDemoController.self),
-    ("DrawerController", DrawerDemoController.self),
+    ("DrawerController (Vnext)", DrawerDemoController.self),
     ("HUD", HUDDemoController.self),
     ("IndeterminateProgressBar", IndeterminateProgressBarDemoController.self),
     ("Label", LabelDemoController.self),

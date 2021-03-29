@@ -73,6 +73,13 @@ public enum DrawerPresentationBackground: Int {
     }
 }
 
+// MARK: - Drawer Color
+public extension Colors {
+    // Objective-C support
+    @objc static var drawerBackground: UIColor { return DrawerController.drawerContentBackgroundColor() }
+    @objc static var popoverBackground: UIColor { return DrawerController.drawerPopoverBackgroundColor() }
+}
+
 // MARK: - DrawerControllerDelegate
 
 @available(*, deprecated, renamed: "DrawerControllerDelegate")
@@ -418,7 +425,7 @@ open class DrawerController: UIViewController, FluentUIWindowProvider {
     private var useCustomBackgroundColor: Bool = false
     /// for iPad split mode, navigation bar has a different dark elevated color, and if it is a `.down` presentation style, match `Colors.NavigationBar.background` elevated color
     private var useNavigationBarBackgroundColor: Bool = false
-    /// token to modify drawer apperance
+    /// tokens to modify drawer apperance
     private static let drawerTokens = MSFDrawerTokens()
 
      /**
@@ -962,6 +969,17 @@ open class DrawerController: UIViewController, FluentUIWindowProvider {
 
     @objc private func handleResizingHandleViewTap() {
         isExpanded = !isExpanded
+    }
+}
+
+// MARK: - DrawerController: Colors
+
+internal extension DrawerController {
+    @objc static func drawerContentBackgroundColor() -> UIColor {
+        return DrawerController.drawerTokens.drawerContentBackground
+    }
+    @objc static func drawerPopoverBackgroundColor() -> UIColor {
+        return DrawerController.drawerTokens.popoverContentBackground
     }
 }
 

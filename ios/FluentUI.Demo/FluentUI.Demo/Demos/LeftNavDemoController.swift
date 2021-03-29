@@ -29,8 +29,16 @@ class LeftNavDemoController: DemoController {
         view.addGestureRecognizer(leadingEdgeGesture)
         navigationController?.navigationController?.interactivePopGestureRecognizer?.require(toFail: leadingEdgeGesture)
 
-        let lefNavController = LeftNavMenuViewController(menuAction: {
-            self.showMessage("Menu item selected.")
+        let lefNavController = LeftNavMenuViewController(menuAction: { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.dismiss(animated: true, completion: { [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                strongSelf.showMessage("Menu item selected.")
+            })
         })
         drawerController = DrawerController(sourceView: navigationButton,
                                             sourceRect: navigationButton.bounds,
@@ -105,13 +113,10 @@ class LeftNavMenuViewController: UIViewController {
 
     private var leftNavMenuSections: [MSFListSectionState] {
         let defaultMenuAction = {
-            self.dismiss(animated: true, completion: {
-                guard let menuAction = self.menuAction else {
-                    return
-                }
-
-                menuAction()
-            })
+            guard let menuAction = self.menuAction else {
+                return
+            }
+            menuAction()
         }
 
         var statusCellChildren: [MSFListCellState] = []

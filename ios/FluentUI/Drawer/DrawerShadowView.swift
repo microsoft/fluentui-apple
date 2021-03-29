@@ -48,8 +48,8 @@ class DrawerShadowView: UIView {
 
     private var shadow2 = CALayer()
 
-    init(shadowDirection: DrawerPresentationDirection?, token: MSFDrawerTokens) {
-        self.drawerTokens = token
+    init(shadowDirection: DrawerPresentationDirection?, tokens: MSFDrawerTokens) {
+        self.drawerTokens = tokens
         super.init(frame: .zero)
         self.shadowDirection = shadowDirection
         updateApperance()
