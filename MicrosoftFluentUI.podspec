@@ -91,10 +91,10 @@ if [ "${CONFIGURATION}" = "Debug" ]; then
     XCODEBUILDPARAMS=""
 fi
 
-xcrun --sdk macosx swift ${CONDITIONALCOMPILATIONFLAGS} ${LOCROOT}/MicrosoftFluentUI/scripts/removeUnusedResourcesFromAssets.swift ${LOCROOT}/MicrosoftFluentUI/ios/FluentUI/Resources/FluentUI-ios.xcassets ${LOCROOT}/MicrosoftFluentUI/ios
+xcrun --sdk macosx swift ${CONDITIONALCOMPILATIONFLAGS} ${PODS_TARGET_SRCROOT}/scripts/removeUnusedResourcesFromAssets.swift ${LOCROOT}/MicrosoftFluentUI/ios/FluentUI/Resources/FluentUI-ios.xcassets ${LOCROOT}/MicrosoftFluentUI/ios
 
 echo "=== Rebuilding resource bundle target ==="
-xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftFluentUI-FluentUIResources-ios" -sdk ${PLATFORM_NAME} -configuration ${CONFIGURATION} CONFIGURATION_BUILD_DIR=${CONFIGURATION_BUILD_DIR} BUILD_ROOT=${BUILD_ROOT} BUILT_PRODUCTS_DIR=${BUILT_PRODUCTS_DIR} ARCHS=${ARCHS} ${ACTION}',
+xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftFluentUI-FluentUIResources-ios" -sdk ${PLATFORM_NAME} -configuration ${CONFIGURATION} ARCHS="${ARCHS}" CONFIGURATION_BUILD_DIR="${CONFIGURATION_BUILD_DIR}" BUILD_ROOT="${BUILD_ROOT}" BUILT_PRODUCTS_DIR="${BUILT_PRODUCTS_DIR}" ${ACTION}',
                               :execution_position => :before_compile }
     core_ios.preserve_paths = ["ios/FluentUI/Core/Core.resources.xcfilelist",
                                "scripts/removeUnusedResourcesFromAssets.swift"]
