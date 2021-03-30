@@ -280,7 +280,7 @@ open class SideTabBar: UIView {
 
                 for (index, itemView) in currentStackView.arrangedSubviews.enumerated() {
                     let accessibilityIndex = index + 1 + previousSectionCount
-                    itemView.accessibilityHint = String(format: "Accessibility.TabBarItemView.Hint".localized, accessibilityIndex, totalCount)
+                    itemView.accessibilityHint = String.localizedStringWithFormat( "Accessibility.TabBarItemView.Hint".localized, accessibilityIndex, totalCount)
                 }
                 previousSectionCount += currentStackView.arrangedSubviews.count
             }

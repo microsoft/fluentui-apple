@@ -47,7 +47,7 @@ open class TabBarView: UIView {
 
                 // seems like iOS 14 `.tabBar` accessibilityTrait doesn't seem to read out the index automatically
                 if #available(iOS 14.0, *) {
-                    tabBarItemView.accessibilityHint = String(format: "Accessibility.TabBarItemView.Hint".localized, index + 1, numberOfItems)
+                    tabBarItemView.accessibilityHint = String.localizedStringWithFormat( "Accessibility.TabBarItemView.Hint".localized, index + 1, numberOfItems)
                 }
                 stackView.addArrangedSubview(tabBarItemView)
             }
