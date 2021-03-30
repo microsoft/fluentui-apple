@@ -99,7 +99,7 @@ whitelist_rules:
   - redundant_string_enum_value
 
   # Properties, variables, and constants should not have redundant type annotation
-  #- redundant_type_annotation
+  - redundant_type_annotation
 
   # Returning Void in a function declaration is redundant.
   - redundant_void_return

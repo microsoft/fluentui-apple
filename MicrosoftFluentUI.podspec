@@ -117,7 +117,6 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
     drawer_ios.dependency 'MicrosoftFluentUI/ResizingHandleView_ios'
     drawer_ios.dependency 'MicrosoftFluentUI/Separator_ios'
     drawer_ios.dependency 'MicrosoftFluentUI/TouchForwardingView_ios'
-    drawer_ios.dependency 'MicrosoftFluentUI/Vnext_ios'
     drawer_ios.source_files = ["ios/FluentUI/Drawer/**/*.{swift,h}"]
   end
 
@@ -284,23 +283,6 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
     utilities_ios.platform = :ios
     utilities_ios.source_files = ["ios/FluentUI/Utilities/**/*.{swift,h}"]
   end
-
-  s.subspec 'Vnext_ios' do |vnext_ios|
-    vnext_ios.platform = :ios
-    vnext_ios.source_files = ["ios/FluentUI/Core/Colors.swift",
-                             "ios/FluentUI/Core/FluentUIFramework.swift",
-                             "ios/FluentUI/Core/Fonts.swift",
-                             "ios/FluentUI/Core/iOS13_4_compatibility.swift",
-                             "ios/FluentUI/Extensions/Calendar+Extensions.swift",
-                             "ios/FluentUI/Extensions/CharacterSet+Extension.swift",
-                             "ios/FluentUI/Extensions/String+Extension.swift",
-                             "ios/FluentUI/Extensions/UIColor+Extensions.swift",
-                             "ios/FluentUI/Extensions/UIFont+Extension.swift",
-                             "ios/FluentUI/Extensions/UIImage+Extensions.swift",
-                             "ios/FluentUI/Extensions/UIScreen+Extension.swift",
-                             "ios/FluentUI/Vnext/Core/**/*.{swift,h}"]
-  end
-
 
 # Mac
 
