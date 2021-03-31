@@ -83,7 +83,7 @@ open class CommandBarItem: NSObject {
         item.isSelected.toggle()
     }
 
-	func handleTapped(_ sender: CommandBarButton) {
+    func handleTapped(_ sender: CommandBarButton) {
         itemTappedHandler(sender, self)
     }
 }
