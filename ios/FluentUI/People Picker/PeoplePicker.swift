@@ -92,6 +92,11 @@ open class PeoplePicker: BadgeField {
      */
     @objc open var allowsPickedPersonasToAppearAsSuggested: Bool = true
 
+	/**
+	 Set `hidePersonaListViewWhenNoSuggestedPersonas` to true to hide the personaListView when no suggested personas is available, i.e. personaListView is empty.
+	 */
+	@objc open var hidePersonaListViewWhenNoSuggestedPersonas: Bool = false
+
     @objc open weak var delegate: PeoplePickerDelegate? {
         didSet {
             badgeFieldDelegate = delegate
@@ -359,10 +364,11 @@ open class PeoplePicker: BadgeField {
     override func textFieldTextChanged() {
         super.textFieldTextChanged()
         let textFieldHasContent = !textFieldContent.isEmpty
-        isShowingPersonaSuggestions = textFieldHasContent
         if textFieldHasContent {
             getSuggestedPersonas()
         }
+        let hideEmptyPersonaListView = hidePersonaListViewWhenNoSuggestedPersonas && suggestedPersonas.isEmpty
+        isShowingPersonaSuggestions = textFieldHasContent && !hideEmptyPersonaListView
     }
 
     open override func resetTextFieldContent() {
