@@ -93,7 +93,7 @@ open class PeoplePicker: BadgeField {
     @objc open var allowsPickedPersonasToAppearAsSuggested: Bool = true
 
 	/**
-	 Set `hidePersonaListViewWhenNoSuggestedPersonas` to true to hide the personaListView when no suggested personas is available, i.e. personaListView is empty.
+	 Set `hidePersonaListViewWhenNoSuggestedPersonas` to true to hide the personaListView when no suggested personas are available, i.e. personaListView is empty.
 	 */
 	@objc open var hidePersonaListViewWhenNoSuggestedPersonas: Bool = false
 
