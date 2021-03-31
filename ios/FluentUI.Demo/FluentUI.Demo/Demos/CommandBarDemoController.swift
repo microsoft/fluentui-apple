@@ -68,9 +68,7 @@ class CommandBarDemoController: DemoController {
                 return UIImage(named: "link24Regular")
             case .keyboard:
                 return UIImage(named: "keyboardDock24Regular")
-            case .textStyle:
-                return nil
-            case .disabledText:
+            case .textStyle, .disabledText:
                 return nil
             }
         }
@@ -252,7 +250,7 @@ class CommandBarDemoController: DemoController {
             titleFont: command.titleFont,
             isEnabled: isEnabled,
             isSelected: isSelected,
-            itemTappedHandler: { [weak self] (nil, item) in
+            itemTappedHandler: { [weak self] (_, item) in
                 self?.handleCommandItemTapped(command: command, item: item)
             }
         )
