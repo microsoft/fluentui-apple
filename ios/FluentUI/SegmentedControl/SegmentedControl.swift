@@ -136,7 +136,7 @@ open class SegmentedControl: UIControl {
         func segmentUnreadDotColor(for window: UIWindow) -> UIColor {
             switch self {
             case .primaryPill:
-                return UIColor(light: Colors.primary(for: window), dark: Colors.textPrimary)
+                return UIColor(light: Colors.primary(for: window), dark: Colors.gray100)
             case .tabs, .onBrandPill:
                 return Colors.SegmentedControl.OnBrandPill.segmentText
             }
@@ -651,7 +651,7 @@ open class SegmentedControl: UIControl {
                     }
 
                     if let switchButton = button as? SegmentPillButton {
-                        switchButton.unreadDotColor = style.segmentUnreadDotColor(for: window)
+                        switchButton.unreadDotColor = isEnabled ? style.segmentUnreadDotColor(for: window) : style.segmentTextColorDisabled(for: window)
                     }
                 }
             }
