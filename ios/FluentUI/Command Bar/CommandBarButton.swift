@@ -55,12 +55,12 @@ class CommandBarButton: UIButton {
         isEnabled = item.isEnabled
         isSelected = isPersistSelection && item.isSelected
 
-        if item.iconImage == nil {
-            setTitle(item.title, for: .normal)
-            if let font = item.titleFont {
-                titleLabel?.font = font
-            }
-        }
+        // always update icon and title as we only display one; we may alterenate between them, and the icon may also change
+        let iconImage = item.iconImage
+        setImage(iconImage, for: .normal)
+        setTitle(iconImage != nil ? nil : item.title, for: .normal)
+        titleLabel?.isEnabled = isEnabled
+        titleLabel?.font = item.titleFont
     }
 
     private let isPersistSelection: Bool
