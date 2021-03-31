@@ -235,7 +235,7 @@ open class CommandBar: UIView {
     }
 
     @objc private func handleCommandButtonTapped(_ sender: CommandBarButton) {
-        sender.item.handleTapped()
+        sender.item.handleTapped(sender)
         sender.updateState()
     }
 
