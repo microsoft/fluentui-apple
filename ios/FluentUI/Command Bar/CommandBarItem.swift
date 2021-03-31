@@ -9,7 +9,7 @@ public typealias CommandBarItemGroup = [CommandBarItem]
 
 @objc(MSFCommandBarItem)
 open class CommandBarItem: NSObject {
-    public typealias ItemTappedHandler = ((CommandBarItem) -> Void)
+    public typealias ItemTappedHandler = ((UIButton, CommandBarItem) -> Void)
 
     @objc public init(
         iconImage: UIImage?,
@@ -79,11 +79,11 @@ open class CommandBarItem: NSObject {
     @available(iOS 14.0, *)
     @objc public lazy var showsMenuAsPrimaryAction: Bool = false
 
-    public static let defaultItemTappedHandler: ItemTappedHandler = { item in
+    public static let defaultItemTappedHandler: ItemTappedHandler = { button, item in
         item.isSelected.toggle()
     }
 
-    func handleTapped() {
-        itemTappedHandler(self)
+	func handleTapped(_ sender: CommandBarButton) {
+        itemTappedHandler(sender, self)
     }
 }
