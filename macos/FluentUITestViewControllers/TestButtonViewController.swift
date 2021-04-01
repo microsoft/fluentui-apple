@@ -211,7 +211,7 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			customButton.title = customTitle
 			customButton.image = customImage
 			customButton.format = customFormat
-			customButton.addImage(forButtonState: ButtonState.selected, image: imageForSelectedState)
+			customButton.addImage(forButtonState: ButtonState.pressed, image: imageForSelectedState)
 			customButton.addImage(forButtonState: ButtonState.disabled, image: imageForDisabledState)
 			return [customButton] + formats.map({ Button(title: title, image: image, format: $0) })
 		}
@@ -220,7 +220,7 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			let customButton = Button()
 			customButton.image = customImage
 			customButton.format = customFormat
-			customButton.addImage(forButtonState: ButtonState.selected, image: imageForSelectedState)
+			customButton.addImage(forButtonState: ButtonState.pressed, image: imageForSelectedState)
 			customButton.addImage(forButtonState: ButtonState.disabled, image: imageForDisabledState)
 			return [customButton] + formats.map({ Button(image: image, format: $0) })
 		}
