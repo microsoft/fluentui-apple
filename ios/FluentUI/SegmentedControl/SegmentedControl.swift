@@ -17,15 +17,15 @@ public extension Colors {
         }
 
         struct PrimaryPill {
-            static let background = UIColor(light: surfaceTertiary, dark: surfaceSecondary)
+            static let background = UIColor(light: surfaceTertiary, dark: gray950)
             static let backgroundDisabled: UIColor = background
             static let segmentText = UIColor(light: textSecondary, dark: textPrimary)
             static let selectionDisabled: UIColor = surfaceQuaternary
         }
 
         struct OnBrandPill {
-            static let background = UIColor(light: surfaceTertiary, dark: surfaceSecondary)
-            static let backgroundDisabled: UIColor = background
+            static let background: UIColor = PrimaryPill.background
+            static let backgroundDisabled: UIColor = PrimaryPill.backgroundDisabled
             static let segmentText = UIColor(light: textOnAccent, dark: textPrimary)
             static let selection = UIColor(light: surfacePrimary, dark: surfaceQuaternary)
             static let selectionDisabled = UIColor(light: Colors.surfacePrimary, dark: Colors.surfaceQuaternary)
@@ -183,7 +183,11 @@ open class SegmentedControl: UIControl {
     private var customSelectedSegmentedControlButtonTextColor: UIColor?
 
     private var items = [String]()
-    private let style: Style
+    internal var style: Style {
+        didSet {
+            updateWindowSpecificColors()
+        }
+    }
 
     // Hierarchy for pill styles:
     //
@@ -402,46 +406,28 @@ open class SegmentedControl: UIControl {
         var leftOffset: CGFloat = 0
         for (index, button) in buttons.enumerated() {
             let screen = window?.windowScene?.screen ?? UIScreen.main
-            if shouldSetEqualWidthForSegments {
-                switch style {
-                case .tabs:
-                    rightOffset = screen.roundToDevicePixels(CGFloat(index + 1) / CGFloat(buttons.count) * frame.width)
-                case .primaryPill, .onBrandPill:
-                    var suggestedWidth = frame.width
-
-                    if let windowWidth = window?.frame.width {
-                        suggestedWidth = windowWidth
-                    }
-                    // for iPad regular full width pill styles might look too wide
-                    if traitCollection.userInterfaceIdiom == .pad {
-                        suggestedWidth = max(suggestedWidth / 2, 375.0)
-                    } else {
-                        var insets = 2 * Constants.pillContainerHorizontalInset
-                        if let window = window {
-                            insets += window.safeAreaInsets.left + window.safeAreaInsets.right
-                        }
-                        suggestedWidth -= insets
-                    }
-                    suggestedWidth = ceil(suggestedWidth)
-
-                    rightOffset = screen.roundToDevicePixels(CGFloat(index + 1) / CGFloat(buttons.count) * suggestedWidth)
+            switch style {
+            case .tabs:
+                rightOffset = screen.roundToDevicePixels(CGFloat(index + 1) / CGFloat(buttons.count) * frame.width)
+                button.frame = CGRect(x: leftOffset, y: 0, width: rightOffset - leftOffset, height: frame.height)
+            case .primaryPill, .onBrandPill:
+                if shouldSetEqualWidthForSegments {
+                    rightOffset = screen.roundToDevicePixels(CGFloat(index + 1) / CGFloat(buttons.count) * pillContainerView.frame.width)
+                } else {
+                    let maxSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
+                    rightOffset = leftOffset + screen.roundToDevicePixels(button.sizeThatFits(maxSize).width)
                 }
-            } else {
-                let maxSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
-                rightOffset = leftOffset + screen.roundToDevicePixels(button.sizeThatFits(maxSize).width)
+                button.frame = CGRect(x: leftOffset, y: 0, width: rightOffset - leftOffset, height: pillContainerView.frame.height)
             }
-            button.frame = CGRect(x: leftOffset, y: 0, width: rightOffset - leftOffset, height: frame.height)
             leftOffset = rightOffset
         }
 
-        bottomSeparator.frame = CGRect(x: 0, y: frame.height - bottomSeparator.frame.height, width: frame.width, height: bottomSeparator.frame.height)
-
-        if style != .tabs {
-            layoutPillContainerView()
+        if style == .tabs {
+            bottomSeparator.frame = CGRect(x: 0, y: frame.height - bottomSeparator.frame.height, width: frame.width, height: bottomSeparator.frame.height)
         }
-        layoutSelectionView()
 
         flipSubviewsForRTL()
+        layoutSelectionView()
     }
 
     open override var intrinsicContentSize: CGSize {
@@ -450,6 +436,9 @@ open class SegmentedControl: UIControl {
 
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
+        if style != .tabs, shouldSetEqualWidthForSegments {
+            invalidateIntrinsicContentSize()
+        }
         layoutSubviews()
     }
 
@@ -470,12 +459,27 @@ open class SegmentedControl: UIControl {
             }
         }
 
-        let fittingSize = CGSize(
-            width: shouldSetEqualWidthForSegments ? maxButtonWidth * CGFloat(buttons.count) : buttonsWidth,
-            height: maxButtonHeight
-        )
+        if shouldSetEqualWidthForSegments {
+            maxButtonWidth *= CGFloat(buttons.count)
+        } else {
+            maxButtonWidth = buttonsWidth
+        }
 
-        return CGSize(width: min(fittingSize.width, size.width), height: min(fittingSize.height, size.height))
+        if style != .tabs {
+            if shouldSetEqualWidthForSegments {
+                if let windowWidth = window?.safeAreaLayoutGuide.layoutFrame.width {
+                    if traitCollection.userInterfaceIdiom == .pad {
+                        maxButtonWidth = max(windowWidth / 2, 375.0)
+                    } else {
+                        maxButtonWidth = windowWidth
+                    }
+                }
+            } else {
+                maxButtonWidth += 2 * Constants.pillContainerHorizontalInset
+            }
+        }
+
+        return CGSize(width: min(maxButtonWidth, size.width), height: min(maxButtonHeight, size.height))
     }
 
     open override func didMoveToWindow() {
@@ -553,28 +557,29 @@ open class SegmentedControl: UIControl {
         }
     }
 
-    private func layoutPillContainerView() {
-        var frame = bounds
-        frame = frame.inset(by: UIEdgeInsets(top: 0, left: Constants.pillContainerHorizontalInset, bottom: 0, right: Constants.pillContainerHorizontalInset))
-        pillContainerView.frame = frame
-    }
-
     private func setupLayoutConstraints () {
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         var constraints = [NSLayoutConstraint]()
-        constraints.append(contentsOf: [
-            backgroundView.leadingAnchor.constraint(equalTo: buttons.first?.leadingAnchor ?? self.leadingAnchor),
-            backgroundView.trailingAnchor.constraint(equalTo: buttons.last?.trailingAnchor ?? self.trailingAnchor),
-            backgroundView.topAnchor.constraint(equalTo: buttons.first?.topAnchor ?? self.topAnchor),
-            backgroundView.bottomAnchor.constraint(equalTo: buttons.first?.bottomAnchor ?? self.bottomAnchor)
-        ])
-        if style != .tabs {
+        if style == .tabs {
+            constraints.append(contentsOf: [
+                backgroundView.leadingAnchor.constraint(equalTo: buttons.first?.leadingAnchor ?? self.leadingAnchor),
+                backgroundView.trailingAnchor.constraint(equalTo: buttons.last?.trailingAnchor ?? self.trailingAnchor),
+                backgroundView.topAnchor.constraint(equalTo: buttons.first?.topAnchor ?? self.topAnchor),
+                backgroundView.bottomAnchor.constraint(equalTo: buttons.first?.bottomAnchor ?? self.bottomAnchor)
+            ])
+        } else {
             pillContainerView.translatesAutoresizingMaskIntoConstraints = false
             pillMaskedLabelsContainerView.translatesAutoresizingMaskIntoConstraints = false
             constraints.append(contentsOf: [
-                self.leadingAnchor.constraint(equalTo: pillContainerView.leadingAnchor),
-                self.trailingAnchor.constraint(equalTo: pillContainerView.trailingAnchor),
-                pillContainerView.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, constant: 2 * Constants.pillContainerHorizontalInset),
+                pillContainerView.topAnchor.constraint(equalTo: topAnchor),
+                pillContainerView.bottomAnchor.constraint(equalTo: bottomAnchor),
+                pillContainerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.pillContainerHorizontalInset),
+                pillContainerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.pillContainerHorizontalInset),
+
+                backgroundView.leadingAnchor.constraint(equalTo: pillContainerView.leadingAnchor),
+                backgroundView.trailingAnchor.constraint(equalTo: pillContainerView.trailingAnchor),
+                backgroundView.topAnchor.constraint(equalTo: pillContainerView.topAnchor),
+                backgroundView.bottomAnchor.constraint(equalTo: pillContainerView.bottomAnchor),
 
                 pillMaskedLabelsContainerView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor),
                 pillMaskedLabelsContainerView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor),

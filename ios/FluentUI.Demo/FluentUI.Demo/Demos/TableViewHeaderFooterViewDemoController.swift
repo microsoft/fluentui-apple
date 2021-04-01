@@ -13,7 +13,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
     private let plainSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.plainSections
 
     private let segmentedControl: SegmentedControl = {
-        let segmentedControl = SegmentedControl(items: TableViewHeaderFooterSampleData.tabTitles)
+        let segmentedControl = SegmentedControl(items: TableViewHeaderFooterSampleData.tabTitles, style: .primaryPill)
         segmentedControl.addTarget(self, action: #selector(updateActiveTabContent), for: .valueChanged)
         return segmentedControl
     }()
@@ -28,11 +28,23 @@ class TableViewHeaderFooterViewDemoController: DemoController {
         container.layoutMargins = .zero
         container.spacing = 0
 
+        navigationController?.navigationBar.shadowImage = UIImage()
         container.addArrangedSubview(segmentedControl)
+        container.setCustomSpacing(8, after: segmentedControl)
+        container.backgroundColor = Colors.NavigationBar.background
+
+        let separator = Separator(style: .shadow, orientation: .horizontal)
+        container.addArrangedSubview(separator)
+
         container.addArrangedSubview(groupedTableView)
         container.addArrangedSubview(plainTableView)
 
         updateActiveTabContent()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        navigationController?.navigationBar.shadowImage = nil
     }
 
     func createTableView(style: UITableView.Style) -> UITableView {

@@ -46,6 +46,8 @@ open class SideTabBar: UIView {
                 avatarView.avatarSize = .medium
                 avatarView.translatesAutoresizingMaskIntoConstraints = false
                 avatarView.overrideAccessibilityLabel = "Accessibility.LargeTitle.ProfileView".localized
+                avatarView.showsLargeContentViewer = true
+                avatarView.largeContentTitle = avatarView.overrideAccessibilityLabel
                 addSubview(avatarView)
 
                 if delegate != nil {
@@ -55,6 +57,7 @@ open class SideTabBar: UIView {
                 avatarView.addGestureRecognizer(avatarViewGestureRecognizer)
             }
 
+            updateAccessibilityIndex()
             setupLayoutConstraints()
         }
     }
@@ -123,6 +126,7 @@ open class SideTabBar: UIView {
         addInteraction(UILargeContentViewerInteraction())
 
         accessibilityTraits = .tabBar
+        shouldGroupAccessibilityChildren = true
 
         NSLayoutConstraint.activate([widthAnchor.constraint(equalToConstant: Constants.viewWidth),
                                      borderLine.leadingAnchor.constraint(equalTo: trailingAnchor),
@@ -135,7 +139,7 @@ open class SideTabBar: UIView {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    private enum Section: Int {
+    private enum Section: Int, CaseIterable {
         case top
         case bottom
     }
@@ -254,7 +258,35 @@ open class SideTabBar: UIView {
             selectedTopItem = allItems.first
         }
 
+        updateAccessibilityIndex()
         setupLayoutConstraints()
+    }
+
+    private func updateAccessibilityIndex() {
+        // seems like iOS 14 `.tabBar` accessibilityTrait doesn't seem to read out the index automatically
+        if #available(iOS 14.0, *) {
+            var totalCount: Int = 0
+            for section in Section.allCases {
+                let currentStackView = stackView(in: section)
+                totalCount += currentStackView.arrangedSubviews.count
+            }
+
+            var previousSectionCount: Int = 0
+            if let avatar = avatarView, !avatar.isHidden {
+                totalCount += 1
+                previousSectionCount += 1
+            }
+
+            for section in Section.allCases {
+                let currentStackView = stackView(in: section)
+
+                for (index, itemView) in currentStackView.arrangedSubviews.enumerated() {
+                    let accessibilityIndex = index + 1 + previousSectionCount
+                    itemView.accessibilityHint = String.localizedStringWithFormat( "Accessibility.TabBarItemView.Hint".localized, accessibilityIndex, totalCount)
+                }
+                previousSectionCount += currentStackView.arrangedSubviews.count
+            }
+        }
     }
 
     private func items(in section: Section) -> [TabBarItem] {

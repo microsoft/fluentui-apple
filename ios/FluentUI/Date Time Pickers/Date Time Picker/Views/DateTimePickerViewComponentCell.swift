@@ -8,7 +8,7 @@ import UIKit
 // MARK: DateTimePicker Colors
 public extension Colors {
   struct DateTimePicker {
-      public static var background: UIColor = Calendar.background
+    public static var background = UIColor(light: surfacePrimary, dark: gray900)
       public static var text: UIColor = textSecondary
   }
 }
@@ -44,7 +44,7 @@ class DateTimePickerViewComponentCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
 
-        backgroundColor = nil
+        backgroundColor = Colors.DateTimePicker.background
 
         textLabel?.textAlignment = .center
         textLabel?.font = UIFontMetrics.default.scaledFont(for: Fonts.body, maximumPointSize: Constants.maximumFontSize)

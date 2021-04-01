@@ -13,7 +13,11 @@ public class TabBarItemView: UIView {
             titleLabel.isHighlighted = isSelected
             imageView.isHighlighted = isSelected
             updateColors()
-            accessibilityTraits = isSelected ? .selected : .none
+            if isSelected {
+                accessibilityTraits.insert(.selected)
+            } else {
+                accessibilityTraits.remove(.selected)
+            }
         }
     }
 
