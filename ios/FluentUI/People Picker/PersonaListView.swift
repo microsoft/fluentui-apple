@@ -91,7 +91,7 @@ open class PersonaListView: UITableView {
         separatorStyle = .none
         tableFooterView = UIView(frame: .zero)
 
-        register(PersonaCell.self, forCellReuseIdentifier: PersonaCell.identifier)
+        register(PersonaCellLegacy.self, forCellReuseIdentifier: PersonaCellLegacy.identifier)
         register(ActionsCell.self, forCellReuseIdentifier: ActionsCell.identifier)
         register(ActivityIndicatorCell.self, forCellReuseIdentifier: ActivityIndicatorCell.identifier)
         register(CenteredLabelCell.self, forCellReuseIdentifier: CenteredLabelCell.identifier)
@@ -189,7 +189,7 @@ extension PersonaListView: UITableViewDataSource {
 
         switch section {
         case .personas:
-            guard let cell = dequeueReusableCell(withIdentifier: PersonaCell.identifier, for: indexPath) as? PersonaCell else {
+            guard let cell = dequeueReusableCell(withIdentifier: PersonaCellLegacy.identifier, for: indexPath) as? PersonaCellLegacy else {
                 return UITableViewCell()
             }
             let persona = personaList[indexPath.row]

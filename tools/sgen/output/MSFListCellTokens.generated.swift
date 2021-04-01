@@ -148,6 +148,11 @@ extension FluentUIStyle {
 			open var small: CGFloat {
 				return mainProxy().Icon.size.xSmall
 			}
+
+			// MARK: - xlarge 
+			open var xlarge: CGFloat {
+				return CGFloat(52.0)
+			}
 		}
 
 
@@ -182,19 +187,6 @@ extension FluentUIStyle {
 	}
 	open class MSFPersonaTokensAppearanceProxy: MSFListCellTokensAppearanceProxy {
 
-		// MARK: - MSFPersonaTokenscellHeight
-		open override var cellHeight: MSFPersonaTokenscellHeightAppearanceProxy {
-			return MSFPersonaTokenscellHeightAppearanceProxy(proxy: mainProxy)
-		}
-		open class MSFPersonaTokenscellHeightAppearanceProxy: MSFListCellTokensAppearanceProxy.cellHeightAppearanceProxy {
-
-			// MARK: - twoLines 
-			open override var twoLines: CGFloat {
-				return CGFloat(84.0)
-			}
-		}
-
-
 		// MARK: - footnoteFont 
 		open override var footnoteFont: UIFont {
 			return mainProxy().Typography.footnote
@@ -219,19 +211,6 @@ extension FluentUIStyle {
 		open override var labelFont: UIFont {
 			return mainProxy().Typography.headline
 		}
-
-		// MARK: - MSFPersonaTokensleadingViewSize
-		open override var leadingViewSize: MSFPersonaTokensleadingViewSizeAppearanceProxy {
-			return MSFPersonaTokensleadingViewSizeAppearanceProxy(proxy: mainProxy)
-		}
-		open class MSFPersonaTokensleadingViewSizeAppearanceProxy: MSFListCellTokensAppearanceProxy.leadingViewSizeAppearanceProxy {
-
-			// MARK: - medium 
-			open override var medium: CGFloat {
-				return CGFloat(52.0)
-			}
-		}
-
 
 		// MARK: - sublabelColor 
 		open override var sublabelColor: UIColor {

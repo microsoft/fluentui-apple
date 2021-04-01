@@ -177,6 +177,7 @@ class LeftNavMenuViewController: UIViewController {
         microsoftAccountCell.accessoryType = .checkmark
         let orgAvatar = MSFAvatar(style: .group, size: .large)
         orgAvatar.state.primaryText = "Kat Larrson"
+        microsoftAccountCell.leadingView = orgAvatar.view
         microsoftAccountCell.leadingViewSize = .large
 
         let msaAccountCell = MSFListCellState()
@@ -185,6 +186,7 @@ class LeftNavMenuViewController: UIViewController {
         msaAccountCell.subtitle = "kat.larrson@live.com"
         let msaAvatar = MSFAvatar(style: .group, size: .large)
         msaAvatar.state.primaryText = "kat.larrson@live.com"
+        msaAccountCell.leadingView = msaAvatar.view
         msaAccountCell.leadingViewSize = .large
 
         let addAccountCell = MSFListCellState()
@@ -212,12 +214,10 @@ class LeftNavMenuViewController: UIViewController {
         let chevron = UIImageView(image: UIImage(named: "ic_fluent_ios_chevron_right_20_filled"))
         chevron.tintColor = Colors.textPrimary
 
-        let personaState = MSFPersonaCellState()
-        personaState.leadingView = leftNavAvatar.view
-        personaState.title = leftNavAvatar.state.primaryText ?? ""
-        personaState.subtitle = leftNavAvatar.state.secondaryText ?? ""
-        personaState.titleTrailingAccessoryView = chevron
-        let persona = MSFListPersona(state: personaState)
+        let state = MSFPersonaCellState()
+        state.persona = leftNavAvatar
+        state.titleTrailingAccessoryView = chevron
+        let persona = MSFPersona(state: state)
 
         let personaView = UIStackView(arrangedSubviews: [persona.view])
 

@@ -6,12 +6,22 @@
 import UIKit
 import SwiftUI
 
-@objc public protocol PersonaCellProtocol {
-    var leadingView: UIView? { get }
-    var title: String { get }
-    var subtitle: String { get }
-    var titleTrailingAccessoryView: UIView? { get }
-    var subtitleTrailingAccessoryView: UIView? { get }
+@objc public protocol MSFListCellProtocol {
+    @objc optional var leadingView: UIView? { get set }
+    @objc optional var title: String { get set }
+    @objc optional var subtitle: String { get set }
+    @objc optional var footnote: String { get set }
+    @objc optional var titleLeadingAccessoryView: UIView? { get set }
+    @objc optional var titleTrailingAccessoryView: UIView? { get set }
+    @objc optional var subtitleLeadingAccessoryView: UIView? { get set }
+    @objc optional var subtitleTrailingAccessoryView: UIView? { get set }
+    @objc optional var footnoteLeadingAccessoryView: UIView? { get }
+    @objc optional var footnoteTrailingAccessoryView: UIView? { get set }
+    @objc optional var trailingView: UIView? { get set }
+    @objc optional var accessoryType: MSFListAccessoryType { get set }
+    @objc optional var titleLineLimit: Int { get set }
+    @objc optional var subtitleLineLimit: Int { get set }
+    @objc optional var footnoteLineLimit: Int { get set }
 }
 
 /// `MSFListCellState` contains properties that make up a cell content.
@@ -33,7 +43,7 @@ import SwiftUI
 ///
 /// `onTapAction`: perform an action on a cell tap.
 ///
-@objc public class MSFListCellState: NSObject, ObservableObject, Identifiable {
+@objc public class MSFListCellState: NSObject, ObservableObject, Identifiable, MSFListCellProtocol {
     public var id = UUID()
     @objc @Published public var leadingView: UIView?
     @objc @Published public var leadingViewSize: MSFListCellLeadingViewSize = .medium
@@ -224,54 +234,4 @@ struct ListCellButtonStyle: ButtonStyle {
             .frame(minHeight: height)
             .background(configuration.isPressed ? Color(tokens.highlightedBackgroundColor) : Color(tokens.backgroundColor))
     }
-}
-
-@objc public class MSFPersonaCellState: NSObject, ObservableObject, PersonaCellProtocol {
-    @objc @Published public var leadingView: UIView?
-    @objc @Published public var title: String = ""
-    @objc @Published public var subtitle: String = ""
-    @objc @Published public var titleTrailingAccessoryView: UIView?
-    @objc @Published public var subtitleTrailingAccessoryView: UIView?
-}
-/// UIKit wrapper that exposes the SwiftUI Persona Cell implementation
-@objc open class MSFListPersona: NSObject, FluentUIWindowProvider {
-
-    @objc public init(state: MSFPersonaCellState,
-                      theme: FluentUIStyle? = nil) {
-        let cell = MSFListCellState()
-        cell.title = state.title
-        cell.subtitle = state.subtitle
-        cell.leadingView = state.leadingView
-        cell.titleTrailingAccessoryView = state.titleTrailingAccessoryView
-        cell.subtitleTrailingAccessoryView = state.subtitleTrailingAccessoryView
-
-        personaView = MSFListCellView(state: cell, style: MSFListCellStyle.persona, windowProvider: nil)
-        hostingController = UIHostingController(rootView: theme != nil ? AnyView(personaView.usingTheme(theme!)) : AnyView(personaView))
-
-        super.init()
-
-        personaView.tokens.windowProvider = self
-        view.backgroundColor = UIColor.clear
-    }
-
-    @objc public convenience init(state: MSFPersonaCellState) {
-        self.init(state: state,
-                  theme: nil)
-    }
-
-    @objc open var view: UIView {
-        return hostingController.view
-    }
-
-    @objc open var state: MSFListCellState {
-        return personaView.state
-    }
-
-    var window: UIWindow? {
-        return self.view.window
-    }
-
-    private var hostingController: UIHostingController<AnyView>!
-
-    private var personaView: MSFListCellView!
 }

@@ -17,6 +17,7 @@ import SwiftUI
     case small
     case medium
     case large
+    case xlarge
 }
 
 /// Pre-defined accessory types
@@ -123,10 +124,12 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
                 leadingViewSize = appearanceProxy.leadingViewSize.medium
             case .large:
                 leadingViewSize = appearanceProxy.leadingViewSize.large
+            case .xlarge:
+                leadingViewSize = appearanceProxy.leadingViewSize.xlarge
             }
         case .persona:
             appearanceProxy = currentTheme.MSFPersonaTokens
-            leadingViewSize = appearanceProxy.leadingViewSize.medium
+            leadingViewSize = appearanceProxy.leadingViewSize.xlarge
         }
 
         backgroundColor = appearanceProxy.backgroundColor.rest
