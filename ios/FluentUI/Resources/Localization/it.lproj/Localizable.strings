@@ -100,7 +100,7 @@
 "Accessibility.AvatarView.LabelFormat" = "%@, %@";
 
 /* Accessibility hint for TabBarItemView in TabBarView. %1$d is placeholder for index and %2$d is a placeholder for total number of tab items  */
-"Accessibility.TabBarItemView.Hint" = "%1d of %2d";
+"Accessibility.TabBarItemView.Hint" = "%1d di %2d";
 
 /* Accessibility hint for more actions button */
 "Accessibility.TableViewCell.MoreActions.Hint" = "Effettua un doppio tocco per visualizzare altre azioni";
