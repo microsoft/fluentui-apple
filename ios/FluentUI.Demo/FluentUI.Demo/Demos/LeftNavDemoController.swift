@@ -126,7 +126,7 @@ class LeftNavMenuViewController: UIViewController {
             statusCellChild.leadingViewSize = .small
             statusCellChild.title = presence.cellTitle()
             statusCellChild.leadingUIView = presence.imageView()
-            statusCellChild.cellBackgroundColor = UIColor.clear
+            statusCellChild.cellBackgroundColor = UIColor(light: .white, dark: .clear)
             statusCellChild.onTapAction = {
                 self.setPresence(presence: presence)
             }
@@ -137,7 +137,7 @@ class LeftNavMenuViewController: UIViewController {
         let resetStatusCell = MSFListCellState()
         resetStatusCell.title = "Reset status"
         resetStatusCell.leadingViewSize = .small
-        resetStatusCell.cellBackgroundColor = UIColor.clear
+        resetStatusCell.cellBackgroundColor = UIColor(light: .white, dark: .clear)
         let resetStatusImageView = UIImageView(image: UIImage(named: "ic_fluent_arrow_sync_24_regular"))
         resetStatusImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
         resetStatusCell.leadingUIView = resetStatusImageView
@@ -147,14 +147,14 @@ class LeftNavMenuViewController: UIViewController {
         statusCellChildren.append(resetStatusCell)
 
         statusCell.title = LeftNavPresence.available.cellTitle()
-        statusCell.cellBackgroundColor = UIColor.clear
+        statusCell.cellBackgroundColor = UIColor(light: .white, dark: .clear)
         let statusImageView = LeftNavPresence.available.imageView()
         statusImageView.tintColor = FluentUIThemeManager.S.Colors.Presence.available
         statusCell.leadingUIView = statusImageView
         statusCell.children = statusCellChildren
 
         let statusMessageCell = MSFListCellState()
-        statusMessageCell.cellBackgroundColor = UIColor.clear
+        statusMessageCell.cellBackgroundColor = UIColor(light: .white, dark: .clear)
         statusMessageCell.title = "Set Status Message"
         let statusMessageImageView = UIImageView(image: UIImage(named: "ic_fluent_status_24_regular"))
         statusMessageImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
@@ -162,7 +162,7 @@ class LeftNavMenuViewController: UIViewController {
         statusMessageCell.onTapAction = defaultMenuAction
 
         let notificationsCell = MSFListCellState()
-        notificationsCell.cellBackgroundColor = UIColor.clear
+        notificationsCell.cellBackgroundColor = UIColor(light: .white, dark: .clear)
         notificationsCell.title = "Notifications"
         notificationsCell.subtitle = "On"
         notificationsCell.layoutType = .twoLines
@@ -172,7 +172,7 @@ class LeftNavMenuViewController: UIViewController {
         notificationsCell.onTapAction = defaultMenuAction
 
         let settingsCell = MSFListCellState()
-        settingsCell.cellBackgroundColor = UIColor.clear
+        settingsCell.cellBackgroundColor = UIColor(light: .white, dark: .clear)
         settingsCell.title = "Settings"
         let settingsImageView = UIImageView(image: UIImage(named: "ic_fluent_settings_24_regular"))
         settingsImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
@@ -180,7 +180,7 @@ class LeftNavMenuViewController: UIViewController {
         settingsCell.onTapAction = defaultMenuAction
 
         let whatsNewCell = MSFListCellState()
-        whatsNewCell.cellBackgroundColor = UIColor.clear
+        whatsNewCell.cellBackgroundColor = UIColor(light: .white, dark: .clear)
         whatsNewCell.title = "What's new"
         let whatsNewImageView = UIImageView(image: UIImage(named: "ic_fluent_lightbulb_24_regular"))
         whatsNewImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
@@ -191,7 +191,7 @@ class LeftNavMenuViewController: UIViewController {
         menuSection.cells = [statusCell, statusMessageCell, notificationsCell, settingsCell, whatsNewCell]
 
         let microsoftAccountCell = MSFListCellState()
-        microsoftAccountCell.cellBackgroundColor = UIColor.clear
+        microsoftAccountCell.cellBackgroundColor = UIColor(light: .white, dark: .clear)
         microsoftAccountCell.layoutType = .twoLines
         microsoftAccountCell.title = "Contoso"
         microsoftAccountCell.subtitle = "kat.larrson@contoso.com"
@@ -202,7 +202,7 @@ class LeftNavMenuViewController: UIViewController {
         microsoftAccountCell.leadingViewSize = .large
 
         let msaAccountCell = MSFListCellState()
-        msaAccountCell.cellBackgroundColor = UIColor.clear
+        msaAccountCell.cellBackgroundColor = UIColor(light: .white, dark: .clear)
         msaAccountCell.layoutType = .twoLines
         msaAccountCell.title = "Personal"
         msaAccountCell.subtitle = "kat.larrson@live.com"
@@ -212,7 +212,7 @@ class LeftNavMenuViewController: UIViewController {
         msaAccountCell.leadingViewSize = .large
 
         let addAccountCell = MSFListCellState()
-        addAccountCell.cellBackgroundColor = UIColor.clear
+        addAccountCell.cellBackgroundColor = UIColor(light: .white, dark: .clear)
         addAccountCell.title = "Add Account"
         let addAccountImageView = UIImageView(image: UIImage(named: "ic_fluent_add_24_regular"))
         addAccountImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
