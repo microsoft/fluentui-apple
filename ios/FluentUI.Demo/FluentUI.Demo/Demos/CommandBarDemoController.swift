@@ -32,6 +32,8 @@ class CommandBarDemoController: DemoController {
 
         case textStyle
 
+        case disabledText
+
         var iconImage: UIImage? {
             switch self {
             case .add:
@@ -66,7 +68,7 @@ class CommandBarDemoController: DemoController {
                 return UIImage(named: "link24Regular")
             case .keyboard:
                 return UIImage(named: "keyboardDock24Regular")
-            case .textStyle:
+            case .textStyle, .disabledText:
                 return nil
             }
         }
@@ -75,6 +77,8 @@ class CommandBarDemoController: DemoController {
             switch self {
             case .textStyle:
                 return TextStyle.body.textRepresentation
+            case .disabledText:
+                return "Search"
             default:
                 return nil
             }
@@ -84,6 +88,8 @@ class CommandBarDemoController: DemoController {
             switch self {
             case .textStyle:
                 return TextStyle.body.font
+            case .disabledText:
+                return .systemFont(ofSize: 15, weight: .regular)
             default:
                 return nil
             }
@@ -91,7 +97,7 @@ class CommandBarDemoController: DemoController {
 
         var isPersistSelection: Bool {
             switch self {
-            case .add, .mention, .calendar, .arrowUndo, .arrowRedo, .copy, .delete, .link, .keyboard, .textStyle:
+            case .add, .mention, .calendar, .arrowUndo, .arrowRedo, .copy, .delete, .link, .keyboard, .textStyle, .disabledText:
                 return false
             case .textBold, .textItalic, .textUnderline, .textStrikethrough, .checklist, .bulletList, .numberList:
                 return true
@@ -160,6 +166,9 @@ class CommandBarDemoController: DemoController {
                 .textStyle
             ],
             [
+                .disabledText
+            ],
+            [
                 .textBold,
                 .textItalic,
                 .textUnderline,
@@ -187,10 +196,11 @@ class CommandBarDemoController: DemoController {
         }
 
         itemGroups[0][1].isEnabled = false
+        itemGroups[2][0].isEnabled = false
 
         if #available(iOS 14.0, *) {
             // Copy item
-            let copyItem = itemGroups[3][0]
+            let copyItem = itemGroups[4][0]
             copyItem.menu = UIMenu(children: [UIAction(title: "Copy Image", image: UIImage(named: "copy24Regular"), handler: { _ in }),
                                               UIAction(title: "Copy Text", image: UIImage(named: "text24Regular"), handler: { _ in })])
             copyItem.showsMenuAsPrimaryAction = true
@@ -240,7 +250,7 @@ class CommandBarDemoController: DemoController {
             titleFont: command.titleFont,
             isEnabled: isEnabled,
             isSelected: isSelected,
-            itemTappedHandler: { [weak self] (item) in
+            itemTappedHandler: { [weak self] (_, item) in
                 self?.handleCommandItemTapped(command: command, item: item)
             }
         )

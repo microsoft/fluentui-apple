@@ -46,7 +46,10 @@ class LargeTitleView: UIView {
 
     var avatarCustomAccessibilityLabel: String? {
         didSet {
-            [avatarView, smallMorphingAvatarView].forEach { $0?.customAccessibilityLabel = avatarCustomAccessibilityLabel }
+            [avatarView, smallMorphingAvatarView].forEach {
+                $0?.customAccessibilityLabel = avatarCustomAccessibilityLabel
+                $0?.largeContentTitle = avatarCustomAccessibilityLabel
+            }
         }
     }
 
@@ -171,6 +174,8 @@ class LargeTitleView: UIView {
         avatarView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleAvatarViewTapped)))
         self.avatarView = avatarView
         contentStackView.addArrangedSubview(avatarView)
+        avatarView.showsLargeContentViewer = true
+        avatarView.largeContentTitle = avatarView.accessibilityLabel
 
         // small avatar view setup
         let smallAvatarView = ProfileView(avatarSize: Constants.compactAvatarSize, preferredFallbackImageStyle: preferredFallbackImageStyle)
@@ -178,6 +183,8 @@ class LargeTitleView: UIView {
         self.smallMorphingAvatarView = smallAvatarView
         smallAvatarView.translatesAutoresizingMaskIntoConstraints = false
         contentStackView.addSubview(smallAvatarView)
+        smallAvatarView.showsLargeContentViewer = true
+        smallAvatarView.largeContentTitle = smallAvatarView.accessibilityLabel
 
         smallAvatarView.centerXAnchor.constraint(equalTo: avatarView.centerXAnchor).isActive = true
         smallAvatarView.centerYAnchor.constraint(equalTo: avatarView.centerYAnchor).isActive = true
