@@ -318,12 +318,10 @@ open class AvatarView: NSView {
 		initialsFontColor = color.foreground.resolvedColor(appearance)
 	}
 
-	/// Get the color associated with a given index
+	/// Get the ColorSet associated with a given index
 	/// - parameter index: the index into the color table
 	///
 	/// - returns: the color table entry for the given index
-	///
-	/// - note: Internal visibility exists only for unit testing
 	@objc(getColorForIndex:)
 	@available(*, deprecated, message: "Use getInitialsColorSetFromPrimaryText:secondaryText: instead")
 	public static func getColor(for index: Int) -> ColorSet {
