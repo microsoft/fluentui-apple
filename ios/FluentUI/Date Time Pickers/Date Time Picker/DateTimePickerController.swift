@@ -148,15 +148,15 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
     }
 
     private func initSegmentedControl(includesTime: Bool) {
-        let titles: [String]
+        let items: [SegmentItem]
         if includesTime {
-            titles = [customStartTabTitle ?? "MSDateTimePicker.StartTime".localized,
-                      customEndTabTitle ?? "MSDateTimePicker.EndTime".localized]
+            items = [SegmentItem(title: customStartTabTitle ?? "MSDateTimePicker.StartTime".localized),
+                     SegmentItem(title: customEndTabTitle ?? "MSDateTimePicker.EndTime".localized)]
         } else {
-            titles = [customStartTabTitle ?? "MSDateTimePicker.StartDate".localized,
-                      customEndTabTitle ?? "MSDateTimePicker.EndDate".localized]
+            items = [SegmentItem(title: customStartTabTitle ?? "MSDateTimePicker.StartDate".localized),
+                     SegmentItem(title: customEndTabTitle ?? "MSDateTimePicker.EndDate".localized)]
         }
-        segmentedControl = SegmentedControl(items: titles, style: traitCollection.userInterfaceStyle == .dark ? .onBrandPill : .primaryPill)
+        segmentedControl = SegmentedControl(items: items, style: traitCollection.userInterfaceStyle == .dark ? .onBrandPill : .primaryPill)
         segmentedControl?.addTarget(self, action: #selector(handleDidSelectStartEnd(_:)), for: .valueChanged)
     }
 
