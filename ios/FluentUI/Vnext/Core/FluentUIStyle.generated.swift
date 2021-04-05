@@ -355,6 +355,11 @@ open class FluentUIStyle: NSObject {
 			open var xlarge: CGFloat {
 				return CGFloat(12.0)
 			}
+
+			// MARK: - xxlarge 
+			open var xxlarge: CGFloat {
+				return CGFloat(14.0)
+			}
 		}
 
 
@@ -472,17 +477,17 @@ open class FluentUIStyle: NSObject {
 
 			// MARK: - surfacePrimary 
 			open var surfacePrimary: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/white", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/black", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: UIColor(named: "FluentColors/gray950", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/white", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/black", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: UIColor(named: "FluentColors/grey8", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - surfaceQuaternary 
 			open var surfaceQuaternary: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/gray100", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/gray600", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/grey88", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey26", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - surfaceSecondary 
 			open var surfaceSecondary: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/gray25", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/gray950", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: UIColor(named: "FluentColors/gray900", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/grey98", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey8", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: UIColor(named: "FluentColors/grey14", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
 			}
 		}
 
@@ -909,6 +914,11 @@ open class FluentUIStyle: NSObject {
 		// MARK: - none 
 		open var none: CGFloat {
 			return CGFloat(1.0)
+		}
+
+		// MARK: - opacity05 
+		open var opacity05: CGFloat {
+			return CGFloat(0.05)
 		}
 
 		// MARK: - opacity16 

@@ -76,7 +76,6 @@ public enum DrawerPresentationBackground: Int {
 // MARK: - Drawer Color
 public extension Colors {
     // Objective-C support
-    @objc static var drawerBackground: UIColor { return DrawerController.drawerContentBackgroundColor() }
     @objc static var popoverBackground: UIColor { return DrawerController.drawerPopoverBackgroundColor() }
 }
 
@@ -134,7 +133,7 @@ open class DrawerController: UIViewController, FluentUIWindowProvider {
     }
 
     /// Set `backgroundColor` to customize background color of the drawer
-    @objc open var backgroundColor: UIColor = drawerTokens.drawerContentBackground {
+    @objc open var backgroundColor: UIColor = drawerTokens.drawerHorizontalContentBackground {
         didSet {
             useCustomBackgroundColor = true
             view.backgroundColor = backgroundColor
@@ -781,7 +780,11 @@ open class DrawerController: UIViewController, FluentUIWindowProvider {
             } else if useNavigationBarBackgroundColor {
                 backgroundColor = drawerTokens.navigationBarBackground
             } else {
-                backgroundColor = drawerTokens.drawerContentBackground
+                if presentationDirection.isVertical {
+                    backgroundColor = drawerTokens.drawerVerticalContentBackground
+                } else {
+                    backgroundColor = drawerTokens.drawerHorizontalContentBackground
+                }
             }
         }
         guard let presentationController = (presentationController as? DrawerPresentationController) else {
@@ -975,9 +978,6 @@ open class DrawerController: UIViewController, FluentUIWindowProvider {
 // MARK: - DrawerController: Colors
 
 internal extension DrawerController {
-    @objc static func drawerContentBackgroundColor() -> UIColor {
-        return DrawerController.drawerTokens.drawerContentBackground
-    }
     @objc static func drawerPopoverBackgroundColor() -> UIColor {
         return DrawerController.drawerTokens.popoverContentBackground
     }

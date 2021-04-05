@@ -355,6 +355,11 @@ open class FluentUIStyle: NSObject {
 			open var xLarge: CGFloat {
 				return CGFloat(12.0)
 			}
+
+			// MARK: - xxlarge 
+			open var xxlarge: CGFloat {
+				return CGFloat(14.0)
+			}
 		}
 
 
@@ -909,6 +914,11 @@ open class FluentUIStyle: NSObject {
 		// MARK: - none 
 		open var none: CGFloat {
 			return CGFloat(1.0)
+		}
+
+		// MARK: - opacity05 
+		open var opacity05: CGFloat {
+			return CGFloat(0.05)
 		}
 
 		// MARK: - opacity16 

@@ -18,7 +18,8 @@ class MSFDrawerTokens: MSFTokensBase {
     public var shadow2DepthY: CGFloat!
     public var backgroundDimmedColor: UIColor!
     public var backgroundClearColor: UIColor!
-    public var drawerContentBackground: UIColor!
+    public var drawerVerticalContentBackground: UIColor!
+    public var drawerHorizontalContentBackground: UIColor!
     public var popoverContentBackground: UIColor!
     public var navigationBarBackground: UIColor!
     public var resizingHandleViewBackgroundColor: UIColor!
@@ -62,7 +63,8 @@ class MSFDrawerTokens: MSFTokensBase {
         shadow2DepthY = appearanceProxy.shadow2OffsetY
         backgroundClearColor = appearanceProxy.backgroundClearColor
         backgroundDimmedColor = appearanceProxy.backgroundDimmedColor
-        drawerContentBackground = appearanceProxy.drawerContentBackground
+        drawerVerticalContentBackground = appearanceProxy.drawerVerticalContentBackground
+        drawerHorizontalContentBackground = appearanceProxy.drawerHorizontalContentBackground
         popoverContentBackground = appearanceProxy.popoverContentBackground
         navigationBarBackground = appearanceProxy.navigationBarBackground
         resizingHandleViewBackgroundColor = appearanceProxy.resizingHandleViewBackgroundColor

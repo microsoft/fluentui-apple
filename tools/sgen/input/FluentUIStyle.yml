@@ -87,7 +87,7 @@ Typography:
   subheadline: "Font(subheadline)"
 
 Border:
-  radius: [ none: 0pt, small: 2pt, medium: 4pt, large: 8pt, xLarge: 12pt ]
+  radius: [ none: 0pt, small: 2pt, medium: 4pt, large: 8pt, xlarge: 12pt, xxlarge: 14pt ]
   size: [ none: 0pt, thin: 1pt, thick: 2pt, thicker: 4pt, thickest: 6pt ]
 
 Icon:
@@ -108,6 +108,7 @@ Spacing:
   xxxxLarge: 72pt
 
 Opacity:
+  opacity05: 0.05f
   opacity8: 0.8f
   opacity16: 0.16f
   opacity24: 0.24f
@@ -326,7 +327,8 @@ MSFPrimaryHeaderTokens extends MSFHeaderFooterTokens:
 AP_MSFDrawerTokens:
   backgroundClearColor: NamedColor(clear)
   backgroundDimmedColor: $Colors.Elevation.highElevation
-  drawerContentBackground: "FluentUIColor(light: $Colors.Background.neutral1, dark: $Colors.Background.neutral3)"
+  drawerHorizontalContentBackground: "$Colors.Background.neutral1"
+  drawerVerticalContentBackground: "FluentUIColor(light: $Colors.Background.neutral1, dark: $Colors.Background.neutral3)"
   popoverContentBackground: "FluentUIColor(light: $Colors.Background.surfacePrimary, dark: $Colors.Background.surfaceQuaternary)"
   navigationBarBackground: "FluentUIColor(light: $Colors.Background.surfacePrimary, dark: NamedColor(grey14))"
   resizingHandleViewBackgroundColor: NamedColor(clear)
@@ -338,10 +340,10 @@ AP_MSFDrawerTokens:
   shadow2Blur: $Shadow.shadow28.blur2
   shadow2OffsetX: $Shadow.shadow28.x2
   shadow2OffsetY: $Shadow.shadow28.y2
-  minMargin: [horizontal: 44pt, vertical: 20pt]
-  cornerRadius: 14pt
-  dropShadowRadius: 4pt
-  dropShadowOffset: 2pt
-  dropShadowOpacity: 0.05f
-  verticalShadowOffset: 8pt
-  horizontalShadowOffset: 14pt
+  minMargin: [horizontal: $Spacing.xxxlarge, vertical: $Spacing.large]
+  cornerRadius: $Border.radius.xxlarge
+  dropShadowRadius: $Border.radius.medium
+  dropShadowOffset: $Spacing.xxxSmall
+  dropShadowOpacity: $Opacity.opacity05
+  verticalShadowOffset: $Spacing.xSmall
+  horizontalShadowOffset: $Spacing.small

@@ -27,32 +27,37 @@ extension FluentUIStyle {
 
 		// MARK: - cornerRadius 
 		open var cornerRadius: CGFloat {
-			return CGFloat(14.0)
+			return mainProxy().Border.radius.xxlarge
 		}
 
-		// MARK: - drawerContentBackground 
-		open var drawerContentBackground: UIColor {
+		// MARK: - drawerHorizontalContentBackground 
+		open var drawerHorizontalContentBackground: UIColor {
+			return mainProxy().Colors.Background.neutral1
+		}
+
+		// MARK: - drawerVerticalContentBackground 
+		open var drawerVerticalContentBackground: UIColor {
 			return UIColor(light: mainProxy().Colors.Background.neutral1, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Background.neutral3, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
 		// MARK: - dropShadowOffset 
 		open var dropShadowOffset: CGFloat {
-			return CGFloat(2.0)
+			return mainProxy().Spacing.xxxSmall
 		}
 
 		// MARK: - dropShadowOpacity 
 		open var dropShadowOpacity: CGFloat {
-			return CGFloat(0.05)
+			return mainProxy().Opacity.opacity05
 		}
 
 		// MARK: - dropShadowRadius 
 		open var dropShadowRadius: CGFloat {
-			return CGFloat(4.0)
+			return mainProxy().Border.radius.medium
 		}
 
 		// MARK: - horizontalShadowOffset 
 		open var horizontalShadowOffset: CGFloat {
-			return CGFloat(14.0)
+			return mainProxy().Spacing.small
 		}
 
 		// MARK: - minMargin
@@ -67,12 +72,12 @@ extension FluentUIStyle {
 
 			// MARK: - horizontal 
 			open var horizontal: CGFloat {
-				return CGFloat(44.0)
+				return mainProxy().Spacing.xxxlarge
 			}
 
 			// MARK: - vertical 
 			open var vertical: CGFloat {
-				return CGFloat(20.0)
+				return mainProxy().Spacing.large
 			}
 		}
 
@@ -134,7 +139,7 @@ extension FluentUIStyle {
 
 		// MARK: - verticalShadowOffset 
 		open var verticalShadowOffset: CGFloat {
-			return CGFloat(8.0)
+			return mainProxy().Spacing.xSmall
 		}
 	}
 
