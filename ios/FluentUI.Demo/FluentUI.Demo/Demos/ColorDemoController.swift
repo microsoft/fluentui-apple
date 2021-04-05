@@ -141,7 +141,7 @@ class ColorDemoController: UIViewController {
     }
 
     private lazy var segmentedControl: SegmentedControl = {
-        let segmentedControl = SegmentedControl(items: colorProviderThemedWindowTypes.map({ return $0.name }), style: .primaryPill)
+        let segmentedControl = SegmentedControl(items: colorProviderThemedWindowTypes.map({ return SegmentItem(title: $0.name) }), style: .primaryPill)
         segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(sender:)), for: .valueChanged)
         return segmentedControl
     }()

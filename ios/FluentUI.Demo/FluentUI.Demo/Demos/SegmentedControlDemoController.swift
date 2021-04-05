@@ -7,7 +7,12 @@ import Foundation
 import FluentUI
 
 class SegmentedControlDemoController: DemoController {
-    let segmentTitles: [String] = ["First", "Second", "Third", "Fourth"]
+    let segmentItems: [SegmentItem] = [
+        SegmentItem(title: "First"),
+        SegmentItem(title: "Second"),
+        SegmentItem(title: "Third", isUnread: true),
+        SegmentItem(title: "Fourth")
+    ]
 
     var controlLabels = [SegmentedControl: Label]() {
         didSet {
@@ -22,9 +27,38 @@ class SegmentedControlDemoController: DemoController {
         container.layoutMargins.left = 0
         container.layoutMargins.right = 0
 
+        addTitle(text: "Primary Pill")
+
+        addPillControl(items: Array(segmentItems.prefix(3)), style: .primaryPill)
+        container.addArrangedSubview(UIView())
+
+        addTitle(text: "Primary Pill with unequal buttons")
+
+        addPillControl(items: Array(segmentItems.prefix(2)), style: .primaryPill, equalSegments: false)
+        container.addArrangedSubview(UIView())
+
+        addTitle(text: "Disabled Primary Pill")
+
+        addPillControl(items: Array(segmentItems.prefix(2)), style: .primaryPill, enabled: false)
+        container.addArrangedSubview(UIView())
+
+        addTitle(text: "On Brand Pill")
+
+        addPillControl(items: Array(segmentItems.prefix(4)), style: .onBrandPill)
+        container.addArrangedSubview(UIView())
+
+        addTitle(text: "On Brand Pill with unequal buttons")
+
+        addPillControl(items: Array(segmentItems.prefix(2)), style: .onBrandPill, equalSegments: false)
+        container.addArrangedSubview(UIView())
+
+        addTitle(text: "Disabled On Brand Pill")
+
+        addPillControl(items: Array(segmentItems.prefix(2)), style: .onBrandPill, enabled: false)
+
         addTitle(text: "Tabs (deprecated)")
 
-        let tabsSegmentedControl = SegmentedControl(items: segmentTitles)
+        let tabsSegmentedControl = SegmentedControl(items: segmentItems, style: .tabs)
         tabsSegmentedControl.addTarget(self, action: #selector(updateLabel(forControl:)), for: .valueChanged)
         container.addArrangedSubview(tabsSegmentedControl)
         controlLabels[tabsSegmentedControl] = addDescription(text: "", textAlignment: .center)
@@ -32,47 +66,18 @@ class SegmentedControlDemoController: DemoController {
 
         addTitle(text: "Disabled Tabs (deprecated)")
 
-        let disabledTabsSegmentedControl = SegmentedControl(items: Array(segmentTitles.prefix(3)))
+        let disabledTabsSegmentedControl = SegmentedControl(items: Array(segmentItems.prefix(3)), style: .tabs)
         disabledTabsSegmentedControl.isEnabled = false
         disabledTabsSegmentedControl.selectedSegmentIndex = 1
         container.addArrangedSubview(disabledTabsSegmentedControl)
         container.addArrangedSubview(UIView())
-
-        addTitle(text: "Primary Pill")
-
-        addPillControl(items: Array(segmentTitles.prefix(3)), style: .primaryPill)
-        container.addArrangedSubview(UIView())
-
-        addTitle(text: "Primary Pill with unequal buttons")
-
-        addPillControl(items: Array(segmentTitles.prefix(2)), style: .primaryPill, equalSegments: false)
-        container.addArrangedSubview(UIView())
-
-        addTitle(text: "Disabled Primary Pill")
-
-        addPillControl(items: Array(segmentTitles.prefix(2)), style: .primaryPill, enabled: false)
-        container.addArrangedSubview(UIView())
-
-        addTitle(text: "On Brand Pill")
-
-        addPillControl(items: Array(segmentTitles.prefix(3)), style: .onBrandPill)
-        container.addArrangedSubview(UIView())
-
-        addTitle(text: "On Brand Pill with unequal buttons")
-
-        addPillControl(items: Array(segmentTitles.prefix(2)), style: .onBrandPill, equalSegments: false)
-        container.addArrangedSubview(UIView())
-
-        addTitle(text: "Disabled On Brand Pill")
-
-        addPillControl(items: Array(segmentTitles.prefix(2)), style: .onBrandPill, enabled: false)
     }
 
     @objc func updateLabel(forControl control: SegmentedControl) {
-        controlLabels[control]?.text = "\"\(segmentTitles[control.selectedSegmentIndex])\" segment is selected"
+        controlLabels[control]?.text = "\"\(segmentItems[control.selectedSegmentIndex].title)\" segment is selected"
     }
 
-    func addPillControl(items: [String], style: SegmentedControl.Style, equalSegments: Bool = true, enabled: Bool = true) {
+    func addPillControl(items: [SegmentItem], style: SegmentedControl.Style, equalSegments: Bool = true, enabled: Bool = true) {
         let pillControl = SegmentedControl(items: items, style: style)
         pillControl.shouldSetEqualWidthForSegments = equalSegments
         pillControl.isEnabled = enabled
