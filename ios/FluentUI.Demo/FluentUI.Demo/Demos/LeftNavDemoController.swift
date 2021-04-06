@@ -214,10 +214,9 @@ class LeftNavMenuViewController: UIViewController {
         let chevron = UIImageView(image: UIImage(named: "ic_fluent_ios_chevron_right_20_filled"))
         chevron.tintColor = Colors.textPrimary
 
-        let state = MSFPersonaCellState()
-        state.persona = leftNavAvatar
-        state.titleTrailingAccessoryView = chevron
-        let persona = MSFPersona(state: state)
+        let persona = MSFPersonaView()
+        persona.state.persona = leftNavAvatar
+        persona.state.titleTrailingAccessoryView = chevron
 
         let personaView = UIStackView(arrangedSubviews: [persona.view])
 

@@ -117,18 +117,18 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
         switch style {
         case .normal, .none:
             appearanceProxy = currentTheme.MSFListCellTokens
-            switch cellLeadingViewSize {
-            case .small:
-                leadingViewSize = appearanceProxy.leadingViewSize.small
-            case .medium, .none:
-                leadingViewSize = appearanceProxy.leadingViewSize.medium
-            case .large:
-                leadingViewSize = appearanceProxy.leadingViewSize.large
-            case .xlarge:
-                leadingViewSize = appearanceProxy.leadingViewSize.xlarge
-            }
         case .persona:
             appearanceProxy = currentTheme.MSFPersonaTokens
+        }
+
+        switch cellLeadingViewSize {
+        case .small:
+            leadingViewSize = appearanceProxy.leadingViewSize.small
+        case .medium, .none:
+            leadingViewSize = appearanceProxy.leadingViewSize.medium
+        case .large:
+            leadingViewSize = appearanceProxy.leadingViewSize.large
+        case .xlarge:
             leadingViewSize = appearanceProxy.leadingViewSize.xlarge
         }
 

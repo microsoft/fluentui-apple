@@ -5,13 +5,13 @@
 
 import UIKit
 
-// MARK: PersonaCellLegacy
+// MARK: PersonaCell
 
-@available(*, deprecated, renamed: "PersonaCellLegacy")
-public typealias MSPersonaCellLegacy = PersonaCellLegacy
+@available(*, deprecated, renamed: "PersonaCell")
+public typealias MSPersonaCell = PersonaCell
 
-@objc(MSFPersonaCellLegacy)
-open class PersonaCellLegacy: TableViewCell {
+@objc(MSFPersonaCell)
+open class PersonaCell: TableViewCell {
     private struct Constants {
         static let avatarSize: MSFAvatarSize = .large
     }

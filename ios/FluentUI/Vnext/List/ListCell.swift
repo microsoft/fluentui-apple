@@ -6,24 +6,6 @@
 import UIKit
 import SwiftUI
 
-@objc public protocol MSFListCellProtocol {
-    @objc optional var leadingView: UIView? { get set }
-    @objc optional var title: String { get set }
-    @objc optional var subtitle: String { get set }
-    @objc optional var footnote: String { get set }
-    @objc optional var titleLeadingAccessoryView: UIView? { get set }
-    @objc optional var titleTrailingAccessoryView: UIView? { get set }
-    @objc optional var subtitleLeadingAccessoryView: UIView? { get set }
-    @objc optional var subtitleTrailingAccessoryView: UIView? { get set }
-    @objc optional var footnoteLeadingAccessoryView: UIView? { get }
-    @objc optional var footnoteTrailingAccessoryView: UIView? { get set }
-    @objc optional var trailingView: UIView? { get set }
-    @objc optional var accessoryType: MSFListAccessoryType { get set }
-    @objc optional var titleLineLimit: Int { get set }
-    @objc optional var subtitleLineLimit: Int { get set }
-    @objc optional var footnoteLineLimit: Int { get set }
-}
-
 /// `MSFListCellState` contains properties that make up a cell content.
 ///
 /// `title` is the first line of text, subsequently followed by `subtitle` on the second line and `footnote` on the third line.
@@ -43,7 +25,7 @@ import SwiftUI
 ///
 /// `onTapAction`: perform an action on a cell tap.
 ///
-@objc public class MSFListCellState: NSObject, ObservableObject, Identifiable, MSFListCellProtocol {
+@objc public class MSFListCellState: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
     @objc @Published public var leadingView: UIView?
     @objc @Published public var leadingViewSize: MSFListCellLeadingViewSize = .medium
