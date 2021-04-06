@@ -20,7 +20,7 @@ public protocol BottomSheetViewControllerDelegate: AnyObject {
 }
 
 /// BottomSheetViewController is a module component that should be persistently shown on the screen and hosting various components relevant to on-screen content.
-/// On iPhone devices, the BottomSheetViewController is meant to be thumb friendly position at the bottom of the screen which users can pan or tap on resize handle to expand and collapse while still be able to interact with other UIControls outside of this module component. On iPad regular horizontal size, the BottomSheetViewcontroller is shown as floating UIView anchored on the bottom of the screen and not expandable.
+/// On iPhone devices, the BottomSheetViewController is meant to be thumb friendly position at the bottom of the screen which users can pan or tap on resize handle to expand and collapse while still be able to interact with other UIControls outside of this module component. On iPad regular horizontal size, the BottomSheetViewcontroller is shown as floating UIView anchored on the bottom of the screen and not expandable. In order to make this persistent view work with various iOS assistive technology, instead of presenting this viewcontroller, initialize the viewcontroller and add its view directly as subview of its hosting viewcontroller.
 @objc(MSFBottomSheetViewController)
 public class BottomSheetViewController: UIViewController {
     @objc public weak var delegate: BottomSheetViewControllerDelegate?
