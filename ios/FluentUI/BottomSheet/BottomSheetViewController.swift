@@ -19,6 +19,9 @@ public protocol BottomSheetViewControllerDelegate: AnyObject {
     @objc optional func bottomSheetViewControllerDidCollapse(_ controller: BottomSheetViewController)
 }
 
+/// BottomSheetViewController is a module component that should be persistently shown on the screen and hosting various components relevant to on-screen content.
+/// On iPhone devices, the BottomSheetViewController is meant to be thumb friendly position at the bottom of the screen which users can pan or tap on resize handle to expand and collapse while still be able to interact with other UIControls outside of this module component. On iPad regular horizontal size, the BottomSheetViewcontroller is shown as floating UIView anchored on the bottom of the screen and not expandable.
+@objc(MSFBottomSheetViewController)
 public class BottomSheetViewController: UIViewController {
     @objc public weak var delegate: BottomSheetViewControllerDelegate?
     /// BottomSheetViewController's view height in collapsed mode.
@@ -39,6 +42,14 @@ public class BottomSheetViewController: UIViewController {
     @objc public var preferredContentWidthForPad: CGFloat = Constants.contentWidthForPad {
         didSet {
             updateFrame()
+        }
+    }
+
+    @objc public var showResizeHandle: Bool = true {
+        didSet {
+            if oldValue != showResizeHandle {
+                resizingHandleView.isHidden = !showResizeHandle
+            }
         }
     }
 
@@ -371,7 +382,7 @@ public class BottomSheetViewController: UIViewController {
 
 extension BottomSheetViewController: UIGestureRecognizerDelegate {
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        if  !shouldShowFloatingViewForPad(), let scrollView = (otherGestureRecognizer as? UIPanGestureRecognizer)?.view as? UIScrollView, scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height) || (scrollView.contentOffset.y <= 0) {
+        if  !shouldShowFloatingViewForPad(), !resizingHandleView.isHidden, let scrollView = (otherGestureRecognizer as? UIPanGestureRecognizer)?.view as? UIScrollView, scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height) || (scrollView.contentOffset.y <= 0) {
             // If scroll view has reached the bottom or top bring the bottom sheet pan in action too.
             return true
         } else {
