@@ -160,8 +160,6 @@
 		536AEF4E25F1EC0300A36206 /* UIKit+SwiftUI_interoperability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF2B25F1EC0300A36206 /* UIKit+SwiftUI_interoperability.swift */; };
 		536AEF4F25F1EC0300A36206 /* Theming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF2C25F1EC0300A36206 /* Theming.swift */; };
 		536AEF5025F1EC0300A36206 /* Theming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF2C25F1EC0300A36206 /* Theming.swift */; };
-		536AEF5125F1EC0300A36206 /* AnimationCompletionModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF2D25F1EC0300A36206 /* AnimationCompletionModifier.swift */; };
-		536AEF5225F1EC0300A36206 /* AnimationCompletionModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF2D25F1EC0300A36206 /* AnimationCompletionModifier.swift */; };
 		536AEF5325F1EC0300A36206 /* MSFButtonTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF2F25F1EC0300A36206 /* MSFButtonTokens.generated.swift */; };
 		536AEF5425F1EC0300A36206 /* MSFButtonTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF2F25F1EC0300A36206 /* MSFButtonTokens.generated.swift */; };
 		536AEF5525F1EC0300A36206 /* ButtonTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF3025F1EC0300A36206 /* ButtonTokens.swift */; };
@@ -378,7 +376,6 @@
 		536AEF2A25F1EC0300A36206 /* FluentUIStyle.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentUIStyle.generated.swift; sourceTree = "<group>"; };
 		536AEF2B25F1EC0300A36206 /* UIKit+SwiftUI_interoperability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIKit+SwiftUI_interoperability.swift"; sourceTree = "<group>"; };
 		536AEF2C25F1EC0300A36206 /* Theming.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theming.swift; sourceTree = "<group>"; };
-		536AEF2D25F1EC0300A36206 /* AnimationCompletionModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationCompletionModifier.swift; sourceTree = "<group>"; };
 		536AEF2F25F1EC0300A36206 /* MSFButtonTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFButtonTokens.generated.swift; sourceTree = "<group>"; };
 		536AEF3025F1EC0300A36206 /* ButtonTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonTokens.swift; sourceTree = "<group>"; };
 		536AEF3125F1EC0300A36206 /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
@@ -800,8 +797,7 @@
 				536AEF2D25F1EC0300A36206 /* AnimationCompletionModifier.swift */,
 				536AEF2A25F1EC0300A36206 /* FluentUIStyle.generated.swift */,
 				53C61F8C2624E20C0079FAA8 /* SwiftUI+ViewModifiers.swift */,
-				536AEF2C25F1EC0300A36206 /* Theming.swift */,
-				536AEF2B25F1EC0300A36206 /* UIKit+SwiftUI_interoperability.swift */,
+				536AEF2C25F1EC0300A36206 /* Theming.swift */
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1638,7 +1634,6 @@
 				5314E07F25F00F1A0099271A /* DateTimePickerViewComponentCell.swift in Sources */,
 				0AA874162600237A00D47421 /* PersonaView.swift in Sources */,
 				5314E0E425F012C00099271A /* NavigationController.swift in Sources */,
-				536AEF5225F1EC0300A36206 /* AnimationCompletionModifier.swift in Sources */,
 				5314E00D25F00B390099271A /* ActivityIndicatorView.swift in Sources */,
 				5314E03B25F00E3D0099271A /* BadgeStringExtractor.swift in Sources */,
 				5314E19825F019650099271A /* SideTabBar.swift in Sources */,
@@ -1804,7 +1799,6 @@
 				FD4F2A1B2148937100C437D6 /* PageCardPresenterController.swift in Sources */,
 				0AA874152600237A00D47421 /* PersonaView.swift in Sources */,
 				FD5BBE3B214B2F44008964B4 /* Date+Extensions.swift in Sources */,
-				536AEF5125F1EC0300A36206 /* AnimationCompletionModifier.swift in Sources */,
 				FD5BBE43214C73CE008964B4 /* EasyTapButton.swift in Sources */,
 				B498141421E424920077B48D /* TableViewCell.swift in Sources */,
 				FD41C8B522DD3EA20086F899 /* NSLayoutConstraint+Extensions.swift in Sources */,
