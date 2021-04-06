@@ -58,7 +58,7 @@ class TabButtonViewController: UICollectionViewController {
         flowLayout.minimumInteritemSpacing = 12
         flowLayout.itemSize = CGSize(width: 64, height: 48)
         flowLayout.sectionInsetReference = .fromSafeArea
-        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+        flowLayout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
 
         super.init(collectionViewLayout: flowLayout)
         collectionView.backgroundColor = .clear

@@ -28,8 +28,15 @@ public class BottomSheetViewController: UIViewController {
         }
     }
 
+    /// BottomSheetViewController's view height in expanded mode. If the value is -1, it will grow to the its windows safe area height.
+    @objc public var preferredExpandedHeight: CGFloat = -1 {
+        didSet {
+            updateFrame()
+        }
+    }
+
     /// BottomSheetViewController's view width in iPad when horizontal size is regular
-    @objc public var contentWidth: CGFloat = Constants.contentWidth {
+    @objc public var preferredContentWidthForPad: CGFloat = Constants.contentWidthForPad {
         didSet {
             updateFrame()
         }
@@ -78,6 +85,11 @@ public class BottomSheetViewController: UIViewController {
 
 // MARK: Lifecycle methods
 
+    open override func viewDidDisappear(_ animated: Bool) {
+        removeDimmingView()
+        super.viewDidDisappear(animated)
+    }
+
     open override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -86,6 +98,7 @@ public class BottomSheetViewController: UIViewController {
         view.layer.shadowColor = Constants.Shadow.color
         view.layer.shadowOpacity = Constants.Shadow.opacity
         view.layer.shadowRadius = Constants.Shadow.radius
+        view.layer.shadowOffset = Constants.Shadow.offset
         view.layer.cornerRadius = Constants.cornerRadius
         view.layer.cornerCurve = .continuous
 
@@ -116,7 +129,16 @@ public class BottomSheetViewController: UIViewController {
     }
 
 // MARK: private helpers
+
     private func updateFrame() {
+        if shouldShowFloatingViewForPad() {
+            resizingHandleView.isHidden = true
+            currentState = .collapse
+            removeDimmingView()
+        } else {
+            resizingHandleView.isHidden = false
+        }
+
         if let window = view.window {
             let suggestionFrame: CGRect
             if currentState == .collapse {
@@ -136,8 +158,8 @@ public class BottomSheetViewController: UIViewController {
         let windowFrame = window.frame
         let adjustedCollapseHeight = collapsedHeight + window.safeAreaInsets.bottom
 
-        if traitCollection.userInterfaceIdiom == .pad, traitCollection.horizontalSizeClass == .regular {
-            return CGRect(x: floor((windowFrame.width - contentWidth) / 2), y: windowFrame.height - adjustedCollapseHeight - Constants.verticalInsetBottom, width: contentWidth, height: collapsedHeight)
+        if shouldShowFloatingViewForPad() {
+            return CGRect(x: floor((windowFrame.width - preferredContentWidthForPad) / 2), y: windowFrame.height - adjustedCollapseHeight - Constants.verticalInsetBottom, width: preferredContentWidthForPad, height: collapsedHeight)
         }
 
         return CGRect(x: 0, y: (windowFrame.height - adjustedCollapseHeight), width: windowFrame.width, height: adjustedCollapseHeight)
@@ -148,17 +170,19 @@ public class BottomSheetViewController: UIViewController {
         targetFrame.origin.y = window.safeAreaInsets.top
         targetFrame.size.height -= window.safeAreaInsets.top
 
-        if traitCollection.userInterfaceIdiom == .pad, traitCollection.horizontalSizeClass == .regular {
-            targetFrame.size.height -= Constants.verticalInsetBottom
-            return CGRect(x: floor((targetFrame.width - contentWidth) / 2), y: targetFrame.origin.y, width: contentWidth, height: targetFrame.size.height)
+        // if caller set preferred expanded height, respect the value unless it is greater than window's safearea height
+        if preferredExpandedHeight != -1 {
+            let adjustedExpandedHeight = preferredExpandedHeight + window.safeAreaInsets.bottom
+            if adjustedExpandedHeight < targetFrame.size.height && adjustedExpandedHeight > collapsedHeight {
+                targetFrame.origin.y = window.frame.height - adjustedExpandedHeight
+                targetFrame.size.height = adjustedExpandedHeight
+            }
         }
-
         return targetFrame
     }
 
-    open override func viewDidDisappear(_ animated: Bool) {
-        removeDimmingView()
-        super.viewDidDisappear(animated)
+    private func shouldShowFloatingViewForPad() -> Bool {
+        return traitCollection.userInterfaceIdiom == .pad && traitCollection.horizontalSizeClass == .regular
     }
 
 // MARK: animator setup
@@ -330,23 +354,24 @@ public class BottomSheetViewController: UIViewController {
 
     private struct Constants {
         static let animationDuration: TimeInterval = 0.25
-        static let collapsedHeight: CGFloat = ResizingHandleView.height + 56
-        static let contentWidth: CGFloat = 500
+        static let collapsedHeight: CGFloat = ResizingHandleView.height + 60
+        static let contentWidthForPad: CGFloat = 500
         static let verticalInsetBottom: CGFloat = 4
         static let velocityThreshold: CGFloat = 250
         static let cornerRadius: CGFloat = 14
 
         struct Shadow {
             static let color: CGColor = UIColor.black.cgColor
-            static let opacity: Float = 0.05
-            static let radius: CGFloat = 4
+            static let opacity: Float = 0.14
+            static let radius: CGFloat = 8
+            static let offset: CGSize = CGSize(width: 0, height: 4)
         }
     }
 }
 
 extension BottomSheetViewController: UIGestureRecognizerDelegate {
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        if let scrollView = (otherGestureRecognizer as? UIPanGestureRecognizer)?.view as? UIScrollView, scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height) || (scrollView.contentOffset.y <= 0) {
+        if  !shouldShowFloatingViewForPad(), let scrollView = (otherGestureRecognizer as? UIPanGestureRecognizer)?.view as? UIScrollView, scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height) || (scrollView.contentOffset.y <= 0) {
             // If scroll view has reached the bottom or top bring the bottom sheet pan in action too.
             return true
         } else {
