@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0AA874152600237A00D47421 /* PersonaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA874142600237A00D47421 /* PersonaCell.swift */; };
-		0AA874162600237A00D47421 /* PersonaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA874142600237A00D47421 /* PersonaCell.swift */; };
+		0AA874152600237A00D47421 /* PersonaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA874142600237A00D47421 /* PersonaView.swift */; };
+		0AA874162600237A00D47421 /* PersonaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA874142600237A00D47421 /* PersonaView.swift */; };
 		0BCEFADE2485FEC00088CEE5 /* PopupMenuProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */; };
 		1168630422E131CF0088B302 /* TabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630222E131CF0088B302 /* TabBarItemView.swift */; };
 		1168630622E131CF0088B302 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630322E131CF0088B302 /* TabBarView.swift */; };
@@ -75,7 +75,7 @@
 		5314E11425F015EA0099271A /* AvatarData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A578C4A12321CFD6002D5C40 /* AvatarData.swift */; };
 		5314E11525F015EA0099271A /* Presence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2C24D209E300367A55 /* Presence.swift */; };
 		5314E11625F015EA0099271A /* PersonaBadgeViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BA27872319DC0D0001563C /* PersonaBadgeViewDataSource.swift */; };
-		5314E11725F015EA0099271A /* PersonaCellLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46D3F922151D95F0029772C /* PersonaCellLegacy.swift */; };
+		5314E11725F015EA0099271A /* PersonaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46D3F922151D95F0029772C /* PersonaCell.swift */; };
 		5314E11825F015EA0099271A /* PeoplePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47B58B722F8E5840078DE38 /* PeoplePicker.swift */; };
 		5314E11925F015EA0099271A /* ContactCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF03E1924B6BD4700E6E2A2 /* ContactCollectionView.swift */; };
 		5314E11A25F015EA0099271A /* ContactCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF03E1D24B6BDFB00E6E2A2 /* ContactCollectionViewLayout.swift */; };
@@ -253,7 +253,7 @@
 		B444D6B12181403C0002B4D4 /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444D6B02181403C0002B4D4 /* UITableViewCell+Extension.swift */; };
 		B444D6B62183A9740002B4D4 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444D6B52183A9740002B4D4 /* BadgeView.swift */; };
 		B45EB790219E310F008646A2 /* BadgeField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45EB78F219E310F008646A2 /* BadgeField.swift */; };
-		B46D3F932151D95F0029772C /* PersonaCellLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46D3F922151D95F0029772C /* PersonaCellLegacy.swift */; };
+		B46D3F932151D95F0029772C /* PersonaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46D3F922151D95F0029772C /* PersonaCell.swift */; };
 		B46D3F9D215985AC0029772C /* PersonaListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46D3F9C215985AC0029772C /* PersonaListView.swift */; };
 		B47B58B822F8E5840078DE38 /* PeoplePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47B58B722F8E5840078DE38 /* PeoplePicker.swift */; };
 		B483323321CC71940022B4CC /* HUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B483323221CC71940022B4CC /* HUDView.swift */; };
@@ -366,7 +366,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0AA874142600237A00D47421 /* PersonaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaCell.swift; sourceTree = "<group>"; };
+		0AA874142600237A00D47421 /* PersonaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaView.swift; sourceTree = "<group>"; };
 		0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuProtocols.swift; sourceTree = "<group>"; };
 		1168630222E131CF0088B302 /* TabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
 		1168630322E131CF0088B302 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
@@ -467,7 +467,7 @@
 		B444D6B02181403C0002B4D4 /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
 		B444D6B52183A9740002B4D4 /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 		B45EB78F219E310F008646A2 /* BadgeField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeField.swift; sourceTree = "<group>"; };
-		B46D3F922151D95F0029772C /* PersonaCellLegacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaCellLegacy.swift; sourceTree = "<group>"; };
+		B46D3F922151D95F0029772C /* PersonaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaCell.swift; sourceTree = "<group>"; };
 		B46D3F9C215985AC0029772C /* PersonaListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaListView.swift; sourceTree = "<group>"; };
 		B47B58B722F8E5840078DE38 /* PeoplePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeoplePicker.swift; sourceTree = "<group>"; };
 		B483323221CC71940022B4CC /* HUDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDView.swift; sourceTree = "<group>"; };
@@ -643,7 +643,7 @@
 		0AA8741326001F0500D47421 /* Persona */ = {
 			isa = PBXGroup;
 			children = (
-				0AA874142600237A00D47421 /* PersonaCell.swift */,
+				0AA874142600237A00D47421 /* PersonaView.swift */,
 			);
 			path = Persona;
 			sourceTree = "<group>";
@@ -1052,7 +1052,7 @@
 				B47B58B722F8E5840078DE38 /* PeoplePicker.swift */,
 				8A01C86E248FFC5300C971F3 /* ContactView.swift */,
 				B4BA27872319DC0D0001563C /* PersonaBadgeViewDataSource.swift */,
-				B46D3F922151D95F0029772C /* PersonaCellLegacy.swift */,
+				B46D3F922151D95F0029772C /* PersonaCell.swift */,
 				B46D3F9C215985AC0029772C /* PersonaListView.swift */,
 				8AF03E1924B6BD4700E6E2A2 /* ContactCollectionView.swift */,
 				8AF03E1B24B6BDBD00E6E2A2 /* ContactCollectionViewCell.swift */,
@@ -1633,7 +1633,7 @@
 				5314E0EC25F012C40099271A /* NavigationAnimator.swift in Sources */,
 				5314E17225F0191C0099271A /* Separator.swift in Sources */,
 				5314E14225F016860099271A /* CardPresenterNavigationController.swift in Sources */,
-				5314E11725F015EA0099271A /* PersonaCellLegacy.swift in Sources */,
+				5314E11725F015EA0099271A /* PersonaCell.swift in Sources */,
 				5314E23025F022C80099271A /* UIScrollView+Extensions.swift in Sources */,
 				5314E16925F017940099271A /* SegmentedControl.swift in Sources */,
 				C77A04EE25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift in Sources */,
@@ -1653,7 +1653,7 @@
 				5314E11625F015EA0099271A /* PersonaBadgeViewDataSource.swift in Sources */,
 				5314E2DA25F025370099271A /* Fonts.swift in Sources */,
 				5314E07F25F00F1A0099271A /* DateTimePickerViewComponentCell.swift in Sources */,
-				0AA874162600237A00D47421 /* PersonaCell.swift in Sources */,
+				0AA874162600237A00D47421 /* PersonaView.swift in Sources */,
 				5314E0E425F012C00099271A /* NavigationController.swift in Sources */,
 				536AEF5225F1EC0300A36206 /* AnimationCompletionModifier.swift in Sources */,
 				5314E00D25F00B390099271A /* ActivityIndicatorView.swift in Sources */,
@@ -1779,7 +1779,7 @@
 				FD9A5C872179464F00D224D9 /* DateComponents+Extensions.swift in Sources */,
 				A5B87AF7211E16370038C37C /* DrawerTransitionAnimator.swift in Sources */,
 				C0A0D76D233AEF6C00F432FD /* ShimmerAppearance.swift in Sources */,
-				B46D3F932151D95F0029772C /* PersonaCellLegacy.swift in Sources */,
+				B46D3F932151D95F0029772C /* PersonaCell.swift in Sources */,
 				B444D6B12181403C0002B4D4 /* UITableViewCell+Extension.swift in Sources */,
 				FD777529219E3F6C00033D58 /* DayOfMonth.swift in Sources */,
 				FD1FAE1B2272464B00A5DBA4 /* GenericDateTimePicker.swift in Sources */,
@@ -1821,7 +1821,7 @@
 				FD0D29D62151A3D700E8655E /* CardPresenterNavigationController.swift in Sources */,
 				8AF03E1C24B6BDBD00E6E2A2 /* ContactCollectionViewCell.swift in Sources */,
 				FD4F2A1B2148937100C437D6 /* PageCardPresenterController.swift in Sources */,
-				0AA874152600237A00D47421 /* PersonaCell.swift in Sources */,
+				0AA874152600237A00D47421 /* PersonaView.swift in Sources */,
 				FD5BBE3B214B2F44008964B4 /* Date+Extensions.swift in Sources */,
 				536AEF5125F1EC0300A36206 /* AnimationCompletionModifier.swift in Sources */,
 				FD5BBE43214C73CE008964B4 /* EasyTapButton.swift in Sources */,

@@ -62,9 +62,11 @@ import SwiftUI
 struct MSFListCellView: View {
     @ObservedObject var state: MSFListCellState
     @ObservedObject var tokens: MSFListCellTokens
+    var style: MSFListCellStyle
 
     init(state: MSFListCellState, style: MSFListCellStyle = .normal, windowProvider: FluentUIWindowProvider?) {
         self.state = state
+        self.style = style
         self.tokens = MSFListCellTokens(cellLeadingViewSize: state.leadingViewSize, style: style)
         self.tokens.windowProvider = windowProvider
     }
@@ -169,7 +171,7 @@ struct MSFListCellView: View {
                 }
             }
         })
-        .buttonStyle(ListCellButtonStyle(tokens: tokens, state: state))
+        .buttonStyle(ListCellButtonStyle(tokens: tokens, state: state, style: style))
 
         if state.hasDivider {
             let padding = tokens.horizontalCellPadding +
@@ -193,13 +195,15 @@ struct MSFListCellView: View {
 struct ListCellButtonStyle: ButtonStyle {
     let tokens: MSFListCellTokens
     let state: MSFListCellState
+    let style: MSFListCellStyle
 
     func makeBody(configuration: Self.Configuration) -> some View {
         let height: CGFloat
         switch state.layoutType {
         case .automatic:
-            height = !state.footnote.isEmpty ? tokens.cellHeightThreeLines :
-                (!state.subtitle.isEmpty ? tokens.cellHeightTwoLines : tokens.cellHeightOneLine)
+            height = style == MSFListCellStyle.persona ? tokens.cellHeightThreeLines :
+                (!state.footnote.isEmpty ? tokens.cellHeightThreeLines :
+                    (!state.subtitle.isEmpty ? tokens.cellHeightTwoLines : tokens.cellHeightOneLine))
         case .oneLine:
             height = tokens.cellHeightOneLine
         case .twoLines:

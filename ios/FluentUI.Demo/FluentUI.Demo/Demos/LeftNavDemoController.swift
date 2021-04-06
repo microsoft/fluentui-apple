@@ -215,7 +215,7 @@ class LeftNavMenuViewController: UIViewController {
         chevron.tintColor = Colors.textPrimary
 
         let persona = MSFPersonaView()
-        persona.state.persona = leftNavAvatar
+        persona.state.persona = leftNavAvatar.state
         persona.state.titleTrailingAccessoryView = chevron
 
         let personaView = UIStackView(arrangedSubviews: [persona.view])

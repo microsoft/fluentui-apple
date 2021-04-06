@@ -7,14 +7,14 @@ import UIKit
 import SwiftUI
 
 @objc public protocol PersonaCellProtocol {
-    @objc var persona: MSFAvatar? { get set }
+    @objc var persona: MSFAvatarState? { get set }
     @objc var titleTrailingAccessoryView: UIView? { get set }
     @objc var subtitleTrailingAccessoryView: UIView? { get set }
     @objc var onTapAction: (() -> Void)? { get set }
 }
 
 @objc public class MSFPersonaCellState: MSFListCellState, PersonaCellProtocol {
-    @objc @Published public var persona: MSFAvatar?
+    @objc @Published public var persona: MSFAvatarState?
 }
 
 struct PersonaView: View {
@@ -33,14 +33,20 @@ struct PersonaView: View {
 
     private func getCellState() -> MSFListCellState {
         let cellState = MSFListCellState()
-        cellState.leadingView = state.persona?.view ?? nil
+        cellState.leadingView = createAvatar().view
         cellState.leadingViewSize = .xlarge
-        cellState.title = state.persona?.state.primaryText ?? ""
-        cellState.subtitle = state.persona?.state.secondaryText ?? ""
+        cellState.title = state.persona?.primaryText ?? ""
+        cellState.subtitle = state.persona?.secondaryText ?? ""
         cellState.titleTrailingAccessoryView = state.titleTrailingAccessoryView
         cellState.subtitleTrailingAccessoryView = state.subtitleTrailingAccessoryView
         cellState.onTapAction = state.onTapAction
         return cellState
+    }
+
+    private func createAvatar() -> MSFAvatar {
+        let avatar = MSFAvatar(style: .default, size: .xlarge)
+        avatar.state.image = state.persona?.image
+        return avatar
     }
 }
 
