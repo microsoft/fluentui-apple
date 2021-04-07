@@ -41,14 +41,9 @@ open class AvatarView: NSView {
 
 		super.init(frame: .zero)
 
-		wantsLayer = true
-		let circularPath = CGPath.circularPath(withCircleDiameter: avatarSize)
+		let circularPath = CGPath.circularPath(withCircleDiameter: diameterForContentCircle())
 		circleMask.path = circularPath
-		outlineLayer.path = circularPath
-		outlineLayer.lineWidth = 1.0
-		outlineLayer.strokeColor = AvatarView.outlineColor.cgColor
-		outlineLayer.fillColor = nil
-		layer?.mask = circleMask
+		contentView.layer?.mask = circleMask
 
 		let widthConstraint = widthAnchor.constraint(equalToConstant: avatarSize)
 		let heightConstraint = heightAnchor.constraint(equalToConstant: avatarSize)
@@ -73,7 +68,6 @@ open class AvatarView: NSView {
 		}
 		// Disable animations for this change
 		CATransaction.setDisableActions(true)
-		outlineLayer.strokeColor = AvatarView.outlineColor.cgColor
 		if displayStyle == .initials {
 			initialsView.layer?.backgroundColor = avatarBackgroundColor.cgColor
 		}
@@ -148,15 +142,29 @@ open class AvatarView: NSView {
 				assertionFailure()
 			}
 
-			let path = CGPath.circularPath(withCircleDiameter: avatarSize)
-			circleMask.path = path
-			outlineLayer.path = path
+			updateHeight()
+		}
+	}
 
-			let textFieldFont = font(forCircleDiameter: avatarSize)
-			initialsTextField.font = textFieldFont
+	@objc open var borderColor: NSColor = AvatarView.defaultBorderColor {
+		didSet {
+			guard oldValue != borderColor, hasBorder else {
+				return
+			}
 
-			// This constraint will only exist if we're using the sizing view approach to center our initials
-			initialsSizingViewHeightConstraint?.constant = ceil(textFieldFont.capHeight)
+			borderView.strokeColor = borderColor
+			borderView.needsDisplay = true
+		}
+	}
+
+	@objc open var hasBorder: Bool = false {
+		didSet {
+			guard oldValue != hasBorder else {
+				return
+			}
+
+			borderView.isHidden = !hasBorder
+			updateHeight()
 		}
 	}
 
@@ -169,8 +177,11 @@ open class AvatarView: NSView {
 	/// The height constraint for the initials sizing view which should update on font size changes
 	private var initialsSizingViewHeightConstraint: NSLayoutConstraint?
 
-	/// The layer used to draw the colorful circle underneath the initials in the initials view
-	private let outlineLayer = CAShapeLayer()
+	/// The width constraint of contentView
+	private var  contentViewWidthConstraint: NSLayoutConstraint?
+	
+	/// The height constraint of contentView
+	private var  contentViewHeightConstraint: NSLayoutConstraint?
 
 	/// The layer used to mask the overall AvatarView to a circle
 	private let circleMask = CAShapeLayer()
@@ -187,6 +198,13 @@ open class AvatarView: NSView {
 			updateViewStyle()
 		}
 	}
+
+	private lazy var contentView: NSView = {
+		let contentView = NSView()
+		contentView.wantsLayer = true
+		contentView.translatesAutoresizingMaskIntoConstraints = false
+		return contentView
+	}()
 
 	/// When an image is provided, this view is added to the view hierarchy
 	private lazy var contactImageView: NSImageView = {
@@ -214,7 +232,7 @@ open class AvatarView: NSView {
 
 		// If we have a font, use that to accurately center the initials, not letting diacritics and descenders/ascenders
 		// impact the centering
-		let capHeight = font(forCircleDiameter: avatarSize).capHeight
+		let capHeight = font(forCircleDiameter: diameterForContentCircle()).capHeight
 		// Create an empty view that gives reasonable sizing information on the actual text of our text view
 		let initialsTextSizingView = NSView(frame: .zero)
 		initialsView.addSubview(initialsTextSizingView)
@@ -240,42 +258,52 @@ open class AvatarView: NSView {
 		let textView = NSTextField(labelWithString: AvatarView.initialsWithFallback(name: contactName, email: contactEmail))
 		textView.alignment = .center
 		textView.translatesAutoresizingMaskIntoConstraints = false
-		textView.font = font(forCircleDiameter: avatarSize)
+		textView.font = font(forCircleDiameter: diameterForContentCircle())
 		textView.textColor = initialsFontColor
 		textView.drawsBackground = true
 		textView.backgroundColor = avatarBackgroundColor
 		return textView
 	}()
 
-	/// The view that draws the outline stroke around the edge of the AvatarView
-	private lazy var outlineView: NSView = {
-		let outlineView = NSView()
-		outlineView.translatesAutoresizingMaskIntoConstraints = false
-		outlineView.wantsLayer = true
-		outlineView.layer?.addSublayer(outlineLayer)
-		return outlineView
+	/// The view that draws the border stroke around the edge of the AvatarView
+	private lazy var borderView: BorderView = {
+		let rect = CGRect(x: 0, y: 0, width: avatarSize, height: avatarSize)
+		let borderView = BorderView(frame: rect, strokeColor: borderColor, strokeWidth: AvatarView.borderWidth)
+		borderView.translatesAutoresizingMaskIntoConstraints = false
+		borderView.isHidden = !hasBorder
+		return borderView
 	}()
 
 	/// Update this view to use the proper style when switching from Image to Initials or vice-versa
 	private func updateViewStyle() {
 		let currentView = self.currentView()
-		let accessibilityRingView = self.outlineView
+		contentView.addSubview(currentView)
 
 		// Replace all existing subviews with the proper ones, ensuring the correct z-ordering
 		subviews = [
-			currentView,
-			accessibilityRingView
+			borderView,
+			contentView
 		]
 
+		let diameter = diameterForContentCircle()
+		let contentViewWidthConstraint = contentView.widthAnchor.constraint(equalToConstant: diameter)
+		let contentViewHeightConstraint = contentView.heightAnchor.constraint(equalToConstant: diameter)
+		self.contentViewWidthConstraint = contentViewWidthConstraint
+		self.contentViewHeightConstraint = contentViewHeightConstraint
+
 		let constraints = [
-			currentView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-			currentView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-			currentView.topAnchor.constraint(equalTo: self.topAnchor),
-			currentView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-			accessibilityRingView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-			accessibilityRingView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-			accessibilityRingView.topAnchor.constraint(equalTo: self.topAnchor),
-			accessibilityRingView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+			contentViewWidthConstraint,
+			contentViewHeightConstraint,
+			contentView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+			contentView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+			currentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+			currentView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+			currentView.topAnchor.constraint(equalTo: contentView.topAnchor),
+			currentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+			borderView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+			borderView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+			borderView.topAnchor.constraint(equalTo: self.topAnchor),
+			borderView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
 		]
 
 		NSLayoutConstraint.activate(constraints)
@@ -316,6 +344,24 @@ open class AvatarView: NSView {
 		let color = AvatarView.getInitialsColorSet(fromPrimaryText: contactEmail, secondaryText: contactName)
 		avatarBackgroundColor = color.background.resolvedColor(appearance)
 		initialsFontColor = color.foreground.resolvedColor(appearance)
+	}
+
+	private func updateHeight() {
+		let diameter = diameterForContentCircle()
+		let circularPath = CGPath.circularPath(withCircleDiameter: diameter)
+		circleMask.path = circularPath
+
+		let textFieldFont = font(forCircleDiameter: diameter)
+		initialsTextField.font = textFieldFont
+
+		// This constraint will only exist if we're using the sizing view approach to center our initials
+		initialsSizingViewHeightConstraint?.constant = ceil(textFieldFont.capHeight)
+		contentViewHeightConstraint?.constant = diameter
+		contentViewWidthConstraint?.constant = diameter
+	}
+
+	private func diameterForContentCircle() -> CGFloat {
+		return hasBorder ? avatarSize - (AvatarView.borderWidth * 2) - (AvatarView.contentInset * 2) : avatarSize
 	}
 
 	/// Get the ColorSet associated with a given index
@@ -368,8 +414,13 @@ open class AvatarView: NSView {
 	/// the maximum number of initials to be displayed when we don't have an image
 	static let maximumNumberOfInitials: Int = 2
 
-	/// the color used for the outline view
-	static let outlineColor = NSColor(named: "AvatarView/outlineColor", bundle: FluentUIResources.resourceBundle)!
+	/// the color used for the border
+	static let defaultBorderColor = NSColor(named: "AvatarView/outlineColor", bundle: FluentUIResources.resourceBundle)!
+
+	static let borderWidth: CGFloat = 2.0
+
+	/// inset of the contentView from the borderView
+	static let contentInset: CGFloat = 2.0
 
 	/// Extract the initials to display from a name and email combo, providing a fallback otherwise
 	///
@@ -617,4 +668,29 @@ fileprivate extension CGPath {
 	static func circularPath(withCircleDiameter diameter: CGFloat) -> CGPath {
 		return CGPath(ellipseIn: NSRect(x: 0, y: 0, width: diameter, height: diameter), transform: nil)
 	}
+}
+
+class BorderView: NSView {
+	var strokeColor: NSColor
+	var strokeWidth: CGFloat
+	private var path: NSBezierPath?
+
+	init(frame: CGRect, strokeColor: NSColor, strokeWidth: CGFloat) {
+		self.strokeColor = strokeColor
+		self.strokeWidth = strokeWidth
+		super.init(frame: frame)
+	}
+
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+
+	override func draw(_ dirtyRect: NSRect) {
+		let pathFrame = dirtyRect.insetBy(dx: strokeWidth / 2, dy: strokeWidth / 2)
+		path = NSBezierPath(ovalIn: pathFrame)
+		path?.lineWidth = strokeWidth
+		strokeColor.set()
+		path?.stroke()
+	}
+
 }
