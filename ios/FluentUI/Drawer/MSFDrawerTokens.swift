@@ -8,30 +8,30 @@ import UIKit
 /// `DrawerTokens` assist to configure drawer apperance via UIKit components.
 class MSFDrawerTokens: MSFTokensBase {
 
-    public var shadow1Color: UIColor!
-    public var shadow1Blur: CGFloat!
-    public var shadow1DepthX: CGFloat!
-    public var shadow1DepthY: CGFloat!
-    public var shadow2Color: UIColor!
-    public var shadow2Blur: CGFloat!
-    public var shadow2DepthX: CGFloat!
-    public var shadow2DepthY: CGFloat!
-    public var backgroundDimmedColor: UIColor!
-    public var drawerVerticalContentBackground: UIColor!
-    public var drawerHorizontalContentBackground: UIColor!
-    public var popoverContentBackground: UIColor!
-    public var navigationBarBackground: UIColor!
-    public var cornerRadius: CGFloat!
-    public var dropShadowRadius: CGFloat!
-    public var dropShadowOffset: CGFloat!
-    public var dropShadowOpacity: Float!
-    public var minHorizontalMargin: CGFloat!
-    public var minVerticalMargin: CGFloat!
-    public var verticalShadowOffset: CGFloat!
-    public var horizontalShadowOffset: CGFloat!
+    var shadow1Color: UIColor!
+    var shadow1Blur: CGFloat!
+    var shadow1DepthX: CGFloat!
+    var shadow1DepthY: CGFloat!
+    var shadow2Color: UIColor!
+    var shadow2Blur: CGFloat!
+    var shadow2DepthX: CGFloat!
+    var shadow2DepthY: CGFloat!
+    var backgroundDimmedColor: UIColor!
+    var drawerVerticalContentBackground: UIColor!
+    var drawerHorizontalContentBackground: UIColor!
+    var popoverContentBackground: UIColor!
+    var navigationBarBackground: UIColor!
+    var cornerRadius: CGFloat!
+    var dropShadowRadius: CGFloat!
+    var dropShadowOffset: CGFloat!
+    var dropShadowOpacity: Float!
+    var minHorizontalMargin: CGFloat!
+    var minVerticalMargin: CGFloat!
+    var verticalShadowOffset: CGFloat!
+    var horizontalShadowOffset: CGFloat!
 
-    /// callback for theme change
-    public var themeChanged: (() -> Void)?
+    /// Notifies the drawer controller to refresh its UI to reflect its design token values
+    var themeDidUpdate: (() -> Void)?
 
     override init() {
         super.init()
@@ -45,7 +45,7 @@ class MSFDrawerTokens: MSFTokensBase {
     }
 
     override func updateForCurrentTheme() {
-        if let themeChanged = themeChanged {
+        if let themeChanged = themeDidUpdate {
             themeChanged()
         }
 

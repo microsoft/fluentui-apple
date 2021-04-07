@@ -512,7 +512,7 @@ open class DrawerController: UIViewController, FluentUIWindowProvider {
             }
         }
 
-        drawerTokens.themeChanged = { [weak self] in
+        drawerTokens.themeDidUpdate = { [weak self] in
             guard let strongSelf = self else {
                 return
             }
