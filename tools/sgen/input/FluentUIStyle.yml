@@ -325,13 +325,11 @@ MSFPrimaryHeaderTokens extends MSFHeaderFooterTokens:
   topPadding: $Spacing.medium
 
 AP_MSFDrawerTokens:
-  backgroundClearColor: NamedColor(clear)
   backgroundDimmedColor: $Colors.Elevation.highElevation
   drawerHorizontalContentBackground: "$Colors.Background.neutral1"
   drawerVerticalContentBackground: "FluentUIColor(light: $Colors.Background.neutral1, dark: $Colors.Background.neutral3)"
   popoverContentBackground: "FluentUIColor(light: $Colors.Background.surfacePrimary, dark: $Colors.Background.surfaceQuaternary)"
   navigationBarBackground: "FluentUIColor(light: $Colors.Background.surfacePrimary, dark: NamedColor(grey14))"
-  resizingHandleViewBackgroundColor: NamedColor(clear)
   shadow1Color: $Shadow.shadow28.color1
   shadow1Blur: $Shadow.shadow28.blur1
   shadow1OffsetX: $Shadow.shadow28.x1

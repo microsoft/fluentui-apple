@@ -290,8 +290,7 @@ class DrawerPresentationController: UIPresentationController {
     func updateApperance() {
         shadowView.updateApperance()
         dimmingView.dimmedBlackColor = drawerTokens.backgroundDimmedColor
-        dimmingView.dimmedClearColor = drawerTokens.backgroundClearColor
-        backgroundView.backgroundColor = drawerTokens.backgroundClearColor
+        backgroundView.backgroundColor = dimmingView.dimmedClearColor
     }
 
     private func setContentViewFrame(_ frame: CGRect) {

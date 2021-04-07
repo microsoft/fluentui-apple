@@ -17,12 +17,10 @@ class MSFDrawerTokens: MSFTokensBase {
     public var shadow2DepthX: CGFloat!
     public var shadow2DepthY: CGFloat!
     public var backgroundDimmedColor: UIColor!
-    public var backgroundClearColor: UIColor!
     public var drawerVerticalContentBackground: UIColor!
     public var drawerHorizontalContentBackground: UIColor!
     public var popoverContentBackground: UIColor!
     public var navigationBarBackground: UIColor!
-    public var resizingHandleViewBackgroundColor: UIColor!
     public var cornerRadius: CGFloat!
     public var dropShadowRadius: CGFloat!
     public var dropShadowOffset: CGFloat!
@@ -61,13 +59,11 @@ class MSFDrawerTokens: MSFTokensBase {
         shadow2Blur = appearanceProxy.shadow2Blur
         shadow2DepthX = appearanceProxy.shadow2OffsetX
         shadow2DepthY = appearanceProxy.shadow2OffsetY
-        backgroundClearColor = appearanceProxy.backgroundClearColor
         backgroundDimmedColor = appearanceProxy.backgroundDimmedColor
         drawerVerticalContentBackground = appearanceProxy.drawerVerticalContentBackground
         drawerHorizontalContentBackground = appearanceProxy.drawerHorizontalContentBackground
         popoverContentBackground = appearanceProxy.popoverContentBackground
         navigationBarBackground = appearanceProxy.navigationBarBackground
-        resizingHandleViewBackgroundColor = appearanceProxy.resizingHandleViewBackgroundColor
         cornerRadius = appearanceProxy.cornerRadius
         dropShadowRadius = appearanceProxy.dropShadowRadius
         dropShadowOffset = appearanceProxy.dropShadowOffset

@@ -15,11 +15,6 @@ extension FluentUIStyle {
 			self.mainProxy = proxy
 		}
 
-		// MARK: - backgroundClearColor 
-		open var backgroundClearColor: UIColor {
-			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
-		}
-
 		// MARK: - backgroundDimmedColor 
 		open var backgroundDimmedColor: UIColor {
 			return mainProxy().Colors.Elevation.highElevation
@@ -90,11 +85,6 @@ extension FluentUIStyle {
 		// MARK: - popoverContentBackground 
 		open var popoverContentBackground: UIColor {
 			return UIColor(light: mainProxy().Colors.Background.surfacePrimary, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Background.surfaceQuaternary, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-		}
-
-		// MARK: - resizingHandleViewBackgroundColor 
-		open var resizingHandleViewBackgroundColor: UIColor {
-			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
 		}
 
 		// MARK: - shadow1Blur 
