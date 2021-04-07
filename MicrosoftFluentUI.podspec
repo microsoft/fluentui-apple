@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'MicrosoftFluentUI'
-  s.version          = '0.2.3'
+  s.version          = '0.2.4'
   s.summary          = 'Fluent UI is a set of reusable UI controls and tools'
   s.homepage         = "https://www.microsoft.com/design/fluent/#/"
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
@@ -17,6 +17,7 @@ Pod::Spec.new do |s|
   s.subspec 'Avatar_ios' do |avatar_ios|
     avatar_ios.platform = :ios
     avatar_ios.dependency 'MicrosoftFluentUI/Core_ios'
+    avatar_ios.preserve_paths = ["ios/FluentUI/Avatar/Avatar.resources.xcfilelist"]
     avatar_ios.source_files = ["ios/FluentUI/Avatar/**/*.{swift,h}"]
   end
 
@@ -41,6 +42,7 @@ Pod::Spec.new do |s|
   s.subspec 'BarButtonItems_ios' do |barbuttonitems_ios|
     barbuttonitems_ios.platform = :ios
     barbuttonitems_ios.dependency 'MicrosoftFluentUI/Core_ios'
+    barbuttonitems_ios.preserve_paths = ["ios/FluentUI/BarButtonItems/BarButtonItems.resources.xcfilelist"]
     barbuttonitems_ios.source_files = ["ios/FluentUI/BarButtonItems/**/*.{swift,h}"]
   end
 
@@ -79,6 +81,23 @@ Pod::Spec.new do |s|
     core_ios.platform = :ios
     core_ios.resource_bundle = { 'FluentUIResources-ios' => ["apple/Resources/**/*.{json,xcassets}",
                                                              "ios/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
+    core_ios.script_phase = { :name => 'Optimize resource bundle',
+                              :script => 'echo "=== Removing unused resources from FluentUI-ios.xcassets ==="
+
+XCODEBUILDPARAMS="-quiet"
+
+if [ "${CONFIGURATION}" = "Debug" ]; then
+    CONDITIONALCOMPILATIONFLAGS="-D VERBOSE_OUTPUT"
+    XCODEBUILDPARAMS=""
+fi
+
+xcrun --sdk macosx swift ${CONDITIONALCOMPILATIONFLAGS} ${PODS_TARGET_SRCROOT}/scripts/removeUnusedResourcesFromAssets.swift ${LOCROOT}/MicrosoftFluentUI/ios/FluentUI/Resources/FluentUI-ios.xcassets ${LOCROOT}/MicrosoftFluentUI/ios
+
+echo "=== Rebuilding resource bundle target ==="
+xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftFluentUI-FluentUIResources-ios" -sdk ${PLATFORM_NAME} -configuration ${CONFIGURATION} ARCHS="${ARCHS}" CONFIGURATION_BUILD_DIR="${CONFIGURATION_BUILD_DIR}" BUILD_ROOT="${BUILD_ROOT}" BUILT_PRODUCTS_DIR="${BUILT_PRODUCTS_DIR}" ${ACTION}',
+                              :execution_position => :before_compile }
+    core_ios.preserve_paths = ["ios/FluentUI/Core/Core.resources.xcfilelist",
+                               "scripts/removeUnusedResourcesFromAssets.swift"]
     core_ios.source_files = ["ios/FluentUI/Configuration/**/*.{swift,h}",
                              "ios/FluentUI/Core/**/*.{swift,h}",
                              "ios/FluentUI/Extensions/**/*.{swift,h}"]
@@ -110,6 +129,7 @@ Pod::Spec.new do |s|
     hud_ios.dependency 'MicrosoftFluentUI/ActivityIndicator_ios'
     hud_ios.dependency 'MicrosoftFluentUI/Label_ios'
     hud_ios.dependency 'MicrosoftFluentUI/TouchForwardingView_ios'
+    hud_ios.preserve_paths = ["ios/FluentUI/HUD/HUD.resources.xcfilelist"]
     hud_ios.source_files = ["ios/FluentUI/HUD/**/*.{swift,h}"]
   end
 
@@ -131,6 +151,7 @@ Pod::Spec.new do |s|
     navigation_ios.dependency 'MicrosoftFluentUI/Avatar_ios'
     navigation_ios.dependency 'MicrosoftFluentUI/Separator_ios'
     navigation_ios.dependency 'MicrosoftFluentUI/TwoLineTitleView_ios'
+    navigation_ios.preserve_paths = ["ios/FluentUI/Navigation/Navigation.resources.xcfilelist"]
     navigation_ios.source_files = ["ios/FluentUI/Navigation/**/*.{swift,h}"]
   end
 
@@ -139,6 +160,7 @@ Pod::Spec.new do |s|
     notification_ios.dependency 'MicrosoftFluentUI/Obscurable_ios'
     notification_ios.dependency 'MicrosoftFluentUI/Label_ios'
     notification_ios.dependency 'MicrosoftFluentUI/Separator_ios'
+    notification_ios.preserve_paths = ["ios/FluentUI/Notification/Notification.resources.xcfilelist"]
     notification_ios.source_files = ["ios/FluentUI/Notification/**/*.{swift,h}"]
   end
 
@@ -152,6 +174,7 @@ Pod::Spec.new do |s|
     othercells_ios.platform = :ios
     othercells_ios.dependency 'MicrosoftFluentUI/ActivityIndicator_ios'
     othercells_ios.dependency 'MicrosoftFluentUI/TableView_ios'
+    othercells_ios.preserve_paths = ["ios/FluentUI/Other Cells/OtherCells.resources.xcfilelist"]
     othercells_ios.source_files = ["ios/FluentUI/Other Cells/**/*.{swift,h}"]
   end
 
@@ -228,6 +251,7 @@ Pod::Spec.new do |s|
     tableview_ios.platform = :ios
     tableview_ios.dependency 'MicrosoftFluentUI/Label_ios'
     tableview_ios.dependency 'MicrosoftFluentUI/Separator_ios'
+    tableview_ios.preserve_paths = ["ios/FluentUI/Table View/TableView.resources.xcfilelist"]
     tableview_ios.source_files = ["ios/FluentUI/Table View/**/*.{swift,h}"]
   end
 
@@ -235,6 +259,7 @@ Pod::Spec.new do |s|
     tooltip_ios.platform = :ios
     tooltip_ios.dependency 'MicrosoftFluentUI/Label_ios'
     tooltip_ios.dependency 'MicrosoftFluentUI/TouchForwardingView_ios'
+    tooltip_ios.preserve_paths = ["ios/FluentUI/Tooltip/Tooltip.resources.xcfilelist"]
     tooltip_ios.source_files = ["ios/FluentUI/Tooltip/**/*.{swift,h}"]
   end
 
@@ -248,6 +273,7 @@ Pod::Spec.new do |s|
     twoLinetitleview_ios.platform = :ios
     twoLinetitleview_ios.dependency 'MicrosoftFluentUI/EasyTapButton_ios'
     twoLinetitleview_ios.dependency 'MicrosoftFluentUI/Label_ios'
+    twoLinetitleview_ios.preserve_paths = ["ios/FluentUI/TwoLineTitleView/TwoLineTitleView.resources.xcfilelist"]
     twoLinetitleview_ios.source_files = ["ios/FluentUI/TwoLineTitleView/**/*.{swift,h}"]
   end
 

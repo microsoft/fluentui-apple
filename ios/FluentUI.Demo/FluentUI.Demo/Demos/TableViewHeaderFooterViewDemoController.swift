@@ -13,7 +13,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
     private let plainSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.plainSections
 
     private let segmentedControl: SegmentedControl = {
-        let segmentedControl = SegmentedControl(items: TableViewHeaderFooterSampleData.tabTitles, style: .primaryPill)
+        let segmentedControl = SegmentedControl(items: TableViewHeaderFooterSampleData.tabTitles.map({return SegmentItem(title: $0)}), style: .primaryPill)
         segmentedControl.addTarget(self, action: #selector(updateActiveTabContent), for: .valueChanged)
         return segmentedControl
     }()
