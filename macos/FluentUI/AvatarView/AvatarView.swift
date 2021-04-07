@@ -415,7 +415,7 @@ open class AvatarView: NSView {
 	static let maximumNumberOfInitials: Int = 2
 
 	/// the color used for the border
-	static let defaultBorderColor = NSColor(named: "AvatarView/outlineColor", bundle: FluentUIResources.resourceBundle)!
+	static let defaultBorderColor = NSColor(named: "AvatarView/borderColor", bundle: FluentUIResources.resourceBundle)!
 
 	static let borderWidth: CGFloat = 2.0
 
