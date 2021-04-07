@@ -84,7 +84,7 @@ open class Button: NSButton {
 		imagePosition: NSControl.ImagePosition = .imageLeading,
 		format: ButtonFormat = ButtonFormat()
 	) {
-		self.buttonState = .normal
+		self.buttonState = .rest
 		super.init(frame: .zero)
 		isBordered = false
 		wantsLayer = true
@@ -105,7 +105,7 @@ open class Button: NSButton {
 		self.imagePosition = imagePosition
 		self.format = format
 		if let buttonImage = image {
-			addImage(forButtonState: .normal, image: buttonImage)
+			addImage(forButtonState: .rest, image: buttonImage)
 		}
 
 		// Ensure we update backing properties even if high-level style and size
@@ -132,8 +132,9 @@ open class Button: NSButton {
 			guard wantsLayer == true else {
 				preconditionFailure("wantsLayer must be set so that the image is rendered on the layer")
 			}
-			if image != nil {
-				addImage(forButtonState: ButtonState.normal, image: image!)
+
+			if let buttonImage = image {
+				addImage(forButtonState: .rest, image: buttonImage)
 			}
 		}
 	}
@@ -146,17 +147,17 @@ open class Button: NSButton {
 			}
 		}
 	}
-	
+
 	public func addImage(forButtonState: ButtonState, image: NSImage) {
-		imagesForButtonState[forButtonState] = image;
+		imagesForButtonState[forButtonState] = image
 	}
-	
+
 	private func updateImageForButtonState() {
 		if let newImage = imagesForButtonState[buttonState] {
 			image = newImage
 			return
 		}
-		
+
 	}
 
 	/// While the current Button is pressed, its style is temporarily applied to the linkedPrimary button.
@@ -181,8 +182,8 @@ open class Button: NSButton {
 				return
 			}
 			updateContentTintColor()
-			buttonState = isPressed ? .pressed : .normal
-			
+			buttonState = isPressed ? .pressed : .rest
+
 			if let linkedPrimary = linkedPrimary {
 				if isPressed {
 					linkedPrimaryOriginalStyle = linkedPrimary.style
@@ -206,9 +207,9 @@ open class Button: NSButton {
 			guard oldValue != isEnabled else {
 				return
 			}
-			
-			buttonState = isEnabled ? .normal : .disabled
-			
+
+			buttonState = isEnabled ? .rest : .disabled
+
 			updateContentTintColor()
 		}
 	}
@@ -268,7 +269,7 @@ open class Button: NSButton {
 			self.size = newValue.size
 		}
 	}
-	
+
 	/// the current state of the button
 	private var buttonState: ButtonState {
 		didSet {
@@ -278,7 +279,7 @@ open class Button: NSButton {
 			updateImageForButtonState()
 		}
 	}
-	
+
 	/// Dict of images for different button states
 	private var imagesForButtonState = [ButtonState: NSImage]()
 
@@ -586,10 +587,10 @@ public enum ButtonStyle: Int, CaseIterable {
 /// Indicates the state of the button for providing different images
 @objc(MSFButtonInteractionState)
 public enum ButtonState: Int {
-	case normal
-	
+	case rest
+
 	case pressed
-	
+
 	case disabled
 }
 
