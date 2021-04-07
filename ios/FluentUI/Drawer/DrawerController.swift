@@ -780,11 +780,7 @@ open class DrawerController: UIViewController, FluentUIWindowProvider {
             } else if useNavigationBarBackgroundColor {
                 backgroundColor = drawerTokens.navigationBarBackground
             } else {
-                if presentationDirection.isVertical {
-                    backgroundColor = drawerTokens.drawerVerticalContentBackground
-                } else {
-                    backgroundColor = drawerTokens.drawerHorizontalContentBackground
-                }
+                backgroundColor = presentationDirection.isVertical ? drawerTokens.drawerVerticalContentBackground : drawerTokens.drawerHorizontalContentBackground
             }
         }
         guard let presentationController = (presentationController as? DrawerPresentationController) else {
@@ -979,10 +975,10 @@ open class DrawerController: UIViewController, FluentUIWindowProvider {
 
 internal extension DrawerController {
     private static var drawerToken = MSFDrawerTokens()
-    @objc static func drawerBackgroundColor() -> UIColor {
+    static func drawerBackgroundColor() -> UIColor {
         return drawerToken.drawerHorizontalContentBackground
     }
-    @objc static func drawerPopoverBackgroundColor() -> UIColor {
+    static func drawerPopoverBackgroundColor() -> UIColor {
         return drawerToken.popoverContentBackground
     }
 }
