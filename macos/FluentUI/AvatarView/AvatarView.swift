@@ -179,7 +179,7 @@ open class AvatarView: NSView {
 
 	/// The width constraint of contentView
 	private var  contentViewWidthConstraint: NSLayoutConstraint?
-	
+
 	/// The height constraint of contentView
 	private var  contentViewHeightConstraint: NSLayoutConstraint?
 
