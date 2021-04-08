@@ -27,8 +27,8 @@ open class SideTabBar: UIView {
     /// Delegate to handle user interactions in the side tab bar.
     @objc public weak var delegate: SideTabBarDelegate? {
         didSet {
-            if let avatarView = avatarView {
-                avatarView.accessibilityTraits = delegate != nil ? .button : .image
+            if let avatar = avatar {
+                avatar.view.accessibilityTraits = delegate != nil ? .button : .image
             }
         }
     }
@@ -36,25 +36,27 @@ open class SideTabBar: UIView {
     /// The avatar view that displays above the top tab bar items.
     /// The avatar view's size class should be AvatarSize.medium.
     /// Remember to enable pointer interactions on the avatar view if it handles pointer interactions.
-    @objc open var avatarView: MSFAvatar? {
+    @objc open var avatar: MSFAvatar? {
         willSet {
-            avatarView?.view.removeGestureRecognizer(avatarViewGestureRecognizer)
-            avatarView?.view.removeFromSuperview()
+            avatar?.view.removeGestureRecognizer(avatarViewGestureRecognizer)
+            avatar?.view.removeFromSuperview()
         }
         didSet {
-            if let avatarView = avatarView {
-                avatarView.setSize(size: .medium)
-                avatarView.view.translatesAutoresizingMaskIntoConstraints = false
-//                avatarView.overrideAccessibilityLabel = "Accessibility.LargeTitle.ProfileView".localized
-//                avatarView.showsLargeContentViewer = true
-//                avatarView.largeContentTitle = avatarView.overrideAccessibilityLabel
-                addSubview(avatarView.view)
+            if let avatar = avatar {
+                avatar.setSize(size: .medium)
+                avatar.state.accessibilityLabel = "Accessibility.LargeTitle.ProfileView".localized
+
+                let avatarView = avatar.view
+                avatarView.translatesAutoresizingMaskIntoConstraints = false
+                avatarView.showsLargeContentViewer = true
+                avatarView.largeContentTitle = avatar.state.accessibilityLabel
+                addSubview(avatarView)
 
                 if delegate != nil {
-                    avatarView.view.accessibilityTraits = .button
+                    avatarView.accessibilityTraits = .button
                 }
 
-                avatarView.view.addGestureRecognizer(avatarViewGestureRecognizer)
+                avatarView.addGestureRecognizer(avatarViewGestureRecognizer)
             }
 
             updateAccessibilityIndex()
@@ -189,18 +191,19 @@ open class SideTabBar: UIView {
             layoutConstraints.removeAll()
         }
 
-        if let avatarView = avatarView {
+        if let avatar = avatar {
             // The avatar view's distance from the top of the side tab bar depends on safe layout guides.
             // There is a minimum spacing. If the layout guide spacing is large than the minimum spacing,
             // then the spacing will be layoutGuideSpacing + safeTopSpacing.
-            let topSafeConstraint = avatarView.view.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.avatarViewSafeTopSpacing)
+            let avatarView = avatar.view
+            let topSafeConstraint = avatarView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.avatarViewSafeTopSpacing)
             topSafeConstraint.priority = .defaultHigh
 
             layoutConstraints.append(contentsOf: [
                 topSafeConstraint,
-                avatarView.view.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: Constants.avatarViewMinTopSpacing),
-                avatarView.view.centerXAnchor.constraint(equalTo: centerXAnchor),
-                topStackView.topAnchor.constraint(equalTo: avatarView.view.bottomAnchor, constant: Constants.avatarViewTopStackViewSpacing)
+                avatarView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: Constants.avatarViewMinTopSpacing),
+                avatarView.centerXAnchor.constraint(equalTo: centerXAnchor),
+                topStackView.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.avatarViewTopStackViewSpacing)
             ])
         } else {
             layoutConstraints.append(topStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.topItemSpacing))
@@ -272,7 +275,7 @@ open class SideTabBar: UIView {
             }
 
             var previousSectionCount: Int = 0
-            if let avatar = avatarView, !avatar.view.isHidden {
+            if let avatar = avatar, !avatar.view.isHidden {
                 totalCount += 1
                 previousSectionCount += 1
             }
@@ -334,7 +337,11 @@ open class SideTabBar: UIView {
     }
 
     @objc private func handleAvatarViewTapped(_ recognizer: UITapGestureRecognizer) {
-        delegate?.sideTabBar?(self, didActivate: avatarView!)
+        guard let avatar = avatar else {
+            return
+        }
+
+        delegate?.sideTabBar?(self, didActivate: avatar)
     }
 
     @objc private func handleTopItemTapped(_ recognizer: UITapGestureRecognizer) {

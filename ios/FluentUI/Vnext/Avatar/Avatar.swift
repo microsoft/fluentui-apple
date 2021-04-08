@@ -178,7 +178,7 @@ public struct AvatarView: View {
                         .foregroundColor(Color(foregroundColor))
                         .font(Font(tokens.textFont)))
 
-        let bodyView = tokens.style == .group ?
+        var bodyView = tokens.style == .group ?
         AnyView(avatarContent
                     .background(Rectangle()
                                     .frame(width: tokens.avatarSize, height: tokens.avatarSize, alignment: .center)
@@ -248,6 +248,11 @@ public struct AvatarView: View {
                         String.localizedStringWithFormat("Accessibility.AvatarView.LabelFormat".localized, defaultAccessibilityText, "Presence.OOF".localized) :
                         defaultAccessibilityText)
         }()
+
+        // iPad Pointer Interaction support
+        if #available(iOS 13.4, *) {
+            bodyView = AnyView(bodyView.hoverEffect())
+        }
 
         return bodyView
             .accessibilityElement(children: .ignore)

@@ -184,18 +184,14 @@ class SideTabBarDemoController: DemoController {
     }
 
     private func showAvatarView(_ show: Bool) {
-        var avatarView: MSFAvatar?
+        var avatar: MSFAvatar?
         if let image = UIImage(named: "avatar_kat_larsson"), show {
-            avatarView = MSFAvatar(style: .default, size: .medium)
-            avatarView?.state.primaryText = "Kat Larson"
-            avatarView?.state.image = image
-//            avatarView?.state.isRingVisible = true
-//            avatarView = AvatarLegacyView(avatarSize: .medium, withBorder: false, style: .circle, preferredFallbackImageStyle: .onAccentFilled)
-//            avatarView?.setup(primaryText: "Kat Larson", secondaryText: "", image: image)
-//            avatarView?.hasPointerInteraction = true
+            avatar = MSFAvatar(style: .accent, size: .medium)
+            avatar?.state.primaryText = "Kat Larson"
+            avatar?.state.image = image
         }
 
-        sideTabBar.avatarView = avatarView
+        sideTabBar.avatar = avatar
     }
 
     private func updateBadgeNumbers() {
