@@ -70,9 +70,9 @@ class TestAvatarViewController: NSViewController {
 	/// Create a single avatar view from a given size and test identity
 	private static func avatarView(size: CGFloat, identity: TestIdentity) -> AvatarView {
 		let avatarView = AvatarView(avatarSize: size,
-						  contactName: identity.name,
-						  contactEmail: identity.email,
-						  contactImage: identity.image)
+									contactName: identity.name,
+									contactEmail: identity.email,
+									contactImage: identity.image)
 		return avatarView
 	}
 
