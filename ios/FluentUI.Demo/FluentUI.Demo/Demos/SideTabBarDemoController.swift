@@ -184,11 +184,15 @@ class SideTabBarDemoController: DemoController {
     }
 
     private func showAvatarView(_ show: Bool) {
-        var avatarView: AvatarLegacyView?
+        var avatarView: MSFAvatar?
         if let image = UIImage(named: "avatar_kat_larsson"), show {
-            avatarView = AvatarLegacyView(avatarSize: .medium, withBorder: false, style: .circle, preferredFallbackImageStyle: .onAccentFilled)
-            avatarView?.setup(primaryText: "Kat Larson", secondaryText: "", image: image)
-            avatarView?.hasPointerInteraction = true
+            avatarView = MSFAvatar(style: .default, size: .medium)
+            avatarView?.state.primaryText = "Kat Larson"
+            avatarView?.state.image = image
+//            avatarView?.state.isRingVisible = true
+//            avatarView = AvatarLegacyView(avatarSize: .medium, withBorder: false, style: .circle, preferredFallbackImageStyle: .onAccentFilled)
+//            avatarView?.setup(primaryText: "Kat Larson", secondaryText: "", image: image)
+//            avatarView?.hasPointerInteraction = true
         }
 
         sideTabBar.avatarView = avatarView
@@ -244,7 +248,7 @@ extension SideTabBarDemoController: SideTabBarDelegate {
         contentViewController?.present(alert, animated: true)
     }
 
-    func sideTabBar(_ sideTabBar: SideTabBar, didActivate avatarView: AvatarLegacyView) {
+    func sideTabBar(_ sideTabBar: SideTabBar, didActivate avatarView: MSFAvatar) {
         let alert = UIAlertController(title: "Avatar view was tapped", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
