@@ -15,6 +15,7 @@ class NavigationControllerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show with collapsible search bar", action: #selector(showLargeTitleWithShyAccessory)))
         container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: #selector(showLargeTitleWithFixedAccessory)))
         container.addArrangedSubview(createButton(title: "Show without an avatar", action: #selector(showLargeTitleWithoutAvatar)))
+        container.addArrangedSubview(createButton(title: "Show with pill segmented control", action: #selector(showLargeTitleWithPillSegment)))
 
         addTitle(text: "Large Title with System style")
         container.addArrangedSubview(createButton(title: "Show without accessory", action: #selector(showLargeTitleWithSystemStyle)))
@@ -88,6 +89,24 @@ class NavigationControllerDemoController: DemoController {
 
     @objc func showWithTopSearchBar() {
         presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), showsTopAccessory: true, contractNavigationBarOnScroll: false)
+    }
+
+    @objc func showLargeTitleWithPillSegment() {
+        let segmentItems: [SegmentItem] = [
+            SegmentItem(title: "First"),
+            SegmentItem(title: "Second")]
+        let pillControl = SegmentedControl(items: segmentItems, style: .onBrandPill)
+        pillControl.shouldSetEqualWidthForSegments = false
+        pillControl.contentInset = .zero
+        let stackView = UIStackView()
+        stackView.addArrangedSubview(pillControl)
+        stackView.distribution = .equalCentering
+        stackView.alignment = .center
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(named: "ic_fluent_filter_28"), for: .normal)
+        button.tintColor = UIColor(light: Colors.textOnAccent, dark: Colors.textPrimary)
+        stackView.addArrangedSubview(button)
+        presentController(withLargeTitle: true, accessoryView: stackView, contractNavigationBarOnScroll: false)
     }
 
     @discardableResult
