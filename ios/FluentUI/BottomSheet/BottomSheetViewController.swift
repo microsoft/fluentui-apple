@@ -94,7 +94,7 @@ public class BottomSheetViewController: UIViewController {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-// MARK: Lifecycle methods
+// MARK: - Lifecycle methods
 
     open override func viewDidDisappear(_ animated: Bool) {
         removeDimmingView()
@@ -140,7 +140,7 @@ public class BottomSheetViewController: UIViewController {
         updateFrame()
     }
 
-// MARK: private helpers
+// MARK: - private helpers
 
     private func updateFrame() {
         if shouldShowFloatingViewForPad() {
@@ -208,7 +208,7 @@ public class BottomSheetViewController: UIViewController {
         return traitCollection.userInterfaceIdiom == .pad && traitCollection.horizontalSizeClass == .regular
     }
 
-// MARK: animator setup
+// MARK: - animator setup
     private func setupAnimator() {
         if let window = self.view.window {
             let targetFrame: CGRect
@@ -253,7 +253,7 @@ public class BottomSheetViewController: UIViewController {
         }
     }
 
-// MARK: pan gesture utilities
+// MARK: - pan gesture utilities
 
     @objc private func handlePan(gesture: UIPanGestureRecognizer) {
         let positionInSuperview = gesture.translation(in: view.superview)
@@ -324,7 +324,7 @@ public class BottomSheetViewController: UIViewController {
         animator?.fractionComplete = progress
     }
 
-// MARK: Resize Handle utilities
+// MARK: - Resize Handle utilities
 
     @objc private func handleResizingHandleViewTap(gesture: UITapGestureRecognizer) {
         if animator?.isRunning ?? false {
@@ -356,7 +356,7 @@ public class BottomSheetViewController: UIViewController {
         }
     }
 
-// MARK: Dimming View utilities
+// MARK: - Dimming View utilities
     private func setupDimmingView() {
         if let rootView = view.superview {
             dimmingView.translatesAutoresizingMaskIntoConstraints = false
