@@ -3,9 +3,9 @@
 import UIKit
 
 public class Application {
-	@objc dynamic public class func preferredContentSizeCategory() -> UIContentSizeCategory {
-		return .large
-	}
+    @objc dynamic public class func preferredContentSizeCategory() -> UIContentSizeCategory {
+        return .large
+    }
 }
 
 /// Your view should conform to 'AppearaceProxyComponent'.
@@ -239,21 +239,21 @@ extension UIFont {
 }
 
 public extension Notification.Name {
-	static let didChangeTheme = Notification.Name("FluentUI.stylesheet.theme")
+    static let didChangeTheme = Notification.Name("FluentUI.stylesheet.theme")
 }
 
 protocol FluentUIThemeManagerTheming {
-	static func defaultTheme() -> FluentUIStyle
-	func themeInit()
+    static func defaultTheme() -> FluentUIStyle
+    func themeInit()
 }
 
 extension FluentUIThemeManagerTheming {
-	static func defaultTheme() -> FluentUIStyle {
-		return FluentUIStyle.shared()
-	}
-	func themeInit() {
-		
-	}
+    static func defaultTheme() -> FluentUIStyle {
+        return FluentUIStyle.shared()
+    }
+    func themeInit() {
+        
+    }
 }
 
 public class FluentUIThemeManager: FluentUIThemeManagerTheming {
@@ -282,1091 +282,1153 @@ public class FluentUIThemeManager: FluentUIThemeManagerTheming {
     public static var S: FluentUIStyle {
         return defaultTheme()
     }
-	private init() {
-		themeInit()
-	}
+    private init() {
+        themeInit()
+    }
 }
 
 public struct S {
 
 public enum FontTextStyle {
-	case body
-	case callout
-	case caption1
-	case caption2
-	case footnote
-	case headline
-	case largeTitle
-	case subheadline
-	case title1
-	case title2
-	case title3
+    case body
+    case callout
+    case caption1
+    case caption2
+    case footnote
+    case headline
+    case largeTitle
+    case subheadline
+    case title1
+    case title2
+    case title3
 }
 
 }
 /// Entry point for the app stylesheet
 open class FluentUIStyle: NSObject {
 
-	public class func shared() -> FluentUIStyle {
-		 struct __ { static let _sharedInstance = FluentUIStyle() }
-		return __._sharedInstance
-	}
-	// MARK: - Border
-	open var Border: BorderAppearanceProxy {
-		return BorderAppearanceProxy(proxy: { return self })
-	}
-	open class BorderAppearanceProxy {
-		public let mainProxy: () -> FluentUIStyle
-		public init(proxy: @escaping () -> FluentUIStyle) {
-			self.mainProxy = proxy
-		}
-
-		// MARK: - radius
-		open var radius: radiusAppearanceProxy {
-			return radiusAppearanceProxy(proxy: mainProxy)
-		}
-		open class radiusAppearanceProxy {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			// MARK: - large 
-			open var large: CGFloat {
-				return CGFloat(8.0)
-			}
-
-			// MARK: - medium 
-			open var medium: CGFloat {
-				return CGFloat(4.0)
-			}
-
-			// MARK: - none 
-			open var none: CGFloat {
-				return CGFloat(0.0)
-			}
-
-			// MARK: - small 
-			open var small: CGFloat {
-				return CGFloat(2.0)
-			}
-
-			// MARK: - xlarge 
-			open var xlarge: CGFloat {
-				return CGFloat(12.0)
-			}
-		}
-
-
-		// MARK: - size
-		open var size: sizeAppearanceProxy {
-			return sizeAppearanceProxy(proxy: mainProxy)
-		}
-		open class sizeAppearanceProxy {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			// MARK: - none 
-			open var none: CGFloat {
-				return CGFloat(0.0)
-			}
-
-			// MARK: - thick 
-			open var thick: CGFloat {
-				return CGFloat(2.0)
-			}
-
-			// MARK: - thicker 
-			open var thicker: CGFloat {
-				return CGFloat(4.0)
-			}
-
-			// MARK: - thickest 
-			open var thickest: CGFloat {
-				return CGFloat(6.0)
-			}
-
-			// MARK: - thin 
-			open var thin: CGFloat {
-				return CGFloat(1.0)
-			}
-		}
-
-	}
-	// MARK: - Colors
-	open var Colors: ColorsAppearanceProxy {
-		return ColorsAppearanceProxy(proxy: { return self })
-	}
-	open class ColorsAppearanceProxy {
-		public let mainProxy: () -> FluentUIStyle
-		public init(proxy: @escaping () -> FluentUIStyle) {
-			self.mainProxy = proxy
-		}
-
-		// MARK: - Background
-		open var Background: BackgroundAppearanceProxy {
-			return BackgroundAppearanceProxy(proxy: mainProxy)
-		}
-		open class BackgroundAppearanceProxy {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			// MARK: - brandDisabled 
-			open var brandDisabled: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey88", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - brandHover 
-			open var brandHover: UIColor {
-				return UIColor(light: mainProxy().Colors.Brand.shade10, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.shade10, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - brandPressed 
-			open var brandPressed: UIColor {
-				return UIColor(light: mainProxy().Colors.Brand.shade30, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.shade30, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - brandRest 
-			open var brandRest: UIColor {
-				return UIColor(light: mainProxy().Colors.Brand.primary, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.primary, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - brandSelected 
-			open var brandSelected: UIColor {
-				return UIColor(light: mainProxy().Colors.Brand.shade20, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.shade20, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - neutral1 
-			open var neutral1: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/white", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/black", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: UIColor(named: "FluentColors/grey4", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - neutral2 
-			open var neutral2: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey98", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey4", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: UIColor(named: "FluentColors/grey8", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - neutral3 
-			open var neutral3: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey96", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey8", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: UIColor(named: "FluentColors/grey16", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - neutral4 
-			open var neutral4: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey94", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey16", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: UIColor(named: "FluentColors/grey24", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - neutral5 
-			open var neutral5: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey92", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey36", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - neutralDisabled 
-			open var neutralDisabled: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey88", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-		}
-
-
-		// MARK: - Brand
-		open var Brand: BrandAppearanceProxy {
-			return BrandAppearanceProxy(proxy: mainProxy)
-		}
-		open class BrandAppearanceProxy {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			// MARK: - primary 
-			open var primary: UIColor {
-				return UIColor(light: UIColor(red: 0.0, green: 0.47058824, blue: 0.83137256, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.0, green: 0.5254902, blue: 0.9411765, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - shade10 
-			open var shade10: UIColor {
-				return UIColor(light: UIColor(red: 0.0627451, green: 0.43137255, blue: 0.74509805, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.09411765, green: 0.5647059, blue: 0.94509804, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - shade20 
-			open var shade20: UIColor {
-				return UIColor(light: UIColor(red: 0.0, green: 0.3529412, blue: 0.61960787, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.22745098, green: 0.627451, blue: 0.9529412, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - shade30 
-			open var shade30: UIColor {
-				return UIColor(light: UIColor(red: 0.0, green: 0.27058825, blue: 0.47058824, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.42352942, green: 0.72156864, blue: 0.9647059, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - tint10 
-			open var tint10: UIColor {
-				return UIColor(light: UIColor(red: 0.16862746, green: 0.53333336, blue: 0.84705883, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.0, green: 0.47058824, blue: 0.83137256, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - tint20 
-			open var tint20: UIColor {
-				return UIColor(light: UIColor(red: 0.78039217, green: 0.8784314, blue: 0.95686275, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.0, green: 0.29803923, blue: 0.5294118, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - tint30 
-			open var tint30: UIColor {
-				return UIColor(light: UIColor(red: 0.87058824, green: 0.9254902, blue: 0.9764706, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.015686275, green: 0.21960784, blue: 0.38431373, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - tint40 
-			open var tint40: UIColor {
-				return UIColor(light: UIColor(red: 0.9372549, green: 0.9647059, blue: 0.9882353, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.03529412, green: 0.17254902, blue: 0.2784314, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-		}
-
-
-		// MARK: - Elevation
-		open var Elevation: ElevationAppearanceProxy {
-			return ElevationAppearanceProxy(proxy: mainProxy)
-		}
-		open class ElevationAppearanceProxy {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			// MARK: - highElevation 
-			open var highElevation: UIColor {
-				return UIColor(light: mainProxy().Colors.Shadow.opacity40, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Shadow.opacity60, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - highElevation1 
-			open var highElevation1: UIColor {
-				return UIColor(light: mainProxy().Colors.Shadow.opacity24, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Shadow.opacity48, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - highElevation2 
-			open var highElevation2: UIColor {
-				return UIColor(light: mainProxy().Colors.Shadow.opacity20, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Shadow.opacity40, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - lowElevation1 
-			open var lowElevation1: UIColor {
-				return UIColor(light: mainProxy().Colors.Shadow.opacity14, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Shadow.opacity28, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - lowElevation2 
-			open var lowElevation2: UIColor {
-				return UIColor(light: mainProxy().Colors.Shadow.opacity12, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Shadow.opacity20, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-		}
-
-
-		// MARK: - Foreground
-		open var Foreground: ForegroundAppearanceProxy {
-			return ForegroundAppearanceProxy(proxy: mainProxy)
-		}
-		open class ForegroundAppearanceProxy {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			// MARK: - brandDisabled 
-			open var brandDisabled: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey74", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey36", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - brandHover 
-			open var brandHover: UIColor {
-				return UIColor(light: mainProxy().Colors.Brand.shade10, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.shade10, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - brandPressed 
-			open var brandPressed: UIColor {
-				return UIColor(light: mainProxy().Colors.Brand.shade30, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.shade30, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - brandRest 
-			open var brandRest: UIColor {
-				return UIColor(light: mainProxy().Colors.Brand.primary, lightHighContrast: mainProxy().Colors.Brand.shade20, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.primary, darkHighContrast: mainProxy().Colors.Brand.tint20, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - brandSelected 
-			open var brandSelected: UIColor {
-				return UIColor(light: mainProxy().Colors.Brand.shade20, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.shade20, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - neutral1 
-			open var neutral1: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey14", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/black", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/white", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - neutral2 
-			open var neutral2: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey26", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/black", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/white", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - neutral3 
-			open var neutral3: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey38", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey14", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey68", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - neutral4 
-			open var neutral4: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey50", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey26", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey52", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - neutralDisabled 
-			open var neutralDisabled: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey74", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey38", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey36", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey62", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - neutralInverted 
-			open var neutralInverted: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/white", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/black", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-		}
-
-
-		// MARK: - Presence
-		open var Presence: PresenceAppearanceProxy {
-			return PresenceAppearanceProxy(proxy: mainProxy)
-		}
-		open class PresenceAppearanceProxy {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			// MARK: - available 
-			open var available: UIColor {
-				return UIColor(named: "FluentColors/presenceAvailable", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
-			}
-
-			// MARK: - away 
-			open var away: UIColor {
-				return UIColor(named: "FluentColors/presenceAway", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
-			}
-
-			// MARK: - blocked 
-			open var blocked: UIColor {
-				return UIColor(named: "FluentColors/presenceBlocked", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
-			}
-
-			// MARK: - busy 
-			open var busy: UIColor {
-				return UIColor(named: "FluentColors/presenceBusy", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
-			}
-
-			// MARK: - doNotDisturb 
-			open var doNotDisturb: UIColor {
-				return UIColor(named: "FluentColors/presenceDnd", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
-			}
-
-			// MARK: - offline 
-			open var offline: UIColor {
-				return UIColor(named: "FluentColors/presenceOffline", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
-			}
-
-			// MARK: - outOfOffice 
-			open var outOfOffice: UIColor {
-				return UIColor(named: "FluentColors/presenceOof", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
-			}
-
-			// MARK: - unknown 
-			open var unknown: UIColor {
-				return UIColor(named: "FluentColors/presenceUnknown", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
-			}
-		}
-
-
-		// MARK: - Shadow
-		open var Shadow: ShadowAppearanceProxy {
-			return ShadowAppearanceProxy(proxy: mainProxy)
-		}
-		open class ShadowAppearanceProxy {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			// MARK: - clear 
-			open var clear: UIColor {
-				return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0)
-			}
-
-			// MARK: - opacity12 
-			open var opacity12: UIColor {
-				return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.01)
-			}
-
-			// MARK: - opacity14 
-			open var opacity14: UIColor {
-				return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.24)
-			}
-
-			// MARK: - opacity20 
-			open var opacity20: UIColor {
-				return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.33)
-			}
-
-			// MARK: - opacity24 
-			open var opacity24: UIColor {
-				return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.03)
-			}
-
-			// MARK: - opacity28 
-			open var opacity28: UIColor {
-				return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.47)
-			}
-
-			// MARK: - opacity40 
-			open var opacity40: UIColor {
-				return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.66)
-			}
-
-			// MARK: - opacity48 
-			open var opacity48: UIColor {
-				return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.07)
-			}
-
-			// MARK: - opacity60 
-			open var opacity60: UIColor {
-				return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.99)
-			}
-
-			// MARK: - opaque 
-			open var opaque: UIColor {
-				return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0)
-			}
-		}
-
-
-		// MARK: - Stroke
-		open var Stroke: StrokeAppearanceProxy {
-			return StrokeAppearanceProxy(proxy: mainProxy)
-		}
-		open class StrokeAppearanceProxy {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			// MARK: - brandDisabled 
-			open var brandDisabled: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey88", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - brandHover 
-			open var brandHover: UIColor {
-				return UIColor(light: mainProxy().Colors.Brand.shade10, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.shade10, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - brandPressed 
-			open var brandPressed: UIColor {
-				return UIColor(light: mainProxy().Colors.Brand.shade30, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.shade30, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - brandRest 
-			open var brandRest: UIColor {
-				return UIColor(light: mainProxy().Colors.Brand.primary, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.primary, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - brandSelected 
-			open var brandSelected: UIColor {
-				return UIColor(light: mainProxy().Colors.Brand.shade20, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.shade20, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - neutral1 
-			open var neutral1: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey94", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey38", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey24", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey68", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevated: UIColor(named: "FluentColors/grey32", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - neutral2 
-			open var neutral2: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey88", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey38", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey32", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey68", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevated: UIColor(named: "FluentColors/grey36", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - neutral3 
-			open var neutral3: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey82", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey38", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey40", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey68", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevated: UIColor(named: "FluentColors/grey52", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - neutralAccessible 
-			open var neutralAccessible: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey38", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey14", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey68", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevated: UIColor(named: "FluentColors/grey68", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - neutralDisabled 
-			open var neutralDisabled: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey88", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey32", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-		}
-
-	}
-	// MARK: - Icon
-	open var Icon: IconAppearanceProxy {
-		return IconAppearanceProxy(proxy: { return self })
-	}
-	open class IconAppearanceProxy {
-		public let mainProxy: () -> FluentUIStyle
-		public init(proxy: @escaping () -> FluentUIStyle) {
-			self.mainProxy = proxy
-		}
-
-		// MARK: - accentColor 
-		open var accentColor: UIColor {
-			return UIColor(light: UIColor(named: "FluentColors/white", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/black", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-		}
-
-		// MARK: - size
-		open var size: sizeAppearanceProxy {
-			return sizeAppearanceProxy(proxy: mainProxy)
-		}
-		open class sizeAppearanceProxy {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			// MARK: - large 
-			open var large: CGFloat {
-				return CGFloat(28.0)
-			}
-
-			// MARK: - medium 
-			open var medium: CGFloat {
-				return CGFloat(24.0)
-			}
-
-			// MARK: - small 
-			open var small: CGFloat {
-				return CGFloat(20.0)
-			}
-
-			// MARK: - xSmall 
-			open var xSmall: CGFloat {
-				return CGFloat(16.0)
-			}
-
-			// MARK: - xlarge 
-			open var xlarge: CGFloat {
-				return CGFloat(36.0)
-			}
-
-			// MARK: - xxSmall 
-			open var xxSmall: CGFloat {
-				return CGFloat(12.0)
-			}
-
-			// MARK: - xxlarge 
-			open var xxlarge: CGFloat {
-				return CGFloat(40.0)
-			}
-
-			// MARK: - xxxSmall 
-			open var xxxSmall: CGFloat {
-				return CGFloat(10.0)
-			}
-
-			// MARK: - xxxlarge 
-			open var xxxlarge: CGFloat {
-				return CGFloat(48.0)
-			}
-		}
-
-	}
-	// MARK: - Opacity
-	open var Opacity: OpacityAppearanceProxy {
-		return OpacityAppearanceProxy(proxy: { return self })
-	}
-	open class OpacityAppearanceProxy {
-		public let mainProxy: () -> FluentUIStyle
-		public init(proxy: @escaping () -> FluentUIStyle) {
-			self.mainProxy = proxy
-		}
-
-		// MARK: - clear 
-		open var clear: CGFloat {
-			return CGFloat(0.0)
-		}
-
-		// MARK: - none 
-		open var none: CGFloat {
-			return CGFloat(1.0)
-		}
-
-		// MARK: - opacity16 
-		open var opacity16: CGFloat {
-			return CGFloat(0.16)
-		}
-
-		// MARK: - opacity24 
-		open var opacity24: CGFloat {
-			return CGFloat(0.24)
-		}
-
-		// MARK: - opacity32 
-		open var opacity32: CGFloat {
-			return CGFloat(0.32)
-		}
-
-		// MARK: - opacity64 
-		open var opacity64: CGFloat {
-			return CGFloat(0.64)
-		}
-
-		// MARK: - opacity72 
-		open var opacity72: CGFloat {
-			return CGFloat(0.72)
-		}
-
-		// MARK: - opacity8 
-		open var opacity8: CGFloat {
-			return CGFloat(0.8)
-		}
-
-		// MARK: - opacity88 
-		open var opacity88: CGFloat {
-			return CGFloat(0.88)
-		}
-
-		// MARK: - opacity96 
-		open var opacity96: CGFloat {
-			return CGFloat(0.96)
-		}
-	}
-	// MARK: - Shadow
-	open var Shadow: ShadowAppearanceProxy {
-		return ShadowAppearanceProxy(proxy: { return self })
-	}
-	open class ShadowAppearanceProxy {
-		public let mainProxy: () -> FluentUIStyle
-		public init(proxy: @escaping () -> FluentUIStyle) {
-			self.mainProxy = proxy
-		}
-
-		// MARK: - shadow16
-		open var shadow16: shadow16AppearanceProxy {
-			return shadow16AppearanceProxy(proxy: mainProxy)
-		}
-		open class shadow16AppearanceProxy {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			// MARK: - blur1 
-			open var blur1: CGFloat {
-				return CGFloat(16.0)
-			}
-
-			// MARK: - blur2 
-			open var blur2: CGFloat {
-				return CGFloat(8.0)
-			}
-
-			// MARK: - color1 
-			open var color1: UIColor {
-				return mainProxy().Colors.Elevation.lowElevation1
-			}
-
-			// MARK: - color2 
-			open var color2: UIColor {
-				return mainProxy().Colors.Elevation.lowElevation2
-			}
-
-			// MARK: - x1 
-			open var x1: CGFloat {
-				return CGFloat(0.0)
-			}
-
-			// MARK: - x2 
-			open var x2: CGFloat {
-				return CGFloat(0.0)
-			}
-
-			// MARK: - y1 
-			open var y1: CGFloat {
-				return CGFloat(8.0)
-			}
-
-			// MARK: - y2 
-			open var y2: CGFloat {
-				return CGFloat(0.0)
-			}
-		}
-
-
-		// MARK: - shadow2
-		open var shadow2: shadow2AppearanceProxy {
-			return shadow2AppearanceProxy(proxy: mainProxy)
-		}
-		open class shadow2AppearanceProxy {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			// MARK: - blur1 
-			open var blur1: CGFloat {
-				return CGFloat(2.0)
-			}
-
-			// MARK: - blur2 
-			open var blur2: CGFloat {
-				return CGFloat(2.0)
-			}
-
-			// MARK: - color1 
-			open var color1: UIColor {
-				return mainProxy().Colors.Elevation.lowElevation1
-			}
-
-			// MARK: - color2 
-			open var color2: UIColor {
-				return mainProxy().Colors.Elevation.lowElevation2
-			}
-
-			// MARK: - x1 
-			open var x1: CGFloat {
-				return CGFloat(0.0)
-			}
-
-			// MARK: - x2 
-			open var x2: CGFloat {
-				return CGFloat(0.0)
-			}
-
-			// MARK: - y1 
-			open var y1: CGFloat {
-				return CGFloat(1.0)
-			}
-
-			// MARK: - y2 
-			open var y2: CGFloat {
-				return CGFloat(0.0)
-			}
-		}
-
-
-		// MARK: - shadow28
-		open var shadow28: shadow28AppearanceProxy {
-			return shadow28AppearanceProxy(proxy: mainProxy)
-		}
-		open class shadow28AppearanceProxy {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			// MARK: - blur1 
-			open var blur1: CGFloat {
-				return CGFloat(28.0)
-			}
-
-			// MARK: - blur2 
-			open var blur2: CGFloat {
-				return CGFloat(8.0)
-			}
-
-			// MARK: - color1 
-			open var color1: UIColor {
-				return mainProxy().Colors.Elevation.highElevation1
-			}
-
-			// MARK: - color2 
-			open var color2: UIColor {
-				return mainProxy().Colors.Elevation.highElevation2
-			}
-
-			// MARK: - x1 
-			open var x1: CGFloat {
-				return CGFloat(0.0)
-			}
-
-			// MARK: - x2 
-			open var x2: CGFloat {
-				return CGFloat(0.0)
-			}
-
-			// MARK: - y1 
-			open var y1: CGFloat {
-				return CGFloat(14.0)
-			}
-
-			// MARK: - y2 
-			open var y2: CGFloat {
-				return CGFloat(0.0)
-			}
-		}
-
-
-		// MARK: - shadow4
-		open var shadow4: shadow4AppearanceProxy {
-			return shadow4AppearanceProxy(proxy: mainProxy)
-		}
-		open class shadow4AppearanceProxy {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			// MARK: - blur1 
-			open var blur1: CGFloat {
-				return CGFloat(4.0)
-			}
-
-			// MARK: - blur2 
-			open var blur2: CGFloat {
-				return CGFloat(2.0)
-			}
-
-			// MARK: - color1 
-			open var color1: UIColor {
-				return mainProxy().Colors.Elevation.lowElevation1
-			}
-
-			// MARK: - color2 
-			open var color2: UIColor {
-				return mainProxy().Colors.Elevation.lowElevation2
-			}
-
-			// MARK: - x1 
-			open var x1: CGFloat {
-				return CGFloat(0.0)
-			}
-
-			// MARK: - x2 
-			open var x2: CGFloat {
-				return CGFloat(0.0)
-			}
-
-			// MARK: - y1 
-			open var y1: CGFloat {
-				return CGFloat(2.0)
-			}
-
-			// MARK: - y2 
-			open var y2: CGFloat {
-				return CGFloat(0.0)
-			}
-		}
-
-
-		// MARK: - shadow64
-		open var shadow64: shadow64AppearanceProxy {
-			return shadow64AppearanceProxy(proxy: mainProxy)
-		}
-		open class shadow64AppearanceProxy {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			// MARK: - blur1 
-			open var blur1: CGFloat {
-				return CGFloat(64.0)
-			}
-
-			// MARK: - blur2 
-			open var blur2: CGFloat {
-				return CGFloat(8.0)
-			}
-
-			// MARK: - color1 
-			open var color1: UIColor {
-				return mainProxy().Colors.Elevation.highElevation1
-			}
-
-			// MARK: - color2 
-			open var color2: UIColor {
-				return mainProxy().Colors.Elevation.highElevation2
-			}
-
-			// MARK: - x1 
-			open var x1: CGFloat {
-				return CGFloat(0.0)
-			}
-
-			// MARK: - x2 
-			open var x2: CGFloat {
-				return CGFloat(0.0)
-			}
-
-			// MARK: - y1 
-			open var y1: CGFloat {
-				return CGFloat(32.0)
-			}
-
-			// MARK: - y2 
-			open var y2: CGFloat {
-				return CGFloat(0.0)
-			}
-		}
-
-
-		// MARK: - shadow8
-		open var shadow8: shadow8AppearanceProxy {
-			return shadow8AppearanceProxy(proxy: mainProxy)
-		}
-		open class shadow8AppearanceProxy {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			// MARK: - blur1 
-			open var blur1: CGFloat {
-				return CGFloat(8.0)
-			}
-
-			// MARK: - blur2 
-			open var blur2: CGFloat {
-				return CGFloat(8.0)
-			}
-
-			// MARK: - color1 
-			open var color1: UIColor {
-				return mainProxy().Colors.Elevation.lowElevation1
-			}
-
-			// MARK: - color2 
-			open var color2: UIColor {
-				return mainProxy().Colors.Elevation.lowElevation2
-			}
-
-			// MARK: - x1 
-			open var x1: CGFloat {
-				return CGFloat(0.0)
-			}
-
-			// MARK: - x2 
-			open var x2: CGFloat {
-				return CGFloat(0.0)
-			}
-
-			// MARK: - y1 
-			open var y1: CGFloat {
-				return CGFloat(4.0)
-			}
-
-			// MARK: - y2 
-			open var y2: CGFloat {
-				return CGFloat(0.0)
-			}
-		}
-
-	}
-	// MARK: - Spacing
-	open var Spacing: SpacingAppearanceProxy {
-		return SpacingAppearanceProxy(proxy: { return self })
-	}
-	open class SpacingAppearanceProxy {
-		public let mainProxy: () -> FluentUIStyle
-		public init(proxy: @escaping () -> FluentUIStyle) {
-			self.mainProxy = proxy
-		}
-
-		// MARK: - large 
-		open var large: CGFloat {
-			return CGFloat(20.0)
-		}
-
-		// MARK: - medium 
-		open var medium: CGFloat {
-			return CGFloat(16.0)
-		}
-
-		// MARK: - none 
-		open var none: CGFloat {
-			return CGFloat(0.0)
-		}
-
-		// MARK: - small 
-		open var small: CGFloat {
-			return CGFloat(12.0)
-		}
-
-		// MARK: - xSmall 
-		open var xSmall: CGFloat {
-			return CGFloat(8.0)
-		}
-
-		// MARK: - xlarge 
-		open var xlarge: CGFloat {
-			return CGFloat(24.0)
-		}
-
-		// MARK: - xxSmall 
-		open var xxSmall: CGFloat {
-			return CGFloat(4.0)
-		}
-
-		// MARK: - xxlarge 
-		open var xxlarge: CGFloat {
-			return CGFloat(36.0)
-		}
-
-		// MARK: - xxxSmall 
-		open var xxxSmall: CGFloat {
-			return CGFloat(2.0)
-		}
-
-		// MARK: - xxxlarge 
-		open var xxxlarge: CGFloat {
-			return CGFloat(48.0)
-		}
-
-		// MARK: - xxxxlarge 
-		open var xxxxlarge: CGFloat {
-			return CGFloat(72.0)
-		}
-	}
-	// MARK: - Typography
-	open var Typography: TypographyAppearanceProxy {
-		return TypographyAppearanceProxy(proxy: { return self })
-	}
-	open class TypographyAppearanceProxy {
-		public let mainProxy: () -> FluentUIStyle
-		public init(proxy: @escaping () -> FluentUIStyle) {
-			self.mainProxy = proxy
-		}
-
-		// MARK: - body 
-		open var body: UIFont {
-			return UIFont.font(name: nil, size: nil, textStyle: S.FontTextStyle.body, weight: nil, traits: [], isScalable: true)
-		}
-
-		// MARK: - caption1 
-		open var caption1: UIFont {
-			return UIFont.font(name: nil, size: nil, textStyle: S.FontTextStyle.caption1, weight: nil, traits: [], isScalable: true)
-		}
-
-		// MARK: - footnote 
-		open var footnote: UIFont {
-			return UIFont.font(name: nil, size: nil, textStyle: S.FontTextStyle.footnote, weight: nil, traits: [], isScalable: true)
-		}
-
-		// MARK: - headline 
-		open var headline: UIFont {
-			return UIFont.font(name: nil, size: nil, textStyle: S.FontTextStyle.headline, weight: nil, traits: [], isScalable: true)
-		}
-
-		// MARK: - subheadline 
-		open var subheadline: UIFont {
-			return UIFont.font(name: nil, size: nil, textStyle: S.FontTextStyle.subheadline, weight: nil, traits: [], isScalable: true)
-		}
-	}
-	// MARK: - __TextStyle
-	open var __TextStyle: __TextStyleAppearanceProxy {
-		return __TextStyleAppearanceProxy(proxy: { return self })
-	}
-	open class __TextStyleAppearanceProxy {
-		public let mainProxy: () -> FluentUIStyle
-		public init(proxy: @escaping () -> FluentUIStyle) {
-			self.mainProxy = proxy
-		}
-	}
+    public class func shared() -> FluentUIStyle {
+         struct __ { static let _sharedInstance = FluentUIStyle() }
+        return __._sharedInstance
+    }
+    // MARK: - Border
+    open var Border: BorderAppearanceProxy {
+        return BorderAppearanceProxy(proxy: { return self })
+    }
+    open class BorderAppearanceProxy {
+        public let mainProxy: () -> FluentUIStyle
+        public init(proxy: @escaping () -> FluentUIStyle) {
+            self.mainProxy = proxy
+        }
+
+        // MARK: - radius
+        open var radius: radiusAppearanceProxy {
+            return radiusAppearanceProxy(proxy: mainProxy)
+        }
+        open class radiusAppearanceProxy {
+            public let mainProxy: () -> FluentUIStyle
+            public init(proxy: @escaping () -> FluentUIStyle) {
+                self.mainProxy = proxy
+            }
+
+            // MARK: - circleLarge
+            open var circleLarge: CGFloat {
+                return CGFloat(26.0)
+            }
+
+            // MARK: - circleSmall
+            open var circleSmall: CGFloat {
+                return CGFloat(24.0)
+            }
+
+            // MARK: - large
+            open var large: CGFloat {
+                return CGFloat(8.0)
+            }
+
+            // MARK: - medium
+            open var medium: CGFloat {
+                return CGFloat(4.0)
+            }
+
+            // MARK: - none
+            open var none: CGFloat {
+                return CGFloat(0.0)
+            }
+
+            // MARK: - small
+            open var small: CGFloat {
+                return CGFloat(2.0)
+            }
+
+            // MARK: - xLarge
+            open var xLarge: CGFloat {
+                return CGFloat(12.0)
+            }
+        }
+
+
+        // MARK: - size
+        open var size: sizeAppearanceProxy {
+            return sizeAppearanceProxy(proxy: mainProxy)
+        }
+        open class sizeAppearanceProxy {
+            public let mainProxy: () -> FluentUIStyle
+            public init(proxy: @escaping () -> FluentUIStyle) {
+                self.mainProxy = proxy
+            }
+
+            // MARK: - none
+            open var none: CGFloat {
+                return CGFloat(0.0)
+            }
+
+            // MARK: - thick
+            open var thick: CGFloat {
+                return CGFloat(2.0)
+            }
+
+            // MARK: - thicker
+            open var thicker: CGFloat {
+                return CGFloat(4.0)
+            }
+
+            // MARK: - thickest
+            open var thickest: CGFloat {
+                return CGFloat(6.0)
+            }
+
+            // MARK: - thin
+            open var thin: CGFloat {
+                return CGFloat(1.0)
+            }
+        }
+
+    }
+    // MARK: - Colors
+    open var Colors: ColorsAppearanceProxy {
+        return ColorsAppearanceProxy(proxy: { return self })
+    }
+    open class ColorsAppearanceProxy {
+        public let mainProxy: () -> FluentUIStyle
+        public init(proxy: @escaping () -> FluentUIStyle) {
+            self.mainProxy = proxy
+        }
+
+        // MARK: - Background
+        open var Background: BackgroundAppearanceProxy {
+            return BackgroundAppearanceProxy(proxy: mainProxy)
+        }
+        open class BackgroundAppearanceProxy {
+            public let mainProxy: () -> FluentUIStyle
+            public init(proxy: @escaping () -> FluentUIStyle) {
+                self.mainProxy = proxy
+            }
+
+            // MARK: - brandDisabled
+            open var brandDisabled: UIColor {
+                return UIColor(light: UIColor(named: "FluentColors/grey88", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - brandHover
+            open var brandHover: UIColor {
+                return UIColor(light: mainProxy().Colors.Brand.shade10, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.shade10, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - brandPressed
+            open var brandPressed: UIColor {
+                return UIColor(light: mainProxy().Colors.Brand.shade30, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.shade30, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - brandRest
+            open var brandRest: UIColor {
+                return UIColor(light: mainProxy().Colors.Brand.primary, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.primary, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - brandSelected
+            open var brandSelected: UIColor {
+                return UIColor(light: mainProxy().Colors.Brand.shade20, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.shade20, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - neutral1
+            open var neutral1: UIColor {
+                return UIColor(light: UIColor(named: "FluentColors/white", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/black", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: UIColor(named: "FluentColors/grey4", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - neutral2
+            open var neutral2: UIColor {
+                return UIColor(light: UIColor(named: "FluentColors/grey98", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey4", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: UIColor(named: "FluentColors/grey8", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - neutral3
+            open var neutral3: UIColor {
+                return UIColor(light: UIColor(named: "FluentColors/grey96", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey8", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: UIColor(named: "FluentColors/grey12", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - neutral4
+            open var neutral4: UIColor {
+                return UIColor(light: UIColor(named: "FluentColors/grey94", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey12", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: UIColor(named: "FluentColors/grey16", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - neutral5
+            open var neutral5: UIColor {
+                return UIColor(light: UIColor(named: "FluentColors/grey92", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey36", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - neutralDisabled
+            open var neutralDisabled: UIColor {
+                return UIColor(light: UIColor(named: "FluentColors/grey88", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+        }
+
+
+        // MARK: - Brand
+        open var Brand: BrandAppearanceProxy {
+            return BrandAppearanceProxy(proxy: mainProxy)
+        }
+        open class BrandAppearanceProxy {
+            public let mainProxy: () -> FluentUIStyle
+            public init(proxy: @escaping () -> FluentUIStyle) {
+                self.mainProxy = proxy
+            }
+
+            // MARK: - primary
+            open var primary: UIColor {
+                return UIColor(light: UIColor(red: 0.0, green: 0.47058824, blue: 0.83137256, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.0, green: 0.5254902, blue: 0.9411765, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - shade10
+            open var shade10: UIColor {
+                return UIColor(light: UIColor(red: 0.0627451, green: 0.43137255, blue: 0.74509805, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.09411765, green: 0.5647059, blue: 0.94509804, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - shade20
+            open var shade20: UIColor {
+                return UIColor(light: UIColor(red: 0.0, green: 0.3529412, blue: 0.61960787, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.22745098, green: 0.627451, blue: 0.9529412, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - shade30
+            open var shade30: UIColor {
+                return UIColor(light: UIColor(red: 0.0, green: 0.27058825, blue: 0.47058824, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.42352942, green: 0.72156864, blue: 0.9647059, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - tint10
+            open var tint10: UIColor {
+                return UIColor(light: UIColor(red: 0.16862746, green: 0.53333336, blue: 0.84705883, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.0, green: 0.47058824, blue: 0.83137256, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - tint20
+            open var tint20: UIColor {
+                return UIColor(light: UIColor(red: 0.78039217, green: 0.8784314, blue: 0.95686275, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.0, green: 0.29803923, blue: 0.5294118, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - tint30
+            open var tint30: UIColor {
+                return UIColor(light: UIColor(red: 0.87058824, green: 0.9254902, blue: 0.9764706, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.015686275, green: 0.21960784, blue: 0.38431373, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - tint40
+            open var tint40: UIColor {
+                return UIColor(light: UIColor(red: 0.9372549, green: 0.9647059, blue: 0.9882353, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.03529412, green: 0.17254902, blue: 0.2784314, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+        }
+
+
+        // MARK: - Elevation
+        open var Elevation: ElevationAppearanceProxy {
+            return ElevationAppearanceProxy(proxy: mainProxy)
+        }
+        open class ElevationAppearanceProxy {
+            public let mainProxy: () -> FluentUIStyle
+            public init(proxy: @escaping () -> FluentUIStyle) {
+                self.mainProxy = proxy
+            }
+
+            // MARK: - highElevation
+            open var highElevation: UIColor {
+                return UIColor(light: mainProxy().Colors.Shadow.opacity40, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Shadow.opacity60, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - highElevation1
+            open var highElevation1: UIColor {
+                return UIColor(light: mainProxy().Colors.Shadow.opacity24, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Shadow.opacity48, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - highElevation2
+            open var highElevation2: UIColor {
+                return UIColor(light: mainProxy().Colors.Shadow.opacity20, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Shadow.opacity40, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - lowElevation1
+            open var lowElevation1: UIColor {
+                return UIColor(light: mainProxy().Colors.Shadow.opacity14, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Shadow.opacity28, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - lowElevation2
+            open var lowElevation2: UIColor {
+                return UIColor(light: mainProxy().Colors.Shadow.opacity12, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Shadow.opacity20, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+        }
+
+
+        // MARK: - Foreground
+        open var Foreground: ForegroundAppearanceProxy {
+            return ForegroundAppearanceProxy(proxy: mainProxy)
+        }
+        open class ForegroundAppearanceProxy {
+            public let mainProxy: () -> FluentUIStyle
+            public init(proxy: @escaping () -> FluentUIStyle) {
+                self.mainProxy = proxy
+            }
+
+            // MARK: - brandDisabled
+            open var brandDisabled: UIColor {
+                return UIColor(light: UIColor(named: "FluentColors/grey74", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey36", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - brandHover
+            open var brandHover: UIColor {
+                return UIColor(light: mainProxy().Colors.Brand.shade10, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.shade10, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - brandPressed
+            open var brandPressed: UIColor {
+                return UIColor(light: mainProxy().Colors.Brand.shade30, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.shade30, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - brandRest
+            open var brandRest: UIColor {
+                return UIColor(light: mainProxy().Colors.Brand.primary, lightHighContrast: mainProxy().Colors.Brand.shade20, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.primary, darkHighContrast: mainProxy().Colors.Brand.tint20, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - brandSelected
+            open var brandSelected: UIColor {
+                return UIColor(light: mainProxy().Colors.Brand.shade20, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.shade20, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - neutral1
+            open var neutral1: UIColor {
+                return UIColor(light: UIColor(named: "FluentColors/grey14", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/black", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/white", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - neutral2
+            open var neutral2: UIColor {
+                return UIColor(light: UIColor(named: "FluentColors/grey26", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/black", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/white", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - neutral3
+            open var neutral3: UIColor {
+                return UIColor(light: UIColor(named: "FluentColors/grey38", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey14", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey68", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - neutral4
+            open var neutral4: UIColor {
+                return UIColor(light: UIColor(named: "FluentColors/grey50", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey26", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey52", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - neutralDisabled
+            open var neutralDisabled: UIColor {
+                return UIColor(light: UIColor(named: "FluentColors/grey74", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey38", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey36", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey62", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - neutralInverted
+            open var neutralInverted: UIColor {
+                return UIColor(light: UIColor(named: "FluentColors/white", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/black", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+        }
+
+
+        // MARK: - Presence
+        open var Presence: PresenceAppearanceProxy {
+            return PresenceAppearanceProxy(proxy: mainProxy)
+        }
+        open class PresenceAppearanceProxy {
+            public let mainProxy: () -> FluentUIStyle
+            public init(proxy: @escaping () -> FluentUIStyle) {
+                self.mainProxy = proxy
+            }
+
+            // MARK: - available
+            open var available: UIColor {
+                return UIColor(named: "FluentColors/presenceAvailable", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+            }
+
+            // MARK: - away
+            open var away: UIColor {
+                return UIColor(named: "FluentColors/presenceAway", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+            }
+
+            // MARK: - blocked
+            open var blocked: UIColor {
+                return UIColor(named: "FluentColors/presenceBlocked", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+            }
+
+            // MARK: - busy
+            open var busy: UIColor {
+                return UIColor(named: "FluentColors/presenceBusy", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+            }
+
+            // MARK: - doNotDisturb
+            open var doNotDisturb: UIColor {
+                return UIColor(named: "FluentColors/presenceDnd", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+            }
+
+            // MARK: - offline
+            open var offline: UIColor {
+                return UIColor(named: "FluentColors/presenceOffline", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+            }
+
+            // MARK: - outOfOffice
+            open var outOfOffice: UIColor {
+                return UIColor(named: "FluentColors/presenceOof", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+            }
+
+            // MARK: - unknown
+            open var unknown: UIColor {
+                return UIColor(named: "FluentColors/presenceUnknown", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+            }
+        }
+
+
+        // MARK: - Shadow
+        open var Shadow: ShadowAppearanceProxy {
+            return ShadowAppearanceProxy(proxy: mainProxy)
+        }
+        open class ShadowAppearanceProxy {
+            public let mainProxy: () -> FluentUIStyle
+            public init(proxy: @escaping () -> FluentUIStyle) {
+                self.mainProxy = proxy
+            }
+
+            // MARK: - clear
+            open var clear: UIColor {
+                return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0)
+            }
+
+            // MARK: - opacity12
+            open var opacity12: UIColor {
+                return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.01)
+            }
+
+            // MARK: - opacity14
+            open var opacity14: UIColor {
+                return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.24)
+            }
+
+            // MARK: - opacity20
+            open var opacity20: UIColor {
+                return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.33)
+            }
+
+            // MARK: - opacity24
+            open var opacity24: UIColor {
+                return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.03)
+            }
+
+            // MARK: - opacity28
+            open var opacity28: UIColor {
+                return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.47)
+            }
+
+            // MARK: - opacity40
+            open var opacity40: UIColor {
+                return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.66)
+            }
+
+            // MARK: - opacity48
+            open var opacity48: UIColor {
+                return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.07)
+            }
+
+            // MARK: - opacity60
+            open var opacity60: UIColor {
+                return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.99)
+            }
+
+            // MARK: - opaque
+            open var opaque: UIColor {
+                return UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0)
+            }
+        }
+
+
+        // MARK: - Stroke
+        open var Stroke: StrokeAppearanceProxy {
+            return StrokeAppearanceProxy(proxy: mainProxy)
+        }
+        open class StrokeAppearanceProxy {
+            public let mainProxy: () -> FluentUIStyle
+            public init(proxy: @escaping () -> FluentUIStyle) {
+                self.mainProxy = proxy
+            }
+
+            // MARK: - brandDisabled
+            open var brandDisabled: UIColor {
+                return UIColor(light: UIColor(named: "FluentColors/grey88", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - brandHover
+            open var brandHover: UIColor {
+                return UIColor(light: mainProxy().Colors.Brand.shade10, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.shade10, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - brandPressed
+            open var brandPressed: UIColor {
+                return UIColor(light: mainProxy().Colors.Brand.shade30, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.shade30, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - brandRest
+            open var brandRest: UIColor {
+                return UIColor(light: mainProxy().Colors.Brand.primary, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.primary, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - brandSelected
+            open var brandSelected: UIColor {
+                return UIColor(light: mainProxy().Colors.Brand.shade20, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.shade20, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - neutral1
+            open var neutral1: UIColor {
+                return UIColor(light: UIColor(named: "FluentColors/grey94", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey38", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey24", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey68", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevated: UIColor(named: "FluentColors/grey32", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - neutral2
+            open var neutral2: UIColor {
+                return UIColor(light: UIColor(named: "FluentColors/grey88", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey38", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey32", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey68", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevated: UIColor(named: "FluentColors/grey36", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - neutral3
+            open var neutral3: UIColor {
+                return UIColor(light: UIColor(named: "FluentColors/grey82", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey38", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey40", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey68", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevated: UIColor(named: "FluentColors/grey52", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - neutralAccessible
+            open var neutralAccessible: UIColor {
+                return UIColor(light: UIColor(named: "FluentColors/grey38", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey14", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey68", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevated: UIColor(named: "FluentColors/grey68", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
+            }
+
+            // MARK: - neutralDisabled
+            open var neutralDisabled: UIColor {
+                return UIColor(light: UIColor(named: "FluentColors/grey88", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey32", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+            }
+        }
+
+    }
+    // MARK: - Icon
+    open var Icon: IconAppearanceProxy {
+        return IconAppearanceProxy(proxy: { return self })
+    }
+    open class IconAppearanceProxy {
+        public let mainProxy: () -> FluentUIStyle
+        public init(proxy: @escaping () -> FluentUIStyle) {
+            self.mainProxy = proxy
+        }
+
+        // MARK: - accentColor
+        open var accentColor: UIColor {
+            return UIColor(light: UIColor(named: "FluentColors/white", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/black", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+        }
+
+        // MARK: - size
+        open var size: sizeAppearanceProxy {
+            return sizeAppearanceProxy(proxy: mainProxy)
+        }
+        open class sizeAppearanceProxy {
+            public let mainProxy: () -> FluentUIStyle
+            public init(proxy: @escaping () -> FluentUIStyle) {
+                self.mainProxy = proxy
+            }
+
+            // MARK: - large
+            open var large: CGFloat {
+                return CGFloat(28.0)
+            }
+
+            // MARK: - medium
+            open var medium: CGFloat {
+                return CGFloat(24.0)
+            }
+
+            // MARK: - small
+            open var small: CGFloat {
+                return CGFloat(20.0)
+            }
+
+            // MARK: - xLarge
+            open var xLarge: CGFloat {
+                return CGFloat(36.0)
+            }
+
+            // MARK: - xSmall
+            open var xSmall: CGFloat {
+                return CGFloat(16.0)
+            }
+
+            // MARK: - xxLarge
+            open var xxLarge: CGFloat {
+                return CGFloat(40.0)
+            }
+
+            // MARK: - xxSmall
+            open var xxSmall: CGFloat {
+                return CGFloat(12.0)
+            }
+
+            // MARK: - xxxLarge
+            open var xxxLarge: CGFloat {
+                return CGFloat(48.0)
+            }
+
+            // MARK: - xxxSmall
+            open var xxxSmall: CGFloat {
+                return CGFloat(10.0)
+            }
+        }
+
+    }
+    // MARK: - Opacity
+    open var Opacity: OpacityAppearanceProxy {
+        return OpacityAppearanceProxy(proxy: { return self })
+    }
+    open class OpacityAppearanceProxy {
+        public let mainProxy: () -> FluentUIStyle
+        public init(proxy: @escaping () -> FluentUIStyle) {
+            self.mainProxy = proxy
+        }
+
+        // MARK: - clear
+        open var clear: CGFloat {
+            return CGFloat(0.0)
+        }
+
+        // MARK: - none
+        open var none: CGFloat {
+            return CGFloat(1.0)
+        }
+
+        // MARK: - opacity16
+        open var opacity16: CGFloat {
+            return CGFloat(0.16)
+        }
+
+        // MARK: - opacity24
+        open var opacity24: CGFloat {
+            return CGFloat(0.24)
+        }
+
+        // MARK: - opacity32
+        open var opacity32: CGFloat {
+            return CGFloat(0.32)
+        }
+
+        // MARK: - opacity64
+        open var opacity64: CGFloat {
+            return CGFloat(0.64)
+        }
+
+        // MARK: - opacity72
+        open var opacity72: CGFloat {
+            return CGFloat(0.72)
+        }
+
+        // MARK: - opacity8
+        open var opacity8: CGFloat {
+            return CGFloat(0.8)
+        }
+
+        // MARK: - opacity88
+        open var opacity88: CGFloat {
+            return CGFloat(0.88)
+        }
+
+        // MARK: - opacity96
+        open var opacity96: CGFloat {
+            return CGFloat(0.96)
+        }
+    }
+    // MARK: - Shadow
+    open var Shadow: ShadowAppearanceProxy {
+        return ShadowAppearanceProxy(proxy: { return self })
+    }
+    open class ShadowAppearanceProxy {
+        public let mainProxy: () -> FluentUIStyle
+        public init(proxy: @escaping () -> FluentUIStyle) {
+            self.mainProxy = proxy
+        }
+
+        // MARK: - none
+        open var none: noneAppearanceProxy {
+            return noneAppearanceProxy(proxy: mainProxy)
+        }
+        open class noneAppearanceProxy {
+            public let mainProxy: () -> FluentUIStyle
+            public init(proxy: @escaping () -> FluentUIStyle) {
+                self.mainProxy = proxy
+            }
+
+            // MARK: - blur1
+            open var blur1: CGFloat {
+                return CGFloat(0.0)
+            }
+
+            // MARK: - blur2
+            open var blur2: CGFloat {
+                return CGFloat(0.0)
+            }
+
+            // MARK: - color1
+            open var color1: UIColor {
+                return mainProxy().Colors.Shadow.clear
+            }
+
+            // MARK: - color2
+            open var color2: UIColor {
+                return mainProxy().Colors.Shadow.clear
+            }
+
+            // MARK: - x1
+            open var x1: CGFloat {
+                return CGFloat(0.0)
+            }
+
+            // MARK: - x2
+            open var x2: CGFloat {
+                return CGFloat(0.0)
+            }
+
+            // MARK: - y1
+            open var y1: CGFloat {
+                return CGFloat(0.0)
+            }
+
+            // MARK: - y2
+            open var y2: CGFloat {
+                return CGFloat(0.0)
+            }
+        }
+
+
+        // MARK: - shadow16
+        open var shadow16: shadow16AppearanceProxy {
+            return shadow16AppearanceProxy(proxy: mainProxy)
+        }
+        open class shadow16AppearanceProxy {
+            public let mainProxy: () -> FluentUIStyle
+            public init(proxy: @escaping () -> FluentUIStyle) {
+                self.mainProxy = proxy
+            }
+
+            // MARK: - blur1
+            open var blur1: CGFloat {
+                return CGFloat(8.0)
+            }
+
+            // MARK: - blur2
+            open var blur2: CGFloat {
+                return CGFloat(1.0)
+            }
+
+            // MARK: - color1
+            open var color1: UIColor {
+                return mainProxy().Colors.Elevation.lowElevation1
+            }
+
+            // MARK: - color2
+            open var color2: UIColor {
+                return mainProxy().Colors.Elevation.lowElevation2
+            }
+
+            // MARK: - x1
+            open var x1: CGFloat {
+                return CGFloat(0.0)
+            }
+
+            // MARK: - x2
+            open var x2: CGFloat {
+                return CGFloat(0.0)
+            }
+
+            // MARK: - y1
+            open var y1: CGFloat {
+                return CGFloat(8.0)
+            }
+
+            // MARK: - y2
+            open var y2: CGFloat {
+                return CGFloat(0.0)
+            }
+        }
+
+
+        // MARK: - shadow2
+        open var shadow2: shadow2AppearanceProxy {
+            return shadow2AppearanceProxy(proxy: mainProxy)
+        }
+        open class shadow2AppearanceProxy {
+            public let mainProxy: () -> FluentUIStyle
+            public init(proxy: @escaping () -> FluentUIStyle) {
+                self.mainProxy = proxy
+            }
+
+            // MARK: - blur1
+            open var blur1: CGFloat {
+                return CGFloat(1.0)
+            }
+
+            // MARK: - blur2
+            open var blur2: CGFloat {
+                return CGFloat(1.0)
+            }
+
+            // MARK: - color1
+            open var color1: UIColor {
+                return mainProxy().Colors.Elevation.lowElevation1
+            }
+
+            // MARK: - color2
+            open var color2: UIColor {
+                return mainProxy().Colors.Elevation.lowElevation2
+            }
+
+            // MARK: - x1
+            open var x1: CGFloat {
+                return CGFloat(0.0)
+            }
+
+            // MARK: - x2
+            open var x2: CGFloat {
+                return CGFloat(0.0)
+            }
+
+            // MARK: - y1
+            open var y1: CGFloat {
+                return CGFloat(1.0)
+            }
+
+            // MARK: - y2
+            open var y2: CGFloat {
+                return CGFloat(0.0)
+            }
+        }
+
+
+        // MARK: - shadow28
+        open var shadow28: shadow28AppearanceProxy {
+            return shadow28AppearanceProxy(proxy: mainProxy)
+        }
+        open class shadow28AppearanceProxy {
+            public let mainProxy: () -> FluentUIStyle
+            public init(proxy: @escaping () -> FluentUIStyle) {
+                self.mainProxy = proxy
+            }
+
+            // MARK: - blur1
+            open var blur1: CGFloat {
+                return CGFloat(14.0)
+            }
+
+            // MARK: - blur2
+            open var blur2: CGFloat {
+                return CGFloat(4.0)
+            }
+
+            // MARK: - color1
+            open var color1: UIColor {
+                return mainProxy().Colors.Elevation.highElevation1
+            }
+
+            // MARK: - color2
+            open var color2: UIColor {
+                return mainProxy().Colors.Elevation.highElevation2
+            }
+
+            // MARK: - x1
+            open var x1: CGFloat {
+                return CGFloat(0.0)
+            }
+
+            // MARK: - x2
+            open var x2: CGFloat {
+                return CGFloat(0.0)
+            }
+
+            // MARK: - y1
+            open var y1: CGFloat {
+                return CGFloat(14.0)
+            }
+
+            // MARK: - y2
+            open var y2: CGFloat {
+                return CGFloat(0.0)
+            }
+        }
+
+
+        // MARK: - shadow4
+        open var shadow4: shadow4AppearanceProxy {
+            return shadow4AppearanceProxy(proxy: mainProxy)
+        }
+        open class shadow4AppearanceProxy {
+            public let mainProxy: () -> FluentUIStyle
+            public init(proxy: @escaping () -> FluentUIStyle) {
+                self.mainProxy = proxy
+            }
+
+            // MARK: - blur1
+            open var blur1: CGFloat {
+                return CGFloat(2.0)
+            }
+
+            // MARK: - blur2
+            open var blur2: CGFloat {
+                return CGFloat(1.0)
+            }
+
+            // MARK: - color1
+            open var color1: UIColor {
+                return mainProxy().Colors.Elevation.lowElevation1
+            }
+
+            // MARK: - color2
+            open var color2: UIColor {
+                return mainProxy().Colors.Elevation.lowElevation2
+            }
+
+            // MARK: - x1
+            open var x1: CGFloat {
+                return CGFloat(0.0)
+            }
+
+            // MARK: - x2
+            open var x2: CGFloat {
+                return CGFloat(0.0)
+            }
+
+            // MARK: - y1
+            open var y1: CGFloat {
+                return CGFloat(2.0)
+            }
+
+            // MARK: - y2
+            open var y2: CGFloat {
+                return CGFloat(0.0)
+            }
+        }
+
+
+        // MARK: - shadow64
+        open var shadow64: shadow64AppearanceProxy {
+            return shadow64AppearanceProxy(proxy: mainProxy)
+        }
+        open class shadow64AppearanceProxy {
+            public let mainProxy: () -> FluentUIStyle
+            public init(proxy: @escaping () -> FluentUIStyle) {
+                self.mainProxy = proxy
+            }
+
+            // MARK: - blur1
+            open var blur1: CGFloat {
+                return CGFloat(32.0)
+            }
+
+            // MARK: - blur2
+            open var blur2: CGFloat {
+                return CGFloat(4.0)
+            }
+
+            // MARK: - color1
+            open var color1: UIColor {
+                return mainProxy().Colors.Elevation.highElevation1
+            }
+
+            // MARK: - color2
+            open var color2: UIColor {
+                return mainProxy().Colors.Elevation.highElevation2
+            }
+
+            // MARK: - x1
+            open var x1: CGFloat {
+                return CGFloat(0.0)
+            }
+
+            // MARK: - x2
+            open var x2: CGFloat {
+                return CGFloat(0.0)
+            }
+
+            // MARK: - y1
+            open var y1: CGFloat {
+                return CGFloat(32.0)
+            }
+
+            // MARK: - y2
+            open var y2: CGFloat {
+                return CGFloat(0.0)
+            }
+        }
+
+
+        // MARK: - shadow8
+        open var shadow8: shadow8AppearanceProxy {
+            return shadow8AppearanceProxy(proxy: mainProxy)
+        }
+        open class shadow8AppearanceProxy {
+            public let mainProxy: () -> FluentUIStyle
+            public init(proxy: @escaping () -> FluentUIStyle) {
+                self.mainProxy = proxy
+            }
+
+            // MARK: - blur1
+            open var blur1: CGFloat {
+                return CGFloat(4.0)
+            }
+
+            // MARK: - blur2
+            open var blur2: CGFloat {
+                return CGFloat(1.0)
+            }
+
+            // MARK: - color1
+            open var color1: UIColor {
+                return mainProxy().Colors.Elevation.lowElevation1
+            }
+
+            // MARK: - color2
+            open var color2: UIColor {
+                return mainProxy().Colors.Elevation.lowElevation2
+            }
+
+            // MARK: - x1
+            open var x1: CGFloat {
+                return CGFloat(0.0)
+            }
+
+            // MARK: - x2
+            open var x2: CGFloat {
+                return CGFloat(0.0)
+            }
+
+            // MARK: - y1
+            open var y1: CGFloat {
+                return CGFloat(4.0)
+            }
+
+            // MARK: - y2
+            open var y2: CGFloat {
+                return CGFloat(0.0)
+            }
+        }
+
+    }
+    // MARK: - Spacing
+    open var Spacing: SpacingAppearanceProxy {
+        return SpacingAppearanceProxy(proxy: { return self })
+    }
+    open class SpacingAppearanceProxy {
+        public let mainProxy: () -> FluentUIStyle
+        public init(proxy: @escaping () -> FluentUIStyle) {
+            self.mainProxy = proxy
+        }
+
+        // MARK: - large
+        open var large: CGFloat {
+            return CGFloat(20.0)
+        }
+
+        // MARK: - medium
+        open var medium: CGFloat {
+            return CGFloat(16.0)
+        }
+
+        // MARK: - none
+        open var none: CGFloat {
+            return CGFloat(0.0)
+        }
+
+        // MARK: - small
+        open var small: CGFloat {
+            return CGFloat(12.0)
+        }
+
+        // MARK: - xLarge
+        open var xLarge: CGFloat {
+            return CGFloat(24.0)
+        }
+
+        // MARK: - xSmall
+        open var xSmall: CGFloat {
+            return CGFloat(8.0)
+        }
+
+        // MARK: - xxLarge
+        open var xxLarge: CGFloat {
+            return CGFloat(36.0)
+        }
+
+        // MARK: - xxSmall
+        open var xxSmall: CGFloat {
+            return CGFloat(4.0)
+        }
+
+        // MARK: - xxxLarge
+        open var xxxLarge: CGFloat {
+            return CGFloat(48.0)
+        }
+
+        // MARK: - xxxSmall
+        open var xxxSmall: CGFloat {
+            return CGFloat(2.0)
+        }
+
+        // MARK: - xxxxLarge
+        open var xxxxLarge: CGFloat {
+            return CGFloat(72.0)
+        }
+    }
+    // MARK: - Typography
+    open var Typography: TypographyAppearanceProxy {
+        return TypographyAppearanceProxy(proxy: { return self })
+    }
+    open class TypographyAppearanceProxy {
+        public let mainProxy: () -> FluentUIStyle
+        public init(proxy: @escaping () -> FluentUIStyle) {
+            self.mainProxy = proxy
+        }
+
+        // MARK: - body
+        open var body: UIFont {
+            return UIFont.font(name: nil, size: nil, textStyle: S.FontTextStyle.body, weight: nil, traits: [], isScalable: true)
+        }
+
+        // MARK: - caption1
+        open var caption1: UIFont {
+            return UIFont.font(name: nil, size: nil, textStyle: S.FontTextStyle.caption1, weight: nil, traits: [], isScalable: true)
+        }
+
+        // MARK: - footnote
+        open var footnote: UIFont {
+            return UIFont.font(name: nil, size: nil, textStyle: S.FontTextStyle.footnote, weight: nil, traits: [], isScalable: true)
+        }
+
+        // MARK: - headline
+        open var headline: UIFont {
+            return UIFont.font(name: nil, size: nil, textStyle: S.FontTextStyle.headline, weight: nil, traits: [], isScalable: true)
+        }
+
+        // MARK: - subheadline
+        open var subheadline: UIFont {
+            return UIFont.font(name: nil, size: nil, textStyle: S.FontTextStyle.subheadline, weight: nil, traits: [], isScalable: true)
+        }
+    }
+    // MARK: - __TextStyle
+    open var __TextStyle: __TextStyleAppearanceProxy {
+        return __TextStyleAppearanceProxy(proxy: { return self })
+    }
+    open class __TextStyleAppearanceProxy {
+        public let mainProxy: () -> FluentUIStyle
+        public init(proxy: @escaping () -> FluentUIStyle) {
+            self.mainProxy = proxy
+        }
+    }
 
 }

@@ -136,7 +136,7 @@ extension FluentUIStyle {
 
 			// MARK: - large 
 			open var large: CGFloat {
-				return mainProxy().Icon.size.xxlarge
+				return mainProxy().Icon.size.xxLarge
 			}
 
 			// MARK: - medium 

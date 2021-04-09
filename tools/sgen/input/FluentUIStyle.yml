@@ -12,8 +12,8 @@ Colors:
   Background:
     - neutral1: "FluentUIColor(light: NamedColor(white), dark: NamedColor(black), darkElevated: NamedColor(grey4))"
     - neutral2: "FluentUIColor(light: NamedColor(grey98), dark: NamedColor(grey4), darkElevated: NamedColor(grey8))"
-    - neutral3: "FluentUIColor(light: NamedColor(grey96), dark: NamedColor(grey8), darkElevated: NamedColor(grey16))"
-    - neutral4: "FluentUIColor(light: NamedColor(grey94), dark: NamedColor(grey16), darkElevated: NamedColor(grey24))"
+    - neutral3: "FluentUIColor(light: NamedColor(grey96), dark: NamedColor(grey8), darkElevated: NamedColor(grey12))"
+    - neutral4: "FluentUIColor(light: NamedColor(grey94), dark: NamedColor(grey12), darkElevated: NamedColor(grey16))"
     - neutral5: "FluentUIColor(light: NamedColor(grey92), dark: NamedColor(grey36))"
     - neutralDisabled: "FluentUIColor(light: NamedColor(grey88), dark: NamedColor(grey84))"
     - brandRest: "FluentUIColor(light: $Colors.Brand.primary, dark: $Colors.Brand.primary)"
@@ -84,11 +84,11 @@ Typography:
   subheadline: "Font(subheadline)"
 
 Border:
-  radius: [ none: 0pt, small: 2pt, medium: 4pt, large: 8pt, xlarge: 12pt ]
+  radius: [ none: 0pt, small: 2pt, medium: 4pt, large: 8pt, xLarge: 12pt , circleSmall: 24pt, circleLarge: 26pt]
   size: [ none: 0pt, thin: 1pt, thick: 2pt, thicker: 4pt, thickest: 6pt ]
 
 Icon:
-  size: [ xxxSmall: 10pt, xxSmall: 12pt, xSmall: 16pt, small: 20pt, medium: 24pt, large: 28pt, xlarge: 36pt, xxlarge: 40pt, xxxlarge: 48pt ]
+  size: [ xxxSmall: 10pt, xxSmall: 12pt, xSmall: 16pt, small: 20pt, medium: 24pt, large: 28pt, xLarge: 36pt, xxLarge: 40pt, xxxLarge: 48pt ]
   accentColor: "FluentUIColor(light: NamedColor(white), dark: NamedColor(black))"
 
 Spacing:
@@ -99,10 +99,10 @@ Spacing:
   small: 12pt
   medium: 16pt
   large: 20pt
-  xlarge: 24pt
-  xxlarge: 36pt
-  xxxlarge: 48pt
-  xxxxlarge: 72pt
+  xLarge: 24pt
+  xxLarge: 36pt
+  xxxLarge: 48pt
+  xxxxLarge: 72pt
 
 Opacity:
   opacity8: 0.8f
@@ -117,12 +117,13 @@ Opacity:
   clear: 0.0f
 
 Shadow:
-    shadow2: [ blur1: 2pt, color1: $Colors.Elevation.lowElevation1, x1: 0pt, y1: 1pt, blur2: 2pt, color2: $Colors.Elevation.lowElevation2, x2: 0pt, y2: 0pt ]
-    shadow4: [ blur1: 4pt, color1: $Colors.Elevation.lowElevation1, x1: 0pt, y1: 2pt, blur2: 2pt, color2: $Colors.Elevation.lowElevation2, x2: 0pt, y2: 0pt ]
-    shadow8: [ blur1: 8pt, color1: $Colors.Elevation.lowElevation1, x1: 0pt, y1: 4pt, blur2: 8pt, color2: $Colors.Elevation.lowElevation2, x2: 0pt, y2: 0pt ]
-    shadow16: [ blur1: 16pt, color1: $Colors.Elevation.lowElevation1, x1: 0pt, y1: 8pt, blur2: 8pt, color2: $Colors.Elevation.lowElevation2, x2: 0pt, y2: 0pt ]
-    shadow28: [ blur1: 28pt, color1: $Colors.Elevation.highElevation1, x1: 0pt, y1: 14pt, blur2: 8pt, color2: $Colors.Elevation.highElevation2, x2: 0pt, y2: 0pt ]
-    shadow64: [ blur1: 64pt, color1: $Colors.Elevation.highElevation1, x1: 0pt, y1: 32pt, blur2: 8pt, color2: $Colors.Elevation.highElevation2, x2: 0pt, y2: 0pt ]
+    none: [ blur1: 0pt, color1: $Colors.Shadow.clear, x1: 0pt, y1: 0pt, blur2: 0pt, color2: $Colors.Shadow.clear, x2: 0pt, y2: 0pt ]
+    shadow2: [ blur1: 1pt, color1: $Colors.Elevation.lowElevation1, x1: 0pt, y1: 1pt, blur2: 1pt, color2: $Colors.Elevation.lowElevation2, x2: 0pt, y2: 0pt ]
+    shadow4: [ blur1: 2pt, color1: $Colors.Elevation.lowElevation1, x1: 0pt, y1: 2pt, blur2: 1pt, color2: $Colors.Elevation.lowElevation2, x2: 0pt, y2: 0pt ]
+    shadow8: [ blur1: 4pt, color1: $Colors.Elevation.lowElevation1, x1: 0pt, y1: 4pt, blur2: 1pt, color2: $Colors.Elevation.lowElevation2, x2: 0pt, y2: 0pt ]
+    shadow16: [ blur1: 8pt, color1: $Colors.Elevation.lowElevation1, x1: 0pt, y1: 8pt, blur2: 1pt, color2: $Colors.Elevation.lowElevation2, x2: 0pt, y2: 0pt ]
+    shadow28: [ blur1: 14pt, color1: $Colors.Elevation.highElevation1, x1: 0pt, y1: 14pt, blur2: 4pt, color2: $Colors.Elevation.highElevation2, x2: 0pt, y2: 0pt ]
+    shadow64: [ blur1: 32pt, color1: $Colors.Elevation.highElevation1, x1: 0pt, y1: 32pt, blur2: 4pt, color2: $Colors.Elevation.highElevation2, x2: 0pt, y2: 0pt ]
 
 AP_MSFAvatarTokens:
   backgroundDefaultColor: "FluentUIColor(light: NamedColor(white), dark: $Colors.Brand.primary)"
@@ -205,7 +206,7 @@ MSFAccentAvatarTokens extends MSFAvatarTokens:
   ringDefaultColor: $Colors.Brand.shade10
 
 MSFGroupAvatarTokens extends MSFAvatarTokens:
-  borderRadius: [ xSmall: $Border.radius.small, small: $Border.radius.medium, medium: $Border.radius.medium, large: $Border.radius.large, xlarge: $Border.radius.large, xxlarge: $Border.radius.xlarge ]
+  borderRadius: [ xSmall: $Border.radius.small, small: $Border.radius.medium, medium: $Border.radius.medium, large: $Border.radius.large, xlarge: $Border.radius.large, xxlarge: $Border.radius.xLarge ]
 
 MSFOutlinedAvatarTokens extends MSFAvatarTokens:
   backgroundDefaultColor: "FluentUIColor(light: NamedColor(grey94), dark: NamedColor(grey26))"
@@ -225,7 +226,7 @@ MSFOverflowAvatarTokens extends MSFAvatarTokens:
 AP_MSFButtonTokens:
   backgroundColor: [ rest: NamedColor(clear), hover: NamedColor(clear), pressed: NamedColor(clear), selected: NamedColor(clear), disabled: NamedColor(clear) ]
   borderColor: [ rest: $Colors.Background.brandRest, hover: $Colors.Background.brandHover, pressed: $Colors.Background.brandPressed, selected: $Colors.Background.brandSelected, disabled: $Colors.Background.brandDisabled ]
-  borderRadius: [ small: $Border.radius.medium, medium: $Border.radius.large, large: $Border.radius.xlarge ]
+  borderRadius: [ small: $Border.radius.medium, medium: $Border.radius.large, large: $Border.radius.xLarge ]
   borderSize: [ small: $Border.size.none, medium: $Border.size.none, large: $Border.size.none ]
   iconColor: [ rest: $Colors.Foreground.brandRest, hover: $Colors.Foreground.brandHover, pressed: $Colors.Foreground.brandPressed, selected: $Colors.Foreground.brandSelected, disabled: $Colors.Foreground.brandDisabled ]
   iconSize: [ small: $Icon.size.xSmall, medium: $Icon.size.small, large: $Icon.size.small ]
@@ -233,6 +234,16 @@ AP_MSFButtonTokens:
   padding: [ small: $Spacing.xSmall, medium: $Spacing.small, large: $Spacing.large ]
   textColor: [ rest: $Colors.Foreground.brandRest, hover: $Colors.Foreground.brandHover, pressed: $Colors.Foreground.brandPressed, selected: $Colors.Foreground.brandSelected, disabled: $Colors.Foreground.brandDisabled ]
   textFont: [ small: $Typography.footnote, medium: $Typography.subheadline, large: $Typography.subheadline ]
+  textMinimumHeight: [ small: $Spacing.none, medium: $Spacing.none, large: $Spacing.none ]
+  textAdditionalHorizontalPadding: [ small: $Spacing.none, medium: $Spacing.none, large: $Spacing.none ]
+  shadow1Color: [ rest: $Shadow.none.color1, hover: $Shadow.none.color1, pressed: $Shadow.none.color1, selected: $Shadow.none.color1, disabled: $Shadow.none.color1]
+  shadow1Blur: [ rest: $Shadow.none.blur1, hover: $Shadow.none.blur1, pressed: $Shadow.none.blur1, selected: $Shadow.none.blur1, disabled: $Shadow.none.blur1 ]
+  shadow1OffsetX: [ rest: $Shadow.none.x1, hover: $Shadow.none.x1, pressed: $Shadow.none.x1, selected: $Shadow.none.x1, disabled: $Shadow.none.x1 ]
+  shadow1OffsetY: [ rest: $Shadow.none.y1, hover: $Shadow.none.y1, pressed: $Shadow.none.y1, selected: $Shadow.none.y1, disabled: $Shadow.none.y1 ]
+  shadow2Color: [ rest: $Shadow.none.color2, hover: $Shadow.none.color2, pressed: $Shadow.none.color2, selected: $Shadow.none.color2, disabled: $Shadow.none.color2 ]
+  shadow2Blur: [ rest: $Shadow.none.blur2 , hover: $Shadow.none.blur2, pressed: $Shadow.none.blur2, selected: $Shadow.none.blur2, disabled: $Shadow.none.blur2 ]
+  shadow2OffsetX: [ rest: $Shadow.none.x2, hover: $Shadow.none.x2, pressed: $Shadow.none.x2, selected: $Shadow.none.x2, disabled: $Shadow.none.x2 ]
+  shadow2OffsetY: [ rest: $Shadow.none.y2, hover: $Shadow.none.y2, pressed: $Shadow.none.y2, selected: $Shadow.none.y2, disabled: $Shadow.none.y2 ]
 
 MSFPrimaryButtonTokens extends MSFButtonTokens:
   backgroundColor: [ rest: $Colors.Background.brandRest, hover: $Colors.Background.brandHover, pressed: $Colors.Background.brandPressed, selected: $Colors.Background.brandSelected, disabled: $Colors.Background.brandDisabled ]
@@ -245,6 +256,42 @@ MSFSecondaryButtonTokens extends MSFButtonTokens:
 
 MSFGhostButtonTokens extends MSFButtonTokens:
   borderColor: [ rest: NamedColor(clear), hover: NamedColor(clear), pressed: NamedColor(clear), selected: $Colors.Brand.shade10, disabled: NamedColor(clear) ]
+
+MSFAccentFloatingActionButtonTokens extends MSFButtonTokens:
+  backgroundColor:  [ rest: $Colors.Background.brandRest, hover: $Colors.Background.brandHover, pressed: $Colors.Background.brandPressed, selected: $Colors.Background.brandSelected, disabled: $Colors.Background.brandDisabled ]
+  borderRadius: [ small: $Border.radius.circleSmall, medium: $Border.radius.circleSmall, large: $Border.radius.circleLarge ]
+  iconColor: [ rest: $Colors.Foreground.neutralInverted, hover: $Colors.Foreground.neutralInverted, pressed: $Colors.Foreground.neutralInverted, selected: $Colors.Foreground.neutralInverted, disabled: $Colors.Foreground.neutralInverted ]
+  iconSize: [ small: $Icon.size.medium, medium: $Icon.size.medium, large: $Icon.size.medium ]
+  padding: [ small: $Spacing.small, medium: $Spacing.small, large: $Spacing.medium ]
+  textColor: [ rest: $Colors.Foreground.neutralInverted, hover: $Colors.Foreground.neutralInverted, pressed: $Colors.Foreground.neutralInverted, selected: $Colors.Foreground.neutralInverted, disabled: $Colors.Foreground.neutralInverted ]
+  textMinimumHeight: [ small: $Icon.size.medium, medium: $Icon.size.medium, large: $Icon.size.medium ]
+  textAdditionalHorizontalPadding: [ small: $Spacing.xSmall, medium: $Spacing.xSmall, large: $Spacing.xxSmall ]
+  shadow1Color: [ rest: $Shadow.shadow8.color1, hover: $Shadow.shadow2.color1, pressed: $Shadow.shadow2.color1, selected: $Shadow.shadow2.color1, disabled: $Shadow.shadow2.color1]
+  shadow1Blur: [ rest: $Shadow.shadow8.blur1, hover: $Shadow.shadow2.blur1, pressed: $Shadow.shadow2.blur1, selected: $Shadow.shadow2.blur1, disabled: $Shadow.shadow2.blur1 ]
+  shadow1OffsetX: [ rest: $Shadow.shadow8.x1, hover: $Shadow.shadow2.x1, pressed: $Shadow.shadow2.x1, selected: $Shadow.shadow2.x1, disabled: $Shadow.shadow2.x1 ]
+  shadow1OffsetY: [ rest: $Shadow.shadow8.y1, hover: $Shadow.shadow2.y1, pressed: $Shadow.shadow2.y1, selected: $Shadow.shadow2.y1, disabled: $Shadow.shadow2.y1 ]
+  shadow2Color: [ rest: $Shadow.shadow8.color2, hover: $Shadow.shadow2.color2, pressed: $Shadow.shadow2.color2, selected: $Shadow.shadow2.color2, disabled: $Shadow.shadow2.color2 ]
+  shadow2Blur: [ rest: $Shadow.shadow8.blur2 , hover: $Shadow.shadow2.blur2, pressed: $Shadow.shadow2.blur2, selected: $Shadow.shadow2.blur2, disabled: $Shadow.shadow2.blur2 ]
+  shadow2OffsetX: [ rest: $Shadow.shadow8.x2, hover: $Shadow.shadow2.x2, pressed: $Shadow.shadow2.x2, selected: $Shadow.shadow2.x2, disabled: $Shadow.shadow2.x2 ]
+  shadow2OffsetY: [ rest: $Shadow.shadow8.y2, hover: $Shadow.shadow2.y2, pressed: $Shadow.shadow2.y2, selected: $Shadow.shadow2.y2, disabled: $Shadow.shadow2.y2 ]
+
+MSFSubtleFloatingActionButtonTokens extends MSFButtonTokens:
+  backgroundColor: [ rest: $Colors.Background.neutral1, hover: $Colors.Background.neutral1, pressed: $Colors.Background.neutral5, selected: $Colors.Background.neutral1, disabled: $Colors.Background.neutral1 ]
+  borderRadius: [ small: $Border.radius.circleSmall, medium: $Border.radius.circleSmall, large: $Border.radius.circleLarge ]
+  iconColor: [ rest: $Colors.Foreground.neutral3, hover: $Colors.Foreground.neutral3, pressed: $Colors.Foreground.neutral3, selected: $Colors.Foreground.brandRest, disabled: $Colors.Foreground.neutralDisabled ]
+  iconSize: [ small: $Icon.size.medium, medium: $Icon.size.medium, large: $Icon.size.medium ]
+  padding: [ small: $Spacing.small, medium: $Spacing.small, large: $Spacing.medium ]
+  textColor: [ rest: $Colors.Foreground.neutral3, hover: $Colors.Foreground.neutral3, pressed: $Colors.Foreground.neutral3, selected: $Colors.Foreground.brandRest, disabled: $Colors.Foreground.neutralDisabled ]
+  textMinimumHeight: [ small: $Icon.size.medium, medium: $Icon.size.medium, large: $Icon.size.medium ]
+  textAdditionalHorizontalPadding: [ small: $Spacing.xSmall, medium: $Spacing.xSmall, large: $Spacing.xxSmall ]
+  shadow1Color: [ rest: $Shadow.shadow8.color1, hover: $Shadow.shadow2.color1, pressed: $Shadow.shadow2.color1, selected: $Shadow.shadow2.color1, disabled: $Shadow.shadow2.color1]
+  shadow1Blur: [ rest: $Shadow.shadow8.blur1, hover: $Shadow.shadow2.blur1, pressed: $Shadow.shadow2.blur1, selected: $Shadow.shadow2.blur1, disabled: $Shadow.shadow2.blur1 ]
+  shadow1OffsetX: [ rest: $Shadow.shadow8.x1, hover: $Shadow.shadow2.x1, pressed: $Shadow.shadow2.x1, selected: $Shadow.shadow2.x1, disabled: $Shadow.shadow2.x1 ]
+  shadow1OffsetY: [ rest: $Shadow.shadow8.y1, hover: $Shadow.shadow2.y1, pressed: $Shadow.shadow2.y1, selected: $Shadow.shadow2.y1, disabled: $Shadow.shadow2.y1 ]
+  shadow2Color: [ rest: $Shadow.shadow8.color2, hover: $Shadow.shadow2.color2, pressed: $Shadow.shadow2.color2, selected: $Shadow.shadow2.color2, disabled: $Shadow.shadow2.color2 ]
+  shadow2Blur: [ rest: $Shadow.shadow8.blur2 , hover: $Shadow.shadow2.blur2, pressed: $Shadow.shadow2.blur2, selected: $Shadow.shadow2.blur2, disabled: $Shadow.shadow2.blur2 ]
+  shadow2OffsetX: [ rest: $Shadow.shadow8.x2, hover: $Shadow.shadow2.x2, pressed: $Shadow.shadow2.x2, selected: $Shadow.shadow2.x2, disabled: $Shadow.shadow2.x2 ]
+  shadow2OffsetY: [ rest: $Shadow.shadow8.y2, hover: $Shadow.shadow2.y2, pressed: $Shadow.shadow2.y2, selected: $Shadow.shadow2.y2, disabled: $Shadow.shadow2.y2 ]
 
 AP_MSFListTokens:
   borderColor: $Colors.Stroke.neutral1
@@ -264,7 +311,7 @@ AP_MSFListCellTokens:
   labelColor: $Colors.Foreground.neutral1
   labelFont: $Typography.body
   leadingViewColor: $Colors.Foreground.neutral4
-  leadingViewSize: [ small: $Icon.size.xSmall, medium: $Icon.size.medium, large: $Icon.size.xxlarge ]
+  leadingViewSize: [ small: $Icon.size.xSmall, medium: $Icon.size.medium, large: $Icon.size.xxLarge ]
   sublabelColor: $Colors.Foreground.neutral3
   sublabelFont: $Typography.subheadline
   trailingItemForegroundColor: $Colors.Foreground.neutral3
@@ -272,8 +319,8 @@ AP_MSFListCellTokens:
 
 AP_MSFHeaderFooterTokens:
   backgroundColor: $Colors.Background.neutral1
-  headerHeight: $Spacing.xxxlarge
-  topPadding: $Spacing.xlarge
+  headerHeight: $Spacing.xxxLarge
+  topPadding: $Spacing.xLarge
   leadingPadding: $Spacing.medium
   bottomPadding: $Spacing.xSmall
   trailingPadding: $Spacing.medium
