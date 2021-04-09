@@ -30,7 +30,7 @@ class BottomSheetDemoController: DemoController {
     }
 
     private func setupBottomSheet() {
-        let contentViewController = TabButtonViewController()
+        let contentViewController = UIViewController()
         bottomSheetViewController = BottomSheetViewController(with: contentViewController)
 
         if let bottomSheet = bottomSheetViewController, let navController = navigationController {
@@ -49,83 +49,4 @@ class BottomSheetDemoController: DemoController {
     }()
 
     private var bottomSheetViewController: BottomSheetViewController?
-}
-
-class TabButtonViewController: UICollectionViewController {
-    @objc public init() {
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.minimumLineSpacing = 32
-        flowLayout.minimumInteritemSpacing = 12
-        flowLayout.itemSize = CGSize(width: 64, height: 48)
-        flowLayout.sectionInsetReference = .fromSafeArea
-        flowLayout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-
-        super.init(collectionViewLayout: flowLayout)
-        collectionView.backgroundColor = .clear
-        collectionView.register(TabCollectionViewCell.self, forCellWithReuseIdentifier: TabCollectionViewCell.identifier)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 50
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TabCollectionViewCell.identifier, for: indexPath as IndexPath)
-        let item = TabBarItem(title: "Option \(indexPath.row + 1)", image: UIImage(named: "Home_28")!, selectedImage: UIImage(named: "Home_Selected_28")!)
-        (cell as? TabCollectionViewCell)?.setup(with: item)
-        return cell
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath)
-        cell?.isSelected = true
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath)
-        cell?.isSelected = false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let alert = UIAlertController(title: "\(indexPath.row + 1) was tapped", message: nil, preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default, handler: { [weak self] _ in
-            self?.collectionView.deselectItem(at: indexPath, animated: false)
-        })
-        alert.addAction(action)
-        view.window?.rootViewController?.present(alert, animated: true)
-    }
-}
-
-class TabCollectionViewCell: UICollectionViewCell {
-    static var identifier: String { return String(describing: self) }
-    var tabItemView: TabBarItemView?
-
-    override var isSelected: Bool {
-        didSet {
-            if oldValue != isSelected {
-                tabItemView?.isSelected = isSelected
-            }
-        }
-    }
-
-    func setup(with item: TabBarItem) {
-        tabItemView?.removeFromSuperview()
-        tabItemView = TabBarItemView(item: item, showsTitle: true, canResizeImage: false)
-
-        if let itemView = tabItemView {
-            itemView.alwaysShowTitleBelowImage = true
-            addSubview(itemView)
-            itemView.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([itemView.centerYAnchor.constraint(equalTo: centerYAnchor),
-                                         itemView.centerXAnchor.constraint(equalTo: centerXAnchor)])
-        }
-    }
 }

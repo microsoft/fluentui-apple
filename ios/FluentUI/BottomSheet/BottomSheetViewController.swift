@@ -112,6 +112,7 @@ public class BottomSheetViewController: UIViewController {
         view.layer.shadowOffset = Constants.Shadow.offset
         view.layer.cornerRadius = Constants.cornerRadius
         view.layer.cornerCurve = .continuous
+        updateMaskedCorners()
 
         view.addGestureRecognizer(panGestureRecognizer)
         panGestureRecognizer.delegate = self
@@ -146,9 +147,12 @@ public class BottomSheetViewController: UIViewController {
             resizingHandleView.isHidden = true
             currentState = .collapse
             removeDimmingView()
+            panGestureRecognizer.isEnabled = false
         } else {
             resizingHandleView.isHidden = false
+            panGestureRecognizer.isEnabled = true
         }
+        updateMaskedCorners()
 
         if let window = view.window {
             let suggestionFrame: CGRect
@@ -162,6 +166,14 @@ public class BottomSheetViewController: UIViewController {
                 view.frame = suggestionFrame
                 view.setNeedsLayout()
             }
+        }
+    }
+
+    private func updateMaskedCorners() {
+        if shouldShowFloatingViewForPad() {
+            view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        } else {
+            view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         }
     }
 
@@ -385,8 +397,8 @@ extension BottomSheetViewController: UIGestureRecognizerDelegate {
         if  !shouldShowFloatingViewForPad(), !resizingHandleView.isHidden, let scrollView = (otherGestureRecognizer as? UIPanGestureRecognizer)?.view as? UIScrollView, scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height) || (scrollView.contentOffset.y <= 0) {
             // If scroll view has reached the bottom or top bring the bottom sheet pan in action too.
             return true
-        } else {
-            return false
         }
+
+        return false
     }
 }
