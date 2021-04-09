@@ -24,6 +24,23 @@ import SwiftUI
     case large
     case xlarge
     case xxlarge
+
+    var size: CGFloat {
+        switch self {
+        case .xsmall:
+            return FluentUIThemeManager.S.MSFAvatarTokens.size.xSmall
+        case .small:
+            return FluentUIThemeManager.S.MSFAvatarTokens.size.small
+        case .medium:
+            return FluentUIThemeManager.S.MSFAvatarTokens.size.medium
+        case .large:
+            return FluentUIThemeManager.S.MSFAvatarTokens.size.large
+        case .xlarge:
+            return FluentUIThemeManager.S.MSFAvatarTokens.size.xlarge
+        case .xxlarge:
+            return FluentUIThemeManager.S.MSFAvatarTokens.size.xxlarge
+        }
+    }
 }
 
 /// Representation of design tokens to buttons at runtime which interfaces with the Design Token System auto-generated code.
