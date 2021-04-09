@@ -10,6 +10,7 @@ class ButtonDemoController: DemoController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = Colors.surfaceSecondary
 
         for size in MSFButtonSize.allCases {
             addTitle(text: "\(size.description.capitalized) size")
