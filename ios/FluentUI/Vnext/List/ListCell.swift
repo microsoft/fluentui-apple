@@ -61,13 +61,17 @@ import SwiftUI
 /// View for List Cells
 struct MSFListCellView: View {
     @ObservedObject var state: MSFListCellState
-    @ObservedObject var tokens: MSFListCellTokens
-    var style: MSFListCellStyle
+    @ObservedObject var tokens: MSFCellBaseTokens
 
-    init(state: MSFListCellState, style: MSFListCellStyle = .normal, windowProvider: FluentUIWindowProvider?) {
+    init(state: MSFListCellState, windowProvider: FluentUIWindowProvider?) {
         self.state = state
-        self.style = style
-        self.tokens = MSFListCellTokens(cellLeadingViewSize: state.leadingViewSize, style: style)
+        self.tokens = MSFListCellTokens(cellLeadingViewSize: state.leadingViewSize)
+        self.tokens.windowProvider = windowProvider
+    }
+
+    init(state: MSFListCellState, tokens: MSFPersonaViewTokens, windowProvider: FluentUIWindowProvider?) {
+        self.state = state
+        self.tokens = tokens
         self.tokens.windowProvider = windowProvider
     }
 
@@ -171,7 +175,7 @@ struct MSFListCellView: View {
                 }
             }
         })
-        .buttonStyle(ListCellButtonStyle(tokens: tokens, state: state, style: style))
+        .buttonStyle(ListCellButtonStyle(tokens: tokens, state: state))
 
         if state.hasDivider {
             let padding = tokens.horizontalCellPadding +
@@ -193,17 +197,15 @@ struct MSFListCellView: View {
 }
 
 struct ListCellButtonStyle: ButtonStyle {
-    let tokens: MSFListCellTokens
+    let tokens: MSFCellBaseTokens
     let state: MSFListCellState
-    let style: MSFListCellStyle
 
     func makeBody(configuration: Self.Configuration) -> some View {
         let height: CGFloat
         switch state.layoutType {
         case .automatic:
-            height = style == MSFListCellStyle.persona ? tokens.cellHeightThreeLines :
-                (!state.footnote.isEmpty ? tokens.cellHeightThreeLines :
-                    (!state.subtitle.isEmpty ? tokens.cellHeightTwoLines : tokens.cellHeightOneLine))
+            height = !state.footnote.isEmpty ? tokens.cellHeightThreeLines :
+                    (!state.subtitle.isEmpty ? tokens.cellHeightTwoLines : tokens.cellHeightOneLine)
         case .oneLine:
             height = tokens.cellHeightOneLine
         case .twoLines:

@@ -93,6 +93,8 @@ class LeftNavMenuViewController: UIViewController {
 
     private var leftNavAvatar = MSFAvatar(style: .default, size: .xlarge)
 
+    private var persona = MSFPersonaView()
+
     private var statusCell = MSFListCellState()
 
     private var leftNavMenuSections: [MSFListSectionState] {
@@ -205,37 +207,33 @@ class LeftNavMenuViewController: UIViewController {
 
     private var leftNavMenuList = MSFList(sections: [])
 
-    private var leftNavAccountView: UIView {
-        leftNavAvatar.state.presence = .available
-        leftNavAvatar.state.primaryText = "Kat Larrson"
-        leftNavAvatar.state.secondaryText = "Designer"
-        leftNavAvatar.state.image = UIImage(named: "avatar_kat_larsson")
+    private lazy var leftNavAccountView: UIView = {
+        let avatarState = MSFAvatarState()
+        avatarState.presence = .available
+        avatarState.primaryText = "Kat Larrson"
+        avatarState.secondaryText = "Designer"
+        avatarState.image = UIImage(named: "avatar_kat_larsson")
 
         let chevron = UIImageView(image: UIImage(named: "ic_fluent_ios_chevron_right_20_filled"))
         chevron.tintColor = Colors.textPrimary
 
-        let persona = MSFPersonaView()
-        persona.state.persona = leftNavAvatar.state
+        persona.state.avatar = avatarState
         persona.state.titleTrailingAccessoryView = chevron
+        persona.state.onTapAction = {
+            self.dismiss(animated: true, completion: {
+                guard let menuAction = self.menuAction else {
+                    return
+                }
 
-        let personaView = UIStackView(arrangedSubviews: [persona.view])
+                menuAction()
+            })
+        }
 
+        let personaView = persona.view
         personaView.translatesAutoresizingMaskIntoConstraints = false
-        personaView.axis = .vertical
-        personaView.spacing = Constant.verticalSpacing
 
-        let accountView = UIView()
-        accountView.addSubview(personaView)
-
-        accountView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            personaView.leadingAnchor.constraint(equalTo: accountView.leadingAnchor),
-            personaView.trailingAnchor.constraint(equalTo: accountView.trailingAnchor)
-
-        ])
-
-        return accountView
-    }
+        return personaView
+    }()
 
     private var leftNavContentView: UIView {
         let contentView = UIView()

@@ -181,42 +181,6 @@ extension FluentUIStyle {
 			return mainProxy().Icon.size.medium
 		}
 	}
-	// MARK: - MSFPersonaTokens
-	open var MSFPersonaTokens: MSFPersonaTokensAppearanceProxy {
-		return MSFPersonaTokensAppearanceProxy(proxy: { return self })
-	}
-	open class MSFPersonaTokensAppearanceProxy: MSFListCellTokensAppearanceProxy {
-
-		// MARK: - footnoteFont 
-		open override var footnoteFont: UIFont {
-			return mainProxy().Typography.footnote
-		}
-
-		// MARK: - iconInterspace 
-		open override var iconInterspace: CGFloat {
-			return mainProxy().Spacing.small
-		}
-
-		// MARK: - labelAccessoryInterspace 
-		open override var labelAccessoryInterspace: CGFloat {
-			return mainProxy().Spacing.xxxSmall
-		}
-
-		// MARK: - labelAccessorySize 
-		open override var labelAccessorySize: CGFloat {
-			return mainProxy().Icon.size.xSmall
-		}
-
-		// MARK: - labelFont 
-		open override var labelFont: UIFont {
-			return mainProxy().Typography.headline
-		}
-
-		// MARK: - sublabelColor 
-		open override var sublabelColor: UIColor {
-			return mainProxy().Colors.Foreground.neutral1
-		}
-	}
 
 }
 fileprivate var __AppearanceProxyHandle: UInt8 = 0
@@ -231,13 +195,7 @@ extension MSFListCellTokens: AppearaceProxyComponent {
 			if let proxy = objc_getAssociatedObject(self, &__AppearanceProxyHandle) as? AppearanceProxyType {
 				if !themeAware { return proxy }
 
-				if let proxyString = Optional(String(reflecting: type(of: proxy))), proxyString.hasPrefix("FluentUI") == false {
-					return proxy
-				}
 
-				if proxy is FluentUIStyle.MSFPersonaTokensAppearanceProxy {
-					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFPersonaTokens
-				}
 				return proxy
 			}
 

@@ -6,11 +6,7 @@
 import UIKit
 import SwiftUI
 
-/// Pre-defined styles of cells
-@objc public enum MSFListCellStyle: Int, CaseIterable {
-    case normal
-    case persona
-}
+// MARK: List Tokens
 
 /// Pre-defined styles of icons
 @objc public enum MSFListCellLeadingViewSize: Int, CaseIterable {
@@ -43,6 +39,8 @@ import SwiftUI
     }
 }
 
+// MARK: ListCell Tokens
+
 class MSFListTokens: MSFTokensBase, ObservableObject {
     @Published public var borderColor: UIColor!
 
@@ -65,7 +63,7 @@ class MSFListTokens: MSFTokensBase, ObservableObject {
     }
 }
 
-class MSFListCellTokens: MSFTokensBase, ObservableObject {
+class MSFCellBaseTokens: MSFTokensBase, ObservableObject {
     @Published public var backgroundColor: UIColor!
     @Published public var borderColor: UIColor!
     @Published public var disclosureIconForegroundColor: UIColor!
@@ -92,13 +90,13 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
     @Published public var footnoteFont: UIFont!
     @Published public var sublabelFont: UIFont!
     @Published public var labelFont: UIFont!
+}
 
+class MSFListCellTokens: MSFCellBaseTokens {
     @Published public var cellLeadingViewSize: MSFListCellLeadingViewSize!
-    @Published public var style: MSFListCellStyle!
 
-    init(cellLeadingViewSize: MSFListCellLeadingViewSize, style: MSFListCellStyle) {
+    init(cellLeadingViewSize: MSFListCellLeadingViewSize = .medium) {
         self.cellLeadingViewSize = cellLeadingViewSize
-        self.style = style
 
         super.init()
 
@@ -112,14 +110,7 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
 
     override func updateForCurrentTheme() {
         let currentTheme = theme
-        let appearanceProxy: AppearanceProxyType
-
-        switch style {
-        case .normal, .none:
-            appearanceProxy = currentTheme.MSFListCellTokens
-        case .persona:
-            appearanceProxy = currentTheme.MSFPersonaTokens
-        }
+        let appearanceProxy = currentTheme.MSFListCellTokens
 
         switch cellLeadingViewSize {
         case .small:

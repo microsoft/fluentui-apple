@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		0AA874152600237A00D47421 /* PersonaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA874142600237A00D47421 /* PersonaView.swift */; };
 		0AA874162600237A00D47421 /* PersonaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA874142600237A00D47421 /* PersonaView.swift */; };
+		0ACD82112620451F0035CD9F /* MSFPersonaViewTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD82102620451E0035CD9F /* MSFPersonaViewTokens.generated.swift */; };
+		0ACD82122620451F0035CD9F /* MSFPersonaViewTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD82102620451E0035CD9F /* MSFPersonaViewTokens.generated.swift */; };
+		0ACD82182620453B0035CD9F /* PersonaViewTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD82172620453B0035CD9F /* PersonaViewTokens.swift */; };
+		0ACD82192620453B0035CD9F /* PersonaViewTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD82172620453B0035CD9F /* PersonaViewTokens.swift */; };
 		0BCEFADE2485FEC00088CEE5 /* PopupMenuProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */; };
 		1168630422E131CF0088B302 /* TabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630222E131CF0088B302 /* TabBarItemView.swift */; };
 		1168630622E131CF0088B302 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630322E131CF0088B302 /* TabBarView.swift */; };
@@ -367,6 +371,8 @@
 
 /* Begin PBXFileReference section */
 		0AA874142600237A00D47421 /* PersonaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaView.swift; sourceTree = "<group>"; };
+		0ACD82102620451E0035CD9F /* MSFPersonaViewTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFPersonaViewTokens.generated.swift; sourceTree = "<group>"; };
+		0ACD82172620453B0035CD9F /* PersonaViewTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaViewTokens.swift; sourceTree = "<group>"; };
 		0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuProtocols.swift; sourceTree = "<group>"; };
 		1168630222E131CF0088B302 /* TabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
 		1168630322E131CF0088B302 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
@@ -643,7 +649,9 @@
 		0AA8741326001F0500D47421 /* Persona */ = {
 			isa = PBXGroup;
 			children = (
+				0ACD82102620451E0035CD9F /* MSFPersonaViewTokens.generated.swift */,
 				0AA874142600237A00D47421 /* PersonaView.swift */,
+				0ACD82172620453B0035CD9F /* PersonaViewTokens.swift */,
 			);
 			path = Persona;
 			sourceTree = "<group>";
@@ -1651,6 +1659,7 @@
 				5314E13825F016370099271A /* PopupMenuSection.swift in Sources */,
 				5314E07C25F00F1A0099271A /* DateTimePickerViewLayout.swift in Sources */,
 				5314E11625F015EA0099271A /* PersonaBadgeViewDataSource.swift in Sources */,
+				0ACD82192620453B0035CD9F /* PersonaViewTokens.swift in Sources */,
 				5314E2DA25F025370099271A /* Fonts.swift in Sources */,
 				5314E07F25F00F1A0099271A /* DateTimePickerViewComponentCell.swift in Sources */,
 				0AA874162600237A00D47421 /* PersonaView.swift in Sources */,
@@ -1677,6 +1686,7 @@
 				5314E06025F00EFD0099271A /* CalendarViewWeekdayHeadingView.swift in Sources */,
 				5314E05A25F00EF50099271A /* CalendarViewLayout.swift in Sources */,
 				536AEF5425F1EC0300A36206 /* MSFButtonTokens.generated.swift in Sources */,
+				0ACD82122620451F0035CD9F /* MSFPersonaViewTokens.generated.swift in Sources */,
 				5314E1B025F01A980099271A /* Tooltip.swift in Sources */,
 				536AEF4A25F1EC0300A36206 /* DrawerTokens.swift in Sources */,
 			);
@@ -1819,6 +1829,7 @@
 				A5CEC16D20D98EE70016922A /* Colors.swift in Sources */,
 				FC414E2B25887A4B00069E73 /* CommandBarButton.swift in Sources */,
 				FD0D29D62151A3D700E8655E /* CardPresenterNavigationController.swift in Sources */,
+				0ACD82182620453B0035CD9F /* PersonaViewTokens.swift in Sources */,
 				8AF03E1C24B6BDBD00E6E2A2 /* ContactCollectionViewCell.swift in Sources */,
 				FD4F2A1B2148937100C437D6 /* PageCardPresenterController.swift in Sources */,
 				0AA874152600237A00D47421 /* PersonaView.swift in Sources */,
@@ -1845,6 +1856,7 @@
 				7DC2FB2824C0ED1600367A55 /* TableViewCellFileAccessoryView.swift in Sources */,
 				A5DCA76421224026005F4CB7 /* Separator.swift in Sources */,
 				536AEF5325F1EC0300A36206 /* MSFButtonTokens.generated.swift in Sources */,
+				0ACD82112620451F0035CD9F /* MSFPersonaViewTokens.generated.swift in Sources */,
 				FD599D062134A682008845EE /* AccessibleViewDelegate.swift in Sources */,
 				536AEF4925F1EC0300A36206 /* DrawerTokens.swift in Sources */,
 			);

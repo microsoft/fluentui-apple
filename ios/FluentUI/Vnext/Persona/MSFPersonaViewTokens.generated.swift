@@ -5,11 +5,11 @@ import UIKit
 /// Entry point for the app stylesheet
 extension FluentUIStyle {
 
-	// MARK: - MSFListCellTokens
-	open var MSFListCellTokens: MSFListCellTokensAppearanceProxy {
-		return MSFListCellTokensAppearanceProxy(proxy: { return self })
+	// MARK: - MSFPersonaViewTokens
+	open var MSFPersonaViewTokens: MSFPersonaViewTokensAppearanceProxy {
+		return MSFPersonaViewTokensAppearanceProxy(proxy: { return self })
 	}
-	open class MSFListCellTokensAppearanceProxy {
+	open class MSFPersonaViewTokensAppearanceProxy {
 		public let mainProxy: () -> FluentUIStyle
 		public init(proxy: @escaping () -> FluentUIStyle) {
 			self.mainProxy = proxy
@@ -86,7 +86,7 @@ extension FluentUIStyle {
 
 		// MARK: - footnoteFont 
 		open var footnoteFont: UIFont {
-			return mainProxy().Typography.caption1
+			return mainProxy().Typography.footnote
 		}
 
 		// MARK: - horizontalCellPadding 
@@ -96,17 +96,17 @@ extension FluentUIStyle {
 
 		// MARK: - iconInterspace 
 		open var iconInterspace: CGFloat {
-			return mainProxy().Spacing.medium
+			return mainProxy().Spacing.small
 		}
 
 		// MARK: - labelAccessoryInterspace 
 		open var labelAccessoryInterspace: CGFloat {
-			return mainProxy().Spacing.xSmall
+			return mainProxy().Spacing.xxxSmall
 		}
 
 		// MARK: - labelAccessorySize 
 		open var labelAccessorySize: CGFloat {
-			return mainProxy().Icon.size.xxSmall
+			return mainProxy().Icon.size.xSmall
 		}
 
 		// MARK: - labelColor 
@@ -116,7 +116,7 @@ extension FluentUIStyle {
 
 		// MARK: - labelFont 
 		open var labelFont: UIFont {
-			return mainProxy().Typography.body
+			return mainProxy().Typography.headline
 		}
 
 		// MARK: - leadingViewColor 
@@ -136,7 +136,7 @@ extension FluentUIStyle {
 
 			// MARK: - large 
 			open var large: CGFloat {
-				return mainProxy().Icon.size.xxLarge
+				return mainProxy().Icon.size.xxlarge
 			}
 
 			// MARK: - medium 
@@ -163,7 +163,7 @@ extension FluentUIStyle {
 
 		// MARK: - sublabelColor 
 		open var sublabelColor: UIColor {
-			return mainProxy().Colors.Foreground.neutral3
+			return mainProxy().Colors.Foreground.neutral1
 		}
 
 		// MARK: - sublabelFont 
@@ -187,9 +187,9 @@ fileprivate var __AppearanceProxyHandle: UInt8 = 0
 fileprivate var __ThemeAwareHandle: UInt8 = 0
 fileprivate var __ObservingDidChangeThemeHandle: UInt8 = 0
 
-extension MSFListCellTokens: AppearaceProxyComponent {
+extension MSFPersonaViewTokens: AppearaceProxyComponent {
 
-	public typealias AppearanceProxyType = FluentUIStyle.MSFListCellTokensAppearanceProxy
+	public typealias AppearanceProxyType = FluentUIStyle.MSFPersonaViewTokensAppearanceProxy
 	public var appearanceProxy: AppearanceProxyType {
 		get {
 			if let proxy = objc_getAssociatedObject(self, &__AppearanceProxyHandle) as? AppearanceProxyType {
@@ -199,7 +199,7 @@ extension MSFListCellTokens: AppearaceProxyComponent {
 				return proxy
 			}
 
-			return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFListCellTokens
+			return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFPersonaViewTokens
 		}
 		set {
 			objc_setAssociatedObject(self, &__AppearanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
