@@ -169,6 +169,17 @@ public struct AvatarView: View {
                                         (shouldUseDefaultImage ? UIImage.staticImageNamed("person_48_filled") : state.image))
         let avatarImageSizeRatio: CGFloat = (shouldUseDefaultImage) ? 0.7 : 1
 
+        let accessibilityLabel: String = {
+            if let overriddenAccessibilityLabel = state.accessibilityLabel {
+                return overriddenAccessibilityLabel
+            }
+
+            let defaultAccessibilityText = state.primaryText ?? state.secondaryText ?? ""
+            return (state.isOutOfOffice ?
+                        String.localizedStringWithFormat("Accessibility.AvatarView.LabelFormat".localized, defaultAccessibilityText, "Presence.OOF".localized) :
+                        defaultAccessibilityText)
+        }()
+
         let avatarContent = (avatarImage != nil) ?
             AnyView(Image(uiImage: avatarImage!)
                         .resizable()
@@ -215,39 +226,26 @@ public struct AvatarView: View {
                                 )
                              ,
                              alignment: .center)
-                    .mask(circularCutoutMask(targetFrameRect: CGRect(x: 0,
-                                                                     y: 0,
-                                                                     width: ringOuterGapSize,
-                                                                     height: ringOuterGapSize),
-                                             cutoutFrameRect: CGRect(x: presenceCutoutOriginCoordinates,
-                                                                     y: presenceCutoutOriginCoordinates,
-                                                                     width: presenceIconOutlineSize,
-                                                                     height: presenceIconOutlineSize))
-                            .fill(style: FillStyle(eoFill: shouldDisplayPresence)))
-                    .overlay(shouldDisplayPresence ?
-                                AnyView(Circle()
+                    .modifyIf(shouldDisplayPresence, { thisView in
+                        thisView.mask(circularCutoutMask(targetFrameRect: CGRect(x: 0,
+                                                                                 y: 0,
+                                                                                 width: ringOuterGapSize,
+                                                                                 height: ringOuterGapSize),
+                                                         cutoutFrameRect: CGRect(x: presenceCutoutOriginCoordinates,
+                                                                                 y: presenceCutoutOriginCoordinates,
+                                                                                 width: presenceIconOutlineSize,
+                                                                                 height: presenceIconOutlineSize))
+                                        .fill(style: FillStyle(eoFill: true)))
+                                .overlay(Circle()
                                             .foregroundColor(isTransparent ? Color.clear : Color(tokens.ringGapColor))
                                             .frame(width: presenceIconOutlineSize, height: presenceIconOutlineSize, alignment: .center)
                                             .overlay(presence.image(isOutOfOffice: isOutOfOffice)
                                                         .resizable()
                                                         .frame(width: presenceIconSize, height: presenceIconSize, alignment: .center)
                                                         .foregroundColor(presence.color(isOutOfOffice: isOutOfOffice)))
-                                            .frame(width: presenceIconFrameSideRelativeToOuterRing, height: presenceIconFrameSideRelativeToOuterRing, alignment: .bottomTrailing)
-                                )
-                                :
-                                AnyView(EmptyView()),
-                             alignment: .topLeading))
-
-        let accessibilityLabel: String = {
-            if let overriddenAccessibilityLabel = state.accessibilityLabel {
-                return overriddenAccessibilityLabel
-            }
-
-            let defaultAccessibilityText = state.primaryText ?? state.secondaryText ?? ""
-            return (state.isOutOfOffice ?
-                        String.localizedStringWithFormat("Accessibility.AvatarView.LabelFormat".localized, defaultAccessibilityText, "Presence.OOF".localized) :
-                        defaultAccessibilityText)
-        }()
+                                            .frame(width: presenceIconFrameSideRelativeToOuterRing, height: presenceIconFrameSideRelativeToOuterRing, alignment: .bottomTrailing),
+                                         alignment: .topLeading)
+                    }))
 
         return bodyView
             .accessibilityElement(children: .ignore)
@@ -315,7 +313,9 @@ public struct AvatarView: View {
                       theme: FluentUIStyle? = nil) {
         self.avatarview = AvatarView(style: style,
                                            size: size)
-        self.hostingController = UIHostingController(rootView: theme != nil ? AnyView(avatarview.usingTheme(theme!)) : AnyView(avatarview))
+        self.hostingController = UIHostingController(rootView: AnyView(avatarview.modifyIf(theme != nil, { avatarview in
+            avatarview.usingTheme(theme!)
+        })))
 
         super.init()
 
