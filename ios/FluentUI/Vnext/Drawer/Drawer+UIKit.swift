@@ -31,7 +31,9 @@ open class MSFDrawer: UIHostingController<AnyView>, FluentUIWindowProvider {
                       theme: FluentUIStyle? = nil) {
         let drawer = MSFDrawerView(content: UIViewControllerAdapter(contentViewController))
         self.drawer = drawer
-        super.init(rootView: theme != nil ? AnyView(drawer.usingTheme(theme!)) : AnyView(drawer))
+        super.init(rootView: AnyView(drawer.modifyIf(theme != nil, { drawer in
+            drawer.usingTheme(theme!)
+        })))
 
         drawer.tokens.windowProvider = self
         view.backgroundColor = .clear
