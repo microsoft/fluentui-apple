@@ -196,6 +196,8 @@
 		536AEF7525F1ECA800A36206 /* ButtonLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF7325F1ECA800A36206 /* ButtonLegacy.swift */; };
 		537315B325438B15001FD14C /* iOS13_4_compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537315B225438B15001FD14C /* iOS13_4_compatibility.swift */; };
 		53BCB0CE253A4E8D00620960 /* Obscurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BCB0CD253A4E8C00620960 /* Obscurable.swift */; };
+		53C61F8D2624E20C0079FAA8 /* SwiftUI+ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C61F8C2624E20C0079FAA8 /* SwiftUI+ViewModifiers.swift */; };
+		53C61F8E2624E20C0079FAA8 /* SwiftUI+ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C61F8C2624E20C0079FAA8 /* SwiftUI+ViewModifiers.swift */; };
 		7D0931C324AAAC9B0072458A /* SideTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0931C224AAAC8C0072458A /* SideTabBar.swift */; };
 		7D23482724D88DE600FBE057 /* AvatarGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D23482624D88DDF00FBE057 /* AvatarGroupView.swift */; };
 		7DC2FB2824C0ED1600367A55 /* TableViewCellFileAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */; };
@@ -397,6 +399,7 @@
 		536AEF7325F1ECA800A36206 /* ButtonLegacy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonLegacy.swift; sourceTree = "<group>"; };
 		537315B225438B15001FD14C /* iOS13_4_compatibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOS13_4_compatibility.swift; sourceTree = "<group>"; };
 		53BCB0CD253A4E8C00620960 /* Obscurable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Obscurable.swift; sourceTree = "<group>"; };
+		53C61F8C2624E20C0079FAA8 /* SwiftUI+ViewModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUI+ViewModifiers.swift"; sourceTree = "<group>"; };
 		53FC90C02567300A008A06FD /* FluentUI_common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_common.xcconfig; sourceTree = "<group>"; };
 		53FC90F525673626008A06FD /* FluentUI_release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_release.xcconfig; sourceTree = "<group>"; };
 		53FC90F625673626008A06FD /* FluentUI_debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_debug.xcconfig; sourceTree = "<group>"; };
@@ -798,10 +801,11 @@
 		536AEF2925F1EC0300A36206 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				536AEF2A25F1EC0300A36206 /* FluentUIStyle.generated.swift */,
-				536AEF2B25F1EC0300A36206 /* UIKit+SwiftUI_interoperability.swift */,
-				536AEF2C25F1EC0300A36206 /* Theming.swift */,
 				536AEF2D25F1EC0300A36206 /* AnimationCompletionModifier.swift */,
+				536AEF2A25F1EC0300A36206 /* FluentUIStyle.generated.swift */,
+				53C61F8C2624E20C0079FAA8 /* SwiftUI+ViewModifiers.swift */,
+				536AEF2C25F1EC0300A36206 /* Theming.swift */,
+				536AEF2B25F1EC0300A36206 /* UIKit+SwiftUI_interoperability.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1511,6 +1515,7 @@
 				5314E1A725F01A7C0099271A /* ActionsCell.swift in Sources */,
 				5314E07B25F00F1A0099271A /* DateTimePickerViewDataSource.swift in Sources */,
 				5314E15725F016DB0099271A /* ScrollView.swift in Sources */,
+				53C61F8E2624E20C0079FAA8 /* SwiftUI+ViewModifiers.swift in Sources */,
 				5314E2F525F025C60099271A /* CalendarConfiguration.swift in Sources */,
 				5314E11D25F015EA0099271A /* AvatarGroupView.swift in Sources */,
 				5314E06B25F00F100099271A /* DateTimePicker.swift in Sources */,
@@ -1677,6 +1682,7 @@
 				FDFB8AF321361C9D0046850A /* CalendarViewDayMonthYearCell.swift in Sources */,
 				A5961F9D218A254D00E2A506 /* PopupMenuController.swift in Sources */,
 				FD56FD92219123FE0023C7EA /* DateTimePickerViewComponentTableView.swift in Sources */,
+				53C61F8D2624E20C0079FAA8 /* SwiftUI+ViewModifiers.swift in Sources */,
 				B4E782C521793BB900A7DFCE /* ActivityIndicatorView.swift in Sources */,
 				A52648DC2316F4F9003342A0 /* BarButtonItems.swift in Sources */,
 				FD5BBE41214C6AF3008964B4 /* TwoLineTitleView.swift in Sources */,
