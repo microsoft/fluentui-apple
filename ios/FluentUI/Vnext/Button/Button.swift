@@ -146,9 +146,11 @@ public struct MSFButtonView: View {
         style: style,
         size: size)
 
-        self.hostingController = UIHostingController(rootView: theme != nil ? AnyView(buttonView.usingTheme(theme!)) : AnyView(buttonView))
+        hostingController = UIHostingController(rootView: AnyView(buttonView.modifyIf(theme != nil, { buttonView in
+            buttonView.usingTheme(theme!)
+        })))
         buttonView.tokens.windowProvider = self
-        self.view.backgroundColor = UIColor.clear
+        view.backgroundColor = UIColor.clear
     }
 
     var window: UIWindow? {
