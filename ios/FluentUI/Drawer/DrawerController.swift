@@ -974,14 +974,12 @@ open class DrawerController: UIViewController, FluentUIWindowProvider {
 // MARK: - DrawerController: Colors
 
 internal extension DrawerController {
-    private static var drawerToken = MSFDrawerTokens()
-    
     static func drawerBackgroundColor() -> UIColor {
-        return drawerToken.drawerHorizontalContentBackground
+        return MSFDrawerTokens().drawerHorizontalContentBackground
     }
-    
+
     static func drawerPopoverBackgroundColor() -> UIColor {
-        return drawerToken.popoverContentBackground
+        return MSFDrawerTokens().popoverContentBackground
     }
 }
 
