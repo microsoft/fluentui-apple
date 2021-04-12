@@ -99,7 +99,9 @@ whitelist_rules:
   - redundant_string_enum_value
 
   # Properties, variables, and constants should not have redundant type annotation
-  - redundant_type_annotation
+  # This rule is currently disabled because it invokes false warnings for Bool
+  # Github issue tracked on swift lint https://github.com/realm/SwiftLint/issues/3578
+  # - redundant_type_annotation
 
   # Returning Void in a function declaration is redundant.
   - redundant_void_return
