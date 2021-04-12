@@ -284,6 +284,7 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
     utilities_ios.source_files = ["ios/FluentUI/Utilities/**/*.{swift,h}"]
   end
 
+
 # Mac
 
   s.osx.deployment_target = "10.14"

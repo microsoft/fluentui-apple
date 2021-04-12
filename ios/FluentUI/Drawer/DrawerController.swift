@@ -428,7 +428,7 @@ open class DrawerController: UIViewController, FluentUIWindowProvider {
     /// Drawer controller design tokens
     private let drawerTokens = MSFDrawerTokens()
 
-     /**
+    /**
      Initializes `DrawerController` to be presented as a popover from `sourceRect` in `sourceView` on iPad and as a slideover on iPhone/iPad.
 
      - Parameter sourceView: The view containing the anchor rectangle for the popover.
@@ -975,9 +975,11 @@ open class DrawerController: UIViewController, FluentUIWindowProvider {
 
 internal extension DrawerController {
     private static var drawerToken = MSFDrawerTokens()
+    
     static func drawerBackgroundColor() -> UIColor {
         return drawerToken.drawerHorizontalContentBackground
     }
+    
     static func drawerPopoverBackgroundColor() -> UIColor {
         return drawerToken.popoverContentBackground
     }
