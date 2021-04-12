@@ -311,16 +311,16 @@ public struct AvatarView: View {
     @objc public init(style: MSFAvatarStyle = .default,
                       size: MSFAvatarSize = .large,
                       theme: FluentUIStyle? = nil) {
-        self.avatarview = AvatarView(style: style,
+        avatarview = AvatarView(style: style,
                                            size: size)
-        self.hostingController = UIHostingController(rootView: AnyView(avatarview.modifyIf(theme != nil, { avatarview in
+        hostingController = UIHostingController(rootView: AnyView(avatarview.modifyIf(theme != nil, { avatarview in
             avatarview.usingTheme(theme!)
         })))
 
         super.init()
 
         avatarview.tokens.windowProvider = self
-        self.view.backgroundColor = UIColor.clear
+        view.backgroundColor = UIColor.clear
     }
 
     var window: UIWindow? {

@@ -86,7 +86,9 @@ public struct MSFListView: View {
     @objc public init(sections: [MSFListSectionState],
                       theme: FluentUIStyle? = nil) {
         listView = MSFListView(sections: sections)
-        hostingController = UIHostingController(rootView: theme != nil ? AnyView(listView.usingTheme(theme!)) : AnyView(listView))
+        hostingController = UIHostingController(rootView: AnyView(listView.modifyIf(theme != nil, { listView in
+            listView.usingTheme(theme!)
+        })))
 
         super.init()
 
