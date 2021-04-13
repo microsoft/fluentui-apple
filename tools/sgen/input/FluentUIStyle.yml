@@ -84,7 +84,7 @@ Typography:
   subheadline: "Font(subheadline)"
 
 Border:
-  radius: [ none: 0pt, small: 2pt, medium: 4pt, large: 8pt, xLarge: 12pt , circleSmall: 24pt, circleLarge: 26pt]
+  radius: [ none: 0pt, small: 2pt, medium: 4pt, large: 8pt, xLarge: 12pt ]
   size: [ none: 0pt, thin: 1pt, thick: 2pt, thicker: 4pt, thickest: 6pt ]
 
 Icon:
@@ -259,7 +259,6 @@ MSFGhostButtonTokens extends MSFButtonTokens:
 
 MSFAccentFloatingActionButtonTokens extends MSFButtonTokens:
   backgroundColor:  [ rest: $Colors.Background.brandRest, hover: $Colors.Background.brandHover, pressed: $Colors.Background.brandPressed, selected: $Colors.Background.brandSelected, disabled: $Colors.Background.brandDisabled ]
-  borderRadius: [ small: $Border.radius.circleSmall, medium: $Border.radius.circleSmall, large: $Border.radius.circleLarge ]
   iconColor: [ rest: $Colors.Foreground.neutralInverted, hover: $Colors.Foreground.neutralInverted, pressed: $Colors.Foreground.neutralInverted, selected: $Colors.Foreground.neutralInverted, disabled: $Colors.Foreground.neutralInverted ]
   iconSize: [ small: $Icon.size.medium, medium: $Icon.size.medium, large: $Icon.size.medium ]
   padding: [ small: $Spacing.small, medium: $Spacing.small, large: $Spacing.medium ]
@@ -277,7 +276,6 @@ MSFAccentFloatingActionButtonTokens extends MSFButtonTokens:
 
 MSFSubtleFloatingActionButtonTokens extends MSFButtonTokens:
   backgroundColor: [ rest: $Colors.Background.neutral1, hover: $Colors.Background.neutral1, pressed: $Colors.Background.neutral5, selected: $Colors.Background.neutral1, disabled: $Colors.Background.neutral1 ]
-  borderRadius: [ small: $Border.radius.circleSmall, medium: $Border.radius.circleSmall, large: $Border.radius.circleLarge ]
   iconColor: [ rest: $Colors.Foreground.neutral3, hover: $Colors.Foreground.neutral3, pressed: $Colors.Foreground.neutral3, selected: $Colors.Foreground.brandRest, disabled: $Colors.Foreground.neutralDisabled ]
   iconSize: [ small: $Icon.size.medium, medium: $Icon.size.medium, large: $Icon.size.medium ]
   padding: [ small: $Spacing.small, medium: $Spacing.small, large: $Spacing.medium ]

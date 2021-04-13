@@ -44,29 +44,6 @@ extension FluentUIStyle {
         }
 
 
-        // MARK: - MSFAccentFloatingActionButtonTokensborderRadius
-        open override var borderRadius: MSFAccentFloatingActionButtonTokensborderRadiusAppearanceProxy {
-            return MSFAccentFloatingActionButtonTokensborderRadiusAppearanceProxy(proxy: mainProxy)
-        }
-        open class MSFAccentFloatingActionButtonTokensborderRadiusAppearanceProxy: MSFButtonTokensAppearanceProxy.borderRadiusAppearanceProxy {
-
-            // MARK: - large
-            open override var large: CGFloat {
-                return mainProxy().Border.radius.circleLarge
-            }
-
-            // MARK: - medium
-            open override var medium: CGFloat {
-                return mainProxy().Border.radius.circleSmall
-            }
-
-            // MARK: - small
-            open override var small: CGFloat {
-                return mainProxy().Border.radius.circleSmall
-            }
-        }
-
-
         // MARK: - MSFAccentFloatingActionButtonTokensiconColor
         open override var iconColor: MSFAccentFloatingActionButtonTokensiconColorAppearanceProxy {
             return MSFAccentFloatingActionButtonTokensiconColorAppearanceProxy(proxy: mainProxy)
@@ -1400,29 +1377,6 @@ extension FluentUIStyle {
             // MARK: - selected
             open override var selected: UIColor {
                 return mainProxy().Colors.Background.neutral1
-            }
-        }
-
-
-        // MARK: - MSFSubtleFloatingActionButtonTokensborderRadius
-        open override var borderRadius: MSFSubtleFloatingActionButtonTokensborderRadiusAppearanceProxy {
-            return MSFSubtleFloatingActionButtonTokensborderRadiusAppearanceProxy(proxy: mainProxy)
-        }
-        open class MSFSubtleFloatingActionButtonTokensborderRadiusAppearanceProxy: MSFButtonTokensAppearanceProxy.borderRadiusAppearanceProxy {
-
-            // MARK: - large
-            open override var large: CGFloat {
-                return mainProxy().Border.radius.circleLarge
-            }
-
-            // MARK: - medium
-            open override var medium: CGFloat {
-                return mainProxy().Border.radius.circleSmall
-            }
-
-            // MARK: - small
-            open override var small: CGFloat {
-                return mainProxy().Border.radius.circleSmall
             }
         }
 

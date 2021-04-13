@@ -331,16 +331,6 @@ open class FluentUIStyle: NSObject {
 				self.mainProxy = proxy
 			}
 
-			// MARK: - circleLarge 
-			open var circleLarge: CGFloat {
-				return CGFloat(26.0)
-			}
-
-			// MARK: - circleSmall 
-			open var circleSmall: CGFloat {
-				return CGFloat(24.0)
-			}
-
 			// MARK: - large 
 			open var large: CGFloat {
 				return CGFloat(8.0)
