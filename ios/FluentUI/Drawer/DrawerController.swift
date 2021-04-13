@@ -76,8 +76,8 @@ public enum DrawerPresentationBackground: Int {
 // MARK: - Drawer Color
 public extension Colors {
     // Objective-C support
-    @objc static var drawerBackground: UIColor { return DrawerController.drawerBackgroundColor() }
-    @objc static var popoverBackground: UIColor { return DrawerController.drawerPopoverBackgroundColor() }
+    @objc static var drawerBackground: UIColor { return DrawerController.drawerBackgroundColor }
+    @objc static var popoverBackground: UIColor { return DrawerController.drawerPopoverBackgroundColor }
 }
 
 // MARK: - DrawerControllerDelegate
@@ -134,7 +134,7 @@ open class DrawerController: UIViewController, FluentUIWindowProvider {
     }
 
     /// Set `backgroundColor` to customize background color of the drawer
-    @objc open var backgroundColor: UIColor = DrawerController.drawerBackgroundColor() {
+    @objc open var backgroundColor: UIColor = DrawerController.drawerBackgroundColor {
         didSet {
             useCustomBackgroundColor = true
             view.backgroundColor = backgroundColor
@@ -266,7 +266,7 @@ open class DrawerController: UIViewController, FluentUIWindowProvider {
     }
 
     /// Set `resizingHandleViewBackgroundColor` to customize background color of resizingHandleView if it is shown
-    @objc open var resizingHandleViewBackgroundColor: UIColor = DrawerController.drawerBackgroundColor() {
+    @objc open var resizingHandleViewBackgroundColor: UIColor = DrawerController.drawerBackgroundColor {
         didSet {
             resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
         }
@@ -974,11 +974,11 @@ open class DrawerController: UIViewController, FluentUIWindowProvider {
 // MARK: - DrawerController: Colors
 
 internal extension DrawerController {
-    static func drawerBackgroundColor() -> UIColor {
+    static var drawerBackgroundColor: UIColor {
         return MSFDrawerTokens().drawerHorizontalContentBackground
     }
 
-    static func drawerPopoverBackgroundColor() -> UIColor {
+    static var drawerPopoverBackgroundColor: UIColor {
         return MSFDrawerTokens().popoverContentBackground
     }
 }
