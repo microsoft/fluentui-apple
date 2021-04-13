@@ -15,11 +15,6 @@ class LeftNavDemoController: DemoController {
         addTitle(text: "Left navigation control")
         addDescription(text: "The LeftNav control is built from a composition of the Avatar, Drawer and List controls.")
 
-        let navigationButton = createButton(title: "Show Left Navigation Menu", action: { [weak self ] _ in
-            if let strongSelf = self {
-                strongSelf.showLeftNavButtonTapped()
-            }
-        }).view
         container.addArrangedSubview(navigationButton)
 
         let isLeadingEdgeLeftToRight = view.effectiveUserInterfaceLayoutDirection == .leftToRight
@@ -40,12 +35,7 @@ class LeftNavDemoController: DemoController {
                 strongSelf.showMessage("Menu item selected.")
             })
         })
-        drawerController = DrawerController(sourceView: navigationButton,
-                                            sourceRect: navigationButton.bounds,
-                                            presentationDirection: .fromLeading)
-        drawerController.presentationBackground = .black
-        drawerController.preferredContentSize.width = 360
-        drawerController.resizingBehavior = .dismiss
+
         drawerController.contentView = lefNavController.view
         drawerController.presentingGesture = leadingEdgeGesture
     }
@@ -60,7 +50,23 @@ class LeftNavDemoController: DemoController {
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
 
-    private var drawerController: DrawerController!
+    private lazy var navigationButton: UIView = {
+        return createButton(title: "Show Left Navigation Menu", action: { [weak self ] _ in
+            if let strongSelf = self {
+                strongSelf.showLeftNavButtonTapped()
+            }
+        }).view
+    }()
+
+    private lazy var drawerController: DrawerController = {
+        let drawerController = DrawerController(sourceView: navigationButton,
+                                            sourceRect: navigationButton.bounds,
+                                            presentationDirection: .fromLeading)
+        drawerController.presentationBackground = .black
+        drawerController.preferredContentSize.width = 360
+        drawerController.resizingBehavior = .dismiss
+        return drawerController
+    }()
 
     @objc private func showLeftNavButtonTapped() {
         present(drawerController, animated: true, completion: nil)
