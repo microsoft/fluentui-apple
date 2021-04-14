@@ -20,11 +20,11 @@
 		22010B702523CB2D00FF1F10 /* ActivityViewAnimating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22010B6F2523CB2D00FF1F10 /* ActivityViewAnimating.swift */; };
 		22EABB1A2509AAD100C4BE72 /* IndeterminateProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EABB192509AAD100C4BE72 /* IndeterminateProgressBarView.swift */; };
 		3F40E8EE2601CD4500C43730 /* MSFDrawerTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40E8ED2601CD4400C43730 /* MSFDrawerTokens.generated.swift */; };
-		3F557F442626531800E80E1C /* UIKit+SwiftUI_interoperability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F557F432626531800E80E1C /* UIKit+SwiftUI_interoperability.swift */; };
 		3F82A4B12604069100CAC666 /* MSFDrawerTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40E8ED2601CD4400C43730 /* MSFDrawerTokens.generated.swift */; };
 		3FC2EDB325F9EA2D007AA0F8 /* MSFDrawerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC2EDB125F9EA2D007AA0F8 /* MSFDrawerTokens.swift */; };
 		3FC2EDB425F9EA2D007AA0F8 /* MSFDrawerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC2EDB125F9EA2D007AA0F8 /* MSFDrawerTokens.swift */; };
-		3FE989B026266B700085D40D /* UIKit+SwiftUI_interoperability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F557F432626531800E80E1C /* UIKit+SwiftUI_interoperability.swift */; };
+		3FE989B62626A4550085D40D /* UIKit+SwiftUI_interoperability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE989B52626A4550085D40D /* UIKit+SwiftUI_interoperability.swift */; };
+		3FE989B72626A4550085D40D /* UIKit+SwiftUI_interoperability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE989B52626A4550085D40D /* UIKit+SwiftUI_interoperability.swift */; };
 		497DC2D924185885008D86F8 /* PillButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D724185885008D86F8 /* PillButtonBar.swift */; };
 		497DC2DB24185885008D86F8 /* PillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D824185885008D86F8 /* PillButton.swift */; };
 		5314E00425F00A300099271A /* ActivityViewAnimating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22010B6F2523CB2D00FF1F10 /* ActivityViewAnimating.swift */; };
@@ -370,8 +370,8 @@
 		22010B6F2523CB2D00FF1F10 /* ActivityViewAnimating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewAnimating.swift; sourceTree = "<group>"; };
 		22EABB192509AAD100C4BE72 /* IndeterminateProgressBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarView.swift; sourceTree = "<group>"; };
 		3F40E8ED2601CD4400C43730 /* MSFDrawerTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFDrawerTokens.generated.swift; sourceTree = "<group>"; };
-		3F557F432626531800E80E1C /* UIKit+SwiftUI_interoperability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIKit+SwiftUI_interoperability.swift"; sourceTree = "<group>"; };
 		3FC2EDB125F9EA2D007AA0F8 /* MSFDrawerTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFDrawerTokens.swift; sourceTree = "<group>"; };
+		3FE989B52626A4550085D40D /* UIKit+SwiftUI_interoperability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIKit+SwiftUI_interoperability.swift"; path = "FluentUI/Vnext/Core/UIKit+SwiftUI_interoperability.swift"; sourceTree = SOURCE_ROOT; };
 		497DC2D724185885008D86F8 /* PillButtonBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBar.swift; sourceTree = "<group>"; };
 		497DC2D824185885008D86F8 /* PillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
 		536AEF2A25F1EC0300A36206 /* FluentUIStyle.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentUIStyle.generated.swift; sourceTree = "<group>"; };
@@ -989,7 +989,7 @@
 				A559BB82212B7D870055E107 /* FluentUIFramework.swift */,
 				A5CEC16E20D98F340016922A /* Fonts.swift */,
 				537315B225438B15001FD14C /* iOS13_4_compatibility.swift */,
-				3F557F432626531800E80E1C /* UIKit+SwiftUI_interoperability.swift */,
+				3FE989B52626A4550085D40D /* UIKit+SwiftUI_interoperability.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1624,7 +1624,7 @@
 				5314E08A25F00F2D0099271A /* CommandBar.swift in Sources */,
 				5314E18D25F0195C0099271A /* ShimmerView.swift in Sources */,
 				5314E1CD25F01B730099271A /* AnimationSynchronizer.swift in Sources */,
-				3FE989B026266B700085D40D /* UIKit+SwiftUI_interoperability.swift in Sources */,
+				3FE989B72626A4550085D40D /* UIKit+SwiftUI_interoperability.swift in Sources */,
 				5314E13425F016370099271A /* PopupMenuItem.swift in Sources */,
 				5314E13825F016370099271A /* PopupMenuSection.swift in Sources */,
 				5314E07C25F00F1A0099271A /* DateTimePickerViewLayout.swift in Sources */,
@@ -1693,7 +1693,6 @@
 				497DC2DB24185885008D86F8 /* PillButton.swift in Sources */,
 				8AF03E1E24B6BDFB00E6E2A2 /* ContactCollectionViewLayout.swift in Sources */,
 				53BCB0CE253A4E8D00620960 /* Obscurable.swift in Sources */,
-				3F557F442626531800E80E1C /* UIKit+SwiftUI_interoperability.swift in Sources */,
 				FD41C8BE22DD47120086F899 /* UINavigationItem+Navigation.swift in Sources */,
 				7DC2FB2D24D209E800367A55 /* Presence.swift in Sources */,
 				B4E782C12176AD5E00A7DFCE /* ActionsCell.swift in Sources */,
@@ -1790,6 +1789,7 @@
 				FDA1AF8C21484625001AE720 /* BlurringView.swift in Sources */,
 				A5961FA1218A25C400E2A506 /* PopupMenuSection.swift in Sources */,
 				A5B87AF6211E16370038C37C /* DrawerController.swift in Sources */,
+				3FE989B62626A4550085D40D /* UIKit+SwiftUI_interoperability.swift in Sources */,
 				FD41C89622DD13230086F899 /* NavigationBar.swift in Sources */,
 				A5CEC16D20D98EE70016922A /* Colors.swift in Sources */,
 				FC414E2B25887A4B00069E73 /* CommandBarButton.swift in Sources */,
