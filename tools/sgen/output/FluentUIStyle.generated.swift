@@ -484,11 +484,6 @@ open class FluentUIStyle: NSObject {
 			open var surfaceQuaternary: UIColor {
 				return UIColor(light: UIColor(named: "FluentColors/grey88", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey26", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
-
-			// MARK: - surfaceSecondary 
-			open var surfaceSecondary: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey98", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey8", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: UIColor(named: "FluentColors/grey14", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
-			}
 		}
 
 

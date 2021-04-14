@@ -22,7 +22,6 @@ Colors:
     - brandSelected: "FluentUIColor(light: $Colors.Brand.shade20, dark: $Colors.Brand.shade20)"
     - brandDisabled: "FluentUIColor(light: NamedColor(grey88), dark: NamedColor(grey84))"
     - surfacePrimary: "FluentUIColor(light: NamedColor(white), dark: NamedColor(black), darkElevated: NamedColor(grey8))"
-    - surfaceSecondary: "FluentUIColor(light: NamedColor(grey98), dark: NamedColor(grey8), darkElevated: NamedColor(grey14))"
     - surfaceQuaternary: "FluentUIColor(light: NamedColor(grey88), dark: NamedColor(grey26))"
 
   Elevation:

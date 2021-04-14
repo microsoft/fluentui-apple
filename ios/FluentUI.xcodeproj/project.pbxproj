@@ -24,6 +24,7 @@
 		3F82A4B12604069100CAC666 /* MSFDrawerTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40E8ED2601CD4400C43730 /* MSFDrawerTokens.generated.swift */; };
 		3FC2EDB325F9EA2D007AA0F8 /* MSFDrawerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC2EDB125F9EA2D007AA0F8 /* MSFDrawerTokens.swift */; };
 		3FC2EDB425F9EA2D007AA0F8 /* MSFDrawerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC2EDB125F9EA2D007AA0F8 /* MSFDrawerTokens.swift */; };
+		3FE989B026266B700085D40D /* UIKit+SwiftUI_interoperability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F557F432626531800E80E1C /* UIKit+SwiftUI_interoperability.swift */; };
 		497DC2D924185885008D86F8 /* PillButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D724185885008D86F8 /* PillButtonBar.swift */; };
 		497DC2DB24185885008D86F8 /* PillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D824185885008D86F8 /* PillButton.swift */; };
 		5314E00425F00A300099271A /* ActivityViewAnimating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22010B6F2523CB2D00FF1F10 /* ActivityViewAnimating.swift */; };
@@ -1623,6 +1624,7 @@
 				5314E08A25F00F2D0099271A /* CommandBar.swift in Sources */,
 				5314E18D25F0195C0099271A /* ShimmerView.swift in Sources */,
 				5314E1CD25F01B730099271A /* AnimationSynchronizer.swift in Sources */,
+				3FE989B026266B700085D40D /* UIKit+SwiftUI_interoperability.swift in Sources */,
 				5314E13425F016370099271A /* PopupMenuItem.swift in Sources */,
 				5314E13825F016370099271A /* PopupMenuSection.swift in Sources */,
 				5314E07C25F00F1A0099271A /* DateTimePickerViewLayout.swift in Sources */,
