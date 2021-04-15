@@ -208,7 +208,9 @@ public struct AvatarView: View {
                                             .foregroundColor(Color(backgroundColor))
                                             .frame(width: avatarImageSize, height: avatarImageSize, alignment: .center)
                                             .overlay(avatarContent
-                                                        .frame(width: avatarImageSize * avatarImageSizeRatio, height: avatarImageSize * avatarImageSizeRatio, alignment: .center)
+                                                        .frame(width: avatarImageSize * avatarImageSizeRatio,
+                                                               height: avatarImageSize * avatarImageSizeRatio,
+                                                               alignment: .center)
                                                         .clipShape(Circle())
                                                         .transition(.opacity),
                                                      alignment: .center)
@@ -277,8 +279,10 @@ public struct AvatarView: View {
 
         func path(in rect: CGRect) -> Path {
             var cutoutFrame = Rectangle().path(in: rect)
-            cutoutFrame.addPath(Circle().path(in: CGRect(x: presenceCutoutOriginCoordinates, y: presenceCutoutOriginCoordinates, width: presenceIconOutlineSize, height: presenceIconOutlineSize)))
-
+            cutoutFrame.addPath(Circle().path(in: CGRect(x: presenceCutoutOriginCoordinates,
+                                                         y: presenceCutoutOriginCoordinates,
+                                                         width: presenceIconOutlineSize,
+                                                         height: presenceIconOutlineSize)))
             return cutoutFrame
         }
     }
