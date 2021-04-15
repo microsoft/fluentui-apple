@@ -172,6 +172,10 @@ struct CalendarDay {
 
 	/// String used for accessibility scenarios, like VoiceOver
 	let accessibilityLabel: String
+	
+	/// String with extra descriptors for accessibility scenarios.  VoiceOver
+	/// reads this string after a short delay if focus stays on an element.
+	let accessibilityHelp: String?
 
 	/// Secondary String representation of the day
 	let secondaryLabel: String?
