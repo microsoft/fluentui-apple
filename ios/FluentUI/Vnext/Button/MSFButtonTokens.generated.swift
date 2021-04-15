@@ -443,6 +443,29 @@ extension FluentUIStyle {
         }
 
 
+        // MARK: - MSFAccentFloatingActionButtonTokenstextFont
+        open override var textFont: MSFAccentFloatingActionButtonTokenstextFontAppearanceProxy {
+            return MSFAccentFloatingActionButtonTokenstextFontAppearanceProxy(proxy: mainProxy)
+        }
+        open class MSFAccentFloatingActionButtonTokenstextFontAppearanceProxy: MSFButtonTokensAppearanceProxy.textFontAppearanceProxy {
+
+            // MARK: - large
+            open override var large: UIFont {
+                return UIFont.font(name: nil, size: 17.0, textStyle: nil, weight: UIFont.Weight.regular, traits: [], isScalable: false)
+            }
+
+            // MARK: - medium
+            open override var medium: UIFont {
+                return UIFont.font(name: nil, size: 15.0, textStyle: nil, weight: UIFont.Weight.regular, traits: [], isScalable: false)
+            }
+
+            // MARK: - small
+            open override var small: UIFont {
+                return UIFont.font(name: nil, size: 15.0, textStyle: nil, weight: UIFont.Weight.regular, traits: [], isScalable: false)
+            }
+        }
+
+
         // MARK: - MSFAccentFloatingActionButtonTokenstextMinimumHeight
         open override var textMinimumHeight: MSFAccentFloatingActionButtonTokenstextMinimumHeightAppearanceProxy {
             return MSFAccentFloatingActionButtonTokenstextMinimumHeightAppearanceProxy(proxy: mainProxy)
@@ -1776,6 +1799,29 @@ extension FluentUIStyle {
             // MARK: - selected
             open override var selected: UIColor {
                 return mainProxy().Colors.Foreground.brandRest
+            }
+        }
+
+
+        // MARK: - MSFSubtleFloatingActionButtonTokenstextFont
+        open override var textFont: MSFSubtleFloatingActionButtonTokenstextFontAppearanceProxy {
+            return MSFSubtleFloatingActionButtonTokenstextFontAppearanceProxy(proxy: mainProxy)
+        }
+        open class MSFSubtleFloatingActionButtonTokenstextFontAppearanceProxy: MSFButtonTokensAppearanceProxy.textFontAppearanceProxy {
+
+            // MARK: - large
+            open override var large: UIFont {
+                return UIFont.font(name: nil, size: 17.0, textStyle: nil, weight: UIFont.Weight.regular, traits: [], isScalable: false)
+            }
+
+            // MARK: - medium
+            open override var medium: UIFont {
+                return UIFont.font(name: nil, size: 15.0, textStyle: nil, weight: UIFont.Weight.regular, traits: [], isScalable: false)
+            }
+
+            // MARK: - small
+            open override var small: UIFont {
+                return UIFont.font(name: nil, size: 15.0, textStyle: nil, weight: UIFont.Weight.regular, traits: [], isScalable: false)
             }
         }
 

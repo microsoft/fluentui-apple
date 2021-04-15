@@ -58,7 +58,7 @@ struct MSFButtonViewButtonStyle: ButtonStyle {
                         AnyView(RoundedRectangle(cornerRadius: tokens.borderRadius)
                                     .fill(Color(isDisabled ? tokens.disabledBackgroundColor :
                                                     (isPressed ? tokens.highlightedBackgroundColor : tokens.backgroundColor)))))
-        .modifyIf(tokens.style == .accentFloating || tokens.style == .subtleFloating, { view in
+        .modifyIf(tokens.style.isFloatingStyle, { view in
             view.clipShape(Capsule())
                 .shadow(color: shouldUsePressedShadow ? tokens.pressedShadow1Color : tokens.restShadow1Color,
                         radius: shouldUsePressedShadow ? tokens.pressedShadow1Blur : tokens.restShadow1Blur,
