@@ -2,7 +2,6 @@
 //  Copyright (c) Microsoft Corporation. All rights reserved.
 //  Licensed under the MIT License.
 //
-//
 
 import UIKit
 import SwiftUI
@@ -23,7 +22,6 @@ class MSFPersonaViewTokens: MSFCellBaseTokens {
         let currentTheme = theme
         let appearanceProxy = currentTheme.MSFPersonaViewTokens
 
-        backgroundColor = appearanceProxy.backgroundColor.rest
         borderColor = appearanceProxy.borderColor
         disclosureIconForegroundColor = appearanceProxy.disclosureIconForegroundColor
         labelColor = appearanceProxy.labelColor
@@ -31,6 +29,7 @@ class MSFPersonaViewTokens: MSFCellBaseTokens {
         sublabelColor = appearanceProxy.sublabelColor
         trailingItemForegroundColor = appearanceProxy.trailingItemForegroundColor
 
+        backgroundColor = appearanceProxy.backgroundColor.rest
         highlightedBackgroundColor = appearanceProxy.backgroundColor.pressed
 
         cellHeightOneLine = appearanceProxy.cellHeight.oneLine

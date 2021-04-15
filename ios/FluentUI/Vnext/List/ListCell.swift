@@ -69,7 +69,7 @@ struct MSFListCellView: View {
         self.tokens.windowProvider = windowProvider
     }
 
-    init(state: MSFListCellState, tokens: MSFPersonaViewTokens, windowProvider: FluentUIWindowProvider?) {
+    init(state: MSFListCellState, tokens: MSFCellBaseTokens, windowProvider: FluentUIWindowProvider?) {
         self.state = state
         self.tokens = tokens
         self.tokens.windowProvider = windowProvider

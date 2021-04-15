@@ -64,7 +64,6 @@ class MSFListTokens: MSFTokensBase, ObservableObject {
 }
 
 class MSFCellBaseTokens: MSFTokensBase, ObservableObject {
-    @Published public var backgroundColor: UIColor!
     @Published public var borderColor: UIColor!
     @Published public var disclosureIconForegroundColor: UIColor!
     @Published public var labelColor: UIColor!
@@ -72,6 +71,7 @@ class MSFCellBaseTokens: MSFTokensBase, ObservableObject {
     @Published public var sublabelColor: UIColor!
     @Published public var trailingItemForegroundColor: UIColor!
 
+    @Published public var backgroundColor: UIColor!
     @Published public var highlightedBackgroundColor: UIColor!
 
     @Published public var cellHeightOneLine: CGFloat!
@@ -123,7 +123,6 @@ class MSFListCellTokens: MSFCellBaseTokens {
             leadingViewSize = appearanceProxy.leadingViewSize.xlarge
         }
 
-        backgroundColor = appearanceProxy.backgroundColor.rest
         borderColor = appearanceProxy.borderColor
         disclosureIconForegroundColor = appearanceProxy.disclosureIconForegroundColor
         labelColor = appearanceProxy.labelColor
@@ -131,6 +130,7 @@ class MSFListCellTokens: MSFCellBaseTokens {
         sublabelColor = appearanceProxy.sublabelColor
         trailingItemForegroundColor = appearanceProxy.trailingItemForegroundColor
 
+        backgroundColor = appearanceProxy.backgroundColor.rest
         highlightedBackgroundColor = appearanceProxy.backgroundColor.pressed
 
         cellHeightOneLine = appearanceProxy.cellHeight.oneLine
