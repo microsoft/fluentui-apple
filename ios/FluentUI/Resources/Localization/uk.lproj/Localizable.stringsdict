@@ -1,78 +1,78 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-  <dict>
-    <key>Accessibility.DateTime.Hour.Value</key>
-    <dict>
-      <key>NSStringLocalizedFormatKey</key>
-      <string>%#@hours@</string>
-      <key>Variable</key>
-      <dict>
-        <key>NSStringFormatSpecTypeKey</key>
-        <string>NSStringPluralRuleType</string>
-        <key>NSStringFormatValueTypeKey</key>
-        <string>d</string>
-        <key>zero</key>
-        <string>%d год.</string>
-        <key>one</key>
-        <string>%d год.</string>
-        <key>two</key>
-        <string>%d год.</string>
-        <key>few</key>
-        <string>%d год.</string>
-        <key>many</key>
-        <string>%d год.</string>
-        <key>other</key>
-        <string>%d год.</string>
-      </dict>
-    </dict>
-    <key>Accessibility.DateTime.Minute.Value</key>
-    <dict>
-      <key>NSStringLocalizedFormatKey</key>
-      <string>%#@minutes@</string>
-      <key>minutes</key>
-      <dict>
-        <key>NSStringFormatSpecTypeKey</key>
-        <string>NSStringPluralRuleType</string>
-        <key>NSStringFormatValueTypeKey</key>
-        <string>d</string>
-        <key>zero</key>
-        <string>%d хв.</string>
-        <key>one</key>
-        <string>%d хв.</string>
-        <key>two</key>
-        <string>%d хв.</string>
-        <key>few</key>
-        <string>%d хв.</string>
-        <key>many</key>
-        <string>%d хв.</string>
-        <key>other</key>
-        <string>%d хв.</string>
-      </dict>
-    </dict>
-    <key>%d results found from directory</key>
-    <dict>
-      <key>NSStringLocalizedFormatKey</key>
-      <string>%#@results@</string>
-      <key>results</key>
-      <dict>
-        <key>NSStringFormatSpecTypeKey</key>
-        <string>NSStringPluralRuleType</string>
-        <key>NSStringFormatValueTypeKey</key>
-        <string>d</string>
-        <key>zero</key>
-        <string>%d результатів пошуку в каталозі</string>
-        <key>one</key>
-        <string>%d результат пошуку в каталозі</string>
-        <key>two</key>
-        <string>%d результати пошуку в каталозі</string>
-        <key>few</key>
-        <string>%d результати пошуку в каталозі</string>
-        <key>many</key>
-        <string>%d результатів пошуку в каталозі</string>
-        <key>other</key>
-        <string>Результатів пошуку в каталозі: %d</string>
-      </dict>
-    </dict>
-  </dict>
+<dict>
+	<key>Accessibility.DateTime.Hour.Value</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@hours@</string>
+		<key>hours</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>%d год.</string>
+			<key>one</key>
+			<string>%d год.</string>
+			<key>two</key>
+			<string>%d год.</string>
+			<key>few</key>
+			<string>%d год.</string>
+			<key>many</key>
+			<string>%d год.</string>
+			<key>other</key>
+			<string>%d год.</string>
+		</dict>
+	</dict>
+	<key>Accessibility.DateTime.Minute.Value</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@minutes@</string>
+		<key>minutes</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>%d хв.</string>
+			<key>one</key>
+			<string>%d хв.</string>
+			<key>two</key>
+			<string>%d хв.</string>
+			<key>few</key>
+			<string>%d хв.</string>
+			<key>many</key>
+			<string>%d хв.</string>
+			<key>other</key>
+			<string>%d хв.</string>
+		</dict>
+	</dict>
+	<key>%d results found from directory</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@results@</string>
+		<key>results</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>%d результатів пошуку в каталозі</string>
+			<key>one</key>
+			<string>%d результат пошуку в каталозі</string>
+			<key>two</key>
+			<string>%d результати пошуку в каталозі</string>
+			<key>few</key>
+			<string>%d результати пошуку в каталозі</string>
+			<key>many</key>
+			<string>%d результатів пошуку в каталозі</string>
+			<key>other</key>
+			<string>Результатів пошуку в каталозі: %d</string>
+		</dict>
+	</dict>
+</dict>
 </plist>
