@@ -1,78 +1,78 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-	<key>Accessibility.DateTime.Hour.Value</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@hours@</string>
-		<key>hours</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
-			<key>zero</key>
-			<string>השעה %d</string>
-			<key>one</key>
-			<string>השעה %d</string>
-			<key>two</key>
-			<string>השעה %d</string>
-			<key>few</key>
-			<string>השעה %d</string>
-			<key>many</key>
-			<string>השעה %d</string>
-			<key>other</key>
-			<string>השעה %d</string>
-		</dict>
-	</dict>
-	<key>Accessibility.DateTime.Minute.Value</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@minutes@</string>
-		<key>minutes</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
-			<key>zero</key>
-			<string>%d דקות</string>
-			<key>one</key>
-			<string>דקה %d</string>
-			<key>two</key>
-			<string>%d דקות</string>
-			<key>few</key>
-			<string>%d דקות</string>
-			<key>many</key>
-			<string>%d דקות</string>
-			<key>other</key>
-			<string>%d דקות</string>
-		</dict>
-	</dict>
-	<key>%d results found from directory</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@results@</string>
-		<key>results</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
-			<key>zero</key>
-			<string>נמצאו %d תוצאות במדריך הכתובות</string>
-			<key>one</key>
-			<string>נמצאה תוצאה %d במדריך הכתובות</string>
-			<key>two</key>
-			<string>נמצאו %d תוצאות במדריך הכתובות</string>
-			<key>few</key>
-			<string>נמצאו %d תוצאות במדריך הכתובות</string>
-			<key>many</key>
-			<string>נמצאו %d תוצאות במדריך הכתובות</string>
-			<key>other</key>
-			<string>נמצאו %d תוצאות במדריך הכתובות</string>
-		</dict>
-	</dict>
-</dict>
+  <dict>
+    <key>Accessibility.DateTime.Hour.Value</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@hours@</string>
+      <key>hours</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d o'clock</string>
+        <key>one</key>
+        <string>%d o'clock</string>
+        <key>two</key>
+        <string>%d o'clock</string>
+        <key>few</key>
+        <string>%d o'clock</string>
+        <key>many</key>
+        <string>%d o'clock</string>
+        <key>other</key>
+        <string>%d o'clock</string>
+      </dict>
+    </dict>
+    <key>Accessibility.DateTime.Minute.Value</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@minutes@</string>
+      <key>minutes</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d דקות</string>
+        <key>one</key>
+        <string>דקה %d</string>
+        <key>two</key>
+        <string>%d דקות</string>
+        <key>few</key>
+        <string>%d דקות</string>
+        <key>many</key>
+        <string>%d דקות</string>
+        <key>other</key>
+        <string>%d דקות</string>
+      </dict>
+    </dict>
+    <key>%d results found from directory</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@results@</string>
+      <key>results</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>נמצאו %d תוצאות במדריך הכתובות</string>
+        <key>one</key>
+        <string>נמצאה תוצאה %d במדריך הכתובות</string>
+        <key>two</key>
+        <string>נמצאו %d תוצאות במדריך הכתובות</string>
+        <key>few</key>
+        <string>נמצאו %d תוצאות במדריך הכתובות</string>
+        <key>many</key>
+        <string>נמצאו %d תוצאות במדריך הכתובות</string>
+        <key>other</key>
+        <string>נמצאו %d תוצאות במדריך הכתובות</string>
+      </dict>
+    </dict>
+  </dict>
 </plist>
