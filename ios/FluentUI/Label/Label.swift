@@ -33,7 +33,7 @@ public enum TextColorStyle: Int, CaseIterable {
         case .error:
             return Colors.error
         case .warning:
-            return Colors.warning
+            return UIColor(light: Colors.Palette.warningShade30.color, dark: Colors.warning)
         case .disabled:
             return Colors.textDisabled
         }
