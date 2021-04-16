@@ -444,10 +444,11 @@ open class AvatarView: UIView {
         self.secondaryText = secondaryText
         self.presence = presence
         self.fallbackImageStyle = nil
+        setupInitialsView(convertTextToInitials: convertTextToInitials)
         if let image = image {
             setupWithImage(image)
         } else if !convertTextToInitials || isInitialsAvailable() {
-            setupWithInitialsView(convertTextToInitials: convertTextToInitials)
+            showInitialsView()
         } else {
             updateImageViewWithFallbackImage(style: preferredFallbackImageStyle)
         }
@@ -532,19 +533,24 @@ open class AvatarView: UIView {
         }
     }
 
-    private func setupWithInitialsView(convertTextToInitials: Bool) {
+    private func setupInitialsView(convertTextToInitials: Bool) {
         if convertTextToInitials {
             initialsView.setup(primaryText: primaryText, secondaryText: secondaryText)
         } else {
             initialsView.setup(initialsText: primaryText ?? secondaryText)
         }
 
-        initialsView.isHidden = false
-        imageView.isHidden = true
+        showInitialsView()
 
         if let initialsViewBackgroundColor = initialsView.backgroundColor {
             avatarBackgroundColor = initialsViewBackgroundColor
+            borderColor = initialsViewBackgroundColor
         }
+    }
+
+    private func showInitialsView() {
+        initialsView.isHidden = false
+        imageView.isHidden = true
     }
 
     private func setupWithImage(_ image: UIImage, animated: Bool = false) {
