@@ -42,11 +42,19 @@ class SideTabBarDemoController: DemoController {
     }
 
     private lazy var incrementBadgeButton: Button = {
-        return createButton(title: "+", action: #selector(incrementBadgeNumbers))
+        let button = Button()
+        button.image = UIImage(named: "ic_fluent_add_20_regular")
+        button.accessibilityLabel = "Increment badge numbers"
+        button.addTarget(self, action: #selector(incrementBadgeNumbers), for: .touchUpInside)
+        return button
     }()
 
     private lazy var decrementBadgeButton: Button = {
-        return createButton(title: "-", action: #selector(decrementBadgeNumbers))
+        let button = Button()
+        button.image = UIImage(named: "ic_fluent_subtract_20_regular")
+        button.accessibilityLabel = "Decrement badge numbers"
+        button.addTarget(self, action: #selector(decrementBadgeNumbers), for: .touchUpInside)
+        return button
     }()
 
     private func presentSideTabBar() {
@@ -79,55 +87,19 @@ class SideTabBarDemoController: DemoController {
 
         let contentView = UIView(frame: .zero)
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        contentViewController.view.addSubview(contentView)
+        contentViewController.view.insertSubview(contentView, belowSubview: sideTabBar)
 
-        let optionsStackView = UIStackView(frame: .zero)
-        optionsStackView.axis = .vertical
-        optionsStackView.alignment = .center
-        optionsStackView.spacing = Constants.optionsSpacing
-        optionsStackView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(optionsStackView)
+        let optionTableView = UITableView(frame: .zero, style: .plain)
+        optionTableView.translatesAutoresizingMaskIntoConstraints = false
+        optionTableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
+        optionTableView.register(BooleanCell.self, forCellReuseIdentifier: BooleanCell.identifier)
+        optionTableView.register(ActionsCell.self, forCellReuseIdentifier: ActionsCell.identifier)
+        optionTableView.dataSource = self
+        optionTableView.delegate = self
+        optionTableView.separatorStyle = .none
+        contentView.addSubview(optionTableView)
 
-        let showAvatarViewRow = createLabelAndSwitchRow(labelText: "Show Avatar View", switchAction: #selector(toggleAvatarView(switchView:)), isOn: true)
-        showAvatarViewRow.translatesAutoresizingMaskIntoConstraints = false
-        optionsStackView.addArrangedSubview(showAvatarViewRow)
         showAvatarView(true)
-
-        let showTopTitlesView = createLabelAndSwitchRow(labelText: "Show top item titles",
-                                                        switchAction: #selector(toggleShowTopItemTitles(switchView:)),
-                                                        isOn: false)
-        showTopTitlesView.translatesAutoresizingMaskIntoConstraints = false
-        optionsStackView.addArrangedSubview(showTopTitlesView)
-
-        let showBottomTitlesView = createLabelAndSwitchRow(labelText: "Show bottom item titles",
-                                                           switchAction: #selector(toggleShowBottomItemTitles(switchView:)),
-                                                           isOn: false)
-        showBottomTitlesView.translatesAutoresizingMaskIntoConstraints = false
-        optionsStackView.addArrangedSubview(showBottomTitlesView)
-
-        let showBadgeNumbersView = createLabelAndSwitchRow(labelText: "Show badge numbers",
-                                                           switchAction: #selector(toggleShowBadgeNumbers(switchView:)),
-                                                           isOn: showBadgeNumbers)
-        showBadgeNumbersView.translatesAutoresizingMaskIntoConstraints = false
-        optionsStackView.addArrangedSubview(showBadgeNumbersView)
-
-        let useHigherBadgeNumbersView = createLabelAndSwitchRow(labelText: "Use higher badge numbers",
-                                                                switchAction: #selector(toggleUseHigherBadgeNumbers(switchView:)),
-                                                                isOn: useHigherBadgeNumbers)
-        useHigherBadgeNumbersView.translatesAutoresizingMaskIntoConstraints = false
-        optionsStackView.addArrangedSubview(useHigherBadgeNumbersView)
-
-        let modifyBadgeNumbersView = createLabelAndViewsRow(labelText: "Modify badge numbers", views: [incrementBadgeButton, decrementBadgeButton])
-        modifyBadgeNumbersView.translatesAutoresizingMaskIntoConstraints = false
-        optionsStackView.addArrangedSubview(modifyBadgeNumbersView)
-
-        let button = Button()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.textAlignment = .center
-        button.titleLabel?.numberOfLines = 0
-        button.setTitle("Dismiss", for: .normal)
-        button.addTarget(self, action: #selector(dismissSideTabBar), for: .touchUpInside)
-        optionsStackView.addArrangedSubview(button)
 
         NSLayoutConstraint.activate([
             sideTabBar.leadingAnchor.constraint(equalTo: contentViewController.view.leadingAnchor),
@@ -137,8 +109,10 @@ class SideTabBarDemoController: DemoController {
             contentView.trailingAnchor.constraint(equalTo: contentViewController.view.trailingAnchor),
             contentView.topAnchor.constraint(equalTo: contentViewController.view.topAnchor),
             contentView.bottomAnchor.constraint(equalTo: contentViewController.view.bottomAnchor),
-            optionsStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            optionsStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            optionTableView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            optionTableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            optionTableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            optionTableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
 
         present(contentViewController, animated: false)
@@ -153,24 +127,24 @@ class SideTabBarDemoController: DemoController {
         }
     }
 
-    @objc private func toggleAvatarView(switchView: UISwitch) {
-        showAvatarView(switchView.isOn)
+    @objc private func toggleAvatarView(_ cell: BooleanCell) {
+        showAvatarView(cell.isOn)
     }
 
-    @objc private func toggleShowBadgeNumbers(switchView: UISwitch) {
-        showBadgeNumbers = switchView.isOn
+    @objc private func toggleShowBadgeNumbers(_ cell: BooleanCell) {
+        showBadgeNumbers = cell.isOn
     }
 
-    @objc private func toggleUseHigherBadgeNumbers(switchView: UISwitch) {
-        useHigherBadgeNumbers = switchView.isOn
+    @objc private func toggleUseHigherBadgeNumbers(_ cell: BooleanCell) {
+        useHigherBadgeNumbers = cell.isOn
     }
 
-    @objc private func toggleShowTopItemTitles(switchView: UISwitch) {
-        sideTabBar.showTopItemTitles = switchView.isOn
+    @objc private func toggleShowTopItemTitles(_ cell: BooleanCell) {
+        sideTabBar.showTopItemTitles = cell.isOn
     }
 
-    @objc private func toggleShowBottomItemTitles(switchView: UISwitch) {
-        sideTabBar.showBottomItemTitles = switchView.isOn
+    @objc private func toggleShowBottomItemTitles(_ cell: BooleanCell) {
+        sideTabBar.showBottomItemTitles = cell.isOn
     }
 
     private func showAvatarView(_ show: Bool) {
@@ -230,6 +204,17 @@ class SideTabBarDemoController: DemoController {
     @objc private func decrementBadgeNumbers() {
         modifyBadgeNumbers(increment: -1)
     }
+
+    private let optionsCellItems: [CellItem] = {
+        return [CellItem(title: "Show Avatar View", type: .boolean, action: #selector(toggleAvatarView(_:)), isOn: true),
+                CellItem(title: "Show top item titles", type: .boolean, action: #selector(toggleShowTopItemTitles(_:))),
+                CellItem(title: "Show bottom item titles", type: .boolean, action: #selector(toggleShowBottomItemTitles(_:))),
+                CellItem(title: "Show badge numbers", type: .boolean, action: #selector(toggleShowBadgeNumbers(_:))),
+                CellItem(title: "Use higher badge numbers", type: .boolean, action: #selector(toggleUseHigherBadgeNumbers(_:))),
+                CellItem(title: "Modify badge numbers", type: .stepper, action: nil),
+                CellItem(title: "Dismiss", type: .action, action: #selector(dismissSideTabBar))
+        ]
+    }()
 }
 
 // MARK: - SideTabBarDemoController: SideTabBarDelegate
@@ -248,4 +233,76 @@ extension SideTabBarDemoController: SideTabBarDelegate {
         alert.addAction(action)
         contentViewController?.present(alert, animated: true)
     }
+}
+
+extension SideTabBarDemoController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return optionsCellItems.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let item = optionsCellItems[indexPath.row]
+
+        if item.type == .boolean {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as? BooleanCell else {
+                return UITableViewCell()
+            }
+            cell.setup(title: item.title, isOn: item.isOn)
+            cell.titleNumberOfLines = 0
+            cell.onValueChanged = { [weak self, weak cell] in
+                self?.perform(item.action, with: cell)
+            }
+            return cell
+        } else if item.type == .action {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ActionsCell.identifier) as? ActionsCell else {
+                return UITableViewCell()
+            }
+            cell.setup(action1Title: item.title)
+            if let action = item.action {
+                cell.action1Button.addTarget(self, action: action, for: .touchUpInside)
+            }
+            cell.bottomSeparatorType = .full
+            return cell
+        } else if item.type == .stepper {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
+                return UITableViewCell()
+            }
+
+            let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
+            stackView.addArrangedSubview(decrementBadgeButton)
+            stackView.addArrangedSubview(incrementBadgeButton)
+            stackView.distribution = .fillEqually
+            stackView.alignment = .center
+            stackView.spacing = 4
+
+            cell.setup(title: item.title, customAccessoryView: stackView)
+            cell.titleNumberOfLines = 0
+            return cell
+        }
+
+        return UITableViewCell()
+    }
+}
+
+extension SideTabBarDemoController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+       return false
+    }
+}
+
+enum CellType {
+    case action
+    case boolean
+    case stepper
+}
+
+struct CellItem {
+    let title: String
+    let type: CellType
+    let action: Selector?
+    var isOn: Bool = false
 }
