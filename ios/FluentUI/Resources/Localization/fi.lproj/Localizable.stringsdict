@@ -1,78 +1,78 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-	<key>Accessibility.DateTime.Hour.Value</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@hours@</string>
-		<key>hours</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
-			<key>zero</key>
-			<string>Kello %d</string>
-			<key>one</key>
-			<string>Kello %d</string>
-			<key>two</key>
-			<string>Kello %d</string>
-			<key>few</key>
-			<string>Kello %d</string>
-			<key>many</key>
-			<string>Kello %d</string>
-			<key>other</key>
-			<string>Kello %d</string>
-		</dict>
-	</dict>
-	<key>Accessibility.DateTime.Minute.Value</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@minutes@</string>
-		<key>minutes</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
-			<key>zero</key>
-			<string>%d minuuttia</string>
-			<key>one</key>
-			<string>%d minuutti</string>
-			<key>two</key>
-			<string>%d minuuttia</string>
-			<key>few</key>
-			<string>%d minuuttia</string>
-			<key>many</key>
-			<string>%d minuuttia</string>
-			<key>other</key>
-			<string>%d minuuttia</string>
-		</dict>
-	</dict>
-	<key>%d results found from directory</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@results@</string>
-		<key>results</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
-			<key>zero</key>
-			<string>%d tulosta löytyi hakemistosta</string>
-			<key>one</key>
-			<string>%d tulos löytyi hakemistosta</string>
-			<key>two</key>
-			<string>%d tulosta löytyi hakemistosta</string>
-			<key>few</key>
-			<string>%d tulosta löytyi hakemistosta</string>
-			<key>many</key>
-			<string>%d tulosta löytyi hakemistosta</string>
-			<key>other</key>
-			<string>%d tulosta löytyi hakemistosta</string>
-		</dict>
-	</dict>
-</dict>
+  <dict>
+    <key>Accessibility.DateTime.Hour.Value</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@hours@</string>
+      <key>hours</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>Kello %d</string>
+        <key>one</key>
+        <string>Kello %d</string>
+        <key>two</key>
+        <string>Kello %d</string>
+        <key>few</key>
+        <string>Kello %d</string>
+        <key>many</key>
+        <string>Kello %d</string>
+        <key>other</key>
+        <string>Kello %d</string>
+      </dict>
+    </dict>
+    <key>Accessibility.DateTime.Minute.Value</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@minutes@</string>
+      <key>minutes</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d minuuttia</string>
+        <key>one</key>
+        <string>%d minuutti</string>
+        <key>two</key>
+        <string>%d minuuttia</string>
+        <key>few</key>
+        <string>%d minuuttia</string>
+        <key>many</key>
+        <string>%d minuuttia</string>
+        <key>other</key>
+        <string>%d minuuttia</string>
+      </dict>
+    </dict>
+    <key>%d results found from directory</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@results@</string>
+      <key>results</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d tulosta löytyi hakemistosta</string>
+        <key>one</key>
+        <string>%d tulos löytyi hakemistosta</string>
+        <key>two</key>
+        <string>%d tulosta löytyi hakemistosta</string>
+        <key>few</key>
+        <string>%d tulosta löytyi hakemistosta</string>
+        <key>many</key>
+        <string>%d tulosta löytyi hakemistosta</string>
+        <key>other</key>
+        <string>%d tulosta löytyi hakemistosta</string>
+      </dict>
+    </dict>
+  </dict>
 </plist>

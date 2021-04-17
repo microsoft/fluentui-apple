@@ -1,78 +1,78 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-	<key>Accessibility.DateTime.Hour.Value</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@hours@</string>
-		<key>hours</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
-			<key>zero</key>
-			<string>%d uur</string>
-			<key>one</key>
-			<string>%d uur</string>
-			<key>two</key>
-			<string>%d uur</string>
-			<key>few</key>
-			<string>%d uur</string>
-			<key>many</key>
-			<string>%d uur</string>
-			<key>other</key>
-			<string>%d uur</string>
-		</dict>
-	</dict>
-	<key>Accessibility.DateTime.Minute.Value</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@minutes@</string>
-		<key>minutes</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
-			<key>zero</key>
-			<string>%d minuten</string>
-			<key>one</key>
-			<string>%d minuut</string>
-			<key>two</key>
-			<string>%d minuten</string>
-			<key>few</key>
-			<string>%d minuten</string>
-			<key>many</key>
-			<string>%d minuten</string>
-			<key>other</key>
-			<string>%d minuten</string>
-		</dict>
-	</dict>
-	<key>%d results found from directory</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@results@</string>
-		<key>results</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
-			<key>zero</key>
-			<string>%d resultaten gevonden in adreslijst</string>
-			<key>one</key>
-			<string>%d resultaat gevonden in adreslijst</string>
-			<key>two</key>
-			<string>%d resultaten gevonden in adreslijst</string>
-			<key>few</key>
-			<string>%d resultaten gevonden in adreslijst</string>
-			<key>many</key>
-			<string>%d resultaten gevonden in adreslijst</string>
-			<key>other</key>
-			<string>%d resultaten gevonden in adreslijst</string>
-		</dict>
-	</dict>
-</dict>
+  <dict>
+    <key>Accessibility.DateTime.Hour.Value</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@hours@</string>
+      <key>hours</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d uur</string>
+        <key>one</key>
+        <string>%d uur</string>
+        <key>two</key>
+        <string>%d uur</string>
+        <key>few</key>
+        <string>%d uur</string>
+        <key>many</key>
+        <string>%d uur</string>
+        <key>other</key>
+        <string>%d uur</string>
+      </dict>
+    </dict>
+    <key>Accessibility.DateTime.Minute.Value</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@minutes@</string>
+      <key>minutes</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d minuten</string>
+        <key>one</key>
+        <string>%d minuut</string>
+        <key>two</key>
+        <string>%d minuten</string>
+        <key>few</key>
+        <string>%d minuten</string>
+        <key>many</key>
+        <string>%d minuten</string>
+        <key>other</key>
+        <string>%d minuten</string>
+      </dict>
+    </dict>
+    <key>%d results found from directory</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@results@</string>
+      <key>results</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d resultaten gevonden in adreslijst</string>
+        <key>one</key>
+        <string>%d resultaat gevonden in adreslijst</string>
+        <key>two</key>
+        <string>%d resultaten gevonden in adreslijst</string>
+        <key>few</key>
+        <string>%d resultaten gevonden in adreslijst</string>
+        <key>many</key>
+        <string>%d resultaten gevonden in adreslijst</string>
+        <key>other</key>
+        <string>%d resultaten gevonden in adreslijst</string>
+      </dict>
+    </dict>
+  </dict>
 </plist>
