@@ -98,6 +98,7 @@ import SwiftUI
     @objc @Published public var backgroundColor: UIColor?
     @objc @Published public var foregroundColor: UIColor?
     @objc @Published public var presence: MSFAvatarPresence = .none
+    @objc @Published public var hasPointerInteraction: Bool = true
     @objc @Published public var isRingVisible: Bool = false
     @objc @Published public var isTransparent: Bool = true
     @objc @Published public var isOutOfOffice: Bool = false
@@ -233,7 +234,9 @@ public struct AvatarView: View {
 
         // iPad Pointer Interaction support
         if #available(iOS 13.4, *) {
-            bodyView = AnyView(bodyView.hoverEffect())
+            if state.hasPointerInteraction {
+                bodyView = AnyView(bodyView.hoverEffect())
+            }
         }
 
         return bodyView
