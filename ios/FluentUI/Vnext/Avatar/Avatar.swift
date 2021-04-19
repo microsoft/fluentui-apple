@@ -187,7 +187,8 @@ public struct AvatarView: View {
             :
             AnyView(Text(initialsString)
                         .foregroundColor(Color(foregroundColor))
-                        .font(Font(tokens.textFont)))
+                        .font(Font(tokens.textFont))
+                        .animation(.none))
 
         let bodyView = tokens.style == .group ?
         AnyView(avatarContent
@@ -201,40 +202,23 @@ public struct AvatarView: View {
                     .foregroundColor(ringGapColor)
                     .frame(width: ringOuterGapSize, height: ringOuterGapSize, alignment: .center)
                     .overlay(Circle()
-                                .foregroundColor(ringColor)
+                                .strokeBorder(ringColor, lineWidth: ringThickness)
                                 .frame(width: ringSize, height: ringSize, alignment: .center)
-                                .mask(circularCutoutMask(targetFrameRect: CGRect(x: 0,
-                                                                                 y: 0,
-                                                                                 width: ringSize,
-                                                                                 height: ringSize),
-                                                         cutoutFrameRect: CGRect(x: ringThickness,
-                                                                                 y: ringThickness,
-                                                                                 width: ringInnerGapSize,
-                                                                                 height: ringInnerGapSize))
-                                        .fill(style: FillStyle(eoFill: isTransparent)))
                                 .overlay(Circle()
-                                            .foregroundColor(ringGapColor)
-                                            .frame(width: ringInnerGapSize, height: ringInnerGapSize, alignment: .center)
-                                            .overlay(Circle()
-                                                        .foregroundColor(Color(backgroundColor))
-                                                        .frame(width: avatarImageSize, height: avatarImageSize, alignment: .center)
-                                                        .overlay(avatarContent
-                                                                    .frame(width: avatarImageSize * avatarImageSizeRatio, height: avatarImageSize * avatarImageSizeRatio, alignment: .center)
-                                                                    .clipShape(Circle()),
-                                                                 alignment: .center)
-                                            )
-                                )
-                             ,
+                                            .foregroundColor(Color(backgroundColor))
+                                            .frame(width: avatarImageSize, height: avatarImageSize, alignment: .center)
+                                            .overlay(avatarContent
+                                                        .frame(width: avatarImageSize * avatarImageSizeRatio,
+                                                               height: avatarImageSize * avatarImageSizeRatio,
+                                                               alignment: .center)
+                                                        .clipShape(Circle())
+                                                        .transition(.opacity),
+                                                     alignment: .center)
+                                ),
                              alignment: .center)
                     .modifyIf(shouldDisplayPresence, { thisView in
-                        thisView.mask(circularCutoutMask(targetFrameRect: CGRect(x: 0,
-                                                                                 y: 0,
-                                                                                 width: ringOuterGapSize,
-                                                                                 height: ringOuterGapSize),
-                                                         cutoutFrameRect: CGRect(x: presenceCutoutOriginCoordinates,
-                                                                                 y: presenceCutoutOriginCoordinates,
-                                                                                 width: presenceIconOutlineSize,
-                                                                                 height: presenceIconOutlineSize))
+                        thisView.mask(PresenceCutout(presenceCutoutOriginCoordinates: presenceCutoutOriginCoordinates,
+                                                     presenceIconOutlineSize: presenceIconOutlineSize)
                                         .fill(style: FillStyle(eoFill: true)))
                                 .overlay(Circle()
                                             .foregroundColor(isTransparent ? Color.clear : Color(tokens.ringGapColor))
@@ -266,19 +250,41 @@ public struct AvatarView: View {
             }
     }
 
-    private func circularCutoutMask(targetFrameRect: CGRect, cutoutFrameRect: CGRect) -> Path {
-        var cutoutFrame = Rectangle().path(in: targetFrameRect)
-        cutoutFrame.addPath(Circle().path(in: cutoutFrameRect))
-
-        return cutoutFrame
-    }
-
     public func setStyle(style: MSFAvatarStyle) {
         tokens.style = style
     }
 
     public func setSize(size: MSFAvatarSize) {
-        tokens.size = size
+        withAnimation(.linear(duration: animationDuration)) {
+            tokens.size = size
+        }
+    }
+
+    private let animationDuration: Double = 0.1
+
+    private struct PresenceCutout: Shape {
+        var presenceCutoutOriginCoordinates: CGFloat
+        var presenceIconOutlineSize: CGFloat
+
+        var animatableData: AnimatablePair<CGFloat, CGFloat> {
+            get {
+                AnimatablePair(presenceCutoutOriginCoordinates, presenceIconOutlineSize)
+            }
+
+            set {
+                presenceCutoutOriginCoordinates = newValue.first
+                presenceIconOutlineSize = newValue.second
+            }
+        }
+
+        func path(in rect: CGRect) -> Path {
+            var cutoutFrame = Rectangle().path(in: rect)
+            cutoutFrame.addPath(Circle().path(in: CGRect(x: presenceCutoutOriginCoordinates,
+                                                         y: presenceCutoutOriginCoordinates,
+                                                         width: presenceIconOutlineSize,
+                                                         height: presenceIconOutlineSize)))
+            return cutoutFrame
+        }
     }
 }
 
