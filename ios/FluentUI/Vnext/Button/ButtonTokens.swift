@@ -16,7 +16,9 @@ import SwiftUI
     /// For use with small and large sizes only
     case subtleFloating
 
-    var isFloatingStyle: Bool { return self == .accentFloating || self == .subtleFloating }
+    var isFloatingStyle: Bool {
+        return self == .accentFloating || self == .subtleFloating
+    }
 }
 
 /// Pre-defined sizes of the button

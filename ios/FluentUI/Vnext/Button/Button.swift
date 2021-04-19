@@ -42,7 +42,7 @@ struct MSFButtonViewButtonStyle: ButtonStyle {
                 }
         }
         .padding(tokens.padding)
-        .modifyIf(state.text?.isEmpty == false, { view in
+        .modifyIf(!(state.text?.isEmpty ?? true), { view in
             view.padding(.horizontal, tokens.textAdditionalHorizontalPadding )
         })
         .frame(maxWidth: .infinity, maxHeight: .infinity)

@@ -331,16 +331,6 @@ open class FluentUIStyle: NSObject {
                 self.mainProxy = proxy
             }
 
-            // MARK: - circleLarge
-            open var circleLarge: CGFloat {
-                return CGFloat(26.0)
-            }
-
-            // MARK: - circleSmall
-            open var circleSmall: CGFloat {
-                return CGFloat(24.0)
-            }
-
             // MARK: - large
             open var large: CGFloat {
                 return CGFloat(8.0)
@@ -955,58 +945,6 @@ open class FluentUIStyle: NSObject {
         public init(proxy: @escaping () -> FluentUIStyle) {
             self.mainProxy = proxy
         }
-
-        // MARK: - none
-        open var none: noneAppearanceProxy {
-            return noneAppearanceProxy(proxy: mainProxy)
-        }
-        open class noneAppearanceProxy {
-            public let mainProxy: () -> FluentUIStyle
-            public init(proxy: @escaping () -> FluentUIStyle) {
-                self.mainProxy = proxy
-            }
-
-            // MARK: - blur1
-            open var blur1: CGFloat {
-                return CGFloat(0.0)
-            }
-
-            // MARK: - blur2
-            open var blur2: CGFloat {
-                return CGFloat(0.0)
-            }
-
-            // MARK: - color1
-            open var color1: UIColor {
-                return mainProxy().Colors.Shadow.clear
-            }
-
-            // MARK: - color2
-            open var color2: UIColor {
-                return mainProxy().Colors.Shadow.clear
-            }
-
-            // MARK: - x1
-            open var x1: CGFloat {
-                return CGFloat(0.0)
-            }
-
-            // MARK: - x2
-            open var x2: CGFloat {
-                return CGFloat(0.0)
-            }
-
-            // MARK: - y1
-            open var y1: CGFloat {
-                return CGFloat(0.0)
-            }
-
-            // MARK: - y2
-            open var y2: CGFloat {
-                return CGFloat(0.0)
-            }
-        }
-
 
         // MARK: - shadow16
         open var shadow16: shadow16AppearanceProxy {

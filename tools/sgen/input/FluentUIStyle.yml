@@ -117,7 +117,6 @@ Opacity:
   clear: 0.0f
 
 Shadow:
-    none: [ blur1: 0pt, color1: $Colors.Shadow.clear, x1: 0pt, y1: 0pt, blur2: 0pt, color2: $Colors.Shadow.clear, x2: 0pt, y2: 0pt ]
     shadow2: [ blur1: 1pt, color1: $Colors.Elevation.lowElevation1, x1: 0pt, y1: 1pt, blur2: 1pt, color2: $Colors.Elevation.lowElevation2, x2: 0pt, y2: 0pt ]
     shadow4: [ blur1: 2pt, color1: $Colors.Elevation.lowElevation1, x1: 0pt, y1: 2pt, blur2: 1pt, color2: $Colors.Elevation.lowElevation2, x2: 0pt, y2: 0pt ]
     shadow8: [ blur1: 4pt, color1: $Colors.Elevation.lowElevation1, x1: 0pt, y1: 4pt, blur2: 1pt, color2: $Colors.Elevation.lowElevation2, x2: 0pt, y2: 0pt ]
@@ -236,14 +235,14 @@ AP_MSFButtonTokens:
   textFont: [ small: $Typography.footnote, medium: $Typography.subheadline, large: $Typography.subheadline ]
   textMinimumHeight: [ small: $Spacing.none, medium: $Spacing.none, large: $Spacing.none ]
   textAdditionalHorizontalPadding: [ small: $Spacing.none, medium: $Spacing.none, large: $Spacing.none ]
-  shadow1Color: [ rest: $Shadow.none.color1, hover: $Shadow.none.color1, pressed: $Shadow.none.color1, selected: $Shadow.none.color1, disabled: $Shadow.none.color1]
-  shadow1Blur: [ rest: $Shadow.none.blur1, hover: $Shadow.none.blur1, pressed: $Shadow.none.blur1, selected: $Shadow.none.blur1, disabled: $Shadow.none.blur1 ]
-  shadow1OffsetX: [ rest: $Shadow.none.x1, hover: $Shadow.none.x1, pressed: $Shadow.none.x1, selected: $Shadow.none.x1, disabled: $Shadow.none.x1 ]
-  shadow1OffsetY: [ rest: $Shadow.none.y1, hover: $Shadow.none.y1, pressed: $Shadow.none.y1, selected: $Shadow.none.y1, disabled: $Shadow.none.y1 ]
-  shadow2Color: [ rest: $Shadow.none.color2, hover: $Shadow.none.color2, pressed: $Shadow.none.color2, selected: $Shadow.none.color2, disabled: $Shadow.none.color2 ]
-  shadow2Blur: [ rest: $Shadow.none.blur2 , hover: $Shadow.none.blur2, pressed: $Shadow.none.blur2, selected: $Shadow.none.blur2, disabled: $Shadow.none.blur2 ]
-  shadow2OffsetX: [ rest: $Shadow.none.x2, hover: $Shadow.none.x2, pressed: $Shadow.none.x2, selected: $Shadow.none.x2, disabled: $Shadow.none.x2 ]
-  shadow2OffsetY: [ rest: $Shadow.none.y2, hover: $Shadow.none.y2, pressed: $Shadow.none.y2, selected: $Shadow.none.y2, disabled: $Shadow.none.y2 ]
+  shadow1Color: [ rest: $Shadow.shadow2.color1, hover: $Shadow.shadow2.color1, pressed: $Shadow.shadow2.color1, selected: $Shadow.shadow2.color1, disabled: $Shadow.shadow2.color1]
+  shadow1Blur: [ rest: $Shadow.shadow2.blur1, hover: $Shadow.shadow2.blur1, pressed: $Shadow.shadow2.blur1, selected: $Shadow.shadow2.blur1, disabled: $Shadow.shadow2.blur1 ]
+  shadow1OffsetX: [ rest: $Shadow.shadow2.x1, hover: $Shadow.shadow2.x1, pressed: $Shadow.shadow2.x1, selected: $Shadow.shadow2.x1, disabled: $Shadow.shadow2.x1 ]
+  shadow1OffsetY: [ rest: $Shadow.shadow2.y1, hover: $Shadow.shadow2.y1, pressed: $Shadow.shadow2.y1, selected: $Shadow.shadow2.y1, disabled: $Shadow.shadow2.y1 ]
+  shadow2Color: [ rest: $Shadow.shadow2.color2, hover: $Shadow.shadow2.color2, pressed: $Shadow.shadow2.color2, selected: $Shadow.shadow2.color2, disabled: $Shadow.shadow2.color2 ]
+  shadow2Blur: [ rest: $Shadow.shadow2.blur2 , hover: $Shadow.shadow2.blur2, pressed: $Shadow.shadow2.blur2, selected: $Shadow.shadow2.blur2, disabled: $Shadow.shadow2.blur2 ]
+  shadow2OffsetX: [ rest: $Shadow.shadow2.x2, hover: $Shadow.shadow2.x2, pressed: $Shadow.shadow2.x2, selected: $Shadow.shadow2.x2, disabled: $Shadow.shadow2.x2 ]
+  shadow2OffsetY: [ rest: $Shadow.shadow2.y2, hover: $Shadow.shadow2.y2, pressed: $Shadow.shadow2.y2, selected: $Shadow.shadow2.y2, disabled: $Shadow.shadow2.y2 ]
 
 MSFPrimaryButtonTokens extends MSFButtonTokens:
   backgroundColor: [ rest: $Colors.Background.brandRest, hover: $Colors.Background.brandHover, pressed: $Colors.Background.brandPressed, selected: $Colors.Background.brandSelected, disabled: $Colors.Background.brandDisabled ]

@@ -757,27 +757,27 @@ extension FluentUIStyle {
 
 			// MARK: - disabled 
 			open var disabled: CGFloat {
-				return mainProxy().Shadow.none.blur1
+				return mainProxy().Shadow.shadow2.blur1
 			}
 
 			// MARK: - hover 
 			open var hover: CGFloat {
-				return mainProxy().Shadow.none.blur1
+				return mainProxy().Shadow.shadow2.blur1
 			}
 
 			// MARK: - pressed 
 			open var pressed: CGFloat {
-				return mainProxy().Shadow.none.blur1
+				return mainProxy().Shadow.shadow2.blur1
 			}
 
 			// MARK: - rest 
 			open var rest: CGFloat {
-				return mainProxy().Shadow.none.blur1
+				return mainProxy().Shadow.shadow2.blur1
 			}
 
 			// MARK: - selected 
 			open var selected: CGFloat {
-				return mainProxy().Shadow.none.blur1
+				return mainProxy().Shadow.shadow2.blur1
 			}
 		}
 
@@ -794,27 +794,27 @@ extension FluentUIStyle {
 
 			// MARK: - disabled 
 			open var disabled: UIColor {
-				return mainProxy().Shadow.none.color1
+				return mainProxy().Shadow.shadow2.color1
 			}
 
 			// MARK: - hover 
 			open var hover: UIColor {
-				return mainProxy().Shadow.none.color1
+				return mainProxy().Shadow.shadow2.color1
 			}
 
 			// MARK: - pressed 
 			open var pressed: UIColor {
-				return mainProxy().Shadow.none.color1
+				return mainProxy().Shadow.shadow2.color1
 			}
 
 			// MARK: - rest 
 			open var rest: UIColor {
-				return mainProxy().Shadow.none.color1
+				return mainProxy().Shadow.shadow2.color1
 			}
 
 			// MARK: - selected 
 			open var selected: UIColor {
-				return mainProxy().Shadow.none.color1
+				return mainProxy().Shadow.shadow2.color1
 			}
 		}
 
@@ -831,27 +831,27 @@ extension FluentUIStyle {
 
 			// MARK: - disabled 
 			open var disabled: CGFloat {
-				return mainProxy().Shadow.none.x1
+				return mainProxy().Shadow.shadow2.x1
 			}
 
 			// MARK: - hover 
 			open var hover: CGFloat {
-				return mainProxy().Shadow.none.x1
+				return mainProxy().Shadow.shadow2.x1
 			}
 
 			// MARK: - pressed 
 			open var pressed: CGFloat {
-				return mainProxy().Shadow.none.x1
+				return mainProxy().Shadow.shadow2.x1
 			}
 
 			// MARK: - rest 
 			open var rest: CGFloat {
-				return mainProxy().Shadow.none.x1
+				return mainProxy().Shadow.shadow2.x1
 			}
 
 			// MARK: - selected 
 			open var selected: CGFloat {
-				return mainProxy().Shadow.none.x1
+				return mainProxy().Shadow.shadow2.x1
 			}
 		}
 
@@ -868,27 +868,27 @@ extension FluentUIStyle {
 
 			// MARK: - disabled 
 			open var disabled: CGFloat {
-				return mainProxy().Shadow.none.y1
+				return mainProxy().Shadow.shadow2.y1
 			}
 
 			// MARK: - hover 
 			open var hover: CGFloat {
-				return mainProxy().Shadow.none.y1
+				return mainProxy().Shadow.shadow2.y1
 			}
 
 			// MARK: - pressed 
 			open var pressed: CGFloat {
-				return mainProxy().Shadow.none.y1
+				return mainProxy().Shadow.shadow2.y1
 			}
 
 			// MARK: - rest 
 			open var rest: CGFloat {
-				return mainProxy().Shadow.none.y1
+				return mainProxy().Shadow.shadow2.y1
 			}
 
 			// MARK: - selected 
 			open var selected: CGFloat {
-				return mainProxy().Shadow.none.y1
+				return mainProxy().Shadow.shadow2.y1
 			}
 		}
 
@@ -905,27 +905,27 @@ extension FluentUIStyle {
 
 			// MARK: - disabled 
 			open var disabled: CGFloat {
-				return mainProxy().Shadow.none.blur2
+				return mainProxy().Shadow.shadow2.blur2
 			}
 
 			// MARK: - hover 
 			open var hover: CGFloat {
-				return mainProxy().Shadow.none.blur2
+				return mainProxy().Shadow.shadow2.blur2
 			}
 
 			// MARK: - pressed 
 			open var pressed: CGFloat {
-				return mainProxy().Shadow.none.blur2
+				return mainProxy().Shadow.shadow2.blur2
 			}
 
 			// MARK: - rest 
 			open var rest: CGFloat {
-				return mainProxy().Shadow.none.blur2
+				return mainProxy().Shadow.shadow2.blur2
 			}
 
 			// MARK: - selected 
 			open var selected: CGFloat {
-				return mainProxy().Shadow.none.blur2
+				return mainProxy().Shadow.shadow2.blur2
 			}
 		}
 
@@ -942,27 +942,27 @@ extension FluentUIStyle {
 
 			// MARK: - disabled 
 			open var disabled: UIColor {
-				return mainProxy().Shadow.none.color2
+				return mainProxy().Shadow.shadow2.color2
 			}
 
 			// MARK: - hover 
 			open var hover: UIColor {
-				return mainProxy().Shadow.none.color2
+				return mainProxy().Shadow.shadow2.color2
 			}
 
 			// MARK: - pressed 
 			open var pressed: UIColor {
-				return mainProxy().Shadow.none.color2
+				return mainProxy().Shadow.shadow2.color2
 			}
 
 			// MARK: - rest 
 			open var rest: UIColor {
-				return mainProxy().Shadow.none.color2
+				return mainProxy().Shadow.shadow2.color2
 			}
 
 			// MARK: - selected 
 			open var selected: UIColor {
-				return mainProxy().Shadow.none.color2
+				return mainProxy().Shadow.shadow2.color2
 			}
 		}
 
@@ -979,27 +979,27 @@ extension FluentUIStyle {
 
 			// MARK: - disabled 
 			open var disabled: CGFloat {
-				return mainProxy().Shadow.none.x2
+				return mainProxy().Shadow.shadow2.x2
 			}
 
 			// MARK: - hover 
 			open var hover: CGFloat {
-				return mainProxy().Shadow.none.x2
+				return mainProxy().Shadow.shadow2.x2
 			}
 
 			// MARK: - pressed 
 			open var pressed: CGFloat {
-				return mainProxy().Shadow.none.x2
+				return mainProxy().Shadow.shadow2.x2
 			}
 
 			// MARK: - rest 
 			open var rest: CGFloat {
-				return mainProxy().Shadow.none.x2
+				return mainProxy().Shadow.shadow2.x2
 			}
 
 			// MARK: - selected 
 			open var selected: CGFloat {
-				return mainProxy().Shadow.none.x2
+				return mainProxy().Shadow.shadow2.x2
 			}
 		}
 
@@ -1016,27 +1016,27 @@ extension FluentUIStyle {
 
 			// MARK: - disabled 
 			open var disabled: CGFloat {
-				return mainProxy().Shadow.none.y2
+				return mainProxy().Shadow.shadow2.y2
 			}
 
 			// MARK: - hover 
 			open var hover: CGFloat {
-				return mainProxy().Shadow.none.y2
+				return mainProxy().Shadow.shadow2.y2
 			}
 
 			// MARK: - pressed 
 			open var pressed: CGFloat {
-				return mainProxy().Shadow.none.y2
+				return mainProxy().Shadow.shadow2.y2
 			}
 
 			// MARK: - rest 
 			open var rest: CGFloat {
-				return mainProxy().Shadow.none.y2
+				return mainProxy().Shadow.shadow2.y2
 			}
 
 			// MARK: - selected 
 			open var selected: CGFloat {
-				return mainProxy().Shadow.none.y2
+				return mainProxy().Shadow.shadow2.y2
 			}
 		}
 
