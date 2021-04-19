@@ -326,10 +326,11 @@ public struct AvatarView: View {
                       size: MSFAvatarSize = .large,
                       theme: FluentUIStyle? = nil) {
         avatarview = AvatarView(style: style,
-                                           size: size)
+                                size: size)
         hostingController = UIHostingController(rootView: AnyView(avatarview.modifyIf(theme != nil, { avatarview in
             avatarview.usingTheme(theme!)
         })))
+        hostingController.disableSafeAreaInsets()
 
         super.init()
 
