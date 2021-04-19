@@ -1,78 +1,78 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-	<key>Accessibility.DateTime.Hour.Value</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@hours@</string>
-		<key>hours</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
-			<key>zero</key>
-			<string>%d η ώρα</string>
-			<key>one</key>
-			<string>%d η ώρα</string>
-			<key>two</key>
-			<string>%d η ώρα</string>
-			<key>few</key>
-			<string>%d η ώρα</string>
-			<key>many</key>
-			<string>%d η ώρα</string>
-			<key>other</key>
-			<string>%d η ώρα</string>
-		</dict>
-	</dict>
-	<key>Accessibility.DateTime.Minute.Value</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@minutes@</string>
-		<key>minutes</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
-			<key>zero</key>
-			<string>%d λεπτά</string>
-			<key>one</key>
-			<string>%d λεπτό</string>
-			<key>two</key>
-			<string>%d λεπτά</string>
-			<key>few</key>
-			<string>%d λεπτά</string>
-			<key>many</key>
-			<string>%d λεπτά</string>
-			<key>other</key>
-			<string>%d λεπτά</string>
-		</dict>
-	</dict>
-	<key>%d results found from directory</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@results@</string>
-		<key>results</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
-			<key>zero</key>
-			<string>%d αποτελέσματα εντοπίστηκαν από τον κατάλογο</string>
-			<key>one</key>
-			<string>%d αποτέλεσμα εντοπίστηκε από τον κατάλογο</string>
-			<key>two</key>
-			<string>%d αποτελέσματα εντοπίστηκαν από τον κατάλογο</string>
-			<key>few</key>
-			<string>%d αποτελέσματα εντοπίστηκαν από τον κατάλογο</string>
-			<key>many</key>
-			<string>%d αποτελέσματα εντοπίστηκαν από τον κατάλογο</string>
-			<key>other</key>
-			<string>%d αποτελέσματα εντοπίστηκαν από τον κατάλογο</string>
-		</dict>
-	</dict>
-</dict>
+  <dict>
+    <key>Accessibility.DateTime.Hour.Value</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@hours@</string>
+      <key>hours</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d η ώρα</string>
+        <key>one</key>
+        <string>%d η ώρα</string>
+        <key>two</key>
+        <string>%d η ώρα</string>
+        <key>few</key>
+        <string>%d η ώρα</string>
+        <key>many</key>
+        <string>%d η ώρα</string>
+        <key>other</key>
+        <string>%d η ώρα</string>
+      </dict>
+    </dict>
+    <key>Accessibility.DateTime.Minute.Value</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@minutes@</string>
+      <key>minutes</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d λεπτά</string>
+        <key>one</key>
+        <string>%d λεπτό</string>
+        <key>two</key>
+        <string>%d λεπτά</string>
+        <key>few</key>
+        <string>%d λεπτά</string>
+        <key>many</key>
+        <string>%d λεπτά</string>
+        <key>other</key>
+        <string>%d λεπτά</string>
+      </dict>
+    </dict>
+    <key>%d results found from directory</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@results@</string>
+      <key>results</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d αποτελέσματα εντοπίστηκαν από τον κατάλογο</string>
+        <key>one</key>
+        <string>%d αποτέλεσμα εντοπίστηκε από τον κατάλογο</string>
+        <key>two</key>
+        <string>%d αποτελέσματα εντοπίστηκαν από τον κατάλογο</string>
+        <key>few</key>
+        <string>%d αποτελέσματα εντοπίστηκαν από τον κατάλογο</string>
+        <key>many</key>
+        <string>%d αποτελέσματα εντοπίστηκαν από τον κατάλογο</string>
+        <key>other</key>
+        <string>%d αποτελέσματα εντοπίστηκαν από τον κατάλογο</string>
+      </dict>
+    </dict>
+  </dict>
 </plist>

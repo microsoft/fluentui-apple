@@ -1,78 +1,78 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-	<key>Accessibility.DateTime.Hour.Value</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@hours@</string>
-		<key>hours</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
-			<key>zero</key>
-			<string>الساعة %d</string>
-			<key>one</key>
-			<string>الساعة %d</string>
-			<key>two</key>
-			<string>الساعة %d</string>
-			<key>few</key>
-			<string>الساعة %d</string>
-			<key>many</key>
-			<string>الساعة %d</string>
-			<key>other</key>
-			<string>الساعة %d</string>
-		</dict>
-	</dict>
-	<key>Accessibility.DateTime.Minute.Value</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@minutes@</string>
-		<key>minutes</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
-			<key>zero</key>
-			<string>%d من الدقائق</string>
-			<key>one</key>
-			<string>%d من الدقائق</string>
-			<key>two</key>
-			<string>دقيقتان %d</string>
-			<key>few</key>
-			<string>%d دقائق</string>
-			<key>many</key>
-			<string>%d دقيقة</string>
-			<key>other</key>
-			<string>%d من الدقائق</string>
-		</dict>
-	</dict>
-	<key>%d results found from directory</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@results@</string>
-		<key>results</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
-			<key>zero</key>
-			<string>%d من النتائج التي تم العثور عليها من الدليل</string>
-			<key>one</key>
-			<string>%d من النتائج تم العثور عليها من الدليل</string>
-			<key>two</key>
-			<string>نتيجتان %d من النتائج التي تم العثور عليها من الدليل</string>
-			<key>few</key>
-			<string>%d نتائج من النتائج التي تم العثور عليها من الدليل</string>
-			<key>many</key>
-			<string>%d نتيجة من النتائج التي تم العثور عليها من الدليل</string>
-			<key>other</key>
-			<string>%d من النتائج التي تم العثور عليها من الدليل</string>
-		</dict>
-	</dict>
-</dict>
+  <dict>
+    <key>Accessibility.DateTime.Hour.Value</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@hours@</string>
+      <key>hours</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>الساعة %d</string>
+        <key>one</key>
+        <string>الساعة %d</string>
+        <key>two</key>
+        <string>الساعة %d</string>
+        <key>few</key>
+        <string>الساعة %d</string>
+        <key>many</key>
+        <string>الساعة %d</string>
+        <key>other</key>
+        <string>الساعة %d</string>
+      </dict>
+    </dict>
+    <key>Accessibility.DateTime.Minute.Value</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@minutes@</string>
+      <key>minutes</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d من الدقائق</string>
+        <key>one</key>
+        <string>%d من الدقائق</string>
+        <key>two</key>
+        <string>دقيقتان %d</string>
+        <key>few</key>
+        <string>%d دقائق</string>
+        <key>many</key>
+        <string>%d دقيقة</string>
+        <key>other</key>
+        <string>%d من الدقائق</string>
+      </dict>
+    </dict>
+    <key>%d results found from directory</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@results@</string>
+      <key>results</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d من النتائج التي تم العثور عليها من الدليل</string>
+        <key>one</key>
+        <string>%d من النتائج تم العثور عليها من الدليل</string>
+        <key>two</key>
+        <string>نتيجتان %d من النتائج التي تم العثور عليها من الدليل</string>
+        <key>few</key>
+        <string>%d نتائج من النتائج التي تم العثور عليها من الدليل</string>
+        <key>many</key>
+        <string>%d نتيجة من النتائج التي تم العثور عليها من الدليل</string>
+        <key>other</key>
+        <string>%d من النتائج التي تم العثور عليها من الدليل</string>
+      </dict>
+    </dict>
+  </dict>
 </plist>
