@@ -98,6 +98,7 @@ import SwiftUI
     @objc @Published public var backgroundColor: UIColor?
     @objc @Published public var foregroundColor: UIColor?
     @objc @Published public var presence: MSFAvatarPresence = .none
+    @objc @Published public var hasPointerInteraction: Bool = false
     @objc @Published public var isRingVisible: Bool = false
     @objc @Published public var isTransparent: Bool = true
     @objc @Published public var isOutOfOffice: Bool = false
@@ -148,6 +149,7 @@ public struct AvatarView: View {
         let presenceIconFrameDiffRelativeToOuterRing: CGFloat = ringOuterGapSize - (presenceIconFrameSideRelativeToInnerRing + outerGapAndRingThicknesCombined)
         let presenceCutoutOriginCoordinates: CGFloat = ringOuterGapSize - presenceIconFrameDiffRelativeToOuterRing - presenceIconOutlineSize
         let presenceIconFrameSideRelativeToOuterRing: CGFloat = presenceIconFrameSideRelativeToInnerRing + outerGapAndRingThicknesCombined
+        let overallFrameSide = max(ringOuterGapSize, presenceIconFrameSideRelativeToOuterRing)
 
         let foregroundColor = state.foregroundColor ?? ( !shouldUseCalculatedColors ?
                                                             tokens.foregroundDefaultColor! :
@@ -180,25 +182,33 @@ public struct AvatarView: View {
                         defaultAccessibilityText)
         }()
 
-        let avatarContent = (avatarImage != nil) ?
-            AnyView(Image(uiImage: avatarImage!)
-                        .resizable()
-                        .foregroundColor(Color(foregroundColor)))
-            :
-            AnyView(Text(initialsString)
-                        .foregroundColor(Color(foregroundColor))
-                        .font(Font(tokens.textFont))
-                        .animation(.none))
+        @ViewBuilder
+        var avatarContent: some View {
+            if let image = avatarImage {
+                Image(uiImage: image)
+                    .resizable()
+                    .foregroundColor(Color(foregroundColor))
+            } else {
+                Text(initialsString)
+                    .foregroundColor(Color(foregroundColor))
+                    .font(Font(tokens.textFont))
+                    .animation(.none)
+            }
+        }
 
-        let bodyView = tokens.style == .group ?
-        AnyView(avatarContent
+        @ViewBuilder
+        var avatarBody: some View {
+            if tokens.style == .group {
+                avatarContent
                     .background(Rectangle()
-                                    .frame(width: tokens.avatarSize, height: tokens.avatarSize, alignment: .center)
-                                    .foregroundColor(Color(backgroundColor)))
-                    .frame(width: tokens.avatarSize, height: tokens.avatarSize, alignment: .center)
-                    .cornerRadius(tokens.borderRadius))
-            :
-        AnyView(Circle()
+                                        .frame(width: tokens.avatarSize, height: tokens.avatarSize, alignment: .center)
+                                        .foregroundColor(Color(backgroundColor)))
+                        .frame(width: tokens.avatarSize, height: tokens.avatarSize, alignment: .center)
+                        .contentShape(RoundedRectangle(cornerRadius: tokens.borderRadius))
+                        .clipShape(RoundedRectangle(cornerRadius: tokens.borderRadius))
+                        .cornerRadius(tokens.borderRadius)
+            } else {
+                Circle()
                     .foregroundColor(ringGapColor)
                     .frame(width: ringOuterGapSize, height: ringOuterGapSize, alignment: .center)
                     .overlay(Circle()
@@ -211,27 +221,48 @@ public struct AvatarView: View {
                                                         .frame(width: avatarImageSize * avatarImageSizeRatio,
                                                                height: avatarImageSize * avatarImageSizeRatio,
                                                                alignment: .center)
+                                                        .contentShape(Circle())
                                                         .clipShape(Circle())
                                                         .transition(.opacity),
                                                      alignment: .center)
-                                ),
+                                )
+                                .contentShape(Circle()),
                              alignment: .center)
                     .modifyIf(shouldDisplayPresence, { thisView in
-                        thisView.mask(PresenceCutout(presenceCutoutOriginCoordinates: presenceCutoutOriginCoordinates,
-                                                     presenceIconOutlineSize: presenceIconOutlineSize)
-                                        .fill(style: FillStyle(eoFill: true)))
-                                .overlay(Circle()
-                                            .foregroundColor(isTransparent ? Color.clear : Color(tokens.ringGapColor))
-                                            .frame(width: presenceIconOutlineSize, height: presenceIconOutlineSize, alignment: .center)
-                                            .overlay(presence.image(isOutOfOffice: isOutOfOffice)
-                                                        .resizable()
-                                                        .frame(width: presenceIconSize, height: presenceIconSize, alignment: .center)
-                                                        .foregroundColor(presence.color(isOutOfOffice: isOutOfOffice)))
-                                            .frame(width: presenceIconFrameSideRelativeToOuterRing, height: presenceIconFrameSideRelativeToOuterRing, alignment: .bottomTrailing),
-                                         alignment: .topLeading)
-                    }))
+                            thisView.mask(PresenceCutout(presenceCutoutOriginCoordinates: presenceCutoutOriginCoordinates,
+                                                         presenceIconOutlineSize: presenceIconOutlineSize)
+                                            .fill(style: FillStyle(eoFill: true)))
+                                    .overlay(
+                                        Circle()
+                                                .foregroundColor(isTransparent ? Color.clear : Color(tokens.ringGapColor))
+                                                .frame(width: presenceIconOutlineSize, height: presenceIconOutlineSize, alignment: .center)
+                                                .overlay(presence.image(isOutOfOffice: isOutOfOffice)
+                                                            .resizable()
+                                                            .frame(width: presenceIconSize, height: presenceIconSize, alignment: .center)
+                                                            .foregroundColor(presence.color(isOutOfOffice: isOutOfOffice)))
+                                                .contentShape(Circle())
+                                                .frame(width: presenceIconFrameSideRelativeToOuterRing, height: presenceIconFrameSideRelativeToOuterRing, alignment: .bottomTrailing)
+                                        ,
+                                             alignment: .topLeading)
+                                .frame(width: overallFrameSide,
+                                       height: overallFrameSide,
+                                       alignment: .topLeading)
+                    })
+            }
+        }
 
-        return bodyView
+        // iPad Pointer Interaction support
+        var avatarBodyWithPointerInteraction: AnyView {
+            if #available(iOS 13.4, *) {
+                if state.hasPointerInteraction {
+                    return AnyView(avatarBody.hoverEffect())
+                }
+            }
+
+            return AnyView(avatarBody)
+        }
+
+        return avatarBodyWithPointerInteraction
             .accessibilityElement(children: .ignore)
             .accessibility(addTraits: .isImage)
             .accessibility(label: Text(accessibilityLabel))
