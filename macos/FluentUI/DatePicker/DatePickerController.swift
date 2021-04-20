@@ -285,6 +285,16 @@ open class DatePickerController: NSViewController {
 		return dateFormatter
 	}()
 
+	/// Formatter used to generate weekday strings used in accessibility scenarios like VoiceOver
+	private lazy var accessibilityWeekdayFormatter: DateFormatter = {
+		let dateFormatter = DateFormatter()
+		dateFormatter.calendar = calendar
+		dateFormatter.locale = calendar.locale
+		dateFormatter.setLocalizedDateFormatFromTemplate("EEEE")
+
+		return dateFormatter
+	}()
+
 	/// Formatter used to generate secondary calendar day strings
 	private var secondaryDayFormatter: DateFormatter?
 }
@@ -394,6 +404,7 @@ extension DatePickerController: DatePickerViewDataSource {
 			date: date,
 			primaryLabel: primaryDayFormatter.string(from: date),
 			accessibilityLabel: accessibilityDayFormatter.string(from: date),
+			accessibilityHelp: accessibilityWeekdayFormatter.string(from: date),
 			secondaryLabel: secondaryDayFormatter?.string(from: date))
 	}
 }
