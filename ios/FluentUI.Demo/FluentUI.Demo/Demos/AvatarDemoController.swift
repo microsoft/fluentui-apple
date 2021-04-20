@@ -10,6 +10,11 @@ class AvatarDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let enablePointerInteractionSettingView = createLabelAndSwitchRow(labelText: "Enable iPad pointer interaction",
+                                                                          switchAction: #selector(toggleEnablePointerInteraction(switchView:)),
+                                                                          isOn: isPointerInteractionEnabled)
+        addRow(items: [enablePointerInteractionSettingView])
+
         let backgroundSettingView = createLabelAndSwitchRow(labelText: "Use alternate background color",
                                                             switchAction: #selector(toggleAlternateBackground(switchView:)),
                                                             isOn: isUsingAlternateBackgroundColor)
@@ -120,6 +125,16 @@ class AvatarDemoController: DemoController {
         }
     }
 
+    private var isPointerInteractionEnabled: Bool = false {
+        didSet {
+            if oldValue != isPointerInteractionEnabled {
+                for avatarView in avatarViews {
+                    avatarView.state.hasPointerInteraction = isPointerInteractionEnabled
+                }
+            }
+        }
+    }
+
     private var isShowingPresence: Bool = false {
         didSet {
             if oldValue != isShowingPresence {
@@ -175,6 +190,10 @@ class AvatarDemoController: DemoController {
         }
 
         return presence!
+    }
+
+    @objc private func toggleEnablePointerInteraction(switchView: UISwitch) {
+        isPointerInteractionEnabled = switchView.isOn
     }
 
     @objc private func toggleShowPresence(switchView: UISwitch) {
