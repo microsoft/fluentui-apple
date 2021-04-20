@@ -177,6 +177,8 @@ struct CalendarDay {
 	/// reads this string after a short delay if focus stays on an element.
 	let accessibilityHelp: String?
 
-	/// Secondary String representation of the day
+	/// String representation of the day on the `secondaryCalendar`, if enabled.
+	/// For example: a Chinese lunar calendar superimposed on a Gregorian
+	/// calendar allowing cross-referencing of dates between the two.
 	let secondaryLabel: String?
 }
