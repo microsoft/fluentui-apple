@@ -6,6 +6,30 @@
 import UIKit
 import SwiftUI
 
+extension UIHostingController {
+    /// Disables the UIHostingController's view safe area insets by swizzling the UIView.safeAreaInsets property and returning UIEdgeInsets.zero.
+    /// This is a known issue and it's currently tracked by Radar bug FB8176223 - https://openradar.appspot.com/FB8176223
+    func disableSafeAreaInsets() {
+        guard let hostingControllerViewClass = view?.classForCoder else {
+            return
+        }
+
+        guard let safeAreaInsetsMethod = class_getInstanceMethod(hostingControllerViewClass.self,
+                                                                 #selector(getter: UIView.safeAreaInsets)) else {
+            return
+        }
+
+        let zeroSafeAreaInsetsImpl: @convention(block) (AnyObject) -> UIEdgeInsets = { (_ self: AnyObject!) -> UIEdgeInsets in
+            return .zero
+        }
+
+        class_replaceMethod(hostingControllerViewClass,
+                            #selector(getter: UIView.safeAreaInsets),
+                            imp_implementationWithBlock(zeroSafeAreaInsetsImpl),
+                            method_getTypeEncoding(safeAreaInsetsMethod))
+    }
+}
+
 /// This is a generic UIView wrapper to allow SwiftUI to use views from non-SwiftUI environments.
 struct UIViewAdapter: UIViewRepresentable {
 
