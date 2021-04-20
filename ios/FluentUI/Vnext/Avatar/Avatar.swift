@@ -206,7 +206,6 @@ public struct AvatarView: View {
                         .frame(width: tokens.avatarSize, height: tokens.avatarSize, alignment: .center)
                         .contentShape(RoundedRectangle(cornerRadius: tokens.borderRadius))
                         .clipShape(RoundedRectangle(cornerRadius: tokens.borderRadius))
-                        .cornerRadius(tokens.borderRadius)
             } else {
                 Circle()
                     .foregroundColor(ringGapColor)
@@ -244,9 +243,7 @@ public struct AvatarView: View {
                                                 .frame(width: presenceIconFrameSideRelativeToOuterRing, height: presenceIconFrameSideRelativeToOuterRing, alignment: .bottomTrailing)
                                         ,
                                              alignment: .topLeading)
-                                .frame(width: overallFrameSide,
-                                       height: overallFrameSide,
-                                       alignment: .topLeading)
+                                .frame(width: overallFrameSide, height: overallFrameSide, alignment: .topLeading)
                     })
             }
         }
