@@ -20,33 +20,34 @@ class MSFPersonaViewTokens: MSFCellBaseTokens {
 
     override func updateForCurrentTheme() {
         let currentTheme = theme
-        let appearanceProxy = currentTheme.MSFPersonaViewTokens
+        let personaViewAP = currentTheme.MSFPersonaViewTokens
+        let listCellAP = currentTheme.MSFListCellTokens
 
-        borderColor = appearanceProxy.borderColor
-        disclosureIconForegroundColor = appearanceProxy.disclosureIconForegroundColor
-        labelColor = appearanceProxy.labelColor
-        leadingViewColor = appearanceProxy.leadingViewColor
-        sublabelColor = appearanceProxy.sublabelColor
-        trailingItemForegroundColor = appearanceProxy.trailingItemForegroundColor
+        borderColor = listCellAP.borderColor
+        disclosureIconForegroundColor = listCellAP.disclosureIconForegroundColor
+        labelColor = listCellAP.labelColor
+        leadingViewColor = listCellAP.leadingViewColor
+        sublabelColor = personaViewAP.sublabelColor
+        trailingItemForegroundColor = listCellAP.trailingItemForegroundColor
 
-        backgroundColor = appearanceProxy.backgroundColor.rest
-        highlightedBackgroundColor = appearanceProxy.backgroundColor.pressed
+        backgroundColor = listCellAP.backgroundColor.rest
+        highlightedBackgroundColor = listCellAP.backgroundColor.pressed
 
-        cellHeightOneLine = appearanceProxy.cellHeight.oneLine
-        cellHeightTwoLines = appearanceProxy.cellHeight.twoLines
-        cellHeightThreeLines = appearanceProxy.cellHeight.threeLines
-        disclosureInterspace = appearanceProxy.disclosureInterspace
-        disclosureSize = appearanceProxy.disclosureSize
-        horizontalCellPadding = appearanceProxy.horizontalCellPadding
-        iconInterspace = appearanceProxy.iconInterspace
-        labelAccessoryInterspace = appearanceProxy.labelAccessoryInterspace
-        labelAccessorySize = appearanceProxy.labelAccessorySize
-        leadingViewSize = appearanceProxy.leadingViewSize.xlarge
-        sublabelAccessorySize = appearanceProxy.sublabelAccessorySize
-        trailingItemSize = appearanceProxy.trailingItemSize
+        cellHeightOneLine = listCellAP.cellHeight.oneLine
+        cellHeightTwoLines = listCellAP.cellHeight.twoLines
+        cellHeightThreeLines = listCellAP.cellHeight.threeLines
+        disclosureInterspace = listCellAP.disclosureInterspace
+        disclosureSize = listCellAP.disclosureSize
+        horizontalCellPadding = listCellAP.horizontalCellPadding
+        iconInterspace = personaViewAP.iconInterspace
+        labelAccessoryInterspace = personaViewAP.labelAccessoryInterspace
+        labelAccessorySize = personaViewAP.labelAccessorySize
+        leadingViewSize = listCellAP.leadingViewSize.xlarge
+        sublabelAccessorySize = listCellAP.sublabelAccessorySize
+        trailingItemSize = listCellAP.trailingItemSize
 
-        footnoteFont = appearanceProxy.footnoteFont
-        sublabelFont = appearanceProxy.sublabelFont
-        labelFont = appearanceProxy.labelFont
+        footnoteFont = personaViewAP.footnoteFont
+        sublabelFont = listCellAP.sublabelFont
+        labelFont = personaViewAP.labelFont
     }
 }

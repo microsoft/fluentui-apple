@@ -6,15 +6,130 @@
 import UIKit
 import SwiftUI
 
-@objc public protocol MSFPersonaViewState {
-    @objc var avatar: MSFAvatarState? { get set }
-    @objc var titleTrailingAccessoryView: UIView? { get set }
-    @objc var subtitleTrailingAccessoryView: UIView? { get set }
-    @objc var onTapAction: (() -> Void)? { get set }
+@objc public protocol MSFPersonaViewState: MSFAvatarState {
+    var titleTrailingAccessoryView: UIView? { get set }
+    var subtitleTrailingAccessoryView: UIView? { get set }
+    var onTapAction: (() -> Void)? { get set }
 }
 
-internal class MSFPersonaViewStateImpl: MSFListCellState, MSFPersonaViewState {
-    @Published public var avatar: MSFAvatarState?
+class MSFPersonaViewStateImpl: MSFListCellState, MSFPersonaViewState {
+    init(avatarState: MSFAvatarState) {
+        self.avatarState = avatarState
+    }
+
+    var image: UIImage? {
+        get {
+            return avatarState.image
+        }
+
+        set {
+            avatarState.image = newValue
+        }
+    }
+
+    var primaryText: String? {
+        get {
+            return avatarState.primaryText
+        }
+
+        set {
+            avatarState.primaryText = newValue
+            title = newValue ?? ""
+        }
+    }
+
+    var secondaryText: String? {
+        get {
+            return avatarState.secondaryText
+        }
+
+        set {
+            avatarState.secondaryText = newValue
+            subtitle = newValue ?? ""
+        }
+    }
+
+    var ringColor: UIColor? {
+        get {
+            return avatarState.ringColor
+        }
+
+        set {
+            avatarState.ringColor = newValue
+        }
+    }
+
+    var backgroundColor: UIColor? {
+        get {
+            return avatarState.backgroundColor
+        }
+
+        set {
+            avatarState.backgroundColor = newValue
+        }
+    }
+
+    var foregroundColor: UIColor? {
+        get {
+            return avatarState.foregroundColor
+        }
+
+        set {
+            avatarState.foregroundColor = newValue
+        }
+    }
+
+    var presence: MSFAvatarPresence {
+        get {
+            return avatarState.presence
+        }
+
+        set {
+            avatarState.presence = newValue
+        }
+    }
+
+    var hasPointerInteraction: Bool {
+        get {
+            return avatarState.hasPointerInteraction
+        }
+
+        set {
+            avatarState.hasPointerInteraction = newValue
+        }
+    }
+
+    var isRingVisible: Bool {
+        get {
+            return avatarState.isRingVisible
+        }
+
+        set {
+            avatarState.isRingVisible = newValue
+        }
+    }
+
+    var isTransparent: Bool {
+        get {
+            return avatarState.isTransparent
+        }
+
+        set {
+            avatarState.isTransparent = newValue
+        }
+    }
+
+    var isOutOfOffice: Bool {
+        get {
+            return avatarState.isOutOfOffice
+        }
+
+        set {
+            avatarState.isOutOfOffice = newValue
+        }
+    }
+
+    private var avatarState: MSFAvatarState
 }
 
 struct PersonaView: View {
@@ -22,40 +137,28 @@ struct PersonaView: View {
     @ObservedObject var tokens: MSFPersonaViewTokens
 
     init(windowProvider: FluentUIWindowProvider?) {
-        self.state = MSFPersonaViewStateImpl()
-        self.tokens = MSFPersonaViewTokens()
-        self.tokens.windowProvider = windowProvider
+        avatar = MSFAvatar(style: .default, size: .xlarge)
+        state = MSFPersonaViewStateImpl(avatarState: avatar.state)
+        tokens = MSFPersonaViewTokens()
+        tokens.windowProvider = windowProvider
+
+        initializeState()
     }
 
     var body: some View {
-        MSFListCellView(state: getCellState(), tokens: tokens, windowProvider: tokens.windowProvider)
+        MSFListCellView(state: state, tokens: tokens, windowProvider: tokens.windowProvider)
     }
 
-    private func getCellState() -> MSFListCellState {
-        let cellState = MSFListCellState()
-        cellState.leadingView = createAvatar().view
-        cellState.leadingViewSize = .xlarge
-        cellState.title = state.avatar?.primaryText ?? ""
-        cellState.subtitle = state.avatar?.secondaryText ?? ""
-        cellState.titleTrailingAccessoryView = state.titleTrailingAccessoryView
-        cellState.subtitleTrailingAccessoryView = state.subtitleTrailingAccessoryView
-        cellState.onTapAction = state.onTapAction
-        cellState.layoutType = .threeLines
-        return cellState
+    private func initializeState() {
+        state.leadingView = avatar.view
+        state.leadingViewSize = .xlarge
+        state.titleTrailingAccessoryView = state.titleTrailingAccessoryView
+        state.subtitleTrailingAccessoryView = state.subtitleTrailingAccessoryView
+        state.onTapAction = state.onTapAction
+        state.layoutType = .threeLines
     }
 
-    private func createAvatar() -> MSFAvatar {
-        let avatar = MSFAvatar(style: .default, size: .xlarge)
-        avatar.state.image = state.avatar?.image
-        avatar.state.ringColor = state.avatar?.ringColor
-        avatar.state.backgroundColor = state.avatar?.backgroundColor
-        avatar.state.foregroundColor = state.avatar?.foregroundColor
-        avatar.state.presence = state.avatar?.presence ?? .none
-        avatar.state.isRingVisible = state.avatar?.isRingVisible ?? false
-        avatar.state.isTransparent = state.avatar?.isTransparent ?? true
-        avatar.state.isOutOfOffice = state.avatar?.isOutOfOffice ?? false
-        return avatar
-    }
+    private let avatar: MSFAvatar
 }
 
 /// UIKit wrapper that exposes the SwiftUI Persona Cell implementation

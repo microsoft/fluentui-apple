@@ -85,7 +85,7 @@ class LeftNavMenuViewController: UIViewController {
     var menuAction: (() -> Void)?
 
     private func setPresence(presence: LeftNavPresence) {
-        self.leftNavAvatar.state.presence = presence.avatarPresence()
+        self.persona.state.presence = presence.avatarPresence()
         self.statusCell.isExpanded = false
         self.statusCell.title = presence.cellTitle()
         self.statusCell.leadingView = presence.imageView()
@@ -208,16 +208,13 @@ class LeftNavMenuViewController: UIViewController {
     private var leftNavMenuList = MSFList(sections: [])
 
     private lazy var leftNavAccountView: UIView = {
-        let avatarState = MSFAvatarState()
-        avatarState.presence = .available
-        avatarState.primaryText = "Kat Larrson"
-        avatarState.secondaryText = "Designer"
-        avatarState.image = UIImage(named: "avatar_kat_larsson")
-
         let chevron = UIImageView(image: UIImage(named: "ic_fluent_ios_chevron_right_20_filled"))
         chevron.tintColor = Colors.textPrimary
 
-        persona.state.avatar = avatarState
+        persona.state.presence = .available
+        persona.state.primaryText = "Kat Larrson"
+        persona.state.secondaryText = "Designer"
+        persona.state.image = UIImage(named: "avatar_kat_larsson")
         persona.state.titleTrailingAccessoryView = chevron
         persona.state.onTapAction = {
             self.dismiss(animated: true, completion: {
