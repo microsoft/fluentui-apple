@@ -1,78 +1,78 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-	<key>Accessibility.DateTime.Hour.Value</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@hours@</string>
-		<key>hours</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
-			<key>zero</key>
-			<string>Klokken %d</string>
-			<key>one</key>
-			<string>Klokken %d</string>
-			<key>two</key>
-			<string>Klokken %d</string>
-			<key>few</key>
-			<string>Klokken %d</string>
-			<key>many</key>
-			<string>Klokken %d</string>
-			<key>other</key>
-			<string>Klokken %d</string>
-		</dict>
-	</dict>
-	<key>Accessibility.DateTime.Minute.Value</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@minutes@</string>
-		<key>minutes</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
-			<key>zero</key>
-			<string>%d minutter</string>
-			<key>one</key>
-			<string>%d minut</string>
-			<key>two</key>
-			<string>%d minutter</string>
-			<key>few</key>
-			<string>%d minutter</string>
-			<key>many</key>
-			<string>%d minutter</string>
-			<key>other</key>
-			<string>%d minutter</string>
-		</dict>
-	</dict>
-	<key>%d results found from directory</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@results@</string>
-		<key>results</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
-			<key>zero</key>
-			<string>Der blev fundet %d resultater fra mappen</string>
-			<key>one</key>
-			<string>%d resultat blev fundet fra mappen</string>
-			<key>two</key>
-			<string>Der blev fundet %d resultater fra mappen</string>
-			<key>few</key>
-			<string>Der blev fundet %d resultater fra mappen</string>
-			<key>many</key>
-			<string>Der blev fundet %d resultater fra mappen</string>
-			<key>other</key>
-			<string>Der blev fundet %d resultater fra mappen</string>
-		</dict>
-	</dict>
-</dict>
+  <dict>
+    <key>Accessibility.DateTime.Hour.Value</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@hours@</string>
+      <key>hours</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>Klokken %d</string>
+        <key>one</key>
+        <string>Klokken %d</string>
+        <key>two</key>
+        <string>Klokken %d</string>
+        <key>few</key>
+        <string>Klokken %d</string>
+        <key>many</key>
+        <string>Klokken %d</string>
+        <key>other</key>
+        <string>Klokken %d</string>
+      </dict>
+    </dict>
+    <key>Accessibility.DateTime.Minute.Value</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@minutes@</string>
+      <key>minutes</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d minutter</string>
+        <key>one</key>
+        <string>%d minut</string>
+        <key>two</key>
+        <string>%d minutter</string>
+        <key>few</key>
+        <string>%d minutter</string>
+        <key>many</key>
+        <string>%d minutter</string>
+        <key>other</key>
+        <string>%d minutter</string>
+      </dict>
+    </dict>
+    <key>%d results found from directory</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@results@</string>
+      <key>results</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>Der blev fundet %d resultater fra mappen</string>
+        <key>one</key>
+        <string>%d resultat blev fundet fra mappen</string>
+        <key>two</key>
+        <string>Der blev fundet %d resultater fra mappen</string>
+        <key>few</key>
+        <string>Der blev fundet %d resultater fra mappen</string>
+        <key>many</key>
+        <string>Der blev fundet %d resultater fra mappen</string>
+        <key>other</key>
+        <string>Der blev fundet %d resultater fra mappen</string>
+      </dict>
+    </dict>
+  </dict>
 </plist>

@@ -1,78 +1,78 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-	<key>Accessibility.DateTime.Hour.Value</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@hours@</string>
-		<key>hours</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
-			<key>zero</key>
-			<string>%d</string>
-			<key>one</key>
-			<string>%d</string>
-			<key>two</key>
-			<string>%d</string>
-			<key>few</key>
-			<string>%d</string>
-			<key>many</key>
-			<string>%d</string>
-			<key>other</key>
-			<string>%d</string>
-		</dict>
-	</dict>
-	<key>Accessibility.DateTime.Minute.Value</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@minutes@</string>
-		<key>minutes</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
-			<key>zero</key>
-			<string>%d minut</string>
-			<key>one</key>
-			<string>%d minuta</string>
-			<key>two</key>
-			<string>%d minuty</string>
-			<key>few</key>
-			<string>%d minuty</string>
-			<key>many</key>
-			<string>%d minut</string>
-			<key>other</key>
-			<string>%d min</string>
-		</dict>
-	</dict>
-	<key>%d results found from directory</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@results@</string>
-		<key>results</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
-			<key>zero</key>
-			<string>Znaleziono %d wyników w katalogu</string>
-			<key>one</key>
-			<string>Wyniki znalezione w katalogu: %d</string>
-			<key>two</key>
-			<string>Znaleziono %d wyniki w katalogu</string>
-			<key>few</key>
-			<string>Znaleziono %d wyniki w katalogu</string>
-			<key>many</key>
-			<string>Znaleziono %d wyników w katalogu</string>
-			<key>other</key>
-			<string>Wyniki znalezione w katalogu: %d</string>
-		</dict>
-	</dict>
-</dict>
+  <dict>
+    <key>Accessibility.DateTime.Hour.Value</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@hours@</string>
+      <key>hours</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>Godzina: %d</string>
+        <key>one</key>
+        <string>Godzina: %d</string>
+        <key>two</key>
+        <string>Godzina: %d</string>
+        <key>few</key>
+        <string>Godzina: %d</string>
+        <key>many</key>
+        <string>Godzina: %d</string>
+        <key>other</key>
+        <string>Godzina: %d</string>
+      </dict>
+    </dict>
+    <key>Accessibility.DateTime.Minute.Value</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@minutes@</string>
+      <key>minutes</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d minut</string>
+        <key>one</key>
+        <string>%d minuta</string>
+        <key>two</key>
+        <string>%d minuty</string>
+        <key>few</key>
+        <string>%d minuty</string>
+        <key>many</key>
+        <string>%d minut</string>
+        <key>other</key>
+        <string>%d min</string>
+      </dict>
+    </dict>
+    <key>%d results found from directory</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@results@</string>
+      <key>results</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>Znaleziono %d wyników w katalogu</string>
+        <key>one</key>
+        <string>Wyniki znalezione w katalogu: %d</string>
+        <key>two</key>
+        <string>Znaleziono %d wyniki w katalogu</string>
+        <key>few</key>
+        <string>Znaleziono %d wyniki w katalogu</string>
+        <key>many</key>
+        <string>Znaleziono %d wyników w katalogu</string>
+        <key>other</key>
+        <string>Wyniki znalezione w katalogu: %d</string>
+      </dict>
+    </dict>
+  </dict>
 </plist>

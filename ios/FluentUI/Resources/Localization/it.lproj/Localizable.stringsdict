@@ -1,78 +1,78 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-	<key>Accessibility.DateTime.Hour.Value</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@hours@</string>
-		<key>hours</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
-			<key>zero</key>
-			<string>%d</string>
-			<key>one</key>
-			<string>%d</string>
-			<key>two</key>
-			<string>%d</string>
-			<key>few</key>
-			<string>%d</string>
-			<key>many</key>
-			<string>%d</string>
-			<key>other</key>
-			<string>%d</string>
-		</dict>
-	</dict>
-	<key>Accessibility.DateTime.Minute.Value</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@minutes@</string>
-		<key>minutes</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
-			<key>zero</key>
-			<string>%d minuti</string>
-			<key>one</key>
-			<string>%d minuto</string>
-			<key>two</key>
-			<string>%d minuti</string>
-			<key>few</key>
-			<string>%d minuti</string>
-			<key>many</key>
-			<string>%d minuti</string>
-			<key>other</key>
-			<string>%d minuti</string>
-		</dict>
-	</dict>
-	<key>%d results found from directory</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@results@</string>
-		<key>results</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
-			<key>zero</key>
-			<string>Sono stati trovati %d risultati nella directory</string>
-			<key>one</key>
-			<string>È stato trovato %d risultato nella directory</string>
-			<key>two</key>
-			<string>Sono stati trovati %d risultati nella directory</string>
-			<key>few</key>
-			<string>Sono stati trovati %d risultati nella directory</string>
-			<key>many</key>
-			<string>Sono stati trovati %d risultati nella directory</string>
-			<key>other</key>
-			<string>Sono stati trovati %d risultati nella directory</string>
-		</dict>
-	</dict>
-</dict>
+  <dict>
+    <key>Accessibility.DateTime.Hour.Value</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@hours@</string>
+      <key>hours</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d in punto</string>
+        <key>one</key>
+        <string>%d in punto</string>
+        <key>two</key>
+        <string>%d in punto</string>
+        <key>few</key>
+        <string>%d in punto</string>
+        <key>many</key>
+        <string>%d in punto</string>
+        <key>other</key>
+        <string>%d in punto</string>
+      </dict>
+    </dict>
+    <key>Accessibility.DateTime.Minute.Value</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@minutes@</string>
+      <key>minutes</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>%d minuti</string>
+        <key>one</key>
+        <string>%d minuto</string>
+        <key>two</key>
+        <string>%d minuti</string>
+        <key>few</key>
+        <string>%d minuti</string>
+        <key>many</key>
+        <string>%d minuti</string>
+        <key>other</key>
+        <string>%d minuti</string>
+      </dict>
+    </dict>
+    <key>%d results found from directory</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@results@</string>
+      <key>results</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>zero</key>
+        <string>Sono stati trovati %d risultati nella directory</string>
+        <key>one</key>
+        <string>È stato trovato %d risultato nella directory</string>
+        <key>two</key>
+        <string>Sono stati trovati %d risultati nella directory</string>
+        <key>few</key>
+        <string>Sono stati trovati %d risultati nella directory</string>
+        <key>many</key>
+        <string>Sono stati trovati %d risultati nella directory</string>
+        <key>other</key>
+        <string>Sono stati trovati %d risultati nella directory</string>
+      </dict>
+    </dict>
+  </dict>
 </plist>
