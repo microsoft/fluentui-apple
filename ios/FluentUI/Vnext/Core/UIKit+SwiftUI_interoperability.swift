@@ -19,7 +19,7 @@ extension UIHostingController {
             return
         }
 
-        let zeroSafeAreaInsetsImpl: @convention(block) (AnyObject) -> UIEdgeInsets = { (self: AnyObject!) -> UIEdgeInsets in
+        let zeroSafeAreaInsetsImpl: @convention(block) (AnyObject) -> UIEdgeInsets = { (_ self: AnyObject!) -> UIEdgeInsets in
             return .zero
         }
 
