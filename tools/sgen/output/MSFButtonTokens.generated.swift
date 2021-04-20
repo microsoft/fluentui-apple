@@ -123,293 +123,6 @@ extension FluentUIStyle {
 		}
 
 
-		// MARK: - MSFAccentFloatingActionButtonTokensshadow1Blur
-		open override var shadow1Blur: MSFAccentFloatingActionButtonTokensshadow1BlurAppearanceProxy {
-			return MSFAccentFloatingActionButtonTokensshadow1BlurAppearanceProxy(proxy: mainProxy)
-		}
-		open class MSFAccentFloatingActionButtonTokensshadow1BlurAppearanceProxy: MSFButtonTokensAppearanceProxy.shadow1BlurAppearanceProxy {
-
-			// MARK: - disabled 
-			open override var disabled: CGFloat {
-				return mainProxy().Shadow.shadow2.blur1
-			}
-
-			// MARK: - hover 
-			open override var hover: CGFloat {
-				return mainProxy().Shadow.shadow2.blur1
-			}
-
-			// MARK: - pressed 
-			open override var pressed: CGFloat {
-				return mainProxy().Shadow.shadow2.blur1
-			}
-
-			// MARK: - rest 
-			open override var rest: CGFloat {
-				return mainProxy().Shadow.shadow8.blur1
-			}
-
-			// MARK: - selected 
-			open override var selected: CGFloat {
-				return mainProxy().Shadow.shadow2.blur1
-			}
-		}
-
-
-		// MARK: - MSFAccentFloatingActionButtonTokensshadow1Color
-		open override var shadow1Color: MSFAccentFloatingActionButtonTokensshadow1ColorAppearanceProxy {
-			return MSFAccentFloatingActionButtonTokensshadow1ColorAppearanceProxy(proxy: mainProxy)
-		}
-		open class MSFAccentFloatingActionButtonTokensshadow1ColorAppearanceProxy: MSFButtonTokensAppearanceProxy.shadow1ColorAppearanceProxy {
-
-			// MARK: - disabled 
-			open override var disabled: UIColor {
-				return mainProxy().Shadow.shadow2.color1
-			}
-
-			// MARK: - hover 
-			open override var hover: UIColor {
-				return mainProxy().Shadow.shadow2.color1
-			}
-
-			// MARK: - pressed 
-			open override var pressed: UIColor {
-				return mainProxy().Shadow.shadow2.color1
-			}
-
-			// MARK: - rest 
-			open override var rest: UIColor {
-				return mainProxy().Shadow.shadow8.color1
-			}
-
-			// MARK: - selected 
-			open override var selected: UIColor {
-				return mainProxy().Shadow.shadow2.color1
-			}
-		}
-
-
-		// MARK: - MSFAccentFloatingActionButtonTokensshadow1OffsetX
-		open override var shadow1OffsetX: MSFAccentFloatingActionButtonTokensshadow1OffsetXAppearanceProxy {
-			return MSFAccentFloatingActionButtonTokensshadow1OffsetXAppearanceProxy(proxy: mainProxy)
-		}
-		open class MSFAccentFloatingActionButtonTokensshadow1OffsetXAppearanceProxy: MSFButtonTokensAppearanceProxy.shadow1OffsetXAppearanceProxy {
-
-			// MARK: - disabled 
-			open override var disabled: CGFloat {
-				return mainProxy().Shadow.shadow2.x1
-			}
-
-			// MARK: - hover 
-			open override var hover: CGFloat {
-				return mainProxy().Shadow.shadow2.x1
-			}
-
-			// MARK: - pressed 
-			open override var pressed: CGFloat {
-				return mainProxy().Shadow.shadow2.x1
-			}
-
-			// MARK: - rest 
-			open override var rest: CGFloat {
-				return mainProxy().Shadow.shadow8.x1
-			}
-
-			// MARK: - selected 
-			open override var selected: CGFloat {
-				return mainProxy().Shadow.shadow2.x1
-			}
-		}
-
-
-		// MARK: - MSFAccentFloatingActionButtonTokensshadow1OffsetY
-		open override var shadow1OffsetY: MSFAccentFloatingActionButtonTokensshadow1OffsetYAppearanceProxy {
-			return MSFAccentFloatingActionButtonTokensshadow1OffsetYAppearanceProxy(proxy: mainProxy)
-		}
-		open class MSFAccentFloatingActionButtonTokensshadow1OffsetYAppearanceProxy: MSFButtonTokensAppearanceProxy.shadow1OffsetYAppearanceProxy {
-
-			// MARK: - disabled 
-			open override var disabled: CGFloat {
-				return mainProxy().Shadow.shadow2.y1
-			}
-
-			// MARK: - hover 
-			open override var hover: CGFloat {
-				return mainProxy().Shadow.shadow2.y1
-			}
-
-			// MARK: - pressed 
-			open override var pressed: CGFloat {
-				return mainProxy().Shadow.shadow2.y1
-			}
-
-			// MARK: - rest 
-			open override var rest: CGFloat {
-				return mainProxy().Shadow.shadow8.y1
-			}
-
-			// MARK: - selected 
-			open override var selected: CGFloat {
-				return mainProxy().Shadow.shadow2.y1
-			}
-		}
-
-
-		// MARK: - MSFAccentFloatingActionButtonTokensshadow2Blur
-		open override var shadow2Blur: MSFAccentFloatingActionButtonTokensshadow2BlurAppearanceProxy {
-			return MSFAccentFloatingActionButtonTokensshadow2BlurAppearanceProxy(proxy: mainProxy)
-		}
-		open class MSFAccentFloatingActionButtonTokensshadow2BlurAppearanceProxy: MSFButtonTokensAppearanceProxy.shadow2BlurAppearanceProxy {
-
-			// MARK: - disabled 
-			open override var disabled: CGFloat {
-				return mainProxy().Shadow.shadow2.blur2
-			}
-
-			// MARK: - hover 
-			open override var hover: CGFloat {
-				return mainProxy().Shadow.shadow2.blur2
-			}
-
-			// MARK: - pressed 
-			open override var pressed: CGFloat {
-				return mainProxy().Shadow.shadow2.blur2
-			}
-
-			// MARK: - rest 
-			open override var rest: CGFloat {
-				return mainProxy().Shadow.shadow8.blur2
-			}
-
-			// MARK: - selected 
-			open override var selected: CGFloat {
-				return mainProxy().Shadow.shadow2.blur2
-			}
-		}
-
-
-		// MARK: - MSFAccentFloatingActionButtonTokensshadow2Color
-		open override var shadow2Color: MSFAccentFloatingActionButtonTokensshadow2ColorAppearanceProxy {
-			return MSFAccentFloatingActionButtonTokensshadow2ColorAppearanceProxy(proxy: mainProxy)
-		}
-		open class MSFAccentFloatingActionButtonTokensshadow2ColorAppearanceProxy: MSFButtonTokensAppearanceProxy.shadow2ColorAppearanceProxy {
-
-			// MARK: - disabled 
-			open override var disabled: UIColor {
-				return mainProxy().Shadow.shadow2.color2
-			}
-
-			// MARK: - hover 
-			open override var hover: UIColor {
-				return mainProxy().Shadow.shadow2.color2
-			}
-
-			// MARK: - pressed 
-			open override var pressed: UIColor {
-				return mainProxy().Shadow.shadow2.color2
-			}
-
-			// MARK: - rest 
-			open override var rest: UIColor {
-				return mainProxy().Shadow.shadow8.color2
-			}
-
-			// MARK: - selected 
-			open override var selected: UIColor {
-				return mainProxy().Shadow.shadow2.color2
-			}
-		}
-
-
-		// MARK: - MSFAccentFloatingActionButtonTokensshadow2OffsetX
-		open override var shadow2OffsetX: MSFAccentFloatingActionButtonTokensshadow2OffsetXAppearanceProxy {
-			return MSFAccentFloatingActionButtonTokensshadow2OffsetXAppearanceProxy(proxy: mainProxy)
-		}
-		open class MSFAccentFloatingActionButtonTokensshadow2OffsetXAppearanceProxy: MSFButtonTokensAppearanceProxy.shadow2OffsetXAppearanceProxy {
-
-			// MARK: - disabled 
-			open override var disabled: CGFloat {
-				return mainProxy().Shadow.shadow2.x2
-			}
-
-			// MARK: - hover 
-			open override var hover: CGFloat {
-				return mainProxy().Shadow.shadow2.x2
-			}
-
-			// MARK: - pressed 
-			open override var pressed: CGFloat {
-				return mainProxy().Shadow.shadow2.x2
-			}
-
-			// MARK: - rest 
-			open override var rest: CGFloat {
-				return mainProxy().Shadow.shadow8.x2
-			}
-
-			// MARK: - selected 
-			open override var selected: CGFloat {
-				return mainProxy().Shadow.shadow2.x2
-			}
-		}
-
-
-		// MARK: - MSFAccentFloatingActionButtonTokensshadow2OffsetY
-		open override var shadow2OffsetY: MSFAccentFloatingActionButtonTokensshadow2OffsetYAppearanceProxy {
-			return MSFAccentFloatingActionButtonTokensshadow2OffsetYAppearanceProxy(proxy: mainProxy)
-		}
-		open class MSFAccentFloatingActionButtonTokensshadow2OffsetYAppearanceProxy: MSFButtonTokensAppearanceProxy.shadow2OffsetYAppearanceProxy {
-
-			// MARK: - disabled 
-			open override var disabled: CGFloat {
-				return mainProxy().Shadow.shadow2.y2
-			}
-
-			// MARK: - hover 
-			open override var hover: CGFloat {
-				return mainProxy().Shadow.shadow2.y2
-			}
-
-			// MARK: - pressed 
-			open override var pressed: CGFloat {
-				return mainProxy().Shadow.shadow2.y2
-			}
-
-			// MARK: - rest 
-			open override var rest: CGFloat {
-				return mainProxy().Shadow.shadow8.y2
-			}
-
-			// MARK: - selected 
-			open override var selected: CGFloat {
-				return mainProxy().Shadow.shadow2.y2
-			}
-		}
-
-
-		// MARK: - MSFAccentFloatingActionButtonTokenstextAdditionalHorizontalPadding
-		open override var textAdditionalHorizontalPadding: MSFAccentFloatingActionButtonTokenstextAdditionalHorizontalPaddingAppearanceProxy {
-			return MSFAccentFloatingActionButtonTokenstextAdditionalHorizontalPaddingAppearanceProxy(proxy: mainProxy)
-		}
-		open class MSFAccentFloatingActionButtonTokenstextAdditionalHorizontalPaddingAppearanceProxy: MSFButtonTokensAppearanceProxy.textAdditionalHorizontalPaddingAppearanceProxy {
-
-			// MARK: - large 
-			open override var large: CGFloat {
-				return mainProxy().Spacing.xxSmall
-			}
-
-			// MARK: - medium 
-			open override var medium: CGFloat {
-				return mainProxy().Spacing.xSmall
-			}
-
-			// MARK: - small 
-			open override var small: CGFloat {
-				return mainProxy().Spacing.xSmall
-			}
-		}
-
-
 		// MARK: - MSFAccentFloatingActionButtonTokenstextColor
 		open override var textColor: MSFAccentFloatingActionButtonTokenstextColorAppearanceProxy {
 			return MSFAccentFloatingActionButtonTokenstextColorAppearanceProxy(proxy: mainProxy)
@@ -462,29 +175,6 @@ extension FluentUIStyle {
 			// MARK: - small 
 			open override var small: UIFont {
 				return UIFont.font(name: nil, size: 15.0, textStyle: nil, weight: UIFont.Weight.regular, traits: [], isScalable: false)
-			}
-		}
-
-
-		// MARK: - MSFAccentFloatingActionButtonTokenstextMinimumHeight
-		open override var textMinimumHeight: MSFAccentFloatingActionButtonTokenstextMinimumHeightAppearanceProxy {
-			return MSFAccentFloatingActionButtonTokenstextMinimumHeightAppearanceProxy(proxy: mainProxy)
-		}
-		open class MSFAccentFloatingActionButtonTokenstextMinimumHeightAppearanceProxy: MSFButtonTokensAppearanceProxy.textMinimumHeightAppearanceProxy {
-
-			// MARK: - large 
-			open override var large: CGFloat {
-				return mainProxy().Icon.size.medium
-			}
-
-			// MARK: - medium 
-			open override var medium: CGFloat {
-				return mainProxy().Icon.size.medium
-			}
-
-			// MARK: - small 
-			open override var small: CGFloat {
-				return mainProxy().Icon.size.medium
 			}
 		}
 
@@ -772,7 +462,7 @@ extension FluentUIStyle {
 
 			// MARK: - rest 
 			open var rest: CGFloat {
-				return mainProxy().Shadow.shadow2.blur1
+				return mainProxy().Shadow.shadow8.blur1
 			}
 
 			// MARK: - selected 
@@ -809,7 +499,7 @@ extension FluentUIStyle {
 
 			// MARK: - rest 
 			open var rest: UIColor {
-				return mainProxy().Shadow.shadow2.color1
+				return mainProxy().Shadow.shadow8.color1
 			}
 
 			// MARK: - selected 
@@ -846,7 +536,7 @@ extension FluentUIStyle {
 
 			// MARK: - rest 
 			open var rest: CGFloat {
-				return mainProxy().Shadow.shadow2.x1
+				return mainProxy().Shadow.shadow8.x1
 			}
 
 			// MARK: - selected 
@@ -883,7 +573,7 @@ extension FluentUIStyle {
 
 			// MARK: - rest 
 			open var rest: CGFloat {
-				return mainProxy().Shadow.shadow2.y1
+				return mainProxy().Shadow.shadow8.y1
 			}
 
 			// MARK: - selected 
@@ -920,7 +610,7 @@ extension FluentUIStyle {
 
 			// MARK: - rest 
 			open var rest: CGFloat {
-				return mainProxy().Shadow.shadow2.blur2
+				return mainProxy().Shadow.shadow8.blur2
 			}
 
 			// MARK: - selected 
@@ -957,7 +647,7 @@ extension FluentUIStyle {
 
 			// MARK: - rest 
 			open var rest: UIColor {
-				return mainProxy().Shadow.shadow2.color2
+				return mainProxy().Shadow.shadow8.color2
 			}
 
 			// MARK: - selected 
@@ -994,7 +684,7 @@ extension FluentUIStyle {
 
 			// MARK: - rest 
 			open var rest: CGFloat {
-				return mainProxy().Shadow.shadow2.x2
+				return mainProxy().Shadow.shadow8.x2
 			}
 
 			// MARK: - selected 
@@ -1031,7 +721,7 @@ extension FluentUIStyle {
 
 			// MARK: - rest 
 			open var rest: CGFloat {
-				return mainProxy().Shadow.shadow2.y2
+				return mainProxy().Shadow.shadow8.y2
 			}
 
 			// MARK: - selected 
@@ -1053,17 +743,17 @@ extension FluentUIStyle {
 
 			// MARK: - large 
 			open var large: CGFloat {
-				return mainProxy().Spacing.none
+				return mainProxy().Spacing.xxSmall
 			}
 
 			// MARK: - medium 
 			open var medium: CGFloat {
-				return mainProxy().Spacing.none
+				return mainProxy().Spacing.xSmall
 			}
 
 			// MARK: - small 
 			open var small: CGFloat {
-				return mainProxy().Spacing.none
+				return mainProxy().Spacing.xSmall
 			}
 		}
 
@@ -1144,17 +834,17 @@ extension FluentUIStyle {
 
 			// MARK: - large 
 			open var large: CGFloat {
-				return mainProxy().Spacing.none
+				return mainProxy().Icon.size.medium
 			}
 
 			// MARK: - medium 
 			open var medium: CGFloat {
-				return mainProxy().Spacing.none
+				return mainProxy().Icon.size.medium
 			}
 
 			// MARK: - small 
 			open var small: CGFloat {
-				return mainProxy().Spacing.none
+				return mainProxy().Icon.size.medium
 			}
 		}
 
@@ -1483,293 +1173,6 @@ extension FluentUIStyle {
 		}
 
 
-		// MARK: - MSFSubtleFloatingActionButtonTokensshadow1Blur
-		open override var shadow1Blur: MSFSubtleFloatingActionButtonTokensshadow1BlurAppearanceProxy {
-			return MSFSubtleFloatingActionButtonTokensshadow1BlurAppearanceProxy(proxy: mainProxy)
-		}
-		open class MSFSubtleFloatingActionButtonTokensshadow1BlurAppearanceProxy: MSFButtonTokensAppearanceProxy.shadow1BlurAppearanceProxy {
-
-			// MARK: - disabled 
-			open override var disabled: CGFloat {
-				return mainProxy().Shadow.shadow2.blur1
-			}
-
-			// MARK: - hover 
-			open override var hover: CGFloat {
-				return mainProxy().Shadow.shadow2.blur1
-			}
-
-			// MARK: - pressed 
-			open override var pressed: CGFloat {
-				return mainProxy().Shadow.shadow2.blur1
-			}
-
-			// MARK: - rest 
-			open override var rest: CGFloat {
-				return mainProxy().Shadow.shadow8.blur1
-			}
-
-			// MARK: - selected 
-			open override var selected: CGFloat {
-				return mainProxy().Shadow.shadow2.blur1
-			}
-		}
-
-
-		// MARK: - MSFSubtleFloatingActionButtonTokensshadow1Color
-		open override var shadow1Color: MSFSubtleFloatingActionButtonTokensshadow1ColorAppearanceProxy {
-			return MSFSubtleFloatingActionButtonTokensshadow1ColorAppearanceProxy(proxy: mainProxy)
-		}
-		open class MSFSubtleFloatingActionButtonTokensshadow1ColorAppearanceProxy: MSFButtonTokensAppearanceProxy.shadow1ColorAppearanceProxy {
-
-			// MARK: - disabled 
-			open override var disabled: UIColor {
-				return mainProxy().Shadow.shadow2.color1
-			}
-
-			// MARK: - hover 
-			open override var hover: UIColor {
-				return mainProxy().Shadow.shadow2.color1
-			}
-
-			// MARK: - pressed 
-			open override var pressed: UIColor {
-				return mainProxy().Shadow.shadow2.color1
-			}
-
-			// MARK: - rest 
-			open override var rest: UIColor {
-				return mainProxy().Shadow.shadow8.color1
-			}
-
-			// MARK: - selected 
-			open override var selected: UIColor {
-				return mainProxy().Shadow.shadow2.color1
-			}
-		}
-
-
-		// MARK: - MSFSubtleFloatingActionButtonTokensshadow1OffsetX
-		open override var shadow1OffsetX: MSFSubtleFloatingActionButtonTokensshadow1OffsetXAppearanceProxy {
-			return MSFSubtleFloatingActionButtonTokensshadow1OffsetXAppearanceProxy(proxy: mainProxy)
-		}
-		open class MSFSubtleFloatingActionButtonTokensshadow1OffsetXAppearanceProxy: MSFButtonTokensAppearanceProxy.shadow1OffsetXAppearanceProxy {
-
-			// MARK: - disabled 
-			open override var disabled: CGFloat {
-				return mainProxy().Shadow.shadow2.x1
-			}
-
-			// MARK: - hover 
-			open override var hover: CGFloat {
-				return mainProxy().Shadow.shadow2.x1
-			}
-
-			// MARK: - pressed 
-			open override var pressed: CGFloat {
-				return mainProxy().Shadow.shadow2.x1
-			}
-
-			// MARK: - rest 
-			open override var rest: CGFloat {
-				return mainProxy().Shadow.shadow8.x1
-			}
-
-			// MARK: - selected 
-			open override var selected: CGFloat {
-				return mainProxy().Shadow.shadow2.x1
-			}
-		}
-
-
-		// MARK: - MSFSubtleFloatingActionButtonTokensshadow1OffsetY
-		open override var shadow1OffsetY: MSFSubtleFloatingActionButtonTokensshadow1OffsetYAppearanceProxy {
-			return MSFSubtleFloatingActionButtonTokensshadow1OffsetYAppearanceProxy(proxy: mainProxy)
-		}
-		open class MSFSubtleFloatingActionButtonTokensshadow1OffsetYAppearanceProxy: MSFButtonTokensAppearanceProxy.shadow1OffsetYAppearanceProxy {
-
-			// MARK: - disabled 
-			open override var disabled: CGFloat {
-				return mainProxy().Shadow.shadow2.y1
-			}
-
-			// MARK: - hover 
-			open override var hover: CGFloat {
-				return mainProxy().Shadow.shadow2.y1
-			}
-
-			// MARK: - pressed 
-			open override var pressed: CGFloat {
-				return mainProxy().Shadow.shadow2.y1
-			}
-
-			// MARK: - rest 
-			open override var rest: CGFloat {
-				return mainProxy().Shadow.shadow8.y1
-			}
-
-			// MARK: - selected 
-			open override var selected: CGFloat {
-				return mainProxy().Shadow.shadow2.y1
-			}
-		}
-
-
-		// MARK: - MSFSubtleFloatingActionButtonTokensshadow2Blur
-		open override var shadow2Blur: MSFSubtleFloatingActionButtonTokensshadow2BlurAppearanceProxy {
-			return MSFSubtleFloatingActionButtonTokensshadow2BlurAppearanceProxy(proxy: mainProxy)
-		}
-		open class MSFSubtleFloatingActionButtonTokensshadow2BlurAppearanceProxy: MSFButtonTokensAppearanceProxy.shadow2BlurAppearanceProxy {
-
-			// MARK: - disabled 
-			open override var disabled: CGFloat {
-				return mainProxy().Shadow.shadow2.blur2
-			}
-
-			// MARK: - hover 
-			open override var hover: CGFloat {
-				return mainProxy().Shadow.shadow2.blur2
-			}
-
-			// MARK: - pressed 
-			open override var pressed: CGFloat {
-				return mainProxy().Shadow.shadow2.blur2
-			}
-
-			// MARK: - rest 
-			open override var rest: CGFloat {
-				return mainProxy().Shadow.shadow8.blur2
-			}
-
-			// MARK: - selected 
-			open override var selected: CGFloat {
-				return mainProxy().Shadow.shadow2.blur2
-			}
-		}
-
-
-		// MARK: - MSFSubtleFloatingActionButtonTokensshadow2Color
-		open override var shadow2Color: MSFSubtleFloatingActionButtonTokensshadow2ColorAppearanceProxy {
-			return MSFSubtleFloatingActionButtonTokensshadow2ColorAppearanceProxy(proxy: mainProxy)
-		}
-		open class MSFSubtleFloatingActionButtonTokensshadow2ColorAppearanceProxy: MSFButtonTokensAppearanceProxy.shadow2ColorAppearanceProxy {
-
-			// MARK: - disabled 
-			open override var disabled: UIColor {
-				return mainProxy().Shadow.shadow2.color2
-			}
-
-			// MARK: - hover 
-			open override var hover: UIColor {
-				return mainProxy().Shadow.shadow2.color2
-			}
-
-			// MARK: - pressed 
-			open override var pressed: UIColor {
-				return mainProxy().Shadow.shadow2.color2
-			}
-
-			// MARK: - rest 
-			open override var rest: UIColor {
-				return mainProxy().Shadow.shadow8.color2
-			}
-
-			// MARK: - selected 
-			open override var selected: UIColor {
-				return mainProxy().Shadow.shadow2.color2
-			}
-		}
-
-
-		// MARK: - MSFSubtleFloatingActionButtonTokensshadow2OffsetX
-		open override var shadow2OffsetX: MSFSubtleFloatingActionButtonTokensshadow2OffsetXAppearanceProxy {
-			return MSFSubtleFloatingActionButtonTokensshadow2OffsetXAppearanceProxy(proxy: mainProxy)
-		}
-		open class MSFSubtleFloatingActionButtonTokensshadow2OffsetXAppearanceProxy: MSFButtonTokensAppearanceProxy.shadow2OffsetXAppearanceProxy {
-
-			// MARK: - disabled 
-			open override var disabled: CGFloat {
-				return mainProxy().Shadow.shadow2.x2
-			}
-
-			// MARK: - hover 
-			open override var hover: CGFloat {
-				return mainProxy().Shadow.shadow2.x2
-			}
-
-			// MARK: - pressed 
-			open override var pressed: CGFloat {
-				return mainProxy().Shadow.shadow2.x2
-			}
-
-			// MARK: - rest 
-			open override var rest: CGFloat {
-				return mainProxy().Shadow.shadow8.x2
-			}
-
-			// MARK: - selected 
-			open override var selected: CGFloat {
-				return mainProxy().Shadow.shadow2.x2
-			}
-		}
-
-
-		// MARK: - MSFSubtleFloatingActionButtonTokensshadow2OffsetY
-		open override var shadow2OffsetY: MSFSubtleFloatingActionButtonTokensshadow2OffsetYAppearanceProxy {
-			return MSFSubtleFloatingActionButtonTokensshadow2OffsetYAppearanceProxy(proxy: mainProxy)
-		}
-		open class MSFSubtleFloatingActionButtonTokensshadow2OffsetYAppearanceProxy: MSFButtonTokensAppearanceProxy.shadow2OffsetYAppearanceProxy {
-
-			// MARK: - disabled 
-			open override var disabled: CGFloat {
-				return mainProxy().Shadow.shadow2.y2
-			}
-
-			// MARK: - hover 
-			open override var hover: CGFloat {
-				return mainProxy().Shadow.shadow2.y2
-			}
-
-			// MARK: - pressed 
-			open override var pressed: CGFloat {
-				return mainProxy().Shadow.shadow2.y2
-			}
-
-			// MARK: - rest 
-			open override var rest: CGFloat {
-				return mainProxy().Shadow.shadow8.y2
-			}
-
-			// MARK: - selected 
-			open override var selected: CGFloat {
-				return mainProxy().Shadow.shadow2.y2
-			}
-		}
-
-
-		// MARK: - MSFSubtleFloatingActionButtonTokenstextAdditionalHorizontalPadding
-		open override var textAdditionalHorizontalPadding: MSFSubtleFloatingActionButtonTokenstextAdditionalHorizontalPaddingAppearanceProxy {
-			return MSFSubtleFloatingActionButtonTokenstextAdditionalHorizontalPaddingAppearanceProxy(proxy: mainProxy)
-		}
-		open class MSFSubtleFloatingActionButtonTokenstextAdditionalHorizontalPaddingAppearanceProxy: MSFButtonTokensAppearanceProxy.textAdditionalHorizontalPaddingAppearanceProxy {
-
-			// MARK: - large 
-			open override var large: CGFloat {
-				return mainProxy().Spacing.xxSmall
-			}
-
-			// MARK: - medium 
-			open override var medium: CGFloat {
-				return mainProxy().Spacing.xSmall
-			}
-
-			// MARK: - small 
-			open override var small: CGFloat {
-				return mainProxy().Spacing.xSmall
-			}
-		}
-
-
 		// MARK: - MSFSubtleFloatingActionButtonTokenstextColor
 		open override var textColor: MSFSubtleFloatingActionButtonTokenstextColorAppearanceProxy {
 			return MSFSubtleFloatingActionButtonTokenstextColorAppearanceProxy(proxy: mainProxy)
@@ -1822,29 +1225,6 @@ extension FluentUIStyle {
 			// MARK: - small 
 			open override var small: UIFont {
 				return UIFont.font(name: nil, size: 15.0, textStyle: nil, weight: UIFont.Weight.regular, traits: [], isScalable: false)
-			}
-		}
-
-
-		// MARK: - MSFSubtleFloatingActionButtonTokenstextMinimumHeight
-		open override var textMinimumHeight: MSFSubtleFloatingActionButtonTokenstextMinimumHeightAppearanceProxy {
-			return MSFSubtleFloatingActionButtonTokenstextMinimumHeightAppearanceProxy(proxy: mainProxy)
-		}
-		open class MSFSubtleFloatingActionButtonTokenstextMinimumHeightAppearanceProxy: MSFButtonTokensAppearanceProxy.textMinimumHeightAppearanceProxy {
-
-			// MARK: - large 
-			open override var large: CGFloat {
-				return mainProxy().Icon.size.medium
-			}
-
-			// MARK: - medium 
-			open override var medium: CGFloat {
-				return mainProxy().Icon.size.medium
-			}
-
-			// MARK: - small 
-			open override var small: CGFloat {
-				return mainProxy().Icon.size.medium
 			}
 		}
 

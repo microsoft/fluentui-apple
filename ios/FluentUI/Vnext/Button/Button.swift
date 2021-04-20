@@ -38,11 +38,13 @@ struct MSFButtonViewButtonStyle: ButtonStyle {
                     .font(Font(tokens.textFont))
                     .fontWeight(.medium)
                     .multilineTextAlignment(.center)
-                    .frame(minHeight: tokens.textMinimumHeight)
+                    .modifyIf(tokens.style.isFloatingStyle, { view in
+                        view.frame(minHeight: tokens.textMinimumHeight)
+                    })
                 }
         }
         .padding(tokens.padding)
-        .modifyIf(!(state.text?.isEmpty ?? true), { view in
+        .modifyIf(tokens.style.isFloatingStyle && !(state.text?.isEmpty ?? true), { view in
             view.padding(.horizontal, tokens.textAdditionalHorizontalPadding )
         })
         .frame(maxWidth: .infinity, maxHeight: .infinity)
