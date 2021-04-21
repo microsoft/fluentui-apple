@@ -195,12 +195,28 @@ class LargeTitleView: UIView {
         contentStackView.addArrangedSubview(avatarView)
 
         avatarView.centerYAnchor.constraint(equalTo: contentStackView.centerYAnchor).isActive = true
-        avatarHeightConstraint = NSLayoutConstraint(item: avatarView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: Constants.avatarSize.size)
-        avatarView.addConstraint(avatarHeightConstraint!)
-        avatarHeightConstraint?.isActive = true
-        avatarWidthConstraint = NSLayoutConstraint(item: avatarView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: Constants.avatarSize.size)
-        avatarView.addConstraint(avatarWidthConstraint!)
-        avatarWidthConstraint?.isActive = true
+
+        let avatarHeightConstraint = NSLayoutConstraint(item: avatarView,
+                                                        attribute: .height,
+                                                        relatedBy: .equal,
+                                                        toItem: nil,
+                                                        attribute: .notAnAttribute,
+                                                        multiplier: 1,
+                                                        constant: Constants.avatarSize.size)
+        avatarView.addConstraint(avatarHeightConstraint)
+        avatarHeightConstraint.isActive = true
+        self.avatarHeightConstraint = avatarHeightConstraint
+
+        let avatarWidthConstraint = NSLayoutConstraint(item: avatarView,
+                                                       attribute: .width,
+                                                       relatedBy: .equal,
+                                                       toItem: nil,
+                                                       attribute: .notAnAttribute,
+                                                       multiplier: 1,
+                                                       constant: Constants.avatarSize.size)
+        avatarView.addConstraint(avatarWidthConstraint)
+        avatarWidthConstraint.isActive = true
+        self.avatarWidthConstraint = avatarWidthConstraint
 
         // title button setup
         contentStackView.addArrangedSubview(titleButton)
@@ -234,9 +250,6 @@ class LargeTitleView: UIView {
             avatarHeightConstraint?.constant = Constants.avatarSize.size
         }
 
-        contentStackView.spacing = Constants.horizontalSpacing - 1 //!!! need this otherwise animation gets broken
-        contentStackView.spacing = Constants.horizontalSpacing
-
         layoutIfNeeded()
     }
 
@@ -250,9 +263,6 @@ class LargeTitleView: UIView {
             avatarWidthConstraint?.constant = Constants.compactAvatarSize.size
             avatarHeightConstraint?.constant = Constants.compactAvatarSize.size
         }
-
-        contentStackView.spacing = Constants.horizontalSpacing - 1 //!!! need this otherwise animation gets broken
-        contentStackView.spacing = Constants.horizontalSpacing
 
         layoutIfNeeded()
     }
