@@ -40,7 +40,7 @@ class BottomSheetView: UIView {
         contentView.clipsToBounds = true
         return contentView
     }()
-    
+
     private struct Constants {
         static let cornerRadius: CGFloat = 14
 

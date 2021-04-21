@@ -83,13 +83,13 @@ public class BottomSheetController: UIViewController {
     @objc open weak var delegate: BottomSheetControllerDelegate?
 
     // MARK: - View loading
-    
-    override public func loadView() {
+
+    public override func loadView() {
         view = BottomSheetPassthroughView()
 
         view.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(bottomSheetView)
-        
+
         bottomSheetView.addGestureRecognizer(panGestureRecognizer)
         panGestureRecognizer.delegate = self
 
@@ -141,7 +141,7 @@ public class BottomSheetController: UIViewController {
     }
 
     @objc private func handlePan(_ sender: UIPanGestureRecognizer) {
-        switch (sender.state) {
+        switch sender.state {
         case .began:
             stopAnimationIfNeeded()
             fallthrough
@@ -163,11 +163,7 @@ public class BottomSheetController: UIViewController {
         if currentOffsetFromBottom <= collapsedOffsetFromBottom || currentOffsetFromBottom >= expandedOffsetFromBottom {
             offsetDelta *= translationRubberBandFactor(for: currentOffsetFromBottom)
         }
-        bottomSheetOffsetConstraint.constant = -clamp(currentOffsetFromBottom - offsetDelta, minOffset, maxOffset)
-    }
-
-    private func clamp<T>(_ n: T, _ minimum: T, _ maximum: T) -> T where T : Comparable {
-        return min(max(n, minimum), maximum)
+        bottomSheetOffsetConstraint.constant = -min(max(currentOffsetFromBottom - offsetDelta, minOffset), maxOffset)
     }
 
     private func translationRubberBandFactor(for currentOffset: CGFloat) -> CGFloat {
@@ -298,9 +294,10 @@ public class BottomSheetController: UIViewController {
     }
 
     // The height doesn't change while panning. The sheet only gets pulled out from the off-screen area.
-    private lazy var bottomSheetHeightConstraints = generateBottomSheetHeightConstraints()
+    private lazy var bottomSheetHeightConstraints: [NSLayoutConstraint] = generateBottomSheetHeightConstraints()
 
-    private lazy var bottomSheetOffsetConstraint = bottomSheetView.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -collapsedOffsetFromBottom)
+    private lazy var bottomSheetOffsetConstraint: NSLayoutConstraint =
+        bottomSheetView.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -collapsedOffsetFromBottom)
 
     private var contentViewController: UIViewController
 

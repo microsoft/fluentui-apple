@@ -37,7 +37,7 @@ class BottomSheetDemoController: DemoController {
 
         NSLayoutConstraint.activate([
             bottomSheetVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            bottomSheetVC.view.trailingAnchor.constraint(equalTo:view.trailingAnchor),
+            bottomSheetVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             bottomSheetVC.view.topAnchor.constraint(equalTo: view.topAnchor),
             bottomSheetVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
@@ -54,7 +54,7 @@ class BottomSheetDemoController: DemoController {
     private var bottomSheetViewController: BottomSheetController?
 }
 
-fileprivate class BottomSheetPersonaListViewController: UIViewController {
+private class BottomSheetPersonaListViewController: UIViewController {
     override func loadView() {
         super.loadView()
         view.addSubview(personaListView)
