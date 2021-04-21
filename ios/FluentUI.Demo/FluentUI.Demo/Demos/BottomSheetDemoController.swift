@@ -12,37 +12,35 @@ class BottomSheetDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupPersonaListView()
+        setupMainPersonaListView()
         setupBottomSheet()
     }
 
 // MARK: Setup Methods
 
-    private func setupPersonaListView() {
+    private func setupMainPersonaListView() {
         view.addSubview(personaListView)
         personaListView.frame = view.bounds
         personaListView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }
 
     private func setupBottomSheet() {
-        let personaVC = PersonaListViewController()
-        bottomSheetViewController = BottomSheetController(with: personaVC)
-        bottomSheetViewController?.hostedScrollView = personaVC.personaListView
-        bottomSheetViewController?.expandedHeightFraction = 0.8
-        bottomSheetViewController?.isExpandable = true
+        let personaVC = BottomSheetPersonaListViewController()
+        let bottomSheetVC = BottomSheetController(with: personaVC)
+        bottomSheetVC.hostedScrollView = personaVC.personaListView
+        bottomSheetVC.expandedHeightFraction = 0.8
+        bottomSheetVC.isExpandable = true
 
-        if let bottomSheet = bottomSheetViewController {
-            self.addChild(bottomSheet)
-            view.addSubview(bottomSheet.view)
+        self.addChild(bottomSheetVC)
+        view.addSubview(bottomSheetVC.view)
+        bottomSheetVC.didMove(toParent: self)
 
-            NSLayoutConstraint.activate([
-                bottomSheet.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                bottomSheet.view.trailingAnchor.constraint(equalTo:view.trailingAnchor),
-                bottomSheet.view.topAnchor.constraint(equalTo: view.topAnchor),
-                bottomSheet.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            ])
-            bottomSheet.didMove(toParent: self)
-        }
+        NSLayoutConstraint.activate([
+            bottomSheetVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            bottomSheetVC.view.trailingAnchor.constraint(equalTo:view.trailingAnchor),
+            bottomSheetVC.view.topAnchor.constraint(equalTo: view.topAnchor),
+            bottomSheetVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 
 // MARK: Private properties
@@ -56,14 +54,12 @@ class BottomSheetDemoController: DemoController {
     private var bottomSheetViewController: BottomSheetController?
 }
 
-fileprivate class PersonaListViewController: UIViewController {
-    override func viewDidLoad() {
+fileprivate class BottomSheetPersonaListViewController: UIViewController {
+    override func loadView() {
+        super.loadView()
         view.addSubview(personaListView)
         personaListView.frame = view.bounds
         personaListView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
-
-//        view.heightAnchor.constraint(equalToConstant: 1200).isActive = true
     }
 
     public let personaListView: PersonaListView = {
