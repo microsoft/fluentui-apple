@@ -25,7 +25,11 @@ class BottomSheetDemoController: DemoController {
     }
 
     private func setupBottomSheet() {
-        bottomSheetViewController = BottomSheetController()
+        let personaVC = PersonaListViewController()
+        bottomSheetViewController = BottomSheetController(with: personaVC)
+        bottomSheetViewController?.hostedScrollView = personaVC.personaListView
+        bottomSheetViewController?.expandedHeightFraction = 0.8
+        bottomSheetViewController?.isExpandable = true
 
         if let bottomSheet = bottomSheetViewController {
             self.addChild(bottomSheet)
@@ -38,12 +42,6 @@ class BottomSheetDemoController: DemoController {
                 bottomSheet.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
             bottomSheet.didMove(toParent: self)
-
-            let personaVC = PersonaListViewController()
-            bottomSheet.contentViewController = personaVC
-            bottomSheet.hostedScrollView = personaVC.personaListView
-            bottomSheet.expandedHeightFraction = 0.8
-            bottomSheet.isExpandable = true
         }
     }
 
