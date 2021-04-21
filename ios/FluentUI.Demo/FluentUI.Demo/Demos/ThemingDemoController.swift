@@ -185,7 +185,7 @@ open class CustomStyle: FluentUIStyle {
             return 0.0
         }
 
-        open override var xlarge: CGFloat {
+        open override var xLarge: CGFloat {
             return 0.0
         }
     }

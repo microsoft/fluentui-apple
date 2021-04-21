@@ -11,6 +11,14 @@ import SwiftUI
     case primary
     case secondary
     case ghost
+    /// For use with small and large sizes only
+    case accentFloating
+    /// For use with small and large sizes only
+    case subtleFloating
+
+    var isFloatingStyle: Bool {
+        return self == .accentFloating || self == .subtleFloating
+    }
 }
 
 /// Pre-defined sizes of the button
@@ -29,6 +37,8 @@ class MSFButtonTokens: MSFTokensBase, ObservableObject {
     @Published public var interspace: CGFloat!
     @Published public var padding: CGFloat!
     @Published public var textFont: UIFont!
+    @Published public var textMinimumHeight: CGFloat!
+    @Published public var textAdditionalHorizontalPadding: CGFloat!
 
     @Published public var titleColor: UIColor!
     @Published public var borderColor: UIColor!
@@ -44,6 +54,24 @@ class MSFButtonTokens: MSFTokensBase, ObservableObject {
     @Published public var disabledBorderColor: UIColor!
     @Published public var disabledBackgroundColor: UIColor!
     @Published public var disabledIconColor: UIColor!
+
+    @Published public var restShadow1Color: Color!
+    @Published public var restShadow1Blur: CGFloat!
+    @Published public var restShadow1DepthX: CGFloat!
+    @Published public var restShadow1DepthY: CGFloat!
+    @Published public var restShadow2Color: Color!
+    @Published public var restShadow2Blur: CGFloat!
+    @Published public var restShadow2DepthX: CGFloat!
+    @Published public var restShadow2DepthY: CGFloat!
+
+    @Published public var pressedShadow1Color: Color!
+    @Published public var pressedShadow1Blur: CGFloat!
+    @Published public var pressedShadow1DepthX: CGFloat!
+    @Published public var pressedShadow1DepthY: CGFloat!
+    @Published public var pressedShadow2Color: Color!
+    @Published public var pressedShadow2Blur: CGFloat!
+    @Published public var pressedShadow2DepthX: CGFloat!
+    @Published public var pressedShadow2DepthY: CGFloat!
 
     var style: MSFButtonStyle
     var size: MSFButtonSize
@@ -74,6 +102,10 @@ class MSFButtonTokens: MSFTokensBase, ObservableObject {
             appearanceProxy = currentTheme.MSFSecondaryButtonTokens
         case .ghost:
             appearanceProxy = currentTheme.MSFGhostButtonTokens
+        case .accentFloating:
+            appearanceProxy = currentTheme.MSFAccentFloatingActionButtonTokens
+        case .subtleFloating:
+            appearanceProxy = currentTheme.MSFSubtleFloatingActionButtonTokens
         }
 
         titleColor = appearanceProxy.textColor.rest
@@ -91,6 +123,24 @@ class MSFButtonTokens: MSFTokensBase, ObservableObject {
         disabledBackgroundColor = appearanceProxy.backgroundColor.disabled
         disabledIconColor = appearanceProxy.iconColor.disabled
 
+        restShadow1Color = Color(appearanceProxy.shadow1Color.rest)
+        restShadow1Blur = appearanceProxy.shadow1Blur.rest
+        restShadow1DepthX = appearanceProxy.shadow1OffsetX.rest
+        restShadow1DepthY = appearanceProxy.shadow1OffsetY.rest
+        restShadow2Color = Color(appearanceProxy.shadow2Color.rest)
+        restShadow2Blur = appearanceProxy.shadow2Blur.rest
+        restShadow2DepthX = appearanceProxy.shadow2OffsetX.rest
+        restShadow2DepthY = appearanceProxy.shadow2OffsetY.rest
+
+        pressedShadow1Color = Color(appearanceProxy.shadow1Color.pressed)
+        pressedShadow1Blur = appearanceProxy.shadow1Blur.pressed
+        pressedShadow1DepthX = appearanceProxy.shadow1OffsetX.pressed
+        pressedShadow1DepthY = appearanceProxy.shadow1OffsetY.pressed
+        pressedShadow2Color = Color(appearanceProxy.shadow2Color.pressed)
+        pressedShadow2Blur = appearanceProxy.shadow2Blur.pressed
+        pressedShadow2DepthX = appearanceProxy.shadow2OffsetX.pressed
+        pressedShadow2DepthY = appearanceProxy.shadow2OffsetY.pressed
+
         switch size {
         case .large:
             borderRadius = appearanceProxy.borderRadius.large
@@ -99,6 +149,8 @@ class MSFButtonTokens: MSFTokensBase, ObservableObject {
             interspace = appearanceProxy.interspace.large
             padding = appearanceProxy.padding.large
             textFont = appearanceProxy.textFont.large
+            textMinimumHeight = appearanceProxy.textMinimumHeight.large
+            textAdditionalHorizontalPadding = appearanceProxy.textAdditionalHorizontalPadding.large
         case .medium:
             borderRadius = appearanceProxy.borderRadius.medium
             borderSize = appearanceProxy.borderSize.medium
@@ -106,6 +158,8 @@ class MSFButtonTokens: MSFTokensBase, ObservableObject {
             interspace = appearanceProxy.interspace.medium
             padding = appearanceProxy.padding.medium
             textFont = appearanceProxy.textFont.medium
+            textMinimumHeight = appearanceProxy.textMinimumHeight.medium
+            textAdditionalHorizontalPadding = appearanceProxy.textAdditionalHorizontalPadding.medium
         case .small:
             borderRadius = appearanceProxy.borderRadius.small
             borderSize = appearanceProxy.borderSize.small
@@ -113,6 +167,8 @@ class MSFButtonTokens: MSFTokensBase, ObservableObject {
             interspace = appearanceProxy.interspace.small
             padding = appearanceProxy.padding.small
             textFont = appearanceProxy.textFont.small
+            textMinimumHeight = appearanceProxy.textMinimumHeight.small
+            textAdditionalHorizontalPadding = appearanceProxy.textAdditionalHorizontalPadding.small
         }
     }
 }

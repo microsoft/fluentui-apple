@@ -22,6 +22,7 @@ struct MSFButtonViewButtonStyle: ButtonStyle {
         let state = targetButton.state
         let isDisabled = state.isDisabled
         let isPressed = configuration.isPressed
+        let shouldUsePressedShadow = isDisabled || isPressed
 
         return HStack(spacing: tokens.interspace) {
             if let image = state.image {
@@ -37,9 +38,15 @@ struct MSFButtonViewButtonStyle: ButtonStyle {
                     .font(Font(tokens.textFont))
                     .fontWeight(.medium)
                     .multilineTextAlignment(.center)
+                    .modifyIf(tokens.style.isFloatingStyle, { view in
+                        view.frame(minHeight: tokens.textMinimumHeight)
+                    })
                 }
         }
         .padding(tokens.padding)
+        .modifyIf(tokens.style.isFloatingStyle && !(state.text?.isEmpty ?? true), { view in
+            view.padding(.horizontal, tokens.textAdditionalHorizontalPadding )
+        })
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .foregroundColor(Color(isDisabled ? tokens.disabledTitleColor :
                                 (isPressed ? tokens.highlightedTitleColor : tokens.titleColor)))
@@ -53,6 +60,17 @@ struct MSFButtonViewButtonStyle: ButtonStyle {
                         AnyView(RoundedRectangle(cornerRadius: tokens.borderRadius)
                                     .fill(Color(isDisabled ? tokens.disabledBackgroundColor :
                                                     (isPressed ? tokens.highlightedBackgroundColor : tokens.backgroundColor)))))
+        .modifyIf(tokens.style.isFloatingStyle, { view in
+            view.clipShape(Capsule())
+                .shadow(color: shouldUsePressedShadow ? tokens.pressedShadow1Color : tokens.restShadow1Color,
+                        radius: shouldUsePressedShadow ? tokens.pressedShadow1Blur : tokens.restShadow1Blur,
+                        x: shouldUsePressedShadow ? tokens.pressedShadow1DepthX : tokens.restShadow1DepthX,
+                        y: shouldUsePressedShadow ? tokens.pressedShadow1DepthY : tokens.restShadow1DepthY)
+                .shadow(color: shouldUsePressedShadow ? tokens.pressedShadow2Color : tokens.restShadow2Color,
+                        radius: shouldUsePressedShadow ? tokens.pressedShadow2Blur : tokens.restShadow2Blur,
+                        x: shouldUsePressedShadow ? tokens.pressedShadow2DepthX : tokens.restShadow2DepthX,
+                        y: shouldUsePressedShadow ? tokens.pressedShadow2DepthY : tokens.restShadow2DepthY)
+        })
     }
 }
 

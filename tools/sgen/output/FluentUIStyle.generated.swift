@@ -351,8 +351,8 @@ open class FluentUIStyle: NSObject {
 				return CGFloat(2.0)
 			}
 
-			// MARK: - xlarge 
-			open var xlarge: CGFloat {
+			// MARK: - xLarge 
+			open var xLarge: CGFloat {
 				return CGFloat(12.0)
 			}
 		}
@@ -452,12 +452,12 @@ open class FluentUIStyle: NSObject {
 
 			// MARK: - neutral3 
 			open var neutral3: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey96", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey8", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: UIColor(named: "FluentColors/grey16", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/grey96", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey8", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: UIColor(named: "FluentColors/grey12", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - neutral4 
 			open var neutral4: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey94", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey16", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: UIColor(named: "FluentColors/grey24", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/grey94", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey12", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: UIColor(named: "FluentColors/grey16", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - neutral5 
@@ -844,14 +844,19 @@ open class FluentUIStyle: NSObject {
 				return CGFloat(20.0)
 			}
 
+			// MARK: - xLarge 
+			open var xLarge: CGFloat {
+				return CGFloat(36.0)
+			}
+
 			// MARK: - xSmall 
 			open var xSmall: CGFloat {
 				return CGFloat(16.0)
 			}
 
-			// MARK: - xlarge 
-			open var xlarge: CGFloat {
-				return CGFloat(36.0)
+			// MARK: - xxLarge 
+			open var xxLarge: CGFloat {
+				return CGFloat(40.0)
 			}
 
 			// MARK: - xxSmall 
@@ -859,19 +864,14 @@ open class FluentUIStyle: NSObject {
 				return CGFloat(12.0)
 			}
 
-			// MARK: - xxlarge 
-			open var xxlarge: CGFloat {
-				return CGFloat(40.0)
+			// MARK: - xxxLarge 
+			open var xxxLarge: CGFloat {
+				return CGFloat(48.0)
 			}
 
 			// MARK: - xxxSmall 
 			open var xxxSmall: CGFloat {
 				return CGFloat(10.0)
-			}
-
-			// MARK: - xxxlarge 
-			open var xxxlarge: CGFloat {
-				return CGFloat(48.0)
 			}
 		}
 
@@ -958,12 +958,12 @@ open class FluentUIStyle: NSObject {
 
 			// MARK: - blur1 
 			open var blur1: CGFloat {
-				return CGFloat(16.0)
+				return CGFloat(8.0)
 			}
 
 			// MARK: - blur2 
 			open var blur2: CGFloat {
-				return CGFloat(8.0)
+				return CGFloat(1.0)
 			}
 
 			// MARK: - color1 
@@ -1010,12 +1010,12 @@ open class FluentUIStyle: NSObject {
 
 			// MARK: - blur1 
 			open var blur1: CGFloat {
-				return CGFloat(2.0)
+				return CGFloat(1.0)
 			}
 
 			// MARK: - blur2 
 			open var blur2: CGFloat {
-				return CGFloat(2.0)
+				return CGFloat(1.0)
 			}
 
 			// MARK: - color1 
@@ -1062,12 +1062,12 @@ open class FluentUIStyle: NSObject {
 
 			// MARK: - blur1 
 			open var blur1: CGFloat {
-				return CGFloat(28.0)
+				return CGFloat(14.0)
 			}
 
 			// MARK: - blur2 
 			open var blur2: CGFloat {
-				return CGFloat(8.0)
+				return CGFloat(4.0)
 			}
 
 			// MARK: - color1 
@@ -1114,12 +1114,12 @@ open class FluentUIStyle: NSObject {
 
 			// MARK: - blur1 
 			open var blur1: CGFloat {
-				return CGFloat(4.0)
+				return CGFloat(2.0)
 			}
 
 			// MARK: - blur2 
 			open var blur2: CGFloat {
-				return CGFloat(2.0)
+				return CGFloat(1.0)
 			}
 
 			// MARK: - color1 
@@ -1166,12 +1166,12 @@ open class FluentUIStyle: NSObject {
 
 			// MARK: - blur1 
 			open var blur1: CGFloat {
-				return CGFloat(64.0)
+				return CGFloat(32.0)
 			}
 
 			// MARK: - blur2 
 			open var blur2: CGFloat {
-				return CGFloat(8.0)
+				return CGFloat(4.0)
 			}
 
 			// MARK: - color1 
@@ -1218,12 +1218,12 @@ open class FluentUIStyle: NSObject {
 
 			// MARK: - blur1 
 			open var blur1: CGFloat {
-				return CGFloat(8.0)
+				return CGFloat(4.0)
 			}
 
 			// MARK: - blur2 
 			open var blur2: CGFloat {
-				return CGFloat(8.0)
+				return CGFloat(1.0)
 			}
 
 			// MARK: - color1 
@@ -1288,14 +1288,19 @@ open class FluentUIStyle: NSObject {
 			return CGFloat(12.0)
 		}
 
+		// MARK: - xLarge 
+		open var xLarge: CGFloat {
+			return CGFloat(24.0)
+		}
+
 		// MARK: - xSmall 
 		open var xSmall: CGFloat {
 			return CGFloat(8.0)
 		}
 
-		// MARK: - xlarge 
-		open var xlarge: CGFloat {
-			return CGFloat(24.0)
+		// MARK: - xxLarge 
+		open var xxLarge: CGFloat {
+			return CGFloat(36.0)
 		}
 
 		// MARK: - xxSmall 
@@ -1303,9 +1308,9 @@ open class FluentUIStyle: NSObject {
 			return CGFloat(4.0)
 		}
 
-		// MARK: - xxlarge 
-		open var xxlarge: CGFloat {
-			return CGFloat(36.0)
+		// MARK: - xxxLarge 
+		open var xxxLarge: CGFloat {
+			return CGFloat(48.0)
 		}
 
 		// MARK: - xxxSmall 
@@ -1313,13 +1318,8 @@ open class FluentUIStyle: NSObject {
 			return CGFloat(2.0)
 		}
 
-		// MARK: - xxxlarge 
-		open var xxxlarge: CGFloat {
-			return CGFloat(48.0)
-		}
-
-		// MARK: - xxxxlarge 
-		open var xxxxlarge: CGFloat {
+		// MARK: - xxxxLarge 
+		open var xxxxLarge: CGFloat {
 			return CGFloat(72.0)
 		}
 	}

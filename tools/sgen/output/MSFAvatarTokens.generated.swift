@@ -506,7 +506,7 @@ extension FluentUIStyle {
 
 			// MARK: - xxlarge 
 			open override var xxlarge: CGFloat {
-				return mainProxy().Border.radius.xlarge
+				return mainProxy().Border.radius.xLarge
 			}
 		}
 

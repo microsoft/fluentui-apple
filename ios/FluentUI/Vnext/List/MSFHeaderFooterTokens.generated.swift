@@ -27,7 +27,7 @@ extension FluentUIStyle {
 
 		// MARK: - headerHeight 
 		open var headerHeight: CGFloat {
-			return mainProxy().Spacing.xxxlarge
+			return mainProxy().Spacing.xxxLarge
 		}
 
 		// MARK: - leadingPadding 
@@ -47,7 +47,7 @@ extension FluentUIStyle {
 
 		// MARK: - topPadding 
 		open var topPadding: CGFloat {
-			return mainProxy().Spacing.xlarge
+			return mainProxy().Spacing.xLarge
 		}
 
 		// MARK: - trailingPadding 
