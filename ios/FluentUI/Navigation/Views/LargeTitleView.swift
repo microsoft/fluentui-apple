@@ -96,7 +96,7 @@ class LargeTitleView: UIView {
         }
     }
 
-    var onAvatarTapped: (() -> Void)? { // called in response to a tap on the MSAvatarView
+    var onAvatarTapped: (() -> Void)? { // called in response to a tap on the MSFAvatar's view
         didSet {
             updateAvatarViewPointerInteraction()
         }
