@@ -9,7 +9,7 @@ class BottomSheetView: UIView {
     public override init(frame: CGRect) {
         super.init(frame: frame)
 
-        // We need to have the shadow on the superview of the view that does the corner masking.
+        // We need to have the shadow on a parent of the view that does the corner masking.
         // Otherwise the view will mask its own shadow.
         layer.shadowColor = Constants.Shadow.color
         layer.shadowOffset = Constants.Shadow.offset
