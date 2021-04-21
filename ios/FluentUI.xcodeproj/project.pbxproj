@@ -152,6 +152,8 @@
 		7DC2FB2824C0ED1600367A55 /* TableViewCellFileAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */; };
 		7DC2FB2D24D209E800367A55 /* Presence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2C24D209E300367A55 /* Presence.swift */; };
 		80AECBD92629F18E005AF2F3 /* BottomSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AECBD82629F18E005AF2F3 /* BottomSheetController.swift */; };
+		80AECBEC262F74FC005AF2F3 /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AECBEB262F74FC005AF2F3 /* BottomSheetView.swift */; };
+		80AECBF2262FC34E005AF2F3 /* BottomSheetPassthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AECBF1262FC34E005AF2F3 /* BottomSheetPassthroughView.swift */; };
 		86AF4F7525AFC746005D4253 /* PillButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AF4F7425AFC746005D4253 /* PillButtonStyle.swift */; };
 		8A01C86F248FFC5300C971F3 /* ContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A01C86E248FFC5300C971F3 /* ContactView.swift */; };
 		8AF03E1A24B6BD4700E6E2A2 /* ContactCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF03E1924B6BD4700E6E2A2 /* ContactCollectionView.swift */; };
@@ -337,6 +339,8 @@
 		7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellFileAccessoryView.swift; sourceTree = "<group>"; };
 		7DC2FB2C24D209E300367A55 /* Presence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presence.swift; sourceTree = "<group>"; };
 		80AECBD82629F18E005AF2F3 /* BottomSheetController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomSheetController.swift; sourceTree = "<group>"; };
+		80AECBEB262F74FC005AF2F3 /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
+		80AECBF1262FC34E005AF2F3 /* BottomSheetPassthroughView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetPassthroughView.swift; sourceTree = "<group>"; };
 		86AF4F7425AFC746005D4253 /* PillButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillButtonStyle.swift; sourceTree = "<group>"; };
 		8A01C86E248FFC5300C971F3 /* ContactView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactView.swift; sourceTree = "<group>"; };
 		8AF03E1924B6BD4700E6E2A2 /* ContactCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCollectionView.swift; sourceTree = "<group>"; };
@@ -718,6 +722,8 @@
 			isa = PBXGroup;
 			children = (
 				80AECBD82629F18E005AF2F3 /* BottomSheetController.swift */,
+				80AECBEB262F74FC005AF2F3 /* BottomSheetView.swift */,
+				80AECBF1262FC34E005AF2F3 /* BottomSheetPassthroughView.swift */,
 			);
 			path = "Bottom Sheet";
 			sourceTree = "<group>";
@@ -1621,6 +1627,7 @@
 				FD56FD95219131430023C7EA /* DateTimePickerView.swift in Sources */,
 				FDA1AF8C21484625001AE720 /* BlurringView.swift in Sources */,
 				A5961FA1218A25C400E2A506 /* PopupMenuSection.swift in Sources */,
+				80AECBF2262FC34E005AF2F3 /* BottomSheetPassthroughView.swift in Sources */,
 				A5B87AF6211E16370038C37C /* DrawerController.swift in Sources */,
 				FD41C89622DD13230086F899 /* NavigationBar.swift in Sources */,
 				A5CEC16D20D98EE70016922A /* Colors.swift in Sources */,
@@ -1647,6 +1654,7 @@
 				7DC2FB2824C0ED1600367A55 /* TableViewCellFileAccessoryView.swift in Sources */,
 				A5DCA76421224026005F4CB7 /* Separator.swift in Sources */,
 				FD599D062134A682008845EE /* AccessibleViewDelegate.swift in Sources */,
+				80AECBEC262F74FC005AF2F3 /* BottomSheetView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

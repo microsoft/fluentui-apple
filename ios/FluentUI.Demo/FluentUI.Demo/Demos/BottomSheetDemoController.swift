@@ -16,11 +16,6 @@ class BottomSheetDemoController: DemoController {
         setupBottomSheet()
     }
 
-//    override func viewWillDisappear(_ animated: Bool) {
-//        bottomSheetViewController?.view.removeFromSuperview()
-//        super.viewWillDisappear(animated)
-//    }
-
 // MARK: Setup Methods
 
     private func setupPersonaListView() {
@@ -47,10 +42,8 @@ class BottomSheetDemoController: DemoController {
             let personaVC = PersonaListViewController()
             bottomSheet.contentViewController = personaVC
             bottomSheet.hostedScrollView = personaVC.personaListView
-            bottomSheet.preferredExpandedHeightFraction = 0.8
+            bottomSheet.expandedHeightFraction = 0.8
             bottomSheet.isExpandable = true
-
-//            bottomSheet.respectsPreferredContentSize = true
         }
     }
 
