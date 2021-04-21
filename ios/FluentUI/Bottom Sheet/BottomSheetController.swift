@@ -220,9 +220,7 @@ public class BottomSheetController: UIViewController {
             offLimitsOffset = min(collapsedOffsetFromBottom - currentOffset, Constants.maxRubberBandOffset)
         }
 
-        let scaleFactor: CGFloat = max(1.0 - offLimitsOffset / Constants.maxRubberBandOffset, Constants.minRubberBandScaleFactor)
-
-        return scaleFactor
+        return max(1.0 - offLimitsOffset / Constants.maxRubberBandOffset, Constants.minRubberBandScaleFactor)
     }
 
     // MARK: - Animations
