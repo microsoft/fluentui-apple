@@ -178,9 +178,6 @@ class LargeTitleView: UIView {
         avatarState.primaryText = avatarData?.primaryText
         avatarState.secondaryText = avatarData?.secondaryText
         avatarState.image = avatarData?.image
-        avatarState.presence = .available
-        avatarState.isRingVisible = true
-        avatarState.isTransparent = false
 
         if let color = avatarData?.color {
             avatarState.backgroundColor = color
