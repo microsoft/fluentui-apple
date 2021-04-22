@@ -18,7 +18,7 @@ public protocol BottomSheetControllerDelegate: AnyObject {
 public class BottomSheetController: UIViewController {
 
     /// Initializes the bottom sheet controller.
-    /// - Parameter contentViewController: The view controller that manages the bottom sheet content.
+    /// - Parameter contentViewController: The view controller that's placed inside the bottom sheet.
     ///
     /// By default the root view of `contentViewController` will be sized automatically to fill the available area,
     /// respecting the provided `preferredExpandedHeightFraction` multiplier.
@@ -26,11 +26,9 @@ public class BottomSheetController: UIViewController {
     @objc public init(with contentViewController: UIViewController) {
         self.contentViewController = contentViewController
         super.init(nibName: nil, bundle: nil)
-
-        addChild(contentViewController)
-        contentViewController.didMove(toParent: self)
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
@@ -43,20 +41,15 @@ public class BottomSheetController: UIViewController {
     @objc open var isExpandable: Bool = true {
         didSet {
             if isExpandable != oldValue {
-                if isExpandable {
-                    resizingHandleView.isHidden = false
-                    panGestureRecognizer.isEnabled = true
-                } else {
-                    resizingHandleView.isHidden = true
-                    panGestureRecognizer.isEnabled = false
-                }
+                resizingHandleView.isHidden = !isExpandable
+                panGestureRecognizer.isEnabled = isExpandable
                 move(to: .collapsed, animated: false)
             }
         }
     }
 
     /// Indicates if `preferredContentSize` of `contentViewController` should be respected.
-    /// Upper limits on the content size are still enforced, depending on the area available to `BottomSheetController`.
+    /// Regardless of the value, the expanded height is limited by the height of `BottomSheetController`'s root view.
     @objc open var respectsPreferredContentSize: Bool = false {
         didSet {
             if respectsPreferredContentSize != oldValue {
@@ -87,17 +80,18 @@ public class BottomSheetController: UIViewController {
     public override func loadView() {
         view = BottomSheetPassthroughView()
 
+        addChild(contentViewController)
+        contentViewController.didMove(toParent: self)
+
         view.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(bottomSheetView)
-
-        bottomSheetView.addGestureRecognizer(panGestureRecognizer)
-        panGestureRecognizer.delegate = self
 
         NSLayoutConstraint.activate([
             bottomSheetView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             bottomSheetView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             bottomSheetOffsetConstraint
         ])
+        updateBottomSheetHeightConstraints()
     }
 
     private lazy var resizingHandleView: ResizingHandleView = {
@@ -112,6 +106,9 @@ public class BottomSheetController: UIViewController {
     private lazy var bottomSheetView: BottomSheetView = {
         let bottomSheetView = BottomSheetView()
         bottomSheetView.translatesAutoresizingMaskIntoConstraints = false
+
+        bottomSheetView.addGestureRecognizer(panGestureRecognizer)
+        panGestureRecognizer.delegate = self
 
         let stackView = UIStackView(arrangedSubviews: [resizingHandleView, contentView])
         stackView.spacing = 0.0
@@ -180,21 +177,18 @@ public class BottomSheetController: UIViewController {
     // MARK: - Animations
 
     private func completePan(with velocity: CGFloat) {
+        var targetState: BottomSheetExpansionState
         if abs(velocity) < Constants.directionOverrideVelocityThreshold {
             // Velocity too low, snap to the closest offset
-            if abs(collapsedOffsetFromBottom - currentOffsetFromBottom) < abs(expandedOffsetFromBottom - currentOffsetFromBottom) {
-                move(to: .collapsed, velocity: velocity)
-            } else {
-                move(to: .expanded, velocity: velocity)
-            }
+            targetState =
+                abs(collapsedOffsetFromBottom - currentOffsetFromBottom) < abs(expandedOffsetFromBottom - currentOffsetFromBottom)
+                ? .collapsed
+                : .expanded
         } else {
             // Velocity high enough, animate to the offset we're swiping towards
-            if velocity > 0 {
-                move(to: .collapsed, velocity: velocity)
-            } else {
-                move(to: .expanded, velocity: velocity)
-            }
+            targetState = velocity > 0 ? .collapsed : .expanded
         }
+        move(to: targetState, velocity: velocity)
     }
 
     private func move(to targetExpansionState: BottomSheetExpansionState, animated: Bool = true, velocity: CGFloat = 0.0) {
@@ -202,7 +196,6 @@ public class BottomSheetController: UIViewController {
             animate(to: targetExpansionState, velocity: velocity)
         } else {
             bottomSheetOffsetConstraint.constant = -(targetExpansionState == .expanded ? expandedOffsetFromBottom : collapsedOffsetFromBottom)
-            view.setNeedsLayout()
 
             switch targetExpansionState {
             case .expanded:
@@ -255,7 +248,6 @@ public class BottomSheetController: UIViewController {
             // based on the frame calculated during the interrupted animation
             let offsetFromBottom = view.frame.height - bottomSheetView.frame.origin.y
             bottomSheetOffsetConstraint.constant = -offsetFromBottom
-            view.setNeedsLayout()
         }
     }
 
@@ -268,7 +260,6 @@ public class BottomSheetController: UIViewController {
         NSLayoutConstraint.activate(newConstraints)
 
         bottomSheetHeightConstraints = newConstraints
-        view.setNeedsLayout()
     }
 
     private func generateBottomSheetHeightConstraints() -> [NSLayoutConstraint] {
@@ -361,12 +352,16 @@ extension BottomSheetController: UIGestureRecognizerDelegate {
         guard let scrollView = hostedScrollView, let panGesture = gestureRecognizer as? UIPanGestureRecognizer else {
             return true
         }
-
-        let scrolledToTop = scrollView.contentOffset.y <= 0
-        let panningDown = panGesture.velocity(in: view).y > 0
+        var shouldBegin = true
         let fullyExpanded = currentOffsetFromBottom >= expandedOffsetFromBottom
 
-        return !fullyExpanded || (scrolledToTop && panningDown)
+        if fullyExpanded {
+            let scrolledToTop = scrollView.contentOffset.y <= 0
+            let panningDown = panGesture.velocity(in: view).y > 0
+            shouldBegin = scrolledToTop && panningDown
+        }
+
+        return shouldBegin
     }
 }
 

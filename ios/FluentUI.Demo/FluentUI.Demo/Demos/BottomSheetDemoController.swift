@@ -29,7 +29,6 @@ class BottomSheetDemoController: DemoController {
         let bottomSheetVC = BottomSheetController(with: personaVC)
         bottomSheetVC.hostedScrollView = personaVC.personaListView
         bottomSheetVC.expandedHeightFraction = 0.8
-        bottomSheetVC.isExpandable = true
 
         self.addChild(bottomSheetVC)
         view.addSubview(bottomSheetVC.view)
@@ -56,10 +55,15 @@ class BottomSheetDemoController: DemoController {
 
 private class BottomSheetPersonaListViewController: UIViewController {
     override func loadView() {
-        super.loadView()
+        view = UIView()
         view.addSubview(personaListView)
-        personaListView.frame = view.bounds
-        personaListView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+        NSLayoutConstraint.activate([
+            personaListView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            personaListView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            personaListView.topAnchor.constraint(equalTo: view.topAnchor),
+            personaListView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 
     public let personaListView: PersonaListView = {
