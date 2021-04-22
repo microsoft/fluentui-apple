@@ -20,8 +20,13 @@ class BottomSheetDemoController: DemoController {
 
     private func setupMainPersonaListView() {
         view.addSubview(personaListView)
-        personaListView.frame = view.bounds
-        personaListView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+        NSLayoutConstraint.activate([
+            personaListView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            personaListView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            personaListView.topAnchor.constraint(equalTo: view.topAnchor),
+            personaListView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 
     private func setupBottomSheet() {
