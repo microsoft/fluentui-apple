@@ -154,6 +154,8 @@
 		80AECBD92629F18E005AF2F3 /* BottomSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AECBD82629F18E005AF2F3 /* BottomSheetController.swift */; };
 		80AECBEC262F74FC005AF2F3 /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AECBEB262F74FC005AF2F3 /* BottomSheetView.swift */; };
 		80AECBF2262FC34E005AF2F3 /* BottomSheetPassthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AECBF1262FC34E005AF2F3 /* BottomSheetPassthroughView.swift */; };
+		80AECBFC2630E5B1005AF2F3 /* CommandingBottomSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AECBFB2630E5B1005AF2F3 /* CommandingBottomSheetController.swift */; };
+		80AECC062630EB48005AF2F3 /* BottomBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AECC052630EB48005AF2F3 /* BottomBarView.swift */; };
 		86AF4F7525AFC746005D4253 /* PillButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AF4F7425AFC746005D4253 /* PillButtonStyle.swift */; };
 		8A01C86F248FFC5300C971F3 /* ContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A01C86E248FFC5300C971F3 /* ContactView.swift */; };
 		8AF03E1A24B6BD4700E6E2A2 /* ContactCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF03E1924B6BD4700E6E2A2 /* ContactCollectionView.swift */; };
@@ -341,6 +343,8 @@
 		80AECBD82629F18E005AF2F3 /* BottomSheetController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomSheetController.swift; sourceTree = "<group>"; };
 		80AECBEB262F74FC005AF2F3 /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
 		80AECBF1262FC34E005AF2F3 /* BottomSheetPassthroughView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetPassthroughView.swift; sourceTree = "<group>"; };
+		80AECBFB2630E5B1005AF2F3 /* CommandingBottomSheetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandingBottomSheetController.swift; sourceTree = "<group>"; };
+		80AECC052630EB48005AF2F3 /* BottomBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomBarView.swift; sourceTree = "<group>"; };
 		86AF4F7425AFC746005D4253 /* PillButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillButtonStyle.swift; sourceTree = "<group>"; };
 		8A01C86E248FFC5300C971F3 /* ContactView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactView.swift; sourceTree = "<group>"; };
 		8AF03E1924B6BD4700E6E2A2 /* ContactCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCollectionView.swift; sourceTree = "<group>"; };
@@ -721,6 +725,8 @@
 		80B1F6F52628CDEB004DFEE5 /* Bottom Sheet */ = {
 			isa = PBXGroup;
 			children = (
+				80AECBFB2630E5B1005AF2F3 /* CommandingBottomSheetController.swift */,
+				80AECC052630EB48005AF2F3 /* BottomBarView.swift */,
 				80AECBD82629F18E005AF2F3 /* BottomSheetController.swift */,
 				80AECBEB262F74FC005AF2F3 /* BottomSheetView.swift */,
 				80AECBF1262FC34E005AF2F3 /* BottomSheetPassthroughView.swift */,
@@ -1551,6 +1557,7 @@
 				C708B04C260A8696007190FA /* SegmentItem.swift in Sources */,
 				FD41C88622DD13230086F899 /* ShyHeaderController.swift in Sources */,
 				537315B325438B15001FD14C /* iOS13_4_compatibility.swift in Sources */,
+				80AECBFC2630E5B1005AF2F3 /* CommandingBottomSheetController.swift in Sources */,
 				FDFB8AF121361C9D0046850A /* CalendarViewDayMonthCell.swift in Sources */,
 				B47B58B822F8E5840078DE38 /* PeoplePicker.swift in Sources */,
 				FD41C89E22DD13230086F899 /* NavigationController.swift in Sources */,
@@ -1619,6 +1626,7 @@
 				FC414E1F258876FB00069E73 /* CommandBar.swift in Sources */,
 				C0A0D76F233AEF6C00F432FD /* ShimmerLinesViewAppearance.swift in Sources */,
 				C77A04ED25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift in Sources */,
+				80AECC062630EB48005AF2F3 /* BottomBarView.swift in Sources */,
 				FD256C5B2183B90B00EC9588 /* DatePickerSelectionManager.swift in Sources */,
 				A5CEC23120E451D00016922A /* Button.swift in Sources */,
 				86AF4F7525AFC746005D4253 /* PillButtonStyle.swift in Sources */,

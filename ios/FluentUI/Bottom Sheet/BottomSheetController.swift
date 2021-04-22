@@ -98,6 +98,8 @@ public class BottomSheetController: UIViewController {
             bottomSheetView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             bottomSheetOffsetConstraint
         ])
+
+        updateBottomSheetHeightConstraints()
     }
 
     private lazy var resizingHandleView: ResizingHandleView = {
