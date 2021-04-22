@@ -189,6 +189,7 @@ class SideTabBarDemoController: DemoController {
             avatar = MSFAvatar(style: .accent, size: .medium)
             avatar?.state.primaryText = "Kat Larson"
             avatar?.state.image = image
+            avatar?.state.hasPointerInteraction = true
         }
 
         sideTabBar.avatar = avatar
