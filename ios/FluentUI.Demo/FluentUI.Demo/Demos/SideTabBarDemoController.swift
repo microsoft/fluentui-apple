@@ -184,14 +184,15 @@ class SideTabBarDemoController: DemoController {
     }
 
     private func showAvatarView(_ show: Bool) {
-        var avatarView: AvatarLegacyView?
+        var avatar: MSFAvatar?
         if let image = UIImage(named: "avatar_kat_larsson"), show {
-            avatarView = AvatarLegacyView(avatarSize: .medium, withBorder: false, style: .circle, preferredFallbackImageStyle: .onAccentFilled)
-            avatarView?.setup(primaryText: "Kat Larson", secondaryText: "", image: image)
-            avatarView?.hasPointerInteraction = true
+            avatar = MSFAvatar(style: .accent, size: .medium)
+            avatar?.state.primaryText = "Kat Larson"
+            avatar?.state.image = image
+            avatar?.state.hasPointerInteraction = true
         }
 
-        sideTabBar.avatarView = avatarView
+        sideTabBar.avatar = avatar
     }
 
     private func updateBadgeNumbers() {
@@ -244,7 +245,7 @@ extension SideTabBarDemoController: SideTabBarDelegate {
         contentViewController?.present(alert, animated: true)
     }
 
-    func sideTabBar(_ sideTabBar: SideTabBar, didActivate avatarView: AvatarLegacyView) {
+    func sideTabBar(_ sideTabBar: SideTabBar, didActivate avatarView: MSFAvatar) {
         let alert = UIAlertController(title: "Avatar view was tapped", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)

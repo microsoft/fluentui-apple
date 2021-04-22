@@ -776,11 +776,11 @@
 		536AEF2125F1EC0300A36206 /* Vnext */ = {
 			isa = PBXGroup;
 			children = (
-				536AEF2225F1EC0300A36206 /* Drawer */,
-				536AEF2925F1EC0300A36206 /* Core */,
-				536AEF2E25F1EC0300A36206 /* Button */,
-				536AEF3225F1EC0300A36206 /* List */,
 				536AEF3B25F1EC0300A36206 /* Avatar */,
+				536AEF2E25F1EC0300A36206 /* Button */,
+				536AEF2925F1EC0300A36206 /* Core */,
+				536AEF2225F1EC0300A36206 /* Drawer */,
+				536AEF3225F1EC0300A36206 /* List */,
 			);
 			path = Vnext;
 			sourceTree = "<group>";
@@ -813,9 +813,9 @@
 		536AEF2E25F1EC0300A36206 /* Button */ = {
 			isa = PBXGroup;
 			children = (
-				536AEF2F25F1EC0300A36206 /* MSFButtonTokens.generated.swift */,
-				536AEF3025F1EC0300A36206 /* ButtonTokens.swift */,
 				536AEF3125F1EC0300A36206 /* Button.swift */,
+				536AEF3025F1EC0300A36206 /* ButtonTokens.swift */,
+				536AEF2F25F1EC0300A36206 /* MSFButtonTokens.generated.swift */,
 			);
 			path = Button;
 			sourceTree = "<group>";
@@ -826,11 +826,11 @@
 				536AEF3325F1EC0300A36206 /* HeaderFooterTokens.swift */,
 				536AEF3425F1EC0300A36206 /* ListTokens.swift */,
 				536AEF3525F1EC0300A36206 /* ListCell.swift */,
-				536AEF3625F1EC0300A36206 /* MSFListCellTokens.generated.swift */,
 				536AEF3725F1EC0300A36206 /* ListHeaderFooter.swift */,
 				536AEF3825F1EC0300A36206 /* List.swift */,
-				536AEF3925F1EC0300A36206 /* MSFListTokens.generated.swift */,
 				536AEF3A25F1EC0300A36206 /* MSFHeaderFooterTokens.generated.swift */,
+				536AEF3625F1EC0300A36206 /* MSFListCellTokens.generated.swift */,
+				536AEF3925F1EC0300A36206 /* MSFListTokens.generated.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -838,9 +838,9 @@
 		536AEF3B25F1EC0300A36206 /* Avatar */ = {
 			isa = PBXGroup;
 			children = (
-				536AEF3C25F1EC0300A36206 /* MSFAvatarTokens.generated.swift */,
 				536AEF3D25F1EC0300A36206 /* Avatar.swift */,
 				536AEF3E25F1EC0300A36206 /* AvatarTokens.swift */,
+				536AEF3C25F1EC0300A36206 /* MSFAvatarTokens.generated.swift */,
 			);
 			path = Avatar;
 			sourceTree = "<group>";

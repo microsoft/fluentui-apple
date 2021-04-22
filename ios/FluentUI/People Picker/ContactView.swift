@@ -21,12 +21,12 @@ open class ContactView: UIControl {
         case large
         case small
 
-        var avatarSize: AvatarLegacySize {
+        var avatarSize: MSFAvatarSize {
             switch self {
             case .large:
-                return .extraExtraLarge
+                return .xxlarge
             case .small:
-                return .extraLarge
+                return .xlarge
             }
         }
 
@@ -40,7 +40,8 @@ open class ContactView: UIControl {
         }
 
         var width: CGFloat {
-            var width = avatarSize.size.width
+            var width = self.avatarSize.size
+
             switch UITraitCollection.current.preferredContentSizeCategory {
             case .accessibilityMedium:
                 width += 20
@@ -62,11 +63,7 @@ open class ContactView: UIControl {
 
     @objc public var avatarImage: UIImage? {
         didSet {
-            if let subtitleLabel = subtitleLabel {
-                setupAvatarView(with: titleLabel.text ?? "", and: subtitleLabel.text ?? "")
-            } else {
-                setupAvatarView(with: titleLabel.text ?? "")
-            }
+            avatar.state.image = avatarImage
         }
     }
 
@@ -92,7 +89,7 @@ open class ContactView: UIControl {
     }
 
     private init(title: String?, subtitle: String?, identifier: String?, size: Size = .large) {
-        avatarView = AvatarLegacyView(avatarSize: size.avatarSize, withBorder: false, style: .circle, preferredFallbackImageStyle: .onAccentFilled)
+        avatar = MSFAvatar(style: .accent, size: size.avatarSize)
         labelContainer = UIView(frame: .zero)
         titleLabel = UILabel(frame: .zero)
         pressedStateOverlay = UIView(frame: .zero)
@@ -125,7 +122,7 @@ open class ContactView: UIControl {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    private let avatarView: AvatarLegacyView
+    private let avatar: MSFAvatar
     private var titleLabel: UILabel
     private var subtitleLabel: UILabel?
     private var labelContainer: UIView
@@ -141,17 +138,22 @@ open class ContactView: UIControl {
 
     private func setupAvatarView(with title: String, and subtitle: String) {
         let identifier = title + " " + subtitle
-        avatarView.setup(primaryText: identifier, secondaryText: nil, image: avatarImage)
+        let avatarState = avatar.state
+        avatarState.primaryText = identifier
+        avatarState.image = avatarImage
     }
 
     private func setupAvatarView(with identifier: String) {
-        avatarView.setup(primaryText: identifier, secondaryText: nil, image: avatarImage)
+        let avatarState = avatar.state
+        avatarState.primaryText = identifier
+        avatarState.image = avatarImage
     }
 
     private func setupLayout() {
         var constraints = [NSLayoutConstraint]()
         constraints.append(contentsOf: avatarLayoutConstraints())
 
+        let avatarView = avatar.view
         avatarView.translatesAutoresizingMaskIntoConstraints = false
         avatarView.isUserInteractionEnabled = false
         addSubview(avatarView)
@@ -201,12 +203,13 @@ open class ContactView: UIControl {
 
     private func updateLabelHeight() {
         let contactHeight = traitCollection.preferredContentSizeCategory.contactHeight(size: size)
-        labelHeightConstraint.constant = contactHeight - size.avatarSize.size.height - Constants.spacingBetweenAvatarAndLabelContainer
+        labelHeightConstraint.constant = contactHeight - size.avatarSize.size - Constants.spacingBetweenAvatarAndLabelContainer
     }
 
     private func avatarLayoutConstraints() -> [NSLayoutConstraint] {
+        let avatarView = avatar.view
         return [
-            avatarView.heightAnchor.constraint(equalToConstant: size.avatarSize.size.height),
+            avatarView.heightAnchor.constraint(equalToConstant: size.avatarSize.size),
             avatarView.topAnchor.constraint(equalTo: topAnchor),
             avatarView.centerXAnchor.constraint(equalTo: centerXAnchor)
         ]
@@ -214,7 +217,7 @@ open class ContactView: UIControl {
 
     private func labelContainerLayoutConstraints() -> [NSLayoutConstraint] {
         return [
-            labelContainer.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.spacingBetweenAvatarAndLabelContainer),
+            labelContainer.topAnchor.constraint(equalTo: avatar.view.bottomAnchor, constant: Constants.spacingBetweenAvatarAndLabelContainer),
             labelContainer.leadingAnchor.constraint(equalTo: leadingAnchor),
             labelContainer.trailingAnchor.constraint(equalTo: trailingAnchor),
             labelContainer.bottomAnchor.constraint(equalTo: bottomAnchor),
@@ -247,7 +250,7 @@ open class ContactView: UIControl {
 
     private func identifierLayoutConstraints() -> [NSLayoutConstraint] {
         return [
-            titleLabel.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.spacingBetweenAvatarAndLabelContainer),
+            titleLabel.topAnchor.constraint(equalTo: avatar.view.bottomAnchor, constant: Constants.spacingBetweenAvatarAndLabelContainer),
             titleLabel.leadingAnchor.constraint(equalTo: labelContainer.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: labelContainer.trailingAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: labelContainer.bottomAnchor)
@@ -279,12 +282,13 @@ open class ContactView: UIControl {
     }
 
     private func setupPressedStateOverlay() {
+        let avatarView = avatar.view
         pressedStateOverlay.backgroundColor = Colors.Contact.pressedState
         pressedStateOverlay.clipsToBounds = true
         pressedStateOverlay.frame = avatarView.frame
         pressedStateOverlay.isHidden = true
         pressedStateOverlay.isUserInteractionEnabled = false
-        pressedStateOverlay.layer.cornerRadius = avatarView.frame.width / 2
+        pressedStateOverlay.layer.cornerRadius = size.avatarSize.size / 2
     }
 
     @objc private func touchDownHandler() {
