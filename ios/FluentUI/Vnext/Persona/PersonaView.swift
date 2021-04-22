@@ -132,20 +132,20 @@ class MSFPersonaViewStateImpl: MSFListCellState, MSFPersonaViewState {
     private var avatarState: MSFAvatarState
 }
 
-struct PersonaView: View {
+// View for PersonaView
+public struct PersonaView: View {
     @ObservedObject var state: MSFPersonaViewStateImpl
     @ObservedObject var tokens: MSFPersonaViewTokens
 
-    init(windowProvider: FluentUIWindowProvider?) {
+    public init() {
         avatar = MSFAvatar(style: .default, size: .xlarge)
         state = MSFPersonaViewStateImpl(avatarState: avatar.state)
         tokens = MSFPersonaViewTokens()
-        tokens.windowProvider = windowProvider
 
         initializeState()
     }
 
-    var body: some View {
+    public var body: some View {
         MSFListCellView(state: state, tokens: tokens, windowProvider: tokens.windowProvider)
     }
 
@@ -164,7 +164,7 @@ struct PersonaView: View {
 /// UIKit wrapper that exposes the SwiftUI Persona Cell implementation
 @objc open class MSFPersonaView: NSObject, FluentUIWindowProvider {
     @objc public init(theme: FluentUIStyle? = nil) {
-        personaView = PersonaView(windowProvider: nil)
+        personaView = PersonaView()
         hostingController = UIHostingController(rootView: theme != nil ? AnyView(personaView.usingTheme(theme!)) : AnyView(personaView))
 
         super.init()
