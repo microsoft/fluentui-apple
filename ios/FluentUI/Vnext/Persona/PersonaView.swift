@@ -6,6 +6,13 @@
 import UIKit
 import SwiftUI
 
+/// `MSFPersonaViewState` contains  PersonaView properties in addition to  MSFAvatarState protocol.
+///
+/// `TrailingAccessoryView` for `title` and `subtitle` allows for any custom UIView
+/// following each respective label.
+///
+/// `onTapAction` provides tap gesture for PersonaView.
+///
 @objc public protocol MSFPersonaViewState: MSFAvatarState {
     var titleTrailingAccessoryView: UIView? { get set }
     var subtitleTrailingAccessoryView: UIView? { get set }
@@ -133,7 +140,7 @@ class MSFPersonaViewStateImpl: MSFListCellState, MSFPersonaViewState {
     private var avatarState: MSFAvatarState
 }
 
-// View for PersonaView
+/// View for PersonaView
 public struct PersonaView: View {
     @ObservedObject var state: MSFPersonaViewStateImpl
     @ObservedObject var tokens: MSFPersonaViewTokens
