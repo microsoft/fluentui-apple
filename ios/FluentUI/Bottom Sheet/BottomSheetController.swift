@@ -163,6 +163,10 @@ public class BottomSheetController: UIViewController {
         return bottomSheetView
     }
 
+    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        move(to: .collapsed, animated: true, velocity: 0)
+    }
+
     // MARK: - Gesture handling
 
     @objc private func handleResizingHandleViewTap(_ sender: UITapGestureRecognizer) {
