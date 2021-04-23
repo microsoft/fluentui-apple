@@ -58,7 +58,7 @@ public class BottomSheetController: UIViewController {
         }
     }
 
-    /// Fraction of the available area that the bottom sheet shold take up in the expanded position.
+    /// Fraction of the available area that the bottom sheet should take up in the expanded position.
     ///
     /// Ignored when `respectsPreferredContentSize` is set to `true`
     @objc open var expandedHeightFraction: CGFloat = 1.0 {
@@ -77,6 +77,13 @@ public class BottomSheetController: UIViewController {
 
     // MARK: - View loading
 
+    /// View hierarchy
+    /// --BottomSheetPassthroughView (full overlay area)
+    /// ----bottomSheetView (bottom sheet area only)
+    /// ------bottomSheetContentView
+    /// --------UIStackView
+    /// ----------ResizingHandleView
+    /// ----------contentView (root of contentViewController)
     public override func loadView() {
         view = BottomSheetPassthroughView()
 
@@ -103,28 +110,58 @@ public class BottomSheetController: UIViewController {
         return resizingHandleView
     }()
 
-    private lazy var bottomSheetView: BottomSheetView = {
-        let bottomSheetView = BottomSheetView()
-        bottomSheetView.translatesAutoresizingMaskIntoConstraints = false
+    private lazy var bottomSheetView: UIView = {
+        let bottomSheetContentView = UIView()
+        bottomSheetContentView.translatesAutoresizingMaskIntoConstraints = false
 
-        bottomSheetView.addGestureRecognizer(panGestureRecognizer)
+        bottomSheetContentView.addGestureRecognizer(panGestureRecognizer)
         panGestureRecognizer.delegate = self
 
         let stackView = UIStackView(arrangedSubviews: [resizingHandleView, contentView])
         stackView.spacing = 0.0
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        bottomSheetView.contentView.addSubview(stackView)
+        bottomSheetContentView.addSubview(stackView)
 
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: bottomSheetView.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: bottomSheetView.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: bottomSheetView.trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomSheetView.bottomAnchor, constant: -Constants.Spring.overflowHeight)
+            stackView.topAnchor.constraint(equalTo: bottomSheetContentView.topAnchor),
+            stackView.leadingAnchor.constraint(equalTo: bottomSheetContentView.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: bottomSheetContentView.trailingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: bottomSheetContentView.bottomAnchor, constant: -Constants.Spring.overflowHeight)
+        ])
+
+        return makeBottomSheetByEmbedding(contentView: bottomSheetContentView)
+    }()
+
+    private func makeBottomSheetByEmbedding(contentView: UIView) -> UIView {
+        let bottomSheetView = UIView()
+        bottomSheetView.translatesAutoresizingMaskIntoConstraints = false
+
+        // We need to have the shadow on a parent of the view that does the corner masking.
+        // Otherwise the view will mask its own shadow.
+        bottomSheetView.layer.shadowColor = Constants.Shadow.color
+        bottomSheetView.layer.shadowOffset = Constants.Shadow.offset
+        bottomSheetView.layer.shadowOpacity = Constants.Shadow.opacity
+        bottomSheetView.layer.shadowRadius = Constants.Shadow.radius
+
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.backgroundColor = Colors.NavigationBar.background
+        contentView.layer.cornerRadius = Constants.cornerRadius
+        contentView.layer.cornerCurve = .continuous
+        contentView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        contentView.clipsToBounds = true
+
+        bottomSheetView.addSubview(contentView)
+
+        NSLayoutConstraint.activate([
+            contentView.leadingAnchor.constraint(equalTo: bottomSheetView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: bottomSheetView.trailingAnchor),
+            contentView.topAnchor.constraint(equalTo: bottomSheetView.topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: bottomSheetView.bottomAnchor)
         ])
 
         return bottomSheetView
-    }()
+    }
 
     // MARK: - Gesture handling
 
@@ -323,6 +360,8 @@ public class BottomSheetController: UIViewController {
         static let minimumTopExpandedPadding: CGFloat = 25.0
         static let defaultCollapsedContentHeight: CGFloat = 75
 
+        static let cornerRadius: CGFloat = 14
+
         struct Spring {
             // Spring used in slow swipes - no oscillation
             static let defaultDampingRatio: CGFloat = 1.0
@@ -338,6 +377,13 @@ public class BottomSheetController: UIViewController {
 
             // Off-screen overflow that can be partially revealed during spring oscillation or rubber banding (dragging the sheet beyond limits)
             static let overflowHeight: CGFloat = 50.0
+        }
+
+        struct Shadow {
+            static let color: CGColor = UIColor.black.cgColor
+            static let opacity: Float = 0.14
+            static let radius: CGFloat = 8
+            static let offset: CGSize = CGSize(width: 0, height: 4)
         }
     }
 }
