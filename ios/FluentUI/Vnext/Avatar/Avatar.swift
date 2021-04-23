@@ -248,7 +248,8 @@ public struct AvatarView: View {
                                                         .frame(width: presenceIconSize, height: presenceIconSize, alignment: .center)
                                                         .foregroundColor(presence.color(isOutOfOffice: isOutOfOffice)))
                                             .contentShape(Circle())
-                                            .frame(width: presenceIconFrameSideRelativeToOuterRing, height: presenceIconFrameSideRelativeToOuterRing, alignment: .bottomTrailing),
+                                            .frame(width: presenceIconFrameSideRelativeToOuterRing, height: presenceIconFrameSideRelativeToOuterRing,
+                                                   alignment: .bottomTrailing),
                                          alignment: .topLeading)
                                 .frame(width: overallFrameSide, height: overallFrameSide, alignment: .topLeading)
                     })
