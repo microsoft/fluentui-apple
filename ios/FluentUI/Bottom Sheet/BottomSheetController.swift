@@ -174,6 +174,16 @@ public class BottomSheetController: UIViewController {
         }
     }
 
+    private func updateResizingHandleViewAccessibility() {
+        if currentOffsetFromBottom != collapsedOffsetFromBottom {
+            resizingHandleView.accessibilityLabel = "Accessibility.Drawer.ResizingHandle.Label.Collapse".localized
+            resizingHandleView.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Collapse".localized
+        } else {
+            resizingHandleView.accessibilityLabel = "Accessibility.Drawer.ResizingHandle.Label.Expand".localized
+            resizingHandleView.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Expand".localized
+        }
+    }
+
     @objc private func handlePan(_ sender: UIPanGestureRecognizer) {
         switch sender.state {
         case .began:
@@ -233,13 +243,7 @@ public class BottomSheetController: UIViewController {
             animate(to: targetExpansionState, velocity: velocity)
         } else {
             bottomSheetOffsetConstraint.constant = -(targetExpansionState == .expanded ? expandedOffsetFromBottom : collapsedOffsetFromBottom)
-
-            switch targetExpansionState {
-            case .expanded:
-                delegate?.bottomSheetControllerDidExpand?(self)
-            case .collapsed:
-                delegate?.bottomSheetControllerDidCollapse?(self)
-            }
+            handleCompletedStateChange(to: targetExpansionState)
         }
     }
 
@@ -262,15 +266,20 @@ public class BottomSheetController: UIViewController {
 
         translationAnimator?.addCompletion({ finalPosition in
             if finalPosition == .end {
-                switch targetExpansionState {
-                case .expanded:
-                    self.delegate?.bottomSheetControllerDidExpand?(self)
-                case .collapsed:
-                    self.delegate?.bottomSheetControllerDidCollapse?(self)
-                }
+                self.handleCompletedStateChange(to: targetExpansionState)
             }
         })
         translationAnimator?.startAnimation()
+    }
+
+    private func handleCompletedStateChange(to targetExpansionState: BottomSheetExpansionState) {
+        switch targetExpansionState {
+        case .expanded:
+            self.delegate?.bottomSheetControllerDidExpand?(self)
+        case .collapsed:
+            self.delegate?.bottomSheetControllerDidCollapse?(self)
+        }
+        updateResizingHandleViewAccessibility()
     }
 
     private func stopAnimationIfNeeded() {
