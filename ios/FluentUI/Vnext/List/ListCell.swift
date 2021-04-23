@@ -27,7 +27,14 @@ import SwiftUI
 ///
 @objc public class MSFListCellState: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
-    @objc @Published public var leadingView: UIView?
+    @Published public var leadingUIView: AnyView?
+    @objc public var leadingView: UIView? {
+        didSet {
+            if let view = self.leadingView {
+                self.leadingUIView = AnyView(UIViewAdapter(view))
+            }
+        }
+    }
     @objc @Published public var leadingViewSize: MSFListCellLeadingViewSize = .medium
     @objc @Published public var title: String = ""
     @objc @Published public var subtitle: String = ""
@@ -89,8 +96,8 @@ struct MSFListCellView: View {
                 let labelAccessorySize = tokens.labelAccessorySize
                 let sublabelAccessorySize = tokens.sublabelAccessorySize
 
-                if let leadingView = state.leadingView {
-                    UIViewAdapter(leadingView)
+                if let leadingUIView = state.leadingUIView {
+                    leadingUIView
                         .frame(width: tokens.leadingViewSize, height: tokens.leadingViewSize)
                         .padding(.trailing, tokens.iconInterspace)
                 }

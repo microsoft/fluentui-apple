@@ -12,6 +12,7 @@ import SwiftUI
     var onTapAction: (() -> Void)? { get set }
 }
 
+/// Properties that make up PersonaView content
 class MSFPersonaViewStateImpl: MSFListCellState, MSFPersonaViewState {
     init(avatarState: MSFAvatarState) {
         self.avatarState = avatarState
@@ -138,7 +139,7 @@ public struct PersonaView: View {
     @ObservedObject var tokens: MSFPersonaViewTokens
 
     public init() {
-        avatar = MSFAvatar(style: .default, size: .xlarge)
+        avatar = AvatarView(style: .default, size: .xlarge)
         state = MSFPersonaViewStateImpl(avatarState: avatar.state)
         tokens = MSFPersonaViewTokens()
 
@@ -150,7 +151,7 @@ public struct PersonaView: View {
     }
 
     private func initializeState() {
-        state.leadingView = avatar.view
+        state.leadingUIView = AnyView(avatar)
         state.leadingViewSize = .xlarge
         state.titleTrailingAccessoryView = state.titleTrailingAccessoryView
         state.subtitleTrailingAccessoryView = state.subtitleTrailingAccessoryView
@@ -158,7 +159,7 @@ public struct PersonaView: View {
         state.layoutType = .threeLines
     }
 
-    private let avatar: MSFAvatar
+    private let avatar: AvatarView
 }
 
 /// UIKit wrapper that exposes the SwiftUI Persona Cell implementation
