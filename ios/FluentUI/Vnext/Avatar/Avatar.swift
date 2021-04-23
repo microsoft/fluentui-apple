@@ -161,7 +161,7 @@ public struct AvatarView: View {
                                                             InitialsView.initialsCalculatedColor(fromPrimaryText: state.primaryText,
                                                                                                  secondaryText: state.secondaryText,
                                                                                                  colorOptions: tokens.backgroundCalculatedColorOptions))
-        let ringGapColor = isTransparent ? Color.clear : Color(tokens.ringGapColor)
+        let ringGapColor = Color(tokens.ringGapColor).opacity(isTransparent ? 0 : 1)
         let ringColor = !isRingVisible ? Color.clear : Color(state.ringColor ?? ( !shouldUseCalculatedColors ?
                                                                                     tokens.ringDefaultColor! :
                                                                                     backgroundColor))
@@ -189,10 +189,18 @@ public struct AvatarView: View {
                     .resizable()
                     .foregroundColor(Color(foregroundColor))
             } else {
-                Text(initialsString)
-                    .foregroundColor(Color(foregroundColor))
-                    .font(Font(tokens.textFont))
-                    .animation(.none)
+                if #available(iOS 14.0, *) {
+                    Text(initialsString)
+                        .foregroundColor(Color(foregroundColor))
+                        .font(Font(tokens.textFont))
+                } else {
+                    Text(initialsString)
+                        .foregroundColor(Color(foregroundColor))
+                        .font(Font(tokens.textFont))
+                        // Workaround for iOS 13 only: disabling animations as a "flickering"
+                        // happens as the text is truncated during the animation
+                        .animation(.none)
+                }
             }
         }
 
@@ -201,11 +209,11 @@ public struct AvatarView: View {
             if tokens.style == .group {
                 avatarContent
                     .background(Rectangle()
-                                        .frame(width: tokens.avatarSize, height: tokens.avatarSize, alignment: .center)
-                                        .foregroundColor(Color(backgroundColor)))
-                        .frame(width: tokens.avatarSize, height: tokens.avatarSize, alignment: .center)
-                        .contentShape(RoundedRectangle(cornerRadius: tokens.borderRadius))
-                        .clipShape(RoundedRectangle(cornerRadius: tokens.borderRadius))
+                                    .frame(width: tokens.avatarSize, height: tokens.avatarSize, alignment: .center)
+                                    .foregroundColor(Color(backgroundColor)))
+                    .frame(width: tokens.avatarSize, height: tokens.avatarSize, alignment: .center)
+                    .contentShape(RoundedRectangle(cornerRadius: tokens.borderRadius))
+                    .clipShape(RoundedRectangle(cornerRadius: tokens.borderRadius))
             } else {
                 Circle()
                     .foregroundColor(ringGapColor)
@@ -231,18 +239,18 @@ public struct AvatarView: View {
                             thisView.mask(PresenceCutout(presenceCutoutOriginCoordinates: presenceCutoutOriginCoordinates,
                                                          presenceIconOutlineSize: presenceIconOutlineSize)
                                             .fill(style: FillStyle(eoFill: true)))
-                                    .overlay(
-                                        Circle()
-                                                .foregroundColor(isTransparent ? Color.clear : Color(tokens.ringGapColor))
-                                                .frame(width: presenceIconOutlineSize, height: presenceIconOutlineSize, alignment: .center)
-                                                .overlay(presence.image(isOutOfOffice: isOutOfOffice)
-                                                            .resizable()
-                                                            .frame(width: presenceIconSize, height: presenceIconSize, alignment: .center)
-                                                            .foregroundColor(presence.color(isOutOfOffice: isOutOfOffice)))
-                                                .contentShape(Circle())
-                                                .frame(width: presenceIconFrameSideRelativeToOuterRing, height: presenceIconFrameSideRelativeToOuterRing, alignment: .bottomTrailing)
-                                        ,
-                                             alignment: .topLeading)
+                                .overlay(Circle()
+                                            .foregroundColor(Color(tokens.ringGapColor).opacity(isTransparent ? 0 : 1))
+                                            .frame(width: presenceIconOutlineSize, height: presenceIconOutlineSize, alignment: .center)
+                                            .overlay(presence.image(isOutOfOffice: isOutOfOffice)
+                                                        .interpolation(.high)
+                                                        .resizable()
+                                                        .frame(width: presenceIconSize, height: presenceIconSize, alignment: .center)
+                                                        .foregroundColor(presence.color(isOutOfOffice: isOutOfOffice)))
+                                            .contentShape(Circle())
+                                            .frame(width: presenceIconFrameSideRelativeToOuterRing, height: presenceIconFrameSideRelativeToOuterRing,
+                                                   alignment: .bottomTrailing),
+                                         alignment: .topLeading)
                                 .frame(width: overallFrameSide, height: overallFrameSide, alignment: .topLeading)
                     })
             }
@@ -260,6 +268,7 @@ public struct AvatarView: View {
         }
 
         return avatarBodyWithPointerInteraction
+            .animation(.linear(duration: animationDuration))
             .accessibilityElement(children: .ignore)
             .accessibility(addTraits: .isImage)
             .accessibility(label: Text(accessibilityLabel))
@@ -283,9 +292,7 @@ public struct AvatarView: View {
     }
 
     public func setSize(size: MSFAvatarSize) {
-        withAnimation(.linear(duration: animationDuration)) {
-            tokens.size = size
-        }
+        tokens.size = size
     }
 
     private let animationDuration: Double = 0.1
