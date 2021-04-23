@@ -14,6 +14,8 @@ import SwiftUI
 /// Any label`AccessoryView` property is a custom view at the leading/trailing end of a label, including the title, subtitle, or footnote.
 /// Currently only supports square views (width & height must be the same).
 ///
+/// All `AnyView?` properties will be overwritten by its UIView equivalent. Used for SwiftUI environments.
+///
 /// `leadingView` and `trailingView` allows any custom views. Currently only supports square views (width & height must be the same).
 /// `leadingViewSize` can be specified using `MSFListCellLeadingViewSize`.
 ///
@@ -27,11 +29,11 @@ import SwiftUI
 ///
 @objc public class MSFListCellState: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
-    @Published public var leadingUIView: AnyView?
-    @objc public var leadingView: UIView? {
+    @Published public var leadingView: AnyView?
+    @objc public var leadingUIView: UIView? {
         didSet {
-            if let view = self.leadingView {
-                self.leadingUIView = AnyView(UIViewAdapter(view))
+            if let view = self.leadingUIView {
+                self.leadingView = AnyView(UIViewAdapter(view))
             }
         }
     }
@@ -96,8 +98,8 @@ struct MSFListCellView: View {
                 let labelAccessorySize = tokens.labelAccessorySize
                 let sublabelAccessorySize = tokens.sublabelAccessorySize
 
-                if let leadingUIView = state.leadingUIView {
-                    leadingUIView
+                if let leadingView = state.leadingView {
+                    leadingView
                         .frame(width: tokens.leadingViewSize, height: tokens.leadingViewSize)
                         .padding(.trailing, tokens.iconInterspace)
                 }

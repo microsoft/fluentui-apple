@@ -88,7 +88,7 @@ class LeftNavMenuViewController: UIViewController {
         self.persona.state.presence = presence.avatarPresence()
         self.statusCell.isExpanded = false
         self.statusCell.title = presence.cellTitle()
-        self.statusCell.leadingView = presence.imageView()
+        self.statusCell.leadingUIView = presence.imageView()
     }
 
     private var leftNavAvatar = MSFAvatar(style: .default, size: .xlarge)
@@ -114,7 +114,7 @@ class LeftNavMenuViewController: UIViewController {
             let statusCellChild = MSFListCellState()
             statusCellChild.leadingViewSize = .small
             statusCellChild.title = presence.cellTitle()
-            statusCellChild.leadingView = presence.imageView()
+            statusCellChild.leadingUIView = presence.imageView()
             statusCellChild.onTapAction = {
                 self.setPresence(presence: presence)
             }
@@ -127,7 +127,7 @@ class LeftNavMenuViewController: UIViewController {
         resetStatusCell.leadingViewSize = .small
         let resetStatusImageView = UIImageView(image: UIImage(named: "ic_fluent_arrow_sync_24_regular"))
         resetStatusImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
-        resetStatusCell.leadingView = resetStatusImageView
+        resetStatusCell.leadingUIView = resetStatusImageView
         resetStatusCell.onTapAction = {
             self.setPresence(presence: .available)
         }
@@ -136,14 +136,14 @@ class LeftNavMenuViewController: UIViewController {
         statusCell.title = LeftNavPresence.available.cellTitle()
         let statusImageView = LeftNavPresence.available.imageView()
         statusImageView.tintColor = FluentUIThemeManager.S.Colors.Presence.available
-        statusCell.leadingView = statusImageView
+        statusCell.leadingUIView = statusImageView
         statusCell.children = statusCellChildren
 
         let statusMessageCell = MSFListCellState()
         statusMessageCell.title = "Set Status Message"
         let statusMessageImageView = UIImageView(image: UIImage(named: "ic_fluent_status_24_regular"))
         statusMessageImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
-        statusMessageCell.leadingView = statusMessageImageView
+        statusMessageCell.leadingUIView = statusMessageImageView
         statusMessageCell.onTapAction = defaultMenuAction
 
         let notificationsCell = MSFListCellState()
@@ -152,21 +152,21 @@ class LeftNavMenuViewController: UIViewController {
         notificationsCell.layoutType = .twoLines
         let notificationsImageView = UIImageView(image: UIImage(named: "ic_fluent_alert_24_regular"))
         notificationsImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
-        notificationsCell.leadingView = notificationsImageView
+        notificationsCell.leadingUIView = notificationsImageView
         notificationsCell.onTapAction = defaultMenuAction
 
         let settingsCell = MSFListCellState()
         settingsCell.title = "Settings"
         let settingsImageView = UIImageView(image: UIImage(named: "ic_fluent_settings_24_regular"))
         settingsImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
-        settingsCell.leadingView = settingsImageView
+        settingsCell.leadingUIView = settingsImageView
         settingsCell.onTapAction = defaultMenuAction
 
         let whatsNewCell = MSFListCellState()
         whatsNewCell.title = "What's new"
         let whatsNewImageView = UIImageView(image: UIImage(named: "ic_fluent_lightbulb_24_regular"))
         whatsNewImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
-        whatsNewCell.leadingView = whatsNewImageView
+        whatsNewCell.leadingUIView = whatsNewImageView
         whatsNewCell.onTapAction = defaultMenuAction
 
         let menuSection = MSFListSectionState()
@@ -179,7 +179,7 @@ class LeftNavMenuViewController: UIViewController {
         microsoftAccountCell.accessoryType = .checkmark
         let orgAvatar = MSFAvatar(style: .group, size: .large)
         orgAvatar.state.primaryText = "Kat Larrson"
-        microsoftAccountCell.leadingView = orgAvatar.view
+        microsoftAccountCell.leadingUIView = orgAvatar.view
         microsoftAccountCell.leadingViewSize = .large
 
         let msaAccountCell = MSFListCellState()
@@ -188,14 +188,14 @@ class LeftNavMenuViewController: UIViewController {
         msaAccountCell.subtitle = "kat.larrson@live.com"
         let msaAvatar = MSFAvatar(style: .group, size: .large)
         msaAvatar.state.primaryText = "kat.larrson@live.com"
-        msaAccountCell.leadingView = msaAvatar.view
+        msaAccountCell.leadingUIView = msaAvatar.view
         msaAccountCell.leadingViewSize = .large
 
         let addAccountCell = MSFListCellState()
         addAccountCell.title = "Add Account"
         let addAccountImageView = UIImageView(image: UIImage(named: "ic_fluent_add_24_regular"))
         addAccountImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
-        addAccountCell.leadingView = addAccountImageView
+        addAccountCell.leadingUIView = addAccountImageView
         addAccountCell.onTapAction = defaultMenuAction
 
         let accountsSection = MSFListSectionState()

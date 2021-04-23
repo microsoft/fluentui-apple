@@ -146,19 +146,11 @@ public struct PersonaView: View {
     @ObservedObject var tokens: MSFPersonaViewTokens
 
     public init() {
-        avatar = AvatarView(style: .default, size: .xlarge)
-        state = MSFPersonaViewStateImpl(avatarState: avatar.state)
         tokens = MSFPersonaViewTokens()
+        let avatar = AvatarView(style: .default, size: .xlarge)
+        state = MSFPersonaViewStateImpl(avatarState: avatar.state)
 
-        initializeState()
-    }
-
-    public var body: some View {
-        MSFListCellView(state: state, tokens: tokens, windowProvider: tokens.windowProvider)
-    }
-
-    private func initializeState() {
-        state.leadingUIView = AnyView(avatar)
+        state.leadingView = AnyView(avatar)
         state.leadingViewSize = .xlarge
         state.titleTrailingAccessoryView = state.titleTrailingAccessoryView
         state.subtitleTrailingAccessoryView = state.subtitleTrailingAccessoryView
@@ -166,10 +158,12 @@ public struct PersonaView: View {
         state.layoutType = .threeLines
     }
 
-    private let avatar: AvatarView
+    public var body: some View {
+        MSFListCellView(state: state, tokens: tokens, windowProvider: tokens.windowProvider)
+    }
 }
 
-/// UIKit wrapper that exposes the SwiftUI Persona Cell implementation
+/// UIKit wrapper that exposes the SwiftUI PersonaView  implementation
 @objc open class MSFPersonaView: NSObject, FluentUIWindowProvider {
     @objc public init(theme: FluentUIStyle? = nil) {
         personaView = PersonaView()
