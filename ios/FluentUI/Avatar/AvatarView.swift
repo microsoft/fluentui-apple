@@ -387,9 +387,7 @@ open class AvatarView: UIView {
             updateBorder()
         }
 
-        if hasCustomBorder || hasBorder {
-            updateInnerStroke()
-        }
+        updateInnerStroke()
 
         if let fallbackImageStyle = fallbackImageStyle {
             updateImageViewWithFallbackImage(style: fallbackImageStyle)
@@ -620,12 +618,19 @@ open class AvatarView: UIView {
     }
 
     private func updateInnerStroke() {
-        imageView.layer.borderWidth = avatarSize.insideBorder
-        imageView.layer.borderColor = Colors.surfacePrimary.cgColor
-        imageView.layer.masksToBounds = true
-        initialsView.layer.borderWidth = avatarSize.insideBorder
-        initialsView.layer.borderColor = Colors.surfacePrimary.cgColor
-        initialsView.layer.masksToBounds = true
+        if hasCustomBorder || hasBorder {
+            imageView.layer.borderWidth = avatarSize.insideBorder
+            imageView.layer.borderColor = Colors.surfacePrimary.cgColor
+            imageView.layer.masksToBounds = true
+            initialsView.layer.borderWidth = avatarSize.insideBorder
+            initialsView.layer.borderColor = Colors.surfacePrimary.cgColor
+            initialsView.layer.masksToBounds = true
+        } else {
+            imageView.layer.borderWidth = 0
+            imageView.layer.borderColor = nil
+            initialsView.layer.borderWidth = 0
+            initialsView.layer.borderColor = nil
+        }
     }
 
     private func updatePresenceImage() {
