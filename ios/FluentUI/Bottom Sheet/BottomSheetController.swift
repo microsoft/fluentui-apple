@@ -18,7 +18,7 @@ public protocol BottomSheetControllerDelegate: AnyObject {
 public class BottomSheetController: UIViewController {
 
     /// Initializes the bottom sheet controller.
-    /// - Parameter contentViewController: The view controller that manages the bottom sheet content.
+    /// - Parameter contentViewController: The view controller that's placed inside the bottom sheet.
     ///
     /// By default the root view of `contentViewController` will be sized automatically to fill the available area,
     /// respecting the provided `preferredExpandedHeightFraction` multiplier.
@@ -26,11 +26,9 @@ public class BottomSheetController: UIViewController {
     @objc public init(with contentViewController: UIViewController) {
         self.contentViewController = contentViewController
         super.init(nibName: nil, bundle: nil)
-
-        addChild(contentViewController)
-        contentViewController.didMove(toParent: self)
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
@@ -43,20 +41,15 @@ public class BottomSheetController: UIViewController {
     @objc open var isExpandable: Bool = true {
         didSet {
             if isExpandable != oldValue {
-                if isExpandable {
-                    resizingHandleView.isHidden = false
-                    panGestureRecognizer.isEnabled = true
-                } else {
-                    resizingHandleView.isHidden = true
-                    panGestureRecognizer.isEnabled = false
-                }
+                resizingHandleView.isHidden = !isExpandable
+                panGestureRecognizer.isEnabled = isExpandable
                 move(to: .collapsed, animated: false)
             }
         }
     }
 
     /// Indicates if `preferredContentSize` of `contentViewController` should be respected.
-    /// Upper limits on the content size are still enforced, depending on the area available to `BottomSheetController`.
+    /// Regardless of the value, the expanded height is limited by the height of `BottomSheetController`'s root view.
     @objc open var respectsPreferredContentSize: Bool = false {
         didSet {
             if respectsPreferredContentSize != oldValue {
@@ -65,7 +58,7 @@ public class BottomSheetController: UIViewController {
         }
     }
 
-    /// Fraction of the available area that the bottom sheet shold take up in the expanded position.
+    /// Fraction of the available area that the bottom sheet should take up in the expanded position.
     ///
     /// Ignored when `respectsPreferredContentSize` is set to `true`
     @objc open var expandedHeightFraction: CGFloat = 1.0 {
@@ -84,21 +77,27 @@ public class BottomSheetController: UIViewController {
 
     // MARK: - View loading
 
+    /// View hierarchy
+    /// --BottomSheetPassthroughView (full overlay area)
+    /// ----bottomSheetView (bottom sheet area only)
+    /// ------bottomSheetContentView
+    /// --------UIStackView
+    /// ----------ResizingHandleView
+    /// ----------contentView (root of contentViewController)
     public override func loadView() {
         view = BottomSheetPassthroughView()
 
+        addChild(contentViewController)
+        contentViewController.didMove(toParent: self)
+
         view.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(bottomSheetView)
-
-        bottomSheetView.addGestureRecognizer(panGestureRecognizer)
-        panGestureRecognizer.delegate = self
 
         NSLayoutConstraint.activate([
             bottomSheetView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             bottomSheetView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             bottomSheetOffsetConstraint
         ])
-
         updateBottomSheetHeightConstraints()
     }
 
@@ -111,25 +110,62 @@ public class BottomSheetController: UIViewController {
         return resizingHandleView
     }()
 
-    private lazy var bottomSheetView: BottomSheetView = {
-        let bottomSheetView = BottomSheetView()
-        bottomSheetView.translatesAutoresizingMaskIntoConstraints = false
+    private lazy var bottomSheetView: UIView = {
+        let bottomSheetContentView = UIView()
+        bottomSheetContentView.translatesAutoresizingMaskIntoConstraints = false
+
+        bottomSheetContentView.addGestureRecognizer(panGestureRecognizer)
+        panGestureRecognizer.delegate = self
 
         let stackView = UIStackView(arrangedSubviews: [resizingHandleView, contentView])
         stackView.spacing = 0.0
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        bottomSheetView.contentView.addSubview(stackView)
+        bottomSheetContentView.addSubview(stackView)
 
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: bottomSheetView.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: bottomSheetView.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: bottomSheetView.trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomSheetView.bottomAnchor, constant: -Constants.Spring.overflowHeight)
+            stackView.topAnchor.constraint(equalTo: bottomSheetContentView.topAnchor),
+            stackView.leadingAnchor.constraint(equalTo: bottomSheetContentView.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: bottomSheetContentView.trailingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: bottomSheetContentView.bottomAnchor, constant: -Constants.Spring.overflowHeight)
+        ])
+
+        return makeBottomSheetByEmbedding(contentView: bottomSheetContentView)
+    }()
+
+    private func makeBottomSheetByEmbedding(contentView: UIView) -> UIView {
+        let bottomSheetView = UIView()
+        bottomSheetView.translatesAutoresizingMaskIntoConstraints = false
+
+        // We need to have the shadow on a parent of the view that does the corner masking.
+        // Otherwise the view will mask its own shadow.
+        bottomSheetView.layer.shadowColor = Constants.Shadow.color
+        bottomSheetView.layer.shadowOffset = Constants.Shadow.offset
+        bottomSheetView.layer.shadowOpacity = Constants.Shadow.opacity
+        bottomSheetView.layer.shadowRadius = Constants.Shadow.radius
+
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.backgroundColor = Colors.NavigationBar.background
+        contentView.layer.cornerRadius = Constants.cornerRadius
+        contentView.layer.cornerCurve = .continuous
+        contentView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        contentView.clipsToBounds = true
+
+        bottomSheetView.addSubview(contentView)
+
+        NSLayoutConstraint.activate([
+            contentView.leadingAnchor.constraint(equalTo: bottomSheetView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: bottomSheetView.trailingAnchor),
+            contentView.topAnchor.constraint(equalTo: bottomSheetView.topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: bottomSheetView.bottomAnchor)
         ])
 
         return bottomSheetView
-    }()
+    }
+
+    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        move(to: .collapsed, animated: true, velocity: 0)
+    }
 
     // MARK: - Gesture handling
 
@@ -139,6 +175,16 @@ public class BottomSheetController: UIViewController {
             hostedScrollView?.setContentOffset(.zero, animated: true)
         } else {
             animate(to: .expanded, velocity: 0)
+        }
+    }
+
+    private func updateResizingHandleViewAccessibility() {
+        if currentOffsetFromBottom != collapsedOffsetFromBottom {
+            resizingHandleView.accessibilityLabel = "Accessibility.Drawer.ResizingHandle.Label.Collapse".localized
+            resizingHandleView.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Collapse".localized
+        } else {
+            resizingHandleView.accessibilityLabel = "Accessibility.Drawer.ResizingHandle.Label.Expand".localized
+            resizingHandleView.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Expand".localized
         }
     }
 
@@ -182,21 +228,18 @@ public class BottomSheetController: UIViewController {
     // MARK: - Animations
 
     private func completePan(with velocity: CGFloat) {
+        var targetState: BottomSheetExpansionState
         if abs(velocity) < Constants.directionOverrideVelocityThreshold {
             // Velocity too low, snap to the closest offset
-            if abs(collapsedOffsetFromBottom - currentOffsetFromBottom) < abs(expandedOffsetFromBottom - currentOffsetFromBottom) {
-                move(to: .collapsed, velocity: velocity)
-            } else {
-                move(to: .expanded, velocity: velocity)
-            }
+            targetState =
+                abs(collapsedOffsetFromBottom - currentOffsetFromBottom) < abs(expandedOffsetFromBottom - currentOffsetFromBottom)
+                ? .collapsed
+                : .expanded
         } else {
             // Velocity high enough, animate to the offset we're swiping towards
-            if velocity > 0 {
-                move(to: .collapsed, velocity: velocity)
-            } else {
-                move(to: .expanded, velocity: velocity)
-            }
+            targetState = velocity > 0 ? .collapsed : .expanded
         }
+        move(to: targetState, velocity: velocity)
     }
 
     private func move(to targetExpansionState: BottomSheetExpansionState, animated: Bool = true, velocity: CGFloat = 0.0) {
@@ -204,14 +247,7 @@ public class BottomSheetController: UIViewController {
             animate(to: targetExpansionState, velocity: velocity)
         } else {
             bottomSheetOffsetConstraint.constant = -(targetExpansionState == .expanded ? expandedOffsetFromBottom : collapsedOffsetFromBottom)
-            view.setNeedsLayout()
-
-            switch targetExpansionState {
-            case .expanded:
-                delegate?.bottomSheetControllerDidExpand?(self)
-            case .collapsed:
-                delegate?.bottomSheetControllerDidCollapse?(self)
-            }
+            handleCompletedStateChange(to: targetExpansionState)
         }
     }
 
@@ -234,15 +270,20 @@ public class BottomSheetController: UIViewController {
 
         translationAnimator?.addCompletion({ finalPosition in
             if finalPosition == .end {
-                switch targetExpansionState {
-                case .expanded:
-                    self.delegate?.bottomSheetControllerDidExpand?(self)
-                case .collapsed:
-                    self.delegate?.bottomSheetControllerDidCollapse?(self)
-                }
+                self.handleCompletedStateChange(to: targetExpansionState)
             }
         })
         translationAnimator?.startAnimation()
+    }
+
+    private func handleCompletedStateChange(to targetExpansionState: BottomSheetExpansionState) {
+        switch targetExpansionState {
+        case .expanded:
+            self.delegate?.bottomSheetControllerDidExpand?(self)
+        case .collapsed:
+            self.delegate?.bottomSheetControllerDidCollapse?(self)
+        }
+        updateResizingHandleViewAccessibility()
     }
 
     private func stopAnimationIfNeeded() {
@@ -257,7 +298,6 @@ public class BottomSheetController: UIViewController {
             // based on the frame calculated during the interrupted animation
             let offsetFromBottom = view.frame.height - bottomSheetView.frame.origin.y
             bottomSheetOffsetConstraint.constant = -offsetFromBottom
-            view.setNeedsLayout()
         }
     }
 
@@ -270,7 +310,6 @@ public class BottomSheetController: UIViewController {
         NSLayoutConstraint.activate(newConstraints)
 
         bottomSheetHeightConstraints = newConstraints
-        view.setNeedsLayout()
     }
 
     private func generateBottomSheetHeightConstraints() -> [NSLayoutConstraint] {
@@ -334,6 +373,8 @@ public class BottomSheetController: UIViewController {
         static let minimumTopExpandedPadding: CGFloat = 25.0
         static let defaultCollapsedContentHeight: CGFloat = 75
 
+        static let cornerRadius: CGFloat = 14
+
         struct Spring {
             // Spring used in slow swipes - no oscillation
             static let defaultDampingRatio: CGFloat = 1.0
@@ -350,6 +391,13 @@ public class BottomSheetController: UIViewController {
             // Off-screen overflow that can be partially revealed during spring oscillation or rubber banding (dragging the sheet beyond limits)
             static let overflowHeight: CGFloat = 50.0
         }
+
+        struct Shadow {
+            static let color: CGColor = UIColor.black.cgColor
+            static let opacity: Float = 0.14
+            static let radius: CGFloat = 8
+            static let offset: CGSize = CGSize(width: 0, height: 4)
+        }
     }
 }
 
@@ -363,12 +411,16 @@ extension BottomSheetController: UIGestureRecognizerDelegate {
         guard let scrollView = hostedScrollView, let panGesture = gestureRecognizer as? UIPanGestureRecognizer else {
             return true
         }
-
-        let scrolledToTop = scrollView.contentOffset.y <= 0
-        let panningDown = panGesture.velocity(in: view).y > 0
+        var shouldBegin = true
         let fullyExpanded = currentOffsetFromBottom >= expandedOffsetFromBottom
 
-        return !fullyExpanded || (scrolledToTop && panningDown)
+        if fullyExpanded {
+            let scrolledToTop = scrollView.contentOffset.y <= 0
+            let panningDown = panGesture.velocity(in: view).y > 0
+            shouldBegin = scrolledToTop && panningDown
+        }
+
+        return shouldBegin
     }
 }
 
