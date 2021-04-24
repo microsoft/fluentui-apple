@@ -186,17 +186,8 @@ open class AvatarGroupView: UIView {
             return
         }
 
-        var borderWidth = avatarBorderWidth()
+        let borderWidth = avatarSize.borderWidth
         let avatarFrame = CGRect(origin: .zero, size: avatarSize.size)
-
-        var pathFrame = avatarFrame
-        if showBorders {
-            pathFrame.origin.x -= borderWidth
-            pathFrame.origin.y -= borderWidth
-            pathFrame.size.width += borderWidth * 4
-            pathFrame.size.height += borderWidth * 4
-            borderWidth *= 2
-        }
 
         var nextFrame = avatarFrame
         nextFrame.origin.x += avatarSize.size.width + avatarSpacing() - borderWidth
@@ -204,7 +195,7 @@ open class AvatarGroupView: UIView {
         nextFrame.size.width += borderWidth * 2
         nextFrame.size.height += borderWidth * 2
 
-        let path = UIBezierPath(rect: pathFrame)
+        let path = UIBezierPath(rect: avatarFrame)
         path.append(UIBezierPath(ovalIn: nextFrame))
 
         var maskedAvatares: ArraySlice<AvatarView>
@@ -224,18 +215,11 @@ open class AvatarGroupView: UIView {
         }
     }
 
-    private func avatarBorderWidth() -> CGFloat {
-        return AvatarView.borderWidth(size: avatarSize, hasCustomBorder: false)
-    }
-
     private func avatarSpacing() -> CGFloat {
         var spacing: CGFloat = 0
         switch style {
         case .pile:
             spacing = avatarSize.pileSpacing
-            if showBorders {
-                spacing += 2 * avatarBorderWidth()
-            }
         case .stack:
             spacing = -avatarSize.size.width * Constants.avatarStackOverlapRatio
         }
