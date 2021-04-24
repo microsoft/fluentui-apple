@@ -175,7 +175,7 @@ class InitialsView: UIView {
         // Initials label
         initialsLabel = UILabel()
         initialsLabel.adjustsFontSizeToFitWidth = true
-        initialsLabel.minimumScaleFactor = 0.6
+        initialsLabel.minimumScaleFactor = 0.5
         initialsLabel.font = avatarSize.font
         initialsLabel.backgroundColor = UIColor.clear
         initialsLabel.textColor = Colors.Avatar.text
