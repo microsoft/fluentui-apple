@@ -99,6 +99,7 @@ public class BottomSheetController: UIViewController {
             bottomSheetOffsetConstraint
         ])
         updateBottomSheetHeightConstraints()
+        updateResizingHandleViewAccessibility()
     }
 
     private lazy var resizingHandleView: ResizingHandleView = {
