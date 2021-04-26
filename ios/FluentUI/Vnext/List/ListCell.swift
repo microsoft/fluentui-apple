@@ -30,7 +30,7 @@ import SwiftUI
 @objc public class MSFListCellState: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
 
-    //SwiftUI View Properties
+    // SwiftUI View Properties
     @Published public var leadingView: AnyView?
     @Published public var titleLeadingAccessoryView: AnyView?
     @Published public var titleTrailingAccessoryView: AnyView?
