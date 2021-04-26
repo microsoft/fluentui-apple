@@ -86,7 +86,7 @@ Typography:
   subheadline: "Font(subheadline)"
 
 Border:
-  radius: [ none: 0pt, small: 2pt, medium: 4pt, large: 8pt, xlarge: 12pt, xxlarge: 14pt ]
+  radius: [ none: 0pt, small: 2pt, medium: 4pt, large: 8pt, xLarge: 12pt, xxLarge: 14pt ]
   size: [ none: 0pt, thin: 1pt, thick: 2pt, thicker: 4pt, thickest: 6pt ]
 
 Icon:
@@ -337,8 +337,8 @@ AP_MSFDrawerTokens:
   shadow2Blur: $Shadow.shadow28.blur2
   shadow2OffsetX: $Shadow.shadow28.x2
   shadow2OffsetY: $Shadow.shadow28.y2
-  minMargin: [horizontal: $Spacing.xxxlarge, vertical: $Spacing.large]
-  cornerRadius: $Border.radius.xxlarge
+  minMargin: [horizontal: $Spacing.xxxLarge, vertical: $Spacing.large]
+  cornerRadius: $Border.radius.xxLarge
   dropShadowRadius: $Border.radius.medium
   dropShadowOffset: $Spacing.xxxSmall
   dropShadowOpacity: $Opacity.opacity05

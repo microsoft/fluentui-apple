@@ -356,8 +356,8 @@ open class FluentUIStyle: NSObject {
 				return CGFloat(12.0)
 			}
 
-			// MARK: - xxlarge 
-			open var xxlarge: CGFloat {
+			// MARK: - xxLarge 
+			open var xxLarge: CGFloat {
 				return CGFloat(14.0)
 			}
 		}

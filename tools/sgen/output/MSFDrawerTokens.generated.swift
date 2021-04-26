@@ -22,7 +22,7 @@ extension FluentUIStyle {
 
 		// MARK: - cornerRadius 
 		open var cornerRadius: CGFloat {
-			return mainProxy().Border.radius.xxlarge
+			return mainProxy().Border.radius.xxLarge
 		}
 
 		// MARK: - drawerHorizontalContentBackground 
@@ -67,7 +67,7 @@ extension FluentUIStyle {
 
 			// MARK: - horizontal 
 			open var horizontal: CGFloat {
-				return mainProxy().Spacing.xxxlarge
+				return mainProxy().Spacing.xxxLarge
 			}
 
 			// MARK: - vertical 
