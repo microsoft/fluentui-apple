@@ -99,6 +99,7 @@ public class BottomSheetController: UIViewController {
             bottomSheetOffsetConstraint
         ])
         updateBottomSheetHeightConstraints()
+        updateResizingHandleViewAccessibility()
     }
 
     private lazy var resizingHandleView: ResizingHandleView = {
@@ -163,8 +164,25 @@ public class BottomSheetController: UIViewController {
         return bottomSheetView
     }
 
+    public override func viewDidLayoutSubviews() {
+        if needsExpandedOffsetUpdate {
+            needsExpandedOffsetUpdate = false
+            move(to: .expanded, animated: false, velocity: 0.0)
+        }
+    }
+
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        move(to: .collapsed, animated: true, velocity: 0)
+        super.viewWillTransition(to: size, with: coordinator)
+
+        if size.height != view.frame.height {
+            if currentOffsetFromBottom == expandedOffsetFromBottom {
+                // Recalculate the offset after the next layout pass
+                needsExpandedOffsetUpdate = true
+            } else if currentOffsetFromBottom != collapsedContentHeight {
+                // Safe default for strange edge cases where we are between states
+                move(to: .collapsed, animated: false, velocity: 0)
+            }
+        }
     }
 
     // MARK: - Gesture handling
@@ -347,6 +365,8 @@ public class BottomSheetController: UIViewController {
     private lazy var panGestureRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
 
     private var translationAnimator: UIViewPropertyAnimator?
+
+    private var needsExpandedOffsetUpdate: Bool = false
 
     private var currentOffsetFromBottom: CGFloat {
         -bottomSheetOffsetConstraint.constant
