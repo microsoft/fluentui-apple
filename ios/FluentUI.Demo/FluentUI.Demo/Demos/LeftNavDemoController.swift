@@ -80,21 +80,20 @@ class LeftNavMenuViewController: UIViewController {
         super.viewDidLoad()
 
         view = leftNavView
-        leftNavAvatar.state.presence = .available
-        leftNavAvatar.state.primaryText = "Kat Larrson"
-        leftNavAvatar.state.image = UIImage(named: "avatar_kat_larsson")
     }
 
     var menuAction: (() -> Void)?
 
     private func setPresence(presence: LeftNavPresence) {
-        self.leftNavAvatar.state.presence = presence.avatarPresence()
+        self.persona.state.presence = presence.avatarPresence()
         self.statusCell.isExpanded = false
         self.statusCell.title = presence.cellTitle()
-        self.statusCell.leadingView = presence.imageView()
+        self.statusCell.leadingUIView = presence.imageView()
     }
 
     private var leftNavAvatar = MSFAvatar(style: .default, size: .xlarge)
+
+    private var persona = MSFPersonaView()
 
     private var statusCell = MSFListCellState()
 
@@ -115,7 +114,7 @@ class LeftNavMenuViewController: UIViewController {
             let statusCellChild = MSFListCellState()
             statusCellChild.leadingViewSize = .small
             statusCellChild.title = presence.cellTitle()
-            statusCellChild.leadingView = presence.imageView()
+            statusCellChild.leadingUIView = presence.imageView()
             statusCellChild.onTapAction = {
                 self.setPresence(presence: presence)
             }
@@ -128,7 +127,7 @@ class LeftNavMenuViewController: UIViewController {
         resetStatusCell.leadingViewSize = .small
         let resetStatusImageView = UIImageView(image: UIImage(named: "ic_fluent_arrow_sync_24_regular"))
         resetStatusImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
-        resetStatusCell.leadingView = resetStatusImageView
+        resetStatusCell.leadingUIView = resetStatusImageView
         resetStatusCell.onTapAction = {
             self.setPresence(presence: .available)
         }
@@ -137,14 +136,14 @@ class LeftNavMenuViewController: UIViewController {
         statusCell.title = LeftNavPresence.available.cellTitle()
         let statusImageView = LeftNavPresence.available.imageView()
         statusImageView.tintColor = FluentUIThemeManager.S.Colors.Presence.available
-        statusCell.leadingView = statusImageView
+        statusCell.leadingUIView = statusImageView
         statusCell.children = statusCellChildren
 
         let statusMessageCell = MSFListCellState()
         statusMessageCell.title = "Set Status Message"
         let statusMessageImageView = UIImageView(image: UIImage(named: "ic_fluent_status_24_regular"))
         statusMessageImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
-        statusMessageCell.leadingView = statusMessageImageView
+        statusMessageCell.leadingUIView = statusMessageImageView
         statusMessageCell.onTapAction = defaultMenuAction
 
         let notificationsCell = MSFListCellState()
@@ -153,21 +152,21 @@ class LeftNavMenuViewController: UIViewController {
         notificationsCell.layoutType = .twoLines
         let notificationsImageView = UIImageView(image: UIImage(named: "ic_fluent_alert_24_regular"))
         notificationsImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
-        notificationsCell.leadingView = notificationsImageView
+        notificationsCell.leadingUIView = notificationsImageView
         notificationsCell.onTapAction = defaultMenuAction
 
         let settingsCell = MSFListCellState()
         settingsCell.title = "Settings"
         let settingsImageView = UIImageView(image: UIImage(named: "ic_fluent_settings_24_regular"))
         settingsImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
-        settingsCell.leadingView = settingsImageView
+        settingsCell.leadingUIView = settingsImageView
         settingsCell.onTapAction = defaultMenuAction
 
         let whatsNewCell = MSFListCellState()
         whatsNewCell.title = "What's new"
         let whatsNewImageView = UIImageView(image: UIImage(named: "ic_fluent_lightbulb_24_regular"))
         whatsNewImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
-        whatsNewCell.leadingView = whatsNewImageView
+        whatsNewCell.leadingUIView = whatsNewImageView
         whatsNewCell.onTapAction = defaultMenuAction
 
         let menuSection = MSFListSectionState()
@@ -180,7 +179,8 @@ class LeftNavMenuViewController: UIViewController {
         microsoftAccountCell.accessoryType = .checkmark
         let orgAvatar = MSFAvatar(style: .group, size: .large)
         orgAvatar.state.primaryText = "Kat Larrson"
-        microsoftAccountCell.leadingView = orgAvatar.view
+        microsoftAccountCell.leadingUIView = orgAvatar.view
+        microsoftAccountCell.leadingViewSize = .large
 
         let msaAccountCell = MSFListCellState()
         msaAccountCell.layoutType = .twoLines
@@ -188,13 +188,14 @@ class LeftNavMenuViewController: UIViewController {
         msaAccountCell.subtitle = "kat.larrson@live.com"
         let msaAvatar = MSFAvatar(style: .group, size: .large)
         msaAvatar.state.primaryText = "kat.larrson@live.com"
-        msaAccountCell.leadingView = msaAvatar.view
+        msaAccountCell.leadingUIView = msaAvatar.view
+        msaAccountCell.leadingViewSize = .large
 
         let addAccountCell = MSFListCellState()
         addAccountCell.title = "Add Account"
         let addAccountImageView = UIImageView(image: UIImage(named: "ic_fluent_add_24_regular"))
         addAccountImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
-        addAccountCell.leadingView = addAccountImageView
+        addAccountCell.leadingUIView = addAccountImageView
         addAccountCell.onTapAction = defaultMenuAction
 
         let accountsSection = MSFListSectionState()
@@ -206,52 +207,30 @@ class LeftNavMenuViewController: UIViewController {
 
     private var leftNavMenuList = MSFList(sections: [])
 
-    private var leftNavAccountLabelsView: UIView {
-        let nameLabel = UILabel()
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
-        nameLabel.text = "Kat Larrson"
+    private lazy var leftNavAccountView: UIView = {
+        let chevron = UIImageView(image: UIImage(named: "ic_fluent_ios_chevron_right_20_filled"))
+        chevron.tintColor = Colors.textPrimary
 
-        let titleLabel = UILabel()
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.font = UIFont.preferredFont(forTextStyle: .caption2)
-        titleLabel.textColor = .darkGray
-        titleLabel.text = "Designer"
+        persona.state.presence = .available
+        persona.state.primaryText = "Kat Larrson"
+        persona.state.secondaryText = "Designer"
+        persona.state.image = UIImage(named: "avatar_kat_larsson")
+        persona.state.titleTrailingAccessoryView = chevron
+        persona.state.onTapAction = {
+            self.dismiss(animated: true, completion: {
+                guard let menuAction = self.menuAction else {
+                    return
+                }
 
-        let labelsStackView = UIStackView(arrangedSubviews: [nameLabel, titleLabel])
-        labelsStackView.translatesAutoresizingMaskIntoConstraints = false
-        labelsStackView.axis = .vertical
-        labelsStackView.spacing = Constant.verticalSpacing
+                menuAction()
+            })
+        }
 
-        return labelsStackView
-    }
+        let personaView = persona.view
+        personaView.translatesAutoresizingMaskIntoConstraints = false
 
-    private var leftNavAccountView: UIView {
-        let avatarView = leftNavAvatar.view
-        avatarView.translatesAutoresizingMaskIntoConstraints = false
-        let labelsView = leftNavAccountLabelsView
-
-        let chevronImageView = UIImageView(image: UIImage(named: "ic_fluent_ios_chevron_right_20_filled"))
-        chevronImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
-        chevronImageView.translatesAutoresizingMaskIntoConstraints = false
-
-        let accountView = UIView()
-        accountView.addSubview(avatarView)
-        accountView.addSubview(labelsView)
-        accountView.addSubview(chevronImageView)
-
-        accountView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            avatarView.leadingAnchor.constraint(equalTo: accountView.leadingAnchor, constant: Constant.margin),
-            avatarView.centerYAnchor.constraint(equalTo: accountView.centerYAnchor),
-            labelsView.centerYAnchor.constraint(equalTo: avatarView.centerYAnchor),
-            labelsView.leadingAnchor.constraint(equalTo: avatarView.trailingAnchor, constant: Constant.margin),
-            chevronImageView.leadingAnchor.constraint(equalTo: labelsView.trailingAnchor),
-            chevronImageView.topAnchor.constraint(equalTo: labelsView.topAnchor, constant: Constant.verticalSpacing)
-        ])
-
-        return accountView
-    }
+        return personaView
+    }()
 
     private var leftNavContentView: UIView {
         let contentView = UIView()
@@ -268,7 +247,7 @@ class LeftNavMenuViewController: UIViewController {
         contentView.addSubview(accountView)
         contentView.addSubview(menuListView)
 
-        NSLayoutConstraint.activate([accountView.heightAnchor.constraint(equalToConstant: 100),
+        NSLayoutConstraint.activate([accountView.heightAnchor.constraint(equalToConstant: 84),
                                      contentView.topAnchor.constraint(equalTo: accountView.topAnchor),
                                      contentView.leadingAnchor.constraint(equalTo: accountView.leadingAnchor),
                                      contentView.trailingAnchor.constraint(equalTo: accountView.trailingAnchor),

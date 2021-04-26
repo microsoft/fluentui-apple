@@ -89,7 +89,7 @@
     [listCell3 setTitle:@"SampleTitle3"];
     [listCell3 setSubtitle:@"SampleTitle3"];
     UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"excelIcon"]];
-    [listCell3 setLeadingView:image];
+    [listCell3 setLeadingUIView:image];
     [listCell3 setAccessoryType:MSFListAccessoryTypeDisclosure];
     [listCell3 setLayoutType:MSFListCellLayoutTypeTwoLines];
     [listCell3 setOnTapAction:^{

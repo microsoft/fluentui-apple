@@ -14,6 +14,8 @@ import SwiftUI
 /// Any label`AccessoryView` property is a custom view at the leading/trailing end of a label, including the title, subtitle, or footnote.
 /// Currently only supports square views (width & height must be the same).
 ///
+/// All `AnyView?` properties will be overwritten by its UIView equivalent. Used for SwiftUI environments.
+///
 /// `leadingView` and `trailingView` allows any custom views. Currently only supports square views (width & height must be the same).
 /// `leadingViewSize` can be specified using `MSFListCellLeadingViewSize`.
 ///
@@ -27,7 +29,14 @@ import SwiftUI
 ///
 @objc public class MSFListCellState: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
-    @objc @Published public var leadingView: UIView?
+    @Published public var leadingView: AnyView?
+    @objc public var leadingUIView: UIView? {
+        didSet {
+            if let view = self.leadingUIView {
+                self.leadingView = AnyView(UIViewAdapter(view))
+            }
+        }
+    }
     @objc @Published public var leadingViewSize: MSFListCellLeadingViewSize = .medium
     @objc @Published public var title: String = ""
     @objc @Published public var subtitle: String = ""
@@ -61,11 +70,17 @@ import SwiftUI
 /// View for List Cells
 struct MSFListCellView: View {
     @ObservedObject var state: MSFListCellState
-    @ObservedObject var tokens: MSFListCellTokens
+    @ObservedObject var tokens: MSFCellBaseTokens
 
     init(state: MSFListCellState, windowProvider: FluentUIWindowProvider?) {
         self.state = state
         self.tokens = MSFListCellTokens(cellLeadingViewSize: state.leadingViewSize)
+        self.tokens.windowProvider = windowProvider
+    }
+
+    init(state: MSFListCellState, tokens: MSFCellBaseTokens, windowProvider: FluentUIWindowProvider?) {
+        self.state = state
+        self.tokens = tokens
         self.tokens.windowProvider = windowProvider
     }
 
@@ -81,9 +96,10 @@ struct MSFListCellView: View {
                 let hasTitle = !state.title.isEmpty
                 let labelAccessoryInterspace = tokens.labelAccessoryInterspace
                 let labelAccessorySize = tokens.labelAccessorySize
+                let sublabelAccessorySize = tokens.sublabelAccessorySize
 
                 if let leadingView = state.leadingView {
-                    UIViewAdapter(leadingView)
+                    leadingView
                         .frame(width: tokens.leadingViewSize, height: tokens.leadingViewSize)
                         .padding(.trailing, tokens.iconInterspace)
                 }
@@ -111,7 +127,7 @@ struct MSFListCellView: View {
                     HStack(spacing: 0) {
                         if let subtitleLeadingAccessoryView = state.subtitleLeadingAccessoryView {
                             UIViewAdapter(subtitleLeadingAccessoryView)
-                                .frame(width: labelAccessorySize, height: labelAccessorySize)
+                                .frame(width: sublabelAccessorySize, height: sublabelAccessorySize)
                                 .padding(.trailing, labelAccessoryInterspace)
                         }
                         if !state.subtitle.isEmpty {
@@ -122,7 +138,7 @@ struct MSFListCellView: View {
                         }
                         if let subtitleTrailingAccessoryView = state.subtitleTrailingAccessoryView {
                             UIViewAdapter(subtitleTrailingAccessoryView)
-                                .frame(width: labelAccessorySize, height: labelAccessorySize)
+                                .frame(width: sublabelAccessorySize, height: sublabelAccessorySize)
                                 .padding(.leading, labelAccessoryInterspace)
                         }
                     }
@@ -190,7 +206,7 @@ struct MSFListCellView: View {
 }
 
 struct ListCellButtonStyle: ButtonStyle {
-    let tokens: MSFListCellTokens
+    let tokens: MSFCellBaseTokens
     let state: MSFListCellState
 
     func makeBody(configuration: Self.Configuration) -> some View {
@@ -198,7 +214,7 @@ struct ListCellButtonStyle: ButtonStyle {
         switch state.layoutType {
         case .automatic:
             height = !state.footnote.isEmpty ? tokens.cellHeightThreeLines :
-                (!state.subtitle.isEmpty ? tokens.cellHeightTwoLines : tokens.cellHeightOneLine)
+                    (!state.subtitle.isEmpty ? tokens.cellHeightTwoLines : tokens.cellHeightOneLine)
         case .oneLine:
             height = tokens.cellHeightOneLine
         case .twoLines:

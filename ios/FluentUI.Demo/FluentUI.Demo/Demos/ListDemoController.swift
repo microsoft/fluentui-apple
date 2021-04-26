@@ -39,7 +39,7 @@ class ListDemoController: DemoController {
                                   image: samplePersonas[4].avatarImage,
                                   style: .default)
         listCell.title = avatar.state.primaryText ?? ""
-        listCell.leadingView = avatar.view
+        listCell.leadingUIView = avatar.view
         listCell.onTapAction = {
             self.showAlertForAvatarTapped(name: samplePersonas[4].name)
         }
@@ -54,7 +54,7 @@ class ListDemoController: DemoController {
                                       image: samplePersonas[index].avatarImage,
                                       style: .default)
             listCell.title = avatar.state.primaryText ?? ""
-            listCell.leadingView = avatar.view
+            listCell.leadingUIView = avatar.view
             children.append(listCell)
         }
         children[0].children = subchildren
@@ -74,7 +74,7 @@ class ListDemoController: DemoController {
                                       image: samplePersonas[index].avatarImage,
                                       style: .default)
             listCell.title = avatar.state.primaryText ?? ""
-            listCell.leadingView = avatar.view
+            listCell.leadingUIView = avatar.view
             listSection.cells.append(listCell)
         }
         listSection.cells[0].children = children
@@ -113,7 +113,7 @@ class ListDemoController: DemoController {
                 listCell.titleLineLimit = section.numberOfLines
                 listCell.subtitleLineLimit = section.numberOfLines
                 listCell.footnoteLineLimit = section.numberOfLines
-                listCell.leadingView = createCustomView(imageName: cell.image)
+                listCell.leadingUIView = createCustomView(imageName: cell.image)
                 listCell.trailingView = section.hasAccessory ? createCustomView(imageName: cell.image) : nil
                 listCell.accessoryType = accessoryType(for: rowIndex)
                 listCell.onTapAction = {

@@ -148,8 +148,18 @@ extension FluentUIStyle {
 			open var small: CGFloat {
 				return mainProxy().Icon.size.xSmall
 			}
+
+			// MARK: - xlarge 
+			open var xlarge: CGFloat {
+				return CGFloat(52.0)
+			}
 		}
 
+
+		// MARK: - sublabelAccessorySize 
+		open var sublabelAccessorySize: CGFloat {
+			return mainProxy().Icon.size.xxSmall
+		}
 
 		// MARK: - sublabelColor 
 		open var sublabelColor: UIColor {

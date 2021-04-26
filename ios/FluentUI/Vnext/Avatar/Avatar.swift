@@ -90,30 +90,46 @@ import SwiftUI
 }
 
 /// Properties available to customize the state of the avatar
-@objc public class MSFAvatarState: NSObject, ObservableObject {
-    @objc @Published public var image: UIImage?
-    @objc @Published public var primaryText: String?
-    @objc @Published public var secondaryText: String?
-    @objc @Published public var ringColor: UIColor?
-    @objc @Published public var backgroundColor: UIColor?
-    @objc @Published public var foregroundColor: UIColor?
-    @objc @Published public var presence: MSFAvatarPresence = .none
-    @objc @Published public var hasPointerInteraction: Bool = false
-    @objc @Published public var isRingVisible: Bool = false
-    @objc @Published public var isTransparent: Bool = true
-    @objc @Published public var isOutOfOffice: Bool = false
+@objc public protocol MSFAvatarState {
+    var accessibilityLabel: String? { get set }
+    var image: UIImage? { get set }
+    var primaryText: String? { get set }
+    var secondaryText: String? { get set }
+    var ringColor: UIColor? { get set }
+    var backgroundColor: UIColor? { get set }
+    var foregroundColor: UIColor? { get set }
+    var presence: MSFAvatarPresence { get set }
+    var hasPointerInteraction: Bool { get set }
+    var isRingVisible: Bool { get set }
+    var isTransparent: Bool { get set }
+    var isOutOfOffice: Bool { get set }
+}
+
+/// Properties available to customize the state of the avatar
+class MSFAvatarStateImpl: NSObject, ObservableObject, MSFAvatarState {
+    @Published var image: UIImage?
+    @Published var primaryText: String?
+    @Published var secondaryText: String?
+    @Published var ringColor: UIColor?
+    @Published var backgroundColor: UIColor?
+    @Published var foregroundColor: UIColor?
+    @Published var presence: MSFAvatarPresence = .none
+    @Published var hasPointerInteraction: Bool = false
+    @Published var isRingVisible: Bool = false
+    @Published var isTransparent: Bool = true
+    @Published var isOutOfOffice: Bool = false
 }
 
 /// View that represents the avatar
 public struct AvatarView: View {
     @Environment(\.theme) var theme: FluentUIStyle
     @ObservedObject var tokens: MSFAvatarTokens
-    @ObservedObject var state: MSFAvatarState
+    @ObservedObject var state: MSFAvatarStateImpl
 
     public init(style: MSFAvatarStyle,
                 size: MSFAvatarSize) {
         self.tokens = MSFAvatarTokens(style: style, size: size)
-        self.state = MSFAvatarState()
+        self.state = MSFAvatarStateImpl()
     }
 
     public var body: some View {

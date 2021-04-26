@@ -60,4 +60,11 @@ Pod::Spec.new do |s|
     list_ios.source_files = ["ios/FluentUI/Vnext/List/**/*.{swift,h}"]
   end
 
+  s.subspec 'PersonaView_ios' do |personaView_ios|
+    personaView_ios.platform = :ios
+    personaView_ios.dependency 'MicrosoftFluentUIVnext/Avatar_ios'
+    personaView_ios.dependency 'MicrosoftFluentUIVnext/List_ios'
+    personaView_ios.source_files = ["ios/FluentUI/Vnext/Persona/**/*.{swift,h}"]
+  end
+
 end

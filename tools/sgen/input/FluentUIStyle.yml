@@ -290,11 +290,20 @@ AP_MSFListCellTokens:
   labelColor: $Colors.Foreground.neutral1
   labelFont: $Typography.body
   leadingViewColor: $Colors.Foreground.neutral4
-  leadingViewSize: [ small: $Icon.size.xSmall, medium: $Icon.size.medium, large: $Icon.size.xxLarge ]
+  leadingViewSize: [ small: $Icon.size.xSmall, medium: $Icon.size.medium, large: $Icon.size.xxlarge, xlarge: 52pt ]
+  sublabelAccessorySize: $Icon.size.xxSmall
   sublabelColor: $Colors.Foreground.neutral3
   sublabelFont: $Typography.subheadline
   trailingItemForegroundColor: $Colors.Foreground.neutral3
   trailingItemSize: $Icon.size.medium
+
+AP_MSFPersonaViewTokens:
+  footnoteFont: $Typography.footnote
+  iconInterspace: $Spacing.small
+  labelAccessoryInterspace: $Spacing.xxxSmall
+  labelAccessorySize: $Icon.size.xSmall
+  labelFont: $Typography.headline
+  sublabelColor: $Colors.Foreground.neutral1
 
 AP_MSFHeaderFooterTokens:
   backgroundColor: $Colors.Background.neutral1

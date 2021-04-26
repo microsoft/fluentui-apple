@@ -6,11 +6,14 @@
 import UIKit
 import SwiftUI
 
+// MARK: List Tokens
+
 /// Pre-defined styles of icons
 @objc public enum MSFListCellLeadingViewSize: Int, CaseIterable {
     case small
     case medium
     case large
+    case xlarge
 }
 
 /// Pre-defined accessory types
@@ -36,6 +39,8 @@ import SwiftUI
     }
 }
 
+// MARK: ListCell Tokens
+
 class MSFListTokens: MSFTokensBase, ObservableObject {
     @Published public var borderColor: UIColor!
 
@@ -58,8 +63,7 @@ class MSFListTokens: MSFTokensBase, ObservableObject {
     }
 }
 
-class MSFListCellTokens: MSFTokensBase, ObservableObject {
-    @Published public var backgroundColor: UIColor!
+class MSFCellBaseTokens: MSFTokensBase, ObservableObject {
     @Published public var borderColor: UIColor!
     @Published public var disclosureIconForegroundColor: UIColor!
     @Published public var labelColor: UIColor!
@@ -67,6 +71,7 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
     @Published public var sublabelColor: UIColor!
     @Published public var trailingItemForegroundColor: UIColor!
 
+    @Published public var backgroundColor: UIColor!
     @Published public var highlightedBackgroundColor: UIColor!
 
     @Published public var cellHeightOneLine: CGFloat!
@@ -79,15 +84,18 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
     @Published public var labelAccessoryInterspace: CGFloat!
     @Published public var labelAccessorySize: CGFloat!
     @Published public var leadingViewSize: CGFloat!
+    @Published public var sublabelAccessorySize: CGFloat!
     @Published public var trailingItemSize: CGFloat!
 
     @Published public var footnoteFont: UIFont!
     @Published public var sublabelFont: UIFont!
     @Published public var labelFont: UIFont!
+}
 
+class MSFListCellTokens: MSFCellBaseTokens {
     @Published public var cellLeadingViewSize: MSFListCellLeadingViewSize!
 
-    init(cellLeadingViewSize: MSFListCellLeadingViewSize) {
+    init(cellLeadingViewSize: MSFListCellLeadingViewSize = .medium) {
         self.cellLeadingViewSize = cellLeadingViewSize
 
         super.init()
@@ -102,7 +110,7 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
 
     override func updateForCurrentTheme() {
         let currentTheme = theme
-        let appearanceProxy: AppearanceProxyType = currentTheme.MSFListCellTokens
+        let appearanceProxy = currentTheme.MSFListCellTokens
 
         switch cellLeadingViewSize {
         case .small:
@@ -111,9 +119,10 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
             leadingViewSize = appearanceProxy.leadingViewSize.medium
         case .large:
             leadingViewSize = appearanceProxy.leadingViewSize.large
+        case .xlarge:
+            leadingViewSize = appearanceProxy.leadingViewSize.xlarge
         }
 
-        backgroundColor = appearanceProxy.backgroundColor.rest
         borderColor = appearanceProxy.borderColor
         disclosureIconForegroundColor = appearanceProxy.disclosureIconForegroundColor
         labelColor = appearanceProxy.labelColor
@@ -121,6 +130,7 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
         sublabelColor = appearanceProxy.sublabelColor
         trailingItemForegroundColor = appearanceProxy.trailingItemForegroundColor
 
+        backgroundColor = appearanceProxy.backgroundColor.rest
         highlightedBackgroundColor = appearanceProxy.backgroundColor.pressed
 
         cellHeightOneLine = appearanceProxy.cellHeight.oneLine
@@ -132,6 +142,7 @@ class MSFListCellTokens: MSFTokensBase, ObservableObject {
         iconInterspace = appearanceProxy.iconInterspace
         labelAccessoryInterspace = appearanceProxy.labelAccessoryInterspace
         labelAccessorySize = appearanceProxy.labelAccessorySize
+        sublabelAccessorySize = appearanceProxy.sublabelAccessorySize
         trailingItemSize = appearanceProxy.trailingItemSize
 
         footnoteFont = appearanceProxy.footnoteFont
