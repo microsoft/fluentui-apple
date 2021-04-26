@@ -149,7 +149,6 @@ public struct PersonaView: View {
         tokens = MSFPersonaViewTokens()
         let avatar = AvatarView(style: .default, size: .xlarge)
         state = MSFPersonaViewStateImpl(avatarState: avatar.state)
-
         state.leadingView = AnyView(avatar)
         state.leadingViewSize = .xlarge
         state.titleTrailingAccessoryView = state.titleTrailingAccessoryView
@@ -163,7 +162,7 @@ public struct PersonaView: View {
     }
 }
 
-/// UIKit wrapper that exposes the SwiftUI PersonaView  implementation
+/// UIKit wrapper that exposes the SwiftUI PersonaView implementation
 @objc open class MSFPersonaView: NSObject, FluentUIWindowProvider {
     @objc public init(theme: FluentUIStyle? = nil) {
         personaView = PersonaView()
