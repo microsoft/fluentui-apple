@@ -103,18 +103,18 @@ class ListDemoController: DemoController {
                 listCell.footnote = cell.text3
                 if !listCell.subtitle.isEmpty {
                     listCell.leadingViewSize = MSFListCellLeadingViewSize.large
-                    listCell.subtitleLeadingAccessoryView = showsLabelAccessoryView ? createCustomView(imageName: "success-12x12", imageType: "subtitle") : nil
-                    listCell.subtitleTrailingAccessoryView = showsLabelAccessoryView ? createCustomView(imageName: "chevron-down-20x20", imageType: "subtitle") : nil
+                    listCell.subtitleLeadingAccessoryUIView = showsLabelAccessoryView ? createCustomView(imageName: "success-12x12", imageType: "subtitle") : nil
+                    listCell.subtitleTrailingAccessoryUIView = showsLabelAccessoryView ? createCustomView(imageName: "chevron-down-20x20", imageType: "subtitle") : nil
                 }
 
-                listCell.titleLeadingAccessoryView = showsLabelAccessoryView ? createCustomView(imageName: "ic_fluent_presence_available_16_filled", imageType: "title") : nil
-                listCell.titleTrailingAccessoryView = showsLabelAccessoryView ? createCustomView(imageName: "chevron-right-20x20", imageType: "title") : nil
+                listCell.titleLeadingAccessoryUIView = showsLabelAccessoryView ? createCustomView(imageName: "ic_fluent_presence_available_16_filled", imageType: "title") : nil
+                listCell.titleTrailingAccessoryUIView = showsLabelAccessoryView ? createCustomView(imageName: "chevron-right-20x20", imageType: "title") : nil
 
                 listCell.titleLineLimit = section.numberOfLines
                 listCell.subtitleLineLimit = section.numberOfLines
                 listCell.footnoteLineLimit = section.numberOfLines
                 listCell.leadingUIView = createCustomView(imageName: cell.image)
-                listCell.trailingView = section.hasAccessory ? createCustomView(imageName: cell.image) : nil
+                listCell.trailingUIView = section.hasAccessory ? createCustomView(imageName: cell.image) : nil
                 listCell.accessoryType = accessoryType(for: rowIndex)
                 listCell.onTapAction = {
                     indexPath.row = rowIndex

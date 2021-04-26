@@ -14,8 +14,8 @@ import SwiftUI
 /// `onTapAction` provides tap gesture for PersonaView.
 ///
 @objc public protocol MSFPersonaViewState: MSFAvatarState {
-    var titleTrailingAccessoryView: UIView? { get set }
-    var subtitleTrailingAccessoryView: UIView? { get set }
+    var titleTrailingAccessoryUIView: UIView? { get set }
+    var subtitleTrailingAccessoryUIView: UIView? { get set }
     var onTapAction: (() -> Void)? { get set }
 }
 
@@ -151,8 +151,8 @@ public struct PersonaView: View {
         state = MSFPersonaViewStateImpl(avatarState: avatar.state)
         state.leadingView = AnyView(avatar)
         state.leadingViewSize = .xlarge
-        state.titleTrailingAccessoryView = state.titleTrailingAccessoryView
-        state.subtitleTrailingAccessoryView = state.subtitleTrailingAccessoryView
+        state.titleTrailingAccessoryUIView = state.titleTrailingAccessoryUIView
+        state.subtitleTrailingAccessoryUIView = state.subtitleTrailingAccessoryUIView
         state.onTapAction = state.onTapAction
         state.layoutType = .threeLines
     }

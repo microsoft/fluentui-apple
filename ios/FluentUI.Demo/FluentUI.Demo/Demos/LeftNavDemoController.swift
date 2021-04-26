@@ -243,7 +243,7 @@ class LeftNavMenuViewController: UIViewController {
         persona.state.primaryText = "Kat Larrson"
         persona.state.secondaryText = "Designer"
         persona.state.image = UIImage(named: "avatar_kat_larsson")
-        persona.state.titleTrailingAccessoryView = chevron
+        persona.state.titleTrailingAccessoryUIView = chevron
         persona.state.backgroundColor = .systemBackground
         persona.state.onTapAction = {
             self.dismiss(animated: true, completion: {
