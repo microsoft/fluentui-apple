@@ -3,6 +3,7 @@
 //  Licensed under the MIT License.
 //
 
+import Combine
 import UIKit
 import SwiftUI
 
@@ -21,6 +22,7 @@ struct MSFButtonViewButtonStyle: ButtonStyle {
         let tokens = targetButton.tokens
         let state = targetButton.state
         let isDisabled = state.isDisabled
+        let isFloatingStyle = tokens.style.isFloatingStyle
         let isPressed = configuration.isPressed
         let shouldUsePressedShadow = isDisabled || isPressed
 
@@ -35,16 +37,19 @@ struct MSFButtonViewButtonStyle: ButtonStyle {
 
             if let text = state.text {
                 Text(text)
-                    .font(Font(tokens.textFont))
+                    .font(isFloatingStyle ?
+                            Font(tokens.textFont) :
+                            Font.custom(tokens.textFont.familyName,
+                                        size: tokens.textFont.fontDescriptor.pointSize))
                     .fontWeight(.medium)
                     .multilineTextAlignment(.center)
-                    .modifyIf(tokens.style.isFloatingStyle, { view in
+                    .modifyIf(isFloatingStyle, { view in
                         view.frame(minHeight: tokens.textMinimumHeight)
                     })
                 }
         }
         .padding(tokens.padding)
-        .modifyIf(tokens.style.isFloatingStyle && !(state.text?.isEmpty ?? true), { view in
+        .modifyIf(isFloatingStyle && !(state.text?.isEmpty ?? true), { view in
             view.padding(.horizontal, tokens.textAdditionalHorizontalPadding )
         })
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -60,7 +65,7 @@ struct MSFButtonViewButtonStyle: ButtonStyle {
                         AnyView(RoundedRectangle(cornerRadius: tokens.borderRadius)
                                     .fill(Color(isDisabled ? tokens.disabledBackgroundColor :
                                                     (isPressed ? tokens.highlightedBackgroundColor : tokens.backgroundColor)))))
-        .modifyIf(tokens.style.isFloatingStyle, { view in
+        .modifyIf(isFloatingStyle, { view in
             view.clipShape(Capsule())
                 .shadow(color: shouldUsePressedShadow ? tokens.pressedShadow1Color : tokens.restShadow1Color,
                         radius: shouldUsePressedShadow ? tokens.pressedShadow1Blur : tokens.restShadow1Blur,
@@ -110,7 +115,9 @@ public struct MSFButtonView: View {
 }
 
 /// UIKit wrapper that exposes the SwiftUI Button implementation
-@objc open class MSFButton: NSObject, FluentUIWindowProvider {
+@objc open class MSFButton: NSObject,
+                            FluentUIWindowProvider,
+                            UIGestureRecognizerDelegate {
 
     @objc open var action: ((_ sender: MSFButton) -> Void)?
 
@@ -142,6 +149,22 @@ public struct MSFButtonView: View {
                    theme: theme)
     }
 
+    // MARK: - UIGestureRecognizerDelegate
+
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                                  shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        // Prevents the Large Content Viewer gesture recognizer from cancelling the SwiftUI button gesture recognizers.
+        return true
+    }
+
+    // MARK: - FluentUIWindowProvider
+
+    var window: UIWindow? {
+        return self.view.window
+    }
+
+    // MARK: - Private members
+
     private func initialize(style: MSFButtonStyle = .secondary,
                             size: MSFButtonSize = .large,
                             action: ((_ sender: MSFButton) -> Void)?,
@@ -158,11 +181,36 @@ public struct MSFButtonView: View {
         })))
         buttonView.tokens.windowProvider = self
         view.backgroundColor = UIColor.clear
+        setupLargeContentViewer()
     }
 
-    var window: UIWindow? {
-        return self.view.window
+    private func setupLargeContentViewer() {
+        let largeContentViewerInteraction = UILargeContentViewerInteraction()
+        view.addInteraction(largeContentViewerInteraction)
+        largeContentViewerInteraction.gestureRecognizerForExclusionRelationship.delegate = self
+        view.scalesLargeContentImage = true
+        view.showsLargeContentViewer = shouldEnableLargeContentViewerForOSVersion || buttonView.tokens.style.isFloatingStyle
+
+        imagePropertySubscriber = buttonView.state.$image.sink { buttonImage in
+            self.view.largeContentImage = buttonImage
+        }
+
+        textPropertySubscriber = buttonView.state.$text.sink { buttonText in
+            self.view.largeContentTitle = buttonText
+        }
     }
+
+    private let shouldEnableLargeContentViewerForOSVersion: Bool = {
+        if #available(iOS 14.0, *) {
+            return false
+        } else {
+            return true
+        }
+    }()
+
+    private var textPropertySubscriber: AnyCancellable?
+
+    private var imagePropertySubscriber: AnyCancellable?
 
     private var hostingController: UIHostingController<AnyView>!
 
