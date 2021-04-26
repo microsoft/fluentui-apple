@@ -5,12 +5,12 @@
         "color-space" : "srgb",
         "components" : {
           "alpha" : "1.000",
-          "blue" : "0x1B",
-          "green" : "0x6B",
-          "red" : "0x81"
+          "blue" : "0xC8",
+          "green" : "0xC8",
+          "red" : "0xC8"
         }
       },
-      "idiom" : "universal"
+      "idiom" : "mac"
     },
     {
       "appearances" : [
@@ -23,12 +23,12 @@
         "color-space" : "srgb",
         "components" : {
           "alpha" : "1.000",
-          "blue" : "0x87",
-          "green" : "0xDD",
-          "red" : "0xFF"
+          "blue" : "0x6E",
+          "green" : "0x6E",
+          "red" : "0x6E"
         }
       },
-      "idiom" : "universal"
+      "idiom" : "mac"
     }
   ],
   "info" : {

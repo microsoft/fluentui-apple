@@ -682,7 +682,7 @@ open class DrawerController: UIViewController {
         return canResize && presentationDirection.isVertical
     }
     private var resizingHandleIsInteractive: Bool {
-        return resizingBehavior == .dismissOrExpand
+        return resizingBehavior == .dismissOrExpand || resizingBehavior == .expand
     }
 
     private var canResizeViaContentScrolling: Bool {

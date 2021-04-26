@@ -11,6 +11,7 @@ class NavigationControllerDemoController: DemoController {
         super.viewDidLoad()
 
         addTitle(text: "Large Title with Primary style")
+
         container.addArrangedSubview(createButton(title: "Show without accessory", action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
@@ -18,6 +19,7 @@ class NavigationControllerDemoController: DemoController {
 
             strongSelf.presentController(withLargeTitle: true)
         }).view)
+
         container.addArrangedSubview(createButton(title: "Show with collapsible search bar", action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
@@ -45,6 +47,28 @@ class NavigationControllerDemoController: DemoController {
                                          style: .primary,
                                          accessoryView: strongSelf.createAccessoryView(),
                                          showAvatar: false)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show with pill segmented control", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let segmentItems: [SegmentItem] = [
+                SegmentItem(title: "First"),
+                SegmentItem(title: "Second")]
+            let pillControl = SegmentedControl(items: segmentItems, style: .onBrandPill)
+            pillControl.shouldSetEqualWidthForSegments = false
+            pillControl.contentInset = .zero
+            let stackView = UIStackView()
+            stackView.addArrangedSubview(pillControl)
+            stackView.distribution = .equalCentering
+            stackView.alignment = .center
+            let button = UIButton(type: .system)
+            button.setImage(UIImage(named: "ic_fluent_filter_28"), for: .normal)
+            button.tintColor = UIColor(light: Colors.textOnAccent, dark: Colors.textPrimary)
+            stackView.addArrangedSubview(button)
+            strongSelf.presentController(withLargeTitle: true, accessoryView: stackView, contractNavigationBarOnScroll: false)
         }).view)
 
         addTitle(text: "Large Title with System style")

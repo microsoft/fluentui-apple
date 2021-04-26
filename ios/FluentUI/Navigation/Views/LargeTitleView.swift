@@ -27,7 +27,6 @@ class LargeTitleView: UIView {
     var avatarData: Avatar? {
         didSet {
             updateProfileButtonVisibility()
-
             if let avatarState = avatar?.state {
                 avatarState.primaryText = avatarData?.primaryText
                 avatarState.secondaryText = avatarData?.secondaryText

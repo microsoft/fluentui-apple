@@ -171,6 +171,21 @@ open class SegmentedControl: UIControl {
     @objc public var isAnimated: Bool = true
     @objc public var numberOfSegments: Int { return items.count }
     @objc public var shouldSetEqualWidthForSegments: Bool = true
+
+    /// only used for pill style segment control. It is used to define the inset of the pillContainerView
+    @objc public var contentInset: NSDirectionalEdgeInsets = NSDirectionalEdgeInsets(top: 0, leading: Constants.pillContainerHorizontalInset, bottom: 0, trailing: Constants.pillContainerHorizontalInset) {
+        didSet {
+            guard oldValue != contentInset else {
+                return
+            }
+            pillContainerViewTopConstraint?.constant = contentInset.top
+            pillContainerViewBottomConstraint?.constant = contentInset.bottom
+            pillContainerViewLeadingConstraint?.constant = contentInset.leading
+            pillContainerViewTrailingConstraint?.constant = contentInset.trailing
+
+            invalidateIntrinsicContentSize()
+        }
+    }
     @objc public var selectedSegmentIndex: Int {
         get { return _selectedSegmentIndex }
         set { selectSegment(at: newValue, animated: false) }
@@ -225,6 +240,10 @@ open class SegmentedControl: UIControl {
         return view
     }()
     private var pillMaskedLabels = [UILabel]()
+    private var pillContainerViewTopConstraint: NSLayoutConstraint?
+    private var pillContainerViewBottomConstraint: NSLayoutConstraint?
+    private var pillContainerViewLeadingConstraint: NSLayoutConstraint?
+    private var pillContainerViewTrailingConstraint: NSLayoutConstraint?
 
     private var isAnimating: Bool = false
 
@@ -475,9 +494,10 @@ open class SegmentedControl: UIControl {
                     }
                 }
             } else {
-                maxButtonWidth += 2 * Constants.pillContainerHorizontalInset
+                maxButtonWidth += (contentInset.leading + contentInset.trailing)
             }
         }
+        maxButtonHeight += (contentInset.top + contentInset.bottom)
 
         return CGSize(width: min(maxButtonWidth, size.width), height: min(maxButtonHeight, size.height))
     }
@@ -565,12 +585,21 @@ open class SegmentedControl: UIControl {
         } else {
             pillContainerView.translatesAutoresizingMaskIntoConstraints = false
             pillMaskedLabelsContainerView.translatesAutoresizingMaskIntoConstraints = false
-            constraints.append(contentsOf: [
-                pillContainerView.topAnchor.constraint(equalTo: topAnchor),
-                pillContainerView.bottomAnchor.constraint(equalTo: bottomAnchor),
-                pillContainerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.pillContainerHorizontalInset),
-                pillContainerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.pillContainerHorizontalInset),
 
+            let pillContainerViewTopConstraint = pillContainerView.topAnchor.constraint(equalTo: topAnchor, constant: contentInset.top)
+            let pillContainerViewBottomConstraint = pillContainerView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -contentInset.bottom)
+            let pillContainerViewLeadingConstraint = pillContainerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: contentInset.leading)
+            let pillContainerViewTrailingConstraint = pillContainerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -contentInset.trailing)
+            self.pillContainerViewTopConstraint = pillContainerViewTopConstraint
+            self.pillContainerViewBottomConstraint = pillContainerViewBottomConstraint
+            self.pillContainerViewLeadingConstraint = pillContainerViewLeadingConstraint
+            self.pillContainerViewTrailingConstraint = pillContainerViewTrailingConstraint
+
+            constraints.append(contentsOf: [
+                pillContainerViewTopConstraint,
+                pillContainerViewBottomConstraint,
+                pillContainerViewLeadingConstraint,
+                pillContainerViewTrailingConstraint,
                 backgroundView.leadingAnchor.constraint(equalTo: pillContainerView.leadingAnchor),
                 backgroundView.trailingAnchor.constraint(equalTo: pillContainerView.trailingAnchor),
                 backgroundView.topAnchor.constraint(equalTo: pillContainerView.topAnchor),

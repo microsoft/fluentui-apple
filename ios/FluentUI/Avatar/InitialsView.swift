@@ -189,12 +189,13 @@ class InitialsView: UIView {
         // Initials label
         initialsLabel = UILabel()
         initialsLabel.adjustsFontSizeToFitWidth = true
-        initialsLabel.minimumScaleFactor = 0.8
+        initialsLabel.minimumScaleFactor = 0.5
         initialsLabel.font = avatarSize.font
         initialsLabel.backgroundColor = UIColor.clear
         initialsLabel.textColor = Colors.Avatar.text
         initialsLabel.textAlignment = .center
         initialsLabel.isAccessibilityElement = false
+        initialsLabel.baselineAdjustment = .alignCenters
         addSubview(initialsLabel)
     }
 
