@@ -56,20 +56,17 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
                              "ios/FluentUI/Core/FluentUIFramework.swift",
                              "ios/FluentUI/Core/Fonts.swift",
                              "ios/FluentUI/Core/iOS13_4_compatibility.swift",
-                             "ios/FluentUI/Extensions/Calendar+Extensions.swift",
-                             "ios/FluentUI/Extensions/CharacterSet+Extension.swift",
-                             "ios/FluentUI/Extensions/String+Extension.swift",
-                             "ios/FluentUI/Extensions/UIColor+Extensions.swift",
-                             "ios/FluentUI/Extensions/UIFont+Extension.swift",
-                             "ios/FluentUI/Extensions/UIImage+Extensions.swift",
-                             "ios/FluentUI/Extensions/UIScreen+Extension.swift",
-                             "ios/FluentUI/Vnext/Core/**/*.{swift,h}"]
+                             "ios/FluentUI/Extensions/*.{swift,h}",
+                             "ios/FluentUI/Vnext/Core/*.{swift,h}"]
   end
 
   s.subspec 'Drawer_ios' do |drawer_ios|
     drawer_ios.platform = :ios
-    drawer_ios.dependency 'MicrosoftFluentUIVnext/Core_ios'
-    drawer_ios.source_files = ["ios/FluentUI/Vnext/Drawer/**/*.{swift,h}"]
+    drawer_ios.dependency 'MicrosoftFluentUIVnext/Obscurable_ios'
+    drawer_ios.dependency 'MicrosoftFluentUIVnext/ResizingHandleView_ios'
+    drawer_ios.dependency 'MicrosoftFluentUIVnext/Separator_ios'
+    drawer_ios.dependency 'MicrosoftFluentUIVnext/TouchForwardingView_ios'
+    drawer_ios.source_files = ["ios/FluentUI/Drawer/**/*.{swift,h}"]
   end
 
   s.subspec 'List_ios' do |list_ios|
@@ -83,6 +80,30 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
     personaView_ios.dependency 'MicrosoftFluentUIVnext/Avatar_ios'
     personaView_ios.dependency 'MicrosoftFluentUIVnext/List_ios'
     personaView_ios.source_files = ["ios/FluentUI/Vnext/Persona/**/*.{swift,h}"]
+  end
+
+  s.subspec 'Obscurable_ios' do |obscurable_ios|
+    obscurable_ios.platform = :ios
+    obscurable_ios.dependency 'MicrosoftFluentUIVnext/Core_ios'
+    obscurable_ios.source_files = ["ios/FluentUI/Obscurable/**/*.{swift,h}"]
+  end
+
+  s.subspec 'ResizingHandleView_ios' do |resizinghandleview_ios|
+    resizinghandleview_ios.platform = :ios
+    resizinghandleview_ios.dependency 'MicrosoftFluentUIVnext/Core_ios'
+    resizinghandleview_ios.source_files = ["ios/FluentUI/ResizingHandleView/**/*.{swift,h}"]
+  end
+
+  s.subspec 'Separator_ios' do |separator_ios|
+    separator_ios.platform = :ios
+    separator_ios.dependency 'MicrosoftFluentUIVnext/Core_ios'
+    separator_ios.source_files = ["ios/FluentUI/Separator/**/*.{swift,h}"]
+  end
+
+  s.subspec 'TouchForwardingView_ios' do |touchforwardingview_ios|
+    touchforwardingview_ios.platform = :ios
+    touchforwardingview_ios.dependency 'MicrosoftFluentUIVnext/Core_ios'
+    touchforwardingview_ios.source_files = ["ios/FluentUI/TouchForwardingView/**/*.{swift,h}"]
   end
 
 end
