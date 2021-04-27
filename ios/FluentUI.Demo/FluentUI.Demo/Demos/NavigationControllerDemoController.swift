@@ -132,7 +132,7 @@ class NavigationControllerDemoController: DemoController {
 
         let controller = NavigationController(rootViewController: content)
         if showAvatar {
-            controller.msfNavigationBar.avatar = PersonaData(name: "Kat Larrson", avatarImage: UIImage(named: "avatar_kat_larsson"))
+            controller.msfNavigationBar.avatar = content.personaData
             controller.msfNavigationBar.onAvatarTapped = handleAvatarTapped
         } else {
             content.allowsCellSelection = true
@@ -220,6 +220,12 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     var showsTopAccessoryView: Bool = false
+
+    var personaData: PersonaData = {
+        let personaData = PersonaData(name: "Kat Larrson", avatarImage: UIImage(named: "avatar_kat_larsson"))
+        personaData.hideInsideGapForBorder = true
+        return personaData
+    }()
 
     private var isInSelectionMode: Bool = false {
         didSet {
@@ -327,6 +333,18 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             return cell
         }
 
+        if indexPath.row == 1 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier, for: indexPath) as? BooleanCell else {
+                return UITableViewCell()
+            }
+            cell.setup(title: "Show rainbow ring on avatar", isOn: false)
+            cell.titleNumberOfLines = 0
+            cell.onValueChanged = { [weak self, weak cell] in
+                self?.shouldShowRainbowRing(isOn: cell?.isOn ?? false)
+            }
+            return cell
+        }
+
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as? TableViewCell else {
             return UITableViewCell()
         }
@@ -391,6 +409,11 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         showSearchProgressSpinner = isOn
     }
 
+    @objc private func shouldShowRainbowRing(isOn: Bool) {
+        personaData.customBorderImage = isOn ? RootViewController.colorfulImageForFrame() : nil
+        msfNavigationController?.msfNavigationBar.avatar = personaData
+    }
+
     @objc private func dismissSelf() {
         dismiss(animated: false)
     }
@@ -410,6 +433,38 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         isInSelectionMode = false
         msfNavigationController?.allowResizeOfNavigationBarOnScroll = true
         msfNavigationController?.expandNavigationBar(animated: true)
+    }
+
+    private static func colorfulImageForFrame() -> UIImage? {
+        let gradientColors = [
+            UIColor(red: 0.45, green: 0.29, blue: 0.79, alpha: 1).cgColor,
+            UIColor(red: 0.18, green: 0.45, blue: 0.96, alpha: 1).cgColor,
+            UIColor(red: 0.36, green: 0.80, blue: 0.98, alpha: 1).cgColor,
+            UIColor(red: 0.45, green: 0.72, blue: 0.22, alpha: 1).cgColor,
+            UIColor(red: 0.97, green: 0.78, blue: 0.27, alpha: 1).cgColor,
+            UIColor(red: 0.94, green: 0.52, blue: 0.20, alpha: 1).cgColor,
+            UIColor(red: 0.92, green: 0.26, blue: 0.16, alpha: 1).cgColor,
+            UIColor(red: 0.45, green: 0.29, blue: 0.79, alpha: 1).cgColor]
+
+        let colorfulGradient = CAGradientLayer()
+        let size = CGSize(width: 76, height: 76)
+        colorfulGradient.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        colorfulGradient.colors = gradientColors
+        colorfulGradient.startPoint = CGPoint(x: 0.5, y: 0.5)
+        colorfulGradient.endPoint = CGPoint(x: 0.5, y: 0)
+        if #available(iOS 12.0, *) {
+            colorfulGradient.type = .conic
+        }
+
+        var customBorderImage: UIImage?
+        UIGraphicsBeginImageContext(size)
+        if let context = UIGraphicsGetCurrentContext() {
+            colorfulGradient.render(in: context)
+            customBorderImage = UIGraphicsGetImageFromCurrentImageContext()
+        }
+        UIGraphicsEndImageContext()
+
+        return customBorderImage
     }
 }
 

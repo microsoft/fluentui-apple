@@ -23,7 +23,7 @@ class AvatarViewDemoController: DemoController {
         let backgroundSettingView = createLabelAndSwitchRow(labelText: "Use alternate background color",
                                                             switchAction: #selector(toggleAlternateBackground(switchView:)),
                                                             isOn: isUsingAlternateBackgroundColor)
-        
+
         let hideInsideGapForBorderSettingView = createLabelAndSwitchRow(labelText: "Hide inside gap for border ring",
                                                             switchAction: #selector(toggleHideInsideGap(switchView:)),
                                                             isOn: isHidingInsideGapForBorder)
