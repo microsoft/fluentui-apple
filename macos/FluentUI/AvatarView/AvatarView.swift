@@ -338,7 +338,7 @@ open class AvatarView: NSView {
 		} else {
 			toolTip = nil
 			setAccessibilityLabel(nil)
-			if hasImage {
+			if !hasImage {
 				setAccessibilityElement(false)
 				setAccessibilityRole(.unknown)
 			}
