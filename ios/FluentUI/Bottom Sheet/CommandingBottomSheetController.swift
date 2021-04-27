@@ -7,6 +7,24 @@ import UIKit
 
 public class CommandingBottomSheetController: UIViewController {
 
+    open var heroItems: [CommandingItem] = [CommandingItem]() {
+        didSet {
+            if heroItems.count > 5 {
+                assertionFailure("At most 5 hero commands are supported. Only the first 5 items will be used.")
+                heroItems = Array(heroItems.prefix(5))
+            }
+
+            heroCommandStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
+            for item in heroItems {
+                let itemView = BottomBarItemView(item: item)
+                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHeroCommandTap(_:)))
+                itemView.addGestureRecognizer(tapGesture)
+
+                heroCommandStack.addArrangedSubview(itemView)
+            }
+        }
+    }
+
     public override func loadView() {
         view = BottomSheetPassthroughView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -18,16 +36,32 @@ public class CommandingBottomSheetController: UIViewController {
         }
     }
 
+    private lazy var heroCommandStack: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        return stackView
+    }()
+
+    @objc private func handleHeroCommandTap(_ sender: BottomBarItemView) {
+
+    }
+
     private func setupBottomBarLayout() {
-        bottomBarView = BottomBarView()
-        bottomBarView?.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(bottomBarView!)
+        let bottomBarView = BottomBarView()
+        bottomBarView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(bottomBarView)
+        bottomBarView.addSubview(heroCommandStack)
+
+        self.bottomBarView = bottomBarView
 
         NSLayoutConstraint.activate([
-            bottomBarView!.widthAnchor.constraint(equalToConstant: 592),
-            bottomBarView!.heightAnchor.constraint(equalToConstant: 80),
-            bottomBarView!.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            bottomBarView!.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -31)
+            bottomBarView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            bottomBarView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -31),
+            bottomBarView.leadingAnchor.constraint(equalTo: heroCommandStack.leadingAnchor),
+            bottomBarView.trailingAnchor.constraint(equalTo: heroCommandStack.trailingAnchor),
+            bottomBarView.topAnchor.constraint(equalTo: heroCommandStack.topAnchor),
+            bottomBarView.bottomAnchor.constraint(equalTo: heroCommandStack.bottomAnchor)
         ])
     }
 

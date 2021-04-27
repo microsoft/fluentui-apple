@@ -155,6 +155,10 @@
 		8035CAAC2633A442007B3FD1 /* CommandingBottomSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CAAA2633A442007B3FD1 /* CommandingBottomSheetController.swift */; };
 		8035CAB12633A4DA007B3FD1 /* BottomBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CAA92633A442007B3FD1 /* BottomBarView.swift */; };
 		8035CAB62633A4DB007B3FD1 /* CommandingBottomSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CAAA2633A442007B3FD1 /* CommandingBottomSheetController.swift */; };
+		8035CACB26377C14007B3FD1 /* CommandingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CACA26377C14007B3FD1 /* CommandingItem.swift */; };
+		8035CAD026377C17007B3FD1 /* CommandingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CACA26377C14007B3FD1 /* CommandingItem.swift */; };
+		8035CAD62637A76E007B3FD1 /* BottomBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CAD52637A76E007B3FD1 /* BottomBarItemView.swift */; };
+		8035CAD72637A76E007B3FD1 /* BottomBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CAD52637A76E007B3FD1 /* BottomBarItemView.swift */; };
 		80AECBD92629F18E005AF2F3 /* BottomSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AECBD82629F18E005AF2F3 /* BottomSheetController.swift */; };
 		80AECBF2262FC34E005AF2F3 /* BottomSheetPassthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AECBF1262FC34E005AF2F3 /* BottomSheetPassthroughView.swift */; };
 		80AECC21263339E3005AF2F3 /* BottomSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AECBD82629F18E005AF2F3 /* BottomSheetController.swift */; };
@@ -345,6 +349,8 @@
 		7DC2FB2C24D209E300367A55 /* Presence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presence.swift; sourceTree = "<group>"; };
 		8035CAA92633A442007B3FD1 /* BottomBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomBarView.swift; sourceTree = "<group>"; };
 		8035CAAA2633A442007B3FD1 /* CommandingBottomSheetController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandingBottomSheetController.swift; sourceTree = "<group>"; };
+		8035CACA26377C14007B3FD1 /* CommandingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandingItem.swift; sourceTree = "<group>"; };
+		8035CAD52637A76E007B3FD1 /* BottomBarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomBarItemView.swift; sourceTree = "<group>"; };
 		80AECBD82629F18E005AF2F3 /* BottomSheetController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomSheetController.swift; sourceTree = "<group>"; };
 		80AECBF1262FC34E005AF2F3 /* BottomSheetPassthroughView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetPassthroughView.swift; sourceTree = "<group>"; };
 		86AF4F7425AFC746005D4253 /* PillButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillButtonStyle.swift; sourceTree = "<group>"; };
@@ -730,7 +736,9 @@
 				80AECBD82629F18E005AF2F3 /* BottomSheetController.swift */,
 				80AECBF1262FC34E005AF2F3 /* BottomSheetPassthroughView.swift */,
 				8035CAA92633A442007B3FD1 /* BottomBarView.swift */,
+				8035CAD52637A76E007B3FD1 /* BottomBarItemView.swift */,
 				8035CAAA2633A442007B3FD1 /* CommandingBottomSheetController.swift */,
+				8035CACA26377C14007B3FD1 /* CommandingItem.swift */,
 			);
 			path = "Bottom Sheet";
 			sourceTree = "<group>";
@@ -1429,6 +1437,7 @@
 				5314E2A025F024860099271A /* NSLayoutConstraint+Extensions.swift in Sources */,
 				5314E26625F023B20099271A /* UIColor+Extensions.swift in Sources */,
 				5314E30225F0260E0099271A /* AccessibilityContainerView.swift in Sources */,
+				8035CAD026377C17007B3FD1 /* CommandingItem.swift in Sources */,
 				8FD01188228A82A600D25925 /* Colors.swift in Sources */,
 				5314E0F325F012C80099271A /* ShyHeaderController.swift in Sources */,
 				5314E1B125F01A980099271A /* TooltipView.swift in Sources */,
@@ -1473,6 +1482,7 @@
 				5314E18C25F0195C0099271A /* ShimmerLinesViewAppearance.swift in Sources */,
 				5314E1A125F01A7C0099271A /* TableViewCellFileAccessoryView.swift in Sources */,
 				5314E1D625F01E4A0099271A /* SearchBar.swift in Sources */,
+				8035CAD72637A76E007B3FD1 /* BottomBarItemView.swift in Sources */,
 				5314E0A825F010070099271A /* DrawerPresentationController.swift in Sources */,
 				5314E06425F00EFD0099271A /* CalendarViewMonthBannerView.swift in Sources */,
 				5314E18E25F0195C0099271A /* ShimmerLinesView.swift in Sources */,
@@ -1575,6 +1585,7 @@
 				FDFB8AEB21361C950046850A /* CalendarViewMonthBannerView.swift in Sources */,
 				B4EF66512294A665007FEAB0 /* TableViewHeaderFooterView.swift in Sources */,
 				FD41C8B222DD3BB70086F899 /* UIScrollView+Extensions.swift in Sources */,
+				8035CACB26377C14007B3FD1 /* CommandingItem.swift in Sources */,
 				B483323321CC71940022B4CC /* HUDView.swift in Sources */,
 				FD41C89422DD13230086F899 /* LargeTitleView.swift in Sources */,
 				C0938E44235E8ED500256251 /* AnimationSynchronizer.swift in Sources */,
@@ -1619,6 +1630,7 @@
 				FD9DA7B5232C33A80013E41B /* UIViewController+Navigation.swift in Sources */,
 				FD7DF05E21FA7FC100857267 /* TooltipView.swift in Sources */,
 				A5CEC16F20D98F340016922A /* Fonts.swift in Sources */,
+				8035CAD62637A76E007B3FD1 /* BottomBarItemView.swift in Sources */,
 				FD599D0C2134AB1E008845EE /* CalendarViewDataSource.swift in Sources */,
 				A5B87B04211E22B70038C37C /* DimmingView.swift in Sources */,
 				A5961F9F218A256B00E2A506 /* PopupMenuItem.swift in Sources */,
