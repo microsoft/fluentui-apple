@@ -973,7 +973,7 @@ open class DrawerController: UIViewController, FluentUIWindowProvider {
 
 // MARK: - DrawerController: Colors
 
-internal extension DrawerController {
+extension DrawerController {
     static var drawerBackgroundColor: UIColor {
         return MSFDrawerTokens().drawerHorizontalContentBackground
     }

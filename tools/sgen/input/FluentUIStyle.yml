@@ -293,7 +293,7 @@ AP_MSFListCellTokens:
   labelColor: $Colors.Foreground.neutral1
   labelFont: $Typography.body
   leadingViewColor: $Colors.Foreground.neutral4
-  leadingViewSize: [ small: $Icon.size.xSmall, medium: $Icon.size.medium, large: $Icon.size.xxlarge, xlarge: 52pt ]
+  leadingViewSize: [ small: $Icon.size.xSmall, medium: $Icon.size.medium, large: $Icon.size.xxLarge, xlarge: 52pt ]
   sublabelAccessorySize: $Icon.size.xxSmall
   sublabelColor: $Colors.Foreground.neutral3
   sublabelFont: $Typography.subheadline
@@ -339,8 +339,5 @@ AP_MSFDrawerTokens:
   shadow2OffsetY: $Shadow.shadow28.y2
   minMargin: [horizontal: $Spacing.xxxLarge, vertical: $Spacing.large]
   cornerRadius: $Border.radius.xxLarge
-  dropShadowRadius: $Border.radius.medium
-  dropShadowOffset: $Spacing.xxxSmall
-  dropShadowOpacity: $Opacity.opacity05
   verticalShadowOffset: $Spacing.xSmall
   horizontalShadowOffset: $Spacing.small

@@ -35,21 +35,6 @@ extension FluentUIStyle {
 			return UIColor(light: mainProxy().Colors.Background.neutral1, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Background.neutral3, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
-		// MARK: - dropShadowOffset 
-		open var dropShadowOffset: CGFloat {
-			return mainProxy().Spacing.xxxSmall
-		}
-
-		// MARK: - dropShadowOpacity 
-		open var dropShadowOpacity: CGFloat {
-			return mainProxy().Opacity.opacity05
-		}
-
-		// MARK: - dropShadowRadius 
-		open var dropShadowRadius: CGFloat {
-			return mainProxy().Border.radius.medium
-		}
-
 		// MARK: - horizontalShadowOffset 
 		open var horizontalShadowOffset: CGFloat {
 			return mainProxy().Spacing.small

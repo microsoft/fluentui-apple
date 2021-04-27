@@ -22,9 +22,6 @@ class MSFDrawerTokens: MSFTokensBase {
     var popoverContentBackground: UIColor!
     var navigationBarBackground: UIColor!
     var cornerRadius: CGFloat!
-    var dropShadowRadius: CGFloat!
-    var dropShadowOffset: CGFloat!
-    var dropShadowOpacity: Float!
     var minHorizontalMargin: CGFloat!
     var minVerticalMargin: CGFloat!
     var verticalShadowOffset: CGFloat!
@@ -65,9 +62,6 @@ class MSFDrawerTokens: MSFTokensBase {
         popoverContentBackground = appearanceProxy.popoverContentBackground
         navigationBarBackground = appearanceProxy.navigationBarBackground
         cornerRadius = appearanceProxy.cornerRadius
-        dropShadowRadius = appearanceProxy.dropShadowRadius
-        dropShadowOffset = appearanceProxy.dropShadowOffset
-        dropShadowOpacity = Float(appearanceProxy.dropShadowOpacity)
         minHorizontalMargin = appearanceProxy.minMargin.horizontal
         minVerticalMargin = appearanceProxy.minMargin.vertical
         verticalShadowOffset = appearanceProxy.verticalShadowOffset
