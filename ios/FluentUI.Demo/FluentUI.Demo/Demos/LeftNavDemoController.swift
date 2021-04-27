@@ -7,7 +7,7 @@ import FluentUI
 import UIKit
 import SwiftUI
 
-class LeftNavDemoController: DemoController, MSFDrawerControllerDelegate {
+class LeftNavDemoController: DemoController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,11 +15,7 @@ class LeftNavDemoController: DemoController, MSFDrawerControllerDelegate {
         addTitle(text: "Left navigation control")
         addDescription(text: "The LeftNav control is built from a composition of the Avatar, Drawer and List controls.")
 
-        container.addArrangedSubview(createButton(title: "Show Left Navigation Menu", action: { [weak self ] _ in
-            if let strongSelf = self {
-                strongSelf.showLeftNavButtonTapped()
-            }
-        }).view)
+        container.addArrangedSubview(navigationButton)
 
         let isLeadingEdgeLeftToRight = view.effectiveUserInterfaceLayoutDirection == .leftToRight
 
@@ -28,12 +24,20 @@ class LeftNavDemoController: DemoController, MSFDrawerControllerDelegate {
         view.addGestureRecognizer(leadingEdgeGesture)
         navigationController?.navigationController?.interactivePopGestureRecognizer?.require(toFail: leadingEdgeGesture)
 
-        drawerController = MSFDrawer(contentViewController: LeftNavMenuViewController(menuAction: {
-            self.showMessage("Menu item selected.")
-        }))
-        drawerController.delegate = self
-        drawerController.state.presentingGesture = leadingEdgeGesture
-        drawerController.state.backgroundDimmed = true
+        let lefNavController = LeftNavMenuViewController(menuAction: { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.dismiss(animated: true, completion: { [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                strongSelf.showMessage("Menu item selected.")
+            })
+        })
+
+        drawerController.contentView = lefNavController.view
+        drawerController.presentingGesture = leadingEdgeGesture
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -46,7 +50,23 @@ class LeftNavDemoController: DemoController, MSFDrawerControllerDelegate {
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
 
-    private var drawerController: MSFDrawer!
+    private lazy var navigationButton: UIView = {
+        return createButton(title: "Show Left Navigation Menu", action: { [weak self ] _ in
+            if let strongSelf = self {
+                strongSelf.showLeftNavButtonTapped()
+            }
+        }).view
+    }()
+
+    private lazy var drawerController: DrawerController = {
+        let drawerController = DrawerController(sourceView: navigationButton,
+                                            sourceRect: navigationButton.bounds,
+                                            presentationDirection: .fromLeading)
+        drawerController.presentationBackground = .black
+        drawerController.preferredContentSize.width = 360
+        drawerController.resizingBehavior = .dismiss
+        return drawerController
+    }()
 
     @objc private func showLeftNavButtonTapped() {
         present(drawerController, animated: true, completion: nil)
@@ -99,13 +119,10 @@ class LeftNavMenuViewController: UIViewController {
 
     private var leftNavMenuSections: [MSFListSectionState] {
         let defaultMenuAction = {
-            self.dismiss(animated: true, completion: {
-                guard let menuAction = self.menuAction else {
-                    return
-                }
-
-                menuAction()
-            })
+            guard let menuAction = self.menuAction else {
+                return
+            }
+            menuAction()
         }
 
         var statusCellChildren: [MSFListCellState] = []
@@ -115,6 +132,7 @@ class LeftNavMenuViewController: UIViewController {
             statusCellChild.leadingViewSize = .small
             statusCellChild.title = presence.cellTitle()
             statusCellChild.leadingUIView = presence.imageView()
+            statusCellChild.backgroundColor = .systemBackground
             statusCellChild.onTapAction = {
                 self.setPresence(presence: presence)
             }
@@ -125,6 +143,7 @@ class LeftNavMenuViewController: UIViewController {
         let resetStatusCell = MSFListCellState()
         resetStatusCell.title = "Reset status"
         resetStatusCell.leadingViewSize = .small
+        resetStatusCell.backgroundColor = .systemBackground
         let resetStatusImageView = UIImageView(image: UIImage(named: "ic_fluent_arrow_sync_24_regular"))
         resetStatusImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
         resetStatusCell.leadingUIView = resetStatusImageView
@@ -134,12 +153,14 @@ class LeftNavMenuViewController: UIViewController {
         statusCellChildren.append(resetStatusCell)
 
         statusCell.title = LeftNavPresence.available.cellTitle()
+        statusCell.backgroundColor = .systemBackground
         let statusImageView = LeftNavPresence.available.imageView()
         statusImageView.tintColor = FluentUIThemeManager.S.Colors.Presence.available
         statusCell.leadingUIView = statusImageView
         statusCell.children = statusCellChildren
 
         let statusMessageCell = MSFListCellState()
+        statusMessageCell.backgroundColor = .systemBackground
         statusMessageCell.title = "Set Status Message"
         let statusMessageImageView = UIImageView(image: UIImage(named: "ic_fluent_status_24_regular"))
         statusMessageImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
@@ -147,6 +168,7 @@ class LeftNavMenuViewController: UIViewController {
         statusMessageCell.onTapAction = defaultMenuAction
 
         let notificationsCell = MSFListCellState()
+        notificationsCell.backgroundColor = .systemBackground
         notificationsCell.title = "Notifications"
         notificationsCell.subtitle = "On"
         notificationsCell.layoutType = .twoLines
@@ -156,6 +178,7 @@ class LeftNavMenuViewController: UIViewController {
         notificationsCell.onTapAction = defaultMenuAction
 
         let settingsCell = MSFListCellState()
+        settingsCell.backgroundColor = .systemBackground
         settingsCell.title = "Settings"
         let settingsImageView = UIImageView(image: UIImage(named: "ic_fluent_settings_24_regular"))
         settingsImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
@@ -163,6 +186,7 @@ class LeftNavMenuViewController: UIViewController {
         settingsCell.onTapAction = defaultMenuAction
 
         let whatsNewCell = MSFListCellState()
+        whatsNewCell.backgroundColor = .systemBackground
         whatsNewCell.title = "What's new"
         let whatsNewImageView = UIImageView(image: UIImage(named: "ic_fluent_lightbulb_24_regular"))
         whatsNewImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
@@ -173,6 +197,7 @@ class LeftNavMenuViewController: UIViewController {
         menuSection.cells = [statusCell, statusMessageCell, notificationsCell, settingsCell, whatsNewCell]
 
         let microsoftAccountCell = MSFListCellState()
+        microsoftAccountCell.backgroundColor = .systemBackground
         microsoftAccountCell.layoutType = .twoLines
         microsoftAccountCell.title = "Contoso"
         microsoftAccountCell.subtitle = "kat.larrson@contoso.com"
@@ -183,6 +208,7 @@ class LeftNavMenuViewController: UIViewController {
         microsoftAccountCell.leadingViewSize = .large
 
         let msaAccountCell = MSFListCellState()
+        msaAccountCell.backgroundColor = .systemBackground
         msaAccountCell.layoutType = .twoLines
         msaAccountCell.title = "Personal"
         msaAccountCell.subtitle = "kat.larrson@live.com"
@@ -192,6 +218,7 @@ class LeftNavMenuViewController: UIViewController {
         msaAccountCell.leadingViewSize = .large
 
         let addAccountCell = MSFListCellState()
+        addAccountCell.backgroundColor = .systemBackground
         addAccountCell.title = "Add Account"
         let addAccountImageView = UIImageView(image: UIImage(named: "ic_fluent_add_24_regular"))
         addAccountImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
@@ -200,6 +227,7 @@ class LeftNavMenuViewController: UIViewController {
 
         let accountsSection = MSFListSectionState()
         accountsSection.title = "Accounts and Orgs"
+        accountsSection.backgroundColor = .systemBackground
         accountsSection.cells = [microsoftAccountCell, msaAccountCell, addAccountCell]
 
         return [menuSection, accountsSection]
@@ -216,6 +244,7 @@ class LeftNavMenuViewController: UIViewController {
         persona.state.secondaryText = "Designer"
         persona.state.image = UIImage(named: "avatar_kat_larsson")
         persona.state.titleTrailingAccessoryView = chevron
+        persona.state.backgroundColor = .systemBackground
         persona.state.onTapAction = {
             self.dismiss(animated: true, completion: {
                 guard let menuAction = self.menuAction else {
@@ -228,7 +257,6 @@ class LeftNavMenuViewController: UIViewController {
 
         let personaView = persona.view
         personaView.translatesAutoresizingMaskIntoConstraints = false
-
         return personaView
     }()
 
@@ -273,13 +301,6 @@ class LeftNavMenuViewController: UIViewController {
                                      container.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                                      container.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)])
         return container
-    }
-
-    private func addBackgroundColor(_ stackview: UIStackView, color: UIColor) {
-        let subView = UIView(frame: stackview.bounds)
-        subView.backgroundColor = color
-        subView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        stackview.insertSubview(subView, at: 0)
     }
 
     private enum Constant {

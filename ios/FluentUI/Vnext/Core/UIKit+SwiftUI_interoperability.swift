@@ -58,21 +58,3 @@ struct UIViewAdapter: UIViewRepresentable {
         stackView.addArrangedSubview(makeView())
     }
 }
-
-/// This is a generic UIViewController wrapper to allow SwiftUI to use views from non-SwiftUI environments.
-struct UIViewControllerAdapter: UIViewControllerRepresentable {
-
-    var makeViewController: () -> UIViewController
-
-    init(_ makeViewController: @escaping @autoclosure () -> UIViewController) {
-        self.makeViewController = makeViewController
-    }
-
-    public func makeUIViewController(context: Context) -> UIViewController {
-        return makeViewController()
-    }
-
-    public func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
-
-    typealias UIViewControllerType = UIViewController
-}

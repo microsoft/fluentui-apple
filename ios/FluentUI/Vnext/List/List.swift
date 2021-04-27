@@ -12,6 +12,7 @@ import SwiftUI
     @objc @Published public var cells: [MSFListCellState] = []
     @objc @Published public var style: MSFHeaderFooterStyle = .headerPrimary
     @objc @Published public var title: String?
+    @objc @Published public var backgroundColor: UIColor?
     @objc @Published public var hasDividers: Bool = false
 }
 

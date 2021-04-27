@@ -15,14 +15,61 @@ extension FluentUIStyle {
 			self.mainProxy = proxy
 		}
 
-		// MARK: - backgroundClearColor 
-		open var backgroundClearColor: UIColor {
-			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
-		}
-
 		// MARK: - backgroundDimmedColor 
 		open var backgroundDimmedColor: UIColor {
 			return mainProxy().Colors.Elevation.highElevation
+		}
+
+		// MARK: - cornerRadius 
+		open var cornerRadius: CGFloat {
+			return mainProxy().Border.radius.xxLarge
+		}
+
+		// MARK: - drawerHorizontalContentBackground 
+		open var drawerHorizontalContentBackground: UIColor {
+			return mainProxy().Colors.Background.neutral1
+		}
+
+		// MARK: - drawerVerticalContentBackground 
+		open var drawerVerticalContentBackground: UIColor {
+			return UIColor(light: mainProxy().Colors.Background.neutral1, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Background.neutral3, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+		}
+
+		// MARK: - horizontalShadowOffset 
+		open var horizontalShadowOffset: CGFloat {
+			return mainProxy().Spacing.small
+		}
+
+		// MARK: - minMargin
+		open var minMargin: minMarginAppearanceProxy {
+			return minMarginAppearanceProxy(proxy: mainProxy)
+		}
+		open class minMarginAppearanceProxy {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			// MARK: - horizontal 
+			open var horizontal: CGFloat {
+				return mainProxy().Spacing.xxxLarge
+			}
+
+			// MARK: - vertical 
+			open var vertical: CGFloat {
+				return mainProxy().Spacing.large
+			}
+		}
+
+
+		// MARK: - navigationBarBackground 
+		open var navigationBarBackground: UIColor {
+			return UIColor(light: mainProxy().Colors.Background.surfacePrimary, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey14", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+		}
+
+		// MARK: - popoverContentBackground 
+		open var popoverContentBackground: UIColor {
+			return UIColor(light: mainProxy().Colors.Background.surfacePrimary, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Background.surfaceQuaternary, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
 		// MARK: - shadow1Blur 
@@ -63,6 +110,11 @@ extension FluentUIStyle {
 		// MARK: - shadow2OffsetY 
 		open var shadow2OffsetY: CGFloat {
 			return mainProxy().Shadow.shadow28.y2
+		}
+
+		// MARK: - verticalShadowOffset 
+		open var verticalShadowOffset: CGFloat {
+			return mainProxy().Spacing.xSmall
 		}
 	}
 

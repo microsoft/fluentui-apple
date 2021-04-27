@@ -9,7 +9,6 @@ import UIKit
 let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("Avatar (Vnext)", AvatarDemoController.self),
     ("Button (Vnext)", ButtonDemoController.self),
-    ("Drawer (Vnext)", DrawerDemoController.self),
     ("LeftNav (Vnext)", LeftNavDemoController.self),
     ("List (Vnext)", ListDemoController.self),
     ("Theming (Vnext)", ThemingDemoController.self),
@@ -24,7 +23,7 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("CommandBar", CommandBarDemoController.self),
     ("ContactCollectionView", ContactCollectionViewDemoController.self),
     ("DateTimePicker", DateTimePickerDemoController.self),
-    ("DrawerController", DrawerLegacyDemoController.self),
+    ("DrawerController (Vnext)", DrawerDemoController.self),
     ("HUD", HUDDemoController.self),
     ("IndeterminateProgressBar", IndeterminateProgressBarDemoController.self),
     ("Label", LabelDemoController.self),

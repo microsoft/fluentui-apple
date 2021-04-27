@@ -21,6 +21,8 @@ Colors:
     - brandPressed: "FluentUIColor(light: $Colors.Brand.shade30, dark: $Colors.Brand.shade30)"
     - brandSelected: "FluentUIColor(light: $Colors.Brand.shade20, dark: $Colors.Brand.shade20)"
     - brandDisabled: "FluentUIColor(light: NamedColor(grey88), dark: NamedColor(grey84))"
+    - surfacePrimary: "FluentUIColor(light: NamedColor(white), dark: NamedColor(black), darkElevated: NamedColor(grey8))"
+    - surfaceQuaternary: "FluentUIColor(light: NamedColor(grey88), dark: NamedColor(grey26))"
 
   Elevation:
     - lowElevation1: "FluentUIColor(light: $Colors.Shadow.opacity14, dark: $Colors.Shadow.opacity28)"
@@ -84,7 +86,7 @@ Typography:
   subheadline: "Font(subheadline)"
 
 Border:
-  radius: [ none: 0pt, small: 2pt, medium: 4pt, large: 8pt, xLarge: 12pt ]
+  radius: [ none: 0pt, small: 2pt, medium: 4pt, large: 8pt, xLarge: 12pt, xxLarge: 14pt ]
   size: [ none: 0pt, thin: 1pt, thick: 2pt, thicker: 4pt, thickest: 6pt ]
 
 Icon:
@@ -105,6 +107,7 @@ Spacing:
   xxxxLarge: 72pt
 
 Opacity:
+  opacity05: 0.05f
   opacity8: 0.8f
   opacity16: 0.16f
   opacity24: 0.24f
@@ -290,7 +293,7 @@ AP_MSFListCellTokens:
   labelColor: $Colors.Foreground.neutral1
   labelFont: $Typography.body
   leadingViewColor: $Colors.Foreground.neutral4
-  leadingViewSize: [ small: $Icon.size.xSmall, medium: $Icon.size.medium, large: $Icon.size.xxlarge, xlarge: 52pt ]
+  leadingViewSize: [ small: $Icon.size.xSmall, medium: $Icon.size.medium, large: $Icon.size.xxLarge, xlarge: 52pt ]
   sublabelAccessorySize: $Icon.size.xxSmall
   sublabelColor: $Colors.Foreground.neutral3
   sublabelFont: $Typography.subheadline
@@ -321,8 +324,11 @@ MSFPrimaryHeaderTokens extends MSFHeaderFooterTokens:
   topPadding: $Spacing.medium
 
 AP_MSFDrawerTokens:
-  backgroundClearColor: NamedColor(clear)
   backgroundDimmedColor: $Colors.Elevation.highElevation
+  drawerHorizontalContentBackground: "$Colors.Background.neutral1"
+  drawerVerticalContentBackground: "FluentUIColor(light: $Colors.Background.neutral1, dark: $Colors.Background.neutral3)"
+  popoverContentBackground: "FluentUIColor(light: $Colors.Background.surfacePrimary, dark: $Colors.Background.surfaceQuaternary)"
+  navigationBarBackground: "FluentUIColor(light: $Colors.Background.surfacePrimary, dark: NamedColor(grey14))"
   shadow1Color: $Shadow.shadow28.color1
   shadow1Blur: $Shadow.shadow28.blur1
   shadow1OffsetX: $Shadow.shadow28.x1
@@ -331,3 +337,7 @@ AP_MSFDrawerTokens:
   shadow2Blur: $Shadow.shadow28.blur2
   shadow2OffsetX: $Shadow.shadow28.x2
   shadow2OffsetY: $Shadow.shadow28.y2
+  minMargin: [horizontal: $Spacing.xxxLarge, vertical: $Spacing.large]
+  cornerRadius: $Border.radius.xxLarge
+  verticalShadowOffset: $Spacing.xSmall
+  horizontalShadowOffset: $Spacing.small
