@@ -29,7 +29,6 @@ class LargeTitleView: UIView {
             updateProfileButtonVisibility()
             [avatarView, smallMorphingAvatarView].forEach {
                 $0?.setup(avatar: avatar)
-                $0?.layoutSubviews()
             }
         }
     }
