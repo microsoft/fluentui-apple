@@ -257,13 +257,13 @@ open class AvatarView: UIView {
             }
         }
     }
-    
+
     @objc open var shouldCalculateRingColor: Bool = false {
         didSet {
             updateBorderColor()
         }
     }
-    
+
     @objc open var borderColor: UIColor? {
         didSet {
             if hasBorder && !hasCustomBorder {
