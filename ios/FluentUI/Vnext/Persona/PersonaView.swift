@@ -67,7 +67,7 @@ class MSFPersonaViewStateImpl: MSFListCellState, MSFPersonaViewState {
         }
     }
 
-    var backgroundColor: UIColor? {
+    override var backgroundColor: UIColor? {
         get {
             return avatarState.backgroundColor
         }
