@@ -212,6 +212,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }()
 
     var showSearchProgressSpinner: Bool = true
+    var showRainbowRingForAvatar: Bool = false
 
     var allowsCellSelection: Bool = false {
         didSet {
@@ -325,7 +326,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier, for: indexPath) as? BooleanCell else {
                 return UITableViewCell()
             }
-            cell.setup(title: "Show spinner while using the search bar", isOn: true)
+            cell.setup(title: "Show spinner while using the search bar", isOn: showSearchProgressSpinner)
             cell.titleNumberOfLines = 0
             cell.onValueChanged = { [weak self, weak cell] in
                 self?.shouldShowSearchSpinner(isOn: cell?.isOn ?? false)
@@ -337,7 +338,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier, for: indexPath) as? BooleanCell else {
                 return UITableViewCell()
             }
-            cell.setup(title: "Show rainbow ring on avatar", isOn: false)
+            cell.setup(title: "Show rainbow ring on avatar", isOn: showRainbowRingForAvatar)
             cell.titleNumberOfLines = 0
             cell.onValueChanged = { [weak self, weak cell] in
                 self?.shouldShowRainbowRing(isOn: cell?.isOn ?? false)
@@ -412,6 +413,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     @objc private func shouldShowRainbowRing(isOn: Bool) {
         personaData.customBorderImage = isOn ? RootViewController.colorfulImageForFrame() : nil
         msfNavigationController?.msfNavigationBar.avatar = personaData
+        showRainbowRingForAvatar = isOn
     }
 
     @objc private func dismissSelf() {
