@@ -57,74 +57,89 @@ import SwiftUI
 
     @objc public var leadingUIView: UIView? {
         didSet {
-            if let view = leadingUIView {
-                leadingView = AnyView(UIViewAdapter(view))
-            } else {
+            guard let view = leadingUIView else {
                 leadingView = nil
+                return
             }
+
+            leadingView = AnyView(UIViewAdapter(view))
         }
     }
+
     @objc public var titleLeadingAccessoryUIView: UIView? {
         didSet {
-            if let view = titleLeadingAccessoryUIView {
-                titleLeadingAccessoryView = AnyView(UIViewAdapter(view))
-            } else {
+            guard let view = titleLeadingAccessoryUIView else {
                 titleLeadingAccessoryView = nil
+                return
             }
+
+            titleLeadingAccessoryView = AnyView(UIViewAdapter(view))
         }
     }
+
     @objc public var titleTrailingAccessoryUIView: UIView? {
         didSet {
-            if let view = titleTrailingAccessoryUIView {
-                titleTrailingAccessoryView = AnyView(UIViewAdapter(view))
-            } else {
+            guard let view = titleTrailingAccessoryUIView else {
                 titleTrailingAccessoryView = nil
+                return
             }
+
+            titleTrailingAccessoryView = AnyView(UIViewAdapter(view))
         }
     }
+
     @objc public var subtitleLeadingAccessoryUIView: UIView? {
         didSet {
-            if let view = subtitleLeadingAccessoryUIView {
-                subtitleLeadingAccessoryView = AnyView(UIViewAdapter(view))
-            } else {
+            guard let view = subtitleLeadingAccessoryUIView else {
                 subtitleLeadingAccessoryView = nil
+                return
             }
+
+            subtitleLeadingAccessoryView = AnyView(UIViewAdapter(view))
         }
     }
+
     @objc public var subtitleTrailingAccessoryUIView: UIView? {
         didSet {
-            if let view = subtitleTrailingAccessoryUIView {
-                subtitleTrailingAccessoryView = AnyView(UIViewAdapter(view))
-            } else {
+            guard let view = subtitleTrailingAccessoryUIView else {
                 subtitleTrailingAccessoryView = nil
+                return
             }
+
+            subtitleTrailingAccessoryView = AnyView(UIViewAdapter(view))
         }
     }
+
     @objc public var footnoteLeadingAccessoryUIView: UIView? {
         didSet {
-            if let view = footnoteLeadingAccessoryUIView {
-                footnoteLeadingAccessoryView = AnyView(UIViewAdapter(view))
-            } else {
+            guard let view = footnoteLeadingAccessoryUIView else {
                 footnoteLeadingAccessoryView = nil
+                return
             }
+
+            footnoteLeadingAccessoryView = AnyView(UIViewAdapter(view))
         }
     }
+
     @objc public var footnoteTrailingAccessoryUIView: UIView? {
         didSet {
-            if let view = footnoteTrailingAccessoryUIView {
-                footnoteTrailingAccessoryView = AnyView(UIViewAdapter(view))
-            } else {
+            guard let view = footnoteTrailingAccessoryUIView else {
                 footnoteTrailingAccessoryView = nil
+                return
             }
+
+            footnoteTrailingAccessoryView = AnyView(UIViewAdapter(view))
         }
     }
+
     @objc public var trailingUIView: UIView? {
         didSet {
-            if let view = trailingUIView {
-                trailingView = AnyView(UIViewAdapter(view))
-            } else {
+            guard let view = trailingUIView else {
                 trailingView = nil
+                return
             }
+
+            trailingView = AnyView(UIViewAdapter(view))
         }
     }
 }
