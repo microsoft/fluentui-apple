@@ -257,7 +257,13 @@ open class AvatarView: UIView {
             }
         }
     }
-
+    
+    @objc open var shouldCalculateRingColor: Bool = false {
+        didSet {
+            updateBorderColor()
+        }
+    }
+    
     @objc open var borderColor: UIColor? {
         didSet {
             if hasBorder && !hasCustomBorder {
@@ -444,11 +450,10 @@ open class AvatarView: UIView {
         self.secondaryText = secondaryText
         self.presence = presence
         self.fallbackImageStyle = nil
-        setupInitialsView(convertTextToInitials: convertTextToInitials)
         if let image = image {
             setupWithImage(image)
         } else if !convertTextToInitials || isInitialsAvailable() {
-            showInitialsView()
+            setupWithInitialsView(convertTextToInitials: convertTextToInitials)
         } else {
             updateImageViewWithFallbackImage(style: preferredFallbackImageStyle)
         }
@@ -533,23 +538,19 @@ open class AvatarView: UIView {
         }
     }
 
-    private func setupInitialsView(convertTextToInitials: Bool) {
+    private func setupWithInitialsView(convertTextToInitials: Bool) {
         if convertTextToInitials {
             initialsView.setup(primaryText: primaryText, secondaryText: secondaryText)
         } else {
             initialsView.setup(initialsText: primaryText ?? secondaryText)
         }
 
-        showInitialsView()
+        initialsView.isHidden = false
+        imageView.isHidden = true
 
         if let initialsViewBackgroundColor = initialsView.backgroundColor {
             avatarBackgroundColor = initialsViewBackgroundColor
         }
-    }
-
-    private func showInitialsView() {
-        initialsView.isHidden = false
-        imageView.isHidden = true
     }
 
     private func setupWithImage(_ image: UIImage, animated: Bool = false) {
@@ -594,7 +595,8 @@ open class AvatarView: UIView {
         if let borderColor = borderColor {
             borderView.layer.borderColor = borderColor.cgColor
         } else {
-            borderView.layer.borderColor = Colors.Avatar.border.cgColor
+            borderView.layer.borderColor = shouldCalculateRingColor ?
+                InitialsView.initialsColorSet(fromPrimaryText: primaryText, secondaryText: secondaryText).background.cgColor : Colors.Avatar.border.cgColor
         }
     }
 
