@@ -108,7 +108,13 @@ open class AvatarView: NSView {
 			contactImageView.image = contactImage
 
 			// Update our display style
-			displayStyle = contactImage == nil ? .initials : .image
+			if contactImage == nil {
+				displayStyle = .initials
+			} else {
+				displayStyle = .image
+				setAccessibilityRole(.image)
+				setAccessibilityElement(true)
+			}
 		}
 	}
 
@@ -276,7 +282,17 @@ open class AvatarView: NSView {
 
 	/// Update this view to use the proper style when switching from Image to Initials or vice-versa
 	private func updateViewStyle() {
-		let currentView = self.currentView()
+		let currentView: NSView
+		switch displayStyle {
+		case .initials:
+			initialsView.isHidden = false
+			contactImageView.isHidden = true
+			currentView = initialsView
+		case .image:
+			contactImageView.isHidden = false
+			initialsView.isHidden = true
+			currentView = contactImageView
+		}
 		contentView.addSubview(currentView)
 
 		// Replace all existing subviews with the proper ones, ensuring the correct z-ordering
@@ -309,20 +325,10 @@ open class AvatarView: NSView {
 		NSLayoutConstraint.activate(constraints)
 	}
 
-	/// Get the internal view we should be using to represent this avatar
-	///
-	/// @return `initialsView` if `displayStyle` is `.initials`, `contactImageView` if it is `.image`
-	private func currentView() -> NSView {
-		switch displayStyle {
-		case .initials:
-			return initialsView
-		case .image:
-			return contactImageView
-		}
-	}
-
 	/// Update avatar view contents based on the latest values in properties
 	private func updateAvatarViewContents() {
+		let hasImage: Bool = contactImage != nil
+
 		// Set up accessibility values if we have any information to return
 		if let bestDescription = contactName ?? contactEmail {
 			toolTip = bestDescription
@@ -331,13 +337,16 @@ open class AvatarView: NSView {
 			setAccessibilityRole(.image)
 		} else {
 			toolTip = nil
-			setAccessibilityElement(false)
 			setAccessibilityLabel(nil)
-			setAccessibilityRole(.unknown)
+			if hasImage {
+				setAccessibilityElement(false)
+				setAccessibilityRole(.unknown)
+			}
 		}
 
 		initialsTextField.stringValue = AvatarView.initialsWithFallback(name: contactName, email: contactEmail)
 		updateAppearance(window?.effectiveAppearance)
+		displayStyle = hasImage ? .image : .initials
 	}
 
 	private func updateAppearance(_ appearance: NSAppearance? = nil) {
