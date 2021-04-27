@@ -244,6 +244,7 @@ class LeftNavMenuViewController: UIViewController {
         persona.state.secondaryText = "Designer"
         persona.state.image = UIImage(named: "avatar_kat_larsson")
         persona.state.titleTrailingAccessoryView = chevron
+        persona.state.backgroundColor = .systemBackground
         persona.state.onTapAction = {
             self.dismiss(animated: true, completion: {
                 guard let menuAction = self.menuAction else {
@@ -256,7 +257,6 @@ class LeftNavMenuViewController: UIViewController {
 
         let personaView = persona.view
         personaView.translatesAutoresizingMaskIntoConstraints = false
-
         return personaView
     }()
 
