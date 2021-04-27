@@ -19,8 +19,13 @@ import SwiftUI
     var onTapAction: (() -> Void)? { get set }
 }
 
+public protocol PersonaViewState: MSFPersonaViewState {
+    var titleTrailingAccessoryView: AnyView? { get set }
+    var subtitleTrailingAccessoryView: AnyView? { get set }
+}
+
 /// Properties that make up PersonaView content
-class MSFPersonaViewStateImpl: MSFListCellState, MSFPersonaViewState {
+class MSFPersonaViewStateImpl: MSFListCellState, PersonaViewState {
     init(avatarState: MSFAvatarState) {
         self.avatarState = avatarState
     }

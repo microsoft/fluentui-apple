@@ -30,7 +30,6 @@ import SwiftUI
 @objc public class MSFListCellState: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
 
-    // SwiftUI View Properties
     @Published public var leadingView: AnyView?
     @Published public var titleLeadingAccessoryView: AnyView?
     @Published public var titleTrailingAccessoryView: AnyView?
@@ -56,60 +55,75 @@ import SwiftUI
     @objc @Published public var hasDivider: Bool = false
     @objc public var onTapAction: (() -> Void)?
 
-    // Any UIView property will set the value to a type-erased SwiftUI View
     @objc public var leadingUIView: UIView? {
         didSet {
-            if let view = self.leadingUIView {
-                self.leadingView = AnyView(UIViewAdapter(view))
+            if let view = leadingUIView {
+                leadingView = AnyView(UIViewAdapter(view))
+            } else {
+                leadingView = nil
             }
         }
     }
     @objc public var titleLeadingAccessoryUIView: UIView? {
         didSet {
-            if let view = self.titleLeadingAccessoryUIView {
-                self.titleLeadingAccessoryView = AnyView(UIViewAdapter(view))
+            if let view = titleLeadingAccessoryUIView {
+                titleLeadingAccessoryView = AnyView(UIViewAdapter(view))
+            } else {
+                titleLeadingAccessoryView = nil
             }
         }
     }
     @objc public var titleTrailingAccessoryUIView: UIView? {
         didSet {
-            if let view = self.titleTrailingAccessoryUIView {
-                self.titleTrailingAccessoryView = AnyView(UIViewAdapter(view))
+            if let view = titleTrailingAccessoryUIView {
+                titleTrailingAccessoryView = AnyView(UIViewAdapter(view))
+            } else {
+                titleTrailingAccessoryView = nil
             }
         }
     }
     @objc public var subtitleLeadingAccessoryUIView: UIView? {
         didSet {
-            if let view = self.subtitleLeadingAccessoryUIView {
-                self.subtitleLeadingAccessoryView = AnyView(UIViewAdapter(view))
+            if let view = subtitleLeadingAccessoryUIView {
+                subtitleLeadingAccessoryView = AnyView(UIViewAdapter(view))
+            } else {
+                subtitleLeadingAccessoryView = nil
             }
         }
     }
     @objc public var subtitleTrailingAccessoryUIView: UIView? {
         didSet {
-            if let view = self.subtitleTrailingAccessoryUIView {
-                self.subtitleTrailingAccessoryView = AnyView(UIViewAdapter(view))
+            if let view = subtitleTrailingAccessoryUIView {
+                subtitleTrailingAccessoryView = AnyView(UIViewAdapter(view))
+            } else {
+                subtitleTrailingAccessoryView = nil
             }
         }
     }
     @objc public var footnoteLeadingAccessoryUIView: UIView? {
         didSet {
-            if let view = self.footnoteLeadingAccessoryUIView {
-                self.footnoteLeadingAccessoryView = AnyView(UIViewAdapter(view))
+            if let view = footnoteLeadingAccessoryUIView {
+                footnoteLeadingAccessoryView = AnyView(UIViewAdapter(view))
+            } else {
+                footnoteLeadingAccessoryView = nil
             }
         }
     }
     @objc public var footnoteTrailingAccessoryUIView: UIView? {
         didSet {
-            if let view = self.footnoteTrailingAccessoryUIView {
-                self.footnoteTrailingAccessoryView = AnyView(UIViewAdapter(view))
+            if let view = footnoteTrailingAccessoryUIView {
+                footnoteTrailingAccessoryView = AnyView(UIViewAdapter(view))
+            } else {
+                footnoteTrailingAccessoryView = nil
             }
         }
     }
     @objc public var trailingUIView: UIView? {
         didSet {
-            if let view = self.trailingUIView {
-                self.trailingView = AnyView(UIViewAdapter(view))
+            if let view = trailingUIView {
+                trailingView = AnyView(UIViewAdapter(view))
+            } else {
+                trailingView = nil
             }
         }
     }
