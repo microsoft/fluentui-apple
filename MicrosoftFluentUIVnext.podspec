@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'MicrosoftFluentUIVnext'
-  s.version          = '0.0.1'
+  s.version          = '0.0.2'
   s.summary          = 'Fluent UI is a set of reusable UI controls and tools'
   s.homepage         = "https://www.microsoft.com/design/fluent/#/"
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
@@ -17,6 +17,7 @@ Pod::Spec.new do |s|
   s.subspec 'Avatar_ios' do |avatar_ios|
     avatar_ios.platform = :ios
     avatar_ios.dependency 'MicrosoftFluentUIVnext/Core_ios'
+    avatar_ios.preserve_paths = ["ios/FluentUI/Avatar/Avatar.resources.xcfilelist"]
     avatar_ios.source_files = ["ios/FluentUI/Avatar/AvatarData.swift",
                                "ios/FluentUI/Avatar/AvatarView.swift",
                                "ios/FluentUI/Avatar/InitialsView.swift",
@@ -34,6 +35,23 @@ Pod::Spec.new do |s|
     core_ios.platform = :ios
     core_ios.resource_bundle = { 'FluentUIResources-ios' => ["apple/Resources/**/*.{json,xcassets}",
                                                              "ios/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
+    core_ios.script_phase = { :name => 'Optimize resource bundle',
+                              :script => 'echo "=== Removing unused resources from FluentUI-ios.xcassets ==="
+
+XCODEBUILDPARAMS="-quiet"
+
+if [ "${CONFIGURATION}" = "Debug" ]; then
+    CONDITIONALCOMPILATIONFLAGS="-D VERBOSE_OUTPUT"
+    XCODEBUILDPARAMS=""
+fi
+
+xcrun --sdk macosx swift ${CONDITIONALCOMPILATIONFLAGS} ${PODS_TARGET_SRCROOT}/scripts/removeUnusedResourcesFromAssets.swift ${LOCROOT}/MicrosoftFluentUI/ios/FluentUI/Resources/FluentUI-ios.xcassets ${LOCROOT}/MicrosoftFluentUI/ios
+
+echo "=== Rebuilding resource bundle target ==="
+xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftFluentUIVnext-FluentUIResources-ios" -sdk ${PLATFORM_NAME} -configuration ${CONFIGURATION} ARCHS="${ARCHS}" CONFIGURATION_BUILD_DIR="${CONFIGURATION_BUILD_DIR}" BUILD_ROOT="${BUILD_ROOT}" BUILT_PRODUCTS_DIR="${BUILT_PRODUCTS_DIR}" ${ACTION}',
+                              :execution_position => :before_compile }
+    core_ios.preserve_paths = ["ios/FluentUI/Core/Core.resources.xcfilelist",
+                               "scripts/removeUnusedResourcesFromAssets.swift"]
     core_ios.source_files = ["ios/FluentUI/Core/Colors.swift",
                              "ios/FluentUI/Core/FluentUIFramework.swift",
                              "ios/FluentUI/Core/Fonts.swift",
