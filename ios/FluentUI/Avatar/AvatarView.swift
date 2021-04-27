@@ -730,7 +730,6 @@ open class AvatarView: UIView {
             if let window = window {
                 imageView.backgroundColor = style.backgroundColor(for: window)
                 imageView.tintColor = style.imageColor(for: window)
-                borderColor = style == AvatarFallbackImageStyle.primaryFilled ? style.imageColor(for: window) : style.backgroundColor(for: window)
             }
 
             fallbackImageStyle = style
