@@ -785,8 +785,8 @@
 				536AEF2E25F1EC0300A36206 /* Button */,
 				536AEF2925F1EC0300A36206 /* Core */,
 				536AEF2225F1EC0300A36206 /* Drawer */,
-				0AA8741326001F0500D47421 /* Persona */,
 				536AEF3225F1EC0300A36206 /* List */,
+				0AA8741326001F0500D47421 /* Persona */,
 			);
 			path = Vnext;
 			sourceTree = "<group>";

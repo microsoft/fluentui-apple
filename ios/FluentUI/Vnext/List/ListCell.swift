@@ -29,25 +29,20 @@ import SwiftUI
 ///
 @objc public class MSFListCellState: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
+
     @Published public var leadingView: AnyView?
-    @objc public var leadingUIView: UIView? {
-        didSet {
-            if let view = self.leadingUIView {
-                self.leadingView = AnyView(UIViewAdapter(view))
-            }
-        }
-    }
+    @Published public var titleLeadingAccessoryView: AnyView?
+    @Published public var titleTrailingAccessoryView: AnyView?
+    @Published public var subtitleLeadingAccessoryView: AnyView?
+    @Published public var subtitleTrailingAccessoryView: AnyView?
+    @Published public var footnoteLeadingAccessoryView: AnyView?
+    @Published public var footnoteTrailingAccessoryView: AnyView?
+    @Published public var trailingView: AnyView?
+
     @objc @Published public var leadingViewSize: MSFListCellLeadingViewSize = .medium
     @objc @Published public var title: String = ""
     @objc @Published public var subtitle: String = ""
     @objc @Published public var footnote: String = ""
-    @objc @Published public var titleLeadingAccessoryView: UIView?
-    @objc @Published public var titleTrailingAccessoryView: UIView?
-    @objc @Published public var subtitleLeadingAccessoryView: UIView?
-    @objc @Published public var subtitleTrailingAccessoryView: UIView?
-    @objc @Published public var footnoteLeadingAccessoryView: UIView?
-    @objc @Published public var footnoteTrailingAccessoryView: UIView?
-    @objc @Published public var trailingView: UIView?
     @objc @Published public var accessoryType: MSFListAccessoryType = .none
     @objc @Published public var backgroundColor: UIColor?
     @objc @Published public var highlightedBackgroundColor: UIColor?
@@ -59,6 +54,94 @@ import SwiftUI
     @objc @Published public var layoutType: MSFListCellLayoutType = .automatic
     @objc @Published public var hasDivider: Bool = false
     @objc public var onTapAction: (() -> Void)?
+
+    @objc public var leadingUIView: UIView? {
+        didSet {
+            guard let view = leadingUIView else {
+                leadingView = nil
+                return
+            }
+
+            leadingView = AnyView(UIViewAdapter(view))
+        }
+    }
+
+    @objc public var titleLeadingAccessoryUIView: UIView? {
+        didSet {
+            guard let view = titleLeadingAccessoryUIView else {
+                titleLeadingAccessoryView = nil
+                return
+            }
+
+            titleLeadingAccessoryView = AnyView(UIViewAdapter(view))
+        }
+    }
+
+    @objc public var titleTrailingAccessoryUIView: UIView? {
+        didSet {
+            guard let view = titleTrailingAccessoryUIView else {
+                titleTrailingAccessoryView = nil
+                return
+            }
+
+            titleTrailingAccessoryView = AnyView(UIViewAdapter(view))
+        }
+    }
+
+    @objc public var subtitleLeadingAccessoryUIView: UIView? {
+        didSet {
+            guard let view = subtitleLeadingAccessoryUIView else {
+                subtitleLeadingAccessoryView = nil
+                return
+            }
+
+            subtitleLeadingAccessoryView = AnyView(UIViewAdapter(view))
+        }
+    }
+
+    @objc public var subtitleTrailingAccessoryUIView: UIView? {
+        didSet {
+            guard let view = subtitleTrailingAccessoryUIView else {
+                subtitleTrailingAccessoryView = nil
+                return
+            }
+
+            subtitleTrailingAccessoryView = AnyView(UIViewAdapter(view))
+        }
+    }
+
+    @objc public var footnoteLeadingAccessoryUIView: UIView? {
+        didSet {
+            guard let view = footnoteLeadingAccessoryUIView else {
+                footnoteLeadingAccessoryView = nil
+                return
+            }
+
+            footnoteLeadingAccessoryView = AnyView(UIViewAdapter(view))
+        }
+    }
+
+    @objc public var footnoteTrailingAccessoryUIView: UIView? {
+        didSet {
+            guard let view = footnoteTrailingAccessoryUIView else {
+                footnoteTrailingAccessoryView = nil
+                return
+            }
+
+            footnoteTrailingAccessoryView = AnyView(UIViewAdapter(view))
+        }
+    }
+
+    @objc public var trailingUIView: UIView? {
+        didSet {
+            guard let view = trailingUIView else {
+                trailingView = nil
+                return
+            }
+
+            trailingView = AnyView(UIViewAdapter(view))
+        }
+    }
 }
 
 /// Pre-defined layout heights of cells
@@ -109,7 +192,7 @@ struct MSFListCellView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     HStack(spacing: 0) {
                         if let titleLeadingAccessoryView = state.titleLeadingAccessoryView {
-                            UIViewAdapter(titleLeadingAccessoryView)
+                            titleLeadingAccessoryView
                                 .frame(width: labelAccessorySize, height: labelAccessorySize)
                                 .padding(.trailing, labelAccessoryInterspace)
                         }
@@ -120,7 +203,7 @@ struct MSFListCellView: View {
                                 .lineLimit(state.titleLineLimit == 0 ? nil : state.titleLineLimit)
                         }
                         if let titleTrailingAccessoryView = state.titleTrailingAccessoryView {
-                            UIViewAdapter(titleTrailingAccessoryView)
+                            titleTrailingAccessoryView
                                 .frame(width: labelAccessorySize, height: labelAccessorySize)
                                 .padding(.leading, labelAccessoryInterspace)
                         }
@@ -128,7 +211,7 @@ struct MSFListCellView: View {
 
                     HStack(spacing: 0) {
                         if let subtitleLeadingAccessoryView = state.subtitleLeadingAccessoryView {
-                            UIViewAdapter(subtitleLeadingAccessoryView)
+                            subtitleLeadingAccessoryView
                                 .frame(width: sublabelAccessorySize, height: sublabelAccessorySize)
                                 .padding(.trailing, labelAccessoryInterspace)
                         }
@@ -139,7 +222,7 @@ struct MSFListCellView: View {
                                 .lineLimit(state.subtitleLineLimit == 0 ? nil : state.subtitleLineLimit)
                         }
                         if let subtitleTrailingAccessoryView = state.subtitleTrailingAccessoryView {
-                            UIViewAdapter(subtitleTrailingAccessoryView)
+                            subtitleTrailingAccessoryView
                                 .frame(width: sublabelAccessorySize, height: sublabelAccessorySize)
                                 .padding(.leading, labelAccessoryInterspace)
                         }
@@ -147,7 +230,7 @@ struct MSFListCellView: View {
 
                     HStack(spacing: 0) {
                         if let footnoteLeadingAccessoryView = state.footnoteLeadingAccessoryView {
-                            UIViewAdapter(footnoteLeadingAccessoryView)
+                            footnoteLeadingAccessoryView
                                 .frame(width: labelAccessorySize, height: labelAccessorySize)
                                 .padding(.trailing, labelAccessoryInterspace)
                         }
@@ -158,7 +241,7 @@ struct MSFListCellView: View {
                                 .lineLimit(state.footnoteLineLimit == 0 ? nil : state.footnoteLineLimit)
                         }
                         if let footnoteTrailingAccessoryView = state.footnoteTrailingAccessoryView {
-                            UIViewAdapter(footnoteTrailingAccessoryView)
+                            footnoteTrailingAccessoryView
                                 .frame(width: labelAccessorySize, height: labelAccessorySize)
                                 .padding(.leading, labelAccessoryInterspace)
                         }
@@ -168,7 +251,7 @@ struct MSFListCellView: View {
                 Spacer()
 
                 if let trailingView = state.trailingView {
-                    UIViewAdapter(trailingView)
+                    trailingView
                         .frame(width: tokens.trailingItemSize, height: tokens.trailingItemSize)
                         .fixedSize()
                 }
