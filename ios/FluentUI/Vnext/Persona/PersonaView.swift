@@ -156,9 +156,6 @@ public struct PersonaView: View {
         state = MSFPersonaViewStateImpl(avatarState: avatar.state)
         state.leadingView = AnyView(avatar)
         state.leadingViewSize = .xlarge
-        state.titleTrailingAccessoryUIView = state.titleTrailingAccessoryUIView
-        state.subtitleTrailingAccessoryUIView = state.subtitleTrailingAccessoryUIView
-        state.onTapAction = state.onTapAction
         state.layoutType = .threeLines
     }
 
