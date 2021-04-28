@@ -30,7 +30,7 @@ class BottomSheetDemoController: DemoController {
 
     private func setupBottomSheet() {
         let personaVC = BottomSheetPersonaListViewController()
-        let bottomSheetVC = BottomSheetController(with: personaVC)
+        let bottomSheetVC = BottomSheetController(contentViewController: personaVC)
         bottomSheetVC.hostedScrollView = personaVC.personaListView
         bottomSheetVC.expandedHeightFraction = 0.8
 

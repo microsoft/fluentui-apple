@@ -23,8 +23,19 @@ public class BottomSheetController: UIViewController {
     /// By default the root view of `contentViewController` will be sized automatically to fill the available area,
     /// respecting the provided `preferredExpandedHeightFraction` multiplier.
     /// Alternatively, the content can size itself by setting `respectsPreferredContentSize` to true and providing a `preferredContentSize`.
-    @objc public init(with contentViewController: UIViewController) {
+    @objc public init(contentViewController: UIViewController) {
         self.contentViewController = contentViewController
+        self.contentView = contentViewController.view
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    /// Initializes the bottom sheet controller.
+    /// - Parameter contentView: The view that's placed inside the bottom sheet.
+    ///
+    /// TODO: Add view-specific sizing info
+    @objc public init(contentView: UIView) {
+        self.contentViewController = nil
+        self.contentView = contentView
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -87,8 +98,10 @@ public class BottomSheetController: UIViewController {
     public override func loadView() {
         view = BottomSheetPassthroughView()
 
-        addChild(contentViewController)
-        contentViewController.didMove(toParent: self)
+        if let contentViewController = contentViewController {
+            addChild(contentViewController)
+            contentViewController.didMove(toParent: self)
+        }
 
         view.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(bottomSheetView)
@@ -332,9 +345,9 @@ public class BottomSheetController: UIViewController {
 
     private func generateBottomSheetHeightConstraints() -> [NSLayoutConstraint] {
         var constraints: [NSLayoutConstraint]
-        if respectsPreferredContentSize {
+        if respectsPreferredContentSize, let contentVC = contentViewController {
             // Convert child VC preferred height to a constraint + an upper bound constraint
-            let preferredHeightConstraint = contentView.heightAnchor.constraint(equalToConstant: contentViewController.preferredContentSize.height)
+            let preferredHeightConstraint = contentView.heightAnchor.constraint(equalToConstant: contentVC.preferredContentSize.height)
             preferredHeightConstraint.priority = .defaultLow
 
             let maxHeightConstraint = bottomSheetView.heightAnchor.constraint(
@@ -358,9 +371,9 @@ public class BottomSheetController: UIViewController {
     private lazy var bottomSheetOffsetConstraint: NSLayoutConstraint =
         bottomSheetView.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -collapsedOffsetFromBottom)
 
-    private var contentViewController: UIViewController
+    private let contentViewController: UIViewController?
 
-    private var contentView: UIView { contentViewController.view }
+    private let contentView: UIView
 
     private lazy var panGestureRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
 
