@@ -12,7 +12,6 @@ class BottomBarView: UIView {
         // We need to have the shadow on a parent of the view that does the corner masking.
         // Otherwise the view will mask its own shadow.
         layer.shadowColor = Constants.Shadow.color
-//        layer.shadowOffset = Constants.Shadow.offset
         layer.shadowOpacity = Constants.Shadow.opacity
         layer.shadowRadius = Constants.Shadow.radius
 
@@ -47,7 +46,6 @@ class BottomBarView: UIView {
             static let color: CGColor = UIColor.black.cgColor
             static let opacity: Float = 0.14
             static let radius: CGFloat = 8
-            static let offset: CGSize = CGSize(width: 0, height: 4)
         }
     }
 }

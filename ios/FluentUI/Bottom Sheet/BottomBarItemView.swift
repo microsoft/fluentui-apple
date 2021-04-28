@@ -10,16 +10,19 @@ class BottomBarItemView: UIView {
         self.item = item
         super.init(frame: .zero)
 
-        let testLabel = UILabel()
-        testLabel.text = item.title
-        testLabel.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(testLabel)
+        addSubview(container)
+        container.addArrangedSubview(imageView)
+
+        titleLabel.text = item.title
+        container.addArrangedSubview(titleLabel)
 
         NSLayoutConstraint.activate([
-            testLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            testLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            widthAnchor.constraint(equalToConstant: 45),
-            heightAnchor.constraint(equalToConstant: 45)
+            container.centerXAnchor.constraint(equalTo: centerXAnchor),
+            container.centerYAnchor.constraint(equalTo: centerYAnchor),
+            container.widthAnchor.constraint(equalTo: widthAnchor),
+            imageView.widthAnchor.constraint(equalTo: widthAnchor),
+            widthAnchor.constraint(equalToConstant: 48),
+            heightAnchor.constraint(equalToConstant: 48)
         ])
     }
 
@@ -29,4 +32,35 @@ class BottomBarItemView: UIView {
     }
 
     let item: CommandingItem
+
+    private lazy var container: UIStackView = {
+        let container = UIStackView(frame: .zero)
+        container.translatesAutoresizingMaskIntoConstraints = false
+        container.alignment = .center
+        container.distribution = .fill
+        container.axis = .vertical
+
+        return container
+    }()
+
+    private lazy var imageView: UIImageView = {
+        let imageView = UIImageView(image: item.image)
+        imageView.contentMode = .center
+        imageView.tintColor = Constants.unselectedColor
+
+        return imageView
+    }()
+
+    private lazy var titleLabel: Label = {
+        let titleLabel = Label()
+        titleLabel.lineBreakMode = .byTruncatingTail
+        titleLabel.textAlignment = .center
+        titleLabel.textColor = Constants.unselectedColor
+
+        return titleLabel
+    }()
+
+    private struct Constants {
+        static let unselectedColor: UIColor = Colors.textSecondary
+    }
 }

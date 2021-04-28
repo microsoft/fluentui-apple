@@ -7,7 +7,8 @@ import UIKit
 
 @objc(MSFCommandingItem)
 open class CommandingItem: NSObject {
-    @objc public let image: UIImage?
+    @objc public let image: UIImage
+    @objc public let selectedImage: UIImage?
     @objc public let title: String
     @objc public let subtitle: String?
     @objc public var selected: Bool {
@@ -28,10 +29,11 @@ open class CommandingItem: NSObject {
 
     @objc public var action: () -> Void
 
-    @objc public init(title: String, action: @escaping () -> Void, image: UIImage? = nil, subtitle: String? = nil, selected: Bool = false, enabled: Bool = true) {
+    @objc public init(title: String, image: UIImage, action: @escaping () -> Void, selectedImage: UIImage? = nil, subtitle: String? = nil, selected: Bool = false, enabled: Bool = true) {
         self.title = title
         self.action = action
         self.image = image
+        self.selectedImage = selectedImage
         self.subtitle = subtitle
         self.selected = selected
         self.enabled = enabled
