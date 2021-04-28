@@ -258,9 +258,12 @@ open class AvatarView: UIView {
         }
     }
 
-    @objc open var shouldCalculateRingColor: Bool = false {
+    /// When true, the border color will be calculated using InitialView's ColorSet
+    @objc open var shouldGenerateBorderColor: Bool = false {
         didSet {
-            updateBorderColor()
+            if oldValue != shouldGenerateBorderColor {
+                updateBorderColor()
+            }
         }
     }
 
@@ -595,7 +598,7 @@ open class AvatarView: UIView {
         if let borderColor = borderColor {
             borderView.layer.borderColor = borderColor.cgColor
         } else {
-            borderView.layer.borderColor = shouldCalculateRingColor ?
+            borderView.layer.borderColor = shouldGenerateBorderColor ?
                 InitialsView.initialsColorSet(fromPrimaryText: primaryText, secondaryText: secondaryText).background.cgColor : Colors.Avatar.border.cgColor
         }
     }

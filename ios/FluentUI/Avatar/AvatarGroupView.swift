@@ -41,6 +41,15 @@ open class AvatarGroupView: UIView {
         }
     }
 
+    /// Set to true to generate border colors from InitialView ColorSet
+    @objc open var shouldGenerateBorderColor: Bool = false {
+        didSet {
+            if oldValue != shouldGenerateBorderColor {
+                updateAvatars()
+            }
+        }
+    }
+
     /// Maximum count of avatars that can be displayed in the avatar group view.
     /// If the avatars array contains more avatars than this limit, an overflow UI will be displayed with the overflow count.
     /// The overflow UI is an avatar view with a "+" sign and the overflow count.
@@ -119,6 +128,7 @@ open class AvatarGroupView: UIView {
 
         for avatar in avatars.prefix(Int(maxDisplayedAvatars)) {
             let avatarView = AvatarView(avatarSize: avatarSize, withBorder: showBorders, style: .circle)
+            avatarView.shouldGenerateBorderColor = shouldGenerateBorderColor
             avatarView.setup(avatar: avatar)
 
             constraints.append(contentsOf: insert(avatarView: avatarView, previousAvatarView: previousAvatarView))
