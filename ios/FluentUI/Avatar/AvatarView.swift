@@ -224,15 +224,18 @@ open class AvatarLegacyView: UIView {
     /// since it's assumed that the client intends to have a custom border.
     @objc open var customBorderImage: UIImage? {
         didSet {
-            if customBorderImage != nil {
-                hasCustomBorder = true
-                borderView.isHidden = false
-                updateCustomBorder()
-            } else {
-                customBorderImageSize = .zero
-                hasCustomBorder = false
-                borderView.isHidden = !hasBorder
-                updateBorder()
+            if oldValue != customBorderImage {
+                if customBorderImage != nil {
+                    hasCustomBorder = true
+                    borderView.isHidden = false
+                    updateCustomBorder()
+                } else {
+                    customBorderImageSize = .zero
+                    hasCustomBorder = false
+                    borderView.isHidden = !hasBorder
+                    updateBorder()
+                }
+                setNeedsLayout()
             }
         }
     }
@@ -303,6 +306,15 @@ open class AvatarLegacyView: UIView {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    /// Set to true to not have inside gap between content of the avatarView to its border
+    @objc open var hideInsideGapForBorder: Bool = false {
+        didSet {
+            if oldValue != hideInsideGapForBorder && (hasBorder || hasCustomBorder) {
+                setNeedsLayout()
             }
         }
     }
@@ -452,6 +464,7 @@ open class AvatarLegacyView: UIView {
     @objc public func setup(avatar: Avatar?) {
         setup(primaryText: avatar?.primaryText, secondaryText: avatar?.secondaryText, image: avatar?.image, presence: avatar?.presence ?? .none)
         customBorderImage = avatar?.customBorderImage
+        hideInsideGapForBorder = avatar?.hideInsideGapForBorder ?? false
 
         if let color = avatar?.color {
             borderColor = color
@@ -577,10 +590,6 @@ open class AvatarLegacyView: UIView {
         }
 
         let size = bounds.size
-        if customBorderImageSize == size {
-            return
-        }
-
         borderView.frame = bounds
         customBorderImageSize = size
         borderView.layer.cornerRadius = cornerRadius(for: size.width)
@@ -629,7 +638,10 @@ open class AvatarLegacyView: UIView {
     private func imageFrame() -> CGRect {
         var suggestedRect = bounds
         if style == .circle && (hasBorder || hasCustomBorder) {
-            let delta = avatarSize.insideBorder + avatarSize.borderWidth
+            var delta = avatarSize.borderWidth
+            if !hideInsideGapForBorder {
+                delta += avatarSize.insideBorder
+            }
             suggestedRect = suggestedRect.insetBy(dx: delta, dy: delta)
         }
         return suggestedRect

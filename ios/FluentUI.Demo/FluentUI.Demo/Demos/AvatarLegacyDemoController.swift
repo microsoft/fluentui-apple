@@ -24,9 +24,14 @@ class AvatarLegacyViewDemoController: DemoController {
                                                             switchAction: #selector(toggleAlternateBackground(switchView:)),
                                                             isOn: isUsingAlternateBackgroundColor)
 
+        let hideInsideGapForBorderSettingView = createLabelAndSwitchRow(labelText: "Hide inside gap for border ring",
+                                                            switchAction: #selector(toggleHideInsideGap(switchView:)),
+                                                            isOn: isHidingInsideGapForBorder)
+
         addRow(items: [backgroundSettingView])
         addRow(items: [showPresenceSettingView])
         addRow(items: [opaquePresenceBorderSettingView])
+        addRow(items: [hideInsideGapForBorderSettingView])
 
         createSection(withTitle: "Circle style for person",
                       name: "Kat Larrson",
@@ -80,6 +85,20 @@ class AvatarLegacyViewDemoController: DemoController {
         }
     }
 
+    private var isHidingInsideGapForBorder: Bool = false {
+        didSet {
+            if oldValue != isHidingInsideGapForBorder {
+                for avatarView in avatarViewsWithImages {
+                    avatarView.hideInsideGapForBorder = isHidingInsideGapForBorder
+                }
+
+                for avatarView in avatarViewsWithInitials {
+                    avatarView.hideInsideGapForBorder = isHidingInsideGapForBorder
+                }
+            }
+        }
+    }
+
     private var isShowingPresence: Bool = false {
         didSet {
             if oldValue != isShowingPresence {
@@ -130,6 +149,10 @@ class AvatarLegacyViewDemoController: DemoController {
 
     @objc private func toggleAlternateBackground(switchView: UISwitch) {
         isUsingAlternateBackgroundColor = switchView.isOn
+    }
+
+    @objc private func toggleHideInsideGap(switchView: UISwitch) {
+        isHidingInsideGapForBorder = switchView.isOn
     }
 
     private func updateBackgroundColor() {
@@ -188,9 +211,7 @@ class AvatarLegacyViewDemoController: DemoController {
         colorfulGradient.colors = gradientColors
         colorfulGradient.startPoint = CGPoint(x: 0.5, y: 0.5)
         colorfulGradient.endPoint = CGPoint(x: 0.5, y: 0)
-        if #available(iOS 12.0, *) {
-            colorfulGradient.type = .conic
-        }
+        colorfulGradient.type = .conic
 
         var customBorderImage: UIImage?
         UIGraphicsBeginImageContext(size)

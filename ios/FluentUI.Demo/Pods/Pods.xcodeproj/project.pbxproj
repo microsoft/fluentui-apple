@@ -9,38 +9,45 @@
 /* Begin PBXAggregateTarget section */
 		A3282A5B2437E609EEB85861D7ECE717 /* AppCenter */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 5C36D55F51DE0B61CE524E6AD6A2CE17 /* Build configuration list for PBXAggregateTarget "AppCenter" */;
+			buildConfigurationList = 1E87968055FD31C8308CDCBBA1FA1CA3 /* Build configuration list for PBXAggregateTarget "AppCenter" */;
 			buildPhases = (
+				F1196C753F0BA4B1062264010402EF87 /* [CP] Copy XCFrameworks */,
 			);
 			dependencies = (
-				5B77361EDCC22BE2B8DA9A5EDA77EFDC /* PBXTargetDependency */,
+				2FE3A4764FFE0BE5140CD9B99113936E /* PBXTargetDependency */,
 			);
 			name = AppCenter;
-			productName = AppCenter;
 		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		00A9B967AE6141816B21D6231C78EDC2 /* cs.lproj in Resources */ = {isa = PBXBuildFile; fileRef = AF0422E17D2614F433C9427625FC4004 /* cs.lproj */; };
-		01A9F35B313DBB2A844A1DFA984B7AA9 /* pl.lproj in Resources */ = {isa = PBXBuildFile; fileRef = AB8D3CD8B130E54D7CA9F75CC25CA436 /* pl.lproj */; };
-		273C17156C7E7000CFB46F3137F23BFB /* zh-Hant.lproj in Resources */ = {isa = PBXBuildFile; fileRef = F42E41449455730624E76D230142DB01 /* zh-Hant.lproj */; };
-		4902AF418C0280ADED83AE45A46DE306 /* tr.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 643B25B1AF4C96A58544583EC27E4CF2 /* tr.lproj */; };
-		4A74AE34B5482312DBF405A5EE2479F4 /* fr.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 9153C5DFC72DC18E161EAB05E6FB96CD /* fr.lproj */; };
+		02299A8908597E9701C95242CD45B651 /* cs.lproj in Resources */ = {isa = PBXBuildFile; fileRef = E10AEEC7B978CC45DC569C062052775C /* cs.lproj */; };
+		145FC024CA4456F544AC5A5E77138CD3 /* ru.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 8D60D24E9C3C295215262C25F4D7C9F3 /* ru.lproj */; };
+		239985C74299ABE75878DA7FA6A0BFD9 /* zh-Hans.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 0FCFB443211DAB39B667B4C3A3DCE70A /* zh-Hans.lproj */; };
+		4A12984AA4CDDBE9BA816DA32BB0498F /* ko.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 9ADE13C09F85C762049A9D59D8417977 /* ko.lproj */; };
 		51F2CB59A47EFB75035B87EA587702FA /* Pods-FluentUI.Demo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F6A9793B7BDACFF2A812EBD4E8FD60C9 /* Pods-FluentUI.Demo-dummy.m */; };
-		533122E2C753BA003652A85B1C5BB8B8 /* de.lproj in Resources */ = {isa = PBXBuildFile; fileRef = E0673177C7579FA72B3B3E4585F250F9 /* de.lproj */; };
-		6490A21124D7E0339A55BAC714232E0B /* it.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 96C096D2D135FC765CF1A02896DCA10A /* it.lproj */; };
-		6AE248277BD56C20E85EEC77B3888B6C /* ja.lproj in Resources */ = {isa = PBXBuildFile; fileRef = A8175CB2009FD47737D74F487D724BC8 /* ja.lproj */; };
+		59ED81C9699AB8D89DCABB151B3CB522 /* fr.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 98CF91B44A4B9CA498D454E20A450391 /* fr.lproj */; };
+		5C35DAF683F404F98CED26268E7A2756 /* tr.lproj in Resources */ = {isa = PBXBuildFile; fileRef = E219D1D8FB76AE857173C2356C2E64DC /* tr.lproj */; };
+		5D35A262309625DB3C51F713D7CDA596 /* pl.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 66FC55F5B2E8569568561FC1CDEA0989 /* pl.lproj */; };
+		6273321225FB50D721A2FE32CA4E7E45 /* zh-Hant.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 60C85E0433E430584E68A778CD989B79 /* zh-Hant.lproj */; };
 		81741622CA1FF54D4EE0E79AA873B712 /* Pods-FluentUI.Demo-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = D029AC59699530E8F3857ADC414678A9 /* Pods-FluentUI.Demo-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9D612FFA6B960B2956FE43E400EA72B0 /* zh-Hans.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 619A9E78DFBA5418CD32F494337BFDD7 /* zh-Hans.lproj */; };
-		9DB92D4E53FA736C5DBF87EB77D17880 /* ru.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 299C8417173FD87C62785263842F707F /* ru.lproj */; };
+		81A230D98D5D8C552B48D711019B5BE5 /* it.lproj in Resources */ = {isa = PBXBuildFile; fileRef = F3EC11EDB9F5951172DD1054D94D2AF0 /* it.lproj */; };
 		B1AFC4FCF0A41DD94D4CE01F5BF9C6B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
-		B36CB23F392F0FE9F277AB23775EEC44 /* pt.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 43DBD90BFDF09BCB549083DCC5A43ED7 /* pt.lproj */; };
-		B81A7A779F7B6CF2CB58BE59E400117D /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = DA9E4F899FAB0D38D3CD6F274395F714 /* en.lproj */; };
-		BE4D6E1F9A8884F1F1BFB466551F21FB /* ko.lproj in Resources */ = {isa = PBXBuildFile; fileRef = A9C0929E5366D63CCF64D4685A77B1FB /* ko.lproj */; };
-		D98557D9A55A7325B4A9DEFCA685A6F6 /* es.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 99CC1A46E0B7BE99522F0B885002A72F /* es.lproj */; };
+		B55CEDE25CBCBA5E5988953854B0752E /* ja.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 5B07655523CDB4CDA7D4A197D110F159 /* ja.lproj */; };
+		BD8B808D184A1B8F18C2C55179FE4EDB /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 0F97F417F8CEF438686867BD74898F2D /* en.lproj */; };
+		C1A87451709304F8549F484614129045 /* pt.lproj in Resources */ = {isa = PBXBuildFile; fileRef = C8D0F211F2DA0342F974E85C0139D508 /* pt.lproj */; };
+		C9F5D062BB1FE507B39FEB4ACDE92F38 /* de.lproj in Resources */ = {isa = PBXBuildFile; fileRef = BD5ACB78DE45772E1D25C750556DC9B8 /* de.lproj */; };
+		F7A5F111F88A4BA5FE38C5E50C09A055 /* es.lproj in Resources */ = {isa = PBXBuildFile; fileRef = D0CEE4CF4D69DE2B8B4856A0275B532B /* es.lproj */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		167AE75E1C2B784A7ED519B528284671 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FCD9915FE83842AE0201096155515772;
+			remoteInfo = "AppCenter-AppCenterDistributeResources";
+		};
 		33073B953F75C9A714BB6F4820AACD38 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
@@ -48,49 +55,43 @@
 			remoteGlobalIDString = A3282A5B2437E609EEB85861D7ECE717;
 			remoteInfo = AppCenter;
 		};
-		9C3CF7C29005B88106729CDC2FE4767F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FCD9915FE83842AE0201096155515772;
-			remoteInfo = "AppCenter-AppCenterDistributeResources";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		11AF731E4071DCD5E34B4CA294302B92 /* AppCenterDistributeResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterDistributeResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		0F97F417F8CEF438686867BD74898F2D /* en.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = en.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/en.lproj"; sourceTree = "<group>"; };
+		0FCFB443211DAB39B667B4C3A3DCE70A /* zh-Hans.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = "zh-Hans.lproj"; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/zh-Hans.lproj"; sourceTree = "<group>"; };
+		11AF731E4071DCD5E34B4CA294302B92 /* AppCenterDistributeResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = AppCenterDistributeResources.bundle; path = "AppCenter-AppCenterDistributeResources.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B264324E0126A3349D3DB41164C22F2 /* AppCenter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AppCenter.release.xcconfig; sourceTree = "<group>"; };
 		223668DC87FCFE75ABB1AAB51C8A7CC6 /* Pods-FluentUI.Demo-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-FluentUI.Demo-Info.plist"; sourceTree = "<group>"; };
-		299C8417173FD87C62785263842F707F /* ru.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = ru.lproj; path = "AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle/ru.lproj"; sourceTree = "<group>"; };
 		3455501A7EC659C0D98FE59B6A32F2F1 /* Pods-FluentUI.Demo-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-FluentUI.Demo-acknowledgements.markdown"; sourceTree = "<group>"; };
-		4302E3F74313AB56E96148C615CE4E1E /* ResourceBundle-AppCenterDistributeResources-AppCenter-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-AppCenterDistributeResources-AppCenter-Info.plist"; sourceTree = "<group>"; };
-		43DBD90BFDF09BCB549083DCC5A43ED7 /* pt.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = pt.lproj; path = "AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle/pt.lproj"; sourceTree = "<group>"; };
+		428A44F0B618BBA1A3B7ACFB06B3A17D /* AppCenter-xcframeworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "AppCenter-xcframeworks.sh"; sourceTree = "<group>"; };
+		44BA1D1198470B8E0A8E693883C66ACF /* AppCenterAnalytics.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = AppCenterAnalytics.xcframework; path = "AppCenter-SDK-Apple/AppCenterAnalytics.xcframework"; sourceTree = "<group>"; };
 		48C1097438C97F0573E5696307FAA47F /* Pods-FluentUI.Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-FluentUI.Demo.debug.xcconfig"; sourceTree = "<group>"; };
 		4A2ED2C8853BF9FCFA0D2D169883E83E /* Pods-FluentUI.Demo.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-FluentUI.Demo.modulemap"; sourceTree = "<group>"; };
-		4CC4BED290E7655E9892BCE90C51813A /* AppCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenter.framework; path = "AppCenter-SDK-Apple/iOS/AppCenter.framework"; sourceTree = "<group>"; };
 		56C2B0B49A935C56CFB7C0E134B48019 /* Pods-FluentUI.Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-FluentUI.Demo.release.xcconfig"; sourceTree = "<group>"; };
-		619A9E78DFBA5418CD32F494337BFDD7 /* zh-Hans.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = "zh-Hans.lproj"; path = "AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle/zh-Hans.lproj"; sourceTree = "<group>"; };
-		643B25B1AF4C96A58544583EC27E4CF2 /* tr.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = tr.lproj; path = "AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle/tr.lproj"; sourceTree = "<group>"; };
-		64D527EB69D0C64F988681EF86987254 /* AppCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterAnalytics.framework; path = "AppCenter-SDK-Apple/iOS/AppCenterAnalytics.framework"; sourceTree = "<group>"; };
+		5B07655523CDB4CDA7D4A197D110F159 /* ja.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = ja.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/ja.lproj"; sourceTree = "<group>"; };
+		60C85E0433E430584E68A778CD989B79 /* zh-Hant.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = "zh-Hant.lproj"; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/zh-Hant.lproj"; sourceTree = "<group>"; };
+		66FC55F5B2E8569568561FC1CDEA0989 /* pl.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = pl.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/pl.lproj"; sourceTree = "<group>"; };
 		73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		7847993B0CE31129859AECE3C4F826EB /* Pods-FluentUI.Demo-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-FluentUI.Demo-acknowledgements.plist"; sourceTree = "<group>"; };
-		7AAC7FC7A164A22AC846E0E144576324 /* Pods_FluentUI_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FluentUI_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9153C5DFC72DC18E161EAB05E6FB96CD /* fr.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = fr.lproj; path = "AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle/fr.lproj"; sourceTree = "<group>"; };
-		962837DD26A04FF71EC1CF1EC237DD01 /* AppCenter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AppCenter.debug.xcconfig; sourceTree = "<group>"; };
-		96C096D2D135FC765CF1A02896DCA10A /* it.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = it.lproj; path = "AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle/it.lproj"; sourceTree = "<group>"; };
-		99CC1A46E0B7BE99522F0B885002A72F /* es.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = es.lproj; path = "AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle/es.lproj"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		A8175CB2009FD47737D74F487D724BC8 /* ja.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = ja.lproj; path = "AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle/ja.lproj"; sourceTree = "<group>"; };
-		A9C0929E5366D63CCF64D4685A77B1FB /* ko.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = ko.lproj; path = "AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle/ko.lproj"; sourceTree = "<group>"; };
-		AB8D3CD8B130E54D7CA9F75CC25CA436 /* pl.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = pl.lproj; path = "AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle/pl.lproj"; sourceTree = "<group>"; };
-		AD37EA4ACBF9D84FC7B4A43208C7E822 /* AppCenterDistribute.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterDistribute.framework; path = "AppCenter-SDK-Apple/iOS/AppCenterDistribute.framework"; sourceTree = "<group>"; };
-		AF0422E17D2614F433C9427625FC4004 /* cs.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = cs.lproj; path = "AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle/cs.lproj"; sourceTree = "<group>"; };
+		7AAC7FC7A164A22AC846E0E144576324 /* Pods_FluentUI_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_FluentUI_Demo.framework; path = "Pods-FluentUI.Demo.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D60D24E9C3C295215262C25F4D7C9F3 /* ru.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = ru.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/ru.lproj"; sourceTree = "<group>"; };
+		93297D4B0DA3AA60D964186CDA7B935B /* AppCenterCrashes.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = AppCenterCrashes.xcframework; path = "AppCenter-SDK-Apple/AppCenterCrashes.xcframework"; sourceTree = "<group>"; };
+		98CF91B44A4B9CA498D454E20A450391 /* fr.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = fr.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/fr.lproj"; sourceTree = "<group>"; };
+		98E03D914B96B542B1AEFBF0A95B963F /* ResourceBundle-AppCenterDistributeResources-AppCenter-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-AppCenterDistributeResources-AppCenter-Info.plist"; sourceTree = "<group>"; };
+		9ADE13C09F85C762049A9D59D8417977 /* ko.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = ko.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/ko.lproj"; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		A08F94721C859FF505090D07B775CC4C /* AppCenterDistribute.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = AppCenterDistribute.xcframework; path = "AppCenter-SDK-Apple/AppCenterDistribute.xcframework"; sourceTree = "<group>"; };
+		A0D0322893D6C01E9CC32C237B90BDD1 /* AppCenter.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = AppCenter.xcframework; path = "AppCenter-SDK-Apple/AppCenter.xcframework"; sourceTree = "<group>"; };
+		BAD31A57E21E915F29CF30B8E998A3AA /* AppCenter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AppCenter.debug.xcconfig; sourceTree = "<group>"; };
+		BD5ACB78DE45772E1D25C750556DC9B8 /* de.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = de.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/de.lproj"; sourceTree = "<group>"; };
+		C8D0F211F2DA0342F974E85C0139D508 /* pt.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = pt.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/pt.lproj"; sourceTree = "<group>"; };
 		D029AC59699530E8F3857ADC414678A9 /* Pods-FluentUI.Demo-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-FluentUI.Demo-umbrella.h"; sourceTree = "<group>"; };
-		D97CE617EC39C708B1C611BC6E8945A5 /* AppCenter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AppCenter.release.xcconfig; sourceTree = "<group>"; };
-		DA9E4F899FAB0D38D3CD6F274395F714 /* en.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = en.lproj; path = "AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle/en.lproj"; sourceTree = "<group>"; };
-		E0673177C7579FA72B3B3E4585F250F9 /* de.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = de.lproj; path = "AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle/de.lproj"; sourceTree = "<group>"; };
+		D0CEE4CF4D69DE2B8B4856A0275B532B /* es.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = es.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/es.lproj"; sourceTree = "<group>"; };
+		E10AEEC7B978CC45DC569C062052775C /* cs.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = cs.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/cs.lproj"; sourceTree = "<group>"; };
+		E219D1D8FB76AE857173C2356C2E64DC /* tr.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = tr.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/tr.lproj"; sourceTree = "<group>"; };
 		E2955C4BCAA009BA71D3C308CB6A066F /* Pods-FluentUI.Demo.dogfood.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-FluentUI.Demo.dogfood.xcconfig"; sourceTree = "<group>"; };
-		F3F911CB08B4E2954DA3E20F695D0964 /* AppCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterCrashes.framework; path = "AppCenter-SDK-Apple/iOS/AppCenterCrashes.framework"; sourceTree = "<group>"; };
-		F42E41449455730624E76D230142DB01 /* zh-Hant.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = "zh-Hant.lproj"; path = "AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle/zh-Hant.lproj"; sourceTree = "<group>"; };
+		F3EC11EDB9F5951172DD1054D94D2AF0 /* it.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = it.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/it.lproj"; sourceTree = "<group>"; };
 		F6A9793B7BDACFF2A812EBD4E8FD60C9 /* Pods-FluentUI.Demo-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-FluentUI.Demo-dummy.m"; sourceTree = "<group>"; };
 		F6F4E16327FAAFB24BA007D7BD663470 /* Pods-FluentUI.Demo-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-FluentUI.Demo-resources.sh"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -104,7 +105,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B85DD20F0BDB1F6AFE9E7CBB321B383E /* Frameworks */ = {
+		F7E6C63104DAD49A9291BD3A56F9A1AA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -114,12 +115,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		04F3F17845F83082F2BC478C5BC20939 /* Crashes */ = {
+		0009956356796C7B23572A1566C0771E /* Distribute */ = {
 			isa = PBXGroup;
 			children = (
-				7C433F53E018BA093698CD70861638DA /* Frameworks */,
+				7365BE879BAD8F1CCAC6EFE4E2045990 /* Frameworks */,
+				8EA4458BADE560AE325E65B932F7DE5A /* Resources */,
 			);
-			name = Crashes;
+			name = Distribute;
+			sourceTree = "<group>";
+		};
+		23905BA80D06B1D71BFFB0C57AF4C8BA /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				FA0A172D5D2D58CBAC64588B4F7785F1 /* Frameworks */,
+			);
+			name = Analytics;
 			sourceTree = "<group>";
 		};
 		4116F7776CE21745D0005C6F50F3659D /* Targets Support Files */ = {
@@ -138,27 +148,20 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		674E8058D25644AE5BC038A200AFACEB /* AppCenter */ = {
+		7365BE879BAD8F1CCAC6EFE4E2045990 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A8301372F024E7AE8F0CA6E150CB0A1A /* Analytics */,
-				CD4C8F177FBCCB44DA4083E67A1E2B19 /* Core */,
-				04F3F17845F83082F2BC478C5BC20939 /* Crashes */,
-				87DCEE234FA24E2535BAFDBB6152FC7E /* Distribute */,
-				7549C93DA3499E07C4F1150F24637B8F /* Support Files */,
+				A08F94721C859FF505090D07B775CC4C /* AppCenterDistribute.xcframework */,
 			);
-			path = AppCenter;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		7549C93DA3499E07C4F1150F24637B8F /* Support Files */ = {
+		749FADD90C38F73499DFBFD5BE34E379 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				962837DD26A04FF71EC1CF1EC237DD01 /* AppCenter.debug.xcconfig */,
-				D97CE617EC39C708B1C611BC6E8945A5 /* AppCenter.release.xcconfig */,
-				4302E3F74313AB56E96148C615CE4E1E /* ResourceBundle-AppCenterDistributeResources-AppCenter-Info.plist */,
+				A0D0322893D6C01E9CC32C237B90BDD1 /* AppCenter.xcframework */,
 			);
-			name = "Support Files";
-			path = "../Target Support Files/AppCenter";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		782CC30F368C1D1589301E6C9E860362 /* Pods-FluentUI.Demo */ = {
@@ -179,82 +182,62 @@
 			path = "Target Support Files/Pods-FluentUI.Demo";
 			sourceTree = "<group>";
 		};
-		7C433F53E018BA093698CD70861638DA /* Frameworks */ = {
+		790CCA443824ABC2CC4BB487A3F975BF /* AppCenter */ = {
 			isa = PBXGroup;
 			children = (
-				F3F911CB08B4E2954DA3E20F695D0964 /* AppCenterCrashes.framework */,
+				23905BA80D06B1D71BFFB0C57AF4C8BA /* Analytics */,
+				920FFBFEA2A63B576EB83D4A3D67BB19 /* Core */,
+				A9B80AB71BF32FD9E28F837CB6D0BF09 /* Crashes */,
+				0009956356796C7B23572A1566C0771E /* Distribute */,
+				D97C531E334608DB100C0D6BDE8A50E0 /* Support Files */,
 			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		87DCEE234FA24E2535BAFDBB6152FC7E /* Distribute */ = {
-			isa = PBXGroup;
-			children = (
-				AEDB9C4F82F62EDA2ECF2FD961518886 /* Frameworks */,
-				AD6AC8A0E3269591262E3EE0BF87ACFC /* Resources */,
-			);
-			name = Distribute;
+			name = AppCenter;
+			path = AppCenter;
 			sourceTree = "<group>";
 		};
 		8CB0F78E486F7BB6A11935EF460908ED /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				674E8058D25644AE5BC038A200AFACEB /* AppCenter */,
+				790CCA443824ABC2CC4BB487A3F975BF /* AppCenter */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		A8301372F024E7AE8F0CA6E150CB0A1A /* Analytics */ = {
+		8EA4458BADE560AE325E65B932F7DE5A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				C15992DACF034F8ACF33713C9F04C700 /* Frameworks */,
-			);
-			name = Analytics;
-			sourceTree = "<group>";
-		};
-		AD6AC8A0E3269591262E3EE0BF87ACFC /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				AF0422E17D2614F433C9427625FC4004 /* cs.lproj */,
-				E0673177C7579FA72B3B3E4585F250F9 /* de.lproj */,
-				DA9E4F899FAB0D38D3CD6F274395F714 /* en.lproj */,
-				99CC1A46E0B7BE99522F0B885002A72F /* es.lproj */,
-				9153C5DFC72DC18E161EAB05E6FB96CD /* fr.lproj */,
-				96C096D2D135FC765CF1A02896DCA10A /* it.lproj */,
-				A8175CB2009FD47737D74F487D724BC8 /* ja.lproj */,
-				A9C0929E5366D63CCF64D4685A77B1FB /* ko.lproj */,
-				AB8D3CD8B130E54D7CA9F75CC25CA436 /* pl.lproj */,
-				43DBD90BFDF09BCB549083DCC5A43ED7 /* pt.lproj */,
-				299C8417173FD87C62785263842F707F /* ru.lproj */,
-				643B25B1AF4C96A58544583EC27E4CF2 /* tr.lproj */,
-				619A9E78DFBA5418CD32F494337BFDD7 /* zh-Hans.lproj */,
-				F42E41449455730624E76D230142DB01 /* zh-Hant.lproj */,
+				E10AEEC7B978CC45DC569C062052775C /* cs.lproj */,
+				BD5ACB78DE45772E1D25C750556DC9B8 /* de.lproj */,
+				0F97F417F8CEF438686867BD74898F2D /* en.lproj */,
+				D0CEE4CF4D69DE2B8B4856A0275B532B /* es.lproj */,
+				98CF91B44A4B9CA498D454E20A450391 /* fr.lproj */,
+				F3EC11EDB9F5951172DD1054D94D2AF0 /* it.lproj */,
+				5B07655523CDB4CDA7D4A197D110F159 /* ja.lproj */,
+				9ADE13C09F85C762049A9D59D8417977 /* ko.lproj */,
+				66FC55F5B2E8569568561FC1CDEA0989 /* pl.lproj */,
+				C8D0F211F2DA0342F974E85C0139D508 /* pt.lproj */,
+				8D60D24E9C3C295215262C25F4D7C9F3 /* ru.lproj */,
+				E219D1D8FB76AE857173C2356C2E64DC /* tr.lproj */,
+				0FCFB443211DAB39B667B4C3A3DCE70A /* zh-Hans.lproj */,
+				60C85E0433E430584E68A778CD989B79 /* zh-Hant.lproj */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		AEDB9C4F82F62EDA2ECF2FD961518886 /* Frameworks */ = {
+		920FFBFEA2A63B576EB83D4A3D67BB19 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				AD37EA4ACBF9D84FC7B4A43208C7E822 /* AppCenterDistribute.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		C15992DACF034F8ACF33713C9F04C700 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				64D527EB69D0C64F988681EF86987254 /* AppCenterAnalytics.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		CD4C8F177FBCCB44DA4083E67A1E2B19 /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				EA054D09913039C739BD4DEC0BC4FB86 /* Frameworks */,
+				749FADD90C38F73499DFBFD5BE34E379 /* Frameworks */,
 			);
 			name = Core;
+			sourceTree = "<group>";
+		};
+		A9B80AB71BF32FD9E28F837CB6D0BF09 /* Crashes */ = {
+			isa = PBXGroup;
+			children = (
+				F9F8C173D77D37FD10E5FCA0B9722B6E /* Frameworks */,
+			);
+			name = Crashes;
 			sourceTree = "<group>";
 		};
 		CF1408CF629C7361332E53B88F7BD30C = {
@@ -285,10 +268,30 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		EA054D09913039C739BD4DEC0BC4FB86 /* Frameworks */ = {
+		D97C531E334608DB100C0D6BDE8A50E0 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				4CC4BED290E7655E9892BCE90C51813A /* AppCenter.framework */,
+				428A44F0B618BBA1A3B7ACFB06B3A17D /* AppCenter-xcframeworks.sh */,
+				BAD31A57E21E915F29CF30B8E998A3AA /* AppCenter.debug.xcconfig */,
+				1B264324E0126A3349D3DB41164C22F2 /* AppCenter.release.xcconfig */,
+				98E03D914B96B542B1AEFBF0A95B963F /* ResourceBundle-AppCenterDistributeResources-AppCenter-Info.plist */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/AppCenter";
+			sourceTree = "<group>";
+		};
+		F9F8C173D77D37FD10E5FCA0B9722B6E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				93297D4B0DA3AA60D964186CDA7B935B /* AppCenterCrashes.xcframework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FA0A172D5D2D58CBAC64588B4F7785F1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				44BA1D1198470B8E0A8E693883C66ACF /* AppCenterAnalytics.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -328,11 +331,11 @@
 		};
 		FCD9915FE83842AE0201096155515772 /* AppCenter-AppCenterDistributeResources */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DCD16EF8D427CF054756D8826148C55E /* Build configuration list for PBXNativeTarget "AppCenter-AppCenterDistributeResources" */;
+			buildConfigurationList = C26635FAC64429988E0B6BDC8B729FD7 /* Build configuration list for PBXNativeTarget "AppCenter-AppCenterDistributeResources" */;
 			buildPhases = (
-				1934481F3EB2B7186B98ECF345FB3D0C /* Sources */,
-				B85DD20F0BDB1F6AFE9E7CBB321B383E /* Frameworks */,
-				5BB0DCCFA6381D6C2C6D9A36787FF907 /* Resources */,
+				42383175306994470F4E2234D5F8CF98 /* Sources */,
+				F7E6C63104DAD49A9291BD3A56F9A1AA /* Frameworks */,
+				F757A9EE5097618E133AE74F2678C0E7 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -350,7 +353,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1100;
-				LastUpgradeCheck = 1240;
+				LastUpgradeCheck = 1100;
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 10.0";
@@ -373,27 +376,6 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		5BB0DCCFA6381D6C2C6D9A36787FF907 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				00A9B967AE6141816B21D6231C78EDC2 /* cs.lproj in Resources */,
-				533122E2C753BA003652A85B1C5BB8B8 /* de.lproj in Resources */,
-				B81A7A779F7B6CF2CB58BE59E400117D /* en.lproj in Resources */,
-				D98557D9A55A7325B4A9DEFCA685A6F6 /* es.lproj in Resources */,
-				4A74AE34B5482312DBF405A5EE2479F4 /* fr.lproj in Resources */,
-				6490A21124D7E0339A55BAC714232E0B /* it.lproj in Resources */,
-				6AE248277BD56C20E85EEC77B3888B6C /* ja.lproj in Resources */,
-				BE4D6E1F9A8884F1F1BFB466551F21FB /* ko.lproj in Resources */,
-				01A9F35B313DBB2A844A1DFA984B7AA9 /* pl.lproj in Resources */,
-				B36CB23F392F0FE9F277AB23775EEC44 /* pt.lproj in Resources */,
-				9DB92D4E53FA736C5DBF87EB77D17880 /* ru.lproj in Resources */,
-				4902AF418C0280ADED83AE45A46DE306 /* tr.lproj in Resources */,
-				9D612FFA6B960B2956FE43E400EA72B0 /* zh-Hans.lproj in Resources */,
-				273C17156C7E7000CFB46F3137F23BFB /* zh-Hant.lproj in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		63662D811C1147E884434A2DDD91AD55 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -401,10 +383,51 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F757A9EE5097618E133AE74F2678C0E7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				02299A8908597E9701C95242CD45B651 /* cs.lproj in Resources */,
+				C9F5D062BB1FE507B39FEB4ACDE92F38 /* de.lproj in Resources */,
+				BD8B808D184A1B8F18C2C55179FE4EDB /* en.lproj in Resources */,
+				F7A5F111F88A4BA5FE38C5E50C09A055 /* es.lproj in Resources */,
+				59ED81C9699AB8D89DCABB151B3CB522 /* fr.lproj in Resources */,
+				81A230D98D5D8C552B48D711019B5BE5 /* it.lproj in Resources */,
+				B55CEDE25CBCBA5E5988953854B0752E /* ja.lproj in Resources */,
+				4A12984AA4CDDBE9BA816DA32BB0498F /* ko.lproj in Resources */,
+				5D35A262309625DB3C51F713D7CDA596 /* pl.lproj in Resources */,
+				C1A87451709304F8549F484614129045 /* pt.lproj in Resources */,
+				145FC024CA4456F544AC5A5E77138CD3 /* ru.lproj in Resources */,
+				5C35DAF683F404F98CED26268E7A2756 /* tr.lproj in Resources */,
+				239985C74299ABE75878DA7FA6A0BFD9 /* zh-Hans.lproj in Resources */,
+				6273321225FB50D721A2FE32CA4E7E45 /* zh-Hant.lproj in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		F1196C753F0BA4B1062264010402EF87 /* [CP] Copy XCFrameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/AppCenter/AppCenter-xcframeworks-input-files.xcfilelist",
+			);
+			name = "[CP] Copy XCFrameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/AppCenter/AppCenter-xcframeworks-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/AppCenter/AppCenter-xcframeworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
-		1934481F3EB2B7186B98ECF345FB3D0C /* Sources */ = {
+		42383175306994470F4E2234D5F8CF98 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -428,21 +451,72 @@
 			target = A3282A5B2437E609EEB85861D7ECE717 /* AppCenter */;
 			targetProxy = 33073B953F75C9A714BB6F4820AACD38 /* PBXContainerItemProxy */;
 		};
-		5B77361EDCC22BE2B8DA9A5EDA77EFDC /* PBXTargetDependency */ = {
+		2FE3A4764FFE0BE5140CD9B99113936E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "AppCenter-AppCenterDistributeResources";
 			target = FCD9915FE83842AE0201096155515772 /* AppCenter-AppCenterDistributeResources */;
-			targetProxy = 9C3CF7C29005B88106729CDC2FE4767F /* PBXContainerItemProxy */;
+			targetProxy = 167AE75E1C2B784A7ED519B528284671 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		0019E57DD707FD55C57425BD01E75198 /* Debug */ = {
+		065016BD2F00C8775F838CD961E51DC2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 962837DD26A04FF71EC1CF1EC237DD01 /* AppCenter.debug.xcconfig */;
+			baseConfigurationReference = 1B264324E0126A3349D3DB41164C22F2 /* AppCenter.release.xcconfig */;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/AppCenter";
+				IBSC_MODULE = AppCenter;
+				INFOPLIST_FILE = "Target Support Files/AppCenter/ResourceBundle-AppCenterDistributeResources-AppCenter-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				PRODUCT_NAME = AppCenterDistributeResources;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		3256A4E669D1A9542D8D50B8CCA44D06 /* Dogfood */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1B264324E0126A3349D3DB41164C22F2 /* AppCenter.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Dogfood;
+		};
+		3B4523A14B00FF2F0CBC38AA693B6ED6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1B264324E0126A3349D3DB41164C22F2 /* AppCenter.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		40265DD50C3B85DD5C98DA8436D04224 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BAD31A57E21E915F29CF30B8E998A3AA /* AppCenter.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -451,54 +525,6 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
-		};
-		47B086876AF1C476C4CAB2F2684BE1D0 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = D97CE617EC39C708B1C611BC6E8945A5 /* AppCenter.release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		4CA50B7ECD0BD65CB26BE27BE8469624 /* Dogfood */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = D97CE617EC39C708B1C611BC6E8945A5 /* AppCenter.release.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/AppCenter";
-				IBSC_MODULE = AppCenter;
-				INFOPLIST_FILE = "Target Support Files/AppCenter/ResourceBundle-AppCenterDistributeResources-AppCenter-Info.plist";
-				PRODUCT_NAME = AppCenterDistributeResources;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Dogfood;
-		};
-		4FEBC54CACF8417BD736994E6AB8DC93 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = D97CE617EC39C708B1C611BC6E8945A5 /* AppCenter.release.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/AppCenter";
-				IBSC_MODULE = AppCenter;
-				INFOPLIST_FILE = "Target Support Files/AppCenter/ResourceBundle-AppCenterDistributeResources-AppCenter-Info.plist";
-				PRODUCT_NAME = AppCenterDistributeResources;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
 		};
 		551C72DBAE832A452A341A50CB024CC9 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -516,6 +542,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-FluentUI.Demo/Pods-FluentUI.Demo-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -553,6 +580,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-FluentUI.Demo/Pods-FluentUI.Demo-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -570,6 +598,22 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		85D7557AF551D6C33521E3C4AB2A83A1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BAD31A57E21E915F29CF30B8E998A3AA /* AppCenter.debug.xcconfig */;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/AppCenter";
+				IBSC_MODULE = AppCenter;
+				INFOPLIST_FILE = "Target Support Files/AppCenter/ResourceBundle-AppCenterDistributeResources-AppCenter-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				PRODUCT_NAME = AppCenterDistributeResources;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
 			};
 			name = Debug;
 		};
@@ -636,21 +680,6 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				SYMROOT = "${SRCROOT}/../build";
-			};
-			name = Debug;
-		};
-		9D331F828A1EDDA93521D3B0AAD90EDF /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 962837DD26A04FF71EC1CF1EC237DD01 /* AppCenter.debug.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/AppCenter";
-				IBSC_MODULE = AppCenter;
-				INFOPLIST_FILE = "Target Support Files/AppCenter/ResourceBundle-AppCenterDistributeResources-AppCenter-Info.plist";
-				PRODUCT_NAME = AppCenterDistributeResources;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
 			};
 			name = Debug;
 		};
@@ -794,6 +823,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-FluentUI.Demo/Pods-FluentUI.Demo-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -815,19 +845,21 @@
 			};
 			name = Dogfood;
 		};
-		F74DCCF641079068DBD50AA51F8DB6ED /* Dogfood */ = {
+		EDBA0585193CC2393C976B71BD98DEA7 /* Dogfood */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D97CE617EC39C708B1C611BC6E8945A5 /* AppCenter.release.xcconfig */;
+			baseConfigurationReference = 1B264324E0126A3349D3DB41164C22F2 /* AppCenter.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/AppCenter";
+				IBSC_MODULE = AppCenter;
+				INFOPLIST_FILE = "Target Support Files/AppCenter/ResourceBundle-AppCenterDistributeResources-AppCenter-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				PRODUCT_NAME = AppCenterDistributeResources;
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = bundle;
 			};
 			name = Dogfood;
 		};
@@ -851,6 +883,16 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1E87968055FD31C8308CDCBBA1FA1CA3 /* Build configuration list for PBXAggregateTarget "AppCenter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				40265DD50C3B85DD5C98DA8436D04224 /* Debug */,
+				3256A4E669D1A9542D8D50B8CCA44D06 /* Dogfood */,
+				3B4523A14B00FF2F0CBC38AA693B6ED6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -871,22 +913,12 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5C36D55F51DE0B61CE524E6AD6A2CE17 /* Build configuration list for PBXAggregateTarget "AppCenter" */ = {
+		C26635FAC64429988E0B6BDC8B729FD7 /* Build configuration list for PBXNativeTarget "AppCenter-AppCenterDistributeResources" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0019E57DD707FD55C57425BD01E75198 /* Debug */,
-				F74DCCF641079068DBD50AA51F8DB6ED /* Dogfood */,
-				47B086876AF1C476C4CAB2F2684BE1D0 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		DCD16EF8D427CF054756D8826148C55E /* Build configuration list for PBXNativeTarget "AppCenter-AppCenterDistributeResources" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				9D331F828A1EDDA93521D3B0AAD90EDF /* Debug */,
-				4CA50B7ECD0BD65CB26BE27BE8469624 /* Dogfood */,
-				4FEBC54CACF8417BD736994E6AB8DC93 /* Release */,
+				85D7557AF551D6C33521E3C4AB2A83A1 /* Debug */,
+				EDBA0585193CC2393C976B71BD98DEA7 /* Dogfood */,
+				065016BD2F00C8775F838CD961E51DC2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
