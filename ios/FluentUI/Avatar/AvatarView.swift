@@ -258,7 +258,7 @@ open class AvatarView: UIView {
         }
     }
 
-    /// When true, the border color will be calculated using InitialView's ColorSet
+    /// When true, the border color will be calculated using InitialView's ColorSet excluding the Overflow AvatarView
     @objc open var shouldGenerateBorderColor: Bool = false {
         didSet {
             if oldValue != shouldGenerateBorderColor {

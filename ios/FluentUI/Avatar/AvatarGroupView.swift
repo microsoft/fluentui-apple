@@ -41,7 +41,7 @@ open class AvatarGroupView: UIView {
         }
     }
 
-    /// Set to true to generate border colors from InitialView ColorSet
+    /// Set to true to generate border colors from InitialView ColorSet excluding the Overflow AvatarView
     @objc open var shouldGenerateBorderColor: Bool = false {
         didSet {
             if oldValue != shouldGenerateBorderColor {
