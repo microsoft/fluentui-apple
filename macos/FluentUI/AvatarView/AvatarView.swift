@@ -107,14 +107,8 @@ open class AvatarView: NSView {
 
 			contactImageView.image = contactImage
 
-			// Update our display style
-			if contactImage == nil {
-				displayStyle = .initials
-			} else {
-				displayStyle = .image
-				setAccessibilityRole(.image)
-				setAccessibilityElement(true)
-			}
+			// Update our display style and content
+			updateAvatarViewContents()
 		}
 	}
 
