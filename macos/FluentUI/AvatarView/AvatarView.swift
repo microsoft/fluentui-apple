@@ -168,6 +168,17 @@ open class AvatarView: NSView {
 		}
 	}
 
+	/// Set to true to not have inside gap between content of the avatarView to its border
+	@objc public var hideInsideGapForBorder: Bool = false {
+		didSet {
+			guard oldValue != hideInsideGapForBorder else {
+				return
+			}
+
+			updateHeight()
+		}
+	}
+
 	/// The width constraint giving this view its size
 	private var widthConstraint: NSLayoutConstraint?
 
@@ -291,8 +302,8 @@ open class AvatarView: NSView {
 
 		// Replace all existing subviews with the proper ones, ensuring the correct z-ordering
 		subviews = [
-			borderView,
-			contentView
+			contentView,
+			borderView
 		]
 
 		let diameter = diameterForContentCircle()
@@ -364,7 +375,9 @@ open class AvatarView: NSView {
 	}
 
 	private func diameterForContentCircle() -> CGFloat {
-		return hasBorder ? avatarSize - (AvatarView.borderWidth * 2) - (AvatarView.contentInset * 2) : avatarSize
+		// When showing the border but there isn't inside gap between contentView and the borderView,
+		// making the content circle exactly the size of avatarSize - (AvatarView.borderWidth * 2) may cause pixel gaps in the cicle edges
+		return hasBorder && !hideInsideGapForBorder ? avatarSize - (AvatarView.borderWidth * 2) - (AvatarView.contentInset * 2) : avatarSize
 	}
 
 	/// Get the ColorSet associated with a given index
