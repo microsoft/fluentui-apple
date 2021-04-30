@@ -7,50 +7,55 @@ import UIKit
 
 @objc(MSFCommandingItem)
 open class CommandingItem: NSObject {
+    @objc public enum CommandType: Int {
+        case simple // Calls action on tap without modifying the item
+        case toggle // Toggles isOn on tap before calling action
+    }
+
+    @objc public var action: (CommandingItem) -> Void
+
     @objc public let image: UIImage
+
     @objc public let selectedImage: UIImage?
+
     @objc public let title: String
+
     @objc public let subtitle: String?
-    @objc public var selected: Bool {
+
+    @objc public var isOn: Bool {
         didSet {
-            if selected != oldValue {
-                delegate?.commandingItem(self, didSetSelectedTo: selected)
+            if isOn != oldValue {
+                handlePropertyChange?(self, .isOn)
             }
         }
     }
 
-    @objc public var enabled: Bool {
+    @objc public var isEnabled: Bool {
         didSet {
-            if enabled != oldValue {
-                delegate?.commandingItem(self, didSetEnabledTo: enabled)
+            if isEnabled != oldValue {
+                handlePropertyChange?(self, .isEnabled)
             }
         }
     }
 
-    @objc public var action: () -> Void
+    @objc public let commandType: CommandType
 
-    @objc public init(title: String, image: UIImage, action: @escaping () -> Void, selectedImage: UIImage? = nil, subtitle: String? = nil, selected: Bool = false, enabled: Bool = true) {
+    @objc public init(title: String, image: UIImage, action: @escaping (CommandingItem) -> Void, selectedImage: UIImage? = nil, subtitle: String? = nil, isSelected: Bool = false, isEnabled: Bool = true, commandType: CommandType = .simple) {
         self.title = title
         self.action = action
         self.image = image
         self.selectedImage = selectedImage
         self.subtitle = subtitle
-        self.selected = selected
-        self.enabled = enabled
+        self.isOn = isSelected
+        self.isEnabled = isEnabled
+        self.commandType = commandType
         super.init()
     }
 
-    var itemLocation: CommandingItemLocation?
-    weak var delegate: CommandingItemDelegate?
-}
+    var handlePropertyChange: ((_ item: CommandingItem, _ property: MutableProperty) -> Void)?
 
-enum CommandingItemLocation {
-    case hero
-    case grid
-    case list
-}
-
-protocol CommandingItemDelegate: class {
-    func commandingItem(_ item: CommandingItem, didSetSelectedTo value: Bool)
-    func commandingItem(_ item: CommandingItem, didSetEnabledTo value: Bool)
+    enum MutableProperty {
+        case isOn
+        case isEnabled
+    }
 }

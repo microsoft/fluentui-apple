@@ -152,13 +152,11 @@
 		7DC2FB2824C0ED1600367A55 /* TableViewCellFileAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */; };
 		7DC2FB2D24D209E800367A55 /* Presence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2C24D209E300367A55 /* Presence.swift */; };
 		8035CAAB2633A442007B3FD1 /* BottomBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CAA92633A442007B3FD1 /* BottomBarView.swift */; };
-		8035CAAC2633A442007B3FD1 /* CommandingBottomSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CAAA2633A442007B3FD1 /* CommandingBottomSheetController.swift */; };
+		8035CAAC2633A442007B3FD1 /* BottomCommandingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CAAA2633A442007B3FD1 /* BottomCommandingController.swift */; };
 		8035CAB12633A4DA007B3FD1 /* BottomBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CAA92633A442007B3FD1 /* BottomBarView.swift */; };
-		8035CAB62633A4DB007B3FD1 /* CommandingBottomSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CAAA2633A442007B3FD1 /* CommandingBottomSheetController.swift */; };
+		8035CAB62633A4DB007B3FD1 /* BottomCommandingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CAAA2633A442007B3FD1 /* BottomCommandingController.swift */; };
 		8035CACB26377C14007B3FD1 /* CommandingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CACA26377C14007B3FD1 /* CommandingItem.swift */; };
 		8035CAD026377C17007B3FD1 /* CommandingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CACA26377C14007B3FD1 /* CommandingItem.swift */; };
-		8035CAD62637A76E007B3FD1 /* BottomBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CAD52637A76E007B3FD1 /* BottomBarItemView.swift */; };
-		8035CAD72637A76E007B3FD1 /* BottomBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CAD52637A76E007B3FD1 /* BottomBarItemView.swift */; };
 		8035CADD2638E435007B3FD1 /* CommandingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CADC2638E435007B3FD1 /* CommandingSection.swift */; };
 		8035CADE2638E435007B3FD1 /* CommandingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CADC2638E435007B3FD1 /* CommandingSection.swift */; };
 		80AECBD92629F18E005AF2F3 /* BottomSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AECBD82629F18E005AF2F3 /* BottomSheetController.swift */; };
@@ -350,9 +348,8 @@
 		7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellFileAccessoryView.swift; sourceTree = "<group>"; };
 		7DC2FB2C24D209E300367A55 /* Presence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presence.swift; sourceTree = "<group>"; };
 		8035CAA92633A442007B3FD1 /* BottomBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomBarView.swift; sourceTree = "<group>"; };
-		8035CAAA2633A442007B3FD1 /* CommandingBottomSheetController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandingBottomSheetController.swift; sourceTree = "<group>"; };
+		8035CAAA2633A442007B3FD1 /* BottomCommandingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomCommandingController.swift; sourceTree = "<group>"; };
 		8035CACA26377C14007B3FD1 /* CommandingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandingItem.swift; sourceTree = "<group>"; };
-		8035CAD52637A76E007B3FD1 /* BottomBarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomBarItemView.swift; sourceTree = "<group>"; };
 		8035CADC2638E435007B3FD1 /* CommandingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandingSection.swift; sourceTree = "<group>"; };
 		80AECBD82629F18E005AF2F3 /* BottomSheetController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomSheetController.swift; sourceTree = "<group>"; };
 		80AECBF1262FC34E005AF2F3 /* BottomSheetPassthroughView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetPassthroughView.swift; sourceTree = "<group>"; };
@@ -739,8 +736,7 @@
 				80AECBD82629F18E005AF2F3 /* BottomSheetController.swift */,
 				80AECBF1262FC34E005AF2F3 /* BottomSheetPassthroughView.swift */,
 				8035CAA92633A442007B3FD1 /* BottomBarView.swift */,
-				8035CAD52637A76E007B3FD1 /* BottomBarItemView.swift */,
-				8035CAAA2633A442007B3FD1 /* CommandingBottomSheetController.swift */,
+				8035CAAA2633A442007B3FD1 /* BottomCommandingController.swift */,
 				8035CACA26377C14007B3FD1 /* CommandingItem.swift */,
 				8035CADC2638E435007B3FD1 /* CommandingSection.swift */,
 			);
@@ -1428,7 +1424,7 @@
 				5314E14325F016860099271A /* CardTransitionAnimator.swift in Sources */,
 				5314E0F825F012CB0099271A /* LargeTitleView.swift in Sources */,
 				8035CAB12633A4DA007B3FD1 /* BottomBarView.swift in Sources */,
-				8035CAB62633A4DB007B3FD1 /* CommandingBottomSheetController.swift in Sources */,
+				8035CAB62633A4DB007B3FD1 /* BottomCommandingController.swift in Sources */,
 				5314E13725F016370099271A /* PopupMenuProtocols.swift in Sources */,
 				5314E19725F019650099271A /* TabBarItem.swift in Sources */,
 				5314E1BB25F01B070099271A /* TouchForwardingView.swift in Sources */,
@@ -1486,7 +1482,6 @@
 				5314E18C25F0195C0099271A /* ShimmerLinesViewAppearance.swift in Sources */,
 				5314E1A125F01A7C0099271A /* TableViewCellFileAccessoryView.swift in Sources */,
 				5314E1D625F01E4A0099271A /* SearchBar.swift in Sources */,
-				8035CAD72637A76E007B3FD1 /* BottomBarItemView.swift in Sources */,
 				5314E0A825F010070099271A /* DrawerPresentationController.swift in Sources */,
 				5314E06425F00EFD0099271A /* CalendarViewMonthBannerView.swift in Sources */,
 				5314E18E25F0195C0099271A /* ShimmerLinesView.swift in Sources */,
@@ -1577,7 +1572,7 @@
 				C708B04C260A8696007190FA /* SegmentItem.swift in Sources */,
 				FD41C88622DD13230086F899 /* ShyHeaderController.swift in Sources */,
 				8035CAAB2633A442007B3FD1 /* BottomBarView.swift in Sources */,
-				8035CAAC2633A442007B3FD1 /* CommandingBottomSheetController.swift in Sources */,
+				8035CAAC2633A442007B3FD1 /* BottomCommandingController.swift in Sources */,
 				537315B325438B15001FD14C /* iOS13_4_compatibility.swift in Sources */,
 				FDFB8AF121361C9D0046850A /* CalendarViewDayMonthCell.swift in Sources */,
 				B47B58B822F8E5840078DE38 /* PeoplePicker.swift in Sources */,
@@ -1635,7 +1630,6 @@
 				FD9DA7B5232C33A80013E41B /* UIViewController+Navigation.swift in Sources */,
 				FD7DF05E21FA7FC100857267 /* TooltipView.swift in Sources */,
 				A5CEC16F20D98F340016922A /* Fonts.swift in Sources */,
-				8035CAD62637A76E007B3FD1 /* BottomBarItemView.swift in Sources */,
 				FD599D0C2134AB1E008845EE /* CalendarViewDataSource.swift in Sources */,
 				A5B87B04211E22B70038C37C /* DimmingView.swift in Sources */,
 				A5961F9F218A256B00E2A506 /* PopupMenuItem.swift in Sources */,

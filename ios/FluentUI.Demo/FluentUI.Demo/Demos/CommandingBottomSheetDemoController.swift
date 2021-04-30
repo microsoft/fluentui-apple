@@ -25,23 +25,33 @@ class CommandingBottomSheetDemoController: DemoController {
     }
 
     private func setupBottomSheet() {
-        let commandingBottomSheetVC = CommandingBottomSheetController()
+        let commandingBottomSheetVC = BottomCommandingController()
         commandingBottomSheetVC.heroItems = [
-            CommandingItem(title: "Item 1", image: UIImage(named: "Home_24")!, action: {}, selectedImage: UIImage(named: "Home_Selected_24")!),
-            CommandingItem(title: "Item 2", image: UIImage(named: "Home_24")!, action: {}, selectedImage: UIImage(named: "Home_Selected_24")!),
-            CommandingItem(title: "Item 3", image: UIImage(named: "Home_24")!, action: {}, selectedImage: UIImage(named: "Home_Selected_24")!),
-            CommandingItem(title: "Item 4", image: UIImage(named: "Home_24")!, action: {}, selectedImage: UIImage(named: "Home_Selected_24")!),
-            CommandingItem(title: "Item 5", image: UIImage(named: "Home_24")!, action: {}, selectedImage: UIImage(named: "Home_Selected_24")!)
+            CommandingItem(title: "Item 1", image: UIImage(named: "Home_24")!, action: { _ in }, selectedImage: UIImage(named: "Home_Selected_24")!),
+            CommandingItem(title: "Item 2", image: UIImage(named: "Home_24")!, action: { _ in }, selectedImage: UIImage(named: "Home_Selected_24")!),
+            CommandingItem(title: "Item 3", image: UIImage(named: "Home_24")!, action: { _ in }, selectedImage: UIImage(named: "Home_Selected_24")!),
+            CommandingItem(title: "Item 4", image: UIImage(named: "Home_24")!, action: { _ in }, selectedImage: UIImage(named: "Home_Selected_24")!),
+            CommandingItem(title: "Item 5", image: UIImage(named: "Home_24")!, action: { _ in }, selectedImage: UIImage(named: "Home_Selected_24")!)
         ]
-        commandingBottomSheetVC.commandSections = [
+
+        commandingBottomSheetVC.listCommandSections = [
             CommandingSection(title: "Section 1", items: [
-                CommandingItem(title: "Item 1", image: UIImage(named: "Home_24")!, action: {}),
-                CommandingItem(title: "Item 2", image: UIImage(named: "Home_24")!, action: {}),
-                CommandingItem(title: "Item 3", image: UIImage(named: "Home_24")!, action: {}),
-                CommandingItem(title: "Item 4", image: UIImage(named: "Home_24")!, action: {}),
-                CommandingItem(title: "Item 5", image: UIImage(named: "Home_24")!, action: {}),
-                CommandingItem(title: "Item 6", image: UIImage(named: "Home_24")!, action: {}),
-                CommandingItem(title: "Item 7", image: UIImage(named: "Home_24")!, action: {})
+                CommandingItem(title: "Item 1", image: UIImage(named: "Home_24")!, action: { _ in }),
+                CommandingItem(title: "Item 2", image: UIImage(named: "Home_24")!, action: { _ in }),
+                CommandingItem(title: "Item 3", image: UIImage(named: "Home_24")!, action: { _ in }),
+                CommandingItem(title: "Item 4", image: UIImage(named: "Home_24")!, action: { _ in }),
+                CommandingItem(title: "Item 5", image: UIImage(named: "Home_24")!, action: { _ in }),
+                CommandingItem(title: "Item 6", image: UIImage(named: "Home_24")!, action: { _ in }),
+                CommandingItem(title: "Item 7", image: UIImage(named: "Home_24")!, action: { _ in })
+            ]),
+            CommandingSection(title: "Section 2", items: [
+                CommandingItem(title: "Item 1", image: UIImage(named: "Home_24")!, action: { _ in }),
+                CommandingItem(title: "Item 2", image: UIImage(named: "Home_24")!, action: { _ in }),
+                CommandingItem(title: "Item 3", image: UIImage(named: "Home_24")!, action: { _ in }),
+                CommandingItem(title: "Item 4", image: UIImage(named: "Home_24")!, action: { _ in }),
+                CommandingItem(title: "Item 5", image: UIImage(named: "Home_24")!, action: { _ in }),
+                CommandingItem(title: "Item 6", image: UIImage(named: "Home_24")!, action: { _ in }),
+                CommandingItem(title: "Item 7", image: UIImage(named: "Home_24")!, action: { _ in })
             ])
         ]
 
