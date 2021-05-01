@@ -7,36 +7,35 @@ import UIKit
 
 public class BottomCommandingController: UIViewController {
 
-    public var heroItems: [CommandingItem] = [CommandingItem]() {
+    public var heroItems: [CommandingItem] = [] {
+        willSet {
+            clearAllItemViews(in: .heroSet)
+        }
         didSet {
             if heroItems.count > 5 {
                 assertionFailure("At most 5 hero commands are supported. Only the first 5 items will be used.")
                 heroItems = Array(heroItems.prefix(5))
             }
-            heroButtonWidthConstraints.removeAll()
-            heroCommandStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
-            for item in heroItems {
-                let tabItem = TabBarItem(title: item.title, image: item.image, selectedImage: item.selectedImage)
-                let itemView = TabBarItemView(item: tabItem, showsTitle: true)
-                itemView.alwaysShowTitleBelowImage = true
 
-                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHeroCommandTap(_:)))
-                itemView.addGestureRecognizer(tapGesture)
-
-                heroCommandStack.addArrangedSubview(itemView)
-
-                NSLayoutConstraint.activate([
-                    itemView.heightAnchor.constraint(equalToConstant: 48)
-                ])
-                heroButtonWidthConstraints.append(itemView.widthAnchor.constraint(equalToConstant: 96))
-
-                item.handlePropertyChange = handleItemPropertyChange(item:property:)
+            if isHeroCommandStackLoaded {
+                let newViews = heroItems.map { createAndBindHeroCommandView(with: $0) }
+                newViews.forEach { heroCommandStack.addArrangedSubview($0) }
             }
 
         }
     }
 
-    public var listCommandSections: [CommandingSection] = []
+    public var listCommandSections: [CommandingSection] = [] {
+        willSet {
+            clearAllItemViews(in: .list)
+        }
+        didSet {
+            if isTableViewLoaded {
+                // Item views are lazy loaded during UITableView cellForRowAt
+                tableView.reloadData()
+            }
+        }
+    }
 
     public override func loadView() {
         view = BottomSheetPassthroughView()
@@ -49,57 +48,35 @@ public class BottomCommandingController: UIViewController {
         }
     }
 
-    private lazy var heroCommandStack: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        stackView.distribution = .equalSpacing
-        return stackView
-    }()
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
 
-    private var heroButtonWidthConstraints: [NSLayoutConstraint] = []
+        if previousTraitCollection?.horizontalSizeClass != traitCollection.horizontalSizeClass {
+            if let previousTraits = previousTraitCollection {
+                if previousTraits.horizontalSizeClass == .compact {
+                    bottomSheetController?.willMove(toParent: nil)
+                    bottomSheetController?.removeFromParent()
+                    bottomSheetController?.view.removeFromSuperview()
+                    bottomSheetController = nil
+                } else if previousTraits.horizontalSizeClass == .regular {
+                    bottomBarView?.removeFromSuperview()
+                    bottomBarView = nil
+                }
+            }
 
-    private lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.separatorStyle = .none
-        tableView.alwaysBounceVertical = false
-        tableView.isAccessibilityElement = true
-        tableView.sectionFooterHeight = 0
-        tableView.backgroundColor = Colors.Table.background
-        tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
-        tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
-        tableView.delegate = self
-        tableView.dataSource = self
-        return tableView
-    }()
-
-    @objc private func handleHeroCommandTap(_ sender: UITapGestureRecognizer) {
-        guard let tabBarItemView = sender.view as? TabBarItemView else {
-            return
+            switch traitCollection.horizontalSizeClass {
+            case .compact:
+                setupBottomSheetLayout()
+            case .regular:
+                setupBottomBarLayout()
+            default:
+                break
+            }
         }
-
-        tabBarItemView.isSelected.toggle()
-    }
-
-    @objc private func handleMoreButtonTap(_ sender: UITapGestureRecognizer) {
-        let popoverContentVC = UIViewController()
-        popoverContentVC.view.addSubview(tableView)
-        popoverContentVC.modalPresentationStyle = .popover
-        popoverContentVC.popoverPresentationController?.sourceView = sender.view
-
-        NSLayoutConstraint.activate([
-            popoverContentVC.view.leadingAnchor.constraint(equalTo: tableView.leadingAnchor),
-            popoverContentVC.view.trailingAnchor.constraint(equalTo: tableView.trailingAnchor),
-            popoverContentVC.view.topAnchor.constraint(equalTo: tableView.topAnchor),
-            popoverContentVC.view.bottomAnchor.constraint(equalTo: tableView.bottomAnchor)
-        ])
-
-        present(popoverContentVC, animated: true)
     }
 
     private func setupBottomBarLayout() {
-        NSLayoutConstraint.activate(heroButtonWidthConstraints)
+        NSLayoutConstraint.activate(Array(heroButtonWidthConstraints))
 
         let bottomBarView = BottomBarView()
         bottomBarView.translatesAutoresizingMaskIntoConstraints = false
@@ -135,7 +112,7 @@ public class BottomCommandingController: UIViewController {
     }
 
     private func setupBottomSheetLayout() {
-        NSLayoutConstraint.deactivate(heroButtonWidthConstraints)
+        NSLayoutConstraint.deactivate(Array(heroButtonWidthConstraints))
         heroCommandStack.distribution = .fillEqually
 
         let commandStackContainer = UIView()
@@ -168,38 +145,127 @@ public class BottomCommandingController: UIViewController {
         bottomSheetController = sheetController
     }
 
-    private func handleItemPropertyChange(item: CommandingItem, property: CommandingItem.MutableProperty) {
-        guard let view = itemToViewMap[item] else {
+    private lazy var heroCommandStack: UIStackView = {
+        let itemViews = heroItems.map { createAndBindHeroCommandView(with: $0) }
+        let stackView = UIStackView(arrangedSubviews: itemViews)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.distribution = .equalSpacing
+
+        isHeroCommandStackLoaded = true
+        return stackView
+    }()
+
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.separatorStyle = .none
+        tableView.alwaysBounceVertical = false
+        tableView.isAccessibilityElement = true
+        tableView.sectionFooterHeight = 0
+        tableView.backgroundColor = Colors.Table.background
+        tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
+        tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
+        tableView.delegate = self
+        tableView.dataSource = self
+
+        isTableViewLoaded = true
+        return tableView
+    }()
+
+    private var isHeroCommandStackLoaded: Bool = false
+
+    private var isTableViewLoaded: Bool = false
+
+    @objc private func handleHeroCommandTap(_ sender: UITapGestureRecognizer) {
+        guard let tabBarItemView = sender.view as? TabBarItemView else {
             return
         }
 
-        switch property {
-        case .isEnabled:
-            let newValue = item.isEnabled
+        tabBarItemView.isSelected.toggle()
+    }
 
-            switch view {
-            case let tabBarItemView as TabBarItemView:
-                tabBarItemView.isEnabled = newValue
-            case let cell as TableViewCell:
-                cell.isEnabled = newValue
-            default:
-                break
+    @objc private func handleMoreButtonTap(_ sender: UITapGestureRecognizer) {
+        let popoverContentVC = UIViewController()
+        popoverContentVC.view.addSubview(tableView)
+        popoverContentVC.modalPresentationStyle = .popover
+        popoverContentVC.popoverPresentationController?.sourceView = sender.view
+
+        NSLayoutConstraint.activate([
+            popoverContentVC.view.leadingAnchor.constraint(equalTo: tableView.leadingAnchor),
+            popoverContentVC.view.trailingAnchor.constraint(equalTo: tableView.trailingAnchor),
+            popoverContentVC.view.topAnchor.constraint(equalTo: tableView.topAnchor),
+            popoverContentVC.view.bottomAnchor.constraint(equalTo: tableView.bottomAnchor)
+        ])
+
+        present(popoverContentVC, animated: true)
+    }
+
+    private func clearAllItemViews(in location: ItemLocation) {
+        switch location {
+        case .heroSet:
+            heroButtonWidthConstraints.removeAll()
+            heroCommandStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
+            heroItems.forEach {
+                itemToViewMap.removeValue(forKey: $0)
+                itemToLocationMap.removeValue(forKey: $0)
             }
-        case .isOn:
-            let newValue = item.isOn
-
-            switch view {
-            case let tabBarItemView as TabBarItemView:
-                tabBarItemView.isSelected = newValue
-            case let booleanCell as BooleanCell:
-                booleanCell.isOn = newValue
-            default:
-                break
+        case .list:
+            listCommandSections.forEach {
+                $0.items.forEach {
+                    itemToViewMap.removeValue(forKey: $0)
+                    itemToLocationMap.removeValue(forKey: $0)
+                }
             }
         }
     }
 
+    private func createAndBindHeroCommandView(with item: CommandingItem) -> UIView {
+        let tabItem = TabBarItem(title: item.title, image: item.image, selectedImage: item.selectedImage)
+        let itemView = TabBarItemView(item: tabItem, showsTitle: true)
+        itemView.alwaysShowTitleBelowImage = true
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHeroCommandTap(_:)))
+        itemView.addGestureRecognizer(tapGesture)
+
+        NSLayoutConstraint.activate([
+            itemView.heightAnchor.constraint(equalToConstant: 48)
+        ])
+        heroButtonWidthConstraints.insert(itemView.widthAnchor.constraint(equalToConstant: 96))
+
+        item.delegate = self
+        itemToViewMap[item] = itemView
+        itemToLocationMap[item] = .heroSet
+
+        return itemView
+    }
+
+    private func reloadView(for item: CommandingItem) {
+        guard let location = itemToLocationMap[item],
+              let staleView = itemToViewMap[item] else {
+            return
+        }
+
+        switch location {
+        case .heroSet:
+            if let stackIndex = heroCommandStack.arrangedSubviews.firstIndex(of: staleView) {
+                // TODO: remove width constraint
+
+                let newView = createAndBindHeroCommandView(with: item)
+                staleView.removeFromSuperview()
+                heroCommandStack.insertArrangedSubview(newView, at: stackIndex)
+            }
+        case .list:
+            break // TODO implement
+        }
+    }
+
+    // We need to toggle these because hero buttons use fixed width in the bottom bar and flexible width in the sheet.
+    private var heroButtonWidthConstraints: Set<NSLayoutConstraint> = []
+
     private var itemToViewMap: [CommandingItem: UIView] = [:]
+
+    private var itemToLocationMap: [CommandingItem: ItemLocation] = [:]
 
     private var bottomBarView: BottomBarView?
 
@@ -207,75 +273,18 @@ public class BottomCommandingController: UIViewController {
 
     private lazy var heroStackSpacers: [UIView] = [UIView(), UIView()]
 
-    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if previousTraitCollection?.horizontalSizeClass != traitCollection.horizontalSizeClass {
-            if let previousTraits = previousTraitCollection {
-                if previousTraits.horizontalSizeClass == .compact {
-                    bottomSheetController?.willMove(toParent: nil)
-                    bottomSheetController?.removeFromParent()
-                    bottomSheetController?.view.removeFromSuperview()
-                    bottomSheetController = nil
-                } else if previousTraits.horizontalSizeClass == .regular {
-                    bottomBarView?.removeFromSuperview()
-                    bottomBarView = nil
-                }
-            }
-
-            switch traitCollection.horizontalSizeClass {
-            case .compact:
-                setupBottomSheetLayout()
-            case .regular:
-                setupBottomBarLayout()
-            default:
-                break
-            }
-        }
+    private enum ItemLocation {
+        case heroSet
+        case list
     }
-//
-//    private enum ItemLocation {
-//        case hero
-//        case grid
-//        case list
-//    }
+
+    // TODO: Use this.
+    private struct ItemBinding {
+        let item: CommandingItem
+        let view: UIView
+        var heroCommandWidthConstraint: NSLayoutConstraint?
+    }
 }
-//
-//extension BottomCommandingController: CommandingItemDelegate {
-//    func commandingItem(_ item: CommandingItem, didChangeEnabledFrom oldValue: Bool) {
-//        if oldValue != item.isEnabled {
-//            guard let view = itemToViewMap[item] else {
-//                return
-//            }
-//
-//            switch view {
-//            case let tabBarItemView as TabBarItemView:
-//                tabBarItemView.isEnabled = item.isEnabled
-//            case let cell as TableViewCell:
-//                cell.isEnabled = item.isEnabled
-//            default:
-//                break
-//            }
-//        }
-//    }
-//
-//    func commandingItem(_ item: CommandingItem, didChangeOnFrom oldValue: Bool) {
-//        if oldValue != item.isOn {
-//            guard let view = itemToViewMap[item] else {
-//                return
-//            }
-//
-//            switch view {
-//            case let tabBarItemView as TabBarItemView:
-//                tabBarItemView.isSelected = item.isOn
-//            case let cell as TableViewCell:
-////                cell.isEnabled = item.isEnabled
-//            default:
-//                break
-//            }
-//        }
-//    }
-//}
 
 extension BottomCommandingController: UITableViewDataSource {
     public func numberOfSections(in tableView: UITableView) -> Int {
@@ -300,6 +309,7 @@ extension BottomCommandingController: UITableViewDataSource {
         cell.bottomSeparatorType = .none
         cell.isEnabled = item.isEnabled
 
+        itemToViewMap[item] = cell
         return cell
     }
 }
@@ -318,6 +328,68 @@ extension BottomCommandingController: UITableViewDelegate {
         }
 
         return header
+    }
+}
+
+extension BottomCommandingController: CommandingItemDelegate {
+    func commandingItem(_ item: CommandingItem, didChangeTitleFrom oldValue: String) {
+        reloadView(for: item)
+    }
+
+    func commandingItem(_ item: CommandingItem, didChangeImageFrom oldValue: UIImage) {
+        reloadView(for: item)
+    }
+
+    func commandingItem(_ item: CommandingItem, didChangeSelectedImageFrom oldValue: UIImage?) {
+        reloadView(for: item)
+    }
+
+    func commandingItem(_ item: CommandingItem, didChangeCommandTypeFrom oldValue: CommandingItem.CommandType) {
+        reloadView(for: item)
+    }
+
+    func commandingItem(_ item: CommandingItem, didChangeEnabledFrom oldValue: Bool) {
+        if oldValue != item.isEnabled {
+            guard let view = itemToViewMap[item] else {
+                return
+            }
+            let newValue = item.isEnabled
+
+            switch view {
+            case let tabBarItemView as TabBarItemView:
+                if tabBarItemView.isEnabled != newValue {
+                    tabBarItemView.isEnabled = newValue
+                }
+            case let cell as TableViewCell:
+                if cell.isEnabled != newValue {
+                    cell.isEnabled = item.isEnabled
+                }
+            default:
+                break
+            }
+        }
+    }
+
+    func commandingItem(_ item: CommandingItem, didChangeOnFrom oldValue: Bool) {
+        if oldValue != item.isOn {
+            guard let view = itemToViewMap[item] else {
+                return
+            }
+            let newValue = item.isOn
+
+            switch view {
+            case let tabBarItemView as TabBarItemView:
+                if tabBarItemView.isSelected != newValue {
+                    tabBarItemView.isSelected = newValue
+                }
+            case let booleanCell as BooleanCell:
+                if booleanCell.isOn != newValue {
+                    booleanCell.isOn = newValue
+                }
+            default:
+                break
+            }
+        }
     }
 }
 
