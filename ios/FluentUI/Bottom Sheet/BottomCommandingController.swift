@@ -76,7 +76,8 @@ public class BottomCommandingController: UIViewController {
     }
 
     private func setupBottomBarLayout() {
-        NSLayoutConstraint.activate(Array(heroButtonWidthConstraints))
+        let heroCommandWidthConstraints = heroItems.compactMap { itemToBindingMap[$0]?.heroCommandWidthConstraint }
+        NSLayoutConstraint.activate(heroCommandWidthConstraints)
 
         let bottomBarView = BottomBarView()
         bottomBarView.translatesAutoresizingMaskIntoConstraints = false
@@ -112,7 +113,8 @@ public class BottomCommandingController: UIViewController {
     }
 
     private func setupBottomSheetLayout() {
-        NSLayoutConstraint.deactivate(Array(heroButtonWidthConstraints))
+        let heroCommandWidthConstraints = heroItems.compactMap { itemToBindingMap[$0]?.heroCommandWidthConstraint }
+        NSLayoutConstraint.deactivate(heroCommandWidthConstraints)
         heroCommandStack.distribution = .fillEqually
 
         let commandStackContainer = UIView()
@@ -204,20 +206,31 @@ public class BottomCommandingController: UIViewController {
     private func clearAllItemViews(in location: ItemLocation) {
         switch location {
         case .heroSet:
-            heroButtonWidthConstraints.removeAll()
-            heroCommandStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
             heroItems.forEach {
-                itemToViewMap.removeValue(forKey: $0)
-                itemToLocationMap.removeValue(forKey: $0)
+                if let binding = itemToBindingMap[$0] {
+                    removeBinding(binding)
+                }
             }
+            heroCommandStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
         case .list:
             listCommandSections.forEach {
                 $0.items.forEach {
-                    itemToViewMap.removeValue(forKey: $0)
-                    itemToLocationMap.removeValue(forKey: $0)
+                    if let binding = itemToBindingMap[$0] {
+                        removeBinding(binding)
+                    }
                 }
             }
         }
+    }
+
+    private func removeBinding(_ binding: ItemBinding) {
+        itemToBindingMap.removeValue(forKey: binding.item)
+        viewToBindingMap.removeValue(forKey: binding.view)
+    }
+
+    private func addBinding(_ binding: ItemBinding) {
+        itemToBindingMap[binding.item] = binding
+        viewToBindingMap[binding.view] = binding
     }
 
     private func createAndBindHeroCommandView(with item: CommandingItem) -> UIView {
@@ -231,22 +244,22 @@ public class BottomCommandingController: UIViewController {
         NSLayoutConstraint.activate([
             itemView.heightAnchor.constraint(equalToConstant: 48)
         ])
-        heroButtonWidthConstraints.insert(itemView.widthAnchor.constraint(equalToConstant: 96))
+        let widthConstraint = itemView.widthAnchor.constraint(equalToConstant: 96)
 
         item.delegate = self
-        itemToViewMap[item] = itemView
-        itemToLocationMap[item] = .heroSet
+        let binding = ItemBinding(item: item, view: itemView, location: .heroSet, heroCommandWidthConstraint: widthConstraint)
+        addBinding(binding)
 
         return itemView
     }
 
     private func reloadView(for item: CommandingItem) {
-        guard let location = itemToLocationMap[item],
-              let staleView = itemToViewMap[item] else {
+        guard let binding = itemToBindingMap[item] else {
             return
         }
+        let staleView = binding.view
 
-        switch location {
+        switch binding.location {
         case .heroSet:
             if let stackIndex = heroCommandStack.arrangedSubviews.firstIndex(of: staleView) {
                 // TODO: remove width constraint
@@ -260,29 +273,24 @@ public class BottomCommandingController: UIViewController {
         }
     }
 
-    // We need to toggle these because hero buttons use fixed width in the bottom bar and flexible width in the sheet.
-    private var heroButtonWidthConstraints: Set<NSLayoutConstraint> = []
+    private var itemToBindingMap: [CommandingItem: ItemBinding] = [:]
 
-    private var itemToViewMap: [CommandingItem: UIView] = [:]
-
-    private var itemToLocationMap: [CommandingItem: ItemLocation] = [:]
+    private var viewToBindingMap: [UIView: ItemBinding] = [:]
 
     private var bottomBarView: BottomBarView?
 
     private var bottomSheetController: BottomSheetController?
-
-    private lazy var heroStackSpacers: [UIView] = [UIView(), UIView()]
 
     private enum ItemLocation {
         case heroSet
         case list
     }
 
-    // TODO: Use this.
     private struct ItemBinding {
         let item: CommandingItem
         let view: UIView
-        var heroCommandWidthConstraint: NSLayoutConstraint?
+        let location: ItemLocation
+        let heroCommandWidthConstraint: NSLayoutConstraint?
     }
 }
 
@@ -309,7 +317,8 @@ extension BottomCommandingController: UITableViewDataSource {
         cell.bottomSeparatorType = .none
         cell.isEnabled = item.isEnabled
 
-        itemToViewMap[item] = cell
+        let binding = ItemBinding(item: item, view: cell, location: .list, heroCommandWidthConstraint: nil)
+        addBinding(binding)
         return cell
     }
 }
@@ -350,7 +359,7 @@ extension BottomCommandingController: CommandingItemDelegate {
 
     func commandingItem(_ item: CommandingItem, didChangeEnabledFrom oldValue: Bool) {
         if oldValue != item.isEnabled {
-            guard let view = itemToViewMap[item] else {
+            guard let view = itemToBindingMap[item]?.view else {
                 return
             }
             let newValue = item.isEnabled
@@ -372,7 +381,7 @@ extension BottomCommandingController: CommandingItemDelegate {
 
     func commandingItem(_ item: CommandingItem, didChangeOnFrom oldValue: Bool) {
         if oldValue != item.isOn {
-            guard let view = itemToViewMap[item] else {
+            guard let view = itemToBindingMap[item]?.view else {
                 return
             }
             let newValue = item.isOn
