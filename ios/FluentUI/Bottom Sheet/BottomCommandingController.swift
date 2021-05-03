@@ -37,6 +37,8 @@ public class BottomCommandingController: UIViewController {
         }
     }
 
+    // MARK: - View building and layout
+
     public override func loadView() {
         view = BottomSheetPassthroughView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -156,11 +158,10 @@ public class BottomCommandingController: UIViewController {
 
     private func makeBottomSheetContent(headerView: UIView, expandedContentView: UIView) -> UIView {
         let view = UIView()
-        headerView.translatesAutoresizingMaskIntoConstraints = false
-        expandedContentView.translatesAutoresizingMaskIntoConstraints = false
-
         let separator = Separator()
         separator.translatesAutoresizingMaskIntoConstraints = false
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        expandedContentView.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(headerView)
         view.addSubview(expandedContentView)
@@ -190,12 +191,6 @@ public class BottomCommandingController: UIViewController {
             moreButtonView.isHidden = !isExpandable
         }
     }
-
-    private var bottomBarView: UIView?
-
-    private var bottomSheetController: BottomSheetController?
-
-    private var bottomSheetHeroStackTopConstraint: NSLayoutConstraint?
 
     private lazy var moreButtonView: UIView = {
         let moreButtonItem = TabBarItem(title: Constants.BottomBar.moreButtonTitle, image: Constants.BottomBar.moreButtonIcon ?? UIImage())
@@ -240,6 +235,12 @@ public class BottomCommandingController: UIViewController {
         return tableView
     }()
 
+    private var bottomBarView: UIView?
+
+    private var bottomSheetController: BottomSheetController?
+
+    private var bottomSheetHeroStackTopConstraint: NSLayoutConstraint?
+
     private var isHeroCommandStackLoaded: Bool = false
 
     private var isTableViewLoaded: Bool = false
@@ -254,12 +255,21 @@ public class BottomCommandingController: UIViewController {
 
     private var bottomSheetHeroStackHeight: CGFloat { Constants.heroButtonHeight + Constants.BottomSheet.heroStackBottomMargin + bottomSheetHeroStackTopMargin }
 
+    // MARK: - Command tap handling
+
     @objc private func handleHeroCommandTap(_ sender: UITapGestureRecognizer) {
-        guard let tabBarItemView = sender.view as? TabBarItemView else {
+        guard let tabBarItemView = sender.view as? TabBarItemView, let binding = viewToBindingMap[tabBarItemView] else {
             return
         }
 
-        tabBarItemView.isSelected.toggle()
+        switch binding.item.commandType {
+        case .toggle:
+            tabBarItemView.isSelected.toggle()
+            binding.item.isOn = tabBarItemView.isSelected
+            fallthrough
+        case .simple:
+            binding.item.action(binding.item)
+        }
     }
 
     @objc private func handleMoreButtonTap(_ sender: UITapGestureRecognizer) {
@@ -277,6 +287,8 @@ public class BottomCommandingController: UIViewController {
 
         present(popoverContentVC, animated: true)
     }
+
+    // MARK: - Item <-> View Binding
 
     private func clearAllItemViews(in location: ItemLocation) {
         switch location {
@@ -461,6 +473,15 @@ extension BottomCommandingController: UITableViewDelegate {
         }
 
         return header
+    }
+
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath), let binding = viewToBindingMap[cell] else {
+            return
+        }
+
+        binding.item.action(binding.item)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
