@@ -7,6 +7,7 @@ import UIKit
 
 public class BottomCommandingController: UIViewController {
 
+    /// Items to be displayed in the hero section
     public var heroItems: [CommandingItem] = [] {
         willSet {
             clearAllItemViews(in: .heroSet)
@@ -24,7 +25,8 @@ public class BottomCommandingController: UIViewController {
         }
     }
 
-    public var listCommandSections: [CommandingSection] = [] {
+    /// Sections with items to be displayed in the expanded list section
+    public var expandedListSections: [CommandingSection] = [] {
         willSet {
             clearAllItemViews(in: .list)
         }
@@ -184,9 +186,9 @@ public class BottomCommandingController: UIViewController {
 
     private func updateExpandability() {
         if isInSheetMode {
+            bottomSheetController?.collapsedContentHeight = bottomSheetHeroStackHeight
             bottomSheetController?.isExpandable = isExpandable
             bottomSheetHeroStackTopConstraint?.constant = bottomSheetHeroStackTopMargin
-            bottomSheetController?.collapsedContentHeight = bottomSheetHeroStackHeight
         } else {
             moreButtonView.isHidden = !isExpandable
         }
@@ -247,7 +249,7 @@ public class BottomCommandingController: UIViewController {
 
     private var isInSheetMode: Bool { bottomSheetController != nil }
 
-    private var isExpandable: Bool { listCommandSections.count > 0 }
+    private var isExpandable: Bool { expandedListSections.count > 0 }
 
     private var bottomSheetHeroStackTopMargin: CGFloat {
         isExpandable ? Constants.BottomSheet.heroStackExpandableTopMargin : Constants.BottomSheet.heroStackNonExpandableTopMargin
@@ -290,6 +292,16 @@ public class BottomCommandingController: UIViewController {
 
     // MARK: - Item <-> View Binding
 
+    private func addBinding(_ binding: ItemBinding) {
+        itemToBindingMap[binding.item] = binding
+        viewToBindingMap[binding.view] = binding
+    }
+
+    private func removeBinding(_ binding: ItemBinding) {
+        itemToBindingMap.removeValue(forKey: binding.item)
+        viewToBindingMap.removeValue(forKey: binding.view)
+    }
+
     private func clearAllItemViews(in location: ItemLocation) {
         switch location {
         case .heroSet:
@@ -300,7 +312,7 @@ public class BottomCommandingController: UIViewController {
             }
             heroCommandStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
         case .list:
-            listCommandSections.forEach {
+            expandedListSections.forEach {
                 $0.items.forEach {
                     if let binding = itemToBindingMap[$0] {
                         removeBinding(binding)
@@ -310,20 +322,11 @@ public class BottomCommandingController: UIViewController {
         }
     }
 
-    private func removeBinding(_ binding: ItemBinding) {
-        itemToBindingMap.removeValue(forKey: binding.item)
-        viewToBindingMap.removeValue(forKey: binding.view)
-    }
-
-    private func addBinding(_ binding: ItemBinding) {
-        itemToBindingMap[binding.item] = binding
-        viewToBindingMap[binding.view] = binding
-    }
-
     private func createAndBindHeroCommandView(with item: CommandingItem) -> UIView {
         let tabItem = TabBarItem(title: item.title, image: item.image, selectedImage: item.selectedImage)
         let itemView = TabBarItemView(item: tabItem, showsTitle: true)
         itemView.alwaysShowTitleBelowImage = true
+        itemView.numberOfTitleLines = 1
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHeroCommandTap(_:)))
         itemView.addGestureRecognizer(tapGesture)
@@ -432,12 +435,12 @@ public class BottomCommandingController: UIViewController {
 
 extension BottomCommandingController: UITableViewDataSource {
     public func numberOfSections(in tableView: UITableView) -> Int {
-        return listCommandSections.count
+        return expandedListSections.count
     }
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        assert(section < listCommandSections.count)
+        assert(section < expandedListSections.count)
 
-        return listCommandSections[section].items.count
+        return expandedListSections[section].items.count
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -445,7 +448,7 @@ extension BottomCommandingController: UITableViewDataSource {
             return UITableViewCell()
         }
 
-        let section = listCommandSections[indexPath.section]
+        let section = expandedListSections[indexPath.section]
         let item = section.items[indexPath.row]
         let iconView = UIImageView(image: item.image)
         iconView.tintColor = Colors.textSecondary
@@ -464,7 +467,7 @@ extension BottomCommandingController: UITableViewDelegate {
         guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as? TableViewHeaderFooterView else {
             return nil
         }
-        let section = listCommandSections[section]
+        let section = expandedListSections[section]
 
         if let sectionTitle = section.title {
             header.setup(style: .header, title: sectionTitle)
