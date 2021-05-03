@@ -31,7 +31,7 @@ public class BottomCommandingController: UIViewController {
         }
         didSet {
             if isTableViewLoaded {
-                // Item views are lazy loaded during UITableView cellForRowAt
+                // Item views will be lazy loaded during UITableView cellForRowAt
                 tableView.reloadData()
             }
         }
@@ -76,12 +76,8 @@ public class BottomCommandingController: UIViewController {
     }
 
     private func setupBottomBarLayout() {
-        let heroCommandWidthConstraints = heroItems.compactMap { itemToBindingMap[$0]?.heroCommandWidthConstraint }
         NSLayoutConstraint.activate(heroCommandWidthConstraints)
-
-        let bottomBarView = BottomBarView()
-        bottomBarView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(bottomBarView)
+        heroCommandStack.distribution = .equalSpacing
 
         let commandContainer = UIStackView()
         commandContainer.axis = .horizontal
@@ -97,40 +93,29 @@ public class BottomCommandingController: UIViewController {
 
         commandContainer.addArrangedSubview(moreButtonView)
 
-        bottomBarView.contentView.addSubview(commandContainer)
+        let bottomBarView = makeBottomBarByEmbedding(contentView: commandContainer)
+        bottomBarView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(bottomBarView)
         self.bottomBarView = bottomBarView
 
         NSLayoutConstraint.activate([
             bottomBarView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            bottomBarView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -31),
-            commandContainer.leadingAnchor.constraint(equalTo: bottomBarView.leadingAnchor, constant: 8),
-            commandContainer.trailingAnchor.constraint(equalTo: bottomBarView.trailingAnchor, constant: -8),
-            commandContainer.topAnchor.constraint(equalTo: bottomBarView.topAnchor, constant: 16),
-            commandContainer.bottomAnchor.constraint(equalTo: bottomBarView.bottomAnchor, constant: -16),
-            moreButtonView.widthAnchor.constraint(equalToConstant: 96),
-            moreButtonView.heightAnchor.constraint(equalToConstant: 48)
+            bottomBarView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Constants.BottomBar.bottomOffset),
+            moreButtonView.widthAnchor.constraint(equalToConstant: Constants.heroButtonWidth),
+            moreButtonView.heightAnchor.constraint(equalToConstant: Constants.heroButtonHeight)
         ])
     }
 
     private func setupBottomSheetLayout() {
-        let heroCommandWidthConstraints = heroItems.compactMap { itemToBindingMap[$0]?.heroCommandWidthConstraint }
         NSLayoutConstraint.deactivate(heroCommandWidthConstraints)
         heroCommandStack.distribution = .fillEqually
 
         let commandStackContainer = UIView()
         commandStackContainer.addSubview(heroCommandStack)
 
-        let sheetController = BottomSheetController(contentView: BottomSheetSplitContentView(headerView: commandStackContainer, contentView: tableView))
+        let sheetController = BottomSheetController(contentView: makeBottomSheetContent(headerView: commandStackContainer, expandedContentView: tableView))
         sheetController.hostedScrollView = tableView
-
-        NSLayoutConstraint.activate([
-            heroCommandStack.leadingAnchor.constraint(equalTo: commandStackContainer.leadingAnchor, constant: 8),
-            heroCommandStack.trailingAnchor.constraint(equalTo: commandStackContainer.trailingAnchor, constant: -8),
-            heroCommandStack.topAnchor.constraint(equalTo: commandStackContainer.topAnchor),
-            heroCommandStack.bottomAnchor.constraint(equalTo: commandStackContainer.bottomAnchor, constant: -16)
-        ])
-
-        sheetController.collapsedContentHeight = commandStackContainer.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
+        sheetController.collapsedContentHeight = Constants.heroButtonHeight + Constants.BottomSheet.heroStackBottomMargin
 
         addChild(sheetController)
         view.addSubview(sheetController.view)
@@ -140,11 +125,71 @@ public class BottomCommandingController: UIViewController {
             sheetController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             sheetController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             sheetController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            sheetController.view.topAnchor.constraint(equalTo: view.topAnchor)
-
+            sheetController.view.topAnchor.constraint(equalTo: view.topAnchor),
+            heroCommandStack.leadingAnchor.constraint(equalTo: commandStackContainer.leadingAnchor, constant: Constants.BottomSheet.heroStackLeadingTrailingMargin),
+            heroCommandStack.trailingAnchor.constraint(equalTo: commandStackContainer.trailingAnchor, constant: -Constants.BottomSheet.heroStackLeadingTrailingMargin),
+            heroCommandStack.topAnchor.constraint(equalTo: commandStackContainer.topAnchor),
+            heroCommandStack.bottomAnchor.constraint(equalTo: commandStackContainer.bottomAnchor, constant: -Constants.BottomSheet.heroStackBottomMargin)
         ])
 
         bottomSheetController = sheetController
+    }
+
+    private func makeBottomBarByEmbedding(contentView: UIView) -> UIView {
+        let bottomBarView = UIView()
+        bottomBarView.layer.shadowColor = Constants.BottomBar.Shadow.color
+        bottomBarView.layer.shadowOpacity = Constants.BottomBar.Shadow.opacity
+        bottomBarView.layer.shadowRadius = Constants.BottomBar.Shadow.radius
+
+        let roundedCornerView = UIView()
+        roundedCornerView.backgroundColor = Colors.NavigationBar.background
+        roundedCornerView.translatesAutoresizingMaskIntoConstraints = false
+        roundedCornerView.layer.cornerRadius = Constants.BottomBar.cornerRadius
+        roundedCornerView.layer.cornerCurve = .continuous
+        roundedCornerView.clipsToBounds = true
+
+        bottomBarView.addSubview(roundedCornerView)
+        roundedCornerView.addSubview(contentView)
+
+        NSLayoutConstraint.activate([
+            roundedCornerView.leadingAnchor.constraint(equalTo: bottomBarView.leadingAnchor),
+            roundedCornerView.trailingAnchor.constraint(equalTo: bottomBarView.trailingAnchor),
+            roundedCornerView.topAnchor.constraint(equalTo: bottomBarView.topAnchor),
+            roundedCornerView.bottomAnchor.constraint(equalTo: bottomBarView.bottomAnchor),
+            contentView.leadingAnchor.constraint(equalTo: bottomBarView.leadingAnchor, constant: Constants.BottomBar.heroStackLeadingTrailingMargin),
+            contentView.trailingAnchor.constraint(equalTo: bottomBarView.trailingAnchor, constant: -Constants.BottomBar.heroStackLeadingTrailingMargin),
+            contentView.topAnchor.constraint(equalTo: bottomBarView.topAnchor, constant: Constants.BottomBar.heroStackTopBottomMargin),
+            contentView.bottomAnchor.constraint(equalTo: bottomBarView.bottomAnchor, constant: -Constants.BottomBar.heroStackTopBottomMargin)
+        ])
+
+        return bottomBarView
+    }
+
+    private func makeBottomSheetContent(headerView: UIView, expandedContentView: UIView) -> UIView {
+        let view = UIView()
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        expandedContentView.translatesAutoresizingMaskIntoConstraints = false
+
+        let separator = Separator()
+        separator.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(headerView)
+        view.addSubview(expandedContentView)
+        view.addSubview(separator)
+        NSLayoutConstraint.activate([
+            headerView.topAnchor.constraint(equalTo: view.topAnchor),
+            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            expandedContentView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
+            expandedContentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            expandedContentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            expandedContentView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            separator.topAnchor.constraint(equalTo: expandedContentView.topAnchor),
+            separator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            separator.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+
+        return view
     }
 
     private lazy var heroCommandStack: UIStackView = {
@@ -152,7 +197,6 @@ public class BottomCommandingController: UIViewController {
         let stackView = UIStackView(arrangedSubviews: itemViews)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.distribution = .equalSpacing
 
         isHeroCommandStackLoaded = true
         return stackView
@@ -242,17 +286,18 @@ public class BottomCommandingController: UIViewController {
         itemView.addGestureRecognizer(tapGesture)
 
         NSLayoutConstraint.activate([
-            itemView.heightAnchor.constraint(equalToConstant: 48)
+            itemView.heightAnchor.constraint(equalToConstant: Constants.heroButtonHeight)
         ])
-        let widthConstraint = itemView.widthAnchor.constraint(equalToConstant: 96)
+        let widthConstraint = itemView.widthAnchor.constraint(equalToConstant: Constants.heroButtonWidth)
 
         item.delegate = self
-        let binding = ItemBinding(item: item, view: itemView, location: .heroSet, heroCommandWidthConstraint: widthConstraint)
+        let binding = HeroItemBinding(item: item, view: itemView, location: .heroSet, widthConstraint: widthConstraint)
         addBinding(binding)
 
         return itemView
     }
 
+    // Reloads view in place from the given item object
     private func reloadView(for item: CommandingItem) {
         guard let binding = itemToBindingMap[item] else {
             return
@@ -262,14 +307,16 @@ public class BottomCommandingController: UIViewController {
         switch binding.location {
         case .heroSet:
             if let stackIndex = heroCommandStack.arrangedSubviews.firstIndex(of: staleView) {
-                // TODO: remove width constraint
-
+                removeBinding(binding)
                 let newView = createAndBindHeroCommandView(with: item)
                 staleView.removeFromSuperview()
                 heroCommandStack.insertArrangedSubview(newView, at: stackIndex)
             }
         case .list:
-            break // TODO implement
+            if let cell = binding.view as? UITableViewCell, let indexPath = tableView.indexPath(for: cell) {
+                removeBinding(binding)
+                tableView.reloadRows(at: [indexPath], with: .none)
+            }
         }
     }
 
@@ -277,7 +324,11 @@ public class BottomCommandingController: UIViewController {
 
     private var viewToBindingMap: [UIView: ItemBinding] = [:]
 
-    private var bottomBarView: BottomBarView?
+    private var heroCommandWidthConstraints: [NSLayoutConstraint] {
+        heroItems.compactMap { (itemToBindingMap[$0] as? HeroItemBinding)?.widthConstraint }
+    }
+
+    private var bottomBarView: UIView?
 
     private var bottomSheetController: BottomSheetController?
 
@@ -286,12 +337,51 @@ public class BottomCommandingController: UIViewController {
         case list
     }
 
-    private struct ItemBinding {
+    private class ItemBinding {
         let item: CommandingItem
         let view: UIView
         let location: ItemLocation
-        let heroCommandWidthConstraint: NSLayoutConstraint?
+
+        init(item: CommandingItem, view: UIView, location: ItemLocation) {
+            self.item = item
+            self.view = view
+            self.location = location
+        }
     }
+
+    private class HeroItemBinding: ItemBinding {
+        let widthConstraint: NSLayoutConstraint
+
+        init(item: CommandingItem, view: UIView, location: ItemLocation, widthConstraint: NSLayoutConstraint) {
+            self.widthConstraint = widthConstraint
+            super.init(item: item, view: view, location: location)
+        }
+    }
+
+    private struct Constants {
+        static let heroButtonHeight: CGFloat = 48
+        static let heroButtonWidth: CGFloat = 96
+
+        struct BottomBar {
+            static let cornerRadius: CGFloat = 14
+
+            static let bottomOffset: CGFloat = 30
+            static let heroStackLeadingTrailingMargin: CGFloat = 8
+            static let heroStackTopBottomMargin: CGFloat = 16
+
+            struct Shadow {
+                static let color: CGColor = UIColor.black.cgColor
+                static let opacity: Float = 0.14
+                static let radius: CGFloat = 8
+            }
+        }
+
+        struct BottomSheet {
+            static let heroStackBottomMargin: CGFloat = 16
+            static let heroStackLeadingTrailingMargin: CGFloat = 8
+        }
+    }
+
 }
 
 extension BottomCommandingController: UITableViewDataSource {
@@ -317,7 +407,7 @@ extension BottomCommandingController: UITableViewDataSource {
         cell.bottomSeparatorType = .none
         cell.isEnabled = item.isEnabled
 
-        let binding = ItemBinding(item: item, view: cell, location: .list, heroCommandWidthConstraint: nil)
+        let binding = ItemBinding(item: item, view: cell, location: .list)
         addBinding(binding)
         return cell
     }
@@ -400,42 +490,4 @@ extension BottomCommandingController: CommandingItemDelegate {
             }
         }
     }
-}
-
-private class BottomSheetSplitContentView: UIView {
-    public init(headerView: UIView, contentView: UIView) {
-        self.headerView = headerView
-        self.contentView = contentView
-
-        super.init(frame: .zero)
-
-        headerView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-
-        let separator = Separator()
-        separator.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(headerView)
-        addSubview(contentView)
-        addSubview(separator)
-        NSLayoutConstraint.activate([
-            headerView.topAnchor.constraint(equalTo: topAnchor),
-            headerView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            headerView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            contentView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
-            contentView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            separator.topAnchor.constraint(equalTo: contentView.topAnchor),
-            separator.leadingAnchor.constraint(equalTo: leadingAnchor),
-            separator.widthAnchor.constraint(equalTo: widthAnchor)
-        ])
-    }
-
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        preconditionFailure("init(coder:) has not been implemented")
-    }
-
-    private let headerView: UIView
-    private let contentView: UIView
 }

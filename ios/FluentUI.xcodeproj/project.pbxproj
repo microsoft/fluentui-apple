@@ -151,9 +151,7 @@
 		7D23482724D88DE600FBE057 /* AvatarGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D23482624D88DDF00FBE057 /* AvatarGroupView.swift */; };
 		7DC2FB2824C0ED1600367A55 /* TableViewCellFileAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */; };
 		7DC2FB2D24D209E800367A55 /* Presence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2C24D209E300367A55 /* Presence.swift */; };
-		8035CAAB2633A442007B3FD1 /* BottomBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CAA92633A442007B3FD1 /* BottomBarView.swift */; };
 		8035CAAC2633A442007B3FD1 /* BottomCommandingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CAAA2633A442007B3FD1 /* BottomCommandingController.swift */; };
-		8035CAB12633A4DA007B3FD1 /* BottomBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CAA92633A442007B3FD1 /* BottomBarView.swift */; };
 		8035CAB62633A4DB007B3FD1 /* BottomCommandingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CAAA2633A442007B3FD1 /* BottomCommandingController.swift */; };
 		8035CACB26377C14007B3FD1 /* CommandingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CACA26377C14007B3FD1 /* CommandingItem.swift */; };
 		8035CAD026377C17007B3FD1 /* CommandingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CACA26377C14007B3FD1 /* CommandingItem.swift */; };
@@ -347,7 +345,6 @@
 		7D23482624D88DDF00FBE057 /* AvatarGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGroupView.swift; sourceTree = "<group>"; };
 		7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellFileAccessoryView.swift; sourceTree = "<group>"; };
 		7DC2FB2C24D209E300367A55 /* Presence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presence.swift; sourceTree = "<group>"; };
-		8035CAA92633A442007B3FD1 /* BottomBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomBarView.swift; sourceTree = "<group>"; };
 		8035CAAA2633A442007B3FD1 /* BottomCommandingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomCommandingController.swift; sourceTree = "<group>"; };
 		8035CACA26377C14007B3FD1 /* CommandingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandingItem.swift; sourceTree = "<group>"; };
 		8035CADC2638E435007B3FD1 /* CommandingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandingSection.swift; sourceTree = "<group>"; };
@@ -735,7 +732,6 @@
 			children = (
 				80AECBD82629F18E005AF2F3 /* BottomSheetController.swift */,
 				80AECBF1262FC34E005AF2F3 /* BottomSheetPassthroughView.swift */,
-				8035CAA92633A442007B3FD1 /* BottomBarView.swift */,
 				8035CAAA2633A442007B3FD1 /* BottomCommandingController.swift */,
 				8035CACA26377C14007B3FD1 /* CommandingItem.swift */,
 				8035CADC2638E435007B3FD1 /* CommandingSection.swift */,
@@ -1423,7 +1419,6 @@
 				C708B064260A87F7007190FA /* SegmentItem.swift in Sources */,
 				5314E14325F016860099271A /* CardTransitionAnimator.swift in Sources */,
 				5314E0F825F012CB0099271A /* LargeTitleView.swift in Sources */,
-				8035CAB12633A4DA007B3FD1 /* BottomBarView.swift in Sources */,
 				8035CAB62633A4DB007B3FD1 /* BottomCommandingController.swift in Sources */,
 				5314E13725F016370099271A /* PopupMenuProtocols.swift in Sources */,
 				5314E19725F019650099271A /* TabBarItem.swift in Sources */,
@@ -1571,7 +1566,6 @@
 				A5B6617323A41E2900E801DD /* NotificationView.swift in Sources */,
 				C708B04C260A8696007190FA /* SegmentItem.swift in Sources */,
 				FD41C88622DD13230086F899 /* ShyHeaderController.swift in Sources */,
-				8035CAAB2633A442007B3FD1 /* BottomBarView.swift in Sources */,
 				8035CAAC2633A442007B3FD1 /* BottomCommandingController.swift in Sources */,
 				537315B325438B15001FD14C /* iOS13_4_compatibility.swift in Sources */,
 				FDFB8AF121361C9D0046850A /* CalendarViewDayMonthCell.swift in Sources */,
