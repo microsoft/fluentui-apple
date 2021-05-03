@@ -54,7 +54,9 @@ public class BottomSheetController: UIViewController {
             if isExpandable != oldValue {
                 resizingHandleView.isHidden = !isExpandable
                 panGestureRecognizer.isEnabled = isExpandable
-                move(to: .collapsed, animated: false)
+                if isViewLoaded {
+                    move(to: .collapsed, animated: false)
+                }
             }
         }
     }
@@ -81,7 +83,13 @@ public class BottomSheetController: UIViewController {
     }
 
     /// Height of the top portion of the content view that should be visible when the bottom sheet is collapsed.
-    @objc open var collapsedContentHeight: CGFloat = Constants.defaultCollapsedContentHeight
+    @objc open var collapsedContentHeight: CGFloat = Constants.defaultCollapsedContentHeight {
+        didSet {
+            if isViewLoaded {
+                move(to: .collapsed, animated: false)
+            }
+        }
+    }
 
     /// The object that acts as the delegate of the bottom sheet.
     @objc open weak var delegate: BottomSheetControllerDelegate?
@@ -274,11 +282,14 @@ public class BottomSheetController: UIViewController {
     }
 
     private func move(to targetExpansionState: BottomSheetExpansionState, animated: Bool = true, velocity: CGFloat = 0.0) {
-        if animated {
-            animate(to: targetExpansionState, velocity: velocity)
-        } else {
-            bottomSheetOffsetConstraint.constant = -(targetExpansionState == .expanded ? expandedOffsetFromBottom : collapsedOffsetFromBottom)
-            handleCompletedStateChange(to: targetExpansionState)
+        let targetOffsetFromBottom = targetExpansionState == .expanded ? expandedOffsetFromBottom : collapsedOffsetFromBottom
+        if currentOffsetFromBottom != targetOffsetFromBottom {
+            if animated {
+                animate(to: targetExpansionState, velocity: velocity)
+            } else {
+                bottomSheetOffsetConstraint.constant = -targetOffsetFromBottom
+                handleCompletedStateChange(to: targetExpansionState)
+            }
         }
     }
 
