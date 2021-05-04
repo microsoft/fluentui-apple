@@ -20,7 +20,7 @@ import UIKit
 open class BottomCommandingController: UIViewController {
 
     /// Items to be displayed in the hero area.
-    open var heroItems: [CommandingItem] = [] {
+    @objc open var heroItems: [CommandingItem] = [] {
         willSet {
             clearAllItemViews(in: .heroSet)
         }
@@ -38,7 +38,7 @@ open class BottomCommandingController: UIViewController {
     }
 
     /// Sections with items to be displayed in the list area.
-    open var expandedListSections: [CommandingSection] = [] {
+    @objc open var expandedListSections: [CommandingSection] = [] {
         willSet {
             clearAllItemViews(in: .list)
         }
