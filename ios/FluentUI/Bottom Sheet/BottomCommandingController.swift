@@ -31,6 +31,7 @@ public class BottomCommandingController: UIViewController {
             clearAllItemViews(in: .list)
         }
         didSet {
+            expandedListSections.forEach { $0.items.forEach { $0.delegate = self }}
             if isTableViewLoaded {
                 // Item views will be lazy loaded during UITableView cellForRowAt
                 tableView.reloadData()
@@ -71,6 +72,13 @@ public class BottomCommandingController: UIViewController {
         }
     }
 
+    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        if presentedViewController != nil {
+            dismiss(animated: false)
+        }
+    }
+
     private func setupBottomBarLayout() {
         NSLayoutConstraint.activate(heroCommandWidthConstraints)
         heroCommandStack.distribution = .equalSpacing
@@ -104,6 +112,7 @@ public class BottomCommandingController: UIViewController {
         let sheetController = BottomSheetController(contentView: makeBottomSheetContent(headerView: commandStackContainer, expandedContentView: tableView))
         sheetController.hostedScrollView = tableView
         sheetController.collapsedContentHeight = bottomSheetHeroStackHeight
+        sheetController.expandedHeightFraction = Constants.BottomSheet.expandedFraction
 
         addChild(sheetController)
         view.addSubview(sheetController.view)
@@ -135,7 +144,7 @@ public class BottomCommandingController: UIViewController {
         bottomBarView.layer.shadowRadius = Constants.BottomBar.Shadow.radius
 
         let roundedCornerView = UIView()
-        roundedCornerView.backgroundColor = Colors.NavigationBar.background
+        roundedCornerView.backgroundColor = Constants.BottomBar.backgroundColor
         roundedCornerView.translatesAutoresizingMaskIntoConstraints = false
         roundedCornerView.layer.cornerRadius = Constants.BottomBar.cornerRadius
         roundedCornerView.layer.cornerCurve = .continuous
@@ -227,7 +236,7 @@ public class BottomCommandingController: UIViewController {
         tableView.alwaysBounceVertical = false
         tableView.isAccessibilityElement = true
         tableView.sectionFooterHeight = 0
-        tableView.backgroundColor = Colors.Table.background
+        tableView.backgroundColor = Constants.tableViewBackgroundColor
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
         tableView.delegate = self
@@ -327,6 +336,8 @@ public class BottomCommandingController: UIViewController {
         let itemView = TabBarItemView(item: tabItem, showsTitle: true)
         itemView.alwaysShowTitleBelowImage = true
         itemView.numberOfTitleLines = 1
+        itemView.isSelected = item.isOn
+        itemView.accessibilityTraits.insert(.button)
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHeroCommandTap(_:)))
         itemView.addGestureRecognizer(tapGesture)
@@ -335,6 +346,7 @@ public class BottomCommandingController: UIViewController {
             itemView.heightAnchor.constraint(equalToConstant: Constants.heroButtonHeight)
         ])
         let widthConstraint = itemView.widthAnchor.constraint(equalToConstant: Constants.heroButtonWidth)
+        widthConstraint.isActive = !isInSheetMode
 
         item.delegate = self
         let binding = HeroItemBinding(item: item, view: itemView, location: .heroSet, widthConstraint: widthConstraint)
@@ -411,8 +423,12 @@ public class BottomCommandingController: UIViewController {
         static let heroButtonHeight: CGFloat = 48
         static let heroButtonWidth: CGFloat = 96
 
+        static let tableViewIconTintColor: UIColor = Colors.textSecondary
+        static let tableViewBackgroundColor: UIColor = Colors.Table.background
+
         struct BottomBar {
             static let cornerRadius: CGFloat = 14
+            static let backgroundColor: UIColor = Colors.NavigationBar.background
 
             static let bottomOffset: CGFloat = 30
             static let heroStackLeadingTrailingMargin: CGFloat = 8
@@ -431,6 +447,7 @@ public class BottomCommandingController: UIViewController {
         }
 
         struct BottomSheet {
+            static let expandedFraction: CGFloat = 0.7 // Probably should be more customizable / based on content
             static let heroStackBottomMargin: CGFloat = 16
             static let heroStackExpandableTopMargin: CGFloat = 0
             static let heroStackNonExpandableTopMargin: CGFloat = 16
@@ -488,6 +505,9 @@ extension BottomCommandingController: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath), let binding = viewToBindingMap[cell] else {
             return
+        }
+        if presentedViewController != nil {
+            dismiss(animated: true)
         }
 
         binding.item.action(binding.item)
