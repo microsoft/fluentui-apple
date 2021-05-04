@@ -509,13 +509,13 @@ extension BottomCommandingController: UITableViewDelegate {
         }
         let section = expandedListSections[section]
 
+        var configuredHeader: UIView?
         if let sectionTitle = section.title {
             header.setup(style: .header, title: sectionTitle)
-        } else {
-            return nil
+            configuredHeader = header
         }
 
-        return header
+        return configuredHeader
     }
 
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
