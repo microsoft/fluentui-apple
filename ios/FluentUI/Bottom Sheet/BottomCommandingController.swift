@@ -388,8 +388,6 @@ open class BottomCommandingController: UIViewController {
 
     private var bottomSheetController: BottomSheetController?
 
-    private var bottomSheetHeroStackTopConstraint: NSLayoutConstraint?
-
     private var isHeroCommandStackLoaded: Bool = false
 
     private var isTableViewLoaded: Bool = false
@@ -397,6 +395,8 @@ open class BottomCommandingController: UIViewController {
     private var isInSheetMode: Bool { bottomSheetController != nil }
 
     private var isExpandable: Bool { expandedListSections.count > 0 }
+
+    private var bottomSheetHeroStackTopConstraint: NSLayoutConstraint?
 
     private var bottomSheetHeroStackTopMargin: CGFloat {
         isExpandable ? Constants.BottomSheet.heroStackExpandableTopMargin : Constants.BottomSheet.heroStackNonExpandableTopMargin
