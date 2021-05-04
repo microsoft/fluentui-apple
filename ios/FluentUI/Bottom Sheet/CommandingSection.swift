@@ -10,13 +10,13 @@ import UIKit
 open class CommandingSection: NSObject {
 
     /// The title of the section.
-    public let title: String?
+    @objc public let title: String?
 
     /// An `Array` of `CommandingItem` objects.
-    public var items: [CommandingItem]
+    @objc public var items: [CommandingItem]
 
     /// Initializes a commanding section.
-    public init(title: String?, items: [CommandingItem] = []) {
+    @objc public init(title: String?, items: [CommandingItem] = []) {
         self.title = title
         self.items = items
     }

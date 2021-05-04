@@ -13,10 +13,10 @@ import UIKit
 open class CommandingItem: NSObject {
 
     /// A closure that's called when the command is triggered
-    @objc public var action: (CommandingItem) -> Void
+    @objc open var action: (CommandingItem) -> Void
 
     /// The title of the command item.
-    @objc public var title: String {
+    @objc open var title: String {
         didSet {
             if title != oldValue {
                 delegate?.commandingItem(self, didChangeTitleFrom: oldValue)
@@ -25,7 +25,7 @@ open class CommandingItem: NSObject {
     }
 
     /// A `UIImage` to be displayed with the command.
-    @objc public var image: UIImage {
+    @objc open var image: UIImage {
         didSet {
             if image != oldValue {
                 delegate?.commandingItem(self, didChangeImageFrom: oldValue)
@@ -34,7 +34,7 @@ open class CommandingItem: NSObject {
     }
 
     /// A `UIImage` used when the command is represented as a button in selected state.
-    @objc public var selectedImage: UIImage? {
+    @objc open var selectedImage: UIImage? {
         didSet {
             if selectedImage != oldValue {
                 delegate?.commandingItem(self, didChangeSelectedImageFrom: oldValue)
@@ -45,7 +45,7 @@ open class CommandingItem: NSObject {
     /// Indicates whether the command is currently on.
     ///
     /// When `commandType` is set to `.toggle`, the item toggles this automatically before calling `action`.
-    @objc public var isOn: Bool {
+    @objc open var isOn: Bool {
         didSet {
             if isOn != oldValue {
                 delegate?.commandingItem(self, didChangeOnFrom: oldValue)
@@ -54,7 +54,7 @@ open class CommandingItem: NSObject {
     }
 
     /// Indicates whether the command is enabled.
-    @objc public var isEnabled: Bool {
+    @objc open var isEnabled: Bool {
         didSet {
             if isEnabled != oldValue {
                 delegate?.commandingItem(self, didChangeEnabledFrom: oldValue)
@@ -63,7 +63,7 @@ open class CommandingItem: NSObject {
     }
 
     /// Determines the behavior of this command when its triggered.
-    @objc public var commandType: CommandType {
+    @objc open var commandType: CommandType {
         didSet {
             if commandType != oldValue {
                 delegate?.commandingItem(self, didChangeCommandTypeFrom: oldValue)
