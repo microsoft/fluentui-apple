@@ -5,10 +5,22 @@
 
 import UIKit
 
-public class BottomCommandingController: UIViewController {
+/// Persistent commanding surface displayed at the bottom of the available area.
+///
+/// The presentation style automatically varies depending on the current horizontal `UIUserInterfaceSizeClass`:
+///
+/// `.unspecified` and `.compact` - the surface is displayed as an expandable bottom sheet.
+///
+/// `.regular` -  the surface is displayed as a floating bottom bar.
+///
+/// In both styles, `heroItems` are always presented in a horizontal stack.
+/// Items from the `expandedListSections` are either presented in an expanded sheet or a popover, depending on the current style.
+///
+@objc(MSFBottomCommandingController)
+open class BottomCommandingController: UIViewController {
 
-    /// Items to be displayed in the hero section
-    public var heroItems: [CommandingItem] = [] {
+    /// Items to be displayed in the hero area.
+    open var heroItems: [CommandingItem] = [] {
         willSet {
             clearAllItemViews(in: .heroSet)
         }
@@ -25,15 +37,15 @@ public class BottomCommandingController: UIViewController {
         }
     }
 
-    /// Sections with items to be displayed in the expanded list section
-    public var expandedListSections: [CommandingSection] = [] {
+    /// Sections with items to be displayed in the list area.
+    open var expandedListSections: [CommandingSection] = [] {
         willSet {
             clearAllItemViews(in: .list)
         }
         didSet {
             expandedListSections.forEach { $0.items.forEach { $0.delegate = self }}
             if isTableViewLoaded {
-                // Item views will be lazy loaded during UITableView cellForRowAt
+                // Item views and bindings will be lazily created during UITableView cellForRowAt
                 tableView.reloadData()
             }
             updateExpandability()
@@ -56,6 +68,8 @@ public class BottomCommandingController: UIViewController {
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
+        // On a horizontal size class change the top level sheet / bar surfaces get recreated,
+        // but the item views, containers and bindings persist and are rearranged during the individual setup functions.
         if previousTraitCollection?.horizontalSizeClass != traitCollection.horizontalSizeClass {
             bottomSheetController?.willMove(toParent: nil)
             bottomSheetController?.removeFromParent()
@@ -364,7 +378,7 @@ public class BottomCommandingController: UIViewController {
     }
 
     // Reloads view in place from the given item object
-    private func reloadView(for item: CommandingItem) {
+    private func reloadView(from item: CommandingItem) {
         guard let binding = itemToBindingMap[item] else {
             return
         }
@@ -476,7 +490,8 @@ extension BottomCommandingController: UITableViewDataSource {
         let item = section.items[indexPath.row]
         setupTableViewCell(cell, with: item)
 
-        // Cells get reused and we sometimes modify them directly, so it's important to remove old bindings
+        // Cells get reused and we sometimes modify them directly,
+        // so it's important to remove old bindings to avoid side effects
         if let oldBinding = viewToBindingMap[cell] {
             removeBinding(oldBinding)
         }
@@ -517,19 +532,15 @@ extension BottomCommandingController: UITableViewDelegate {
 
 extension BottomCommandingController: CommandingItemDelegate {
     func commandingItem(_ item: CommandingItem, didChangeTitleFrom oldValue: String) {
-        reloadView(for: item)
+        reloadView(from: item)
     }
 
     func commandingItem(_ item: CommandingItem, didChangeImageFrom oldValue: UIImage) {
-        reloadView(for: item)
+        reloadView(from: item)
     }
 
     func commandingItem(_ item: CommandingItem, didChangeSelectedImageFrom oldValue: UIImage?) {
-        reloadView(for: item)
-    }
-
-    func commandingItem(_ item: CommandingItem, didChangeCommandTypeFrom oldValue: CommandingItem.CommandType) {
-        reloadView(for: item)
+        reloadView(from: item)
     }
 
     func commandingItem(_ item: CommandingItem, didChangeEnabledFrom oldValue: Bool) {
@@ -575,4 +586,6 @@ extension BottomCommandingController: CommandingItemDelegate {
             }
         }
     }
+
+    func commandingItem(_ item: CommandingItem, didChangeCommandTypeFrom oldValue: CommandingItem.CommandType) {}
 }

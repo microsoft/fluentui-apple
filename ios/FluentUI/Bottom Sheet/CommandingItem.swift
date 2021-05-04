@@ -5,15 +5,17 @@
 
 import UIKit
 
+/// An object representing a command.
+///
+/// `CommandingItem` defines the high level properties and behavior of a command. Its visual representation is determined by
+/// the `BottomCommandingController`.
 @objc(MSFCommandingItem)
 open class CommandingItem: NSObject {
-    @objc public enum CommandType: Int {
-        case simple // Calls action on tap without modifying the item
-        case toggle // Toggles isOn on tap before calling action
-    }
 
+    /// A closure that's called when the command is triggered
     @objc public var action: (CommandingItem) -> Void
 
+    /// The title of the command item.
     @objc public var title: String {
         didSet {
             if title != oldValue {
@@ -22,6 +24,7 @@ open class CommandingItem: NSObject {
         }
     }
 
+    /// A `UIImage` to be displayed with the command.
     @objc public var image: UIImage {
         didSet {
             if image != oldValue {
@@ -30,6 +33,7 @@ open class CommandingItem: NSObject {
         }
     }
 
+    /// A `UIImage` used when the command is represented as a button in selected state.
     @objc public var selectedImage: UIImage? {
         didSet {
             if selectedImage != oldValue {
@@ -38,6 +42,9 @@ open class CommandingItem: NSObject {
         }
     }
 
+    /// Indicates whether the command is currently on.
+    ///
+    /// When `commandType` is set to `.toggle`, the item toggles this automatically before calling `action`.
     @objc public var isOn: Bool {
         didSet {
             if isOn != oldValue {
@@ -46,6 +53,7 @@ open class CommandingItem: NSObject {
         }
     }
 
+    /// Indicates whether the command is enabled.
     @objc public var isEnabled: Bool {
         didSet {
             if isEnabled != oldValue {
@@ -54,6 +62,7 @@ open class CommandingItem: NSObject {
         }
     }
 
+    /// Determines the behavior of this command when its triggered.
     @objc public var commandType: CommandType {
         didSet {
             if commandType != oldValue {
@@ -61,8 +70,6 @@ open class CommandingItem: NSObject {
             }
         }
     }
-
-    weak var delegate: CommandingItemDelegate?
 
     @objc public init(title: String, image: UIImage, action: @escaping (CommandingItem) -> Void, selectedImage: UIImage? = nil, isSelected: Bool = false, isEnabled: Bool = true, commandType: CommandType = .simple) {
         self.title = title
@@ -72,8 +79,17 @@ open class CommandingItem: NSObject {
         self.isOn = isSelected
         self.isEnabled = isEnabled
         self.commandType = commandType
-        super.init()
     }
+
+    @objc public enum CommandType: Int {
+        /// Calls `action` on tap without modifying the item.
+        case simple
+
+        /// Toggles `isOn` on tap before calling `action`.
+        case toggle
+    }
+
+    weak var delegate: CommandingItemDelegate?
 }
 
 protocol CommandingItemDelegate: class {

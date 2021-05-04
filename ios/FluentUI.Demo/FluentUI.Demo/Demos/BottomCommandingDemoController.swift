@@ -21,7 +21,7 @@ class BottomCommandingDemoController: DemoController {
 
         bottomCommandingController = bottomCommandingVC
 
-        container.addArrangedSubview(createLabelAndSwitchRow(labelText: "Expanded item list", switchAction: #selector(toggleExpandedItems), isOn: true))
+        container.addArrangedSubview(createLabelAndSwitchRow(labelText: "Expanded list items", switchAction: #selector(toggleExpandedItems), isOn: true))
         container.addArrangedSubview(createLabelAndSwitchRow(labelText: "Hero command isOn", switchAction: #selector(toggleHeroCommandOnOff)))
         container.addArrangedSubview(createLabelAndSwitchRow(labelText: "Hero command isEnabled", switchAction: #selector(toggleHeroCommandEnabled), isOn: true))
         container.addArrangedSubview(createLabelAndSwitchRow(labelText: "List command isEnabled", switchAction: #selector(toggleListCommandEnabled), isOn: true))
