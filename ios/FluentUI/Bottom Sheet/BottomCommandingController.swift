@@ -260,26 +260,6 @@ open class BottomCommandingController: UIViewController {
         return tableView
     }()
 
-    private var bottomBarView: UIView?
-
-    private var bottomSheetController: BottomSheetController?
-
-    private var bottomSheetHeroStackTopConstraint: NSLayoutConstraint?
-
-    private var isHeroCommandStackLoaded: Bool = false
-
-    private var isTableViewLoaded: Bool = false
-
-    private var isInSheetMode: Bool { bottomSheetController != nil }
-
-    private var isExpandable: Bool { expandedListSections.count > 0 }
-
-    private var bottomSheetHeroStackTopMargin: CGFloat {
-        isExpandable ? Constants.BottomSheet.heroStackExpandableTopMargin : Constants.BottomSheet.heroStackNonExpandableTopMargin
-    }
-
-    private var bottomSheetHeroStackHeight: CGFloat { Constants.heroButtonHeight + Constants.BottomSheet.heroStackBottomMargin + bottomSheetHeroStackTopMargin }
-
     // MARK: - Command tap handling
 
     @objc private func handleHeroCommandTap(_ sender: UITapGestureRecognizer) {
@@ -375,6 +355,7 @@ open class BottomCommandingController: UIViewController {
         cell.setup(title: item.title, subtitle: "", footer: "", customView: iconView, customAccessoryView: nil, accessoryType: .none)
         cell.bottomSeparatorType = .none
         cell.isEnabled = item.isEnabled
+        cell.backgroundColor = Constants.tableViewBackgroundColor
     }
 
     // Reloads view in place from the given item object
@@ -402,6 +383,26 @@ open class BottomCommandingController: UIViewController {
     private var itemToBindingMap: [CommandingItem: ItemBinding] = [:]
 
     private var viewToBindingMap: [UIView: ItemBinding] = [:]
+
+    private var bottomBarView: UIView?
+
+    private var bottomSheetController: BottomSheetController?
+
+    private var bottomSheetHeroStackTopConstraint: NSLayoutConstraint?
+
+    private var isHeroCommandStackLoaded: Bool = false
+
+    private var isTableViewLoaded: Bool = false
+
+    private var isInSheetMode: Bool { bottomSheetController != nil }
+
+    private var isExpandable: Bool { expandedListSections.count > 0 }
+
+    private var bottomSheetHeroStackTopMargin: CGFloat {
+        isExpandable ? Constants.BottomSheet.heroStackExpandableTopMargin : Constants.BottomSheet.heroStackNonExpandableTopMargin
+    }
+
+    private var bottomSheetHeroStackHeight: CGFloat { Constants.heroButtonHeight + Constants.BottomSheet.heroStackBottomMargin + bottomSheetHeroStackTopMargin }
 
     private var heroCommandWidthConstraints: [NSLayoutConstraint] {
         heroItems.compactMap { (itemToBindingMap[$0] as? HeroItemBinding)?.widthConstraint }
@@ -438,7 +439,7 @@ open class BottomCommandingController: UIViewController {
         static let heroButtonWidth: CGFloat = 96
 
         static let tableViewIconTintColor: UIColor = Colors.textSecondary
-        static let tableViewBackgroundColor: UIColor = Colors.Table.background
+        static let tableViewBackgroundColor: UIColor = Colors.NavigationBar.background
 
         struct BottomBar {
             static let cornerRadius: CGFloat = 14
