@@ -51,6 +51,25 @@ class MSFTokensBase {
     private var _theme: FluentUIStyle?
 }
 
+struct DesignTokens: ViewModifier {
+    let tokens: MSFTokensBase
+    let theme: FluentUIStyle
+    let windowProvider: FluentUIWindowProvider?
+
+    func body(content: Content) -> some View {
+        content
+            .onAppear {
+                tokens.windowProvider = windowProvider
+
+                if theme == ThemeKey.defaultValue {
+                    tokens.updateForCurrentTheme()
+                } else {
+                    tokens.theme = theme
+                }
+            }
+    }
+}
+
 // MARK: SwiftUI Environment Values
 
 struct ThemeKey: EnvironmentKey {
@@ -117,14 +136,8 @@ extension View {
     func designTokens(_ tokens: MSFTokensBase,
                       from theme: FluentUIStyle,
                       with windowProvider: FluentUIWindowProvider?) -> some View {
-        self.onAppear {
-            tokens.windowProvider = windowProvider
-
-            if theme == ThemeKey.defaultValue {
-                tokens.updateForCurrentTheme()
-            } else {
-                tokens.theme = theme
-            }
-        }
+        modifier(DesignTokens(tokens: tokens,
+                              theme: theme,
+                              windowProvider: windowProvider))
     }
 }
