@@ -381,7 +381,7 @@ private class DateTimePickerViewHourDataSource: DateTimePickerViewDataSource {
     }
 
     func accessibilityValue(forRowAtIndex index: Int) -> String? {
-        guard let item = itemStringRepresentation(forRowAtIndex: index) else {
+        guard let item = item(forRowAtIndex: index) as? Int else {
             assertionFailure("accessibilityValue > item not found")
             return nil
         }
@@ -445,7 +445,7 @@ private class DateTimePickerViewMinuteDataSource: DateTimePickerViewDataSource {
         }
 
         let translation = "Accessibility.DateTime.Minute.Value".localized
-        return String(format: translation, arguments: ["\(item)"])
+        return String(format: translation, arguments: [item])
     }
 
     func accessibilityLabel() -> String? {
