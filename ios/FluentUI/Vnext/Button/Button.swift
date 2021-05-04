@@ -81,10 +81,11 @@ struct MSFButtonViewButtonStyle: ButtonStyle {
 
 /// View that represents the button
 public struct MSFButtonView: View {
-    var action: () -> Void
     @Environment(\.theme) var theme: FluentUIStyle
+    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     @ObservedObject var tokens: MSFButtonTokens
     @ObservedObject var state: MSFButtonState
+    var action: () -> Void
 
     public init(action: @escaping () -> Void,
                 style: MSFButtonStyle,
@@ -99,18 +100,9 @@ public struct MSFButtonView: View {
             .buttonStyle(MSFButtonViewButtonStyle(targetButton: self))
             .disabled(state.isDisabled)
             .frame(maxWidth: .infinity)
-            .onAppear {
-                // When environment values are available through the view hierarchy:
-                //  - If we get a non-default theme through the environment values,
-                //    we use to override the theme from this view and its hierarchy.
-                //  - Otherwise we just refresh the tokens to reflect the theme
-                //    associated with the window that this View belongs to.
-                if theme == ThemeKey.defaultValue {
-                    self.tokens.updateForCurrentTheme()
-                } else {
-                    self.tokens.theme = theme
-                }
-            }
+            .designTokens(tokens,
+                          from: theme,
+                          with: windowProvider)
     }
 }
 
@@ -176,10 +168,11 @@ public struct MSFButtonView: View {
         style: style,
         size: size)
 
-        hostingController = UIHostingController(rootView: AnyView(buttonView.modifyIf(theme != nil, { buttonView in
-            buttonView.usingTheme(theme!)
-        })))
-        buttonView.tokens.windowProvider = self
+        hostingController = UIHostingController(rootView: AnyView(buttonView
+                                                                    .windowProvider(self)
+                                                                    .modifyIf(theme != nil, { buttonView in
+                                                                        buttonView.customTheme(theme!)
+                                                                    })))
         view.backgroundColor = UIColor.clear
         setupLargeContentViewer()
     }

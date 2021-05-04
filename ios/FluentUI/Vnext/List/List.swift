@@ -10,10 +10,19 @@ import SwiftUI
 @objc public class MSFListSectionState: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
     @objc @Published public var cells: [MSFListCellState] = []
-    @objc @Published public var style: MSFHeaderFooterStyle = .headerPrimary
     @objc @Published public var title: String?
     @objc @Published public var backgroundColor: UIColor?
     @objc @Published public var hasDividers: Bool = false
+    @objc @Published public var style: MSFHeaderFooterStyle = .headerPrimary {
+        didSet {
+            if style != oldValue {
+                headerTokens.style = style
+                headerTokens.updateForCurrentTheme()
+            }
+        }
+    }
+
+    var headerTokens = MSFHeaderFooterTokens(style: .headerPrimary)
 }
 
 /// Properties that make up list content
@@ -23,8 +32,9 @@ import SwiftUI
 
 public struct MSFListView: View {
     @Environment(\.theme) var theme: FluentUIStyle
-    @ObservedObject var state: MSFListState
+    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     @ObservedObject var tokens: MSFListTokens
+    @ObservedObject var state: MSFListState
 
     public init(sections: [MSFListSectionState]) {
         self.state = MSFListState()
@@ -38,13 +48,12 @@ public struct MSFListView: View {
                 VStack(spacing: 0) {
                     ForEach(sections, id: \.self) { section in
                         if let sectionTitle = section.title, !sectionTitle.isEmpty {
-                            Header(state: section, windowProvider: tokens.windowProvider)
+                            Header(state: section)
                         }
 
                         ForEach(section.cells.indices, id: \.self) { index in
                             let cellState = section.cells[index]
-                            MSFListCellView(state: cellState,
-                                            windowProvider: tokens.windowProvider)
+                            MSFListCellView(state: cellState)
                                 .frame(maxWidth: .infinity)
                         }
                         if section.hasDividers {
@@ -56,18 +65,9 @@ public struct MSFListView: View {
             }
             .environment(\.defaultMinListRowHeight, 0)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .onAppear {
-                // When environment values are available through the view hierarchy:
-                //  - If we get a non-default theme through the environment values,
-                //    we use to override the theme from this view and its hierarchy.
-                //  - Otherwise we just refresh the tokens to reflect the theme
-                //    associated with the window that this View belongs to.
-                if theme == ThemeKey.defaultValue {
-                    self.tokens.updateForCurrentTheme()
-                } else {
-                    self.tokens.theme = theme
-                }
-            }
+            .designTokens(tokens,
+                          from: theme,
+                          with: windowProvider)
     }
 
     private func updateCellDividers() -> [MSFListSectionState] {
@@ -86,14 +86,14 @@ public struct MSFListView: View {
 
     @objc public init(sections: [MSFListSectionState],
                       theme: FluentUIStyle? = nil) {
-        listView = MSFListView(sections: sections)
-        hostingController = UIHostingController(rootView: AnyView(listView.modifyIf(theme != nil, { listView in
-            listView.usingTheme(theme!)
-        })))
-
         super.init()
 
-        listView.tokens.windowProvider = self
+        listView = MSFListView(sections: sections)
+        hostingController = UIHostingController(rootView: AnyView(listView
+                                                                    .windowProvider(self)
+                                                                    .modifyIf(theme != nil, { listView in
+                                                                        listView.customTheme(theme!)
+                                                                    })))
         view.backgroundColor = UIColor.clear
     }
 
