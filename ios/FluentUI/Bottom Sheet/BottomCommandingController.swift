@@ -343,6 +343,14 @@ public class BottomCommandingController: UIViewController {
         return itemView
     }
 
+    private func setupTableViewCell(_ cell: TableViewCell, with item: CommandingItem) {
+        let iconView = UIImageView(image: item.image)
+        iconView.tintColor = Constants.tableViewIconTintColor
+        cell.setup(title: item.title, subtitle: "", footer: "", customView: iconView, customAccessoryView: nil, accessoryType: .none)
+        cell.bottomSeparatorType = .none
+        cell.isEnabled = item.isEnabled
+    }
+
     // Reloads view in place from the given item object
     private func reloadView(for item: CommandingItem) {
         guard let binding = itemToBindingMap[item] else {
@@ -359,9 +367,8 @@ public class BottomCommandingController: UIViewController {
                 heroCommandStack.insertArrangedSubview(newView, at: stackIndex)
             }
         case .list:
-            if let cell = binding.view as? UITableViewCell, let indexPath = tableView.indexPath(for: cell) {
-                removeBinding(binding)
-                tableView.reloadRows(at: [indexPath], with: .none)
+            if let cell = binding.view as? TableViewCell {
+                setupTableViewCell(cell, with: item)
             }
         }
     }
@@ -450,14 +457,14 @@ extension BottomCommandingController: UITableViewDataSource {
 
         let section = expandedListSections[indexPath.section]
         let item = section.items[indexPath.row]
-        let iconView = UIImageView(image: item.image)
-        iconView.tintColor = Colors.textSecondary
-        cell.setup(title: item.title, subtitle: "", footer: "", customView: iconView, customAccessoryView: nil, accessoryType: .none)
-        cell.bottomSeparatorType = .none
-        cell.isEnabled = item.isEnabled
+        setupTableViewCell(cell, with: item)
 
-        let binding = ItemBinding(item: item, view: cell, location: .list)
-        addBinding(binding)
+        // Cells get reused and we sometimes modify them directly, so it's important to remove old bindings
+        if let oldBinding = viewToBindingMap[cell] {
+            removeBinding(oldBinding)
+        }
+        addBinding(ItemBinding(item: item, view: cell, location: .list))
+
         return cell
     }
 }
