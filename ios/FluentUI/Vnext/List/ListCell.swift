@@ -39,7 +39,15 @@ import SwiftUI
     @Published public var footnoteTrailingAccessoryView: AnyView?
     @Published public var trailingView: AnyView?
 
-    @objc @Published public var leadingViewSize: MSFListCellLeadingViewSize = .medium
+    @objc @Published public var leadingViewSize: MSFListCellLeadingViewSize = .medium {
+        didSet {
+            if leadingViewSize != oldValue {
+                tokens.cellLeadingViewSize = leadingViewSize
+                tokens.updateForCurrentTheme()
+            }
+        }
+    }
+
     @objc @Published public var title: String = ""
     @objc @Published public var subtitle: String = ""
     @objc @Published public var footnote: String = ""
@@ -142,6 +150,8 @@ import SwiftUI
             trailingView = AnyView(UIViewAdapter(view))
         }
     }
+
+    var tokens: MSFCellBaseTokens = MSFListCellTokens(cellLeadingViewSize: .medium)
 }
 
 /// Pre-defined layout heights of cells
@@ -154,139 +164,141 @@ import SwiftUI
 
 /// View for List Cells
 struct MSFListCellView: View {
-    @ObservedObject var state: MSFListCellState
+    @Environment(\.theme) var theme: FluentUIStyle
+    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     @ObservedObject var tokens: MSFCellBaseTokens
+    @ObservedObject var state: MSFListCellState
 
-    init(state: MSFListCellState, windowProvider: FluentUIWindowProvider?) {
+    init(state: MSFListCellState) {
         self.state = state
-        self.tokens = MSFListCellTokens(cellLeadingViewSize: state.leadingViewSize)
-        self.tokens.windowProvider = windowProvider
-    }
-
-    init(state: MSFListCellState, tokens: MSFCellBaseTokens, windowProvider: FluentUIWindowProvider?) {
-        self.state = state
-        self.tokens = tokens
-        self.tokens.windowProvider = windowProvider
+        self.tokens = state.tokens
     }
 
     var body: some View {
-        Button(action: state.onTapAction ?? {
-            if state.children != nil {
-                withAnimation {
-                    state.isExpanded.toggle()
-                }
-            }
-        }, label: {
-            HStack(spacing: 0) {
-                let hasTitle = !state.title.isEmpty
-                let labelAccessoryInterspace = tokens.labelAccessoryInterspace
-                let labelAccessorySize = tokens.labelAccessorySize
-                let sublabelAccessorySize = tokens.sublabelAccessorySize
 
-                if let leadingView = state.leadingView {
-                    leadingView
-                        .frame(width: tokens.leadingViewSize, height: tokens.leadingViewSize)
-                        .padding(.trailing, tokens.iconInterspace)
-                }
-
-                VStack(alignment: .leading, spacing: 0) {
-                    HStack(spacing: 0) {
-                        if let titleLeadingAccessoryView = state.titleLeadingAccessoryView {
-                            titleLeadingAccessoryView
-                                .frame(width: labelAccessorySize, height: labelAccessorySize)
-                                .padding(.trailing, labelAccessoryInterspace)
-                        }
-                        if hasTitle {
-                            Text(state.title)
-                                .font(Font(tokens.labelFont))
-                                .foregroundColor(Color(tokens.labelColor))
-                                .lineLimit(state.titleLineLimit == 0 ? nil : state.titleLineLimit)
-                        }
-                        if let titleTrailingAccessoryView = state.titleTrailingAccessoryView {
-                            titleTrailingAccessoryView
-                                .frame(width: labelAccessorySize, height: labelAccessorySize)
-                                .padding(.leading, labelAccessoryInterspace)
-                        }
-                    }
-
-                    HStack(spacing: 0) {
-                        if let subtitleLeadingAccessoryView = state.subtitleLeadingAccessoryView {
-                            subtitleLeadingAccessoryView
-                                .frame(width: sublabelAccessorySize, height: sublabelAccessorySize)
-                                .padding(.trailing, labelAccessoryInterspace)
-                        }
-                        if !state.subtitle.isEmpty {
-                            Text(state.subtitle)
-                                .font(Font(state.footnote.isEmpty ? tokens.footnoteFont : tokens.sublabelFont))
-                                .foregroundColor(Color(tokens.sublabelColor))
-                                .lineLimit(state.subtitleLineLimit == 0 ? nil : state.subtitleLineLimit)
-                        }
-                        if let subtitleTrailingAccessoryView = state.subtitleTrailingAccessoryView {
-                            subtitleTrailingAccessoryView
-                                .frame(width: sublabelAccessorySize, height: sublabelAccessorySize)
-                                .padding(.leading, labelAccessoryInterspace)
-                        }
-                    }
-
-                    HStack(spacing: 0) {
-                        if let footnoteLeadingAccessoryView = state.footnoteLeadingAccessoryView {
-                            footnoteLeadingAccessoryView
-                                .frame(width: labelAccessorySize, height: labelAccessorySize)
-                                .padding(.trailing, labelAccessoryInterspace)
-                        }
-                        if !state.footnote.isEmpty {
-                            Text(state.footnote)
-                                .font(Font(tokens.footnoteFont))
-                                .foregroundColor(Color(tokens.sublabelColor))
-                                .lineLimit(state.footnoteLineLimit == 0 ? nil : state.footnoteLineLimit)
-                        }
-                        if let footnoteTrailingAccessoryView = state.footnoteTrailingAccessoryView {
-                            footnoteTrailingAccessoryView
-                                .frame(width: labelAccessorySize, height: labelAccessorySize)
-                                .padding(.leading, labelAccessoryInterspace)
-                        }
+        @ViewBuilder
+        var cellContent: some View {
+            Button(action: state.onTapAction ?? {
+                if state.children != nil {
+                    withAnimation {
+                        state.isExpanded.toggle()
                     }
                 }
-
-                Spacer()
-
-                if let trailingView = state.trailingView {
-                    trailingView
-                        .frame(width: tokens.trailingItemSize, height: tokens.trailingItemSize)
-                        .fixedSize()
-                }
-
+            }, label: {
                 HStack(spacing: 0) {
-                    if let accessoryType = state.accessoryType, accessoryType != .none, let accessoryIcon = accessoryType.icon {
-                        let isDisclosure = accessoryType == .disclosure
-                        let disclosureSize = tokens.disclosureSize
-                        Image(uiImage: accessoryIcon)
-                            .resizable()
-                            .foregroundColor(Color(isDisclosure ? tokens.disclosureIconForegroundColor : tokens.trailingItemForegroundColor))
-                            .frame(width: isDisclosure ? disclosureSize : tokens.trailingItemSize, height: isDisclosure ? disclosureSize : tokens.trailingItemSize)
-                            .padding(.leading, isDisclosure ? tokens.disclosureInterspace : tokens.iconInterspace)
+                    let hasTitle = !state.title.isEmpty
+                    let labelAccessoryInterspace = tokens.labelAccessoryInterspace
+                    let labelAccessorySize = tokens.labelAccessorySize
+                    let sublabelAccessorySize = tokens.sublabelAccessorySize
+
+                    if let leadingView = state.leadingView {
+                        leadingView
+                            .frame(width: tokens.leadingViewSize, height: tokens.leadingViewSize)
+                            .padding(.trailing, tokens.iconInterspace)
+                    }
+
+                    VStack(alignment: .leading, spacing: 0) {
+                        HStack(spacing: 0) {
+                            if let titleLeadingAccessoryView = state.titleLeadingAccessoryView {
+                                titleLeadingAccessoryView
+                                    .frame(width: labelAccessorySize, height: labelAccessorySize)
+                                    .padding(.trailing, labelAccessoryInterspace)
+                            }
+                            if hasTitle {
+                                Text(state.title)
+                                    .font(Font(tokens.labelFont))
+                                    .foregroundColor(Color(tokens.labelColor))
+                                    .lineLimit(state.titleLineLimit == 0 ? nil : state.titleLineLimit)
+                            }
+                            if let titleTrailingAccessoryView = state.titleTrailingAccessoryView {
+                                titleTrailingAccessoryView
+                                    .frame(width: labelAccessorySize, height: labelAccessorySize)
+                                    .padding(.leading, labelAccessoryInterspace)
+                            }
+                        }
+
+                        HStack(spacing: 0) {
+                            if let subtitleLeadingAccessoryView = state.subtitleLeadingAccessoryView {
+                                subtitleLeadingAccessoryView
+                                    .frame(width: sublabelAccessorySize, height: sublabelAccessorySize)
+                                    .padding(.trailing, labelAccessoryInterspace)
+                            }
+                            if !state.subtitle.isEmpty {
+                                Text(state.subtitle)
+                                    .font(Font(state.footnote.isEmpty ? tokens.footnoteFont : tokens.sublabelFont))
+                                    .foregroundColor(Color(tokens.sublabelColor))
+                                    .lineLimit(state.subtitleLineLimit == 0 ? nil : state.subtitleLineLimit)
+                            }
+                            if let subtitleTrailingAccessoryView = state.subtitleTrailingAccessoryView {
+                                subtitleTrailingAccessoryView
+                                    .frame(width: sublabelAccessorySize, height: sublabelAccessorySize)
+                                    .padding(.leading, labelAccessoryInterspace)
+                            }
+                        }
+
+                        HStack(spacing: 0) {
+                            if let footnoteLeadingAccessoryView = state.footnoteLeadingAccessoryView {
+                                footnoteLeadingAccessoryView
+                                    .frame(width: labelAccessorySize, height: labelAccessorySize)
+                                    .padding(.trailing, labelAccessoryInterspace)
+                            }
+                            if !state.footnote.isEmpty {
+                                Text(state.footnote)
+                                    .font(Font(tokens.footnoteFont))
+                                    .foregroundColor(Color(tokens.sublabelColor))
+                                    .lineLimit(state.footnoteLineLimit == 0 ? nil : state.footnoteLineLimit)
+                            }
+                            if let footnoteTrailingAccessoryView = state.footnoteTrailingAccessoryView {
+                                footnoteTrailingAccessoryView
+                                    .frame(width: labelAccessorySize, height: labelAccessorySize)
+                                    .padding(.leading, labelAccessoryInterspace)
+                            }
+                        }
+                    }
+
+                    Spacer()
+
+                    if let trailingView = state.trailingView {
+                        trailingView
+                            .frame(width: tokens.trailingItemSize, height: tokens.trailingItemSize)
+                            .fixedSize()
+                    }
+
+                    HStack(spacing: 0) {
+                        if let accessoryType = state.accessoryType, accessoryType != .none, let accessoryIcon = accessoryType.icon {
+                            let isDisclosure = accessoryType == .disclosure
+                            let disclosureSize = tokens.disclosureSize
+                            Image(uiImage: accessoryIcon)
+                                .resizable()
+                                .foregroundColor(Color(isDisclosure ? tokens.disclosureIconForegroundColor : tokens.trailingItemForegroundColor))
+                                .frame(width: isDisclosure ? disclosureSize : tokens.trailingItemSize, height: isDisclosure ? disclosureSize : tokens.trailingItemSize)
+                                .padding(.leading, isDisclosure ? tokens.disclosureInterspace : tokens.iconInterspace)
+                        }
                     }
                 }
-            }
-        })
-        .buttonStyle(ListCellButtonStyle(tokens: tokens, state: state))
+            })
+            .buttonStyle(ListCellButtonStyle(tokens: tokens, state: state))
 
-        if state.hasDivider {
-            let padding = tokens.horizontalCellPadding +
-                (state.leadingView != nil ? (tokens.leadingViewSize + tokens.iconInterspace) : 0)
-            Divider()
-                .overlay(Color(tokens.borderColor))
-                .padding(.leading, padding)
+            if state.hasDivider {
+                let padding = tokens.horizontalCellPadding +
+                    (state.leadingView != nil ? (tokens.leadingViewSize + tokens.iconInterspace) : 0)
+                Divider()
+                    .overlay(Color(tokens.borderColor))
+                    .padding(.leading, padding)
+            }
+
+            if let children = state.children, state.isExpanded == true {
+                ForEach(children, id: \.self) { child in
+                    MSFListCellView(state: child)
+                        .frame(maxWidth: .infinity)
+                        .padding(.leading, (tokens.horizontalCellPadding + tokens.leadingViewSize))
+                }
+            }
         }
 
-        if let children = state.children, state.isExpanded == true {
-            ForEach(children, id: \.self) { child in
-                MSFListCellView(state: child,
-                                windowProvider: tokens.windowProvider)
-                    .frame(maxWidth: .infinity)
-                    .padding(.leading, (tokens.horizontalCellPadding + tokens.leadingViewSize))
-            }
-        }
+        return cellContent.designTokens(tokens,
+                                        from: theme,
+                                        with: windowProvider)
     }
 }
 

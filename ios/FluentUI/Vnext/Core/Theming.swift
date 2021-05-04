@@ -51,11 +51,36 @@ class MSFTokensBase {
     private var _theme: FluentUIStyle?
 }
 
-// MARK: Theme SwiftUI Environment Value
+struct DesignTokens: ViewModifier {
+    let tokens: MSFTokensBase
+    let theme: FluentUIStyle
+    let windowProvider: FluentUIWindowProvider?
+
+    func body(content: Content) -> some View {
+        content
+            .onAppear {
+                tokens.windowProvider = windowProvider
+
+                if theme == ThemeKey.defaultValue {
+                    tokens.updateForCurrentTheme()
+                } else {
+                    tokens.theme = theme
+                }
+            }
+    }
+}
+
+// MARK: SwiftUI Environment Values
 
 struct ThemeKey: EnvironmentKey {
     static var defaultValue: FluentUIStyle {
         return FluentUIThemeManager.S
+    }
+}
+
+struct WindowProviderKey: EnvironmentKey {
+    static var defaultValue: FluentUIWindowProvider? {
+        return nil
     }
 }
 
@@ -64,10 +89,55 @@ extension EnvironmentValues {
         get { self[ThemeKey.self] }
         set { self[ThemeKey.self] = newValue }
     }
+
+    var windowProvider: FluentUIWindowProvider? {
+        get { self[WindowProviderKey.self] }
+        set { self[WindowProviderKey.self] = newValue }
+    }
 }
 
 extension View {
-    func usingTheme(_ theme: FluentUIStyle) -> some View {
+
+    /// Overrides a theme for a specific SwiftUI View and its view hierarchy.
+    /// - Parameter theme: Instance of the custom overriding theme.
+    /// - Returns: The view with its theme environment value overriden.
+    func customTheme(_ theme: FluentUIStyle) -> some View {
         environment(\.theme, theme)
+    }
+
+    /// Sets the window provider used to compute the theme associated with the SwiftUI View
+    /// based on the window that it belongs to.
+    /// - Parameter windowProvider: An instance of an class that implements the FluentUIWindowProvider protocol.
+    /// - Returns: The view with the window provider set for itself and its view hierarchy.
+    func windowProvider(_ windowProvider: FluentUIWindowProvider?) -> some View {
+        environment(\.windowProvider, windowProvider)
+    }
+
+    /// SwiftUI Views using this modifier need to define the following environment values:
+    ///  - @Environment(\.theme) var theme: FluentUIStyle
+    ///  - @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
+    ///
+    /// The instances of these environment value properties will be passed to the SwiftUI view's subviews in its hierarchy.
+    ///
+    /// The logic behind the order or precedence to retrieve the correct theme to be used is:
+    ///  1. If the SwiftUI View gets a non-default theme instance through the environment value property,
+    ///    it will be used to override the theme for this View and all the sub Views in its hierarchy.
+    ///
+    ///  2. If the theme property retrieve is the default theme instance, the windowProvider will be used to
+    ///  retrieve the theme associated with the window that this View belongs to.
+    ///
+    ///  3. If the windowProvider is nil the default theme property will be used.
+    ///
+    /// - Parameters:
+    ///   - tokens: An instance of a subclass of MSFTokensBase that defines the design tokens used in that particular SwiftUI View.
+    ///   - theme: theme property (environment value) of the SwiftUI View.
+    ///   - windowProvider: windowProvider property  (environment value) of the SwiftUI View that will potentially retrieve the theme to be applied.
+    /// - Returns: The resulting View either with the computed theme applied to its design tokens.
+    func designTokens(_ tokens: MSFTokensBase,
+                      from theme: FluentUIStyle,
+                      with windowProvider: FluentUIWindowProvider?) -> some View {
+        modifier(DesignTokens(tokens: tokens,
+                              theme: theme,
+                              windowProvider: windowProvider))
     }
 }

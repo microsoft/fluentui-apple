@@ -83,6 +83,7 @@ class MSFCellBaseTokens: MSFTokensBase, ObservableObject {
     @Published public var iconInterspace: CGFloat!
     @Published public var labelAccessoryInterspace: CGFloat!
     @Published public var labelAccessorySize: CGFloat!
+    @Published public var cellLeadingViewSize: MSFListCellLeadingViewSize!
     @Published public var leadingViewSize: CGFloat!
     @Published public var sublabelAccessorySize: CGFloat!
     @Published public var trailingItemSize: CGFloat!
@@ -93,13 +94,10 @@ class MSFCellBaseTokens: MSFTokensBase, ObservableObject {
 }
 
 class MSFListCellTokens: MSFCellBaseTokens {
-    @Published public var cellLeadingViewSize: MSFListCellLeadingViewSize!
-
     init(cellLeadingViewSize: MSFListCellLeadingViewSize = .medium) {
-        self.cellLeadingViewSize = cellLeadingViewSize
-
         super.init()
 
+        self.cellLeadingViewSize = cellLeadingViewSize
         self.themeAware = true
         updateForCurrentTheme()
     }

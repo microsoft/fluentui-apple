@@ -8,13 +8,13 @@ import SwiftUI
 
 struct Header: View {
     @Environment(\.theme) var theme: FluentUIStyle
-    @ObservedObject var state: MSFListSectionState
+    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     @ObservedObject var tokens: MSFHeaderFooterTokens
+    @ObservedObject var state: MSFListSectionState
 
-    init(state: MSFListSectionState, windowProvider: FluentUIWindowProvider?) {
+    init(state: MSFListSectionState) {
         self.state = state
-        self.tokens = MSFHeaderFooterTokens(style: state.style)
-        self.tokens.windowProvider = windowProvider
+        self.tokens = state.headerTokens
     }
 
     var body: some View {
@@ -32,17 +32,8 @@ struct Header: View {
                             trailing: tokens.trailingPadding))
         .frame(minHeight: tokens.headerHeight)
         .background(Color(state.backgroundColor ?? tokens.backgroundColor))
-        .onAppear {
-            // When environment values are available through the view hierarchy:
-            //  - If we get a non-default theme through the environment values,
-            //    we use to override the theme from this view and its hierarchy.
-            //  - Otherwise we just refresh the tokens to reflect the theme
-            //    associated with the window that this View belongs to.
-            if theme == ThemeKey.defaultValue {
-                self.tokens.updateForCurrentTheme()
-            } else {
-                self.tokens.theme = theme
-            }
-        }
+        .designTokens(tokens,
+                      from: theme,
+                      with: windowProvider)
     }
 }

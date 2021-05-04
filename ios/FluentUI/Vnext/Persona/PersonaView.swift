@@ -28,6 +28,10 @@ public protocol PersonaViewState: MSFPersonaViewState {
 class MSFPersonaViewStateImpl: MSFListCellState, PersonaViewState {
     init(avatarState: MSFAvatarState) {
         self.avatarState = avatarState
+
+        super.init()
+
+        self.tokens = MSFPersonaViewTokens()
     }
 
     var image: UIImage? {
@@ -147,8 +151,10 @@ class MSFPersonaViewStateImpl: MSFListCellState, PersonaViewState {
 
 /// View for PersonaView
 public struct PersonaView: View {
-    @ObservedObject var state: MSFPersonaViewStateImpl
+    @Environment(\.theme) var theme: FluentUIStyle
+    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     @ObservedObject var tokens: MSFPersonaViewTokens
+    @ObservedObject var state: MSFPersonaViewStateImpl
 
     public init() {
         tokens = MSFPersonaViewTokens()
@@ -160,19 +166,24 @@ public struct PersonaView: View {
     }
 
     public var body: some View {
-        MSFListCellView(state: state, tokens: tokens, windowProvider: tokens.windowProvider)
+        MSFListCellView(state: state)
+            .designTokens(tokens,
+                          from: theme,
+                          with: windowProvider)
     }
 }
 
 /// UIKit wrapper that exposes the SwiftUI PersonaView implementation
 @objc open class MSFPersonaView: NSObject, FluentUIWindowProvider {
     @objc public init(theme: FluentUIStyle? = nil) {
-        personaView = PersonaView()
-        hostingController = UIHostingController(rootView: theme != nil ? AnyView(personaView.usingTheme(theme!)) : AnyView(personaView))
-
         super.init()
 
-        personaView.tokens.windowProvider = self
+        personaView = PersonaView()
+        hostingController = UIHostingController(rootView: AnyView(personaView
+                                                                    .windowProvider(self)
+                                                                    .modifyIf(theme != nil, { personaView in
+                                                                        personaView.customTheme(theme!)
+                                                                    })))
         view.backgroundColor = UIColor.clear
     }
 

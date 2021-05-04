@@ -123,6 +123,7 @@ class MSFAvatarStateImpl: NSObject, ObservableObject, MSFAvatarState {
 /// View that represents the avatar
 public struct AvatarView: View {
     @Environment(\.theme) var theme: FluentUIStyle
+    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     @ObservedObject var tokens: MSFAvatarTokens
     @ObservedObject var state: MSFAvatarStateImpl
 
@@ -289,18 +290,9 @@ public struct AvatarView: View {
             .accessibility(addTraits: .isImage)
             .accessibility(label: Text(accessibilityLabel))
             .accessibility(value: Text(presence.string() ?? ""))
-            .onAppear {
-                // When environment values are available through the view hierarchy:
-                //  - If we get a non-default theme through the environment values,
-                //    we use to override the theme from this view and its hierarchy.
-                //  - Otherwise we just refresh the tokens to reflect the theme
-                //    associated with the window that this View belongs to.
-                if theme == ThemeKey.defaultValue {
-                    self.tokens.updateForCurrentTheme()
-                } else {
-                    self.tokens.theme = theme
-                }
-            }
+            .designTokens(tokens,
+                          from: theme,
+                          with: windowProvider)
     }
 
     public func setStyle(style: MSFAvatarStyle) {
@@ -368,16 +360,16 @@ public struct AvatarView: View {
     @objc public init(style: MSFAvatarStyle = .default,
                       size: MSFAvatarSize = .large,
                       theme: FluentUIStyle? = nil) {
-        avatarview = AvatarView(style: style,
-                                size: size)
-        hostingController = UIHostingController(rootView: AnyView(avatarview.modifyIf(theme != nil, { avatarview in
-            avatarview.usingTheme(theme!)
-        })))
-        hostingController.disableSafeAreaInsets()
-
         super.init()
 
-        avatarview.tokens.windowProvider = self
+        avatarview = AvatarView(style: style,
+                                size: size)
+        hostingController = UIHostingController(rootView: AnyView(avatarview
+                                                                    .windowProvider(self)
+                                                                    .modifyIf(theme != nil, { avatarview in
+                                                                        avatarview.customTheme(theme!)
+                                                                    })))
+        hostingController.disableSafeAreaInsets()
         view.backgroundColor = UIColor.clear
     }
 
