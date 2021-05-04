@@ -39,10 +39,6 @@ class BottomCommandingDemoController: DemoController {
         ])
     }
 
-    private func setupBottomSheet() {
-
-    }
-
     @objc private func toggleExpandedItems() {
         if bottomCommandingController?.expandedListSections.count == 0 {
             bottomCommandingController?.expandedListSections = expandedListSections

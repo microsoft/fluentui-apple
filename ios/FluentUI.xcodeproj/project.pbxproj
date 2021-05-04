@@ -730,9 +730,9 @@
 		80B1F6F52628CDEB004DFEE5 /* Bottom Sheet */ = {
 			isa = PBXGroup;
 			children = (
+				8035CAAA2633A442007B3FD1 /* BottomCommandingController.swift */,
 				80AECBD82629F18E005AF2F3 /* BottomSheetController.swift */,
 				80AECBF1262FC34E005AF2F3 /* BottomSheetPassthroughView.swift */,
-				8035CAAA2633A442007B3FD1 /* BottomCommandingController.swift */,
 				8035CACA26377C14007B3FD1 /* CommandingItem.swift */,
 				8035CADC2638E435007B3FD1 /* CommandingSection.swift */,
 			);
