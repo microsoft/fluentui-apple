@@ -110,9 +110,6 @@ class ListDemoController: DemoController {
                 listCell.titleLeadingAccessoryUIView = showsLabelAccessoryView ? createCustomView(imageName: "ic_fluent_presence_available_16_filled", imageType: "title") : nil
                 listCell.titleTrailingAccessoryUIView = showsLabelAccessoryView ? createCustomView(imageName: "chevron-right-20x20", imageType: "title") : nil
 
-                listCell.titleLineLimit = section.numberOfLines
-                listCell.subtitleLineLimit = section.numberOfLines
-                listCell.footnoteLineLimit = section.numberOfLines
                 listCell.leadingUIView = createCustomView(imageName: cell.image)
                 listCell.trailingUIView = section.hasAccessory ? createCustomView(imageName: cell.image) : nil
                 listCell.accessoryType = accessoryType(for: rowIndex)

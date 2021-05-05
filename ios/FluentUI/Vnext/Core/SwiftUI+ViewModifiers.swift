@@ -12,7 +12,7 @@ struct ScalableFont: ViewModifier {
 
     func body(content: Content) -> some View {
         let familyName = font.familyName
-        let size = font.pointSize
+        let size = font.fixedFont.pointSize
         let scalableFont: Font
 
             if #available(iOS 14.0, *) {
