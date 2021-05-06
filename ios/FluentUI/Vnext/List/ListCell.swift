@@ -206,7 +206,7 @@ struct MSFListCellView: View {
                             }
                             if hasTitle {
                                 Text(state.title)
-                                    .font(Font(tokens.labelFont))
+                                    .scalableFont(font: tokens.labelFont)
                                     .foregroundColor(Color(tokens.labelColor))
                                     .lineLimit(state.titleLineLimit == 0 ? nil : state.titleLineLimit)
                             }
@@ -225,7 +225,7 @@ struct MSFListCellView: View {
                             }
                             if !state.subtitle.isEmpty {
                                 Text(state.subtitle)
-                                    .font(Font(state.footnote.isEmpty ? tokens.footnoteFont : tokens.sublabelFont))
+                                    .scalableFont(font: state.footnote.isEmpty ? tokens.footnoteFont : tokens.sublabelFont)
                                     .foregroundColor(Color(tokens.sublabelColor))
                                     .lineLimit(state.subtitleLineLimit == 0 ? nil : state.subtitleLineLimit)
                             }
@@ -244,7 +244,7 @@ struct MSFListCellView: View {
                             }
                             if !state.footnote.isEmpty {
                                 Text(state.footnote)
-                                    .font(Font(tokens.footnoteFont))
+                                    .scalableFont(font: tokens.footnoteFont)
                                     .foregroundColor(Color(tokens.sublabelColor))
                                     .lineLimit(state.footnoteLineLimit == 0 ? nil : state.footnoteLineLimit)
                             }

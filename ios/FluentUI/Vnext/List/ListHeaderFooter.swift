@@ -21,7 +21,7 @@ struct Header: View {
         HStack(spacing: 0) {
             if let title = state.title, !title.isEmpty {
                 Text(title)
-                    .font(Font(tokens.textFont))
+                    .scalableFont(font: tokens.textFont)
                     .foregroundColor(Color(tokens.textColor))
             }
             Spacer()

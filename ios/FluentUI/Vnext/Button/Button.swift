@@ -37,12 +37,10 @@ struct MSFButtonViewButtonStyle: ButtonStyle {
 
             if let text = state.text {
                 Text(text)
-                    .font(isFloatingStyle ?
-                            Font(tokens.textFont) :
-                            Font.custom(tokens.textFont.familyName,
-                                        size: tokens.textFont.fontDescriptor.pointSize))
                     .fontWeight(.medium)
                     .multilineTextAlignment(.center)
+                    .scalableFont(font: tokens.textFont,
+                                  shouldScale: !isFloatingStyle)
                     .modifyIf(isFloatingStyle, { view in
                         view.frame(minHeight: tokens.textMinimumHeight)
                     })
@@ -182,7 +180,7 @@ public struct MSFButtonView: View {
         view.addInteraction(largeContentViewerInteraction)
         largeContentViewerInteraction.gestureRecognizerForExclusionRelationship.delegate = self
         view.scalesLargeContentImage = true
-        view.showsLargeContentViewer = shouldEnableLargeContentViewerForOSVersion || buttonView.tokens.style.isFloatingStyle
+        view.showsLargeContentViewer = buttonView.tokens.style.isFloatingStyle
 
         imagePropertySubscriber = buttonView.state.$image.sink { buttonImage in
             self.view.largeContentImage = buttonImage
@@ -192,14 +190,6 @@ public struct MSFButtonView: View {
             self.view.largeContentTitle = buttonText
         }
     }
-
-    private let shouldEnableLargeContentViewerForOSVersion: Bool = {
-        if #available(iOS 14.0, *) {
-            return false
-        } else {
-            return true
-        }
-    }()
 
     private var textPropertySubscriber: AnyCancellable?
 

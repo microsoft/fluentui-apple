@@ -102,6 +102,14 @@ class LeftNavMenuViewController: UIViewController {
         view = leftNavView
     }
 
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if let sizeCategory = previousTraitCollection?.preferredContentSizeCategory,
+            sizeCategory != self.traitCollection.preferredContentSizeCategory {
+            leftNavAccountViewHeightConstraint?.constant = leftNavAccountView.intrinsicContentSize.height
+        }
+    }
+
     var menuAction: (() -> Void)?
 
     private func setPresence(presence: LeftNavPresence) {
@@ -235,6 +243,8 @@ class LeftNavMenuViewController: UIViewController {
 
     private var leftNavMenuList = MSFList(sections: [])
 
+    private var leftNavAccountViewHeightConstraint: NSLayoutConstraint?
+
     private lazy var leftNavAccountView: UIView = {
         let chevron = UIImageView(image: UIImage(named: "ic_fluent_ios_chevron_right_20_filled"))
         chevron.tintColor = Colors.textPrimary
@@ -275,14 +285,17 @@ class LeftNavMenuViewController: UIViewController {
         contentView.addSubview(accountView)
         contentView.addSubview(menuListView)
 
-        NSLayoutConstraint.activate([accountView.heightAnchor.constraint(equalToConstant: 84),
-                                     contentView.topAnchor.constraint(equalTo: accountView.topAnchor),
-                                     contentView.leadingAnchor.constraint(equalTo: accountView.leadingAnchor),
-                                     contentView.trailingAnchor.constraint(equalTo: accountView.trailingAnchor),
-                                     accountView.bottomAnchor.constraint(equalTo: menuListView.topAnchor),
-                                     contentView.leadingAnchor.constraint(equalTo: menuListView.leadingAnchor),
-                                     contentView.trailingAnchor.constraint(equalTo: menuListView.trailingAnchor),
-                                     contentView.bottomAnchor.constraint(equalTo: menuListView.bottomAnchor)
+        let accountViewHeightConstraint = accountView.heightAnchor.constraint(equalToConstant: accountView.intrinsicContentSize.height)
+        leftNavAccountViewHeightConstraint = accountViewHeightConstraint
+
+        NSLayoutConstraint.activate([accountViewHeightConstraint,
+                                     accountView.topAnchor.constraint(equalTo: contentView.topAnchor),
+                                     accountView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                                     accountView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                                     menuListView.topAnchor.constraint(equalTo: accountView.bottomAnchor),
+                                     menuListView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+                                     menuListView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                                     menuListView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
 
         return contentView
