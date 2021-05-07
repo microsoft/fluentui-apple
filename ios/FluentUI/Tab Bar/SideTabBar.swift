@@ -46,6 +46,8 @@ open class SideTabBar: UIView {
                 avatarView.avatarSize = .medium
                 avatarView.translatesAutoresizingMaskIntoConstraints = false
                 avatarView.overrideAccessibilityLabel = "Accessibility.LargeTitle.ProfileView".localized
+                avatarView.showsLargeContentViewer = true
+                avatarView.largeContentTitle = avatarView.overrideAccessibilityLabel
                 addSubview(avatarView)
 
                 if delegate != nil {

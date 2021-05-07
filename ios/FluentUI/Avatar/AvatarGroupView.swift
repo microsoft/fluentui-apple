@@ -41,6 +41,15 @@ open class AvatarGroupView: UIView {
         }
     }
 
+    /// Set to true to generate border colors from InitialView ColorSet excluding the Overflow AvatarView
+    @objc open var shouldGenerateBorderColor: Bool = false {
+        didSet {
+            if oldValue != shouldGenerateBorderColor {
+                updateAvatars()
+            }
+        }
+    }
+
     /// Maximum count of avatars that can be displayed in the avatar group view.
     /// If the avatars array contains more avatars than this limit, an overflow UI will be displayed with the overflow count.
     /// The overflow UI is an avatar view with a "+" sign and the overflow count.
@@ -119,6 +128,7 @@ open class AvatarGroupView: UIView {
 
         for avatar in avatars.prefix(Int(maxDisplayedAvatars)) {
             let avatarView = AvatarView(avatarSize: avatarSize, withBorder: showBorders, style: .circle)
+            avatarView.shouldGenerateBorderColor = shouldGenerateBorderColor
             avatarView.setup(avatar: avatar)
 
             constraints.append(contentsOf: insert(avatarView: avatarView, previousAvatarView: previousAvatarView))
@@ -186,17 +196,8 @@ open class AvatarGroupView: UIView {
             return
         }
 
-        var borderWidth = avatarBorderWidth()
+        let borderWidth = avatarSize.borderWidth
         let avatarFrame = CGRect(origin: .zero, size: avatarSize.size)
-
-        var pathFrame = avatarFrame
-        if showBorders {
-            pathFrame.origin.x -= borderWidth
-            pathFrame.origin.y -= borderWidth
-            pathFrame.size.width += borderWidth * 4
-            pathFrame.size.height += borderWidth * 4
-            borderWidth *= 2
-        }
 
         var nextFrame = avatarFrame
         nextFrame.origin.x += avatarSize.size.width + avatarSpacing() - borderWidth
@@ -204,7 +205,7 @@ open class AvatarGroupView: UIView {
         nextFrame.size.width += borderWidth * 2
         nextFrame.size.height += borderWidth * 2
 
-        let path = UIBezierPath(rect: pathFrame)
+        let path = UIBezierPath(rect: avatarFrame)
         path.append(UIBezierPath(ovalIn: nextFrame))
 
         var maskedAvatares: ArraySlice<AvatarView>
@@ -224,18 +225,11 @@ open class AvatarGroupView: UIView {
         }
     }
 
-    private func avatarBorderWidth() -> CGFloat {
-        return AvatarView.borderWidth(size: avatarSize, hasCustomBorder: false)
-    }
-
     private func avatarSpacing() -> CGFloat {
         var spacing: CGFloat = 0
         switch style {
         case .pile:
             spacing = avatarSize.pileSpacing
-            if showBorders {
-                spacing += 2 * avatarBorderWidth()
-            }
         case .stack:
             spacing = -avatarSize.size.width * Constants.avatarStackOverlapRatio
         }

@@ -133,12 +133,12 @@ open class SegmentedControl: UIControl {
             }
         }
 
-        var segmentTextFont: UIFont {
+        func segmentUnreadDotColor(for window: UIWindow) -> UIColor {
             switch self {
-            case .tabs:
-                return TextStyle.subhead.font
-            case .primaryPill, .onBrandPill:
-                return UIFont.systemFont(ofSize: 16)
+            case .primaryPill:
+                return UIColor(light: Colors.primary(for: window), dark: Colors.gray100)
+            case .tabs, .onBrandPill:
+                return Colors.SegmentedControl.OnBrandPill.segmentText
             }
         }
 
@@ -155,7 +155,6 @@ open class SegmentedControl: UIControl {
     private struct Constants {
         static let selectionBarHeight: CGFloat = 1.5
         static let pillContainerHorizontalInset: CGFloat = 16
-        static let pillButtonInsets = UIEdgeInsets(top: 6, left: 16, bottom: 6, right: 16)
         static let pillButtonCornerRadius: CGFloat = 16
     }
 
@@ -171,6 +170,21 @@ open class SegmentedControl: UIControl {
     @objc public var isAnimated: Bool = true
     @objc public var numberOfSegments: Int { return items.count }
     @objc public var shouldSetEqualWidthForSegments: Bool = true
+
+    /// only used for pill style segment control. It is used to define the inset of the pillContainerView
+    @objc public var contentInset: NSDirectionalEdgeInsets = NSDirectionalEdgeInsets(top: 0, leading: Constants.pillContainerHorizontalInset, bottom: 0, trailing: Constants.pillContainerHorizontalInset) {
+        didSet {
+            guard oldValue != contentInset else {
+                return
+            }
+            pillContainerViewTopConstraint?.constant = contentInset.top
+            pillContainerViewBottomConstraint?.constant = contentInset.bottom
+            pillContainerViewLeadingConstraint?.constant = contentInset.leading
+            pillContainerViewTrailingConstraint?.constant = contentInset.trailing
+
+            invalidateIntrinsicContentSize()
+        }
+    }
     @objc public var selectedSegmentIndex: Int {
         get { return _selectedSegmentIndex }
         set { selectSegment(at: newValue, animated: false) }
@@ -182,7 +196,7 @@ open class SegmentedControl: UIControl {
     private var customSegmentedControlButtonTextColor: UIColor?
     private var customSelectedSegmentedControlButtonTextColor: UIColor?
 
-    private var items = [String]()
+    private var items = [SegmentItem]()
     internal var style: Style {
         didSet {
             updateWindowSpecificColors()
@@ -225,6 +239,10 @@ open class SegmentedControl: UIControl {
         return view
     }()
     private var pillMaskedLabels = [UILabel]()
+    private var pillContainerViewTopConstraint: NSLayoutConstraint?
+    private var pillContainerViewBottomConstraint: NSLayoutConstraint?
+    private var pillContainerViewLeadingConstraint: NSLayoutConstraint?
+    private var pillContainerViewTrailingConstraint: NSLayoutConstraint?
 
     private var isAnimating: Bool = false
 
@@ -234,9 +252,9 @@ open class SegmentedControl: UIControl {
 
     /// Initializes a segmented control with the specified titles.
     ///
-    /// - Parameter items: An array of title strings representing the segments for this control.
+    /// - Parameter items: An array of Segmented Items representing the segments for this control.
     /// - Parameter style: A style used for rendering of the control.
-    @objc public convenience init(items: [String], style: Style = .tabs) {
+    @objc public convenience init(items: [SegmentItem], style: Style = .primaryPill) {
         self.init(items: items,
                   style: style,
                   customSegmentedControlBackgroundColor: nil,
@@ -247,14 +265,14 @@ open class SegmentedControl: UIControl {
 
     /// Initializes a segmented control with the specified titles, style, and colors (colors are for pill styles only).
     ///
-    /// - Parameter items: An array of title strings representing the segments for this control.
+    /// - Parameter items: An array of Segmented Items representing the segments for this control.
     /// - Parameter style: A style used for rendering of the control.
     /// - Parameter customSegmentedControlBackgroundColor: UIColor to use as the background color
     /// - Parameter customSegmentedControlSelectedButtonBackgroundColor: UIColor to use as the selected button background color
     /// - Parameter customSegmentedControlButtonTextColor: UIColor to use as the unselected button text color
     /// - Parameter customSelectedSegmentedControlButtonTextColor: UIColor to use as the selected button text color
-    @objc public init(items: [String],
-                      style: Style = .tabs,
+    @objc public init(items: [SegmentItem],
+                      style: Style = .primaryPill,
                       customSegmentedControlBackgroundColor: UIColor? = nil,
                       customSegmentedControlSelectedButtonBackgroundColor: UIColor? = nil,
                       customSegmentedControlButtonTextColor: UIColor? = nil,
@@ -270,7 +288,7 @@ open class SegmentedControl: UIControl {
         switch style {
         case .tabs:
             addSubview(backgroundView)
-            addButtons(titles: items)
+            addButtons(items: items)
             // Separator must be over buttons and selection view on top of everything
             addSubview(bottomSeparator)
             addSubview(selectionView)
@@ -282,7 +300,7 @@ open class SegmentedControl: UIControl {
             pillMaskedLabelsContainerView.mask = selectionView
             pillMaskedLabelsContainerView.isUserInteractionEnabled = false
             pillContainerView.addSubview(pillMaskedLabelsContainerView)
-            addButtons(titles: items)
+            addButtons(items: items)
             // We need to add pillMaskedLabelsContainerView to the container view
             // before the buttons in order to activate the label constraints, but
             // we want pillMaskedLabelsContainerView to show above the buttons.
@@ -301,19 +319,19 @@ open class SegmentedControl: UIControl {
     /// Insert new segment at index with the specified title. If a segment exists at that index, it will be inserted before and will therefore take its index.
     ///
     /// - Parameters:
-    ///   - title: The title of the newly created segment
+    ///   - item: The item of the newly created segment
     ///   - index: The index at which to insert the newly created segment
-    @objc open func insertSegment(withTitle title: String, at index: Int) {
-        items.insert(title, at: index)
+    @objc open func insertSegment(_ item: SegmentItem, at index: Int) {
+        items.insert(item, at: index)
 
         let button: UIButton
         // TODO: Add option for animated addition?
         switch style {
         case .tabs:
-            button = createTabButton(withTitle: title)
+            button = createTabButton(withItem: item)
             addSubview(button)
         case .primaryPill, .onBrandPill:
-            button = createSwitchButton(withTitle: title)
+            button = createPillButton(withItem: item)
             pillContainerView.addSubview(button)
             addMaskedPillLabel(over: button, at: index)
         }
@@ -475,9 +493,10 @@ open class SegmentedControl: UIControl {
                     }
                 }
             } else {
-                maxButtonWidth += 2 * Constants.pillContainerHorizontalInset
+                maxButtonWidth += (contentInset.leading + contentInset.trailing)
             }
         }
+        maxButtonHeight += (contentInset.top + contentInset.bottom)
 
         return CGSize(width: min(maxButtonWidth, size.width), height: min(maxButtonHeight, size.height))
     }
@@ -500,42 +519,37 @@ open class SegmentedControl: UIControl {
         return buttons[index] as UIView
     }
 
-    private func addButtons(titles: [String]) {
+    private func addButtons(items: [SegmentItem]) {
         // Create buttons
-        for (index, title) in titles.enumerated() {
-            insertSegment(withTitle: title, at: index)
+        for (index, item) in items.enumerated() {
+            insertSegment(item, at: index)
         }
 
         // Select first button
-        if !titles.isEmpty {
+        if !items.isEmpty {
             selectSegment(at: 0, animated: false)
         }
     }
 
-    private func createTabButton(withTitle title: String) -> SegmentedControlButton {
+    private func createTabButton(withItem item: SegmentItem) -> SegmentedControlButton {
         let button = SegmentedControlButton()
+        let title = item.title
         button.setTitle(title, for: .normal)
         button.accessibilityLabel = title
         button.addTarget(self, action: #selector(handleButtonTap(_:)), for: .touchUpInside)
         return button
     }
 
-    private func createSwitchButton(withTitle title: String) -> UIButton {
-        let button = UIButton()
-        button.setTitle(title, for: .normal)
-        button.accessibilityLabel = title
-        button.largeContentTitle = title
-        button.showsLargeContentViewer = true
-        button.titleLabel?.font = style.segmentTextFont
+    private func createPillButton(withItem item: SegmentItem) -> UIButton {
+        let button = SegmentPillButton(withItem: item)
         button.addTarget(self, action: #selector(handleButtonTap(_:)), for: .touchUpInside)
-        button.contentEdgeInsets = Constants.pillButtonInsets
         return button
     }
 
     private func addMaskedPillLabel(over button: UIButton, at index: Int) {
         let maskedLabel = UILabel()
         maskedLabel.text = button.currentTitle
-        maskedLabel.font = style.segmentTextFont
+        maskedLabel.font = button.titleLabel?.font
         maskedLabel.translatesAutoresizingMaskIntoConstraints = false
         pillMaskedLabelsContainerView.addSubview(maskedLabel)
         pillMaskedLabels.insert(maskedLabel, at: index)
@@ -570,12 +584,21 @@ open class SegmentedControl: UIControl {
         } else {
             pillContainerView.translatesAutoresizingMaskIntoConstraints = false
             pillMaskedLabelsContainerView.translatesAutoresizingMaskIntoConstraints = false
-            constraints.append(contentsOf: [
-                pillContainerView.topAnchor.constraint(equalTo: topAnchor),
-                pillContainerView.bottomAnchor.constraint(equalTo: bottomAnchor),
-                pillContainerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.pillContainerHorizontalInset),
-                pillContainerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.pillContainerHorizontalInset),
 
+            let pillContainerViewTopConstraint = pillContainerView.topAnchor.constraint(equalTo: topAnchor, constant: contentInset.top)
+            let pillContainerViewBottomConstraint = pillContainerView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -contentInset.bottom)
+            let pillContainerViewLeadingConstraint = pillContainerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: contentInset.leading)
+            let pillContainerViewTrailingConstraint = pillContainerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -contentInset.trailing)
+            self.pillContainerViewTopConstraint = pillContainerViewTopConstraint
+            self.pillContainerViewBottomConstraint = pillContainerViewBottomConstraint
+            self.pillContainerViewLeadingConstraint = pillContainerViewLeadingConstraint
+            self.pillContainerViewTrailingConstraint = pillContainerViewTrailingConstraint
+
+            constraints.append(contentsOf: [
+                pillContainerViewTopConstraint,
+                pillContainerViewBottomConstraint,
+                pillContainerViewLeadingConstraint,
+                pillContainerViewTrailingConstraint,
                 backgroundView.leadingAnchor.constraint(equalTo: pillContainerView.leadingAnchor),
                 backgroundView.trailingAnchor.constraint(equalTo: pillContainerView.trailingAnchor),
                 backgroundView.topAnchor.constraint(equalTo: pillContainerView.topAnchor),
@@ -655,6 +678,10 @@ open class SegmentedControl: UIControl {
                     } else {
                             button.setTitleColor(style.segmentTextColorDisabled(for: window), for: .normal)
                     }
+
+                    if let switchButton = button as? SegmentPillButton {
+                        switchButton.unreadDotColor = isEnabled ? style.segmentUnreadDotColor(for: window) : style.segmentTextColorDisabled(for: window)
+                    }
                 }
             }
         }
@@ -697,6 +724,6 @@ private class SegmentedControlButton: UIButton {
     }
 
     @objc private func updateFont() {
-        titleLabel?.font = SegmentedControl.Style.tabs.segmentTextFont
+        titleLabel?.font = TextStyle.subhead.font
     }
 }

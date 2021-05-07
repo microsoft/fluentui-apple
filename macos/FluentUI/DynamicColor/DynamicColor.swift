@@ -28,7 +28,7 @@ public class DynamicColor: NSObject {
 	}
 
 	/// resolves color based on theme
-	@objc func resolvedColor(_ appearance: NSAppearance? = nil) -> NSColor {
+	@objc public func resolvedColor(_ appearance: NSAppearance? = nil) -> NSColor {
 		guard let appearance = appearance else {
 			return self.light
 		}

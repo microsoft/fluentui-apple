@@ -6,7 +6,7 @@
     <dict>
       <key>NSStringLocalizedFormatKey</key>
       <string>%#@hours@</string>
-      <key>Variable</key>
+      <key>hours</key>
       <dict>
         <key>NSStringFormatSpecTypeKey</key>
         <string>NSStringPluralRuleType</string>
@@ -15,7 +15,7 @@
         <key>zero</key>
         <string>%d horas</string>
         <key>one</key>
-        <string>%d hora</string>
+        <string>%d horas</string>
         <key>two</key>
         <string>%d horas</string>
         <key>few</key>
