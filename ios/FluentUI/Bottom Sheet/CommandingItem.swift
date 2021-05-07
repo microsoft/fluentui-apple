@@ -19,7 +19,7 @@ open class CommandingItem: NSObject {
     @objc open var title: String {
         didSet {
             if title != oldValue {
-                delegate?.commandingItem(self, didChangeTitleFrom: oldValue)
+                delegate?.commandingItem(self, didChangeTitleTo: title)
             }
         }
     }
@@ -28,7 +28,7 @@ open class CommandingItem: NSObject {
     @objc open var image: UIImage {
         didSet {
             if image != oldValue {
-                delegate?.commandingItem(self, didChangeImageFrom: oldValue)
+                delegate?.commandingItem(self, didChangeImageTo: image)
             }
         }
     }
@@ -37,7 +37,7 @@ open class CommandingItem: NSObject {
     @objc open var selectedImage: UIImage? {
         didSet {
             if selectedImage != oldValue {
-                delegate?.commandingItem(self, didChangeSelectedImageFrom: oldValue)
+                delegate?.commandingItem(self, didChangeSelectedImageTo: selectedImage)
             }
         }
     }
@@ -48,7 +48,7 @@ open class CommandingItem: NSObject {
     @objc open var isOn: Bool {
         didSet {
             if isOn != oldValue {
-                delegate?.commandingItem(self, didChangeOnFrom: oldValue)
+                delegate?.commandingItem(self, didChangeOnTo: isOn)
             }
         }
     }
@@ -57,7 +57,7 @@ open class CommandingItem: NSObject {
     @objc open var isEnabled: Bool {
         didSet {
             if isEnabled != oldValue {
-                delegate?.commandingItem(self, didChangeEnabledFrom: oldValue)
+                delegate?.commandingItem(self, didChangeEnabledTo: isEnabled)
             }
         }
     }
@@ -66,7 +66,7 @@ open class CommandingItem: NSObject {
     @objc open var commandType: CommandType {
         didSet {
             if commandType != oldValue {
-                delegate?.commandingItem(self, didChangeCommandTypeFrom: oldValue)
+                delegate?.commandingItem(self, didChangeCommandTypeTo: commandType)
             }
         }
     }
@@ -93,10 +93,10 @@ open class CommandingItem: NSObject {
 }
 
 protocol CommandingItemDelegate: class {
-    func commandingItem(_ item: CommandingItem, didChangeTitleFrom oldValue: String)
-    func commandingItem(_ item: CommandingItem, didChangeImageFrom oldValue: UIImage)
-    func commandingItem(_ item: CommandingItem, didChangeSelectedImageFrom oldValue: UIImage?)
-    func commandingItem(_ item: CommandingItem, didChangeCommandTypeFrom oldValue: CommandingItem.CommandType)
-    func commandingItem(_ item: CommandingItem, didChangeOnFrom oldValue: Bool)
-    func commandingItem(_ item: CommandingItem, didChangeEnabledFrom oldValue: Bool)
+    func commandingItem(_ item: CommandingItem, didChangeTitleTo value: String)
+    func commandingItem(_ item: CommandingItem, didChangeImageTo value: UIImage)
+    func commandingItem(_ item: CommandingItem, didChangeSelectedImageTo value: UIImage?)
+    func commandingItem(_ item: CommandingItem, didChangeCommandTypeTo value: CommandingItem.CommandType)
+    func commandingItem(_ item: CommandingItem, didChangeOnTo value: Bool)
+    func commandingItem(_ item: CommandingItem, didChangeEnabledTo value: Bool)
 }

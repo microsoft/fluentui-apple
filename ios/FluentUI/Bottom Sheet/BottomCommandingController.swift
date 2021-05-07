@@ -537,61 +537,55 @@ extension BottomCommandingController: UITableViewDelegate {
 }
 
 extension BottomCommandingController: CommandingItemDelegate {
-    func commandingItem(_ item: CommandingItem, didChangeTitleFrom oldValue: String) {
+    func commandingItem(_ item: CommandingItem, didChangeTitleTo value: String) {
         reloadView(from: item)
     }
 
-    func commandingItem(_ item: CommandingItem, didChangeImageFrom oldValue: UIImage) {
+    func commandingItem(_ item: CommandingItem, didChangeImageTo value: UIImage) {
         reloadView(from: item)
     }
 
-    func commandingItem(_ item: CommandingItem, didChangeSelectedImageFrom oldValue: UIImage?) {
+    func commandingItem(_ item: CommandingItem, didChangeSelectedImageTo value: UIImage?) {
         reloadView(from: item)
     }
 
-    func commandingItem(_ item: CommandingItem, didChangeEnabledFrom oldValue: Bool) {
-        if oldValue != item.isEnabled {
-            guard let view = itemToBindingMap[item]?.view else {
-                return
+    func commandingItem(_ item: CommandingItem, didChangeEnabledTo value: Bool) {
+        guard let view = itemToBindingMap[item]?.view else {
+            return
+        }
+
+        switch view {
+        case let tabBarItemView as TabBarItemView:
+            if tabBarItemView.isEnabled != value {
+                tabBarItemView.isEnabled = value
             }
-            let newValue = item.isEnabled
-
-            switch view {
-            case let tabBarItemView as TabBarItemView:
-                if tabBarItemView.isEnabled != newValue {
-                    tabBarItemView.isEnabled = newValue
-                }
-            case let cell as TableViewCell:
-                if cell.isEnabled != newValue {
-                    cell.isEnabled = item.isEnabled
-                }
-            default:
-                break
+        case let cell as TableViewCell:
+            if cell.isEnabled != value {
+                cell.isEnabled = value
             }
+        default:
+            break
         }
     }
 
-    func commandingItem(_ item: CommandingItem, didChangeOnFrom oldValue: Bool) {
-        if oldValue != item.isOn {
-            guard let view = itemToBindingMap[item]?.view else {
-                return
-            }
-            let newValue = item.isOn
+    func commandingItem(_ item: CommandingItem, didChangeOnTo value: Bool) {
+        guard let view = itemToBindingMap[item]?.view else {
+            return
+        }
 
-            switch view {
-            case let tabBarItemView as TabBarItemView:
-                if tabBarItemView.isSelected != newValue {
-                    tabBarItemView.isSelected = newValue
-                }
-            case let booleanCell as BooleanCell:
-                if booleanCell.isOn != newValue {
-                    booleanCell.isOn = newValue
-                }
-            default:
-                break
+        switch view {
+        case let tabBarItemView as TabBarItemView:
+            if tabBarItemView.isSelected != value {
+                tabBarItemView.isSelected = value
             }
+        case let booleanCell as BooleanCell:
+            if booleanCell.isOn != value {
+                booleanCell.isOn = value
+            }
+        default:
+            break
         }
     }
 
-    func commandingItem(_ item: CommandingItem, didChangeCommandTypeFrom oldValue: CommandingItem.CommandType) {}
+    func commandingItem(_ item: CommandingItem, didChangeCommandTypeTo value: CommandingItem.CommandType) {}
 }
