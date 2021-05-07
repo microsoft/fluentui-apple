@@ -19,7 +19,10 @@ import UIKit
 @objc(MSFBottomCommandingController)
 open class BottomCommandingController: UIViewController {
 
-    /// Items to be displayed in the hero area.
+    /// Items to be displayed in an area that's always visible. This is either the top of the the sheet,
+    /// or the main bottom bar area, depending on current horizontal UIUserInterfaceSizeClass.
+    ///
+    /// Only the first 5 items will be retained and displayed.
     @objc open var heroItems: [CommandingItem] = [] {
         willSet {
             clearAllItemViews(in: .heroSet)
@@ -68,21 +71,23 @@ open class BottomCommandingController: UIViewController {
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
+        guard previousTraitCollection?.horizontalSizeClass != traitCollection.horizontalSizeClass else {
+            return
+        }
+
         // On a horizontal size class change the top level sheet / bar surfaces get recreated,
         // but the item views, containers and bindings persist and are rearranged during the individual setup functions.
-        if previousTraitCollection?.horizontalSizeClass != traitCollection.horizontalSizeClass {
-            bottomSheetController?.willMove(toParent: nil)
-            bottomSheetController?.removeFromParent()
-            bottomSheetController?.view.removeFromSuperview()
-            bottomSheetController = nil
-            bottomBarView?.removeFromSuperview()
-            bottomBarView = nil
+        bottomSheetController?.willMove(toParent: nil)
+        bottomSheetController?.removeFromParent()
+        bottomSheetController?.view.removeFromSuperview()
+        bottomSheetController = nil
+        bottomBarView?.removeFromSuperview()
+        bottomBarView = nil
 
-            if traitCollection.horizontalSizeClass == .regular {
-                setupBottomBarLayout()
-            } else {
-                setupBottomSheetLayout()
-            }
+        if traitCollection.horizontalSizeClass == .regular {
+            setupBottomBarLayout()
+        } else {
+            setupBottomSheetLayout()
         }
     }
 
@@ -109,7 +114,7 @@ open class BottomCommandingController: UIViewController {
 
         NSLayoutConstraint.activate([
             bottomBarView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            bottomBarView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Constants.BottomBar.bottomOffset)
+            bottomBarView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constants.BottomBar.bottomOffset)
         ])
 
         self.bottomBarView = bottomBarView
@@ -445,7 +450,7 @@ open class BottomCommandingController: UIViewController {
             static let cornerRadius: CGFloat = 14
             static let backgroundColor: UIColor = Colors.NavigationBar.background
 
-            static let bottomOffset: CGFloat = 30
+            static let bottomOffset: CGFloat = 10
             static let heroStackLeadingTrailingMargin: CGFloat = 8
             static let heroStackTopBottomMargin: CGFloat = 16
 
