@@ -241,6 +241,7 @@ open class NavigationBar: UINavigationBar {
         }
     }
 
+    // @objc dynamic - so we can do KVO on this
     @objc dynamic private(set) var style: Style = defaultStyle
 
     let backgroundView = UIView() //used for coloration

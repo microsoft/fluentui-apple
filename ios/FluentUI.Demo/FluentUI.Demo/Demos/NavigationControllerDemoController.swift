@@ -35,7 +35,7 @@ class NavigationControllerDemoController: DemoController {
 
         addTitle(text: "Top Accessory View")
         container.addArrangedSubview(createButton(title: "Show with top search bar for large screen width", action: #selector(showWithTopSearchBar)))
-        
+
         addTitle(text: "Change Style Periodically")
         container.addArrangedSubview(createButton(title: "Change the style every second", action: #selector(showSearchChangingStyleEverySecond)))
     }
@@ -93,7 +93,7 @@ class NavigationControllerDemoController: DemoController {
     @objc func showWithTopSearchBar() {
         presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), showsTopAccessory: true, contractNavigationBarOnScroll: false)
     }
-    
+
     @objc func showSearchChangingStyleEverySecond() {
         presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), showsTopAccessory: true, contractNavigationBarOnScroll: false, updateStylePeriodically: true)
     }
@@ -135,9 +135,9 @@ class NavigationControllerDemoController: DemoController {
         content.showsTopAccessoryView = showsTopAccessory
 
         content.navigationItem.customNavigationBarColor = CustomGradient.getCustomBackgroundColor(width: view.frame.width)
-        
+
         if updateStylePeriodically {
-            self.changeStyle(in: content.navigationItem)
+            changeStyleContinuously(in: content.navigationItem)
         }
 
         let controller = NavigationController(rootViewController: content)
@@ -164,27 +164,23 @@ class NavigationControllerDemoController: DemoController {
 
         return controller
     }
-    
-    private func changeStyle(in navigationItem: UINavigationItem) {
+
+    private func changeStyleContinuously(in navigationItem: UINavigationItem) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            var newStyle = navigationItem.navigationBarStyle
-            switch (newStyle) {
+            let newStyle: NavigationBar.Style
+            switch navigationItem.navigationBarStyle {
             case .custom:
                 newStyle = .default
-                break;
             case .default:
                 newStyle = .primary
-                break;
             case .primary:
                 newStyle = .system
-                break
             case .system:
                 newStyle = .custom
-                break
             }
-            
+
             navigationItem.navigationBarStyle = newStyle
-            self.changeStyle(in: navigationItem)
+            self.changeStyleContinuously(in: navigationItem)
         }
     }
 
