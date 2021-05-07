@@ -189,6 +189,7 @@
 		536AEF7425F1ECA800A36206 /* ButtonLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF7325F1ECA800A36206 /* ButtonLegacy.swift */; };
 		536AEF7525F1ECA800A36206 /* ButtonLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF7325F1ECA800A36206 /* ButtonLegacy.swift */; };
 		536DD9592645F20B00CD41B5 /* UIKit+SwiftUI_interoperability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536DD9582645F20B00CD41B5 /* UIKit+SwiftUI_interoperability.swift */; };
+		536DD9662645FBDA00CD41B5 /* UIKit+SwiftUI_interoperability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536DD9582645F20B00CD41B5 /* UIKit+SwiftUI_interoperability.swift */; };
 		537315B325438B15001FD14C /* iOS13_4_compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537315B225438B15001FD14C /* iOS13_4_compatibility.swift */; };
 		53BCB0CE253A4E8D00620960 /* Obscurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BCB0CD253A4E8C00620960 /* Obscurable.swift */; };
 		53C61F8D2624E20C0079FAA8 /* SwiftUI+ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C61F8C2624E20C0079FAA8 /* SwiftUI+ViewModifiers.swift */; };
@@ -1653,6 +1654,7 @@
 				536AEF5425F1EC0300A36206 /* MSFButtonTokens.generated.swift in Sources */,
 				0ACD82122620451F0035CD9F /* MSFPersonaViewTokens.generated.swift in Sources */,
 				3FC2EDB425F9EA2D007AA0F8 /* MSFDrawerTokens.swift in Sources */,
+				536DD9662645FBDA00CD41B5 /* UIKit+SwiftUI_interoperability.swift in Sources */,
 				5314E1B025F01A980099271A /* Tooltip.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
