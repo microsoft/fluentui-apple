@@ -23,8 +23,6 @@
 		3F82A4B12604069100CAC666 /* MSFDrawerTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40E8ED2601CD4400C43730 /* MSFDrawerTokens.generated.swift */; };
 		3FC2EDB325F9EA2D007AA0F8 /* MSFDrawerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC2EDB125F9EA2D007AA0F8 /* MSFDrawerTokens.swift */; };
 		3FC2EDB425F9EA2D007AA0F8 /* MSFDrawerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC2EDB125F9EA2D007AA0F8 /* MSFDrawerTokens.swift */; };
-		3FE989B62626A4550085D40D /* UIKit+SwiftUI_interoperability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE989B52626A4550085D40D /* UIKit+SwiftUI_interoperability.swift */; };
-		3FE989B72626A4550085D40D /* UIKit+SwiftUI_interoperability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE989B52626A4550085D40D /* UIKit+SwiftUI_interoperability.swift */; };
 		497DC2D924185885008D86F8 /* PillButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D724185885008D86F8 /* PillButtonBar.swift */; };
 		497DC2DB24185885008D86F8 /* PillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D824185885008D86F8 /* PillButton.swift */; };
 		5314E00425F00A300099271A /* ActivityViewAnimating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22010B6F2523CB2D00FF1F10 /* ActivityViewAnimating.swift */; };
@@ -190,6 +188,7 @@
 		536AEF6E25F1EC0300A36206 /* AvatarTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF3E25F1EC0300A36206 /* AvatarTokens.swift */; };
 		536AEF7425F1ECA800A36206 /* ButtonLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF7325F1ECA800A36206 /* ButtonLegacy.swift */; };
 		536AEF7525F1ECA800A36206 /* ButtonLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF7325F1ECA800A36206 /* ButtonLegacy.swift */; };
+		536DD9592645F20B00CD41B5 /* UIKit+SwiftUI_interoperability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536DD9582645F20B00CD41B5 /* UIKit+SwiftUI_interoperability.swift */; };
 		537315B325438B15001FD14C /* iOS13_4_compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537315B225438B15001FD14C /* iOS13_4_compatibility.swift */; };
 		53BCB0CE253A4E8D00620960 /* Obscurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BCB0CD253A4E8C00620960 /* Obscurable.swift */; };
 		53C61F8D2624E20C0079FAA8 /* SwiftUI+ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C61F8C2624E20C0079FAA8 /* SwiftUI+ViewModifiers.swift */; };
@@ -371,7 +370,6 @@
 		22EABB192509AAD100C4BE72 /* IndeterminateProgressBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarView.swift; sourceTree = "<group>"; };
 		3F40E8ED2601CD4400C43730 /* MSFDrawerTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFDrawerTokens.generated.swift; sourceTree = "<group>"; };
 		3FC2EDB125F9EA2D007AA0F8 /* MSFDrawerTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFDrawerTokens.swift; sourceTree = "<group>"; };
-		3FE989B52626A4550085D40D /* UIKit+SwiftUI_interoperability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIKit+SwiftUI_interoperability.swift"; path = "FluentUI/Vnext/Core/UIKit+SwiftUI_interoperability.swift"; sourceTree = SOURCE_ROOT; };
 		497DC2D724185885008D86F8 /* PillButtonBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBar.swift; sourceTree = "<group>"; };
 		497DC2D824185885008D86F8 /* PillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
 		536AEF2A25F1EC0300A36206 /* FluentUIStyle.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentUIStyle.generated.swift; sourceTree = "<group>"; };
@@ -391,6 +389,7 @@
 		536AEF3D25F1EC0300A36206 /* Avatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Avatar.swift; sourceTree = "<group>"; };
 		536AEF3E25F1EC0300A36206 /* AvatarTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarTokens.swift; sourceTree = "<group>"; };
 		536AEF7325F1ECA800A36206 /* ButtonLegacy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonLegacy.swift; sourceTree = "<group>"; };
+		536DD9582645F20B00CD41B5 /* UIKit+SwiftUI_interoperability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIKit+SwiftUI_interoperability.swift"; sourceTree = "<group>"; };
 		537315B225438B15001FD14C /* iOS13_4_compatibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOS13_4_compatibility.swift; sourceTree = "<group>"; };
 		53BCB0CD253A4E8C00620960 /* Obscurable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Obscurable.swift; sourceTree = "<group>"; };
 		53C61F8C2624E20C0079FAA8 /* SwiftUI+ViewModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUI+ViewModifiers.swift"; sourceTree = "<group>"; };
@@ -781,10 +780,8 @@
 			isa = PBXGroup;
 			children = (
 				536AEF3B25F1EC0300A36206 /* Avatar */,
-				536AEF2925F1EC0300A36206 /* Core */,
 				536AEF2E25F1EC0300A36206 /* Button */,
 				536AEF2925F1EC0300A36206 /* Core */,
-				536AEF2225F1EC0300A36206 /* Drawer */,
 				536AEF3225F1EC0300A36206 /* List */,
 				0AA8741326001F0500D47421 /* Persona */,
 			);
@@ -797,6 +794,7 @@
 				536AEF2A25F1EC0300A36206 /* FluentUIStyle.generated.swift */,
 				53C61F8C2624E20C0079FAA8 /* SwiftUI+ViewModifiers.swift */,
 				536AEF2C25F1EC0300A36206 /* Theming.swift */,
+				536DD9582645F20B00CD41B5 /* UIKit+SwiftUI_interoperability.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -815,10 +813,10 @@
 			isa = PBXGroup;
 			children = (
 				536AEF3325F1EC0300A36206 /* HeaderFooterTokens.swift */,
-				536AEF3425F1EC0300A36206 /* ListTokens.swift */,
+				536AEF3825F1EC0300A36206 /* List.swift */,
 				536AEF3525F1EC0300A36206 /* ListCell.swift */,
 				536AEF3725F1EC0300A36206 /* ListHeaderFooter.swift */,
-				536AEF3825F1EC0300A36206 /* List.swift */,
+				536AEF3425F1EC0300A36206 /* ListTokens.swift */,
 				536AEF3A25F1EC0300A36206 /* MSFHeaderFooterTokens.generated.swift */,
 				536AEF3625F1EC0300A36206 /* MSFListCellTokens.generated.swift */,
 				536AEF3925F1EC0300A36206 /* MSFListTokens.generated.swift */,
@@ -892,10 +890,10 @@
 				A54D97D9217A5FC10072681A /* CALayer+Extensions.swift */,
 				A5B87AF3211E16360038C37C /* DrawerController.swift */,
 				A5B87AF5211E16360038C37C /* DrawerPresentationController.swift */,
-				A5B87AF4211E16360038C37C /* DrawerTransitionAnimator.swift */,
 				A5237ACC21ED6CA70040BF27 /* DrawerShadowView.swift */,
-				3F40E8ED2601CD4400C43730 /* MSFDrawerTokens.generated.swift */,
+				A5B87AF4211E16360038C37C /* DrawerTransitionAnimator.swift */,
 				3FC2EDB125F9EA2D007AA0F8 /* MSFDrawerTokens.swift */,
+				3F40E8ED2601CD4400C43730 /* MSFDrawerTokens.generated.swift */,
 			);
 			path = Drawer;
 			sourceTree = "<group>";
@@ -989,7 +987,6 @@
 				A559BB82212B7D870055E107 /* FluentUIFramework.swift */,
 				A5CEC16E20D98F340016922A /* Fonts.swift */,
 				537315B225438B15001FD14C /* iOS13_4_compatibility.swift */,
-				3FE989B52626A4550085D40D /* UIKit+SwiftUI_interoperability.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1624,7 +1621,6 @@
 				5314E08A25F00F2D0099271A /* CommandBar.swift in Sources */,
 				5314E18D25F0195C0099271A /* ShimmerView.swift in Sources */,
 				5314E1CD25F01B730099271A /* AnimationSynchronizer.swift in Sources */,
-				3FE989B72626A4550085D40D /* UIKit+SwiftUI_interoperability.swift in Sources */,
 				5314E13425F016370099271A /* PopupMenuItem.swift in Sources */,
 				5314E13825F016370099271A /* PopupMenuSection.swift in Sources */,
 				5314E07C25F00F1A0099271A /* DateTimePickerViewLayout.swift in Sources */,
@@ -1789,7 +1785,6 @@
 				FDA1AF8C21484625001AE720 /* BlurringView.swift in Sources */,
 				A5961FA1218A25C400E2A506 /* PopupMenuSection.swift in Sources */,
 				A5B87AF6211E16370038C37C /* DrawerController.swift in Sources */,
-				3FE989B62626A4550085D40D /* UIKit+SwiftUI_interoperability.swift in Sources */,
 				FD41C89622DD13230086F899 /* NavigationBar.swift in Sources */,
 				A5CEC16D20D98EE70016922A /* Colors.swift in Sources */,
 				FC414E2B25887A4B00069E73 /* CommandBarButton.swift in Sources */,
@@ -1822,6 +1817,7 @@
 				536AEF5325F1EC0300A36206 /* MSFButtonTokens.generated.swift in Sources */,
 				0ACD82112620451F0035CD9F /* MSFPersonaViewTokens.generated.swift in Sources */,
 				3FC2EDB325F9EA2D007AA0F8 /* MSFDrawerTokens.swift in Sources */,
+				536DD9592645F20B00CD41B5 /* UIKit+SwiftUI_interoperability.swift in Sources */,
 				FD599D062134A682008845EE /* AccessibleViewDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
