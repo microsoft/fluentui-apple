@@ -61,6 +61,7 @@ class CommandBarButton: UIButton {
         setTitle(iconImage != nil ? nil : item.title, for: .normal)
         titleLabel?.isEnabled = isEnabled
         titleLabel?.font = item.titleFont
+        accessibilityLabel = item.accessibilityLabel
     }
 
     private let isPersistSelection: Bool
