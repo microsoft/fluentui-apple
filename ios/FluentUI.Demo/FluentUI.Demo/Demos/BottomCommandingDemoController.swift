@@ -38,7 +38,7 @@ class BottomCommandingDemoController: DemoController {
             optionTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             bottomCommandingVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             bottomCommandingVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            bottomCommandingVC.view.topAnchor.constraint(lessThanOrEqualTo: view.topAnchor),
+            bottomCommandingVC.view.topAnchor.constraint(equalTo: view.topAnchor),
             bottomCommandingVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
