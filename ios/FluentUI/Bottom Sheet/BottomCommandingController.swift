@@ -243,6 +243,7 @@ open class BottomCommandingController: UIViewController {
         let stackView = UIStackView(arrangedSubviews: itemViews)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
+        stackView.addInteraction(UILargeContentViewerInteraction())
 
         isHeroCommandStackLoaded = true
         return stackView
@@ -331,7 +332,7 @@ open class BottomCommandingController: UIViewController {
     }
 
     private func createAndBindHeroCommandView(with item: CommandingItem) -> UIView {
-        let tabItem = TabBarItem(title: item.title, image: item.image, selectedImage: item.selectedImage)
+        let tabItem = TabBarItem(title: item.title, image: item.image, selectedImage: item.selectedImage, largeContentImage: item.largeImage)
         let itemView = TabBarItemView(item: tabItem, showsTitle: true)
         itemView.alwaysShowTitleBelowImage = true
         itemView.numberOfTitleLines = 1
@@ -546,6 +547,10 @@ extension BottomCommandingController: CommandingItemDelegate {
     }
 
     func commandingItem(_ item: CommandingItem, didChangeSelectedImageTo value: UIImage?) {
+        reloadView(from: item)
+    }
+
+    func commandingItem(_ item: CommandingItem, didChangeLargeImageTo value: UIImage?) {
         reloadView(from: item)
     }
 

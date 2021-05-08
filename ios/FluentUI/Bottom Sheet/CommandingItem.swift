@@ -42,6 +42,17 @@ open class CommandingItem: NSObject {
         }
     }
 
+    /// Used in large content viewer if this command is represented using a view that cannot scale with Dynamic Type.
+    ///
+    /// When this is `nil`, `image` will be used instead.
+    @objc open var largeImage: UIImage? {
+        didSet {
+            if largeImage != oldValue {
+                delegate?.commandingItem(self, didChangeLargeImageTo: largeImage)
+            }
+        }
+    }
+
     /// Indicates whether the command is currently on.
     ///
     /// When `commandType` is set to `.toggle`, the item toggles this automatically before calling `action`.
@@ -71,11 +82,19 @@ open class CommandingItem: NSObject {
         }
     }
 
-    @objc public init(title: String, image: UIImage, action: @escaping (CommandingItem) -> Void, selectedImage: UIImage? = nil, isSelected: Bool = false, isEnabled: Bool = true, commandType: CommandType = .simple) {
+    @objc public init(title: String,
+                      image: UIImage,
+                      action: @escaping (CommandingItem) -> Void,
+                      selectedImage: UIImage? = nil,
+                      largeImage: UIImage? = nil,
+                      isSelected: Bool = false,
+                      isEnabled: Bool = true,
+                      commandType: CommandType = .simple) {
         self.title = title
         self.action = action
         self.image = image
         self.selectedImage = selectedImage
+        self.largeImage = largeImage
         self.isOn = isSelected
         self.isEnabled = isEnabled
         self.commandType = commandType
@@ -95,6 +114,7 @@ open class CommandingItem: NSObject {
 protocol CommandingItemDelegate: class {
     func commandingItem(_ item: CommandingItem, didChangeTitleTo value: String)
     func commandingItem(_ item: CommandingItem, didChangeImageTo value: UIImage)
+    func commandingItem(_ item: CommandingItem, didChangeLargeImageTo value: UIImage?)
     func commandingItem(_ item: CommandingItem, didChangeSelectedImageTo value: UIImage?)
     func commandingItem(_ item: CommandingItem, didChangeCommandTypeTo value: CommandingItem.CommandType)
     func commandingItem(_ item: CommandingItem, didChangeOnTo value: Bool)
