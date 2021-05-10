@@ -14,16 +14,15 @@ import SwiftUI
     @objc @Published public var text: String?
 }
 
-/// ButtonStyle which configures the Button View according to its state and design tokens.
-struct MSFButtonViewButtonStyle: ButtonStyle {
-    var targetButton: MSFButtonView
+/// Body of the button adjusted for pressed or rest state
+struct ButtonBody: View {
+    @ObservedObject var tokens: MSFButtonTokens
+    @ObservedObject var state: MSFButtonState
+    var isPressed: Bool
 
-    func makeBody(configuration: Self.Configuration) -> some View {
-        let tokens = targetButton.tokens
-        let state = targetButton.state
+    var body: some View {
         let isDisabled = state.isDisabled
         let isFloatingStyle = tokens.style.isFloatingStyle
-        let isPressed = configuration.isPressed
         let shouldUsePressedShadow = isDisabled || isPressed
 
         return HStack(spacing: tokens.interspace) {
@@ -77,6 +76,18 @@ struct MSFButtonViewButtonStyle: ButtonStyle {
     }
 }
 
+/// ButtonStyle which configures the Button View according to its state and design tokens.
+struct MSFButtonViewButtonStyle: ButtonStyle {
+    @ObservedObject var tokens: MSFButtonTokens
+    @ObservedObject var state: MSFButtonState
+
+    func makeBody(configuration: Self.Configuration) -> some View {
+        ButtonBody(tokens: tokens,
+                   state: state,
+                   isPressed: configuration.isPressed)
+    }
+}
+
 /// View that represents the button
 public struct MSFButtonView: View {
     @Environment(\.theme) var theme: FluentUIStyle
@@ -95,7 +106,8 @@ public struct MSFButtonView: View {
 
     public var body: some View {
         Button(action: action, label: {})
-            .buttonStyle(MSFButtonViewButtonStyle(targetButton: self))
+            .buttonStyle(MSFButtonViewButtonStyle(tokens: tokens,
+                                                  state: state))
             .disabled(state.isDisabled)
             .frame(maxWidth: .infinity)
             .designTokens(tokens,
