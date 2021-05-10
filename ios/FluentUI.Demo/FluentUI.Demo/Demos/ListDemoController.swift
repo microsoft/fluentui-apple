@@ -39,7 +39,7 @@ class ListDemoController: DemoController {
                                   image: samplePersonas[4].avatarImage,
                                   style: .default)
         listCell.title = avatar.state.primaryText ?? ""
-        listCell.leadingUIView = avatar.view
+        listCell.leadingView = MSFView(avatar.view)
         listCell.onTapAction = {
             self.showAlertForAvatarTapped(name: samplePersonas[4].name)
         }
@@ -54,7 +54,7 @@ class ListDemoController: DemoController {
                                       image: samplePersonas[index].avatarImage,
                                       style: .default)
             listCell.title = avatar.state.primaryText ?? ""
-            listCell.leadingUIView = avatar.view
+            listCell.leadingView = MSFView(avatar.view)
             children.append(listCell)
         }
         children[0].children = subchildren
@@ -74,7 +74,7 @@ class ListDemoController: DemoController {
                                       image: samplePersonas[index].avatarImage,
                                       style: .default)
             listCell.title = avatar.state.primaryText ?? ""
-            listCell.leadingUIView = avatar.view
+            listCell.leadingView = MSFView(avatar.view)
             listSection.cells.append(listCell)
         }
         listSection.cells[0].children = children
@@ -103,15 +103,26 @@ class ListDemoController: DemoController {
                 listCell.footnote = cell.text3
                 if !listCell.subtitle.isEmpty {
                     listCell.leadingViewSize = MSFListCellLeadingViewSize.large
-                    listCell.subtitleLeadingAccessoryUIView = showsLabelAccessoryView ? createCustomView(imageName: "success-12x12", imageType: "subtitle") : nil
-                    listCell.subtitleTrailingAccessoryUIView = showsLabelAccessoryView ? createCustomView(imageName: "chevron-down-20x20", imageType: "subtitle") : nil
+                    if showsLabelAccessoryView, let customView = createCustomView(imageName: "success-12x12", imageType: "subtitle") {
+                        listCell.subtitleLeadingAccessoryView = MSFView(customView)
+                    }
+                    if showsLabelAccessoryView, let customView = createCustomView(imageName: "chevron-down-20x20", imageType: "subtitle") {
+                        listCell.subtitleTrailingAccessoryView = MSFView(customView)
+                    }
                 }
 
-                listCell.titleLeadingAccessoryUIView = showsLabelAccessoryView ? createCustomView(imageName: "ic_fluent_presence_available_16_filled", imageType: "title") : nil
-                listCell.titleTrailingAccessoryUIView = showsLabelAccessoryView ? createCustomView(imageName: "chevron-right-20x20", imageType: "title") : nil
-
-                listCell.leadingUIView = createCustomView(imageName: cell.image)
-                listCell.trailingUIView = section.hasAccessory ? createCustomView(imageName: cell.image) : nil
+                if showsLabelAccessoryView, let customView = createCustomView(imageName: "ic_fluent_presence_available_16_filled", imageType: "title") {
+                    listCell.titleLeadingAccessoryView = MSFView(customView)
+                }
+                if showsLabelAccessoryView, let customView = createCustomView(imageName: "chevron-right-20x20", imageType: "title") {
+                    listCell.titleTrailingAccessoryView = MSFView(customView)
+                }
+                if let customView = createCustomView(imageName: cell.image) {
+                    listCell.leadingView = MSFView(customView)
+                }
+                if section.hasAccessory, let customView = createCustomView(imageName: cell.image) {
+                    listCell.trailingView = MSFView(customView)
+                }
                 listCell.accessoryType = accessoryType(for: rowIndex)
                 listCell.onTapAction = {
                     indexPath.row = rowIndex

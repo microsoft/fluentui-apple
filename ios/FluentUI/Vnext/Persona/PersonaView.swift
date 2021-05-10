@@ -13,15 +13,11 @@ import SwiftUI
 ///
 /// `onTapAction` provides tap gesture for PersonaView.
 ///
-@objc public protocol MSFPersonaViewState: MSFAvatarState {
-    var titleTrailingAccessoryUIView: UIView? { get set }
-    var subtitleTrailingAccessoryUIView: UIView? { get set }
+@objc(MSFPersonaViewState)
+public protocol PersonaViewState: MSFAvatarState {
+    var titleTrailingAccessoryView: MSFView? { get set }
+    var subtitleTrailingAccessoryView: MSFView? { get set }
     var onTapAction: (() -> Void)? { get set }
-}
-
-public protocol PersonaViewState: MSFPersonaViewState {
-    var titleTrailingAccessoryView: AnyView? { get set }
-    var subtitleTrailingAccessoryView: AnyView? { get set }
 }
 
 /// Properties that make up PersonaView content
@@ -160,7 +156,7 @@ public struct PersonaView: View {
         tokens = MSFPersonaViewTokens()
         let avatar = AvatarView(style: .default, size: .xlarge)
         state = MSFPersonaViewStateImpl(avatarState: avatar.state)
-        state.leadingView = AnyView(avatar)
+        state.leadingView = MSFView(AnyView(avatar))
         state.leadingViewSize = .xlarge
         state.layoutType = .threeLines
     }
@@ -195,7 +191,7 @@ public struct PersonaView: View {
         return hostingController.view
     }
 
-    @objc open var state: MSFPersonaViewState {
+    @objc open var state: PersonaViewState {
         return personaView.state
     }
 

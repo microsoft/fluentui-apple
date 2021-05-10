@@ -116,7 +116,7 @@ class LeftNavMenuViewController: UIViewController {
         self.persona.state.presence = presence.avatarPresence()
         self.statusCell.isExpanded = false
         self.statusCell.title = presence.cellTitle()
-        self.statusCell.leadingUIView = presence.imageView()
+        self.statusCell.leadingView = MSFView(presence.imageView())
     }
 
     private var leftNavAvatar = MSFAvatar(style: .default, size: .xlarge)
@@ -139,7 +139,7 @@ class LeftNavMenuViewController: UIViewController {
             let statusCellChild = MSFListCellState()
             statusCellChild.leadingViewSize = .small
             statusCellChild.title = presence.cellTitle()
-            statusCellChild.leadingUIView = presence.imageView()
+            statusCellChild.leadingView = MSFView(presence.imageView())
             statusCellChild.backgroundColor = .systemBackground
             statusCellChild.onTapAction = {
                 self.setPresence(presence: presence)
@@ -154,7 +154,7 @@ class LeftNavMenuViewController: UIViewController {
         resetStatusCell.backgroundColor = .systemBackground
         let resetStatusImageView = UIImageView(image: UIImage(named: "ic_fluent_arrow_sync_24_regular"))
         resetStatusImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
-        resetStatusCell.leadingUIView = resetStatusImageView
+        resetStatusCell.leadingView = MSFView(resetStatusImageView)
         resetStatusCell.onTapAction = {
             self.setPresence(presence: .available)
         }
@@ -164,7 +164,7 @@ class LeftNavMenuViewController: UIViewController {
         statusCell.backgroundColor = .systemBackground
         let statusImageView = LeftNavPresence.available.imageView()
         statusImageView.tintColor = FluentUIThemeManager.S.Colors.Presence.available
-        statusCell.leadingUIView = statusImageView
+        statusCell.leadingView = MSFView(statusImageView)
         statusCell.children = statusCellChildren
 
         let statusMessageCell = MSFListCellState()
@@ -172,7 +172,7 @@ class LeftNavMenuViewController: UIViewController {
         statusMessageCell.title = "Set Status Message"
         let statusMessageImageView = UIImageView(image: UIImage(named: "ic_fluent_status_24_regular"))
         statusMessageImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
-        statusMessageCell.leadingUIView = statusMessageImageView
+        statusMessageCell.leadingView = MSFView(statusMessageImageView)
         statusMessageCell.onTapAction = defaultMenuAction
 
         let notificationsCell = MSFListCellState()
@@ -182,7 +182,7 @@ class LeftNavMenuViewController: UIViewController {
         notificationsCell.layoutType = .twoLines
         let notificationsImageView = UIImageView(image: UIImage(named: "ic_fluent_alert_24_regular"))
         notificationsImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
-        notificationsCell.leadingUIView = notificationsImageView
+        notificationsCell.leadingView = MSFView(notificationsImageView)
         notificationsCell.onTapAction = defaultMenuAction
 
         let settingsCell = MSFListCellState()
@@ -190,7 +190,7 @@ class LeftNavMenuViewController: UIViewController {
         settingsCell.title = "Settings"
         let settingsImageView = UIImageView(image: UIImage(named: "ic_fluent_settings_24_regular"))
         settingsImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
-        settingsCell.leadingUIView = settingsImageView
+        settingsCell.leadingView = MSFView(settingsImageView)
         settingsCell.onTapAction = defaultMenuAction
 
         let whatsNewCell = MSFListCellState()
@@ -198,7 +198,7 @@ class LeftNavMenuViewController: UIViewController {
         whatsNewCell.title = "What's new"
         let whatsNewImageView = UIImageView(image: UIImage(named: "ic_fluent_lightbulb_24_regular"))
         whatsNewImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
-        whatsNewCell.leadingUIView = whatsNewImageView
+        whatsNewCell.leadingView = MSFView(whatsNewImageView)
         whatsNewCell.onTapAction = defaultMenuAction
 
         let menuSection = MSFListSectionState()
@@ -212,7 +212,7 @@ class LeftNavMenuViewController: UIViewController {
         microsoftAccountCell.accessoryType = .checkmark
         let orgAvatar = MSFAvatar(style: .group, size: .large)
         orgAvatar.state.primaryText = "Kat Larrson"
-        microsoftAccountCell.leadingUIView = orgAvatar.view
+        microsoftAccountCell.leadingView = MSFView(orgAvatar.view)
         microsoftAccountCell.leadingViewSize = .large
 
         let msaAccountCell = MSFListCellState()
@@ -222,7 +222,7 @@ class LeftNavMenuViewController: UIViewController {
         msaAccountCell.subtitle = "kat.larrson@live.com"
         let msaAvatar = MSFAvatar(style: .group, size: .large)
         msaAvatar.state.primaryText = "kat.larrson@live.com"
-        msaAccountCell.leadingUIView = msaAvatar.view
+        msaAccountCell.leadingView = MSFView(msaAvatar.view)
         msaAccountCell.leadingViewSize = .large
 
         let addAccountCell = MSFListCellState()
@@ -230,7 +230,7 @@ class LeftNavMenuViewController: UIViewController {
         addAccountCell.title = "Add Account"
         let addAccountImageView = UIImageView(image: UIImage(named: "ic_fluent_add_24_regular"))
         addAccountImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
-        addAccountCell.leadingUIView = addAccountImageView
+        addAccountCell.leadingView = MSFView(addAccountImageView)
         addAccountCell.onTapAction = defaultMenuAction
 
         let accountsSection = MSFListSectionState()
@@ -253,7 +253,7 @@ class LeftNavMenuViewController: UIViewController {
         persona.state.primaryText = "Kat Larrson"
         persona.state.secondaryText = "Designer"
         persona.state.image = UIImage(named: "avatar_kat_larsson")
-        persona.state.titleTrailingAccessoryUIView = chevron
+        persona.state.titleTrailingAccessoryView = MSFView(chevron)
         persona.state.backgroundColor = .systemBackground
         persona.state.onTapAction = {
             self.dismiss(animated: true, completion: {

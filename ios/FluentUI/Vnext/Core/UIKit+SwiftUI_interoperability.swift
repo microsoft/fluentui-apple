@@ -58,3 +58,23 @@ struct UIViewAdapter: UIViewRepresentable {
         stackView.addArrangedSubview(makeView())
     }
 }
+
+/// This is View wrapper that contains a UIView, View for SwiftUI/UIKit components.
+@objc public class MSFView: NSObject {
+
+    // Retrieve View for SwiftUI rendering
+    public let swiftView: AnyView
+
+    // Retrieve View for UIKit rendering
+    public let UIView: UIView
+
+    public init(_ swiftView: AnyView) {
+        self.swiftView = swiftView
+        self.UIView = UIHostingController(rootView: swiftView).view
+    }
+
+    @objc public init(_ uiView: UIView) {
+        self.UIView = uiView
+        self.swiftView = AnyView(UIViewAdapter(uiView))
+    }
+}
