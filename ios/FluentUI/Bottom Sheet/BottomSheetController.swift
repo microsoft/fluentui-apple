@@ -25,7 +25,7 @@ public class BottomSheetController: UIViewController {
     /// Alternatively, the content can size itself by setting `respectsPreferredContentSize` to true and providing a `preferredContentSize`.
     @objc public init(contentViewController: UIViewController) {
         self.contentViewController = contentViewController
-        self.contentView = contentViewController.view
+        self.contentView = nil
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -34,8 +34,8 @@ public class BottomSheetController: UIViewController {
     ///
     /// TODO: Add view-specific sizing info
     @objc public init(contentView: UIView) {
-        self.contentViewController = nil
         self.contentView = contentView
+        self.contentViewController = nil
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -139,10 +139,16 @@ public class BottomSheetController: UIViewController {
         bottomSheetContentView.addGestureRecognizer(panGestureRecognizer)
         panGestureRecognizer.delegate = self
 
-        let stackView = UIStackView(arrangedSubviews: [resizingHandleView, contentView])
+        let stackView = UIStackView(arrangedSubviews: [resizingHandleView])
         stackView.spacing = 0.0
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
+
+        let contentView = contentViewController?.view ?? self.contentView
+        if let contentView = contentView {
+            stackView.addArrangedSubview(contentView)
+        }
+
         bottomSheetContentView.addSubview(stackView)
 
         NSLayoutConstraint.activate([
@@ -356,9 +362,10 @@ public class BottomSheetController: UIViewController {
 
     private func generateBottomSheetHeightConstraints() -> [NSLayoutConstraint] {
         var constraints: [NSLayoutConstraint]
-        if respectsPreferredContentSize, let contentVC = contentViewController {
+        if respectsPreferredContentSize,
+           let contentViewController = contentViewController {
             // Convert child VC preferred height to a constraint + an upper bound constraint
-            let preferredHeightConstraint = contentView.heightAnchor.constraint(equalToConstant: contentVC.preferredContentSize.height)
+            let preferredHeightConstraint = contentViewController.view.heightAnchor.constraint(equalToConstant: contentViewController.preferredContentSize.height)
             preferredHeightConstraint.priority = .defaultLow
 
             let maxHeightConstraint = bottomSheetView.heightAnchor.constraint(
@@ -384,7 +391,7 @@ public class BottomSheetController: UIViewController {
 
     private let contentViewController: UIViewController?
 
-    private let contentView: UIView
+    private let contentView: UIView?
 
     private lazy var panGestureRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
 
