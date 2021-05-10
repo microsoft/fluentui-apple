@@ -554,6 +554,10 @@ extension BottomCommandingController: CommandingItemDelegate {
         reloadView(from: item)
     }
 
+    func commandingItem(_ item: CommandingItem, didChangeCommandTypeTo value: CommandingItem.CommandType) {
+        reloadView(from: item)
+    }
+
     func commandingItem(_ item: CommandingItem, didChangeEnabledTo value: Bool) {
         guard let view = itemToBindingMap[item]?.view else {
             return
@@ -591,6 +595,4 @@ extension BottomCommandingController: CommandingItemDelegate {
             break
         }
     }
-
-    func commandingItem(_ item: CommandingItem, didChangeCommandTypeTo value: CommandingItem.CommandType) {}
 }
