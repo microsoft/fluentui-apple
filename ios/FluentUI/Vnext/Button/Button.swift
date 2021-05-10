@@ -15,10 +15,10 @@ import SwiftUI
 }
 
 /// Body of the button adjusted for pressed or rest state
-struct ButtonBody: View {
+struct MSFButtonViewBody: View {
     @ObservedObject var tokens: MSFButtonTokens
     @ObservedObject var state: MSFButtonState
-    var isPressed: Bool
+    let isPressed: Bool
 
     var body: some View {
         let isDisabled = state.isDisabled
@@ -82,9 +82,9 @@ struct MSFButtonViewButtonStyle: ButtonStyle {
     @ObservedObject var state: MSFButtonState
 
     func makeBody(configuration: Self.Configuration) -> some View {
-        ButtonBody(tokens: tokens,
-                   state: state,
-                   isPressed: configuration.isPressed)
+        MSFButtonViewBody(tokens: tokens,
+                          state: state,
+                          isPressed: configuration.isPressed)
     }
 }
 
