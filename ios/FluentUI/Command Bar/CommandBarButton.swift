@@ -59,7 +59,7 @@ class CommandBarButton: UIButton {
         // always update icon and title as we only display one; we may alterenate between them, and the icon may also change
         let iconImage = item.iconImage
         let title = item.title
-		let accessibilityDescription = item.accessibilityLabel
+        let accessibilityDescription = item.accessibilityLabel
         setImage(iconImage, for: .normal)
         setTitle(iconImage != nil ? nil : title, for: .normal)
         titleLabel?.isEnabled = isEnabled
