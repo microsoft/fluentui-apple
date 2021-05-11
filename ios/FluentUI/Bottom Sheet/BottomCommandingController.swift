@@ -77,9 +77,11 @@ open class BottomCommandingController: UIViewController {
 
         // On a horizontal size class change the top level sheet / bar surfaces get recreated,
         // but the item views, containers and bindings persist and are rearranged during the individual setup functions.
-        bottomSheetController?.willMove(toParent: nil)
-        bottomSheetController?.removeFromParent()
-        bottomSheetController?.view.removeFromSuperview()
+        if let bottomSheetController = bottomSheetController {
+            bottomSheetController.willMove(toParent: nil)
+            bottomSheetController.removeFromParent()
+            bottomSheetController.view.removeFromSuperview()
+        }
         bottomSheetController = nil
         bottomBarView?.removeFromSuperview()
         bottomBarView = nil
