@@ -22,20 +22,16 @@ open class BottomCommandingController: UIViewController {
     /// Items to be displayed in an area that's always visible. This is either the top of the the sheet,
     /// or the main bottom bar area, depending on current horizontal UIUserInterfaceSizeClass.
     ///
-    /// Only the first 5 items will be retained and displayed.
+    /// At most 5 hero items are supported.
     @objc open var heroItems: [CommandingItem] = [] {
         willSet {
             clearAllItemViews(in: .heroSet)
         }
         didSet {
-            if heroItems.count > 5 {
-                assertionFailure("At most 5 hero commands are supported. Only the first 5 items will be used.")
-                heroItems = Array(heroItems.prefix(5))
-            }
+            precondition(heroItems.count <= 5, "At most 5 hero commands are supported.")
 
             if isHeroCommandStackLoaded {
-                let newViews = heroItems.map { createAndBindHeroCommandView(with: $0) }
-                newViews.forEach { heroCommandStack.addArrangedSubview($0) }
+                heroItems.forEach { heroCommandStack.addArrangedSubview(createAndBindHeroCommandView(with: $0)) }
             }
         }
     }
@@ -46,7 +42,9 @@ open class BottomCommandingController: UIViewController {
             clearAllItemViews(in: .list)
         }
         didSet {
-            expandedListSections.forEach { $0.items.forEach { $0.delegate = self }}
+            expandedListSections.forEach { section in
+                section.items.forEach { $0.delegate = self }
+            }
             if isTableViewLoaded {
                 // Item views and bindings will be lazily created during UITableView cellForRowAt
                 tableView.reloadData()
@@ -105,7 +103,6 @@ open class BottomCommandingController: UIViewController {
         heroCommandStack.distribution = .equalSpacing
 
         let commandContainer = UIStackView()
-        commandContainer.axis = .horizontal
         commandContainer.translatesAutoresizingMaskIntoConstraints = false
         commandContainer.addArrangedSubview(heroCommandStack)
         commandContainer.addArrangedSubview(moreButtonView)
@@ -160,9 +157,10 @@ open class BottomCommandingController: UIViewController {
 
     private func makeBottomBarByEmbedding(contentView: UIView) -> UIView {
         let bottomBarView = UIView()
-        bottomBarView.layer.shadowColor = Constants.BottomBar.Shadow.color
-        bottomBarView.layer.shadowOpacity = Constants.BottomBar.Shadow.opacity
-        bottomBarView.layer.shadowRadius = Constants.BottomBar.Shadow.radius
+        let bottomBarLayer = bottomBarView.layer
+        bottomBarLayer.shadowColor = Constants.BottomBar.Shadow.color
+        bottomBarLayer.shadowOpacity = Constants.BottomBar.Shadow.opacity
+        bottomBarLayer.shadowRadius = Constants.BottomBar.Shadow.radius
 
         let roundedCornerView = UIView()
         roundedCornerView.backgroundColor = Constants.BottomBar.backgroundColor
@@ -244,7 +242,6 @@ open class BottomCommandingController: UIViewController {
         let itemViews = heroItems.map { createAndBindHeroCommandView(with: $0) }
         let stackView = UIStackView(arrangedSubviews: itemViews)
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
         stackView.addInteraction(UILargeContentViewerInteraction())
 
         isHeroCommandStackLoaded = true
@@ -274,41 +271,31 @@ open class BottomCommandingController: UIViewController {
         guard let tabBarItemView = sender.view as? TabBarItemView, let binding = viewToBindingMap[tabBarItemView] else {
             return
         }
-
-        switch binding.item.commandType {
-        case .toggle:
+        let item = binding.item
+        if item.isToggleable {
             tabBarItemView.isSelected.toggle()
-            binding.item.isOn = tabBarItemView.isSelected
-            fallthrough
-        case .simple:
-            binding.item.action(binding.item)
+            item.isOn = tabBarItemView.isSelected
         }
+        item.action(binding.item)
     }
 
     @objc private func handleMoreButtonTap(_ sender: UITapGestureRecognizer) {
-        let popoverContentVC = UIViewController()
-        popoverContentVC.view.addSubview(tableView)
-        popoverContentVC.modalPresentationStyle = .popover
-        popoverContentVC.popoverPresentationController?.sourceView = sender.view
+        let popoverContentViewController = UIViewController()
+        popoverContentViewController.view = tableView
+        popoverContentViewController.modalPresentationStyle = .popover
+        popoverContentViewController.popoverPresentationController?.sourceView = sender.view
 
-        NSLayoutConstraint.activate([
-            popoverContentVC.view.leadingAnchor.constraint(equalTo: tableView.leadingAnchor),
-            popoverContentVC.view.trailingAnchor.constraint(equalTo: tableView.trailingAnchor),
-            popoverContentVC.view.topAnchor.constraint(equalTo: tableView.topAnchor),
-            popoverContentVC.view.bottomAnchor.constraint(equalTo: tableView.bottomAnchor)
-        ])
-
-        present(popoverContentVC, animated: true)
+        present(popoverContentViewController, animated: true)
     }
 
     // MARK: - Item <-> View Binding
 
-    private func addBinding(_ binding: ItemBinding) {
+    private func addBinding(_ binding: ItemBindingInfo) {
         itemToBindingMap[binding.item] = binding
         viewToBindingMap[binding.view] = binding
     }
 
-    private func removeBinding(_ binding: ItemBinding) {
+    private func removeBinding(_ binding: ItemBindingInfo) {
         itemToBindingMap.removeValue(forKey: binding.item)
         viewToBindingMap.removeValue(forKey: binding.view)
     }
@@ -351,7 +338,7 @@ open class BottomCommandingController: UIViewController {
         widthConstraint.isActive = !isInSheetMode
 
         item.delegate = self
-        let binding = HeroItemBinding(item: item, view: itemView, location: .heroSet, widthConstraint: widthConstraint)
+        let binding = HeroItemBindingInfo(item: item, view: itemView, location: .heroSet, widthConstraint: widthConstraint)
         addBinding(binding)
 
         return itemView
@@ -388,9 +375,9 @@ open class BottomCommandingController: UIViewController {
         }
     }
 
-    private var itemToBindingMap: [CommandingItem: ItemBinding] = [:]
+    private var itemToBindingMap: [CommandingItem: ItemBindingInfo] = [:]
 
-    private var viewToBindingMap: [UIView: ItemBinding] = [:]
+    private var viewToBindingMap: [UIView: ItemBindingInfo] = [:]
 
     private var bottomBarView: UIView?
 
@@ -413,7 +400,7 @@ open class BottomCommandingController: UIViewController {
     private var bottomSheetHeroStackHeight: CGFloat { Constants.heroButtonHeight + Constants.BottomSheet.heroStackBottomMargin + bottomSheetHeroStackTopMargin }
 
     private var heroCommandWidthConstraints: [NSLayoutConstraint] {
-        heroItems.compactMap { (itemToBindingMap[$0] as? HeroItemBinding)?.widthConstraint }
+        heroItems.compactMap { (itemToBindingMap[$0] as? HeroItemBindingInfo)?.widthConstraint }
     }
 
     private enum ItemLocation {
@@ -421,7 +408,7 @@ open class BottomCommandingController: UIViewController {
         case list
     }
 
-    private class ItemBinding {
+    private class ItemBindingInfo {
         let item: CommandingItem
         let view: UIView
         let location: ItemLocation
@@ -433,7 +420,7 @@ open class BottomCommandingController: UIViewController {
         }
     }
 
-    private class HeroItemBinding: ItemBinding {
+    private class HeroItemBindingInfo: ItemBindingInfo {
         let widthConstraint: NSLayoutConstraint
 
         init(item: CommandingItem, view: UIView, location: ItemLocation, widthConstraint: NSLayoutConstraint) {
@@ -485,7 +472,7 @@ extension BottomCommandingController: UITableViewDataSource {
         return expandedListSections.count
     }
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        assert(section < expandedListSections.count)
+        precondition(section < expandedListSections.count)
 
         return expandedListSections[section].items.count
     }
@@ -504,7 +491,7 @@ extension BottomCommandingController: UITableViewDataSource {
         if let oldBinding = viewToBindingMap[cell] {
             removeBinding(oldBinding)
         }
-        addBinding(ItemBinding(item: item, view: cell, location: .list))
+        addBinding(ItemBindingInfo(item: item, view: cell, location: .list))
 
         return cell
     }
@@ -556,7 +543,7 @@ extension BottomCommandingController: CommandingItemDelegate {
         reloadView(from: item)
     }
 
-    func commandingItem(_ item: CommandingItem, didChangeCommandTypeTo value: CommandingItem.CommandType) {
+    func commandingItem(_ item: CommandingItem, didChangeToggleableTo value: Bool) {
         reloadView(from: item)
     }
 

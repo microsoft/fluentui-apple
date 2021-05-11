@@ -55,7 +55,7 @@ open class CommandingItem: NSObject {
 
     /// Indicates whether the command is currently on.
     ///
-    /// When `commandType` is set to `.toggle`, the item toggles this automatically before calling `action`.
+    /// When `isToggleable` is `true`, this property is toggled automatically before `action` is called.
     @objc open var isOn: Bool {
         didSet {
             if isOn != oldValue {
@@ -73,11 +73,11 @@ open class CommandingItem: NSObject {
         }
     }
 
-    /// Determines the behavior of this command when its triggered.
-    @objc open var commandType: CommandType {
+    /// Indicates whether `isOn` should be toggled automatically before `action` is called.
+    @objc open var isToggleable: Bool {
         didSet {
-            if commandType != oldValue {
-                delegate?.commandingItem(self, didChangeCommandTypeTo: commandType)
+            if isToggleable != oldValue {
+                delegate?.commandingItem(self, didChangeToggleableTo: isToggleable)
             }
         }
     }
@@ -89,7 +89,7 @@ open class CommandingItem: NSObject {
                       largeImage: UIImage? = nil,
                       isSelected: Bool = false,
                       isEnabled: Bool = true,
-                      commandType: CommandType = .simple) {
+                      isToggleable: Bool = false) {
         self.title = title
         self.action = action
         self.image = image
@@ -97,26 +97,31 @@ open class CommandingItem: NSObject {
         self.largeImage = largeImage
         self.isOn = isSelected
         self.isEnabled = isEnabled
-        self.commandType = commandType
-    }
-
-    @objc public enum CommandType: Int {
-        /// Calls `action` on tap without modifying the item.
-        case simple
-
-        /// Toggles `isOn` on tap before calling `action`.
-        case toggle
+        self.isToggleable = isToggleable
     }
 
     weak var delegate: CommandingItemDelegate?
 }
 
 protocol CommandingItemDelegate: class {
+    /// Called after the `title` property changed.
     func commandingItem(_ item: CommandingItem, didChangeTitleTo value: String)
+
+    /// Called after the `image` property changed.
     func commandingItem(_ item: CommandingItem, didChangeImageTo value: UIImage)
+
+    /// Called after the `largeImage` property changed.
     func commandingItem(_ item: CommandingItem, didChangeLargeImageTo value: UIImage?)
+
+    /// Called after the `selectedImage` property changed.
     func commandingItem(_ item: CommandingItem, didChangeSelectedImageTo value: UIImage?)
-    func commandingItem(_ item: CommandingItem, didChangeCommandTypeTo value: CommandingItem.CommandType)
+
+    /// Called after the `isOn` property changed.
     func commandingItem(_ item: CommandingItem, didChangeOnTo value: Bool)
+
+    /// Called after the `isEnabled` property changed.
     func commandingItem(_ item: CommandingItem, didChangeEnabledTo value: Bool)
+
+    /// Called after the `isToggleable` property changed.
+    func commandingItem(_ item: CommandingItem, didChangeToggleableTo value: Bool)
 }
