@@ -113,7 +113,7 @@ class InitialsView: UIView {
         return colors[hashCode % colors.count]
     }
 
-    private static func initialsColorSet(fromPrimaryText primaryText: String?, secondaryText: String?) -> ColorSet {
+    static func initialsColorSet(fromPrimaryText primaryText: String?, secondaryText: String?) -> ColorSet {
         let hashCode = initialsHashCode(fromPrimaryText: primaryText, secondaryText: secondaryText)
         let colorSets = Colors.avatarColors
         return colorSets[hashCode % colorSets.count]

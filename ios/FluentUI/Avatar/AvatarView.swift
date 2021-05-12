@@ -249,6 +249,15 @@ open class AvatarLegacyView: UIView {
         }
     }
 
+    /// When true, the border color will be calculated using InitialView's ColorSet excluding the Overflow AvatarView
+    @objc open var shouldGenerateBorderColor: Bool = false {
+        didSet {
+            if oldValue != shouldGenerateBorderColor {
+                updateBorderColor()
+            }
+        }
+    }
+
     @objc open var borderColor: UIColor? {
         didSet {
             if hasBorder && !hasCustomBorder {
@@ -580,7 +589,8 @@ open class AvatarLegacyView: UIView {
         if let borderColor = borderColor {
             borderView.layer.borderColor = borderColor.cgColor
         } else {
-            borderView.layer.borderColor = Colors.Avatar.border.cgColor
+            borderView.layer.borderColor = shouldGenerateBorderColor ?
+                InitialsView.initialsColorSet(fromPrimaryText: primaryText, secondaryText: secondaryText).background.cgColor : Colors.Avatar.border.cgColor
         }
     }
 

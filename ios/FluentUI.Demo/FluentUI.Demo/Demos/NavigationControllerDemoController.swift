@@ -29,6 +29,7 @@ class NavigationControllerDemoController: DemoController {
                                          accessoryView: strongSelf.createAccessoryView(),
                                          contractNavigationBarOnScroll: true)
         }).view)
+
         container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
@@ -38,6 +39,7 @@ class NavigationControllerDemoController: DemoController {
                                          accessoryView: strongSelf.createAccessoryView(),
                                          contractNavigationBarOnScroll: false)
         }).view)
+
         container.addArrangedSubview(createButton(title: "Show without an avatar", action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
@@ -68,7 +70,9 @@ class NavigationControllerDemoController: DemoController {
             button.setImage(UIImage(named: "ic_fluent_filter_28"), for: .normal)
             button.tintColor = UIColor(light: Colors.textOnAccent, dark: Colors.textPrimary)
             stackView.addArrangedSubview(button)
-            strongSelf.presentController(withLargeTitle: true, accessoryView: stackView, contractNavigationBarOnScroll: false)
+            strongSelf.presentController(withLargeTitle: true,
+                                         accessoryView: stackView,
+                                         contractNavigationBarOnScroll: false)
         }).view)
 
         addTitle(text: "Large Title with System style")
@@ -167,6 +171,20 @@ class NavigationControllerDemoController: DemoController {
                                          showsTopAccessory: true,
                                          contractNavigationBarOnScroll: false)
         }).view)
+
+        addTitle(text: "Change Style Periodically")
+        container.addArrangedSubview(createButton(title: "Change the style every second", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.presentController(withLargeTitle: true,
+                                         style: .system,
+                                         accessoryView: strongSelf.createAccessoryView(with: .darkContent),
+                                         showsTopAccessory: true,
+                                         contractNavigationBarOnScroll: false,
+                                         updateStylePeriodically: true)
+        }).view)
     }
 
     @discardableResult
@@ -176,7 +194,8 @@ class NavigationControllerDemoController: DemoController {
                                    showsTopAccessory: Bool = false,
                                    contractNavigationBarOnScroll: Bool = true,
                                    showShadow: Bool = true,
-                                   showAvatar: Bool = true) -> NavigationController {
+                                   showAvatar: Bool = true,
+                                   updateStylePeriodically: Bool = false) -> NavigationController {
         let content = RootViewController()
         content.navigationItem.usesLargeTitle = useLargeTitle
         content.navigationItem.navigationBarStyle = style
@@ -186,8 +205,10 @@ class NavigationControllerDemoController: DemoController {
         content.navigationItem.contentScrollView = contractNavigationBarOnScroll ? content.tableView : nil
         content.showsTopAccessoryView = showsTopAccessory
 
-        if style == .custom {
-            content.navigationItem.customNavigationBarColor = CustomGradient.getCustomBackgroundColor(width: view.frame.width)
+        content.navigationItem.customNavigationBarColor = CustomGradient.getCustomBackgroundColor(width: view.frame.width)
+
+        if updateStylePeriodically {
+            changeStyleContinuously(in: content.navigationItem)
         }
 
         let controller = NavigationController(rootViewController: content)
@@ -213,6 +234,25 @@ class NavigationControllerDemoController: DemoController {
         present(controller, animated: false)
 
         return controller
+    }
+
+    private func changeStyleContinuously(in navigationItem: UINavigationItem) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            let newStyle: NavigationBar.Style
+            switch navigationItem.navigationBarStyle {
+            case .custom:
+                newStyle = .default
+            case .default:
+                newStyle = .primary
+            case .primary:
+                newStyle = .system
+            case .system:
+                newStyle = .custom
+            }
+
+            navigationItem.navigationBarStyle = newStyle
+            self.changeStyleContinuously(in: navigationItem)
+        }
     }
 
     private func createAccessoryView(with style: SearchBar.Style = .lightContent) -> SearchBar {
