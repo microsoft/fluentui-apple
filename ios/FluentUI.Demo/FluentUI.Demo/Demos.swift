@@ -12,6 +12,7 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("AvatarView", AvatarViewDemoController.self),
     ("BadgeField", BadgeFieldDemoController.self),
     ("BadgeView", BadgeViewDemoController.self),
+    ("BottomCommandingController", BottomCommandingDemoController.self),
     ("BottomSheetController", BottomSheetDemoController.self),
     ("Button", ButtonDemoController.self),
     ("Card", CardViewDemoController.self),
