@@ -190,6 +190,12 @@
 		536AEF7525F1ECA800A36206 /* ButtonLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF7325F1ECA800A36206 /* ButtonLegacy.swift */; };
 		536DD9592645F20B00CD41B5 /* UIKit+SwiftUI_interoperability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536DD9582645F20B00CD41B5 /* UIKit+SwiftUI_interoperability.swift */; };
 		536DD9662645FBDA00CD41B5 /* UIKit+SwiftUI_interoperability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536DD9582645F20B00CD41B5 /* UIKit+SwiftUI_interoperability.swift */; };
+		536DD9F3264C4AE700CD41B5 /* MSFActivityIndicatorTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536DD9F2264C4AE700CD41B5 /* MSFActivityIndicatorTokens.generated.swift */; };
+		536DD9F4264C4AE700CD41B5 /* MSFActivityIndicatorTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536DD9F2264C4AE700CD41B5 /* MSFActivityIndicatorTokens.generated.swift */; };
+		536DD9FA264C4B2400CD41B5 /* ActivityIndicatorTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536DD9F9264C4B2400CD41B5 /* ActivityIndicatorTokens.swift */; };
+		536DD9FB264C4B2400CD41B5 /* ActivityIndicatorTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536DD9F9264C4B2400CD41B5 /* ActivityIndicatorTokens.swift */; };
+		536DDA01264C4D7200CD41B5 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536DDA00264C4D7200CD41B5 /* ActivityIndicator.swift */; };
+		536DDA02264C4D7200CD41B5 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536DDA00264C4D7200CD41B5 /* ActivityIndicator.swift */; };
 		537315B325438B15001FD14C /* iOS13_4_compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537315B225438B15001FD14C /* iOS13_4_compatibility.swift */; };
 		53BCB0CE253A4E8D00620960 /* Obscurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BCB0CD253A4E8C00620960 /* Obscurable.swift */; };
 		53C61F8D2624E20C0079FAA8 /* SwiftUI+ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C61F8C2624E20C0079FAA8 /* SwiftUI+ViewModifiers.swift */; };
@@ -391,6 +397,9 @@
 		536AEF3E25F1EC0300A36206 /* AvatarTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarTokens.swift; sourceTree = "<group>"; };
 		536AEF7325F1ECA800A36206 /* ButtonLegacy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonLegacy.swift; sourceTree = "<group>"; };
 		536DD9582645F20B00CD41B5 /* UIKit+SwiftUI_interoperability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIKit+SwiftUI_interoperability.swift"; sourceTree = "<group>"; };
+		536DD9F2264C4AE700CD41B5 /* MSFActivityIndicatorTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFActivityIndicatorTokens.generated.swift; sourceTree = "<group>"; };
+		536DD9F9264C4B2400CD41B5 /* ActivityIndicatorTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorTokens.swift; sourceTree = "<group>"; };
+		536DDA00264C4D7200CD41B5 /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		537315B225438B15001FD14C /* iOS13_4_compatibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOS13_4_compatibility.swift; sourceTree = "<group>"; };
 		53BCB0CD253A4E8C00620960 /* Obscurable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Obscurable.swift; sourceTree = "<group>"; };
 		53C61F8C2624E20C0079FAA8 /* SwiftUI+ViewModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUI+ViewModifiers.swift"; sourceTree = "<group>"; };
@@ -780,6 +789,7 @@
 		536AEF2125F1EC0300A36206 /* Vnext */ = {
 			isa = PBXGroup;
 			children = (
+				536DD9F1264C4AB000CD41B5 /* ActivityIndicator */,
 				536AEF3B25F1EC0300A36206 /* Avatar */,
 				536AEF2E25F1EC0300A36206 /* Button */,
 				536AEF2925F1EC0300A36206 /* Core */,
@@ -833,6 +843,16 @@
 				536AEF3C25F1EC0300A36206 /* MSFAvatarTokens.generated.swift */,
 			);
 			path = Avatar;
+			sourceTree = "<group>";
+		};
+		536DD9F1264C4AB000CD41B5 /* ActivityIndicator */ = {
+			isa = PBXGroup;
+			children = (
+				536DDA00264C4D7200CD41B5 /* ActivityIndicator.swift */,
+				536DD9F9264C4B2400CD41B5 /* ActivityIndicatorTokens.swift */,
+				536DD9F2264C4AE700CD41B5 /* MSFActivityIndicatorTokens.generated.swift */,
+			);
+			path = ActivityIndicator;
 			sourceTree = "<group>";
 		};
 		53FC90BE25672F97008A06FD /* xcode */ = {
@@ -1552,6 +1572,7 @@
 				536AEF6E25F1EC0300A36206 /* AvatarTokens.swift in Sources */,
 				3F82A4B12604069100CAC666 /* MSFDrawerTokens.generated.swift in Sources */,
 				536AEF6225F1EC0300A36206 /* ListHeaderFooter.swift in Sources */,
+				536DD9FB264C4B2400CD41B5 /* ActivityIndicatorTokens.swift in Sources */,
 				8FD01188228A82A600D25925 /* Colors.swift in Sources */,
 				5314E0F325F012C80099271A /* ShyHeaderController.swift in Sources */,
 				5314E1B125F01A980099271A /* TooltipView.swift in Sources */,
@@ -1578,6 +1599,8 @@
 				5314E11425F015EA0099271A /* AvatarData.swift in Sources */,
 				5314E14E25F016CD0099271A /* ResizingHandleView.swift in Sources */,
 				536AEF5E25F1EC0300A36206 /* ListCell.swift in Sources */,
+				536DDA02264C4D7200CD41B5 /* ActivityIndicator.swift in Sources */,
+				536DD9F4264C4AE700CD41B5 /* MSFActivityIndicatorTokens.generated.swift in Sources */,
 				5314E1A625F01A7C0099271A /* BooleanCell.swift in Sources */,
 				5314E0BC25F0106F0099271A /* HUDView.swift in Sources */,
 				5314E0F225F012C80099271A /* ShyHeaderView.swift in Sources */,
@@ -1717,6 +1740,7 @@
 				3F40E8EE2601CD4500C43730 /* MSFDrawerTokens.generated.swift in Sources */,
 				536AEF6D25F1EC0300A36206 /* AvatarTokens.swift in Sources */,
 				536AEF6125F1EC0300A36206 /* ListHeaderFooter.swift in Sources */,
+				536DD9FA264C4B2400CD41B5 /* ActivityIndicatorTokens.swift in Sources */,
 				FD41C8B222DD3BB70086F899 /* UIScrollView+Extensions.swift in Sources */,
 				B483323321CC71940022B4CC /* HUDView.swift in Sources */,
 				FD41C89422DD13230086F899 /* LargeTitleView.swift in Sources */,
@@ -1743,6 +1767,8 @@
 				A578C4A22321CFD6002D5C40 /* AvatarData.swift in Sources */,
 				B444D6B62183A9740002B4D4 /* BadgeView.swift in Sources */,
 				FD7254E72146E946002F4069 /* CalendarViewDayCell.swift in Sources */,
+				536DDA01264C4D7200CD41B5 /* ActivityIndicator.swift in Sources */,
+				536DD9F3264C4AE700CD41B5 /* MSFActivityIndicatorTokens.generated.swift in Sources */,
 				536AEF5D25F1EC0300A36206 /* ListCell.swift in Sources */,
 				A589F854211BA03200471C23 /* Label.swift in Sources */,
 				A56CE7B622E68A7800AA77EE /* UIColor+Extensions.swift in Sources */,

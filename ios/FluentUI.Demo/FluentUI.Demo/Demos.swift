@@ -7,6 +7,7 @@ import UIKit
 
 // Register your control demos here
 let demos: [(title: String, controllerClass: UIViewController.Type)] = [
+    ("ActivityIndicator (Vnext)", ActivityIndicatorDemoController.self),
     ("Avatar (Vnext)", AvatarDemoController.self),
     ("Button (Vnext)", ButtonDemoController.self),
     ("LeftNav (Vnext)", LeftNavDemoController.self),
