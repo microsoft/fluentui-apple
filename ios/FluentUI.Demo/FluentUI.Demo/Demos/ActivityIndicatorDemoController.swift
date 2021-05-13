@@ -18,7 +18,6 @@ class ActivityIndicatorDemoController: DemoController {
         let startStopButton = createButton(title: "Start / Stop activity") { _ in
             self.isAnimating.toggle()
         }
-
         addRow(items: [startStopButton.view])
 
         addTitle(text: "Default color")

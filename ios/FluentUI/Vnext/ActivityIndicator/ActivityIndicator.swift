@@ -12,6 +12,7 @@ import SwiftUI
     var color: UIColor? { get set }
     var isAnimating: Bool { get set }
     var hidesWhenStopped: Bool { get set }
+    var size: MSFActivityIndicatorSize { get set }
 }
 
 /// Properties available to customize the state of the activity indicator
@@ -19,6 +20,22 @@ class MSFActivityIndicatorStateImpl: NSObject, ObservableObject, MSFActivityIndi
     @Published var color: UIColor?
     @Published var isAnimating: Bool = false
     @Published var hidesWhenStopped: Bool = true
+
+    let tokens: MSFActivityIndicatorTokens
+
+    var size: MSFActivityIndicatorSize {
+        get {
+            return tokens.size
+        }
+
+        set {
+            tokens.size = newValue
+        }
+    }
+
+    init(size: MSFActivityIndicatorSize) {
+        self.tokens = MSFActivityIndicatorTokens(size: size)
+    }
 }
 
 /// View that represents the activity indicator
@@ -30,8 +47,9 @@ public struct ActivityIndicator: View {
     @State var rotationAngle: Double = 0.0
 
     public init(size: MSFActivityIndicatorSize) {
-        self.tokens = MSFActivityIndicatorTokens(size: size)
-        self.state = MSFActivityIndicatorStateImpl()
+        let state = MSFActivityIndicatorStateImpl(size: size)
+        self.state = state
+        self.tokens = state.tokens
     }
 
     public var body: some View {
@@ -44,23 +62,20 @@ public struct ActivityIndicator: View {
         }
     }
 
-    public func setSize(size: MSFActivityIndicatorSize) {
-        tokens.size = size
-    }
-
-    var animatedSemiRing: some View {
+    private var animatedSemiRing: some View {
         return semiRing
             .rotationEffect(Angle(degrees: rotationAngle))
             .onAppear {
-                rotationAngle = 0.0
+                rotationAngle = initialAnimationRotationAngle
 
-                withAnimation(animation) {
-                    rotationAngle = 360.0
+                withAnimation(Animation.linear(duration: animationDuration)
+                                .repeatForever(autoreverses: false)) {
+                    rotationAngle = finalAnimationRotationAngle
                 }
             }
     }
 
-    var semiRing: some View {
+    private var semiRing: some View {
         let size = tokens.activityIndicatorSize
         let color = Color(state.color ?? tokens.defaultColor)
         let accessibilityLabel: String = {
@@ -75,10 +90,14 @@ public struct ActivityIndicator: View {
         }()
 
         return Circle()
-            .trim(from: 0, to: 0.75)
-            .stroke(style: StrokeStyle(lineWidth: tokens.thickness, lineCap: .round))
+            .trim(from: semiRingStartFraction,
+                  to: semiRingEndFraction)
+            .stroke(style: StrokeStyle(lineWidth: tokens.thickness,
+                                       lineCap: .round))
             .foregroundColor(color)
-            .frame(width: size, height: size, alignment: .center)
+            .frame(width: size,
+                   height: size,
+                   alignment: .center)
             .accessibilityElement(children: .ignore)
             .accessibility(addTraits: .isImage)
             .accessibility(label: Text(accessibilityLabel))
@@ -88,12 +107,10 @@ public struct ActivityIndicator: View {
     }
 
     private let animationDuration: Double = 0.75
-
-    var animation: Animation {
-        Animation
-            .linear(duration: animationDuration)
-            .repeatForever(autoreverses: false)
-    }
+    private let semiRingStartFraction: CGFloat = 0.0
+    private let semiRingEndFraction: CGFloat = 0.75
+    private let initialAnimationRotationAngle: Double = 0.0
+    private let finalAnimationRotationAngle: Double = 360.0
 }
 
 /// UIKit wrapper that exposes the SwiftUI activity indicator implementation
@@ -105,10 +122,6 @@ public struct ActivityIndicator: View {
 
     @objc open var state: MSFActivityIndicatorState {
         return self.activityIndicatorView.state
-    }
-
-    @objc open func setSize(size: MSFActivityIndicatorSize) {
-        self.activityIndicatorView.setSize(size: size)
     }
 
     @objc public convenience init(size: MSFActivityIndicatorSize = .medium) {
