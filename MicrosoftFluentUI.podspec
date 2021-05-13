@@ -46,6 +46,25 @@ Pod::Spec.new do |s|
     barbuttonitems_ios.source_files = ["ios/FluentUI/BarButtonItems/**/*.{swift,h}"]
   end
 
+  s.subspec 'BottomCommanding_ios' do |bottomcommanding_ios|
+    bottomcommanding_ios.platform = :ios
+    bottomcommanding_ios.dependency 'MicrosoftFluentUI/Core_ios'
+    bottomcommanding_ios.dependency 'MicrosoftFluentUI/BottomSheet_ios'
+    bottomcommanding_ios.dependency 'MicrosoftFluentUI/OtherCells_ios'
+    bottomcommanding_ios.dependency 'MicrosoftFluentUI/Separator_ios'
+    bottomcommanding_ios.dependency 'MicrosoftFluentUI/TabBar_ios'
+    bottomcommanding_ios.dependency 'MicrosoftFluentUI/TableView_ios'
+    bottomcommanding_ios.preserve_paths = ["ios/FluentUI/Bottom Commanding/BottomCommanding.resources.xcfilelist"]
+    bottomcommanding_ios.source_files = ["ios/FluentUI/Bottom Commanding/**/*.{swift,h}"]
+  end
+
+  s.subspec 'BottomSheet_ios' do |bottomsheet_ios|
+    bottomsheet_ios.platform = :ios
+    bottomsheet_ios.dependency 'MicrosoftFluentUI/Core_ios'
+    bottomsheet_ios.dependency 'MicrosoftFluentUI/ResizingHandleView_ios'
+    bottomsheet_ios.source_files = ["ios/FluentUI/Bottom Sheet/**/*.{swift,h}"]
+  end
+
   s.subspec 'Button_ios' do |button_ios|
     button_ios.platform = :ios
     button_ios.dependency 'MicrosoftFluentUI/Core_ios'
