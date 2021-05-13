@@ -11,8 +11,8 @@ class ActivityIndicatorDemoController: DemoController {
         super.viewDidLoad()
 
         let hidesWhenStoppedSettingView = createLabelAndSwitchRow(labelText: "Hides when stopped",
-                                                                          switchAction: #selector(toggleShouldHideWhenStopped(switchView:)),
-                                                                          isOn: shouldHideWhenStopped)
+                                                                  switchAction: #selector(toggleShouldHideWhenStopped(switchView:)),
+                                                                  isOn: shouldHideWhenStopped)
         addRow(items: [hidesWhenStoppedSettingView])
 
         let startStopButton = createButton(title: "Start / Stop activity") { _ in
