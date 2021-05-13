@@ -6,7 +6,6 @@
 import FluentUI
 
 class BottomSheetDemoController: DemoController {
-// MARK: Lifecycle methods
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +41,6 @@ class BottomSheetDemoController: DemoController {
         ])
     }
 
-// MARK: Setup Methods
     @objc private func toggleExpandable() {
         bottomSheetViewController?.isExpandable.toggle()
     }
@@ -108,9 +106,9 @@ private class BottomSheetPersonaListViewController: UIViewController {
 }
 
 extension BottomSheetDemoController: UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-//        return false
-//    }
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
 }
 
 extension BottomSheetDemoController: UITableViewDataSource {

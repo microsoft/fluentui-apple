@@ -3,7 +3,6 @@
 //  Licensed under the MIT License.
 //
 
-import Foundation
 import FluentUI
 
 class BottomCommandingDemoController: DemoController {
