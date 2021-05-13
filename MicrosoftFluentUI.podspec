@@ -48,7 +48,6 @@ Pod::Spec.new do |s|
 
   s.subspec 'BottomCommanding_ios' do |bottomcommanding_ios|
     bottomcommanding_ios.platform = :ios
-    bottomcommanding_ios.dependency 'MicrosoftFluentUI/Core_ios'
     bottomcommanding_ios.dependency 'MicrosoftFluentUI/BottomSheet_ios'
     bottomcommanding_ios.dependency 'MicrosoftFluentUI/OtherCells_ios'
     bottomcommanding_ios.dependency 'MicrosoftFluentUI/Separator_ios'
@@ -60,7 +59,6 @@ Pod::Spec.new do |s|
 
   s.subspec 'BottomSheet_ios' do |bottomsheet_ios|
     bottomsheet_ios.platform = :ios
-    bottomsheet_ios.dependency 'MicrosoftFluentUI/Core_ios'
     bottomsheet_ios.dependency 'MicrosoftFluentUI/ResizingHandleView_ios'
     bottomsheet_ios.source_files = ["ios/FluentUI/Bottom Sheet/**/*.{swift,h}"]
   end
