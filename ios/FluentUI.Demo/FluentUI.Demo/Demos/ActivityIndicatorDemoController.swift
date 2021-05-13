@@ -10,10 +10,10 @@ class ActivityIndicatorDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let enablePointerInteractionSettingView = createLabelAndSwitchRow(labelText: "Hides when stopped",
+        let hidesWhenStoppedSettingView = createLabelAndSwitchRow(labelText: "Hides when stopped",
                                                                           switchAction: #selector(toggleShouldHideWhenStopped(switchView:)),
                                                                           isOn: shouldHideWhenStopped)
-        addRow(items: [enablePointerInteractionSettingView])
+        addRow(items: [hidesWhenStoppedSettingView])
 
         let startStopButton = createButton(title: "Start / Stop activity") { _ in
             self.isAnimating.toggle()
@@ -25,7 +25,7 @@ class ActivityIndicatorDemoController: DemoController {
             let activityIndicator = MSFActivityIndicator(size: size)
             indicators.append(activityIndicator)
 
-            activityIndicator.state.isAnimating = self.isAnimating
+            activityIndicator.state.isAnimating = isAnimating
             addRow(text: size.description, items: [activityIndicator.view])
         }
 
@@ -35,7 +35,7 @@ class ActivityIndicatorDemoController: DemoController {
             indicators.append(activityIndicator)
 
             activityIndicator.state.color = Colors.communicationBlue
-            activityIndicator.state.isAnimating = self.isAnimating
+            activityIndicator.state.isAnimating = isAnimating
             addRow(text: size.description, items: [activityIndicator.view])
         }
     }
@@ -71,15 +71,15 @@ extension MSFActivityIndicatorSize {
     var description: String {
         switch self {
         case .xSmall:
-            return "XSmall"
+            return "xSmall"
         case .small:
-            return "Small"
+            return "small"
         case .medium:
-            return "Medium"
+            return "medium"
         case .large:
-            return "Large"
+            return "large"
         case .xLarge:
-            return "XLarge"
+            return "xLarge"
         }
     }
 }
