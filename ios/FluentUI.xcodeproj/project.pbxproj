@@ -730,13 +730,20 @@
 		80B1F6F52628CDEB004DFEE5 /* Bottom Sheet */ = {
 			isa = PBXGroup;
 			children = (
-				8035CAAA2633A442007B3FD1 /* BottomCommandingController.swift */,
 				80AECBD82629F18E005AF2F3 /* BottomSheetController.swift */,
 				80AECBF1262FC34E005AF2F3 /* BottomSheetPassthroughView.swift */,
+			);
+			path = "Bottom Sheet";
+			sourceTree = "<group>";
+		};
+		80B52538264CA5BC00E3FD32 /* Bottom Commanding */ = {
+			isa = PBXGroup;
+			children = (
+				8035CAAA2633A442007B3FD1 /* BottomCommandingController.swift */,
 				8035CACA26377C14007B3FD1 /* CommandingItem.swift */,
 				8035CADC2638E435007B3FD1 /* CommandingSection.swift */,
 			);
-			path = "Bottom Sheet";
+			path = "Bottom Commanding";
 			sourceTree = "<group>";
 		};
 		A5961F9B218A251E00E2A506 /* Popup Menu */ = {
@@ -818,6 +825,7 @@
 				5314E00325F009B70099271A /* ActivityViewAnimating */,
 				5314DFEB25F002240099271A /* ActivityIndicator */,
 				5314DFF625F0079B0099271A /* BarButtonItems */,
+				80B52538264CA5BC00E3FD32 /* Bottom Commanding */,
 				80B1F6F52628CDEB004DFEE5 /* Bottom Sheet */,
 				5314DFEC25F0029C0099271A /* Button */,
 				CCC18C2A2501B1A900BE830E /* Card */,
