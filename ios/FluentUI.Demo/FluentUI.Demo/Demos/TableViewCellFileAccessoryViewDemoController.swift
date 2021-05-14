@@ -91,11 +91,11 @@ class TableViewCellFileAccessoryViewDemoController: UITableViewController {
                 let buttonViews: [UIView] = {
                     switch row {
                     case .minimumActionsCount:
-                        return [plusMinActionsButton, minusMinActionsButton]
+                        return [minusMinActionsButton, plusMinActionsButton]
                     case .topActionsOverlap:
-                        return [plusTopOverlapButton, minusTopOverlapButton]
+                        return [minusTopOverlapButton, plusTopOverlapButton]
                     case .bottomActionsOverlap:
-                        return [plusBottomOverlapButton, minusBottomOverlapButton]
+                        return [minusBottomOverlapButton, plusBottomOverlapButton]
                     default:
                         return []
                     }
