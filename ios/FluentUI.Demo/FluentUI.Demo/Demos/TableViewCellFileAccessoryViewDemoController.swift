@@ -680,7 +680,7 @@ class TableViewCellFileAccessoryViewDemoController: UITableViewController {
 
         cell.backgroundColor = Colors.Table.Cell.background
         cell.topSeparatorType = .none
-        cell.bottomSeparatorType = .none
+        cell.bottomSeparatorType = (top ? .inset : .none)
 
         return cell
     }
