@@ -216,6 +216,7 @@ open class AvatarView: UIView {
             updatePresenceImage()
 
             frame.size = avatarSize.size
+            containerView.frame = CGRect(origin: .zero, size: avatarSize.size)
             initialsView.avatarSize = avatarSize
 
             invalidateIntrinsicContentSize()
@@ -363,6 +364,7 @@ open class AvatarView: UIView {
 
         initialsView = InitialsView(avatarSize: avatarSize)
         initialsView.isHidden = true
+        initialsView.clipsToBounds = true
 
         imageView = UIImageView(frame: .zero)
         imageView.isHidden = true
@@ -373,9 +375,9 @@ open class AvatarView: UIView {
         borderView.isHidden = !hasBorder
 
         containerView = UIView(frame: CGRect(origin: .zero, size: avatarSize.size))
-        containerView.addSubview(borderView)
         containerView.addSubview(initialsView)
         containerView.addSubview(imageView)
+        containerView.addSubview(borderView)
 
         super.init(frame: containerView.frame)
 
