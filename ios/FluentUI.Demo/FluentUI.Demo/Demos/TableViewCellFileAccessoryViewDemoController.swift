@@ -294,8 +294,7 @@ class TableViewCellFileAccessoryViewDemoController: UITableViewController {
 
     private func createPlusMinusButton(plus: Bool, _ selector: Selector) -> UIButton {
         let button = Button(style: .secondaryOutline)
-        button.setTitle(plus ? "+" : "-",
-                        for: .normal)
+        button.image = UIImage(named: plus ? "ic_fluent_add_20_regular" : "ic_fluent_subtract_20_regular")
         button.addTarget(self,
                          action: selector,
                          for: .touchUpInside)
