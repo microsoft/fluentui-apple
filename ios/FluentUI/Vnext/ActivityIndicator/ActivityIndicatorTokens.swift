@@ -34,10 +34,8 @@ import SwiftUI
 /// Updating these properties causes the SwiftUI button to update its view automatically.
 class MSFActivityIndicatorTokens: MSFTokensBase, ObservableObject {
     @Published public var activityIndicatorSize: CGFloat!
-    @Published public var thickness: CGFloat!
-    @Published public var textFont: UIFont!
-
     @Published public var defaultColor: UIColor!
+    @Published public var thickness: CGFloat!
 
     var size: MSFActivityIndicatorSize {
         didSet {
