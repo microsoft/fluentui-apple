@@ -136,6 +136,7 @@ class TableViewCellFileAccessoryViewDemoController: UITableViewController {
                                top: true)
         let cell2 = createCell(title: "This is a very long document title that keeps on going forever to test text truncation",
                                subtitle: "This is a very long document subtitle that keeps on going forever to test text truncation",
+                               footer: "This is a footer text to validate the 3 line cell scenario and test text truncation",
                                top: false)
 
         updateActions()
@@ -648,7 +649,7 @@ class TableViewCellFileAccessoryViewDemoController: UITableViewController {
         present(alert, animated: true)
     }
 
-    private func createCell(title: String, subtitle: String, top: Bool) -> TableViewCell {
+    private func createCell(title: String, subtitle: String, footer: String = "", top: Bool) -> TableViewCell {
         let customAccessoryView = createAccessoryView()
 
         if top {
@@ -663,7 +664,7 @@ class TableViewCellFileAccessoryViewDemoController: UITableViewController {
         cell.setup(
             title: title,
             subtitle: subtitle,
-            footer: "",
+            footer: footer,
             customView: TableViewSampleData.createCustomView(imageName: "wordIcon"),
             customAccessoryView: customAccessoryView,
             accessoryType: .none
@@ -679,7 +680,7 @@ class TableViewCellFileAccessoryViewDemoController: UITableViewController {
 
         cell.backgroundColor = Colors.Table.Cell.background
         cell.topSeparatorType = .none
-        cell.bottomSeparatorType = .none
+        cell.bottomSeparatorType = (top ? .inset : .none)
 
         return cell
     }
