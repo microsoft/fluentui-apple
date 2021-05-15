@@ -5,7 +5,6 @@
 
 import FluentUI
 
-class BottomSheetDemoController: UIViewController {
 
     override func loadView() {
         view = UIView()
@@ -19,7 +18,7 @@ class BottomSheetDemoController: UIViewController {
         optionTableView.separatorStyle = .none
         view.addSubview(optionTableView)
 
-        let bottomSheetViewController = BottomSheetController(contentView: personaListView)
+        let bottomSheetViewController = BottomSheetController(sheetHeaderContentView: headerView, sheetExpandedContentView: personaListView)
         bottomSheetViewController.hostedScrollView = personaListView
 
         self.bottomSheetViewController = bottomSheetViewController
@@ -57,6 +56,20 @@ class BottomSheetDemoController: UIViewController {
         personaListView.personaList = samplePersonas
         personaListView.translatesAutoresizingMaskIntoConstraints = false
         return personaListView
+    }()
+
+    private let headerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemTeal
+        view.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        return view
+    }()
+
+    private let expandedContentView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemIndigo
+//        view.heightAnchor.constraint(equalToConstant: 400).isActive = true
+        return view
     }()
 
     private var bottomSheetViewController: BottomSheetController?

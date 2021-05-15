@@ -98,6 +98,10 @@ open class BottomCommandingController: UIViewController {
         }
     }
 
+    public override func viewSafeAreaInsetsDidChange() {
+        updateSheetCollapsedContentHeight()
+    }
+
     private func setupBottomBarLayout() {
         NSLayoutConstraint.activate(heroCommandWidthConstraints)
         heroCommandStack.distribution = .equalSpacing
@@ -127,9 +131,8 @@ open class BottomCommandingController: UIViewController {
         let commandStackContainer = UIView()
         commandStackContainer.addSubview(heroCommandStack)
 
-        let sheetController = BottomSheetController(contentView: makeBottomSheetContent(headerView: commandStackContainer, expandedContentView: tableView))
+        let sheetController = BottomSheetController(sheetHeaderContentView: commandStackContainer, sheetExpandedContentView: expandedContentView)
         sheetController.hostedScrollView = tableView
-        sheetController.collapsedContentHeight = bottomSheetHeroStackHeight
         sheetController.expandedHeightFraction = Constants.BottomSheet.expandedFraction
 
         addChild(sheetController)
@@ -147,7 +150,7 @@ open class BottomCommandingController: UIViewController {
             sheetController.view.topAnchor.constraint(equalTo: view.topAnchor),
             heroCommandStack.leadingAnchor.constraint(equalTo: commandStackContainer.leadingAnchor, constant: Constants.BottomSheet.heroStackLeadingTrailingMargin),
             heroCommandStack.trailingAnchor.constraint(equalTo: commandStackContainer.trailingAnchor, constant: -Constants.BottomSheet.heroStackLeadingTrailingMargin),
-            heroCommandStack.bottomAnchor.constraint(equalTo: commandStackContainer.bottomAnchor, constant: -Constants.BottomSheet.heroStackBottomMargin),
+            heroCommandStack.bottomAnchor.constraint(equalTo: commandStackContainer.bottomAnchor),
             heroStackTopConstraint
         ])
 
@@ -214,12 +217,16 @@ open class BottomCommandingController: UIViewController {
 
     private func updateExpandability() {
         if isInSheetMode {
-            bottomSheetController?.collapsedContentHeight = bottomSheetHeroStackHeight
             bottomSheetController?.isExpandable = isExpandable
             bottomSheetHeroStackTopConstraint?.constant = bottomSheetHeroStackTopMargin
+            updateSheetCollapsedContentHeight()
         } else {
             moreButtonView.isHidden = !isExpandable
         }
+    }
+
+    private func updateSheetCollapsedContentHeight() {
+        bottomSheetController?.collapsedContentHeight = bottomSheetHeroStackHeight + view.safeAreaInsets.bottom
     }
 
     private lazy var moreButtonView: UIView = {
@@ -247,6 +254,26 @@ open class BottomCommandingController: UIViewController {
 
         isHeroCommandStackLoaded = true
         return stackView
+    }()
+
+    private lazy var expandedContentView: UIView = {
+        let view = UIView()
+        let separator = Separator()
+        separator.translatesAutoresizingMaskIntoConstraints = false
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(tableView)
+        view.addSubview(separator)
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.BottomSheet.expandedContentTopMargin),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            separator.topAnchor.constraint(equalTo: tableView.topAnchor),
+            separator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            separator.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+        return view
     }()
 
     private lazy var tableView: UITableView = {
@@ -411,7 +438,7 @@ open class BottomCommandingController: UIViewController {
         isExpandable ? Constants.BottomSheet.heroStackExpandableTopMargin : Constants.BottomSheet.heroStackNonExpandableTopMargin
     }
 
-    private var bottomSheetHeroStackHeight: CGFloat { Constants.heroButtonHeight + Constants.BottomSheet.heroStackBottomMargin + bottomSheetHeroStackTopMargin }
+    private var bottomSheetHeroStackHeight: CGFloat { Constants.heroButtonHeight + bottomSheetHeroStackTopMargin }
 
     private var heroCommandWidthConstraints: [NSLayoutConstraint] {
         heroItems.compactMap { (itemToBindingMap[$0] as? HeroItemBindingInfo)?.widthConstraint }
@@ -469,14 +496,14 @@ open class BottomCommandingController: UIViewController {
         }
 
         struct BottomSheet {
-            static let expandedFraction: CGFloat = 0.7 // Probably should be more customizable / based on content
-            static let heroStackBottomMargin: CGFloat = 16
+            static let expandedFraction: CGFloat = 0.9 // Probably should be more customizable / based on content
             static let heroStackExpandableTopMargin: CGFloat = 0
             static let heroStackNonExpandableTopMargin: CGFloat = 16
             static let heroStackLeadingTrailingMargin: CGFloat = 8
+
+            static let expandedContentTopMargin: CGFloat = 16
         }
     }
-
 }
 
 extension BottomCommandingController: UITableViewDataSource {
