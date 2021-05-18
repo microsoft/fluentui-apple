@@ -5,10 +5,10 @@
 
 import FluentUI
 
-class BottomSheetDemoController: DemoController {
+class BottomSheetDemoController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func loadView() {
+        view = UIView()
 
         let optionTableView = UITableView(frame: .zero, style: .plain)
         optionTableView.translatesAutoresizingMaskIntoConstraints = false
