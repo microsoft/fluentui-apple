@@ -173,7 +173,6 @@ class TabBarItemView: UIView {
         let imageView = UIImageView(frame: .zero)
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = Constants.unselectedColor
-        imageView.contentMode = .scaleAspectFit
 
         if canResizeImage {
             let sizeConstraints = (
