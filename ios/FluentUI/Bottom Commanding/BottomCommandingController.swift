@@ -226,6 +226,7 @@ open class BottomCommandingController: UIViewController {
         let moreButtonItem = TabBarItem(title: Constants.BottomBar.moreButtonTitle, image: Constants.BottomBar.moreButtonIcon ?? UIImage())
         let moreButtonView = TabBarItemView(item: moreButtonItem, showsTitle: true)
         moreButtonView.alwaysShowTitleBelowImage = true
+        moreButtonView.accessibilityTraits.insert(.button)
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleMoreButtonTap(_:)))
         moreButtonView.addGestureRecognizer(tapGesture)
@@ -445,9 +446,7 @@ open class BottomCommandingController: UIViewController {
             static let heroStackTopBottomMargin: CGFloat = 16
 
             static let moreButtonIcon: UIImage? = UIImage.staticImageNamed("more-24x24")
-
-            // TODO: Localize
-            static let moreButtonTitle: String = "More"
+            static let moreButtonTitle: String = "CommandingBottomBar.More".localized
 
             struct Shadow {
                 static let color: CGColor = UIColor.black.cgColor

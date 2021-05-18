@@ -5,48 +5,54 @@
 
 import FluentUI
 
-class BottomSheetDemoController: DemoController {
-// MARK: Lifecycle methods
+class BottomSheetDemoController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func loadView() {
+        view = UIView()
 
-        setupMainPersonaListView()
-        setupBottomSheet()
-    }
+        let optionTableView = UITableView(frame: .zero, style: .plain)
+        optionTableView.translatesAutoresizingMaskIntoConstraints = false
+        optionTableView.register(BooleanCell.self, forCellReuseIdentifier: BooleanCell.identifier)
+        optionTableView.register(ActionsCell.self, forCellReuseIdentifier: ActionsCell.identifier)
+        optionTableView.dataSource = self
+        optionTableView.delegate = self
+        optionTableView.separatorStyle = .none
+        view.addSubview(optionTableView)
 
-// MARK: Setup Methods
+        let bottomSheetViewController = BottomSheetController(contentView: personaListView)
+        bottomSheetViewController.hostedScrollView = personaListView
+        bottomSheetViewController.expandedHeightFraction = 1.0
 
-    private func setupMainPersonaListView() {
-        view.addSubview(personaListView)
+        self.bottomSheetViewController = bottomSheetViewController
+
+        self.addChild(bottomSheetViewController)
+        view.addSubview(bottomSheetViewController.view)
+        bottomSheetViewController.didMove(toParent: self)
 
         NSLayoutConstraint.activate([
-            personaListView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            personaListView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            personaListView.topAnchor.constraint(equalTo: view.topAnchor),
-            personaListView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            optionTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            optionTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            optionTableView.topAnchor.constraint(equalTo: view.topAnchor),
+            optionTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            bottomSheetViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            bottomSheetViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            bottomSheetViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
+            bottomSheetViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 
-    private func setupBottomSheet() {
-        let personaVC = BottomSheetPersonaListViewController()
-        let bottomSheetVC = BottomSheetController(contentViewController: personaVC)
-        bottomSheetVC.hostedScrollView = personaVC.personaListView
-        bottomSheetVC.expandedHeightFraction = 0.8
-
-        self.addChild(bottomSheetVC)
-        view.addSubview(bottomSheetVC.view)
-        bottomSheetVC.didMove(toParent: self)
-
-        NSLayoutConstraint.activate([
-            bottomSheetVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            bottomSheetVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            bottomSheetVC.view.topAnchor.constraint(equalTo: view.topAnchor),
-            bottomSheetVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
+    @objc private func toggleExpandable() {
+        bottomSheetViewController?.isExpandable.toggle()
     }
 
-// MARK: Private properties
+    @objc private func fullScreenExpandedOffset() {
+        bottomSheetViewController?.expandedHeightFraction = 1.0
+    }
+
+    @objc private func halfScreenExpandedOffset() {
+        bottomSheetViewController?.expandedHeightFraction = 0.5
+    }
+
     private let personaListView: PersonaListView = {
         let personaListView = PersonaListView()
         personaListView.personaList = samplePersonas
@@ -55,6 +61,27 @@ class BottomSheetDemoController: DemoController {
     }()
 
     private var bottomSheetViewController: BottomSheetController?
+
+    private lazy var demoOptionItems: [DemoItem] = {
+        return [
+            DemoItem(title: "Expandable", type: .boolean, action: #selector(toggleExpandable), isOn: true),
+            DemoItem(title: "Full screen expansion height", type: .action, action: #selector(fullScreenExpandedOffset)),
+            DemoItem(title: "Half screen expansion height", type: .action, action: #selector(halfScreenExpandedOffset))
+        ]
+    }()
+
+    private enum DemoItemType {
+        case action
+        case boolean
+        case stepper
+    }
+
+    private struct DemoItem {
+        let title: String
+        let type: DemoItemType
+        let action: Selector?
+        var isOn: Bool = false
+    }
 }
 
 private class BottomSheetPersonaListViewController: UIViewController {
@@ -76,4 +103,48 @@ private class BottomSheetPersonaListViewController: UIViewController {
         personaListView.translatesAutoresizingMaskIntoConstraints = false
         return personaListView
     }()
+}
+
+extension BottomSheetDemoController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
+}
+
+extension BottomSheetDemoController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return demoOptionItems.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let item = demoOptionItems[indexPath.row]
+
+        if item.type == .boolean {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as? BooleanCell else {
+                return UITableViewCell()
+            }
+            cell.setup(title: item.title, isOn: item.isOn)
+            cell.titleNumberOfLines = 0
+            cell.onValueChanged = { [weak self, weak cell] in
+                self?.perform(item.action, with: cell)
+            }
+            return cell
+        } else if item.type == .action {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ActionsCell.identifier) as? ActionsCell else {
+                return UITableViewCell()
+            }
+            cell.setup(action1Title: item.title)
+            if let action = item.action {
+                cell.action1Button.addTarget(self, action: action, for: .touchUpInside)
+            }
+            cell.bottomSeparatorType = .full
+            return cell
+        }
+
+        return UITableViewCell()
+    }
 }

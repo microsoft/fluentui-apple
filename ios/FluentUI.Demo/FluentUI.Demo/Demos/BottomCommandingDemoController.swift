@@ -3,13 +3,12 @@
 //  Licensed under the MIT License.
 //
 
-import Foundation
 import FluentUI
 
-class BottomCommandingDemoController: DemoController {
+class BottomCommandingDemoController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func loadView() {
+        view = UIView()
 
         let optionTableView = UITableView(frame: .zero, style: .plain)
         optionTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -148,6 +147,15 @@ class BottomCommandingDemoController: DemoController {
             showMessage("Hero command tapped")
         } else if expandedListSections.contains(where: { $0.items.contains(item) }) {
             showMessage("Expanded list command tapped")
+        }
+    }
+
+    private func showMessage(_ message: String) {
+        let alert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
+        present(alert, animated: true)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.dismiss(animated: true)
         }
     }
 
