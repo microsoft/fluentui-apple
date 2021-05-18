@@ -254,7 +254,6 @@ open class BottomCommandingController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorStyle = .none
         tableView.alwaysBounceVertical = false
-        tableView.isAccessibilityElement = true
         tableView.sectionFooterHeight = 0
         tableView.backgroundColor = Constants.tableViewBackgroundColor
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
@@ -349,9 +348,13 @@ open class BottomCommandingController: UIViewController {
         let iconView = UIImageView(image: item.image)
         iconView.tintColor = Constants.tableViewIconTintColor
         cell.setup(title: item.title, subtitle: "", footer: "", customView: iconView, customAccessoryView: nil, accessoryType: .none)
-        cell.bottomSeparatorType = .none
         cell.isEnabled = item.isEnabled
         cell.backgroundColor = Constants.tableViewBackgroundColor
+
+        let shouldShowSeparator = expandedListSections
+            .prefix(expandedListSections.count - 1)
+            .contains(where: { $0.items.last == item })
+        cell.bottomSeparatorType = shouldShowSeparator ? .full : .none
     }
 
     // Reloads view in place from the given item object
