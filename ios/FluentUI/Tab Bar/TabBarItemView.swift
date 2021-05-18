@@ -176,17 +176,18 @@ class TabBarItemView: UIView {
         imageView.contentMode = .scaleAspectFit
 
         if canResizeImage {
-            imageViewWidthHeightConstraints = [
-                imageView.widthAnchor.constraint(equalToConstant: suggestImageSize),
-                imageView.heightAnchor.constraint(equalToConstant: suggestImageSize)
-            ]
-            NSLayoutConstraint.activate(imageViewWidthHeightConstraints)
+            let sizeConstraints = (
+                width: imageView.widthAnchor.constraint(equalToConstant: suggestImageSize),
+                height: imageView.heightAnchor.constraint(equalToConstant: suggestImageSize)
+            )
+            sizeConstraints.width.isActive = true
+            sizeConstraints.height.isActive = true
+            imageViewSizeConstraints = sizeConstraints
         }
-
         return imageView
     }()
 
-    private var imageViewWidthHeightConstraints: [NSLayoutConstraint] = []
+    private var imageViewSizeConstraints: (width: NSLayoutConstraint, height: NSLayoutConstraint)?
 
     private let titleLabel: Label = {
         let titleLabel = Label()
@@ -211,8 +212,10 @@ class TabBarItemView: UIView {
 
     private var suggestImageSize: CGFloat {
         didSet {
-            if canResizeImage {
-                imageViewWidthHeightConstraints.forEach { $0.constant = suggestImageSize }
+            if canResizeImage,
+               let sizeConstraints = imageViewSizeConstraints {
+                sizeConstraints.width.constant = suggestImageSize
+                sizeConstraints.height.constant = suggestImageSize
             }
         }
     }
