@@ -21,7 +21,6 @@ class BottomSheetDemoController: UIViewController {
 
         let bottomSheetViewController = BottomSheetController(contentView: personaListView)
         bottomSheetViewController.hostedScrollView = personaListView
-        bottomSheetViewController.expandedHeightFraction = 1.0
 
         self.bottomSheetViewController = bottomSheetViewController
 
