@@ -8,6 +8,14 @@ import UIKit
 class TabBarItemView: UIView {
     let item: TabBarItem
 
+    var isEnabled: Bool = true {
+        didSet {
+            titleLabel.isEnabled = isEnabled
+            imageView.tintAdjustmentMode = isEnabled ? .automatic : .dimmed
+            isUserInteractionEnabled = isEnabled
+        }
+    }
+
     var isSelected: Bool = false {
         didSet {
             titleLabel.isHighlighted = isSelected
