@@ -27,7 +27,7 @@ private struct TestData {
 class TestAvatarViewController: NSViewController {
 
 	// Create various sizes of avatar views from our testa data
-	let displayedAvatarViews: [[AvatarView]] = avatarViews(sizes: [20, 25, 35, 50, 70],
+	let displayedAvatarViews: [[AvatarView]] = avatarViews(sizes: [24, 32, 40, 52, 72],
 														   identities: [
 															TestData.annie,
 															TestData.maor,
@@ -58,7 +58,8 @@ class TestAvatarViewController: NSViewController {
 			avatarViewsContentView,
 			NSButton(title: "Update Avatar Images", target: self, action: #selector(updateAvatarImages)),
 			NSButton(title: "Update Avatar Background Colors", target: self, action: #selector(updateAvatarBackgroundColors)),
-			NSButton(title: "Repurpose Avatar View", target: self, action: #selector(reuseAvatarView))
+			NSButton(title: "Repurpose Avatar View", target: self, action: #selector(reuseAvatarView)),
+			NSButton(title: "Show custom border", target: self, action: #selector(showCustomBorder))
 			])
 
 		containerView.orientation = .vertical
@@ -68,10 +69,11 @@ class TestAvatarViewController: NSViewController {
 
 	/// Create a single avatar view from a given size and test identity
 	private static func avatarView(size: CGFloat, identity: TestIdentity) -> AvatarView {
-		return AvatarView(avatarSize: size,
-						  contactName: identity.name,
-						  contactEmail: identity.email,
-						  contactImage: identity.image)
+		let avatarView = AvatarView(avatarSize: size,
+									contactName: identity.name,
+									contactEmail: identity.email,
+									contactImage: identity.image)
+		return avatarView
 	}
 
 	/// For each identity passed in, return an array of avatar views in the given sizes
@@ -79,6 +81,34 @@ class TestAvatarViewController: NSViewController {
 		return identities.map { identity in
 			sizes.map { avatarView(size: $0, identity: identity) }
 		}
+	}
+
+	private static func colorfulImage(size: CGFloat) -> NSImage? {
+		let gradientColors = [
+			NSColor(red: 0.45, green: 0.29, blue: 0.79, alpha: 1).cgColor,
+			NSColor(red: 0.18, green: 0.45, blue: 0.96, alpha: 1).cgColor,
+			NSColor(red: 0.36, green: 0.80, blue: 0.98, alpha: 1).cgColor,
+			NSColor(red: 0.45, green: 0.72, blue: 0.22, alpha: 1).cgColor,
+			NSColor(red: 0.97, green: 0.78, blue: 0.27, alpha: 1).cgColor,
+			NSColor(red: 0.94, green: 0.52, blue: 0.20, alpha: 1).cgColor,
+			NSColor(red: 0.92, green: 0.26, blue: 0.16, alpha: 1).cgColor,
+			NSColor(red: 0.45, green: 0.29, blue: 0.79, alpha: 1).cgColor]
+
+		let colorfulGradient = CAGradientLayer()
+		let frame = CGRect(x: 0, y: 0, width: size, height: size)
+		colorfulGradient.frame = frame
+		colorfulGradient.colors = gradientColors
+		colorfulGradient.startPoint = CGPoint(x: 0.5, y: 0.5)
+		colorfulGradient.endPoint = CGPoint(x: 0.5, y: 0)
+		colorfulGradient.type = .conic
+
+		let customBorderImage = NSImage(size: NSSize(width: size, height: size))
+		customBorderImage.lockFocus()
+		if let ctx = NSGraphicsContext.current?.cgContext {
+			colorfulGradient.render(in: ctx)
+		}
+		customBorderImage.unlockFocus()
+		return customBorderImage
 	}
 
 	// test setting an image on an existing avatar view
@@ -101,9 +131,20 @@ class TestAvatarViewController: NSViewController {
 		}
 	}
 
+	// test showing rainbow border color in avatar
+	@objc private func showCustomBorder() {
+		displayedAvatarViews[TestAvatarViewController.testDataIndexForBorderColor].forEach {
+			$0.hasBorder = true
+			if let customImage = TestAvatarViewController.colorfulImage(size: $0.avatarSize) {
+				$0.borderColor = NSColor(patternImage: customImage)
+			}
+		}
+	}
+
 	static let testDataIndexForImages: Int = 1
 	static let testDataIndexForBackroundColor: Int = 2
 	static let testDataIndexForReuse: Int = 3
+	static let testDataIndexForBorderColor: Int = 4
 	static let personaMale: String = "persona-male"
 	static let personaFemale: String = "persona-female"
 }

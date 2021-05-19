@@ -37,6 +37,7 @@ open class PersonaData: NSObject, Persona {
 
     /// An image that can be used as a frame (outer wide border) for the avatar view
     @objc public var customBorderImage: UIImage?
+    @objc public var hideInsideGapForBorder: Bool = false
 
     /// The color associated to this persona.
     @objc public var color: UIColor?

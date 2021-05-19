@@ -27,6 +27,8 @@ public protocol Avatar {
 
     /// The presence state
     var presence: Presence { get }
+
+    var hideInsideGapForBorder: Bool { get }
 }
 
 // MARK: - AvatarData
@@ -45,6 +47,8 @@ open class AvatarData: NSObject, Avatar {
     @objc public var color: UIColor?
 
     @objc public var presence: Presence
+
+    @objc public var hideInsideGapForBorder: Bool = false
 
     @objc public init(primaryText: String = "", secondaryText: String = "", image: UIImage? = nil, presence: Presence = .none, color: UIColor? = nil) {
         self.primaryText = primaryText

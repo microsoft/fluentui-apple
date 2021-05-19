@@ -15,6 +15,7 @@ class NavigationControllerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show with collapsible search bar", action: #selector(showLargeTitleWithShyAccessory)))
         container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: #selector(showLargeTitleWithFixedAccessory)))
         container.addArrangedSubview(createButton(title: "Show without an avatar", action: #selector(showLargeTitleWithoutAvatar)))
+        container.addArrangedSubview(createButton(title: "Show with pill segmented control", action: #selector(showLargeTitleWithPillSegment)))
 
         addTitle(text: "Large Title with System style")
         container.addArrangedSubview(createButton(title: "Show without accessory", action: #selector(showLargeTitleWithSystemStyle)))
@@ -34,6 +35,9 @@ class NavigationControllerDemoController: DemoController {
 
         addTitle(text: "Top Accessory View")
         container.addArrangedSubview(createButton(title: "Show with top search bar for large screen width", action: #selector(showWithTopSearchBar)))
+
+        addTitle(text: "Change Style Periodically")
+        container.addArrangedSubview(createButton(title: "Change the style every second", action: #selector(showSearchChangingStyleEverySecond)))
     }
 
     @objc func showLargeTitle() {
@@ -90,6 +94,28 @@ class NavigationControllerDemoController: DemoController {
         presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), showsTopAccessory: true, contractNavigationBarOnScroll: false)
     }
 
+    @objc func showSearchChangingStyleEverySecond() {
+        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), showsTopAccessory: true, contractNavigationBarOnScroll: false, updateStylePeriodically: true)
+    }
+
+    @objc func showLargeTitleWithPillSegment() {
+        let segmentItems: [SegmentItem] = [
+            SegmentItem(title: "First"),
+            SegmentItem(title: "Second")]
+        let pillControl = SegmentedControl(items: segmentItems, style: .onBrandPill)
+        pillControl.shouldSetEqualWidthForSegments = false
+        pillControl.contentInset = .zero
+        let stackView = UIStackView()
+        stackView.addArrangedSubview(pillControl)
+        stackView.distribution = .equalCentering
+        stackView.alignment = .center
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(named: "ic_fluent_filter_28"), for: .normal)
+        button.tintColor = UIColor(light: Colors.textOnAccent, dark: Colors.textPrimary)
+        stackView.addArrangedSubview(button)
+        presentController(withLargeTitle: true, accessoryView: stackView, contractNavigationBarOnScroll: false)
+    }
+
     @discardableResult
     private func presentController(withLargeTitle useLargeTitle: Bool,
                                    style: NavigationBar.Style = .primary,
@@ -97,7 +123,8 @@ class NavigationControllerDemoController: DemoController {
                                    showsTopAccessory: Bool = false,
                                    contractNavigationBarOnScroll: Bool = true,
                                    showShadow: Bool = true,
-                                   showAvatar: Bool = true) -> NavigationController {
+                                   showAvatar: Bool = true,
+                                   updateStylePeriodically: Bool = false) -> NavigationController {
         let content = RootViewController()
         content.navigationItem.usesLargeTitle = useLargeTitle
         content.navigationItem.navigationBarStyle = style
@@ -107,13 +134,15 @@ class NavigationControllerDemoController: DemoController {
         content.navigationItem.contentScrollView = contractNavigationBarOnScroll ? content.tableView : nil
         content.showsTopAccessoryView = showsTopAccessory
 
-        if style == .custom {
-            content.navigationItem.customNavigationBarColor = CustomGradient.getCustomBackgroundColor(width: view.frame.width)
+        content.navigationItem.customNavigationBarColor = CustomGradient.getCustomBackgroundColor(width: view.frame.width)
+
+        if updateStylePeriodically {
+            changeStyleContinuously(in: content.navigationItem)
         }
 
         let controller = NavigationController(rootViewController: content)
         if showAvatar {
-            controller.msfNavigationBar.avatar = PersonaData(name: "Kat Larrson", avatarImage: UIImage(named: "avatar_kat_larsson"))
+            controller.msfNavigationBar.avatar = content.personaData
             controller.msfNavigationBar.onAvatarTapped = handleAvatarTapped
         } else {
             content.allowsCellSelection = true
@@ -134,6 +163,25 @@ class NavigationControllerDemoController: DemoController {
         present(controller, animated: false)
 
         return controller
+    }
+
+    private func changeStyleContinuously(in navigationItem: UINavigationItem) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            let newStyle: NavigationBar.Style
+            switch navigationItem.navigationBarStyle {
+            case .custom:
+                newStyle = .default
+            case .default:
+                newStyle = .primary
+            case .primary:
+                newStyle = .system
+            case .system:
+                newStyle = .custom
+            }
+
+            navigationItem.navigationBarStyle = newStyle
+            self.changeStyleContinuously(in: navigationItem)
+        }
     }
 
     private func createAccessoryView(with style: SearchBar.Style = .lightContent) -> SearchBar {
@@ -193,6 +241,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }()
 
     var showSearchProgressSpinner: Bool = true
+    var showRainbowRingForAvatar: Bool = false
 
     var allowsCellSelection: Bool = false {
         didSet {
@@ -201,6 +250,12 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     var showsTopAccessoryView: Bool = false
+
+    var personaData: PersonaData = {
+        let personaData = PersonaData(name: "Kat Larrson", avatarImage: UIImage(named: "avatar_kat_larsson"))
+        personaData.hideInsideGapForBorder = true
+        return personaData
+    }()
 
     private var isInSelectionMode: Bool = false {
         didSet {
@@ -300,10 +355,22 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier, for: indexPath) as? BooleanCell else {
                 return UITableViewCell()
             }
-            cell.setup(title: "Show spinner while using the search bar", isOn: true)
+            cell.setup(title: "Show spinner while using the search bar", isOn: showSearchProgressSpinner)
             cell.titleNumberOfLines = 0
             cell.onValueChanged = { [weak self, weak cell] in
                 self?.shouldShowSearchSpinner(isOn: cell?.isOn ?? false)
+            }
+            return cell
+        }
+
+        if indexPath.row == 1 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier, for: indexPath) as? BooleanCell else {
+                return UITableViewCell()
+            }
+            cell.setup(title: "Show rainbow ring on avatar", isOn: showRainbowRingForAvatar)
+            cell.titleNumberOfLines = 0
+            cell.onValueChanged = { [weak self, weak cell] in
+                self?.shouldShowRainbowRing(isOn: cell?.isOn ?? false)
             }
             return cell
         }
@@ -372,6 +439,12 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         showSearchProgressSpinner = isOn
     }
 
+    @objc private func shouldShowRainbowRing(isOn: Bool) {
+        personaData.customBorderImage = isOn ? RootViewController.colorfulImageForFrame() : nil
+        msfNavigationController?.msfNavigationBar.avatar = personaData
+        showRainbowRingForAvatar = isOn
+    }
+
     @objc private func dismissSelf() {
         dismiss(animated: false)
     }
@@ -391,6 +464,36 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         isInSelectionMode = false
         msfNavigationController?.allowResizeOfNavigationBarOnScroll = true
         msfNavigationController?.expandNavigationBar(animated: true)
+    }
+
+    private static func colorfulImageForFrame() -> UIImage? {
+        let gradientColors = [
+            UIColor(red: 0.45, green: 0.29, blue: 0.79, alpha: 1).cgColor,
+            UIColor(red: 0.18, green: 0.45, blue: 0.96, alpha: 1).cgColor,
+            UIColor(red: 0.36, green: 0.80, blue: 0.98, alpha: 1).cgColor,
+            UIColor(red: 0.45, green: 0.72, blue: 0.22, alpha: 1).cgColor,
+            UIColor(red: 0.97, green: 0.78, blue: 0.27, alpha: 1).cgColor,
+            UIColor(red: 0.94, green: 0.52, blue: 0.20, alpha: 1).cgColor,
+            UIColor(red: 0.92, green: 0.26, blue: 0.16, alpha: 1).cgColor,
+            UIColor(red: 0.45, green: 0.29, blue: 0.79, alpha: 1).cgColor]
+
+        let colorfulGradient = CAGradientLayer()
+        let size = CGSize(width: 76, height: 76)
+        colorfulGradient.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        colorfulGradient.colors = gradientColors
+        colorfulGradient.startPoint = CGPoint(x: 0.5, y: 0.5)
+        colorfulGradient.endPoint = CGPoint(x: 0.5, y: 0)
+        colorfulGradient.type = .conic
+
+        var customBorderImage: UIImage?
+        UIGraphicsBeginImageContext(size)
+        if let context = UIGraphicsGetCurrentContext() {
+            colorfulGradient.render(in: context)
+            customBorderImage = UIGraphicsGetImageFromCurrentImageContext()
+        }
+        UIGraphicsEndImageContext()
+
+        return customBorderImage
     }
 }
 

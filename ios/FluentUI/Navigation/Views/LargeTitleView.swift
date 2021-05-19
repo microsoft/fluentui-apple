@@ -27,7 +27,9 @@ class LargeTitleView: UIView {
     var avatar: Avatar? {
         didSet {
             updateProfileButtonVisibility()
-            [avatarView, smallMorphingAvatarView].forEach { $0?.setup(avatar: avatar) }
+            [avatarView, smallMorphingAvatarView].forEach {
+                $0?.setup(avatar: avatar)
+            }
         }
     }
 

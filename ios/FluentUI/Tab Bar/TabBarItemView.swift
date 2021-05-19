@@ -8,6 +8,14 @@ import UIKit
 class TabBarItemView: UIView {
     let item: TabBarItem
 
+    var isEnabled: Bool = true {
+        didSet {
+            titleLabel.isEnabled = isEnabled
+            imageView.tintAdjustmentMode = isEnabled ? .automatic : .dimmed
+            isUserInteractionEnabled = isEnabled
+        }
+    }
+
     var isSelected: Bool = false {
         didSet {
             titleLabel.isHighlighted = isSelected
@@ -116,9 +124,6 @@ class TabBarItemView: UIView {
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        if canResizeImage {
-            imageView.frame = CGRect(x: 0, y: 0, width: suggestImageSize, height: suggestImageSize)
-        }
         let size = container.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
         return size
     }
@@ -172,13 +177,24 @@ class TabBarItemView: UIView {
         return container
     }()
 
-    private let imageView: UIImageView = {
+    private lazy var imageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = Constants.unselectedColor
 
+        if canResizeImage {
+            let sizeConstraints = (
+                width: imageView.widthAnchor.constraint(equalToConstant: suggestImageSize),
+                height: imageView.heightAnchor.constraint(equalToConstant: suggestImageSize)
+            )
+            sizeConstraints.width.isActive = true
+            sizeConstraints.height.isActive = true
+            imageViewSizeConstraints = sizeConstraints
+        }
         return imageView
     }()
+
+    private var imageViewSizeConstraints: (width: NSLayoutConstraint, height: NSLayoutConstraint)?
 
     private let titleLabel: Label = {
         let titleLabel = Label()
@@ -201,7 +217,15 @@ class TabBarItemView: UIView {
         return badgeView
     }()
 
-    private var suggestImageSize: CGFloat
+    private var suggestImageSize: CGFloat {
+        didSet {
+            if canResizeImage,
+               let sizeConstraints = imageViewSizeConstraints {
+                sizeConstraints.width.constant = suggestImageSize
+                sizeConstraints.height.constant = suggestImageSize
+            }
+        }
+    }
     private let canResizeImage: Bool
 
     private var imageViewFrame: CGRect = .zero {
