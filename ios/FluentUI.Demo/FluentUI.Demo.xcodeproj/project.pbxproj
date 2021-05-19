@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A2FBB4126547C50004D056C /* AvatarGroupDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2FBB4026547C50004D056C /* AvatarGroupDemoController.swift */; };
 		114CF8B82423E10900D064AA /* ColorDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114CF8B72423E10900D064AA /* ColorDemoController.swift */; };
 		22EABB182509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EABB172509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift */; };
 		2F0A96FC25CA047100EF9736 /* SearchBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0A96FB25CA047100EF9736 /* SearchBarDemoController.swift */; };
@@ -81,6 +82,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0A2FBB4026547C50004D056C /* AvatarGroupDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGroupDemoController.swift; sourceTree = "<group>"; };
 		11047D2522932DB1001F0F59 /* TabBarViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewDemoController.swift; sourceTree = "<group>"; };
 		114CF8B72423E10900D064AA /* ColorDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorDemoController.swift; sourceTree = "<group>"; };
 		22EABB172509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarDemoController.swift; sourceTree = "<group>"; };
@@ -281,6 +283,7 @@
 				536DDA07264C534800CD41B5 /* ActivityIndicatorDemoController.swift */,
 				B4D852D822580661004B1B29 /* ActivityIndicatorViewDemoController.swift */,
 				53EA0FA1257ED8AF00899357 /* AvatarDemoController.swift */,
+				0A2FBB4026547C50004D056C /* AvatarGroupDemoController.swift */,
 				7D23482924D89C1C00FBE057 /* AvatarGroupViewDemoController.swift */,
 				535401CB25BB4FEA0047DC47 /* AvatarLegacyDemoController.swift */,
 				B45EB79121A4D047008646A2 /* BadgeFieldDemoController.swift */,
@@ -509,6 +512,7 @@
 				497DC2DE24185896008D86F8 /* PillButtonBarDemoController.swift in Sources */,
 				B4EF53C5215C45C400573E8F /* PersonaListViewDemoController.swift in Sources */,
 				B4414792228F6F740040E88E /* TableViewCellSampleData.swift in Sources */,
+				0A2FBB4126547C50004D056C /* AvatarGroupDemoController.swift in Sources */,
 				53F7386125776C560043071D /* NotificationViewDemoController.swift in Sources */,
 				532854F825A3C70C0042C3B9 /* ThemingDemoController.swift in Sources */,
 				E6842974247B672000A29C40 /* SceneDelegate.swift in Sources */,
