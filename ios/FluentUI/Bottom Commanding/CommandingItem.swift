@@ -87,7 +87,7 @@ open class CommandingItem: NSObject {
                       action: @escaping (CommandingItem) -> Void,
                       selectedImage: UIImage? = nil,
                       largeImage: UIImage? = nil,
-                      isSelected: Bool = false,
+                      isOn: Bool = false,
                       isEnabled: Bool = true,
                       isToggleable: Bool = false) {
         self.title = title
@@ -95,7 +95,7 @@ open class CommandingItem: NSObject {
         self.image = image
         self.selectedImage = selectedImage
         self.largeImage = largeImage
-        self.isOn = isSelected
+        self.isOn = isOn
         self.isEnabled = isEnabled
         self.isToggleable = isToggleable
     }

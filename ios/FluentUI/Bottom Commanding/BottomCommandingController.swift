@@ -257,6 +257,7 @@ open class BottomCommandingController: UIViewController {
         tableView.sectionFooterHeight = 0
         tableView.backgroundColor = Constants.tableViewBackgroundColor
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
+        tableView.register(BooleanCell.self, forCellReuseIdentifier: BooleanCell.identifier)
         tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
         tableView.delegate = self
         tableView.dataSource = self
@@ -347,7 +348,16 @@ open class BottomCommandingController: UIViewController {
     private func setupTableViewCell(_ cell: TableViewCell, with item: CommandingItem) {
         let iconView = UIImageView(image: item.image)
         iconView.tintColor = Constants.tableViewIconTintColor
-        cell.setup(title: item.title, subtitle: "", footer: "", customView: iconView, customAccessoryView: nil, accessoryType: .none)
+
+        if item.isToggleable, let booleanCell = cell as? BooleanCell {
+            booleanCell.setup(title: item.title, customView: iconView, isOn: item.isOn)
+            booleanCell.onValueChanged = {
+                item.isOn = booleanCell.isOn
+                item.action(item)
+            }
+        } else {
+            cell.setup(title: item.title, customView: iconView)
+        }
         cell.isEnabled = item.isEnabled
         cell.backgroundColor = Constants.tableViewBackgroundColor
 
@@ -480,22 +490,32 @@ extension BottomCommandingController: UITableViewDataSource {
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
-            return UITableViewCell()
-        }
-
         let section = expandedListSections[indexPath.section]
         let item = section.items[indexPath.row]
-        setupTableViewCell(cell, with: item)
+        var cell: TableViewCell?
 
-        // Cells get reused and we sometimes modify them directly,
-        // so it's important to remove old bindings to avoid side effects
-        if let oldBinding = viewToBindingMap[cell] {
-            removeBinding(oldBinding)
+        if item.isToggleable {
+            if let booleanCell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as? BooleanCell {
+                setupTableViewCell(booleanCell, with: item)
+                cell = booleanCell
+            }
+        } else {
+            if let tableViewCell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell {
+                setupTableViewCell(tableViewCell, with: item)
+                cell = tableViewCell
+            }
         }
-        addBinding(ItemBindingInfo(item: item, view: cell, location: .list))
 
-        return cell
+        if let cell = cell {
+            // Cells get reused and we sometimes modify them directly,
+            // so it's important to remove old bindings to avoid side effects
+            if let oldBinding = viewToBindingMap[cell] {
+                removeBinding(oldBinding)
+            }
+            addBinding(ItemBindingInfo(item: item, view: cell, location: .list))
+        }
+
+        return cell ?? UITableViewCell()
     }
 }
 
@@ -519,11 +539,13 @@ extension BottomCommandingController: UITableViewDelegate {
         guard let cell = tableView.cellForRow(at: indexPath), let binding = viewToBindingMap[cell] else {
             return
         }
-        if presentedViewController != nil {
-            dismiss(animated: true)
-        }
 
-        binding.item.action(binding.item)
+        if !binding.item.isToggleable {
+            if presentedViewController != nil {
+                dismiss(animated: true)
+            }
+            binding.item.action(binding.item)
+        }
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
@@ -546,7 +568,16 @@ extension BottomCommandingController: CommandingItemDelegate {
     }
 
     func commandingItem(_ item: CommandingItem, didChangeToggleableTo value: Bool) {
-        reloadView(from: item)
+        guard let binding = itemToBindingMap[item] else {
+            return
+        }
+
+        // We need a UITableView.reloadRows call here because item.isToggleable changes the cell type
+        if binding.location == .list,
+           let cell = binding.view as? UITableViewCell,
+           let indexPath = tableView.indexPath(for: cell) {
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
     }
 
     func commandingItem(_ item: CommandingItem, didChangeEnabledTo value: Bool) {
