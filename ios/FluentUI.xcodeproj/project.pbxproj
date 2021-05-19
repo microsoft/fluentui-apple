@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A2FBB4326547C64004D056C /* AvatarGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2FBB4226547C64004D056C /* AvatarGroup.swift */; };
+		0A2FBB4426547C64004D056C /* AvatarGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2FBB4226547C64004D056C /* AvatarGroup.swift */; };
 		0AA874152600237A00D47421 /* PersonaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA874142600237A00D47421 /* PersonaView.swift */; };
 		0AA874162600237A00D47421 /* PersonaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA874142600237A00D47421 /* PersonaView.swift */; };
 		0ACD82112620451F0035CD9F /* MSFPersonaViewTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD82102620451E0035CD9F /* MSFPersonaViewTokens.generated.swift */; };
@@ -394,6 +396,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A2FBB4226547C64004D056C /* AvatarGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGroup.swift; sourceTree = "<group>"; };
 		0AA874142600237A00D47421 /* PersonaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaView.swift; sourceTree = "<group>"; };
 		0ACD82102620451E0035CD9F /* MSFPersonaViewTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFPersonaViewTokens.generated.swift; sourceTree = "<group>"; };
 		0ACD82172620453B0035CD9F /* PersonaViewTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaViewTokens.swift; sourceTree = "<group>"; };
@@ -886,6 +889,7 @@
 				536AEF3E25F1EC0300A36206 /* AvatarTokens.swift */,
 				92751051268142CD00F12730 /* MSFAvatarPresence.swift */,
 				536AEF3C25F1EC0300A36206 /* MSFAvatarTokens.generated.swift */,
+				0A2FBB4226547C64004D056C /* AvatarGroup.swift */,
 			);
 			path = Avatar;
 			sourceTree = "<group>";
@@ -1678,6 +1682,7 @@
 				5314E28125F0240D0099271A /* DateComponents+Extensions.swift in Sources */,
 				536AEF5025F1EC0300A36206 /* Theming.swift in Sources */,
 				5314E07025F00F140099271A /* DatePickerController.swift in Sources */,
+				0A2FBB4426547C64004D056C /* AvatarGroup.swift in Sources */,
 				5314E12025F015EA0099271A /* ContactView.swift in Sources */,
 				5314E11C25F015EA0099271A /* AvatarView.swift in Sources */,
 				5314E0AA25F010070099271A /* DrawerShadowView.swift in Sources */,
@@ -1862,6 +1867,7 @@
 				A5B87B06211E23650038C37C /* UIView+Extensions.swift in Sources */,
 				7D0931C324AAAC9B0072458A /* SideTabBar.swift in Sources */,
 				536AEF4F25F1EC0300A36206 /* Theming.swift in Sources */,
+				0A2FBB4326547C64004D056C /* AvatarGroup.swift in Sources */,
 				A5961FA7218A2E4500E2A506 /* UIImage+Extensions.swift in Sources */,
 				B4BA27882319DC0D0001563C /* PersonaBadgeViewDataSource.swift in Sources */,
 				8A01C86F248FFC5300C971F3 /* ContactView.swift in Sources */,
