@@ -42,6 +42,8 @@ class DateTimePickerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show date range picker (tabbed)", action: #selector(presentTabbedDateRangePicker)))
         container.addArrangedSubview(createButton(title: "Show date time range picker", action: #selector(presentDateTimeRangePicker)))
         container.addArrangedSubview(createButton(title: "Show picker with custom subtitles or tabs", action: #selector(presentCustomSubtitlePicker)))
+        container.addArrangedSubview(createButton(title: "Show picker with left gliph", action: #selector(presentPickerLeftToolbarView)))
+        container.addArrangedSubview(createButton(title: "Show picker with left and right gliphs", action: #selector(presentPickerLeftRightToolbarView)))
         container.addArrangedSubview(UIView())
         container.addArrangedSubview(createDatePickerTypeUI())
         container.addArrangedSubview(createValidationUI())
@@ -115,6 +117,46 @@ class DateTimePickerDemoController: DemoController {
             titles = .with(startTab: "Assignment Date", endTab: "Due Date")
         }
         dateTimePicker.present(from: self, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: datePickerType, titles: titles)
+    }
+
+    @objc func presentPickerLeftToolbarView() {
+        let startDate = self.startDate ?? Date()
+        let endDate = self.endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
+        let titles: DateTimePicker.Titles
+        if datePickerType == .calendar && !UIAccessibility.isVoiceOverRunning {
+            titles = .with(startSubtitle: "Assignment Date", endSubtitle: "Due Date")
+        } else {
+            titles = .with(startTab: "Assignment Date", endTab: "Due Date")
+        }
+
+        let leftBarButtonItem = BarButtonItems.cancel(target: self, action: #selector(handleDidTapCancel))
+
+        dateTimePicker.present(from: self, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: datePickerType, titles: titles, leftBarButtonItem: leftBarButtonItem)
+    }
+
+    @objc func presentPickerLeftRightToolbarView() {
+        let startDate = self.startDate ?? Date()
+        let endDate = self.endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
+        let titles: DateTimePicker.Titles
+        if datePickerType == .calendar && !UIAccessibility.isVoiceOverRunning {
+            titles = .with(startSubtitle: "Assignment Date", endSubtitle: "Due Date")
+        } else {
+            titles = .with(startTab: "Assignment Date", endTab: "Due Date")
+        }
+
+        let leftBarButtonItem = BarButtonItems.confirm(target: self, action: #selector(handleDidTapDone))
+
+        let rightBarButtonItem = BarButtonItems.cancel(target: self, action: #selector(handleDidTapCancel)) // or simply assign UIBarButtonItem() to hide the default confirm button
+
+        dateTimePicker.present(from: self, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: datePickerType, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
+    }
+
+    @objc private func handleDidTapCancel() {
+        dateTimePicker.dismiss()
+    }
+
+    @objc private func handleDidTapDone() {
+        dateTimePicker.dismiss()
     }
 
     @objc func resetDates() {
