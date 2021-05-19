@@ -152,11 +152,8 @@ class BottomCommandingDemoController: UIViewController {
 
     private func showMessage(_ message: String) {
         let alert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.dismiss(animated: true)
-        }
     }
 
     private lazy var incrementHeroCommandCountButton: Button = {
