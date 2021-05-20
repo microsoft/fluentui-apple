@@ -11,11 +11,13 @@ import UIKit
 class AvatarGroupDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        addTitle(text: "Avatar Stack")
+        insertAvatarViews(style: .stack, showBorders: false)
         addTitle(text: "Avatar Pile")
-        insertAvatarViews(style: .default, showBorders: false)
+        insertAvatarViews(style: .pile, showBorders: false)
     }
 
-    private func insertAvatarViews(style: MSFAvatarStyle, showBorders: Bool) {
+    private func insertAvatarViews(style: MSFAvatarGroupStyle, showBorders: Bool) {
         var constraints: [NSLayoutConstraint] = []
 
         for size in MSFAvatarSize.allCases.reversed() {
@@ -23,6 +25,7 @@ class AvatarGroupDemoController: DemoController {
 
             let avatarGroup = MSFAvatarGroup()
             avatarGroup.state.size = size
+            avatarGroup.state.style = style
             for index in 0...2 {
                 avatarGroup.state.avatars.append(convertAvatar(persona: samplePersonas[index]))
             }

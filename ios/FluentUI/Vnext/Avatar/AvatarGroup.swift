@@ -6,10 +6,15 @@
 import UIKit
 import SwiftUI
 
+@objc public enum MSFAvatarGroupStyle: Int, CaseIterable {
+    case stack
+    case pile
+}
+
 /// Properties that make up AvatarGroup content
 @objc public class MSFAvatarGroupState: NSObject, ObservableObject {
     @objc @Published public var avatars: [MSFAvatarStateImpl] = []
-    @objc @Published public var style: MSFAvatarStyle = .default
+    @objc @Published public var style: MSFAvatarGroupStyle = .pile
     @objc @Published public var size: MSFAvatarSize = .large
 }
 
@@ -23,11 +28,29 @@ public struct AvatarGroup: View {
     }
 
     public var body: some View {
+        let size = state.size.size
         HStack(spacing: 0) {
             ForEach(state.avatars, id: \.self) { avatar in
-                AvatarView(style: state.style, size: state.size, state: avatar)
-                    .padding(.trailing, 8)
+                AvatarView(style: .default, size: state.size, state: avatar)
+                    .modifyIf(state.style == .stack, { view in
+                        view.mask(AvatarCutout(cutoutOriginCoordinates: size - 16, outlineSize: size)
+                                    .fill(style: FillStyle(eoFill: true)))
+                    })
             }
+        }
+    }
+
+    private struct AvatarCutout: Shape {
+        var cutoutOriginCoordinates: CGFloat
+        var outlineSize: CGFloat
+
+        func path(in rect: CGRect) -> Path {
+                var cutoutFrame = Rectangle().path(in: rect)
+                cutoutFrame.addPath(Circle().path(in: CGRect(x: cutoutOriginCoordinates,
+                                                             y: 0,
+                                                             width: outlineSize,
+                                                             height: outlineSize)))
+                return cutoutFrame
         }
     }
 }
