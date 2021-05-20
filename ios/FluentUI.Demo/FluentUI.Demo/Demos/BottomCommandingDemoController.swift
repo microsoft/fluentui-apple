@@ -67,7 +67,7 @@ class BottomCommandingDemoController: UIViewController {
                 DemoItem(title: "Hero command isOn", type: .boolean, action: #selector(toggleHeroCommandOnOff)),
                 DemoItem(title: "Hero command isEnabled", type: .boolean, action: #selector(toggleHeroCommandEnabled), isOn: true),
                 DemoItem(title: "List command isEnabled", type: .boolean, action: #selector(toggleListCommandEnabled), isOn: true),
-                DemoItem(title: "Toggle random boolean cell", type: .action, action: #selector(toggleRandomBooleanCell)),
+                DemoItem(title: "Toggle boolean cells", type: .action, action: #selector(toggleBooleanCells)),
                 DemoItem(title: "Change hero command titles", type: .action, action: #selector(changeHeroCommandTitle)),
                 DemoItem(title: "Change hero command images", type: .action, action: #selector(changeHeroCommandIcon)),
                 DemoItem(title: "Change list command titles", type: .action, action: #selector(changeListCommandTitle)),
@@ -132,8 +132,8 @@ class BottomCommandingDemoController: UIViewController {
         listIconChanged.toggle()
     }
 
-    @objc private func toggleRandomBooleanCell() {
-        booleanCommands[Int.random(in: 0..<booleanCommands.count)].isOn.toggle()
+    @objc private func toggleBooleanCells() {
+        booleanCommands.forEach { $0.isOn.toggle() }
     }
 
     @objc private func incrementHeroCommands() {
