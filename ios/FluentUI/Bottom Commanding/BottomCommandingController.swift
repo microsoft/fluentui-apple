@@ -303,9 +303,16 @@ open class BottomCommandingController: UIViewController {
 
     @objc private func handleMoreButtonTap(_ sender: UITapGestureRecognizer) {
         let popoverContentViewController = UIViewController()
-        popoverContentViewController.view = tableView
+        popoverContentViewController.view.addSubview(tableView)
         popoverContentViewController.modalPresentationStyle = .popover
         popoverContentViewController.popoverPresentationController?.sourceView = sender.view
+
+        NSLayoutConstraint.activate([
+            tableView.leadingAnchor.constraint(equalTo: popoverContentViewController.view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: popoverContentViewController.view.trailingAnchor),
+            tableView.topAnchor.constraint(equalTo: popoverContentViewController.view.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: popoverContentViewController.view.bottomAnchor)
+        ])
 
         present(popoverContentViewController, animated: true)
     }
