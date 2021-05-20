@@ -121,7 +121,7 @@
 "Accessibility.TabBarItemView.LabelFormat" = "%@、%@ 个项目";
 
 /* Commanding Bottom Bar - More button */
-"CommandingBottomBar.More" = "More";
+"CommandingBottomBar.More" = "更多";
 
 /* Generic label for cancel action */
 "Common.Cancel" = "取消";
