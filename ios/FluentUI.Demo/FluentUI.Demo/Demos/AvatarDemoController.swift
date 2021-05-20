@@ -105,12 +105,12 @@ class AvatarDemoController: DemoController {
             let imageAvatar = createAvatarView(size: size,
                                                name: name,
                                                image: UIImage(named: "site")!,
-                                               style: .group)
+                                               style: .square)
             avatarViews.append(imageAvatar)
 
             let initialsAvatar = createAvatarView(size: size,
                                                   name: name,
-                                                  style: .group)
+                                                  style: .square)
             avatarViews.append(initialsAvatar)
 
             addRow(text: size.description, items: [imageAvatar.view, initialsAvatar.view], textStyle: .footnote, textWidth: 100)

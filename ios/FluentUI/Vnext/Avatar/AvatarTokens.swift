@@ -10,7 +10,7 @@ import SwiftUI
 @objc public enum MSFAvatarStyle: Int, CaseIterable {
     case `default`
     case accent
-    case group
+    case square
     case outlined
     case outlinedPrimary
     case overflow
@@ -108,8 +108,8 @@ class MSFAvatarTokens: MSFTokensBase, ObservableObject {
             appearanceProxy = currentTheme.MSFOutlinedPrimaryAvatarTokens
         case .overflow:
             appearanceProxy = currentTheme.MSFOverflowAvatarTokens
-        case .group:
-            appearanceProxy = currentTheme.MSFGroupAvatarTokens
+        case .square:
+            appearanceProxy = currentTheme.MSFSquareAvatarTokens
         }
 
         ringDefaultColor = appearanceProxy.ringDefaultColor

@@ -215,7 +215,7 @@ public struct AvatarView: View {
 
         @ViewBuilder
         var avatarBody: some View {
-            if tokens.style == .group {
+            if tokens.style == .square {
                 avatarContent
                     .background(Rectangle()
                                     .frame(width: tokens.avatarSize, height: tokens.avatarSize, alignment: .center)

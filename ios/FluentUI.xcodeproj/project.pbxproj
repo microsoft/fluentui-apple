@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		0A2FBB4326547C64004D056C /* AvatarGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2FBB4226547C64004D056C /* AvatarGroup.swift */; };
 		0A2FBB4426547C64004D056C /* AvatarGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2FBB4226547C64004D056C /* AvatarGroup.swift */; };
+		0A2FBB6B26560FC9004D056C /* MSFAvatarGroupTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2FBB6A26560FC9004D056C /* MSFAvatarGroupTokens.generated.swift */; };
+		0A2FBB6C26560FC9004D056C /* MSFAvatarGroupTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2FBB6A26560FC9004D056C /* MSFAvatarGroupTokens.generated.swift */; };
+		0A2FBB9526564D98004D056C /* AvatarGroupTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2FBB9426564D98004D056C /* AvatarGroupTokens.swift */; };
+		0A2FBB9626564D98004D056C /* AvatarGroupTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2FBB9426564D98004D056C /* AvatarGroupTokens.swift */; };
 		0AA874152600237A00D47421 /* PersonaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA874142600237A00D47421 /* PersonaView.swift */; };
 		0AA874162600237A00D47421 /* PersonaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA874142600237A00D47421 /* PersonaView.swift */; };
 		0ACD82112620451F0035CD9F /* MSFPersonaViewTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD82102620451E0035CD9F /* MSFPersonaViewTokens.generated.swift */; };
@@ -397,6 +401,8 @@
 
 /* Begin PBXFileReference section */
 		0A2FBB4226547C64004D056C /* AvatarGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGroup.swift; sourceTree = "<group>"; };
+		0A2FBB6A26560FC9004D056C /* MSFAvatarGroupTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFAvatarGroupTokens.generated.swift; sourceTree = "<group>"; };
+		0A2FBB9426564D98004D056C /* AvatarGroupTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGroupTokens.swift; sourceTree = "<group>"; };
 		0AA874142600237A00D47421 /* PersonaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaView.swift; sourceTree = "<group>"; };
 		0ACD82102620451E0035CD9F /* MSFPersonaViewTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFPersonaViewTokens.generated.swift; sourceTree = "<group>"; };
 		0ACD82172620453B0035CD9F /* PersonaViewTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaViewTokens.swift; sourceTree = "<group>"; };
@@ -885,11 +891,13 @@
 		536AEF3B25F1EC0300A36206 /* Avatar */ = {
 			isa = PBXGroup;
 			children = (
+				0A2FBB6A26560FC9004D056C /* MSFAvatarGroupTokens.generated.swift */,
 				536AEF3D25F1EC0300A36206 /* Avatar.swift */,
 				536AEF3E25F1EC0300A36206 /* AvatarTokens.swift */,
 				92751051268142CD00F12730 /* MSFAvatarPresence.swift */,
 				536AEF3C25F1EC0300A36206 /* MSFAvatarTokens.generated.swift */,
 				0A2FBB4226547C64004D056C /* AvatarGroup.swift */,
+				0A2FBB9426564D98004D056C /* AvatarGroupTokens.swift */,
 			);
 			path = Avatar;
 			sourceTree = "<group>";
@@ -1676,6 +1684,7 @@
 				8FD01188228A82A600D25925 /* Colors.swift in Sources */,
 				5314E0F325F012C80099271A /* ShyHeaderController.swift in Sources */,
 				5314E1B125F01A980099271A /* TooltipView.swift in Sources */,
+				0A2FBB9626564D98004D056C /* AvatarGroupTokens.swift in Sources */,
 				5314E19525F019650099271A /* TabBarItemView.swift in Sources */,
 				5314E03C25F00E3D0099271A /* BadgeField.swift in Sources */,
 				5314E05B25F00EF50099271A /* CalendarView.swift in Sources */,
@@ -1724,6 +1733,7 @@
 				5314E11A25F015EA0099271A /* ContactCollectionViewLayout.swift in Sources */,
 				5314E1A425F01A7C0099271A /* CenteredLabelCell.swift in Sources */,
 				5314E18C25F0195C0099271A /* ShimmerLinesViewAppearance.swift in Sources */,
+				0A2FBB6C26560FC9004D056C /* MSFAvatarGroupTokens.generated.swift in Sources */,
 				5314E1A125F01A7C0099271A /* TableViewCellFileAccessoryView.swift in Sources */,
 				5314E1D625F01E4A0099271A /* SearchBar.swift in Sources */,
 				5314E0A825F010070099271A /* DrawerPresentationController.swift in Sources */,
@@ -1860,6 +1870,7 @@
 				8035CACB26377C14007B3FD1 /* CommandingItem.swift in Sources */,
 				B483323321CC71940022B4CC /* HUDView.swift in Sources */,
 				FD41C89422DD13230086F899 /* LargeTitleView.swift in Sources */,
+				0A2FBB9526564D98004D056C /* AvatarGroupTokens.swift in Sources */,
 				C0938E44235E8ED500256251 /* AnimationSynchronizer.swift in Sources */,
 				80AECBD92629F18E005AF2F3 /* BottomSheetController.swift in Sources */,
 				B483323521DEA8D70022B4CC /* HUD.swift in Sources */,
@@ -1908,6 +1919,7 @@
 				FDA1AF91214871B5001AE720 /* CardTransitionAnimator.swift in Sources */,
 				A5237ACD21ED6CA70040BF27 /* DrawerShadowView.swift in Sources */,
 				FD9DA7B5232C33A80013E41B /* UIViewController+Navigation.swift in Sources */,
+				0A2FBB6B26560FC9004D056C /* MSFAvatarGroupTokens.generated.swift in Sources */,
 				FD7DF05E21FA7FC100857267 /* TooltipView.swift in Sources */,
 				A5CEC16F20D98F340016922A /* Fonts.swift in Sources */,
 				FD599D0C2134AB1E008845EE /* CalendarViewDataSource.swift in Sources */,

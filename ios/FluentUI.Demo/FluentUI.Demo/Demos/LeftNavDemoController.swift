@@ -210,7 +210,7 @@ class LeftNavMenuViewController: UIViewController {
         microsoftAccountCell.title = "Contoso"
         microsoftAccountCell.subtitle = "kat.larrson@contoso.com"
         microsoftAccountCell.accessoryType = .checkmark
-        let orgAvatar = MSFAvatar(style: .group, size: .large)
+        let orgAvatar = MSFAvatar(style: .square, size: .large)
         orgAvatar.state.primaryText = "Kat Larrson"
         microsoftAccountCell.leadingUIView = orgAvatar.view
         microsoftAccountCell.leadingViewSize = .large
@@ -220,7 +220,7 @@ class LeftNavMenuViewController: UIViewController {
         msaAccountCell.layoutType = .twoLines
         msaAccountCell.title = "Personal"
         msaAccountCell.subtitle = "kat.larrson@live.com"
-        let msaAvatar = MSFAvatar(style: .group, size: .large)
+        let msaAvatar = MSFAvatar(style: .square, size: .large)
         msaAvatar.state.primaryText = "kat.larrson@live.com"
         msaAccountCell.leadingUIView = msaAvatar.view
         msaAccountCell.leadingViewSize = .large
