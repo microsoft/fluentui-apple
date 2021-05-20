@@ -48,10 +48,15 @@ class BottomCommandingDemoController: UIViewController {
         }
     }()
 
+    private lazy var booleanCommands: [CommandingItem] = Array(1...4).map {
+        CommandingItem(title: "Boolean Item " + String($0), image: homeImage, action: commandAction, isToggleable: true)
+    }
+
     private lazy var expandedListSections: [CommandingSection] = [
-        CommandingSection(title: "Section 1", items: Array(1...7).map {
-                CommandingItem(title: "Item " + String($0), image: homeImage, action: commandAction)
-        }),
+        CommandingSection(title: "Section 1", items:
+        Array(1...2).map {
+            CommandingItem(title: "Item " + String($0), image: homeImage, action: commandAction)
+        } + booleanCommands),
         CommandingSection(title: "Section 2", items: Array(1...7).map {
             CommandingItem(title: "Item " + String($0), image: homeImage, action: commandAction)
         })
@@ -62,6 +67,7 @@ class BottomCommandingDemoController: UIViewController {
                 DemoItem(title: "Hero command isOn", type: .boolean, action: #selector(toggleHeroCommandOnOff)),
                 DemoItem(title: "Hero command isEnabled", type: .boolean, action: #selector(toggleHeroCommandEnabled), isOn: true),
                 DemoItem(title: "List command isEnabled", type: .boolean, action: #selector(toggleListCommandEnabled), isOn: true),
+                DemoItem(title: "Toggle boolean cells", type: .action, action: #selector(toggleBooleanCells)),
                 DemoItem(title: "Change hero command titles", type: .action, action: #selector(changeHeroCommandTitle)),
                 DemoItem(title: "Change hero command images", type: .action, action: #selector(changeHeroCommandIcon)),
                 DemoItem(title: "Change list command titles", type: .action, action: #selector(changeListCommandTitle)),
@@ -126,6 +132,10 @@ class BottomCommandingDemoController: UIViewController {
         listIconChanged.toggle()
     }
 
+    @objc private func toggleBooleanCells() {
+        booleanCommands.forEach { $0.isOn.toggle() }
+    }
+
     @objc private func incrementHeroCommands() {
         let currentCount = bottomCommandingController?.heroItems.count ?? 0
         if currentCount < 5 {
@@ -146,7 +156,9 @@ class BottomCommandingDemoController: UIViewController {
         if heroItems.contains(item) {
             showMessage("Hero command tapped")
         } else if expandedListSections.contains(where: { $0.items.contains(item) }) {
-            showMessage("Expanded list command tapped")
+            if !item.isToggleable {
+                showMessage("Expanded list command tapped")
+            }
         }
     }
 
