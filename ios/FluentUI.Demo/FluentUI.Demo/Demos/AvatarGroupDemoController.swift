@@ -23,11 +23,9 @@ class AvatarGroupDemoController: DemoController {
         for size in MSFAvatarSize.allCases.reversed() {
             let containerView = UIView(frame: .zero)
 
-            let avatarGroup = MSFAvatarGroup()
-            avatarGroup.state.size = size
-            avatarGroup.state.style = style
+            let avatarGroup = MSFAvatarGroup(style: style, size: size)
             for index in 0...2 {
-                avatarGroup.state.avatars.append(convertAvatar(persona: samplePersonas[index]))
+                avatarGroup.state.avatars.append(convertAvatar(persona: samplePersonas[index], showBorders: showBorders))
             }
             let avatarGroupView = avatarGroup.view
             avatarGroupView.translatesAutoresizingMaskIntoConstraints = false
@@ -49,11 +47,12 @@ class AvatarGroupDemoController: DemoController {
         NSLayoutConstraint.activate(constraints)
     }
 
-    func convertAvatar(persona: PersonaData) -> MSFAvatarStateImpl {
+    func convertAvatar(persona: PersonaData, showBorders: Bool) -> MSFAvatarStateImpl {
         let state = MSFAvatarStateImpl()
         state.image = persona.avatarImage
         state.primaryText = persona.primaryText
         state.secondaryText = persona.secondaryText
+        state.isRingVisible = showBorders
         return state
     }
 }
