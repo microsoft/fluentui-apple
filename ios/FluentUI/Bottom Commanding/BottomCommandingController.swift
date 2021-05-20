@@ -567,19 +567,6 @@ extension BottomCommandingController: CommandingItemDelegate {
         reloadView(from: item)
     }
 
-    func commandingItem(_ item: CommandingItem, didChangeToggleableTo value: Bool) {
-        guard let binding = itemToBindingMap[item] else {
-            return
-        }
-
-        // We need a UITableView.reloadRows call here because item.isToggleable changes the cell type
-        if binding.location == .list,
-           let cell = binding.view as? UITableViewCell,
-           let indexPath = tableView.indexPath(for: cell) {
-            tableView.reloadRows(at: [indexPath], with: .automatic)
-        }
-    }
-
     func commandingItem(_ item: CommandingItem, didChangeEnabledTo value: Bool) {
         guard let view = itemToBindingMap[item]?.view else {
             return

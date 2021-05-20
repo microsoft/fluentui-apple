@@ -74,30 +74,24 @@ open class CommandingItem: NSObject {
     }
 
     /// Indicates whether `isOn` should be toggled automatically before `action` is called.
-    @objc open var isToggleable: Bool {
-        didSet {
-            if isToggleable != oldValue {
-                delegate?.commandingItem(self, didChangeToggleableTo: isToggleable)
-            }
-        }
-    }
+    @objc public let isToggleable: Bool
 
     @objc public init(title: String,
                       image: UIImage,
                       action: @escaping (CommandingItem) -> Void,
+                      isToggleable: Bool = false,
                       selectedImage: UIImage? = nil,
                       largeImage: UIImage? = nil,
                       isOn: Bool = false,
-                      isEnabled: Bool = true,
-                      isToggleable: Bool = false) {
+                      isEnabled: Bool = true) {
         self.title = title
         self.action = action
+        self.isToggleable = isToggleable
         self.image = image
         self.selectedImage = selectedImage
         self.largeImage = largeImage
         self.isOn = isOn
         self.isEnabled = isEnabled
-        self.isToggleable = isToggleable
     }
 
     weak var delegate: CommandingItemDelegate?
@@ -121,7 +115,4 @@ protocol CommandingItemDelegate: class {
 
     /// Called after the `isEnabled` property changed.
     func commandingItem(_ item: CommandingItem, didChangeEnabledTo value: Bool)
-
-    /// Called after the `isToggleable` property changed.
-    func commandingItem(_ item: CommandingItem, didChangeToggleableTo value: Bool)
 }
