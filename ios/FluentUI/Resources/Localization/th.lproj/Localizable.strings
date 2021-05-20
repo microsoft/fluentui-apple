@@ -121,7 +121,7 @@
 "Accessibility.TabBarItemView.LabelFormat" = "%@, %@ รายการ";
 
 /* Commanding Bottom Bar - More button */
-"CommandingBottomBar.More" = "More";
+"CommandingBottomBar.More" = "เพิ่มเติม";
 
 /* Generic label for cancel action */
 "Common.Cancel" = "ยกเลิก";

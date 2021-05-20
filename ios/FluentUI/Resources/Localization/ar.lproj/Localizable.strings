@@ -121,7 +121,7 @@
 "Accessibility.TabBarItemView.LabelFormat" = "%@، %@ من العناصر";
 
 /* Commanding Bottom Bar - More button */
-"CommandingBottomBar.More" = "More";
+"CommandingBottomBar.More" = "المزيد";
 
 /* Generic label for cancel action */
 "Common.Cancel" = "إلغاء";
