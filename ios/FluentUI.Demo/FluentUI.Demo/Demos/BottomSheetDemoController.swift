@@ -54,6 +54,7 @@ class BottomSheetDemoController: UIViewController {
     private let personaListView: PersonaListView = {
         let personaListView = PersonaListView()
         personaListView.personaList = samplePersonas
+        personaListView.backgroundColor = Colors.NavigationBar.background
         personaListView.translatesAutoresizingMaskIntoConstraints = false
         return personaListView
     }()
