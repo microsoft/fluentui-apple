@@ -5,6 +5,7 @@
 
 import FluentUI
 
+class BottomSheetDemoController: UIViewController {
 
     override func loadView() {
         view = UIView()
@@ -17,7 +18,6 @@ import FluentUI
         optionTableView.delegate = self
         optionTableView.separatorStyle = .none
         view.addSubview(optionTableView)
-
         let bottomSheetViewController = BottomSheetController(sheetHeaderContentView: headerView, sheetExpandedContentView: personaListView)
         bottomSheetViewController.hostedScrollView = personaListView
 
