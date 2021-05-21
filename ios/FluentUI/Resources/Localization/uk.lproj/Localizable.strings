@@ -121,7 +121,7 @@
 "Accessibility.TabBarItemView.LabelFormat" = "%@, елементів: %@";
 
 /* Commanding Bottom Bar - More button */
-"CommandingBottomBar.More" = "More";
+"CommandingBottomBar.More" = "Додатково";
 
 /* Generic label for cancel action */
 "Common.Cancel" = "Скасувати";

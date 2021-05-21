@@ -121,7 +121,7 @@
 "Accessibility.TabBarItemView.LabelFormat" = "%@, %@ 항목";
 
 /* Commanding Bottom Bar - More button */
-"CommandingBottomBar.More" = "More";
+"CommandingBottomBar.More" = "더 보기";
 
 /* Generic label for cancel action */
 "Common.Cancel" = "취소";
