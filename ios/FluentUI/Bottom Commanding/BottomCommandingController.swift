@@ -98,10 +98,6 @@ open class BottomCommandingController: UIViewController {
         }
     }
 
-    public override func viewSafeAreaInsetsDidChange() {
-        updateSheetCollapsedContentHeight()
-    }
-
     private func setupBottomBarLayout() {
         NSLayoutConstraint.activate(heroCommandWidthConstraints)
         heroCommandStack.distribution = .equalSpacing
@@ -216,17 +212,15 @@ open class BottomCommandingController: UIViewController {
     }
 
     private func updateExpandability() {
-        if isInSheetMode {
-            bottomSheetController?.isExpandable = isExpandable
-            bottomSheetHeroStackTopConstraint?.constant = bottomSheetHeroStackTopMargin
-            updateSheetCollapsedContentHeight()
+        if isInSheetMode,
+           let bottomSheetController = bottomSheetController,
+           let heroStackTopConstraint = bottomSheetHeroStackTopConstraint {
+            bottomSheetController.isExpandable = isExpandable
+            bottomSheetController.collapsedContentHeight = bottomSheetHeroStackHeight
+            heroStackTopConstraint.constant = bottomSheetHeroStackTopMargin
         } else {
             moreButtonView.isHidden = !isExpandable
         }
-    }
-
-    private func updateSheetCollapsedContentHeight() {
-        bottomSheetController?.collapsedContentHeight = bottomSheetHeroStackHeight + view.safeAreaInsets.bottom
     }
 
     private lazy var moreButtonView: UIView = {

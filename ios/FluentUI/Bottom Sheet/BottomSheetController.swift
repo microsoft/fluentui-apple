@@ -20,11 +20,6 @@ public class BottomSheetController: UIViewController {
     @objc public init(sheetHeaderContentView: UIView, sheetExpandedContentView: UIView) {
         headerContentView = sheetHeaderContentView
         expandedContentView = sheetExpandedContentView
-
-        let contentStack = UIStackView(arrangedSubviews: [sheetHeaderContentView, sheetExpandedContentView])
-        contentStack.axis = .vertical
-
-        contentView = contentStack
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -75,21 +70,31 @@ public class BottomSheetController: UIViewController {
 
     // MARK: - View loading
 
-    /// View hierarchy
-    /// --BottomSheetPassthroughView (full overlay area)
-    /// ----bottomSheetView (bottom sheet area only)
-    /// ------bottomSheetContentView
-    /// --------UIStackView
-    /// ----------ResizingHandleView
-    /// ----------contentView (root of contentViewController)
+    // View hierarchy
+    // self.view - BottomSheetPassthroughView (full overlay area)
+    // |--bottomSheetView (shadow)
+    // |  |--UIStackView (round corner mask)
+    // |  |  |--resizingHandleView
+    // |  |  |--headerContentView
+    // |  |  |--expandedContentView
+    // |--overflowView
     public override func loadView() {
         view = BottomSheetPassthroughView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(bottomSheetView)
 
+        let overflowView = UIView()
+        overflowView.translatesAutoresizingMaskIntoConstraints = false
+        overflowView.backgroundColor = Colors.NavigationBar.background
+        view.addSubview(overflowView)
+
         NSLayoutConstraint.activate([
             bottomSheetView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             bottomSheetView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            overflowView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            overflowView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            overflowView.heightAnchor.constraint(equalToConstant: Constants.Spring.overflowHeight),
+            overflowView.topAnchor.constraint(equalTo: bottomSheetView.bottomAnchor),
             bottomSheetOffsetConstraint
         ])
         updateBottomSheetHeightConstraint()
@@ -116,15 +121,15 @@ public class BottomSheetController: UIViewController {
         stackView.spacing = 0.0
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.addArrangedSubview(contentView)
-
+        stackView.addArrangedSubview(headerContentView)
+        stackView.addArrangedSubview(expandedContentView)
         bottomSheetContentView.addSubview(stackView)
 
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: bottomSheetContentView.topAnchor),
             stackView.leadingAnchor.constraint(equalTo: bottomSheetContentView.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: bottomSheetContentView.trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomSheetContentView.bottomAnchor, constant: -Constants.Spring.overflowHeight)
+            stackView.bottomAnchor.constraint(equalTo: bottomSheetContentView.bottomAnchor)
         ])
 
         return makeBottomSheetByEmbedding(contentView: bottomSheetContentView)
@@ -362,7 +367,7 @@ public class BottomSheetController: UIViewController {
         let constraint = bottomSheetView.heightAnchor.constraint(
             equalTo: view.heightAnchor,
             multiplier: expandedHeightFraction,
-            constant: Constants.Spring.overflowHeight - view.safeAreaInsets.top - Constants.minimumTopExpandedPadding)
+            constant: view.safeAreaInsets.top - Constants.minimumTopExpandedPadding)
         return constraint
     }
 
@@ -371,8 +376,6 @@ public class BottomSheetController: UIViewController {
 
     private lazy var bottomSheetOffsetConstraint: NSLayoutConstraint =
         bottomSheetView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -collapsedOffsetFromBottom)
-
-    private let contentView: UIView
 
     private let headerContentView: UIView
 
@@ -393,7 +396,7 @@ public class BottomSheetController: UIViewController {
     }
 
     private var expandedOffsetFromBottom: CGFloat {
-        return bottomSheetView.frame.height - Constants.Spring.overflowHeight - view.safeAreaInsets.bottom
+        return bottomSheetView.frame.height - view.safeAreaInsets.bottom
     }
 
     private struct Constants {
