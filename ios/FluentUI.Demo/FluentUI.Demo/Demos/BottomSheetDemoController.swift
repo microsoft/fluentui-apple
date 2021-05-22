@@ -18,6 +18,7 @@ class BottomSheetDemoController: UIViewController {
         optionTableView.delegate = self
         optionTableView.separatorStyle = .none
         view.addSubview(optionTableView)
+
         let bottomSheetViewController = BottomSheetController(headerContentView: headerView, expandedContentView: personaListView)
         bottomSheetViewController.hostedScrollView = personaListView
 
