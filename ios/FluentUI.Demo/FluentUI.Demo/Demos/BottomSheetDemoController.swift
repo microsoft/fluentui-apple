@@ -21,6 +21,7 @@ class BottomSheetDemoController: UIViewController {
 
         let bottomSheetViewController = BottomSheetController(headerContentView: headerView, expandedContentView: personaListView)
         bottomSheetViewController.hostedScrollView = personaListView
+        bottomSheetViewController.collapsedContentHeight = BottomSheetDemoController.headerHeight
 
         self.bottomSheetViewController = bottomSheetViewController
 
@@ -76,12 +77,6 @@ class BottomSheetDemoController: UIViewController {
             label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             label.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
-        return view
-    }()
-
-    private let expandedContentView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .systemIndigo
         return view
     }()
 
