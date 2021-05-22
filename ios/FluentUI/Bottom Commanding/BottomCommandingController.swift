@@ -490,7 +490,7 @@ open class BottomCommandingController: UIViewController {
         }
 
         struct BottomSheet {
-            static let expandedFraction: CGFloat = 0.9 // Probably should be more customizable / based on content
+            static let expandedFraction: CGFloat = 0.7 // Probably should be more customizable / based on content
             static let heroStackExpandableTopMargin: CGFloat = 0
             static let heroStackNonExpandableTopMargin: CGFloat = 16
             static let heroStackLeadingTrailingMargin: CGFloat = 8

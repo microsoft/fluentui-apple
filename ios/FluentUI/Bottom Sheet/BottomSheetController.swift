@@ -232,6 +232,7 @@ public class BottomSheetController: UIViewController {
         switch sender.state {
         case .began:
             stopAnimationIfNeeded()
+            hostedScrollView?.setContentOffset(.zero, animated: true)
             fallthrough
         case .changed:
             translateSheet(by: sender.translation(in: view))
@@ -347,7 +348,7 @@ public class BottomSheetController: UIViewController {
 
         // The AutoLayout constant doesn't animate, so we need to set it to whatever it should be
         // based on the frame calculated during the interrupted animation
-        let offsetFromBottom = view.frame.height - bottomSheetView.frame.origin.y
+        let offsetFromBottom = view.frame.height - bottomSheetView.frame.origin.y - view.safeAreaInsets.bottom
         bottomSheetOffsetConstraint.constant = -offsetFromBottom
     }
 
@@ -459,9 +460,9 @@ extension BottomSheetController: UIGestureRecognizerDelegate {
         if fullyExpanded {
             let scrolledToTop = scrollView.contentOffset.y <= 0
             let panningDown = panGesture.velocity(in: view).y > 0
-            shouldBegin = scrolledToTop && panningDown
+            let panInHostedScrollView = scrollView.frame.contains(panGesture.location(in: scrollView.superview))
+            shouldBegin = (scrolledToTop && panningDown) || !panInHostedScrollView
         }
-
         return shouldBegin
     }
 }
