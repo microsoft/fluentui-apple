@@ -17,9 +17,13 @@ public protocol BottomSheetControllerDelegate: AnyObject {
 @objc(MSFBottomSheetController)
 public class BottomSheetController: UIViewController {
 
-    @objc public init(sheetHeaderContentView: UIView, sheetExpandedContentView: UIView) {
-        headerContentView = sheetHeaderContentView
-        expandedContentView = sheetExpandedContentView
+    /// Initializes the bottom sheet controller
+    /// - Parameters:
+    ///   - headerContentView: Top part of the sheet content that is visible in both collapsed and expanded state.
+    ///   - expandedContentView: Sheet content below the header which is only visible when the sheet is expanded.
+    @objc public init(headerContentView: UIView, expandedContentView: UIView) {
+        self.headerContentView = headerContentView
+        self.expandedContentView = expandedContentView
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -28,7 +32,13 @@ public class BottomSheetController: UIViewController {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    /// A scroll view in `contentViewController`'s view hierarchy.
+    /// Top part of the sheet content that is visible in both collapsed and expanded state.
+    @objc public let headerContentView: UIView
+
+    /// Sheet content below the header which is only visible when the sheet is expanded.
+    @objc public let expandedContentView: UIView
+
+    /// A scroll view in `expandedContentView`'s view hierarchy.
     /// Provide this to ensure the bottom sheet pan gesture recognizer coordinates with the scroll view to enable scrolling based on current bottom sheet position and content offset.
     @objc open var hostedScrollView: UIScrollView?
 
@@ -46,8 +56,6 @@ public class BottomSheetController: UIViewController {
     }
 
     /// Fraction of the available area that the bottom sheet should take up in the expanded position.
-    ///
-    /// Ignored when `respectsPreferredContentSize` is set to `true`
     @objc open var expandedHeightFraction: CGFloat = 1.0 {
         didSet {
             if expandedHeightFraction != oldValue {
@@ -377,10 +385,6 @@ public class BottomSheetController: UIViewController {
 
     private lazy var bottomSheetOffsetConstraint: NSLayoutConstraint =
         bottomSheetView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -collapsedOffsetFromBottom)
-
-    private let headerContentView: UIView
-
-    private let expandedContentView: UIView
 
     private lazy var panGestureRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
 
