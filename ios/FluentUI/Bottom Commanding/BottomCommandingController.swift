@@ -127,7 +127,7 @@ open class BottomCommandingController: UIViewController {
         let commandStackContainer = UIView()
         commandStackContainer.addSubview(heroCommandStack)
 
-        let sheetController = BottomSheetController(sheetHeaderContentView: commandStackContainer, sheetExpandedContentView: expandedContentView)
+        let sheetController = BottomSheetController(headerContentView: commandStackContainer, expandedContentView: expandedContentView)
         sheetController.hostedScrollView = tableView
         sheetController.expandedHeightFraction = Constants.BottomSheet.expandedFraction
 
