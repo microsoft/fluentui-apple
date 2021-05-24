@@ -3,117 +3,421 @@
 //  Licensed under the MIT License.
 //
 
-import Foundation
 import FluentUI
+import UIKit
 
-// MARK: TableViewCellFileAccessoryViewDemoController
+class TableViewCellFileAccessoryViewDemoController: UITableViewController {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(style: .grouped)
+    }
 
-class TableViewCellFileAccessoryViewDemoController: DemoController {
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = Colors.surfaceSecondary
-
         dateTimePicker.delegate = self
 
-        scrollingContainer.addSubview(stackView)
-        stackView.addArrangedSubview(settingsView)
-
-        var horizontalConstraint: NSLayoutConstraint?
-        if view.effectiveUserInterfaceLayoutDirection == .leftToRight {
-            horizontalConstraint = stackView.leadingAnchor.constraint(equalTo: scrollingContainer.leadingAnchor)
-        } else {
-            horizontalConstraint = stackView.trailingAnchor.constraint(equalTo: scrollingContainer.trailingAnchor)
-        }
-
-        NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: scrollingContainer.topAnchor, constant: Constants.stackViewSpacing),
-            stackView.bottomAnchor.constraint(equalTo: scrollingContainer.bottomAnchor, constant: -Constants.stackViewSpacing),
-            horizontalConstraint!
-        ])
-
-        reloadCells()
+        tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
+        tableView.register(BooleanCell.self, forCellReuseIdentifier: BooleanCell.identifier)
+        tableView.register(ActionsCell.self, forCellReuseIdentifier: ActionsCell.identifier)
     }
 
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        updateCellPadding()
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return TableViewCellFileAccessoryViewDemoSections.allCases.count
     }
 
-    private func reloadCells() {
-        for view in stackView.arrangedSubviews {
-            if view != settingsView {
-                view.removeFromSuperview()
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch TableViewCellFileAccessoryViewDemoSections.allCases[section] {
+        case .demoCells:
+            return 2
+        case .settings:
+            return TableViewCellFileAccessoryViewDemoSettingsRows.allCases.count
+        }
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch TableViewCellFileAccessoryViewDemoSections.allCases[indexPath.section] {
+        case .demoCells:
+            return demoCells[indexPath.row]
+        case.settings:
+            let row = TableViewCellFileAccessoryViewDemoSettingsRows.allCases[indexPath.row]
+
+            switch row {
+            case .dynamicWidth,
+                 .dynamicPadding,
+                 .showDate,
+                 .showSharedStatus,
+                 .isDocumentShared,
+                 .showKeepOfflineButton,
+                 .showShareButton,
+                 .showPinButton,
+                 .showOverflowButton,
+                 .disableShareButton,
+                 .disablePinButton,
+                 .showErrorButton,
+                 .showErrorButtonOnTopCellOnly:
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as? BooleanCell else {
+                    return UITableViewCell()
+                }
+                cell.setup(title: row.title, isOn: row.isOn)
+                cell.titleNumberOfLines = 0
+                cell.onValueChanged = { [weak self, weak cell] in
+                    self?.perform(row.action, with: cell)
+                }
+                return cell
+            case .chooseDate,
+                 .chooseTime:
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: ActionsCell.identifier) as? ActionsCell else {
+                    return UITableViewCell()
+                }
+                cell.setup(action1Title: row.title)
+                if let action = row.action {
+                    cell.action1Button.addTarget(self,
+                                                 action: action,
+                                                 for: .touchUpInside)
+                }
+                cell.bottomSeparatorType = .full
+                return cell
+            case .minimumActionsCount,
+                 .topActionsOverlap,
+                 .bottomActionsOverlap:
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
+                    return UITableViewCell()
+                }
+
+                let buttonViews: [UIView] = {
+                    switch row {
+                    case .minimumActionsCount:
+                        return [minusMinActionsButton, plusMinActionsButton]
+                    case .topActionsOverlap:
+                        return [minusTopOverlapButton, plusTopOverlapButton]
+                    case .bottomActionsOverlap:
+                        return [minusBottomOverlapButton, plusBottomOverlapButton]
+                    default:
+                        return []
+                    }
+                }()
+
+                let stackView = UIStackView(arrangedSubviews: buttonViews)
+                stackView.frame = CGRect(x: 0,
+                                         y: 0,
+                                         width: 100,
+                                         height: 40)
+                stackView.distribution = .fillEqually
+                stackView.alignment = .center
+                stackView.spacing = 4
+
+                cell.setup(title: row.title, customAccessoryView: stackView)
+                cell.titleNumberOfLines = 0
+                return cell
             }
         }
+    }
 
-        topAccessoryViews.removeAll()
-        bottomAccessoryViews.removeAll()
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return TableViewCellFileAccessoryViewDemoSections.allCases[section].title
+    }
 
-        var layoutConstraints: [NSLayoutConstraint] = []
+    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        return TableViewCellFileAccessoryViewDemoSections.allCases[indexPath.section] == .demoCells
+    }
 
-        for width in Constants.cellWidths {
-            if !useDynamicWidth {
-                let cellTitle = Label(style: .subhead, colorStyle: .regular)
-                cellTitle.text = "\t\(Int(width))px"
-                stackView.addArrangedSubview(cellTitle)
-            }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath,
+                              animated: true)
+    }
 
-            let cell1 = createCell(title: "Document Title", subtitle: "OneDrive - Microsoft · Microsoft Teams Chat Files", top: true)
-            let cell2 = createCell(title: "This is a very long document title that keeps on going forever to test text truncation",
-                                   subtitle: "This is a very long document subtitle that keeps on going forever to test text truncation", top: false)
-
-            let containerView = UIStackView(frame: .zero)
-            containerView.axis = .vertical
-            containerView.translatesAutoresizingMaskIntoConstraints = false
-
-            containerView.addArrangedSubview(cell1)
-            containerView.addArrangedSubview(cell2)
-            stackView.addArrangedSubview(containerView)
-
-            if useDynamicWidth {
-                layoutConstraints.append(contentsOf: [
-                    cell1.widthAnchor.constraint(equalTo: scrollingContainer.widthAnchor),
-                    cell2.widthAnchor.constraint(equalTo: scrollingContainer.widthAnchor)
-                ])
-
-                break
-            } else {
-                layoutConstraints.append(containerView.widthAnchor.constraint(equalToConstant: width))
-            }
-        }
-
-        NSLayoutConstraint.activate(layoutConstraints)
+    private var demoCells: [TableViewCell] {
+        let cell1 = createCell(title: "Document Title",
+                               subtitle: "OneDrive - Microsoft · Microsoft Teams Chat Files",
+                               top: true)
+        let cell2 = createCell(title: "This is a very long document title that keeps on going forever to test text truncation",
+                               subtitle: "This is a very long document subtitle that keeps on going forever to test text truncation",
+                               footer: "This is a footer text to validate the 3 line cell scenario and test text truncation",
+                               top: false)
 
         updateActions()
         updateDate()
         updateSharedStatus()
         updateAreDocumentsShared()
         updateCellPadding()
+
+        return [cell1, cell2]
     }
 
-    private struct Constants {
-        static let stackViewSpacing: CGFloat = 20
-        static let cellWidths: [CGFloat] = [320, 375, 414, 423, 424, 503, 504, 583, 584, 615, 616, 751, 752, 899, 900, 924, 950, 1000, 1091, 1092, 1270]
-        static let cellPaddingThreshold: CGFloat = 768
-        static let largeCellPadding: CGFloat = 16
-        static let smallCellPadding: CGFloat = 8
-        static let plusMinusButtonWidth: CGFloat = 40
+    private enum TableViewCellFileAccessoryViewDemoSections: CaseIterable {
+        case demoCells
+        case settings
+
+        var title: String {
+            switch self {
+            case.demoCells:
+                return "Demo Cells"
+            case .settings:
+                return "Settings"
+            }
+        }
     }
 
-    private var topAccessoryViews: [TableViewCellFileAccessoryView] = []
-    private var bottomAccessoryViews: [TableViewCellFileAccessoryView] = []
+    private enum TableViewCellFileAccessoryViewDemoSettingsRows: CaseIterable {
+        case dynamicWidth
+        case dynamicPadding
+        case showDate
+        case chooseDate
+        case chooseTime
+        case minimumActionsCount
+        case topActionsOverlap
+        case bottomActionsOverlap
+        case showSharedStatus
+        case isDocumentShared
+        case showKeepOfflineButton
+        case showShareButton
+        case disableShareButton
+        case showPinButton
+        case disablePinButton
+        case showErrorButton
+        case showErrorButtonOnTopCellOnly
+        case showOverflowButton
 
-    private lazy var stackView: UIStackView = {
-        let stackView = UIStackView(frame: .zero)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.spacing = Constants.stackViewSpacing
+        var title: String {
+            switch self {
+            case .dynamicWidth:
+                return "Dynamic width"
+            case .dynamicPadding:
+                return "Dynamic padding"
+            case .showDate:
+                return "Show date"
+            case .chooseDate:
+                return "Choose date"
+            case .chooseTime:
+                return "Choose time"
+            case .minimumActionsCount:
+                return "Minimum actions count"
+            case .topActionsOverlap:
+                return "Top actions overlap"
+            case .bottomActionsOverlap:
+                return "Bottom actions overlap"
+            case .showSharedStatus:
+                return "Show shared status"
+            case .isDocumentShared:
+                return "Is document shared"
+            case .showKeepOfflineButton:
+                return "Show keep offline button"
+            case .showShareButton:
+                return "Show share button"
+            case .disableShareButton:
+                return "Disable share button"
+            case .showPinButton:
+                return "Show pin button"
+            case .disablePinButton:
+                return "Disable pin button"
+            case .showErrorButton:
+                return "Show error button"
+            case .showErrorButtonOnTopCellOnly:
+                return "Show error button on top cell only"
+            case .showOverflowButton:
+                return "Show overflow button"
+            }
+        }
 
-        return stackView
-    }()
+        var action: Selector? {
+            switch self {
+            case .dynamicWidth:
+                return #selector(toggleDynamicWidth(_:))
+            case .dynamicPadding:
+                return #selector(toggleDynamicPadding(_:))
+            case .showDate:
+                return #selector(toggleShowDate(_:))
+            case .chooseDate:
+                return #selector(presentDatePicker)
+            case .chooseTime:
+                return #selector(presentTimePicker)
+            case .minimumActionsCount, .topActionsOverlap, .bottomActionsOverlap:
+                return nil
+            case .showSharedStatus:
+                return #selector(toggleShowSharedStatus(_:))
+            case .isDocumentShared:
+                return #selector(toggleAreDocumentsShared(_:))
+            case .showKeepOfflineButton:
+                return #selector(toggleShowKeepOffline(_:))
+            case .showShareButton:
+                return #selector(toggleShareButton(_:))
+            case .disableShareButton:
+                return #selector(toggleShareButtonDisabled(_:))
+            case .showPinButton:
+                return #selector(togglePin(_:))
+            case .disablePinButton:
+                return #selector(togglePinButtonDisabled(_:))
+            case .showErrorButton:
+                return #selector(toggleErrorButton(_:))
+            case .showErrorButtonOnTopCellOnly:
+                return #selector(toggleErrorOnBottomCellButton(_:))
+            case .showOverflowButton:
+                return #selector(toggleOverflow(_:))
+            }
+        }
+
+        var isOn: Bool {
+            switch self {
+            case .dynamicWidth,
+                 .showDate,
+                 .showSharedStatus,
+                 .isDocumentShared,
+                 .showKeepOfflineButton,
+                 .showShareButton,
+                 .showPinButton,
+                 .showOverflowButton:
+                return true
+            case .dynamicPadding,
+                 .chooseDate,
+                 .chooseTime,
+                 .minimumActionsCount,
+                 .topActionsOverlap,
+                 .bottomActionsOverlap,
+                 .disableShareButton,
+                 .disablePinButton,
+                 .showErrorButton,
+                 .showErrorButtonOnTopCellOnly:
+                return false
+            }
+        }
+    }
+
+    private lazy var plusMinActionsButton: UIView = createPlusMinusButton(plus: true, #selector(incrementMinimumActionsCount)).view
+    private lazy var minusMinActionsButton: UIView = createPlusMinusButton(plus: false, #selector(decrementMinimumActionsCount)).view
+    private lazy var plusTopOverlapButton: UIView = createPlusMinusButton(plus: true, #selector(incrementTopActionsOverlap)).view
+    private lazy var minusTopOverlapButton: UIView = createPlusMinusButton(plus: false, #selector(decrementTopActionsOverlap)).view
+    private lazy var plusBottomOverlapButton: UIView = createPlusMinusButton(plus: true, #selector(incrementBottomActionsOverlap)).view
+    private lazy var minusBottomOverlapButton: UIView = createPlusMinusButton(plus: false, #selector(decrementBottomActionsOverlap)).view
+
+    private func createPlusMinusButton(plus: Bool, _ selector: Selector) -> MSFButton {
+        let button = MSFButton(style: .secondary,
+                               size: .small) { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.perform(selector)
+        }
+        button.state.image = UIImage(named: plus ? "ic_fluent_add_20_regular" : "ic_fluent_subtract_20_regular")
+
+        return button
+    }
+
+    @objc private func toggleShowDate(_ cell: BooleanCell) {
+        showDate = cell.isOn
+    }
+
+    private let dateTimePicker = DateTimePicker()
+
+    @objc func presentDatePicker() {
+        dateTimePicker.present(from: self, with: .date, startDate: Date(), endDate: nil, datePickerType: .components)
+    }
+
+    @objc func presentTimePicker() {
+        dateTimePicker.present(from: self, with: .dateTime, startDate: Date(), endDate: nil, datePickerType: .components)
+    }
+
+    @objc private func toggleDynamicWidth(_ cell: BooleanCell) {
+        useDynamicWidth = cell.isOn
+    }
+
+    @objc private func toggleDynamicPadding(_ cell: BooleanCell) {
+        useDynamicPadding = cell.isOn
+    }
+
+    @objc private func toggleShowSharedStatus(_ cell: BooleanCell) {
+        showSharedStatus = cell.isOn
+    }
+
+    @objc private func toggleAreDocumentsShared(_ cell: BooleanCell) {
+        areDocumentsShared = cell.isOn
+    }
+
+    @objc private func toggleShowKeepOffline(_ cell: BooleanCell) {
+        showKeepOfflineAction = cell.isOn
+    }
+
+    @objc private func togglePin(_ cell: BooleanCell) {
+        showPinAction = cell.isOn
+    }
+
+    @objc private func togglePinButtonDisabled(_ cell: BooleanCell) {
+        isPinActionDisabled = cell.isOn
+    }
+
+    @objc private func toggleShareButton(_ cell: BooleanCell) {
+        showShareAction = cell.isOn
+    }
+
+    @objc private func toggleShareButtonDisabled(_ cell: BooleanCell) {
+        isShareActionDisabled = cell.isOn
+    }
+
+    @objc private func toggleErrorButton(_ cell: BooleanCell) {
+        showErrorAction = cell.isOn
+    }
+
+    @objc private func toggleErrorOnBottomCellButton(_ cell: BooleanCell) {
+        showErrorOnBottomCellAction = !cell.isOn
+    }
+
+    @objc private func toggleOverflow(_ cell: BooleanCell) {
+        showOverflowAction = cell.isOn
+    }
+
+    @objc private func handleErrorAction() {
+        displayActionAlert(title: "Error")
+    }
+
+    @objc private func handlePinAction() {
+        isPinned = !isPinned
+    }
+
+    @objc private func handleShareAction() {
+        displayActionAlert(title: "Share")
+    }
+
+    @objc private func handleOverflowAction() {
+        displayActionAlert(title: "Overflow")
+    }
+
+    @objc private func handleKeepOfflineAction() {
+        displayActionAlert(title: "Keep offline")
+    }
+
+    @objc private func incrementMinimumActionsCount() {
+        minimumActionsCount += 1
+    }
+
+    @objc private func decrementMinimumActionsCount() {
+        if minimumActionsCount > 0 {
+            minimumActionsCount -= 1
+        }
+    }
+
+    @objc private func incrementTopActionsOverlap() {
+        topActionsOverlap += 1
+    }
+
+    @objc private func decrementTopActionsOverlap() {
+        if topActionsOverlap > 0 {
+            topActionsOverlap -= 1
+        }
+    }
+
+    @objc private func incrementBottomActionsOverlap() {
+        bottomActionsOverlap += 1
+    }
+
+    @objc private func decrementBottomActionsOverlap() {
+        if bottomActionsOverlap > 0 {
+            bottomActionsOverlap -= 1
+        }
+    }
 
     private func createAccessoryView() -> TableViewCellFileAccessoryView {
         let customAccessoryView = TableViewCellFileAccessoryView.init(frame: .zero)
@@ -208,42 +512,6 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         for accessoryView in topAccessoryViews + bottomAccessoryViews {
             accessoryView.isShared = areDocumentsShared
         }
-    }
-
-    private func createCell(title: String, subtitle: String, top: Bool) -> TableViewCell {
-        let customAccessoryView = createAccessoryView()
-
-        if top {
-            topAccessoryViews.append(customAccessoryView)
-        } else {
-            bottomAccessoryViews.append(customAccessoryView)
-        }
-
-        let cell = TableViewCell(frame: .zero)
-        customAccessoryView.tableViewCell = cell
-
-        cell.setup(
-            title: title,
-            subtitle: subtitle,
-            footer: "",
-            customView: TableViewSampleData.createCustomView(imageName: "wordIcon"),
-            customAccessoryView: customAccessoryView,
-            accessoryType: .none
-        )
-
-        cell.titleNumberOfLines = 1
-        cell.subtitleNumberOfLines = 1
-
-        cell.titleLineBreakMode = .byTruncatingMiddle
-
-        cell.titleNumberOfLinesForLargerDynamicType = 3
-        cell.subtitleNumberOfLinesForLargerDynamicType = 2
-
-        cell.backgroundColor = Colors.tableCellBackground
-        cell.topSeparatorType = .none
-        cell.bottomSeparatorType = .none
-
-        return cell
     }
 
     private func updateCellPadding() {
@@ -379,204 +647,65 @@ class TableViewCellFileAccessoryViewDemoController: DemoController {
         }
     }
 
-    private lazy var settingsView: UIView = {
-        let settingsView = UIStackView(frame: .zero)
-        settingsView.axis = .horizontal
-
-        let spacingView = UIView(frame: .zero)
-        spacingView.translatesAutoresizingMaskIntoConstraints = false
-        spacingView.widthAnchor.constraint(equalToConstant: Constants.stackViewSpacing).isActive = true
-        settingsView.addArrangedSubview(spacingView)
-
-        let plusMinActionsButton = createPlusMinusButton(plus: true, action: { [weak self] _ in
-            guard let strongSelf = self else {
-                return
-            }
-
-            strongSelf.minimumActionsCount += 1
-        })
-        let minusMinActionsButton = createPlusMinusButton(plus: false, action: { [weak self] _ in
-            guard let strongSelf = self else {
-                return
-            }
-
-            if strongSelf.minimumActionsCount > 0 {
-                strongSelf.minimumActionsCount -= 1
-            }
-        })
-        let actionsButtonsStackView = UIStackView(arrangedSubviews: [plusMinActionsButton, minusMinActionsButton])
-        actionsButtonsStackView.spacing = 10
-
-        let plusTopOverlapButton = createPlusMinusButton(plus: true, action: { [weak self] _ in
-            guard let strongSelf = self else {
-                return
-            }
-
-            strongSelf.topActionsOverlap += 1
-        })
-        let minusTopOverlapButton = createPlusMinusButton(plus: false, action: { [weak self] _ in
-            guard let strongSelf = self else {
-                return
-            }
-
-            if strongSelf.topActionsOverlap > 0 {
-                strongSelf.topActionsOverlap -= 1
-            }
-        })
-        let topOverlapButtonsStackView = UIStackView(arrangedSubviews: [plusTopOverlapButton, minusTopOverlapButton])
-        topOverlapButtonsStackView.spacing = 10
-
-        let plusBottomOverlapButton = createPlusMinusButton(plus: true, action: { [weak self] _ in
-            guard let strongSelf = self else {
-                return
-            }
-
-            strongSelf.bottomActionsOverlap += 1
-        })
-        let minusBottomOverlapButton = createPlusMinusButton(plus: false, action: { [weak self] _ in
-            guard let strongSelf = self else {
-                return
-            }
-
-            if strongSelf.bottomActionsOverlap > 0 {
-                strongSelf.bottomActionsOverlap -= 1
-            }
-        })
-        let bottomOverlapButtonsStackView = UIStackView(arrangedSubviews: [plusBottomOverlapButton, minusBottomOverlapButton])
-        bottomOverlapButtonsStackView.spacing = 10
-
-        let settingViews: [UIView] = [
-            createLabelAndSwitchRow(labelText: "Dynamic width", switchAction: #selector(toggleDynamicWidth(switchView:)), isOn: useDynamicWidth),
-            createLabelAndSwitchRow(labelText: "Dynamic padding", switchAction: #selector(toggleDynamicPadding(switchView:)), isOn: useDynamicPadding),
-            createLabelAndSwitchRow(labelText: "Show date", switchAction: #selector(toggleShowDate(switchView:)), isOn: showDate),
-            createButton(title: "Choose date", action: { [weak self] _ in
-            guard let strongSelf = self else {
-                return
-            }
-
-                strongSelf.dateTimePicker.present(from: strongSelf, with: .date, startDate: Date(), endDate: nil, datePickerType: .components)
-            }).view,
-            createButton(title: "Choose time", action: { [weak self] _ in
-            guard let strongSelf = self else {
-                return
-            }
-
-                strongSelf.dateTimePicker.present(from: strongSelf, with: .dateTime, startDate: Date(), endDate: nil, datePickerType: .components)
-            }).view,
-            createLabelAndViewsRow(labelText: "Minimum actions count", views: [actionsButtonsStackView]),
-            createLabelAndViewsRow(labelText: "Top actions overlap", views: [topOverlapButtonsStackView]),
-            createLabelAndViewsRow(labelText: "Bottom actions overlap", views: [bottomOverlapButtonsStackView]),
-            createLabelAndSwitchRow(labelText: "Show shared status", switchAction: #selector(toggleShowSharedStatus(switchView:)), isOn: showSharedStatus),
-            createLabelAndSwitchRow(labelText: "Is document shared", switchAction: #selector(toggleAreDocumentsShared(switchView:)), isOn: areDocumentsShared),
-            createLabelAndSwitchRow(labelText: "Show keep offline button", switchAction: #selector(toggleShowKeepOffline(switchView:)), isOn: showKeepOfflineAction),
-            createLabelAndSwitchRow(labelText: "Show share button", switchAction: #selector(toggleShareButton(switchView:)), isOn: showShareAction),
-            createLabelAndSwitchRow(labelText: "Disable share button", switchAction: #selector(toggleShareButtonDisabled(switchView:)), isOn: isShareActionDisabled),
-            createLabelAndSwitchRow(labelText: "Show pin button", switchAction: #selector(togglePin(switchView:)), isOn: showPinAction),
-            createLabelAndSwitchRow(labelText: "Disable pin button", switchAction: #selector(togglePinButtonDisabled(switchView:)), isOn: isPinActionDisabled),
-            createLabelAndSwitchRow(labelText: "Show error button", switchAction: #selector(toggleErrorButton(switchView:)), isOn: showErrorAction),
-            createLabelAndSwitchRow(labelText: "Show error button on top cell only", switchAction: #selector(toggleErrorOnBottomCellButton(switchView:)), isOn: !showErrorOnBottomCellAction),
-            createLabelAndSwitchRow(labelText: "Show overflow button", switchAction: #selector(toggleOverflow(switchView:)), isOn: showOverflowAction)
-        ]
-
-        let verticalSettingsView = UIStackView(frame: .zero)
-        verticalSettingsView.translatesAutoresizingMaskIntoConstraints = false
-        verticalSettingsView.axis = .vertical
-        verticalSettingsView.spacing = Constants.stackViewSpacing
-
-        for settingView in settingViews {
-            verticalSettingsView.addArrangedSubview(settingView)
-        }
-
-        settingsView.addArrangedSubview(verticalSettingsView)
-
-        return settingsView
-    }()
-
-    private func createPlusMinusButton(plus: Bool, action: ((_ sender: MSFButton) -> Void)?) -> UIView {
-        let button = createButton(title: (plus ? "+" : "-"), action: action).view
-        button.widthAnchor.constraint(equalToConstant: Constants.plusMinusButtonWidth).isActive = true
-        return button
-    }
-
-    @objc private func toggleShowDate(switchView: UISwitch) {
-        showDate = switchView.isOn
-    }
-
-    private let dateTimePicker = DateTimePicker()
-
-    @objc private func toggleDynamicWidth(switchView: UISwitch) {
-        useDynamicWidth = switchView.isOn
-    }
-
-    @objc private func toggleDynamicPadding(switchView: UISwitch) {
-        useDynamicPadding = switchView.isOn
-    }
-
-    @objc private func toggleShowSharedStatus(switchView: UISwitch) {
-        showSharedStatus = switchView.isOn
-    }
-
-    @objc private func toggleAreDocumentsShared(switchView: UISwitch) {
-        areDocumentsShared = switchView.isOn
-    }
-
-    @objc private func toggleShowKeepOffline(switchView: UISwitch) {
-        showKeepOfflineAction = switchView.isOn
-    }
-
-    @objc private func togglePin(switchView: UISwitch) {
-        showPinAction = switchView.isOn
-    }
-
-    @objc private func togglePinButtonDisabled(switchView: UISwitch) {
-        isPinActionDisabled = switchView.isOn
-    }
-
-    @objc private func toggleShareButton(switchView: UISwitch) {
-        showShareAction = switchView.isOn
-    }
-
-    @objc private func toggleShareButtonDisabled(switchView: UISwitch) {
-        isShareActionDisabled = switchView.isOn
-    }
-
-    @objc private func toggleErrorButton(switchView: UISwitch) {
-        showErrorAction = switchView.isOn
-    }
-
-    @objc private func toggleErrorOnBottomCellButton(switchView: UISwitch) {
-        showErrorOnBottomCellAction = !switchView.isOn
-    }
-
-    @objc private func toggleOverflow(switchView: UISwitch) {
-        showOverflowAction = switchView.isOn
-    }
-
-    @objc private func handleErrorAction() {
-        displayActionAlert(title: "Error")
-    }
-
-    @objc private func handlePinAction() {
-        isPinned = !isPinned
-    }
-
-    @objc private func handleShareAction() {
-        displayActionAlert(title: "Share")
-    }
-
-    @objc private func handleOverflowAction() {
-        displayActionAlert(title: "Overflow")
-    }
-
-    @objc private func handleKeepOfflineAction() {
-        displayActionAlert(title: "Keep offline")
-    }
-
     private func displayActionAlert(title: String) {
         let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
         present(alert, animated: true)
+    }
+
+    private func createCell(title: String, subtitle: String, footer: String = "", top: Bool) -> TableViewCell {
+        let customAccessoryView = createAccessoryView()
+
+        if top {
+            topAccessoryViews.append(customAccessoryView)
+        } else {
+            bottomAccessoryViews.append(customAccessoryView)
+        }
+
+        let cell = TableViewCell(frame: .zero)
+        customAccessoryView.tableViewCell = cell
+
+        cell.setup(
+            title: title,
+            subtitle: subtitle,
+            footer: footer,
+            customView: TableViewSampleData.createCustomView(imageName: "wordIcon"),
+            customAccessoryView: customAccessoryView,
+            accessoryType: .none
+        )
+
+        cell.titleNumberOfLines = 1
+        cell.subtitleNumberOfLines = 1
+
+        cell.titleLineBreakMode = .byTruncatingMiddle
+
+        cell.titleNumberOfLinesForLargerDynamicType = 3
+        cell.subtitleNumberOfLinesForLargerDynamicType = 2
+
+//        cell.backgroundColor = Colors.Table.Cell.background
+        cell.topSeparatorType = .none
+        cell.bottomSeparatorType = (top ? .inset : .none)
+
+        return cell
+    }
+
+    private struct Constants {
+        static let cellPaddingThreshold: CGFloat = 768
+        static let largeCellPadding: CGFloat = 16
+        static let smallCellPadding: CGFloat = 8
+        static let plusMinusButtonWidth: CGFloat = 40
+    }
+
+    private var topAccessoryViews: [TableViewCellFileAccessoryView] = []
+
+    private var bottomAccessoryViews: [TableViewCellFileAccessoryView] = []
+
+    private func reloadCells() {
+        if let demoSectionIndex = TableViewCellFileAccessoryViewDemoSections.allCases.firstIndex(of: .demoCells) {
+            tableView.reloadSections(IndexSet(integer: demoSectionIndex),
+                                              with: .none)
+        }
     }
 }
 

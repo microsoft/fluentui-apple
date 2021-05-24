@@ -1052,8 +1052,8 @@ extension DrawerController: UIPopoverPresentationControllerDelegate {
         return .none
     }
 
-    public func popoverPresentationControllerShouldDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) -> Bool {
-        return dismissPresentingViewController(animated: true)
+    public func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
+        return delegate?.drawerControllerShouldDismissDrawer?(self) ?? true
     }
 }
 

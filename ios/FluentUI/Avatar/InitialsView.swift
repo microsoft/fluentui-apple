@@ -170,7 +170,6 @@ class InitialsView: UIView {
 
     public var avatarSize: AvatarLegacySize {
         didSet {
-            frame.size = avatarSize.size
             initialsLabel.font = avatarSize.font
         }
     }

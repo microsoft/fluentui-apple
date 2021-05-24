@@ -120,6 +120,9 @@
 /* Format string for tab bar item accessbility labels. Format: "<Title>, <BadgeValue> items". Example: "Home, 5 items" */
 "Accessibility.TabBarItemView.LabelFormat" = "%@, %@ item";
 
+/* Commanding Bottom Bar - More button */
+"CommandingBottomBar.More" = "Selanjutnya";
+
 /* Generic label for cancel action */
 "Common.Cancel" = "Batal";
 
