@@ -40,6 +40,11 @@ class AvatarDemoController: DemoController {
                                                            isOn: isShowingRings)
         addRow(items: [showRingsSettingView])
 
+        let enableRingInnerGapSettingView = createLabelAndSwitchRow(labelText: "Enable ring inner gap",
+                                                                    switchAction: #selector(toggleShowRingInnerGap(switchView:)),
+                                                                    isOn: isShowingRingInnerGap)
+        addRow(items: [enableRingInnerGapSettingView])
+
         addTitle(text: "Default style")
         for size in MSFAvatarSize.allCases.reversed() {
             let name = "Kat Larrson"
@@ -165,6 +170,16 @@ class AvatarDemoController: DemoController {
         }
     }
 
+    private var isShowingRingInnerGap: Bool = true {
+        didSet {
+            if oldValue != isShowingRingInnerGap {
+                for avatarView in avatarViews {
+                    avatarView.state.hasRingInnerGap = isShowingRingInnerGap
+                }
+            }
+        }
+    }
+
     private var isTransparent: Bool = true {
         didSet {
             if oldValue != isTransparent {
@@ -206,6 +221,10 @@ class AvatarDemoController: DemoController {
 
     @objc private func toggleShowRings(switchView: UISwitch) {
         isShowingRings = switchView.isOn
+    }
+
+    @objc private func toggleShowRingInnerGap(switchView: UISwitch) {
+        isShowingRingInnerGap = switchView.isOn
     }
 
     @objc private func toggleAlternateBackground(switchView: UISwitch) {
