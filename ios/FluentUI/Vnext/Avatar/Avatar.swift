@@ -100,6 +100,7 @@ import SwiftUI
     var foregroundColor: UIColor? { get set }
     var presence: MSFAvatarPresence { get set }
     var hasPointerInteraction: Bool { get set }
+    var hasRingInnerGap: Bool { get set }
     var isRingVisible: Bool { get set }
     var isTransparent: Bool { get set }
     var isOutOfOffice: Bool { get set }
@@ -115,6 +116,7 @@ class MSFAvatarStateImpl: NSObject, ObservableObject, MSFAvatarState {
     @Published var foregroundColor: UIColor?
     @Published var presence: MSFAvatarPresence = .none
     @Published var hasPointerInteraction: Bool = false
+    @Published var hasRingInnerGap: Bool = true
     @Published var isRingVisible: Bool = false
     @Published var isTransparent: Bool = true
     @Published var isOutOfOffice: Bool = false
@@ -138,13 +140,14 @@ public struct AvatarView: View {
         let presence = state.presence
         let shouldDisplayPresence = presence != .none
         let isRingVisible = state.isRingVisible
+        let hasRingInnerGap = state.hasRingInnerGap
         let isTransparent = state.isTransparent
         let isOutOfOffice = state.isOutOfOffice
         let initialsString: String = ((style == .overflow) ? state.primaryText ?? "" : InitialsView.initialsText(fromPrimaryText: state.primaryText,
                                                                                                                  secondaryText: state.secondaryText))
         let shouldUseCalculatedColors = !initialsString.isEmpty && style != .overflow
 
-        let ringInnerGap: CGFloat = isRingVisible ? tokens.ringInnerGap : 0
+        let ringInnerGap: CGFloat = isRingVisible && hasRingInnerGap ? tokens.ringInnerGap : 0
         let ringThickness: CGFloat = isRingVisible ? tokens.ringThickness : 0
         let ringOuterGap: CGFloat = isRingVisible ? tokens.ringOuterGap : 0
         let avatarImageSize: CGFloat = tokens.avatarSize!

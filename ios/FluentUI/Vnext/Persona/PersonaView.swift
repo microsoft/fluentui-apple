@@ -116,6 +116,16 @@ class MSFPersonaViewStateImpl: MSFListCellState, PersonaViewState {
         }
     }
 
+    var hasRingInnerGap: Bool {
+        get {
+            return avatarState.hasRingInnerGap
+        }
+
+        set {
+            avatarState.hasRingInnerGap = newValue
+        }
+    }
+
     var isRingVisible: Bool {
         get {
             return avatarState.isRingVisible
