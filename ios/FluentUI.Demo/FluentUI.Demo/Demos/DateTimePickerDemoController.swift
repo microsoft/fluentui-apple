@@ -126,74 +126,63 @@ class DateTimePickerDemoController: DemoController {
         dateTimePicker.present(from: self, with: .dateTime, startDate: startDate ?? Date(), datePickerType: datePickerType)
     }
 
-    @objc func presentDateRangePicker() {
+    func calcDatePickerParams() -> (startDate: Date, endDate: Date, titles: DateTimePicker.Titles) {
         let startDate = self.startDate ?? Date()
         let endDate = self.endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
+        let titles: DateTimePicker.Titles
+        if datePickerType == .calendar && !UIAccessibility.isVoiceOverRunning {
+            titles = .with(startSubtitle: "Assignment Date", endSubtitle: "Due Date")
+        } else {
+            titles = .with(startTab: "Assignment Date", endTab: "Due Date")
+        }
+        return (startDate, endDate, titles)
+    }
+
+    @objc func presentDateRangePicker() {
+        let (startDate, endDate, _) = calcDatePickerParams()
         dateTimePicker.present(from: self, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: datePickerType)
     }
 
     @objc func presentTabbedDateRangePicker() {
-        let startDate = self.startDate ?? Date()
-        let endDate = self.endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
+        let (startDate, endDate, _) = calcDatePickerParams()
         dateTimePicker.present(from: self, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: datePickerType, dateRangePresentation: .tabbed)
     }
 
     @objc func presentDateTimeRangePicker() {
-        let startDate = self.startDate ?? Date()
-        let endDate = self.endDate ?? Calendar.current.date(byAdding: .hour, value: 1, to: startDate) ?? startDate
+        let (startDate, endDate, _) = calcDatePickerParams()
         dateTimePicker.present(from: self, with: .dateTimeRange, startDate: startDate, endDate: endDate, datePickerType: datePickerType)
     }
 
     @objc func presentCustomSubtitlePicker() {
-        let startDate = self.startDate ?? Date()
-        let endDate = self.endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
-        let titles: DateTimePicker.Titles
-        if datePickerType == .calendar && !UIAccessibility.isVoiceOverRunning {
-            titles = .with(startSubtitle: "Assignment Date", endSubtitle: "Due Date")
-        } else {
-            titles = .with(startTab: "Assignment Date", endTab: "Due Date")
-        }
+        let (startDate, endDate, titles) = calcDatePickerParams()
         dateTimePicker.present(from: self, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: datePickerType, titles: titles)
     }
 
     @objc func presentPickerLeftToolbarView() {
-        let startDate = self.startDate ?? Date()
-        let endDate = self.endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
-        let titles: DateTimePicker.Titles
-        if datePickerType == .calendar && !UIAccessibility.isVoiceOverRunning {
-            titles = .with(startSubtitle: "Assignment Date", endSubtitle: "Due Date")
-        } else {
-            titles = .with(startTab: "Assignment Date", endTab: "Due Date")
-        }
-
+        let (startDate, endDate, titles) = calcDatePickerParams()
         let leftBarButtonItem = DemoBarButtonItems.cancel(target: self, action: #selector(handleDidTapCancel))
-
         dateTimePicker.present(from: self, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: datePickerType, titles: titles, leftBarButtonItem: leftBarButtonItem)
     }
 
     @objc func presentPickerLeftRightToolbarView() {
-        let startDate = self.startDate ?? Date()
-        let endDate = self.endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
-        let titles: DateTimePicker.Titles
-        if datePickerType == .calendar && !UIAccessibility.isVoiceOverRunning {
-            titles = .with(startSubtitle: "Assignment Date", endSubtitle: "Due Date")
-        } else {
-            titles = .with(startTab: "Assignment Date", endTab: "Due Date")
-        }
-
+        let (startDate, endDate, titles) = calcDatePickerParams()
         let leftBarButtonItem = DemoBarButtonItems.confirm(target: self, action: #selector(handleDidTapDone))
-
         let rightBarButtonItem = DemoBarButtonItems.cancel(target: self, action: #selector(handleDidTapCancel)) // or simply assign UIBarButtonItem() to hide the default confirm button
-
         dateTimePicker.present(from: self, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: datePickerType, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
     }
 
     @objc private func handleDidTapCancel() {
-        dateTimePicker.dismiss()
+        self.dateTimePicker.dismiss()
+        let alert = UIAlertController(title: "Callback from picker", message: "User has pressed Cancel glyph", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        self.present(alert, animated: true)
     }
 
     @objc private func handleDidTapDone() {
-        dateTimePicker.dismiss()
+        self.dateTimePicker.dismiss()
+        let alert = UIAlertController(title: "Callback from picker", message: "User has pressed Confirm glyph", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        self.present(alert, animated: true)
     }
 
     @objc func resetDates() {
