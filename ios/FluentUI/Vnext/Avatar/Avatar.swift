@@ -226,6 +226,8 @@ public struct AvatarView: View {
             }
         }
 
+        // The avatarRingView is not available in the .group style.
+        // This variable is not going to be computed in that scenario.
         @ViewBuilder
         var avatarRingView: some View {
             if let imageBasedRingColor = state.imageBasedRingColor {
