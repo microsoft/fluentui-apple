@@ -235,6 +235,10 @@ public struct AvatarView: View {
                 // transitions during the animation as the ImagePaint scale value is not animatable.
                 let ringMaxSize = avatarImageSize + (tokens.ringInnerGap + tokens.ringThickness) * 2
                 let scaleFactor = ringMaxSize / imageBasedRingColor.size.width
+
+                // ImagePaint is being used as creating a Color struct from a UIColor created with
+                // the patternImage initializer (https://developer.apple.com/documentation/uikit/uicolor/1621933-init)
+                // does not render any content.
                 Circle()
                     .strokeBorder(ImagePaint(image: Image(uiImage: imageBasedRingColor),
                                              scale: scaleFactor),
