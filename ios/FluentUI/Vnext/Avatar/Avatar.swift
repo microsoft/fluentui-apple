@@ -92,36 +92,65 @@ import SwiftUI
 /// Properties available to customize the state of the avatar
 @objc public protocol MSFAvatarState {
     var accessibilityLabel: String? { get set }
-    var image: UIImage? { get set }
-    var primaryText: String? { get set }
-    var secondaryText: String? { get set }
-    var ringColor: UIColor? { get set }
-    var imageBasedRingColor: UIImage? { get set }
     var backgroundColor: UIColor? { get set }
     var foregroundColor: UIColor? { get set }
-    var presence: MSFAvatarPresence { get set }
     var hasPointerInteraction: Bool { get set }
     var hasRingInnerGap: Bool { get set }
+    var image: UIImage? { get set }
+    var imageBasedRingColor: UIImage? { get set }
+    var isOutOfOffice: Bool { get set }
     var isRingVisible: Bool { get set }
     var isTransparent: Bool { get set }
-    var isOutOfOffice: Bool { get set }
+    var presence: MSFAvatarPresence { get set }
+    var primaryText: String? { get set }
+    var ringColor: UIColor? { get set }
+    var secondaryText: String? { get set }
+    var size: MSFAvatarSize { get set }
+    var style: MSFAvatarStyle { get set }
 }
 
 /// Properties available to customize the state of the avatar
 class MSFAvatarStateImpl: NSObject, ObservableObject, MSFAvatarState {
-    @Published var image: UIImage?
-    @Published var primaryText: String?
-    @Published var secondaryText: String?
-    @Published var ringColor: UIColor?
-    @Published var imageBasedRingColor: UIImage?
     @Published var backgroundColor: UIColor?
     @Published var foregroundColor: UIColor?
-    @Published var presence: MSFAvatarPresence = .none
     @Published var hasPointerInteraction: Bool = false
     @Published var hasRingInnerGap: Bool = true
+    @Published var image: UIImage?
+    @Published var imageBasedRingColor: UIImage?
+    @Published var isOutOfOffice: Bool = false
     @Published var isRingVisible: Bool = false
     @Published var isTransparent: Bool = true
-    @Published var isOutOfOffice: Bool = false
+    @Published var presence: MSFAvatarPresence = .none
+    @Published var primaryText: String?
+    @Published var ringColor: UIColor?
+    @Published var secondaryText: String?
+
+    var size: MSFAvatarSize {
+        get {
+            return tokens.size
+        }
+        set {
+            tokens.size = newValue
+        }
+    }
+
+    var style: MSFAvatarStyle {
+        get {
+            return tokens.style
+        }
+        set {
+            tokens.style = newValue
+        }
+    }
+
+    var tokens: MSFAvatarTokens
+
+    init(style: MSFAvatarStyle,
+         size: MSFAvatarSize) {
+        self.tokens = MSFAvatarTokens(style: style,
+                                      size: size)
+        super.init()
+    }
 }
 
 /// View that represents the avatar
@@ -133,8 +162,10 @@ public struct AvatarView: View {
 
     public init(style: MSFAvatarStyle,
                 size: MSFAvatarSize) {
-        self.tokens = MSFAvatarTokens(style: style, size: size)
-        self.state = MSFAvatarStateImpl()
+        let state = MSFAvatarStateImpl(style: style,
+                                       size: size)
+        self.state = state
+        self.tokens = state.tokens
     }
 
     public var body: some View {
@@ -323,14 +354,6 @@ public struct AvatarView: View {
                           with: windowProvider)
     }
 
-    public func setStyle(style: MSFAvatarStyle) {
-        tokens.style = style
-    }
-
-    public func setSize(size: MSFAvatarSize) {
-        tokens.size = size
-    }
-
     private let animationDuration: Double = 0.1
 
     private struct PresenceCutout: Shape {
@@ -368,14 +391,6 @@ public struct AvatarView: View {
 
     @objc open var state: MSFAvatarState {
         return self.avatarview.state
-    }
-
-    @objc open func setStyle(style: MSFAvatarStyle) {
-        self.avatarview.setStyle(style: style)
-    }
-
-    @objc open func setSize(size: MSFAvatarSize) {
-        self.avatarview.setSize(size: size)
     }
 
     @objc public convenience init(style: MSFAvatarStyle = .default,

@@ -43,8 +43,9 @@ open class SideTabBar: UIView {
         }
         didSet {
             if let avatar = avatar {
-                avatar.setSize(size: .medium)
-                avatar.state.accessibilityLabel = "Accessibility.LargeTitle.ProfileView".localized
+                let avatarState = avatar.state
+                avatarState.size = .medium
+                avatarState.accessibilityLabel = "Accessibility.LargeTitle.ProfileView".localized
 
                 let avatarView = avatar.view
                 avatarView.translatesAutoresizingMaskIntoConstraints = false

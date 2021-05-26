@@ -26,56 +26,6 @@ public protocol PersonaViewState: MSFPersonaViewState {
 
 /// Properties that make up PersonaView content
 class MSFPersonaViewStateImpl: MSFListCellState, PersonaViewState {
-    init(avatarState: MSFAvatarState) {
-        self.avatarState = avatarState
-
-        super.init()
-
-        self.tokens = MSFPersonaViewTokens()
-    }
-
-    var image: UIImage? {
-        get {
-            return avatarState.image
-        }
-
-        set {
-            avatarState.image = newValue
-        }
-    }
-
-    var primaryText: String? {
-        get {
-            return avatarState.primaryText
-        }
-
-        set {
-            avatarState.primaryText = newValue
-            title = newValue ?? ""
-        }
-    }
-
-    var secondaryText: String? {
-        get {
-            return avatarState.secondaryText
-        }
-
-        set {
-            avatarState.secondaryText = newValue
-            subtitle = newValue ?? ""
-        }
-    }
-
-    var ringColor: UIColor? {
-        get {
-            return avatarState.ringColor
-        }
-
-        set {
-            avatarState.ringColor = newValue
-        }
-    }
-
     override var backgroundColor: UIColor? {
         get {
             return avatarState.backgroundColor
@@ -93,16 +43,6 @@ class MSFPersonaViewStateImpl: MSFListCellState, PersonaViewState {
 
         set {
             avatarState.foregroundColor = newValue
-        }
-    }
-
-    var presence: MSFAvatarPresence {
-        get {
-            return avatarState.presence
-        }
-
-        set {
-            avatarState.presence = newValue
         }
     }
 
@@ -126,6 +66,16 @@ class MSFPersonaViewStateImpl: MSFListCellState, PersonaViewState {
         }
     }
 
+    var image: UIImage? {
+        get {
+            return avatarState.image
+        }
+
+        set {
+            avatarState.image = newValue
+        }
+    }
+
     var imageBasedRingColor: UIImage? {
         get {
             return avatarState.imageBasedRingColor
@@ -133,6 +83,16 @@ class MSFPersonaViewStateImpl: MSFListCellState, PersonaViewState {
 
         set {
             avatarState.imageBasedRingColor = newValue
+        }
+    }
+
+    var isOutOfOffice: Bool {
+        get {
+            return avatarState.isOutOfOffice
+        }
+
+        set {
+            avatarState.isOutOfOffice = newValue
         }
     }
 
@@ -156,14 +116,74 @@ class MSFPersonaViewStateImpl: MSFListCellState, PersonaViewState {
         }
     }
 
-    var isOutOfOffice: Bool {
+    var presence: MSFAvatarPresence {
         get {
-            return avatarState.isOutOfOffice
+            return avatarState.presence
         }
 
         set {
-            avatarState.isOutOfOffice = newValue
+            avatarState.presence = newValue
         }
+    }
+
+    var primaryText: String? {
+        get {
+            return avatarState.primaryText
+        }
+
+        set {
+            avatarState.primaryText = newValue
+            title = newValue ?? ""
+        }
+    }
+
+    var ringColor: UIColor? {
+        get {
+            return avatarState.ringColor
+        }
+
+        set {
+            avatarState.ringColor = newValue
+        }
+    }
+
+    var secondaryText: String? {
+        get {
+            return avatarState.secondaryText
+        }
+
+        set {
+            avatarState.secondaryText = newValue
+            subtitle = newValue ?? ""
+        }
+    }
+
+    var size: MSFAvatarSize {
+        get {
+            return avatarState.size
+        }
+
+        set {
+            avatarState.size = newValue
+        }
+    }
+
+    var style: MSFAvatarStyle {
+        get {
+            return avatarState.style
+        }
+
+        set {
+            avatarState.style = newValue
+        }
+    }
+
+    init(avatarState: MSFAvatarState) {
+        self.avatarState = avatarState
+
+        super.init()
+
+        self.tokens = MSFPersonaViewTokens()
     }
 
     private var avatarState: MSFAvatarState
