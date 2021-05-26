@@ -9,7 +9,7 @@ public class Application {
 }
 
 /// Your view should conform to 'AppearaceProxyComponent'.
-public protocol AppearaceProxyComponent: class {
+public protocol AppearaceProxyComponent: AnyObject {
     associatedtype AppearanceProxyType
     var appearanceProxy: AppearanceProxyType { get }
     var themeAware: Bool { get set }

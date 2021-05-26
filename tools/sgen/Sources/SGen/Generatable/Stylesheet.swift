@@ -845,7 +845,7 @@ extension Stylesheet {
 
         header += """
 /// Your view should conform to 'AppearaceProxyComponent'.
-public protocol AppearaceProxyComponent: class {
+public protocol AppearaceProxyComponent: AnyObject {
     associatedtype AppearanceProxyType
     var appearanceProxy: AppearanceProxyType { get }
     var themeAware: Bool { get set }
@@ -1183,7 +1183,7 @@ extension UIFont {
         header += "\(visibility) var __AnimatorRepeatCountHandle: UInt8 = 0\n"
         header += "\(visibility) var __AnimatorIdentifierHandle: UInt8 = 0\n\n"
         header += "/// Your view should conform to 'AnimatorProxyComponent'.\n"
-        header += "public protocol AnimatorProxyComponent: class {\n"
+        header += "public protocol AnimatorProxyComponent: AnyObject {\n"
         header += "\tassociatedtype AnimatorProxyType\n"
         header += "\tvar \(animatorName!.firstLowercased): AnimatorProxyType { get }\n"
         header += "\n}\n\n"
