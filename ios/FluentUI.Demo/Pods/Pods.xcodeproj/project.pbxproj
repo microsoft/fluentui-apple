@@ -17,6 +17,7 @@
 				2FE3A4764FFE0BE5140CD9B99113936E /* PBXTargetDependency */,
 			);
 			name = AppCenter;
+			productName = AppCenter;
 		};
 /* End PBXAggregateTarget section */
 
@@ -58,40 +59,40 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0F97F417F8CEF438686867BD74898F2D /* en.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = en.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/en.lproj"; sourceTree = "<group>"; };
-		0FCFB443211DAB39B667B4C3A3DCE70A /* zh-Hans.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = "zh-Hans.lproj"; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/zh-Hans.lproj"; sourceTree = "<group>"; };
-		11AF731E4071DCD5E34B4CA294302B92 /* AppCenterDistributeResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = AppCenterDistributeResources.bundle; path = "AppCenter-AppCenterDistributeResources.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0F97F417F8CEF438686867BD74898F2D /* en.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = en.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/en.lproj"; sourceTree = "<group>"; };
+		0FCFB443211DAB39B667B4C3A3DCE70A /* zh-Hans.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = "zh-Hans.lproj"; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/zh-Hans.lproj"; sourceTree = "<group>"; };
+		11AF731E4071DCD5E34B4CA294302B92 /* AppCenterDistributeResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterDistributeResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B264324E0126A3349D3DB41164C22F2 /* AppCenter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AppCenter.release.xcconfig; sourceTree = "<group>"; };
 		223668DC87FCFE75ABB1AAB51C8A7CC6 /* Pods-FluentUI.Demo-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-FluentUI.Demo-Info.plist"; sourceTree = "<group>"; };
 		3455501A7EC659C0D98FE59B6A32F2F1 /* Pods-FluentUI.Demo-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-FluentUI.Demo-acknowledgements.markdown"; sourceTree = "<group>"; };
 		428A44F0B618BBA1A3B7ACFB06B3A17D /* AppCenter-xcframeworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "AppCenter-xcframeworks.sh"; sourceTree = "<group>"; };
-		44BA1D1198470B8E0A8E693883C66ACF /* AppCenterAnalytics.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = AppCenterAnalytics.xcframework; path = "AppCenter-SDK-Apple/AppCenterAnalytics.xcframework"; sourceTree = "<group>"; };
+		44BA1D1198470B8E0A8E693883C66ACF /* AppCenterAnalytics.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; name = AppCenterAnalytics.xcframework; path = "AppCenter-SDK-Apple/AppCenterAnalytics.xcframework"; sourceTree = "<group>"; };
 		48C1097438C97F0573E5696307FAA47F /* Pods-FluentUI.Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-FluentUI.Demo.debug.xcconfig"; sourceTree = "<group>"; };
 		4A2ED2C8853BF9FCFA0D2D169883E83E /* Pods-FluentUI.Demo.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-FluentUI.Demo.modulemap"; sourceTree = "<group>"; };
 		56C2B0B49A935C56CFB7C0E134B48019 /* Pods-FluentUI.Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-FluentUI.Demo.release.xcconfig"; sourceTree = "<group>"; };
-		5B07655523CDB4CDA7D4A197D110F159 /* ja.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = ja.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/ja.lproj"; sourceTree = "<group>"; };
-		60C85E0433E430584E68A778CD989B79 /* zh-Hant.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = "zh-Hant.lproj"; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/zh-Hant.lproj"; sourceTree = "<group>"; };
-		66FC55F5B2E8569568561FC1CDEA0989 /* pl.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = pl.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/pl.lproj"; sourceTree = "<group>"; };
+		5B07655523CDB4CDA7D4A197D110F159 /* ja.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = ja.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/ja.lproj"; sourceTree = "<group>"; };
+		60C85E0433E430584E68A778CD989B79 /* zh-Hant.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = "zh-Hant.lproj"; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/zh-Hant.lproj"; sourceTree = "<group>"; };
+		66FC55F5B2E8569568561FC1CDEA0989 /* pl.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = pl.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/pl.lproj"; sourceTree = "<group>"; };
 		73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		7847993B0CE31129859AECE3C4F826EB /* Pods-FluentUI.Demo-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-FluentUI.Demo-acknowledgements.plist"; sourceTree = "<group>"; };
-		7AAC7FC7A164A22AC846E0E144576324 /* Pods_FluentUI_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_FluentUI_Demo.framework; path = "Pods-FluentUI.Demo.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8D60D24E9C3C295215262C25F4D7C9F3 /* ru.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = ru.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/ru.lproj"; sourceTree = "<group>"; };
-		93297D4B0DA3AA60D964186CDA7B935B /* AppCenterCrashes.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = AppCenterCrashes.xcframework; path = "AppCenter-SDK-Apple/AppCenterCrashes.xcframework"; sourceTree = "<group>"; };
-		98CF91B44A4B9CA498D454E20A450391 /* fr.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = fr.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/fr.lproj"; sourceTree = "<group>"; };
+		7AAC7FC7A164A22AC846E0E144576324 /* Pods_FluentUI_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FluentUI_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D60D24E9C3C295215262C25F4D7C9F3 /* ru.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = ru.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/ru.lproj"; sourceTree = "<group>"; };
+		93297D4B0DA3AA60D964186CDA7B935B /* AppCenterCrashes.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; name = AppCenterCrashes.xcframework; path = "AppCenter-SDK-Apple/AppCenterCrashes.xcframework"; sourceTree = "<group>"; };
+		98CF91B44A4B9CA498D454E20A450391 /* fr.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = fr.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/fr.lproj"; sourceTree = "<group>"; };
 		98E03D914B96B542B1AEFBF0A95B963F /* ResourceBundle-AppCenterDistributeResources-AppCenter-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-AppCenterDistributeResources-AppCenter-Info.plist"; sourceTree = "<group>"; };
-		9ADE13C09F85C762049A9D59D8417977 /* ko.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = ko.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/ko.lproj"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		A08F94721C859FF505090D07B775CC4C /* AppCenterDistribute.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = AppCenterDistribute.xcframework; path = "AppCenter-SDK-Apple/AppCenterDistribute.xcframework"; sourceTree = "<group>"; };
-		A0D0322893D6C01E9CC32C237B90BDD1 /* AppCenter.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = AppCenter.xcframework; path = "AppCenter-SDK-Apple/AppCenter.xcframework"; sourceTree = "<group>"; };
+		9ADE13C09F85C762049A9D59D8417977 /* ko.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = ko.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/ko.lproj"; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		A08F94721C859FF505090D07B775CC4C /* AppCenterDistribute.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; name = AppCenterDistribute.xcframework; path = "AppCenter-SDK-Apple/AppCenterDistribute.xcframework"; sourceTree = "<group>"; };
+		A0D0322893D6C01E9CC32C237B90BDD1 /* AppCenter.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; name = AppCenter.xcframework; path = "AppCenter-SDK-Apple/AppCenter.xcframework"; sourceTree = "<group>"; };
 		BAD31A57E21E915F29CF30B8E998A3AA /* AppCenter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AppCenter.debug.xcconfig; sourceTree = "<group>"; };
-		BD5ACB78DE45772E1D25C750556DC9B8 /* de.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = de.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/de.lproj"; sourceTree = "<group>"; };
-		C8D0F211F2DA0342F974E85C0139D508 /* pt.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = pt.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/pt.lproj"; sourceTree = "<group>"; };
+		BD5ACB78DE45772E1D25C750556DC9B8 /* de.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = de.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/de.lproj"; sourceTree = "<group>"; };
+		C8D0F211F2DA0342F974E85C0139D508 /* pt.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = pt.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/pt.lproj"; sourceTree = "<group>"; };
 		D029AC59699530E8F3857ADC414678A9 /* Pods-FluentUI.Demo-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-FluentUI.Demo-umbrella.h"; sourceTree = "<group>"; };
-		D0CEE4CF4D69DE2B8B4856A0275B532B /* es.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = es.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/es.lproj"; sourceTree = "<group>"; };
-		E10AEEC7B978CC45DC569C062052775C /* cs.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = cs.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/cs.lproj"; sourceTree = "<group>"; };
-		E219D1D8FB76AE857173C2356C2E64DC /* tr.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = tr.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/tr.lproj"; sourceTree = "<group>"; };
+		D0CEE4CF4D69DE2B8B4856A0275B532B /* es.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = es.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/es.lproj"; sourceTree = "<group>"; };
+		E10AEEC7B978CC45DC569C062052775C /* cs.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = cs.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/cs.lproj"; sourceTree = "<group>"; };
+		E219D1D8FB76AE857173C2356C2E64DC /* tr.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = tr.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/tr.lproj"; sourceTree = "<group>"; };
 		E2955C4BCAA009BA71D3C308CB6A066F /* Pods-FluentUI.Demo.dogfood.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-FluentUI.Demo.dogfood.xcconfig"; sourceTree = "<group>"; };
-		F3EC11EDB9F5951172DD1054D94D2AF0 /* it.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = it.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/it.lproj"; sourceTree = "<group>"; };
+		F3EC11EDB9F5951172DD1054D94D2AF0 /* it.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = it.lproj; path = "AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/it.lproj"; sourceTree = "<group>"; };
 		F6A9793B7BDACFF2A812EBD4E8FD60C9 /* Pods-FluentUI.Demo-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-FluentUI.Demo-dummy.m"; sourceTree = "<group>"; };
 		F6F4E16327FAAFB24BA007D7BD663470 /* Pods-FluentUI.Demo-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-FluentUI.Demo-resources.sh"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -191,7 +192,6 @@
 				0009956356796C7B23572A1566C0771E /* Distribute */,
 				D97C531E334608DB100C0D6BDE8A50E0 /* Support Files */,
 			);
-			name = AppCenter;
 			path = AppCenter;
 			sourceTree = "<group>";
 		};
@@ -353,7 +353,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1100;
-				LastUpgradeCheck = 1100;
+				LastUpgradeCheck = 1250;
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 10.0";
@@ -467,7 +467,7 @@
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/AppCenter";
 				IBSC_MODULE = AppCenter;
 				INFOPLIST_FILE = "Target Support Files/AppCenter/ResourceBundle-AppCenterDistributeResources-AppCenter-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_NAME = AppCenterDistributeResources;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -482,7 +482,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -499,7 +499,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -516,7 +516,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -608,7 +608,7 @@
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/AppCenter";
 				IBSC_MODULE = AppCenter;
 				INFOPLIST_FILE = "Target Support Files/AppCenter/ResourceBundle-AppCenterDistributeResources-AppCenter-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_NAME = AppCenterDistributeResources;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -853,7 +853,7 @@
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/AppCenter";
 				IBSC_MODULE = AppCenter;
 				INFOPLIST_FILE = "Target Support Files/AppCenter/ResourceBundle-AppCenterDistributeResources-AppCenter-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_NAME = AppCenterDistributeResources;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
