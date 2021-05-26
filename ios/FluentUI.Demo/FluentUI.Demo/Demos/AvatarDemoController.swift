@@ -40,6 +40,11 @@ class AvatarDemoController: DemoController {
                                                            isOn: isShowingRings)
         addRow(items: [showRingsSettingView])
 
+        let useImageBasedCustomRingColorSettingView = createLabelAndSwitchRow(labelText: "Use image based custom ring color",
+                                                                              switchAction: #selector(toggleImageBasedCustomRingColor(switchView:)),
+                                                                              isOn: isUsingImageBasedCustomColor)
+        addRow(items: [useImageBasedCustomRingColorSettingView])
+
         let enableRingInnerGapSettingView = createLabelAndSwitchRow(labelText: "Enable ring inner gap",
                                                                     switchAction: #selector(toggleShowRingInnerGap(switchView:)),
                                                                     isOn: isShowingRingInnerGap)
@@ -170,6 +175,16 @@ class AvatarDemoController: DemoController {
         }
     }
 
+    private var isUsingImageBasedCustomColor: Bool = false {
+        didSet {
+            if oldValue != isUsingImageBasedCustomColor {
+                for avatarView in avatarViews {
+                    avatarView.state.imageBasedRingColor = isUsingImageBasedCustomColor ? colorfulCustomImage : nil
+                }
+            }
+        }
+    }
+
     private var isShowingRingInnerGap: Bool = true {
         didSet {
             if oldValue != isShowingRingInnerGap {
@@ -191,6 +206,36 @@ class AvatarDemoController: DemoController {
     }
 
     private lazy var presenceIterator = MSFAvatarPresence.allCases.makeIterator()
+
+    private var colorfulCustomImage: UIImage? {
+        let gradientColors = [
+            UIColor(red: 0.45, green: 0.29, blue: 0.79, alpha: 1).cgColor,
+            UIColor(red: 0.18, green: 0.45, blue: 0.96, alpha: 1).cgColor,
+            UIColor(red: 0.36, green: 0.80, blue: 0.98, alpha: 1).cgColor,
+            UIColor(red: 0.45, green: 0.72, blue: 0.22, alpha: 1).cgColor,
+            UIColor(red: 0.97, green: 0.78, blue: 0.27, alpha: 1).cgColor,
+            UIColor(red: 0.94, green: 0.52, blue: 0.20, alpha: 1).cgColor,
+            UIColor(red: 0.92, green: 0.26, blue: 0.16, alpha: 1).cgColor,
+            UIColor(red: 0.45, green: 0.29, blue: 0.79, alpha: 1).cgColor]
+
+        let colorfulGradient = CAGradientLayer()
+        let size = CGSize(width: 76, height: 76)
+        colorfulGradient.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        colorfulGradient.colors = gradientColors
+        colorfulGradient.startPoint = CGPoint(x: 0.5, y: 0.5)
+        colorfulGradient.endPoint = CGPoint(x: 0.5, y: 0)
+        colorfulGradient.type = .conic
+
+        var customBorderImage: UIImage?
+        UIGraphicsBeginImageContext(size)
+        if let context = UIGraphicsGetCurrentContext() {
+            colorfulGradient.render(in: context)
+            customBorderImage = UIGraphicsGetImageFromCurrentImageContext()
+        }
+        UIGraphicsEndImageContext()
+
+        return customBorderImage
+    }
 
     private func nextPresence() -> MSFAvatarPresence {
         var presence = presenceIterator.next()
@@ -221,6 +266,10 @@ class AvatarDemoController: DemoController {
 
     @objc private func toggleShowRings(switchView: UISwitch) {
         isShowingRings = switchView.isOn
+    }
+
+    @objc private func toggleImageBasedCustomRingColor(switchView: UISwitch) {
+        isUsingImageBasedCustomColor = switchView.isOn
     }
 
     @objc private func toggleShowRingInnerGap(switchView: UISwitch) {
