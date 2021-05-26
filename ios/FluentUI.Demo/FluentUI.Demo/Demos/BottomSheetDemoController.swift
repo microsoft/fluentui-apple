@@ -68,7 +68,6 @@ class BottomSheetDemoController: UIViewController {
 
         let label = Label()
         label.text = "Header view"
-        label.font = .systemFont(ofSize: 24)
         label.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(label)
