@@ -97,7 +97,7 @@ open class CommandingItem: NSObject {
     weak var delegate: CommandingItemDelegate?
 }
 
-protocol CommandingItemDelegate: class {
+protocol CommandingItemDelegate: AnyObject {
     /// Called after the `title` property changed.
     func commandingItem(_ item: CommandingItem, didChangeTitleTo value: String)
 
