@@ -88,7 +88,7 @@ public extension Colors {
  The initials are generated from a provided primary text (e.g. a name) or secondary text (e.g. an email address) and placed as a label above a colored background.
  */
 class InitialsView: UIView {
-    private static func initialsColorSet(fromPrimaryText primaryText: String?, secondaryText: String?) -> ColorSet {
+    static func initialsColorSet(fromPrimaryText primaryText: String?, secondaryText: String?) -> ColorSet {
         // Set the color based on the primary text and secondary text
         var combined: String
         if let secondaryText = secondaryText, let primaryText = primaryText, secondaryText.count > 0 {
@@ -156,7 +156,6 @@ class InitialsView: UIView {
 
     public var avatarSize: AvatarSize {
         didSet {
-            frame.size = avatarSize.size
             initialsLabel.font = avatarSize.font
         }
     }

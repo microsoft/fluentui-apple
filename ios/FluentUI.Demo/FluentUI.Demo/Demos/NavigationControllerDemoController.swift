@@ -35,6 +35,9 @@ class NavigationControllerDemoController: DemoController {
 
         addTitle(text: "Top Accessory View")
         container.addArrangedSubview(createButton(title: "Show with top search bar for large screen width", action: #selector(showWithTopSearchBar)))
+
+        addTitle(text: "Change Style Periodically")
+        container.addArrangedSubview(createButton(title: "Change the style every second", action: #selector(showSearchChangingStyleEverySecond)))
     }
 
     @objc func showLargeTitle() {
@@ -91,6 +94,10 @@ class NavigationControllerDemoController: DemoController {
         presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), showsTopAccessory: true, contractNavigationBarOnScroll: false)
     }
 
+    @objc func showSearchChangingStyleEverySecond() {
+        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), showsTopAccessory: true, contractNavigationBarOnScroll: false, updateStylePeriodically: true)
+    }
+
     @objc func showLargeTitleWithPillSegment() {
         let segmentItems: [SegmentItem] = [
             SegmentItem(title: "First"),
@@ -116,7 +123,8 @@ class NavigationControllerDemoController: DemoController {
                                    showsTopAccessory: Bool = false,
                                    contractNavigationBarOnScroll: Bool = true,
                                    showShadow: Bool = true,
-                                   showAvatar: Bool = true) -> NavigationController {
+                                   showAvatar: Bool = true,
+                                   updateStylePeriodically: Bool = false) -> NavigationController {
         let content = RootViewController()
         content.navigationItem.usesLargeTitle = useLargeTitle
         content.navigationItem.navigationBarStyle = style
@@ -126,8 +134,10 @@ class NavigationControllerDemoController: DemoController {
         content.navigationItem.contentScrollView = contractNavigationBarOnScroll ? content.tableView : nil
         content.showsTopAccessoryView = showsTopAccessory
 
-        if style == .custom {
-            content.navigationItem.customNavigationBarColor = CustomGradient.getCustomBackgroundColor(width: view.frame.width)
+        content.navigationItem.customNavigationBarColor = CustomGradient.getCustomBackgroundColor(width: view.frame.width)
+
+        if updateStylePeriodically {
+            changeStyleContinuously(in: content.navigationItem)
         }
 
         let controller = NavigationController(rootViewController: content)
@@ -153,6 +163,25 @@ class NavigationControllerDemoController: DemoController {
         present(controller, animated: false)
 
         return controller
+    }
+
+    private func changeStyleContinuously(in navigationItem: UINavigationItem) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            let newStyle: NavigationBar.Style
+            switch navigationItem.navigationBarStyle {
+            case .custom:
+                newStyle = .default
+            case .default:
+                newStyle = .primary
+            case .primary:
+                newStyle = .system
+            case .system:
+                newStyle = .custom
+            }
+
+            navigationItem.navigationBarStyle = newStyle
+            self.changeStyleContinuously(in: navigationItem)
+        }
     }
 
     private func createAccessoryView(with style: SearchBar.Style = .lightContent) -> SearchBar {

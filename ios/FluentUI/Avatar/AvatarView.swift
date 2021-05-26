@@ -216,6 +216,7 @@ open class AvatarView: UIView {
             updatePresenceImage()
 
             frame.size = avatarSize.size
+            containerView.frame = CGRect(origin: .zero, size: avatarSize.size)
             initialsView.avatarSize = avatarSize
 
             invalidateIntrinsicContentSize()
@@ -254,6 +255,15 @@ open class AvatarView: UIView {
             if style != oldValue {
                 updatePresenceImage()
                 setNeedsLayout()
+            }
+        }
+    }
+
+    /// When true, the border color will be calculated using InitialView's ColorSet excluding the Overflow AvatarView
+    @objc open var shouldGenerateBorderColor: Bool = false {
+        didSet {
+            if oldValue != shouldGenerateBorderColor {
+                updateBorderColor()
             }
         }
     }
@@ -354,6 +364,7 @@ open class AvatarView: UIView {
 
         initialsView = InitialsView(avatarSize: avatarSize)
         initialsView.isHidden = true
+        initialsView.clipsToBounds = true
 
         imageView = UIImageView(frame: .zero)
         imageView.isHidden = true
@@ -364,9 +375,9 @@ open class AvatarView: UIView {
         borderView.isHidden = !hasBorder
 
         containerView = UIView(frame: CGRect(origin: .zero, size: avatarSize.size))
-        containerView.addSubview(borderView)
         containerView.addSubview(initialsView)
         containerView.addSubview(imageView)
+        containerView.addSubview(borderView)
 
         super.init(frame: containerView.frame)
 
@@ -589,7 +600,8 @@ open class AvatarView: UIView {
         if let borderColor = borderColor {
             borderView.layer.borderColor = borderColor.cgColor
         } else {
-            borderView.layer.borderColor = Colors.Avatar.border.cgColor
+            borderView.layer.borderColor = shouldGenerateBorderColor ?
+                InitialsView.initialsColorSet(fromPrimaryText: primaryText, secondaryText: secondaryText).background.cgColor : Colors.Avatar.border.cgColor
         }
     }
 

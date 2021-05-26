@@ -99,6 +99,7 @@ public extension Colors {
     @objc static var tableBackgroundGrouped: UIColor { return Table.backgroundGrouped }
     @objc static var tableCellBackground: UIColor { return Table.Cell.background }
     @objc static var tableCellBackgroundGrouped: UIColor { return Table.Cell.backgroundGrouped }
+    @objc static var tableCellBackgroundSelected: UIColor { return Table.Cell.backgroundSelected }
     @objc static var tableCellImage: UIColor { return Table.Cell.image }
 }
 
@@ -317,10 +318,10 @@ open class TableViewCell: UITableViewCell {
         let textAreaLeadingOffset = self.textAreaLeadingOffset(customViewSize: customViewSize, isInSelectionMode: isInSelectionMode, paddingLeading: paddingLeading)
         let textAreaTrailingOffset = self.textAreaTrailingOffset(customAccessoryView: customAccessoryView, customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge, accessoryType: accessoryType, paddingTrailing: paddingTrailing)
         var textAreaWidth = containerWidth - (textAreaLeadingOffset + textAreaTrailingOffset)
-        if textAreaWidth < Constants.textAreaMinWidth, let customAccessoryView = customAccessoryView {
+        if let customAccessoryView = customAccessoryView {
             let oldAccessoryViewWidth = customAccessoryView.frame.width
             let availableWidth = oldAccessoryViewWidth - (Constants.textAreaMinWidth - textAreaWidth)
-            customAccessoryView.frame.size = customAccessoryView.systemLayoutSizeFitting(CGSize(width: availableWidth, height: .infinity))
+            customAccessoryView.frame.size = customAccessoryView.systemLayoutSizeFitting(CGSize(width: availableWidth, height: customAccessoryView.frame.size.height))
             textAreaWidth += oldAccessoryViewWidth - customAccessoryView.frame.width
         }
 
