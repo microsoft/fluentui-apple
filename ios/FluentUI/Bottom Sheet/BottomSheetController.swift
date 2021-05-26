@@ -21,7 +21,7 @@ public class BottomSheetController: UIViewController {
     /// - Parameters:
     ///   - headerContentView: Top part of the sheet content that is visible in both collapsed and expanded state.
     ///   - expandedContentView: Sheet content below the header which is only visible when the sheet is expanded.
-    @objc public init(headerContentView: UIView, expandedContentView: UIView) {
+    @objc public init(headerContentView: UIView? = nil, expandedContentView: UIView) {
         self.headerContentView = headerContentView
         self.expandedContentView = expandedContentView
         super.init(nibName: nil, bundle: nil)
@@ -33,7 +33,7 @@ public class BottomSheetController: UIViewController {
     }
 
     /// Top part of the sheet content that is visible in both collapsed and expanded state.
-    @objc public let headerContentView: UIView
+    @objc public let headerContentView: UIView?
 
     /// Sheet content below the header which is only visible when the sheet is expanded.
     @objc public let expandedContentView: UIView
@@ -129,7 +129,11 @@ public class BottomSheetController: UIViewController {
         stackView.spacing = 0.0
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.addArrangedSubview(headerContentView)
+
+        if let headerView = headerContentView {
+            stackView.addArrangedSubview(headerView)
+        }
+
         stackView.addArrangedSubview(expandedContentView)
         bottomSheetContentView.addSubview(stackView)
 
