@@ -46,9 +46,9 @@ class LargeTitleView: UIView {
             case .automatic:
                 return
             case .contracted:
-                avatar?.setSize(size: Constants.compactAvatarSize)
+                avatar?.state.size = Constants.compactAvatarSize
             case .expanded:
-                avatar?.setSize(size: Constants.avatarSize)
+                avatar?.state.size = Constants.avatarSize
             }
         }
     }
@@ -70,7 +70,7 @@ class LargeTitleView: UIView {
         didSet {
             if let style = avatarOverrideStyle {
                 updateProfileButtonVisibility()
-                avatar?.setStyle(style: style)
+                avatar?.state.style = style
             }
         }
     }
@@ -78,7 +78,7 @@ class LargeTitleView: UIView {
     var style: Style = .light {
         didSet {
             titleButton.setTitleColor(colorForStyle, for: .normal)
-            avatar?.setStyle(style: style == .light ? .default : .accent)
+            avatar?.state.style = style == .light ? .default : .accent
         }
     }
 
@@ -241,7 +241,7 @@ class LargeTitleView: UIView {
         }
 
         if avatarSize == .automatic {
-            avatar?.setSize(size: Constants.avatarSize)
+            avatar?.state.size = Constants.avatarSize
             avatarWidthConstraint?.constant = Constants.avatarSize.size
             avatarHeightConstraint?.constant = Constants.avatarSize.size
         }
@@ -255,7 +255,7 @@ class LargeTitleView: UIView {
         }
 
         if avatarSize == .automatic {
-            avatar?.setSize(size: Constants.compactAvatarSize)
+            avatar?.state.size = Constants.compactAvatarSize
             avatarWidthConstraint?.constant = Constants.compactAvatarSize.size
             avatarHeightConstraint?.constant = Constants.compactAvatarSize.size
         }
