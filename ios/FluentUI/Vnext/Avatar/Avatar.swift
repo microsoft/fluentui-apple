@@ -96,6 +96,7 @@ import SwiftUI
     var primaryText: String? { get set }
     var secondaryText: String? { get set }
     var ringColor: UIColor? { get set }
+    var imageBasedRingColor: UIImage? { get set }
     var backgroundColor: UIColor? { get set }
     var foregroundColor: UIColor? { get set }
     var presence: MSFAvatarPresence { get set }
@@ -112,6 +113,7 @@ class MSFAvatarStateImpl: NSObject, ObservableObject, MSFAvatarState {
     @Published var primaryText: String?
     @Published var secondaryText: String?
     @Published var ringColor: UIColor?
+    @Published var imageBasedRingColor: UIImage?
     @Published var backgroundColor: UIColor?
     @Published var foregroundColor: UIColor?
     @Published var presence: MSFAvatarPresence = .none
@@ -225,6 +227,24 @@ public struct AvatarView: View {
         }
 
         @ViewBuilder
+        var avatarRingView: some View {
+            if let imageBasedRingColor = state.imageBasedRingColor {
+                // The potentially maximum size of the ring view must be used in order to avoid abrupt
+                // transitions during the animation as the ImagePaint scale value is not animatable.
+                let ringMaxSize = avatarImageSize + (tokens.ringInnerGap + tokens.ringThickness) * 2
+                let scaleFactor = ringMaxSize / imageBasedRingColor.size.width
+                Circle()
+                    .strokeBorder(ImagePaint(image: Image(uiImage: imageBasedRingColor),
+                                             scale: scaleFactor),
+                                  lineWidth: ringThickness)
+            } else {
+                Circle()
+                    .strokeBorder(ringColor,
+                                  lineWidth: ringThickness)
+            }
+        }
+
+        @ViewBuilder
         var avatarBody: some View {
             if tokens.style == .group {
                 avatarContent
@@ -238,8 +258,7 @@ public struct AvatarView: View {
                 Circle()
                     .foregroundColor(ringGapColor)
                     .frame(width: ringOuterGapSize, height: ringOuterGapSize, alignment: .center)
-                    .overlay(Circle()
-                                .strokeBorder(ringColor, lineWidth: ringThickness)
+                    .overlay(avatarRingView
                                 .frame(width: ringSize, height: ringSize, alignment: .center)
                                 .overlay(Circle()
                                             .foregroundColor(Color(backgroundColor))

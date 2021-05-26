@@ -126,6 +126,16 @@ class MSFPersonaViewStateImpl: MSFListCellState, PersonaViewState {
         }
     }
 
+    var imageBasedRingColor: UIImage? {
+        get {
+            return avatarState.imageBasedRingColor
+        }
+
+        set {
+            avatarState.imageBasedRingColor = newValue
+        }
+    }
+
     var isRingVisible: Bool {
         get {
             return avatarState.isRingVisible
