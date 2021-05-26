@@ -105,6 +105,8 @@ open class TabBarView: UIView {
         addInteraction(UILargeContentViewerInteraction())
 
         accessibilityTraits = .tabBar
+        // add container trait to mimic default OS UITabbar experience
+        accessibilityTraits.insert(UIAccessibilityTraits(rawValue: 0x200000000000))
         updateHeight()
     }
 

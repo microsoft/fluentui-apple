@@ -241,7 +241,8 @@ open class NavigationBar: UINavigationBar {
         }
     }
 
-    private(set) var style: Style = defaultStyle
+    // @objc dynamic - so we can do KVO on this
+    @objc dynamic private(set) var style: Style = defaultStyle
 
     let backgroundView = UIView() //used for coloration
     //used to cover the navigationbar during animated transitions between VCs
