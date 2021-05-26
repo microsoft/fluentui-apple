@@ -26,13 +26,10 @@
 		53F7385F257760B60043071D /* ObjectiveCDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDDD73FB22C6D86B00A9D995 /* ObjectiveCDemoController.m */; };
 		53F7386125776C560043071D /* NotificationViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B6617523A4227300E801DD /* NotificationViewDemoController.swift */; };
 		53F73862257803DE0043071D /* HUDDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E8F65121CD9579008A1598 /* HUDDemoController.swift */; };
-		53F7386325780B330043071D /* SideTabBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0931C024AAA3D30072458A /* SideTabBarDemoController.swift */; };
 		53F7386B257964AB0043071D /* AvatarGroupViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D23482924D89C1C00FBE057 /* AvatarGroupViewDemoController.swift */; };
 		53F7386C25796A6D0043071D /* TabBarViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11047D2522932DB1001F0F59 /* TabBarViewDemoController.swift */; };
 		53F7386E25796D730043071D /* DateTimePickerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7254EC21471A3F002F4069 /* DateTimePickerDemoController.swift */; };
 		7D0931C124AAA3D30072458A /* SideTabBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0931C024AAA3D30072458A /* SideTabBarDemoController.swift */; };
-		7D23482A24D89C1C00FBE057 /* AvatarGroupViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D23482924D89C1C00FBE057 /* AvatarGroupViewDemoController.swift */; };
-		7DC2FB2B24C0F4FD00367A55 /* TableViewCellFileAccessoryViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2A24C0F4FD00367A55 /* TableViewCellFileAccessoryViewDemoController.swift */; };
 		80AECC0C2630F1BB005AF2F3 /* BottomCommandingDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AECC0B2630F1BB005AF2F3 /* BottomCommandingDemoController.swift */; };
 		80B1F7012628D8BB004DFEE5 /* BottomSheetDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B1F7002628D8BB004DFEE5 /* BottomSheetDemoController.swift */; };
 		8AF03E2024B6BE3100E6E2A2 /* ContactCollectionViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF03E1F24B6BE3100E6E2A2 /* ContactCollectionViewDemoController.swift */; };
@@ -289,10 +286,9 @@
 				B45EB79121A4D047008646A2 /* BadgeFieldDemoController.swift */,
 				B444D6B72183BA4B0002B4D4 /* BadgeViewDemoController.swift */,
 				53B659B7257AA44F00070405 /* ButtonDemoController.swift */,
-				B4D852DA225C010A004B1B29 /* ButtonLegacyDemoController.swift */,
 				80AECC0B2630F1BB005AF2F3 /* BottomCommandingDemoController.swift */,
 				80B1F7002628D8BB004DFEE5 /* BottomSheetDemoController.swift */,
-				B4D852DA225C010A004B1B29 /* ButtonDemoController.swift */,
+				B4D852DA225C010A004B1B29 /* ButtonLegacyDemoController.swift */,
 				CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */,
 				114CF8B72423E10900D064AA /* ColorDemoController.swift */,
 				FC414E3625888BC300069E73 /* CommandBarDemoController.swift */,
@@ -546,7 +542,6 @@
 				B444D6B82183BA4B0002B4D4 /* BadgeViewDemoController.swift in Sources */,
 				A591A3F420F429EB001ED23B /* Demos.swift in Sources */,
 				53B659C7257AA6C300070405 /* TableViewCellFileAccessoryViewDemoController.swift in Sources */,
-				53F7386325780B330043071D /* SideTabBarDemoController.swift in Sources */,
 				53B659C9257AA79200070405 /* PassThroughDrawerDemoController.swift in Sources */,
 				B4C39552227A4AC800539EC2 /* TableViewSampleData.swift in Sources */,
 			);
