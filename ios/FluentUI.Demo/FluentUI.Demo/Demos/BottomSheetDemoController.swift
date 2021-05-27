@@ -19,8 +19,9 @@ class BottomSheetDemoController: UIViewController {
         optionTableView.separatorStyle = .none
         view.addSubview(optionTableView)
 
-        let bottomSheetViewController = BottomSheetController(contentView: personaListView)
+        let bottomSheetViewController = BottomSheetController(headerContentView: headerView, expandedContentView: personaListView)
         bottomSheetViewController.hostedScrollView = personaListView
+        bottomSheetViewController.collapsedContentHeight = BottomSheetDemoController.headerHeight
 
         self.bottomSheetViewController = bottomSheetViewController
 
@@ -55,8 +56,27 @@ class BottomSheetDemoController: UIViewController {
     private let personaListView: PersonaListView = {
         let personaListView = PersonaListView()
         personaListView.personaList = samplePersonas
+        personaListView.backgroundColor = Colors.NavigationBar.background
         personaListView.translatesAutoresizingMaskIntoConstraints = false
         return personaListView
+    }()
+
+    private let headerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = Colors.gray100
+        view.heightAnchor.constraint(equalToConstant: headerHeight).isActive = true
+
+        let label = Label()
+        label.text = "Header view"
+        label.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(label)
+
+        NSLayoutConstraint.activate([
+            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+        return view
     }()
 
     private var bottomSheetViewController: BottomSheetController?
@@ -68,6 +88,8 @@ class BottomSheetDemoController: UIViewController {
             DemoItem(title: "Half screen expansion height", type: .action, action: #selector(halfScreenExpandedOffset))
         ]
     }()
+
+    private static let headerHeight: CGFloat = 70
 
     private enum DemoItemType {
         case action
