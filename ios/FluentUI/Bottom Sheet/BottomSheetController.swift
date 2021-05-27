@@ -244,7 +244,6 @@ public class BottomSheetController: UIViewController {
         switch sender.state {
         case .began:
             stopAnimationIfNeeded()
-            hostedScrollView?.setContentOffset(.zero, animated: true)
             fallthrough
         case .changed:
             translateSheet(by: sender.translation(in: view))
@@ -292,6 +291,10 @@ public class BottomSheetController: UIViewController {
         } else {
             // Velocity high enough, animate to the offset we're swiping towards
             targetState = velocity > 0 ? .collapsed : .expanded
+        }
+
+        if targetState == .collapsed {
+            hostedScrollView?.setContentOffset(.zero, animated: true)
         }
         move(to: targetState, velocity: velocity)
     }
