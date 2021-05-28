@@ -58,18 +58,23 @@ public class BottomSheetController: UIViewController {
     /// Changes to this property are animated.
     @objc open var isHidden: Bool = false {
         didSet {
-            if isHidden != oldValue {
-                if isHidden {
-                    panGestureRecognizer.isEnabled = false
-                    animate(to: .hidden) { _ in
-                        self.bottomSheetView.isHidden = self.isHidden
+            if oldValue != isHidden {
+                if view.window != nil {
+                    if isHidden {
+                        panGestureRecognizer.isEnabled = false
+                        animate(to: .hidden) { _ in
+                            self.bottomSheetView.isHidden = self.isHidden
+                        }
+                    } else {
+                        bottomSheetView.isHidden = false
+                        animate(to: .collapsed) { _ in
+                            self.panGestureRecognizer.isEnabled = self.isExpandable
+                        }
                     }
                 } else {
-                    bottomSheetView.isHidden = false
-                    bottomSheetView.layoutIfNeeded()
-                    animate(to: .collapsed) { _ in
-                        self.panGestureRecognizer.isEnabled = self.isExpandable
-                    }
+                    panGestureRecognizer.isEnabled = !isHidden
+                    bottomSheetView.isHidden = isHidden
+                    currentExpansionState = isHidden ? .hidden : .collapsed
                 }
             }
         }
@@ -354,7 +359,7 @@ public class BottomSheetController: UIViewController {
             self.view.layoutIfNeeded()
         }
 
-        let targetExpandedContentOpacity: CGFloat = targetExpansionState == .collapsed ? 0.0 : 1.0
+        let targetExpandedContentOpacity: CGFloat = targetExpansionState == .expanded ? 1.0 : 0.0
         if expandedContentView.alpha != targetExpandedContentOpacity {
             translationAnimator.addAnimations {
                 self.expandedContentView.alpha = targetExpandedContentOpacity
@@ -387,6 +392,7 @@ public class BottomSheetController: UIViewController {
 
     private func handleCompletedStateChange(to targetExpansionState: BottomSheetExpansionState) {
         self.delegate?.bottomSheetControllerDidMove?(to: targetExpansionState)
+        currentExpansionState = targetExpansionState
         updateResizingHandleViewAccessibility()
         updateExpandedContentAlpha()
     }
@@ -427,13 +433,15 @@ public class BottomSheetController: UIViewController {
     private lazy var bottomSheetHeightConstraint: NSLayoutConstraint = generateBottomSheetHeightConstraint()
 
     private lazy var bottomSheetOffsetConstraint: NSLayoutConstraint =
-        bottomSheetView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -offset(for: .collapsed))
+        bottomSheetView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -offset(for: currentExpansionState))
 
     private lazy var panGestureRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
 
     private var translationAnimator: UIViewPropertyAnimator?
 
     private var needsExpandedOffsetUpdate: Bool = false
+
+    private var currentExpansionState: BottomSheetExpansionState = .collapsed
 
     private var currentOffsetFromBottom: CGFloat {
         -bottomSheetOffsetConstraint.constant
