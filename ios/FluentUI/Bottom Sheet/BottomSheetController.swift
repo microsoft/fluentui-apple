@@ -7,11 +7,9 @@ import UIKit
 
 @objc(MSFBottomSheetControllerDelegate)
 public protocol BottomSheetControllerDelegate: AnyObject {
-    /// Called after the sheet fully expanded.
-    @objc optional func bottomSheetControllerDidExpand(_ controller: BottomSheetController)
 
-    /// Called after the sheet fully collapsed.
-    @objc optional func bottomSheetControllerDidCollapse(_ controller: BottomSheetController)
+    /// Called after the sheet moved to a new expansion state
+    @objc optional func bottomSheetControllerDidMove(to expansionState: BottomSheetExpansionState)
 }
 
 @objc(MSFBottomSheetController)
@@ -48,8 +46,30 @@ public class BottomSheetController: UIViewController {
             if isExpandable != oldValue {
                 resizingHandleView.isHidden = !isExpandable
                 panGestureRecognizer.isEnabled = isExpandable
-                if isViewLoaded {
+                if isViewLoaded && !isHidden {
                     move(to: .collapsed, animated: false)
+                }
+            }
+        }
+    }
+
+    /// Indicates if the bottom sheet is hidden.
+    ///
+    /// Changes to this property are animated.
+    @objc open var isHidden: Bool = false {
+        didSet {
+            if isHidden != oldValue {
+                if isHidden {
+                    panGestureRecognizer.isEnabled = false
+                    animate(to: .hidden) { _ in
+                        self.bottomSheetView.isHidden = self.isHidden
+                    }
+                } else {
+                    bottomSheetView.isHidden = false
+                    bottomSheetView.layoutIfNeeded()
+                    animate(to: .collapsed) { _ in
+                        self.panGestureRecognizer.isEnabled = self.isExpandable
+                    }
                 }
             }
         }
@@ -188,7 +208,7 @@ public class BottomSheetController: UIViewController {
         super.viewWillTransition(to: size, with: coordinator)
 
         if size.height != view.frame.height {
-            if currentOffsetFromBottom == expandedOffsetFromBottom {
+            if currentOffsetFromBottom == offset(for: .expanded) {
                 // Recalculate the offset after the next layout pass
                 needsExpandedOffsetUpdate = true
             } else if currentOffsetFromBottom != collapsedContentHeight {
@@ -208,7 +228,7 @@ public class BottomSheetController: UIViewController {
     // MARK: - Gesture handling
 
     @objc private func handleResizingHandleViewTap(_ sender: UITapGestureRecognizer) {
-        if currentOffsetFromBottom != collapsedOffsetFromBottom {
+        if currentOffsetFromBottom != offset(for: .collapsed) {
             animate(to: .collapsed, velocity: 0)
             hostedScrollView?.setContentOffset(.zero, animated: true)
         } else {
@@ -217,7 +237,7 @@ public class BottomSheetController: UIViewController {
     }
 
     private func updateResizingHandleViewAccessibility() {
-        if currentOffsetFromBottom != collapsedOffsetFromBottom {
+        if currentOffsetFromBottom != offset(for: .collapsed) {
             resizingHandleView.accessibilityLabel = "Accessibility.Drawer.ResizingHandle.Label.Collapse".localized
             resizingHandleView.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Collapse".localized
         } else {
@@ -229,13 +249,13 @@ public class BottomSheetController: UIViewController {
     private func updateExpandedContentAlpha() {
         let transitionLength = Constants.expandedContentAlphaTransitionLength
         let currentOffset = currentOffsetFromBottom
-        let collapsedOffset = collapsedOffsetFromBottom
+        let collapsedOffset = offset(for: .collapsed)
 
         var targetAlpha: CGFloat = 1.0
         if currentOffset <= collapsedOffset {
             targetAlpha = 0.0
         } else if currentOffset > collapsedOffset && currentOffset < collapsedOffset + transitionLength {
-            targetAlpha = abs(currentOffset - collapsedOffsetFromBottom) / transitionLength
+            targetAlpha = abs(currentOffset - collapsedOffset) / transitionLength
         }
         expandedContentView.alpha = targetAlpha
     }
@@ -257,11 +277,13 @@ public class BottomSheetController: UIViewController {
     }
 
     private func translateSheet(by translationDelta: CGPoint) {
-        let maxOffset = expandedOffsetFromBottom + Constants.maxRubberBandOffset
-        let minOffset = collapsedOffsetFromBottom - Constants.maxRubberBandOffset
+        let expandedOffset = offset(for: .expanded)
+        let collapsedOffset = offset(for: .collapsed)
+        let maxOffset = expandedOffset + Constants.maxRubberBandOffset
+        let minOffset = collapsedOffset - Constants.maxRubberBandOffset
 
         var offsetDelta = translationDelta.y
-        if currentOffsetFromBottom <= collapsedOffsetFromBottom || currentOffsetFromBottom >= expandedOffsetFromBottom {
+        if currentOffsetFromBottom <= collapsedOffset || currentOffsetFromBottom >= expandedOffset {
             offsetDelta *= translationRubberBandFactor(for: currentOffsetFromBottom)
         }
         bottomSheetOffsetConstraint.constant = -min(max(currentOffsetFromBottom - offsetDelta, minOffset), maxOffset)
@@ -269,10 +291,13 @@ public class BottomSheetController: UIViewController {
 
     private func translationRubberBandFactor(for currentOffset: CGFloat) -> CGFloat {
         var offLimitsOffset: CGFloat = 0.0
-        if currentOffset > expandedOffsetFromBottom {
-            offLimitsOffset = min(currentOffset - expandedOffsetFromBottom, Constants.maxRubberBandOffset)
-        } else if currentOffset < collapsedOffsetFromBottom {
-            offLimitsOffset = min(collapsedOffsetFromBottom - currentOffset, Constants.maxRubberBandOffset)
+        let expandedOffset = offset(for: .expanded)
+        let collapsedOffset = offset(for: .collapsed)
+
+        if currentOffset > expandedOffset {
+            offLimitsOffset = min(currentOffset - expandedOffset, Constants.maxRubberBandOffset)
+        } else if currentOffset < collapsedOffset {
+            offLimitsOffset = min(collapsedOffset - currentOffset, Constants.maxRubberBandOffset)
         }
 
         return max(1.0 - offLimitsOffset / Constants.maxRubberBandOffset, Constants.minRubberBandScaleFactor)
@@ -285,7 +310,7 @@ public class BottomSheetController: UIViewController {
         if abs(velocity) < Constants.directionOverrideVelocityThreshold {
             // Velocity too low, snap to the closest offset
             targetState =
-                abs(collapsedOffsetFromBottom - currentOffsetFromBottom) < abs(expandedOffsetFromBottom - currentOffsetFromBottom)
+                abs(offset(for: .collapsed) - currentOffsetFromBottom) < abs(offset(for: .expanded) - currentOffsetFromBottom)
                 ? .collapsed
                 : .expanded
         } else {
@@ -300,7 +325,7 @@ public class BottomSheetController: UIViewController {
     }
 
     private func move(to targetExpansionState: BottomSheetExpansionState, animated: Bool = true, velocity: CGFloat = 0.0) {
-        let targetOffsetFromBottom = targetExpansionState == .expanded ? expandedOffsetFromBottom : collapsedOffsetFromBottom
+        let targetOffsetFromBottom = offset(for: targetExpansionState)
         if currentOffsetFromBottom != targetOffsetFromBottom {
             if animated {
                 animate(to: targetExpansionState, velocity: velocity)
@@ -311,8 +336,8 @@ public class BottomSheetController: UIViewController {
         }
     }
 
-    private func animate(to targetExpansionState: BottomSheetExpansionState, velocity: CGFloat = 0.0) {
-        let targetOffsetFromBottom = targetExpansionState == .expanded ? expandedOffsetFromBottom : collapsedOffsetFromBottom
+    private func animate(to targetExpansionState: BottomSheetExpansionState, velocity: CGFloat = 0.0, completion: ((UIViewAnimatingPosition) -> Void)? = nil) {
+        let targetOffsetFromBottom = offset(for: targetExpansionState)
         let distanceToGo = abs(currentOffsetFromBottom - targetOffsetFromBottom)
         let springVelocity = min(abs(velocity / distanceToGo), Constants.Spring.maxInitialVelocity)
         let damping: CGFloat = abs(velocity) > Constants.Spring.flickVelocityThreshold
@@ -340,17 +365,28 @@ public class BottomSheetController: UIViewController {
             if finalPosition == .end {
                 self.handleCompletedStateChange(to: targetExpansionState)
             }
+            completion?(finalPosition)
         })
         translationAnimator.startAnimation()
     }
 
-    private func handleCompletedStateChange(to targetExpansionState: BottomSheetExpansionState) {
-        switch targetExpansionState {
-        case .expanded:
-            self.delegate?.bottomSheetControllerDidExpand?(self)
+    private func offset(for expansionState: BottomSheetExpansionState) -> CGFloat {
+        var offset: CGFloat
+
+        switch expansionState {
         case .collapsed:
-            self.delegate?.bottomSheetControllerDidCollapse?(self)
+            offset = collapsedContentHeight + (isExpandable ? ResizingHandleView.height : 0.0)
+        case .expanded:
+            offset = bottomSheetView.frame.height - view.safeAreaInsets.bottom
+        case .hidden:
+            offset = Constants.hiddenOffScreenOffset
         }
+
+        return offset
+    }
+
+    private func handleCompletedStateChange(to targetExpansionState: BottomSheetExpansionState) {
+        self.delegate?.bottomSheetControllerDidMove?(to: targetExpansionState)
         updateResizingHandleViewAccessibility()
         updateExpandedContentAlpha()
     }
@@ -391,7 +427,7 @@ public class BottomSheetController: UIViewController {
     private lazy var bottomSheetHeightConstraint: NSLayoutConstraint = generateBottomSheetHeightConstraint()
 
     private lazy var bottomSheetOffsetConstraint: NSLayoutConstraint =
-        bottomSheetView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -collapsedOffsetFromBottom)
+        bottomSheetView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -offset(for: .collapsed))
 
     private lazy var panGestureRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
 
@@ -401,14 +437,6 @@ public class BottomSheetController: UIViewController {
 
     private var currentOffsetFromBottom: CGFloat {
         -bottomSheetOffsetConstraint.constant
-    }
-
-    private var collapsedOffsetFromBottom: CGFloat {
-        collapsedContentHeight + (isExpandable ? ResizingHandleView.height : 0.0)
-    }
-
-    private var expandedOffsetFromBottom: CGFloat {
-        return bottomSheetView.frame.height - view.safeAreaInsets.bottom
     }
 
     private struct Constants {
@@ -427,6 +455,8 @@ public class BottomSheetController: UIViewController {
         static let cornerRadius: CGFloat = 14
 
         static let expandedContentAlphaTransitionLength: CGFloat = 30
+
+        static let hiddenOffScreenOffset: CGFloat = -50
 
         struct Spring {
             // Spring used in slow swipes - no oscillation
@@ -466,7 +496,7 @@ extension BottomSheetController: UIGestureRecognizerDelegate {
             return true
         }
         var shouldBegin = true
-        let fullyExpanded = currentOffsetFromBottom >= expandedOffsetFromBottom
+        let fullyExpanded = currentOffsetFromBottom >= offset(for: .expanded)
 
         if fullyExpanded {
             let scrolledToTop = scrollView.contentOffset.y <= 0
@@ -478,7 +508,8 @@ extension BottomSheetController: UIGestureRecognizerDelegate {
     }
 }
 
-enum BottomSheetExpansionState {
+@objc public enum BottomSheetExpansionState: Int {
     case expanded
     case collapsed
+    case hidden
 }
