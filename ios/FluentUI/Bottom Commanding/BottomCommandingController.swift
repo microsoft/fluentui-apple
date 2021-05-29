@@ -63,8 +63,10 @@ open class BottomCommandingController: UIViewController {
                     bottomSheetController?.isHidden = isHidden
                 } else if let bottomBarView = bottomBarView,
                           let bottomConstraint = bottomBarViewBottomConstraint {
+                    var completion: (() -> Void)?
                     if isHidden {
                         bottomConstraint.constant = -Constants.BottomBar.hiddenBottomOffset
+                        completion = { bottomBarView.isHidden = self.isHidden }
                     } else {
                         bottomBarView.isHidden = false
                         bottomConstraint.constant = -Constants.BottomBar.bottomOffset
@@ -75,7 +77,7 @@ open class BottomCommandingController: UIViewController {
                                    initialSpringVelocity: Constants.BottomBar.hidingSpringVelocity) {
                         self.view.layoutIfNeeded()
                     } completion: { _ in
-                        bottomBarView.isHidden = self.isHidden
+                        completion?()
                     }
                 }
             }
