@@ -235,7 +235,6 @@ public class BottomSheetController: UIViewController {
     @objc private func handleResizingHandleViewTap(_ sender: UITapGestureRecognizer) {
         if currentOffsetFromBottom != offset(for: .collapsed) {
             animate(to: .collapsed, velocity: 0)
-            hostedScrollView?.setContentOffset(.zero, animated: true)
         } else {
             animate(to: .expanded, velocity: 0)
         }
@@ -322,10 +321,6 @@ public class BottomSheetController: UIViewController {
             // Velocity high enough, animate to the offset we're swiping towards
             targetState = velocity > 0 ? .collapsed : .expanded
         }
-
-        if targetState == .collapsed {
-            hostedScrollView?.setContentOffset(.zero, animated: true)
-        }
         move(to: targetState, velocity: velocity)
     }
 
@@ -393,6 +388,11 @@ public class BottomSheetController: UIViewController {
     private func handleCompletedStateChange(to targetExpansionState: BottomSheetExpansionState) {
         self.delegate?.bottomSheetControllerDidMove?(to: targetExpansionState)
         currentExpansionState = targetExpansionState
+
+        if targetExpansionState == .collapsed {
+            hostedScrollView?.setContentOffset(.zero, animated: true)
+        }
+
         updateResizingHandleViewAccessibility()
         updateExpandedContentAlpha()
     }
