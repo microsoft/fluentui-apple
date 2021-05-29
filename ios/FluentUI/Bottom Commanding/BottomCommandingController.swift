@@ -63,22 +63,26 @@ open class BottomCommandingController: UIViewController {
                     bottomSheetController?.isHidden = isHidden
                 } else if let bottomBarView = bottomBarView,
                           let bottomConstraint = bottomBarViewBottomConstraint {
-                    var completion: (() -> Void)?
+                    if let animator = bottomBarHidingAnimator {
+                        animator.stopAnimation(true)
+                    }
+
+                    let springParams = UISpringTimingParameters(dampingRatio: Constants.BottomBar.hidingSpringDamping)
+                    let newAnimator = UIViewPropertyAnimator(duration: Constants.BottomBar.hidingSpringDuration, timingParameters: springParams)
                     if isHidden {
                         bottomConstraint.constant = -Constants.BottomBar.hiddenBottomOffset
-                        completion = { bottomBarView.isHidden = self.isHidden }
+                        newAnimator.addCompletion { _ in
+                            bottomBarView.isHidden = true
+                        }
                     } else {
                         bottomBarView.isHidden = false
                         bottomConstraint.constant = -Constants.BottomBar.bottomOffset
                     }
-                    UIView.animate(withDuration: Constants.BottomBar.hidingSpringDuration,
-                                   delay: .zero,
-                                   usingSpringWithDamping: Constants.BottomBar.hidingSpringDamping,
-                                   initialSpringVelocity: Constants.BottomBar.hidingSpringVelocity) {
+                    newAnimator.addAnimations {
                         self.view.layoutIfNeeded()
-                    } completion: { _ in
-                        completion?()
                     }
+                    newAnimator.startAnimation()
+                    bottomBarHidingAnimator = newAnimator
                 }
             }
         }
@@ -476,6 +480,8 @@ open class BottomCommandingController: UIViewController {
         heroItems.compactMap { (itemToBindingMap[$0] as? HeroItemBindingInfo)?.widthConstraint }
     }
 
+    private var bottomBarHidingAnimator: UIViewPropertyAnimator?
+
     private enum ItemLocation {
         case heroSet
         case list
@@ -520,7 +526,6 @@ open class BottomCommandingController: UIViewController {
 
             static let hidingSpringDuration: TimeInterval = 0.4
             static let hidingSpringDamping: CGFloat = 1.0
-            static let hidingSpringVelocity: CGFloat = 0.0
 
             static let moreButtonIcon: UIImage? = UIImage.staticImageNamed("more-24x24")
             static let moreButtonTitle: String = "CommandingBottomBar.More".localized

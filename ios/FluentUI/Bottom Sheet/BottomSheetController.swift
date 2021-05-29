@@ -66,7 +66,7 @@ public class BottomSheetController: UIViewController {
                     if newValue {
                         panGestureRecognizer.isEnabled = false
                         move(to: .hidden) { _ in
-                            self.bottomSheetView.isHidden = self.isHidden
+                            self.bottomSheetView.isHidden = true
                         }
                     } else {
                         bottomSheetView.isHidden = false
@@ -335,6 +335,8 @@ public class BottomSheetController: UIViewController {
                     : Constants.Spring.defaultDampingRatio
 
                 let springParams = UISpringTimingParameters(dampingRatio: damping, initialVelocity: CGVector(dx: 0.0, dy: springVelocity))
+
+                stopAnimationIfNeeded()
                 let translationAnimator = UIViewPropertyAnimator(duration: Constants.Spring.animationDuration, timingParameters: springParams)
                 self.translationAnimator = translationAnimator
 
