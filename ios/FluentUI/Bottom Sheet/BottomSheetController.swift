@@ -46,7 +46,7 @@ public class BottomSheetController: UIViewController {
             if isExpandable != oldValue {
                 resizingHandleView.isHidden = !isExpandable
                 panGestureRecognizer.isEnabled = isExpandable
-                if isViewLoaded && currentExpansionState == .expanded {
+                if isViewLoaded && !isHidden {
                     move(to: .collapsed, animated: false)
                 }
             }
