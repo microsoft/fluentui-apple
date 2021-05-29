@@ -56,11 +56,14 @@ public class BottomSheetController: UIViewController {
     /// Indicates if the bottom sheet is hidden.
     ///
     /// Changes to this property are animated.
-    @objc open var isHidden: Bool = false {
-        didSet {
-            if oldValue != isHidden {
+    @objc open var isHidden: Bool {
+        get {
+            return currentExpansionState == .hidden
+        }
+        set {
+            if newValue != isHidden {
                 if isViewLoaded {
-                    if isHidden {
+                    if newValue {
                         panGestureRecognizer.isEnabled = false
                         move(to: .hidden) { _ in
                             self.bottomSheetView.isHidden = self.isHidden
@@ -73,7 +76,7 @@ public class BottomSheetController: UIViewController {
                     }
                 } else {
                     // This ensures the view eventually loads at the correct offset
-                    currentExpansionState = isHidden ? .hidden : .collapsed
+                    currentExpansionState = newValue ? .hidden : .collapsed
                 }
             }
         }
