@@ -203,9 +203,9 @@ public class BottomSheetController: UIViewController {
     }
 
     public override func viewDidLayoutSubviews() {
-        if needsExpandedOffsetUpdate {
-            needsExpandedOffsetUpdate = false
-            move(to: .expanded, animated: false, velocity: 0.0)
+        if needsOffsetUpdate {
+            needsOffsetUpdate = false
+            move(to: currentExpansionState, animated: false, velocity: 0.0)
         }
     }
 
@@ -213,13 +213,7 @@ public class BottomSheetController: UIViewController {
         super.viewWillTransition(to: size, with: coordinator)
 
         if size.height != view.frame.height {
-            if currentOffsetFromBottom == offset(for: .expanded) {
-                // Recalculate the offset after the next layout pass
-                needsExpandedOffsetUpdate = true
-            } else if currentOffsetFromBottom != collapsedContentHeight {
-                // Safe default for strange edge cases where we are between states
-                move(to: .collapsed, animated: false, velocity: 0)
-            }
+            needsOffsetUpdate = true
         }
     }
 
