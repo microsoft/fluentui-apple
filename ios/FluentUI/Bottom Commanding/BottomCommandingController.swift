@@ -81,6 +81,7 @@ open class BottomCommandingController: UIViewController {
                     newAnimator.addAnimations {
                         self.view.layoutIfNeeded()
                     }
+
                     newAnimator.startAnimation()
                     bottomBarHidingAnimator = newAnimator
                 }
