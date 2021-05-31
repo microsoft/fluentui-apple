@@ -789,8 +789,7 @@ open class TableViewCell: UITableViewCell {
             if let customSwitch = customAccessoryView as? UISwitch {
                 if isEnabled && customSwitch.isEnabled {
                   return "Accessibility.TableViewCell.Switch.Hint".localized
-                }
-                else {
+                } else {
                     return nil
                 }
             }
