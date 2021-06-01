@@ -6,43 +6,6 @@
 import FluentUI
 import UIKit
 
-public final class DemoBarButtonItems: NSObject {
-    static func staticImageNamed(_ name: String) -> UIImage? {
-        guard let image = UIImage(named: name, in: FluentUIFramework.resourceBundle, compatibleWith: nil) else {
-            preconditionFailure("Missing image asset with name: \(name)")
-        }
-        return image
-    }
-
-    static func localized(_ string: String) -> String {
-        NSLocalizedString(string, bundle: FluentUIFramework.resourceBundle, comment: "")
-    }
-
-    /// When adding this barButtonItem to the view, tint it with appropriate app color UIColor(light: Colors.primary(for: window), dark: Colors.textDominant)
-    @objc static func confirm(target: Any?, action: Selector?) -> UIBarButtonItem {
-        let image = staticImageNamed("checkmark-24x24")
-        let landscapeImage = staticImageNamed("checkmark-thin-20x20")
-
-        let button = UIBarButtonItem(image: image, landscapeImagePhone: landscapeImage, style: .plain, target: target, action: action)
-        button.accessibilityLabel = localized("Accessibility.Done.Label")
-        return button
-    }
-
-    /// When adding this barButtonItem to the view, tint it with appropriate app color UIColor(light: Colors.primary(for: window), dark: Colors.textDominant)
-    @objc static func cancel(target: Any?, action: Selector?) -> UIBarButtonItem {
-        let image = staticImageNamed("dismiss-20x20")
-        let landscapeImage = staticImageNamed("dismiss-36x36")
-
-        let button = UIBarButtonItem(image: image, landscapeImagePhone: landscapeImage, style: .plain, target: target, action: action)
-        button.accessibilityLabel = localized("Accessibility.Dismiss.Label")
-        return button
-    }
-
-    private override init() {
-        super.init()
-    }
-}
-
 class DateTimePickerDemoController: DemoController {
     private let dateLabel = Label(style: .headline)
     private let dateTimePicker = DateTimePicker()
@@ -79,8 +42,8 @@ class DateTimePickerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show date range picker (tabbed)", action: #selector(presentTabbedDateRangePicker)))
         container.addArrangedSubview(createButton(title: "Show date time range picker", action: #selector(presentDateTimeRangePicker)))
         container.addArrangedSubview(createButton(title: "Show picker with custom subtitles or tabs", action: #selector(presentCustomSubtitlePicker)))
-        container.addArrangedSubview(createButton(title: "Show picker with left gliph", action: #selector(presentPickerLeftToolbarView)))
-        container.addArrangedSubview(createButton(title: "Show picker with left and right gliphs", action: #selector(presentPickerLeftRightToolbarView)))
+        container.addArrangedSubview(createButton(title: "Show picker with left glyph", action: #selector(presentLeftGlyphPicker)))
+        container.addArrangedSubview(createButton(title: "Show picker with left and right glyphs", action: #selector(presentRightGlyphPicker)))
         container.addArrangedSubview(UIView())
         container.addArrangedSubview(createDatePickerTypeUI())
         container.addArrangedSubview(createValidationUI())
@@ -127,8 +90,8 @@ class DateTimePickerDemoController: DemoController {
     }
 
     func calcDatePickerParams() -> (startDate: Date, endDate: Date, titles: DateTimePicker.Titles) {
-        let startDate = self.startDate ?? Date()
-        let endDate = self.endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
+        let startDate = startDate ?? Date()
+        let endDate = endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
         let titles: DateTimePicker.Titles
         if datePickerType == .calendar && !UIAccessibility.isVoiceOverRunning {
             titles = .with(startSubtitle: "Assignment Date", endSubtitle: "Due Date")
@@ -158,13 +121,13 @@ class DateTimePickerDemoController: DemoController {
         dateTimePicker.present(from: self, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: datePickerType, titles: titles)
     }
 
-    @objc func presentPickerLeftToolbarView() {
+    @objc func presentLeftGlyphPicker() {
         let (startDate, endDate, titles) = calcDatePickerParams()
         let leftBarButtonItem = DemoBarButtonItems.cancel(target: self, action: #selector(handleDidTapCancel))
         dateTimePicker.present(from: self, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: datePickerType, titles: titles, leftBarButtonItem: leftBarButtonItem)
     }
 
-    @objc func presentPickerLeftRightToolbarView() {
+    @objc func presentRightGlyphPicker() {
         let (startDate, endDate, titles) = calcDatePickerParams()
         let leftBarButtonItem = DemoBarButtonItems.confirm(target: self, action: #selector(handleDidTapDone))
         let rightBarButtonItem = DemoBarButtonItems.cancel(target: self, action: #selector(handleDidTapCancel)) // or simply assign UIBarButtonItem() to hide the default confirm button
@@ -172,17 +135,17 @@ class DateTimePickerDemoController: DemoController {
     }
 
     @objc private func handleDidTapCancel() {
-        self.dateTimePicker.dismiss()
+        dateTimePicker.dismiss()
         let alert = UIAlertController(title: "Callback from picker", message: "User has pressed Cancel glyph", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        self.present(alert, animated: true)
+        present(alert, animated: true)
     }
 
     @objc private func handleDidTapDone() {
-        self.dateTimePicker.dismiss()
+        dateTimePicker.dismiss()
         let alert = UIAlertController(title: "Callback from picker", message: "User has pressed Confirm glyph", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        self.present(alert, animated: true)
+        present(alert, animated: true)
     }
 
     @objc func resetDates() {
@@ -230,5 +193,35 @@ extension DateTimePickerDemoController: DateTimePickerDelegate {
             return false
         }
         return true
+    }
+}
+
+class DemoBarButtonItems: NSObject {
+    static func localized(_ string: String) -> String {
+        NSLocalizedString(string, bundle: FluentUIFramework.resourceBundle, comment: "")
+    }
+
+    /// When adding this barButtonItem to the view, tint it with appropriate app color UIColor(light: Colors.primary(for: window), dark: Colors.textDominant)
+    @objc static func confirm(target: Any?, action: Selector?) -> UIBarButtonItem {
+        let image = UIImage(named: "checkmark-24x24", in: FluentUIFramework.resourceBundle, compatibleWith: nil)
+        let landscapeImage = UIImage(named: "checkmark-thin-20x20", in: FluentUIFramework.resourceBundle, compatibleWith: nil)
+
+        let button = UIBarButtonItem(image: image, landscapeImagePhone: landscapeImage, style: .plain, target: target, action: action)
+        button.accessibilityLabel = localized("Accessibility.Done.Label")
+        return button
+    }
+
+    /// When adding this barButtonItem to the view, tint it with appropriate app color UIColor(light: Colors.primary(for: window), dark: Colors.textDominant)
+    @objc static func cancel(target: Any?, action: Selector?) -> UIBarButtonItem {
+        let image = UIImage(named: "dismiss-20x20", in: FluentUIFramework.resourceBundle, compatibleWith: nil)
+        let landscapeImage = UIImage(named: "dismiss-36x36", in: FluentUIFramework.resourceBundle, compatibleWith: nil)
+
+        let button = UIBarButtonItem(image: image, landscapeImagePhone: landscapeImage, style: .plain, target: target, action: action)
+        button.accessibilityLabel = localized("Accessibility.Dismiss.Label")
+        return button
+    }
+
+    private override init() {
+        super.init()
     }
 }

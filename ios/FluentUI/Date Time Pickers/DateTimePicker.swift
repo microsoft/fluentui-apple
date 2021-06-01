@@ -100,6 +100,18 @@ public class DateTimePicker: NSObject {
 
     private var datePickerType: DatePickerType = .calendar
 
+    /// Presents a picker or set of pickers from a `presentingController` depending on the mode selected. Also handles accessibility replacement presentation.
+    /// The picker has a default range of dates available that works for most scenarios. To change that range, override referenceStartDate and referenceEndDate in the default instance of CalendarConfiguration.
+    ///
+    /// - Parameters:
+    ///   - presentingController: The view controller that is presenting these pickers
+    ///   - mode: Enum describing which mode of pickers should be presented
+    ///   - startDate: The initial date selected on the presented pickers
+    ///   - endDate: An optional end date to pick a range of dates. Ignored if mode is `.date` or `.dateTime`. If the mode selected is either `.dateRange` or `.dateTimeRange`, and this is omitted, it will be set to a default 1 day or 1 hour range, respectively.
+    ///   - datePickerType: The type of UI to use for picking dates: calendar or spinners representing date components (day, month, and year) or date (when time picking is also enabled). `.components` will be forced when VoiceOver is running. `.paged` date range presentation is not supported for `.components` date picker type (tabbed presentation will be used instead).
+    ///   - dateRangePresentation: The `DateRangePresentation` in which to show any date pickers when `mode` is `.dateRange` or `.dateTimeRange`. Does not affect the time picker, which is always tabbed in range mode, but may change whether the date picker is presented in certain modes.
+    ///   - titles: A `Titles` object that holds strings for use in overriding the default picker titles, subtitles, and tab titles. If a string is provided for a property that does not apply to the current mode, it will be ignored.
+    /// - Tag: MSDateTimePicker.present
     @objc public func present(from presentingController: UIViewController, with mode: DateTimePickerMode, startDate: Date = Date(), endDate: Date? = nil, datePickerType: DatePickerType = .calendar, dateRangePresentation: DateRangePresentation = .paged, titles: Titles? = nil) {
         present(from: presentingController, with: mode, startDate: startDate, endDate: endDate, datePickerType: datePickerType, dateRangePresentation: dateRangePresentation, leftBarButtonItem: nil, rightBarButtonItem: nil)
     }
@@ -115,8 +127,8 @@ public class DateTimePicker: NSObject {
     ///   - datePickerType: The type of UI to use for picking dates: calendar or spinners representing date components (day, month, and year) or date (when time picking is also enabled). `.components` will be forced when VoiceOver is running. `.paged` date range presentation is not supported for `.components` date picker type (tabbed presentation will be used instead).
     ///   - dateRangePresentation: The `DateRangePresentation` in which to show any date pickers when `mode` is `.dateRange` or `.dateTimeRange`. Does not affect the time picker, which is always tabbed in range mode, but may change whether the date picker is presented in certain modes.
     ///   - titles: A `Titles` object that holds strings for use in overriding the default picker titles, subtitles, and tab titles. If a string is provided for a property that does not apply to the current mode, it will be ignored.
-    ///   - leftBarButtonItem: optional UIBarButtonItem to be presented on the left side of the toolbar.
-    ///   - rightBarButtonItem: optional UIBarButtonItem to be presented on the right side of the toolbar. Note that if this view is presented, the Confirm button is not generated automatically.
+    ///   - leftBarButtonItem: optional UIBarButtonItem to be presented as left glyph.
+    ///   - rightBarButtonItem: optional UIBarButtonItem to be presented oas right glyph. Note that if this view is presented, the Confirm button is not generated automatically.
     /// - Tag: MSDateTimePicker.present
     @objc public func present(from presentingController: UIViewController, with mode: DateTimePickerMode, startDate: Date = Date(), endDate: Date? = nil, datePickerType: DatePickerType = .calendar, dateRangePresentation: DateRangePresentation = .paged, titles: Titles? = nil, leftBarButtonItem: UIBarButtonItem? = nil, rightBarButtonItem: UIBarButtonItem? = nil) {
         self.presentingController = presentingController

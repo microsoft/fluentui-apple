@@ -97,8 +97,8 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
     ///   - selectionMode: The side (start or end) of the current range to be selected on this picker.
     ///   - rangePresentation: The `DateRangePresentation` in which this controller is being presented if `mode` is `.dateRange` or `.dateTimeRange`.
     ///   - titles: A `Titles` object that holds strings for use in overriding the default picker title, subtitle, and tab titles. If title is not provided, titleview will show currently selected date. If tab titles are not provided, they will default to "Start Date" and "End Date".
-    ///   - leftBarButtonItem: optional UIBarButtonItem to be presented on the left side of the toolbar.
-    ///   - rightBarButtonItem: optional UIBarButtonItem to be presented on the right side of the toolbar. Note that if this view is presented, the Confirm button is not generated automatically.
+    ///   - leftBarButtonItem: optional UIBarButtonItem to be presented as left glyph.
+    ///   - rightBarButtonItem: optional UIBarButtonItem to be presented oas right glyph. Note that if this view is presented, the Confirm button is not generated automatically.
     init(startDate: Date, endDate: Date, mode: DateTimePickerMode, selectionMode: DatePickerSelectionManager.SelectionMode = .start, rangePresentation: DateTimePicker.DateRangePresentation, titles: DateTimePicker.Titles?, leftBarButtonItem: UIBarButtonItem?, rightBarButtonItem: UIBarButtonItem?) {
         if !mode.singleSelection && rangePresentation == .paged {
             customTitle = selectionMode == .start ? titles?.startTitle : titles?.endTitle
