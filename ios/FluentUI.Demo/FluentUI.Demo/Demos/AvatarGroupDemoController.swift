@@ -153,7 +153,7 @@ class AvatarGroupDemoController: DemoController {
         isUsingAlternateBackgroundColor = switchView.isOn
     }
 
-    private var maxDisplayedAvatars: UInt = 3 {
+    private var maxDisplayedAvatars: UInt = 4 {
         didSet {
             if oldValue != maxDisplayedAvatars {
                 maxAvatarsTextField.text = "\(maxDisplayedAvatars)"
@@ -179,7 +179,6 @@ class AvatarGroupDemoController: DemoController {
 
     private func insertAvatarViews(style: MSFAvatarGroupStyle, showBorders: Bool, mixed: Bool = false) {
         var constraints: [NSLayoutConstraint] = []
-        var groupData: [MSFAvatarState] = []
 
         for size in MSFAvatarSize.allCases.reversed() {
             let containerView = UIView(frame: .zero)
@@ -188,12 +187,11 @@ class AvatarGroupDemoController: DemoController {
             var border = showBorders
             for index in 0...avatarCount - 1 {
                 vSamplePersonas[index].isRingVisible = border
-                groupData.append(vSamplePersonas[index])
                 if mixed {
                     border = !border
                 }
             }
-            avatarGroup.state.avatars = groupData
+            avatarGroup.state.avatars = Array(vSamplePersonas.prefix(avatarCount))
             avatarGroup.state.maxDisplayedAvatars = UInt32(maxDisplayedAvatars)
             avatarGroup.state.overflowCount = overflowCount
             avatarGroups.append(avatarGroup)
@@ -212,7 +210,6 @@ class AvatarGroupDemoController: DemoController {
             ])
 
             addRow(text: size.description, items: [containerView], textStyle: .footnote, textWidth: 100)
-            groupData = []
         }
 
         NSLayoutConstraint.activate(constraints)

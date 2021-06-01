@@ -37,17 +37,16 @@ public struct AvatarGroup: View {
         let maxDisplayedAvatars = avatars.prefix(Int(state.maxDisplayedAvatars)).count
         let overflowCount = (avatars.count > maxDisplayedAvatars ? UInt(avatars.count - maxDisplayedAvatars) : 0) + state.overflowCount
         HStack(spacing: 0) {
-            ForEach(0 ..< maxDisplayedAvatars) { index in
-                // maxDisplayed is updating but index isn't iterating through them ?
-                let modify = tokens.style == .stack && overflowCount > 0
-                    AvatarView(style: .default, size: tokens.size, state: avatars[index])
-                        .modifyIf(modify, { view in
-                            view.mask(AvatarCutout(xOrigin: x,
-                                                   yOrigin: 0,
-                                                   cutoutSize: size)
-                                        .fill(style: FillStyle(eoFill: true)))
-                        })
-                        .padding(.trailing, tokens.interspace)
+            ForEach(0 ..< maxDisplayedAvatars, id: \.self) { index in
+                let modify = tokens.style == .stack && (overflowCount > 0 || index + 1 < maxDisplayedAvatars)
+                AvatarView(style: .default, size: tokens.size, state: avatars[index])
+                    .modifyIf(modify, { view in
+                        view.mask(AvatarCutout(xOrigin: x,
+                                               yOrigin: 0,
+                                               cutoutSize: size)
+                                    .fill(style: FillStyle(eoFill: true)))
+                    })
+                    .padding(.trailing, tokens.interspace)
             }
             if overflowCount > 0 {
                 createOverflow(count: Int(overflowCount))
