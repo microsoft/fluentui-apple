@@ -13,12 +13,15 @@ import SwiftUI
 
 /// Properties that make up AvatarGroup content
 @objc public class MSFAvatarGroupState: NSObject, ObservableObject {
-    @objc @Published public var avatars: [MSFAvatarStateImpl] = []
+    @objc @Published public var avatars: [MSFAvatarState] = []
+    @objc @Published public var maxDisplayedAvatars: UInt32 = UInt32.max
+    @objc @Published public var overflowCount: UInt = 0
 }
 
 /// View that represents the AvatarGroup
 public struct AvatarGroup: View {
     @Environment(\.theme) var theme: FluentUIStyle
+    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     @ObservedObject var state: MSFAvatarGroupState
     @ObservedObject var tokens: MSFAvatarGroupTokens
 
@@ -30,20 +33,41 @@ public struct AvatarGroup: View {
     public var body: some View {
         let size = tokens.size.size
         let x: CGFloat = size + tokens.interspace - tokens.ringOuterGap - tokens.ringThickness
+        let avatars = state.avatars
+        let maxDisplayedAvatars = avatars.prefix(Int(state.maxDisplayedAvatars)).count
+        let overflowCount = (avatars.count > maxDisplayedAvatars ? UInt(avatars.count - maxDisplayedAvatars) : 0) + state.overflowCount
         HStack(spacing: 0) {
-            ForEach(state.avatars, id: \.self) { avatar in
-                AvatarView(style: .default, size: tokens.size, state: avatar)
-                    .modifyIf(tokens.style == .stack && state.avatars.last != avatar, { view in
-                        view.mask(AvatarCutout(xOrigin: x,
-                                               yOrigin: 0,
-                                               cutoutSize: size)
-                                    .fill(style: FillStyle(eoFill: true)))
-                    })
-                    .padding(.trailing, tokens.interspace)
+            ForEach(0 ..< maxDisplayedAvatars) { index in
+                // maxDisplayed is updating but index isn't iterating through them ?
+                let modify = tokens.style == .stack && overflowCount > 0
+                    AvatarView(style: .default, size: tokens.size, state: avatars[index])
+                        .modifyIf(modify, { view in
+                            view.mask(AvatarCutout(xOrigin: x,
+                                                   yOrigin: 0,
+                                                   cutoutSize: size)
+                                        .fill(style: FillStyle(eoFill: true)))
+                        })
+                        .padding(.trailing, tokens.interspace)
+            }
+            if overflowCount > 0 {
+                createOverflow(count: Int(overflowCount))
             }
         }
     }
 
+    private func createOverflow(count: Int) -> AvatarView {
+        let overflow = MSFAvatarStateImpl()
+        overflow.primaryText = "\(count)"
+        return AvatarView(style: .overflow, size: tokens.size, state: overflow)
+    }
+
+    /// Cutout shape for the succeeding Avatar in an Avatar Group in Stack style.
+    ///
+    /// xOrigin: beginning location of cutout on the x axis
+    ///
+    /// yOrigin: beginning location of cutout on the y axis
+    ///
+    /// cutoutSize: dimensions of cutout shape of the Avatar
     private struct AvatarCutout: Shape {
         var xOrigin: CGFloat
         var yOrigin: CGFloat
