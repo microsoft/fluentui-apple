@@ -21,9 +21,11 @@ public class BottomSheetController: UIViewController {
     /// - Parameters:
     ///   - headerContentView: Top part of the sheet content that is visible in both collapsed and expanded state.
     ///   - expandedContentView: Sheet content below the header which is only visible when the sheet is expanded.
-    @objc public init(headerContentView: UIView? = nil, expandedContentView: UIView) {
+    ///   - dimsMainContent - Indicates if the main content should be dimmed when the sheet is expanded.
+    @objc public init(headerContentView: UIView? = nil, expandedContentView: UIView, dimsMainContent: Bool = true) {
         self.headerContentView = headerContentView
         self.expandedContentView = expandedContentView
+        self.dimsMainContent = dimsMainContent
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -37,6 +39,8 @@ public class BottomSheetController: UIViewController {
 
     /// Sheet content below the header which is only visible when the sheet is expanded.
     @objc public let expandedContentView: UIView
+
+    @objc public let dimsMainContent: Bool
 
     /// A scroll view in `expandedContentView`'s view hierarchy.
     /// Provide this to ensure the bottom sheet pan gesture recognizer coordinates with the scroll view to enable scrolling based on current bottom sheet position and content offset.
@@ -96,6 +100,19 @@ public class BottomSheetController: UIViewController {
         overflowView.backgroundColor = Colors.NavigationBar.background
         view.addSubview(overflowView)
 
+        if dimsMainContent {
+            view.addSubview(dimmingView)
+            NSLayoutConstraint.activate([
+                dimmingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                dimmingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                dimmingView.topAnchor.constraint(equalTo: view.topAnchor),
+                dimmingView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
+        }
+
+        view.bringSubviewToFront(bottomSheetView)
+        view.bringSubviewToFront(overflowView)
+
         NSLayoutConstraint.activate([
             bottomSheetView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             bottomSheetView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -108,6 +125,15 @@ public class BottomSheetController: UIViewController {
         updateBottomSheetHeightConstraint()
         updateResizingHandleViewAccessibility()
     }
+
+    private lazy var dimmingView: UIView = {
+        let dimmingView = UIView()
+        dimmingView.backgroundColor = .black
+        dimmingView.alpha = 0.0
+        dimmingView.translatesAutoresizingMaskIntoConstraints = false
+
+        return dimmingView
+    }()
 
     private lazy var resizingHandleView: ResizingHandleView = {
         let resizingHandleView = ResizingHandleView()
@@ -240,6 +266,26 @@ public class BottomSheetController: UIViewController {
         expandedContentView.alpha = targetAlpha
     }
 
+    private func updateDimmingViewAlpha() {
+        guard dimsMainContent else {
+            return
+        }
+
+        let currentOffset = currentOffsetFromBottom
+        let collapsedOffset = collapsedOffsetFromBottom
+        let expandedOffset = expandedOffsetFromBottom
+
+        var targetAlpha: CGFloat = 0.0
+        if currentOffset > expandedOffset {
+            targetAlpha = Constants.maxDimmingAlpha
+        } else if currentOffset < collapsedOffset {
+            targetAlpha = 0.0
+        } else {
+            targetAlpha = Constants.maxDimmingAlpha * abs(currentOffset - collapsedOffset) / (expandedOffset - collapsedOffset)
+        }
+        dimmingView.alpha = targetAlpha
+    }
+
     @objc private func handlePan(_ sender: UIPanGestureRecognizer) {
         switch sender.state {
         case .began:
@@ -249,6 +295,7 @@ public class BottomSheetController: UIViewController {
             translateSheet(by: sender.translation(in: view))
             sender.setTranslation(.zero, in: view)
             updateExpandedContentAlpha()
+            updateDimmingViewAlpha()
         case .ended, .cancelled, .failed:
             completePan(with: sender.velocity(in: view).y)
         default:
@@ -329,10 +376,17 @@ public class BottomSheetController: UIViewController {
             self.view.layoutIfNeeded()
         }
 
-        let targetExpandedContentOpacity: CGFloat = targetExpansionState == .collapsed ? 0.0 : 1.0
-        if expandedContentView.alpha != targetExpandedContentOpacity {
+        let targetExpandedContentAlpha: CGFloat = targetExpansionState == .collapsed ? 0.0 : 1.0
+        if expandedContentView.alpha != targetExpandedContentAlpha {
             translationAnimator.addAnimations {
-                self.expandedContentView.alpha = targetExpandedContentOpacity
+                self.expandedContentView.alpha = targetExpandedContentAlpha
+            }
+        }
+
+        if dimsMainContent {
+            let targetDimmingViewAlpha: CGFloat = targetExpansionState == .collapsed ? 0.0 : Constants.maxDimmingAlpha
+            translationAnimator.addAnimations {
+                self.dimmingView.alpha = targetDimmingViewAlpha
             }
         }
 
@@ -427,6 +481,9 @@ public class BottomSheetController: UIViewController {
         static let cornerRadius: CGFloat = 14
 
         static let expandedContentAlphaTransitionLength: CGFloat = 30
+
+        // Maximum alpha value of the dimming view
+        static let maxDimmingAlpha: CGFloat = 0.5
 
         struct Spring {
             // Spring used in slow swipes - no oscillation
