@@ -349,20 +349,20 @@ public class BottomSheetController: UIViewController {
 
                 view.layoutIfNeeded()
                 bottomSheetOffsetConstraint.constant = -targetOffsetFromBottom
-                translationAnimator.addAnimations {
-                    self.view.layoutIfNeeded()
+                translationAnimator.addAnimations { [weak self] in
+                    self?.view.layoutIfNeeded()
                 }
 
                 let targetExpandedContentOpacity: CGFloat = targetExpansionState == .expanded ? 1.0 : 0.0
                 if expandedContentView.alpha != targetExpandedContentOpacity {
-                    translationAnimator.addAnimations {
-                        self.expandedContentView.alpha = targetExpandedContentOpacity
+                    translationAnimator.addAnimations { [weak self] in
+                        self?.expandedContentView.alpha = targetExpandedContentOpacity
                     }
                 }
 
-                translationAnimator.addCompletion({ finalPosition in
+                translationAnimator.addCompletion({ [weak self] finalPosition in
                     if finalPosition == .end {
-                        self.handleCompletedStateChange(to: targetExpansionState)
+                        self?.handleCompletedStateChange(to: targetExpansionState)
                     }
                     completion?(finalPosition)
                 })

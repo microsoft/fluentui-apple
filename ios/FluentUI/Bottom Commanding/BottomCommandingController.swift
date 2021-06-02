@@ -78,8 +78,8 @@ open class BottomCommandingController: UIViewController {
                         bottomBarView.isHidden = false
                         bottomConstraint.constant = -Constants.BottomBar.bottomOffset
                     }
-                    newAnimator.addAnimations {
-                        self.view.layoutIfNeeded()
+                    newAnimator.addAnimations { [weak self] in
+                        self?.view.layoutIfNeeded()
                     }
 
                     newAnimator.startAnimation()
