@@ -21,11 +21,11 @@ public class BottomSheetController: UIViewController {
     /// - Parameters:
     ///   - headerContentView: Top part of the sheet content that is visible in both collapsed and expanded state.
     ///   - expandedContentView: Sheet content below the header which is only visible when the sheet is expanded.
-    ///   - dimsMainContent - Indicates if the main content is dimmed when the sheet is expanded.
-    @objc public init(headerContentView: UIView? = nil, expandedContentView: UIView, dimsMainContent: Bool = true) {
+    ///   - shouldShowDimmingView: Indicates if the main content is dimmed when the sheet is expanded.
+    @objc public init(headerContentView: UIView? = nil, expandedContentView: UIView, shouldShowDimmingView: Bool = true) {
         self.headerContentView = headerContentView
         self.expandedContentView = expandedContentView
-        self.dimsMainContent = dimsMainContent
+        self.shouldShowDimmingView = shouldShowDimmingView
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -41,7 +41,7 @@ public class BottomSheetController: UIViewController {
     @objc public let expandedContentView: UIView
 
     /// Indicates if the main content is dimmed when the sheet is expanded.
-    @objc public let dimsMainContent: Bool
+    @objc public let shouldShowDimmingView: Bool
 
     /// A scroll view in `expandedContentView`'s view hierarchy.
     /// Provide this to ensure the bottom sheet pan gesture recognizer coordinates with the scroll view to enable scrolling based on current bottom sheet position and content offset.
@@ -101,7 +101,7 @@ public class BottomSheetController: UIViewController {
         overflowView.backgroundColor = Colors.NavigationBar.background
         view.addSubview(overflowView)
 
-        if dimsMainContent {
+        if shouldShowDimmingView {
             view.addSubview(dimmingView)
             NSLayoutConstraint.activate([
                 dimmingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -266,7 +266,7 @@ public class BottomSheetController: UIViewController {
     }
 
     private func updateDimmingViewAlpha() {
-        guard dimsMainContent else {
+        guard shouldShowDimmingView else {
             return
         }
 
@@ -382,7 +382,7 @@ public class BottomSheetController: UIViewController {
             }
         }
 
-        if dimsMainContent {
+        if shouldShowDimmingView {
             let targetDimmingViewAlpha: CGFloat = targetExpansionState == .collapsed ? 0.0 : 1.0
             translationAnimator.addAnimations {
                 self.dimmingView.alpha = targetDimmingViewAlpha
