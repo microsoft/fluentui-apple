@@ -63,7 +63,7 @@ class BottomSheetDemoController: UIViewController {
 
     private let headerView: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.gray100
+        view.backgroundColor = Colors.surfaceQuaternary
         view.heightAnchor.constraint(equalToConstant: headerHeight).isActive = true
 
         let label = Label()
