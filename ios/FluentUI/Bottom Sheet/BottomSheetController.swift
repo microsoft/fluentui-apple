@@ -12,6 +12,13 @@ public protocol BottomSheetControllerDelegate: AnyObject {
     @objc optional func bottomSheetControllerDidMove(to expansionState: BottomSheetExpansionState)
 }
 
+/// Defines the position the sheet is currently in
+@objc public enum BottomSheetExpansionState: Int {
+    case expanded // Sheet is fully expanded
+    case collapsed // Sheet is collapsed
+    case hidden // Sheet is hidden (fully off-screen)
+}
+
 @objc(MSFBottomSheetController)
 public class BottomSheetController: UIViewController {
 
@@ -510,10 +517,4 @@ extension BottomSheetController: UIGestureRecognizerDelegate {
         }
         return shouldBegin
     }
-}
-
-@objc public enum BottomSheetExpansionState: Int {
-    case expanded
-    case collapsed
-    case hidden
 }
