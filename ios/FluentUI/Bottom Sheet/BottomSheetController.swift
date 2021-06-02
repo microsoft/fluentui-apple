@@ -127,12 +127,10 @@ public class BottomSheetController: UIViewController {
         updateResizingHandleViewAccessibility()
     }
 
-    private lazy var dimmingView: UIView = {
-        let dimmingView = UIView()
-        dimmingView.backgroundColor = .black
-        dimmingView.alpha = 0.0
+    private lazy var dimmingView: DimmingView = {
+        var dimmingView = DimmingView(type: .black)
         dimmingView.translatesAutoresizingMaskIntoConstraints = false
-
+        dimmingView.alpha = 0.0
         return dimmingView
     }()
 
@@ -278,11 +276,11 @@ public class BottomSheetController: UIViewController {
 
         var targetAlpha: CGFloat = 0.0
         if currentOffset > expandedOffset {
-            targetAlpha = Constants.maxDimmingAlpha
+            targetAlpha = 1.0
         } else if currentOffset < collapsedOffset {
             targetAlpha = 0.0
         } else {
-            targetAlpha = Constants.maxDimmingAlpha * abs(currentOffset - collapsedOffset) / (expandedOffset - collapsedOffset)
+            targetAlpha = abs(currentOffset - collapsedOffset) / (expandedOffset - collapsedOffset)
         }
         dimmingView.alpha = targetAlpha
     }
@@ -385,7 +383,7 @@ public class BottomSheetController: UIViewController {
         }
 
         if dimsMainContent {
-            let targetDimmingViewAlpha: CGFloat = targetExpansionState == .collapsed ? 0.0 : Constants.maxDimmingAlpha
+            let targetDimmingViewAlpha: CGFloat = targetExpansionState == .collapsed ? 0.0 : 1.0
             translationAnimator.addAnimations {
                 self.dimmingView.alpha = targetDimmingViewAlpha
             }
@@ -482,9 +480,6 @@ public class BottomSheetController: UIViewController {
         static let cornerRadius: CGFloat = 14
 
         static let expandedContentAlphaTransitionLength: CGFloat = 30
-
-        // Maximum alpha value of the dimming view
-        static let maxDimmingAlpha: CGFloat = 0.5
 
         struct Spring {
             // Spring used in slow swipes - no oscillation
