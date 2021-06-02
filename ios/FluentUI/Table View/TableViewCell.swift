@@ -786,8 +786,12 @@ open class TableViewCell: UITableViewCell {
             if isInSelectionMode && isEnabled {
                 return "Accessibility.MultiSelect.Hint".localized
             }
-            if customAccessoryView is UISwitch {
-                return "Accessibility.TableViewCell.Switch.Hint".localized
+            if let customSwitch = customAccessoryView as? UISwitch {
+                if isEnabled && customSwitch.isEnabled {
+                  return "Accessibility.TableViewCell.Switch.Hint".localized
+                } else {
+                    return nil
+                }
             }
             return super.accessibilityHint
         }
