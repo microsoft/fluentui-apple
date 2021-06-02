@@ -127,7 +127,7 @@ open class BottomCommandingController: UIViewController {
         let commandStackContainer = UIView()
         commandStackContainer.addSubview(heroCommandStack)
 
-        let sheetController = BottomSheetController(headerContentView: commandStackContainer, expandedContentView: expandedContentView)
+        let sheetController = BottomSheetController(headerContentView: commandStackContainer, expandedContentView: makeSheetExpandedContent(with: tableView))
         sheetController.hostedScrollView = tableView
         sheetController.expandedHeightFraction = Constants.BottomSheet.expandedFraction
 
@@ -185,6 +185,26 @@ open class BottomCommandingController: UIViewController {
         return bottomBarView
     }
 
+    private func makeSheetExpandedContent(with tableView: UITableView) -> UIView {
+        let view = UIView()
+        let separator = Separator()
+        separator.translatesAutoresizingMaskIntoConstraints = false
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(tableView)
+        view.addSubview(separator)
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.BottomSheet.expandedContentTopMargin),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            separator.topAnchor.constraint(equalTo: tableView.topAnchor),
+            separator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            separator.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+        return view
+    }
+
     private func updateExpandability() {
         if isInSheetMode,
            let bottomSheetController = bottomSheetController,
@@ -222,26 +242,6 @@ open class BottomCommandingController: UIViewController {
 
         isHeroCommandStackLoaded = true
         return stackView
-    }()
-
-    private lazy var expandedContentView: UIView = {
-        let view = UIView()
-        let separator = Separator()
-        separator.translatesAutoresizingMaskIntoConstraints = false
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-
-        view.addSubview(tableView)
-        view.addSubview(separator)
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.BottomSheet.expandedContentTopMargin),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            separator.topAnchor.constraint(equalTo: tableView.topAnchor),
-            separator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            separator.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-        return view
     }()
 
     private lazy var tableView: UITableView = {
