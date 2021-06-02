@@ -185,32 +185,6 @@ open class BottomCommandingController: UIViewController {
         return bottomBarView
     }
 
-    private func makeBottomSheetContent(headerView: UIView, expandedContentView: UIView) -> UIView {
-        let view = UIView()
-        let separator = Separator()
-        separator.translatesAutoresizingMaskIntoConstraints = false
-        headerView.translatesAutoresizingMaskIntoConstraints = false
-        expandedContentView.translatesAutoresizingMaskIntoConstraints = false
-
-        view.addSubview(headerView)
-        view.addSubview(expandedContentView)
-        view.addSubview(separator)
-        NSLayoutConstraint.activate([
-            headerView.topAnchor.constraint(equalTo: view.topAnchor),
-            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            expandedContentView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
-            expandedContentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            expandedContentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            expandedContentView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            separator.topAnchor.constraint(equalTo: expandedContentView.topAnchor),
-            separator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            separator.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-
-        return view
-    }
-
     private func updateExpandability() {
         if isInSheetMode,
            let bottomSheetController = bottomSheetController,
