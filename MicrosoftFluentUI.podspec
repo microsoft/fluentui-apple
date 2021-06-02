@@ -59,7 +59,6 @@ Pod::Spec.new do |s|
 
   s.subspec 'BottomSheet_ios' do |bottomsheet_ios|
     bottomsheet_ios.platform = :ios
-    bottomsheet_ios.dependency 'MicrosoftFluentUI/Obscurable_ios'
     bottomsheet_ios.dependency 'MicrosoftFluentUI/ResizingHandleView_ios'
     bottomsheet_ios.source_files = ["ios/FluentUI/Bottom Sheet/**/*.{swift,h}"]
   end
