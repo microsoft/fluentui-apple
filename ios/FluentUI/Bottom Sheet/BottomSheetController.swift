@@ -21,7 +21,7 @@ public class BottomSheetController: UIViewController {
     /// - Parameters:
     ///   - headerContentView: Top part of the sheet content that is visible in both collapsed and expanded state.
     ///   - expandedContentView: Sheet content below the header which is only visible when the sheet is expanded.
-    ///   - dimsMainContent - Indicates if the main content should be dimmed when the sheet is expanded.
+    ///   - dimsMainContent - Indicates if the main content is dimmed when the sheet is expanded.
     @objc public init(headerContentView: UIView? = nil, expandedContentView: UIView, dimsMainContent: Bool = true) {
         self.headerContentView = headerContentView
         self.expandedContentView = expandedContentView
@@ -40,6 +40,7 @@ public class BottomSheetController: UIViewController {
     /// Sheet content below the header which is only visible when the sheet is expanded.
     @objc public let expandedContentView: UIView
 
+    /// Indicates if the main content is dimmed when the sheet is expanded.
     @objc public let dimsMainContent: Bool
 
     /// A scroll view in `expandedContentView`'s view hierarchy.
