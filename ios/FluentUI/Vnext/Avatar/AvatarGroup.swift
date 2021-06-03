@@ -49,15 +49,15 @@ public struct AvatarGroup: View {
                     .padding(.trailing, tokens.interspace)
             }
             if overflowCount > 0 {
-                createOverflow(count: Int(overflowCount))
+                createOverflow(count: Int(overflowCount), data: avatars.last)
             }
         }
     }
 
-    private func createOverflow(count: Int) -> AvatarView {
-        let overflow = MSFAvatarStateImpl()
-        overflow.primaryText = "\(count)"
-        return AvatarView(style: .overflow, size: tokens.size, state: overflow)
+    private func createOverflow(count: Int, data: MSFAvatarState?) -> AvatarView {
+        data?.primaryText = "\(count)"
+        data?.image = nil
+        return AvatarView(style: .overflow, size: tokens.size, state: data)
     }
 
     /// Cutout shape for the succeeding Avatar in an Avatar Group in Stack style.

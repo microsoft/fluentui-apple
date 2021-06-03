@@ -168,6 +168,31 @@ public struct AvatarView: View {
         self.tokens = state.tokens
     }
 
+    public init(style: MSFAvatarStyle,
+                size: MSFAvatarSize,
+                state: MSFAvatarState?) {
+        let avatarState = MSFAvatarStateImpl(style: style, size: size)
+
+        if let state = state {
+            avatarState.backgroundColor = state.backgroundColor
+            avatarState.foregroundColor = state.foregroundColor
+            avatarState.hasPointerInteraction = state.hasPointerInteraction
+            avatarState.hasRingInnerGap = state.hasRingInnerGap
+            avatarState.image = state.image
+            avatarState.imageBasedRingColor = state.imageBasedRingColor
+            avatarState.isOutOfOffice = state.isOutOfOffice
+            avatarState.isRingVisible = state.isRingVisible
+            avatarState.isTransparent = state.isTransparent
+            avatarState.presence = state.presence
+            avatarState.primaryText = state.primaryText
+            avatarState.ringColor = state.ringColor
+            avatarState.secondaryText = state.secondaryText
+            self.state = avatarState
+        }
+        self.state = avatarState
+        self.tokens = avatarState.tokens
+    }
+
     public var body: some View {
         let style = tokens.style
         let presence = state.presence
