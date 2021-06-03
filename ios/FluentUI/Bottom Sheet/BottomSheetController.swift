@@ -40,9 +40,6 @@ public class BottomSheetController: UIViewController {
     /// Sheet content below the header which is only visible when the sheet is expanded.
     @objc public let expandedContentView: UIView
 
-    /// Indicates if the main content is dimmed when the sheet is expanded.
-    @objc public let shouldShowDimmingView: Bool
-
     /// A scroll view in `expandedContentView`'s view hierarchy.
     /// Provide this to ensure the bottom sheet pan gesture recognizer coordinates with the scroll view to enable scrolling based on current bottom sheet position and content offset.
     @objc open var hostedScrollView: UIScrollView?
@@ -463,6 +460,8 @@ public class BottomSheetController: UIViewController {
     private var expandedOffsetFromBottom: CGFloat {
         return bottomSheetView.frame.height - view.safeAreaInsets.bottom
     }
+
+    private let shouldShowDimmingView: Bool
 
     private struct Constants {
         // Maximum offset beyond the normal bounds with additional resistance
