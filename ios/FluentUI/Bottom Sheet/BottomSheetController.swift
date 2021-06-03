@@ -82,7 +82,8 @@ public class BottomSheetController: UIViewController {
 
     // View hierarchy
     // self.view - BottomSheetPassthroughView (full overlay area)
-    // |--bottomSheetView (shadow)
+    // |--dimmingView (spans self.view)
+    // |--bottomSheetView (sheet shadow)
     // |  |--UIStackView (round corner mask)
     // |  |  |--resizingHandleView
     // |  |  |--headerContentView
@@ -91,12 +92,6 @@ public class BottomSheetController: UIViewController {
     public override func loadView() {
         view = BottomSheetPassthroughView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(bottomSheetView)
-
-        let overflowView = UIView()
-        overflowView.translatesAutoresizingMaskIntoConstraints = false
-        overflowView.backgroundColor = Colors.NavigationBar.background
-        view.addSubview(overflowView)
 
         if shouldShowDimmingView {
             view.addSubview(dimmingView)
@@ -108,8 +103,12 @@ public class BottomSheetController: UIViewController {
             ])
         }
 
-        view.bringSubviewToFront(bottomSheetView)
-        view.bringSubviewToFront(overflowView)
+        view.addSubview(bottomSheetView)
+
+        let overflowView = UIView()
+        overflowView.translatesAutoresizingMaskIntoConstraints = false
+        overflowView.backgroundColor = Colors.NavigationBar.background
+        view.addSubview(overflowView)
 
         NSLayoutConstraint.activate([
             bottomSheetView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
