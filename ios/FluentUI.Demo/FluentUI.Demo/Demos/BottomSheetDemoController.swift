@@ -45,6 +45,10 @@ class BottomSheetDemoController: UIViewController {
         bottomSheetViewController?.isExpandable.toggle()
     }
 
+    @objc private func toggleHidden() {
+        bottomSheetViewController?.isHidden.toggle()
+    }
+
     @objc private func fullScreenExpandedOffset() {
         bottomSheetViewController?.expandedHeightFraction = 1.0
     }
@@ -84,6 +88,7 @@ class BottomSheetDemoController: UIViewController {
     private lazy var demoOptionItems: [DemoItem] = {
         return [
             DemoItem(title: "Expandable", type: .boolean, action: #selector(toggleExpandable), isOn: true),
+            DemoItem(title: "Hidden", type: .boolean, action: #selector(toggleHidden), isOn: false),
             DemoItem(title: "Full screen expansion height", type: .action, action: #selector(fullScreenExpandedOffset)),
             DemoItem(title: "Half screen expansion height", type: .action, action: #selector(halfScreenExpandedOffset))
         ]

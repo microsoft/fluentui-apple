@@ -53,6 +53,42 @@ open class BottomCommandingController: UIViewController {
         }
     }
 
+    /// Indicates if the bottom commanding UI is hidden
+    ///
+    /// Changes to this property are animated.
+    @objc open var isHidden: Bool = false {
+        didSet {
+            if oldValue != isHidden && isViewLoaded {
+                if isInSheetMode {
+                    bottomSheetController?.isHidden = isHidden
+                } else if let bottomBarView = bottomBarView,
+                          let bottomConstraint = bottomBarViewBottomConstraint {
+                    if let animator = bottomBarHidingAnimator {
+                        animator.stopAnimation(true)
+                    }
+
+                    let springParams = UISpringTimingParameters(dampingRatio: Constants.BottomBar.hidingSpringDamping)
+                    let newAnimator = UIViewPropertyAnimator(duration: Constants.BottomBar.hidingSpringDuration, timingParameters: springParams)
+                    if isHidden {
+                        bottomConstraint.constant = -Constants.BottomBar.hiddenBottomOffset
+                        newAnimator.addCompletion { _ in
+                            bottomBarView.isHidden = true
+                        }
+                    } else {
+                        bottomBarView.isHidden = false
+                        bottomConstraint.constant = -Constants.BottomBar.bottomOffset
+                    }
+                    newAnimator.addAnimations { [weak self] in
+                        self?.view.layoutIfNeeded()
+                    }
+
+                    newAnimator.startAnimation()
+                    bottomBarHidingAnimator = newAnimator
+                }
+            }
+        }
+    }
+
     // MARK: - View building and layout
 
     public override func loadView() {
@@ -109,13 +145,17 @@ open class BottomCommandingController: UIViewController {
 
         let bottomBarView = makeBottomBarByEmbedding(contentView: commandContainer)
         bottomBarView.translatesAutoresizingMaskIntoConstraints = false
+        bottomBarView.isHidden = isHidden
         view.addSubview(bottomBarView)
+
+        let bottomConstraint = bottomBarView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: isHidden ? -Constants.BottomBar.hiddenBottomOffset : -Constants.BottomBar.bottomOffset)
 
         NSLayoutConstraint.activate([
             bottomBarView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            bottomBarView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constants.BottomBar.bottomOffset)
+            bottomConstraint
         ])
 
+        bottomBarViewBottomConstraint = bottomConstraint
         self.bottomBarView = bottomBarView
         updateExpandability()
     }
@@ -130,6 +170,7 @@ open class BottomCommandingController: UIViewController {
         let sheetController = BottomSheetController(headerContentView: commandStackContainer, expandedContentView: makeSheetExpandedContent(with: tableView))
         sheetController.hostedScrollView = tableView
         sheetController.expandedHeightFraction = Constants.BottomSheet.expandedFraction
+        sheetController.isHidden = isHidden
 
         addChild(sheetController)
         view.addSubview(sheetController.view)
@@ -397,6 +438,8 @@ open class BottomCommandingController: UIViewController {
 
     private var bottomBarView: UIView?
 
+    private var bottomBarViewBottomConstraint: NSLayoutConstraint?
+
     private var bottomSheetController: BottomSheetController?
 
     private var isHeroCommandStackLoaded: Bool = false
@@ -418,6 +461,8 @@ open class BottomCommandingController: UIViewController {
     private var heroCommandWidthConstraints: [NSLayoutConstraint] {
         heroItems.compactMap { (itemToBindingMap[$0] as? HeroItemBindingInfo)?.widthConstraint }
     }
+
+    private var bottomBarHidingAnimator: UIViewPropertyAnimator?
 
     private enum ItemLocation {
         case heroSet
@@ -457,8 +502,12 @@ open class BottomCommandingController: UIViewController {
             static let backgroundColor: UIColor = Colors.NavigationBar.background
 
             static let bottomOffset: CGFloat = 10
+            static let hiddenBottomOffset: CGFloat = -110
             static let heroStackLeadingTrailingMargin: CGFloat = 8
             static let heroStackTopBottomMargin: CGFloat = 16
+
+            static let hidingSpringDuration: TimeInterval = 0.4
+            static let hidingSpringDamping: CGFloat = 1.0
 
             static let moreButtonIcon: UIImage? = UIImage.staticImageNamed("more-24x24")
             static let moreButtonTitle: String = "CommandingBottomBar.More".localized
