@@ -167,7 +167,7 @@ open class BottomCommandingController: UIViewController {
         let commandStackContainer = UIView()
         commandStackContainer.addSubview(heroCommandStack)
 
-        let sheetController = BottomSheetController(headerContentView: commandStackContainer, expandedContentView: expandedContentView)
+        let sheetController = BottomSheetController(headerContentView: commandStackContainer, expandedContentView: makeSheetExpandedContent(with: tableView))
         sheetController.hostedScrollView = tableView
         sheetController.expandedHeightFraction = Constants.BottomSheet.expandedFraction
         sheetController.isHidden = isHidden
@@ -226,29 +226,23 @@ open class BottomCommandingController: UIViewController {
         return bottomBarView
     }
 
-    private func makeBottomSheetContent(headerView: UIView, expandedContentView: UIView) -> UIView {
+    private func makeSheetExpandedContent(with tableView: UITableView) -> UIView {
         let view = UIView()
         let separator = Separator()
         separator.translatesAutoresizingMaskIntoConstraints = false
-        headerView.translatesAutoresizingMaskIntoConstraints = false
-        expandedContentView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.translatesAutoresizingMaskIntoConstraints = false
 
-        view.addSubview(headerView)
-        view.addSubview(expandedContentView)
+        view.addSubview(tableView)
         view.addSubview(separator)
         NSLayoutConstraint.activate([
-            headerView.topAnchor.constraint(equalTo: view.topAnchor),
-            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            expandedContentView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
-            expandedContentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            expandedContentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            expandedContentView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            separator.topAnchor.constraint(equalTo: expandedContentView.topAnchor),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.BottomSheet.expandedContentTopMargin),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            separator.topAnchor.constraint(equalTo: tableView.topAnchor),
             separator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             separator.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
-
         return view
     }
 
@@ -291,26 +285,6 @@ open class BottomCommandingController: UIViewController {
         return stackView
     }()
 
-    private lazy var expandedContentView: UIView = {
-        let view = UIView()
-        let separator = Separator()
-        separator.translatesAutoresizingMaskIntoConstraints = false
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-
-        view.addSubview(tableView)
-        view.addSubview(separator)
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.BottomSheet.expandedContentTopMargin),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            separator.topAnchor.constraint(equalTo: tableView.topAnchor),
-            separator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            separator.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-        return view
-    }()
-
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -344,9 +318,16 @@ open class BottomCommandingController: UIViewController {
 
     @objc private func handleMoreButtonTap(_ sender: UITapGestureRecognizer) {
         let popoverContentViewController = UIViewController()
-        popoverContentViewController.view = tableView
+        popoverContentViewController.view.addSubview(tableView)
         popoverContentViewController.modalPresentationStyle = .popover
         popoverContentViewController.popoverPresentationController?.sourceView = sender.view
+
+        NSLayoutConstraint.activate([
+            tableView.leadingAnchor.constraint(equalTo: popoverContentViewController.view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: popoverContentViewController.view.trailingAnchor),
+            tableView.topAnchor.constraint(equalTo: popoverContentViewController.view.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: popoverContentViewController.view.bottomAnchor)
+        ])
 
         present(popoverContentViewController, animated: true)
     }
