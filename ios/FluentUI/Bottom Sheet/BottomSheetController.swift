@@ -403,7 +403,7 @@ public class BottomSheetController: UIViewController {
                 }
 
                 if shouldShowDimmingView {
-                    let targetDimmingViewAlpha: CGFloat = targetExpansionState == .collapsed ? 0.0 : 1.0
+                    let targetDimmingViewAlpha: CGFloat = targetExpansionState == .expanded ? 1.0 : 0.0
                     translationAnimator.addAnimations {
                         self.dimmingView.alpha = targetDimmingViewAlpha
                     }
