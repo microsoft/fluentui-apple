@@ -322,10 +322,10 @@ open class TableViewCell: UITableViewCell {
         let textAreaLeadingOffset = self.textAreaLeadingOffset(customViewSize: customViewSize, isInSelectionMode: isInSelectionMode, paddingLeading: paddingLeading)
         let textAreaTrailingOffset = self.textAreaTrailingOffset(customAccessoryView: customAccessoryView, customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge, accessoryType: accessoryType, paddingTrailing: paddingTrailing)
         var textAreaWidth = containerWidth - (textAreaLeadingOffset + textAreaTrailingOffset)
-        if let customAccessoryView = customAccessoryView {
+        if textAreaWidth < Constants.textAreaMinWidth, let customAccessoryView = customAccessoryView {
             let oldAccessoryViewWidth = customAccessoryView.frame.width
             let availableWidth = oldAccessoryViewWidth - (Constants.textAreaMinWidth - textAreaWidth)
-            customAccessoryView.frame.size = customAccessoryView.systemLayoutSizeFitting(CGSize(width: availableWidth, height: customAccessoryView.frame.size.height))
+            customAccessoryView.frame.size = customAccessoryView.systemLayoutSizeFitting(CGSize(width: availableWidth, height: .infinity))
             textAreaWidth += oldAccessoryViewWidth - customAccessoryView.frame.width
         }
 
@@ -790,8 +790,12 @@ open class TableViewCell: UITableViewCell {
             if isInSelectionMode && isEnabled {
                 return "Accessibility.MultiSelect.Hint".localized
             }
-            if customAccessoryView is UISwitch {
-                return "Accessibility.TableViewCell.Switch.Hint".localized
+            if let customSwitch = customAccessoryView as? UISwitch {
+                if isEnabled && customSwitch.isEnabled {
+                  return "Accessibility.TableViewCell.Switch.Hint".localized
+                } else {
+                    return nil
+                }
             }
             return super.accessibilityHint
         }

@@ -346,3 +346,17 @@ AP_MSFDrawerTokens:
   cornerRadius: $Border.radius.xxLarge
   verticalShadowOffset: $Spacing.xSmall
   horizontalShadowOffset: $Spacing.small
+
+AP_MSFPersonaGridItemTokens:
+  avatarInterspace: [ small: $Spacing.xSmall, large: $Spacing.small ]
+  backgroundColor: $Colors.Background.neutral1
+  bottomPadding: $Spacing.xSmall
+  labelColor: $Colors.Foreground.neutral1
+  labelFont: [ small: $Typography.body, large: $Typography.body ]
+  sublabelColor: $Colors.Foreground.neutral3
+  sublabelFont: $Typography.subheadline
+  topPadding: $Spacing.xSmall
+
+AP_MSFPersonaGridTokens:
+  backgroundColor: $Colors.Background.neutral1
+  itemHorizontalInterspace: $Spacing.medium
