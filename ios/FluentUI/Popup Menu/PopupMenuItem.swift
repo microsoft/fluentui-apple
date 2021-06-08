@@ -50,7 +50,7 @@ open class PopupMenuItem: NSObject, PopupMenuTemplateItem {
     @objc public let isAccessoryCheckmarkVisible: Bool
 
     @objc public init(image: UIImage? = nil, selectedImage: UIImage? = nil, accessoryImage: UIImage? = nil, title: String, subtitle: String? = nil, accessoryView: UIView? = nil, isEnabled: Bool = true, isSelected: Bool = false, executes executionMode: ExecutionMode = .onSelection, onSelected: (() -> Void)? = nil, isAccessoryCheckmarkVisible: Bool = true) {
-        self.cellClass = PopupMenuItemCell.self
+        self.cellClass = PopupMenuLegacyItemCell.self
         self.image = image?.renderingMode == .automatic ? image?.withRenderingMode(.alwaysTemplate) : image
         self.selectedImage = selectedImage ?? image?.withRenderingMode(.alwaysTemplate)
         self.accessoryImage = accessoryImage

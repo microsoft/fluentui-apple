@@ -346,3 +346,7 @@ AP_MSFDrawerTokens:
   cornerRadius: $Border.radius.xxLarge
   verticalShadowOffset: $Spacing.xSmall
   horizontalShadowOffset: $Spacing.small
+
+AP_MSFPopupMenuItemCellTokens:
+  selectionColor: $Colors.Foreground.brandHover
+  disabledColor: $Colors.Background.neutralDisabled

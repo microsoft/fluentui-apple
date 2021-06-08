@@ -192,8 +192,8 @@ open class PopupMenuController: DrawerController {
         label.numberOfLines = 0
         return label
     }()
-    private let headerView: PopupMenuItemCell = {
-        let view = PopupMenuItemCell(frame: .zero)
+    private let headerView: PopupMenuLegacyItemCell = {
+        let view = PopupMenuLegacyItemCell(frame: .zero)
         view.isHeader = true
         view.isHidden = true
         return view
@@ -264,7 +264,7 @@ open class PopupMenuController: DrawerController {
         tableView.alwaysBounceVertical = false
         tableView.isAccessibilityElement = true
 
-        tableView.register(PopupMenuItemCell.self, forCellReuseIdentifier: PopupMenuItemCell.identifier)
+        tableView.register(PopupMenuLegacyItemCell.self, forCellReuseIdentifier: PopupMenuLegacyItemCell.identifier)
         tableView.register(PopupMenuSectionHeaderView.self, forHeaderFooterViewReuseIdentifier: PopupMenuSectionHeaderView.identifier)
         tableView.delegate = self
         tableView.dataSource = self

@@ -5,7 +5,7 @@
 
 import UIKit
 
-class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
+class PopupMenuLegacyItemCell: TableViewCell, PopupMenuItemTemplateCell {
 
     var customSeparatorColor: UIColor? {
         didSet {

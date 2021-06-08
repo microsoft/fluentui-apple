@@ -20,6 +20,12 @@
 		22010B702523CB2D00FF1F10 /* ActivityViewAnimating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22010B6F2523CB2D00FF1F10 /* ActivityViewAnimating.swift */; };
 		22EABB1A2509AAD100C4BE72 /* IndeterminateProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EABB192509AAD100C4BE72 /* IndeterminateProgressBarView.swift */; };
 		3F40E8EE2601CD4500C43730 /* MSFDrawerTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40E8ED2601CD4400C43730 /* MSFDrawerTokens.generated.swift */; };
+		3F73AC2C26699B6000969A9D /* PopupMenuItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F73AC2A26699B6000969A9D /* PopupMenuItemCell.swift */; };
+		3F73AC2D26699B6000969A9D /* PopupMenuItemCellTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F73AC2B26699B6000969A9D /* PopupMenuItemCellTokens.swift */; };
+		3F73AC2E26699B6700969A9D /* PopupMenuItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F73AC2A26699B6000969A9D /* PopupMenuItemCell.swift */; };
+		3F73AC2F26699B6A00969A9D /* PopupMenuItemCellTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F73AC2B26699B6000969A9D /* PopupMenuItemCellTokens.swift */; };
+		3F73AC31266EBBF700969A9D /* MSFPopupMenuItemCellTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F73AC30266EBBF700969A9D /* MSFPopupMenuItemCellTokens.generated.swift */; };
+		3F73AC32266EBBF700969A9D /* MSFPopupMenuItemCellTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F73AC30266EBBF700969A9D /* MSFPopupMenuItemCellTokens.generated.swift */; };
 		3F82A4B12604069100CAC666 /* MSFDrawerTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40E8ED2601CD4400C43730 /* MSFDrawerTokens.generated.swift */; };
 		3FC2EDB325F9EA2D007AA0F8 /* MSFDrawerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC2EDB125F9EA2D007AA0F8 /* MSFDrawerTokens.swift */; };
 		3FC2EDB425F9EA2D007AA0F8 /* MSFDrawerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC2EDB125F9EA2D007AA0F8 /* MSFDrawerTokens.swift */; };
@@ -97,7 +103,7 @@
 		5314E12A25F016230099271A /* PillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D824185885008D86F8 /* PillButton.swift */; };
 		5314E12B25F016230099271A /* PillButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D724185885008D86F8 /* PillButtonBar.swift */; };
 		5314E13425F016370099271A /* PopupMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961F9E218A256B00E2A506 /* PopupMenuItem.swift */; };
-		5314E13525F016370099271A /* PopupMenuItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA2218A25D100E2A506 /* PopupMenuItemCell.swift */; };
+		5314E13525F016370099271A /* PopupMenuLegacyItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA2218A25D100E2A506 /* PopupMenuLegacyItemCell.swift */; };
 		5314E13625F016370099271A /* PopupMenuSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA4218A260500E2A506 /* PopupMenuSectionHeaderView.swift */; };
 		5314E13725F016370099271A /* PopupMenuProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */; };
 		5314E13825F016370099271A /* PopupMenuSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA0218A25C400E2A506 /* PopupMenuSection.swift */; };
@@ -238,7 +244,7 @@
 		A5961F9D218A254D00E2A506 /* PopupMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961F9C218A254D00E2A506 /* PopupMenuController.swift */; };
 		A5961F9F218A256B00E2A506 /* PopupMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961F9E218A256B00E2A506 /* PopupMenuItem.swift */; };
 		A5961FA1218A25C400E2A506 /* PopupMenuSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA0218A25C400E2A506 /* PopupMenuSection.swift */; };
-		A5961FA3218A25D100E2A506 /* PopupMenuItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA2218A25D100E2A506 /* PopupMenuItemCell.swift */; };
+		A5961FA3218A25D100E2A506 /* PopupMenuLegacyItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA2218A25D100E2A506 /* PopupMenuLegacyItemCell.swift */; };
 		A5961FA5218A260500E2A506 /* PopupMenuSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA4218A260500E2A506 /* PopupMenuSectionHeaderView.swift */; };
 		A5961FA7218A2E4500E2A506 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA6218A2E4500E2A506 /* UIImage+Extensions.swift */; };
 		A5B6617323A41E2900E801DD /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B6617223A41E2900E801DD /* NotificationView.swift */; };
@@ -386,6 +392,9 @@
 		22010B6F2523CB2D00FF1F10 /* ActivityViewAnimating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewAnimating.swift; sourceTree = "<group>"; };
 		22EABB192509AAD100C4BE72 /* IndeterminateProgressBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarView.swift; sourceTree = "<group>"; };
 		3F40E8ED2601CD4400C43730 /* MSFDrawerTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFDrawerTokens.generated.swift; sourceTree = "<group>"; };
+		3F73AC2A26699B6000969A9D /* PopupMenuItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupMenuItemCell.swift; sourceTree = "<group>"; };
+		3F73AC2B26699B6000969A9D /* PopupMenuItemCellTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupMenuItemCellTokens.swift; sourceTree = "<group>"; };
+		3F73AC30266EBBF700969A9D /* MSFPopupMenuItemCellTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFPopupMenuItemCellTokens.generated.swift; sourceTree = "<group>"; };
 		3FC2EDB125F9EA2D007AA0F8 /* MSFDrawerTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFDrawerTokens.swift; sourceTree = "<group>"; };
 		497DC2D724185885008D86F8 /* PillButtonBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBar.swift; sourceTree = "<group>"; };
 		497DC2D824185885008D86F8 /* PillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
@@ -451,7 +460,7 @@
 		A5961F9C218A254D00E2A506 /* PopupMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuController.swift; sourceTree = "<group>"; };
 		A5961F9E218A256B00E2A506 /* PopupMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuItem.swift; sourceTree = "<group>"; };
 		A5961FA0218A25C400E2A506 /* PopupMenuSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuSection.swift; sourceTree = "<group>"; };
-		A5961FA2218A25D100E2A506 /* PopupMenuItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuItemCell.swift; sourceTree = "<group>"; };
+		A5961FA2218A25D100E2A506 /* PopupMenuLegacyItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuLegacyItemCell.swift; sourceTree = "<group>"; };
 		A5961FA4218A260500E2A506 /* PopupMenuSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuSectionHeaderView.swift; sourceTree = "<group>"; };
 		A5961FA6218A2E4500E2A506 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		A5B6617223A41E2900E801DD /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
@@ -676,6 +685,16 @@
 			path = "Tab Bar";
 			sourceTree = "<group>";
 		};
+		3F73AC29266993BC00969A9D /* Popup Menu */ = {
+			isa = PBXGroup;
+			children = (
+				3F73AC30266EBBF700969A9D /* MSFPopupMenuItemCellTokens.generated.swift */,
+				3F73AC2A26699B6000969A9D /* PopupMenuItemCell.swift */,
+				3F73AC2B26699B6000969A9D /* PopupMenuItemCellTokens.swift */,
+			);
+			path = "Popup Menu";
+			sourceTree = "<group>";
+		};
 		497DC2D62418585D008D86F8 /* Pill Button Bar */ = {
 			isa = PBXGroup;
 			children = (
@@ -804,6 +823,7 @@
 		536AEF2125F1EC0300A36206 /* Vnext */ = {
 			isa = PBXGroup;
 			children = (
+				3F73AC29266993BC00969A9D /* Popup Menu */,
 				536DD9F1264C4AB000CD41B5 /* ActivityIndicator */,
 				536AEF3B25F1EC0300A36206 /* Avatar */,
 				536AEF2E25F1EC0300A36206 /* Button */,
@@ -909,7 +929,7 @@
 				A5961F9C218A254D00E2A506 /* PopupMenuController.swift */,
 				A5961F9E218A256B00E2A506 /* PopupMenuItem.swift */,
 				A5961FA0218A25C400E2A506 /* PopupMenuSection.swift */,
-				A5961FA2218A25D100E2A506 /* PopupMenuItemCell.swift */,
+				A5961FA2218A25D100E2A506 /* PopupMenuLegacyItemCell.swift */,
 				A5961FA4218A260500E2A506 /* PopupMenuSectionHeaderView.swift */,
 				0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */,
 			);
@@ -1602,7 +1622,7 @@
 				5314E19625F019650099271A /* TabBarView.swift in Sources */,
 				C708B05F260A8778007190FA /* SegmentPillButton.swift in Sources */,
 				5314E11925F015EA0099271A /* ContactCollectionView.swift in Sources */,
-				5314E13525F016370099271A /* PopupMenuItemCell.swift in Sources */,
+				5314E13525F016370099271A /* PopupMenuLegacyItemCell.swift in Sources */,
 				5314E2A025F024860099271A /* NSLayoutConstraint+Extensions.swift in Sources */,
 				5314E26625F023B20099271A /* UIColor+Extensions.swift in Sources */,
 				5314E30225F0260E0099271A /* AccessibilityContainerView.swift in Sources */,
@@ -1648,6 +1668,7 @@
 				5314E01625F00CF70099271A /* BarButtonItems.swift in Sources */,
 				5314E25425F023650099271A /* UIImage+Extensions.swift in Sources */,
 				5314E22725F022310099271A /* UITableViewCell+Extension.swift in Sources */,
+				3F73AC32266EBBF700969A9D /* MSFPopupMenuItemCellTokens.generated.swift in Sources */,
 				5314E0E625F012C00099271A /* UIViewController+Navigation.swift in Sources */,
 				5314E29725F024760099271A /* String+Extension.swift in Sources */,
 				5314E12925F016230099271A /* PillButtonStyle.swift in Sources */,
@@ -1676,6 +1697,7 @@
 				C77A04EE25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift in Sources */,
 				5314E09E25F00FE20099271A /* DotView.swift in Sources */,
 				536AEF6625F1EC0300A36206 /* MSFListTokens.generated.swift in Sources */,
+				3F73AC2E26699B6700969A9D /* PopupMenuItemCell.swift in Sources */,
 				5314E1A525F01A7C0099271A /* TableViewCell.swift in Sources */,
 				5314E09525F00FA30099271A /* DimmingView.swift in Sources */,
 				5314E11825F015EA0099271A /* PeoplePicker.swift in Sources */,
@@ -1714,6 +1736,7 @@
 				5314E0BD25F0106F0099271A /* HUD.swift in Sources */,
 				5314E06A25F00F100099271A /* GenericDateTimePicker.swift in Sources */,
 				5314E06025F00EFD0099271A /* CalendarViewWeekdayHeadingView.swift in Sources */,
+				3F73AC2F26699B6A00969A9D /* PopupMenuItemCellTokens.swift in Sources */,
 				5314E05A25F00EF50099271A /* CalendarViewLayout.swift in Sources */,
 				536AEF5425F1EC0300A36206 /* MSFButtonTokens.generated.swift in Sources */,
 				0ACD82122620451F0035CD9F /* MSFPersonaViewTokens.generated.swift in Sources */,
@@ -1727,7 +1750,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A5961FA3218A25D100E2A506 /* PopupMenuItemCell.swift in Sources */,
+				A5961FA3218A25D100E2A506 /* PopupMenuLegacyItemCell.swift in Sources */,
 				536AEF5525F1EC0300A36206 /* ButtonTokens.swift in Sources */,
 				FD599D0221348439008845EE /* CalendarView.swift in Sources */,
 				A559BB83212B7D870055E107 /* FluentUIFramework.swift in Sources */,
@@ -1821,6 +1844,7 @@
 				FD9A5C872179464F00D224D9 /* DateComponents+Extensions.swift in Sources */,
 				A5B87AF7211E16370038C37C /* DrawerTransitionAnimator.swift in Sources */,
 				C0A0D76D233AEF6C00F432FD /* ShimmerAppearance.swift in Sources */,
+				3F73AC31266EBBF700969A9D /* MSFPopupMenuItemCellTokens.generated.swift in Sources */,
 				B46D3F932151D95F0029772C /* PersonaCell.swift in Sources */,
 				B444D6B12181403C0002B4D4 /* UITableViewCell+Extension.swift in Sources */,
 				FD777529219E3F6C00033D58 /* DayOfMonth.swift in Sources */,
@@ -1849,6 +1873,7 @@
 				C0A0D76F233AEF6C00F432FD /* ShimmerLinesViewAppearance.swift in Sources */,
 				C77A04ED25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift in Sources */,
 				FD256C5B2183B90B00EC9588 /* DatePickerSelectionManager.swift in Sources */,
+				3F73AC2C26699B6000969A9D /* PopupMenuItemCell.swift in Sources */,
 				536AEF6525F1EC0300A36206 /* MSFListTokens.generated.swift in Sources */,
 				86AF4F7525AFC746005D4253 /* PillButtonStyle.swift in Sources */,
 				ECEBA8FC25EDF3380048EE24 /* SegmentedControl.swift in Sources */,
@@ -1887,6 +1912,7 @@
 				A5F3B146232B1E3700007A4F /* ScrollView.swift in Sources */,
 				B46D3F9D215985AC0029772C /* PersonaListView.swift in Sources */,
 				7DC2FB2824C0ED1600367A55 /* TableViewCellFileAccessoryView.swift in Sources */,
+				3F73AC2D26699B6000969A9D /* PopupMenuItemCellTokens.swift in Sources */,
 				A5DCA76421224026005F4CB7 /* Separator.swift in Sources */,
 				536AEF5325F1EC0300A36206 /* MSFButtonTokens.generated.swift in Sources */,
 				0ACD82112620451F0035CD9F /* MSFPersonaViewTokens.generated.swift in Sources */,
