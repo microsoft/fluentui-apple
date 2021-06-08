@@ -10,6 +10,7 @@
 		114CF8B82423E10900D064AA /* ColorDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114CF8B72423E10900D064AA /* ColorDemoController.swift */; };
 		22EABB182509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EABB172509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift */; };
 		2F0A96FC25CA047100EF9736 /* SearchBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0A96FB25CA047100EF9736 /* SearchBarDemoController.swift */; };
+		3F73AC34266ED3CE00969A9D /* PopupMenuListDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F73AC33266ED3CE00969A9D /* PopupMenuListDemoController.swift */; };
 		497DC2DE24185896008D86F8 /* PillButtonBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */; };
 		53224AC225D65D220063FBDB /* LeftNavDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53224AC125D65D220063FBDB /* LeftNavDemoController.swift */; };
 		532854F825A3C70C0042C3B9 /* ThemingDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532854F725A3C70C0042C3B9 /* ThemingDemoController.swift */; };
@@ -86,6 +87,7 @@
 		22EABB172509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarDemoController.swift; sourceTree = "<group>"; };
 		2F0A96FB25CA047100EF9736 /* SearchBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBarDemoController.swift; sourceTree = "<group>"; };
 		3D3224A9AADF58C324059464 /* Pods-FluentUI.Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluentUI.Demo.release.xcconfig"; path = "Target Support Files/Pods-FluentUI.Demo/Pods-FluentUI.Demo.release.xcconfig"; sourceTree = "<group>"; };
+		3F73AC33266ED3CE00969A9D /* PopupMenuListDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuListDemoController.swift; sourceTree = "<group>"; };
 		497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBarDemoController.swift; sourceTree = "<group>"; };
 		53224AC125D65D220063FBDB /* LeftNavDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftNavDemoController.swift; sourceTree = "<group>"; };
 		532854F725A3C70C0042C3B9 /* ThemingDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemingDemoController.swift; sourceTree = "<group>"; };
@@ -321,6 +323,7 @@
 				B4EF66532295F1A8007FEAB0 /* TableViewHeaderFooterViewDemoController.swift */,
 				532854F725A3C70C0042C3B9 /* ThemingDemoController.swift */,
 				FD7DF06121FB941400857267 /* TooltipDemoController.swift */,
+				3F73AC33266ED3CE00969A9D /* PopupMenuListDemoController.swift */,
 			);
 			path = Demos;
 			sourceTree = "<group>";
@@ -533,6 +536,7 @@
 				114CF8B82423E10900D064AA /* ColorDemoController.swift in Sources */,
 				A589F856211BA71000471C23 /* LabelDemoController.swift in Sources */,
 				B4D852D922580661004B1B29 /* ActivityIndicatorViewDemoController.swift in Sources */,
+				3F73AC34266ED3CE00969A9D /* PopupMenuListDemoController.swift in Sources */,
 				E6842996247C350700A29C40 /* DemoColorThemeWindows.swift in Sources */,
 				53F7385F257760B60043071D /* ObjectiveCDemoController.m in Sources */,
 				A5CEC21020E436F10016922A /* AppDelegate.swift in Sources */,
