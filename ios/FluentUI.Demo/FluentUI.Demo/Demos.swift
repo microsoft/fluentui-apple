@@ -12,6 +12,7 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("Button (Vnext)", ButtonDemoController.self),
     ("LeftNav (Vnext)", LeftNavDemoController.self),
     ("List (Vnext)", ListDemoController.self),
+    ("PersonaGrid (Vnext)", PersonaGridDemoController.self),
     ("Theming (Vnext)", ThemingDemoController.self),
     ("ActivityIndicatorView", ActivityIndicatorViewDemoController.self),
     ("AvatarGroupView", AvatarGroupViewDemoController.self),
