@@ -3,7 +3,7 @@
 //  Licensed under the MIT License.
 //
 
-import Foundation
+import UIKit
 
 /// Pre-defined sizes of the avatar
 @objc public enum MSFPersonaGridSize: Int, CaseIterable {
