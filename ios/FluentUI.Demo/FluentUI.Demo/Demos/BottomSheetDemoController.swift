@@ -45,6 +45,10 @@ class BottomSheetDemoController: UIViewController {
         bottomSheetViewController?.isExpandable.toggle()
     }
 
+    @objc private func toggleHidden() {
+        bottomSheetViewController?.isHidden.toggle()
+    }
+
     @objc private func fullScreenExpandedOffset() {
         bottomSheetViewController?.expandedHeightFraction = 1.0
     }
@@ -63,7 +67,7 @@ class BottomSheetDemoController: UIViewController {
 
     private let headerView: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.gray100
+        view.backgroundColor = Colors.surfaceQuaternary
         view.heightAnchor.constraint(equalToConstant: headerHeight).isActive = true
 
         let label = Label()
@@ -84,6 +88,7 @@ class BottomSheetDemoController: UIViewController {
     private lazy var demoOptionItems: [DemoItem] = {
         return [
             DemoItem(title: "Expandable", type: .boolean, action: #selector(toggleExpandable), isOn: true),
+            DemoItem(title: "Hidden", type: .boolean, action: #selector(toggleHidden), isOn: false),
             DemoItem(title: "Full screen expansion height", type: .action, action: #selector(fullScreenExpandedOffset)),
             DemoItem(title: "Half screen expansion height", type: .action, action: #selector(halfScreenExpandedOffset))
         ]
