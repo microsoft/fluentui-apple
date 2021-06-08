@@ -38,6 +38,19 @@ To integrate FluentUI into your Xcode project using CocoaPods, specify it in you
 pod 'MicrosoftFluentUI', '~> X.X.X'
 ```
 
+
+If you are using Apple Silicon M1 machine then you need to install `ffi` in addition to cocoapods
+
+```bash
+sudo arch -x86_64 gem install ffi
+```
+
+To execute any pod command on M1 machine you need to specify the architecture of the machine explicitly
+
+```bash
+arch -x86_64 pod lib lint
+```
+
 #### Manual installation
 
 - Download the latest changes from the [FluentUI for Apple](https://github.com/microsoft/fluentui-apple) repository.
