@@ -352,9 +352,9 @@ AP_MSFPersonaGridItemTokens:
   backgroundColor: $Colors.Background.neutral1
   bottomPadding: $Spacing.xSmall
   labelColor: $Colors.Foreground.neutral1
-  labelFont: [ small: $Typography.body, large: $Typography.body ]
+  labelFont: [ small: $Typography.caption1, large: $Typography.subheadline ]
   sublabelColor: $Colors.Foreground.neutral3
-  sublabelFont: $Typography.subheadline
+  sublabelFont: $Typography.footnote
   topPadding: $Spacing.xSmall
 
 AP_MSFPersonaGridTokens:

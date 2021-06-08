@@ -64,12 +64,12 @@ extension FluentUIStyle {
 
 			// MARK: - large 
 			open var large: UIFont {
-				return mainProxy().Typography.body
+				return mainProxy().Typography.subheadline
 			}
 
 			// MARK: - small 
 			open var small: UIFont {
-				return mainProxy().Typography.body
+				return mainProxy().Typography.caption1
 			}
 		}
 
@@ -81,7 +81,7 @@ extension FluentUIStyle {
 
 		// MARK: - sublabelFont 
 		open var sublabelFont: UIFont {
-			return mainProxy().Typography.subheadline
+			return mainProxy().Typography.footnote
 		}
 
 		// MARK: - topPadding 
