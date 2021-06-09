@@ -10,6 +10,7 @@ import SwiftUI
 
 public class PopupMenuItemCellState: MSFListCellState {
 
+	// Set/Unset selection for item cell
 	@objc @Published public var isSelected: Bool = false {
 		didSet {
 			if isSelected {
@@ -27,6 +28,8 @@ public class PopupMenuItemCellState: MSFListCellState {
 			}
 		}
 	}
+	
+	// Disable selection for cell
 	@objc @Published public var isDisabled: Bool = false {
 		didSet {
 			if isDisabled {
