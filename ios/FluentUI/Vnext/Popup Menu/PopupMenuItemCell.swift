@@ -14,8 +14,16 @@ public class PopupMenuItemCellState: MSFListCellState {
 		didSet {
 			if isSelected {
 				leadingUIView?.tintColor = cellTokens.selectionColor
+				tokens.labelColor = cellTokens.selectionColor
+				tokens.sublabelColor = cellTokens.selectionColor
+				tokens.trailingItemForegroundColor = cellTokens.selectionColor
+				accessoryType = .checkmark
 			} else {
 				leadingUIView?.tintColor = nil
+				tokens.labelColor = cellTokens.labelColor
+				tokens.sublabelColor = cellTokens.sublabelColor
+				tokens.trailingItemForegroundColor = cellTokens.trailingItemForegroundColor
+				accessoryType = .none
 			}
 		}
 	}
@@ -23,13 +31,26 @@ public class PopupMenuItemCellState: MSFListCellState {
 		didSet {
 			if isDisabled {
 				leadingUIView?.tintColor = cellTokens.disabledColor
+				tokens.labelColor = cellTokens.disabledColor
+				tokens.sublabelColor = cellTokens.disabledColor
+				self.action = onTapAction
+				onTapAction = {}
 			} else {
 				leadingUIView?.tintColor = nil
+				tokens.labelColor = cellTokens.labelColor
+				tokens.sublabelColor = cellTokens.sublabelColor
+
+				// restore action
+				if self.action != nil {
+					self.onTapAction = self.action
+				}
 			}
 		}
 	}
 
 	var cellTokens: MSFPopupMenuItemCellTokens = MSFPopupMenuItemCellTokens()
+
+	private var action: (() -> Void)?
 }
 
 // MARK: - View
@@ -38,17 +59,19 @@ public struct PopupMenuItemCell: View {
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     @ObservedObject var state: PopupMenuItemCellState
+	@ObservedObject var tokens: MSFCellBaseTokens
 
 	public init(state: PopupMenuItemCellState) {
 		self.state = state
+		self.tokens = state.tokens
     }
 
-    public var body: some View {
-        MSFListCellView(state: state)
-			.designTokens(state.tokens,
-                          from: theme,
-                          with: windowProvider)
-    }
+	public var body: some View {
+		MSFListCellView(state: state)
+			.designTokens(tokens,
+						  from: theme,
+						  with: windowProvider)
+	}
 }
 
 // MARK: - View + UiKit
@@ -86,24 +109,3 @@ public struct PopupMenuItemCell: View {
 
     private var menuItemCell: PopupMenuItemCell!
 }
-
-#if DEBUG
-struct ContentView_Previews: PreviewProvider {
-
-	static var cellState: PopupMenuItemCellState {
-		let cell = PopupMenuItemCellState()
-		cell.title = "Open"
-		cell.subtitle = "Open document"
-		let addAccountImageView = UIImageView(image: UIImage(systemName: "arrow.up.message.fill"))
-		cell.leadingUIView = addAccountImageView
-		cell.isSelected = true
-		return cell
-	}
-
-	static var previews: some View {
-		List {
-			PopupMenuItemCell(state: cellState)
-		}
-	}
-}
-#endif
