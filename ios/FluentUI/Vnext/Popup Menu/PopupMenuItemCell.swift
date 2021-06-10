@@ -28,7 +28,7 @@ public class PopupMenuItemCellState: MSFListCellState {
 			}
 		}
 	}
-	
+
 	// Disable selection for cell
 	@objc @Published public var isDisabled: Bool = false {
 		didSet {
