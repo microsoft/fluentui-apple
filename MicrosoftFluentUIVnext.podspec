@@ -88,6 +88,18 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
     personaView_ios.source_files = ["ios/FluentUI/Vnext/Persona/**/*.{swift,h}"]
   end
 
+  s.subspec 'PersonaBadge_ios' do |personaBadge_ios|
+    personaBadge_ios.platform = :ios
+    personaBadge_ios.dependency 'MicrosoftFluentUIVnext/Avatar_ios'
+    personaBadge_ios.source_files = ["ios/FluentUI/Vnext/PersonaBadge/**/*.{swift,h}"]
+  end
+
+  s.subspec 'PersonaBadgeCollection_ios' do |personaBadgeCollection_ios|
+    personaBadgeCollection_ios_ios.platform = :ios
+    personaBadgeCollection_ios_ios.dependency 'MicrosoftFluentUIVnext/PersonaBadge_ios'
+    personaBadgeCollection_ios_ios.source_files = ["ios/FluentUI/Vnext/PersonaBadgeCollection/**/*.{swift,h}"]
+  end
+
   s.subspec 'Obscurable_ios' do |obscurable_ios|
     obscurable_ios.platform = :ios
     obscurable_ios.dependency 'MicrosoftFluentUIVnext/Core_ios'

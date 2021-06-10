@@ -5,9 +5,9 @@
 
 import SwiftUI
 
-struct PersonaGrid: View {
+struct PersonaBadgeCollection: View {
     var body: some View {
-        // TODO: Create PersonaGrid
+        // TODO: Create PersonaBadgeCollection
         Text("Hello, World!")
     }
 }

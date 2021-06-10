@@ -5,25 +5,25 @@
 
 import SwiftUI
 
-/// `MSFPersonaGridItemState` contains PersonaGridItem properties in addition to a subset of the MSFAvatarState protocol.
+/// `MSFPersonaBadgeState` contains PersonaBadge properties in addition to a subset of the MSFAvatarState protocol.
 ///
-/// `onTapAction` provides tap gesture for PersonaGridItem.
+/// `onTapAction` provides tap gesture for PersonaBadge.
 ///
-@objc public protocol MSFPersonaGridItemState: MSFAvatarState {
-    var gridSize: MSFPersonaGridSize { get set }
+@objc public protocol MSFPersonaBadgeState: MSFAvatarState {
+    var badgeSize: MSFPersonaBadgeSize { get set }
 
     var onTapAction: (() -> Void)? { get set }
 }
 
-/// Properties that make up PersonaGridItem content
-class MSFPersonaGridItemViewStateImpl: NSObject, ObservableObject, Identifiable, MSFPersonaGridItemState {
-    let tokens: MSFPersonaGridItemTokens
+/// Properties that make up PersonaBadge content
+class MSFPersonaBadgeViewStateImpl: NSObject, ObservableObject, Identifiable, MSFPersonaBadgeState {
+    let tokens: MSFPersonaBadgeTokens
 
     public var onTapAction: (() -> Void)?
     private var avatarState: MSFAvatarState
 
     // Changes here can cause a re-layout
-    @Published var gridSize: MSFPersonaGridSize
+    @Published var badgeSize: MSFPersonaBadgeSize
 
     var backgroundColor: UIColor? {
         get {
@@ -175,26 +175,26 @@ class MSFPersonaGridItemViewStateImpl: NSObject, ObservableObject, Identifiable,
         }
     }
 
-    init(size: MSFPersonaGridSize, avatarState: MSFAvatarState) {
-        self.gridSize = size
+    init(size: MSFPersonaBadgeSize, avatarState: MSFAvatarState) {
+        self.badgeSize = size
         self.avatarState = avatarState
-        self.tokens = MSFPersonaGridItemTokens(size: size)
+        self.tokens = MSFPersonaBadgeTokens(size: size)
 
         super.init()
     }
 }
 
-public struct PersonaGridItem: View {
+public struct PersonaBadge: View {
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
-    @ObservedObject var tokens: MSFPersonaGridItemTokens
-    @ObservedObject var state: MSFPersonaGridItemViewStateImpl
+    @ObservedObject var tokens: MSFPersonaBadgeTokens
+    @ObservedObject var state: MSFPersonaBadgeViewStateImpl
     let avatarView: AvatarView
 
-    public init(size: MSFPersonaGridSize) {
+    public init(size: MSFPersonaBadgeSize) {
         self.avatarView = AvatarView(style: .default, size: size.avatarSize)
 
-        let state = MSFPersonaGridItemViewStateImpl(size: size, avatarState: avatarView.state)
+        let state = MSFPersonaBadgeViewStateImpl(size: size, avatarState: avatarView.state)
         self.state = state
         self.tokens = state.tokens
     }
@@ -210,7 +210,7 @@ public struct PersonaGridItem: View {
                 Text(state.primaryText ?? "")
                     .font(Font(tokens.labelFont))
                     .foregroundColor(Color(tokens.labelColor))
-                if state.gridSize.canShowSubtitle {
+                if state.badgeSize.canShowSubtitle {
                     Text(state.secondaryText ?? "")
                         .font(Font(tokens.sublabelFont))
                         .foregroundColor(Color(tokens.sublabelColor))
@@ -226,26 +226,26 @@ public struct PersonaGridItem: View {
     }
 }
 
-/// UIKit wrapper that exposes the SwiftUI PersonaGridItem implementation
-@objc open class MSFPersonaGridItemView: NSObject, FluentUIWindowProvider {
+/// UIKit wrapper that exposes the SwiftUI PersonaBadge implementation
+@objc open class MSFPersonaBadgeView: NSObject, FluentUIWindowProvider {
 
     @objc open var view: UIView {
         return hostingController.view
     }
 
-    @objc open var state: MSFPersonaGridItemState {
-        return self.personaGridItem.state
+    @objc open var state: MSFPersonaBadgeState {
+        return self.personaBadge.state
     }
 
-    @objc public init(size: MSFPersonaGridSize = .large,
+    @objc public init(size: MSFPersonaBadgeSize = .large,
                       theme: FluentUIStyle? = nil) {
         super.init()
 
-        personaGridItem = PersonaGridItem(size: size)
-        hostingController = UIHostingController(rootView: AnyView(personaGridItem
+        personaBadge = PersonaBadge(size: size)
+        hostingController = UIHostingController(rootView: AnyView(personaBadge
                                                                     .windowProvider(self)
-                                                                    .modifyIf(theme != nil, { personaGridItem in
-                                                                        personaGridItem.customTheme(theme!)
+                                                                    .modifyIf(theme != nil, { personaBadge in
+                                                                        personaBadge.customTheme(theme!)
                                                                     })))
         hostingController.disableSafeAreaInsets()
         view.backgroundColor = UIColor.clear
@@ -257,5 +257,5 @@ public struct PersonaGridItem: View {
 
     private var hostingController: UIHostingController<AnyView>!
 
-    private var personaGridItem: PersonaGridItem!
+    private var personaBadge: PersonaBadge!
 }

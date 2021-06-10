@@ -5,7 +5,7 @@
 
 import UIKit
 
-class PersonaGridDemoController: UITableViewController {
+class PersonaBadgeCollectionDemoController: UITableViewController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(style: .grouped)
     }
@@ -17,8 +17,8 @@ class PersonaGridDemoController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: PersonaGridDemoController.largeGridItemReuseIdentifier)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: PersonaGridDemoController.smallGridItemReuseIdentifier)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: PersonaBadgeCollectionDemoController.largeBadgeReuseIdentifier)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: PersonaBadgeCollectionDemoController.smallBadgeReuseIdentifier)
 
         tableView.separatorStyle = .none
     }
@@ -38,14 +38,14 @@ class PersonaGridDemoController: UITableViewController {
         if showsFullGrid(at: indexPath) {
             fatalError("showsFullGrid() should always return false right now!")
         } else {
-            cell = self.tableView(tableView, gridItemCellForRowAt: indexPath)
+            cell = self.tableView(tableView, badgeCellForRowAt: indexPath)
         }
 
         return cell
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch personaGridItemSize(for: section) {
+        switch personaBadgeSize(for: section) {
         case .small:
             return "Small"
         case .large:
@@ -55,7 +55,7 @@ class PersonaGridDemoController: UITableViewController {
 
     // MARK: - Helpers
 
-    private func personaGridItemSize(for section: Int) -> MSFPersonaGridSize {
+    private func personaBadgeSize(for section: Int) -> MSFPersonaBadgeSize {
         return (section % 2 == 0) ? .small : .large
     }
 
@@ -64,38 +64,38 @@ class PersonaGridDemoController: UITableViewController {
         return false
     }
 
-    private func tableView(_ tableView: UITableView, gridItemCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    private func tableView(_ tableView: UITableView, badgeCellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell: UITableViewCell
-        let size = personaGridItemSize(for: indexPath.section)
+        let size = personaBadgeSize(for: indexPath.section)
         switch size {
         case .large:
-            cell = tableView.dequeueReusableCell(withIdentifier: PersonaGridDemoController.largeGridItemReuseIdentifier, for: indexPath)
+            cell = tableView.dequeueReusableCell(withIdentifier: PersonaBadgeCollectionDemoController.largeBadgeReuseIdentifier, for: indexPath)
         case .small:
-            cell = tableView.dequeueReusableCell(withIdentifier: PersonaGridDemoController.smallGridItemReuseIdentifier, for: indexPath)
+            cell = tableView.dequeueReusableCell(withIdentifier: PersonaBadgeCollectionDemoController.smallBadgeReuseIdentifier, for: indexPath)
         }
 
-        // Create the PersonaGridItem to be displayed
-        let personaGridItem = MSFPersonaGridItemView(size: size)
+        // Create the PersonaBadge to be displayed
+        let personaBadge = MSFPersonaBadgeView(size: size)
         let persona = personas[indexPath.item]
-        personaGridItem.state.image = persona.avatarImage
-        personaGridItem.state.primaryText = persona.primaryText
-        personaGridItem.state.secondaryText = persona.secondaryText
-        personaGridItem.state.onTapAction = { [weak self, personaGridItem] in
-            let alert = UIAlertController(title: nil, message: "personaGridItem tapped: \(personaGridItem.state.primaryText ?? "(none)")", preferredStyle: .alert)
+        personaBadge.state.image = persona.avatarImage
+        personaBadge.state.primaryText = persona.primaryText
+        personaBadge.state.secondaryText = persona.secondaryText
+        personaBadge.state.onTapAction = { [weak self, personaBadge] in
+            let alert = UIAlertController(title: nil, message: "PersonaBadge tapped: \(personaBadge.state.primaryText ?? "(none)")", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             self?.present(alert, animated: true)
         }
 
-        cell.contentView.addSubview(personaGridItem.view)
+        cell.contentView.addSubview(personaBadge.view)
         cell.selectionStyle = .none
         cell.backgroundColor = .clear
         var constraints: [NSLayoutConstraint] = []
-        personaGridItem.view.translatesAutoresizingMaskIntoConstraints = false
+        personaBadge.view.translatesAutoresizingMaskIntoConstraints = false
 
         constraints.append(contentsOf: [
-            personaGridItem.view.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
-            personaGridItem.view.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor),
-            personaGridItem.view.centerXAnchor.constraint(equalTo: cell.contentView.centerXAnchor)
+            personaBadge.view.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
+            personaBadge.view.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor),
+            personaBadge.view.centerXAnchor.constraint(equalTo: cell.contentView.centerXAnchor)
         ])
 
         cell.contentView.addConstraints(constraints)
@@ -105,8 +105,8 @@ class PersonaGridDemoController: UITableViewController {
 
     private static let largeGridReuseIdentifier: String = "largeGridReuseIdentifier"
     private static let smallGridReuseIdentifier: String = "smallGridReuseIdentifier"
-    private static let largeGridItemReuseIdentifier: String = "largeGridItemReuseIdentifier"
-    private static let smallGridItemReuseIdentifier: String = "smallGridItemReuseIdentifier"
+    private static let largeBadgeReuseIdentifier: String = "largeBadgeReuseIdentifier"
+    private static let smallBadgeReuseIdentifier: String = "smallBadgeReuseIdentifier"
 
     private let personas: [PersonaData] = [
         PersonaData(firstName: "Kat", lastName: "Larrson", avatarImage: UIImage(named: "avatar_kat_larsson")),

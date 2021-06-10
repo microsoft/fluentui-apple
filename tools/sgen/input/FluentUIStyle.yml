@@ -347,7 +347,7 @@ AP_MSFDrawerTokens:
   verticalShadowOffset: $Spacing.xSmall
   horizontalShadowOffset: $Spacing.small
 
-AP_MSFPersonaGridItemTokens:
+AP_MSFPersonaBadgeTokens:
   avatarInterspace: [ small: $Spacing.xSmall, large: $Spacing.small ]
   backgroundColor: $Colors.Background.neutral1
   labelColor: $Colors.Foreground.neutral1
@@ -356,6 +356,6 @@ AP_MSFPersonaGridItemTokens:
   sublabelColor: $Colors.Foreground.neutral3
   sublabelFont: $Typography.footnote
 
-AP_MSFPersonaGridTokens:
+AP_MSFPersonaBadgeCollectionTokens:
   backgroundColor: $Colors.Background.neutral1
   itemHorizontalInterspace: $Spacing.medium

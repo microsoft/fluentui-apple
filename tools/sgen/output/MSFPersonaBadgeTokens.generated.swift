@@ -5,11 +5,11 @@ import UIKit
 /// Entry point for the app stylesheet
 extension FluentUIStyle {
 
-	// MARK: - MSFPersonaGridItemTokens
-	open var MSFPersonaGridItemTokens: MSFPersonaGridItemTokensAppearanceProxy {
-		return MSFPersonaGridItemTokensAppearanceProxy(proxy: { return self })
+	// MARK: - MSFPersonaBadgeTokens
+	open var MSFPersonaBadgeTokens: MSFPersonaBadgeTokensAppearanceProxy {
+		return MSFPersonaBadgeTokensAppearanceProxy(proxy: { return self })
 	}
-	open class MSFPersonaGridItemTokensAppearanceProxy {
+	open class MSFPersonaBadgeTokensAppearanceProxy {
 		public let mainProxy: () -> FluentUIStyle
 		public init(proxy: @escaping () -> FluentUIStyle) {
 			self.mainProxy = proxy
@@ -90,9 +90,9 @@ fileprivate var __AppearanceProxyHandle: UInt8 = 0
 fileprivate var __ThemeAwareHandle: UInt8 = 0
 fileprivate var __ObservingDidChangeThemeHandle: UInt8 = 0
 
-extension MSFPersonaGridItemTokens: AppearaceProxyComponent {
+extension MSFPersonaBadgeTokens: AppearaceProxyComponent {
 
-	public typealias AppearanceProxyType = FluentUIStyle.MSFPersonaGridItemTokensAppearanceProxy
+	public typealias AppearanceProxyType = FluentUIStyle.MSFPersonaBadgeTokensAppearanceProxy
 	public var appearanceProxy: AppearanceProxyType {
 		get {
 			if let proxy = objc_getAssociatedObject(self, &__AppearanceProxyHandle) as? AppearanceProxyType {
@@ -102,7 +102,7 @@ extension MSFPersonaGridItemTokens: AppearaceProxyComponent {
 				return proxy
 			}
 
-			return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFPersonaGridItemTokens
+			return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFPersonaBadgeTokens
 		}
 		set {
 			objc_setAssociatedObject(self, &__AppearanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)

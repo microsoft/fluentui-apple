@@ -5,8 +5,8 @@
 
 import UIKit
 
-/// Pre-defined sizes of the persona grid item
-@objc public enum MSFPersonaGridSize: Int, CaseIterable {
+/// Pre-defined sizes of the persona badge
+@objc public enum MSFPersonaBadgeSize: Int, CaseIterable {
     case small
     case large
 
@@ -29,9 +29,9 @@ import UIKit
     }
 }
 
-/// Representation of design tokens to persona grid items at runtime which interfaces with the Design Token System auto-generated code.
-/// Updating these properties causes the SwiftUI button to update its view automatically.
-class MSFPersonaGridItemTokens: MSFTokensBase, ObservableObject {
+/// Representation of design tokens to persona badges at runtime which interfaces with the Design Token System auto-generated code.
+/// Updating these properties causes the SwiftUI persona badge to update its view automatically.
+class MSFPersonaBadgeTokens: MSFTokensBase, ObservableObject {
     @Published public var avatarInterspace: CGFloat!
     @Published public var backgroundColor: UIColor!
     @Published public var labelColor: UIColor!
@@ -40,7 +40,7 @@ class MSFPersonaGridItemTokens: MSFTokensBase, ObservableObject {
     @Published public var sublabelColor: UIColor!
     @Published public var sublabelFont: UIFont!
 
-    var size: MSFPersonaGridSize {
+    var size: MSFPersonaBadgeSize {
         didSet {
             if oldValue != size {
                 updateForCurrentTheme()
@@ -48,7 +48,7 @@ class MSFPersonaGridItemTokens: MSFTokensBase, ObservableObject {
         }
     }
 
-    init(size: MSFPersonaGridSize) {
+    init(size: MSFPersonaBadgeSize) {
         self.size = size
 
         super.init()
@@ -64,7 +64,7 @@ class MSFPersonaGridItemTokens: MSFTokensBase, ObservableObject {
 
     override func updateForCurrentTheme() {
         let currentTheme = theme
-        let appearanceProxy = currentTheme.MSFPersonaGridItemTokens
+        let appearanceProxy = currentTheme.MSFPersonaBadgeTokens
 
         backgroundColor = appearanceProxy.backgroundColor
         labelColor = appearanceProxy.labelColor
