@@ -5,7 +5,7 @@
 
 import UIKit
 
-/// Pre-defined sizes of the avatar
+/// Pre-defined sizes of the persona grid item
 @objc public enum MSFPersonaGridSize: Int, CaseIterable {
     case small
     case large
@@ -29,17 +29,16 @@ import UIKit
     }
 }
 
-/// Representation of design tokens to buttons at runtime which interfaces with the Design Token System auto-generated code.
+/// Representation of design tokens to persona grid items at runtime which interfaces with the Design Token System auto-generated code.
 /// Updating these properties causes the SwiftUI button to update its view automatically.
 class MSFPersonaGridItemTokens: MSFTokensBase, ObservableObject {
     @Published public var avatarInterspace: CGFloat!
     @Published public var backgroundColor: UIColor!
-    @Published public var bottomPadding: CGFloat!
     @Published public var labelColor: UIColor!
     @Published public var labelFont: UIFont!
+    @Published public var padding: CGFloat!
     @Published public var sublabelColor: UIColor!
     @Published public var sublabelFont: UIFont!
-    @Published public var topPadding: CGFloat!
 
     var size: MSFPersonaGridSize {
         didSet {
@@ -68,11 +67,10 @@ class MSFPersonaGridItemTokens: MSFTokensBase, ObservableObject {
         let appearanceProxy = currentTheme.MSFPersonaGridItemTokens
 
         backgroundColor = appearanceProxy.backgroundColor
-        bottomPadding = appearanceProxy.bottomPadding
         labelColor = appearanceProxy.labelColor
+        padding = appearanceProxy.padding
         sublabelColor = appearanceProxy.sublabelColor
         sublabelFont = appearanceProxy.sublabelFont
-        topPadding = appearanceProxy.topPadding
 
         switch size {
         case .small:

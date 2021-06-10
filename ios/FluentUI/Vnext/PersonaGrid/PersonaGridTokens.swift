@@ -13,6 +13,6 @@ class MSFPersonaGridTokens: MSFTokensBase, ObservableObject {
     }
 
     override func updateForCurrentTheme() {
-        // TODO: 5171471 - Create PersonaGrid
+        // TODO: Create PersonaGrid
     }
 }

@@ -9,21 +9,61 @@ import SwiftUI
 ///
 /// `onTapAction` provides tap gesture for PersonaGridItem.
 ///
-@objc public protocol MSFPersonaGridItemState {
-    var image: UIImage? { get set }
-    var primaryText: String? { get set }
-    var secondaryText: String? { get set }
-    var size: MSFAvatarSize { get set }
+@objc public protocol MSFPersonaGridItemState: MSFAvatarState {
+    var gridSize: MSFPersonaGridSize { get set }
 
     var onTapAction: (() -> Void)? { get set }
 }
 
 /// Properties that make up PersonaGridItem content
 class MSFPersonaGridItemViewStateImpl: NSObject, ObservableObject, Identifiable, MSFPersonaGridItemState {
-    public var onTapAction: (() -> Void)?
+    let tokens: MSFPersonaGridItemTokens
 
-    @ObservedObject private var tokens: MSFPersonaGridItemTokens
+    public var onTapAction: (() -> Void)?
     private var avatarState: MSFAvatarState
+
+    // Changes here can cause a re-layout
+    @Published var gridSize: MSFPersonaGridSize
+
+    var backgroundColor: UIColor? {
+        get {
+            return avatarState.backgroundColor
+        }
+
+        set {
+            avatarState.backgroundColor = newValue
+        }
+    }
+
+    var foregroundColor: UIColor? {
+        get {
+            return avatarState.foregroundColor
+        }
+
+        set {
+            avatarState.foregroundColor = newValue
+        }
+    }
+
+    var hasPointerInteraction: Bool {
+        get {
+            return avatarState.hasPointerInteraction
+        }
+
+        set {
+            avatarState.hasPointerInteraction = newValue
+        }
+    }
+
+    var hasRingInnerGap: Bool {
+        get {
+            return avatarState.hasRingInnerGap
+        }
+
+        set {
+            avatarState.hasRingInnerGap = newValue
+        }
+    }
 
     var image: UIImage? {
         get {
@@ -35,6 +75,56 @@ class MSFPersonaGridItemViewStateImpl: NSObject, ObservableObject, Identifiable,
         }
     }
 
+    var imageBasedRingColor: UIImage? {
+        get {
+            return avatarState.imageBasedRingColor
+        }
+
+        set {
+            avatarState.imageBasedRingColor = newValue
+        }
+    }
+
+    var isOutOfOffice: Bool {
+        get {
+            return avatarState.isOutOfOffice
+        }
+
+        set {
+            avatarState.isOutOfOffice = newValue
+        }
+    }
+
+    var isRingVisible: Bool {
+        get {
+            return avatarState.isRingVisible
+        }
+
+        set {
+            avatarState.isRingVisible = newValue
+        }
+    }
+
+    var isTransparent: Bool {
+        get {
+            return avatarState.isTransparent
+        }
+
+        set {
+            avatarState.isTransparent = newValue
+        }
+    }
+
+    var presence: MSFAvatarPresence {
+        get {
+            return avatarState.presence
+        }
+
+        set {
+            avatarState.presence = newValue
+        }
+    }
+
     var primaryText: String? {
         get {
             return avatarState.primaryText
@@ -42,6 +132,16 @@ class MSFPersonaGridItemViewStateImpl: NSObject, ObservableObject, Identifiable,
 
         set {
             avatarState.primaryText = newValue
+        }
+    }
+
+    var ringColor: UIColor? {
+        get {
+            return avatarState.ringColor
+        }
+
+        set {
+            avatarState.ringColor = newValue
         }
     }
 
@@ -65,7 +165,18 @@ class MSFPersonaGridItemViewStateImpl: NSObject, ObservableObject, Identifiable,
         }
     }
 
+    var style: MSFAvatarStyle {
+        get {
+            return avatarState.style
+        }
+
+        set {
+            avatarState.style = newValue
+        }
+    }
+
     init(size: MSFPersonaGridSize, avatarState: MSFAvatarState) {
+        self.gridSize = size
         self.avatarState = avatarState
         self.tokens = MSFPersonaGridItemTokens(size: size)
 
@@ -74,40 +185,44 @@ class MSFPersonaGridItemViewStateImpl: NSObject, ObservableObject, Identifiable,
 }
 
 public struct PersonaGridItem: View {
+    @Environment(\.theme) var theme: FluentUIStyle
+    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     @ObservedObject var tokens: MSFPersonaGridItemTokens
     @ObservedObject var state: MSFPersonaGridItemViewStateImpl
     let avatarView: AvatarView
-    let gridSize: MSFPersonaGridSize
 
     public init(size: MSFPersonaGridSize) {
-        tokens = MSFPersonaGridItemTokens(size: size)
-        avatarView = AvatarView(style: .default, size: size.avatarSize)
-        state = MSFPersonaGridItemViewStateImpl(size: size, avatarState: avatarView.state)
+        self.avatarView = AvatarView(style: .default, size: size.avatarSize)
 
-        gridSize = size
+        let state = MSFPersonaGridItemViewStateImpl(size: size, avatarState: avatarView.state)
+        self.state = state
+        self.tokens = state.tokens
     }
 
     public var body: some View {
-        VStack(spacing: 0) {
-            avatarView
-                .padding(.top, tokens.topPadding)
-                .padding(.bottom, tokens.avatarInterspace)
-            Text(state.primaryText ?? "")
-                .font(Font(tokens.labelFont))
-                .foregroundColor(Color(tokens.labelColor))
-            if gridSize.canShowSubtitle {
-                Text(state.secondaryText ?? "")
-                    .font(Font(tokens.sublabelFont))
-                    .foregroundColor(Color(tokens.sublabelColor))
+        let action = state.onTapAction ?? {}
+        Button(action: action) {
+            VStack(spacing: 0) {
+                avatarView
+                    .padding(.top, tokens.padding)
+                    .padding(.bottom, tokens.avatarInterspace)
+                    .padding(.horizontal, tokens.padding)
+                Text(state.primaryText ?? "")
+                    .font(Font(tokens.labelFont))
+                    .foregroundColor(Color(tokens.labelColor))
+                if state.gridSize.canShowSubtitle {
+                    Text(state.secondaryText ?? "")
+                        .font(Font(tokens.sublabelFont))
+                        .foregroundColor(Color(tokens.sublabelColor))
+                }
+                Spacer(minLength: tokens.padding)
             }
-            Spacer(minLength: tokens.bottomPadding)
         }
         .background(Color(tokens.appearanceProxy.backgroundColor))
-        .onTapGesture {
-            if let action = state.onTapAction {
-                action()
-            }
-        }
+        .frame(minHeight: 0, maxHeight: .infinity)
+        .designTokens(tokens,
+                      from: theme,
+                      with: windowProvider)
     }
 }
 

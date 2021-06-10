@@ -42,11 +42,6 @@ extension FluentUIStyle {
 			return mainProxy().Colors.Background.neutral1
 		}
 
-		// MARK: - bottomPadding 
-		open var bottomPadding: CGFloat {
-			return mainProxy().Spacing.xSmall
-		}
-
 		// MARK: - labelColor 
 		open var labelColor: UIColor {
 			return mainProxy().Colors.Foreground.neutral1
@@ -74,6 +69,11 @@ extension FluentUIStyle {
 		}
 
 
+		// MARK: - padding 
+		open var padding: CGFloat {
+			return mainProxy().Spacing.xSmall
+		}
+
 		// MARK: - sublabelColor 
 		open var sublabelColor: UIColor {
 			return mainProxy().Colors.Foreground.neutral3
@@ -82,11 +82,6 @@ extension FluentUIStyle {
 		// MARK: - sublabelFont 
 		open var sublabelFont: UIFont {
 			return mainProxy().Typography.footnote
-		}
-
-		// MARK: - topPadding 
-		open var topPadding: CGFloat {
-			return mainProxy().Spacing.xSmall
 		}
 	}
 

@@ -7,7 +7,7 @@ import SwiftUI
 
 struct PersonaGrid: View {
     var body: some View {
-        // TODO: 5171471 - Create PersonaGrid
+        // TODO: Create PersonaGrid
         Text("Hello, World!")
     }
 }

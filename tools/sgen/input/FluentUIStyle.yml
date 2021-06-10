@@ -350,12 +350,11 @@ AP_MSFDrawerTokens:
 AP_MSFPersonaGridItemTokens:
   avatarInterspace: [ small: $Spacing.xSmall, large: $Spacing.small ]
   backgroundColor: $Colors.Background.neutral1
-  bottomPadding: $Spacing.xSmall
   labelColor: $Colors.Foreground.neutral1
   labelFont: [ small: $Typography.caption1, large: $Typography.subheadline ]
+  padding: $Spacing.xSmall
   sublabelColor: $Colors.Foreground.neutral3
   sublabelFont: $Typography.footnote
-  topPadding: $Spacing.xSmall
 
 AP_MSFPersonaGridTokens:
   backgroundColor: $Colors.Background.neutral1
