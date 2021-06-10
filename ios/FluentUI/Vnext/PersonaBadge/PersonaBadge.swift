@@ -208,11 +208,11 @@ public struct PersonaBadge: View {
                     .padding(.bottom, tokens.avatarInterspace)
                     .padding(.horizontal, tokens.padding)
                 Text(state.primaryText ?? "")
-                    .font(Font(tokens.labelFont))
+                    .scalableFont(font: tokens.labelFont)
                     .foregroundColor(Color(tokens.labelColor))
                 if state.badgeSize.canShowSubtitle {
                     Text(state.secondaryText ?? "")
-                        .font(Font(tokens.sublabelFont))
+                        .scalableFont(font: tokens.sublabelFont)
                         .foregroundColor(Color(tokens.sublabelColor))
                 }
                 Spacer(minLength: tokens.padding)
