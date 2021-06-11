@@ -467,6 +467,50 @@ extension FluentUIStyle {
 		}
 
 	}
+	// MARK: - MSFGroupAvatarTokens
+	open var MSFGroupAvatarTokens: MSFGroupAvatarTokensAppearanceProxy {
+		return MSFGroupAvatarTokensAppearanceProxy(proxy: { return self })
+	}
+	open class MSFGroupAvatarTokensAppearanceProxy: MSFAvatarTokensAppearanceProxy {
+
+		// MARK: - MSFGroupAvatarTokensborderRadius
+		open override var borderRadius: MSFGroupAvatarTokensborderRadiusAppearanceProxy {
+			return MSFGroupAvatarTokensborderRadiusAppearanceProxy(proxy: mainProxy)
+		}
+		open class MSFGroupAvatarTokensborderRadiusAppearanceProxy: MSFAvatarTokensAppearanceProxy.borderRadiusAppearanceProxy {
+
+			// MARK: - large 
+			open override var large: CGFloat {
+				return mainProxy().Border.radius.large
+			}
+
+			// MARK: - medium 
+			open override var medium: CGFloat {
+				return mainProxy().Border.radius.medium
+			}
+
+			// MARK: - small 
+			open override var small: CGFloat {
+				return mainProxy().Border.radius.medium
+			}
+
+			// MARK: - xSmall 
+			open override var xSmall: CGFloat {
+				return mainProxy().Border.radius.small
+			}
+
+			// MARK: - xlarge 
+			open override var xlarge: CGFloat {
+				return mainProxy().Border.radius.large
+			}
+
+			// MARK: - xxlarge 
+			open override var xxlarge: CGFloat {
+				return mainProxy().Border.radius.xLarge
+			}
+		}
+
+	}
 	// MARK: - MSFOutlinedAvatarTokens
 	open var MSFOutlinedAvatarTokens: MSFOutlinedAvatarTokensAppearanceProxy {
 		return MSFOutlinedAvatarTokensAppearanceProxy(proxy: { return self })
@@ -530,50 +574,6 @@ extension FluentUIStyle {
 			return mainProxy().Colors.Background.neutralDisabled
 		}
 	}
-	// MARK: - MSFSquareAvatarTokens
-	open var MSFSquareAvatarTokens: MSFSquareAvatarTokensAppearanceProxy {
-		return MSFSquareAvatarTokensAppearanceProxy(proxy: { return self })
-	}
-	open class MSFSquareAvatarTokensAppearanceProxy: MSFAvatarTokensAppearanceProxy {
-
-		// MARK: - MSFSquareAvatarTokensborderRadius
-		open override var borderRadius: MSFSquareAvatarTokensborderRadiusAppearanceProxy {
-			return MSFSquareAvatarTokensborderRadiusAppearanceProxy(proxy: mainProxy)
-		}
-		open class MSFSquareAvatarTokensborderRadiusAppearanceProxy: MSFAvatarTokensAppearanceProxy.borderRadiusAppearanceProxy {
-
-			// MARK: - large 
-			open override var large: CGFloat {
-				return mainProxy().Border.radius.large
-			}
-
-			// MARK: - medium 
-			open override var medium: CGFloat {
-				return mainProxy().Border.radius.medium
-			}
-
-			// MARK: - small 
-			open override var small: CGFloat {
-				return mainProxy().Border.radius.medium
-			}
-
-			// MARK: - xSmall 
-			open override var xSmall: CGFloat {
-				return mainProxy().Border.radius.small
-			}
-
-			// MARK: - xlarge 
-			open override var xlarge: CGFloat {
-				return mainProxy().Border.radius.large
-			}
-
-			// MARK: - xxlarge 
-			open override var xxlarge: CGFloat {
-				return mainProxy().Border.radius.xLarge
-			}
-		}
-
-	}
 
 }
 fileprivate var __AppearanceProxyHandle: UInt8 = 0
@@ -594,14 +594,14 @@ extension MSFAvatarTokens: AppearaceProxyComponent {
 
 				if proxy is FluentUIStyle.MSFAccentAvatarTokensAppearanceProxy {
 					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFAccentAvatarTokens
+				} else if proxy is FluentUIStyle.MSFGroupAvatarTokensAppearanceProxy {
+					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFGroupAvatarTokens
 				} else if proxy is FluentUIStyle.MSFOutlinedAvatarTokensAppearanceProxy {
 					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFOutlinedAvatarTokens
 				} else if proxy is FluentUIStyle.MSFOutlinedPrimaryAvatarTokensAppearanceProxy {
 					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFOutlinedPrimaryAvatarTokens
 				} else if proxy is FluentUIStyle.MSFOverflowAvatarTokensAppearanceProxy {
 					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFOverflowAvatarTokens
-				} else if proxy is FluentUIStyle.MSFSquareAvatarTokensAppearanceProxy {
-					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFSquareAvatarTokens
 				}
 				return proxy
 			}

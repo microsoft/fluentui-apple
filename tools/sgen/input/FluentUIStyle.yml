@@ -212,7 +212,7 @@ MSFAccentAvatarTokens extends MSFAvatarTokens:
   foregroundDefaultColor: $Icon.accentColor
   ringDefaultColor: $Colors.Brand.shade10
 
-MSFSquareAvatarTokens extends MSFAvatarTokens:
+MSFGroupAvatarTokens extends MSFAvatarTokens:
   borderRadius: [ xSmall: $Border.radius.small, small: $Border.radius.medium, medium: $Border.radius.medium, large: $Border.radius.large, xlarge: $Border.radius.large, xxlarge: $Border.radius.xLarge ]
 
 MSFOutlinedAvatarTokens extends MSFAvatarTokens:
