@@ -9,7 +9,7 @@ import SwiftUI
 // MARK: - State
 
 public class PopupMenuItemCellState: MSFListCellState {
-    
+
     // Set/Unset selection for item cell
     @objc @Published public var isSelected: Bool = false {
         didSet {
@@ -28,7 +28,7 @@ public class PopupMenuItemCellState: MSFListCellState {
             }
         }
     }
-    
+
     // Disable selection for cell
     @objc @Published public var isDisabled: Bool = false {
         didSet {
@@ -42,7 +42,7 @@ public class PopupMenuItemCellState: MSFListCellState {
                 leadingUIView?.tintColor = nil
                 tokens.labelColor = cellTokens.labelColor
                 tokens.sublabelColor = cellTokens.sublabelColor
-                
+
                 // restore action
                 if self.action != nil {
                     self.onTapAction = self.action
@@ -50,9 +50,9 @@ public class PopupMenuItemCellState: MSFListCellState {
             }
         }
     }
-    
+
     var cellTokens: MSFPopupMenuItemCellTokens = MSFPopupMenuItemCellTokens()
-    
+
     private var action: (() -> Void)?
 }
 
@@ -63,12 +63,12 @@ public struct PopupMenuItemCell: View {
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     @ObservedObject var state: PopupMenuItemCellState
     @ObservedObject var tokens: MSFCellBaseTokens
-    
+
     public init(state: PopupMenuItemCellState) {
         self.state = state
         self.tokens = state.tokens
     }
-    
+
     public var body: some View {
         MSFListCellView(state: state)
             .designTokens(tokens,
@@ -82,7 +82,7 @@ public struct PopupMenuItemCell: View {
 @objc open class MSFPopupMenuItemCell: NSObject, FluentUIWindowProvider {
     @objc public init(theme: FluentUIStyle? = nil) {
         super.init()
-        
+
         menuItemCell = PopupMenuItemCell(state: PopupMenuItemCellState())
         hostingController = UIHostingController(rootView: AnyView(menuItemCell
                                                                     .windowProvider(self)
@@ -91,24 +91,24 @@ public struct PopupMenuItemCell: View {
                                                                     })))
         view.backgroundColor = UIColor.clear
     }
-    
+
     @objc public convenience override init() {
         self.init(theme: nil)
     }
-    
+
     @objc open var view: UIView {
         return hostingController.view
     }
-    
+
     @objc open var state: PopupMenuItemCellState {
         return menuItemCell.state
     }
-    
+
     @objc var window: UIWindow? {
         return self.view.window
     }
-    
+
     private var hostingController: UIHostingController<AnyView>!
-    
+
     private var menuItemCell: PopupMenuItemCell!
 }
