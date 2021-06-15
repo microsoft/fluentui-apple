@@ -5,9 +5,9 @@
 
 import SwiftUI
 
-struct PersonaBadgeCollection: View {
+struct PersonaButtonCarousel: View {
     var body: some View {
-        // TODO: Create PersonaBadgeCollection
+        // TODO: Create PersonaButtonCarousel
         Text("Hello, World!")
     }
 }

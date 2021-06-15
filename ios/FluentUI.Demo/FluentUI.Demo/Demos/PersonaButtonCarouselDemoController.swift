@@ -5,7 +5,7 @@
 
 import UIKit
 
-class PersonaBadgeCollectionDemoController: UITableViewController {
+class PersonaButtonCarouselDemoController: UITableViewController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(style: .grouped)
     }
@@ -17,8 +17,8 @@ class PersonaBadgeCollectionDemoController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: PersonaBadgeCollectionDemoController.largeBadgeReuseIdentifier)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: PersonaBadgeCollectionDemoController.smallBadgeReuseIdentifier)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: PersonaButtonCarouselDemoController.largeBadgeReuseIdentifier)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: PersonaButtonCarouselDemoController.smallBadgeReuseIdentifier)
 
         tableView.separatorStyle = .none
     }
@@ -35,8 +35,8 @@ class PersonaBadgeCollectionDemoController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell: UITableViewCell
-        if showsFullGrid(at: indexPath) {
-            fatalError("showsFullGrid() should always return false right now!")
+        if showsFullCarousel(at: indexPath) {
+            fatalError("showsFullCarousel() should always return false right now!")
         } else {
             cell = self.tableView(tableView, badgeCellForRowAt: indexPath)
         }
@@ -55,12 +55,12 @@ class PersonaBadgeCollectionDemoController: UITableViewController {
 
     // MARK: - Helpers
 
-    private func personaBadgeSize(for section: Int) -> MSFPersonaBadgeSize {
+    private func personaBadgeSize(for section: Int) -> MSFPersonaButtonSize {
         return (section % 2 == 0) ? .small : .large
     }
 
-    private func showsFullGrid(at indexPath: IndexPath) -> Bool {
-        // TODO
+    private func showsFullCarousel(at indexPath: IndexPath) -> Bool {
+        // TODO: Create PersonaButtonCarousel
         return false
     }
 
@@ -69,19 +69,19 @@ class PersonaBadgeCollectionDemoController: UITableViewController {
         let size = personaBadgeSize(for: indexPath.section)
         switch size {
         case .large:
-            cell = tableView.dequeueReusableCell(withIdentifier: PersonaBadgeCollectionDemoController.largeBadgeReuseIdentifier, for: indexPath)
+            cell = tableView.dequeueReusableCell(withIdentifier: PersonaButtonCarouselDemoController.largeBadgeReuseIdentifier, for: indexPath)
         case .small:
-            cell = tableView.dequeueReusableCell(withIdentifier: PersonaBadgeCollectionDemoController.smallBadgeReuseIdentifier, for: indexPath)
+            cell = tableView.dequeueReusableCell(withIdentifier: PersonaButtonCarouselDemoController.smallBadgeReuseIdentifier, for: indexPath)
         }
 
-        // Create the PersonaBadge to be displayed
-        let personaBadge = MSFPersonaBadgeView(size: size)
+        // Create the PersonaButton to be displayed
+        let personaBadge = MSFPersonaButtonView(size: size)
         let persona = personas[indexPath.item]
         personaBadge.state.image = persona.avatarImage
         personaBadge.state.primaryText = persona.primaryText
         personaBadge.state.secondaryText = persona.secondaryText
         personaBadge.state.onTapAction = { [weak self, personaBadge] in
-            let alert = UIAlertController(title: nil, message: "PersonaBadge tapped: \(personaBadge.state.primaryText ?? "(none)")", preferredStyle: .alert)
+            let alert = UIAlertController(title: nil, message: "PersonaButton tapped: \(personaBadge.state.primaryText ?? "(none)")", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             self?.present(alert, animated: true)
         }

@@ -6,7 +6,7 @@
 import UIKit
 
 /// Pre-defined sizes of the persona badge
-@objc public enum MSFPersonaBadgeSize: Int, CaseIterable {
+@objc public enum MSFPersonaButtonSize: Int, CaseIterable {
     case small
     case large
 
@@ -31,7 +31,7 @@ import UIKit
 
 /// Representation of design tokens to persona badges at runtime which interfaces with the Design Token System auto-generated code.
 /// Updating these properties causes the SwiftUI persona badge to update its view automatically.
-class MSFPersonaBadgeTokens: MSFTokensBase, ObservableObject {
+class MSFPersonaButtonTokens: MSFTokensBase, ObservableObject {
     @Published public var avatarInterspace: CGFloat!
     @Published public var backgroundColor: UIColor!
     @Published public var labelColor: UIColor!
@@ -40,7 +40,7 @@ class MSFPersonaBadgeTokens: MSFTokensBase, ObservableObject {
     @Published public var sublabelColor: UIColor!
     @Published public var sublabelFont: UIFont!
 
-    var size: MSFPersonaBadgeSize {
+    var size: MSFPersonaButtonSize {
         didSet {
             if oldValue != size {
                 updateForCurrentTheme()
@@ -48,7 +48,7 @@ class MSFPersonaBadgeTokens: MSFTokensBase, ObservableObject {
         }
     }
 
-    init(size: MSFPersonaBadgeSize) {
+    init(size: MSFPersonaButtonSize) {
         self.size = size
 
         super.init()
@@ -64,7 +64,7 @@ class MSFPersonaBadgeTokens: MSFTokensBase, ObservableObject {
 
     override func updateForCurrentTheme() {
         let currentTheme = theme
-        let appearanceProxy = currentTheme.MSFPersonaBadgeTokens
+        let appearanceProxy = currentTheme.MSFPersonaButtonTokens
 
         backgroundColor = appearanceProxy.backgroundColor
         labelColor = appearanceProxy.labelColor

@@ -5,11 +5,11 @@ import UIKit
 /// Entry point for the app stylesheet
 extension FluentUIStyle {
 
-	// MARK: - MSFPersonaBadgeTokens
-	open var MSFPersonaBadgeTokens: MSFPersonaBadgeTokensAppearanceProxy {
-		return MSFPersonaBadgeTokensAppearanceProxy(proxy: { return self })
+	// MARK: - MSFPersonaButtonTokens
+	open var MSFPersonaButtonTokens: MSFPersonaButtonTokensAppearanceProxy {
+		return MSFPersonaButtonTokensAppearanceProxy(proxy: { return self })
 	}
-	open class MSFPersonaBadgeTokensAppearanceProxy {
+	open class MSFPersonaButtonTokensAppearanceProxy {
 		public let mainProxy: () -> FluentUIStyle
 		public init(proxy: @escaping () -> FluentUIStyle) {
 			self.mainProxy = proxy
@@ -90,9 +90,9 @@ fileprivate var __AppearanceProxyHandle: UInt8 = 0
 fileprivate var __ThemeAwareHandle: UInt8 = 0
 fileprivate var __ObservingDidChangeThemeHandle: UInt8 = 0
 
-extension MSFPersonaBadgeTokens: AppearaceProxyComponent {
+extension MSFPersonaButtonTokens: AppearaceProxyComponent {
 
-	public typealias AppearanceProxyType = FluentUIStyle.MSFPersonaBadgeTokensAppearanceProxy
+	public typealias AppearanceProxyType = FluentUIStyle.MSFPersonaButtonTokensAppearanceProxy
 	public var appearanceProxy: AppearanceProxyType {
 		get {
 			if let proxy = objc_getAssociatedObject(self, &__AppearanceProxyHandle) as? AppearanceProxyType {
@@ -102,7 +102,7 @@ extension MSFPersonaBadgeTokens: AppearaceProxyComponent {
 				return proxy
 			}
 
-			return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFPersonaBadgeTokens
+			return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFPersonaButtonTokens
 		}
 		set {
 			objc_setAssociatedObject(self, &__AppearanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)

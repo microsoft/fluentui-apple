@@ -239,6 +239,7 @@ public struct AvatarView: View {
         var avatarContent: some View {
             if let image = avatarImage {
                 Image(uiImage: image)
+                    .renderingMode(.original)
                     .resizable()
                     .foregroundColor(Color(foregroundColor))
             } else {

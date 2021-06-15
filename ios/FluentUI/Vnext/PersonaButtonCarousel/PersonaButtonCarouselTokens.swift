@@ -7,12 +7,12 @@ import Foundation
 
 /// Representation of design tokens to controls at runtime which interfaces with the Design Token System auto-generated code.
 /// Updating these properties causes the SwiftUI controls to update its view automatically.
-class MSFPersonaBadgeCollectionTokens: MSFTokensBase, ObservableObject {
+class MSFPersonaButtonCarouselTokens: MSFTokensBase, ObservableObject {
     @objc open func didChangeAppearanceProxy() {
         updateForCurrentTheme()
     }
 
     override func updateForCurrentTheme() {
-        // TODO: Create PersonaBadgeCollection
+        // TODO: Create PersonaButtonCarousel
     }
 }
